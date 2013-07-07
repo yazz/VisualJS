@@ -1,0 +1,4 @@
+showHelp = function() {
+    $('#myModal').modal();
+}
+
