@@ -1,5 +1,6 @@
 *
 
+
 !/project.clj
 !/.gitattributes
 !/.gitignore
@@ -13,6 +14,7 @@
 !/resources/*/*/*/*/*
 !/resources/*/*/*/*/*/*
 !/resources/*/*/*/*/*/*/*
+!/resources/public/main.js
 
 !/src/
 !/src/*
