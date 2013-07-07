@@ -14,7 +14,7 @@
 !/resources/*/*/*/*/*
 !/resources/*/*/*/*/*/*
 !/resources/*/*/*/*/*/*/*
-!/resources/public/main.js
+/resources/public/main.js
 
 !/src/
 !/src/*
