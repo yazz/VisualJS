@@ -217,7 +217,6 @@
 
 
 
-
 (defn esb []
   (popup :title "ESB" :body-html "<div id=popup><b>list of watchers</b><div/>")
   (:value-to-watch (first @event-watchers))

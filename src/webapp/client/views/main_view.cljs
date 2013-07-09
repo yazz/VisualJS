@@ -5,7 +5,7 @@
         [crate.core :as crate]
     )
     (:use
-        [webapp.framework.client.coreclient :only [clear addto remote  add-to]]
+        [webapp.framework.client.coreclient :only [el clear addto remote  add-to]]
 ;        [jayq.core                          :only [$ css  append ]]
         [webapp.framework.client.help       :only [help]]
         [webapp.framework.client.eventbus   :only [do-action esb undefine-action]]
@@ -18,72 +18,58 @@
 
 
 (defn homepage-html []
-      [:div {}
 
-        [:h1 {:style "padding: 20px;"} "Clojure on Coils"]
+  (el
+    :div {}
+     [
 
-        [:div {:style "padding: 20px;"} "Welcome to Clojure on Coils."]
+        (el :h1 {:style "padding: 20px;"
+                 :text  "Clojure on Coils"} )
 
-        [:div {:style "padding: 20px;"}
-         "Clojure on Coils is a Clojure based webapp framework
-         for single page database backed webapps"]
+        (el :div {:style "padding: 20px;"
+                  :text "Welcome to Clojure on Coils."} )
 
-        [:div {:style "padding: 20px;"}
-                  "Uses: Clojure, Clojurescript, JQuery, Bootstrap.js"]
+        (el :div {:style "padding: 20px;"
+                  :text "Clojure on Coils is a Clojure based webapp framework for single page database backed webapps"})
+
+        (el :div {:style "padding: 20px;"
+                  :text "Uses: Clojure, Clojurescript, JQuery, Bootstrap.js"})
 
 
-        [:button#help-button
-                      {:style "margin: 20px;"
-                       :class "btn btn-large"}
-                       "Help"]
+        (el :button
+                      {:id    "help-button"
+                       :style "margin: 20px;"
+                       :class "btn btn-large"
+                       :text "Help"
+                       :onclick #(help)})
 
-        [:button#who-button
-                      {:style "margin: 20px;"
-                       :class "btn btn-large"}
-                       "Who are we"]
+        (el :button
+                      {:id    "who-button"
+                       :style "margin: 20px;"
+                       :class "btn btn-large"
+                       :text "Who are we"
+                       :onclick #(do-action "show who page")})
 
-        [:button#disappear-button
-                      {:style "margin: 20px;"
-                       :class "btn btn-large"}
-                       "Dissappear"]
+        (el :button
+                      {:id    "help-button"
+                       :style "margin: 20px;"
+                       :class "btn btn-large"
+                       :text "Dissappear"})
 
-        [:button#show-esb-button
-                      {:style "margin: 20px;"
-                       :class "btn btn-large"}
-                       "ESB"]
+        (el :button
+                      {:id "show-esb-button"
+                       :style "margin: 20px;"
+                       :class "btn btn-large"
+                       :text "ESB"
+                       :onclick #(esb)})
+
+        ;(el :div {:id "popup"})
      ]
+  )
 )
 
 
 
-
-(defn add-homepage-listeners []
-
-  (comment onclick "show-esb-button"
-           (esb))
-
-  (comment onclick "disappear-button"
-           ;(-> ($ :#main) (append "")
-     nil
-               ;(toggle "explode")
-               ;(toggle "explode")
-  ;             )
-  )
-
-  (onclick "help-button" (help))
-
-
-
-  (onclick  "who-button"
-
-            (do-action "show who page"))
-
-
-  (comment onclick  "remote-db-button"
-            (remote "get-db-data" {:a 1}
-                    (fn [reply]
-                      (js/alert reply))))
-  )
 
 
 
@@ -91,7 +77,7 @@
     "show homepage"
     (do
         (addto "main" (homepage-html))
-       (add-homepage-listeners)
+
 ))
 
 

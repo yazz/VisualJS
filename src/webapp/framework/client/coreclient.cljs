@@ -6,12 +6,11 @@
     [goog.net.XhrIo]
     [goog.dom]
     [goog.events]
-;    [webapp.framework.client.help]
     [crate.core :as crate]
   )
   (:use
     [domina.events         :only [listen!]]
-;    [jayq.core             :only [$ html append]]
+    [jayq.core             :only [$ html append]]
     [domina                :only [append! by-id value destroy! ]]
     [domina.xpath          :only [xpath]]
     [domina.css            :only [sel]]
@@ -22,15 +21,25 @@
 
 (defn to-el [x]
   (cond
-   (= "<" (first x)) (crate/raw x)
+   (and (string? x) (= "<" (first x))) (crate/raw x)
    (string? x) (by-id x)
- ;  (keyword? x) (first ($ x))
+   (keyword? x) (first ($ x))
    (vector? x) (crate/html x)
    :else x
   )
 )
 
 
+(defn to-tag-name [x]
+  (cond
+   (string? x) x
+   (keyword? x) (name x)
+   :else x
+  )
+)
+
+
+(to-tag-name :div2)
 ;(to-el "main")
 ;(gn :#main)
 
@@ -39,6 +48,8 @@
 (defn clear [this]
   (if (to-el this)
     (goog.dom/removeChildren (to-el this))))
+ (clear :#main)
+
 
 (defn addto [this el]
     (goog.dom/appendChild
@@ -238,13 +249,73 @@
               (goog.dom/removeNode m)
         ))
 
-      ;(-> ($ :body) (append (modal-text) ))
-      ;(-> ($ :#modal-body) (append ela))
-      ;(-> ($ :#myModalLabel) (html title))
+      (-> ($ :body) (append (modal-text) ))
+      (-> ($ :#modal-body) (append ela))
+      (-> ($ :#myModalLabel) (html title))
 
 
-     ;(. ($ :#myModal) modal)
+     (. ($ :#myModal) modal)
 ))
 
 
 ;(popup "Pup" "<div>dd</div>")
+
+
+
+
+
+(defn el
+
+
+  ([tag-name attributes]
+
+  (let
+  [
+      attributes-js-array   (make-js-map    attributes)
+      text-content          (get attributes :text)
+      elem                  (goog.dom.createDom     (to-tag-name tag-name)    attributes-js-array)
+  ]
+
+    (if text-content
+      (. goog.dom setTextContent elem text-content))
+    elem))
+
+
+
+  ([tag-name attributes children]
+
+    (let
+      [
+          attributes-js-array   (make-js-map    attributes)
+          elem                  (goog.dom.createDom     (to-tag-name tag-name)    attributes-js-array)
+      ]
+      (do
+        (doseq [child children]
+          (goog.dom.appendChild  elem  child )
+        )
+        elem
+      )
+    )
+  )
+
+  ([tag-name]
+    (goog.dom.createDom     tag-name    )
+    ))
+
+
+
+
+;clear homepage
+;(addto "main" (el "div"  ))
+
+
+
+;(to-el "<div>eef</div>")
+
+
+;(+ 1 1)
+;addto
+
+;(el "div" [])
+
+;el
