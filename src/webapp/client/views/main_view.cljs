@@ -37,18 +37,18 @@
 
 
         (el :button
-                      {:id    "help-button"
-                       :style "margin: 20px;"
-                       :class "btn btn-large"
-                       :text "Help"
-                       :onclick #(help)})
-
-        (el :button
                       {:id    "who-button"
                        :style "margin: 20px;"
                        :class "btn btn-large"
                        :text "Who are we"
                        :onclick #(do-action "show who page")})
+
+        (el :button
+                      {:id    "help-button"
+                       :style "margin: 20px;"
+                       :class "btn btn-large"
+                       :text "Help"
+                       :onclick #(help)})
 
         (el :button
                       {:id    "help-button"
