@@ -1,10 +1,13 @@
 (ns webapp.client.messages
     (:use
         [webapp.framework.client.eventbus  :only [do-action esb undefine-action]]
+        [webapp.framework.client.interpreter :only [!fn]]
     )
     (:use-macros
         [webapp.framework.client.eventbus :only [define-action]]
+        [webapp.framework.client.interpreter :only [! !! !!!]]
     )
+
 )
 
 ;(undefine-action    "clear main view")
@@ -26,3 +29,10 @@
   {:key-to-watch :name :value-to-watch "test2"}
   (js/alert "test2 sent"))
 
+
+(!!! str "ss" 12)
+
+  (:type (first (!! str "ss" 122)))
+
+
+  (! "df" 1)
