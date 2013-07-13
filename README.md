@@ -1,4 +1,4 @@
-Clojure-on-Coils
+Clojure on Coils
 ================
 
 A web framework for Clojure. A few notes:

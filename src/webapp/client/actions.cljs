@@ -1,4 +1,4 @@
-(ns webapp.client.messages
+(ns webapp.client.action
     (:use
         [webapp.framework.client.eventbus  :only [do-action esb undefine-action]]
         [webapp.framework.client.interpreter :only [!fn]]
@@ -29,10 +29,17 @@
   {:key-to-watch :name :value-to-watch "test2"}
   (js/alert "test2 sent"))
 
+;(:value (first (!! str)))
 
-(!!! str "ss" 12)
-
-  (:type (first (!! str "ss" 122)))
+;(!!! str221)
 
 
-  (! "df" 1)
+
+
+;(fn? +)
+
+;(!!! + 21 12)
+
+;(! how are you)
+
+;(! clear home page)

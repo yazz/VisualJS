@@ -1,7 +1,7 @@
 (ns webapp.framework.client.interpreter)
 
 
-(str (symbol 'sd))
+;(str (symbol 'sd))
 
 (defmacro ! [ & command-content ]
     (list 'webapp.framework.client.interpreter/!fn (into []
@@ -10,7 +10,9 @@
             (fn [this-part]
                 {
                     :type     (str (type this-part))
-                    :value    this-part
+                    :value    (if (not (fn? this-part)) this-part)
+                    :symbol   (if (fn? this-part) this-part)
+                    :str      (str this-part)
                 }
             )
             command-content
@@ -27,8 +29,9 @@
             (fn [this-part]
                 {
                     :type     (str (type this-part))
-                    :value    this-part
-                }
+                    :value    (if (not (fn? this-part)) this-part)
+                    :symbol   (if (fn? this-part) this-part)
+                    :str      (str this-part)                }
             )
             command-content
         )
@@ -43,8 +46,9 @@
             (fn [this-part]
                 {
                     :type     (str (type this-part))
-                    :value    this-part
-                }
+                    :value    (if (not (fn? this-part)) this-part)
+                    :symbol   (if (fn? this-part) this-part)
+                    :str      (str this-part)                }
             )
             command-content
         )
@@ -53,3 +57,5 @@
 )
 
 (macroexpand '(! "sad" "sad"))
+
+(macroexpand '(!!! str 1))

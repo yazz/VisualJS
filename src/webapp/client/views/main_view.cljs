@@ -9,10 +9,12 @@
 ;        [jayq.core                          :only [$ css  append ]]
         [webapp.framework.client.help       :only [help]]
         [webapp.framework.client.eventbus   :only [do-action esb undefine-action]]
+        [webapp.framework.client.interpreter :only [!fn]]
     )
     (:use-macros
         [webapp.framework.client.eventbus :only [define-action]]
         [webapp.framework.client.coreclient :only [onclick]]
+        [webapp.framework.client.interpreter :only [! !! !!!]]
      )
 )
 
@@ -51,10 +53,12 @@
                        :onclick #(help)})
 
         (el :button
-                      {:id    "help-button"
+                      {:id    "dissappear-button"
                        :style "margin: 20px;"
                        :class "btn btn-large"
-                       :text "Dissappear"})
+                       :text "Dissappear"
+                       :onclick  #(! clear)
+                       })
 
         (el :button
                       {:id "show-esb-button"
@@ -79,5 +83,4 @@
         (addto "main" (homepage-html))
 
 ))
-
 
