@@ -54,6 +54,6 @@ Calling server side code
 
     (remote "say-hello"
             {:name "Johnny"}
-            #(str (:text %1))
+            #(js/alert (:text %1))
     )
 
