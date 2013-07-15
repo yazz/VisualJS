@@ -5,7 +5,7 @@
         [crate.core :as crate]
     )
     (:use
-        [webapp.framework.client.coreclient :only [el clear addto remote  add-to]]
+        [webapp.framework.client.coreclient :only [sql el clear addto remote  add-to]]
 ;        [jayq.core                          :only [$ css  append ]]
         [webapp.framework.client.help       :only [help]]
         [webapp.framework.client.eventbus   :only [do-action esb undefine-action]]
@@ -86,8 +86,6 @@
 
 
 
-
-
 (comment remote "say-hello"
         {:name "Johnny"}
         (fn [reply] (js/alert (str (:text reply))))
@@ -95,5 +93,15 @@
 
 
 
+(comment  remote "!say-hello"
+        {:name "Johnny"}
+        (fn [reply] (js/alert (str (:text reply))))
+)
 
 
+(comment remote "get-db-data" {:a 1}
+                           (fn [reply]
+                               (js/alert reply)))
+
+
+;(sql "" {} (fn[reply] (js/alert (str reply))))

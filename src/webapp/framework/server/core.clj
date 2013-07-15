@@ -1,5 +1,6 @@
 (ns webapp.framework.server.core
   [:use [webapp.server.fns]]
+  [:use [webapp.framework.server.systemfns]]
   [:use [ring.middleware.format]]
   [:use [compojure.core]]
   [:use [ring.middleware.json]]
@@ -15,8 +16,9 @@
   (let
     [
        code (str
-             "(webapp.server.fns/"
-             (:action params)
+             "("
+             (if (:action params) "webapp.server.fns/" "webapp.framework.server.systemfns/")
+             (if (:action params) (:action params) (:systemaction params))
              " "
 
                (str
@@ -36,7 +38,6 @@
     (parse-params  params))
   (POST "/action" {params :params}
     (parse-params  params))
-
 
   (GET "/" [] (resp/redirect "main.html"))
 

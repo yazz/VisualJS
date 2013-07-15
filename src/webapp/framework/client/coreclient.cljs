@@ -143,6 +143,7 @@
 
 
 
+(def action "stuff")
 
 (defn remote
 [
@@ -156,7 +157,11 @@
                   {:params parameters-in :tclock (get-time)})
     ]
     (send-request
-       (str "action?action=" action "&"
+       (str
+
+         (if (= (first action) "!") "action?systemaction=" "action?action=" )
+         action
+         "&"
          (apply
            str
            (map
@@ -302,6 +307,11 @@
     (goog.dom.createDom     tag-name    )
     ))
 
+
+
+(defn sql [sql-str params callback-fn]
+    (remote "!sql" {} (fn [reply] (callback-fn reply)))
+)
 
 
 

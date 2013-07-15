@@ -1,15 +1,9 @@
 (ns webapp.server.fns
   [:require [clojure.string :as str]]
   [:use [korma.db]]
+  [:use [webapp.framework.server.systemfns]]
   [:use [korma.core]]
 )
-
-
-(defdb db (postgres {:db "webdb"
-                     :host "127.0.0.1"
-                     :user "postgres"
-                     :password "manager"}))
-
 
 
 
@@ -38,3 +32,5 @@
 (defn say-hello [params]
     {:text (str "Hello " (:name params))}
 )
+
+
