@@ -22,25 +22,25 @@
 (defn show-testpage []
   (do-action      "clear homepage")
 
-            (addto :body [:div#main])
+            (add-to :body [:div#main])
 
-            (addto "main" [:h1 {:style "padding: 20px;"}
+            (add-to "main" [:h1 {:style "padding: 20px;"}
                                     "Test page"])
 
-            (addto "main" [:div {:style "padding: 20px;"}
+            (add-to "main" [:div {:style "padding: 20px;"}
                                     "Welcome to Clojure on Coils."])
 
 
 
-            (addto "main" [:div {:style "padding: 20px;"}
+            (add-to "main" [:div {:style "padding: 20px;"}
                                       "Clojure on Coils is a Clojure based webapp framework
                                        for single page database backed webapps"])
 
-            (addto "main" [:div {:style "padding: 20px;"}
+            (add-to "main" [:div {:style "padding: 20px;"}
                   "Uses: Clojure, Clojurescript, JQuery, Bootstrap.js"])
 
 
-            (addto
+            (add-to
                  "main"
                  [:button#help-button
                       {:style "margin: 20px;"
@@ -49,28 +49,28 @@
 
 
 
-            (addto
+            (add-to
                  "main"
                  [:button#remote-button
                       {:style "margin: 20px;"
                        :class "btn btn-large"}
                        "Remote call"])
 
-            (addto
+            (add-to
                  "main"
                  [:button#remote-db-button
                       {:style "margin: 20px;"
                        :class "btn btn-large"}
                        "Remote DB call"])
 
-            (addto
+            (add-to
                  "main"
                  [:button#disappear-button
                       {:style "margin: 20px;"
                        :class "btn btn-large"}
                        "Dissappear"])
 
-            (addto
+            (add-to
                  "main"
                  [:button#show-esb-button
                       {:style "margin: 20px;"

@@ -80,7 +80,7 @@
 (define-action
     "show homepage"
     (do
-        (addto "main" (homepage-html))
+        (add-to "main" (homepage-html))
 
 ))
 

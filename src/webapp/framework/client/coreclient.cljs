@@ -51,7 +51,7 @@
  (clear :#main)
 
 
-(defn addto [this el]
+(defn add-to [this el]
     (goog.dom/appendChild
        (to-el this)
        (to-el el)
@@ -306,7 +306,7 @@
 
 
 ;clear homepage
-;(addto "main" (el "div"  ))
+;(add-to "main" (el "div"  ))
 
 
 
@@ -314,7 +314,7 @@
 
 
 ;(+ 1 1)
-;addto
+;add-to
 
 ;(el "div" [])
 
