@@ -26,4 +26,4 @@ Go to a clojurescript view in src/webapp/client/views
 
 From the Lighttable IDE:
 
-(add-to "main" "<div>hello world</div>")
+    (add-to "main" "<div>hello world</div>")
