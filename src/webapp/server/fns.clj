@@ -34,3 +34,7 @@
            }]))
 
 (comment select test_table)
+
+(defn say-hello [params]
+    {:text (str "Hello " (:name params))}
+)

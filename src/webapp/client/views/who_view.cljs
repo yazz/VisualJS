@@ -5,7 +5,7 @@
         [crate.core :as crate]
     )
     (:use
-        [webapp.framework.client.coreclient :only [clear addto help remote  add-to]]
+        [webapp.framework.client.coreclient :only [clear add-to help remote  add-to]]
         [jayq.core                          :only [$ css  append fade-out fade-in empty]]
         [webapp.framework.client.help       :only [help]]
         [webapp.framework.client.eventbus   :only [do-action esb undefine-action]]

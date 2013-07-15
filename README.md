@@ -27,3 +27,33 @@ Go to a clojurescript view in src/webapp/client/views
 From the Lighttable IDE:
 
     (add-to "main" "<div>hello world</div>")
+
+
+
+
+Message passing system (AKA events)
+===================================
+
+    (define-action "Say something"
+        (js/alert "Hello")
+    )
+
+    (do-action "Say something")
+
+    (undefine-action "Say something")
+
+
+
+Calling server side code
+========================
+
+    (defn say-hello [params]
+        {:text (str "Hello " (:name params))}
+    )
+
+
+    (remote "say-hello"
+            {:name "Johnny"}
+            #(str (:text %1))
+    )
+

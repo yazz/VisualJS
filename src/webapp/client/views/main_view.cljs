@@ -84,3 +84,12 @@
 
 ))
 
+
+
+
+
+(comment remote "say-hello"
+        {:name "Johnny"}
+        (fn [reply] (js/alert (str (:text reply))))
+)
+
