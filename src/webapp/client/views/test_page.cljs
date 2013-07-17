@@ -11,7 +11,7 @@
     )
     (:use-macros
         [webapp.framework.client.eventbus :only [define-action]]
-        [webapp.framework.client.coreclient :only [onclick]]
+        [webapp.framework.client.coreclient :only [on-click]]
      )
 )
 
