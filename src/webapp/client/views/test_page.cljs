@@ -76,22 +76,22 @@
                       {:style "margin: 20px;"
                        :class "btn btn-large"}
                        "ESB"])
-            (onclick :#show-esb-button
+            (on-click :#show-esb-button
                      (esb))
 
 
-            (onclick "help-button" (help))
+            (on-click "help-button" (help))
 
 
 
-            (onclick  "remote-button"
+            (on-click  "remote-button"
 
                       (remote "test-call" {:a {:c 2 :d 3}}
                               (fn [reply]
                                 (js/alert reply))))
 
 
-            (onclick  "remote-db-button"
+            (on-click  "remote-db-button"
                       (remote "get-db-data" {:a 1}
                            (fn [reply]
                                (js/alert reply))))

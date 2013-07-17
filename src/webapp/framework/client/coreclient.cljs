@@ -182,8 +182,11 @@
 
 
 
-(defn onclick-fn [element  fn-to-call]
+(defn on-click-fn [element  fn-to-call]
     (listen! (to-el element) :click  fn-to-call)
+)
+(defn on-mouseover-fn [element  fn-to-call]
+    (listen! (to-el element) :mouseover  fn-to-call)
 )
 
 

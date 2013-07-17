@@ -15,6 +15,7 @@
 
 ;(undefine-action    "show main view")
 ;(do-action "show homepage")
+;(do-action "refresh homepage")
 ;(do-action "slideup")
 ;(do-action "show testpage")
 ;(do-action "show who page")
