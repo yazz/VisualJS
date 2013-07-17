@@ -5,7 +5,7 @@
 
     )
    (:use
-        [webapp.framework.client.coreclient      :only [popup clear addto help remote]]
+        [webapp.framework.client.coreclient      :only [popup clear add-to help remote]]
     )
    )
 
@@ -223,7 +223,7 @@
 
 
   (doall (doseq [watcher @event-watchers]
-       (addto "popup"
+       (add-to "popup"
               [:div {}
                (:value-to-watch watcher)]
   ))))

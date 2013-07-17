@@ -262,7 +262,7 @@
       (-> ($ :#myModalLabel) (html title))
 
 
-     (. ($ :#myModal) modal)
+     (-> (js/$ "#myModal") (.modal))
 ))
 
 
