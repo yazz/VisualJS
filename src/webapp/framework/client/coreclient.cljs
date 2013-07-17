@@ -262,9 +262,11 @@
       (-> ($ :#myModalLabel) (html title))
 
 
-     (-> (js/$ "#myModal") (.modal))
+      ;(. ($ "#myModal") (modal))
+      (js/showHelp)
 ))
 
+;(-> (js/$ "#myModal") (.modal))
 
 ;(popup "Pup" "<div>dd</div>")
 
