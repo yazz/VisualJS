@@ -35,10 +35,10 @@
 (define-action
     "show who page"
     (do
-        (-> ($ :#main-content-area)
+        (-> ($ :#main-section)
             (fade-out 200
                       #(do
-                         (-> ($ :#main-content-area)
+                         (-> ($ :#main-section)
                              (empty)
                              (append (crate/html (whopage-html)))
                              (fade-in)

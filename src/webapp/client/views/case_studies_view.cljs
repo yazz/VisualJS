@@ -1,4 +1,4 @@
-(ns webapp.client.main-view
+(ns webapp.client.case-studies-view
     (:refer-clojure :exclude [val empty remove find next parents])
     (:require
         [cljs.reader :as reader]
@@ -25,37 +25,15 @@
     :div {}
      [
 
-        (el :div {:style "padding: 20px;"
-                  :text "Welcome to Clojure on Coils."} )
+        (el :h1 {:style "padding: 20px;"
+                  :text "Case studies"} )
 
         (el :div {:style "padding: 20px;"
-                  :text "Clojure on Coils is a Clojure based webapp framework for single page database backed webapps"})
+                  :text "NemCV.com"})
 
         (el :div {:style "padding: 20px;"
-                  :text "Uses: Clojure, Clojurescript, JQuery, Bootstrap.js"})
+                  :text "The coils.cc framework was taken from NemCV.com"})
 
-
-        (el :button
-                      {:id    "help-button"
-                       :style "margin: 20px;"
-                       :class "btn btn-large"
-                       :text "Help"
-                       :onclick #(help)})
-
-        (el :button
-                      {:id    "dissappear-button"
-                       :style "margin: 20px;"
-                       :class "btn btn-large"
-                       :text "Dissappear"
-                       :onclick  #(! clear)
-                       })
-
-        (el :button
-                      {:id "show-esb-button"
-                       :style "margin: 20px;"
-                       :class "btn btn-large"
-                       :text "ESB"
-                       :onclick #(esb)})
 
         ;(el :div {:id "popup"})
      ]
@@ -67,25 +45,8 @@
 
 
 
-
 (define-action
-    "show homepage"
-    (do
-
-        (add-to "main-section" (homepage-html))
-
-))
-
-(define-action
-    "refresh homepage"
-    (do
-      (do-action "clear homepage")
-      (do-action "show homepage")
-    )
-)
-
-(define-action
-    "show home page"
+    "show case studies view"
     (do
         (-> ($ :#main-section)
             (fade-out 200
@@ -101,4 +62,3 @@
         nil
      )
 )
-
