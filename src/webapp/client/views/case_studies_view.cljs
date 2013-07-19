@@ -23,7 +23,8 @@
   coils-case-study-html [
                          ]
       (el :div {:style "padding: 40px;"
-                  :text "Coils.cc was extracted from the nemcv.com project"})
+                  :text "Coils.cc was built with Clojure on Coils
+                  just to show we eat our own dogfood!"})
   )
 
 
@@ -32,8 +33,9 @@
   nemcv-case-study-html [
                          ]
       (el :div {:style "padding: 40px;"
-                  :text "This website was built itself with Clojure on Coils
-                  just to show we eat our own dogfood!"})
+                  :text "NemCV.com is a production system used officially as a CV
+                system in Europe. We are based in the Copenhagen International House
+                and are part of the Work In Denmark programme"})
   )
 
 (define-action "show coils case study"
@@ -79,8 +81,9 @@
         (el :h1 {:style "padding: 20px;"
                   :text "Case studies"} )
 
-        (el :div {:style "margin:20px; display:inline;padding: 20px; border: 1px solid gray; width:100px; height: 100px;"
+        (el :img {:style "margin:20px; display:inline;padding: 20px; border: 1px solid gray; width:100px; height: 100px;"
                   :text "NemCV.com"
+                  :src "images/nemcv.png"
                   :onmouseover #(do-action "show nemcv case study")
                   :onmouseout #(clear :#case-study-example )})
 
