@@ -1,5 +1,11 @@
 Clojure on Coils
 ================
+Website found at http://coils.cc
+
+
+
+Clojure on Coils
+================
 
 A web framework for Clojure. A few notes:
 
@@ -47,10 +53,14 @@ Message passing system (AKA events)
 Calling server side code
 ========================
 
+From the client side:
+
     (defn say-hello [params]
         {:text (str "Hello " (:name params))}
     )
 
+
+Define in fns.clj on the server side:
 
     (remote "say-hello"
             {:name "Johnny"}

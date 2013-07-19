@@ -5,7 +5,7 @@
         [crate.core :as crate]
     )
     (:use
-        [webapp.framework.client.coreclient :only [sql el clear addto remote  add-to]]
+        [webapp.framework.client.coreclient :only [sql el clear addto remote  add-to on-mouseover-fn]]
         [jayq.core                          :only [$ css  append fade-out fade-in empty]]
         [webapp.framework.client.help       :only [help]]
         [webapp.framework.client.eventbus   :only [do-action esb undefine-action]]
@@ -93,21 +93,10 @@
 )
 
 (defn add-nav-listeners []
-    (on-mouseover
-              "contact-button"
-              (remove-nav-active)
-              (. ($ :#contact-button) addClass "active")
-              (do-action "show who page"))
-
-    (on-mouseover
-              "case-studies-button"
-              (remove-nav-active)
-              (. ($ :#case-studies-button) addClass "active")
-              (do-action "show case studies view"))
-
 
     (on-mouseover
               "home-button"
+
               (remove-nav-active)
               (. ($ :#home-button) addClass "active")
               (do-action "show home page"))
@@ -115,12 +104,31 @@
 
     (on-mouseover
               "docs-button"
+
               (remove-nav-active)
               (. ($ :#docs-button) addClass "active")
+              (do-action "show docs page")
+     )
+
+
+    (on-mouseover
+              "case-studies-button"
+
+              (remove-nav-active)
+              (. ($ :#case-studies-button) addClass "active")
+              (do-action "show case studies view"))
 
 
 
-     ))
+    (on-mouseover
+              "contact-button"
+
+              (remove-nav-active)
+              (. ($ :#contact-button) addClass "active")
+              (do-action "show who page"))
+
+
+)
 
 
 
