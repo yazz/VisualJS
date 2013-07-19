@@ -19,6 +19,57 @@
 )
 
 
+(defn
+  coils-case-study-html [
+                         ]
+      (el :div {:style "padding: 40px;"
+                  :text "Coils.cc was extracted from the nemcv.com project"})
+  )
+
+
+
+(defn
+  nemcv-case-study-html [
+                         ]
+      (el :div {:style "padding: 40px;"
+                  :text "This website was built itself with Clojure on Coils
+                  just to show we eat our own dogfood!"})
+  )
+
+(define-action "show coils case study"
+    (do
+        (-> ($ :#case-study-example)
+            (fade-out 200
+                      #(do
+                         (-> ($ :#case-study-example)
+                             (empty)
+                             (append (coils-case-study-html))
+                             (fade-in)
+                        )
+                      )
+             )
+        )
+        nil
+     )
+)
+
+(define-action "show nemcv case study"
+    (do
+        (-> ($ :#case-study-example)
+            (fade-out 200
+                      #(do
+                         (-> ($ :#case-study-example)
+                             (empty)
+                             (append (nemcv-case-study-html))
+                             (fade-in)
+                        )
+                      )
+             )
+        )
+        nil
+     )
+)
+
 (defn homepage-html []
 
   (el
@@ -28,12 +79,18 @@
         (el :h1 {:style "padding: 20px;"
                   :text "Case studies"} )
 
-        (el :div {:style "padding: 20px;"
-                  :text "NemCV.com"})
+        (el :div {:style "margin:20px; display:inline;padding: 20px; border: 1px solid gray; width:100px; height: 100px;"
+                  :text "NemCV.com"
+                  :onmouseover #(do-action "show nemcv case study")
+                  :onmouseout #(clear :#case-study-example )})
 
-        (el :div {:style "padding: 20px;"
-                  :text "The coils.cc framework was taken from NemCV.com"})
+        (el :div {:style "margin:20px; display:inline;padding: 20px; border: 1px solid gray; width:100px; height: 100px;"
+                  :text "coils.cc"
+                  :onmouseover #(do-action "show coils case study")
+                  :onmouseout #(clear :#case-study-example )})
 
+        (el :div {:id "case-study-example" :style "padding: 40px;"
+                  :text ""})
 
         ;(el :div {:id "popup"})
      ]
@@ -62,3 +119,5 @@
         nil
      )
 )
+
+(do-action "show case studies view")
