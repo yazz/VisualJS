@@ -81,16 +81,24 @@
         (el :h1 {:style "padding: 20px;"
                   :text "Case studies"} )
 
-        (el :img {:style "margin:20px; display:inline;padding: 20px; border: 1px solid gray; width:100px; height: 100px;"
+        (el :a {:href "http://nemcv.com"}
+            [
+            (el :img {:style "background: blue;margin:20px; display:inline;padding: 20px; border: 1px solid gray; width:100px; "
                   :text "NemCV.com"
                   :src "images/nemcv.png"
+
                   :onmouseover #(do-action "show nemcv case study")
                   :onmouseout #(clear :#case-study-example )})
+             ])
 
+      (el :a {:href "http://github.com/zubairq"}
+            [
         (el :div {:style "margin:20px; display:inline;padding: 20px; border: 1px solid gray; width:100px; height: 100px;"
                   :text "coils.cc"
                   :onmouseover #(do-action "show coils case study")
                   :onmouseout #(clear :#case-study-example )})
+
+             ])
 
         (el :div {:id "case-study-example" :style "padding: 40px;"
                   :text ""})
