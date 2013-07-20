@@ -28,14 +28,15 @@
         (el :div {:style "padding: 0px;"
                   :id "top-section"} )
 
-        (el :div {:style "padding: 0px;"
+      (el :div {:class "row"} [
+        (el :div {:class "span3"
+                  :id "left-navigation" :text "sdfssdf"} )
+        (el :div {:class "span8"
                   :id "main-section"} )
+                   ])
      ]
   )
 )
-
-
-
 
 
 

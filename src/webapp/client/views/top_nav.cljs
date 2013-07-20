@@ -19,56 +19,12 @@
 )
 
 
-(defn homepage-html []
-
-  (el
-    :div {}
-     [
-
-        (el :div {:style "padding: 20px;"
-                  :text "Welcome to Clojure on Coils."} )
-
-        (el :div {:style "padding: 20px;"
-                  :text "Clojure on Coils is a Clojure based webapp framework for single page database backed webapps"})
-
-        (el :div {:style "padding: 20px;"
-                  :text "Uses: Clojure, Clojurescript, JQuery, Bootstrap.js"})
-
-
-        (el :button
-                      {:id    "help-button"
-                       :style "margin: 20px;"
-                       :class "btn btn-large"
-                       :text "Help"
-                       :onclick #(help)})
-
-        (el :button
-                      {:id    "dissappear-button"
-                       :style "margin: 20px;"
-                       :class "btn btn-large"
-                       :text "Dissappear"
-                       :onclick  #(! clear)
-                       })
-
-        (el :button
-                      {:id "show-esb-button"
-                       :style "margin: 20px;"
-                       :class "btn btn-large"
-                       :text "ESB"
-                       :onclick #(esb)})
-
-        ;(el :div {:id "popup"})
-     ]
-  )
-)
-
-
-
 
 
 
 (defn top-nav-bar []
-        "<div class=navbar>
+        "<div>
+           <div class=navbar>
               <div class=navbar-inner>
                 <a class=brand href='#'>Coils.cc</a>
                 <ul class=nav>
@@ -79,7 +35,8 @@
                 </ul>
               </div>
             </div>
-   <div id=main-content-area ></div>
+
+  </div>
   "
   )
 

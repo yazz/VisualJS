@@ -37,16 +37,17 @@ From the Lighttable IDE:
 
 
 
-Message passing system (AKA events)
-===================================
+Client side message passing system (AKA events)
+===============================================
 
-    (define-action "Say something"
+Define an action:
+    (redefine-action "Say something"
         (js/alert "Hello")
     )
 
-    (do-action "Say something")
 
-    (undefine-action "Say something")
+Call an action:
+    (do-action "Say something")
 
 
 
