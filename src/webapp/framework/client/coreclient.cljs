@@ -10,7 +10,7 @@
   )
   (:use
     [domina.events         :only [listen!]]
-    [jayq.core             :only [$ html append]]
+    [jayq.core             :only [html $ css  append fade-out fade-in empty]]
     [domina                :only [append! by-id value destroy! ]]
     [domina.xpath          :only [xpath]]
     [domina.css            :only [sel]]
@@ -319,6 +319,23 @@
 )
 
 
+
+(defn swap-section [element new-content]
+    (do
+        (-> element
+            (fade-out 200
+                      #(do
+                         (-> element
+                             (empty)
+                             (append new-content)
+                             (fade-in)
+                        )
+                      )
+             )
+        )
+        nil
+     )
+)
 
 ;clear homepage
 ;(add-to "main" (el "div"  ))

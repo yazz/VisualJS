@@ -11,12 +11,41 @@
     )
   )
 
+
+
+
+
+
+(defmacro redefine-action [message-arg code]
+
+    `(do
+        (webapp.framework.client.eventbus/undefine-action
+            ~message-arg
+         )
+
+        (webapp.framework.client.eventbus/receive-message-fn
+             ~message-arg
+             (fn [ ~(symbol "message") ] ~code ))
+
+      )
+)
+
+
+
+
 (comment macroexpand '(define-action
                    "clear main page2"
                    (clear "main")
 ))
 
 
+
+
+
+
 (comment macroexpand '(define-action
     "clear homepage"
     (clear :#main)))
+
+
+

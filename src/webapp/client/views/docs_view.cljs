@@ -5,14 +5,14 @@
         [crate.core :as crate]
     )
     (:use
-        [webapp.framework.client.coreclient :only [sql el clear addto remote  add-to]]
+        [webapp.framework.client.coreclient :only [swap-section sql el clear addto remote  add-to]]
         [jayq.core                          :only [$ css  append fade-out fade-in empty]]
         [webapp.framework.client.help       :only [help]]
         [webapp.framework.client.eventbus   :only [do-action esb undefine-action]]
         [webapp.framework.client.interpreter :only [!fn]]
     )
     (:use-macros
-        [webapp.framework.client.eventbus :only [define-action]]
+        [webapp.framework.client.eventbus :only [define-action redefine-action]]
         [webapp.framework.client.coreclient :only [on-click on-mouseover]]
         [webapp.framework.client.interpreter :only [! !! !!!]]
      )
@@ -26,7 +26,7 @@
      [
 
         (el :div {:style "padding: 20px;"
-                  :text "Documentation."} )
+                  :text "Components"} )
 
 
         (el :button
@@ -36,8 +36,29 @@
                        :text "ESB"
                        :onclick #(esb)})
 
-        ;(el :div {:id "popup"})
-     ]
+
+
+        (el :button
+                      {:id    "help-button"
+                       :style "margin: 20px;"
+                       :class "btn btn-large"
+                       :text "Help"
+                       :onclick #(help)})
+
+        (el :button
+                      {:id    "dissappear-button"
+                       :style "margin: 20px;"
+                       :class "btn btn-large"
+                       :text "Dissappear"
+                       :onclick  #(! clear)
+                       })
+
+        (el :button
+                      {:id "show-esb-button"
+                       :style "margin: 20px;"
+                       :class "btn btn-large"
+                       :text "ESB"
+                       :onclick #(esb)})     ]
   )
 )
 
@@ -47,20 +68,12 @@
 
 
 
-(define-action
+
+(redefine-action
     "show docs page"
-    (do
-        (-> ($ :#main-section)
-            (fade-out 200
-                      #(do
-                         (-> ($ :#main-section)
-                             (empty)
-                             (append (docspage-html))
-                             (fade-in)
-                        )
-                      )
-             )
-        )
-        nil
-     )
+    (swap-section
+        ($ :#main-section)
+        (docspage-html)
+    )
 )
+;(do-action "show docs page")

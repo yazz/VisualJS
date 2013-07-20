@@ -19,6 +19,9 @@
 )
 
 
+
+
+
 (defn homepage-html []
 
   (el
@@ -34,28 +37,6 @@
         (el :div {:style "padding: 20px;"
                   :text "Uses: Clojure, Clojurescript, JQuery, Bootstrap.js"})
 
-
-        (el :button
-                      {:id    "help-button"
-                       :style "margin: 20px;"
-                       :class "btn btn-large"
-                       :text "Help"
-                       :onclick #(help)})
-
-        (el :button
-                      {:id    "dissappear-button"
-                       :style "margin: 20px;"
-                       :class "btn btn-large"
-                       :text "Dissappear"
-                       :onclick  #(! clear)
-                       })
-
-        (el :button
-                      {:id "show-esb-button"
-                       :style "margin: 20px;"
-                       :class "btn btn-large"
-                       :text "ESB"
-                       :onclick #(esb)})
 
         ;(el :div {:id "popup"})
      ]
