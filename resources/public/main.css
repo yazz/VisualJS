@@ -1,0 +1,16 @@
+@media screen and (min-width : 0px) and (max-width: 750px) {
+  #left-navigation {
+    display: none;
+  }
+  .bs-docs-sidebar {
+    display: none;
+  }
+}
+@media screen and (min-width : 751px) and (max-width: 2000px) {
+  #left-navigation {
+    display: inline;
+  }
+  .bs-docs-sidebar {
+    display: inline;
+  }
+}

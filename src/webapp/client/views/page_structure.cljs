@@ -19,7 +19,7 @@
 )
 
 
-(defn homepage-html []
+(defn structure-html []
 
   (el
     :div {}
@@ -31,7 +31,8 @@
       (el :div {:class "row"} [
         (el :div {:class "span3"
                   :id "left-navigation" :text "sdfssdf"} )
-        (el :div {:class "span8"
+
+        (el :div {:class "span9"
                   :id "main-section"} )
                    ])
      ]
@@ -45,11 +46,9 @@
 
 (define-action
     "create blank page structure"
-    (do
-      (-> ($ :#main)
+    (-> ($ :#main)
           (empty)
-          (append (homepage-html))
-          (fade-in)
-          )
-      )
-  )
+          (append (structure-html))
+    )
+)
+

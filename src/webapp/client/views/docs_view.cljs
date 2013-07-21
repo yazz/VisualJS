@@ -22,14 +22,16 @@
 (defn docspage-html []
 
   (el
-    :div {}
-     [
+      :div {:id          "scrollable"
+          :data-spy    "scroll"
+          :data-target ".bs-docs-sidebar"}
 
-        (el :div {:style "padding: 20px;"
+      [
+          (el :div {:style "padding: 20px;"
                   :text "Components"} )
 
 
-        (el :button
+           (el :button
                       {:id "show-esb-button"
                        :style "margin: 20px;"
                        :class "btn btn-large"
@@ -58,16 +60,33 @@
                        :style "margin: 20px;"
                        :class "btn btn-large"
                        :text "ESB"
-                       :onclick #(esb)})     ]
+                       :onclick #(esb)})
+
+        (el :div {:style "margin: 200px;" :id "top" :text "Some text"})
+        (el :div {:style "margin: 200px;" :id "top2" :text "Some text"})
+        (el :div {:style "margin: 200px;" :text "Some text"})
+        (el :div {:style "margin: 200px;" :text "Some text"})
+        (el :div {:style "margin: 200px;" :text "Some text"})
+        (el :div {:style "margin: 200px;" :text "Some text"})
+        (el :div {:style "margin: 200px;" :text "Some text"})
+        (el :div {:style "margin: 200px;" :text "Some text"})
+        (el :div {:style "margin: 200px;" :text "Some text"})
+        (el :div {:style "margin: 200px;" :text "Some text"})
+        (el :div {:style "margin: 200px;" :text "Some text"})
+
+        (el :div {:style "margin: 20px;" :id "two" :text "two"})
+
+
+      ]
   )
 )
 
 
 (defn sidebar [] "
-<div class='span3 bs-docs-sidebar'>
+<div class='bs-docs-sidebar'>
         <ul class='nav nav-list bs-docs-sidenav affix'>
-          <li class='active'><a href='#overview'><i class='icon-chevron-right'></i> Overview</a></li>
-          <li><a href='#transitions'><i class='icon-chevron-right'></i> Transitions</a></li>
+          <li class='active'><a href='#top'><i class='icon-chevron-right'></i> Overview</a></li>
+          <li><a href='#top2'><i class='icon-chevron-right'></i> Transitions</a></li>
           <li><a href='#modals'><i class='icon-chevron-right'></i> Modal</a></li>
           <li><a href='#dropdowns'><i class='icon-chevron-right'></i> Dropdown</a></li>
           <li class=''><a href='#scrollspy'><i class='icon-chevron-right'></i> Scrollspy</a></li>
@@ -79,7 +98,7 @@
           <li><a href='#collapse'><i class='icon-chevron-right'></i> Collapse</a></li>
           <li><a href='#carousel'><i class='icon-chevron-right'></i> Carousel</a></li>
           <li><a href='#typeahead'><i class='icon-chevron-right'></i> Typeahead</a></li>
-          <li><a href='#affix'><i class='icon-chevron-right'></i> Affix</a></li>
+          <li><a href='#two'><i class='icon-chevron-right'></i> Affix</a></li>
         </ul>
       </div>
 ")
