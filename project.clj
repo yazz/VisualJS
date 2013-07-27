@@ -13,6 +13,7 @@
                    [ring-middleware-format "0.3.0"]
                    [ring/ring-json "0.2.0"]
                    [jayq "2.4.0"]
+                   [clojurewerkz/neocons "1.1.0"]
 
                 ]
 

@@ -7,10 +7,21 @@
   [:require [compojure.route :as route]]
   [:require [compojure.handler :as handler]]
   [:require [ring.util.response :as resp]]
+  (:require [clojurewerkz.neocons.rest :as nr])
+  (:require [clojurewerkz.neocons.rest.nodes :as nn])
+  (:require [clojurewerkz.neocons.rest.relationships :as nrl])
+  (:require [clojurewerkz.neocons.rest.cypher :as cy])
 )
 
 
 
+;(nr/connect! "http://localhost:7474/db/data/")
+
+ (comment let [amy (nn/create {:username "amy" :age 27})
+        bob (nn/create {:username "bob" :age 28})
+        _   (nrl/create amy bob :friend {:source "college"})
+        res (cy/tquery "START x = node({ids}) RETURN x.username, x.age" {:ids (map :id [amy bob])})]
+    (println res))
 
 (defn parse-params [params]
   (let
