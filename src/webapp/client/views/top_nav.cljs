@@ -25,15 +25,13 @@
 (defn top-nav-bar []
         "<div>
            <div class=navbar>
-              <div class=navbar-inner>
-                <a class=brand href='#'>Coils.cc</a>
-                <ul class=nav>
+                <a class=navbar-brand href='#'>Coils.cc</a>
+                <ul class='nav navbar-nav'>
                   <li id='home-button' class=active><a href='#'>Home</a></li>
                   <li id='docs-button'><a href='#'>Docs</a></li>
                   <li id='case-studies-button'><a href='#'>Case studies</a></li>
                   <li id='contact-button'><a href='#'>Contact</a></li>
                 </ul>
-              </div>
             </div>
 
   </div>
