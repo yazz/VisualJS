@@ -22,59 +22,59 @@
 (defn docspage-html []
 
   (el
-      :div {:id          "scrollable"
+      :div {:id    "scrollable"
           :data-spy    "scroll"
-          :data-target ".bs-docs-sidebar"}
+            :data-offset "0"
+          :data-target "#bs-sidebar"
+            :style "overflow: auto; height: 200px;"}
 
       [
           (el :div {:style "padding: 20px;"
                   :text "Components"} )
 
 
-           (el :button
+          (el :button
                       {:id "show-esb-button"
                        :style "margin: 20px;"
-                       :class "btn btn-large"
+                       :class "btn btn-large btn-default"
                        :text "ESB"
                        :onclick #(esb)})
 
 
 
-        (el :button
-                      {:id    "help-button"
-                       :style "margin: 20px;"
-                       :class "btn btn-large"
-                       :text "Help"
-                       :onclick #(help)})
+          (el :button
+                          {:id    "help-button"
+                           :style "margin: 20px;"
+                           :class "btn btn-large btn-default"
+                           :text "Help"
+                           :onclick #(help)})
 
-        (el :button
-                      {:id    "dissappear-button"
-                       :style "margin: 20px;"
-                       :class "btn btn-large"
-                       :text "Dissappear"
-                       :onclick  #(! clear)
-                       })
+          (el :button
+                          {:id    "dissappear-button"
+                           :style "margin: 20px;"
+                           :class "btn btn-large btn-default"
+                           :text "Dissappear"
+                           :onclick  #(! clear)
+                           })
 
-        (el :button
-                      {:id "show-esb-button"
-                       :style "margin: 20px;"
-                       :class "btn btn-large"
-                       :text "ESB"
-                       :onclick #(esb)})
+          (el :button
+                          {:id "show-esb-button"
+                           :style "margin: 20px;"
+                           :class "btn btn-large btn-default"
+                           :text "ESB"
+                           :onclick #(esb)})
 
-        (el :div {:style "margin: 200px;" :id "top" :text "Some text"})
-        (el :div {:style "margin: 200px;" :id "top2" :text "Some text"})
-        (el :div {:style "margin: 200px;" :text "Some text"})
-        (el :div {:style "margin: 200px;" :text "Some text"})
-        (el :div {:style "margin: 200px;" :text "Some text"})
-        (el :div {:style "margin: 200px;" :text "Some text"})
-        (el :div {:style "margin: 200px;" :text "Some text"})
-        (el :div {:style "margin: 200px;" :text "Some text"})
-        (el :div {:style "margin: 200px;" :text "Some text"})
-        (el :div {:style "margin: 200px;" :text "Some text"})
-        (el :div {:style "margin: 200px;" :text "Some text"})
-
-        (el :div {:style "margin: 20px;" :id "two" :text "two"})
+        (el :div {:style "margin: 200px;" :id "ss1" :text "Some text1"})
+        (el :div {:style "margin: 200px;" :id "ss2" :text "Some text2"})
+        (el :div {:style "margin: 200px;" :id "ss3" :text "Some text3"})
+        (el :div {:style "margin: 200px;" :id "ss4" :text "Some text4"})
+        (el :div {:style "margin: 200px;" :id "ss5" :text "Some text5"})
+        (el :div {:style "margin: 200px;" :id "ss6" :text "Some text6"})
+        (el :div {:style "margin: 200px;" :id "ss7" :text "Some text7"})
+        (el :div {:style "margin: 200px;" :id "ss8" :text "Some text8"})
+        (el :div {:style "margin: 200px;" :id "ss9" :text "Some text9"})
+        (el :div {:style "margin: 200px;" :id "ss10" :text "Some text10"})
+        (el :div {:style "margin: 200px;" :id "ss11" :text "Some text11"})
 
 
       ]
@@ -82,27 +82,49 @@
 )
 
 
-(defn sidebar [] "
-<div class='bs-docs-sidebar'>
-        <ul class='nav nav-list bs-docs-sidenav affix'>
-          <li class='active'><a href='#top'><i class='icon-chevron-right'></i> Overview</a></li>
-          <li><a href='#top2'><i class='icon-chevron-right'></i> Transitions</a></li>
-          <li><a href='#modals'><i class='icon-chevron-right'></i> Modal</a></li>
-          <li><a href='#dropdowns'><i class='icon-chevron-right'></i> Dropdown</a></li>
-          <li class=''><a href='#scrollspy'><i class='icon-chevron-right'></i> Scrollspy</a></li>
-          <li><a href='#tabs'><i class='icon-chevron-right'></i> Tab</a></li>
-          <li><a href='#tooltips'><i class='icon-chevron-right'></i> Tooltip</a></li>
-          <li><a href='#popovers'><i class='icon-chevron-right'></i> Popover</a></li>
-          <li><a href='#alerts'><i class='icon-chevron-right'></i> Alert</a></li>
-          <li><a href='#buttons'><i class='icon-chevron-right'></i> Button</a></li>
-          <li><a href='#collapse'><i class='icon-chevron-right'></i> Collapse</a></li>
-          <li><a href='#carousel'><i class='icon-chevron-right'></i> Carousel</a></li>
-          <li><a href='#typeahead'><i class='icon-chevron-right'></i> Typeahead</a></li>
-          <li><a href='#two'><i class='icon-chevron-right'></i> Affix</a></li>
-        </ul>
-      </div>
-")
+(defn sidebar []
+  "
+    <div id='bs-sidebar' class='bs-sidebar affix'>
+      <ul class='nav bs-sidenav'>
 
+        <li  class='active'>
+          <a href='#ss1'>Overview</a>
+          <ul class='nav'>
+
+            <li><a href='#ss2'>Events</a></li>
+          </ul>
+        </li>
+
+        <li class=''><a href='#ss3'>Transitions</a></li>
+
+        <li class=''>
+          <a href='#ss3'>Modal</a>
+          <ul class='nav'>
+            <li><a href='#ss4'>Examples</a></li>
+            <li><a href='#ss5'>Usage</a></li>
+          </ul>
+        </li>
+
+        <li>
+          <a href='#ss6'>Tab</a>
+          <ul class='nav'>
+            <li><a href='#ss7'>Examples</a></li>
+            <li><a href='#ss8'>Usage</a></li>
+          </ul>
+        </li>
+
+        <li>
+          <a href='#ss9'>Affix</a>
+          <ul class='nav'>
+            <li><a href='#ss10'>Examples2</a></li>
+            <li><a href='#ss11'>Usage2</a></li>
+          </ul>
+        </li>
+
+
+      </ul>
+    </div>
+")
 
 
 
@@ -117,7 +139,11 @@
         (swap-section
             ($ :#left-navigation)
             (sidebar)
+            #(js/updateScrollSpy)
         )
+
     )
 )
+
+(js/updateScrollSpy)
 ;(do-action "show docs page")

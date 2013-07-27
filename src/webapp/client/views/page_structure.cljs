@@ -29,10 +29,10 @@
                   :id "top-section"} )
 
       (el :div {:class "row"} [
-        (el :div {:class "span3"
-                  :id "left-navigation" :text "sdfssdf"} )
+        (el :div {:class "col-lg-3"
+                  :id "left-navigation" } )
 
-        (el :div {:class "span9"
+        (el :div {:class "col-lg-9"
                   :id "main-section"} )
                    ])
      ]
