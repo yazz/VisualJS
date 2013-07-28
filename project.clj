@@ -37,7 +37,7 @@
          :source-paths ["src"]
          :compiler     {
                          :output-to      "resources/public/main.js"
-                         :optimizations  :advanced
+                         :optimizations  :whitespace
                          :externs        ["resources/public/jquery-externs.js" "resources/public/google_maps_api_v3_3.js"]
                          :pretty-print   false
                        }

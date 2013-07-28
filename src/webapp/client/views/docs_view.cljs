@@ -98,26 +98,26 @@
         <li class=''><a href='#ss3'>Transitions</a></li>
 
         <li class=''>
-          <a href='#ss3'>Modal</a>
+          <a href='#ss5'>Modal</a>
           <ul class='nav'>
-            <li><a href='#ss4'>Examples</a></li>
-            <li><a href='#ss5'>Usage</a></li>
+            <li><a href='#ss6'>Examples</a></li>
+            <li><a href='#ss7'>Usage</a></li>
           </ul>
         </li>
 
         <li>
-          <a href='#ss6'>Tab</a>
+          <a href='#ss8'>Tab</a>
           <ul class='nav'>
-            <li><a href='#ss7'>Examples</a></li>
-            <li><a href='#ss8'>Usage</a></li>
+            <li><a href='#ss9'>Examples</a></li>
+            <li><a href='#ss10'>Usage</a></li>
           </ul>
         </li>
 
         <li>
-          <a href='#ss9'>Affix</a>
+          <a href='#ss11'>Affix</a>
           <ul class='nav'>
-            <li><a href='#ss10'>Examples2</a></li>
-            <li><a href='#ss11'>Usage2</a></li>
+            <li><a href='#ss12'>Examples2</a></li>
+            <li><a href='#ss13'>Usage2</a></li>
           </ul>
         </li>
 

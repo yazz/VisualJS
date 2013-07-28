@@ -82,8 +82,7 @@
 
       (swap-section
             ($ :#left-navigation)
-            "<div></div>"
-        )
+            "<div></div>")
         nil
      )
 )

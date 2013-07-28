@@ -5,7 +5,7 @@
         [crate.core :as crate]
     )
     (:use
-        [webapp.framework.client.coreclient :only [sql el clear addto remote  add-to]]
+        [webapp.framework.client.coreclient :only [swap-section sql el clear addto remote  add-to]]
         [jayq.core                          :only [$ css  append fade-out fade-in empty]]
         [webapp.framework.client.help       :only [help]]
         [webapp.framework.client.eventbus   :only [do-action esb undefine-action]]
@@ -127,6 +127,11 @@
                       )
              )
         )
+
+
+       (swap-section
+            ($ :#left-navigation)
+            "<div></div>")
         nil
      )
 )
