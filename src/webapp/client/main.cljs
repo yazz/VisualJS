@@ -6,7 +6,7 @@
 
 (do-action "create blank page structure")
 (do-action "show top nav")
-(do-action "show homepage")
+(do-action "show home page")
 
 
 

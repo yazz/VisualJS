@@ -145,5 +145,4 @@
     )
 )
 
-(js/updateScrollSpy)
 ;(do-action "show docs page")
