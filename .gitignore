@@ -5,6 +5,7 @@
 !/project.clj
 !/.gitattributes
 !/.gitignore
+!/.README.md
 
 
 !/resources/
