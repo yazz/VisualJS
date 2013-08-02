@@ -1,4 +1,6 @@
 (ns webapp.framework.server.core
+  (:require [speech-synthesis.say :as say])
+  (:require [webapp.framework.server.speech :as hear])
   [:use [webapp.server.fns]]
   [:use [webapp.framework.server.systemfns]]
   [:use [ring.middleware.format]]
@@ -13,6 +15,13 @@
   (:require [clojurewerkz.neocons.rest.cypher :as cy])
 )
 
+;(println "Start talking")
+;(.unbindRoot #'hear/*sample-rate*)
+;(with-redefs [hear/*sample-rate* 4000]
+   ; (println (hear/hear))
+;(println "Done")
+;(say/say "speeza din mal")
+;(+ 1 1)
 
 
 ;(nr/connect! "http://localhost:7474/db/data/")

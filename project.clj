@@ -14,7 +14,8 @@
                    [ring/ring-json "0.2.0"]
                    [jayq "2.4.0"]
                    [clojurewerkz/neocons "1.1.0"]
-
+                   [facts/speech-synthesis "1.0.0"]
+                   [facts/speech-recognition "1.0.0"]
                 ]
 
   :url "http://org.clojars.zubair2/webdb"

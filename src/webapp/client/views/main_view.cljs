@@ -94,6 +94,8 @@
                   :text "Uses: Clojure, Clojurescript, JQuery, Bootstrap.js"})
 
 
+
+
         ;(el :div {:id "popup"})
      ]
   )
@@ -124,7 +126,9 @@
                              (empty)
                              (append (homepage-html))
                              (fade-in)
+
                         )
+
                       )
              )
         )

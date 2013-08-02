@@ -5,7 +5,7 @@
         [crate.core :as crate]
     )
     (:use
-        [webapp.framework.client.coreclient :only [swap-section sql el clear addto remote  add-to]]
+        [webapp.framework.client.coreclient :only [to-el swap-section sql el clear addto remote  add-to]]
         [jayq.core                          :only [$ css  append fade-out fade-in empty]]
         [webapp.framework.client.help       :only [help]]
         [webapp.framework.client.eventbus   :only [do-action esb undefine-action]]
@@ -58,11 +58,17 @@
                            })
 
           (el :button
-                          {:id "show-esb-button"
+                          {:id "show-speech-button"
                            :style "margin: 20px;"
                            :class "btn btn-large btn-default"
-                           :text "ESB"
-                           :onclick #(esb)})
+                           :text "Speech"
+                           :onclick #(add-to "main-section"
+                                     "<form method='get' action='http://www.google.com/search'>
+                                         <input type='text' name='q' size='30' x-webkit-speech/>
+                                         <input type='submit' value='Google Search' />
+                                        </form>
+                                     ")
+})
 
         (el :div {:style "margin: 200px;" :id "ss1" :text "Some text1"})
         (el :div {:style "margin: 200px;" :id "ss2" :text "Some text2"})
@@ -127,8 +133,12 @@
 ")
 
 
-
-
+(comment add-to "main-section"
+                                     "<form method='get' action='http://www.google.com/search'>
+                                         <input type='text' name='q' size='30' x-webkit-speech/>
+                                         <input type='submit' value='Google Search' />
+                                        </form>
+                                     ")
 (redefine-action
     "show docs page"
     (do

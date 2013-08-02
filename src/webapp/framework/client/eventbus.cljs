@@ -222,7 +222,7 @@
   (:value-to-watch (first @event-watchers))
 
 
-  (doall (doseq [watcher @event-watchers]
+  (comment doall (doseq [watcher @event-watchers]
        (add-to "popup"
               [:div {}
                (:value-to-watch watcher)]
