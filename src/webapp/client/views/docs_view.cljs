@@ -3,7 +3,11 @@
     (:require
         [cljs.reader :as reader]
         [crate.core :as crate]
-    )
+        [cljs.core.async :as async :refer [chan close!]]
+  )
+  (:require-macros
+    [cljs.core.async.macros :refer [go alt!]])
+
     (:use
         [webapp.framework.client.coreclient :only [to-el swap-section sql el clear addto remote  add-to]]
         [jayq.core                          :only [$ css  append fade-out fade-in empty]]
@@ -67,8 +71,18 @@
                                          <input type='text' name='q' size='30' x-webkit-speech/>
                                          <input type='submit' value='Google Search' />
                                         </form>
-                                     ")
-})
+                                     ")})
+
+
+          (el :button
+                          {:id    "another-button"
+                           :style "margin: 20px;"
+                           :class "btn btn-large btn-default"
+                           :text "Another"
+                           :onclick  (fn [](go (js/alert (str (<! (remote "say-hello" {:name "1"}))))))
+                           })
+
+
 
         (el :div {:style "margin: 200px;" :id "ss1" :text "Some text1"})
         (el :div {:style "margin: 200px;" :id "ss2" :text "Some text2"})
@@ -154,5 +168,7 @@
 
     )
 )
+
+
 
 ;(do-action "show docs page")

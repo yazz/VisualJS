@@ -3,6 +3,7 @@
   [:use [korma.db]]
   [:use [webapp.framework.server.systemfns]]
   [:use [korma.core]]
+  [:use [clojure.core.async]]
 )
 
 
@@ -34,3 +35,11 @@
 )
 
 
+
+(comment let [ch (chan)]
+  (go (while true
+        (let [v (<! ch)]
+          (println "Read: " v))))
+  (go (>! ch "hi")
+      (<! (timeout 5))
+      (>! ch "there")))

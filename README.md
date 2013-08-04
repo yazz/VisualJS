@@ -61,10 +61,18 @@ From the client side:
     )
 
 
-Define in fns.clj on the server side:
+Define in fns.clj on the server side (now using core.async):
 
+Previously:
     (remote "say-hello"
             {:name "Johnny"}
             #(js/alert (:text %1))
     )
+
+
+Now:
+    (go
+         (js/alert
+             (:text (<! (remote "say-hello" {:name "Johnny"})))))
+
 

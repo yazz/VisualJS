@@ -16,8 +16,10 @@
                    [clojurewerkz/neocons "1.1.0"]
                    [facts/speech-synthesis "1.0.0"]
                    [facts/speech-recognition "1.0.0"]
+                   [org.clojure/clojurescript "0.0-1820"]
+                   [org.clojure/core.async "0.1.0-SNAPSHOT"]
                 ]
-
+  :repositories {"sonatype-oss-public" "https://oss.sonatype.org/content/groups/public/"}
   :url "http://org.clojars.zubair2/webdb"
 
   :plugins  [

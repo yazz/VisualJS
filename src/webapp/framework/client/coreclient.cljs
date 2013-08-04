@@ -3,11 +3,14 @@
     [goog.net.XhrIo          :as xhr]
     [clojure.browser.repl    :as repl]
     [cljs.reader             :as reader]
-    [goog.net.XhrIo]
     [goog.dom]
     [goog.events]
     [crate.core :as crate]
+    [cljs.core.async :as async :refer [chan close!]]
   )
+  (:require-macros
+    [cljs.core.async.macros :refer [go alt!]])
+
   (:use
     [domina.events         :only [listen!]]
     [jayq.core             :only [html $ css  append fade-out fade-in empty]]
@@ -16,54 +19,7 @@
     [domina.css            :only [sel]]
     [clojure.browser.event :only [listen]]
   )
-
 )
-
-(defn to-el [x]
-  (cond
-   (and (string? x) (= "<" (first x))) (crate/raw x)
-   (string? x) (by-id x)
-   (keyword? x) (first ($ x))
-   (vector? x) (crate/html x)
-   :else x
-  )
-)
-
-
-(defn to-tag-name [x]
-  (cond
-   (string? x) x
-   (keyword? x) (name x)
-   :else x
-  )
-)
-
-
-(to-tag-name :div2)
-;(to-el "main")
-;(gn :#main)
-
-
-
-(defn clear [this]
-  (if (to-el this)
-    (goog.dom/removeChildren (to-el this))))
- (clear :#main)
-
-
-(defn add-to [this el]
-    (goog.dom/appendChild
-       (to-el this)
-       (to-el el)
-    )
-)
-
-
-
-
-(defn get-time [] (. (new js/Date)  (getTime)))
-
-
 
 
 (defn make-js-map
@@ -109,54 +65,63 @@
 
 
 
+(defn get-time [] (. (new js/Date)  (getTime)))
 
 
+(defn log [s]
+  (.log js/console (str s)))
 
-(defn send-request [ address  fn-callback ]
+
+(defn send-request2 [ address ]
       (let
       [
+        ch            (chan 1)
         headers       (goog.structs.Map.)
         io-object     (goog.net.XhrIo.)
-        cb            (fn [ event ]
-                          (let
+      ]
+      (goog.events.listen
+          io-object
+          goog.net.EventType.COMPLETE
+          (fn [ event ]
+                  (let
                             [
                               target          (.-target event)
                               status          (. target (getStatus))
                             ]
-                                (if (= status 200)
-                                  (let
+                                  (if (= status 200)
+                                    (let
                                     [
                                       response-text   (. target (getResponseText))
                                     ]
-                                      (fn-callback  response-text)
-                                   )
-                                   (js/alert address)
-                                )
-                              )
-                            )
-      ]
-          (do
-            (goog.events.listen    io-object    goog.net.EventType.COMPLETE cb)
+                                      (go
+                                        (>! ch (reader/read-string response-text))
+                                        (close! ch)
+                                      ))
+
+                                       (go
+                                           (>! ch  {:error "true"})
+                                           (close! ch)
+                                       )
+                                    )
+                    )
+               )
+            )
             (. headers set "charset" "UTF-8")
             (. io-object send address "POST" nil headers)
-          )))
-
-
-
-(def action "stuff")
+            ch
+          ))
 
 (defn remote
 [
   action
   parameters-in
-  fn-process-reply2
   ]
   (let
   [
     parameters  (if parameters-in
                   {:params parameters-in :tclock (get-time)})
     ]
-    (send-request
+    (send-request2
        (str
 
          (if (= (first action) "!") "action?systemaction=" "action?action=" )
@@ -172,14 +137,59 @@
                    (get parameters x)) "&" ) )
                  (keys parameters))))
 
-                 (fn [ response ]
-                     (let
-                     [
-                         data      (reader/read-string response)
-                     ]
-                        (fn-process-reply2 data) )))))
 
 
+                        )))
+
+
+(defn to-el [x]
+  (cond
+   (and (string? x) (= "<" (first x))) (crate/raw x)
+   (string? x) (by-id x)
+   (keyword? x) (first ($ x))
+   (vector? x) (crate/html x)
+   :else x
+  )
+)
+
+
+(defn to-tag-name [x]
+  (cond
+   (string? x) x
+   (keyword? x) (name x)
+   :else x
+  )
+)
+
+
+(to-tag-name :div2)
+;(to-el "main")
+;(gn :#main)
+
+
+
+(defn clear [this]
+  (if (to-el this)
+    (goog.dom/removeChildren (to-el this))))
+ (clear :#main)
+
+
+(defn add-to [this el]
+    (goog.dom/appendChild
+       (to-el this)
+       (to-el el)
+    )
+)
+
+
+
+
+
+
+
+
+
+(def action "stuff")
 
 
 (defn on-click-fn [element  fn-to-call]
@@ -292,7 +302,9 @@
 
 
 (defn sql [sql-str params callback-fn]
-    (remote "!sql" {} (fn [reply] (callback-fn reply)))
+  (go
+    (callback-fn (<! (remote "!sql" {})))
+  )
 )
 
 
@@ -346,3 +358,47 @@
 ;(el "div" [])
 
 ;el
+
+
+(defn GET [url]
+  (let [ch (chan 1)]
+    (xhr/send url
+              (fn [event]
+                (let [res (-> event .-target .getResponseText)]
+                  (go
+                      (>! ch res)
+                      (close! ch)))))
+    ch))
+
+
+
+
+( go
+   (log (:text (<! (remote "say-hello" {:name "1"}))))
+   (log (:text (<! (remote "say-hello" {:name "2"}))))
+   (log (:text (<! (remote "say-hello" {:name "3"}))))
+   (log (:text (<! (remote "say-hello" {:name "4"}))))
+   (log (:text (<! (remote "say-hello" {:name "5"}))))
+   (log (:text (<! (remote "say-hello" {:name "6"}))))
+   (log (:text (<! (remote "say-hello" {:name "7"}))))
+   (log (:text (<! (remote "say-hello" {:name "8"}))))
+   (log (:text (<! (remote "say-hello" {:name "9"}))))
+   (log (:text (<! (remote "say-hello" {:name "10"}))))
+
+)
+
+
+
+
+
+(log "df")
+
+(defn from-server []
+  (GET "http://127.0.0.1:3000/main.html")
+)
+
+(go
+  (log (count (<! (from-server))))
+  (log (count (<! (GET "http://127.0.0.1:3000/main.html"))))
+ )
+

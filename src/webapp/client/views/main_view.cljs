@@ -4,6 +4,9 @@
         [cljs.reader :as reader]
         [crate.core :as crate]
     )
+    (:require-macros
+        [cljs.core.async.macros :refer [go alt!]])
+
     (:use
         [webapp.framework.client.coreclient :only [swap-section sql el clear addto remote  add-to]]
         [jayq.core                          :only [$ css  append fade-out fade-in empty]]
