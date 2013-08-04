@@ -17,6 +17,7 @@
                    [facts/speech-synthesis "1.0.0"]
                    [org.clojure/clojurescript "0.0-1820"]
                    [org.clojure/core.async "0.1.0-SNAPSHOT"]
+                   [rewrite-clj "0.2.0"]
                 ]
   :repositories {"sonatype-oss-public" "https://oss.sonatype.org/content/groups/public/"}
   :url "http://org.clojars.zubair2/webdb"
@@ -39,7 +40,7 @@
          :source-paths ["src"]
          :compiler     {
                          :output-to      "resources/public/main.js"
-                         :optimizations  :advanced
+                         :optimizations  :whitespace
                          :externs        ["resources/public/jquery-externs.js" "resources/public/google_maps_api_v3_3.js"]
                          :pretty-print   false
                        }

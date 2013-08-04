@@ -172,6 +172,26 @@
 ;(esb-get  :key-to-watch :name    :value-to-watch "hello" :fn-to-call #(js/alert "called"))
 
 
+(def esb-actions (atom {}))
+
+;esb-actions
+
+(.log js/console (get @esb-actions "show home page"))
+
+;(.log js/console  (apply
+                           str
+                           (map
+                                #(str %2 ") "   "\n\n" %1 "\n")
+                                (get @esb-actions "show home page")
+                                (iterate inc 0) )
+
+(take 10 (iterate inc 2))
+
+(inc 0)
+
+;(str (quote (do (println "Hello") (println "Goodbye"))))
+
+
 (defn undefine-action [message-arg]
     (let
     [
