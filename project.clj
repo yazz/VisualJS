@@ -15,7 +15,6 @@
                    [jayq "2.4.0"]
                    [clojurewerkz/neocons "1.1.0"]
                    [facts/speech-synthesis "1.0.0"]
-                   [facts/speech-recognition "1.0.0"]
                    [org.clojure/clojurescript "0.0-1820"]
                    [org.clojure/core.async "0.1.0-SNAPSHOT"]
                 ]
@@ -40,7 +39,7 @@
          :source-paths ["src"]
          :compiler     {
                          :output-to      "resources/public/main.js"
-                         :optimizations  :whitespace
+                         :optimizations  :advanced
                          :externs        ["resources/public/jquery-externs.js" "resources/public/google_maps_api_v3_3.js"]
                          :pretty-print   false
                        }

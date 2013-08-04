@@ -1,6 +1,5 @@
 (ns webapp.framework.server.core
   (:require [speech-synthesis.say :as say])
-  (:require [webapp.framework.server.speech :as hear])
   [:use [webapp.server.fns]]
   [:use [webapp.framework.server.systemfns]]
   [:use [ring.middleware.format]]
