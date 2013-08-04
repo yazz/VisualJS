@@ -176,7 +176,7 @@
 
 ;esb-actions
 
-(.log js/console (get @esb-actions "show home page"))
+;(.log js/console (get @esb-actions "show home page"))
 
 ;(.log js/console  (apply
                            str
@@ -185,9 +185,9 @@
                                 (get @esb-actions "show home page")
                                 (iterate inc 0) )
 
-(take 10 (iterate inc 2))
+;(take 10 (iterate inc 2))
 
-(inc 0)
+;(inc 0)
 
 ;(str (quote (do (println "Hello") (println "Goodbye"))))
 

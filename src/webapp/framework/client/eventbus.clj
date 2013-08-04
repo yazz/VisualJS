@@ -57,7 +57,6 @@
               ~(with-out-str (write `(quote
                                      ~code)
                                       :dispatch clojure.pprint/code-dispatch))
-
             )
         )
 
@@ -65,16 +64,11 @@
             ~message-arg
          )
 
-        (webapp.framework.client.eventbus/receive-message-fn
+       (webapp.framework.client.eventbus/receive-message-fn
              ~message-arg
-             (fn [ ~(symbol "message") ] code ))
+             (fn [ ~(symbol "message") ] ~code ))
 
-
-      )
-)
-
-
-
+    ))
 
 
 
