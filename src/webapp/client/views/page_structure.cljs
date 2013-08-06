@@ -12,30 +12,35 @@
         [webapp.framework.client.interpreter :only [!fn]]
     )
     (:use-macros
+        [webapp.framework.client.eventbus :only [redefine-action]]
         [webapp.framework.client.coreclient :only [on-click on-mouseover]]
         [webapp.framework.client.interpreter :only [! !! !!!]]
      )
 )
 
 
-(defn structure-html []
+(defn top-structure-html []
 
-  (el
-    :div {}
-     [
-
-        (el :div {:style "padding: 0px;"
+        (el :div {:style "position:absolute; top:0px; left:0px; height:50px; right:0px;overflow:hidden;"
                   :id "top-section"} )
+)
+(defn middle-structure-html []
 
-      (el :div {:class "row"} [
+      (el :div {:class "row" :style "margin:0px;"} [
         (el :div {:class "col-lg-3"
+                  :style ""
                   :id "left-navigation" } )
 
-        (el :div {:class "col-lg-9"
+        (el :div {:class "col-lg-9" :style "position:absolute; top:50px; bottom:50px; right:0px; overflow:auto;"
                   :id "main-section"} )
                    ])
-     ]
-  )
+)
+(defn bottom-structure-html []
+
+
+      (el :div {:style "border: 1px solid lightgray;position:absolute; bottom:0px; height:50px; left:0px; right:0px; overflow:hidden;"
+                  :id "bottom-section"} )
+
 )
 
 
@@ -43,11 +48,13 @@
 
 
 
-(define-action
+(redefine-action
     "create blank page structure"
     (-> ($ :#main)
           (empty)
-          (append (structure-html))
+          (append (top-structure-html))
+          (append (middle-structure-html))
+          (append (bottom-structure-html))
     )
 )
 
