@@ -288,7 +288,7 @@
       ]
       (do
         (doseq [child children]
-          (goog.dom.appendChild  elem  child )
+          (goog.dom.appendChild  elem  (to-el child ))
         )
         elem
       )

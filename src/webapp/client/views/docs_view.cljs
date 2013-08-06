@@ -30,7 +30,7 @@
           :data-spy    "scroll"
             :data-offset "0"
           :data-target "#bs-sidebar"
-            :style "overflow: auto; height: 200px;"}
+            :style "overflow: auto; "}
 
       [
           (el :div {:style "padding: 20px;"

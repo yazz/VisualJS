@@ -8,7 +8,7 @@
 /* Key scaffolding
 -------------------------------------------------- */
 
-body {
+bodyold {
   position: relative; /* For scrollyspy */
   padding-top: 0px; /* Account for fixed navbar */
 }

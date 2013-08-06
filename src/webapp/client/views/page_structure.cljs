@@ -12,7 +12,6 @@
         [webapp.framework.client.interpreter :only [!fn]]
     )
     (:use-macros
-        [webapp.framework.client.eventbus :only [define-action]]
         [webapp.framework.client.coreclient :only [on-click on-mouseover]]
         [webapp.framework.client.interpreter :only [! !! !!!]]
      )
