@@ -22,13 +22,13 @@
 (defn top-structure-html []
 
         (el :div {:style "position:absolute; top:0px; left:0px; height:50px; right:0px;overflow:hidden;"
-                  :id "top-section"} )
+                  :id    "top-section"} )
 )
 (defn middle-structure-html []
 
       (el :div {:class "row" :style "margin:0px;"} [
         (el :div {:class "col-lg-3"
-                  :style ""
+                  :style "position:absolute; top:50px; bottom:50px; left:0px;"
                   :id "left-navigation" } )
 
         (el :div {:class "col-lg-9" :style "position:absolute; top:50px; bottom:50px; right:0px; overflow:auto;"
@@ -38,7 +38,7 @@
 (defn bottom-structure-html []
 
 
-      (el :div {:style "border: 1px solid lightgray;position:absolute; bottom:0px; height:50px; left:0px; right:0px; overflow:hidden;"
+      (el :div {:style "border: 1px solid lightgray; position:absolute; bottom:0px; height:50px; left:0px; right:0px; overflow:hidden;"
                   :id "bottom-section"} )
 
 )

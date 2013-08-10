@@ -10,7 +10,6 @@
   )
   (:require-macros
     [cljs.core.async.macros :refer [go alt!]])
-
   (:use
     [domina.events         :only [listen!]]
     [jayq.core             :only [html $ css  append fade-out fade-in empty]]
@@ -142,7 +141,7 @@
                         )))
 
 
-(defn to-el [x]
+(defn find-el [x]
   (cond
    (and (string? x) (= "<" (first x))) (crate/raw x)
    (string? x) (by-id x)
@@ -151,6 +150,18 @@
    :else x
   )
 )
+
+
+(defn make-el [x]
+  (cond
+   (and (string? x) (= "<" (first x))) (crate/raw x)
+   (string? x) (str "<div>" x "</div>")
+   (keyword? x) (first ($ x))
+   (vector? x) (crate/html x)
+   :else x
+  )
+)
+
 
 
 (defn to-tag-name [x]
@@ -163,21 +174,21 @@
 
 
 (to-tag-name :div2)
-;(to-el "main")
+;(find-el "main")
 ;(gn :#main)
 
 
 
 (defn clear [this]
-  (if (to-el this)
-    (goog.dom/removeChildren (to-el this))))
+  (if (find-el this)
+    (goog.dom/removeChildren (find-el this))))
  (clear :#main)
 
 
 (defn add-to [this el]
     (goog.dom/appendChild
-       (to-el this)
-       (to-el el)
+       (find-el this)
+       (find-el el)
     )
 )
 
@@ -193,10 +204,10 @@
 
 
 (defn on-click-fn [element  fn-to-call]
-    (listen! (to-el element) :click  fn-to-call)
+    (listen! (find-el element) :click  fn-to-call)
 )
 (defn on-mouseover-fn [element  fn-to-call]
-    (listen! (to-el element) :mouseover  fn-to-call)
+    (listen! (find-el element) :mouseover  fn-to-call)
 )
 
 
@@ -235,7 +246,7 @@
        }
     ]
     (let [
-          ela     (to-el body-html)
+          ela     (find-el body-html)
           m       (by-id "myModal")
           ]
         (if m
@@ -288,7 +299,7 @@
       ]
       (do
         (doseq [child children]
-          (goog.dom.appendChild  elem  (to-el child ))
+          (goog.dom.appendChild  elem  (find-el child ))
         )
         elem
       )
@@ -349,7 +360,7 @@
 
 
 
-;(to-el "<div>eef</div>")
+;(find-el "<div>eef</div>")
 
 
 ;(+ 1 1)
@@ -402,3 +413,52 @@
   (log (count (<! (GET "http://127.0.0.1:3000/main.html"))))
  )
 
+
+
+
+
+
+
+(defn make-sidebar [ & items]
+  (let
+  [
+      the-items    (cons (assoc (first items) :active true) (rest items))
+      ]
+      (el :div {:id "bs-sidebar" :class "" :style "position:fixed; top:100px;"}
+      [
+          (el :ul {:class "nav nav-pills nav-stacked"}
+              (into []
+                (map
+                      (fn[x] (el :li
+                                  {:class (str (if (:active x) " active" "") " left-menu-button")}
+                                  [
+                                   (el
+                                        :a
+                                        {  :href "#"
+                                           ;:onclick #(js/alert "fd")
+                                           :onmouseover
+                                               #(swap-section ($ :#main-section) (make-el (:html x)))
+                                           :text (get  x :text)
+                                        }
+                                    )
+                                  ]
+                              )
+                       )
+
+                             the-items
+                 )
+
+
+               )
+           )
+      ]
+)))
+
+
+(defn header-text [text]
+  (el :div {:style "text-align: center; padding: 20px; padding-right: 150px; padding-top: 60px; font-size: 30px;" :text text} ))
+(defn body-text [text]
+  (el :div {:style "text-align: center; padding: 20px; padding-right: 150px; font-size: 18px;" :text text} ))
+(defn body-html [html]
+  (el :div {:style "text-align: center; padding: 20px; padding-right: 150px; font-size: 18px;"}
+      [html]))

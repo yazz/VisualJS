@@ -8,7 +8,7 @@
         [cljs.core.async.macros :refer [go alt!]])
 
     (:use
-        [webapp.framework.client.coreclient :only [swap-section sql el clear addto remote  add-to]]
+        [webapp.framework.client.coreclient :only [ header-text body-text body-html make-sidebar swap-section sql el clear addto remote  add-to]]
         [jayq.core                          :only [$ css  append fade-out fade-in empty]]
         [webapp.framework.client.help       :only [help]]
         [webapp.framework.client.eventbus   :only [do-action esb undefine-action]]
@@ -23,90 +23,49 @@
 
 
 
-(defn sidebar []
-  "
-    <div id='bs-sidebar' class='bs-sidebar affix'>
-      <ul class='nav bs-sidenav'>
-
-        <li  class='active'>
-          <a href='#welcome'>Overview</a>
-          <ul class='nav'>
-
-            <li><a href='#ss2'>Events</a></li>
-          </ul>
-        </li>
-
-        <li class=''><a href='#ss3'>Transitions</a></li>
-
-        <li class=''>
-          <a href='#ss5'>Modal</a>
-          <ul class='nav'>
-            <li><a href='#ss6'>Examples</a></li>
-            <li><a href='#ss7'>Usage</a></li>
-          </ul>
-        </li>
-
-        <li>
-          <a href='#ss8'>Tab</a>
-          <ul class='nav'>
-            <li><a href='#ss9'>Examples</a></li>
-            <li><a href='#ss10'>Usage</a></li>
-          </ul>
-        </li>
-
-        <li>
-          <a href='#details'>Affix</a>
-          <ul class='nav'>
-            <li><a href='#ss12'>Examples2</a></li>
-            <li><a href='#ss13'>Usage2</a></li>
-          </ul>
-        </li>
-
-
-      </ul>
-    </div>
-")
-
-
-
 
 
 
 (defn homepage-html []
-
-  (el
-    :div {:id    "scrollable"
-          :data-spy    "scroll"
-            :data-offset "0"
-          :data-target "#bs-sidebar"
-          :style "overflow: auto"}
-     [
-
-        (el :div {:id "welcome" :style "padding: 20px;"
-                  :text "Welcome to Clojure on Coils."} )
-
-        (el :div {:style "padding: 20px;"
-                  :text "Clojure on Coils is a Clojure based webapp framework for single page database backed webapps"})
-
-        (el :div {:style "padding: 20px;"
-                  :text "Uses: Clojure, Clojurescript, JQuery, Bootstrap.js"})
-
-       (el :div {:id "" :style "padding-bottom: 1000px;" })
-
-      (el :div {:id "details" :style "padding: 20px;"
-                  :text "Uses: Clojure, Clojurescript, JQuery, Bootstrap.js"})
+  (el :div {} [
+        (header-text "Welcome to Clojure on Coils" )
+        (body-text "Clojure on Coils is a Clojure based webapp framework for
+                   single page database backed webapps")
+]))
 
 
+(defn technologies-html []
+    (el :div {} [
+        (header-text "Technologies" )
+        (body-text "Uses: Clojure, Clojurescript, JQuery, Bootstrap.js")
+]))
+
+(defn clojure-html []
+    (el :div {} [
+        (header-text "Clojure" )
+        (body-text "Clojure is used for the server side code, and for client side macros (macros
+                   are unique to Lisp)")
+]))
 
 
-        ;(el :div {:id "popup"})
-     ]
-  )
-)
+(defn why-html []
+    (el :div {} [
+        (header-text "Why" )
+        (body-html "<div>In Denmark there is a CV system called
+                   <a href='http://nemcv.com'>NemCV</a>. NemCV is made with Clojure
+                   and ClojureScript. Clojure on Coils was extracted from the NemCV system,
+                   in exactly the same way that Ruby on Rails was extracted from BaseCamp (made
+                   in Denmark too, by
+                   <a href='http://david.heinemeierhansson.com/'>David Heinemeier Hansson</a>)</div>")
+]))
 
-
-
-
+(defn clojuresript-html []
+    (el :div {} [
+        (header-text "ClojureScript" )
+        (body-html "<div><a href='https://github.com/clojure/clojurescript'>ClojureScript</a> is the most popular web framework built with the same technology
+                   used to build google.com, gmail.com, and all of the other main google properties. That
+                   technology is <a href='https://developers.google.com/closure/library/'>Google Closure</a>.</div>")
+]))
 
 
 
@@ -117,6 +76,16 @@
       (do-action "clear homepage")
       (do-action "show homepage")
     )
+)
+
+(defn sidebar []
+  (make-sidebar
+       {:text "What" :html (homepage-html)}
+       {:text "Why" :html (why-html)}
+       {:text "Technologies" :html (technologies-html)}
+       {:text "Clojure" :html (clojure-html)}
+       {:text "Clojurescript" :html (clojuresript-html)}
+   )
 )
 
 (define-action
@@ -139,9 +108,10 @@
       (swap-section
             ($ :#left-navigation)
             (sidebar)
-           #(js/updateScrollSpy)
        )
         nil
      )
 )
+
+
 

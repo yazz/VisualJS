@@ -54,7 +54,8 @@
 
               (remove-nav-active)
               (. ($ :#home-button) addClass "active")
-              (do-action "show home page"))
+              (do-action "show home page")
+     )
 
 
     (on-mouseover
@@ -71,7 +72,8 @@
 
               (remove-nav-active)
               (. ($ :#case-studies-button) addClass "active")
-              (do-action "show case studies view"))
+              (do-action "show case studies view")
+     )
 
 
 
@@ -80,7 +82,8 @@
 
               (remove-nav-active)
               (. ($ :#contact-button) addClass "active")
-              (do-action "show who page"))
+              (do-action "show who page")
+     )
 
 
 )

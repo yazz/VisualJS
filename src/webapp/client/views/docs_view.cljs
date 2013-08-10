@@ -9,7 +9,7 @@
     [cljs.core.async.macros :refer [go alt!]])
 
     (:use
-        [webapp.framework.client.coreclient :only [to-el swap-section sql el clear addto remote  add-to]]
+        [webapp.framework.client.coreclient :only [header-text body-text body-html make-sidebar  swap-section sql el clear addto remote  add-to]]
         [jayq.core                          :only [$ css  append fade-out fade-in empty]]
         [webapp.framework.client.help       :only [help]]
         [webapp.framework.client.eventbus   :only [do-action esb undefine-action]]
@@ -27,9 +27,9 @@
 
   (el
       :div {:id    "scrollable"
-          :data-spy    "scroll"
+            :data-spy    "scroll"
             :data-offset "0"
-          :data-target "#bs-sidebar"
+            :data-target "#bs-sidebar"
             :style "overflow: auto; "}
 
       [
@@ -102,69 +102,34 @@
 )
 
 
+(defn installing-html []
+    (el :div {} [
+        (header-text "Installing the development environment" )
+        (body-html "<div></div>")
+]))
+
 (defn sidebar []
-  "
-    <div id='bs-sidebar' class='bs-sidebar affix'>
-      <ul class='nav bs-sidenav'>
-
-        <li  class='active'>
-          <a href='#ss1'>Overview</a>
-          <ul class='nav'>
-
-            <li><a href='#ss2'>Events</a></li>
-          </ul>
-        </li>
-
-        <li class=''><a href='#ss3'>Transitions</a></li>
-
-        <li class=''>
-          <a href='#ss5'>Modal</a>
-          <ul class='nav'>
-            <li><a href='#ss6'>Examples</a></li>
-            <li><a href='#ss7'>Usage</a></li>
-          </ul>
-        </li>
-
-        <li>
-          <a href='#ss8'>Tab</a>
-          <ul class='nav'>
-            <li><a href='#ss9'>Examples</a></li>
-            <li><a href='#ss10'>Usage</a></li>
-          </ul>
-        </li>
-
-        <li>
-          <a href='#ss11'>Affix</a>
-          <ul class='nav'>
-            <li><a href='#ss12'>Examples2</a></li>
-            <li><a href='#ss13'>Usage2</a></li>
-          </ul>
-        </li>
-
-
-      </ul>
-    </div>
-")
-
-
-(comment add-to "main-section"
-                                     "<form method='get' action='http://www.google.com/search'>
-                                         <input type='text' name='q' size='30' x-webkit-speech/>
-                                         <input type='submit' value='Google Search' />
-                                        </form>
-                                     ")
+  (make-sidebar
+       {:text "Installing" :html (installing-html)}
+       {:text "LightTable" :html (docspage-html)}
+       {:text "Leiningen" :html (docspage-html)}
+       {:text "Local Server" :html (docspage-html)}
+       {:text "Examples" :html (docspage-html)}
+   )
+)
 (redefine-action
     "show docs page"
     (do
         (swap-section
             ($ :#main-section)
-            (docspage-html)
+            (installing-html)
         )
         (swap-section
             ($ :#left-navigation)
             (sidebar)
-            #(js/updateScrollSpy)
+
         )
+;      #(js/updateScrollSpy)
 
     )
 )
