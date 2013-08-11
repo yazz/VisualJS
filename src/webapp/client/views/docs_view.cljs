@@ -104,16 +104,44 @@
 
 (defn installing-html []
     (el :div {} [
-        (header-text "Installing the development environment" )
-        (body-html "<div></div>")
+        (header-text "Installing the development tools" )
+        (body-html "<div>To install Clojure on Coils you need to install the following:
+                   <br><br>
+                   <a href='http://www.oracle.com/technetwork/java/javase/downloads/index.html'>JDK SE 1.7</a>
+                   <br>
+                   <a href='http://www.lighttable.com/'>LightTable</a>
+                   <br>
+                   <a href='http://leiningen.org/'>Leiningen</a>
+                   </div>
+                   <a href='http://git-scm.com/'>GIT</a>
+                   </div>")
+
+
+
+]))
+
+
+(defn installing-2-html []
+    (el :div {} [
+        (header-text "Installing Clojure on Coils" )
+        (body-html "<div>Go to a command line and type:
+                   <br><br><pre style='text-align: left;'>
+                   <br>
+                   git clone https://github.com/zubairq/coils.git
+                   <br>
+                   cd coils
+                   <br>
+                   lein ring server
+                   <br>
+                   </pre>
+                   : then go to <b>http://127.0.0.1:3000/main.html</b> to see the base application running
+                   </div>")
 ]))
 
 (defn sidebar []
   (make-sidebar
-       {:text "Installing" :html (installing-html)}
-       {:text "LightTable" :html (docspage-html)}
-       {:text "Leiningen" :html (docspage-html)}
-       {:text "Local Server" :html (docspage-html)}
+       {:text "Installation 1" :html (installing-html)}
+       {:text "Installation 2" :html (installing-2-html)}
        {:text "Examples" :html (docspage-html)}
    )
 )
