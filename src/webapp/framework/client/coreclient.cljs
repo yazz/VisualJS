@@ -68,7 +68,9 @@
 
 
 (defn log [s]
-  (.log js/console (str s)))
+  ;(.log js/console (str s))
+  nil
+)
 
 
 (defn send-request2 [ address ]
