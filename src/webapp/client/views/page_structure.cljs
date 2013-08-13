@@ -58,3 +58,4 @@
     )
 )
 
+;(do-action "create blank page structure")

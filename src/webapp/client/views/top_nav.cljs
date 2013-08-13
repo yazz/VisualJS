@@ -3,16 +3,19 @@
     (:require
         [cljs.reader :as reader]
         [crate.core :as crate]
+        [cljs.core.async :as async :refer [chan close!]]
     )
     (:use
-        [webapp.framework.client.coreclient :only [sql el clear addto remote  add-to on-mouseover-fn]]
+        [webapp.framework.client.coreclient :only [sql el clear addto remote  add-to on-mouseover-fn on-click-fn]]
         [jayq.core                          :only [$ css  append fade-out fade-in empty]]
         [webapp.framework.client.help       :only [help]]
         [webapp.framework.client.eventbus   :only [do-action esb undefine-action]]
-        [webapp.framework.client.interpreter :only [!fn]]
-    )
-    (:use-macros
-        [webapp.framework.client.eventbus :only [define-action]]
+        [domina                             :only [ by-id value destroy! ]]
+  )
+  (:require-macros
+    [cljs.core.async.macros :refer [go alt!]])
+  (:use-macros
+        [webapp.framework.client.eventbus :only [redefine-action define-action]]
         [webapp.framework.client.coreclient :only [on-click on-mouseover]]
         [webapp.framework.client.interpreter :only [! !! !!!]]
      )
@@ -32,10 +35,21 @@
                   <li id='case-studies-button'><a href='#'>Case studies</a></li>
                   <li id='contact-button'><a href='#'>Contact</a></li>
                 </ul>
+
+              <div class=pull-right>
+                  <form class='form-inline' style='padding: 5px;'>
+                      <input  id='username-input' type='text' class='input-small' placeholder='Email'>
+                      <input  id='password-button' type='password' class='input-small' placeholder='Password'>
+                      <label class='checkbox'>
+                        <input type='checkbox'> Remember me
+                      </label>
+                      <button id='login-button' type='submit' class='btn' onclick='return false;'>Sign in</button>
+                  </form>
+              </div>
             </div>
 
-  </div>
-  "
+
+         </div>"
   )
 
 
@@ -85,14 +99,25 @@
               (do-action "show who page")
      )
 
+     (on-click
+              "login-button"
+
+                (go
+                     (js/alert
+                         (str (<! (remote "get-from-neo" {:name "gfdgf"})))))
+      )
+
 
 )
+(comment go
+     (js/alert
+         (str (<! (remote "say-hello" {:name "Johnny"})))))
 
+(comment go
+     (js/alert
+         (str (<! (remote "get-from-neo" {:name "gfdgf"})))))
 
-
-
-
-(define-action
+(redefine-action
     "show top nav"
     (do
         (clear "top-section")
@@ -100,3 +125,5 @@
         (add-nav-listeners)
 
 ))
+
+;(do-action "show top nav")
