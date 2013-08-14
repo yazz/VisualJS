@@ -10,7 +10,11 @@
   (:require [clojurewerkz.neocons.rest.cypher :as cy])
 )
 
-(nr/connect! "http://localhost:7474/db/data/")
+( try
+     (nr/connect! "http://localhost:7474/db/data/")
+         (catch Exception e (str "caught exception: " (.getMessage e))))
+
+
 
 
 (defentity test_table)
@@ -69,4 +73,3 @@
           )})
 
 
-(get-from-neo nil)
