@@ -26,40 +26,30 @@
 
 
 (defn top-nav-bar []
-        "<div>
-           <div class=navbar>
-                <a class=navbar-brand href='#'>Coils.cc</a>
+        "<a class=navbar-brand href='#'>Coils.cc</a>
                 <ul class='nav navbar-nav'>
                   <li id='home-button' class=active><a href='#'>Home</a></li>
                   <li id='docs-button'><a href='#'>Docs</a></li>
                   <li id='case-studies-button'><a href='#'>Case studies</a></li>
                   <li id='contact-button'><a href='#'>Contact</a></li>
-                </ul>
-
-              <div class=pull-right>
-                  <form class='form-inline' style='padding: 5px;'>
-                      <input  id='username-input' type='text' class='input-small' placeholder='Email'>
-                      <input  id='password-button' type='password' class='input-small' placeholder='Password'>
-                      <label class='checkbox'>
-                        <input type='checkbox'> Remember me
-                      </label>
-                      <button id='login-button' type='submit' class='btn' onclick='return false;'>Sign in</button>
-                  </form>
-              </div>
-            </div>
+                </ul>")
 
 
-         </div>"
-  )
+
+
+
 
 
 (defn remove-nav-active []
   (. ($ :#home-button) removeClass "active")
   (. ($ :#contact-button) removeClass "active")
   (. ($ :#case-studies-button) removeClass "active")
-  (. ($ :#docs-button) removeClass "active")
+  (. ($ :#docs-button) removeClass "active"))
 
-)
+
+
+
+
 
 (defn add-nav-listeners []
 
@@ -98,32 +88,22 @@
               (. ($ :#contact-button) addClass "active")
               (do-action "show who page")
      )
-
-     (on-click
-              "login-button"
-
-                (go
-                     (js/alert
-                         (str (<! (remote "get-from-neo" {:name "gfdgf"})))))
-      )
-
-
 )
-(comment go
-     (js/alert
-         (str (<! (remote "say-hello" {:name "Johnny"})))))
 
-(comment go
-     (js/alert
-         (str (<! (remote "get-from-neo" {:name "gfdgf"})))))
+
+
+
+
+
 
 (redefine-action
     "show top nav"
     (do
-        (clear "top-section")
-        (add-to "top-section" (top-nav-bar))
+        (clear "top-left")
+        (add-to "top-left" (top-nav-bar))
         (add-nav-listeners)
 
+        (do-action "show login panel")
 ))
 
 ;(do-action "show top nav")
