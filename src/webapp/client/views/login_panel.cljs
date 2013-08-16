@@ -28,36 +28,64 @@
 
 
 (defn login-panel []
-        "<form class='form-inline' style='padding: 5px;'>
-                      <input  id='username-input' type='text' class='input-small' placeholder='Email'>
-                      <input  id='password-button' type='password' class='input-small' placeholder='Password'>
-                      <label class='checkbox'>
-                        <input type='checkbox'> Remember me
-                      </label>
-                      <button id='login-button' type='submit' class='btn' onclick='return false;'>Login</button>
-                  </form>"
+  (el :form {:class "form-inline" :style "padding: 5px"}
+      [
+        "<input  id='username-input' type='text' class='input-small' placeholder='Email'>"
+
+        "<input  id='password-button' type='password' class='input-small' placeholder='Password'>"
+
+        "<label class='checkbox' style='padding-right:10px;margin-left:10px;'>
+          <input type='checkbox'> Remember me
+        </label>"
+
+        "<button id='login-button' type='button' class='btn' onclick='return false;
+                 style='margin-left: 10px;'>Login</button>"
+
+        (el :button {
+                     :type "button"
+                     :class "btn"
+                     :style "margin-left: 10px;"
+                     :text "Cancel"
+                     :onclick #(do-action "show login panel")})
+
+      ]
   )
+)
+
+
 
 
 
 (defn signup-panel []
-  "<form class='form-inline' style='padding: 5px;'>
-  <input  id='username-input' type='text' class='input-small' placeholder='Email'>
-  <input  id='password-button' type='password' class='input-small' placeholder='Password'>
-  <label class='checkbox'>
-  <button id='login-button' type='submit' class='btn' onclick='return false;'>Sign up</button>
-  </form>"
+  (el :form {:class "form-inline" :style "padding: 5px"}
+      [
+
+       "<input  id='username-input' type='text' class='input-small' placeholder='Email'>"
+
+       "<input  id='password-button' type='password' class='input-small' placeholder='Password'>"
+
+       "<button id='login-button' type='button' class='btn' onclick='return false;'
+                style='margin-left: 10px;'>Sign up</button>"
+
+       (el :button {
+                     :type "button"
+                     :class "btn"
+                     :style "margin-left: 10px;"
+                     :text "Cancel"
+                     :onclick #(do-action "show login panel")})
+      ]
   )
+)
 
 
 (defn login-signup-panel []
     (el :div {} [
         (el :button
                           {:id    "login-button"
-                           :style "margin: 5px;"
+                           :style "margin: 5px; "
                            :class "btn"
                            :text "login"
-                           :onmouseover #(swap-section
+                           :onclick #(swap-section
                                                 ($ :#top-right)
                                                 (login-panel))})
 
@@ -66,7 +94,7 @@
                            :style "margin: 5px;"
                            :class "btn"
                            :text "Sign up"
-                           :onmouseover #(swap-section
+                           :onclick #(swap-section
                                                 ($ :#top-right)
                                                 (signup-panel))})
               ])

@@ -21,24 +21,21 @@
 
 (defn top-structure-html []
 
-        (el :div {:style "position:absolute; top:0px; left:0px; height:50px; right:0px;overflow:hidden;"
-                  :id    "top-section"}
-            [
-                     "<div>
-           <div class=navbar>
-               <div id='top-left'>
-               </div>
-
-              <div  id='top-right' class=pull-right>
-              </div>
+  (el :div {:style "position:absolute; top:0px; left:0px; height:50px; right:0px;overflow:hidden;"
+            :id    "top-section"}
+      [
+       "<div>
+          <div class=navbar>
+            <div id='top-left'>
             </div>
 
-
-         </div>"
-
-             ]
-            )
-)
+            <div  id='top-right' class=pull-right>
+            </div>
+          </div>
+        </div>"
+       ]
+      )
+  )
 (defn middle-structure-html []
 
       (el :div {:class "row" :style "margin:0px;"} [

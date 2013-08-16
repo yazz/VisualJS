@@ -53,7 +53,7 @@
 
 (defn add-nav-listeners []
 
-    (on-mouseover
+    (on-click
               "home-button"
 
               (remove-nav-active)
@@ -62,7 +62,7 @@
      )
 
 
-    (on-mouseover
+    (on-click
               "docs-button"
 
               (remove-nav-active)
@@ -71,7 +71,7 @@
      )
 
 
-    (on-mouseover
+    (on-click
               "case-studies-button"
 
               (remove-nav-active)
@@ -81,7 +81,7 @@
 
 
 
-    (on-mouseover
+    (on-click
               "contact-button"
 
               (remove-nav-active)
