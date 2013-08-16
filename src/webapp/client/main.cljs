@@ -1,4 +1,7 @@
 (ns webapp.client.main
+    (:require
+        [webapp.client.login-panel]
+    )
     (:use
         [webapp.framework.client.eventbus  :only [do-action esb]]
     )
@@ -7,8 +10,6 @@
 (do-action "create blank page structure")
 (do-action "show top nav")
 (do-action "show home page")
-
-
 
 (comment remote "say-hello"
         {:name "Johnny"}

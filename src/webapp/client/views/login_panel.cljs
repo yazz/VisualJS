@@ -127,5 +127,6 @@
       (add-to "top-right" (login-signup-panel))
 ))
 
-(do-action "show login panel")
+
+;(do-action "show login panel")
 
