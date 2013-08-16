@@ -38,12 +38,12 @@
           <input type='checkbox'> Remember me
         </label>"
 
-        "<button id='login-button' type='button' class='btn' onclick='return false;
+        "<button id='login-button' type='button' class='btn btn-primary' onclick='return false;
                  style='margin-left: 10px;'>Login</button>"
 
         (el :button {
                      :type "button"
-                     :class "btn"
+                     :class "btn btn-info"
                      :style "margin-left: 10px;"
                      :text "Cancel"
                      :onclick #(do-action "show login panel")})
@@ -64,12 +64,12 @@
 
        "<input  id='password-button' type='password' class='input-small' placeholder='Password'>"
 
-       "<button id='login-button' type='button' class='btn' onclick='return false;'
+       "<button id='login-button' type='button' class='btn btn-primary' onclick='return false;'
                 style='margin-left: 10px;'>Sign up</button>"
 
        (el :button {
                      :type "button"
-                     :class "btn"
+                     :class "btn btn-info"
                      :style "margin-left: 10px;"
                      :text "Cancel"
                      :onclick #(do-action "show login panel")})
@@ -83,7 +83,7 @@
         (el :button
                           {:id    "login-button"
                            :style "margin: 5px; "
-                           :class "btn"
+                           :class "btn btn-default"
                            :text "login"
                            :onclick #(swap-section
                                                 ($ :#top-right)
@@ -92,7 +92,7 @@
         (el :button
                           {:id    "signup-button"
                            :style "margin: 5px;"
-                           :class "btn"
+                           :class "btn btn-default"
                            :text "Sign up"
                            :onclick #(swap-section
                                                 ($ :#top-right)
