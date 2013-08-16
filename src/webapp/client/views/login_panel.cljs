@@ -34,7 +34,7 @@
 
         "<input  id='password-button' type='password' class='input-small' placeholder='Password'>"
 
-        "<label class='checkbox' style='padding-right:10px;margin-left:10px;'>
+        "<label class='checkbox' style='margin-right:15px;margin-left:10px;'>
           <input type='checkbox'> Remember me
         </label>"
 
