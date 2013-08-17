@@ -84,19 +84,6 @@
 
 
 
-        (el :div {:style "margin: 200px;" :id "ss1" :text "Some text1"})
-        (el :div {:style "margin: 200px;" :id "ss2" :text "Some text2"})
-        (el :div {:style "margin: 200px;" :id "ss3" :text "Some text3"})
-        (el :div {:style "margin: 200px;" :id "ss4" :text "Some text4"})
-        (el :div {:style "margin: 200px;" :id "ss5" :text "Some text5"})
-        (el :div {:style "margin: 200px;" :id "ss6" :text "Some text6"})
-        (el :div {:style "margin: 200px;" :id "ss7" :text "Some text7"})
-        (el :div {:style "margin: 200px;" :id "ss8" :text "Some text8"})
-        (el :div {:style "margin: 200px;" :id "ss9" :text "Some text9"})
-        (el :div {:style "margin: 200px;" :id "ss10" :text "Some text10"})
-        (el :div {:style "margin: 200px;" :id "ss11" :text "Some text11"})
-
-
       ]
   )
 )
@@ -108,13 +95,16 @@
         (header-text "Installing the development tools" )
         (body-html "<div>To install Clojure on Coils you need to install the following:
                    <br><br>
+
                    <a href='http://www.oracle.com/technetwork/java/javase/downloads/index.html'>JDK SE 1.7</a>
                    <br>
                    <a href='http://www.lighttable.com/'>LightTable</a>
                    <br>
                    <a href='http://leiningen.org/'>Leiningen</a>
-                   </div>
+                   <br>
                    <a href='http://git-scm.com/'>GIT</a>
+                   <br>
+                   <a href='http://www.neo4j.org/'>Neo4j</a>
                    </div>")
 
 
