@@ -4,6 +4,7 @@
   [:use [webapp.framework.server.systemfns]]
   [:use [ring.middleware.format]]
   [:use [compojure.core]]
+  [:use [korma.core]]
   [:use [ring.middleware.json]]
   [:require [compojure.route :as route]]
   [:require [compojure.handler :as handler]]

@@ -73,7 +73,10 @@
 (defn call-event-on-eventwatcher [event-watcher message]
   (do
       (if (event-watcher :fn-to-call)
-            ((event-watcher :fn-to-call) message)
+            (if (:message message)
+                 ((event-watcher :fn-to-call) (:message message))
+                 ((event-watcher :fn-to-call) message)
+            )
             ;(. js/console log (str event-watcher " has no fn to call" ))
       )
   )
@@ -131,12 +134,18 @@
 
 
 (defn do-action
-    [message]
+    ([message]
     (cond
 
         (map? message) (swap! events conj {:message message} )
          :else         (swap! events conj {:message {:message-type message}} )
-    )
+    ))
+    ([action message]
+    (cond
+
+        (map? action) (swap! events conj {:message (assoc action :message message)} )
+         :else        (swap! events conj {:message {:message-type action :message message}} )
+    ))
 )
 ;(esb-put {:name "hello" })
 

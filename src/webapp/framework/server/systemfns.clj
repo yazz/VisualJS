@@ -19,6 +19,7 @@
 )
 
 
-(defn !sql [params]
-    {:text "SQL RESULT"}
+(defn !sql [{sql :sql params :params}]
+
+   (exec-raw [sql params] :results)
 )

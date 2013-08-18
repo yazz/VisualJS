@@ -314,11 +314,16 @@
 
 
 
-(defn sql [sql-str params callback-fn]
+
+
+
+(defn sql [sql-str params]
   (go
-    (callback-fn (<! (remote "!sql" {})))
+    (<! (remote
+                "!sql" {:sql sql-str :params params}))
   )
 )
+
 
 
 

@@ -34,7 +34,7 @@
 (comment insert test_table
   (values [{:id          (java.util.UUID/randomUUID)
             :name        "shopping"
-            :description "Get the milk"
+            :description "Get the beef"
            }]))
 
 (comment select test_table)
@@ -143,6 +143,10 @@
    ;(table4j "place")
 
    ;(nodes4j "place")
+
+
+
+
 
 
 
