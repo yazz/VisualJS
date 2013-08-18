@@ -9,7 +9,7 @@
     [cljs.core.async.macros :refer [go alt!]])
 
     (:use
-        [webapp.framework.client.coreclient :only [sql header-text body-text body-html make-sidebar  swap-section  el clear addto remote  add-to]]
+        [webapp.framework.client.coreclient :only [sql-fn header-text body-text body-html make-sidebar  swap-section  el clear addto remote  add-to]]
         [jayq.core                          :only [$ css append fade-out fade-in empty]]
         [webapp.framework.client.help       :only [help]]
         [webapp.framework.client.eventbus   :only [do-action esb undefine-action]]
@@ -17,7 +17,7 @@
     )
     (:use-macros
         [webapp.framework.client.eventbus :only [define-action redefine-action]]
-        [webapp.framework.client.coreclient :only [on-click on-mouseover]]
+        [webapp.framework.client.coreclient :only [on-click on-mouseover sql]]
         [webapp.framework.client.interpreter :only [! !! !!!]]
      )
 )
@@ -163,11 +163,22 @@
         (.log js/console (str (<! (sql "SELECT * FROM test_table where name = ?" ["shopping"] ))))
      )
 
-(comment go
+( go
      (do-action
           "show alert"
           (str (<! (sql "SELECT * FROM test_table where name = ?" ["shopping"] )))
      )
 )
+
+
+(comment go
+     (do-action
+          "show alert"
+          (str (<!
+                (webapp.framework.client.coreclient.sql-fn "SELECT * FROM test_table where name = ?" ["shopping"])
+                ))
+     )
+)
+
 
 ;(do-action "show docs page")

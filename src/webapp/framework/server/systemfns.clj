@@ -3,6 +3,7 @@
   [:require [clojure.string :as str]]
   [:use [korma.db]]
   [:use [korma.core]]
+  [:use [webapp.framework.server.encrypt]]
 )
 
 
@@ -20,6 +21,12 @@
 
 
 (defn !sql [{sql :sql params :params}]
-
-   (exec-raw [sql params] :results)
+  (do
+    (println "encryptor: " encryptor)
+   (println "SQL from client: " sql " -> " )
+   (println "SQL from server: " (encrypt "SELECT * FROM test_table where name = ?") " -> " )
+   (exec-raw [(decrypt sql) params] :results)
+   ; []
+  )
 )
+

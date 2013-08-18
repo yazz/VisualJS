@@ -1,6 +1,6 @@
 (ns webapp.framework.server.core
   (:require [speech-synthesis.say :as say])
-  [:use [webapp.server.fns]]
+  [:require [webapp.server.fns]]
   [:use [webapp.framework.server.systemfns]]
   [:use [ring.middleware.format]]
   [:use [compojure.core]]
@@ -8,6 +8,7 @@
   [:use [ring.middleware.json]]
   [:require [compojure.route :as route]]
   [:require [compojure.handler :as handler]]
+
   [:require [ring.util.response :as resp]]
   (:require [clojurewerkz.neocons.rest :as nr])
   (:require [clojurewerkz.neocons.rest.nodes :as nn])
@@ -79,4 +80,3 @@
         (wrap-json-params)
      ;   (wrap-dir-index)
         ))
-

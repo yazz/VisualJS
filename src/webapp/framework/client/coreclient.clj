@@ -1,4 +1,6 @@
-(ns webapp.framework.client.coreclient)
+(ns webapp.framework.client.coreclient
+  [:use [webapp.framework.server.encrypt]]
+)
 
 
 (defmacro on-click [el & code]
@@ -23,4 +25,12 @@
                    (clear "main")
 ))
 
+(defmacro sql [sql-str params]
+  `(webapp.framework.client.coreclient.sql-fn
+       ~(encrypt sql-str)
+       ~params
+   )
+)
 
+
+( macroexpand '(sql "SELECT * FROM test_table where name = ?" ["shopping"] ))

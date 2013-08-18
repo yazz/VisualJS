@@ -317,7 +317,7 @@
 
 
 
-(defn sql [sql-str params]
+(defn sql-fn [sql-str params]
   (go
     (<! (remote
                 "!sql" {:sql sql-str :params params}))

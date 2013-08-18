@@ -2,6 +2,7 @@
   [:require [clojure.string :as str]]
   [:use [korma.db]]
   [:use [webapp.framework.server.systemfns]]
+  [:use [webapp.framework.server.encrypt]]
   [:use [korma.core]]
   [:use [clojure.core.async]]
     (:require [clojurewerkz.neocons.rest :as nr])
@@ -143,11 +144,6 @@
    ;(table4j "place")
 
    ;(nodes4j "place")
-
-
-
-
-
 
 
 

@@ -80,5 +80,4 @@ Client side SQL
      )
 
 
- Please note that this is a development time feature only right now, as encryption (using
- server side macros and SHA) is under development
+ Please note that the SQL is not visible from web browsers as it is encryted via a server side macro.
