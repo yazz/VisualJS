@@ -159,7 +159,9 @@
    (.log js/console message)
    ))
 
-
+    (comment go
+        (.log js/console (str (<! (sql "SELECT * FROM test_table where name = ?" ["shopping"] ))))
+     )
 
 (comment go
      (do-action

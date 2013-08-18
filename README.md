@@ -78,3 +78,16 @@ Now:
              (:text (<! (remote "say-hello" {:name "Johnny"})))))
 
 
+
+
+
+Client side SQL
+===============
+
+    (go
+        (.log js/console (str (<! (sql "SELECT * FROM test_table where name = ?" ["shopping"] ))))
+     )
+
+
+ Please note that this is a development time feature only right now, as encryption (using
+ server side macros and SHA) is under development
