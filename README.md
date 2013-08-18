@@ -63,6 +63,7 @@ Define in fns.clj on the server side (using core.async):
 
 
 From the client side:
+
     (go
          (js/alert
              (:text (<! (remote "say-hello" {:name "Johnny"})))))
