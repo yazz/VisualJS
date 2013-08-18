@@ -54,25 +54,15 @@ Call an action:
 Calling server side code
 ========================
 
-From the client side:
+Define in fns.clj on the server side (using core.async):
 
     (defn say-hello [params]
         {:text (str "Hello " (:name params))}
     )
 
 
-Define in fns.clj on the server side (now using core.async):
 
-Previously:
-
-    (remote "say-hello"
-            {:name "Johnny"}
-            #(js/alert (:text %1))
-    )
-
-
-Now:
-
+From the client side:
     (go
          (js/alert
              (:text (<! (remote "say-hello" {:name "Johnny"})))))
