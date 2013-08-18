@@ -6,7 +6,7 @@
         [cljs.core.async :as async :refer [chan close!]]
     )
     (:use
-        [webapp.framework.client.coreclient :only [swap-section sql el clear addto remote  add-to on-mouseover-fn on-click-fn]]
+        [webapp.framework.client.coreclient :only [sql-fn swap-section sql el clear addto remote  add-to on-mouseover-fn on-click-fn]]
         [jayq.core                          :only [$ css  append fade-out fade-in empty]]
         [webapp.framework.client.help       :only [help]]
         [webapp.framework.client.eventbus   :only [do-action esb undefine-action]]
@@ -16,7 +16,7 @@
     [cljs.core.async.macros :refer [go alt!]])
   (:use-macros
         [webapp.framework.client.eventbus :only [redefine-action define-action]]
-        [webapp.framework.client.coreclient :only [on-click on-mouseover]]
+        [webapp.framework.client.coreclient :only [on-click on-mouseover sql]]
         [webapp.framework.client.interpreter :only [! !! !!!]]
      )
 )
@@ -130,3 +130,16 @@
 
 ;(do-action "show login panel")
 
+(comment  go
+     (.log js/console
+          (str (<! (sql "SELECT * FROM users where user_name = ?" ["name"] )))
+     )
+)
+
+
+(comment go
+     (.log js/console
+          (str (<! (sql "insert into users (user_name, password) values (?,?)"
+                        ["name","password"] )))
+     )
+)

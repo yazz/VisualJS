@@ -20,13 +20,20 @@
 )
 
 
-(defn !sql [{sql :sql params :params}]
+(defn !sql [{coded-sql :sql params :params}]
   (do
-    (println "encryptor: " encryptor)
-   (println "SQL from client: " sql " -> " )
-   (println "SQL from server: " (encrypt "SELECT * FROM test_table where name = ?") " -> " )
-   (exec-raw [(decrypt sql) params] :results)
+    (let [sql             (decrypt coded-sql)
+          lower           (.toLowerCase sql)
+          ]
+      (println "SQL from client: " coded-sql " -> " sql)
+      (cond
+       (.startsWith lower "select")  (do (println "SELECT") (exec-raw [sql params] :results))
+       :else                         (do (println "INSERT") (exec-raw [sql params]) [])
    ; []
+    ))
   )
 )
+
+
+
 

@@ -159,16 +159,13 @@
    (.log js/console message)
    ))
 
-    (comment go
-        (.log js/console (str (<! (sql "SELECT * FROM test_table where name = ?" ["shopping"] ))))
-     )
 
-( go
-     (do-action
-          "show alert"
-          (str (<! (sql "SELECT * FROM test_table where name = ?" ["shopping"] )))
-     )
-)
+
+
+(comment go
+  (.log js/console (str (<! (sql "SELECT * FROM test_table where name = ?" ["shopping"] ))))
+  )
+
 
 
 (comment go
