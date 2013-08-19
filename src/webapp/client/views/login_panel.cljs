@@ -6,7 +6,7 @@
         [cljs.core.async :as async :refer [chan close!]]
     )
     (:use
-        [webapp.framework.client.coreclient :only [sql-fn swap-section sql el clear addto remote  add-to on-mouseover-fn on-click-fn]]
+        [webapp.framework.client.coreclient :only [value-of find-el sql-fn swap-section sql el clear addto remote  add-to on-mouseover-fn on-click-fn]]
         [jayq.core                          :only [$ css  append fade-out fade-in empty]]
         [webapp.framework.client.help       :only [help]]
         [webapp.framework.client.eventbus   :only [do-action esb undefine-action]]
@@ -64,8 +64,16 @@
 
        "<input  id='password-button' type='password' class='input-small' placeholder='Password'>"
 
-       "<button id='login-button' type='button' class='btn btn-primary' onclick='return false;'
-                style='margin-left: 10px;'>Sign up</button>"
+       (el :button {
+                     :id   "signup-button"
+                     :type "button"
+                     :class "btn btn-primary"
+                     :style "margin-left: 10px;"
+                     :text "Sign up"
+                     :onclick
+                        #(do-action "signup user"
+                                    {:username (value-of "username-input")})
+                    })
 
        (el :button {
                      :type "button"
@@ -76,6 +84,10 @@
       ]
   )
 )
+
+
+
+
 
 
 (defn login-signup-panel []
@@ -103,21 +115,10 @@
 
 
 
-(defn add-login-listeners []
-    (on-click
-              "login-button"
-
-                (go
-                     (js/alert
-                         (str (<! (remote "get-from-neo" {:name "gfdgf"})))))
-      )
 
 
-)
 
-(comment go
-     (js/alert
-         (str (<! (remote "get-from-neo" {:name "gfdgf"})))))
+
 
 (redefine-action
     "show login panel"
@@ -128,18 +129,37 @@
 ))
 
 
+
+
+
+
+(redefine-action "signup user"
+   (go
+     (let [
+             username             (:username message)
+             search-db-for-user   (<! (sql "SELECT * FROM users where user_name = ?" [username] ))
+             user-already-exists  (pos? (count search-db-for-user))
+          ]
+             (if user-already-exists
+                 (.log js/console "user already exists")
+                 (do
+                     (.log js/console
+                          (str (<! (sql "insert into users (user_name, password) values (?,?)"
+                            [username,""] )))
+                           )
+                   (.log js/console "Created user " username))
+              )
+     )
+  )
+)
+
+
+
+
+
+
+
+(do-action "signup user" {:username "name22"})
 ;(do-action "show login panel")
 
-(comment  go
-     (.log js/console
-          (str (<! (sql "SELECT * FROM users where user_name = ?" ["name"] )))
-     )
-)
 
-
-(comment go
-     (.log js/console
-          (str (<! (sql "insert into users (user_name, password) values (?,?)"
-                        ["name","password"] )))
-     )
-)

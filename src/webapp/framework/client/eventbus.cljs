@@ -135,17 +135,23 @@
 
 (defn do-action
     ([message]
-    (cond
+    (do
+      (cond
 
         (map? message) (swap! events conj {:message message} )
          :else         (swap! events conj {:message {:message-type message}} )
-    ))
+      )
+      []
+      ))
     ([action message]
-    (cond
+    (do
+      (cond
 
         (map? action) (swap! events conj {:message (assoc action :message message)} )
          :else        (swap! events conj {:message {:message-type action :message message}} )
-    ))
+      )
+      []
+      ))
 )
 ;(esb-put {:name "hello" })
 

@@ -13,7 +13,7 @@
   (:use
     [domina.events         :only [listen!]]
     [jayq.core             :only [html $ css  append fade-out fade-in empty]]
-    [domina                :only [append! by-id value destroy! ]]
+    [domina                :only [value append! by-id value destroy! ]]
     [domina.xpath          :only [xpath]]
     [domina.css            :only [sel]]
     [clojure.browser.event :only [listen]]
@@ -195,6 +195,12 @@
 )
 
 
+
+(defn value-of [x]
+  (let [ela (find-el x)]
+      (if ela
+        (value ela)
+      )))
 
 
 
