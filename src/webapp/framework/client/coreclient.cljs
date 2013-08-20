@@ -13,7 +13,7 @@
   (:use
     [domina.events         :only [listen!]]
     [jayq.core             :only [html $ css  append fade-out fade-in empty]]
-    [domina                :only [value append! by-id value destroy! ]]
+    [domina                :only [value append! by-id destroy! set-text!]]
     [domina.xpath          :only [xpath]]
     [domina.css            :only [sel]]
     [clojure.browser.event :only [listen]]
@@ -277,7 +277,9 @@
 ;(popup "Pup" "<div>dd</div>")
 
 
-
+(defn set-text [x text]
+    (if (find-el x)
+        (-> (find-el x) (set-text! text))))
 
 
 (defn el
@@ -397,7 +399,7 @@
 
 
 
-( go
+(comment go
    (log (:text (<! (remote "say-hello" {:name "1"}))))
    (log (:text (<! (remote "say-hello" {:name "2"}))))
    (log (:text (<! (remote "say-hello" {:name "3"}))))

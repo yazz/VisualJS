@@ -29,7 +29,7 @@
             <div id='top-left'>
             </div>
 
-            <div  id='top-right' class=pull-right>
+            <div  id='top-right' class='pull-right'>
             </div>
           </div>
         </div>"

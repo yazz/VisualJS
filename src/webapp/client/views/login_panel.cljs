@@ -6,7 +6,7 @@
         [cljs.core.async :as async :refer [chan close!]]
     )
     (:use
-        [webapp.framework.client.coreclient :only [value-of find-el sql-fn swap-section sql el clear addto remote  add-to on-mouseover-fn on-click-fn]]
+        [webapp.framework.client.coreclient :only [set-text value-of find-el sql-fn swap-section sql el clear addto remote  add-to on-mouseover-fn on-click-fn]]
         [jayq.core                          :only [$ css  append fade-out fade-in empty]]
         [webapp.framework.client.help       :only [help]]
         [webapp.framework.client.eventbus   :only [do-action esb undefine-action]]
@@ -100,8 +100,45 @@
 
 
 
+
+
+
+(defn logged-in-panel []
+    (el :div {:class "row" :style "padding: 5px; width:300px;"} [
+        (el :div
+                          {:id    "signed-in-as-text"
+                           :text  "ss"
+                           :class "col-md-6"
+
+         })
+
+        (el :button
+                          {:id    "logout-button"
+                           :class "btn btn-default col-md-5 pull-right"
+                           :text "Logout"
+                           :style "margin-right: 20px;"
+                           :onclick #(swap-section
+                                                ($ :#top-right)
+                                                (signup-panel))})
+]))
+
+(redefine-action
+    "show logged in panel"
+
+    (do
+      (clear "top-right")
+      (add-to "top-right" (logged-in-panel))
+      (set-text "signed-in-as-text" "Signed in as ")
+    )
+)
+
+
+
+
+
+
 (defn login-signup-panel []
-    (el :div {} [
+    (el :div {:class "pull-right"} [
         (el :button
                           {:id    "login-button"
                            :style "margin: 5px; "
@@ -169,6 +206,9 @@
 
 
 
+
+
+
 (redefine-action "login user"
    (go
      (let [
@@ -182,7 +222,10 @@
              (if user-record-from-db
                  (do
                      (if (= password (:password user-record-from-db))
-                         (.log js/console "Logged in as user " username)
+                         (do
+                             (.log js/console "Logged in as user " username)
+                             (do-action "show logged in panel")
+                         )
                          (.log js/console "Password incorrect for user " username))
                  )
 
