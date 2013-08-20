@@ -103,7 +103,7 @@
         (add-to "top-left" (top-nav-bar))
         (add-nav-listeners)
 
-        (do-action "show login panel")
+        (do-action "show login signup panel")
 ))
 
 ;(do-action "show top nav")

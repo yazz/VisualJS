@@ -32,21 +32,30 @@
       [
         "<input  id='username-input' type='text' class='input-small' placeholder='Email'>"
 
-        "<input  id='password-button' type='password' class='input-small' placeholder='Password'>"
+        "<input  id='password-input' type='password' class='input-small' placeholder='Password'>"
 
         "<label class='checkbox' style='margin-right:15px;margin-left:10px;'>
           <input type='checkbox'> Remember me
         </label>"
 
-        "<button id='login-button' type='button' class='btn btn-primary' onclick='return false;
-                 style='margin-left: 10px;'>Login</button>"
+       (el :button {
+                     :id       "signup-button"
+                     :type     "button"
+                     :class    "btn btn-primary"
+                     :style    "margin-left: 10px;"
+                     :text     "Login"
+                     :onclick  #(do-action "login user"
+                                           {
+                                            :username    (value-of "username-input")
+                                            :password    (value-of "password-input")
+                                            })})
 
         (el :button {
                      :type "button"
                      :class "btn btn-info"
                      :style "margin-left: 10px;"
                      :text "Cancel"
-                     :onclick #(do-action "show login panel")})
+                     :onclick #(do-action "show login signup panel")})
 
       ]
   )
@@ -62,25 +71,26 @@
 
        "<input  id='username-input' type='text' class='input-small' placeholder='Email'>"
 
-       "<input  id='password-button' type='password' class='input-small' placeholder='Password'>"
+       "<input  id='password-input' type='password' class='input-small' placeholder='Password'>"
 
        (el :button {
-                     :id   "signup-button"
-                     :type "button"
-                     :class "btn btn-primary"
-                     :style "margin-left: 10px;"
-                     :text "Sign up"
-                     :onclick
-                        #(do-action "signup user"
-                                    {:username (value-of "username-input")})
-                    })
+                     :id       "signup-button"
+                     :type     "button"
+                     :class    "btn btn-primary"
+                     :style    "margin-left: 10px;"
+                     :text     "Sign up"
+                     :onclick  #(do-action "signup user"
+                                           {
+                                            :username    (value-of "username-input")
+                                            :password    (value-of "password-input")
+                                            })})
 
        (el :button {
                      :type "button"
                      :class "btn btn-info"
                      :style "margin-left: 10px;"
                      :text "Cancel"
-                     :onclick #(do-action "show login panel")})
+                     :onclick #(do-action "show login signup panel")})
       ]
   )
 )
@@ -121,7 +131,7 @@
 
 
 (redefine-action
-    "show login panel"
+    "show login signup panel"
 
     (do
       (clear "top-right")
@@ -137,17 +147,47 @@
    (go
      (let [
              username             (:username message)
-             search-db-for-user   (<! (sql "SELECT * FROM users where user_name = ?" [username] ))
+             password             (:password message)
+             search-db-for-user   (<! (sql "SELECT * FROM users where user_name = ?"
+                                  [username] ))
              user-already-exists  (pos? (count search-db-for-user))
           ]
              (if user-already-exists
                  (.log js/console "user already exists")
+
                  (do
-                     (.log js/console
-                          (str (<! (sql "insert into users (user_name, password) values (?,?)"
-                            [username,""] )))
-                           )
-                   (.log js/console "Created user " username))
+                     (<! (sql "insert into users (user_name, password) values (?,?)"
+                            [username,password] ))
+                     (.log js/console "Created user " username))
+              )
+     )
+  )
+)
+
+
+
+
+
+
+(redefine-action "login user"
+   (go
+     (let [
+             username             (:username message)
+             password             (:password message)
+             search-db-for-user   (<! (sql "SELECT user_name, password
+                                           FROM users where user_name = ?"
+                                           [username] ))
+             user-record-from-db  (first search-db-for-user)
+          ]
+             (if user-record-from-db
+                 (do
+                     (if (= password (:password user-record-from-db))
+                         (.log js/console "Logged in as user " username)
+                         (.log js/console "Password incorrect for user " username))
+                 )
+
+
+                 (.log js/console "user does not exist")
               )
      )
   )
@@ -159,7 +199,8 @@
 
 
 
-(do-action "signup user" {:username "name22"})
+;(do-action "show login signup panel")
+;(do-action "signup user" {:username "name22"})
 ;(do-action "show login panel")
 
 
