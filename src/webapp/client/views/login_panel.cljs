@@ -30,13 +30,17 @@
 (defn login-panel []
   (el :form {:class "form-inline" :style "padding: 5px"}
       [
-        "<input  id='username-input' type='text' class='input-small' placeholder='Email'>"
-
-        "<input  id='password-input' type='password' class='input-small' placeholder='Password'>"
-
-        "<label class='checkbox' style='margin-right:15px;margin-left:10px;'>
-          <input type='checkbox'> Remember me
-        </label>"
+       (el :div {:class "form-group"} [
+        "<input  id='username-input' type='email' class='input-small form-control' placeholder='Email'>"
+        ])
+       (el :div {:class "form-group"} [
+        "<input  id='password-input' type='password' class='input-small form-control' placeholder='Password'>"
+        ])
+        "<div class='checkbox' style='margin-left: 10px;'>
+            <label>
+              <input type='checkbox'> Remember me
+            </label>
+          </div>"
 
        (el :button {
                      :id       "signup-button"
@@ -63,15 +67,15 @@
 
 
 
-
-
 (defn signup-panel []
-  (el :form {:class "form-inline" :style "padding: 5px"}
+  (el :form {:class "form-inline" :role "form" :style "padding: 5px"}
       [
-
-       "<input  id='username-input' type='text' class='input-small' placeholder='Email'>"
-
-       "<input  id='password-input' type='password' class='input-small' placeholder='Password'>"
+       (el :div {:class "form-group"} [
+           "<input  id='username-input' type='email' class='input-small form-control' placeholder='Email'>"
+        ])
+       (el :div {:class "form-group"} [
+       "<input  id='password-input' type='password' class='input-small form-control' placeholder='Password'>"
+        ])
 
        (el :button {
                      :id       "signup-button"
