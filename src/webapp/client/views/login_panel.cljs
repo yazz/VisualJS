@@ -6,7 +6,7 @@
         [cljs.core.async :as async :refer [chan close!]]
     )
     (:use
-        [webapp.framework.client.coreclient :only [set-text value-of find-el sql-fn swap-section sql el clear addto remote  add-to on-mouseover-fn on-click-fn]]
+        [webapp.framework.client.coreclient :only [show-popover set-text value-of find-el sql-fn swap-section sql el clear addto remote  add-to on-mouseover-fn on-click-fn]]
         [jayq.core                          :only [$ css  append fade-out fade-in empty]]
         [webapp.framework.client.help       :only [help]]
         [webapp.framework.client.eventbus   :only [do-action esb undefine-action]]
@@ -139,8 +139,6 @@
 
 
 
-
-
 (defn login-signup-panel []
     (el :div {:class "pull-right"} [
         (el :button
@@ -150,7 +148,10 @@
                            :text "login"
                            :onclick #(swap-section
                                                 ($ :#top-right)
-                                                (login-panel))})
+                                                (login-panel))
+                           :onmouseover #(show-popover "login-button"
+                                                       "Use this if you already have an account")
+                           })
 
         (el :button
                           {:id    "signup-button"
@@ -159,7 +160,11 @@
                            :text "Sign up"
                            :onclick #(swap-section
                                                 ($ :#top-right)
-                                                (signup-panel))})
+                                                (signup-panel))
+                           :onmouseover #(show-popover "signup-button"
+                                                       "Use this if you want to create an account"
+                                                       {:placement "left"})
+                           })
               ])
   )
 

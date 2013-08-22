@@ -477,3 +477,18 @@
 (defn body-html [html]
   (el :div {:style "text-align: center; padding: 20px; padding-right: 150px; font-size: 18px;"}
       [html]))
+
+
+
+(defn show-popover [elem text & options]
+    (let [opt {
+                  :placement   "bottom"
+                  :container   "body"
+                  :html        true
+                  :content     (str    "<div id=popover>"  text   "</div>")
+              }
+          useopt (merge opt (if options (first options)))
+          ]
+         (js/showPopover (find-el elem) text (clj-to-js useopt))
+    )
+)
