@@ -43,7 +43,7 @@
                   :style "position:absolute; top:50px; bottom:50px; left:0px;"
                   :id "left-navigation" } )
 
-        (el :div {:class "col-lg-9" :style "position:absolute; top:50px; bottom:50px; right:0px; overflow:auto;"
+        (el :div {:class "col-lg-9" :style "margin-left:140px; top:50px; bottom:50px; right:0px; overflow:auto;"
                   :id "main-section"} )
                    ])
 )
