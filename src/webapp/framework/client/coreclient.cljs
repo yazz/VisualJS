@@ -183,8 +183,23 @@
 
 (defn clear [this]
   (if (find-el this)
-    (goog.dom/removeChildren (find-el this))))
+    (goog.dom.removeChildren (find-el this))))
  (clear :#main)
+
+
+(defn remove-element [x]
+  (if (find-el x)
+        (goog.dom.removeNode (find-el x))
+
+    ))
+
+
+(defn get-parent [x]
+  (if (find-el x)
+        (goog.dom.getParentElement (find-el x))
+
+    ))
+
 
 
 (defn add-to [this el]
@@ -481,14 +496,18 @@
 
 
 (defn show-popover [elem text & options]
-    (let [opt {
-                  :placement   "bottom"
-                  :container   "body"
-                  :html        true
-                  :content     (str    "<div id=popover>"  text   "</div>")
-              }
-          useopt (merge opt (if options (first options)))
+    (let [opt         {
+                          :placement   "bottom"
+                          :container   "body"
+                          :html        true
+                          :content     (str    "<div id=popover>"  text   "</div>")
+                      }
+          useopt      (merge opt (if options (first options)))
           ]
-         (js/showPopover (find-el elem) text (clj-to-js useopt))
-    )
+         (do
+             (js/showPopover (find-el elem) text (clj-to-js useopt))
+    ))
 )
+
+
+
