@@ -37,7 +37,7 @@
 (defn technologies-html []
     (el :div {} [
         (header-text "Technologies" )
-        (body-text "Uses: Clojure, Clojurescript, JQuery, Bootstrap.js")
+        (body-html "<div>Uses: Clojure, Clojurescript, JQuery, Bootstrap.js</div>")
 ]))
 
 (defn clojure-html []

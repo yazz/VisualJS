@@ -36,11 +36,11 @@
        (el :div {:class "form-group"} [
         "<input  id='password-input' type='password' class='input-small form-control' placeholder='Password'>"
         ])
-        "<div class='checkbox' style='margin-left: 10px;'>
-            <label>
-              <input type='checkbox'> Remember me
-            </label>
-          </div>"
+        ;"<div class='checkbox' style='margin-left: 10px;'>
+        ;    <label>
+        ;      <input type='checkbox'> Remember me
+        ;    </label>
+        ;  </div>"
 
        (el :button {
                      :id       "signup-button"

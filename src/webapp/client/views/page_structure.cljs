@@ -25,7 +25,7 @@
             :id    "top-section"}
       [
        "<div>
-          <div class=navbar>
+          <div class='navbar'>
             <div id='top-left'>
             </div>
 
@@ -36,17 +36,31 @@
        ]
       )
   )
+
+
+
+
+
+
+
+
 (defn middle-structure-html []
 
-      (el :div {:class "row" :style "margin:0px;"} [
-        (el :div {:class "col-lg-3"
-                  :style "position:absolute; top:50px; bottom:50px; left:0px;"
+      (el :div {:class "row" :style "margin:0px; width:100%; position:absolute; top:50px; bottom:50px;  overflow:auto;"} [
+        (el :div {:class "col-sm-3 col-xs-12 "
+                  :style " "
                   :id "left-navigation" } )
 
-        (el :div {:class "col-lg-9" :style "position:absolute; top:50px; bottom:50px; right:0px; overflow:auto;"
+        (el :div {:class "col-sm-9 col-xs-12 " :style ""
                   :id "main-section"} )
                    ])
 )
+
+
+
+
+
+
 (defn bottom-structure-html []
 
 
