@@ -486,14 +486,11 @@
 
 
 (defn header-text [text]
-  (el :div {:style "text-align: center; width: 100%; padding: 20px; padding-right: 150px; padding-top: 60px; font-size: 30px;" } [
-            (el :div {:text text} )]))
-
+  (el :div {:style "text-align: center; padding: 20px; padding-right: 30px; padding-top: 60px; font-size: 30px;" :text text} ))
 (defn body-text [text]
-  (el :div {:style "text-align: center; padding: 20px; padding-right: 150px; font-size: 18px;" :text text} ))
-
+  (el :div {:style "text-align: center; padding: 20px; padding-right: 30px; font-size: 18px;" :text text} ))
 (defn body-html [html]
-  (el :div {:style "text-align: center; padding: 20px; padding-right: 150px; font-size: 18px;"}
+  (el :div {:style "text-align: center; padding: 20px; padding-right: 30px; font-size: 18px;"}
       [html]))
 
 

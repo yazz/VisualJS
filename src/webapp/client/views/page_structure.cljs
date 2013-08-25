@@ -51,7 +51,7 @@
                   :style " "
                   :id "left-navigation" } )
 
-        (el :div {:class "col-sm-9 col-xs-12 " :style ""
+        (el :div {:class "col-lg-9" :style "margin-left:140px; top:50px; bottom:50px; right:0px; overflow:auto;"
                   :id "main-section"} )
                    ])
 )
