@@ -14,6 +14,8 @@
   (:require [clojurewerkz.neocons.rest.nodes :as nn])
   (:require [clojurewerkz.neocons.rest.relationships :as nrl])
   (:require [clojurewerkz.neocons.rest.cypher :as cy])
+
+  (:use [webapp.framework.server.email-service])
 )
 
 ;(println "Start talking")
@@ -80,3 +82,18 @@
         (wrap-json-params)
      ;   (wrap-dir-index)
         ))
+
+;(ping)
+
+;(call-mandrill "users/info" {})
+
+;(send-message "")
+
+(comment send-email
+     :subject         "A subject"
+     :message         "from the core it was sent"
+     :from-email      "zq@nemcv.com"
+     :from-name       "Zubair Quraishi"
+     :to-email        "zubairq@gmail.com"
+     :to-name         "Zoo"
+)

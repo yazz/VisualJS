@@ -41,12 +41,14 @@ Client side message passing system (AKA events)
 ===============================================
 
 Define an action:
+
     (redefine-action "Say something"
         (js/alert "Hello")
     )
 
 
 Call an action:
+
     (do-action "Say something")
 
 

@@ -122,7 +122,11 @@
                    <br>
                    cd coils
                    <br>
-                   lein ring server
+                   lein with-profile dev cljsbuild clean
+                   <br>
+                   lein with-profile dev cljsbuild auto
+                   <br>
+                   lein with-profile dev ring server
                    <br>
                    </pre>
                    : then go to <b>http://127.0.0.1:3000/main.html</b> to see the base application running

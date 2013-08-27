@@ -19,6 +19,9 @@
                    [org.clojure/core.async "0.1.0-SNAPSHOT"]
                    [rewrite-clj "0.2.0"]
                    [org.jasypt/jasypt "1.8"]
+
+                   [clj-http "0.7.6"]
+                   [cheshire "4.0.3"]
                 ]
   :repositories {"sonatype-oss-public" "https://oss.sonatype.org/content/groups/public/"}
   :url "http://org.clojars.zubair2/webdb"
@@ -29,7 +32,18 @@
                [lein-ring "0.8.5"]
             ]
 
-  :source-paths ["src"]
+  :profiles {
+                 :dev
+                 {
+                     :source-paths ["src" "srcdev"]
+                 }
+
+                 :prod
+                 {
+                     :source-paths ["src" "srcprod"]
+                 }
+            }
+
 
   :ring {:handler webapp.framework.server.core/app}
 
