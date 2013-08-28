@@ -510,4 +510,8 @@
 )
 
 
+(defn hide-popovers []
+    (js/hidePopovers)
+)
+
 
