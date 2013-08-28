@@ -27,6 +27,42 @@
 
 
 
+
+
+
+(defn forgot-password-panel []
+  (el :form {:class "form-inline" :style "padding: 5px"}
+      [
+       (el :div {:class "form-group"} [
+        "<input  id='username-input' type='email' class='input-small form-control' placeholder='Email'>"
+        ])
+
+       (el :button {
+                     :id       "reset-password-button"
+                     :type     "button"
+                     :class    "btn btn-primary"
+                     :style    "margin-left: 10px;"
+                     :text     "Reset my password"
+                     :onclick  #(do-action "Reset password"
+                                           {
+                                            :username    (value-of "username-input")
+                                            })})
+
+        (el :button {
+                     :type "button"
+                     :class "btn btn-info"
+                     :style "margin-left: 10px;"
+                     :text "Cancel"
+                     :onclick #(do-action "show login signup panel")})
+
+      ]
+  )
+)
+
+
+
+
+
 (defn login-panel []
   (el :form {:class "form-inline" :style "padding: 5px"}
       [
@@ -163,11 +199,29 @@
                                                 ($ :#top-right)
                                                 (signup-panel))
                            :onmouseover #(show-popover "signup-button"
-                                                       "Use this if you want to create an account"
+                                                       "<br>Use this if you want to create an account"
                                                        {:placement "left"})
                            :onmouseout #(hide-popovers)
                            })
+
+        (el :button
+                          {:id    "forgot-password-button"
+                           :style "margin: 5px; "
+                           :class "btn btn-default"
+                           :text "Forgot password?"
+                           :onclick #(swap-section
+                                                ($ :#top-right)
+                                                (forgot-password-panel))
+                           :onmouseover #(show-popover "forgot-password-button"
+                                                       "<br><br>Use this if you think you have created an
+                                                       account and you want to reset your password"
+                                                       {:placement "left"})
+                           :onmouseout #(hide-popovers)
+                           })
+
+
               ])
+
   )
 
 
