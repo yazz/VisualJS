@@ -9,6 +9,7 @@
   (:require [clojurewerkz.neocons.rest.nodes :as nn])
   (:require [clojurewerkz.neocons.rest.relationships :as nrl])
   (:require [clojurewerkz.neocons.rest.cypher :as cy])
+  (:use [webapp-config.settings])
 )
 
 ( try
@@ -44,6 +45,12 @@
     {:value (into []
 [])})
 
+
+(defn get-environment [params]
+  {:value *environment*}
+)
+
+(get-environment [nil])
 
 
 (comment let [ch (chan)]

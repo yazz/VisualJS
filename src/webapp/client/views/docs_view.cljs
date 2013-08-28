@@ -79,7 +79,7 @@
                            :style "margin: 20px;"
                            :class "btn btn-large btn-default"
                            :text "Another"
-                           :onclick  (fn [](go (js/alert (str (<! (remote "say-hello" {:name "1"}))))))
+                           :onclick  (fn [](go (js/alert (str (<! (remote "get-environment" {:name "1"}))))))
                            })
 
 

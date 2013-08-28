@@ -8,13 +8,6 @@
 ;*mandrill-api-key*
 
 
-(def ^:dynamic *mandrill-api-key*
-  (let [env (System/getenv)]
-    (get env "MANDRILL_API_KEY" (System/getProperty "MANDRILL_API_KEY"))))
-
-
-
-
 
 
 (def mandrill-url "https://mandrillapp.com/api/1.0/")
