@@ -105,6 +105,8 @@
                    <a href='http://git-scm.com/'>GIT</a>
                    <br>
                    <a href='http://www.neo4j.org/'>Neo4j</a>
+                   <br>
+                   <a href='http://www.postgresql.org'>Postgres (optional)</a>
                    </div>")
 
 
