@@ -6,7 +6,7 @@
         [cljs.core.async :as async :refer [chan close!]]
     )
     (:use
-        [webapp.framework.client.coreclient :only [hide-popovers show-popover set-text value-of find-el sql-fn swap-section sql el clear addto remote  add-to on-mouseover-fn on-click-fn]]
+        [webapp.framework.client.coreclient :only [popup hide-popovers show-popover set-text value-of find-el sql-fn swap-section sql el clear addto remote  add-to on-mouseover-fn on-click-fn]]
         [jayq.core                          :only [$ css  append fade-out fade-in empty]]
         [webapp.framework.client.help       :only [help]]
         [webapp.framework.client.eventbus   :only [do-action esb undefine-action]]
@@ -28,6 +28,32 @@
 
 
 
+(define-action "Send me my password"
+  (let
+    [
+       username    (message :username)
+     ]
+       (go
+         (let [
+                 search-db-for-user   (<! (sql "SELECT * FROM users where user_name = ?"
+                                      [username] ))
+                 user-already-exists  (pos? (count search-db-for-user))
+              ]
+                 (if user-already-exists
+                     (do
+
+                         (.log js/console "sending password")
+                         (remote "send-password" {:username username})
+                     )
+
+                     (popup :title "Can't find you"
+                            :body-html "<div>Try another email<div/>")
+                  )
+         )
+  )
+    ))
+
+
 
 
 (defn forgot-password-panel []
@@ -42,8 +68,8 @@
                      :type     "button"
                      :class    "btn btn-primary"
                      :style    "margin-left: 10px;"
-                     :text     "Reset my password"
-                     :onclick  #(do-action "Reset password"
+                     :text     "Send me my password"
+                     :onclick  #(do-action "Send me my password"
                                            {
                                             :username    (value-of "username-input")
                                             })})
@@ -58,6 +84,11 @@
       ]
   )
 )
+
+
+
+
+
 
 
 

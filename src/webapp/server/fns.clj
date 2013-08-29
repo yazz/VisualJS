@@ -2,10 +2,12 @@
   [:require [clojure.string :as str]]
   [:use [korma.db]]
   [:use [webapp.framework.server.systemfns]]
+  [:use [webapp.framework.server.email-service]]
   [:use [webapp.framework.server.encrypt]]
   [:use [korma.core]]
   [:use [clojure.core.async]]
-    (:require [clojurewerkz.neocons.rest :as nr])
+
+  (:require [clojurewerkz.neocons.rest :as nr])
   (:require [clojurewerkz.neocons.rest.nodes :as nn])
   (:require [clojurewerkz.neocons.rest.relationships :as nrl])
   (:require [clojurewerkz.neocons.rest.cypher :as cy])
@@ -153,6 +155,14 @@
    ;(nodes4j "place")
 
 
-
+(defn send-password [params]
+    (send-email :message    "Please reset"
+                :subject    "Your password "
+                :from-email "help@coils.cc"
+                :from-name  "coils emailer"
+                :to-email   "zubairq@gmail.com"
+                :to-name    nil
+    )
+)
 
 
