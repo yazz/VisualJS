@@ -25,6 +25,17 @@ Then rename the folder coils to the name of your project
 
 
 
+Compiling and running
+=====================
+
+    cd coils
+    lein with-profile dev cljsbuild clean
+    lein with-profile dev cljsbuild once
+    lein with-profile dev ring server
+
+
+
+
 Adding something to the page
 ============================
 
