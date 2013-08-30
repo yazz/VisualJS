@@ -91,7 +91,7 @@
                   :onmouseout #(clear :#case-study-example )})
              ])
 
-      (el :a {:href "http://github.com/zubairq"}
+      (el :a {:href "http://github.com/zubairq/coils"}
             [
         (el :div {:style "margin:20px; display:inline;padding: 20px; border: 1px solid gray; width:100px; height: 100px;"
                   :text "coils.cc"
