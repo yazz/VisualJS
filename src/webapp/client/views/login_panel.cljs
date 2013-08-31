@@ -189,12 +189,18 @@
                            :text "Logout"
                            :style "margin-right: 20px;"
                            :onclick #(swap-section
-                                                ($ :#top-right)
+                                                :#top-right
                                                 (signup-panel))})
 ]))
 
-(redefine-action
-    "show logged in panel"
+
+
+
+
+
+
+
+(redefine-action "show logged in panel"
 
     (do
       (clear "top-right")
@@ -202,6 +208,11 @@
       (set-text "signed-in-as-text" "Signed in as ")
     )
 )
+
+
+
+
+
 
 
 
@@ -260,16 +271,10 @@
 
 
 
+(redefine-action  "show login signup panel"
 
-
-
-(redefine-action
-    "show login signup panel"
-
-    (do
-      (clear "top-right")
-      (add-to "top-right" (login-signup-panel))
-))
+    (swap-section "top-right" (login-signup-panel))
+)
 
 
 

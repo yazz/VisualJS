@@ -254,10 +254,11 @@
 
 (defn esb []
   (popup :title "ESB" :body-html "<div id=popup><b>list of watchers</b><div/>")
-  (:value-to-watch (first @event-watchers))
+
+  ;(:value-to-watch (first @event-watchers))
 
 
-  (comment doall (doseq [watcher @event-watchers]
+  ( doall (doseq [watcher @event-watchers]
        (add-to "popup"
               [:div {}
                (:value-to-watch watcher)]

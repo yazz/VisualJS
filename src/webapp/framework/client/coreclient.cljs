@@ -243,10 +243,9 @@
                 <div class='modal-content'>
                   <div class='modal-header'>
                     <button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-                    <h4 class='modal-title'>Modal title</h4>
+                    <h4 id='modal-title' class='modal-title'>Modal title</h4>
                   </div>
-                  <div class='modal-body'>
-                    <p>One fine body&hellip;</p>
+                  <div id='modal-body' class='modal-body'>
                   </div>
                   <div class='modal-footer'>
                     <button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>
@@ -269,27 +268,30 @@
        }
     ]
     (let [
-          ela     (find-el body-html)
-          m       (by-id "myModal")
+          popup-el           (find-el "myModal")
+          body-el            (make-el body-html)
           ]
-        (if m
+
+        (if popup-el
           (do
-              (goog.dom/removeChildren m)
-              (goog.dom/removeNode m)
+              (goog.dom/removeChildren popup-el)
+              (goog.dom/removeNode     popup-el)
         ))
 
-      (-> ($ :body) (append (modal-text) ))
-      (-> ($ :#modal-body) (append ela))
-      (-> ($ :#myModalLabel) (html title))
+        (-> ($ :body)          (append (modal-text) ))
+        (-> ($ :#modal-body)   (append body-el))
+        (-> ($ :#modal-title)  (html title))
 
 
       ;(. ($ "#myModal") (modal))
-      (js/showHelp)
+      (js/showModalPopup)
 ))
 
 ;(-> (js/$ "#myModal") (.modal))
 
-;(popup "Pup" "<div>dd</div>")
+;(-> ($ :#modal-body)   (append (make-el "<div>dd</div>")))
+
+;(popup :title "Pup" :body-html "<div>dd</div>")
 
 
 (defn set-text [x text]
@@ -353,12 +355,12 @@
 (defn swap-section
   ([element new-content]
     (do
-        (-> element
+        (-> ($ (find-el element))
             (fade-out 200
                       #(do
-                         (-> element
+                         (-> ($ (find-el element))
                              (empty)
-                             (append new-content)
+                             (append (make-el new-content))
                              (fade-in)
                         )
                       )
@@ -368,12 +370,12 @@
      ))
    ([element new-content callback-fn]
     (do
-        (-> element
+        (-> ($ (find-el element))
             (fade-out 200
                       #(do
-                         (-> element
+                         (-> ($ (find-el element))
                              (empty)
-                             (append new-content)
+                             (append (make-el new-content))
                              (fade-in)
                              (callback-fn)
 

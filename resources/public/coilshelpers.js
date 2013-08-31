@@ -1,3 +1,10 @@
+
+function showModalPopup() {
+    $('#myModal').modal();
+}
+
+
+
 function showHelp() {
     $('#myModal').modal();
 }
@@ -19,3 +26,4 @@ function showPopover(element, text,  options) {
     //          $(element).popover('hide');
     //}, 2000);
 }
+
