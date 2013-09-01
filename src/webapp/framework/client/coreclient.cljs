@@ -461,15 +461,20 @@
           (el :ul {:class "nav nav-pills nav-stacked"}
               (into []
                 (map
-                      (fn[x] (el :li
-                                  {:class (str (if (:active x) " active" "") " left-menu-button")}
+                      (fn[x y ] (el :li
+                                  {:id (str "left-sidebar-" y)
+                                   :class (str (if (:active x) " active" "") " left-menu-button")}
                                   [
                                    (el
                                         :a
                                         {  :href "#"
                                            ;:onclick #(js/alert "fd")
                                            :onmouseover
-                                               #(swap-section ($ :#main-section) (make-el (:html x)))
+                                               #(do
+                                                  (swap-section ($ :#main-section) (make-el (:html x)))
+                                                  (js/deactivateLeftSidebarItems)
+                                                  (. ($ (find-el (str "left-sidebar-" y))) addClass "active")
+                                                )
                                            :text (get  x :text)
                                         }
                                     )
@@ -478,6 +483,7 @@
                        )
 
                              the-items
+                             (range 20)
                  )
 
 
@@ -485,6 +491,7 @@
            )
       ]
 )))
+
 
 
 (defn header-text [text]

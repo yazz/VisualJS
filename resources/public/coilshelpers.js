@@ -1,3 +1,6 @@
+function deactivateLeftSidebarItems() {
+    $('.left-menu-button').removeClass('active');
+}
 
 function showModalPopup() {
     $('#myModal').modal();

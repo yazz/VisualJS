@@ -62,9 +62,9 @@
 (defn clojuresript-html []
     (el :div {} [
         (header-text "ClojureScript" )
-        (body-html "<div><a href='https://github.com/clojure/clojurescript'>ClojureScript</a> is the most popular web framework built with the same technology
-                   used to build google.com, gmail.com, and all of the other main google properties. That
-                   technology is <a href='https://developers.google.com/closure/library/'>Google Closure</a>.</div>")
+        (body-html "<div><a href='https://github.com/clojure/clojurescript'>ClojureScript</a> is built on <a href='https://developers.google.com/closure/library/'>Google Closure</a>. Google Closure
+                   is used by Google to build to build google.com, gmail.com, google+, and all of the other main google properties.
+                   <br><br>Both Closurescript anfd Google closure compile down to native Javascript, so they are both cross platform.</div>")
 ]))
 
 
