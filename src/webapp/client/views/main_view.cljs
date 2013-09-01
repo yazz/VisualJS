@@ -30,7 +30,7 @@
   (el :div {} [
         (header-text "Welcome to Clojure on Coils" )
         (body-text "Clojure on Coils is a Clojure based webapp framework for
-                   single page database backed webapps")
+                   single page database or Neo4j backed webapps")
 ]))
 
 
@@ -67,7 +67,24 @@
                    <br><br>Both Closurescript anfd Google closure compile down to native Javascript, so they are both cross platform.</div>")
 ]))
 
+(defn database-html []
+    (el :div {} [
+        (header-text "Database" )
+        (body-html "<div>
+                   Clojure on Coils can connect to any relational database backend using a unique technology where the developer can
+                   synchronously program database calls from the web client to the database. Under the covers the code is translated to
+                   server side code.
+                   </div>")
+]))
 
+(defn neo4j-html []
+    (el :div {} [
+        (header-text "Neo4j" )
+        (body-html "<div>
+                   Neo4j is a leading graph database. Clojure for Coils is developing first class client side support for Neo4j Cypher
+                   queries. Watch this space!
+                   </div>")
+]))
 
 
 (define-action
@@ -85,6 +102,8 @@
        {:text "Technologies" :html (technologies-html)}
        {:text "Clojure" :html (clojure-html)}
        {:text "Clojurescript" :html (clojuresript-html)}
+       {:text "Database" :html (database-html)}
+       {:text "Neo4j" :html (neo4j-html)}
    )
 )
 
