@@ -331,7 +331,8 @@
                  )
 
 
-                 (.log js/console "user does not exist")
+                 (popup :title      "User does not exist"
+                        :body-html  "<div>Please check that the email is correct</div>")
               )
      )
   )
