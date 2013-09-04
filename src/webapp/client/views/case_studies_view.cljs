@@ -5,7 +5,7 @@
         [crate.core :as crate]
     )
     (:use
-        [webapp.framework.client.coreclient :only [swap-section sql el clear addto remote  add-to]]
+        [webapp.framework.client.coreclient :only [sql-fn header-text body-text body-html make-sidebar  swap-section  el clear addto remote  add-to]]
         [jayq.core                          :only [$ css  append fade-out fade-in empty]]
         [webapp.framework.client.help       :only [help]]
         [webapp.framework.client.eventbus   :only [do-action esb undefine-action]]
@@ -19,121 +19,76 @@
 )
 
 
-(defn
-  coils-case-study-html [
-                         ]
-      (el :div {:style "padding: 40px;"
-                  :text "Coils.cc was built with Clojure on Coils
-                  just to show we eat our own dogfood!"})
-  )
 
 
-
-(defn
-  nemcv-case-study-html [
-                         ]
-      (el :div {:style "padding: 40px;"
-                  :text "NemCV.com is a production system used officially as a CV
-                system in Europe. We are based in the Copenhagen International House
-                and are part of the Work In Denmark programme"})
-  )
-
-(define-action "show coils case study"
-    (do
-        (-> ($ :#case-study-example)
-            (fade-out 200
-                      #(do
-                         (-> ($ :#case-study-example)
-                             (empty)
-                             (append (coils-case-study-html))
-                             (fade-in)
-                        )
-                      )
-             )
-        )
-        nil
-     )
-)
-
-(define-action "show nemcv case study"
-    (do
-        (-> ($ :#case-study-example)
-            (fade-out 200
-                      #(do
-                         (-> ($ :#case-study-example)
-                             (empty)
-                             (append (nemcv-case-study-html))
-                             (fade-in)
-                        )
-                      )
-             )
-        )
-        nil
-     )
-)
-
-(defn homepage-html []
+(defn coils-html []
 
   (el
     :div {}
      [
 
-        (el :h1 {:style "padding: 20px;"
-                  :text "Case studies"} )
+      (el :a {:href "http://github.com/zubairq/coils"}
+            [
+                  (el :div {:style "background: white; margin:20px;padding: 20px; border: 1px solid gray; width:100px; "
+                            :text "coils.cc"
+                  })
+
+             ])
+
+        (el :div {:style "padding: 40px;"
+                  :text "Coils.cc was built with Clojure on Coils
+                         just to show we eat our own dogfood!"})
+     ]
+  )
+)
+
+
+(defn nemcv-html []
+
+  (el
+    :div {}
+     [
 
         (el :a {:href "http://nemcv.com"}
             [
-            (el :img {:style "background: blue;margin:20px; display:inline;padding: 20px; border: 1px solid gray; width:100px; "
-                  :text "NemCV.com"
-                  :src "images/nemcv.png"
+                   (el :img {:style "background: blue; margin:20px;padding: 20px; border: 1px solid gray; width:100px; "
+                       :text "NemCV.com"
+                       :src "images/nemcv.png"})
 
-                  :onmouseover #(do-action "show nemcv case study")
-                  :onmouseout #(clear :#case-study-example )})
-             ])
 
-      (el :a {:href "http://github.com/zubairq/coils"}
-            [
-        (el :div {:style "margin:20px; display:inline;padding: 20px; border: 1px solid gray; width:100px; height: 100px;"
-                  :text "coils.cc"
-                  :onmouseover #(do-action "show coils case study")
-                  :onmouseout #(clear :#case-study-example )})
-
-             ])
-
-        (el :div {:id "case-study-example" :style "padding: 40px;"
-                  :text ""})
-
-        ;(el :div {:id "popup"})
+                   (el :div {:style "padding: 40px;"
+                       :text "NemCV.com is used officially as a CV
+                              system in Europe. NemCV is based in the Copenhagen International House
+                              and are part of the Work In Denmark programme"})
+            ])
      ]
   )
 )
 
 
 
+(defn sidebar []
+  (make-sidebar
+       {:text "NemCV" :html (nemcv-html)}
+       {:text "Clojure on Coils" :html (coils-html)}
+   )
+)
 
 
 
 (define-action
     "show case studies view"
     (do
-        (-> ($ :#main-section)
-            (fade-out 200
-                      #(do
-                         (-> ($ :#main-section)
-                             (empty)
-                             (append (homepage-html))
-                             (fade-in)
-                        )
-                      )
-             )
+        (swap-section
+            ($ :#main-section)
+            (nemcv-html)
         )
-
-
-       (swap-section
+        (swap-section
             ($ :#left-navigation)
-            "<div></div>")
-        nil
-     )
+            (sidebar)
+
+        )
+    )
 )
 
 (do-action "show case studies view")
