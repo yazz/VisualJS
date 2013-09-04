@@ -13,4 +13,10 @@
 
 (defonce ^:dynamic *database-server* "127.0.0.1")
 
+(defonce ^:dynamic *database-user* "postgres")
+
+(defonce ^:dynamic *database-password* "manager")
+
+(defonce ^:dynamic *database-name* "webdb")
+
 (defonce ^:dynamic *sql-encryption-password* "animal")

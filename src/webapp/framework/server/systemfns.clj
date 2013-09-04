@@ -3,14 +3,15 @@
   [:require [clojure.string :as str]]
   [:use [korma.db]]
   [:use [korma.core]]
+  [:use [webapp-config.settings]]
   [:use [webapp.framework.server.encrypt]]
 )
 
 
-(defdb db (postgres {:db "webdb"
-                     :host "127.0.0.1"
-                     :user "postgres"
-                     :password "manager"}))
+(defdb db (postgres {:db *database-name*
+                     :host *database-server*
+                     :user *database-user*
+                     :password *database-password*}))
 
 
 
