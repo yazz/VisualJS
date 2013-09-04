@@ -94,11 +94,11 @@
 
 
 
-(defn login-panel []
+(defn login-panel-html []
   (el :form {:class "form-inline" :style "padding: 5px"}
       [
        (el :div {:class "form-group"} [
-        "<input  id='username-input' type='email' class='input-small form-control' placeholder='Email'>"
+        "<input  id='username-input'  type='email' placeholder='me@example.com' class='input-small form-control'>"
         ])
        (el :div {:class "form-group"} [
         "<input  id='password-input' type='password' class='input-small form-control' placeholder='Password'>"
@@ -134,7 +134,11 @@
 
 
 
-(defn signup-panel []
+
+
+
+
+(defn signup-panel-html []
   (el :form {:class "form-inline" :role "form" :style "padding: 5px"}
       [
        (el :div {:class "form-group"} [
@@ -190,7 +194,7 @@
                            :style "margin-right: 20px;"
                            :onclick #(swap-section
                                                 :#top-right
-                                                (signup-panel))})
+                                                (signup-panel-html))})
 ]))
 
 
@@ -217,7 +221,7 @@
 
 
 
-(defn login-signup-panel []
+(defn login-signup-panel-html []
     (el :div {:class "pull-right"} [
         (el :button
                           {:id    "login-button"
@@ -226,7 +230,7 @@
                            :text "login"
                            :onclick #(swap-section
                                                 ($ :#top-right)
-                                                (login-panel))
+                                                (login-panel-html))
                            :onmouseover #(show-popover "login-button"
                                                        "Use this if you already have an account")
                            :onmouseout #(hide-popovers)
@@ -239,7 +243,7 @@
                            :text "Sign up"
                            :onclick #(swap-section
                                                 ($ :#top-right)
-                                                (signup-panel))
+                                                (signup-panel-html))
                            :onmouseover #(show-popover "signup-button"
                                                        "<br>Use this if you want to create an account"
                                                        {:placement "left"})
@@ -273,7 +277,7 @@
 
 (redefine-action  "show login signup panel"
 
-    (swap-section "top-right" (login-signup-panel))
+    (swap-section "top-right" (login-signup-panel-html))
 )
 
 
