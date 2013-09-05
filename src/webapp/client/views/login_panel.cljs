@@ -28,6 +28,8 @@
 
 
 
+
+
 (define-action "Send me my password"
   (let
     [
@@ -56,7 +58,9 @@
 
 
 
-(defn forgot-password-panel []
+
+
+(defn forgot-password-panel-html []
   (el :form {:class "form-inline" :style "padding: 5px"}
       [
        (el :div {:class "form-group"} [
@@ -182,7 +186,7 @@
     (el :div {:class "row" :style "padding: 5px; width:300px;"} [
         (el :div
                           {:id    "signed-in-as-text"
-                           :text  "ss"
+                           :text  "Signing in..."
                            :class "col-md-6"
 
          })
@@ -209,10 +213,16 @@
     (do
       (clear "top-right")
       (add-to "top-right" (logged-in-panel))
-      (set-text "signed-in-as-text" "Signed in as ")
     )
 )
 
+(redefine-action "update current user"
+  (let [
+        user message
+        ]
+         (swap-section "signed-in-as-text"
+                       (str "<div>Signed in as " (:user_name user) "</div>"))
+ ))
 
 
 
@@ -231,9 +241,9 @@
                            :onclick #(swap-section
                                                 ($ :#top-right)
                                                 (login-panel-html))
-                           :onmouseover #(show-popover "login-button"
-                                                       "Use this if you already have an account")
-                           :onmouseout #(hide-popovers)
+;                           :onmouseover #(show-popover "login-button"
+;                                                       "Use this if you already have an account")
+;                           :onmouseout #(hide-popovers)
                            })
 
         (el :button
@@ -244,10 +254,6 @@
                            :onclick #(swap-section
                                                 ($ :#top-right)
                                                 (signup-panel-html))
-                           :onmouseover #(show-popover "signup-button"
-                                                       "<br>Use this if you want to create an account"
-                                                       {:placement "left"})
-                           :onmouseout #(hide-popovers)
                            })
 
         (el :button
@@ -257,12 +263,7 @@
                            :text "Forgot password?"
                            :onclick #(swap-section
                                                 ($ :#top-right)
-                                                (forgot-password-panel))
-                           :onmouseover #(show-popover "forgot-password-button"
-                                                       "<br><br>Use this if you think you have created an
-                                                       account and you want to reset your password"
-                                                       {:placement "left"})
-                           :onmouseout #(hide-popovers)
+                                                (forgot-password-panel-html))
                            })
 
 
@@ -294,13 +295,20 @@
                                   [username] ))
              user-already-exists  (pos? (count search-db-for-user))
           ]
-             (if user-already-exists
-                 (.log js/console "user already exists")
+             (cond
+                  user-already-exists
+                      (.log js/console "user already exists")
 
-                 (do
-                     (<! (sql "insert into users (user_name, password) values (?,?)"
-                            [username,password] ))
-                     (.log js/console "Created user " username))
+                  (= (count password) 0)
+                      (show-popover "password-input"
+                                       "Password cannot be empty"
+                                       {:placement "bottom"})
+
+                 :else
+                       (do
+                         (<! (sql "insert into users (user_name, password) values (?,?)"
+                                [username,password] ))
+                         (.log js/console "Created user " username))
               )
      )
   )
@@ -319,7 +327,7 @@
      (let [
              username             (:username message)
              password             (:password message)
-             search-db-for-user   (<! (sql "SELECT user_name, password
+             search-db-for-user   (<! (sql "SELECT id, user_name, password
                                            FROM users where user_name = ?"
                                            [username] ))
              user-record-from-db  (first search-db-for-user)
@@ -328,15 +336,16 @@
                  (do
                      (if (= password (:password user-record-from-db))
                          (do
-                             (.log js/console "Logged in as user " username)
+                             (.log js/console (str "Logged in as user " user-record-from-db))
                              (do-action "show logged in panel")
+                             (do-action "set logged in user" user-record-from-db)
                          )
                          (.log js/console "Password incorrect for user " username))
                  )
 
-
-                 (popup :title      "User does not exist"
-                        :body-html  "<div>Please check that the email is correct</div>")
+                 (show-popover "username-input"
+                               "<br>User does not exist. Please check that the email is correct"
+                               {:placement "left"})
               )
      )
   )

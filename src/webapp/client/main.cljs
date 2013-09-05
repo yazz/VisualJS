@@ -1,6 +1,7 @@
 (ns webapp.client.main
     (:require
         [webapp.client.login-panel]
+        [webapp.client.session]
     )
     (:use
         [webapp.framework.client.eventbus  :only [do-action esb]]
