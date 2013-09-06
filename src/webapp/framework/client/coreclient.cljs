@@ -20,6 +20,8 @@
   )
 )
 
+(def gui-html (atom {}))
+
 
 (defn make-js-map
   "makes a javascript map from a clojure one"

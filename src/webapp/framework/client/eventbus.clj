@@ -6,6 +6,11 @@
   )
 
 
+
+
+
+
+
 (defmacro define-action [message-arg code]
 
     `(do
@@ -23,6 +28,12 @@
              (fn [ ~(symbol "message") ] ~code ))
 
     ))
+
+
+
+
+
+
 
 (comment  macroexpand '(define-action
                    "clear main page2"
@@ -46,7 +57,13 @@
 ;(p/parse-string "(defn my-function [a]\n  (* a 3))")
 
 
-(println 2)
+;(println 2)
+
+
+
+
+
+
 
 (defmacro redefine-action [message-arg code]
 
@@ -80,6 +97,7 @@
 (comment macroexpand '(define-action
     "clear homepage"
     (clear :#main)))
+
 
 
 
