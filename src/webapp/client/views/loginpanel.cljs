@@ -6,7 +6,9 @@
         [cljs.core.async :as async :refer [chan close!]]
     )
     (:use
-        [webapp.framework.client.coreclient :only [popup hide-popovers show-popover set-text value-of find-el sql-fn swap-section sql el clear remote  add-to on-mouseover-fn on-click-fn]]
+        [webapp.framework.client.coreclient :only [new-dom-id debug popup hide-popovers
+                                                   show-popover set-text value-of find-el sql-fn
+                                                   swap-section sql el clear remote  add-to on-mouseover-fn on-click-fn]]
         [jayq.core                          :only [$ css  append fade-out fade-in empty attr bind]]
         [webapp.framework.client.help       :only [help]]
         [webapp.framework.client.eventbus   :only [do-action esb undefine-action]]
@@ -16,62 +18,15 @@
     [cljs.core.async.macros :refer [go alt!]])
   (:use-macros
         [webapp.framework.client.eventbus :only [redefine-action define-action]]
-        [webapp.framework.client.coreclient :only [on-click on-mouseover sql]]
+        [webapp.framework.client.coreclient :only [on-click on-mouseover sql defn-html defn-html2]]
         [webapp.framework.client.interpreter :only [! !! !!!]]
      )
 )
 
 
-(def auto-gen-id (atom 0))
 
 
 
-(defn new-dom-id []
-  (swap! auto-gen-id inc)
-  (str "autodom" @auto-gen-id)
-  )
-
-
-
-(defn debug [html]
-
-    (.log js/console (str "ID: " (attr ($ html) "id")))
-
-    (let [
-            current-id      (attr ($ html) "id")
-            id              (if current-id
-                              current-id
-                              (let [new-id (new-dom-id)]
-                                (attr  ($ html) "id" new-id)
-                                new-id
-                              )
-                            )
-          ]
-
-      (attr  ($ html) "onmouseover"
-             (str "webapp.client.loginpanel.clicked2(" id  ");")
-             )
-      (attr  ($ html) "onmouseout"
-             (str "webapp.client.loginpanel.clicked3(" id  ");")
-             )
-      html)
-
-
-)
-
-
-
-(defn ^:export clicked2 [id]
-  (css
-     ($ (find-el id))
-      {:background-color "lightgray"})
-)
-
-(defn ^:export clicked3 [id]
-  (css
-     ($ (find-el id))
-      {:background-color "white"})
-)
 
 
 (define-action "Send me my password"
@@ -104,7 +59,7 @@
 
 
 
-(defn forgot-password-panel-html []
+(defn-html forgot-password-panel-html []
   (el :form {:class "form-inline" :style "padding: 5px"}
       [
        (el :div {:class "form-group"} [
@@ -282,11 +237,9 @@
 
 
 
+(defn-html login-signup-panel-html []
 
-
-(defn login-signup-panel-html []
-  (debug
-    (el :div {:class "pull-right"} [
+  (el :div {:class "pull-right"} [
         (el :button
                           {:id    "login-button"
                            :style "margin: 5px; "
@@ -323,7 +276,7 @@
 
               ])
 
-  )
+
 )
 
 
@@ -405,9 +358,46 @@
   )
 )
 
+(defn-html newlog [x]
+    (el :form {:class "form-inline" :style "padding: 5px"}
+      [
+       (el :div {:class "form-group"} [
+        "<input  id='username-input'  type='email' placeholder='me@example.com' class='input-small form-control'>"
+        ])
+       (el :div {:class "form-group"} [
+        "<input  id='password-input' type='password' class='input-small form-control' placeholder='Password'>"
+        ])
+        ;"<div class='checkbox' style='margin-left: 10px;'>
+        ;    <label>
+        ;      <input type='checkbox'> Remember me
+        ;    </label>
+        ;  </div>"
+
+       (el :button {
+                     :id       "signup-button"
+                     :type     "button"
+                     :class    "btn btn-primary"
+                     :style    "margin-left: 10px;"
+                     :text     "Login"
+                     :onclick  #(do-action "login user"
+                                           {
+                                            :username    (value-of "username-input")
+                                            :password    (value-of "password-input")
+                                            })})
+
+        (el :button {
+                     :type "button"
+                     :class "btn btn-info"
+                     :style "margin-left: 10px;"
+                     :text "Cancel"
+                     :onclick #(do-action "show login signup panel")})
+
+      ]
+  )
+)
 
 
-
+;(newlog 1)
 
 
 

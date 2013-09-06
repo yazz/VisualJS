@@ -12,7 +12,7 @@
     [cljs.core.async.macros :refer [go alt!]])
   (:use
     [domina.events         :only [listen!]]
-    [jayq.core             :only [html $ css  append fade-out fade-in empty]]
+    [jayq.core             :only [attr html $ css  append fade-out fade-in empty]]
     [domina                :only [value append! by-id destroy! set-text!]]
     [domina.xpath          :only [xpath]]
     [domina.css            :only [sel]]
@@ -21,7 +21,10 @@
 )
 
 (def gui-html (atom {}))
+(def el-fn-mapping (atom {}))
 
+;(keys @gui-html)
+;el-fn-mapping
 
 (defn make-js-map
   "makes a javascript map from a clojure one"
@@ -509,13 +512,14 @@
 (defn show-popover [elem text & options]
     (let [opt         {
                           :placement   "bottom"
+;                          :title       "Popup"
                           :container   "body"
                           :html        true
                           :content     (str    "<div id=popover>"  text   "</div>")
                       }
           useopt      (merge opt (if options (first options)))
           ]
-         (do
+         (if elem
              (js/showPopover (find-el elem) text (clj-to-js useopt))
     ))
 )
@@ -525,4 +529,78 @@
     (js/hidePopovers)
 )
 
+(def auto-gen-id (atom 0))
+
+
+
+(defn ^:export clicked2 [id]
+  (css
+     ($ (find-el id))
+     {:background-color "lightgray"})
+
+
+)
+
+(defn ^:export showcodepopover [id]
+
+  (.log js/console (str "code for id: "id ))
+  (popup :title "Code"
+         :body-html
+         (str
+         "<div style='width:800px;'><pre>"
+         (get @gui-html (get @el-fn-mapping id))
+         "</pre></div>"
+         )
+
+  )
+)
+
+
+
+(defn ^:export clicked3 [id]
+  (css
+     ($ (find-el id))
+      {:background-color "white"})
+  (hide-popovers)
+)
+
+
+(defn new-dom-id []
+  (swap! auto-gen-id inc)
+  (str "autodom" @auto-gen-id)
+  )
+
+
+
+(defn debug [html fname]
+
+
+    (let [
+            current-id      (attr ($ html) "id")
+            id              (if current-id
+                              current-id
+                              (let [new-id (new-dom-id)]
+                                (attr  ($ html) "id" new-id)
+                                new-id
+                              )
+                            )
+          ]
+
+      (attr  ($ html) "onmouseover"
+             (str "webapp.framework.client.coreclient.clicked2('" id  "');")
+             )
+      (attr  ($ html) "onclick"
+             (str "webapp.framework.client.coreclient.showcodepopover('" id  "');")
+             )
+      (attr  ($ html) "onmouseout"
+             (str "webapp.framework.client.coreclient.clicked3('" id  "');")
+             )
+          (.log js/console (str "ID: " id))
+    (.log js/console (str "fname: " fname))
+      (swap! el-fn-mapping assoc id fname)
+
+      html)
+
+
+)
 

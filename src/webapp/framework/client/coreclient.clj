@@ -1,5 +1,9 @@
 (ns webapp.framework.client.coreclient
   [:use [webapp.framework.server.encrypt]]
+     (:use clojure.pprint)
+   (:require [rewrite-clj.parser :as p])
+   (:require [rewrite-clj.printer :as prn])
+
 )
 
 
@@ -64,19 +68,29 @@
 
 
 
-(defmacro defn2 [name args & code]
+(defmacro defn-html [fname args & code]
   `(do
-    (defn ~name
-         ~args
+        (reset!
+            webapp.framework.client.coreclient/gui-html
+            (assoc (deref webapp.framework.client.coreclient/gui-html) ~(str `~fname)
+              ~(with-out-str (write `'(
+                                      (defn-html
+                                        ~fname
+                                        [ ~@args ]
+                                        ~code))
+                                        :dispatch clojure.pprint/code-dispatch))
+            )
+        )
 
-         ~@code
+        (defn ~fname
+             ~args
+
+             (webapp.framework.client.coreclient/debug ~@code ~(str `~fname))
      )
    )
 )
 
 
-(macroexpand '(defn2 dfffd [x] (+ 1 1)))
 
-(defn2 hello2 [x] (+ 10 x))
 
-(hello2 1)
+
