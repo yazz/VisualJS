@@ -1,4 +1,4 @@
-(ns webapp.client.login-panel
+(ns webapp.client.loginpanel
     (:refer-clojure :exclude [val empty remove find next parents])
     (:require
         [cljs.reader :as reader]
@@ -7,7 +7,7 @@
     )
     (:use
         [webapp.framework.client.coreclient :only [popup hide-popovers show-popover set-text value-of find-el sql-fn swap-section sql el clear remote  add-to on-mouseover-fn on-click-fn]]
-        [jayq.core                          :only [$ css  append fade-out fade-in empty]]
+        [jayq.core                          :only [$ css  append fade-out fade-in empty attr bind]]
         [webapp.framework.client.help       :only [help]]
         [webapp.framework.client.eventbus   :only [do-action esb undefine-action]]
         [domina                             :only [ by-id value destroy! ]]
@@ -21,30 +21,57 @@
      )
 )
 
-(comment css
- ($ (find-el "random"))
-  {:background-color "blue"})
+
+(def auto-gen-id (atom 0))
+
+
+
+(defn new-dom-id []
+  (swap! auto-gen-id inc)
+  (str "autodom" @auto-gen-id)
+  )
+
+
 
 (defn debug [html]
-    (el :div {:id "random"
-              :onmousemover#(do
-                              (.log js/console "debug")
-                              (css ($ (find-el "random")) "background-color" "blue")
-                              (show-popover "Code"
-                                          "
-                                          some code
-                                          dsffsfsd
-                                          fdsfdfdsfds
-                                          "
-                                          {:placement "left"}))
-              } [
-                 html
-                 ])
+
+    (.log js/console (str "ID: " (attr ($ html) "id")))
+
+    (let [
+            current-id      (attr ($ html) "id")
+            id              (if current-id
+                              current-id
+                              (let [new-id (new-dom-id)]
+                                (attr  ($ html) "id" new-id)
+                                new-id
+                              )
+                            )
+          ]
+
+      (attr  ($ html) "onmouseover"
+             (str "webapp.client.loginpanel.clicked2(" id  ");")
+             )
+      (attr  ($ html) "onmouseout"
+             (str "webapp.client.loginpanel.clicked3(" id  ");")
+             )
+      html)
+
+
 )
 
 
 
+(defn ^:export clicked2 [id]
+  (css
+     ($ (find-el id))
+      {:background-color "lightgray"})
+)
 
+(defn ^:export clicked3 [id]
+  (css
+     ($ (find-el id))
+      {:background-color "white"})
+)
 
 
 (define-action "Send me my password"

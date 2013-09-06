@@ -1,6 +1,6 @@
 (ns webapp.client.main
     (:require
-        [webapp.client.login-panel]
+        [webapp.client.loginpanel]
         [webapp.client.session]
     )
     (:use
