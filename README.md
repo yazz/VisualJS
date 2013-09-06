@@ -1,6 +1,6 @@
 Clojure on Coils
 ================
-Website found at http://coils.cc
+This website for this repository is online at http://coils.cc
 
 The documentation can be found at http://zubairq.github.io/coils/
 
