@@ -244,14 +244,14 @@
 ;                    <button type='button' class='btn btn-primary'>Save changes</button>
 
     (crate/raw "
-              <div id='myModal' class='modal fade'>
+              <div id='myModal' class='modal fade' style='width: 100%'>
               <div class='modal-dialog'>
                 <div class='modal-content'>
                   <div class='modal-header'>
                     <button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
                     <h4 id='modal-title' class='modal-title'>Modal title</h4>
                   </div>
-                  <div id='modal-body' class='modal-body'>
+                  <div id='modal-body' class='modal-body'  style='width: 100%'>
                   </div>
                   <div class='modal-footer'>
                     <button type='button' class='btn btn-primary' data-dismiss='modal'>Close</button>
@@ -547,7 +547,7 @@
   (popup :title "Code"
          :body-html
          (str
-         "<div style='width:800px;'><pre>"
+         "<div style=''><pre>"
          (get @gui-html (get @el-fn-mapping id))
          "</pre></div>"
          )
