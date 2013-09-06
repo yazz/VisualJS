@@ -183,22 +183,31 @@
 
 
 (defn logged-in-panel []
-    (el :div {:class "row" :style "padding: 5px; width:300px;"} [
+    (el :div {:class "row" :style "padding: 5px; width:400px;"} [
         (el :div
                           {:id    "signed-in-as-text"
                            :text  "Signing in..."
-                           :class "col-md-6"
+                           :class "pull-left"
+                           :style "margin-right: 20px; margin-top:10px;"
 
          })
 
         (el :button
                           {:id    "logout-button"
-                           :class "btn btn-default col-md-5 pull-right"
+                           :class "btn btn-default "
                            :text "Logout"
                            :style "margin-right: 20px;"
                            :onclick #(swap-section
                                                 :#top-right
                                                 (signup-panel-html))})
+
+        (el :button
+                          {:id    "settings-button"
+                           :class "btn btn-default"
+                           :text "Settings"
+                           :style "margin-right: 20px;"
+         })
+
 ]))
 
 
