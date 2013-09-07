@@ -16,7 +16,7 @@
     [cljs.core.async.macros :refer [go alt!]])
   (:use-macros
         [webapp.framework.client.eventbus :only [redefine-action define-action]]
-        [webapp.framework.client.coreclient :only [on-click on-mouseover sql]]
+        [webapp.framework.client.coreclient :only [defn-html on-click on-mouseover sql]]
         [webapp.framework.client.interpreter :only [! !! !!!]]
      )
 )
@@ -24,7 +24,7 @@
 
 
 
-(defn top-nav-bar []
+(defn-html top-nav-bar []
         "<a id=logo class=navbar-brand href='#' onclick='webapp.client.topnav.toggledebug();'>Coils.cc</a>
                 <ul class='nav navbar-nav'>
                   <li id='home-button' class=active><a href='#'>Home</a></li>

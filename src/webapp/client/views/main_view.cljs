@@ -16,7 +16,7 @@
     )
     (:use-macros
         [webapp.framework.client.eventbus :only [define-action]]
-        [webapp.framework.client.coreclient :only [on-click on-mouseover]]
+        [webapp.framework.client.coreclient :only [defn-html  on-click on-mouseover]]
         [webapp.framework.client.interpreter :only [! !! !!!]]
      )
 )
@@ -26,7 +26,7 @@
 
 
 
-(defn homepage-html []
+(defn-html homepage-html []
   (el :div {} [
         (header-text "Welcome to Clojure on Coils" )
         (body-text "Clojure on Coils is a Clojure based webapp framework for
