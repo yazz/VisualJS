@@ -52,7 +52,10 @@
   {:value *environment*}
 )
 
-(get-environment [nil])
+(defn get-show-debug [params]
+  {:value *show-code*}
+)
+
 
 
 (comment let [ch (chan)]

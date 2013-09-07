@@ -17,7 +17,10 @@ function showHelp() {
 function hidePopovers() {
     $('.has-popover').popover('hide');
     $('.has-popover').removeClass('has-popover');
+    $('#popover').remove();
 }
+
+
 function showPopover(element, text,  options) {
     hidePopovers();
     $(element).addClass('has-popover');

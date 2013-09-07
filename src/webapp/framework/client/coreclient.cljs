@@ -22,6 +22,9 @@
 
 (def gui-html (atom {}))
 (def el-fn-mapping (atom {}))
+(def debug-mode (atom {:value false}))
+
+@debug-mode
 
 ;(keys @gui-html)
 ;el-fn-mapping
@@ -514,6 +517,11 @@
 
 
 
+
+
+(defn hide-popovers []
+    (js/hidePopovers)
+)
 (defn show-popover [elem text & options]
     (let [opt         {
                           :placement   "bottom"
@@ -530,44 +538,42 @@
 )
 
 
-(defn hide-popovers []
-    (js/hidePopovers)
-)
-
 (def auto-gen-id (atom 0))
 
 
 
 (defn ^:export clicked2 [id]
-  (css
+  (if (:value @debug-mode)
+    (css
      ($ (find-el id))
      {:background-color "lightgray"})
-
-
+  )
 )
 
 (defn ^:export showcodepopover [id]
 
-  (.log js/console (str "code for id: "id ))
-  (popup :title "Code"
-         :body-html
-         (str
-         "<div style=''><pre>"
-         (get @gui-html (get @el-fn-mapping id))
-         "</pre></div>"
-         )
-
+  (if (:value @debug-mode)
+    (do
+      (.log js/console (str "code for id: "id ))
+      (popup :title "Code"
+             :body-html
+             (str
+             "<div style=''><pre>"
+             (get @gui-html (get @el-fn-mapping id))
+             "</pre></div>"
+             ))
+    )
   )
 )
 
 
 
 (defn ^:export clicked3 [id]
-  (css
-     ($ (find-el id))
-      {:background-color "white"})
-  (hide-popovers)
-)
+  (if (:value @debug-mode)
+    (css
+       ($ (find-el id))
+        {:background-color "white"})
+))
 
 
 (defn new-dom-id []
@@ -608,4 +614,5 @@
 
 
 )
+
 
