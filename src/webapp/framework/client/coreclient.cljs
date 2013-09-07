@@ -20,6 +20,13 @@
   )
 )
 
+(def auto-gen-id (atom 0))
+
+(defn new-dom-id []
+  (swap! auto-gen-id inc)
+  (str "autodom" @auto-gen-id)
+  )
+
 (def gui-html (atom {}))
 (def el-fn-mapping (atom {}))
 (def debug-mode (atom {:value false}))
@@ -530,7 +537,7 @@
 ;                          :title       "Popup"
                           :container   "body"
                           :html        true
-                          :content     (str    "<div id=popover>"  text   "</div>")
+                          :content     (str    "<div id=" (new-dom-id) ">"  text   "</div>")
                       }
           useopt      (merge opt (if options (first options)))
           ]
@@ -545,7 +552,6 @@
 ;                                   :content "d"}))
 
 
-(def auto-gen-id (atom 0))
 
 
 
@@ -582,11 +588,6 @@
         {:background-color "white"})
 ))
 
-
-(defn new-dom-id []
-  (swap! auto-gen-id inc)
-  (str "autodom" @auto-gen-id)
-  )
 
 
 

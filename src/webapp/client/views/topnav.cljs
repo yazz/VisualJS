@@ -62,7 +62,7 @@
      )
     (let [dv (str "Debug: " (get @debug-mode :value)) ]
       (do
-          (show-popover "logo" dv)
+          (show-popover "logo" dv {:placement "right"})
           (.log js/console dv)
         )
       )

@@ -21,15 +21,14 @@ function hidePopovers() {
 
 
 function showPopover(element,  options) {
-    //hidePopovers();
+    hidePopovers();
     $(element).addClass('has-popover');
 
     $(element).popover(options);
     $(element).popover('show');
     setTimeout(function() {
               $(element).removeClass('has-popover');
-              $(element).popover('hide');
-              $('#popover').remove();
+              $(element).popover('destroy');
     }, 4000);
 }
 
