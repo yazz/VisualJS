@@ -523,6 +523,8 @@
     (js/hidePopovers)
 )
 (defn show-popover [elem text & options]
+    (.log js/console
+          (str "(show-popover " elem " " text " " options ")"))
     (let [opt         {
                           :placement   "bottom"
 ;                          :title       "Popup"
@@ -533,9 +535,14 @@
           useopt      (merge opt (if options (first options)))
           ]
          (if elem
-             (js/showPopover (find-el elem) text (clj-to-js useopt))
+             (js/showPopover (find-el elem) (clj-to-js useopt))
+             (.log js/console (str "cannot find : " elem ))
     ))
 )
+;(show-popover "logo" "ddd")
+;(js/showPopover (find-el "logo") (clj-to-js
+;                                  {:container "body" :html true
+;                                   :content "d"}))
 
 
 (def auto-gen-id (atom 0))

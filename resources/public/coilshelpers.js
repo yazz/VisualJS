@@ -17,12 +17,11 @@ function showHelp() {
 function hidePopovers() {
     $('.has-popover').popover('hide');
     $('.has-popover').removeClass('has-popover');
-    $('#popover').remove();
 }
 
 
-function showPopover(element, text,  options) {
-    hidePopovers();
+function showPopover(element,  options) {
+    //hidePopovers();
     $(element).addClass('has-popover');
 
     $(element).popover(options);
@@ -30,6 +29,7 @@ function showPopover(element, text,  options) {
     setTimeout(function() {
               $(element).removeClass('has-popover');
               $(element).popover('hide');
+              $('#popover').remove();
     }, 4000);
 }
 

@@ -50,22 +50,26 @@
 
 (defn ^:export toggledebug [
                              ]
-  (cond
-   (= @debug-mode nil)
-   (reset! debug-mode {:value true})
+    (cond
+     (= @debug-mode nil)
+     (reset! debug-mode {:value true})
 
-   (= (:value @debug-mode) true)
-   (reset! debug-mode {:value false})
+     (= (:value @debug-mode) true)
+     (reset! debug-mode {:value false})
 
-   :else
-   (reset! debug-mode {:value true})
-   )
-  (.log js/console (str (get @debug-mode :value)))
-  (show-popover "logo" (str "Debug: " (get @debug-mode :value)) )
+     :else
+     (reset! debug-mode {:value true})
+     )
+    (let [dv (str "Debug: " (get @debug-mode :value)) ]
+      (do
+          (show-popover "logo" dv)
+          (.log js/console dv)
+        )
+      )
+
 )
 
-
-
+;show-popover
 
 (defn remove-nav-active []
   (. ($ :#home-button) removeClass "active")
