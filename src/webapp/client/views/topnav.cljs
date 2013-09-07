@@ -1,4 +1,4 @@
-(ns webapp.client.top-nav
+(ns webapp.client.topnav
     (:refer-clojure :exclude [val empty remove find next parents])
     (:require
         [cljs.reader :as reader]
@@ -6,8 +6,8 @@
         [cljs.core.async :as async :refer [chan close!]]
     )
     (:use
-        [webapp.framework.client.coreclient :only [sql el clear addto remote  add-to on-mouseover-fn on-click-fn]]
-        [jayq.core                          :only [$ css  append fade-out fade-in empty]]
+        [webapp.framework.client.coreclient :only [sql-fn header-text body-text body-html make-sidebar  swap-section  el clear addto remote  add-to]]
+        [jayq.core                          :only [$ css append fade-out fade-in empty]]
         [webapp.framework.client.help       :only [help]]
         [webapp.framework.client.eventbus   :only [do-action esb undefine-action]]
         [domina                             :only [ by-id value destroy! ]]
@@ -16,7 +16,7 @@
     [cljs.core.async.macros :refer [go alt!]])
   (:use-macros
         [webapp.framework.client.eventbus :only [redefine-action define-action]]
-        [webapp.framework.client.coreclient :only [on-click on-mouseover]]
+        [webapp.framework.client.coreclient :only [on-click on-mouseover sql]]
         [webapp.framework.client.interpreter :only [! !! !!!]]
      )
 )
@@ -24,9 +24,8 @@
 
 
 
-
 (defn top-nav-bar []
-        "<a class=navbar-brand href='#'>Coils.cc</a>
+        "<a class=navbar-brand href='#' onclick='webapp.client.topnav.toggledebug();'>Coils.cc</a>
                 <ul class='nav navbar-nav'>
                   <li id='home-button' class=active><a href='#'>Home</a></li>
                   <li id='docs-button'><a href='#'>Docs</a></li>
@@ -34,7 +33,10 @@
                   <li id='contact-button'><a href='#'>Contact</a></li>
                 </ul>")
 
-
+(defn ^:export toggledebug [
+                             ]
+  (js/alert "Toggle debug")
+)
 
 
 

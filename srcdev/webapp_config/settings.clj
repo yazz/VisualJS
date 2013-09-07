@@ -7,7 +7,7 @@
 
 (defonce ^:dynamic *mandrill-api-key* "replace this with your madrill API key")
 
-(defonce ^:dynamic *environment* "Development")
+(defonce ^:dynamic *environment* "dev")
 
 (defonce ^:dynamic *web-server* "127.0.0.1")
 

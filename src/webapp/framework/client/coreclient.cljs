@@ -118,7 +118,11 @@
           ))
 
 (defn remote
-[
+([
+  action
+  ]
+     (remote action {}))
+([
   action
   parameters-in
   ]
@@ -146,6 +150,7 @@
 
 
                         )))
+  )
 
 
 (defn find-el [x]
