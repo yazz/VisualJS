@@ -20,3 +20,5 @@
 (defonce ^:dynamic *database-name* "webdb")
 
 (defonce ^:dynamic *sql-encryption-password* "animal")
+
+(defonce ^:dynamic *show-code* true)

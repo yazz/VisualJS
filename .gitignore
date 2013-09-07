@@ -35,6 +35,12 @@
 !/srcdev/*/*/*
 !/srcdev/*/*/*/*
 
+!/srctest/
+!/srctest/*
+!/srctest/*/*
+!/srctest/*/*/*
+!/srctest/*/*/*/*
+
 
 !/test/
 !/test/*

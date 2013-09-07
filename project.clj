@@ -33,34 +33,72 @@
             ]
 
   :profiles {
-                 :dev
-                 {
-                     :source-paths ["src" "srcdev"]
-                 }
+                :dev
+                {
+                  :source-paths ["src" "srcdev"]
+                  :cljsbuild
+                  {
+                    :builds
+                     [
+                      {
+                       :source-paths ["src"]
+                       :compiler     {
+                                       :output-to      "resources/public/main.js"
+                                       :optimizations  :whitespace
+                                       :externs        ["resources/public/jquery-externs.js" "resources/public/google_maps_api_v3_3.js"]
+                                       :pretty-print   false
+                                     }
+                      }
+                     ]
 
-                 :prod
-                 {
-                     :source-paths ["src" "srcprod"]
-                 }
+                  }
+                }
+
+                :test
+                {
+                  :source-paths ["src" "srctest"]
+                  :cljsbuild
+                  {
+                    :builds
+                     [
+                      {
+                       :source-paths ["src"]
+                       :compiler     {
+                                       :output-to      "resources/public/main.js"
+                                       :optimizations  :advanced
+                                       :externs        ["resources/public/jquery-externs.js" "resources/public/google_maps_api_v3_3.js"]
+                                       :pretty-print   false
+                                     }
+                      }
+                     ]
+
+                  }
+                }
+
+                :prod
+                {
+                  :source-paths ["src" "../srcprod"]
+                  :cljsbuild
+                  {
+                    :builds
+                     [
+                      {
+                       :source-paths ["src"]
+                       :compiler     {
+                                       :output-to      "resources/public/main.js"
+                                       :optimizations  :advanced
+                                       :externs        ["resources/public/jquery-externs.js" "resources/public/google_maps_api_v3_3.js"]
+                                       :pretty-print   false
+                                     }
+                      }
+                     ]
+
+                  }
+                }
             }
 
 
   :ring {:handler webapp.framework.server.core/app}
 
-  :cljsbuild
-  {
-    :builds
-     [
-      {
-         :source-paths ["src"]
-         :compiler     {
-                         :output-to      "resources/public/main.js"
-                         :optimizations  :whitespace
-                         :externs        ["resources/public/jquery-externs.js" "resources/public/google_maps_api_v3_3.js"]
-                         :pretty-print   false
-                       }
-      }
-     ]
 
-  }
 )
