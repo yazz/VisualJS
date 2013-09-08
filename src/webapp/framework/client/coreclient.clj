@@ -37,35 +37,17 @@
 )
 
 
-( macroexpand '(sql "SELECT * FROM test_table where name = ?" ["shopping"] ))
-
-
-(comment defmacro defn-html [name code]
-
-    `(do
-       (reset!
-            webapp.framework.client.coreclient/gui-html
-            (assoc (deref webapp.framework.client.coreclient/gui-html) ~name
-              ~(with-out-str (write `(quote
-                                     ~code)
-                                      :dispatch clojure.pprint/code-dispatch))
-            )
-        )
-
-       (webapp.framework.client.eventbus/undefine-action
-            ~message-arg
-         )
-
-       (webapp.framework.client.eventbus/receive-message-fn
-             ~message-arg
-             (fn [ ~(symbol "message") ] ~code ))
-
-    ))
+;( macroexpand '(sql "SELECT * FROM test_table where name = ?" ["shopping"] ))
 
 
 
 
+(defn- xml-str
+ "Like clojure.core/str but escapes < > and &."
+ [x]
+  (-> x str (.replace "&" "&amp;") (.replace "<" "&lt;") (.replace ">" "&gt;")))
 
+;(xml-str "<div></div>")
 
 
 (defmacro defn-html [fname args & code]
@@ -73,11 +55,11 @@
         (reset!
             webapp.framework.client.coreclient/gui-html
             (assoc (deref webapp.framework.client.coreclient/gui-html) ~(str `~fname)
-              ~(with-out-str (write `'(
+              ~(xml-str (with-out-str   (write `'(
                                       (defn-html
                                         ~fname
                                         [ ~@args ]
-                                        ~code))
+                                        ~code)))
                                         :dispatch clojure.pprint/code-dispatch))
             )
         )
