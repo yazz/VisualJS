@@ -29,18 +29,17 @@
 (defn-html homepage-html []
   (el :div {} [
         (header-text "Welcome to Clojure on Coils" )
-        (body-text "Clojure on Coils is a Clojure based webapp framework for
-                   single page database or Neo4j backed webapps")
+        (body-text "Clojure on Coils is a Clojure based webapp framework for single page database or Neo4j backed webapps")
 ]))
 
 
-(defn technologies-html []
+(defn-html technologies-html []
     (el :div {} [
         (header-text "Technologies" )
         (body-html "<div>Uses: Clojure, Clojurescript, JQuery, Bootstrap.js, Neo4j</div>")
 ]))
 
-(defn clojure-html []
+(defn-html clojure-html []
     (el :div {} [
         (header-text "Clojure" )
         (body-text "Clojure is used for the server side code, and for client side macros (macros
@@ -48,7 +47,7 @@
 ]))
 
 
-(defn why-html []
+(defn-html why-html []
     (el :div {} [
         (header-text "Why" )
         (body-html "<div>In Denmark there is a CV system called
@@ -59,7 +58,7 @@
                    <a href='http://david.heinemeierhansson.com/'>David Heinemeier Hansson</a>)</div>")
 ]))
 
-(defn clojuresript-html []
+(defn-html clojuresript-html []
     (el :div {} [
         (header-text "ClojureScript" )
         (body-html "<div><a href='https://github.com/clojure/clojurescript'>ClojureScript</a> is built on <a href='https://developers.google.com/closure/library/'>Google Closure</a>. Google Closure
@@ -67,7 +66,7 @@
                    <br><br>Both Closurescript anfd Google closure compile down to native Javascript, so they are both cross platform.</div>")
 ]))
 
-(defn database-html []
+(defn-html database-html []
     (el :div {} [
         (header-text "Database" )
         (body-html "<div>
@@ -77,11 +76,15 @@
                    </div>")
 ]))
 
-(defn neo4j-html []
+(defn-html neo4j-html []
     (el :div {} [
         (header-text "Neo4j" )
         (body-html "<div>
-                   Neo4j is a leading graph database. Clojure for Coils is developing first class client side support for Neo4j Cypher
+                   Neo4j is a leading graph database.
+
+                   <br><br>
+
+                   Clojure for Coils is developing first class client side support for Neo4j Cypher
                    queries. Watch this space!
                    </div>")
 ]))
@@ -95,7 +98,7 @@
     )
 )
 
-(defn sidebar []
+(defn-html sidebar []
   (make-sidebar
        {:text "What" :html (homepage-html)}
        {:text "Why" :html (why-html)}

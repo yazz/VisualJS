@@ -256,17 +256,16 @@
 
 
 (defn modal-text []
-;                    <button type='button' class='btn btn-primary'>Save changes</button>
 
     (crate/raw "
-              <div id='myModal' class='modal fade' style='width: 100%'>
+              <div id='myModal' class='modal fade'>
               <div class='modal-dialog'>
-                <div class='modal-content'>
+                <div class='modal-content'  style='width: 900px;'>
                   <div class='modal-header'>
                     <button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
                     <h4 id='modal-title' class='modal-title'>Modal title</h4>
                   </div>
-                  <div id='modal-body' class='modal-body'  style='width: 100%'>
+                  <div id='modal-body' class='modal-body'  >
                   </div>
                   <div class='modal-footer'>
                     <button type='button' class='btn btn-primary' data-dismiss='modal'>Close</button>
@@ -591,10 +590,11 @@
 
 
 
-(defn debug [html fname]
+(defn debug [html2 fname]
 
 
     (let [
+            html            (make-el html2)
             current-id      (attr ($ html) "id")
             id              (if current-id
                               current-id

@@ -17,13 +17,13 @@
     )
     (:use-macros
         [webapp.framework.client.eventbus :only [define-action redefine-action]]
-        [webapp.framework.client.coreclient :only [on-click on-mouseover sql]]
+        [webapp.framework.client.coreclient :only [defn-html on-click on-mouseover sql]]
         [webapp.framework.client.interpreter :only [! !! !!!]]
      )
 )
 
 
-(defn docspage-html []
+(defn-html docspage-html []
 
   (el
       :div {:id    "scrollable"
@@ -90,7 +90,7 @@
 
 
 
-(defn installing-html []
+(defn-html installing-html []
     (el :div {} [
         (header-text "Installing the development tools" )
         (body-html "<div>To install Clojure on Coils you need to install the following:
@@ -114,7 +114,7 @@
 ]))
 
 
-(defn installing-2-html []
+(defn-html installing-2-html []
     (el :div {} [
         (header-text "Installing Clojure on Coils" )
         (body-html "<div>Go to a command line and type:
@@ -135,7 +135,7 @@
                    </div>")
 ]))
 
-(defn sidebar []
+(defn-html sidebar []
   (make-sidebar
        {:text "Installation 1" :html (installing-html)}
        {:text "Installation 2" :html (installing-2-html)}

@@ -13,7 +13,7 @@
     )
     (:use-macros
         [webapp.framework.client.eventbus :only [define-action]]
-        [webapp.framework.client.coreclient :only [on-click on-mouseover]]
+        [webapp.framework.client.coreclient :only [defn-html on-click on-mouseover]]
         [webapp.framework.client.interpreter :only [! !! !!!]]
      )
 )
@@ -21,7 +21,7 @@
 
 
 
-(defn coils-html []
+(defn-html coils-html []
 
   (el
     :div {}
@@ -43,7 +43,7 @@
 )
 
 
-(defn nemcv-html []
+(defn-html nemcv-html []
 
   (el
     :div {}
@@ -67,7 +67,7 @@
 
 
 
-(defn sidebar []
+(defn-html sidebar []
   (make-sidebar
        {:text "NemCV" :html (nemcv-html)}
        {:text "Clojure on Coils" :html (coils-html)}

@@ -18,7 +18,7 @@
     [cljs.core.async.macros :refer [go alt!]])
   (:use-macros
         [webapp.framework.client.eventbus :only [redefine-action define-action]]
-        [webapp.framework.client.coreclient :only [on-click on-mouseover sql defn-html defn-html2]]
+        [webapp.framework.client.coreclient :only [defn-html on-click on-mouseover sql defn-html defn-html2]]
         [webapp.framework.client.interpreter :only [! !! !!!]]
      )
 )
@@ -95,9 +95,7 @@
 
 
 
-
-
-(defn login-panel-html []
+(defn-html login-panel-html []
   (el :form {:class "form-inline" :style "padding: 5px"}
       [
        (el :div {:class "form-group"} [
@@ -141,7 +139,7 @@
 
 
 
-(defn signup-panel-html []
+(defn-html signup-panel-html []
   (el :form {:class "form-inline" :role "form" :style "padding: 5px"}
       [
        (el :div {:class "form-group"} [
@@ -181,7 +179,7 @@
 
 
 
-(defn logged-in-panel []
+(defn-html logged-in-panel []
     (el :div {:class "row" :style "padding: 5px; width:400px;"} [
         (el :div
                           {:id    "signed-in-as-text"
@@ -358,46 +356,6 @@
   )
 )
 
-(defn-html newlog [x]
-    (el :form {:class "form-inline" :style "padding: 5px"}
-      [
-       (el :div {:class "form-group"} [
-        "<input  id='username-input'  type='email' placeholder='me@example.com' class='input-small form-control'>"
-        ])
-       (el :div {:class "form-group"} [
-        "<input  id='password-input' type='password' class='input-small form-control' placeholder='Password'>"
-        ])
-        ;"<div class='checkbox' style='margin-left: 10px;'>
-        ;    <label>
-        ;      <input type='checkbox'> Remember me
-        ;    </label>
-        ;  </div>"
-
-       (el :button {
-                     :id       "signup-button"
-                     :type     "button"
-                     :class    "btn btn-primary"
-                     :style    "margin-left: 10px;"
-                     :text     "Login"
-                     :onclick  #(do-action "login user"
-                                           {
-                                            :username    (value-of "username-input")
-                                            :password    (value-of "password-input")
-                                            })})
-
-        (el :button {
-                     :type "button"
-                     :class "btn btn-info"
-                     :style "margin-left: 10px;"
-                     :text "Cancel"
-                     :onclick #(do-action "show login signup panel")})
-
-      ]
-  )
-)
-
-
-;(newlog 1)
 
 
 

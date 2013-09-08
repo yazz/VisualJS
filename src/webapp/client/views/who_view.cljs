@@ -5,14 +5,15 @@
         [crate.core :as crate]
     )
     (:use
-        [webapp.framework.client.coreclient :only [swap-section clear add-to help remote  add-to]]
-        [jayq.core                          :only [$ css  append fade-out fade-in empty]]
+        [webapp.framework.client.coreclient :only [new-dom-id debug popup hide-popovers
+                                                   show-popover set-text value-of find-el sql-fn
+                                                   swap-section sql el clear remote  add-to on-mouseover-fn on-click-fn]]        [jayq.core                          :only [$ css  append fade-out fade-in empty]]
         [webapp.framework.client.help       :only [help]]
         [webapp.framework.client.eventbus   :only [do-action esb undefine-action]]
     )
     (:use-macros
         [webapp.framework.client.eventbus :only [define-action]]
-        [webapp.framework.client.coreclient :only [onclick]]
+        [webapp.framework.client.coreclient :only [defn-html onclick]]
      )
 )
 
@@ -20,10 +21,10 @@
 
 
 
-(defn whopage-html []
+(defn-html whopage-html []
    [:div {}
     [:h1 {:style "padding: 20px;"}
-                                    "Who makes Clojure on Coils?"]
+           "Who makes Clojure on Coils?"]
 
            [:div {:style "padding: 20px;"}
                            "Clojure and Coils was extracted from the NemCV project by
@@ -32,17 +33,14 @@
 
 )
 
+
+
 (define-action
     "show who page"
     (do
-        (-> ($ :#main-section)
-            (fade-out 200
-                      #(do
-                         (-> ($ :#main-section)
-                             (empty)
-                             (append (crate/html (whopage-html)))
-                             (fade-in)
-                        ))))
+        (swap-section
+           :#main-section
+           (whopage-html))
 
        (swap-section
             ($ :#left-navigation)
