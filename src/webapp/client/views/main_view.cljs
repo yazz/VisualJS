@@ -28,8 +28,18 @@
 
 (defn-html homepage-html []
   (el :div {} [
-        (header-text "Welcome to Clojure on Coils" )
-        (body-text "Clojure on Coils is a Clojure based webapp framework for single page database or Neo4j backed webapps")
+        (header-text "Clojure on Coils" )
+        (body-text "Java/Clojure web development without the pain")
+]))
+
+(defn-html what-html []
+  (el :div {} [
+        (header-text "What is Clojure on Coils?" )
+        (body-text (str
+                      "Clojure on Coils allows you to make JVM web applications from front end to "
+                      "back end in one easy to use framework."
+                   ))
+
 ]))
 
 
@@ -100,7 +110,8 @@
 
 (defn-html sidebar []
   (make-sidebar
-       {:text "What" :html (homepage-html)}
+       {:text "Main" :html (homepage-html)}
+       {:text "What" :html (what-html)}
        {:text "Why" :html (why-html)}
        {:text "Technologies" :html (technologies-html)}
        {:text "Clojure" :html (clojure-html)}

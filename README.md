@@ -1,17 +1,37 @@
 Clojure on Coils
 ================
+Java/Clojure web development without the pain
+
+
+
+
+Demo site
+=========
 This website for this repository is online at http://coils.cc
 
 
-Clojure on Coils
-================
 
-A web framework for Clojure. A few notes:
+
+What is Clojure on Coils?
+=========================
+
+Clojure on Coils is a web framework where development is done with Clojure, a JVM language, so it
+can be deployed on any Java web or application server. A few notes:
 
 - Uses Clojure for the server side
 - Uses ClojureScript for the client side
 - Best developed and run using the LightTable IDE
 
+
+
+Unique features
+===============
+
+- Click on the Coils.cc logo in the top left of the screen to toggle the debug mode, then click on any element to see the code used to generate that element
+
+- Secure client side SQL. All calls are encrypted uses a server side key to avoid SQL injection attacks, yet at the same time allowing easy to understand SQL calls appear to be made in client side code
+
+- Web development without callback hell. Clojure on Coils uses a special feature of Clojure  called core.async to make all server side calls be written in a synchronous style
 
 
 Installation
@@ -31,6 +51,7 @@ Compiling and running
     lein with-profile dev cljsbuild clean
     lein with-profile dev cljsbuild once
     lein with-profile dev ring server
+
 
 
 
