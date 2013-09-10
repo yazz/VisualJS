@@ -94,8 +94,9 @@
 
                    <br><br>
 
-                   Clojure for Coils is developing first class client side support for Neo4j Cypher
-                   queries. Watch this space!
+                   Clojure on Coils can connect to any Neo4j bserver using a unique technology where the developer
+                   can synchronously program Neo4j Cypher calls from the web client to the Neo4j server. Under the
+                   covers the code is translated to Neo4j server side code.
                    </div>")
 ]))
 

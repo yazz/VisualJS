@@ -31,6 +31,8 @@ Unique features
 
 - Secure client side SQL. All calls are encrypted uses a server side key to avoid SQL injection attacks, yet at the same time allowing easy to understand SQL calls appear to be made in client side code
 
+- Secure client Neo4j Cypher. All calls are encrypted uses a server side key to avoid Cypher injection attacks, yet at the same time allowing easy to understand Cypher calls appear to be made in client side code
+
 - Web development without callback hell. Clojure on Coils uses a special feature of Clojure  called core.async to make all server side calls be written in a synchronous style
 
 
@@ -114,3 +116,14 @@ Client side SQL
 
 
  Please note that the SQL is not visible from web browsers as it is encryted via a server side macro.
+
+
+
+Client side Cypher
+==================
+
+    (go
+        (.log js/console (str (<! (neo4j "START x = node(11) RETURN x" {} ))))
+    )
+
+ Please note that the Cyoher is not visible from web browsers as it is encryted via a server side macro.
