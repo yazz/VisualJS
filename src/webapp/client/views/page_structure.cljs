@@ -13,10 +13,11 @@
     )
     (:use-macros
         [webapp.framework.client.eventbus :only [redefine-action]]
-        [webapp.framework.client.coreclient :only [on-click on-mouseover]]
+        [webapp.framework.client.coreclient :only [makeit ns-coils on-click on-mouseover]]
         [webapp.framework.client.interpreter :only [! !! !!!]]
      )
 )
+(ns-coils 'webapp.client.page-structure)
 
 
 (defn top-structure-html []

@@ -16,11 +16,11 @@
     [cljs.core.async.macros :refer [go alt!]])
   (:use-macros
         [webapp.framework.client.eventbus :only [redefine-action define-action]]
-        [webapp.framework.client.coreclient :only [defn-html on-click on-mouseover sql]]
+        [webapp.framework.client.coreclient :only [makeit ns-coils defn-html on-click on-mouseover sql]]
         [webapp.framework.client.interpreter :only [! !! !!!]]
      )
 )
-
+(ns-coils webapp.client.topnav)
 
 
 

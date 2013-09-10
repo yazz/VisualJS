@@ -56,30 +56,49 @@
 
 ;(xml-str "<div></div>")
 
-
-(defmacro defn-html [fname args & code]
+(defmacro makeit [namespace-name fname args & code]
   `(do
-        (reset!
+       (.log js/console (str "NAMESPACE: " ~namespace-name))
+       (reset!
             webapp.framework.client.coreclient/gui-html
             (assoc (deref webapp.framework.client.coreclient/gui-html) ~(str `~fname)
               ~(xml-str (with-out-str   (write `'(
-                                      (defn-html
+                                        ~'defn-html
+                                        ~namespace-name
                                         ~fname
                                         [ ~@args ]
-                                        ~code)))
+                                        ~code))
                                         :dispatch clojure.pprint/code-dispatch))
             )
         )
 
+
+   )
+)
+
+(defn ns-coils-debug [] "ZZZ")
+
+(defmacro defn-html [fname args & code]
+  `(do
         (defn ~fname
              ~args
 
              (webapp.framework.client.coreclient/debug ~@code ~(str `~fname))
-     )
+        )
+        (~'makeit
+             (~'ns-coils-debug)
+             ~fname ~args ~code
+        )
    )
 )
 
+(macroexpand '(defn-html erw ""))
 
 
+(defmacro ns-coils [namespace-name]
+  `(defn ~'ns-coils-debug  [] (str ~namespace-name))
+)
 
+
+;(macroexpand '(ns-coils dfd))
 

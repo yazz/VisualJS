@@ -17,10 +17,11 @@
     )
     (:use-macros
         [webapp.framework.client.eventbus :only [define-action redefine-action]]
-        [webapp.framework.client.coreclient :only [defn-html on-click on-mouseover sql]]
+        [webapp.framework.client.coreclient :only [makeit ns-coils defn-html on-click on-mouseover sql]]
         [webapp.framework.client.interpreter :only [! !! !!!]]
      )
 )
+(ns-coils 'webapp.client.docs-view)
 
 
 (defn-html docspage-html []

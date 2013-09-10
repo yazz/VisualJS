@@ -13,10 +13,11 @@
     )
     (:use-macros
         [webapp.framework.client.eventbus :only [define-action]]
-        [webapp.framework.client.coreclient :only [defn-html on-click on-mouseover]]
+        [webapp.framework.client.coreclient :only [makeit ns-coils defn-html on-click on-mouseover]]
         [webapp.framework.client.interpreter :only [! !! !!!]]
      )
 )
+(ns-coils 'webapp.client.case-studies-view)
 
 
 

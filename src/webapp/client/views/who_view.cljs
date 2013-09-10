@@ -13,10 +13,10 @@
     )
     (:use-macros
         [webapp.framework.client.eventbus :only [define-action]]
-        [webapp.framework.client.coreclient :only [defn-html onclick]]
+        [webapp.framework.client.coreclient :only [makeit ns-coils defn-html onclick]]
      )
 )
-
+(ns-coils 'webapp.client.who-view)
 
 
 

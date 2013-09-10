@@ -18,20 +18,20 @@
     [cljs.core.async.macros :refer [go alt!]])
   (:use-macros
         [webapp.framework.client.eventbus :only [redefine-action define-action]]
-        [webapp.framework.client.coreclient :only [defn-html on-click on-mouseover sql defn-html defn-html2 neo4j]]
+        [webapp.framework.client.coreclient :only [ns-coils makeit defn-html on-click on-mouseover sql defn-html defn-html2 neo4j]]
         [webapp.framework.client.interpreter :only [! !! !!!]]
      )
 )
+(ns-coils 'webapp.client.loginpanel)
 
-
-
+;(ns-coils-debug)
 
 (comment go
  ;(.log js/console (str (<! (sql "SELECT * FROM users " [] ))))
  (.log js/console (str (<! (neo4j "START x = node(11) RETURN x" {} ))))
 )
 
-
+;(makeit "fdsfd")
 
 (define-action "Send me my password"
   (let
