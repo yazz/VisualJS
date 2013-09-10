@@ -5,6 +5,10 @@
   [:use [korma.core]]
   [:use [webapp-config.settings]]
   [:use [webapp.framework.server.encrypt]]
+  (:require [clojurewerkz.neocons.rest :as nr])
+  (:require [clojurewerkz.neocons.rest.nodes :as nn])
+  (:require [clojurewerkz.neocons.rest.relationships :as nrl])
+  (:require [clojurewerkz.neocons.rest.cypher :as cy])
 )
 
 
@@ -38,3 +42,35 @@
 
 
 
+
+
+
+
+
+
+(try
+ (nr/connect! "http://localhost:7474/db/data/")
+
+     (catch Exception e (str "Could not connect to Neo4j: " (.getMessage e))))
+
+
+(defn !neo4j [{coded-cypher :cypher params :params}]
+  (do
+    (let [cypher          (decrypt coded-cypher)
+          lower           (.toLowerCase cypher)
+          ]
+      (println "Cypher from client: " coded-cypher " -> " cypher)
+      (cy/tquery cypher params)
+    ))
+  )
+
+
+
+
+
+
+(comment !neo4j {
+         :cypher   (encrypt "START x = node(11) RETURN x")
+         :params   {}})
+
+               ;:params   {:ids (map :id [bob])}}))

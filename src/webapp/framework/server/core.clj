@@ -10,10 +10,7 @@
   [:require [compojure.handler :as handler]]
 
   [:require [ring.util.response :as resp]]
-  (:require [clojurewerkz.neocons.rest :as nr])
-  (:require [clojurewerkz.neocons.rest.nodes :as nn])
-  (:require [clojurewerkz.neocons.rest.relationships :as nrl])
-  (:require [clojurewerkz.neocons.rest.cypher :as cy])
+
 
   (:use [webapp.framework.server.email-service])
 )
@@ -27,7 +24,14 @@
 ;(+ 1 1)
 
 
-;(nr/connect! "http://localhost:7474/db/data/")
+
+
+(comment let [amy (nn/create {:username "amy" :age 27})
+        bob (nn/create {:username "bob" :age 28})
+        _   (nrl/create amy bob :friend {:source "college"})
+        res (cy/tquery "START x = node(*) RETURN x.username, x.age" {})]
+    (println res))
+
 
  (comment let [amy (nn/create {:username "amy" :age 27})
         bob (nn/create {:username "bob" :age 28})

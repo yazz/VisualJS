@@ -7,8 +7,8 @@
     )
     (:use
         [webapp.framework.client.coreclient :only [new-dom-id debug popup hide-popovers
-                                                   show-popover set-text value-of find-el sql-fn
-                                                   swap-section sql el clear remote  add-to on-mouseover-fn on-click-fn]]
+                                                   show-popover set-text value-of find-el sql-fn neo4j-fn
+                                                   swap-section el clear remote  add-to on-mouseover-fn on-click-fn]]
         [jayq.core                          :only [$ css  append fade-out fade-in empty attr bind]]
         [webapp.framework.client.help       :only [help]]
         [webapp.framework.client.eventbus   :only [do-action esb undefine-action]]
@@ -18,7 +18,7 @@
     [cljs.core.async.macros :refer [go alt!]])
   (:use-macros
         [webapp.framework.client.eventbus :only [redefine-action define-action]]
-        [webapp.framework.client.coreclient :only [defn-html on-click on-mouseover sql defn-html defn-html2]]
+        [webapp.framework.client.coreclient :only [defn-html on-click on-mouseover sql defn-html defn-html2 neo4j]]
         [webapp.framework.client.interpreter :only [! !! !!!]]
      )
 )
@@ -26,6 +26,10 @@
 
 
 
+(comment go
+ ;(.log js/console (str (<! (sql "SELECT * FROM users " [] ))))
+ (.log js/console (str (<! (neo4j "START x = node(11) RETURN x" {} ))))
+)
 
 
 

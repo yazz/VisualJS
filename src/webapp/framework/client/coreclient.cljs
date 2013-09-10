@@ -368,6 +368,12 @@
   )
 )
 
+(defn neo4j-fn [cypher-str params]
+  (go
+    (<! (remote
+                "!neo4j" {:cypher cypher-str :params params}))
+  )
+)
 
 
 

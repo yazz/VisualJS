@@ -36,6 +36,13 @@
    )
 )
 
+(defmacro neo4j [cypher-str params]
+  `(webapp.framework.client.coreclient.neo4j-fn
+       ~(encrypt cypher-str)
+       ~params
+   )
+)
+
 
 ;( macroexpand '(sql "SELECT * FROM test_table where name = ?" ["shopping"] ))
 
