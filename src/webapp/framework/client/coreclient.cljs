@@ -629,4 +629,30 @@
 
 )
 
+(defn- xml-str
+ "Like clojure.core/str but escapes < > and &."
+ [x]
+  (-> x str (.replace "&" "&amp;") (.replace "<" "&lt;") (.replace ">" "&gt;")))
+
+(defn makeit2 [namespace-name fname args & code]
+  (do
+       (.log js/console (str "NAMESPACE: " namespace-name))
+       (.log js/console (str "NAMESPACE fname: " fname))
+       (reset!
+            webapp.framework.client.coreclient/gui-html
+            (assoc
+              (deref webapp.framework.client.coreclient/gui-html)
+              (str fname)
+              (str "<pre>" (xml-str (str "(defn-html "
+                           namespace-name "/"
+                           fname " "
+                           args
+                           code
+                   "</pre>"
+                   ))))
+            )
+        )
+  )
+
+(get @webapp.framework.client.coreclient/gui-html "signup-panel-html")
 

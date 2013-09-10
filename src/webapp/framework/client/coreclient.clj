@@ -85,14 +85,23 @@
 
              (webapp.framework.client.coreclient/debug ~@code ~(str `~fname))
         )
-        (~'makeit
+        (comment ~'makeit
              (~'ns-coils-debug)
              ~fname ~args ~code
         )
+        (webapp.framework.client.coreclient/makeit2
+             (~'ns-coils-debug)
+             ~(str `~fname) ~args
+
+         ~(with-out-str   (write `'(~code)))
+                                        )
+
+
+
    )
 )
 
-(macroexpand '(defn-html erw ""))
+(macroexpand '(defn-html erw (do (str "frf"))))
 
 
 (defmacro ns-coils [namespace-name]
