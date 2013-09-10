@@ -638,21 +638,28 @@
   (do
        (.log js/console (str "NAMESPACE: " namespace-name))
        (.log js/console (str "NAMESPACE fname: " fname))
+       (.log js/console (str "NAMESPACE code: " (apply str (map #(if (= "\n" %1) (char 13) %1) code))))
        (reset!
             webapp.framework.client.coreclient/gui-html
             (assoc
               (deref webapp.framework.client.coreclient/gui-html)
               (str fname)
-              (str "<pre>" (xml-str (str "(defn-html "
+              (str "(defn-html "
                            namespace-name "/"
                            fname " "
-                           args
-                           code
-                   "</pre>"
-                   ))))
+                           args (char 13)
+                           (apply str (map #(if (= "\n" %1) (char 13) %1) code))
+                   "</pre2>"
+                   ))
             )
         )
   )
 
-(get @webapp.framework.client.coreclient/gui-html "signup-panel-html")
+;(get @webapp.framework.client.coreclient/gui-html "signup-panel-html")
 
+
+(str "abc\\n")
+
+(. "((el    :div\n\nd  ee  {:"    replace    "e" (char 26))
+
+(apply str (map #(if (= "\n" %1) (char 13) %1) "((el    :div\n\nd  ee  {:"))

@@ -93,8 +93,10 @@
              (~'ns-coils-debug)
              ~(str `~fname) ~args
 
-         ~(with-out-str   (write `'(~code)))
-                                        )
+          (str ~(xml-str (with-out-str   (write `'(
+                                        ~code))
+                                        :dispatch clojure.pprint/code-dispatch)))
+        )
 
 
 
