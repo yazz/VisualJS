@@ -115,7 +115,7 @@ Client side SQL
      )
 
 
- Please note that the SQL is not visible from web browsers as it is encryted via a server side macro.
+ Please note that the raw SQL is not visible from web browsers as it is encryted via a server side macro.
 
 
 
@@ -126,4 +126,4 @@ Client side Cypher
         (.log js/console (str (<! (neo4j "START x = node(11) RETURN x" {} ))))
     )
 
- Please note that the Cypher is not visible from web browsers as it is encryted via a server side macro.
+ Please note that the raw Cypher code is not visible from web browsers as it is encryted via a server side macro.
