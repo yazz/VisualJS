@@ -638,7 +638,7 @@
   (do
        (.log js/console (str "NAMESPACE: " namespace-name))
        (.log js/console (str "NAMESPACE fname: " fname))
-       (.log js/console (str "NAMESPACE code: " (apply str (map #(if (= "\n" %1) (char 13) %1) code))))
+       (.log js/console (str "NAMESPACE code: " (apply str (map #(if (= "\n" %1) (str (char 13) "    ") %1) code))))
        (reset!
             webapp.framework.client.coreclient/gui-html
             (assoc
@@ -647,9 +647,9 @@
               (str "(defn-html "
                            namespace-name "/"
                            fname " "
-                           args (char 13)
-                           (apply str (map #(if (= "\n" %1) (char 13) %1) code))
-                   "</pre2>"
+                           args (char 13) (char 13)
+                           (apply str (map #(if (= "\n" %1) (str (char 13) "    ") %1) code))
+                   ""
                    ))
             )
         )

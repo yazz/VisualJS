@@ -54,27 +54,7 @@
  [x]
   (-> x str (.replace "&" "&amp;") (.replace "<" "&lt;") (.replace ">" "&gt;")))
 
-;(xml-str "<div></div>")
 
-(defmacro makeit [namespace-name fname args & code]
-  `(do
-       (.log js/console (str "NAMESPACE: " ~namespace-name))
-       (reset!
-            webapp.framework.client.coreclient/gui-html
-            (assoc (deref webapp.framework.client.coreclient/gui-html) ~(str `~fname)
-              ~(xml-str (with-out-str   (write `'(
-                                        ~'defn-html
-                                        ~namespace-name
-                                        ~fname
-                                        [ ~@args ]
-                                        ~code))
-                                        :dispatch clojure.pprint/code-dispatch))
-            )
-        )
-
-
-   )
-)
 
 (defn ns-coils-debug [] "ZZZ")
 
@@ -85,16 +65,12 @@
 
              (webapp.framework.client.coreclient/debug ~@code ~(str `~fname))
         )
-        (comment ~'makeit
-             (~'ns-coils-debug)
-             ~fname ~args ~code
-        )
+
         (webapp.framework.client.coreclient/makeit2
              (~'ns-coils-debug)
              ~(str `~fname) ~args
 
-          (str ~(xml-str (with-out-str   (write `'(
-                                        ~code))
+          (str ~(xml-str (with-out-str   (write (first `~code))
                                         :dispatch clojure.pprint/code-dispatch)))
         )
 
