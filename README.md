@@ -126,4 +126,4 @@ Client side Cypher
         (.log js/console (str (<! (neo4j "START x = node(11) RETURN x" {} ))))
     )
 
- Please note that the Cyoher is not visible from web browsers as it is encryted via a server side macro.
+ Please note that the Cypher is not visible from web browsers as it is encryted via a server side macro.
