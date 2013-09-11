@@ -315,9 +315,17 @@
 
                  :else
                        (do
-                         (<! (sql "insert into users (user_name, password) values (?,?)"
-                                [username,password] ))
-                         (.log js/console "Created user " username))
+                           (<! (sql "insert into users (user_name, password) values (?,?)"
+                                     [username,password] ))
+                           (.log js/console "Created user " username)
+                           (do-action "show logged in panel")
+                           (let [
+                                 created-user (first (<! (sql "SELECT * FROM users where user_name = ?"
+                                                    [username] )))]
+                                    (.log js/console "Created user " created-user)
+                                    (do-action "set logged in user" created-user)
+                           )
+                        )
               )
      )
   )

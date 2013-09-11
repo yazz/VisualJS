@@ -629,6 +629,11 @@
 
 )
 
+
+
+
+
+
 (defn- xml-str
  "Like clojure.core/str but escapes < > and &."
  [x]
@@ -658,8 +663,3 @@
 ;(get @webapp.framework.client.coreclient/gui-html "signup-panel-html")
 
 
-(str "abc\\n")
-
-(. "((el    :div\n\nd  ee  {:"    replace    "e" (char 26))
-
-(apply str (map #(if (= "\n" %1) (char 13) %1) "((el    :div\n\nd  ee  {:"))
