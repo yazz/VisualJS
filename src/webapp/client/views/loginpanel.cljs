@@ -183,57 +183,6 @@
 
 
 
-(defn-html logged-in-panel []
-    (el :div {:class "row" :style "padding: 5px; width:400px;"} [
-        (el :div
-                          {:id    "signed-in-as-text"
-                           :text  "Signing in..."
-                           :class "pull-left"
-                           :style "margin-right: 20px; margin-top:10px;"
-
-         })
-
-        (el :button
-                          {:id    "logout-button"
-                           :class "btn btn-default "
-                           :text "Logout"
-                           :style "margin-right: 20px;"
-                           :onclick #(swap-section
-                                                :#top-right
-                                                (login-signup-panel-html))})
-
-        (el :button
-                          {:id    "settings-button"
-                           :class "btn btn-default"
-                           :text "Settings"
-                           :style "margin-right: 20px;"
-         })
-
-]))
-
-
-
-
-
-
-
-
-(redefine-action "show logged in panel"
-
-    (do
-      (clear "top-right")
-      (add-to "top-right" (logged-in-panel))
-    )
-)
-
-(redefine-action "update current user"
-  (let [
-        user message
-        ]
-         (swap-section "signed-in-as-text"
-                       (str "<div>Signed in as " (:user_name user) "</div>"))
- ))
-
 
 
 
@@ -280,6 +229,43 @@
 
 
 )
+
+
+
+
+
+
+
+(defn-html logged-in-panel []
+    (el :div {:class "row" :style "padding: 5px; width:400px;"} [
+        (el :div
+                          {:id    "signed-in-as-text"
+                           :text  "Signing in..."
+                           :class "pull-left"
+                           :style "margin-right: 20px; margin-top:10px;"
+
+         })
+
+        (el :button
+                          {:id    "logout-button"
+                           :class "btn btn-default "
+                           :text "Logout"
+                           :style "margin-right: 20px;"
+                           :onclick #(do-action "login-signup-panel-html")})
+
+        (el :button
+                          {:id    "settings-button"
+                           :class "btn btn-default"
+                           :text "Settings"
+                           :style "margin-right: 20px;"
+         })
+
+]))
+
+
+
+
+
 
 
 
@@ -367,6 +353,47 @@
      )
   )
 )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+(redefine-action "show logged in panel"
+
+    (do
+      (clear "top-right")
+      (add-to "top-right" (logged-in-panel))
+    )
+)
+
+
+
+
+
+
+
+
+(redefine-action "update current user"
+  (let [
+        user message
+        ]
+         (swap-section "signed-in-as-text"
+                       (str "<div>Signed in as " (:user_name user) "</div>"))
+ ))
+
+
+
+
+
 
 
 
