@@ -640,25 +640,39 @@
   (-> x str (.replace "&" "&amp;") (.replace "<" "&lt;") (.replace ">" "&gt;")))
 
 (defn makeit2 [namespace-name fname args & code]
-  (do
+  (let [
+        code-str
+                  (str (apply str (map #(if (= "\n" %1) (str "\r\n")  %1) code)))
+        ]
        (.log js/console (str "NAMESPACE: " namespace-name))
        (.log js/console (str "NAMESPACE fname: " fname))
-       (.log js/console (str "NAMESPACE code: " (apply str (map #(if (= "\n" %1) (str (char 13) "    ") %1) code))))
+       (.log js/console (str "NAMESPACE orig code: " code))
+       (.log js/console (str "NAMESPACE code: " code-str))
        (reset!
             webapp.framework.client.coreclient/gui-html
             (assoc
               (deref webapp.framework.client.coreclient/gui-html)
               (str fname)
-              (str "(defn-html "
+              (xml-str (str  "(defn-html "
                            namespace-name "/"
                            fname " "
                            args (char 13) (char 13)
-                           (apply str (map #(if (= "\n" %1) (str (char 13) "    ") %1) code))
+                           code-str
                    ""
-                   ))
+                   )))
             )
         )
   )
+
+
+(let [
+  code "made with Clojure\n                   and "
+        code-str
+                  (str (apply str (map #(if (= "\n" %1) (str "\r\n") %1) code)))
+        ]
+  code-str
+  )
+
 
 ;(get @webapp.framework.client.coreclient/gui-html "signup-panel-html")
 

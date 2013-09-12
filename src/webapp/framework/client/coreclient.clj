@@ -70,8 +70,8 @@
              (~'ns-coils-debug)
              ~(str `~fname) ~args
 
-          (str ~(xml-str (with-out-str   (write (first `~code))
-                                        :dispatch clojure.pprint/code-dispatch)))
+          (str ~(with-out-str   (write (first `~code))
+                                        :dispatch clojure.pprint/code-dispatch))
         )
 
 
