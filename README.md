@@ -15,13 +15,28 @@ That project was NemCV, and it is the CV system for Denmark. Seeing that there w
 
 
 What is Clojure on Coils?
-=========================
+-------------------------
 
 Clojure on Coils is a web framework where development is done with Clojure and Clojurescript, and runs on the JVM so it can be deployed on any Java web or application server, including Jetty, Tomcat, JBoss, Glassfish, Weblogic, or Websphere. A few notes:
 
 - Uses Clojure for the server side
 - Uses ClojureScript for the client side
 - Best developed and run using the LightTable IDE
+
+
+
+
+
+Unique features
+---------------
+
+- Click on the Coils.cc logo in the top left of the screen to toggle the debug mode, then click on any element to see the code used to generate that element
+
+- Secure client side SQL. All calls are encrypted uses a server side key to avoid SQL injection attacks, yet at the same time allowing easy to understand SQL calls appear to be made in client side code
+
+- Secure client Neo4j Cypher. All calls are encrypted uses a server side key to avoid Cypher injection attacks, yet at the same time allowing easy to understand Cypher calls appear to be made in client side code
+
+- Web development without callback hell. Clojure on Coils uses a special feature of Clojure  called core.async to make all server side calls be written in a synchronous style
 
 
 
@@ -35,20 +50,8 @@ This website for this repository is online at http://coils.cc
 
 
 
-Unique features
-===============
-
-- Click on the Coils.cc logo in the top left of the screen to toggle the debug mode, then click on any element to see the code used to generate that element
-
-- Secure client side SQL. All calls are encrypted uses a server side key to avoid SQL injection attacks, yet at the same time allowing easy to understand SQL calls appear to be made in client side code
-
-- Secure client Neo4j Cypher. All calls are encrypted uses a server side key to avoid Cypher injection attacks, yet at the same time allowing easy to understand Cypher calls appear to be made in client side code
-
-- Web development without callback hell. Clojure on Coils uses a special feature of Clojure  called core.async to make all server side calls be written in a synchronous style
-
-
 Installation
-============
+------------
 
 git clone https://github.com/zubairq/coils.git
 
@@ -58,7 +61,7 @@ Then rename the folder coils to the name of your project
 
 
 Compiling and running
-=====================
+---------------------
 
     cd coils
     lein with-profile dev cljsbuild clean
@@ -68,9 +71,26 @@ Compiling and running
 
 
 
+Deploying an application to a Java server as a war file
+-------------------------------------------------------
+
+    mkdir srcprod
+    cd srcprod
+    mkdir webapp_config
+    cd webapp_config
+    touch settings.clj
+    ... copy and amend the settings from coils/srcdev/webapp_config/settings.clj ...
+    cd ..
+    cd ..
+    cd coils
+    lein with-profile prod cljsbuild clean
+    lein with-profile prod cljsbuild once
+    lein with-profile prod ring uberwar
+    ... deploy the resulting war file ...
+
 
 Adding something to the page
-============================
+----------------------------
 
 Go to a clojurescript view in src/webapp/client/views
 
@@ -82,7 +102,7 @@ From the Lighttable IDE:
 
 
 Client side message passing system (AKA events)
-===============================================
+-----------------------------------------------
 
 Define an action:
 
@@ -98,7 +118,7 @@ Call an action:
 
 
 Calling server side code
-========================
+------------------------
 
 Define in fns.clj on the server side (using core.async):
 
@@ -119,7 +139,7 @@ From the client side:
 
 
 Client side SQL
-===============
+---------------
 
     (go
         (.log js/console (str (<! (sql "SELECT * FROM test_table where name = ?" ["shopping"] ))))
@@ -130,8 +150,8 @@ Client side SQL
 
 
 
-Client side Cypher
-==================
+Client side Neo4j Cypher
+------------------------
 
     (go
         (.log js/console (str (<! (neo4j "START x = node(11) RETURN x" {} ))))
