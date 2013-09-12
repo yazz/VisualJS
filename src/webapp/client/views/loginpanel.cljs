@@ -200,7 +200,7 @@
                            :style "margin-right: 20px;"
                            :onclick #(swap-section
                                                 :#top-right
-                                                (signup-panel-html))})
+                                                (login-signup-panel-html))})
 
         (el :button
                           {:id    "settings-button"
