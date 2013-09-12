@@ -1,6 +1,9 @@
 Clojure on Coils
 ================
 Java/Clojure web development without the pain
+---------------------------------------------
+
+Clojure on Coils was born from one web developers pain over many years of both web and desktop software development. Zubair started out as a C++ programmer, and then moved to Java, and got heavily involved in Java web applications, only to find the whole make change, compile, test loop hugely cumbersome and time wasting. Then one day, as like many other developers before him, around 2008 he discovered Ruby on Rails. Wow, suddenly the world opened up for him and he realised there was a better way with interactive languages and easy SQL queries. Soon however, he became frustrated again, as Rails still has to keep going back to the server and did not allow enough fine grained control of the web page on the client. Anyway, in true developer style, Zubair took the long and painful route, going to Erlang, Grails, JQuery, Prototype, Google Closure, Dart, Vaadin, and finally deciding on Clojurescript for a project he was involved with. That project was NemCV, and it is the CV system for Denmark. Seeing that there was alot of good work in NemCV that could be reused Zubair took inspiration from Ruby on Rails, which coincidently also came from Denmark, where a developer called David Heinemeier Hansson made Ruby on Rails based on a project called BaseCamp which he had made. So thus, Clojure on Coils was extracted and born from NemCV!
 
 
 
