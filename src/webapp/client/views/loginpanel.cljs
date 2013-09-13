@@ -184,8 +184,9 @@
 
 
 
-(defn forgot-password-button-html []
-  (el :button
+(defn-html forgot-password-button-html []
+  (el :div {:style "display:inline;"} [
+      (el :button
                           {:id    "forgot-password-button"
                            :style "margin: 5px; "
                            :class "btn btn-default"
@@ -193,7 +194,7 @@
                            :onclick #(swap-section
                                                 ($ :#top-right)
                                                 (forgot-password-panel-html))
-                           }))
+                           })]))
 
 
 

@@ -562,9 +562,12 @@
 
 (defn ^:export clicked2 [id]
   (if (:value @debug-mode)
-    (css
-     ($ (find-el id))
-     {:background-color "lightgray"})
+    (do
+      (css
+        ($ (find-el id))
+        {:border "2px solid lightgray"}
+      )
+    )
   )
 )
 
@@ -590,7 +593,7 @@
   (if (:value @debug-mode)
     (css
        ($ (find-el id))
-        {:background-color "white"})
+        {:border ""})
 ))
 
 
