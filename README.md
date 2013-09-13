@@ -88,6 +88,14 @@ Deploying an application to a Java server as a war file
     ... deploy the resulting war file ...
 
 
+Getting started
+---------------
+
+The easiest way to get started is to get the projects and just play around with the demo app first. The demo app is online at http://coils.cc. Click on the logo in the top left and then you enter the debug mode. Now you can click on most elements on the page and you can see the code used to generate them.
+
+
+
+
 Adding something to the page
 ----------------------------
 
