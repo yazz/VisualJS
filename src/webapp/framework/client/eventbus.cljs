@@ -93,24 +93,42 @@
 
 
 (defn match-event [event-full  event-watchers]
-  (let [
-        event                  (event-full :message)
-        keys-to-watch          (keys event)
-       ]
-       (for [key-to-watch  keys-to-watch]
-           (if key-to-watch
-             (dorun
-              (map
-               (fn[event-watcher]
-                 (if event-watcher
+    (let [
+          event                  (event-full :message)
+          keys-to-watch          (keys event)
+          called-count           (atom {:value 0})
+         ]
+         (let [x
+           (for [key-to-watch  keys-to-watch]
+               (if key-to-watch
+                   (doall
+                        (map
+                           (fn[event-watcher]
+                               (if event-watcher
 
-                     (call-event-on-eventwatcher event-watcher
-                                                 (get event-full :message) )
-                   )
-                 )
-               (match-key-and-value  key-to-watch  (get event key-to-watch)  event-watchers)))
+                                   (do
+                                     (call-event-on-eventwatcher
+                                          event-watcher
+                                          (get event-full :message) )
+                                     ;(reset! called-count {:value (inc (:value @called-count))})
+                                   )
 
-               ))))
+                               )
+                            )
+
+                            (match-key-and-value  key-to-watch  (get event key-to-watch)  event-watchers)
+                         )
+                    )
+                )
+            )]
+           (if (= 0 (:value @called-count))
+             (.log js/console(str "No receivers for : " event))
+           )
+           x
+        )
+     )
+)
+
 
 
 (comment match-event {:message { :name "hello" :from "Zubair"}}
@@ -245,7 +263,7 @@
        (for [event @events]
          (do
            (remove-events  event)
-           ;(. js/console log (pr-str "Matching " event))
+           (. js/console log (pr-str "Matching " event))
            (doall (match-event  event  @event-watchers))
 )))))
 
@@ -265,3 +283,4 @@
   ))))
 
 ;(esb)
+

@@ -247,17 +247,17 @@
          })
 
         (el :button
-                          {:id    "logout-button"
-                           :class "btn btn-default "
-                           :text "Logout"
-                           :style "margin-right: 20px;"
-                           :onclick #(do-action "login-signup-panel-html")})
+                          {:id      "logout-button"
+                           :class   "btn btn-default "
+                           :text    "Logout"
+                           :style   "margin-right: 20px;"
+                           :onclick #(do-action "show login signup panel")})
 
         (el :button
-                          {:id    "settings-button"
-                           :class "btn btn-default"
-                           :text "Settings"
-                           :style "margin-right: 20px;"
+                          {:id      "settings-button"
+                           :class   "btn btn-default"
+                           :text    "Settings"
+                           :style   "margin-right: 20px;"
          })
 
 ]))
