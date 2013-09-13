@@ -26,9 +26,15 @@
 
 ;(ns-coils-debug)
 
-(comment go
+(defn neo-data [x] (first x))
+(defn neo-keys [x] (-> x (neo-data) (keys)))
+(defn neo-result [x k] (-> x (neo-data) (get k)))
+(defn neo-result-keys [x k] (-> x (neo-data) (get k) (keys)))
+(defn neo-properties [x k] (-> x (neo-data) (get k) (get :data)))
+
+(comment  go
  ;(.log js/console (str (<! (sql "SELECT * FROM users " [] ))))
- (.log js/console (str (<! (neo4j "START x = node(11) RETURN x" {} ))))
+ (.log js/console (str (neo-properties (<! (neo4j "START y = node(12) RETURN y" {} )) "y")))
 )
 
 ;(makeit "fdsfd")
