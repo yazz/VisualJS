@@ -6,7 +6,7 @@
         [cljs.core.async :as async :refer [chan close!]]
     )
     (:use
-        [webapp.framework.client.coreclient :only [new-dom-id debug popup hide-popovers
+        [webapp.framework.client.coreclient :only [body-html new-dom-id debug popup hide-popovers
                                                    show-popover set-text value-of find-el sql-fn neo4j-fn
                                                    swap-section el clear remote  add-to on-mouseover-fn on-click-fn]]
         [jayq.core                          :only [$ css  append fade-out fade-in empty attr bind]]
@@ -184,8 +184,33 @@
 
 
 
+(defn forgot-password-button-html []
+  (el :button
+                          {:id    "forgot-password-button"
+                           :style "margin: 5px; "
+                           :class "btn btn-default"
+                           :text "Forgot password?"
+                           :onclick #(swap-section
+                                                ($ :#top-right)
+                                                (forgot-password-panel-html))
+                           }))
 
 
+
+
+(defn-html wrong-email-html []
+
+  (el :div {:class "pull-right"} [
+
+        (body-html "<div>User does not exist. Please check that the email and  password are correct")
+
+        (forgot-password-button-html)
+
+
+              ])
+
+
+)
 
 
 (defn-html login-signup-panel-html []
@@ -214,15 +239,7 @@
                                                 (signup-panel-html))
                            })
 
-        (el :button
-                          {:id    "forgot-password-button"
-                           :style "margin: 5px; "
-                           :class "btn btn-default"
-                           :text "Forgot password?"
-                           :onclick #(swap-section
-                                                ($ :#top-right)
-                                                (forgot-password-panel-html))
-                           })
+        (forgot-password-button-html)
 
 
               ])
@@ -330,25 +347,22 @@
      (let [
              username             (:username message)
              password             (:password message)
-             search-db-for-user   (<! (sql "SELECT id, user_name, password
-                                           FROM users where user_name = ?"
-                                           [username] ))
+             search-db-for-user   (<! (remote "login-user" {:username username :password password}))
              user-record-from-db  (first search-db-for-user)
           ]
              (if user-record-from-db
                  (do
-                     (if (= password (:password user-record-from-db))
-                         (do
-                             (.log js/console (str "Logged in as user " user-record-from-db))
-                             (do-action "show logged in panel")
-                             (do-action "set logged in user" user-record-from-db)
-                         )
-                         (.log js/console "Password incorrect for user " username))
+                   (.log js/console (str "Logged in as user " user-record-from-db))
+                   (do-action "show logged in panel")
+                   (do-action "set logged in user" user-record-from-db)
                  )
 
-                 (show-popover "username-input"
-                               "<br>User does not exist. Please check that the email is correct"
-                               {:placement "left"})
+                 (do
+                   ;(show-popover "username-input"
+                   ;            "<br>User does not exist. Please check that the email and  password are correct"
+                   ;           {:placement "left"})
+                   (swap-section "main-section" (wrong-email-html))
+                 )
               )
      )
   )

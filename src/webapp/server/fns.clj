@@ -169,3 +169,11 @@
 )
 
 
+(defn login-user [{username :username password :password}]
+    (let [
+           sql     (str "SELECT id, user_name, password FROM users where user_name = ? and password = ?")
+          ]
+            (exec-raw [sql [username password]] :results)
+))
+
+;(login-user {:username "z" :password "s"})
