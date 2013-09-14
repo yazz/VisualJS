@@ -58,18 +58,6 @@ Then rename the folder coils to the name of your project
 
 
 
-
-Compiling and running
----------------------
-
-    cd coils
-    lein with-profile dev cljsbuild clean
-    lein with-profile dev cljsbuild once
-    lein with-profile dev ring server
-
-
-
-
 Deploying an application to a Java server as a war file
 -------------------------------------------------------
 
@@ -91,6 +79,18 @@ Deploying an application to a Java server as a war file
 Getting started
 ---------------
 
+1)
+    cd coils
+    lein with-profile dev cljsbuild clean
+    lein with-profile dev cljsbuild once
+    lein with-profile dev ring server
+
+2) Open LightTable
+
+3) Add the coils project directory
+
+4) Open a Browser tab and point to 127.0.0.1:3000
+
 The easiest way to get started is to get the projects and just play around with the demo app first. The demo app is online at http://coils.cc. Click on the logo in the top left and then you enter the debug mode. Now you can click on most elements on the page and you can see the code used to generate them.
 
 
@@ -99,11 +99,13 @@ The easiest way to get started is to get the projects and just play around with 
 Adding something to the page
 ----------------------------
 
-Go to a clojurescript view in src/webapp/client/views
+1) Go to a clojurescript view in src/webapp/client/views/main_view.cljs
 
-From the Lighttable IDE:
+2) Add to main_view.cljs
 
-    (add-to "main" "<div>hello world</div>")
+    (swap-section "main" "<div>hello world</div>")
+
+3) press Ctrl/Alt Enter on the line and the view should swap out with the text "Hello world"
 
 
 
