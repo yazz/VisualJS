@@ -4,8 +4,8 @@
         [cljs.reader :as reader]
         [crate.core :as crate]
         [cljs.core.async :as async :refer [chan close!]]
-        [google.maps.LatLng]
-        [google.maps.MapTypeId]
+        ;[google.maps]
+        ;[google.maps.MapTypeId]
     )
 
   (:require-macros
@@ -233,6 +233,7 @@
                ]
                map-options)
             )
+     []
 
 
 

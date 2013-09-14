@@ -183,4 +183,4 @@
 (comment let [amy (nn/create {:username "amy"})
         bob (nn/create {:username "bob"})
         _   (nrl/create amy bob :friend {:source "college"})]
-    (println (nrl/incoming-for bob :types [:friend]))))
+    (println (nrl/incoming-for bob :types [:friend])))
