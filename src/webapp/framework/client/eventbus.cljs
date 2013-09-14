@@ -6,13 +6,23 @@
     )
    (:use
         [webapp.framework.client.coreclient      :only [popup clear add-to help remote]]
+
     )
    )
 
+
+
+(def events
+  "This holds the lists of events that are currently waiting to be processed"
+  (atom []))
+
+;use this to see the current events
 ;(str @events)
 
-(def events (atom []))
+
+
 (defn reset-events [] (reset! events []))
+
 
 (defn remove-events [event]
     (let [
@@ -110,7 +120,9 @@
                                      (call-event-on-eventwatcher
                                           event-watcher
                                           (get event-full :message) )
-                                     ;(reset! called-count {:value (inc (:value @called-count))})
+                                     (.log js/console "XXXX")
+                                     (reset! called-count {:value (inc (:value @called-count))})
+                                     (.log js/console(str "Called count : " event " : " @called-count))
                                    )
 
                                )
@@ -122,7 +134,7 @@
                 )
             )]
            (if (= 0 (:value @called-count))
-             (.log js/console(str "No receivers for : " event))
+             (.log js/console(str "No receivers for : " event " : " @called-count))
            )
            x
         )
@@ -283,4 +295,6 @@
   ))))
 
 ;(esb)
+
+
 

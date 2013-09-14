@@ -6,6 +6,7 @@
   [:use [webapp.framework.server.encrypt]]
   [:use [korma.core]]
   [:use [clojure.core.async]]
+  [:use [clojure.repl]]
 
   (:require [clojurewerkz.neocons.rest :as nr])
   (:require [clojurewerkz.neocons.rest.nodes :as nn])
@@ -20,12 +21,13 @@
 
 
 
-
 (defentity test_table)
 
 
 
-(defn test-call [params]
+(defn test-call
+  "Tests to see if the server was called ok"
+  [params]
   (get-in params [:a :d ]))
 
 

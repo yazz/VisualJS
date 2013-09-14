@@ -56,19 +56,19 @@
 
 
 
-(defn ns-coils-debug [] "ZZZ")
+;(defn ns-coils-debug [] "ZZZ")
 
 (defmacro defn-html [fname args & code]
   `(do
         (defn ~fname
-             ~args
+              [~@args]
 
              (webapp.framework.client.coreclient/debug ~@code ~(str `~fname))
         )
 
         (webapp.framework.client.coreclient/makeit2
              (~'ns-coils-debug)
-             ~(str `~fname) ~args
+             ~(str `~fname) ~(str `~args)
 
           (str ~(with-out-str   (write (first `~code))
                                         :dispatch clojure.pprint/code-dispatch))
@@ -79,8 +79,11 @@
    )
 )
 
-(macroexpand '(defn-html erw (do (str "frf"))))
-
+(macroexpand
+ '(defn-html
+    forgot-password-button-html
+      [& {:keys [do-after-click]}]
+        do-after-click))
 
 (defmacro ns-coils [namespace-name]
   `(defn ~'ns-coils-debug  [] (str ~namespace-name))

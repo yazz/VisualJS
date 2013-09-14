@@ -1,9 +1,10 @@
-(ns webapp.client.loginpanel
+(ns webapp.client.views.loginpanel
     (:refer-clojure :exclude [val empty remove find next parents])
     (:require
         [cljs.reader :as reader]
         [crate.core :as crate]
         [cljs.core.async :as async :refer [chan close!]]
+        [clojure.string]
     )
     (:use
         [webapp.framework.client.coreclient :only [body-html new-dom-id debug popup hide-popovers
@@ -22,7 +23,7 @@
         [webapp.framework.client.interpreter :only [! !! !!!]]
      )
 )
-(ns-coils 'webapp.client.loginpanel)
+(ns-coils 'webapp.client.views.loginpanel)
 
 ;(ns-coils-debug)
 
@@ -189,17 +190,25 @@
 
 
 
+(defn-html forgot-password-button-html [& {:keys [do-after-click]}]
 
-(defn-html forgot-password-button-html []
   (el :div {:style "display:inline;"} [
       (el :button
-                          {:id    "forgot-password-button"
-                           :style "margin: 5px; "
-                           :class "btn btn-default"
-                           :text "Forgot password?"
-                           :onclick #(swap-section
+                          {:id       "forgot-password-button"
+                           :style    "margin: 5px; "
+                           :class    "btn btn-default"
+                           :text     "Forgot password?"
+                           :onclick  #(do
+                                       (swap-section
                                                 ($ :#top-right)
                                                 (forgot-password-panel-html))
+
+
+                                       (.log js/console (str "do-after-click: "  do-after-click))
+                                       (if do-after-click
+                                         (do-after-click))
+
+                                       )
                            })]))
 
 
@@ -211,7 +220,9 @@
 
         (body-html "<div>User does not exist. Please check that the email and  password are correct")
 
-        (forgot-password-button-html)
+        (forgot-password-button-html :do-after-click
+                                          #(swap-section "main-section" "<div>Enter your email above</div>")
+                                     )
 
 
               ])
@@ -246,7 +257,7 @@
                                                 (signup-panel-html))
                            })
 
-        (forgot-password-button-html)
+        (forgot-password-button-html {})
 
 
               ])
@@ -344,6 +355,20 @@
 
 
 
+(defn contains-string [x y]
+    (> (. x indexOf y) -1))
+
+
+
+
+(defn validate-email [email]
+    (cond
+        (clojure.string/blank? email)            {:valid false :error "Email cannot be empty"}
+        (= (contains-string email "@") false)    {:valid false :error "Email must contain @ character"}
+        :else                                    {:valid true}
+    )
+)
+
 
 
 
@@ -354,26 +379,40 @@
      (let [
              username             (:username message)
              password             (:password message)
-             search-db-for-user   (<! (remote "login-user" {:username username :password password}))
-             user-record-from-db  (first search-db-for-user)
-          ]
-             (if user-record-from-db
-                 (do
-                   (.log js/console (str "Logged in as user " user-record-from-db))
-                   (do-action "show logged in panel")
-                   (do-action "set logged in user" user-record-from-db)
-                 )
+             validity             (validate-email  username)
+             is-valid?            (:valid validity)
+           ]
+           (cond
 
-                 (do
-                   ;(show-popover "username-input"
-                   ;            "<br>User does not exist. Please check that the email and  password are correct"
-                   ;           {:placement "left"})
-                   (swap-section "main-section" (wrong-email-html))
-                 )
-              )
-     )
-  )
-)
+              is-valid?
+
+
+                   (let [
+                         search-db-for-user   (<! (remote "login-user" {:username username :password password}))
+                         user-record-from-db  (first search-db-for-user)
+                         ]
+                         (if user-record-from-db
+                           (do
+                             (.log js/console (str "Logged in as user " user-record-from-db))
+                             (do-action "show logged in panel")
+                             (do-action "set logged in user" user-record-from-db)
+                           )
+
+                           (do
+                             ;(show-popover "username-input"
+                             ;            "<br>User does not exist. Please check that the email and  password are correct"
+                             ;           {:placement "left"})
+                             (swap-section "main-section" (wrong-email-html))
+                           )))
+
+
+            :else
+                    (show-popover "username-input"
+                                  (:error validity))
+
+
+
+            ))))
 
 
 
