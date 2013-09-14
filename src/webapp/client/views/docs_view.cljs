@@ -4,12 +4,15 @@
         [cljs.reader :as reader]
         [crate.core :as crate]
         [cljs.core.async :as async :refer [chan close!]]
-  )
+        [google.maps.LatLng]
+        [google.maps.MapTypeId]
+    )
+
   (:require-macros
     [cljs.core.async.macros :refer [go alt!]])
 
-    (:use
-        [webapp.framework.client.coreclient :only [sql-fn header-text body-text body-html make-sidebar  swap-section  el clear addto remote  add-to]]
+  (:use
+        [webapp.framework.client.coreclient :only [clj-to-js sql-fn header-text body-text body-html make-sidebar  swap-section  el clear addto remote  add-to]]
         [jayq.core                          :only [$ css append fade-out fade-in empty]]
         [webapp.framework.client.help       :only [help]]
         [webapp.framework.client.eventbus   :only [do-action esb undefine-action]]
@@ -22,6 +25,10 @@
      )
 )
 (ns-coils 'webapp.client.docs-view)
+
+
+
+
 
 
 (defn-html docspage-html []
@@ -85,9 +92,24 @@
 
 
 
+
+          (el :button
+                          {:id    "show-map-button"
+                           :style "margin: 20px;"
+                           :class "btn btn-large btn-default"
+                           :text  "Map"
+                           :onclick  #(do-action "show map")
+                           })
+
+
+
       ]
   )
 )
+
+
+
+
 
 
 
@@ -115,6 +137,17 @@
 ]))
 
 
+
+
+
+
+(defn-html map-html []
+    (el :div {:id "map-canvas" :style "height: 400px;"} [
+
+      ]))
+
+
+
 (defn-html installing-2-html []
     (el :div {} [
         (header-text "Installing Clojure on Coils" )
@@ -136,6 +169,12 @@
                    </div>")
 ]))
 
+
+
+
+
+
+
 (defn-html sidebar []
   (make-sidebar
        {:text "Installation 1" :html (installing-html)}
@@ -143,6 +182,12 @@
        {:text "Examples" :html (docspage-html)}
    )
 )
+
+
+
+
+
+
 (redefine-action
     "show docs page"
     (do
@@ -155,7 +200,6 @@
             (sidebar)
 
         )
-;      #(js/updateScrollSpy)
 
     )
 )
@@ -169,20 +213,31 @@
 
 
 
-(comment go
-  (.log js/console (str (<! (sql "SELECT * FROM test_table where name = ?" ["shopping"] ))))
-  )
+(redefine-action
+ "show map"
+   (do
+       (swap-section
+            ($ :#main-section)
+            (map-html)
+            #(let [
+                map-options  {
+                                 :zoom 8
+                                 :center (google.maps.LatLng. -34.397, 150.644)
+                                 :mapTypeId google.maps.MapTypeId.ROADMAP
+                             }
+
+                the-map    (google.maps.Map.
+
+                                (. js/document getElementById "map-canvas")
+                                (clj-to-js  map-options))
+               ]
+               map-options)
+            )
 
 
 
-(comment go
-     (do-action
-          "show alert"
-          (str (<!
-                (webapp.framework.client.coreclient.sql-fn "SELECT * FROM test_table where name = ?" ["shopping"])
-                ))
-     )
-)
+))
+
 
 
 ;(do-action "show docs page")
