@@ -32,13 +32,36 @@
 (defn neo-result [x k] (-> x (neo-data) (get k)))
 (defn neo-result-keys [x k] (-> x (neo-data) (get k) (keys)))
 (defn neo-properties [x k] (-> x (neo-data) (get k) (get :data)))
+(defn neo-incoming [x k] (-> x (neo-data) (get k) :incoming_relationships))
+(defn neo-outgoing [x k] (-> x (neo-data) (get k) :outgoing_relationships))
 
-(comment  go
- ;(.log js/console (str (<! (sql "SELECT * FROM users " [] ))))
- (.log js/console (str (neo-properties (<! (neo4j "START y = node(12) RETURN y" {} )) "y")))
+
+(comment go
+   (.log js/console (str (neo-outgoing (<! (neo4j "START x = node(0) RETURN x" {} )) "x")))
 )
 
+(comment go
+   (.log js/console (str (neo-incoming (<! (neo4j "START x = node(0) RETURN x" {} )) "x")))
+)
+
+(comment go
+   (.log js/console (str (neo-result (<! (neo4j "START x = node(0) RETURN x" {} )) "x")))
+)
+
+(comment go
+   (.log js/console
+
+         (str
+          ;(neo-properties
+               (<! (neo4j "CREATE (n {name : {value} , title : 'Developer'}) return n" {:value "Zubair"}  ) )
+               ;"n")
+               )))
+
+
 ;(makeit "fdsfd")
+(comment go
+ (.log js/console (str (<! (sql "SELECT * FROM users " [] ))))
+)
 
 (define-action "Send me my password"
   (let
