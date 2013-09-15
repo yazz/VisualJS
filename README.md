@@ -78,25 +78,43 @@ Anatomy of a Coils application
     coils app name
         └ README.md
           project.clj
-          
-        src
-            └ webapp
-               └ views
-               └ main.cljs
-           
-        resources
-            └ public
-              main.html
-              
-              
+
+          src
+              └ webapp
+                  └ client
+                      └ views
+                          └ page_structure.cljs
+                            ... more views ...
+
+                        main.cljs
+                        gui_actions.cljs
+                        session.cljs
+                        actions.cljs
+
+                             ...
+                    server
+                        └ fns.clj
+
+
+
+                    framework
+                        └ client
+                              ...
+                          server
+
+          resources
+              └ public
+                main.html
+
+
     srcprod
         └ webapp_config
             └ settings.clj
-            
+
     srctest
         └ webapp_config
             └ settings.clj
-            
+
 
 
 Deploying an application to a Java server as a war file
