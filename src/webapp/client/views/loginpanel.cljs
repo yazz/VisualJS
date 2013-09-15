@@ -44,18 +44,35 @@
    (.log js/console (str (neo-incoming (<! (neo4j "START x = node(0) RETURN x" {} )) "x")))
 )
 
-(comment go
+(comment  go
    (.log js/console (str (neo-result (<! (neo4j "START x = node(0) RETURN x" {} )) "x")))
 )
 
+
+(defn neo-id [x]
+  (comment  go
+      (get (first (<! (neo4j "START x = node(1) RETURN ID(x)" {} ) "x")) "ID(x)")
+  )
+)
+
 (comment go
+    (.log js/console (str  (first (<! (neo-id nil)))))
+
+ )
+
+(comment  go
    (.log js/console
 
+         (let [
+               rr (<! (neo4j "CREATE (n {name : {value} , title : 'Developer'}) return n" {:value "Zubair"}  ) )
+               ]
          (str
-          ;(neo-properties
-               (<! (neo4j "CREATE (n {name : {value} , title : 'Developer'}) return n" {:value "Zubair"}  ) )
-               ;"n")
-               )))
+          (neo-properties
+               rr
+               "n")
+          " : ID : "
+          (<! (neo-id rr))
+               ))))
 
 
 ;(makeit "fdsfd")
