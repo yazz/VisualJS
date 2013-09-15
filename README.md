@@ -51,7 +51,11 @@ This website for this repository is online at http://coils.cc
 
 Comparison with other Clojure web frameworks
 --------------------------------------------
+
 <a hre='http://www.luminusweb.net/'>Luminus</a> - 
+
+<br><br>
+
 <a hre='http://pedestal.io/'>Pedestal</a> - 
 
 
@@ -65,6 +69,34 @@ git clone https://github.com/zubairq/coils.git
 
 Then rename the folder coils to the name of your project
 
+
+
+
+Anatomy of a Coils application
+------------------------------
+
+    coils app name
+        └ README.md
+          project.clj
+          
+        src
+            └ webapp
+               └ views
+               └ main.cljs
+           
+        resources
+            └ public
+              main.html
+              
+              
+    srcprod
+        └ webapp_config
+            └ settings.clj
+            
+    srctest
+        └ webapp_config
+            └ settings.clj
+            
 
 
 Deploying an application to a Java server as a war file
