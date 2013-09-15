@@ -54,9 +54,9 @@ Comparison with other Clojure web frameworks
 
 <a hre='http://www.luminusweb.net/'>Luminus</a> - The main difference between Luminus and Clojure on Coils is that Luminus using a HTML templating system to render the web pages, whereas Clojure on Coils currently only support rendering from within Clojure itself. This makes Luminus currently a better choice than Clojure on Coils, especially for companies where there are seperate design and development teams, and designers will be more comfortable working in clean HTML files.
 
-<br><br>
+<br>
 
-<a hre='http://pedestal.io/'>Pedestal</a> - Pedestal is an amzing Clojure web framework made by the main Clojure developers themselves at Relevance. It has a number of differences to Clojure on Coils, the main one being that Pedestal does not support Windows environments, whereas Clojure on Coils works fine on Windows.
+<a hre='http://pedestal.io/'>Pedestal</a> - Pedestal is an amazing Clojure web framework made by the main Clojure developers themselves at Relevance. It has a number of differences to Clojure on Coils, the main one being that Pedestal does not support Windows environments, whereas Clojure on Coils works fine on Windows.
 
 
 
