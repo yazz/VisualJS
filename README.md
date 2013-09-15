@@ -49,6 +49,15 @@ This website for this repository is online at http://coils.cc
 
 
 
+Comparison with other Clojure web frameworks
+--------------------------------------------
+<a hre='http://www.luminusweb.net/'>Luminus</a> - 
+<a hre='http://pedestal.io/'>Pedestal</a> - 
+
+
+
+
+
 Installation
 ------------
 
