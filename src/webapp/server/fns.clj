@@ -160,23 +160,44 @@
    ;(nodes4j "place")
 
 
-(defn send-password [params]
-    (send-email :message    "Please reset"
-                :subject    "Your password "
+(defn find-user-by-username [{username :username}]
+          (let [r (exec-raw
+               ["SELECT id, user_name FROM users where user_name = ?"
+                [username]]
+                :results)]
+
+            (first r)
+            )
+)
+
+;(find-user-by-username {:username "zq@nemcv.com2"})
+
+(defn send-password [{email :email}]
+    (println "fn email:" email)
+    (if (find-user-by-username  {:username email})
+      (do
+          (send-email :message  "Please reset your password"
+                :subject    "anuzzer"
                 :from-email "help@coils.cc"
                 :from-name  "coils emailer"
-                :to-email   "zubairq@gmail.com"
+                :to-email   email
                 :to-name    nil
+          )
+          {:status :sent})
+
+
+      {:status :doesnt-exist}
     )
 )
 
+;(send-password {:email "zq@nemcv.com"})
 
 (defn login-user [{username :username password :password}]
-    (let [
-           sql     (str "SELECT id, user_name, password FROM users where user_name = ? and password = ?")
-          ]
-            (exec-raw [sql [username password]] :results)
-))
+            (exec-raw
+               ["SELECT id, user_name, password FROM users where user_name = ? and password = ?"
+                [username password]]
+                :results)
+)
 
 ;(login-user {:username "z" :password "s"})
 

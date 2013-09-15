@@ -63,7 +63,7 @@
  (.log js/console (str (<! (sql "SELECT * FROM users " [] ))))
 )
 
-(define-action "Send me my password"
+(redefine-action "Send me my password"
   (let
     [
        username    (message :username)
@@ -78,7 +78,7 @@
                      (do
 
                          (.log js/console "sending password")
-                         (remote "send-password" {:username username})
+                         (.log js/console (str (<! (remote "send-password" {:email username}))))
                      )
 
                      (popup :title "Can't find you"
@@ -237,11 +237,13 @@
 
 
 
+
+
 (defn-html wrong-email-html []
 
   (el :div {:class "pull-right"} [
 
-        (body-html "<div>User does not exist. Please check that the email and  password are correct")
+        (body-html "<div>Problem signing in. Please check that the email and  password are correct")
 
         (forgot-password-button-html :do-after-click
                                           #(swap-section "main-section" "<div>Enter your email above</div>")
