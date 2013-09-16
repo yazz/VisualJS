@@ -4,7 +4,7 @@ Clojure on Coils
 Clojure web development without the pain
 ----------------------------------------
 
-Clojure on Coils was born from one web developers pain over many years of both web and desktop software development. Zubair Quraishi started in the early 1990s as a C++ programmer, and then moved to Java, and got heavily involved in Java web applications, only to find the whole make developer, compile, test loop hugely cumbersome and time wasting. Then one day, like many developers before him, around 2008 he discovered Ruby on Rails.
+Clojure on Coils was born from one web developer's pain over many years of both web and desktop software development. Zubair Quraishi started in the early 1990s as a C++ programmer, and then moved to Java, and got heavily involved in Java web applications, only to find the whole make developer, compile, test loop hugely cumbersome and time wasting. Then one day, like many developers before him, around 2008 he discovered Ruby on Rails.
 
 Wow! Suddenly the world opened up for Zubair and he realised there was a better way with interactive languages and easy SQL queries. Soon however, he became frustrated again, as with Rails everything was generated on the server and it did not allow enough fine grained control of the web page on the client. So, in true developer style, Zubair took the long and painful route, going to Erlang, Clojure and Vaadin, Grails, JQuery, Javascript, Google Closure, Dart, and finally deciding to use Clojurescript for a project he was involved with.
 
