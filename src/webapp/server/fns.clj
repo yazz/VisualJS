@@ -13,6 +13,7 @@
   (:require [clojurewerkz.neocons.rest.relationships :as nrl])
   (:require [clojurewerkz.neocons.rest.cypher :as cy])
   (:use [webapp-config.settings])
+  (:import [java.util.UUID])
 )
 
 ( try
@@ -170,23 +171,38 @@
             )
 )
 
+
+
 ;(find-user-by-username {:username "zq@nemcv.com2"})
 
 (defn send-password [{email :email}]
     (println "fn email:" email)
-    (if (find-user-by-username  {:username email})
-      (do
-          (send-email :message  "Please reset your password"
-                :subject    "anuzzer"
-                :from-email "help@coils.cc"
-                :from-name  "coils emailer"
-                :to-email   email
-                :to-name    nil
-          )
-          {:status :sent})
+    (let [user (find-user-by-username  {:username email})
+         request-id (str (java.util.UUID/randomUUID))]
+      (if user
+        (do
+            (exec-raw
+                 ["insert into password_reset_requests (fk_user_id, status, request_id) values (?, ?, ?)"
+                  [(:id user)
+                   "sent"
+                   request-id]])
+
+            (send-email
+                  :message    (str
+                                 "Please reset your password by clicking here:"
+                                 *database-server*
+                                 "/main.html?request_id="
+                                 request-id
+                              )
+                  :subject    "Coils.cc reset password request"
+                  :from-email "help@coils.cc"
+                  :to-email   email
+            )
+            {:status :sent})
 
 
-      {:status :doesnt-exist}
+        {:status :doesnt-exist}
+      )
     )
 )
 

@@ -263,8 +263,14 @@
         (body-html "<div>Problem signing in. Please check that the email and  password are correct")
 
         (forgot-password-button-html :do-after-click
-                                          #(swap-section "main-section" "<div>Enter your email above</div>")
-                                     )
+                                          #(do
+                                             (swap-section "main-section" "<div></div>"
+                                               (fn[] (show-popover
+                                                        "username-input"
+                                                        "Enter the password you signed up with here"
+                                                        {:placement "bottom"}))
+                                             )
+                                          ))
 
 
               ])

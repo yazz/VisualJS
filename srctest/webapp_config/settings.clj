@@ -5,11 +5,11 @@
 
 
 
-(defonce ^:dynamic *mandrill-api-key* "replace this with your madrill API key")
+(defonce ^:dynamic *mandrill-api-key* "enter_api_key_for_mandrill_here")
 
 (defonce ^:dynamic *environment* "test")
 
-(defonce ^:dynamic *web-server* "127.0.0.1")
+(defonce ^:dynamic *web-server* "127.0.0.1:8080/coils")
 
 (defonce ^:dynamic *database-server* "127.0.0.1")
 
@@ -22,5 +22,7 @@
 (defonce ^:dynamic *sql-encryption-password* "animal")
 
 (defonce ^:dynamic *show-code* false)
+
+
 
 
