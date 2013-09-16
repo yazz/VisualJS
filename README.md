@@ -117,24 +117,6 @@ Anatomy of a Coils application
 
 
 
-Deploying an application to a Java server as a war file
--------------------------------------------------------
-
-    mkdir srcprod
-    cd srcprod
-    mkdir webapp_config
-    cd webapp_config
-    touch settings.clj
-    ... copy and amend the settings from coils/srcdev/webapp_config/settings.clj ...
-    cd ..
-    cd ..
-    cd coils
-    lein with-profile prod cljsbuild clean
-    lein with-profile prod cljsbuild once
-    lein with-profile prod ring uberwar
-    ... deploy the resulting war file ...
-
-
 Getting started
 ---------------
 
@@ -226,3 +208,24 @@ Client side Neo4j Cypher
     )
 
  Please note that the raw Cypher code is not visible from web browsers as it is encryted via a server side macro.
+
+
+
+
+Deploying an application to a Java server
+-------------------------------------------------------
+
+    mkdir srcprod
+    cd srcprod
+    mkdir webapp_config
+    cd webapp_config
+    touch settings.clj
+    ... copy and amend the settings from coils/srcdev/webapp_config/settings.clj ...
+    cd ..
+    cd ..
+    cd coils
+    lein with-profile prod cljsbuild clean
+    lein with-profile prod cljsbuild once
+    lein with-profile prod ring uberwar
+    ... deploy the resulting war file ...
+
