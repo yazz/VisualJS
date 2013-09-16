@@ -40,6 +40,37 @@ Unique features
 
 
 
+All features
+------------
+
+- Interactive client and server side development
+
+- Integration with Mandrill for sending transactional emails
+
+- Can use Crate for HTMl
+
+- Uses Dommy
+
+- Uses Domina
+
+- JayQ for JQuery integration
+
+- Google Closure for advanced compression
+
+- Google Closure UI Library - the same library used to build Google.com, Gmail, and Google+
+
+- CLJ HTTP for server side HTTP requests
+
+- SQL Korma for database requests
+
+- Neocons for Neo4j access
+
+- Compojure, Ring, and Shoreleave for server side code
+
+- Clojure core.async for client side synchronous programming model
+
+- Google Maps integration for true Ajax maps (can be swapped ina nd out)
+
 
 Demo site
 ---------
@@ -146,7 +177,7 @@ Adding something to the page
 
     (swap-section "main" "<div>hello world</div>")
 
-3) press Ctrl/Alt Enter on the line and the view should swap out with the text "Hello world"
+3) press Ctrl/Alt Enter on the line and the view should swap out the whole page with the text "Hello world"
 
 
 
@@ -170,19 +201,21 @@ Call an action:
 Calling server side code
 ------------------------
 
-Define in fns.clj on the server side (using core.async):
-
-    (defn say-hello [params]
-        {:text (str "Hello " (:name params))}
-    )
-
-
-
 From the client side:
 
     (go
          (js/alert
              (:text (<! (remote "say-hello" {:name "Johnny"})))))
+
+
+
+Define in fns.clj on the server side (using core.async):
+
+    (defn say-hello [{name :name}]
+        {:text (str "Hello " name))}
+    )
+
+
 
 
 
@@ -196,7 +229,8 @@ Client side SQL
      )
 
 
- Please note that the raw SQL is not visible from web browsers as it is encryted via a server side macro.
+ Please note that the raw SQL is not visible from web browsers as it is encryted via a server side macro, a feature unique to Clojure and Lisp.
+
 
 
 
