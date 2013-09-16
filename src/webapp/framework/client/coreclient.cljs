@@ -20,6 +20,10 @@
   )
 )
 
+
+
+
+
 (def auto-gen-id (atom 0))
 
 (defn new-dom-id []
@@ -172,6 +176,20 @@
    :else x
   )
 )
+
+
+
+(defmulti
+    do-before-remove-element
+        (fn [elem]
+          (attr ($ (find-el elem)) "id")))
+
+
+
+
+(defmethod do-before-remove-element
+    :default
+    [elem] (.log js/console (str "Nothing happens when we remove '" (attr ($ (find-el elem)) "id") "'") ))
 
 
 (defn make-el [x]
@@ -375,11 +393,90 @@
   )
 )
 
+(extend-type js/HTMLCollection
+  ISeqable
+  (-seq [array] (array-seq array 0))
 
+  ICounted
+  (-count [a] (alength a))
+
+  IIndexed
+  (-nth
+    ([array n]
+       (if (< n (alength array)) (aget array n)))
+    ([array n not-found]
+       (if (< n (alength array)) (aget array n)
+           not-found)))
+
+  ILookup
+  (-lookup
+    ([array k]
+       (aget array k))
+    ([array k not-found]
+       (-nth array k not-found)))
+
+  IReduce
+  (-reduce
+    ([array f]
+       (ci-reduce array f))
+    ([array f start]
+       (ci-reduce array f start))))
+
+(extend-type js/NodeList
+  ISeqable
+  (-seq [array] (array-seq array 0))
+
+  ICounted
+  (-count [a] (alength a))
+
+  IIndexed
+  (-nth
+    ([array n]
+       (if (< n (alength array)) (aget array n)))
+    ([array n not-found]
+       (if (< n (alength array)) (aget array n)
+           not-found)))
+
+  ILookup
+  (-lookup
+    ([array k]
+       (aget array k))
+    ([array k not-found]
+       (-nth array k not-found)))
+
+  IReduce
+  (-reduce
+    ([array f]
+       (ci-reduce array f))
+    ([array f start]
+       (ci-reduce array f start))))
+
+(comment map
+             (fn [x] (do-before-remove-element  x))
+             (goog.dom/getChildren (find-el "main-section")))
+
+
+(comment map #(.-nodeName %)
+     (goog.dom/getChildren (goog.dom/getElement "main-section")))
+;; '("SPAN" "SPAN")
 
 (defn swap-section
   ([element new-content]
     (do
+        (if (find-el element)
+          (let [children    (.children ($ (find-el element)))]
+            (.log js/console (str "remove children of element name: " (attr ($ (find-el element)) "id"  )))
+            (.log js/console (str "children of element name: " children ))
+            (if children
+              (dorun
+               (map
+                 (fn [xxx]  (do-before-remove-element xxx))
+                 children)
+               ))))
+
+        (do-before-remove-element  element)
+
+
         (-> ($ (find-el element))
             (fade-out 200
                       #(do
@@ -679,4 +776,26 @@
 
 ;(get @webapp.framework.client.coreclient/gui-html "signup-panel-html")
 
+
+(defprotocol ds
+      (-set-text [this text]))
+
+
+
+(extend-type js/HTMLDivElement
+  ds
+  (-set-text
+    [this text]  (goog.dom/setTextContent this text)))
+
+;(def a "dd")
+
+
+(defmulti test :a)
+(defmethod test :q [a] "is a q")
+(defmethod test :r [a] "is a r")
+(defmethod test :default [a] "is something else")
+
+(test {:a :s})
+
+;(-set-text (.getElementById js/document "main-section") "howdy")
 
