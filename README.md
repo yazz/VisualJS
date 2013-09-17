@@ -44,11 +44,11 @@ Unique features
 All features
 ------------
 
-- Interactive client and server side development
+- Interactive client and server side development with LightTable IDE
 
 - Integration with Mandrill for sending transactional emails
 
-- Can use Crate for HTMl
+- Can use Crate for HTML
 
 - Uses Dommy
 
@@ -71,6 +71,7 @@ All features
 - Clojure core.async for client side synchronous programming model
 
 - Google Maps integration for true Ajax maps (can be swapped ina nd out)
+
 
 
 Demo site
@@ -125,7 +126,7 @@ Anatomy of a Coils application
 
                              ...
                     server
-                        └ fns.clj
+                        └ fns.clj - server side functions go here
 
 
 
