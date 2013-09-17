@@ -190,8 +190,8 @@
             (send-email
                   :message    (str
                                  "Please reset your password by clicking here:"
-                                 *database-server*
-                                 "/main.html?request_id="
+                                 *web-server*
+                                 "/main.html?reset_request_id="
                                  request-id
                               )
                   :subject    "Coils.cc reset password request"

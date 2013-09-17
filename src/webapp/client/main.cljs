@@ -8,9 +8,14 @@
     )
 )
 
-(do-action "create blank page structure")
-(do-action "show top nav")
-(do-action "show home page")
+
+(defn ^:export main []
+  (do-action "create blank page structure")
+  (do-action "show top nav")
+  (do-action "show home page")
+)
+
+
 
 (comment remote "say-hello"
         {:name "Johnny"}

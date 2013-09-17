@@ -356,7 +356,27 @@
 
 (redefine-action  "show login signup panel"
 
-    (swap-section "top-right" (login-signup-panel-html))
+                 (do
+                   (.log js/console (str "PARAMS: " (js->clj js/params) ))
+  (cond
+
+     (get  (js->clj js/params) "reset_request_id")
+
+        (let [
+            r (str (get  (js->clj js/params) "reset_request_id"))
+            ]
+            (do
+               (clear "top-right")
+               (add-to "top-right" "<div>Reset your password</div>")
+             )
+
+         )
+
+
+
+    :else
+
+    (swap-section "top-right" (login-signup-panel-html))))
 )
 
 
@@ -477,15 +497,14 @@
 
 (redefine-action "show logged in panel"
 
-    (do
-      (clear "top-right")
-      (add-to "top-right" (logged-in-panel))
-    )
-)
+         (do
+           (clear "top-right")
+           (add-to "top-right" (logged-in-panel))
+           )
+   )
 
 
-
-
+;(do-action "show logged in panel")
 
 
 
@@ -497,11 +516,6 @@
          (swap-section "signed-in-as-text"
                        (str "<div>Signed in as " (:user_name user) "</div>"))
  ))
-
-
-
-
-
 
 
 
