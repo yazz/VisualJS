@@ -170,8 +170,8 @@ The easiest way to get started is to get the projects and just play around with 
 
 
 
-Adding something to the page
-----------------------------
+Adding something to the web page
+--------------------------------
 
 1) Go to a clojurescript view in src/webapp/client/views/main_view.cljs
 
@@ -181,6 +181,36 @@ Adding something to the page
 
 3) press Ctrl/Alt Enter on the line and the view should swap out the whole page with the text "Hello world"
 
+
+Adding debuggable elements to the page
+--------------------------------------
+
+    (defn-html logged-in-panel []
+        (el :div {:class "row" :style "padding: 5px; width:400px;"} [
+            (el :div
+                          {:id    "signed-in-as-text"
+                           :text  "Signing in..."
+                           :class "pull-left"
+                           :style "margin-right: 20px; margin-top:10px;"
+             })
+         
+             (el :button
+                          {:id      "logout-button"
+                           :class   "btn btn-default "
+                           :text    "Logout"
+                           :style   "margin-right: 20px;"
+                           :onclick #(do-action "show login signup panel")})
+                        
+             (el :button
+                          {:id      "settings-button"
+                           :class   "btn btn-default"
+                           :text    "Settings"
+                           :style   "margin-right: 20px;"
+                          })
+    ]))
+
+
+    (swap-section "main" (logged-in-panel))
 
 
 
