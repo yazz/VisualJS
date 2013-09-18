@@ -190,6 +190,42 @@
 
 
 
+(defn-html enter-new-password-html []
+  (el :form {:class "form-inline" :style "padding: 5px"}
+      [
+       (el :div {:class "form-group"} [
+        "<input  id='password-input'  type='password' placeholder='New password' class='input-small form-control'>"
+        ])
+       (el :div {:class "form-group"} [
+        "<input  id='confirm-password-input' type='password' class='input-small form-control' placeholder='Confirm new password'>"
+        ])
+        ;"<div class='checkbox' style='margin-left: 10px;'>
+        ;    <label>
+        ;      <input type='checkbox'> Remember me
+        ;    </label>
+        ;  </div>"
+
+       (el :button {
+                     :id       "signup-button"
+                     :type     "button"
+                     :class    "btn btn-primary"
+                     :style    "margin-left: 10px;"
+                     :text     "Reset my password"
+                     :onclick  #(do-action "reset password entered"
+                                           {
+                                            :username    (value-of "password-input")
+                                            :password    (value-of "password-input")
+                                            })})
+
+
+      ]
+  )
+)
+
+
+
+
+
 (defn-html signup-panel-html []
   (el :form {:class "form-inline" :role "form" :style "padding: 5px"}
       [
@@ -356,27 +392,31 @@
 
 (redefine-action  "show login signup panel"
 
-                 (do
-                   (.log js/console (str "PARAMS: " (js->clj js/params) ))
-  (cond
+  (do
+      (.log js/console (str "PARAMS: " (js->clj js/params) ))
+      (cond
 
-     (get  (js->clj js/params) "reset_request_id")
+           (get  (js->clj js/params) "reset_request_id")
 
-        (let [
-            r (str (get  (js->clj js/params) "reset_request_id"))
-            ]
-            (do
-               (clear "top-right")
-               (add-to "top-right" "<div>Reset your password</div>")
-             )
+                  (let [
+                      r (str (get  (js->clj js/params) "reset_request_id"))
+                      ]
+                      (do
+                         (clear "top-right")
+                         ;(add-to "top-right" "<div>Reset your password</div>")
+                                              (popup :title "Reset your password"
+                            :body-html
+                                 (enter-new-password-html))
+                       )
+                   )
 
-         )
 
 
 
-    :else
 
-    (swap-section "top-right" (login-signup-panel-html))))
+      )
+
+       (swap-section "top-right" (login-signup-panel-html)))
 )
 
 
