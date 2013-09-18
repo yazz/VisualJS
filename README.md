@@ -251,12 +251,12 @@ Client side Neo4j Cypher
 How secure client side SQL works
 --------------------------------
 
-    It may seem strange that you can call SQL seemingly synchronously from the client yet the call is sent to the server, is secure, and behaves asynchronously internally. All I can say is welcome to the world of Lisp! To understand a bit more about this you need to realise that Clojure is an implementation of Lisp, made on the JVM. Lisp itself has alot of special features which are not available in other languages, such as the ability to write code itself, also known as changing the language. This ability is not available as a first class feature in any other language, otherwise the other language would be a Lisp!
+It may seem strange that you can call SQL seemingly synchronously from the client yet the call is sent to the server, is secure, and behaves asynchronously internally. All I can say is welcome to the world of Lisp! To understand a bit more about this you need to realise that Clojure is an implementation of Lisp, made on the JVM. Lisp itself has alot of special features which are not available in other languages, such as the ability to write code itself, also known as changing the language. This ability is not available as a first class feature in any other language, otherwise the other language would be a Lisp!
 
-    Anyway, before I stray too much away from the point, there are two features of the Clojure implementation of Lisp that allows synchronous secure client side SQL:
+Anyway, before I stray too much away from the point, there are two features of the Clojure implementation of Lisp that allows synchronous secure client side SQL:
 
-    - core.async
-    - macros (no, not your C++ macros)
+- core.async
+- macros (no, not your C++ macros)
 
 
 
