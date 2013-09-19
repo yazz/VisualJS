@@ -96,6 +96,10 @@
 
                          (.log js/console "sending password")
                          (.log js/console (str (<! (remote "send-password" {:email username}))))
+                         (popup :title "Check your mail"
+                                :body-html "<div>We have reset your password. Please check your mail and click the link<div/>")
+                         (do-action "show login signup panel")
+
                      )
 
                      (popup :title "Can't find you"
@@ -391,7 +395,11 @@
 
 
 (redefine-action  "show login signup panel"
+       (swap-section "top-right" (login-signup-panel-html)))
 
+
+
+(redefine-action  "deal with session stuff"
   (do
       (.log js/console (str "PARAMS: " (js->clj js/params) ))
       (cond
@@ -410,13 +418,10 @@
                        )
                    )
 
-
-
-
-
       )
 
-       (swap-section "top-right" (login-signup-panel-html)))
+      (do-action "show login signup panel")
+  )
 )
 
 

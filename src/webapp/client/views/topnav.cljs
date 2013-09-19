@@ -134,7 +134,7 @@
         (add-to "top-left" (top-nav-bar))
         (add-nav-listeners)
 
-        (do-action "show login signup panel")
+        (do-action "deal with session stuff")
 ))
 
 ;(do-action "show top nav")
