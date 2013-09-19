@@ -281,13 +281,29 @@ Client side Neo4j Cypher
 How secure client side SQL works
 --------------------------------
 
-It may seem strange that you can call SQL seemingly synchronously from the client yet the call is sent to the server, is secure, and behaves asynchronously internally. All I can say is welcome to the world of Lisp! To understand a bit more about this you need to realise that Clojure is an implementation of Lisp, made on the JVM. Lisp itself has alot of special features which are not available in other languages, such as the ability to write code itself, also known as changing the language. This ability is not available as a first class feature in any other language, otherwise the other language would be a Lisp!
+It may seem strange that you can call SQL synchronously from the client yet the call is sent to the server, is secure, and behaves asynchronously internally. All I can say is welcome to the world of Lisp! To understand a bit more about this you need to realise that Clojure is an implementation of Lisp for the JVM, and Clojurescript is Lisp on Javascript. Lisp itself has alot of special features which are not available in other languages, such as the ability to write code itself, also known as Lisp Macros. This ability is not available as a first class feature in any other language!
 
 Anyway, before I stray too much away from the point, there are two features of the Clojure implementation of Lisp that allows synchronous secure client side SQL:
 
 - core.async
 - macros (no, not your C++ macros)
 
+So when you make a client side SQL call the SQL is encyrpted using a Macro at compile time:
+
+    (defmacro sql [sql-str params]
+        `(webapp.framework.client.coreclient.sql-fn
+            ~(encrypt sql-str)
+            ~params
+        )
+    )
+    
+So this means that the SQL string in a client side SQL call:
+
+    (go
+        (.log js/console (str (<! (sql "SELECT * FROM test_table where name = ?" ["shopping"] ))))
+     )
+
+: will be rewritten at compile time, so it will be impossible for anyone who does "View source" on your web page to see the SQL code
 
 
 Deploying an application to a Java server
