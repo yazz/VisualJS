@@ -36,3 +36,11 @@ function showPopover(element,  options) {
     }, 4000);
 }
 
+function resizeSystem() {
+  webapp.client.main.resizeScreenFn($( window ).width(),  $( window ).height());
+};
+
+$( window ).resize(function() {
+  console.log( "RESIZE: (" + $( window ).width() + ", "+ $( window ).height() + ")");
+  resizeSystem( );
+});

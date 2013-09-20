@@ -9,11 +9,18 @@
 )
 
 
+
+(defn ^:export resizeScreenFn [w h]
+    (.log js/console "RESIZE")
+)
+
+
 (defn ^:export main []
   (do-action "create blank page structure")
   (do-action "show top nav")
   (do-action "show home page")
 )
+
 
 
 
