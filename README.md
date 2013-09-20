@@ -310,7 +310,7 @@ So this means that the SQL string in a client side SQL call:
 
 Functions available
 -------------------------------------------------------
-There are many library functions available, although it is a bit of a mess having to require and use everything in thr header:
+There are many library functions available, although it is a bit of a mess having to require and use everything in the Clojurescript namespace header:
 
     (ns webapp.client.views.loginpanel
         (:refer-clojure :exclude [val empty remove find next parents])
