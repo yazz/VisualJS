@@ -6,6 +6,10 @@ function showModalPopup() {
     $('#myModal').modal();
 }
 
+function hideModalPopup() {
+    $('#myModal').modal('hide');
+}
+
 
 
 function showHelp() {

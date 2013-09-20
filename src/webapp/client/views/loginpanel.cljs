@@ -25,7 +25,11 @@
 )
 (ns-coils 'webapp.client.views.loginpanel)
 
-;(ns-coils-debug)
+
+
+
+
+
 
 (defn neo-data [x] (first x))
 (defn neo-keys [x] (-> x (neo-data) (keys)))
@@ -80,8 +84,20 @@
  (.log js/console (str (<! (sql "SELECT * FROM users " [] ))))
 )
 
-(redefine-action "Send me my password"
-  (let
+
+
+
+
+
+
+
+
+(redefine-action                       "Send me my password"
+
+
+
+
+   (let
     [
        username    (message :username)
      ]
@@ -114,7 +130,14 @@
 
 
 
-(defn-html forgot-password-panel-html []
+
+
+
+(defn-html                         forgot-password-panel-html  [ ]
+
+
+
+
   (el :form {:class "form-inline" :style "padding: 5px"}
       [
        (el :div {:class "form-group"} [
@@ -150,7 +173,16 @@
 
 
 
-(defn-html login-panel-html []
+
+
+
+
+(defn-html                                    login-panel-html [ ]
+
+
+
+
+
   (el :form {:class "form-inline" :style "padding: 5px"}
       [
        (el :div {:class "form-group"} [
@@ -194,7 +226,11 @@
 
 
 
-(defn-html enter-new-password-html []
+(defn-html                                enter-new-password-html [ ]
+
+
+
+
   (el :form {:class "form-inline" :style "padding: 5px"}
       [
        (el :div {:class "form-group"} [
@@ -203,11 +239,6 @@
        (el :div {:class "form-group"} [
         "<input  id='confirm-password-input' type='password' class='input-small form-control' placeholder='Confirm new password'>"
         ])
-        ;"<div class='checkbox' style='margin-left: 10px;'>
-        ;    <label>
-        ;      <input type='checkbox'> Remember me
-        ;    </label>
-        ;  </div>"
 
        (el :button {
                      :id       "signup-button"
@@ -226,6 +257,30 @@
   )
 )
 
+
+
+
+(redefine-action           "reset password entered"
+
+    (let [
+          username  (message :username)
+          password  (message :password)
+          ]
+            (cond
+             :else
+               (do
+                   (js/hideModalPopup)
+                   (swap-section "main-section" "<div>Your password has been reset. Please try to login again</div>")
+                   (swap-section
+                    ($ :#top-right)
+                    (login-panel-html))
+                )
+             )
+
+           )
+
+
+)
 
 
 
