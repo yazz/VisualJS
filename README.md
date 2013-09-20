@@ -343,8 +343,8 @@ There are many library functions available, although it is a bit of a mess havin
     
     
     
-    Deploying an application to a Java server
-    -------------------------------------------------------
+Deploying an application to a Java server
+-------------------------------------------------------
 
     mkdir srcprod
     cd srcprod
