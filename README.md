@@ -340,7 +340,14 @@ There are many library functions available, although it is a bit of a mess havin
     (ns-coils 'webapp.client.views.loginpanel)
     
     
-    
+-  show-popover - Shows a Bootstrap 3 style popover above an element
+
+    (show-popover   "email-input"  
+                    "Email can not be blank")
+                    
+    (show-popover   "password-input"  
+                    "Password is incorrect"
+                    {:placement "top"})
     
     
 Deploying an application to a Java server
