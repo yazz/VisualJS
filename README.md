@@ -342,7 +342,7 @@ There are many library functions available, although it is a bit of a mess havin
 
 
     
-show-popover - Shows a Bootstrap 3 style popover above an element
+**show-popover** - Shows a Bootstrap 3 style popover above an element
 
     (show-popover   "email-input"  
                     "Email can not be blank")
@@ -353,7 +353,7 @@ show-popover - Shows a Bootstrap 3 style popover above an element
                     
                     
                     
-swap-section - Swaps a HTML element with a new element
+**swap-section** - Swaps a HTML element with a new element
 
     (swap-section   "my-section"  
                     "<div>Replace the element with ID my-section" with this text</div>")
