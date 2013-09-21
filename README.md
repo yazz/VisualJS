@@ -349,6 +349,18 @@ There are many library functions available, although it is a bit of a mess havin
     (show-popover   "password-input"  
                     "Password is incorrect"
                     {:placement "top"})
+                    
+                    
+                    
+- swap-section - Swaps a HTML element with a new element
+
+
+    (swap-section   "my-section"  
+                    "<div>Replace the element with ID my-section" with this text</div>")
+    
+    
+    
+    
     
     
 Deploying an application to a Java server
