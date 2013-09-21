@@ -234,23 +234,23 @@
   (el :form {:class "form-inline" :style "padding: 5px"}
       [
        (el :div {:class "form-group"} [
-        "<input  id='password-input'  type='password' placeholder='New password' class='input-small form-control'>"
-        ])
-       (el :div {:class "form-group"} [
-        "<input  id='confirm-password-input' type='password' class='input-small form-control' placeholder='Confirm new password'>"
+        "<input  id='password-input'  type='password' placeholder='New password' class='input-small form-control'>
+        <input  id='confirm-password-input' type='password' class='input-small form-control' placeholder='Confirm new password'>"
         ])
 
        (el :button {
-                     :id       "signup-button"
+                     :id       "password-reset-button"
                      :type     "button"
                      :class    "btn btn-primary"
                      :style    "margin-left: 10px;"
                      :text     "Reset my password"
                      :onclick  #(do-action "reset password entered"
                                            {
-                                            :username    (value-of "password-input")
-                                            :password    (value-of "password-input")
+                                            :password            (value-of "password-input")
+                                            :confirm-password    (value-of "confirm-password-input")
                                             })})
+
+       (el :div {:id "password-reset-message" :style "padding: 20px;"})
 
 
       ]
@@ -263,10 +263,23 @@
 (redefine-action           "reset password entered"
 
     (let [
-          username  (message :username)
-          password  (message :password)
+          password          (message :password)
+          confirm-password  (message :confirm-password)
           ]
             (cond
+             (not (= password confirm-password))
+               (swap-section
+                                   "password-reset-message"
+                                   "<div>Passwords do not match</div>")
+
+
+             (clojure.string/blank? password)
+               (swap-section
+                                   "password-reset-message"
+                                   "<div>Password can not be blank</div>"
+                                   {:placement "bottom"})
+
+
              :else
                (do
                    (js/hideModalPopup)
@@ -281,7 +294,6 @@
 
 
 )
-
 
 
 
