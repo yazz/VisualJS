@@ -172,6 +172,16 @@
 )
 
 
+(defn find-user-by-id [{id :id}]
+          (let [r (exec-raw
+               ["SELECT id, user_name FROM users where id = ?"
+                [id]]
+                :results)]
+
+            (first r)
+            )
+)
+
 
 ;(find-user-by-username {:username "zq@nemcv.com2"})
 
@@ -214,6 +224,38 @@
                 [username password]]
                 :results)
 )
+
+
+
+
+(defn reset-password [{reset-request-id   :reset-request-id
+                       password           :password}]
+  (let [
+        reset-request
+                      (first
+                          (exec-raw
+                           ["select fk_user_id from password_reset_requests where request_id = ?"
+                            [reset-request-id]] :results ))
+
+        user          (find-user-by-id {:id (:fk_user_id reset-request)})
+
+
+        ]
+
+
+         (exec-raw
+               ["update users set password = ? where id = ?"
+                   [  password  (:id user) ]
+               ]
+                )
+          [:status "ok"]
+    )
+)
+
+(comment reset-password
+               {
+                    :reset-request-id      "50315c74-ce31-4547-8479-5d1cdb8bae95"
+                    :password              "duck"})
 
 ;(login-user {:username "z" :password "s"})
 
