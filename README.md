@@ -394,6 +394,18 @@ There are many library functions available, although it is a bit of a mess havin
 
   
     
+**sql** - Calls the server and executes SQL and returns it to the client
+
+    (go
+         (let [
+                 search-db-for-user   (<! (sql "SELECT * FROM users where user_name = ?"
+                                      [username] ))
+                 user-already-exists  (pos? (count search-db-for-user))
+              ]
+                 (if user-already-exists ...
+
+  
+    
     
     
     
