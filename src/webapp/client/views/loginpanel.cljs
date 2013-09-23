@@ -571,16 +571,19 @@
 
 
                    (let [
-                         search-db-for-user   (<! (remote "login-user" {:username username :password password}))
-                         user-record-from-db  (first search-db-for-user)
+                         user-record-from-db  (:value
+                                                 (<! (remote "login-user" {:username username :password password})))
                          ]
                          (if user-record-from-db
+                           ; log in user
                            (do
                              (.log js/console (str "Logged in as user " user-record-from-db))
                              (do-action "show logged in panel")
                              (do-action "set logged in user" user-record-from-db)
+                             (swap-section "main-section" "<div></div>")
                            )
 
+                           ; else if not logged in
                            (do
                              ;(show-popover "username-input"
                              ;            "<br>User does not exist. Please check that the email and  password are correct"

@@ -30,6 +30,8 @@
 
 (def current-user (atom nil))
 
+;@current-user
+
 (define-action "set logged in user"
   (let
     [

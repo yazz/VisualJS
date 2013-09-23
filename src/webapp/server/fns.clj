@@ -219,10 +219,17 @@
 ;(send-password {:email "zq@nemcv.com"})
 
 (defn login-user [{username :username password :password}]
-            (exec-raw
+       (let [user
+         (first (exec-raw
                ["SELECT id, user_name, password FROM users where user_name = ? and password = ?"
                 [username password]]
-                :results)
+                :results))
+
+             user-without-password (dissoc user :password)
+             ]
+
+         {:value user-without-password}
+         )
 )
 
 
