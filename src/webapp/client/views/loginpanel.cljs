@@ -580,7 +580,7 @@
                              (.log js/console (str "Logged in as user " user-record-from-db))
                              (do-action "show logged in panel")
                              (do-action "set logged in user" user-record-from-db)
-                             (swap-section "main-section" "<div></div>")
+                             (do-action "show settings")
                            )
 
                            ; else if not logged in

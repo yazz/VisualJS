@@ -1,6 +1,7 @@
 (ns webapp.client.main
     (:require
         [webapp.client.views.loginpanel]
+        [webapp.client.views.settings]
         [webapp.client.session]
     )
     (:use
