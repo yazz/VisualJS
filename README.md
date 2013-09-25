@@ -400,6 +400,21 @@ There are many library functions available, although it is a bit of a mess havin
       (.log js/console "Hello")
     )  
 
+
+**do-action message** - Puts a message onto the service bus with paramters. This can be picked up by zero or more receivers
+
+    (do-action  "say-hello" {:name "Peter")  
+
+
+
+**define-action** - Acts on a message sent to the service bus. Please note that the message is an implicitly defined variable in an action
+
+    (define-action  "say-hello"
+      (.log js/console (str "Hello" (:name message)))
+    )  
+
+  
+    
   
     
 **sql** - Calls the server and executes SQL and returns it to the client
