@@ -257,6 +257,9 @@
 
 
 
+
+
+
 (redefine-action           "reset password entered"
 
     (let [
@@ -527,7 +530,8 @@
                                  created-user (first (<! (sql "SELECT * FROM users where user_name = ?"
                                                     [username] )))]
                                     (.log js/console "Created user " created-user)
-                                    (do-action "set logged in user" created-user)
+                                    (do-action "set logged in user"
+                                               {:user created-user})
                            )
                         )
               )
@@ -579,7 +583,8 @@
                            (do
                              (.log js/console (str "Logged in as user " user-record-from-db))
                              (do-action "show logged in panel")
-                             (do-action "set logged in user" user-record-from-db)
+                             (do-action "set logged in user"
+                                        {:user user-record-from-db})
                              (do-action "show settings")
                            )
 

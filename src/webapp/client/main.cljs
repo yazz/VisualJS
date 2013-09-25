@@ -3,6 +3,7 @@
         [webapp.client.views.loginpanel]
         [webapp.client.views.settings]
         [webapp.client.session]
+        [goog.net.cookies :as cookie]
     )
     (:use
         [webapp.framework.client.eventbus  :only [do-action esb]]
@@ -48,3 +49,5 @@
 
 ;(do-action "refresh homepage")
 
+
+;(.get goog.net.cookies "name" )

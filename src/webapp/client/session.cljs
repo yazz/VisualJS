@@ -35,11 +35,14 @@
 (define-action "set logged in user"
   (let
     [
-       user    message
+       user       (:user        message)
+       session-id (:session-id  message)
      ]
        (reset! current-user user)
        (.log js/console (str "Current user:" @current-user))
        (do-action "update current user" @current-user)
        (.log js/console (str "Done" ))
+       (.set goog.net.cookies "coils.cc" (str session-id) -1)
+
   )
 )
