@@ -387,6 +387,7 @@ There are many library functions available, although it is a bit of a mess havin
     (swap-section   "my-section"  
                     "<div>Replace the element with ID my-section" with this text</div>")
     
+    
   
 **do-action** - Puts a message onto the service bus. This can be picked up by zero or more receivers
 
@@ -401,9 +402,11 @@ There are many library functions available, although it is a bit of a mess havin
     )  
 
 
+
 **do-action message** - Puts a message onto the service bus with paramters. This can be picked up by zero or more receivers
 
-    (do-action  "say-hello" {:name "Peter")  
+    (do-action  "say-hello" {:name "Peter"})  
+
 
 
 
