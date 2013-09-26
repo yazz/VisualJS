@@ -430,7 +430,7 @@ There are many library functions available, although it is a bit of a mess havin
               ]
                  (if user-already-exists ...
 
-**set-text** - set the text of an element
+**set-text** - Set the text of an element
 
     (set-text "message-element" "You must enter an email address")
  
