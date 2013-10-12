@@ -183,6 +183,7 @@ Getting started
 ---------------
 
 1)
+
     cd coils
     lein with-profile dev cljsbuild clean
     lein with-profile dev cljsbuild once
