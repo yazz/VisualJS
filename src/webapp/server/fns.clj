@@ -7,6 +7,7 @@
   [:use [korma.core]]
   [:use [clojure.core.async]]
   [:use [clojure.repl]]
+  [:use [webapp.framework.server.db-helper]]
 
   (:require [clojurewerkz.neocons.rest :as nr])
   (:require [clojurewerkz.neocons.rest.nodes :as nn])
