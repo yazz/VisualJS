@@ -5,6 +5,7 @@
         [crate.core :as crate]
         [cljs.core.async :as async :refer         [chan close!]]
         [clojure.string]
+        [goog.net.cookies :as cookie]
     )
     (:use
         [webapp.framework.client.coreclient :only  [body-html new-dom-id debug popup hide-popovers

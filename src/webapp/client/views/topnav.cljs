@@ -30,6 +30,7 @@
                   <li id='home-button' class=active><a href='#'>Home</a></li>
                   <li id='docs-button'><a href='#'>Docs</a></li>
                   <li id='case-studies-button'><a href='#'>Case studies</a></li>
+                  <li id='example-apps-button'><a href='#'>Examples</a></li>
                   <li id='contact-button'><a href='#'>Contact</a></li>
                 </ul>")
 
@@ -75,6 +76,7 @@
   (. ($ :#home-button) removeClass "active")
   (. ($ :#contact-button) removeClass "active")
   (. ($ :#case-studies-button) removeClass "active")
+  (. ($ :#example-apps-button) removeClass "active")
   (. ($ :#docs-button) removeClass "active"))
 
 
@@ -110,6 +112,13 @@
               (do-action "show case studies view")
      )
 
+    (on-click
+              "example-apps-button"
+
+              (remove-nav-active)
+              (. ($ :#example-apps-button) addClass "active")
+              (do-action "show example apps view")
+     )
 
 
     (on-click
