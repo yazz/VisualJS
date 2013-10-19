@@ -799,3 +799,12 @@
 
 ;(-set-text (.getElementById js/document "main-section") "howdy")
 
+
+(defn height [element]
+    (-> ($ (find-el element) ) (. height))
+  )
+
+(defn width [element]
+    (-> ($ (find-el element) ) (. width))
+  )
+

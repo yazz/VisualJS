@@ -28,35 +28,6 @@
 
 
 
-(defn show-3d []
-  (clear "main-section")
-  (let [scene (js/THREE.Scene.)
-        width (.-innerWidth js/window)
-        height (.-innerHeight js/window)
-        camera (js/THREE.PerspectiveCamera. 75 (/ width height) 0.1 1000 )
-        renderer (js/THREE.CanvasRenderer.)
-        geometry (js/THREE.CubeGeometry. 1 1 1)
-        material (js/THREE.MeshBasicMaterial. (clj->js {:color 0x00ff00}))
-        cube (js/THREE.Mesh. geometry material)
-        render (fn cb []
-                   (js/requestAnimationFrame cb)
-                   (set! (.-x (.-rotation cube))  (+ 0.1 (.-x (.-rotation cube))) )
-                   (set! (.-y (.-rotation cube))  (+ 0.1 (.-y (.-rotation cube))) )
-                   (.render renderer scene camera)
-                 )
-        ]
-    (.setSize renderer width height)
-    (add-to "main-section" (.-domElement renderer) )
-    (.add scene cube)
-    (set! (.-z (.-position camera))  5)
-    (render)
-    )
-
-)
-
-;(show-3d)
-
-
 
 
 (defn-html docspage-html []
@@ -87,7 +58,7 @@
                            :style "margin: 20px;"
                            :class "btn btn-large btn-default"
                            :text "3d"
-                           :onclick #(show-3d)})
+                           :onclick #(do-action "show 3d debugger")})
 
           (el :button
                           {:id    "dissappear-button"
