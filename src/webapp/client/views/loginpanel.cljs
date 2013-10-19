@@ -33,52 +33,6 @@
 
 
 
-(defn neo-data [x] (first x))
-(defn neo-keys [x] (-> x (neo-data) (keys)))
-(defn neo-result [x k] (-> x (neo-data) (get k)))
-(defn neo-result-keys [x k] (-> x (neo-data) (get k) (keys)))
-(defn neo-properties [x k] (-> x (neo-data) (get k) (get :data)))
-(defn neo-incoming [x k] (-> x (neo-data) (get k) :incoming_relationships))
-(defn neo-outgoing [x k] (-> x (neo-data) (get k) :outgoing_relationships))
-
-
-(comment go
-   (.log js/console (str (neo-outgoing (<! (neo4j "START x = node(0) RETURN x" {} )) "x")))
-)
-
-(comment go
-   (.log js/console (str (neo-incoming (<! (neo4j "START x = node(0) RETURN x" {} )) "x")))
-)
-
-(comment  go
-   (.log js/console (str (neo-result (<! (neo4j "START x = node(0) RETURN x" {} )) "x")))
-)
-
-
-(defn neo-id [x]
-  (comment  go
-      (get (first (<! (neo4j "START x = node(1) RETURN ID(x)" {} ) "x")) "ID(x)")
-  )
-)
-
-(comment go
-    (.log js/console (str  (first (<! (neo-id nil)))))
-
- )
-
-(comment  go
-   (.log js/console
-
-         (let [
-               rr (<! (neo4j "CREATE (n {name : {value} , title : 'Developer'}) return n" {:value "Zubair"}  ) )
-               ]
-         (str
-          (neo-properties
-               rr
-               "n")
-          " : ID : "
-          (<! (neo-id rr))
-               ))))
 
 
 ;(makeit "fdsfd")

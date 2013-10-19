@@ -47,8 +47,7 @@
 
 
 
-
-   (defonce neo4j-type-index
+(defonce neo4j-type-index
      ( try
      (nn/create-index "types")
          (catch Exception e (str "caught exception: " (.getMessage e))))
