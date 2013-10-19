@@ -20,7 +20,7 @@
   (:use-macros
         [webapp.framework.client.eventbus :only    [redefine-action define-action]]
         [webapp.framework.client.coreclient :only  [ns-coils makeit defn-html on-click on-mouseover sql defn-html
-                                                    defn-html2 neo4j log]]
+                                                    defn-html2 neo4j log log-async]]
         [webapp.framework.client.interpreter :only [! !! !!!]]
      )
 )
@@ -60,19 +60,26 @@
 
  )
 
-(comment go
-   (.log js/console
 
-         (let [
-               rr (<! (neo4j "CREATE (n {name : {value} , title : 'Developer'}) return n" {:value "Zubair"}  ) )
-               ]
-         (str
-          (neo-properties
-               rr
-               "n")
-          " : ID : "
-          (<! (neo-id rr))
-               ))))
+(defn create-neo4j-record [properties]
+  (go
+      (log
+          (let [
+                 rr (<! (neo4j "CREATE (n {values}) return n" {:values properties}  ) )
+                ]
+               (str
+                   (neo-properties
+                       rr
+                       "n")
+                       " : ID : "
+                       (neo-id (:self (get (first rr) "n")))
+                )
+            )
+        )
+    )
+)
+
+(create-neo4j-record {:name "sdadaads" :age 45})
 
 
 (defn count-all-neo4j-records []
@@ -84,7 +91,15 @@
 )
 
 
+(defn neo-id [x]
+    (js/parseInt (.substring x (+ (.indexOf x "data/node/") 10)))
+)
 
-  (go
-     (log (<! (count-all-neo4j-records)))
-  )
+
+(go
+    (log (<! (count-all-neo4j-records)))
+)
+
+
+
+(log "hey" 2)

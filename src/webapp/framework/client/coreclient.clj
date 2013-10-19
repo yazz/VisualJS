@@ -7,12 +7,15 @@
 )
 
 
+(macroexpand '(log-async (count-all-neo4j-records)))
 
 (defmacro log [& x]
   `(.log js/console (str
                      ~@ x
                      ))
 )
+
+
 
 (defmacro on-click [el & code]
 
