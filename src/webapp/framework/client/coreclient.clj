@@ -7,6 +7,13 @@
 )
 
 
+
+(defmacro log [& x]
+  `(.log js/console (str
+                     ~@ x
+                     ))
+)
+
 (defmacro on-click [el & code]
 
     `(webapp.framework.client.coreclient/on-click-fn

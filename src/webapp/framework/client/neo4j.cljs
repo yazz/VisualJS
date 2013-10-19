@@ -20,7 +20,7 @@
   (:use-macros
         [webapp.framework.client.eventbus :only    [redefine-action define-action]]
         [webapp.framework.client.coreclient :only  [ns-coils makeit defn-html on-click on-mouseover sql defn-html
-                                                    defn-html2 neo4j]]
+                                                    defn-html2 neo4j log]]
         [webapp.framework.client.interpreter :only [! !! !!!]]
      )
 )
@@ -83,6 +83,8 @@
   )
 )
 
+
+
   (go
-     (.log js/console (str (<! (count-all-neo4j-records))))
+     (log (<! (count-all-neo4j-records)))
   )
