@@ -66,6 +66,19 @@
 
 
 
+(defn !count-all-neo4j-records-with-field [ {field-name :field-name} ]
+      (cy/tquery (str "START x = node(*) WHERE HAS(x." field-name ") RETURN count(x)") {} )
+)
+
+
+
+(defn !get-all-neo4j-records-with-field [ {field-name :field-name} ]
+      (cy/tquery (str "START x = node(*) WHERE HAS(x." field-name ") RETURN x,ID(x)") {} )
+)
+
+(!get-all-neo4j-records-with-field {:field-name "type"})
+
+
 
 
 

@@ -74,15 +74,13 @@
                        {
                             :id (js/parseInt (get (first rr) "ID(n)"))
                         }
-                     )
+                   )
 
                 )
             )
         )
     )
 )
-
-(create-neo4j-record {:name "sdadaads" :age 45})
 
 
 (defn count-all-neo4j-records []
@@ -98,15 +96,35 @@
   (go
      (get (first
         (<!
-             (neo4j "START x = node(*) WHERE HAS(x.type) RETURN count(x)" {:type "age"} )
+             (remote "!count-all-neo4j-records-with-field" {:field-name (name field-name)})
         )
      ) "count(x)")
   )
 )
 
+(defn get-all-neo4j-records-with-field [ field-name ]
+  (go
+     (map (fn[x] (merge
+                     {:id  (get x "ID(x)")}
+                     (:data  (get x "x"))
+                 )
+          )
+
+        (<!
+             (remote "!get-all-neo4j-records-with-field" {:field-name (name field-name)})
+        )
+     )
+  )
+)
+
+
 
 (comment go
-    (log (<! (count-all-neo4j-records-with-field :age)))
+    (log (<! (get-all-neo4j-records-with-field :type)))
+)
+
+(comment go
+    (log (<! (count-all-neo4j-records-with-field :type)))
 )
 
 
@@ -118,3 +136,7 @@
 
 
 (comment log "hey" 2)
+
+
+
+(comment create-neo4j-record {:name "Dev" :type "environment"})
