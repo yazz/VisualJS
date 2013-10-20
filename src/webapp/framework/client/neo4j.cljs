@@ -96,23 +96,25 @@
 
 (defn count-all-neo4j-records-with-field [ field-name ]
   (go
-     (get (first (<!
-             (neo4j "START x = node(*) WHERE has(x.age) RETURN count(x)" {} )
-     )) "count(x)")
+     (get (first
+        (<!
+             (neo4j "START x = node(*) WHERE HAS(x.type) RETURN count(x)" {:type "age"} )
+        )
+     ) "count(x)")
   )
 )
 
 
-(go
-    (log (<! (count-all-neo4j-records-with-field 1)))
+(comment go
+    (log (<! (count-all-neo4j-records-with-field :age)))
 )
 
 
 
-(go
+(comment go
     (log (<! (count-all-neo4j-records)))
 )
 
 
 
-(log "hey" 2)
+(comment log "hey" 2)
