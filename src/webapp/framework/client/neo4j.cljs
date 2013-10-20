@@ -36,6 +36,11 @@
 (defn neo-outgoing [x k] (-> x (neo-data) (get k) :outgoing_relationships))
 
 
+(defn neo-id [x]
+    (js/parseInt (.substring x (+ (.indexOf x "data/node/") 10)))
+)
+
+
 (comment go
    (.log js/console (str (neo-outgoing (<! (neo4j "START x = node(0) RETURN x" {} )) "x")))
 )
@@ -49,7 +54,7 @@
 )
 
 
-(defn neo-id [x]
+(comment defn neo-id [x]
   (comment  go
       (get (first (<! (neo4j "START x = node(1) RETURN ID(x)" {} ) "x")) "ID(x)")
   )
@@ -68,11 +73,15 @@
                  rr (<! (neo4j "CREATE (n {values}) return n" {:values properties}  ) )
                 ]
                (str
-                   (neo-properties
-                       rr
-                       "n")
-                       " : ID : "
-                       (neo-id (:self (get (first rr) "n")))
+                   (merge
+                      (neo-properties
+                         rr
+                         "n")
+                       {
+                            :id (neo-id (:self (get (first rr) "n")))
+                        }
+                     )
+
                 )
             )
         )
@@ -91,9 +100,6 @@
 )
 
 
-(defn neo-id [x]
-    (js/parseInt (.substring x (+ (.indexOf x "data/node/") 10)))
-)
 
 
 (go
