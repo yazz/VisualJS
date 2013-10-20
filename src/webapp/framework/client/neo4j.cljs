@@ -54,23 +54,17 @@
 )
 
 
-(comment defn neo-id [x]
-  (comment  go
-      (get (first (<! (neo4j "START x = node(1) RETURN ID(x)" {} ) "x")) "ID(x)")
-  )
-)
 
-(comment go
-    (.log js/console (str  (first (<! (neo-id nil)))))
 
- )
+
+
 
 
 (defn create-neo4j-record [properties]
   (go
       (log
           (let [
-                 rr (<! (neo4j "CREATE (n {values}) return n" {:values properties}  ) )
+                 rr (<! (neo4j "CREATE (n {values}) return n, ID(n)" {:values properties}  ) )
                 ]
                (str
                    (merge
@@ -78,7 +72,7 @@
                          rr
                          "n")
                        {
-                            :id (neo-id (:self (get (first rr) "n")))
+                            :id (js/parseInt (get (first rr) "ID(n)"))
                         }
                      )
 
@@ -99,6 +93,19 @@
   )
 )
 
+
+(defn count-all-neo4j-records-with-field [ field-name ]
+  (go
+     (get (first (<!
+             (neo4j "START x = node(*) WHERE has(x.age) RETURN count(x)" {} )
+     )) "count(x)")
+  )
+)
+
+
+(go
+    (log (<! (count-all-neo4j-records-with-field 1)))
+)
 
 
 
