@@ -7,7 +7,7 @@
 )
 
 
-(macroexpand '(log-async (count-all-neo4j-records)))
+;(macroexpand '(log-async (count-all-neo4j-records)))
 
 (defmacro log [& x]
   `(.log js/console (str
