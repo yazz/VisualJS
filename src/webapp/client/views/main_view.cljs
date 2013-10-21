@@ -30,7 +30,7 @@
 (defn-html homepage-html []
   (el :div {} [
         (header-text "Clojure on Coils" )
-        (body-text "Java/Clojure web development without the pain")
+        (body-text "The synchronous client side web framework")
 ]))
 
 (defn-html what-html []
