@@ -132,7 +132,7 @@
     (log (<! (count-all-neo4j-records-with-field :type)))
 )
 
-(delete-all-neo-4j-nodes :are-you-sure? "yes")
+;(delete-all-neo-4j-nodes :are-you-sure? "yes")
 
 (comment go
     (log (<! (count-all-neo4j-records)))
@@ -144,4 +144,8 @@
 
 
 
-(comment create-neo4j-record {:name "Dev" :type "environment"})
+(comment create-neo4j-record {
+                      :name "defn-html"
+                      :type "code"
+                      })
+
