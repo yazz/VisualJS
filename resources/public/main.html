@@ -54,7 +54,9 @@
         $( document ).ready(function() {
             params = parseQueryString();
             //alert( 'd' + params["reset_request_id"] );
-            webapp.client.main.main();
+            if (webapp.client) {
+              webapp.client.main.main();
+            }
         });
     </script>
 

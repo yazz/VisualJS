@@ -37,8 +37,11 @@ function showPopover(element,  options) {
 }
 
 function resizeSystem() {
-  webapp.client.main.resizeScreenFn($( window ).width(),  $( window ).height());
+  if (webapp.client) {
+    webapp.client.main.resizeScreenFn($( window ).width(),  $( window ).height());
+  }
 };
+
 
 $( window ).resize(function() {
   console.log( "RESIZE: (" + $( window ).width() + ", "+ $( window ).height() + ")");
