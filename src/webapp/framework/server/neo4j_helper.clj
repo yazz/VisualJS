@@ -14,6 +14,7 @@
   (:require [clojurewerkz.neocons.rest.nodes :as nn])
   (:require [clojurewerkz.neocons.rest.relationships :as nrl])
   (:require [clojurewerkz.neocons.rest.cypher :as cy])
+  (:require [clojurewerkz.neocons.rest.spatial :as nsp])
   (:use [webapp-config.settings])
   (:import [java.util.UUID])
 )
@@ -110,3 +111,20 @@
     (println (nrl/incoming-for bob :types [:friend])))
 
 
+(def layer (nsp/add-simple-point-layer "food4"))
+
+;layer
+
+
+;(nsp/add-simple-point-layer layer 0.1 0.1)
+
+(def mcd (nn/create {:name "mcDonalds" :wkt "POINT(51.6306,-0.80029)"
+                     :lat 51.6306 :lon -0.80029}))
+
+
+
+(comment nsp/add-node-to-layer
+     layer
+    mcd)
+
+;(nsp/find-within-distance layer 51.6306 -0.80029 5)
