@@ -17,6 +17,14 @@
   (:require [clojurewerkz.neocons.rest.spatial :as nsp])
   (:use [webapp-config.settings])
   (:import [java.util.UUID])
+  (:require [cheshire.core             :as json]
+            [clojurewerkz.neocons.rest :as rest]
+            [clojurewerkz.support.http.statuses :refer :all]
+            [clojurewerkz.neocons.rest.helpers  :refer :all]
+            [clojurewerkz.neocons.rest.records  :refer :all])
+  (:import  [java.net URI URL]
+            clojurewerkz.neocons.rest.Neo4JEndpoint)
+
 )
 
 
@@ -118,13 +126,105 @@
 
 ;(nsp/add-simple-point-layer layer 0.1 0.1)
 
-(def mcd (nn/create {:name "mcDonalds" :wkt "POINT(51.6306,-0.80029)"
-                     :lat 51.6306 :lon -0.80029}))
+(def mcd (nn/create {:name "mcDonalds"
+                     ;:wkt "POINT(51.6306,-0.80029)"
+                     :lat "lat" :lon "lon"}))
 
 
 
-(comment nsp/add-node-to-layer
+(comment nsp/add-simple-point-layer
      layer
-    mcd)
+    "lat" "lon")
 
 ;(nsp/find-within-distance layer 51.6306 -0.80029 5)
+
+
+(defn- spatial-location-for
+  [^Neo4JEndpoint endpoint action]
+  (str (:uri endpoint) "ext/SpatialPlugin/graphdb/" action))
+
+(defn- post-spatial
+  [item-type body]
+  (let [{:keys [status headers body]} (rest/POST
+                                       (spatial-location-for rest/*endpoint* item-type)
+                                       :body (json/encode body))
+        payload  (json/decode body true)]
+    (map instantiate-node-from payload)))
+
+;;
+;; API
+;;
+
+(defn add-simple-point-layer
+  "Add a new point layer to the spatial index"
+  ([layer lat lon]
+     (first (post-spatial "addSimplePointLayer" {:layer layer :lat lat :lon lon})))
+  ([layer]
+     (first (post-spatial "addSimplePointLayer" {:layer layer}))))
+
+
+(add-simple-point-layer "d" "lat" "lon")
+
+(defn add-node-to-layer
+  "Add a node with the appropriate latitude and longitude properties to the given layer"
+  [layer node]
+  (first (post-spatial "addNodeToLayer" {:layer layer :node (node-location-for rest/*endpoint* (:id node))})))
+
+(def gg (nn/create {:name "ds" :lat "-1.1" :lon "-1.1"}))
+
+gg
+
+(get gg :location-uri)
+
+layer
+
+(add-node-to-layer (get gg :location-uri) layer )
+
+
+
+(defn find-within-distance
+  "Find all points in the layer within a given distance of the given point"
+  [layer point-x point-y distance-in-km]
+  (post-spatial "findGeometriesWithinDistance"
+                {:layer "food4" :pointX point-x :pointY point-y :distanceInKm distance-in-km}))
+
+
+
+
+(find-within-distance layer "-1.1" "-1.1" "10000.1")
+
+(def layer (nsp/add-simple-point-layer "food4"))
+
+
+
+
+
+
+
+
+(defn add-editable-layer
+  "Add a new point layer to the spatial index"
+  ([layer]
+     (first (post-spatial "addEditableLayer" {:layer layer}))))
+
+(add-editable-layer "zoo")
+
+
+
+(defn get-layer
+  "Add a new point layer to the spatial index"
+  ([layer]
+     (first (post-spatial "getLayer" {:layer layer}))))
+
+(get-layer "zoo")
+(defn add-node-to-layer
+  "Add a new point layer to the spatial index"
+  ([node layer]
+     (first (post-spatial "addNodeToLayer" {:node node :layer layer}))))
+
+(add-node-to-layer "http://localhost:7474/db/data/node/2" "zoo")
+
+
+
+
+
