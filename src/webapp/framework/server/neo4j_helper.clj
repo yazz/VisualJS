@@ -2,7 +2,6 @@
 
   [:require [clojure.string :as str]]
   [:use [korma.db]]
-  [:use [webapp.framework.server.systemfns]]
   [:use [webapp.framework.server.email-service]]
   [:use [webapp.framework.server.encrypt]]
   [:use [korma.core]]
