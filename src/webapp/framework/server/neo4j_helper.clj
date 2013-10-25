@@ -116,16 +116,16 @@
 
 (defn add-simple-point-layer [lname]
   (nsp/add-simple-point-layer
-   lname "lat" "lon"))
+   lname "y" "x"))
 
 
-(add-simple-point-layer "pl")
+(add-simple-point-layer "ore2")
 
 
 
 
 
-(nsp/find-within-distance "pl" 51.6306 -0.80029 50000)
+;(nsp/find-within-distance "pl" 51.6306 -0.80029 50000)
 
 
 
@@ -138,11 +138,13 @@
                                          })))
 
 
-(defn add-to-simple-layer [nname lat lon layer]
+(defn add-to-simple-layer [nname x y layer]
   (let [
-        node          (nn/create {:name nname :lat lat :lon lon})
+        node          (nn/create {:name nname :x x :y y})
+        result        (add-node-to-layer node layer)
         ]
-    (add-node-to-layer node layer )
+            (:id result)
+
   )
 )
 
@@ -151,14 +153,12 @@
   ([layer]
      (first (post-spatial "getLayer" {:layer layer}))))
 
-(get-layer "pl")
+(get-layer "ore2")
 
 
-(add-to-simple-layer "McDonalds" -10.1 -1.0 "pl")
+(add-to-simple-layer "McDonalds" -10.1 -1.0 "ore2")
 
-(def wkt-point (nn/create {:name "mcDonalds" :lat -1.1 :lon -1.1 }) )
 
-;(add-node-to-layer (:location-uri  wkt-point) "zoo5" )
 
 (defn find-within-distance
   "Find all points in the layer within a given distance of the given point"
@@ -167,13 +167,13 @@
                 {:layer layer :pointX point-x :pointY point-y :distanceInKm distance-in-km}))
 
 
-(defn find-names-within-distance [layer lat lon dist-km]
+(defn find-names-within-distance [layer x y dist-km]
   (map (fn[x] (:name (:data x)))
-    (find-within-distance layer lon lat dist-km)
+    (find-within-distance layer x y dist-km)
   )
 )
 
-(find-names-within-distance "pl" -10.1 -1.1 100.1)
+(find-names-within-distance "ore2" -10.1 -1.1 10000.1)
 
 
 

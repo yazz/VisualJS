@@ -5,6 +5,7 @@
   [:use [korma.core]]
   [:use [webapp-config.settings]]
   [:use [webapp.framework.server.encrypt]]
+  [:use [webapp.framework.server.neo4j-helper]]
   (:require [clojurewerkz.neocons.rest :as nr])
   (:require [clojurewerkz.neocons.rest.nodes :as nn])
   (:require [clojurewerkz.neocons.rest.relationships :as nrl])
@@ -76,9 +77,30 @@
       (cy/tquery (str "START x = node(*) WHERE HAS(x." field-name ") RETURN x,ID(x)") {} )
 )
 
-(!get-all-neo4j-records-with-field {:field-name "type"})
+;(!get-all-neo4j-records-with-field {:field-name "type"})
 
 
+
+
+(defn !add-to-simple-point-layer   [{node :node layer-name :layer-name}]
+  (add-to-simple-layer (:name node) (:x node) (:y node) layer-name)
+)
+
+
+(comment
+  !add-to-simple-point-layer {:node           {:name "Lib2" :x 0.1 :y 0.1}
+                              :layer-name     "ore2"})
+
+
+
+
+(defn !find-names-within-distance [{x :x y :y dist-km :dist-km layer-name :layer-name}]
+  (find-names-within-distance layer-name x y dist-km)
+)
+
+
+
+;(!find-names-within-distance {:layer-name "ore2" :x 0 :y 0 :dist-km 1000})
 
 
 

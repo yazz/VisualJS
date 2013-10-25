@@ -149,3 +149,26 @@
                       :type "code"
                       })
 
+
+(defn add-to-simple-point-layer  [ item layer-name ]
+    (go
+        (<! (remote "!add-to-simple-point-layer"   {:node item :layer-name layer-name}))
+    )
+)
+
+
+(go
+     (<! (add-to-simple-point-layer {:name "bella centre" :x 0.12 :y 0.1} "ore2")))
+
+
+
+
+(defn find-names-within-distance [  layer-name x y km ]
+    (go
+        (<! (remote "!find-names-within-distance"   {:layer-name layer-name :x x :y y :dist-km km}))
+    )
+)
+
+
+(go
+     (log (<! (find-names-within-distance   "ore2"  0   0  1000))) )
