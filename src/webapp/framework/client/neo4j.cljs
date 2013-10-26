@@ -157,7 +157,7 @@
 )
 
 
-(go
+(comment go
      (<! (add-to-simple-point-layer {:name "bella centre" :x 0.12 :y 0.1} "ore2")))
 
 
@@ -170,5 +170,5 @@
 )
 
 
-(go
+(comment go
      (log (<! (find-names-within-distance   "ore2"  0   0  1000))) )

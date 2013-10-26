@@ -86,11 +86,11 @@
 
 
 
-(make4j {:type "place" :name "Moscow"})
+;(make4j {:type "place" :name "Moscow"})
 
 
 
-(table4j "place")
+;(table4j "place")
 
 
 
@@ -118,7 +118,7 @@
    lname "y" "x"))
 
 
-(add-simple-point-layer "ore2")
+;(add-simple-point-layer "ore2")
 
 
 
@@ -152,10 +152,10 @@
   ([layer]
      (first (post-spatial "getLayer" {:layer layer}))))
 
-(get-layer "ore2")
+;(get-layer "ore2")
 
 
-(add-to-simple-layer "McDonalds" -10.1 -1.0 "ore2")
+;(add-to-simple-layer "McDonalds" -10.1 -1.0 "ore2")
 
 
 
@@ -167,12 +167,21 @@
 
 
 (defn find-names-within-distance [layer x y dist-km]
-  (map (fn[x] (:name (:data x)))
+  (map
+    (fn [x]
+      (let [data    (:data x)]
+        {
+          :name (:name data)
+          :x    (:x data)
+          :y    (:y data)
+        }
+      )
+    )
     (find-within-distance layer x y dist-km)
   )
 )
 
-(find-names-within-distance "ore2" -10.1 -1.1 10000.1)
+;(find-names-within-distance "ore2" -10.1 -1.1 10000.1)
 
 
 
