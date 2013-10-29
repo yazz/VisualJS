@@ -131,8 +131,6 @@
 
 
 
-;(user-info)
-;(ping)
 
 (defn senders
   "Return the senders that have tried to use this account, both verified and unverified.
@@ -143,4 +141,3 @@
   []
   (call-mandrill "users/senders" {}))
 
-;(call-mandrill "users/info" {})

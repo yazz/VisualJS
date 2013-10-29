@@ -11,7 +11,6 @@
           textEncryptor (org.jasypt.util.text.BasicTextEncryptor.)
          ]
 
-          ;(. textEncryptor setPassword (str (java.util.UUID/randomUUID) ))
           (. textEncryptor setPassword *sql-encryption-password*  )
           textEncryptor)
 )
@@ -28,8 +27,3 @@
   (. encryptor decrypt text)
 )
 
-
-
-;(encrypt "select * from test_tables")
-;(decrypt "mpEMiEFGidt78gBj+AdWbOMuXnnuMQyRusERMUTescip0enVLFt2VQ==")
-;(decrypt "EAhL/YJxdzchZOntlXoX7h9T/QUbKexpAg8VjkoIxjiNIH+o5x+hKBOOUL9OtHaB")
