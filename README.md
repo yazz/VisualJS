@@ -77,6 +77,8 @@ All features
 
 - Integration with Mandrill for sending transactional emails
 
+- Twitter Bootstrap 3.0 for styling
+
 - Can use Crate for HTML
 
 - Uses Dommy
