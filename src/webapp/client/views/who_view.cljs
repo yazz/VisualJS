@@ -7,14 +7,14 @@
     (:use
         [webapp.framework.client.coreclient :only [new-dom-id debug popup hide-popovers
                                                    show-popover set-text value-of find-el sql-fn
-                                                   swap-section sql el clear remote  add-to on-mouseover-fn on-click-fn]]
+                                                   swap-section sql el clear remote add-to on-mouseover-fn on-click-fn]]
         [jayq.core                          :only [$ css  append fade-out fade-in empty]]
         [webapp.framework.client.help       :only [help]]
         [webapp.framework.client.eventbus   :only [do-action esb undefine-action]]
     )
     (:use-macros
         [webapp.framework.client.eventbus :only [define-action]]
-        [webapp.framework.client.coreclient :only [makeit ns-coils defn-html onclick]]
+        [webapp.framework.client.coreclient :only [ns-coils defn-html]]
      )
 )
 (ns-coils 'webapp.client.who-view)

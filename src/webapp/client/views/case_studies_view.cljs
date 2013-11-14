@@ -1,20 +1,16 @@
 (ns webapp.client.case-studies-view
-    (:refer-clojure :exclude [val empty remove find next parents])
     (:require
-        [cljs.reader :as reader]
-        [crate.core :as crate]
+        [crate.core                         :as crate]
     )
     (:use
-        [webapp.framework.client.coreclient :only [sql-fn header-text body-text body-html make-sidebar  swap-section  el clear addto remote  add-to]]
-        [jayq.core                          :only [$ css  append fade-out fade-in empty]]
-        [webapp.framework.client.help       :only [help]]
+        [webapp.framework.client.coreclient :only [sql-fn header-text body-text body-html make-sidebar
+                                                   swap-section el clear remote add-to]]
+        [jayq.core                          :only [$ css append fade-out fade-in empty]]
         [webapp.framework.client.eventbus   :only [do-action esb undefine-action]]
-        [webapp.framework.client.interpreter :only [!fn]]
     )
     (:use-macros
-        [webapp.framework.client.eventbus :only [define-action]]
-        [webapp.framework.client.coreclient :only [makeit ns-coils defn-html on-click on-mouseover]]
-        [webapp.framework.client.interpreter :only [! !! !!!]]
+        [webapp.framework.client.eventbus   :only [define-action]]
+        [webapp.framework.client.coreclient :only [ns-coils defn-html]]
      )
 )
 (ns-coils 'webapp.client.case-studies-view)

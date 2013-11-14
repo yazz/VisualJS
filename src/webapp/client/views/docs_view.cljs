@@ -1,27 +1,23 @@
 (ns webapp.client.docs-view
     (:refer-clojure :exclude [val empty remove find next parents])
     (:require
-        [cljs.reader :as reader]
         [crate.core :as crate]
         [cljs.core.async :as async :refer [chan close!]]
-        ;[google.maps]
-        ;[google.maps.MapTypeId]
     )
 
   (:require-macros
     [cljs.core.async.macros :refer [go alt!]])
 
   (:use
-        [webapp.framework.client.coreclient :only [popup do-before-remove-element new-dom-id find-el clj-to-js sql-fn header-text body-text body-html make-sidebar  swap-section  el clear addto remote  add-to]]
-        [jayq.core                          :only [attr $ css append fade-out fade-in empty]]
-        [webapp.framework.client.help       :only [help]]
-        [webapp.framework.client.eventbus   :only [do-action esb undefine-action]]
-        [webapp.framework.client.interpreter :only [!fn]]
+        [webapp.framework.client.coreclient :only  [popup do-before-remove-element new-dom-id find-el
+                                                    clj-to-js sql-fn header-text body-text body-html
+                                                    make-sidebar  swap-section  el clear remote add-to]]
+        [jayq.core                          :only  [attr $ css append fade-out fade-in empty]]
+        [webapp.framework.client.eventbus   :only  [do-action esb undefine-action]]
     )
     (:use-macros
-        [webapp.framework.client.eventbus :only [define-action redefine-action]]
-        [webapp.framework.client.coreclient :only [makeit ns-coils defn-html on-click on-mouseover sql]]
-        [webapp.framework.client.interpreter :only [! !! !!!]]
+        [webapp.framework.client.eventbus :only    [define-action redefine-action]]
+        [webapp.framework.client.coreclient :only  [ns-coils defn-html on-click on-mouseover]]
      )
 )
 (ns-coils 'webapp.client.docs-view)
@@ -65,7 +61,7 @@
                            :style "margin: 20px;"
                            :class "btn btn-large btn-default"
                            :text "Dissappear"
-                           :onclick  #(! clear)
+                           :onclick  #(do-action "clear homepage")
                            })
 
           (el :button

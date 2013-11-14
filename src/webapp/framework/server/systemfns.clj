@@ -76,7 +76,7 @@
       (cy/tquery (str "START x = node(*) WHERE HAS(x." field-name ") RETURN x,ID(x)") {} )
 )
 
-(!get-all-neo4j-records-with-field {:field-name "type"})
+;(!get-all-neo4j-records-with-field {:field-name "type"})
 
 
 

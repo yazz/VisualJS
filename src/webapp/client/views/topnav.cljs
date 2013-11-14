@@ -6,7 +6,8 @@
         [cljs.core.async :as async :refer [chan close!]]
     )
     (:use
-        [webapp.framework.client.coreclient :only [show-popover debug-mode sql-fn header-text body-text body-html make-sidebar  swap-section  el clear addto remote  add-to]]
+        [webapp.framework.client.coreclient :only [show-popover debug-mode sql-fn header-text body-text
+                                                   body-html make-sidebar swap-section el clear remote add-to]]
         [jayq.core                          :only [$ css append fade-out fade-in empty]]
         [webapp.framework.client.help       :only [help]]
         [webapp.framework.client.eventbus   :only [do-action esb undefine-action]]
@@ -16,7 +17,7 @@
     [cljs.core.async.macros :refer [go alt!]])
   (:use-macros
         [webapp.framework.client.eventbus :only [redefine-action define-action]]
-        [webapp.framework.client.coreclient :only [makeit ns-coils defn-html on-click on-mouseover sql]]
+        [webapp.framework.client.coreclient :only [ns-coils defn-html on-click on-mouseover sql]]
         [webapp.framework.client.interpreter :only [! !! !!!]]
      )
 )

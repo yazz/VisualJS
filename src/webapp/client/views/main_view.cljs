@@ -8,16 +8,15 @@
         [cljs.core.async.macros :refer [go alt!]])
 
     (:use
-        [webapp.framework.client.coreclient :only [ header-text body-text body-html make-sidebar swap-section sql el clear addto remote  add-to]]
+        [webapp.framework.client.coreclient :only [header-text body-text body-html make-sidebar
+                                                   swap-section sql el clear remote add-to]]
         [jayq.core                          :only [$ css  append fade-out fade-in empty]]
         [webapp.framework.client.help       :only [help]]
         [webapp.framework.client.eventbus   :only [do-action esb undefine-action]]
-        [webapp.framework.client.interpreter :only [!fn]]
     )
     (:use-macros
         [webapp.framework.client.eventbus :only [define-action]]
-        [webapp.framework.client.coreclient :only [makeit ns-coils defn-html  on-click on-mouseover]]
-        [webapp.framework.client.interpreter :only [! !! !!!]]
+        [webapp.framework.client.coreclient :only [ns-coils defn-html  on-click on-mouseover]]
      )
 )
 (ns-coils 'webapp.client.main-view)
@@ -147,6 +146,13 @@
         nil
      )
 )
+
+(define-action
+    "clear homepage"
+    (do
+        (-> ($ :#main) (fade-out 200))
+      ))
+
 
 
 
