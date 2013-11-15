@@ -34,6 +34,28 @@
             ]
 
   :profiles {
+                :base
+                {
+                  :source-paths ["src" "srcbase"]
+                  :cljsbuild
+                  {
+                    :builds
+                     [
+                      {
+                       :source-paths ["src"]
+                       :compiler     {
+                                       :output-to      "resources/public/main.js"
+                                       :optimizations  :whitespace
+                                       :externs        ["resources/public/jquery-externs.js"
+                                                        "resources/public/google_maps_api_v3_11.js"]
+                                       :pretty-print   false
+                                     }
+                      }
+                     ]
+
+                  }
+                }
+
                 :dev
                 {
                   :source-paths ["src" "srcdev"]

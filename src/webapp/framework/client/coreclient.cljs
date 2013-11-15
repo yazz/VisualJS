@@ -35,10 +35,13 @@
 (def el-fn-mapping (atom {}))
 (def debug-mode (atom {:value false}))
 
-@debug-mode
 
-;(keys @gui-html)
-;el-fn-mapping
+
+
+
+
+
+
 
 (defn make-js-map
   "makes a javascript map from a clojure one"
@@ -213,16 +216,11 @@
 )
 
 
-(to-tag-name :div2)
-;(find-el "main")
-;(gn :#main)
-
-
 
 (defn clear [this]
   (if (find-el this)
     (goog.dom.removeChildren (find-el this))))
- (clear :#main)
+ ;(clear :#main)
 
 
 (defn remove-element [x]
@@ -324,11 +322,10 @@
       (js/showModalPopup)
 ))
 
-;(-> (js/$ "#myModal") (.modal))
 
-;(-> ($ :#modal-body)   (append (make-el "<div>dd</div>")))
 
-;(popup :title "Pup" :body-html "<div>dd</div>")
+
+
 
 
 (defn set-text [x text]
@@ -393,6 +390,9 @@
   )
 )
 
+
+
+
 (extend-type js/HTMLCollection
   ISeqable
   (-seq [array] (array-seq array 0))
@@ -451,14 +451,11 @@
     ([array f start]
        (ci-reduce array f start))))
 
-(comment map
-             (fn [x] (do-before-remove-element  x))
-             (goog.dom/getChildren (find-el "main-section")))
 
 
-(comment map #(.-nodeName %)
-     (goog.dom/getChildren (goog.dom/getElement "main-section")))
-;; '("SPAN" "SPAN")
+
+
+
 
 (defn swap-section
   ([element new-content]
@@ -509,20 +506,10 @@
      )
 ))
 
-;clear homepage
-;(add-to "main" (el "div"  ))
 
 
 
-;(find-el "<div>eef</div>")
 
-
-;(+ 1 1)
-;add-to
-
-;(el "div" [])
-
-;el
 
 
 (defn GET [url]
@@ -538,34 +525,13 @@
 
 
 
-(comment go
-   (log (:text (<! (remote "say-hello" {:name "1"}))))
-   (log (:text (<! (remote "say-hello" {:name "2"}))))
-   (log (:text (<! (remote "say-hello" {:name "3"}))))
-   (log (:text (<! (remote "say-hello" {:name "4"}))))
-   (log (:text (<! (remote "say-hello" {:name "5"}))))
-   (log (:text (<! (remote "say-hello" {:name "6"}))))
-   (log (:text (<! (remote "say-hello" {:name "7"}))))
-   (log (:text (<! (remote "say-hello" {:name "8"}))))
-   (log (:text (<! (remote "say-hello" {:name "9"}))))
-   (log (:text (<! (remote "say-hello" {:name "10"}))))
-
-)
 
 
-
-
-
-(comment log "df")
 
 (defn from-server []
   (GET "http://127.0.0.1:3000/main.html")
 )
 
-(comment go
-  (log (count (<! (from-server))))
-  (log (count (<! (GET "http://127.0.0.1:3000/main.html"))))
- )
 
 
 
@@ -739,6 +705,10 @@
  [x]
   (-> x str (.replace "&" "&amp;") (.replace "<" "&lt;") (.replace ">" "&gt;")))
 
+
+
+
+
 (defn makeit2 [namespace-name fname args & code]
   (let [
         code-str
@@ -765,16 +735,8 @@
   )
 
 
-(let [
-  code "made with Clojure\n                   and "
-        code-str
-                  (str (apply str (map #(if (= "\n" %1) (str "\r\n") %1) code)))
-        ]
-  code-str
-  )
 
 
-;(get @webapp.framework.client.coreclient/gui-html "signup-panel-html")
 
 
 (defprotocol ds
@@ -795,9 +757,11 @@
 (defmethod test :r [a] "is a r")
 (defmethod test :default [a] "is something else")
 
-(test {:a :s})
+;(test {:a :s})
 
 ;(-set-text (.getElementById js/document "main-section") "howdy")
+
+
 
 
 (defn height [element]

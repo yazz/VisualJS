@@ -12,7 +12,7 @@
     (= (:type item) "class clojure.lang.Symbol")
 )
 
-(not (nil? +))
+
 
 (defn !fn [symbol-list]
   (let
@@ -49,9 +49,9 @@
 )
 
 
-(!fn [{:value str} {:value 22} {:value "dd"} {:value "dd"}])
+;(!fn [{:value str} {:value 22} {:value "dd"} {:value "dd"}])
 
 
-(!fn [{:value +} {:value 22} {:value 2} {:value 1}])
+;(!fn [{:value +} {:value 22} {:value 2} {:value 1}])
 
-(str)
+

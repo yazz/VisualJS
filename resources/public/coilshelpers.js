@@ -37,9 +37,13 @@ function showPopover(element,  options) {
 }
 
 function resizeSystem() {
-  if (webapp.client) {
-    webapp.client.main.resizeScreenFn($( window ).width(),  $( window ).height());
-  }
+  if (webapp) {
+    if (webapp.client) {
+      if (webapp.client.main) {
+        webapp.client.main.resizeScreenFn($( window ).width(),  $( window ).height());
+      };
+    };
+  };
 };
 
 

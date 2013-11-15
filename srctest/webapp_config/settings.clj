@@ -23,6 +23,8 @@
 
 (defonce ^:dynamic *show-code* false)
 
+(defonce ^:dynamic *main-page* "main.html")
 
 
 
+
