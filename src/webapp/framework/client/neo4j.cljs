@@ -19,8 +19,8 @@
     [cljs.core.async.macros :refer                 [go alt!]])
   (:use-macros
         [webapp.framework.client.eventbus :only    [redefine-action define-action]]
-        [webapp.framework.client.coreclient :only  [ns-coils makeit defn-html on-click on-mouseover sql defn-html
-                                                    defn-html2 neo4j log log-async]]
+        [webapp.framework.client.coreclient :only  [ns-coils defn-html on-click on-mouseover sql
+                                                    neo4j log]]
         [webapp.framework.client.interpreter :only [! !! !!!]]
      )
 )
