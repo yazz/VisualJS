@@ -22,3 +22,6 @@
 (defonce ^:dynamic *sql-encryption-password* "animal")
 
 (defonce ^:dynamic *show-code* true)
+
+(defonce ^:dynamic *main-page* "coils.html")
+

@@ -11,17 +11,14 @@
                                                     show-popover set-text value-of find-el sql-fn neo4j-fn
                                                     swap-section el clear remote  add-to on-mouseover-fn on-click-fn]]
         [jayq.core                          :only  [$ css  append fade-out fade-in empty attr bind]]
-        [webapp.framework.client.help       :only  [help]]
         [webapp.framework.client.eventbus   :only  [do-action esb undefine-action]]
-        [domina                             :only  [ by-id value destroy! ]]
+        [domina                             :only  [by-id value destroy! ]]
   )
   (:require-macros
     [cljs.core.async.macros :refer                 [go alt!]])
   (:use-macros
         [webapp.framework.client.eventbus :only    [redefine-action define-action]]
-        [webapp.framework.client.coreclient :only  [ns-coils makeit defn-html on-click on-mouseover sql defn-html
-                                                    defn-html2 neo4j]]
-        [webapp.framework.client.interpreter :only [! !! !!!]]
+        [webapp.framework.client.coreclient :only  [ns-coils defn-html on-click on-mouseover sql neo4j]]
      )
 )
 (ns-coils 'webapp.client.views.settings)
