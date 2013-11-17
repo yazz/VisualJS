@@ -29,6 +29,12 @@
 !/src/*/*/*/*/*/*/*
 !/src/*/*/*/*/*/*/*/*
 
+!/srcbase/
+!/srcbase/*
+!/srcbase/*/*
+!/srcbase/*/*/*
+!/srcbase/*/*/*/*
+
 !/srcdev/
 !/srcdev/*
 !/srcdev/*/*

@@ -29,9 +29,18 @@
         <link href="docs.css" type="text/css" rel="stylesheet"/>
     </head>
 
-    <body  style="font-family: 'Oxygen', sans-serif;height:100%; width:100%;position: absolute; padding-top: 0px;" id=main >
+
+
+
+    <body
+          style="font-size: 20px; font-family: 'Oxygen', sans-serif;height:100%; width:100%;position: absolute; padding-top: 0px;"
+      id=main >
+        <div style='color=black;'>Loaded Coils</div>
     </body>
-    <script type="text/javascript" src="main.js"></script>
+
+
+
+    <script type="text/javascript" src="main.js"></s1cript>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
 
     <script type="text/javascript">
@@ -53,8 +62,19 @@
 
         $( document ).ready(function() {
             params = parseQueryString();
+<<<<<<< HEAD
             //alert( 'd' + params["reset_request_id"] );
             webapp.client.main.main();
+=======
+            //alert( 'param:' + params["reset_request_id"] );
+            if (webapp) {
+                if (webapp.client) {
+                  if (webapp.client.main) {
+                      webapp.client.main.main();
+                  };
+                };
+            }
+>>>>>>> 28f13873494cf33193ae99b2e8553ce47e7e058c
         });
     </script>
 

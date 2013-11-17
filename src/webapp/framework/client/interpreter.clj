@@ -56,6 +56,6 @@
     ))
 )
 
-(macroexpand '(! "sad" "sad"))
+;(macroexpand '(! "sad" "sad"))
 
-(macroexpand '(!!! str 1))
+;(macroexpand '(!!! str 1))

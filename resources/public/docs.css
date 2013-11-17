@@ -388,7 +388,7 @@ bodyold {
 .bs-example-type .table td {
   color: #999;
   vertical-align: middle;
-  border-color: ;
+  border-color: #eee;
 }
 .bs-example-type .table td,
 .bs-example-type .table th {
