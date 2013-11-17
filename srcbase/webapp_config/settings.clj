@@ -23,9 +23,4 @@
 
 (defonce ^:dynamic *show-code* true)
 
-<<<<<<< HEAD:srcdev/webapp_config/settings.clj
-(defonce ^:dynamic *main-page* "coils.html")
-
-=======
 (defonce ^:dynamic *main-page* "main.html")
->>>>>>> 28f13873494cf33193ae99b2e8553ce47e7e058c:srcbase/webapp_config/settings.clj

@@ -37,9 +37,6 @@ function showPopover(element,  options) {
 }
 
 function resizeSystem() {
-<<<<<<< HEAD
-  webapp.client.main.resizeScreenFn($( window ).width(),  $( window ).height());
-=======
   if (webapp) {
     if (webapp.client) {
       if (webapp.client.main) {
@@ -47,7 +44,6 @@ function resizeSystem() {
       };
     };
   };
->>>>>>> 28f13873494cf33193ae99b2e8553ce47e7e058c
 };
 
 $( window ).resize(function() {
