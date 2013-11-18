@@ -5,7 +5,6 @@
   [:use [webapp.framework.server.email-service]]
   [:use [webapp.framework.server.encrypt]]
   [:use [korma.core]]
-  [:use [clojure.core.async]]
   [:use [clojure.repl]]
   [:use [webapp.framework.server.db-helper]]
   [:use [webapp.framework.server.neo4j-helper]]
@@ -54,14 +53,6 @@
 )
 
 
-
-(comment let [ch (chan)]
-  (go (while true
-        (let [v (<! ch)]
-          (println "Read: " v))))
-  (go (>! ch "hi")
-      (<! (timeout 5))
-      (>! ch "there")))
 
 
 (defn add-user [{user-name :user-name password :password}]
