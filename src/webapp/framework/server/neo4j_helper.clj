@@ -5,7 +5,6 @@
   [:use [webapp.framework.server.email-service]]
   [:use [webapp.framework.server.encrypt]]
   [:use [korma.core]]
-  [:use [clojure.core.async]]
   [:use [clojure.repl]]
   [:use [webapp.framework.server.db-helper]]
 

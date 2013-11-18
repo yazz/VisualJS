@@ -17,7 +17,7 @@
                    [clojurewerkz/neocons "2.0.0-beta3"]
                    [facts/speech-synthesis "1.0.0"]
                    [org.clojure/clojurescript "0.0-2030"]
-                   [org.clojure/core.async "0.1.0-SNAPSHOT"]
+                   [org.clojure/core.async "0.1.242.0-44b1e3-alpha"]
                    [rewrite-clj "0.2.0"]
                    [org.jasypt/jasypt "1.8"]
 
@@ -34,28 +34,6 @@
             ]
 
   :profiles {
-                :base
-                {
-                  :source-paths ["src" "srcbase"]
-                  :cljsbuild
-                  {
-                    :builds
-                     [
-                      {
-                       :source-paths ["src"]
-                       :compiler     {
-                                       :output-to      "resources/public/main.js"
-                                       :optimizations  :whitespace
-                                       :externs        ["resources/public/jquery-externs.js"
-                                                        "resources/public/google_maps_api_v3_11.js"]
-                                       :pretty-print   false
-                                     }
-                      }
-                     ]
-
-                  }
-                }
-
                 :dev
                 {
                   :source-paths ["src" "srcdev"]
@@ -77,6 +55,32 @@
 
                   }
                 }
+
+                :base
+                {
+                  :source-paths ["src"
+                                 "srcbase"
+                                 ;"srcdev"
+                                 ]
+                  :cljsbuild
+                  {
+                    :builds
+                     [
+                      {
+                       :source-paths ["src"]
+                       :compiler     {
+                                       :output-to      "resources/public/main.js"
+                                       :optimizations  :whitespace
+                                       :externs        ["resources/public/jquery-externs.js"
+                                                        "resources/public/google_maps_api_v3_11.js"]
+                                       :pretty-print   false
+                                     }
+                      }
+                     ]
+
+                  }
+                }
+
 
                 :test
                 {
