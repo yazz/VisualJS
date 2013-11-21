@@ -26,7 +26,7 @@
 
 
 (defn-html top-nav-bar []
-        "<a id=logo class=navbar-brand href='#' onclick='webapp.client.topnav.toggledebug();'>Coils.cc</a>
+        "<a id=logo class=navbar-brand href='#' onclick='webapp.client.topnav.toggledebug();'>ConnectToUs.co</a>
                 <ul class='nav navbar-nav'>
                   <li id='home-button' class=active><a href='#'>Home</a></li>
                   <li id='docs-button'><a href='#'>Docs</a></li>

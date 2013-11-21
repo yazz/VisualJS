@@ -23,4 +23,4 @@
 
 (defonce ^:dynamic *show-code* true)
 
-(defonce ^:dynamic *main-page* "main.html")
+(defonce ^:dynamic *main-page* "connecttous.html")
