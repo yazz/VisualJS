@@ -559,7 +559,12 @@
                                            ;:onclick #(js/alert "fd")
                                            :onmouseover
                                                #(do
-                                                  (swap-section ($ :#main-section) (make-el (:html x)))
+                                                  (cond
+                                                       (:html x)
+                                                            (swap-section ($ :#main-section) (make-el (:html x)))
+                                                       (:fn x)
+                                                            ((:fn x))
+                                                  )
                                                   (js/deactivateLeftSidebarItems)
                                                   (. ($ (find-el (str "left-sidebar-" y))) addClass "active")
                                                 )
