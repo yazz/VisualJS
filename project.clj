@@ -59,8 +59,8 @@
                 :base
                 {
                   :source-paths ["src"
-                                 "srcbase"
-                                 ;"srcdev"
+                                 ;"srcbase"
+                                 "srcdev"
                                  ]
                   :cljsbuild
                   {
