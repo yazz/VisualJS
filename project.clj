@@ -36,7 +36,7 @@
   :profiles {
                 :dev
                 {
-                  :source-paths ["src" "srcdev"]
+                  :source-paths ["src" "../srcdev"]
                   :cljsbuild
                   {
                     :builds
@@ -60,7 +60,7 @@
                 {
                   :source-paths ["src"
                                  "srcbase"
-                                 ;"srcdev"
+                                 ;"../srcdev"
                                  ]
                   :cljsbuild
                   {

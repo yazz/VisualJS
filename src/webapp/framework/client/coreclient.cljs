@@ -556,8 +556,8 @@
                                    (el
                                         :a
                                         {  :href "#"
-                                           ;:onclick #(js/alert "fd")
-                                           :onmouseover
+                                           :onclick
+                                           ;:onmouseover
                                                #(do
                                                   (cond
                                                        (:html x)
