@@ -536,7 +536,11 @@
 
 
 
+(defn activate-sidebar-item [x]
+  (js/deactivateLeftSidebarItems)
+  (. ($ (find-el (str "left-sidebar-" x))) addClass "active")
 
+  )
 
 
 (defn make-sidebar [ & items]
@@ -565,8 +569,7 @@
                                                        (:fn x)
                                                             ((:fn x))
                                                   )
-                                                  (js/deactivateLeftSidebarItems)
-                                                  (. ($ (find-el (str "left-sidebar-" y))) addClass "active")
+                                                  (activate-sidebar-item y)
                                                 )
                                            :text (get  x :text)
                                         }
