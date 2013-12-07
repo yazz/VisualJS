@@ -5,7 +5,7 @@
   [:use [korma.core]]
   [:use [webapp-config.settings]]
   [:use [webapp.framework.server.encrypt]]
-  [:use [webapp.framework.server.neo4j-helper]]
+  [:require [webapp.framework.server.neo4j-helper :as nh]]
   (:require [clojurewerkz.neocons.rest :as nr])
   (:require [clojurewerkz.neocons.rest.nodes :as nn])
   (:require [clojurewerkz.neocons.rest.relationships :as nrl])
@@ -42,19 +42,6 @@
 
 
 
-
-
-
-
-
-
-
-(try
- (nr/connect! "http://localhost:7474/db/data/")
-
-     (catch Exception e (str "Could not connect to Neo4j: " (.getMessage e))))
-
-
 (defn !neo4j [{coded-cypher :cypher params :params}]
   (do
     (let [cypher          (decrypt coded-cypher)
@@ -83,8 +70,10 @@
 
 
 (defn !add-to-simple-point-layer   [{node :node layer-name :layer-name}]
-  (add-to-simple-layer (:name node) (:x node) (:y node) layer-name)
+  (nh/add-to-simple-layer (:name node) (:x node) (:y node) layer-name)
 )
+
+
 
 
 (comment
@@ -95,8 +84,9 @@
 
 
 (defn !find-names-within-distance [{x :x y :y dist-km :dist-km layer-name :layer-name}]
-  (find-names-within-distance layer-name x y dist-km)
+  (nh/find-names-within-distance layer-name x y dist-km)
 )
+
 
 
 

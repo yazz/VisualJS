@@ -391,6 +391,14 @@
 )
 
 
+(defn is-debug? []
+  (go
+    (<! (remote
+                "get-environment" {}))
+  )
+)
+
+
 
 
 (extend-type js/HTMLCollection
