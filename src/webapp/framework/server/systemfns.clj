@@ -89,6 +89,26 @@
 
 
 
+(defn !find-names-within-bounds [{
+                                  min-x :min-x
+                                  min-y :min-y
+                                  max-x :max-x
+                                  max-y :max-y
+                                  layer-name :layer-name}]
+  (nh/find-names-within-bounds layer-name min-x max-x min-y max-y)
+)
+
+
+
+
+
+
+
+(comment !find-names-within-bounds
+ {:layer-name "ore2"
+  :min-x 0.0 :max-x 1.1 :min-y 50.0 :max-y 51.5})
+
+
 
 ;(!find-names-within-distance {:layer-name "ore2" :x 0 :y 0 :dist-km 1000})
 
