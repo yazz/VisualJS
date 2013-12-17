@@ -90,7 +90,7 @@
 
 
 (defn log [s]
-  ;(.log js/console (str s))
+  (.log js/console (str s))
   nil
 )
 
@@ -387,6 +387,14 @@
   (go
     (<! (remote
                 "!neo4j" {:cypher cypher-str :params params}))
+  )
+)
+
+
+(defn is-debug? []
+  (go
+    (<! (remote
+                "get-environment" {}))
   )
 )
 

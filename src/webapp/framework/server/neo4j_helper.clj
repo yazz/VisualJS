@@ -1,6 +1,7 @@
 (ns webapp.framework.server.neo4j-helper
 
   [:require [clojure.string :as str]]
+<<<<<<< HEAD
   [:use [korma.db]]
   [:use [webapp.framework.server.systemfns]]
   [:use [webapp.framework.server.email-service]]
@@ -9,12 +10,30 @@
   [:use [clojure.repl]]
   [:use [webapp.framework.server.db-helper]]
 
+=======
+>>>>>>> d7aefc69922ac88df13b2ee993a4ef7d5eb45877
   (:require [clojurewerkz.neocons.rest :as nr])
   (:require [clojurewerkz.neocons.rest.nodes :as nn])
   (:require [clojurewerkz.neocons.rest.relationships :as nrl])
   (:require [clojurewerkz.neocons.rest.cypher :as cy])
+<<<<<<< HEAD
   (:use [webapp-config.settings])
   (:import [java.util.UUID])
+=======
+  (:require [clojurewerkz.neocons.rest.spatial :as nsp])
+  (:require [clojurewerkz.neocons.rest.transaction :as tx])
+  (:use [webapp-config.settings])
+  (:import [java.util.UUID])
+
+  (:require [cheshire.core             :as json]
+            [clojurewerkz.neocons.rest :as rest]
+            [clojurewerkz.support.http.statuses :refer :all]
+            [clojurewerkz.neocons.rest.helpers  :refer :all]
+            [clojurewerkz.neocons.rest.records  :refer :all])
+  (:import  [java.net URI URL]
+            clojurewerkz.neocons.rest.Neo4JEndpoint)
+
+>>>>>>> d7aefc69922ac88df13b2ee993a4ef7d5eb45877
 )
 
 
@@ -42,6 +61,42 @@
 
 
 
+<<<<<<< HEAD
+=======
+;(make4j {:type "place" :name "Moscow"})
+
+
+
+;(table4j "place")
+
+
+
+
+
+
+(defn- spatial-location-for
+  [^Neo4JEndpoint endpoint action]
+  (str (:uri endpoint) "ext/SpatialPlugin/graphdb/" action))
+
+(defn- post-spatial
+  [item-type body]
+  (let [{:keys [status headers body]} (rest/POST
+                                       (spatial-location-for rest/*endpoint* item-type)
+                                       :body (json/encode body))
+        payload  (json/decode body true)]
+    (map instantiate-node-from payload)))
+
+
+
+
+
+(defn add-simple-point-layer [lname]
+  (nsp/add-simple-point-layer
+   lname "y" "x"))
+
+
+
+>>>>>>> d7aefc69922ac88df13b2ee993a4ef7d5eb45877
 
 
 
@@ -95,12 +150,79 @@
    )
 
 
+(defn find-within-bounds
+  "Find all points in the layer within a given bounds"
+  [layer min-x max-x min-y max-y]
+  (post-spatial "findGeometriesInBBox"
+                {:layer layer :minx min-x :maxx max-x :miny min-y :maxy max-y}))
 
+
+
+<<<<<<< HEAD
    ;(make4j {:type "place" :name "Moscow"})
 
 
 
    ;(table4j "place")
+=======
+(defn find-names-within-distance [layer x y dist-km]
+  (map
+    (fn [x]
+      (let [data    (:data x)]
+        {
+          :id    (:id x)
+          :name (:name data)
+          :x    (:x data)
+          :y    (:y data)
+        }
+      )
+    )
+
+    (find-within-distance layer x y dist-km)
+  )
+)
+
+
+
+(defn find-names-within-bounds [layer minx maxx miny maxy]
+  (map
+    (fn [x]
+      (let [data    (:data x)]
+        {
+          :id    (:id x)
+          :name (:name data)
+          :x    (:x data)
+          :y    (:y data)
+        }
+      )
+    )
+
+    (find-within-bounds layer minx maxx miny maxy)
+  )
+)
+
+
+
+
+
+;(find-names-within-bounds "ore2" 0.0 1.1 50.0 51.5)
+
+
+;( find-names-within-distance "ore2" -10.1 -1.1 10000.1)
+
+
+
+
+(comment  let [t (tx/begin-tx)]
+
+
+  (tx/commit t))
+
+
+(comment  try
+     (add-simple-point-layer "ore2")
+         (catch Exception e (str "caught exception: " (.getMessage e))))
+>>>>>>> d7aefc69922ac88df13b2ee993a4ef7d5eb45877
 
    ;(nodes4j "place")
 (comment let [amy (nn/create {:username "amy"})
