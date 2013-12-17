@@ -536,7 +536,11 @@
 
 
 
+(defn activate-sidebar-item [x]
+  (js/deactivateLeftSidebarItems)
+  (. ($ (find-el (str "left-sidebar-" x))) addClass "active")
 
+  )
 
 
 (defn make-sidebar [ & items]
@@ -556,12 +560,16 @@
                                    (el
                                         :a
                                         {  :href "#"
-                                           ;:onclick #(js/alert "fd")
-                                           :onmouseover
+                                           :onclick
+                                           ;:onmouseover
                                                #(do
-                                                  (swap-section ($ :#main-section) (make-el (:html x)))
-                                                  (js/deactivateLeftSidebarItems)
-                                                  (. ($ (find-el (str "left-sidebar-" y))) addClass "active")
+                                                  (cond
+                                                       (:html x)
+                                                            (swap-section ($ :#main-section) (make-el (:html x)))
+                                                       (:fn x)
+                                                            ((:fn x))
+                                                  )
+                                                  (activate-sidebar-item y)
                                                 )
                                            :text (get  x :text)
                                         }

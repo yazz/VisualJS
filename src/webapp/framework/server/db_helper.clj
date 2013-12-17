@@ -29,3 +29,26 @@
                     []]
                     :results)
     )))
+
+
+(defn sql [sql params]
+  (do
+    (let [
+          lower           (.toLowerCase sql)
+          ]
+      (println "SQL from client: " sql)
+      (cond
+       (.startsWith lower "select")  (do (println "SELECT") (exec-raw [sql params] :results))
+       :else                         (do (println "INSERT") (exec-raw [sql params]) [])
+   ; []
+    ))
+  )
+)
+
+
+
+(defn uuid []
+ (java.util.UUID/randomUUID))
+
+(defn uuid-str []
+ (str (java.util.UUID/randomUUID)))
