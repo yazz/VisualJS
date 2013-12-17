@@ -90,7 +90,7 @@
 
 
 (defn log [s]
-  ;(.log js/console (str s))
+  (.log js/console (str s))
   nil
 )
 
