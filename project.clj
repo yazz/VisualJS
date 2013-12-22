@@ -14,7 +14,7 @@
                    [ring-middleware-format "0.3.0"]
                    [ring/ring-json "0.2.0"]
                    [jayq "2.4.0"]
-                   [clojurewerkz/neocons "1.1.0"]
+                   [clojurewerkz/neocons "2.0.0-beta3"]
                    [facts/speech-synthesis "1.0.0"]
                    [org.clojure/clojurescript "0.0-2030"]
                    [org.clojure/core.async "0.1.242.0-44b1e3-alpha"]

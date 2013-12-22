@@ -101,7 +101,13 @@
 
 
 
+(defn !get-environment [params]
+  {:value *environment*}
+)
 
+(defn !get-show-debug [params]
+  {:value *show-code*}
+)
 
 
 (comment !find-names-within-bounds
@@ -119,3 +125,7 @@
          :params   {}})
 
                ;:params   {:ids (map :id [bob])}}))
+
+
+
+
