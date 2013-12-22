@@ -5,10 +5,7 @@
   [:use [korma.core]]
   [:use [webapp-config.settings]]
   [:use [webapp.framework.server.encrypt]]
-<<<<<<< HEAD
-=======
   [:require [webapp.framework.server.neo4j-helper :as nh]]
->>>>>>> d7aefc69922ac88df13b2ee993a4ef7d5eb45877
   (:require [clojurewerkz.neocons.rest :as nr])
   (:require [clojurewerkz.neocons.rest.nodes :as nn])
   (:require [clojurewerkz.neocons.rest.relationships :as nrl])
@@ -72,8 +69,6 @@
 
 
 
-<<<<<<< HEAD
-=======
 (defn !add-to-simple-point-layer   [{node :node layer-name :layer-name}]
   (nh/add-to-simple-layer (:name node) (:x node) (:y node) layer-name)
 )
@@ -118,7 +113,6 @@
 ;(!find-names-within-distance {:layer-name "ore2" :x 0 :y 0 :dist-km 1000})
 
 
->>>>>>> d7aefc69922ac88df13b2ee993a4ef7d5eb45877
 
 (comment !neo4j {
          :cypher   (encrypt "START x = node(11) RETURN x")
