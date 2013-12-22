@@ -393,8 +393,7 @@
 
 (defn is-debug? []
   (go
-    (<! (remote
-                "get-environment" {}))
+    (<! (remote "!get-environment" {}))
   )
 )
 
