@@ -40,13 +40,13 @@
 ( go (log (str (<!
   (neo4j-nodes
    "create (u:User { email : { email2 }, title : 'Developer' }) return u"
-   {:email2 "zubairq@gmail.com"} "u")))))
+   {:email2 "dfsfdsf@gmail.com"} "u")))))
 
 
 ( go (log (str (<!
   (neo4j-nodes
    "create (u:User { email : { email2 }, title : 'Developer' }) return u"
-   {:email2 "zubairq@gmail.com"} "u")))))
+   {:email2 "dffds@gmail.com"} "u")))))
 
 
 
