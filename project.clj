@@ -3,24 +3,23 @@
                    [org.clojure/clojure "1.5.1"]
                    [org.clojure/google-closure-library-third-party "0.0-2029"]
                    [org.clojure/tools.reader "0.7.10"]
-                   [domina "1.0.1"]
+                   [domina "1.0.2"]
                    [crate "0.2.4"]
-                   [prismatic/dommy "0.1.1"]
+                   [prismatic/dommy "0.1.2"]
                    [korma "0.3.0-RC5"]
                    [org.postgresql/postgresql "9.2-1002-jdbc4"]
                    [compojure "1.1.5"]
                    [shoreleave "0.3.0"]
                    [shoreleave/shoreleave-remote-ring "0.3.0"]
-                   [ring-middleware-format "0.3.0"]
+                   [ring "1.2.1"]
+                   [ring-middleware-format "0.3.1"]
                    [ring/ring-json "0.2.0"]
-                   [jayq "2.4.0"]
-                   [clojurewerkz/neocons "2.0.0-beta3"]
-                   [facts/speech-synthesis "1.0.0"]
+                   [jayq "2.5.0"]
+                   [clojurewerkz/neocons "2.0.1"]
                    [org.clojure/clojurescript "0.0-2030"]
-                   [org.clojure/core.async "0.1.242.0-44b1e3-alpha"]
+                   [org.clojure/core.async "0.1.267.0-0d7780-alpha"]
                    [rewrite-clj "0.2.0"]
                    [org.jasypt/jasypt "1.8"]
-
                    [clj-http "0.7.6"]
                    [cheshire "4.0.3"]
                 ]
@@ -28,15 +27,15 @@
   :url "http://org.clojars.zubair2/webdb"
 
   :plugins  [
-               [lein-cljsbuild "0.3.0"]
+               [lein-cljsbuild "1.0.2"]
                [lein-httpd "1.0.0"]
-               [lein-ring "0.8.5"]
+               [lein-ring "0.8.10"]
             ]
 
   :profiles {
                 :dev
                 {
-                  :source-paths ["src" "srcdev"]
+                  :source-paths ["src" "../srcdev"]
                   :cljsbuild
                   {
                     :builds
@@ -84,7 +83,8 @@
 
                 :test
                 {
-                  :source-paths ["src" "srctest"]
+                  :source-paths ["src"
+                                 "../srctest"]
                   :cljsbuild
                   {
                     :builds

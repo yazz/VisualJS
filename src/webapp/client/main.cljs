@@ -2,8 +2,6 @@
     (:require
         [webapp.client.views.loginpanel]
         [webapp.client.views.settings]
-        [webapp.client.session]
-        [webapp.framework.client.debugger-3d]
         [goog.net.cookies :as cookie]
     )
     (:use

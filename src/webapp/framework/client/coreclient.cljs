@@ -90,7 +90,7 @@
 
 
 (defn log [s]
-  ;(.log js/console (str s))
+  (.log js/console (str s))
   nil
 )
 
@@ -391,6 +391,13 @@
 )
 
 
+(defn is-debug? []
+  (go
+    (<! (remote "!get-environment" {}))
+  )
+)
+
+
 
 
 (extend-type js/HTMLCollection
@@ -536,7 +543,11 @@
 
 
 
+(defn activate-sidebar-item [x]
+  (js/deactivateLeftSidebarItems)
+  (. ($ (find-el (str "left-sidebar-" x))) addClass "active")
 
+  )
 
 
 (defn make-sidebar [ & items]
@@ -556,8 +567,8 @@
                                    (el
                                         :a
                                         {  :href "#"
-                                           ;:onclick #(js/alert "fd")
-                                           :onmouseover
+                                           :onclick
+                                           ;:onmouseover
                                                #(do
                                                   (cond
                                                        (:html x)
@@ -565,8 +576,7 @@
                                                        (:fn x)
                                                             ((:fn x))
                                                   )
-                                                  (js/deactivateLeftSidebarItems)
-                                                  (. ($ (find-el (str "left-sidebar-" y))) addClass "active")
+                                                  (activate-sidebar-item y)
                                                 )
                                            :text (get  x :text)
                                         }

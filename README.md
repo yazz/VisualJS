@@ -143,6 +143,10 @@ Anatomy of a Coils application
         └ README.md
           project.clj
 
+        └ srcbase
+            └ webapp_config
+                └ settings.clj
+
           src
               └ webapp
                   └ client
@@ -158,9 +162,7 @@ Anatomy of a Coils application
                              ...
                     server
                         └ fns.clj - server side functions go here
-
-
-
+                        
                     framework
                         └ client
                               ...
@@ -187,9 +189,9 @@ Getting started
 1)
 
     cd coils
-    lein with-profile dev cljsbuild clean
-    lein with-profile dev cljsbuild once
-    lein with-profile dev ring server
+    lein with-profile base cljsbuild clean
+    lein with-profile base cljsbuild once
+    lein with-profile base ring server
 
 2) Open LightTable
 

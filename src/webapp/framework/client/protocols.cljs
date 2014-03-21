@@ -1,9 +1,14 @@
-(ns webapp.framework.client.protocols)
+(ns webapp.framework.client.protocols
+  (:use
+   [webapp.framework.client.records :only  [Html Tree NeoNode]]
+   )
+  )
 
 
 
-(defrecord Html [])
-(defrecord Tree [])
+(defprotocol INeoNode
+  (id [this] :id)
+)
 
 
 
@@ -33,3 +38,5 @@
 
 
 (gettype b)
+
+

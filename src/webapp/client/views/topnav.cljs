@@ -37,7 +37,7 @@
 
 
 (go
-     (let [server-debug-mode  (<! (remote "get-show-debug"))]
+     (let [server-debug-mode  (<! (remote "!get-show-debug"))]
         (cond
                 (nil? server-debug-mode)
                    (reset! debug-mode {:value false})
