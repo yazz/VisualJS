@@ -7,8 +7,6 @@
 )
 
 
-;(macroexpand '(log-async (count-all-neo4j-records)))
-
 (defmacro log [& x]
   `(.log js/console (str
                      ~@ x
@@ -42,13 +40,6 @@
 (defmacro sql [sql-str params]
   `(webapp.framework.client.coreclient.sql-fn
        ~(encrypt sql-str)
-       ~params
-   )
-)
-
-(defmacro neo4j [cypher-str params]
-  `(webapp.framework.client.coreclient.neo4j-fn
-       ~(encrypt cypher-str)
        ~params
    )
 )
