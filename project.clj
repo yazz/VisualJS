@@ -16,7 +16,7 @@
                    [ring/ring-json "0.2.0"]
                    [jayq "2.5.0"]
                    [clojurewerkz/neocons "2.0.1"]
-                   [org.clojure/clojurescript "0.0-2030"]
+                   [org.clojure/clojurescript "0.0-2138"]
                    [org.clojure/core.async "0.1.267.0-0d7780-alpha"]
                    [rewrite-clj "0.2.0"]
                    [org.jasypt/jasypt "1.8"]
