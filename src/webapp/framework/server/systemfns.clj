@@ -51,17 +51,16 @@
 
 
 
-
 (defn !neo4j [{coded-cypher :cypher params :params}]
   (do
     (let [cypher          (decrypt coded-cypher)
-          lower           (.toLowerCase cypher)
           ]
-      (println "Cypher from client: " coded-cypher " -> " cypher)
-      (cy/tquery cypher params)
+          (println "Cypher from client: " coded-cypher " -> " cypher)
+          (nh/neo4j  cypher  params)
     ))
   )
 
+;(!neo4j {:cypher (encrypt "match n return count(n)") :params {} })
 
 
 
@@ -75,7 +74,7 @@
           lower           (.toLowerCase cypher)
           ]
       (println "Cypher from client: " coded-cypher " -> " cypher)
-      (nh/get-nodes   cypher  params  return)
+      (nh/neo4j   cypher  params  return)
     ))
   )
 

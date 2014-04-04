@@ -6,22 +6,18 @@
 
 
 
-(defmacro neo4j [cypher-str params]
+(defmacro neo4j
+  ([cypher-str params]
   `(webapp.framework.client.neo4j.neo4j-fn
     ~(encrypt cypher-str)
     ~params
     ))
 
-
-
-
-
-
-(defmacro neo4j-nodes [cypher-str params return]
-  `(webapp.framework.client.neo4j.neo4j-nodes-fn
+( [cypher-str params return]
+  `(webapp.framework.client.neo4j.neo4j-fn
     ~(encrypt cypher-str)
     ~params
     ~return
-    ))
+    )))
 
 

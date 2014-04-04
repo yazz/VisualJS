@@ -15,10 +15,9 @@
                                                     body-html make-sidebar swap-section  el clear remote
                                                     value-of add-to show-popover
                                                     ]]
-        [webapp.framework.client.neo4j       :only [neo4j-fn neo-result]]
+        [webapp.framework.client.neo4j       :only [neo4j-fn]]
         [jayq.core                           :only [attr $ css append fade-out fade-in empty]]
         [webapp.framework.client.eventbus    :only [do-action esb undefine-action]]
-        [webapp.client.session               :only [the-map]]
     )
     (:use-macros
         [webapp.framework.client.eventbus    :only [define-action redefine-action]]
@@ -30,20 +29,20 @@
 
 
 ; return the raw data for a neo4j node
-( go
+(comment go
     (.log js/console (str (<! (neo4j "START x = node(*) RETURN count(x) LIMIT 1" {} ))))
 )
 
 
 
 
-( go (log (str (<!
+(comment go (log (str (<!
   (neo4j-nodes
    "create (u:User { email : { email2 }, title : 'Developer' }) return u"
    {:email2 "dfsfdsf@gmail.com"} "u")))))
 
 
-( go (log (str (<!
+(comment go (log (str (<!
   (neo4j-nodes
    "create (u:User { email : { email2 }, title : 'Developer' }) return u"
    {:email2 "dffds@gmail.com"} "u")))))

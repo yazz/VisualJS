@@ -632,36 +632,16 @@
 
 
 
- (cy/empty? (cy/tquery "MATCH n WHERE n.name='Puma' RETURN n;" {}))
+; (cy/empty? (cy/tquery "MATCH n WHERE n.name='Puma' RETURN n;" {}))
 
 
 
 
- (defn get-nodes [cypher   params  return-field]
-   (map
-    (fn [xxx]
-        (cond
-            (= (type return-field) java.lang.String)
-                (NeoNode. nil (merge {:neo-id  (:id (nn/fetch-from (:self (get xxx return-field))))}
-                                     (:data (get xxx return-field))))
-            (= (type return-field) clojure.lang.PersistentVector)
-                (into {}  (map
-                    (fn[x]  {x (merge {:neo-id  (:id (nn/fetch-from (:self (get xxx return-field))))}
-                                      (:data (get xxx return-field)))})
-                    return-field))
-            :else
-               (type return-field)
-        )
-    )
-    (cy/tquery  cypher params )
-    )
-   )
+
+ (comment  neo4j_nodes "START x = node(*) RETURN x LIMIT 2" {} "x")
 
 
- (comment  get-nodes "START x = node(*) RETURN x LIMIT 2" {} "x")
-
-
-  (let [puma  (nn/create {:name "Puma"  :hq-location "Herzogenaurach, Germany"})
+  (comment let [puma  (nn/create {:name "Puma"  :hq-location "Herzogenaurach, Germany"})
         apple (nn/create {:name "Apple" :hq-location "Cupertino, CA, USA"})
         idx   (nn/create-index "companies")]
     (nn/delete-from-index (:id puma)  (:name idx))
@@ -729,3 +709,48 @@
     (str "#edn-example/Alt.Goat" (prn-str (mapcat identity goat))))
 
 (println "Lets convert our Goat to our custom EDN format: " (alternative-edn-for-goat sample-goat))
+
+
+
+
+(defn neo4j
+  ([cypher]
+     (neo4j cypher {}))
+  ([cypher params]
+  (do
+    (let [lower           (.toLowerCase cypher)
+          result          (cy/tquery cypher params)
+          result-count    (count result)
+          first-record    (first result)
+          ]
+          (cond
+             (and (= result-count 1) (= (count first-record) 1))
+                 (first (vals  first-record))
+
+              :else
+                result)
+    )))
+
+([cypher   params  return-field]
+   (map
+    (fn [xxx]
+        (cond
+            (= (type return-field) java.lang.String)
+                (NeoNode. nil (merge {:neo-id  (:id (nn/fetch-from (:self (get xxx return-field))))}
+                                     (:data (get xxx return-field))))
+            (= (type return-field) clojure.lang.PersistentVector)
+                (into {}  (map
+                    (fn[x]  {x (merge {:neo-id  (:id (nn/fetch-from (:self (get xxx return-field))))}
+                                      (:data (get xxx return-field)))})
+                    return-field))
+            :else
+               (type return-field)
+        )
+    )
+    (cy/tquery  cypher params )
+    )
+   ))
+
+
+
+;(neo4j-nodes "match (n:SendEndorsement) return n" {} "n" )

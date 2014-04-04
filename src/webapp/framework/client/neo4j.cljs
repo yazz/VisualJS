@@ -27,7 +27,7 @@
 ;----------------------------------------------------------
 (defn neo4j-fn
   "Call the server side neo4j function"
-  [cypher-str params]
+  ([cypher-str params]
   ;----------------------------------------------------------
   (go
    (<! (remote
@@ -36,12 +36,7 @@
          :cypher    cypher-str
          :params    params}))))
 
-
-
-;----------------------------------------------------------
-(defn neo4j-nodes-fn
-  "Call the server side neo4j function"
-  [cypher-str   params   return]
+([cypher-str   params   return]
   ;----------------------------------------------------------
   (go
    (<! (remote
@@ -49,7 +44,7 @@
         {
          :cypher    cypher-str
          :params    params
-         :return    return}))))
+         :return    return})))))
 
 
 
