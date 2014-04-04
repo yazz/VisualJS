@@ -22,19 +22,37 @@
 
 ;(neo4j "MATCH (n) OPTIONAL MATCH (n)-[r]-() DELETE n,r")
 
-(defn process-send-endorsement [send-endorsement-neo4j-node] nil)
-(send-email
-             :message      "hi zubair"
-             :subject      "subject test"
-             :from-email   "zubairq@gmail.com"
-             :from-name    "zubair"
-             :to-email     "zubairq@gmail.com"
-             :to-name      "zubairq")
+(defn process-send-endorsement [send-endorsement-neo4j-node]
+  (if send-endorsement-neo4j-node
+    (do
+      (send-email
+       :message      "hi zubair"
+       :subject      "subject test"
+       :from-email   "zubairq@gmail.com"
+       :from-name    "zubair"
+       :to-email     "zubairq@gmail.com"
+       :to-name      "zubairq")
+      (neo4j "match n where id(n)={id}
+             remove n:SendEndorsement
+             set n:SendEndorsementConfirmFrom
+             return n"
+             {:id (:neo-id send-endorsement-neo4j-node)} "n")
+      )
+
+    ))
 
 
 
 
-(neo4j "match (n:SendEndorsement) return count(n)" {})
+
+(neo4j "match (n:SendEndorsement) return count(n)")
+
+(process-send-endorsement
+(first (neo4j "match (n:SendEndorsement) return n" {} "n")))
+
+(:neo-id (first (neo4j "match (n:SendEndorsement) return n" {} "n")))
+
+
 
 
 (defn check-messages []

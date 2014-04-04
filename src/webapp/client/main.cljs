@@ -139,7 +139,7 @@
 
     (render-state [this state]
                   (dom/div nil
-                           (dom/h2 nil "Contact list")
+                           (dom/h2 nil "ConnectToUs.co")
                            (apply dom/ul #js {:className "boon"}
                                   (om/build-all contact-view (:contacts app)
                                                 {:init-state state}))
