@@ -7,6 +7,11 @@
 
 
 (defmacro neo4j
+  ([cypher-str]
+  `(webapp.framework.client.neo4j.neo4j-fn
+    ~(encrypt cypher-str)
+    ))
+
   ([cypher-str params]
   `(webapp.framework.client.neo4j.neo4j-fn
     ~(encrypt cypher-str)

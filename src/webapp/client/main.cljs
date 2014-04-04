@@ -27,16 +27,8 @@
 
 
 
-(comment go
-  (log  (<! (neo4j "MATCH (n)
-                   OPTIONAL MATCH (n)-[r]-()
-                   DELETE n,r" {} ))))
-
-
-
-
 (go
-   (log  (<! (neo4j "match n return count(n)" {} ))))
+   (log  (<! (neo4j "match n return count(n)" ))))
 
 
 
