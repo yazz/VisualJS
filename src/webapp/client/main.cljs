@@ -46,25 +46,19 @@
 
 
 ( go
-   (log  (<! (neo4j "match n return count(n)" {}  )))
- )
-
-
-
-( go
    (log  (<! (neo4j "match (n:SendEndorsement) return n" {} "n" )))
- )
-
-(comment go
-   (log  (<! (neo4j "match n:* return n" {} "n" )))
  )
 
 
 
 (def app-state
   (atom
-    {:contacts
-     []}))
+   {
+    :email-from           ""
+    :email-to             ""
+    :send-endorsement     ""
+    :receive-endorsement  ""
+    }))
 
 
 
@@ -132,17 +126,22 @@
     (render-state [this state]
                   (dom/div nil
                            (dom/h2 nil "ConnectToUs.co")
+
+                           (dom/div #js {:className "input-group"}
+
+                              (dom/span #js {:className "input-group-addon"} "@"
+                                 (dom/input #js {:type "text"
+                                             :className "form-control"
+                                             :placeholder "Username"})))
+
+
+
                            (apply dom/ul #js {:className "boon"}
                                   (om/build-all contact-view (:contacts app)
                                                 {:init-state state}))
                            (dom/div nil
                                     (dom/input #js {:type "text" :ref "new-contact"})
                                     (dom/button #js {:onClick #(add-contact app owner)} "Add contact"))))))
-
-
-(go
-  (log (<! (neo4j "match n return count(n)" {})))
-)
 
 
 
