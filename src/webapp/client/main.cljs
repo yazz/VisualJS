@@ -6,7 +6,7 @@
    [cljs.core.async  :refer [put! chan <!]]
    [clojure.data     :as data]
    [clojure.string   :as string]
-   )
+   [ankha.core       :as ankha])
   (:use
         [webapp.framework.client.coreclient :only  [log popup do-before-remove-element new-dom-id find-el
                                                     clj-to-js sql-fn header-text body-text body-html
@@ -34,11 +34,11 @@
 
 (go
    (log  (<! (neo4j
-              "create  (n:SendEndorsement
+              "create  (n:AskForEndorsement
                             {
-                              from:                 'zubairq@gmail.com',
-                              to:                   'zq@nemcv.com',
-                              send_endorsement:     'web design',
+                              from:                 'john@microsoft.com',
+                              to:                   'pete@ibm.com',
+                              endorsement:          'web design',
                               requested_timestamp:  {time}
                             }) return n"
               {:time (.getTime (js/Date.))} "n"))))
@@ -46,22 +46,37 @@
 
 
 ( go
-   (log  (<! (neo4j "match (n:SendEndorsement) return n" {} "n" )))
+   (log  (<! (neo4j "match (n:AskForEndorsement) return n" {} "n" )))
  )
 
 
 
 (def app-state
   (atom
+   {:request  {
+               :email-from           "a"
+               :from-full-name       "ssd"
+               :email-to             ""
+               :to-full-name         ""
+               :endorsement          ""
+               }
+    }
+
+   ))
+(om/root
+ ankha/inspector
+ app-state
+ {:target (js/document.getElementById "example")})
+
+
+(comment reset! app-state
    {
+    :from-full-name       "a"
     :email-from           ""
     :email-to             ""
     :send-endorsement     ""
     :receive-endorsement  ""
-    }))
-
-
-
+    })
 
 
 
@@ -95,6 +110,97 @@
 
 
 
+(defn handle-change [app e owner]
+  (om/update! app [:from-full-name] (.. e -target -value))
+  ;(log (.. e -target -value))
+  )
+
+
+
+
+
+
+
+
+
+
+(defn request-form [app owner]
+  (reify
+
+    om/IRender
+    ;---------
+
+    (render
+     [this]
+     (dom/div nil
+
+
+              (dom/div #js {:style #js {:padding-top "40px"}} " You ")
+
+              (dom/div #js {:className "input-group"}
+
+                       (dom/span #js {:className "input-group-addon"}
+                                 "Your full name")
+                       (dom/input #js {:type "text"
+                                       :className   "form-control"
+                                       :placeholder "John Smith"
+                                       :value       (-> app :from-full-name)
+                                       :onChange    #(handle-change app % owner)
+                                       }))
+
+              (dom/div #js {:className "input-group"}
+
+                       (dom/span #js {:className "input-group-addon"}
+                                 "Your company email")
+                       (dom/input #js {:type "text"
+                                       :className "form-control"
+                                       :placeholder "john@microsoft.com"}))
+
+
+
+
+
+              (dom/div #js {:style #js {:padding-top "40px"}} " Them ")
+              (dom/div #js {:className "input-group"}
+
+                       (dom/span #js {:className "input-group-addon"}
+                                 "Their full name")
+                       (dom/input #js {:type "text"
+                                       :className "form-control"
+                                       :value       (-> app :from-full-name)
+                                       :onChange    #(handle-change app % owner)
+                                       :placeholder "Pete Austin"}))
+              (dom/div #js {:className "input-group"}
+
+                       (dom/span #js {:className "input-group-addon"}
+                                 "Their email")
+                       (dom/input #js {:type "text"
+                                       :className "form-control"
+                                       :placeholder "pete@ibm.com"}))
+
+
+
+
+
+              (dom/div #js {:style #js {:padding-top "40px"}} " The skill you want them to endorse ")
+
+
+              (dom/div #js {:className "input-group"}
+
+                       (dom/span #js {:className "input-group-addon"}
+                                 "Skill your company has")
+                       (dom/input #js {:type "text"
+                                       :className "form-control"
+                                       :placeholder "marketing"}))
+
+))))
+
+
+
+
+
+
+
 
 
 
@@ -108,7 +214,9 @@
     ;------------
 
     (init-state [_]
-                {:delete (chan)})
+                {
+                   :delete            (chan)
+                })
 
     om/IWillMount
     ;------------
@@ -123,25 +231,14 @@
     om/IRenderState
     ;--------------
 
-    (render-state [this state]
-                  (dom/div nil
-                           (dom/h2 nil "ConnectToUs.co")
-
-                           (dom/div #js {:className "input-group"}
-
-                              (dom/span #js {:className "input-group-addon"} "@"
-                                 (dom/input #js {:type "text"
-                                             :className "form-control"
-                                             :placeholder "Username"})))
+    (render-state
+     [this state]
+     (dom/div nil
+              (dom/h2 nil "ConnectToUs.co")
 
 
 
-                           (apply dom/ul #js {:className "boon"}
-                                  (om/build-all contact-view (:contacts app)
-                                                {:init-state state}))
-                           (dom/div nil
-                                    (dom/input #js {:type "text" :ref "new-contact"})
-                                    (dom/button #js {:onClick #(add-contact app owner)} "Add contact"))))))
+              (om/build request-form (:request app))))))
 
 
 

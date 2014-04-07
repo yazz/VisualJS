@@ -22,7 +22,7 @@
     (:use-macros
         [webapp.framework.client.eventbus    :only [define-action redefine-action]]
         [webapp.framework.client.coreclient  :only [ns-coils defn-html on-click on-mouseover sql log neo4j]]
-        [webapp.framework.client.neo4j       :only [neo4j neo4j-nodes]]
+        [webapp.framework.client.neo4j       :only [neo4j]]
      )
 )
 (ns-coils 'webapp)
@@ -37,13 +37,13 @@
 
 
 (comment go (log (str (<!
-  (neo4j-nodes
+  (neo4j
    "create (u:User { email : { email2 }, title : 'Developer' }) return u"
    {:email2 "dfsfdsf@gmail.com"} "u")))))
 
 
 (comment go (log (str (<!
-  (neo4j-nodes
+  (neo4j
    "create (u:User { email : { email2 }, title : 'Developer' }) return u"
    {:email2 "dffds@gmail.com"} "u")))))
 

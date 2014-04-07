@@ -20,20 +20,20 @@
 (def a (atom 0))
 
 
-;(neo4j "MATCH (n) OPTIONAL MATCH (n)-[r]-() DELETE n,r")
+(neo4j "MATCH (n) OPTIONAL MATCH (n)-[r]-() DELETE n,r")
 
-(defn process-send-endorsement [send-endorsement-neo4j-node]
+(defn process-ask-for-endorsement [send-endorsement-neo4j-node]
   (if send-endorsement-neo4j-node
     (do
       (send-email
        :message      "hi zubair"
        :subject      "subject test"
-       :from-email   "zubairq@gmail.com"
+       :from-email   (:from send-endorsement-neo4j-node)
        :from-name    "zubair"
-       :to-email     "zubairq@gmail.com"
+       :to-email     (:to send-endorsement-neo4j-node)
        :to-name      "zubairq")
       (neo4j "match n where id(n)={id}
-             remove n:SendEndorsement
+             remove n:AskForEndorsement
              set n:SendEndorsementConfirmFrom
              return n"
              {:id (:neo-id send-endorsement-neo4j-node)} "n")
@@ -45,19 +45,20 @@
 
 
 
-(neo4j "match (n:SendEndorsement) return count(n)")
+(neo4j "match (n:AskForEndorsement) return count(n)")
 
-(process-send-endorsement
-(first (neo4j "match (n:SendEndorsement) return n" {} "n")))
+(process-ask-for-endorsement
+(first (neo4j "match (n:AskForEndorsement) return n" {} "n")))
 
-(:neo-id (first (neo4j "match (n:SendEndorsement) return n" {} "n")))
+(first (neo4j "match (n:SendEndorsement) return n" {} "n"))
 
 
 
 
 (defn check-messages []
-  (let [messages-waiting (neo4j "match (n:SendEndorsement) return count(n)" {})]
-    (println messages-waiting)))
+  (let [messages-waiting (neo4j "match (n:AskForEndorsement) return n" {} "n")]
+    (dorun (map process-ask-for-endorsement  messages-waiting))
+    ))
 
 
 (stop-and-reset-pool! my-pool)
@@ -68,6 +69,7 @@
          #(do
             (swap! a inc)
             (check-messages)
+            (println @a)
             )
 
          my-pool))
