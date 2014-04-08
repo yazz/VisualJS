@@ -3,10 +3,13 @@
    [goog.net.cookies :as cookie]
    [om.core          :as om :include-macros true]
    [om.dom           :as dom :include-macros true]
-   [cljs.core.async  :refer [put! chan <!]]
+   [cljs.core.async  :refer [put! chan <! pub]]
+      [om-sync.core :as async]
+
    [clojure.data     :as data]
    [clojure.string   :as string]
    [ankha.core       :as ankha])
+
   (:use
         [webapp.framework.client.coreclient :only  [log popup do-before-remove-element new-dom-id find-el
                                                     clj-to-js sql-fn header-text body-text body-html
@@ -110,8 +113,8 @@
 
 
 
-(defn handle-change [app e owner]
-  (om/update! app [:from-full-name] (.. e -target -value))
+(defn handle-change [app field e owner]
+  (om/update! app [field] (.. e -target -value))
   ;(log (.. e -target -value))
   )
 
@@ -145,7 +148,7 @@
                                        :className   "form-control"
                                        :placeholder "John Smith"
                                        :value       (-> app :from-full-name)
-                                       :onChange    #(handle-change app % owner)
+                                       :onChange    #(handle-change app :from-full-name % owner)
                                        }))
 
               (dom/div #js {:className "input-group"}
@@ -167,8 +170,8 @@
                                  "Their full name")
                        (dom/input #js {:type "text"
                                        :className "form-control"
-                                       :value       (-> app :from-full-name)
-                                       :onChange    #(handle-change app % owner)
+                                       :value       (-> app :to-full-name)
+                                       :onChange    #(handle-change app :to-full-name % owner)
                                        :placeholder "Pete Austin"}))
               (dom/div #js {:className "input-group"}
 
@@ -182,7 +185,7 @@
 
 
 
-              (dom/div #js {:style #js {:padding-top "40px"}} " The skill you want them to endorse ")
+              (dom/div #js {:style #js {:padding-top "40px"}} " The expertise your company has you want them to endorse ")
 
 
               (dom/div #js {:className "input-group"}
@@ -238,7 +241,10 @@
 
 
 
-              (om/build request-form (:request app))))))
+              (om/build request-form (:request app)
+
+
+                        )))))
 
 
 
@@ -250,9 +256,24 @@
 
 
 (defn ^:export main []
-  (om/root   main-view
+  (let [tx-chan (chan)
+      tx-pub-chan (pub tx-chan (fn [_] :txs))]
+    (om/root   main-view
              app-state
-             {:target (. js/document (getElementById "main"))}))
+             {:target (. js/document (getElementById "main"))
+              :shared {:tx-chan tx-pub-chan}
+              :tx-listen
+              (fn [tx-data root-cursor]
+                (log (str tx-data))
+                (put! tx-chan [tx-data root-cursor]))
+
+
+              })
+
+    )
+
+  (log "dfdssdffds")
+  )
 
 
 

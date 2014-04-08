@@ -24,6 +24,7 @@
                    [cheshire "4.0.3"]
                    [reagent "0.4.2"]
                    [om "0.5.3"]
+                   [om-sync "0.1.1"]
                    [ankha "0.1.1"]
                    [overtone/at-at "1.2.0"]
                 ]
