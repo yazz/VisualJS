@@ -711,7 +711,14 @@
 (println "Lets convert our Goat to our custom EDN format: " (alternative-edn-for-goat sample-goat))
 
 
-
+(defn neo4j-val [xxx return-field]
+  (let [nnn (get xxx return-field)
+        ]
+    (cond (nil? (get nnn :self)) nnn
+          :else
+          (NeoNode. nil (merge {:neo-id  (:id (nn/fetch-from (:self (get xxx return-field))))}
+                               (:data (get xxx return-field))))
+          )))
 
 (defn neo4j
   ([cypher]
@@ -732,25 +739,24 @@
     )))
 
 ([cypher   params  return-field]
-   (map
+   (into [] (map
     (fn [xxx]
         (cond
             (= (type return-field) java.lang.String)
-                (NeoNode. nil (merge {:neo-id  (:id (nn/fetch-from (:self (get xxx return-field))))}
-                                     (:data (get xxx return-field))))
+                (neo4j-val xxx return-field)
+
             (= (type return-field) clojure.lang.PersistentVector)
                 (into {}  (map
-                    (fn[x]  {x (merge {:neo-id  (:id (nn/fetch-from (:self (get xxx return-field))))}
-                                      (:data (get xxx return-field)))})
+                    (fn[x]  {x (neo4j-val xxx x)})
                     return-field))
             :else
                (type return-field)
         )
     )
     (cy/tquery  cypher params )
-    )
+    ))
    ))
 
 
 
-;(neo4j-nodes "match (n:SendEndorsement) return n" {} "n" )
+(neo4j "match (n:WebSession) return n.session_id limit 1" {} "n.session_id" )

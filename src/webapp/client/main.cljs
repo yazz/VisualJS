@@ -35,7 +35,7 @@
 
 
 
-(go
+(comment go
    (log  (<! (neo4j
               "create  (n:AskForEndorsement
                             {
@@ -49,28 +49,57 @@
 
 
 ( go
-   (log  (<! (neo4j "match (n:AskForEndorsement) return n" {} "n" )))
+   (log  (map :neo-id (<! (neo4j "match (n) return n" {} "n" ))))
  )
 
 
 
 (def app-state
   (atom
-   {:request  {
-               :email-from           "a"
+   {:ui
+
+    {:request {
                :from-full-name       "ssd"
-               :email-to             ""
-               :to-full-name         ""
+               :email-from           "a"
+
+               :to-full-name         "dfsfdsfdfds"
+               :email-to             "to"
+
                :endorsement          ""
                }
+     }
+    :data {
+           :a 1
+           :b 2
+           }
     }
 
    ))
+
+(def playback-controls-state
+  (atom
+   {:ui
+
+    {
+    }
+    :data {
+           :sessions [  ]
+           :current-session nil
+           }
+    }
+
+   ))
+
+
 (om/root
  ankha/inspector
  app-state
  {:target (js/document.getElementById "example")})
 
+(om/root
+ ankha/inspector
+ playback-controls-state
+ {:target (js/document.getElementById "playback_state")})
 
 (comment reset! app-state
    {
@@ -127,7 +156,8 @@
 
 
 
-(defn request-form [app owner]
+
+(defn request-form [{:keys [request data]} owner]
   (reify
 
     om/IRender
@@ -147,8 +177,8 @@
                        (dom/input #js {:type "text"
                                        :className   "form-control"
                                        :placeholder "John Smith"
-                                       :value       (-> app :from-full-name)
-                                       :onChange    #(handle-change app :from-full-name % owner)
+                                       :value       (-> request :from-full-name)
+                                       :onChange    #(handle-change request :from-full-name % owner)
                                        }))
 
               (dom/div #js {:className "input-group"}
@@ -157,6 +187,8 @@
                                  "Your company email")
                        (dom/input #js {:type "text"
                                        :className "form-control"
+                                       :value       (-> request :email-from)
+                                       :onChange    #(handle-change request :emai-from % owner)
                                        :placeholder "john@microsoft.com"}))
 
 
@@ -170,8 +202,8 @@
                                  "Their full name")
                        (dom/input #js {:type "text"
                                        :className "form-control"
-                                       :value       (-> app :to-full-name)
-                                       :onChange    #(handle-change app :to-full-name % owner)
+                                       :value       (-> request :to-full-name)
+                                       :onChange    #(handle-change request :to-full-name % owner)
                                        :placeholder "Pete Austin"}))
               (dom/div #js {:className "input-group"}
 
@@ -179,6 +211,11 @@
                                  "Their email")
                        (dom/input #js {:type "text"
                                        :className "form-control"
+                                       :value       (-> request :email-to)
+                                       :onChange    #(do
+                                                       (handle-change request :emai-to % owner)
+                                                       (om/update! request [ :email-from] "zoso")
+                                                       )
                                        :placeholder "pete@ibm.com"}))
 
 
@@ -241,7 +278,10 @@
 
 
 
-              (om/build request-form (:request app)
+              (om/build request-form {
+                                      :request (-> app :ui :request)
+                                      :data    (:data    app)
+                                      }
 
 
                         )))))
@@ -252,8 +292,16 @@
 
 
 
+(def history-order (atom 0))
+(def start-time (.getTime (js/Date.)))
 
-
+(def session-id (atom ""))
+(go
+ (let [session (:value (<! (remote "create-session" {})  ))]
+   (log session)
+   (reset! session-id session)
+   )
+)
 
 (defn ^:export main []
   (let [tx-chan (chan)
@@ -265,15 +313,111 @@
               :tx-listen
               (fn [tx-data root-cursor]
                 (log (str tx-data))
-                (put! tx-chan [tx-data root-cursor]))
+                (put! tx-chan [tx-data root-cursor])
+
+                (go
+                 (<! (remote "add-history"
+                             {
+                              :session-id    @session-id
+                              :history-order @history-order
+                              :history       tx-data
+                              :timestamp     (- (.getTime (js/Date.)) start-time)
+                            }))
+                 (swap! history-order inc)
+              ))})))
 
 
-              })
 
-    )
+(defn playback-session-button-component [{:keys [ui data]} owner]
+  (reify
 
-  (log "dfdssdffds")
-  )
+    om/IRender
+    ;---------
+
+    (render
+     [this]
+     (dom/div nil
 
 
+              (dom/div #js {:style #js {:padding-top "40px"}} " You ")
+))))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+(defn playback-controls-view [app owner]
+  (reify
+
+    om/IInitState
+    ;------------
+
+    (init-state [_]
+                {
+                   :delete            (chan)
+                })
+
+    om/IWillMount
+    ;------------
+    (will-mount [_]
+                (let [delete (om/get-state owner :delete)]
+                  (go (loop []
+                        (let [contact (<! delete)]
+                          (om/transact! app :contacts
+                                        (fn [xs] (vec (remove #(= contact %) xs))))
+                          (recur))))))
+
+    om/IRenderState
+    ;--------------
+
+    (render-state
+     [this state]
+     (log (str "map="(mapv
+                                      (fn [x]
+                                        {
+                                        :ui      (-> app :ui)
+                                        :data    x
+                                        }
+                                        )
+                                      (-> app :data :sessions))))
+     (dom/div nil
+              (dom/h2 nil "Playback web sessions")
+
+
+(apply dom/ul nil
+              (om/build-all  playback-session-button-component
+                                     (mapv
+                                      (fn [x]
+                                        {
+                                        :ui      (-> app :ui)
+                                        :data    x
+                                        }
+                                        )
+                                      (-> app :data :sessions)))
+                                      )
+
+
+                        ))))
+
+
+(om/root
+ playback-controls-view
+ playback-controls-state
+ {:target (js/document.getElementById "playback_controls")})
+
+
+
+(go (log  (<! (neo4j "match (n:WebSession) return n.session_id"
+                         {}
+                         ["n.session_id"]))))
 
