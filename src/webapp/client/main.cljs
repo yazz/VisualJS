@@ -3,7 +3,7 @@
    [goog.net.cookies :as cookie]
    [om.core          :as om :include-macros true]
    [om.dom           :as dom :include-macros true]
-   [cljs.core.async  :refer [put! chan <! pub]]
+   [cljs.core.async  :refer [put! chan <! pub timeout]]
       [om-sync.core :as async]
 
    [clojure.data     :as data]
@@ -23,7 +23,7 @@
         [webapp.framework.client.neo4j       :only [neo4j]]
      )
   (:require-macros
-   [cljs.core.async.macros :refer [go]]
+   [cljs.core.async.macros :refer [go ]]
 
    )
   )
@@ -76,6 +76,28 @@
 
    ))
 
+(def playback-app-state
+  (atom
+   {:ui
+
+    {:request {
+               :from-full-name       "ssd"
+               :email-from           "a"
+
+               :to-full-name         "dfsfdsfdfds"
+               :email-to             "to"
+
+               :endorsement          ""
+               }
+     }
+    :data {
+           :a 1
+           :b 2
+           }
+    }
+
+   ))
+
 (def playback-controls-state
   (atom
    {:ui
@@ -83,12 +105,16 @@
     {
     }
     :data {
-           :sessions [  ]
+           :sessions ["f419280d-2843-43b8-8645-a50797890164"
+                      "9325c569-b2a0-46b8-b8c3-2a4c52e98446"]
            :current-session nil
            }
     }
 
    ))
+
+
+
 
 
 (om/root
@@ -295,6 +321,11 @@
 (def history-order (atom 0))
 (def start-time (.getTime (js/Date.)))
 
+
+
+
+
+
 (def session-id (atom ""))
 (go
  (let [session (:value (<! (remote "create-session" {})  ))]
@@ -302,6 +333,11 @@
    (reset! session-id session)
    )
 )
+
+
+
+
+
 
 (defn ^:export main []
   (let [tx-chan (chan)
@@ -327,8 +363,83 @@
               ))})))
 
 
+(def playback-state (atom {}))
 
-(defn playback-session-button-component [{:keys [ui data]} owner]
+
+(def playbacktime (atom 0))
+
+(go (let [ll (<! (neo4j "
+                        match (r:WebRecord) where
+                        r.session_id='46dd7de8-8e6c-4f41-a80d-2d789e39c478'
+                        return r order by r.seq_ord
+                        " {} "r"))]
+
+      (om/root
+       main-view
+       playback-app-state
+       {:target (js/document.getElementById "playback_canvas")})
+
+
+     ;(log (pr-str (first ll)))
+      (doseq [item ll]
+      (let [
+            path      (cljs.reader/read-string (:path (into {} item )))
+            content   (cljs.reader/read-string (:new_state (into {} item )))
+            timestamp   (:timestamp (into {} item ))
+            ]
+        (log path)
+        (log content)
+        (log timestamp )
+        (<! (timeout (-  timestamp @playbacktime)))
+        (reset! playbacktime timestamp)
+        (reset! playback-app-state  content)
+
+        nil
+        )
+      )
+    ))
+
+
+(go
+ (log "dd")
+ (<! (timeout 1500))
+ (log "dsff")
+ )
+
+(reset!
+ playback-app-state
+ (assoc-in
+  @playback-app-state
+  [:ui :request :to-full-name]
+  "zubair"))
+
+
+
+
+
+
+(defn replay-session [session-id]
+  (go
+ (let [ll  (<! (neo4j "match (n:WebSession) return n.session_id"
+                      {} "n.session_id"))]
+
+   (reset! playback-controls-state (assoc-in
+                                    @playback-controls-state
+                                    [:data :sessions]  (into [](take 5 ll))))
+   (log ll)
+   (om/root
+    main-view
+    playback-app-state
+    {:target (js/document.getElementById "playback_canvas")})
+
+   ))
+
+  )
+
+
+
+
+(defn playback-session-button-component [{:keys [ui data sessions]} owner]
   (reify
 
     om/IRender
@@ -339,8 +450,35 @@
      (dom/div nil
 
 
-              (dom/div #js {:style #js {:padding-top "40px"}} " You ")
-))))
+              (dom/div
+               #js {
+                    :style      #js {:padding-top "40px"
+                                     :background-color
+                                     (if
+                                       (get-in ui
+                                               [:sessions data :highlighted])
+                                       "lightgray"
+                                       ""
+                                       )
+                                     }
+
+                    :onClick    (fn [e] (replay-session  data))
+                    :onMouseEnter
+                    (fn[e]
+                      (om/update!
+                       ui
+                       [:sessions data :highlighted] true )
+                      )
+                    :onMouseLeave
+                    (fn[e]
+                      (om/update!
+                       ui
+                       [:sessions data :highlighted] false )
+                      )
+                    }
+               (str data)
+               )
+              ))))
 
 
 
@@ -363,6 +501,7 @@
     ;------------
 
     (init-state [_]
+
                 {
                    :delete            (chan)
                 })
@@ -390,6 +529,7 @@
                                         }
                                         )
                                       (-> app :data :sessions))))
+
      (dom/div nil
               (dom/h2 nil "Playback web sessions")
 
@@ -400,6 +540,7 @@
                                       (fn [x]
                                         {
                                         :ui      (-> app :ui)
+                                        :sessions   (-> app :data :sessions)
                                         :data    x
                                         }
                                         )
@@ -410,14 +551,20 @@
                         ))))
 
 
-(om/root
- playback-controls-view
- playback-controls-state
- {:target (js/document.getElementById "playback_controls")})
+(go
+ (let [ll  (<! (neo4j "match (n:WebSession) return n.session_id"
+                      {} "n.session_id"))]
+
+   (reset! playback-controls-state (assoc-in
+                                    @playback-controls-state
+                                    [:data :sessions]  (into [](take 5 ll))))
+   (log ll)
+   (om/root
+    playback-controls-view
+    playback-controls-state
+    {:target (js/document.getElementById "playback_controls")})
+
+   ))
 
 
-
-(go (log  (<! (neo4j "match (n:WebSession) return n.session_id"
-                         {}
-                         ["n.session_id"]))))
 
