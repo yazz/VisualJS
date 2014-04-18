@@ -64,12 +64,16 @@
 
         $( document ).ready(function() {
             params = parseQueryString();
-            //alert( 'param:' + params["reset_request_id"] );
-            if (webapp) {
-                if (webapp.client) {
-                  if (webapp.client.main) {
-                      webapp.client.main.main();
-                  };
+            playback = params["playback"];
+            //alert(""+playback);
+            if (webapp.client) {
+                if (webapp.client.main) {
+                    if (playback) {
+                        webapp.client.main.load_admin();
+                    }
+                    else {
+                        webapp.client.main.load_main();
+                    };
                 };
             }
         });

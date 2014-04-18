@@ -117,12 +117,8 @@
 
 
 
-(om/root
- ankha/inspector
- app-state
- {:target (js/document.getElementById "example")})
 
-(om/root
+(comment om/root
  ankha/inspector
  playback-controls-state
  {:target (js/document.getElementById "playback_state")})
@@ -339,7 +335,7 @@
 
 
 
-(defn ^:export main []
+(defn main []
   (let [tx-chan (chan)
       tx-pub-chan (pub tx-chan (fn [_] :txs))]
     (om/root   main-view
@@ -360,7 +356,13 @@
                               :timestamp     (- (.getTime (js/Date.)) start-time)
                             }))
                  (swap! history-order inc)
-              ))})))
+              ))}))
+
+
+(om/root
+ ankha/inspector
+ app-state
+ {:target (js/document.getElementById "example")}))
 
 
 (def playback-state (atom {}))
@@ -368,11 +370,15 @@
 
 (def playbacktime (atom 0))
 
+(defn playback-session [& {:keys
+                           [session-id]}]
 (go (let [ll (<! (neo4j "
                         match (r:WebRecord) where
-                        r.session_id='46dd7de8-8e6c-4f41-a80d-2d789e39c478'
+                        r.session_id={session_id}
                         return r order by r.seq_ord
-                        " {} "r"))]
+                        "
+                        {:session_id    session-id}
+                        "r"))]
 
       (om/root
        main-view
@@ -398,21 +404,7 @@
         )
       )
     ))
-
-
-(go
- (log "dd")
- (<! (timeout 1500))
- (log "dsff")
- )
-
-(reset!
- playback-app-state
- (assoc-in
-  @playback-app-state
-  [:ui :request :to-full-name]
-  "zubair"))
-
+)
 
 
 
@@ -462,7 +454,9 @@
                                        )
                                      }
 
-                    :onClick    (fn [e] (replay-session  data))
+                    :onClick    (fn [e]
+                                  ( playback-session
+ :session-id data))
                     :onMouseEnter
                     (fn[e]
                       (om/update!
@@ -551,6 +545,7 @@
                         ))))
 
 
+(defn admin []
 (go
  (let [ll  (<! (neo4j "match (n:WebSession) return n.session_id"
                       {} "n.session_id"))]
@@ -564,7 +559,15 @@
     playback-controls-state
     {:target (js/document.getElementById "playback_controls")})
 
-   ))
+   )))
 
 
+(defn ^:export load_main [
 
+                         ]
+   (main))
+
+
+(defn ^:export load_admin [
+                          ]
+  (admin))
