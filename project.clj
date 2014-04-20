@@ -124,7 +124,8 @@
                                        :output-to      "resources/public/main.js"
                                        :optimizations  :advanced
                                        :externs        ["resources/public/jquery-externs.js"
-                                                        "resources/public/google_maps_api_v3_11.js"]
+                                                        "resources/public/google_maps_api_v3_11.js"
+                                                        "resources/public/reactextern.js"]
                                        :pretty-print   false
                                        :foreign-libs [{:file "https://maps.googleapis.com/maps/api/js?sensor=false"
                                                   :provides  ["google.maps" "google.maps.MapTypeId"]}]

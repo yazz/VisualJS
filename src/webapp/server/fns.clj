@@ -49,14 +49,14 @@
 
 
 
-(neo4j "match (n:WebSession) return count(n)" {} "count(n)")
+;(neo4j "match (n:WebSession) return count(n)" {} "count(n)")
 
 
 
-(process-ask-for-endorsement
+(comment process-ask-for-endorsement
  (first (neo4j "match (n:AskForEndorsement) return n" {} "n")))
 
-(first (neo4j "match (n:WebSession) return n" {} "n"))
+(comment first (neo4j "match (n:WebSession) return n" {} "n"))
 
 
 
@@ -69,7 +69,7 @@
 
 (stop-and-reset-pool! my-pool)
 
-(do
+(comment do
   (stop-and-reset-pool! my-pool)
   (every 5000
          #(do
@@ -155,4 +155,4 @@
 
 
 
-(neo4j "match (n:WebSession) return n.session_id" {} "n.session_id")
+(comment neo4j "match (n:WebSession) return n.session_id" {} "n.session_id")

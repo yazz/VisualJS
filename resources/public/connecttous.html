@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta http-equiv='Content-type' content='text/html; charset=utf-8'>
+
         <!--[if lt IE 9]>
+        <script src="consolepolyfill.js"></script>
+        <script src="es5-shim.js"></script>
+        <script src="es5-sham.js"></script>
         <script src="html5shiv.js"></script>
         <![endif]-->
-        <link href='http://fonts.googleapis.com/css?family=Oxygen:400,300,700&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta charset="UTF-8">
-        <script type="text/javascript" src="javascript-xpath-latest-cmp.js"></script>
+
         <title>ConnectToUs.co</title>
         <style>
             body
@@ -19,33 +21,33 @@
             }
         </style>
         <script type="text/javascript" src="jquery-1.10.2.min.js"></script>
-        <script type="text/javascript" src="respond.min.js"></script>
         <script type="text/javascript" src="jquery-ui-1.10.3.custom.min.js"></script>
         <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="coilshelpers.js"></script>
+
         <link href="bootstrap/css/bootstrap.min.css" type="text/css" rel="stylesheet"/>
         <link href="main.css" type="text/css" rel="stylesheet"/>
         <link href="docs.css" type="text/css" rel="stylesheet"/>
-        <script src="react.js"></script>
+
+        <script type="text/javascript" src="react.js"></script>
     </head>
 
 
 
 
-    <body style="font-size: 20px; font-family: 'Oxygen',
-                 sans-serif;height:100%; width:100%;position: absolute;
+    <body style="font-size: 20px; font-family:sans-serif;
+                 height:100%; width:100%;position: absolute;
                  padding: 10px;">
 
         <div id=main               style='color=black;'></div>
         <div id=example            style='color=black;'></div>
         <div id=playback_controls  style='color=black;'></div>
-        <div id=playback_state  style='color=black;'></div>
+        <div id=playback_state     style='color=black;'></div>
         <div id=playback_canvas    style='color=black;'></div>
     </body>
 
 
 
-    <script type="text/javascript" src="main.js"></script>
 
     <script type="text/javascript">
         function parseQueryString() {
@@ -78,6 +80,8 @@
             }
         });
     </script>
+
+    <script type="text/javascript" src="main.js"></script>
 
 </html>
 

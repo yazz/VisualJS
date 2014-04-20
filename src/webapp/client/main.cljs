@@ -30,7 +30,7 @@
 
 
 
-(go
+(comment go
    (log  (<! (neo4j "match n return count(n)" ))))
 
 
@@ -48,7 +48,7 @@
 
 
 
-( go
+(comment go
    (log  (map :neo-id (<! (neo4j "match (n) return n" {} "n" ))))
  )
 
@@ -334,35 +334,42 @@
 
 
 
-
 (defn main []
-  (let [tx-chan (chan)
-      tx-pub-chan (pub tx-chan (fn [_] :txs))]
-    (om/root   main-view
-             app-state
-             {:target (. js/document (getElementById "main"))
-              :shared {:tx-chan tx-pub-chan}
-              :tx-listen
-              (fn [tx-data root-cursor]
-                (log (str tx-data))
-                (put! tx-chan [tx-data root-cursor])
+  (do
+    (log "in main")
+    (om/root
+     ankha/inspector
+     app-state
+     {:target (js/document.getElementById "example")})
 
-                (go
-                 (<! (remote "add-history"
-                             {
-                              :session-id    @session-id
-                              :history-order @history-order
-                              :history       tx-data
-                              :timestamp     (- (.getTime (js/Date.)) start-time)
-                            }))
-                 (swap! history-order inc)
-              ))}))
+    (let [
+          tx-chan       (chan)
+          tx-pub-chan   (pub tx-chan (fn [_] :txs))
+          ]
+          (om/root   main-view
+                     app-state
+
+                 {:target (. js/document (getElementById "main"))
+                  :shared {:tx-chan tx-pub-chan}
+                  :tx-listen
+                  (fn [tx-data root-cursor]
+                    (go
+                     (log "in main2")
+                     (log (str tx-data))
+                     (put! tx-chan [tx-data root-cursor])
+
+                     (<! (remote "add-history"
+                                 {
+                                  :session-id    @session-id
+                                  :history-order @history-order
+                                  :history       tx-data
+                                  :timestamp     (- (.getTime (js/Date.)) start-time)
+                                  }))
+                     (swap! history-order inc)
+                     ))}))
 
 
-(om/root
- ankha/inspector
- app-state
- {:target (js/document.getElementById "example")}))
+    ))
 
 
 (def playback-state (atom {}))
@@ -372,39 +379,39 @@
 
 (defn playback-session [& {:keys
                            [session-id]}]
-(go (let [ll (<! (neo4j "
-                        match (r:WebRecord) where
-                        r.session_id={session_id}
-                        return r order by r.seq_ord
-                        "
-                        {:session_id    session-id}
-                        "r"))]
+  (go (let [ll (<! (neo4j "
+                          match (r:WebRecord) where
+                          r.session_id={session_id}
+                          return r order by r.seq_ord
+                          "
+                          {:session_id    session-id}
+                          "r"))]
 
-      (om/root
-       main-view
-       playback-app-state
-       {:target (js/document.getElementById "playback_canvas")})
+        (om/root
+         main-view
+         playback-app-state
+         {:target (js/document.getElementById "playback_canvas")})
 
 
-     ;(log (pr-str (first ll)))
-      (doseq [item ll]
-      (let [
-            path      (cljs.reader/read-string (:path (into {} item )))
-            content   (cljs.reader/read-string (:new_state (into {} item )))
-            timestamp   (:timestamp (into {} item ))
-            ]
-        (log path)
-        (log content)
-        (log timestamp )
-        (<! (timeout (-  timestamp @playbacktime)))
-        (reset! playbacktime timestamp)
-        (reset! playback-app-state  content)
+        ;(log (pr-str (first ll)))
+        (doseq [item ll]
+          (let [
+                path      (cljs.reader/read-string (:path (into {} item )))
+                content   (cljs.reader/read-string (:new_state (into {} item )))
+                timestamp   (:timestamp (into {} item ))
+                ]
+            (log path)
+            (log content)
+            (log timestamp )
+            (<! (timeout (-  timestamp @playbacktime)))
+            (reset! playbacktime timestamp)
+            (reset! playback-app-state  content)
 
-        nil
-        )
-      )
-    ))
-)
+            nil
+            )
+          )
+        ))
+  )
 
 
 
@@ -528,21 +535,21 @@
               (dom/h2 nil "Playback web sessions")
 
 
-(apply dom/ul nil
-              (om/build-all  playback-session-button-component
-                                     (mapv
-                                      (fn [x]
-                                        {
+              (apply dom/ul nil
+                     (om/build-all  playback-session-button-component
+                                    (mapv
+                                     (fn [x]
+                                       {
                                         :ui      (-> app :ui)
                                         :sessions   (-> app :data :sessions)
                                         :data    x
                                         }
-                                        )
-                                      (-> app :data :sessions)))
-                                      )
+                                       )
+                                     (-> app :data :sessions)))
+                     )
 
 
-                        ))))
+              ))))
 
 
 (defn admin []
