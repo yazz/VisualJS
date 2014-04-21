@@ -4,6 +4,7 @@
     [clojure.browser.repl    :as repl]
     [cljs.reader             :as reader]
     [goog.dom]
+    [goog.Uri.QueryData]
     [goog.events]
     [crate.core :as crate]
     [cljs.core.async :as async :refer [chan close!]]

@@ -4,9 +4,9 @@
                    [org.clojure/google-closure-library-third-party "0.0-2029"]
                    [org.clojure/tools.reader "0.7.10"]
                    [org.clojure/clojurescript "0.0-2197"]
-                   [om "0.6.0"]
+                   [om "0.5.3"]
                    [om-sync "0.1.1"]
-                   [org.clojure/core.async "0.1.278.0-76b25b-alpha"]
+                   [org.clojure/core.async "0.1.267.0-0d7780-alpha"]
 
                    [domina "1.0.2"]
                    [crate "0.2.4"]
@@ -28,8 +28,10 @@
                    [ankha "0.1.1"]
                    [overtone/at-at "1.2.0"]
                 ]
-  :repositories {"sonatype-oss-public" "https://oss.sonatype.org/content/groups/public/"}
-  :url "http://org.clojars.zubair2/webdb"
+  :repositories {"sonatype-oss-public"
+                 "https://oss.sonatype.org/content/groups/public/"}
+
+  :url "http://org.clojars.zubair/coils"
 
   :plugins  [
                [lein-cljsbuild "1.0.3"]
