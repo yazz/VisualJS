@@ -12,7 +12,9 @@
   (:use
    [webapp.framework.client.coreclient :only  [log remote]]
    [webapp.client.globals              :only  [app-state   playback-app-state
-                                               playback-controls-state]]
+                                               playback-controls-state
+                                               reset-app-state
+                                               reset-playback-app-state]]
    [webapp.client.components.views     :only  [main-view]]
    [webapp.client.components.forms     :only  [request-form]]
    )
@@ -48,7 +50,7 @@
          {:target (js/document.getElementById "playback_canvas")})
 
 
-        ;(log (pr-str (first ll)))
+        (reset-playback-app-state)
         (doseq [item ll]
           (let [
                 path      (cljs.reader/read-string (:path (into {} item )))

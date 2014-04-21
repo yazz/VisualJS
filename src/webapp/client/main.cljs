@@ -12,7 +12,8 @@
   (:use
    [webapp.framework.client.coreclient :only  [log remote]]
    [webapp.client.globals              :only  [app-state   playback-app-state
-                                               playback-controls-state]]
+                                               playback-controls-state
+                                               reset-app-state]]
    [webapp.client.components.views     :only  [main-view]]
    [webapp.client.components.playback  :only  [playback-controls-view ]]
    )
@@ -22,45 +23,6 @@
    )
   (:require-macros
    [cljs.core.async.macros :refer [go]]))
-
-
-
-
-
-
-
-
-
-
-
-
-
-(comment reset! app-state
-   {
-    :from-full-name       "a"
-    :email-from           ""
-    :email-to             ""
-    :send-endorsement     ""
-    :receive-endorsement  ""
-    })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -89,7 +51,7 @@
 
 (defn main []
   (do
-    (log "in main")
+    (reset-app-state)
     (om/root
      ankha/inspector
      app-state

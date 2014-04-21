@@ -24,28 +24,37 @@
 
 (def app-state
   (atom
-   {:ui
+   {}))
+
+
+
+
+
+(def blank-app-state
+  {:ui
 
     {:request {
-               :from-full-name       "ssd"
-               :email-from           "a"
+               :from-full-name       ""
+               :email-from           ""
 
-               :to-full-name         "dfsfdsfdfds"
-               :email-to             "to"
+               :to-full-name         ""
+               :email-to             ""
 
                :endorsement          ""
                }
      }
     :data {
-           :a 1
-           :b 2
+
            }
     }
-
-   ))
-
+)
 
 
+(defn reset-app-state []
+  (reset!  app-state  blank-app-state))
+
+(defn reset-playback-app-state []
+  (reset!  app-state  blank-app-state))
 
 
 
@@ -55,25 +64,7 @@
 
 (def playback-app-state
   (atom
-   {:ui
-
-    {:request {
-               :from-full-name       "ssd"
-               :email-from           "a"
-
-               :to-full-name         "dfsfdsfdfds"
-               :email-to             "to"
-
-               :endorsement          ""
-               }
-     }
-    :data {
-           :a 1
-           :b 2
-           }
-    }
-
-   ))
+   {}))
 
 
 
