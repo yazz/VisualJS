@@ -5,7 +5,7 @@
 
     )
    (:use
-        [webapp.framework.client.coreclient      :only [popup clear add-to help remote]]
+        [webapp.framework.client.coreclient      :only [popup clear add-to remote]]
 
     )
    )
@@ -298,4 +298,5 @@
 
 
 
-
+
+

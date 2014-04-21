@@ -76,9 +76,11 @@
     {
     }
     :data {
-           :sessions []
-           :current-session nil
+           :sessions          []
+           :current-session   nil
            }
     }
 
    ))
+
+

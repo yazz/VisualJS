@@ -126,12 +126,15 @@
                       (om/update!
                        ui
                        [:sessions data :highlighted] true )
+                      (log (str "Entered " data))
                       )
                     :onMouseLeave
                     (fn[e]
                       (om/update!
                        ui
                        [:sessions data :highlighted] false )
+
+                      (log (str "Left " data))
                       )
                     }
                (str data)

@@ -17,7 +17,7 @@
     [domina.events :only [listen!]]
     [domina.xpath :only [xpath]]
     [domina.css            :only [sel]]
-    [webapp.framework.client.coreclient :only [clear addto  remote  add-to]]
+    [webapp.framework.client.coreclient :only [clear  remote  add-to]]
     [jayq.core                          :only [$ append ]]
   )
 
