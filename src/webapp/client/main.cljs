@@ -30,20 +30,15 @@
 
 
 (def history-order (atom 0))
+
 (def start-time (.getTime (js/Date.)))
 
-
-
-
-
-
 (def session-id (atom ""))
+
 (go
  (let [session (:value (<! (remote "create-session" {})  ))]
    (log session)
-   (reset! session-id session)
-   )
-)
+   (reset! session-id session)))
 
 
 
@@ -52,6 +47,7 @@
 (defn main []
   (do
     (reset-app-state)
+
     (om/root
      ankha/inspector
      app-state
@@ -69,7 +65,6 @@
                   :tx-listen
                   (fn [tx-data root-cursor]
                     (go
-                     (log "in main2")
                      (log (str tx-data))
                      (put! tx-chan [tx-data root-cursor])
 
@@ -81,10 +76,8 @@
                                   :timestamp     (- (.getTime (js/Date.)) start-time)
                                   }))
                      (swap! history-order inc)
-                     ))}))
-
-
-    ))
+                     ))
+                  }))))
 
 
 
@@ -98,21 +91,27 @@
    (reset! playback-controls-state (assoc-in
                                     @playback-controls-state
                                     [:data :sessions]  (into [](take 5 ll))))
-   (log ll)
    (om/root
     playback-controls-view
     playback-controls-state
     {:target (js/document.getElementById "playback_controls")})
 
+   (om/root
+     ankha/inspector
+     playback-controls-state
+     {:target (js/document.getElementById "playback_state")})
+
    )))
 
 
-(defn ^:export load_main [
 
-                         ]
+
+
+(defn ^:export load_main []
    (main))
 
 
-(defn ^:export load_admin [
-                          ]
+
+
+(defn ^:export load_admin []
   (admin))

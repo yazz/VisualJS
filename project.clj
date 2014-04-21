@@ -1,8 +1,13 @@
-(defproject org.clojars.zubairq2/webdb "0.4"
+(defproject org.clojars.zubairq/coils "0.5"
   :dependencies [
                    [org.clojure/clojure "1.5.1"]
                    [org.clojure/google-closure-library-third-party "0.0-2029"]
                    [org.clojure/tools.reader "0.7.10"]
+                   [org.clojure/clojurescript "0.0-2197"]
+                   [om "0.6.0"]
+                   [om-sync "0.1.1"]
+                   [org.clojure/core.async "0.1.278.0-76b25b-alpha"]
+
                    [domina "1.0.2"]
                    [crate "0.2.4"]
                    [prismatic/dommy "0.1.2"]
@@ -16,15 +21,10 @@
                    [ring/ring-json "0.2.0"]
                    [jayq "2.5.0"]
                    [clojurewerkz/neocons "2.0.1"]
-                   [org.clojure/clojurescript "0.0-2173"]
-                   [org.clojure/core.async "0.1.267.0-0d7780-alpha"]
                    [rewrite-clj "0.2.0"]
                    [org.jasypt/jasypt "1.8"]
                    [clj-http "0.7.6"]
                    [cheshire "4.0.3"]
-                   [reagent "0.4.2"]
-                   [om "0.5.3"]
-                   [om-sync "0.1.1"]
                    [ankha "0.1.1"]
                    [overtone/at-at "1.2.0"]
                 ]
@@ -32,7 +32,7 @@
   :url "http://org.clojars.zubair2/webdb"
 
   :plugins  [
-               [lein-cljsbuild "1.0.2"]
+               [lein-cljsbuild "1.0.3"]
                [lein-httpd "1.0.0"]
                [lein-ring "0.8.10"]
             ]

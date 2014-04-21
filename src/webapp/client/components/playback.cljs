@@ -76,21 +76,19 @@
 
 (defn replay-session [session-id]
   (go
- (let [ll  (<! (neo4j "match (n:WebSession) return n.session_id"
-                      {} "n.session_id"))]
+   (let [ll  (<! (neo4j "match (n:WebSession) return n.session_id"
+                        {} "n.session_id"))]
 
-   (reset! playback-controls-state (assoc-in
-                                    @playback-controls-state
-                                    [:data :sessions]  (into [](take 5 ll))))
-   (log ll)
-   (om/root
-    main-view
-    playback-app-state
-    {:target (js/document.getElementById "playback_canvas")})
+     (reset! playback-controls-state (assoc-in
+                                      @playback-controls-state
+                                      [:data :sessions]  (into [](take 5 ll))))
 
-   ))
+     (om/root
+      main-view
+      playback-app-state
+      {:target (js/document.getElementById "playback_canvas")}))))
 
-  )
+
 
 
 
@@ -98,48 +96,36 @@
 (defn playback-session-button-component [{:keys [ui data sessions]} owner]
   (reify
 
-    om/IRender
+    om/IRenderState
     ;---------
 
-    (render
-     [this]
-     (dom/div nil
+    (render-state
+     [this {:keys [highlight unhighlight]}]
 
+       (dom/div nil
 
               (dom/div
                #js {
                     :style      #js {:padding-top "40px"
                                      :background-color
                                      (if
-                                       (get-in ui
-                                               [:sessions data :highlighted])
+                                       (= (get-in ui
+                                               [:sessions data :highlighted]) "true")
                                        "lightgray"
                                        ""
                                        )
                                      }
 
-                    :onClick    (fn [e]
-                                  ( playback-session
-                                    :session-id data))
-                    :onMouseEnter
-                    (fn[e]
-                      (om/update!
-                       ui
-                       [:sessions data :highlighted] true )
-                      (log (str "Entered " data))
-                      )
-                    :onMouseLeave
-                    (fn[e]
-                      (om/update!
-                       ui
-                       [:sessions data :highlighted] false )
+                    :onClick
+                      (fn [e]  (playback-session  :session-id  data))
 
-                      (log (str "Left " data))
-                      )
+                    :onMouseEnter
+                      (fn[e]   (put! highlight    data))
+
+                    :onMouseLeave
+                      (fn[e]   (put! unhighlight  data))
                     }
-               (str data)
-               )
-              ))))
+               (str data))))))
 
 
 
@@ -156,6 +142,7 @@
 
 
 (defn playback-controls-view [app owner]
+
   (reify
 
     om/IInitState
@@ -164,24 +151,38 @@
     (init-state [_]
 
                 {
-                   :delete            (chan)
+                   :highlight            (chan)
+                   :unhighlight            (chan)
                 })
 
     om/IWillMount
     ;------------
     (will-mount [_]
-                (let [delete (om/get-state owner :delete)]
+                (let [highlight (om/get-state owner :highlight)
+                      unhighlight (om/get-state owner :unhighlight)]
                   (go (loop []
-                        (let [contact (<! delete)]
-                          (om/transact! app :contacts
-                                        (fn [xs] (vec (remove #(= contact %) xs))))
-                          (recur))))))
+                        (let [session (<! highlight)]
+                          (log "****HIGHLIHGT")
+                          (om/update!
+                           app
+                           [:ui :sessions session :highlighted] "true" )
+                          (recur))))
+
+                  (go (loop []
+                        (let [session (<! unhighlight)]
+                          (log "****UNHIGHLIHGT")
+                          (om/update!
+                           app
+                           [:ui :sessions session :highlighted] "false" )
+                          (recur))))
+
+                  ))
 
     om/IRenderState
     ;--------------
 
     (render-state
-     [this state]
+     [this {:keys [highlight unhighlight]}]
      (log (str "map="(mapv
                                       (fn [x]
                                         {
@@ -200,12 +201,17 @@
                                     (mapv
                                      (fn [x]
                                        {
-                                        :ui      (-> app :ui)
+                                        :ui         (-> app :ui)
                                         :sessions   (-> app :data :sessions)
-                                        :data    x
+                                        :data       x
                                         }
                                        )
-                                     (-> app :data :sessions)))
+                                     (-> app :data :sessions)
+
+                                     )
+                                    {:init-state {:highlight highlight
+                                                  :unhighlight unhighlight}}
+                                    )
                      )
 
 
