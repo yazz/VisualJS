@@ -112,7 +112,7 @@
                                        (= (get-in ui
                                                [:sessions data :highlighted]) "true")
                                        "lightgray"
-                                       ""
+                                       "white"
                                        )
                                      }
 
@@ -151,29 +151,29 @@
     (init-state [_]
 
                 {
-                   :highlight            (chan)
-                   :unhighlight            (chan)
+                   :highlight          (chan)
+                   :unhighlight        (chan)
                 })
 
     om/IWillMount
     ;------------
     (will-mount [_]
-                (let [highlight (om/get-state owner :highlight)
-                      unhighlight (om/get-state owner :unhighlight)]
+                (let [highlight     (om/get-state owner :highlight)
+                      unhighlight   (om/get-state owner :unhighlight)]
                   (go (loop []
                         (let [session (<! highlight)]
-                          (log "****HIGHLIHGT")
-                          (om/update!
+                          ;(log "****HIGHLIGHT")
+                          (om/transact!
                            app
-                           [:ui :sessions session :highlighted] "true" )
+                           [:ui :sessions session :highlighted] (fn[x] "true" ))
                           (recur))))
 
                   (go (loop []
                         (let [session (<! unhighlight)]
-                          (log "****UNHIGHLIHGT")
-                          (om/update!
+                          ;(log "****UNHIGHLIGHT")
+                          (om/transact!
                            app
-                           [:ui :sessions session :highlighted] "false" )
+                           [:ui :sessions session :highlighted] (fn[x] "false" ))
                           (recur))))
 
                   ))
@@ -183,7 +183,7 @@
 
     (render-state
      [this {:keys [highlight unhighlight]}]
-     (log (str "map="(mapv
+     (comment log (str "map="(mapv
                                       (fn [x]
                                         {
                                         :ui      (-> app :ui)
@@ -209,8 +209,8 @@
                                      (-> app :data :sessions)
 
                                      )
-                                    {:init-state {:highlight highlight
-                                                  :unhighlight unhighlight}}
+                                    {:init-state {:highlight    highlight
+                                                  :unhighlight  unhighlight}}
                                     )
                      )
 
