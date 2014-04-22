@@ -107,7 +107,7 @@
               (dom/div
                #js {
                     :style      #js {:padding-top "40px"
-                                     :background-color
+                                     :backgroundColor
                                      (if
                                        (= (get-in ui
                                                [:sessions data :highlighted]) "true")
