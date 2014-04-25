@@ -48,7 +48,7 @@
   (do
     (reset-app-state)
 
-    (om/root
+    (comment om/root
      ankha/inspector
      app-state
      {:target (js/document.getElementById "example")})
@@ -91,12 +91,12 @@
    (reset! playback-controls-state (assoc-in
                                     @playback-controls-state
                                     [:data :sessions]  (into [](take 5 ll))))
-   (om/root
+   ( om/root
     playback-controls-view
     playback-controls-state
     {:target (js/document.getElementById "playback_controls")})
 
-   (om/root
+   (comment om/root
      ankha/inspector
      playback-controls-state
      {:target (js/document.getElementById "playback_state")})

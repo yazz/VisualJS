@@ -4,7 +4,7 @@
                    [org.clojure/google-closure-library-third-party "0.0-2029"]
                    [org.clojure/tools.reader "0.7.10"]
                    [org.clojure/clojurescript "0.0-2173"]
-                   [om "0.5.3"]
+                   [om "0.6.1"]
                    [om-sync "0.1.1"]
                    [org.clojure/core.async "0.1.267.0-0d7780-alpha"]
 
@@ -52,6 +52,7 @@
                        :compiler     {
                                        :output-to      "resources/public/main.js"
                                        :optimizations  :whitespace
+                                       :output-wrapper false
                                        :externs        ["resources/public/jquery-externs.js"
                                                         "resources/public/google_maps_api_v3_11.js"]
                                        :pretty-print   false
@@ -77,6 +78,7 @@
                        :compiler     {
                                        :output-to      "resources/public/main.js"
                                        :optimizations  :whitespace
+                                       :output-wrapper false
                                        :externs        ["resources/public/jquery-externs.js"
                                                         "resources/public/google_maps_api_v3_11.js"]
                                        :pretty-print   false
@@ -101,6 +103,7 @@
                        :compiler     {
                                        :output-to      "resources/public/main.js"
                                        :optimizations  :advanced
+                                       :output-wrapper false
                                        :externs        ["resources/public/jquery-externs.js"
                                                         "resources/public/google_maps_api_v3_11.js"]
                                        :pretty-print   false
@@ -125,6 +128,7 @@
                        :compiler     {
                                        :output-to      "resources/public/main.js"
                                        :optimizations  :advanced
+                                       :output-wrapper false
                                        :externs        ["resources/public/jquery-externs.js"
                                                         "resources/public/google_maps_api_v3_11.js"
                                                         "resources/public/reactextern.js"]
