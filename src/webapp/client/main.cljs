@@ -26,7 +26,7 @@
 
 
 
-
+(js/React.initializeTouchEvents  true)
 
 
 (def history-order (atom 0))

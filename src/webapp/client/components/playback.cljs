@@ -121,9 +121,15 @@
 
                     :onMouseEnter
                       (fn[e]   (put! highlight    data))
+                    :onTouchStart
+                      (fn[e]   (put! highlight    data))
 
                     :onMouseLeave
                       (fn[e]   (put! unhighlight  data))
+                    :onTouchEnd
+                      (fn[e]   (put! highlight  data))
+                    :onTouchMove
+                      (fn[e]   (put! highlight  data))
                     }
                (str data))))))
 
