@@ -157,15 +157,19 @@
     (init-state [_]
 
                 {
-                   :highlight          (chan)
-                   :unhighlight        (chan)
+                   :highlight                (chan)
+                   :unhighlight              (chan)
+                   :clear-replay-sessions    (chan)
                 })
 
     om/IWillMount
     ;------------
     (will-mount [_]
-                (let [highlight     (om/get-state owner :highlight)
-                      unhighlight   (om/get-state owner :unhighlight)]
+                (let [
+                      highlight               (om/get-state owner :highlight)
+                      unhighlight             (om/get-state owner :unhighlight)
+                      clear-replay-sessions   (om/get-state owner :clear-replay-sessions)
+                      ]
                   (go (loop []
                         (let [session (<! highlight)]
                           ;(log "****HIGHLIGHT")
@@ -181,6 +185,14 @@
                            app
                            [:ui :sessions session :highlighted] (fn[x] "false" ))
                           (recur))))
+                  (go (loop []
+                        (let [session (<! clear-replay-sessions)]
+                          (log "****CLEAR REPLAY")
+                          (om/transact!
+                           app
+                           [:data :sessions] (fn[x] {} ))
+                          (<! (remote "clear-playback-sessions" {}))
+                          (recur))))
 
                   ))
 
@@ -188,7 +200,9 @@
     ;--------------
 
     (render-state
-     [this {:keys [highlight unhighlight]}]
+     [this {:keys [highlight
+                   unhighlight
+                   clear-replay-sessions]}]
      (comment log (str "map="(mapv
                                       (fn [x]
                                         {
@@ -219,6 +233,9 @@
                                                   :unhighlight  unhighlight}}
                                     )
                      )
+
+              (dom/button #js {:onClick (fn [e] (put! clear-replay-sessions
+                                                      true))} "Delete")
 
 
               ))))

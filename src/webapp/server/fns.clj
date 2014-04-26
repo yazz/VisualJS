@@ -89,6 +89,10 @@
 )
 
 
+(defn clear-playback-sessions [{}]
+  (neo4j "MATCH (n:WebSession) OPTIONAL MATCH (n)-[r]-() DELETE n,r")
+)
+
 
 (defn add-history [{:keys [session-id  history-order  timestamp  history]}]
   (println (str "** " history-order ", "  history))
