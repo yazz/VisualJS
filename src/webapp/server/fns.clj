@@ -90,8 +90,10 @@
 
 
 (defn clear-playback-sessions [{}]
-  (neo4j "MATCH (n:WebSession) OPTIONAL MATCH (n)-[r]-() DELETE n,r")
-)
+  (do
+    (neo4j "MATCH (n:WebSession) OPTIONAL MATCH (n)-[r]-(s) DELETE n,r,s")
+    {:result "done"}
+))
 
 
 (defn add-history [{:keys [session-id  history-order  timestamp  history]}]
