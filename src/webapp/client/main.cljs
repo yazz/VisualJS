@@ -35,7 +35,7 @@
 
 
 
-
+;(cljs.reader/read-string (with-out-str (prn "abc cde")))
 
 (defn main []
   (go
@@ -64,18 +64,19 @@
                     (go
                      (log (str "txdata:::" tx-data))
                      (log (str "path:::" (:path tx-data)))
-                     (log (str "new-value:::" (:new-value tx-data)))
+                     (log (str "new-value:::"
+                               (with-out-str (prn (:new-value tx-data)))))
                      (put! tx-chan [tx-data root-cursor])
 
                      (<! (remote "add-history"
                                  {
                                   :session-id    @session-id
-                                  :history-order @history-order
+                                  :history-order (swap! history-order inc)
                                   :path          (:path tx-data)
-                                  :new-value     (:new-value tx-data)
+                                  :new-value     (with-out-str (prn
+                                                                (:new-value tx-data)))
                                   :timestamp     (- (.getTime (js/Date.)) start-time)
                                   }))
-                     (swap! history-order inc)
                      ))
                   }))))
 
@@ -84,6 +85,7 @@
   (neo4j "match (n:WebSession) return n.session_id"
                       {} "n.session_id"))
 
+;(with-out-str (prn "aa"))
 
 (defn admin []
 (go
@@ -105,7 +107,8 @@
    )))
 
 
-(go (log (<! (get-web-sessions))))
+(go (log (<! (neo4j "match (n:WebRecord) where n.session_id='ba50fb61-367c-4a43-a2bd-4c94a19b22f1' return n order by n.seq_ord"
+       {} "n"))))
 
 
 (defn ^:export load_main []

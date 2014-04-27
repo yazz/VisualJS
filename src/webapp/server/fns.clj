@@ -130,7 +130,7 @@
                                               }) return n"
                                               {
                                                :session_id  session-id
-                                               :seq_ord     (str history-order)
+                                               :seq_ord     history-order
                                                :path        (str path)
                                                :new_value   (str new-value)
                                                :timestamp   timestamp
@@ -163,3 +163,5 @@
 
 
 (comment neo4j "match (n:WebSession) return n.session_id" {} "n.session_id")
+
+
