@@ -54,7 +54,7 @@
         (doseq [item ll]
           (let [
                 path      (cljs.reader/read-string (:path (into {} item )))
-                content   (cljs.reader/read-string (:new_state (into {} item )))
+                content   (cljs.reader/read-string (:new_value (into {} item )))
                 timestamp   (:timestamp (into {} item ))
                 ]
             (log path)
@@ -62,14 +62,16 @@
             (log timestamp )
             (<! (timeout (-  timestamp @playbacktime)))
             (reset! playbacktime timestamp)
-            (reset! playback-app-state  content)
+            (reset! playback-app-state
+                    (update-in @playback-app-state
+                               path
+                               (fn[_] content)))
 
             nil
             )
           )
         ))
   )
-
 
 
 

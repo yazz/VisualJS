@@ -106,15 +106,10 @@
 ))
 
 
-(defn add-history [{:keys [session-id  history-order  timestamp  history]}]
-  (println (str "** " history-order ", "  history))
-  (let [
-        path        (:path       history)
-        new-state   (:new-state  history)
-        ]
+(defn add-history [{:keys [session-id  history-order  timestamp  path new-value]}]
     (println (str "** history-order "    history-order))
     (println (str "** path "             path))
-    (println (str "** new-state "        new-state))
+    (println (str "** new-value "        new-value))
     (println (str "** timestamp "        timestamp))
     (println (str "** session "          session-id))
 
@@ -130,14 +125,14 @@
                                               session_id:           {session_id},
                                               seq_ord:              {seq_ord},
                                               path:                 {path},
-                                              new_state:            {new_state},
+                                              new_value:            {new_value},
                                               timestamp:            {timestamp}
                                               }) return n"
                                               {
                                                :session_id  session-id
                                                :seq_ord     (str history-order)
                                                :path        (str path)
-                                               :new_state   (str new-state)
+                                               :new_value   (str new-value)
                                                :timestamp   timestamp
                                                }
                                               "n"))
@@ -155,7 +150,7 @@
 
           )
         []
-        ))))
+        )))
 
 
 
