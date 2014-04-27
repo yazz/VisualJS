@@ -85,8 +85,18 @@
 
 
 (defn create-session[{}]
-  {:value (uuid-str)}
-)
+  (let [session-id    (uuid-str)]
+
+    (neo4j "create  (n:WebSession
+                    {
+                            session_id:           {session_id}
+
+                            }) return n"
+
+           {:session_id session-id}
+           "n")
+    {:value session-id}
+    ))
 
 
 (defn clear-playback-sessions [{}]
@@ -102,54 +112,50 @@
         path        (:path       history)
         new-state   (:new-state  history)
         ]
-  (println (str "** history-order "    history-order))
-  (println (str "** path "             path))
-  (println (str "** new-state "        new-state))
-  (println (str "** timestamp "        timestamp))
-  (println (str "** session "          session-id))
+    (println (str "** history-order "    history-order))
+    (println (str "** path "             path))
+    (println (str "** new-state "        new-state))
+    (println (str "** timestamp "        timestamp))
+    (println (str "** session "          session-id))
 
-  (let [existing-session  (first (neo4j "match (n:WebSession)
+    (let [session  (first (neo4j "match (n:WebSession)
                                  where n.session_id={si}
                                  return n " {:si session-id} "n"))
-        session           (if existing-session
-                            existing-session
-                            (first (neo4j "create  (n:WebSession
-                            {
-                              session_id:           {session_id}
-                                   }) return n"
-                                   {:session_id session-id}
-                                   "n")))
+          ]
+      (if session
+        (let [
 
-        web-record        (first (neo4j "create  (n:WebRecord
-                            {
-                              session_id:           {session_id},
-                              seq_ord:              {seq_ord},
-                              path:                 {path},
-                              new_state:            {new_state},
-                              timestamp:            {timestamp}
-                            }) return n"
-         {
-          :session_id  session-id
-          :seq_ord     (str history-order)
-          :path        (str path)
-          :new_state   (str new-state)
-          :timestamp   timestamp
-          }
-         "n"))
-        ]
-    (do
-      (println session)
-      (println web-record)
-      (neo4j "START n=node(*), m=node(*)
-             where id(n)={ws} and id(m)={wr}
-             create (n)-[:FRIENDSHIP {status:2}]->(m)
-  " {:ws (:neo-id session) :wr (:neo-id web-record)})
+              web-record        (first (neo4j "create  (n:WebRecord
+                                              {
+                                              session_id:           {session_id},
+                                              seq_ord:              {seq_ord},
+                                              path:                 {path},
+                                              new_state:            {new_state},
+                                              timestamp:            {timestamp}
+                                              }) return n"
+                                              {
+                                               :session_id  session-id
+                                               :seq_ord     (str history-order)
+                                               :path        (str path)
+                                               :new_state   (str new-state)
+                                               :timestamp   timestamp
+                                               }
+                                              "n"))
+              ]
+          (do
+            (println session)
+            (println web-record)
+            (neo4j "START n=node(*), m=node(*)
+                   where id(n)={ws} and id(m)={wr}
+                   create (n)-[:FRIENDSHIP {status:2}]->(m)
+                   " {:ws (:neo-id session) :wr (:neo-id web-record)})
 
-      []
-      )
+            []
+            )
 
-    )
-  ))
+          )
+        []
+        ))))
 
 
 

@@ -27,25 +27,22 @@
 
 
 (js/React.initializeTouchEvents  true)
-
-
 (def history-order (atom 0))
-
 (def start-time (.getTime (js/Date.)))
-
 (def session-id (atom ""))
 
-(go
- (let [session (:value (<! (remote "create-session" {})  ))]
-   (log session)
-   (reset! session-id session)))
+
 
 
 
 
 
 (defn main []
-  (do
+  (go
+   (let [session (:value (<! (remote "create-session" {})  ))]
+     (log session)
+     (reset! session-id session))
+
     (reset-app-state)
 
     (comment om/root
@@ -80,13 +77,14 @@
                   }))))
 
 
-
+(defn get-web-sessions []
+  (neo4j "match (n:WebSession) return n.session_id"
+                      {} "n.session_id"))
 
 
 (defn admin []
 (go
- (let [ll  (<! (neo4j "match (n:WebSession) return n.session_id"
-                      {} "n.session_id"))]
+ (let [ll  (<! (get-web-sessions))]
 
    (reset! playback-controls-state (assoc-in
                                     @playback-controls-state
@@ -104,7 +102,7 @@
    )))
 
 
-
+(go (log (<! (get-web-sessions))))
 
 
 (defn ^:export load_main []
