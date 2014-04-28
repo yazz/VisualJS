@@ -57,7 +57,7 @@
     (render-state
      [this state]
      (dom/div nil
-              (dom/h2 nil "ConnectToUs.co")
+              (dom/h2 nil "ConnectToUs.co 0.2")
 
 
 

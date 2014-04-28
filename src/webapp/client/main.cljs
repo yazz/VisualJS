@@ -107,7 +107,7 @@
    )))
 
 
-(go (log (<! (neo4j "match (n:WebRecord) where n.session_id='ba50fb61-367c-4a43-a2bd-4c94a19b22f1' return n order by n.seq_ord"
+(comment go (log (<! (neo4j "match (n:WebRecord) where n.session_id='ba50fb61-367c-4a43-a2bd-4c94a19b22f1' return n order by n.seq_ord"
        {} "n"))))
 
 

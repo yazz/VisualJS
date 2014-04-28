@@ -25,7 +25,7 @@
                    [org.jasypt/jasypt "1.8"]
                    [clj-http "0.7.6"]
                    [cheshire "4.0.3"]
-                   [ankha "0.1.1"]
+                   [ankha "0.1.2"]
                    [overtone/at-at "1.2.0"]
                 ]
   :repositories {"sonatype-oss-public"
