@@ -45,80 +45,87 @@
 (defn request-form [{:keys [request data]} owner]
   (reify
 
+    ;---------------------------------------------------------
     om/IRender
-    ;---------
-
     (render
      [this]
-     (dom/div nil
+     (dom/div
+      nil
+      (dom/div #js {:style #js {:padding-top "40px"}} " You ")
+
+      (dom/div #js {:className "input-group"}
+
+               (dom/span
+                #js {:className "input-group-addon"}
+                "Your full name")
+               (dom/input
+                #js {:type        "text"
+                     :className   "form-control"
+                     :placeholder "John Smith"
+                     :value       (-> request :from-full-name)
+                     :onChange    #(handle-change request :from-full-name % owner)
+                     }))
+
+      (dom/div #js {:className "input-group"}
+
+               (dom/span
+                #js {:className "input-group-addon"}
+                "Your company email")
+               (dom/input
+                #js {:type "text"
+                     :className "form-control"
+                     :value       (-> request :email-from)
+                     :onChange    #(handle-change request :emai-from % owner)
+                     :placeholder "john@microsoft.com"}))
+
+      (dom/div #js {:style #js {:padding-top "40px"}} " Them ")
+      (dom/div #js {:className "input-group"}
+
+               (dom/span
+                #js {:className "input-group-addon"}
+                "Their full name")
+               (dom/input
+                #js {:type "text"
+                     :className "form-control"
+                     :value       (-> request :to-full-name)
+                     :onChange    #(handle-change request :to-full-name % owner)
+                     :placeholder "Pete Austin"}))
+      (dom/div
+       #js {:className "input-group"}
+
+       (dom/span
+        #js {:className "input-group-addon"}
+        "Their email")
+       (dom/input
+        #js {:type "text"
+             :className "form-control"
+             :value       (-> request :email-to)
+             :onChange    #(do
+                             (handle-change request :emai-to % owner)
+                             (om/update! request [ :email-from] "zoso")
+                             )
+             :placeholder "pete@ibm.com"}))
 
 
-              (dom/div #js {:style #js {:padding-top "40px"}} " You ")
 
-              (dom/div #js {:className "input-group"}
-
-                       (dom/span #js {:className "input-group-addon"}
-                                 "Your full name")
-                       (dom/input #js {:type "text"
-                                       :className   "form-control"
-                                       :placeholder "John Smith"
-                                       :value       (-> request :from-full-name)
-                                       :onChange    #(handle-change request :from-full-name % owner)
-                                       }))
-
-              (dom/div #js {:className "input-group"}
-
-                       (dom/span #js {:className "input-group-addon"}
-                                 "Your company email")
-                       (dom/input #js {:type "text"
-                                       :className "form-control"
-                                       :value       (-> request :email-from)
-                                       :onChange    #(handle-change request :emai-from % owner)
-                                       :placeholder "john@microsoft.com"}))
+      (dom/div
+       #js {:style
+            #js {:padding-top "40px"}}
+       "The expertise your company has you want them to endorse ")
 
 
+      (dom/div
+       #js {:className "input-group"}
 
+       (dom/span #js {:className "input-group-addon"}
+                 "Skill your company has")
+       (dom/input #js {:type        "text"
+                       :className   "form-control"
+                       :placeholder "marketing"}))
+      ))
+    ;---------------------------------------------------------
 
-
-              (dom/div #js {:style #js {:padding-top "40px"}} " Them ")
-              (dom/div #js {:className "input-group"}
-
-                       (dom/span #js {:className "input-group-addon"}
-                                 "Their full name")
-                       (dom/input #js {:type "text"
-                                       :className "form-control"
-                                       :value       (-> request :to-full-name)
-                                       :onChange    #(handle-change request :to-full-name % owner)
-                                       :placeholder "Pete Austin"}))
-              (dom/div #js {:className "input-group"}
-
-                       (dom/span #js {:className "input-group-addon"}
-                                 "Their email")
-                       (dom/input #js {:type "text"
-                                       :className "form-control"
-                                       :value       (-> request :email-to)
-                                       :onChange    #(do
-                                                       (handle-change request :emai-to % owner)
-                                                       (om/update! request [ :email-from] "zoso")
-                                                       )
-                                       :placeholder "pete@ibm.com"}))
-
-
-
-
-
-              (dom/div #js {:style #js {:padding-top "40px"}} " The expertise your company has you want them to endorse ")
-
-
-              (dom/div #js {:className "input-group"}
-
-                       (dom/span #js {:className "input-group-addon"}
-                                 "Skill your company has")
-                       (dom/input #js {:type "text"
-                                       :className "form-control"
-                                       :placeholder "marketing"}))
-
-))))
+))
 
 
 

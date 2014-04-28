@@ -35,7 +35,6 @@
 
 
 
-;(cljs.reader/read-string (with-out-str (prn "abc cde")))
 
 (defn main []
   (go
@@ -48,7 +47,7 @@
     (comment om/root
      ankha/inspector
      app-state
-     {:target (js/document.getElementById "example")})
+     {:target (js/document.getElementById "main_playback")})
 
     (let [
           tx-chan       (chan)
@@ -79,6 +78,8 @@
                                   }))
                      ))
                   }))))
+
+
 
 
 (defn get-web-sessions []

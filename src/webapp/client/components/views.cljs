@@ -33,16 +33,20 @@
 (defn main-view [app owner]
   (reify
 
+    ;---------------------------------------------------------
     om/IInitState
-    ;------------
-
     (init-state [_]
                 {
                    :delete            (chan)
                 })
+    ;---------------------------------------------------------
 
+
+
+
+
+    ;---------------------------------------------------------
     om/IWillMount
-    ;------------
     (will-mount [_]
                 (let [delete (om/get-state owner :delete)]
                   (go (loop []
@@ -50,21 +54,23 @@
                           (om/transact! app :contacts
                                         (fn [xs] (vec (remove #(= contact %) xs))))
                           (recur))))))
+    ;---------------------------------------------------------
 
+
+
+
+    ;---------------------------------------------------------
     om/IRenderState
-    ;--------------
-
     (render-state
      [this state]
      (dom/div nil
-              (dom/h2 nil "ConnectToUs.co 0.2")
-
-
+              (dom/h2 nil "ConnectToUs.co")
 
               (om/build request-form {
                                       :request (-> app :ui :request)
                                       :data    (:data    app)
                                       }
+                        )))
+    ;---------------------------------------------------------
 
-
-                        )))))
+))
