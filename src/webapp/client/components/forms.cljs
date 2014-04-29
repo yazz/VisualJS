@@ -25,6 +25,27 @@
 
 
 
+(defn graph [{:keys []} owner]
+  (reify
+
+    ;---------------------------------------------------------
+    om/IRender
+    (render
+     [this]
+     (dom/div
+      nil
+      (dom/svg #js {:style #js {:width "100" :height "100"}}
+          (dom/circle #js {:cx "50"
+                           :cy "50"
+                           :r  "40"
+                           :stroke "green"
+                           :stroke-width "4"
+                           :fill "yellow"} )
+      )
+
+))))
+
+
 
 
 (defn handle-change [app field e owner]

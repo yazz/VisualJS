@@ -13,7 +13,7 @@
    [webapp.framework.client.coreclient :only  [log remote]]
    [webapp.client.globals              :only  [app-state   playback-app-state
                                                playback-controls-state]]
-   [webapp.client.components.forms     :only  [request-form]]
+   [webapp.client.components.forms     :only  [request-form graph]]
    )
   (:use-macros
    [webapp.framework.client.neo4j      :only  [neo4j]]
@@ -70,7 +70,13 @@
                                       :request (-> app :ui :request)
                                       :data    (:data    app)
                                       }
-                        )))
+              )
+              (om/build graph{
+                                      :request (-> app :ui :request)
+                                      :data    (:data    app)
+                                      }
+              )
+              ))
     ;---------------------------------------------------------
 
 ))
