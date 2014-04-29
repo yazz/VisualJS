@@ -25,7 +25,7 @@
 
 
 
-(defn graph [{:keys []} owner]
+(defn graph [{:keys [data]} owner]
   (reify
 
     ;---------------------------------------------------------
@@ -34,10 +34,11 @@
      [this]
      (dom/div
       nil
+      (dom/div #js {:style #js {:padding-top "40px"}} "Connections")
       (dom/svg #js {:style #js {:width "100" :height "100"}}
           (dom/circle #js {:cx "50"
                            :cy "50"
-                           :r  "40"
+                           :r  (get-in data [:width])
                            :stroke "green"
                            :stroke-width "4"
                            :fill "yellow"} )

@@ -44,10 +44,12 @@
                }
      }
     :data {
-
+:width "50"
            }
     }
 )
+
+;(reset! app-state (assoc-in @app-state [:data :width ] "20"))
 
 
 (defn reset-app-state []
