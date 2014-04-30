@@ -33,6 +33,25 @@
 
 
 
+(defn add-broswer-details [field value]
+      (reset! app-state (assoc-in @app-state [:system field ] value))
+  )
+
+(defn detect-browser []
+      (add-broswer-details :app-code-name (.-appCodeName js/navigator))
+      (add-broswer-details :app-name (.-appName js/navigator))
+      (add-broswer-details :app-version (.-appVersion js/navigator))
+      (add-broswer-details :cookie-enabled (.-cookieEnabled js/navigator))
+      (add-broswer-details :language (.-language js/navigator))
+      (add-broswer-details :online (.-onLine js/navigator))
+      (add-broswer-details :platform (.-platform js/navigator))
+      (add-broswer-details :app-version (.-appVersion js/navigator))
+      (add-broswer-details :user-agent (.-userAgent js/navigator))
+      (add-broswer-details :app-version (.-appVersion js/navigator))
+      (add-broswer-details :system-language (.-systemLanguage js/navigator))
+      (add-broswer-details :who-am-i (.-sayswho js/navigator))
+)
+
 
 
 
@@ -43,6 +62,8 @@
      (reset! session-id session))
 
     (reset-app-state)
+    (detect-browser)
+
 
     (comment om/root
      ankha/inspector
