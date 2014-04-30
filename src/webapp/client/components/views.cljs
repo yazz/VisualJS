@@ -10,10 +10,11 @@
    [ankha.core       :as ankha])
 
   (:use
-   [webapp.framework.client.coreclient :only  [log remote]]
-   [webapp.client.globals              :only  [app-state   playback-app-state
-                                               playback-controls-state]]
-   [webapp.client.components.forms     :only  [request-form graph]]
+   [webapp.framework.client.coreclient           :only  [log remote]]
+   [webapp.client.globals                        :only  [app-state   playback-app-state
+                                                         playback-controls-state]]
+   [webapp.client.components.forms               :only  [request-form]]
+   [webapp.client.components.connection-graph    :only  [graph]]
    )
   (:use-macros
    [webapp.framework.client.neo4j      :only  [neo4j]]
@@ -72,7 +73,6 @@
                                       }
               )
               (om/build graph{
-                                      :request (-> app :ui :request)
                                       :data    (:data    app)
                                       }
               )

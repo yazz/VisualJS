@@ -55,8 +55,7 @@
 (defn reset-app-state []
   (reset!  app-state  blank-app-state))
 
-(defn reset-playback-app-state []
-  (reset!  app-state  blank-app-state))
+
 
 
 
@@ -85,4 +84,5 @@
 
    ))
 
-
+(defn reset-playback-app-state []
+  (reset!  playback-app-state  blank-app-state))

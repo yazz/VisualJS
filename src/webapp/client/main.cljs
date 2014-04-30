@@ -26,6 +26,9 @@
 
 
 
+
+
+
 (js/React.initializeTouchEvents  true)
 (def history-order (atom 0))
 (def start-time (.getTime (js/Date.)))
@@ -33,24 +36,30 @@
 
 
 
+
+
 (defn add-broswer-details [field value]
-      (reset! app-state (assoc-in @app-state [:system field ] value))
+  (reset! app-state (assoc-in @app-state [:system field ] value))
   )
 
+
+
+
+
 (defn detect-browser []
-      (add-broswer-details :app-code-name (.-appCodeName js/navigator))
-      (add-broswer-details :app-name (.-appName js/navigator))
-      (add-broswer-details :app-version (.-appVersion js/navigator))
-      (add-broswer-details :cookie-enabled (.-cookieEnabled js/navigator))
-      (add-broswer-details :language (.-language js/navigator))
-      (add-broswer-details :online (.-onLine js/navigator))
-      (add-broswer-details :platform (.-platform js/navigator))
-      (add-broswer-details :app-version (.-appVersion js/navigator))
-      (add-broswer-details :user-agent (.-userAgent js/navigator))
-      (add-broswer-details :app-version (.-appVersion js/navigator))
-      (add-broswer-details :system-language (.-systemLanguage js/navigator))
-      (add-broswer-details :who-am-i (.-sayswho js/navigator))
-)
+  (add-broswer-details :app-code-name (.-appCodeName js/navigator))
+  (add-broswer-details :app-name (.-appName js/navigator))
+  (add-broswer-details :app-version (.-appVersion js/navigator))
+  (add-broswer-details :cookie-enabled (.-cookieEnabled js/navigator))
+  (add-broswer-details :language (.-language js/navigator))
+  (add-broswer-details :online (.-onLine js/navigator))
+  (add-broswer-details :platform (.-platform js/navigator))
+  (add-broswer-details :app-version (.-appVersion js/navigator))
+  (add-broswer-details :user-agent (.-userAgent js/navigator))
+  (add-broswer-details :app-version (.-appVersion js/navigator))
+  (add-broswer-details :system-language (.-systemLanguage js/navigator))
+  (add-broswer-details :who-am-i (.-sayswho js/navigator))
+  )
 
 
 
@@ -107,30 +116,25 @@
   (neo4j "match (n:WebSession) return n.session_id"
                       {} "n.session_id"))
 
-;(with-out-str (prn "aa"))
+
+
+
 
 (defn admin []
-(go
- (let [ll  (<! (get-web-sessions))]
+  (go
+   (let [ll  (<! (get-web-sessions))]
 
-   (reset! playback-controls-state (assoc-in
-                                    @playback-controls-state
-                                    [:data :sessions]  (into [](take 5 ll))))
-   ( om/root
-    playback-controls-view
-    playback-controls-state
-    {:target (js/document.getElementById "playback_controls")})
-
-   (comment om/root
-     ankha/inspector
-     playback-controls-state
-     {:target (js/document.getElementById "playback_state")})
-
-   )))
+     (reset! playback-controls-state (assoc-in
+                                      @playback-controls-state
+                                      [:data :sessions]  (into [](take 5 ll))))
+     (om/root
+      playback-controls-view
+      playback-controls-state
+      {:target (js/document.getElementById "playback_controls")})
+     )))
 
 
-(comment go (log (<! (neo4j "match (n:WebRecord) where n.session_id='ba50fb61-367c-4a43-a2bd-4c94a19b22f1' return n order by n.seq_ord"
-       {} "n"))))
+
 
 
 (defn ^:export load_main []

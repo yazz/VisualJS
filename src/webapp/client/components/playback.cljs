@@ -161,6 +161,7 @@
                    :highlight                (chan)
                    :unhighlight              (chan)
                    :clear-replay-sessions    (chan)
+                   :show-ankha               (chan)
                 })
 
     om/IWillMount
@@ -170,6 +171,7 @@
                       highlight               (om/get-state owner :highlight)
                       unhighlight             (om/get-state owner :unhighlight)
                       clear-replay-sessions   (om/get-state owner :clear-replay-sessions)
+                      show-ankha              (om/get-state owner :show-ankha)
                       ]
                   (go (loop []
                         (let [session (<! highlight)]
@@ -195,6 +197,18 @@
                           (<! (remote "clear-playback-sessions" {}))
                           (recur))))
 
+                  (go (loop []
+                        (let [session (<! show-ankha)]
+                          (log "****SHOW ANKHA")
+                          (om/root
+                            ankha/inspector
+                            playback-controls-state
+                            {:target (js/document.getElementById "playback_state")})
+
+                          (recur))))
+
+
+
                   ))
 
     om/IRenderState
@@ -203,7 +217,8 @@
     (render-state
      [this {:keys [highlight
                    unhighlight
-                   clear-replay-sessions]}]
+                   clear-replay-sessions
+                   show-ankha]}]
      (comment log (str "map="(mapv
                                       (fn [x]
                                         {
@@ -237,6 +252,8 @@
 
               (dom/button #js {:onClick (fn [e] (put! clear-replay-sessions
                                                       true))} "Delete")
+              (dom/button #js {:onClick (fn [e] (put! show-ankha
+                                                      true))} "Ankha")
 
 
               ))))
