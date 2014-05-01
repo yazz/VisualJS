@@ -47,17 +47,9 @@
 
 
 (defn detect-browser []
-  (add-broswer-details :app-code-name (.-appCodeName js/navigator))
-  (add-broswer-details :app-name (.-appName js/navigator))
-  (add-broswer-details :app-version (.-appVersion js/navigator))
   (add-broswer-details :cookie-enabled (.-cookieEnabled js/navigator))
   (add-broswer-details :language (.-language js/navigator))
-  (add-broswer-details :online (.-onLine js/navigator))
   (add-broswer-details :platform (.-platform js/navigator))
-  (add-broswer-details :app-version (.-appVersion js/navigator))
-  (add-broswer-details :user-agent (.-userAgent js/navigator))
-  (add-broswer-details :app-version (.-appVersion js/navigator))
-  (add-broswer-details :system-language (.-systemLanguage js/navigator))
   (add-broswer-details :who-am-i (.-sayswho js/navigator))
   )
 
