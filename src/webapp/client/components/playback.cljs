@@ -202,7 +202,7 @@
                           (log "****SHOW ANKHA")
                           (om/root
                             ankha/inspector
-                            playback-controls-state
+                            playback-app-state
                             {:target (js/document.getElementById "playback_state")})
 
                           (recur))))
