@@ -4,12 +4,39 @@
         <meta http-equiv='Content-type' content='text/html; charset=utf-8'>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
+        <script type="text/javascript">
+            if (!Function.prototype.bind) {
+                Function.prototype.bind = function (oThis) {
+                    if (typeof this !== "function") {
+                        // closest thing possible to the ECMAScript 5 internal IsCallable function
+                        throw new TypeError("Function.prototype.bind - what is trying to be bound is not callable");
+                    }
+
+                    var aArgs = Array.prototype.slice.call(arguments, 1),
+                        fToBind = this,
+                        fNOP = function () {},
+                        fBound = function () {
+                            return fToBind.apply(this instanceof fNOP && oThis
+                                                 ? this
+                                                 : oThis,
+                                                 aArgs.concat(Array.prototype.slice.call(arguments)));
+                        };
+
+                    fNOP.prototype = this.prototype;
+                    fBound.prototype = new fNOP();
+
+                    return fBound;
+                };
+            }
+        </script>
+
         <!--[if lt IE 9]>
         <script src="consolepolyfill.js"></script>
         <script src="es5-shim.js"></script>
         <script src="es5-sham.js"></script>
         <script src="html5shiv.js"></script>
         <![endif]-->
+        <script type="text/javascript" src="react.js"></script>
 
         <title>ConnectToUs.co 0.3</title>
         <style>
@@ -30,7 +57,6 @@
         <link href="main.css" type="text/css" rel="stylesheet"/>
         <link href="docs.css" type="text/css" rel="stylesheet"/>
 
-        <script type="text/javascript" src="react.js"></script>
     </head>
 
 
