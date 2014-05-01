@@ -66,12 +66,15 @@
 
 (defn main []
   (go
-   (let [session (:value (<! (remote "create-session" {})  ))]
+   (reset-app-state)
+   (detect-browser)
+   (let [session (:value (<! (remote "create-session"
+                                     {
+                                      :init-state (with-out-str (prn @app-state))
+                                      })  ))]
      (log session)
      (reset! session-id session))
 
-    (reset-app-state)
-    (detect-browser)
 
 
     (comment om/root

@@ -84,16 +84,18 @@
 
 
 
-(defn create-session[{}]
+(defn create-session[{:keys [init-state]}]
   (let [session-id    (uuid-str)]
 
     (neo4j "create  (n:WebSession
                     {
-                            session_id:           {session_id}
+                            session_id:           {session_id},
+                            init_state:           {init_state}
 
                             }) return n"
 
-           {:session_id session-id}
+           {:session_id    session-id
+            :init_state    init-state}
            "n")
     {:value session-id}
     ))
