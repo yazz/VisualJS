@@ -12,7 +12,8 @@
   (:use
    [webapp.framework.client.coreclient           :only  [log remote]]
    [webapp.client.globals                        :only  [app-state   playback-app-state
-                                                         playback-controls-state]]
+                                                         playback-controls-state
+                                                         playbackmode]]
    [webapp.client.components.forms               :only  [request-form]]
    [webapp.client.components.connection-graph    :only  [graph]]
    )
@@ -103,14 +104,16 @@
                                       :data    (:data    app)
                                       }
                         )
-              (dom/div #js {
+              (if @playbackmode
+                (dom/div #js {
                             :style
                             #js {
                                  :position "absolute"
                                  :left (str (-> app :pointer :mouse-x) "px")
                                  :top (str (-> app :pointer :mouse-y) "px")
+                                 :z-index 100
                                  }} "X"
-                       )
+                       ))
 
               ))
     ;---------------------------------------------------------

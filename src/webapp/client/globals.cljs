@@ -22,6 +22,8 @@
 
 
 
+(def playbackmode (atom false))
+
 (def app-state
   (atom
    {}))
