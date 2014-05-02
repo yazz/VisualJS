@@ -28,7 +28,19 @@
 
 
 
+(defn on-mouse [e app]
 
+  (let [mousex (.-clientX e)
+        mousey (.-clientY e)
+        ]
+    (log (str "x=" mousex ", "
+              "y=" mousey
+              ))
+    (if (not (= (get-in @app [:pointer :mouse-x]) mousex))
+      (om/update! app [:pointer :mouse-x] mousex))
+    (if (not (= (get-in @app [:pointer :mouse-y]) mousey))
+      (om/update! app [:pointer :mouse-y] mousey))
+    ))
 
 
 (defn main-view [app owner]
@@ -52,10 +64,18 @@
                 (let [delete (om/get-state owner :delete)]
                   (go (loop []
                         (let [contact (<! delete)]
-                          (om/transact! app :contacts
-                                        (fn [xs] (vec (remove #(= contact %) xs))))
+                          (om/transact!
+                           app
+                           :contacts
+                           (fn [xs] (vec (remove #(= contact %) xs))))
                           (recur))))))
     ;---------------------------------------------------------
+
+
+    om/IDidMount
+    (did-mount [owner]
+               []
+               )
 
 
 
@@ -64,7 +84,9 @@
     om/IRenderState
     (render-state
      [this state]
-     (dom/div nil
+     (dom/div #js {:id "mainel"  :onMouseMove
+                   (fn[e] (on-mouse e app))}
+              (str "(" (-> app :pointer :mouse-x) ", " (-> app :pointer :mouse-y)) ")"
               (dom/h2 nil "ConnectToUs.co")
 
               (om/build request-form {
@@ -80,3 +102,5 @@
     ;---------------------------------------------------------
 
 ))
+
+@app-state

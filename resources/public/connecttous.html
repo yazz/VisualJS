@@ -57,6 +57,18 @@
         <link href="main.css" type="text/css" rel="stylesheet"/>
         <link href="docs.css" type="text/css" rel="stylesheet"/>
 
+
+
+        <script>
+            mousex=0;
+                mousey=0;
+            function show_coords(event)
+            {
+                mousex=event.clientX;
+                mousey=event.clientY;
+                //console.log("X coords: " + mousex + ", Y coords: " + mousey);
+            }
+        </script>
     </head>
 
 
@@ -66,7 +78,9 @@
                  height:100%; width:100%;position: absolute;
                  padding: 10px;">
 
-        <div id=main               style='color=black;'></div>
+        <div id=main               style='color=black;'
+             ></div>
+
         <div id=main_playback      style='color=black;'></div>
         <div id=playback_controls  style='color=black;'></div>
         <div id=playback_canvas    style='color=black;'></div>

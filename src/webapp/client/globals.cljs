@@ -33,21 +33,26 @@
 (def blank-app-state
   {:ui
 
-    {:request {
-               :from-full-name       ""
-               :email-from           ""
+   {:request {
+              :from-full-name       ""
+              :email-from           ""
 
-               :to-full-name         ""
-               :email-to             ""
+              :to-full-name         ""
+              :email-to             ""
 
-               :endorsement          ""
-               }
-     }
-    :data {
-:width "50"
-           }
+              :endorsement          ""
+              }
     }
-)
+   :data {
+          :width "50"
+          }
+   :pointer
+   {
+    :mouse-x 0
+    :mouse-y 0
+    }
+   }
+  )
 
 ;(reset! app-state (assoc-in @app-state [:data :width ] "20"))
 
