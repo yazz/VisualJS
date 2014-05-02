@@ -77,6 +77,7 @@
             nil
             )
           )
+        (js/alert "session finished")
         ))
   )
 

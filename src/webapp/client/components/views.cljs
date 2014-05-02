@@ -91,7 +91,7 @@
                                  }
 
                    :id "mainel"  :onMouseMove
-                   (fn[e] (on-mouse e app))}
+                   (fn[e] (if (not @playbackmode) (on-mouse e app)))}
               (str "(" (-> app :pointer :mouse-x) ", " (-> app :pointer :mouse-y)) ")"
               (dom/h2 nil "ConnectToUs.co")
 
