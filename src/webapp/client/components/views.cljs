@@ -84,7 +84,12 @@
     om/IRenderState
     (render-state
      [this state]
-     (dom/div #js {:id "mainel"  :onMouseMove
+     (dom/div #js {:style
+                            #js {
+                                 :position "relative"
+                                 }
+
+                   :id "mainel"  :onMouseMove
                    (fn[e] (on-mouse e app))}
               (str "(" (-> app :pointer :mouse-x) ", " (-> app :pointer :mouse-y)) ")"
               (dom/h2 nil "ConnectToUs.co")
@@ -97,7 +102,16 @@
               (om/build graph{
                                       :data    (:data    app)
                                       }
-              )
+                        )
+              (dom/div #js {
+                            :style
+                            #js {
+                                 :position "absolute"
+                                 :left (str (-> app :pointer :mouse-x) "px")
+                                 :top (str (-> app :pointer :mouse-y) "px")
+                                 }} "X"
+                       )
+
               ))
     ;---------------------------------------------------------
 
