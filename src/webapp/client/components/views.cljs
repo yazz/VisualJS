@@ -80,19 +80,25 @@
 
 
 
-
     ;---------------------------------------------------------
     om/IRenderState
     (render-state
      [this state]
      (dom/div #js {:style
-                            #js {
-                                 :position "relative"
-                                 }
+                   (if @playbackmode #js {
+                                          :position "relative"
+                                          :border "2px black solid"
+                                          :margin "10px"
+                                   }
+
+                     #js {
+                          :position "relative"
+                          })
+
 
                    :id "mainel"  :onMouseMove
                    (fn[e] (if (not @playbackmode) (on-mouse e app)))}
-              (str "(" (-> app :pointer :mouse-x) ", " (-> app :pointer :mouse-y)) ")"
+              ;(if @playbackmode (on-mouse e app)) (-> app :pointer :mouse-y)) ")"
               (dom/h2 nil "ConnectToUs.co")
 
               (om/build request-form {
