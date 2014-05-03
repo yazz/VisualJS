@@ -28,7 +28,6 @@
 
 
 
-
 (defn on-mouse [e app]
 
   (let [mousex (.-clientX e)
@@ -84,6 +83,12 @@
     om/IRenderState
     (render-state
      [this state]
+
+     (dom/div nil
+     (if @playbackmode
+       (dom/div #js {:style #js {:font-weight "bold"}}
+                (str (-> app :system :platform) ","
+                     (-> app :system :who-am-i))))
      (dom/div #js {:style
                    (if @playbackmode #js {
                                           :position "relative"
@@ -99,6 +104,7 @@
                    :id "mainel"  :onMouseMove
                    (fn[e] (if (not @playbackmode) (on-mouse e app)))}
               ;(if @playbackmode (on-mouse e app)) (-> app :pointer :mouse-y)) ")"
+
               (dom/h2 nil "ConnectToUs.co")
 
               (om/build request-form {
@@ -121,7 +127,7 @@
                                  }} "X"
                        ))
 
-              ))
+              )))
     ;---------------------------------------------------------
 
 ))
