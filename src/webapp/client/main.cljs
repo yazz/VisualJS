@@ -39,20 +39,27 @@
 
 
 
-(defn add-broswer-details [field value]
+(defn add-browser-details [field value]
   (reset! app-state (assoc-in @app-state [:system field ] value))
   )
 
+
+(defn add-view-details [field value]
+  (reset! app-state (assoc-in @app-state [:view field ] value))
+  )
 
 
 
 
 (defn detect-browser []
-  (add-broswer-details :cookie-enabled (.-cookieEnabled js/navigator))
-  (add-broswer-details :language (.-language js/navigator))
-  (add-broswer-details :platform (.-platform js/navigator))
-  (add-broswer-details :who-am-i (.-sayswho js/navigator))
-  )
+  (add-browser-details :cookie-enabled (.-cookieEnabled js/navigator))
+  (add-browser-details :language (.-language js/navigator))
+  (add-browser-details :platform (.-platform js/navigator))
+  (add-browser-details :who-am-i (.-sayswho js/navigator))
+
+  (add-view-details :width js/viewportw)
+  (add-view-details :height js/viewporth)
+)
 
 
 

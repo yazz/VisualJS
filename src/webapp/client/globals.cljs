@@ -53,6 +53,11 @@
     :mouse-x 0
     :mouse-y 0
     }
+   :view
+   {
+    :width   0
+    :height  0
+    }
    }
   )
 

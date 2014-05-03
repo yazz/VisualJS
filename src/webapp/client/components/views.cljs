@@ -94,6 +94,8 @@
                                           :position "relative"
                                           :border "2px black solid"
                                           :margin "10px"
+                                          :width    (-> app :view :width)
+                                          :height   (-> app :view :height)
                                    }
 
                      #js {

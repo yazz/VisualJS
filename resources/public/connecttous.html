@@ -61,13 +61,29 @@
 
         <script>
             mousex=0;
-                mousey=0;
+            mousey=0;
             function show_coords(event)
             {
                 mousex=event.clientX;
                 mousey=event.clientY;
                 //console.log("X coords: " + mousex + ", Y coords: " + mousey);
             }
+
+            viewportw = 0;
+            viewporth = 0;
+            function doSomething() {
+                viewportw = Math.max(document.documentElement.clientWidth, window.innerWidth || 0)
+                viewporth = Math.max(document.documentElement.clientHeight, window.innerHeight || 0)
+                //alert(viewportw + "," + viewporth);
+            };
+            doSomething();
+
+            var resizeTimer;
+            $(window).resize(function() {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(doSomething, 100);
+            });
+
         </script>
     </head>
 
