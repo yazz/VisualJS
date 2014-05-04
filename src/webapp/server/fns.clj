@@ -74,7 +74,7 @@
 
 
 
-(defn create-session[{:keys [init-state]}]
+(defn create-session[{:keys [init-state browser]}]
   (let [
         session-id    (uuid-str)
         ]
@@ -83,13 +83,15 @@
                     {
                             session_id:           {session_id},
                             init_state:           {init_state},
-                            start_time:           {start_time}
+                            start_time:           {start_time},
+                            browser:              {browser}
 
                             }) return n"
 
            {
             :session_id    session-id
             :init_state    init-state
+            :browser       browser
             :start_time    (. (java.util.Date.) getTime)
            }
            "n")

@@ -71,6 +71,8 @@
    (let [session (:value (<! (remote "create-session"
                                      {
                                       :init-state (with-out-str (prn @app-state))
+                                      :browser    (str (-> @app-state :system :platform) ","
+                                                       (-> @app-state :system :who-am-i))
                                       })  ))]
      (log session)
      (reset! session-id session))
@@ -78,11 +80,6 @@
 
 
 
-
-    (comment om/root
-     ankha/inspector
-     app-state
-     {:target (js/document.getElementById "main_playback")})
 
     (let [
           tx-chan       (chan)
@@ -120,12 +117,12 @@
 (defn get-web-sessions []
   (neo4j "match (n:WebSession) return
          n.session_id as session_id,
+         n.browser as browser,
          n.start_time as start_time"
                       {}
-         ["session_id" "start_time"]))
+         ["session_id" "start_time" "browser"]))
 
 
-(go (log (<! (get-web-sessions))))
 
 
 (defn admin []

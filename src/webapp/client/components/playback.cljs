@@ -115,6 +115,7 @@
      [this {:keys [highlight unhighlight]}]
       (let [
             session-id (get-in data ["session_id"])
+            browser (get-in data ["browser"])
             start-time (js/Date. (get-in data ["start_time"]))
             ]
        (dom/div nil
@@ -147,7 +148,7 @@
                     :onTouchMove
                       (fn[e]   (put! highlight  session-id))
                     }
-               (str start-time)))))))
+               (str browser "  :::  " start-time)))))))
 
 
 
