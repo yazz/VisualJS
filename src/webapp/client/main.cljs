@@ -96,10 +96,10 @@
                   :tx-listen
                   (fn [tx-data root-cursor]
                     (go
-                     (log (str "txdata:::" tx-data))
-                     (log (str "path:::" (:path tx-data)))
-                     (log (str "new-value:::"
-                               (with-out-str (prn (:new-value tx-data)))))
+                     ;(log (str "txdata:::" tx-data))
+                     ;(log (str "path:::" (:path tx-data)))
+                     ;(log (str "new-value:::"
+                     ;          (with-out-str (prn (:new-value tx-data)))))
                      (put! tx-chan [tx-data root-cursor])
 
                      (<! (remote "add-history"

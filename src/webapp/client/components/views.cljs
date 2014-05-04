@@ -33,9 +33,7 @@
   (let [mousex (.-clientX e)
         mousey (.-clientY e)
         ]
-    (log (str "x=" mousex ", "
-              "y=" mousey
-              ))
+    ;(log (str "x=" mousex ", " "y=" mousey  ))
     (if (not (= (get-in @app [:pointer :mouse-x]) mousex))
       (om/update! app [:pointer :mouse-x] mousex))
     (if (not (= (get-in @app [:pointer :mouse-y]) mousey))

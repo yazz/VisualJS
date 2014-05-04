@@ -18,7 +18,6 @@
 
 (def my-pool (mk-pool))
 
-(def a (atom 0))
 
 
 
@@ -49,17 +48,6 @@
 
 
 
-;(neo4j "match (n:WebSession) return count(n)" {} "count(n)")
-
-
-
-(comment process-ask-for-endorsement
- (first (neo4j "match (n:AskForEndorsement) return n" {} "n")))
-
-(comment first (neo4j "match (n:WebSession) return n" {} "n"))
-
-
-
 
 (defn check-messages []
   (let [messages-waiting (neo4j "match (n:AskForEndorsement) return n" {} "n")]
@@ -69,6 +57,9 @@
 
 (stop-and-reset-pool! my-pool)
 
+
+
+;(def a (atom 0))
 (comment do
   (stop-and-reset-pool! my-pool)
   (every 5000
@@ -83,22 +74,31 @@
 
 
 
-
 (defn create-session[{:keys [init-state]}]
-  (let [session-id    (uuid-str)]
+  (let [
+        session-id    (uuid-str)
+        ]
 
     (neo4j "create  (n:WebSession
                     {
                             session_id:           {session_id},
-                            init_state:           {init_state}
+                            init_state:           {init_state},
+                            start_time:           {start_time}
 
                             }) return n"
 
-           {:session_id    session-id
-            :init_state    init-state}
+           {
+            :session_id    session-id
+            :init_state    init-state
+            :start_time    (. (java.util.Date.) getTime)
+           }
            "n")
     {:value session-id}
     ))
+
+
+
+
 
 
 (defn clear-playback-sessions [{}]
@@ -156,14 +156,5 @@
 
 
 
-
-(comment neo4j "START n=node(*), m=node(*)
-           where id(n)={ws} and id(m)={wr}
-           create (n)-[:FRIENDSHIP {status:2}]->(m)
-" {:ws 17197 :wr 17200})
-
-
-
-(comment neo4j "match (n:WebSession) return n.session_id" {} "n.session_id")
 
 

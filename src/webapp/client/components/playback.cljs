@@ -171,6 +171,7 @@
                 {
                    :highlight                (chan)
                    :unhighlight              (chan)
+                   :show-ankha1              (chan)
                    :clear-replay-sessions    (chan)
                    :show-ankha               (chan)
                 })
@@ -183,6 +184,7 @@
                       unhighlight             (om/get-state owner :unhighlight)
                       clear-replay-sessions   (om/get-state owner :clear-replay-sessions)
                       show-ankha              (om/get-state owner :show-ankha)
+                      show-ankha1             (om/get-state owner :show-ankha1)
                       ]
                   (go (loop []
                         (let [session (<! highlight)]
@@ -217,6 +219,15 @@
                             {:target (js/document.getElementById "playback_state")})
 
                           (recur))))
+                  (go (loop []
+                        (let [session (<! show-ankha1)]
+                          (log "****SHOW ANKHA1")
+                          (om/root
+                            ankha/inspector
+                            playback-controls-state
+                            {:target (js/document.getElementById "playback_ankha")})
+
+                          (recur))))
 
 
 
@@ -229,7 +240,8 @@
      [this {:keys [highlight
                    unhighlight
                    clear-replay-sessions
-                   show-ankha]}]
+                   show-ankha
+                   show-ankha1]}]
      (comment log (str "map="(mapv
                                       (fn [x]
                                         {
@@ -265,6 +277,8 @@
                                                       true))} "Delete")
               (dom/button #js {:onClick (fn [e] (put! show-ankha
                                                       true))} "Ankha")
+              (dom/button #js {:onClick (fn [e] (put! show-ankha1
+                                                      true))} "Ankha1")
 
 
               ))))
