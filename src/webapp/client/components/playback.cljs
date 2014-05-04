@@ -113,7 +113,10 @@
 
     (render-state
      [this {:keys [highlight unhighlight]}]
-
+      (let [
+            session-id (get-in data ["session_id"])
+            start-time (js/Date. (get-in data ["start_time"]))
+            ]
        (dom/div nil
 
               (dom/div
@@ -122,28 +125,29 @@
                                      :backgroundColor
                                      (if
                                        (= (get-in ui
-                                               [:sessions data :highlighted]) "true")
+                                               [:sessions session-id :highlighted])
+                                          "true")
                                        "lightgray"
                                        "white"
                                        )
                                      }
 
                     :onClick
-                      (fn [e]  (playback-session  :session-id  data))
+                      (fn [e]  (playback-session  :session-id  session-id))
 
                     :onMouseEnter
-                      (fn[e]   (put! highlight    data))
+                      (fn[e]   (put! highlight    session-id))
                     :onTouchStart
-                      (fn[e]   (put! highlight    data))
+                      (fn[e]   (put! highlight    session-id))
 
                     :onMouseLeave
-                      (fn[e]   (put! unhighlight  data))
+                      (fn[e]   (put! unhighlight  session-id))
                     :onTouchEnd
-                      (fn[e]   (put! highlight  data))
+                      (fn[e]   (put! highlight  session-id))
                     :onTouchMove
-                      (fn[e]   (put! highlight  data))
+                      (fn[e]   (put! highlight  session-id))
                     }
-               (str data))))))
+               (str start-time)))))))
 
 
 

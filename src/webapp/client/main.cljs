@@ -118,11 +118,14 @@
 
 
 (defn get-web-sessions []
-  (neo4j "match (n:WebSession) return n.session_id"
-                      {} "n.session_id"))
+  (neo4j "match (n:WebSession) return
+         n.session_id as session_id,
+         n.start_time as start_time"
+                      {}
+         ["session_id" "start_time"]))
 
 
-
+(go (log (<! (get-web-sessions))))
 
 
 (defn admin []
