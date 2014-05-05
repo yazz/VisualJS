@@ -74,12 +74,17 @@
                                path
                                (fn[_] content)))
 
+
             nil
             )
           )
         (js/alert "session finished")
         ))
   )
+
+
+
+
 
 
 
@@ -105,6 +110,9 @@
 
 
 
+
+
+
 (defn playback-session-button-component [{:keys [ui data sessions]} owner]
   (reify
 
@@ -117,6 +125,7 @@
             session-id (get-in data ["session_id"])
             browser (get-in data ["browser"])
             start-time (js/Date. (get-in data ["start_time"]))
+            full-time (/ (get-in data ["time"]) 1000)
             ]
        (dom/div nil
 
@@ -148,7 +157,8 @@
                     :onTouchMove
                       (fn[e]   (put! highlight  session-id))
                     }
-               (str browser "  :::  " start-time)))))))
+               (str browser "  :::  " start-time  ", "
+                    full-time " secs")))))))
 
 
 

@@ -99,6 +99,7 @@
                      ;          (with-out-str (prn (:new-value tx-data)))))
                      (put! tx-chan [tx-data root-cursor])
 
+                     (let [ts   (- (.getTime (js/Date.)) start-time)]
                      (<! (remote "add-history"
                                  {
                                   :session-id    @session-id
@@ -106,8 +107,16 @@
                                   :path          (:path tx-data)
                                   :new-value     (with-out-str (prn
                                                                 (:new-value tx-data)))
-                                  :timestamp     (- (.getTime (js/Date.)) start-time)
+                                  :timestamp     ts
                                   }))
+                     (<! (neo4j "match (w:WebSession) where
+                                w.session_id={session_id}
+                                set w.time = {timestamp}
+                                return w
+                                "
+                                {:session_id    @session-id
+                                 :timestamp     ts}
+                                "w")))
                      ))
                   }))))
 
@@ -117,10 +126,13 @@
 (defn get-web-sessions []
   (neo4j "match (n:WebSession) return
          n.session_id as session_id,
+         n.time as time,
          n.browser as browser,
          n.start_time as start_time"
                       {}
-         ["session_id" "start_time" "browser"]))
+         ["session_id" "start_time" "browser" "time"]))
+
+
 
 
 
@@ -134,6 +146,10 @@
      (reset! playback-controls-state (assoc-in
                                       @playback-controls-state
                                       [:data :sessions]  (into [](take 5 ll))))
+
+
+
+
      (om/root
       playback-controls-view
       playback-controls-state
