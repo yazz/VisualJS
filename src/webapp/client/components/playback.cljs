@@ -34,21 +34,21 @@
 
 (defn playback-session [& {:keys
                            [session-id]}]
-  (go (let [
-                     init-state
-                     (<! (neo4j "match (n:WebSession) where
-                          n.session_id={session_id}
-                                return n.init_state"
-                        {:session_id    session-id}))
+  (go
+   (let [
+            init-state  (<! (neo4j "match (n:WebSession) where
+                                   n.session_id={session_id}
+                                   return n.init_state"
+                                   {:session_id    session-id}))
 
 
-            ll (<! (neo4j "
-                          match (r:WebRecord) where
-                          r.session_id={session_id}
-                          return r order by r.seq_ord
-                          "
-                          {:session_id    session-id}
-                          "r"))]
+            ll          (<! (neo4j "
+                                   match (r:WebRecord) where
+                                   r.session_id={session_id}
+                                   return r order by r.seq_ord
+                                   "
+                                   {:session_id    session-id}
+                                   "r"))]
 
         (om/root
          main-view
@@ -64,9 +64,9 @@
                 content   (cljs.reader/read-string (:new_value (into {} item )))
                 timestamp   (:timestamp (into {} item ))
                 ]
-            (log path)
-            (log content)
-            (log timestamp )
+            ;(log path)
+            ;(log content)
+            ;(log timestamp )
             (<! (timeout (-  timestamp @playbacktime)))
             (reset! playbacktime timestamp)
             (reset! playback-app-state

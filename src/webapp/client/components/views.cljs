@@ -34,11 +34,19 @@
         mousey (.-clientY e)
         ]
     ;(log (str "x=" mousex ", " "y=" mousey  ))
-    (if (not (= (get-in @app [:pointer :mouse-x]) mousex))
-      (om/update! app [:pointer :mouse-x] mousex))
-    (if (not (= (get-in @app [:pointer :mouse-y]) mousey))
-      (om/update! app [:pointer :mouse-y] mousey))
-    ))
+    (if (or
+         (< mousex (- (get-in @app [:pointer :mouse-x]) 30))
+         (> mousex (+ (get-in @app [:pointer :mouse-x]) 30))
+         (< mousey (- (get-in @app [:pointer :mouse-y]) 30))
+         (> mousey (+ (get-in @app [:pointer :mouse-y]) 30))
+         )
+
+      (do
+        (if (not (= (get-in @app [:pointer :mouse-x]) mousex))
+          (om/update! app [:pointer :mouse-x] mousex))
+        (if (not (= (get-in @app [:pointer :mouse-y]) mousey))
+          (om/update! app [:pointer :mouse-y] mousey))
+        ))))
 
 
 (defn main-view [app owner]
@@ -132,4 +140,4 @@
 
 ))
 
-@app-state
+
