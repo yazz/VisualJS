@@ -29,7 +29,7 @@
                 };
             }
 
-            navigator.sayswho= (function(){
+            function sayswho() {
                 var uagent= navigator.userAgent, temizer,
                     Mmatch= uagent.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
                 if(/trident/i.test(Mmatch[1])){
@@ -43,7 +43,7 @@
                 Mmatch= Mmatch[2]? [Mmatch[1], Mmatch[2]]: [navigator.appName, navigator.appVersion, '-?'];
                 if((temizer= uagent.match(/version\/(\d+)/i))!= null) Mmatch.splice(1, 1, temizer[1]);
                 return Mmatch.join(' ');
-            })();
+            };
         </script>
 
         <!--[if lt IE 9]>
