@@ -87,6 +87,7 @@
    {:ui
     {
      :current-session   nil
+     :current-page      0
      }
     :data {
            :sessions          []

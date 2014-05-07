@@ -28,7 +28,7 @@
 
 
 
-
+(def page-length 3)
 
 (def playbacktime (atom 0))
 
@@ -182,7 +182,6 @@
 
 
 
-
 (defn playback-controls-view [app owner]
 
   (reify
@@ -198,6 +197,7 @@
                    :show-ankha1              (chan)
                    :clear-replay-sessions    (chan)
                    :show-ankha               (chan)
+                   :next-page                (chan)
                 })
 
     om/IWillMount
@@ -209,6 +209,7 @@
                       clear-replay-sessions   (om/get-state owner :clear-replay-sessions)
                       show-ankha              (om/get-state owner :show-ankha)
                       show-ankha1             (om/get-state owner :show-ankha1)
+                      next-page               (om/get-state owner :next-page)
                       ]
                   (go (loop []
                         (let [session (<! highlight)]
@@ -253,6 +254,13 @@
 
                           (recur))))
 
+                  (go (loop []
+                        (let [session (<! next-page)]
+                          (log "****NEXT PAGE")
+                          (om/transact! app [:ui :current-page] (fn[x] (+ x 1)))
+
+                          (recur))))
+
 
 
                   ))
@@ -265,7 +273,8 @@
                    unhighlight
                    clear-replay-sessions
                    show-ankha
-                   show-ankha1]}]
+                   show-ankha1
+                   next-page]}]
      (comment log (str "map="(mapv
                                       (fn [x]
                                         {
@@ -277,6 +286,14 @@
 
      (dom/div nil
               (dom/h2 nil "Playback web sessions")
+              (dom/div nil (str (* (-> app :ui :current-page) page-length) "-"
+                                (- (* (+ (-> app :ui :current-page) 1) page-length) 1)
+                                " of "
+                                (-> app :data :sessions-count)))
+              (dom/button #js {:onClick (fn [e]
+                                          (put! next-page
+                                                      true)
+                                          )} "Next")
 
 
               (apply dom/ul nil
@@ -290,7 +307,9 @@
                                         :data       x
                                         }
                                        )
-                                     (-> app :data :sessions)
+                                     (take page-length
+                                           (drop (* page-length (-> app :ui :current-page))
+                                           (-> app :data :sessions)))
 
                                      )
                                     {:init-state {:highlight    highlight

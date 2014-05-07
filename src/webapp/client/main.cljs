@@ -128,7 +128,8 @@
          n.session_id as session_id,
          n.time as time,
          n.browser as browser,
-         n.start_time as start_time"
+         n.start_time as start_time
+            order by n.start_time desc"
                       {}
          ["session_id" "start_time" "browser" "time"]))
 
@@ -145,7 +146,10 @@
 
      (reset! playback-controls-state (assoc-in
                                       @playback-controls-state
-                                      [:data :sessions]  (into [](take 5 ll))))
+                                      [:data :sessions-count]  (count ll)))
+     (reset! playback-controls-state (assoc-in
+                                      @playback-controls-state
+                                      [:data :sessions]  (into [] ll)))
 
 
 
