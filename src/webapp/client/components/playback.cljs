@@ -35,6 +35,10 @@
 (defn playback-session [& {:keys
                            [session-id]}]
   (go
+   (reset! playback-controls-state
+           (update-in @playback-controls-state
+                      [:data :current-session]
+                      (fn[_] session-id)))
    (let [
             init-state  (<! (neo4j "match (n:WebSession) where
                                    n.session_id={session_id}
@@ -74,7 +78,6 @@
                                path
                                (fn[_] content)))
 
-
             nil
             )
           )
@@ -113,7 +116,10 @@
 
 
 
-(defn playback-session-button-component [{:keys [ui data sessions]} owner]
+(defn playback-session-button-component [{:keys [ui
+                                                 data
+                                                 sessions
+                                                 current-session]} owner]
   (reify
 
     om/IRenderState
@@ -122,10 +128,11 @@
     (render-state
      [this {:keys [highlight unhighlight]}]
       (let [
-            session-id (get-in data ["session_id"])
-            browser (get-in data ["browser"])
-            start-time (js/Date. (get-in data ["start_time"]))
-            full-time (/ (get-in data ["time"]) 1000)
+              session-id   (get-in data ["session_id"])
+              browser      (get-in data ["browser"])
+              start-time   (js/Date. (get-in data ["start_time"]))
+              full-time    (/ (get-in data ["time"]) 1000)
+              active       (= session-id current-session)
             ]
        (dom/div nil
 
@@ -137,8 +144,10 @@
                                        (= (get-in ui
                                                [:sessions session-id :highlighted])
                                           "true")
-                                       "lightgray"
-                                       "white"
+                                       "darkgray"
+                                       (if active
+                                         "lightgray"
+                                         "white")
                                        )
                                      }
 
@@ -277,6 +286,7 @@
                                        {
                                         :ui         (-> app :ui)
                                         :sessions   (-> app :data :sessions)
+                                        :current-session   (-> app :data :current-session)
                                         :data       x
                                         }
                                        )
