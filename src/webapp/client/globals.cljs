@@ -85,12 +85,11 @@
 (def playback-controls-state
   (atom
    {:ui
-
     {
-    }
+     :current-session   nil
+     }
     :data {
            :sessions          []
-           :current-session   nil
            }
     }
 

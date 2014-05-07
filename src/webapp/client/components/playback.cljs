@@ -37,7 +37,7 @@
   (go
    (reset! playback-controls-state
            (update-in @playback-controls-state
-                      [:data :current-session]
+                      [:ui :current-session]
                       (fn[_] session-id)))
    (let [
             init-state  (<! (neo4j "match (n:WebSession) where
@@ -286,7 +286,7 @@
                                        {
                                         :ui         (-> app :ui)
                                         :sessions   (-> app :data :sessions)
-                                        :current-session   (-> app :data :current-session)
+                                        :current-session   (-> app :ui :current-session)
                                         :data       x
                                         }
                                        )
