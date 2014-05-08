@@ -198,6 +198,7 @@
                    :clear-replay-sessions    (chan)
                    :show-ankha               (chan)
                    :next-page                (chan)
+                   :previous-page            (chan)
                 })
 
     om/IWillMount
@@ -210,6 +211,7 @@
                       show-ankha              (om/get-state owner :show-ankha)
                       show-ankha1             (om/get-state owner :show-ankha1)
                       next-page               (om/get-state owner :next-page)
+                      previous-page           (om/get-state owner :previous-page)
                       ]
                   (go (loop []
                         (let [session (<! highlight)]
@@ -261,6 +263,13 @@
 
                           (recur))))
 
+                  (go (loop []
+                        (let [session (<! previous-page)]
+                          (log "****PREVIOUS PAGE")
+                          (om/transact! app [:ui :current-page] (fn[x] (- x 1)))
+
+                          (recur))))
+
 
 
                   ))
@@ -274,27 +283,32 @@
                    clear-replay-sessions
                    show-ankha
                    show-ankha1
-                   next-page]}]
-     (comment log (str "map="(mapv
-                                      (fn [x]
-                                        {
-                                        :ui      (-> app :ui)
-                                        :data    x
-                                        }
-                                        )
-                                      (-> app :data :sessions))))
+                   next-page
+                   previous-page]}]
+     (let [
+           dfg           (- (* (+ (-> app :ui :current-page) 1) page-length) 1)
+           session-count (-> app :data :sessions-count)
+           ]
 
      (dom/div nil
               (dom/h2 nil "Playback web sessions")
               (dom/div nil (str (* (-> app :ui :current-page) page-length) "-"
-                                (- (* (+ (-> app :ui :current-page) 1) page-length) 1)
+                                  (if (< dfg (-> app :data :sessions-count))
+                                    dfg
+                                    (-> app :data :sessions-count)
+                                 )
                                 " of "
-                                (-> app :data :sessions-count)))
-              (dom/button #js {:onClick (fn [e]
-                                          (put! next-page
-                                                      true)
-                                          )} "Next")
-
+                                session-count))
+              (if (> dfg page-length)
+                (dom/button #js {:onClick (fn [e]
+                                            (put! previous-page
+                                                  true)
+                                            )} "previous"))
+              (if (< dfg session-count)
+                (dom/button #js {:onClick (fn [e]
+                                            (put! next-page
+                                                  true)
+                                            )} "Next"))
 
               (apply dom/ul nil
                      (om/build-all  playback-session-button-component
@@ -325,4 +339,4 @@
                                                       true))} "Ankha1")
 
 
-              ))))
+              )))))
