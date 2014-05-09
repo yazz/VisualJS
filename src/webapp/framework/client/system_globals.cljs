@@ -1,4 +1,4 @@
-(ns webapp.client.globals
+(ns webapp.framework.client.system-globals
   (:require
    [goog.net.cookies :as cookie]
    [om.core          :as om :include-macros true]

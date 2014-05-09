@@ -1,4 +1,4 @@
-(ns webapp.client.components.views
+(ns webapp.framework.client.components.system-container
   (:require
    [goog.net.cookies :as cookie]
    [om.core          :as om :include-macros true]
@@ -11,7 +11,7 @@
 
   (:use
    [webapp.framework.client.coreclient           :only  [log remote]]
-   [webapp.client.globals                        :only  [app-state   playback-app-state
+   [webapp.framework.client.system-globals       :only  [app-state   playback-app-state
                                                          playback-controls-state
                                                          playbackmode]]
    [webapp.client.components.forms               :only  [request-form]]
@@ -22,6 +22,7 @@
    )
   (:require-macros
    [cljs.core.async.macros :refer [go]]))
+
 
 
 

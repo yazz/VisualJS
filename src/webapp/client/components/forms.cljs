@@ -10,9 +10,9 @@
    [ankha.core       :as ankha])
 
   (:use
-   [webapp.framework.client.coreclient :only  [log remote]]
-   [webapp.client.globals              :only  [app-state   playback-app-state
-                                               playback-controls-state]]
+   [webapp.framework.client.coreclient      :only  [log remote]]
+   [webapp.framework.client.system-globals  :only  [app-state   playback-app-state
+                                                    playback-controls-state]]
    )
   (:use-macros
    [webapp.framework.client.neo4j      :only  [neo4j]]
