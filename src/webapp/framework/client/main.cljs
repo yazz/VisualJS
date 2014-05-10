@@ -8,15 +8,14 @@
    [clojure.data     :as data]
    [clojure.string   :as string]
    [ankha.core       :as ankha]
-   [webapp.client.components.user-main])
-
+  )
 
   (:use
    [webapp.framework.client.coreclient      :only  [log remote]]
    [webapp.framework.client.system-globals  :only  [app-state   playback-app-state
                                                     playback-controls-state
                                                     reset-app-state
-                                                    playbackmode]]
+                                                    playbackmode start-component ]]
    [webapp.framework.client.components.system-container :only  [main-view]]
    [webapp.framework.client.components.playback  :only  [playback-controls-view ]]
    )
@@ -163,15 +162,21 @@
      )))
 
 
+(defn ^:export defaultmain [app owner state]
+  (dom/div nil
+           (dom/h2 nil "Clojure on coils")
 
 
+           ))
 
-(defn ^:export load_main []
+(defn ^:export load_main [xx]
+  (reset! start-component xx)
    (main))
 
 
 
 
-(defn ^:export load_admin []
+(defn ^:export load_admin [xx]
+  (reset! start-component xx)
   (admin))
 

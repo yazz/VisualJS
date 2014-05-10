@@ -20,6 +20,7 @@
    [cljs.core.async.macros :refer [go]]))
 
 
+(def start-component (atom nil))
 
 
 (def playbackmode (atom false))

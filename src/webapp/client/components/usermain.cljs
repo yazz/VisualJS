@@ -1,4 +1,4 @@
-(ns webapp.client.components.user-main
+(ns webapp.client.components.usermain
   (:require
    [goog.net.cookies :as cookie]
    [om.core          :as om :include-macros true]

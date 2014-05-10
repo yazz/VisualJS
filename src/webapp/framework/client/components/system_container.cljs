@@ -13,7 +13,8 @@
    [webapp.framework.client.coreclient           :only  [log remote]]
    [webapp.framework.client.system-globals       :only  [app-state   playback-app-state
                                                          playback-controls-state
-                                                         playbackmode]]
+                                                         playbackmode
+                                                         start-component]]
    )
   (:use-macros
    [webapp.framework.client.neo4j      :only  [neo4j]]
@@ -113,8 +114,8 @@
               ;(if @playbackmode (on-mouse e app)) (-> app :pointer :mouse-y)) ")"
 
 
-              (webapp.client.components.user-main/main
-               app    owner   state)
+              (@start-component    app    owner   state)
+
               (if @playbackmode
                 (dom/div #js {
                             :style
