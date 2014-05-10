@@ -1,4 +1,4 @@
-(ns webapp.client.components.playback
+(ns webapp.framework.client.components.playback
   (:require
    [goog.net.cookies :as cookie]
    [om.core          :as om :include-macros true]

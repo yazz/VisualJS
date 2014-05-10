@@ -1,15 +1,60 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta http-equiv='Content-type' content='text/html; charset=utf-8'>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+        <script type="text/javascript">
+            if (!Function.prototype.bind) {
+                Function.prototype.bind = function (oThis) {
+                    if (typeof this !== "function") {
+                        // closest thing possible to the ECMAScript 5 internal IsCallable function
+                        throw new TypeError("Function.prototype.bind - what is trying to be bound is not callable");
+                    }
+
+                    var aArgs = Array.prototype.slice.call(arguments, 1),
+                        fToBind = this,
+                        fNOP = function () {},
+                        fBound = function () {
+                            return fToBind.apply(this instanceof fNOP && oThis
+                                                 ? this
+                                                 : oThis,
+                                                 aArgs.concat(Array.prototype.slice.call(arguments)));
+                        };
+
+                    fNOP.prototype = this.prototype;
+                    fBound.prototype = new fNOP();
+
+                    return fBound;
+                };
+            }
+
+            function sayswho() {
+                var uagent= navigator.userAgent, temizer,
+                    Mmatch= uagent.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
+                if(/trident/i.test(Mmatch[1])){
+                    temizer=  /\brv[ :]+(\d+)/g.exec(uagent) || [];
+                    return 'IE '+(temizer[1] || '');
+                }
+                if(Mmatch[1]=== 'Chrome'){
+                    temizer= uagent.match(/\bOPR\/(\d+)/)
+                    if(temizer!= null) return 'Opera '+temizer[1];
+                }
+                Mmatch= Mmatch[2]? [Mmatch[1], Mmatch[2]]: [navigator.appName, navigator.appVersion, '-?'];
+                if((temizer= uagent.match(/version\/(\d+)/i))!= null) Mmatch.splice(1, 1, temizer[1]);
+                return Mmatch.join(' ');
+            };
+        </script>
+
         <!--[if lt IE 9]>
+        <script src="consolepolyfill.js"></script>
+        <script src="es5-shim.js"></script>
+        <script src="es5-sham.js"></script>
         <script src="html5shiv.js"></script>
         <![endif]-->
-        <link href='http://fonts.googleapis.com/css?family=Oxygen:400,300,700&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta charset="UTF-8">
-        <script type="text/javascript" src="jshelpers.js"></script>
-        <script type="text/javascript" src="javascript-xpath-latest-cmp.js"></script>
-        <title>Coils</title>
+        <script type="text/javascript" src="react.js"></script>
+
+        <title>ConnectToUs.co 0.3</title>
         <style>
             body
             {
@@ -20,30 +65,63 @@
             }
         </style>
         <script type="text/javascript" src="jquery-1.10.2.min.js"></script>
-        <script type="text/javascript" src="respond.min.js"></script>
         <script type="text/javascript" src="jquery-ui-1.10.3.custom.min.js"></script>
-        <script type="text/javascript" src="three.min.js"></script>
         <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="coilshelpers.js"></script>
+
         <link href="bootstrap/css/bootstrap.min.css" type="text/css" rel="stylesheet"/>
         <link href="main.css" type="text/css" rel="stylesheet"/>
         <link href="docs.css" type="text/css" rel="stylesheet"/>
+
+
+
+        <script>
+            mousex=0;
+            mousey=0;
+            function show_coords(event)
+            {
+                mousex=event.clientX;
+                mousey=event.clientY;
+                //console.log("X coords: " + mousex + ", Y coords: " + mousey);
+            }
+
+            viewportw = 0;
+            viewporth = 0;
+            function doSomething() {
+                viewportw = Math.max(document.documentElement.clientWidth, window.innerWidth || 0)
+                viewporth = Math.max(document.documentElement.clientHeight, window.innerHeight || 0)
+                //alert(viewportw + "," + viewporth);
+            };
+            doSomething();
+
+            var resizeTimer;
+            $(window).resize(function() {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(doSomething, 100);
+            });
+
+        </script>
     </head>
 
 
 
 
-    <body
-          style="font-size: 20px; font-family: 'Oxygen', sans-serif;height:100%; width:100%;position: absolute; padding-top: 0px;"
-      id=main >
-        <div style='color=black;'>Loaded Coils</div>
+    <body style="font-size: 20px; font-family:sans-serif;
+                 height:100%; width:100%;position: absolute;
+                 padding: 10px;">
+
+        <div id=main               style='color=black;'
+             ></div>
+
+        <div id=main_playback      style='color=black;'></div>
+        <div id=playback_controls  style='color=black;'></div>
+        <div id=playback_ankha     style='color=black;'></div>
+        <div id=playback_canvas    style='color=black;'></div>
+        <div id=playback_state     style='color=black;'></div>
     </body>
 
 
 
-    <script type="text/javascript" src="main.js"></script>
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
-    <script type="text/javascript" src="DBugger.js"></script>
-    <script type="text/javascript" src="coilshelpers.js"></script>
 
     <script type="text/javascript">
         function parseQueryString() {
@@ -62,16 +140,24 @@
 
         $( document ).ready(function() {
             params = parseQueryString();
-            //alert( 'param:' + params["reset_request_id"] );
-            if (webapp) {
-                if (webapp.client) {
-                  if (webapp.client.main) {
-                      webapp.client.main.main();
-                  };
-                };
-            }
+            playback = params["playback"];
+            //alert(""+playback);
+            if (webapp.framework) {
+                if (webapp.framework.client) {
+                    if (webapp.framework.client.main) {
+                        if (playback) {
+                            webapp.framework.client.main.load_admin();
+                        }
+                        else {
+                            webapp.framework.client.main.load_main();
+                        };
+                    };
+                }
+            };
         });
     </script>
+
+    <script type="text/javascript" src="main.js"></script>
 
 </html>
 

@@ -142,16 +142,18 @@
             params = parseQueryString();
             playback = params["playback"];
             //alert(""+playback);
-            if (webapp.client) {
-                if (webapp.client.main) {
-                    if (playback) {
-                        webapp.client.main.load_admin();
-                    }
-                    else {
-                        webapp.client.main.load_main();
+            if (webapp.framework) {
+                if (webapp.framework.client) {
+                    if (webapp.framework.client.main) {
+                        if (playback) {
+                            webapp.framework.client.main.load_admin();
+                        }
+                        else {
+                            webapp.framework.client.main.load_main();
+                        };
                     };
-                };
-            }
+                }
+            };
         });
     </script>
 

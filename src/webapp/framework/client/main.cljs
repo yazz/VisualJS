@@ -1,4 +1,4 @@
-(ns webapp.client.main
+(ns webapp.framework.client.main
   (:require
    [goog.net.cookies :as cookie]
    [om.core          :as om :include-macros true]
@@ -16,7 +16,7 @@
                                                     reset-app-state
                                                     playbackmode]]
    [webapp.framework.client.components.system-container :only  [main-view]]
-   [webapp.client.components.playback  :only  [playback-controls-view ]]
+   [webapp.framework.client.components.playback  :only  [playback-controls-view ]]
    )
   (:use-macros
    [webapp.framework.client.coreclient :only  [ns-coils]]
