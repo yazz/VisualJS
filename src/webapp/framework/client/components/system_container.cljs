@@ -14,8 +14,6 @@
    [webapp.framework.client.system-globals       :only  [app-state   playback-app-state
                                                          playback-controls-state
                                                          playbackmode]]
-   [webapp.client.components.forms               :only  [request-form]]
-   [webapp.client.components.connection-graph    :only  [graph]]
    )
   (:use-macros
    [webapp.framework.client.neo4j      :only  [neo4j]]
@@ -114,17 +112,9 @@
                    (fn[e] (if (not @playbackmode) (on-mouse e app)))}
               ;(if @playbackmode (on-mouse e app)) (-> app :pointer :mouse-y)) ")"
 
-              (dom/h2 nil "ConnectToUs.co")
 
-              (om/build request-form {
-                                      :request (-> app :ui :request)
-                                      :data    (:data    app)
-                                      }
-              )
-              (om/build graph{
-                                      :data    (:data    app)
-                                      }
-                        )
+              (webapp.client.components.user-main/main
+               app    owner   state)
               (if @playbackmode
                 (dom/div #js {
                             :style

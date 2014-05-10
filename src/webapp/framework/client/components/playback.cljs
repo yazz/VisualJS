@@ -16,7 +16,6 @@
                                                    reset-app-state
                                                    reset-playback-app-state]]
    [webapp.framework.client.components.system-container :only  [main-view]]
-   [webapp.client.components.forms     :only  [request-form]]
    )
   (:use-macros
    [webapp.framework.client.neo4j      :only  [neo4j]]

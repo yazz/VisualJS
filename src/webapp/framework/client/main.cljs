@@ -7,7 +7,9 @@
    [om-sync.core     :as async]
    [clojure.data     :as data]
    [clojure.string   :as string]
-   [ankha.core       :as ankha])
+   [ankha.core       :as ankha]
+   [webapp.client.components.user-main])
+
 
   (:use
    [webapp.framework.client.coreclient      :only  [log remote]]
