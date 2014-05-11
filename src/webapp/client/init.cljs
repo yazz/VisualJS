@@ -1,0 +1,35 @@
+ (ns webapp.client.init
+  (:require
+   [goog.net.cookies :as cookie]
+   [om.core          :as om :include-macros true]
+   [om.dom           :as dom :include-macros true]
+   [cljs.core.async  :refer [put! chan <! pub timeout]]
+   [om-sync.core     :as async]
+   [clojure.data     :as data]
+   [clojure.string   :as string]
+   [ankha.core       :as ankha]
+  )
+  (:use
+   [webapp.framework.client.coreclient      :only  [log remote]]
+   [webapp.framework.client.system-globals  :only  [app-state   playback-app-state
+                                                    playback-controls-state
+                                                    reset-app-state
+                                                    playbackmode start-component ]]
+))
+
+
+
+
+(defn  ^:export setup []
+   (reset! app-state (assoc-in @app-state [:ui]
+                {:request {
+                           :from-full-name       {:value ""}
+                           :email-from           ""
+
+                           :to-full-name         ""
+                           :email-to             ""
+
+                           :endorsement          ""
+                           }
+                 })))
+

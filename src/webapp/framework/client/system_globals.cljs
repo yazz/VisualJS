@@ -34,18 +34,7 @@
 
 
 (def blank-app-state
-  {:ui
-
-   {:request {
-              :from-full-name       ""
-              :email-from           ""
-
-              :to-full-name         ""
-              :email-to             ""
-
-              :endorsement          ""
-              }
-    }
+  {
    :data {
           :width "50"
           }
@@ -71,7 +60,7 @@
 
 
 
-
+(def init-fn (atom nil))
 
 
 

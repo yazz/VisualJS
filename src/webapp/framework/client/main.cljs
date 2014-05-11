@@ -15,7 +15,8 @@
    [webapp.framework.client.system-globals  :only  [app-state   playback-app-state
                                                     playback-controls-state
                                                     reset-app-state
-                                                    playbackmode start-component ]]
+                                                    playbackmode start-component
+                                                    init-fn]]
    [webapp.framework.client.components.system-container :only  [main-view]]
    [webapp.framework.client.components.playback  :only  [playback-controls-view ]]
    )
@@ -68,6 +69,7 @@
 (defn main []
   (go
    (reset-app-state)
+   (@init-fn)
    (detect-browser)
    (let [session (:value (<! (remote "create-session"
                                      {
@@ -165,18 +167,23 @@
 (defn ^:export defaultmain [app owner state]
   (dom/div nil
            (dom/h2 nil "Clojure on coils")
-
-
            ))
 
-(defn ^:export load_main [xx]
-  (reset! start-component xx)
+(defn ^:export defaultinit []
+  nil
+           )
+
+
+(defn ^:export load_main [component-to-load  init-fn-arg]
+  (reset!  start-component  component-to-load  )
+  (reset! init-fn  init-fn-arg)
    (main))
 
 
 
 
-(defn ^:export load_admin [xx]
-  (reset! start-component xx)
+(defn ^:export load_admin [component-to-load  init-fn-arg]
+  (reset! start-component  component-to-load)
+  (reset! init-fn  init-fn-arg)
   (admin))
 

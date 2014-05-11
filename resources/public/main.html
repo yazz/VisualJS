@@ -147,11 +147,13 @@
                     if (webapp.framework.client.main) {
                         if (playback) {
                             webapp.framework.client.main.load_admin(
-                                webapp.framework.client.main.defaultmain);
+                                webapp.framework.client.main.defaultmain,
+                                webapp.framework.client.main.defaultinit);
                         }
                         else {
                             webapp.framework.client.main.load_main(
-                                webapp.framework.client.main.defaultmain);
+                                webapp.framework.client.main.defaultmain,
+                                webapp.framework.client.main.defaultinit);
                         };
                     };
                 }
