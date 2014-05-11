@@ -25,8 +25,10 @@
     (render
      [this]
      (dom/div
-      nil
+      #js {:style #js {:height "100%" :width "100%"}}
+
       (dom/div #js {:style #js {:padding-top "40px"}} "Connections")
+
       (dom/svg #js {:style #js {:width "200" :height "200"}}
           (dom/circle #js {:cx "60"
                            :cy "60"
