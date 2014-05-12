@@ -43,11 +43,11 @@
 
               (dom/span
                #js {:className "input-group-addon"}
-               "ddd")
+               (get field :label ""))
               (dom/input
                #js {:type        "text"
                     :className   "form-control"
-                    :placeholder "John Smith"
+                    :placeholder (get field :placeholder "")
                     :value       (get field :value)
                     :onChange    #(handle-change field %)
                     }))

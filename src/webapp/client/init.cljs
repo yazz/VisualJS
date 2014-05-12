@@ -23,13 +23,13 @@
 (defn  ^:export setup []
    (reset! app-state (assoc-in @app-state [:ui]
                 {:request {
-                           :from-full-name       {:value ""}
-                           :email-from           ""
+                           :from-full-name       {:label "Your full name" :placeholder "John smith" :value "" }
+                           :email-from           {:label "Your company email" :placeholder "john@microsoft.com" :value "" }
 
-                           :to-full-name         ""
-                           :email-to             ""
+                           :to-full-name         {:label "Their full name" :placeholder "Pete Austin" :value ""}
+                           :email-to             {:label "Their email" :placeholder "pete@ibm.com" :value ""}
 
-                           :endorsement          ""
+                           :endorsement          {:value ""}
                            }
                  })))
 
