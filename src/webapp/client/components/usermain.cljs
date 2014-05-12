@@ -12,7 +12,7 @@
 
 
 
-(defn main [app owner state]
+(defn ^:export main [app owner state]
   (dom/div nil
            (dom/h2 nil "ConnectToUs.co")
 
