@@ -7,7 +7,9 @@
    [om-sync.core     :as async]
    [clojure.data     :as data]
    [clojure.string   :as string]
-   [ankha.core       :as ankha])
+   [ankha.core       :as ankha]
+   [webapp.framework.client.components.fields.labelled-text-field :as labelled-field]
+   )
 
   (:use
    [webapp.framework.client.coreclient     :only  [log remote]]
@@ -230,10 +232,14 @@
                   (go (loop []
                         (let [session (<! clear-replay-sessions)]
                           (log "****CLEAR REPLAY")
-                          (om/transact!
-                           app
-                           [:data :sessions] (fn[x] {} ))
-                          (<! (remote "clear-playback-sessions" {}))
+
+                          (let [ret (<! (remote "clear-playback-sessions"
+                                      {:password (-> @app :ui :delete-password :value)
+                                       }))]
+                            (if (ret :success)
+                              (om/transact!
+                               app
+                               [:data :sessions] (fn[x] {} ))))
                           (recur))))
 
                   (go (loop []
@@ -332,10 +338,14 @@
 
               (dom/button #js {:onClick (fn [e] (put! clear-replay-sessions
                                                       true))} "Delete")
+              (om/build labelled-field/component
+                        {:field (-> app :ui :delete-password)})
+
+
               (dom/button #js {:onClick (fn [e] (put! show-ankha
-                                                      true))} "Ankha")
+                                                      true))} "Show App state")
               (dom/button #js {:onClick (fn [e] (put! show-ankha1
-                                                      true))} "Ankha1")
+                                                      true))} "Show Playback controls state")
 
 
               )))))

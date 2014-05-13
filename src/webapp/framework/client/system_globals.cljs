@@ -67,7 +67,7 @@
 
 (def playback-app-state
   (atom
-   {}))
+   ))
 
 
 
@@ -78,6 +78,10 @@
     {
      :current-session   nil
      :current-page      0
+     :delete-password {:label "Delete password"
+                       :placeholder ""
+                       :value ""}
+
      }
     :data {
            :sessions          []

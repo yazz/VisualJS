@@ -103,11 +103,15 @@
 
 
 
-(defn clear-playback-sessions [{}]
-  (do
-    (neo4j "MATCH (n:WebSession) OPTIONAL MATCH (n)-[r]-(s) DELETE n,r,s")
-    {:result "done"}
-))
+(defn clear-playback-sessions [{:keys [password]}]
+  (if (= password "use the source luke")
+    (do
+      (neo4j "MATCH (n:WebSession) OPTIONAL MATCH (n)-[r]-(s) DELETE n,r,s")
+      {:result "done" :success true}
+      )
+    {:success false}
+
+    ))
 
 
 (defn add-history [{:keys [session-id  history-order  timestamp  path new-value]}]
