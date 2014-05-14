@@ -36,6 +36,40 @@
 
 
 
+(defn full-name-field [{:keys [request]} owner]
+  (reify
+
+    ;---------------------------------------------------------
+    om/IRender
+    (render
+     [this]
+     (dom/div nil
+              (dom/div #js {:className "input-group"}
+
+                       (dom/span
+                        #js {:className "input-group-addon"}
+                        (str "Your full name"))
+                        (dom/input
+                         #js {:type        "text"
+                              :className   "form-control"
+                              :placeholder "John Smith"
+                              :value       (get-in request [:from-full-name :value])
+                              :onChange    #(om/update! request
+                                                         [:from-full-name :value]
+                                                         (.. %1 -target -value))
+                              :onBlur      #(om/update! request
+                                                         [:from-full-name :lost]
+                                                         true)
+                              })
+                       (if (get-in request [:from-full-name :lost])
+                         (dom/div nil "Lost focus")
+                         )
+
+                       )
+
+               )
+     )))
+
 
 
 
@@ -50,7 +84,7 @@
       nil
       (dom/div #js {:style #js {:padding-top "40px"}} " You ")
 
-      (om/build labelled-field/component  {:field (-> request :from-full-name)})
+      (om/build full-name-field  {:request request})
       (om/build labelled-field/component  {:field (-> request :email-from)})
 
       (dom/div #js {:style #js {:padding-top "40px"}} " Them ")
@@ -74,6 +108,12 @@
        (dom/input #js {:type        "text"
                        :className   "form-control"
                        :placeholder "marketing"}))
+
+      (dom/button #js {:onClick (fn [e] nil)
+                       :style
+                       #js {:margin-top "40px"}}
+                  "Send request")
+
       ))
     ;---------------------------------------------------------
 

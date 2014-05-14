@@ -23,7 +23,7 @@
                        })
 
 
-           (om/build  graph
+           (comment om/build  graph
                       {
                        :data    (:data    app)
                        })
