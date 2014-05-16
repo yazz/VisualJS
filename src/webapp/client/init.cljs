@@ -51,7 +51,7 @@
     ))
 
 (swap! ui-watchers conj {
-                         :type     "path-equals"
+                         :type     "path equals"
                          :path     [:ui :request :from-email :mode]
                          :value    "validate"
                          :fn       #(if (validate-email
@@ -59,6 +59,17 @@
                                       (update-app [:ui :request :from-email :error] "")
                                       (update-app [:ui :request :from-email :error] "Invalid email")
                                       )
+                         })
+
+(swap! ui-watchers conj {
+                         :type     "value change"
+                         :path     [:ui :request :from-email :value]
+                         :fn       #(if (= (get-in-app [:ui :request :from-email :mode]) "validate")
+                                     (if (validate-email
+                                         (get-in-app [:ui :request :from-email :value]))
+                                      (update-app [:ui :request :from-email :error] "")
+                                      (update-app [:ui :request :from-email :error] "Invalid email")
+                                      ))
                          })
 
 ;(update-app [:ui :request :from-email :error] "")
