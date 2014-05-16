@@ -30,8 +30,34 @@
    {}))
 
 
+(defn subtree-different? [orig-val new-val path]
+  (let [
+        orig-subset    (get-in orig-val  path)
+        new-subset     (get-in new-val   path)
+        ]
+      (not (identical?  orig-subset  new-subset))))
+
+(def ui-watchers (atom []))
+
+(add-watch app-state :events-change
+
+    (fn [keya ab old-val new-val]
+      (doall
+       ;(. js/console log (pr-str "Events changed" new-val))
+       (for [ui-watch @ui-watchers]
+         (if (subtree-different? old-val new-val (:path ui-watch))
+           ((:fn ui-watch))
+           )
+
+))))
 
 
+
+
+(swap! ui-watchers conj {
+                         :path     [:pointer]
+                         :fn       #(. js/console log (pr-str (get-in @app-state [:pointer])))
+                         })
 
 (def blank-app-state
   {
@@ -67,6 +93,7 @@
 
 (def playback-app-state
   (atom
+   {}
    ))
 
 
