@@ -121,7 +121,15 @@
                                  :timestamp     ts}
                                 "w")))
                      ))
-                  }))))
+                  }))
+
+
+   (om/root
+    ankha/inspector
+    app-state
+    {:target (js/document.getElementById "playback_state")})
+
+   ))
 
 
 

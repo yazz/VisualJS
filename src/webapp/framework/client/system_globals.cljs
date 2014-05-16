@@ -46,18 +46,23 @@
        ;(. js/console log (pr-str "Events changed" new-val))
        (for [ui-watch @ui-watchers]
          (if (subtree-different? old-val new-val (:path ui-watch))
-           ((:fn ui-watch))
+           (cond
+            (= (:type ui-watch) "path-equals")
+            (if (= (get-in new-val (:path ui-watch)) (:value ui-watch) )
+              ((:fn ui-watch))
+              )
+
+            :else
+            nil
+            )
            )
 
-))))
+
+         ))))
 
 
 
-
-(swap! ui-watchers conj {
-                         :path     [:pointer]
-                         :fn       #(. js/console log (pr-str (get-in @app-state [:pointer])))
-                         })
+;@app-state
 
 (def blank-app-state
   {

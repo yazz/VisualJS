@@ -11,7 +11,11 @@
     )
 
   (:use
-   [webapp.framework.client.coreclient      :only  [log remote]])
+   [webapp.framework.client.coreclient      :only  [log remote]]
+   [webapp.client.init :only [blur-from-full-name blur-from-email ]]
+   [clojure.string :only [blank?]]
+
+   )
 
 
   (:use-macros
@@ -57,18 +61,47 @@
                               :onChange    #(om/update! request
                                                          [:from-full-name :value]
                                                          (.. %1 -target -value))
-                              :onBlur      #(om/update! request
-                                                         [:from-full-name :lost]
-                                                         true)
+                              :onBlur      #(blur-from-full-name  request)
                               })
-                       (if (get-in request [:from-full-name :lost])
+                       (if (= (get-in request [:from-full-name :mode]) "validate")
                          (dom/div nil "Lost focus")
                          )
-
                        )
+))))
 
-               )
-     )))
+
+
+
+
+(defn from-email-field [{:keys [request]} owner]
+  (reify
+
+    ;---------------------------------------------------------
+    om/IRender
+    (render
+     [this]
+     (dom/div nil
+              (dom/div #js {:className "input-group"}
+
+                       (dom/span
+                        #js {:className "input-group-addon"}
+                        (str "Your company email"))
+                        (dom/input
+                         #js {:type        "text"
+                              :className   "form-control"
+                              :placeholder "john@microsoft.com"
+                              :value       (get-in request [:from-email :value])
+                              :onChange    #(om/update! request
+                                                         [:from-email :value]
+                                                         (.. %1 -target -value))
+                              :onBlur      #(blur-from-email  request)
+                              })
+                       (if (not (blank?
+                                 (get-in request [:from-email :error])))
+                             (dom/div nil "Email validation error")
+                         )
+                       )
+))))
 
 
 
@@ -85,12 +118,12 @@
       (dom/div #js {:style #js {:padding-top "40px"}} " You ")
 
       (om/build full-name-field  {:request request})
-      (om/build labelled-field/component  {:field (-> request :email-from)})
+      (om/build from-email-field  {:request request})
 
       (dom/div #js {:style #js {:padding-top "40px"}} " Them ")
 
       (om/build labelled-field/component  {:field (-> request :to-full-name)})
-      (om/build labelled-field/component  {:field (-> request :email-to)})
+      (om/build labelled-field/component  {:field (-> request :to-email)})
 
 
 
