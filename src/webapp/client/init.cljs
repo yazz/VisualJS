@@ -19,11 +19,11 @@
 ))
 
 
-(defn update-app [path value]
-  (reset! app-state (assoc-in @app-state path value)))
+(defn update-app [app path value]
+  (om/update! app path value))
 
-(defn get-in-app [path]
-  (get-in @app-state path))
+(defn get-in-app [app path]
+  (get-in @app path))
 
 (defn  ^:export setup []
    (reset! app-state (assoc-in @app-state [:ui]
@@ -54,22 +54,23 @@
                          :type     "path equals"
                          :path     [:ui :request :from-email :mode]
                          :value    "validate"
-                         :fn       #(if (validate-email
-                                         (get-in-app [:ui :request :from-email :value]))
-                                      (update-app [:ui :request :from-email :error] "")
-                                      (update-app [:ui :request :from-email :error] "Invalid email")
-                                      )
+                         :fn       (fn [app]
+                                     (if (validate-email
+                                         (get-in-app app [:ui :request :from-email :value]))
+                                      (update-app app [:ui :request :from-email :error] "")
+                                      (update-app app [:ui :request :from-email :error] "Invalid email")
+                                      ))
                          })
 
 (swap! ui-watchers conj {
                          :type     "value change"
                          :path     [:ui :request :from-email :value]
-                         :fn       #(if (= (get-in-app [:ui :request :from-email :mode]) "validate")
+                         :fn      (fn [app] (if (= (get-in-app app [:ui :request :from-email :mode]) "validate")
                                      (if (validate-email
-                                         (get-in-app [:ui :request :from-email :value]))
-                                      (update-app [:ui :request :from-email :error] "")
-                                      (update-app [:ui :request :from-email :error] "Invalid email")
-                                      ))
+                                         (get-in-app app [:ui :request :from-email :value]))
+                                      (update-app app [:ui :request :from-email :error] "")
+                                      (update-app app [:ui :request :from-email :error] "Invalid email")
+                                      )))
                          })
 
 ;(update-app [:ui :request :from-email :error] "")

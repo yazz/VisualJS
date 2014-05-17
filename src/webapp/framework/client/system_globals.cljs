@@ -30,18 +30,13 @@
    {}))
 
 
-(defn subtree-different? [orig-val new-val path]
-  (let [
-        orig-subset    (get-in orig-val  path)
-        new-subset     (get-in new-val   path)
-        ]
-      (not (identical?  orig-subset  new-subset))))
+
 
 (def ui-watchers (atom []))
 
-(add-watch app-state :events-change
+(comment add-watch app-state :events-change
 
-    (fn [keya ab old-val new-val]
+    (fn [key a ab old-val new-val]
       (doall
        ;(. js/console log (pr-str "Events changed" new-val))
        (for [ui-watch @ui-watchers]
