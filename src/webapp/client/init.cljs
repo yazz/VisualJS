@@ -39,8 +39,8 @@
                  })))
 
 
-(defn validate-from-name [full-name]
-  (if (and (> (count full-name) 3) (pos? (.indexOf full-name " ") ))
+(defn validate-from-full-name [full-name]
+  (if (and (> (count full-name) 6) (pos? (.indexOf full-name " ") ))
     true
     ))
 
@@ -73,14 +73,38 @@
                                       )))
                          })
 
-;(update-app [:ui :request :from-email :error] "")
 
+(swap! ui-watchers conj {
+                         :type     "path equals"
+                         :path     [:ui :request :from-full-name :mode]
+                         :value    "validate"
+                         :fn      (fn [app] (if (= (get-in-app app [:ui :request :from-full-name :mode]) "validate")
+                                     (if (validate-from-full-name
+                                         (get-in-app app [:ui :request :from-full-name :value]))
+                                      (update-app app [:ui :request :from-full-name :error] "")
+                                      (update-app app [:ui :request :from-full-name :error] "Invalid full name")
+                                      )))
+                         })
+
+
+(swap! ui-watchers conj {
+                         :type     "value change"
+                         :path     [:ui :request :from-full-name :value]
+                         :fn      (fn [app] (if (= (get-in-app app [:ui :request :from-full-name :mode]) "validate")
+                                     (if (validate-from-full-name
+                                         (get-in-app app [:ui :request :from-full-name :value]))
+                                      (update-app app [:ui :request :from-full-name :error] "")
+                                      (update-app app [:ui :request :from-full-name :error] "Invalid full name")
+                                      )))
+                         })
+
+blank?
 
 
 (defn blur-from-full-name [request]
    (let [mode  (get-in @request [:from-full-name :mode])]
      (cond
-      (= mode "empty")
+      (and (= mode "empty") (not (blank? (get-in @request [:from-full-name :value]))))
       (om/update! request [:from-full-name :mode]  "validate")
       )))
 
@@ -88,7 +112,7 @@
 (defn blur-from-email [request]
    (let [mode  (get-in @request [:from-email :mode])]
      (cond
-      (= mode "empty")
+      (and (= mode "empty") (not (blank? (get-in @request [:from-email :value]))))
       (om/update! request [:from-email :mode]  "validate")
       )))
 

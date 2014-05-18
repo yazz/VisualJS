@@ -63,10 +63,10 @@
                                                          (.. %1 -target -value))
                               :onBlur      #(blur-from-full-name  request)
                               })
-                       (if (= (get-in request [:from-full-name :mode]) "validate")
-                         (dom/div nil "Lost focus")
-                         )
-                       )
+                       (if (not (blank?
+                                 (get-in request [:from-full-name :error])))
+                             (dom/div nil "Full name must be at least 6 characters and contain a space")
+                         )                       )
 ))))
 
 
