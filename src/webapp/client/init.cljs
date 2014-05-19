@@ -31,15 +31,15 @@
                            :from-full-name       {:label "Your full name" :placeholder "John smith" :value "" :mode "empty"}
                            :from-email           {:label "Your company email" :placeholder "john@microsoft.com" :value ""  :mode "empty"}
 
-                           :to-full-name         {:label "Their full name" :placeholder "Pete Austin" :value ""}
-                           :to-email             {:label "Their email" :placeholder "pete@ibm.com" :value ""}
+                           :to-full-name         {:label "Their full name" :placeholder "Pete Austin" :value ""   :mode "empty"}
+                           :to-email             {:label "Their email" :placeholder "pete@ibm.com" :value ""  :mode "empty"}
 
                            :endorsement          {:value ""}
                            }
                  })))
 
 
-(defn validate-from-full-name [full-name]
+(defn validate-full-name [full-name]
   (if (and (> (count full-name) 6) (pos? (.indexOf full-name " ") ))
     true
     ))
@@ -79,7 +79,7 @@
                          :path     [:ui :request :from-full-name :mode]
                          :value    "validate"
                          :fn      (fn [app] (if (= (get-in-app app [:ui :request :from-full-name :mode]) "validate")
-                                     (if (validate-from-full-name
+                                     (if (validate-full-name
                                          (get-in-app app [:ui :request :from-full-name :value]))
                                       (update-app app [:ui :request :from-full-name :error] "")
                                       (update-app app [:ui :request :from-full-name :error] "Invalid full name")
@@ -91,14 +91,66 @@
                          :type     "value change"
                          :path     [:ui :request :from-full-name :value]
                          :fn      (fn [app] (if (= (get-in-app app [:ui :request :from-full-name :mode]) "validate")
-                                     (if (validate-from-full-name
+                                     (if (validate-full-name
                                          (get-in-app app [:ui :request :from-full-name :value]))
                                       (update-app app [:ui :request :from-full-name :error] "")
                                       (update-app app [:ui :request :from-full-name :error] "Invalid full name")
                                       )))
                          })
 
-blank?
+
+(swap! ui-watchers conj {
+                         :type     "path equals"
+                         :path     [:ui :request :to-full-name :mode]
+                         :value    "validate"
+                         :fn      (fn [app] (if (= (get-in-app app [:ui :request :to-full-name :mode]) "validate")
+                                     (if (validate-full-name
+                                         (get-in-app app [:ui :request :to-full-name :value]))
+                                      (update-app app [:ui :request :to-full-name :error] "")
+                                      (update-app app [:ui :request :to-full-name :error] "Invalid full name")
+                                      )))
+                         })
+
+
+(swap! ui-watchers conj {
+                         :type     "value change"
+                         :path     [:ui :request :to-full-name :value]
+                         :fn      (fn [app] (if (= (get-in-app app [:ui :request :to-full-name :mode]) "validate")
+                                     (if (validate-full-name
+                                         (get-in-app app [:ui :request :to-full-name :value]))
+                                      (update-app app [:ui :request :to-full-name :error] "")
+                                      (update-app app [:ui :request :to-full-name :error] "Invalid full name")
+                                      )))
+                         })
+
+
+
+
+
+(swap! ui-watchers conj {
+                         :type     "path equals"
+                         :path     [:ui :request :to-email :mode]
+                         :value    "validate"
+                         :fn       (fn [app]
+                                     (if (validate-email
+                                         (get-in-app app [:ui :request :to-email :value]))
+                                      (update-app app [:ui :request :to-email :error] "")
+                                      (update-app app [:ui :request :to-email :error] "Invalid email")
+                                      ))
+                         })
+
+(swap! ui-watchers conj {
+                         :type     "value change"
+                         :path     [:ui :request :to-email :value]
+                         :fn      (fn [app] (if (= (get-in-app app [:ui :request :to-email :mode]) "validate")
+                                     (if (validate-email
+                                         (get-in-app app [:ui :request :to-email :value]))
+                                      (update-app app [:ui :request :to-email :error] "")
+                                      (update-app app [:ui :request :to-email :error] "Invalid email")
+                                      )))
+                         })
+
+
 
 
 (defn blur-from-full-name [request]
@@ -108,12 +160,25 @@ blank?
       (om/update! request [:from-full-name :mode]  "validate")
       )))
 
+(defn blur-to-full-name [request]
+   (let [mode  (get-in @request [:to-full-name :mode])]
+     (cond
+      (and (= mode "empty") (not (blank? (get-in @request [:to-full-name :value]))))
+      (om/update! request [:to-full-name :mode]  "validate")
+      )))
 
 (defn blur-from-email [request]
    (let [mode  (get-in @request [:from-email :mode])]
      (cond
       (and (= mode "empty") (not (blank? (get-in @request [:from-email :value]))))
       (om/update! request [:from-email :mode]  "validate")
+      )))
+
+(defn blur-to-email [request]
+   (let [mode  (get-in @request [:to-email :mode])]
+     (cond
+      (and (= mode "empty") (not (blank? (get-in @request [:to-email :value]))))
+      (om/update! request [:to-email :mode]  "validate")
       )))
 
 

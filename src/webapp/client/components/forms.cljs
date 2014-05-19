@@ -12,7 +12,8 @@
 
   (:use
    [webapp.framework.client.coreclient      :only  [log remote]]
-   [webapp.client.init :only [blur-from-full-name blur-from-email ]]
+   [webapp.client.init :only [blur-from-full-name blur-from-email
+                              blur-to-full-name blur-to-email]]
    [clojure.string :only [blank?]]
 
    )
@@ -71,6 +72,37 @@
 
 
 
+(defn to-full-name-field [{:keys [request]} owner]
+  (reify
+
+    ;---------------------------------------------------------
+    om/IRender
+    (render
+     [this]
+     (dom/div nil
+              (dom/div #js {:className "input-group"}
+
+                       (dom/span
+                        #js {:className "input-group-addon"}
+                        (str "Their full name"))
+                        (dom/input
+                         #js {:type        "text"
+                              :className   "form-control"
+                              :placeholder "Pete Austin"
+                              :value       (get-in request [:to-full-name :value])
+                              :onChange    #(om/update! request
+                                                         [:to-full-name :value]
+                                                         (.. %1 -target -value))
+                              :onBlur      #(blur-to-full-name  request)
+                              })
+                       (if (not (blank?
+                                 (get-in request [:to-full-name :error])))
+                             (dom/div nil "Full name must be at least 6 characters and contain a space")
+                         )                       )
+))))
+
+
+
 
 
 (defn from-email-field [{:keys [request]} owner]
@@ -104,6 +136,37 @@
 ))))
 
 
+(defn to-email-field [{:keys [request]} owner]
+  (reify
+
+    ;---------------------------------------------------------
+    om/IRender
+    (render
+     [this]
+     (dom/div nil
+              (dom/div #js {:className "input-group"}
+
+                       (dom/span
+                        #js {:className "input-group-addon"}
+                        (str "Their company email"))
+                        (dom/input
+                         #js {:type        "text"
+                              :className   "form-control"
+                              :placeholder "pete@ibm.com"
+                              :value       (get-in request [:to-email :value])
+                              :onChange    #(om/update! request
+                                                         [:to-email :value]
+                                                         (.. %1 -target -value))
+                              :onBlur      #(blur-to-email  request)
+                              })
+                       (if (not (blank?
+                                 (get-in request [:to-email :error])))
+                             (dom/div nil "Email validation error")
+                         )
+                       )
+))))
+
+
 
 
 (defn request-form [{:keys [request data]} owner]
@@ -122,8 +185,10 @@
 
       (dom/div #js {:style #js {:padding-top "40px"}} " Them ")
 
-      (om/build labelled-field/component  {:field (-> request :to-full-name)})
-      (om/build labelled-field/component  {:field (-> request :to-email)})
+      ;(om/build labelled-field/component  {:field (-> request :to-full-name)})
+      (om/build to-full-name-field  {:request request})
+
+      (om/build to-email-field  {:request request})
 
 
 
