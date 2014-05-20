@@ -34,13 +34,18 @@
                            :to-full-name         {:label "Their full name" :placeholder "Pete Austin" :value ""   :mode "empty"}
                            :to-email             {:label "Their email" :placeholder "pete@ibm.com" :value ""  :mode "empty"}
 
-                           :endorsement          {:value ""}
+                           :endorsement          {:label "Endorsement" :placeholder "marketing" :value ""  :mode "empty"}
                            }
                  })))
 
 
 (defn validate-full-name [full-name]
   (if (and (> (count full-name) 6) (pos? (.indexOf full-name " ") ))
+    true
+    ))
+
+(defn validate-endorsement [full-name]
+  (if (> (count full-name) 2)
     true
     ))
 
@@ -170,6 +175,35 @@
 
 
 
+
+
+(when-path-equals
+ [:ui :request :endorsement :mode]     "validate"
+
+ (fn [app]
+   (if (validate-endorsement
+        (get-in-app app [:ui :request :endorsement :value]))
+     (update-app app [:ui :request :endorsement :error] "")
+     (update-app app [:ui :request :endorsement :error] "Invalid endorsement")
+     )))
+
+
+
+
+
+(when-value-changes
+ [:ui :request :endorsement :value]
+
+ (fn [app] (if (= (get-in-app app [:ui :request :endorsement :mode]) "validate")
+             (if (validate-endorsement
+                  (get-in-app app [:ui :request :endorsement :value]))
+               (update-app app [:ui :request :endorsement :error] "")
+               (update-app app [:ui :request :endorsement :error] "Invalid endorsement")
+               ))))
+
+
+
+
 (defn blur-from-full-name [request]
    (let [mode  (get-in @request [:from-full-name :mode])]
      (cond
@@ -198,4 +232,11 @@
       (om/update! request [:to-email :mode]  "validate")
       )))
 
+
+(defn blur-to-endorsement [request]
+   (let [mode  (get-in @request [:endorsement :mode])]
+     (cond
+      (and (= mode "empty") (not (blank? (get-in @request [:endorsement :value]))))
+      (om/update! request [:endorsement :mode]  "validate")
+      )))
 

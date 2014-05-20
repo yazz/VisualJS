@@ -13,7 +13,8 @@
   (:use
    [webapp.framework.client.coreclient      :only  [log remote]]
    [webapp.client.init :only [blur-from-full-name blur-from-email
-                              blur-to-full-name blur-to-email]]
+                              blur-to-full-name blur-to-email
+                              blur-to-endorsement]]
    [clojure.string :only [blank?]]
 
    )
@@ -149,23 +150,52 @@
                        (dom/span
                         #js {:className "input-group-addon"}
                         (str "Their company email"))
-                        (dom/input
-                         #js {:type        "text"
-                              :className   "form-control"
-                              :placeholder "pete@ibm.com"
-                              :value       (get-in request [:to-email :value])
-                              :onChange    #(om/update! request
-                                                         [:to-email :value]
-                                                         (.. %1 -target -value))
-                              :onBlur      #(blur-to-email  request)
-                              })
+                       (dom/input
+                        #js {:type        "text"
+                             :className   "form-control"
+                             :placeholder "pete@ibm.com"
+                             :value       (get-in request [:to-email :value])
+                             :onChange    #(om/update! request
+                                                       [:to-email :value]
+                                                       (.. %1 -target -value))
+                             :onBlur      #(blur-to-email  request)
+                             })
                        (if (not (blank?
                                  (get-in request [:to-email :error])))
-                             (dom/div nil "Email validation error")
+                         (dom/div nil "Email validation error")
                          )
-                       )
-))))
+                       )))))
 
+
+
+(defn endorsement-field [{:keys [request]} owner]
+  (reify
+
+    ;---------------------------------------------------------
+    om/IRender
+    (render
+     [this]
+     (dom/div nil
+              (dom/div #js {:className "input-group"}
+
+                       (dom/span
+                        #js {:className "input-group-addon"}
+                        (str "Skill your company has"))
+                       (dom/input
+                        #js {:type        "text"
+                             :className   "form-control"
+                             :placeholder "marketing"
+                             :value       (get-in request [:endorsement :value])
+                             :onChange    #(om/update! request
+                                                       [:endorsement :value]
+                                                       (.. %1 -target -value))
+                             :onBlur      #(blur-to-endorsement  request)
+                             })
+                       (if (not (blank?
+                                 (get-in request [:endorsement :error])))
+                         (dom/div nil "Endorsement validation error")
+                         )
+                       )))))
 
 
 
@@ -201,11 +231,9 @@
       (dom/div
        #js {:className "input-group"}
 
-       (dom/span #js {:className "input-group-addon"}
-                 "Skill your company has")
-       (dom/input #js {:type        "text"
-                       :className   "form-control"
-                       :placeholder "marketing"}))
+       (om/build endorsement-field  {:request request})
+
+       )
 
       (dom/button #js {:onClick (fn [e] nil)
                        :style
