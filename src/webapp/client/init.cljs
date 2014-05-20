@@ -50,105 +50,122 @@
     true
     ))
 
-(swap! ui-watchers conj {
-                         :type     "path equals"
-                         :path     [:ui :request :from-email :mode]
-                         :value    "validate"
-                         :fn       (fn [app]
-                                     (if (validate-email
-                                         (get-in-app app [:ui :request :from-email :value]))
-                                      (update-app app [:ui :request :from-email :error] "")
-                                      (update-app app [:ui :request :from-email :error] "Invalid email")
-                                      ))
-                         })
+(defn when-path-equals [path value fn-def]
+  (swap! ui-watchers conj
+         {
+          :type     "path equals"
+          :path     path
+          :value    value
+          :fn       fn-def
+          }))
 
-(swap! ui-watchers conj {
-                         :type     "value change"
-                         :path     [:ui :request :from-email :value]
-                         :fn      (fn [app] (if (= (get-in-app app [:ui :request :from-email :mode]) "validate")
-                                     (if (validate-email
-                                         (get-in-app app [:ui :request :from-email :value]))
-                                      (update-app app [:ui :request :from-email :error] "")
-                                      (update-app app [:ui :request :from-email :error] "Invalid email")
-                                      )))
-                         })
-
-
-(swap! ui-watchers conj {
-                         :type     "path equals"
-                         :path     [:ui :request :from-full-name :mode]
-                         :value    "validate"
-                         :fn      (fn [app] (if (= (get-in-app app [:ui :request :from-full-name :mode]) "validate")
-                                     (if (validate-full-name
-                                         (get-in-app app [:ui :request :from-full-name :value]))
-                                      (update-app app [:ui :request :from-full-name :error] "")
-                                      (update-app app [:ui :request :from-full-name :error] "Invalid full name")
-                                      )))
-                         })
-
-
-(swap! ui-watchers conj {
-                         :type     "value change"
-                         :path     [:ui :request :from-full-name :value]
-                         :fn      (fn [app] (if (= (get-in-app app [:ui :request :from-full-name :mode]) "validate")
-                                     (if (validate-full-name
-                                         (get-in-app app [:ui :request :from-full-name :value]))
-                                      (update-app app [:ui :request :from-full-name :error] "")
-                                      (update-app app [:ui :request :from-full-name :error] "Invalid full name")
-                                      )))
-                         })
-
-
-(swap! ui-watchers conj {
-                         :type     "path equals"
-                         :path     [:ui :request :to-full-name :mode]
-                         :value    "validate"
-                         :fn      (fn [app] (if (= (get-in-app app [:ui :request :to-full-name :mode]) "validate")
-                                     (if (validate-full-name
-                                         (get-in-app app [:ui :request :to-full-name :value]))
-                                      (update-app app [:ui :request :to-full-name :error] "")
-                                      (update-app app [:ui :request :to-full-name :error] "Invalid full name")
-                                      )))
-                         })
-
-
-(swap! ui-watchers conj {
-                         :type     "value change"
-                         :path     [:ui :request :to-full-name :value]
-                         :fn      (fn [app] (if (= (get-in-app app [:ui :request :to-full-name :mode]) "validate")
-                                     (if (validate-full-name
-                                         (get-in-app app [:ui :request :to-full-name :value]))
-                                      (update-app app [:ui :request :to-full-name :error] "")
-                                      (update-app app [:ui :request :to-full-name :error] "Invalid full name")
-                                      )))
-                         })
+(defn when-value-changes [path fn-def]
+  (swap! ui-watchers conj
+         {
+          :type     "value change"
+          :path     path
+          :fn       fn-def
+          }))
 
 
 
+(when-path-equals
+ [:ui :request :from-email :mode] "validate"
+
+ (fn [app]
+   (if (validate-email
+        (get-in-app app [:ui :request :from-email :value]))
+     (update-app app [:ui :request :from-email :error] "")
+     (update-app app [:ui :request :from-email :error] "Invalid email")
+     )))
 
 
-(swap! ui-watchers conj {
-                         :type     "path equals"
-                         :path     [:ui :request :to-email :mode]
-                         :value    "validate"
-                         :fn       (fn [app]
-                                     (if (validate-email
-                                         (get-in-app app [:ui :request :to-email :value]))
-                                      (update-app app [:ui :request :to-email :error] "")
-                                      (update-app app [:ui :request :to-email :error] "Invalid email")
-                                      ))
-                         })
 
-(swap! ui-watchers conj {
-                         :type     "value change"
-                         :path     [:ui :request :to-email :value]
-                         :fn      (fn [app] (if (= (get-in-app app [:ui :request :to-email :mode]) "validate")
-                                     (if (validate-email
-                                         (get-in-app app [:ui :request :to-email :value]))
-                                      (update-app app [:ui :request :to-email :error] "")
-                                      (update-app app [:ui :request :to-email :error] "Invalid email")
-                                      )))
-                         })
+(when-value-changes
+ [:ui :request :from-email :value]
+
+ (fn [app] (if (= (get-in-app app [:ui :request :from-email :mode]) "validate")
+             (if (validate-email
+                  (get-in-app app [:ui :request :from-email :value]))
+               (update-app app [:ui :request :from-email :error] "")
+               (update-app app [:ui :request :from-email :error] "Invalid email")
+               ))))
+
+
+
+(when-path-equals
+ [:ui :request :from-full-name :mode] "validate"
+
+ (fn [app] (if (= (get-in-app app [:ui :request :from-full-name :mode]) "validate")
+             (if (validate-full-name
+                  (get-in-app app [:ui :request :from-full-name :value]))
+               (update-app app [:ui :request :from-full-name :error] "")
+               (update-app app [:ui :request :from-full-name :error] "Invalid full name")
+               ))))
+
+
+
+(when-value-changes
+ [:ui :request :from-full-name :value]
+
+ (fn [app] (if (= (get-in-app app [:ui :request :from-full-name :mode]) "validate")
+             (if (validate-full-name
+                  (get-in-app app [:ui :request :from-full-name :value]))
+               (update-app app [:ui :request :from-full-name :error] "")
+               (update-app app [:ui :request :from-full-name :error] "Invalid full name")
+               ))))
+
+
+
+(when-path-equals
+ [:ui :request :to-full-name :mode]
+
+ "validate"
+ (fn [app] (if (= (get-in-app app [:ui :request :to-full-name :mode]) "validate")
+             (if (validate-full-name
+                  (get-in-app app [:ui :request :to-full-name :value]))
+               (update-app app [:ui :request :to-full-name :error] "")
+               (update-app app [:ui :request :to-full-name :error] "Invalid full name")
+               ))))
+
+
+(when-value-changes
+ [:ui :request :to-full-name :value]
+
+ (fn [app] (if (= (get-in-app app [:ui :request :to-full-name :mode]) "validate")
+             (if (validate-full-name
+                  (get-in-app app [:ui :request :to-full-name :value]))
+               (update-app app [:ui :request :to-full-name :error] "")
+               (update-app app [:ui :request :to-full-name :error] "Invalid full name")
+               ))))
+
+
+
+
+
+(when-path-equals
+ [:ui :request :to-email :mode]     "validate"
+
+ (fn [app]
+   (if (validate-email
+        (get-in-app app [:ui :request :to-email :value]))
+     (update-app app [:ui :request :to-email :error] "")
+     (update-app app [:ui :request :to-email :error] "Invalid email")
+     )))
+
+
+
+
+
+(when-value-changes
+ [:ui :request :to-email :value]
+
+ (fn [app] (if (= (get-in-app app [:ui :request :to-email :mode]) "validate")
+             (if (validate-email
+                  (get-in-app app [:ui :request :to-email :value]))
+               (update-app app [:ui :request :to-email :error] "")
+               (update-app app [:ui :request :to-email :error] "Invalid email")
+               ))))
 
 
 
