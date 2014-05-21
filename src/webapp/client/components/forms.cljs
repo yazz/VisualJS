@@ -235,10 +235,15 @@
 
        )
 
-      (dom/button #js {:onClick (fn [e] nil)
+      (dom/button #js {:onClick (fn [e]
+                                  (om/update! request [:submit :value]  true))
                        :style
                        #js {:margin-top "40px"}}
                   "Send request")
+      (if (not (blank?
+                                 (get-in request [:submit :message])))
+                         (dom/div nil "Submitted")
+                         )
 
       ))
     ;---------------------------------------------------------

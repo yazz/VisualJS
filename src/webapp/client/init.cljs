@@ -35,6 +35,7 @@
                            :to-email             {:label "Their email" :placeholder "pete@ibm.com" :value ""  :mode "empty"}
 
                            :endorsement          {:label "Endorsement" :placeholder "marketing" :value ""  :mode "empty"}
+                           :submit               {:value false}
                            }
                  })))
 
@@ -186,6 +187,15 @@
      (update-app app [:ui :request :endorsement :error] "")
      (update-app app [:ui :request :endorsement :error] "Invalid endorsement")
      )))
+
+
+
+(when-path-equals
+ [:ui :request :submit :value]     true
+
+ (fn [app]
+     (update-app app [:ui :request :submit :message] "Submitted")
+     ))
 
 
 
