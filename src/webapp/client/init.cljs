@@ -14,10 +14,13 @@
    [webapp.framework.client.system-globals  :only  [app-state   playback-app-state
                                                     playback-controls-state
                                                     reset-app-state ui-watchers
-                                                    playbackmode start-component ]]
+                                                    playbackmode start-component
+                                                    data-state]]
    [clojure.string :only [blank?]]
 ))
 
+(defn  update-data [path value]
+   (reset! data-state (assoc-in @data-state path value)))
 
 (defn update-app [app path value]
   (om/update! app path value))
@@ -37,7 +40,10 @@
                            :endorsement          {:label "Endorsement" :placeholder "marketing" :value ""  :mode "empty"}
                            :submit               {:value false}
                            }
-                 })))
+                 }))
+
+  (reset! data-state {:submit false})
+  )
 
 
 (defn validate-full-name [full-name]
@@ -195,11 +201,12 @@
 
  (fn [app]
      (update-app app [:ui :request :submit :message] "Submitted")
+     (update-data [:submit] "Submitted")
      ))
 
 
 
-
+@data-state
 
 (when-value-changes
  [:ui :request :endorsement :value]
@@ -250,3 +257,59 @@
       (om/update! request [:endorsement :mode]  "validate")
       )))
 
+
+
+
+
+
+
+
+
+
+(def ui-listeners '(
+
+
+  [:ui :request :to-email :mode] changes to "validate"
+                   OR
+  [:ui :request :from-email :value] changes
+  [:ui :request :from-email :mode] = "validate"
+  ---------------------------------------------
+
+      validate-email [:ui :request :from-email :value]
+      ---------------------------------------------
+
+          set [:ui :request :from-email :error] ""
+      else
+      ----
+          set [:ui :request :from-email :error] "Invalid email"
+
+
+
+
+
+
+  [:ui :request :from-full-name :mode] changes to "validate"
+                    OR
+  [:ui :request :from-full-name :value] changes
+  [:ui :request :from-full-name :mode] = "validate"
+  ------------------------------------------------
+
+      validate-full-name   [:ui :request :from-full-name :value]
+      ----------------------------------------------------------
+          set [:ui :request :from-full-name :error] ""
+      else
+      ----
+          set [:ui :request :from-full-name :error] "Invalid full name"
+
+
+
+
+
+
+  ))
+
+
+
+
+(def data-listeners
+  {})
