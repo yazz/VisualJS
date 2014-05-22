@@ -15,6 +15,7 @@
                                                     playback-controls-state
                                                     reset-app-state ui-watchers
                                                     playbackmode start-component
+                                                    data-watchers
                                                     data-state]]
    [clojure.string :only [blank?]]
 ))
@@ -62,8 +63,8 @@
     true
     ))
 
-(defn when-path-equals [path value fn-def]
-  (swap! ui-watchers conj
+(defn when-path-equals [watcher path value fn-def]
+  (swap! watcher conj
          {
           :type     "path equals"
           :path     path
@@ -71,8 +72,8 @@
           :fn       fn-def
           }))
 
-(defn when-value-changes [path fn-def]
-  (swap! ui-watchers conj
+(defn when-value-changes [watcher path fn-def]
+  (swap! watcher conj
          {
           :type     "value change"
           :path     path
@@ -81,7 +82,7 @@
 
 
 
-(when-path-equals
+(when-path-equals ui-watchers
  [:ui :request :from-email :mode] "validate"
 
  (fn [app]
@@ -93,7 +94,7 @@
 
 
 
-(when-value-changes
+(when-value-changes ui-watchers
  [:ui :request :from-email :value]
 
  (fn [app] (if (= (get-in-app app [:ui :request :from-email :mode]) "validate")
@@ -105,7 +106,7 @@
 
 
 
-(when-path-equals
+(when-path-equals ui-watchers
  [:ui :request :from-full-name :mode] "validate"
 
  (fn [app] (if (= (get-in-app app [:ui :request :from-full-name :mode]) "validate")
@@ -117,7 +118,7 @@
 
 
 
-(when-value-changes
+(when-value-changes  ui-watchers
  [:ui :request :from-full-name :value]
 
  (fn [app] (if (= (get-in-app app [:ui :request :from-full-name :mode]) "validate")
@@ -129,7 +130,7 @@
 
 
 
-(when-path-equals
+(when-path-equals ui-watchers
  [:ui :request :to-full-name :mode]
 
  "validate"
@@ -141,7 +142,7 @@
                ))))
 
 
-(when-value-changes
+(when-value-changes ui-watchers
  [:ui :request :to-full-name :value]
 
  (fn [app] (if (= (get-in-app app [:ui :request :to-full-name :mode]) "validate")
@@ -155,7 +156,7 @@
 
 
 
-(when-path-equals
+(when-path-equals ui-watchers
  [:ui :request :to-email :mode]     "validate"
 
  (fn [app]
@@ -169,7 +170,7 @@
 
 
 
-(when-value-changes
+(when-value-changes ui-watchers
  [:ui :request :to-email :value]
 
  (fn [app] (if (= (get-in-app app [:ui :request :to-email :mode]) "validate")
@@ -184,7 +185,7 @@
 
 
 
-(when-path-equals
+(when-path-equals ui-watchers
  [:ui :request :endorsement :mode]     "validate"
 
  (fn [app]
@@ -196,7 +197,7 @@
 
 
 
-(when-path-equals
+(when-path-equals ui-watchers
  [:ui :request :submit :value]     true
 
  (fn [app]
@@ -208,7 +209,17 @@
 
 @data-state
 
-(when-value-changes
+(when-path-equals data-watchers
+ [:submit]     "Submitted"
+
+ (fn [app]
+     (log "sent")
+     ))
+
+
+
+
+(when-value-changes ui-watchers
  [:ui :request :endorsement :value]
 
  (fn [app] (if (= (get-in-app app [:ui :request :endorsement :mode]) "validate")
@@ -310,6 +321,3 @@
 
 
 
-
-(def data-listeners
-  {})

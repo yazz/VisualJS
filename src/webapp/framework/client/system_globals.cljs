@@ -39,27 +39,36 @@
 
 (def ui-watchers (atom []))
 
-(comment add-watch app-state :events-change
-
-    (fn [key a ab old-val new-val]
-      (doall
-       ;(. js/console log (pr-str "Events changed" new-val))
-       (for [ui-watch @ui-watchers]
-         (if (subtree-different? old-val new-val (:path ui-watch))
-           (cond
-            (= (:type ui-watch) "path equals")
-            (if (= (get-in new-val (:path ui-watch)) (:value ui-watch) )
-              ((:fn ui-watch)))
-
-            (= (:type ui-watch) "value change")
-              ((:fn ui-watch))
-            :else
-            nil
-            )
-           )
+(def data-watchers (atom []))
 
 
-         ))))
+
+
+(defn subtree-different? [orig-val new-val path]
+  (let [
+        orig-subset    (get-in orig-val  path)
+        new-subset     (get-in new-val   path)
+        ]
+      (not (identical?  orig-subset  new-subset))))
+
+
+
+(add-watch data-state :events-change
+           (fn [keya ab old-val new-val]
+             (doall
+              ;(. js/console log (pr-str "Events changed" new-val))
+              (for [ui-watch @data-watchers]
+                (if (subtree-different? old-val new-val (:path ui-watch))
+                  (cond
+                   (= (:type ui-watch) "path equals")
+                   (if (= (get-in new-val (:path ui-watch)) (:value ui-watch) )
+                     ((:fn ui-watch) app))
+
+                   (= (:type ui-watch) "value change")
+                   ((:fn ui-watch) app)
+                   :else
+                   nil ))))))
+
 
 
 
