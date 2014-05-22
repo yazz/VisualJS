@@ -62,10 +62,10 @@
                   (cond
                    (= (:type ui-watch) "path equals")
                    (if (= (get-in new-val (:path ui-watch)) (:value ui-watch) )
-                     ((:fn ui-watch) app))
+                     ((:fn ui-watch) data-state))
 
                    (= (:type ui-watch) "value change")
-                   ((:fn ui-watch) app)
+                   ((:fn ui-watch) data-state)
                    :else
                    nil ))))))
 
