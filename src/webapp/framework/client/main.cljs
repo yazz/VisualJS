@@ -16,7 +16,8 @@
                                                     playback-controls-state
                                                     reset-app-state
                                                     playbackmode start-component
-                                                    init-fn]]
+                                                    init-fn
+                                                    data-state]]
    [webapp.framework.client.components.system-container :only  [main-view]]
    [webapp.framework.client.components.playback  :only  [playback-controls-view ]]
    )
@@ -123,6 +124,11 @@
                      ))
                   }))
 
+
+   (om/root
+    ankha/inspector
+    data-state
+    {:target (js/document.getElementById "data_state")})
 
    (om/root
     ankha/inspector
