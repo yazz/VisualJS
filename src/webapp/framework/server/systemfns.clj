@@ -55,7 +55,7 @@
   (do
     (let [cypher          (decrypt coded-cypher)
           ]
-          (println "Cypher from client: " coded-cypher " -> " cypher)
+          ;(println "Cypher from client: " coded-cypher " -> " cypher)
           (nh/neo4j  cypher  params)
     ))
   )
@@ -73,7 +73,7 @@
     (let [cypher          (decrypt coded-cypher)
           lower           (.toLowerCase cypher)
           ]
-      (println "Cypher from client: " coded-cypher " -> " cypher)
+      ;(println "Cypher from client: " coded-cypher " -> " cypher)
       (nh/neo4j   cypher  params  return)
     ))
   )

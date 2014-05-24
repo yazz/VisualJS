@@ -18,7 +18,10 @@
                                                     data-watchers
                                                     data-state]]
    [clojure.string :only [blank?]]
-))
+   )
+   (:require-macros
+    [cljs.core.async.macros :refer [go]])
+   )
 
 (defn  update-data [path value]
    (reset! data-state (assoc-in @data-state path value)))
@@ -28,6 +31,7 @@
 
 (defn get-in-app [app path]
   (get-in @app path))
+
 
 (defn  ^:export setup []
    (reset! app-state (assoc-in @app-state [:ui]
@@ -43,8 +47,13 @@
                            }
                  }))
 
-  (reset! data-state {:submit false})
+  (reset! data-state
+          {:submit
+           {
+            }})
   )
+
+
 
 
 (defn validate-full-name [full-name]
@@ -201,9 +210,51 @@
  [:ui :request :submit :value]     true
 
  (fn [app]
+   (go
      (update-app app [:ui :request :submit :message] "Submitted")
-     (update-data [:submit] "Submitted")
-     ))
+     (update-data [:submit :status] "Submitted")
+     (update-data [:submit :request :from-full-name]
+                  (get-in @app-state [:ui :request :from-full-name :value]))
+     (update-data [:submit :request :from-email]
+                  (get-in @app-state [:ui :request :from-email :value]))
+     (update-data [:submit :request :to-full-name]
+                  (get-in @app-state [:ui :request :to-full-name :value]))
+     (update-data [:submit :request :to-email]
+                  (get-in @app-state [:ui :request :to-email :value]))
+     (update-data [:submit :request :endorsement]
+                  (get-in @app-state [:ui :request :endorsement :value]))
+
+     (let [ l (<! (remote "request-endorsement"
+             {
+              :from-email     (get-in @data-state [:submit :request :from-email])
+              :from-full-name (get-in @data-state [:submit :request :from-full-name])
+              :to-email       (get-in @data-state [:submit :request :to-email])
+              :to-full-name   (get-in @data-state [:submit :request :to-full-name])
+              :endorsement    (get-in @data-state [:submit :request :endorsement])
+              }))]
+
+       (log (pr-str l)))
+
+
+
+     )))
+
+
+
+(go
+ (let
+   [
+    lk
+    (<! (remote "request-endorsement"
+                {
+                 :from-full-name "1"
+                 :from-email  "1"
+                 :to-full-name "1"
+                 :to-email "1"
+                 :endorsement "1"
+                 }))]
+
+   (log (pr-str lk))))
 
 
 

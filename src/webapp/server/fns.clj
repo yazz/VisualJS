@@ -161,6 +161,44 @@
         )))
 
 
+(defn request-endorsement [{:keys [from-full-name
+                                   from-email
+                                   to-full-name
+                                   to-email
+                                   endorsement
+                                   ]}]
+  (let [
 
+        web-record        (first (neo4j "create  (n:EndorsementRequest
+                                        {
+                                        session_id:           {session_id},
+                                        from_email:           {from_email},
+                                        to_email:             {to_email},
+                                        from_full_name:       {from_full_name},
+                                        to_full_name:         {to_full_name},
+                                        endorsement:          {endorsement},
+                                        timestamp:            {timestamp}
+                                        }) return n"
+                                        {
+                                         :session_id      "session-id"
+                                         :from_email      from-email
+                                         :to_email        to-email
+                                         :from_full_name  from-full-name
+                                         :to_full_name    to-full-name
+                                         :endorsement     endorsement
+                                         :timestamp       "timestamp"
+                                         }
+                                        "n"))
+        ]
+    web-record)
+  )
+
+
+(comment println (request-endorsement {:from-full-name "1"
+                                   :from-email  "1"
+                                   :to-full-name "1"
+                                   :to-email "1"
+                                   :endorsement "1"
+                                   }))
 
 
