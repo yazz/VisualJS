@@ -33,7 +33,7 @@
     (let [sql             (decrypt coded-sql)
           lower           (.toLowerCase sql)
           ]
-      (println "SQL from client: " coded-sql " -> " sql)
+      ;(println "SQL from client: " coded-sql " -> " sql)
       (cond
        (.startsWith lower "select")  (do (println "SELECT") (exec-raw [sql params] :results))
        :else                         (do (println "INSERT") (exec-raw [sql params]) [])

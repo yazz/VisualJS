@@ -30,7 +30,7 @@
                 (:params params))
              ")")
       ]
-      (println ":" code)
+      ;(println ":" code)
       (pr-str (load-string code))
      ))
 
@@ -42,7 +42,7 @@
 (defn upload-file
   [file]
 
-  (println (str  file))
+  ;(println (str  file))
 
   (io/copy
    (file :tempfile)

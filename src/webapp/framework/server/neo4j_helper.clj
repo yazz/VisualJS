@@ -648,7 +648,8 @@
     (nn/delete-from-index (:id apple) (:name idx))
     (nn/add-to-index (:id puma)  (:name idx) "country" "Germany")
     (nn/add-to-index (:id apple) (:name idx) "country" "United States of America")
-    (println (cy/empty? (nn/query (:name idx) "country:*"))))
+    ;(println (cy/empty? (nn/query (:name idx) "country:*")))
+    )
 
 
 

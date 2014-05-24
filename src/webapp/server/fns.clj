@@ -29,12 +29,13 @@
   (if send-endorsement-neo4j-node
     (do
       (send-email
-       :message      "hi zubair"
-       :subject      "subject test"
-       :from-email   (:from send-endorsement-neo4j-node)
-       :from-name    "zubair"
-       :to-email     (:to send-endorsement-neo4j-node)
-       :to-name      "zubairq")
+       :message      (str "hi " (:to_full_name  send-endorsement-neo4j-node))
+       :subject      (str "hi " (:to_full_name  send-endorsement-neo4j-node))
+       :from-email   (:from_email send-endorsement-neo4j-node)
+       :from-name    (:from_full_name  send-endorsement-neo4j-node)
+       :to-email     (:to_email send-endorsement-neo4j-node)
+       :to-name      (:to_full_name  send-endorsement-neo4j-node)
+       )
       (neo4j "match n where id(n)={id}
              remove n:AskForEndorsement
              set n:SendEndorsementConfirmFrom
@@ -59,8 +60,8 @@
 
 
 
-;(def a (atom 0))
-(comment do
+(def a (atom 0))
+(do
   (stop-and-reset-pool! my-pool)
   (every 5000
          #(do
@@ -115,11 +116,11 @@
 
 
 (defn add-history [{:keys [session-id  history-order  timestamp  path new-value]}]
-    (println (str "** history-order "    history-order))
-    (println (str "** path "             path))
-    (println (str "** new-value "        new-value))
-    (println (str "** timestamp "        timestamp))
-    (println (str "** session "          session-id))
+    ;(println (str "** history-order "    history-order))
+    ;(println (str "** path "             path))
+    ;(println (str "** new-value "        new-value))
+    ;(println (str "** timestamp "        timestamp))
+    ;(println (str "** session "          session-id))
 
     (let [session  (first (neo4j "match (n:WebSession)
                                  where n.session_id={si}
@@ -146,8 +147,8 @@
                                               "n"))
               ]
           (do
-            (println session)
-            (println web-record)
+            ;(println session)
+            ;(println web-record)
             (neo4j "START n=node(*), m=node(*)
                    where id(n)={ws} and id(m)={wr}
                    create (n)-[:FRIENDSHIP {status:2}]->(m)
@@ -169,7 +170,7 @@
                                    ]}]
   (let [
 
-        web-record        (first (neo4j "create  (n:EndorsementRequest
+        web-record        (first (neo4j "create  (n:AskForEndorsement
                                         {
                                         session_id:           {session_id},
                                         from_email:           {from_email},
