@@ -29,16 +29,18 @@
   (if send-endorsement-neo4j-node
     (do
       (send-email
-       :message      (str "hi " (:to_full_name  send-endorsement-neo4j-node))
-       :subject      (str "hi " (:to_full_name  send-endorsement-neo4j-node))
-       :from-email   (:from_email send-endorsement-neo4j-node)
-       :from-name    (:from_full_name  send-endorsement-neo4j-node)
-       :to-email     (:to_email send-endorsement-neo4j-node)
-       :to-name      (:to_full_name  send-endorsement-neo4j-node)
+       :message      (str "ConnectToUs.co - " (:from_full_name  send-endorsement-neo4j-node)
+                          ", please confirm your endorsement request" )
+       :subject      (str "ConnectToUs.co - " (:from_full_name  send-endorsement-neo4j-node)
+                          ", please confirm your endorsement request" )
+       :from-email   "contact@connecttous.co"
+       :from-name    "ConnectToUs.co"
+       :to-email     (:from_email send-endorsement-neo4j-node)
+       :to-name      (:from_full_name  send-endorsement-neo4j-node)
        )
       (neo4j "match n where id(n)={id}
              remove n:AskForEndorsement
-             set n:SendEndorsementConfirmFrom
+             set n:AskForEndorsementConfirmSender
              return n"
              {:id (:neo-id send-endorsement-neo4j-node)} "n")
       )
