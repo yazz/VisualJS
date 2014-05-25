@@ -12,6 +12,8 @@
   [:use [webapp-config.settings]]
   (:use [webapp.framework.server.email-service])
   (:require [clojure.java.io :as io])
+  (:use [webapp.framework.server.globals])
+
 )
 
 
@@ -97,4 +99,14 @@
 
 
 
-
+(defn init []
+  (println "******************* HHHHH *******************")
+  (println "******************* HHHHH *******************")
+  (println "******************* HHHHH *******************")
+  (println "******************* HHHHH *******************")
+  (println "******************* HHHHH *******************")
+  (println "******************* HHHHH *******************")
+  (doseq [init-fn   @init-fns]
+    (println (init-fn))
+    )
+  )

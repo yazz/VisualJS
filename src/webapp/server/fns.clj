@@ -7,6 +7,7 @@
   [:use [korma.core]]
   [:use [clojure.repl]]
   [:use [webapp.framework.server.db-helper]]
+  [:use [webapp.framework.server.globals]]
   [:use [webapp.framework.server.neo4j-helper]]
 
   (:use [webapp-config.settings])
@@ -63,16 +64,21 @@
 
 
 (def a (atom 0))
-(do
-  (stop-and-reset-pool! my-pool)
-  (every 5000
-         #(do
-            (swap! a inc)
-            (check-messages)
-            ;(println @a)
-            )
 
-         my-pool))
+(add-init-fn
+ (fn[]
+   (do
+     (future
+       (stop-and-reset-pool! my-pool)
+       (every 5000
+              #(do
+                 (swap! a inc)
+                 (check-messages)
+                 ;(println @a)
+                 )
+
+              my-pool))
+     "********* Loaded background task **********")))
 
 
 

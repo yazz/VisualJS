@@ -144,7 +144,8 @@
             }
 
 
-  :ring {:handler webapp.framework.server.core/app}
+  :ring {:init       webapp.framework.server.core/init
+         :handler    webapp.framework.server.core/app}
 
 
 )
