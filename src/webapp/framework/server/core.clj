@@ -58,6 +58,7 @@
 (defroutes main-routes
   (POST "/:domain/action" {params :params}
     (parse-params  params))
+
   (POST "/action" {params :params}
     (parse-params  params))
 
@@ -68,19 +69,28 @@
              (upload-file (get params "file")))))
 
 
-  (GET "/" [] (resp/redirect *main-page*))
+
+
+
+  (GET "/" [] (resp/resource-response (str *main-page*) {:root "public"}))
+
+
 
   (route/resources "/:domain/")
   (route/resources "/")
 
 
 
-  (route/not-found "<h1>Page not found</h1>")
+  (ANY "/*:name" [name]
+       (comment .replace
+        (str (clojure.java.io/resource (str "public/" *main-page*)))
+       "addparam" name)
+;       (resp/resource-response (str *main-page* "?add=" name) {:root "public"}))
+       (resp/redirect (str *main-page* "?add=" name)))
 )
 
 
-
-
+;(clojure.java.io/resource (str "public/" *main-page*))
 
 (defn wrap-dir-index [handler]
   (fn [req]
