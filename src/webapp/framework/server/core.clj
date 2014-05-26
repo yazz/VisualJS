@@ -13,7 +13,7 @@
   (:use [webapp.framework.server.email-service])
   (:require [clojure.java.io :as io])
   (:use [webapp.framework.server.globals])
-
+  (:require [clojurewerkz.neocons.rest :as rest])
 )
 
 
@@ -82,15 +82,32 @@
 
 
   (ANY "/*:name" [name]
-       (comment .replace
-        (str (clojure.java.io/resource (str "public/" *main-page*)))
-       "addparam" name)
+       (.replaceFirst
+        (slurp (:body
+                (resp/resource-response (str *main-page*) {:root "public"})
+                ))
+       "addparam2" name))
 ;       (resp/resource-response (str *main-page* "?add=" name) {:root "public"}))
-       (resp/redirect (str *main-page* "?add=" name)))
+;       (resp/redirect (str *main-page* "?addparam=" name)))
 )
 
 
-;(clojure.java.io/resource (str "public/" *main-page*))
+
+(comment .replaceFirst
+        (slurp (:body
+                (resp/resource-response (str *main-page*) {:root "public"})
+                ))
+       "ConnectToUs" "xxx")
+
+(comment :body (rest/GET
+
+        (str (clojure.java.io/resource (str "public/" *main-page*)))
+
+        ))
+
+
+        (str (clojure.java.io/resource (str "public/" *main-page*)))
+
 
 (defn wrap-dir-index [handler]
   (fn [req]
