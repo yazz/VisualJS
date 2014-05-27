@@ -28,22 +28,37 @@
 
 (defn process-ask-for-endorsement [send-endorsement-neo4j-node]
   (if send-endorsement-neo4j-node
-    (do
+    (let
+      [
+       confirm-sender-code    (uuid-str)
+       ]
+
       (send-email
-       :message      (str "ConnectToUs.co - " (:from_full_name  send-endorsement-neo4j-node)
+       :message      (str "ConnectToUs.co - "
+                          (:from_full_name  send-endorsement-neo4j-node)
+                          ", please confirm your endorsement request by clicking "
+                          "here:\r\n\r\n"
+                          *web-server* "/*" confirm-sender-code)
+
+       :subject      (str "ConnectToUs.co - "
+                          (:from_full_name  send-endorsement-neo4j-node)
                           ", please confirm your endorsement request" )
-       :subject      (str "ConnectToUs.co - " (:from_full_name  send-endorsement-neo4j-node)
-                          ", please confirm your endorsement request" )
+
        :from-email   "contact@connecttous.co"
        :from-name    "ConnectToUs.co"
        :to-email     (:from_email send-endorsement-neo4j-node)
        :to-name      (:from_full_name  send-endorsement-neo4j-node)
        )
+
       (neo4j "match n where id(n)={id}
              remove n:AskForEndorsement
-             set n:AskForEndorsementConfirmSender
+             set n:AskForEndorsementConfirmSender,
+             n.confirm_sender_code = {confirm_sender_code}
              return n"
-             {:id (:neo-id send-endorsement-neo4j-node)} "n")
+             {
+              :id                   (:neo-id send-endorsement-neo4j-node)
+              :confirm_sender_code  confirm-sender-code
+              } "n")
       )
 
     ))
@@ -57,6 +72,7 @@
   (let [messages-waiting (neo4j "match (n:AskForEndorsement) return n" {} "n")]
     (dorun (map process-ask-for-endorsement  messages-waiting))
     ))
+
 
 
 (stop-and-reset-pool! my-pool)
@@ -211,3 +227,15 @@
                                    }))
 
 
+
+(defn confirm-sender-code [{:keys [sender-code]}]
+
+   (let [n   (neo4j "match (n:AskForEndorsementConfirmSender)
+                     where n.confirm_sender_code = {confirm_sender_code}
+                     return n"
+             {
+              :confirm_sender_code  sender-code
+              } "n")]
+     n
+  )
+)

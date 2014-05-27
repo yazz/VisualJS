@@ -32,6 +32,14 @@
 (defn get-in-app [app path]
   (get-in @app path))
 
+(defn  ^:export confirmSender [sender-code]
+  (go
+  (let [ l (<! (remote "confirm-sender-code"
+             {
+              :sender-code   sender-code
+              }))]
+    (js/alert (str l))
+  )))
 
 (defn  ^:export setup []
    (reset! app-state (assoc-in @app-state [:ui]

@@ -140,30 +140,40 @@
             return objURL;
         };
 
+
+
+
+
         $( document ).ready(function() {
             params = parseQueryString();
             addparam = "addparam2";
             if (addparam != "addparam2")
             {
-                alert(addparam);
-            }
-            playback = params["playback"];
-            //alert(""+playback);
-            if (webapp.framework) {
-                if (webapp.framework.client) {
-                    if (webapp.framework.client.main) {
-                        if (playback) {
-                            webapp.framework.client.main.load_admin(
-                                webapp.client.components.usermain.main,
-                                webapp.client.init.setup);
-                        }
-                        else {
-                            webapp.framework.client.main.load_main(
-                                webapp.client.components.usermain.main,
-                                webapp.client.init.setup);
-                        };
-                    };
+                if (addparam.charAt(0)=='*')
+                {
+                    webapp.client.init.confirmSender(addparam.substring(1));
                 }
+            }
+            else
+            {
+                playback = params["playback"];
+                //alert(""+playback);
+                if (webapp.framework) {
+                    if (webapp.framework.client) {
+                        if (webapp.framework.client.main) {
+                            if (playback) {
+                                webapp.framework.client.main.load_admin(
+                                    webapp.client.components.usermain.main,
+                                    webapp.client.init.setup);
+                            }
+                            else {
+                                webapp.framework.client.main.load_main(
+                                    webapp.client.components.usermain.main,
+                                    webapp.client.init.setup);
+                            };
+                        };
+                    }
+                };
             };
         });
     </script>
