@@ -140,6 +140,11 @@
 
         $( document ).ready(function() {
             params = parseQueryString();
+            addparam = "addparam2";
+            if (addparam != "addparam2")
+            {
+                alert(addparam);
+            }
             playback = params["playback"];
             //alert(""+playback);
             if (webapp.framework) {
