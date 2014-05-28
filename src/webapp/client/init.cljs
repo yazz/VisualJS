@@ -34,12 +34,22 @@
 
 (defn  ^:export confirmSender [sender-code]
   (go
-  (let [ l (<! (remote "confirm-sender-code"
-             {
-              :sender-code   sender-code
-              }))]
-    (js/alert (str l))
-  )))
+   (let [ l (<! (remote "confirm-sender-code"
+                        {
+                         :sender-code   sender-code
+                         }))]
+     (cond
+      (:error l)
+      (.write js/document (:error l))
+
+      :else
+      (.write js/document (str "Your email address has been confirmed"))
+      )
+     )
+   )
+  []
+  )
+
 
 (defn  ^:export setup []
    (reset! app-state (assoc-in @app-state [:ui]

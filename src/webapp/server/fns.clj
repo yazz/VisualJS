@@ -193,10 +193,10 @@
                                    endorsement
                                    ]}]
   (let [
-
+        endorsement-id    (uuid-str)
         web-record        (first (neo4j "create  (n:AskForEndorsement
                                         {
-                                        session_id:           {session_id},
+                                        endorsement_id:       {endorsement_id},
                                         from_email:           {from_email},
                                         to_email:             {to_email},
                                         from_full_name:       {from_full_name},
@@ -205,7 +205,7 @@
                                         timestamp:            {timestamp}
                                         }) return n"
                                         {
-                                         :session_id      "session-id"
+                                         :endorsement_id  endorsement-id
                                          :from_email      from-email
                                          :to_email        to-email
                                          :from_full_name  from-full-name
@@ -236,6 +236,38 @@
              {
               :confirm_sender_code  sender-code
               } "n")]
-     n
+     (if (= (count n) 0)
+         {:error "Sesson doesn't exist"}
+
+       (do
+          (neo4j "match n where
+                 n.confirm_sender_code = {sender_code}
+
+               remove n:AskForEndorsementConfirmSender
+               set n:AskForEndorsementContactReceiver
+               return n"
+               {
+                :sender_code  sender-code
+                } "n")
+         {:value "Sesson exists"}
+        )
+       )
   )
 )
+
+
+(defn sender-confirmed [{:keys [endorsement-id]}]
+
+   (let [n   (neo4j "match (n:AskForEndorsementContactReceiver)
+                     where n.endorsement_id = {endorsement_id}
+                     return n"
+             {
+              :endorsement_id  endorsement-id
+              } "n")]
+     (if (= (count n) 0)
+         {:value false}
+         {:value true}
+       )))
+
+(comment sender-confirmed {:endorsement-id
+       "4a64e240-e7ec-44db-a322-5245e35e0492"})
