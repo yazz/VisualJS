@@ -223,6 +223,15 @@
      )))
 
 
+(when-path-equals  data-watchers
+ [:submit :status]     "Confirmed"
+
+ (fn [data ui]
+   (go
+    (om/update! ui [:ui :request :from-email :confirmed]  true)
+    )
+   ))
+
 
 (when-path-equals ui-watchers
  [:ui :request :submit :value]     true
@@ -278,7 +287,7 @@
 
 
 
-@data-state
+;@data-state
 
 (when-path-equals data-watchers
  [:submit]     "Submitted"
@@ -359,7 +368,7 @@
           (if (res :value)
             (do
               (update-data [:submit :status]  "Confirmed")
-              (js/alert "Email confirmed")
+
               )
             )
        )

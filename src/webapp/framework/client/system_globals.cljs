@@ -53,21 +53,6 @@
 
 
 
-(add-watch data-state :events-change
-           (fn [keya ab old-val new-val]
-             (doall
-              ;(. js/console log (pr-str "Events changed" new-val))
-              (for [ui-watch @data-watchers]
-                (if (subtree-different? old-val new-val (:path ui-watch))
-                  (cond
-                   (= (:type ui-watch) "path equals")
-                   (if (= (get-in new-val (:path ui-watch)) (:value ui-watch) )
-                     ((:fn ui-watch) data-state))
-
-                   (= (:type ui-watch) "value change")
-                   ((:fn ui-watch) data-state)
-                   :else
-                   nil ))))))
 
 
 

@@ -14,7 +14,9 @@
    [webapp.framework.client.system-globals       :only  [app-state   playback-app-state
                                                          playback-controls-state
                                                          playbackmode ui-watchers
-                                                         start-component]]
+                                                         data-watchers
+                                                         start-component
+                                                         data-state]]
    )
   (:use-macros
    [webapp.framework.client.neo4j      :only  [neo4j]]
@@ -103,6 +105,24 @@
                                      nil ))))))
 
 
+                  (add-watch data-state :events-change
+                             (fn [keya ab old-val new-val]
+                               (doall
+                                ;(. js/console log (pr-str "Events changed" new-val))
+                                (for [data-watch @data-watchers]
+                                  (if (subtree-different? old-val new-val (:path data-watch))
+                                    (cond
+                                     (= (:type data-watch) "path equals")
+                                     (if (= (get-in new-val (:path data-watch))
+                                            (:value data-watch) )
+                                       ((:fn data-watch) data-state app))
+
+                                     (= (:type data-watch) "value change")
+                                     ((:fn data-watch) data-state app)
+                                     :else
+                                     nil ))))))
+
+
 
 
                   ))
@@ -163,4 +183,4 @@
 
 ))
 
-
+;@data-watchers

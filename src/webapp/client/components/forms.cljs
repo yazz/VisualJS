@@ -122,6 +122,7 @@
                         (dom/input
                          #js {:type        "text"
                               :className   "form-control"
+
                               :placeholder "john@microsoft.com"
                               :value       (get-in request [:from-email :value])
                               :onChange    #(om/update! request
@@ -131,8 +132,15 @@
                               })
                        (if (not (blank?
                                  (get-in request [:from-email :error])))
-                             (dom/div nil "Email validation error")
-                         )
+                             (dom/div nil "Email validation error"))
+
+                       (if (get-in request [:from-email :confirmed])
+                         (dom/div  #js {:className "alert alert-success"}
+                                   (dom/a  #js {:href "#"
+                                                :className "alert-link"}
+                                           "Your email confirmed"
+                                           )))
+
                        )
 ))))
 
@@ -241,9 +249,9 @@
                        #js {:margin-top "40px"}}
                   "Send request")
       (if (not (blank?
-                                 (get-in request [:submit :message])))
-                         (dom/div nil "Submitted")
-                         )
+                (get-in request [:submit :message])))
+        (dom/div nil "Submitted")
+        )
 
       ))
     ;---------------------------------------------------------
