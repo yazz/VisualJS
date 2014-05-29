@@ -381,7 +381,7 @@
 (js/setInterval
  my-timer 5000)
 
-(log "Submitted")
+;(log "Submitted")
 
 
 
