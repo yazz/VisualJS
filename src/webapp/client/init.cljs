@@ -356,6 +356,12 @@
                 :endorsement-id (get-in @data-state [:submit :request :endorsement-id])}))
               ]
        (log (str "Submitted " @tt " " res))
+          (if (res :value)
+            (do
+              (update-data [:submit :status]  "Confirmed")
+              (js/alert "Email confirmed")
+              )
+            )
        )
      )
    )
