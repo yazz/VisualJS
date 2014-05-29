@@ -251,13 +251,15 @@
               :endorsement    (get-in @data-state [:submit :request :endorsement])
               }))]
 
-       (log (pr-str l)))
+       ;(log (pr-str l))
+       (update-data [:submit :request :endorsement-id]  (:endorsement_id l))
+       )
 
 
 
      )))
 
-
+;(update-data [:submit :request :endorsement-id] "dd")
 
 (comment go
  (let
@@ -339,7 +341,32 @@
 
 
 
+(def tt (atom 1))
 
+(defn my-timer []
+  (go
+    (swap! tt inc)
+    (cond
+     (and
+      (= (get-in @data-state [:submit :status])  "Submitted")
+      (get-in @data-state [:submit :request :endorsement-id])
+      )
+     (do
+        (let [res (<! (remote "sender-confirmed" {
+                :endorsement-id (get-in @data-state [:submit :request :endorsement-id])}))
+              ]
+       (log (str "Submitted " @tt " " res))
+       )
+     )
+   )
+  ))
+
+
+
+(js/setInterval
+ my-timer 5000)
+
+(log "Submitted")
 
 
 
