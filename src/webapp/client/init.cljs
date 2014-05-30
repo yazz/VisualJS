@@ -32,15 +32,26 @@
 (defn get-in-app [app path]
   (get-in @app path))
 
-(defn  ^:export confirmSender [sender-code]
+(defn  ^:export confirmLink [uuid-code]
   (go
    (let [ l (<! (remote "confirm-sender-code"
                         {
-                         :sender-code   sender-code
+                         :sender-code   uuid-code
                          }))]
      (cond
       (:error l)
-      (.write js/document (:error l))
+      (let [ l (<! (remote "confirm-receiver-code"
+                           {
+                            :receiver-code   uuid-code
+                            }))]
+        (cond
+         (:error l)
+         (.write js/document (:error l))
+
+         :else
+         (.write js/document (str "Your email address has been confirmed"))
+         )
+        )
 
       :else
       (.write js/document (str "Your email address has been confirmed"))
@@ -49,6 +60,7 @@
    )
   []
   )
+
 
 
 (defn  ^:export setup []
@@ -224,7 +236,7 @@
 
 
 (when-path-equals  data-watchers
- [:submit :status]     "Confirmed"
+ [:submit :status]     "ConfirmedSender"
 
  (fn [data ui]
    (go
@@ -356,10 +368,15 @@
   (go
     (swap! tt inc)
     (cond
+
+
+
+
+
      (and
       (= (get-in @data-state [:submit :status])  "Submitted")
-      (get-in @data-state [:submit :request :endorsement-id])
-      )
+      (get-in @data-state [:submit :request :endorsement-id]))
+
      (do
         (let [res (<! (remote "sender-confirmed" {
                 :endorsement-id (get-in @data-state [:submit :request :endorsement-id])}))
@@ -367,14 +384,27 @@
        (log (str "Submitted " @tt " " res))
           (if (res :value)
             (do
-              (update-data [:submit :status]  "Confirmed")
+              (update-data [:submit :status]  "ConfirmedSender")))))
 
-              )
-            )
-       )
-     )
-   )
-  ))
+
+
+
+     (and
+      (= (get-in @data-state [:submit :status])  "ConfirmedSender")
+      (get-in @data-state [:submit :request :endorsement-id]))
+
+     (do
+        (let [res (<! (remote "receiver-confirmed" {
+                :endorsement-id (get-in @data-state
+                                        [:submit :request :endorsement-id])}))
+              ]
+       (log (str "Submitted " @tt " " res))
+          (if (res :value)
+            (do
+              (update-data [:submit :status]  "ConfirmedReceiver")))))
+
+
+ )))
 
 
 

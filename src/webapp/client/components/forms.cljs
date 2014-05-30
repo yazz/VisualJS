@@ -172,6 +172,16 @@
                                  (get-in request [:to-email :error])))
                          (dom/div nil "Email validation error")
                          )
+
+
+                       (if (get-in request [:to-email :confirmed])
+                         (dom/div  #js {:className "alert alert-success"}
+                                   (dom/a  #js {:href "#"
+                                                :className "alert-link"}
+                                           "Their email confirmed"
+                                           )))
+
+
                        )))))
 
 

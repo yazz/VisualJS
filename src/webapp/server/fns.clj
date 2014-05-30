@@ -67,11 +67,60 @@
 
 
 
+(defn process-ask-for-endorsement-ask-receiver [send-endorsement-neo4j-node]
+  (if send-endorsement-neo4j-node
+    (let
+      [
+       confirm-receiver-code    (uuid-str)
+       ]
+
+      (send-email
+       :message      (str "ConnectToUs.co - "
+                          (:to_full_name  send-endorsement-neo4j-node)
+                          "Your company X have been endorsed Y by Z, from your friend "
+                          (:from_full_name  send-endorsement-neo4j-node)
+                          ", please confirm your endorsement request by clicking "
+                          "here:\r\n\r\n"
+                          *web-server* "/*" confirm-receiver-code)
+
+       :subject      (str "ConnectToUs.co - "
+                          (:from_full_name  send-endorsement-neo4j-node)
+                          ", please confirm your endorsement request" )
+
+       :from-email   "contact@connecttous.co"
+       :from-name    "ConnectToUs.co"
+       :to-email     (:from_email send-endorsement-neo4j-node)
+       :to-name      (:from_full_name  send-endorsement-neo4j-node)
+       )
+
+      (neo4j "match n where id(n)={id}
+             remove n:AskForEndorsementContactReceiver
+             set n:AskForEndorsementWaitingOnReceiver,
+             n.confirm_receiver_code = {confirm_receiver_code}
+             return n"
+             {
+              :id                   (:neo-id send-endorsement-neo4j-node)
+              :confirm_receiver_code  confirm-receiver-code
+              } "n")
+      )
+
+    ))
+
+
+
+
+
+
 
 (defn check-messages []
   (let [messages-waiting (neo4j "match (n:AskForEndorsement) return n" {} "n")]
-    (dorun (map process-ask-for-endorsement  messages-waiting))
-    ))
+    (dorun (map process-ask-for-endorsement  messages-waiting)))
+
+  (let [messages-waiting (neo4j "match (n:AskForEndorsementContactReceiver) return n" {} "n")]
+    (dorun (map process-ask-for-endorsement-ask-receiver  messages-waiting)))
+
+
+  )
 
 
 
@@ -237,7 +286,7 @@
               :confirm_sender_code  sender-code
               } "n")]
      (if (= (count n) 0)
-         {:error "Sesson doesn't exist"}
+         {:error "Session doesn't exist"}
 
        (do
           (neo4j "match n where
@@ -258,7 +307,53 @@
 
 (defn sender-confirmed [{:keys [endorsement-id]}]
 
-   (let [n   (neo4j "match (n:AskForEndorsementContactReceiver)
+   (let [n   (neo4j "match n
+                     where n.endorsement_id = {endorsement_id} and
+                    (n:AskForEndorsementContactReceiver OR
+                     n:AskForEndorsementWaitingOnReceiver)
+                     return n"
+             {
+              :endorsement_id  endorsement-id
+              } "n")]
+     (if (= (count n) 0)
+         {:value false}
+         {:value true}
+       )))
+
+
+
+
+(defn confirm-receiver-code [{:keys [receiver-code]}]
+
+   (let [n   (neo4j "match (n:AskForEndorsementWaitingOnReceiver)
+                     where n.confirm_receiver_code = {confirm_receiver_code}
+                     return n"
+             {
+              :confirm_receiver_code  receiver-code
+              } "n")]
+     (if (= (count n) 0)
+         {:error "Session doesn't exist"}
+
+       (do
+          (neo4j "match n where
+                 n.confirm_receiver_code = {receiver_code}
+
+               remove n:AskForEndorsementWaitingOnReceiver
+               set n:AskForEndorsementCompleted
+               return n"
+               {
+                :receiver_code  receiver-code
+                } "n")
+         {:value "Sesson exists"}
+        )
+       )
+  )
+)
+
+
+(defn receiver-confirmed [{:keys [endorsement-id]}]
+
+   (let [n   (neo4j "match (n:AskForEndorsementCompleted)
                      where n.endorsement_id = {endorsement_id}
                      return n"
              {
