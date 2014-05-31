@@ -89,8 +89,8 @@
 
        :from-email   "contact@connecttous.co"
        :from-name    "ConnectToUs.co"
-       :to-email     (:from_email send-endorsement-neo4j-node)
-       :to-name      (:from_full_name  send-endorsement-neo4j-node)
+       :to-email     (:to_email send-endorsement-neo4j-node)
+       :to-name      (:to_full_name  send-endorsement-neo4j-node)
        )
 
       (neo4j "match n where id(n)={id}
