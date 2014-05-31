@@ -119,3 +119,14 @@
 
 (defn reset-playback-app-state []
   (reset!  playback-app-state  blank-app-state))
+
+
+
+(defn  update-data [path value]
+   (reset! data-state (assoc-in @data-state path value)))
+
+(defn update-app [app path value]
+  (om/update! app path value))
+
+(defn get-in-app [app path]
+  (get-in @app path))
