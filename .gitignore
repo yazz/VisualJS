@@ -2,6 +2,7 @@
 /resources/public/main.js
 
 
+
 !/project.clj
 !/.gitattributes
 !/.gitignore
@@ -73,3 +74,6 @@
 /*/*/*/*/*/*/*/*/*/*/.DS_Store
 /*/*/*/*/*/*/*/*/*/*/*/.DS_Store
 /*/*/*/*/*/*/*/*/*/*/*/*/.DS_Store
+
+/src/webapp/ignore
+
