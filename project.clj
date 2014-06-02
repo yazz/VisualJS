@@ -4,7 +4,7 @@
                    [org.clojure/google-closure-library-third-party "0.0-2029"]
                    [org.clojure/tools.reader "0.7.10"]
                    [org.clojure/clojurescript "0.0-2173"]
-                   [om "0.6.3"]
+                   [om "0.6.4"]
                    [om-sync "0.1.1"]
                    [org.clojure/core.async "0.1.267.0-0d7780-alpha"]
 
@@ -25,7 +25,7 @@
                    [org.jasypt/jasypt "1.8"]
                    [clj-http "0.7.6"]
                    [cheshire "4.0.3"]
-                   [ankha "0.1.2"]
+                   [ankha "0.1.3"]
                    [overtone/at-at "1.2.0"]
                 ]
   :repositories {"sonatype-oss-public"
