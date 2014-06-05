@@ -8,8 +8,11 @@
    [clojure.data     :as data]
    [clojure.string   :as string]
    [ankha.core       :as ankha]
+   [webapp.client.timers]
    )
   (:use
+   [webapp.client.ui-helpers                :only  [validate-email validate-full-name  validate-endorsement]]
+   [webapp.client.helper                    :only  [when-path-equals when-value-changes]]
    [webapp.framework.client.coreclient      :only  [log remote]]
    [webapp.framework.client.system-globals  :only  [app-state   playback-app-state
                                                     playback-controls-state
@@ -35,60 +38,30 @@
 
 
 (defn  ^:export setup []
-   (reset! app-state (assoc-in @app-state [:ui]
-                {:request {
-                           :from-full-name       {:label "Your full name" :placeholder "John smith" :value "" :mode "empty"}
-                           :from-email           {:label "Your company email" :placeholder "john@microsoft.com" :value ""  :mode "empty"}
 
-                           :to-full-name         {:label "Their full name" :placeholder "Pete Austin" :value ""   :mode "empty"}
-                           :to-email             {:label "Their email" :placeholder "pete@ibm.com" :value ""  :mode "empty"}
+  (reset!
+   app-state
 
-                           :endorsement          {:label "Endorsement" :placeholder "marketing" :value ""  :mode "empty"}
-                           :submit               {:value false}
-                           }
-                 }))
+   (assoc-in
+    @app-state [:ui]
+    {:request {
+               :from-full-name       {:label "Your full name" :placeholder "John smith" :value "" :mode "empty"}
+               :from-email           {:label "Your company email" :placeholder "john@microsoft.com" :value ""  :mode "empty"}
 
-  (reset! data-state
-          {:submit
-           {
-            }})
-  )
+               :to-full-name         {:label "Their full name" :placeholder "Pete Austin" :value ""   :mode "empty"}
+               :to-email             {:label "Their email" :placeholder "pete@ibm.com" :value ""  :mode "empty"}
+
+               :endorsement          {:label "Endorsement" :placeholder "marketing" :value ""  :mode "empty"}
+               :submit               {:value false}
+               }}))
 
 
+  (reset! data-state {
+                      :submit {}
+                      }))
 
 
-(defn validate-full-name [full-name]
-  (if (and (> (count full-name) 6) (pos? (.indexOf full-name " ") ))
-    true
-    ))
 
-(defn validate-endorsement [full-name]
-  (if (> (count full-name) 2)
-    true
-    ))
-
-
-(defn validate-email [email]
-  (if (pos? (.indexOf (str email) "@"))
-    true
-    ))
-
-(defn when-path-equals [watcher path value fn-def]
-  (swap! watcher conj
-         {
-          :type     "path equals"
-          :path     path
-          :value    value
-          :fn       fn-def
-          }))
-
-(defn when-value-changes [watcher path fn-def]
-  (swap! watcher conj
-         {
-          :type     "value change"
-          :path     path
-          :fn       fn-def
-          }))
 
 
 
@@ -329,110 +302,5 @@
       (om/update! request [:endorsement :mode]  "validate")
       )))
 
-
-
-(def tt (atom 1))
-
-(defn my-timer []
-  (go
-    (swap! tt inc)
-    (cond
-
-
-
-
-
-     (and
-      (= (get-in @data-state [:submit :status])  "Submitted")
-      (get-in @data-state [:submit :request :endorsement-id]))
-
-     (do
-       (let [res
-             (<!
-              (remote
-               "sender-confirmed"
-               {
-                :endorsement-id
-                (get-in @data-state [:submit :request :endorsement-id])}))
-             ]
-         (log (str "Checking sender " @tt " " res))
-         (if (res :value)
-           (do
-             (update-data [:submit :status]  "ConfirmedSender")))))
-
-
-
-
-     (and
-      (= (get-in @data-state [:submit :status])  "ConfirmedSender")
-      (get-in @data-state [:submit :request :endorsement-id]))
-
-     (do
-        (let [res (<! (remote "receiver-confirmed" {
-                :endorsement-id (get-in @data-state
-                                        [:submit :request :endorsement-id])}))
-              ]
-         (log (str "Checking receiver " @tt " " res))
-          (if (res :value)
-            (do
-              (update-data [:submit :status]  "ConfirmedReceiver")))))
-
-
- )))
-
-
-
-(js/setInterval
- my-timer 5000)
-
-;(log "Submitted")
-
-
-
-
-
-
-(def ui-listeners '(
-
-
-  [:ui :request :to-email :mode] changes to "validate"
-                   OR
-  [:ui :request :from-email :value] changes
-  [:ui :request :from-email :mode] = "validate"
-  ---------------------------------------------
-
-      validate-email [:ui :request :from-email :value]
-      ---------------------------------------------
-
-          set [:ui :request :from-email :error] ""
-      else
-      ----
-          set [:ui :request :from-email :error] "Invalid email"
-
-
-
-
-
-
-  [:ui :request :from-full-name :mode] changes to "validate"
-                    OR
-  [:ui :request :from-full-name :value] changes
-  [:ui :request :from-full-name :mode] = "validate"
-  ------------------------------------------------
-
-      validate-full-name   [:ui :request :from-full-name :value]
-      ----------------------------------------------------------
-          set [:ui :request :from-full-name :error] ""
-      else
-      ----
-          set [:ui :request :from-full-name :error] "Invalid full name"
-
-
-  ))
-
-
-(go
-  (log (<! (remote "get-top-companies" {})))
- )
 
 
