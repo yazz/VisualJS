@@ -367,3 +367,15 @@
 
 (comment sender-confirmed {:endorsement-id
        "4a64e240-e7ec-44db-a322-5245e35e0492"})
+
+
+(defn get-top-companies [{}]
+  (neo4j "match
+                    (n:Company)<-[:WORKS_FOR]-(w:Person)<-[:ENDORSE]-someone
+                 return
+                    n.web_address as company,
+                    count(someone) as inbound
+                 order by inbound desc
+                 limit 10"
+               {}
+               ["company" "inbound"]))

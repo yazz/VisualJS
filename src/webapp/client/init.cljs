@@ -30,34 +30,7 @@
 
 
 
-(defn  ^:export confirmLink [uuid-code]
-  (go
-   (let [ l (<! (remote "confirm-sender-code"
-                        {
-                         :sender-code   uuid-code
-                         }))]
-     (cond
-      (:error l)
-      (let [ l (<! (remote "confirm-receiver-code"
-                           {
-                            :receiver-code   uuid-code
-                            }))]
-        (cond
-         (:error l)
-         (.write js/document (:error l))
 
-         :else
-         (.write js/document (str "Your email address has been confirmed"))
-         )
-        )
-
-      :else
-      (.write js/document (str "Your email address has been confirmed"))
-      )
-     )
-   )
-  []
-  )
 
 
 
@@ -290,26 +263,12 @@
 
      )))
 
-;(update-data [:submit :request :endorsement-id] "dd")
-
-(comment go
- (let
-   [
-    lk
-    (<! (remote "request-endorsement"
-                {
-                 :from-full-name "1"
-                 :from-email  "1"
-                 :to-full-name "1"
-                 :to-email "1"
-                 :endorsement "1"
-                 }))]
-
-   (log (pr-str lk))))
 
 
 
-;@data-state
+
+
+
 
 (when-path-equals data-watchers
  [:submit]     "Submitted"
@@ -469,11 +428,11 @@
           set [:ui :request :from-full-name :error] "Invalid full name"
 
 
-
-
-
-
   ))
 
+
+(go
+  (log (<! (remote "get-top-companies" {})))
+ )
 
 
