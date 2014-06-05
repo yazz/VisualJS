@@ -55,7 +55,12 @@
 
                :endorsement          {:label "Endorsement"         :placeholder "marketing"          :value ""  :mode "empty"}
                :submit               {:value false}
-               }}))
+               }
+
+     :tab "browser"
+
+
+     }))
 
 
   (reset! data-state {
