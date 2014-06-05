@@ -13,8 +13,9 @@
   (:use [webapp-config.settings])
   (:use [overtone.at-at])
   (:import [java.util.UUID])
-  (:import [java.util TimerTask Timer]))
-
+  (:import [java.util TimerTask Timer])
+  (:require [webapp.ignore.test-data])
+)
 
 
 (def my-pool (mk-pool))
