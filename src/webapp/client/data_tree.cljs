@@ -1,4 +1,4 @@
-(ns webapp.client.init
+(ns webapp.client.data-tree
   (:require
    [goog.net.cookies :as cookie]
    [om.core          :as om :include-macros true]
@@ -9,11 +9,8 @@
    [clojure.string   :as string]
    [ankha.core       :as ankha]
    [webapp.client.timers]
-   [webapp.client.data-tree]
-   [webapp.client.ui-tree]
    )
   (:use
-   [webapp.client.ui-helpers                :only  [validate-email validate-full-name  validate-endorsement]]
    [webapp.client.helper                    :only  [when-path-equals when-value-changes]]
    [webapp.framework.client.coreclient      :only  [log remote]]
    [webapp.framework.client.system-globals  :only  [app-state   playback-app-state
@@ -39,28 +36,49 @@
 
 
 
-(defn  ^:export setup []
-
-  (reset!
-   app-state
-
-   (assoc-in
-    @app-state [:ui]
-    {:request {
-               :from-full-name       {:label "Your full name"      :placeholder "John smith"         :value ""  :mode "empty"}
-               :from-email           {:label "Your company email"  :placeholder "john@microsoft.com" :value ""  :mode "empty"}
-
-               :to-full-name         {:label "Their full name"     :placeholder "Pete Austin"        :value ""  :mode "empty"}
-               :to-email             {:label "Their email"         :placeholder "pete@ibm.com"       :value ""  :mode "empty"}
-
-               :endorsement          {:label "Endorsement"         :placeholder "marketing"          :value ""  :mode "empty"}
-               :submit               {:value false}
-               }}))
 
 
-  (reset! data-state {
-                      :submit {}
-                      }))
+
+(when-path-equals  data-watchers
+ [:submit :status]     "ConfirmedSender"
+
+ (fn [data ui]
+   (go
+    (om/update! ui [:ui :request :from-email :confirmed]  true)
+    )
+   ))
+
+
+
+
+
+
+
+(when-path-equals  data-watchers
+ [:submit :status]     "ConfirmedReceiver"
+
+ (fn [data ui]
+   (go
+    (om/update! ui [:ui :request :to-email :confirmed]  true)
+    )
+   ))
+
+
+
+
+
+
+
+
+
+
+(when-path-equals data-watchers
+ [:submit]     "Submitted"
+
+ (fn [app]
+     (log "sent")
+     ))
+
 
 
 

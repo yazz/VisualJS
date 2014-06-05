@@ -12,9 +12,8 @@
 
   (:use
    [webapp.framework.client.coreclient      :only  [log remote]]
-   [webapp.client.init :only [blur-from-full-name blur-from-email
-                              blur-to-full-name blur-to-email
-                              blur-to-endorsement]]
+   [webapp.client.ui-helpers                :only  [validate-email validate-full-name  validate-endorsement
+                                                     blur-from-full-name   blur-to-full-name   blur-from-email    blur-to-email    blur-to-endorsement]]
    [clojure.string :only [blank?]]
 
    )
