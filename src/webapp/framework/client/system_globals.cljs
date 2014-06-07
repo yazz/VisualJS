@@ -41,6 +41,12 @@
 
 (def data-watchers (atom []))
 
+(def ab-tests (atom {}))
+
+(def ab-goals (atom {}))
+
+
+
 
 
 
@@ -130,3 +136,15 @@
 
 (defn get-in-app [app path]
   (get-in @app path))
+
+
+(defn  set-ab-tests [tree]
+  (do
+    (reset! ab-tests tree)
+))
+
+
+
+(defn  set-ab-goals [tree]
+   (reset! ab-goals tree))
+

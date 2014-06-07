@@ -53,10 +53,12 @@
 
 
             (= (-> app :ui :tab) "browser")
-            (om/build  graph
-                       {
-                        :data    (:data    app)
-                        })
+            (if (= (-> app :ui :graph-ab-test) "text")
+              (dom/div {} "Text")
+              (om/build  graph
+                         {
+                          :data    (:data    app)
+                          }))
 
             )
 

@@ -16,7 +16,8 @@
                                                          playbackmode ui-watchers
                                                          data-watchers
                                                          start-component
-                                                         data-state]]
+                                                         data-state
+                                                         ab-tests]]
    )
   (:use-macros
    [webapp.framework.client.neo4j      :only  [neo4j]]
@@ -56,6 +57,8 @@
           (om/update! app [:pointer :mouse-y] mousey))
         ))))
 
+;(-> @app-state :ui keys)
+;@ab-tests
 
 (defn main-view [app owner]
   (reify
@@ -75,57 +78,75 @@
     ;---------------------------------------------------------
     om/IWillMount
     (will-mount [_]
-                (let [delete (om/get-state owner :delete)]
-                  (go (loop []
-                        (let [contact (<! delete)]
+                (do
+                  (let [delete (om/get-state owner :delete)]
+                    (go (loop []
+                          (let [contact (<! delete)]
+                            (om/transact!
+                             app
+                             :contacts
+                             (fn [xs] (vec (remove #(= contact %) xs))))
+                            (recur))))
+
+
+
+                    (log (str "AB TESTS: " (keys @ab-tests)))
+                    (log (str "        : " @ab-tests))
+                    (log (str "        : " (keys @ab-tests)))
+                    (log (str "---"(get @ab-tests "graph type")))
+
+                    (dorun (for [item  (keys @ab-tests)]
+                      (do
+                        (log (str "   ." (get @ab-tests item)))
+                        (let [ ab-test  (get @ab-tests item) ]
+                          (log (str "AB TEST: " ab-test))
                           (om/transact!
                            app
-                           :contacts
-                           (fn [xs] (vec (remove #(= contact %) xs))))
-                          (recur))))
+                           (:path ab-test)
+                           #(str (:name (rand-nth (:choices ab-test) ) )))))))
 
 
 
 
 
-                  (add-watch app-state :events-change
-                             (fn [keya ab old-val new-val]
-                               (doall
-                                ;(. js/console log (pr-str "Events changed" new-val))
-                                (for [ui-watch @ui-watchers]
-                                  (if (subtree-different? old-val new-val (:path ui-watch))
-                                    (cond
-                                     (= (:type ui-watch) "path equals")
-                                     (if (= (get-in new-val (:path ui-watch)) (:value ui-watch) )
-                                       ((:fn ui-watch) app))
+                    (add-watch app-state :events-change
+                               (fn [keya ab old-val new-val]
+                                 (doall
+                                  ;(. js/console log (pr-str "Events changed" new-val))
+                                  (for [ui-watch @ui-watchers]
+                                    (if (subtree-different? old-val new-val (:path ui-watch))
+                                      (cond
+                                       (= (:type ui-watch) "path equals")
+                                       (if (= (get-in new-val (:path ui-watch)) (:value ui-watch) )
+                                         ((:fn ui-watch) app))
 
-                                     (= (:type ui-watch) "value change")
-                                     ((:fn ui-watch) app)
-                                     :else
-                                     nil ))))))
-
-
-                  (add-watch data-state :events-change
-                             (fn [keya ab old-val new-val]
-                               (doall
-                                ;(. js/console log (pr-str "Events changed" new-val))
-                                (for [data-watch @data-watchers]
-                                  (if (subtree-different? old-val new-val (:path data-watch))
-                                    (cond
-                                     (= (:type data-watch) "path equals")
-                                     (if (= (get-in new-val (:path data-watch))
-                                            (:value data-watch) )
-                                       ((:fn data-watch) data-state app))
-
-                                     (= (:type data-watch) "value change")
-                                     ((:fn data-watch) data-state app)
-                                     :else
-                                     nil ))))))
+                                       (= (:type ui-watch) "value change")
+                                       ((:fn ui-watch) app)
+                                       :else
+                                       nil ))))))
 
 
+                    (add-watch data-state :events-change
+                               (fn [keya ab old-val new-val]
+                                 (doall
+                                  ;(. js/console log (pr-str "Events changed" new-val))
+                                  (for [data-watch @data-watchers]
+                                    (if (subtree-different? old-val new-val (:path data-watch))
+                                      (cond
+                                       (= (:type data-watch) "path equals")
+                                       (if (= (get-in new-val (:path data-watch))
+                                              (:value data-watch) )
+                                         ((:fn data-watch) data-state app))
+
+                                       (= (:type data-watch) "value change")
+                                       ((:fn data-watch) data-state app)
+                                       :else
+                                       nil ))))))
 
 
-                  ))
+
+
+                    )))
     ;---------------------------------------------------------
 
 

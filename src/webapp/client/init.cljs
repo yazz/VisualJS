@@ -25,6 +25,8 @@
                                                     update-data
                                                     update-app
                                                     get-in-app
+                                                    set-ab-tests
+                                                    set-ab-goals
                                                     ]]
    [clojure.string :only [blank?]]
    )
@@ -65,7 +67,27 @@
 
   (reset! data-state {
                       :submit {}
-                      }))
+                      })
+
+
+
+
+  (set-ab-tests {
+                 "graph type"
+                 {
+                    :path [:ui :graph-ab-test]
+                    :choices    [
+                                 {:name "SVG" :percentage 90}
+                                 {:name "text" :percentage 10}
+                                 ]
+                  }
+
+                 })
+
+
+
+
+  )
 
 
 
