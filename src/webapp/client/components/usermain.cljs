@@ -53,12 +53,16 @@
 
 
             (= (-> app :ui :tab) "browser")
-            (if (= (-> app :ui :graph-ab-test) "text")
-              (dom/div {} "Text")
-              (om/build  graph
-                         {
-                          :data    (:data    app)
-                          }))
+            (cond
+
+             (= (-> app :ui :graph-ab-test) "text")
+             (dom/div {} "Text")
+
+             (= (-> app :ui :graph-ab-test) "SVG")
+             (om/build  graph
+                        {
+                         :data    (:data    app)
+                         }))
 
             )
 
