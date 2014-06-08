@@ -42,7 +42,6 @@
 
             )
 
-
            (cond
             (= (-> app :ui :tab) "request")
             (om/build  request-form
@@ -55,8 +54,13 @@
             (= (-> app :ui :tab) "browser")
             (cond
 
-             (= (-> app :ui :graph-ab-test) "text")
-             (dom/div {} "Text")
+             ;(= (-> app :ui :graph-ab-test) "text")
+             true
+             (apply dom/div nil
+                      (map
+                       (fn[x] (dom/div nil (get x "company")) )
+                       (-> app :ui :companies))
+                      )
 
              (= (-> app :ui :graph-ab-test) "SVG")
              (om/build  graph
@@ -65,6 +69,4 @@
                          }))
 
             )
-
-
            ))

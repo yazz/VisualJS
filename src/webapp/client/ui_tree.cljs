@@ -207,9 +207,6 @@
 
 
 
-
-
-
 (when-value-changes ui-watchers
  [:ui :request :endorsement :value]
 

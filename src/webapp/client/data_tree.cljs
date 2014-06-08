@@ -75,7 +75,7 @@
 (when-path-equals data-watchers
  [:submit]     "Submitted"
 
- (fn [app]
+ (fn [data ui]
      (log "sent")
      ))
 
@@ -83,6 +83,25 @@
 
 
 
+
+(when-value-changes  data-watchers
+ [:top-companies]
+
+ (fn [data ui]
+   (om/update! ui [:ui :companies]  (get-in @data [:top-companies]))
+
+
+   ))
+
+
+
+
+(go
+ (let [top-companies (<! (remote "get-top-companies" {}))]
+
+   (update-data [:top-companies] top-companies)
+   )
+ )
 
 
 

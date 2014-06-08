@@ -94,10 +94,3 @@
  my-timer 5000)
 
 
-
-
-
-(go
-  (log (<! (remote "get-top-companies" {})))
- )
-
