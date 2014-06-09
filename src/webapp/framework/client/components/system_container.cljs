@@ -11,13 +11,17 @@
 
   (:use
    [webapp.framework.client.coreclient           :only  [log remote]]
-   [webapp.framework.client.system-globals       :only  [app-state   playback-app-state
+   [webapp.framework.client.system-globals       :only  [app-state
+                                                         playback-app-state
                                                          playback-controls-state
-                                                         playbackmode ui-watchers
+                                                         playbackmode
+                                                         ui-watchers
                                                          data-watchers
                                                          start-component
                                                          data-state
-                                                         ab-tests]]
+                                                         ab-tests
+                                                         init-state-fns
+                                                         ]]
    )
   (:use-macros
    [webapp.framework.client.neo4j      :only  [neo4j]]
@@ -94,6 +98,11 @@
                     (log (str "        : " @ab-tests))
                     (log (str "        : " (keys @ab-tests)))
                     (log (str "---"(get @ab-tests "graph type")))
+
+                    (dorun (for [init-state-fn  @init-state-fns]
+                             (do
+                               (init-state-fn)
+                               )))
 
                     (dorun (for [item  (keys @ab-tests)]
                       (do

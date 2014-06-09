@@ -46,7 +46,7 @@
 (def ab-goals (atom {}))
 
 
-
+(def init-state-fns (atom []))
 
 
 
@@ -133,6 +133,10 @@
 
 (defn update-app [app path value]
   (om/update! app path value))
+
+(defn add-init-state-fn [init-state-fn]
+  (swap!  init-state-fns conj init-state-fn))
+
 
 (defn get-in-app [app path]
   (get-in @app path))

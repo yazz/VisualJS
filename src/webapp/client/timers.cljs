@@ -22,6 +22,7 @@
                                                     update-data
                                                     update-app
                                                     get-in-app
+                                                    add-init-state-fn
                                                     ]]
    [clojure.string :only [blank?]]
    )
@@ -45,7 +46,7 @@
    ))
 
 
-(get-top-companies-from-database)
+(add-init-state-fn get-top-companies-from-database)
 
 
 (def tt (atom 1))
