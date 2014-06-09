@@ -58,7 +58,16 @@
              true
              (apply dom/div nil
                       (map
-                       (fn[x] (dom/div nil (get x "company")) )
+                       (fn[x] (dom/div nil
+                                       (dom/div
+                                        #js {
+                                             :style
+                                             #js {
+                                                  :width "200px"
+                                                  :display "inline-block"}}
+                                        (get x "company"))
+                                       (dom/span nil (get x "inbound"))
+                         ))
                        (-> app :ui :companies))
                       )
 

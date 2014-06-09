@@ -95,13 +95,3 @@
 
 
 
-
-(go
- (let [top-companies (<! (remote "get-top-companies" {}))]
-
-   (update-data [:top-companies] top-companies)
-   )
- )
-
-
-

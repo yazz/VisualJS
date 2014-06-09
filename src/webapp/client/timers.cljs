@@ -86,8 +86,23 @@
               (update-data [:submit :status]  "ConfirmedReceiver")))))
 
 
- )))
 
+
+
+     (= (get-in @app-state [:ui :tab])  "browser")
+
+     (go
+      (let [top-companies (<! (remote "get-top-companies" {}))]
+
+        (update-data [:top-companies] top-companies)
+        )
+      )
+
+
+
+
+
+ )))
 
 
 (js/setInterval
