@@ -15,7 +15,11 @@
 
 
 
+(defn select-browser [e app]
+  (om/update! app [:ui :tab]  "browser"))
 
+(defn select-request [e app]
+  (om/update! app [:ui :tab]  "request"))
 
 (defn ^:export main [app owner state]
   (dom/div nil
@@ -28,14 +32,16 @@
 
             (dom/li #js {:className  (if (= (-> app :ui :tab) "browser") "active" "")   }
                     (dom/a #js {:className  ""
-                                :onClick (fn [e]
-                                  (om/update! app [:ui :tab]  "browser"))
+                                :onClick        (fn[e] (select-browser e app))
+                                :onTouchStart   (fn[e] (select-browser e app))
+
                                 } "Graph")
                     )
             (dom/li #js {:className  (if (= (-> app :ui :tab) "request") "active" "") }
                     (dom/a #js {:className  ""
-                                :onClick (fn [e]
-                                           (om/update! app [:ui :tab]  "request"))
+                                :onClick        (fn[e] (select-request e app))
+                                :onTouchStart   (fn[e] (select-request e app))
+
 
                                 } "Request")
                     )
