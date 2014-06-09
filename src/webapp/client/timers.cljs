@@ -34,9 +34,18 @@
 
 
 
+(defn get-top-companies-from-database []
+
+  (go
+   (log "getting companies")
+   (let [top-companies (<! (remote "get-top-companies" {}))]
+
+     (update-data [:top-companies] top-companies)
+     )
+   ))
 
 
-
+(get-top-companies-from-database)
 
 
 (def tt (atom 1))
@@ -91,12 +100,7 @@
 
      (= (get-in @app-state [:ui :tab])  "browser")
 
-     (go
-      (let [top-companies (<! (remote "get-top-companies" {}))]
-
-        (update-data [:top-companies] top-companies)
-        )
-      )
+     (get-top-companies-from-database)
 
 
 
@@ -106,6 +110,6 @@
 
 
 (js/setInterval
- my-timer 5000)
+ my-timer 15000)
 
 
