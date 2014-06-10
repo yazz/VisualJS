@@ -88,7 +88,7 @@
  [:top-companies]
 
  (fn [data ui]
-   (om/update! ui [:ui :companies]  (get-in @data [:top-companies]))
+   (om/update! ui [:ui :companies :values]  (get-in @data [:top-companies]))
 
 
    ))

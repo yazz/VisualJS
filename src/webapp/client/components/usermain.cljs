@@ -7,6 +7,7 @@
   (:use
    [webapp.client.components.forms               :only  [request-form]]
    [webapp.client.components.connection-graph    :only  [graph]]
+   [webapp.client.components.connections-graph    :only  [text-graph]]
    ))
 
 
@@ -62,20 +63,12 @@
 
              ;(= (-> app :ui :graph-ab-test) "text")
              true
-             (apply dom/div nil
-                      (map
-                       (fn[x] (dom/div nil
-                                       (dom/div
-                                        #js {
-                                             :style
-                                             #js {
-                                                  :width "200px"
-                                                  :display "inline-block"}}
-                                        (get x "company"))
-                                       (dom/span nil (get x "inbound"))
-                         ))
-                       (-> app :ui :companies))
-                      )
+             (om/build  text-graph
+                        {
+                         :companies    (-> app :ui :companies)
+                         }
+                        )
+
 
              (= (-> app :ui :graph-ab-test) "SVG")
              (om/build  graph

@@ -371,11 +371,11 @@
 
 (defn get-top-companies [{}]
   (neo4j "match
-                    (n:Company)<-[:WORKS_FOR]-(w:Person)<-[:ENDORSE]-someone
-                 return
-                    n.web_address as company,
-                    count(someone) as inbound
-                 order by inbound desc
-                 limit 10"
-               {}
-               ["company" "inbound"]))
+         (n:Company)<-[:WORKS_FOR]-(w:Person)<-[:ENDORSE]-someone
+         return
+         n.web_address as company,
+         count(someone) as inbound
+         order by inbound desc
+         limit 10"
+         {}
+         ["company" "inbound"]))
