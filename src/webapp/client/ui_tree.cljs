@@ -230,9 +230,9 @@
   (fn [app records]
     (let [r (first records)]
     (js/alert (str "record:" r))
-      (comment update-app  app
+      (update-app  app
                    [:ui :companies :values]
-                   (amend-record (into [] (get-in-app app [:ui :request :endorsement :value]))
+                   (amend-record (into [] (get-in-app app [:ui :companies :values]))
                                  "company"
                                  (get r "company")
                                  (fn[z] (merge z {:clicked false}))
