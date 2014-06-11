@@ -224,16 +224,18 @@
 
 
 
-(comment when-property-equals-in-record  ui-watchers
+(when-property-equals-in-record  ui-watchers
  [:ui :companies :values] :clicked true
 
- (fn [app records] (let [r (first records)]
-                     (update-app  app
-                                  [:ui :companies :values]
-                                  (amend-record (into [] (get-in-app app [:ui :request :endorsement :value]))
-                                                "company"
-                                                (get r "company")
-                                                (fn[z] (merge z {:clicked false}))
-                                                ))
+  (fn [app records]
+    (let [r (first records)]
+    (js/alert (str "record:" r))
+      (comment update-app  app
+                   [:ui :companies :values]
+                   (amend-record (into [] (get-in-app app [:ui :request :endorsement :value]))
+                                 "company"
+                                 (get r "company")
+                                 (fn[z] (merge z {:clicked false}))
+                                 ))
                      )))
 

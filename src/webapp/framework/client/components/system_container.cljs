@@ -98,8 +98,8 @@
                                       (fn [r] (=  (get r (:field watch)) (:value watch)))
                                       (get-in new-val (:path watch))
                                       )]
-                         (log records)
-                         (apply (:fn watch) (conj args records)))
+                         (if (pos? (count records))
+                         (apply (:fn watch) (conj args records))))
 
 
 
