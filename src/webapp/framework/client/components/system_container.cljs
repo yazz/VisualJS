@@ -61,8 +61,30 @@
           (om/update! app [:pointer :mouse-y] mousey))
         ))))
 
-;(-> @app-state :ui keys)
-;@ab-tests
+
+
+
+(defn add-as-watch [the-ref   watchers   args]
+  (add-watch the-ref :events-change
+             (fn [keya ab old-val new-val]
+               (doall
+                ;(. js/console log (pr-str "Events changed" new-val))
+                (for [watch @watchers]
+                  (if (subtree-different? old-val new-val (:path watch))
+                    (cond
+                     (= (:type watch) "path equals")
+                     (if (= (get-in new-val (:path watch)) (:value watch) )
+                       (apply (:fn watch) args))
+
+                     (= (:type watch) "value change")
+                     (apply (:fn watch) args))
+                    :else
+                    nil ))))))
+
+
+
+
+
 
 (defn main-view [app owner]
   (reify
@@ -118,41 +140,14 @@
 
 
 
-                    (add-watch app-state :events-change
-                               (fn [keya ab old-val new-val]
-                                 (doall
-                                  ;(. js/console log (pr-str "Events changed" new-val))
-                                  (for [ui-watch @ui-watchers]
-                                    (if (subtree-different? old-val new-val (:path ui-watch))
-                                      (cond
-                                       (= (:type ui-watch) "path equals")
-                                       (if (= (get-in new-val (:path ui-watch)) (:value ui-watch) )
-                                         ((:fn ui-watch) app))
-
-                                       (= (:type ui-watch) "value change")
-                                       ((:fn ui-watch) app)
-                                       :else
-                                       nil ))))))
+                    (add-as-watch   app-state
+                                    ui-watchers
+                                    [app])
 
 
-                    (add-watch data-state :events-change
-                               (fn [keya ab old-val new-val]
-                                 (doall
-                                  ;(. js/console log (pr-str "Events changed" new-val))
-                                  (for [data-watch @data-watchers]
-                                    (if (subtree-different? old-val new-val (:path data-watch))
-                                      (cond
-                                       (= (:type data-watch) "path equals")
-                                       (if (= (get-in new-val (:path data-watch))
-                                              (:value data-watch) )
-                                         ((:fn data-watch) data-state app))
-
-                                       (= (:type data-watch) "value change")
-                                       ((:fn data-watch) data-state app)
-                                       :else
-                                       nil ))))))
-
-
+                    (add-as-watch   data-state
+                                    data-watchers
+                                    [data-state app])
 
 
                     )))
