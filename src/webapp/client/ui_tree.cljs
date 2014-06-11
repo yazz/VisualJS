@@ -12,8 +12,12 @@
    )
   (:use
    [webapp.client.ui-helpers                :only  [validate-email validate-full-name  validate-endorsement
-                                                     blur-from-full-name   blur-to-full-name   blur-from-email    blur-to-email    blur-to-endorsement]]
-   [webapp.client.helper                    :only  [when-path-equals when-value-changes]]
+                                                     blur-from-full-name   blur-to-full-name   blur-from-email    blur-to-email
+                                                    blur-to-endorsement]]
+   [webapp.client.helper                    :only  [when-path-equals when-value-changes
+                                                    when-property-equals-in-record
+                                                    amend-record
+                                                    ]]
    [webapp.framework.client.coreclient      :only  [log remote]]
    [webapp.framework.client.system-globals  :only  [app-state   playback-app-state
                                                     playback-controls-state
@@ -207,7 +211,7 @@
 
 
 
-(when-value-changes ui-watchers
+(when-value-changes  ui-watchers
  [:ui :request :endorsement :value]
 
  (fn [app] (if (= (get-in-app app [:ui :request :endorsement :mode]) "validate")
@@ -216,4 +220,20 @@
                (update-app app [:ui :request :endorsement :error] "")
                (update-app app [:ui :request :endorsement :error] "Invalid endorsement")
                ))))
+
+
+
+
+(comment when-property-equals-in-record  ui-watchers
+ [:ui :companies :values] :clicked true
+
+ (fn [app records] (let [r (first records)]
+                     (update-app  app
+                                  [:ui :companies :values]
+                                  (amend-record (into [] (get-in-app app [:ui :request :endorsement :value]))
+                                                "company"
+                                                (get r "company")
+                                                (fn[z] (merge z {:clicked false}))
+                                                ))
+                     )))
 

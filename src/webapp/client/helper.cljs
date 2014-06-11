@@ -56,3 +56,15 @@
             (fn[x] (if (= (get x field) value) (amend-fn x) x))
             records ))
   )
+
+
+
+(defn when-property-equals-in-record  [watcher path field value fn-def]
+ (swap! watcher conj
+         {
+          :type     "record property equals"
+          :path     path
+          :field    field
+          :value    value
+          :fn       fn-def
+          }))

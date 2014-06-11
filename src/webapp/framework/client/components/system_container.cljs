@@ -65,22 +65,49 @@
 
 
 (defn add-as-watch [the-ref   watchers   args]
+
   (add-watch the-ref :events-change
-             (fn [keya ab old-val new-val]
+
+             (fn [_ _ old-val new-val]
+
                (doall
+
                 ;(. js/console log (pr-str "Events changed" new-val))
                 (for [watch @watchers]
                   (if (subtree-different? old-val new-val (:path watch))
-                    (cond
-                     (= (:type watch) "path equals")
-                     (if (= (get-in new-val (:path watch)) (:value watch) )
-                       (apply (:fn watch) args))
+                    (do
+                      (log (str "Subtree changed: " (:path watch)))
+                      (cond
 
-                     (= (:type watch) "value change")
-                     (apply (:fn watch) args))
+                       (= (:type watch) "path equals")
+                       ;------------------------------
+                       (if (= (get-in new-val (:path watch)) (:value watch) )
+                         (apply (:fn watch) args))
+
+
+
+                       (= (:type watch) "value change")
+                       ;-------------------------------
+                       (apply (:fn watch) args)
+
+
+
+                       (= (:type watch) "record property equals")
+                       ;-----------------------------------------
+                       (let [records (filter
+                                      (fn [r] (=  (get r (:field watch)) (:value watch)))
+                                      (get-in new-val (:path watch))
+                                      )]
+                         (log records)
+                         (apply (:fn watch) (conj args records)))
+
+
+
+                       ))
+
+
                     :else
                     nil ))))))
-
 
 
 
