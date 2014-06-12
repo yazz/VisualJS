@@ -13,7 +13,8 @@
   (:use
    [webapp.client.helper                    :only  [when-path-equals when-value-changes]]
    [webapp.framework.client.coreclient      :only  [log remote]]
-   [webapp.framework.client.system-globals  :only  [app-state   playback-app-state
+   [webapp.framework.client.system-globals  :only  [app-state
+                                                    playback-app-state
                                                     playback-controls-state
                                                     reset-app-state ui-watchers
                                                     playbackmode start-component
@@ -42,7 +43,7 @@
 (when-path-equals  data-watchers
  [:submit :status]     "ConfirmedSender"
 
- (fn [data ui]
+ (fn [ui]
    (go
     (om/update! ui [:ui :request :from-email :confirmed]  true)
     )
@@ -57,7 +58,7 @@
 (when-path-equals  data-watchers
  [:submit :status]     "ConfirmedReceiver"
 
- (fn [data ui]
+ (fn [ui]
    (go
     (om/update! ui [:ui :request :to-email :confirmed]  true)
     )
@@ -75,7 +76,7 @@
 (when-path-equals data-watchers
  [:submit]     "Submitted"
 
- (fn [data ui]
+ (fn [ui]
      (log "sent")
      ))
 
@@ -87,8 +88,8 @@
 (when-value-changes  data-watchers
  [:top-companies]
 
- (fn [data ui]
-   (om/update! ui [:ui :companies :values]  (get-in @data [:top-companies]))
+ (fn [ui]
+   (om/update! ui [:ui :companies :values]  (get-in @data-state [:top-companies]))
 
 
    ))

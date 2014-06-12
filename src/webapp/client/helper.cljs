@@ -51,11 +51,12 @@
           }))
 
 
+
 (defn amend-record [records field value amend-fn]
   (into [] (map
             (fn[x] (if (= (get x field) value) (amend-fn x) x))
-            records ))
-  )
+            records )))
+
 
 
 

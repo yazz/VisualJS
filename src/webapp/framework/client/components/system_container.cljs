@@ -174,7 +174,7 @@
 
                     (add-as-watch   data-state
                                     data-watchers
-                                    [data-state app])
+                                    [app])
 
 
                     )))
