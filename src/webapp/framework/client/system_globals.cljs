@@ -131,14 +131,14 @@
 (defn  update-data [path value]
    (reset! data-state (assoc-in @data-state path value)))
 
-(defn update-app [app path value]
+(defn update-ui [app path value]
   (om/update! app path value))
 
 (defn add-init-state-fn [init-state-fn]
   (swap!  init-state-fns conj init-state-fn))
 
 
-(defn get-in-app [app path]
+(defn get-in-tree [app path]
   (get-in @app path))
 
 

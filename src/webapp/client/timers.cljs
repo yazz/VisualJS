@@ -20,8 +20,6 @@
                                                     data-watchers
                                                     data-state
                                                     update-data
-                                                    update-app
-                                                    get-in-app
                                                     add-init-state-fn
                                                     ]]
    [clojure.string :only [blank?]]

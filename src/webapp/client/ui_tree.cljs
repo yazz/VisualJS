@@ -3,8 +3,6 @@
    [goog.net.cookies :as cookie]
    [om.core          :as om :include-macros true]
    [om.dom           :as dom :include-macros true]
-   [cljs.core.async  :refer [put! chan <! pub timeout]]
-   [om-sync.core     :as async]
    [clojure.data     :as data]
    [clojure.string   :as string]
    [ankha.core       :as ankha]
@@ -26,8 +24,8 @@
                                                     data-watchers
                                                     data-state
                                                     update-data
-                                                    update-app
-                                                    get-in-app
+                                                    update-ui
+                                                    get-in-tree
                                                     ]]
    [clojure.string :only [blank?]]
    )
@@ -52,11 +50,11 @@
 (when-path-equals ui-watchers
  [:ui :request :from-email :mode] "validate"
 
- (fn [app]
+ (fn [ui]
    (if (validate-email
-        (get-in-app app [:ui :request :from-email :value]))
-     (update-app app [:ui :request :from-email :error] "")
-     (update-app app [:ui :request :from-email :error] "Invalid email")
+        (get-in-tree ui [:ui :request :from-email :value]))
+     (update-ui ui [:ui :request :from-email :error] "")
+     (update-ui ui [:ui :request :from-email :error] "Invalid email")
      )))
 
 
@@ -64,11 +62,11 @@
 (when-value-changes ui-watchers
  [:ui :request :from-email :value]
 
- (fn [app] (if (= (get-in-app app [:ui :request :from-email :mode]) "validate")
+ (fn [ui] (if (= (get-in-tree ui [:ui :request :from-email :mode]) "validate")
              (if (validate-email
-                  (get-in-app app [:ui :request :from-email :value]))
-               (update-app app [:ui :request :from-email :error] "")
-               (update-app app [:ui :request :from-email :error] "Invalid email")
+                  (get-in-tree ui [:ui :request :from-email :value]))
+               (update-ui ui [:ui :request :from-email :error] "")
+               (update-ui ui [:ui :request :from-email :error] "Invalid email")
                ))))
 
 
@@ -76,11 +74,11 @@
 (when-path-equals ui-watchers
  [:ui :request :from-full-name :mode] "validate"
 
- (fn [app] (if (= (get-in-app app [:ui :request :from-full-name :mode]) "validate")
+ (fn [ui] (if (= (get-in-tree ui [:ui :request :from-full-name :mode]) "validate")
              (if (validate-full-name
-                  (get-in-app app [:ui :request :from-full-name :value]))
-               (update-app app [:ui :request :from-full-name :error] "")
-               (update-app app [:ui :request :from-full-name :error] "Invalid full name")
+                  (get-in-tree ui [:ui :request :from-full-name :value]))
+               (update-ui ui [:ui :request :from-full-name :error] "")
+               (update-ui ui [:ui :request :from-full-name :error] "Invalid full name")
                ))))
 
 
@@ -88,11 +86,11 @@
 (when-value-changes  ui-watchers
  [:ui :request :from-full-name :value]
 
- (fn [app] (if (= (get-in-app app [:ui :request :from-full-name :mode]) "validate")
+ (fn [ui] (if (= (get-in-tree ui [:ui :request :from-full-name :mode]) "validate")
              (if (validate-full-name
-                  (get-in-app app [:ui :request :from-full-name :value]))
-               (update-app app [:ui :request :from-full-name :error] "")
-               (update-app app [:ui :request :from-full-name :error] "Invalid full name")
+                  (get-in-tree ui [:ui :request :from-full-name :value]))
+               (update-ui ui [:ui :request :from-full-name :error] "")
+               (update-ui ui [:ui :request :from-full-name :error] "Invalid full name")
                ))))
 
 
@@ -101,22 +99,22 @@
  [:ui :request :to-full-name :mode]
 
  "validate"
- (fn [app] (if (= (get-in-app app [:ui :request :to-full-name :mode]) "validate")
+ (fn [ui] (if (= (get-in-tree ui [:ui :request :to-full-name :mode]) "validate")
              (if (validate-full-name
-                  (get-in-app app [:ui :request :to-full-name :value]))
-               (update-app app [:ui :request :to-full-name :error] "")
-               (update-app app [:ui :request :to-full-name :error] "Invalid full name")
+                  (get-in-tree ui [:ui :request :to-full-name :value]))
+               (update-ui ui [:ui :request :to-full-name :error] "")
+               (update-ui ui [:ui :request :to-full-name :error] "Invalid full name")
                ))))
 
 
 (when-value-changes ui-watchers
  [:ui :request :to-full-name :value]
 
- (fn [app] (if (= (get-in-app app [:ui :request :to-full-name :mode]) "validate")
+ (fn [ui] (if (= (get-in-tree ui [:ui :request :to-full-name :mode]) "validate")
              (if (validate-full-name
-                  (get-in-app app [:ui :request :to-full-name :value]))
-               (update-app app [:ui :request :to-full-name :error] "")
-               (update-app app [:ui :request :to-full-name :error] "Invalid full name")
+                  (get-in-tree ui [:ui :request :to-full-name :value]))
+               (update-ui ui [:ui :request :to-full-name :error] "")
+               (update-ui ui [:ui :request :to-full-name :error] "Invalid full name")
                ))))
 
 
@@ -126,11 +124,11 @@
 (when-path-equals ui-watchers
  [:ui :request :to-email :mode]     "validate"
 
- (fn [app]
+ (fn [ui]
    (if (validate-email
-        (get-in-app app [:ui :request :to-email :value]))
-     (update-app app [:ui :request :to-email :error] "")
-     (update-app app [:ui :request :to-email :error] "Invalid email")
+        (get-in-tree ui [:ui :request :to-email :value]))
+     (update-ui ui [:ui :request :to-email :error] "")
+     (update-ui ui [:ui :request :to-email :error] "Invalid email")
      )))
 
 
@@ -140,11 +138,11 @@
 (when-value-changes ui-watchers
  [:ui :request :to-email :value]
 
- (fn [app] (if (= (get-in-app app [:ui :request :to-email :mode]) "validate")
+ (fn [ui] (if (= (get-in-tree ui [:ui :request :to-email :mode]) "validate")
              (if (validate-email
-                  (get-in-app app [:ui :request :to-email :value]))
-               (update-app app [:ui :request :to-email :error] "")
-               (update-app app [:ui :request :to-email :error] "Invalid email")
+                  (get-in-tree ui [:ui :request :to-email :value]))
+               (update-ui ui [:ui :request :to-email :error] "")
+               (update-ui ui [:ui :request :to-email :error] "Invalid email")
                ))))
 
 
@@ -155,11 +153,11 @@
 (when-path-equals ui-watchers
  [:ui :request :endorsement :mode]     "validate"
 
- (fn [app]
+ (fn [ui]
    (if (validate-endorsement
-        (get-in-app app [:ui :request :endorsement :value]))
-     (update-app app [:ui :request :endorsement :error] "")
-     (update-app app [:ui :request :endorsement :error] "Invalid endorsement")
+        (get-in-tree ui [:ui :request :endorsement :value]))
+     (update-ui ui [:ui :request :endorsement :error] "")
+     (update-ui ui [:ui :request :endorsement :error] "Invalid endorsement")
      )))
 
 
@@ -172,9 +170,10 @@
 (when-path-equals ui-watchers
  [:ui :request :submit :value]     true
 
- (fn [app]
+ (fn [ui]
    (go
-     (update-app app [:ui :request :submit :message] "Submitted")
+     (update-ui ui [:ui :request :submit :message] "Submitted")
+
      (update-data [:submit :status] "Submitted")
      (update-data [:submit :request :from-full-name]
                   (get-in @app-state [:ui :request :from-full-name :value]))
@@ -214,11 +213,11 @@
 (when-value-changes  ui-watchers
  [:ui :request :endorsement :value]
 
- (fn [app] (if (= (get-in-app app [:ui :request :endorsement :mode]) "validate")
+ (fn [ui] (if (= (get-in-tree ui [:ui :request :endorsement :mode]) "validate")
              (if (validate-endorsement
-                  (get-in-app app [:ui :request :endorsement :value]))
-               (update-app app [:ui :request :endorsement :error] "")
-               (update-app app [:ui :request :endorsement :error] "Invalid endorsement")
+                  (get-in-tree ui [:ui :request :endorsement :value]))
+               (update-ui ui [:ui :request :endorsement :error] "")
+               (update-ui ui [:ui :request :endorsement :error] "Invalid endorsement")
                ))))
 
 
@@ -227,12 +226,12 @@
 (when-property-equals-in-record  ui-watchers
  [:ui :companies :values] :clicked true
 
-  (fn [app records]
+  (fn [ui records]
     (let [r (first records)]
     (js/alert (str "record:" r))
-      (update-app  app
+      (update-ui  ui
                    [:ui :companies :values]
-                   (amend-record (into [] (get-in-app app [:ui :companies :values]))
+                   (amend-record (into [] (get-in-tree ui [:ui :companies :values]))
                                  "company"
                                  (get r "company")
                                  (fn[z] (merge z {:clicked false}))

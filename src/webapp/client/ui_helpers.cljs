@@ -18,8 +18,6 @@
                                                     data-watchers
                                                     data-state
                                                     update-data
-                                                    update-app
-                                                    get-in-app
                                                     ]]
    [clojure.string :only [blank?]]
    )

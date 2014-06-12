@@ -23,8 +23,6 @@
                                                     data-watchers
                                                     data-state
                                                     update-data
-                                                    update-app
-                                                    get-in-app
                                                     set-ab-tests
                                                     set-ab-goals
                                                     ]]
