@@ -12,16 +12,13 @@
    [webapp.client.ui-helpers                :only  [validate-email validate-full-name  validate-endorsement
                                                      blur-from-full-name   blur-to-full-name   blur-from-email    blur-to-email
                                                     blur-to-endorsement]]
-   [webapp.client.helper                    :only  [when-path-equals when-value-changes
-                                                    when-property-equals-in-record
+   [webapp.client.helper                    :only  [when-ui-path-equals when-ui-value-changes
+                                                    when-ui-property-equals-in-record
                                                     amend-record
                                                     ]]
    [webapp.framework.client.coreclient      :only  [log remote]]
    [webapp.framework.client.system-globals  :only  [app-state   playback-app-state
                                                     playback-controls-state
-                                                    reset-app-state ui-watchers
-                                                    playbackmode start-component
-                                                    data-watchers
                                                     data-state
                                                     update-data
                                                     update-ui
@@ -47,20 +44,24 @@
 
 
 
-(when-path-equals ui-watchers
- [:ui :request :from-email :mode] "validate"
+(when-ui-path-equals  [:ui :request :from-email :mode] "validate"
 
  (fn [ui]
-   (if (validate-email
-        (get-in-tree ui [:ui :request :from-email :value]))
-     (update-ui ui [:ui :request :from-email :error] "")
-     (update-ui ui [:ui :request :from-email :error] "Invalid email")
-     )))
+   (cond
+
+    (validate-email (get-in-tree ui [:ui :request :from-email :value]))
+    (update-ui ui [:ui :request :from-email :error] "")
+
+    :else
+    (update-ui ui [:ui :request :from-email :error] "Invalid email")
+    )))
 
 
 
-(when-value-changes ui-watchers
- [:ui :request :from-email :value]
+
+
+
+(when-ui-value-changes [:ui :request :from-email :value]
 
  (fn [ui] (if (= (get-in-tree ui [:ui :request :from-email :mode]) "validate")
              (if (validate-email
@@ -71,8 +72,9 @@
 
 
 
-(when-path-equals ui-watchers
- [:ui :request :from-full-name :mode] "validate"
+
+
+(when-ui-path-equals  [:ui :request :from-full-name :mode] "validate"
 
  (fn [ui] (if (= (get-in-tree ui [:ui :request :from-full-name :mode]) "validate")
              (if (validate-full-name
@@ -83,8 +85,7 @@
 
 
 
-(when-value-changes  ui-watchers
- [:ui :request :from-full-name :value]
+(when-ui-value-changes   [:ui :request :from-full-name :value]
 
  (fn [ui] (if (= (get-in-tree ui [:ui :request :from-full-name :mode]) "validate")
              (if (validate-full-name
@@ -95,8 +96,7 @@
 
 
 
-(when-path-equals ui-watchers
- [:ui :request :to-full-name :mode]
+(when-ui-path-equals   [:ui :request :to-full-name :mode]
 
  "validate"
  (fn [ui] (if (= (get-in-tree ui [:ui :request :to-full-name :mode]) "validate")
@@ -107,8 +107,7 @@
                ))))
 
 
-(when-value-changes ui-watchers
- [:ui :request :to-full-name :value]
+(when-ui-value-changes  [:ui :request :to-full-name :value]
 
  (fn [ui] (if (= (get-in-tree ui [:ui :request :to-full-name :mode]) "validate")
              (if (validate-full-name
@@ -121,8 +120,7 @@
 
 
 
-(when-path-equals ui-watchers
- [:ui :request :to-email :mode]     "validate"
+(when-ui-path-equals  [:ui :request :to-email :mode]     "validate"
 
  (fn [ui]
    (if (validate-email
@@ -135,8 +133,7 @@
 
 
 
-(when-value-changes ui-watchers
- [:ui :request :to-email :value]
+(when-ui-value-changes [:ui :request :to-email :value]
 
  (fn [ui] (if (= (get-in-tree ui [:ui :request :to-email :mode]) "validate")
              (if (validate-email
@@ -150,8 +147,7 @@
 
 
 
-(when-path-equals ui-watchers
- [:ui :request :endorsement :mode]     "validate"
+(when-ui-path-equals [:ui :request :endorsement :mode]     "validate"
 
  (fn [ui]
    (if (validate-endorsement
@@ -167,8 +163,7 @@
 
 
 
-(when-path-equals ui-watchers
- [:ui :request :submit :value]     true
+(when-ui-path-equals [:ui :request :submit :value]     true
 
  (fn [ui]
    (go
@@ -210,8 +205,7 @@
 
 
 
-(when-value-changes  ui-watchers
- [:ui :request :endorsement :value]
+(when-ui-value-changes  [:ui :request :endorsement :value]
 
  (fn [ui] (if (= (get-in-tree ui [:ui :request :endorsement :mode]) "validate")
              (if (validate-endorsement
@@ -223,8 +217,7 @@
 
 
 
-(when-property-equals-in-record  ui-watchers
- [:ui :companies :values] :clicked true
+(when-ui-property-equals-in-record  [:ui :companies :values] :clicked true
 
   (fn [ui records]
     (let [r (first records)]

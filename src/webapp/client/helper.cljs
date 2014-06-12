@@ -11,10 +11,13 @@
    )
   (:use
    [webapp.framework.client.coreclient      :only  [log remote]]
-   [webapp.framework.client.system-globals  :only  [app-state   playback-app-state
+   [webapp.framework.client.system-globals  :only  [app-state
+                                                    playback-app-state
                                                     playback-controls-state
-                                                    reset-app-state ui-watchers
-                                                    playbackmode start-component
+                                                    reset-app-state
+                                                    ui-watchers
+                                                    playbackmode
+                                                    start-component
                                                     data-watchers
                                                     data-state
                                                     update-data
@@ -67,3 +70,36 @@
           :value    value
           :fn       fn-def
           }))
+
+
+
+
+(defn when-ui-path-equals
+  [path value ui-fn]
+
+  (when-path-equals
+   ui-watchers
+   path
+   value
+   ui-fn))
+
+
+
+(defn when-ui-value-changes
+  [path ui-fn]
+
+  (when-value-changes
+   ui-watchers
+   path
+   ui-fn))
+
+
+(defn when-ui-property-equals-in-record
+  [path field value ui-fn]
+
+  (when-property-equals-in-record
+   ui-watchers
+   path
+   field
+   value
+   ui-fn))
