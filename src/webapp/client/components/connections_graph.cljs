@@ -65,3 +65,31 @@
 
 
 
+
+
+
+
+
+
+(defn company-details [{:keys [company-details]} owner]
+  (reify
+
+    ;---------------------------------------------------------
+    om/IRender
+    (render
+     [this]
+     (dom/div
+      #js {:style #js {:height "100%" :width "100%"}}
+
+      (dom/div #js {:style #js {:padding-bottom "20px"}} "Company details")
+      (dom/div #js {:style #js {:padding-bottom "20px"}}
+               (str (-> company-details :company-url))
+               )
+
+
+
+      ))))
+
+
+
+

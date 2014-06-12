@@ -57,7 +57,8 @@
                :submit               {:value false}
                }
 
-     :tab "browser"
+     :tab         "browser"
+     :tab-browser "top companies"
 
 
      }))

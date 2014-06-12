@@ -39,12 +39,14 @@
 
 
 
-(when-data-path-equals    [:submit :status]     "ConfirmedSender"
+(when-data-path-equals    [:submit
+                             :status]     "ConfirmedSender"
 
  (fn [ui]
-   (go
-    (om/update! ui [:ui :request :from-email :confirmed]  true)
-    )))
+    (om/update! ui [:ui
+                      :request
+                        :from-email
+                          :confirmed]  true)))
 
 
 

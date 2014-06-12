@@ -44,16 +44,19 @@
 
 
 
-(when-ui-path-equals  [:ui :request :from-email :mode] "validate"
+(when-ui-path-equals  [:ui
+                         :request
+                           :from-email
+                             :mode     ]    "validate"
 
- (fn [ui]
-   (cond
+  (fn [ui]
+    (cond
 
-    (validate-email (get-in-tree ui [:ui :request :from-email :value]))
-    (update-ui ui [:ui :request :from-email :error] "")
+      (validate-email (get-in-tree ui [:ui :request :from-email :value]))
+      (update-ui ui [:ui :request :from-email :error] "")
 
-    :else
-    (update-ui ui [:ui :request :from-email :error] "Invalid email")
+      :else
+      (update-ui ui [:ui :request :from-email :error] "Invalid email")
     )))
 
 
@@ -217,17 +220,29 @@
 
 
 
-(when-ui-property-equals-in-record  [:ui :companies :values] :clicked true
+
+
+
+(when-ui-property-equals-in-record  [:ui
+                                       :companies
+                                         :values  ]  :clicked    true
 
   (fn [ui records]
     (let [r (first records)]
-    (js/alert (str "record:" r))
+    ;(js/alert (str "record:" r))
       (update-ui  ui
-                   [:ui :companies :values]
-                   (amend-record (into [] (get-in-tree ui [:ui :companies :values]))
+                   [:ui
+                      :companies
+                        :values   ]
+
+                           (amend-record
+                              (into [] (get-in-tree ui [:ui :companies :values]))
                                  "company"
                                  (get r "company")
-                                 (fn[z] (merge z {:clicked false}))
-                                 ))
-                     )))
+                                 (fn[z] (merge z {:clicked false}))))
+
+      (update-ui ui [:ui :tab-browser ] "company")
+      (update-ui ui [:ui :tab-browser-details :company-url] (get r "company"))
+
+)))
 

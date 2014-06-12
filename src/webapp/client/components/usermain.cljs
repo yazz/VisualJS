@@ -7,7 +7,8 @@
   (:use
    [webapp.client.components.forms               :only  [request-form]]
    [webapp.client.components.connection-graph    :only  [graph]]
-   [webapp.client.components.connections-graph    :only  [text-graph]]
+   [webapp.client.components.connections-graph    :only  [text-graph
+                                                          company-details]]
    ))
 
 
@@ -58,7 +59,9 @@
                         })
 
 
-            (= (-> app :ui :tab) "browser")
+            (and
+             (= (-> app :ui :tab) "browser")
+             (= (-> app :ui :tab-browser) "top companies"))
             (cond
 
              ;(= (-> app :ui :graph-ab-test) "text")
@@ -76,5 +79,29 @@
                          :data    (:data    app)
                          }))
 
-            )
-           ))
+
+
+
+           (and
+             (= (-> app :ui :tab) "browser")
+             (= (-> app :ui :tab-browser) "company"))
+            (cond
+
+             ;(= (-> app :ui :graph-ab-test) "text")
+             true
+             (om/build  company-details
+                        {
+                         :company-details    (-> app :ui :tab-browser-details)
+                         }
+                        )
+
+
+             (= (-> app :ui :graph-ab-test) "SVG")
+             (om/build  graph
+                        {
+                         :data    (:data    app)
+                         }))
+
+
+
+       )))
