@@ -11,7 +11,8 @@
    [webapp.client.timers]
    )
   (:use
-   [webapp.client.helper                    :only  [when-path-equals when-value-changes]]
+   [webapp.client.helper                    :only  [when-data-path-equals
+                                                    when-data-value-changes]]
    [webapp.framework.client.coreclient      :only  [log remote]]
    [webapp.framework.client.system-globals  :only  [app-state
                                                     playback-app-state
@@ -38,14 +39,12 @@
 
 
 
-(when-path-equals  data-watchers
- [:submit :status]     "ConfirmedSender"
+(when-data-path-equals    [:submit :status]     "ConfirmedSender"
 
  (fn [ui]
    (go
     (om/update! ui [:ui :request :from-email :confirmed]  true)
-    )
-   ))
+    )))
 
 
 
@@ -53,14 +52,12 @@
 
 
 
-(when-path-equals  data-watchers
- [:submit :status]     "ConfirmedReceiver"
+(when-data-path-equals   [:submit :status]     "ConfirmedReceiver"
 
  (fn [ui]
    (go
     (om/update! ui [:ui :request :to-email :confirmed]  true)
-    )
-   ))
+    )))
 
 
 
@@ -71,8 +68,7 @@
 
 
 
-(when-path-equals data-watchers
- [:submit]     "Submitted"
+(when-data-path-equals    [:submit]     "Submitted"
 
  (fn [ui]
      (log "sent")
@@ -83,13 +79,10 @@
 
 
 
-(when-value-changes  data-watchers
- [:top-companies]
+(when-data-value-changes  [:top-companies]
 
  (fn [ui]
    (om/update! ui [:ui :companies :values]  (get-in @data-state [:top-companies]))
-
-
    ))
 
 

@@ -103,3 +103,39 @@
    field
    value
    ui-fn))
+
+
+
+
+
+
+
+(defn when-data-path-equals
+  [path value data-fn]
+
+  (when-path-equals
+   data-watchers
+   path
+   value
+   data-fn))
+
+
+
+(defn when-data-value-changes
+  [path data-fn]
+
+  (when-value-changes
+   data-watchers
+   path
+   data-fn))
+
+
+(defn when-data-property-equals-in-record
+  [path field value data-fn]
+
+  (when-property-equals-in-record
+   data-watchers
+   path
+   field
+   value
+   data-fn))
