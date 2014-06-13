@@ -113,7 +113,7 @@
        ))
 
 
-(macroexpand '(def-ui-component abc 1 (dom/div
+(comment   macroexpand '(def-ui-component abc [:ui :request] (dom/div
       nil
       (dom/div #js {:style #js {:padding-top "40px"}} " You asdsddsads")
  )))
