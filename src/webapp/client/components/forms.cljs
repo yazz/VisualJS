@@ -20,7 +20,9 @@
 
 
   (:use-macros
-   [webapp.framework.client.neo4j      :only  [neo4j]])
+   [webapp.framework.client.neo4j      :only  [neo4j]]
+   [webapp.framework.client.coreclient      :only  [def-ui-component]]
+   )
 
   (:require-macros
    [cljs.core.async.macros :refer [go]]))
@@ -217,7 +219,7 @@
 
 
 
-(defn request-form [{:keys [request data]} owner]
+(defn request-form2 [ui-data  owner]
   (reify
 
     ;---------------------------------------------------------
@@ -228,15 +230,15 @@
       nil
       (dom/div #js {:style #js {:padding-top "40px"}} " You ")
 
-      (om/build full-name-field  {:request request})
-      (om/build from-email-field  {:request request})
+      (om/build full-name-field  {:request ui-data})
+      (om/build from-email-field  {:request ui-data})
 
       (dom/div #js {:style #js {:padding-top "40px"}} " Them ")
 
-      ;(om/build labelled-field/component  {:field (-> request :to-full-name)})
-      (om/build to-full-name-field  {:request request})
+      ;(om/build labelled-field/component  {:field (-> ui-data :to-full-name)})
+      (om/build to-full-name-field  {:request ui-data})
 
-      (om/build to-email-field  {:request request})
+      (om/build to-email-field  {:request ui-data})
 
 
 
@@ -249,17 +251,17 @@
       (dom/div
        #js {:className "input-group"}
 
-       (om/build endorsement-field  {:request request})
+       (om/build endorsement-field  {:request ui-data})
 
        )
 
       (dom/button #js {:onClick (fn [e]
-                                  (om/update! request [:submit :value]  true))
+                                  (om/update! ui-data [:submit :value]  true))
                        :style
                        #js {:margin-top "40px"}}
                   "Send request")
       (if (not (blank?
-                (get-in request [:submit :message])))
+                (get-in ui-data [:submit :message])))
         (dom/div nil "Submitted")
         )
 
@@ -267,6 +269,17 @@
     ;---------------------------------------------------------
 
 ))
+
+
+
+
+
+(def-ui-component   request-form   []
+  (dom/div
+      nil
+      (dom/div #js {:style #js {:padding-top "40px"}} "You can see")
+ ))
+
 
 
 

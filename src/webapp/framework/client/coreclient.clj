@@ -93,3 +93,29 @@
 
 ;(macroexpand '(ns-coils dfd))
 
+
+
+(defmacro def-ui-component [fn-name path & code ]
+
+    `(do
+       (defn ~fn-name [~'ui-data  ~'owner]
+         (~'reify
+
+           ~'om/IRender
+           (~'render
+            [~'this]
+
+             ~@code
+         )))
+
+       (~'touch ~path)
+
+       ))
+
+
+(macroexpand '(def-ui-component abc 1 (dom/div
+      nil
+      (dom/div #js {:style #js {:padding-top "40px"}} " You asdsddsads")
+ )))
+
+

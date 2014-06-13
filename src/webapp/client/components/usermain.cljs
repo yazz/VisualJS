@@ -52,11 +52,7 @@
 
            (cond
             (= (-> app :ui :tab) "request")
-            (om/build  request-form
-                       {
-                        :request (-> app :ui :request)
-                        :data    (:data    app)
-                        })
+            (om/build  request-form  (-> app :ui :request))
 
 
             (and
