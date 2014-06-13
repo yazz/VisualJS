@@ -15,7 +15,7 @@
    [webapp.client.ui-helpers                :only  [validate-email validate-full-name  validate-endorsement
                                                      blur-from-full-name   blur-to-full-name   blur-from-email    blur-to-email    blur-to-endorsement]]
    [clojure.string :only [blank?]]
-
+   [webapp.framework.client.system-globals  :only  [touch]]
    )
 
 
@@ -70,6 +70,7 @@
                          )                       )
 ))))
 
+;(touch [:ui :request])
 
 
 (defn to-full-name-field [{:keys [request]} owner]

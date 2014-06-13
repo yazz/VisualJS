@@ -12,10 +12,12 @@
   (:use
    [webapp.client.helper  :only [amend-record]]
    [webapp.framework.client.coreclient      :only  [log remote]]
+   [webapp.framework.client.system-globals  :only  [touch]]
    )
 
   (:require-macros
-   [cljs.core.async.macros :refer [go]]))
+   [cljs.core.async.macros :refer [go]]
+   ))
 
 
 
@@ -90,6 +92,5 @@
 
       ))))
 
-
-
+;(touch [:ui :tab-browser-details])
 

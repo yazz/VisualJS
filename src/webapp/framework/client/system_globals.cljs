@@ -152,3 +152,15 @@
 (defn  set-ab-goals [tree]
    (reset! ab-goals tree))
 
+
+
+
+(def touch-id  (atom 0))
+
+(defn touch [path]
+  (reset! app-state (assoc-in @app-state path
+                     (assoc
+                       (get-in @app-state path)
+                       :touch-id
+                       (swap! touch-id inc)
+                       ))))
