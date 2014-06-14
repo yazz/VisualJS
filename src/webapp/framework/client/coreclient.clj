@@ -114,7 +114,7 @@
 
 
 (comment   macroexpand
-  '(def-ui-component abc [:ui :request]
+  '(def-ui-component abc {:path [:ui :request] }
      (dom/div
       nil
       (dom/div nil " You asdsddsads")

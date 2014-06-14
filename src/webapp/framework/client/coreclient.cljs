@@ -798,6 +798,7 @@
                             {absolute-path :absolute-path}
                             ]
   (if absolute-path
-    (touch  absolute-path))
+    (do
+      (touch  absolute-path)))
 
   )
