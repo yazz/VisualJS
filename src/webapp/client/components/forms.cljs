@@ -21,7 +21,39 @@
    [cljs.core.async.macros :refer [go]]))
 
 
+(defn basic-input-box
+  [& {:keys
+      [
+       field
+       text
+       placeholder
+       error
+       ]
+      :or
+      {
+       text           "No field name"
+       placeholder    "Placeholder"
+       error          "Error in field"
+       }
+      }]
+  (dom/div #js {:className "input-group"}
 
+           (dom/span
+            #js {:className "input-group-addon"}
+             (str text))
+
+            (dom/input
+             #js {:type        "text"
+                  :className   "form-control"
+                  :placeholder placeholder
+                  :value       (get-in field [:value])
+                  :onChange    #(update-field-value  field %1)
+                  :onBlur      #(blur-field  field)
+                  })
+
+            (if (not (blank? (get-in field [:error])))
+              (dom/div nil error)
+)))
 
 
 
@@ -30,25 +62,14 @@
   {:absolute-path [:ui :request]}
 ;------------------------------------------------------------
 
-  (dom/div nil
-           (dom/div #js {:className "input-group"}
-
-                    (dom/span
-                     #js {:className "input-group-addon"}
-                     (str "Your full name"))
-
-                    (dom/input
-                     #js {:type        "text"
-                          :className   "form-control"
-                          :placeholder "John Smith"
-                          :value       (get-in field [:value])
-                          :onChange    #(update-field-value  field %1)
-                          :onBlur      #(blur-field  field)
-                          })
-
-                    (if (not (blank? (get-in field [:error])))
-                      (dom/div nil "Full name must be at least 6 characters and contain a space")
-))))
+  (dom/div
+   nil
+   (basic-input-box :field       field
+                    :text        "Your full name"
+                    :placeholder "John Smith"
+                    :error       "Full name must be at least 6 characters and contain a space"
+                    )
+   ))
 
 
 
