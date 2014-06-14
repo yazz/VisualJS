@@ -25,7 +25,7 @@
 
 
   (:use-macros
-   [webapp.framework.client.coreclient      :only  [def-ui-component]]
+   [webapp.framework.client.coreclient      :only  [defn-ui-component]]
    )
 
   (:require-macros
@@ -37,7 +37,7 @@
 
 
 ;------------------------------------------------------------
-(def-ui-component     full-name-field
+(defn-ui-component     full-name-field  [field]
   {:absolute-path [:ui :request]}
 ;------------------------------------------------------------
 
@@ -51,14 +51,14 @@
                      #js {:type        "text"
                           :className   "form-control"
                           :placeholder "John Smith"
-                          :value       (get-in ui-data [:from-full-name :value])
-                          :onChange    #(om/update! ui-data
+                          :value       (get-in field [:from-full-name :value])
+                          :onChange    #(om/update! field
                                                     [:from-full-name :value]
                                                     (.. %1 -target -value))
-                          :onBlur      #(blur-from-full-name  ui-data)
+                          :onBlur      #(blur-from-full-name  field)
                           })
                     (if (not (blank?
-                              (get-in ui-data [:from-full-name :error])))
+                              (get-in field [:from-full-name :error])))
                       (dom/div nil "Full name must be at least 6 characters and contain a space")
                       ))
 ))
@@ -69,7 +69,7 @@
 
 
 ;------------------------------------------------------------
-(def-ui-component   to-full-name-field
+(defn-ui-component   to-full-name-field  [ui-data]
   {:absolute-path [:ui :request]}
 ;------------------------------------------------------------
 
@@ -100,7 +100,7 @@
 
 
 ;------------------------------------------------------------
-(def-ui-component    from-email-field
+(defn-ui-component    from-email-field  [ui-data]
     {:absolute-path [:ui :request]}
 ;------------------------------------------------------------
      (dom/div nil
@@ -138,7 +138,7 @@
 
 
 ;------------------------------------------------------------
-(def-ui-component  to-email-field
+(defn-ui-component  to-email-field  [ui-data]
     {:absolute-path [:ui :request]}
 ;------------------------------------------------------------
 
@@ -181,7 +181,7 @@
 
 
 ;------------------------------------------------------------
-(def-ui-component   endorsement-field
+(defn-ui-component   endorsement-field   [ui-data]
     {:absolute-path [:ui :request]}
 ;------------------------------------------------------------
      (dom/div nil
@@ -211,7 +211,7 @@
 
 
 ;------------------------------------------------------------
-(def-ui-component   request-form
+(defn-ui-component   request-form   [ui-data]
     {:absolute-path [:ui :request]}
 ;------------------------------------------------------------
 

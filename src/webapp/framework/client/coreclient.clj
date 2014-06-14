@@ -95,10 +95,10 @@
 
 
 
-(defmacro def-ui-component [fn-name opts & code ]
+(defmacro defn-ui-component [fn-name data-paramater-name opts & code ]
 
     `(do
-       (defn ~fn-name [~'ui-data  ~'owner]
+       (defn ~fn-name [~(first data-paramater-name)  ~'owner]
          (~'reify
 
            ~'om/IRender
@@ -113,11 +113,11 @@
        ))
 
 
-(comment   macroexpand
-  '(def-ui-component abc {:path [:ui :request] }
+(comment    macroexpand
+  '(defn-ui-component abc [data] {:path [:ui :request] }
      (dom/div
       nil
-      (dom/div nil " You asdsddsads")
+      (dom/div nil (str " You asdsddsads" data))
       )))
 
 
