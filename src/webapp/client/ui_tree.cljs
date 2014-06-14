@@ -10,8 +10,7 @@
    )
   (:use
    [webapp.client.ui-helpers                :only  [validate-email validate-full-name  validate-endorsement
-                                                     blur-from-full-name   blur-to-full-name   blur-from-email    blur-to-email
-                                                    blur-to-endorsement]]
+                                                     ]]
    [webapp.client.helper                    :only  [when-ui-path-equals when-ui-value-changes
                                                     when-ui-property-equals-in-record
                                                     amend-record
@@ -195,11 +194,7 @@
 
        ;(log (pr-str l))
        (update-data [:submit :request :endorsement-id]  (:endorsement_id l))
-       )
-
-
-
-     )))
+       ))))
 
 
 
@@ -242,7 +237,34 @@
                                  (fn[z] (merge z {:clicked false}))))
 
       (update-ui ui [:ui :tab-browser ] "company")
-      (update-ui ui [:ui :tab-browser-details :company-url] (get r "company"))
+      (update-ui ui [:ui :company-details :company-url] (get r "company"))
 
 )))
 
+
+
+
+(when-ui-value-changes [:ui :company-details :company-url]
+
+ (fn [ui]
+   (go
+    (update-ui  ui  [:ui  :company-details   :skills  ] nil)
+     (let [ l (<! (remote "get-company-details"
+             {
+              :company-url    (get-in @app-state [:ui :company-details :company-url])
+              }))]
+
+       ;(log (pr-str l))
+       (update-data [:company-details]  l)
+       ))))
+
+
+
+
+
+(when-ui-path-equals  [:ui   :company-details   :clicked]    true
+
+  (fn [ui]
+      (update-ui  ui  [:ui  :company-details   :clicked  ] false)
+      (update-ui  ui  [:ui  :tab-browser    ] "top companies")
+))

@@ -89,3 +89,10 @@
 
 
 
+
+(when-data-value-changes  [:company-details]
+
+ (fn [ui]
+   (om/update! ui [:ui :company-details :skills]
+               (get-in @data-state [:company-details]))
+   ))

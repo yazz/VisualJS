@@ -66,12 +66,33 @@
 
 ;---------------------------------------------------------
 (defn-ui-component   company-details    [company-details]
-  {:absolute-path [:ui :tab-browser-details]}
+  {:absolute-path [:ui :company-details]}
 ;---------------------------------------------------------
   (dom/div
    #js {:style #js {:height "100%" :width "100%"}}
 
-   (dom/div #js {:style #js {:padding-bottom "20px"}} "Company details")
-   (dom/div #js {:style #js {:padding-bottom "20px"}}
-            (str (-> company-details :company-url))
-            )))
+   (dom/div #js {:style #js {:padding-bottom "0px"}}
+            (str (-> company-details :company-url)))
+   (if (-> company-details :skills )
+     (do
+       (dom/div #js {:style #js {:padding-bottom "20px"}} "Skills2")
+       (apply dom/div nil
+             (map
+              (fn[skill]
+         (dom/div #js {:style #js {:padding-left "20px"}}
+                  (get skill "skill") " - " (get skill "skill_count")
+                  ))
+                (-> company-details :skills )
+         ))
+       ))
+   (dom/div #js {:style #js {:padding-bottom "20px"}} "")
+
+   (dom/button #js {:onClick
+                    (fn [e]
+                      (om/update! company-details [:clicked]  true))
+                    :style
+                    #js {:margin-top "40px"}}
+                "Back")
+
+
+   ))

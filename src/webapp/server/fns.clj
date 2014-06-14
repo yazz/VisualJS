@@ -379,3 +379,21 @@
          limit 10"
          {}
          ["company" "inbound"]))
+
+
+
+(defn get-company-details [{:keys [company-url]}]
+  (neo4j "match
+           (n:Company)<-[:WORKS_FOR]-(w:Person)<-[e:ENDORSE]-someone
+         where
+           n.web_address = {company_url}
+         return
+           n.web_address as company,
+           count(e.skill) as skill_count,
+           e.skill as skill
+         order by
+           skill"
+         {:company_url company-url}
+         ["company" "skill" "skill_count"]))
+
+(get-company-details {:company-url "microsoft.com"})

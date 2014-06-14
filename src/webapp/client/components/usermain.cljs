@@ -82,7 +82,8 @@
            (and
              (= (-> app :ui :tab) "browser")
              (= (-> app :ui :tab-browser) "company"))
-             (om/build  company-details   (-> app :ui :tab-browser-details))
+
+             (om/build  company-details   (-> app :ui :company-details))
 
 
 
