@@ -28,7 +28,18 @@
 
 
 
+(defn update-field-value [field e]
+  (om/update! field [:value] (.. e -target -value))
+  )
 
+
+
+(defn blur-field [request]
+   (let [mode  (get-in @request [:mode])]
+     (cond
+      (and (= mode "empty") (not (blank? (get-in @request [:value]))))
+      (om/update! request [:mode]  "validate")
+      )))
 
 
 
@@ -56,40 +67,4 @@
 
 
 
-
-(defn blur-from-full-name [request]
-   (let [mode  (get-in @request [:from-full-name :mode])]
-     (cond
-      (and (= mode "empty") (not (blank? (get-in @request [:from-full-name :value]))))
-      (om/update! request [:from-full-name :mode]  "validate")
-      )))
-
-(defn blur-to-full-name [request]
-   (let [mode  (get-in @request [:to-full-name :mode])]
-     (cond
-      (and (= mode "empty") (not (blank? (get-in @request [:to-full-name :value]))))
-      (om/update! request [:to-full-name :mode]  "validate")
-      )))
-
-(defn blur-from-email [request]
-   (let [mode  (get-in @request [:from-email :mode])]
-     (cond
-      (and (= mode "empty") (not (blank? (get-in @request [:from-email :value]))))
-      (om/update! request [:from-email :mode]  "validate")
-      )))
-
-(defn blur-to-email [request]
-   (let [mode  (get-in @request [:to-email :mode])]
-     (cond
-      (and (= mode "empty") (not (blank? (get-in @request [:to-email :value]))))
-      (om/update! request [:to-email :mode]  "validate")
-      )))
-
-
-(defn blur-to-endorsement [request]
-   (let [mode  (get-in @request [:endorsement :mode])]
-     (cond
-      (and (= mode "empty") (not (blank? (get-in @request [:endorsement :value]))))
-      (om/update! request [:endorsement :mode]  "validate")
-      )))
 
