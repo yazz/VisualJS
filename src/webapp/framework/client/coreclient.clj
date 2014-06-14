@@ -95,7 +95,7 @@
 
 
 
-(defmacro def-ui-component [fn-name path & code ]
+(defmacro def-ui-component [fn-name opts & code ]
 
     `(do
        (defn ~fn-name [~'ui-data  ~'owner]
@@ -108,14 +108,16 @@
              ~@code
          )))
 
-       (~'touch ~path)
+       (~'webapp.framework.client.coreclient/process-ui-component  ~opts)
 
        ))
 
 
-(comment   macroexpand '(def-ui-component abc [:ui :request] (dom/div
+(comment   macroexpand
+  '(def-ui-component abc [:ui :request]
+     (dom/div
       nil
-      (dom/div #js {:style #js {:padding-top "40px"}} " You asdsddsads")
- )))
+      (dom/div nil " You asdsddsads")
+      )))
 
 

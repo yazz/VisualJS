@@ -1,26 +1,30 @@
 (ns webapp.client.components.forms
   (:require
-   [goog.net.cookies :as cookie]
    [om.core          :as om :include-macros true]
    [om.dom           :as dom :include-macros true]
-   [cljs.core.async  :refer [put! chan <! pub timeout]]
-   [om-sync.core     :as async]
    [clojure.data     :as data]
    [clojure.string   :as string]
    [webapp.framework.client.components.fields.labelled-text-field :as labelled-field]
-    )
+   )
 
   (:use
-   [webapp.framework.client.coreclient      :only  [log remote]]
-   [webapp.client.ui-helpers                :only  [validate-email validate-full-name  validate-endorsement
-                                                     blur-from-full-name   blur-to-full-name   blur-from-email    blur-to-email    blur-to-endorsement]]
+   [webapp.framework.client.coreclient      :only  [log
+                                                    remote
+                                                    process-ui-component]]
+
+   [webapp.client.ui-helpers                :only  [validate-email
+                                                    validate-full-name
+                                                    validate-endorsement
+                                                    blur-from-full-name
+                                                    blur-to-full-name
+                                                    blur-from-email
+                                                    blur-to-email
+                                                    blur-to-endorsement]]
    [clojure.string :only [blank?]]
-   [webapp.framework.client.system-globals  :only  [touch]]
    )
 
 
   (:use-macros
-   [webapp.framework.client.neo4j      :only  [neo4j]]
    [webapp.framework.client.coreclient      :only  [def-ui-component]]
    )
 
@@ -32,19 +36,9 @@
 
 
 
-
-(defn handle-change [app field e owner]
-  (om/update! app [field :value] (.. e -target -value)))
-
-
-
-
-
-
-
-
 ;------------------------------------------------------------
-(def-ui-component     full-name-field    [:ui :request]
+(def-ui-component     full-name-field
+  {:absolute-path [:ui :request]}
 ;------------------------------------------------------------
 
   (dom/div nil
@@ -75,7 +69,8 @@
 
 
 ;------------------------------------------------------------
-(def-ui-component   to-full-name-field  [:ui :request]
+(def-ui-component   to-full-name-field
+  {:absolute-path [:ui :request]}
 ;------------------------------------------------------------
 
      (dom/div nil
@@ -105,7 +100,8 @@
 
 
 ;------------------------------------------------------------
-(def-ui-component    from-email-field  [:ui :request]
+(def-ui-component    from-email-field
+    {:absolute-path [:ui :request]}
 ;------------------------------------------------------------
      (dom/div nil
               (dom/div #js {:className "input-group"}
@@ -142,7 +138,8 @@
 
 
 ;------------------------------------------------------------
-(def-ui-component  to-email-field  [:ui :request]
+(def-ui-component  to-email-field
+    {:absolute-path [:ui :request]}
 ;------------------------------------------------------------
 
      (dom/div nil
@@ -184,7 +181,8 @@
 
 
 ;------------------------------------------------------------
-(def-ui-component   endorsement-field    [:ui :request]
+(def-ui-component   endorsement-field
+    {:absolute-path [:ui :request]}
 ;------------------------------------------------------------
      (dom/div nil
               (dom/div #js {:className "input-group"}
@@ -212,8 +210,11 @@
 
 
 
+;------------------------------------------------------------
+(def-ui-component   request-form
+    {:absolute-path [:ui :request]}
+;------------------------------------------------------------
 
-(def-ui-component   request-form    [:ui :request]
   (dom/div
    nil
    (dom/div

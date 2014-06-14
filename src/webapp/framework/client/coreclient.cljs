@@ -18,6 +18,7 @@
     [domina.xpath          :only [xpath]]
     [domina.css            :only [sel]]
     [clojure.browser.event :only [listen]]
+    [webapp.framework.client.system-globals  :only  [touch]]
   )
 )
 
@@ -788,3 +789,15 @@
     (-> ($ (find-el element) ) (. width))
   )
 
+
+
+
+
+
+(defn process-ui-component [
+                            {absolute-path :absolute-path}
+                            ]
+  (if absolute-path
+    (touch  absolute-path))
+
+  )
