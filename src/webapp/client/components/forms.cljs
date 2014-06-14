@@ -13,7 +13,8 @@
                                                     validate-full-name
                                                     validate-endorsement
                                                     blur-field
-                                                    update-field-value]]
+                                                    update-field-value
+                                                    basic-input-box ]]
    [clojure.string :only [blank?]])
   (:use-macros
    [webapp.framework.client.coreclient      :only  [defn-ui-component]])
@@ -21,39 +22,6 @@
    [cljs.core.async.macros :refer [go]]))
 
 
-(defn basic-input-box
-  [& {:keys
-      [
-       field
-       text
-       placeholder
-       error
-       ]
-      :or
-      {
-       text           "No field name"
-       placeholder    "Placeholder"
-       error          "Error in field"
-       }
-      }]
-  (dom/div #js {:className "input-group"}
-
-           (dom/span
-            #js {:className "input-group-addon"}
-             (str text))
-
-            (dom/input
-             #js {:type        "text"
-                  :className   "form-control"
-                  :placeholder placeholder
-                  :value       (get-in field [:value])
-                  :onChange    #(update-field-value  field %1)
-                  :onBlur      #(blur-field  field)
-                  })
-
-            (if (not (blank? (get-in field [:error])))
-              (dom/div nil error)
-)))
 
 
 
@@ -83,23 +51,14 @@
 
   (dom/div
    nil
-   (dom/div #js {:className "input-group"}
-
-            (dom/span
-             #js {:className "input-group-addon"}
-             (str "Their full name"))
-            (dom/input
-             #js {:type        "text"
-                  :className   "form-control"
-                  :placeholder "Pete Austin"
-                  :value       (get-in ui-data [:value])
-                  :onChange    #(update-field-value  ui-data %1)
-                  :onBlur      #(blur-field  ui-data)
-                  })
-            (if (not (blank? (get-in ui-data [:error])))
-              (dom/div nil
-                       "Full name must be at least 6 characters and contain a space")
-))))
+   (dom/div
+   nil
+   (basic-input-box :field       ui-data
+                    :text        "Their full name"
+                    :placeholder "Pete Austin"
+                    :error       "Full name must be at least 6 characters and contain a space"
+                    )
+   )))
 
 
 
@@ -111,23 +70,13 @@
   ;------------------------------------------------------------
   (dom/div
    nil
-   (dom/div #js {:className "input-group"}
+   (basic-input-box :field       ui-data
+                    :text        "Your company email"
+                    :placeholder "john@microsoft.com"
+                    :error       "Email validation error"
+                    )
 
-            (dom/span
-             #js {:className "input-group-addon"}
-             (str "Your company email"))
 
-            (dom/input
-             #js {:type        "text"
-                  :className   "form-control"
-                  :placeholder "john@microsoft.com"
-                  :value       (get-in ui-data [:value])
-                  :onChange    #(update-field-value  ui-data %1)
-                  :onBlur      #(blur-field  ui-data)
-                  })
-
-            (if (not (blank? (get-in ui-data [:error])))
-              (dom/div nil "Email validation error"))
 
             (if (get-in ui-data [:confirmed])
               (dom/div  #js {:className "alert alert-success"}
@@ -135,7 +84,7 @@
                                      :className "alert-link"}
                                 "Your email confirmed"
                                 )))
-            )))
+            ))
 
 
 
@@ -149,25 +98,12 @@
 
   (dom/div
    nil
-   (dom/div #js {:className "input-group"}
+   (basic-input-box :field       ui-data
+                    :text        "Their company email"
+                    :placeholder "pete@ibm.com"
+                    :error       "Email validation error"
+                    )
 
-            (dom/span
-             #js {:className "input-group-addon"}
-             (str "Their company email"))
-
-            (dom/input
-             #js {:type        "text"
-                  :className   "form-control"
-                  :placeholder "pete@ibm.com"
-                  :value       (get-in ui-data [:value])
-                  :onChange    #(update-field-value  ui-data %1)
-                  :onBlur      #(blur-field  ui-data)
-                  })
-
-            (if (not (blank?
-                      (get-in ui-data [ :error])))
-              (dom/div nil "Email validation error")
-              )
 
 
             (if (get-in ui-data [:confirmed])
@@ -175,7 +111,7 @@
                         (dom/a  #js {:href "#"
                                      :className "alert-link"}
                                 "Their email confirmed"
-                                ))))))
+                                )))))
 
 
 
@@ -189,23 +125,12 @@
 ;------------------------------------------------------------
   (dom/div
    nil
-   (dom/div #js {:className "input-group"}
-
-            (dom/span
-             #js {:className "input-group-addon"}
-             (str "Skill your company has"))
-            (dom/input
-             #js {:type        "text"
-                  :className   "form-control"
-                  :placeholder "marketing"
-                  :value       (get-in ui-data [:value])
-                  :onChange    #(update-field-value  ui-data %1)
-                  :onBlur      #(blur-field  ui-data)
-                  })
-            (if (not (blank?
-                      (get-in ui-data [ :error])))
-              (dom/div nil "Endorsement not valid")
-              ))))
+   (basic-input-box :field       ui-data
+                    :text        "Skill your company has"
+                    :placeholder "marketing"
+                    :error       "Endorsement not valid"
+                    )
+   ))
 
 
 
