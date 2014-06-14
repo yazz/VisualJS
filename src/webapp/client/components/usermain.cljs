@@ -23,7 +23,12 @@
 (defn select-request [e app]
   (om/update! app [:ui :tab]  "request"))
 
-(defn ^:export main [app owner state]
+
+
+
+
+
+(defn ^:export main [app owner]
   (dom/div nil
            (dom/h2 nil "ConnectToUs.co")
 
@@ -62,11 +67,7 @@
 
              ;(= (-> app :ui :graph-ab-test) "text")
              true
-             (om/build  text-graph
-                        {
-                         :companies    (-> app :ui :companies)
-                         }
-                        )
+             (om/build  text-graph    (-> app :ui :companies))
 
 
              (= (-> app :ui :graph-ab-test) "SVG")
@@ -81,22 +82,8 @@
            (and
              (= (-> app :ui :tab) "browser")
              (= (-> app :ui :tab-browser) "company"))
-            (cond
+             (om/build  company-details   (-> app :ui :tab-browser-details))
 
-             ;(= (-> app :ui :graph-ab-test) "text")
-             true
-             (om/build  company-details
-                        {
-                         :company-details    (-> app :ui :tab-browser-details)
-                         }
-                        )
-
-
-             (= (-> app :ui :graph-ab-test) "SVG")
-             (om/build  graph
-                        {
-                         :data    (:data    app)
-                         }))
 
 
 

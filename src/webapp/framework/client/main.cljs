@@ -178,26 +178,30 @@
      )))
 
 
-(defn ^:export defaultmain [app owner state]
+(defn ^:export defaultmain [app owner]
   (dom/div nil
            (dom/h2 nil "Clojure on coils")
            ))
 
 (defn ^:export defaultinit []
   nil
-           )
+  )
 
 
+;--------------------------------------------------------
 (defn ^:export load_main [component-to-load  init-fn-arg]
-  (reset!  start-component  component-to-load  )
-  (reset! init-fn  init-fn-arg)
+;--------------------------------------------------------
+  (reset!  start-component  component-to-load)
+  (reset!  init-fn          init-fn-arg)
    (main))
 
 
 
 
+;--------------------------------------------------------
 (defn ^:export load_admin [component-to-load  init-fn-arg]
+;--------------------------------------------------------
   (reset! start-component  component-to-load)
-  (reset! init-fn  init-fn-arg)
+  (reset! init-fn          init-fn-arg)
   (admin))
 

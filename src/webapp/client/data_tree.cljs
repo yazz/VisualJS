@@ -18,7 +18,7 @@
                                                     playback-app-state
                                                     playback-controls-state
                                                     reset-app-state ui-watchers
-                                                    playbackmode start-component
+                                                    playbackmode
                                                     data-watchers
                                                     data-state
                                                     update-data

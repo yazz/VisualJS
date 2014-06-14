@@ -217,7 +217,7 @@
               ;(if @playbackmode (on-mouse e app)) (-> app :pointer :mouse-y)) ")"
 
 
-              (@start-component    app    owner   state)
+              (@start-component    app    owner)
 
               (if @playbackmode
                 (dom/div #js {

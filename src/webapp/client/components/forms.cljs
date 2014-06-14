@@ -4,11 +4,9 @@
    [om.dom           :as dom :include-macros true]
    [clojure.data     :as data]
    [clojure.string   :as string]
+   [webapp.framework.client.coreclient]
    [webapp.framework.client.components.fields.labelled-text-field :as labelled-field])
   (:use
-   [webapp.framework.client.coreclient      :only  [log
-                                                    remote
-                                                    process-ui-component]]
    [webapp.client.ui-helpers                :only  [validate-email
                                                     validate-full-name
                                                     validate-endorsement
@@ -17,9 +15,7 @@
                                                     basic-input-box ]]
    [clojure.string :only [blank?]])
   (:use-macros
-   [webapp.framework.client.coreclient      :only  [defn-ui-component]])
-  (:require-macros
-   [cljs.core.async.macros :refer [go]]))
+   [webapp.framework.client.coreclient      :only  [defn-ui-component]]))
 
 
 
@@ -35,7 +31,8 @@
    (basic-input-box :field       field
                     :text        "Your full name"
                     :placeholder "John Smith"
-                    :error       "Full name must be at least 6 characters and contain a space"
+                    :error       "Full name must be at least 6
+                                  characters and contain a space"
                     )
    ))
 
@@ -52,13 +49,13 @@
   (dom/div
    nil
    (dom/div
-   nil
-   (basic-input-box :field       ui-data
-                    :text        "Their full name"
-                    :placeholder "Pete Austin"
-                    :error       "Full name must be at least 6 characters and contain a space"
-                    )
-   )))
+    nil
+    (basic-input-box :field       ui-data
+                     :text        "Their full name"
+                     :placeholder "Pete Austin"
+                     :error       "Full name must be at least 6
+                                   characters and contain a space"
+                     ))))
 
 
 
@@ -107,6 +104,7 @@
 
 
             (if (get-in ui-data [:confirmed])
+
               (dom/div  #js {:className "alert alert-success"}
                         (dom/a  #js {:href "#"
                                      :className "alert-link"}
@@ -153,7 +151,7 @@
     (dom/div #js {:style #js {:padding-top "40px"}} " Them ")
 
     (om/build to-full-name-field  (-> ui-data :to-full-name ))
-    (om/build to-email-field  (-> ui-data :to-email ))
+    (om/build to-email-field      (-> ui-data :to-email ))
 
 
 
