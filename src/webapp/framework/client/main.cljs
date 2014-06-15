@@ -125,12 +125,12 @@
                   }))
 
 
-   (om/root
+   (comment om/root
     ankha/inspector
     data-state
     {:target (js/document.getElementById "data_state")})
 
-   (om/root
+   (comment om/root
     ankha/inspector
     app-state
     {:target (js/document.getElementById "playback_state")})

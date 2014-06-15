@@ -115,78 +115,48 @@
 
 (defn main-view [app owner]
   (reify
-
-    ;---------------------------------------------------------
-    om/IInitState
-    (init-state [_]
-                {
-                   :delete            (chan)
-                })
-    ;---------------------------------------------------------
-
-
-
-
-
     ;---------------------------------------------------------
     om/IWillMount
     (will-mount [_]
                 (do
-                  (let [delete (om/get-state owner :delete)]
-                    (go (loop []
-                          (let [contact (<! delete)]
-                            (om/transact!
-                             app
-                             :contacts
-                             (fn [xs] (vec (remove #(= contact %) xs))))
-                            (recur))))
+                  ; set up the initial state
+                  (dorun (for [init-state-fn  @init-state-fns]
+                           (do
+                             (init-state-fn)
+                             )))
+
+                  ; set up the AB tests
+                  (log (str "AB TESTS: " (keys @ab-tests)))
+                  (log (str "        : " @ab-tests))
+                  (log (str "        : " (keys @ab-tests)))
+                  (log (str "---"(get @ab-tests "graph type")))
+
+
+                  (dorun (for [item  (keys @ab-tests)]
+                           (do
+                             (log (str "   ." (get @ab-tests item)))
+                             (let [ ab-test  (get @ab-tests item) ]
+                               (log (str "AB TEST: " ab-test))
+                               (om/transact!
+                                app
+                                (:path ab-test)
+                                #(str (:name (rand-nth (:choices ab-test) ) )))))))
 
 
 
-                    (log (str "AB TESTS: " (keys @ab-tests)))
-                    (log (str "        : " @ab-tests))
-                    (log (str "        : " (keys @ab-tests)))
-                    (log (str "---"(get @ab-tests "graph type")))
-
-                    (dorun (for [init-state-fn  @init-state-fns]
-                             (do
-                               (init-state-fn)
-                               )))
-
-                    (dorun (for [item  (keys @ab-tests)]
-                      (do
-                        (log (str "   ." (get @ab-tests item)))
-                        (let [ ab-test  (get @ab-tests item) ]
-                          (log (str "AB TEST: " ab-test))
-                          (om/transact!
-                           app
-                           (:path ab-test)
-                           #(str (:name (rand-nth (:choices ab-test) ) )))))))
+                  ; set up the UI and data watchers
+                  (go
+                   (add-as-watch   app-state
+                                   ui-watchers
+                                   [app])
 
 
+                   (add-as-watch   data-state
+                                   data-watchers
+                                   [app])
 
 
-
-                    (add-as-watch   app-state
-                                    ui-watchers
-                                    [app])
-
-
-                    (add-as-watch   data-state
-                                    data-watchers
-                                    [app])
-
-
-                    )))
-    ;---------------------------------------------------------
-
-
-    om/IDidMount
-    (did-mount [owner]
-               []
-               )
-
-
+                   )))
 
     ;---------------------------------------------------------
     om/IRenderState
@@ -235,4 +205,3 @@
 
 ))
 
-;@data-watchers
