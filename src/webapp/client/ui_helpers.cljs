@@ -82,7 +82,8 @@
        error          "Error in field"
        }
       }]
-  (dom/div #js {:className "input-group"}
+  (dom/div #js {:className "input-group"
+                :style #js {:marginTop "5px"}}
 
            (dom/span
             #js {:className "input-group-addon"}

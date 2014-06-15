@@ -199,7 +199,11 @@
                                  }} "X"))
 
               (if debug-mode
-                (dom/div nil
+                (dom/div #js {
+                            :style
+                            #js {
+                                 :margin-top "30px"
+                                 }}
                   (dom/button #js {:onClick (fn [e]
                      (om/root ankha/inspector app-state
                       {:target (js/document.getElementById "playback_state")})

@@ -135,7 +135,7 @@
 
 
 ;------------------------------------------------------------
-(defn-ui-component   request-form   [ui-data]
+(defn-ui-component   request-form-old   [ui-data]
     {:absolute-path [:ui :request]}
 ;------------------------------------------------------------
 
@@ -168,6 +168,34 @@
                      :style
                      #js {:margin-top "40px"}}
                 "Send request")
+
+    (if (not (blank?
+              (get-in ui-data [:submit :message])))
+      (dom/div nil "Submitted")
+))))
+
+
+
+;------------------------------------------------------------
+(defn-ui-component   request-form   [ui-data]
+    {:absolute-path [:ui :request]}
+;------------------------------------------------------------
+
+  (dom/div
+   nil
+   (dom/div
+    nil
+    (om/build from-email-field   (-> ui-data :from-email ))
+    (om/build to-email-field      (-> ui-data :to-email ))
+
+    (dom/div #js {:className "input-group"}
+             (om/build endorsement-field  (-> ui-data :endorsement )))
+
+    (dom/button #js {:onClick (fn [e]
+                                (om/update! ui-data [:submit :value]  true))
+                     :style
+                     #js {:margin-top "10px"}}
+                "Ask for endorsement")
 
     (if (not (blank?
               (get-in ui-data [:submit :message])))
