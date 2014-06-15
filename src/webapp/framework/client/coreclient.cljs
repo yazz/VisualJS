@@ -392,12 +392,12 @@
   )
 )
 
+(go
+ (let [env (:value (<! (remote "!get-environment" {})))]
+   (if (= env "dev")
+     (reset! debug-mode true)
+     )))
 
-(defn is-debug? []
-  (go
-    (<! (remote "!get-environment" {}))
-  )
-)
 
 
 

@@ -10,7 +10,7 @@
    [ankha.core       :as ankha])
 
   (:use
-   [webapp.framework.client.coreclient           :only  [log remote]]
+   [webapp.framework.client.coreclient           :only  [log remote debug-mode ]]
    [webapp.framework.client.system-globals       :only  [app-state
                                                          playback-app-state
                                                          playback-controls-state
@@ -28,7 +28,6 @@
    )
   (:require-macros
    [cljs.core.async.macros :refer [go]]))
-
 
 
 
@@ -197,8 +196,20 @@
                                  :left (str (-> app :pointer :mouse-x) "px")
                                  :top (str (-> app :pointer :mouse-y) "px")
                                  :z-index 100
-                                 }} "X"
-                       ))
+                                 }} "X"))
+
+              (if debug-mode
+                (dom/div nil
+                  (dom/button #js {:onClick (fn [e]
+                     (om/root ankha/inspector app-state
+                      {:target (js/document.getElementById "playback_state")})
+                          nil )} "Show UI state")
+
+                  (dom/button #js {:onClick (fn [e]
+                     (om/root ankha/inspector data-state
+                      {:target (js/document.getElementById "data_state")})
+                          nil )} "Show Data state")
+                ))
 
               )))
     ;---------------------------------------------------------
