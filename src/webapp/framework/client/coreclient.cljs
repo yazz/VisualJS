@@ -35,7 +35,7 @@
 
 (def gui-html (atom {}))
 (def el-fn-mapping (atom {}))
-(def debug-mode (atom {:value false}))
+(def debug-mode (atom false))
 
 
 
@@ -641,7 +641,7 @@
 
 
 (defn ^:export clicked2 [id]
-  (if (:value @debug-mode)
+  (if @debug-mode
     (do
       (css
         ($ (find-el id))
@@ -653,7 +653,7 @@
 
 (defn ^:export showcodepopover [id]
 
-  (if (:value @debug-mode)
+  (if @debug-mode
     (do
       (.log js/console (str "code for id: "id ))
       (popup :title "Code"
@@ -670,7 +670,7 @@
 
 
 (defn ^:export clicked3 [id]
-  (if (:value @debug-mode)
+  (if @debug-mode
     (css
        ($ (find-el id))
         {:border ""})

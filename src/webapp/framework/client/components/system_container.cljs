@@ -198,7 +198,7 @@
                                  :z-index 100
                                  }} "X"))
 
-              (if debug-mode
+              (if @debug-mode
                 (dom/div #js {
                             :style
                             #js {
