@@ -156,12 +156,18 @@
             else
             {
                 playback = params["playback"];
+                debug    = params["debug"];
                 //alert(""+playback);
                 if (webapp.framework) {
                     if (webapp.framework.client) {
                         if (webapp.framework.client.main) {
                             if (playback) {
                                 webapp.framework.client.main.load_admin(
+                                    webapp.client.init.main,
+                                    webapp.client.init.setup);
+                            }
+                            else if (debug) {
+                                webapp.framework.client.main.load_debug(
                                     webapp.client.init.main,
                                     webapp.client.init.setup);
                             }

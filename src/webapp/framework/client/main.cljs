@@ -168,6 +168,48 @@
      )))
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+(defn debug []
+  (go
+   (let [ll  (<! (get-web-sessions))]
+
+     (reset! playbackmode true)
+
+     (reset! playback-controls-state (assoc-in
+                                      @playback-controls-state
+                                      [:data :sessions-count]  (count ll)))
+     (reset! playback-controls-state (assoc-in
+                                      @playback-controls-state
+                                      [:data :sessions]  (into [] ll)))
+
+
+
+
+     (om/root
+      playback-controls-view
+      playback-controls-state
+      {:target (js/document.getElementById "playback_controls")})
+     )))
+
+
+
+
+
+
+
+
 (defn ^:export defaultmain [app owner]
   (dom/div nil
            (dom/h2 nil "Clojure on coils")
@@ -195,3 +237,14 @@
   (reset! init-fn          init-fn-arg)
   (admin))
 
+
+
+
+
+
+;--------------------------------------------------------
+(defn ^:export load_debug [component-to-load  init-fn-arg]
+;--------------------------------------------------------
+  (reset! start-component  component-to-load)
+  (reset! init-fn          init-fn-arg)
+  (debug))
