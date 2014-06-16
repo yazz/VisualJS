@@ -1,11 +1,11 @@
-(ns webapp.client.views.main
+(ns webapp.client.react.views.main
   (:require
    [om.core          :as om :include-macros true]
    [om.dom           :as dom :include-macros true]
    [clojure.data     :as data]
    [clojure.string   :as string]
-   [webapp.framework.client.coreclient]
-   [webapp.framework.client.components.fields.labelled-text-field :as labelled-field])
+   [webapp.framework.client.coreclient])
+
   (:use
    [webapp.client.ui-helpers                :only  [validate-email
                                                     validate-full-name
@@ -14,9 +14,9 @@
                                                     update-field-value
                                                     basic-input-box ]]
    [clojure.string :only [blank?]]
-   [webapp.client.components.forms               :only  [request-form]]
-   [webapp.client.components.connection-graph    :only  [graph text-graph]]
-   [webapp.client.components.company-details  :only [company-details]]
+   [webapp.client.react.components.forms               :only  [request-form]]
+   [webapp.client.react.components.connection-graph    :only  [graph text-graph]]
+   [webapp.client.react.components.company-details  :only [company-details]]
    )
   (:use-macros
    [webapp.framework.client.coreclient      :only  [defn-ui-component]]))

@@ -26,7 +26,7 @@
                                                     set-ab-tests
                                                     set-ab-goals
                                                     ]]
-   [webapp.client.views.main                    :only   [main-view]]
+   [webapp.client.react.views.main                    :only   [main-view]]
    [clojure.string :only [blank?]]
    )
    (:require-macros

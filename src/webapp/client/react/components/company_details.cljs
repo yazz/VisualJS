@@ -1,4 +1,4 @@
-(ns webapp.client.components.company-details
+(ns webapp.client.react.components.company-details
   (:require
    [om.core          :as om :include-macros true]
    [om.dom           :as dom :include-macros true]

@@ -1,11 +1,11 @@
-(ns webapp.client.components.forms
+(ns webapp.client.react.components.forms
   (:require
    [om.core          :as om :include-macros true]
    [om.dom           :as dom :include-macros true]
    [clojure.data     :as data]
    [clojure.string   :as string]
-   [webapp.framework.client.coreclient]
-   [webapp.framework.client.components.fields.labelled-text-field :as labelled-field])
+   [webapp.framework.client.coreclient])
+
   (:use
    [webapp.client.ui-helpers                :only  [validate-email
                                                     validate-full-name
