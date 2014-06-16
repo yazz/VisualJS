@@ -15,8 +15,9 @@
                                                     basic-input-box ]]
    [clojure.string :only [blank?]]
    [webapp.client.react.components.forms               :only  [request-form]]
+   [webapp.client.react.components.login               :only  [login]]
    [webapp.client.react.components.connection-graph    :only  [graph text-graph]]
-   [webapp.client.react.components.company-details  :only [company-details]]
+   [webapp.client.react.components.company-details     :only  [company-details]]
    )
   (:use-macros
    [webapp.framework.client.coreclient      :only  [defn-ui-component]]))
@@ -33,6 +34,8 @@
 (defn select-request [e app]
   (om/update! app [:ui :tab]  "request"))
 
+(defn select-login [e app]
+  (om/update! app [:ui :tab]  "login"))
 
 
 
@@ -57,16 +60,22 @@
                                 :onClick        (fn[e] (select-browser e app))
                                 :onTouchStart   (fn[e] (select-browser e app))
 
-                                } "Connections")
-                    )
+                                } "Connections"))
+
             (dom/li #js {:className  (if (= (-> app :ui :tab) "request") "active" "") }
                     (dom/a #js {:className  ""
                                 :onClick        (fn[e] (select-request e app))
                                 :onTouchStart   (fn[e] (select-request e app))
 
 
-                                } "Request")
-                    )
+                                } "Request"))
+
+            (dom/li #js {:className  (if (= (-> app :ui :tab) "login") "active" "")   }
+                    (dom/a #js {:className  ""
+                                :onClick        (fn[e] (select-login e app))
+                                :onTouchStart   (fn[e] (select-login e app))
+
+                                } "Login"))
 
             )
 
@@ -74,6 +83,9 @@
             (= (-> app :ui :tab) "request")
             (om/build  request-form  (-> app :ui :request))
 
+
+            (= (-> app :ui :tab) "login")
+            (om/build  login  (-> app :ui :login))
 
             (and
              (= (-> app :ui :tab) "browser")

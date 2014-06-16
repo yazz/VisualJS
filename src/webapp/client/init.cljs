@@ -60,6 +60,10 @@
 
      :tab         "browser"
      :tab-browser "top companies"
+     :login {
+
+             :login-email {}
+             }
 
 
      }))
