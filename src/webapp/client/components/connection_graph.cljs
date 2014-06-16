@@ -9,7 +9,6 @@
    [webapp.framework.client.coreclient      :only  [defn-ui-component]])
   (:use
    [webapp.client.helper  :only [amend-record]]
-   [webapp.client.components.company-details  :only [company-details]]
    [webapp.framework.client.system-globals  :only  [touch]]
    ))
 

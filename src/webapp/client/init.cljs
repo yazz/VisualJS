@@ -26,6 +26,7 @@
                                                     set-ab-tests
                                                     set-ab-goals
                                                     ]]
+   [webapp.client.views.main                    :only   [main-view]]
    [clojure.string :only [blank?]]
    )
    (:require-macros
@@ -92,5 +93,8 @@
 
 
 
+
+(defn ^:export main [app owner]
+  (om/build  main-view  app))
 
 
