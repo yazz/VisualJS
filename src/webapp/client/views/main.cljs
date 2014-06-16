@@ -15,9 +15,8 @@
                                                     basic-input-box ]]
    [clojure.string :only [blank?]]
    [webapp.client.components.forms               :only  [request-form]]
-   [webapp.client.components.connection-graph    :only  [graph]]
-   [webapp.client.components.connections-graph   :only  [text-graph
-                                                         company-details]]
+   [webapp.client.components.connection-graph    :only  [graph text-graph]]
+   [webapp.client.components.company-details  :only [company-details]]
    )
   (:use-macros
    [webapp.framework.client.coreclient      :only  [defn-ui-component]]))

@@ -77,23 +77,36 @@
                  ))
 
         :else
-          (let [params   {"message" {
-                    "html"         message
-                    "subject"      subject
-                    "from_email"   from-email
-                    "from_name"    from-name,
-                    "to" [
-            {
-                "email" to-email
-                "name" to-name
-            }
-        ]
-                  }}
-        params2  {:as :json
-                      :content-type :json
-                      :body (generate-string (assoc params :key *mandrill-api-key*))}
-      ]
-    (client/post "https://mandrillapp.com/api/1.0/messages/send" params2))))
+        (let [params   {"message" {
+                                   "html"         message
+                                   "subject"      subject
+                                   "from_email"   from-email
+                                   "from_name"    from-name,
+                                   "to" [
+                                         {
+                                          "email" to-email
+                                          "name" to-name
+                                          }
+                                         ]
+                                   }}
+              params2  {:as :json
+                        :content-type :json
+                        :body (generate-string (assoc params :key *mandrill-api-key*))}
+              ]
+          (println (str
+                    "\n---------------------------------"
+                    "\n****Sending production email:"
+                    "\nhtml:       " message
+                    "\nsubject:    " subject
+                    "\nfrom_email: " from-email
+                    "\nfrom_name:  " from-name,
+                    "\nto-email:   " to-email
+                    "\nto-name:    " to-name
+                    "\nbody:       " message
+                    "\n---------------------------------"
+                    "\nMANDRILL KEY:       " *mandrill-api-key*
+                    ))
+          (client/post "https://mandrillapp.com/api/1.0/messages/send" params2))))
 
 
 

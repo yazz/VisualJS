@@ -2,13 +2,10 @@
   (:require
    [om.core          :as om :include-macros true]
    [om.dom           :as dom :include-macros true]
-)
+   )
 
   (:use
-   [webapp.client.components.forms               :only  [request-form]]
-   [webapp.client.components.connection-graph    :only  [graph]]
-   [webapp.client.components.connections-graph   :only  [text-graph
-                                                          company-details]]
+   [webapp.client.components.forms              :only   [request-form]]
    [webapp.client.views.main                    :only   [main-view]]
    ))
 
