@@ -10,14 +10,8 @@
     [cljs.core.async.macros :refer [go alt!]])
 
   (:use
-        [webapp.framework.client.coreclient  :only [popup do-before-remove-element new-dom-id find-el clj-to-js sql-fn
-                                                    header-text body-text
-                                                    body-html make-sidebar swap-section  el clear remote
-                                                    value-of add-to show-popover
-                                                    ]]
+        [webapp.framework.client.coreclient  :only [remote]]
         [webapp.framework.client.neo4j       :only [neo4j-fn]]
-        [jayq.core                           :only [attr $ css append fade-out fade-in empty]]
-        [webapp.framework.client.eventbus    :only [do-action esb undefine-action]]
     )
     (:use-macros
         [webapp.framework.client.eventbus    :only [define-action redefine-action]]

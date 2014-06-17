@@ -19,7 +19,6 @@
                    [ring "1.2.1"]
                    [ring-middleware-format "0.3.1"]
                    [ring/ring-json "0.2.0"]
-                   [jayq "2.5.0"]
                    [clojurewerkz/neocons "2.0.1"]
                    [rewrite-clj "0.2.0"]
                    [org.jasypt/jasypt "1.8"]
@@ -53,8 +52,7 @@
                                        :output-to      "resources/public/main.js"
                                        :optimizations  :whitespace
                                        :output-wrapper false
-                                       :externs        ["resources/public/jquery-externs.js"
-                                                        "resources/public/google_maps_api_v3_11.js"]
+                                       :externs        ["resources/public/google_maps_api_v3_11.js"]
                                        :pretty-print   false
                                      }
                       }

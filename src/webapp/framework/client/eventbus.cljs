@@ -5,7 +5,7 @@
 
     )
    (:use
-        [webapp.framework.client.coreclient      :only [popup clear add-to remote]]
+        [webapp.framework.client.coreclient      :only [remote]]
 
     )
    )
@@ -281,20 +281,6 @@
 
 
 
-
-(defn esb []
-  (popup :title "ESB" :body-html "<div id=popup><b>list of watchers</b><div/>")
-
-  ;(:value-to-watch (first @event-watchers))
-
-
-  ( doall (doseq [watcher @event-watchers]
-       (add-to "popup"
-              [:div {}
-               (:value-to-watch watcher)]
-  ))))
-
-;(esb)
 
 
 
