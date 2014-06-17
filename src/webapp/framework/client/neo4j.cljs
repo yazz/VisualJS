@@ -5,15 +5,13 @@
         [clojure.string]
     )
     (:use
-        [webapp.framework.client.coreclient :only  [debug remote]]
-        [webapp.framework.client.eventbus   :only  [do-action esb undefine-action]]
+        [webapp.framework.client.coreclient :only  [remote]]
         [webapp.framework.client.records    :only  [NeoNode map->NeoNode]]
     )
     (:require-macros
       [cljs.core.async.macros :refer                 [go alt!]]
      )
     (:use-macros
-        [webapp.framework.client.eventbus :only    [redefine-action define-action]]
         [webapp.framework.client.coreclient :only  [ns-coils log]]
         [webapp.framework.client.neo4j :only       [neo4j]]
      )

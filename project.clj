@@ -8,9 +8,6 @@
                    [om-sync "0.1.1"]
                    [org.clojure/core.async "0.1.267.0-0d7780-alpha"]
 
-                   [domina "1.0.2"]
-                   [crate "0.2.4"]
-                   [prismatic/dommy "0.1.2"]
                    [korma "0.3.0-RC5"]
                    [org.postgresql/postgresql "9.2-1002-jdbc4"]
                    [compojure "1.1.5"]

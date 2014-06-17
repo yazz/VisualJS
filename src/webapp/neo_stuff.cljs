@@ -2,7 +2,6 @@
  (:refer-clojure :exclude [val empty remove find next parents])
     (:require
         [cljs.reader                     :as reader]
-        [crate.core                      :as crate]
         [cljs.core.async                 :as async :refer [chan close!]]
     )
 
@@ -14,8 +13,7 @@
         [webapp.framework.client.neo4j       :only [neo4j-fn]]
     )
     (:use-macros
-        [webapp.framework.client.eventbus    :only [define-action redefine-action]]
-        [webapp.framework.client.coreclient  :only [ns-coils defn-html on-click on-mouseover sql log neo4j]]
+        [webapp.framework.client.coreclient  :only [ns-coils sql log neo4j]]
         [webapp.framework.client.neo4j       :only [neo4j]]
      )
 )

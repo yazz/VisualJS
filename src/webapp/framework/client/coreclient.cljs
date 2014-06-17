@@ -6,16 +6,11 @@
     [goog.dom]
     [goog.Uri.QueryData]
     [goog.events]
-    [crate.core :as crate]
     [cljs.core.async :as async :refer [chan close!]]
   )
   (:require-macros
     [cljs.core.async.macros :refer [go alt!]])
   (:use
-    [domina.events         :only [listen!]]
-    [domina                :only [value append! by-id destroy! set-text!]]
-    [domina.xpath          :only [xpath]]
-    [domina.css            :only [sel]]
     [clojure.browser.event :only [listen]]
     [webapp.framework.client.system-globals  :only  [touch]]
   )
@@ -135,6 +130,12 @@
             ch
           ))
 
+
+
+
+
+
+
 (defn remote
 ([
   action
@@ -170,15 +171,6 @@
                         )))
   )
 
-
-(defn find-el [x]
-  (cond
-   (and (string? x) (= "<" (first x))) (crate/raw x)
-   (string? x) (by-id x)
-   (vector? x) (crate/html x)
-   :else x
-  )
-)
 
 
 
