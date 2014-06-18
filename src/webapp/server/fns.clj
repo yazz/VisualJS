@@ -115,9 +115,11 @@
 
 (defn check-messages []
   (let [messages-waiting (neo4j "match (n:AskForEndorsement) return n" {} "n")]
+    (println (str "AskForEndorsement: " messages-waiting))
     (dorun (map process-ask-for-endorsement  messages-waiting)))
 
   (let [messages-waiting (neo4j "match (n:AskForEndorsementContactReceiver) return n" {} "n")]
+    (println (str "AskForEndorsementContactReceiver: " messages-waiting))
     (dorun (map process-ask-for-endorsement-ask-receiver  messages-waiting)))
 
 
@@ -236,6 +238,10 @@
         )))
 
 
+
+
+
+
 (defn request-endorsement [{:keys [from-full-name
                                    from-email
                                    to-full-name
@@ -265,7 +271,9 @@
                                          }
                                         "n"))
         ]
-    web-record)
+    (do
+      (println (str "WebRecord: " web-record))
+      web-record))
   )
 
 
