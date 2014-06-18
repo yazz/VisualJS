@@ -153,3 +153,15 @@
                        :touch-id
                        (swap! touch-id inc)
                        ))))
+
+
+
+(def timeline (atom {}))
+
+(add-watch timeline  :change
+           (fn [_ _ old-val new-val]
+             (. js/console log (str "***** " new-val))
+             )
+           )
+
+(reset! timeline {:a 24})
