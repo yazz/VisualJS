@@ -17,6 +17,19 @@
 )
 
 
+(def sa (atom 0))
+
+(defn start-services []
+  (do
+    (println (str "start-services: " @sa))
+    (if (= (swap! sa inc) 1)
+      (doseq [init-fn   @init-fns]
+        (println (init-fn))
+        ))
+    []
+    ))
+
+
 
 
 (defn parse-params [params]
@@ -72,7 +85,10 @@
 
 
 
-  (GET "/" [] (resp/resource-response (str *main-page*) {:root "public"}))
+  (GET "/" []
+       (do
+         (start-services)
+         (resp/resource-response (str *main-page*) {:root "public"})))
 
 
 
@@ -127,13 +143,17 @@
 
 
 (defn init []
-  (println "******************* HHHHH *******************")
-  (println "******************* HHHHH *******************")
-  (println "******************* HHHHH *******************")
-  (println "******************* HHHHH *******************")
-  (println "******************* HHHHH *******************")
-  (println "******************* HHHHH *******************")
-  (doseq [init-fn   @init-fns]
-    (println (init-fn))
-    )
-  )
+    (do
+    (println "******************* HHHHH *******************")
+    (println "******************* HHHHH *******************")
+    (println "******************* HHHHH *******************")
+    (println "******************* HHHHH *******************")
+    (println "******************* HHHHH *******************")
+    (println "******************* HHHHH *******************")
+    (comment doseq [init-fn   @init-fns]
+      (println (init-fn))
+      )
+      []
+    ))
+
+

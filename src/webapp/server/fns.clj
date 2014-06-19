@@ -147,7 +147,6 @@
 
 
 
-
 (defn create-session[{:keys [init-state browser]}]
   (let [
         session-id    (uuid-str)
