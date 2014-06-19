@@ -23,6 +23,7 @@
                    [cheshire "4.0.3"]
                    [ankha "0.1.3"]
                    [overtone/at-at "1.2.0"]
+                 [org.clojure/core.logic "0.8.7"]
                 ]
   :repositories {"sonatype-oss-public"
                  "https://oss.sonatype.org/content/groups/public/"}
@@ -87,8 +88,7 @@
 
                 :test
                 {
-                  :source-paths ["src"
-                                 "../srctest"]
+                  :source-paths ["src" "../srctest"]
                   :cljsbuild
                   {
                     :builds
@@ -100,7 +100,8 @@
                                        :optimizations  :advanced
                                        :output-wrapper false
                                        :externs        ["resources/public/jquery-externs.js"
-                                                        "resources/public/google_maps_api_v3_11.js"]
+                                                        "resources/public/google_maps_api_v3_11.js"
+                                                        "resources/public/reactextern.js"]
                                        :pretty-print   false
                                        :foreign-libs [{:file "https://maps.googleapis.com/maps/api/js?sensor=false"
                                                   :provides  ["google.maps" "google.maps.MapTypeId"]}]

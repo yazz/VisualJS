@@ -404,4 +404,10 @@
          {:company_url company-url}
          ["company" "skill" "skill_count"]))
 
-(get-company-details {:company-url "microsoft.com"})
+
+
+
+
+; read the reased schemer
+; does it work in clojurescript?
+
