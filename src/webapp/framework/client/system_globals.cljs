@@ -123,8 +123,10 @@
 (defn update-ui [app path value]
   (om/update! app path value))
 
-(defn add-init-state-fn [init-state-fn]
-  (swap!  init-state-fns conj init-state-fn))
+(defn add-init-state-fn [nm init-state-fn]
+  (do
+    (.log js/console (str "Init function added: " nm))
+    (swap!  init-state-fns conj init-state-fn)))
 
 
 (defn get-in-tree [app path]
@@ -164,4 +166,7 @@
              )
            )
 
-(reset! timeline {:a 24})
+
+(swap! timeline assoc :2432 {:a 243})
+
+

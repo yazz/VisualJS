@@ -44,7 +44,7 @@
    ))
 
 
-(add-init-state-fn get-top-companies-from-database)
+(add-init-state-fn  "get top companies"  get-top-companies-from-database)
 
 
 (def tt (atom 1))
@@ -108,7 +108,6 @@
  )))
 
 
-(js/setInterval
- my-timer 15000)
+(add-init-state-fn "timer function" #(js/setInterval my-timer 15000))
 
 
