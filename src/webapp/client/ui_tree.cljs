@@ -192,7 +192,7 @@
               :endorsement    (get-in @data-state [:submit :request :endorsement])
               }))]
 
-       ;(log (pr-str l))
+       (js/alert (pr-str l))
        (update-data [:submit :request :endorsement-id]  (:endorsement_id l))
        ))))
 

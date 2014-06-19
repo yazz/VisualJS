@@ -272,8 +272,8 @@
                                         "n"))
         ]
     (do
-      (println (str "WebRecord: " web-record))
-      web-record))
+      (println (str "request-endorsement called: " web-record))
+      {:value web-record}  ))
   )
 
 
