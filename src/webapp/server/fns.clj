@@ -18,7 +18,7 @@
 )
 
 
-(def my-pool (mk-pool))
+
 
 
 
@@ -126,27 +126,24 @@
   )
 
 
-
+(def my-pool (mk-pool))
 (stop-and-reset-pool! my-pool)
-
-
-
 (def a (atom 0))
 
-(add-init-fn
- (fn[]
-   (do
-     (future
-       (stop-and-reset-pool! my-pool)
+(defn check-timer []
+  (do
+    (future
        (every 5000
               #(do
                  (swap! a inc)
                  (check-messages)
-                 ;(println @a)
+                 (println  "Check timer: "@a)
                  )
 
               my-pool))
-     "********* Loaded background task **********")))
+    "********* Loaded background task **********"))
+
+(add-init-fn "check messages" check-timer)
 
 
 
