@@ -145,7 +145,11 @@
 
 (add-init-fn "check messages" check-timer)
 
+(defn main-init [
 
+                 ]
+  (check-timer)
+  )
 
 (defn create-session[{:keys [init-state browser]}]
   (let [

@@ -17,17 +17,7 @@
 )
 
 
-(def sa (atom 0))
 
-(defn start-services []
-  (do
-    (println (str "start-services: " @sa))
-    (if (= (swap! sa inc) 1)
-      (doseq [init-fn   @init-fns]
-        (println (init-fn))
-        ))
-    []
-    ))
 
 
 
@@ -86,9 +76,7 @@
 
 
   (GET "/" []
-       (do
-         (start-services)
-         (resp/resource-response (str *main-page*) {:root "public"})))
+       (resp/resource-response (str *main-page*) {:root "public"}))
 
 
 
@@ -139,21 +127,5 @@
     (-> (handler/api main-routes)
         (wrap-json-params)
 ))
-
-
-
-(defn init []
-    (do
-    (println "******************* HHHHH *******************")
-    (println "******************* HHHHH *******************")
-    (println "******************* HHHHH *******************")
-    (println "******************* HHHHH *******************")
-    (println "******************* HHHHH *******************")
-    (println "******************* HHHHH *******************")
-    (comment doseq [init-fn   @init-fns]
-      (println (init-fn))
-      )
-      []
-    ))
 
 

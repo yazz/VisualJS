@@ -140,7 +140,7 @@
             }
 
 
-  :ring {:init       webapp.framework.server.core/init
+  :ring {:init       webapp.server.fns/main-init
          :handler    webapp.framework.server.core/app}
 
 
