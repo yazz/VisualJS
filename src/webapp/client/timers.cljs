@@ -52,6 +52,7 @@
 (defn my-timer []
   (go
     (swap! tt inc)
+    (log (str "Called timer: " @tt))
     (cond
 
 
@@ -109,5 +110,6 @@
 
 
 (add-init-state-fn "timer function" #(js/setInterval my-timer 15000))
+
 
 
