@@ -148,9 +148,10 @@
 (defn main-init [
 
                  ]
-  (check-timer)
-  (start-conns)
-  )
+  (do
+    (start-conns)
+    (check-timer)
+    ))
 
 (defn create-session[{:keys [init-state browser]}]
   (let [
