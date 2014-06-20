@@ -9,6 +9,7 @@
   [:use [webapp.framework.server.db-helper]]
   [:use [webapp.framework.server.globals]]
   [:use [webapp.framework.server.neo4j-helper]]
+  [:use [webapp.ignore.test-data]]
 
   (:use [webapp-config.settings])
   (:use [overtone.at-at])
@@ -148,6 +149,7 @@
 
                  ]
   (check-timer)
+  (start-conns)
   )
 
 (defn create-session[{:keys [init-state browser]}]
