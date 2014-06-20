@@ -143,7 +143,6 @@
               my-pool))
     "********* Loaded background task **********"))
 
-(add-init-fn "check messages" check-timer)
 
 (defn main-init [
 
