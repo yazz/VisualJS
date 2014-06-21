@@ -266,31 +266,6 @@
 
 
 
-(defn confirm-receiver-code
-  [{:keys [receiver-code]}]
-  ;----------------------------------------------------------------
-
-  (let [n   (neo4j "match (n:AskForEndorsementWaitingOnReceiver)
-                   where n.confirm_receiver_code = {confirm_receiver_code}
-                   return n"
-                   {
-                    :confirm_receiver_code  receiver-code
-                    } "n")]
-    (if (= (count n) 0)
-      {:error "Session doesn't exist"}
-
-      (do
-        (neo4j "match n where
-               n.confirm_receiver_code = {receiver_code}
-
-               remove n:AskForEndorsementWaitingOnReceiver
-               set n:AskForEndorsementCompleted
-               return n"
-               {
-                :receiver_code  receiver-code
-                } "n")
-        {:value "Session exists"}
-        ))))
 
 
 
@@ -346,18 +321,23 @@
 
   [{:keys [company-url]}]
   ;----------------------------------------------------------------
-  (neo4j "match
-         (n:Company)<-[:WORKS_FOR]-(w:Person)<-[e:ENDORSE]-someone
+  (neo4j
+        "match
+           (n:Company)<-[:WORKS_FOR]-(w:Person)<-[e:ENDORSE]-someone
          where
-         n.web_address = {company_url}
+           n.web_address = {company_url}
          return
-         n.web_address as company,
-         count(e.skill) as skill_count,
-         e.skill as skill
+           n.web_address  as company,
+           count(e.skill) as skill_count,
+           e.skill        as skill
          order by
-         skill"
+           skill"
+
          {:company_url company-url}
-         ["company" "skill" "skill_count"]))
+
+         ["company"
+          "skill"
+          "skill_count"]))
 
 
 
@@ -392,3 +372,40 @@
     (start-conns)
     (check-timer)
     ))
+
+
+
+
+
+
+
+
+
+
+
+
+(defn confirm-receiver-code
+  [{:keys [receiver-code]}]
+  ;----------------------------------------------------------------
+
+  (let [n   (neo4j "match (n:AskForEndorsementWaitingOnReceiver)
+                   where n.confirm_receiver_code = {confirm_receiver_code}
+                   return n"
+                   {
+                    :confirm_receiver_code  receiver-code
+                    } "n")]
+    (if (= (count n) 0)
+      {:error "Session doesn't exist"}
+
+      (do
+        (neo4j "match n where
+               n.confirm_receiver_code = {receiver_code}
+
+               remove n:AskForEndorsementWaitingOnReceiver
+               set n:AskForEndorsementCompleted
+               return n"
+               {
+                :receiver_code  receiver-code
+                } "n")
+        {:value "Session exists"}
+        ))))
