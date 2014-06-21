@@ -9,6 +9,8 @@
   [:use [webapp.framework.server.db-helper]]
   [:use [webapp.framework.server.globals]]
   [:use [webapp.framework.server.neo4j-helper]]
+  [:use [clojure.string :only [split]] ]
+
 
   (:use [webapp-config.settings])
   (:use [overtone.at-at])
@@ -17,9 +19,8 @@
 )
 
 
-
-
-
+(defn get-company-url-from-email [email]
+  (second (split email #"@")))
 
 
 (defn company-exists? [& {:keys [web-address]}]
@@ -83,7 +84,7 @@
            ["person"])))
 
 
-(defn create-person [& {:keys [person-name email web-address]}]
+(defn create-person [& {:keys [email web-address]}]
   (do
     (cond
      (not (person-exists?   :email       email))
@@ -91,12 +92,10 @@
      (do
        (neo4j "create  (n:Person
               {
-              person_name:          {person_name},
               email:                {email},
-              robot:                true
+              type:                 'human'
               }) return n"
               {
-               :person_name  person-name
                :email        email
                }
               "n")
@@ -126,3 +125,33 @@
             :skill skill
             }
            ["from","to"])))
+
+
+
+(defn endorse2 [& {:keys [from-email to-email skill]}]
+  (let
+    [
+     from-company      (get-company-url-from-email from-email)
+     to-company        (get-company-url-from-email to-email)
+     ]
+    (if (not (= from-company to-company))
+      (do
+        (create-person   :email           from-email
+                         :web-address     from-company)
+
+        (create-person   :email           to-email
+                         :web-address     to-company)
+
+
+        (endorse :from   from-email
+                 :to     to-email
+                 :skill  skill)
+
+        ))))
+
+
+
+(comment
+  endorse2 :from-email   "zubairq@gmail2.com"
+           :to-email     "zubairq@gmail2.com"
+           :skill        "java")

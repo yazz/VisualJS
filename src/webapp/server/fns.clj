@@ -9,6 +9,8 @@
   [:use [webapp.framework.server.db-helper]]
   [:use [webapp.framework.server.globals]]
   [:use [webapp.framework.server.neo4j-helper]]
+  [:use [webapp.server.person-helper]]
+
   [:use [webapp.ignore.test-data]]
 
   (:use [webapp-config.settings])
@@ -398,14 +400,22 @@
       {:error "Session doesn't exist"}
 
       (do
-        (neo4j "match n where
+        (let [request (first (neo4j "match n where
                n.confirm_receiver_code = {receiver_code}
 
                remove n:AskForEndorsementWaitingOnReceiver
                set n:AskForEndorsementCompleted
                return n"
-               {
-                :receiver_code  receiver-code
-                } "n")
-        {:value "Session exists"}
-        ))))
+                                    {
+                                     :receiver_code  receiver-code
+                                     } "n"))]
+          (do
+            (webapp.server.person-helper/endorse2
+             :from-email   (get request :to_email)
+             :to-email     (get request :from_email)
+             :skill        (get request :endorsement))
+
+            (println request)
+
+            {:value "Session exists"}
+            ))))))
