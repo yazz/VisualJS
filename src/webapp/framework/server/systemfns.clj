@@ -199,7 +199,7 @@
           (do
             ;(println session)
             ;(println web-record)
-            (nh/neo4j "START n=node(*), m=node(*)
+            (nh/neo4j "match n, m
                    where id(n)={ws} and id(m)={wr}
                    create (n)-[:SAVED]->(m)
                    " {:ws (:neo-id session) :wr (:neo-id web-record)})

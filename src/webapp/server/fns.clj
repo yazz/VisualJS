@@ -72,7 +72,10 @@
 
 
 
-(defn process-ask-for-endorsement-ask-receiver [send-endorsement-neo4j-node]
+(defn process-ask-for-endorsement-ask-receiver
+  [send-endorsement-neo4j-node]
+  ;----------------------------------------------------------------
+
   (if send-endorsement-neo4j-node
     (let
       [
@@ -117,7 +120,10 @@
 
 
 
-(defn check-messages []
+(defn check-messages
+  []
+  ;----------------------------------------------------------------
+
   (let [messages-waiting (neo4j "match (n:AskForEndorsement) return n" {} "n")]
     (println (str "AskForEndorsement: " messages-waiting))
     (dorun (map process-ask-for-endorsement  messages-waiting)))
@@ -135,7 +141,6 @@
 
 
 
-;----------------------------------------------------------------
 (defn clear-playback-sessions
   [{:keys [password]}]
   ;----------------------------------------------------------------
@@ -156,7 +161,6 @@
 
 
 
-;----------------------------------------------------------------
 (defn request-endorsement
   [{:keys [from-full-name
            from-email
@@ -208,7 +212,6 @@
 
 
 
-;----------------------------------------------------------------
 (defn confirm-sender-code
   [{:keys [sender-code]}]
   ;----------------------------------------------------------------
@@ -232,21 +235,26 @@
                {
                 :sender_code  sender-code
                 } "n")
-        {:value "Sesson exists"}
+        {:value "Session exists"}
         ))))
 
 
 
-;----------------------------------------------------------------
 (defn sender-confirmed
   [{:keys [endorsement-id]}]
   ;----------------------------------------------------------------
 
-  (let [n   (neo4j "match n
-                   where n.endorsement_id = {endorsement_id} and
-                   (n:AskForEndorsementContactReceiver OR
-                   n:AskForEndorsementWaitingOnReceiver)
-                   return n"
+  (let [n   (neo4j "match
+                     n
+                   where
+                     n.endorsement_id = {endorsement_id}
+                   and
+                     (
+                       n:AskForEndorsementContactReceiver
+                         OR
+                       n:AskForEndorsementWaitingOnReceiver)
+                   return
+                     n"
                    {
                     :endorsement_id  endorsement-id
                     } "n")]
@@ -258,7 +266,6 @@
 
 
 
-;----------------------------------------------------------------
 (defn confirm-receiver-code
   [{:keys [receiver-code]}]
   ;----------------------------------------------------------------
@@ -282,13 +289,15 @@
                {
                 :receiver_code  receiver-code
                 } "n")
-        {:value "Sesson exists"}
+        {:value "Session exists"}
         ))))
 
 
 
 
-;----------------------------------------------------------------
+
+
+
 (defn receiver-confirmed
   [{:keys [endorsement-id]}]
   ;----------------------------------------------------------------
