@@ -201,53 +201,6 @@
 
 
 
-(defn add-history [{:keys [session-id  history-order  timestamp  path new-value]}]
-    ;(println (str "** history-order "    history-order))
-    ;(println (str "** path "             path))
-    ;(println (str "** new-value "        new-value))
-    ;(println (str "** timestamp "        timestamp))
-    ;(println (str "** session "          session-id))
-
-    (let [session  (first (neo4j "match (n:WebSession)
-                                 where n.session_id={si}
-                                 return n " {:si session-id} "n"))
-          ]
-      (if session
-        (let [
-
-              web-record        (first (neo4j "create  (n:WebRecord
-                                              {
-                                              session_id:           {session_id},
-                                              seq_ord:              {seq_ord},
-                                              path:                 {path},
-                                              new_value:            {new_value},
-                                              timestamp:            {timestamp}
-                                              }) return n"
-                                              {
-                                               :session_id  session-id
-                                               :seq_ord     history-order
-                                               :path        (str path)
-                                               :new_value   (str new-value)
-                                               :timestamp   timestamp
-                                               }
-                                              "n"))
-              ]
-          (do
-            ;(println session)
-            ;(println web-record)
-            (neo4j "START n=node(*), m=node(*)
-                   where id(n)={ws} and id(m)={wr}
-                   create (n)-[:SAVED]->(m)
-                   " {:ws (:neo-id session) :wr (:neo-id web-record)})
-
-            []
-            )
-
-          )
-        []
-        )))
-
-
 
 
 

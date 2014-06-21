@@ -104,7 +104,7 @@
                      (put! tx-chan [tx-data root-cursor])
 
                      (let [ts   (- (.getTime (js/Date.)) start-time)]
-                     (<! (remote "add-history"
+                     (<! (remote "!add-history"
                                  {
                                   :session-id    @session-id
                                   :history-order (swap! history-order inc)
