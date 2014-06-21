@@ -12,6 +12,8 @@
   (:require [clojurewerkz.neocons.rest.cypher :as cy])
   (:require [clojure.edn :as edn])
   (:use [clojure.pprint])
+  (:import [java.util.UUID])
+  [:use [webapp.framework.server.db-helper]]
 )
 
 
@@ -208,5 +210,36 @@
           )
         []
         )))
+
+
+
+
+
+;----------------------------------------------------------------
+(defn !create-session
+  [{:keys [init-state browser]}]
+  ;----------------------------------------------------------------
+  (let [
+        session-id    (uuid-str)
+        ]
+
+    (nh/neo4j "create  (n:WebSession
+           {
+           session_id:           {session_id},
+           init_state:           {init_state},
+           start_time:           {start_time},
+           browser:              {browser}
+
+           }) return n"
+
+           {
+            :session_id    session-id
+            :init_state    init-state
+            :browser       browser
+            :start_time    (. (java.util.Date.) getTime)
+            }
+           "n")
+    {:value session-id}
+    ))
 
 

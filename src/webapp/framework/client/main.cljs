@@ -72,7 +72,7 @@
    (reset-app-state)
    (@init-fn)
    (detect-browser)
-   (let [session (:value (<! (remote "create-session"
+   (let [session (:value (<! (remote "!create-session"
                                      {
                                       :init-state (with-out-str (prn @app-state))
                                       :browser    (str (-> @app-state :system :platform) ","

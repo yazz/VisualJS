@@ -130,64 +130,16 @@
   )
 
 
-(def my-pool (mk-pool))
-(stop-and-reset-pool! my-pool)
-(def a (atom 0))
-
-(defn check-timer []
-  (do
-    (future
-       (every 5000
-              #(do
-                 (swap! a inc)
-                 (check-messages)
-                 (println  "Check timer: "@a)
-                 )
-
-              my-pool))
-    "********* Loaded background task **********"))
-
-
-(defn main-init [
-
-                 ]
-  (do
-    (start-conns)
-    (check-timer)
-    ))
-
-
-
-(defn create-session[{:keys [init-state browser]}]
-  (let [
-        session-id    (uuid-str)
-        ]
-
-    (neo4j "create  (n:WebSession
-                    {
-                            session_id:           {session_id},
-                            init_state:           {init_state},
-                            start_time:           {start_time},
-                            browser:              {browser}
-
-                            }) return n"
-
-           {
-            :session_id    session-id
-            :init_state    init-state
-            :browser       browser
-            :start_time    (. (java.util.Date.) getTime)
-           }
-           "n")
-    {:value session-id}
-    ))
 
 
 
 
 
+;----------------------------------------------------------------
+(defn clear-playback-sessions
+  [{:keys [password]}]
+  ;----------------------------------------------------------------
 
-(defn clear-playback-sessions [{:keys [password]}]
   (if (= password "use the source luke")
     (do
       (neo4j "MATCH (n:WebSession) OPTIONAL MATCH (n)-[r]-(s) DELETE n,r,s")
@@ -204,13 +156,16 @@
 
 
 
+;----------------------------------------------------------------
+(defn request-endorsement
+  [{:keys [from-full-name
+           from-email
+           to-full-name
+           to-email
+           endorsement
+           ]}]
+  ;----------------------------------------------------------------
 
-(defn request-endorsement [{:keys [from-full-name
-                                   from-email
-                                   to-full-name
-                                   to-email
-                                   endorsement
-                                   ]}]
   (let [
         endorsement-id    (uuid-str)
         web-record        (first (neo4j "create  (n:AskForEndorsement
@@ -240,29 +195,36 @@
   )
 
 
-(comment println (request-endorsement {:from-full-name "1"
-                                   :from-email  "1"
-                                   :to-full-name "1"
-                                   :to-email "1"
-                                   :endorsement "1"
-                                   }))
 
 
 
-(defn confirm-sender-code [{:keys [sender-code]}]
+(comment println (request-endorsement
+                  {:from-full-name "1"
+                   :from-email  "1"
+                   :to-full-name "1"
+                   :to-email "1"
+                   :endorsement "1"
+                   }))
 
-   (let [n   (neo4j "match (n:AskForEndorsementConfirmSender)
-                     where n.confirm_sender_code = {confirm_sender_code}
-                     return n"
-             {
-              :confirm_sender_code  sender-code
-              } "n")]
-     (if (= (count n) 0)
-         {:error "Session doesn't exist"}
 
-       (do
-          (neo4j "match n where
-                 n.confirm_sender_code = {sender_code}
+
+;----------------------------------------------------------------
+(defn confirm-sender-code
+  [{:keys [sender-code]}]
+  ;----------------------------------------------------------------
+
+  (let [n   (neo4j "match (n:AskForEndorsementConfirmSender)
+                   where n.confirm_sender_code = {confirm_sender_code}
+                   return n"
+                   {
+                    :confirm_sender_code  sender-code
+                    } "n")]
+    (if (= (count n) 0)
+      {:error "Session doesn't exist"}
+
+      (do
+        (neo4j "match n where
+               n.confirm_sender_code = {sender_code}
 
                remove n:AskForEndorsementConfirmSender
                set n:AskForEndorsementContactReceiver
@@ -270,45 +232,49 @@
                {
                 :sender_code  sender-code
                 } "n")
-         {:value "Sesson exists"}
-        )
-       )
-  )
-)
-
-
-(defn sender-confirmed [{:keys [endorsement-id]}]
-
-   (let [n   (neo4j "match n
-                     where n.endorsement_id = {endorsement_id} and
-                    (n:AskForEndorsementContactReceiver OR
-                     n:AskForEndorsementWaitingOnReceiver)
-                     return n"
-             {
-              :endorsement_id  endorsement-id
-              } "n")]
-     (if (= (count n) 0)
-         {:value false}
-         {:value true}
-       )))
+        {:value "Sesson exists"}
+        ))))
 
 
 
+;----------------------------------------------------------------
+(defn sender-confirmed
+  [{:keys [endorsement-id]}]
+  ;----------------------------------------------------------------
 
-(defn confirm-receiver-code [{:keys [receiver-code]}]
+  (let [n   (neo4j "match n
+                   where n.endorsement_id = {endorsement_id} and
+                   (n:AskForEndorsementContactReceiver OR
+                   n:AskForEndorsementWaitingOnReceiver)
+                   return n"
+                   {
+                    :endorsement_id  endorsement-id
+                    } "n")]
+    (if (= (count n) 0)
+      {:value false}
+      {:value true}
+      )))
 
-   (let [n   (neo4j "match (n:AskForEndorsementWaitingOnReceiver)
-                     where n.confirm_receiver_code = {confirm_receiver_code}
-                     return n"
-             {
-              :confirm_receiver_code  receiver-code
-              } "n")]
-     (if (= (count n) 0)
-         {:error "Session doesn't exist"}
 
-       (do
-          (neo4j "match n where
-                 n.confirm_receiver_code = {receiver_code}
+
+
+;----------------------------------------------------------------
+(defn confirm-receiver-code
+  [{:keys [receiver-code]}]
+  ;----------------------------------------------------------------
+
+  (let [n   (neo4j "match (n:AskForEndorsementWaitingOnReceiver)
+                   where n.confirm_receiver_code = {confirm_receiver_code}
+                   return n"
+                   {
+                    :confirm_receiver_code  receiver-code
+                    } "n")]
+    (if (= (count n) 0)
+      {:error "Session doesn't exist"}
+
+      (do
+        (neo4j "match n where
+               n.confirm_receiver_code = {receiver_code}
 
                remove n:AskForEndorsementWaitingOnReceiver
                set n:AskForEndorsementCompleted
@@ -316,31 +282,43 @@
                {
                 :receiver_code  receiver-code
                 } "n")
-         {:value "Sesson exists"}
-        )
-       )
-  )
-)
+        {:value "Sesson exists"}
+        ))))
 
 
-(defn receiver-confirmed [{:keys [endorsement-id]}]
 
-   (let [n   (neo4j "match (n:AskForEndorsementCompleted)
-                     where n.endorsement_id = {endorsement_id}
-                     return n"
-             {
-              :endorsement_id  endorsement-id
-              } "n")]
-     (if (= (count n) 0)
-         {:value false}
-         {:value true}
-       )))
+
+;----------------------------------------------------------------
+(defn receiver-confirmed
+  [{:keys [endorsement-id]}]
+  ;----------------------------------------------------------------
+
+  (let [n   (neo4j "match (n:AskForEndorsementCompleted)
+                   where n.endorsement_id = {endorsement_id}
+                   return n"
+                   {
+                    :endorsement_id  endorsement-id
+                    } "n")]
+    (if (= (count n) 0)
+      {:value false}
+      {:value true}
+      )))
+
+
+
+
 
 (comment sender-confirmed {:endorsement-id
        "4a64e240-e7ec-44db-a322-5245e35e0492"})
 
 
-(defn get-top-companies [{}]
+
+
+;----------------------------------------------------------------
+(defn get-top-companies
+
+  [{}]
+  ;----------------------------------------------------------------
   (neo4j "match
          (n:Company)<-[:WORKS_FOR]-(w:Person)<-[:ENDORSE]-someone
          return
@@ -354,17 +332,21 @@
 
 
 
-(defn get-company-details [{:keys [company-url]}]
+;----------------------------------------------------------------
+(defn get-company-details
+
+  [{:keys [company-url]}]
+  ;----------------------------------------------------------------
   (neo4j "match
-           (n:Company)<-[:WORKS_FOR]-(w:Person)<-[e:ENDORSE]-someone
+         (n:Company)<-[:WORKS_FOR]-(w:Person)<-[e:ENDORSE]-someone
          where
-           n.web_address = {company_url}
+         n.web_address = {company_url}
          return
-           n.web_address as company,
-           count(e.skill) as skill_count,
-           e.skill as skill
+         n.web_address as company,
+         count(e.skill) as skill_count,
+         e.skill as skill
          order by
-           skill"
+         skill"
          {:company_url company-url}
          ["company" "skill" "skill_count"]))
 
@@ -375,3 +357,29 @@
 ; read the reasoned schemer
 ; does core.logic work in clojurescript?
 
+
+(def my-pool (mk-pool))
+(stop-and-reset-pool! my-pool)
+(def a (atom 0))
+
+(defn check-timer []
+  (do
+    (future
+       (every 5000
+              #(do
+                 (swap! a inc)
+                 (check-messages)
+                 (println  "Check timer: "@a)
+                 )
+
+              my-pool))
+    "********* Loaded background task **********"))
+
+
+(defn main-init [
+
+                 ]
+  (do
+    (start-conns)
+    (check-timer)
+    ))
