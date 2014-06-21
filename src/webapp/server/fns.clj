@@ -28,8 +28,11 @@
 
 
 
-(defn process-ask-for-endorsement [send-endorsement-neo4j-node]
+(defn process-ask-for-endorsement
+  [ send-endorsement-neo4j-node ]
+;----------------------------------------------------------------
   (if send-endorsement-neo4j-node
+
     (let
       [
        confirm-sender-code    (uuid-str)
@@ -153,6 +156,8 @@
     (check-timer)
     ))
 
+
+
 (defn create-session[{:keys [init-state browser]}]
   (let [
         session-id    (uuid-str)
@@ -193,6 +198,9 @@
     ))
 
 
+
+
+
 (defn add-history [{:keys [session-id  history-order  timestamp  path new-value]}]
     ;(println (str "** history-order "    history-order))
     ;(println (str "** path "             path))
@@ -229,7 +237,7 @@
             ;(println web-record)
             (neo4j "START n=node(*), m=node(*)
                    where id(n)={ws} and id(m)={wr}
-                   create (n)-[:FRIENDSHIP {status:2}]->(m)
+                   create (n)-[:SAVED]->(m)
                    " {:ws (:neo-id session) :wr (:neo-id web-record)})
 
             []
@@ -392,6 +400,7 @@
 
 
 
+
 (defn get-company-details [{:keys [company-url]}]
   (neo4j "match
            (n:Company)<-[:WORKS_FOR]-(w:Person)<-[e:ENDORSE]-someone
@@ -410,6 +419,6 @@
 
 
 
-; read the reased schemer
-; does it work in clojurescript?
+; read the reasoned schemer
+; does core.logic work in clojurescript?
 
