@@ -186,10 +186,14 @@
    (dom/div
     nil
     (om/build from-email-field   (-> ui-data :from-email ))
-    (om/build to-email-field      (-> ui-data :to-email ))
-
     (dom/div #js {:className "input-group"}
              (om/build endorsement-field  (-> ui-data :endorsement )))
+
+    (dom/div
+     #js {:style #js {:padding-top "40px"}})
+
+    (om/build to-email-field      (-> ui-data :to-email ))
+
 
     (dom/button #js {:onClick (fn [e]
                                 (om/update! ui-data [:submit :value]  true))
