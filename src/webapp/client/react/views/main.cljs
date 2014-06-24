@@ -39,6 +39,51 @@
 
 
 
+;------------------------------------------------------------
+(defn-ui-component     browser-menu   [app]
+  {:absolute-path []}
+  ;------------------------------------------------------------
+
+  (dom/div nil
+
+
+           (dom/div
+            (if  (= (-> app :ui :tab-browser) "top companies")
+              #js {:style #js {
+                               	:display "inline-block"}
+                   }
+
+            #js {:className  ""
+                   :onClick        (fn[e] (om/update! app [:ui :tab-browser]  "top companies"))
+                   :onTouchStart   (fn[e] (select-browser e app))
+                   :style #js {:textDecoration "underline"
+                               	:display "inline-block"}
+                   })
+            "Top")
+
+
+           (dom/div
+              #js {:style #js {
+                               :display "inline-block"
+                               :width "20px"}
+                   } "")
+
+
+           (dom/div
+            (if  (= (-> app :ui :tab-browser) "latest companies")
+              #js {:style #js {
+                               	:display "inline-block"}
+                   }
+              #js {:className  ""
+                   :onClick        (fn[e] (om/update! app [:ui :tab-browser]  "latest companies"))
+                   :onTouchStart   (fn[e] (select-browser e app))
+                   :style #js {:textDecoration "underline"
+                               :display "inline-block"}
+                   })
+            "latest")
+
+))
+
 
 
 
@@ -60,7 +105,7 @@
                                 :onClick        (fn[e] (select-browser e app))
                                 :onTouchStart   (fn[e] (select-browser e app))
 
-                                } "Connections"))
+                                } "Search"))
 
             (dom/li #js {:className  (if (= (-> app :ui :tab) "request") "active" "") }
                     (dom/a #js {:className  ""
@@ -68,7 +113,7 @@
                                 :onTouchStart   (fn[e] (select-request e app))
 
 
-                                } "Request"))
+                                } "Add"))
 
             (dom/li #js {:className  (if (= (-> app :ui :tab) "login") "active" "")   }
                     (dom/a #js {:className  ""
@@ -78,6 +123,12 @@
                                 } "Login"))
 
             )
+
+
+           (cond
+            (= (-> app :ui :tab) "browser")
+            (om/build  browser-menu  (-> app ))
+           )
 
            (cond
             (= (-> app :ui :tab) "request")
