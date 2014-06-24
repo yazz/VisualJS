@@ -16,7 +16,7 @@
    [clojure.string :only [blank?]]
    [webapp.client.react.components.forms               :only  [request-form]]
    [webapp.client.react.components.login               :only  [login]]
-   [webapp.client.react.components.connection-graph    :only  [graph text-graph]]
+   [webapp.client.react.components.connection-graph    :only  [graph text-graph latest-endorsements]]
    [webapp.client.react.components.company-details     :only  [company-details]]
    )
   (:use-macros
@@ -44,7 +44,7 @@
   {:absolute-path []}
   ;------------------------------------------------------------
 
-  (dom/div nil
+  (dom/div  #js {:style #js {:paddingBottom "10px"}}
 
 
            (dom/div
@@ -70,12 +70,12 @@
 
 
            (dom/div
-            (if  (= (-> app :ui :tab-browser) "latest companies")
+            (if  (= (-> app :ui :tab-browser) "latest endorsements")
               #js {:style #js {
                                	:display "inline-block"}
                    }
               #js {:className  ""
-                   :onClick        (fn[e] (om/update! app [:ui :tab-browser]  "latest companies"))
+                   :onClick        (fn[e] (om/update! app [:ui :tab-browser]  "latest endorsements"))
                    :onTouchStart   (fn[e] (select-browser e app))
                    :style #js {:textDecoration "underline"
                                :display "inline-block"}
@@ -155,6 +155,21 @@
                          }))
 
 
+            (and
+             (= (-> app :ui :tab) "browser")
+             (= (-> app :ui :tab-browser) "latest endorsements"))
+            (cond
+
+             ;(= (-> app :ui :graph-ab-test) "text")
+             true
+             (om/build  text-graph    (-> app :ui :companies))
+
+
+             (= (-> app :ui :graph-ab-test) "SVG")
+             (om/build  graph
+                        {
+                         :data    (:data    app)
+                         }))
 
 
            (and

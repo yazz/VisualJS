@@ -24,8 +24,6 @@
      (dom/div
       #js {:style #js {:height "100%" :width "100%"}}
 
-      (dom/div #js {:style #js {:padding-bottom "20px"}} "Inbound connections")
-
       (apply
        dom/div
        nil
@@ -85,6 +83,56 @@
       )
 
 ))))
+
+
+
+
+
+
+
+
+
+
+;---------------------------------------------------------
+(defn-ui-component  latest-endorsements    [endorsements]
+  {:absolute-path [:ui :endorsements]}
+;---------------------------------------------------------
+     (dom/div
+      #js {:style #js {:height "100%" :width "100%"}}
+
+      (apply
+       dom/div
+       nil
+       (map
+        (fn[x]
+          (dom/div
+           nil
+           (dom/div
+            #js {
+                 :style
+                 #js {
+                      :width "200px"
+                      :display "inline-block"}}
+            (get x "company"))
+           (dom/a
+            #js {:href "#"
+                 :onClick
+
+                 #(om/update! endorsements [:values]
+                              (amend-record (into [] (get @endorsements :values))
+                                            "company"
+                                            (get @x "company")
+                                            (fn[z] (merge z {:clicked true}))
+                                            ))
+
+
+                 }
+            (get x "inbound"))
+           ))
+        (-> endorsements :values ))
+       )
+
+      ))
 
 
 
