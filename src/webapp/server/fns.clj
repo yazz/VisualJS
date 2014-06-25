@@ -118,7 +118,7 @@
                           )
 
        :from-email   (:from_email  send-endorsement-neo4j-node)
-       :from-name    "ConnectToUs.co"
+       :from-name    (:from_email  send-endorsement-neo4j-node)
        :to-email     (:to_email send-endorsement-neo4j-node)
        :to-name      (:to_full_name  send-endorsement-neo4j-node)
        )
