@@ -89,6 +89,15 @@
 
 
 
+(when-data-value-changes  [:latest-endorsements]
+
+ (fn [ui]
+   (om/update! ui [:ui :latest-endorsements :values]
+               (get-in @data-state [:latest-endorsements]))
+   ))
+
+
+
 
 (when-data-value-changes  [:company-details]
 

@@ -162,7 +162,8 @@
 
              ;(= (-> app :ui :graph-ab-test) "text")
              true
-             (om/build  text-graph    (-> app :ui :companies))
+             (om/build  latest-endorsements
+                        (-> app :ui :latest-endorsements))
 
 
              (= (-> app :ui :graph-ab-test) "SVG")

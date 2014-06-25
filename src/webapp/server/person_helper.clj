@@ -116,13 +116,18 @@
            from.email={from} and
            to.email={to}
            create unique
-           (from)-[:ENDORSE {skill: {skill}}]->(to)
+             (from)-[:ENDORSE {
+                              skill: {skill},
+                              accepted_timestamp: {accepted_timestamp}
+                              }
+                                ]->(to)
            return
-           from,to"
+             from, to"
            {
             :from  from
             :to    to
             :skill skill
+            :accepted_timestamp (. (java.util.Date.) getTime)
             }
            ["from","to"])))
 
@@ -151,7 +156,6 @@
 
 
 
-(comment
-  endorse2 :from-email   "zubairq@gmail2.com"
-           :to-email     "zubairq@gmail2.com"
+(comment endorse2 :from-email   "zubairq@micro.com"
+           :to-email     "zubairq@s.com"
            :skill        "java")

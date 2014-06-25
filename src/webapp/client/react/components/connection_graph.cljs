@@ -95,8 +95,9 @@
 
 ;---------------------------------------------------------
 (defn-ui-component  latest-endorsements    [endorsements]
-  {:absolute-path [:ui :endorsements]}
+  {:absolute-path [:ui :latest-endorsements]}
 ;---------------------------------------------------------
+
      (dom/div
       #js {:style #js {:height "100%" :width "100%"}}
 
@@ -111,28 +112,30 @@
             #js {
                  :style
                  #js {
-                      :width "200px"
+                      :width "50%"
                       :display "inline-block"}}
-            (get x "company"))
-           (dom/a
-            #js {:href "#"
-                 :onClick
+            (str
 
-                 #(om/update! endorsements [:values]
-                              (amend-record (into [] (get @endorsements :values))
-                                            "company"
-                                            (get @x "company")
-                                            (fn[z] (merge z {:clicked true}))
-                                            ))
+             (. (js/Date. (get x "when")) getHours) ":"
+             (. (js/Date. (get x "when")) getMinutes) ":"
+             (. (js/Date. (get x "when")) getSeconds) " "
 
 
-                 }
-            (get x "inbound"))
+             (get x "from")
+                 ))
+           (dom/div
+            #js {
+                 :style
+                 #js {
+                      :width "50%"
+                      :display "inline-block"}}
+            (str (get x "skill") " --> " (get x "to")
+                 ))
+
            ))
         (-> endorsements :values ))
        )
 
       ))
-
 
 

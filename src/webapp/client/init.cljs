@@ -59,7 +59,7 @@
                }
 
      :tab         "browser"
-     :tab-browser "top companies"
+     :tab-browser "latest endorsements"
      :login {
 
              :login-email {}

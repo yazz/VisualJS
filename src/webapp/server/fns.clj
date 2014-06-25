@@ -225,12 +225,16 @@
 
 
 (comment println (request-endorsement
-                  {:from-full-name "1"
-                   :from-email  "1"
-                   :to-full-name "1"
-                   :to-email "1"
-                   :endorsement "1"
+                  {:from-full-name    "1"
+                   :from-email        "1"
+                   :to-full-name      "1"
+                   :to-email          "1"
+                   :endorsement       "1"
                    }))
+
+
+
+
 
 
 
@@ -262,6 +266,9 @@
 
 
 
+
+
+
 (defn sender-confirmed
   [{:keys [endorsement-id]}]
   ;----------------------------------------------------------------
@@ -284,6 +291,9 @@
       {:value false}
       {:value true}
       )))
+
+;(sender-confirmed {:endorsement-id
+;       "4a64e240-e7ec-44db-a322-5245e35e0492"})
 
 
 
@@ -314,11 +324,6 @@
 
 
 
-(comment sender-confirmed {:endorsement-id
-       "4a64e240-e7ec-44db-a322-5245e35e0492"})
-
-
-
 
 ;----------------------------------------------------------------
 (defn get-top-companies
@@ -335,6 +340,33 @@
          {}
          ["company" "inbound"]))
 
+
+;(get-top-companies {})
+
+
+
+
+
+
+;----------------------------------------------------------------
+(defn get-latest-endorsements
+
+  [{}]
+  ;----------------------------------------------------------------
+  (neo4j "match
+           (c)-[:WORKS_FOR]-(x)-[r:ENDORSE]->(y)-[:WORKS_FOR]-(c2)
+         return
+           c.web_address as from,
+           r.skill as skill,
+           r.accepted_timestamp as when ,
+           c2.web_address as to
+         order by
+           r.accepted_timestamp desc
+         limit
+           10"
+         {}
+         ["from" "skill" "to" "when"]))
+;(get-latest-endorsements {})
 
 
 

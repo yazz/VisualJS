@@ -44,7 +44,23 @@
    ))
 
 
+
+(defn get-latest-endorsements-from-database []
+
+  (go
+   (log "getting latest endorsements")
+   (let [latest-endorsements (<! (remote "get-latest-endorsements" {}))]
+
+     (update-data [:latest-endorsements] latest-endorsements)
+     )
+   ))
+
+
+
+
+
 (add-init-state-fn  "get top companies"  get-top-companies-from-database)
+(add-init-state-fn  "get latest endorsements"  get-latest-endorsements-from-database)
 
 
 (def tt (atom 1))
@@ -98,12 +114,22 @@
 
 
 
-     (= (get-in @app-state [:ui :tab])  "browser")
+     (and
+      (= (get-in @app-state [:ui :tab])  "browser")
+      (= (-> @app-state :ui :tab-browser) "top companies")
+     )
 
      (get-top-companies-from-database)
 
 
 
+
+     (and
+      (= (get-in @app-state [:ui :tab])  "browser")
+      (= (-> @app-state :ui :tab-browser) "latest endorsements")
+     )
+
+     (get-latest-endorsements-from-database)
 
 
  )))
