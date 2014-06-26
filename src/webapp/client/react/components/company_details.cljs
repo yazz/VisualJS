@@ -50,12 +50,6 @@
      )
    (dom/div #js {:style #js {:padding-bottom "20px"}} "")
 
-   (dom/button #js {:onClick
-                    (fn [e]
-                      (om/update! company-details [:clicked]  true))
-                    :style
-                    #js {:margin-top "40px"}}
-                "Back")
 
 
    ))
