@@ -50,6 +50,12 @@
      )
    (dom/div #js {:style #js {:padding-bottom "20px"}} "")
 
+   (dom/pre nil
+            (str "<iframe  width='100%' height='100%' src='http://connecttous.co/connecttous/connecttous.html?company_url="
+                 (str (-> company-details :company-url))
+                 "' />")
+            )
+
 
 
    ))
