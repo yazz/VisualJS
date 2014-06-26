@@ -75,6 +75,48 @@
 
 
 
+  (if js/company_url
+    (do
+      (reset! app-state
+       (assoc-in
+        @app-state [:ui :company-details :company-url]
+        (str js/company_url)))
+
+      (reset! app-state
+       (assoc-in
+        @app-state [:ui  :company-details   :skills]
+        nil))
+
+      (reset! app-state
+       (assoc-in
+        @app-state [:ui :tab-browser]
+        "company"))
+
+
+      (go
+       (let [ l (<! (remote "get-company-details"
+                            {
+                             :company-url    (str js/company_url)
+                             }))]
+
+         ;(log (pr-str l))
+         (reset! data-state
+                 (assoc-in
+                  @data-state [:company-details]
+                  l))
+
+
+        (reset! app-state
+         (assoc-in
+          @app-state [:ui :company-details :skills]
+               (get-in @data-state [:company-details])))
+
+         ))
+
+      )
+    )
+
+
 
   (set-ab-tests {
                  "graph type"
