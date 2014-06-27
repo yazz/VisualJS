@@ -13,12 +13,10 @@
                                                     blur-field
                                                     update-field-value
                                                     basic-input-box ]]
-   [clojure.string :only [blank?]])
+   [clojure.string :only [blank?]]
+   [webapp.framework.client.system-globals :only [react-components]])
   (:use-macros
    [webapp.framework.client.coreclient      :only  [defn-ui-component]]))
-
-
-
 
 
 
@@ -29,7 +27,7 @@
 (defn-ui-component    login-email-field  [ui-data]
     {:absolute-path [:ui :login :login-email]}
   ;------------------------------------------------------------
-  (dom/div
+  (dom/div nil (dom/div
    nil
    (basic-input-box :field       ui-data
                     :text        "Your company email"
@@ -45,7 +43,7 @@
                                      :className "alert-link"}
                                 "Your email confirmed"
                                 )))
-            ))
+            ) "ss"))
 
 
 

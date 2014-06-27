@@ -1,10 +1,9 @@
 (ns webapp.framework.client.coreclient
   [:use [webapp.framework.server.encrypt]]
-     (:use clojure.pprint)
-   (:require [rewrite-clj.parser :as p])
-   (:require [rewrite-clj.printer :as prn])
-
-)
+  (:use clojure.pprint)
+  (:use webapp-config.settings)
+  (:require [rewrite-clj.parser :as p])
+  (:require [rewrite-clj.printer :as prn]))
 
 
 (defmacro log [& x]
@@ -105,7 +104,9 @@
            (~'render
             [~'this]
 
-             ~@code
+             ~(if *show-code*
+               `(dom/div nil ~@code "Debug")
+                (first code))
          )))
 
        (~'webapp.framework.client.coreclient/process-ui-component  ~opts)
@@ -113,11 +114,12 @@
        ))
 
 
-(comment    macroexpand
+(    macroexpand
   '(defn-ui-component abc [data] {:path [:ui :request] }
      (dom/div
       nil
       (dom/div nil (str " You asdsddsads" data))
       )))
+
 
 

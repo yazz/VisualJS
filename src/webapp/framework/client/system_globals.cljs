@@ -170,3 +170,4 @@
 (swap! timeline assoc :2432 {:a 243})
 
 
+(def react-components (atom {}))
