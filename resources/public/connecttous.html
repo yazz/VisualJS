@@ -116,8 +116,9 @@
                  height:100%; width:100%;position: absolute;
                  padding: 10px;">
 
-        <div id=main               style='color=black;'
-             ></div>
+        <div id=debug_button       style='color=black;'></div>
+
+        <div id=main               style='color=black;'></div>
 
         <div id=main_playback      style='color=black;'></div>
         <div id=playback_controls  style='color=black;'></div>
@@ -144,7 +145,7 @@
         };
 
 
-
+        debug_live=false;
 
 
         ready(function() {
@@ -160,6 +161,13 @@
             {
                 playback = getQueryVariable("playback");
                 debug    = getQueryVariable("debug");
+                livedebug    = getQueryVariable("livedebug");
+                if (livedebug) {
+                    dbutton = document.getElementById("debug_button");
+                    dbutton.innerHTML=
+                        "<button onclick='debug_live=!debug_live;document.getElementById(\"debug_status\").innerHTML=\"\"+debug_live;'>debug</button>" +
+                        "<div id='debug_status' style='display: inline-block;'>false</div>";
+                };
                 company_url    = getQueryVariable("company_url");
                 //alert(""+playback);
                 if (webapp.framework) {
