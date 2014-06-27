@@ -90,6 +90,7 @@
 
 
 
+(defn pad [x] (if (= (count (str x)) 1) (str "0" x) x))
 
 
 
@@ -116,9 +117,9 @@
                       :display "inline-block"}}
             (str
 
-             (. (js/Date. (get x "when")) getHours) ":"
-             (. (js/Date. (get x "when")) getMinutes) ":"
-             (. (js/Date. (get x "when")) getSeconds) " "
+             (pad (. (js/Date. (get x "when")) getHours)) ":"
+             (pad (. (js/Date. (get x "when")) getMinutes)) ":"
+             (pad (. (js/Date. (get x "when")) getSeconds)) " "
 
 
              (get x "from")
@@ -137,5 +138,4 @@
        )
 
       ))
-
 
