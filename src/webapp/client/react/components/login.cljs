@@ -43,7 +43,7 @@
                                      :className "alert-link"}
                                 "Your email confirmed"
                                 )))
-            ) "ss"))
+            ) ))
 
 
 

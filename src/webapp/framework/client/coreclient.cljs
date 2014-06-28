@@ -14,7 +14,7 @@
     [cljs.core.async.macros :refer [go alt!]])
   (:use
     [clojure.browser.event :only [listen]]
-    [webapp.framework.client.system-globals  :only  [touch]]
+    [webapp.framework.client.system-globals  :only  [touch react-components]]
   )
 )
 
@@ -326,7 +326,27 @@
   )
 
 (def eee (atom 0))
+
+
+(defn inc-component-count [component-name]
+  (reset! react-components
+          (assoc-in @react-components [component-name]
+                    (inc (get-in @react-components [component-name]))
+                    )
+          ))
+
+(defn dec-component-count [component-name]
+  (if (pos? (get-in @react-components [component-name]))
+    (reset! react-components
+            (assoc-in @react-components [component-name]
+                      (dec (get-in @react-components [component-name]))))))
+
+
 (defn debug-react [str-nm owner data react-fn]
+  (let
+    [
+     react-fn-name    (get-fn-name (str str-nm ))
+     ]
     (dom/div #js {
                   :onMouseEnter #(om/set-state! owner :debug-highlight true)
                   :onMouseLeave #(om/set-state! owner :debug-highlight false)
@@ -334,12 +354,10 @@
                               (if
                                 (om/get-state owner :debug-highlight)
                                 (do
-                                  (log (str
-                                        "ENTER "
-                                        (get-fn-name (str str-nm ))
-                                        ": " (swap! eee inc)))
+                                  (inc-component-count react-fn-name)
                                   "lightGray")
-                                ""
-                                )}
+                                (do
+                                  (dec-component-count react-fn-name)
+                                  "")                                )}
                   } (react-fn data) "")
-  )
+  ))
