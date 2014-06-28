@@ -310,11 +310,11 @@
 
 
 
+(defn get-fn-name [x]
+  (apply str
+         (take-while #(not= %1 "(") x)))
 
-
-
-
-
+;(get-fn-name "fdfsdfd(dsffds)")
 
 (defn process-ui-component [
                             {absolute-path :absolute-path}
@@ -325,10 +325,21 @@
 
   )
 
-
-(defn debug-react [data react-fn]
+(def eee (atom 0))
+(defn debug-react [str-nm owner data react-fn]
     (dom/div #js {
-                  :onMouseOver #(js/alert "clicked")
-                  :onMouseOut #(js/alert "out")
+                  :onMouseEnter #(om/set-state! owner :debug-highlight true)
+                  :onMouseLeave #(om/set-state! owner :debug-highlight false)
+                  :style #js {:backgroundColor
+                              (if
+                                (om/get-state owner :debug-highlight)
+                                (do
+                                  (log (str
+                                        "ENTER "
+                                        (get-fn-name (str str-nm ))
+                                        ": " (swap! eee inc)))
+                                  "lightGray")
+                                ""
+                                )}
                   } (react-fn data) "")
   )

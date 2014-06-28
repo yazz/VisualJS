@@ -101,8 +101,8 @@
          (~'reify
 
           ~'om/IInitState
-          (~'init-state [_]
-                      {})
+          (~'init-state ~'[_]
+                      {:debug-highlight false})
 
 
            ~'om/IRender
@@ -111,6 +111,8 @@
 
              ~(if *show-code*
                `(webapp.framework.client.coreclient/debug-react
+                 ~fn-name
+                 ~'owner
                  ~(first data-paramater-name)
                  (~'fn [~(first data-paramater-name)]
                  ~@code))
