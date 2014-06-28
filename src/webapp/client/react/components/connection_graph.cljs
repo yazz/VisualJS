@@ -6,7 +6,7 @@
    [clojure.string   :as string]
    )
   (:use-macros
-   [webapp.framework.client.coreclient      :only  [defn-ui-component]])
+   [webapp.framework.client.coreclient      :only  [defn-ui-component ]])
   (:use
    [webapp.client.helper  :only [amend-record]]
    [webapp.framework.client.system-globals  :only  [touch]]

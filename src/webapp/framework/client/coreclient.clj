@@ -100,12 +100,20 @@
        (defn ~fn-name [~(first data-paramater-name)  ~'owner]
          (~'reify
 
+          ~'om/IInitState
+          (~'init-state [_]
+                      {})
+
+
            ~'om/IRender
            (~'render
             [~'this]
 
              ~(if *show-code*
-               `(dom/div nil ~@code "Debug")
+               `(webapp.framework.client.coreclient/debug-react
+                 ~(first data-paramater-name)
+                 (~'fn [~(first data-paramater-name)]
+                 ~@code))
                 (first code))
          )))
 

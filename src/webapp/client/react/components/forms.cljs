@@ -15,7 +15,7 @@
                                                     basic-input-box ]]
    [clojure.string :only [blank?]])
   (:use-macros
-   [webapp.framework.client.coreclient      :only  [defn-ui-component]]))
+   [webapp.framework.client.coreclient      :only  [defn-ui-component ]]))
 
 
 

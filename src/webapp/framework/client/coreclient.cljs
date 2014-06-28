@@ -6,6 +6,8 @@
     [goog.dom]
     [goog.Uri.QueryData]
     [goog.events]
+    [om.core          :as om :include-macros true]
+    [om.dom           :as dom :include-macros true]
     [cljs.core.async :as async :refer [chan close!]]
   )
   (:require-macros
@@ -321,4 +323,12 @@
     (do
       (touch  absolute-path)))
 
+  )
+
+
+(defn debug-react [data react-fn]
+    (dom/div #js {
+                  :onMouseOver #(js/alert "clicked")
+                  :onMouseOut #(js/alert "out")
+                  } (react-fn data) "")
   )
