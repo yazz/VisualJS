@@ -325,21 +325,43 @@
 
   )
 
+
 (def eee (atom 0))
 
+(defn set-debug-name []
+  (do
+    (set! (.-innerHTML
+           (.getElementById js/document
+                            "debug_button"))
+          (str (last @react-components))
+          )
 
-(defn inc-component-count [component-name]
-  (reset! react-components
-          (assoc-in @react-components [component-name]
-                    (inc (get-in @react-components [component-name]))
-                    )
-          ))
+    (log @react-components)
 
-(defn dec-component-count [component-name]
-  (if (pos? (get-in @react-components [component-name]))
+    ))
+
+(defn set-debug-component [component-name]
+  (do
+    (if (not-any? #(= %1 component-name) @react-components)
+      (reset! react-components
+              (conj @react-components
+                    component-name
+                    )))
+    (set-debug-name)
+    ))
+
+
+
+(defn unset-debug-component [component-name]
+  (do
     (reset! react-components
-            (assoc-in @react-components [component-name]
-                      (dec (get-in @react-components [component-name]))))))
+            (into []
+                  (filter #(not= %1 component-name)
+                          @react-components)
+                  ))
+    (set-debug-name)))
+
+
 
 
 (defn debug-react [str-nm owner data react-fn]
@@ -354,10 +376,12 @@
                               (if
                                 (om/get-state owner :debug-highlight)
                                 (do
-                                  (inc-component-count react-fn-name)
+                                  (set-debug-component  react-fn-name)
                                   "lightGray")
                                 (do
-                                  (dec-component-count react-fn-name)
+                                  (unset-debug-component  react-fn-name)
                                   "")                                )}
-                  } (react-fn data) "")
-  ))
+                  }
+
+             (react-fn data)
+             "")))
