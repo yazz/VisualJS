@@ -172,6 +172,6 @@
 
 (def react-components (atom []))
 
+(def react-components-code (atom {}))
 
 
-react-components

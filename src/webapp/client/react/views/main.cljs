@@ -20,7 +20,8 @@
    [webapp.client.react.components.company-details     :only  [company-details]]
    )
   (:use-macros
-   [webapp.framework.client.coreclient      :only  [defn-ui-component  ]]))
+   [webapp.framework.client.coreclient      :only  [defn-ui-component ns-coils]]))
+(ns-coils 'webapp.client.react.views.main)
 
 
 

@@ -16,7 +16,8 @@
    [clojure.string :only [blank?]]
    [webapp.framework.client.system-globals :only [react-components]])
   (:use-macros
-   [webapp.framework.client.coreclient      :only  [defn-ui-component ]]))
+   [webapp.framework.client.coreclient      :only  [defn-ui-component ns-coils]]))
+(ns-coils 'webapp.client.react.components.login)
 
 
 

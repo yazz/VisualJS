@@ -14,7 +14,10 @@
     [cljs.core.async.macros :refer [go alt!]])
   (:use
     [clojure.browser.event :only [listen]]
-    [webapp.framework.client.system-globals  :only  [touch react-components]]
+    [webapp.framework.client.system-globals  :only  [touch
+                                                     react-components
+                                                     react-components-code
+                                                     ]]
   )
 )
 
@@ -310,9 +313,51 @@
 
 
 
+(defn record-defn-ui-component [namespace-name fname args & code]
+  (let [
+        code-str
+                  (str (apply str (map #(if (= "\n" %1) (str "\r\n")  %1) code)))
+        ]
+       (.log js/console (str "NAMESPACE: " namespace-name))
+       (.log js/console (str "NAMESPACE fname: " fname))
+       (.log js/console (str "NAMESPACE orig code: " code))
+       (.log js/console (str "NAMESPACE code: " code-str))
+       (reset!
+            webapp.framework.client.system-globals/react-components-code
+            (assoc
+              (deref webapp.framework.client.system-globals/react-components-code)
+              (str fname)
+              (xml-str (str  "(defn-ui-component "
+                           namespace-name "/"
+                           fname " "
+                           args (char 13) (char 13)
+                           code-str
+                   ""
+                   )))
+            )
+        )
+  )
+
+(comment  record-defn-ui-component
+  "a.b" "start" '[a b] '(def 1))
+
+
+
+
+
+
+
+
+
 (defn get-fn-name [x]
-  (apply str
-         (take-while #(not= %1 "(") x)))
+  (clojure.string/replace (second (clojure.string/split (apply str
+         (take-while #(not= %1 "(") x)) #"\s"))
+       #"_" "-")
+  )
+
+
+
+
 
 ;(get-fn-name "fdfsdfd(dsffds)")
 
@@ -326,19 +371,32 @@
   )
 
 
+
 (def eee (atom 0))
 
-(defn set-debug-name []
-  (do
+(defn display-debug-code []
+  (let [component-name  (last @react-components)]
     (set! (.-innerHTML
            (.getElementById js/document
                             "right_of_main"))
-          (str (last @react-components))
+          (str
+           "<div>"
+           component-name
+           "<br>"
+           "<pre>"
+           (get   @react-components-code  (str component-name))
+           "</pre>"
+           "</div>"
+
+           )
           )
 
-    (log @react-components)
+    (log (keys @react-components-code))
 
     ))
+
+
+
 
 (defn set-debug-component [component-name]
   (do
@@ -347,7 +405,7 @@
               (conj @react-components
                     component-name
                     )))
-    (set-debug-name)
+    (display-debug-code)
     ))
 
 
@@ -359,7 +417,7 @@
                   (filter #(not= %1 component-name)
                           @react-components)
                   ))
-    (set-debug-name)))
+    (display-debug-code)))
 
 
 
@@ -386,3 +444,15 @@
 
              (react-fn data)
              "")))
+
+
+
+
+
+
+
+
+
+
+
+

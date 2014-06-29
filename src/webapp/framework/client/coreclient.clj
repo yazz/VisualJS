@@ -119,12 +119,20 @@
                 (first code))
          )))
 
+       (webapp.framework.client.coreclient/record-defn-ui-component
+             (~'ns-coils-debug)
+             ~(str `~fn-name) ~(str `~data-paramater-name)
+
+          (str ~(with-out-str   (write (first `~code))
+                                        :dispatch clojure.pprint/code-dispatch))
+        )
+
        (~'webapp.framework.client.coreclient/process-ui-component  ~opts)
 
        ))
 
 
-(    macroexpand
+(macroexpand
   '(defn-ui-component abc [data] {:path [:ui :request] }
      (dom/div
       nil
