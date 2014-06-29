@@ -118,8 +118,10 @@
 
         <div id=debug_button       style='color=black;'></div>
 
-        <div id=main               style='color=black;'></div>
-        <div id=right_of_main      style='color=black;display: inline-block;'></div>
+        <div>
+            <div id=main               style='color=black;display: inline-block;'></div>
+            <div id=right_of_main      style='color=black;display: inline-block;'></div>
+        </div>
 
         <div id=main_playback      style='color=black;'></div>
         <div id=playback_controls  style='color=black;'></div>
@@ -164,6 +166,7 @@
                 debug    = getQueryVariable("debug");
                 livedebug    = getQueryVariable("livedebug");
                 if (livedebug) {
+                    document.getElementById('main').style.width='50%';
                     dbutton = document.getElementById("debug_button");
                     dbutton.innerHTML=
                         "<button onclick='debug_live=!debug_live;document.getElementById(\"debug_status\").innerHTML=\"\"+debug_live;'>debug</button>" +

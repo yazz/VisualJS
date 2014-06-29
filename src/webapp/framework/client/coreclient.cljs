@@ -332,7 +332,7 @@
   (do
     (set! (.-innerHTML
            (.getElementById js/document
-                            "debug_button"))
+                            "right_of_main"))
           (str (last @react-components))
           )
 
