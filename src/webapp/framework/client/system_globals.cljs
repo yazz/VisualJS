@@ -170,8 +170,12 @@
 (swap! timeline assoc :2432 {:a 243})
 
 
-(def react-components (atom []))
+(def debugger-ui
+  (atom {
+         :mode "browse"
+         :react-components []
+         :react-components-code {}
+         }))
 
-(def react-components-code (atom {}))
 
-
+@debugger-ui

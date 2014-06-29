@@ -15,8 +15,7 @@
   (:use
     [clojure.browser.event :only [listen]]
     [webapp.framework.client.system-globals  :only  [touch
-                                                     react-components
-                                                     react-components-code
+                                                     debugger-ui
                                                      ]]
   )
 )
@@ -316,26 +315,26 @@
 (defn record-defn-ui-component [namespace-name fname args & code]
   (let [
         code-str
-                  (str (apply str (map #(if (= "\n" %1) (str "\r\n")  %1) code)))
+        (str (apply str (map #(if (= "\n" %1) (str "\r\n")  %1) code)))
         ]
-       (.log js/console (str "NAMESPACE: " namespace-name))
-       (.log js/console (str "NAMESPACE fname: " fname))
-       (.log js/console (str "NAMESPACE orig code: " code))
-       (.log js/console (str "NAMESPACE code: " code-str))
-       (reset!
-            webapp.framework.client.system-globals/react-components-code
-            (assoc
-              (deref webapp.framework.client.system-globals/react-components-code)
-              (str fname)
-              (xml-str (str  "(defn-ui-component "
-                           namespace-name "/"
-                           fname " "
-                           args (char 13) (char 13)
-                           code-str
-                   ""
-                   )))
-            )
-        )
+    (.log js/console (str "NAMESPACE: " namespace-name))
+    (.log js/console (str "NAMESPACE fname: " fname))
+    (.log js/console (str "NAMESPACE orig code: " code))
+    (.log js/console (str "NAMESPACE code: " code-str))
+    (reset!
+     webapp.framework.client.system-globals/debugger-ui
+     (assoc-in
+      (deref webapp.framework.client.system-globals/debugger-ui)
+      [:react-components-code (str fname)]
+      (xml-str (str  "(defn-ui-component "
+                     namespace-name "/"
+                     fname " "
+                     args (char 13) (char 13)
+                     code-str
+                     ""
+                     )))
+     )
+    )
   )
 
 (comment  record-defn-ui-component
@@ -375,7 +374,7 @@
 (def eee (atom 0))
 
 (defn display-debug-code []
-  (let [component-name  (last @react-components)]
+  (let [component-name  (last (get @debugger-ui :react-components))]
     (set! (.-innerHTML
            (.getElementById js/document
                             "right_of_main"))
@@ -384,14 +383,14 @@
            component-name
            "<br>"
            "<pre>"
-           (get   @react-components-code  (str component-name))
+           (get   (get @debugger-ui :react-components-code)  (str component-name))
            "</pre>"
            "</div>"
 
            )
           )
 
-    (log (keys @react-components-code))
+    (log (keys (get @debugger-ui :react-components-code)))
 
     ))
 
@@ -400,24 +399,31 @@
 
 (defn set-debug-component [component-name]
   (do
-    (if (not-any? #(= %1 component-name) @react-components)
-      (reset! react-components
-              (conj @react-components
-                    component-name
-                    )))
-    (display-debug-code)
-    ))
+    (if (not-any? #(= %1 component-name) (get @debugger-ui :react-components))
+      (reset! debugger-ui
+              (assoc-in @debugger-ui [:react-components]
+                        (conj (get @debugger-ui :react-components)
+                              component-name
+                              )))
+      (display-debug-code)
+      )))
 
 
 
 (defn unset-debug-component [component-name]
   (do
-    (reset! react-components
-            (into []
-                  (filter #(not= %1 component-name)
-                          @react-components)
-                  ))
-    (display-debug-code)))
+    (reset! debugger-ui
+
+            (assoc-in
+             @debugger-ui
+             [:react-components]
+             (into []
+                   (filter #(not= %1 component-name)
+                           (get @debugger-ui :react-components))
+                   ))
+            )
+    (display-debug-code)
+    ))
 
 
 

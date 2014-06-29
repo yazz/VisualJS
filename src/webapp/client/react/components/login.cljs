@@ -14,9 +14,10 @@
                                                     update-field-value
                                                     basic-input-box ]]
    [clojure.string :only [blank?]]
-   [webapp.framework.client.system-globals :only [react-components]])
+   [webapp.framework.client.system-globals :only [debugger-ui]])
   (:use-macros
    [webapp.framework.client.coreclient      :only  [defn-ui-component ns-coils]]))
+
 (ns-coils 'webapp.client.react.components.login)
 
 
