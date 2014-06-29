@@ -373,28 +373,64 @@
 
 (def eee (atom 0))
 
+
+(defn  ^:export loadDebugger []
+ (om/root
+      webapp.framework.client.components.debugger-main/main-debug-comp
+      debugger-ui
+      {:target (js/document.getElementById "right_of_main")})
+     )
+
+
+(defn  ^:export unloadDebugger []
+  (do
+    (reset! debugger-ui
+
+            (assoc-in
+             @debugger-ui
+             [:react-components] []))
+
+
+    (reset! debugger-ui
+            (assoc-in
+             @debugger-ui
+             [:current-component] nil))
+
+
+    (reset! debugger-ui
+            (assoc-in
+             @debugger-ui
+             [:mode] "browse"))
+
+
+    (om/root
+     (fn [app owner] (om/component (dom/div nil "")))
+     debugger-ui
+     {:target (js/document.getElementById "right_of_main")})
+    ))
+
+;(unloadDebugger)
+
+
 (defn display-debug-code []
   (let [component-name  (last (get @debugger-ui :react-components))]
-    (set! (.-innerHTML
-           (.getElementById js/document
-                            "right_of_main"))
-          (str
-           "<div>"
-           component-name
-           "<br>"
-           "<pre>"
-           (get   (get @debugger-ui :react-components-code)  (str component-name))
-           "</pre>"
-           "</div>"
-
-           )
-          )
-
-    (log (keys (get @debugger-ui :react-components-code)))
-
+    (reset! debugger-ui
+            (assoc-in @debugger-ui [:current-component]
+                      component-name))
     ))
 
 
+
+
+(defn component-clicked [x]
+  (do
+    (reset! debugger-ui
+            (assoc-in @debugger-ui [:mode]
+                      "component"))
+    (reset! debugger-ui
+            (assoc-in @debugger-ui [:current-component]
+                      (last (get @debugger-ui :react-components))))
+    ))
 
 
 (defn set-debug-component [component-name]
@@ -437,15 +473,22 @@
                #js {
                   :onMouseEnter #(om/set-state! owner :debug-highlight true)
                   :onMouseLeave #(om/set-state! owner :debug-highlight false)
+                  :onClick component-clicked
                   :style #js {:backgroundColor
-                              (if
-                                (om/get-state owner :debug-highlight)
-                                (do
-                                  (set-debug-component  react-fn-name)
-                                  "lightGray")
-                                (do
-                                  (unset-debug-component  react-fn-name)
-                                  "")                                )}
+
+                                (if
+                                  (om/get-state owner :debug-highlight)
+                                  (do
+                                    (if (= (:mode @debugger-ui) "browse")
+                                      (set-debug-component  react-fn-name))
+                                    "lightGray")
+                                  (do
+                                    (if (= (:mode @debugger-ui) "browse")
+                                    (unset-debug-component  react-fn-name))
+                                    "")
+                                  ""
+                                  )
+                              }
                   } )
 
              (react-fn data)

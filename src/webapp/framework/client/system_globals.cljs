@@ -172,10 +172,11 @@
 
 (def debugger-ui
   (atom {
-         :mode "browse"
-         :react-components []
-         :react-components-code {}
+         :mode                     "browse"
+         :react-components         []
+         :react-components-code    {}
          }))
 
 
-@debugger-ui
+(:mode @debugger-ui )
+(:current-component @debugger-ui )
