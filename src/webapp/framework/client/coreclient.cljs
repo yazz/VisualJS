@@ -369,7 +369,8 @@
     [
      react-fn-name    (get-fn-name (str str-nm ))
      ]
-    (dom/div #js {
+    (dom/div (if js/debug_live
+               #js {
                   :onMouseEnter #(om/set-state! owner :debug-highlight true)
                   :onMouseLeave #(om/set-state! owner :debug-highlight false)
                   :style #js {:backgroundColor
@@ -381,7 +382,7 @@
                                 (do
                                   (unset-debug-component  react-fn-name)
                                   "")                                )}
-                  }
+                  } )
 
              (react-fn data)
              "")))
