@@ -12,8 +12,8 @@
    [webapp.framework.client.system-globals  :only  [touch]]
    )
   (:use-macros
-   [webapp.framework.client.coreclient      :only  [defn-ui-component ns-coils]])
-)
+   [webapp.framework.client.coreclient      :only  [defn-ui-component ns-coils]]))
+
 (ns-coils 'webapp.client.react.components.company-details)
 
 
@@ -25,7 +25,7 @@
 
 
 ;---------------------------------------------------------
-(defn-ui-component   company-details    [company-details]
+(defn-ui-component   company-details2    [company-details]
   {:absolute-path [:ui :company-details]}
 ;---------------------------------------------------------
   (dom/div

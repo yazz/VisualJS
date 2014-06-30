@@ -17,7 +17,7 @@
    [webapp.client.react.components.forms               :only  [request-form]]
    [webapp.client.react.components.login               :only  [login]]
    [webapp.client.react.components.connection-graph    :only  [graph text-graph latest-endorsements]]
-   [webapp.client.react.components.company-details     :only  [company-details]]
+   [webapp.client.react.components.company-details     :only  [company-details2]]
    )
   (:use-macros
    [webapp.framework.client.coreclient      :only  [defn-ui-component ns-coils]]))
@@ -178,7 +178,7 @@
              (= (-> app :ui :tab) "browser")
              (= (-> app :ui :tab-browser) "company"))
 
-             (om/build  company-details   (-> app :ui :company-details))
+             (om/build  company-details2   (-> app :ui :company-details))
 
 
 )))

@@ -327,10 +327,11 @@
 
 
 (defn get-fn-name [x]
-  (clojure.string/replace (second (clojure.string/split (apply str
-                                                               (take-while #(not= %1 "(") x)) #"\s"))
-                          #"_" "-")
-  )
+  (do
+    (clojure.string/replace (second (clojure.string/split (apply str
+                                                                 (take-while #(not= %1 "(") x)) #"\s"))
+                            #"_" "-")
+    ))
 
 
 
@@ -348,8 +349,6 @@
   )
 
 
-
-(def eee (atom 0))
 
 
 (defn  ^:export loadDebugger []
@@ -445,7 +444,7 @@
 (defn debug-react [str-nm owner data react-fn]
   (let
     [
-     react-fn-name    (get-fn-name (str str-nm ))
+     react-fn-name    (get-fn-name (str str-nm))
      ]
     (dom/div (if js/debug_live
                #js {
