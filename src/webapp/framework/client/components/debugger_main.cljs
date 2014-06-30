@@ -39,6 +39,12 @@
                (= (:mode @debugger-ui) "component")
                (dom/h2 nil
                        (dom/div nil (:current-component @debugger-ui))
+                       (dom/button #js {
+                                         :onClick
+                                         (fn[x](om/transact! app [:mode]
+                                                        #(str "browse")))
+
+                                         } "Back")
                        (dom/pre nil
                                 (get
                                  (get @debugger-ui :react-components-code)
