@@ -50,8 +50,7 @@
                                          (fn[x](om/transact! app [:mode]
                                                         #(str "browse")))
 
-                                         } "Back")
-                        (str (get @debugger-ui :react-components)))
+                                         } "Back"))
 
               )))))
 

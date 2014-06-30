@@ -86,7 +86,7 @@
                 :style #js {:marginTop "5px"}}
 
            (dom/span
-            #js {:className "input-group-addon"}
+            #js {:className "input-group-addon" :style #js {:width "200px"}}
              (str text))
 
             (dom/input
@@ -96,6 +96,7 @@
                   :value       (get-in field [:value])
                   :onChange    #(update-field-value  field %1)
                   :onBlur      #(blur-field  field)
+                  :style       #js {:width "100%"}
                   })
 
             (if (not (blank? (get-in field [:error])))

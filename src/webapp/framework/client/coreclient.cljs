@@ -279,7 +279,10 @@
 (defn- xml-str
  "Like clojure.core/str but escapes < > and &."
  [x]
-  (-> x str (.replace "&" "&amp;") (.replace "<" "&lt;") (.replace ">" "&gt;")))
+  (-> x str
+      (clojure.string/replace #"&amp;" "&" )
+      (clojure.string/replace #"&lt;" "<")
+      (clojure.string/replace #"&gt;" ">" )))
 
 
 
@@ -350,8 +353,8 @@
 
 (defn get-fn-name [x]
   (clojure.string/replace (second (clojure.string/split (apply str
-         (take-while #(not= %1 "(") x)) #"\s"))
-       #"_" "-")
+                                                               (take-while #(not= %1 "(") x)) #"\s"))
+                          #"_" "-")
   )
 
 

@@ -1,5 +1,7 @@
 http://127.0.0.1:3000/connecttous.html
 
+http://127.0.0.1:3000/connecttous.html?livedebug=true
+
 http://127.0.0.1:3000/connecttous.html?playback=true
 
 http://127.0.0.1:3000/connecttous.html?debug=true
