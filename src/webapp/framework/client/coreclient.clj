@@ -1,10 +1,9 @@
 (ns webapp.framework.client.coreclient
   [:use [webapp.framework.server.encrypt]]
-     (:use clojure.pprint)
-   (:require [rewrite-clj.parser :as p])
-   (:require [rewrite-clj.printer :as prn])
-
-)
+  (:use clojure.pprint)
+  (:use webapp-config.settings)
+  (:require [rewrite-clj.parser :as p])
+  (:require [rewrite-clj.printer :as prn]))
 
 
 (defmacro log [& x]
@@ -57,39 +56,59 @@
 
 
 
-;(defn ns-coils-debug [] "ZZZ")
-
-(defmacro defn-html [fname args & code]
-  `(do
-        (defn ~fname
-              [~@args]
-
-             (webapp.framework.client.coreclient/debug ~@code ~(str `~fname))
-        )
-
-        (webapp.framework.client.coreclient/makeit2
-             (~'ns-coils-debug)
-             ~(str `~fname) ~(str `~args)
-
-          (str ~(with-out-str   (write (first `~code))
-                                        :dispatch clojure.pprint/code-dispatch))
-        )
-
-
-
-   )
-)
-
-(macroexpand
- '(defn-html
-    forgot-password-button-html
-      [& {:keys [do-after-click]}]
-        do-after-click))
-
 (defmacro ns-coils [namespace-name]
   `(defn ~'ns-coils-debug  [] (str ~namespace-name))
 )
 
 
 ;(macroexpand '(ns-coils dfd))
+
+
+
+(defmacro defn-ui-component [fn-name data-paramater-name opts & code ]
+
+    `(do
+       (defn ~fn-name [~(first data-paramater-name)  ~'owner]
+         (~'reify
+
+          ~'om/IInitState
+          (~'init-state ~'[_]
+                      {:debug-highlight false})
+
+
+           ~'om/IRender
+           (~'render
+            [~'this]
+
+             ~(if *show-code*
+               `(webapp.framework.client.coreclient/debug-react
+                 ~fn-name
+                 ~'owner
+                 ~(first data-paramater-name)
+                 (~'fn [~(first data-paramater-name)]
+                 ~@code))
+                (first code))
+         )))
+
+       (webapp.framework.client.coreclient/record-defn-ui-component
+             (~'ns-coils-debug)
+             ~(str `~fn-name) ~(str `~data-paramater-name)
+
+          (str ~(with-out-str   (write (first `~code))
+                                        :dispatch clojure.pprint/code-dispatch))
+        )
+
+       (~'webapp.framework.client.coreclient/process-ui-component  ~opts)
+
+       ))
+
+
+(macroexpand
+  '(defn-ui-component abc [data] {:path [:ui :request] }
+     (dom/div
+      nil
+      (dom/div nil (str " You asdsddsads" data))
+      )))
+
+
 

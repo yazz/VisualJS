@@ -12,7 +12,12 @@
   [:use [webapp-config.settings]]
   (:use [webapp.framework.server.email-service])
   (:require [clojure.java.io :as io])
+  (:use [webapp.framework.server.globals])
+  (:require [clojurewerkz.neocons.rest :as rest])
 )
+
+
+
 
 
 
@@ -30,7 +35,7 @@
                 (:params params))
              ")")
       ]
-      (println ":" code)
+      ;(println ":" code)
       (pr-str (load-string code))
      ))
 
@@ -42,7 +47,7 @@
 (defn upload-file
   [file]
 
-  (println (str  file))
+  ;(println (str  file))
 
   (io/copy
    (file :tempfile)
@@ -56,6 +61,7 @@
 (defroutes main-routes
   (POST "/:domain/action" {params :params}
     (parse-params  params))
+
   (POST "/action" {params :params}
     (parse-params  params))
 
@@ -66,18 +72,45 @@
              (upload-file (get params "file")))))
 
 
-  (GET "/" [] (resp/redirect *main-page*))
+
+
+
+  (GET "/" []
+       (resp/resource-response (str *main-page*) {:root "public"}))
+
+
 
   (route/resources "/:domain/")
   (route/resources "/")
 
 
 
-  (route/not-found "<h1>Page not found</h1>")
+  (ANY "/*:name" [name]
+       (.replaceFirst
+        (slurp (:body
+                (resp/resource-response (str *main-page*) {:root "public"})
+                ))
+       "addparam2" name))
+;       (resp/resource-response (str *main-page* "?add=" name) {:root "public"}))
+;       (resp/redirect (str *main-page* "?addparam=" name)))
 )
 
 
 
+(comment .replaceFirst
+        (slurp (:body
+                (resp/resource-response (str *main-page*) {:root "public"})
+                ))
+       "ConnectToUs" "xxx")
+
+(comment :body (rest/GET
+
+        (str (clojure.java.io/resource (str "public/" *main-page*)))
+
+        ))
+
+
+        (str (clojure.java.io/resource (str "public/" *main-page*)))
 
 
 (defn wrap-dir-index [handler]
@@ -94,7 +127,5 @@
     (-> (handler/api main-routes)
         (wrap-json-params)
 ))
-
-
 
 

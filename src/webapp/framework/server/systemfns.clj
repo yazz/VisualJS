@@ -12,6 +12,8 @@
   (:require [clojurewerkz.neocons.rest.cypher :as cy])
   (:require [clojure.edn :as edn])
   (:use [clojure.pprint])
+  (:import [java.util.UUID])
+  [:use [webapp.framework.server.db-helper]]
 )
 
 
@@ -33,7 +35,7 @@
     (let [sql             (decrypt coded-sql)
           lower           (.toLowerCase sql)
           ]
-      (println "SQL from client: " coded-sql " -> " sql)
+      ;(println "SQL from client: " coded-sql " -> " sql)
       (cond
        (.startsWith lower "select")  (do (println "SELECT") (exec-raw [sql params] :results))
        :else                         (do (println "INSERT") (exec-raw [sql params]) [])
@@ -51,17 +53,16 @@
 
 
 
-
 (defn !neo4j [{coded-cypher :cypher params :params}]
   (do
     (let [cypher          (decrypt coded-cypher)
-          lower           (.toLowerCase cypher)
           ]
-      (println "Cypher from client: " coded-cypher " -> " cypher)
-      (cy/tquery cypher params)
+          ;(println "Cypher from client: " coded-cypher " -> " cypher)
+          (nh/neo4j  cypher  params)
     ))
   )
 
+;(!neo4j {:cypher (encrypt "match n return count(n)") :params {} })
 
 
 
@@ -74,8 +75,8 @@
     (let [cypher          (decrypt coded-cypher)
           lower           (.toLowerCase cypher)
           ]
-      (println "Cypher from client: " coded-cypher " -> " cypher)
-      (nh/get-nodes   cypher  params  return)
+      ;(println "Cypher from client: " coded-cypher " -> " cypher)
+      (nh/neo4j   cypher  params  return)
     ))
   )
 
@@ -162,5 +163,83 @@
                ;:params   {:ids (map :id [bob])}}))
 
 
+
+
+(defn !add-history [{:keys [session-id  history-order  timestamp  path new-value]}]
+    ;(println (str "** history-order "    history-order))
+    ;(println (str "** path "             path))
+    ;(println (str "** new-value "        new-value))
+    ;(println (str "** timestamp "        timestamp))
+    ;(println (str "** session "          session-id))
+
+    (let [session  (first (nh/neo4j "match (n:WebSession)
+                                 where n.session_id={si}
+                                 return n " {:si session-id} "n"))
+          ]
+      (if session
+        (let [
+
+              web-record        (first (nh/neo4j "create  (n:WebRecord
+                                              {
+                                              session_id:           {session_id},
+                                              seq_ord:              {seq_ord},
+                                              path:                 {path},
+                                              new_value:            {new_value},
+                                              timestamp:            {timestamp}
+                                              }) return n"
+                                              {
+                                               :session_id  session-id
+                                               :seq_ord     history-order
+                                               :path        (str path)
+                                               :new_value   (str new-value)
+                                               :timestamp   timestamp
+                                               }
+                                              "n"))
+              ]
+          (do
+            ;(println session)
+            ;(println web-record)
+            (nh/neo4j "match n, m
+                   where id(n)={ws} and id(m)={wr}
+                   create (n)-[:SAVED]->(m)
+                   " {:ws (:neo-id session) :wr (:neo-id web-record)})
+
+            []
+            )
+
+          )
+        []
+        )))
+
+
+
+
+
+;----------------------------------------------------------------
+(defn !create-session
+  [{:keys [init-state browser]}]
+  ;----------------------------------------------------------------
+  (let [
+        session-id    (uuid-str)
+        ]
+
+    (nh/neo4j "create  (n:WebSession
+           {
+           session_id:           {session_id},
+           init_state:           {init_state},
+           start_time:           {start_time},
+           browser:              {browser}
+
+           }) return n"
+
+           {
+            :session_id    session-id
+            :init_state    init-state
+            :browser       browser
+            :start_time    (. (java.util.Date.) getTime)
+            }
+           "n")
+    {:value session-id}
+    ))
 
 

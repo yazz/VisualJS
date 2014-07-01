@@ -2,7 +2,6 @@
  (:refer-clojure :exclude [val empty remove find next parents])
     (:require
         [cljs.reader                     :as reader]
-        [crate.core                      :as crate]
         [cljs.core.async                 :as async :refer [chan close!]]
     )
 
@@ -10,41 +9,33 @@
     [cljs.core.async.macros :refer [go alt!]])
 
   (:use
-        [webapp.framework.client.coreclient  :only [popup do-before-remove-element new-dom-id find-el clj-to-js sql-fn
-                                                    header-text body-text
-                                                    body-html make-sidebar swap-section  el clear remote
-                                                    value-of add-to show-popover
-                                                    ]]
-        [webapp.framework.client.neo4j       :only [neo4j-fn neo-result]]
-        [jayq.core                           :only [attr $ css append fade-out fade-in empty]]
-        [webapp.framework.client.eventbus    :only [do-action esb undefine-action]]
-        [webapp.client.session               :only [the-map]]
+        [webapp.framework.client.coreclient  :only [remote]]
+        [webapp.framework.client.neo4j       :only [neo4j-fn]]
     )
     (:use-macros
-        [webapp.framework.client.eventbus    :only [define-action redefine-action]]
-        [webapp.framework.client.coreclient  :only [ns-coils defn-html on-click on-mouseover sql log neo4j]]
-        [webapp.framework.client.neo4j       :only [neo4j neo4j-nodes]]
+        [webapp.framework.client.coreclient  :only [ns-coils sql log neo4j]]
+        [webapp.framework.client.neo4j       :only [neo4j]]
      )
 )
 (ns-coils 'webapp)
 
 
 ; return the raw data for a neo4j node
-( go
+(comment go
     (.log js/console (str (<! (neo4j "START x = node(*) RETURN count(x) LIMIT 1" {} ))))
 )
 
 
 
 
-( go (log (str (<!
-  (neo4j-nodes
+(comment go (log (str (<!
+  (neo4j
    "create (u:User { email : { email2 }, title : 'Developer' }) return u"
    {:email2 "dfsfdsf@gmail.com"} "u")))))
 
 
-( go (log (str (<!
-  (neo4j-nodes
+(comment go (log (str (<!
+  (neo4j
    "create (u:User { email : { email2 }, title : 'Developer' }) return u"
    {:email2 "dffds@gmail.com"} "u")))))
 
