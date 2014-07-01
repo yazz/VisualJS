@@ -8,9 +8,6 @@
    [clojure.data     :as data]
    [clojure.string   :as string]
    [ankha.core       :as ankha]
-   [webapp.client.timers]
-   [webapp.client.data-tree]
-   [webapp.client.ui-tree]
    )
   (:use
    [webapp.client.ui-helpers                :only  [validate-email validate-full-name  validate-endorsement]]
