@@ -1,4 +1,4 @@
-(ns webapp.client.init
+(ns webapp.framework.client.init
   (:require
    [goog.net.cookies :as cookie]
    [om.core          :as om :include-macros true]
@@ -10,7 +10,7 @@
    [ankha.core       :as ankha]
    )
   (:use
-   [webapp.client.ui-helpers                :only  [validate-email validate-full-name  validate-endorsement]]
+   [webapp.framework.client.ui-helpers                :only  [validate-email validate-full-name  validate-endorsement]]
    [webapp.framework.client.helper                    :only  [when-path-equals when-value-changes]]
    [webapp.framework.client.coreclient      :only  [log remote]]
    [webapp.framework.client.system-globals  :only  [app-state   playback-app-state
@@ -23,7 +23,7 @@
                                                     set-ab-tests
                                                     set-ab-goals
                                                     ]]
-   [webapp.client.react.views.main                    :only   [main-view]]
+   [webapp.framework.client.components.main                    :only   [main-view]]
    [clojure.string :only [blank?]]
    )
    (:require-macros
