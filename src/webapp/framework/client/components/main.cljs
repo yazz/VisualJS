@@ -43,6 +43,7 @@
 ;------------------------------------------------------------
 
   (dom/div nil
-           (dom/h2 nil "ConnectToUs.co")
+           (dom/h2 nil "Coils")
+           "Build webapps with Neo4j"
 
 ))
