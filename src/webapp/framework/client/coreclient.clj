@@ -7,11 +7,17 @@
 
 
 (defmacro log [& x]
+  `(comment ~@ x))
+
+
+
+(defmacro log2 [& x]
   `(.log js/console (str
                      ~@ x
                      ))
 )
 
+(macroexpand '(log "a" "b"))
 
 
 (defmacro on-click [el & code]
@@ -49,12 +55,6 @@
 
 
 
-(defn- xml-str
- "Like clojure.core/str but escapes < > and &."
- [x]
-  (-> x str (.replace "&" "&amp;") (.replace "<" "&lt;") (.replace ">" "&gt;")))
-
-
 
 (defmacro ns-coils [namespace-name]
   `(defn ~'ns-coils-debug  [] (str ~namespace-name))
@@ -68,6 +68,15 @@
 (defmacro defn-ui-component [fn-name data-paramater-name opts & code ]
 
     `(do
+
+       (webapp.framework.client.coreclient/record-defn-ui-component
+             (~'ns-coils-debug)
+             ~(str `~fn-name) ~(str `~data-paramater-name)
+
+          (str ~(with-out-str   (write (first `~code))
+                                        :dispatch clojure.pprint/code-dispatch))
+        )
+
        (defn ~fn-name [~(first data-paramater-name)  ~'owner]
          (~'reify
 
@@ -82,7 +91,7 @@
 
              ~(if *show-code*
                `(webapp.framework.client.coreclient/debug-react
-                 ~fn-name
+                 ~(str `~fn-name)
                  ~'owner
                  ~(first data-paramater-name)
                  (~'fn [~(first data-paramater-name)]
@@ -90,13 +99,6 @@
                 (first code))
          )))
 
-       (webapp.framework.client.coreclient/record-defn-ui-component
-             (~'ns-coils-debug)
-             ~(str `~fn-name) ~(str `~data-paramater-name)
-
-          (str ~(with-out-str   (write (first `~code))
-                                        :dispatch clojure.pprint/code-dispatch))
-        )
 
        (~'webapp.framework.client.coreclient/process-ui-component  ~opts)
 
@@ -109,6 +111,17 @@
       nil
       (dom/div nil (str " You asdsddsads" data))
       )))
+
+
+
+
+(defmacro div [attributes & more]
+  `(dom/div  (webapp.framework.client.coreclient/attrs ~attributes) ~@more))
+(defmacro a [attributes & more]
+  `(dom/a  (webapp.framework.client.coreclient/attrs ~attributes) ~@more))
+(defmacro h2 [attributes & more]
+  `(dom/h2  (webapp.framework.client.coreclient/attrs ~attributes) ~@more))
+
 
 
 

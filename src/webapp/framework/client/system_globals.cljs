@@ -125,7 +125,7 @@
 
 (defn add-init-state-fn [nm init-state-fn]
   (do
-    (.log js/console (str "Init function added: " nm))
+    ;(.log js/console (str "Init function added: " nm))
     (swap!  init-state-fns conj init-state-fn)))
 
 
@@ -158,16 +158,18 @@
 
 
 
-(def timeline (atom {}))
+(def debug-event-timeline (atom {}))
 
-(add-watch timeline  :change
+(add-watch debug-event-timeline
+           :change
+
            (fn [_ _ old-val new-val]
-             (. js/console log (str "***** " new-val))
+             ;(. js/console log (str "***** " new-val))
+             nil
              )
            )
 
 
-(swap! timeline assoc :2432 {:a 243})
 
 
 (def debugger-ui
@@ -175,10 +177,70 @@
          :mode                     "browse"
          :react-components         []
          :react-components-code    {}
+         :pos 1
+         :total-events-count 0
          }))
 
 
-(:mode @debugger-ui )
-(:current-component @debugger-ui )
+(def debug-count (atom 0))
+(defn add-debug-event [& {:keys [
+                                 new
+                                 error
+                                 ] :or {
+                                        error          "Error in field"
+                                        }}]
 
 
+  (swap! debug-event-timeline assoc
+         (swap! debug-count inc) {:value new})
+
+  (reset! debugger-ui
+          (assoc @debugger-ui
+         :total-events-count (count @debug-event-timeline)))
+
+  (if (> (+ (:pos @debugger-ui) 5) (:total-events-count @debugger-ui))
+    (reset! debugger-ui
+            (assoc @debugger-ui
+              :pos (:total-events-count @debugger-ui))))
+
+  )
+
+
+(def data-and-ui-events-on? (atom true))
+
+
+(add-watch debugger-ui
+           :change-debugger-ui
+
+           (fn [_ _ old-val new-val]
+
+             (if
+               (or
+                (= js/debug_live false)
+                (= (new-val :pos) (new-val :total-events-count))
+                )
+               (reset! data-and-ui-events-on? true)
+               (reset! data-and-ui-events-on? false)
+             )
+             ;(. js/console log (pr-str new-val))
+
+             )
+           )
+
+
+
+(def app-watch-on? (atom true))
+(add-watch app-state
+           :change
+
+           (fn [_ _ old-val new-val]
+             (if @app-watch-on?
+             (add-debug-event   :new new-val  )
+             ))
+           )
+
+(+ (:pos @debugger-ui ) 5)
+(:total-events-count @debugger-ui )
+
+
+(get @debug-event-timeline 20)

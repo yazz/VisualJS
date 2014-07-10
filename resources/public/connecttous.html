@@ -54,7 +54,7 @@
         <![endif]-->
         <script type="text/javascript" src="react.min.js"></script>
 
-        <title>Coils - Build WebApps with Neo4j</title>
+        <title>ConnectToUs.co 0.4</title>
         <style>
             body
             {
@@ -161,7 +161,7 @@
             {
                 if (addparam.charAt(0)=='*')
                 {
-                    //webapp.client.links.confirmLink(addparam.substring(1));
+                    webapp.client.links.confirmLink(addparam.substring(1));
                 }
             }
             else
@@ -184,18 +184,18 @@
                         if (webapp.framework.client.main) {
                             if (playback) {
                                 webapp.framework.client.main.load_admin(
-                                    webapp.framework.client.init.main,
-                                    webapp.framework.client.init.setup);
+                                    webapp.client.init.main,
+                                    webapp.client.init.setup);
                             }
                             else if (debug) {
                                 webapp.framework.client.main.load_debug(
-                                    webapp.framework.client.init.main,
-                                    webapp.framework.client.init.setup);
+                                    webapp.client.init.main,
+                                    webapp.client.init.setup);
                             }
                             else {
                                 webapp.framework.client.main.load_main(
-                                    webapp.framework.client.init.main,
-                                    webapp.framework.client.init.setup);
+                                    webapp.client.init.main,
+                                    webapp.client.init.setup);
                             };
                         };
                     }
