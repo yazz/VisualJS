@@ -14,7 +14,9 @@ Wow! Suddenly the world opened up for Zubair and he realised there was a better 
 
 That project was NemCV, and it is the CV system for Denmark. Seeing that there was alot of good work in NemCV that could be reused Zubair took inspiration from Ruby on Rails, which coincidently also came from Denmark, where a developer called David Heinemeier Hansson made Ruby on Rails based on a project called BaseCamp which he had made. So thus, Coils was born!
 
-After around a year of development of Coils Zubair realised that to make development even simpler the new breed of Graph Databases could be used, and decided to base Coils around Neo4j. Then he also discovered Facebook React and Reactive programming and incorporated this into Coils. However, there was still something missing, and this piece of the puzzle fell into place when Zubair's business partner in NemCV, Franco Soldera introduced Zubair to Meteor, a realtime Javascript framework which had both Reactive capabilities and also excellent databinding capabilities.
+After around a year of development of Coils Zubair realised that to make development even simpler the new breed of Graph Databases could be used, and decided to base Coils around Neo4j. Then he also discovered Facebook React and Reactive programming and incorporated this into Coils. However, there was still something missing, and this piece of the puzzle fell into place when Zubair's business partner in NemCV, Franco Soldera introduced Zubair to Meteor, a realtime Javascript framework which had both Reactive capabilities and also excellent databinding capabilities. In my opinion Meteor is the best client side Javascript framework that I have seen (and yes, I have seen Angular, Ember and Knockout). The reason I love it is not just because of its featues, but also because it is opinionated, which solves the problem of having to continually choose which Javascript frameworks to choose, thereby saving alot of time.
+
+
 
 
 
