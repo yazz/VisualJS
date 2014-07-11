@@ -1,55 +1,38 @@
-Clojure-on-Coils
-================
+           Coils
+============================
+Build Neo4j Web Applications
 
-                   
-        
-                   ...Z:~~~~=~~=:$.             
-                ..Z~~~~~=7I~~?7+~~~~~O..        
-              ..:~~~= ......... ...~~~~=..      
-            . I~~+....~=~~~~~~~~~~ ...~~~?.     
-            .~~~....~~~~~?....?=~~~:....~~$.    
-           .~~?...:~~$ .. .....  .+~~=...=~$    
-          .+~:  .~~~....:~~~~~~~,...:~~...~~ .               .__.__           
-          ~~~...=~?...=~~7....$~~~...+~=. 7~~.    ____  ____ |__|  |   ______        ____  ____  
-          :~7..~~$ .7~~?.. ..  .$~~:..~~7..~~.   / ___\/  _ \ __|  |  /  ___/       / ___\/ ___\ 
-          ~~. +~~...~~.    ..   .~~~ .?~~..~~7  |  \__(  <_> )  |  |__\___ \       |  \__\  \___ 
-         .~~..~~7..+~I.  .........:~=..~~..7~+   \____ \____/|__|____/_____/   /\   \____/ ____/
-         ,~~I+~~?:O~~~?..........:I?$. ~~. I~~                                 \/        
-         .~~.~~~I..~~?.    .. 8=~    .I~~..7~?  
-         .~~..I~~..$~~  .IZ..        .~~I..~~+  
-          ~~=..~~...~~Z..  ..      ..~~~..I~~.  
-          Z~:..$~:...~~=.  ..  ... $~~Z...~~,.  
-          .~~$..:~=...I~~~?=...=+~~~~....~~Z..  
-          ..~~...:~~....,~~~~~~~~~=....7~~=.    
-            7~~,. Z~~:.........  ....?~~~.      
-            .,~~$...?~~=~Z.......O~~~~:...      
-              .:~~?.. .I=~~~~~~~~~~I.. .        
-                ,~~~=.. ......... .             
-                 ..?~~~~=7=....                 
-                  ....=?~~~~~I.                 
-                       ........     
-                       
 
-Painless Clojure web development
---------------------------------
+              .__.__
+   ____  ____ |__|  |   ______        ____  ____
+  / ___\/  _ \ __|  |  /  ___/       / ___\/ ___\
+ |  \__(  <_> )  |  |__\___ \       |  \__\  \___
+  \____ \____/|__|____/_____/   /\   \____/ ____/
+                                \/
 
-Clojure-on-Coils was born out of a web developer's pain over many years from both web and desktop software development. Zubair Quraishi started in the early 1990s as a C++ programmer, and then moved to Java, and got heavily involved in Java web applications, only to find the whole develop, compile, test loop hugely cumbersome and time wasting. 
+
+Painless Web Applications for Neo4j
+-----------------------------------
+
+Originally called Clojure-on-Coils, and now shortened to just "Coils", this framework was born out of one web developer's pain over many years from both web and desktop software development. Zubair Quraishi started in the early 1990s as a C++ programmer, and then moved to Java, and got heavily involved in Java web applications, only to find the whole develop, compile, test loop hugely cumbersome and time wasting.
 
 Then one day, like many developers before him, around 2008, he discovered Ruby on Rails.
 
 Wow! Suddenly the world opened up for Zubair and he realised there was a better way with interactive languages and easy SQL queries. Soon however, he became frustrated again, as with Rails everything was generated on the server and control of the web page on the client was not fine-grained enough. So, in true developer style, Zubair took the long and painful route, going to Erlang, Clojure and Vaadin, Grails, JQuery, Javascript, Google Closure, Dart, and finally deciding to use Clojurescript for a project he was involved with.
 
-That project was NemCV, and it is the CV system for Denmark. Seeing that there was alot of good work in NemCV that could be reused Zubair took inspiration from Ruby on Rails, which coincidently also came from Denmark, where a developer called David Heinemeier Hansson made Ruby on Rails based on a project called BaseCamp which he had made. So thus, Clojure-on-Coils was born!
+That project was NemCV, and it is the CV system for Denmark. Seeing that there was alot of good work in NemCV that could be reused Zubair took inspiration from Ruby on Rails, which coincidently also came from Denmark, where a developer called David Heinemeier Hansson made Ruby on Rails based on a project called BaseCamp which he had made. So thus, Coils was born!
+
+After around a year of development of Clojure on Coils Zubair realised that to make development even simpler the new breed of Graph Databases could be used, and decided to base Coils around Neo4j.
 
 
 
 
 
 
-What is Clojure-on-Coils?
+What is Coils?
 -------------------------
 
-Coils is a web framework where development is done in Clojure and Clojurescript and the software runs on the JVM so it can be deployed on any Java web or application server, including Jetty, Tomcat, JBoss, Glassfish, Weblogic, or Websphere. 
+Coils is a web framework where development is done in Clojure and Clojurescript and the software runs on the JVM so it can be deployed on any Java web or application server, including Jetty, Tomcat, JBoss, Glassfish, Weblogic, or Websphere.
 
 A few notes:
 
@@ -60,14 +43,42 @@ A few notes:
 
 
 
+Deprecated features from April 2013 to July 2014
+------------------------------------------------
+In 2013 Facebook created React, a Virtual Dom based Javascript library. David Nolen then created Om, a ClojureScript wrapper on top of React, which changed the ClojureScript client side story forever! Upon seeing Om I immediately knew that this was the future of ClojureScript development, using a Reactive GUI paradigm, also similar to Angular.js, Ember.js, and Meteor. So I had to take the tough decision to deprecate almost the whole UI that I had created in the previous version of Clojure on Coils. So the following features are now a thing of the past:
+
+- Can use Crate for HTML.
+- Uses Dommy.
+- Uses Domina.
+- JayQ for JQuery integration.
+- Google Closure UI Library - the same library used to build Google.com, Gmail, and Google+.
+- Google Maps integration for AJAX-based maps. (Can be swapped on/off.)
+
+:and the following things stay:
+
+- Interactive client and server side development with LightTable IDE.
+- Integration with Mandrill for sending transactional emails.
+- Twitter Bootstrap 3.0 for styling.
+- Google Closure for advanced compression.
+- clj-http for server side HTTP requests.
+- SQL Korma for database requests.
+- Neocons for Neo4j access.
+- Compojure, Ring, and Shoreleave for server side code.
+- core.async for a client-side synchronous programming model.
+
+The reason for the discontinued features is that they all require explicit calls to manipulate the DOM, which is oppisite to the way that Facebook React works.
+
+If you still wish to use the discontinued features then use an older version of the Coils framework.
+
+
 
 Unique features
 ---------------
 
-- Click on the Coils.cc logo in the top left of the screen to toggle the debug mode, then click on any element to see the code used to generate that element.
+- Build the default app and then click on debug at the top anfd you can Browse the source code behind any GUI element by left clicking on the element
 
 - Secure client side SQL. All calls are encrypted and use a server side key to avoid SQL injection attacks, yet at the same time the SQL calls appearing in client side code are easy to understand.
- 
+
 - Secure client Neo4j Cypher. All calls are encrypted and use a server side key to avoid Cypher injection attacks, yet at the same time the Cypher calls appearing in client side code are easy to understand.
 
 - Web development without callback hell. Coils uses Clojure's core.async library to set of sychronous server side calls.
@@ -77,35 +88,26 @@ Unique features
 All features
 ------------
 
-- Interactive client and server side development with LightTable IDE.
+- Clojurescript Om by David Nolen
+- Records all web sessions for playback to understand customer behaviour
+- AB testing built in
+- Interactive client and server side development with LightTable IDE
+- Integration with Mandrill for sending transactional emails
+- Twitter Bootstrap 3.x for styling
+- Google Closure for advanced compression
+- clj-http for server side HTTP requests
+- SQL Korma for database requests
+- Neocons for Neo4j access
+- Compojure, Ring, and Shoreleave for server side code
+- core.async for a client-side synchronous programming model
 
-- Integration with Mandrill for sending transactional emails.
 
-- Twitter Bootstrap 3.0 for styling.
 
-- Can use Crate for HTML.
 
-- Uses Dommy.
+Differences from Om
+-------------------
+The only part of Om that Coils uses is the rendering engine and the change listeners (for GUI playback). This means that Coils does not use the component local state features on Om. The implications of this are very important. For example, in Om when the end user clicks on a button in a react/Om component then the button event will be passed back via a core.sync channel. However, in Coils, when the user presses a button then the Application model used to generate the DOM itself is changed, with a property :click being set to true. This :click property is then watched via an event watcher to make any changes.
 
-- Uses Domina.
-
-- JayQ for JQuery integration.
-
-- Google Closure for advanced compression.
-
-- Google Closure UI Library - the same library used to build Google.com, Gmail, and Google+.
-
-- clj-http for server side HTTP requests.
-
-- SQL Korma for database requests.
-
-- Neocons for Neo4j access.
-
-- Compojure, Ring, and Shoreleave for server side code.
-
-- core.async for a client-side synchronous programming model.
-
-- Google Maps integration for AJAX-based maps. (Can be swapped on/off.)
 
 
 
@@ -120,11 +122,16 @@ The website for this project is online at [coils.cc](http://coils.cc).
 Comparison with other Clojure web frameworks
 --------------------------------------------
 
+[Hoplon](http://http://hoplon.io/) - In my mind Hoplon is the most complete of all the Clojure web frameworks, and I think that Coils is still No.2 when compared to Hoplon. Hoplon uses Reactive programming and
+
+<br>
+
+
 [Luminus](http://www.luminusweb.net/) - The main difference between Luminus and Clojure-on-Coils is that Luminus uses a HTML templating system for rendering web pages, whereas Coils currently only supports rendering from within Clojure itself. This makes Luminus at the moment a better choice for companies with seperate design and development teams. Designers will be more comfortable working in clean HTML files.
 
 <br>
 
-[Pedestal](http://pedestal.io/) - Pedestal is an amazing Clojure web framework made by the main Clojure developers at [Relevance](http://thinkrelevance.com/). It has a number of differences to Clojure-on-Coils, the main one being that Pedestal does not support Windows environments, whereas Coils works fine on Windows.
+[Pedestal](http://pedestal.io/) - Pedestal is an amazing Clojure web framework made by the main Clojure developers at [Relevance](http://thinkrelevance.com/). It has a number of differences to Clojure-on-Coils, the main one being that Pedestal does not support Windows environments, whereas Coils works fine on Windows. Took the Data and Application model from here.
 
 
 
@@ -164,7 +171,7 @@ Anatomy of a Coils application
                              ...
                     server
                         └ fns.clj - server side functions go here
-                        
+
                     framework
                         └ client
                               ...
@@ -229,14 +236,14 @@ Adding debuggable elements to the page
                            :class "pull-left"
                            :style "margin-right: 20px; margin-top:10px;"
              })
-         
+
              (el :button
                           {:id      "logout-button"
                            :class   "btn btn-default "
                            :text    "Logout"
                            :style   "margin-right: 20px;"
                            :onclick #(do-action "show login signup panel")})
-                        
+
              (el :button
                           {:id      "settings-button"
                            :class   "btn btn-default"
@@ -313,7 +320,7 @@ Please note that the raw Cypher code is not visible from web browsers as it is e
 How secure client side SQL works
 --------------------------------
 
-It may seem strange that you can call SQL synchronously from the client yet the call is sent to the server, is secure, and behaves asynchronous internally. Welcome to the world of Lisp! 
+It may seem strange that you can call SQL synchronously from the client yet the call is sent to the server, is secure, and behaves asynchronous internally. Welcome to the world of Lisp!
 
 To understand a bit more about this you need to realise that Clojure is an implementation of Lisp for the JVM, and Clojurescript is Lisp on Javascript. Lisp itself has alot of special features which are not available in other languages, such as the ability to write code itself, also known as Lisp Macros. This ability is not available as a first class feature in any other language!
 
@@ -328,7 +335,7 @@ When you make a client side SQL/Cypher call it is encyrpted using a Macro at com
         `(webapp.framework.client.coreclient.sql-fn
             ~(encrypt sql-str)
             ~params))
-    
+
 This means that the string in a client side call...
 
     (go
@@ -369,44 +376,44 @@ There are many library functions available, although it is a bit of a mess havin
          )
     )
     (ns-coils 'webapp.client.views.loginpanel)
-    
 
 
-    
+
+
 **show-popover** - Shows a Bootstrap 3 style popover above an element
 
-    (show-popover   "email-input"  
+    (show-popover   "email-input"
                     "Email can not be blank")
-                    
-    (show-popover   "password-input"  
+
+    (show-popover   "password-input"
                     "Password is incorrect"
                     {:placement "top"})
-                    
-                    
-                    
+
+
+
 **swap-section** - Swaps a HTML element with a new element
 
-    (swap-section   "my-section"  
+    (swap-section   "my-section"
                     "<div>Replace the element with ID my-section" with this text</div>")
-    
-    
-  
+
+
+
 **do-action** - Puts a message onto the service bus. This can be picked up by zero or more receivers
 
-    (do-action  "say-hello")  
+    (do-action  "say-hello")
 
 
 
 **define-action** - Acts on a message sent to the service bus
 
     (define-action  "say-hello"
-      (.log js/console "Hello"))  
+      (.log js/console "Hello"))
 
 
 
 **do-action message** - Puts a message onto the service bus with paramters. This can be picked up by zero or more receivers
 
-    (do-action  "say-hello" {:name "Peter"})  
+    (do-action  "say-hello" {:name "Peter"})
 
 
 
@@ -414,12 +421,12 @@ There are many library functions available, although it is a bit of a mess havin
 **define-action** - Acts on a message sent to the service bus. Please note that the message is an implicitly defined variable in an action
 
     (define-action  "say-hello"
-      (.log js/console (str "Hello" (:name message))))  
+      (.log js/console (str "Hello" (:name message))))
 
-  
-    
-  
-    
+
+
+
+
 **sql** - Calls the server and executes SQL and returns it to the client
 
     (go
@@ -433,24 +440,24 @@ There are many library functions available, although it is a bit of a mess havin
 **set-text** - Set the text of an element
 
     (set-text "message-element" "You must enter an email address")
- 
-    
-    
-    
+
+
+
+
 Deploying an application to a Java server
 -------------------------------------------------------
 
     mkdir srcprod && cd srcprod
     mkdir webapp_config && cd webapp_config
-    
+
     touch settings.clj
     ... copy and amend the settings from coils/srcdev/webapp_config/settings.clj ...
-    
+
     cd ../../coils
-    
+
     lein with-profile prod cljsbuild clean
     lein with-profile prod cljsbuild once
-    
+
     lein with-profile prod ring uberwar
     ... deploy the resulting war file ...
 
