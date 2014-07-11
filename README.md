@@ -3,8 +3,8 @@ Coils - Build Neo4j Web Applications
 
 
 
-Painless Web Applications for Neo4j
------------------------------------
+Introduction
+------------
 
 Originally called Clojure-on-Coils, and now shortened to just "Coils", this framework was born out of one web developer's pain over many years with both web and desktop software development. Zubair Quraishi started in the early 1990s as a C++ programmer, and then moved to Java, and got heavily involved in Java web applications, only to find the whole develop, compile, test loop hugely cumbersome and time wasting.
 
