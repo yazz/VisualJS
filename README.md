@@ -6,15 +6,15 @@ Coils - Build Neo4j Web Applications
 Painless Web Applications for Neo4j
 -----------------------------------
 
-Originally called Clojure-on-Coils, and now shortened to just "Coils", this framework was born out of one web developer's pain over many years from both web and desktop software development. Zubair Quraishi started in the early 1990s as a C++ programmer, and then moved to Java, and got heavily involved in Java web applications, only to find the whole develop, compile, test loop hugely cumbersome and time wasting.
+Originally called Clojure-on-Coils, and now shortened to just "Coils", this framework was born out of one web developer's pain over many years with both web and desktop software development. Zubair Quraishi started in the early 1990s as a C++ programmer, and then moved to Java, and got heavily involved in Java web applications, only to find the whole develop, compile, test loop hugely cumbersome and time wasting.
 
 Then one day, like many developers before him, around 2008, he discovered Ruby on Rails.
 
-Wow! Suddenly the world opened up for Zubair and he realised there was a better way with interactive languages and easy SQL queries. Soon however, he became frustrated again, as with Rails everything was generated on the server and control of the web page on the client was not fine-grained enough. So, in true developer style, Zubair took the long and painful route, going to Erlang, Clojure and Vaadin, Grails, JQuery, Javascript, Google Closure, Dart, and finally deciding to use Clojurescript for a project he was involved with.
+Wow! Suddenly the world opened up for Zubair and he realised there was a better way to develop web software by using interactive languages such as Ruby and easy SQL queries via ActiveRecord. Soon however, he became frustrated again, as with Rails everything was generated on the server and control of the web page on the client was not fine-grained enough. So, in true developer style, Zubair took the long and painful route, going to Erlang, Clojure and Vaadin, Grails, JQuery, Javascript, Google Closure, Dart, and finally deciding to use Clojurescript for a project he was involved with.
 
 That project was NemCV, and it is the CV system for Denmark. Seeing that there was alot of good work in NemCV that could be reused Zubair took inspiration from Ruby on Rails, which coincidently also came from Denmark, where a developer called David Heinemeier Hansson made Ruby on Rails based on a project called BaseCamp which he had made. So thus, Coils was born!
 
-After around a year of development of Clojure on Coils Zubair realised that to make development even simpler the new breed of Graph Databases could be used, and decided to base Coils around Neo4j.
+After around a year of development of Coils Zubair realised that to make development even simpler the new breed of Graph Databases could be used, and decided to base Coils around Neo4j. Then he also discovered Facebook React and Reactive programming and incorporated this into Coils. However, there was still something missing, and this piece of the puzzle fell into place when Zubair's business partner in NemCV, Franco Soldera introduced Zubair to Meteor, a realtime Javascript framework which had both Reactive capabilities and also excellent databinding capabilities.
 
 
 
