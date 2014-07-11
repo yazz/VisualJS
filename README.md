@@ -1,6 +1,6 @@
-           Coils
-============================
-Build Neo4j Web Applications
+Coils - Build Neo4j Web Applications
+====================================
+
 
 
 Painless Web Applications for Neo4j
