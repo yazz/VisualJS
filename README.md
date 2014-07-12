@@ -137,8 +137,7 @@ Installation
 
     - Install Coils from Github:
 
-    mkdir my_new_application
-    git clone https://github.com/zubairq/coils.git
+    git clone  https://github.com/zubairq/coils.git  my_new_application
 
 
 
@@ -153,7 +152,7 @@ Installation
 Anatomy of a Coils application
 ------------------------------
 
-    coils
+    my_new_application
         └ README.md
           project.clj
 
@@ -202,7 +201,7 @@ Getting started
 
 1) Compile clojurescript and Start the self-refreshing web server:
 
-    cd <coils app name>
+    cd my_new_application
     lein with-profile base cljsbuild clean
     lein with-profile base cljsbuild once
     lein with-profile base ring server
