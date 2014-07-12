@@ -6,17 +6,17 @@ Coils - Build Neo4j Web Applications
 Introduction
 ------------
 
-Originally called Clojure-on-Coils, and now shortened to just "Coils", this framework was born out of one web developer's pain over many years with both web and desktop software development. Zubair Quraishi started in the early 1990s as a C++ programmer, and then moved to Java, and got heavily involved in Java web applications, only to find the whole develop, compile, test loop hugely cumbersome and time wasting.
+Originally called Clojure-on-Coils, and now shortened to just "Coils", this framework was born out of one web developer's pain over many years developing both web and desktop software. Zubair Quraishi started professionally in the early 1990s as a C++ programmer, and then moved to Java, and got heavily involved in Java web applications, only to find the whole develop, compile, test loop hugely cumbersome and time wasting.
 
 Then one day, like many developers before him, around 2008, he discovered Ruby on Rails.
 
-Wow! Suddenly the world opened up for Zubair and he realised there was a better way to develop web software by using interactive languages such as Ruby and easy SQL queries via ActiveRecord. Soon however, he became frustrated again, as with Rails everything was generated on the server and control of the web page on the client was not fine-grained enough. So, in true developer style, Zubair took the long and painful route, going to Erlang, Clojure and Vaadin, Grails, JQuery, Javascript, Google Closure, Dart, and finally deciding to use Clojurescript for a project he was involved with.
+Wow! Suddenly the world opened up for Zubair and he realised there was a better way to develop web software by using interactive languages such as Ruby and easy SQL queries via ActiveRecord. Soon however, he became frustrated again, as with Rails everything was generated on the server and control of the web page on the client was not fine-grained enough. So, in true developer style, Zubair took the long and painful route, going to Erlang, Clojure and Vaadin, Grails, JQuery, Javascript, GWT Google Closure, Dart, and finally deciding to use ClojureScript for a project he was involved with.
 
-That project was NemCV, and it is the CV system for Denmark. Seeing that there was alot of good work in NemCV that could be reused Zubair took inspiration from Ruby on Rails, which coincidently also came from Denmark, where a developer called David Heinemeier Hansson made Ruby on Rails based on a project called BaseCamp which he had made. So thus, Coils was born!
+That project was NemCV, and it is the CV system for Denmark. Seeing that there was alot of good work in NemCV that could be reused Zubair took inspiration from Ruby on Rails, which coincidently also came from Denmark, where a developer called David Heinemeier Hansson made Ruby on Rails based on a project called BaseCamp which he had made for his company 37Signals. So thus, Coils was born!
 
-After around a year of development of Coils Zubair realised that to make development even simpler the new breed of Graph Databases could be used, and decided to base Coils around Neo4j. Then he also discovered Facebook React and Reactive programming and incorporated this into Coils. However, there was still something missing, and this piece of the puzzle fell into place when Zubair's business partner in NemCV, Franco Soldera introduced Zubair to Meteor, a realtime Javascript framework which had both Reactive capabilities and also excellent databinding capabilities. In my opinion Meteor is the best client side Javascript framework that I have seen (and yes, I have seen Angular, Ember and Knockout). The reason I love it is not just because of its featues, but also because it is opinionated, which solves the problem of having to continually choose which Javascript frameworks to choose, thereby saving alot of time.
+After around a year of development of Coils Zubair realised that to make development even simpler the new breed of Graph Databases could be used, and decided to base Coils around Neo4j. Then he also discovered Facebook React and Reactive programming and incorporated this into Coils. However, there was still something missing, and this piece of the puzzle fell into place when Zubair's business partner in NemCV, Franco Soldera introduced Zubair to Meteor, a realtime Javascript framework which had both Reactive capabilities and also excellent databinding capabilities. In his opinion Meteor is the best full stack Javascript framework that he had seen (and yes, Zubair had seen Derby, Angular, Ember and Knockout). The reason he loved Meteor was not just because of its featues such as Reactive front end and databinding, but also because Meteor is opinionated, which solves the problem of having to continually choose which Javascript frameworks to choose, thereby saving alot of time wasted with experimenting with different Javascript frameworks and glueing them together.
 
-
+Meteor's databinding principles use a database called MongoDB on the server and MiniMongo on the client, but Coils already had full client side data access to both relational databases and Neo4j. So the current goal of Coils is to make these databinding work more seamlessly with the frontend, just as Meteor does.
 
 
 
@@ -30,9 +30,9 @@ Coils is a web framework where development is done in Clojure and Clojurescript 
 
 A few notes:
 
-- Uses Clojure for the server side.
-- Uses ClojureScript client-side.
-- Best developed and run using the LightTable IDE.
+- Uses Clojure for the server side
+- Uses ClojureScript client-side
+- Exclusively uses the LightTable IDE
 
 
 
@@ -69,21 +69,21 @@ If you still wish to use the discontinued features then use an older version of 
 Unique features
 ---------------
 
-- Build the default app and then click on debug at the top anfd you can Browse the source code behind any GUI element by left clicking on the element
-
-- Secure client side SQL. All calls are encrypted and use a server side key to avoid SQL injection attacks, yet at the same time the SQL calls appearing in client side code are easy to understand.
+- Build the default app and then click on debug at the top and you can Browse the source code behind any GUI element by left clicking on the element
 
 - Secure client Neo4j Cypher. All calls are encrypted and use a server side key to avoid Cypher injection attacks, yet at the same time the Cypher calls appearing in client side code are easy to understand.
 
+- Secure client side SQL. All calls are encrypted and use a server side key to avoid SQL injection attacks, yet at the same time the SQL calls appearing in client side code are easy to understand.
+
 - Web development without callback hell. Coils uses Clojure's core.async library to set of sychronous server side calls.
 
-
+- Replay all web sessions as all sessions are recorded using Neo4j
 
 All features
 ------------
 
 - Clojurescript Om by David Nolen
-- Records all web sessions for playback to understand customer behaviour
+- Records all web sessions for playback to understand customer behaviour (using Neo4j)
 - AB testing built in
 - Interactive client and server side development with LightTable IDE
 - Integration with Mandrill for sending transactional emails
