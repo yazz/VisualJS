@@ -82,6 +82,7 @@ Unique features
 All features
 ------------
 
+- hard dependency on Neo4j now
 - Clojurescript Om by David Nolen
 - Records all web sessions for playback to understand customer behaviour (using Neo4j)
 - AB testing built in
@@ -116,7 +117,7 @@ The website for this project is online at [coils.cc](http://coils.cc).
 Comparison with other Clojure web frameworks
 --------------------------------------------
 
-[Hoplon](http://http://hoplon.io/) - In my mind Hoplon is the most complete of all the Clojure web frameworks, and I think that Coils is still No.2 when compared to Hoplon. Hoplon uses Reactive programming and
+[Hoplon](http://http://hoplon.io/) - In my mind Hoplon is the most complete of all the Clojure web frameworks, and I think that Coils has alot of catching up to do to get as full featured as Hoplon. Hoplon uses Reactive programming and has an amazing is web designer friendly as GUIs can be made from HTML, instead of Clojurescript
 
 <br>
 
@@ -125,7 +126,7 @@ Comparison with other Clojure web frameworks
 
 <br>
 
-[Pedestal](http://pedestal.io/) - Pedestal is an amazing Clojure web framework made by the main Clojure developers at [Relevance](http://thinkrelevance.com/). It has a number of differences to Clojure-on-Coils, the main one being that Pedestal does not support Windows environments, whereas Coils works fine on Windows. Took the Data and Application model from here.
+[Pedestal](http://pedestal.io/) - Pedestal is an amazing Clojure web framework made by the main Clojure developers at [Relevance](http://thinkrelevance.com/), now called Cognitect. It has a number of differences to Coils, but in 2014 the front end part of Pedestal was dropped, probably to be replaced by Facebook React/Om. The frontend of Coils is actually based on the pedestal model, which did so much right, especially having a seperate data and UI model
 
 
 
@@ -134,7 +135,17 @@ Comparison with other Clojure web frameworks
 Installation
 ------------
 
-    git clone https://github.com/zubairq/coils.git <coils app name>
+    - Install Coils from Github:
+
+    mkdir my_new_application
+    git clone https://github.com/zubairq/coils.git
+
+
+
+    - Then install Neo4j:
+
+    http://neo4j.com
+    http://www.zubairquraishi.com/zubairquraishi/clojure-neocons-for-neo4j.html
 
 
 
@@ -142,7 +153,7 @@ Installation
 Anatomy of a Coils application
 ------------------------------
 
-    <coils app name>
+    coils
         └ README.md
           project.clj
 
