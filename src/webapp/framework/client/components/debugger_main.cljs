@@ -23,6 +23,28 @@
   (:require-macros
    [cljs.core.async.macros :refer [go]]))
 
+
+;-----------------------------------------------------
+; This changes the app state
+;-----------------------------------------------------
+(defn update-app-pos [debugger-state value]
+  (let
+    [current-event (get @debug-event-timeline value)]
+    (om/update! debugger-state [:pos] value)
+
+    (reset! app-watch-on? false)
+    (if (= (:event-type current-event) "UI")
+      (reset! app-state (:value current-event)))
+    (reset! app-watch-on? true)
+
+
+    (om/update! debugger-state
+            [:mode] "show-event")
+
+
+))
+
+
 (defn main-debug-slider-comp [app owner]
   (reify
     om/IRender
@@ -30,32 +52,104 @@
     (render
      [_]
      (dom/div nil
-              (dom/input
-               #js {:value (str (-> app :pos))
-                    :type "range"
-                    :min  "1"
-                    :max  (str (-> @debugger-ui :total-events-count ))
-                    :onChange
-                    (fn[e]
-                      (let [value (js/parseInt (.. e -target -value))]
-                        (do
-                        (om/update! app [:pos]
-                                                        value)
+              (dom/div nil
+                       (dom/button #js {
+                                        :style #js {:display "inline-block"
+                                                     :marginRight "5px"}
+                                        :onClick
+                                        (fn[x]
+                                          (if (pos? (get-in @app [:pos]))
+                                            (update-app-pos  app  (dec (get-in @app [:pos])))
 
-                        (reset! app-watch-on? false)
-                        (reset! app-state
-                                (:value (get @debug-event-timeline value))
-                                )
-                          (reset! app-watch-on? true)
+                                          ))
 
-                        )))
-                    })
+                                        } "<")
+                       (dom/button #js {
+                                        :style #js {:display "inline-block"
+                                                     :marginRight "5px"}
+                                        :onClick
+                                        (fn[x]
+                                          (if (pos? (get-in @app [:pos]))
+                                            (update-app-pos  app  (inc (get-in @app [:pos])))
+
+                                          ))
+
+                                        } ">")
+                       (dom/input
+                        #js {
+                             :style #js {:display "inline-block" :width "80%"
+                                         }
+
+                             :value (str (-> app :pos))
+                             :type "range"
+                             :min  "1"
+                             :max  (str (-> @debugger-ui :total-events-count ))
+                             :onChange
+                             (fn[e]
+                               (let [value (js/parseInt (.. e -target -value))]
+                                 (update-app-pos   app value)
+                                 ))
+                             })
+
+                       )
 
               (dom/div nil
                (str (-> app :pos) " of "
                     (-> app :total-events-count ))
 
                )))))
+
+
+
+
+(defn show-event-component[ debug-ui-state  owner ]
+  (reify
+    om/IRender
+    ;---------
+    (render
+     [_]
+     (apply dom/div nil
+            (for [event-item [
+                              (get @debug-event-timeline (-> debug-ui-state :pos))
+                              (get @debug-event-timeline (dec (-> debug-ui-state :pos)))
+                              (get @debug-event-timeline (dec (dec (-> debug-ui-state :pos))))
+                              (get @debug-event-timeline (dec (dec (dec (-> debug-ui-state :pos)))))
+                              (get @debug-event-timeline (dec (dec (dec (dec (-> debug-ui-state :pos))))))
+                              ]]
+              (if event-item
+                (let
+                  [
+                   debug-id    (get event-item :id)
+                   event-type  (get event-item :event-type)
+                   old-value   (get event-item :old-value)
+                   new-value   (get event-item :value)
+                   deleted     (first (data/diff old-value new-value))
+                   added       (second (data/diff old-value new-value))
+                   ]
+                   (dom/div nil
+                           (dom/h1 nil (str event-type " " debug-id))
+
+                           (if deleted (dom/div #js {:style #js {:color "red"}}
+                                    (dom/div nil "Deleted")
+                                    (dom/div nil
+
+                                             (str
+
+                                              (pr-str (if deleted  deleted  "Nothing deleted"))))))
+
+                           (if added (dom/div #js {:style #js {:color "green"}}
+                                    (dom/div nil "Added")
+                                    (dom/div nil
+
+                                             (str
+
+                                              (pr-str (if added added "Nothing added"))))))
+                           ))))))))
+
+
+
+
+
 
 
 
@@ -72,6 +166,9 @@
                (= (:mode @debugger-ui) "browse")
                 (dom/h2 nil (str (get @debugger-ui :react-components)))
 
+
+               (= (:mode @debugger-ui) "show-event")
+               (om/build  show-event-component   app)
 
 
                (= (:mode @debugger-ui) "component")

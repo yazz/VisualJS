@@ -8,6 +8,8 @@
    )
 )
 
+(def record-pointer-locally (atom true))
+
 
 (def start-component (atom nil))
 
@@ -160,6 +162,10 @@
 
 (def debug-event-timeline (atom {}))
 
+
+
+;-----------------------------------------------------
+;-----------------------------------------------------
 (add-watch debug-event-timeline
            :change
 
@@ -184,42 +190,68 @@
 
 (def debug-count (atom 0))
 (defn add-debug-event [& {:keys [
+                                 event-type
+                                 old
                                  new
                                  error
                                  ] :or {
+                                        event-type     "UI"
                                         error          "Error in field"
                                         }}]
 
+  (if
 
-  (swap! debug-event-timeline assoc
-         (swap! debug-count inc) {:value new})
+    (or
+      @record-pointer-locally
+      (not (and (= event-type     "UI") (get (first (data/diff old new)) :pointer))))
 
-  (reset! debugger-ui
-          (assoc @debugger-ui
-         :total-events-count (count @debug-event-timeline)))
+    (if (or (first (data/diff old new)) (second (data/diff old new)))
 
-  (if (> (+ (:pos @debugger-ui) 5) (:total-events-count @debugger-ui))
-    (reset! debugger-ui
-            (assoc @debugger-ui
-              :pos (:total-events-count @debugger-ui))))
+      (let [debug-id (swap! debug-count inc)]
+        (swap! debug-event-timeline assoc
+               debug-id  {
+                          :id          debug-id
+                          :event-type  event-type
+                          :old-value   old
+                          :value       new})
 
-  )
+        (reset! debugger-ui
+                (assoc @debugger-ui
+                  :total-events-count (count @debug-event-timeline)))
+
+        (if (> (+ (:pos @debugger-ui) 5) (:total-events-count @debugger-ui))
+          (reset! debugger-ui
+                  (assoc @debugger-ui
+                    :pos (:total-events-count @debugger-ui))))
+
+        ))))
 
 
+
+;-----------------------------------------------------
+; This is when the user moves the timeline slider
+; left and right. If the slider is currently being moves
+; (ie: not at the right of the slider - meaning the
+; latest position) then turn off the events capture
+; from the application
+;
+; We do this because otherwise the application keeps
+; receiving events otherwise
+;-----------------------------------------------------
 (def data-and-ui-events-on? (atom true))
-
-
 (add-watch debugger-ui
            :change-debugger-ui
 
            (fn [_ _ old-val new-val]
 
-             (if
+             (cond
                (or
                 (= js/debug_live false)
                 (= (new-val :pos) (new-val :total-events-count))
                 )
                (reset! data-and-ui-events-on? true)
+
+              :else
                (reset! data-and-ui-events-on? false)
              )
              ;(. js/console log (pr-str new-val))
@@ -228,19 +260,34 @@
            )
 
 
-
+;-----------------------------------------------------
+;  This is the application watch space. So whenever
+; the application changes then we record the event
+;-----------------------------------------------------
 (def app-watch-on? (atom true))
 (add-watch app-state
            :change
-
            (fn [_ _ old-val new-val]
              (if @app-watch-on?
-             (add-debug-event   :new new-val  )
-             ))
-           )
+               (add-debug-event
+                :event-type  "UI"
+                :old         old-val
+                :new         new-val))))
 
-(+ (:pos @debugger-ui ) 5)
-(:total-events-count @debugger-ui )
+(add-watch data-state
+           :change
+           (fn [_ _ old-val new-val]
+             (if @app-watch-on?
+               (add-debug-event
+                :event-type  "DATA"
+                :old         old-val
+                :new         new-val))))
 
 
-(get @debug-event-timeline 20)
+;(+ (:pos @debugger-ui ) 5)
+;(:total-events-count @debugger-ui )
+;(get @debug-event-timeline 20)
+
+
+
+@debugger-ui

@@ -16,9 +16,13 @@
     [clojure.browser.event :only [listen]]
     [webapp.framework.client.system-globals  :only  [touch
                                                      debugger-ui
+                                                     record-pointer-locally
                                                      ]]
   )
 )
+
+
+
 
 
 
@@ -204,7 +208,11 @@
      (reset! debug-mode true)
      )))
 
-
+(go
+ (let [record-pointer-locally-value (:value (<! (remote "!get-record-pointer-locally" {})))]
+     (reset! record-pointer-locally
+             record-pointer-locally-value)
+     ))
 
 
 
@@ -317,7 +325,7 @@
 
 
                 "(defn-ui-component  "
-                     fname " "
+                     fname "  "
                      args (char 13) (char 13)
                      code-str
                      ""
@@ -425,6 +433,9 @@
                         (conj (get @debugger-ui :react-components)
                               component-name
                               )))
+      (reset! debugger-ui
+              (assoc-in @debugger-ui [:mode]
+                        "browse"))
       (display-debug-code)
       )))
 
@@ -464,11 +475,11 @@
                         (if
                           (om/get-state owner :debug-highlight)
                           (do
-                            (if (= (:mode @debugger-ui) "browse")
+                            (if (not= (:mode @debugger-ui) "component")
                               (set-debug-component  react-fn-name))
                             "lightGray")
                           (do
-                            (if (= (:mode @debugger-ui) "browse")
+                            (if (not= (:mode @debugger-ui) "component")
                               (unset-debug-component  react-fn-name))
                             "")
                           ""
