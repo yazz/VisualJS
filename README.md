@@ -22,7 +22,7 @@ One of the main philosophies of Coils is that programs are read 99%, and written
 
 https://www.youtube.com/watch?v=t9YLtDJZtPY
 
-: So Coils allows all programs to be examined visually using a GUI time travelling debugger
+: So Coils allows all programs to be examined visually using a GUI time travelling debugger, which is one of the killer features, as it reduces the cost of maintenance of large Javascript applications
 
 
 
@@ -31,7 +31,7 @@ https://www.youtube.com/watch?v=t9YLtDJZtPY
 
 
 What is Coils?
--------------------------
+--------------
 
 Coils is a web framework where development is done in Clojure and Clojurescript and the software runs on the JVM so it can be deployed on any Java web or application server, including Jetty, Tomcat, JBoss, Glassfish, Weblogic, or Websphere.
 
@@ -41,6 +41,27 @@ A few notes:
 - Uses ClojureScript client-side
 - Exclusively uses the LightTable IDE
 
+
+
+
+What is Coils the "killer" feature?
+-----------------------------------
+Sure, Coils supports Neo4j, Clojure, HTML5, synchronous server callbacks, and video recording a web user's session, but these are all things which are available elsewhere, even if they are alot of work.
+
+Coils "killer" feature is the "time travelling debugger". This is an absolute "must" for maintenace of large web applications, meaning applications that may change fast, and live over a long period of time, where fast development interations are a must, much in the vein of the Lean Startup philisophy:
+
+
+What is Coils not good for?
+---------------------------
+Because coils is based around "Maintenance first" as its tagline, it is not suitable for quite a wide variety of web projects. In fact, Coils does not even use Javascript, it uses Clojurescript, which compiles down to Javascript, so this makes it unsuitable for many types of developers. It does not use Clojurescript for the sake of it though. Clojurescript is a version of "Lisp" which compiles down to Javascript, and being a Lisp it has a features called Macros which make the time travelling debugger possible. So there is a larger learning curve with Coils, but maintenance time is reduced. So for a variety of websites the following may be a better choice:
+
+Multi page informational websites - Wix, Weebly, Adobe Muse, Wordpress, and many others are perfect for this
+
+Simple websites with a bit of interactivity - HTML, JQuery, Kendo UI are much better choices for this where Javascript widgets can be added to HTML pages as needed
+
+SEO friendly large websites - Ruby on Rails, Derby.js are a much better fit for this
+
+Fast to get up and running web applications using web standards - Meteor.js and Derby.js are a much better fir for this as they use standard Javascript
 
 
 
