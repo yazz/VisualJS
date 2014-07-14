@@ -61,7 +61,7 @@ Simple websites with a bit of interactivity - HTML, JQuery, Kendo UI are much be
 
 SEO friendly large websites - Ruby on Rails, Derby.js are a much better fit for this
 
-Fast to get up and running web applications using web standards - Meteor.js and Derby.js are a much better fir for this as they use standard Javascript
+Fast to get up and running web applications using web standards - Meteor.js and Derby.js are a much better for for this as they use standard Javascript
 
 
 
