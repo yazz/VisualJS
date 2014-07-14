@@ -125,3 +125,128 @@
   `(dom/h2  (webapp.framework.client.coreclient/attrs ~attributes) ~@more))
 
 
+
+
+(defmacro watch-ui
+  [path & code]
+
+  `(do
+
+     (webapp.framework.client.coreclient/record-watcher
+      (~'ns-coils-debug)
+      ~(str `~path)
+      "ui"
+      (str ~(with-out-str   (write (first `~code))
+              :dispatch clojure.pprint/code-dispatch))
+      )
+
+     (~'when-ui-value-changes-fn
+      ~path
+      (~'fn [~'ui] (do ~@code)))))
+
+
+
+
+
+(defmacro ==ui
+  [path value & code]
+
+  `(do
+     (webapp.framework.client.coreclient/record-path=
+      (~'ns-coils-debug)
+      ~(str `~path)
+      ~(str `~value)
+      "ui"
+      (str ~(with-out-str   (write (first `~code))
+              :dispatch clojure.pprint/code-dispatch))
+      )
+
+     (~'when-ui-path-equals-fn
+      ~path
+      ~value
+      (~'fn [~'ui] (do ~@code)))))
+
+
+
+(defmacro watch-data
+  [path & code]
+
+  `(do
+     (webapp.framework.client.coreclient/record-watcher
+      (~'ns-coils-debug)
+      ~(str `~path)
+      "data"
+      (str ~(with-out-str   (write (first `~code))
+              :dispatch clojure.pprint/code-dispatch))
+      )
+
+     (~'when-data-value-changes-fn
+      ~path
+      (~'fn [~'ui] (do ~@code)))))
+
+
+
+
+(defmacro ==data
+  [path value & code]
+
+  `(do
+     (webapp.framework.client.coreclient/record-path=
+      (~'ns-coils-debug)
+      ~(str `~path)
+      ~(str `~value)
+      "data"
+      (str ~(with-out-str   (write (first `~code))
+              :dispatch clojure.pprint/code-dispatch))
+      )
+
+     (~'when-data-path-equals-fn
+      ~path
+      ~value
+      (~'fn [~'ui] (do ~@code)))))
+
+
+
+(defmacro ui-tree
+  [path]
+  `(~'get-in-tree ~'ui ~path))
+
+(defmacro <--ui
+  [path]
+  `(~'get-in-tree ~'ui ~path))
+
+(macroexpand
+ '(==ui  [:ui   :company-details   :clicked]    true
+
+      (-->ui  [:ui  :company-details   :clicked  ] false)
+      (-->ui  [:ui  :tab-browser    ] "top companies")))
+
+
+
+(defmacro ui-tree!
+  [path value]
+  `(~'update-ui ~'ui ~path ~value))
+
+(defmacro -->ui
+  [path value]
+  `(~'update-ui ~'ui ~path ~value))
+
+;(macroexpand '(ui-tree! [:ui :request :from-email :error] ""))
+
+
+
+
+(comment macroexpand '(when-ui-value-changes [:ui :company-details :company-url]
+
+
+   (go
+    (update-ui  ui  [:ui  :company-details   :skills  ] nil)
+     (let [ l (<! (remote "get-company-details"
+             {
+              :company-url    (get-in @app-state [:ui :company-details :company-url])
+              }))]
+
+       ;(log (pr-str l))
+       (update-data [:company-details]  l)
+       )))
+)

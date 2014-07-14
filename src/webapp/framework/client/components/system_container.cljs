@@ -22,6 +22,7 @@
                                                          ab-tests
                                                          init-state-fns
                                                          data-and-ui-events-on?
+                                                         add-debug-event
                                                          ]]
    )
   (:use-macros
@@ -64,7 +65,7 @@
 
 
 
-(defn add-as-watch [the-ref   watchers   args]
+(defn add-as-watch [the-ref  tree-name  watchers   args]
 
   (add-watch the-ref :events-change
 
@@ -83,13 +84,24 @@
                          (= (:type watch) "path equals")
                          ;------------------------------
                          (if (= (get-in new-val (:path watch)) (:value watch) )
-                           (apply (:fn watch) args))
+                           (do
+                             (add-debug-event
+                              :event-type  "event"
+                              :event-name  (str "==" tree-name " " (:path watch) " " (:value watch))
+                              )
+                             (apply (:fn watch) args)))
 
 
 
                          (= (:type watch) "value change")
                          ;-------------------------------
-                         (apply (:fn watch) args)
+                         (do
+                           (add-debug-event
+                            :event-type  "event"
+                            :event-name  (str "watch-" tree-name " " (:path watch))
+                            )
+                           ;(js/alert (str "watch-" tree-name " " (:path watch)))
+                           (apply (:fn watch) args))
 
 
 
@@ -148,11 +160,13 @@
                   ; set up the UI and data watchers
                   (go
                    (add-as-watch   app-state
+                                   "ui"
                                    ui-watchers
                                    [app])
 
 
                    (add-as-watch   data-state
+                                   "data"
                                    data-watchers
                                    [app])
 

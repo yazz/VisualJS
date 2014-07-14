@@ -11,13 +11,23 @@
     [cljs.core.async :as async :refer [chan close!]]
   )
   (:require-macros
-    [cljs.core.async.macros :refer [go alt!]])
+   [cljs.core.async.macros :refer [go alt!]])
   (:use
-    [clojure.browser.event :only [listen]]
-    [webapp.framework.client.system-globals  :only  [touch
-                                                     debugger-ui
-                                                     record-pointer-locally
-                                                     ]]
+   [clojure.browser.event :only [listen]]
+   [webapp.framework.client.system-globals  :only  [touch
+                                                    debugger-ui
+                                                    record-pointer-locally
+                                                    app-state
+                                                    playback-app-state
+                                                    playback-controls-state
+                                                    reset-app-state
+                                                    ui-watchers
+                                                    playbackmode
+                                                    data-watchers
+                                                    data-state
+                                                    update-data
+                                                    ]]
+
   )
 )
 
@@ -294,8 +304,56 @@
       (clojure.string/replace #"&gt;" ">" )))
 
 
+(defn record-path= [namespace-name path value tree-name & code]
+  (let [
+        code-str
+        (str (apply str (map #(if (= "\n" %1) (str "\r\n")  %1) code)))
+        ]
+
+    (reset!
+     webapp.framework.client.system-globals/debugger-ui
+     (assoc-in
+      (deref webapp.framework.client.system-globals/debugger-ui)
+      [:watchers-code (str "==" tree-name " " path " " value) ]
+      (xml-str (str
+                "(ns  " namespace-name ")"
+                (char 13) (char 13)
 
 
+                "(==" tree-name " " path "  "
+                     (char 13) (char 13)
+                     code-str
+                     ""
+                     )))
+     )
+    )
+  )
+
+
+(defn record-watcher [namespace-name path tree-name & code]
+  (let [
+        code-str
+        (str (apply str (map #(if (= "\n" %1) (str "\r\n")  %1) code)))
+        ]
+
+    (reset!
+     webapp.framework.client.system-globals/debugger-ui
+     (assoc-in
+      (deref webapp.framework.client.system-globals/debugger-ui)
+      [:watchers-code (str "watch-" tree-name " " path) ]
+      (xml-str (str
+                "(ns  " namespace-name ")"
+                (char 13) (char 13)
+
+
+                "(watch-" tree-name " " path "  "
+                     (char 13) (char 13)
+                     code-str
+                     ""
+                     )))
+     )
+    )
+  )
 
 
 
@@ -504,5 +562,122 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+(defn when-path-equals [watcher path value fn-def]
+  (swap! watcher conj
+         {
+          :type     "path equals"
+          :path     path
+          :value    value
+          :fn       fn-def
+          }))
+
+(defn when-value-changes [watcher path fn-def]
+  (swap! watcher conj
+         {
+          :type     "value change"
+          :path     path
+          :fn       fn-def
+          }))
+
+
+
+(defn amend-record [records field value amend-fn]
+  (into [] (map
+            (fn[x] (if (= (get x field) value) (amend-fn x) x))
+            records )))
+
+
+
+
+(defn when-property-equals-in-record  [watcher path field value fn-def]
+ (swap! watcher conj
+         {
+          :type     "record property equals"
+          :path     path
+          :field    field
+          :value    value
+          :fn       fn-def
+          }))
+
+
+
+
+(defn when-ui-path-equals-fn
+  [path value ui-fn]
+
+  (when-path-equals
+   ui-watchers
+   path
+   value
+   ui-fn))
+
+
+
+(defn when-ui-value-changes-fn
+  [path ui-fn]
+
+  (when-value-changes
+   ui-watchers
+   path
+   ui-fn))
+
+
+(defn when-ui-property-equals-in-record
+  [path field value ui-fn]
+
+  (when-property-equals-in-record
+   ui-watchers
+   path
+   field
+   value
+   ui-fn))
+
+
+
+
+
+
+
+(defn when-data-path-equals-fn
+  [path value data-fn]
+
+  (when-path-equals
+   data-watchers
+   path
+   value
+   data-fn))
+
+
+
+(defn when-data-value-changes-fn
+  [path data-fn]
+
+  (when-value-changes
+   data-watchers
+   path
+   data-fn))
+
+
+(defn when-data-property-equals-in-record
+  [path field value data-fn]
+
+  (when-property-equals-in-record
+   data-watchers
+   path
+   field
+   value
+   data-fn))
 
 

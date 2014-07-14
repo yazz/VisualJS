@@ -51,7 +51,9 @@
     ;---------
     (render
      [_]
-     (dom/div nil
+     (dom/div #js {
+                             :onMouseEnter #(om/update! app [:mode] "show-event")
+                             }
               (dom/div nil
                        (dom/button #js {
                                         :style #js {:display "inline-block"
@@ -99,7 +101,7 @@
 
                )))))
 
-
+(range 1 10)
 
 
 (defn show-event-component[ debug-ui-state  owner ]
@@ -109,13 +111,12 @@
     (render
      [_]
      (apply dom/div nil
-            (for [event-item [
-                              (get @debug-event-timeline (-> debug-ui-state :pos))
-                              (get @debug-event-timeline (dec (-> debug-ui-state :pos)))
-                              (get @debug-event-timeline (dec (dec (-> debug-ui-state :pos))))
-                              (get @debug-event-timeline (dec (dec (dec (-> debug-ui-state :pos)))))
-                              (get @debug-event-timeline (dec (dec (dec (dec (-> debug-ui-state :pos))))))
-                              ]]
+            (for [event-item (into []
+                              (map (fn[xx] (get @debug-event-timeline xx))
+                                   (reverse
+                                    (into [] (range (- (-> debug-ui-state :pos) 20) (+ 1 (-> debug-ui-state :pos))))
+                                   )))
+                              ]
               (if event-item
                 (let
                   [
@@ -123,6 +124,7 @@
                    event-type  (get event-item :event-type)
                    old-value   (get event-item :old-value)
                    new-value   (get event-item :value)
+                   event-name  (get event-item :event-name)
                    deleted     (first (data/diff old-value new-value))
                    added       (second (data/diff old-value new-value))
                    ]
@@ -144,6 +146,28 @@
                                              (str
 
                                               (pr-str (if added added "Nothing added"))))))
+
+                           (if (= event-type "event") (dom/div #js {:style #js {:color "green"}}
+
+                                             (dom/div #js {:style #js {:color "blue"}} (str event-name))
+                                             (dom/pre nil
+
+                                                      (->
+                                                       (str
+                                                       (get
+                                                        (get @debugger-ui :watchers-code)
+
+                                                        event-name
+
+                                                        ))
+                                                       (clojure.string/replace #"\(div\ " "(DIV " )
+                                                       )
+
+                                                      )
+                                             ))
+
+
+
                            ))))))))
 
 
@@ -160,11 +184,17 @@
     ;---------
     (render
      [_]
-     (dom/div nil
+     (dom/div #js {
+                             :style #js {:height "300px"}
+                             :onMouseEnter #(reset! debugger-ui (assoc-in @debugger-ui [:mode] "show-event"))
+                             }
 
               (cond
                (= (:mode @debugger-ui) "browse")
-                (dom/h2 nil (str (get @debugger-ui :react-components)))
+                (dom/h2 #js {
+                             :style #js {:height "100%"}
+                             :onMouseEnter #(reset! debugger-ui (assoc-in @debugger-ui [:mode] "show-event"))
+                             } (str (get @debugger-ui :react-components)))
 
 
                (= (:mode @debugger-ui) "show-event")
@@ -189,10 +219,6 @@
 
                                  )
                                  (clojure.string/replace #"\(div\ " "(DIV " )
-                                 (clojure.string/replace #"\(div\r" "(DIV \r" )
-                                 (clojure.string/replace #"\(div\n" "(DIV \n" )
-                                 (clojure.string/replace #":onClick" ":ONCLICK" )
-                                 (clojure.string/replace #":onTouchStart" ":ONTOUCHSTART" )
                                  ))
 
 
