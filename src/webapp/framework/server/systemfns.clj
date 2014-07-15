@@ -25,9 +25,15 @@
 
 
 
+
+
+
 (defn !say-hello [params]
-    {:text (str "System Hello " (:name params))}
-)
+    {:text (str "System Hello " (:name params))})
+
+
+
+
 
 
 (defn !sql [{coded-sql :sql params :params}]
@@ -39,17 +45,9 @@
       (cond
        (.startsWith lower "select")  (do (println "SELECT") (exec-raw [sql params] :results))
        :else                         (do (println "INSERT") (exec-raw [sql params]) [])
-   ; []
-    ))
-  )
-)
+    ))))
 
 
-
-
-(defrecord Goat2 [stuff things])
-
-(def edn-readers2 {'webapp.server.fns.Goat2 map->Goat2})
 
 
 
@@ -59,10 +57,11 @@
           ]
           ;(println "Cypher from client: " coded-cypher " -> " cypher)
           (nh/neo4j  cypher  params)
-    ))
-  )
-
+    )))
 ;(!neo4j {:cypher (encrypt "match n return count(n)") :params {} })
+
+
+
 
 
 
@@ -77,9 +76,7 @@
           ]
       ;(println "Cypher from client: " coded-cypher " -> " cypher)
       (nh/neo4j   cypher  params  return)
-    ))
-  )
-
+    )))
 
 
 (comment !neo4j_nodes {:cypher (encrypt
@@ -90,9 +87,18 @@
 
 
 
+
+
+
+
+
 (defn !count-all-neo4j-records-with-field [ {field-name :field-name} ]
       (cy/tquery (str "START x = node(*) WHERE HAS(x." field-name ") RETURN count(x)") {} )
 )
+
+
+
+
 
 
 
@@ -105,9 +111,11 @@
 
 
 
+
+
+
 (defn !add-to-simple-point-layer   [{node :node layer-name :layer-name}]
-  (nh/add-to-simple-layer (:name node) (:x node) (:y node) layer-name)
-)
+  (nh/add-to-simple-layer (:name node) (:x node) (:y node) layer-name))
 
 
 
@@ -120,8 +128,9 @@
 
 
 (defn !find-names-within-distance [{x :x y :y dist-km :dist-km layer-name :layer-name}]
-  (nh/find-names-within-distance layer-name x y dist-km)
-)
+  (nh/find-names-within-distance layer-name x y dist-km))
+
+
 
 
 
@@ -131,23 +140,31 @@
                                   max-x :max-x
                                   max-y :max-y
                                   layer-name :layer-name}]
-  (nh/find-names-within-bounds layer-name min-x max-x min-y max-y)
-)
+  (nh/find-names-within-bounds layer-name min-x max-x min-y max-y))
+
+
 
 
 
 (defn !get-record-pointer-locally [params]
-  {:value *record-pointer-locally*}
-)
+  {:value *record-pointer-locally*})
+
+
+
+
 
 
 (defn !get-environment [params]
-  {:value *environment*}
-)
+  {:value *environment*})
+
+
+
+
 
 (defn !get-show-debug [params]
-  {:value *show-code*}
-)
+  {:value *show-code*})
+
+
 
 
 (comment !find-names-within-bounds
@@ -155,8 +172,10 @@
   :min-x 0.0 :max-x 1.1 :min-y 50.0 :max-y 51.5})
 
 
-
 ;(!find-names-within-distance {:layer-name "ore2" :x 0 :y 0 :dist-km 1000})
+
+
+
 
 
 
@@ -165,6 +184,9 @@
          :params   {}})
 
                ;:params   {:ids (map :id [bob])}}))
+
+
+
 
 
 
