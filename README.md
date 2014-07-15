@@ -6,23 +6,26 @@ Coils - Build Neo4j Web Applications
 Introduction
 ------------
 
-Originally called Clojure-on-Coils, and now shortened to just "Coils", this framework was born out of one web developer's pain over many years developing both web and desktop software. Zubair Quraishi started professionally in the early 1990s as a C++ programmer, and then moved to Java, and got heavily involved in Java web applications, only to find the whole develop, compile, test loop hugely cumbersome and time wasting.
+Originally called Clojure-on-Coils, this project has now been renamed to just "Coils". The Coils framework was born out of one web developer's pain over many years developing both web and desktop software. Zubair Quraishi started professionally in the early 1990s as a C++ programmer, and then moved to Java, then got heavily involved in Java web applications, only to find the whole develop, compile, test loop hugely cumbersome and time wasting.
 
 Then one day, like many developers before him, around 2008, he discovered Ruby on Rails.
 
-Wow! Suddenly the world opened up for Zubair and he realised there was a better way to develop web software by using interactive languages such as Ruby and easy SQL queries via ActiveRecord. Soon however, he became frustrated again, as with Rails everything was generated on the server and control of the web page on the client was not fine-grained enough. So, in true developer style, Zubair took the long and painful route, going to Erlang, Clojure and Vaadin, Grails, JQuery, Javascript, GWT Google Closure, Dart, and finally deciding to use ClojureScript for a project he was involved with.
+Wow! Suddenly the world opened up for Zubair and he realised there was a better way to develop web software by using interactive languages such as Ruby and easy SQL queries via ActiveRecord. Soon however, he soon became frustrated again, as with Rails everything was generated on the server and control of the web page on the client was not fine-grained enough. So, in true developer style, Zubair did the wrong thing, and took the long and painful route of trying to find his programming Nirvana, going to Erlang, Clojure and Vaadin, Grails, JQuery, Javascript, GWT, Google Closure, Dart, and finally deciding to use ClojureScript for a project he was involved with.
 
 That project was NemCV, and it is the CV system for Denmark. Seeing that there was alot of good work in NemCV that could be reused Zubair took inspiration from Ruby on Rails, which coincidently also came from Denmark, where a developer called David Heinemeier Hansson made Ruby on Rails based on a project called BaseCamp which he had made for his company 37Signals. So thus, Coils was born!
 
-After around a year of development of Coils Zubair realised that to make development even simpler the new breed of Graph Databases could be used, and decided to base Coils around Neo4j. Then he also discovered Facebook React and Reactive programming and incorporated this into Coils. However, there was still something missing, and this piece of the puzzle fell into place when Zubair's business partner in NemCV, Franco Soldera introduced Zubair to Meteor, a realtime Javascript framework which had both Reactive capabilities and also excellent databinding capabilities. In his opinion Meteor is the best full stack Javascript framework that he had seen (and yes, Zubair had seen Derby, Angular, Ember and Knockout). The reason he loved Meteor was not just because of its featues such as Reactive front end and databinding, but also because Meteor is opinionated, which solves the problem of having to continually choose which Javascript frameworks to choose, thereby saving alot of time wasted with experimenting with different Javascript frameworks and glueing them together.
+After around a year of development of Coils against relational databases, Zubair realised that to make development even simpler the new breed of Graph Databases could be used, and decided to base Coils around Neo4j. Then he also discovered Facebook React and Reactive programming and incorporated this into Coils. However, there was still something missing, and this piece of the puzzle fell into place when Zubair's business partner in NemCV, Franco Soldera introduced Zubair to Meteor, a realtime Javascript framework which had both Reactive capabilities and also excellent databinding capabilities. In his opinion Meteor is the best full stack Javascript framework that he had seen (and yes, Zubair had seen Derby, Angular, Ember and Knockout). The reason he loved Meteor was not just because of its features such as a Reactive front end and data-binding, but also because Meteor is opinionated (like Ruby on Rails), which solves the problem of having to continually choose which Javascript frameworks to choose, thereby saving alot of time wasted with experimenting with different Javascript frameworks and glueing them together.
 
-Meteor's databinding principles use a database called MongoDB on the server and MiniMongo on the client, but Coils already had full client side data access to both relational databases and Neo4j. So the current goal of Coils is to make these databinding work more seamlessly with the frontend, just as Meteor does.
+Meteor's databinding principles use a database called MongoDB on the server and MiniMongo on the client, but Coils already had full client side data access to both relational databases and Neo4j. So the current goal of Coils is to make Neo4j and Relational Databases work more seamlessly with the frontend, just as Meteor does with Mongo.
 
-One of the main philosophies of Coils is that programs are read 99%, and written 1% of the time. See this Dougas Crockford video on Software Quality:
+Another core feature of Coils is the Time Travelling Debugger. This is based on the principle that programs are read 99% of the time, and written only 1% of the time. See this Dougas Crockford video on Software Quality who explains it better:
 
 https://www.youtube.com/watch?v=t9YLtDJZtPY
 
-: So Coils allows all programs to be examined visually using a GUI time travelling debugger, which is one of the killer features, as it reduces the cost of maintenance of large Javascript applications
+: So Coils allows all programs to be examined visually using a GUI time travelling debugger, which is one of the killer features, as it reduces the cost of maintenance of large Javascript applications. For a demo see here:
+
+http://connecttous.co/connecttous/connecttous.html?livedebug=true
+
 
 
 
@@ -44,11 +47,12 @@ A few notes:
 
 
 
-What is Coils the "killer" feature?
------------------------------------
+What is Coils "killer" feature?
+-------------------------------
 Sure, Coils supports Neo4j, Clojure, HTML5, synchronous server callbacks, and video recording a web user's session, but these are all things which are available elsewhere, even if they are alot of work.
 
 Coils **killer feature** is the **time travelling debugger**. This is an absolute "must" for maintenance of large web applications, meaning applications that may change fast, and live over a long period of time, where fast development interations are a must, much in the vein of the Lean Startup philisophy:
+
 
 
 What is Coils not good for?
@@ -62,6 +66,25 @@ Because coils is based around "Maintenance first" as its tagline, it is not suit
 **SEO friendly large websites** - Ruby on Rails, Derby.js are a much better fit for this
 
 **Fast to get up and running web applications using web standards** - Meteor.js and Derby.js are a much better for for this as they use standard Javascript
+
+
+
+
+Why Neo4j?
+----------
+One of the features of Coils is that allows all sessions to be replayed by the company developing a website using Coils, see here for a demo:
+
+http://connecttous.co/connecttous/connecttous.html?playback=true
+
+: So Coils is forced to choose something as the default. While Coils does natively support relational databases, and also can support other backends such as MongoDb through Clojure, Neo4j was chosen for the following reasons:
+
+- Zubair has requested support in the past for bugs and the Neo4j team were super responsive
+- Neo4j has a huge customer footprint
+- Neo4j has a dual licensing model, similar to Coils
+- Neo4j is based close by in Malmo, not far from Copenhagen, so the core team are near by
+- Some of the Neo4j guys are very active in the Clojure community
+- Peter Neubauer, one of the foundof Neo4j is awesome and has always been helpful when there have been problems. Even though he is not at Neo4j anymore (now he is at Mapillary) he has always provided first class support
+
 
 
 
