@@ -88,7 +88,7 @@ http://connecttous.co/connecttous/connecttous.html?playback=true
 - Some of the Neo4j guys are very active in the Clojure community
 - Peter Neubauer, one of the foundof Neo4j is awesome and has always been helpful when there have been problems. Even though he is not at Neo4j anymore (now he is at Mapillary) he has always provided first class support
 
-
+One of the other questions has been around whether Neo4j can have a realtime interface to Neo4j, like Meteor does with Mini Mongo and MongoDb. MongoDb uses a very simple document model which is why this works so well with MondoDb, but Coils goes one step further and has full client side access to Cypher queries, so it doesn't need a MiniNeo4j on the client side. So the answer is yes, Coils can have real time client side access to Neo4j.
 
 
 Deprecated features from April 2013 to July 2014
