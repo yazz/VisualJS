@@ -78,8 +78,11 @@ http://connecttous.co/connecttous/connecttous.html?playback=true
 
 : So Coils is forced to choose something as the default. While Coils does natively support relational databases, and also can support other backends such as MongoDb through Clojure, Neo4j was chosen for the following reasons:
 
+- Easy to setup Neo4j on a developer machine, withut having to create a schema first like with a database
+- Rich data model, using Neo4j labels, as opposed to document databases like MongoDB
+- Expressive and powerful Cypher query language
 - Zubair has requested support in the past for bugs and the Neo4j team were super responsive
-- Neo4j has a huge customer footprint
+- Neo4j has funding and a large customer base, so they should be around a long time
 - Neo4j has a dual licensing model, similar to Coils
 - Neo4j is based close by in Malmo, not far from Copenhagen, so the core team are near by
 - Some of the Neo4j guys are very active in the Clojure community
