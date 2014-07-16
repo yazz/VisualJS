@@ -26,7 +26,11 @@ https://www.youtube.com/watch?v=t9YLtDJZtPY
 
 http://connecttous.co/connecttous/connecttous.html?livedebug=true
 
+: The demo code is from a demo application made just as an example. The source code is here:
 
+https://github.com/zubairq/coils/tree/connecttous 
+
+: on the branch 'connecttous'
 
 
 
