@@ -26,6 +26,7 @@
                                                     data-watchers
                                                     data-state
                                                     update-data
+                                                    add-debug-event
                                                     ]]
 
   )
@@ -109,44 +110,53 @@
 )
 
 
-(defn send-request2 [ address ]
-      (let
-      [
-        ch            (chan 1)
-        headers       (goog.structs.Map.)
-        io-object     (goog.net.XhrIo.)
-      ]
-      (goog.events.listen
-          io-object
-          goog.net.EventType.COMPLETE
-          (fn [ event ]
-                  (let
-                            [
-                              target          (.-target event)
-                              status          (. target (getStatus))
-                            ]
-                                  (if (= status 200)
-                                    (let
-                                    [
-                                      response-text   (. target (getResponseText))
-                                    ]
-                                      (go
-                                        (>! ch (reader/read-string response-text))
-                                        (close! ch)
-                                      ))
+(defn send-request2 [ address   action  parameters-in]
+  (let
+    [
+     ch            (chan 1)
+     headers       (goog.structs.Map.)
+     io-object     (goog.net.XhrIo.)
+     ]
+    (goog.events.listen
+     io-object
+     goog.net.EventType.COMPLETE
 
-                                       (go
-                                           (>! ch  {:error "true"})
-                                           (close! ch)
-                                       )
-                                    )
-                    )
+     (fn [event]
+       (let
+         [target          (.-target event)
+          status          (. target (getStatus))]
+         (if (= status 200)
+           (let [response-text   (. target (getResponseText))]
+             (go
+              (add-debug-event
+               :event-type  "remote"
+               :action-name (str action)
+               :input       (pr-str parameters-in)
+               :result      (pr-str response-text)
                )
+
+              (>! ch (reader/read-string response-text))
+              (close! ch)
+              ))
+
+           (go
+            (add-debug-event
+             :event-type  "remote"
+             :action-name (str action)
+             :input       (pr-str parameters-in)
+             :result      (str "ERROR IN RESPONSE, HTTP : " status)
+             )
+            (>! ch  {:error "true"})
+            (close! ch)
             )
-            (. headers set "charset" "UTF-8")
-            (. io-object send address "POST" nil headers)
-            ch
-          ))
+
+
+
+           ))))
+    (. headers set "charset" "UTF-8")
+    (. io-object send address "POST" nil headers)
+    ch
+    ))
 
 
 
@@ -155,39 +165,38 @@
 
 
 (defn remote
-([
-  action
-  ]
-     (remote action {}))
-([
-  action
-  parameters-in
-  ]
-  (let
-  [
-    parameters  (if parameters-in
-                  {:params parameters-in :tclock (get-time)})
-    ]
-    (send-request2
-       (str
-
-         (if (= (first action) "!") "action?systemaction=" "action?action=" )
-         action
-         "&"
-         (apply
-           str
-           (map
-             (fn [x]
-               (str
-                 (encode-parameter
-                   x
-                   (get parameters x)) "&" ) )
-                 (keys parameters))))
+  ([action]
+   (remote action {}))
 
 
 
-                        )))
-  )
+  ([action  parameters-in]
+   (let
+     [
+      parameters  (if parameters-in
+                    {:params parameters-in :tclock (get-time)})
+      ]
+     (send-request2
+      (str
+
+       (if (= (first action) "!") "action?systemaction=" "action?action=" )
+       action
+       "&"
+       (apply
+        str
+        (map
+         (fn [x]
+           (do
+             (str
+              (encode-parameter
+               x
+               (get parameters x)) "&" ))
+           )
+         (keys parameters))))
+      action
+      parameters-in
+
+      ))))
 
 
 
@@ -522,32 +531,38 @@
     [
      react-fn-name    (str str-nm)
      ]
-    (dom/div
-     #js {
-          :onMouseEnter #(if js/debug_live (om/set-state! owner :debug-highlight true))
-          :onMouseLeave #(if js/debug_live (om/set-state! owner :debug-highlight false))
-          :onClick component-clicked
-          :style (if js/debug_live
-                   #js {:backgroundColor
+    (do
+      ;(log (str "render: " react-fn-name))
+      ;(log (str "           : " (pr-str data)))
+      (add-debug-event :event-type      "render"
+                       :component-name  react-fn-name
+                       :component-data  data
+                       )
+      (dom/div
+       #js {
+            :onMouseEnter #(if js/debug_live (om/set-state! owner :debug-highlight true))
+            :onMouseLeave #(if js/debug_live (om/set-state! owner :debug-highlight false))
+            :onClick component-clicked
+            :style (if js/debug_live
+                     #js {:backgroundColor
 
-                        (if
-                          (om/get-state owner :debug-highlight)
-                          (do
-                            (if (not= (:mode @debugger-ui) "component")
-                              (set-debug-component  react-fn-name))
-                            "lightGray")
-                          (do
-                            (if (not= (:mode @debugger-ui) "component")
-                              (unset-debug-component  react-fn-name))
-                            "")
-                          ""
-                          )
-                        })
-          }
+                          (if
+                            (om/get-state owner :debug-highlight)
+                            (do
+                              (if (not= (:mode @debugger-ui) "component")
+                                (set-debug-component  react-fn-name))
+                              "lightGray")
+                            (do
+                              (if (not= (:mode @debugger-ui) "component")
+                                (unset-debug-component  react-fn-name))
+                              "")
+                            ""
+                            )
+                          })
+            }
 
-     (react-fn data)
-     "")))
-
+       (react-fn data)
+     ""))))
 
 
 

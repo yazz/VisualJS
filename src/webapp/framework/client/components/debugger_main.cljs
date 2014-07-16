@@ -125,11 +125,26 @@
                    old-value   (get event-item :old-value)
                    new-value   (get event-item :value)
                    event-name  (get event-item :event-name)
+                   action-name  (get event-item :action-name)
+                   action-input  (get event-item :input)
+                   action-result  (get event-item :result)
+                   component-name   (get event-item :component-name)
+                   component-data   (get event-item :component-data)
                    deleted     (first (data/diff old-value new-value))
                    added       (second (data/diff old-value new-value))
                    ]
                    (dom/div nil
-                           (dom/h1 nil (str event-type " " debug-id))
+                           (dom/h1
+                            #js {:style #js {
+                                             :color (cond
+                                                     (= event-type "render") "black"
+                                                     (= event-type "UI") "black"
+                                                     (= event-type "event") "blue"
+                                                     (= event-type "DATA") "red"
+                                                     (= event-type "remote") "red"
+                                                     )
+                                             }}
+                            (str  debug-id ") " event-type))
 
                            (if deleted (dom/div #js {:style #js {:color "red"}}
                                     (dom/div nil "Deleted")
@@ -147,6 +162,9 @@
 
                                               (pr-str (if added added "Nothing added"))))))
 
+
+
+
                            (if (= event-type "event") (dom/div #js {:style #js {:color "green"}}
 
                                              (dom/div #js {:style #js {:color "blue"}} (str event-name))
@@ -161,19 +179,98 @@
 
                                                         ))
                                                        (clojure.string/replace #"\(div\ " "(DIV " )
-                                                       )
+                                                       ))))
 
-                                                      )
+
+
+                           (if (= event-type "remote") (dom/div #js {:style #js {:color "red"}}
+
+                                             (dom/div #js {:style #js {:color "blue"}} (str action-name))
+                                             (dom/div #js {:style #js {:color "black"}} (str action-input))
+                                             (dom/pre #js {:style #js {:color "green"}} action-result)
                                              ))
 
 
 
+
+
+
+                            (if (= event-type "render")
+                              (dom/div #js {:style #js {:color "green"}}
+
+                                       (dom/div #js {
+                                                     :onClick #(do (om/update!
+                                                                debug-ui-state
+                                                                [:code-show_index]
+                                                                (if (= (get @debug-ui-state :code-show_index) debug-id)
+                                                                  nil
+                                                                  debug-id))
+                                                                 (om/update!
+                                                                            debug-ui-state
+                                                                            [:code-data-show_index] nil))
+                                                                :style #js {:color "blue"
+                                                                            :text-decoration "underline"
+                                                                            :display "inline-block"
+                                                                            }} (str
+                                                                                (if (= (get debug-ui-state :code-show_index) debug-id)
+                                                                                  "-" "+")
+                                                                                component-name))
+
+                                                                              (dom/div #js {
+                                                     :onClick #(do (om/update!
+                                                                debug-ui-state
+                                                                [:code-data-show_index]
+                                                                (if (= (get @debug-ui-state :code-data-show_index) debug-id)
+                                                                  nil
+                                                                  debug-id))
+                                                                                                                                  (om/update!
+                                                                            debug-ui-state
+                                                                            [:code-show_index] nil))
+                                                                :style #js {:color "blue"
+                                                                            :text-decoration "underline"
+                                                                            :display "inline-block"
+                                                                            :paddingLeft "10px"
+                                                                            }} (str
+                                                                                (if (= (get debug-ui-state :code-data-show_index) debug-id)
+                                                                                  "-" "+")
+                                                                                "Input data"))
+
+                              (if (= (get debug-ui-state :code-show_index) debug-id)
+                               (dom/pre #js {
+                                             :style #js {:position "absolute" }
+                                                      :onMouseLeave #(om/update! debug-ui-state [:code-show_index]
+                                                                                nil)}
+                                       (->
+                                        (str
+                                         (get
+                                          (get @debugger-ui :react-components-code)
+
+                                          component-name
+
+                                          ))
+                                        (clojure.string/replace #"\(div\ " "(DIV " )
+                                        (clojure.string/replace #"\(dom/h2\ " "(H2 " )
+                                        )))
+
+
+                              (if (= (get debug-ui-state :code-data-show_index) debug-id)
+                               (dom/pre #js {
+                                             :style #js {:position "absolute" }
+                                                      :onMouseLeave #(om/update! debug-ui-state [:code-data-show_index]
+                                                                                nil)}
+                                       (pr-str component-data)
+
+                                        ))
+
+
+
+                                       ))
+
+
+
+
+
                            ))))))))
-
-
-
-
-
 
 
 

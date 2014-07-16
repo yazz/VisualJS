@@ -213,6 +213,11 @@
                                  new
                                  error
                                  event-name
+                                 component-name
+                                 component-data
+                                 action-name
+                                 input
+                                 result
                                  ] :or {
                                         event-type     "UI"
                                         error          "Error in field"
@@ -220,23 +225,71 @@
 
   (if
 
-    (or
+    (and
+     (or
       @record-pointer-locally
-      (not (and (= event-type "UI") (get (first (data/diff old new)) :pointer))))
+      (not (and (= event-type "UI") (get (first (data/diff old new)) :pointer)))
+      )
+     (not (= (get action-name 0) "!"))
+     )
 
-    (cond
 
-
-
-     (or (first (data/diff old new)) (second (data/diff old new)))
+    (do
 
       (let [debug-id (swap! debug-count inc)]
-        (swap! debug-event-timeline assoc
-               debug-id  {
-                          :id          debug-id
-                          :event-type  event-type
-                          :old-value   old
-                          :value       new})
+        (cond
+
+
+
+         (or (first (data/diff old new)) (second (data/diff old new)))
+
+         (swap! debug-event-timeline assoc
+                debug-id  {
+                           :id          debug-id
+                           :event-type  event-type
+                           :old-value   old
+                           :value       new})
+
+
+
+
+         (and (= event-type     "event"))
+
+         (do
+           (swap! debug-event-timeline assoc
+                  debug-id  {
+                             :id          debug-id
+                             :event-type  event-type
+                             :event-name  event-name
+                             }))
+
+         (and (= event-type     "render"))
+
+         (do
+           (swap! debug-event-timeline assoc
+                  debug-id  {
+                             :id              debug-id
+                             :event-type      event-type
+                             :component-name  component-name
+                             :component-data  component-data
+                             }))
+
+
+
+         (and (= event-type     "remote"))
+         (do
+           (swap! debug-event-timeline assoc
+                  debug-id  {
+                             :id              debug-id
+                             :event-type      event-type
+                             :action-name     action-name
+                             :input           input
+                             :result          result
+                             }))
+
+
+         )
+
 
         (reset! debugger-ui
                 (assoc @debugger-ui
@@ -245,25 +298,9 @@
         (if (> (+ (:pos @debugger-ui) 5) (:total-events-count @debugger-ui))
           (reset! debugger-ui
                   (assoc @debugger-ui
-                    :pos (:total-events-count @debugger-ui))))
+                    :pos (:total-events-count @debugger-ui)))))
 
-        )
-
-     (and (= event-type     "event"))
-     (let [debug-id (swap! debug-count inc)]
-
-       (do
-         (swap! debug-event-timeline assoc
-                debug-id  {
-                           :id          debug-id
-                           :event-type  event-type
-                           :event-name  event-name
-                           })
-         )
-       )
-
-
-)))
+      )))
 
 
 
@@ -332,4 +369,6 @@
                 :event-name  "watch-ui [:ui :request :to-email :value]"
                 )
 
- @debugger-ui
+;(map :event-type (vals @debug-event-timeline))
+
+(keys @debugger-ui)
