@@ -26,11 +26,11 @@ https://www.youtube.com/watch?v=t9YLtDJZtPY
 
 http://connecttous.co/connecttous/connecttous.html?livedebug=true
 
-: The demo code is from a demo application made just as an example. The source code is here:
+: The demo code is from a demo application made just as an example as NemCV is a closed source application, so the source code cannot be posted online. Anyway, the source code for the example application is available here:
 
 https://github.com/zubairq/coils/tree/connecttous 
 
-: on the branch 'connecttous'
+: on the branch 'connecttous'. Please feel free to take it, modify, and play around with it locally, although you will need Neo4j installed locally too.
 
 
 
