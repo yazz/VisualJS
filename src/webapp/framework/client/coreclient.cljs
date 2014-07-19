@@ -27,6 +27,7 @@
                                                     data-state
                                                     update-data
                                                     add-debug-event
+                                                    component-usage
                                                     ]]
 
   )
@@ -474,8 +475,7 @@
   (let [component-name  (last (get @debugger-ui :react-components))]
     (reset! debugger-ui
             (assoc-in @debugger-ui [:current-component]
-                      component-name))
-    ))
+                      component-name))))
 
 
 
@@ -485,11 +485,24 @@
     (do
       (reset! debugger-ui
               (assoc-in @debugger-ui [:mode]
-                        "component"))
+                        "show-event"))
       (reset! debugger-ui
               (assoc-in @debugger-ui [:current-component]
                         (last (get @debugger-ui :react-components))))
+
+      (if (get @component-usage  (get @debugger-ui :current-component))
+        (do
+          (reset! debugger-ui
+                  (assoc-in @debugger-ui [:mode]
+                            "show-event"))
+
+          (reset! debugger-ui
+                  (assoc-in @debugger-ui [:pos]
+                            (first (get @component-usage (get @debugger-ui :current-component)))))))
+
       )))
+
+
 
 
 (defn set-debug-component [component-name]
