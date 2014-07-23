@@ -185,31 +185,20 @@
 
 
 
-;-----------------------------------------------------
-;-----------------------------------------------------
-(add-watch debug-event-timeline
-           :change
-
-           (fn [_ _ old-val new-val]
-             ;(. js/console log (str "***** " new-val))
-             nil
-             )
-           )
-
-
 (def component-usage (atom
                       {}
                       ))
 
 (def debugger-ui
   (atom {
-         :mode                     "browse"
+         :mode                     "show-event"
          :react-components         []
          :react-components-code    {}
          :watchers-code            {}
          :pos 1
          :total-events-count 0
          }))
+
 
 
 (def debug-count (atom 0))
@@ -221,6 +210,7 @@
                                  event-name
                                  component-name
                                  component-data
+                                 component-path
                                  action-name
                                  input
                                  result
@@ -271,19 +261,20 @@
 
          (and (= event-type     "render"))
 
-         (do
+         (let [component-id {:fn-name component-name :fn-path component-path}]
            (swap! debug-event-timeline assoc
                   debug-id  {
                              :id              debug-id
                              :event-type      event-type
                              :component-name  component-name
+                             :component-path  component-path
                              :component-data  component-data
                              })
 
-           (if (get @component-usage  component-name)
-             (reset! component-usage (assoc @component-usage component-name
-                                       (conj (get @component-usage component-name) debug-id)))
-             (reset! component-usage (assoc @component-usage component-name [debug-id]))
+           (if (get @component-usage  component-id)
+             (reset! component-usage (assoc @component-usage component-id
+                                       (conj (get @component-usage component-id) debug-id)))
+             (reset! component-usage (assoc @component-usage component-id [debug-id]))
              )
            )
 
@@ -314,6 +305,10 @@
                     :pos (:total-events-count @debugger-ui)))))
 
       )))
+
+
+
+
 
 
 
@@ -378,8 +373,8 @@
            (fn [_ _ old-val new-val]
              (do
                ;(.log js/console (pr-str  new-val))
-               ;(if (and @app-watch-on? (not (contains-touch-id?  new-val)))
-               (if @app-watch-on?
+               (if (and @app-watch-on? (not (contains-touch-id?  new-val)))
+               ;(if @app-watch-on?
                  (add-debug-event
                   :event-type  "UI"
                   :old         old-val
@@ -411,3 +406,6 @@
 ;(map :event-type (vals @debug-event-timeline))
 
 (keys @debugger-ui)
+
+(def gui-calls (atom {}))
+(def current-gui-path (atom []))

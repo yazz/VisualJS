@@ -10,7 +10,7 @@
    [ankha.core       :as ankha])
 
   (:use
-   [webapp.framework.client.coreclient           :only  [log remote debug-mode ]]
+   [webapp.framework.client.coreclient           :only  [log remote debug-mode component-fn]]
    [webapp.framework.client.system-globals       :only  [app-state
                                                          playback-app-state
                                                          playback-controls-state
@@ -23,13 +23,17 @@
                                                          init-state-fns
                                                          data-and-ui-events-on?
                                                          add-debug-event
+                                                         current-gui-path
                                                          ]]
    )
   (:use-macros
    [webapp.framework.client.neo4j      :only  [neo4j]]
+   [webapp.framework.client.coreclient :only  [defn-ui-component ns-coils div component]]
    )
   (:require-macros
-   [cljs.core.async.macros :refer [go]]))
+   [cljs.core.async.macros :refer [go]])
+
+  )
 
 
 
@@ -202,7 +206,9 @@
               ;(if @playbackmode (on-mouse e app)) (-> app :pointer :mouse-y)) ")"
 
 
-              (@start-component    app    owner)
+              (do
+                (reset! current-gui-path [])
+                (@start-component    app    owner))
 
               (if @playbackmode
                 (dom/div #js {
