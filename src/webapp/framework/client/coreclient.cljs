@@ -1,15 +1,17 @@
 (ns webapp.framework.client.coreclient
   (:require
-    [goog.net.XhrIo          :as xhr]
-    [clojure.browser.repl    :as repl]
-    [cljs.reader             :as reader]
-    [goog.dom]
-    [goog.Uri.QueryData]
-    [goog.events]
-    [om.core          :as om :include-macros true]
-    [om.dom           :as dom]
-    [cljs.core.async :as async :refer [chan close!]]
-  )
+   [goog.net.XhrIo          :as xhr]
+   [clojure.browser.repl    :as repl]
+   [cljs.reader             :as reader]
+   [goog.dom]
+   [om.core                 :as om :include-macros true]
+   [clojure.data            :as data]
+   [om.dom                  :as dom]
+   [clojure.zip]
+   [goog.Uri.QueryData]
+   [goog.events]
+   [cljs.core.async         :as async :refer [chan close!]]
+   )
 
   (:require-macros
    [cljs.core.async.macros :refer [go alt!]])
@@ -24,14 +26,18 @@
                                                     playback-controls-state
                                                     reset-app-state
                                                     ui-watchers
+                                                    call-stack
                                                     playbackmode
                                                     data-watchers
                                                     data-state
                                                     update-data
                                                     add-debug-event
+                                                    remove-debug-event
                                                     component-usage
                                                     gui-calls
                                                     current-gui-path
+                                                    app-watch-on?
+                                                    data-accesses
                                                     ]]))
 
 
@@ -126,27 +132,31 @@
          (if (= status 200)
            (let [response-text   (. target (getResponseText))]
              (go
-              (add-debug-event
-               :event-type  "remote"
-               :action-name (str action)
-               :input       (pr-str parameters-in)
-               :result      (pr-str response-text)
-               )
+              (let [debug-id
+                    (add-debug-event
+                     :event-type  "remote"
+                     :action-name (str action)
+                     :input       parameters-in
+                     :result      (reader/read-string response-text)
+                     )]
 
-              (>! ch (reader/read-string response-text))
-              (close! ch)
-              ))
+                (>! ch (reader/read-string response-text))
+                (close! ch)
+                (remove-debug-event  debug-id)
+                )))
 
            (go
-            (add-debug-event
-             :event-type  "remote"
-             :action-name (str action)
-             :input       (pr-str parameters-in)
-             :result      (str "ERROR IN RESPONSE, HTTP : " status)
-             )
-            (>! ch  {:error "true"})
-            (close! ch)
-            )
+            (let [debug-id
+                  (add-debug-event
+                   :event-type  "remote"
+                   :action-name (str action)
+                   :input       parameters-in
+                   :result      (str "ERROR IN RESPONSE, HTTP : " status)
+                   )]
+              (>! ch  {:error "true"})
+              (close! ch)
+              (remove-debug-event  debug-id)
+              ))
 
 
 
@@ -380,7 +390,9 @@
 
 
 (defn  ^:export loadDebugger []
-  (doall
+  (do
+   (reset! app-watch-on? false)
+
     (om/root
      webapp.framework.client.components.debugger-main/main-debug-comp
      debugger-ui
@@ -456,15 +468,17 @@
           (reset! debugger-ui (assoc-in @debugger-ui [:pos]
                                         (first
                                          (drop-while
-                                          (fn[xx] (< xx
+                                          (fn[xx] (> xx
                                                      (get-in @debugger-ui [:pos])
                                                      ))
-                                          (get @component-usage (get @debugger-ui :current-component)))
+                                          (reverse (get @component-usage (get @debugger-ui :current-component))))
                                          ))))))))
 
 
 ;@component-usage
-
+;(get-in @debugger-ui [:pos])
+;(get @debugger-ui :current-component)
+;(get @component-usage (get @debugger-ui :current-component))
 
 
 (defn set-debug-component [component-name  component-path]
@@ -716,7 +730,9 @@
     (om/build
      coils-fn
      (get-in state rel-path)
-     {:init-state {:parent-path (into [] (flatten (conj parent-path rel-path))) }}
+     {:init-state {
+                   :parent-path               (into [] (flatten (conj parent-path rel-path)))
+                   }}
      )))
 
 
@@ -726,37 +742,30 @@
 
 
 
-(defn record-component-call [caller-namespace-name  called-fn-name  state
-                             parent-path            rel-path]
-  (let [dfff   (get-in state rel-path)
+(defn record-component-call [caller-namespace-name
+                             called-fn-name
+                             state
+                             full-path]
 
+  (let [
+        entry-name    (str called-fn-name ": " full-path)
+        is-diff?      (not (= (pr-str state) (last (get @gui-calls  entry-name) )))
+        debug-id      (add-debug-event :event-type      "render"
+                                         :component-name  called-fn-name
+                                         :component-path  full-path
+                                         :component-data  state)
         ]
-    (log (str "record-component-call" ))
-    (log (str "    caller-namespace: " caller-namespace-name))
-    (log (str "    called-fn-name:   " called-fn-name))
-    (log (str "    state:            " (keys dfff)))
-    (log (str "    UI parent path:   " parent-path))
-    (log (str "    UI rel path:      " rel-path))
-
-    (let [ entry-name  (str called-fn-name ": " parent-path ":" rel-path)]
-      (reset! gui-calls (assoc @gui-calls entry-name
+    (do
+    (reset! gui-calls (assoc @gui-calls entry-name
 
 
-                          (if (not (= (pr-str dfff) (last (get @gui-calls  entry-name) )))
-                            (do
-                              (add-debug-event :event-type      "render"
-                                               :component-name  called-fn-name
-                                               :component-path  (into [] (flatten (conj parent-path rel-path)))
-                                               :component-data  dfff
-                                               )
-
-                              (conj
-                               (if (get @gui-calls entry-name) (get @gui-calls  entry-name) [])   (pr-str dfff))
-
-                              )
-                            (get @gui-calls  entry-name))
-
-                            )))))
+                        (if is-diff?
+                          (conj
+                           (if (get @gui-calls entry-name) (get @gui-calls  entry-name) [])   (pr-str state))
+                          (get @gui-calls  entry-name))))
+    (log (str "DEBUG ID: "debug-id))
+    debug-id
+    )))
 
 
 
@@ -766,3 +775,43 @@
 ;(get @gui-calls "splash-screen: []:[:ui :splash-screen]")
 
 ;@gui-calls
+
+;clojure.zip/down
+
+
+(defn write-ui-fn [tree  path  sub-path  value  parent-id]
+  (let [
+        full-path          (into [] (flatten (conj path sub-path)))
+        old-val            @app-state
+        data-access-key    {:tree  "UI"
+                            :path  full-path}
+        current-value      (get @data-accesses  data-access-key)
+        ]
+    (om/update!  tree  sub-path  value)
+    (let [debug-id       (add-debug-event
+                          :event-type  "UI"
+                          :old         old-val
+                          :new         @app-state
+                          :parent-id   parent-id
+                          )]
+      (log (str full-path))
+      (log (str "    parent id: " parent-id))
+      (reset!  data-accesses (assoc @data-accesses
+                               data-access-key
+                               (if current-value
+                                 (conj current-value  debug-id)
+                                 [debug-id])))
+
+      (remove-debug-event debug-id)
+      )
+    ))
+
+
+
+(defn update-ui [app  path  value]
+  (let
+    [
+     calls          @call-stack
+     parent-id      (last calls)
+     ]
+  (write-ui-fn  app  [] path value parent-id)))

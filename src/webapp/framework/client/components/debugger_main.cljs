@@ -15,7 +15,8 @@
    [webapp.framework.client.system-globals :only  [debugger-ui
                                                    debug-event-timeline
                                                    app-state
-                                                   app-watch-on?]]
+                                                   app-watch-on?
+                                                   data-accesses]]
    )
   (:use-macros
    [webapp.framework.client.neo4j         :only  [neo4j]]
@@ -52,11 +53,14 @@
           )
         )
       )
-    (reset! app-watch-on? true)
+    ;(reset! app-watch-on? true)
 
     (om/update! debugger-state
             [:mode] "show-event")
 ))
+
+
+
 
 
 
@@ -117,10 +121,35 @@
                (str (-> app :pos) " of "
                     (-> app :total-events-count ))
 
-               )))))
+               )
+
+              (dom/pre #js {
+                            :style #js { :fontSize "14px"}
+                            :onMouseEnter #(reset! debugger-ui (assoc-in @debugger-ui [:mode] "show-event"))
+                            }
+                       (if (pos? (count (get @debugger-ui :react-components)))
+                         (apply str  (into [] (map (fn[li] (str (get li :fn-name) "   "))
+                                                   (get @debugger-ui :react-components))))
+                         "Mouse over components to show code"
+                         )))
+
+              )))
 
 
-(defn show-tree [a-tree is-map?]
+
+
+
+;(get @data-accesses
+;      {:tree "UI" :path [:ui :companies :values]})
+
+
+
+
+
+
+
+
+(defn show-tree [a-tree is-map? current-path tree debugger]
   (dom/div nil
            ;------
            ;START
@@ -128,8 +157,17 @@
            (cond
 
             is-map?
-            (dom/div #js {:style #js {:paddingLeft "20px" :display "inline-block"
-                                       :verticalAlign "top"}} (str (:key a-tree) ""))
+            (let [idt (get @data-accesses {:tree tree :path current-path})]
+              (dom/div #js {:style #js {:paddingLeft "20px" :display "inline-block"
+                                        :verticalAlign "top"
+                                        :color (if idt "red" "")
+                                        }
+                            :onClick (fn[e] (if idt
+                                              (om/update! debugger [:events-filter-path] current-path)
+                                              ))
+                            } (str
+                                            (:key a-tree)
+                                            )))
 
             (map? a-tree)
             (dom/div #js {:style #js {:paddingLeft "20px"}} "{")
@@ -152,14 +190,14 @@
             is-map?
              (dom/div #js {:style #js {:paddingLeft "20px"  :display "inline-block"
                                         :verticalAlign "top"}}
-              (show-tree (:value a-tree) false)
+              (show-tree (:value a-tree) false current-path tree debugger)
                       )
 
             (map? a-tree)
             (do
               (apply dom/div #js {:style #js {:paddingLeft "20px"}}
                      (map
-                      #(show-tree  {:key %1 :value (get a-tree %1)} true)
+                      #(show-tree  {:key %1 :value (get a-tree %1)} true (conj current-path %1 ) tree debugger)
                       (keys a-tree) ))
               )
 
@@ -169,7 +207,8 @@
              (list? a-tree)
              (coll? a-tree)
              )
-            (apply dom/div #js {:style #js {:paddingLeft "20px"}}  (map #(show-tree %1 false) a-tree))
+            (apply dom/div #js {:style #js {:paddingLeft "20px"}}
+                   (map #(show-tree %1 false (conj current-path %1 ) tree debugger) a-tree))
 
 
             :else
@@ -200,6 +239,13 @@
 
             )))
 
+
+
+
+
+
+
+
 (defn show-event-component[ debug-ui-state  owner ]
   (reify
     om/IRender
@@ -216,19 +262,19 @@
               (if event-item
                 (let
                   [
-                   debug-id    (get event-item :id)
-                   event-type  (get event-item :event-type)
-                   old-value   (get event-item :old-value)
-                   new-value   (get event-item :value)
-                   event-name  (get event-item :event-name)
-                   action-name  (get event-item :action-name)
-                   action-input  (get event-item :input)
-                   action-result  (get event-item :result)
+                   debug-id         (get event-item :id)
+                   event-type       (get event-item :event-type)
+                   old-value        (get event-item :old-value)
+                   new-value        (get event-item :value)
+                   event-name       (get event-item :event-name)
+                   action-name      (get event-item :action-name)
+                   action-input     (get event-item :input)
+                   action-result    (get event-item :result)
                    component-name   (get event-item :component-name)
                    component-path   (get event-item :component-path)
                    component-data   (get event-item :component-data)
-                   deleted     (first (data/diff old-value new-value))
-                   added       (second (data/diff old-value new-value))
+                   deleted          (first (data/diff old-value new-value))
+                   added            (second (data/diff old-value new-value))
                    ]
                    (dom/div nil
                            (dom/h1
@@ -245,12 +291,12 @@
 
                             (if deleted (dom/div #js {:style #js {:color "red"}}
                                                  (dom/div nil "Deleted")
-                                                 (show-tree  deleted false)
+                                                 (show-tree  deleted false [] event-type debug-ui-state)
                                                  ))
 
                             (if added (dom/div #js {:style #js {:color "green"}}
                                                (dom/div nil "Added")
-                                               (show-tree  added false)
+                                               (show-tree  added false [] event-type debug-ui-state)
                                                ))
 
 
@@ -277,8 +323,8 @@
                            (if (= event-type "remote") (dom/div #js {:style #js {:color "red"}}
 
                                              (dom/div #js {:style #js {:color "blue"}} (str action-name))
-                                             (dom/div #js {:style #js {:color "black"}} (str action-input))
-                                             (dom/pre #js {:style #js {:color "green"}} action-result)
+                                             (dom/div #js {:style #js {:color "black"}} (show-tree action-input false [] nil debug-ui-state) )
+                                             (dom/pre #js {:style #js {:color "green"}} (show-tree action-result false [] nil debug-ui-state) )
                                              ))
 
 
@@ -356,9 +402,16 @@
                                                        :style #js {:position "absolute" }
                                                        :onMouseLeave #(om/update! debug-ui-state [:code-data-show_index]
                                                                                   nil)}
-                                                  (show-tree component-data false)
+                                                  (show-tree  component-data  false  component-path "UI" debug-ui-state)
 
                                                   ))))))))))))
+
+;(get @data-accesses {:tree "UI" :path (get @debugger-ui :events-filter-path)})
+;(get @debugger-ui :events-filter-path)
+
+
+
+
 
 
 
@@ -369,24 +422,67 @@
     ;---------
     (render
      [_]
-     (dom/div #js {
-                   :style #js {:height "300px"}
-                   :onMouseEnter #(reset! debugger-ui (assoc-in @debugger-ui [:mode] "show-event"))
-                   }
+     (dom/div nil
+              (dom/div #js {
+                            :style #js {:height "300px" :border "1px solid black"
+                                        :border-radius "15px" :padding "5px"}
+                            :onMouseEnter #(reset! debugger-ui (assoc-in @debugger-ui [:mode] "show-event"))
+                            }
 
-              (dom/pre #js {
-                           :style #js { :fontSize "14px"}
-                           :onMouseEnter #(reset! debugger-ui (assoc-in @debugger-ui [:mode] "show-event"))
-                           } (apply str  (into [] (map (fn[li] (str (get li :fn-name) "   ")) (get @debugger-ui :react-components)))))
+                       (dom/div nil  (str "Filter: " (if (get app :events-filter-path)
+                                       (pr-str (get app :events-filter-path))
+                                       )))
+
+                       (dom/div #js {:style #js {:height "250px" :overflow "scroll" :paddingRight "40px"}}
+                                (apply dom/div nil
+                                       (if (get app :events-filter-path)
+                                         (map
+                                          (fn[x]
+                                            (dom/div #js {:style #js {:paddingLeft "20px"}
+                                                          }
+                                                     (let [thisitem      (get @debug-event-timeline x)]
+                                                       (dom/pre #js {:style #js {:paddingLeft "20px"
+                                                                                 :backgroundColor "darkgray"}
+                                                                     :onClick (fn[e] (update-app-pos app x))
+                                                                     }
+                                                                (str x " "  (:event-type thisitem))))
+
+                                                     (let [thisitem      (get @debug-event-timeline x)
+                                                           parentitemid  (get thisitem :parent-id)
+                                                           parentitem    (if parentitemid (get  @debug-event-timeline  parentitemid))
+                                                           ]
+
+                                                       (dom/pre #js {:style #js {:paddingLeft "20px" :marginLeft "50px"
+                                                                                 }
+                                                                     :onClick (fn[e] (update-app-pos  app  parentitemid))}
+
+                                                                (str
+                                                                 (if parentitem (cond
+                                                                                 (= (:event-type parentitem) "event")
+                                                                                 (str parentitemid " " (:event-type parentitem) "::"
+                                                                                      (:event-name parentitem) )
+
+                                                                                 (= (:event-type parentitem) "render")
+                                                                                 (str parentitemid " " (:event-type parentitem) " "
+                                                                                      (:component-name parentitem) "::"
+                                                                                      (:component-path parentitem) )
+
+                                                                                 ))
+                                                                 ))
+
+                                                       )
+                                                     ))
+
+                                          (reverse (get @data-accesses {:tree "UI" :path (get app :events-filter-path)})))
+                                         ))))
+
+
 
               (cond
 
 
                (= (:mode @debugger-ui) "show-event")
                (om/build  show-event-component   app)
-
-
-
 
                )))))
 

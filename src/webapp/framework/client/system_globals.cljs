@@ -16,6 +16,16 @@
 
 (def playbackmode (atom false))
 
+(def call-stack
+  (atom
+   []))
+
+(def data-accesses
+  (atom
+   {}))
+
+(map :path (keys @data-accesses))
+
 
 (def data-state
   (atom
@@ -24,6 +34,12 @@
 (def app-state
   (atom
    {}))
+
+;-----------------------------------------------------
+;  This is the application watch space. So whenever
+; the application changes then we record the event
+;-----------------------------------------------------
+(def app-watch-on? (atom true))
 
 
 
@@ -139,9 +155,6 @@
 
 
 
-(defn update-ui [app path value]
-  (om/update! app path value))
-
 (defn add-init-state-fn [nm init-state-fn]
   (do
     ;(.log js/console (str "Init function added: " nm))
@@ -179,7 +192,7 @@
 
 (def debug-event-timeline (atom {}))
 ;(map #(str %1) @debug-event-timeline)
-;(get @debug-event-timeline 1)
+;(keys (get @debug-event-timeline 49))
 
 
 
@@ -195,8 +208,9 @@
          :react-components         []
          :react-components-code    {}
          :watchers-code            {}
-         :pos 1
-         :total-events-count 0
+         :pos                      1
+         :total-events-count       0
+         :events-filter-path       nil
          }))
 
 
@@ -214,6 +228,7 @@
                                  action-name
                                  input
                                  result
+                                 parent-id
                                  ] :or {
                                         event-type     "UI"
                                         error          "Error in field"
@@ -227,6 +242,7 @@
       (not (and (= event-type "UI") (get (first (data/diff old new)) :pointer)))
       )
      (not (= (get action-name 0) "!"))
+     @app-watch-on?
      )
 
 
@@ -244,7 +260,9 @@
                            :id          debug-id
                            :event-type  event-type
                            :old-value   old
-                           :value       new})
+                           :value       new
+                           :parent-id   parent-id
+                           })
 
 
 
@@ -302,9 +320,21 @@
         (if (> (+ (:pos @debugger-ui) 5) (:total-events-count @debugger-ui))
           (reset! debugger-ui
                   (assoc @debugger-ui
-                    :pos (:total-events-count @debugger-ui)))))
+                    :pos (:total-events-count @debugger-ui))))
+
+        (swap! call-stack conj debug-id)
+        debug-id
+        )
 
       )))
+
+(defn remove-debug-event [did]
+  (reset! call-stack
+          (into [] (filter #(not= %1 did) @call-stack))
+          )
+  )
+
+
 
 
 
@@ -362,37 +392,38 @@
 
 
 ;(contains-touch-id? [{:a {:touch-id 1}}])
+;(+ (:pos @debugger-ui ) 5)
+;(:total-events-count @debugger-ui )
+;(get @debug-event-timeline 20)
 
-;-----------------------------------------------------
-;  This is the application watch space. So whenever
-; the application changes then we record the event
-;-----------------------------------------------------
-(def app-watch-on? (atom true))
+
 (add-watch app-state
            :change
            (fn [_ _ old-val new-val]
              (do
                ;(.log js/console (pr-str  new-val))
                (if (and @app-watch-on? (not (contains-touch-id?  new-val)))
-               ;(if @app-watch-on?
-                 (add-debug-event
-                  :event-type  "UI"
-                  :old         old-val
-                  :new         new-val)))))
+                 ;(if @app-watch-on?
+                 (comment let [debug-id (add-debug-event
+                                 :event-type  "UI"
+                                 :old         old-val
+                                 :new         new-val
+                                 :parent-id   (last @call-stack)
+                                 )]
+                   (remove-debug-event debug-id)
+                   )))))
 
 (add-watch data-state
            :change
            (fn [_ _ old-val new-val]
              (if @app-watch-on?
-               (add-debug-event
-                :event-type  "DATA"
-                :old         old-val
-                :new         new-val))))
-
-
-;(+ (:pos @debugger-ui ) 5)
-;(:total-events-count @debugger-ui )
-;(get @debug-event-timeline 20)
+               (let [debug-id (add-debug-event
+                               :event-type  "DATA"
+                               :old         old-val
+                               :new         new-val
+                               :parent-id   (last @call-stack)
+                               )]
+                 (remove-debug-event debug-id)))))
 
 
 
@@ -405,7 +436,22 @@
 
 ;(map :event-type (vals @debug-event-timeline))
 
-(keys @debugger-ui)
+
+; (:events-filter-path @debugger-ui)
 
 (def gui-calls (atom {}))
 (def current-gui-path (atom []))
+
+;(filter #(= (:fn-name %1) "text-graph") @component-usage)
+
+;@component-usage
+
+
+;@call-stack
+
+;(keys @gui-calls)
+
+
+;(get @data-accesses (first (keys @data-accesses)))
+
+@data-accesses

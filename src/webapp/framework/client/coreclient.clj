@@ -89,13 +89,32 @@
            [~'this]
 
            ~(if *show-code*
-              `(~'let [~'path ~'(om/get-state owner :parent-path)]
-                      (webapp.framework.client.coreclient/debug-react
-                       ~(str `~fn-name)
-                       ~'owner
-                       ~(first data-paramater-name)
-                       (~'fn [~(first data-paramater-name)]
-                             ~@code)))
+              `(~'let [
+
+                       ~'debug-id       (webapp.framework.client.coreclient/record-component-call
+                                         (~'ns-coils-debug)
+                                         ~(str `~fn-name)
+                                         ~(first data-paramater-name)
+                                         ~'(om/get-state owner :parent-path)
+                                         )
+
+
+                       ~'path       ~'(om/get-state owner :parent-path)
+
+                       ~'parent-id  ~'debug-id
+
+                       ~'return-val (webapp.framework.client.coreclient/debug-react
+                                     ~(str `~fn-name)
+                                     ~'owner
+                                     ~(first data-paramater-name)
+                                     (~'fn [~(first data-paramater-name)]
+                                           ~@code))
+
+                       ~'removed-id     (~'remove-debug-event  ~'debug-id)
+
+                       ]
+
+                      ~'return-val)
 
               ;else
               (first code))
@@ -291,16 +310,28 @@
 ;--------------------------------------------------------------------
 (defmacro component
   [component-render-fn   state   rel-path]
-  `(do
-     (webapp.framework.client.coreclient/record-component-call
-      (~'ns-coils-debug)
-      ~(str `~component-render-fn)
-      ~state
-      ~'path
-      ~rel-path
-      )
-    (~'component-fn ~component-render-fn ~state  ~'path ~rel-path)))
+  `(let [
+         ~'return-value   (~'component-fn ~component-render-fn ~state  ~'path ~rel-path)
+         ]
+     (do
+       ~'return-value)))
 
-;(macroexpand '(component  main-view  app []) )
+(macroexpand '(component  main-view  app []) )
 ;(macroexpand '(defn-ui-component    letter-a  [data] {}    (div nil "a")))
 ;--------------------------------------------------------------------
+
+
+
+;--------------------------------------------------------------------
+(defmacro write-ui
+  [tree sub-path value]
+  `(do
+     (webapp.framework.client.coreclient/write-ui-fn
+      ~tree
+      ~'path
+      ~sub-path
+      ~value
+      ~'parent-id
+      )))
+
+;(macroexpand '(write-ui app [:ui :tab-browser]  "top companies"))
