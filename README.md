@@ -28,7 +28,7 @@ http://connecttous.co/connecttous/connecttous.html?livedebug=true
 
 : The demo code is from a demo application made just as an example as NemCV is a closed source application, so the source code cannot be posted online. Anyway, the source code for the example application is available here:
 
-https://github.com/zubairq/coils/tree/connecttous 
+https://github.com/zubairq/coils/tree/connecttous
 
 : on the branch 'connecttous'. Please feel free to take it, modify, and play around with it locally, although you will need Neo4j installed locally too.
 
@@ -221,9 +221,11 @@ Anatomy of a Coils application
           src
               └ webapp
                   └ client
-                      └ views
-                          └ page_structure.cljs
-                            ... more views ...
+                      └ react
+                          └ components
+                          └ views
+                              └ page_structure.cljs
+                                ... more views ...
 
                         main.cljs
                         gui_actions.cljs
