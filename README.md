@@ -223,14 +223,15 @@ Anatomy of a Coils application
                   └ client
                       └ react
                           └ components
+                              └ company_details.cljs
+                                ... more Om/React components you define...
                           └ views
-                              └ page_structure.cljs
-                                ... more views ...
+                              └ main.cljs
+                                ... more main views which you define...
 
-                        main.cljs
-                        gui_actions.cljs
-                        session.cljs
-                        actions.cljs
+                        data_tree.cljs
+                        ui_tree.cljs
+                        init.cljs
 
                              ...
                     server
@@ -240,19 +241,20 @@ Anatomy of a Coils application
                         └ client
                               ...
                           server
+                              ...
 
           resources
               └ public
-                main.html
+                main.html - copy this for your own main page
 
 
     srcprod
         └ webapp_config
-            └ settings.clj
+            └ settings.clj - create this yourself to define your production environemnt
 
     srctest
         └ webapp_config
-            └ settings.clj
+            └ settings.clj - create this yourself to define your test environemnt
 
 
 
@@ -266,11 +268,15 @@ Getting started
     lein with-profile base cljsbuild once
     lein with-profile base ring server
 
-2) Open LightTable.
+2) Open LightTable
 
-3) Add the project root directory.
+3) Add the project root directory
 
-4) Open a Browser tab and point to [127.0.0.1:3000](127.0.0.1:3000).
+4) Open a Browser tab and point to [127.0.0.1:3000](127.0.0.1:3000)
+
+5) To see past sessions go to [127.0.0.1:3000/main.html?playback=true](127.0.0.1:3000/main.html?playback=true)
+
+6) To see the live debugging mode go to [127.0.0.1:3000/main.html?livedebug=true](127.0.0.1:3000/main.html?livedebug=true)
 
 The easiest way to get started is to just play around with the demo app online at http://coils.cc. Click on the logo in the top left and then you enter the debug mode. You can click on most elements on the page and you can see the code used to generate them.
 
