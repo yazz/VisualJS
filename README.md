@@ -245,7 +245,7 @@ Anatomy of a Coils application
 
           resources
               └ public
-                main.html - copy this for your own main page
+                    main.html - copy this for your own main page
 
 
     srcprod
@@ -286,13 +286,19 @@ The easiest way to get started is to just play around with the demo app online a
 Adding something to the web page
 --------------------------------
 
-1) Go to a clojurescript view in src/webapp/client/views/main_view.cljs.
+1) Go to a clojurescript view in webapp/framework/client/components/main.cljs
 
-2) Add to main_view.cljs:
+2) This is the default page that you see when you start Coils as a web app, so there should be a function which looks something like this:
 
-    (swap-section "main" "<div>hello world</div>")
+    (defn-ui-component     main-view   [app]
+        {:absolute-path []}
 
-3) Press Ctrl-Alt-Enter on the line and the view should swap out the whole page with the text "Hello world"
+        (div nil
+            (h2 nil "Coils")
+            "Build webapps with Neo4j"))
+
+
+3) Change the text and press Ctrl-Alt-Enter on the line to "Hello World" and the view should swap out the whole page with the text "Hello world"
 
 
 Adding debuggable elements to the page
