@@ -83,7 +83,9 @@
                                         :onClick
                                         (fn[x]
                                           (if (pos? (get-in @app [:pos]))
-                                            (update-app-pos  app  (dec (get-in @app [:pos])))
+                                            (do
+                                              (update-app-pos  app  (dec (get-in @app [:pos])))
+                                              (om/update! app [:events-filter-path] nil))
 
                                           ))
 
@@ -94,9 +96,9 @@
                                         :onClick
                                         (fn[x]
                                           (if (pos? (get-in @app [:pos]))
-                                            (update-app-pos  app  (inc (get-in @app [:pos])))
-
-                                          ))
+                                            (do
+                                              (update-app-pos  app  (inc (get-in @app [:pos])))
+                                              (om/update! app [:events-filter-path] nil))))
 
                                         } ">")
                        (dom/input
@@ -112,6 +114,7 @@
                              (fn[e]
                                (let [value (js/parseInt (.. e -target -value))]
                                  (update-app-pos   app value)
+                                 (om/update! app [:events-filter-path] nil)
                                  ))
                              })
 
@@ -429,30 +432,82 @@
                             :onMouseEnter #(reset! debugger-ui (assoc-in @debugger-ui [:mode] "show-event"))
                             }
 
-                       (dom/div nil  (str "Filter: " (if (get app :events-filter-path)
-                                       (pr-str (get app :events-filter-path))
-                                       )))
+                       (dom/div nil  (str "Filter: "
+                                          (if (get app :events-filter-path)
+                                            (pr-str (get app :events-filter-path))
+                                            "Show all in past"
+                                            )))
 
                        (dom/div #js {:style #js {:height "250px" :overflow "scroll" :paddingRight "40px"}}
                                 (apply dom/div nil
-                                       (if (get app :events-filter-path)
+
                                          (map
                                           (fn[x]
-                                            (dom/div #js {:style #js {:paddingLeft "20px"}
+                                            (if x
+                                              (dom/div #js {:style #js {:paddingLeft "20px"}
                                                           }
                                                      (let [thisitem      (get @debug-event-timeline x)]
                                                        (dom/pre #js {:style #js {:paddingLeft "20px"
                                                                                  :backgroundColor "darkgray"}
                                                                      :onClick (fn[e] (update-app-pos app x))
                                                                      }
-                                                                (str x " "  (:event-type thisitem))))
+
+                                                                (dom/div #js {:style #js {  :display         "inline-block"}}
+                                                                                     (str x " "  (:event-type thisitem) " "
+                                                                     (cond
+                                                                      (=  (:event-type thisitem) "render")
+                                                                      (str (:component-name thisitem) " " (:component-path thisitem))
+                                                                      )
+
+                                                                     ))
+
+
+                                                                (cond
+                                                                 (= (:event-type thisitem) "render")
+                                                                 (dom/div #js {
+                                                                               :onClick #(do
+                                                                                           (om/update!
+                                                                                            app
+                                                                                            [:code-data-show_index2]
+                                                                                            (if (= (get @app :code-data-show_index2) x)
+                                                                                              nil
+                                                                                              x))
+                                                                                           (om/update!
+                                                                                            app
+                                                                                            [:code-show_index2] nil))
+                                                                               :style #js {:color           "blue"
+                                                                                           :text-decoration "underline"
+                                                                                           :display         "inline-block"
+                                                                                           :paddingLeft     "10px"
+                                                                                           }
+                                                                               }
+                                                                          (str
+                                                                           (if (= (get app :code-data-show_index2) x)
+                                                                             "-" "+")
+                                                                           "Input data")))
+
+
+                                                                (if (= (get app :code-data-show_index2) x)
+                                                                  (dom/pre #js {
+                                                                                :style #js {:position "absolute" }
+                                                                                :onMouseLeave #(om/update! app [:code-data-show_index2]
+                                                                                                           nil)}
+                                                                           (show-tree
+                                                                            (get thisitem :component-data)  false
+                                                                            (get thisitem :component-path) "UI" app)
+
+                                                                           ))
+
+
+                                                                ))
 
                                                      (let [thisitem      (get @debug-event-timeline x)
                                                            parentitemid  (get thisitem :parent-id)
                                                            parentitem    (if parentitemid (get  @debug-event-timeline  parentitemid))
                                                            ]
 
-                                                       (dom/pre #js {:style #js {:paddingLeft "20px" :marginLeft "50px"
+                                                       (if parentitemid
+                                                         (dom/pre #js {:style #js {:paddingLeft "20px" :marginLeft "50px"
                                                                                  }
                                                                      :onClick (fn[e] (update-app-pos  app  parentitemid))}
 
@@ -464,16 +519,25 @@
 
                                                                                  (= (:event-type parentitem) "render")
                                                                                  (str parentitemid " " (:event-type parentitem) " "
-                                                                                      (:component-name parentitem) "::"
-                                                                                      (:component-path parentitem) )
+                                                                                      (:component-name parentitem) " "
+                                                                                      (:component-path parentitem)
+                                                                                      )
 
                                                                                  ))
-                                                                 ))
+                                                                 )))
 
                                                        )
-                                                     ))
+                                                     )))
 
-                                          (reverse (get @data-accesses {:tree "UI" :path (get app :events-filter-path)})))
+                                          (if (get app :events-filter-path)
+                                            (reverse (get @data-accesses {:tree "UI" :path (get app :events-filter-path)}))
+                                            (reverse
+                                             (let [aps   (- (-> app :pos) 20)
+                                                   act   (if (> aps 0) aps 1)
+                                                   ]
+                                               (into [] (range act (+ 1 (-> app :pos))))
+                                               ))
+                                            )
                                          ))))
 
 
@@ -487,5 +551,5 @@
                )))))
 
 
-
-
+;(reverse (get @data-accesses {:tree "UI" :path (get @debugger-ui :events-filter-path)}))
+;(keys @debug-event-timeline )

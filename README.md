@@ -298,7 +298,18 @@ Adding something to the web page
             "Build webapps with Neo4j"))
 
 
-3) Change the text and press Ctrl-Alt-Enter on the line to "Hello World" and the view should swap out the whole page with the text "Hello world"
+3) Change the text and on the line to "Hello World" so that it looks like this:
+
+    (defn-ui-component     main-view   [app]
+        {:absolute-path []}
+
+        (div nil
+            (h2 nil "Coils")
+            "Build webapps with Neo4j"))
+
+4) press press Ctrl-Alt-Enter and the view should swap out the whole page with the text "Hello world" in the web browser
+
+
 
 
 Adding debuggable elements to the page
