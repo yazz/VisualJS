@@ -302,7 +302,7 @@ Adding something to the web page
             "Build webapps with Neo4j"))
 
 
-3) Change the text and on the line to "Hello World" so that it looks like this:
+3) Change the text from "Build webapps with Neo4j" to "Hello World" so that it looks like this:
 
     (defn-ui-component     main-view   [app]
         {:absolute-path []}
