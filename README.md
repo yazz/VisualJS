@@ -309,7 +309,7 @@ Adding something to the web page
 
         (div nil
             (h2 nil "Coils")
-            "Build webapps with Neo4j"))
+            "Hello World"))
 
 4) press press Ctrl-Alt-Enter and the view should swap out the whole page with the text "Hello world" in the web browser, no browser reload required!
 
