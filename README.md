@@ -270,13 +270,15 @@ Getting started
 
 2) Open LightTable
 
-3) Add the project root directory
+3) Create a new workspace in lightTable
 
-4) Open a Browser tab and point to [127.0.0.1:3000](127.0.0.1:3000)
+4) Add the project directory my_new_application to the LightTable workspace
 
-5) To see past sessions go to [127.0.0.1:3000/main.html?playback=true](127.0.0.1:3000/main.html?playback=true)
+5) Open a Browser tab in LightTable and point to [127.0.0.1:3000](127.0.0.1:3000)
 
-6) To see the live debugging mode go to [127.0.0.1:3000/main.html?livedebug=true](127.0.0.1:3000/main.html?livedebug=true)
+6) To see past sessions go to [127.0.0.1:3000/main.html?playback=true](127.0.0.1:3000/main.html?playback=true)
+
+7) To see the live debugging mode go to [127.0.0.1:3000/main.html?livedebug=true](127.0.0.1:3000/main.html?livedebug=true)
 
 The easiest way to get started is to just play around with the demo app online at http://coils.cc. Click on the logo in the top left and then you enter the debug mode. You can click on most elements on the page and you can see the code used to generate them.
 
@@ -286,7 +288,9 @@ The easiest way to get started is to just play around with the demo app online a
 Adding something to the web page
 --------------------------------
 
-1) Go to a clojurescript view in webapp/framework/client/components/main.cljs
+1) In LightTable open the browser and point to 127.0.0.1:3000
+
+2) Go to the clojurescript view in my_new_application/src/webapp/framework/client/components/main.cljs
 
 2) This is the default page that you see when you start Coils as a web app, so there should be a function which looks something like this:
 
@@ -307,9 +311,9 @@ Adding something to the web page
             (h2 nil "Coils")
             "Build webapps with Neo4j"))
 
-4) press press Ctrl-Alt-Enter and the view should swap out the whole page with the text "Hello world" in the web browser
+4) press press Ctrl-Alt-Enter and the view should swap out the whole page with the text "Hello world" in the web browser, no browser reload required!
 
-
+We actually cheated in the above example as we edited the Coils framework itself, but it was just to get you to make a change as fast as possible. In an actual applicaiton we would ask you to make another file for your own GUI components
 
 
 Adding debuggable elements to the page
