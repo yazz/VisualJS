@@ -1,7 +1,7 @@
 Coils - Build Neo4j Web Applications
 ====================================
 
-
+Debugger Demo: http://connecttous.co/connecttous/connecttous.html?livedebug=true
 
 Introduction
 ------------
@@ -319,6 +319,8 @@ We actually cheated in the above example as we edited the Coils framework itself
 Adding debuggable elements to the page
 --------------------------------------
 
+In the past Coils used Domina, and other imperative libraries to add elements to a webpage, something like this, where "logged-in-panel" defines some HTML, and "swap-section" manipulates the DOM:
+
     (defn-html logged-in-panel []
         (el :div {:class "row" :style "padding: 5px; width:400px;"} [
             (el :div
@@ -346,10 +348,25 @@ Adding debuggable elements to the page
 
     (swap-section "main" (logged-in-panel))
 
+However, since Facebook react, via David Nolen's Clojurescript Om library is now used to define the interface, the method of defining the web UI has drastically changed. To understand how the UI is defined an explanation is needed:
+
+        DATA STATE
+            .
+            .
+            .
+            V
+        UI STATE
+            .
+            .
+            .
+            V
+    Om/React Components
+
 
 
 Client side message passing system (a.k.a. events)
 -----------------------------------------------
+This was part of the old Coils. This has now been fully deprecated so that the UI and DATA trees are watched for events. The old method worked like this:
 
 Define an action:
 
