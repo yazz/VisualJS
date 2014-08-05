@@ -362,6 +362,65 @@ However, since Facebook react, via David Nolen's Clojurescript Om library is now
             V
     Om/React Components
 
+So React/Om components make up the user interface. When we say React/Om components this means that there is a piece of UI code and a corresponding piece of data. So for example there may be the following piece of coe to render a UI:
+
+    (defn-ui-component     say-hello-ui-component   [person-data] {}
+        (div
+            nil
+            (str "Hello " (:name person-data))))
+
+This component would have to be passed in a structure like follows from the UI state:
+
+    {
+        :name     "Pete"
+        :age      40
+    }
+
+and the result would be a HTML div like:
+
+    Hello Pete
+
+So, the diagram would now look something like this:
+
+
+        DATA STATE
+            .
+            .
+            .
+            .
+            V
+
+        UI STATE
+            .
+            .
+            .
+        {
+            :name     "Pete"
+            :age      40
+        }
+            .
+            .
+            .
+            V
+
+    Om/React Components
+
+        (defn-ui-component     say-hello-ui-component   [person-data] {}
+            (div
+                nil
+                (str "Hello " (:name person-data))))
+            .
+            .
+            .
+            .
+            V
+
+    Outputs "Hello Pete" in the browser
+
+
+
+
+
 
 
 Client side message passing system (a.k.a. events)
@@ -377,7 +436,7 @@ Define an action:
 Call an action:
 
     (do-action "Say something")
-    
+
 So in the new version of Coils if you want to execute an event you have to decide whether you are listening to the data tree or the UI tree. For example, if you want to perform an action when the use presses a button then you would do something like this:
 
     (==ui  [:ui   :company-details   :clicked]    true
