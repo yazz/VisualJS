@@ -377,6 +377,14 @@ Define an action:
 Call an action:
 
     (do-action "Say something")
+    
+So in the new version of Coils if you want to execute an event you have to decide whether you are listening to the data tree or the UI tree. For example, if you want to perform an action when the use presses a button then you would do something like this:
+
+    (==ui  [:ui   :company-details   :clicked]    true
+          (-->ui  [:ui  :company-details   :clicked  ] false)
+          (-->ui  [:ui  :tab-browser    ] "top companies"))
+
+
 
 
 
