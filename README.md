@@ -443,7 +443,11 @@ So in the new version of Coils if you want to execute an event you have to decid
           (-->ui  [:ui  :company-details   :clicked  ] false)
           (-->ui  [:ui  :tab-browser    ] "top companies"))
 
+So this means that with Coils, the preferred way to do things is with events, which are triggered by any of the following:
 
+- timers
+- changes in the UI tree (because of user actions suh a sclicking a button)
+- chnages in the data tree (such as data being read from Neo4j)
 
 
 
