@@ -12,6 +12,7 @@ Quick start for a blank project
 Install neo4j from http://www.neo4j.org/
 
 Install and run Coils from Github
+
     /neo4j-home-directory/bin/neo4j start
     git clone  https://github.com/zubairq/coils.git  my_new_application
     cd my_new_application
