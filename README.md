@@ -1,7 +1,23 @@
 Coils - Build Neo4j Web Applications
 ====================================
 
-Debugger Demo: http://connecttous.co/connecttous/connecttous.html?livedebug=true
+Debugger Demo
+-------------
+
+http://connecttous.co/connecttous/connecttous.html?livedebug=true
+
+Quick start for a blank project
+-------------------------------
+
+Install neo4j from http://www.neo4j.org/
+
+Install and run Coils from Github
+    /neo4j-home-directory/bin/neo4j start
+    git clone  https://github.com/zubairq/coils.git  my_new_application
+    cd my_new_application
+    lein with-profile base cljsbuild clean
+    lein with-profile base cljsbuild once
+    lein with-profile base ring server
 
 Introduction
 ------------
