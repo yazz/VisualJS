@@ -29,7 +29,7 @@ Quick start for a blank project
 Introduction
 ------------
 
-Originally called Clojure-on-Coils, this project has now been renamed to just "Coils". The Coils framework was born out of one web developer's pain over many years developing both web and desktop software. Zubair Quraishi started professionally in the early 1990s as a C++ programmer, and then moved to Java, then got heavily involved in Java web applications, only to find the whole develop, compile, test loop hugely cumbersome and time wasting.
+Originally called "Clojure on Coils", this project has now been renamed to just "Coils". The Coils framework was born out of one web developer's pain over many years developing both web and desktop software. Zubair Quraishi started professionally in the early 1990s as a C++ programmer, and then moved to Java, then got heavily involved in Java web applications, only to find the whole develop, compile, test loop hugely cumbersome and time wasting.
 
 Then one day, like many developers before him, around 2008, he discovered Ruby on Rails.
 
