@@ -454,4 +454,11 @@
 
 ;(get @data-accesses (first (keys @data-accesses)))
 
-@data-accesses
+;@data-accesses
+
+
+(def tester (atom {}))
+
+
+
+(keys (:react-components-fns @debugger-ui))

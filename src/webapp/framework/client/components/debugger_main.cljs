@@ -336,6 +336,14 @@
 
 
                             (if (= event-type "render")
+                              (do
+                                (if (=  debug-id (-> debug-ui-state :pos))
+                                  (om/root
+                                   (get (:react-components-fns @debugger-ui)
+                                        (str component-name))
+                                   (atom component-data)
+                                   {:target (js/document.getElementById "debugger_ui_preview")}))
+
                               (dom/div #js {:style #js {:color "green"}}
 
                                        (dom/div #js {
@@ -407,7 +415,7 @@
                                                                                   nil)}
                                                   (show-tree  component-data  false  component-path "UI" debug-ui-state)
 
-                                                  ))))))))))))
+                                                  )))))))))))))
 
 ;(get @data-accesses {:tree "UI" :path (get @debugger-ui :events-filter-path)})
 ;(get @debugger-ui :events-filter-path)
@@ -425,10 +433,13 @@
     ;---------
     (render
      [_]
-     (dom/div nil
+     (dom/div #js {
+                   :style #js {:width "100%"}
+                   }
               (dom/div #js {
                             :style #js {:height "300px" :border "1px solid black"
-                                        :border-radius "15px" :padding "5px"}
+                                        :border-radius "15px" :padding "5px"
+                                        :width "100%"}
                             :onMouseEnter #(reset! debugger-ui (assoc-in @debugger-ui [:mode] "show-event"))
                             }
 
@@ -536,20 +547,23 @@
                                                    act   (if (> aps 0) aps 1)
                                                    ]
                                                (into [] (range act (+ 1 (-> app :pos))))
-                                               ))
-                                            )
-                                         ))))
+)))))))))))
 
 
 
+
+
+
+(defn details-debug-comp [app owner]
+  (reify
+    om/IRender
+    ;---------
+    (render
+     [_]
+     (dom/div nil
               (cond
-
-
                (= (:mode @debugger-ui) "show-event")
-               (om/build  show-event-component   app)
-
-               )))))
-
+               (om/build  show-event-component   app))))))
 
 ;(reverse (get @data-accesses {:tree "UI" :path (get @debugger-ui :events-filter-path)}))
 ;(keys @debug-event-timeline )

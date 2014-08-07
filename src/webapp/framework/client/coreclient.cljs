@@ -334,7 +334,7 @@
 
 
 
-(defn record-defn-ui-component [namespace-name fname args & code]
+(defn record-defn-ui-component [namespace-name fn-pointer fname args & code]
   (let [
         code-str
         (str (apply str (map #(if (= "\n" %1) (str "\r\n")  %1) code)))
@@ -360,11 +360,22 @@
                      args (char 13) (char 13)
                      code-str
                      ""
-                     ))))))
+                     ))))
+
+
+    (reset!
+     webapp.framework.client.system-globals/debugger-ui
+     (assoc-in
+      (deref webapp.framework.client.system-globals/debugger-ui)
+      [:react-components-fns (str fname)]
+      fn-pointer))
+
+
+    ))
 
 
 (comment
-  (record-defn-ui-component
+  (record-defn-ui-component nil
    "a.b" "start" '[a b] '(def 1)))
 
 
@@ -397,6 +408,12 @@
      webapp.framework.client.components.debugger-main/main-debug-comp
      debugger-ui
      {:target (js/document.getElementById "right_of_main")})
+
+
+    (om/root
+     webapp.framework.client.components.debugger-main/details-debug-comp
+     debugger-ui
+     {:target (js/document.getElementById "debugger_details")})
 
     (om/root
      webapp.framework.client.components.debugger-main/main-debug-slider-comp
