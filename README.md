@@ -9,7 +9,7 @@ http://connecttous.co/connecttous/connecttous.html?livedebug=true
 Quick start for a blank project
 -------------------------------
 
-1) Install neo4j from:
+1) Install Neo4j from:
 
     http://www.neo4j.org/
 
