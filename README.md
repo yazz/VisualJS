@@ -9,9 +9,11 @@ http://connecttous.co/connecttous/connecttous.html?livedebug=true
 Quick start for a blank project
 -------------------------------
 
-Install neo4j from http://www.neo4j.org/
+1) Install neo4j from:
 
-Install and run Coils from Github
+    http://www.neo4j.org/
+
+2) Install and run Coils from Github:
 
     /neo4j-home-directory/bin/neo4j start
     git clone  https://github.com/zubairq/coils.git  my_new_application
@@ -20,7 +22,7 @@ Install and run Coils from Github
     lein with-profile base cljsbuild once
     lein with-profile base ring server
     
-To see debug mode open
+3) To see debug mode open:
 
     http://127.0.0.1:3000/main.html?livedebug=true
 
