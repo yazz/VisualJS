@@ -19,6 +19,10 @@ Install and run Coils from Github
     lein with-profile base cljsbuild clean
     lein with-profile base cljsbuild once
     lein with-profile base ring server
+    
+To see debug mode open
+
+    http://127.0.0.1:3000/main.html?livedebug=true
 
 Introduction
 ------------
