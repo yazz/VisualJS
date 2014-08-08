@@ -41,7 +41,7 @@ After around a year of development of Coils against relational databases (as Nem
 
 Then in early 2014 he also discovered Facebook React and Reactive programming and incorporated a ClojureScript library called Om (https://github.com/swannodette/om) by David Nolen into Coils. However, there was still something missing, and this piece of the puzzle fell into place when Zubair's business partner in NemCV, Franco Soldera introduced Zubair to Meteor, a realtime Javascript framework which had both Reactive capabilities and also excellent databinding capabilities. In his opinion Meteor is the best full stack Javascript framework that he had seen (and yes, Zubair had seen Derby, Angular, Ember and Knockout). The reason he loved Meteor was not just because of its features such as a Reactive front end and data-binding, but also because Meteor is opinionated (like Ruby on Rails), which solves the problem of having to continually choose which Javascript frameworks to choose, thereby saving alot of time wasted with experimenting with different Javascript frameworks and glueing them together.
 
-Meteor's databinding principles use a database called MongoDB on the server and MiniMongo on the client, but Coils already had full client side data access to both relational databases and Neo4j. So the current goal of Coils is to make Neo4j and Relational Databases work more seamlessly with the frontend, just as Meteor does with Mongo.
+Meteor's realtime databinding use a Document based database called MongoDB on the server and MiniMongo on the client, but Coils already had full client side data access to both relational databases and Neo4j. So the current goal of Coils is to make Neo4j and Relational Databases work more seamlessly with the frontend, just as Meteor does with Mongo.
 
 Another core feature of Coils is the Time Travelling Debugger. This is based on the principle that programs are read 99% of the time, and written only 1% of the time. See this Dougas Crockford video on Software Quality who explains it better:
 
@@ -51,7 +51,12 @@ https://www.youtube.com/watch?v=t9YLtDJZtPY
 
 http://connecttous.co/connecttous/connecttous.html?livedebug=true
 
-: The demo code is from a demo application made just as an example as NemCV is a closed source application, so the source code cannot be posted online. Anyway, the source code for the example application is available here:
+: The demo code is from a demo application made just as an example. It does not use NemCV as:
+
+1) NemCV is a closed source application
+2) NemCV was the inspiration for Coils, but the code based is based on imperative UI updates, not Reactive UI updates, so the code base has diverged from Coils now
+
+Anyway, the source code for the example application is available here:
 
 https://github.com/zubairq/coils/tree/connecttous
 
