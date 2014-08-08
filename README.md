@@ -76,6 +76,7 @@ Coils is a web framework where development is done in Clojure and Clojurescript 
 
 A few notes:
 
+- Uses Neo4j for data storage
 - Uses Clojure for the server side
 - Uses ClojureScript client-side
 - Exclusively uses the LightTable IDE
@@ -85,10 +86,7 @@ A few notes:
 
 What is Coils "killer" feature?
 -------------------------------
-Sure, Coils supports Neo4j, Clojure, HTML5, synchronous server callbacks, and video recording a web user's session, but these are all things which are available elsewhere, even if they are alot of work.
-
 Coils **killer feature** is the **time travelling debugger**. This is an absolute "must" for maintenance of large web applications, meaning applications that may change fast, and live over a long period of time, where fast development interations are a must, much in the vein of the Lean Startup philisophy.
-
 
 
 What is Coils not good for?
