@@ -13,16 +13,19 @@ Quick start for a blank project
 
     http://www.neo4j.org/
 
-2) Install and run Coils from Github:
+2) Install and build Coils from Github:
 
-    /neo4j-home-directory/bin/neo4j start
     git clone  https://github.com/zubairq/coils.git  my_new_application
     cd my_new_application
     lein with-profile base cljsbuild clean
     lein with-profile base cljsbuild once
+
+3) Run Neo4j and Coils:
+
+    /neo4j-home-directory/bin/neo4j start
     lein with-profile base ring server
     
-3) To see debug mode open:
+4) To see debug mode open:
 
     http://127.0.0.1:3000/main.html?livedebug=true
 
