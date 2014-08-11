@@ -259,7 +259,7 @@
             (for [event-item (into []
                               (map (fn[xx] (get @debug-event-timeline xx))
                                    (reverse
-                                    (into [] (range (- (-> debug-ui-state :pos) 20) (+ 1 (-> debug-ui-state :pos))))
+                                    (into [] (range (- (-> debug-ui-state :pos) 0) (+ 1 (-> debug-ui-state :pos))))
                                    )))
                               ]
               (if event-item
@@ -335,9 +335,9 @@
 
 
 
-                            (if (= event-type "render")
+                            (if (=  debug-id (-> debug-ui-state :pos))
                               (do
-                                (if (=  debug-id (-> debug-ui-state :pos))
+                                (if (= event-type "render")
                                   (om/root
                                    (fn [ partial-state  partial-owner ]
                                      (reify
@@ -377,7 +377,23 @@
                                                  ))))
 
                                    (atom component-data)
-                                   {:target (js/document.getElementById "debugger_ui_preview")}))
+                                   {:target (js/document.getElementById "debugger_ui_preview")})
+                                  (om/root
+                                   (fn [ partial-state  partial-owner ]
+                                     (reify
+                                       om/IRender
+                                       ;---------
+                                       (render
+                                        [state]
+
+                                        (dom/div nil "")
+                                                          )
+                                                 ))
+
+                                   (atom {})
+                                   {:target (js/document.getElementById "debugger_ui_preview")})
+
+                                  )
 
                               (dom/div #js {:style #js {:color "green"}}
 
@@ -478,11 +494,21 @@
                             :onMouseEnter #(reset! debugger-ui (assoc-in @debugger-ui [:mode] "show-event"))
                             }
 
-                       (dom/div nil  (str "Filter: "
-                                          (if (get app :events-filter-path)
-                                            (pr-str (get app :events-filter-path))
-                                            "Show all in past"
-                                            )))
+                       (dom/div nil
+                                (dom/div #js {:style #js {  :display         "inline-block"}}  (str "Filter: "
+                                                   (if (get app :events-filter-path)
+                                                     (pr-str (get app :events-filter-path))
+                                                     "Show all in past"
+                                                     )))
+                                (if (get app :events-filter-path)
+                                  (dom/button #js {:style #js { :marginLeft "10px" :display  "inline-block"}
+                                                   :onClick (fn [e] (do
+                                                                      (om/update! app [:events-filter-path] nil)
+                                                                      (om/update! app [:code-show_index] nil)
+                                                                      (om/update! app [:code-show_index2] nil)
+                                                                      ))
+                                                   }  (str "Cancel")))
+                                )
 
                        (dom/div #js {:style #js {:height "250px" :overflow "scroll" :paddingRight "40px"}}
                                 (apply dom/div nil
