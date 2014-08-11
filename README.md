@@ -58,8 +58,9 @@ http://connecttous.co/connecttous/connecttous.html?livedebug=true
 
 : The demo code is from a demo application made just as an example. It does not use NemCV as:
 
-    1) NemCV is a closed source application
-    2) NemCV was the inspiration for Coils, but the code based is based on imperative UI updates, not Reactive UI updates, so the code base has diverged from Coils now
+**1)** NemCV is a closed source application
+    
+**2)** NemCV was the inspiration for Coils, but the code based is based on imperative UI updates, not Reactive UI updates, so the code base has diverged from Coils now
 
 Anyway, the source code for the example application is available here:
 
