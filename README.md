@@ -56,11 +56,11 @@ So Coils allows all programs to be examined visually using a GUI time travelling
 
 http://connecttous.co/connecttous/connecttous.html?livedebug=true
 
-: The demo code is from a demo application made just as an example. It does not use NemCV as:
+The demo code is from a demo application made just as an example. It does not use NemCV as:
 
 **1)** NemCV is a closed source application
     
-**2)** NemCV was the inspiration for Coils, but the NemCV code is based on imperative DOM updates, not Reactive UI updates, so the code base has diverged from Coils now
+**2)** NemCV was the inspiration for Coils, but the NemCV code is based on imperative DOM updates, not Reactive UI updates, so the code base for NemCV has diverged from Coils now since Coils is fully Reactive
 
 Anyway, the source code for the example application is available here:
 
