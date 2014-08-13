@@ -124,7 +124,7 @@ Since user sessions are saved, they must be stored somewhere on the server. Coil
 - Neo4j has a dual licensing model, similar to Coils
 - Neo4j is based close by in Malmo, not far from Copenhagen, so the core team are near by
 - Some of the Neo4j guys are very active in the Clojure community
-- Peter Neubauer, one of the foundof Neo4j is awesome and has always been helpful when there have been problems. Even though he is not at Neo4j anymore (now he is at Mapillary) he has always provided first class support
+- Peter Neubauer, one of the founders of Neo4j is awesome and has always been helpful when there have been problems. Even though he is not at Neo4j anymore (now he is at Mapillary) he has always provided first class support
 
 One of the other questions has been around whether Neo4j can have a realtime interface to Neo4j, like Meteor does with Mini Mongo and MongoDb. MongoDb uses a very simple document model which is why this works so well with MondoDb, but Coils goes one step further and has full client side access to Cypher queries, so it doesn't need a MiniNeo4j on the client side. So the answer is yes, Coils can have real time client side access to Neo4j.
 
