@@ -110,11 +110,11 @@ Because coils is based around "Maintenance first" as its tagline, it is not suit
 
 Why Neo4j?
 ----------
-One of the features of Coils is that allows all sessions to be replayed by the company developing a website using Coils, see here for a demo:
+One of the features of Coils is that allows all user's web sessions to be replayed by the company hosting the website made with Coils, see here for a demo:
 
 http://connecttous.co/connecttous/connecttous.html?playback=true
 
-: So Coils is forced to choose something as the default. While Coils does natively support relational databases, and also can support other backends such as MongoDb through Clojure, Neo4j was chosen for the following reasons:
+Since user sessions are saved, they must be stored somewhere on the server. Coils uses Neo4j for this and as its default datastore. While Coils does natively support relational databases, and also can support other backends such as MongoDb through Clojure, Neo4j was chosen for the following reasons:
 
 - Easy to setup Neo4j on a developer machine, withut having to create a schema first like with a database
 - Rich data model, using Neo4j labels, as opposed to document databases like MongoDB
