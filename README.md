@@ -1,5 +1,7 @@
-Coils - Build Neo4j Web Applications
+Coils - The Time Travelling Debugger
 ====================================
+Built with Clojurescript, Om and Neo4j
+
 
 Debugger Demo
 -------------
