@@ -28,6 +28,11 @@ Quick start for a blank project
 4) To see debug mode open:
 
     http://127.0.0.1:3000/main.html?livedebug=true
+    
+5) To see the connecttous demo application instead use:
+
+    git checkout connecttous 
+    http://127.0.0.1:3000/connecttous.html?livedebug=true
 
 Introduction
 ------------
