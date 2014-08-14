@@ -3,13 +3,11 @@ Coils - The Time Travelling Debugger
 ##Built with Clojurescript, Om and Neo4j
 
 
-Debugger Demo
--------------
+###See the Debugger Demo
 
 http://connecttous.co/connecttous/connecttous.html?livedebug=true
 
-Quick start for a blank project
--------------------------------
+###Quick start for a blank project
 
 1) Install Neo4j from:
 
