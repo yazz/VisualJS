@@ -31,7 +31,13 @@ http://connecttous.co/connecttous/connecttous.html?livedebug=true
     
 5) To see the connecttous demo application instead use:
 
+    git clone  https://github.com/zubairq/coils.git  my_new_application
+    cd my_new_application
     git checkout connecttous 
+    lein with-profile dev cljsbuild clean
+    lein with-profile dev cljsbuild once
+    /neo4j-home-directory/bin/neo4j start
+    lein with-profile dev ring server
     http://127.0.0.1:3000/connecttous.html?livedebug=true
 
 Introduction
