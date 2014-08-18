@@ -45,7 +45,7 @@ Introduction
 
 Originally called "Clojure on Coils", this project has now been renamed to just "Coils". The Coils framework was born out of one web developer's pain over many years developing both web and desktop software. Zubair Quraishi started professionally in the early 1990s as a C++ programmer, and then moved to Java, mostly building server side Java web applications, only to find the whole develop, compile, test loop hugely cumbersome and time wasting.
 
-Then one day, like many developers before him, around 2008, he discovered Ruby on Rails.
+Then one day in 2008, like many developers before him, he discovered Ruby on Rails.
 
 Wow! Suddenly the world opened up for Zubair and he realised there was a better way to develop web software by using interactive languages such as Ruby and easy database access via ActiveRecord. Soon however, he soon became frustrated again, as with Rails everything was generated on the server and control of the web page on the client was not fine-grained enough. So, in true developer style, Zubair did the "wrong thing", and took the long and painful route of trying to find his programming Nirvana, going to Erlang, Vaadin, Grails, JQuery, Javascript, GWT, Google Closure, Dart, and finally deciding to use Clojure and ClojureScript for a project he was involved with.
 
