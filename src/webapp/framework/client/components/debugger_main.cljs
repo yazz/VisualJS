@@ -26,17 +26,31 @@
    [cljs.core.async.macros :refer [go]]))
 
 
+
+
+
+
+
 ;-----------------------------------------------------
-; This changes the app state
+; This changes the position of the debugger in the
+; debugger timeline
+;
+; While the app is being debugged
 ;-----------------------------------------------------
-(defn update-app-pos [debugger-state value]
+(defn update-app-pos [debugger-state  value]
   (let
     [
      current-event       (get @debug-event-timeline value)
      debug-ids           (reverse (range 1 (+ 1 (:pos @debugger-state))))
      ]
+
+    ;update the debugger state
+    ;-------------------------
     (om/update! debugger-state [:pos] value)
 
+
+    ;stop recording events in the application (in case they are recording)
+    ;---------------------------------------------------------------------
     (reset! app-watch-on? false)
     (if (= (:event-type current-event) "UI")
       (reset! app-state (:value current-event))
@@ -49,15 +63,14 @@
           ;(.log js/console (pr-str "UI pos" new-pos))
           (if (pos? new-pos)
              (reset! app-state (:value (get @debug-event-timeline new-pos)))
-            )
-          )
-        )
-      )
+            ))))
     ;(reset! app-watch-on? true)
 
+
+    ; not sure if this is needed anymore as the debugger mode is always the same
+    ;---------------------------------------------------------------------------
     (om/update! debugger-state
-            [:mode] "show-event")
-))
+            [:mode] "show-event")))
 
 
 
@@ -65,8 +78,9 @@
 
 
 
-
-
+;-----------------------------------------------------
+; The slider used to move the debug timeline
+;-----------------------------------------------------
 (defn main-debug-slider-comp [app owner]
   (reify
     om/IRender
@@ -74,12 +88,12 @@
     (render
      [_]
      (dom/div #js {
-                             :onMouseEnter #(om/update! app [:mode] "show-event")
-                             }
+                   :onMouseEnter #(om/update! app [:mode] "show-event")
+                   }
               (dom/div nil
                        (dom/button #js {
                                         :style #js {:display "inline-block"
-                                                     :marginRight "5px"}
+                                                    :marginRight "5px"}
                                         :onClick
                                         (fn[x]
                                           (if (pos? (get-in @app [:pos]))
@@ -87,12 +101,12 @@
                                               (update-app-pos  app  (dec (get-in @app [:pos])))
                                               (om/update! app [:events-filter-path] nil))
 
-                                          ))
+                                            ))
 
                                         } "<")
                        (dom/button #js {
                                         :style #js {:display "inline-block"
-                                                     :marginRight "5px"}
+                                                    :marginRight "5px"}
                                         :onClick
                                         (fn[x]
                                           (if (pos? (get-in @app [:pos]))
@@ -121,10 +135,10 @@
                        )
 
               (dom/div nil
-               (str (-> app :pos) " of "
-                    (-> app :total-events-count ))
+                       (str (-> app :pos) " of "
+                            (-> app :total-events-count ))
 
-               )
+                       )
 
               (dom/pre #js {
                             :style #js { :fontSize "14px"}
@@ -136,11 +150,7 @@
                          "Mouse over components to show code"
                          )))
 
-              )))
-
-
-
-
+     )))
 
 ;(get @data-accesses
 ;      {:tree "UI" :path [:ui :companies :values]})
@@ -152,7 +162,19 @@
 
 
 
-(defn show-tree [a-tree is-map? current-path tree debugger]
+
+
+
+
+
+
+
+
+
+;-----------------------------------------------------
+; The GUI tree used to show a clojure data structure
+;-----------------------------------------------------
+(defn show-tree [a-tree  is-map?  current-path   tree  debugger]
   (dom/div nil
            ;------
            ;START
@@ -169,8 +191,8 @@
                                               (om/update! debugger [:events-filter-path] current-path)
                                               ))
                             } (str
-                                            (:key a-tree)
-                                            )))
+                               (:key a-tree)
+                               )))
 
             (map? a-tree)
             (dom/div #js {:style #js {:paddingLeft "20px"}} "{")
@@ -191,10 +213,10 @@
            (cond
 
             is-map?
-             (dom/div #js {:style #js {:paddingLeft "20px"  :display "inline-block"
-                                        :verticalAlign "top"}}
-              (show-tree (:value a-tree) false current-path tree debugger)
-                      )
+            (dom/div #js {:style #js {:paddingLeft "20px"  :display "inline-block"
+                                      :verticalAlign "top"}}
+                     (show-tree (:value a-tree) false current-path tree debugger)
+                     )
 
             (map? a-tree)
             (do
@@ -247,9 +269,10 @@
 
 
 
-
-
-(defn show-event-component[ debug-ui-state  owner ]
+;-----------------------------------------------------
+; Used to show the details section of the debugger
+;-----------------------------------------------------
+(defn show-event-component [ debug-ui-state  owner ]
   (reify
     om/IRender
     ;---------
@@ -257,7 +280,7 @@
      [_]
      (apply dom/div nil
             (for [event-item (into []
-                              (map (fn[xx] (get @debug-event-timeline xx))
+                              (map (fn[xx] (get @ debug-event-timeline xx))
                                    (reverse
                                     (into [] (range (- (-> debug-ui-state :pos) 0) (+ 1 (-> debug-ui-state :pos))))
                                    )))
@@ -305,21 +328,24 @@
 
 
 
-                           (if (= event-type "event") (dom/div #js {:style #js {:color "green"}}
+                            (if (= event-type "event") (dom/div #js {:style #js {:color "green"}}
 
-                                             (dom/div #js {:style #js {:color "blue"}} (str event-name))
-                                             (dom/pre nil
+                                                                (dom/div #js {:style #js {:color "blue"}} (str event-name))
+                                                                (dom/pre nil
 
-                                                      (->
-                                                       (str
-                                                       (get
-                                                        (get @debugger-ui :watchers-code)
+                                                                         (->
+                                                                          (str
+                                                                           (get
+                                                                            (get @debugger-ui :watchers-code)
 
-                                                        event-name
+                                                                            event-name
 
-                                                        ))
-                                                       (clojure.string/replace #"\(div\ " "(DIV " )
-                                                       ))))
+                                                                            ))
+                                                                          (clojure.string/replace #"\(div\ " "(DIV " )
+                                                                          ))
+                                                                (dom/div nil "PATHS ACCESSED:")
+
+                                                                ))
 
 
 
@@ -378,6 +404,9 @@
 
                                    (atom component-data)
                                    {:target (js/document.getElementById "debugger_ui_preview")})
+
+
+
                                   (om/root
                                    (fn [ partial-state  partial-owner ]
                                      (reify
@@ -397,29 +426,33 @@
 
                               (dom/div #js {:style #js {:color "green"}}
 
-                                       (dom/div #js {
-                                                     :onClick #(do (om/update!
-                                                                debug-ui-state
-                                                                [:code-show_index]
-                                                                (if (= (get @debug-ui-state :code-show_index) debug-id)
-                                                                  nil
-                                                                  debug-id))
-                                                                 (om/update!
-                                                                            debug-ui-state
-                                                                            [:code-data-show_index] nil))
-                                                                :style #js {:color "blue"
-                                                                            :text-decoration "underline"
-                                                                            :display "inline-block"
-                                                                            }} (str
-                                                                                (if (= (get debug-ui-state :code-show_index)
-                                                                                       debug-id)
-                                                                                  "-" "+")
-                                                                                component-name
-                                                                                " "
-                                                                                component-path
-                                                                                ))
 
-                                       (dom/div #js {
+                                       (if (= event-type "render")
+
+                                         (dom/div #js {
+                                                       :onClick #(do (om/update!
+                                                                      debug-ui-state
+                                                                      [:code-show_index]
+                                                                      (if (= (get @debug-ui-state :code-show_index) debug-id)
+                                                                        nil
+                                                                        debug-id))
+                                                                   (om/update!
+                                                                    debug-ui-state
+                                                                    [:code-data-show_index] nil))
+                                                       :style #js {:color "blue"
+                                                                   :text-decoration "underline"
+                                                                   :display "inline-block"
+                                                                   }} (str
+                                                                       (if (= (get debug-ui-state :code-show_index)
+                                                                              debug-id)
+                                                                         "-" "+")
+                                                                       component-name
+                                                                       " "
+                                                                       component-path
+                                                                       )))
+
+                                       (if (= event-type "render")
+                                         (dom/div #js {
                                                      :onClick #(do
                                                                  (om/update!
                                                                   debug-ui-state
@@ -439,7 +472,7 @@
                                                 (str
                                                  (if (= (get debug-ui-state :code-data-show_index) debug-id)
                                                    "-" "+")
-                                                 "Input data"))
+                                                 "Input data")))
 
                                        (if (= (get debug-ui-state :code-show_index) debug-id)
                                          (dom/pre #js {
@@ -491,7 +524,7 @@
                             :style #js {:height "300px" :border "1px solid black"
                                         :border-radius "15px" :padding "5px"
                                         :width "100%"}
-                            :onMouseEnter #(reset! debugger-ui (assoc-in @debugger-ui [:mode] "show-event"))
+                            :onMouseEnter #(reset! debugger-ui (assoc-in @ debugger-ui [:mode] "show-event"))
                             }
 
                        (dom/div nil
@@ -518,7 +551,7 @@
                                             (if x
                                               (dom/div #js {:style #js {:paddingLeft "20px"}
                                                           }
-                                                     (let [thisitem      (get @debug-event-timeline x)]
+                                                     (let [thisitem      (get @ debug-event-timeline x)]
                                                        (dom/pre #js {:style #js {:paddingLeft "20px"
                                                                                  :backgroundColor "darkgray"}
                                                                      :onClick (fn[e] (update-app-pos app x))

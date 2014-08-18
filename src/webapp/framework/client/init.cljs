@@ -39,44 +39,32 @@
 
 
 
+(def  ^:export setup
+  {
+   :start-component
+   main-view
+
+   :setup-fn
+   (fn[]
+     (do
+     (reset!
+      app-state
+
+      (assoc-in
+       @app-state [:ui]
+       {
 
 
-(defn  ^:export setup []
-
-  (reset!
-   app-state
-
-   (assoc-in
-    @app-state [:ui]
-    {
+        }))
 
 
-     }))
+     (reset! data-state {
+                         :submit {}
+                         })
 
 
-  (reset! data-state {
-                      :submit {}
-                      })
+     (set-ab-tests {
+                    })
+  ))})
 
-
-
-
-
-
-  (set-ab-tests {
-                 })
-
-
-
-
-  )
-
-
-
-
-
-
-(defn ^:export main [app owner]
-  (let [path []]
-    (component  main-view  app  [])))
 
