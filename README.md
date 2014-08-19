@@ -59,7 +59,7 @@ However, there was still something missing, and this piece of the puzzle fell in
 
 Meteor's realtime databinding uses a Document based database called MongoDB on the server and MiniMongo on the client, but Coils already had full client side data access to both relational databases and Neo4j. So the current goal of Coils is to make Neo4j and Relational Databases work more seamlessly with the frontend, just as Meteor does with Mongo.
 
-Another core feature of Coils is the Time Travelling Debugger. This is based on the principle that programs are read 99% of the time, and written only 1% of the time. See this Dougas Crockford video on Software Quality who explains it better:
+Another core feature of Coils is the Time Travelling Debugger. This is based on the principle that program code is read 99% of the time, and written only 1% of the time. See this Dougas Crockford video on Software Quality who explains it better than I ever could:
 
 https://www.youtube.com/watch?v=t9YLtDJZtPY
 
