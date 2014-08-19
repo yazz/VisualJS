@@ -100,7 +100,7 @@ Coils **killer feature** is the **time travelling debugger**. This is an absolut
 
 What is Coils not good for?
 ---------------------------
-Because coils is based around "Maintenance first" as its tagline, it is not suitable for quite a wide variety of web projects. In fact, Coils does not even use Javascript, it uses Clojurescript, which compiles down to Javascript, so this makes it unsuitable for many types of developers. It does not use Clojurescript for the sake of it though. Clojurescript is a version of "Lisp" which compiles down to Javascript, and being a Lisp it has a features called Macros which make the time travelling debugger possible. So there is a larger learning curve with Coils, but maintenance time is reduced. So for a variety of websites the following may be a better choice:
+Because coils is based around "Maintenance first" as its tagline, it is not suitable for quite a wide variety of web projects. In fact, Coils does not even use Javascript, it uses Clojurescript, which compiles down to Javascript, so this makes it unsuitable for most developers, who **hate Lisp**, since Clojure is a Lisp. so why use Clojure then, if it is so unpopular? Well, Coils does not use Clojurescript for the sake of it. Since Clojurescript is a version of "Lisp" which compiles down to Javascript, and being a Lisp it has a features called Macros which make the time travelling debugger possible. So there is a larger learning curve with Coils, but maintenance time is reduced. So for a variety of websites the following may be a better choice:
 
 **Multi page informational websites** - Wix, Weebly, Adobe Muse, Wordpress, and many others are perfect for this
 
