@@ -95,7 +95,7 @@ A few notes:
 
 What is Coils "killer" feature?
 -------------------------------
-Coils **killer feature** is the **time travelling debugger**. This is an absolute "must" for maintenance of large web applications, meaning applications that may change fast, and live over a long period of time, where fast development interations are a must, much in the vein of the Lean Startup philisophy.
+Coils **killer feature** is the **time travelling debugger**. This is an absolute "must" for maintenance of complex web applications, meaning applications that may change frequently, and live over a long period of time, where fast development interations are a must, much in the vein of the Lean Startup philisophy.
 
 
 What is Coils not good for?
