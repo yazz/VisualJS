@@ -43,7 +43,7 @@ http://connecttous.co/connecttous/connecttous.html?livedebug=true
 Introduction
 ------------
 
-Coils started from one web developers pain over many years developing both web applications. Zubair Quraishi started professionally in the early 1990s as a C++ programmer, and then moved to Java, building mostly server side web applications, only to find the whole develop, compile, test cycle hugely unproductive.
+Coils started from one web developers pain over many years developing web applications. Zubair Quraishi started professionally in the early 1990s as a C++ programmer, and then moved to Java, building mostly server side web applications, only to find the whole develop, compile, test cycle hugely unproductive.
 
 Then one day in 2008, like many developers before him, he discovered Ruby on Rails. Suddenly the world opened up and Zubair realised that there was a better way to develop web software by using interactive languages such as Ruby and easy database access via ActiveRecord. Soon however, he soon became frustrated again, as with Rails everything was generated on the server and control of the web page on the client was not fine-grained enough. So, in true developer style, Zubair did the "wrong thing", and took the long and painful route of trying to find his programming Nirvana, going to Erlang, Vaadin, Grails, JQuery, Javascript, GWT, Google Closure, Dart, and finally deciding to use Clojure and ClojureScript for a project he was involved with.
 
