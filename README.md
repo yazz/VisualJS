@@ -462,11 +462,13 @@ List of functions
 -----------------
 **read-ui** - Only can be called from GUI components. Note that GUI components can
 only read and write the UI tree, NOT the data tree
+
     (div  {:style {:height "100%" :width "100%"}}
           (let [all-company-records    **(read-ui  companies [:values] )**]
                ....
 
 **write-ui**
+
     (dom/button #js {:onClick (fn [e]
                                 **(write-ui ui-data [:submit :value]  true)**)
                      :style
