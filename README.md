@@ -467,14 +467,37 @@ only read and write the UI tree, NOT the data tree
           (let [all-company-records    (read-ui  companies [:values] )]
                ....
 
-**write-ui**
+**write-ui** - Used to write to the UI tree from GUI components. Again, only the UI tree
+can be written to, NOT the data tree when in a GUI component
 
     (dom/button #js {:onClick (fn [e]
-                                (write-ui ui-data [:submit :value]  true))
+                                (write-ui  ui-data [:submit :value]  true))
                      :style
                      #js {:margin-top "10px"}}
 
                 "Connect")
+
+
+
+**==ui** - Test for a value in the UI tree. In this case we are saying that
+when the splash screen is clicked then 1) Remove the click event, 2) Stop
+showing the splash screen
+
+    (==ui  [:ui :splash-screen :click]   true
+
+        (do
+            (-->ui [:ui  :splash-screen  :click]  false)
+            (-->ui [:ui  :splash-screen  :show]   false)))
+
+
+**-->ui** - Write to the UI tree a value
+
+    (==ui  [:ui :splash-screen :click]   true
+
+        (do
+            (-->ui [:ui  :splash-screen  :click]  false)
+            (-->ui [:ui  :splash-screen  :show]   false)))
+
 
 
 
