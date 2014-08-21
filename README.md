@@ -24,16 +24,16 @@ http://connecttous.co/connecttous/connecttous.html?livedebug=true
 
     /neo4j-home-directory/bin/neo4j start
     lein with-profile base ring server
-    
+
 4) To see debug mode open:
 
     http://127.0.0.1:3000/main.html?livedebug=true
-    
+
 5) To see the connecttous demo application instead use:
 
     git clone  https://github.com/zubairq/coils.git  my_new_application
     cd my_new_application
-    git checkout connecttous 
+    git checkout connecttous
     lein with-profile dev cljsbuild clean
     lein with-profile dev cljsbuild once
     /neo4j-home-directory/bin/neo4j start
@@ -406,7 +406,7 @@ So React/Om components make up the user interface. When we say React/Om componen
     (defn-ui-component     say-hello-ui-component   [person-data] {}
         (div
             nil
-            (str "Hello " (:name person-data))))
+            (str "Hello " (read-ui person-data [:name]))))
 
 This component would have to be passed in a structure like follows from the UI state:
 
@@ -447,7 +447,7 @@ So, the diagram would now look something like this:
         (defn-ui-component     say-hello-ui-component   [person-data] {}
             (div
                 nil
-                (str "Hello " (:name person-data))))
+                (str "Hello " (read-ui person-data [:name]))))
             .
             .
             .
@@ -457,6 +457,22 @@ So, the diagram would now look something like this:
     Outputs "Hello Pete" in the browser
 
 
+
+List of functions
+-----------------
+**read-ui** - Only can be called from GUI components. Note that GUI components can
+only read and write the UI tree, NOT the data tree
+    (div  {:style {:height "100%" :width "100%"}}
+          (let [all-company-records    **(read-ui  companies [:values] )**]
+               ....
+
+**write-ui**
+    (dom/button #js {:onClick (fn [e]
+                                **(write-ui ui-data [:submit :value]  true)**)
+                     :style
+                     #js {:margin-top "10px"}}
+
+                "Connect")
 
 
 
@@ -485,7 +501,7 @@ So in the new version of Coils if you want to execute an event you have to decid
 So this means that with Coils, the preferred way to do things is with events, which are triggered by any of the following:
 
 - timers
-- changes in the UI tree (because of user actions suh a sclicking a button)
+- changes in the UI tree (because of user actions such a clicking a button)
 - chnages in the data tree (such as data being read from Neo4j)
 
 
