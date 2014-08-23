@@ -93,7 +93,7 @@ A few notes:
 
 What is Coils "killer" feature?
 -------------------------------
-Coils **killer feature** is the **time travelling debugger**. This time travelling debugger lets you replay your GUI and select parts of the UI, and trace back the UI and any data used to make that part of the UI in time. This is an absolute "must" for the maintenance of complex web applications. This allows rapid interations for webapps that must change frequently, and live over a long period of time much in the vein of the Lean Startup philisophy. See here for the live demo:
+Coils **killer feature** is the **time travelling debugger**. This time travelling debugger lets you replay your GUI and select parts of the UI, and trace back the UI and any data used to make that part of the UI in time. This is an absolute "must" for the maintenance of complex web applications. This allows rapid interations for webapps that must change frequently, and live over a long period of time, much in the vein of the Lean Startup philisophy. See here for a live demo:
 
 http://connecttous.co/connecttous/connecttous.html?livedebug=true
 
