@@ -79,7 +79,7 @@ It is the Coils branch called 'connecttous'. Please feel free to clone it, modif
 What is Coils?
 --------------
 
-Coils is a web framework the webapp is written in Clojure and Clojurescript, running on the JVM on the server side and Javascript on the browser. The resulting artifact is a war file, so it can be deployed on any Java web or application server, including Jetty, Tomcat, JBoss, Glassfish, Weblogic, or Websphere.
+Coils is a web framework written in Clojure and Clojurescript, running on the JVM on the server side and Javascript on the browser. The resulting artifact is a war file, so it can be deployed on any Java web or application server, including Jetty, Tomcat, JBoss, Glassfish, Weblogic, or Websphere.
 
 A few notes:
 
