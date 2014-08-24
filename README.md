@@ -3,11 +3,11 @@ Coils - The Time Travelling Debugger
 ##Built with Clojurescript, Om and Neo4j
 
 
-###See the Debugger Demo
+###Demo
 
 http://connecttous.co/connecttous/connecttous.html?livedebug=true
 
-###Quick start for a blank project
+###Quick start
 
 1) Install Neo4j from:
 
@@ -40,8 +40,8 @@ http://connecttous.co/connecttous/connecttous.html?livedebug=true
     lein with-profile dev ring server
     http://127.0.0.1:3000/connecttous.html?livedebug=true
 
-Introduction
-------------
+Why another web framework?
+--------------------------
 
 Coils started from one web developers pain over many years developing web applications. Zubair Quraishi worked in the 1990s as a C++ and Java programmer, building mostly server side web applications, only to find the whole develop, compile, test cycle hugely unproductive.
 
