@@ -558,7 +558,7 @@ From the client side:
 Define in fns.clj on the server side (using core.async):
 
     (defn say-hello [{name :name}]
-        {:text (str "Hello " name))})
+        {:text (str "**Hello " name**))})
 
 
 
