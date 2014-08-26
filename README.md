@@ -349,7 +349,12 @@ Adding something to the web page
         (c/div nil
             (c/h2 nil "Coils")
             "Hello World"))
+            
+You may wonder what the **c/** is for. This is for the Coils namespace, defined with Om at the top of every Clojurescript file:
 
+    [om.core          :as om :include-macros true]
+    [om.dom           :as dom :include-macros true]
+    
 4) press press Ctrl-Alt-Enter and the view should swap out the whole page with the text "Hello world" in the web browser, no browser reload required!
 
 We actually cheated in the above example as we edited the Coils framework itself, but it was just to get you to make a change as fast as possible. In an actual applicaiton we would ask you to make another file for your own GUI components
@@ -403,8 +408,8 @@ However, since Facebook react, via David Nolen's Clojurescript Om library is now
 
 So React/Om components make up the user interface. When we say React/Om components this means that there is a piece of UI code and a corresponding piece of data. So for example there may be the following piece of coe to render a UI:
 
-    (defn-ui-component     say-hello-ui-component   [person-data] {}
-        (div
+    (c/defn-ui-component     say-hello-ui-component   [person-data] {}
+        (c/div
             nil
             (str "Hello " (read-ui person-data [:name]))))
 
@@ -444,10 +449,10 @@ So, the diagram would now look something like this:
 
     Om/React Components
 
-        (defn-ui-component     say-hello-ui-component   [person-data] {}
-            (div
+        (c/defn-ui-component     say-hello-ui-component   [person-data] {}
+            (c/div
                 nil
-                (str "Hello " (read-ui person-data [:name]))))
+                (str "Hello " (c/read-ui person-data [:name]))))
             .
             .
             .
@@ -463,8 +468,8 @@ List of functions
 **read-ui** - Only can be called from GUI components. Note that GUI components can
 only read and write the UI tree, NOT the data tree
 
-    (div  {:style {:height "100%" :width "100%"}}
-          (let [all-company-records    (read-ui  companies [:values] )]
+    (c/div  {:style {:height "100%" :width "100%"}}
+          (let [all-company-records    (c/read-ui  companies [:values] )]
                ....
 
 
@@ -474,10 +479,8 @@ only read and write the UI tree, NOT the data tree
 **write-ui** - Used to write to the UI tree from GUI components. Again, only the UI tree
 can be written to, NOT the data tree when in a GUI component
 
-    (dom/button #js {:onClick (fn [e]
-                                (write-ui  ui-data [:submit :value]  true))
-                     :style
-                     #js {:margin-top "10px"}}
+    (c/dom/button {:onClick (fn [e] (c/write-ui  ui-data [:submit :value]  true))
+                     :style {:margin-top "10px"}}
 
                 "Connect")
 
