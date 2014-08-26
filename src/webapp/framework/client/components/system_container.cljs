@@ -11,10 +11,10 @@
    )
 
   (:use
-   [webapp.framework.client.coreclient           :only  [log remote debug-mode component-fn]]
+   [webapp.framework.client.coreclient           :only  [log remote debug-mode component-fn
+                                                         remove-debug-event
+                                                         ]]
    [webapp.framework.client.system-globals       :only  [app-state
-                                                         playback-app-state
-                                                         playback-controls-state
                                                          playbackmode
                                                          ui-watchers
                                                          data-watchers
@@ -24,8 +24,6 @@
                                                          init-state-fns
                                                          data-and-ui-events-on?
                                                          add-debug-event
-                                                         remove-debug-event
-                                                         current-gui-path
                                                          ]]
    )
   (:use-macros
@@ -111,9 +109,7 @@
                                 )]
                            ;(js/alert (str "watch-" tree-name " " (:path watch)))
                            (apply (:fn watch) args)
-                           (remove-debug-event  debug-id)
-
-                           )
+                           (remove-debug-event  debug-id))
 
 
 
@@ -215,8 +211,6 @@
 
 
               (do
-                (reset! current-gui-path [])
-                ;(@ start-component    app    owner)
                 (let [path []]
                   (component    @start-component app  [])
                   )

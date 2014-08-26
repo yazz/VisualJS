@@ -71,12 +71,12 @@
        (defn ~fn-name [~(first data-paramater-name)  ~'owner]
          (~'reify
 
-          ~'om/IInitState
+          ~'om.core/IInitState
           (~'init-state ~'[_]
                       {:debug-highlight false})
 
 
-           ~'om/IRender
+           ~'om.core/IRender
           (~'render
            [~'this]
 
@@ -87,11 +87,11 @@
                                          (~'ns-coils-debug)
                                          ~(str `~fn-name)
                                          ~(first data-paramater-name)
-                                         ~'(om/get-state owner :parent-path)
+                                         ~'(om.core/get-state owner :parent-path)
                                          )
 
 
-                       ~'path       ~'(om/get-state owner :parent-path)
+                       ~'path       ~'(om.core/get-state owner :parent-path)
 
                        ~'parent-id  ~'debug-id
 
@@ -102,7 +102,7 @@
                                      (~'fn [~(first data-paramater-name)]
                                            ~@code))
 
-                       ~'removed-id     (~'remove-debug-event  ~'debug-id)
+                       ~'removed-id     (~'webapp.framework.client.coreclient/remove-debug-event  ~'debug-id)
 
                        ]
 
@@ -132,7 +132,7 @@
 
 (macroexpand
   '(defn-ui-component abc [data] {:path [:ui :request] }
-     (dom/div  nil  " You asdsddsads")
+     (om.dom/div  nil  " You asdsddsads")
       ))
 ;--------------------------------------------------------------------
 
@@ -149,11 +149,23 @@
 
 ;--------------------------------------------------------------------
 (defmacro div [attributes & more]
-  `(dom/div  (webapp.framework.client.coreclient/attrs ~attributes) ~@more))
+  `(om.dom/div  (webapp.framework.client.coreclient/attrs ~attributes) ~@more))
 (defmacro a [attributes & more]
-  `(dom/a  (webapp.framework.client.coreclient/attrs ~attributes) ~@more))
+  `(om.dom/a  (webapp.framework.client.coreclient/attrs ~attributes) ~@more))
 (defmacro h2 [attributes & more]
-  `(dom/h2  (webapp.framework.client.coreclient/attrs ~attributes) ~@more))
+  `(om.dom/h2  (webapp.framework.client.coreclient/attrs ~attributes) ~@more))
+(defmacro ul [attributes & more]
+  `(om.dom/ul  (webapp.framework.client.coreclient/attrs ~attributes) ~@more))
+(defmacro li [attributes & more]
+  `(om.dom/li  (webapp.framework.client.coreclient/attrs ~attributes) ~@more))
+(defmacro pre [attributes & more]
+  `(om.dom/pre  (webapp.framework.client.coreclient/attrs ~attributes) ~@more))
+(defmacro svg [attributes & more]
+  `(om.dom/svg  (webapp.framework.client.coreclient/attrs ~attributes) ~@more))
+(defmacro circle [attributes & more]
+  `(om.dom/circle  (webapp.framework.client.coreclient/attrs ~attributes) ~@more))
+(defmacro button [attributes & more]
+  `(om.dom/button  (webapp.framework.client.coreclient/attrs ~attributes) ~@more))
 ;--------------------------------------------------------------------
 
 
@@ -173,7 +185,7 @@
               :dispatch clojure.pprint/code-dispatch))
       )
 
-     (~'when-ui-value-changes-fn
+     (~'webapp.framework.client.coreclient/when-ui-value-changes-fn
       ~path
       (~'fn [~'ui] (do ~@code)))))
 ;--------------------------------------------------------------------
@@ -184,6 +196,7 @@
 
 ;--------------------------------------------------------------------
 (defmacro ==ui
+  "Checks the UI tree for a value"
   [path value & code]
 
   `(do
@@ -196,7 +209,7 @@
               :dispatch clojure.pprint/code-dispatch))
       )
 
-     (~'when-ui-path-equals-fn
+     (~'webapp.framework.client.coreclient/when-ui-path-equals-fn
       ~path
       ~value
       (~'fn [~'ui] (do ~@code)))))
@@ -221,7 +234,7 @@
               :dispatch clojure.pprint/code-dispatch))
       )
 
-     (~'when-data-value-changes-fn
+     (~'webapp.framework.client.coreclient/when-data-value-changes-fn
       ~path
       (~'fn [~'ui] (do ~@code)))))
 ;--------------------------------------------------------------------
@@ -246,7 +259,7 @@
               :dispatch clojure.pprint/code-dispatch))
       )
 
-     (~'when-data-path-equals-fn
+     (~'webapp.framework.client.coreclient/when-data-path-equals-fn
       ~path
       ~value
       (~'fn [~'ui] (do ~@code)))))
@@ -259,13 +272,9 @@
 
 
 ;--------------------------------------------------------------------
-(defmacro ui-tree
-  [path]
-  `(~'get-in-tree ~'ui ~path))
-
 (defmacro <--ui
   [path]
-  `(~'get-in-tree ~'ui ~path))
+  `(~'webapp.framework.client.coreclient/get-in-tree ~'ui ~path))
 
 (comment macroexpand
  '(==ui  [:ui   :company-details   :clicked]    true
@@ -275,15 +284,12 @@
 
 
 
-(defmacro ui-tree!
-  [path value]
-  `(~'update-ui ~'ui ~path ~value))
-
 (defmacro -->ui
+  "Writes to the UI tree"
   [path value]
-  `(~'update-ui ~'ui ~path ~value))
+  `(~'webapp.framework.client.coreclient/update-ui ~'ui ~path ~value))
 
-;(macroexpand '(ui-tree! [:ui :request :from-email :error] ""))
+;(macroexpand '(-->ui [:ui :request :from-email :error] ""))
 
 
 
@@ -292,7 +298,7 @@
 
 
    (go
-    (update-ui  ui  [:ui  :company-details   :skills  ] nil)
+    (webapp.framework.client.coreclient/update-ui  ui  [:ui  :company-details   :skills  ] nil)
      (let [ l (<! (remote "get-company-details"
              {
               :company-url    (get-in @app-state [:ui :company-details :company-url])
@@ -314,7 +320,7 @@
 (defmacro component
   [component-render-fn   state   rel-path]
   `(let [
-         ~'return-value   (~'component-fn ~component-render-fn ~state  ~'path ~rel-path)
+         ~'return-value   (~'webapp.framework.client.coreclient/component-fn ~component-render-fn ~state  ~'path ~rel-path)
          ]
      (do
        ~'return-value)))

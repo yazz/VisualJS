@@ -80,18 +80,25 @@
   : and you will find:
 
    webapp.framework.client.main.load_main(
-                                    webapp.framework.client.init.main,
                                     webapp.framework.client.init.setup);
 
-  Looking at   webapp.framework.client.init.main  you will see:
+  Looking at:
+
+  webapp.framework.client.init/setup
+
+  :you will see:
 
 
-(defn ^:export main [app owner]
-  (let [path []]
-    (component  main-view  app  [])))
+(def  ^:export setup
+  {
+   :start-component
+   main-view
 
+   :setup-fn
+   (fn[]
+     (do
+      ...
 
-  which will actually point to the first component. This is a bit clunky
   "
 
   (atom nil))
@@ -103,19 +110,23 @@
 
 
 (def playbackmode
-  ""
+  "
+  If set to true then this means that the user interface is being replayed based on
+  the server side recording
+  "
   (atom false))
 
 
 
 
 
-;-----------------------------------------------------
-;                   call-stack
-;
-;
-;-----------------------------------------------------
 (def call-stack
+  "
+  This is supposed to be a vector which lists the debug IDs of what has
+  been called, eg:
+
+  [1 45 99 103]
+  "
   (atom
    []))
 
@@ -123,41 +134,61 @@
 
 
 
-;-----------------------------------------------------
-;                   data-accesses
-;
-;
-;-----------------------------------------------------
+
+
 (def data-accesses
+  "
+  This shows where the UI and DATA trees change. The list contains
+  the debug IDs of where an action reads or writes this part of
+  the tree
+
+  {
+      {:tree UI, :path [:ui :companies :values]}
+          [7 14 18 nil nil nil nil]
+
+      {:tree UI, :path [:ui :latest-endorsements :values]}
+          [30]
+
+      {:tree UI, :path [:ui :splash-screen :click]}
+          [37]
+
+      {:tree UI, :path [:ui :splash-screen :show]}
+          [36]
+
+      {:tree UI, :path [:values]}
+          [nil nil nil nil nil nil nil]
+  }
+
+  Some of these seem erroneous, like:
+
+  - nil values should never be there
+  - {:tree UI, :path [:values]} does not even exist
+
+  "
   (atom
    {}))
 
-(map :path (keys @data-accesses))
+
+@ data-accesses
 
 
 
 
 
-
-
-;-----------------------------------------------------
-;                      data-state
-;
-;
-;-----------------------------------------------------
 (def data-state
+  "
+  The data tree
+  "
   (atom
    {}))
 
 
 
 
-;-----------------------------------------------------
-;                      app-state
-;
-;
-;-----------------------------------------------------
 (def app-state
+  "
+  The UI tree
+  "
   (atom
    {}))
 
@@ -165,71 +196,77 @@
 
 
 
-;-----------------------------------------------------
-;  This is the application watch space. So whenever
-; the application changes then we record the event
-;-----------------------------------------------------
-(def app-watch-on? (atom true))
-
-
-
-
-;-----------------------------------------------------
-;                      ui-watchers
-;
-;
-;-----------------------------------------------------
-(def ui-watchers (atom []))
+(def app-watch-on?
+  "
+ Whenever the application UI changes then we record the event,
+ unless the app-watch-on? is set to false
+  "
+  (atom true))
 
 
 
 
 
-
-;-----------------------------------------------------
-;                      data-watchers
-;
-;
-;-----------------------------------------------------
-(def data-watchers (atom []))
-
-
-
-
-;-----------------------------------------------------
-;                      ab-tests
-;
-;
-;-----------------------------------------------------
-(def ab-tests (atom {}))
+(def ui-watchers
+  "
+  This is a list of all the code that waits for things to happen
+  on the UI tree
+  "
+  (atom []))
 
 
 
 
 
 
-;-----------------------------------------------------
-;                      ab-tests
-;
-;
-;-----------------------------------------------------
-(def ab-goals (atom {}))
+(def data-watchers
+  "
+  This is a list of all the code that waits for things to happen
+  on the DATA tree
+  "
+
+  (atom []))
+
+
+
+
+(def ab-tests
+  "
+  The list of all the AB tests
+  "
+  (atom {}))
 
 
 
 
 
 
-;-----------------------------------------------------
-;                    init-state-fns
-;
-;
-;-----------------------------------------------------
-(def init-state-fns (atom []))
+(def ab-goals
+  "
+  The list of all the AB goals
+  "
+  (atom {}))
 
 
 
-(defn subtree-different? [orig-val new-val path]
+
+
+
+(def init-state-fns
+  "
+  This holds all the fns to call at the start of the
+  webapp
+  "
+  (atom []))
+
+
+
+(defn subtree-different?
+  "
+  This checks to see if a subtree of a tree is
+  different
+  "
+  [orig-val new-val path]
   (let [
         orig-subset    (get-in orig-val  path)
         new-subset     (get-in new-val   path)
@@ -242,16 +279,16 @@
 
 
 
-;-----------------------------------------------------
-;                    blank-app-state
-;
-;
-;-----------------------------------------------------
+
 (def blank-app-state
+  "
+  The initial starting state for the UI tree
+  "
   {
-   :data {
-          :width "50"
-          }
+   :data
+   {
+    :width "50"
+    }
    :pointer
    {
     :mouse-x 0
@@ -265,18 +302,17 @@
    }
   )
 
-;(reset! app-state (assoc-in @app-state [:data :width ] "20"))
 
 
 
 
 
-;-----------------------------------------------------
-;                    reset-app-state
-;
-;
-;-----------------------------------------------------
-(defn reset-app-state []
+
+(defn reset-app-state
+  "
+  Resets the UI to be blank
+  "
+  []
   (reset!  app-state  blank-app-state))
 
 
@@ -285,12 +321,12 @@
 
 
 
-;-----------------------------------------------------
-;                        init-fn
-;
-;
-;-----------------------------------------------------
-(def init-fn (atom nil))
+
+(def init-fn
+  "
+  An Initialise function called when the web app first starts up
+  "
+  (atom nil))
 
 
 
@@ -299,12 +335,13 @@
 
 
 
-;-----------------------------------------------------
-;                      playback-app-state
-;
-;
-;-----------------------------------------------------
+
 (def playback-app-state
+  "
+  This holds the UI state of the web applications when
+  it is being played back. I'm not sure why we didn't just
+  use the normal app state for this?
+  "
   (atom
    {}
    ))
@@ -312,11 +349,10 @@
 
 
 
-;-----------------------------------------------------
-;
-;
-;-----------------------------------------------------
 (def playback-controls-state
+  "
+  The react/Om UI state for the debugger
+  "
   (atom
    {:ui
     {
@@ -340,12 +376,11 @@
 
 
 
-;-----------------------------------------------------
-;
-;
-;
-;-----------------------------------------------------
-(defn reset-playback-app-state []
+(defn reset-playback-app-state
+  "
+  Reset the app state for playback using the initial blank state
+  "
+  []
   (reset!  playback-app-state  blank-app-state))
 
 
@@ -355,25 +390,11 @@
 
 
 
-;-----------------------------------------------------
-;
-;
-;
-;-----------------------------------------------------
-(defn  update-data [path value]
-   (reset! data-state (assoc-in @data-state path value)))
-
-
-
-
-
-
-;-----------------------------------------------------
-;
-;
-;
-;-----------------------------------------------------
-(defn  data-tree! [path value]
+(defn  update-data
+  "
+  Updates the data tree
+  "
+  [path value]
    (reset! data-state (assoc-in @data-state path value)))
 
 
@@ -382,55 +403,13 @@
 
 
 
-;-----------------------------------------------------
-;
-;
-;
-;-----------------------------------------------------
-(defn  data-tree [path]
-  (get-in @data-state path))
 
 
 
-
-
-
-
-;-----------------------------------------------------
-;
-;
-;
-;-----------------------------------------------------
-(defn  -->data [path value]
-   (reset! data-state (assoc-in @data-state path value)))
-
-
-
-
-
-
-
-;-----------------------------------------------------
-;
-;
-;
-;-----------------------------------------------------
-(defn  <--data [path]
-  (get-in @data-state path))
-
-
-
-
-
-
-
-
-;-----------------------------------------------------
-;
-;
-;
-;-----------------------------------------------------
-(defn add-init-state-fn [nm init-state-fn]
+(defn add-init-state-fn
+  "
+  "
+  [nm init-state-fn]
   (do
     ;(.log js/console (str "Init function added: " nm))
     (swap!  init-state-fns conj init-state-fn)))
@@ -441,13 +420,6 @@
 
 
 
-;-----------------------------------------------------
-;
-;
-;
-;-----------------------------------------------------
-(defn get-in-tree [app path]
-  (get-in @app path))
 
 
 
@@ -455,12 +427,11 @@
 
 
 
-;-----------------------------------------------------
-;
-;
-;
-;-----------------------------------------------------
-(defn  set-ab-tests [tree]
+
+(defn  set-ab-tests
+  "
+  "
+  [tree]
   (do
     (reset! ab-tests tree)
 ))
@@ -472,12 +443,10 @@
 
 
 
-;-----------------------------------------------------
-;
-;
-;
-;-----------------------------------------------------
-(defn  set-ab-goals [tree]
+(defn  set-ab-goals
+  "
+  "
+  [tree]
    (reset! ab-goals tree))
 
 
@@ -488,24 +457,22 @@
 
 
 
-;-----------------------------------------------------
-;
-;
-;
-;-----------------------------------------------------
-(def touch-id  (atom 0))
+
+(def touch-id
+  "
+  "
+  (atom 0))
 
 
 
 
 
 
-;-----------------------------------------------------
-;
-;
-;
-;-----------------------------------------------------
-(defn touch [path]
+
+(defn touch
+  "
+  "
+  [path]
     (reset! app-state (assoc-in @app-state path
                                 (assoc
                                   (get-in @app-state path)
@@ -520,12 +487,11 @@
 
 
 
-;-----------------------------------------------------
-;
-;
-;
-;-----------------------------------------------------
-(def debug-event-timeline (atom {}))
+
+(def debug-event-timeline
+  "
+  "
+  (atom {}))
 ;(map #(str %1) @debug-event-timeline)
 ;(keys (get @debug-event-timeline 49))
 
@@ -538,12 +504,10 @@
 
 
 
-;-----------------------------------------------------
-;
-;
-;
-;-----------------------------------------------------
-(def component-usage (atom
+(def component-usage
+  "
+  "
+  (atom
                       {}
                       ))
 
@@ -552,12 +516,10 @@
 
 
 
-;-----------------------------------------------------
-;
-;
-;
-;-----------------------------------------------------
+
 (def debugger-ui
+  "
+  "
   (atom {
          :mode                     "show-event"
          :react-components         []
@@ -575,23 +537,22 @@
 
 
 
-;-----------------------------------------------------
-;
-;
-;
-;-----------------------------------------------------
-(def debug-count (atom 0))
+
+(def debug-count
+  "
+  "
+  (atom 0))
 
 
 
 
 
-;-----------------------------------------------------
-;
-;
-;
-;-----------------------------------------------------
-(defn add-debug-event [& {:keys [
+
+
+(defn add-debug-event
+  "
+  "
+  [& {:keys [
                                  event-type
                                  old
                                  new
@@ -703,11 +664,9 @@
 
       )))
 
-(defn remove-debug-event [did]
-  (reset! call-stack
-          (into [] (filter #(not= %1 did) @call-stack))
-          )
-  )
+
+
+
 
 
 
@@ -754,12 +713,12 @@
 
 
 
-;-----------------------------------------------------
-;
-;
-;
-;-----------------------------------------------------
-(defn contains-touch-id? [x]
+
+(defn contains-touch-id?
+  "
+  Does the current structure contain a touch ID?
+  "
+  [x]
   (cond
    (vector? x)
    (some #(if (contains-touch-id? %1) true) x)
@@ -780,48 +739,6 @@
 
 
 
-;-----------------------------------------------------
-;
-;
-;
-;-----------------------------------------------------
-(add-watch app-state
-           :change
-           (fn [_ _ old-val new-val]
-             (do
-               ;(.log js/console (pr-str  new-val))
-               (if (and @app-watch-on? (not (contains-touch-id?  new-val)))
-                 ;(if @app-watch-on?
-                 (comment let [debug-id (add-debug-event
-                                 :event-type  "UI"
-                                 :old         old-val
-                                 :new         new-val
-                                 :parent-id   (last @call-stack)
-                                 )]
-                   (remove-debug-event debug-id)
-                   )))))
-
-
-
-
-
-
-;-----------------------------------------------------
-;
-;
-;
-;-----------------------------------------------------
-(add-watch data-state
-           :change
-           (fn [_ _ old-val new-val]
-             (if @app-watch-on?
-               (let [debug-id (add-debug-event
-                               :event-type  "DATA"
-                               :old         old-val
-                               :new         new-val
-                               :parent-id   (last @call-stack)
-                               )]
-                 (remove-debug-event debug-id)))))
 
 
 
@@ -838,40 +755,56 @@
 ; (:events-filter-path @debugger-ui)
 
 
-;-----------------------------------------------------
-;                  gui-calls
-;
-;
-;-----------------------------------------------------
-(def gui-calls (atom {}))
 
 
 
-;-----------------------------------------------------
-;             current-gui-path
-;
-;
-;-----------------------------------------------------
-(def current-gui-path (atom []))
+(def gui-calls
+  "
+  A UI state history of all the GUI components
 
-;(filter #(= (:fn-name %1) "text-graph") @component-usage)
+  {
+      'main-view: []'
+            ....
 
-;@component-usage
+      'splash-screen: [:ui :splash-screen]'
+            [
+               {:show true}
+               {:show false, :click false}
+               {:show true}
+             ]
+
+      'letter-a: [:ui :splash-screen]'
+            ....
+
+      'letter-a: [:ui]'
+            ....
+
+      'browser-menu: []'
+            ....
+
+      'text-graph: [:ui :companies]'
+           [
+               nil
+               {:values [{company apple.com inbound 3}
+                         {company were.com inbound 1}
+                         ]}
+           ]
+      'browser-menu:'
+            ....
+
+      'text-graph:'
+            ....
+  }
+
+  This can be removed as it is not used by the system
+  anywhere
+  "
+  (atom {}))
+
+ ;(get @gui-calls "text-graph: [:ui :companies]")
 
 
 
-;(get @gui-calls (first (keys @gui-calls)))
 
-
-;(get @data-accesses (first (keys @data-accesses)))
-
-;@data-accesses
-
-
-(def tester (atom {}))
-
-
-
-(keys (:react-components-fns @debugger-ui))
 
 

@@ -22,27 +22,18 @@
                                                     debugger-ui
                                                     record-pointer-locally
                                                     app-state
-                                                    playback-app-state
-                                                    playback-controls-state
                                                     reset-app-state
                                                     ui-watchers
                                                     call-stack
-                                                    playbackmode
                                                     data-watchers
                                                     data-state
                                                     update-data
                                                     add-debug-event
-                                                    remove-debug-event
                                                     component-usage
                                                     gui-calls
-                                                    current-gui-path
                                                     app-watch-on?
                                                     data-accesses
                                                     ]]))
-
-
-
-
 
 
 
@@ -52,6 +43,87 @@
 
 
 
+
+
+
+(defn  data-tree!
+  "
+  Updates the data tree
+  "
+  [path value]
+   (reset! data-state (assoc-in @data-state path value)))
+
+
+
+
+
+
+
+
+(defn  data-tree
+  "
+  "
+  [path]
+  (get-in @data-state path))
+
+
+
+
+
+
+
+
+(defn  -->data
+  "
+  "
+  [path value]
+   (reset! data-state (assoc-in @data-state path value)))
+
+
+
+
+
+
+
+
+(defn  <--data
+  "
+  "
+  [path]
+  (get-in @data-state path))
+
+
+
+
+
+
+(defn remove-debug-event
+  "
+  "
+  [did]
+  (reset! call-stack
+          (into [] (filter #(not= %1 did) @call-stack))
+          )
+  )
+
+
+
+;-----------------------------------------------------
+; watch when the data changes
+;
+;
+;-----------------------------------------------------
+(add-watch data-state
+           :change
+           (fn [_ _ old-val new-val]
+             (if @app-watch-on?
+               (let [debug-id (add-debug-event
+                               :event-type  "DATA"
+                               :old         old-val
+                               :new         new-val
+                               :parent-id   (last @call-stack)
+                               )]
+                 (remove-debug-event debug-id)))))
 
 
 
@@ -281,7 +353,7 @@
 
 
 
-(defn record-path= [namespace-name path value tree-name & code]
+(defn record-path= [namespace-name  path  value  tree-name  &  code]
   (let [
         code-str
         (str (apply str (map #(if (= "\n" %1) (str "\r\n")  %1) code)))
@@ -297,7 +369,7 @@
                 (char 13) (char 13)
 
 
-                "(==" tree-name " " path "  "
+                "(==" tree-name " " path "  " value
                      (char 13) (char 13)
                      code-str
                      ""
@@ -820,11 +892,32 @@
                                  [debug-id])))
 
       (remove-debug-event debug-id)
-      )
-    ))
+      )))
 
 
+(defn write-data-fn [tree  path  value  parent-id]
+  (let [
+        full-path          path
+        old-val            @ data-state
+        data-access-key    {:tree  "DATA"
+                            :path  full-path}
+        current-value      (get @data-accesses  data-access-key)
+        ]
+    (om/update!  tree  path  value)
+    (let [debug-id       (add-debug-event
+                          :event-type  "DATA"
+                          :old         old-val
+                          :new         @app-state
+                          :parent-id   parent-id
+                          )]
+      (reset!  data-accesses (assoc @data-accesses
+                               data-access-key
+                               (if current-value
+                                 (conj current-value  debug-id)
+                                 [debug-id])))
 
+      (remove-debug-event debug-id)
+      )))
 
 
 
@@ -834,20 +927,35 @@
         value              (get-in  tree  sub-path)
         data-access-key    {:tree  "UI"
                             :path  full-path}
-        current-value      (get @data-accesses  data-access-key)
-        debug-id           (last @call-stack)
+        current-value      (get @ data-accesses  data-access-key)
+        debug-id           (last @ call-stack)
         ]
-    (log (str full-path))
-    (log (str "    parent id: " debug-id))
+    (log (str "*read-ui-fn: " full-path "    parent id: " debug-id))
     (reset!  data-accesses (assoc @data-accesses
                              data-access-key
                              (if current-value
                                (conj current-value  debug-id)
                                [debug-id])))
 
-    (remove-debug-event  debug-id)
+    ;(remove-debug-event  debug-id)
     value))
 
+
+
+
+(defn get-in-tree
+  "
+  "
+  [app path]
+  (let
+    [
+     calls          @call-stack
+     parent-id      (last calls)
+     ]
+  (read-ui-fn   @app   []  path   parent-id)
+  ))
+
+@ data-accesses
 
 
 
