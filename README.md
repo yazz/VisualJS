@@ -333,21 +333,21 @@ Adding something to the web page
 
 2) This is the default page that you see when you start Coils as a web app, so there should be a function which looks something like this:
 
-    (defn-ui-component     main-view   [app]
+    (c/defn-ui-component     main-view   [app]
         {:absolute-path []}
 
-        (div nil
-            (h2 nil "Coils")
+        (c/div nil
+            (c/h2 nil "Coils")
             "Build webapps with Neo4j"))
 
 
 3) Change the text from "Build webapps with Neo4j" to "Hello World" so that it looks like this:
 
-    (defn-ui-component     main-view   [app]
+    (c/defn-ui-component     main-view   [app]
         {:absolute-path []}
 
-        (div nil
-            (h2 nil "Coils")
+        (c/div nil
+            (c/h2 nil "Coils")
             "Hello World"))
 
 4) press press Ctrl-Alt-Enter and the view should swap out the whole page with the text "Hello world" in the web browser, no browser reload required!
