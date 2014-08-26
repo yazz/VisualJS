@@ -352,8 +352,8 @@ Adding something to the web page
             
 You may wonder what the **c/** is for. This is for the Coils namespace, defined with Om at the top of every Clojurescript file:
 
-    [om.core          :as om :include-macros true]
-    [om.dom           :as dom :include-macros true]
+    [om.core                              :as om :include-macros true]
+    [webapp.framework.client.coreclient   :as c  :include-macros true]
     
 4) press press Ctrl-Alt-Enter and the view should swap out the whole page with the text "Hello world" in the web browser, no browser reload required!
 
