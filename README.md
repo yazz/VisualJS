@@ -348,7 +348,7 @@ Adding something to the web page
 
         (c/div nil
             (c/h2 nil "Coils")
-            "**Hello World**"))
+            "Hello World"))     <-- This line changed
             
 You may wonder what the **c/** is for. This is for the Coils namespace, defined with Om at the top of every Clojurescript file:
 
