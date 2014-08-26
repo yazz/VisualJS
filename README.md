@@ -348,7 +348,7 @@ Adding something to the web page
 
         (c/div nil
             (c/h2 nil "Coils")
-            "Hello World"))
+            "**Hello World**"))
             
 You may wonder what the **c/** is for. This is for the Coils namespace, defined with Om at the top of every Clojurescript file:
 
@@ -558,7 +558,7 @@ From the client side:
 Define in fns.clj on the server side (using core.async):
 
     (defn say-hello [{name :name}]
-        {:text (str "**Hello " name**))})
+        {:text (str "Hello " name))})
 
 
 
