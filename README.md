@@ -119,17 +119,15 @@ http://connecttous.co/connecttous/connecttous.html?playback=true
 
 Since user sessions are saved, they must be stored somewhere on the server. Coils uses Neo4j for this and as its default datastore. While Coils does natively support relational databases, and also can support other backends such as MongoDb through Clojure, Neo4j was chosen for the following reasons:
 
-- Easy to setup Neo4j on a developer machine, withut having to create a schema first like with a database
-- Rich data model, using Neo4j labels, as opposed to document databases like MongoDB
+- Easy to setup Neo4j on a developer machine, without having to create a schema first
+- Rich data model, using Neo4j labels can also mimic database tables
 - Expressive and powerful Cypher query language
-- Zubair has requested support in the past for bugs and the Neo4j team were super responsive
+- Excellent support for bug fixes from the Neo4j team
 - Neo4j has funding and a large customer base, so they should be around a long time
 - Neo4j has a dual licensing model, similar to Coils
-- Neo4j is based close by in Malmo, not far from Copenhagen, so the core team are near by
 - Some of the Neo4j guys are very active in the Clojure community
-- Peter Neubauer, one of the founders of Neo4j is awesome and has always been helpful when there have been problems. Even though he is not at Neo4j anymore (now he is at Mapillary) he has always provided first class support
 
-One of the other questions has been around whether Neo4j can have a realtime interface to Neo4j, like Meteor does with Mini Mongo and MongoDb. MongoDb uses a very simple document model which is why this works so well with MondoDb, but Coils goes one step further and has full client side access to Cypher queries, so it doesn't need a MiniNeo4j on the client side. So the answer is yes, Coils can have real time client side access to Neo4j.
+One of the other questions has been around whether Neo4j can have a realtime interface to Neo4j, like Meteor does with Mini Mongo and MongoDb. MongoDb uses a very simple document model which is why this works so well with MondoDb, but Coils goes one step further and has full client side access to Cypher queries, so it doesn't need a MiniNeo4j on the client side. So the answer is yes, Coils can have real time client side access to Neo4j, which is currently in development.
 
 
 Deprecated features from April 2013 to July 2014
