@@ -745,3 +745,26 @@ Recommendations when building your first app
 4) Make a folder under **src/webapps** called **client**
 
 5) Make a folder under **src/webapps/client** called **react**
+
+6) Make a folder under **src/webapps/client/react** called **components**
+
+7) Make a folder under **src/webapps/client/react** called **views**
+
+8) Copy **webapp/framework/client/init.cljs** to **webapp/client/init.cljs**
+
+9) in **webapp/client/init.cljs** change the namespace to **webapp.client.init**
+
+9) in **my_app.html** change the all occurrences of **webapp.framework.client.init.setup** to **webapp.client.init.setup**
+
+10) Copy webapp.framework.client.components.main.cljs to webapp.client.react.components.main.cljs
+
+11) Rename the namespace in webapp.client.components.main.cljs from webapp.framework.client.components.main to webapp.client.react.components.main
+
+12) In init.cljs change    [webapp.framework.client.components.main                    :only   [main-view]]
+to    [webapp.client.react.main                    :only   [main-view]]
+
+13) In main.cljs change the text to Welcome to my new app
+
+14) Load 127.0.0.1:3000/app_name.html and you should see your new application page
+
+Alot of step, I know!!!
