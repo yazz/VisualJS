@@ -742,29 +742,20 @@ Recommendations when building your first app
 
 3) Copy the **src_base** folder and rename it **src_dev**. Edit this profile to be **dev** in **settings.clj**
 
-4) Make a folder under **src/webapps** called **client**
+4) Copy **webapp/framework/client/init.cljs** to **webapp/client/init.cljs**
 
-5) Make a folder under **src/webapps/client** called **react**
+5) In **webapp/client/init.cljs** change the namespace to **webapp.client.init**
 
-6) Make a folder under **src/webapps/client/react** called **components**
+6) In **my_app.html** change the all occurrences of **webapp.framework.client.init.setup** to **webapp.client.init.setup**
 
-7) Make a folder under **src/webapps/client/react** called **views**
+7) Copy **src/webapp/framework/client/components/main.cljs** to **src/webapp/client/react/views/main.cljs**
 
-8) Copy **webapp/framework/client/init.cljs** to **webapp/client/init.cljs**
+8) Rename the namespace in **webapp.client.components.main.cljs** from **webapp.framework.client.components.main** to **webapp.client.react.components.main**. This will be in two places, one at the top of the file (ns webapp.client.react.views.main) and the other below it as (c/ns-coils 'webapp.client.components.main)
 
-9) in **webapp/client/init.cljs** change the namespace to **webapp.client.init**
+9) In init.cljs change    **[webapp.framework.client.components.main  :only  [main-view]]** to **[webapp.client.react.main   :only   [main-view]]**
 
-9) in **my_app.html** change the all occurrences of **webapp.framework.client.init.setup** to **webapp.client.init.setup**
+10) In **src/webapp/client/react/views/main.cljs** change the text to **Welcome to my new app**
 
-10) Copy webapp.framework.client.components.main.cljs to webapp.client.react.components.main.cljs
+11) Load **127.0.0.1:3000/app_name.html** and you should see your new application page
 
-11) Rename the namespace in webapp.client.components.main.cljs from webapp.framework.client.components.main to webapp.client.react.components.main
-
-12) In init.cljs change    [webapp.framework.client.components.main                    :only   [main-view]]
-to    [webapp.client.react.main                    :only   [main-view]]
-
-13) In main.cljs change the text to Welcome to my new app
-
-14) Load 127.0.0.1:3000/app_name.html and you should see your new application page
-
-Alot of step, I know!!!
+Alot of steps, I know!!!
