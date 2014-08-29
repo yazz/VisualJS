@@ -728,3 +728,12 @@ Deploying an application to a Java server
     lein with-profile prod ring uberwar
     ... deploy the resulting war file ...
 
+
+
+
+Recommendations when building your first app
+--------------------------------------------
+
+1) Copy main.html and make your own app_name.html file
+2) Edit the field in **links.txt** from **http://127.0.0.1:3000/main.html** to **http://127.0.0.1:3000/app_name.html**
+3) Copy src_base and make it src_dev in the folder 
