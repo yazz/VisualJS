@@ -246,6 +246,8 @@ Anatomy of a Coils application
 ------------------------------
 
     my_new_application
+        └ links.txt
+          ... links to common resources of your web applicaiton
         └ README.md
           project.clj
 
