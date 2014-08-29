@@ -47,7 +47,7 @@ The Coils framework started because of one web developers pain over many years d
 
 Then one day in 2008 Zubair discovered Ruby on Rails. He realised that there was a better way to develop web software by using interactive languages such as Ruby with easy database access via ActiveRecord. However, he soon became frustrated again, as the UI in Rails was generated on the server and fine grained control of the DOM was not easy to do without resorting to heavy Javascript. So, in true developer style, Zubair did the "wrong thing", and took the long and painful route of trying to find his programming Nirvana, going to Erlang, Vaadin, Grails, JQuery, Javascript, GWT, Google Closure, Dart, and finally deciding to use Clojure and ClojureScript for a project he was involved with. That project Zubair was NemCV, the CV system for Denmark. Zubair took inspiration from Ruby on Rails (also from Denmark) and extracted the reuseable parts of NemCV to make the Coils framework.
 
-After around a year of development of Coils against relational databases (NemCV used Postgres), Zubair met Peter Neubauer from Neo4j when he came to do a talk about Neo4j at MatchingHeads, a Danish startup organisation (http://www.meetup.com/copenhagen-it-people/events/127072702/). Zubair realised that Neo4j could make developing web applications simpler as it allows schema-less development using a powerful SQL like language called Cypher. So Coils has first class support for Neo4j using it as the default datastore. 
+After around a year of development of Coils against relational databases (NemCV used Postgres), Zubair met Peter Neubauer from Neo4j when he came to do a talk about Neo4j at MatchingHeads, a Danish startup organisation (http://www.meetup.com/copenhagen-it-people/events/127072702/). Zubair realised that Neo4j could make developing web applications simpler as it allows schema-less development using a powerful SQL like language called Cypher. So Coils has first class support for Neo4j using it as the default datastore.
 
 Then, in early 2014 Zubair listened to a Javascript Jabber postcast with Pete Hunt of Facebook, and learnt about Facebook React and how Facebook used it for building reactive UIs. Then he discovered a ClojureScript library called Om, made by David Nolen (https://github.com/swannodette/om) which provided a Clojurescript wrapper on top of Facebook React. He wanted to use React/Om in Coils, but this meant that previous Coils applications such as NemCV would have to be totally rewritten, as the old Coils used imperative UI libraries like Domina. Zubair decided that a reactive front end would be worth it and all new Coils webapps would be built using React/Om.
 
@@ -347,11 +347,11 @@ Adding something to the web page
         (c/div nil
             (c/h2 nil "Coils")
             "Hello World"))     <-- This line changed
-            
+
 You may wonder what the **c/** is for. This is for the Coils namespace, defined with Om at the top of every Clojurescript file:
 
     [webapp.framework.client.coreclient   :as c  :include-macros true]
-    
+
 4) press press Ctrl-Alt-Enter and the view should swap out the whole page with the text "Hello world" in the web browser, no browser reload required!
 
 We actually cheated in the above example as we edited the Coils framework itself, but it was just to get you to make a change as fast as possible. In an actual applicaiton we would ask you to make another file for your own GUI components
@@ -741,3 +741,7 @@ Recommendations when building your first app
 2) Edit the field in **links.txt** from **127.0.0.1:3000/main.html** to **127.0.0.1:3000/app_name.html**
 
 3) Copy the **src_base** folder and rename it **src_dev**. Edit this profile to be **dev** in **settings.clj**
+
+4) Make a folder under **src/webapps** called **client**
+
+5) Make a folder under **src/webapps/client** called **react**
