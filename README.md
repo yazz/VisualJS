@@ -8,7 +8,7 @@ Coils - Build Neo4j Web Applications
 http://connecttous.co/connecttous/connecttous.html?livedebug=true
 
 ###Quick start
-abso
+
 1) Install Neo4j from:
 
     http://www.neo4j.org/
