@@ -8,7 +8,7 @@ Coils - Build Neo4j Web Applications
 http://connecttous.co/connecttous/connecttous.html?livedebug=true
 
 ###Quick start
-
+abso
 1) Install Neo4j from:
 
     http://www.neo4j.org/
@@ -331,8 +331,7 @@ Adding something to the web page
 
 2) This is the default page that you see when you start Coils as a web app, so there should be a function which looks something like this:
 
-    (c/defn-ui-component     main-view   [app]
-        {:absolute-path []}
+    (c/defn-ui-component     main-view   [app] {}
 
         (c/div nil
             (c/h2 nil "Coils")
@@ -341,8 +340,7 @@ Adding something to the web page
 
 3) Change the text from "Build webapps with Neo4j" to "Hello World" so that it looks like this:
 
-    (c/defn-ui-component     main-view   [app]
-        {:absolute-path []}
+    (c/defn-ui-component     main-view   [app] {}
 
         (c/div nil
             (c/h2 nil "Coils")
