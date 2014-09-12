@@ -331,7 +331,7 @@ Adding something to the web page
 
 2) This is the default page that you see when you start Coils as a web app, so there should be a function which looks something like this:
 
-    (c/defn-ui-component     main-view   [app] {}
+    (c/defn-ui-component     main-view   [app] 
 
         (c/div nil
             (c/h2 nil "Coils")
@@ -340,7 +340,7 @@ Adding something to the web page
 
 3) Change the text from "Build webapps with Neo4j" to "Hello World" so that it looks like this:
 
-    (c/defn-ui-component     main-view   [app] {}
+    (c/defn-ui-component     main-view   [app] 
 
         (c/div nil
             (c/h2 nil "Coils")
@@ -403,7 +403,7 @@ However, since Facebook react, via David Nolen's Clojurescript Om library is now
 
 So React/Om components make up the user interface. When we say React/Om components this means that there is a piece of UI code and a corresponding piece of data. So for example there may be the following piece of coe to render a UI:
 
-    (c/defn-ui-component     say-hello-ui-component   [person-data] {}
+    (c/defn-ui-component     say-hello-ui-component   [person-data] 
         (c/div
             nil
             (str "Hello " (read-ui person-data [:name]))))
@@ -444,7 +444,7 @@ So, the diagram would now look something like this:
 
     Om/React Components
 
-        (c/defn-ui-component     say-hello-ui-component   [person-data] {}
+        (c/defn-ui-component     say-hello-ui-component [ person-data ] 
             (c/div
                 nil
                 (str "Hello " (c/read-ui person-data [:name]))))
