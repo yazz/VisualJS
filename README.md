@@ -162,7 +162,7 @@ If you still wish to use the discontinued features then use an older version of 
 Unique features
 ---------------
 
-- Build the default app and then click on debug at the top and you can Browse the source code behind any GUI element by left clicking on the element
+- In debug mode press the Debug button at the top of the web page and you can rewind and forward the application and browse the source code behind any GUI element by left clicking on the element
 
 - Secure client Neo4j Cypher. All calls are encrypted and use a server side key to avoid Cypher injection attacks, yet at the same time the Cypher calls appearing in client side code are easy to understand.
 
@@ -175,7 +175,7 @@ Unique features
 All features
 ------------
 
-- hard dependency on Neo4j now
+- Hard dependency on Neo4j now
 - Clojurescript Om by David Nolen
 - Records all web sessions for playback to understand customer behaviour (using Neo4j)
 - AB testing built in
@@ -187,7 +187,7 @@ All features
 - SQL Korma for database requests
 - Neocons for Neo4j access
 - Compojure, Ring, and Shoreleave for server side code
-- core.async for a client-side synchronous programming model
+- Core.async for a client-side synchronous programming model
 
 
 
