@@ -544,9 +544,9 @@ Calling server side code
 
 From the client side:
 
-    (go
+    (server-call
          (js/alert
-             (:text (<! (remote "say-hello" {:name "Johnny"})))))
+             (:text (remote "say-hello" {:name "Johnny"}))))
 
 
 
