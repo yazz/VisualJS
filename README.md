@@ -546,7 +546,7 @@ From the client side:
 
     (server-call
          (js/alert
-             (:text (remote "say-hello" {:name "Johnny"}))))
+             (:text (remote  say-hello  {:name "Johnny"}))))
 
 
 
