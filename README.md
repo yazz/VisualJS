@@ -565,7 +565,7 @@ Client side SQL
 ---------------
 
     (go
-        (.log js/console (str (<! (sql "SELECT * FROM test_table where name = ?" ["shopping"] )))))
+        (log (pr-str (sql "SELECT * FROM test_table where name = ?" ["shopping"] ))))
 
 
 Please note that the raw SQL is not visible from web browsers since it's encryted through a server side macro. Such macros are a feature unique to Clojure and other [Lisps](https://en.wikipedia.org/wiki/Lisp_(programming_language)#List_structure_of_program_code.3B_exploitation_by_macros_and_compilers).
@@ -577,7 +577,7 @@ Client side Neo4j Cypher
 ------------------------
 
     (go
-        (.log js/console (str (<! (neo4j "START x = node(11) RETURN x" {} )))))
+        (log (pr-str (neo4j "START x = node(11) RETURN x" {} ))))
 
 Please note that the raw Cypher code is not visible from web browsers as it is encryted via a server side macro, like the SQL calls are.
 
@@ -606,7 +606,7 @@ When you make a client side SQL/Cypher call it is encyrpted using a Macro at com
 This means that the string in a client side call...
 
     (go
-        (.log js/console (str (<! (sql "SELECT * FROM test_table where name = ?" ["shopping"] )))))
+        (log (str (sql "SELECT * FROM test_table where name = ?" ["shopping"] ))))
 
 ... will be rewritten at compile time, making it impossible for anyone who does "View source" on your web page to see the SQL code!
 
@@ -698,8 +698,7 @@ There are many library functions available, although it is a bit of a mess havin
 
     (go
          (let [
-                 search-db-for-user   (<! (sql "SELECT * FROM users where user_name = ?"
-                                      [username] ))
+                 search-db-for-user   (sql "SELECT * FROM users where user_name = ?"  [username] )
                  user-already-exists  (pos? (count search-db-for-user))
               ]
                  (if user-already-exists ...
