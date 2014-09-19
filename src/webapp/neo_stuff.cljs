@@ -9,12 +9,10 @@
     [cljs.core.async.macros :refer [go alt!]])
 
   (:use
-        [webapp.framework.client.coreclient  :only [remote]]
-        [webapp.framework.client.neo4j       :only [neo4j-fn]]
+        [webapp.framework.client.coreclient  :only [remote-fn neo4j-fn sql-fn]]
     )
     (:use-macros
-        [webapp.framework.client.coreclient  :only [ns-coils sql log neo4j]]
-        [webapp.framework.client.neo4j       :only [neo4j]]
+        [webapp.framework.client.coreclient  :only [ns-coils sql log neo4j neo4j-1 sql-1]]
      )
 )
 (ns-coils 'webapp)
@@ -22,22 +20,22 @@
 
 ; return the raw data for a neo4j node
 (comment go
-    (.log js/console (str (<! (neo4j "START x = node(*) RETURN count(x) LIMIT 1" {} ))))
-)
+    (.log js/console (str  (neo4j "START x = node(*) RETURN count(x) LIMIT 1" {} ))))
 
 
 
 
-(comment go (log (str (<!
+
+(comment go (log (str
   (neo4j
    "create (u:User { email : { email2 }, title : 'Developer' }) return u"
-   {:email2 "dfsfdsf@gmail.com"} "u")))))
+   {:email2 "dfsfdsf@gmail.com"} "u"))))
 
 
-(comment go (log (str (<!
+(comment go (log (str
   (neo4j
    "create (u:User { email : { email2 }, title : 'Developer' }) return u"
-   {:email2 "dffds@gmail.com"} "u")))))
+   {:email2 "dffds@gmail.com"} "u"))))
 
 
 
