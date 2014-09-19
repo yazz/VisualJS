@@ -11,7 +11,7 @@
    )
 
   (:use
-   [webapp.framework.client.coreclient     :only  [log remote component-fn]]
+   [webapp.framework.client.coreclient     :only  [log remote-fn component-fn]]
    [webapp.framework.client.system-globals :only  [debugger-ui
                                                    debug-event-timeline
                                                    app-state
@@ -19,8 +19,7 @@
                                                    data-accesses]]
    )
   (:use-macros
-   [webapp.framework.client.neo4j         :only  [neo4j]]
-   [webapp.framework.client.coreclient    :only  [component]]
+   [webapp.framework.client.coreclient    :only  [component remote]]
    )
   (:require-macros
    [cljs.core.async.macros :refer [go]]))
