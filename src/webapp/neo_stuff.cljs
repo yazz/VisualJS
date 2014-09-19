@@ -1,4 +1,4 @@
-(ns webapp
+(ns webapp.neo-stuff
  (:refer-clojure :exclude [val empty remove find next parents])
     (:require
         [cljs.reader                     :as reader]
@@ -15,7 +15,7 @@
         [webapp.framework.client.coreclient  :only [ns-coils sql log neo4j neo4j-1 sql-1 log]]
      )
 )
-(ns-coils 'webapp)
+(ns-coils 'webapp.neo-stuff)
 
 
 ;(go (<! (add-to-simple-point-layer {:name "ny ny" :x 0.12 :y 0.1} "ore2")))
