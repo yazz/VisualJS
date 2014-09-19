@@ -606,7 +606,7 @@ When you make a client side SQL/Cypher call it is encyrpted using a Macro at com
 This means that the string in a client side call...
 
     (go
-        (log (str (sql "SELECT * FROM test_table where name = ?" ["shopping"] ))))
+        (log (pr-str (sql "SELECT * FROM test_table where name = ?" ["shopping"] ))))
 
 ... will be rewritten at compile time, making it impossible for anyone who does "View source" on your web page to see the SQL code!
 
