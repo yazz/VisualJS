@@ -21,7 +21,7 @@
 
 (defonce ^:dynamic *database-password* "manager")
 
-(defonce ^:dynamic *database-name* "webdb")
+(defonce ^:dynamic *database-name* "postgres")
 
 (defonce ^:dynamic *sql-encryption-password* "animal")
 

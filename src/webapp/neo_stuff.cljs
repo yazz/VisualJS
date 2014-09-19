@@ -12,83 +12,17 @@
         [webapp.framework.client.coreclient  :only [remote-fn neo4j-fn sql-fn]]
     )
     (:use-macros
-        [webapp.framework.client.coreclient  :only [ns-coils sql log neo4j neo4j-1 sql-1]]
+        [webapp.framework.client.coreclient  :only [ns-coils sql log neo4j neo4j-1 sql-1 log]]
      )
 )
 (ns-coils 'webapp)
 
 
-; return the raw data for a neo4j node
-(comment go
-    (.log js/console (str  (neo4j "START x = node(*) RETURN count(x) LIMIT 1" {} ))))
+;(go (<! (add-to-simple-point-layer {:name "ny ny" :x 0.12 :y 0.1} "ore2")))
+;(go (log (<! (find-names-within-distance   "usa"  0   0  1000))) )
 
 
 
-
-
-(comment go (log (str
-  (neo4j
-   "create (u:User { email : { email2 }, title : 'Developer' }) return u"
-   {:email2 "dfsfdsf@gmail.com"} "u"))))
-
-
-(comment go (log (str
-  (neo4j
-   "create (u:User { email : { email2 }, title : 'Developer' }) return u"
-   {:email2 "dffds@gmail.com"} "u"))))
-
-
-
-
-
-
-
-; return just the data for a neo4j node (still a lot!)
-(comment go
- (.log js/console
-       (str
-        (neo-result
-         (<! (neo4j "START x = node(17109) RETURN x" {} ))
-         "x"))))
-
-
-
-
-(comment
-   go
-   (.log js/console (str (neo-outgoing (<! (neo4j "START x = node(17109) RETURN x" {} )) "x")))
-)
-
-(comment go
-   (.log js/console (str (neo-incoming (<! (neo4j "START x = node(0) RETURN x" {} )) "x")))
-)
-
-(comment go
-     (<! (add-to-simple-point-layer {:name "bella centre" :x 0.12 :y 0.1} "ore2")))
-
-
-(comment go
-     (log (<! (find-names-within-distance   "ore2"  0   0  1000))) )
-
-
-(comment go
-    (log (<! (get-all-neo4j-records-with-field :type)))
-)
-
-(comment go
-    (log (<! (count-all-neo4j-records-with-field :type)))
-)
-
-;(delete-all-neo-4j-nodes :are-you-sure? "yes")
-
-(comment go
-    (log (<! (count-all-neo4j-records)))
-)
-
-
-
-(comment log "hey" 2)
-
-
-
+;(go (log (neo4j "match n return count(n)")))
+;(go (log (sql "select count(*) from ojobs_users" {})))
 
