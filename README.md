@@ -79,7 +79,7 @@ What is Coils?
 
 Coils is a web framework written in Clojure and Clojurescript, running on the JVM on the server side and Javascript on the browser. The resulting artifact is a war file, so it can be deployed on any Java web or application server, including Jetty, Tomcat, JBoss, Glassfish, Weblogic, or Websphere.
 
-A few notes:
+A few notes about Coils:
 
 - Uses Neo4j for data storage
 - Uses Clojure for the server side
