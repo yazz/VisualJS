@@ -41,6 +41,8 @@
 
 
 
+(reader/register-tag-parser! "webapp.framework.server.records.NeoNode" map->NeoNode)
+(reader/register-tag-parser! "webapp.framework.client.records.NeoNode" map->NeoNode)
 
 
 (def debug-mode (atom false))
@@ -77,7 +79,7 @@
 
 
 
-(defn  -->data
+(defn  -->data-fn
   "
   "
   [path value]
@@ -90,7 +92,7 @@
 
 
 
-(defn  <--data
+(defn  <--data-fn
   "
   "
   [path]
@@ -488,58 +490,8 @@
 (get @paths-for-refresh "main-yazz-header")
 
 
-(defn  ^:export loadDebugger []
-  (do
-   (reset! app-watch-on? false)
-
-    (om/root
-     webapp.framework.client.components.debugger-main/main-debug-comp
-     debugger-ui
-     {:target (js/document.getElementById "right_of_main")})
 
 
-    (om/root
-     webapp.framework.client.components.debugger-main/details-debug-comp
-     debugger-ui
-     {:target (js/document.getElementById "debugger_details")})
-
-    (om/root
-     webapp.framework.client.components.debugger-main/main-debug-slider-comp
-     debugger-ui
-     {:target (js/document.getElementById "main_playback_slider")})))
-
-
-
-
-
-
-(defn  ^:export unloadDebugger []
-  (do
-    (reset! debugger-ui
-
-            (assoc-in
-             @debugger-ui
-             [:react-components] []))
-
-
-    (reset! debugger-ui
-            (assoc-in
-             @debugger-ui
-             [:current-component] nil))
-
-
-    (reset! debugger-ui
-            (assoc-in
-             @debugger-ui
-             [:mode] "show-event"))
-
-
-    (om/root
-     (fn [app owner] (om/component (dom/div nil "")))
-     debugger-ui
-     {:target (js/document.getElementById "right_of_main")})))
-
-;(unloadDebugger)
 
 
 
@@ -1011,7 +963,6 @@
 
 
 
-(cljs.reader/register-tag-parser! "webapp.framework.server.records.NeoNode" map->NeoNode)
 
 
 ;----------------------------------------------------------

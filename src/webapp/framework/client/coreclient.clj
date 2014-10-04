@@ -30,7 +30,7 @@
 (defmacro server-call [& x]
   `(cljs.core.async.macros/go ~@ x))
 
-(macroexpand '(remote "a" {}))
+(macroexpand '(remote  a  {}))
 
 (defmacro log [& x]
   `(.log js/console (str
@@ -326,12 +326,36 @@
 
 
 
+
+
+(defmacro  -->data
+  "Writes to the data tree"
+  [path value]
+   `(~'webapp.framework.client.coreclient/-->data-fn ~path ~value))
+
+
+
+(defmacro  <--data
+  "Reads from the data tree"
+  [path]
+   `(~'webapp.framework.client.coreclient/<--data-fn ~path))
+
+
+
+
+
+
+
+
+
+
+
 (comment macroexpand '(when-ui-value-changes [:ui :company-details :company-url]
 
 
    (go
     (webapp.framework.client.coreclient/update-ui  ui  [:ui  :company-details   :skills  ] nil)
-     (let [ l (remote "get-company-details"
+     (let [ l (remote  get-company-details
              {
               :company-url    (get-in @app-state [:ui :company-details :company-url])
               })]

@@ -8,6 +8,8 @@
    [clojure.data     :as data]
    [clojure.string   :as string]
    [ankha.core       :as ankha]
+   [webapp.framework.client.protocols]
+   [webapp.framework.client.records]
   )
 
   (:use
@@ -73,7 +75,7 @@
    (reset-app-state)
    (@init-fn)
    (detect-browser)
-   (let [session (:value (remote "!create-session"
+   (let [session (:value (remote !create-session
                                      {
                                       :init-state (with-out-str (prn @app-state))
                                       :browser    (str (-> @app-state :system :platform) ","
@@ -106,7 +108,7 @@
                      (put! tx-chan [tx-data root-cursor])
 
                      (let [ts   (- (.getTime (js/Date.)) start-time)]
-                     (remote "!add-history"
+                     (remote !add-history
                                  {
                                   :session-id    @session-id
                                   :history-order (swap! history-order inc)
