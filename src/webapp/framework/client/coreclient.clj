@@ -39,6 +39,13 @@
 (defmacro add-many [items]
   `(add-many-fn      ~items))
 
+(defmacro map-many [code items]
+  `(c/add-many
+   (map
+    ~code
+    ~items)))
+
+
 ;(macroexpand '(log "a" "b"))
 ;--------------------------------------------------------------------
 
@@ -84,6 +91,16 @@
 
     `(do
 
+
+       (reset! webapp.framework.client.coreclient/data-sources-proxy
+               (into {}
+                     (filter (fn [~'x] (if (not (=   ~(str `~fn-name)
+                                            (get (first  ~'x) :ui-component-name)))
+                                true))
+                             (deref webapp.framework.client.coreclient/data-sources-proxy))))
+
+
+
        (defn ~fn-name [~(first data-paramater-name)  ~'owner]
          (~'reify
 
@@ -106,6 +123,7 @@
                                          )
 
 
+                       ~'ui-component-name    ~(str `~fn-name)
                        ~'path       ~'(om.core/get-state owner :parent-path)
 
                        ~'parent-id  ~'debug-id
@@ -174,6 +192,12 @@
   `(om.dom/h2  (webapp.framework.client.coreclient/attrs ~attributes) ~@more))
 (defmacro h3 [attributes & more]
   `(om.dom/h3  (webapp.framework.client.coreclient/attrs ~attributes) ~@more))
+(defmacro h4 [attributes & more]
+  `(om.dom/h4  (webapp.framework.client.coreclient/attrs ~attributes) ~@more))
+(defmacro h5 [attributes & more]
+  `(om.dom/h5  (webapp.framework.client.coreclient/attrs ~attributes) ~@more))
+(defmacro h6 [attributes & more]
+  `(om.dom/h6  (webapp.framework.client.coreclient/attrs ~attributes) ~@more))
 (defmacro ul [attributes & more]
   `(om.dom/ul  (webapp.framework.client.coreclient/attrs ~attributes) ~@more))
 (defmacro li [attributes & more]
@@ -198,6 +222,19 @@
   `(om.dom/th  (webapp.framework.client.coreclient/attrs ~attributes) ~@more))
 (defmacro form [attributes & more]
   `(om.dom/form  (webapp.framework.client.coreclient/attrs ~attributes) ~@more))
+(defmacro span [attributes & more]
+  `(om.dom/span  (webapp.framework.client.coreclient/attrs ~attributes) ~@more))
+
+(defmacro container [& more]
+  `(om.dom/div  {} ~@more))
+(defmacro text [& str-items]
+  `(om.dom/div  {} (str ~@str-items)))
+(defmacro inline [width & more]
+  `(om.dom/div  (webapp.framework.client.coreclient/attrs
+                 {:style {:display "inline-block;"
+                          :width   ~width
+                          }}) ~@more))
+
 ;--------------------------------------------------------------------
 
 
@@ -451,16 +488,50 @@
 
 
 ;--------------------------------------------------------------------
-(defmacro sql [sql-str params]
+(defmacro sql
+  ([sql-str]
+  `(~'<! (webapp.framework.client.coreclient/sql-fn
+       ~(encrypt sql-str)
+       {})))
+  ([sql-str params]
   `(~'<! (webapp.framework.client.coreclient/sql-fn
        ~(encrypt sql-str)
        ~params)))
+  )
 
 ;( macroexpand '(sql "SELECT * FROM test_table where name = ?" ["shopping"] ))
 ;--------------------------------------------------------------------
 
-(defmacro sql-1 [sql-str params]
-  `(~'first (~'sql  ~sql-str ~params)))
+(defmacro sql-1
+  ([sql-str]
+   `(~'first (~'sql  ~sql-str {})))
+
+  ([sql-str params]
+   `(~'first (~'sql  ~sql-str ~params))
+   ))
+
+
+
+
+
+(defmacro add-data-source [name-of-table  opts  ui-component-name  sub-path]
+  `(webapp.framework.client.coreclient/add-data-source-fn ~name-of-table
+                                                          ~opts
+                                                          ~ui-component-name
+                                                          ~sub-path))
+
+
+
+(defmacro data [name-of-table  opts]
+  `(do
+     (webapp.framework.client.coreclient/data-fn
+      ~name-of-table
+      ~opts
+      ~'ui-component-name
+      ~'path)))
+
+
+(macroexpand '(data "learno_tests" {}))
 
 
 

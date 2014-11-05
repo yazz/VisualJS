@@ -37,8 +37,24 @@
                                                     app-watch-on?
                                                     data-accesses
                                                     paths-for-refresh
-                                                    ]]))
-
+                                                    data-sources
+                                                    ]])
+  (:use-macros
+   [webapp.framework.client.coreclient  :only [ns-coils
+                                               sql log neo4j neo4j-1 sql-1 log
+                                               watch-data
+                                               -->ui
+                                               <--data
+                                               remote
+                                               defn-ui-component
+                                               container
+                                               map-many
+                                               inline
+                                               text
+                                               div
+                                               add-data-source
+                                               ]]))
+(ns-coils 'webapp.framework.client.coreclient)
 
 
 (reader/register-tag-parser! "webapp.framework.server.records.NeoNode" map->NeoNode)
@@ -47,8 +63,7 @@
 
 (def debug-mode (atom false))
 
-
-
+(def data-sources-proxy  data-sources)
 
 
 
@@ -1044,5 +1059,76 @@
                                               :max-x max-x
                                               :max-y max-y
                                               }))))
+
+
+
+
+
+(defn add-data-source-fn [db-table
+                          {
+                           fields               :fields
+                           where                :where
+                           path                 :path
+                           }
+                          ui-component-name
+                          sub-path
+                          ]
+  (let
+    [
+     data-source-name       {
+                             :ui-component-name    ui-component-name
+                             :db-table    db-table
+                             :fields      fields
+                             :where       where
+                             :path        sub-path
+                             }
+     ]
+    (if (not (get @data-sources data-source-name))
+      (do
+        ;(js/alert (pr-str sub-path))
+        (reset! data-sources
+                (assoc @data-sources  data-source-name {}))
+
+        (go
+         (update-data [:tables db-table]
+                      (remote !make-sql
+                              {
+                               :fields        fields
+                               :db-table      db-table
+                               :where         where
+                               }) ))
+
+        (watch-data [:tables db-table]
+                    (do
+                      (-->ui (into [] (flatten (conj  sub-path  path  [:values])))
+                             (<--data [:tables db-table]))
+                      ))))))
+
+
+
+
+
+
+
+
+(defn data-fn [db-table    {
+                            path                 :path
+                            ui-state             :ui-state
+                            interval-in-millis   :interval-in-millis
+                            fields               :fields
+                            where                :where
+                            }
+               ui-component-name
+               sub-path]
+  (add-data-source  db-table
+                    {
+                       :fields        fields
+                       :where         where
+                       :path          path
+                     }
+                    ui-component-name
+                    sub-path)
+  (get (get-in ui-state path) :values)
+  )
 
 
