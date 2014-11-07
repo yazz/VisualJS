@@ -973,13 +973,6 @@
 
 
 
-
-
-
-
-
-
-
 ;----------------------------------------------------------
 (defn neo4j-fn
   "Call the server side neo4j function"
@@ -1060,9 +1053,17 @@
                                               :max-y max-y
                                               }))))
 
+(defn order-by-id [x]
+  (apply hash-map
+         (flatten
+          (map
+           (fn [y] [(first (keys y)) (first (vals y))])
+           (map
+            (fn [z] {(:id z) z})
+            x)))))
 
-
-
+(def mm  [{:id 1 :a 1} {:id 2 :a 2}])
+(order-by-id mm)
 
 (defn add-data-source-fn [db-table
                           {
@@ -1077,10 +1078,10 @@
     [
      data-source-name       {
                              :ui-component-name    ui-component-name
-                             :db-table    db-table
-                             :fields      fields
-                             :where       where
-                             :path        sub-path
+                             :db-table             db-table
+                             :fields               fields
+                             :where                where
+                             :path                 sub-path
                              }
      ]
     (if (not (get @data-sources data-source-name))
@@ -1091,12 +1092,12 @@
 
         (go
          (update-data [:tables db-table]
-                      (remote !make-sql
+                      (order-by-id (remote !make-sql
                               {
                                :fields        fields
                                :db-table      db-table
                                :where         where
-                               }) ))
+                               }) )))
 
         (watch-data [:tables db-table]
                     (do
@@ -1128,7 +1129,7 @@
                      }
                     ui-component-name
                     sub-path)
-  (get (get-in ui-state path) :values)
+  (into []  (vals (get (get-in ui-state path) :values)))
   )
 
 

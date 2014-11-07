@@ -39,8 +39,9 @@
 (defmacro add-many [items]
   `(add-many-fn      ~items))
 
+
 (defmacro map-many [code items]
-  `(c/add-many
+  `(add-many
    (map
     ~code
     ~items)))
