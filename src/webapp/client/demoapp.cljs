@@ -1,4 +1,4 @@
-(ns webapp.framework.client.init
+(ns webapp.client.demoapp
   (:require
    [goog.net.cookies                     :as cookie]
    [om.core                              :as om    :include-macros true]
@@ -20,9 +20,17 @@
    [webapp-config.settings  :only [setup-fn]])
   )
 
-(c/ns-coils 'webapp.framework.client.init)
+(c/ns-coils 'webapp.client.demoapp)
 
 
+
+
+(c/defn-ui-component     demo-view   [app]
+  {}
+
+  (c/div nil
+       (c/h2 nil "Demo app")
+       "Demo webapp with Neo4j"))
 
 
 
@@ -31,7 +39,7 @@
 (defn setup-properties []
   {
    :start-component
-   main-view
+   demo-view
 
    :setup-fn
    (fn[]
@@ -57,7 +65,3 @@
   ))})
 
 
-
-(def  ^:export setup
-  ((setup-fn))
-  )
