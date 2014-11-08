@@ -285,17 +285,15 @@
       (~'fn [~'ui] (do ~@code)))))
 ;--------------------------------------------------------------------
 
-
-
-
-
-
-
 ;--------------------------------------------------------------------
 (defmacro watch-data
-  [path & code]
+  [watcher-name path & code]
 
   `(do
+     (if (pos? (count ~watcher-name))
+         (webapp.framework.client.coreclient/delete-data-watcher  ~watcher-name)
+     )
+
      (webapp.framework.client.coreclient/record-watcher
       (~'ns-coils-debug)
       ~(str `~path)
@@ -305,6 +303,7 @@
       )
 
      (~'webapp.framework.client.coreclient/when-data-value-changes-fn
+      ~watcher-name
       ~path
       (~'fn [~'ui] (do ~@code)))))
 ;--------------------------------------------------------------------
@@ -523,10 +522,10 @@
 
 
 
-(defmacro data [name-of-table  opts]
+(defmacro data [name-of-data  opts]
   `(do
      (webapp.framework.client.coreclient/data-fn
-      ~name-of-table
+      ~name-of-data
       ~opts
       ~'ui-component-name
       ~'path)))

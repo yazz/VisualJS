@@ -512,6 +512,20 @@ record-ui
 
 
 
+(defn touch-data
+  "
+  "
+  [path]
+  (reset! data-state (assoc-in @data-state
+                               (conj path
+                                     :touch-id)
+                               (swap! touch-id inc)
+                               )))
+
+
+
+
+
 
 
 
@@ -849,3 +863,4 @@ record-ui
 
 
 ;(get-in @app-state [:ui :cvs :values 0])
+@data-watchers

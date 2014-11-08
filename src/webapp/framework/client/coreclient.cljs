@@ -39,6 +39,7 @@
                                                     paths-for-refresh
                                                     data-sources
                                                     record-ui
+                                                    touch-data
                                                     ]])
   (:use-macros
    [webapp.framework.client.coreclient  :only [ns-coils
@@ -409,7 +410,29 @@ record-ui
 
 
 
+(defn delete-data-watcher [watcher-name]
+  (reset!
+   webapp.framework.client.system-globals/data-watchers
+   (into []
+         (filter
+          #(not (=
+                 (get %1 :name)
+                 watcher-name))
+          @webapp.framework.client.system-globals/data-watchers))))
 
+
+(count @data-watchers)
+(map :name @data-watchers)
+
+
+;(reset! data-watchers [])
+(comment reset! data-watchers (into [] (filter #(not (=
+          (get %1 :name)
+          "component-cv-browser [:ui :cvs :values] List of the users") )
+        @data-watchers)))
+
+
+;(filter #(= %1 2) [1 2 3])
 
 (defn record-watcher [namespace-name path tree-name & code]
   (let [
@@ -675,9 +698,10 @@ record-ui
 
 
 
-(defn when-value-changes [watcher path fn-def]
+(defn when-value-changes [watcher watcher-path path fn-def]
   (swap! watcher conj
          {
+          :name     watcher-path
           :type     "value change"
           :path     path
           :fn       fn-def
@@ -735,6 +759,7 @@ record-ui
 
   (when-value-changes
    ui-watchers
+   ""
    path
    ui-fn))
 
@@ -774,10 +799,11 @@ record-ui
 
 
 (defn when-data-value-changes-fn
-  [path data-fn]
+  [watcher-name  path  data-fn]
 
   (when-value-changes
    data-watchers
+   watcher-name
    path
    data-fn))
 
@@ -795,7 +821,6 @@ record-ui
    field
    value
    data-fn))
-
 
 
 
@@ -1071,11 +1096,13 @@ record-ui
 (def mm  [{:id 1 :a 1} {:id 2 :a 2}])
 (order-by-id mm)
 
-(defn add-data-source-fn [db-table
+(defn add-data-source-fn [name-of-data
                           {
+                           db-table             :db-table
                            fields               :fields
                            where                :where
                            path                 :path
+                           full-path            :full-path
                            }
                           ui-component-name
                           sub-path
@@ -1093,23 +1120,34 @@ record-ui
     (if (not (get @data-sources data-source-name))
       (do
         ;(js/alert (pr-str sub-path))
-        (reset! data-sources
-                (assoc @data-sources  data-source-name {}))
 
-        (go
-         (update-data [:tables db-table]
-                      (order-by-id (remote !make-sql
-                              {
-                               :fields        fields
-                               :db-table      db-table
-                               :where         where
-                               }) )))
-
-        (watch-data [:tables db-table]
+        (watch-data (str ui-component-name " " full-path " " name-of-data)
+                    [:tables db-table]
                     (do
-                      (-->ui (into [] (flatten (conj  sub-path  path  [:values])))
-                             (<--data [:tables db-table]))
-                      ))))))
+                      (-->ui full-path
+                             (<--data [:tables db-table :values]))
+                      ))
+        (go
+        (reset! data-sources
+                (assoc @data-sources  data-source-name
+                  (order-by-id (remote !make-sql
+                                           {
+                                            :fields        fields
+                                            :db-table      db-table
+                                            :where         where
+                               }) )))
+         (update-data [:tables db-table :values]
+                      (get @data-sources  data-source-name )
+                       ))
+
+        )
+
+      ; else the data exists and we just have to get it
+      (update-data [:tables db-table :values]
+                      (get @data-sources  data-source-name )
+                       )
+
+      )))
 
 
 
@@ -1117,24 +1155,28 @@ record-ui
 
 
 
+(defn data-fn [ name-of-data   {
+                                db-table             :db-table
+                                path                 :path
+                                ui-state             :ui-state
+                                interval-in-millis   :interval-in-millis
+                                fields               :fields
+                                where                :where
+                                }
+                ui-component-name
+                sub-path]
 
-(defn data-fn [db-table    {
-                            path                 :path
-                            ui-state             :ui-state
-                            interval-in-millis   :interval-in-millis
-                            fields               :fields
-                            where                :where
-                            }
-               ui-component-name
-               sub-path]
-  (add-data-source  db-table
+  (add-data-source  name-of-data
                     {
-                       :fields        fields
-                       :where         where
-                       :path          path
+                     :db-table      db-table
+                     :fields        fields
+                     :where         where
+                     :path          path
+                     :full-path     (into [] (flatten (conj  sub-path  path  [:values])))
                      }
                     ui-component-name
                     sub-path)
+
   (into []  (vals (get (get-in ui-state path) :values)))
   )
 
