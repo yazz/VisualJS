@@ -154,6 +154,11 @@
 
 
 
+(defn !get-record-ui []
+  {:value *record-ui*})
+
+
+
 
 (defn !get-environment []
   {:value *environment*})

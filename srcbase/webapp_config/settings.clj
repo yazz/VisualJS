@@ -9,6 +9,8 @@
 
 (defonce ^:dynamic *record-pointer-locally* false)
 
+(defonce ^:dynamic *record-ui* true)
+
 (defonce ^:dynamic *email-debug-mode* true)
 
 (defonce ^:dynamic *environment* "base")

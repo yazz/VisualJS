@@ -38,6 +38,7 @@
                                                     data-accesses
                                                     paths-for-refresh
                                                     data-sources
+                                                    record-ui
                                                     ]])
   (:use-macros
    [webapp.framework.client.coreclient  :only [ns-coils
@@ -78,7 +79,7 @@
 
 
 
-
+record-ui
 
 
 (defn  data-tree
@@ -343,6 +344,11 @@
 
 
 
+(go
+ (let [record-ui-value (:value
+                    (<! (remote-fn "!get-record-ui" {})))]
+     (reset! record-ui
+             record-ui-value)))
 
 
 
