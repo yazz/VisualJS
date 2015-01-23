@@ -1,6 +1,6 @@
-Clojure on Coils - Clojure Web Applications
-===========================================
-##Built with Clojurescript and React.js
+Clojure on Coils
+================
+##Web Applications built with Clojurescript and React.js
 
 <img src='http://www.zubairquraishi.com/zubairquraishi/images/screen%20shot%202015-01-23%20at%20065908.jpg' />
 
