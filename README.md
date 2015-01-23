@@ -1,7 +1,8 @@
-Coils - Build Neo4j Web Applications
-====================================
-##Built with Clojurescript, Om and Neo4j
+Clojure on Coils - Clojure Web Applications
+===========================================
+##Built with Clojurescript and React.js
 
+!(http://www.zubairquraishi.com/zubairquraishi/images/screen%20shot%202015-01-23%20at%20065908.jpg)
 
 ###Demo
 
