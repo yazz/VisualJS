@@ -2,7 +2,7 @@ Clojure on Coils - Clojure Web Applications
 ===========================================
 ##Built with Clojurescript and React.js
 
-!(http://www.zubairquraishi.com/zubairquraishi/images/screen%20shot%202015-01-23%20at%20065908.jpg)
+<img src='http://www.zubairquraishi.com/zubairquraishi/images/screen%20shot%202015-01-23%20at%20065908.jpg' />
 
 ###Demo
 
