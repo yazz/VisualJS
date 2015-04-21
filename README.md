@@ -4,9 +4,6 @@ Clojure on Coils
 
 <img src='http://www.zubairquraishi.com/zubairquraishi/images/screen%20shot%202015-01-23%20at%20065908.jpg' />
 
-###Demo
-
-http://connecttous.co/connecttous/connecttous.html?livedebug=true
 
 ###Quick start
 
