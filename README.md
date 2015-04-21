@@ -57,11 +57,7 @@ Another core feature of Coils is the Time Travelling Debugger. This is based on 
 
 https://www.youtube.com/watch?v=t9YLtDJZtPY
 
-So Coils allows all programs to be examined visually using a GUI time travelling debugger, which is one of the killer features, as it reduces the cost of maintenance of complex applications. For a demo see here:
-
-http://connecttous.co/connecttous/connecttous.html?livedebug=true
-
-The source code for the example application is available here:
+So Coils allows all programs to be examined visually using a GUI time travelling debugger, which is one of the killer features, as it reduces the cost of maintenance of complex applications. The source code for the example application is available here:
 
 https://github.com/zubairq/coils/tree/connecttous
 
