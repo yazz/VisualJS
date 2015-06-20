@@ -1,5 +1,6 @@
 (ns webapp.framework.client.main
   (:require
+    [figwheel.client :as fw]
    [goog.net.cookies :as cookie]
    [om.core          :as om :include-macros true]
    [om.dom           :as dom :include-macros true]
@@ -34,6 +35,12 @@
 
 
 
+
+(defn figwheel-update []
+  (do
+    (touch [:ui])
+    (log "*** Updated UI from figwheel")
+    ))
 
 
 
@@ -249,3 +256,13 @@
   (reset!  start-component  (get setup-config :start-component))
   (reset!  init-fn          (get setup-config :setup-fn))
   (debug))
+
+
+
+
+(fw/start { :on-jsload (fn []
+                         ;; you would add this if you
+                         ;; have more than one file
+                         #_(reset! flap-state @flap-state)
+                         (touch [:ui])
+                         )})

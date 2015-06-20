@@ -77,3 +77,8 @@
 
 /src/webapp/ignore
 
+/resources/public/out/*
+/resources/public/out/*/*
+/resources/public/out/*/*/*
+/resources/public/out/*/*/*/*
+/resources/public/out/*/*/*/*/*

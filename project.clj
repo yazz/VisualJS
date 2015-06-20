@@ -1,27 +1,27 @@
 (defproject org.clojars.zubairq/coils "0.5"
   :dependencies [
-                 [org.clojure/clojure "1.6.0"]
-                 [org.clojure/google-closure-library-third-party "0.0-2029"]
-                 [org.clojure/tools.reader "0.8.9"]
-                 [org.clojure/clojurescript "0.0-2322"]
-                 [om "0.8.0-alpha1"]
+                 [org.clojure/clojure "1.7.0-RC1"]
+                 [org.clojure/clojurescript "0.0-3308" :scope "provided"]
+                 [org.omcljs/om "0.8.8"]
                  [om-sync "0.1.1"]
-                 [org.clojure/core.async "0.1.338.0-5c5012-alpha" :scope "provided"]
-                 [com.facebook/react "0.11.1"]
+                 [org.clojure/core.async "0.1.346.0-17112a-alpha" :scope "provided"]
+                 [cljsjs/react "0.13.3-0"]
 
-                 [korma "0.3.0-RC5"]
+                 [korma "0.3.0"]
                  [org.postgresql/postgresql "9.2-1002-jdbc4"]
-                 [compojure "1.1.5"]
-                 [ring "1.2.1"]
-                 [ring-middleware-format "0.3.1"]
-                 [ring/ring-json "0.2.0"]
+                 [compojure "1.3.3"]
+                 [ring "1.3.2"]
+                 [ring-middleware-format "0.5.0"]
                  [clojurewerkz/neocons "2.0.1"]
                  [rewrite-clj "0.2.0"]
-                 [org.jasypt/jasypt "1.8"]
-                 [clj-http "0.7.6"]
-                 [cheshire "4.0.3"]
+                 [org.jasypt/jasypt "1.9.2"]
+                 [clj-http "1.1.1"]
+                 [cheshire "5.4.0"]
                  [ankha "0.1.4"]
                  [overtone/at-at "1.2.0"]
+                 [org.clojure/tools.nrepl "0.2.10"]
+                 [lein-figwheel "0.3.3"]
+                 [instaparse "1.4.0"]
                  ]
   :repositories {"sonatype-oss-public"
                  "https://oss.sonatype.org/content/groups/public/"}
@@ -30,27 +30,39 @@
 
             
   :plugins  [
-             [lein-cljsbuild "1.0.3"]
+             [lein-cljsbuild "1.0.5"]
              [lein-httpd "1.0.0"]
-             [lein-ring "0.8.10"]
+             [lein-ring "0.9.3"]
+             [lein-figwheel "0.3.3"]
              ]
 
   :profiles {
              :dev
              {
+              :figwheel {
+                         :http-server-root "public" ;; this will be in resources/
+                         :ring-handler    webapp.framework.server.core/app
+                         :css-dirs ["resources/public"]
+                         }
+
               :source-paths ["src" "../srcdev"]
               :cljsbuild
               {
                :builds
                [
                 {
-                 :source-paths ["src"]
+                 :source-paths ["src" "../srcdev"]
                  :compiler     {
+                                :preamble       ["public/react.min.js"]
                                 :output-to      "resources/public/main.js"
-                                :optimizations  :whitespace
-                                :output-wrapper false
-                                :externs        ["resources/public/google_maps_api_v3_11.js"]
-                                :pretty-print   false
+                                :output-dir     "resources/public/out/"
+                                :optimizations  :none
+                                ;:output-wrapper false
+                                ;:externs        ["resources/public/google_maps_api_v3_11.js"]
+                                ;:pretty-print   false
+                                :cache-analysis true
+                                :source-map-timestamp true
+                                :source-map true
                                 }
                  }
                 ]
@@ -112,6 +124,7 @@
 
              :prod
              {
+              :figwheel false
               :source-paths ["src" "../srcprod"]
               :cljsbuild
               {

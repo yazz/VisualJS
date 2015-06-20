@@ -5,6 +5,11 @@
 (c/ns-coils 'webapp.framework.client.components.main)
 
 
+(c/defn-ui-component     cc2   [app]
+                         {}
+
+                         (c/div nil
+                                "Build webapps with Neo4j"))
 
 
 
@@ -13,4 +18,5 @@
 
   (c/div nil
        (c/h2 nil "Coils")
-       "Build webapps with Neo4j"))
+         (c/component cc2  app  [])
+       ""))
