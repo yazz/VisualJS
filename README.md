@@ -19,7 +19,11 @@ Clojure on Coils
     
 3) Make a change and see Figwheel reload the changes live
 
-    Edit the file src/webapp/framework/client/components/main.cljs and change "Build database webapps with Clojure" to "Figwheel made a live change!" 
+Edit the file 
+
+    src/webapp/framework/client/components/main.cljs 
+
+and change "Build database webapps with Clojure" to "Figwheel made a live change!" 
 
 4) To see debug mode open:
 
