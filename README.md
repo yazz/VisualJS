@@ -1,42 +1,30 @@
 Clojure on Coils
 ================
-##Web Applications built with Clojurescript and React.js
+##The fastest way to build database backed Web Applications with Clojure
 
 <img src='http://www.zubairquraishi.com/zubairquraishi/images/screen%20shot%202015-01-23%20at%20065908.jpg' />
 
 
 ###Quick start
 
-1) Install Neo4j from:
-
-    http://www.neo4j.org/
-
-2) Install and build Coils from Github:
+1) Install and build Coils from Github:
 
     git clone  https://github.com/zubairq/coils.git  my_new_application
     cd my_new_application
-    lein with-profile base cljsbuild clean
-    lein with-profile base cljsbuild once
+    lein with-profile base figwheel
 
-3) Run Neo4j and Coils:
+2) Open the application
 
-    /neo4j-home-directory/bin/neo4j start
-    lein with-profile base ring server
+    http://127.0.0.1:3449
+    
+3) Make a change and see Figwheel reload the changes live
 
-4) To see debug mode open:
+    Edit the file src/webapp/framework/client/components/main.cljs and change "Build database webapps with Clojure" to "Figwheel made a live change!" 
 
-    http://127.0.0.1:3000/main.html?livedebug=true
+2) To see debug mode open:
 
-5) To see the connecttous demo application instead use:
+    http://127.0.0.1:3449/main.html?livedebug=true
 
-    git clone  https://github.com/zubairq/coils.git  my_new_application
-    cd my_new_application
-    git checkout connecttous
-    lein with-profile dev cljsbuild clean
-    lein with-profile dev cljsbuild once
-    /neo4j-home-directory/bin/neo4j start
-    lein with-profile dev ring server
-    http://127.0.0.1:3000/connecttous.html?livedebug=true
 
 Why another web framework?
 --------------------------
