@@ -9,25 +9,35 @@ Clojure on Coils
 
 1) Install and build Coils from Github:
 
-    git clone https://github.com/zubairq/coils.git  my_new_application
+    git clone https://github.com/zubairq/coils.git my_new_application
     cd my_new_application
     lein with-profile base figwheel
+
 
 2) Open the application
 
     http://127.0.0.1:3449
     
-3) Make a change and see Figwheel reload the changes live
-
-Edit the file 
+    
+3) Make a change and see Figwheel reload the changes live. Edit the file 
 
     src/webapp/framework/client/components/main.cljs 
 
-and change "Build database webapps with Clojure" to "Figwheel made a live change!" 
+and change 
+
+    "Build database webapps with Clojure" 
+
+to 
+
+    "Figwheel made a live change!". 
+
+Save the file and the text should change in the live web app
+
 
 4) To see debug mode open:
 
     http://127.0.0.1:3449/main.html?livedebug=true
+
 
 
 Why another web framework?
