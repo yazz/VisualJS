@@ -1,6 +1,6 @@
 Clojure on Coils
 ================
-##The fastest way to build database backed Web Applications with Clojure
+##The fastest way to build database Web Applications with Clojure
 
 <img src='http://www.zubairquraishi.com/zubairquraishi/images/screen%20shot%202015-01-23%20at%20065908.jpg' />
 
