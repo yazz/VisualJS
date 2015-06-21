@@ -21,7 +21,7 @@ Clojure on Coils
 
     Edit the file src/webapp/framework/client/components/main.cljs and change "Build database webapps with Clojure" to "Figwheel made a live change!" 
 
-2) To see debug mode open:
+4) To see debug mode open:
 
     http://127.0.0.1:3449/main.html?livedebug=true
 
