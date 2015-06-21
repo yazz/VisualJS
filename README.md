@@ -19,7 +19,9 @@ Clojure on Coils
     http://127.0.0.1:3449
     
     
-#####3) Make a change and see Figwheel reload the changes live. Edit the file 
+#####3) Make a change and see Figwheel reload the changes live. 
+
+Edit the file 
 
     src/webapp/framework/client/components/main.cljs 
 
