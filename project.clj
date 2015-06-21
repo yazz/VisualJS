@@ -28,6 +28,7 @@
 
   :url "http://org.clojars.zubair/coils"
 
+  :jvm-opts ["-Xmx4g"]
             
   :plugins  [
              [lein-cljsbuild "1.0.5"]
