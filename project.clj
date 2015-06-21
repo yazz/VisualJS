@@ -72,22 +72,30 @@
 
              :base
              {
-              :source-paths ["src"
-                             "srcbase"
-                             ]
+              :figwheel {
+                         :http-server-root "public" ;; this will be in resources/
+                         :ring-handler    webapp.framework.server.core/app
+                         :css-dirs ["resources/public"]
+                         }
+
+              :source-paths ["src" "srcbase"]
               :cljsbuild
               {
                :builds
                [
                 {
-                 :source-paths ["src"]
+                 :source-paths ["src" "srcbase"]
                  :compiler     {
+                                :preamble       ["public/react.min.js"]
                                 :output-to      "resources/public/main.js"
-                                :optimizations  :whitespace
-                                :output-wrapper false
-                                :externs        ["resources/public/jquery-externs.js"
-                                                 "resources/public/google_maps_api_v3_11.js"]
-                                :pretty-print   false
+                                :output-dir     "resources/public/out/"
+                                :optimizations  :none
+                                ;:output-wrapper false
+                                ;:externs        ["resources/public/google_maps_api_v3_11.js"]
+                                ;:pretty-print   false
+                                :cache-analysis true
+                                :source-map-timestamp true
+                                :source-map true
                                 }
                  }
                 ]

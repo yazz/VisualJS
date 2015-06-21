@@ -9,7 +9,7 @@
                          {}
 
                          (c/div nil
-                                "Build webapps with Neo4j"))
+                                "Build database webapps with Clojure"))
 
 
 
