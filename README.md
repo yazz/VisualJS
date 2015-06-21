@@ -9,7 +9,7 @@ Clojure on Coils
 
 1) Install and build Coils from Github:
 
-    git clone  https://github.com/zubairq/coils.git  my_new_application
+    git clone https://github.com/zubairq/coils.git  my_new_application
     cd my_new_application
     lein with-profile base figwheel
 
