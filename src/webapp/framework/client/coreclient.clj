@@ -738,7 +738,7 @@
                                       :params   (get main-params :main-params)
                                       :data-source  (keyword  (get (first
                                                                      transformed-sql) :db-table))
-                                      :order         "(zgen_points IS NULL), zgen_points  DESC , id asc "
+                                      ;:order         "(zgen_points IS NULL), zgen_points  DESC , id asc "
                                       }))
         ]
     `(~'div {}
@@ -792,7 +792,7 @@
                                       :params   (get main-params :main-params)
                                       :data-source  (keyword  (get (first
                                                                      transformed-sql) :db-table))
-                                      :order         "(zgen_points IS NULL), zgen_points  DESC , id asc "
+                                      ;:order         "(zgen_points IS NULL), zgen_points  DESC , id asc "
                                       }))
         ]
     `(~'data-view-v2

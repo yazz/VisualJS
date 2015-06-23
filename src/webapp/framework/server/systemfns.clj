@@ -422,6 +422,6 @@
 
 
 
-;(sql-1 "select count(id) from ojobs_cvs " [])
+;(sql-1 "select count(id) from table_name " [])
 
 

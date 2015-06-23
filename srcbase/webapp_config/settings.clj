@@ -23,7 +23,7 @@
 
 (defonce ^:dynamic *database-password* "manager")
 
-(defonce ^:dynamic *database-name* "postgres")
+(defonce ^:dynamic *database-name* "coils")
 
 (defonce ^:dynamic *sql-encryption-password* "animal")
 
