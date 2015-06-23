@@ -82,7 +82,7 @@ A few notes about Coils:
 - Uses Neo4j for data storage
 - Uses Clojure for the server side
 - Uses ClojureScript client-side
-- Exclusively uses the LightTable IDE
+- Live coding using Figwheel
 
 
 
