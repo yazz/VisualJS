@@ -139,8 +139,9 @@ In 2013 Facebook created React, a Virtual Dom based Javascript library. David No
 - Google Closure UI Library - the same library used to build Google.com, Gmail, and Google+.
 - Google Maps integration for AJAX-based maps. (Can be swapped on/off.)
 
-:and the following things stay:
+:and the following things stay or are added:
 
+- React.js via Om for the front end
 - Interactive client and server side development with LightTable IDE.
 - Integration with Mandrill for sending transactional emails.
 - Twitter Bootstrap 3.0 for styling.
@@ -156,28 +157,48 @@ The reason for the discontinued features is that they all require explicit calls
 If you still wish to use the discontinued features then use an older version of the Coils framework.
 
 
+Deprecated features from August 2014 to July 2015
+------------------------------------------------
+In 2014 Coils switched to using React.js via David Nolen's awesome Om library. However, building applications still didn't feel as natural as it should. This was mostly because data access still didn't feel right. 
+One thing that was a huge influence was meteor.js, which provided reasl time webapps ove Mongodb. Realtime
+may seem simple, but to program a web application to update data as data changes without asomething like meteor.js soon becomes very complicated, as you need to add timers and callbacks for data everywhere. Since Coils used Neo4j as a backend I wanted to create a similar live uploading method for Coils. It was not as simple as I thought, as Neo4j has a far more complex data structure than MongoDb. So I had to make the tough decision to postpone Neo4j work on Coils for the time being. Since NemCV used a database backend anyway I decided to base it on a database instead. My idea is that you can program SQL directly in react.js components, for which I also chose Instaparse, which blows my mind!
+Another thing that was dropped was something very dear to my heart, LighttTable. The latest version of Light Tavble was not able to support interactive development with the latest clojurescript versions. Also, it kept pauses every minute or so for several seconds, so I started to look for alternatives. I used Cursive and Intellij, although emacs or any other text editor works fine too. To replace the killer Light Table feature of live browser code changes I discovered Figwheel, which lets you save a file, then sends the recompiled javascript to the browser.
+
+- Exclusive use of the Light Table IDE
+- Neo4j as the main data provider
+- Records all web sessions for playback to understand customer behaviour (using Neo4j) - (there are better web UI recording tools on the market anyway)
+- AB testing built in (will be added in futurew maybe, but not for now)
+
+:and the following things stay:
+
+- React.js via Om for the front end
+- Instaparse for parsing client side SQL
+- Integration with Mandrill for sending transactional emails.
+- Twitter Bootstrap 3.0 for styling.
+- Google Closure for advanced compression.
+- clj-http for server side HTTP requests.
+- SQL Korma for database requests.
+- Compojure, Ring, and Shoreleave for server side code.
+- core.async for a client-side synchronous programming model.
+
+Again, if you still wish to use the discontinued features then use an older version of the Coils framework from March 2015.
+
 
 Unique features
 ---------------
 
 - In debug mode press the Debug button at the top of the web page and you can rewind and forward the application and browse the source code behind any GUI element by left clicking on the element
 
-- Secure client Neo4j Cypher. All calls are encrypted and use a server side key to avoid Cypher injection attacks, yet at the same time the Cypher calls appearing in client side code are easy to understand.
-
 - Secure client side SQL. All calls are encrypted and use a server side key to avoid SQL injection attacks, yet at the same time the SQL calls appearing in client side code are easy to understand.
 
 - Web development without callback hell. Coils uses Clojure's core.async library to set of sychronous server side calls.
 
-- Replay all web sessions as all sessions are recorded using Neo4j
-
 All features
 ------------
 
-- Hard dependency on Neo4j now
 - Clojurescript Om by David Nolen
-- Records all web sessions for playback to understand customer behaviour (using Neo4j)
-- AB testing built in
-- Interactive client and server side development with LightTable IDE
+- True client side SQL witgh commands like (select id, name from employees where ...)
+- Interactive client and server side development with Figwheel
 - Integration with Mandrill for sending transactional emails
 - Twitter Bootstrap 3.x for styling
 - Google Closure for advanced compression
@@ -299,23 +320,12 @@ Getting started
 1) Compile clojurescript and Start the self-refreshing web server:
 
     cd my_new_application
-    lein with-profile base cljsbuild clean
-    lein with-profile base cljsbuild once
-    lein with-profile base ring server
+    lein with-profile base figwheel
 
-2) Open LightTable
+2) Open a browser and point to [127.0.0.1:3449](127.0.0.1:3449)
 
-3) Create a new workspace in lightTable
+3) To see the live debugging mode go to [127.0.0.1:3449/main.html?livedebug=true](127.0.0.1:3449/main.html?livedebug=true)
 
-4) Add the project directory my_new_application to the LightTable workspace
-
-5) Open a Browser tab in LightTable and point to [127.0.0.1:3000](127.0.0.1:3000)
-
-6) To see past sessions go to [127.0.0.1:3000/main.html?playback=true](127.0.0.1:3000/main.html?playback=true)
-
-7) To see the live debugging mode go to [127.0.0.1:3000/main.html?livedebug=true](127.0.0.1:3000/main.html?livedebug=true)
-
-The easiest way to get started is to just play around with the demo app online at http://coils.cc. Click on the logo in the top left and then you enter the debug mode. You can click on most elements on the page and you can see the code used to generate them.
 
 
 
@@ -323,11 +333,11 @@ The easiest way to get started is to just play around with the demo app online a
 Adding something to the web page
 --------------------------------
 
-1) In LightTable open the browser and point to 127.0.0.1:3000
+1) In a browser and point to 127.0.0.1:3449
 
 2) Go to the clojurescript view in my_new_application/src/webapp/framework/client/components/main.cljs
 
-2) This is the default page that you see when you start Coils as a web app, so there should be a function which looks something like this:
+3) This is the default page that you see when you start Coils as a web app, so there should be a function which looks something like this:
 
     (c/defn-ui-component     main-view   [app] 
 
@@ -336,7 +346,7 @@ Adding something to the web page
             "Build webapps with Neo4j"))
 
 
-3) Change the text from "Build webapps with Neo4j" to "Hello World" so that it looks like this:
+4) Change the text from "Build webapps with Neo4j" to "Hello World" so that it looks like this:
 
     (c/defn-ui-component     main-view   [app] 
 
@@ -348,7 +358,7 @@ You may wonder what the **c/** is for. This is for the Coils namespace, defined 
 
     [webapp.framework.client.coreclient   :as c  :include-macros true]
 
-4) press press Ctrl-Alt-Enter and the view should swap out the whole page with the text "Hello world" in the web browser, no browser reload required!
+4) Save the file and the figwheel should swap out the whole page with the text "Hello world" in the web browser, no browser reload required!
 
 We actually cheated in the above example as we edited the Coils framework itself, but it was just to get you to make a change as fast as possible. In an actual applicaiton we would ask you to make another file for your own GUI components
 
