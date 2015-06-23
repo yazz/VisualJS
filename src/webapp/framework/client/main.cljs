@@ -1,49 +1,46 @@
 (ns webapp.framework.client.main
   (:require
     [figwheel.client :as fw]
-    [goog.net.cookies :as cookie]
-    [om.core          :as om :include-macros true]
-    [om.dom           :as dom :include-macros true]
-    [cljs.core.async  :refer [put! chan <! pub timeout]]
-    [om-sync.core     :as async]
-    [clojure.data     :as data]
-    [clojure.string   :as string]
-    [ankha.core       :as ankha]
-    [webapp.framework.client.protocols]
-    [webapp.framework.client.records]
-    )
+   [goog.net.cookies :as cookie]
+   [om.core          :as om :include-macros true]
+   [om.dom           :as dom :include-macros true]
+   [cljs.core.async  :refer [put! chan <! pub timeout]]
+   [om-sync.core     :as async]
+   [clojure.data     :as data]
+   [clojure.string   :as string]
+   [ankha.core       :as ankha]
+   [webapp.framework.client.protocols]
+   [webapp.framework.client.records]
+  )
 
   (:use
-    [webapp.framework.client.coreclient      :only  [remote-fn neo4j-fn]]
-    [webapp.framework.client.system-globals  :only  [app-state
-                                                     playback-controls-state
-                                                     reset-app-state
-                                                     playbackmode
-                                                     start-component
-                                                     init-fn
-                                                     data-state
-                                                     app-watch-on?
-                                                     record-ui
-                                                     touch
-                                                     ]]
-    [webapp.framework.client.components.system-container :only  [main-view]]
-    [webapp.framework.client.components.playback  :only  [playback-controls-view ]]
-    )
+   [webapp.framework.client.coreclient      :only  [remote-fn neo4j-fn]]
+   [webapp.framework.client.system-globals  :only  [app-state
+                                                    playback-controls-state
+                                                    reset-app-state
+                                                    playbackmode
+                                                    start-component
+                                                    init-fn
+                                                    data-state
+                                                    app-watch-on?
+                                                    record-ui
+                                                    touch
+                                                    ]]
+   [webapp.framework.client.components.system-container :only  [main-view]]
+   [webapp.framework.client.components.playback  :only  [playback-controls-view ]]
+   )
   (:use-macros
-    [webapp.framework.client.coreclient :only  [ns-coils remote neo4j log]]
-    )
+   [webapp.framework.client.coreclient :only  [ns-coils remote neo4j log]]
+   )
   (:require-macros
-    [cljs.core.async.macros :refer [go]]))
-
-
+   [cljs.core.async.macros :refer [go]]))
 
 
 (defn figwheel-update []
   (do
     (touch [:ui])
     (log "*** Updated UI from figwheel")
-    ))
-
+  ))
 
 
 (js/React.initializeTouchEvents  true)
@@ -91,7 +88,7 @@
                                       :browser    (str (-> @app-state :system :platform) ","
                                                        (-> @app-state :system :who-am-i))
                                       })  )]
-     (log session)
+     ;(log session)
      (reset! session-id session))
 
 
@@ -232,7 +229,7 @@
 
 ;--------------------------------------------------------
 (defn ^:export  load_main [setup-config]
-;--------------------------------------------------------
+;-----------------------1---------------------------------
   (reset!  start-component  (get setup-config :start-component))
   (reset!  init-fn          (get setup-config :setup-fn))
    (main))

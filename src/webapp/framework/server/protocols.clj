@@ -6,7 +6,7 @@
 )
 
 (defprotocol INeoNode
-  (setProp [this property value] nil)
+  (setProp [this property value])
 )
 
 

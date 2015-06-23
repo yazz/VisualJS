@@ -1,8 +1,7 @@
 (ns webapp.framework.server.db-helper
 
   [:require [clojure.string :as str]]
-  [:use [korma.db]]
-  [:use [korma.core]]
+  [:require [korma.core]]
   [:use [webapp-config.settings]]
   [:use [webapp.framework.server.encrypt]]
   (:require [clojurewerkz.neocons.rest :as nr])
@@ -15,7 +14,7 @@
 (defn db-count-records [table-name]
     (:count
      (first
-     (exec-raw
+     (korma.core/exec-raw
                    [(str "SELECT count(*) FROM " table-name)
                     []]
                     :results)
@@ -24,28 +23,39 @@
 (defn db-table-fields [table-name]
     (keys
      (first
-     (exec-raw
+     (korma.core/exec-raw
                    [(str "SELECT * FROM " table-name " limit 1")
                     []]
                     :results)
     )))
 
 
-(defn sql [sql params]
+
+(defn sql
+  ([sql-in]
+   (sql sql-in {}))
+
+  ([sql-in params]
   (do
     (let [
-          lower           (.toLowerCase sql)
+          lower           (.toLowerCase sql-in)
           ]
-      (println "SQL from client: " sql)
+      ;(println "SQL from client: " sql-in)
       (cond
-       (.startsWith lower "select")  (do (println "SELECT") (exec-raw [sql params] :results))
-       :else                         (do (println "INSERT") (exec-raw [sql params]) [])
+       (.startsWith lower "select")  (do (comment println "SELECT") (korma.core/exec-raw [sql-in params] :results))
+       :else                         (do (comment println "INSERT") (korma.core/exec-raw [sql-in params]) [])
    ; []
-    ))
+    )))
   )
 )
 
+(defn sql-1
+  ([sql-in]
+   (first (sql  sql-in)))
 
+  ([sql-in params]
+   (first (sql  sql-in params)))
+)
 
 (defn uuid []
  (java.util.UUID/randomUUID))

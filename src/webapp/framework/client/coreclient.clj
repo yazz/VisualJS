@@ -5,6 +5,11 @@
   (:require [rewrite-clj.parser :as p])
   (:require [clojure.data :as di])
   (:require [rewrite-clj.printer :as prn])
+  (:require [instaparse.core :as insta])
+  (:use clojure.pprint)
+  (:require [instaparse.core :as insta])
+  (:use clojure.string)
+
   )
 
 
@@ -85,20 +90,20 @@
 
 ;--------------------------------------------------------------------
 (defmacro defn-ui-component
+
   ([fn-name  data-paramater-name  code ]
-   `(defn-ui-component  ~fn-name  ~data-paramater-name  {}  ~code)
-   )
+   `(defn-ui-component  ~fn-name  ~data-paramater-name  {}  ~code))
+
+
+
   ([fn-name data-paramater-name opts code ]
-
     `(do
-
-
-       (reset! webapp.framework.client.coreclient/data-sources-proxy
+       (reset! webapp.framework.client.coreclient/data-views-proxy
                (into {}
                      (filter (fn [~'x] (if (not (=   ~(str `~fn-name)
                                             (get (first  ~'x) :ui-component-name)))
                                 true))
-                             (deref webapp.framework.client.coreclient/data-sources-proxy))))
+                             (deref webapp.framework.client.coreclient/data-views-proxy))))
 
 
 
@@ -110,43 +115,71 @@
                       {:debug-highlight false})
 
 
-           ~'om.core/IRender
-          (~'render
-           [~'this]
-
-              (~'let [
-
-                       ~'debug-id       (webapp.framework.client.coreclient/record-component-call
-                                         (~'ns-coils-debug)
-                                         ~(str `~fn-name)
-                                         ~(first data-paramater-name)
-                                         ~'(om.core/get-state owner :parent-path)
-                                         )
+           ~'om.core/IWillUnmount
+           (~'will-unmount ~'[_]
+             (~'let [
+                     ~'ui-component-name    ~(str `~fn-name)
+                     ~'path                 ~'(om.core/get-state owner :parent-path)
+             ]
+               nil
+                ;(~'.log ~'js/console (~'str "Unmount: " ~'path ))
+            ))
 
 
-                       ~'ui-component-name    ~(str `~fn-name)
-                       ~'path       ~'(om.core/get-state owner :parent-path)
+          ~'om.core/IRender
+          (~'render [~'this]
 
-                       ~'parent-id  ~'debug-id
+                    (~'let [
+                            ~'debug-id       (webapp.framework.client.coreclient/record-component-call
+                                              (~'ns-coils-debug)
+                                              ~(str `~fn-name)
+                                              ~(first data-paramater-name)
+                                              ~'(om.core/get-state owner :parent-path)
+                                              )
 
-                       ~'return-val (webapp.framework.client.coreclient/debug-react
-                                     ~(str `~fn-name)
-                                     ~'owner
-                                     ~(first data-paramater-name)
-                                     (~'fn [~(first data-paramater-name)]
-                                           ~code)
-                                     ~'path
-                                     ~'parent-id
-                                     )
 
-                       ~'removed-id     (~'webapp.framework.client.coreclient/remove-debug-event  ~'debug-id)
+                            ~'ui-component-name    ~(str `~fn-name)
+                            ~'path       ~'(om.core/get-state owner :parent-path)
 
-                       ]
+                            ~'ui-state   ~(first data-paramater-name)
+
+                            ~'parent-id  ~'debug-id
+
+                            ~'return-val (webapp.framework.client.coreclient/debug-react
+                                          ~(str `~fn-name)
+                                          ~'owner
+                                          ~(first data-paramater-name)
+                                          (~'fn [~(first data-paramater-name)]
+                                                ~code)
+                                          ~'path
+                                          ~'parent-id
+                                          )
+
+                            ~'removed-id     (~'webapp.framework.client.coreclient/remove-debug-event  ~'debug-id)
+                            ]
 
                       ~'return-val)
 
            )
-         ))
+
+          ~'om.core/IDidMount
+          (~'did-mount
+           [~'this]
+           (~'let [
+                   ~'path           ~'(om.core/get-state owner :parent-path)
+
+                   ~'debug-id       (webapp.framework.client.coreclient/record-component-call
+                                     (~'ns-coils-debug)
+                                     ~(str `~fn-name)
+                                     ~(first data-paramater-name)
+                                     ~'(om.core/get-state owner :parent-path)
+                                     )
+
+                   ~'parent-id       ~'debug-id
+                   ]
+
+
+                  ~(get opts :on-mount )))))
 
 
        (webapp.framework.client.coreclient/record-defn-ui-component
@@ -225,6 +258,8 @@
   `(om.dom/form  (webapp.framework.client.coreclient/attrs ~attributes) ~@more))
 (defmacro span [attributes & more]
   `(om.dom/span  (webapp.framework.client.coreclient/attrs ~attributes) ~@more))
+(defmacro img [attributes & more]
+  `(om.dom/img  (webapp.framework.client.coreclient/attrs ~attributes) ~@more))
 
 (defmacro container [& more]
   `(om.dom/div  {} ~@more))
@@ -234,6 +269,7 @@
   `(om.dom/div  (webapp.framework.client.coreclient/attrs
                  {:style {:display "inline-block;"
                           :width   ~width
+                          :verticalAlign "top"
                           }}) ~@more))
 
 ;--------------------------------------------------------------------
@@ -243,7 +279,7 @@
 
 ;--------------------------------------------------------------------
 (defmacro watch-ui
-  [path & code]
+  [path watcher-name & code]
 
   `(do
 
@@ -267,7 +303,7 @@
 ;--------------------------------------------------------------------
 (defmacro ==ui
   "Checks the UI tree for a value"
-  [path value & code]
+  [path value test-name & code]
 
   `(do
      (webapp.framework.client.coreclient/record-path=
@@ -287,7 +323,7 @@
 
 ;--------------------------------------------------------------------
 (defmacro watch-data
-  [watcher-name path & code]
+  [path watcher-name & code]
 
   `(do
      (if (pos? (count ~watcher-name))
@@ -316,7 +352,7 @@
 
 ;--------------------------------------------------------------------
 (defmacro ==data
-  [path value & code]
+  [path value test-name & code]
 
   `(do
      (webapp.framework.client.coreclient/record-path=
@@ -413,13 +449,20 @@
 (defmacro component
   [component-render-fn   state   rel-path]
   `(let [
-         ~'return-value   (~'webapp.framework.client.coreclient/component-fn ~component-render-fn ~state  ~'path ~rel-path)
+         ~'return-value   (~'webapp.framework.client.coreclient/component-fn   ~component-render-fn
+                                                                               ~state
+                                                                               ~'path
+                                                                               ~rel-path)
          ]
      (do
        ~'return-value)))
 
-(macroexpand '(component  main-view  app []) )
+;(macroexpand '(component  main-view  app []) )
 ;(macroexpand '(defn-ui-component    letter-a  [data] {}    (div nil "a")))
+
+
+
+
 ;--------------------------------------------------------------------
 
 
@@ -450,7 +493,7 @@
 
 ;(macroexpand '(read-ui app [:ui :tab-browser]))
 
-;(macroexpand '(write-ui app [:ui :tab-browser]  "top companies"))
+(macroexpand '(write-ui app [:ui :tab-browser]  "top companies"))
 
 
 
@@ -514,25 +557,250 @@
 
 
 
-(defmacro add-data-source [name-of-table  opts  ui-component-name  sub-path]
-  `(webapp.framework.client.coreclient/add-data-source-fn ~name-of-table
-                                                          ~opts
-                                                          ~ui-component-name
-                                                          ~sub-path))
 
 
 
-(defmacro data [name-of-data  opts]
-  `(do
-     (webapp.framework.client.coreclient/data-fn
-      ~name-of-data
-      ~opts
-      ~'ui-component-name
-      ~'path)))
-
-
-(macroexpand '(data "learno_tests" {}))
+(defmacro admin []
+  `(webapp.framework.client.coreclient/admin-fn))
 
 
 
 
+
+
+
+
+
+
+
+;--------------------------------------------------------------------
+;--------------------------------------------------------------------
+(defmacro data-view-v2 [
+                         opts
+                         position
+                         & code             ]
+
+  `(let [ ~'data        (webapp.framework.client.coreclient/data-view-fn-v2
+                          (merge {:relative-path [
+                                                  (str ~(java.util.UUID/randomUUID))
+                                                  ]} ~opts )
+                                                                             ~position
+                                                                             ~'ui-component-name
+                                                                             ~'path
+                                                                             ~'ui-state)
+
+          ~'data-order  (~'-> ~'data :order)                                                            ]
+
+     (~'div nil
+            (~'map-many
+             (~'fn [~'record-id]
+                   (~'let [~'relative-path (:relative-path ~opts)
+                           ~'record        (~'get (~'-> ~'data :values) ~'record-id)
+                           ]
+                          (~'if (get ~'record :value)
+                                ~@code)))
+             (~'map (~'fn[~'x] (~'get ~'data-order ~'x)) (~'range (:start ~position) (~'inc
+                                                                                      (~'min (:end ~position) (~'-> ~'data :count) )
+                                                                                      )))))))
+
+;(macroexpand-1 '(data-view-v2 "aa" {:relative-path [:a]} {} (div )))
+
+
+
+
+
+
+
+(defmacro <-- [field]
+  `(webapp.framework.client.coreclient/<---fn
+
+    ~'record
+    ~field
+    ~'path
+    ~'relative-path
+    )
+  )
+
+
+
+
+
+
+(defmacro <--pos []
+  `(webapp.framework.client.coreclient/<---pos
+
+    ~'record
+    ~'path
+    ~'relative-path
+    )
+  )
+
+
+
+(defmacro <--id []
+  `(webapp.framework.client.coreclient/<---id
+
+    ~'record-id
+    ~'record
+    ~'path
+    ~'relative-path
+    )
+  )
+
+
+
+
+
+(defmacro session-user-id []
+  `(webapp.framework.client.coreclient/session-user-id-fn
+
+     )
+     )
+
+
+
+
+
+(def path-index (atom 0))
+
+(def parse-sql-string-into-instaparse-structure
+  (insta/parser
+    "SQL            = <SELECT> FIELDS <FROM> TABLE <WHERE> WHERE_CLAUSE
+
+     SELECT         = 'select '
+
+     FIELDS         = (FIELD)+
+
+     <FIELD>        = #'[a-z_]+'  <#' '+>
+
+
+     FROM           = 'from '
+
+     TABLE          = #'[a-z|_]+' <' '>
+
+     WHERE          = 'where '
+
+     WHERE_CLAUSE   = #'[a-z|A-Z|_| |=|0-9|?|\\'|%]+'
+     "))
+
+
+
+
+
+
+
+
+
+
+
+
+
+(defn transform-instaparse-query-into-dataview-map [ s ]
+  [
+   (->> s (insta/transform
+            {
+             :SQL             (fn[& x] (into {} (flatten x)))
+             :FIELDS          (fn[& x] {:fields (into [] (map keyword x) )})
+             :TABLE           (fn[x]   {:db-table x})
+             :WHERE_CLAUSE    (fn[x]   {:where (trim x)})
+             }
+            ))
+   ]
+  )
+
+
+
+
+
+
+
+
+
+
+(defmacro select-debug [& select-args]
+  (let [
+        list-of-sql        (map (fn[x]
+                                  (if (.startsWith (str x)
+                                                   "(quote ") (apply str "'" (rest x)) x)
+                                  ) (butlast (butlast select-args)))
+        main-params       (last (butlast   select-args))
+
+        sql-as-a-string   (str "select " (apply str (for [arg (into []
+                                                                    (apply list list-of-sql))] (str arg " ") ) ))
+        parsed-sql        (parse-sql-string-into-instaparse-structure
+                            sql-as-a-string)
+        transformed-sql
+        (transform-instaparse-query-into-dataview-map    parsed-sql)
+        dataview-map      (do (swap! path-index inc)
+                              (merge (first transformed-sql)
+                                     {
+                                      :relative-path [(deref path-index)]
+                                      :params   (get main-params :main-params)
+                                      :data-source  (keyword  (get (first
+                                                                     transformed-sql) :db-table))
+                                      :order         "(zgen_points IS NULL), zgen_points  DESC , id asc "
+                                      }))
+        ]
+    `(~'div {}
+           ;(~'div {}  (~'str "SQL LIST: "                         ~list-of-sql))
+           (~'div {}  (~'str "SQL STRING: "
+                        ~sql-as-a-string))
+           ;(~'div {}  (~'str "Main Instaparse Query: "       ~parsed-sql))
+           ;(~'div {}  (~'str "Main Transformed query: "
+           ;             ~transformed-sql))
+           (~'div {}  (~'str "Main Dataview map: "           ~dataview-map))
+           (~'div {}  (~'str "Main Params: "                     ~main-params))
+       "here"
+           )))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+(defmacro select [& select-args]
+  (let [
+        list-of-sql        (map (fn[x]
+                                  (if (.startsWith (str x)
+                                                   "(quote ") (apply str "'" (rest x)) x)
+                                  ) (butlast (butlast select-args)))
+        main-params       (last (butlast   select-args))
+        om-code           (last   select-args)
+
+        sql-as-a-string   (str "select " (apply str (for [arg (into []
+                                                                    (apply list list-of-sql))] (str arg " ") ) ))
+        parsed-sql        (parse-sql-string-into-instaparse-structure
+                            sql-as-a-string)
+        transformed-sql
+        (transform-instaparse-query-into-dataview-map    parsed-sql)
+        dataview-map      (do (swap! path-index inc)
+                              (merge (first transformed-sql)
+                                     {
+                                      :relative-path [(deref path-index)]
+                                      :params   (get main-params :main-params)
+                                      :data-source  (keyword  (get (first
+                                                                     transformed-sql) :db-table))
+                                      :order         "(zgen_points IS NULL), zgen_points  DESC , id asc "
+                                      }))
+        ]
+    `(~'data-view-v2
+       ~dataview-map
+
+       {:start 1
+        :end   20
+        }
+         (~'div {}
+           ~om-code
+           ))))

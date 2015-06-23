@@ -5,5 +5,9 @@
 
 
 
+(def cached-queries (atom {}))
 
 
+
+
+(def cached-records (atom {}))

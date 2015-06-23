@@ -5,6 +5,7 @@
    [om.dom           :as dom :include-macros true]
    [clojure.data     :as data]
    [clojure.string   :as string]
+   [cljs.core.async  :as async :refer [chan close!]]
    )
 )
 
@@ -467,7 +468,7 @@ record-ui
 
 
 
-
+(def data-session-id (atom nil))
 
 
 
@@ -848,19 +849,35 @@ record-ui
 
 (def paths-for-refresh (atom {}))
 
-(def data-sources (atom  {}))
-(count @data-sources)
-@data-sources
+(def data-views (atom  {}))
 
 
-(comment reset! webapp.framework.client.coreclient/data-sources-proxy
+(count @data-views)
+@data-views
+
+
+
+
+(comment reset! webapp.framework.client.coreclient/data-views-proxy
                (into {}
                      (filter #(if (not (=   "list-questions"
                                             (get (first %1) :ui-component-name)))
                                 true)
-                             (deref webapp.framework.client.coreclient/data-sources-proxy))))
+                             (deref webapp.framework.client.coreclient/data-views-proxy))))
 
 
 
-;(get-in @app-state [:ui :cvs :values 0])
-@data-watchers
+
+
+
+
+
+(defn assoc-in-atom [the-atom  pos   value]
+  (reset!   the-atom   (assoc-in  @the-atom    pos   value)))
+
+
+
+
+
+
+(def global-om-state (atom nil))

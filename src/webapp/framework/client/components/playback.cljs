@@ -11,7 +11,7 @@
    )
 
   (:use
-   [webapp.framework.client.coreclient     :only  [log remote-fn
+   [webapp.framework.client.coreclient     :only  [remote-fn
                                                    neo4j-fn]]
    [webapp.framework.client.system-globals :only  [app-state
                                                    playback-app-state
@@ -21,7 +21,7 @@
    [webapp.framework.client.components.system-container :only  [main-view]]
    )
   (:use-macros
-   [webapp.framework.client.coreclient      :only  [remote neo4j]]
+   [webapp.framework.client.coreclient      :only  [remote neo4j log]]
    )
   (:require-macros
    [cljs.core.async.macros :refer [go]]))

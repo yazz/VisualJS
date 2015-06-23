@@ -9,7 +9,7 @@
 
 (defonce ^:dynamic *record-pointer-locally* false)
 
-(defonce ^:dynamic *record-ui* true)
+(defonce ^:dynamic *record-ui* false)
 
 (defonce ^:dynamic *email-debug-mode* true)
 

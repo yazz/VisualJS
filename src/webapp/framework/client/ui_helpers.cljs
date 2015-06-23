@@ -10,9 +10,9 @@
    [ankha.core       :as ankha]
    )
   (:use
-   [webapp.framework.client.coreclient      :only  [log remote-fn write-ui-fn read-ui-fn]]
+   [webapp.framework.client.coreclient      :only  [remote-fn write-ui-fn read-ui-fn]]
    [webapp.framework.client.system-globals  :only  [app-state
-                                                    reset-app-state ui-watchers
+                                                    reset-app-state
                                                     playbackmode
                                                     data-watchers
                                                     data-state
@@ -26,7 +26,7 @@
 
   (:use-macros
    [webapp.framework.client.coreclient
-    :only  [defn-ui-component ns-coils div write-ui read-ui remote]]))
+    :only  [defn-ui-component ns-coils div write-ui read-ui remote log]]))
 
 (ns-coils 'webapp.framework.client.ui-helpers)
 
@@ -36,8 +36,9 @@
 
 
 (defn update-field-value [field e path parent-id]
-  (write-ui  field  [:value]  (.. e -target -value))
-  )
+  (write-ui  field  [:value]  (.. e -target -value)))
+
+
 
 
 
@@ -73,6 +74,8 @@
     }
    }
 ))
+
+
 
 
 (defn find-in-map [a-map a-key]

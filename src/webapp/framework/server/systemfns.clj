@@ -2,7 +2,7 @@
 
   [:require [clojure.string :as str]]
   [:use [korma.db]]
-  [:use [korma.core]]
+  [:require [korma.core]]
   [:use [webapp-config.settings]]
   [:use [webapp.framework.server.encrypt]]
   [:require [webapp.framework.server.neo4j-helper :as nh]]
@@ -15,13 +15,17 @@
   (:import [java.util.UUID])
   [:use [webapp.framework.server.db-helper]]
   [:use [webapp.framework.server.neo4j-helper]]
+  [:use [webapp.framework.server.globals]]
   )
 
 
-(defdb db (postgres {:db *database-name*
-                     :host *database-server*
-                     :user *database-user*
-                     :password *database-password*}))
+(try
+  (defdb db (postgres {:db *database-name*
+                       :host *database-server*
+                       :user *database-user*
+                       :password *database-password*}))
+  (catch Exception e
+    (str "Error connecting to database: " (.getMessage e))))
 
 
 
@@ -44,8 +48,8 @@
           ]
       ;(println "SQL from client: " coded-sql " -> " sql)
       (cond
-       (.startsWith lower "select")  (do (println "SELECT") (exec-raw [sql params] :results))
-       :else                         (do (println "INSERT") (exec-raw [sql params]) [])
+       (.startsWith lower "select")  (do (comment println "SELECT") (korma.core/exec-raw [sql params] :results))
+       :else                         (do (comment println "INSERT") (korma.core/exec-raw [sql params]) [])
     ))))
 
 
@@ -254,25 +258,27 @@
   (let [
         session-id    (uuid-str)
         ]
+    (if *record-ui*
 
-    (nh/neo4j "create  (n:WebSession
-           {
-           session_id:           {session_id},
-           init_state:           {init_state},
-           start_time:           {start_time},
-           browser:              {browser}
+      (nh/neo4j "create  (n:WebSession
+                {
+                session_id:           {session_id},
+                init_state:           {init_state},
+                start_time:           {start_time},
+                browser:              {browser}
 
-           }) return n"
+                }) return n"
 
-           {
-            :session_id    session-id
-            :init_state    init-state
-            :browser       browser
-            :start_time    (. (java.util.Date.) getTime)
-            }
-           "n")
-    {:value session-id}
-    ))
+                {
+                 :session_id    session-id
+                 :init_state    init-state
+                 :browser       browser
+                 :start_time    (. (java.util.Date.) getTime)
+                 }
+                "n")
+      {:value session-id}
+      )
+    {:value session-id}))
 
 
 
@@ -311,9 +317,111 @@
     ;questions_answered_count is not null
     ;order by
     ;questions_answered_count desc"
-    "limit 3") {}))
+    "limit 100") {}))
 
-;(sql "select count(*) from learno_tests limit 1" {})
 
+
+
+
+
+
+(defn fields-to-str [fields]
+  (apply str (interpose "," (map (-> name ) fields) )))
+
+
+
+
+
+
+
+
+
+
+
+
+(defn !get-query-results-v2
+  [{:keys [
+           db-table
+		       where
+           start
+           end
+           params
+           order
+		   ]}]
+
+  (let [
+        record-count
+
+        (:count (sql-1 (str
+                        "select count (id) from "
+                        db-table " "
+                        (if (-> where count pos?) (str "where " where " "))
+                        )
+                       params))
+
+
+
+        results
+
+        (sql
+				 (str
+				  "select id from "
+				  db-table " "
+				  (if (-> where count pos?) (str "where " where " "))
+          (if (-> order count pos?) (str "order by " order " "))
+                  (if start (str " offset " (- start 1) " "))
+                  (if end (str " limit " (+ 1 (- end start)) " ") "limit 2")
+				  ;questions_answered_count is not null
+				  ;order by
+				  ;questions_answered_count desc"
+				  ) params)
+
+		result-id-vector
+		(into [] (map :id results))
+		]
+
+    ;(println result-id-vector)
+    {
+     :records      result-id-vector
+      :count       record-count
+     }
+    ))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+(defn !get-record-result-v2
+  [{:keys [
+           db-table
+           id
+           fields
+           ]}]
+
+  {:value
+   (sql-1
+    (str
+     "select "
+     (fields-to-str fields) " "
+     "from "
+     db-table " "
+     "where id = ? "
+     " limit 1") [id])})
+
+
+
+;(sql-1 "select count(id) from ojobs_cvs " [])
 
 
