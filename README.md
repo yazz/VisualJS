@@ -89,7 +89,7 @@ Coils is a web framework written in Clojure and Clojurescript, running on the JV
 
 A few notes about Coils:
 
-- Uses Neo4j for data storage
+- Use SQL directly in React/Om components
 - Uses Clojure for the server side
 - Uses ClojureScript client-side
 - Live coding using Figwheel
