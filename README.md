@@ -26,7 +26,7 @@ Clojure on Coils may be for you if:
 
 1. You want to build a single page webapp fast
 2. You believe that Clojure/Clojurescript is cool
-3. You still beleive that relational databases are the right way to model data
+3. You still believe that relational databases are the right way to model data
 
 ### What Problem Does It Solve?
 When building an SPA on top of a database there are many considerations:
