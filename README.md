@@ -15,7 +15,7 @@ Instead of making your database webapp by having things all over the place in mo
 
 ## Tutorial Table of Contents
 
- - [Why Should You Care About Coils?](#why-you-should-care-about-coils)
+ - [Why Should You Care About Coils?](#why-should-you-care-about-coils)
  - [What Problem Does It Solve?](#what-problem-does-it-solve)
 
 
