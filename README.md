@@ -4,7 +4,7 @@
 
 
 ###TL;DR
-Build a relational database backed webapp by inserting SQL directly into React components:
+Build a relational database backed webapp by inserting SQL statements directly into React components:
 
     (defn-ui-component     my-todo-app   [app] {}
         
