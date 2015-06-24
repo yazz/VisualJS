@@ -1,6 +1,6 @@
 Clojure on Coils
 ================
-##The fastest way to build Clojure database webapps
+##react.js + SQL + Clojure
 
 <img src='http://www.zubairquraishi.com/zubairquraishi/images/screen%20shot%202015-01-23%20at%20065908.jpg' />
 
