@@ -27,7 +27,7 @@ Either:
 
  - [What Problem Does It Solve?](#what-problem-does-it-solve)
 
-#what-problem-does-it-solve
+# What Problem Does It Solve?
 dsfds
 
 ###Quick start
