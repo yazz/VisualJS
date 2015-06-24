@@ -19,11 +19,11 @@ Build a relational database backed webapp by inserting SQL directly into React c
 
 
 ### Why Should You Care About Coils?
-Either:
+Clojure on Coils may be for you if:
 
-1. You want to build a single page webapp on top of a database
-2. You believe that Clojure/Clojurescript is the future
-3. You want to get something up and running fast!
+1. You want to build a single page webapp fast
+2. You believe that Clojure/Clojurescript is cool
+3. You still beleive that relational databases are the right way to model data
 
 ### What Problem Does It Solve?
 When building an SPA on top of a database there are many considerations:
