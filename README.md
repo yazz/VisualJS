@@ -8,7 +8,8 @@ Build a relational database backed webapp by inserting SQL statements directly i
 
     (defn-ui-component     my-todo-app   [app] {}
         
-        (select id, item from todo_items where item like '%' {}
+        (select id, item from todo_items where item like '%' 
+            {}
             (container
                 (inline "10%" (str (<-- :id)))  (inline "80%" (str (<-- :item))))))
                 
