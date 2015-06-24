@@ -18,14 +18,14 @@ Build a database back webapp by inserting SQL directly into React components:
  - [What Problem Does It Solve?](#what-problem-does-it-solve)
 
 
-# Why Should You Care About Coils?
+## Why Should You Care About Coils?
 Either:
 
 1. You want to build a single page webapp on top of a database
 2. You believe that Clojure/Clojurescript is the future
 3. You want to get something up and running fast!
 
-# What Problem Does It Solve?
+## What Problem Does It Solve?
 When building an SPA on top of a database there are many considerations:
 
 - Build the UI
