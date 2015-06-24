@@ -40,19 +40,38 @@ Coils makes this simple by moving the SQL statements directly into the UI react 
 
 ###Quick start
 
-#####1) Install and build Coils from Github:
+#####1) Install a Postgres database:
+
+Make the following two tables in a schema called Coils:
+
+    CREATE TABLE todo_items
+    (
+      id serial NOT NULL,
+      item character varying,
+      CONSTRAINT todo_items_pkey PRIMARY KEY (id)
+    );
+    
+    CREATE TABLE users
+    (
+      id serial NOT NULL,
+      user_name character varying,
+      CONSTRAINT users_pkey PRIMARY KEY (id)
+    );
+    
+
+#####2) Install and build Coils from Github:
 
     git clone https://github.com/zubairq/coils.git my_new_application
     cd my_new_application
     lein with-profile base figwheel
 
 
-#####2) Open the application
+#####3) Open the application
 
     http://127.0.0.1:3449
     
     
-#####3) Make a change and see Figwheel reload the changes live. 
+#####4) Make a change and see Figwheel reload the changes live. 
 
 Edit the file 
 
