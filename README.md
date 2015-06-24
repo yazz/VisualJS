@@ -15,6 +15,24 @@ Instead of making your database webapp by having things all over the place in mo
             (container
                 (inline "10%" (str (<-- :id)))  (inline "80%" (str (<-- :item))))))
 
+Why Should You Care About Coils?
+
+Either:
+
+You want to build a single page webapp on top of a database
+You believe that ReactJS is the future
+You love Clojure/Clojurescript
+You want to get something up and running fast!
+
+
+
+## Tutorial Table of Contents
+
+ - [What Problem Does It Solve?](#what-problem-does-it-solve)
+
+#what-problem-does-it-solve
+dsfds
+
 ###Quick start
 
 #####1) Install and build Coils from Github:
