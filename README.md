@@ -1,7 +1,6 @@
 <img src='http://www.zubairquraishi.com/zubairquraishi/images/screen%20shot%202015-01-23%20at%20065908.jpg' /> 
 #Clojure on Coils 
-
-###Build enterprise webapps with React, SQL, and Clojurescript
+####Build enterprise webapps with React, SQL, and Clojurescript
 
 
 
@@ -14,18 +13,18 @@ Instead of making your database webapp by having things all over the place in mo
             (container
                 (inline "10%" (str (<-- :id)))  (inline "80%" (str (<-- :item))))))
 
-##Why Should You Care About Coils?
+## Tutorial Table of Contents
+
+ - [Why Should You Care About Coils?](#why-care)
+ - [What Problem Does It Solve?](#what-problem-does-it-solve)
+
+
+# Why Should You Care About Coils?
 Either:
 
 1. You want to build a single page webapp on top of a database
 2. You believe that Clojure/Clojurescript is the future
 3. You want to get something up and running fast!
-
-
-
-## Tutorial Table of Contents
-
- - [What Problem Does It Solve?](#what-problem-does-it-solve)
 
 # What Problem Does It Solve?
 When building an SPA on top of a database there are many considerations:
