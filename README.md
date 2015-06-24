@@ -9,7 +9,7 @@ TL;DR
 =====
 Instead of making your database webapp by having things all over the place in models, views, and controllers, why not have it all in one place, like this:
 
-    (defn-ui-component     my-todo-app   [app] {}
+    (**defn-ui-component**     my-todo-app   [app] {}
         
         (select id, item from todo_items where item like '%' {}
             (container
