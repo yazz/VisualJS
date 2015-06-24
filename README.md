@@ -5,8 +5,7 @@ Clojure on Coils
 <img src='http://www.zubairquraishi.com/zubairquraishi/images/screen%20shot%202015-01-23%20at%20065908.jpg' />
 
 
-TL;DR
-=====
+##TL;DR
 Instead of making your database webapp by having things all over the place in models, views, and controllers, why not have it all in one place, like this:
 
     (defn-ui-component     my-todo-app   [app] {}
@@ -15,8 +14,7 @@ Instead of making your database webapp by having things all over the place in mo
             (container
                 (inline "10%" (str (<-- :id)))  (inline "80%" (str (<-- :item))))))
 
-Why Should You Care About Coils?
-
+##Why Should You Care About Coils?
 Either:
 
 You want to build a single page webapp on top of a database
