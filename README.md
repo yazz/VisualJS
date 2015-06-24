@@ -1,6 +1,6 @@
 <img src='http://www.zubairquraishi.com/zubairquraishi/images/screen%20shot%202015-01-23%20at%20065908.jpg' /> 
 #Clojure on Coils 
-####Build enterprise webapps with React, SQL, and Clojurescript
+#####Build enterprise webapps with React, SQL, and Clojurescript
 
 
 
@@ -15,7 +15,7 @@ Instead of making your database webapp by having things all over the place in mo
 
 ## Tutorial Table of Contents
 
- - [Why Should You Care About Coils?](#why-care)
+ - [Why Should You Care About Coils?](#why-you-should-care-about-coils)
  - [What Problem Does It Solve?](#what-problem-does-it-solve)
 
 
