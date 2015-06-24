@@ -28,7 +28,14 @@ Either:
  - [What Problem Does It Solve?](#what-problem-does-it-solve)
 
 # What Problem Does It Solve?
-dsfds
+When building an SPA on top of a database there are many considerations:
+
+- Build the UI
+- Bind the UI to a back end using AJAX callbacks
+- Code the server side
+ 
+Coils makes this simple by moving the SQL statements directly into the UI react components. 
+
 
 ###Quick start
 
