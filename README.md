@@ -4,7 +4,7 @@
 
 
 ##TL;DR
-Instead of making your database webapp by having things all over the place in models, views, and controllers, why not have it all in one place, like this:
+Build a database back webapp by inserting SQL directly into React components:
 
     (defn-ui-component     my-todo-app   [app] {}
         
