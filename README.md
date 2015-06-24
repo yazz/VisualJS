@@ -5,6 +5,21 @@ Clojure on Coils
 <img src='http://www.zubairquraishi.com/zubairquraishi/images/screen%20shot%202015-01-23%20at%20065908.jpg' />
 
 
+TL;DR
+=====
+    (defn-ui-component     cc2   [app]
+                          {}
+                         (c/div nil
+                         (div nil
+                                (select id, item from todo_items where item like '%'
+                                          {}
+                                        (div {:style {:paddingBottom "20px"}}
+                                            (div {} (str (<-- :id)))
+                                             (div {} (str (<-- :item)))
+                                             )
+                                        )
+                                 "Build database webapps with Clojure"))
+
 ###Quick start
 
 #####1) Install and build Coils from Github:
