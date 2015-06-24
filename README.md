@@ -7,18 +7,13 @@ Clojure on Coils
 
 TL;DR
 =====
-    (defn-ui-component     cc2   [app]
-                          {}
-                         (c/div nil
-                         (div nil
-                                (select id, item from todo_items where item like '%'
-                                          {}
-                                        (div {:style {:paddingBottom "20px"}}
-                                            (div {} (str (<-- :id)))
-                                             (div {} (str (<-- :item)))
-                                             )
-                                        )
-                                 "Build database webapps with Clojure"))
+Instead of making your database backed webapp by having several models, views, controllers, why not just have it all in one place, like this:
+
+    (defn-ui-component     my-todo-app   [app] {}
+        
+        (select id, item from todo_items where item like '%' {}
+            (container
+                (inline "10%" (str (<-- :id)))  (inline "80%" (str (<-- :item))))))
 
 ###Quick start
 
