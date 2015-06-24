@@ -11,6 +11,8 @@ Build a relational database backed webapp by inserting SQL statements directly i
         (select id, item from todo_items where item like '%' {}
             (container
                 (inline "10%" (str (<-- :id)))  (inline "80%" (str (<-- :item))))))
+                
+Clojure on Coils is in active development and is used in production systems.
 
 ### Tutorial Table of Contents
 
