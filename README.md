@@ -1,6 +1,4 @@
-| Clojure on Coils | <img src='http://www.zubairquraishi.com/zubairquraishi/images/screen%20shot%202015-01-23%20at%20065908.jpg' />
-
-| ================ |
+#Clojure on Coils <img src='http://www.zubairquraishi.com/zubairquraishi/images/screen%20shot%202015-01-23%20at%20065908.jpg' />
 
 ##Build enterprise webapps with React, SQL, and Clojurescript
 
