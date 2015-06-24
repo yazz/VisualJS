@@ -24,6 +24,15 @@
                                         (container
                                             (inline  "10%" (str (<-- :id)))
                                             (inline  "90%" (str (<-- :item)))))
+
+                              (div {:style {:height "30px"}})
+
+                              (select id, user_name from users where user_name like '%'
+                                  {}
+                                      (container
+                                        (inline  "10%" (str (<-- :id)))
+                                        (inline  "90%" (str (<-- :user_name)))))
+
                                 "Build database webapps with Clojure"))
 
 
