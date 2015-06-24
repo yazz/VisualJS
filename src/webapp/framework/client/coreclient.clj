@@ -207,7 +207,12 @@
 
 
 
-
+(defmacro def-coils-app
+  [fn-name  component-name]
+  `(~'defn-ui-component  ~fn-name [~'app]
+nil
+                       ;(div {} "s")))
+                       (~'component ~component-name   ~'app  [])))
 
 
 

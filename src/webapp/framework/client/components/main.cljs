@@ -22,6 +22,7 @@
                                                 watch-data map-many inline text
                                                 container <--pos <--id
                                                 session-user-id select select-debug
+                                                def-coils-app
                                                 ]]))
 
 
@@ -33,6 +34,7 @@
                          {}
 
                          (div nil
+                              (h2 nil "Coils")
                                 (select id, item from todo_items where item like '%'
                                           {}
                                         (div {:style {:paddingBottom "20px"}}
@@ -43,11 +45,4 @@
                                 "Build database webapps with Clojure"))
 
 
-
-(defn-ui-component     main-view   [app]
-  {}
-
-  (div nil
-       (h2 nil "Coils")
-         (component cc2  app  [])
-       ""))
+(def-coils-app     main-view   cc2)
