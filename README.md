@@ -3,8 +3,8 @@
 
 
 
-##TL;DR
-Build a database back webapp by inserting SQL directly into React components:
+###TL;DR
+Build a relational database backed webapp by inserting SQL directly into React components:
 
     (defn-ui-component     my-todo-app   [app] {}
         
@@ -12,20 +12,20 @@ Build a database back webapp by inserting SQL directly into React components:
             (container
                 (inline "10%" (str (<-- :id)))  (inline "80%" (str (<-- :item))))))
 
-## Tutorial Table of Contents
+### Tutorial Table of Contents
 
  - [Why Should You Care About Coils?](#why-should-you-care-about-coils)
  - [What Problem Does It Solve?](#what-problem-does-it-solve)
 
 
-## Why Should You Care About Coils?
+### Why Should You Care About Coils?
 Either:
 
 1. You want to build a single page webapp on top of a database
 2. You believe that Clojure/Clojurescript is the future
 3. You want to get something up and running fast!
 
-## What Problem Does It Solve?
+### What Problem Does It Solve?
 When building an SPA on top of a database there are many considerations:
 
 - Build the UI
