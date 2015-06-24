@@ -17,10 +17,9 @@ Instead of making your database webapp by having things all over the place in mo
 ##Why Should You Care About Coils?
 Either:
 
-You want to build a single page webapp on top of a database
-You believe that ReactJS is the future
-You love Clojure/Clojurescript
-You want to get something up and running fast!
+1. You want to build a single page webapp on top of a database
+2. You believe that Clojure/Clojurescript is the future
+3. You want to get something up and running fast!
 
 
 
