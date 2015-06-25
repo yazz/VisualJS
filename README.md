@@ -146,17 +146,19 @@ Then, in early 2014 Zubair listened to a Javascript Jabber postcast with Pete Hu
 
 However, there was still something missing, and this piece of the puzzle fell into place when Zubair's business partner in NemCV, Franco Soldera introduced Zubair to Meteor, a realtime Javascript framework which had both Reactive capabilities and also excellent databinding capabilities. In Zubair's opinion Meteor was the best full stack Javascript framework that he had seen (and yes, Zubair had seen Derby, Angular, Ember and Knockout). The reason he loved Meteor was not just because of its features such as a Reactive front end and data-binding, but also because Meteor is opinionated (like Ruby on Rails), which solves the problem of having to continually choose which Javascript frameworks to use, thereby saving alot of time wasted with experimenting with different Javascript libraries and glueing them together.
 
-Meteor's realtime databinding uses a Document based database called MongoDB on the server and MiniMongo on the client, but Coils already had full client side data access to both relational databases and Neo4j. So the current goal of Coils is to make Neo4j and Relational Databases work more seamlessly with the front-end development in Coils, just as Meteor does with Mongo.
+Meteor's realtime databinding uses a Document based database called MongoDB on the server and MiniMongo on the client, but Coils already had full client side data access to both relational databases and Neo4j. So the goal of Coils changed to make Neo4j and Relational Databases work more seamlessly with the front-end development in Coils, just as Meteor does with MongoDb.
 
-Another core feature of Coils is the Time Travelling Debugger. This is based on the principle that program code is read 99% of the time, and written only 1% of the time. See this Dougas Crockford video on Software Quality who explains it better than I ever could:
+Another core feature of Coils was the Time Travelling Debugger. This is based on the principle that program code is read 99% of the time, and written only 1% of the time. See this Dougas Crockford video on Software Quality who explains it better than I ever could:
 
 https://www.youtube.com/watch?v=t9YLtDJZtPY
 
-So Coils allows all programs to be examined visually using a GUI time travelling debugger, which is one of the killer features, as it reduces the cost of maintenance of complex applications. The source code for the example application is available here:
+So Coils allows all programs to be examined visually using a GUI time travelling debugger, which is one of the killer features, as it reduces the cost of maintenance of complex applications. 
 
-https://github.com/zubairq/coils/tree/connecttous
+... long period of time passes ...
 
-It is the Coils branch called 'connecttous'. Please feel free to clone it, modify, and play around with it locally, although you will need Neo4j installed locally too.
+There felt like a long gap of time in Coils land, where not much was committed to GitHub, and during this time Zubair first tried to learn more about Meteor.js, to see how they implemented Real Time client side data. He attended meetups with Franco in Copenhagen and learn as much as he could. His first idea was to implement the Meteor real time protocol DDP, and connect it to Neo4j on the back end. There were a few problems with this, the main one being with how real time works. Real time in Meteor works by having a small client side cache of MongoDb, called MiniMongo which runs in the Metoer web application. With Neo4j implementing a real time client side cache was orders of magnitude more tricky than it is for MongoDB because of the way Neo4j has a totally schemaless (not including Neo4j labels) graph.
+
+So Zubair decided to build the first version of the real time facilities on top of the Postgres relational database which , since that is what NemCV used as the candidate database, and created his own client side SQL cache which works pretty well. He intends to revisit Neo4j and create a real time solution for this in the future though.
 
 
 
