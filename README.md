@@ -2,13 +2,10 @@
 ### Clojure on Coils - Webapps in React, SQL, and Clojurescript
 
 
-### Tutorial Table of Contents
-
- - [TLDR](#TLDR)
+ - [TLDR](#tldr)
  - [Why Should You Care About Coils?](#why-should-you-care-about-coils)
  - [What Problem Does It Solve?](#what-problem-does-it-solve)
  - [Quick start](#quick-start)
-
 
 
 
