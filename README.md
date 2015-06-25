@@ -2,8 +2,17 @@
 ### Clojure on Coils - Webapps in React, SQL, and Clojurescript
 
 
+### Tutorial Table of Contents
 
-###TL;DR
+ - [TLDR](#TLDR)
+ - [Why Should You Care About Coils?](#why-should-you-care-about-coils)
+ - [What Problem Does It Solve?](#what-problem-does-it-solve)
+ - [Quick start](#quick-start)
+
+
+
+
+### TLDR
 Build a relational database backed webapp by inserting SQL statements directly into React components:
 
     (defn-ui-component     my-todo-app   [app] {}
@@ -16,12 +25,6 @@ Build a relational database backed webapp by inserting SQL statements directly i
 As of 2015 Clojure on Coils is in active development and is used in production systems. The future product roadmap is as follows:
  - November 2015 - make all SQL queries fully realtime like Meteor.js
  - July 2016 - hosted development environment so you can build Clojurescript database webapps using just a web browser
-
-### Tutorial Table of Contents
-
- - [Why Should You Care About Coils?](#why-should-you-care-about-coils)
- - [What Problem Does It Solve?](#what-problem-does-it-solve)
- - [Quick start](#quick-start)
 
 
 ### Why Should You Care About Coils?
