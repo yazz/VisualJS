@@ -11,7 +11,9 @@
  - [Long story](#long-story)
  - [What is Coils killer feature?](#what-is-coils-killer-feature)
  - [What is Coils not good for?](#what-is-coils-not-good-for)
+ - [When will Neo4j be back on the scene?](#when-will-neo4j-be-back-on-the-scene)
  - [Deprecated features from April 2013 to July 2014](#deprecated-features-from-april-2013-to-july-2014)
+ - [Deprecated features from August 2014 to June 2015](#deprecated-features-from-august-2013-to-june-2015)
 
 
 ### TLDR
@@ -205,8 +207,7 @@ Because Coils is based around a principle of being **maintenance first**, this m
 
 
 
-Why Neo4j?
-----------
+### When will Neo4j be back on the scene?
 One of the features of Coils is that allows all user's web sessions to be replayed by the company hosting the website made with Coils, see here for a demo:
 
 http://connecttous.co/connecttous/connecttous.html?playback=true
@@ -224,8 +225,7 @@ Since user sessions are saved, they must be stored somewhere on the server. Coil
 One of the other questions has been around whether Neo4j can have a realtime interface to Neo4j, like Meteor does with Mini Mongo and MongoDb. MongoDb uses a very simple document model which is why this works so well with MondoDb, but Coils goes one step further and has full client side access to Cypher queries, so it doesn't need a MiniNeo4j on the client side. So the answer is yes, Coils can have real time client side access to Neo4j, which is currently in development.
 
 
-Deprecated features from April 2013 to July 2014
-------------------------------------------------
+### Deprecated features from April 2013 to July 2014
 In 2013 Facebook created React, a Virtual Dom based Javascript library. David Nolen then created Om, a ClojureScript wrapper on top of React, which changed the ClojureScript client side story forever! Upon seeing Om I immediately knew that this was the future of ClojureScript development, using a Reactive GUI paradigm, also similar to Angular.js, Ember.js, and Meteor. So I had to take the tough decision to deprecate almost the whole UI that I had created in the previous version of Clojure on Coils. So the following features are now a thing of the past:
 
 - Can use Crate for HTML.
@@ -253,8 +253,7 @@ The reason for the discontinued features is that they all require explicit calls
 If you still wish to use the discontinued features then use an older version of the Coils framework.
 
 
-Deprecated features from August 2014 to July 2015
-------------------------------------------------
+### Deprecated features from August 2014 to June 2015
 In 2014 Coils switched to using React.js via David Nolen's awesome Om library. However, building applications still didn't feel as natural as it should. This was mostly because data access still didn't feel right. 
 One thing that was a huge influence was meteor.js, which provided reasl time webapps ove Mongodb. Realtime
 may seem simple, but to program a web application to update data as data changes without asomething like meteor.js soon becomes very complicated, as you need to add timers and callbacks for data everywhere. Since Coils used Neo4j as a backend I wanted to create a similar live uploading method for Coils. It was not as simple as I thought, as Neo4j has a far more complex data structure than MongoDb. So I had to make the tough decision to postpone Neo4j work on Coils for the time being. Since NemCV used a database backend anyway I decided to base it on a database instead. My idea is that you can program SQL directly in react.js components, for which I also chose Instaparse, which blows my mind!
