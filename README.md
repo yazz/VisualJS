@@ -21,6 +21,7 @@ As of 2015 Clojure on Coils is in active development and is used in production s
 
  - [Why Should You Care About Coils?](#why-should-you-care-about-coils)
  - [What Problem Does It Solve?](#what-problem-does-it-solve)
+ - [Quick start](#quick-start)
 
 
 ### Why Should You Care About Coils?
@@ -40,7 +41,7 @@ When building an SPA on top of a database there are many considerations:
 Coils makes this simple by moving the SQL statements directly into the UI react components. 
 
 
-###Quick start
+### Quick start
 
 #####1) Install a Postgres database:
 
