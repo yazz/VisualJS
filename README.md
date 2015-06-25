@@ -31,10 +31,9 @@ As of 2015 Clojure on Coils is in active development and is used in production s
 ### Is Coils for me?
 Clojure on Coils may be for you if you can answer yes to the following:
 
-1. You want to build a single page webapp fast
-2. You just want a batteries included opinionated framework like Rails or Meteor
+1. You  want a batteries included opinionated framework like Rails or Meteor
 2. You believe that Clojure/Clojurescript is cool
-3. The Postgres database is a good match for your problem domain
+3. The Postgres database and SQL is a good match for your problem domain
 
 
 ### What Problem Does It Solve?
