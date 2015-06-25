@@ -208,21 +208,15 @@ Because Coils is based around a principle of being **maintenance first**, this m
 
 
 ### When will Neo4j be back on the scene?
-One of the features of Coils is that allows all user's web sessions to be replayed by the company hosting the website made with Coils, see here for a demo:
-
-http://connecttous.co/connecttous/connecttous.html?playback=true
-
-Since user sessions are saved, they must be stored somewhere on the server. Coils uses Neo4j for this and as its default datastore. While Coils does natively support relational databases, and also can support other backends such as MongoDb through Clojure, Neo4j was chosen for the following reasons:
+Those of you who have followed Coils for a long time will know that one of the big features was the Neo4j integration. Neo4 still works with Coils, and Cypher queries can still be issued from Clojurescript. What Neo4j does not have right now however is a client side cache in Coils. At the time it was thought that the Coil client side Neo4j support would be enough for realtime support, but Zubair was wrong about this. At the time Neo4j was chosen for the following reasons:
 
 - Easy to setup Neo4j on a developer machine, without having to create a schema first
 - Rich data model, using Neo4j labels can also mimic database tables
 - Expressive and powerful Cypher query language
-- Excellent support for bug fixes from the Neo4j team
 - Neo4j has funding and a large customer base, so they should be around a long time
 - Neo4j has a dual licensing model, similar to Coils
-- Some of the Neo4j guys are very active in the Clojure community
 
-One of the other questions has been around whether Neo4j can have a realtime interface to Neo4j, like Meteor does with Mini Mongo and MongoDb. MongoDb uses a very simple document model which is why this works so well with MondoDb, but Coils goes one step further and has full client side access to Cypher queries, so it doesn't need a MiniNeo4j on the client side. So the answer is yes, Coils can have real time client side access to Neo4j, which is currently in development.
+Once Postgres and other databases have full realtime support then Neo4j support can be revisited.
 
 
 ### Deprecated features from April 2013 to July 2014
