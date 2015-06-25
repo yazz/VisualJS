@@ -3,9 +3,10 @@
 
 
  - [TLDR](#tldr)
- - [Product roadmap](#product-roadmap)
- - [Is Coils for me?](#is-coils-for-me)
+ - [What is Coils?](#what-is-coils)
  - [What Problem Does It Solve?](#what-problem-does-it-solve)
+ - [Is Coils for me?](#is-coils-for-me)
+ - [Product roadmap](#product-roadmap)
  - [Quick start](#quick-start)
 
 
@@ -22,18 +23,14 @@ Build a Postgres backed webapp by inserting SQL statements directly into React c
                 
 
 
-### Product Roadmap
-As of 2015 Clojure on Coils is in active development and is used in production systems. The future product roadmap is as follows:
- - November 2015 - make all SQL queries fully realtime like Meteor.js
- - July 2016 - hosted development environment so you can build Clojurescript database webapps using just a web browser
+### What is Coils?
 
+Coils is a web framework written in Clojure and Clojurescript, running on the JVM on the server side and Javascript on the browser. The resulting artifact is a war file, so it can be deployed on any Java web or application server, including Jetty, Tomcat, JBoss, Glassfish, Weblogic, or Websphere.
 
-### Is Coils for me?
-Clojure on Coils may be for you if you can answer yes to the following:
-
-1. You  want a batteries included opinionated framework like Rails or Meteor
-2. You believe that Clojure/Clojurescript is cool
-3. The Postgres database and SQL is a good match for your problem domain
+- Uses SQL directly in React/Om components
+- Uses Clojure for the server side
+- Uses ClojureScript client-side
+- Live coding using Figwheel
 
 
 ### What Problem Does It Solve?
@@ -49,6 +46,24 @@ Coils makes this simple by moving the SQL statements directly into the UI react 
                 {}
                 (container
                     (inline "10%" (str (<-- :id)))  (inline "80%" (str (<-- :item))))))
+
+
+
+### Is Coils for me?
+Clojure on Coils may be for you if you can answer yes to the following:
+
+1. You  want a batteries included opinionated framework like Rails or Meteor
+2. You believe that Clojure/Clojurescript is cool
+3. The Postgres database and SQL is a good match for your problem domain
+
+
+
+
+### Product Roadmap
+As of 2015 Clojure on Coils is in active development and is used in production systems. The future product roadmap is as follows:
+ - November 2015 - make all SQL queries fully realtime like Meteor.js
+ - July 2016 - hosted development environment so you can build Clojurescript database webapps using just a web browser
+
 
 
 ### Quick start
@@ -135,19 +150,6 @@ It is the Coils branch called 'connecttous'. Please feel free to clone it, modif
 
 
 
-
-
-What is Coils?
---------------
-
-Coils is a web framework written in Clojure and Clojurescript, running on the JVM on the server side and Javascript on the browser. The resulting artifact is a war file, so it can be deployed on any Java web or application server, including Jetty, Tomcat, JBoss, Glassfish, Weblogic, or Websphere.
-
-A few notes about Coils:
-
-- Use SQL directly in React/Om components
-- Uses Clojure for the server side
-- Uses ClojureScript client-side
-- Live coding using Figwheel
 
 
 
