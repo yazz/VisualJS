@@ -11,7 +11,7 @@
 
 
 ### TLDR
-Build a relational database backed webapp by inserting SQL statements directly into React components:
+Build a Postgres backed webapp by inserting SQL statements directly into React components:
 
     (defn-ui-component     my-todo-app   [app] {}
         
