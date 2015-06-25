@@ -670,7 +670,7 @@ nil
 
 (def parse-sql-string-into-instaparse-structure
   (insta/parser
-    "SQL            = <SELECT> FIELDS <FROM> TABLE <WHERE> WHERE_CLAUSE
+    "SQL            = <SELECT> FIELDS <FROM> TABLE WHERE_CLAUSE?
 
      SELECT         = 'select '
 
@@ -685,7 +685,7 @@ nil
 
      WHERE          = 'where '
 
-     WHERE_CLAUSE   = #'[a-z|A-Z|_| |=|0-9|?|\\'|%]+'
+     WHERE_CLAUSE   = <WHERE> #'[a-z|A-Z|_| |=|0-9|?|\\'|%]+'
      "))
 
 
