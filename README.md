@@ -17,6 +17,7 @@
  - [When will Neo4j be back on the scene?](#when-will-neo4j-be-back-on-the-scene)
  - [Deprecated features from April 2013 to July 2014](#deprecated-features-from-april-2013-to-july-2014)
  - [Deprecated features from August 2014 to June 2015](#deprecated-features-from-august-2014-to-june-2015)
+ - [Developer Resources](#developer-resources)
 
 
 ### TLDR
@@ -851,3 +852,17 @@ Recommendations when building your first app
 11) Load **127.0.0.1:3000/app_name.html** and you should see your new application page
 
 Alot of steps, I know!!!
+
+
+
+
+
+### Developer Resources
+
+Building an application with Coils?
+
+Ask a question: http://stackoverflow.com/search?q=clojure+coils
+Interested in contributing to Coils?
+
+Issue tracker: https://github.com/zubairq/coils/issues
+Contribution guidelines: https://github.com/zubairq/coils/graphs/contributors
