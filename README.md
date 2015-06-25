@@ -4,7 +4,7 @@
 
  - [TLDR](#tldr)
  - [Product roadmap](#product-roadmap)
- - [Why Should You Care About Coils?](#why-should-you-care-about-coils)
+ - [Is Coils for me?](#is-coils-for-me)
  - [What Problem Does It Solve?](#what-problem-does-it-solve)
  - [Quick start](#quick-start)
 
@@ -28,7 +28,7 @@ As of 2015 Clojure on Coils is in active development and is used in production s
  - July 2016 - hosted development environment so you can build Clojurescript database webapps using just a web browser
 
 
-### Why Should You Care About Coils?
+### Is Coils for me?
 Clojure on Coils may be for you if:
 
 1. You want to build a single page webapp fast
