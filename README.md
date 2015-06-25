@@ -38,7 +38,12 @@ When building an SPA on top of a database there are many considerations:
 - Bind the UI to a back end using AJAX callbacks
 - Code the server side
  
-Coils makes this simple by moving the SQL statements directly into the UI react components. 
+Coils makes this simple by moving the SQL statements directly into the UI react components. So instead of writing code in 3 places, you just write it in one place, in the react component itself:
+
+    (select id, item from todo_items where item like '%' 
+                {}
+                (container
+                    (inline "10%" (str (<-- :id)))  (inline "80%" (str (<-- :item))))))
 
 
 ### Quick start
