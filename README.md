@@ -53,7 +53,7 @@ Coils makes this simple by moving the SQL statements directly into the UI react 
 ### Is Coils for me?
 Clojure on Coils may be for you if you can answer yes to the following:
 
-1. You  want a batteries included opinionated framework like Rails or Meteor
+1. You  want a batteries included opinionated web framework like Rails or Meteor
 2. You believe that Clojure/Clojurescript is cool
 3. The Postgres database and SQL is a good match for your problem domain
 
