@@ -3,6 +3,7 @@
 
 
  - [TLDR](#tldr)
+ - [Product roadmap](#product-roadmap)
  - [Why Should You Care About Coils?](#why-should-you-care-about-coils)
  - [What Problem Does It Solve?](#what-problem-does-it-solve)
  - [Quick start](#quick-start)
@@ -19,6 +20,9 @@ Build a relational database backed webapp by inserting SQL statements directly i
             (container
                 (inline "10%" (str (<-- :id)))  (inline "80%" (str (<-- :item))))))
                 
+
+
+### Product Roadmap
 As of 2015 Clojure on Coils is in active development and is used in production systems. The future product roadmap is as follows:
  - November 2015 - make all SQL queries fully realtime like Meteor.js
  - July 2016 - hosted development environment so you can build Clojurescript database webapps using just a web browser
