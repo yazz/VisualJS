@@ -34,7 +34,7 @@ Clojure on Coils may be for you if you can answer yes to the following:
 1. You want to build a single page webapp fast
 2. You just want a batteries included opinionated framework like Rails or Meteor
 2. You believe that Clojure/Clojurescript is cool
-3. Relational databases are a good match for your problem domain
+3. The Postgres database is a good match for your problem domain
 
 
 ### What Problem Does It Solve?
