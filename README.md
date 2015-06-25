@@ -11,7 +11,8 @@
  - [Long story](#long-story)
  - [What is Coils killer feature?](#what-is-coils-killer-feature)
  - [What is Coils not good for?](#what-is-coils-not-good-for)
-
+ 
+ - [Deprecated features from April 2013 to July 2014]
 
 
 ### TLDR
