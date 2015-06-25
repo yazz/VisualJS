@@ -859,7 +859,7 @@ Alot of steps, I know!!!
 
 ### Developer Resources
 
-Building an application with Coils?
+Building an application with Coils? https://groups.google.com/forum/#!forum/clojure-on-coils
 
 Ask a question: http://stackoverflow.com/search?q=clojure+coils
 Interested in contributing to Coils?
