@@ -13,7 +13,7 @@
  - [What is Coils not good for?](#what-is-coils-not-good-for)
  - [When will Neo4j be back on the scene?](#when-will-neo4j-be-back-on-the-scene)
  - [Deprecated features from April 2013 to July 2014](#deprecated-features-from-april-2013-to-july-2014)
- - [Deprecated features from August 2014 to June 2015](#deprecated-features-from-august-2013-to-june-2015)
+ - [Deprecated features from August 2014 to June 2015](#deprecated-features-from-august-2014-to-june-2015)
 
 
 ### TLDR
