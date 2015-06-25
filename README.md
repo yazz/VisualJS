@@ -11,6 +11,9 @@
  - [Long story](#long-story)
  - [What is Coils killer feature?](#what-is-coils-killer-feature)
  - [What is Coils not good for?](#what-is-coils-not-good-for)
+ - [All features](#all-features)
+ - [Differences from Om](#differences-from-om)
+ - [Comparison with other Clojure web frameworks](#comparison-with-other-clojure-frameworks)
  - [When will Neo4j be back on the scene?](#when-will-neo4j-be-back-on-the-scene)
  - [Deprecated features from April 2013 to July 2014](#deprecated-features-from-april-2013-to-july-2014)
  - [Deprecated features from August 2014 to June 2015](#deprecated-features-from-august-2014-to-june-2015)
@@ -207,6 +210,40 @@ Because Coils is based around a principle of being **maintenance first**, this m
 
 
 
+
+
+### All features
+- Clojurescript Om by David Nolen
+- True client side SQL with commands like (select id, name from employees where ...)
+- Interactive client and server side development with Figwheel
+- Integration with Mandrill for sending transactional emails
+- Twitter Bootstrap 3.x for styling
+- Google Closure for advanced compression
+- SQL Korma for database requests
+- Client and server Neo4j access using Neocons
+- Core.async for a client-side synchronous programming model
+
+
+
+
+### Differences from Om
+The only part of Om that Coils uses is the rendering engine and the change listeners (for GUI playback). This means that Coils does not use the component local state features on Om. The implications of this are very important. For example, in Om when the end user clicks on a button in a react/Om component then the button event will be passed back via a core.sync channel. However, in Coils, when the user presses a button then the Application model used to generate the DOM itself is changed, with a property :click being set to true. This :click property is then watched via an event watcher to make any changes.
+
+
+
+
+
+### Comparison with other Clojure web frameworks
+[Hoplon](http://hoplon.io/) - In my mind Hoplon is the most complete of all the Clojure web frameworks, and I think that Coils has alot of catching up to do to get as full featured as Hoplon. Hoplon uses Reactive programming and has an amazing is web designer friendly as GUIs can be made from HTML, instead of Clojurescript
+
+<br>
+
+
+
+
+
+
+
 ### When will Neo4j be back on the scene?
 Those of you who have followed Coils for a long time will know that one of the big features was the Neo4j integration. Neo4 still works with Coils, and Cypher queries can still be issued from Clojurescript. What Neo4j does not have right now however is a client side cache in Coils. At the time it was thought that the Coil client side Neo4j support would be enough for realtime support, but Zubair was wrong about this. At the time Neo4j was chosen for the following reasons:
 
@@ -217,6 +254,12 @@ Those of you who have followed Coils for a long time will know that one of the b
 - Neo4j has a dual licensing model, similar to Coils
 
 Once Postgres and other databases have full realtime support then Neo4j support can be revisited.
+
+
+
+
+
+
 
 
 ### Deprecated features from April 2013 to July 2014
@@ -247,6 +290,11 @@ The reason for the discontinued features is that they all require explicit calls
 If you still wish to use the discontinued features then use an older version of the Coils framework.
 
 
+
+
+
+
+
 ### Deprecated features from August 2014 to June 2015
 In 2014 Coils switched to using React.js via David Nolen's awesome Om library. However, building applications still didn't feel as natural as it should. This was mostly because data access still didn't feel right. 
 One thing that was a huge influence was meteor.js, which provided reasl time webapps ove Mongodb. Realtime
@@ -271,56 +319,6 @@ Another thing that was dropped was something very dear to my heart, LighttTable.
 - core.async for a client-side synchronous programming model.
 
 Again, if you still wish to use the discontinued features then use an older version of the Coils framework from March 2015.
-
-
-Unique features
----------------
-
-- In debug mode press the Debug button at the top of the web page and you can rewind and forward the application and browse the source code behind any GUI element by left clicking on the element
-
-- Secure client side SQL. All calls are encrypted and use a server side key to avoid SQL injection attacks, yet at the same time the SQL calls appearing in client side code are easy to understand.
-
-- Web development without callback hell. Coils uses Clojure's core.async library to set of sychronous server side calls.
-
-All features
-------------
-
-- Clojurescript Om by David Nolen
-- True client side SQL witgh commands like (select id, name from employees where ...)
-- Interactive client and server side development with Figwheel
-- Integration with Mandrill for sending transactional emails
-- Twitter Bootstrap 3.x for styling
-- Google Closure for advanced compression
-- clj-http for server side HTTP requests
-- SQL Korma for database requests
-- Neocons for Neo4j access
-- Compojure, Ring, and Shoreleave for server side code
-- Core.async for a client-side synchronous programming model
-
-
-
-
-Differences from Om
--------------------
-The only part of Om that Coils uses is the rendering engine and the change listeners (for GUI playback). This means that Coils does not use the component local state features on Om. The implications of this are very important. For example, in Om when the end user clicks on a button in a react/Om component then the button event will be passed back via a core.sync channel. However, in Coils, when the user presses a button then the Application model used to generate the DOM itself is changed, with a property :click being set to true. This :click property is then watched via an event watcher to make any changes.
-
-
-
-
-Project page
-------------
-The website for this project is online at [coils.cc](http://coils.cc).
-
-
-
-
-
-Comparison with other Clojure web frameworks
---------------------------------------------
-
-[Hoplon](http://hoplon.io/) - In my mind Hoplon is the most complete of all the Clojure web frameworks, and I think that Coils has alot of catching up to do to get as full featured as Hoplon. Hoplon uses Reactive programming and has an amazing is web designer friendly as GUIs can be made from HTML, instead of Clojurescript
-
-<br>
 
 
 [Luminus](http://www.luminusweb.net/) - The main difference between Luminus and Clojure-on-Coils is that Luminus uses a HTML templating system for rendering web pages, whereas Coils currently only supports rendering from within Clojure itself. This makes Luminus at the moment a better choice for companies with seperate design and development teams. Designers will be more comfortable working in clean HTML files.
