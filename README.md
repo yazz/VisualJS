@@ -175,9 +175,10 @@ So Zubair decided to build the first version of the real time facilities on top 
 
 
 ### What is Coils killer feature?
-Coils **killer feature** is the **time travelling debugger**. This time travelling debugger lets you replay your GUI and select parts of the UI, and trace back the UI and any data used to make that part of the UI in time. This is an absolute "must" for the maintenance of complex web applications. This allows rapid interations for webapps that must change frequently, and live over a long period of time, much in the vein of the Lean Startup philisophy. See here for a live demo:
+Coils has a couple of so called **killer features**:
+- client side SQL. This enables you to insert direct select statements inside the React components of the UI. For a developer this is a HUGE time saver as it saves having to put code for something scattered in several parts of a codebase
 
-http://connecttous.co/connecttous/connecttous.html?livedebug=true
+- the **time travelling debugger**. This time travelling debugger lets you replay your GUI and select parts of the UI, and trace back the UI and any data used to make that part of the UI in time. This is an absolute "must" for the maintenance of complex web applications. This allows rapid interations for webapps that must change frequently, and live over a long period of time, much in the vein of the Lean Startup philisophy. Just add ***?livedebug=true*** to the end of the broswer URL when making a Coils appliction to see the application in debug mode
 
 
 
