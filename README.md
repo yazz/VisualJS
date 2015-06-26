@@ -25,7 +25,7 @@ Build a Postgres backed webapp by inserting SQL statements directly into React c
 
     (defn-ui-component     my-todo-app   [app] {}
         
-        (select id, item from todo_items where item like '%' 
+        (select id, item from todo_items
             {}
             (container
                 (inline "10%" (str (<-- :id)))  (inline "80%" (str (<-- :item))))))
