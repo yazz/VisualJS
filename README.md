@@ -46,19 +46,22 @@ The programming model uses the reactive style, where you save a change in the co
 
 
 ### What Problem Does It Solve?
-When building an SPA on top of a database there are many considerations:
+When building a webapp to show data on the webpage using most frameworks a developer must:
 
-- Build the UI
-- Bind the UI to a back end using AJAX callbacks
-- Code the server side
+- Build the UI components
+- Bind the UI components to a back end using AJAX callbacks
+- Code the server side components to read a data store
+
+This means that a webapp will typically will have code for one thing spread out in three different places.
  
-Coils makes this simple by moving the SQL statements directly into the UI react components. So instead of writing code in 3 places, you just write it in one place, in the react component itself:
+Coils makes this simple by moving the data acess directly into the UI react components. So instead of writing code in three places, you just write it in one place, in the react component itself:
 
-    (select id, item from todo_items where item like '%' 
+    (select id, item from todo_items
                 {}
                 (container
                     (inline "10%" (str (<-- :id)))  (inline "80%" (str (<-- :item))))))
 
+This greatly simplifies building of database based webapps.
 
 
 ### Is Coils for me?
