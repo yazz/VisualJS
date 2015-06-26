@@ -34,7 +34,9 @@ Build a Postgres backed webapp by inserting SQL statements directly into React c
 
 ### What is Coils?
 
-Coils is a web framework written in Clojure and Clojurescript, running on the JVM on the server side and Javascript on the browser. The resulting artifact is a war file, so it can be deployed on any Java web or application server, including Jetty, Tomcat, JBoss, Glassfish, Weblogic, or Websphere.
+Coils is a full stack web framework written in Clojure and Clojurescript. It is primarily designed for building
+React user interfaces connected to a database backend. Since Clojure runs on the JVM and Clojurescript compiles to
+Javascript, this means that a Coils application can be packaged as a J2EE WAR file. This means that any Coils application can be deployed on any Java web or application server, including Jetty, Tomcat, JBoss, Glassfish, Weblogic, or Websphere.
 
 - Uses SQL directly in React/Om components
 - Uses Clojure for the server side
