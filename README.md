@@ -38,7 +38,7 @@ Coils is an opinionated full stack web framework written in Clojure and Clojures
 React user interfaces connected to a database backend. Since Clojure runs on the JVM and Clojurescript compiles to
 Javascript, this means that a Coils application can be packaged as a J2EE WAR file. This means that any Coils application can be deployed on any Java web or application server, including Jetty, Tomcat, JBoss, Glassfish, Weblogic, or Websphere.
 
-The programming model uses the reactive style, where you save a change in the code and it automatically updates the web browser, no refresh needed:
+The programming model uses the reactive style, where you save a change in the code and it automatically updates the web browser, with no page refresh required:
 
 - Uses React/Om for the UI
 - Uses SQL directly in React/Om components
