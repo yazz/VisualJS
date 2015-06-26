@@ -30,7 +30,9 @@ Build a Postgres backed webapp by inserting SQL statements directly into React c
             (container
                 (inline "10%" (str (<-- :id)))  (inline "80%" (str (<-- :item))))))
                 
-
+Coils aim to make web apps which are "maintenance first". This means that great care is taken to make sure that 
+web apps built with Coils are easy to maintain. This vastly decreases the time to market and long term 
+development cost of building a webapp.
 
 ### What is Coils?
 
@@ -67,9 +69,10 @@ This greatly simplifies building of database based webapps.
 ### Is Coils for me?
 Clojure on Coils may be for you if you can answer yes to the following:
 
-1. You  want a batteries included opinionated web framework like Rails or Meteor
+1. You want a batteries included opinionated web framework like Rails or Meteor
 2. You believe that Clojure/Clojurescript is cool
 3. The Postgres database and SQL is a good match for your problem domain
+4. You want framework where the author cares about the maintenance of your webapp
 
 
 
