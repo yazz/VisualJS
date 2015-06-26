@@ -48,7 +48,7 @@ The programming model uses the reactive style, where you save a change in the co
 
 
 ### What Problem Does It Solve?
-When building a webapp to show data on the webpage using most frameworks a developer must:
+When building a webapp to show data on a webpage using most frameworks a developer must:
 
 - Build the UI components
 - Bind the UI components to a back end using AJAX callbacks
