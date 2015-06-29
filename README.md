@@ -17,6 +17,7 @@
  - [When will Neo4j be back on the scene?](#when-will-neo4j-be-back-on-the-scene)
  - [Deprecated features from April 2013 to July 2014](#deprecated-features-from-april-2013-to-july-2014)
  - [Deprecated features from August 2014 to June 2015](#deprecated-features-from-august-2014-to-june-2015)
+ - [Anatomy of a Coils application](#anatomy-of-a-coils-application)
  - [Developer Resources](#developer-resources)
 
 
@@ -341,25 +342,8 @@ Again, if you still wish to use the discontinued features then use an older vers
 
 
 
-Installation
-------------
 
-    - Install Coils from Github:
-
-    git clone  https://github.com/zubairq/coils.git  my_new_application
-
-
-
-    - Then install Neo4j:
-
-    http://neo4j.com
-    http://www.zubairquraishi.com/zubairquraishi/clojure-neocons-for-neo4j.html
-
-
-
-
-Anatomy of a Coils application
-------------------------------
+### Anatomy of a Coils application
 
     my_new_application
         └ links.txt
