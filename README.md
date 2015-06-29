@@ -21,6 +21,7 @@
  - [Getting started](#getting-started)
  - [Adding something to the web page](#adding-something-to-the-web-page)
  - [Adding debuggable elements to the page](#adding-debuggable-elements-to-the-page)
+ - [List of functions](#list-of-functions)
  - [Recommendations when building your first Coils app](#recommendations-when-building-your-first-coils-app)
  - [Deploying a Coils web app to a Java server as a WAR file](#deploying-a-coils-web-app-to-a-java-server-as-a-war-file)
  - [Developer Resources](#developer-resources)
