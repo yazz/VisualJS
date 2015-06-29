@@ -18,6 +18,9 @@
  - [Deprecated features from April 2013 to July 2014](#deprecated-features-from-april-2013-to-july-2014)
  - [Deprecated features from August 2014 to June 2015](#deprecated-features-from-august-2014-to-june-2015)
  - [Anatomy of a Coils application](#anatomy-of-a-coils-application)
+ - [Getting started](#getting-started)
+ - [Adding something to the web page](#Adding-something-to-the-webpage)
+
  - [Developer Resources](#developer-resources)
 
 
@@ -343,6 +346,9 @@ Again, if you still wish to use the discontinued features then use an older vers
 
 
 
+
+
+
 ### Anatomy of a Coils application
 
     my_new_application
@@ -395,8 +401,13 @@ Again, if you still wish to use the discontinued features then use an older vers
 
 
 
-Getting started
----------------
+
+
+
+
+
+
+### Getting started
 
 1) Compile clojurescript and Start the self-refreshing web server:
 
@@ -411,8 +422,7 @@ Getting started
 
 
 
-Adding something to the web page
---------------------------------
+### Adding something to the web page
 
 1) In a browser and point to 127.0.0.1:3449
 
