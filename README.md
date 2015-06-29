@@ -19,7 +19,7 @@
  - [Deprecated features from August 2014 to June 2015](#deprecated-features-from-august-2014-to-june-2015)
  - [Anatomy of a Coils application](#anatomy-of-a-coils-application)
  - [Getting started](#getting-started)
- - [Adding something to the web page](#adding-something-to-the-webpage)
+ - [Adding something to the web page](#adding-something-to-the-web-page)
  - [Developer Resources](#developer-resources)
 
 
