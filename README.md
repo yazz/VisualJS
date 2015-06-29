@@ -408,14 +408,41 @@ Again, if you still wish to use the discontinued features then use an older vers
 
 ### Getting started
 
-1) Compile clojurescript and Start the self-refreshing web server:
+#####1) Install a Postgres database:
 
+Make the following two tables in a schema called Coils:
+
+    CREATE TABLE todo_items
+    (
+      id serial NOT NULL,
+      item character varying,
+      CONSTRAINT todo_items_pkey PRIMARY KEY (id)
+    );
+    
+    CREATE TABLE users
+    (
+      id serial NOT NULL,
+      user_name character varying,
+      CONSTRAINT users_pkey PRIMARY KEY (id)
+    );
+    
+
+#####2) Install and build Coils from Github:
+
+    git clone https://github.com/zubairq/coils.git my_new_application
     cd my_new_application
     lein with-profile base figwheel
 
-2) Open a browser and point to [127.0.0.1:3449](127.0.0.1:3449)
 
-3) To see the live debugging mode go to [127.0.0.1:3449/main.html?livedebug=true](127.0.0.1:3449/main.html?livedebug=true)
+#####3) Open the application
+
+    http://127.0.0.1:3449
+    
+    
+
+
+
+
 
 
 
@@ -423,9 +450,28 @@ Again, if you still wish to use the discontinued features then use an older vers
 
 ### Adding something to the web page
 
-1) In a browser and point to 127.0.0.1:3449
+#####1) Make a change and see Figwheel reload the changes live. 
 
-2) Go to the clojurescript view in my_new_application/src/webapp/framework/client/components/main.cljs
+Edit the file 
+
+    src/webapp/framework/client/components/main.cljs 
+
+and change 
+
+    "Build database webapps with Clojure" 
+
+to 
+
+    "Figwheel made a live change!". 
+
+Save the file and the text should change in the live web app
+
+
+#####2) To see debug mode open:
+
+    http://127.0.0.1:3449/main.html?livedebug=true
+
+
 
 3) This is the default page that you see when you start Coils as a web app, so there should be a function which looks something like this:
 
