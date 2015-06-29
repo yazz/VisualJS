@@ -21,6 +21,9 @@
  - [Getting started](#getting-started)
  - [Adding something to the web page](#adding-something-to-the-web-page)
  - [Adding debuggable elements to the page](#adding-debuggable-elements-to-the-page)
+ - [Firing events](#firing-events)
+ - [Calling server side code](#calling-server-side-code)
+ - [Client side SQL](#client-side-sql)
  - [List of functions](#list-of-functions)
  - [Recommendations when building your first Coils app](#recommendations-when-building-your-first-coils-app)
  - [Deploying a Coils web app to a Java server as a WAR file](#deploying-a-coils-web-app-to-a-java-server-as-a-war-file)
@@ -503,8 +506,15 @@ You may wonder what the **c/** is for. This is for the Coils namespace, defined 
 We actually cheated in the above example as we edited the Coils framework itself, but it was just to get you to make a change as fast as possible. In an actual applicaiton we would ask you to make another file for your own GUI components
 
 
-Adding debuggable elements to the page
---------------------------------------
+
+
+
+
+
+
+
+
+### Adding debuggable elements to the page
 
 In the past Coils used Domina, and other imperative libraries to add elements to a webpage, something like this, where "logged-in-panel" defines some HTML, and "swap-section" manipulates the DOM:
 
@@ -606,163 +616,16 @@ So, the diagram would now look something like this:
 
 
 
-List of functions
------------------
-**read-ui** - Only can be called from GUI components. Note that GUI components can
-only read and write the UI tree, NOT the data tree
 
-    (c/div  {:style {:height "100%" :width "100%"}}
-          (let [all-company-records    (c/read-ui  companies [:values] )]
-               ....
 
 
 
 
 
-**write-ui** - Used to write to the UI tree from GUI components. Again, only the UI tree
-can be written to, NOT the data tree when in a GUI component
 
-    (c/dom/button {:onClick (fn [e] (c/write-ui  ui-data [:submit :value]  true))
-                     :style {:margin-top "10px"}}
 
-                "Connect")
 
-
-
-
-
-
-**==ui** - Test for a value in the UI tree. In this case we are saying that
-when the splash screen is clicked then 1) Remove the click event, 2) Stop
-showing the splash screen
-
-    (==ui  [:ui :splash-screen :click]   true
-
-        (do
-            (-->ui [:ui  :splash-screen  :click]  false)
-            (-->ui [:ui  :splash-screen  :show]   false)))
-
-
-
-
-
-**-->ui** - Write to the UI tree a value
-
-    (==ui  [:ui :splash-screen :click]   true
-
-        (do
-            (-->ui [:ui  :splash-screen  :click]  false)
-            (-->ui [:ui  :splash-screen  :show]   false)))
-
-
-
-
-
-
-Client side message passing system (a.k.a. events)
------------------------------------------------
-This was part of the old Coils. This has now been fully deprecated so that the UI and DATA trees are watched for events. The old method worked like this:
-
-Define an action:
-
-    (redefine-action "Say something"
-        (js/alert "Hello"))
-
-
-Call an action:
-
-    (do-action "Say something")
-
-So in the new version of Coils if you want to execute an event you have to decide whether you are listening to the data tree or the UI tree. For example, if you want to perform an action when the use presses a button then you would do something like this:
-
-    (==ui  [:ui   :company-details   :clicked]    true
-          (-->ui  [:ui  :company-details   :clicked  ] false)
-          (-->ui  [:ui  :tab-browser    ] "top companies"))
-
-So this means that with Coils, the preferred way to do things is with events, which are triggered by any of the following:
-
-- timers
-- changes in the UI tree (because of user actions such a clicking a button)
-- chnages in the data tree (such as data being read from Neo4j)
-
-
-
-Calling server side code
-------------------------
-
-From the client side:
-
-    (server-call
-         (js/alert
-             (:text (remote  say-hello  {:name "Johnny"}))))
-
-
-
-Define in fns.clj on the server side (using core.async):
-
-    (defn say-hello [{name :name}]
-        {:text (str "Hello " name))})
-
-
-
-
-
-
-
-Client side SQL
----------------
-
-    (go
-        (log (pr-str (sql "SELECT * FROM test_table where name = ?" ["shopping"] ))))
-
-
-Please note that the raw SQL is not visible from web browsers since it's encryted through a server side macro. Such macros are a feature unique to Clojure and other [Lisps](https://en.wikipedia.org/wiki/Lisp_(programming_language)#List_structure_of_program_code.3B_exploitation_by_macros_and_compilers).
-
-
-
-
-Client side Neo4j Cypher
-------------------------
-
-    (go
-        (log (pr-str (neo4j "START x = node(11) RETURN x" {} ))))
-
-Please note that the raw Cypher code is not visible from web browsers as it is encryted via a server side macro, like the SQL calls are.
-
-
-
-
-How secure client side SQL works
---------------------------------
-
-It may seem strange that you can call SQL synchronously from the client yet the call is sent to the server, is secure, and behaves asynchronous internally. Welcome to the world of Lisp!
-
-To understand a bit more about this you need to realise that Clojure is an implementation of Lisp for the JVM, and Clojurescript is Lisp on Javascript. Lisp itself has alot of special features which are not available in other languages, such as the ability to write code itself, also known as Lisp Macros. This ability is not available as a first class feature in any other language!
-
-Before I stray too much away from the point, there are two parts of the Clojure implementation of Lisp that allows synchronous secure client-side SQL/Cypher:
-
-- core.async
-- macros (no, not your C++ macros)
-
-When you make a client side SQL/Cypher call it is encyrpted using a Macro at compile time:
-
-    (defmacro sql [sql-str params]
-        `(webapp.framework.client.coreclient.sql-fn
-            ~(encrypt sql-str)
-            ~params))
-
-This means that the string in a client side call...
-
-    (go
-        (log (pr-str (sql "SELECT * FROM test_table where name = ?" ["shopping"] ))))
-
-... will be rewritten at compile time, making it impossible for anyone who does "View source" on your web page to see the SQL code!
-
-
-
-
-Functions available
--------------------------------------------------------
+### List of functions
 There are many library functions available, although it is a bit of a mess having to :require and :use everything in the Clojurescript namespace header:
 
     (ns webapp.client.views.loginpanel
@@ -854,6 +717,148 @@ There are many library functions available, although it is a bit of a mess havin
 **set-text** - Set the text of an element
 
     (set-text "message-element" "You must enter an email address")
+
+
+**read-ui** - Only can be called from GUI components. Note that GUI components can
+only read and write the UI tree, NOT the data tree
+
+    (c/div  {:style {:height "100%" :width "100%"}}
+          (let [all-company-records    (c/read-ui  companies [:values] )]
+               ....
+
+
+
+
+
+**write-ui** - Used to write to the UI tree from GUI components. Again, only the UI tree
+can be written to, NOT the data tree when in a GUI component
+
+    (c/dom/button {:onClick (fn [e] (c/write-ui  ui-data [:submit :value]  true))
+                     :style {:margin-top "10px"}}
+
+                "Connect")
+
+
+
+
+
+
+**==ui** - Test for a value in the UI tree. In this case we are saying that
+when the splash screen is clicked then 1) Remove the click event, 2) Stop
+showing the splash screen
+
+    (==ui  [:ui :splash-screen :click]   true
+
+        (do
+            (-->ui [:ui  :splash-screen  :click]  false)
+            (-->ui [:ui  :splash-screen  :show]   false)))
+
+
+
+
+
+**-->ui** - Write to the UI tree a value
+
+    (==ui  [:ui :splash-screen :click]   true
+
+        (do
+            (-->ui [:ui  :splash-screen  :click]  false)
+            (-->ui [:ui  :splash-screen  :show]   false)))
+
+
+
+
+
+
+
+
+
+
+### Firing events
+This was part of the old Coils. This has now been fully deprecated so that the UI and DATA trees are watched for events. The old method worked like this:
+
+Define an action:
+
+    (redefine-action "Say something"
+        (js/alert "Hello"))
+
+
+Call an action:
+
+    (do-action "Say something")
+
+So in the new version of Coils if you want to execute an event you have to decide whether you are listening to the data tree or the UI tree. For example, if you want to perform an action when the use presses a button then you would do something like this:
+
+    (==ui  [:ui   :company-details   :clicked]    true
+          (-->ui  [:ui  :company-details   :clicked  ] false)
+          (-->ui  [:ui  :tab-browser    ] "top companies"))
+
+So this means that with Coils, the preferred way to do things is with events, which are triggered by any of the following:
+
+- timers
+- changes in the UI tree (because of user actions such a clicking a button)
+- chnages in the data tree (such as data being read from Neo4j)
+
+
+
+### Calling server side code
+
+From the client side:
+
+    (server-call
+         (js/alert
+             (:text (remote  say-hello  {:name "Johnny"}))))
+
+
+
+Define in fns.clj on the server side (using core.async):
+
+    (defn say-hello [{name :name}]
+        {:text (str "Hello " name))})
+
+
+
+
+
+
+
+### Client side SQL
+
+    (go
+        (log (pr-str (sql "SELECT * FROM test_table where name = ?" ["shopping"] ))))
+
+
+Please note that the raw SQL is not visible from web browsers since it's encryted through a server side macro. Such macros are a feature unique to Clojure and other [Lisps](https://en.wikipedia.org/wiki/Lisp_(programming_language)#List_structure_of_program_code.3B_exploitation_by_macros_and_compilers).
+
+
+
+
+
+How secure client side SQL works
+--------------------------------
+
+It may seem strange that you can call SQL synchronously from the client yet the call is sent to the server, is secure, and behaves asynchronous internally. Welcome to the world of Lisp!
+
+To understand a bit more about this you need to realise that Clojure is an implementation of Lisp for the JVM, and Clojurescript is Lisp on Javascript. Lisp itself has alot of special features which are not available in other languages, such as the ability to write code itself, also known as Lisp Macros. This ability is not available as a first class feature in any other language!
+
+Before I stray too much away from the point, there are two parts of the Clojure implementation of Lisp that allows synchronous secure client-side SQL/Cypher:
+
+- core.async
+- macros (no, not your C++ macros)
+
+When you make a client side SQL/Cypher call it is encyrpted using a Macro at compile time:
+
+    (defmacro sql [sql-str params]
+        `(webapp.framework.client.coreclient.sql-fn
+            ~(encrypt sql-str)
+            ~params))
+
+This means that the string in a client side call...
+
+    (go
+        (log (pr-str (sql "SELECT * FROM test_table where name = ?" ["shopping"] ))))
+
+... will be rewritten at compile time, making it impossible for anyone who does "View source" on your web page to see the SQL code!
 
 
 
