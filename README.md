@@ -20,6 +20,8 @@
  - [Anatomy of a Coils application](#anatomy-of-a-coils-application)
  - [Getting started](#getting-started)
  - [Adding something to the web page](#adding-something-to-the-web-page)
+ - [Recommendations when building your first Coils app](#recommendations-when-building-your-first-coils-app)
+ - [Deploying a Coils web app to a Java server as a WAR file](#deploying-a-coils-web-app-to-a-java-server-as-a-war-file)
  - [Developer Resources](#developer-resources)
 
 
@@ -854,28 +856,18 @@ There are many library functions available, although it is a bit of a mess havin
 
 
 
-Deploying an application to a Java server
--------------------------------------------------------
-
-    mkdir srcprod && cd srcprod
-    mkdir webapp_config && cd webapp_config
-
-    touch settings.clj
-    ... copy and amend the settings from coils/srcdev/webapp_config/settings.clj ...
-
-    cd ../../coils
-
-    lein with-profile prod cljsbuild clean
-    lein with-profile prod cljsbuild once
-
-    lein with-profile prod ring uberwar
-    ... deploy the resulting war file ...
 
 
 
 
-Recommendations when building your first app
---------------------------------------------
+
+
+
+
+
+
+
+### Recommendations when building your first Coils app
 
 1) Copy **main.html** and make your own **app_name.html** file in the **resources** folder
 
@@ -900,6 +892,47 @@ Recommendations when building your first app
 11) Load **127.0.0.1:3000/app_name.html** and you should see your new application page
 
 Alot of steps, I know!!!
+
+
+
+
+
+
+
+
+
+
+
+
+### Deploying a Coils web app to a Java server as a WAR file
+
+    mkdir srcprod && cd srcprod
+    mkdir webapp_config && cd webapp_config
+
+    touch settings.clj
+    ... copy and amend the settings from coils/srcdev/webapp_config/settings.clj ...
+
+    cd ../../coils
+
+    lein with-profile prod cljsbuild clean
+    lein with-profile prod cljsbuild once
+
+    lein with-profile prod ring uberwar
+    ... deploy the resulting war file ...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
