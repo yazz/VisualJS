@@ -60,9 +60,7 @@
    (c/div {:style {:color  "blue"}}
 		  (c/container
 		   (c/inline "50%" (c/text (str "count" )))
-		   (c/inline "50%" (c/text (count (c/read-ui table-data [:values]))))))
-
-   ))
+		   (c/inline "50%" (c/text (count (c/read-ui table-data [:values]))))))))
 
 
 
@@ -133,7 +131,11 @@
 
 			  (c/component admin-view-show-data-source-data
 						   (c/read-ui data-sources
-									 [:values (keyword use-source) :data]) [])))))
+									 [:values (keyword use-source) :data]) []))
+
+         (c/div nil "List of data sources")
+
+         )))
 
 
 
