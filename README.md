@@ -3,8 +3,6 @@
 
 
  - [TLDR](#tldr)
- - [What is Coils?](#what-is-coils)
- - [What Problem Does It Solve?](#what-problem-does-it-solve)
  - [Is Coils for me?](#is-coils-for-me)
  - [Product roadmap](#product-roadmap)
  - [Quick start](#quick-start)
@@ -30,6 +28,10 @@
  - [Developer Resources](#developer-resources)
 
 
+
+
+
+
 ### TLDR
 Build a Postgres backed webapp by inserting SQL statements directly into React components:
 
@@ -40,25 +42,32 @@ Build a Postgres backed webapp by inserting SQL statements directly into React c
             (container
                 (inline "10%" (str (<-- :id)))  (inline "80%" (str (<-- :item))))))
                 
-Coils aim to make web apps which are "maintenance first". This means that great care is taken to make sure that 
-web apps built with Coils are easy to maintain. This vastly decreases the time to market and long term 
-development cost of building a webapp.
+The goal of Clojure on Coils is to make web apps which are "maintenance first". This means that web apps built with
+Coils must be easy to maintain. This vastly decreases the time to market and long term development cost of building a webapp.
 
-### What is Coils?
+
+
+
+
+
+### Is Coils for me?
 
 Coils is an opinionated full stack web framework written in Clojure and Clojurescript. Coil's strength is in building
-React user interfaces connected to a database backend. Since Clojure runs on the JVM and Clojurescript compiles to
-Javascript, this means that a Coils application can be packaged as a J2EE WAR file. This means that any Coils application can be deployed on any Java web or application server, including Jetty, Tomcat, JBoss, Glassfish, Weblogic, or Websphere.
+reactive user interfaces connected to a database backend. Since Clojure runs on the JVM and Clojurescript compiles to
+Javascript, this means that a Coils application can be packaged as a J2EE WAR file. This means that any Coils application can be deployed on any Java web or application server, including Jetty, Tomcat, JBoss, Glassfish, Weblogic, or Websphere. So Clojure on Coils may be for you if you can answer yes to the following:
 
-The programming model uses the reactive style, where you save a change in the code and it automatically updates the web browser, with no page refresh required:
+1. You want a batteries included opinionated web framework like Rails or Meteor
+2. You believe that Clojure/Clojurescript is cool
+3. The Postgres database and SQL is a good match for your problem domain
+4. You want framework where the author cares about the maintenance of your webapp
+
+The Coils programming model uses the reactive style, where you save a change in the code and it automatically updates the web browser, with no page refresh required:
 
 - Uses React/Om for the UI
 - Uses SQL directly in React/Om components
 - Live coding using Figwheel
 
-
-### What Problem Does It Solve?
-When building a webapp to show data on a webpage using most frameworks a developer must:
+When building a webapp to show data on a webpage using most frameworks require that a developer must:
 
 - Build the UI components
 - Bind the UI components to a back end using AJAX callbacks
@@ -66,7 +75,7 @@ When building a webapp to show data on a webpage using most frameworks a develop
 
 This means that a webapp will typically will have code for one thing spread out in three different places.
  
-Coils makes this simple by moving the data acess directly into the UI react components. So instead of writing code in three places, you just write it in one place, in the react component itself:
+Coils simplifies these three steps by moving the data acess directly into the UI react components. So instead of writing code in three places, you just write it in one place, in the react component itself:
 
     (select id, item from todo_items
                 {}
@@ -76,13 +85,11 @@ Coils makes this simple by moving the data acess directly into the UI react comp
 This greatly simplifies building of database based webapps.
 
 
-### Is Coils for me?
-Clojure on Coils may be for you if you can answer yes to the following:
 
-1. You want a batteries included opinionated web framework like Rails or Meteor
-2. You believe that Clojure/Clojurescript is cool
-3. The Postgres database and SQL is a good match for your problem domain
-4. You want framework where the author cares about the maintenance of your webapp
+
+
+
+
 
 
 
