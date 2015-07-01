@@ -4,7 +4,7 @@
   (:use-macros
     [webapp.framework.client.coreclient  :only [ns-coils defn-ui-component def-coils-app
                                                 container  map-many  inline  text
-                                                div img pre component h2 input
+                                                div img pre component h2 input section
                                                 write-ui read-ui container input component <--
                                                 h1 h2 h3 h4 h5 h6 span  data-view-v2 select select-debug
                                                 ]]))
@@ -15,10 +15,12 @@
 
 
 (defn-ui-component     cc2   [app]
-                         {}
+                       {}
 
-                         (div nil
-                              (h2 nil "Coils")
+                       (section {:id "todoapp" :style {:padding "20px"}}
+                              (h2 nil "todos")
+                             (div {:style {:padding "20px" :backgoundColor "white"}}
+                              (input {:className "newTodo"})
                                 (select id, item from todo_items
                                           {}
                                         (container
@@ -26,15 +28,7 @@
                                             (inline  "90%" (str (<-- :item)))))
 
                               (div {:style {:height "30px"}})
-
-                              (select id, user_name from users where user_name like '%'
-                                  {}
-                                      (container
-                                        (inline  "10%" (str (<-- :id)))
-                                        (inline  "90%" (str (<-- :user_name)))))
-
-                              (str "Build database webapps with Clojure"
-
+                              (div {:id "footer" :style {:backgroundColor "white"}})
                               )))
 
 

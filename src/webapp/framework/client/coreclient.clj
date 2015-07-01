@@ -265,6 +265,8 @@ nil
   `(om.dom/span  (webapp.framework.client.coreclient/attrs ~attributes) ~@more))
 (defmacro img [attributes & more]
   `(om.dom/img  (webapp.framework.client.coreclient/attrs ~attributes) ~@more))
+(defmacro section [attributes & more]
+  `(om.dom/section  (webapp.framework.client.coreclient/attrs ~attributes) ~@more))
 
 (defmacro container [& more]
   `(om.dom/div  {} ~@more))
