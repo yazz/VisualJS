@@ -268,6 +268,11 @@ Because Coils is based around a principle of being **maintenance first**, this m
 
 
 
+
+
+
+
+
 ### Differences from Om
 The only part of Om that Coils uses is the rendering engine and the change listeners (for GUI playback). This means that Coils does not use the component local state features of Om. The implications of this are very important. For example, in Om when the end user clicks on a button in a react/Om component then the button event will be passed back via a core.sync channel. However, in Coils, when the user presses a button then the Application model used to generate the DOM itself is changed, with a property :click being set to true. This :click property is then watched via an event watcher to make any changes.
 
@@ -285,7 +290,13 @@ The only part of Om that Coils uses is the rendering engine and the change liste
 
 <br>
 
-[Luminus](http://www.luminusweb.net/) - Luminus seems to be quite a complete web framework. Zubair needs to spend more time with Luminus to find out what its strengths are. 
+
+[Luminus](http://www.luminusweb.net/) - The main difference between Luminus and Clojure-on-Coils is that Luminus uses a HTML templating system for rendering web pages, whereas Coils currently only supports rendering from within Clojure itself. This makes Luminus at the moment a better choice for companies with seperate design and development teams. Designers will be more comfortable working in clean HTML files.
+
+<br>
+
+[Pedestal](http://pedestal.io/) - Pedestal is an amazing Clojure web framework made by the main Clojure developers at [Relevance](http://thinkrelevance.com/), now called Cognitect. It has a number of differences to Coils, but in 2014 the front end part of Pedestal was dropped, probably to be replaced by Facebook React/Om. The frontend of Coils is actually based on the pedestal model, which did so much right, especially having a seperate data and UI model
+
 
 
 
@@ -311,7 +322,9 @@ Once Coils has finished the realtime support of Postgres and other databases the
 
 
 ### When will full Postgres realtime support be available?
-The realtime support for Coils is based around the Meteor.js realtime system in that Coils uses a clientside cache connected to a server which contains the full data for each connected client.
+The realtime support for Coils is based around the Meteor.js realtime system in that Coils uses a clientside cache connected to a server which contains the full data for each connected client. Meteor.js uses a client side cache called MiniMongo which gets updates from the MongoDb server by uses Mongo Oplog tailing to get changes from the Mongo database.
+
+The first version of Coils realtime database support will use triggers on the database to detect when changes are made.
 
 
 
@@ -324,25 +337,25 @@ The realtime support for Coils is based around the Meteor.js realtime system in 
 ### Deprecated features from April 2013 to July 2014
 In 2013 Facebook created React, a Virtual Dom based Javascript library. David Nolen then created Om, a ClojureScript wrapper on top of React, which changed the ClojureScript client side story forever! Upon seeing Om I immediately knew that this was the future of ClojureScript development, using a Reactive GUI paradigm, also similar to Angular.js, Ember.js, and Meteor. So I had to take the tough decision to deprecate almost the whole UI that I had created in the previous version of Clojure on Coils. So the following features are now a thing of the past:
 
-- Can use Crate for HTML.
-- Uses Dommy.
-- Uses Domina.
-- JayQ for JQuery integration.
-- Google Closure UI Library - the same library used to build Google.com, Gmail, and Google+.
-- Google Maps integration for AJAX-based maps. (Can be swapped on/off.)
+- Crate for HTML
+- Dommy
+- Domina
+- JayQ for JQuery integration
+- Google Closure UI Library - the same library used to build Google.com, Gmail, and Google+
+- Google Maps integration for AJAX-based maps. (Can be swapped on/off)
 
-:and the following things stay or are added:
+:and the following things stayed or were added:
 
 - React.js via Om for the front end
-- Interactive client and server side development with LightTable IDE.
-- Integration with Mandrill for sending transactional emails.
-- Twitter Bootstrap 3.0 for styling.
-- Google Closure for advanced compression.
-- clj-http for server side HTTP requests.
-- SQL Korma for database requests.
-- Neocons for Neo4j access.
-- Compojure, Ring, and Shoreleave for server side code.
-- core.async for a client-side synchronous programming model.
+- Interactive client and server side development with LightTable IDE
+- Integration with Mandrill for sending transactional emails
+- Twitter Bootstrap 3.0 for styling
+- Google Closure for advanced compression
+- clj-http for server side HTTP requests
+- SQL Korma for database requests
+- Neocons for Neo4j access
+- Compojure, Ring, and Shoreleave for server side code
+- core.async for a client-side synchronous programming model
 
 The reason for the discontinued features is that they all require explicit calls to manipulate the DOM, which is oppisite to the way that Facebook React works.
 
@@ -369,22 +382,15 @@ Another thing that was dropped was something very dear to my heart, LighttTable.
 
 - React.js via Om for the front end
 - Instaparse for parsing client side SQL
-- Integration with Mandrill for sending transactional emails.
-- Twitter Bootstrap 3.0 for styling.
-- Google Closure for advanced compression.
-- clj-http for server side HTTP requests.
-- SQL Korma for database requests.
-- Compojure, Ring, and Shoreleave for server side code.
-- core.async for a client-side synchronous programming model.
+- Integration with Mandrill for sending transactional emails
+- Twitter Bootstrap 3.0 for styling
+- Google Closure for advanced compression
+- clj-http for server side HTTP requests
+- SQL Korma for database requests
+- Compojure, Ring, and Shoreleave for server side code
+- core.async for a client-side synchronous programming model
 
 Again, if you still wish to use the discontinued features then use an older version of the Coils framework from March 2015.
-
-
-[Luminus](http://www.luminusweb.net/) - The main difference between Luminus and Clojure-on-Coils is that Luminus uses a HTML templating system for rendering web pages, whereas Coils currently only supports rendering from within Clojure itself. This makes Luminus at the moment a better choice for companies with seperate design and development teams. Designers will be more comfortable working in clean HTML files.
-
-<br>
-
-[Pedestal](http://pedestal.io/) - Pedestal is an amazing Clojure web framework made by the main Clojure developers at [Relevance](http://thinkrelevance.com/), now called Cognitect. It has a number of differences to Coils, but in 2014 the front end part of Pedestal was dropped, probably to be replaced by Facebook React/Om. The frontend of Coils is actually based on the pedestal model, which did so much right, especially having a seperate data and UI model
 
 
 
