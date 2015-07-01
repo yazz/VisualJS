@@ -4,6 +4,7 @@
 
  - [TLDR](#tldr)
  - [Is Coils for me?](#is-coils-for-me)
+ - [How is Coils different to other web frameworks?](#how-is-coils-different-to-other-web-frameworks)
  - [Product roadmap](#product-roadmap)
  - [Quick start](#quick-start)
  - [Long story](#long-story)
@@ -52,14 +53,27 @@ Coils must be easy to maintain. This vastly decreases the time to market and lon
 
 ### Is Coils for me?
 
-Coils is an opinionated full stack web framework written in Clojure and Clojurescript. Coil's strength is in building
-reactive user interfaces connected to a database backend. Since Clojure runs on the JVM and Clojurescript compiles to
-Javascript, this means that a Coils application can be packaged as a J2EE WAR file. This means that any Coils application can be deployed on any Java web or application server, including Jetty, Tomcat, JBoss, Glassfish, Weblogic, or Websphere. So Clojure on Coils may be for you if you can answer yes to the following:
+Coils is an opinionated web framework written in Clojure and Clojurescript. Coil's strength is in building
+reactive user interfaces connected to a database backend. Coils uses Clojure and Clojurescript as the programming
+language. Since Clojure runs on the JVM and Clojurescript compiles to Javascript, this means that a Coils 
+application can be packaged as a Java WAR file. This means that any Coils application can be deployed on any Java web or application server, including Jetty, Tomcat, JBoss, Glassfish, Weblogic, or Websphere. So Clojure on Coils may be for you if you can answer yes to the following:
 
 1. You want a batteries included opinionated web framework like Rails or Meteor
 2. You believe that Clojure/Clojurescript is cool
 3. The Postgres database and SQL is a good match for your problem domain
-4. You want framework where the author cares about the maintenance of your webapp
+
+
+
+
+
+
+
+
+
+
+
+
+### How is Coils different to other web frameworks?
 
 The Coils programming model uses the reactive style, where you save a change in the code and it automatically updates the web browser, with no page refresh required:
 
