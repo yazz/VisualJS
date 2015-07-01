@@ -14,6 +14,7 @@
  - [Differences from Om](#differences-from-om)
  - [Comparison with other Clojure web frameworks](#comparison-with-other-clojure-frameworks)
  - [When will Neo4j be back on the scene?](#when-will-neo4j-be-back-on-the-scene)
+ - [When will full Postgres realtime support be available?](#when-will-full-postgres-realtime-support-be-available)
  - [Deprecated features from April 2013 to July 2014](#deprecated-features-from-april-2013-to-july-2014)
  - [Deprecated features from August 2014 to June 2015](#deprecated-features-from-august-2014-to-june-2015)
  - [Anatomy of a Coils application](#anatomy-of-a-coils-application)
@@ -222,7 +223,7 @@ The next issue he had to solve was how to access data from the server. Zubair sa
 
 ### What is Coils killer feature?
 Coils has a couple of **killer features**:
-- **client side SQL**. This enables you to insert direct select statements inside the React components of the UI. For a developer this is a HUGE time saver as it saves having to put code for something scattered in several parts of a codebase
+- **client side SQL**. This enables you to insert direct select statements inside the React components of the UI. For a developer this is a HUGE time saver as it saves having to put code to display data on the screen in several parts of a codebase
 
 - the **time travelling debugger**. This time travelling debugger lets you replay your GUI and select parts of the UI, and trace back the UI and any data used to make that part of the UI in time. This is an absolute "must" for the maintenance of complex web applications. This allows rapid interations for webapps that must change frequently, and live over a long period of time, much in the vein of the Lean Startup philisophy. Just add ***?livedebug=true*** to the end of the broswer URL when making a Coils appliction to see the application in debug mode
 
@@ -238,15 +239,15 @@ Coils has a couple of **killer features**:
 
 
 ### What is Coils not good for?
-Because Coils is based around a principle of being **maintenance first**, this makes Coils unsuitable for quite a wide variety of web projects. This is because Coils uses a langauge called Clojurescript, based on Lisp which is unsuitable for most developers, since most developers **hate Lisp**. So why use a Lisp language then, if it is so unpopular? Well, Coils does not use a Lisp language for the sake of it. Since Clojurescript is a Lisp it has a feature called Macros which make the time travelling debugger and runtime code inspection possible, which would not be possible in a non-Lisp language. So there is a larger learning curve with Coils, but maintenance time is reduced. So for a variety of use cases the following may be a better choice:
+Because Coils is based around a principle of being **maintenance first**, this makes Coils unsuitable for quite a wide variety of web projects. This is because Coils uses a langauge called Clojurescript, based on Lisp which is unsuitable for most developers, since most developers **hate Lisp**. So why use a Lisp language then, if it is so unpopular? Well, Coils does not use a Lisp language for the sake of it. Since Clojurescript is a Lisp it has a feature called Macros which make the client side SQL, the time travelling debugger and runtime code inspection possible, which would not be possible in a non-Lisp language. So there is a larger learning curve with Coils, but maintenance time is reduced. So for a variety of use cases the following may be a better choice:
 
-**Multi page informational websites** - Wix, Weebly, Adobe Muse, Wordpress, and many others are perfect for this
+**Multi page informational websites** - Squarespace, Wix, Weebly, Adobe Muse, Wordpress, and many others are perfect for this
 
 **Simple websites with a bit of interactivity** - HTML, JQuery, Kendo UI are much better choices for this where Javascript widgets can be added to HTML pages as needed
 
-**SEO friendly large websites** - Ruby on Rails, Derby.js are a much better fit for this
+**SEO friendly interactive websites** - Ruby on Rails, Derby.js are a much better fit for this
 
-**Fast to get up and running web applications using web standards** - Meteor.js and Derby.js are a much better for for this as they use standard Javascript
+**Fast to get up and running web applications using web standards** - Meteor.js is a much better for fit for this as it uses standard Javascriptinstead of Clojurescript
 
 
 
@@ -254,8 +255,8 @@ Because Coils is based around a principle of being **maintenance first**, this m
 
 
 ### All features
-- Clojurescript Om by David Nolen
-- True client side SQL with commands like (select id, name from employees where ...)
+- Clojurescript Om by David Nolen for React.js components on the frontend
+- Instaparse for client side SQL with commands like (select id, name from employees where ...)
 - Interactive client and server side development with Figwheel
 - Integration with Mandrill for sending transactional emails
 - Twitter Bootstrap 3.x for styling
@@ -268,7 +269,12 @@ Because Coils is based around a principle of being **maintenance first**, this m
 
 
 ### Differences from Om
-The only part of Om that Coils uses is the rendering engine and the change listeners (for GUI playback). This means that Coils does not use the component local state features on Om. The implications of this are very important. For example, in Om when the end user clicks on a button in a react/Om component then the button event will be passed back via a core.sync channel. However, in Coils, when the user presses a button then the Application model used to generate the DOM itself is changed, with a property :click being set to true. This :click property is then watched via an event watcher to make any changes.
+The only part of Om that Coils uses is the rendering engine and the change listeners (for GUI playback). This means that Coils does not use the component local state features of Om. The implications of this are very important. For example, in Om when the end user clicks on a button in a react/Om component then the button event will be passed back via a core.sync channel. However, in Coils, when the user presses a button then the Application model used to generate the DOM itself is changed, with a property :click being set to true. This :click property is then watched via an event watcher to make any changes.
+
+
+
+
+
 
 
 
@@ -279,14 +285,14 @@ The only part of Om that Coils uses is the rendering engine and the change liste
 
 <br>
 
-
+[Luminus](http://www.luminusweb.net/) - Luminus seems to be quite a complete web framework. Zubair needs to spend more time with Luminus to find out what its strengths are. 
 
 
 
 
 
 ### When will Neo4j be back on the scene?
-Those of you who have followed Coils for a long time will know that one of the big features was the Neo4j integration. Neo4 still works with Coils, and Cypher queries can still be issued from Clojurescript. What Neo4j does not have right now however is a client side cache in Coils. At the time it was thought that the Coil client side Neo4j support would be enough for realtime support, but Zubair was wrong about this. At the time Neo4j was chosen for the following reasons:
+Those of you who have followed Coils for a long time will know that one of the big features was the Neo4j integration, until we dropped full Neo4j support in June 2015. Neo4 still works with Coils, and Cypher queries can still be issued from Clojurescript, but what Neo4j does not have right now however is a client side cache in Coils. At the time it was thought that the Coil client side Neo4j support would be enough for realtime support, but the author Zubair was wrong about this. At the time Neo4j was chosen for the following reasons:
 
 - Easy to setup Neo4j on a developer machine, without having to create a schema first
 - Rich data model, using Neo4j labels can also mimic database tables
@@ -294,7 +300,19 @@ Those of you who have followed Coils for a long time will know that one of the b
 - Neo4j has funding and a large customer base, so they should be around a long time
 - Neo4j has a dual licensing model, similar to Coils
 
-Once Postgres and other databases have full realtime support then Neo4j support can be revisited.
+Once Coils has finished the realtime support of Postgres and other databases then Neo4j support can be revisited.
+
+
+
+
+
+
+
+
+
+### When will full Postgres realtime support be available?
+The realtime support for Coils is based around the Meteor.js realtime system in that Coils uses a clientside cache connected to a server which contains the full data for each connected client.
+
 
 
 
