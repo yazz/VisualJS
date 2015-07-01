@@ -36,7 +36,7 @@
 ### TLDR
 Build a Postgres backed webapp by inserting SQL statements directly into React components:
 
-    (defn-ui-component     my-todo-app   [app] {}
+    (defn-ui-component  my-todo-app   [app] {}
         
         (select id, item from todo_items
             {}
@@ -75,7 +75,7 @@ application can be packaged as a Java WAR file. This means that any Coils applic
 
 ### How is Coils different to other web frameworks?
 
-When building crud webapps most frameworks require a developer to:
+When building database backed webapps most frameworks require a developer to:
 
 - Build the UI components
 - Bind the UI components to a back end using AJAX callbacks
