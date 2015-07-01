@@ -12,7 +12,7 @@
  - [What is Coils not good for?](#what-is-coils-not-good-for)
  - [All features](#all-features)
  - [Differences from Om](#differences-from-om)
- - [Comparison with other Clojure web frameworks](#comparison-with-other-clojure-frameworks)
+ - [Comparison with other Clojure web frameworks](#comparison-with-other-clojure-web-frameworks)
  - [When will Neo4j be back on the scene?](#when-will-neo4j-be-back-on-the-scene)
  - [When will full Postgres realtime support be available?](#when-will-full-postgres-realtime-support-be-available)
  - [Deprecated features from April 2013 to July 2014](#deprecated-features-from-april-2013-to-july-2014)
