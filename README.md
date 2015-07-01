@@ -75,12 +75,6 @@ application can be packaged as a Java WAR file. This means that any Coils applic
 
 ### How is Coils different to other web frameworks?
 
-The Coils programming model uses the reactive style, where you save a change in the code and it automatically updates the web browser, with no page refresh required:
-
-- Uses React/Om for the UI
-- Uses SQL directly in React/Om components
-- Live coding using Figwheel
-
 When building a webapp to show data on a webpage using most frameworks require that a developer must:
 
 - Build the UI components
