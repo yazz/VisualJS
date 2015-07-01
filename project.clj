@@ -1,6 +1,6 @@
 (defproject org.clojars.zubairq/coils "0.5"
   :dependencies [
-                 [org.clojure/clojure "1.7.0-RC1"]
+                 [org.clojure/clojure "1.7.0"]
                  [org.clojure/clojurescript "0.0-3308" :scope "provided"]
                  [org.omcljs/om "0.8.8"]
                  [om-sync "0.1.1"]
