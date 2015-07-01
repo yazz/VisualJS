@@ -75,7 +75,7 @@ application can be packaged as a Java WAR file. This means that any Coils applic
 
 ### How is Coils different to other web frameworks?
 
-When building a webapp to show data on a webpage using most frameworks require that a developer must:
+When building a crud webapps most frameworks require a developer to:
 
 - Build the UI components
 - Bind the UI components to a back end using AJAX callbacks
