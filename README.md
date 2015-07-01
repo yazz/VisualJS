@@ -75,7 +75,7 @@ application can be packaged as a Java WAR file. This means that any Coils applic
 
 ### How is Coils different to other web frameworks?
 
-To show data on a a webpage most frameworks require a developer to:
+To show data on a webpage most frameworks require a developer to:
 
 - Build the UI components
 - Bind the UI components to a back end using AJAX callbacks
