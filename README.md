@@ -128,14 +128,7 @@ Make the following two tables in a schema called Coils:
       item character varying,
       CONSTRAINT todo_items_pkey PRIMARY KEY (id)
     );
-    
-    CREATE TABLE users
-    (
-      id serial NOT NULL,
-      user_name character varying,
-      CONSTRAINT users_pkey PRIMARY KEY (id)
-    );
-    
+
 
 #####2) Install and build Coils from Github:
 
@@ -223,7 +216,7 @@ The next issue he had to solve was how to access data from the server. Zubair sa
 
 ### What is Coils killer feature?
 Coils has a couple of **killer features**:
-- **client side SQL**. This enables you to insert direct select statements inside the React components of the UI. For a developer this is a HUGE time saver as it saves having to put code to display data on the screen in several parts of a codebase
+- **client side SQL**. This enables you to insert SQL statements directly inside the React components of the UI. For a developer this is a HUGE time saver as it saves having to put code to display data on the screen in several parts of a codebase
 
 - the **time travelling debugger**. This time travelling debugger lets you replay your GUI and select parts of the UI, and trace back the UI and any data used to make that part of the UI in time. This is an absolute "must" for the maintenance of complex web applications. This allows rapid interations for webapps that must change frequently, and live over a long period of time, much in the vein of the Lean Startup philisophy. Just add ***?livedebug=true*** to the end of the broswer URL when making a Coils appliction to see the application in debug mode
 
@@ -256,14 +249,15 @@ Because Coils is based around a principle of being **maintenance first**, this m
 
 ### All features
 - Clojurescript Om by David Nolen for React.js components on the frontend
-- Instaparse for client side SQL with commands like (select id, name from employees where ...)
-- Interactive client and server side development with Figwheel
+- Mark Engelberg's Instaparse for client side SQL with commands like (select id, name from employees where ...)
+- Interactive client and server side development with Bruce Hauman's Figwheel
 - Integration with Mandrill for sending transactional emails
 - Twitter Bootstrap 3.x for styling
 - Google Closure for advanced compression
-- SQL Korma for database requests
-- Client and server Neo4j access using Neocons
+- Chris Granger's SQL Korma for database access
+- Client and server Neo4j access using Michael Klishin's Neocons
 - Core.async for a client-side synchronous programming model
+- James Reeves's Compojure for server side access
 
 
 
@@ -295,7 +289,7 @@ The only part of Om that Coils uses is the rendering engine and the change liste
 
 <br>
 
-[Pedestal](http://pedestal.io/) - Pedestal is an amazing Clojure web framework made by the main Clojure developers at [Relevance](http://thinkrelevance.com/), now called Cognitect. It has a number of differences to Coils, but in 2014 the front end part of Pedestal was dropped, probably to be replaced by Facebook React/Om. The frontend of Coils is actually based on the pedestal model, which did so much right, especially having a seperate data and UI model
+[Pedestal](http://pedestal.io/) - Pedestal is an amazing Clojure web framework made by the main Clojure developers at Cognitect. It has a number of differences to Coils, but in 2014 the front end part of Pedestal was dropped. The frontend of Coils is actually based on the Original Pedestal model, which did so much right, by having a seperate data and UI model
 
 
 
@@ -303,7 +297,7 @@ The only part of Om that Coils uses is the rendering engine and the change liste
 
 
 ### When will Neo4j be back on the scene?
-Those of you who have followed Coils for a long time will know that one of the big features was the Neo4j integration, until we dropped full Neo4j support in June 2015. Neo4 still works with Coils, and Cypher queries can still be issued from Clojurescript, but what Neo4j does not have right now however is a client side cache in Coils. At the time it was thought that the Coil client side Neo4j support would be enough for realtime support, but the author Zubair was wrong about this. At the time Neo4j was chosen for the following reasons:
+Those of you who have followed Coils for a long time will know that one of the big features was the Neo4j integration. Since Coils is moving to a real time model we dropped full Neo4j realtime support in June 2015. Neo4 still works with Coils, and Cypher queries can still be issued from Clojurescript, but just not in realtime mode as Neo4j does not have a client side cache in Coils and it is too tricky to implement right now. At the time Neo4j was chosen for the following reasons:
 
 - Easy to setup Neo4j on a developer machine, without having to create a schema first
 - Rich data model, using Neo4j labels can also mimic database tables
@@ -335,7 +329,7 @@ The first version of Coils realtime database support will use triggers on the da
 
 
 ### Deprecated features from April 2013 to July 2014
-In 2013 Facebook created React, a Virtual Dom based Javascript library. David Nolen then created Om, a ClojureScript wrapper on top of React, which changed the ClojureScript client side story forever! Upon seeing Om I immediately knew that this was the future of ClojureScript development, using a Reactive GUI paradigm, also similar to Angular.js, Ember.js, and Meteor. So I had to take the tough decision to deprecate almost the whole UI that I had created in the previous version of Clojure on Coils. So the following features are now a thing of the past:
+In 2013 Facebook created React, a Virtual Dom based Javascript library. David Nolen then created Om, a ClojureScript wrapper on top of React, which changed the ClojureScript client side story forever! Upon seeing Om I immediately knew that this was the future of ClojureScript development, using a Reactive GUI paradigm, also similar to Angular.js, Ember.js, and Meteor. So I took the tough decision to deprecate the whole UI that I had created in the previous version of Clojure on Coils. So the following features are now a thing of the past:
 
 - Crate for HTML
 - Dommy
