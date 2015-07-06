@@ -35,7 +35,7 @@
 
 
 ### TLDR
-Build a Postgres backed webapp by inserting SQL statements directly into React components:
+The goal of Clojure on Coils is to build web apps on top of a relational database by having SQL statements in the UI code:
 
     (defn-ui-component  my-todo-app   [app] {}
         
@@ -44,8 +44,7 @@ Build a Postgres backed webapp by inserting SQL statements directly into React c
             (container
                 (inline "10%" (str (<-- :id)))  (inline "80%" (str (<-- :item))))))
                 
-The goal of Clojure on Coils is to make web apps which are "maintenance first". This means that web apps built with
-Coils must be easy to maintain. This vastly decreases the time to market and long term development cost of building a webapp.
+The language used is Clojure and Clojurescript and the first database that is supported is Postgres.
 
 
 
@@ -55,9 +54,9 @@ Coils must be easy to maintain. This vastly decreases the time to market and lon
 ### Is Coils for me?
 
 Coils is an opinionated web framework written in Clojure and Clojurescript. Coil's strength is in building
-reactive user interfaces connected to a database backend. Coils uses Clojure and Clojurescript as the programming
+reactive user interfaces connected to a database backend. Coils uses both Clojure and Clojurescript as the programming
 language. Since Clojure runs on the JVM and Clojurescript compiles to Javascript, this means that a Coils 
-application can be packaged as a Java WAR file. This means that any Coils application can be deployed on any Java web or application server, including Jetty, Tomcat, JBoss, Glassfish, Weblogic, or Websphere. So Clojure on Coils may be for you if you can answer yes to the following:
+application can be packaged as a Java WAR file. This means that any Coils application can be deployed on any Java web or application server, including Jetty, Tomcat, JBoss, Glassfish, Weblogic, or Websphere. Clojure on Coils may be for you if you can answer yes to the following:
 
 1. You want a batteries included opinionated web framework like Rails or Meteor
 2. You believe that Clojure/Clojurescript is cool
@@ -76,22 +75,22 @@ application can be packaged as a Java WAR file. This means that any Coils applic
 
 ### How is Coils different to other web frameworks?
 
-To show data on a webpage most frameworks require a developer to:
+To show data on a webpage most frameworks require a developer to have code in three different places:
 
-- Build the UI components
-- Bind the UI components to a back end using AJAX callbacks
-- Code the server side components to read a data store
+- Build the UI components with view code
+- Bind the UI components to a back end using AJAX callbacks with a controller view
+- Code the server side components to read a data store with backend code
 
 This means that a webapp will typically will have code for one thing spread out in three different places.
  
-Coils simplifies these three steps by moving the data acess directly into the UI react components. So instead of writing code in three places, you just write it in one place, in the react component itself:
+Coils simplifies these three steps by moving the data acess directly into the UI components. So instead of writing code in three places, you just write it in one place, in the UI component itself:
 
     (select id, item from todo_items
                 {}
                 (container
                     (inline "10%" (str (<-- :id)))  (inline "80%" (str (<-- :item))))))
 
-This greatly simplifies building of database based webapps.
+This greatly simplifies the building of database based webapps.
 
 
 
