@@ -27,6 +27,18 @@
                                             (inline  "10%" (str (<-- :id)))
                                             (inline  "90%" (str (<-- :item)))))
 
+
+
+
+                                  (select-debug id, item from todo_items
+                                          {}
+                                          (container
+                                            (inline  "10%" (str (<-- :id)))
+                                            (inline  "90%" (str (<-- :item)))))
+
+
+
+
                               (div {:style {:height "30px"}})
                               (div {:id "footer" :style {:backgroundColor "white"}})
                               )))
