@@ -777,7 +777,7 @@ nil
 
 
 
-(defmacro select [& select-args]
+(defmacro sql-parser [& select-args]
   (let [
         list-of-sql        (map (fn[x]
                                   (if (.startsWith (str x)
@@ -811,3 +811,8 @@ nil
          (~'div {}
            ~om-code
            ))))
+
+
+
+(defmacro select [& select-args]
+  `(sql-parser  ~@select-args))
