@@ -389,16 +389,22 @@
                                            #js {
                                                 :marginTop "30px"
                                                 }}
-                                      (dom/button #js {:onClick (fn [e]
+                                      (dom/button #js {:style #js  {:margin "10px" :color "red"}
+
+                                                       :onClick (fn [e]
                                                                   (om/root ankha/inspector app-state
                                                                            {:target (js/document.getElementById "playback_state")})
                                                                   nil )} "UI state")
 
-                                      (dom/button #js {:onClick (fn [e]
+                                      (dom/button #js {:style #js  {:margin "10px" :color "blue"}
+
+                                                       :onClick (fn [e]
                                                                   (om/root ankha/inspector data-state
                                                                            {:target (js/document.getElementById "data_state")})
                                                                   nil )} "Data state")
-                                      (dom/button #js {:onClick (fn [e]
+                                      (dom/button #js {:style #js  {:margin "10px" :color "green"}
+
+                                                       :onClick (fn [e]
                                                                   (admin)
                                                                   nil )} "Admin")
                                       ))
