@@ -115,7 +115,7 @@ As of June 2015 Clojure on Coils is in active development and is used in product
 
 #####1) Install a Postgres database:
 
-Make the following two tables in a schema called Coils:
+Make the following table in a schema called Coils:
 
     CREATE TABLE todo_items
     (
@@ -149,7 +149,7 @@ and change
 
 to 
 
-    "Figwheel made a live change!". 
+    "Coils made a live change using Figwheel!". 
 
 Save the file and the text should change in the live web app
 
