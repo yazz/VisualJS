@@ -247,9 +247,9 @@ Coils is unsuitable for quite a wide variety of web projects. This is because Co
 - Interactive client and server side development with Bruce Hauman's Figwheel
 - Integration with Mandrill for sending transactional emails
 - Twitter Bootstrap 3.x for styling
-- Google Closure for advanced compression
+- Google Closure for advanced Javascript compression
 - Chris Granger's SQL Korma for database access
-- Client and server Neo4j access using Michael Klishin's Neocons
+- Michael Klishin's Neocons for Neo4j access
 - Core.async for a client-side synchronous programming model
 - James Reeves's Compojure for server side access
 
@@ -262,7 +262,7 @@ Coils is unsuitable for quite a wide variety of web projects. This is because Co
 
 
 ### Differences from Om
-The only part of Om that Coils uses is the rendering engine and the change listeners (for GUI playback). This means that Coils does not use the component local state features of Om. The implications of this are very important. For example, in Om when the end user clicks on a button in a react/Om component then the button event will be passed back via a core.sync channel. However, in Coils, when the user presses a button then the Application model used to generate the DOM itself is changed, with a property :click being set to true. This :click property is then watched via an event watcher to make any changes.
+The only part of Om that Coils uses is the rendering engine and the change listeners (for GUI playback). This means that Coils does not use the component local state features of Om, except for internal framework use. The implications of this are very important. For example, in Om when the end user clicks on a button in a react/Om component then the button event will be passed back via a core.sync channel. However, in Coils, when the user presses a button then the Application model used to generate the DOM itself is changed, with a property :click being set to true. This :click property is then watched via an event watcher to make any changes.
 
 
 
@@ -310,9 +310,9 @@ Once Coils has finished the realtime support of Postgres and other databases the
 
 
 ### When will full Postgres realtime support be available?
-The realtime support for Coils is based around the Meteor.js realtime system in that Coils uses a clientside cache connected to a server which contains the full data for each connected client. Meteor.js uses a client side cache called MiniMongo which gets updates from the MongoDb server by uses Mongo Oplog tailing to get changes from the Mongo database.
+The realtime support for Coils is based around the pinciples of the Meteor.js realtime system. Just like Meteor, Coils also uses a clientside cache connected to a server which contains the full data for each connected client. 
 
-The first version of Coils realtime database support will use triggers on the database to detect when changes are made.
+With Meteor.js it uses a client side cache called MiniMongo which gets updates from the MongoDb server by uses Mongo Oplog tailing to get changes from the Mongo database. The first version of Coils realtime database support will use triggers on the database to detect when changes are made.
 
 
 
@@ -329,8 +329,7 @@ In 2013 Facebook created React, a Virtual Dom based Javascript library. David No
 - Dommy
 - Domina
 - JayQ for JQuery integration
-- Google Closure UI Library - the same library used to build Google.com, Gmail, and Google+
-- Google Maps integration for AJAX-based maps. (Can be swapped on/off)
+- Google Closure UI Library
 
 :and the following things stayed or were added:
 
@@ -345,9 +344,7 @@ In 2013 Facebook created React, a Virtual Dom based Javascript library. David No
 - Compojure, Ring, and Shoreleave for server side code
 - core.async for a client-side synchronous programming model
 
-The reason for the discontinued features is that they all require explicit calls to manipulate the DOM, which is oppisite to the way that Facebook React works.
-
-If you still wish to use the discontinued features then use an older version of the Coils framework.
+The reason for the discontinued features is that they all require explicit calls to manipulate the DOM, which is oppisite to the way that Facebook React works. If you still wish to use the discontinued features then you can use an older version of the Coils framework.
 
 
 
@@ -356,15 +353,16 @@ If you still wish to use the discontinued features then use an older version of 
 
 
 ### Deprecated features from August 2014 to June 2015
-In 2014 Coils switched to using React.js via David Nolen's awesome Om library. However, building applications still didn't feel as natural as it should. This was mostly because data access still didn't feel right. 
-One thing that was a huge influence was meteor.js, which provided reasl time webapps ove Mongodb. Realtime
-may seem simple, but to program a web application to update data as data changes without asomething like meteor.js soon becomes very complicated, as you need to add timers and callbacks for data everywhere. Since Coils used Neo4j as a backend I wanted to create a similar live uploading method for Coils. It was not as simple as I thought, as Neo4j has a far more complex data structure than MongoDb. So I had to make the tough decision to postpone Neo4j work on Coils for the time being. Since NemCV used a database backend anyway I decided to base it on a database instead. My idea is that you can program SQL directly in react.js components, for which I also chose Instaparse, which blows my mind!
-Another thing that was dropped was something very dear to my heart, LighttTable. The latest version of Light Tavble was not able to support interactive development with the latest clojurescript versions. Also, it kept pauses every minute or so for several seconds, so I started to look for alternatives. I used Cursive and Intellij, although emacs or any other text editor works fine too. To replace the killer Light Table feature of live browser code changes I discovered Figwheel, which lets you save a file, then sends the recompiled javascript to the browser.
+Even though in 2014 Coils switched to using React.js via David Nolen's awesome Om library, building applications still didn't feel as natural as it should. This was mostly because data access still didn't feel right. One thing that was a huge influence was meteor.js, which provided real time webapps ove Mongodb. Realtime may seem simple, but to program a web application to update data as data changes without something like meteor.js soon becomes very complicated, as you need to add timers and callbacks for data everywhere. Since Coils used Neo4j as a backend I wanted to create a similar live uploading method for Coils. It was not as simple as I thought, as Neo4j has a far more complex data structure than the document based MongoDb. So I had to make the tough decision to postpone Neo4j work on Coils for the time being. Since NemCV used a database backend anyway I decided to base it on a database instead. My idea is that you can program SQL directly in React.js components, for which I also chose Instaparse, which blows my mind!
+
+Another thing that was dropped was something very dear to my heart, LighttTable. The latest version of Light Tavble was not able to support interactive development with the latest Clojurescript versions. Also, it kept pauses every minute or so for several seconds, so I started to look for alternatives. I used Cursive and Intellij, although emacs or any other text editor works fine too. To replace the killer Light Table feature of live browser code changes I discovered Figwheel, which lets you save a file, then sends the recompiled javascript to the browser. When the new Atom based LightTable comes out the story may change again however.
+
+So the following features were dropped:
 
 - Exclusive use of the Light Table IDE
 - Neo4j as the main data provider
-- Records all web sessions for playback to understand customer behaviour (using Neo4j) - (there are better web UI recording tools on the market anyway)
-- AB testing built in (will be added in futurew maybe, but not for now)
+- Web session playback to understand customer behaviour - (there are better web UI recording tools on the market anyway)
+- AB testing built in (will be added in future maybe, but not for now)
 
 :and the following things stay:
 
