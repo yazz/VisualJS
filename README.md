@@ -638,14 +638,14 @@ From the client side core.async is used:
 
 
     (go
-         (js/alert
-             (:text (remote  say-hello  {:name "Johnny"}))))
+        (let [server-response   (remote  say-hello  {:name "Johnny"})]
+            (js/alert (:text server-response))))
              
 : which can also be written as:
 
     (server-call
-         (js/alert
-             (:text (remote  say-hello  {:name "Johnny"}))))
+        (let [server-response   (remote  say-hello  {:name "Johnny"})]
+            (js/alert (:text server-response))))
 
 
 
