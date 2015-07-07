@@ -394,7 +394,7 @@ Again, if you still wish to use the discontinued features then use an older vers
         └ README.md
           project.clj
 
-        └ srcbase
+        └ srcbase - the default environment when you install Coils
             └ webapp_config
                 └ settings.clj
 
@@ -409,8 +409,6 @@ Again, if you still wish to use the discontinued features then use an older vers
                               └ main.cljs
                                 ... more main views which you define...
 
-                        data_tree.cljs
-                        ui_tree.cljs
                         init.cljs
 
                              ...
@@ -430,11 +428,15 @@ Again, if you still wish to use the discontinued features then use an older vers
 
     srcprod
         └ webapp_config
-            └ settings.clj - create this yourself to define your production environemnt
+            └ settings.clj - copy srcbase to define your production environemnt
 
     srctest
         └ webapp_config
-            └ settings.clj - create this yourself to define your test environemnt
+            └ settings.clj - copy srcbase yourself to define your test environemnt
+
+    srcdev
+        └ webapp_config
+            └ settings.clj - copy srcbase to define your development environemnt
 
 
 
