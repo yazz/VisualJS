@@ -731,18 +731,29 @@ nil
 
 
 
-
-
-
-
-(defmacro sql-parser [& select-args]
+(defmacro remote-sql-parser [& sql-args]
   (let [
         list-of-sql        (map (fn[x]
                                   (if (.startsWith (str x)
                                                    "(quote ") (apply str "'" (rest x)) x)
-                                  ) (butlast (butlast select-args)))
-        main-params       (last (butlast   select-args))
-        om-code           (last   select-args)
+                                  ) (butlast sql-args))
+        main-params       (last   sql-args)
+        sql-as-a-string   (str "select " (apply str (for [arg (into []
+                                                                    (apply list list-of-sql))] (str arg " ") ) ))
+       ]
+    ;`(~'sql ~sql-as-a-string  ~main-params)))
+    sql-as-a-string))
+
+
+
+(defmacro sql-parser [& sql-args]
+  (let [
+        list-of-sql        (map (fn[x]
+                                  (if (.startsWith (str x)
+                                                   "(quote ") (apply str "'" (rest x)) x)
+                                  ) (butlast (butlast sql-args)))
+        main-params       (last (butlast   sql-args))
+        om-code           (last   sql-args)
 
         sql-as-a-string   (str "select " (apply str (for [arg (into []
                                                                     (apply list list-of-sql))] (str arg " ") ) ))
@@ -759,8 +770,12 @@ nil
                                                                      transformed-sql) :db-table))
                                       ;:order         "(zgen_points IS NULL), zgen_points  DESC , id asc "
                                       }))
+        typeof2     (str (type []))
         ]
-    (if (get main-params :debug)
+    (if
+
+
+    (get main-params :debug)
       `(~'div {}
            ;(~'div {}  (~'str "SQL LIST: "                         ~list-of-sql))
            (~'div {}  (~'str "SQL STRING: "
@@ -769,9 +784,10 @@ nil
            ;(~'div {}  (~'str "Main Transformed query: "
            ;             ~transformed-sql))
            (~'div {}  (~'str "Main Dataview map: "           ~dataview-map))
-           (~'div {}  (~'str "Main Params: "                     ~main-params))
-           "here"
+           (~'div {}  (~'str "Main Params: "                 ~main-params))
+           (~'div {}  (~'str "Type: "  ~typeof2))
            )
+
 
     `(~'data-view-v2
        ~dataview-map
@@ -780,70 +796,39 @@ nil
         :end   20
         }
        (~'div {}
-           ~om-code
-       )
+           ~om-code))
+)))
 
-           ))))
+
+
+
 
 
 
 (defmacro select-debug [& select-args]
-  (let [
-        main-sql          (butlast (butlast   select-args))
-        main-params       (last (butlast   select-args))
-        dataview-map      (merge main-params {:debug true})
-        code              (last  select-args)
-
-        ]
-  `(sql-parser  ~@main-sql
+        (let [
+              main-sql          (butlast(butlast   select-args))
+              main-params       (last (butlast   select-args))
+              dataview-map      (merge main-params {:debug true})
+              code              (last  select-args)
+          ]
+           `(sql-parser  ~@main-sql
                 ~dataview-map
-                ~code
-  )))
+                ~code))
+  )
 
 
 (defmacro select [& select-args]
-    `(sql-parser  ~@select-args
-                  ))
-
-
-
-(defmacro select-debug2 [& select-args]
   (let [
-        list-of-sql        (map (fn[x]
-                                  (if (.startsWith (str x)
-                                                   "(quote ") (apply str "'" (rest x)) x)
-                                  ) (butlast (butlast select-args)))
-        main-params       (last (butlast   select-args))
-
-        sql-as-a-string   (str "select " (apply str (for [arg (into []
-                                                                    (apply list list-of-sql))] (str arg " ") ) ))
-        parsed-sql        (parse-sql-string-into-instaparse-structure
-                            sql-as-a-string)
-        transformed-sql
-        (transform-instaparse-query-into-dataview-map    parsed-sql)
-        dataview-map      (do (swap! path-index inc)
-                              (merge (first transformed-sql)
-                                     {
-                                      :relative-path [(deref path-index)]
-                                      :params   (get main-params :main-params)
-                                      :data-source  (keyword  (get (first
-                                                                     transformed-sql) :db-table))
-                                      ;:order         "(zgen_points IS NULL), zgen_points  DESC , id asc "
-                                      }))
+        type-of-last-arg     (last  select-args)
         ]
-    `(~'div {}
-       ;(~'div {}  (~'str "SQL LIST: "                         ~list-of-sql))
-       (~'div {}  (~'str "SQL STRING: "
-                    ~sql-as-a-string))
-       ;(~'div {}  (~'str "Main Instaparse Query: "       ~parsed-sql))
-       ;(~'div {}  (~'str "Main Transformed query: "
-       ;             ~transformed-sql))
-       (~'div {}  (~'str "Main Dataview map: "           ~dataview-map))
-       (~'div {}  (~'str "Main Params: "                     ~main-params))
-       "here"
-       )))
+    (cond
+      (= (type type-of-last-arg)  (type []))
+      `(remote-sql-parser  ~@select-args)
 
-
+      :else
+    `(sql-parser  ~@select-args)
+    )))
 
 
 
