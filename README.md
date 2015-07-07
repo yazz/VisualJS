@@ -45,7 +45,6 @@ The goal of Clojure on Coils is to build web apps on top of a relational databas
                 
 The language used is Clojure and Clojurescript and the first database that is supported is Postgres.
 
-And just for fun, [check out our adverts](http://coils.cc/coils/old-things.html).
 
 
 
