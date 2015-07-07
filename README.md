@@ -9,7 +9,7 @@
  - [Quick start](#quick-start)
  - [The long story of Coils](#the-long-story-of-coils)
  - [What is Coils killer feature?](#what-is-coils-killer-feature)
- - [What is Coils not good for?](#what-is-coils-not-good-for)
+ - [What is Coils not good for?](#what-is-coils-not-good-for)sh
  - [All features](#all-features)
  - [Differences from Om](#differences-from-om)
  - [Comparison with other Clojure web frameworks](#comparison-with-other-clojure-web-frameworks)
@@ -551,83 +551,7 @@ We actually cheated in the above example as we edited the Coils framework itself
 
 
 ### List of functions
-There are many library functions available, although it is a bit of a mess having to :require and :use everything in the Clojurescript namespace header:
-
-    (ns webapp.client.views.loginpanel
-        (:refer-clojure :exclude [val empty remove find next parents])
-        (:require
-            [cljs.reader :as reader]
-            [crate.core :as crate]
-            [cljs.core.async :as async :refer [chan close!]]
-            [clojure.string]
-        )
-        (:use
-            [webapp.framework.client.coreclient :only [body-html new-dom-id debug popup hide-popovers
-                                                       show-popover set-text value-of find-el sql-fn neo4j-fn
-                                                       swap-section el clear remote  add-to on-mouseover-fn on-click-fn]]
-            [jayq.core                          :only [$ css  append fade-out fade-in empty attr bind]]
-            [webapp.framework.client.help       :only [help]]
-            [webapp.framework.client.eventbus   :only [do-action esb undefine-action]]
-            [domina                             :only [ by-id value destroy! ]]
-      )
-      (:require-macros
-        [cljs.core.async.macros :refer [go alt!]])
-      (:use-macros
-            [webapp.framework.client.eventbus :only [redefine-action define-action]]
-            [webapp.framework.client.coreclient :only [ns-coils makeit defn-html on-click on-mouseover sql defn-html defn-html2 neo4j]]
-            [webapp.framework.client.interpreter :only [! !! !!!]]
-         )
-    )
-    (ns-coils 'webapp.client.views.loginpanel)
-
-
-
-
-**show-popover** - Shows a Bootstrap 3 style popover above an element
-
-    (show-popover   "email-input"
-                    "Email can not be blank")
-
-    (show-popover   "password-input"
-                    "Password is incorrect"
-                    {:placement "top"})
-
-
-
-**swap-section** - Swaps a HTML element with a new element
-
-    (swap-section   "my-section"
-                    "<div>Replace the element with ID my-section" with this text</div>")
-
-
-
-**do-action** - Puts a message onto the service bus. This can be picked up by zero or more receivers
-
-    (do-action  "say-hello")
-
-
-
-**define-action** - Acts on a message sent to the service bus
-
-    (define-action  "say-hello"
-      (.log js/console "Hello"))
-
-
-
-**do-action message** - Puts a message onto the service bus with paramters. This can be picked up by zero or more receivers
-
-    (do-action  "say-hello" {:name "Peter"})
-
-
-
-
-**define-action** - Acts on a message sent to the service bus. Please note that the message is an implicitly defined variable in an action
-
-    (define-action  "say-hello"
-      (.log js/console (str "Hello" (:name message))))
-
-
-
+There are many Coils framework functions available:
 
 
 **sql** - Calls the server and executes SQL and returns it to the client
@@ -639,10 +563,6 @@ There are many library functions available, although it is a bit of a mess havin
               ]
                  (if user-already-exists ...
 
-**set-text** - Set the text of an element
-
-    (set-text "message-element" "You must enter an email address")
-
 
 **read-ui** - Only can be called from GUI components. Note that GUI components can
 only read and write the UI tree, NOT the data tree
@@ -650,9 +570,6 @@ only read and write the UI tree, NOT the data tree
     (c/div  {:style {:height "100%" :width "100%"}}
           (let [all-company-records    (c/read-ui  companies [:values] )]
                ....
-
-
-
 
 
 **write-ui** - Used to write to the UI tree from GUI components. Again, only the UI tree
@@ -665,9 +582,6 @@ can be written to, NOT the data tree when in a GUI component
 
 
 
-
-
-
 **==ui** - Test for a value in the UI tree. In this case we are saying that
 when the splash screen is clicked then 1) Remove the click event, 2) Stop
 showing the splash screen
@@ -677,7 +591,6 @@ showing the splash screen
         (do
             (-->ui [:ui  :splash-screen  :click]  false)
             (-->ui [:ui  :splash-screen  :show]   false)))
-
 
 
 
@@ -700,21 +613,10 @@ showing the splash screen
 
 
 ### Firing events
-This was part of the old Coils. This has now been fully deprecated so that the UI and DATA trees are watched for events. The old method worked like this:
-
-Define an action:
-
-    (redefine-action "Say something"
-        (js/alert "Hello"))
-
-
-Call an action:
-
-    (do-action "Say something")
-
-So in the new version of Coils if you want to execute an event you have to decide whether you are listening to the data tree or the UI tree. For example, if you want to perform an action when the use presses a button then you would do something like this:
+If you want to execute an event you have to decide whether you are listening to the data tree or the UI tree. For example, if you want to perform an action when the use presses a button then you would do something like this:
 
     (==ui  [:ui   :company-details   :clicked]    true
+    
           (-->ui  [:ui  :company-details   :clicked  ] false)
           (-->ui  [:ui  :tab-browser    ] "top companies"))
 
@@ -723,6 +625,10 @@ So this means that with Coils, the preferred way to do things is with events, wh
 - timers
 - changes in the UI tree (because of user actions such a clicking a button)
 - chnages in the data tree (such as data being read from Neo4j)
+
+
+
+
 
 
 
