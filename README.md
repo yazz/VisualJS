@@ -716,7 +716,7 @@ This means that the string in a client side call...
 
 1) Copy **main.html** and make your own **app_name.html** file in the **resources** folder
 
-2) Edit the field in **links.txt** from **127.0.0.1:3000/main.html** to **127.0.0.1:3000/app_name.html**
+2) Edit the field in **links.txt** from **127.0.0.1:3449/main.html** to **127.0.0.1:3449/app_name.html**
 
 3) Copy the **src_base** folder and rename it **src_dev**. Edit this profile to be **dev** in **settings.clj**
 
