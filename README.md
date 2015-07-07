@@ -624,7 +624,7 @@ So this means that with Coils, the preferred way to do things is with events, wh
 
 - timers
 - changes in the UI tree (because of user actions such a clicking a button)
-- chnages in the data tree (such as data being read from Neo4j)
+- changes in the data tree
 
 
 
@@ -634,7 +634,14 @@ So this means that with Coils, the preferred way to do things is with events, wh
 
 ### Calling server side code
 
-From the client side:
+From the client side core.async is used:
+
+
+    (go
+         (js/alert
+             (:text (remote  say-hello  {:name "Johnny"}))))
+             
+: which can also be written as:
 
     (server-call
          (js/alert
@@ -642,7 +649,7 @@ From the client side:
 
 
 
-Define in fns.clj on the server side (using core.async):
+Define in fns.clj on the server side:
 
     (defn say-hello [{name :name}]
         {:text (str "Hello " name))})
