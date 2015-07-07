@@ -210,10 +210,9 @@ The next issue he had to solve was how to access data from the server. Zubair sa
 
 
 ### What is Coils killer feature?
-Coils has a couple of **killer features**:
-- **client side SQL**. This enables you to insert SQL statements directly inside the React components of the UI. For a developer this is a HUGE time saver as it saves having to put code to display data on the screen in several parts of a codebase
+Coils killer feature is the **client side SQL**. This enables you to insert SQL statements directly inside the React components of the UI. For a developer this is a HUGE time saver as it saves having to put code to display data on the screen in several parts of a codebase
 
-- the **time travelling debugger**. This time travelling debugger lets you replay your GUI and select parts of the UI, and trace back the UI and any data used to make that part of the UI in time. This is an absolute "must" for the maintenance of complex web applications. This allows rapid interations for webapps that must change frequently, and live over a long period of time, much in the vein of the Lean Startup philisophy. Just add ***?livedebug=true*** to the end of the broswer URL when making a Coils appliction to see the application in debug mode
+Coils also has a **time travelling debugger**. This time travelling debugger lets you replay your GUI and select parts of the UI, and trace back the UI and any data used to make that part of the UI in time. This is an absolute "must" for the maintenance of complex web applications. This allows rapid interations for webapps that must change frequently, and live over a long period of time, much in the vein of the Lean Startup philisophy. Just add ***?livedebug=true*** to the end of the broswer URL when making a Coils appliction to see the application in debug mode
 
 
 
@@ -227,7 +226,7 @@ Coils has a couple of **killer features**:
 
 
 ### What is Coils not good for?
-Because Coils is based around a principle of being **maintenance first**, this makes Coils unsuitable for quite a wide variety of web projects. This is because Coils uses a langauge called Clojurescript, based on Lisp which is unsuitable for most developers, since most developers **hate Lisp**. So why use a Lisp language then, if it is so unpopular? Well, Coils does not use a Lisp language for the sake of it. Since Clojurescript is a Lisp it has a feature called Macros which make the client side SQL, the time travelling debugger and runtime code inspection possible, which would not be possible in a non-Lisp language. So there is a larger learning curve with Coils, but maintenance time is reduced. So for a variety of use cases the following may be a better choice:
+Coils is unsuitable for quite a wide variety of web projects. This is because Coils uses a langauge called Clojure, which is a Lisp language, and most developers **hate Lisp**. So why use a Lisp language then, if it is so unpopular? Well, Coils does not use a Lisp language for the sake of it. Since Clojurescript is a Lisp it has a feature called Macros which make the client side SQL, the time travelling debugger and runtime code inspection possible, which would not be possible in a non-Lisp language. So for a variety of use cases the following may be a better choice:
 
 **Multi page informational websites** - Squarespace, Wix, Weebly, Adobe Muse, Wordpress, and many others are perfect for this
 
