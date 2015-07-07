@@ -9,7 +9,7 @@
  - [Quick start](#quick-start)
  - [The long story of Coils](#the-long-story-of-coils)
  - [What is Coils killer feature?](#what-is-coils-killer-feature)
- - [What is Coils not good for?](#what-is-coils-not-good-for)sh
+ - [What is Coils not good for?](#what-is-coils-not-good-for)
  - [All features](#all-features)
  - [Differences from Om](#differences-from-om)
  - [Comparison with other Clojure web frameworks](#comparison-with-other-clojure-web-frameworks)
@@ -663,7 +663,14 @@ Define in fns.clj on the server side:
 ### Client side SQL
 
     (go
-        (log (pr-str (sql "SELECT * FROM test_table where name = ?" ["shopping"] ))))
+        (let [results (sql "SELECT * FROM test_table where name = ?" ["shopping"] )]
+            ... do something with results
+
+:or with the SQL directly:
+
+    (go
+        (let [results (select * FROM test_table where name = ? ["shopping"] )]
+            ... do something with results
 
 
 Please note that the raw SQL is not visible from web browsers since it's encryted through a server side macro. Such macros are a feature unique to Clojure and other [Lisps](https://en.wikipedia.org/wiki/Lisp_(programming_language)#List_structure_of_program_code.3B_exploitation_by_macros_and_compilers).
