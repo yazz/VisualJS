@@ -75,13 +75,11 @@ Coils is an opinionated web framework written in Clojure and Clojurescript, and 
 
 To show data on a webpage most frameworks require a developer to have code in three different places:
 
-- Build the UI components with view code
-- Bind the UI components to a back end using AJAX callbacks with a controller view
-- Code the server side components to read a data store with backend code
+- View code to display the UI components
+- Code to Bind the UI components to a back end using AJAX callbacks
+- Server side code to read a data store and return this to the web browser
 
-This means that a webapp will typically will have code for one thing spread out in three different places.
- 
-Coils simplifies these three steps by moving the data acess directly into the UI components. So instead of writing code in three places, you just write it in one place, in the UI component itself:
+This means that a webapp will typically will have code for one thing spread out in three different places. Coils simplifies these three steps by moving the data acess directly into the UI components. So instead of writing code in three places, you just write it in one place, in the UI component itself:
 
     (select id, item from todo_items
                 {}
