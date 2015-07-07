@@ -448,7 +448,7 @@ Again, if you still wish to use the discontinued features then use an older vers
 
 #####1) Install a Postgres database:
 
-Make the following two tables in a schema called Coils:
+Make the following table in a schema called Coils:
 
     CREATE TABLE todo_items
     (
@@ -456,14 +456,7 @@ Make the following two tables in a schema called Coils:
       item character varying,
       CONSTRAINT todo_items_pkey PRIMARY KEY (id)
     );
-    
-    CREATE TABLE users
-    (
-      id serial NOT NULL,
-      user_name character varying,
-      CONSTRAINT users_pkey PRIMARY KEY (id)
-    );
-    
+
 
 #####2) Install and build Coils from Github:
 
