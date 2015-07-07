@@ -508,25 +508,33 @@ Save the file and the text should change in the live web app
 
 3) This is the default page that you see when you start Coils as a web app, so there should be a function which looks something like this:
 
-    (c/defn-ui-component     main-view   [app] 
+    (defn-ui-component     main-view   [app] 
 
-        (c/div nil
-            (c/h2 nil "Coils")
+        (div nil
+            (h2 nil "Coils")
             "Build webapps with Neo4j"))
 
 
 4) Change the text from "Build webapps with Neo4j" to "Hello World" so that it looks like this:
 
-    (c/defn-ui-component     main-view   [app] 
+    (defn-ui-component     main-view   [app] 
 
-        (c/div nil
-            (c/h2 nil "Coils")
+        (div nil
+            (h2 nil "Coils")
             "Hello World"))     <-- This line changed
 
-You may wonder what the **c/** is for. This is for the Coils namespace, defined with Om at the top of every Clojurescript file:
+You may wonder where the elements div, h2 , and so on are defined. They are defined at the top of the file in the Coils namespace, defined with Om at the top of every Clojurescript file:
 
-    [webapp.framework.client.coreclient   :as c  :include-macros true]
-
+    (:require
+        [webapp.framework.client.coreclient   :as c ])
+    (:use-macros
+        [webapp.framework.client.coreclient  :only [ns-coils defn-ui-component def-coils-app
+                                                    container  map-many  inline  text
+                                                    div img pre component h2 input section
+                                                    write-ui read-ui container input component <--
+                                                    h1 h2 h3 h4 h5 h6 span  data-view-v2 select select-debug
+                                                    ]]))
+                                                    
 4) Save the file and the figwheel should swap out the whole page with the text "Hello world" in the web browser, no browser reload required!
 
 We actually cheated in the above example as we edited the Coils framework itself, but it was just to get you to make a change as fast as possible. In an actual applicaiton we would ask you to make another file for your own GUI components
