@@ -43,7 +43,7 @@ Coils lets you build web apps using Clojure and relation databases, using SQL st
             (container
                 (inline "10%" (str (<-- :id)))  (inline "80%" (str (<-- :item))))))
                 
-The language used is Clojure and Clojurescript and the first database that is supported is Postgres.
+The language used is Clojure/Clojurescript and the first database that is supported is Postgres.
 
 
 
