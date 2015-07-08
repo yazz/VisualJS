@@ -48,16 +48,13 @@ The language used is Clojure/Clojurescript and the first database that is suppor
 
 
 
-
-
 ### Is Coils for me?
 
-Coils is an opinionated web framework written in Clojure and Clojurescript, and can be deployed as a Java WAR webapp to Jetty, Tomcat, JBoss, Glassfish, Weblogic, or Websphere. Coil's strength is in building single page apps on top of a database backend. Coils may be for you if you can answer yes to the following:
+Coils may be for you if you can answer 'yes' to the following:
 
 1. You want a batteries included opinionated web framework like Rails or Meteor
 2. You believe that Clojure/Clojurescript is cool
 3. The Postgres database and SQL is a good match for your problem domain
-
 
 
 
@@ -250,7 +247,7 @@ Coils is unsuitable for quite a wide variety of web projects. This is because Co
 - Michael Klishin's Neocons for Neo4j access
 - Core.async for a client-side synchronous programming model
 - James Reeves's Compojure for server side access
-
+- Coils web apps are deployed using Java WAR files to Jetty, Tomcat, JBoss, Glassfish, Weblogic, or Webspher
 
 
 
