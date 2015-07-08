@@ -34,7 +34,7 @@
 
 
 ### TLDR
-Coils lets you build web apps using Clojure and relation databases, using SQL statements in the UI code:
+Coils lets you build web apps using Clojure and relational databases, using SQL statements in the UI code:
 
     (defn-ui-component  my-todo-app   [app] {}
         
