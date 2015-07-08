@@ -57,5 +57,5 @@
 
 
 (go
-  (log "SQL: " (select id ,item from todo_items   []   ))
+  (log "SQL: " (select id ,item from todo_items   []  ))
 )

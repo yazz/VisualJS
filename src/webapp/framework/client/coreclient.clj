@@ -724,7 +724,16 @@ nil
 
 
 
-
+(defn transform-dataview-map-to-sql-str [dataview-map]
+  (doall
+  (str
+    "select "
+    (apply str (interpose  "," (map name (:fields dataview-map) )))
+    " from "
+    (:db-table dataview-map)
+    ;dataview-map
+  )
+  ))
 
 
 
@@ -740,9 +749,24 @@ nil
         main-params       (last   sql-args)
         sql-as-a-string   (str "select " (apply str (for [arg (into []
                                                                     (apply list list-of-sql))] (str arg " ") ) ))
-       ]
-    ;`(~'sql ~sql-as-a-string  ~main-params)))
-    sql-as-a-string))
+        parsed-sql        (parse-sql-string-into-instaparse-structure
+                            sql-as-a-string)
+        transformed-sql   (transform-instaparse-query-into-dataview-map    parsed-sql)
+        dataview-map      (merge (first transformed-sql)
+                                     {
+                                      :params   (get main-params :main-params)
+                                      :data-source  (keyword  (get (first
+                                                                     transformed-sql) :db-table))
+                                      ;:order         "(zgen_points IS NULL), zgen_points  DESC , id asc "
+                                      })
+
+        tt                (transform-dataview-map-to-sql-str dataview-map)
+        ]
+    `(~'sql ~tt  ~main-params)))
+    ;sql-as-a-string))
+    ;parsed-sql))
+    ;transformed-sql))
+    ;(str  tt)))
 
 
 
@@ -759,8 +783,8 @@ nil
                                                                     (apply list list-of-sql))] (str arg " ") ) ))
         parsed-sql        (parse-sql-string-into-instaparse-structure
                             sql-as-a-string)
-        transformed-sql
-        (transform-instaparse-query-into-dataview-map    parsed-sql)
+
+        transformed-sql   (transform-instaparse-query-into-dataview-map    parsed-sql)
         dataview-map      (do (swap! path-index inc)
                               (merge (first transformed-sql)
                                      {
