@@ -34,7 +34,7 @@
 
 
 ### TLDR
-The goal of Clojure on Coils is to build web apps on top of a relational database by having SQL statements in the UI code:
+The goal of Coils is enable developers to build single page web apps using Clojure and relational databases, by having SQL statements directly in the UI code:
 
     (defn-ui-component  my-todo-app   [app] {}
         
