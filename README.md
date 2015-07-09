@@ -23,7 +23,6 @@
  - [Adding something to the web page](#adding-something-to-the-web-page)
  - [Firing events](#firing-events)
  - [Calling server side code](#calling-server-side-code)
- - [Client side SQL](#client-side-sql)
  - [List of functions](#list-of-functions)
  - [Recommendations when building your first Coils app](#recommendations-when-building-your-first-coils-app)
  - [Deploying a Coils web app to a Java server as a WAR file](#deploying-a-coils-web-app-to-a-java-server-as-a-war-file)
@@ -92,6 +91,31 @@ This greatly simplifies the building of database based webapps.
 
 
 ### Is it secure to have SQL in the UI code?
+It may seem strange that you can call SQL synchronously from the client yet the call is sent to the server, is secure, and behaves asynchronous internally. Welcome to the world of Lisp!
+
+To understand a bit more about this you need to realise that Clojure is an implementation of Lisp for the JVM, and Clojurescript is Lisp on Javascript. Lisp itself has alot of special features which are not available in other languages, such as the ability to write code itself, also known as Lisp Macros. This ability is not available as a first class feature in any other language!
+
+Before I stray too much away from the point, there are two parts of the Clojure implementation of Lisp that allows synchronous secure client-side SQL/Cypher:
+
+- core.async
+- macros (no, not your C++ macros)
+
+When you make a client side SQL/Cypher call it is encyrpted using a Macro at compile time:
+
+    (defmacro sql [sql-str params]
+        `(webapp.framework.client.coreclient.sql-fn
+            ~(encrypt sql-str)
+            ~params))
+
+This means that the string in a client side call...
+
+    (go
+        (log (pr-str (sql "SELECT * FROM test_table where name = ?" ["shopping"] ))))
+
+... will be rewritten at compile time, making it impossible for anyone who does "View source" on your web page to see the SQL code!
+
+
+
 
 
 
@@ -675,40 +699,6 @@ Define in fns.clj on the server side:
 
 
 Please note that the raw SQL is not visible from web browsers since it's encryted through a server side macro. Such macros are a feature unique to Clojure and other [Lisps](https://en.wikipedia.org/wiki/Lisp_(programming_language)#List_structure_of_program_code.3B_exploitation_by_macros_and_compilers).
-
-
-
-
-
-How secure client side SQL works
---------------------------------
-
-It may seem strange that you can call SQL synchronously from the client yet the call is sent to the server, is secure, and behaves asynchronous internally. Welcome to the world of Lisp!
-
-To understand a bit more about this you need to realise that Clojure is an implementation of Lisp for the JVM, and Clojurescript is Lisp on Javascript. Lisp itself has alot of special features which are not available in other languages, such as the ability to write code itself, also known as Lisp Macros. This ability is not available as a first class feature in any other language!
-
-Before I stray too much away from the point, there are two parts of the Clojure implementation of Lisp that allows synchronous secure client-side SQL/Cypher:
-
-- core.async
-- macros (no, not your C++ macros)
-
-When you make a client side SQL/Cypher call it is encyrpted using a Macro at compile time:
-
-    (defmacro sql [sql-str params]
-        `(webapp.framework.client.coreclient.sql-fn
-            ~(encrypt sql-str)
-            ~params))
-
-This means that the string in a client side call...
-
-    (go
-        (log (pr-str (sql "SELECT * FROM test_table where name = ?" ["shopping"] ))))
-
-... will be rewritten at compile time, making it impossible for anyone who does "View source" on your web page to see the SQL code!
-
-
-
-
 
 
 
