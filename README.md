@@ -5,6 +5,7 @@
  - [TLDR](#tldr)
  - [Is Coils for me?](#is-coils-for-me)
  - [How is Coils different to other web frameworks?](#how-is-coils-different-to-other-web-frameworks)
+ - [Is it secure to have SQL in the UI code?](#is-it-secure-to-have-sql-in-the-ui-code)
  - [Product roadmap](#product-roadmap)
  - [Quick start](#quick-start)
  - [The long story of Coils](#the-long-story-of-coils)
@@ -70,11 +71,11 @@ Coils may be for you if you can answer 'yes' to the following:
 
 To show data on a webpage most frameworks require a developer to have code in three different places:
 
-- View code to display the UI components
-- Code to Bind the UI components to a back end using AJAX callbacks
+- Code to display UI components
+- Code to bind UI components to a back end using AJAX callbacks
 - Server side code to read a data store and return this to the web browser
 
-This means that a webapp will typically will have code for one thing spread out in three different places. Coils simplifies these three steps by moving the data acess directly into the UI components. So instead of writing code in three places, you just write it in one place, in the UI component itself:
+This means that a webapp will typically will have code to show data on a webpage spread out in three different places. Coils simplifies these three steps by moving the data acess directly into the UI components. So instead of writing code in three places, you just write it in one place, in the UI component itself:
 
     (select id, item from todo_items
                 {}
@@ -87,6 +88,10 @@ This greatly simplifies the building of database based webapps.
 
 
 
+
+
+
+### Is it secure to have SQL in the UI code?
 
 
 
