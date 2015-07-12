@@ -23,7 +23,28 @@
                        (section {:id "todoapp" :style {:padding "20px"}}
                               (h2 nil "todos")
                              (div {:style {:padding "20px" :backgoundColor "white"}}
-                              (input {:className "newTodo"})
+                              (input {
+                              :id "new_todo_item"
+                              :className "newTodo"
+                              :value (read-ui  app [:newitem2])
+
+                              :onChange (fn [event2]
+                                            (let [newtext      (.. event2 -target -value  )]
+                                                  (write-ui  app  [:newitem2]  newtext)))
+
+                              :onKeyDown  (fn [e]
+                                             (do
+;                                               (js/alert (pr-str (.-keyCode e  )))
+                                                   (if (= (.-keyCode e  ) 13)
+                                                             (go
+                                                                 (js/alert newtext)
+                                                                 ;(log "ISERT :** "  newtext)
+
+                                                                 (log (pr-str (sql "insert into  todo_items   (item) values (?)"   [(read-ui  app [:newitem2])]  )))
+                                                                 (write-ui  app  [:newitem2]  "")
+                                                        ))))
+
+                              })
                                 (select id, item from todo_items
                                           {}
                                         (container
@@ -50,12 +71,22 @@
 
                               (div {:style {:height "30px"}})
                               (div {:id "footer" :style {:backgroundColor "white"}})
-                              )))
+                             )))
 
 
 (def-coils-app     main-view   cc2)
 
 
 (go
-  (log "SQL: " (select id ,item from todo_items   []  ))
+  (log "SQL: " (select id, item  from todo_ites   []  ))
 )
+
+(go
+  ;(log "INSERT: " (sql "insert into  todo_items   (item) values (?)"   ["make jello"]  ))
+  )
+
+
+
+(go
+  ;(log "Delete: " (sql "delete from  todo_items"  []  ))
+  )
