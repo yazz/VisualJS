@@ -37,10 +37,11 @@
 ;                                               (js/alert (pr-str (.-keyCode e  )))
                                                    (if (= (.-keyCode e  ) 13)
                                                              (go
-                                                                 (js/alert newtext)
+                                                                 ;(js/alert (read-ui  app [:newitem2]))
                                                                  ;(log "ISERT :** "  newtext)
 
-                                                                 (log (pr-str (sql "insert into  todo_items   (item) values (?)"   [(read-ui  app [:newitem2])]  )))
+                                                                 (log (pr-str (sql "insert into  todo_items   (item) values (?)"
+                                                                 [(read-ui  app [:newitem2])]  )))
                                                                  (write-ui  app  [:newitem2]  "")
                                                         ))))
 
