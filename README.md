@@ -1,4 +1,4 @@
-<img src='http://www.zubairquraishi.com/zubairquraishi/images/screen%20shot%202015-01-23%20at%20065908.jpg' /> 
+<img src='http://coils.cc/coils/images/u2189-4.png' /> 
 ### Clojure on Coils - Webapps in React, SQL, and Clojurescript
 
 
