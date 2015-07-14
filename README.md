@@ -1,11 +1,11 @@
 <div >
     <img style="float: left" src='http://coils.cc/coils/images/u2189-4.png' /> 
     
-    <div style="float: left">
+    <span style="float: left">
         React, SQL, and Clojurescript
         =
         Amazing webapps!
-    </div>
+    </span>
 </div>
 
 
