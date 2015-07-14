@@ -43,8 +43,8 @@
 
 
 
-### TLDR
 <img src='http://damiaodias.typepad.com/.a/6a014e882a9af0970d01a3fcbe2289970b-pi' /> 
+### TLDR
 Coils lets you build web apps using Clojure and relational databases, using SQL statements in the UI code:
 
     (defn-ui-component  my-todo-app   [app] {}
