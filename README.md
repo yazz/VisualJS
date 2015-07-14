@@ -137,9 +137,11 @@ As of June 2015 Clojure on Coils is in active development and is used in product
 
 ### Quick start
 
-#####1) Install a Postgres database:
+#####1) Install an Oracle or Postgres database:
 
 Make the following table in a schema called Coils:
+
+POSTGRES:
 
     CREATE TABLE todo_items
     (
@@ -148,6 +150,18 @@ Make the following table in a schema called Coils:
       CONSTRAINT todo_items_pkey PRIMARY KEY (id)
     );
 
+ORACLE 12c and above:
+
+    CREATE TABLE todo_items
+    (
+      id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),,
+      item VARCHAR(128),
+      UNIQUE (MAP_ID, MAP_NAME)
+    );
+
+For Oracle databases before 12c you will need to use a trigger. See this Stackoverflow question for more details:
+
+http://stackoverflow.com/questions/11296361/how-to-create-id-with-auto-increment-on-oracle
 
 #####2) Install and build Coils from Github:
 
