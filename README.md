@@ -61,7 +61,7 @@ The language used is Clojure/Clojurescript and the first database that is suppor
 
 
 ### Is Coils for me?
-<img height='250px' src='http://i.imgur.com/QsIsjo8.jpg' /> 
+<img height='350px' src='http://i.imgur.com/QsIsjo8.jpg' /> 
 
 Coils may be for you if you can answer 'yes' to the following:
 
