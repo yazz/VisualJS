@@ -80,6 +80,7 @@ Coils may be for you if you can answer 'yes' to the following:
 
 
 ### How is Coils different to other web frameworks?
+<img height='350px' src='http://cdn.shopify.com/s/files/1/0070/7032/files/rubberduck.jpg?2841' /> 
 
 To show data on a webpage most frameworks require a developer to have code in three different places:
 
