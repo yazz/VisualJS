@@ -291,6 +291,9 @@ Coils also has a **time travelling debugger**. This time travelling debugger let
 
 
 ### What is Coils not good for?
+<img height='350px' src='http://918thefan.com/wp-content/uploads/2012/05/anthony-taber-square-peg-looking-at-round-hole-thinking-with-a-proper-diet-moderate-bu-new-yorker-cartoon-e1336682469227.jpg' /> 
+
+
 Coils is unsuitable for quite a wide variety of web projects. This is because Coils uses a langauge called Clojure, which is a Lisp language, and most developers **hate Lisp**. However, Coils does not use Lisp for the sake of it. Lisp it has a feature called Macros which makes the client side SQL in Coils possible, which would not be possible in a non-Lisp language. So for a variety of use cases the following may be a better choice:
 
 **Multi page informational websites** - Squarespace, Wix, Weebly, Adobe Muse, Wordpress, and many others are perfect for this
