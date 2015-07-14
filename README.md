@@ -3,9 +3,9 @@
     
     <span style="float: left">
         <pre>
-        React, SQL, and Clojurescript
+        React + SQL + Clojurescript
         =
-        Amazing webapps!
+        Amazing realtime webapps!
         </pre>
     </span>
 </div>
