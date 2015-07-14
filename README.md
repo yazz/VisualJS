@@ -310,6 +310,9 @@ Coils is unsuitable for quite a wide variety of web projects. This is because Co
 
 
 ### All features
+<img src='https://fundraising.myevent.com/images/common/features.png' /> 
+
+
 - Clojurescript Om by David Nolen for React.js components on the frontend
 - Mark Engelberg's Instaparse for client side SQL with commands like (select id, name from employees where ...)
 - Interactive client and server side development with Bruce Hauman's Figwheel
