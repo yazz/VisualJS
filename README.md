@@ -140,7 +140,7 @@ This means that the string in a client side SQL call...
 
 
 ### Product Roadmap
-<img height='350px' http://www.slideteam.net/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/p/r/product_roadmap_timeline_2012_to_2016_road_mapping_future_perspectives_powerpoint_templates_slides_Slide01_2.jpg' /> 
+<img height='350px' src='http://www.slideteam.net/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/p/r/product_roadmap_timeline_2012_to_2016_road_mapping_future_perspectives_powerpoint_templates_slides_Slide01_2.jpg' /> 
 
 As of June 2015 Clojure on Coils is in active development and is used in production systems. The future product roadmap is as follows:
  - November 2015 - make all SQL queries fully realtime like Meteor.js
