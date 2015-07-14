@@ -1,7 +1,7 @@
 <img style="float: left" src='http://coils.cc/coils/images/u2189-4.png' /> 
 React, SQL, and Clojurescript
 
-=
+\=
 
 Amazing webapps!
 
