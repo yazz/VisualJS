@@ -1,5 +1,9 @@
 <img style="float: left" src='http://coils.cc/coils/images/u2189-4.png' /> 
-Clojure on Coils - Webapps in React, SQL, and Clojurescript
+React, SQL, and Clojurescript
+
+=
+
+Amazing webapps!
 
 
  - [TLDR](#tldr)
