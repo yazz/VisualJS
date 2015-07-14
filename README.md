@@ -1,5 +1,5 @@
 <img style="float: left" src='http://coils.cc/coils/images/u2189-4.png' /> 
-<div>
+<div style="float: right">
 React, SQL, and Clojurescript
 
 \=
