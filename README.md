@@ -232,6 +232,9 @@ Save the file and the text should change in the live web app
 
 
 ### The long story of Coils
+<img height='350px' src='http://makeameme.org/media/created/Its-a-long.jpg' /> 
+
+
 The Coils framework started because of one web developer's pain over many years building web applications. Zubair Quraishi worked in the 1990s and 2000s as a C++ and Java programmer, building mostly server side web applications, only to find the whole develop, compile, test cycle hugely unproductive.
 
 Then one day in 2008 Zubair discovered Ruby on Rails. He realised that there was a better way to develop web software by using interactive languages such as Ruby with easy database access via ActiveRecord. However, he soon became frustrated again, as the UI in Rails was generated on the server and fine grained control of the DOM was not easy to do without resorting to heavy Javascript. So, in true developer style, Zubair did the "wrong thing", and took the long and painful route of trying to find his programming Nirvana, going to Erlang, Vaadin, Grails, JQuery, Javascript, GWT, Google Closure, Dart, and finally deciding to use Clojure and ClojureScript for a project he was involved with. That project Zubair was NemCV, the CV system for Denmark (http://www.meetup.com/CV-help/). Zubair took inspiration from Ruby on Rails (also from Denmark) and extracted the reuseable parts of NemCV to make the Coils framework in June 2013.
