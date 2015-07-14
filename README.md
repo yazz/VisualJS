@@ -272,6 +272,9 @@ The next issue he had to solve was how to access data from the server. Zubair sa
 
 
 ### What is Coils killer feature?
+<img height='350px' src='http://blog.wiserspread.com/wp-content/uploads/2014/07/Killer.jpg' /> 
+
+
 Coils killer feature is the **client side SQL**. This enables you to insert SQL statements directly inside the code for the UI. For a developer this is a HUGE time saver as it saves having to put code to display data on the screen in several parts of the codebase.
 
 Coils also has a **time travelling debugger**. This time travelling debugger lets you replay your GUI and select parts of the UI, and trace back the UI and any data used to make that part of the UI in time. This is an absolute "must" for the maintenance of complex web applications. This allows rapid interations for webapps that must change frequently, and live over a long period of time, much in the vein of the Lean Startup philisophy. Just add ***?livedebug=true*** to the end of the broswer URL when making a Coils appliction to see the application in debug mode.
