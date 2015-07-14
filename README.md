@@ -155,6 +155,8 @@ As of June 2015 Clojure on Coils is in active development and is used in product
 
 
 ### Quick start
+<img height='350px' src='http://www.wondergrovelearn.com/wp-content/uploads/2014/05/quickStartButton_green_0300px.png' /> 
+
 
 #####1) Install an Oracle or Postgres database:
 
