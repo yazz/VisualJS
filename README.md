@@ -105,6 +105,9 @@ This greatly simplifies the building of database based webapps.
 
 
 ### Is it secure to have SQL in the UI code?
+<img height='350px' src='http://38.media.tumblr.com/b5ae76c4f7f9ca3732eec9d19a5d5663/tumblr_inline_mugyqbcTcZ1qclfey.jpg' /> 
+
+
 It may seem strange that you can call SQL synchronously from the client yet the call is sent to the server, is secure, and behaves asynchronous internally. Welcome to the world of Lisp!
 
 To understand a bit more about this you need to realise that Clojure is an implementation of Lisp on the JVM, and Clojurescript is an implementation of Lisp on Javascript. Lisp itself has alot of special features which are not available in other languages, such as the ability to write code itself, also known as Lisp Macros. This ability is not available as a first class feature in almost every other language.
