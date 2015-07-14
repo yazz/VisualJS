@@ -1,8 +1,10 @@
+<div style="float: right">
 <img style="float: left" src='http://coils.cc/coils/images/u2189-4.png' /> 
 <div style="float: right">
 React, SQL, and Clojurescript
 
 \=
+</div>
 </div>
 
 Amazing webapps!
