@@ -399,7 +399,7 @@ Once Coils has finished the realtime support of Postgres and other databases the
 
 The realtime support for Coils is based around the pinciples of the Meteor.js realtime system. Just like Meteor, Coils also uses a client side cache connected to a server which contains the full data for each connected client. 
 
-With Meteor.js it uses a client side cache called MiniMongo which gets updates from the MongoDb server by uses Mongo Oplog tailing to get changes from the Mongo database. The first version of Coils realtime database support will use triggers on the Oracle to detect when changes are made.
+With Meteor.js it uses a client side cache called MiniMongo which gets updates from the MongoDb server by uses Mongo Oplog tailing to get changes from the Mongo database. The first version of Coils realtime database support will use Oracle database triggers to detect when changes are made.
 
 
 
@@ -416,6 +416,8 @@ Again, Postgres will use database triggers for realtime support.
 
 
 ### Deprecated features from April 2013 to July 2014
+<img height='350px' src='http://www.pixelle.be/wp-content/uploads/2014/01/2013-origami.jpg' /> 
+
 In 2013 Facebook created React, a Virtual Dom based Javascript library. David Nolen then created Om, a ClojureScript wrapper on top of React, which changed the ClojureScript client side story forever! Upon seeing Om I immediately knew that this was the future of ClojureScript development, using a Reactive GUI paradigm, also similar to Angular.js, Ember.js, and Meteor. So I took the tough decision to deprecate the whole UI that I had created in the previous version of Clojure on Coils. So the following features are now a thing of the past:
 
 - Crate for HTML
@@ -446,6 +448,8 @@ The reason for the discontinued features is that they all require explicit calls
 
 
 ### Deprecated features from August 2014 to June 2015
+<img height='350px' src='http://www.weather.gov/images/gid/events/2014/dec/yearend2014/images/2014_logo.jpg' /> 
+
 Even though in 2014 Coils switched to using React.js via David Nolen's awesome Om library, building applications still didn't feel as natural as it should. This was mostly because data access still didn't feel right. One thing that was a huge influence was meteor.js, which provided real time webapps ove Mongodb. Realtime may seem simple, but to program a web application to update data as data changes without something like meteor.js soon becomes very complicated, as you need to add timers and callbacks for data everywhere. Since Coils used Neo4j as a backend I wanted to create a similar live uploading method for Coils. It was not as simple as I thought, as Neo4j has a far more complex data structure than the document based MongoDb. So I had to make the tough decision to postpone Neo4j work on Coils for the time being. Since NemCV used a database backend anyway I decided to base it on a database instead. My idea is that you can program SQL directly in React.js components, for which I also chose Instaparse, which blows my mind!
 
 Another thing that was dropped was something very dear to my heart, LighttTable. The latest version of Light Tavble was not able to support interactive development with the latest Clojurescript versions. Also, it kept pauses every minute or so for several seconds, so I started to look for alternatives. I used Cursive and Intellij, although emacs or any other text editor works fine too. To replace the killer Light Table feature of live browser code changes I discovered Figwheel, which lets you save a file, then sends the recompiled javascript to the browser. When the new Atom based LightTable comes out the story may change again however.
@@ -480,6 +484,7 @@ Again, if you still wish to use the discontinued features then use an older vers
 
 
 ### Anatomy of a Coils application
+<img height='350px' src='http://i.stack.imgur.com/BfSk9.png' /> 
 
     my_new_application
         └ links.txt
