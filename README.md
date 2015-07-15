@@ -165,6 +165,8 @@ Make the following table in a schema called Coils:
 
 POSTGRES:
 
+Please note that the default database created by Postgres is called "postgres" so go to PGAdmin (the postgres GUI admin tool), and right click on the "Databases" item on the left navigation menu and select "new database...". From here you can name a new database "coils".
+
     CREATE TABLE todo_items
     (
       id serial NOT NULL,
