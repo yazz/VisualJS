@@ -25,6 +25,7 @@
  - [Differences from Om](#differences-from-om)
  - [Comparison with other Clojure web frameworks](#comparison-with-other-clojure-web-frameworks)
  - [When will Neo4j be back on the scene?](#when-will-neo4j-be-back-on-the-scene)
+ - [When will full Oracle realtime support be available?](#when-will-full-oracle-realtime-support-be-available)
  - [When will full Postgres realtime support be available?](#when-will-full-postgres-realtime-support-be-available)
  - [Deprecated features from April 2013 to July 2014](#deprecated-features-from-april-2013-to-july-2014)
  - [Deprecated features from August 2014 to June 2015](#deprecated-features-from-august-2014-to-june-2015)
@@ -333,6 +334,8 @@ Coils is unsuitable for quite a wide variety of web projects. This is because Co
 
 
 ### Differences from Om
+<img height='350px' src='https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Om.svg/993px-Om.svg.png' /> 
+
 The only part of Om that Coils uses is the rendering engine and the change listeners (for GUI playback). This means that Coils does not use the component local state features of Om, except for internal framework use. The implications of this are very important. For example, in Om when the end user clicks on a button in a react/Om component then the button event will be passed back via a core.sync channel. However, in Coils, when the user presses a button then the Application model used to generate the DOM itself is changed, with a property :click being set to true. This :click property is then watched via an event watcher to make any changes.
 
 
@@ -345,6 +348,8 @@ The only part of Om that Coils uses is the rendering engine and the change liste
 
 
 ### Comparison with other Clojure web frameworks
+<img height='350px' src='https://upload.wikimedia.org/wikipedia/commons/4/40/Human-allosaurus_size_comparison.png' /> 
+
 [Hoplon](http://hoplon.io/) - In my mind Hoplon is the most complete of all the Clojure web frameworks, and I think that Coils has alot of catching up to do to get as full featured as Hoplon. Hoplon uses Reactive programming and has an amazing is web designer friendly as GUIs can be made from HTML, instead of Clojurescript
 
 <br>
@@ -362,6 +367,8 @@ The only part of Om that Coils uses is the rendering engine and the change liste
 
 
 ### When will Neo4j be back on the scene?
+<img height='350px' src='http://www.opencredo.com/wp-content/uploads/2013/06/neo4j-logo.png' /> 
+
 Those of you who have followed Coils for a long time will know that one of the big features was the Neo4j integration. Since Coils is moving to a real time model we dropped full Neo4j realtime support in June 2015. Neo4 still works with Coils, and Cypher queries can still be issued from Clojurescript, but just not in realtime mode as Neo4j does not have a client side cache in Coils and it is too tricky to implement right now. At the time Neo4j was chosen for the following reasons:
 
 - Easy to setup Neo4j on a developer machine, without having to create a schema first
@@ -380,14 +387,29 @@ Once Coils has finished the realtime support of Postgres and other databases the
 
 
 
+
+
+
+
+
+
+
+### When will full Oracle realtime support be available?
+<img height='350px' src='http://siliconangle.com/files/2013/03/Oracle-Empire-Under-Threat.jpg' /> 
+
+The realtime support for Coils is based around the pinciples of the Meteor.js realtime system. Just like Meteor, Coils also uses a client side cache connected to a server which contains the full data for each connected client. 
+
+With Meteor.js it uses a client side cache called MiniMongo which gets updates from the MongoDb server by uses Mongo Oplog tailing to get changes from the Mongo database. The first version of Coils realtime database support will use triggers on the Oracle to detect when changes are made.
+
+
+
+
+
+
 ### When will full Postgres realtime support be available?
-The realtime support for Coils is based around the pinciples of the Meteor.js realtime system. Just like Meteor, Coils also uses a clientside cache connected to a server which contains the full data for each connected client. 
+<img height='350px' src='https://scottlinux.com/wp-content/uploads/2014/11/postgres.png' /> 
 
-With Meteor.js it uses a client side cache called MiniMongo which gets updates from the MongoDb server by uses Mongo Oplog tailing to get changes from the Mongo database. The first version of Coils realtime database support will use triggers on the database to detect when changes are made.
-
-
-
-
+Again, Postgres will use database triggers for realtime support.
 
 
 
