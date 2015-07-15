@@ -484,7 +484,7 @@ Again, if you still wish to use the discontinued features then use an older vers
 
 
 ### Anatomy of a Coils application
-<img height='350px' src='http://i.stack.imgur.com/BfSk9.png' /> 
+<img height='350px' src='http://st2.depositphotos.com/1036342/6768/v/380/depositphotos_67681953-Searching-computer-code-with-a-magnifying-glass-HD-video-1080.jpg' /> 
 
     my_new_application
         └ links.txt
@@ -545,6 +545,7 @@ Again, if you still wish to use the discontinued features then use an older vers
 
 
 ### Getting started
+<img height='350px' src='http://cookbooks.ca.com/caarcserve/wp-content/uploads/sites/52/2014/06/getting-started-new.jpg' /> 
 
 #####1) Install a Postgres database:
 
@@ -580,6 +581,7 @@ Make the following table in a schema called Coils:
 
 
 ### Adding something to the web page
+<img height='350px' src='http://beckswebsites.com/wp-content/uploads/2014/05/Web-Designer.jpg' /> 
 
 #####1) Make a change and see Figwheel reload the changes live. 
 
@@ -650,6 +652,8 @@ We actually cheated in the above example as we edited the Coils framework itself
 
 
 ### List of functions
+<img height='350px' src='http://blogs.ukoln.ac.uk/good-apis-jisc/files/2009/03/api1.gif' /> 
+
 There are many Coils framework functions available:
 
 
@@ -712,6 +716,8 @@ showing the splash screen
 
 
 ### Firing events
+<img height='350px' src='http://blog.vanillasoft.com/wp-content/uploads/2014/08/trigger-event.jpg' /> 
+
 If you want to execute an event you have to decide whether you are listening to the data tree or the UI tree. For example, if you want to perform an action when the use presses a button then you would do something like this:
 
     (==ui  [:ui   :company-details   :clicked]    true
@@ -732,6 +738,7 @@ So this means that with Coils, the preferred way to do things is with events, wh
 
 
 ### Calling server side code
+<img height='350px' src='http://www.realtime.co/cache_bin/XPQlr0QXX291A7SyScZMb1ZKU.jpg' /> 
 
 From the client side core.async is used:
 
@@ -760,6 +767,7 @@ Define in fns.clj on the server side:
 
 
 ### Client side SQL
+<img height='350px' src='https://basichackingskills.files.wordpress.com/2013/04/sql_injection.jpg' /> 
 
     (go
         (let [results (sql "SELECT * FROM test_table where name = ?" ["shopping"] )]
@@ -785,6 +793,7 @@ Please note that the raw SQL is not visible from web browsers since it's encryte
 
 
 ### Recommendations when building your first Coils app
+<img height='350px' src='http://www.lonelyplanet.com/travel-blog/tip-article/wordpress_uploads/2012/08/126978435_full_cs.jpg' /> 
 
 1) Copy **main.html** and make your own **app_name.html** file in the **resources** folder
 
@@ -818,6 +827,7 @@ Alot of steps, I know!!!
 
 
 ### Deploying a Coils web app to a Java server as a WAR file
+<img height='350px' src='https://host4asp.net/ckfinder/images/deploy-with-webmatrix-using-web-deploy.jpg' /> 
 
     mkdir srcprod && cd srcprod
     mkdir webapp_config && cd webapp_config
@@ -852,6 +862,7 @@ Alot of steps, I know!!!
 
 
 ### Developer Resources
+<img height='350px' src='https://webkori.files.wordpress.com/2009/12/billgates_microsoft_support_team-santosh-kori.jpg' /> 
 
 Building an application with Coils? https://groups.google.com/forum/#!forum/clojure-on-coils
 
