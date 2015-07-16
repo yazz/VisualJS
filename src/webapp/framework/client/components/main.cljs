@@ -79,7 +79,7 @@
 
 
 (go
-  (log "SQL: " (select id, item  from todo_ites   []  ))
+  (log "SQL: " (select id, item  from todo_items   []  ))
 )
 
 (go

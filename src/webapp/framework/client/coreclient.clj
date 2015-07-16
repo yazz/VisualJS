@@ -672,22 +672,32 @@ nil
 
 (def parse-sql-string-into-instaparse-structure
   (insta/parser
-    "SQL            = <SELECT> FIELDS <FROM> TABLE WHERE_CLAUSE?
+    "SQL                = SELECT_QUERY | INSERT_STATEMENT
 
-     SELECT         = 'select '
+     <SELECT_QUERY>     = <SELECT> FIELDS <FROM> TABLE WHERE_CLAUSE?
 
-     FIELDS         = (FIELD)+
+     <INSERT_STATEMENT> = <INSERT>  TABLE  INSERT_FIELD_SPEC  VALUES
 
-     <FIELD>        = #'[a-z_]+'  <#' '+>
+     <INSERT> = 'insert into '
+     INSERT_FIELD_SPEC = '(' (FIELD)+ ')'
+     <VALUES> = 'values  '
+     INSERT_VALUES = '('   #'[a-z|A-Z|_| |=|0-9|?|\\'|%]+'   ')'
 
 
-     FROM           = 'from '
+     SELECT             = 'select '
 
-     TABLE          = #'[a-z|_]+' <' '>
+     FIELDS             = (FIELD)+
 
-     WHERE          = 'where '
+     <FIELD>            = #'[a-z_]+'  <#' '+>
 
-     WHERE_CLAUSE   = <WHERE> #'[a-z|A-Z|_| |=|0-9|?|\\'|%]+'
+
+     FROM               = 'from '
+
+     TABLE              = #'[a-z|_]+' <' '>
+
+     WHERE              = 'where '
+
+     WHERE_CLAUSE       = <WHERE> #'[a-z|A-Z|_| |=|0-9|?|\\'|%]+'
      "))
 
 
@@ -767,6 +777,14 @@ nil
     ;parsed-sql))
     ;transformed-sql))
     ;(str  tt)))
+
+
+
+
+
+
+
+
 
 
 
@@ -858,3 +876,8 @@ nil
 
 
 
+
+(defmacro insert [& insert-args]
+                 `(remote-sql-parser  ~@insert-args)
+
+                 )
