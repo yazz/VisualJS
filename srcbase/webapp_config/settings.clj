@@ -18,18 +18,18 @@
 (defonce ^:dynamic *web-server* "127.0.0.1:3449")
 
 
-;(defonce ^:dynamic *database-type* "postgres")
-;(defonce ^:dynamic *database-server* "127.0.0.1")
-;(defonce ^:dynamic *database-user* "postgres")
-;(defonce ^:dynamic *database-password* "manager")
-;(defonce ^:dynamic *database-name* "coils")
+(defonce ^:dynamic *database-type* "postgres")
+(defonce ^:dynamic *database-server* "127.0.0.1")
+(defonce ^:dynamic *database-user* "postgres")
+(defonce ^:dynamic *database-password* "manager")
+(defonce ^:dynamic *database-name* "coils")
 
 
-(defonce ^:dynamic *database-type* "oracle")
-(defonce ^:dynamic *database-server* "localhost")
-(defonce ^:dynamic *database-user* "system")
-(defonce ^:dynamic *database-password* "Manager2")
-(defonce ^:dynamic *database-name* "ORCL")
+;(defonce ^:dynamic *database-type* "oracle")
+;(defonce ^:dynamic *database-server* "localhost")
+;(defonce ^:dynamic *database-user* "system")
+;(defonce ^:dynamic *database-password* "Manager2")
+;(defonce ^:dynamic *database-name* "ORCL")
 
 
 
