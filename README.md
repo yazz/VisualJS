@@ -178,9 +178,9 @@ ORACLE 12c and above:
 
     CREATE TABLE todo_items
     (
-      id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),,
+      id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
       item VARCHAR(128),
-      UNIQUE (MAP_ID, MAP_NAME)
+      UNIQUE (ID)
     );
 
 For Oracle databases before 12c you will need to use a trigger. See this Stackoverflow question for more details:
