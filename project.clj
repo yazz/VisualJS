@@ -7,8 +7,12 @@
                  [org.clojure/core.async "0.1.346.0-17112a-alpha" :scope "provided"]
                  [cljsjs/react "0.13.3-0"]
 
-                 [korma "0.3.0"]
+                 [korma "0.4.0"]
+
                  [org.postgresql/postgresql "9.2-1002-jdbc4"]
+                 [org.clojars.gukjoon/ojdbc "1.4"]
+                 ; [com.oracle/ojdbc "12.1.0.2"]
+
                  [compojure "1.3.3"]
                  [ring "1.3.2"]
                  [ring-middleware-format "0.5.0"]

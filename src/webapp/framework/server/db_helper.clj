@@ -24,7 +24,17 @@
     (keys
      (first
      (korma.core/exec-raw
-                   [(str "SELECT * FROM " table-name " limit 1")
+                   [(str "SELECT * FROM " table-name
+                         (cond
+                           (= *database-type* "postgres" )
+                           (str
+                             " limit 1"
+                             )
+
+                           (= *database-type* "oracle" )
+                           ""
+                           )
+                         )
                     []]
                     :results)
     )))

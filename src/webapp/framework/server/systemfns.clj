@@ -1,6 +1,6 @@
 (ns webapp.framework.server.systemfns
 
-  [:require [clojure.string :as str]]
+  [:require [clojure.string :as string]]
   [:use [korma.db]]
   [:require [korma.core]]
   [:use [webapp-config.settings]]
@@ -20,10 +20,28 @@
 
 
 (try
-  (defdb db (postgres {:db *database-name*
-                       :host *database-server*
-                       :user *database-user*
-                       :password *database-password*}))
+  (cond
+    (= *database-type* "postgres" )
+        (defdb db (postgres {:db *database-name*
+                         :host *database-server*
+                         :user *database-user*
+                         :password *database-password*}))
+
+    (= *database-type* "oracle" )
+        (defdb db {:classname "oracle.jdbc.driver.OracleDriver"
+               :subprotocol "oracle"
+               :subname "thin:@localhost:1521:ORCL"
+               :user "system"
+               :password "Manager2"
+               :naming {:keys string/upper-case
+                        :fields string/upper-case}})
+    )
+
+
+
+
+
+
   (catch Exception e
     (str "Error connecting to database: " (.getMessage e))))
 
@@ -313,11 +331,24 @@
          fields " "
     "from "
          db-table " "
-    (if where (str "where " where " "))
+    (cond
+      (= *database-type* "postgres" )
+        (if where (str "where " where " "))
+
+      (= *database-type* "oracle" )
+        (if where (str "where " where " "))
+    )
     ;questions_answered_count is not null
     ;order by
     ;questions_answered_count desc"
-    "limit 100") {}))
+      (cond
+        (= *database-type* "postgres" )
+        "limit 100"
+
+        (= *database-type* "oracle" )
+        ""
+          )
+    ) {}))
 
 
 
@@ -369,8 +400,17 @@
 				  db-table " "
 				  (if (-> where count pos?) (str "where " where " "))
           (if (-> order count pos?) (str "order by " order " "))
-                  (if start (str " offset " (- start 1) " "))
-                  (if end (str " limit " (+ 1 (- end start)) " ") "limit 2")
+          (cond
+            (= *database-type* "postgres" )
+            (str
+              (if start (str " offset " (- start 1) " "))
+              (if end (str " limit " (+ 1 (- end start)) " ") "limit 2")
+              )
+
+            (= *database-type* "oracle" )
+            ""
+            )
+
 				  ;questions_answered_count is not null
 				  ;order by
 				  ;questions_answered_count desc"
@@ -418,7 +458,16 @@
      "from "
      db-table " "
      "where id = ? "
-     " limit 1") [id])})
+     (cond
+       (= *database-type* "postgres" )
+       " limit 1"
+
+       (= *database-type* "oracle" )
+       ""
+       )
+
+
+     ) [id])})
 
 
 

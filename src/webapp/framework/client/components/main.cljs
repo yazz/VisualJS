@@ -83,6 +83,11 @@
 )
 
 (go
+  ;(log  (sql "select  COUNT(*)  from  todo_items"  "count(*)"  ))
+  )
+
+
+(go
   ;(log "INSERT: " (sql "insert into  todo_items   (item) values (?)"   ["make jello"]  ))
   )
 
