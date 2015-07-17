@@ -252,12 +252,29 @@ http://stackoverflow.com/questions/11296361/how-to-create-id-with-auto-increment
 
 #####4) Confgure Oracle to work with Coils:
 
+    One problem with using Oracle form Clojure is that Oracle do not supply the Official driver for the database on Clojars which Leiningen uses for libraries. So a third party has supplied an Oracle library which Coils uses. Unfortunately this means that the following must be added to the oracle sqlnet.ora file:
     
+    SQLNET.ALLOWED_LOGON_VERSION=8
 
 
 
 
 #####4) Confgure Coils to run with Oracle
+
+In the file settings.clj comment out the Postgres settings and uncomment the Pracle settings:
+    
+    
+     ;(defonce ^:dynamic *database-type* "postgres")
+     ;(defonce ^:dynamic *database-server* "127.0.0.1")
+     ;(defonce ^:dynamic *database-user* "postgres")
+     ;(defonce ^:dynamic *database-password* "manager")
+     ;(defonce ^:dynamic *database-name* "coils")
+
+     (defonce ^:dynamic *database-type* "oracle")
+     (defonce ^:dynamic *database-server* "localhost")
+     (defonce ^:dynamic *database-name* "ORCL")
+     (defonce ^:dynamic *database-user* "system")
+     (defonce ^:dynamic *database-password* "Manager2")
 
 
 #####5) Build and run Coils:
@@ -266,12 +283,12 @@ http://stackoverflow.com/questions/11296361/how-to-create-id-with-auto-increment
 
 
 
-#####3) Open the application
+#####6) Open the application
 
     http://127.0.0.1:3449
     
     
-#####4) Make a change and see Figwheel reload the changes live. 
+#####7) Make a change and see Figwheel reload the changes live. 
 
 Edit the file 
 
@@ -288,7 +305,7 @@ to
 Save the file and the text should change in the live web app
 
 
-#####4) To see debug mode open:
+#####8) To see debug mode open:
 
     http://127.0.0.1:3449/main.html?livedebug=true
 
