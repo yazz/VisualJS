@@ -83,7 +83,7 @@
 )
 
 (go
-  ;(log  (sql "select  COUNT(*)  from  todo_items"  "count(*)"  ))
+  (log  (sql "select  COUNT(*)  from  todo_items"   ))
   )
 
 

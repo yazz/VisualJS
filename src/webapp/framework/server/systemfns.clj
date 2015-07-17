@@ -30,9 +30,9 @@
     (= *database-type* "oracle" )
         (defdb db {:classname "oracle.jdbc.driver.OracleDriver"
                :subprotocol "oracle"
-               :subname "thin:@localhost:1521:ORCL"
-               :user "system"
-               :password "Manager2"
+               :subname (str "thin:@"  *database-server*  ":1521:" *database-name*)
+               :user *database-user*
+               :password *database-password*
                :naming {:keys string/upper-case
                         :fields string/upper-case}})
     )
