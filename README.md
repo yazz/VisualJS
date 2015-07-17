@@ -261,7 +261,7 @@ http://stackoverflow.com/questions/11296361/how-to-create-id-with-auto-increment
 
 #####4) Confgure Coils to run with Oracle
 
-In the file settings.clj comment out the Postgres settings and uncomment the Pracle settings:
+In the file settings.clj comment out the Postgres settings and uncomment the Oracle settings:
     
     
      ;(defonce ^:dynamic *database-type* "postgres")
