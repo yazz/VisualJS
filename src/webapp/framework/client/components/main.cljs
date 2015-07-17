@@ -79,11 +79,11 @@
 
 
 (go
-  (log "SQL: " (select id, item  from todo_items   []  ))
+  ;(log "SQL: " (select id, item  from todo_items   []  ))
 )
 
 (go
-  (log  (sql "select  COUNT(*)  from  todo_items"   ))
+  (log  (sql "select  COUNT (*) as CNT  from  todo_items"   ))
   )
 
 

@@ -12,10 +12,10 @@
 
 
 (defn db-count-records [table-name]
-    (:count
+    (:cnt
      (first
      (korma.core/exec-raw
-                   [(str "SELECT count(*) FROM " table-name)
+                   [(str "SELECT COUNT(*) as CNT FROM " table-name)
                     []]
                     :results)
     )))
@@ -32,8 +32,9 @@
                              )
 
                            (= *database-type* "oracle" )
-                           ""
-                           )
+                           (str
+                             " WHERE ROWNUM < 1"
+                             )                           )
                          )
                     []]
                     :results)

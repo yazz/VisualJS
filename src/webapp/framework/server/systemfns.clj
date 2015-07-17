@@ -383,8 +383,8 @@
   (let [
         record-count
 
-        (:count (sql-1 (str
-                        "select count (id) from "
+        (:cnt (sql-1 (str
+                        "select count (id) as CNT from "
                         db-table " "
                         (if (-> where count pos?) (str "where " where " "))
                         )
