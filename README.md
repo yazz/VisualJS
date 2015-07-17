@@ -161,13 +161,13 @@ As of June 2015 Clojure on Coils is in active development and is used in product
 
 Postgres is described first and is the default in Coils simply because it is the more common developer setup. and is also a lot easier to setup than Oracle.
 
-#####1) Install a Postgres database:
+#####1) Install the Postgres database product
 
-#####1) Create a database schema called Coils. 
+#####2) Create a database schema called Coils 
 
 Please note that the default database created by Postgres is called "postgres" so go to PGAdmin (the postgres GUI admin tool), and right click on the "Databases" item on the left navigation menu and select "new database...". From here you can name a new database "coils".
 
-#####2) Make the following table in a schema called Coils:
+#####3) Make the following table in the Coils schema:
 
     CREATE TABLE todo_items
     (
@@ -176,19 +176,19 @@ Please note that the default database created by Postgres is called "postgres" s
       CONSTRAINT todo_items_pkey PRIMARY KEY (id)
     );
 
-#####3) Install and build Coils from Github:
+#####4) Install and build Coils from Github:
 
     git clone https://github.com/zubairq/coils.git my_new_application
     cd my_new_application
     lein with-profile base figwheel
 
 
-#####4) Open the application
+#####5) Open the application
 
     http://127.0.0.1:3449
     
     
-#####4) Make a change and see Figwheel reload the changes live. 
+#####6) Make a change and see Figwheel reload the changes live. 
 
 Edit the file 
 
@@ -205,7 +205,7 @@ to
 Save the file and the text should change in the live web app
 
 
-#####5) To see debug mode open:
+#####7) To see debug mode open:
 
     http://127.0.0.1:3449/main.html?livedebug=true
 
