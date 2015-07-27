@@ -1847,6 +1847,7 @@ reused by many views.
     :db-table            (:db-table    data-view-key-v2)
     :params              (:params      data-view-key-v2)
     :order               (:order       data-view-key-v2)
+    :realtime            (:realtime    data-view-key-v2)
     })
 
 
@@ -2049,6 +2050,7 @@ with the (<-- :field) method
                           where                :where
                           params               :params
                           order                :order
+                          realtime             :realtime
                           }
 
 
@@ -2087,6 +2089,7 @@ with the (<-- :field) method
          :db-table            db-table
          :params              params
          :order               order
+         :realtime            realtime
          }
         ]
     (log (str "data-view-fn-v2: " relative-path))

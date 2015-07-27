@@ -378,7 +378,11 @@
            end
            params
            order
+           realtime
 		   ]}]
+
+  (println "************************************************************************************")
+  (println "*REALTIME = " realtime)
 
   (let [
         record-count
