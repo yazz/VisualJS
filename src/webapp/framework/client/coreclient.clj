@@ -674,16 +674,17 @@ nil
   (insta/parser
     "SQL                = SELECT_QUERY | INSERT_STATEMENT
 
-     <SELECT_QUERY>     = <REALTIME_OPTIONS> <SELECT> FIELDS <FROM> TABLE WHERE_CLAUSE?
+     <SELECT_QUERY>     = REALTIME_CLAUSE? <SELECT> FIELDS <FROM> TABLE WHERE_CLAUSE?
 
-     <REALTIME_OPTIONS> = 'realtime ' | ''
+     REALTIME_OPTIONS   = 'realtime '
+     REALTIME_CLAUSE    = <REALTIME_OPTIONS>
 
      <INSERT_STATEMENT> = <INSERT>  TABLE  INSERT_FIELD_SPEC  VALUES
 
-     <INSERT> = 'insert into '
-     INSERT_FIELD_SPEC = '(' (FIELD)+ ')'
-     <VALUES> = 'values  '
-     INSERT_VALUES = '('   #'[a-z|A-Z|_| |=|0-9|?|\\'|%]+'   ')'
+     <INSERT>           = 'insert into '
+     INSERT_FIELD_SPEC  = '(' (FIELD)+ ')'
+     <VALUES>           = 'values  '
+     INSERT_VALUES      = '('   #'[a-z|A-Z|_| |=|0-9|?|\\'|%]+'   ')'
 
 
      SELECT             = 'select '
@@ -722,6 +723,7 @@ nil
              :FIELDS          (fn[& x] {:fields (into [] (map keyword x) )})
              :TABLE           (fn[x]   {:db-table x})
              :WHERE_CLAUSE    (fn[x]   {:where (trim x)})
+             :REALTIME_CLAUSE (fn[]    {:realtime true})
              }
             ))
    ]
@@ -824,9 +826,9 @@ nil
            ;(~'div {}  (~'str "SQL LIST: "                         ~list-of-sql))
            (~'div {}  (~'str "SQL STRING: "
                         ~sql-as-a-string))
-           ;(~'div {}  (~'str "Main Instaparse Query: "       ~parsed-sql))
-           ;(~'div {}  (~'str "Main Transformed query: "
-           ;             ~transformed-sql))
+           (~'div {}  (~'str "Main Instaparse Query: "       ~parsed-sql))
+           (~'div {}  (~'str "Main Transformed query: "
+                        ~transformed-sql))
            (~'div {}  (~'str "Main Dataview map: "           ~dataview-map))
            (~'div {}  (~'str "Main Params: "                 ~main-params))
            (~'div {}  (~'str "Type: "  ~typeof2))
