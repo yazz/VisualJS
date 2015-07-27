@@ -6,7 +6,7 @@
                                                 container  map-many  inline  text log sql
                                                 div img pre component h2 input section
                                                 write-ui read-ui container input component <--
-                                                h1 h2 h3 h4 h5 h6 span  data-view-v2 select select-debug
+                                                h1 h2 h3 h4 h5 h6 span  data-view-v2 select select-debug realtime realtime-debug
                                                 ]])
   (:require-macros
     [cljs.core.async.macros :refer [go alt!]])
@@ -56,6 +56,24 @@
 
 
                                   (select-debug id, item from todo_items
+                                          {}
+                                          (container
+                                            (inline  "10%" (str (<-- :id)))
+                                            (inline  "90%" (str (<-- :item)))))
+
+                                  (div {:style {:padding "20px" :backgoundColor "white"}})
+
+                                  (realtime select id, item from todo_items
+                                                  {}
+                                                  (container
+                                                    (inline  "10%" (str (<-- :id)))
+                                                    (inline  "90%" (str (<-- :item)))))
+
+
+
+                                  (div {:style {:padding "20px" :backgoundColor "white"}})
+
+                                  (realtime-debug select id, item from todo_items
                                           {}
                                           (container
                                             (inline  "10%" (str (<-- :id)))

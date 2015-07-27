@@ -674,7 +674,9 @@ nil
   (insta/parser
     "SQL                = SELECT_QUERY | INSERT_STATEMENT
 
-     <SELECT_QUERY>     = <SELECT> FIELDS <FROM> TABLE WHERE_CLAUSE?
+     <SELECT_QUERY>     = <REALTIME_OPTIONS> <SELECT> FIELDS <FROM> TABLE WHERE_CLAUSE?
+
+     <REALTIME_OPTIONS> = 'realtime ' | ''
 
      <INSERT_STATEMENT> = <INSERT>  TABLE  INSERT_FIELD_SPEC  VALUES
 
@@ -788,7 +790,7 @@ nil
 
 
 
-(defmacro sql-parser [& sql-args]
+(defmacro sql-parser [command & sql-args]
   (let [
         list-of-sql        (map (fn[x]
                                   (if (.startsWith (str x)
@@ -797,7 +799,7 @@ nil
         main-params       (last (butlast   sql-args))
         om-code           (last   sql-args)
 
-        sql-as-a-string   (str "select " (apply str (for [arg (into []
+        sql-as-a-string   (str command " " (apply str (for [arg (into []
                                                                     (apply list list-of-sql))] (str arg " ") ) ))
         parsed-sql        (parse-sql-string-into-instaparse-structure
                             sql-as-a-string)
@@ -854,7 +856,9 @@ nil
               dataview-map      (merge main-params {:debug true})
               code              (last  select-args)
           ]
-           `(sql-parser  ~@main-sql
+           `(sql-parser
+                "select"
+                ~@main-sql
                 ~dataview-map
                 ~code))
   )
@@ -869,11 +873,35 @@ nil
       `(remote-sql-parser  ~@select-args)
 
       :else
-    `(sql-parser  ~@select-args)
+    `(sql-parser  "select" ~@select-args)
     )))
 
 
 
+(defmacro realtime [& select-args]
+  (let [
+        type-of-last-arg     (last  select-args)
+        ]
+    (cond
+      (= (type type-of-last-arg)  (type []))
+      `(remote-sql-parser  ~@select-args)
+
+      :else
+      `(sql-parser  "realtime" ~@select-args)
+      )))
+
+
+(defmacro realtime-debug [& select-args]
+  (let [
+        main-sql          (butlast(butlast   select-args))
+        main-params       (last (butlast   select-args))
+        dataview-map      (merge main-params {:debug true})
+        code              (last  select-args)
+        ]
+    `(sql-parser  "realtime" ~@main-sql
+                  ~dataview-map
+                  ~code))
+  )
 
 
 
