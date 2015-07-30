@@ -25,6 +25,7 @@
                                                     app-watch-on?
                                                     record-ui
                                                     touch
+                                                    data-session-id
                                                     ]]
    [webapp.framework.client.components.system-container :only  [main-view]]
    [webapp.framework.client.components.playback  :only  [playback-controls-view ]]
@@ -82,14 +83,17 @@
    (reset-app-state)
    (@init-fn)
    (detect-browser)
-   (let [session (:value (remote !create-session
-                                     {
-                                      :init-state (with-out-str (prn @app-state))
-                                      :browser    (str (-> @app-state :system :platform) ","
-                                                       (-> @app-state :system :who-am-i))
-                                      })  )]
+
+   (let [session      (remote !create-session {
+                                               :init-state (with-out-str (prn @app-state))
+                                               :browser    (str (-> @app-state :system :platform) ","
+                                                                (-> @app-state :system :who-am-i))
+                                              })  ]
      ;(log session)
-     (reset! session-id session))
+        (reset! session-id      (:value session))
+        (reset! data-session-id (:data-session-id session))
+        ;(js/alert (pr-str @data-session-id))
+     )
 
 
 

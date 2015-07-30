@@ -274,7 +274,8 @@
   [{:keys [init-state browser]}]
   ;----------------------------------------------------------------
   (let [
-        session-id    (uuid-str)
+        session-id         (uuid-str)
+        data-session-id    (uuid-str)
         ]
     (if *record-ui*
 
@@ -294,9 +295,15 @@
                  :start_time    (. (java.util.Date.) getTime)
                  }
                 "n")
-      {:value session-id}
+      {
+        :value              session-id
+       }
       )
-    {:value session-id}))
+    {
+     :value session-id
+     :data-session-id    data-session-id
+    }
+    ))
 
 
 
