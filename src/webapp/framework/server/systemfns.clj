@@ -386,10 +386,12 @@
            params
            order
            realtime
+           data-session-id
 		   ]}]
 
   (println "************************************************************************************")
   (println "*REALTIME = " realtime)
+      (println (str "!get-query-results-v2   DATA_SESSION_ID: " data-session-id))
 
   (let [
         record-count
@@ -459,8 +461,9 @@
            db-table
            id
            fields
+           data-session-id
            ]}]
-
+      (println (str " !get-record-result-v2 DATA_SESSION_ID: " data-session-id))
   {:value
    (sql-1
     (str

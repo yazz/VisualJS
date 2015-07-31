@@ -44,6 +44,7 @@
                                                     assoc-in-atom
                                                     add-init-state-fn
                                                     global-om-state
+                                                    data-session-id
                                                     ]])
   (:use-macros
    [webapp.framework.client.coreclient  :only [ns-coils
@@ -1558,11 +1559,12 @@
       (if (not @record-value)
         (go
           (>! data-record-requests-v2
-             {:source   (query :data-source)
-              :db-table (query :db-table)
-              :fields   (get-default-fields-for-data-source (query :data-source))
-              :id        record-id
-              :query     query
+             {:source              (query :data-source)
+              :db-table            (query :db-table)
+              :fields              (get-default-fields-for-data-source (query :data-source))
+              :id                   record-id
+              :query                query
+              :data-session-id     @data-session-id
               }))
         ))))
 
@@ -1653,7 +1655,7 @@ Get SQL queries requests from the database
    (let [request (<! data-query-requests-v2)]  ; <-- reads the request from the channel
 
      (let [
-           params         (merge (:query-key request) (:subset-range request))
+           params         (merge (merge (:query-key request) (:subset-range request)) {:data-session-id     @data-session-id})
 
            return-value   (remote    !get-query-results-v2  params)
            records        (:records  return-value)
