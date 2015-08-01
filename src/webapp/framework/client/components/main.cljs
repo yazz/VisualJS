@@ -46,7 +46,7 @@
                                                         ))))
 
                               })
-                                (select id, item from todo_items
+                                (realtime select id, item from todo_items
                                           {}
                                         (container
                                             (inline  "10%" (str (<-- :id)))
@@ -63,11 +63,11 @@
 
                                   (div {:style {:padding "20px" :backgoundColor "white"}})
 
-                                  (realtime select id, item from todo_items
+                                  ( select id from todo_items
                                                   {}
                                                   (container
                                                     (inline  "10%" (str (<-- :id)))
-                                                    (inline  "90%" (str (<-- :item)))))
+                                                    (inline  "90%" (str (<-- :id)))))
 
 
 
