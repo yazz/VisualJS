@@ -390,8 +390,17 @@
 		   ]}]
 
   (println "************************************************************************************")
-  (println "*REALTIME = " realtime)
-      ;(println (str "!get-query-results-v2   DATA_SESSION_ID: " data-session-id))
+  (println "!get-query-results-v2*   REALTIME = " realtime)
+  (println (str "!get-query-results-v2: "
+                db-table
+                where " "
+                start  " "
+                end " "
+                params " "
+                order " "
+                data-session-id " "
+                realtime " "
+                ))
 
   (let [
         record-count

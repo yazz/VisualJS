@@ -25,7 +25,7 @@
                  [overtone/at-at "1.2.0"]
                  [org.clojure/tools.nrepl "0.2.10"]
                  [lein-figwheel "0.3.3"]
-                 [instaparse "1.4.0"]
+                 [instaparse "1.4.1"]
                  ]
   :repositories {"sonatype-oss-public"
                  "https://oss.sonatype.org/content/groups/public/"}

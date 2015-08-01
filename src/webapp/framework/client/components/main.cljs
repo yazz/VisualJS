@@ -46,7 +46,7 @@
                                                         ))))
 
                               })
-                                (realtime select id, item from todo_items
+                                ( select id, item from todo_items
                                           {}
                                         (container
                                             (inline  "10%" (str (<-- :id)))
@@ -55,7 +55,7 @@
                                   (div {:style {:padding "20px" :backgoundColor "white"}})
 
 
-                                  (select-debug id, item from todo_items
+                                  ( select-debug id, item from todo_items
                                           {}
                                           (container
                                             (inline  "10%" (str (<-- :id)))
@@ -63,17 +63,17 @@
 
                                   (div {:style {:padding "20px" :backgoundColor "white"}})
 
-                                  ( select id from todo_items
+                                  ( select id,item from todo_items 
                                                   {}
                                                   (container
                                                     (inline  "10%" (str (<-- :id)))
-                                                    (inline  "90%" (str (<-- :id)))))
+                                                    (inline  "90%" (str (<-- :item)))))
 
 
 
                                   (div {:style {:padding "20px" :backgoundColor "white"}})
 
-                                  (realtime-debug select id, item from todo_items
+                                  ( realtime-debug select id, item from todo_items
                                           {}
                                           (container
                                             (inline  "10%" (str (<-- :id)))

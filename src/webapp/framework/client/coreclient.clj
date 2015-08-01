@@ -723,6 +723,7 @@ nil
              :FIELDS          (fn[& x] {:fields (into [] (map keyword x) )})
              :TABLE           (fn[x]   {:db-table x})
              :WHERE_CLAUSE    (fn[x]   {:where (trim x)})
+             ;:REALTIME_CLAUSE (fn[]    {})
              :REALTIME_CLAUSE (fn[]    {:realtime true})
              }
             ))
