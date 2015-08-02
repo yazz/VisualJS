@@ -46,7 +46,13 @@
                                                     add-init-state-fn
                                                     global-om-state
                                                     data-session-id
-                                                    ]])
+                                                    data-view-requests-v2
+                                                    data-query-requests-v2
+                                                    data-record-requests-v2
+                                                    data-queries-v2
+                                                    data-records-v2
+                                                    ui-paths-v2
+                                                    datasource-fields]])
   (:use-macros
    [webapp.framework.client.coreclient  :only [ns-coils
                                                sql log neo4j neo4j-1 sql-1
@@ -1167,15 +1173,7 @@
 ; real time, but due to reactivity in the UI then the UI
 ; is automatically updated when the data is ready
 ;-----------------------------------------------------------
-(def data-view-requests-v2   (chan))
-(def data-query-requests-v2  (chan))
-(def data-record-requests-v2 (chan))
 
-(def data-queries-v2              (atom {})) ; list of the queries
-(def data-records-v2              (atom {})) ; list of the records
-(def ui-paths-v2                  (atom {})) ; list of the UI paths and their associated views
-
-(def datasource-fields            (atom {})) ; list of the data sources and their fields
 
 
 ;(-> @data-records-v2 vals first deref :values deref keys count)
