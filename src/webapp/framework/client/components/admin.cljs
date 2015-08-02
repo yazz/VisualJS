@@ -6,6 +6,7 @@
 	(:use
 		[webapp.framework.client.system-globals  :only  [
 																										 data-views-v2
+																										 data-queries-v2
 																										 ]])
    )
 
@@ -154,8 +155,11 @@
 (c/defn-ui-component     admin-view-list-views   [data-sources]
 
   (c/div nil
+				 (c/h2 nil "Views")
 		 (c/map-many
-		  #(c/div nil  (pr-str (get  % :fields) (get  % :db-table) (get  % :where) (get  % :params) ))
+		  #(c/div
+				{:onClick (fn[x] (js/alert (pr-str (get  @data-views-v2 %))))}
+		      (pr-str (get  % :fields) (get  % :db-table) (get  % :where) (get  % :params) ))
 		     ;(c/read-ui data-sources [:values])
 		     ;["s" "dd"]
 			(keys @data-views-v2)
@@ -164,7 +168,19 @@
 
 
 
+(c/defn-ui-component     admin-view-list-queries   [data-sources]
 
+												 (c/div nil
+																(c/h2 nil "Queries")
+																(c/map-many
+																	#(c/div
+																		{:onClick (fn[x] (js/alert (pr-str (get  @data-queries-v2 %))))}
+																		(pr-str %   ))
+																	;(c/read-ui data-sources [:values])
+																	;["s" "dd"]
+																	(keys @data-queries-v2)
+																	)
+																))
 
 
 
@@ -189,6 +205,14 @@
 												(c/write-ui  app [:system :ui :tab-detail :value] {})
 									 )
 						 } "views"))
+
+			(c/inline "50px" (c/div {:style {:fontSize "12px"}
+															 :onClick #(do
+																					(c/write-ui  app [:system :ui :tab :value] "data queries")
+																					(c/write-ui  app [:system :ui :tab-detail :value] {})
+																					)
+															 } "queries"))
+
 		  )
 
 
@@ -201,6 +225,9 @@
 		  (= (c/read-ui  app [:system :ui :tab :value]) "data views")
 		  (c/component  admin-view-list-views  app  [:system :ui :data-sources])
 
+
+			(= (c/read-ui  app [:system :ui :tab :value]) "data queries")
+			(c/component  admin-view-list-queries  app  [:system :ui :data-sources])
 		  )
 		 ))
 
