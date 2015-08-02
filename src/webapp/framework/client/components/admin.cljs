@@ -159,7 +159,7 @@
 		 (c/map-many
 		  #(c/div
 				{:onClick (fn[x] (js/alert (pr-str (get  @data-views-v2 %))))}
-		      (pr-str (get  % :fields) (get  % :db-table) (get  % :where) (get  % :params) ))
+		      (pr-str (get  % :path) (get  % :fields) (get  % :db-table) (get  % :where) (get  % :params) ))
 		     ;(c/read-ui data-sources [:values])
 		     ;["s" "dd"]
 			(keys @data-views-v2)
