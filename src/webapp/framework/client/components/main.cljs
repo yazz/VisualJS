@@ -63,7 +63,7 @@
 
                                   (div {:style {:padding "20px" :backgoundColor "white"}})
 
-                                  ( select id,item from todo_items 
+                                  ( select id,item from todo_items  where id > 1
                                                   {}
                                                   (container
                                                     (inline  "10%" (str (<-- :id)))
@@ -73,7 +73,7 @@
 
                                   (div {:style {:padding "20px" :backgoundColor "white"}})
 
-                                  ( realtime-debug select id, item from todo_items
+                                  ( realtime-debug select id, item from todo_items where id > 1
                                           {}
                                           (container
                                             (inline  "10%" (str (<-- :id)))
