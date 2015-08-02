@@ -881,3 +881,7 @@ record-ui
 
 
 (def global-om-state (atom nil))
+
+
+
+(def data-views-v2                (atom {})) ; list of the views

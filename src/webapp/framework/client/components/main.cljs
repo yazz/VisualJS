@@ -63,7 +63,7 @@
 
                                   (div {:style {:padding "20px" :backgoundColor "white"}})
 
-                                  ( select id,item from todo_items  where id > 1
+                                  ( select id,item from todo_items  where id < 4
                                                   {}
                                                   (container
                                                     (inline  "10%" (str (<-- :id)))

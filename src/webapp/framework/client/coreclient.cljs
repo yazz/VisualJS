@@ -27,6 +27,7 @@
                                                     record-pointer-locally
                                                     app-state
                                                     reset-app-state
+                                                    data-views-v2
                                                     ui-watchers
                                                     call-stack
                                                     data-watchers
@@ -1172,7 +1173,6 @@
 
 (def data-queries-v2              (atom {})) ; list of the queries
 (def data-records-v2              (atom {})) ; list of the records
-(def data-views-v2                (atom {})) ; list of the views
 (def ui-paths-v2                  (atom {})) ; list of the UI paths and their associated views
 
 (def datasource-fields            (atom {})) ; list of the data sources and their fields
@@ -1709,7 +1709,8 @@ data and updates the internal cache
          (let [
                record-container     (get-or-create-record  source-name  id)
                queries              (get record-container :queries)
-               record-value-atom    (get record-container :value)   ]
+               record-value-atom    (get record-container :value)
+               ]
 
 
            ;(log (pr-str "existing record value:" record-value-atom))

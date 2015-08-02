@@ -1,6 +1,13 @@
 (ns webapp.framework.client.components.admin
   (:require
-   [webapp.framework.client.coreclient   :as c :include-macros true]))
+   [webapp.framework.client.coreclient   :as c :include-macros true])
+
+
+	(:use
+		[webapp.framework.client.system-globals  :only  [
+																										 data-views-v2
+																										 ]])
+   )
 
 (c/ns-coils 'webapp.framework.client.components.admin)
 
@@ -74,8 +81,10 @@
 
 (c/defn-ui-component     admin-view-list-data-sources   [data-sources]
 
-  (let [use-source    (c/read-ui data-sources [:data-source])
-		view         (c/read-ui data-sources [:data-view])]
+  (let [
+        use-source    (c/read-ui data-sources [:data-source])
+	    	view          (c/read-ui data-sources [:data-view])
+	    	]
 
 	(c/div nil
 		   (c/map-many
@@ -146,8 +155,10 @@
 
   (c/div nil
 		 (c/map-many
-		  #(c/div nil  (second %))
-		     (c/read-ui data-sources [:values])
+		  #(c/div nil  (pr-str (get  % :fields) (get  % :db-table) (get  % :where) (get  % :params) ))
+		     ;(c/read-ui data-sources [:values])
+		     ;["s" "dd"]
+			(keys @data-views-v2)
 		  )
        ))
 
