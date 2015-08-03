@@ -1383,14 +1383,16 @@
 -----------------------------------------------------------"
 (defn update-all-views-for-query [ query-key ]
 
-  (let [  data-query         @(get @data-queries-v2  query-key)
-          list-of-views      @(get data-query  :list-of-view-keys)   ]
+  (let [
+          data-query         @(get @data-queries-v2  query-key)
+          list-of-views      @(get data-query  :list-of-view-keys)
+          ]
 
-    (doall
-
-     (map
-      (fn[view-key]  (update-view-for-query  view-key  query-key))
-      list-of-views ))))
+          (doall
+                (map
+                    (fn[view-key]
+                                 (update-view-for-query  view-key  query-key))
+                    list-of-views ))))
 
 
 
@@ -1585,18 +1587,25 @@ repeatedly calling load-record
 (defn add-data-query-result-v2  [query-key   params  records-count  records]
 
   (let [
-         query-atom          (get @data-queries-v2   query-key)
-         list-of-positions   (range (:start params) (inc (:end params)))
+         query-atom                 (get @data-queries-v2   query-key)
+         list-of-record-positions   (range (:start params) (inc (:end params)))
        ]
 
-    ;(log (pr-str "Record copunt returned: " records-count))
+    ;(log (pr-str "Record count returned: " records-count))
 
+    ; -----------------------------------------------
     ; update the record count in the query
+    ; -----------------------------------------------
     (reset!  query-atom
              (assoc @query-atom :count records-count))
     ;(log (str "Query Count: " records-count))
 
-    ; update the values in the query
+
+
+
+    ; -----------------------------------------------
+    ; update the record IDs in the query
+    ; -----------------------------------------------
     (reset!  query-atom
              (assoc @query-atom :values
                (merge
@@ -1604,25 +1613,30 @@ repeatedly calling load-record
                               (fn[record-pos
                                   record-id]   {record-pos  record-id})
 
-                              list-of-positions
+                              list-of-record-positions
                               records
                               ))
                 (get @query-atom :values))))
 
 
+    ; -----------------------------------------------
+    ; load the records in
+    ; -----------------------------------------------
     (let [
-          list-of-ids         (map (fn[id]
-                                     (get (@query-atom :values) id))
-                                   list-of-positions)
+          list-of-ids         (map
+                                  (fn[id] (get (@query-atom :values) id))
+                                   list-of-record-positions)
           ]
 
       (doall
        (map
         (fn [ record-id ] (load-record  query-key  record-id))
         list-of-ids
-        ))
+        )
+       (update-all-views-for-query    query-key)
 
-      (update-all-views-for-query    query-key)
+        )
+
       )))
 
 
@@ -1641,11 +1655,10 @@ repeatedly calling load-record
 
 Get SQL queries requests from the database
 
-
-
- this waits for requests on the channel
- 'data-query-requests-v2' and then gets the corresponding
- data and updates the internal cache
+This waits for query requests on the channel 'data-query-requests-v2'
+and then asks the server for the results of the query. When the result
+comes back then it goes through all the record IDs and tries to load the
+records
 
 -----------------------------------------------------------"
 (go
@@ -1696,7 +1709,7 @@ data and updates the internal cache
    (let [request  (<! data-record-requests-v2)]  ; <-- reads the record request from the channel
      (log (pr-str "Loading record " (get request :id)))
      (let [
-           record             (remote  !get-record-result-v2 request)
+           record             (remote  !get-record-result-v2  request)
            record-value       (get record :value)
 
            source-name        (:source  request)
