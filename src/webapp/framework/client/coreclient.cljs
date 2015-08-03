@@ -1398,7 +1398,18 @@
 
 
 
-
+(log (str "Tick"))
+(comment js/setInterval
+    #(do
+      ;(log (pr-str (count (keys @data-queries-v2))))
+      (doall (map
+        (fn[x]
+             (do
+                 (update-all-views-for-query x)
+                 (log (pr-str x))
+             )
+        )
+      (into [] (keys @data-queries-v2))))) 500)
 
 
 "-----------------------------------------------------------
@@ -2106,7 +2117,7 @@ with the (<-- :field) method
          :realtime            realtime
          }
         ]
-    (log (str "data-view-fn-v2: " relative-path))
+;    (log (str "data-view-fn-v2: " relative-path))
 
     (update-data-source-fields   data-source  fields)
 
