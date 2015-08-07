@@ -591,7 +591,10 @@
       (reset! debugger-ui
               (assoc-in @debugger-ui [:mode]
                         "show-event"))
-      (display-debug-code)
+      )
+    (display-debug-code)
+
+    ))
 
 
 
