@@ -592,7 +592,6 @@
               (assoc-in @debugger-ui [:mode]
                         "show-event"))
       (display-debug-code)
-      )))
 
 
 
@@ -650,7 +649,6 @@
                               (if (not= (:mode @debugger-ui) "component")
                                 (unset-debug-component  react-fn-name  (om/get-state owner :parent-path)))
                               "")
-                            ""
                             )
                           })
             }

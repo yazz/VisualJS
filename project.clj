@@ -1,7 +1,7 @@
 (defproject org.clojars.zubairq/coils "0.5"
   :dependencies [
                  [org.clojure/clojure "1.7.0"]
-                 [org.clojure/clojurescript "0.0-3308" :scope "provided"]
+                 [org.clojure/clojurescript "1.7.48" :scope "provided"]
                  [org.omcljs/om "0.9.0"]
                  [om-sync "0.1.1"]
                  [org.clojure/core.async "0.1.346.0-17112a-alpha" :scope "provided"]

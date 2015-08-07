@@ -181,14 +181,14 @@
                                (swap! app-state assoc :touch-id (rand-int 99999))
                                ;nil
                                )))
+                         :else
+                         nil
 
 
+                         ))))
 
-                         ))
 
-
-                      :else
-                      nil )))))))
+                      )))))
 
 
 
