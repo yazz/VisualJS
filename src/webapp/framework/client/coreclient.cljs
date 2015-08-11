@@ -1442,6 +1442,7 @@
                (fn [_ _ old-val new-val]
 
                  (let [new-query-atom  (get @data-queries-v2  query-key)]
+
                    (if (or
                         (not (= (:start old-val) (:start new-val)))
                         (not (= (:end   old-val) (:end   new-val)))
@@ -1470,7 +1471,9 @@
 
                        (update-all-views-for-query   query-key)
 
-                       )))))))
+                       ))
+
+                       )))))
 
 
 
@@ -1529,7 +1532,9 @@
                              ;(js/alert (pr-str query))
                              (swap! query assoc :updated (.getTime (js/Date.)))
                              (update-all-views-for-query  query-key)
-                             ))))))))
+                             )))))))
+
+      )
 
     @(get  @records  record-id)))
 
@@ -1565,6 +1570,9 @@
   (update-or-add-table-data  query)
 
   (let [record (get-or-create-record  (query :data-source)  record-id) ]
+
+    (swap!  (get record :queries) conj  query)
+
 
     (let [record-value  (get record :value)]
 
@@ -1741,12 +1749,13 @@ data and updates the internal cache
            (if (nil? @record-value-atom)
              (do
                ; tell the record that it belongs to a query
-               (swap!  queries conj (request :query))
+               ;(swap!  queries conj (request :query))
 
                (reset! record-value-atom   record-value)
                ;(log (pr-str record-value))
 
                ))
+           ;(swap!  queries conj (request :query))
 
            (if (get request :force)
              (do
