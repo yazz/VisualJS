@@ -391,6 +391,19 @@
 
   (println "************************************************************************************")
   (println "!get-query-results-v2*   REALTIME = " realtime)
+
+  (if realtime
+  (do
+  (if (get @cached-queries db-table)
+    nil
+    (swap! cached-queries assoc db-table {})
+  )
+    (println "-------------------------------")
+   (println cached-queries)
+    (println "-------------------------------")
+  )
+  )
+
   (println (str "!get-query-results-v2: "
                 db-table
                 where " "
