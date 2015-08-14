@@ -373,15 +373,17 @@
 
 
 
-(defn create-query-key
-[& {:keys [
-         db-table
-         where
-         start
-         end
-         params
-         order
-         ]}]
+
+
+
+(defn create-query-key [& {:keys [
+                                   db-table
+                                   where
+                                   start
+                                   end
+                                   params
+                                   order
+                                   ]}]
          {
           :db-table db-table
           :where where
@@ -389,49 +391,37 @@
           :end end
           :params params
           :order order
-         }
-)
+         })
 
 
 
-(defn !get-query-results-v2
-  [{:keys [
-           db-table
-		       where
-           start
-           end
-           params
-           order
-           realtime
-           data-session-id
-		   ]}]
+
+(defn get-count [db-table  where   params]
+                                               (:cnt (sql-1 (str
+                                                  "select count (id) as CNT from "
+                                                  db-table " "
+                                                  (if (-> where count pos?) (str "where " where " "))
+                                                  )
+                                                 params)))
+
+
+
+
+
+
+(defn !get-query-results-v2 [{:keys [
+                                     db-table
+                          		       where
+                                     start
+                                     end
+                                     params
+                                     order
+                                     realtime
+                                     data-session-id
+                          		   ]}]
 
   (println "************************************************************************************")
   (println "!get-query-results-v2*   REALTIME = " realtime)
-
-
-(cond
-   realtime
-  (let [
-  query-key   (create-query-key
-                :db-table db-table
-                :where where
-                :start start
-                :end end
-                :params params
-                :order order
-  )
-  ]
-  (if (get @cached-queries  query-key)
-    nil
-    (swap! cached-queries assoc  query-key {})
-  )
-    (println "-------------------------------")
-   (println cached-queries)
-    (println "-------------------------------")
-  
-  
-
   (println (str "!get-query-results-v2: "
                 db-table
                 where " "
@@ -441,21 +431,39 @@
                 order " "
                 data-session-id " "
                 realtime " "
-                )))
+                ))
+  (println "************************************************************************************")
+
+  (cond
+       realtime
+       
+       (let [
+             query-key   (create-query-key
+                            :db-table db-table
+                            :where where
+                            :start start
+                            :end end
+                            :params params
+                            :order order)
+             ]
+
+           (if (get @cached-queries  query-key)
+               nil
+              (swap! cached-queries assoc  query-key {})
+           )
+
+          (println "-------------------------------")
+          (println cached-queries)
+          (println "-------------------------------")
+      )
 
 
 
-:else
-(do
-  (let [
-        record-count
+      :else
 
-        (:cnt (sql-1 (str
-                        "select count (id) as CNT from "
-                        db-table " "
-                        (if (-> where count pos?) (str "where " where " "))
-                        )
-                       params))
+      (do
+          (let [
+                 record-count      (get-count   db-table  where   params)
 
 
 
