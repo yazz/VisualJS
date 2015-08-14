@@ -373,7 +373,24 @@
 
 
 
-
+(defn create-query-key
+[& {:keys [
+         db-table
+         where
+         start
+         end
+         params
+         order
+         ]}]
+         {
+          :db-table db-table
+          :where where
+          :start start
+          :end end
+          :params params
+          :order order
+         }
+)
 
 
 
@@ -392,17 +409,28 @@
   (println "************************************************************************************")
   (println "!get-query-results-v2*   REALTIME = " realtime)
 
-  (if realtime
-  (do
-  (if (get @cached-queries db-table)
+
+(cond
+   realtime
+  (let [
+  query-key   (create-query-key
+                :db-table db-table
+                :where where
+                :start start
+                :end end
+                :params params
+                :order order
+  )
+  ]
+  (if (get @cached-queries  query-key)
     nil
-    (swap! cached-queries assoc db-table {})
+    (swap! cached-queries assoc  query-key {})
   )
     (println "-------------------------------")
    (println cached-queries)
     (println "-------------------------------")
-  )
-  )
+  
+  
 
   (println (str "!get-query-results-v2: "
                 db-table
@@ -413,8 +441,12 @@
                 order " "
                 data-session-id " "
                 realtime " "
-                ))
+                )))
 
+
+
+:else
+(do
   (let [
         record-count
 
@@ -460,7 +492,7 @@
      :records      result-id-vector
       :count       record-count
      }
-    ))
+    ))))
 
 
 
