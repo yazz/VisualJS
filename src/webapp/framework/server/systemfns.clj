@@ -408,6 +408,32 @@
 
 
 
+(defn get-results [& {:keys [db-table where order start end params]}]
+(sql
+    (str
+        "select id from "
+        db-table " "
+        (if (-> where count pos?) (str "where " where " "))
+        (if (-> order count pos?) (str "order by " order " "))
+        (cond
+            (= *database-type* "postgres" )
+            (str
+                (if start (str " offset " (- start 1) " "))
+                (if end (str " limit " (+ 1 (- end start)) " ") "limit 2")
+                )
+
+            (= *database-type* "oracle" )
+            ""
+            )
+
+        ;questions_answered_count is not null
+        ;order by
+        ;questions_answered_count desc"
+        ) params)
+        )
+
+
+
 
 (defn !get-query-results-v2 [{:keys [
                                      db-table
@@ -469,27 +495,13 @@
 
         results
 
-        (sql
-				 (str
-				  "select id from "
-				  db-table " "
-				  (if (-> where count pos?) (str "where " where " "))
-          (if (-> order count pos?) (str "order by " order " "))
-          (cond
-            (= *database-type* "postgres" )
-            (str
-              (if start (str " offset " (- start 1) " "))
-              (if end (str " limit " (+ 1 (- end start)) " ") "limit 2")
-              )
-
-            (= *database-type* "oracle" )
-            ""
-            )
-
-				  ;questions_answered_count is not null
-				  ;order by
-				  ;questions_answered_count desc"
-				  ) params)
+       (get-results   :db-table db-table
+                      :where    where
+                      :order    order
+                      :start    start
+                      :end      end
+                      :params   params
+        )
 
 		result-id-vector
 		(into [] (map :id results))
