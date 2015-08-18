@@ -475,12 +475,36 @@
 
            (if (get @cached-queries  query-key)
                nil
-              (swap! cached-queries assoc  query-key {})
+               (let [
+                     record-count       (get-count   db-table  where   params)
+
+
+
+                     results            (get-results    :db-table db-table
+                                                        :where    where
+                                                        :order    order
+                                                        :start    start
+                                                        :end      end
+                                                        :params   params
+                                                        )
+
+                     result-id-vector   (into [] (map :id results))
+                    ]
+                      (swap! cached-queries assoc  query-key {
+                                                               :records      result-id-vector
+                                                               :count        record-count
+                                                                  })
+              )
+
            )
 
           (println "-------------------------------")
-          (println cached-queries)
+          (println "@cached-queries     " @cached-queries)
+          (println query-key)
+          (println (get @cached-queries  query-key))
           (println "-------------------------------")
+
+           (get @cached-queries  query-key)
       )
 
 
