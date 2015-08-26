@@ -1,4 +1,4 @@
-(ns webapp.framework.client.components.main
+(ns webapp.framework.client.components.main_view
   (:require
    [webapp.framework.client.coreclient   :as c ])
   (:use-macros
@@ -14,7 +14,7 @@
 
 
 
-(ns-coils 'webapp.framework.client.components.main)
+(ns-coils 'webapp.framework.client.components.main_view)
 
 
 (defn-ui-component     cc2   [app]
