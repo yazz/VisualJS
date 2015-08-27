@@ -436,7 +436,40 @@
 
 
 
-(defn do-real []
+
+
+
+(def coils-tables-trigger-version "1")
+
+
+
+(defn create-realtime-trigger [& {:keys [:table-name]}]
+(let [coils-trigger      (korma.core/exec-raw 
+                                   [" select * from coils_triggers where table_name = ?" [table-name]] 
+                                   :results)
+
+        coils-trigger-exists   (pos? (count coils-trigger))
+
+        sql-to-create-trigger "
+INSERT INTO coils_triggers
+(
+  table_name,version
+) values (?,?);
+"
+        ]
+        (println "Coils trigger table exists: " coils-trigger-exists)
+
+
+        (if (not coils-trigger-exists )
+                      (korma.core/exec-raw   [sql-to-create-trigger [table-name  coils-tables-trigger-version]]   [])
+                      nil
+        )
+
+          )
+)
+
+
+(defn do-real [& {:keys [:table-name]}]
   (let [coils-admin-tables      (korma.core/exec-raw 
                                    [" select * from pg_tables where schemaname='public' and tablename='coils_triggers'" []] 
                                    :results)
@@ -458,8 +491,20 @@ CREATE TABLE coils_triggers
                       (korma.core/exec-raw   [sql-to-create-admin-table []]   [])
                       nil
         )
+
+
+
+
+            (println "table name: " table-name)
+            (create-realtime-trigger :table-name table-name)
+
   )
   )
+
+
+
+
+
 
 
 
@@ -494,12 +539,12 @@ CREATE TABLE coils_triggers
        
        (let [
              query-key   (create-query-key
-                            :db-table db-table
-                            :where where
-                            :start start
-                            :end end
-                            :params params
-                            :order order)
+                            :db-table  db-table
+                            :where     where
+                            :start     start
+                            :end       end
+                            :params    params
+                            :order     order)
              ]
 
            (if (get @cached-queries  query-key)
@@ -527,7 +572,7 @@ CREATE TABLE coils_triggers
 
            )
 
-          (do-real)
+          (do-real   :table-name db-table)
 
           (println "-------------------------------")
           (println "@cached-queries     " @cached-queries)
