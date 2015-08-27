@@ -435,6 +435,35 @@
 
 
 
+
+(defn do-real []
+  (let [coils-admin-tables      (korma.core/exec-raw 
+                                   [" select * from pg_tables where schemaname='public' and tablename='coils_triggers'" []] 
+                                   :results)
+
+        coils-admin-table-exists   (pos? (count coils-admin-tables))
+
+        sql-to-create-admin-table "
+CREATE TABLE coils_triggers
+(
+  id serial NOT NULL,
+  table_name character varying,
+  version character varying
+);
+"
+  ]
+
+      (println "Coils admin table exists: " coils-admin-table-exists)
+      (if (not coils-admin-table-exists )
+                      (korma.core/exec-raw   [sql-to-create-admin-table []]   [])
+                      nil
+        )
+  )
+  )
+
+
+
+
 (defn !get-query-results-v2 [{:keys [
                                      db-table
                           		       where
@@ -497,6 +526,8 @@
               )
 
            )
+
+          (do-real)
 
           (println "-------------------------------")
           (println "@cached-queries     " @cached-queries)
