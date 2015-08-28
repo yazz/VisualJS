@@ -469,7 +469,7 @@ INSERT INTO coils_triggers
 )
 
 
-(defn do-real [& {:keys [:table-name]}]
+(defn make-admin-table []
   (let [coils-admin-tables      (korma.core/exec-raw 
                                    [" select * from pg_tables where schemaname='public' and tablename='coils_triggers'" []] 
                                    :results)
@@ -495,8 +495,6 @@ CREATE TABLE coils_triggers
 
 
 
-            (println "table name: " table-name)
-            (create-realtime-trigger :table-name table-name)
 
   )
   )
@@ -506,7 +504,50 @@ CREATE TABLE coils_triggers
 
 
 
+(defn make-log-table []
+  (let [coils-admin-tables      (korma.core/exec-raw 
+                                   [" select * from pg_tables where schemaname='public' and tablename='coils_realtime_log'" []] 
+                                   :results)
 
+        coils-admin-table-exists   (pos? (count coils-admin-tables))
+
+        sql-to-create-admin-table "
+CREATE TABLE coils_realtime_log
+(
+  id serial NOT NULL,
+  record_timestamp timestamp without time zone,
+  record_table_name character varying,
+  record_id character varying,
+  record_operation character varying,
+  record_status character varying
+);
+"
+  ]
+
+      (println "Coils admin table exists: " coils-admin-table-exists)
+      (if (not coils-admin-table-exists )
+                      (korma.core/exec-raw   [sql-to-create-admin-table []]   [])
+                      nil
+        )
+
+
+
+
+
+  )
+  )
+
+
+
+
+
+
+(defn do-real [& {:keys [:table-name]}]
+  (println "table name: " table-name)
+  (make-admin-table )
+  (make-log-table   )
+  (create-realtime-trigger  :table-name  table-name)
+)
 
 
 (defn !get-query-results-v2 [{:keys [
