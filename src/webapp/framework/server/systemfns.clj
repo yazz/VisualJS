@@ -450,19 +450,28 @@
 
         coils-trigger-exists   (pos? (count coils-trigger))
 
-        sql-to-create-trigger "
+      sql-to-insert-trigger-row "
 INSERT INTO coils_triggers
 (
   table_name,version
 ) values (?,?);
+"
+
+        sql-to-create-trigger "
+CREATE TRIGGER trigger_afterInsert AFTER INSERT ON todo_items FOR EACH ROW EXECUTE PROCEDURE trigger_function_afterInsert();
 "
         ]
         (println "Coils trigger table exists: " coils-trigger-exists)
 
 
         (if (not coils-trigger-exists )
-                      (korma.core/exec-raw   [sql-to-create-trigger [table-name  coils-tables-trigger-version]]   [])
+        (do
+            (korma.core/exec-raw   [sql-to-insert-trigger-row [table-name  coils-tables-trigger-version]]   [])
+            (korma.core/exec-raw   [sql-to-create-trigger []]   [])
+
+                      )
                       nil
+
         )
 
           )
