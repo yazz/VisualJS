@@ -450,6 +450,7 @@
 
         coils-trigger-exists   (pos? (count coils-trigger))
 
+        sql-to-drop-trigger    (str "DROP TRIGGER IF EXISTS trigger_afterinsert ON " table-name ";")
       sql-to-insert-trigger-row "
 INSERT INTO coils_triggers
 (
@@ -457,9 +458,8 @@ INSERT INTO coils_triggers
 ) values (?,?);
 "
 
-        sql-to-create-trigger "
-CREATE TRIGGER trigger_afterInsert AFTER INSERT ON todo_items FOR EACH ROW EXECUTE PROCEDURE trigger_function_afterInsert();
-"
+        sql-to-create-insert-trigger (str "CREATE TRIGGER trigger_afterInsert AFTER INSERT ON " table-name " FOR EACH ROW EXECUTE PROCEDURE trigger_function_afterInsert();")
+        sql-to-create-update-trigger (str "CREATE TRIGGER trigger_afterUpdate AFTER UPDATE ON " table-name " FOR EACH ROW EXECUTE PROCEDURE trigger_function_afterUpdate();")
         ]
         (println "Coils trigger table exists: " coils-trigger-exists)
 
@@ -467,7 +467,9 @@ CREATE TRIGGER trigger_afterInsert AFTER INSERT ON todo_items FOR EACH ROW EXECU
         (if (not coils-trigger-exists )
         (do
             (korma.core/exec-raw   [sql-to-insert-trigger-row [table-name  coils-tables-trigger-version]]   [])
-            (korma.core/exec-raw   [sql-to-create-trigger []]   [])
+            (korma.core/exec-raw   [sql-to-drop-trigger []]   [])
+            (korma.core/exec-raw   [sql-to-create-insert-trigger []]   [])
+            (korma.core/exec-raw   [sql-to-create-update-trigger []]   [])
 
                       )
                       nil
@@ -554,7 +556,7 @@ CREATE TABLE coils_realtime_log
 
 
 
-(defn make-log-table-trigger-function []
+(defn make-log-table-insert-trigger-function []
     (let [coils-trigger-fn-exists-result      (korma.core/exec-raw
                                                   ["select exists(select * from pg_proc where proname = 'trigger_function_afterinsert');" []]
                                                   :results)
@@ -562,7 +564,7 @@ CREATE TABLE coils_realtime_log
           coils-trigger-fn-exists   (= "t"  coils-trigger-fn-exists-result)
 
           sql-to-create-trigger-fn "
-CREATE OR REPLACE FUNCTION trigger_function_afterInsert()\n
+CREATE OR REPLACE FUNCTION trigger_function_afterInsert()
       RETURNS trigger AS
 $BODY$
       BEGIN
@@ -588,13 +590,48 @@ LANGUAGE plpgsql;
 
 
 
+(defn make-log-table-update-trigger-function []
+    (let [coils-trigger-fn-exists-result      (korma.core/exec-raw
+                                                  ["select exists(select * from pg_proc where proname = 'trigger_function_afterUpdate');" []]
+                                                  :results)
+
+          coils-trigger-fn-exists   (= "t"  coils-trigger-fn-exists-result)
+
+          sql-to-create-trigger-fn "
+CREATE OR REPLACE FUNCTION trigger_function_afterUpdate()
+      RETURNS trigger AS
+$BODY$
+      BEGIN
+           INSERT INTO coils_realtime_log
+                 (record_timestamp,  record_table_name,  record_id,  record_operation,  record_status)
+           VALUES
+                 ( now(),   TG_TABLE_NAME ,  NEW.id,  'UPDATE',  'WAITING');
+           RETURN NULL;
+      END;
+$BODY$
+LANGUAGE plpgsql;
+"
+          ]
+
+        (println "Coils trigger function exists: " coils-trigger-fn-exists)
+        (if (not coils-trigger-fn-exists )
+            (korma.core/exec-raw   [sql-to-create-trigger-fn []]   [])
+            nil
+            )
+        )
+    )
+
+
+
+
 
 
 (defn do-real [& {:keys [:table-name]}]
   (println "table name: " table-name)
   (make-admin-table )
   (make-log-table   )
-  ( make-log-table-trigger-function)
+  ( make-log-table-insert-trigger-function)
+  ( make-log-table-update-trigger-function)
   (create-realtime-trigger  :table-name  table-name)
 )
 
