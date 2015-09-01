@@ -34,7 +34,6 @@
 
                               :onKeyDown  (fn [e]
                                              (do
-;                                               (js/alert (pr-str (.-keyCode e  )))
                                                    (if (= (.-keyCode e  ) 13)
                                                              (go
                                                                  ;(js/alert (read-ui  app [:newitem2]))
@@ -69,7 +68,11 @@
                                                     (inline  "10%" (str (<-- :id)))
                                                     (inline  "90%" (str (<-- :item)))))
 
-
+                                  (realtime select id,user_name from users  
+                                                  {}
+                                                  (container
+                                                    (inline  "10%" (str (<-- :id)))
+                                                    (inline  "90%" (str (<-- :user_name)))))
 
                                   (div {:style {:padding "20px" :backgoundColor "white"}})
 
