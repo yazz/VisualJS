@@ -460,6 +460,7 @@ INSERT INTO coils_triggers
 
         sql-to-create-insert-trigger (str "CREATE TRIGGER trigger_afterInsert AFTER INSERT ON " table-name " FOR EACH ROW EXECUTE PROCEDURE trigger_function_afterInsert();")
         sql-to-create-update-trigger (str "CREATE TRIGGER trigger_afterUpdate AFTER UPDATE ON " table-name " FOR EACH ROW EXECUTE PROCEDURE trigger_function_afterUpdate();")
+        sql-to-create-delete-trigger (str "CREATE TRIGGER trigger_afterDelete AFTER DELETE ON " table-name " FOR EACH ROW EXECUTE PROCEDURE trigger_function_afterDelete();")
         ]
         (println "Coils trigger table exists: " coils-trigger-exists)
 
@@ -470,6 +471,7 @@ INSERT INTO coils_triggers
             (korma.core/exec-raw   [sql-to-drop-trigger []]   [])
             (korma.core/exec-raw   [sql-to-create-insert-trigger []]   [])
             (korma.core/exec-raw   [sql-to-create-update-trigger []]   [])
+            (korma.core/exec-raw   [sql-to-create-delete-trigger []]   [])
 
                       )
                       nil
@@ -623,6 +625,38 @@ LANGUAGE plpgsql;
 
 
 
+(defn make-log-table-delete-trigger-function []
+    (let [coils-trigger-fn-exists-result      (korma.core/exec-raw
+                                                  ["select exists(select * from pg_proc where proname = 'trigger_function_afterDelete');" []]
+                                                  :results)
+
+          coils-trigger-fn-exists   (= "t"  coils-trigger-fn-exists-result)
+
+          sql-to-create-trigger-fn "
+CREATE OR REPLACE FUNCTION trigger_function_afterDelete()
+      RETURNS trigger AS
+$BODY$
+      BEGIN
+           INSERT INTO coils_realtime_log
+                 (record_timestamp,  record_table_name,  record_id,  record_operation,  record_status)
+           VALUES
+                 ( now(),   TG_TABLE_NAME ,  OLD.id,  'DELETE',  'WAITING');
+           RETURN NULL;
+      END;
+$BODY$
+LANGUAGE plpgsql;
+"
+          ]
+
+        (println "Coils trigger function exists: " coils-trigger-fn-exists)
+        (if (not coils-trigger-fn-exists )
+            (korma.core/exec-raw   [sql-to-create-trigger-fn []]   [])
+            nil
+            )
+        )
+    )
+
+
 
 
 
@@ -632,6 +666,7 @@ LANGUAGE plpgsql;
   (make-log-table   )
   ( make-log-table-insert-trigger-function)
   ( make-log-table-update-trigger-function)
+  ( make-log-table-delete-trigger-function)
   (create-realtime-trigger  :table-name  table-name)
 )
 
