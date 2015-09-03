@@ -528,12 +528,13 @@ CREATE TABLE coils_triggers
         sql-to-create-admin-table "
 CREATE TABLE coils_realtime_log
 (
-  id serial NOT NULL,
-  record_timestamp timestamp without time zone,
-  record_table_name character varying,
-  record_id character varying,
-  record_operation character varying,
-  record_status character varying
+  id                  serial NOT NULL,
+  realtime_jvm_id     integer,
+  record_timestamp    timestamp without time zone,
+  record_table_name   character varying,
+  record_id           character varying,
+  record_operation    character varying,
+  record_status       character varying
 );
 "
   ]
@@ -825,22 +826,25 @@ LANGUAGE plpgsql;
 ;(sql-1 "select count(id) from table_name " [])
 
 
+(def realtime-counter (atom 0))
+(defn next-realtime-id [] (swap! realtime-counter inc))
 
 (def my-pool (mk-pool))
 (every 10000 (fn []
               (let [sql (str "update coils_realtime_log"
-                            "      set record_status = 'PROCESSING'"
+                            "      set record_status = 'PROCESSING',"
+                            "          realtime_jvm_id = ? "
                             "where "
                             "      id in ( SELECT "
                             "                    id"
                             "              FROM "
                             "                    coils_realtime_log"
                             "              WHERE "
-                            "                   record_status='WAIITING' LIMIT 1 ) "
+                            "                   record_status='WAITING' LIMIT 1 ) "
                     )]
                      (do
                         (println "Checking pool!" )
-                        (korma.core/exec-raw [sql []])
+                        (korma.core/exec-raw [sql [(next-realtime-id)]])
                  ))) my-pool )
 
 
