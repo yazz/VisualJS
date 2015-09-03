@@ -21,7 +21,7 @@
                        {}
 
                        (section {:id "todoapp" :style {:padding "20px"}}
-                              (h2 nil "todos")
+                              (h2 nil "Todo app")
                              (div {:style {:padding "20px" :backgoundColor "white"}}
                               (input {
                               :id "new_todo_item"
@@ -68,7 +68,11 @@
                                                     (inline  "10%" (str (<-- :id)))
                                                     (inline  "90%" (str (<-- :item)))))
 
-                                  (realtime select id,user_name from users  
+
+                                  (div {:style {:padding "20px" :backgoundColor "white"}})
+
+
+                                  (realtime select id,user_name from users
                                                   {}
                                                   (container
                                                     (inline  "10%" (str (<-- :id)))

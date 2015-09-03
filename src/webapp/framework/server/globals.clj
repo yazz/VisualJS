@@ -1,6 +1,7 @@
 (ns webapp.framework.server.globals
-
-)
+  (:require
+   [clojure.core.async                      :refer [chan]]
+))
 
 
 
@@ -11,3 +12,7 @@
 
 
 (def cached-records (atom {}))
+
+
+
+(def server-side-record-changes   (chan))
