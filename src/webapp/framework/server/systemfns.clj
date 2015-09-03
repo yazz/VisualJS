@@ -2,6 +2,7 @@
 
   [:require [clojure.string :as string]]
   [:use [korma.db]]
+  [:use [clojure.core.async :only [go <! >!]]]
   [:require [korma.core]]
   [:use [webapp-config.settings]]
   [:use [webapp.framework.server.encrypt]]
@@ -830,8 +831,10 @@ LANGUAGE plpgsql;
 (defn next-realtime-id [] (swap! realtime-counter inc))
 
 (def my-pool (mk-pool))
-(every 10000 (fn []
-              (let [sql (str "update coils_realtime_log"
+(every 1000 (fn []
+              (let [next-id   (next-realtime-id)
+
+                    sql (str "update coils_realtime_log"
                             "      set record_status = 'PROCESSING',"
                             "          realtime_jvm_id = ? "
                             "where "
@@ -841,11 +844,29 @@ LANGUAGE plpgsql;
                             "                    coils_realtime_log"
                             "              WHERE "
                             "                   record_status='WAITING' LIMIT 1 ) "
-                    )]
+                    )
+
+                    get-realtime-log-entry (str "select * from coils_realtime_log "
+                                                "WHERE "
+                                                "realtime_jvm_id = ?")
+                    ]
                      (do
-                        (println "Checking pool!" )
-                        (korma.core/exec-raw [sql [(next-realtime-id)]])
+                        (korma.core/exec-raw [sql [next-id]] [])
+                        (let [realtime-log-entry-list
+                              (korma.core/exec-raw [get-realtime-log-entry [next-id]] :results)
+                              realtime-log-entry (first realtime-log-entry-list)
+                              ]
+                          (if realtime-log-entry
+                            (>! server-side-record-changes  realtime-log-entry))
+                          )
                  ))) my-pool )
 
 
 
+
+
+( go
+  (loop []
+        (let [realtime-log-entry   (<! server-side-record-changes)]
+                             (println realtime-log-entry  )
+(recur))))
