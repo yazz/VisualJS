@@ -830,7 +830,28 @@ LANGUAGE plpgsql;
 (def realtime-counter (atom 0))
 (defn next-realtime-id [] (swap! realtime-counter inc))
 
+()
+
+(korma.core/exec-raw ["delete from coils_realtime_log" []] [])
+
+
+
+
+
+(go
+  (loop []
+    (do
+        (let [realtime-log-entry   (<! server-side-record-changes)]
+                             (println (str "**** " realtime-log-entry ) )
+        )
+        (recur)
+      )
+    ))
+
+
 (def my-pool (mk-pool))
+
+
 (every 1000 (fn []
               (let [next-id   (next-realtime-id)
 
@@ -850,23 +871,20 @@ LANGUAGE plpgsql;
                                                 "WHERE "
                                                 "realtime_jvm_id = ?")
                     ]
-                     (do
-                        (korma.core/exec-raw [sql [next-id]] [])
+                     (let [get-new-entry-count    (korma.core/exec-raw [sql [next-id]] []) ]
+                       (println "processing: " get-new-entry-count )
+                        (if (pos? (first get-new-entry-count))
+                          (do
                         (let [realtime-log-entry-list
                               (korma.core/exec-raw [get-realtime-log-entry [next-id]] :results)
                               realtime-log-entry (first realtime-log-entry-list)
-                              ]
+                                ]
+                          (go
+                            (println "    found: " realtime-log-entry )
                           (if realtime-log-entry
-                            (>! server-side-record-changes  realtime-log-entry))
-                          )
+                             (>! server-side-record-changes  realtime-log-entry))
+                            )
+                          )))
                  ))) my-pool )
 
 
-
-
-
-( go
-  (loop []
-        (let [realtime-log-entry   (<! server-side-record-changes)]
-                             (println realtime-log-entry  )
-(recur))))
