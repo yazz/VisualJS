@@ -16,6 +16,7 @@
   [:use [webapp.framework.server.db-helper]]
   [:use [webapp.framework.server.neo4j-helper]]
   [:use [webapp.framework.server.globals]]
+  (use [overtone.at-at])
   )
 
 
@@ -444,8 +445,8 @@
 
 
 (defn create-realtime-trigger [& {:keys [:table-name]}]
-(let [coils-trigger      (korma.core/exec-raw 
-                                   [" select * from coils_triggers where table_name = ?" [table-name]] 
+(let [coils-trigger      (korma.core/exec-raw
+                                   [" select * from coils_triggers where table_name = ?" [table-name]]
                                    :results)
 
         coils-trigger-exists   (pos? (count coils-trigger))
@@ -483,8 +484,8 @@ INSERT INTO coils_triggers
 
 
 (defn make-admin-table []
-  (let [coils-admin-tables      (korma.core/exec-raw 
-                                   [" select * from pg_tables where schemaname='public' and tablename='coils_triggers'" []] 
+  (let [coils-admin-tables      (korma.core/exec-raw
+                                   [" select * from pg_tables where schemaname='public' and tablename='coils_triggers'" []]
                                    :results)
 
         coils-admin-table-exists   (pos? (count coils-admin-tables))
@@ -518,8 +519,8 @@ CREATE TABLE coils_triggers
 
 
 (defn make-log-table []
-  (let [coils-admin-tables      (korma.core/exec-raw 
-                                   [" select * from pg_tables where schemaname='public' and tablename='coils_realtime_log'" []] 
+  (let [coils-admin-tables      (korma.core/exec-raw
+                                   [" select * from pg_tables where schemaname='public' and tablename='coils_realtime_log'" []]
                                    :results)
 
         coils-admin-table-exists   (pos? (count coils-admin-tables))
@@ -698,7 +699,7 @@ LANGUAGE plpgsql;
 
   (cond
        realtime
-       
+
        (let [
              query-key   (create-query-key
                             :db-table  db-table
@@ -822,5 +823,25 @@ LANGUAGE plpgsql;
 
 
 ;(sql-1 "select count(id) from table_name " [])
+
+
+
+(def my-pool (mk-pool))
+(every 10000 (fn []
+              (let [sql (str "update coils_realtime_log"
+                            "      set record_status = 'PROCESSING'"
+                            "where "
+                            "      id in ( SELECT "
+                            "                    id"
+                            "              FROM "
+                            "                    coils_realtime_log"
+                            "              WHERE "
+                            "                   record_status='WAIITING' LIMIT 1 ) "
+                    )]
+                     (do
+                        (println "Checking pool!" )
+                        (korma.core/exec-raw [sql []])
+                 ))) my-pool )
+
 
 
