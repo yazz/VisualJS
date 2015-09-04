@@ -143,14 +143,6 @@
 
 
 
-;--------------------------------------------------------
-(defn ^:export load_debug [setup-config]
-;--------------------------------------------------------
-  (reset!  start-component  (get setup-config :start-component))
-  (reset!  init-fn          (get setup-config :setup-fn))
-  (debug))
-
-
 
 
 (fw/start { :on-jsload (fn []
