@@ -14,7 +14,7 @@
   )
 
   (:use
-   [webapp.framework.client.coreclient      :only  [remote-fn neo4j-fn]]
+   [webapp.framework.client.coreclient      :only  [remote-fn]]
    [webapp.framework.client.system-globals  :only  [app-state
                                                     playback-controls-state
                                                     reset-app-state
@@ -31,7 +31,7 @@
 ;   [webapp.framework.client.components.playback  :only  [playback-controls-view ]]
    )
   (:use-macros
-   [webapp.framework.client.coreclient :only  [ns-coils remote neo4j log]]
+   [webapp.framework.client.coreclient :only  [ns-coils remote log]]
    )
   (:require-macros
    [cljs.core.async.macros :refer [go]]))
@@ -99,84 +99,15 @@
 
 
 
-    (let [
-          tx-chan       (chan)
-          tx-pub-chan   (pub tx-chan (fn [_] :txs))
-          ]
+
           (om/root   main-view
                      app-state
 
                  {:target (. js/document (getElementById "main"))
-                  :shared {:tx-chan tx-pub-chan}
-                  :tx-listen
-                  (fn [tx-data root-cursor]
-                    (if (and @app-watch-on? @record-ui)
-                    (go
-                     ;(log (str "txdata:::" tx-data))
-                     ;(log (str "path:::" (:path tx-data)))
-                     ;(log (str "new-value:::"
-                     ;          (with-out-str (prn (:new-value tx-data)))))
-                     (put! tx-chan [tx-data root-cursor])
-
-                     (let [ts   (- (.getTime (js/Date.)) start-time)]
-                     (remote !add-history
-                                 {
-                                  :session-id    @session-id
-                                  :history-order (swap! history-order inc)
-                                  :path          (:path tx-data)
-                                  :new-value     (with-out-str (prn
-                                                                (:new-value tx-data)))
-                                  :timestamp     ts
-                                  })
-                     (neo4j "match (w:WebSession) where
-                                w.session_id={session_id}
-                                set w.time = {timestamp}
-                                return w
-                                "
-                                {:session_id    @session-id
-                                 :timestamp     ts}
-                                "w")))))}))))
+                })))
 
 
 
-
-(defn get-web-sessions []
-  (go
-   (neo4j "match (n:WebSession) return
-          n.session_id as session_id,
-          n.time as time,
-          n.browser as browser,
-          n.start_time as start_time
-          order by n.start_time desc"
-          {}
-          ["session_id" "start_time" "browser" "time"])))
-
-
-
-
-
-
-(defn admin []
-  (go
-   (let [ll  (<! (get-web-sessions))]
-
-     (reset! playbackmode true)
-
-     (reset! playback-controls-state (assoc-in
-                                      @playback-controls-state
-                                      [:data :sessions-count]  (count ll)))
-     (reset! playback-controls-state (assoc-in
-                                      @playback-controls-state
-                                      [:data :sessions]  (into [] ll)))
-
-
-
-
-     (comment om/root
-      playback-controls-view
-      playback-controls-state
-      {:target (js/document.getElementById "playback_controls")})
-     )))
 
 
 

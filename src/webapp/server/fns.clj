@@ -8,8 +8,6 @@
   [:use [clojure.repl]]
   [:use [webapp.framework.server.db-helper]]
   [:use [webapp.framework.server.globals]]
-  [:use [webapp.framework.server.neo4j-helper]]
-  [:use [webapp.server.person-helper]]
 
   (:use [webapp-config.settings])
   (:use [overtone.at-at])

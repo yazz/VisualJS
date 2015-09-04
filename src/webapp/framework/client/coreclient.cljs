@@ -55,7 +55,7 @@
                                                     datasource-fields]])
   (:use-macros
    [webapp.framework.client.coreclient  :only [ns-coils
-                                               sql log neo4j neo4j-1 sql-1
+                                               sql log sql-1
                                                watch-data
                                                -->ui
                                                <--data
@@ -1028,85 +1028,6 @@
 
 
 
-;----------------------------------------------------------
-(defn neo4j-fn
-  "Call the server side neo4j function"
-  ([cypher-str]
-  ;----------------------------------------------------------
-  (go
-   (<! (remote-fn
-        "!neo4j"
-        {
-         :cypher    cypher-str
-         :params    {}}))))
-  ([cypher-str params]
-  ;----------------------------------------------------------
-  (go
-   (<! (remote-fn
-        "!neo4j"
-        {
-         :cypher    cypher-str
-         :params    params}))))
-
-([cypher-str   params   return]
-  ;----------------------------------------------------------
-  (go
-   (<! (remote-fn
-        "!neo4j_nodes"
-        {
-         :cypher    cypher-str
-         :params    params
-         :return    return})))))
-
-
-
-
-
-
-
-
-
-;----------------------------------------------------------
-(defn add-to-simple-point-layer
-  [item  layer-name]
-;----------------------------------------------------------
-    (go
-        (<! (remote-fn
-             "!add-to-simple-point-layer"
-             {:node         item
-              :layer-name   layer-name}))))
-
-
-
-
-
-
-;----------------------------------------------------------
-(defn find-names-within-distance
-  [layer-name  x  y  km]
-  ;----------------------------------------------------------
-    (go
-        (<! (remote-fn
-             "!find-names-within-distance"
-             {:layer-name layer-name
-              :x          x
-              :y          y
-              :dist-km    km}))))
-
-
-
-
-;----------------------------------------------------------
-(defn find-names-within-bounds
-  [layer-name  min-x  min-y  max-x  max-y]
-  ;----------------------------------------------------------
-  (go
-   (<! (remote-fn "!find-names-within-bounds"   {:layer-name layer-name
-                                              :min-x min-x
-                                              :min-y min-y
-                                              :max-x max-x
-                                              :max-y max-y
-                                              }))))
 
 (defn order-by-id [x]
   (apply hash-map

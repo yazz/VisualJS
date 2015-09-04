@@ -502,41 +502,6 @@ nil
 
 (macroexpand '(write-ui app [:ui :tab-browser]  "top companies"))
 
-
-
-(defmacro neo4j
-  ([cypher-str]
-  `(~'<! (webapp.framework.client.coreclient/neo4j-fn
-    ~(encrypt cypher-str)
-    )))
-
-  ([cypher-str params]
-  `(~'<! (webapp.framework.client.coreclient/neo4j-fn
-    ~(encrypt cypher-str)
-    ~params
-    )))
-
-( [cypher-str params return]
-  `(~'<! (webapp.framework.client.coreclient/neo4j-fn
-    ~(encrypt cypher-str)
-    ~params
-    ~return
-    ))))
-
-
-(defmacro neo4j-1
-  ([cypher-str]
-  `(~'first (~'neo4j  ~cypher-str)))
-
-  ([cypher-str  params]
-  `(~'first (~'neo4j  ~cypher-str ~params)))
-
-  ([cypher-str  params  return]
-  `(~'first (~'neo4j  ~cypher-str ~params ~return)))
-  )
-
-
-
 ;--------------------------------------------------------------------
 (defmacro sql
   ([sql-str]
