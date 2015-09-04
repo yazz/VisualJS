@@ -441,7 +441,7 @@
                                                                     debug-ui-state
                                                                     [:code-data-show_index] nil))
                                                        :style #js {:color "blue"
-                                                                   :text-decoration "underline"
+                                                                   :textDecoration "underline"
                                                                    :display "inline-block"
                                                                    }} (str
                                                                        (if (= (get debug-ui-state :code-show_index)
@@ -465,7 +465,7 @@
                                                                   debug-ui-state
                                                                   [:code-show_index] nil))
                                                      :style #js {:color           "blue"
-                                                                 :text-decoration "underline"
+                                                                 :textDecoration "underline"
                                                                  :display         "inline-block"
                                                                  :paddingLeft     "10px"
                                                                  }
@@ -523,7 +523,7 @@
                    }
               (dom/div #js {
                             :style #js {:height "300px" :border "1px solid black"
-                                        :border-radius "15px" :padding "5px"
+                                        :borderRadius "15px" :padding "5px"
                                         :width "100%"}
                             :onMouseEnter #(reset! debugger-ui (assoc-in @ debugger-ui [:mode] "show-event"))
                             }
@@ -582,7 +582,7 @@
                                                                                             app
                                                                                             [:code-show_index2] nil))
                                                                                :style #js {:color           "blue"
-                                                                                           :text-decoration "underline"
+                                                                                           :textDecoration "underline"
                                                                                            :display         "inline-block"
                                                                                            :paddingLeft     "10px"
                                                                                            }
