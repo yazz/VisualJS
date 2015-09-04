@@ -627,13 +627,17 @@ LANGUAGE plpgsql;
 
 
 
-
+(defn process-log-entry [ realtime-log-entry ]
+(do
+            (println (str "**** Processing: " realtime-log-entry ) )
+          (println @cached-queries)
+        )  )
 
 (go
   (loop []
     (do
         (let [realtime-log-entry   (<! server-side-record-changes)]
-                             (println (str "**** " realtime-log-entry ) )
+            (process-log-entry realtime-log-entry )
         )
         (recur)
       )
