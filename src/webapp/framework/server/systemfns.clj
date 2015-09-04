@@ -621,17 +621,24 @@ LANGUAGE plpgsql;
 (def realtime-counter (atom 0))
 (defn next-realtime-id [] (swap! realtime-counter inc))
 
-()
+
 
 (korma.core/exec-raw ["delete from coils_realtime_log" []] [])
 
 
 
 (defn process-log-entry [ realtime-log-entry ]
-(do
-            (println (str "**** Processing: " realtime-log-entry ) )
-          (println @cached-queries)
-        )  )
+  (do
+   (println (str "**** Processing: " realtime-log-entry))
+   (println (str @cached-queries))
+   (println (str "Count: " (-> @cached-queries keys count str)))
+   ;(let [queries (keys @cached-queries)]
+;   (for [query queries]
+     ;(println (str "   " queries)))
+   ))
+
+
+
 
 (go
   (loop []
