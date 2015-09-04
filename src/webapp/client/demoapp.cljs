@@ -30,7 +30,7 @@
 
   (c/div nil
        (c/h2 nil "Demo app")
-       "Demo webapp with Neo4j"))
+       "Demo webapp with Postgres/Oracle"))
 
 
 
