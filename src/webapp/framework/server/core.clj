@@ -12,7 +12,6 @@
   (:use [webapp.framework.server.email-service])
   (:require [clojure.java.io :as io])
   (:use [webapp.framework.server.globals])
-  (:require [clojurewerkz.neocons.rest :as rest])
 )
 
 

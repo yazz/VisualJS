@@ -4,10 +4,6 @@
   [:require [korma.core]]
   [:use [webapp-config.settings]]
   [:use [webapp.framework.server.encrypt]]
-  (:require [clojurewerkz.neocons.rest :as nr])
-  (:require [clojurewerkz.neocons.rest.nodes :as nn])
-  (:require [clojurewerkz.neocons.rest.relationships :as nrl])
-  (:require [clojurewerkz.neocons.rest.cypher :as cy])
 )
 
 

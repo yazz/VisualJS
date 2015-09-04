@@ -16,7 +16,6 @@
                  [compojure "1.3.3"]
                  [ring "1.3.2"]
                  [ring-middleware-format "0.5.0"]
-                 [clojurewerkz/neocons "2.0.1"]
                  [rewrite-clj "0.2.0"]
                  [org.jasypt/jasypt "1.9.2"]
                  [clj-http "1.1.1"]
