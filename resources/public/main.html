@@ -171,7 +171,6 @@
             }
             else
             {
-                debug    = getQueryVariable("debug");
                 livedebug    = getQueryVariable("livedebug");
                 if (livedebug) {
                     document.getElementById('main_parent').style.width='49%';
@@ -181,21 +180,8 @@
                         "<button onclick='debug_live=true;document.getElementById(\"debug_button\").innerHTML=\"\";if (debug_live == true) { webapp.framework.client.components.debugger_main.loadDebugger();} else { webapp.framework.client.components.debugger-main.unloadDebugger();};'>debug</button>" +
                         "<div id='debug_status' style='display: inline-block; font-size: 25; color: red;'>&lt; ---- Play with the application below and then press Debug</div>";
                 };
-                company_url    = getQueryVariable("company_url");
-                if (webapp.framework) {
-                    if (webapp.framework.client) {
-                        if (webapp.framework.client.main) {
-                            if (debug) {
-                                webapp.framework.client.main.load_debug(
-                                    webapp.framework.client.init.setup);
-                            }
-                            else {
-                                webapp.framework.client.main.load_main(
-                                    webapp.framework.client.init.setup);
-                            };
-                        };
-                    }
-                };
+                webapp.framework.client.main.load_main(
+                    webapp.framework.client.init.setup);
             };
         });
     </script>
