@@ -171,7 +171,6 @@
             }
             else
             {
-                playback = getQueryVariable("playback");
                 debug    = getQueryVariable("debug");
                 livedebug    = getQueryVariable("livedebug");
                 if (livedebug) {
@@ -183,15 +182,10 @@
                         "<div id='debug_status' style='display: inline-block; font-size: 25; color: red;'>&lt; ---- Play with the application below and then press Debug</div>";
                 };
                 company_url    = getQueryVariable("company_url");
-                //alert(""+playback);
                 if (webapp.framework) {
                     if (webapp.framework.client) {
                         if (webapp.framework.client.main) {
-                            if (playback) {
-                                webapp.framework.client.main.load_admin(
-                                    webapp.framework.client.init.setup);
-                            }
-                            else if (debug) {
+                            if (debug) {
                                 webapp.framework.client.main.load_debug(
                                     webapp.framework.client.init.setup);
                             }

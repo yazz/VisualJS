@@ -671,10 +671,8 @@ LANGUAGE plpgsql;
                               realtime-log-entry (first realtime-log-entry-list)
                                 ]
                           (go
-                            (println "    found: " realtime-log-entry )
-                          (if realtime-log-entry
-                             (>! server-side-record-changes  realtime-log-entry))
-                            )
+                            (if realtime-log-entry
+                               (>! server-side-record-changes  realtime-log-entry)))
                           )))
                  ))) my-pool )
 

@@ -98,7 +98,6 @@ record-ui
  :in the functions:
 
   load_main
-  load_admin
   load_debug
 
  :These are called from the first webpage that is loaded
