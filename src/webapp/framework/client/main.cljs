@@ -9,8 +9,6 @@
    [clojure.data     :as data]
    [clojure.string   :as string]
    [ankha.core       :as ankha]
-   [webapp.framework.client.protocols]
-   [webapp.framework.client.records]
   )
 
   (:use

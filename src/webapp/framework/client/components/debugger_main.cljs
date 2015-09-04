@@ -12,7 +12,6 @@
    )
 
   (:use
-   [webapp.framework.client.records        :only  [NeoNode map->NeoNode]]
    [webapp.framework.client.coreclient     :only  [remote-fn component-fn]]
    [webapp.framework.client.system-globals :only  [debugger-ui
                                                    debug-event-timeline

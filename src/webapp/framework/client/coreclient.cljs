@@ -20,7 +20,6 @@
    [cljs.core.async.macros :refer [go alt!]])
 
   (:use
-   [webapp.framework.client.records    :only  [NeoNode map->NeoNode]]
    [clojure.browser.event :only [listen]]
    [webapp.framework.client.system-globals  :only  [touch
                                                     debugger-ui
@@ -69,9 +68,6 @@
                                                ]]))
 (ns-coils 'webapp.framework.client.coreclient)
 
-
-(reader/register-tag-parser! "webapp.framework.server.records.NeoNode" map->NeoNode)
-(reader/register-tag-parser! "webapp.framework.client.records.NeoNode" map->NeoNode)
 
 
 (def debug-mode (atom false))
