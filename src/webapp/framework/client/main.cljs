@@ -28,7 +28,7 @@
                                                     data-session-id
                                                     ]]
    [webapp.framework.client.components.system-container :only  [main-view]]
-   [webapp.framework.client.components.playback  :only  [playback-controls-view ]]
+;   [webapp.framework.client.components.playback  :only  [playback-controls-view ]]
    )
   (:use-macros
    [webapp.framework.client.coreclient :only  [ns-coils remote neo4j log]]
@@ -172,7 +172,7 @@
 
 
 
-     (om/root
+     (comment om/root
       playback-controls-view
       playback-controls-state
       {:target (js/document.getElementById "playback_controls")})
@@ -208,7 +208,7 @@
 
 
 
-     (om/root
+     (comment om/root
       playback-controls-view
       playback-controls-state
       {:target (js/document.getElementById "playback_controls")})
