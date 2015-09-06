@@ -632,10 +632,10 @@ LANGUAGE plpgsql;
    (println (str "**** Processing: " realtime-log-entry))
    (println (str @cached-queries))
    (println (str "Count: " (-> @cached-queries keys count str)))
-   ;(let [queries (keys @cached-queries)]
-;   (for [query queries]
-     ;(println (str "   " queries)))
-   ))
+   (let [queries (keys @cached-queries)]
+   (doall (for [query queries]
+     (println (str "   " queries)))
+   ))))
 
 
 
@@ -644,7 +644,7 @@ LANGUAGE plpgsql;
   (loop []
     (do
         (let [realtime-log-entry   (<! server-side-record-changes)]
-            (process-log-entry realtime-log-entry )
+            (process-log-entry  realtime-log-entry )
         )
         (recur)
       )
@@ -674,7 +674,9 @@ LANGUAGE plpgsql;
                                                 "realtime_jvm_id = ?")
                     ]
                      (let [get-new-entry-count    (korma.core/exec-raw [sql [next-id]] []) ]
+                       (do
                        (println "processing: " get-new-entry-count )
+                       ;(println (str @cached-queries))
                         (if (pos? (first get-new-entry-count))
                           (do
                         (let [realtime-log-entry-list
@@ -684,7 +686,7 @@ LANGUAGE plpgsql;
                           (go
                             (if realtime-log-entry
                                (>! server-side-record-changes  realtime-log-entry)))
-                          )))
+                          ))))
                  ))) my-pool )
 
 
