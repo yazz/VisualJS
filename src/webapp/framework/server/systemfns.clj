@@ -624,7 +624,14 @@ LANGUAGE plpgsql;
 
 
 ; deletes the realtime log every time the file is reloaded, or the server is restarted
-(korma.core/exec-raw ["delete from coils_realtime_log" []] [])
+(let [coils-admin-tables      (korma.core/exec-raw
+                                   [" select * from pg_tables where schemaname='public' and tablename='coils_realtime_log'" []]
+                                   :results)
+
+        coils-admin-table-exists   (pos? (count coils-admin-tables))
+      ]
+  (if coils-admin-table-exists
+    (korma.core/exec-raw ["delete from coils_realtime_log" []] [])))
 
 
 
