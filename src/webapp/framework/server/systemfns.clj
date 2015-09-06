@@ -623,7 +623,11 @@ LANGUAGE plpgsql;
 
 
 
+; deletes the realtime log every time the file is reloaded, or the server is restarted
 (korma.core/exec-raw ["delete from coils_realtime_log" []] [])
+
+
+
 
 
 
@@ -634,8 +638,10 @@ LANGUAGE plpgsql;
    (println (str "Count: " (-> @cached-queries keys count str)))
    (let [queries (keys @cached-queries)]
    (doall (for [query queries]
-     (println (str "   " queries)))
+     (println (str "   " query)))
    ))))
+
+
 
 
 
@@ -651,7 +657,11 @@ LANGUAGE plpgsql;
     ))
 
 
+
+
 (def my-pool (mk-pool))
+
+
 
 
 (every 1000 (fn []
