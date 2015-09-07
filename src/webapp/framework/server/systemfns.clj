@@ -645,8 +645,10 @@ LANGUAGE plpgsql;
    (println (str "Count: " (-> @cached-queries keys count str)))
    (let [queries (keys @cached-queries)]
    (doall (for [query queries]
-     (println (str "   " query)))
-   ))))
+            (do
+              (if (= (get query :db-table) (get realtime-log-entry :record_table_name))
+                (println (str "   " query))))
+   )))))
 
 
 
