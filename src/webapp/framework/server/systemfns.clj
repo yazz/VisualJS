@@ -623,6 +623,33 @@ LANGUAGE plpgsql;
 
 
 
+(defn update-query-in-cache [query]
+  (let [
+        record-count       (get-count   (get query :db-table)  (get query :where)   (get query :params))
+
+
+
+        results            (get-results    :db-table (get query :db-table)
+                                           :where    (get query :where)
+                                           :order    (get query :order)
+                                           :start    (get query :start)
+                                           :end      (get query :end)
+                                           :params   (get query :params)
+                                           )
+
+        result-id-vector   (into [] (map :id results))
+        ]
+    (do
+      (println (str "    " query))
+      (swap! cached-queries assoc  query {
+                                          :records      result-id-vector
+                                          :count        record-count
+                                          }))))
+
+
+
+
+
 
 
 
@@ -635,65 +662,74 @@ LANGUAGE plpgsql;
    (doall (for [query queries]
             (do
               (if (= (get query :db-table) (get realtime-log-entry :record_table_name))
-                (println (str "    " query))))
-   )))))
+                (println (str "    " query)))))))))
 
 
 
 
 
 
+
+
+
+
+; ----------------------------------------------------------------
+; Whenever a database record changes it get processed here on the
+; server
+; ----------------------------------------------------------------
 (go
   (loop []
     (do
         (let [realtime-log-entry   (<! server-side-record-changes)]
             (process-log-entry  realtime-log-entry )
         )
-        (recur)
-      )
-    ))
+        (recur))))
 
 
 
 
+
+
+
+
+
+; ----------------------------------------------------------------
+; Check every 1 second for record changes on the database. If
+; a record changes then send the log entry details to to the
+; channel 'server-side-record-changes'
+; ----------------------------------------------------------------
 (def my-pool (mk-pool))
-
-
-
-
 (every 1000 (fn []
-              (let [next-id   (next-realtime-id)
+              (let [next-id                           (next-realtime-id)
 
-                    sql (str "update coils_realtime_log"
-                            "      set record_status = 'PROCESSING',"
-                            "          realtime_jvm_id = ? "
-                            "where "
-                            "      id in ( SELECT "
-                            "                    id"
-                            "              FROM "
-                            "                    coils_realtime_log"
-                            "              WHERE "
-                            "                   record_status='WAITING' LIMIT 1 ) "
-                    )
+                    sql                               (str "update coils_realtime_log"
+                                                           "      set record_status = 'PROCESSING',"
+                                                           "          realtime_jvm_id = ? "
+                                                           "where "
+                                                           "      id in ( SELECT "
+                                                           "                    id"
+                                                           "              FROM "
+                                                           "                    coils_realtime_log"
+                                                           "              WHERE "
+                                                           "                   record_status='WAITING' LIMIT 1 ) "
+                                                           )
 
-                    get-realtime-log-entry (str "select * from coils_realtime_log "
-                                                "WHERE "
-                                                "realtime_jvm_id = ?")
+                    get-realtime-log-entry            (str "select * from coils_realtime_log "
+                                                           "WHERE "
+                                                           "realtime_jvm_id = ?")
+
+                    how-many-records-have-changed?    (first  (korma.core/exec-raw [sql [next-id]] []))
                     ]
-                     (let [get-new-entry-count    (korma.core/exec-raw [sql [next-id]] []) ]
-                       (do
-                       (println "processing: " get-new-entry-count )
-                       ;(println (str @cached-queries))
-                        (if (pos? (first get-new-entry-count))
-                          (do
-                        (let [realtime-log-entry-list
-                              (korma.core/exec-raw [get-realtime-log-entry [next-id]] :results)
-                              realtime-log-entry (first realtime-log-entry-list)
-                                ]
-                          (go
-                            (if realtime-log-entry
-                               (>! server-side-record-changes  realtime-log-entry)))
-                          ))))
-                 ))) my-pool )
+                (do
+                  (println "How many real time records have changed? " how-many-records-have-changed? )
+                  (if (pos? how-many-records-have-changed?)
+                    (do
+                      (let [realtime-log-entry-list     (korma.core/exec-raw [get-realtime-log-entry [next-id]] :results)
+                            realtime-log-entry          (first realtime-log-entry-list)
+                            ]
+                        (go
+                         (if realtime-log-entry
+                           (>! server-side-record-changes  realtime-log-entry)))
+                        )))))) my-pool)
 
 
