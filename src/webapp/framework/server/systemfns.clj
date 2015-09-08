@@ -660,14 +660,33 @@ LANGUAGE plpgsql;
 (defn process-log-entry [ realtime-log-entry ]
   (do
     (println (str "**** Processing realtime record change: "))
-    (println (str realtime-log-entry))
-    (println (str @cached-queries))
+    (println (str "      "  "realtime-log-entry"))
+    (println (str "      "  realtime-log-entry))
+    (println (str "      "))
+    (println (str "      "  "@cached-queries"))
+    (println (str "      "  @cached-queries))
+    (println (str "      "))
     (println (str "Count: " (-> @cached-queries keys count str)))
+
     (let [queries (keys @cached-queries)]
       (doall (for [query queries]
                (do
                  (if (= (get query :db-table) (get realtime-log-entry :record_table_name))
-                   (println (str "    " query)))))))))
+                   (do
+                     (println (str "    "))
+                     (println (str "    " "Query"))
+                     (println (str "    " query))
+                     (println (str "    "))
+                     (println (str "    " "Before"))
+                     (println (str "    " (get @cached-queries query)))
+
+                     (update-query-in-cache query)
+
+                     (println (str "    "))
+                     (println (str "    " "After"))
+                     (println (str "    " (get @cached-queries query)))
+                     (println (str "    "))
+                     ))))))))
 
 
 

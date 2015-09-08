@@ -15,7 +15,7 @@
 
 
 
-(def server-side-record-changes   (chan))
+(def server-side-record-changes   (chan 1))
 
 
 
