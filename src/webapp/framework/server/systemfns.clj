@@ -618,7 +618,7 @@ LANGUAGE plpgsql;
 ;(sql-1 "select count(id) from table_name " [])
 
 
-(def realtime-counter (atom 0))
+
 (defn next-realtime-id [] (swap! realtime-counter inc))
 
 
@@ -652,17 +652,22 @@ LANGUAGE plpgsql;
 
 
 
-
+; ----------------------------------------------------------------
+; Whenever a record changes an entry is added to the real time log
+; which is processed here. It first finds which queries it
+; belongs to and then changes
+; ----------------------------------------------------------------
 (defn process-log-entry [ realtime-log-entry ]
   (do
-   (println (str "**** Processing: " realtime-log-entry))
-   (println (str @cached-queries))
-   (println (str "Count: " (-> @cached-queries keys count str)))
-   (let [queries (keys @cached-queries)]
-   (doall (for [query queries]
-            (do
-              (if (= (get query :db-table) (get realtime-log-entry :record_table_name))
-                (println (str "    " query)))))))))
+    (println (str "**** Processing realtime record change: "))
+    (println (str realtime-log-entry))
+    (println (str @cached-queries))
+    (println (str "Count: " (-> @cached-queries keys count str)))
+    (let [queries (keys @cached-queries)]
+      (doall (for [query queries]
+               (do
+                 (if (= (get query :db-table) (get realtime-log-entry :record_table_name))
+                   (println (str "    " query)))))))))
 
 
 

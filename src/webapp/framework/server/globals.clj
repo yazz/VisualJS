@@ -16,3 +16,8 @@
 
 
 (def server-side-record-changes   (chan))
+
+
+
+
+(def realtime-counter (atom 0))
