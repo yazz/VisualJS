@@ -465,91 +465,7 @@ LANGUAGE plpgsql;
 )
 
 
-(defn !get-query-results-v2 [{:keys [
-                                     db-table
-                          		       where
-                                     start
-                                     end
-                                     params
-                                     order
-                                     realtime
-                                     data-session-id
-                          		   ]}]
 
-  (println "************************************************************************************")
-  (println "!get-query-results-v2*   REALTIME = " realtime)
-  (println (str "!get-query-results-v2: "
-                db-table
-                where " "
-                start  " "
-                end " "
-                params " "
-                order " "
-                data-session-id " "
-                realtime " "
-                ))
-  (println "************************************************************************************")
-
-  (cond
-       realtime
-
-       (let [
-             query-key   (create-query-key
-                            :db-table  db-table
-                            :where     where
-                            :start     start
-                            :end       end
-                            :params    params
-                            :order     order)
-             ]
-
-           (if (get @cached-queries  query-key)
-               nil
-               (update-query-in-cache  query-key)
-
-           )
-
-          (do-real   :table-name db-table)
-
-          (println "-------------------------------")
-          (println "@cached-queries     " @cached-queries)
-          (println query-key)
-          (println (get @cached-queries  query-key))
-          (println "-------------------------------")
-
-           (get @cached-queries  query-key)
-      )
-
-
-
-      :else
-
-      (do
-          (let [
-                 record-count      (get-count   db-table  where   params)
-
-
-
-        results
-
-       (get-results   :db-table db-table
-                      :where    where
-                      :order    order
-                      :start    start
-                      :end      end
-                      :params   params
-        )
-
-		result-id-vector
-		(into [] (map :id results))
-		]
-
-    ;(println result-id-vector)
-    {
-     :records      result-id-vector
-      :count       record-count
-     }
-    ))))
 
 
 
@@ -668,6 +584,117 @@ LANGUAGE plpgsql;
                      (println (str "    " (get @cached-queries query)))
                      (println (str "    "))
                      ))))))))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+(defn !get-query-results-v2 [{:keys [
+                                     db-table
+                          		       where
+                                     start
+                                     end
+                                     params
+                                     order
+                                     realtime
+                                     data-session-id
+                          		   ]}]
+
+  (println "************************************************************************************")
+  (println "!get-query-results-v2*   REALTIME = " realtime)
+  (println (str "!get-query-results-v2: "
+                db-table
+                where " "
+                start  " "
+                end " "
+                params " "
+                order " "
+                data-session-id " "
+                realtime " "
+                ))
+  (println "************************************************************************************")
+
+  (cond
+       realtime
+
+       (let [
+             query-key   (create-query-key
+                            :db-table  db-table
+                            :where     where
+                            :start     start
+                            :end       end
+                            :params    params
+                            :order     order)
+             ]
+
+           (if (get @cached-queries  query-key)
+               nil
+               (update-query-in-cache  query-key)
+
+           )
+
+          (do-real   :table-name db-table)
+
+          (println "-------------------------------")
+          (println "@cached-queries     " @cached-queries)
+          (println query-key)
+          (println (get @cached-queries  query-key))
+          (println "-------------------------------")
+
+           (get @cached-queries  query-key)
+      )
+
+
+
+      :else
+
+      (do
+          (let [
+                 record-count      (get-count   db-table  where   params)
+
+
+
+        results
+
+       (get-results   :db-table db-table
+                      :where    where
+                      :order    order
+                      :start    start
+                      :end      end
+                      :params   params
+        )
+
+		result-id-vector
+		(into [] (map :id results))
+		]
+
+    ;(println result-id-vector)
+    {
+     :records      result-id-vector
+      :count       record-count
+     }
+    ))))
+
+
+
+
+
+
+
+
+
+
+
 
 
 
