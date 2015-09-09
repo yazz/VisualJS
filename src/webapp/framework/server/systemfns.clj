@@ -535,13 +535,20 @@ LANGUAGE plpgsql;
                                            )
 
         result-id-vector   (into [] (map :id results))
+
+        existing-query     (get @cached-queries   query)
         ]
     (do
       (println (str "    " query))
-      (swap! cached-queries assoc  query {
-                                          :records      result-id-vector
-                                          :count        record-count
-                                          }))))
+
+      (if (not existing-query)
+        (swap! cached-queries assoc  query (atom {})))
+
+      (let [the-query        (get @cached-queries   query)
+            ]
+        (swap! the-query assoc  :records      result-id-vector)
+        (swap! the-query assoc  :count        record-count)
+        ))))
 
 
 
@@ -575,13 +582,13 @@ LANGUAGE plpgsql;
                      (println (str "    " query))
                      (println (str "    "))
                      (println (str "    " "Before"))
-                     (println (str "    " (get @cached-queries query)))
+                     (println (str "    " @(get @cached-queries query)))
 
                      (update-query-in-cache  query)
 
                      (println (str "    "))
                      (println (str "    " "After"))
-                     (println (str "    " (get @cached-queries query)))
+                     (println (str "    " @(get @cached-queries query)))
                      (println (str "    "))
                      ))))))))
 
@@ -651,7 +658,7 @@ LANGUAGE plpgsql;
           (println (get @cached-queries  query-key))
           (println "-------------------------------")
 
-           (get @cached-queries  query-key)
+           @(get @cached-queries  query-key)
       )
 
 
