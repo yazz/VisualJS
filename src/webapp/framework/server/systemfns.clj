@@ -505,26 +505,7 @@ LANGUAGE plpgsql;
 
            (if (get @cached-queries  query-key)
                nil
-               (let [
-                     record-count       (get-count   db-table  where   params)
-
-
-
-                     results            (get-results    :db-table db-table
-                                                        :where    where
-                                                        :order    order
-                                                        :start    start
-                                                        :end      end
-                                                        :params   params
-                                                        )
-
-                     result-id-vector   (into [] (map :id results))
-                    ]
-                      (swap! cached-queries assoc  query-key {
-                                                               :records      result-id-vector
-                                                               :count        record-count
-                                                                  })
-              )
+               (update-query-in-cache  query-key)
 
            )
 
@@ -680,7 +661,7 @@ LANGUAGE plpgsql;
                      (println (str "    " "Before"))
                      (println (str "    " (get @cached-queries query)))
 
-                     (update-query-in-cache query)
+                     (update-query-in-cache  query)
 
                      (println (str "    "))
                      (println (str "    " "After"))
