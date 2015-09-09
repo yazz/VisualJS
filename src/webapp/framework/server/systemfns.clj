@@ -548,6 +548,7 @@ LANGUAGE plpgsql;
             ]
         (swap! the-query assoc  :records      result-id-vector)
         (swap! the-query assoc  :count        record-count)
+        (swap! the-query assoc  :timestamp    (java.util.Date.))
         ))))
 
 
