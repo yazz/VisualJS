@@ -542,12 +542,13 @@ LANGUAGE plpgsql;
       (println (str "    " query))
 
       (if (not existing-query)
-        (swap! cached-queries assoc  query (atom {})))
+        (swap! cached-queries assoc  query (atom {:clients  (atom #{})})))
+
 
       (let [the-query        (get @cached-queries   query)
             ]
-        (swap! the-query assoc  :records      result-id-vector)
-        (swap! the-query assoc  :count        record-count)
+        (swap! the-query assoc  :records       result-id-vector)
+        (swap! the-query assoc  :count         record-count)
         (swap! the-query assoc  :timestamp    (java.util.Date.))
         ))))
 
@@ -560,10 +561,10 @@ LANGUAGE plpgsql;
 (defn add-client-to-query [query  client-id]
   (let [
         existing-query     (get @cached-queries   query)
-        existing-clients   (get @query           :clients)
+        existing-clients   (get @existing-query  :clients)
         ]
-        (swap! existing-clients assoc client-id
-        )))
+        (swap! existing-clients conj client-id)
+        ))
 
 
 
@@ -595,14 +596,19 @@ LANGUAGE plpgsql;
                      (println (str "    " "Query"))
                      (println (str "    " query))
                      (println (str "    "))
+
                      (println (str "    " "Before"))
                      (println (str "    " @(get @cached-queries query)))
+                     (println (str "    "))
+                     (println (str "    " @(:clients @(get @cached-queries query))))
 
                      (update-query-in-cache  query)
 
                      (println (str "    "))
                      (println (str "    " "After"))
                      (println (str "    " @(get @cached-queries query)))
+                     (println (str "    "))
+                     (println (str "    " @(:clients @(get @cached-queries query))))
                      (println (str "    "))
                      ))))))))
 
@@ -674,9 +680,10 @@ LANGUAGE plpgsql;
 
      (if (get @cached-queries  query-key)
        nil
-       (update-query-in-cache  query-key)
-
-       )
+       (do
+         (update-query-in-cache  query-key)
+         (add-client-to-query  query-key  data-session-id)
+         ))
 
      (do-real   :table-name db-table)
 
