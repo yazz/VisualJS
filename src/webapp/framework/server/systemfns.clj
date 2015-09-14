@@ -633,6 +633,18 @@ LANGUAGE plpgsql;
 
 
 
+(defn create-client-cache [client-realtime-id]
+  (let [client-cache     (get @realtime-clients  client-realtime-id)
+        ]
+    (if (nil? client-cache)
+      (swap! realtime-clients assoc client-realtime-id (atom {:queries (atom {})    :records (atom {})})))))
+
+
+
+
+
+
+
 ; ----------------------------------------------------------------
 ; Whenever the web browser asks the server for data it calls
 ; this function (!get-query-results-v2) telling the server
@@ -685,6 +697,7 @@ LANGUAGE plpgsql;
                       :params    params
                       :order     order)
          ]
+     (create-client-cache  data-session-id)
 
      (if (get @cached-queries  query-key)
        nil
