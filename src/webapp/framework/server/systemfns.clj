@@ -566,9 +566,20 @@ LANGUAGE plpgsql;
   (let [
         existing-query     (get @cached-queries   query)
         existing-clients   (get @existing-query  :clients)
+
+        client-queries     (get @(get @realtime-clients   client-id) :queries)
+        this-query         (get @client-queries query)
         ]
-        (swap! existing-clients conj client-id)
-        ))
+    (do
+      (swap! existing-clients conj client-id)
+      (if (not this-query)
+        (swap! client-queries   assoc  query {}))
+      (println "")
+      (println "  add-client-to-query")
+      (println (str "    " @realtime-clients))
+      (println "")
+
+      )))
 
 
 
@@ -721,7 +732,7 @@ LANGUAGE plpgsql;
 
 
    ; ----------------------------------------------------------------
-   ; if this is an normal query
+   ; if this is a normal query
    ; ----------------------------------------------------------------
    :else
 
