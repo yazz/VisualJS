@@ -557,6 +557,19 @@ LANGUAGE plpgsql;
 
 
 
+(defn add-client-to-query [query  client-id]
+  (let [
+        existing-query     (get @cached-queries   query)
+        existing-clients   (get @query           :clients)
+        ]
+        (swap! existing-clients assoc client-id
+        )))
+
+
+
+
+
+
 ; ----------------------------------------------------------------
 ; Whenever a record changes an entry is added to the real time log
 ; which is processed here. It first finds which queries it
@@ -606,19 +619,25 @@ LANGUAGE plpgsql;
 
 
 
-
+; ----------------------------------------------------------------
+; Whenever the web browser asks the server for data it calls
+; this function (!get-query-results-v2) telling the server
+; which client it is via the 'data-session-id' ID.
+; ----------------------------------------------------------------
 (defn !get-query-results-v2 [{:keys [
                                      db-table
-                          		       where
+                                     where
                                      start
                                      end
                                      params
                                      order
                                      realtime
                                      data-session-id
-                          		   ]}]
+                                     ]}]
 
   (println "************************************************************************************")
+  (println " debug stuff")
+  (println " ")
   (println "!get-query-results-v2*   REALTIME = " realtime)
   (println (str "!get-query-results-v2: "
                 db-table
@@ -632,66 +651,78 @@ LANGUAGE plpgsql;
                 ))
   (println "************************************************************************************")
 
+
+
+
+
+
   (cond
-       realtime
+   ; ----------------------------------------------------------------
+   ; if this is a realtime query
+   ; ----------------------------------------------------------------
+   realtime
 
-       (let [
-             query-key   (create-query-key
-                            :db-table  db-table
-                            :where     where
-                            :start     start
-                            :end       end
-                            :params    params
-                            :order     order)
-             ]
+   (let [
+         query-key   (create-query-key
+                      :db-table  db-table
+                      :where     where
+                      :start     start
+                      :end       end
+                      :params    params
+                      :order     order)
+         ]
 
-           (if (get @cached-queries  query-key)
-               nil
-               (update-query-in-cache  query-key)
+     (if (get @cached-queries  query-key)
+       nil
+       (update-query-in-cache  query-key)
 
-           )
+       )
 
-          (do-real   :table-name db-table)
+     (do-real   :table-name db-table)
 
-          (println "-------------------------------")
-          (println "@cached-queries     " @cached-queries)
-          (println query-key)
-          (println (get @cached-queries  query-key))
-          (println "-------------------------------")
+     (println "-------------------------------")
+     (println "@cached-queries     " @cached-queries)
+     (println query-key)
+     (println (get @cached-queries  query-key))
+     (println "-------------------------------")
 
-           @(get @cached-queries  query-key)
-      )
-
-
-
-      :else
-
-      (do
-          (let [
-                 record-count      (get-count   db-table  where   params)
+     @(get @cached-queries  query-key)
+     )
 
 
 
-        results
 
-       (get-results   :db-table db-table
-                      :where    where
-                      :order    order
-                      :start    start
-                      :end      end
-                      :params   params
-        )
+   ; ----------------------------------------------------------------
+   ; if this is an normal query
+   ; ----------------------------------------------------------------
+   :else
 
-		result-id-vector
-		(into [] (map :id results))
-		]
+   (do
+     (let [
+           record-count      (get-count   db-table  where   params)
 
-    ;(println result-id-vector)
-    {
-     :records      result-id-vector
-      :count       record-count
-     }
-    ))))
+
+
+           results
+
+           (get-results   :db-table db-table
+                          :where    where
+                          :order    order
+                          :start    start
+                          :end      end
+                          :params   params
+                          )
+
+           result-id-vector
+           (into [] (map :id results))
+           ]
+
+       ;(println result-id-vector)
+       {
+        :records      result-id-vector
+        :count        record-count
+        }
+       ))))
 
 
 
@@ -721,8 +752,7 @@ LANGUAGE plpgsql;
   (loop []
     (do
         (let [realtime-log-entry   (<! server-side-record-changes)]
-            (process-log-entry  realtime-log-entry )
-        )
+            (process-log-entry  realtime-log-entry ))
         (recur))))
 
 
@@ -734,9 +764,9 @@ LANGUAGE plpgsql;
 
 
 ; ----------------------------------------------------------------
-; Check every 1 second for record changes on the database. If
-; a record changes then send the log entry details to to the
-; channel 'server-side-record-changes'
+; On the serverm check every 1 second for record changes on the
+; database. If a record changes then send the log entry details to
+; the channel 'server-side-record-changes'
 ; ----------------------------------------------------------------
 (def my-pool (mk-pool))
 (every 1000 (fn []
