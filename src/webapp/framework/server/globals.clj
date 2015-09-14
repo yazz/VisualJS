@@ -6,22 +6,22 @@
 
 
 
-(def cached-queries (atom {}))
+(defonce cached-queries (atom {}))
 
 
 
 
-(def cached-records (atom {}))
+(defonce cached-records (atom {}))
 
 
 
-(def server-side-record-changes   (chan 1))
+(defonce server-side-record-changes   (chan 1))
 
 
 
 
-(def realtime-counter (atom 0))
+(defonce realtime-counter (atom 0))
 
 
 
-(def realtime-clients (atom {}))
+(defonce realtime-clients (atom {}))

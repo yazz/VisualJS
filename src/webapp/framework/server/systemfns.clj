@@ -512,6 +512,10 @@ LANGUAGE plpgsql;
 
 
 
+
+
+
+
 ;(sql-1 "select count(id) from table_name " [])
 
 
@@ -609,6 +613,10 @@ LANGUAGE plpgsql;
                      (println (str "    " @(get @cached-queries query)))
                      (println (str "    "))
                      (println (str "    " @(:clients @(get @cached-queries query))))
+                     (println (str "    "))
+
+                     (println (str "clients:"))
+                     (println (str "    " (keys @realtime-clients)))
                      (println (str "    "))
                      ))))))))
 
