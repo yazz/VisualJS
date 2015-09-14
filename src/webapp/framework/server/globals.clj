@@ -21,3 +21,7 @@
 
 
 (def realtime-counter (atom 0))
+
+
+
+(def realtime-clients (atom {}))
