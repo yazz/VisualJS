@@ -1316,18 +1316,11 @@
 
 
 
-(log (str "Tick"))
-(comment js/setInterval
-    #(do
-      ;(log (pr-str (count (keys @data-queries-v2))))
-      (doall (map
-        (fn[x]
-             (do
-                 (update-all-views-for-query x)
-                 (log (pr-str x))
-             )
-        )
-      (into [] (keys @data-queries-v2))))) 500)
+(log (str "Checking server for data updates ..."))
+(js/setInterval
+ #(go
+   ;(log (pr-str (count (keys @data-queries-v2))))
+   (remote  !check-for-server-updates  {} )) 500)
 
 
 "-----------------------------------------------------------

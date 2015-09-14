@@ -842,3 +842,8 @@ LANGUAGE plpgsql;
                         )))))) my-pool)
 
 
+
+
+
+(defn !check-for-server-updates []
+  (println "check-for-server-updates"))
