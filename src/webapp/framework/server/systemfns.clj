@@ -656,7 +656,7 @@ LANGUAGE plpgsql;
                 realtime " "
                 ))
   (println "************************************************************************************")
-
+  (println "     data-session-id: " data-session-id)
 
 
 
@@ -682,8 +682,8 @@ LANGUAGE plpgsql;
        nil
        (do
          (update-query-in-cache  query-key)
-         (add-client-to-query  query-key  data-session-id)
          ))
+     (add-client-to-query  query-key  data-session-id)
 
      (do-real   :table-name db-table)
 
