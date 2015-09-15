@@ -1320,7 +1320,7 @@
 (js/setInterval
  #(go
    ;(log (pr-str (count (keys @data-queries-v2))))
-   (remote  !check-for-server-updates  {} )) 500)
+   (remote  !check-for-server-updates  {} )) 3000)
 
 
 "-----------------------------------------------------------
