@@ -1318,11 +1318,27 @@
 
 
 
+
+
+
+
+
+
+
 (log (str "Checking server for data updates ..."))
 (js/setInterval
  #(go
    ;(log (pr-str (count (keys @data-queries-v2))))
    (remote  !check-for-server-updates  {:client-data-session-id  @data-session-id} )) 3000)
+
+
+
+
+
+
+
+
+
 
 
 "-----------------------------------------------------------
@@ -1415,6 +1431,15 @@
 
 
 
+
+
+
+
+
+
+
+
+
 (defn get-or-create-record  [data-source
                              record-id]
 
@@ -1455,6 +1480,13 @@
 
 
 
+
+
+
+
+
+
+
 (defn get-default-fields-for-data-source [data-source-id]
 
   (let [fields-atom          (-> @datasource-fields  data-source-id)
@@ -1467,6 +1499,19 @@
 
 
 ;(get-default-fields-for-data-source  :cvs)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 "-----------------------------------------------------------
 
@@ -1507,31 +1552,45 @@
 
 
 
+
+
+
+
+
 "-----------------------------------------------------------
 (add-data-query-result-v2 ...
 
 
-
-When we get data back from the database then load the
-records into the system. This mostly consists of
-repeatedly calling load-record
+When we get query data back from the database then load the
+records into the system. This mostly consists of repeatedly
+calling load-record
 -----------------------------------------------------------"
-(defn add-data-query-result-v2  [query-key   params  records-count  records]
+(defn add-data-query-result-v2  [query-key
+                                 params
+                                 records-count
+                                 records
+                                 timestamp]
 
   (let [
          query-atom                 (get @data-queries-v2   query-key)
          list-of-record-positions   (range (:start params) (inc (:end params)))
        ]
 
-    ;(log (pr-str "Record count returned: " records-count))
-
     ; -----------------------------------------------
     ; update the record count in the query
     ; -----------------------------------------------
     (reset!  query-atom
              (assoc @query-atom :count records-count))
-    ;(log (str "Query Count: " records-count))
 
+
+
+
+
+    ; -----------------------------------------------
+    ; update the timestamp in the query
+    ; -----------------------------------------------
+    (reset!  query-atom
+             (assoc @query-atom :timestamp timestamp))
 
 
 
@@ -1567,9 +1626,9 @@ repeatedly calling load-record
         )
        (update-all-views-for-query    query-key)
 
-        )
-
-      )))
+        ))
+    (log (str "CLIENT: @query-atom: " @query-atom))
+    ))
 
 
 
@@ -1600,16 +1659,18 @@ records
      (let [
            params         (merge (merge (:query-key request) (:subset-range request)) {:data-session-id     @data-session-id})
 
-           return-value   (remote    !get-query-results-v2  params)
-           records        (:records  return-value)
-           records-count  (:count    return-value)
+           return-value   (remote      !get-query-results-v2  params)
+           records        (:records    return-value)
+           records-count  (:count      return-value)
+           timestamp      (:timestamp  return-value)
            ]
 
        ;(log (pr-str (:query-key     request)))
        (add-data-query-result-v2   (:query-key     request)
                                    (:subset-range  request)
                                    records-count
-                                   records)))
+                                   records
+                                   timestamp)))
    (recur)))
 
 
@@ -1639,7 +1700,7 @@ data and updates the internal cache
 (go
  (loop []
    (let [request  (<! data-record-requests-v2)]  ; <-- reads the record request from the channel
-     (log (pr-str "Loading record " (get request :id)))
+     ;(log (pr-str "Loading record " (get request :id)))
      (let [
            record             (remote  !get-record-result-v2  request)
            record-value       (get record :value)
@@ -2023,23 +2084,22 @@ with the (<-- :field) method
                                                  relative-path
                                                  [])))
 
-        data-view-key-v2
-        {
-         :ui-component-name   ui-component-name
-         :relative-path       relative-path
-         :component-path      component-path
-         :data-source         data-source
-         :fields              fields
-         :where               where
-         :path                relative-path
-         :full-path           full-path
-         :db-table            db-table
-         :params              params
-         :order               order
-         :realtime            realtime
-         }
+        data-view-key-v2      {
+                               :ui-component-name   ui-component-name
+                               :relative-path       relative-path
+                               :component-path      component-path
+                               :data-source         data-source
+                               :fields              fields
+                               :where               where
+                               :path                relative-path
+                               :full-path           full-path
+                               :db-table            db-table
+                               :params              params
+                               :order               order
+                               :realtime            realtime
+                               }
         ]
-;    (log (str "data-view-fn-v2: " relative-path))
+    ;(log (str "data-view-fn-v2: " relative-path))
 
     (update-data-source-fields   data-source  fields)
 

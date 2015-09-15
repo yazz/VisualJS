@@ -178,12 +178,12 @@
                                    order
                                    ]}]
          {
-          :db-table db-table
-          :where where
-          :start start
-          :end end
-          :params params
-          :order order
+          :db-table  db-table
+          :where     where
+          :start     start
+          :end       end
+          :params    params
+          :order     order
          })
 
 
@@ -553,7 +553,7 @@ LANGUAGE plpgsql;
             ]
         (swap! the-query assoc  :records       result-id-vector)
         (swap! the-query assoc  :count         record-count)
-        (swap! the-query assoc  :timestamp    (java.util.Date.))
+        (swap! the-query assoc  :timestamp    (quot (System/currentTimeMillis) 1000))
         ))))
 
 
@@ -720,13 +720,17 @@ LANGUAGE plpgsql;
      (do-real   :table-name db-table)
 
      (println "-------------------------------")
-     (println "@cached-queries     " @cached-queries)
-     (println query-key)
-     (println (get @cached-queries  query-key))
+     ;(println "SERVER @cached-queries     " @cached-queries)
+     ;(println query-key)
+     (println @(get @cached-queries  query-key))
      (println "-------------------------------")
 
-     @(get @cached-queries  query-key)
-     )
+     (let [result   @(get @cached-queries  query-key)]
+       {
+        :records    (:records result)
+        :count      (:count result)
+        :timestamp  (:timestamp result)
+        } ))
 
 
 
