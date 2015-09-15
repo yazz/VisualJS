@@ -808,7 +808,7 @@ LANGUAGE plpgsql;
 ; the channel 'server-side-record-changes'
 ; ----------------------------------------------------------------
 (def my-pool (mk-pool))
-(every 3000 (fn []
+(every 1000 (fn []
               (let [next-id                           (next-realtime-id)
 
                     sql                               (str "update coils_realtime_log"
@@ -830,7 +830,7 @@ LANGUAGE plpgsql;
                     how-many-records-have-changed?    (first  (korma.core/exec-raw [sql [next-id]] []))
                     ]
                 (do
-                  (println "SERVER: How many real time records have changed? " how-many-records-have-changed? )
+                  ;(println "SERVER: How many real time records have changed? " how-many-records-have-changed? )
                   (if (pos? how-many-records-have-changed?)
                     (do
                       (let [realtime-log-entry-list     (korma.core/exec-raw [get-realtime-log-entry [next-id]] :results)
@@ -845,5 +845,9 @@ LANGUAGE plpgsql;
 
 
 
-(defn !check-for-server-updates []
-  (println "SERVER: check-for-server-updates"))
+(defn !check-for-server-updates [{:keys [
+                                     client-data-session-id
+                                     ]}]
+  (do
+    (println "SERVER: check-for-server-updates")
+    []))

@@ -224,6 +224,7 @@
      io-object     (goog.net.XhrIo.)
      ]
       (do
+;        (log (str "send-request2: " action " || " parameters-in ))
       (goog.events.listen
        io-object
        goog.net.EventType.COMPLETE
@@ -246,6 +247,7 @@
                          )]
 
                (go
+;        (log (str "             : " response ))
                   (>! ch response)
                   (close! ch))
                   (remove-debug-event  debug-id)
@@ -1320,7 +1322,7 @@
 (js/setInterval
  #(go
    ;(log (pr-str (count (keys @data-queries-v2))))
-   (remote  !check-for-server-updates  {} )) 3000)
+   (remote  !check-for-server-updates  {:client-data-session-id  @data-session-id} )) 3000)
 
 
 "-----------------------------------------------------------
