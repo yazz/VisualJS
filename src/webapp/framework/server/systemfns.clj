@@ -189,6 +189,12 @@
 
 
 
+
+
+
+
+
+
 (defn get-count [db-table  where   params]
                                                (:cnt (sql-1 (str
                                                   "select count (id) as CNT from "
@@ -196,6 +202,12 @@
                                                   (if (-> where count pos?) (str "where " where " "))
                                                   )
                                                  params)))
+
+
+
+
+
+
 
 
 
@@ -232,7 +244,19 @@
 
 
 
+
+
+
 (def coils-tables-trigger-version "1")
+
+
+
+
+
+
+
+
+
 
 
 
@@ -275,6 +299,18 @@ INSERT INTO coils_triggers
 )
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 (defn make-admin-table []
   (let [coils-admin-tables      (korma.core/exec-raw
                                    [" select * from pg_tables where schemaname='public' and tablename='coils_triggers'" []]
@@ -304,6 +340,12 @@ CREATE TABLE coils_triggers
 
   )
   )
+
+
+
+
+
+
 
 
 
@@ -352,6 +394,12 @@ CREATE TABLE coils_realtime_log
 
 
 
+
+
+
+
+
+
 (defn make-log-table-insert-trigger-function []
     (let [coils-trigger-fn-exists-result      (korma.core/exec-raw
                                                   ["select exists(select * from pg_proc where proname = 'trigger_function_afterinsert');" []]
@@ -382,6 +430,12 @@ LANGUAGE plpgsql;
             )
         )
     )
+
+
+
+
+
+
 
 
 
@@ -428,6 +482,14 @@ LANGUAGE plpgsql;
 
 
 
+
+
+
+
+
+
+
+
 (defn make-log-table-delete-trigger-function []
     (let [coils-trigger-fn-exists-result      (korma.core/exec-raw
                                                   ["select exists(select * from pg_proc where proname = 'trigger_function_afterDelete');" []]
@@ -458,6 +520,10 @@ LANGUAGE plpgsql;
             )
         )
     )
+
+
+
+
 
 
 
@@ -544,7 +610,10 @@ LANGUAGE plpgsql;
 
 
 
-
+; ----------------------------------------------------------------
+; This is called whenever there has been an update of a realtime
+; query.
+; ----------------------------------------------------------------
 (defn update-query-in-cache [query]
   (let [
         record-count       (get-count   (get query :db-table)  (get query :where)   (get query :params))
@@ -562,9 +631,17 @@ LANGUAGE plpgsql;
         result-id-vector   (into [] (map :id results))
 
         existing-query     (get @cached-queries   query)
+
+        clients            @(:clients @existing-query)
         ]
     (do
+      (println (str "    " ))
+      (println (str "    update-query-in-cache" ))
       (println (str "    " query))
+      (println (str "    clients: " clients))
+      (do (for [client clients]
+        (println (str "    Client: " client))
+        ))
 
       (if (not existing-query)
         (swap! cached-queries assoc  query (atom {:clients  (atom #{})})))
@@ -576,6 +653,13 @@ LANGUAGE plpgsql;
         (swap! the-query assoc  :count         record-count)
         (swap! the-query assoc  :timestamp    (quot (System/currentTimeMillis) 1000))
         ))))
+
+
+
+
+
+
+
 
 
 
@@ -610,6 +694,12 @@ LANGUAGE plpgsql;
       (println "")
 
       )))
+
+
+
+
+
+
 
 
 
@@ -841,6 +931,11 @@ LANGUAGE plpgsql;
 
 
 
+
+
+
+
+
 ; ----------------------------------------------------------------
 ; On the server check every 1 second for record changes on the
 ; database. If a record changes then send the log entry details to
@@ -879,6 +974,13 @@ LANGUAGE plpgsql;
                          (if realtime-log-entry
                            (>! server-side-record-changes  realtime-log-entry)))
                         )))))) my-pool)
+
+
+
+
+
+
+
 
 
 
