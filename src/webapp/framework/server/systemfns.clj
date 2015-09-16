@@ -807,7 +807,7 @@ LANGUAGE plpgsql;
 
 
 ; ----------------------------------------------------------------
-; On the serverm check every 1 second for record changes on the
+; On the server check every 1 second for record changes on the
 ; database. If a record changes then send the log entry details to
 ; the channel 'server-side-record-changes'
 ; ----------------------------------------------------------------
@@ -849,9 +849,18 @@ LANGUAGE plpgsql;
 
 
 
+
+
+
+
+; ----------------------------------------------------------------
+; Whenever a web client wants to know if the data it is showing
+; needs to be updated it sends a request to this server side
+; function
+; ----------------------------------------------------------------
 (defn !check-for-server-updates [{:keys [
                                      client-data-session-id
                                      ]}]
   (do
-    (println "SERVER: check-for-server-updates")
+    (println "SERVER: check-for-server-updates for client: " client-data-session-id)
     []))
