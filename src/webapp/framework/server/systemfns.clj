@@ -1003,9 +1003,21 @@ LANGUAGE plpgsql;
 (defn !check-for-server-updates [{:keys [
                                      client-data-session-id
                                      ]}]
-  (do
+  (let [client-data-atom    (if realtime-clients  (get @realtime-clients client-data-session-id))
+        response-atom       (if client-data-atom (get @client-data-atom :update-request))
+                         ]
     (println (str "      " ))
     (println "SERVER: check-for-server-updates for client: " client-data-session-id)
-    (println (str "      " (keys @realtime-clients)))
-    (println (str "      " @(get @realtime-clients client-data-session-id)))
-    []))
+    ;(println (str "      " (keys @realtime-clients)))
+    (println (str "      " client-data-atom))
+    (println (str "      response: " (if response-atom  @response-atom  [])))
+     (if response-atom  @response-atom  [])
+    )
+
+    )
+
+
+(+ 1 1 )
+
+
+@realtime-clients
