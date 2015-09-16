@@ -386,6 +386,11 @@ LANGUAGE plpgsql;
 
 
 
+
+
+
+
+
 (defn make-log-table-update-trigger-function []
     (let [coils-trigger-fn-exists-result      (korma.core/exec-raw
                                                   ["select exists(select * from pg_proc where proname = 'trigger_function_afterUpdate');" []]
@@ -419,6 +424,10 @@ LANGUAGE plpgsql;
 
 
 
+
+
+
+
 (defn make-log-table-delete-trigger-function []
     (let [coils-trigger-fn-exists-result      (korma.core/exec-raw
                                                   ["select exists(select * from pg_proc where proname = 'trigger_function_afterDelete');" []]
@@ -449,6 +458,13 @@ LANGUAGE plpgsql;
             )
         )
     )
+
+
+
+
+
+
+
 
 
 
@@ -516,11 +532,16 @@ LANGUAGE plpgsql;
 
 
 
-;(sql-1 "select count(id) from table_name " [])
+
 
 
 
 (defn next-realtime-id [] (swap! realtime-counter inc))
+
+
+
+
+
 
 
 
@@ -562,6 +583,11 @@ LANGUAGE plpgsql;
 
 
 
+; ----------------------------------------------------------------
+; When the client application running in the web browser needs to be
+; updated in real time then the server needs to know which
+; SQL queries belong to which client so that it can update them
+; ----------------------------------------------------------------
 (defn add-client-to-query [query  client-id]
   (let [
         existing-query     (get @cached-queries   query)
@@ -571,9 +597,13 @@ LANGUAGE plpgsql;
         this-query         (get @client-queries query)
         ]
     (do
+      ; if the query does not know about the client then tell it
       (swap! existing-clients conj client-id)
+
+      ; if the client does not know about this query then tell it
       (if (not this-query)
         (swap! client-queries   assoc  query {}))
+
       (println "")
       (println "  add-client-to-query")
       (println (str "    " @realtime-clients))
@@ -648,7 +678,12 @@ LANGUAGE plpgsql;
   (let [client-cache     (get @realtime-clients  client-realtime-id)
         ]
     (if (nil? client-cache)
-      (swap! realtime-clients assoc client-realtime-id (atom {:queries (atom {})    :records (atom {})})))))
+      (swap! realtime-clients assoc client-realtime-id (atom {:queries (atom {})    :records (atom {})    :update-request (atom {})})))))
+
+
+
+
+
 
 
 
@@ -862,5 +897,8 @@ LANGUAGE plpgsql;
                                      client-data-session-id
                                      ]}]
   (do
+    (println (str "      " ))
     (println "SERVER: check-for-server-updates for client: " client-data-session-id)
+    (println (str "      " (keys @realtime-clients)))
+    (println (str "      " @(get @realtime-clients client-data-session-id)))
     []))
