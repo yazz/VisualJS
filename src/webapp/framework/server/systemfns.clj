@@ -632,26 +632,31 @@ LANGUAGE plpgsql;
 
         existing-query     (get @cached-queries   query)
 
-        clients            @(:clients @existing-query)
         ]
     (do
       (println (str "    " ))
       (println (str "    update-query-in-cache" ))
       (println (str "    " query))
-      (println (str "    clients: " clients))
-      (do (for [client clients]
-        (println (str "    Client: " client))
-        ))
 
       (if (not existing-query)
         (swap! cached-queries assoc  query (atom {:clients  (atom #{})})))
 
 
+
       (let [the-query        (get @cached-queries   query)
+            ;clients         @(:clients @existing-query)
             ]
         (swap! the-query assoc  :records       result-id-vector)
         (swap! the-query assoc  :count         record-count)
         (swap! the-query assoc  :timestamp    (quot (System/currentTimeMillis) 1000))
+
+
+        ;(println (str "    clients: " clients))
+        (comment do (for [client clients]
+              (println (str "    Client: " client))
+              ))
+
+
         ))))
 
 
