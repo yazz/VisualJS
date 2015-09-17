@@ -632,6 +632,7 @@ LANGUAGE plpgsql;
 
         existing-query     (get @cached-queries   query)
 
+        query-time         (quot (System/currentTimeMillis) 1000)
         ]
     (do
       (println (str "    " ))
@@ -644,15 +645,15 @@ LANGUAGE plpgsql;
 
 
       (let [the-query        (get @cached-queries   query)
-            ;clients         @(:clients @existing-query)
+            clients-atom     (:clients @the-query)
             ]
         (swap! the-query assoc  :records       result-id-vector)
         (swap! the-query assoc  :count         record-count)
-        (swap! the-query assoc  :timestamp    (quot (System/currentTimeMillis) 1000))
+        (swap! the-query assoc  :timestamp     query-time)
 
 
-        ;(println (str "    clients: " clients))
-        (comment do (for [client clients]
+        (println (str "    clients: " @clients-atom))
+        (doall (for [client @clients-atom]
               (println (str "    Client: " client))
               ))
 
@@ -769,11 +770,18 @@ LANGUAGE plpgsql;
 
 
 
+; ----------------------------------------------------------------
+;
+; ----------------------------------------------------------------
 (defn create-client-cache [client-realtime-id]
   (let [client-cache     (get @realtime-clients  client-realtime-id)
         ]
     (if (nil? client-cache)
       (swap! realtime-clients assoc client-realtime-id (atom {:queries (atom {})    :records (atom {})    :update-request (atom {})})))))
+
+
+
+
 
 
 
@@ -1011,13 +1019,6 @@ LANGUAGE plpgsql;
     ;(println (str "      " (keys @realtime-clients)))
     (println (str "      " client-data-atom))
     (println (str "      response: " (if response-atom  @response-atom  [])))
-     (if response-atom  @response-atom  [])
-    )
-
-    )
+     (if response-atom  @response-atom  [])))
 
 
-(+ 1 1 )
-
-
-@realtime-clients
