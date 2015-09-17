@@ -646,22 +646,26 @@ LANGUAGE plpgsql;
 
       (let [the-query        (get @cached-queries   query)
             clients-atom     (:clients @the-query)
-            response-atom    (:update-request @the-query)
+
+
             ]
         (swap! the-query assoc  :records       result-id-vector)
         (swap! the-query assoc  :count         record-count)
         (swap! the-query assoc  :timestamp     query-time)
-        (if (not response-atom) (swap! the-query assoc  :update-request (atom {})))
-
 
         (println (str "    clients: " @clients-atom))
         (doall (for [client @clients-atom]
                  (do
                    (println (str "    Client: " client))
-                   (swap! (:update-request @the-query) assoc-in [:queries query] {:timestamp query-time})
-;                   (swap! (:update-request @the-query) assoc  1 2)
-                   )))
-        (println (str "    responses: " (if response-atom @response-atom)))
+                   (let [the-client       (get @realtime-clients  client)
+                         response-atom    (:update-request @the-client)
+                         ]
+                     (if (not response-atom) (swap! the-query assoc  :update-request (atom {})))
+                     (swap! (:update-request @the-client) assoc-in [:queries query] {:timestamp query-time})
+                     (println (str "    responses: " (if response-atom @response-atom)))
+
+                     ;                   (swap! (:update-request @the-query) assoc  1 2)
+                     ))))
 
 
         ))))
@@ -1020,13 +1024,13 @@ LANGUAGE plpgsql;
                                  ]
 
   (let [client-data-atom    (if realtime-clients  (get @realtime-clients  client-data-session-id))
-        response-atom       (if client-data-atom (get @client-data-atom :update-request))
+        response-atom       (if client-data-atom  client-data-atom )
         ]
     (println (str "      " ))
     (println "SERVER: check-for-server-updates for client: " client-data-session-id)
     ;(println (str "      " (keys @realtime-clients)))
     (println (str "      " (if client-data-atom @client-data-atom)))
-    (println (str "      response: " (if response-atom  @response-atom  [])))
+    (println (str "      response: " @(if response-atom  (get @response-atom :update-request )  )))
     (if response-atom  @response-atom  [])))
 
 
