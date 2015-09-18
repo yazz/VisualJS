@@ -1030,8 +1030,8 @@ LANGUAGE plpgsql;
     (println "SERVER: check-for-server-updates for client: " client-data-session-id)
     ;(println (str "      " (keys @realtime-clients)))
     (println (str "      " (if client-data-atom @client-data-atom)))
-    (println (str "      response: " @(if response-atom  (get @response-atom :update-request )  )))
-    (if response-atom  @response-atom  [])))
+    (println (str "      response: " (if response-atom  @(get @response-atom :update-request )  )))
+    (if response-atom  @(get @response-atom :update-request )  {})))
 
 
 

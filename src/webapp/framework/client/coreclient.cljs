@@ -1325,11 +1325,45 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 (log (str "Checking server for data updates ..."))
 (js/setInterval
  #(go
    ;(log (pr-str (count (keys @data-queries-v2))))
-   (remote  !check-for-server-updates  {:client-data-session-id  @data-session-id} )) 3000)
+   (let [x (remote  !check-for-server-updates  {:client-data-session-id  @data-session-id} )]
+     (log "Client realtime: " x)
+     (>! data-query-requests-v2  {
+                                  :query-key     (dissoc (dissoc x :start) :end)
+
+                                  :subset-range  {
+                                                  :start   (:start  x)
+                                                  :end     (:end    x)
+                                                  } })
+
+     )) 3000)
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1414,6 +1448,11 @@
 
 
 
+
+
+
+
+
 "-----------------------------------------------------------
 (update-or-add-table-data  query  )
 
@@ -1427,6 +1466,13 @@
     (swap!  data-records-v2  assoc (query :data-source)
             (atom {:values (atom {})}))))
 ;(-> @data-records-v2 :cvs deref :values deref keys)
+
+
+
+
+
+
+
 
 
 
@@ -1487,6 +1533,9 @@
 
 
 
+
+
+
 (defn get-default-fields-for-data-source [data-source-id]
 
   (let [fields-atom          (-> @datasource-fields  data-source-id)
@@ -1499,6 +1548,9 @@
 
 
 ;(get-default-fields-for-data-source  :cvs)
+
+
+
 
 
 
@@ -1544,6 +1596,10 @@
               :data-session-id     @data-session-id
               }))
         ))))
+
+
+
+
 
 
 
@@ -1672,6 +1728,11 @@ records
                                    records
                                    timestamp)))
    (recur)))
+
+
+
+
+
 
 
 
