@@ -102,22 +102,3 @@
 
 (def-coils-app     main-view   cc2)
 
-
-(go
-  ;(log "SQL: " (select id, item  from todo_items   []  ))
-)
-
-(go
-  (log  (sql "select  COUNT (*) as CNT  from  todo_items"   ))
-  )
-
-
-(go
-  ;(log "INSERT: " (sql "insert into  todo_items   (item) values (?)"   ["make jello"]  ))
-  )
-
-
-
-(go
-  ;(log "Delete: " (sql "delete from  todo_items"  []  ))
-  )
