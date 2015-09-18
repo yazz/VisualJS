@@ -45,7 +45,7 @@
                                                         ))))
 
                               })
-                                ( select id, item from todo_items
+                                (realtime select id, item from todo_items
                                           {}
                                         (container
                                             (inline  "10%" (str (<-- :id)))

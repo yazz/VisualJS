@@ -1342,14 +1342,17 @@
 (js/setInterval
  #(go
    ;(log (pr-str (count (keys @data-queries-v2))))
-   (let [x (remote  !check-for-server-updates  {:client-data-session-id  @data-session-id} )]
-     (log "Client realtime: " x)
+   (let [x (remote  !check-for-server-updates  {:client-data-session-id  @data-session-id} )
+         xx           (-> x :queries keys first)
+         new-key     (dissoc (dissoc xx :start) :end)
+         ]
+     (log "Client realtime: " new-key)
      (>! data-query-requests-v2  {
-                                  :query-key     (dissoc (dissoc x :start) :end)
+                                  :query-key     new-key
 
                                   :subset-range  {
-                                                  :start   (:start  x)
-                                                  :end     (:end    x)
+                                                  :start   (:start  xx)
+                                                  :end     (:end    xx)
                                                   } })
 
      )) 3000)
