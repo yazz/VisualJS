@@ -1344,20 +1344,27 @@
    ;(log (pr-str (count (keys @data-queries-v2))))
    (let [x (remote  !check-for-server-updates  {:client-data-session-id  @data-session-id} )
          xx           (-> x :queries keys first)
-         new-key     (dissoc (dissoc xx :start) :end)
+         ;new-key     (dissoc (dissoc xx :start) :end)
+         new-key      {:data-source     :todo_items
+                       :table           "todo_items"
+                       :where           nil
+                       :db-table        "todo_items"
+                       :params          nil
+                       :order           nil
+                       :realtime        true}
          ]
      (log "Client realtime: " new-key)
      (>! data-query-requests-v2  {
                                   :query-key     new-key
 
                                   :subset-range  {
-                                                  :start   (:start  xx)
-                                                  :end     (:end    xx)
+;                                                  :start   (:start  xx)
+;                                                  :end     (:end    xx)
+                                                  :start   (:start  1)
+                                                  :end     (:end    20)
                                                   } })
 
      )) 3000)
-
-
 
 
 
