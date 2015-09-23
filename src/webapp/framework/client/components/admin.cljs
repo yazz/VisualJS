@@ -6,7 +6,7 @@
 	(:use
 		[webapp.framework.client.system-globals  :only  [
 																										 client-data-views-v2
-																										 data-queries-v2
+																										 client-data-queries-v2
 																										 ]])
    )
 
@@ -174,11 +174,11 @@
 																(c/h2 nil "Queries")
 																(c/map-many
 																	#(c/div
-																		{:onClick (fn[x] (js/alert (pr-str (get  @data-queries-v2 %))))}
+																		{:onClick (fn[x] (js/alert (pr-str (get  @client-data-queries-v2 %))))}
 																		(pr-str %   ))
 																	;(c/read-ui data-sources [:values])
 																	;["s" "dd"]
-																	(keys @data-queries-v2)
+																	(keys @client-data-queries-v2)
 																	)
 																))
 

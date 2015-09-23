@@ -891,30 +891,30 @@ record-ui
 ; -----------------------------------------------------
 ;
 ; -----------------------------------------------------
-(def data-view-requests-v2   (chan))
+(def client-data-view-requests-v2   (chan))
 
 ; -----------------------------------------------------
 ;
 ; -----------------------------------------------------
-(def data-query-requests-v2  (chan))
+(def client-data-query-requests-v2  (chan))
 
 ; -----------------------------------------------------
 ;
 ; -----------------------------------------------------
-(def data-record-requests-v2 (chan))
+(def client-data-record-requests-v2 (chan))
 
 ; -----------------------------------------------------
 ;
 ; -----------------------------------------------------
-(def data-queries-v2              (atom {})) ; list of the queries
+(def client-data-queries-v2              (atom {})) ; list of the queries
 
 ; -----------------------------------------------------
 ;
 ; -----------------------------------------------------
-(def data-records-v2              (atom {})) ; list of the records
+(def client-data-records-v2              (atom {})) ; list of the records
 (def ui-paths-v2                  (atom {})) ; list of the UI paths and their associated views
 
 ; -----------------------------------------------------
 ;
 ; -----------------------------------------------------
-(def datasource-fields            (atom {})) ; list of the data sources and their fields
+(def client-datasource-fields            (atom {})) ; list of the data sources and their fields

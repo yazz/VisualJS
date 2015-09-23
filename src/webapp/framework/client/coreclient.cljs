@@ -45,13 +45,13 @@
                                                     add-init-state-fn
                                                     global-om-state
                                                     data-session-id
-                                                    data-view-requests-v2
-                                                    data-query-requests-v2
-                                                    data-record-requests-v2
-                                                    data-queries-v2
-                                                    data-records-v2
+                                                    client-data-view-requests-v2
+                                                    client-data-query-requests-v2
+                                                    client-data-record-requests-v2
+                                                    client-data-queries-v2
+                                                    client-data-records-v2
                                                     ui-paths-v2
-                                                    datasource-fields]])
+                                                    client-datasource-fields]])
   (:use-macros
    [webapp.framework.client.coreclient  :only [ns-coils
                                                sql log sql-1
@@ -1096,8 +1096,8 @@
 
 
 
-;(-> @data-records-v2 vals first deref :values deref keys count)
-;(-> @data-queries-v2 keys count)
+;(-> @client-data-records-v2 vals first deref :values deref keys count)
+;(-> @client-data-queries-v2 keys count)
 ;(-> @client-data-views-v2 vals first deref)
 ;(-> @app-state :ui :login :admins :values)
 
@@ -1186,7 +1186,7 @@
            rel-order-path   (conj rel-path :order)
            rel-touch-path   (conj rel-path :touch)
 
-           data-query-atom  (get @data-queries-v2 query-key)
+           data-query-atom  (get @client-data-queries-v2 query-key)
            query-start      (:start @data-query-atom)
            query-end        (:end @data-query-atom)
            query-count      (if (:count @data-query-atom) (:count @data-query-atom) 0)
@@ -1202,7 +1202,7 @@
                                              (fn [record-position]
 
                                                (let [ record-id      (get  (get @data-query-atom :values) record-position)
-                                                      table-atom     (get @data-records-v2  data-source)
+                                                      table-atom     (get @client-data-records-v2  data-source)
                                                       record (if table-atom
                                                                (get @(get @table-atom :values) record-id))
                                                       ]
@@ -1304,7 +1304,7 @@
 (defn update-all-views-for-query [ query-key ]
 
   (let [
-          data-query-atom      (get @data-queries-v2    query-key)
+          data-query-atom      (get @client-data-queries-v2    query-key)
           data-query           (if data-query-atom      @data-query-atom)
           list-of-views-atom   (if data-query           (get data-query  :list-of-view-keys))
           list-of-views        (if list-of-views-atom   @list-of-views-atom)
@@ -1344,7 +1344,7 @@
 (log (str "Checking server for data updates ..."))
 (js/setInterval
  #(go
-   ;(log (pr-str (count (keys @data-queries-v2))))
+   ;(log (pr-str (count (keys @client-data-queries-v2))))
    (let [x (remote  !check-for-server-updates  {:client-data-session-id  @data-session-id} )
          xx           (-> x :queries keys first)
          ;new-key     (dissoc (dissoc xx :start) :end)
@@ -1357,7 +1357,7 @@
                        :realtime        true}
          ]
      (log "Client realtime: " new-key)
-     (>! data-query-requests-v2  {
+     (>! client-data-query-requests-v2  {
                                   :query-key     new-key
 
                                   :subset-range  {
@@ -1397,7 +1397,7 @@
 -----------------------------------------------------------"
 (defn  add-data-query-watch-v2 [ query-key ]
 
-  (let [  data-query-atom       (get @data-queries-v2  query-key)
+  (let [  data-query-atom       (get @client-data-queries-v2  query-key)
           list-of-views-atom    (get @data-query-atom  :list-of-view-keys)       ]
 
 
@@ -1416,7 +1416,7 @@
                query-key
                (fn [_ _ old-val new-val]
 
-                 (let [new-query-atom  (get @data-queries-v2  query-key)]
+                 (let [new-query-atom  (get @client-data-queries-v2  query-key)]
 
                    (if (or
                         (not (= (:start old-val) (:start new-val)))
@@ -1435,7 +1435,7 @@
                              (go
                               ;(js/alert (str "Query loaded?" already-loaded?))
                               ;(js/alert (pr-str "query values:" (get @new-query-atom :values)))
-                              (>! data-query-requests-v2  {
+                              (>! client-data-query-requests-v2  {
                                                            :query-key     query-key
 
                                                            :subset-range  {
@@ -1475,10 +1475,10 @@
 -----------------------------------------------------------"
 (defn update-or-add-table-data [ query ]
 
-  (if (not (get  @data-records-v2  (query :data-source)))
-    (swap!  data-records-v2  assoc (query :data-source)
+  (if (not (get  @client-data-records-v2  (query :data-source)))
+    (swap!  client-data-records-v2  assoc (query :data-source)
             (atom {:values (atom {})}))))
-;(-> @data-records-v2 :cvs deref :values deref keys)
+;(-> @client-data-records-v2 :cvs deref :values deref keys)
 
 
 
@@ -1502,7 +1502,7 @@
 (defn get-or-create-record  [data-source
                              record-id]
 
-  (let [table      (get  @data-records-v2   data-source)
+  (let [table      (get  @client-data-records-v2   data-source)
         records    (get  @table             :values)
         record     (get  @records           record-id)  ]
 
@@ -1524,7 +1524,7 @@
                                                                  (:id new-val))) ]
                         (doall
                          (for [ query-key    queries ]
-                           (let [query (get  @data-queries-v2  query-key)]
+                           (let [query (get  @client-data-queries-v2  query-key)]
                              ;(js/alert (pr-str query))
                              (swap! query assoc :updated (.getTime (js/Date.)))
                              (update-all-views-for-query  query-key)
@@ -1551,7 +1551,7 @@
 
 (defn get-default-fields-for-data-source [data-source-id]
 
-  (let [fields-atom          (-> @datasource-fields  data-source-id)
+  (let [fields-atom          (-> @client-datasource-fields  data-source-id)
         fields-entry         (if fields-atom (into [] @fields-atom))   ]
 
     ;(log (pr-str "Read fields: " fields-entry))
@@ -1600,7 +1600,7 @@
 
       (if (not @record-value)
         (go
-          (>! data-record-requests-v2
+          (>! client-data-record-requests-v2
              {:source              (query :data-source)
               :db-table            (query :db-table)
               :fields              (get-default-fields-for-data-source (query :data-source))
@@ -1641,7 +1641,7 @@ calling load-record
                                  timestamp]
 
   (let [
-         query-atom                 (get @data-queries-v2   query-key)
+         query-atom                 (get @client-data-queries-v2   query-key)
          list-of-record-positions   (range (:start params) (inc (:end params)))
        ]
     (log (str "     :" query-key))
@@ -1720,7 +1720,7 @@ calling load-record
 
 Get SQL queries requests from the database
 
-This waits for query requests on the channel 'data-query-requests-v2'
+This waits for query requests on the channel 'client-data-query-requests-v2'
 and then asks the server for the results of the query. When the result
 comes back then it goes through all the record IDs and tries to load the
 records
@@ -1728,7 +1728,7 @@ records
 -----------------------------------------------------------"
 (go
  (loop []
-   (let [request (<! data-query-requests-v2)]  ; <-- reads the request from the channel
+   (let [request (<! client-data-query-requests-v2)]  ; <-- reads the request from the channel
 
      (let [
            params         (merge (merge (:query-key request) (:subset-range request)) {:data-session-id     @data-session-id})
@@ -1772,13 +1772,13 @@ Go loop to read records from the database
 
 
 Reads records from the database. This waits for requests on
-the channel 'data-record-requests-v2' and then depending on
+the channel 'client-data-record-requests-v2' and then depending on
 whether it is a record or a query gets the corresponding
 data and updates the internal cache
 -----------------------------------------------------------"
 (go
  (loop []
-   (let [request  (<! data-record-requests-v2)]  ; <-- reads the record request from the channel
+   (let [request  (<! client-data-record-requests-v2)]  ; <-- reads the record request from the channel
      ;(log (pr-str "Loading record " (get request :id)))
      (let [
            record             (remote  !get-record-result-v2  request)
@@ -1864,7 +1864,7 @@ adjusting the start and end of the query)
                     (not (= (:end   old-val) (:end   new-val)))
                     )
                    (do
-                     (let [query-atom  (get @data-queries-v2  (:query @data-view-atom))]
+                     (let [query-atom  (get @client-data-queries-v2  (:query @data-view-atom))]
                        (reset!  query-atom
                          (merge @query-atom
                                 {  :start  (:start new-val)
@@ -1904,11 +1904,11 @@ reused by many views.
 (defn get-or-create-data-query-v2    [  data-query-key-v2  ]
 
   ; create the query if it does not exist
-  (let [ query-entry    (get  @data-queries-v2  data-query-key-v2)]
+  (let [ query-entry    (get  @client-data-queries-v2  data-query-key-v2)]
     (if  (not query-entry)
       (do
-        (reset!  data-queries-v2
-                 (assoc-in @data-queries-v2 [data-query-key-v2]
+        (reset!  client-data-queries-v2
+                 (assoc-in @client-data-queries-v2 [data-query-key-v2]
                            (atom {
                                   :values {}
                                   :list-of-view-keys  (atom #{})
@@ -1916,7 +1916,7 @@ reused by many views.
         (add-data-query-watch-v2   data-query-key-v2 ))))
 
   ; return the query
-  (get  @data-queries-v2  data-query-key-v2))
+  (get  @client-data-queries-v2  data-query-key-v2))
 
 
 
@@ -2021,7 +2021,7 @@ read
           ; link the view to the data query
           ;
           (let [
-                query-atom  (get  @data-queries-v2    data-query-key-v2)
+                query-atom  (get  @client-data-queries-v2    data-query-key-v2)
                 views-atom  (get  @query-atom        :list-of-view-keys)
                 ]
             (swap!  views-atom   conj  data-view-key-v2)
@@ -2071,11 +2071,11 @@ read
 
 
 (defn update-data-source-fields  [data-source  fields]
-  (let [ds-fields          (get  @datasource-fields   data-source)
+  (let [ds-fields          (get  @client-datasource-fields   data-source)
         fields-atom        (atom fields)                            ]
 
     (if (nil? ds-fields)
-      (swap! datasource-fields  assoc  data-source  fields-atom)
+      (swap! client-datasource-fields  assoc  data-source  fields-atom)
       (let [
             fields-as-set (into #{} fields)
             existing-fields-as-set (into #{} @ds-fields)
@@ -2084,7 +2084,7 @@ read
             ]
         (if (not (= all-fields existing-fields-as-set))
           (do
-            (swap! datasource-fields  assoc  data-source  (atom all-fields))
+            (swap! client-datasource-fields  assoc  data-source  (atom all-fields))
             )
         )
       )
@@ -2187,7 +2187,7 @@ with the (<-- :field) method
     ;  (update-view-for-query   data-view-key-v2  (create-data-query-key   data-view-key-v2)))
 
     (go
-     (>! data-view-requests-v2
+     (>! client-data-view-requests-v2
          {
           :key    data-view-key-v2
           :start  start
@@ -2217,12 +2217,12 @@ Get SQL queries requests from the database
 
 
 this waits for requests on the channel
-'data-query-requests-v2' and then gets the corresponding
+'client-data-query-requests-v2' and then gets the corresponding
 data and updates the internal cache
 -----------------------------------------------------------"
 (go
  (loop []
-   (let [request (<! data-view-requests-v2)]  ; <-- reads the request from the channel
+   (let [request (<! client-data-view-requests-v2)]  ; <-- reads the request from the channel
 
 
       (update-or-create-data-view-v2
