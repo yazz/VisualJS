@@ -1304,15 +1304,18 @@
 (defn update-all-views-for-query [ query-key ]
 
   (let [
-          data-query         @(get @data-queries-v2  query-key)
-          list-of-views      @(get data-query  :list-of-view-keys)
+          data-query-atom      (get @data-queries-v2    query-key)
+          data-query           (if data-query-atom      @data-query-atom)
+          list-of-views-atom   (if data-query           (get data-query  :list-of-view-keys))
+          list-of-views        (if list-of-views-atom   @list-of-views-atom)
           ]
 
-          (doall
-                (map
-                    (fn[view-key]
-                                 (update-view-for-query  view-key  query-key))
-                    list-of-views ))))
+    (if list-of-views
+      (doall
+       (map
+        (fn[view-key]
+          (update-view-for-query  view-key  query-key))
+        list-of-views )))))
 
 
 
@@ -1645,8 +1648,9 @@ calling load-record
     ; -----------------------------------------------
     ; update the record count in the query
     ; -----------------------------------------------
-    (reset!  query-atom
-             (assoc @query-atom :count records-count))
+    (if query-atom
+      (reset!  query-atom
+               (assoc @query-atom :count records-count)))
 
 
 
@@ -1655,25 +1659,27 @@ calling load-record
     ; -----------------------------------------------
     ; update the timestamp in the query
     ; -----------------------------------------------
-    (reset!  query-atom
-             (assoc @query-atom :timestamp timestamp))
+    (if query-atom
+      (reset!  query-atom
+               (assoc @query-atom :timestamp timestamp)))
 
 
 
     ; -----------------------------------------------
     ; update the record IDs in the query
     ; -----------------------------------------------
-    (reset!  query-atom
-             (assoc @query-atom :values
-               (merge
-                (apply merge (map
-                              (fn[record-pos
-                                  record-id]   {record-pos  record-id})
+    (if query-atom
+      (reset!  query-atom
+               (assoc @query-atom :values
+                 (merge
+                  (apply merge (map
+                                (fn[record-pos
+                                    record-id]   {record-pos  record-id})
 
-                              list-of-record-positions
-                              records
-                              ))
-                (get @query-atom :values))))
+                                list-of-record-positions
+                                records
+                                ))
+                  (get @query-atom :values)))))
 
 
     ; -----------------------------------------------
@@ -1693,7 +1699,7 @@ calling load-record
        (update-all-views-for-query    query-key)
 
         ))
-    (log (str "CLIENT: @query-atom: " @query-atom))
+    (if query-atom (log (str "CLIENT: @query-atom: " @query-atom)))
     ))
 
 
