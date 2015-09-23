@@ -5,23 +5,38 @@
 
 
 
-
-(defonce cached-queries (atom {}))
-
-
-
-
-(defonce cached-records (atom {}))
+; -----------------------------------------------------------------------
+; NOT USED YET
+; -----------------------------------------------------------------------
+(defonce server-side-cached-records     (atom {}))
 
 
 
-(defonce server-side-record-changes   (chan 1))
+; -----------------------------------------------------------------------
+; This holds all the query results for the realtime queries
+;
+;
+; -----------------------------------------------------------------------
+(defonce server-side-cached-queries     (atom {}))
 
 
 
 
-(defonce realtime-counter (atom 0))
+; -----------------------------------------------------------------------
+; NOT USED YET
+; -----------------------------------------------------------------------
+(defonce server-side-realtime-counter   (atom 0))
 
 
 
-(defonce realtime-clients (atom {}))
+; -----------------------------------------------------------------------
+; NOT USED YET
+; -----------------------------------------------------------------------
+(defonce server-side-realtime-clients   (atom {}))
+
+
+
+; -----------------------------------------------------------------------
+; NOT USED YET
+; -----------------------------------------------------------------------
+(defonce server-side-record-changes     (chan 1))

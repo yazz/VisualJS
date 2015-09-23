@@ -26,7 +26,7 @@
                                                     record-pointer-locally
                                                     app-state
                                                     reset-app-state
-                                                    data-views-v2
+                                                    client-data-views-v2
                                                     ui-watchers
                                                     call-stack
                                                     data-watchers
@@ -1098,7 +1098,7 @@
 
 ;(-> @data-records-v2 vals first deref :values deref keys count)
 ;(-> @data-queries-v2 keys count)
-;(-> @data-views-v2 vals first deref)
+;(-> @client-data-views-v2 vals first deref)
 ;(-> @app-state :ui :login :admins :values)
 
 
@@ -1138,7 +1138,7 @@
 -----------------------------------------------------------"
 (defn update-view-for-query [ view-key  query-key ]
 
-  (let [   data-view-atom   (get @data-views-v2  view-key)    ]
+  (let [   data-view-atom   (get @client-data-views-v2  view-key)    ]
     ;(log (pr-str "Full path   : " (:full-path view-key)))
     ;(log (pr-str "Active view : " (get @ui-paths-v2  (:full-path view-key))))
     ;(log (pr-str "View key    : " view-key))
@@ -1236,7 +1236,7 @@
 
        ;(log (pr-str "REALCount:" end-marker))
 ;(log (pr-str "Matched:" (get query-key :params)))
-       ;(log (pr-str "View count:" (count (keys @data-views-v2))))
+       ;(log (pr-str "View count:" (count (keys @client-data-views-v2))))
 
        ;(log (pr-str "Records:" (first (map :value (-> ui-list-of-records vals)))))
        ;(log (pr-str "Records count:" (-> ui-list-of-records count)))
@@ -1644,6 +1644,8 @@ calling load-record
          query-atom                 (get @data-queries-v2   query-key)
          list-of-record-positions   (range (:start params) (inc (:end params)))
        ]
+    (log (str "     :" query-key))
+    (log (str "     :" records))
 
     ; -----------------------------------------------
     ; update the record count in the query
@@ -1851,7 +1853,7 @@ adjusting the start and end of the query)
 -------------------------------------------------"
 (defn  add-data-view-watch [ data-view-key-v2 ]
 
-  (let [  data-view-atom   (get @data-views-v2  data-view-key-v2)  ]
+  (let [  data-view-atom   (get @client-data-views-v2  data-view-key-v2)  ]
 
     (add-watch data-view-atom
                data-view-key-v2
@@ -1983,14 +1985,14 @@ read
       ; together with the query and other stuff needed
       ;
       ;-----------------------------------------------------
-      (if (not (get  @data-views-v2  data-view-key-v2))
+      (if (not (get  @client-data-views-v2  data-view-key-v2))
         (do
           ;
           ; create the data view
           ;
           (let [  data-view-atom  (atom {  :values {}  }) ]
 
-            (swap!  data-views-v2   assoc
+            (swap!  client-data-views-v2   assoc
                     data-view-key-v2
                     data-view-atom)
 
@@ -2008,7 +2010,7 @@ read
           ;
           ; link the data query to the data view and latest state
           ;
-          (let [ view-atom   (get  @data-views-v2  data-view-key-v2) ]
+          (let [ view-atom   (get  @client-data-views-v2  data-view-key-v2) ]
 
             (swap!  view-atom   assoc  :query     data-query-key-v2)
             (swap!  view-atom   assoc  :ui-state  ui-state))
@@ -2040,7 +2042,7 @@ read
       ; then update the start and end record positions
       ;
       ;-----------------------------------------------------
-      (let [ view-atom  (get @data-views-v2  data-view-key-v2) ]
+      (let [ view-atom  (get @client-data-views-v2  data-view-key-v2) ]
 
         (swap!  view-atom   merge  {:start  start
                                     :end    end}))
@@ -2181,7 +2183,7 @@ with the (<-- :field) method
     (update-data-source-fields   data-source  fields)
 
 
-    ;(if (get  @data-views-v2  data-view-key-v2)
+    ;(if (get  @client-data-views-v2  data-view-key-v2)
     ;  (update-view-for-query   data-view-key-v2  (create-data-query-key   data-view-key-v2)))
 
     (go

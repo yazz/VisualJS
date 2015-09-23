@@ -602,7 +602,7 @@ LANGUAGE plpgsql;
 
 
 
-(defn next-realtime-id [] (swap! realtime-counter inc))
+(defn next-realtime-id [] (swap! server-side-realtime-counter inc))
 
 
 
@@ -630,7 +630,7 @@ LANGUAGE plpgsql;
 
         result-id-vector   (into [] (map :id results))
 
-        existing-query     (get @cached-queries   query)
+        existing-query     (get @server-side-cached-queries   query)
 
         query-time         (quot (System/currentTimeMillis) 1000)
         ]
@@ -640,11 +640,11 @@ LANGUAGE plpgsql;
       (println (str "    " query))
 
       (if (not existing-query)
-        (swap! cached-queries assoc  query (atom {:clients  (atom #{})})))
+        (swap! server-side-cached-queries assoc  query (atom {:clients  (atom #{})})))
 
 
 
-      (let [the-query        (get @cached-queries   query)
+      (let [the-query        (get @server-side-cached-queries   query)
             clients-atom     (:clients @the-query)
 
 
@@ -657,7 +657,7 @@ LANGUAGE plpgsql;
         (doall (for [client @clients-atom]
                  (do
                    (println (str "    Client: " client))
-                   (let [the-client       (get @realtime-clients  client)
+                   (let [the-client       (get @server-side-realtime-clients  client)
                          response-atom    (:update-request @the-client)
                          ]
                      (if (not response-atom) (swap! the-query assoc  :update-request (atom {})))
@@ -690,10 +690,10 @@ LANGUAGE plpgsql;
 ; ----------------------------------------------------------------
 (defn add-client-to-query [query  client-id]
   (let [
-        existing-query     (get @cached-queries   query)
+        existing-query     (get @server-side-cached-queries   query)
         existing-clients   (get @existing-query  :clients)
 
-        client-queries     (get @(get @realtime-clients   client-id) :queries)
+        client-queries     (get @(get @server-side-realtime-clients   client-id) :queries)
         this-query         (get @client-queries query)
         ]
     (do
@@ -706,7 +706,7 @@ LANGUAGE plpgsql;
 
       (println "")
       (println "  add-client-to-query")
-      (println (str "    " @realtime-clients))
+      (println (str "    " @server-side-realtime-clients))
       (println "")
 
       )))
@@ -733,12 +733,12 @@ LANGUAGE plpgsql;
     (println (str "      "  "realtime-log-entry"))
     (println (str "      "  realtime-log-entry))
     (println (str "      "))
-    (println (str "      "  "@cached-queries"))
-    (println (str "      "  @cached-queries))
+    (println (str "      "  "@server-side-cached-queries"))
+    (println (str "      "  @server-side-cached-queries))
     (println (str "      "))
-    (println (str "Count: " (-> @cached-queries keys count str)))
+    (println (str "Count: " (-> @server-side-cached-queries keys count str)))
 
-    (let [queries (keys @cached-queries)]
+    (let [queries (keys @server-side-cached-queries)]
       (doall (for [query queries]
                (do
                  (if (= (get query :db-table) (get realtime-log-entry :record_table_name))
@@ -749,21 +749,21 @@ LANGUAGE plpgsql;
                      (println (str "    "))
 
                      (println (str "    " "Before"))
-                     (println (str "    " @(get @cached-queries query)))
+                     (println (str "    " @(get @server-side-cached-queries query)))
                      (println (str "    "))
-                     (println (str "    " @(:clients @(get @cached-queries query))))
+                     (println (str "    " @(:clients @(get @server-side-cached-queries query))))
 
                      (update-query-in-cache  query)
 
                      (println (str "    "))
                      (println (str "    " "After"))
-                     (println (str "    " @(get @cached-queries query)))
+                     (println (str "    " @(get @server-side-cached-queries query)))
                      (println (str "    "))
-                     (println (str "    " @(:clients @(get @cached-queries query))))
+                     (println (str "    " @(:clients @(get @server-side-cached-queries query))))
                      (println (str "    "))
 
                      (println (str "clients:"))
-                     (println (str "    " (keys @realtime-clients)))
+                     (println (str "    " (keys @server-side-realtime-clients)))
                      (println (str "    "))
                      ))))))))
 
@@ -784,10 +784,10 @@ LANGUAGE plpgsql;
 ;
 ; ----------------------------------------------------------------
 (defn create-client-cache [client-realtime-id]
-  (let [client-cache     (get @realtime-clients  client-realtime-id)
+  (let [client-cache     (get @server-side-realtime-clients  client-realtime-id)
         ]
     (if (nil? client-cache)
-      (swap! realtime-clients assoc client-realtime-id (atom {:queries (atom {})    :records (atom {})    :update-request (atom {})})))))
+      (swap! server-side-realtime-clients assoc client-realtime-id (atom {:queries (atom {})    :records (atom {})    :update-request (atom {})})))))
 
 
 
@@ -858,7 +858,7 @@ LANGUAGE plpgsql;
          ]
      (create-client-cache  data-session-id)
 
-     (if (get @cached-queries  query-key)
+     (if (get @server-side-cached-queries  query-key)
        nil
        (do
          (update-query-in-cache  query-key)
@@ -868,12 +868,12 @@ LANGUAGE plpgsql;
      (do-real   :table-name db-table)
 
      (println "-------------------------------")
-     ;(println "SERVER @cached-queries     " @cached-queries)
+     ;(println "SERVER @server-side-cached-queries     " @server-side-cached-queries)
      ;(println query-key)
-     (println @(get @cached-queries  query-key))
+     (println @(get @server-side-cached-queries  query-key))
      (println "-------------------------------")
 
-     (let [result   @(get @cached-queries  query-key)]
+     (let [result   @(get @server-side-cached-queries  query-key)]
        {
         :records    (:records result)
         :count      (:count result)
@@ -1023,12 +1023,12 @@ LANGUAGE plpgsql;
                                      ]}
                                  ]
 
-  (let [client-data-atom    (if realtime-clients  (get @realtime-clients  client-data-session-id))
+  (let [client-data-atom    (if server-side-realtime-clients  (get @server-side-realtime-clients  client-data-session-id))
         response-atom       (if client-data-atom  client-data-atom )
         ]
     (println (str "      " ))
     (println "SERVER: check-for-server-updates for client: " client-data-session-id)
-    ;(println (str "      " (keys @realtime-clients)))
+    ;(println (str "      " (keys @server-side-realtime-clients)))
     (println (str "      " (if client-data-atom @client-data-atom)))
     (println (str "      response: " (if response-atom  @(get @response-atom :update-request )  )))
     (if response-atom  @(get @response-atom :update-request )  {})))
