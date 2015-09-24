@@ -1,9 +1,8 @@
 (defproject org.clojars.zubairq/coils "0.5"
   :dependencies [
                  [org.clojure/clojure "1.7.0"]
-                 [org.clojure/clojurescript "1.7.48" :scope "provided"]
+                 [org.clojure/clojurescript "1.7.122" :scope "provided"]
                  [org.omcljs/om "0.9.0"]
-                 [om-sync "0.1.1"]
                  [org.clojure/core.async "0.1.346.0-17112a-alpha" :scope "provided"]
                  [cljsjs/react "0.13.3-0"]
 
@@ -23,7 +22,7 @@
                  [ankha "0.1.4"]
                  [overtone/at-at "1.2.0"]
                  [org.clojure/tools.nrepl "0.2.10"]
-                 [lein-figwheel "0.3.8"]
+                 [lein-figwheel "0.4.0"]
                  [instaparse "1.4.1"]
                  ]
   :repositories {"sonatype-oss-public"
@@ -37,7 +36,7 @@
              [lein-cljsbuild "1.0.5"]
              [lein-httpd "1.0.0"]
              [lein-ring "0.9.3"]
-             [lein-figwheel "0.3.8"]
+             [lein-figwheel "0.4.0"]
              ]
 
   :profiles {

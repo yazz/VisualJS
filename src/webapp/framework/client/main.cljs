@@ -5,7 +5,6 @@
    [om.core          :as om :include-macros true]
    [om.dom           :as dom :include-macros true]
    [cljs.core.async  :refer [put! chan <! pub timeout]]
-   [om-sync.core     :as async]
    [clojure.data     :as data]
    [clojure.string   :as string]
    [ankha.core       :as ankha]
