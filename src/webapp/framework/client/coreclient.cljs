@@ -1349,14 +1349,14 @@
          xx           (-> x :queries keys first)
          ;new-key     (dissoc (dissoc xx :start) :end)
          new-key      {:data-source     :todo_items
-                       :table           "todo_items"
+                       :table           nil
                        :where           nil
                        :db-table        "todo_items"
                        :params          nil
                        :order           nil
                        :realtime        true}
          ]
-     (log "Client realtime: " new-key)
+     ;(log "Client realtime: " new-key)
      (>! client-query-cache-requests  {
                                   :query-key     new-key
 
@@ -1418,9 +1418,14 @@
 
                  (let [new-query-atom  (get @client-query-cache  query-key)]
 
+
+                   ;(log (str "     :                old        : " (:timestamp old-val)))
+                   ;(log (str "     :                new        : " (:timestamp new-val)))
+                   ;(log (str "     : (add-watch data-query-atom: " (sort query-key)))
                    (if (or
                         (not (= (:start old-val) (:start new-val)))
                         (not (= (:end   old-val) (:end   new-val)))
+                        (>  (:timestamp new-val) (:timestamp old-val))
                         )
                      (do
                        ;(js/alert (pr-str "Query changed: " query-key))
@@ -1434,7 +1439,7 @@
                            (if (not already-loaded?)
                              (go
                               ;(js/alert (str "Query loaded?" already-loaded?))
-                              ;(js/alert (pr-str "query values:" (get @new-query-atom :values)))
+                              ;(log (pr-str " ********* query values:" (get @new-query-atom :values)))
                               (>! client-query-cache-requests  {
                                                            :query-key     query-key
 
@@ -1442,7 +1447,8 @@
                                                                            :start   (:start  new-val)
                                                                            :end     (:end    new-val)
                                                                            } })
-                              ))))
+                              )))
+                       )
 
                        (update-all-views-for-query   query-key)
 
@@ -1644,8 +1650,8 @@ calling load-record
          query-atom                 (get @client-query-cache   query-key)
          list-of-record-positions   (range (:start params) (inc (:end params)))
        ]
-    (log (str "     :" query-key))
-    (log (str "     :" records))
+   ; (log (str "     :" query-key))
+   ; (log (str "     :" records))
 
     ; -----------------------------------------------
     ; update the record count in the query
@@ -1671,17 +1677,18 @@ calling load-record
     ; update the record IDs in the query
     ; -----------------------------------------------
     (if query-atom
-      (reset!  query-atom
-               (assoc @query-atom :values
-                 (merge
-                  (apply merge (map
-                                (fn[record-pos
-                                    record-id]   {record-pos  record-id})
+      (do
+        (reset!  query-atom
+                 (assoc @query-atom :values
+                   (merge
+                    (apply merge (map
+                                  (fn[record-pos
+                                      record-id]   {record-pos  record-id})
 
-                                list-of-record-positions
-                                records
-                                ))
-                  (get @query-atom :values)))))
+                                  list-of-record-positions
+                                  records
+                                  ))
+                    (get @query-atom :values))))))
 
 
     ; -----------------------------------------------
@@ -1701,7 +1708,7 @@ calling load-record
        (update-all-views-for-query    query-key)
 
         ))
-    (if query-atom (log (str "CLIENT: @query-atom: " @query-atom)))
+    ;(if query-atom (log (str "CLIENT: @query-atom: " @query-atom)))
     ))
 
 
@@ -1732,14 +1739,13 @@ records
 
      (let [
            params         (merge (merge (:query-key request) (:subset-range request)) {:data-session-id     @data-session-id})
-
            return-value   (remote      !get-query-results-v2  params)
            records        (:records    return-value)
            records-count  (:count      return-value)
            timestamp      (:timestamp  return-value)
            ]
 
-       ;(log (pr-str (:query-key     request)))
+       ;(log (pr-str "            ***" (:query-key     request)))
        (add-data-query-result-v2   (:query-key     request)
                                    (:subset-range  request)
                                    records-count
