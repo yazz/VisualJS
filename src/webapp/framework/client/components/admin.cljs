@@ -5,8 +5,8 @@
 
 	(:use
 		[webapp.framework.client.system-globals  :only  [
-																										 client-data-views
-																										 client-data-queries-v2
+																										 client-data-windows
+																										 client-data-query-caches
 																										 ]])
    )
 
@@ -158,11 +158,11 @@
 				 (c/h2 nil "Views")
 		 (c/map-many
 		  #(c/div
-				{:onClick (fn[x] (js/alert (pr-str (get  @client-data-views %))))}
+				{:onClick (fn[x] (js/alert (pr-str (get  @client-data-windows %))))}
 		      (pr-str (get  % :path) (get  % :fields) (get  % :db-table) (get  % :where) (get  % :params) ))
 		     ;(c/read-ui data-sources [:values])
 		     ;["s" "dd"]
-			(keys @client-data-views)
+			(keys @client-data-windows)
 		  )
        ))
 
@@ -174,11 +174,11 @@
 																(c/h2 nil "Queries")
 																(c/map-many
 																	#(c/div
-																		{:onClick (fn[x] (js/alert (pr-str (get  @client-data-queries-v2 %))))}
+																		{:onClick (fn[x] (js/alert (pr-str (get  @client-data-query-caches %))))}
 																		(pr-str %   ))
 																	;(c/read-ui data-sources [:values])
 																	;["s" "dd"]
-																	(keys @client-data-queries-v2)
+																	(keys @client-data-query-caches)
 																	)
 																))
 

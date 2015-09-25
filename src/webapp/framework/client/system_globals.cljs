@@ -883,35 +883,95 @@ record-ui
 
 
 
-; -----------------------------------------------------
-; list of the views
-; -----------------------------------------------------
-(def client-data-views  (atom {}))
+
+
+
 
 ; -----------------------------------------------------
-;
+; This is used to send requests to the data windows
 ; -----------------------------------------------------
-(def client-data-view-requests-v2   (chan))
+(def client-data-window-requests   (chan))
+
+;                         |
+;                         |
+;                         |
+;                         |
+;                         |
+;                         |
+;                         |
+;                         |
+;                         |
+; -----------------------------------------------------
+; list of the views and their associated queries
+; -----------------------------------------------------
+(def client-data-windows  (atom {}))
+
+
+
+
+
+
+
+
+
+
 
 ; -----------------------------------------------------
-;
+; This is used to get data into a cache
 ; -----------------------------------------------------
-(def client-data-query-requests-v2  (chan))
+(def client-data-query-cache-requests  (chan))
+
+;                         |
+;                         |
+;                         |
+;                         |
+;                         |
+;                         |
+;                         |
+;                         |
+;                         |
+; -----------------------------------------------------
+; list of the query cached record IDs
+; -----------------------------------------------------
+(def client-data-query-caches              (atom {}))
+
+
+
+
+
+
+
+
+
 
 ; -----------------------------------------------------
-;
+; used to get data into the record cache
 ; -----------------------------------------------------
-(def client-data-record-requests-v2 (chan))
+(def client-record-cache-requests (chan))
 
+;                         |
+;                         |
+;                         |
+;                         |
+;                         |
+;                         |
+;                         |
+;                         |
+;                         |
 ; -----------------------------------------------------
-;
+; the records cache
 ; -----------------------------------------------------
-(def client-data-queries-v2              (atom {})) ; list of the queries
+(def client-record-cache              (atom {}))
 
-; -----------------------------------------------------
-;
-; -----------------------------------------------------
-(def client-data-records-v2              (atom {})) ; list of the records
+
+
+
+
+
+
+
+
+
 (def ui-paths-v2                  (atom {})) ; list of the UI paths and their associated views
 
 ; -----------------------------------------------------
