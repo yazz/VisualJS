@@ -6,7 +6,7 @@
 	(:use
 		[webapp.framework.client.system-globals  :only  [
 																										 client-data-windows
-																										 client-data-query-caches
+																										 client-query-cache
 																										 ]])
    )
 
@@ -174,11 +174,11 @@
 																(c/h2 nil "Queries")
 																(c/map-many
 																	#(c/div
-																		{:onClick (fn[x] (js/alert (pr-str (get  @client-data-query-caches %))))}
+																		{:onClick (fn[x] (js/alert (pr-str (get  @client-query-cache %))))}
 																		(pr-str %   ))
 																	;(c/read-ui data-sources [:values])
 																	;["s" "dd"]
-																	(keys @client-data-query-caches)
+																	(keys @client-query-cache)
 																	)
 																))
 

@@ -919,7 +919,7 @@ record-ui
 ; -----------------------------------------------------
 ; This is used to get data into a cache
 ; -----------------------------------------------------
-(def client-data-query-cache-requests  (chan))
+(def client-query-cache-requests  (chan))
 
 ;                         |
 ;                         |
@@ -933,7 +933,7 @@ record-ui
 ; -----------------------------------------------------
 ; list of the query cached record IDs
 ; -----------------------------------------------------
-(def client-data-query-caches              (atom {}))
+(def client-query-cache              (atom {}))
 
 
 
