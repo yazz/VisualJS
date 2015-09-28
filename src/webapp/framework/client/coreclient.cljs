@@ -1504,13 +1504,20 @@
 
 
 
-
-(defn get-or-create-record  [data-source
-                             record-id]
+; -----------------------------------------------------------
+; CLIENT: Gets a record from the cache
+;
+; If the record does not exist then create a new entry for
+; the record. Also add a watch so that if the record changes
+; then all the associated queries will be informed
+; -----------------------------------------------------------
+(defn get-or-create-record  [ data-source
+                              record-id    ]
 
   (let [table      (get  @client-record-cache   data-source)
-        records    (get  @table             :values)
-        record     (get  @records           record-id)  ]
+        records    (get  @table                :values)
+        record     (get  @records               record-id)  ]
+
 
     (if (not record)
 
@@ -1531,7 +1538,6 @@
                         (doall
                          (for [ query-key    queries ]
                            (let [query (get  @client-query-cache  query-key)]
-                             ;(js/alert (pr-str query))
                              (swap! query assoc :updated (.getTime (js/Date.)))
                              (update-all-views-for-query  query-key)
                              )))))))
@@ -1773,24 +1779,21 @@ records
 
 
 "-----------------------------------------------------------
-Go loop to read records from the database
-
+CLIENT: Update the record cache every time a record is needed
 
 
 Reads records from the database. This waits for requests on
-the channel 'client-record-cache-requests' and then depending on
-whether it is a record or a query gets the corresponding
-data and updates the internal cache
+the channel 'client-record-cache-requests' and then gets the
+corresponding record and updates the internal cache
 -----------------------------------------------------------"
 (go
  (loop []
-   (let [request  (<! client-record-cache-requests)]  ; <-- reads the record request from the channel
-     ;(log (pr-str "Loading record " (get request :id)))
+   (let [record-request  (<! client-record-cache-requests)]  ; <-- reads the record request from the channel
      (let [
-           record             (remote  !get-record-result-v2  request)
+           record             (remote  !get-record-result-v2  record-request)
            record-value       (get record :value)
 
-           source-name        (:source  request)
+           source-name        (:source  record-request)
            id                 (:id record-value)
            ]
 
@@ -1802,27 +1805,16 @@ data and updates the internal cache
                ]
 
 
-           ;(log (pr-str "existing record value:" record-value-atom))
-
            (if (nil? @record-value-atom)
              (do
-               ; tell the record that it belongs to a query
-               ;(swap!  queries conj (request :query))
+               (reset! record-value-atom   record-value)))
 
-               (reset! record-value-atom   record-value)
-               ;(log (pr-str record-value))
-
-               ))
-           ;(swap!  queries conj (request :query))
-
-           (if (get request :force)
+           ; if we have set :force on the request then force a reload of the record. This
+           ; should be removed soon
+           (if (get record-request :force)
              (do
                (reset! record-value-atom   record-value)
-               ))
-
-
-
-           ))))
+               ))))))
    (recur)))
 
 
@@ -1923,6 +1915,9 @@ reused by many views.
 
   ; return the query
   (get  @client-query-cache  data-query-key-v2))
+
+
+
 
 
 
@@ -2034,12 +2029,7 @@ read
             )
 
 
-          (update-view-for-query   data-view-key-v2  (create-data-query-key   data-view-key-v2))
-
-
-
-          )
-        )
+          (update-view-for-query   data-view-key-v2  (create-data-query-key   data-view-key-v2))))
 
 
 
@@ -2065,12 +2055,12 @@ read
 
 
     (if (not (get-in @app-state value-path))
-      (update-view-for-query   data-view-key-v2  (create-data-query-key   data-view-key-v2))
-      )
+      (update-view-for-query   data-view-key-v2  (create-data-query-key   data-view-key-v2)))))
 
 
 
-      ))
+
+
 
 
 
