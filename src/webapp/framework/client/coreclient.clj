@@ -552,7 +552,7 @@ nil
                          position
                          & code             ]
 
-  `(let [ ~'data        (webapp.framework.client.coreclient/data-view-fn-v2
+  `(let [ ~'data        (webapp.framework.client.coreclient/data-window-fn
                           (merge {:relative-path [
                                                   (str ~(java.util.UUID/randomUUID))
                                                   ]} ~opts )
