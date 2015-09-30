@@ -50,7 +50,7 @@
                                                     client-record-cache-requests
                                                     client-query-cache
                                                     client-record-cache
-                                                    ui-paths-v2
+                                                    ui-paths-mapped-to-data-windows
                                                     client-datasource-fields]])
   (:use-macros
    [webapp.framework.client.coreclient  :only [ns-coils
@@ -1139,7 +1139,7 @@
 (defn update-view-for-query [ data-window-key  query-key ]
 
   (let [   data-view-atom   (get @client-data-windows  data-window-key)    ]
-    ;(log (pr-str "Active view : " (get @ui-paths-v2  (:full-path data-window-key))))
+    ;(log (pr-str "Active view : " (get @ui-paths-mapped-to-data-windows  (:full-path data-window-key))))
 
     (cond
 
@@ -1158,7 +1158,7 @@
      ; if the query does match and is the current live view
      (and
          (= (@data-view-atom :query) query-key)
-         (= (get @ui-paths-v2  (:full-path data-window-key))  data-window-key)
+         (= (get @ui-paths-mapped-to-data-windows  (:full-path data-window-key))  data-window-key)
         )
 
      (let [
@@ -1637,25 +1637,23 @@
 
 
 "-----------------------------------------------------------
-(add-data-query-result-v2 ...
+(populate-query-cache-when-result-returned ...
 
 
 When we get query data back from the database then load the
 records into the system. This mostly consists of repeatedly
 calling load-record
 -----------------------------------------------------------"
-(defn add-data-query-result-v2  [query-key
-                                 params
-                                 records-count
-                                 records
-                                 timestamp]
+(defn populate-query-cache-when-result-returned  [ query-key
+                                                   params
+                                                   records-count
+                                                   records
+                                                   timestamp      ]
 
   (let [
          query-atom                 (get @client-query-cache   query-key)
          list-of-record-positions   (range (:start params) (inc (:end params)))
        ]
-   ; (log (str "     :" query-key))
-   ; (log (str "     :" records))
 
     ; -----------------------------------------------
     ; update the record count in the query
@@ -1750,7 +1748,7 @@ records
            ]
 
        ;(log (pr-str "            ***" (:query-key     request)))
-       (add-data-query-result-v2   (:query-key     request)
+       (populate-query-cache-when-result-returned   (:query-key     request)
                                    (:subset-range  request)
                                    records-count
                                    records
@@ -1929,15 +1927,16 @@ reused by many views.
 
 
 
-"-------------------------------------------------
-
-(update-or-create-data-window ...
-
-
-This creates the data window. It is passed a start
-and an end which means the start and end records to
-read
--------------------------------------------------"
+; ----------------------------------------------------------------
+;
+; (update-or-create-data-window ... )
+;
+;
+; This creates the data window. It is passed a start
+; and an end which means the start and end records to
+; read
+;
+; ----------------------------------------------------------------
 (defn update-or-create-data-window [  data-window-key
                                       start
                                       end
@@ -1987,10 +1986,10 @@ read
           ;
           ; link the data query to the data view and latest state
           ;
-          (let [ view-atom   (get  @client-data-windows  data-window-key) ]
+          (let [ data-window-details-atom   (get  @client-data-windows  data-window-key) ]
 
-            (swap!  view-atom   assoc  :query     query-key)
-            (swap!  view-atom   assoc  :ui-state  ui-state))
+            (swap!  data-window-details-atom   assoc  :query     query-key)
+            (swap!  data-window-details-atom   assoc  :ui-state  ui-state))
 
 
 
@@ -1999,7 +1998,7 @@ read
           ;
           (let [
                 query-atom  (get  @client-query-cache    query-key)
-                views-atom  (get  @query-atom        :list-of-view-keys)
+                views-atom  (get  @query-atom           :list-of-view-keys)
                 ]
             (swap!  views-atom   conj  data-window-key)
             )
@@ -2014,16 +2013,16 @@ read
       ; then update the start and end record positions
       ;
       ;-----------------------------------------------------
-      (let [ view-atom  (get @client-data-windows  data-window-key) ]
+      (let [ data-window-details-atom  (get @client-data-windows  data-window-key) ]
 
-        (swap!  view-atom   merge  {:start  start
-                                    :end    end}))
+        (swap!  data-window-details-atom   merge  {:start  start
+                                                   :end    end}))
 
 
 
-    (if (not (= (get @ui-paths-v2  full-path) data-window-key))
+    (if (not (= (get @ui-paths-mapped-to-data-windows  full-path) data-window-key))
       (do
-        (swap! ui-paths-v2 assoc full-path  data-window-key)
+        (swap! ui-paths-mapped-to-data-windows assoc full-path  data-window-key)
         (update-view-for-query   data-window-key  query-key)))
 
 

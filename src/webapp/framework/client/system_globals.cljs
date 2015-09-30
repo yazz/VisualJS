@@ -928,6 +928,27 @@ record-ui
 ;        |                                 |
 ;        |                                 |-------:values
 ;        |                                 |          {}
+;        |                                 |
+;        |                                 |-------:start
+;        |                                 |          2
+;        |                                 |
+;        |                                 |-------:end
+;        |                                 |          20
+;        |                                 |
+;        |                                 |-------:ui-state
+;        |                                 |          STATE FROM OM
+;        |                                 |
+;        |                                 |-------:query
+;        |                                 |          |
+;        |                                 |          { :data-source         (:data-source data-window-key)
+;        |                                 |            :table               (:table       data-window-key)
+;        |                                 |            :where               (:where       data-window-key)
+;        |                                 |            :db-table            (:db-table    data-window-key)
+;        |                                 |            :params              (:params      data-window-key)
+;        |                                 |            :order               (:order       data-window-key)
+;        |                                 |            :realtime            (:realtime    data-window-key)   }
+
+
 
 
 
@@ -1037,7 +1058,7 @@ record-ui
 
 
 
-(def ui-paths-v2                  (atom {})) ; list of the UI paths and their associated views
+(def ui-paths-mapped-to-data-windows                  (atom {})) ; list of the UI paths and their associated views
 
 ; -----------------------------------------------------
 ;
