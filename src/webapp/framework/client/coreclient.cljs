@@ -137,9 +137,9 @@
   "
   [did]
   (reset! call-stack
-          (into [] (filter #(not= %1 did) @call-stack))
-          )
-  )
+          (into [] (filter #(not= %1 did) @call-stack))))
+
+
 
 
 
@@ -2043,7 +2043,7 @@ read
 
 
 
-(defn update-data-source-fields  [data-source  fields]
+(defn keep-client-fields-up-tp-date  [data-source  fields]
   (let [ds-fields          (get  @client-datasource-fields   data-source)
         fields-atom        (atom fields)                            ]
 
@@ -2058,107 +2058,6 @@ read
         (if (not (= all-fields existing-fields-as-set))
           (do
             (swap! client-datasource-fields  assoc  data-source  (atom all-fields))))))))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-"-----------------------------------------------------------
-(data-window-fn
-               {
-                :data-source   :users
-                :relative-path [:admins]
-                :path          []
-                :fields        [:id  :user_profile]
-                :ui-state      ui
-                :where         'UPPER(user_profile) like '%JAVA%''
-                }
-
-               {:start 10 :end 10}
-
-               (div {:style {:display        'inline-block'}}
-                    (inline '400px' (text (<-- :user_profile) ))))
-
-
-This is used from a GUI component to read from a
-data source. Each record is returned in turn and accessed
-with the (<-- :field) method
------------------------------------------------------------"
-(defn data-window-fn [
-                         {
-                          data-source          :data-source
-                          relative-path        :relative-path
-                          interval-in-millis   :interval-in-millis
-                          fields               :fields
-                          db-table             :db-table
-                          where                :where
-                          params               :params
-                          order                :order
-                          realtime             :realtime
-                          }
-
-
-                         {
-                          start                :start
-                          end                  :end
-                          }
-
-                         ui-component-name
-
-                         component-path
-
-                         ui-state
-
-                       ]
-
-
-
-
-  (let [
-        full-path             (into [] (flatten (conj
-                                                 component-path
-                                                 relative-path
-                                                 [])))
-
-        data-window-key      {
-                               :ui-component-name   ui-component-name
-                               :relative-path       relative-path
-                               :component-path      component-path
-                               :data-source         data-source
-                               :fields              fields
-                               :where               where
-                               :path                relative-path
-                               :full-path           full-path
-                               :db-table            db-table
-                               :params              params
-                               :order               order
-                               :realtime            realtime
-                               }
-        ]
-    (update-data-source-fields   data-source  fields)
-
-
-    (go
-     (>! client-data-window-requests
-         {
-          :key    data-window-key
-          :start  start
-          :end    end
-          :ui     ui-state}))
-
-
-
-    (get-in @ui-state    relative-path)))
 
 
 
@@ -2229,6 +2128,9 @@ It is actually called from the <-- macro
 
 
 
+
+
+
 "-------------------------------------------------
 (<--pos)
 
@@ -2281,5 +2183,112 @@ It is actually called from the <--id macro
 
 
 (defn session-user-id-fn []
-  (((get @data-state :session) :user ) :id)
-  )
+  (((get @data-state :session) :user ) :id))
+
+
+
+
+
+
+
+
+
+
+
+
+"-----------------------------------------------------------
+(data-window-fn
+               {
+                :data-source   :users
+                :relative-path [:admins]
+                :path          []
+                :fields        [:id  :user_profile]
+                :ui-state      ui
+                :where         'UPPER(user_profile) like '%JAVA%''
+                }
+
+               {:start 10 :end 10}
+
+               (div {:style {:display        'inline-block'}}
+                    (inline '400px' (text (<-- :user_profile) ))))
+
+
+This is used from a GUI component to read from a
+data source. Each record is returned in turn and accessed
+with the (<-- :field) method
+-----------------------------------------------------------"
+(defn data-window-fn [
+                         {
+                          data-source          :data-source
+                          relative-path        :relative-path
+                          interval-in-millis   :interval-in-millis
+                          fields               :fields
+                          db-table             :db-table
+                          where                :where
+                          params               :params
+                          order                :order
+                          realtime             :realtime
+                          }
+
+
+                         {
+                          start                :start
+                          end                  :end
+                          }
+
+                         ui-component-name
+
+                         component-path
+
+                         ui-state
+
+                       ]
+
+
+
+
+  (let [
+        full-path             (into [] (flatten (conj  component-path  relative-path  [])))
+
+        data-window-key       {
+                                :ui-component-name   ui-component-name
+                                :relative-path       relative-path
+                                :component-path      component-path
+                                :data-source         data-source
+                                :fields              fields
+                                :where               where
+                                :path                relative-path
+                                :full-path           full-path
+                                :db-table            db-table
+                                :params              params
+                                :order               order
+                                :realtime            realtime
+                              }
+        ]
+
+    (keep-client-fields-up-tp-date   data-source  fields)
+
+
+    (go
+     (>! client-data-window-requests
+         {
+          :key    data-window-key
+          :start  start
+          :end    end
+          :ui     ui-state}))
+
+
+
+    (get-in @ui-state    relative-path)))
+
+
+
+
+
+
+
+
+
+
+
+
