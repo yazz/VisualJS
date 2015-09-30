@@ -1339,8 +1339,10 @@
  #(go
    ;(log (pr-str (count (keys @client-query-cache))))
    (let [x (remote  !check-for-server-updates  {:client-data-session-id  @data-session-id} )
-         xx           (-> x :queries keys first)
-         ;new-key     (dissoc (dissoc xx :start) :end)
+         y (-> x :queries keys first)
+         xxx           (merge y {:data-source (keyword (get y :db-table)) :realtime true :table nil})
+         xx y
+         new-key2     (dissoc (dissoc xxx :start) :end)
          new-key      {:data-source     :todo_items
                        :table           nil
                        :where           nil
@@ -1349,15 +1351,15 @@
                        :order           nil
                        :realtime        true}
          ]
-     ;(log "Client realtime: " new-key)
+     (log "Client realtime: " new-key2)
      (>! client-query-cache-requests  {
-                                  :query-key     new-key
+                                  :query-key     new-key2
 
                                   :subset-range  {
-;                                                  :start   (:start  xx)
-;                                                  :end     (:end    xx)
-                                                  :start    1
-                                                  :end      20
+                                                  :start   (:start  xx)
+                                                  :end     (:end    xx)
+                                                  ;:start    1
+                                                  ;:end      20
                                                   } })
 
      )) 3000)

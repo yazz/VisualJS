@@ -313,33 +313,77 @@ INSERT INTO coils_triggers
 
 (defn make-admin-table []
   (let [coils-admin-tables      (korma.core/exec-raw
-                                   [" select * from pg_tables where schemaname='public' and tablename='coils_triggers'" []]
-                                   :results)
+                                 [" select * from pg_tables where schemaname='public' and tablename='coils_triggers'" []]
+                                 :results)
 
         coils-admin-table-exists   (pos? (count coils-admin-tables))
 
         sql-to-create-admin-table "
-CREATE TABLE coils_triggers
-(
-  id serial NOT NULL,
-  table_name character varying,
-  version character varying
-);
-"
-  ]
+        CREATE TABLE coils_triggers
+        (
+        id serial NOT NULL,
+        table_name character varying,
+        version character varying
+        );
+        "
+        ]
 
-      (println "Coils admin table exists: " coils-admin-table-exists)
-      (if (not coils-admin-table-exists )
-                      (korma.core/exec-raw   [sql-to-create-admin-table []]   [])
-                      nil
-        )
-
+    (println "Coils admin table exists: " coils-admin-table-exists)
+    (if (not coils-admin-table-exists )
+      (korma.core/exec-raw   [sql-to-create-admin-table []]   [])
+      nil)))
 
 
 
 
-  )
-  )
+
+
+(defn make-todo-table []
+  (let [coils-admin-tables      (korma.core/exec-raw
+                                 [" select * from pg_tables where schemaname='public' and tablename='todo_items'" []]
+                                 :results)
+
+        coils-admin-table-exists   (pos? (count coils-admin-tables))
+
+        sql-to-create-admin-table "
+        CREATE TABLE todo_items
+        (
+        id serial NOT NULL,
+        item character varying,
+        CONSTRAINT todo_items_pkey PRIMARY KEY (id)
+        );
+        "
+        ]
+
+    (println "Coils todo table exists: " coils-admin-table-exists)
+    (if (not coils-admin-table-exists )
+      (korma.core/exec-raw   [sql-to-create-admin-table []]   [])
+      nil)))
+
+
+
+
+(defn make-users-table []
+  (let [coils-admin-tables      (korma.core/exec-raw
+                                 [" select * from pg_tables where schemaname='public' and tablename='users'" []]
+                                 :results)
+
+        coils-admin-table-exists   (pos? (count coils-admin-tables))
+
+        sql-to-create-admin-table "
+        CREATE TABLE users
+        (
+        id serial NOT NULL,
+        user_name character varying,
+        CONSTRAINT users_pkey PRIMARY KEY (id)
+        );
+        "
+        ]
+
+    (println "Coils todo table exists: " coils-admin-table-exists)
+    (if (not coils-admin-table-exists )
+      (korma.core/exec-raw   [sql-to-create-admin-table []]   [])
+      nil)))
 
 
 
@@ -528,8 +572,10 @@ LANGUAGE plpgsql;
 
 
 
-
-
+  (make-todo-table)
+  (make-users-table)
+  (make-admin-table )
+  (make-log-table   )
 
 
 
@@ -538,8 +584,8 @@ LANGUAGE plpgsql;
 
 (defn do-real [& {:keys [:table-name]}]
   (println "table name: " table-name)
-  (make-admin-table )
-  (make-log-table   )
+
+
   ( make-log-table-insert-trigger-function)
   ( make-log-table-update-trigger-function)
   ( make-log-table-delete-trigger-function)
@@ -1029,7 +1075,7 @@ LANGUAGE plpgsql;
     (println (str "      " ))
     (println "SERVER: check-for-server-updates for client: " client-data-session-id)
     ;(println (str "      " (keys @server-side-realtime-clients)))
-    (println (str "      " (if client-data-atom @client-data-atom)))
+    (println (str "      " (if client-data-atom  @client-data-atom)))
     (println (str "      response: " (if response-atom  @(get @response-atom :update-request )  )))
     (if response-atom  @(get @response-atom :update-request )  {})))
 

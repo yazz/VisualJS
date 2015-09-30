@@ -72,7 +72,7 @@
                                   (div {:style {:padding "20px" :backgoundColor "white"}})
 
 
-                                  ( select id,user_name from users
+                                  (realtime select id,user_name from users
                                                   {}
                                                   (container
                                                     (inline  "10%" (str (<-- :id)))
