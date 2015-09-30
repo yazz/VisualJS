@@ -1184,7 +1184,7 @@
            rel-order-path      (conj rel-path :order)
            rel-touch-path      (conj rel-path :touch)
 
-           data-query-atom     (get @client-query-cache query-key)
+           data-query-atom     (get  @client-query-cache  query-key)
            query-start         (:start @data-query-atom)
            query-end           (:end @data-query-atom)
            query-count         (if (:count @data-query-atom) (:count @data-query-atom) 0)
@@ -1239,7 +1239,8 @@
        ;(log (pr-str "Order:  " ui-order-of-records))
        ;(log (pr-str "Order:  " (filter (fn[g] g) (vals ui-order-of-records))))
        ;(log (pr-str "Query count:" query-count))
-       ;(log (pr-str "Total Records:" (-> @data-query-atom :count)))
+       ;(log (pr-str "Total Records:" (-> @data-query-atom :values)))
+      ; (log (pr-str "update-data-window-for-query : "  (-> @data-query-atom :values) ))
 
 
 
@@ -1288,27 +1289,26 @@
 
 
 "-----------------------------------------------------------
-(update-all-views-for-query  query  )
+(update-all-data-windows-for-query  query  )
 
 
 
 
 -----------------------------------------------------------"
-(defn update-all-views-for-query [ query-key ]
+(defn update-all-data-windows-for-query [ query-key ]
 
   (let [
-          data-query-atom      (get @client-query-cache    query-key)
-          data-query           (if data-query-atom      @data-query-atom)
-          list-of-views-atom   (if data-query           (get data-query  :list-of-data-window-keys))
-          list-of-views        (if list-of-views-atom   @list-of-views-atom)
+          data-query-atom             (get  @client-query-cache  query-key)
+          data-query                  (if data-query-atom             @data-query-atom)
+          list-of-data-windows-atom   (if data-query                  (get data-query  :list-of-data-window-keys))
+          list-of-data-windows        (if list-of-data-windows-atom   @list-of-data-windows-atom)
           ]
 
-    (if list-of-views
+    (if list-of-data-windows
       (doall
        (map
-        (fn[view-key]
-          (update-data-window-for-query  view-key  query-key))
-        list-of-views )))))
+        (fn[data-window-key] (update-data-window-for-query  data-window-key   query-key))
+        list-of-data-windows )))))
 
 
 
@@ -1356,8 +1356,8 @@
                                   :subset-range  {
 ;                                                  :start   (:start  xx)
 ;                                                  :end     (:end    xx)
-                                                  :start   (:start  1)
-                                                  :end     (:end    20)
+                                                  :start    1
+                                                  :end      20
                                                   } })
 
      )) 3000)
@@ -1390,18 +1390,22 @@
 -----------------------------------------------------------"
 (defn  add-data-query-watch-v2 [ query-key ]
 
-  (let [  data-query-atom       (get @client-query-cache  query-key)
-          list-of-views-atom    (get @data-query-atom  :list-of-data-window-keys)       ]
+  (let [  data-query-atom              (get @client-query-cache  query-key)
+          list-of-data-windows-atom    (get @data-query-atom  :list-of-data-window-keys)
+          name-of-watch                (merge query-key {:type "views"})
+          ]
 
 
-    ; this says that whenever the list of views changes then update all of the views. This
-    ; is a bit much, as really only the added views need to be updated
-    (add-watch list-of-views-atom
-               (merge query-key {:type "views"})
+    ; this says that whenever the list of data windows changes then update all of the
+    ; data windows. This is a bit much, as really only the added data windows need to be updated
+    (add-watch list-of-data-windows-atom
+               name-of-watch
                (fn [_ _ old-val new-val]
                  ;(js/alert (pr-str "new view: " new-val))
-                 (update-all-views-for-query   query-key)
-                 ))
+                 (update-all-data-windows-for-query   query-key)))
+
+
+
 
     ; this says that whenever the query information changes then see if
     ; we need to get any more information from the database
@@ -1443,7 +1447,7 @@
                               )))
                        )
 
-                       (update-all-views-for-query   query-key)
+                       (update-all-data-windows-for-query   query-key)
 
                        ))
 
@@ -1532,7 +1536,7 @@
                          (for [ query-key    queries ]
                            (let [query (get  @client-query-cache  query-key)]
                              (swap! query assoc :updated (.getTime (js/Date.)))
-                             (update-all-views-for-query  query-key)
+                             (update-all-data-windows-for-query  query-key)
                              )))))))
 
       )
@@ -1649,6 +1653,9 @@ calling load-record
          query-atom                 (get @client-query-cache   query-key)
          list-of-record-positions   (range (:start params) (inc (:end params)))
        ]
+    (log (pr-str "populate: "  query-key " : " records))
+    (log (pr-str "        : "  records))
+    (log (pr-str "        : "  records-count))
 
     ; -----------------------------------------------
     ; update the record count in the query
@@ -1702,7 +1709,7 @@ calling load-record
         (fn [ record-id ] (load-record  query-key  record-id))
         list-of-ids
         )
-       (update-all-views-for-query    query-key)
+       (update-all-data-windows-for-query    query-key)
 
         ))
     ;(if query-atom (log (str "CLIENT: @query-atom: " @query-atom)))
@@ -1744,10 +1751,10 @@ records
 
        ;(log (pr-str "            ***" (:query-key     request)))
        (populate-query-cache-when-result-returned   (:query-key     request)
-                                   (:subset-range  request)
-                                   records-count
-                                   records
-                                   timestamp)))
+                                                    (:subset-range  request)
+                                                    records-count
+                                                    records
+                                                    timestamp)))
    (recur)))
 
 
