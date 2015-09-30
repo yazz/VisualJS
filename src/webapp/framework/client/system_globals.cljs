@@ -898,13 +898,36 @@ record-ui
 ;                         |
 ;                         |
 ;                         |
-;                         |
-;                         |
-;                         |
+;                      *  |  *
+;                       * | *
+;                        *|*
+;                         *
+
 ; -----------------------------------------------------
 ; list of the views and their associated queries
 ; -----------------------------------------------------
 (def client-data-windows  (atom {}))
+; -----------------------------------------------------
+; client-data-windows
+;        |
+;        |
+;        |--------------{
+;        |                 :ui-component-name   ui-component-name
+;        |                 :relative-path       relative-path
+;        |                 :component-path      component-path
+;        |                 :data-source         data-source
+;        |                 :fields              fields
+;        |                 :where               where
+;        |                 :path                relative-path
+;        |                 :full-path           full-path
+;        |                 :db-table            db-table
+;        |                 :params              params
+;        |                 :order               order
+;        |                 :realtime            realtime                }
+;        |                                 |
+;        |                                 |
+;        |                                 |-------:values
+;        |                                 |          {}
 
 
 

@@ -1086,7 +1086,7 @@
 
 
 
-;zzz
+
 ;-----------------------------------------------------------
 ; this is the queue where query and record requests are sent
 ; when they are needed. They requests are not processed in
@@ -1139,9 +1139,7 @@
 (defn update-view-for-query [ view-key  query-key ]
 
   (let [   data-view-atom   (get @client-data-windows  view-key)    ]
-    ;(log (pr-str "Full path   : " (:full-path view-key)))
     ;(log (pr-str "Active view : " (get @ui-paths-v2  (:full-path view-key))))
-    ;(log (pr-str "View key    : " view-key))
 
     (cond
 
@@ -1899,22 +1897,22 @@ adjusting the start and end of the query)
 This is used to get a query. That query can be
 reused by many views.
 -------------------------------------------------"
-(defn get-or-create-query    [  query-key2  ]
+(defn get-or-create-query    [  query-key  ]
 
   ; create the query if it does not exist
-  (let [ query-entry    (get  @client-query-cache  query-key2)]
+  (let [ query-entry    (get  @client-query-cache  query-key)]
     (if  (not query-entry)
       (do
         (reset!  client-query-cache
-                 (assoc-in @client-query-cache [query-key2]
+                 (assoc-in @client-query-cache [query-key]
                            (atom {
                                   :values {}
                                   :list-of-view-keys  (atom #{})
                                   })))
-        (add-data-query-watch-v2   query-key2 ))))
+        (add-data-query-watch-v2   query-key ))))
 
   ; return the query
-  (get  @client-query-cache  query-key2))
+  (get  @client-query-cache  query-key))
 
 
 
@@ -1943,19 +1941,21 @@ read
 (defn update-or-create-data-window [  data-window-key
                                       start
                                       end
-                                      ui-state           ]
+                                      ui-state
+                                     ]
 
   (let [
-        query-key2      { :data-source         (:data-source data-window-key)
+        query-key       { :data-source         (:data-source data-window-key)
                           :table               (:table       data-window-key)
                           :where               (:where       data-window-key)
                           :db-table            (:db-table    data-window-key)
                           :params              (:params      data-window-key)
                           :order               (:order       data-window-key)
-                          :realtime            (:realtime    data-window-key)
-                          }
+                          :realtime            (:realtime    data-window-key)    }
+
         full-path       (get  data-window-key :full-path)
-        value-path      (conj  full-path :values)
+
+        value-path      (conj  full-path  :values)
         ]
 
       ;-----------------------------------------------------
@@ -1980,7 +1980,7 @@ read
           ;
           ; create the data query if it doesn't exist
           ;
-          (get-or-create-query    query-key2)
+          (get-or-create-query    query-key)
 
 
 
@@ -1989,7 +1989,7 @@ read
           ;
           (let [ view-atom   (get  @client-data-windows  data-window-key) ]
 
-            (swap!  view-atom   assoc  :query     query-key2)
+            (swap!  view-atom   assoc  :query     query-key)
             (swap!  view-atom   assoc  :ui-state  ui-state))
 
 
@@ -1998,14 +1998,14 @@ read
           ; link the view to the data query
           ;
           (let [
-                query-atom  (get  @client-query-cache    query-key2)
+                query-atom  (get  @client-query-cache    query-key)
                 views-atom  (get  @query-atom        :list-of-view-keys)
                 ]
             (swap!  views-atom   conj  data-window-key)
             )
 
 
-          (update-view-for-query   data-window-key  query-key2)))
+          (update-view-for-query   data-window-key  query-key)))
 
 
 
@@ -2024,12 +2024,12 @@ read
     (if (not (= (get @ui-paths-v2  full-path) data-window-key))
       (do
         (swap! ui-paths-v2 assoc full-path  data-window-key)
-        (update-view-for-query   data-window-key  query-key2)))
+        (update-view-for-query   data-window-key  query-key)))
 
 
 
     (if (not (get-in @app-state value-path))
-      (update-view-for-query   data-window-key  query-key2))))
+      (update-view-for-query   data-window-key  query-key))))
 
 
 
@@ -2044,6 +2044,7 @@ read
 
 
 (defn keep-client-fields-up-tp-date  [data-source  fields]
+
   (let [ds-fields          (get  @client-datasource-fields   data-source)
         fields-atom        (atom fields)                            ]
 
@@ -2072,11 +2073,11 @@ read
 
 
 "-----------------------------------------------------------
-Get data window requests
+Get data window requests for a refresh
 
-this waits for requests on the channel
-'client-query-cache-requests' and then gets the corresponding
-data and updates the internal cache
+This waits for requests on the channel 'client-query-cache-requests'
+and then gets the corresponding data and updates the internal
+client side query and record cache
 -----------------------------------------------------------"
 (go
  (loop []
