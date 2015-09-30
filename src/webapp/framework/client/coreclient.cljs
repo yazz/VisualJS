@@ -1240,7 +1240,7 @@
        ;(log (pr-str "Order:  " (filter (fn[g] g) (vals ui-order-of-records))))
        ;(log (pr-str "Query count:" query-count))
        ;(log (pr-str "Total Records:" (-> @data-query-atom :values)))
-      ; (log (pr-str "update-data-window-for-query : "  (-> @data-query-atom :values) ))
+       (log (pr-str "update-data-window-for-query : "  (-> @data-query-atom :values) ))
 
 
 
@@ -1653,9 +1653,10 @@ calling load-record
          query-atom                 (get @client-query-cache   query-key)
          list-of-record-positions   (range (:start params) (inc (:end params)))
        ]
-    (log (pr-str "populate: "  query-key " : " records))
-    (log (pr-str "        : "  records))
-    (log (pr-str "        : "  records-count))
+    (log (pr-str ""))
+    ;(log (pr-str "populate: "  query-key " : " records))
+    (log (pr-str "  datbase returned      : "  records))
+    ;(log (pr-str "        : "  records-count))
 
     ; -----------------------------------------------
     ; update the record count in the query
@@ -1682,6 +1683,8 @@ calling load-record
     ; -----------------------------------------------
     (if query-atom
       (do
+        (reset!  query-atom
+                 (assoc @query-atom :values {}))
         (reset!  query-atom
                  (assoc @query-atom :values
                    (merge
