@@ -1130,22 +1130,22 @@
 
 
 "-----------------------------------------------------------
-(update-view-for-query  view  query )
+(update-data-window-for-query  view  query )
 
 
 
 
 -----------------------------------------------------------"
-(defn update-view-for-query [ data-window-key  query-key ]
+(defn update-data-window-for-query [ data-window-key  query-key ]
 
-  (let [   data-view-atom   (get @client-data-windows  data-window-key)    ]
+  (let [   data-window-atom   (get @client-data-windows  data-window-key)    ]
     ;(log (pr-str "Active view : " (get @ui-paths-mapped-to-data-windows  (:full-path data-window-key))))
 
     (cond
 
      ; if the query doesn't match then do nothing - kind of an error condition. I think that
      ; this should never happen
-     (not (= (@data-view-atom :query) query-key))
+     (not (= (@data-window-atom :query) query-key))
 
      (do
        ;(log (pr-str "No view matched:" query-key))
@@ -1157,14 +1157,14 @@
 
      ; if the query does match and is the current live view
      (and
-         (= (@data-view-atom :query) query-key)
+         (= (@data-window-atom :query) query-key)
          (= (get @ui-paths-mapped-to-data-windows  (:full-path data-window-key))  data-window-key)
         )
 
      (let [
-           ui-state         (get @data-view-atom  :ui-state)
-           view-start       (:start @data-view-atom)
-           view-end         (:end @data-view-atom)
+           ui-state         (get @data-window-atom  :ui-state)
+           view-start       (:start @data-window-atom)
+           view-end         (:end @data-window-atom)
 
            data-source      (:data-source data-window-key)
            full-path        (:full-path data-window-key)
@@ -1304,7 +1304,7 @@
   (let [
           data-query-atom      (get @client-query-cache    query-key)
           data-query           (if data-query-atom      @data-query-atom)
-          list-of-views-atom   (if data-query           (get data-query  :list-of-view-keys))
+          list-of-views-atom   (if data-query           (get data-query  :list-of-data-window-keys))
           list-of-views        (if list-of-views-atom   @list-of-views-atom)
           ]
 
@@ -1312,7 +1312,7 @@
       (doall
        (map
         (fn[view-key]
-          (update-view-for-query  view-key  query-key))
+          (update-data-window-for-query  view-key  query-key))
         list-of-views )))))
 
 
@@ -1396,7 +1396,7 @@
 (defn  add-data-query-watch-v2 [ query-key ]
 
   (let [  data-query-atom       (get @client-query-cache  query-key)
-          list-of-views-atom    (get @data-query-atom  :list-of-view-keys)       ]
+          list-of-views-atom    (get @data-query-atom  :list-of-data-window-keys)       ]
 
 
     ; this says that whenever the list of views changes then update all of the views. This
@@ -1847,9 +1847,9 @@ adjusting the start and end of the query)
 -------------------------------------------------"
 (defn  add-data-window-watch [ data-window-key ]
 
-  (let [  data-view-atom   (get @client-data-windows  data-window-key)  ]
+  (let [  data-window-atom   (get @client-data-windows  data-window-key)  ]
 
-    (add-watch data-view-atom
+    (add-watch data-window-atom
                data-window-key
                (fn [_ _ old-val new-val]
                  (if
@@ -1858,7 +1858,7 @@ adjusting the start and end of the query)
                     (not (= (:end   old-val) (:end   new-val)))
                     )
                    (do
-                     (let [query-atom  (get @client-query-cache  (:query @data-view-atom))]
+                     (let [query-atom  (get @client-query-cache  (:query @data-window-atom))]
                        (reset!  query-atom
                          (merge @query-atom
                                 {  :start  (:start new-val)
@@ -1905,7 +1905,7 @@ reused by many views.
                  (assoc-in @client-query-cache [query-key]
                            (atom {
                                   :values {}
-                                  :list-of-view-keys  (atom #{})
+                                  :list-of-data-window-keys  (atom #{})
                                   })))
         (add-data-query-watch-v2   query-key ))))
 
@@ -1968,9 +1968,9 @@ reused by many views.
           ;
           ; create the data view
           ;
-          (let [  data-view-atom  (atom {  :values {}  }) ]
+          (let [  data-window-atom  (atom {  :values {}  }) ]
 
-            (swap!  client-data-windows   assoc data-window-key   data-view-atom)
+            (swap!  client-data-windows   assoc data-window-key   data-window-atom)
 
             (add-data-window-watch    data-window-key))
 
@@ -1998,13 +1998,13 @@ reused by many views.
           ;
           (let [
                 query-atom  (get  @client-query-cache    query-key)
-                views-atom  (get  @query-atom           :list-of-view-keys)
+                views-atom  (get  @query-atom           :list-of-data-window-keys)
                 ]
             (swap!  views-atom   conj  data-window-key)
             )
 
 
-          (update-view-for-query   data-window-key  query-key)))
+          (update-data-window-for-query   data-window-key  query-key)))
 
 
 
@@ -2023,12 +2023,12 @@ reused by many views.
     (if (not (= (get @ui-paths-mapped-to-data-windows  full-path) data-window-key))
       (do
         (swap! ui-paths-mapped-to-data-windows assoc full-path  data-window-key)
-        (update-view-for-query   data-window-key  query-key)))
+        (update-data-window-for-query   data-window-key  query-key)))
 
 
 
     (if (not (get-in @app-state value-path))
-      (update-view-for-query   data-window-key  query-key))))
+      (update-data-window-for-query   data-window-key  query-key))))
 
 
 

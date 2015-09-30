@@ -971,13 +971,29 @@ record-ui
 ;                         |
 ;                         |
 ;                         |
-;                         |
-;                         |
-;                         |
+;                      *  |  *
+;                       * | *
+;                        *|*
+;                         *
+
 ; -----------------------------------------------------
 ; list of the query cached record IDs
 ; -----------------------------------------------------
 (def client-query-cache              (atom {}))
+; -----------------------------------------------------
+; client-query-cache
+;        |
+;        |
+;        |--------------{ :data-source         (:data-source data-window-key)
+;        |                :table               (:table       data-window-key)
+;        |                :where               (:where       data-window-key)
+;        |                :db-table            (:db-table    data-window-key)
+;        |                :params              (:params      data-window-key)
+;        |                :order               (:order       data-window-key)
+;        |                :realtime            (:realtime    data-window-key)   }
+;        |                                 |
+;        |                                 |
+;        |                                 |-------:list-of-data-window-keys
 
 
 
