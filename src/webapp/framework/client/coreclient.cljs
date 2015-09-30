@@ -1136,10 +1136,10 @@
 
 
 -----------------------------------------------------------"
-(defn update-view-for-query [ view-key  query-key ]
+(defn update-view-for-query [ data-window-key  query-key ]
 
-  (let [   data-view-atom   (get @client-data-windows  view-key)    ]
-    ;(log (pr-str "Active view : " (get @ui-paths-v2  (:full-path view-key))))
+  (let [   data-view-atom   (get @client-data-windows  data-window-key)    ]
+    ;(log (pr-str "Active view : " (get @ui-paths-v2  (:full-path data-window-key))))
 
     (cond
 
@@ -1158,7 +1158,7 @@
      ; if the query does match and is the current live view
      (and
          (= (@data-view-atom :query) query-key)
-         (= (get @ui-paths-v2  (:full-path view-key))  view-key)
+         (= (get @ui-paths-v2  (:full-path data-window-key))  data-window-key)
         )
 
      (let [
@@ -1166,8 +1166,8 @@
            view-start       (:start @data-view-atom)
            view-end         (:end @data-view-atom)
 
-           data-source      (:data-source view-key)
-           full-path        (:full-path view-key)
+           data-source      (:data-source data-window-key)
+           full-path        (:full-path data-window-key)
            ui-full-path     (conj full-path  :values)
 
            value-path   (conj full-path :values)
@@ -1176,7 +1176,7 @@
            start-path   (conj full-path :start)
            order-path   (conj full-path :order)
 
-           rel-path         (get view-key :relative-path)
+           rel-path         (get data-window-key :relative-path)
            rel-value-path   (conj rel-path :values)
            rel-count-path   (conj rel-path :count)
            rel-end-path     (conj rel-path :end)
