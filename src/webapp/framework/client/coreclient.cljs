@@ -1162,33 +1162,33 @@
         )
 
      (let [
-           ui-state         (get @data-window-atom  :ui-state)
-           view-start       (:start @data-window-atom)
-           view-end         (:end @data-window-atom)
+           ui-state            (get @data-window-atom  :ui-state)
+           data-window-start   (:start @data-window-atom)
+           data-window-end     (:end @data-window-atom)
 
-           data-source      (:data-source data-window-key)
-           full-path        (:full-path data-window-key)
-           ui-full-path     (conj full-path  :values)
+           data-source         (:data-source data-window-key)
+           full-path           (:full-path data-window-key)
+           ui-full-path        (conj full-path  :values)
 
-           value-path   (conj full-path :values)
-           count-path   (conj full-path :count)
-           end-path     (conj full-path :end)
-           start-path   (conj full-path :start)
-           order-path   (conj full-path :order)
+           value-path          (conj full-path :values)
+           count-path          (conj full-path :count)
+           end-path            (conj full-path :end)
+           start-path          (conj full-path :start)
+           order-path          (conj full-path :order)
 
-           rel-path         (get data-window-key :relative-path)
-           rel-value-path   (conj rel-path :values)
-           rel-count-path   (conj rel-path :count)
-           rel-end-path     (conj rel-path :end)
-           rel-start-path   (conj rel-path :start)
-           rel-order-path   (conj rel-path :order)
-           rel-touch-path   (conj rel-path :touch)
+           rel-path            (get data-window-key :relative-path)
+           rel-value-path      (conj rel-path :values)
+           rel-count-path      (conj rel-path :count)
+           rel-end-path        (conj rel-path :end)
+           rel-start-path      (conj rel-path :start)
+           rel-order-path      (conj rel-path :order)
+           rel-touch-path      (conj rel-path :touch)
 
-           data-query-atom  (get @client-query-cache query-key)
-           query-start      (:start @data-query-atom)
-           query-end        (:end @data-query-atom)
-           query-count      (if (:count @data-query-atom) (:count @data-query-atom) 0)
-           end-marker       (min view-end query-count)
+           data-query-atom     (get @client-query-cache query-key)
+           query-start         (:start @data-query-atom)
+           query-end           (:end @data-query-atom)
+           query-count         (if (:count @data-query-atom) (:count @data-query-atom) 0)
+           end-marker          (min data-window-end  query-count)
 
            ui-list-of-records     (into
                                    {}
@@ -1206,21 +1206,16 @@
                                                       ]
                                                  {record-id {:pos    record-position
                                                              :value  (if record  @(get @record :value)        {})}}))
-                                             (range view-start (inc end-marker))))))
+                                             (range data-window-start (inc end-marker))))))
 
 
-           ui-order-of-records  ;(into
-                                 ;{}
-                                 ;(map (fn[e] (first e))
-                                      (into {}
-                                          (map
-                                           (fn [record-position]
+           ui-order-of-records        (into {}
+                                            (map
+                                             (fn [record-position]
 
-                                             (let [ record-id      (get  (get @data-query-atom :values) record-position) ]
-                                               {   record-position  record-id } ))
-                                           (range view-start (inc end-marker)))
-                                          )
-                                          ;)))
+                                               (let [ record-id      (get  (get @data-query-atom :values) record-position) ]
+                                                 {   record-position  record-id } ))
+                                             (range data-window-start (inc end-marker))))
 
            ]
 
