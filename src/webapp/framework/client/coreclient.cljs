@@ -1334,35 +1334,40 @@
 
 
 
+;{:data-source     :todo_items
+; :table           nil
+; :where           nil
+; :db-table        "todo_items"
+; :params          nil
+; :order           nil
+; :realtime        true}
+
 (log (str "Checking server for data updates ..."))
 (js/setInterval
  #(go
    ;(log (pr-str (count (keys @client-query-cache))))
-   (let [x (remote  !check-for-server-updates  {:client-data-session-id  @data-session-id} )
-         y (-> x :queries keys first)
-         xxx           (merge y {:data-source (keyword (get y :db-table)) :realtime true :table nil})
-         xx y
-         new-key2     (dissoc (dissoc xxx :start) :end)
-         new-key      {:data-source     :todo_items
-                       :table           nil
-                       :where           nil
-                       :db-table        "todo_items"
-                       :params          nil
-                       :order           nil
-                       :realtime        true}
+
+   (let [x            (remote  !check-for-server-updates  {:client-data-session-id  @data-session-id} )
+         y            (-> x :queries keys first)
          ]
-     (log "Client realtime: " new-key2)
+     (if y
+     (let [
+         xxx          (merge y {:data-source (keyword (get y :db-table)) :realtime true :table nil})
+         new-key2     (dissoc (dissoc xxx :start) :end)
+         ]
+
+     (log "Client realtime: " y)
      (>! client-query-cache-requests  {
                                   :query-key     new-key2
 
                                   :subset-range  {
-                                                  :start   (:start  xx)
-                                                  :end     (:end    xx)
+                                                  :start   (:start  y)
+                                                  :end     (:end    y)
                                                   ;:start    1
                                                   ;:end      20
                                                   } })
 
-     )) 3000)
+     )))) 3000)
 
 
 
