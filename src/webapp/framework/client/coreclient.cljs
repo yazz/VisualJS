@@ -1240,7 +1240,7 @@
        ;(log (pr-str "Order:  " (filter (fn[g] g) (vals ui-order-of-records))))
        ;(log (pr-str "Query count:" query-count))
        ;(log (pr-str "Total Records:" (-> @data-query-atom :values)))
-       (log (pr-str "update-data-window-for-query : "  (-> @data-query-atom :values) ))
+       ;(log (pr-str "update-data-window-for-query : "  (-> @data-query-atom :values) ))
 
 
 
@@ -1348,26 +1348,27 @@
    ;(log (pr-str (count (keys @client-query-cache))))
 
    (let [x            (remote  !check-for-server-updates  {:client-data-session-id  @data-session-id} )
-         y            (-> x :queries keys first)
+         yy            (-> x :queries keys)
          ]
-     (if y
-     (let [
-         xxx          (merge y {:data-source (keyword (get y :db-table)) :realtime true :table nil})
-         new-key2     (dissoc (dissoc xxx :start) :end)
-         ]
+     (do
+         (log "Client realtime: " yy)
+     (doseq [y yy]
+       (let [
+             xxx          (merge y {:data-source (keyword (get y :db-table)) :realtime true :table nil})
+             new-key2     (dissoc (dissoc xxx :start) :end)
+             ]
 
-     (log "Client realtime: " y)
-     (>! client-query-cache-requests  {
-                                  :query-key     new-key2
+         (>! client-query-cache-requests  {
+                                           :query-key     new-key2
 
-                                  :subset-range  {
-                                                  :start   (:start  y)
-                                                  :end     (:end    y)
-                                                  ;:start    1
-                                                  ;:end      20
-                                                  } })
+                                           :subset-range  {
+                                                           :start   (:start  y)
+                                                           :end     (:end    y)
+                                                           ;:start    1
+                                                           ;:end      20
+                                                           } })
 
-     )))) 3000)
+     ))))) 3000)
 
 
 
@@ -1662,7 +1663,7 @@ calling load-record
        ]
     (log (pr-str ""))
     ;(log (pr-str "populate: "  query-key " : " records))
-    (log (pr-str "  datbase returned      : "  records))
+    ;(log (pr-str "  database returned      : "  records))
     ;(log (pr-str "        : "  records-count))
 
     ; -----------------------------------------------
