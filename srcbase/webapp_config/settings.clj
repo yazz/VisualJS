@@ -22,7 +22,7 @@
 (defonce ^:dynamic *database-server* "127.0.0.1")
 (defonce ^:dynamic *database-user* "postgres")
 (defonce ^:dynamic *database-password* "manager")
-(defonce ^:dynamic *database-name* "coils")
+(defonce ^:dynamic *database-name* "postgres")
 
 
 ;(defonce ^:dynamic *database-type* "oracle")

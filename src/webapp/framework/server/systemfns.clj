@@ -338,15 +338,21 @@ INSERT INTO coils_triggers
 
 
 
+
+
+
+
+
+
 (defn make-todo-table []
   (let [coils-admin-tables      (korma.core/exec-raw
-                                 [" select * from pg_tables where schemaname='public' and tablename='todo_items'" []]
+                                 [" select * from pg_tables where schemaname='public' and tablename='coils_todo_items'" []]
                                  :results)
 
         coils-admin-table-exists   (pos? (count coils-admin-tables))
 
         sql-to-create-admin-table "
-        CREATE TABLE todo_items
+        CREATE TABLE coils_todo_items
         (
         id serial NOT NULL,
         item character varying,
@@ -363,15 +369,22 @@ INSERT INTO coils_triggers
 
 
 
+
+
+
+
+
+
+
 (defn make-users-table []
   (let [coils-admin-tables      (korma.core/exec-raw
-                                 [" select * from pg_tables where schemaname='public' and tablename='users'" []]
+                                 [" select * from pg_tables where schemaname='public' and tablename='coils_users'" []]
                                  :results)
 
         coils-admin-table-exists   (pos? (count coils-admin-tables))
 
         sql-to-create-admin-table "
-        CREATE TABLE users
+        CREATE TABLE coils_users
         (
         id serial NOT NULL,
         user_name character varying,
@@ -380,7 +393,7 @@ INSERT INTO coils_triggers
         "
         ]
 
-    (println "Coils todo table exists: " coils-admin-table-exists)
+    (println "Coils users table exists: " coils-admin-table-exists)
     (if (not coils-admin-table-exists )
       (korma.core/exec-raw   [sql-to-create-admin-table []]   [])
       nil)))

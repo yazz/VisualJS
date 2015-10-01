@@ -39,13 +39,13 @@
                                                                  ;(js/alert (read-ui  app [:newitem2]))
                                                                  ;(log "ISERT :** "  newtext)
 
-                                                                 (log (pr-str (sql "insert into  todo_items   (item) values (?)"
+                                                                 (log (pr-str (sql "insert into  coils_todo_items   (item) values (?)"
                                                                  [(read-ui  app [:newitem2])]  )))
                                                                  (write-ui  app  [:newitem2]  "")
                                                         ))))
 
                               })
-                                (realtime select  id, item from todo_items
+                                (realtime select  id, item  from  coils_todo_items
                                           {}
                                         (container
                                             (inline  "10%" (str (<-- :id)))
@@ -54,7 +54,7 @@
                                   (div {:style {:padding "20px" :backgoundColor "white"}})
 
 
-                                  ( select-debug id, item from todo_items
+                                  ( select-debug  id, item  from  coils_todo_items
                                           {}
                                           (container
                                             (inline  "10%" (str (<-- :id)))
@@ -62,7 +62,7 @@
 
                                   (div {:style {:padding "20px" :backgoundColor "white"}})
 
-                                  ( select id,item from todo_items  where id > 0
+                                  ( select  id,item  from  coils_todo_items  where id > 0
                                                   {}
                                                   (container
                                                     (inline  "10%" (str (<-- :id)))
@@ -72,7 +72,7 @@
                                   (div {:style {:padding "20px" :backgoundColor "white"}})
 
 
-                                  (realtime select id,user_name from users
+                                  (realtime select id,user_name from coils_users
                                                   {}
                                                   (container
                                                     (inline  "10%" (str (<-- :id)))
@@ -80,7 +80,7 @@
 
                                   (div {:style {:padding "20px" :backgoundColor "white"}})
 
-                                  ( realtime-debug select id, item from todo_items where id < 43
+                                  ( realtime-debug select id, item from coils_todo_items where id < 43
                                           {}
                                           (container
                                             (inline  "10%" (str (<-- :id)))
