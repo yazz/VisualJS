@@ -473,10 +473,7 @@ Once Coils has finished the realtime support of Postgres and other databases the
 ### When will full Oracle realtime support be available?
 <img height='350px' src='http://siliconangle.com/files/2013/03/Oracle-Empire-Under-Threat.jpg' /> 
 
-The realtime support for Coils is based around the pinciples of the Meteor.js realtime system. Just like Meteor, Coils also uses a client side cache connected to a server which contains the full data for each connected client. 
-
-With Meteor.js it uses a client side cache called MiniMongo which gets updates from the MongoDb server by uses Mongo Oplog tailing to get changes from the Mongo database. The first version of Coils realtime database support will use Oracle database triggers to detect when changes are made.
-
+Postgres is the first database to be supported, and Oracle is being developed.
 
 
 
@@ -485,8 +482,11 @@ With Meteor.js it uses a client side cache called MiniMongo which gets updates f
 ### When will full Postgres realtime support be available?
 <img height='350px' src='https://scottlinux.com/wp-content/uploads/2014/11/postgres.png' /> 
 
-Again, Postgres will use database triggers for realtime support.
+Postgres is supported now.
 
+The realtime support for Coils is based around the pinciples of the Meteor.js realtime system. Just like Meteor, Coils also uses a client side cache connected to a server which contains the full data for each connected client. 
+
+With Meteor.js it uses a client side cache called MiniMongo which gets updates from the MongoDb server by uses Mongo Oplog tailing to get changes from the Mongo database. The first version of Coils realtime database support uses the Postgres database to detect when changes are made.
 
 
 
