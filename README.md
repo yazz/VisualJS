@@ -623,17 +623,7 @@ Again, if you still wish to use the discontinued features then use an older vers
 ### Getting started
 <img height='350px' src='http://cookbooks.ca.com/caarcserve/wp-content/uploads/sites/52/2014/06/getting-started-new.jpg' /> 
 
-#####1) Install a Postgres database:
-
-Make the following table in a schema called Coils:
-
-    CREATE TABLE todo_items
-    (
-      id serial NOT NULL,
-      item character varying,
-      CONSTRAINT todo_items_pkey PRIMARY KEY (id)
-    );
-
+#####1) Install a Postgres database with user name 'postgres' and password as 'manager'
 
 #####2) Install and build Coils from Github:
 
@@ -881,9 +871,9 @@ Please note that the raw SQL is not visible from web browsers since it's encryte
 
 5) Copy **src/webapp/framework/client/components/main.cljs** to **src/webapp/client/react/views/main.cljs**
 
-6) Rename the namespace in **webapp.client.components.main.cljs** from **webapp.framework.client.components.main** to **webapp.client.react.components.main**. This will be in two places, one at the top of the file (ns webapp.client.react.views.main) and the other below it as (c/ns-coils 'webapp.client.components.main)
+6) Rename the namespace in **webapp.client.components.main_view.cljs** from **webapp.framework.client.components.main-view** to **webapp.client.react.components.main-view**. This will be in two places, one at the top of the file (ns webapp.client.react.views.main-view) and the other below it as (c/ns-coils 'webapp.client.components.main-view)
 
-7) In init.cljs change    **[webapp.framework.client.components.main  :only  [main-view]]** to **[webapp.client.react.main   :only   [main-view]]**
+7) In init.cljs change    **[webapp.framework.client.components.main-view  :only  [main-view]]** to **[webapp.client.react.main-view   :only   [main-view]]**
 
 8) In **src/webapp/client/react/views/main.cljs** change the text to **Welcome to my new app**
 
