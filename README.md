@@ -68,7 +68,7 @@ The language used is Clojure/Clojurescript and the first database that is suppor
 Coils may be for you if you can answer 'yes' to the following:
 
 1. You want a batteries included opinionated web framework like Rails or Meteor
-2. You believe that Clojure/Clojurescript is cool
+2. You believe that Clojurescript is cool
 3. The Postgres database and SQL is a good match for your problem domain
 
 
@@ -161,38 +161,25 @@ As of June 2015 Clojure on Coils is in active development and is used in product
 
 Postgres is described first and is the default in Coils simply because it is the more common developer setup. and is also a lot easier to setup than Oracle.
 
-#####1) Install the Postgres database product
+#####1) Install the Postgres database product with a user called 'postgres' and password 'manager' in the schema 'postgres'
 
-#####2) Create a database schema called Coils 
-
-Please note that the default database created by Postgres is called "postgres" so go to PGAdmin (the postgres GUI admin tool), and right click on the "Databases" item on the left navigation menu and select "new database...". From here you can name a new database "coils".
-
-#####3) Make the following table in the Coils schema:
-
-    CREATE TABLE todo_items
-    (
-      id serial NOT NULL,
-      item character varying,
-      CONSTRAINT todo_items_pkey PRIMARY KEY (id)
-    );
-
-#####4) Install and build Coils from Github:
+#####2) Install and build Coils from Github:
 
     git clone https://github.com/zubairq/coils.git my_new_application
     cd my_new_application
     lein with-profile base figwheel
 
 
-#####5) Open the application
+#####3) Open the application
 
     http://127.0.0.1:3449
     
     
-#####6) Make a change and see Figwheel reload the changes live. 
+#####4) Make a change and see Figwheel reload the changes live. 
 
 Edit the file 
 
-    src/webapp/framework/client/components/main.cljs 
+    src/webapp/framework/client/components/main_view.cljs 
 
 and change 
 
@@ -205,7 +192,7 @@ to
 Save the file and the text should change in the live web app
 
 
-#####7) To see debug mode open:
+#####5) To see debug mode open:
 
     http://127.0.0.1:3449/main.html?livedebug=true
 
@@ -268,7 +255,7 @@ In the file settings.clj comment out the Postgres settings and uncomment the Ora
      ;(defonce ^:dynamic *database-server* "127.0.0.1")
      ;(defonce ^:dynamic *database-user* "postgres")
      ;(defonce ^:dynamic *database-password* "manager")
-     ;(defonce ^:dynamic *database-name* "coils")
+     ;(defonce ^:dynamic *database-name* "postgres")
 
      (defonce ^:dynamic *database-type* "oracle")
      (defonce ^:dynamic *database-server* "localhost")
@@ -292,7 +279,7 @@ In the file settings.clj comment out the Postgres settings and uncomment the Ora
 
 Edit the file 
 
-    src/webapp/framework/client/components/main.cljs 
+    src/webapp/framework/client/components/main_view.cljs 
 
 and change 
 
