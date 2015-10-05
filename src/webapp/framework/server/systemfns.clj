@@ -279,7 +279,7 @@ INSERT INTO coils_triggers
         sql-to-create-update-trigger (str "CREATE TRIGGER trigger_afterUpdate AFTER UPDATE ON " table-name " FOR EACH ROW EXECUTE PROCEDURE trigger_function_afterUpdate();")
         sql-to-create-delete-trigger (str "CREATE TRIGGER trigger_afterDelete AFTER DELETE ON " table-name " FOR EACH ROW EXECUTE PROCEDURE trigger_function_afterDelete();")
         ]
-        (println "Coils trigger table exists: " coils-trigger-exists)
+        ;(println "Coils trigger table exists: " coils-trigger-exists)
 
 
         (if (not coils-trigger-exists )
@@ -480,7 +480,7 @@ LANGUAGE plpgsql;
 "
           ]
 
-        (println "Coils trigger function exists: " coils-trigger-fn-exists)
+        ;(println "Coils trigger function exists: " coils-trigger-fn-exists)
         (if (not coils-trigger-fn-exists )
             (korma.core/exec-raw   [sql-to-create-trigger-fn []]   [])
             nil
@@ -525,7 +525,7 @@ LANGUAGE plpgsql;
 "
           ]
 
-        (println "Coils trigger function exists: " coils-trigger-fn-exists)
+        ;(println "Coils trigger function exists: " coils-trigger-fn-exists)
         (if (not coils-trigger-fn-exists )
             (korma.core/exec-raw   [sql-to-create-trigger-fn []]   [])
             nil
@@ -570,7 +570,7 @@ LANGUAGE plpgsql;
 "
           ]
 
-        (println "Coils trigger function exists: " coils-trigger-fn-exists)
+        ;(println "Coils trigger function exists: " coils-trigger-fn-exists)
         (if (not coils-trigger-fn-exists )
             (korma.core/exec-raw   [sql-to-create-trigger-fn []]   [])
             nil
@@ -596,7 +596,7 @@ LANGUAGE plpgsql;
 
 
 (defn do-real [& {:keys [:table-name]}]
-  (println "table name: " table-name)
+  ;(println "table name: " table-name)
 
 
   ( make-log-table-insert-trigger-function)
@@ -694,9 +694,9 @@ LANGUAGE plpgsql;
         query-time         (quot (System/currentTimeMillis) 1000)
         ]
     (do
-      (println (str "    " ))
-      (println (str "    update-query-in-cache" ))
-      (println (str "    " query))
+      ;(println (str "    " ))
+      ;(println (str "    update-query-in-cache" ))
+      ;(println (str "    " query))
 
       (if (not existing-query)
         (swap! server-side-cached-queries assoc  query (atom {:clients  (atom #{})})))
@@ -712,16 +712,16 @@ LANGUAGE plpgsql;
         (swap! the-query assoc  :count         record-count)
         (swap! the-query assoc  :timestamp     query-time)
 
-        (println (str "    clients: " @clients-atom))
+        ;(println (str "    clients: " @clients-atom))
         (doall (for [client @clients-atom]
                  (do
-                   (println (str "    Client: " client))
+                   ;(println (str "    Client: " client))
                    (let [the-client       (get @server-side-realtime-clients  client)
                          response-atom    (:update-request @the-client)
                          ]
                      (if (not response-atom) (swap! the-query assoc  :update-request (atom {})))
                      (swap! (:update-request @the-client) assoc-in [:queries query] {:timestamp query-time})
-                     (println (str "    responses: " (if response-atom @response-atom)))
+                     ;(println (str "    responses: " (if response-atom @response-atom)))
 
                      ;                   (swap! (:update-request @the-query) assoc  1 2)
                      ))))
@@ -763,10 +763,10 @@ LANGUAGE plpgsql;
       (if (not this-query)
         (swap! client-queries   assoc  query {}))
 
-      (println "")
-      (println "  add-client-to-query")
-      (println (str "    " @server-side-realtime-clients))
-      (println "")
+      ;(println "")
+      ;(println "  add-client-to-query")
+      ;(println (str "    " @server-side-realtime-clients))
+      ;(println "")
 
       )))
 
@@ -788,42 +788,42 @@ LANGUAGE plpgsql;
 ; ----------------------------------------------------------------
 (defn process-log-entry [ realtime-log-entry ]
   (do
-    (println (str "**** Processing realtime record change: "))
-    (println (str "      "  "realtime-log-entry"))
-    (println (str "      "  realtime-log-entry))
-    (println (str "      "))
-    (println (str "      "  "@server-side-cached-queries"))
-    (println (str "      "  @server-side-cached-queries))
-    (println (str "      "))
-    (println (str "Count: " (-> @server-side-cached-queries keys count str)))
+    ;(println (str "**** Processing realtime record change: "))
+    ;(println (str "      "  "realtime-log-entry"))
+    ;(println (str "      "  realtime-log-entry))
+    ;(println (str "      "))
+    ;(println (str "      "  "@server-side-cached-queries"))
+    ;(println (str "      "  @server-side-cached-queries))
+    ;(println (str "      "))
+    ;(println (str "Count: " (-> @server-side-cached-queries keys count str)))
 
     (let [queries (keys @server-side-cached-queries)]
       (doall (for [query queries]
                (do
                  (if (= (get query :db-table) (get realtime-log-entry :record_table_name))
                    (do
-                     (println (str "    "))
-                     (println (str "    " "Query"))
-                     (println (str "    " query))
-                     (println (str "    "))
+                     ;(println (str "    "))
+                     ;(println (str "    " "Query"))
+                     ;(println (str "    " query))
+                     ;(println (str "    "))
 
-                     (println (str "    " "Before"))
-                     (println (str "    " @(get @server-side-cached-queries query)))
-                     (println (str "    "))
-                     (println (str "    " @(:clients @(get @server-side-cached-queries query))))
+                     ;(println (str "    " "Before"))
+                     ;(println (str "    " @(get @server-side-cached-queries query)))
+                     ;(println (str "    "))
+                     ;(println (str "    " @(:clients @(get @server-side-cached-queries query))))
 
                      (update-query-in-cache  query)
 
-                     (println (str "    "))
-                     (println (str "    " "After"))
-                     (println (str "    " @(get @server-side-cached-queries query)))
-                     (println (str "    "))
-                     (println (str "    " @(:clients @(get @server-side-cached-queries query))))
-                     (println (str "    "))
+                     ;(println (str "    "))
+                     ;(println (str "    " "After"))
+                     ;(println (str "    " @(get @server-side-cached-queries query)))
+                     ;(println (str "    "))
+                     ;(println (str "    " @(:clients @(get @server-side-cached-queries query))))
+                     ;(println (str "    "))
 
-                     (println (str "clients:"))
-                     (println (str "    " (keys @server-side-realtime-clients)))
-                     (println (str "    "))
+                     ;(println (str "clients:"))
+                     ;(println (str "    " (keys @server-side-realtime-clients)))
+                     ;(println (str "    "))
                      ))))))))
 
 
@@ -879,11 +879,11 @@ LANGUAGE plpgsql;
                                      data-session-id
                                      ]}]
 
-  (println "************************************************************************************")
-  (println " debug stuff")
-  (println " ")
-  (println "!get-query-results-v2*   REALTIME = " realtime)
-  (println (str "!get-query-results-v2: "
+  ;(println "************************************************************************************")
+  ;(println " debug stuff")
+  ;(println " ")
+  ;(println "!get-query-results-v2*   REALTIME = " realtime)
+  (comment println (str "!get-query-results-v2: "
                 db-table
                 where " "
                 start  " "
@@ -893,8 +893,8 @@ LANGUAGE plpgsql;
                 data-session-id " "
                 realtime " "
                 ))
-  (println "************************************************************************************")
-  (println "     data-session-id: " data-session-id)
+  ;(println "************************************************************************************")
+  ;(println "     data-session-id: " data-session-id)
 
 
 
@@ -926,11 +926,11 @@ LANGUAGE plpgsql;
 
      (do-real   :table-name db-table)
 
-     (println "-------------------------------")
+     ;(println "-------------------------------")
      ;(println "SERVER @server-side-cached-queries     " @server-side-cached-queries)
      ;(println query-key)
-     (println @(get @server-side-cached-queries  query-key))
-     (println "-------------------------------")
+     ;(println @(get @server-side-cached-queries  query-key))
+     ;(println "-------------------------------")
 
      (let [result   @(get @server-side-cached-queries  query-key)]
        {
@@ -1085,11 +1085,11 @@ LANGUAGE plpgsql;
   (let [client-data-atom    (if server-side-realtime-clients  (get @server-side-realtime-clients  client-data-session-id))
         response-atom       (if client-data-atom  client-data-atom )
         ]
-    (println (str "      " ))
-    (println "SERVER: check-for-server-updates for client: " client-data-session-id)
+    ;(println (str "      " ))
+    ;(println "SERVER: check-for-server-updates for client: " client-data-session-id)
     ;(println (str "      " (keys @server-side-realtime-clients)))
-    (println (str "      " (if client-data-atom  @client-data-atom)))
-    (println (str "      response: " (if response-atom  @(get @response-atom :update-request )  )))
+    ;(println (str "      " (if client-data-atom  @client-data-atom)))
+    ;(println (str "      response: " (if response-atom  @(get @response-atom :update-request )  )))
     (if response-atom  @(get @response-atom :update-request )  {})))
 
 
