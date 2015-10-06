@@ -30,12 +30,7 @@
                :user *database-user*
                :password *database-password*
                :naming {:keys string/upper-case
-                        :fields string/upper-case}})
-    )
-
-
-
-
+                        :fields string/upper-case}}))
 
 
   (catch Exception e
@@ -47,8 +42,18 @@
 
 
 
+
+
+
+
+
 (defn !say-hello [params]
     {:text (str "System Hello " (:name params))})
+
+
+
+
+
 
 
 
@@ -70,8 +75,17 @@
 
 
 
+
+
+
+
+
 (defn !get-record-pointer-locally []
   {:value *record-pointer-locally*})
+
+
+
+
 
 
 
@@ -83,6 +97,9 @@
 
 
 
+
+
+
 (defn !get-environment []
   {:value *environment*})
 
@@ -90,8 +107,19 @@
 
 
 
+
+
+
+
 (defn !get-show-debug []
   {:value *show-code*})
+
+
+
+
+
+
+
 
 
 
@@ -108,8 +136,13 @@
     {
      :value session-id
      :data-session-id    data-session-id
-    }
-    ))
+    }))
+
+
+
+
+
+
 
 
 
@@ -138,9 +171,6 @@
       (= *database-type* "oracle" )
         (if where (str "where " where " "))
     )
-    ;questions_answered_count is not null
-    ;order by
-    ;questions_answered_count desc"
       (cond
         (= *database-type* "postgres" )
         "limit 100"
@@ -156,8 +186,19 @@
 
 
 
+
+
+
+
+
+
+
+
 (defn fields-to-str [fields]
   (apply str (interpose "," (map (-> name ) fields) )))
+
+
+
 
 
 
@@ -195,6 +236,11 @@
 
 
 
+
+
+
+
+
 (defn get-count [db-table  where   params]
                                                (:cnt (sql-1 (str
                                                   "select count (id) as CNT from "
@@ -213,29 +259,28 @@
 
 
 
+
+
+
 (defn get-results [& {:keys [db-table where order start end params]}]
-(sql
-    (str
-        "select id from "
-        db-table " "
-        (if (-> where count pos?) (str "where " where " "))
-        (if (-> order count pos?) (str "order by " order " "))
-        (cond
-            (= *database-type* "postgres" )
-            (str
-                (if start (str " offset " (- start 1) " "))
-                (if end (str " limit " (+ 1 (- end start)) " ") "limit 2")
-                )
+  (sql
+   (str
+    "select id from "
+    db-table " "
+    (if (-> where count pos?) (str "where " where " "))
+    (if (-> order count pos?) (str "order by " order " "))
+    (cond
+     (= *database-type* "postgres" )
+     (str
+      (if start (str " offset " (- start 1) " "))
+      (if end (str " limit " (+ 1 (- end start)) " ") "limit 2")
+      )
 
-            (= *database-type* "oracle" )
-            ""
-            )
+     (= *database-type* "oracle" )
+     ""
+     )
+    ) params))
 
-        ;questions_answered_count is not null
-        ;order by
-        ;questions_answered_count desc"
-        ) params)
-        )
 
 
 
@@ -261,42 +306,37 @@
 
 
 (defn create-realtime-trigger [& {:keys [:table-name]}]
-(let [coils-trigger      (korma.core/exec-raw
-                                   [" select * from coils_triggers where table_name = ?" [table-name]]
-                                   :results)
+  (let [coils-trigger      (korma.core/exec-raw
+                            [" select * from coils_triggers where table_name = ?" [table-name]]
+                            :results)
 
         coils-trigger-exists   (pos? (count coils-trigger))
 
         sql-to-drop-trigger    (str "DROP TRIGGER IF EXISTS trigger_afterinsert ON " table-name ";")
-      sql-to-insert-trigger-row "
-INSERT INTO coils_triggers
-(
-  table_name,version
-) values (?,?);
-"
+        sql-to-insert-trigger-row "
+        INSERT INTO coils_triggers
+        (
+        table_name,version
+        ) values (?,?);
+        "
 
         sql-to-create-insert-trigger (str "CREATE TRIGGER trigger_afterInsert AFTER INSERT ON " table-name " FOR EACH ROW EXECUTE PROCEDURE trigger_function_afterInsert();")
         sql-to-create-update-trigger (str "CREATE TRIGGER trigger_afterUpdate AFTER UPDATE ON " table-name " FOR EACH ROW EXECUTE PROCEDURE trigger_function_afterUpdate();")
         sql-to-create-delete-trigger (str "CREATE TRIGGER trigger_afterDelete AFTER DELETE ON " table-name " FOR EACH ROW EXECUTE PROCEDURE trigger_function_afterDelete();")
         ]
-        ;(println "Coils trigger table exists: " coils-trigger-exists)
+    ;(println "Coils trigger table exists: " coils-trigger-exists)
 
 
-        (if (not coils-trigger-exists )
-        (do
-            (korma.core/exec-raw   [sql-to-insert-trigger-row [table-name  coils-tables-trigger-version]]   [])
-            (korma.core/exec-raw   [sql-to-drop-trigger []]   [])
-            (korma.core/exec-raw   [sql-to-create-insert-trigger []]   [])
-            (korma.core/exec-raw   [sql-to-create-update-trigger []]   [])
-            (korma.core/exec-raw   [sql-to-create-delete-trigger []]   [])
-
-                      )
-                      nil
+    (if (not coils-trigger-exists )
+      (do
+        (korma.core/exec-raw   [sql-to-insert-trigger-row [table-name  coils-tables-trigger-version]]   [])
+        (korma.core/exec-raw   [sql-to-drop-trigger []]   [])
+        (korma.core/exec-raw   [sql-to-create-insert-trigger []]   [])
+        (korma.core/exec-raw   [sql-to-create-update-trigger []]   [])
+        (korma.core/exec-raw   [sql-to-create-delete-trigger []]   [])
 
         )
-
-          )
-)
+      nil)))
 
 
 
@@ -344,6 +384,10 @@ INSERT INTO coils_triggers
 
 
 
+
+
+
+
 (defn make-todo-table []
   (let [coils-admin-tables      (korma.core/exec-raw
                                  [" select * from pg_tables where schemaname='public' and tablename='coils_todo_items'" []]
@@ -365,6 +409,11 @@ INSERT INTO coils_triggers
     (if (not coils-admin-table-exists )
       (korma.core/exec-raw   [sql-to-create-admin-table []]   [])
       nil)))
+
+
+
+
+
 
 
 
@@ -409,39 +458,39 @@ INSERT INTO coils_triggers
 
 
 
+
+
+
+
 (defn make-log-table []
   (let [coils-admin-tables      (korma.core/exec-raw
-                                   [" select * from pg_tables where schemaname='public' and tablename='coils_realtime_log'" []]
-                                   :results)
+                                 [" select * from pg_tables where schemaname='public' and tablename='coils_realtime_log'" []]
+                                 :results)
 
         coils-admin-table-exists   (pos? (count coils-admin-tables))
 
         sql-to-create-admin-table "
-CREATE TABLE coils_realtime_log
-(
-  id                  serial NOT NULL,
-  realtime_jvm_id     integer,
-  record_timestamp    timestamp without time zone,
-  record_table_name   character varying,
-  record_id           character varying,
-  record_operation    character varying,
-  record_status       character varying
-);
-"
-  ]
+        CREATE TABLE coils_realtime_log
+        (
+        id                  serial NOT NULL,
+        realtime_jvm_id     integer,
+        record_timestamp    timestamp without time zone,
+        record_table_name   character varying,
+        record_id           character varying,
+        record_operation    character varying,
+        record_status       character varying
+        );
+        "
+        ]
 
-      (println "Coils admin table exists: " coils-admin-table-exists)
-      (if (not coils-admin-table-exists )
-                      (korma.core/exec-raw   [sql-to-create-admin-table []]   [])
-                      nil
-        )
-
-
+    (println "Coils admin table exists: " coils-admin-table-exists)
+    (if (not coils-admin-table-exists )
+      (korma.core/exec-raw   [sql-to-create-admin-table []]   [])
+      nil
+      )))
 
 
 
-  )
-  )
 
 
 
@@ -458,35 +507,36 @@ CREATE TABLE coils_realtime_log
 
 
 (defn make-log-table-insert-trigger-function []
-    (let [coils-trigger-fn-exists-result      (korma.core/exec-raw
-                                                  ["select exists(select * from pg_proc where proname = 'trigger_function_afterinsert');" []]
-                                                  :results)
+  (let [coils-trigger-fn-exists-result      (korma.core/exec-raw
+                                             ["select exists(select * from pg_proc where proname = 'trigger_function_afterinsert');" []]
+                                             :results)
 
-          coils-trigger-fn-exists   (= "t"  coils-trigger-fn-exists-result)
+        coils-trigger-fn-exists   (= "t"  coils-trigger-fn-exists-result)
 
-          sql-to-create-trigger-fn "
-CREATE OR REPLACE FUNCTION trigger_function_afterInsert()
-      RETURNS trigger AS
-$BODY$
-      BEGIN
-           INSERT INTO coils_realtime_log
-                 (record_timestamp,  record_table_name,  record_id,  record_operation,  record_status)
-           VALUES
-                 ( now(),   TG_TABLE_NAME ,  NEW.id,  'INSERT',  'WAITING');
-           RETURN NULL;
-      END;
-$BODY$
-LANGUAGE plpgsql;
-"
-          ]
+        sql-to-create-trigger-fn "
+        CREATE OR REPLACE FUNCTION trigger_function_afterInsert()
+        RETURNS trigger AS
+        $BODY$
+        BEGIN
+        INSERT INTO coils_realtime_log
+        (record_timestamp,  record_table_name,  record_id,  record_operation,  record_status)
+        VALUES
+        ( now(),   TG_TABLE_NAME ,  NEW.id,  'INSERT',  'WAITING');
+        RETURN NULL;
+        END;
+        $BODY$
+        LANGUAGE plpgsql;
+        "
+        ]
 
-        ;(println "Coils trigger function exists: " coils-trigger-fn-exists)
-        (if (not coils-trigger-fn-exists )
-            (korma.core/exec-raw   [sql-to-create-trigger-fn []]   [])
-            nil
-            )
-        )
-    )
+    ;(println "Coils trigger function exists: " coils-trigger-fn-exists)
+    (if (not coils-trigger-fn-exists )
+      (korma.core/exec-raw   [sql-to-create-trigger-fn []]   [])
+      nil)))
+
+
+
+
 
 
 
@@ -503,35 +553,32 @@ LANGUAGE plpgsql;
 
 
 (defn make-log-table-update-trigger-function []
-    (let [coils-trigger-fn-exists-result      (korma.core/exec-raw
-                                                  ["select exists(select * from pg_proc where proname = 'trigger_function_afterUpdate');" []]
-                                                  :results)
+  (let [coils-trigger-fn-exists-result      (korma.core/exec-raw
+                                             ["select exists(select * from pg_proc where proname = 'trigger_function_afterUpdate');" []]
+                                             :results)
 
-          coils-trigger-fn-exists   (= "t"  coils-trigger-fn-exists-result)
+        coils-trigger-fn-exists   (= "t"  coils-trigger-fn-exists-result)
 
-          sql-to-create-trigger-fn "
-CREATE OR REPLACE FUNCTION trigger_function_afterUpdate()
-      RETURNS trigger AS
-$BODY$
-      BEGIN
-           INSERT INTO coils_realtime_log
-                 (record_timestamp,  record_table_name,  record_id,  record_operation,  record_status)
-           VALUES
-                 ( now(),   TG_TABLE_NAME ,  NEW.id,  'UPDATE',  'WAITING');
-           RETURN NULL;
-      END;
-$BODY$
-LANGUAGE plpgsql;
-"
-          ]
+        sql-to-create-trigger-fn "
+        CREATE OR REPLACE FUNCTION trigger_function_afterUpdate()
+        RETURNS trigger AS
+        $BODY$
+        BEGIN
+        INSERT INTO coils_realtime_log
+        (record_timestamp,  record_table_name,  record_id,  record_operation,  record_status)
+        VALUES
+        ( now(),   TG_TABLE_NAME ,  NEW.id,  'UPDATE',  'WAITING');
+        RETURN NULL;
+        END;
+        $BODY$
+        LANGUAGE plpgsql;
+        "
+        ]
 
-        ;(println "Coils trigger function exists: " coils-trigger-fn-exists)
-        (if (not coils-trigger-fn-exists )
-            (korma.core/exec-raw   [sql-to-create-trigger-fn []]   [])
-            nil
-            )
-        )
-    )
+    ;(println "Coils trigger function exists: " coils-trigger-fn-exists)
+    (if (not coils-trigger-fn-exists )
+      (korma.core/exec-raw   [sql-to-create-trigger-fn []]   [])
+      nil)))
 
 
 
@@ -548,35 +595,32 @@ LANGUAGE plpgsql;
 
 
 (defn make-log-table-delete-trigger-function []
-    (let [coils-trigger-fn-exists-result      (korma.core/exec-raw
-                                                  ["select exists(select * from pg_proc where proname = 'trigger_function_afterDelete');" []]
-                                                  :results)
+  (let [coils-trigger-fn-exists-result      (korma.core/exec-raw
+                                             ["select exists(select * from pg_proc where proname = 'trigger_function_afterDelete');" []]
+                                             :results)
 
-          coils-trigger-fn-exists   (= "t"  coils-trigger-fn-exists-result)
+        coils-trigger-fn-exists   (= "t"  coils-trigger-fn-exists-result)
 
-          sql-to-create-trigger-fn "
-CREATE OR REPLACE FUNCTION trigger_function_afterDelete()
-      RETURNS trigger AS
-$BODY$
-      BEGIN
-           INSERT INTO coils_realtime_log
-                 (record_timestamp,  record_table_name,  record_id,  record_operation,  record_status)
-           VALUES
-                 ( now(),   TG_TABLE_NAME ,  OLD.id,  'DELETE',  'WAITING');
-           RETURN NULL;
-      END;
-$BODY$
-LANGUAGE plpgsql;
-"
-          ]
+        sql-to-create-trigger-fn "
+        CREATE OR REPLACE FUNCTION trigger_function_afterDelete()
+        RETURNS trigger AS
+        $BODY$
+        BEGIN
+        INSERT INTO coils_realtime_log
+        (record_timestamp,  record_table_name,  record_id,  record_operation,  record_status)
+        VALUES
+        ( now(),   TG_TABLE_NAME ,  OLD.id,  'DELETE',  'WAITING');
+        RETURN NULL;
+        END;
+        $BODY$
+        LANGUAGE plpgsql;
+        "
+        ]
 
-        ;(println "Coils trigger function exists: " coils-trigger-fn-exists)
-        (if (not coils-trigger-fn-exists )
-            (korma.core/exec-raw   [sql-to-create-trigger-fn []]   [])
-            nil
-            )
-        )
-    )
+    ;(println "Coils trigger function exists: " coils-trigger-fn-exists)
+    (if (not coils-trigger-fn-exists )
+      (korma.core/exec-raw   [sql-to-create-trigger-fn []]   [])
+      nil)))
 
 
 
@@ -585,10 +629,18 @@ LANGUAGE plpgsql;
 
 
 
-  (make-todo-table)
-  (make-users-table)
-  (make-admin-table )
-  (make-log-table   )
+
+
+
+
+(make-todo-table)
+(make-users-table)
+(make-admin-table )
+(make-log-table   )
+
+
+
+
 
 
 
@@ -598,12 +650,10 @@ LANGUAGE plpgsql;
 (defn do-real [& {:keys [:table-name]}]
   ;(println "table name: " table-name)
 
-
   ( make-log-table-insert-trigger-function)
   ( make-log-table-update-trigger-function)
   ( make-log-table-delete-trigger-function)
-  (create-realtime-trigger  :table-name  table-name)
-)
+  (create-realtime-trigger  :table-name  table-name))
 
 
 
@@ -724,10 +774,7 @@ LANGUAGE plpgsql;
                      ;(println (str "    responses: " (if response-atom @response-atom)))
 
                      ;                   (swap! (:update-request @the-query) assoc  1 2)
-                     ))))
-
-
-        ))))
+                     ))))))))
 
 
 
@@ -769,6 +816,12 @@ LANGUAGE plpgsql;
       ;(println "")
 
       )))
+
+
+
+
+
+
 
 
 
