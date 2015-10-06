@@ -1288,6 +1288,14 @@
 
 
 
+
+
+
+
+
+
+
+
 "-----------------------------------------------------------
 (update-all-data-windows-for-query  query  )
 
@@ -1606,6 +1614,7 @@
 (defn load-record [ query
                     record-id ]
 
+  ;(log "load-record: " query)
   (update-or-add-table-data  query)
 
   (let [record (get-or-create-record  (query :data-source)  record-id) ]
@@ -1624,6 +1633,7 @@
               :id                   record-id
               :query                query
               :data-session-id     @data-session-id
+              :realtime            (get query :realtime)
               }))
         ))))
 

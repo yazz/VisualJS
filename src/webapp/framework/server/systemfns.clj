@@ -680,8 +680,10 @@
            id
            fields
            data-session-id
+           realtime
            ]}]
       ;(println (str " !get-record-result-v2 DATA_SESSION_ID: " data-session-id))
+      (println (str " !get-record-result-v2 realtime: " realtime))
   {:value
    (sql-1
     (str
@@ -842,9 +844,9 @@
 (defn process-log-entry [ realtime-log-entry ]
   (do
     ;(println (str "**** Processing realtime record change: "))
-    ;(println (str "      "  "realtime-log-entry"))
-    ;(println (str "      "  realtime-log-entry))
-    ;(println (str "      "))
+    (println (str "      "  "realtime-log-entry"))
+    (println (str "      "  realtime-log-entry))
+    (println (str "      "))
     ;(println (str "      "  "@server-side-cached-queries"))
     ;(println (str "      "  @server-side-cached-queries))
     ;(println (str "      "))
@@ -855,10 +857,10 @@
                (do
                  (if (= (get query :db-table) (get realtime-log-entry :record_table_name))
                    (do
-                     (println (str "    "))
-                     (println (str "    " "Query"))
-                     (println (str "    " query))
-                     (println (str "    "))
+                     ;(println (str "    "))
+                     ;(println (str "    " "Query"))
+                     ;(println (str "    " query))
+                     ;(println (str "    "))
 
                      ;(println (str "    " "Before"))
                      ;(println (str "    " @(get @server-side-cached-queries query)))
@@ -973,8 +975,8 @@
      (if (get @server-side-cached-queries  query-key)
        nil
        (do
-         (update-query-in-cache  query-key)
-         ))
+         (update-query-in-cache  query-key)))
+
      (add-client-to-query  query-key  data-session-id)
 
      (do-real   :table-name db-table)
