@@ -638,6 +638,9 @@
 (make-admin-table )
 (make-log-table   )
 
+(make-log-table-insert-trigger-function)
+(make-log-table-update-trigger-function)
+(make-log-table-delete-trigger-function)
 
 
 
@@ -650,9 +653,6 @@
 (defn do-real [& {:keys [:table-name]}]
   ;(println "table name: " table-name)
 
-  ( make-log-table-insert-trigger-function)
-  ( make-log-table-update-trigger-function)
-  ( make-log-table-delete-trigger-function)
   (create-realtime-trigger  :table-name  table-name))
 
 
@@ -855,10 +855,10 @@
                (do
                  (if (= (get query :db-table) (get realtime-log-entry :record_table_name))
                    (do
-                     ;(println (str "    "))
-                     ;(println (str "    " "Query"))
-                     ;(println (str "    " query))
-                     ;(println (str "    "))
+                     (println (str "    "))
+                     (println (str "    " "Query"))
+                     (println (str "    " query))
+                     (println (str "    "))
 
                      ;(println (str "    " "Before"))
                      ;(println (str "    " @(get @server-side-cached-queries query)))
