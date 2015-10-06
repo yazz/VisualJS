@@ -662,13 +662,38 @@
 
 
 
+(defn create-record-cache-for-table  [db-table]
+  (let [table-atom (get @server-side-cached-records  db-table)
+        ]
+    (do
+      (if (nil? table-atom)
+        (swap! server-side-cached-records assoc db-table (atom {})))))
+  )
 
 
+(defn get-record [db-table id fields realtime]
+  (if realtime
+    (do
+      (create-record-cache-for-table  db-table)
+    ))
+
+  (sql-1
+   (str
+    "select "
+    (fields-to-str fields) " "
+    "from "
+    db-table " "
+    "where id = ? "
+    (cond
+     (= *database-type* "postgres" )
+     " limit 1"
+
+     (= *database-type* "oracle" )
+     ""
+     )
 
 
-
-
-
+    ) [id]))
 
 
 
@@ -685,23 +710,7 @@
       ;(println (str " !get-record-result-v2 DATA_SESSION_ID: " data-session-id))
       (println (str " !get-record-result-v2 realtime: " realtime))
   {:value
-   (sql-1
-    (str
-     "select "
-     (fields-to-str fields) " "
-     "from "
-     db-table " "
-     "where id = ? "
-     (cond
-       (= *database-type* "postgres" )
-       " limit 1"
-
-       (= *database-type* "oracle" )
-       ""
-       )
-
-
-     ) [id])})
+   (get-record  db-table id fields realtime)})
 
 
 
