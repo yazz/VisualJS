@@ -659,6 +659,15 @@
 
 
 
+(defn get-record-from-server-cache-for-table  [db-table   id]
+  (let [table-atom     (get @server-side-cached-records  db-table)
+        record-atom    (if table-atom (get @table-atom  id))
+        ]
+    (do
+      (if record-atom  @record-atom nil))))
+
+
+
 
 
 
@@ -671,29 +680,50 @@
   )
 
 
-(defn get-record [db-table id fields realtime]
-  (if realtime
-    (do
-      (create-record-cache-for-table  db-table)
-    ))
-
-  (sql-1
-   (str
-    "select "
-    (fields-to-str fields) " "
-    "from "
-    db-table " "
-    "where id = ? "
-    (cond
-     (= *database-type* "postgres" )
-     " limit 1"
-
-     (= *database-type* "oracle" )
-     ""
-     )
 
 
-    ) [id]))
+
+
+(defn get-record
+  ([db-table id fields]
+   (sql-1
+    (str
+     "select "
+     (fields-to-str fields) " "
+     "from "
+     db-table " "
+     "where id = ? "
+     (cond
+      (= *database-type* "postgres" )
+      " limit 1"
+
+      (= *database-type* "oracle" )
+      ""
+      )
+
+
+     ) [id]))
+
+
+
+  ([db-table id fields realtime]
+   (if realtime
+     (do
+       (create-record-cache-for-table  db-table)
+       (let [cached-record (get-record-from-server-cache-for-table  db-table   id)]
+         (if (not cached-record)
+           (let [record (get-record    db-table id fields)]
+             nil
+             )
+           )
+         )))
+
+   (get-record    db-table id fields))
+  )
+
+
+
+
 
 
 
