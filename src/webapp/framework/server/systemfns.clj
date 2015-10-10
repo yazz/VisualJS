@@ -718,29 +718,30 @@
 
 
 (defn get-record [db-table id fields realtime]
-  (do
-    (if realtime
-      (do
-        (create-record-cache-for-table  db-table)
-        (let [cached-record     (get-record-from-server-cache-for-id  db-table   id)]
-          (if (not cached-record)
-            (let [record           (get-record-from-database    db-table id fields)
-                  table            (get-table-from-server-cache-for-table    db-table)
-                  query-time       (quot (System/currentTimeMillis) 1000)
-                  ]
-              (if table
-                (swap!  table assoc id (atom {:value record :timestamp query-time}))
-                nil
-                ))))))
-
-    (let [cached-record     (get-record-from-server-cache-for-id  db-table   id)]
-      (if (not cached-record)
-        (get-record-from-database    db-table id fields)
+  (if id
+    (do
+      (if realtime
         (do
-          (println "Use cached value:" (get cached-record :value))
-          (get cached-record :value)
-          )
-      ))))
+          (create-record-cache-for-table  db-table)
+          (let [cached-record     (get-record-from-server-cache-for-id  db-table   id)]
+            (if (not cached-record)
+              (let [record           (get-record-from-database    db-table id fields)
+                    table            (get-table-from-server-cache-for-table    db-table)
+                    query-time       (quot (System/currentTimeMillis) 1000)
+                    ]
+                (if table
+                  (swap!  table assoc id (atom {:value record :timestamp query-time}))
+                  nil
+                  ))))))
+
+      (let [cached-record     (get-record-from-server-cache-for-id  db-table   id)]
+        (if (not cached-record)
+          (get-record-from-database    db-table id fields)
+          (do
+            (println "Use cached value " id ":" cached-record)
+            (get cached-record :value)
+            )
+          )))))
 
 
 
@@ -761,7 +762,7 @@
       ;(println (str " !get-record-result-v2 DATA_SESSION_ID: " data-session-id))
       ;(println (str " !get-record-result-v2 realtime: " realtime))
   {:value
-   (get-record  db-table id fields realtime)})
+   (get-record   db-table  id  fields  realtime)})
 
 
 
