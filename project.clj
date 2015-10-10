@@ -22,7 +22,7 @@
                  [ankha "0.1.4"]
                  [overtone/at-at "1.2.0"]
                  [org.clojure/tools.nrepl "0.2.10"]
-                 [lein-figwheel "0.4.0"]
+                 [lein-figwheel "0.4.1"]
                  [instaparse "1.4.1"]
                  ]
   :repositories {"sonatype-oss-public"
@@ -36,7 +36,7 @@
              [lein-cljsbuild "1.0.5"]
              [lein-httpd "1.0.0"]
              [lein-ring "0.9.3"]
-             [lein-figwheel "0.4.0"]
+             [lein-figwheel "0.4.1"]
              ]
 
   :profiles {

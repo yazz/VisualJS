@@ -659,12 +659,23 @@
 
 
 
-(defn get-record-from-server-cache-for-table  [db-table   id]
+(defn get-record-from-server-cache-for-id  [db-table   id]
   (let [table-atom     (get @server-side-cached-records  db-table)
         record-atom    (if table-atom (get @table-atom  id))
         ]
     (do
       (if record-atom  @record-atom nil))))
+
+
+
+
+
+(defn get-table-from-server-cache-for-table  [db-table  ]
+  (let [table-atom     (get @server-side-cached-records  db-table)
+        ]
+    (do
+      (if table-atom  table-atom nil))))
+
 
 
 
@@ -676,16 +687,13 @@
         ]
     (do
       (if (nil? table-atom)
-        (swap! server-side-cached-records assoc db-table (atom {})))))
-  )
+        (swap! server-side-cached-records assoc db-table (atom {}))))))
 
 
 
 
 
-
-(defn get-record
-  ([db-table id fields]
+(defn get-record-from-database [db-table id fields]
    (sql-1
     (str
      "select "
@@ -706,20 +714,33 @@
 
 
 
-  ([db-table id fields realtime]
-   (if realtime
-     (do
-       (create-record-cache-for-table  db-table)
-       (let [cached-record (get-record-from-server-cache-for-table  db-table   id)]
-         (if (not cached-record)
-           (let [record (get-record    db-table id fields)]
-             nil
-             )
-           )
-         )))
 
-   (get-record    db-table id fields))
-  )
+
+
+(defn get-record [db-table id fields realtime]
+  (do
+    (if realtime
+      (do
+        (create-record-cache-for-table  db-table)
+        (let [cached-record     (get-record-from-server-cache-for-id  db-table   id)]
+          (if (not cached-record)
+            (let [record           (get-record-from-database    db-table id fields)
+                  table            (get-table-from-server-cache-for-table    db-table)
+                  query-time       (quot (System/currentTimeMillis) 1000)
+                  ]
+              (if table
+                (swap!  table assoc id (atom {:value record :timestamp query-time}))
+                nil
+                ))))))
+
+    (let [cached-record     (get-record-from-server-cache-for-id  db-table   id)]
+      (if (not cached-record)
+        (get-record-from-database    db-table id fields)
+        (do
+          (println "Use cached value:" (get cached-record :value))
+          (get cached-record :value)
+          )
+      ))))
 
 
 
@@ -738,7 +759,7 @@
            realtime
            ]}]
       ;(println (str " !get-record-result-v2 DATA_SESSION_ID: " data-session-id))
-      (println (str " !get-record-result-v2 realtime: " realtime))
+      ;(println (str " !get-record-result-v2 realtime: " realtime))
   {:value
    (get-record  db-table id fields realtime)})
 
