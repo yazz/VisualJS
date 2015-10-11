@@ -1809,7 +1809,7 @@ corresponding record and updates the internal cache
  (loop []
    (let [record-request  (<! client-record-cache-requests)]  ; <-- reads the record request from the channel
      (let [
-           record             (remote  !get-record-result-v2  record-request)
+           record             (remote  !get-record-result  record-request)
            record-value       (get record :value)
 
            source-name        (:source  record-request)

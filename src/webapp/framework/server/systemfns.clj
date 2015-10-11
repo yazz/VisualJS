@@ -682,12 +682,21 @@
 
 
 
+
+
+
+
 (defn create-record-cache-for-table  [db-table]
   (let [table-atom (get @server-side-cached-records  db-table)
         ]
     (do
       (if (nil? table-atom)
         (swap! server-side-cached-records assoc db-table (atom {}))))))
+
+
+
+
+
 
 
 
@@ -738,7 +747,7 @@
         (if (not cached-record)
           (get-record-from-database    db-table id fields)
           (do
-            (println "Use cached value " id ":" cached-record)
+            ;(println "Use cached value " id ":" cached-record)
             (get cached-record :value)
             )
           )))))
@@ -751,7 +760,7 @@
 
 
 
-(defn !get-record-result-v2
+(defn !get-record-result
   [{:keys [
            db-table
            id
@@ -759,8 +768,8 @@
            data-session-id
            realtime
            ]}]
-      ;(println (str " !get-record-result-v2 DATA_SESSION_ID: " data-session-id))
-      ;(println (str " !get-record-result-v2 realtime: " realtime))
+      ;(println (str " !get-record-result DATA_SESSION_ID: " data-session-id))
+      ;(println (str " !get-record-result realtime: " realtime))
   {:value
    (get-record   db-table  id  fields  realtime)})
 
@@ -913,6 +922,10 @@
     ;(println (str "      "))
     ;(println (str "Count: " (-> @server-side-cached-queries keys count str)))
 
+    ; ----------------------------------------------------------------
+    ; First we make sure that any queries which access the same
+    ; table as the record that changed are checked
+    ; ----------------------------------------------------------------
     (let [queries (keys @server-side-cached-queries)]
       (doall (for [query queries]
                (do
@@ -940,7 +953,18 @@
                      ;(println (str "clients:"))
                      ;(println (str "    " (keys @server-side-realtime-clients)))
                      ;(println (str "    "))
-                     ))))))))
+                     ))))))
+
+
+    ; ----------------------------------------------------------------
+    ; If this is a record update
+    ; ----------------------------------------------------------------
+    (if (= (get realtime-log-entry :record_operation) "UPDATE")
+      (do
+        (println "Update record")
+        )
+      )
+    ))
 
 
 
