@@ -686,7 +686,7 @@
 
 
 
-(defn create-record-cache-for-table  [db-table]
+(defn create-cache-for-table  [db-table]
   (let [table-atom (get @server-side-cached-records  db-table)
         ]
     (do
@@ -703,23 +703,17 @@
 
 
 (defn get-record-from-database [db-table id fields]
-   (sql-1
-    (str
-     "select "
-     (fields-to-str fields) " "
-     "from "
-     db-table " "
-     "where id = ? "
-     (cond
-      (= *database-type* "postgres" )
-      " limit 1"
 
-      (= *database-type* "oracle" )
-      ""
-      )
+  (sql-1 (str
+          "select " (fields-to-str fields) " from " db-table " where id = ? "
+          (cond
+           (= *database-type* "postgres" )
+           " limit 1"
 
+           (= *database-type* "oracle" )
+           ""))
 
-     ) [id]))
+         [id]))
 
 
 
@@ -731,7 +725,7 @@
     (do
       (if realtime
         (do
-          (create-record-cache-for-table  db-table)
+          (create-cache-for-table  db-table)
           (let [cached-record     (get-record-from-server-cache-for-id  db-table   id)]
             (if (not cached-record)
               (let [record           (get-record-from-database    db-table id fields)
@@ -962,9 +956,26 @@
     (if (= (get realtime-log-entry :record_operation) "UPDATE")
       (do
         (println "Update record")
+        (let [id               (get realtime-log-entry :record_id)
+              db-table         (get realtime-log-entry :record_table_name)
+              cached-record    (get-record-from-server-cache-for-id  db-table   id)
+              ;record           (get-record-from-database    db-table id fields)
+              ;table            (get-table-from-server-cache-for-table    db-table)
+              ;query-time       (quot (System/currentTimeMillis) 1000)
+              ]
+          (create-cache-for-table   db-table)
+          ;(if table
+            ;(swap!  table assoc id (atom {:value record :timestamp query-time}))
+            nil
+          ;  )
         )
-      )
+        ))
+
     ))
+
+
+
+
 
 
 
@@ -1005,10 +1016,10 @@
 
 ; ----------------------------------------------------------------
 ; Whenever the web browser asks the server for data it calls
-; this function (!get-query-results-v2) telling the server
+; this function (!get-query-results) telling the server
 ; which client it is via the 'data-session-id' ID.
 ; ----------------------------------------------------------------
-(defn !get-query-results-v2 [{:keys [
+(defn !get-query-results [{:keys [
                                      db-table
                                      where
                                      start
@@ -1022,8 +1033,8 @@
   ;(println "************************************************************************************")
   ;(println " debug stuff")
   ;(println " ")
-  ;(println "!get-query-results-v2*   REALTIME = " realtime)
-  (comment println (str "!get-query-results-v2: "
+  ;(println "!get-query-results*   REALTIME = " realtime)
+  (comment println (str "!get-query-results: "
                 db-table
                 where " "
                 start  " "

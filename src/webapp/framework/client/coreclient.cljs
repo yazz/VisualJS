@@ -1764,7 +1764,7 @@ records
 
      (let [
            params         (merge (merge (:query-key request) (:subset-range request)) {:data-session-id     @data-session-id})
-           return-value   (remote      !get-query-results-v2  params)
+           return-value   (remote      !get-query-results  params)
            records        (:records    return-value)
            records-count  (:count      return-value)
            timestamp      (:timestamp  return-value)
