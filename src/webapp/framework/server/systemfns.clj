@@ -704,16 +704,19 @@
 
 (defn get-record-from-database [db-table id fields]
 
-  (sql-1 (str
-          "select " (fields-to-str fields) " from " db-table " where id = ? "
-          (cond
-           (= *database-type* "postgres" )
-           " limit 1"
+  (let [sql (str
+             "select " (fields-to-str fields) " from " db-table " where id = ? "
+             (cond
+              (= *database-type* "postgres" )
+              " limit 1"
 
-           (= *database-type* "oracle" )
-           ""))
-
-         [id]))
+              (= *database-type* "oracle" )
+              ""))
+        ]
+    (do
+      (println "SQL::: " sql "," id)
+      (sql-1  sql [id])
+      )))
 
 
 
@@ -899,6 +902,14 @@
 
 
 
+(defn get-fields-for-table   [db-table]
+  [:id :item])
+
+
+(defn parse-int [s]
+   (Integer. (re-find  #"\d+" s )))
+
+
 
 ; ----------------------------------------------------------------
 ; Whenever a record changes an entry is added to the real time log
@@ -956,19 +967,24 @@
     (if (= (get realtime-log-entry :record_operation) "UPDATE")
       (do
         (println "Update record")
-        (let [id               (get realtime-log-entry :record_id)
+        (let [id               (parse-int (get realtime-log-entry :record_id))
               db-table         (get realtime-log-entry :record_table_name)
               cached-record    (get-record-from-server-cache-for-id  db-table   id)
-              ;record           (get-record-from-database    db-table id fields)
-              ;table            (get-table-from-server-cache-for-table    db-table)
-              ;query-time       (quot (System/currentTimeMillis) 1000)
+              fields           (get-fields-for-table   db-table)
+              ;zzz
+              record           (get-record-from-database    db-table id fields)
+              table            (get-table-from-server-cache-for-table    db-table)
+              query-time       (quot (System/currentTimeMillis) 1000)
               ]
+          (do
           (create-cache-for-table   db-table)
-          ;(if table
-            ;(swap!  table assoc id (atom {:value record :timestamp query-time}))
+          (println (str "Value before: "  (get-record-from-server-cache-for-id  db-table  id )))
+          (if table
+            (swap!  table assoc id (atom {:value record :timestamp query-time}))
             nil
-          ;  )
-        )
+            )
+          (println (str "Value after: "  (get-record-from-server-cache-for-id  db-table  id )))
+        ))
         ))
 
     ))
