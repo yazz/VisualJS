@@ -23,7 +23,7 @@
 
 
 ; -----------------------------------------------------------------------
-; NOT USED YET
+; The ID of the last server side realtime log item
 ; -----------------------------------------------------------------------
 (defonce server-side-realtime-counter   (atom 0))
 

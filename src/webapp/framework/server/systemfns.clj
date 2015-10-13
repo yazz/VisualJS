@@ -788,6 +788,38 @@
 
 
 
+
+(defn get-fields-for-table   [db-table]
+  [:id :item])
+
+
+; ----------------------------------------------------------------
+; This is called whenever there has been an update of a realtime
+; query.
+; ----------------------------------------------------------------
+(defn update-record-in-cache [db-table  id]
+  (do
+    (println "Update record")
+    (let [
+          cached-record    (get-record-from-server-cache-for-id  db-table   id)
+          fields           (get-fields-for-table   db-table)
+          record           (get-record-from-database    db-table id fields)
+          table            (get-table-from-server-cache-for-table    db-table)
+          query-time       (quot (System/currentTimeMillis) 1000)
+          ]
+      (do
+        (create-cache-for-table   db-table)
+        (println (str "Value before: "  (get-record-from-server-cache-for-id  db-table  id )))
+        (if table
+          (swap!  table assoc id (atom {:value record :timestamp query-time}))
+          nil)
+        (println (str "Value after: "  (get-record-from-server-cache-for-id  db-table  id )))))))
+
+
+
+
+
+
 ; ----------------------------------------------------------------
 ; This is called whenever there has been an update of a realtime
 ; query.
@@ -901,11 +933,6 @@
 
 
 
-
-(defn get-fields-for-table   [db-table]
-  [:id :item])
-
-
 (defn parse-int [s]
    (Integer. (re-find  #"\d+" s )))
 
@@ -962,30 +989,15 @@
 
 
     ; ----------------------------------------------------------------
-    ; If this is a record update
+    ; If this is a record update, so update the internal record
+    ; cache
     ; ----------------------------------------------------------------
     (if (= (get realtime-log-entry :record_operation) "UPDATE")
-      (do
-        (println "Update record")
         (let [id               (parse-int (get realtime-log-entry :record_id))
               db-table         (get realtime-log-entry :record_table_name)
-              cached-record    (get-record-from-server-cache-for-id  db-table   id)
-              fields           (get-fields-for-table   db-table)
-              ;zzz
-              record           (get-record-from-database    db-table id fields)
-              table            (get-table-from-server-cache-for-table    db-table)
-              query-time       (quot (System/currentTimeMillis) 1000)
               ]
-          (do
-          (create-cache-for-table   db-table)
-          (println (str "Value before: "  (get-record-from-server-cache-for-id  db-table  id )))
-          (if table
-            (swap!  table assoc id (atom {:value record :timestamp query-time}))
-            nil
-            )
-          (println (str "Value after: "  (get-record-from-server-cache-for-id  db-table  id )))
-        ))
-        ))
+      (update-record-in-cache  db-table   id)))
+
 
     ))
 
