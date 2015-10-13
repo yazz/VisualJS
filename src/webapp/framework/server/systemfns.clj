@@ -701,7 +701,6 @@
 
 
 
-
 (defn get-record-from-database [db-table id fields]
 
   (let [sql (str
@@ -723,9 +722,11 @@
 
 
 
-(defn get-record [db-table id fields realtime]
+(defn get-record [db-table  id  fields  realtime client-id]
   (if id
     (do
+
+      ; if a realtime record
       (if realtime
         (do
           (create-cache-for-table  db-table)
@@ -736,10 +737,27 @@
                     query-time       (quot (System/currentTimeMillis) 1000)
                     ]
                 (if table
-                  (swap!  table assoc id (atom {:value record :timestamp query-time}))
+                  (let [
+                        new-clients-atom    (atom #{client-id})
+                        ]
+                     (swap!  table assoc id (atom {:value record :timestamp query-time :clients new-clients-atom}))
+                   )
                   nil
-                  ))))))
+                  ))
 
+
+                  (let [
+                        clients-atom        (get cached-record :clients)
+                        ]
+                    (swap!  clients-atom  conj  client-id)
+                    )
+
+
+
+              ))))
+
+
+      ; get the record
       (let [cached-record     (get-record-from-server-cache-for-id  db-table   id)]
         (if (not cached-record)
           (get-record-from-database    db-table id fields)
@@ -768,7 +786,7 @@
       ;(println (str " !get-record-result DATA_SESSION_ID: " data-session-id))
       ;(println (str " !get-record-result realtime: " realtime))
   {:value
-   (get-record   db-table  id  fields  realtime)})
+   (get-record   db-table  id  fields  realtime  data-session-id)})
 
 
 
@@ -806,14 +824,50 @@
           record           (get-record-from-database    db-table id fields)
           table            (get-table-from-server-cache-for-table    db-table)
           query-time       (quot (System/currentTimeMillis) 1000)
+          clients          (get cached-record :clients)
           ]
       (do
         (create-cache-for-table   db-table)
         (println (str "Value before: "  (get-record-from-server-cache-for-id  db-table  id )))
         (if table
-          (swap!  table assoc id (atom {:value record :timestamp query-time}))
+          (swap!  table assoc id (atom {:value record :timestamp query-time :clients clients}))
           nil)
         (println (str "Value after: "  (get-record-from-server-cache-for-id  db-table  id )))))))
+
+
+
+
+
+
+
+
+
+
+(defn inform-clients-about-record  [query   db-table   id]
+  (println "inform-clients-about-record ")
+  (comment let [the-query        (get @server-side-cached-queries   query)
+        clients-atom     (:clients @the-query)
+        ]
+    (swap! the-query assoc  :records       result-id-vector)
+    (swap! the-query assoc  :count         record-count)
+    (swap! the-query assoc  :timestamp     query-time)
+
+    ;(println (str "    clients: " @clients-atom))
+    (doall (for [client @clients-atom]
+             (do
+               ;(println (str "    Client: " client))
+               (let [the-client       (get @server-side-realtime-clients  client)
+                     response-atom    (:update-request @the-client)
+                     ]
+                 (if (not response-atom) (swap! the-query assoc  :update-request (atom {})))
+                 (swap! (:update-request @the-client) assoc-in [:queries query] {:timestamp query-time})
+                 ;(println (str "    responses: " (if response-atom @response-atom)))
+
+                 ;                   (swap! (:update-request @the-query) assoc  1 2)
+                 ))))))
+
+
+
 
 
 
@@ -944,7 +998,11 @@
 ; belongs to and then changes
 ; ----------------------------------------------------------------
 (defn process-log-entry [ realtime-log-entry ]
-  (do
+
+  (let [
+        id               (parse-int (get realtime-log-entry :record_id))
+        db-table         (get realtime-log-entry :record_table_name)
+        ]
     ;(println (str "**** Processing realtime record change: "))
     (println (str "      "  "realtime-log-entry"))
     (println (str "      "  realtime-log-entry))
@@ -954,6 +1012,17 @@
     ;(println (str "      "))
     ;(println (str "Count: " (-> @server-side-cached-queries keys count str)))
 
+
+
+    ; ----------------------------------------------------------------
+    ; If this is a record update, so update the internal record
+    ; cache
+    ; ----------------------------------------------------------------
+    (if (= (get realtime-log-entry :record_operation) "UPDATE")
+        (update-record-in-cache  db-table   id))
+
+
+
     ; ----------------------------------------------------------------
     ; First we make sure that any queries which access the same
     ; table as the record that changed are checked
@@ -961,7 +1030,7 @@
     (let [queries (keys @server-side-cached-queries)]
       (doall (for [query queries]
                (do
-                 (if (= (get query :db-table) (get realtime-log-entry :record_table_name))
+                 (if (= (get query :db-table)   db-table)
                    (do
                      ;(println (str "    "))
                      ;(println (str "    " "Query"))
@@ -974,6 +1043,8 @@
                      ;(println (str "    " @(:clients @(get @server-side-cached-queries query))))
 
                      (update-query-in-cache  query)
+                     (if (= (get realtime-log-entry :record_operation) "UPDATE")
+                        (inform-clients-about-record  query   db-table   id))
 
                      ;(println (str "    "))
                      ;(println (str "    " "After"))
@@ -988,15 +1059,6 @@
                      ))))))
 
 
-    ; ----------------------------------------------------------------
-    ; If this is a record update, so update the internal record
-    ; cache
-    ; ----------------------------------------------------------------
-    (if (= (get realtime-log-entry :record_operation) "UPDATE")
-        (let [id               (parse-int (get realtime-log-entry :record_id))
-              db-table         (get realtime-log-entry :record_table_name)
-              ]
-      (update-record-in-cache  db-table   id)))
 
 
     ))

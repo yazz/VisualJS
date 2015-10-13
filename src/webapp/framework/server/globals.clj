@@ -6,7 +6,20 @@
 
 
 ; -----------------------------------------------------------------------
-; NOT USED YET
+; The ID of the last server side realtime log item
+; -----------------------------------------------------------------------
+(defonce server-side-realtime-counter   (atom 0))
+
+; -----------------------------------------------------------------------
+; Used to record realtime changes as the result of database triggers
+; -----------------------------------------------------------------------
+(defonce server-side-record-changes     (chan 1))
+
+
+
+
+; -----------------------------------------------------------------------
+; The realtime records cached by the client
 ; -----------------------------------------------------------------------
 (defonce server-side-cached-records     (atom {}))
 
@@ -22,21 +35,13 @@
 
 
 
-; -----------------------------------------------------------------------
-; The ID of the last server side realtime log item
-; -----------------------------------------------------------------------
-(defonce server-side-realtime-counter   (atom 0))
 
 
 
 ; -----------------------------------------------------------------------
-; NOT USED YET
+; The caches for the web clients
 ; -----------------------------------------------------------------------
 (defonce server-side-realtime-clients   (atom {}))
 
 
 
-; -----------------------------------------------------------------------
-; NOT USED YET
-; -----------------------------------------------------------------------
-(defonce server-side-record-changes     (chan 1))
