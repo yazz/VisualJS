@@ -1355,28 +1355,59 @@
  #(go
    ;(log (pr-str (count (keys @client-query-cache))))
 
-   (let [x            (remote  !check-for-server-updates  {:client-data-session-id  @data-session-id} )
-         yy            (-> x :queries keys)
+   (let [realtime-update-check-response            (remote  !check-for-server-updates  {:client-data-session-id  @data-session-id} )
+         changed-realtime-queries                  (-> realtime-update-check-response :queries keys)
+         changed-realtime-records                  (-> realtime-update-check-response :records keys)
          ]
      (do
-         (log "Client realtime: " yy)
-     (doseq [y yy]
-       (let [
-             xxx          (merge y {:data-source (keyword (get y :db-table)) :realtime true :table nil})
-             new-key2     (dissoc (dissoc xxx :start) :end)
-             ]
+       (log "Client realtime queries: " changed-realtime-queries)
+       (doseq [single-changed-realtime-query    changed-realtime-queries]
+         (let [
+               xxx          (merge single-changed-realtime-query {:data-source (keyword (get single-changed-realtime-query :db-table)) :realtime true :table nil})
+               new-key2     (dissoc (dissoc xxx :start) :end)
+               ]
 
-         (>! client-query-cache-requests  {
-                                           :query-key     new-key2
+           (>! client-query-cache-requests  {
+                                             :query-key     new-key2
 
-                                           :subset-range  {
-                                                           :start   (:start  y)
-                                                           :end     (:end    y)
-                                                           ;:start    1
-                                                           ;:end      20
-                                                           } })
+                                             :subset-range  {
+                                                             :start   (:start  single-changed-realtime-query)
+                                                             :end     (:end    single-changed-realtime-query)
+                                                             ;:start    1
+                                                             ;:end      20
+                                                             } })
 
-     ))))) 3000)
+           ))
+
+
+
+
+       (log "Client realtime records: " changed-realtime-records)
+       (doseq [single-changed-realtime-record    changed-realtime-records]
+         (let [
+               ;xxx          (merge single-changed-realtime-query {:data-source (keyword (get single-changed-realtime-query :db-table)) :realtime true :table nil})
+               ;new-key2     (dissoc (dissoc xxx :start) :end)
+               ]
+
+           (comment >! client-query-cache-requests  {
+                                             :query-key     new-key2
+
+                                             :subset-range  {
+                                                             :start   (:start  single-changed-realtime-query)
+                                                             :end     (:end    single-changed-realtime-query)
+                                                             ;:start    1
+                                                             ;:end      20
+                                                             } })
+           nil
+
+           ))
+
+
+
+
+
+
+       ))) 3000)
 
 
 
