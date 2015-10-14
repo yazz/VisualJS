@@ -713,7 +713,7 @@
               ""))
         ]
     (do
-      (println "SQL::: " sql "," id)
+      ;(println "SQL::: " sql "," id)
       (sql-1  sql [id])
       )))
 
@@ -828,11 +828,12 @@
           ]
       (do
         (create-cache-for-table   db-table)
-        (println (str "Value before: "  (get-record-from-server-cache-for-id  db-table  id )))
+        ;(println (str "Value before: "  (get-record-from-server-cache-for-id  db-table  id )))
         (if table
           (swap!  table assoc id (atom {:value record :timestamp query-time :clients clients}))
           nil)
-        (println (str "Value after: "  (get-record-from-server-cache-for-id  db-table  id )))))))
+        ;(println (str "Value after: "  (get-record-from-server-cache-for-id  db-table  id )))
+        ))))
 
 
 
@@ -844,19 +845,19 @@
 
 
 (defn inform-clients-about-record  [db-table   id]
-  (println "inform-clients-about-record ")
+  ;(println "inform-clients-about-record ")
   (let [the-record        (get-record-from-server-cache-for-id  db-table  id )
         clients-atom      (:clients the-record)
         ]
-    (println (str "    the-record: " the-record))
-    (println (str "    Record Clients: " @clients-atom))
+    ;(println (str "    the-record: " the-record))
+    ;(println (str "    Record Clients: " @clients-atom))
 
     (doall (for [client @clients-atom]
              (do
-               (println (str "    Client: " client))
+               ;(println (str "    Client: " client))
                (let [the-client       (get @server-side-realtime-clients  client)
                      response-atom    (:update-request @the-client)
-                             ]
+                     ]
                  (if (not response-atom) (swap! response-atom assoc  :update-request (atom {})))
                  (swap! (:update-request @the-client) assoc-in [:records db-table id] {:timestamp (get the-record :timestamp)})
                  ;(println (str "    responses: " (if response-atom @response-atom)))
@@ -1004,9 +1005,9 @@
         db-table         (get realtime-log-entry :record_table_name)
         ]
     ;(println (str "**** Processing realtime record change: "))
-    (println (str "      "  "realtime-log-entry"))
-    (println (str "      "  realtime-log-entry))
-    (println (str "      "))
+    ;(println (str "      "  "realtime-log-entry"))
+    ;(println (str "      "  realtime-log-entry))
+    ;(println (str "      "))
     ;(println (str "      "  "@server-side-cached-queries"))
     ;(println (str "      "  @server-side-cached-queries))
     ;(println (str "      "))
@@ -1095,9 +1096,32 @@
 
 
 
+(defn dissoc-in
+  "Dissociates an entry from a nested associative structure returning a new
+  nested structure. keys is a sequence of keys. Any empty maps that result
+  will not be present in the new structure."
+  [m [k & ks :as keys]]
+  (if ks
+    (if-let [nextmap (get m k)]
+      (let [newmap (dissoc-in nextmap ks)]
+        (if (seq newmap)
+          (assoc m k newmap)
+          (dissoc m k)))
+      m)
+    (dissoc m k)))
 
 
 
+
+(defn delete-from-realtime-update  [ query-key     data-session-id ]
+  (let [client-data-atom         (if server-side-realtime-clients  (get @server-side-realtime-clients  data-session-id))
+        response-atom            (if client-data-atom  client-data-atom )
+        update-request-atom      (if response-atom  (get @response-atom :update-request ))
+        update-request           (if update-request-atom  @update-request-atom)
+        ]
+    (println (str "      update-request: " update-request))
+    (swap! update-request-atom dissoc-in [:queries query-key])
+  ))
 
 
 
@@ -1141,6 +1165,7 @@
 
 
 
+
   (cond
    ; ----------------------------------------------------------------
    ; if this is a realtime query
@@ -1157,6 +1182,7 @@
                       :order     order)
          ]
      (create-client-cache  data-session-id)
+     (delete-from-realtime-update  query-key data-session-id)
 
      (if (get @server-side-cached-queries  query-key)
        nil
@@ -1326,11 +1352,11 @@
   (let [client-data-atom    (if server-side-realtime-clients  (get @server-side-realtime-clients  client-data-session-id))
         response-atom       (if client-data-atom  client-data-atom )
         ]
-    ;(println (str "      " ))
-    ;(println "SERVER: check-for-server-updates for client: " client-data-session-id)
+    (println (str "      " ))
+    (println "SERVER: check-for-server-updates for client: " client-data-session-id)
     ;(println (str "      " (keys @server-side-realtime-clients)))
     ;(println (str "      " (if client-data-atom  @client-data-atom)))
-    ;(println (str "      response: " (if response-atom  @(get @response-atom :update-request )  )))
+    (println (str "      response: " (if response-atom  @(get @response-atom :update-request )  )))
     (if response-atom  @(get @response-atom :update-request )  {})))
 
 
