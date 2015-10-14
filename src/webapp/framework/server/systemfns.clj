@@ -843,28 +843,28 @@
 
 
 
-(defn inform-clients-about-record  [query   db-table   id]
+(defn inform-clients-about-record  [db-table   id]
   (println "inform-clients-about-record ")
-  (comment let [the-query        (get @server-side-cached-queries   query)
-        clients-atom     (:clients @the-query)
+  (let [the-record        (get-record-from-server-cache-for-id  db-table  id )
+        clients-atom      (:clients the-record)
         ]
-    (swap! the-query assoc  :records       result-id-vector)
-    (swap! the-query assoc  :count         record-count)
-    (swap! the-query assoc  :timestamp     query-time)
+    (println (str "    the-record: " the-record))
+    (println (str "    Record Clients: " @clients-atom))
 
-    ;(println (str "    clients: " @clients-atom))
     (doall (for [client @clients-atom]
              (do
-               ;(println (str "    Client: " client))
+               (println (str "    Client: " client))
                (let [the-client       (get @server-side-realtime-clients  client)
                      response-atom    (:update-request @the-client)
-                     ]
-                 (if (not response-atom) (swap! the-query assoc  :update-request (atom {})))
-                 (swap! (:update-request @the-client) assoc-in [:queries query] {:timestamp query-time})
+                             ]
+                 (if (not response-atom) (swap! response-atom assoc  :update-request (atom {})))
+                 (swap! (:update-request @the-client) assoc-in [:records db-table id] {:timestamp (get the-record :timestamp)})
                  ;(println (str "    responses: " (if response-atom @response-atom)))
 
                  ;                   (swap! (:update-request @the-query) assoc  1 2)
-                 ))))))
+                 ))))
+    nil
+    ))
 
 
 
@@ -1019,7 +1019,9 @@
     ; cache
     ; ----------------------------------------------------------------
     (if (= (get realtime-log-entry :record_operation) "UPDATE")
-        (update-record-in-cache  db-table   id))
+      (do
+        (update-record-in-cache  db-table   id)
+        (inform-clients-about-record   db-table   id)))
 
 
 
@@ -1043,8 +1045,6 @@
                      ;(println (str "    " @(:clients @(get @server-side-cached-queries query))))
 
                      (update-query-in-cache  query)
-                     (if (= (get realtime-log-entry :record_operation) "UPDATE")
-                        (inform-clients-about-record  query   db-table   id))
 
                      ;(println (str "    "))
                      ;(println (str "    " "After"))
