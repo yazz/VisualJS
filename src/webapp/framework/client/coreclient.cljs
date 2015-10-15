@@ -1357,10 +1357,10 @@
 
    (let [realtime-update-check-response            (remote  !check-for-server-updates  {:client-data-session-id  @data-session-id} )
          changed-realtime-queries                  (-> realtime-update-check-response :queries keys)
-         changed-realtime-records                  (-> realtime-update-check-response :records keys)
+         list-of-tables                            (-> realtime-update-check-response :records keys)
          ]
      (do
-       (log "Client realtime queries: " changed-realtime-queries)
+       ;(log "Client realtime queries: " changed-realtime-queries)
        (doseq [single-changed-realtime-query    changed-realtime-queries]
          (let [
                xxx          (merge single-changed-realtime-query {:data-source (keyword (get single-changed-realtime-query :db-table)) :realtime true :table nil})
@@ -1382,25 +1382,29 @@
 
 
 
-       (log "Client realtime records: " changed-realtime-records)
-       (doseq [single-changed-realtime-record    changed-realtime-records]
-         (let [
-               ;xxx          (merge single-changed-realtime-query {:data-source (keyword (get single-changed-realtime-query :db-table)) :realtime true :table nil})
-               ;new-key2     (dissoc (dissoc xxx :start) :end)
-               ]
+       (log "Client realtime records: " )
+       (doseq [the-table    list-of-tables]
+         (let [list-of-ids      (keys (get (-> realtime-update-check-response :records) the-table))]
+         (doseq [id     list-of-ids]
+           (let [record    (get (get (-> realtime-update-check-response :records) the-table) id)]
+             (let [
+                   ;xxx          (merge single-changed-realtime-query {:data-source (keyword (get single-changed-realtime-query :db-table)) :realtime true :table nil})
+                   ;new-key2     (dissoc (dissoc xxx :start) :end)
+                   ]
 
-           (comment >! client-query-cache-requests  {
-                                             :query-key     new-key2
+               (log "               : " the-table ", " id " = " record)
+               (comment >! client-query-cache-requests  {
+                                                         :query-key     new-key2
 
-                                             :subset-range  {
-                                                             :start   (:start  single-changed-realtime-query)
-                                                             :end     (:end    single-changed-realtime-query)
-                                                             ;:start    1
-                                                             ;:end      20
-                                                             } })
-           nil
+                                                         :subset-range  {
+                                                                         :start   (:start  single-changed-realtime-query)
+                                                                         :end     (:end    single-changed-realtime-query)
+                                                                         ;:start    1
+                                                                         ;:end      20
+                                                                         } })
+               nil
 
-           ))
+               )))))
 
 
 
