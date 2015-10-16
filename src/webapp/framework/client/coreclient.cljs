@@ -1328,6 +1328,20 @@
 
 
 
+(defn get-default-fields-for-data-source [data-source-id]
+
+  (let [fields-atom          (-> @client-datasource-fields  data-source-id)
+        fields-entry         (if fields-atom (into [] @fields-atom))   ]
+
+    ;(log (pr-str "Read fields: " fields-entry))
+
+    (if fields-entry
+      fields-entry)))
+
+
+;(get-default-fields-for-data-source  :cvs)
+
+
 
 
 
@@ -1390,18 +1404,19 @@
              (let [
                    ;xxx          (merge single-changed-realtime-query {:data-source (keyword (get single-changed-realtime-query :db-table)) :realtime true :table nil})
                    ;new-key2     (dissoc (dissoc xxx :start) :end)
+                   record-request    {:source              (keyword the-table)
+                                      :db-table            the-table
+                                      :fields              (get-default-fields-for-data-source  (keyword the-table))
+                                      :id                   id
+                                      :data-session-id     @data-session-id
+                                      :realtime            true
+                                      :force               true
+                                      }
                    ]
 
                (log "               : " the-table ", " id " = " record)
-               (comment >! client-query-cache-requests  {
-                                                         :query-key     new-key2
-
-                                                         :subset-range  {
-                                                                         :start   (:start  single-changed-realtime-query)
-                                                                         :end     (:end    single-changed-realtime-query)
-                                                                         ;:start    1
-                                                                         ;:end      20
-                                                                         } })
+               (log "               : " record-request)
+                (>! client-record-cache-requests    record-request)
                nil
 
                )))))
@@ -1609,20 +1624,6 @@
 
 
 
-(defn get-default-fields-for-data-source [data-source-id]
-
-  (let [fields-atom          (-> @client-datasource-fields  data-source-id)
-        fields-entry         (if fields-atom (into [] @fields-atom))   ]
-
-    ;(log (pr-str "Read fields: " fields-entry))
-
-    (if fields-entry
-      fields-entry)))
-
-
-;(get-default-fields-for-data-source  :cvs)
-
-
 
 
 
@@ -1657,30 +1658,19 @@
     (swap!  (get record :queries) conj  query)
 
 
-    (let [record-value  (get record :value)]
-
-      (if (not @record-value)
-        (go
-          (>! client-record-cache-requests
-             {:source              (query :data-source)
-              :db-table            (query :db-table)
-              :fields              (get-default-fields-for-data-source (query :data-source))
-              :id                   record-id
-              :query                query
-              :data-session-id     @data-session-id
-              :realtime            (get query :realtime)
-              }))
-        ))))
-
-
-
-
-
-
-
-
-
-
+    (if (not @(get record :value))
+      (go
+       (let [
+             record-request     {:source              (query :data-source)
+                                 :db-table            (query :db-table)
+                                 :fields              (get-default-fields-for-data-source (query :data-source))
+                                 :id                   record-id
+                                 :data-session-id     @data-session-id
+                                 :realtime            (get query :realtime)
+                                 }]
+         (log "    :" record-request)
+         (>! client-record-cache-requests   record-request)))
+      )))
 
 
 
@@ -1854,7 +1844,6 @@ corresponding record and updates the internal cache
        (if record-value
          (let [
                record-container     (get-or-create-record  source-name  id)
-               queries              (get record-container :queries)
                record-value-atom    (get record-container :value)
                ]
 
