@@ -1402,8 +1402,6 @@
          (doseq [id     list-of-ids]
            (let [record    (get (get (-> realtime-update-check-response :records) the-table) id)]
              (let [
-                   ;xxx          (merge single-changed-realtime-query {:data-source (keyword (get single-changed-realtime-query :db-table)) :realtime true :table nil})
-                   ;new-key2     (dissoc (dissoc xxx :start) :end)
                    record-request    {:source              (keyword the-table)
                                       :db-table            the-table
                                       :fields              (get-default-fields-for-data-source  (keyword the-table))

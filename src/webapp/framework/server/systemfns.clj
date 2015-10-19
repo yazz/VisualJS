@@ -327,6 +327,29 @@
 
 
 
+(defn keep-server-fields-up-to-date  [db-table  fields]
+
+  (do
+    (println (str "keep-server-fields-up-tp-date: " db-table  fields))
+    (let [ds-fields          (get  @server-datasource-fields   db-table)
+          fields-atom        (atom fields)                            ]
+
+      (if (nil? ds-fields)
+        (swap! server-datasource-fields  assoc  db-table  fields-atom)
+        (let [
+              fields-as-set (into #{} fields)
+              existing-fields-as-set (into #{} @ds-fields)
+              all-fields  (clojure.set/union   fields-as-set   existing-fields-as-set)
+              all-fields-as-vector (into [] all-fields)
+              ]
+          (if (not (= all-fields existing-fields-as-set))
+            (do
+              (swap! server-datasource-fields  assoc  db-table  (atom all-fields)))))))))
+
+
+
+
+
 
 
 (defn create-realtime-trigger [& {:keys [:table-name]}]
@@ -785,6 +808,7 @@
       (if realtime
         (do
           (create-cache-for-table  db-table)
+          (keep-server-fields-up-to-date   db-table  fields)
           (let [cached-record     (get-record-from-server-cache-for-id  db-table   id)]
             (if (not cached-record)
               (let [record           (get-record-from-database    db-table id fields)
@@ -817,7 +841,7 @@
         (if (not cached-record)
           (get-record-from-database    db-table id fields)
           (do
-            ;(delete-record-from-realtime-update  db-table    id     client-id)
+            (delete-record-from-realtime-update  db-table    id     client-id)
             ;(println "Use cached value " id ":" cached-record)
             (get cached-record :value)
             )
@@ -864,7 +888,17 @@
 
 
 (defn get-fields-for-table   [db-table]
-  [:id :item])
+    (println (pr-str "get-fields-for-table: " db-table))
+  (let [fields-atom          (get @server-datasource-fields  db-table)
+        fields-entry         (if fields-atom (into [] @fields-atom))   ]
+
+    (println (pr-str "Read fields: " fields-entry))
+
+    (if fields-entry
+      fields-entry)))
+
+
+
 
 
 ; ----------------------------------------------------------------
@@ -1196,7 +1230,7 @@
                                      ]}]
 
   ;(println "************************************************************************************")
-  ;(println " debug stuff")
+  ;(println "    **** " db-table " : "  fields)
   ;(println " ")
   ;(println "!get-query-results*   REALTIME = " realtime)
   (comment println (str "!get-query-results: "

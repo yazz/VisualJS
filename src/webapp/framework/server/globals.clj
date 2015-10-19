@@ -45,3 +45,10 @@
 
 
 
+
+
+
+; -----------------------------------------------------
+;
+; -----------------------------------------------------
+(def server-datasource-fields            (atom {})) ; list of the data sources and their fields
