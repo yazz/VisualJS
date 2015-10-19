@@ -47,6 +47,30 @@
 
 
 
+(defn dissoc-in
+  "Dissociates an entry from a nested associative structure returning a new
+  nested structure. keys is a sequence of keys. Any empty maps that result
+  will not be present in the new structure."
+  [m [k & ks :as keys]]
+  (if ks
+    (if-let [nextmap (get m k)]
+      (let [newmap (dissoc-in nextmap ks)]
+        (if (seq newmap)
+          (assoc m k newmap)
+          (dissoc m k)))
+      m)
+    (dissoc m k)))
+
+
+
+
+
+
+
+
+
+
+
 (defn !say-hello [params]
     {:text (str "System Hello " (:name params))})
 
@@ -733,7 +757,7 @@
         update-request           (if update-request-atom  @update-request-atom)
         ]
     (println (str "      update-request: " update-request))
-    (swap! update-request-atom dissoc-in [:records table-name record-id])
+    (swap! update-request-atom  dissoc-in  [:records table-name record-id])
   ))
 
 
@@ -793,7 +817,7 @@
         (if (not cached-record)
           (get-record-from-database    db-table id fields)
           (do
-            (delete-record-from-realtime-update  db-table    id     client-id)
+            ;(delete-record-from-realtime-update  db-table    id     client-id)
             ;(println "Use cached value " id ":" cached-record)
             (get cached-record :value)
             )
@@ -1124,23 +1148,6 @@
 
 
 
-
-
-
-
-(defn dissoc-in
-  "Dissociates an entry from a nested associative structure returning a new
-  nested structure. keys is a sequence of keys. Any empty maps that result
-  will not be present in the new structure."
-  [m [k & ks :as keys]]
-  (if ks
-    (if-let [nextmap (get m k)]
-      (let [newmap (dissoc-in nextmap ks)]
-        (if (seq newmap)
-          (assoc m k newmap)
-          (dissoc m k)))
-      m)
-    (dissoc m k)))
 
 
 
