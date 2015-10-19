@@ -722,6 +722,37 @@
 
 
 
+
+
+
+
+(defn delete-record-from-realtime-update  [ table-name    record-id     data-session-id ]
+  (let [client-data-atom         (if server-side-realtime-clients  (get @server-side-realtime-clients  data-session-id))
+        response-atom            (if client-data-atom  client-data-atom )
+        update-request-atom      (if response-atom  (get @response-atom :update-request ))
+        update-request           (if update-request-atom  @update-request-atom)
+        ]
+    (println (str "      update-request: " update-request))
+    (swap! update-request-atom dissoc-in [:records table-name record-id])
+  ))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 (defn get-record [db-table  id  fields  realtime client-id]
   (if id
     (do
@@ -762,6 +793,7 @@
         (if (not cached-record)
           (get-record-from-database    db-table id fields)
           (do
+            (delete-record-from-realtime-update  db-table    id     client-id)
             ;(println "Use cached value " id ":" cached-record)
             (get cached-record :value)
             )
@@ -1113,7 +1145,7 @@
 
 
 
-(defn delete-from-realtime-update  [ query-key     data-session-id ]
+(defn delete-query-from-realtime-update  [ query-key     data-session-id ]
   (let [client-data-atom         (if server-side-realtime-clients  (get @server-side-realtime-clients  data-session-id))
         response-atom            (if client-data-atom  client-data-atom )
         update-request-atom      (if response-atom  (get @response-atom :update-request ))
@@ -1122,6 +1154,18 @@
     (println (str "      update-request: " update-request))
     (swap! update-request-atom dissoc-in [:queries query-key])
   ))
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1182,7 +1226,7 @@
                       :order     order)
          ]
      (create-client-cache  data-session-id)
-     (delete-from-realtime-update  query-key data-session-id)
+     (delete-query-from-realtime-update  query-key data-session-id)
 
      (if (get @server-side-cached-queries  query-key)
        nil
