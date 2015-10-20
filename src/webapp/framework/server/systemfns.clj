@@ -269,7 +269,11 @@
                                                (:cnt (sql-1 (str
                                                   "select count (id) as CNT from "
                                                   db-table " "
-                                                  (if (-> where count pos?) (str "where " where " "))
+                                                  (if (-> where count pos?)
+                                                    (str "where "
+                                                         (first (clojure.string/split where #"order by"))
+                                                         " ")
+                                                    )
                                                   )
                                                  params)))
 
@@ -297,7 +301,7 @@
      (= *database-type* "postgres" )
      (str
       (if start (str " offset " (- start 1) " "))
-      (if end (str " limit " (+ 1 (- end start)) " ") "limit 2")
+      (if end (str " limit " (+ 1 (- end start)) " ") " limit 2")
       )
 
      (= *database-type* "oracle" )

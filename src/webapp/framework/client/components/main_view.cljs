@@ -46,7 +46,7 @@
 
                               })
                                   (div {:style {:fontWeight "bold"}} "realtime select  id, item  from  coils_todo_items order by id")
-                                  (realtime select  id, item  from  coils_todo_items order by id
+                                  (realtime select  id, item  from  coils_todo_items where id > 10 and id < 13 order by id desc
                                             {}
                                             (container
                                              (inline  "10%" (str (<-- :id)))
@@ -55,7 +55,7 @@
                                   (div {:style {:padding "20px" :backgoundColor "white"}})
 
 
-                                  (comment select-debug  id, item  from  coils_todo_items  order by id
+                                  (comment select-debug  id, item  from  coils_todo_items where id > 10 order by id
                                           {}
                                           (container
                                             (inline  "10%" (str (<-- :id)))
