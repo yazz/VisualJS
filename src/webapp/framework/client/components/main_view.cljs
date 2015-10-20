@@ -45,8 +45,8 @@
                                                         ))))
 
                               })
-                                  (div {:style {:fontWeight "bold"}} "realtime select  id, item  from  coils_todo_items")
-                                  (realtime select  id, item  from  coils_todo_items
+                                  (div {:style {:fontWeight "bold"}} "realtime select  id, item  from  coils_todo_items order by id")
+                                  (realtime select  id, item  from  coils_todo_items order by id
                                             {}
                                             (container
                                              (inline  "10%" (str (<-- :id)))
