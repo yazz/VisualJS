@@ -45,16 +45,17 @@
                                                         ))))
 
                               })
-                                (realtime select  id, item  from  coils_todo_items
-                                          {}
-                                        (container
-                                            (inline  "10%" (str (<-- :id)))
-                                            (inline  "90%" (str (<-- :item)))))
+                                  (div {:style {:fontWeight "bold"}} "realtime select  id, item  from  coils_todo_items")
+                                  (realtime select  id, item  from  coils_todo_items
+                                            {}
+                                            (container
+                                             (inline  "10%" (str (<-- :id)))
+                                             (inline  "90%" (str (<-- :item)))))
 
                                   (div {:style {:padding "20px" :backgoundColor "white"}})
 
 
-                                  ( select-debug  id, item  from  coils_todo_items
+                                  (comment select-debug  id, item  from  coils_todo_items  order by id
                                           {}
                                           (container
                                             (inline  "10%" (str (<-- :id)))
@@ -62,6 +63,15 @@
 
                                   (div {:style {:padding "20px" :backgoundColor "white"}})
 
+
+
+
+
+
+
+
+
+                                  (div {:style {:fontWeight "bold"}} "select  id,item  from  coils_todo_items  where id > 0")
                                   ( select  id,item  from  coils_todo_items  where id > 0
                                                   {}
                                                   (container
@@ -72,6 +82,16 @@
                                   (div {:style {:padding "20px" :backgoundColor "white"}})
 
 
+
+
+
+
+
+
+
+
+
+                                  (div {:style {:fontWeight "bold"}} "(realtime select id,user_name from coils_users")
                                   (realtime select id,user_name from coils_users
                                                   {}
                                                   (container
@@ -80,7 +100,7 @@
 
                                   (div {:style {:padding "20px" :backgoundColor "white"}})
 
-                                  ( realtime-debug select id, item from coils_todo_items where id < 43
+                                  (comment realtime-debug select id, item from coils_todo_items where id < 43
                                           {}
                                           (container
                                             (inline  "10%" (str (<-- :id)))
