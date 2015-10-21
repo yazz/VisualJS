@@ -62,6 +62,21 @@
 
 
 
+                (div {:style {:fontWeight "bold"}} "realtime select  id  from test1 order by id")
+                (realtime select  id  from  test1 order by id desc
+                          {}
+                          (container
+                           (inline  "10%" (str (<-- :id)))
+                           (inline  "90%" (str (<-- :id)))))
+                (select-debug  id, item from test1 order by id desc
+                  {}
+                  (div nil ""))
+                (div {:style {:padding "20px" :backgoundColor "white"}})
+
+
+
+
+
                 (div {:style {:fontWeight "bold"}} "realtime select  id, item  from  coils_todo_items order by id")
                 (realtime select  id, item  from  coils_todo_items order by id desc
                           {}

@@ -661,7 +661,7 @@ nil
 
      FROM               = 'from '
 
-     TABLE              = #'[a-z|_]+' <' '>
+     TABLE              = #'[a-z|_|0-9]+' <' '>
 
      WHERE              = 'where '
 
