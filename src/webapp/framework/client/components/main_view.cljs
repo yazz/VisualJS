@@ -20,9 +20,9 @@
 (defn-ui-component     cc2   [app]
   {}
 
-  (section {:id "todoapp" :style {:padding "20px"}}
+  (section {:id "todoapp" :style {:padding "20px" :width "100%"}}
            (h2 nil "Todo app")
-           (div {:style {:padding "20px" :backgoundColor "white"}}
+           (div { :width "100%" :style {:padding "20px" :backgoundColor "white"}}
                 (input {
                         :id "new_todo_item"
                         :className "newTodo"
@@ -51,27 +51,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-                (div {:style {:fontWeight "bold"}} "realtime select  id  from test1 order by id")
-                (realtime select  id  from  test1 order by id desc
-                          {}
-                          (container
-                           (inline  "10%" (str (<-- :id)))
-                           (inline  "90%" (str (<-- :id)))))
-                (select-debug  id, item from test1 order by id desc
-                  {}
-                  (div nil ""))
-                (div {:style {:padding "20px" :backgoundColor "white"}})
 
 
 

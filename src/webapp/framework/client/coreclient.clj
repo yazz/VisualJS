@@ -665,7 +665,7 @@ nil
 
      WHERE              = 'where '
 
-     WHERE_CLAUSE       = <WHERE>  (#'[a-z|A-Z|_| |>|<|=|0-9|?|\\'|%]+')
+     WHERE_CLAUSE       = <WHERE>  (#'[a-z|A-Z|_| |(|)|>|<|=|0-9|?|\\'|%]+')
 
      ORDER              = 'order by '
 
