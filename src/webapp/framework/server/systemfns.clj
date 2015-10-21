@@ -1441,11 +1441,11 @@
   (let [client-data-atom    (if server-side-realtime-clients  (get @server-side-realtime-clients  client-data-session-id))
         response-atom       (if client-data-atom  client-data-atom )
         ]
-    (println (str "      " ))
-    (println "SERVER: check-for-server-updates for client: " client-data-session-id)
+    ;(println (str "      " ))
+    ;(println "SERVER: check-for-server-updates for client: " client-data-session-id)
     ;(println (str "      " (keys @server-side-realtime-clients)))
     ;(println (str "      " (if client-data-atom  @client-data-atom)))
-    (println (str "      response: " (if response-atom  @(get @response-atom :update-request )  )))
+    ;(println (str "      response: " (if response-atom  @(get @response-atom :update-request )  )))
     (if response-atom  @(get @response-atom :update-request )  {})))
 
 

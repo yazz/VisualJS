@@ -639,7 +639,7 @@ nil
   (insta/parser
     "SQL                = SELECT_QUERY | INSERT_STATEMENT
 
-     <SELECT_QUERY>     = REALTIME_CLAUSE? <SELECT> FIELDS <FROM> TABLE WHERE_CLAUSE?
+     <SELECT_QUERY>     = REALTIME_CLAUSE? <SELECT> FIELDS <FROM> TABLE WHERE_CLAUSE?  ORDER_CLAUSE?
 
      REALTIME_OPTIONS   = 'realtime '
      REALTIME_CLAUSE    = <REALTIME_OPTIONS>
@@ -666,6 +666,10 @@ nil
      WHERE              = 'where '
 
      WHERE_CLAUSE       = <WHERE>  (#'[a-z|A-Z|_| |>|<|=|0-9|?|\\'|%]+')
+
+     ORDER              = 'order by '
+
+     ORDER_CLAUSE       = <ORDER>  (#'[a-z|A-Z|_| |>|<|=|0-9|?|\\'|%]+')
      "))
 
 

@@ -18,68 +18,33 @@
 
 
 (defn-ui-component     cc2   [app]
-                       {}
+  {}
 
-                       (section {:id "todoapp" :style {:padding "20px"}}
-                              (h2 nil "Todo app")
-                             (div {:style {:padding "20px" :backgoundColor "white"}}
-                              (input {
-                              :id "new_todo_item"
-                              :className "newTodo"
-                              :value (read-ui  app [:newitem2])
+  (section {:id "todoapp" :style {:padding "20px"}}
+           (h2 nil "Todo app")
+           (div {:style {:padding "20px" :backgoundColor "white"}}
+                (input {
+                        :id "new_todo_item"
+                        :className "newTodo"
+                        :value (read-ui  app [:newitem2])
 
-                              :onChange (fn [event2]
-                                            (let [newtext      (.. event2 -target -value  )]
-                                                  (write-ui  app  [:newitem2]  newtext)))
+                        :onChange (fn [event2]
+                                    (let [newtext      (.. event2 -target -value  )]
+                                      (write-ui  app  [:newitem2]  newtext)))
 
-                              :onKeyDown  (fn [e]
-                                             (do
-                                                   (if (= (.-keyCode e  ) 13)
-                                                             (go
-                                                                 ;(js/alert (read-ui  app [:newitem2]))
-                                                                 ;(log "ISERT :** "  newtext)
+                        :onKeyDown  (fn [e]
+                                      (do
+                                        (if (= (.-keyCode e  ) 13)
+                                          (go
+                                           ;(js/alert (read-ui  app [:newitem2]))
+                                           ;(log "ISERT :** "  newtext)
 
-                                                                 (log (pr-str (sql "insert into  coils_todo_items   (item) values (?)"
-                                                                 [(read-ui  app [:newitem2])]  )))
-                                                                 (write-ui  app  [:newitem2]  "")
-                                                        ))))
+                                           (log (pr-str (sql "insert into  coils_todo_items   (item) values (?)"
+                                                             [(read-ui  app [:newitem2])]  )))
+                                           (write-ui  app  [:newitem2]  "")
+                                           ))))
 
-                              })
-                                  (div {:style {:fontWeight "bold"}} "realtime select  id, item  from  coils_todo_items order by id")
-                                  (realtime select  id, item  from  coils_todo_items where id > 10 and id < 13 order by id desc
-                                            {}
-                                            (container
-                                             (inline  "10%" (str (<-- :id)))
-                                             (inline  "90%" (str (<-- :item)))))
-
-                                  (div {:style {:padding "20px" :backgoundColor "white"}})
-
-
-                                  (comment select-debug  id, item  from  coils_todo_items where id > 10 order by id
-                                          {}
-                                          (container
-                                            (inline  "10%" (str (<-- :id)))
-                                            (inline  "90%" (str (<-- :item)))))
-
-                                  (div {:style {:padding "20px" :backgoundColor "white"}})
-
-
-
-
-
-
-
-
-
-                                  (div {:style {:fontWeight "bold"}} "select  id,item  from  coils_todo_items  where id > 0")
-                                  ( select  id,item  from  coils_todo_items  where id > 0
-                                                  {}
-                                                  (container
-                                                    (inline  "10%" (str (<-- :id)))
-                                                    (inline  "90%" (str (<-- :item)))))
-
-
-                                  (div {:style {:padding "20px" :backgoundColor "white"}})
+                        })
 
 
 
@@ -91,33 +56,85 @@
 
 
 
-                                  (div {:style {:fontWeight "bold"}} "(realtime select id,user_name from coils_users")
-                                  (realtime select id,user_name from coils_users
-                                                  {}
-                                                  (container
-                                                    (inline  "10%" (str (<-- :id)))
-                                                    (inline  "90%" (str (<-- :user_name)))))
-
-                                  (div {:style {:padding "20px" :backgoundColor "white"}})
-
-                                  (comment realtime-debug select id, item from coils_todo_items where id < 43
-                                          {}
-                                          (container
-                                            (inline  "10%" (str (<-- :id)))
-                                            (inline  "90%" (str (<-- :item)))))
-
-
-
-                                  (div {:style {:padding "20px" :backgoundColor "white"}})
 
 
 
 
 
 
-                              (div {:style {:height "30px"}})
-                              (div {:id "footer" :style {:backgroundColor "white"}})
-                             )))
+                (div {:style {:fontWeight "bold"}} "realtime select  id, item  from  coils_todo_items order by id")
+                (realtime select  id, item  from  coils_todo_items order by id desc
+                          {}
+                          (container
+                           (inline  "10%" (str (<-- :id)))
+                           (inline  "90%" (str (<-- :item)))))
+
+                (div {:style {:padding "20px" :backgoundColor "white"}})
+
+
+                (comment select-debug  id, item from coils_todo_items order by id desc
+                  {}
+                  (container
+                   (inline  "10%" (str (<-- :id)))
+                   (inline  "90%" (str (<-- :item)))))
+
+                (div {:style {:padding "20px" :backgoundColor "white"}})
+
+
+
+
+
+
+
+
+
+                (div {:style {:fontWeight "bold"}} "select  id,item  from  coils_todo_items  where id > 0")
+                ( select  id,item  from  coils_todo_items  where id > 0
+                  {}
+                  (container
+                   (inline  "10%" (str (<-- :id)))
+                   (inline  "90%" (str (<-- :item)))))
+
+
+                (div {:style {:padding "20px" :backgoundColor "white"}})
+
+
+
+
+
+
+
+
+
+
+
+                (div {:style {:fontWeight "bold"}} "(realtime select id,user_name from coils_users")
+                (realtime select id,user_name from coils_users
+                          {}
+                          (container
+                           (inline  "10%" (str (<-- :id)))
+                           (inline  "90%" (str (<-- :user_name)))))
+
+                (div {:style {:padding "20px" :backgoundColor "white"}})
+
+                (comment realtime-debug select id, item from coils_todo_items where id < 43
+                  {}
+                  (container
+                   (inline  "10%" (str (<-- :id)))
+                   (inline  "90%" (str (<-- :item)))))
+
+
+
+                (div {:style {:padding "20px" :backgoundColor "white"}})
+
+
+
+
+
+
+                (div {:style {:height "30px"}})
+                (div {:id "footer" :style {:backgroundColor "white"}})
+                )))
 
 
 (def-coils-app     main-view   cc2)
