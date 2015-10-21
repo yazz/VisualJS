@@ -1082,8 +1082,11 @@
 
 
 
-(defn parse-int [s]
-   (Integer. (re-find  #"\d+" s )))
+(defn parse-id [s]
+  (let [find-num (re-find  #"\d+" s )]
+    (if find-num
+      (Integer. find-num)
+      s)))
 
 
 
@@ -1095,7 +1098,7 @@
 (defn process-log-entry [ realtime-log-entry ]
 
   (let [
-        id               (parse-int (get realtime-log-entry :record_id))
+        id               (parse-id  (get realtime-log-entry :record_id))
         db-table         (get realtime-log-entry :record_table_name)
         ]
     ;(println (str "**** Processing realtime record change: "))
