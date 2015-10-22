@@ -591,8 +591,7 @@ nil
 ;--------------------------------------------------------------------
 (defmacro data-view-result-set [
                          opts
-                         position
-                         & code             ]
+                         position           ]
 
   `(let [ ~'data        (webapp.framework.client.coreclient/data-window-fn
                           (merge {:relative-path [
@@ -605,17 +604,12 @@ nil
 
           ~'data-order  (~'-> ~'data :order)                                                            ]
 
-     (~'div nil
-            (~'map-many
-             (~'fn [~'record-id]
-                   (~'let [~'relative-path (:relative-path ~opts)
-                           ~'record        (~'get (~'-> ~'data :values) ~'record-id)
-                           ]
-                          (~'if (get ~'record :value)
-                                ~@code)))
-             (~'map (~'fn[~'x] (~'get ~'data-order ~'x)) (~'range (:start ~position) (~'inc
+             (comment ~'map (~'fn[~'x] (~'get ~'data-order ~'x)) (~'range (:start ~position) (~'inc
                                                                                       (~'min (:end ~position) (~'-> ~'data :count) )
-                                                                                      )))))))
+                                                                                      )))
+
+     ~'data
+     ))
 
 ;(macroexpand-1 '(data-view-v2 "aa" {:relative-path [:a]} {} (div )))
 
@@ -776,7 +770,6 @@ nil
                                                    "(quote ") (apply str "'" (rest x)) x)
                                   ) (butlast (butlast sql-args)))
         main-params       (last (butlast   sql-args))
-        om-code           (last   sql-args)
 
         sql-as-a-string   (str command " " (apply str (for [arg (into []
                                                                     (apply list list-of-sql))] (str arg " ") ) ))
@@ -795,7 +788,13 @@ nil
                                       }))
         typeof2     (str (type []))
         ]
-    `[1]
+    `(~'data-view-result-set
+       ~dataview-map
+
+       {:start 1
+        :end   20
+        }
+       )
 ))
 
 
@@ -901,7 +900,7 @@ nil
         ]
     (cond
       (= (type type-of-last-arg)  (type {}))
-      `(remote-sql-parser  ~@select-args)
+      `(remote-sql-parser "realtime " ~@select-args)
 
       :else
       `(sql-parser  "realtime" ~@select-args)
