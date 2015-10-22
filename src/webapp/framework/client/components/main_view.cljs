@@ -5,7 +5,7 @@
     [webapp.framework.client.coreclient  :only [ns-coils defn-ui-component def-coils-app
                                                 container  map-many  inline  text log sql
                                                 div img pre component h2 input section
-                                                write-ui read-ui container input component <--
+                                                write-ui read-ui container input component <-- data-view-result-set
                                                 h1 h2 h3 h4 h5 h6 span  data-view-v2 select select-debug realtime realtime-debug
                                                 ]])
   (:require-macros
@@ -51,7 +51,10 @@
 
 
 
-
+(div {:style {:fontWeight "bold"}} (str "COUNT:"
+                                        "(select  id, item  from  coils_todo_items order by id {} )"
+                                        (realtime select  id, item  from  coils_todo_items order by id desc {} )
+                                        ))
 
 
 
