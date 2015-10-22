@@ -583,6 +583,51 @@ nil
 
 
 
+
+
+
+
+;--------------------------------------------------------------------
+;--------------------------------------------------------------------
+(defmacro data-view-result-set [
+                         opts
+                         position
+                         & code             ]
+
+  `(let [ ~'data        (webapp.framework.client.coreclient/data-window-fn
+                          (merge {:relative-path [
+                                                  (str ~(java.util.UUID/randomUUID))
+                                                  ]} ~opts )
+                                                                             ~position
+                                                                             ~'ui-component-name
+                                                                             ~'path
+                                                                             ~'ui-state)
+
+          ~'data-order  (~'-> ~'data :order)                                                            ]
+
+     (~'div nil
+            (~'map-many
+             (~'fn [~'record-id]
+                   (~'let [~'relative-path (:relative-path ~opts)
+                           ~'record        (~'get (~'-> ~'data :values) ~'record-id)
+                           ]
+                          (~'if (get ~'record :value)
+                                ~@code)))
+             (~'map (~'fn[~'x] (~'get ~'data-order ~'x)) (~'range (:start ~position) (~'inc
+                                                                                      (~'min (:end ~position) (~'-> ~'data :count) )
+                                                                                      )))))))
+
+;(macroexpand-1 '(data-view-v2 "aa" {:relative-path [:a]} {} (div )))
+
+
+
+
+
+
+
+
+
+
 (defmacro <-- [field]
   `(webapp.framework.client.coreclient/<---fn
 
@@ -724,34 +769,34 @@ nil
 
 
 
-(defmacro remote-sql-parser [& sql-args]
+(defmacro remote-sql-parser [command & sql-args]
   (let [
         list-of-sql        (map (fn[x]
                                   (if (.startsWith (str x)
                                                    "(quote ") (apply str "'" (rest x)) x)
-                                  ) (butlast sql-args))
-        main-params       (last   sql-args)
-        sql-as-a-string   (str "select " (apply str (for [arg (into []
+                                  ) (butlast (butlast sql-args)))
+        main-params       (last (butlast   sql-args))
+        om-code           (last   sql-args)
+
+        sql-as-a-string   (str command " " (apply str (for [arg (into []
                                                                     (apply list list-of-sql))] (str arg " ") ) ))
         parsed-sql        (parse-sql-string-into-instaparse-structure
                             sql-as-a-string)
+
         transformed-sql   (transform-instaparse-query-into-dataview-map    parsed-sql)
-        dataview-map      (merge (first transformed-sql)
+        dataview-map      (do (swap! path-index inc)
+                              (merge (first transformed-sql)
                                      {
+                                      :relative-path [(deref path-index)]
                                       :params   (get main-params :main-params)
                                       :data-source  (keyword  (get (first
                                                                      transformed-sql) :db-table))
                                       ;:order         "(zgen_points IS NULL), zgen_points  DESC , id asc "
-                                      })
-
-        tt                (transform-dataview-map-to-sql-str dataview-map)
+                                      }))
+        typeof2     (str (type []))
         ]
-    `(~'sql ~tt  ~main-params)))
-    ;sql-as-a-string))
-    ;parsed-sql))
-    ;transformed-sql))
-    ;(str  tt)))
-
+    `[1]
+))
 
 
 
@@ -841,8 +886,8 @@ nil
         type-of-last-arg     (last  select-args)
         ]
     (cond
-      (= (type type-of-last-arg)  (type []))
-      `(remote-sql-parser  ~@select-args)
+      (= (type type-of-last-arg)  (type {}))
+      `(remote-sql-parser  "select" ~@select-args)
 
       :else
     `(sql-parser  "select" ~@select-args)
@@ -855,7 +900,7 @@ nil
         type-of-last-arg     (last  select-args)
         ]
     (cond
-      (= (type type-of-last-arg)  (type []))
+      (= (type type-of-last-arg)  (type {}))
       `(remote-sql-parser  ~@select-args)
 
       :else
