@@ -602,13 +602,20 @@ nil
                                                                              ~'path
                                                                              ~'ui-state)
 
-          ~'data-order  (~'-> ~'data :order)                                                            ]
+          ~'data-order  (~'-> ~'data :order)
 
-             (comment ~'map (~'fn[~'x] (~'get ~'data-order ~'x)) (~'range (:start ~position) (~'inc
+
+
+          ]
+
+
+
+     (into [] (~'map
+               (~'fn[~'x] (~'get-in ~'data [:values (~'get ~'data-order ~'x) :value]))
+               (~'range (:start ~position) (~'inc
                                                                                       (~'min (:end ~position) (~'-> ~'data :count) )
-                                                                                      )))
-
-     ~'data
+                                                                                      ))))
+     ;~'data
      ))
 
 ;(macroexpand-1 '(data-view-v2 "aa" {:relative-path [:a]} {} (div )))
@@ -768,8 +775,8 @@ nil
         list-of-sql        (map (fn[x]
                                   (if (.startsWith (str x)
                                                    "(quote ") (apply str "'" (rest x)) x)
-                                  ) (butlast (butlast sql-args)))
-        main-params       (last (butlast   sql-args))
+                                  ) (butlast sql-args))
+        main-params       (last   sql-args)
 
         sql-as-a-string   (str command " " (apply str (for [arg (into []
                                                                     (apply list list-of-sql))] (str arg " ") ) ))
@@ -867,7 +874,7 @@ nil
 
 (defmacro select-debug [& select-args]
         (let [
-              main-sql          (butlast(butlast   select-args))
+              main-sql          (butlast (butlast   select-args))
               main-params       (last (butlast   select-args))
               dataview-map      (merge main-params {:debug true})
               code              (last  select-args)
@@ -886,7 +893,7 @@ nil
         ]
     (cond
       (= (type type-of-last-arg)  (type {}))
-      `(remote-sql-parser  "select" ~@select-args)
+      `(remote-sql-parser  "realtime" ~@select-args) ; direct SQL is always treated as realtime
 
       :else
     `(sql-parser  "select" ~@select-args)
@@ -900,7 +907,7 @@ nil
         ]
     (cond
       (= (type type-of-last-arg)  (type {}))
-      `(remote-sql-parser "realtime " ~@select-args)
+      `(remote-sql-parser "realtime" ~@select-args)
 
       :else
       `(sql-parser  "realtime" ~@select-args)
