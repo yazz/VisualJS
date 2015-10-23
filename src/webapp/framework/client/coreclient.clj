@@ -702,7 +702,7 @@ nil
 
      FIELDS             = (FIELD)+
 
-     <FIELD>            = #'[a-z_]+'  <#' '+>
+     <FIELD>            = #'[a-z_|(|)]+'  <#' '+>
 
 
      FROM               = 'from '
@@ -796,13 +796,25 @@ nil
                                       }))
         typeof2     (str (type []))
         ]
+    (if
+
+
+    (get main-params :debug)
+      `{"SQL STRING: "                  ~sql-as-a-string
+        "Main Instaparse Query: "       ~parsed-sql
+        "Main Transformed query: "      ~transformed-sql
+        "Main Dataview map: "           ~dataview-map
+        "Main Params: "                 ~main-params
+        "Type: "                        ~typeof2
+           }
+
     `(~'data-view-result-set
        ~dataview-map
 
        {:start 1
         :end   20
         }
-       )
+       ))
 ))
 
 
@@ -874,18 +886,41 @@ nil
 
 
 (defmacro select-debug [& select-args]
-        (let [
-              main-sql          (butlast (butlast   select-args))
-              main-params       (last (butlast   select-args))
-              dataview-map      (merge main-params {:debug true})
-              code              (last  select-args)
-          ]
-           `(sql-parser
-                "select"
-                ~@main-sql
-                ~dataview-map
-                ~code))
-  )
+  (let [
+        type-of-last-arg     (last  select-args)
+        ]
+
+    (cond
+     (= (type type-of-last-arg)  (type {}))
+     (let [
+           main-sql          (butlast   select-args)
+           main-params       (last select-args)
+           dataview-map      (merge main-params {:debug true})
+           ]
+       `(remote-sql-parser
+         "select"
+         ~@main-sql
+         ~dataview-map))
+
+
+
+     :else
+     (let [
+           main-sql          (butlast (butlast   select-args))
+           main-params       (last (butlast   select-args))
+           dataview-map      (merge main-params {:debug true})
+           code              (last  select-args)
+           ]
+       `(sql-parser
+         "select"
+         ~@main-sql
+         ~dataview-map
+         ~code))
+     )))
+
+
+
+
 
 
 (defmacro select [& select-args]
