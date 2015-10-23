@@ -772,13 +772,14 @@ nil
 
 (defmacro remote-sql-parser [command & sql-args]
   (let [
+        realtime-command   (if (= command "select") "realtime select" command)
         list-of-sql        (map (fn[x]
                                   (if (.startsWith (str x)
                                                    "(quote ") (apply str "'" (rest x)) x)
                                   ) (butlast sql-args))
         main-params       (last   sql-args)
 
-        sql-as-a-string   (str command " " (apply str (for [arg (into []
+        sql-as-a-string   (str realtime-command " " (apply str (for [arg (into []
                                                                     (apply list list-of-sql))] (str arg " ") ) ))
         parsed-sql        (parse-sql-string-into-instaparse-structure
                             sql-as-a-string)
@@ -893,7 +894,7 @@ nil
         ]
     (cond
       (= (type type-of-last-arg)  (type {}))
-      `(remote-sql-parser  "realtime" ~@select-args) ; direct SQL is always treated as realtime
+      `(remote-sql-parser  "select" ~@select-args) ; direct SQL is always treated as realtime
 
       :else
     `(sql-parser  "select" ~@select-args)

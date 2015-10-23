@@ -51,10 +51,11 @@
 
 
 
-(div {:style {:fontWeight "bold"}} (str "COUNT:"
-                                        "(select  id, item  from  coils_todo_items order by id {} )"
-                                        (realtime select  id, item  from  coils_todo_items order by id desc {} )
-                                        ))
+                (div {:style {:fontWeight "bold"}}
+                     (str "(select  id, item  from  coils_todo_items order by id {} )"))
+                (div {:style {}}
+                     (str (select  id, item  from  coils_todo_items order by id {} )))
+                (div {:style {:padding "20px" :backgoundColor "white"}})
 
 
 
