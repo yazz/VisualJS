@@ -23,31 +23,30 @@
 (defn-ui-component     main-to-do-component   [app]
   {}
 
-  (section {:id "todoapp" :style {:padding "20px" :width "100%"}}
+  (section {:id "todoapp"
+            :style {:padding "20px" :width "100%"}}
+
            (h2 nil "Todo app")
-           (div { :width "100%" :style {:padding "20px" :backgoundColor "white"}}
+
+           (div { :width "100%"
+                  :style {:padding "20px" :backgoundColor "white"}}
+
                 (input {
-                        :id "new_todo_item"
-                        :className "newTodo"
-                        :value (read-ui  app [:newitem2])
+                        :id          "new_todo_item"
+                        :className   "newTodo"
+                        :value      (read-ui  app [:new-to-do-item])
 
-                        :onChange (fn [event2]
-                                    (let [newtext      (.. event2 -target -value  )]
-                                      (write-ui  app  [:newitem2]  newtext)))
+                        :onChange   (fn [event]
+                                      (let [newtext      (.. event -target -value  )]
+                                        (write-ui  app  [:new-to-do-item]  newtext)))
 
-                        :onKeyDown  (fn [e]
+                        :onKeyDown  (fn [event]
                                       (do
-                                        (if (= (.-keyCode e  ) 13)
+                                        (if (= (.-keyCode event  ) 13)
                                           (go
-                                           ;(js/alert (read-ui  app [:newitem2]))
-                                           ;(log "ISERT :** "  newtext)
-
-                                           (log (pr-str (sql "insert into  coils_todo_items   (item) values (?)"
-                                                             [(read-ui  app [:newitem2])]  )))
-                                           (write-ui  app  [:newitem2]  "")
-                                           ))))
-
-                        })
+                                           (sql "insert into  coils_todo_items   (item) values (?)"
+                                                [(read-ui  app [:new-to-do-item])]  )
+                                           (write-ui  app  [:new-to-do-item]  "")))))})
 
 
 
