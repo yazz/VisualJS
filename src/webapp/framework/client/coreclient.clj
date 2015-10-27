@@ -702,7 +702,7 @@ nil
 
      FIELDS             = (FIELD)+
 
-     <FIELD>            = #'[a-z_|(|)]+'  <#' '+>
+     <FIELD>            = #'[a-z|_|(|)]+'  <#' '+>
 
 
      FROM               = 'from '

@@ -36,98 +36,36 @@
                         :className   "newTodo"
                         :value      (read-ui  app [:new-to-do-item])
 
-                        :onChange   (fn [event]
-                                      (let [newtext      (.. event -target -value  )]
-                                        (write-ui  app  [:new-to-do-item]  newtext)))
-
-                        :onKeyDown  (fn [event]
-                                      (do
-                                        (if (= (.-keyCode event  ) 13)
-                                          (go
-                                           (sql "insert into  coils_todo_items   (item) values (?)"
-                                                [(read-ui  app [:new-to-do-item])]  )
-                                           (write-ui  app  [:new-to-do-item]  "")))))})
+                        :onChange
+                        (fn [event]
+                          (let [newtext      (.. event -target -value  )]
+                            (write-ui  app  [:new-to-do-item]  newtext)))
 
 
-
-
-
-
-                (div {:style {:fontWeight "bold"}}
-                     (str "(select  id, item  from  coils_todo_items order by id {} )"))
-                (div {:style {}}
-                     (str (select  id, item  from  coils_todo_items order by id {} )))
-                (div {:style {:padding "20px" :backgoundColor "white"}})
+                        :onKeyDown
+                        (fn [event]
+                          (do
+                            (if (= (.-keyCode event  ) 13)
+                              (go
+                               (sql "insert into  coils_todo_items   (item) values (?)"
+                                    [(read-ui  app [:new-to-do-item])]  )
+                               (write-ui  app  [:new-to-do-item]  "")))))})
 
 
 
-
-                (div {:style {:fontWeight "bold"}} "realtime select  id, item  from  coils_todo_items order by id")
-                (realtime select  id, item  from  coils_todo_items order by id desc
+                (realtime select
+                                id, item
+                          from
+                                coils_todo_items
+                          order
+                                by id desc
                           {}
                           (container
                            (inline  "10%" (str (<-- :id)))
-                           (inline  "90%" (str (<-- :item)))))
+                           (inline  "40%" (str (<-- :item))
+                                    )))
 
                 (div {:style {:padding "20px" :backgoundColor "white"}})
-
-
-                (comment select-debug  id, item from coils_todo_items order by id desc
-                  {}
-                  (container
-                   (inline  "10%" (str (<-- :id)))
-                   (inline  "90%" (str (<-- :item)))))
-
-                (div {:style {:padding "20px" :backgoundColor "white"}})
-
-
-
-
-
-
-
-
-
-                (div {:style {:fontWeight "bold"}} "select  id,item  from  coils_todo_items  where id > 0")
-                ( select  id,item  from  coils_todo_items  where id > 0
-                  {}
-                  (container
-                   (inline  "10%" (str (<-- :id)))
-                   (inline  "90%" (str (<-- :item)))))
-
-
-                (div {:style {:padding "20px" :backgoundColor "white"}})
-
-
-
-
-
-
-
-
-
-
-
-                (div {:style {:fontWeight "bold"}} "(realtime select id,user_name from coils_users")
-                (realtime select id,user_name from coils_users
-                          {}
-                          (container
-                           (inline  "10%" (str (<-- :id)))
-                           (inline  "90%" (str (<-- :user_name)))))
-
-                (div {:style {:padding "20px" :backgoundColor "white"}})
-
-                (comment realtime-debug select id, item from coils_todo_items where id < 43
-                  {}
-                  (container
-                   (inline  "10%" (str (<-- :id)))
-                   (inline  "90%" (str (<-- :item)))))
-
-
-
-                (div {:style {:padding "20px" :backgoundColor "white"}})
-
-
 
 
 
