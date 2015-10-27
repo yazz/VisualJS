@@ -2,22 +2,25 @@
   (:require
    [webapp.framework.client.coreclient   :as c ])
   (:use-macros
-    [webapp.framework.client.coreclient  :only [ns-coils defn-ui-component def-coils-app
-                                                container  map-many  inline  text log sql
-                                                div img pre component h2 input section
-                                                write-ui read-ui container input component <-- data-view-result-set
-                                                h1 h2 h3 h4 h5 h6 span  data-view-v2 select select-debug realtime realtime-debug
-                                                ]])
+   [webapp.framework.client.coreclient  :only [ns-coils defn-ui-component def-coils-app
+                                               container  map-many  inline  text log sql
+                                               div img pre component h2 input section
+                                               write-ui read-ui container input component <-- data-view-result-set
+                                               h1 h2 h3 h4 h5 h6 span  data-view-v2 select select-debug realtime realtime-debug
+                                               ]])
   (:require-macros
-    [cljs.core.async.macros :refer [go alt!]])
-)
-
-
-
+   [cljs.core.async.macros :refer [go alt!]]))
 (ns-coils 'webapp.framework.client.components.main_view)
 
 
-(defn-ui-component     cc2   [app]
+
+
+
+
+
+
+
+(defn-ui-component     main-to-do-component   [app]
   {}
 
   (section {:id "todoapp" :style {:padding "20px" :width "100%"}}
@@ -135,5 +138,5 @@
                 )))
 
 
-(def-coils-app     main-view   cc2)
+(def-coils-app     main-view   main-to-do-component)
 
