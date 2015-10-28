@@ -58,7 +58,7 @@
                                  (fn [e]
                                    (go
                                     (sql "delete from  coils_todo_items  where id = ?"
-                                         [(<-- :id)]  )) )}) ))
+                                         [(<-- :id)]  )))})))
 
 
                 (div {:style {:padding "20px" :backgoundColor "white"}})
@@ -67,7 +67,12 @@
 
 
                 (div {:style {:height "30px"}})
-                (div {:id "footer" :style {:backgroundColor "white"}})
+                (div {:id "footer" :style {:backgroundColor "white"}}
+                     (let [items (select   id  from    coils_todo_items {}) ]
+                     (container
+                      (inline "20%" (str (count items) " items left"))
+                      )
+                     ))
                 )))
 
 

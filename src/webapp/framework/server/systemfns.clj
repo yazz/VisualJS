@@ -1385,7 +1385,7 @@
 ; the channel 'server-side-record-changes'
 ; ----------------------------------------------------------------
 (def my-pool (mk-pool))
-(every 1000 (fn []
+(every 500 (fn []
               (let [next-id                           (next-realtime-id)
 
                     sql                               (str "update coils_realtime_log"
