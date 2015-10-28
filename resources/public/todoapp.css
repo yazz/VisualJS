@@ -81,7 +81,7 @@ input[type="checkbox"] {
 	text-rendering: optimizeLegibility;
 }
 
-#new-todo,
+.new-todo,
 .edit {
 	position: relative;
 	margin: 0;
@@ -102,7 +102,7 @@ input[type="checkbox"] {
 	font-smoothing: antialiased;
 }
 
-#new-todo {
+.new-todo {
 	padding: 16px 16px 16px 60px;
 	border: none;
 	background: rgba(0, 0, 0, 0.003);
@@ -172,25 +172,21 @@ label[for='toggle-all'] {
 	display: none;
 }
 
-#todo-list li .toggle {
+.toggle {
 	text-align: center;
-	width: 40px;
 	/* auto, since non-WebKit browsers doesn't support input styling */
 	height: auto;
-	position: absolute;
-	top: 0;
-	bottom: 0;
 	margin: auto 0;
 	border: none; /* Mobile Safari */
 	-webkit-appearance: none;
 	appearance: none;
 }
 
-#todo-list li .toggle:after {
+.toggle:after {
 	content: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="-10 -18 100 135"><circle cx="50" cy="50" r="50" fill="none" stroke="#ededed" stroke-width="3"/></svg>');
 }
 
-#todo-list li .toggle:checked:after {
+.toggle:checked:after {
 	content: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="-10 -18 100 135"><circle cx="50" cy="50" r="50" fill="none" stroke="#bddad5" stroke-width="3"/><path fill="#5dc2af" d="M72 25L42 71 27 56l-4 4 20 20 34-52z"/></svg>');
 }
 

@@ -267,6 +267,8 @@ nil
   `(om.dom/img  (webapp.framework.client.coreclient/attrs ~attributes) ~@more))
 (defmacro section [attributes & more]
   `(om.dom/section  (webapp.framework.client.coreclient/attrs ~attributes) ~@more))
+(defmacro header [attributes & more]
+  `(om.dom/header  (webapp.framework.client.coreclient/attrs ~attributes) ~@more))
 
 (defmacro container [& more]
   `(om.dom/div  {} ~@more))
@@ -972,17 +974,17 @@ nil
 
 (defmacro input-field [params  app  code]
   (let [input-path (swap! path-index inc)]
-  `(input {
-           :value      (read-ui  ~app [~input-path])
-           :onChange   (~'fn [~'event]
-                         (~'let [~'newtext  (.. ~'event -target -value  )]
-                           (~'write-ui  ~app  [~input-path]  ~'newtext)))
-           :onKeyDown  (~'fn [~'event]
-                         (do
-                           (~'if (= (.-keyCode ~'event  ) 13)
-                             (~'go
-                              (let [~'newtext (~'read-ui  ~app [~input-path])]
-                              ((~@code) ~'newtext)
-                              (~'write-ui  ~app  [~input-path]  ""))))))
-           }))
-  )
+    `(input (merge ~params
+                   {
+                    :value      (read-ui  ~app [~input-path])
+                    :onChange   (~'fn [~'event]
+                                      (~'let [~'newtext  (.. ~'event -target -value  )]
+                                             (~'write-ui  ~app  [~input-path]  ~'newtext)))
+                    :onKeyDown  (~'fn [~'event]
+                                      (do
+                                        (~'if (= (.-keyCode ~'event  ) 13)
+                                              (~'go
+                                               (let [~'newtext (~'read-ui  ~app [~input-path])]
+                                                 ((~@code) ~'newtext)
+                                                 (~'write-ui  ~app  [~input-path]  ""))))))
+                    }))))

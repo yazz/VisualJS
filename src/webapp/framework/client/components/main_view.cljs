@@ -4,7 +4,7 @@
   (:use-macros
    [webapp.framework.client.coreclient  :only [ns-coils defn-ui-component def-coils-app
                                                container  map-many  inline  text log sql
-                                               div img pre component h2 input section
+                                               div img pre component h2 input section header
                                                write-ui read-ui container input component <-- data-view-result-set
                                                h1 h2 h3 h4 h5 h6 span  data-view-v2 select select-debug realtime realtime-debug
                                                input-field
@@ -25,9 +25,9 @@
   {}
 
   (section {:id "todoapp"
-            :style {:padding "20px" :width "100%"}}
+            :style {:padding "20px" :width "550px"}}
 
-           (h2 nil "Todo app")
+           (header {} (h2 nil "Todo app"))
 
            (div { :width "100%"
                   :style {:padding "20px" :backgoundColor "white"}}
@@ -50,7 +50,7 @@
                                 by id desc
                           {}
                           (container
-                           (inline  "10%" (str (<-- :id)))
+                           (input {:className "toggle" :type "checkbox" :style {:width "20%"}})
                            (inline  "40%" (str (<-- :item)))
                            (div {:className   "destroy"
                                  :style {:width   "10%"}
@@ -70,7 +70,7 @@
                 (div {:id "footer" :style {:backgroundColor "white"}}
                      (let [items (select   id  from    coils_todo_items {}) ]
                      (container
-                      (inline "20%" (str (count items) " items left"))
+                      (inline "100%" (str (count items) " items left"))
                       )
                      ))
                 )))
