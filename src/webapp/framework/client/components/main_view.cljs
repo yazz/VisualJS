@@ -51,8 +51,15 @@
                           {}
                           (container
                            (inline  "10%" (str (<-- :id)))
-                           (inline  "40%" (str (<-- :item))
-                                    )))
+                           (inline  "40%" (str (<-- :item)))
+                           (div {:className   "destroy"
+                                 :style {:width   "10%"}
+                                 :onClick
+                                 (fn [e]
+                                   (go
+                                    (sql "delete from  coils_todo_items  where id = ?"
+                                         [(<-- :id)]  )) )}) ))
+
 
                 (div {:style {:padding "20px" :backgoundColor "white"}})
 
