@@ -43,22 +43,24 @@
 
 
                 (realtime select
-                                id, item
+                                id, item, item_status
                           from
                                 coils_todo_items
                           order
                                 by id desc
                           {}
                           (container
-                           (input {:className "toggle" :type "checkbox" :style {:width "20%"}})
-                           (inline  "40%" (str (<-- :item)))
+                           (input {:className "toggle" 	:type "checkbox" :style {:width "20%"}
+                                   :checked (if (= (<-- :item_status) "DONE") "T" "")})
+                           (div {:className "item"} (str (<-- :item)))
                            (div {:className   "destroy"
                                  :style {:width   "10%"}
                                  :onClick
                                  (fn [e]
                                    (go
                                     (sql "delete from  coils_todo_items  where id = ?"
-                                         [(<-- :id)]  )))})))
+                                         [(<-- :id)]  )))})
+                            ))
 
 
                 (div {:style {:padding "20px" :backgoundColor "white"}})
@@ -66,14 +68,14 @@
 
 
 
-                (div {:style {:height "30px"}})
-                (div {:id "footer" :style {:backgroundColor "white"}}
-                     (let [items (select   id  from    coils_todo_items {}) ]
-                     (container
-                      (inline "100%" (str (count items) " items left"))
-                      )
-                     ))
-                )))
+                (let [items (select   id, item, item_status  from    coils_todo_items {}) ]
+                  (if (pos? (count items))
+                    (do
+                      (div {:style {:height "30px"}})
+                      (div {:id "footer" :style {:backgroundColor "white"}}
+                           (container
+                             (inline "100%" (str (count items) " items left"))
+                             ))))))))
 
 
 (def-coils-app     main-view   main-to-do-component)

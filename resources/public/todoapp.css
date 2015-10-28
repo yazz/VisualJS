@@ -175,8 +175,6 @@ label[for='toggle-all'] {
 .toggle {
 	text-align: center;
 	/* auto, since non-WebKit browsers doesn't support input styling */
-	height: auto;
-	margin: auto 0;
 	border: none; /* Mobile Safari */
 	-webkit-appearance: none;
 	appearance: none;
@@ -216,6 +214,17 @@ label[for='toggle-all'] {
 	transition: color 0.2s ease-out;
   display: inline-block;
 }
+
+.item {
+	display: none;
+	right: 10px;
+  padding-right: 20px;
+	margin: auto 0;
+	font-size: 30px;
+	transition: color 0.2s ease-out;
+  display: inline-block;
+}
+
 
 .destroy:hover {
 	color: #af5b5e;
