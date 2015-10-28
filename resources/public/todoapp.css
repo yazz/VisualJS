@@ -198,10 +198,6 @@ label[for='toggle-all'] {
 	transition: color 0.4s;
 }
 
-#todo-list li.completed label {
-	color: #d9d9d9;
-	text-decoration: line-through;
-}
 
 .destroy {
 	display: none;
@@ -224,6 +220,22 @@ label[for='toggle-all'] {
 	transition: color 0.2s ease-out;
   display: inline-block;
 }
+
+
+
+.completed {
+	display: none;
+	right: 10px;
+  padding-right: 20px;
+	margin: auto 0;
+	font-size: 30px;
+	transition: color 0.2s ease-out;
+  display: inline-block;
+	color: #d9d9d9;
+	text-decoration: line-through;
+}
+
+
 
 
 .destroy:hover {
@@ -309,8 +321,8 @@ label[for='toggle-all'] {
 	border-color: rgba(175, 47, 47, 0.2);
 }
 
-#clear-completed,
-html #clear-completed:active {
+.clear-completed,
+#clear-completed:active {
 	float: right;
 	position: relative;
 	line-height: 20px;
@@ -319,7 +331,7 @@ html #clear-completed:active {
 	position: relative;
 }
 
-#clear-completed:hover {
+.clear-completed:hover {
 	text-decoration: underline;
 }
 
