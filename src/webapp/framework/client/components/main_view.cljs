@@ -37,30 +37,34 @@
                  app
                  (fn [new-value]
                    (go
-                    (sql "insert into  coils_todo_items   (item) values (?)"
-                        [new-value]  ))))
-
+                    (sql "insert into  coils_todo_items   (item, item_active, item_completed) values (?,?,?)"
+                        [new-value  "TRUE"  nil]  ))))
 
 
                 (realtime select
-                                id, item, item_status
+                                id, item, item_active, item_completed
                           from
                                 coils_todo_items
+                          where
+                                item_active = ?
+                          OR
+                                item_completed = ?
                           order
                                 by id desc
-                          {}
+
+                          {:params [(read-ui app [:active])    (read-ui app [:completed])]}
                           (container
                            (input {:className "toggle" 	:type "checkbox" :style {:width "20%"}
-                                   :checked (if (= (<-- :item_status) "DONE") "T" "")
+                                   :checked (if (= (<-- :item_completed) "TRUE") "T" "")
                                    :onChange   (fn [event]
                                                  (let [newtext   (.. event -target -checked  )
                                                        item-id   (<-- :id)]
                                                    (if newtext
-                                                     (go (sql "update  coils_todo_items   set item_status = 'DONE' where id = ?" [item-id]  ))
-                                                     (go (sql "update  coils_todo_items   set item_status = '' where id = ?" [item-id]  ))
+                                                     (go (sql "update  coils_todo_items   set item_active = null, item_completed = 'TRUE' where id = ?" [item-id]  ))
+                                                     (go (sql "update  coils_todo_items   set item_active = 'TRUE', item_completed = null where id = ?" [item-id]  ))
                                                    )))
                                    })
-                           (div {:className (if (= (<-- :item_status) "DONE") "completed" "item")} (str (<-- :item)))
+                           (div {:className (if (= (<-- :item_completed) "TRUE") "completed" "item")} (str (<-- :item)))
                            (button {:className   "destroy"
                                  :style {:width   "10%"}
                                  :onClick
@@ -76,13 +80,29 @@
 
 
 
-                (let [items (select   id, item, item_status  from    coils_todo_items {}) ]
+                (let [items (select   id from  coils_todo_items
+                                      where item_active = 'TRUE' {}) ]
                   (if (pos? (count items))
                     (do
                       (div {:style {:height "30px"}})
                       (div {:id "footer" :style {:backgroundColor "white"}}
                            (container
-                             (inline "100%" (str (count items) " items left"))
+                             (inline "25%" (str (count items) " items left"))
+                             (button {:style {  :width "25%"}
+                                      :onClick (fn [e]
+                                                 (write-ui app [:active] "TRUE")
+                                                 (write-ui app [:completed] "TRUE")
+                                                 ) } "All")
+                             (button {:style {  :width "25%"}
+                                      :onClick (fn [e]
+                                                 (write-ui app [:active] "TRUE")
+                                                 (write-ui app [:completed] nil)
+                                                 ) } "Active")
+                             (button {:style {  :width "25%"}
+                                      :onClick (fn [e]
+                                                 (write-ui app [:active] nil)
+                                                 (write-ui app [:completed] "TRUE")
+                                                 ) } "Completed")
                              ))))))))
 
 

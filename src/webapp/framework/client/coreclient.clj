@@ -713,7 +713,7 @@ nil
 
      WHERE              = 'where '
 
-     WHERE_CLAUSE       = <WHERE>  (#'[a-z|A-Z|_| |(|)|>|<|=|0-9|?|\\'|%]+')
+     WHERE_CLAUSE       = <WHERE>  (#'[a-z|A-Z|_| |(|)|>|<|=|!|0-9|?|\\'|%]+')
 
      ORDER              = 'order by '
 
@@ -843,12 +843,13 @@ nil
                             sql-as-a-string)
 
         transformed-sql   (transform-instaparse-query-into-dataview-map    parsed-sql)
+        params            (get  main-params :params)
         dataview-map      (do (swap! path-index inc)
                               (merge (first transformed-sql)
                                      {
                                       :relative-path [(deref path-index)]
-                                      :params   (get main-params :main-params)
-                                      :data-source  (keyword  (get (first
+                                      :params         (get main-params :params)
+                                      :data-source    (keyword  (get (first
                                                                      transformed-sql) :db-table))
                                       ;:order         "(zgen_points IS NULL), zgen_points  DESC , id asc "
                                       }))
@@ -867,6 +868,7 @@ nil
                         ~transformed-sql))
            (~'div {}  (~'str "Main Dataview map: "           ~dataview-map))
            (~'div {}  (~'str "Main Params: "                 ~main-params))
+           (~'div {}  (~'str "SQL Params: "                 ~params))
            (~'div {}  (~'str "Type: "  ~typeof2))
            )
 
@@ -874,8 +876,8 @@ nil
     `(~'data-view-v2
        ~dataview-map
 
-       {:start 1
-        :end   20
+       {:start     1
+        :end       20
         }
        (~'div {}
            ~om-code))
