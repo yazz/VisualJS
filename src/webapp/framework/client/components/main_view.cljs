@@ -85,27 +85,30 @@
 
 
 
-                (let [items (select
-                                    id from  coils_todo_items where item_status = 'ACTIVE' {}) ]
+                (let [active-items  (select id from  coils_todo_items where item_status = 'ACTIVE' {})
+                      total-items   (select id from  coils_todo_items {})
+                      ]
 
+                  (if (pos? (count total-items))
                     (do
                       (div {:style {:height "30px"}})
                       (div {:id "footer" :style {:backgroundColor "white"}}
                            (container
-                             (inline "25%" (str (count items) " items left"))
-                             (button {:style {  :width "25%" :border (str (if (nil? (read-ui app [:show])) "1px solid"))}
-                                      :onClick (fn [e]
-                                                 (write-ui app [:show] nil)
-                                                 ) } "ALL")
-                             (button {:style {  :width "25%" :border (str (if (= "ACTIVE" (read-ui app [:show])) "1px solid"))}
-                                      :onClick (fn [e]
-                                                 (write-ui app [:show] "ACTIVE")
-                                                 ) } "Active")
-                             (button {:style {  :width "25%" :border (str (if (= "COMPLETED" (read-ui app [:show])) "1px solid"))}
-                                      :onClick (fn [e]
-                                                 (write-ui app [:show] "COMPLETED")
-                                                 ) } "Completed")
-                             )))))))
+                            (inline "25%" (str (count active-items) " items left"))
+
+                            (button {:style {  :width "25%" :border (str (if (nil? (read-ui app [:show])) "1px solid"))}
+                                     :onClick (fn [e]
+                                                (write-ui app [:show] nil)
+                                                ) } "ALL")
+                            (button {:style {  :width "25%" :border (str (if (= "ACTIVE" (read-ui app [:show])) "1px solid"))}
+                                     :onClick (fn [e]
+                                                (write-ui app [:show] "ACTIVE")
+                                                ) } "Active")
+                            (button {:style {  :width "25%" :border (str (if (= "COMPLETED" (read-ui app [:show])) "1px solid"))}
+                                     :onClick (fn [e]
+                                                (write-ui app [:show] "COMPLETED")
+                                                ) } "Completed")
+                            ))))))))
 
 
 (def-coils-app     main-view   main-to-do-component)
