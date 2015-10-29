@@ -42,33 +42,35 @@ input[type="checkbox"] {
 	display: none;
 }
 
-#todoapp {
-	background: #fff;
+.todoapp {
+  padding: 20px;
+  width: 550px;
+  background: #fff;
 	margin: 15px 0 40px 0;
 	position: relative;
 	box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2),
 	            0 25px 50px 0 rgba(0, 0, 0, 0.1);
 }
 
-#todoapp input::-webkit-input-placeholder {
+.todoapp input::-webkit-input-placeholder {
 	font-style: italic;
 	font-weight: 300;
 	color: #e6e6e6;
 }
 
-#todoapp input::-moz-placeholder {
+.todoapp input::-moz-placeholder {
 	font-style: italic;
 	font-weight: 300;
 	color: #e6e6e6;
 }
 
-#todoapp input::input-placeholder {
+.todoapp input::input-placeholder {
 	font-style: italic;
 	font-weight: 300;
 	color: #e6e6e6;
 }
 
-#todoapp h1 {
+.todoapp h1 {
 	position: absolute;
 	top: -155px;
 	width: 100%;
@@ -80,6 +82,17 @@ input[type="checkbox"] {
 	-moz-text-rendering: optimizeLegibility;
 	text-rendering: optimizeLegibility;
 }
+
+.smallGap {
+  padding: 10px;
+  backgoundColor: white;
+}
+
+.mediumGap {
+  padding: 20px;
+  backgoundColor: white;
+}
+
 
 .new-todo,
 .edit {
@@ -240,6 +253,11 @@ label[for='toggle-all'] {
 
 
 
+
+.main_div {
+  padding:         20px;
+  backgound-color: white;
+}
 
 .destroy:hover {
 	color: #af5b5e;

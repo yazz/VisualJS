@@ -24,13 +24,11 @@
 (defn-ui-component     main-to-do-component   [app]
   {}
 
-  (section {:id "todoapp"
-            :style {:padding "20px" :width "550px"}}
+  (section {:className "todoapp"}
 
            (header {} (h2 nil "Todo app"))
 
-           (div { :width "100%"
-                  :style {:padding "20px" :backgoundColor "white"}}
+           (div {:className "main_div"}
 
 
                 (input-field {}
@@ -41,7 +39,7 @@
                         [new-value  "ACTIVE"]  ))))
 
 
-                (div {:style {:padding "10px" :backgoundColor "white"}})
+                (div {:className "smallGap"})
 
                 (realtime select
                                 id, item, item_status
@@ -80,7 +78,10 @@
                             ))
 
 
-                (div {:style {:padding "20px" :backgoundColor "white"}})
+
+
+
+                (div {:className "mediumGap"})
 
 
 
@@ -95,28 +96,26 @@
                       (div {:style {:height "30px"}})
                       (div {:id "footer" :style {:backgroundColor "white" :fontSize "12"}}
                            (container
-                            (div {:style { :width "32%" :display "inline-block;" :textAlign "left"}}  (str (count active-items) " items left"))
+                            (div {:style {:width "27%" :display "inline-block;" :textAlign "left"}
+                                  }  (str (count active-items) " items left"))
 
-                            (button {:style { :width "12%" :border (str (if (nil? (read-ui app [:show])) "1px solid"))}
-                                     :onClick (fn [e]
-                                                (write-ui app [:show] nil)
-                                                ) } "ALL")
-                            (button {:style {  :width "12%" :border (str (if (= "ACTIVE" (read-ui app [:show])) "1px solid"))}
-                                     :onClick (fn [e]
-                                                (write-ui app [:show] "ACTIVE")
-                                                ) } "Active")
-                            (button {:style {  :width "12%" :border (str (if (= "COMPLETED" (read-ui app [:show])) "1px solid"))}
-                                     :onClick (fn [e]
-                                                (write-ui app [:show] "COMPLETED")
-                                                ) } "Completed")
+                            (button {:style {:width "9%" :border (str (if (nil? (read-ui app [:show])) "1px solid"))}
+                                     :onClick #(write-ui app [:show] nil)
+                                    } "ALL")
+
+                            (button {:style {:width "13%" :border (str (if (= "ACTIVE" (read-ui app [:show])) "1px solid"))}
+                                     :onClick #(write-ui app [:show] "ACTIVE")
+                                    } "Active")
+
+                            (button {:style {:width "17%" :border (str (if (= "COMPLETED" (read-ui app [:show])) "1px solid"))}
+                                     :onClick #(write-ui app [:show] "COMPLETED")
+                                    } "Completed")
 
                             (if (pos? (count completed-items))
-                              (button {:style {  :width "32%" :textAlign "right"}
-                                       :onClick (fn [e]
-                                                  (go
-                                                   (sql "delete from  coils_todo_items  where item_status = 'COMPLETED'"
-                                                        []  ))
-                                                  ) } "Clear completed"))
+                              (button {:style {  :width "34%" :textAlign "right"}
+                                       :onClick #(go
+                                                   (sql "delete from  coils_todo_items  where item_status = 'COMPLETED'" []  ))
+                                                   } "Clear completed"))
 
                             ))))))))
 
