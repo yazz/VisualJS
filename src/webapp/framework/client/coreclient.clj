@@ -249,6 +249,8 @@ nil
   `(om.dom/circle  (webapp.framework.client.coreclient/attrs ~attributes) ~@more))
 (defmacro button [attributes & more]
   `(om.dom/button  (webapp.framework.client.coreclient/attrs ~attributes) ~@more))
+(defmacro label [attributes & more]
+  `(om.dom/label  (webapp.framework.client.coreclient/attrs ~attributes) ~@more))
 (defmacro input [attributes & more]
   `(om.dom/input  (webapp.framework.client.coreclient/attrs ~attributes) ~@more))
 (defmacro table [attributes & more]
