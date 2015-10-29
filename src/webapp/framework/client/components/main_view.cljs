@@ -78,7 +78,8 @@
                                                    (fn [e]
                                                      (go
                                                        (sql "delete from  coils_todo_items  where id = ?"
-                                                            [(<-- :id)]  )))})
+                                                            [(<-- :id)]  ))
+                                                     false)})
                                           ))))
 
 
@@ -104,21 +105,21 @@
                                   }  (str (count active-items) " items left"))
 
                             (button {:style {:width "9%" :border (str (if (nil? (read-ui app [:show])) "1px solid"))}
-                                     :onClick #(write-ui app [:show] nil)
+                                     :onClick #(do (write-ui app [:show] nil) false)
                                     } "ALL")
 
                             (button {:style {:width "13%" :border (str (if (= "ACTIVE" (read-ui app [:show])) "1px solid"))}
-                                     :onClick #(write-ui app [:show] "ACTIVE")
+                                     :onClick #(do (write-ui app [:show] "ACTIVE") false)
                                     } "Active")
 
                             (button {:style {:width "17%" :border (str (if (= "COMPLETED" (read-ui app [:show])) "1px solid"))}
-                                     :onClick #(write-ui app [:show] "COMPLETED")
+                                     :onClick #(do (write-ui app [:show] "COMPLETED") false)
                                     } "Completed")
 
                             (if (pos? (count completed-items))
                               (button {:style {  :width "34%" :textAlign "right"}
-                                       :onClick #(go
-                                                   (sql "delete from  coils_todo_items  where item_status = 'COMPLETED'" []  ))
+                                       :onClick #(do (go
+                                                   (sql "delete from  coils_todo_items  where item_status = 'COMPLETED'" []  )) false)
                                                    } "Clear completed"))
 
                             ))))))))
