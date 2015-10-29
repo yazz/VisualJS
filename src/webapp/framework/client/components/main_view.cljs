@@ -4,7 +4,7 @@
   (:use-macros
    [webapp.framework.client.coreclient  :only [ns-coils defn-ui-component def-coils-app
                                                container  map-many  inline  text log sql
-                                               div img pre component h2 input section header button
+                                               div img pre component h2 input section header button label form
                                                write-ui read-ui container input component <-- data-view-result-set
                                                h1 h2 h3 h4 h5 h6 span  data-view-v2 select dselect realtime drealtime
                                                input-field
@@ -28,6 +28,7 @@
 
            (header {} (h2 nil "Todo app"))
 
+
            (div {:className "main_div"}
 
 
@@ -41,41 +42,44 @@
 
                 (div {:className "smallGap"})
 
-                (realtime select
-                                id, item, item_status
-                          from
-                                coils_todo_items
-                          where
-                                item_status = ?
-                          OR
-                                item_status = ?
-                          order
-                                by id desc
+                (div {:className "todo-list"}
+                     (realtime select
+                               id, item, item_status
+                               from
+                               coils_todo_items
+                               where
+                               item_status = ?
+                               OR
+                               item_status = ?
+                               order
+                               by id desc
 
-                          {:params [(if (read-ui app [:show]) (read-ui app [:show]) "ACTIVE")
-                                    (if (read-ui app [:show]) (read-ui app [:show]) "COMPLETED")
-                                    ]}
-                          (container
+                               {:params [(if (read-ui app [:show]) (read-ui app [:show]) "ACTIVE")
+                                         (if (read-ui app [:show]) (read-ui app [:show]) "COMPLETED")
+                                         ]}
+                               (form {}
+                                     (div {:className "view" }
 
-                           (input {:className "toggle" 	:type "checkbox" :style {:width "20%"}
-                                   :checked (if (= (<-- :item_status) "COMPLETED") "T" "")
-                                   :onChange   (fn [event]
-                                                 (let [newtext   (.. event -target -checked  )
-                                                       item-id   (<-- :id)]
-                                                   (if newtext
-                                                     (go (sql "update  coils_todo_items   set item_status = 'COMPLETED' where id = ?" [item-id]  ))
-                                                     (go (sql "update  coils_todo_items   set item_status = 'ACTIVE' where id = ?" [item-id]  ))
-                                                   )))})
+                                          (div {:className  "checkbox"  :style { :width "20%" :display "inline-block;"} }
+                                               (input {:type  "checkbox"
+                                                       :checked   (if (= (<-- :item_status) "COMPLETED") "T" "")
+                                                       :onChange  (fn [event]
+                                                                    (let [newtext   (.. event -target -checked  )
+                                                                          item-id   (<-- :id)]
+                                                                      (if newtext
+                                                                        (go (sql "update  coils_todo_items   set item_status = 'COMPLETED' where id = ?" [item-id]  ))
+                                                                        (go (sql "update  coils_todo_items   set item_status = 'ACTIVE' where id = ?" [item-id]  ))
+                                                                        )))}))
 
-                           (div {:style {:width   "50%"} :className (if (= (<-- :item_status) "COMPLETED") "completed" "item")} (str (<-- :item)))
-                           (button {:className   "destroy"
-                                 :style {:width   "10%"}
-                                 :onClick
-                                 (fn [e]
-                                   (go
-                                    (sql "delete from  coils_todo_items  where id = ?"
-                                         [(<-- :id)]  )))})
-                            ))
+                                          (label {:style {:width   "50%"} :className (if (= (<-- :item_status) "COMPLETED") "completed" "item")} (str (<-- :item)))
+                                          (button {:className   "destroy"
+                                                   :style {:width   "10%"}
+                                                   :onClick
+                                                   (fn [e]
+                                                     (go
+                                                       (sql "delete from  coils_todo_items  where id = ?"
+                                                            [(<-- :id)]  )))})
+                                          ))))
 
 
 
