@@ -698,7 +698,7 @@ You may wonder where the elements div, h2 , and so on are defined. They are defi
                                                     container  map-many  inline  text
                                                     div img pre component h2 input section
                                                     write-ui read-ui container input component <--
-                                                    h1 h2 h3 h4 h5 h6 span  data-view-v2 select select-debug
+                                                    h1 h2 h3 h4 h5 h6 span  data-view-v2 select dselect
                                                     ]]))
                                                     
 4) Save the file and the figwheel should swap out the whole page with the text "Hello world" in the web browser, no browser reload required!

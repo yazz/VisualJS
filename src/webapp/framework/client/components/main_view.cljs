@@ -6,7 +6,7 @@
                                                container  map-many  inline  text log sql
                                                div img pre component h2 input section header button
                                                write-ui read-ui container input component <-- data-view-result-set
-                                               h1 h2 h3 h4 h5 h6 span  data-view-v2 select select-debug realtime realtime-debug
+                                               h1 h2 h3 h4 h5 h6 span  data-view-v2 select dselect realtime drealtime
                                                input-field
                                                ]])
   (:require-macros
@@ -37,34 +37,38 @@
                  app
                  (fn [new-value]
                    (go
-                    (sql "insert into  coils_todo_items   (item, item_active, item_completed) values (?,?,?)"
-                        [new-value  "TRUE"  nil]  ))))
+                    (sql "insert into  coils_todo_items   (item, item_status) values (?,?)"
+                        [new-value  "ACTIVE"]  ))))
 
 
+                (div {} (str "Show: " (read-ui app [:show])))
                 (realtime select
-                                id, item, item_active, item_completed
+                                id, item, item_status
                           from
                                 coils_todo_items
                           where
-                                item_active = ?
+                                item_status = ?
                           OR
-                                item_completed = ?
+                                item_status = ?
                           order
                                 by id desc
 
-                          {:params [(read-ui app [:active])    (read-ui app [:completed])]}
+                          {:params [(if (read-ui app [:show]) (read-ui app [:show]) "ACTIVE")
+                                    (if (read-ui app [:show]) (read-ui app [:show]) "COMPLETED")
+                                    ]}
                           (container
+
                            (input {:className "toggle" 	:type "checkbox" :style {:width "20%"}
-                                   :checked (if (= (<-- :item_completed) "TRUE") "T" "")
+                                   :checked (if (= (<-- :item_status) "COMPLETED") "T" "")
                                    :onChange   (fn [event]
                                                  (let [newtext   (.. event -target -checked  )
                                                        item-id   (<-- :id)]
                                                    (if newtext
-                                                     (go (sql "update  coils_todo_items   set item_active = null, item_completed = 'TRUE' where id = ?" [item-id]  ))
-                                                     (go (sql "update  coils_todo_items   set item_active = 'TRUE', item_completed = null where id = ?" [item-id]  ))
-                                                   )))
-                                   })
-                           (div {:className (if (= (<-- :item_completed) "TRUE") "completed" "item")} (str (<-- :item)))
+                                                     (go (sql "update  coils_todo_items   set item_status = 'COMPLETED' where id = ?" [item-id]  ))
+                                                     (go (sql "update  coils_todo_items   set item_status = 'ACTIVE' where id = ?" [item-id]  ))
+                                                   )))})
+
+                           (div {:className (if (= (<-- :item_status) "COMPLETED") "completed" "item")} (str (<-- :item)))
                            (button {:className   "destroy"
                                  :style {:width   "10%"}
                                  :onClick
@@ -80,9 +84,9 @@
 
 
 
-                (let [items (select   id from  coils_todo_items
-                                      where item_active = 'TRUE' {}) ]
-                  (if (pos? (count items))
+                (let [items (select
+                                    id from  coils_todo_items where item_status = 'ACTIVE' {}) ]
+
                     (do
                       (div {:style {:height "30px"}})
                       (div {:id "footer" :style {:backgroundColor "white"}}
@@ -90,20 +94,17 @@
                              (inline "25%" (str (count items) " items left"))
                              (button {:style {  :width "25%"}
                                       :onClick (fn [e]
-                                                 (write-ui app [:active] "TRUE")
-                                                 (write-ui app [:completed] "TRUE")
-                                                 ) } "All")
+                                                 (write-ui app [:show] nil)
+                                                 ) } "ALL")
                              (button {:style {  :width "25%"}
                                       :onClick (fn [e]
-                                                 (write-ui app [:active] "TRUE")
-                                                 (write-ui app [:completed] nil)
+                                                 (write-ui app [:show] "ACTIVE")
                                                  ) } "Active")
                              (button {:style {  :width "25%"}
                                       :onClick (fn [e]
-                                                 (write-ui app [:active] nil)
-                                                 (write-ui app [:completed] "TRUE")
+                                                 (write-ui app [:show] "COMPLETED")
                                                  ) } "Completed")
-                             ))))))))
+                             )))))))
 
 
 (def-coils-app     main-view   main-to-do-component)

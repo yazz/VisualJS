@@ -889,7 +889,7 @@ nil
 
 
 
-(defmacro select-debug [& select-args]
+(defmacro dselect [& select-args]
   (let [
         type-of-last-arg     (last  select-args)
         ]
@@ -954,7 +954,7 @@ nil
       )))
 
 
-(defmacro realtime-debug [& select-args]
+(defmacro drealtime [& select-args]
   (let [
         main-sql          (butlast(butlast   select-args))
         main-params       (last (butlast   select-args))

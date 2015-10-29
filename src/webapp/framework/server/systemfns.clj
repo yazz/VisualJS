@@ -449,10 +449,9 @@
         sql-to-create-admin-table "
         CREATE TABLE coils_todo_items
         (
-        id              serial NOT NULL,
-        item            character varying,
-        item_active     character varying,
-        item_completed  character varying,
+        id                   serial NOT NULL,
+        item                 character varying,
+        item_status          character varying,
 
         CONSTRAINT todo_items_pkey PRIMARY KEY (id)
         );
