@@ -41,7 +41,8 @@
                         [new-value  "ACTIVE"]  ))))
 
 
-                (div {} (str "Show: " (read-ui app [:show])))
+                (div {:style {:padding "10px" :backgoundColor "white"}})
+
                 (realtime select
                                 id, item, item_status
                           from
@@ -68,7 +69,7 @@
                                                      (go (sql "update  coils_todo_items   set item_status = 'ACTIVE' where id = ?" [item-id]  ))
                                                    )))})
 
-                           (div {:className (if (= (<-- :item_status) "COMPLETED") "completed" "item")} (str (<-- :item)))
+                           (div {:style {:width   "50%"} :className (if (= (<-- :item_status) "COMPLETED") "completed" "item")} (str (<-- :item)))
                            (button {:className   "destroy"
                                  :style {:width   "10%"}
                                  :onClick
