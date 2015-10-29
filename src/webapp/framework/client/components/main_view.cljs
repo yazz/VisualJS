@@ -119,7 +119,8 @@
                             (if (pos? (count completed-items))
                               (button {:style {  :width "34%" :textAlign "right"}
                                        :onClick #(do (go
-                                                   (sql "delete from  coils_todo_items  where item_status = 'COMPLETED'" []  )) false)
+                                                   (sql "delete from  coils_todo_items  where item_status = 'COMPLETED'" []  ))
+                                                   false)
                                                    } "Clear completed"))
 
                             ))))))))
