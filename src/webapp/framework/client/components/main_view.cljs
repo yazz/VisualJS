@@ -93,15 +93,15 @@
                       (div {:id "footer" :style {:backgroundColor "white"}}
                            (container
                              (inline "25%" (str (count items) " items left"))
-                             (button {:style {  :width "25%"}
+                             (button {:style {  :width "25%" :border (str (if (nil? (read-ui app [:show])) "1px solid"))}
                                       :onClick (fn [e]
                                                  (write-ui app [:show] nil)
                                                  ) } "ALL")
-                             (button {:style {  :width "25%"}
+                             (button {:style {  :width "25%" :border (str (if (= "ACTIVE" (read-ui app [:show])) "1px solid"))}
                                       :onClick (fn [e]
                                                  (write-ui app [:show] "ACTIVE")
                                                  ) } "Active")
-                             (button {:style {  :width "25%"}
+                             (button {:style {  :width "25%" :border (str (if (= "COMPLETED" (read-ui app [:show])) "1px solid"))}
                                       :onClick (fn [e]
                                                  (write-ui app [:show] "COMPLETED")
                                                  ) } "Completed")

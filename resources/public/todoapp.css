@@ -181,11 +181,11 @@ label[for='toggle-all'] {
 }
 
 .toggle:after {
-	content: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="-10 -18 100 135"><circle cx="50" cy="50" r="50" fill="none" stroke="#ededed" stroke-width="3"/></svg>');
+	content: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="-10 -18 100 135"><circle cx="50" cy="50" r="50" fill="none" stroke="grey" stroke-width="3"/></svg>');
 }
 
 .toggle:checked:after {
-	content: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="-10 -18 100 135"><circle cx="50" cy="50" r="50" fill="none" stroke="#bddad5" stroke-width="3"/><path fill="#5dc2af" d="M72 25L42 71 27 56l-4 4 20 20 34-52z"/></svg>');
+	content: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="-10 -18 100 135"><circle cx="50" cy="50" r="50" fill="none" stroke="grey" stroke-width="3"/><path fill="#5dc2af" d="M72 25L42 71 27 56l-4 4 20 20 34-52z"/></svg>');
 }
 
 #todo-list li label {
@@ -201,9 +201,9 @@ label[for='toggle-all'] {
 
 .destroy {
 	display: none;
-	top: 0;
+  position: relative;
 	right: 10px;
-	bottom: 0;
+  bottom: 10px;
 	margin: auto 0;
 	font-size: 30px;
 	color: #cc9a9a;
@@ -212,8 +212,9 @@ label[for='toggle-all'] {
 }
 
 .item {
-	display: none;
-	right: 10px;
+  position: relative;
+  bottom: 10px;
+  display: none;
   padding-right: 20px;
 	margin: auto 0;
 	font-size: 30px;
@@ -224,6 +225,8 @@ label[for='toggle-all'] {
 
 
 .completed {
+  position: relative;
+  bottom: 10px;
 	display: none;
 	right: 10px;
   padding-right: 20px;
