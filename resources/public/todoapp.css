@@ -231,6 +231,7 @@ label[for='toggle-all'] {
   padding-right: 20px;
 	margin: auto 0;
 	font-size: 30px;
+  font-weight: normal;
 	transition: color 0.2s ease-out;
   display: inline-block;
 }
