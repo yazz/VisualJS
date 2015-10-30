@@ -70,7 +70,7 @@
                                                 (go (sql "update  coils_todo_items   set item_status = 'ACTIVE' where id = ?" [item-id]  ))
                                                 )))}))
 
-                  (label {:style {:width   "50%"}
+                  (label {:style {:width   "70%"}
                           :className (if (= (<-- :item_status) "COMPLETED") "completed" "item")}
                                 (str (<-- :item)))
 
