@@ -1,4 +1,4 @@
-(defproject org.clojars.zubairq/coils "0.5"
+(defproject org.clojars.zubairq/coils "0.7.0-alpha"
   :dependencies [
                  [org.clojure/clojure "1.7.0"]
                  [org.clojure/clojurescript "1.7.122" :scope "provided"]
