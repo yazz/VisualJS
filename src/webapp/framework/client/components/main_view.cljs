@@ -21,31 +21,30 @@
 
 
 
-(defn-ui-component     main-to-do-component   [app]
+(defn-ui-component     new-do-item-component   [app]
+
   {}
-  (section
-   {:className "todoapp"}
-     (header {} (h2 nil "Todo app"))
-     (div {:className "main_div"}
 
-
-       (input-field {:placeholder  "Enter a new todo here"} app
+  (input-field {:placeholder  "Enter a new todo here"} app
          (fn [new-todo-item-text] (go
             (sql "insert into coils_todo_items
                             (item, item_status)
                   values
                             (?,                  ?)"
-                            [new-todo-item-text  "ACTIVE"]  ))))
-
-
-
-       (div {:className "smallGap"})
+                            [new-todo-item-text  "ACTIVE"]  )))))
 
 
 
 
 
-       (realtime select
+
+
+
+
+
+(defn-ui-component     to-do-list-component   [app]
+  {}
+  (realtime select
                       id, item, item_status
                  from
                       coils_todo_items
@@ -81,51 +80,87 @@
                              (go
                               (sql "delete from  coils_todo_items  where id = ?"
                                    [(<-- :id)]  ))
-                                          false)})))
+                                          false)}))))
 
 
 
 
 
-                (div {:className "mediumGap"})
 
 
 
 
-                (let [active-items      (select id from  coils_todo_items where item_status = 'ACTIVE' {})
-                      total-items       (select id from  coils_todo_items {})
-                      completed-items   (select id from  coils_todo_items where item_status = 'COMPLETED' {})
-                      ]
 
-                  (if (pos? (count total-items))
-                    (do
-                      (div {:style {:height "30px"}})
-                      (div {:id "footer" :style {:backgroundColor "white" :fontSize "12"}}
-                           (container
-                            (div {:style {:width "27%" :display "inline-block;" :textAlign "left"}
-                                  }  (str (count active-items) " items left"))
+(defn-ui-component     to-do-footer-component   [app]
+  {}
 
-                            (button {:style {:width "9%" :border (str (if (nil? (read-ui app [:show])) "1px solid"))}
-                                     :onClick #(do (write-ui app [:show] nil) false)
-                                    } "ALL")
+  (let [active-items      (select id from  coils_todo_items where item_status = 'ACTIVE' {})
+        total-items       (select id from  coils_todo_items {})
+        completed-items   (select id from  coils_todo_items where item_status = 'COMPLETED' {})
+        ]
 
-                            (button {:style {:width "13%" :border (str (if (= "ACTIVE" (read-ui app [:show])) "1px solid"))}
-                                     :onClick #(do (write-ui app [:show] "ACTIVE") false)
-                                    } "Active")
+    (if (pos? (count total-items))
+      (do
+        (div {:style {:height "30px"}})
+        (div {:id "footer" :style {:backgroundColor "white" :fontSize "12"}}
+             (container
+               (div {:style {:width "27%" :display "inline-block;" :textAlign "left"}
+                     }  (str (count active-items) " items left"))
 
-                            (button {:style {:width "17%" :border (str (if (= "COMPLETED" (read-ui app [:show])) "1px solid"))}
-                                     :onClick #(do (write-ui app [:show] "COMPLETED") false)
-                                    } "Completed")
+               (button {:style {:width "9%" :border (str (if (nil? (read-ui app [:show])) "1px solid"))}
+                        :onClick #(do (write-ui app [:show] nil) false)
+                        } "ALL")
 
-                            (if (pos? (count completed-items))
-                              (button {:style {  :width "34%" :textAlign "right"}
-                                       :onClick #(do (go
-                                                   (sql "delete from  coils_todo_items  where item_status = 'COMPLETED'" []  ))
-                                                   false)
-                                                   } "Clear completed"))
+               (button {:style {:width "13%" :border (str (if (= "ACTIVE" (read-ui app [:show])) "1px solid"))}
+                        :onClick #(do (write-ui app [:show] "ACTIVE") false)
+                        } "Active")
 
-                            ))))))))
+               (button {:style {:width "17%" :border (str (if (= "COMPLETED" (read-ui app [:show])) "1px solid"))}
+                        :onClick #(do (write-ui app [:show] "COMPLETED") false)
+                        } "Completed")
+
+               (if (pos? (count completed-items))
+                 (button {:style {  :width "34%" :textAlign "right"}
+                          :onClick #(do (go
+                                          (sql "delete from  coils_todo_items  where item_status = 'COMPLETED'" []  ))
+                                      false)
+                          } "Clear completed"))
+
+               ))))))
 
 
-(def-coils-app     main-view   main-to-do-component)
+
+
+
+
+
+(defn-ui-component     main-to-do-app   [app]
+  {}
+  (section
+    {:className "todoapp"}
+    (header {} (h2 nil "Todo app"))
+    (div {:className "main_div"}
+
+
+         (component  new-do-item-component   app  [])
+
+
+         (div {:className "smallGap"})
+
+
+
+         (component  to-do-list-component   app  [])
+
+
+
+         (div {:className "mediumGap"})
+
+
+         (component  to-do-footer-component   app  [])
+
+
+                )))
+
+
+(def-coils-app     main-view   main-to-do-app)
 
