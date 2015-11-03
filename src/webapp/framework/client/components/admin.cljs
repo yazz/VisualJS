@@ -7,10 +7,13 @@
 		[webapp.framework.client.system-globals  :only  [
 																										 client-data-windows
 																										 client-query-cache
-																										 ]])
-   )
-
+																										 ]]))
 (c/ns-coils 'webapp.framework.client.components.admin)
+
+
+
+
+
 
 
 
@@ -98,7 +101,7 @@
 						(= use-source  data-source))
 
 				  (c/div {:style {:color  "black"}}
-						 (c/inline "100px" (c/div nil table-name))
+						 (c/inline "300px" (c/div nil table-name))
 						 (c/inline "100px" (c/div {:style {:fontSize "12px" :padding "7px"}
 												   :onClick
 												   (fn [e] (do
