@@ -1,13 +1,14 @@
 (ns webapp.framework.client.components.admin
   (:require
-   [webapp.framework.client.coreclient   :as c :include-macros true])
+    [webapp.framework.client.coreclient   :as c :include-macros true])
 
 
-	(:use
-		[webapp.framework.client.system-globals  :only  [
-																										 client-data-windows
-																										 client-query-cache
-																										 ]]))
+  (:use
+    [webapp.framework.client.system-globals  :only  [
+                                                      client-data-windows
+                                                      client-query-cache
+                                                      client-record-cache
+                                                      ]]))
 (c/ns-coils 'webapp.framework.client.components.admin)
 
 
@@ -64,14 +65,22 @@
 
 
 
-(c/defn-ui-component     admin-view-show-data-source-data   [table-data]
-  (c/container
-   nil
+(c/defn-ui-component
+  admin-view-show-data-source-data   [table-name]
+  (let [table             table-name
+        table-data       (keys @(get @(get @client-record-cache table) :values) )
+                            ]
+    (c/container
+      nil
 
-   (c/div {:style {:color  "blue"}}
-		  (c/container
-		   (c/inline "50%" (c/text (str "count" )))
-		   (c/inline "50%" (c/text (count (c/read-ui table-data [:values]))))))))
+
+      (c/div {:style {:color  "blue"}}
+             (c/container
+               (c/inline "50%" (c/text (str "count" )))
+               (c/inline "50%" (c/text (count aaa)))
+               )
+      (c/div nil (str "table-data: " table-data))
+             ))))
 
 
 
@@ -86,69 +95,73 @@
 (c/defn-ui-component     admin-view-list-data-sources   [data-sources]
 
   (let [
-        use-source    (c/read-ui data-sources [:data-source])
-	    	view          (c/read-ui data-sources [:data-view])
+        use-source       (c/read-ui data-sources [:data-source])
+	    	view             (c/read-ui data-sources [:data-view])
+        table-list       (keys @client-record-cache)
 	    	]
 
-	(c/div nil
-		   (c/map-many
-			#(c/container
+    (c/div nil
+           ;(c/div {:style {:fontWeight "bold" :color "blue"}} (str "Data source: " use-source))
+           ;(c/div {:style {:fontWeight "bold" :color "blue"}} (str "View: " view))
+           ;(c/div {:style {:fontWeight "bold" :color "green"}} (str "table-list: " table-list))
 
-			  (let [table-name   (str (name  (-> (second %) :def :table)))
-					data-source  (first %)]
+           (c/div {:style {:fontWeight "bold" :color "black"}} "List of data sources")
 
-				(if (or (nil? use-source)
-						(= use-source  data-source))
+           (c/map-many
+             #(c/container
 
-				  (c/div {:style {:color  "black"}}
-						 (c/inline "300px" (c/div nil table-name))
-						 (c/inline "100px" (c/div {:style {:fontSize "12px" :padding "7px"}
-												   :onClick
-												   (fn [e] (do
-															 (c/write-ui
-															  data-sources
-															  [:data-source]
-															  data-source)
+                (let [table-name   (str (name  %))
+                      data-source  %]
 
-															 (c/write-ui
-															  data-sources
-															  [:data-view]
-															  "defn")
-															 ))} "Defn"))
-						 (c/inline "100px" (c/div {:style {:fontSize "12px" :padding "7px"}
-												   :onClick
-												   (fn [e] (do
-															 (c/write-ui
-															  data-sources
-															  [:data-source]
-															  data-source)
+                  (if (or (nil? use-source)
+                          (= use-source  data-source))
 
-															 (c/write-ui
-															  data-sources
-															  [:data-view]
-															  "data")
-															 ))
-												   } "Data"))
+                    (c/div {:style {:color  "black"}}
+                           (c/inline "300px" (c/div nil table-name))
+                           (c/inline "100px" (c/div {:style {:fontSize "12px" :padding "7px"}
+                                                     :onClick
+                                                     (fn [e] (do
+                                                               (c/write-ui
+                                                                 data-sources
+                                                                 [:data-source]
+                                                                 data-source)
 
-						 ))))
-			(c/read-ui data-sources [:values])
-			)
-            (cond
-			 (and use-source (= view "defn"))
+                                                               (c/write-ui
+                                                                 data-sources
+                                                                 [:data-view]
+                                                                 "defn")
+                                                               ))} "Defn"))
+                           (c/inline "100px" (c/div {:style {:fontSize "12px" :padding "7px"}
+                                                     :onClick
+                                                     (fn [e] (do
+                                                               (c/write-ui
+                                                                 data-sources
+                                                                 [:data-source]
+                                                                 data-source)
 
-			  (c/component admin-view-show-data-source-def
-						   (c/read-ui data-sources
-									 [:values (keyword use-source) :def]) [])
+                                                               (c/write-ui
+                                                                 data-sources
+                                                                 [:data-view]
+                                                                 "data")
+                                                               ))
+                                                     } "Data"))
 
-			 (and use-source (= view "data"))
+                           ))))
+            table-list
+             )
+           (cond
+             (and use-source (= view "defn"))
 
-			  (c/component admin-view-show-data-source-data
-						   (c/read-ui data-sources
-									 [:values (keyword use-source) :data]) []))
+             (c/component admin-view-show-data-source-def
+                          (c/read-ui data-sources
+                                     [:values (keyword use-source) :def]) [])
 
-         (c/div nil "List of data sources")
+             (and use-source (= view "data"))
 
-         )))
+               (c/div nil  (c/component admin-view-show-data-source-data data-sources [:data-source]))
+
+
+             ))))
 
 
 
