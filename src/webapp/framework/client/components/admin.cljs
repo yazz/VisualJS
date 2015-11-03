@@ -77,7 +77,7 @@
       (c/div {:style {:color  "blue"}}
              (c/container
                (c/inline "50%" (c/text (str "count" )))
-               (c/inline "50%" (c/text (count aaa)))
+               (c/inline "50%" (c/text (count table-data)))
                )
       (c/div nil (str "table-data: " table-data))
              ))))
