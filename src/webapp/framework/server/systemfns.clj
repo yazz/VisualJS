@@ -324,6 +324,13 @@
 
 
 
+;zzz
+(defn clear-server-table-caches-for  [db-table]
+  (swap! server-side-cached-records assoc db-table (atom {}))
+  )
+
+
+
 
 
 
@@ -346,9 +353,12 @@
               all-fields  (clojure.set/union   fields-as-set   existing-fields-as-set)
               all-fields-as-vector (into [] all-fields)
               ]
-          (if (not (= all-fields existing-fields-as-set))
+          (if (not (= all-fields  existing-fields-as-set))
             (do
-              (swap! server-datasource-fields  assoc  db-table  (atom all-fields)))))))))
+              (println (str "     " existing-fields-as-set " -> " all-fields))
+              (swap! server-datasource-fields  assoc  db-table  (atom all-fields))
+              (clear-server-table-caches-for  db-table)
+              )))))))
 
 
 
@@ -785,7 +795,7 @@
         update-request-atom      (if response-atom  (get @response-atom :update-request ))
         update-request           (if update-request-atom  @update-request-atom)
         ]
-    (println (str "      update-request: " update-request))
+    ;(println (str "      update-request: " update-request))
     (swap! update-request-atom  dissoc-in  [:records table-name record-id])
   ))
 
@@ -809,6 +819,8 @@
 (defn get-record [db-table  id  fields  realtime client-id]
   (if id
     (do
+
+      (println (str "get-record: " db-table ":"  id ":" fields))
 
       ; if a realtime record
       (if realtime
@@ -1201,7 +1213,7 @@
         update-request-atom      (if response-atom  (get @response-atom :update-request ))
         update-request           (if update-request-atom  @update-request-atom)
         ]
-    (println (str "      update-request: " update-request))
+    ;(println (str "      update-request: " update-request))
     (swap! update-request-atom dissoc-in [:queries query-key])
   ))
 
@@ -1440,8 +1452,7 @@
 ; ----------------------------------------------------------------
 (defn !check-for-server-updates [{:keys [
                                      client-data-session-id
-                                     ]}
-                                 ]
+                                     ]}                         ]
 
   (let [client-data-atom    (if server-side-realtime-clients  (get @server-side-realtime-clients  client-data-session-id))
         response-atom       (if client-data-atom  client-data-atom )
