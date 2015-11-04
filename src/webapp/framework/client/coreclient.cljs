@@ -1666,7 +1666,7 @@
                                  :data-session-id     @data-session-id
                                  :realtime            (get query :realtime)
                                  }]
-         ;(log "    :" record-request)
+         (log "**    :" record-request)
          (>! client-record-cache-requests   record-request)))
       )))
 
@@ -2089,6 +2089,30 @@ reused by many views.
 
 
 
+;zzz
+(defn clear-client-table-caches-for  [db-table]
+  (log (str  "********************clear-client-table-caches-for: " db-table ":" (keys @(:values @(get @client-record-cache  (keyword db-table))))))
+
+  (doall (map
+    (fn [x]
+      (go
+        (let [
+               record-request     {:source              (keyword db-table)
+                                   :db-table            (name db-table)
+                                   :fields              (get-default-fields-for-data-source  db-table)
+                                   :id                   x
+                                   :data-session-id     @data-session-id
+                                   :realtime            true
+                                   :force               true
+                                   }]
+          (log "*************    :" record-request)
+          (>! client-record-cache-requests   record-request))))
+
+      (keys @(:values @(get @client-record-cache  (keyword db-table))))
+    ))
+
+  nil
+  )
 
 
 
@@ -2100,6 +2124,8 @@ reused by many views.
   (let [ds-fields          (get  @client-datasource-fields   data-source)
         fields-atom        (atom fields)                            ]
 
+    (log (str "keep-client-fields-up-tp-date: " data-source ":" fields))
+
     (if (nil? ds-fields)
       (swap! client-datasource-fields  assoc  data-source  fields-atom)
       (let [
@@ -2108,9 +2134,12 @@ reused by many views.
             all-fields  (clojure.set/union   fields-as-set   existing-fields-as-set)
             all-fields-as-vector (into [] all-fields)
             ]
-        (if (not (= all-fields existing-fields-as-set))
+        (if (not (= all-fields  existing-fields-as-set))
           (do
-            (swap! client-datasource-fields  assoc  data-source  (atom all-fields))))))))
+            (log (str "     " existing-fields-as-set " -> " all-fields))
+            (swap! client-datasource-fields  assoc  data-source  (atom all-fields))
+            (clear-client-table-caches-for  data-source)
+            ))))))
 
 
 
@@ -2319,6 +2348,7 @@ with the (<-- :field) method
                               }
         ]
 
+    (log (str "Calling keep-client-fields-up-tp-date"    data-source ":"  fields))
     (keep-client-fields-up-tp-date   data-source  fields)
 
 
