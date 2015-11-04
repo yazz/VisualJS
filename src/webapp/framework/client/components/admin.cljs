@@ -66,21 +66,18 @@
 
 
 (c/defn-ui-component
+
   admin-view-show-data-source-data   [table-name]
+
   (let [table             table-name
-        table-data       (keys @(get @(get @client-record-cache table) :values) )
-                            ]
+        table-data       (keys @(get @(get @client-record-cache table) :values) )  ]
+
     (c/container
       nil
 
-
       (c/div {:style {:color  "blue"}}
-             (c/container
-               (c/inline "50%" (c/text (str "count" )))
-               (c/inline "50%" (c/text (count table-data)))
-               )
-      (c/div nil (str "table-data: " table-data))
-             ))))
+             (c/div  nil  (str "Count: " (count table-data)))
+             (c/div nil (str "Table data: " table-data))))))
 
 
 
