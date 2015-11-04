@@ -1396,7 +1396,7 @@
 
 
 
-       (log "Client realtime records: " )
+       ;(log "Client realtime records: " )
        (doseq [the-table    list-of-tables]
          (let [list-of-ids      (keys (get (-> realtime-update-check-response :records) the-table))]
          (doseq [id     list-of-ids]
@@ -1666,7 +1666,7 @@
                                  :data-session-id     @data-session-id
                                  :realtime            (get query :realtime)
                                  }]
-         (log "    :" record-request)
+         ;(log "    :" record-request)
          (>! client-record-cache-requests   record-request)))
       )))
 
@@ -1726,6 +1726,11 @@ calling load-record
       (do
         (reset!  query-atom
                  (assoc @query-atom :values {}))
+
+        ;(log "list-of-record-positions: " list-of-record-positions)
+        ;(log "records: " records)
+        ;(log "(get @query-atom :values): " (get @query-atom :values))
+
         (reset!  query-atom
                  (assoc @query-atom :values
                    (merge
@@ -1737,21 +1742,24 @@ calling load-record
                                   records
                                   ))
                     (get @query-atom :values))))))
+        ;(log "(get @query-atom :values): " (get @query-atom :values))
 
 
     ; -----------------------------------------------
     ; load the records in
     ; -----------------------------------------------
-    (let [
-          list-of-ids         (map
-                                  (fn[id] (get (@query-atom :values) id))
-                                   list-of-record-positions)
-          ]
+    (let [  list-of-ids                     (map  (fn[id] (get (@query-atom :values) id))   list-of-record-positions)
+            list-of-ids-with-nils-removed   (filter  #(not (nil? %))   list-of-ids)
+            ]
+      ;(log "list-of-ids: " list-of-ids)
+      ;(log "list-of-ids-with no nils: " list-of-ids-with-nils-removed)
 
       (doall
        (map
-        (fn [ record-id ] (load-record  query-key  record-id))
-        list-of-ids
+        (fn [ record-id ]
+          (do
+              (load-record  query-key  record-id)))
+        list-of-ids-with-nils-removed
         )
        (update-all-data-windows-for-query    query-key)
 
