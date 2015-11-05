@@ -953,25 +953,26 @@
 
 
 (defn inform-clients-about-record  [db-table   id]
-  ;(println "inform-clients-about-record ")
+  (println "inform-clients-about-record ")
   (let [the-record        (get-record-from-server-cache-for-id  db-table  id )
         clients-atom      (:clients the-record)
         ]
-    ;(println (str "    the-record: " the-record))
+    (println (str "    the-record: " the-record))
     ;(println (str "    Record Clients: " @clients-atom))
+    (if clients-atom
 
-    (doall (for [client @clients-atom]
-             (do
-               ;(println (str "    Client: " client))
-               (let [the-client       (get @server-side-realtime-clients  client)
-                     response-atom    (:update-request @the-client)
-                     ]
-                 (if (not response-atom) (swap! response-atom assoc  :update-request (atom {})))
-                 (swap! (:update-request @the-client) assoc-in [:records db-table id] {:timestamp (get the-record :timestamp)})
-                 ;(println (str "    responses: " (if response-atom @response-atom)))
+      (doall (for [client @clients-atom]
+               (do
+                 ;(println (str "    Client: " client))
+                 (let [the-client       (get @server-side-realtime-clients  client)
+                       response-atom    (:update-request @the-client)
+                       ]
+                   (if (not response-atom) (swap! response-atom assoc  :update-request (atom {})))
+                   (swap! (:update-request @the-client) assoc-in [:records db-table id] {:timestamp (get the-record :timestamp)})
+                   ;(println (str "    responses: " (if response-atom @response-atom)))
 
-                 ;                   (swap! (:update-request @the-query) assoc  1 2)
-                 ))))
+                   ;                   (swap! (:update-request @the-query) assoc  1 2)
+                   )))))
     nil
     ))
 
@@ -1104,10 +1105,11 @@
 
 
 
+
 ; ----------------------------------------------------------------
 ; Whenever a record changes an entry is added to the real time log
 ; which is processed here. It first finds which queries it
-; belongs to and then changes
+; belongs to and then changes them
 ; ----------------------------------------------------------------
 (defn process-log-entry [ realtime-log-entry ]
 
@@ -1462,7 +1464,12 @@
     ;(println (str "      " (keys @server-side-realtime-clients)))
     ;(println (str "      " (if client-data-atom  @client-data-atom)))
     ;(println (str "      response: " (if response-atom  @(get @response-atom :update-request )  )))
-    (if response-atom  @(get @response-atom :update-request )  {})))
+    (if response-atom
+      @(get @response-atom :update-request )
+
+      (do
+        (create-client-cache  client-data-session-id)
+        {:info "client disconnected"}))))
 
 
 

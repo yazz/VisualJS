@@ -1372,8 +1372,12 @@
    (let [realtime-update-check-response            (remote  !check-for-server-updates  {:client-data-session-id  @data-session-id} )
          changed-realtime-queries                  (-> realtime-update-check-response :queries keys)
          list-of-tables                            (-> realtime-update-check-response :records keys)
+         info                                      (-> realtime-update-check-response :info)
          ]
      (do
+       (if info
+         (js/alert "Client was disconnected"))
+
        ;(log "Client realtime queries: " changed-realtime-queries)
        (doseq [single-changed-realtime-query    changed-realtime-queries]
          (let [
