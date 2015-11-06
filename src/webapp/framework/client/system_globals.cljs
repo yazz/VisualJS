@@ -24,8 +24,6 @@
 
 
 
-
-(def record-pointer-locally
   "
  This determines whether the mouse pointer events are
  recorded for the local Coils debugger. For an example
@@ -47,6 +45,8 @@
 
  (defonce ^:dynamic *record-pointer-locally* false)
   "
+(defonce record-pointer-locally
+
   (atom true))
 
 
@@ -54,7 +54,6 @@
 
 
 
-(def record-ui
   "
  This determines whether the mouse pointer events are
  recorded for the local Coils debugger. For an example
@@ -76,16 +75,15 @@
 
  (defonce ^:dynamic *record-pointer-locally* false)
   "
+(defonce record-ui
   (atom nil))
 
-record-ui
 
 
 
 
 
 
-(def start-component
   "
  This is a reference to the first component of a Coils
  app that must be loaded
@@ -117,7 +115,7 @@ record-ui
   :you will see:
 
 
-(def  ^:export setup
+(defonce   ^:export setup
   {
    :start-component
    main-view
@@ -129,6 +127,7 @@ record-ui
 
   "
 
+(defonce start-component
   (atom nil))
 
 
@@ -137,24 +136,24 @@ record-ui
 
 
 
-(def playbackmode
   "
   If set to true then this means that the user interface is being replayed based on
   the server side recording
   "
+(defonce playbackmode
   (atom false))
 
 
 
 
 
-(def call-stack
   "
   This is supposed to be a vector which lists the debug IDs of what has
   been called, eg:
 
   [1 45 99 103]
   "
+(defonce call-stack
   (atom
    []))
 
@@ -164,7 +163,6 @@ record-ui
 
 
 
-(def data-accesses
   "
   This shows where the UI and DATA trees change. The list contains
   the debug IDs of where an action reads or writes this part of
@@ -193,6 +191,7 @@ record-ui
   - {:tree UI, :path [:values]} does not even exist
 
   "
+(defonce data-accesses
   (atom
    {}))
 
@@ -203,43 +202,49 @@ record-ui
 
 
 
-(def data-state
-  "
-  The data tree
-  "
+"
+The data tree
+"
+(defonce data-state
   (atom
-   {}))
+    {}))
 
 
 
 
-(def app-state
-  "
-  The UI tree
-  "
+"
+The UI tree
+"
+(defonce app-state
   (atom
-   {}))
+    {}))
 
 
 
 
 
-(def app-watch-on?
-  "
- Whenever the application UI changes then we record the event,
- unless the app-watch-on? is set to false
-  "
+
+
+"
+Whenever the application UI changes then we record the event,
+unless the app-watch-on? is set to false
+"
+(defonce app-watch-on?
   (atom true))
 
 
 
 
 
-(def ui-watchers
-  "
-  This is a list of all the code that waits for things to happen
-  on the UI tree
-  "
+
+
+
+
+"
+This is a list of all the code that waits for things to happen
+on the UI tree
+"
+(defonce ui-watchers
   (atom []))
 
 
@@ -247,21 +252,29 @@ record-ui
 
 
 
-(def data-watchers
-  "
-  This is a list of all the code that waits for things to happen
-  on the DATA tree
-  "
 
+
+
+
+"
+This is a list of all the code that waits for things to happen
+on the DATA tree
+"
+(defonce data-watchers
   (atom []))
 
 
 
 
-(def ab-tests
-  "
-  The list of all the AB tests
-  "
+
+
+
+
+
+"
+The list of all the AB tests
+"
+(defonce ab-tests
   (atom {}))
 
 
@@ -269,10 +282,15 @@ record-ui
 
 
 
-(def ab-goals
+
+
+
+
+
   "
   The list of all the AB goals
   "
+(defonce ab-goals
   (atom {}))
 
 
@@ -280,20 +298,32 @@ record-ui
 
 
 
-(def init-state-fns
+
+
+
+
+
   "
   This holds all the fns to call at the start of the
   webapp
   "
+(defonce init-state-fns
   (atom []))
 
 
 
-(defn subtree-different?
+
+
+
+
+
+
+
   "
   This checks to see if a subtree of a tree is
   different
   "
+(defn subtree-different?
   [orig-val new-val path]
   (let [
         orig-subset    (get-in orig-val  path)
@@ -308,10 +338,10 @@ record-ui
 
 
 
-(def blank-app-state
   "
   The initial starting state for the UI tree
   "
+(defonce  blank-app-state
   {
    :data
    {
@@ -336,10 +366,17 @@ record-ui
 
 
 
-(defn reset-app-state
+
+
+
+
+
+
+
   "
   Resets the UI to be blank
   "
+(defn reset-app-state
   []
   (reset!  app-state  blank-app-state))
 
@@ -350,10 +387,12 @@ record-ui
 
 
 
-(def init-fn
+
+
   "
   An Initialise function called when the web app first starts up
   "
+(defonce  init-fn
   (atom nil))
 
 
@@ -364,12 +403,12 @@ record-ui
 
 
 
-(def playback-app-state
   "
   This holds the UI state of the web applications when
   it is being played back. I'm not sure why we didn't just
   use the normal app state for this?
   "
+(defonce  playback-app-state
   (atom
    {}
    ))
@@ -377,10 +416,17 @@ record-ui
 
 
 
-(def playback-controls-state
+
+
+
+
+
+
+
   "
   The react/Om UI state for the debugger
   "
+(defonce  playback-controls-state
   (atom
    {:ui
     {
@@ -404,10 +450,15 @@ record-ui
 
 
 
-(defn reset-playback-app-state
-  "
+
+
+
+
+
+"
   Reset the app state for playback using the initial blank state
   "
+(defn reset-playback-app-state
   []
   (reset!  playback-app-state  blank-app-state))
 
@@ -418,10 +469,13 @@ record-ui
 
 
 
-(defn  update-data
+
+
+
   "
   Updates the data tree
   "
+(defn  update-data
   [path value]
    (reset! data-state (assoc-in @data-state path value)))
 
@@ -434,9 +488,11 @@ record-ui
 
 
 
+
+
+  "
+  "
 (defn add-init-state-fn
-  "
-  "
   [nm init-state-fn]
   (do
     ;(.log js/console (str "Init function added: " nm))
@@ -456,9 +512,9 @@ record-ui
 
 
 
+  "
+  "
 (defn  set-ab-tests
-  "
-  "
   [tree]
   (do
     (reset! ab-tests tree)
@@ -467,13 +523,13 @@ record-ui
 
 
 
-(def data-session-id (atom nil))
+(defonce  data-session-id (atom nil))
 
 
 
+  "
+  "
 (defn  set-ab-goals
-  "
-  "
   [tree]
    (reset! ab-goals tree))
 
@@ -486,9 +542,9 @@ record-ui
 
 
 
-(def touch-id
   "
   "
+(defonce  touch-id
   (atom 0))
 
 
@@ -497,9 +553,9 @@ record-ui
 
 
 
+  "
+  "
 (defn touch
-  "
-  "
   [path]
     (reset! app-state (assoc-in @app-state
                                 (conj path
@@ -512,9 +568,9 @@ record-ui
 
 
 
+  "
+  "
 (defn touch-data
-  "
-  "
   [path]
   (reset! data-state (assoc-in @data-state
                                (conj path
@@ -529,9 +585,9 @@ record-ui
 
 
 
-(def debug-event-timeline
   "
   "
+(defonce  debug-event-timeline
   (atom {}))
 ;(map #(str %1) @debug-event-timeline)
 ;(keys (get @debug-event-timeline 49))
@@ -545,9 +601,9 @@ record-ui
 
 
 
-(def component-usage
-  "
-  "
+"
+"
+(defonce  component-usage
   (atom
                       {}
                       ))
@@ -558,9 +614,9 @@ record-ui
 
 
 
-(def debugger-ui
   "
   "
+(defonce  debugger-ui
   (atom {
          :mode                     "show-event"
          :react-components         []
@@ -579,9 +635,9 @@ record-ui
 
 
 
-(def debug-count
   "
   "
+(defonce  debug-count
   (atom 0))
 
 
@@ -590,9 +646,9 @@ record-ui
 
 
 
+"
+"
 (defn add-debug-event
-  "
-  "
   [& {:keys [
                                  event-type
                                  old
@@ -730,7 +786,7 @@ record-ui
 ; We do this because otherwise the application keeps
 ; receiving events otherwise
 ;-----------------------------------------------------
-(def data-and-ui-events-on? (atom true))
+(defonce  data-and-ui-events-on? (atom true))
 (add-watch debugger-ui
            :change-debugger-ui
 
@@ -799,56 +855,56 @@ record-ui
 
 
 
-(def gui-calls
-  "
-  A UI state history of all the GUI components
+"
+A UI state history of all the GUI components
 
-  {
-      'main-view: []'
-            ....
+{
+'main-view: []'
+....
 
-      'splash-screen: [:ui :splash-screen]'
-            [
-               {:show true}
-               {:show false, :click false}
-               {:show true}
-             ]
+'splash-screen: [:ui :splash-screen]'
+[
+{:show true}
+{:show false, :click false}
+{:show true}
+]
 
-      'letter-a: [:ui :splash-screen]'
-            ....
+'letter-a: [:ui :splash-screen]'
+....
 
-      'letter-a: [:ui]'
-            ....
+'letter-a: [:ui]'
+....
 
-      'browser-menu: []'
-            ....
+'browser-menu: []'
+....
 
-      'text-graph: [:ui :companies]'
-           [
-               nil
-               {:values [{company apple.com inbound 3}
-                         {company were.com inbound 1}
-                         ]}
-           ]
-      'browser-menu:'
-            ....
+'text-graph: [:ui :companies]'
+[
+nil
+{:values [{company apple.com inbound 3}
+{company were.com inbound 1}
+]}
+]
+'browser-menu:'
+....
 
-      'text-graph:'
-            ....
-  }
+'text-graph:'
+....
+}
 
-  This can be removed as it is not used by the system
-  anywhere
-  "
+This can be removed as it is not used by the system
+anywhere
+"
+(defonce  gui-calls
   (atom {}))
 
  ;(get @gui-calls "text-graph: [:ui :companies]")
 
 
 
-(def paths-for-refresh (atom {}))
+(defonce  paths-for-refresh (atom {}))
 
-(def data-views (atom  {}))
+(defonce  data-views (atom  {}))
 
 
 (count @data-views)
@@ -879,7 +935,7 @@ record-ui
 
 
 
-(def global-om-state (atom nil))
+(defonce  global-om-state (atom nil))
 
 
 
@@ -890,7 +946,7 @@ record-ui
 ; -----------------------------------------------------
 ; This is used to send requests to the data windows
 ; -----------------------------------------------------
-(def client-data-window-requests   (chan))
+(defonce  client-data-window-requests   (chan))
 
 ;                         |
 ;                         |
@@ -906,7 +962,7 @@ record-ui
 ; -----------------------------------------------------
 ; list of the views and their associated queries
 ; -----------------------------------------------------
-(def client-data-windows  (atom {}))
+(defonce  client-data-windows  (atom {}))
 ; -----------------------------------------------------
 ; client-data-windows
 ;        |
@@ -963,7 +1019,7 @@ record-ui
 ; -----------------------------------------------------
 ; This is used to get data into a cache
 ; -----------------------------------------------------
-(def client-query-cache-requests  (chan))
+(defonce  client-query-cache-requests  (chan))
 
 ;                         |
 ;                         |
@@ -979,7 +1035,7 @@ record-ui
 ; -----------------------------------------------------
 ; list of the query cached record IDs
 ; -----------------------------------------------------
-(def client-query-cache              (atom {}))
+(defonce  client-query-cache              (atom {}))
 ; -----------------------------------------------------
 ; client-query-cache
 ;        |
@@ -1007,7 +1063,7 @@ record-ui
 ; -----------------------------------------------------
 ; used to get data into the record cache
 ; -----------------------------------------------------
-(def client-record-cache-requests (chan))
+(defonce  client-record-cache-requests (chan))
 
 ;                         |
 ;                         |
@@ -1063,7 +1119,7 @@ record-ui
 ;        |                   |          |
 ;        |
 ; -----------------------------------------------------
-(def client-record-cache              (atom {}))
+(defonce  client-record-cache              (atom {}))
 
 
 
@@ -1074,9 +1130,9 @@ record-ui
 
 
 
-(def ui-paths-mapped-to-data-windows                  (atom {})) ; list of the UI paths and their associated views
+(defonce  ui-paths-mapped-to-data-windows                  (atom {})) ; list of the UI paths and their associated views
 
 ; -----------------------------------------------------
 ;
 ; -----------------------------------------------------
-(def client-datasource-fields            (atom {})) ; list of the data sources and their fields
+(defonce  client-datasource-fields            (atom {})) ; list of the data sources and their fields
