@@ -1386,23 +1386,30 @@
 
          info
          (do
-           (log "Client was disconnected")
+           (log (str "@client-query-cache=" @client-query-cache))
+           (log "realtime-update-check-response: "   realtime-update-check-response)
+           (log "client query caches reloaded before: " (count (keys @client-query-cache)))
            (doall (map
                     (fn[client-key]
                       (log (str "      RELOAD: "  client-key))
-                      (>! client-query-cache-requests  {
-                                                         :query-key     (dissoc (dissoc client-key :start) :end)
+                      (go
+                        (>! client-query-cache-requests  {
+                                                           :query-key     (dissoc (dissoc client-key :start) :end)
 
-                                                         :subset-range  {
-                                                                          :start    1
-                                                                          :end      20
-                                                                          } })
+                                                           :subset-range  {
+                                                                            :start    1
+                                                                            :end      20
+                                                                            } }))
                       )
-                    (keys @client-query-cache))))
+                    (keys @client-query-cache)))
+           (log "client query caches reloaded after: " (count (keys @client-query-cache)))
+           )
 
 
          error
+         (do
            (log "Error in response")
+           nil)
 
 
          :else
@@ -1414,7 +1421,7 @@
                     new-key2     (dissoc (dissoc xxx :start) :end)
                     ]
 
-               (log "Client realtime query: " new-key2)
+               ;(log "Client realtime query: " new-key2)
                (>! client-query-cache-requests  {
                                                   :query-key     new-key2
 
@@ -1728,7 +1735,7 @@ calling load-record
          query-atom                 (get @client-query-cache   query-key)
          list-of-record-positions   (range (:start params) (inc (:end params)))
        ]
-    (log (pr-str ""))
+    ;(log (pr-str ""))
     ;(log (pr-str "populate: "  query-key " : " records))
     ;(log (pr-str "  database returned      : "  records))
     ;(log (pr-str "        : "  records-count))
