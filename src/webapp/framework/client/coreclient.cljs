@@ -1367,61 +1367,91 @@
 (log (str "Checking server for data updates ..."))
 (js/setInterval
  #(go
+
    ;(log (pr-str (count (keys @client-query-cache))))
 
    (let [realtime-update-check-response            (remote  !check-for-server-updates  {:client-data-session-id  @data-session-id} )
          changed-realtime-queries                  (-> realtime-update-check-response :queries keys)
          list-of-tables                            (-> realtime-update-check-response :records keys)
          info                                      (-> realtime-update-check-response :info)
+         error                                     (-> realtime-update-check-response :error)
          ]
      (do
-       (if info
-         (js/alert "Client was disconnected"))
 
-       ;(log "Client realtime queries: " changed-realtime-queries)
-       (doseq [single-changed-realtime-query    changed-realtime-queries]
-         (let [
-               xxx          (merge single-changed-realtime-query {:data-source (keyword (get single-changed-realtime-query :db-table)) :realtime true :table nil})
-               new-key2     (dissoc (dissoc xxx :start) :end)
-               ]
-
-           (>! client-query-cache-requests  {
-                                             :query-key     new-key2
-
-                                             :subset-range  {
-                                                             :start   (:start  single-changed-realtime-query)
-                                                             :end     (:end    single-changed-realtime-query)
-                                                             ;:start    1
-                                                             ;:end      20
-                                                             } })
-
-           ))
+           ;(log "realtime-update-check-response: "   realtime-update-check-response)
 
 
 
+       (cond
 
-       ;(log "Client realtime records: " )
-       (doseq [the-table    list-of-tables]
-         (let [list-of-ids      (keys (get (-> realtime-update-check-response :records) the-table))]
-         (doseq [id     list-of-ids]
-           (let [record    (get (get (-> realtime-update-check-response :records) the-table) id)]
+         info
+         (do
+           (log "Client was disconnected")
+           (doall (map
+                    (fn[client-key]
+                      (log (str "      RELOAD: "  client-key))
+                      (>! client-query-cache-requests  {
+                                                         :query-key     (dissoc (dissoc client-key :start) :end)
+
+                                                         :subset-range  {
+                                                                          :start    1
+                                                                          :end      20
+                                                                          } })
+                      )
+                    (keys @client-query-cache))))
+
+
+         error
+           (log "Error in response")
+
+
+         :else
+         (do
+           ;(log "Client realtime queries: " changed-realtime-queries)
+           (doseq [single-changed-realtime-query    changed-realtime-queries]
              (let [
-                   record-request    {:source              (keyword the-table)
-                                      :db-table            the-table
-                                      :fields              (get-default-fields-for-data-source  (keyword the-table))
-                                      :id                   id
-                                      :data-session-id     @data-session-id
-                                      :realtime            true
-                                      :force               true
-                                      }
-                   ]
+                    xxx          (merge single-changed-realtime-query {:data-source (keyword (get single-changed-realtime-query :db-table)) :realtime true :table nil})
+                    new-key2     (dissoc (dissoc xxx :start) :end)
+                    ]
 
-               (log "               : " the-table ", " id " = " record)
-               (log "               : " record-request)
-                (>! client-record-cache-requests    record-request)
-               nil
+               (log "Client realtime query: " new-key2)
+               (>! client-query-cache-requests  {
+                                                  :query-key     new-key2
 
-               )))))
+                                                  :subset-range  {
+                                                                   :start   (:start  single-changed-realtime-query)
+                                                                   :end     (:end    single-changed-realtime-query)
+                                                                   ;:start    1
+                                                                   ;:end      20
+                                                                   } })
+
+               ))
+
+
+
+
+           ;(log "Client realtime records: " )
+           (doseq [the-table    list-of-tables]
+             (let [list-of-ids      (keys (get (-> realtime-update-check-response :records) the-table))]
+               (doseq [id     list-of-ids]
+                 (let [record    (get (get (-> realtime-update-check-response :records) the-table) id)]
+                   (let [
+                          record-request    {:source              (keyword the-table)
+                                             :db-table            the-table
+                                             :fields              (get-default-fields-for-data-source  (keyword the-table))
+                                             :id                   id
+                                             :data-session-id     @data-session-id
+                                             :realtime            true
+                                             :force               true
+                                             }
+                          ]
+
+                     ;(log "               : " the-table ", " id " = " record)
+                     ;(log "               : " record-request)
+                     (>! client-record-cache-requests    record-request)
+                     nil
+
+                     )))))))
 
 
 
@@ -1670,7 +1700,7 @@
                                  :data-session-id     @data-session-id
                                  :realtime            (get query :realtime)
                                  }]
-         (log "**    :" record-request)
+         ;(log "**    :" record-request)
          (>! client-record-cache-requests   record-request)))
       )))
 
@@ -2128,7 +2158,7 @@ reused by many views.
   (let [ds-fields          (get  @client-datasource-fields   data-source)
         fields-atom        (atom fields)                            ]
 
-    (log (str "keep-client-fields-up-tp-date: " data-source ":" fields))
+    ;(log (str "keep-client-fields-up-tp-date: " data-source ":" fields))
 
     (if (nil? ds-fields)
       (swap! client-datasource-fields  assoc  data-source  fields-atom)
@@ -2352,7 +2382,7 @@ with the (<-- :field) method
                               }
         ]
 
-    (log (str "Calling keep-client-fields-up-tp-date"    data-source ":"  fields))
+    ;(log (str "Calling keep-client-fields-up-tp-date"    data-source ":"  fields))
     (keep-client-fields-up-tp-date   data-source  fields)
 
 

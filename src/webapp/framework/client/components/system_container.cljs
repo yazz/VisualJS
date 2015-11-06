@@ -366,7 +366,7 @@
                                 (get app :admin)
                                  (component    admin-view       app  [])
 
-                                (not (get app :admin))
+                                (and app start-component (not (get app :admin)))
                                  (component    @start-component app  [])
                                  )
                                )
