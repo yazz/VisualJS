@@ -324,7 +324,7 @@
 
 
 
-;zzz
+
 (defn clear-server-table-caches-for  [db-table]
   (swap! server-side-cached-records assoc db-table (atom {}))
   )
@@ -815,7 +815,7 @@
 
 
 
-
+;zzz
 (defn get-record [db-table  id  fields  realtime client-id]
   (if id
     (do
@@ -833,6 +833,9 @@
                     table            (get-table-from-server-cache-for-table    db-table)
                     query-time       (quot (System/currentTimeMillis) 1000)
                     ]
+                (println (str "record:     " record))
+                (println (str "table:      " table))
+                (println (str "query-time: " query-time))
                 (if table
                   (let [
                         new-clients-atom    (atom #{client-id})

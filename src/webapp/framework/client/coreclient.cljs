@@ -1403,6 +1403,40 @@
                       )
                     (keys @client-query-cache)))
            (log "client query caches reloaded after: " (count (keys @client-query-cache)))
+
+
+
+           ;zzz
+           ;(log (str "@client-record-cache=" @client-record-cache))
+           ;(log (str "keys @client-record-cache=" (keys @client-record-cache)))
+           (log (pr-str ":coils_todo_items @client-record-cache=" (keys @(:values @(:coils_todo_items @client-record-cache)))))
+
+           (doall (map
+                    (fn[table-name]
+                      (log (str "      RELOAD TABLE RECORDS: "  table-name))
+                      (doall (map
+                               (fn[record-id]
+                               (go
+                                 (log (str "          record-id: "  record-id))
+                                 (let [
+                                        record-request     {:source              (keyword table-name)
+                                                            :db-table            (name table-name)
+                                                            :fields              (get-default-fields-for-data-source  table-name)
+                                                            :id                   record-id
+                                                            :data-session-id     @data-session-id
+                                                            :realtime            true
+                                                            :force               true
+                                                            }]
+                                   (log "*************    :" record-request)
+                                   (>! client-record-cache-requests   record-request))))
+
+                               (keys @(:values @(get  @client-record-cache  table-name)))))
+
+                      )
+                    (keys  @client-record-cache)))
+
+
+
            )
 
 
@@ -2130,7 +2164,6 @@ reused by many views.
 
 
 
-;zzz
 (defn clear-client-table-caches-for  [db-table]
   (log (str  "********************clear-client-table-caches-for: " db-table ":" (keys @(:values @(get @client-record-cache  (keyword db-table))))))
 
