@@ -1119,6 +1119,17 @@
       (Integer. find-num)
       s)))
 
+(defn get-id-type [ column-type ]
+  (do
+    (println (str "*******COLTYPE:" column-type ":"))
+    (cond
+    (= column-type "integer")                     "INTEGER"
+    (= column-type"character")                    "TEXT"
+    (= column-type"character varying")            "TEXT"
+
+    :else                                         "integer"
+    )
+  ))
 
 
 
@@ -1130,7 +1141,9 @@
 (defn process-log-entry [ realtime-log-entry ]
 
   (let [
-        id               (parse-id  (get realtime-log-entry :record_id))
+        id-type          (get-id-type (get realtime-log-entry :record_id_type))
+        id               (cond (= id-type "INTEGER")  (parse-id  (get realtime-log-entry :record_id))
+                               (= id-type "TEXT")     (get realtime-log-entry :record_id))
         db-table         (get realtime-log-entry :record_table_name)
         ]
     ;(println (str "**** Processing realtime record change: "))
