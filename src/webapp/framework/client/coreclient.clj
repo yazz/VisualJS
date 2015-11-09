@@ -793,7 +793,7 @@ nil
                               (merge (first transformed-sql)
                                      {
                                       :relative-path [(deref path-index)]
-                                      :params   (get main-params :main-params)
+                                      :params   (get main-params :params)
                                       :data-source  (keyword  (get (first
                                                                      transformed-sql) :db-table))
                                       ;:order         "(zgen_points IS NULL), zgen_points  DESC , id asc "
@@ -804,12 +804,13 @@ nil
 
 
     (get main-params :debug)
-      `{"SQL STRING: "                  ~sql-as-a-string
-        "Main Instaparse Query: "       ~parsed-sql
-        "Main Transformed query: "      ~transformed-sql
+      `{
+        ;"SQL STRING: "                  ~sql-as-a-string
+        ;"Main Instaparse Query: "       ~parsed-sql
+        ;"Main Transformed query: "      ~transformed-sql
         "Main Dataview map: "           ~dataview-map
-        "Main Params: "                 ~main-params
-        "Type: "                        ~typeof2
+        ;"Main Params: "                 ~main-params
+        ;"Type: "                        ~typeof2
            }
 
     `(~'data-view-result-set
@@ -958,7 +959,7 @@ nil
 
 (defmacro drealtime [& select-args]
   (let [
-        main-sql          (butlast(butlast   select-args))
+        main-sql          (butlast (butlast   select-args))
         main-params       (last (butlast   select-args))
         dataview-map      (merge main-params {:debug true})
         code              (last  select-args)

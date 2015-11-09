@@ -265,17 +265,23 @@
 
 
 
-(defn get-count [db-table  where   params]
-                                               (:cnt (sql-1 (str
-                                                  "select count (id) as CNT from "
-                                                  db-table " "
-                                                  (if (-> where count pos?)
-                                                    (str "where "
-                                                         (first (clojure.string/split where #"order by"))
-                                                         " ")
-                                                    )
-                                                  )
-                                                 params)))
+(defn    get-count    [db-table  where   params]
+
+  (do
+    (println (str "db-table: " db-table))
+    (println (str "where: " where))
+    (println (str "params: " params))
+
+    (:cnt (sql-1 (str
+                  "select count (id) as CNT from "
+                  db-table " "
+                  (if (-> where count pos?)
+                    (str "where "
+                         (first (clojure.string/split where #"order by"))
+                         " ")
+                    )
+                  )
+                 params))))
 
 
 
@@ -1473,7 +1479,6 @@
       (do
         (create-client-cache  client-data-session-id)
         {:info "client disconnected"}))))
-
 
 
 
