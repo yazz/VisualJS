@@ -504,7 +504,7 @@
         sql-to-create-admin-table "
         CREATE TABLE coils_users
         (
-        id serial NOT NULL,
+        id character varying NOT NULL,
         user_name character varying,
         CONSTRAINT users_pkey PRIMARY KEY (id)
         );
@@ -546,6 +546,7 @@
         record_timestamp    timestamp without time zone,
         record_table_name   character varying,
         record_id           character varying,
+        record_id_type      character varying,
         record_operation    character varying,
         record_status       character varying
         );
@@ -588,9 +589,11 @@
         $BODY$
         BEGIN
         INSERT INTO coils_realtime_log
-        (record_timestamp,  record_table_name,  record_id,  record_operation,  record_status)
+        (record_timestamp,  record_table_name,  record_id, record_id_type, record_operation,  record_status)
         VALUES
-        ( now(),   TG_TABLE_NAME ,  NEW.id,  'INSERT',  'WAITING');
+        ( now(),   TG_TABLE_NAME ,  NEW.id,
+        (select data_type from information_schema.columns where column_name='id' and table_name = TG_TABLE_NAME),
+        'INSERT',  'WAITING');
         RETURN NULL;
         END;
         $BODY$
@@ -634,9 +637,11 @@
         $BODY$
         BEGIN
         INSERT INTO coils_realtime_log
-        (record_timestamp,  record_table_name,  record_id,  record_operation,  record_status)
+        (record_timestamp,  record_table_name,  record_id, record_id_type,  record_operation,  record_status)
         VALUES
-        ( now(),   TG_TABLE_NAME ,  NEW.id,  'UPDATE',  'WAITING');
+        ( now(),   TG_TABLE_NAME ,  NEW.id,
+        (select data_type from information_schema.columns where column_name='id' and table_name = TG_TABLE_NAME),
+        'UPDATE',  'WAITING');
         RETURN NULL;
         END;
         $BODY$
@@ -676,9 +681,11 @@
         $BODY$
         BEGIN
         INSERT INTO coils_realtime_log
-        (record_timestamp,  record_table_name,  record_id,  record_operation,  record_status)
+        (record_timestamp,  record_table_name,  record_id, record_id_type,  record_operation,  record_status)
         VALUES
-        ( now(),   TG_TABLE_NAME ,  OLD.id,  'DELETE',  'WAITING');
+        ( now(),   TG_TABLE_NAME ,  OLD.id,
+        (select data_type from information_schema.columns where column_name='id' and table_name = TG_TABLE_NAME),
+        'DELETE',  'WAITING');
         RETURN NULL;
         END;
         $BODY$
