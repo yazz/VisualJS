@@ -1123,11 +1123,11 @@
   (do
     (println (str "*******COLTYPE:" column-type ":"))
     (cond
-    (= column-type "integer")                     "INTEGER"
-    (= column-type"character")                    "TEXT"
-    (= column-type"character varying")            "TEXT"
+    (= column-type "integer")                      "INTEGER"
+    (= column-type "character")                    "TEXT"
+    (= column-type "character varying")            "TEXT"
 
-    :else                                         "integer"
+    :else                                          "integer"
     )
   ))
 
