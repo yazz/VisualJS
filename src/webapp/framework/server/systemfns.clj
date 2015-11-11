@@ -41,6 +41,7 @@
 
 
 (Class/forName "oracle.jdbc.driver.OracleDriver")
+(Class/forName "org.postgresql.Driver")
 
 
 
@@ -448,7 +449,12 @@
 
     (if (not coils-trigger-exists)
       (let [
-             jdbc-conn    (. java.sql.DriverManager getConnection  (str "jdbc:oracle:thin:" *database-user* "/" *database-password* "@" *database-server* ":1521:" *database-name*)  *database-user*  *database-password*)
+             jdbc-conn        (cond
+                                (= *database-type* "postgres" )
+                                (. java.sql.DriverManager getConnection  (str "jdbc:postgresql://" *database-server* ":5432/" *database-name*)  *database-user*  *database-password*)
+
+                                (= *database-type* "oracle" )
+                                (. java.sql.DriverManager getConnection  (str "jdbc:oracle:thin:" *database-user* "/" *database-password* "@" *database-server* ":1521:" *database-name*)  *database-user*  *database-password*))
              statement    (. jdbc-conn createStatement)
 
              ]
