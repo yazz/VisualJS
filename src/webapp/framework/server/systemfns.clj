@@ -376,28 +376,57 @@
 
         coils-trigger-exists   (pos? (count coils-trigger))
 
-        sql-to-drop-trigger    (str "DROP TRIGGER IF EXISTS trigger_afterinsert ON " table-name ";")
-        sql-to-insert-trigger-row "
-        INSERT INTO coils_triggers
-        (
-        table_name,version
-        ) values (?,?);
-        "
+        sql-to-insert-trigger-row
+        (cond
+          (= *database-type* "postgres")
+          "INSERT INTO coils_triggers (table_name,version) values (?,?);"
 
-        sql-to-create-insert-trigger (str "CREATE TRIGGER trigger_afterInsert AFTER INSERT ON " table-name " FOR EACH ROW EXECUTE PROCEDURE trigger_function_afterInsert();")
-        sql-to-create-update-trigger (str "CREATE TRIGGER trigger_afterUpdate AFTER UPDATE ON " table-name " FOR EACH ROW EXECUTE PROCEDURE trigger_function_afterUpdate();")
-        sql-to-create-delete-trigger (str "CREATE TRIGGER trigger_afterDelete AFTER DELETE ON " table-name " FOR EACH ROW EXECUTE PROCEDURE trigger_function_afterDelete();")
+          (= *database-type* "oracle")
+          "INSERT INTO coils_triggers (table_name,version) values (?,?)")
+
+        sql-to-create-insert-trigger
+        (cond
+          (= *database-type* "postgres")
+          (str "CREATE TRIGGER trigger_afterInsert AFTER INSERT ON " table-name " FOR EACH ROW EXECUTE PROCEDURE trigger_function_afterInsert();")
+
+          (= *database-type* "oracle")
+          "create or replace
+              trigger Icoils_todo_items
+                        BEFORE INSERT ON coils_todo_items
+                            FOR EACH ROW
+                        BEGIN
+                            INSERT INTO coils_realtime_log
+                                (record_timestamp, record_table_name,  record_id, record_id_type, record_operation,  record_status)
+                            VALUES
+                                (LOCALTIMESTAMP, 'coils_todo_items', :NEW.id,
+                                (SELECT data_type FROM user_tab_columns WHERE table_name = 'COILS_TODO_ITEMS' AND column_name = 'ID') ,
+                                'INSERT',  'WAITING');
+                        END;")
+        sql-to-create-update-trigger
+        (cond
+          (= *database-type* "postgres")
+          (str "CREATE TRIGGER trigger_afterUpdate AFTER UPDATE ON " table-name " FOR EACH ROW EXECUTE PROCEDURE trigger_function_afterUpdate();")
+
+          (= *database-type* "oracle")
+          "")
+
+        sql-to-create-delete-trigger
+        (cond
+          (= *database-type* "postgres")
+          (str "CREATE TRIGGER trigger_afterDelete AFTER DELETE ON " table-name " FOR EACH ROW EXECUTE PROCEDURE trigger_function_afterDelete();")
+
+          (= *database-type* "oracle")
+          "")
         ]
     ;(println "Coils trigger table exists: " coils-trigger-exists)
 
 
-    (if (not coils-trigger-exists )
+    (if (not coils-trigger-exists)
       (do
-        (korma.core/exec-raw   [sql-to-insert-trigger-row [table-name  coils-tables-trigger-version]]   [])
-        (korma.core/exec-raw   [sql-to-drop-trigger []]   [])
-        (korma.core/exec-raw   [sql-to-create-insert-trigger []]   [])
-        (korma.core/exec-raw   [sql-to-create-update-trigger []]   [])
-        (korma.core/exec-raw   [sql-to-create-delete-trigger []]   [])
+        (korma.core/exec-raw   [sql-to-insert-trigger-row [table-name  coils-tables-trigger-version]])
+        (korma.core/exec-raw   [sql-to-create-insert-trigger []])
+        (korma.core/exec-raw   [sql-to-create-update-trigger []])
+        (korma.core/exec-raw   [sql-to-create-delete-trigger []])
 
         )
       nil)))
@@ -552,7 +581,7 @@
           (
           id                  serial NOT NULL,
           realtime_jvm_id     integer,
-          record_timestamp    timestamp without time zone,
+          record_timestamp    timestamp(3),
           record_table_name   character varying,
           record_id           character varying,
           record_id_type      character varying,
@@ -1138,20 +1167,23 @@
 
 
 (defn parse-id [s]
-  (let [find-num (re-find  #"\d+" s )]
-    (if find-num
-      (Integer. find-num)
-      s)))
+  (do
+    (println (str "(defn parse-id [" s "]"))
+    (let [find-num (re-find  #"\d+" s )]
+      (if find-num
+        (Integer. find-num)
+        s))))
 
 (defn get-id-type [ column-type ]
   (do
     (println (str "*******COLTYPE:" column-type ":"))
     (cond
+    (= column-type "NUMBER")                       "INTEGER"
     (= column-type "integer")                      "INTEGER"
     (= column-type "character")                    "TEXT"
     (= column-type "character varying")            "TEXT"
 
-    :else                                          "integer"
+    :else                                          "INTEGER"
     )
   ))
 
@@ -1165,10 +1197,10 @@
 (defn process-log-entry [ realtime-log-entry ]
 
   (let [
-        id-type          (get-id-type (get realtime-log-entry :record_id_type))
-        id               (cond (= id-type "INTEGER")  (parse-id  (get realtime-log-entry :record_id))
-                               (= id-type "TEXT")     (get realtime-log-entry :record_id))
-        db-table         (get realtime-log-entry :record_table_name)
+        id-type          (get-id-type (get realtime-log-entry (cond (= *database-type* "postgres" ) :record_id_type (= *database-type* "oracle") :RECORD_ID_TYPE) ))
+        id               (cond (= id-type "INTEGER")  (parse-id  (get realtime-log-entry (cond (= *database-type* "postgres" ) :record_id (= *database-type* "oracle") :RECORD_ID)))
+                               (= id-type "TEXT")     (get realtime-log-entry (cond (= *database-type* "postgres" ) :record_id (= *database-type* "oracle") :RECORD_ID)))
+        db-table         (get realtime-log-entry (cond (= *database-type* "postgres" ) :record_table_name (= *database-type* "oracle") :RECORD_TABLE_NAME))
         ]
     ;(println (str "**** Processing realtime record change: "))
     ;(println (str "      "  "realtime-log-entry"))
@@ -1185,7 +1217,7 @@
     ; If this is a record update, so update the internal record
     ; cache
     ; ----------------------------------------------------------------
-    (if (= (get realtime-log-entry :record_operation) "UPDATE")
+    (if (= (get realtime-log-entry (cond (= *database-type* "postgres" ) :record_operation (= *database-type* "oracle") :RECORD_OPERATION)) "UPDATE")
       (do
         (update-record-in-cache  db-table   id)
         (inform-clients-about-record   db-table   id)))
