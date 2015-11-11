@@ -41,7 +41,6 @@
 
 
 (Class/forName "oracle.jdbc.driver.OracleDriver")
-(def jdbc-conn (. java.sql.DriverManager getConnection  (str "jdbc:oracle:thin:" *database-user* "/" *database-password* "@" *database-server* ":1521:" *database-name*)  *database-user*  *database-password*))
 
 
 
@@ -441,18 +440,25 @@
                                    " 'DELETE',  'WAITING'); "
                                    "END;"
                ))
+
         ]
     ;(println "Coils trigger table exists: " coils-trigger-exists)
     (println "sql-to-create-insert-trigger: " sql-to-create-insert-trigger)
 
 
     (if (not coils-trigger-exists)
-      (do
-        (. (. jdbc-conn createStatement) execute  sql-to-create-insert-trigger)
-        (. (. jdbc-conn createStatement) execute  sql-to-create-update-trigger)
-        (. (. jdbc-conn createStatement) execute  sql-to-create-delete-trigger)
-        ;(korma.core/exec-raw   [sql-to-insert-trigger-row [table-name  coils-tables-trigger-version]])
+      (let [
+             jdbc-conn    (. java.sql.DriverManager getConnection  (str "jdbc:oracle:thin:" *database-user* "/" *database-password* "@" *database-server* ":1521:" *database-name*)  *database-user*  *database-password*)
+             statement    (. jdbc-conn createStatement)
 
+             ]
+        (. statement execute  sql-to-create-insert-trigger)
+        (. statement execute  sql-to-create-update-trigger)
+        (. statement execute  sql-to-create-delete-trigger)
+        (. statement close)
+        (. jdbc-conn close)
+
+        (korma.core/exec-raw   [sql-to-insert-trigger-row [table-name  coils-tables-trigger-version]])
         )
       nil)))
 
