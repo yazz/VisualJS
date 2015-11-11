@@ -30,7 +30,8 @@
                :user *database-user*
                :password *database-password*
                :naming {:keys string/upper-case
-                        :fields string/upper-case}}))
+                        :fields string/upper-case}
+                   }))
 
 
   (catch Exception e
@@ -39,11 +40,8 @@
 
 
 
-
-
-
-
-
+(Class/forName "oracle.jdbc.driver.OracleDriver")
+(def jdbc-conn (. java.sql.DriverManager getConnection  (str "jdbc:oracle:thin:" *database-user* "/" *database-password* "@" *database-server* ":1521:" *database-name*)  *database-user*  *database-password*))
 
 
 
@@ -384,24 +382,32 @@
           (= *database-type* "oracle")
           "INSERT INTO coils_triggers (table_name,version) values (?,?)")
 
+
+
+
+
         sql-to-create-insert-trigger
         (cond
           (= *database-type* "postgres")
           (str "CREATE TRIGGER trigger_afterInsert AFTER INSERT ON " table-name " FOR EACH ROW EXECUTE PROCEDURE trigger_function_afterInsert();")
 
           (= *database-type* "oracle")
-          "create or replace
-              trigger Icoils_todo_items
-                        BEFORE INSERT ON coils_todo_items
-                            FOR EACH ROW
-                        BEGIN
-                            INSERT INTO coils_realtime_log
-                                (record_timestamp, record_table_name,  record_id, record_id_type, record_operation,  record_status)
-                            VALUES
-                                (LOCALTIMESTAMP, 'coils_todo_items', :NEW.id,
-                                (SELECT data_type FROM user_tab_columns WHERE table_name = 'COILS_TODO_ITEMS' AND column_name = 'ID') ,
-                                'INSERT',  'WAITING');
-                        END;")
+          (str "create or replace trigger I" table-name " AFTER INSERT ON " table-name " "
+                                " FOR EACH ROW "
+                                   "BEGIN "
+                                   "INSERT INTO coils_realtime_log  (record_timestamp, record_table_name, record_id, record_id_type, record_operation,  record_status) "
+                                   "values \n"
+                                   "(LOCALTIMESTAMP, '" table-name "', :NEW.id, "
+                                   " (SELECT data_type FROM user_tab_columns WHERE table_name = 'COILS_TODO_ITEMS' AND column_name = 'ID') , "
+                                   " 'INSERT',  'WAITING'); "
+                                   "END;"
+               ))
+
+
+
+
+
+
         sql-to-create-update-trigger
         (cond
           (= *database-type* "postgres")
@@ -419,19 +425,18 @@
           "")
         ]
     ;(println "Coils trigger table exists: " coils-trigger-exists)
+    (println "sql-to-create-insert-trigger: " sql-to-create-insert-trigger)
 
 
     (if (not coils-trigger-exists)
       (do
-        (korma.core/exec-raw   [sql-to-insert-trigger-row [table-name  coils-tables-trigger-version]])
-        (korma.core/exec-raw   [sql-to-create-insert-trigger []])
-        (korma.core/exec-raw   [sql-to-create-update-trigger []])
-        (korma.core/exec-raw   [sql-to-create-delete-trigger []])
+        (. (. jdbc-conn createStatement) execute  sql-to-create-insert-trigger)
+        ;(korma.core/exec-raw   [sql-to-create-update-trigger []])
+        ;(korma.core/exec-raw   [sql-to-create-delete-trigger []])
+        ;(korma.core/exec-raw   [sql-to-insert-trigger-row [table-name  coils-tables-trigger-version]])
 
         )
       nil)))
-
-
 
 
 
@@ -881,7 +886,6 @@
 
 
 
-;zzz
 (defn get-record [db-table  id  fields  realtime client-id]
   (if id
     (do
@@ -1571,20 +1575,6 @@
       (do
         (create-client-cache  client-data-session-id)
         {:info "client disconnected"}))))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

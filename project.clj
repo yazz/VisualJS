@@ -6,7 +6,7 @@
                  [org.clojure/core.async "0.1.346.0-17112a-alpha" :scope "provided"]
                  [cljsjs/react "0.13.3-0"]
 
-                 [korma "0.4.0"]
+                 [korma "0.4.2"]
 
                  [org.postgresql/postgresql "9.2-1002-jdbc4"]
                  [org.clojars.gukjoon/ojdbc "1.4"]
