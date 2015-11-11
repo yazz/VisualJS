@@ -414,7 +414,16 @@
           (str "CREATE TRIGGER trigger_afterUpdate AFTER UPDATE ON " table-name " FOR EACH ROW EXECUTE PROCEDURE trigger_function_afterUpdate();")
 
           (= *database-type* "oracle")
-          "")
+          (str "create or replace trigger U" table-name " AFTER UPDATE ON " table-name " "
+                                " FOR EACH ROW "
+                                   "BEGIN "
+                                   "INSERT INTO coils_realtime_log  (record_timestamp, record_table_name, record_id, record_id_type, record_operation,  record_status) "
+                                   "values \n"
+                                   "(LOCALTIMESTAMP, '" table-name "', :NEW.id, "
+                                   " (SELECT data_type FROM user_tab_columns WHERE table_name = 'COILS_TODO_ITEMS' AND column_name = 'ID') , "
+                                   " 'UPDATE',  'WAITING'); "
+                                   "END;"
+               ))
 
         sql-to-create-delete-trigger
         (cond
@@ -422,7 +431,16 @@
           (str "CREATE TRIGGER trigger_afterDelete AFTER DELETE ON " table-name " FOR EACH ROW EXECUTE PROCEDURE trigger_function_afterDelete();")
 
           (= *database-type* "oracle")
-          "")
+          (str "create or replace trigger D" table-name " AFTER DELETE ON " table-name " "
+                                " FOR EACH ROW "
+                                   "BEGIN "
+                                   "INSERT INTO coils_realtime_log  (record_timestamp, record_table_name, record_id, record_id_type, record_operation,  record_status) "
+                                   "values \n"
+                                   "(LOCALTIMESTAMP, '" table-name "', :OLD.id, "
+                                   " (SELECT data_type FROM user_tab_columns WHERE table_name = 'COILS_TODO_ITEMS' AND column_name = 'ID') , "
+                                   " 'DELETE',  'WAITING'); "
+                                   "END;"
+               ))
         ]
     ;(println "Coils trigger table exists: " coils-trigger-exists)
     (println "sql-to-create-insert-trigger: " sql-to-create-insert-trigger)
@@ -431,8 +449,8 @@
     (if (not coils-trigger-exists)
       (do
         (. (. jdbc-conn createStatement) execute  sql-to-create-insert-trigger)
-        ;(korma.core/exec-raw   [sql-to-create-update-trigger []])
-        ;(korma.core/exec-raw   [sql-to-create-delete-trigger []])
+        (. (. jdbc-conn createStatement) execute  sql-to-create-update-trigger)
+        (. (. jdbc-conn createStatement) execute  sql-to-create-delete-trigger)
         ;(korma.core/exec-raw   [sql-to-insert-trigger-row [table-name  coils-tables-trigger-version]])
 
         )
