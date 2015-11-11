@@ -321,30 +321,6 @@
 
 
 
-(defn does-table-exist [table-name]
-  (let [table-exists-result      (korma.core/exec-raw
-                                   [(cond
-                                      (= *database-type* "postgres" )
-                                      "select * from pg_tables where schemaname='public' and tablename=?"
-                                      (= *database-type* "oracle" )
-                                      "select count(*) from all_objects   where object_type in ('TABLE','VIEW')   and object_name =?"
-                                      ) [(cond (= *database-type* "postgres" ) table-name (= *database-type* "oracle" ) (.toUpperCase table-name))]]
-                                   :results)
-
-        table-exists?   (cond
-                          (= *database-type* "postgres" )
-                          (> (count table-exists-result) 0)
-
-                          (= *database-type* "oracle" )
-                          (> (first (vals (first table-exists-result)  )) 0))
-        ]
-
-    ;(println (str table-name " table-exists-result: " (count table-exists-result)))
-    (println (str table-name " table exists: " table-exists?))
-    table-exists?))
-
-
-
 
 
 (def coils-tables-trigger-version "1")
@@ -760,10 +736,12 @@
 (make-triggers-table)
 (make-log-table)
 
-(make-log-table-insert-trigger-function)
-(make-log-table-update-trigger-function)
-(make-log-table-delete-trigger-function)
-
+(cond
+  (= *database-type* "postgres" )
+  (do
+    (make-log-table-insert-trigger-function)
+    (make-log-table-update-trigger-function)
+    (make-log-table-delete-trigger-function)))
 
 
 
@@ -1477,17 +1455,33 @@
 (every 100 (fn []
               (let [next-id                           (next-realtime-id)
 
-                    sql                               (str "update coils_realtime_log"
-                                                           "      set record_status = 'PROCESSING',"
-                                                           "          realtime_jvm_id = ? "
-                                                           "where "
-                                                           "      id in ( SELECT "
-                                                           "                    id"
-                                                           "              FROM "
-                                                           "                    coils_realtime_log"
-                                                           "              WHERE "
-                                                           "                   record_status='WAITING' LIMIT 1 ) "
-                                                           )
+                    sql                                 (cond
+                                                          (= *database-type* "postgres" )
+                                                          (str "update coils_realtime_log"
+                                                               "      set record_status = 'PROCESSING',"
+                                                               "          realtime_jvm_id = ? "
+                                                               "where "
+                                                               "      id in ( SELECT "
+                                                               "                    id"
+                                                               "              FROM "
+                                                               "                    coils_realtime_log"
+                                                               "              WHERE "
+                                                               "                   record_status='WAITING' LIMIT 1 ) ")
+
+
+                                                               (= *database-type* "oracle" )
+                                                               (str "update coils_realtime_log"
+                                                                    "      set record_status = 'PROCESSING',"
+                                                                    "          realtime_jvm_id = ? "
+                                                                    "where "
+                                                                    "      id in ( SELECT "
+                                                                    "                    id"
+                                                                    "              FROM "
+                                                                    "                    coils_realtime_log"
+                                                                    "              WHERE "
+                                                                    "                   record_status='WAITING' ) "
+                                                                    ))
+
 
                     get-realtime-log-entry            (str "select * from coils_realtime_log "
                                                            "WHERE "
