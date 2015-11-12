@@ -1385,13 +1385,14 @@
        (cond
 
          info
+         ;--------------
          (do
-           (log (str "@client-query-cache=" @client-query-cache))
-           (log "realtime-update-check-response: "   realtime-update-check-response)
-           (log "client query caches reloaded before: " (count (keys @client-query-cache)))
+           ;(log (str "@client-query-cache=" @client-query-cache))
+           ;(log "realtime-update-check-response: "   realtime-update-check-response)
+           ;(log "client query caches reloaded before: " (count (keys @client-query-cache)))
            (doall (map
                     (fn[client-key]
-                      (log (str "      RELOAD: "  client-key))
+                      ;(log (str "      RELOAD: "  client-key))
                       (go
                         (>! client-query-cache-requests  {
                                                            :query-key     (dissoc (dissoc client-key :start) :end)
@@ -1402,7 +1403,7 @@
                                                                             } }))
                       )
                     (keys @client-query-cache)))
-           (log "client query caches reloaded after: " (count (keys @client-query-cache)))
+           ;(log "client query caches reloaded after: " (count (keys @client-query-cache)))
 
 
 
@@ -1413,34 +1414,34 @@
 
            (doall (map
                     (fn[table-name]
-                      (log (str "      RELOAD TABLE RECORDS: "  table-name))
+                      ;(log (str "      RELOAD TABLE RECORDS: "  table-name))
                       (doall (map
                                (fn[record-id]
                                (go
-                                 (log (str "          record-id: "  record-id))
+                                 ;(log (str "          record-id: "  record-id))
                                  (let [
                                         record-request     {:source              (keyword table-name)
                                                             :db-table            (name table-name)
                                                             :fields              (get-default-fields-for-data-source  table-name)
-                                                            :id                   record-id
+                                                            :id                  record-id
                                                             :data-session-id     @data-session-id
                                                             :realtime            true
                                                             :force               true
                                                             }]
-                                   (log "*************    :" record-request)
+                                   ;(log "*************    :" record-request)
                                    (>! client-record-cache-requests   record-request))))
 
                                (keys @(:values @(get  @client-record-cache  table-name)))))
 
                       )
-                    (keys  @client-record-cache)))
+                    (keys  @client-record-cache))))
 
 
 
-           )
 
 
          error
+         ;--------------
          (do
            (log "Error in response")
            nil)
@@ -1499,7 +1500,7 @@
 
 
 
-       ))) 100)
+       ))) 200)
 
 
 

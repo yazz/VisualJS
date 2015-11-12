@@ -1518,7 +1518,7 @@
 ; the channel 'server-side-record-changes'
 ; ----------------------------------------------------------------
 (def my-pool (mk-pool))
-(every 100 (fn []
+(every 200 (fn []
               (let [next-id                           (next-realtime-id)
 
                     sql                                 (cond
