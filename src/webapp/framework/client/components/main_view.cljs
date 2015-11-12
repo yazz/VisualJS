@@ -21,9 +21,7 @@
 
 
 
-(defn-ui-component     new-do-item-component   [app]
-
-  {}
+(defn-ui-component     new-do-item-component   [app] {}
 
   (input-field {:placeholder  "Enter a new todo here"} app
          (fn [new-todo-item-text] (go
@@ -42,8 +40,8 @@
 
 
 
-(defn-ui-component     to-do-list-component   [app]
-  {}
+(defn-ui-component     to-do-list-component   [app] {}
+
   (realtime select
                       id, item, item_status
                  from
@@ -91,8 +89,7 @@
 
 
 
-(defn-ui-component     to-do-footer-component   [app]
-  {}
+(defn-ui-component     to-do-footer-component   [app] {}
 
   (let [active-items      (select id from  coils_todo_items where item_status = 'ACTIVE' {})
         total-items       (select id from  coils_todo_items {})
@@ -134,32 +131,25 @@
 
 
 
-(defn-ui-component     main-to-do-app   [app]
-  {}
+
+
+(defn-ui-component     main-to-do-app   [app] {}
+
   (section
     {:className "todoapp"}
-    (header {} (h2 nil "Todo app"))
+    (header {} (h2 nil "Coils Todo App"))
     (div {:className "main_div"}
 
-
          (component  new-do-item-component   app  [])
-
-
          (div {:className "smallGap"})
 
-
-
          (component  to-do-list-component   app  [])
-
-
-
          (div {:className "mediumGap"})
 
+         (component  to-do-footer-component   app  []))))
 
-         (component  to-do-footer-component   app  [])
 
 
-                )))
 
 
 (def-coils-app     main-view   main-to-do-app)

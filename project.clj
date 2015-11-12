@@ -1,9 +1,9 @@
-(defproject org.clojars.zubairq/coils "0.7.0-alpha"
+(defproject org.clojars.zubairq/coils "0.7.5-beta"
   :dependencies [
                  [org.clojure/clojure "1.7.0"]
                  [org.clojure/clojurescript "1.7.122" :scope "provided"]
                  [org.omcljs/om "0.9.0"]
-                 [org.clojure/core.async "0.1.346.0-17112a-alpha" :scope "provided"]
+                 [org.clojure/core.async "0.2.374" :scope "provided"]
                  [cljsjs/react "0.13.3-0"]
 
                  [korma "0.4.2"]
@@ -21,7 +21,7 @@
                  [cheshire "5.4.0"]
                  [ankha "0.1.4"]
                  [overtone/at-at "1.2.0"]
-                 [org.clojure/tools.nrepl "0.2.10"]
+                 [org.clojure/tools.nrepl "0.2.11"]
                  [lein-figwheel "0.4.1"]
                  [instaparse "1.4.1"]
                  ]
@@ -33,9 +33,9 @@
   :jvm-opts ["-Xmx4g"]
 
   :plugins  [
-             [lein-cljsbuild "1.0.5"]
+             [lein-cljsbuild "1.1.1"]
              [lein-httpd "1.0.0"]
-             [lein-ring "0.9.3"]
+             [lein-ring "0.9.7"]
              [lein-figwheel "0.4.1"]
              ]
 
