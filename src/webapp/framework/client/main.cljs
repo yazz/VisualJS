@@ -40,7 +40,6 @@
   ))
 
 
-(js/React.initializeTouchEvents  true)
 (def history-order (atom 0))
 (def start-time (.getTime (js/Date.)))
 (def session-id (atom ""))

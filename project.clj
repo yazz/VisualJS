@@ -4,7 +4,7 @@
                  [org.clojure/clojurescript "1.7.122" :scope "provided"]
                  [org.omcljs/om "0.9.0"]
                  [org.clojure/core.async "0.2.374" :scope "provided"]
-                 [cljsjs/react "0.13.3-0"]
+                 [cljsjs/react "0.14.0-1"]
 
                  [korma "0.4.2"]
 
@@ -57,7 +57,7 @@
                 {
                  :source-paths ["src" "srcfig" "../srcdev"]
                  :compiler     {
-                                :preamble       ["public/react.min.js"]
+                                ;:preamble       ["public/react.min.js"]
                                 :output-to      "resources/public/main.js"
                                 :output-dir     "resources/public/out/"
                                 :optimizations  :none
@@ -92,7 +92,7 @@
                 {
                  :source-paths ["src" "srcfig" "srcbase"]
                  :compiler     {
-                                :preamble       ["public/react.min.js"]
+                                ;:preamble       ["public/react.min.js"]
                                 :output-to      "resources/public/main.js"
                                 :output-dir     "resources/public/out/"
                                 :optimizations  :none
