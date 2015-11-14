@@ -8,17 +8,17 @@
 
                  [korma "0.4.2"]
 
-                 [org.postgresql/postgresql "9.2-1002-jdbc4"]
+                 [org.postgresql/postgresql "9.2-1004-jdbc41"]
                  [org.clojars.gukjoon/ojdbc "1.4"]
                  ; [com.oracle/ojdbc "12.1.0.2"]
 
-                 [compojure "1.3.3"]
-                 [ring "1.3.2"]
-                 [ring-middleware-format "0.5.0"]
+                 [compojure "1.4.0"]
+                 [ring "1.4.0"]
+                 [ring-middleware-format "0.7.0"]
                  [rewrite-clj "0.2.0"]
                  [org.jasypt/jasypt "1.9.2"]
-                 [clj-http "1.1.1"]
-                 [cheshire "5.4.0"]
+                 [clj-http "2.0.0"]
+                 [cheshire "5.5.0"]
                  [ankha "0.1.4"]
                  [overtone/at-at "1.2.0"]
                  [org.clojure/tools.nrepl "0.2.11"]
