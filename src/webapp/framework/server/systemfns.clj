@@ -1484,88 +1484,78 @@
 
 
 
-
-
-
-
-; ----------------------------------------------------------------
-; Whenever a database record changes it get processed here on the
-; server
-; ----------------------------------------------------------------
-(go
-  (loop []
+(defn set-up-server-listeners []
+  (if (= @server-set-up-client-listener? false)
     (do
-        (let [realtime-log-entry   (<! server-side-record-changes)]
-            (process-log-entry  realtime-log-entry ))
-        (recur))))
+      (reset! server-set-up-client-listener? true)
+
+
+      ; ----------------------------------------------------------------
+      ; Whenever a database record changes it get processed here on the
+      ; server
+      ; ----------------------------------------------------------------
+      (go
+       (loop []
+         (do
+           (let [realtime-log-entry   (<! server-side-record-changes)]
+             (process-log-entry  realtime-log-entry ))
+           (recur))))
 
 
 
+      ; ----------------------------------------------------------------
+      ; On the server check every 1 second for record changes on the
+      ; database. If a record changes then send the log entry details to
+      ; the channel 'server-side-record-changes'
+      ; ----------------------------------------------------------------
+      (every 200 (fn []
+                   (let [next-id                           (next-realtime-id)
+
+                         sql                                 (cond
+                                                              (= *database-type* "postgres" )
+                                                              (str "update coils_realtime_log"
+                                                                   "      set record_status = 'PROCESSING',"
+                                                                   "          realtime_jvm_id = ? "
+                                                                   "where "
+                                                                   "      id in ( SELECT "
+                                                                   "                    id"
+                                                                   "              FROM "
+                                                                   "                    coils_realtime_log"
+                                                                   "              WHERE "
+                                                                   "                   record_status='WAITING' LIMIT 1 ) ")
 
 
+                                                              (= *database-type* "oracle" )
+                                                              (str "update coils_realtime_log"
+                                                                   "      set record_status = 'PROCESSING',"
+                                                                   "          realtime_jvm_id = ? "
+                                                                   "where "
+                                                                   "      id in ( SELECT "
+                                                                   "                    id"
+                                                                   "              FROM "
+                                                                   "                    coils_realtime_log"
+                                                                   "              WHERE "
+                                                                   "                   record_status='WAITING' ) "
+                                                                   ))
 
 
+                         get-realtime-log-entry            (str "select * from coils_realtime_log "
+                                                                "WHERE "
+                                                                "realtime_jvm_id = ?")
 
-
-
-
-
-
-
-; ----------------------------------------------------------------
-; On the server check every 1 second for record changes on the
-; database. If a record changes then send the log entry details to
-; the channel 'server-side-record-changes'
-; ----------------------------------------------------------------
-(def my-pool (mk-pool))
-(every 200 (fn []
-              (let [next-id                           (next-realtime-id)
-
-                    sql                                 (cond
-                                                          (= *database-type* "postgres" )
-                                                          (str "update coils_realtime_log"
-                                                               "      set record_status = 'PROCESSING',"
-                                                               "          realtime_jvm_id = ? "
-                                                               "where "
-                                                               "      id in ( SELECT "
-                                                               "                    id"
-                                                               "              FROM "
-                                                               "                    coils_realtime_log"
-                                                               "              WHERE "
-                                                               "                   record_status='WAITING' LIMIT 1 ) ")
-
-
-                                                               (= *database-type* "oracle" )
-                                                               (str "update coils_realtime_log"
-                                                                    "      set record_status = 'PROCESSING',"
-                                                                    "          realtime_jvm_id = ? "
-                                                                    "where "
-                                                                    "      id in ( SELECT "
-                                                                    "                    id"
-                                                                    "              FROM "
-                                                                    "                    coils_realtime_log"
-                                                                    "              WHERE "
-                                                                    "                   record_status='WAITING' ) "
-                                                                    ))
-
-
-                    get-realtime-log-entry            (str "select * from coils_realtime_log "
-                                                           "WHERE "
-                                                           "realtime_jvm_id = ?")
-
-                    how-many-records-have-changed?    (first  (korma.core/exec-raw [sql [next-id]] []))
-                    ]
-                (do
-                  ;(println "SERVER: How many real time records have changed? " how-many-records-have-changed? )
-                  (if (pos? how-many-records-have-changed?)
-                    (do
-                      (let [realtime-log-entry-list     (korma.core/exec-raw [get-realtime-log-entry [next-id]] :results)
-                            realtime-log-entry          (first realtime-log-entry-list)
-                            ]
-                        (go
-                         (if realtime-log-entry
-                           (>! server-side-record-changes  realtime-log-entry)))
-                        )))))) my-pool)
+                         how-many-records-have-changed?    (first  (korma.core/exec-raw [sql [next-id]] []))
+                         ]
+                     (do
+                       ;(println "SERVER: How many real time records have changed? " how-many-records-have-changed? )
+                       (if (pos? how-many-records-have-changed?)
+                         (do
+                           (let [realtime-log-entry-list     (korma.core/exec-raw [get-realtime-log-entry [next-id]] :results)
+                                 realtime-log-entry          (first realtime-log-entry-list)
+                                 ]
+                             (go
+                              (if realtime-log-entry
+                                (>! server-side-record-changes  realtime-log-entry)))
+                             )))))) my-pool))))
 
 
 
@@ -1594,6 +1584,9 @@
   (let [client-data-atom    (if server-side-realtime-clients  (get @server-side-realtime-clients  client-data-session-id))
         response-atom       (if client-data-atom  client-data-atom )
         ]
+
+    (set-up-server-listeners)
+
     ;(println (str "      " ))
     ;(println "SERVER: check-for-server-updates for client: " client-data-session-id)
     ;(println (str "      " (keys @server-side-realtime-clients)))

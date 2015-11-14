@@ -1,6 +1,7 @@
 (ns webapp.framework.server.globals
   (:require
-   [clojure.core.async                      :refer [chan]]
+   [clojure.core.async           :refer [chan]]
+   [overtone.at-at               :refer [mk-pool]]
 ))
 
 
@@ -52,3 +53,8 @@
 ;
 ; -----------------------------------------------------
 (def server-datasource-fields            (atom {})) ; list of the data sources and their fields
+
+
+
+(defonce server-set-up-client-listener?   (atom false))
+(defonce my-pool (mk-pool))
