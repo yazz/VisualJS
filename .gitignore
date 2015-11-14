@@ -19,6 +19,9 @@
 !/resources/*/*/*/*/*/*/*
 /resources/public/main.js
 
+!/srcfig/
+!/srcfig/*
+!/src/*/*
 
 !/src/
 !/src/*

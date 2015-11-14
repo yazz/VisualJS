@@ -22,7 +22,6 @@
                  [ankha "0.1.4"]
                  [overtone/at-at "1.2.0"]
                  [org.clojure/tools.nrepl "0.2.11"]
-                 [lein-figwheel "0.4.1"]
                  [instaparse "1.4.1"]
                  ]
   :repositories {"sonatype-oss-public"
@@ -43,18 +42,20 @@
              :dev
              {
               :figwheel {
+                         :websocket-host "localhost"
                          :http-server-root "public" ;; this will be in resources/
                          :ring-handler    webapp.framework.server.core/app
                          :css-dirs ["resources/public"]
+                         :on-jsload "webapp.framework.client.main/figwheel-update"
                          }
 
-              :source-paths ["src" "../srcdev"]
+              :source-paths ["src" "srcfig" "../srcdev"]
               :cljsbuild
               {
                :builds
                [
                 {
-                 :source-paths ["src" "../srcdev"]
+                 :source-paths ["src" "srcfig" "../srcdev"]
                  :compiler     {
                                 :preamble       ["public/react.min.js"]
                                 :output-to      "resources/public/main.js"
@@ -76,18 +77,20 @@
              :base
              {
               :figwheel {
+                         :websocket-host "localhost"
                          :http-server-root "public" ;; this will be in resources/
                          :ring-handler    webapp.framework.server.core/app
                          :css-dirs ["resources/public"]
+                         :on-jsload "webapp.framework.client.main/figwheel-update"
                          }
 
-              :source-paths ["src" "srcbase"]
+              :source-paths ["src" "srcfig" "srcbase"]
               :cljsbuild
               {
                :builds
                [
                 {
-                 :source-paths ["src" "srcbase"]
+                 :source-paths ["src" "srcfig" "srcbase"]
                  :compiler     {
                                 :preamble       ["public/react.min.js"]
                                 :output-to      "resources/public/main.js"
@@ -135,15 +138,17 @@
 
              :prod
              {
-              :figwheel false
+                 :figwheel     false
               :source-paths ["src" "../srcprod"]
               :cljsbuild
               {
                :builds
                [
                 {
+                 :figwheel     false
                  :source-paths ["src"]
                  :compiler     {
+                 :figwheel     false
                                 :output-to      "resources/public/main.js"
                                 :optimizations  :advanced
                                 :preamble         ["resources/public/react.min.js"]
