@@ -33,6 +33,14 @@
 !/src/*/*/*/*/*/*/*
 !/src/*/*/*/*/*/*/*/*
 
+!/srcbasehost/
+!/srcbasehost/*
+!/srcbasehost/*/*
+!/srcbasehost/*/*/*
+!/srcbasehost/*/*/*/*
+
+
+
 !/srcbase/
 !/srcbase/*
 !/srcbase/*/*

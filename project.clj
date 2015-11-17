@@ -66,13 +66,12 @@
                                 ;:pretty-print   false
                                 :cache-analysis true
                                 :source-map-timestamp true
-                                :source-map true
-                                }
-                 }
-                ]
+                                :source-map true }}]}}
 
-               }
-              }
+
+
+
+
 
              :base
              {
@@ -101,13 +100,45 @@
                                 ;:pretty-print   false
                                 :cache-analysis true
                                 :source-map-timestamp true
-                                :source-map true
-                                }
-                 }
-                ]
+                                :source-map true }}]}}
 
-               }
-              }
+
+
+
+
+
+             :basehost
+             {
+              :figwheel {
+                         :websocket-host "localhost"
+                         :http-server-root "public" ;; this will be in resources/
+                         :ring-handler    webapp.framework.server.core/app
+                         :css-dirs ["resources/public"]
+                         :on-jsload "webapp.framework.client.main/figwheel-update"
+                         }
+
+              :source-paths ["src" "srcfig" "srcbasehost"]
+              :cljsbuild
+              {
+               :builds
+               [
+                {
+                 :source-paths ["src" "srcfig" "srcbasehost"]
+                 :compiler     {
+                                ;:preamble       ["public/react.min.js"]
+                                :output-to      "resources/public/main.js"
+                                :output-dir     "resources/public/out/"
+                                :optimizations  :none
+                                ;:output-wrapper false
+                                ;:externs        ["resources/public/google_maps_api_v3_11.js"]
+                                ;:pretty-print   false
+                                :cache-analysis true
+                                :source-map-timestamp true
+                                :source-map true }}]}}
+
+
+
+
 
 
              :test

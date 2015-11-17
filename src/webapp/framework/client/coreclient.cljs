@@ -335,7 +335,7 @@
 
 (go
  (let [env (:value (<! (remote-fn "!get-environment" {})))]
-   (if (or (= env "dev") (= env "base"))
+   (if (or (= env "dev") (= env "base") (= env "basehost"))
      (reset! debug-mode true))))
 
 
