@@ -55,6 +55,7 @@
         <script type="text/javascript" src="react.min.js"></script>
         <link rel="stylesheet" href="codemirror-5.8/lib/codemirror.css">
         <script src="codemirror-5.8/lib/codemirror.js"></script>
+        <script src="codemirror-5.8/mode/clojure/clojure.js"></script>
 
         <title>Coils - Build WebApps with SQL and React</title>
         <style>
@@ -76,7 +77,12 @@
 
         <script>
             function createEditor() {
-                CodeMirror.fromTextArea(document.getElementById('cm'),{  mode:  "clojure"});
+                var myCodeMirror = CodeMirror.fromTextArea(
+                    document.getElementById('cm'),
+                    { lineNumbers: true,
+                      mode:        "clojure",
+                      height:      "1000"    });
+                myCodeMirror.setSize(1000, 800);
             }
 
             mousex=0;
