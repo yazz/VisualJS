@@ -2,6 +2,7 @@
   (:require
    [webapp.framework.client.coreclient   :as c ]
     [om.core :as om :include-macros true]
+   [cljs.core.async  :refer [put! chan <! pub timeout]]
     )
   (:use-macros
    [webapp.framework.client.coreclient  :only [ns-coils defn-ui-component def-coils-app
@@ -21,42 +22,12 @@
 
 
 
-
-
-
-
-
-
-
-(defn editor [code owner]
-  (reify
-    om/IDidMount
-    (did-mount [_]
-      (js/CodeMirror (om/get-node owner)
-                     #js {:matchBrackets true :autoCloseBrackets true}))))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 (defn-ui-component     main-hosting-component   [app] {}
 
   (div nil
        (div {} "App Share")
        (div {}
-            (textarea {:style {:display "inline-block"}} "dd")
-
-            ;(om/build editor app {:init-state {}})
+            (textarea {:style {:display "inline-block" :width "400" :height "800"}} "dd")
 
             (iframe {:style {:display "inline-block"} :src "http://127.0.0.1:3450" :width "600" :height "800"})
             )
