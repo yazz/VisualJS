@@ -1,10 +1,10 @@
 (defproject org.clojars.zubairq/coils "0.7.5-beta"
   :dependencies [
-                 [org.clojure/clojure "1.7.0"]
-                 [org.clojure/clojurescript "1.7.122" :scope "provided"]
-                 [org.omcljs/om "0.9.0"]
-                 [org.clojure/core.async "0.2.374" :scope "provided"]
-                 [cljsjs/react "0.14.0-1"]
+                 [org.clojure/clojure "1.7.0" :scope "provided"]
+                 [org.clojure/clojurescript "1.7.170" :scope "provided"]
+                 [org.omcljs/om "1.0.0-alpha22"]
+                 [org.clojure/core.async "0.2.371" :scope "provided"]
+                 [cljsjs/react "0.14.0-0"]
 
                  [korma "0.4.2"]
 
@@ -35,7 +35,7 @@
              [lein-cljsbuild "1.1.1"]
              [lein-httpd "1.0.0"]
              [lein-ring "0.9.7"]
-             [lein-figwheel "0.4.1"]
+             [lein-figwheel "0.5.0-1"]
              ]
 
   :profiles {
