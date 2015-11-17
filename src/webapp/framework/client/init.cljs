@@ -10,6 +10,7 @@
    [ankha.core                           :as ankha]
    )
   (:use
+   [webapp.framework.client.webhosting.init                    :only   [setup-properties2]]
    [webapp.framework.client.components.main_view                    :only   [main-view]]
    [webapp.framework.client.system-globals                     :only   [app-state  data-state  set-ab-tests]]
    )
