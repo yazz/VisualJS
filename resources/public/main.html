@@ -53,6 +53,8 @@
         <script src="html5shiv.js"></script>
         <![endif]-->
         <script type="text/javascript" src="react.min.js"></script>
+        <link rel="stylesheet" href="codemirror-5.8/lib/codemirror.css">
+        <script src="codemirror-5.8/lib/codemirror.js"></script>
 
         <title>Coils - Build WebApps with SQL and React</title>
         <style>
@@ -73,6 +75,10 @@
 
 
         <script>
+            function createEditor() {
+                CodeMirror.fromTextArea(document.getElementById('cm'),{  mode:  "clojure"});
+            }
+
             mousex=0;
             mousey=0;
             function show_coords(event)

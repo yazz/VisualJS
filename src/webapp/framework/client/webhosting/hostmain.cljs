@@ -22,12 +22,14 @@
 
 
 
-(defn-ui-component     main-hosting-component   [app] {}
+(defn-ui-component     main-hosting-component   [app]
+  {:on-mount (js/createEditor)}
 
   (div nil
        (div {} "App Share")
        (div {}
-            (textarea {:style {:display "inline-block" :width "400" :height "800"}} "dd")
+            (div {:style {:display "inline-block" :width "400" :height "800" :verticalAlign "top"}}
+                 (textarea {:id "cm" :style {:display "inline-block" :width "400" :height "800"}} "dd"))
 
             (iframe {:style {:display "inline-block"} :src "http://127.0.0.1:3450" :width "600" :height "800"})
             )
