@@ -1,4 +1,4 @@
-(ns webapp.framework.client.webhosting.init
+(ns webapp.framework.client.webhosting.hostinit
   (:require
    [goog.net.cookies                     :as cookie]
    [om.core                              :as om    :include-macros true]
@@ -18,7 +18,7 @@
   (:use-macros
    [webapp-config.settings  :only [setup-fn]])
   )
-(c/ns-coils 'webapp.framework.client.webhosting.init)
+(c/ns-coils 'webapp.framework.client.webhosting.hostinit)
 
 
 
@@ -44,7 +44,3 @@
      (reset! data-state {:submit {}})
 
      (set-ab-tests {})))})
-
-
-(def  ^:export setup
-  ((setup-fn)))

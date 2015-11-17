@@ -10,9 +10,10 @@
    [ankha.core                           :as ankha]
    )
   (:use
-   [webapp.framework.client.webhosting.init                    :only   [setup-properties2]]
-   [webapp.framework.client.components.main_view                    :only   [main-view]]
-   [webapp.framework.client.system-globals                     :only   [app-state  data-state  set-ab-tests]]
+    [webapp.framework.client.webhosting.hostinit                    :only   [setup-properties2]]
+    [webapp.client.demoapp                                          :only   [setup-properties3]]
+    [webapp.framework.client.components.main_view                   :only   [main-view]]
+   [webapp.framework.client.system-globals                         :only   [app-state  data-state  set-ab-tests]]
    )
   (:require-macros
    [cljs.core.async.macros :refer [go]])

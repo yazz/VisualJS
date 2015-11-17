@@ -35,7 +35,7 @@
 
 
 
-(defn setup-properties []
+(defn setup-properties3 []
   {
    :start-component
    demo-view
