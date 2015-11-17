@@ -269,8 +269,12 @@ nil
   `(om.dom/img  (webapp.framework.client.coreclient/attrs ~attributes) ~@more))
 (defmacro section [attributes & more]
   `(om.dom/section  (webapp.framework.client.coreclient/attrs ~attributes) ~@more))
+(defmacro iframe [attributes & more]
+  `(om.dom/iframe  (webapp.framework.client.coreclient/attrs ~attributes) ~@more))
 (defmacro header [attributes & more]
   `(om.dom/header  (webapp.framework.client.coreclient/attrs ~attributes) ~@more))
+(defmacro textarea [attributes & more]
+  `(om.dom/textarea  (webapp.framework.client.coreclient/attrs ~attributes) ~@more))
 
 (defmacro container [& more]
   `(om.dom/div  {} ~@more))

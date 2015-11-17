@@ -23,6 +23,8 @@
                  [overtone/at-at "1.2.0"]
                  [org.clojure/tools.nrepl "0.2.11"]
                  [instaparse "1.4.1"]
+
+                 [org.webjars/codemirror "5.8"]
                  ]
   :repositories {"sonatype-oss-public"
                  "https://oss.sonatype.org/content/groups/public/"}
