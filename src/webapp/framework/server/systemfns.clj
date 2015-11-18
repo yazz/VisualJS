@@ -1607,7 +1607,15 @@
 
 
 
+(defn !getfilecontents [{:keys [
 
+                                 ]}
+                        ]
+  (let [content    (slurp "D:\\appshare\\app1\\coils\\src\\webapp\\framework\\client\\components\\main_view.cljs")
+        ]
+
+  {:value content}
+  ))
 
 
 

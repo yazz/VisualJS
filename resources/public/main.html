@@ -77,12 +77,17 @@
 
         <script>
             function createEditor() {
-                var myCodeMirror = CodeMirror.fromTextArea(
+                myCodeMirror = CodeMirror.fromTextArea(
                     document.getElementById('cm'),
-                    { lineNumbers: true,
+                    { lineNumbers:  true,
                       mode:        "clojure",
-                      height:      "1000"    });
+                      height:      "1000",
+                      fontSize: "3pt"});
                 myCodeMirror.setSize(1000, 800);
+            }
+
+            function populateEditor(codeText) {
+                myCodeMirror.setValue(codeText);
             }
 
             mousex=0;
@@ -218,7 +223,7 @@
     <script type="text/javascript">goog.require("webapp.framework.client.main");</script>
 
     <script type="text/javascript">goog.require("webapp.framework.client.webhosting.hostmain");</script>
-    <script type="text/javascript">goog.require("webapp.framework.client.webhosting.init");</script>
+    <script type="text/javascript">goog.require("webapp.framework.client.webhosting.hostinit");</script>
 
     <script type="text/javascript">goog.require("coilsfig.mainfig");</script>
 
