@@ -37,8 +37,8 @@
   (div nil
        (div {} "App Share")
        (div {}
-            (div {:style {:display "inline-block" :width "1000" :height "800" :verticalAlign "top"}}
-                 (textarea {:id "cm" :style {:display "inline-block" :width "1000" :height "800"}} ""))
+            (div {:style {:display "inline-block" :width "1300" :height "800" :verticalAlign "top"}}
+                 (textarea {:id "cm" :style {:display "inline-block" :width "1300" :height "800"}} ""))
 
             (iframe {:style {:display "inline-block"} :src "http://127.0.0.1:3450" :width "600" :height "800"})
             )
