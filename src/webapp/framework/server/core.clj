@@ -13,6 +13,8 @@
   (:require [clojure.java.io :as io])
   (:use [webapp.framework.server.globals])
   (:use [webapp.framework.server.db-helper])
+
+  (:require [ring.middleware.json :refer [wrap-json-response  wrap-json-body  wrap-json-params]])
 )
 
 
@@ -23,8 +25,8 @@
 
 (defn parse-params [params]
   (do
-  ;(println (str "Action:" (:action params) (:systemaction params)
-  ;              "  ,Count params:" (count (keys (load-string (:params params))))))
+  ;(println (str "Action:" (:action params) (:systemaction params) "  ,Count params:" (count (keys (load-string (:params params))))))
+    ;(println (str "POST KEYS:"  params))
   (let
     [
      code (str
@@ -61,11 +63,39 @@
 
 
 (defroutes main-routes
-  (POST "/:domain/action" {params :params}
-    (parse-params  params))
 
-  (POST "/action" {params :params}
-    (parse-params  params))
+
+  (GET "/:domain/action" params
+    (do
+      (parse-params  (params :params))))
+
+
+
+  (GET "/action" params
+    (do
+      (parse-params  (params :params))))
+
+
+
+
+  (POST "/:domain/action" params
+    (do
+      (println (str "params: " params))
+      (println "")
+      (println (str "body: " (slurp (:body params))))
+      (parse-params  (params :params))))
+
+
+
+
+  (POST "/action" params
+    (do
+      (println (str "params: " params))
+      (println "")
+      (println (str "body: " (slurp (:body params))))
+      (parse-params  (params :params))))
+
+
 
    (mp/wrap-multipart-params
        (POST "/file" {params :params}
@@ -126,8 +156,12 @@
 
 
 (def app
-    (-> (handler/api main-routes)
-        ;(wrap-json-params)
+    (->
+      ;(wrap-json-response)
+      (handler/api main-routes)
+      ;(wrap-json-body)
+        ;(wrap-json-response)
+        (wrap-json-params)
 ))
 
 

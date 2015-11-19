@@ -217,11 +217,16 @@
 
 
 
-(defn send-request2 [ address   action  parameters-in  ch]
+(defn send-request2
+  ([ address   action  parameters-in  ch]
+      (send-request2   address   action  parameters-in  nil ch))
+
+  ([ address   action  parameters-in  post-data ch]
   (let
     [
      headers       (goog.structs.Map.)
      io-object     (goog.net.XhrIo.)
+     post-data     (js/FormData.)
      ]
       (do
 ;        (log (str "send-request2: " action " || " parameters-in ))
@@ -270,8 +275,12 @@
 
              ))))
       (. headers set "charset" "UTF-8")
-      (. io-object send address "POST" nil headers)
-    ch)))
+      ;(. headers set "Content-Type" "application/x-www-form-urlencoded")
+      ;(. headers set "Content-Type" "application/json")
+
+      (. post-data append "testpost" "datato******" )
+      (. io-object send address "GET" post-data headers)
+    ch))))
 
 
 
@@ -281,11 +290,14 @@
 
 (defn remote-fn
   ([action]
-   (remote-fn action {}))
-
+   (remote-fn  action {} nil))
 
 
   ([action  parameters-in]
+   (remote-fn  action  parameters-in  nil))
+
+
+  ([action  parameters-in  post-data]
    (let
      [
       parameters  (if parameters-in {:params parameters-in :tclock (get-time)})
@@ -1365,7 +1377,7 @@
 ; :realtime        true}
 
 (log (str "Checking server for data updates ..."))
-(js/setInterval
+(comment js/setInterval
  #(go
 
    ;(log (pr-str (count (keys @client-query-cache))))

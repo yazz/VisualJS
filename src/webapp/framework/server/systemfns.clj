@@ -1625,5 +1625,16 @@
 
 
 
+(defn !savecode [{:keys [code]}]
+  (do
+    ;(spit "D:\\appshare\\app1\\coils\\src\\webapp\\framework\\client\\components\\main_view.cljs" code)
+    (println (str "Saved:" code))
+    {:value code}))
+
+
+
+
+
+
 
 

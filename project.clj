@@ -24,6 +24,8 @@
                  [org.clojure/tools.nrepl "0.2.11"]
                  [instaparse "1.4.1"]
 
+                [ring/ring-json "0.4.0"]
+
                  [org.webjars/codemirror "5.8"]
                  ]
   :repositories {"sonatype-oss-public"

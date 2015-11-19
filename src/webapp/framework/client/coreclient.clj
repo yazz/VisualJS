@@ -27,6 +27,9 @@
 
   ([action params]
   `(~'<! (webapp.framework.client.coreclient/remote-fn  ~(str `~action)  ~params)))
+
+  ([action params post-data]
+  `(~'<! (webapp.framework.client.coreclient/remote-fn  ~(str `~action)  ~params ~post-data)))
   )
 
 
