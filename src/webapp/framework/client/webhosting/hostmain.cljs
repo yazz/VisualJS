@@ -42,7 +42,7 @@
 
                                    (log "...")
 
-                                   (let [x (remote !savecode {:code (str code)})]
+                                   (let [x (remote !savecode {} code)]
                                      (log (str "saved: " x)))
                                    )
                                  )} "Save")

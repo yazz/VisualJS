@@ -219,68 +219,70 @@
 
 (defn send-request2
   ([ address   action  parameters-in  ch]
-      (send-request2   address   action  parameters-in  nil ch))
+   (send-request2   address   action  parameters-in  nil ch))
 
   ([ address   action  parameters-in  post-data ch]
-  (let
-    [
-     headers       (goog.structs.Map.)
-     io-object     (goog.net.XhrIo.)
-     post-data     (js/FormData.)
-     ]
-      (do
-;        (log (str "send-request2: " action " || " parameters-in ))
-      (goog.events.listen
-       io-object
-       goog.net.EventType.COMPLETE
+   (let
+     [
+       headers          (goog.structs.Map.)
+       io-object        (goog.net.XhrIo.)
+       post-data-in2     (js/FormData.)
+       post-data-in     (str post-data)
+       ]
+     (do
+       ;        (log (str "send-request2: " action " || " parameters-in ))
+       (goog.events.listen
+         io-object
+         goog.net.EventType.COMPLETE
 
-       (fn [event]
-         (let
-           [target          (.-target event)
-            status          (. target (getStatus))]
-           (if (= status 200)
-             (let [
-                   response-text   (. target (getResponseText))
-                   response        (reader/read-string response-text)
-                   ]
-                (let [
-                      debug-id (add-debug-event
-                                :event-type  "remote"
-                                :action-name (str action)
-                                :input       parameters-in
-                                :result      response
-                         )]
+         (fn [event]
+           (let
+             [target          (.-target event)
+              status          (. target (getStatus))]
+             (if (= status 200)
+               (let [
+                      response-text   (. target (getResponseText))
+                      response        (reader/read-string response-text)
+                      ]
+                 (let [
+                        debug-id (add-debug-event
+                                   :event-type  "remote"
+                                   :action-name (str action)
+                                   :input       parameters-in
+                                   :result      response
+                                   )]
 
-               (go
-;        (log (str "             : " response ))
-                  (>! ch response)
-                  (close! ch))
-                  (remove-debug-event  debug-id)
-                  ))
+                   (go
+                     ;        (log (str "             : " response ))
+                     (>! ch response)
+                     (close! ch))
+                   (remove-debug-event  debug-id)
+                   ))
 
-              (let [debug-id
-                    (add-debug-event
-                     :event-type  "remote"
-                     :action-name (str action)
-                     :input       parameters-in
-                     :result      (str "ERROR IN RESPONSE, HTTP : " status)
-                     )]
-             (go
-                (>! ch  {:error "true"})
-                (close! ch))
-                (remove-debug-event  debug-id)
-                )
+               (let [debug-id
+                     (add-debug-event
+                       :event-type  "remote"
+                       :action-name (str action)
+                       :input       parameters-in
+                       :result      (str "ERROR IN RESPONSE, HTTP : " status)
+                       )]
+                 (go
+                   (>! ch  {:error "true"})
+                   (close! ch))
+                 (remove-debug-event  debug-id)
+                 )
 
 
 
-             ))))
-      (. headers set "charset" "UTF-8")
-      ;(. headers set "Content-Type" "application/x-www-form-urlencoded")
-      ;(. headers set "Content-Type" "application/json")
+               ))))
+       (. headers set "charset" "UTF-8")
+       ;(. headers set "Content-Type" "application/x-www-form-urlencoded")
+       ;(. headers set "Content-Type" "application/json")
 
-      (. post-data append "testpost" "datato******" )
-      (. io-object send address "GET" post-data headers)
-    ch))))
+       (log (str "post-data: " post-data))
+       ;(. post-data-in append "postdata" post-data )
+       (. io-object send address  (if post-data "POST" "GET")  post-data-in  headers)
+       ch))))
 
 
 
@@ -300,30 +302,31 @@
   ([action  parameters-in  post-data]
    (let
      [
-      parameters  (if parameters-in {:params parameters-in :tclock (get-time)})
-      ch          (chan)
-      ]
+       parameters  (if parameters-in {:params parameters-in :tclock (get-time)})
+       ch          (chan)
+       ]
      (send-request2
-      (str
+       (str
 
-       (if (= (first action) "!") "action?systemaction=" "action?action=" )
+         (if (= (first action) "!") "action?systemaction=" "action?action=" )
+         action
+         "&"
+         (apply
+           str
+           (map
+             (fn [x]
+               (do
+                 (str
+                   (encode-parameter
+                     x
+                     (get parameters x)) "&" ))
+               )
+             (keys parameters))))
        action
-       "&"
-       (apply
-        str
-        (map
-         (fn [x]
-           (do
-             (str
-              (encode-parameter
-               x
-               (get parameters x)) "&" ))
-           )
-         (keys parameters))))
-      action
-      parameters-in
-      ch
-      ))))
+       parameters-in
+       post-data
+       ch
+       ))))
 
 
 

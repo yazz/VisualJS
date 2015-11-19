@@ -23,7 +23,11 @@
 
 
 
-(defn parse-params [params]
+(defn parse-params
+  ([params]
+  (parse-params  params  nil))
+
+  ([params  post-data]
   (do
   ;(println (str "Action:" (:action params) (:systemaction params) "  ,Count params:" (count (keys (load-string (:params params))))))
     ;(println (str "POST KEYS:"  params))
@@ -35,13 +39,18 @@
            (if (:action params) (:action params) (:systemaction params))
            " "
 
-           (if (> (count (keys (load-string (:params params)))) 0) (str
-                                            (:params params)))
+           (if (or (> (count (keys (load-string (:params params)))) 0) post-data)
+             (str  (:params params)))
+           " "
+
+           (if post-data
+             (pr-str  post-data))
+
            ")")
      ]
-    ;(println ":" code)
+    (println ":" code)
     (pr-str (load-string code))
-    )))
+    ))))
 
 
 
@@ -79,21 +88,21 @@
 
 
   (POST "/:domain/action" params
-    (do
-      (println (str "params: " params))
-      (println "")
-      (println (str "body: " (slurp (:body params))))
-      (parse-params  (params :params))))
+    (let [body   (:body params)]
+      ;(println (str "params: " params))
+      ;(println "")
+      (.reset body)
+      (parse-params  (params :params)  (slurp body) )))
 
 
 
 
   (POST "/action" params
-    (do
-      (println (str "params: " params))
-      (println "")
-      (println (str "body: " (slurp (:body params))))
-      (parse-params  (params :params))))
+    (let [body   (:body params)]
+      ;(println (str "params: " params))
+      ;(println "")
+      (.reset body)
+      (parse-params  (params :params)  (slurp body))))
 
 
 
@@ -161,7 +170,7 @@
       (handler/api main-routes)
       ;(wrap-json-body)
         ;(wrap-json-response)
-        (wrap-json-params)
+        ;(wrap-json-params)
 ))
 
 
