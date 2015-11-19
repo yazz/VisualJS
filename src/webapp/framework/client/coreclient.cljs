@@ -1380,7 +1380,7 @@
 ; :realtime        true}
 
 (log (str "Checking server for data updates ..."))
-(comment js/setInterval
+(js/setInterval
  #(go
 
    ;(log (pr-str (count (keys @client-query-cache))))
