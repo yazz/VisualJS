@@ -1611,7 +1611,15 @@
 
                                  ]}
                         ]
-  (let [content    (slurp "D:\\appshare\\app1\\coils\\src\\webapp\\framework\\client\\components\\main_view.cljs")
+  (let [content
+
+       (cond
+     (is-mac-osx)
+        (slurp "../project_coilsapps/app1/coils/src/webapp/framework/client/components/main_view.cljs")
+
+        :else
+        (slurp "D:\\appshare\\app1\\coils\\src\\webapp\\framework\\client\\components\\main_view.cljs")
+        )
         ]
 
   {:value content}
@@ -1627,14 +1635,15 @@
 
 (defn !savecode [{:keys [] } code]
   (do
-    (spit "D:\\appshare\\app1\\coils\\src\\webapp\\framework\\client\\components\\main_view.cljs" code)
+    (cond
+     (is-mac-osx)
+     (spit "../project_coilsapps/app1/coils/src/webapp/framework/client/components/main_view.cljs" code)
+
+     :else
+     (spit "D:\\appshare\\app1\\coils\\src\\webapp\\framework\\client\\components\\main_view.cljs" code)
+     )
     (println (str "Saved get:" code))
     {:value code}))
-
-
-
-
-
 
 
 

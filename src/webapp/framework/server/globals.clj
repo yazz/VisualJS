@@ -58,3 +58,21 @@
 
 (defonce server-set-up-client-listener?   (atom false))
 (defonce my-pool (mk-pool))
+
+
+
+
+
+
+
+(defn is-mac-osx []
+  (if
+    (= (java.lang.System/getProperty "os.name") "Mac OS X")
+    true
+    ))
+
+(java.lang.System/getProperty "os.version")
+
+(java.lang.System/getProperty "os.arch")
+
+
