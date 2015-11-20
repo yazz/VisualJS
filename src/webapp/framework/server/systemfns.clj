@@ -1584,8 +1584,8 @@
   (let [client-data-atom    (if server-side-realtime-clients  (get @server-side-realtime-clients  client-data-session-id))
         response-atom       (if client-data-atom  client-data-atom )
         ]
-
-    (set-up-server-listeners)
+    (if (not *hosted-mode*)
+      (set-up-server-listeners))
 
     ;(println (str "      " ))
     ;(println "SERVER: check-for-server-updates for client: " client-data-session-id)

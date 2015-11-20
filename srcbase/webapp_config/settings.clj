@@ -17,6 +17,8 @@
 
 (defonce ^:dynamic *web-server* "127.0.0.1:3449")
 
+(defonce ^:dynamic *hosted-mode* false)
+
 
 (defonce ^:dynamic *database-type* "postgres")
 (defonce ^:dynamic *database-server* "127.0.0.1")

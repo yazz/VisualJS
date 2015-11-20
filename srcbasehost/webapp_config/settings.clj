@@ -24,6 +24,9 @@
 (defonce ^:dynamic *database-password* "manager")
 (defonce ^:dynamic *database-name* "postgres")
 
+(defonce ^:dynamic *hosted-mode* true)
+
+
 
 ;(defonce ^:dynamic *database-type* "oracle")
 ;(defonce ^:dynamic *database-server* "localhost")

@@ -176,8 +176,9 @@
 
 
 ; deletes the realtime log every time the file is reloaded, or the server is restarted
-(if (does-table-exist "coils_realtime_log")
-  (korma.core/exec-raw ["delete from coils_realtime_log" []] []))
+(if (not *hosted-mode*)
+  (if (does-table-exist "coils_realtime_log")
+    (korma.core/exec-raw ["delete from coils_realtime_log" []] [])))
 
 
 
