@@ -1,18 +1,14 @@
 (ns webapp.framework.client.components.main_view
-  (:require
-   [webapp.framework.client.coreclient   :as c ])
-  (:use-macros
-   [webapp.framework.client.coreclient  :only [ns-coils defn-ui-component def-coils-app
-                                               container  map-many  inline  text log sql
-                                               div img pre component h2 input section header button label form
-                                               write-ui read-ui container input component <-- data-view-result-set
-                                               h1 h2 h3 h4 h5 h6 span  data-view-v2 select dselect realtime drealtime
-                                               input-field
-                                               ]])
-  (:require-macros
-   [cljs.core.async.macros :refer [go alt!]]))
+  (:require [webapp.framework.client.coreclient   :as c])
+  (:use-macros [webapp.framework.client.coreclient  :only [ns-coils defn-ui-component def-coils-app
+                                                           container  map-many  inline  text log sql
+                                                           div img pre component h2 input section header button label form
+                                                           write-ui read-ui container input component <-- data-view-result-set
+                                                           h1 h2 h3 h4 h5 h6 span  data-view-v2 select dselect realtime drealtime
+                                                           input-field ]])
+  (:require-macros [cljs.core.async.macros :refer [go alt!]]))
 (ns-coils 'webapp.framework.client.components.main_view)
-
+; the shortest todo mvc in the world at 84 lines of code
 
 
 
@@ -51,34 +47,31 @@
                  order
                       by id desc
 
-                 {:params [(if (read-ui app [:show]) (read-ui app [:show]) "ACTIVE")
-                           (if (read-ui app [:show]) (read-ui app [:show]) "COMPLETED")]}
+            {:params [(if (read-ui app [:show]) (read-ui app [:show]) "ACTIVE")
+                      (if (read-ui app [:show]) (read-ui app [:show]) "COMPLETED")]}
 
-                 (container
+            (container
 
-                  (div {:className  "checkbox"  :style { :width "20%" :display "inline-block;"} }
-                       (input {:type  "checkbox"
-                               :checked   (if (= (<-- :item_status) "COMPLETED") "T" "")
-                               :onChange  (fn [event]
-                                            (let [newtext   (.. event -target -checked  )
-                                                  item-id   (<-- :id)]
-                                              (if newtext
-                                                (go (sql "update  coils_todo_items   set item_status = 'COMPLETED' where id = ?" [item-id]  ))
-                                                (go (sql "update  coils_todo_items   set item_status = 'ACTIVE' where id = ?" [item-id]  ))
-                                                )))}))
+             (div {:className  "checkbox"  :style { :width "20%" :display "inline-block;"} }
+                  (input {:type  "checkbox"
+                          :checked   (if (= (<-- :item_status) "COMPLETED") "T" "")
+                          :onChange  (fn [event]
+                                       (let [newtext   (.. event -target -checked  )
+                                             item-id   (<-- :id)]
+                                         (if newtext
+                                           (go (sql "update  coils_todo_items   set item_status = 'COMPLETED' where id = ?" [item-id]  ))
+                                           (go (sql "update  coils_todo_items   set item_status = 'ACTIVE' where id = ?" [item-id]  )))))}))
 
-                  (label {:style {:width   "70%"}
-                          :className (if (= (<-- :item_status) "COMPLETED") "completed" "item")}
-                                (str (<-- :item)))
+             (label {:style {:width   "70%"}
+                     :className (if (= (<-- :item_status) "COMPLETED") "completed" "item")}
+                    (str (<-- :item)))
 
-                  (button {:className   "destroy"
-                           :style {:width   "10%"}
-                           :onClick
-                           (fn [e]
-                             (go
-                              (sql "delete from  coils_todo_items  where id = ?"
-                                   [(<-- :id)]  ))
-                                          false)}))))
+             (button {:className    "destroy"
+                      :style       {:width   "10%"}
+                      :onClick     (fn [e]
+                                     (go (sql "delete from  coils_todo_items  where id = ?"
+                                              [(<-- :id)]  ))
+                                     false)}))))
 
 
 
@@ -93,8 +86,7 @@
 
   (let [active-items      (select id from  coils_todo_items where item_status = 'ACTIVE' {})
         total-items       (select id from  coils_todo_items {})
-        completed-items   (select id from  coils_todo_items where item_status = 'COMPLETED' {})
-        ]
+        completed-items   (select id from  coils_todo_items where item_status = 'COMPLETED' {})  ]
 
     (if (pos? (count total-items))
       (do
@@ -121,9 +113,7 @@
                           :onClick #(do (go
                                           (sql "delete from  coils_todo_items  where item_status = 'COMPLETED'" []  ))
                                       false)
-                          } "Clear completed"))
-
-               ))))))
+                          } "Clear completed"))))))))
 
 
 
@@ -135,9 +125,8 @@
 
 (defn-ui-component     main-to-do-app   [app] {}
 
-  (section
-    {:className "todoapp"}
-    (header {} (h2 nil "Coils Todo App"))
+  (section {:className "todoapp"}
+    (header {} (h2 nil "Coils Todo MVC"))
     (div {:className "main_div"}
 
          (component  new-do-item-component   app  [])
