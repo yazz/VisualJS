@@ -1603,27 +1603,21 @@
 
 
 
+(defn folder [file-name]
+  (cond
+    (is-mac-osx)
+    (str "../project_coilsapps/app1/coils/src/webapp/framework/client/components/" file-name)
+
+    :else
+    (str "D:\\appshare\\app1\\coils\\src\\webapp\\framework\\client\\components\\" file-name)))
 
 
 
 
-(defn !getfilecontents [{:keys [
+(defn !getfilecontents [{:keys []}]
+  (let [content (slurp (folder "main_view_middle.txt"))]
 
-                                 ]}
-                        ]
-  (let [content
-
-       (cond
-     (is-mac-osx)
-        (slurp "../project_coilsapps/app1/coils/src/webapp/framework/client/components/main_view.cljs")
-
-        :else
-        (slurp "D:\\appshare\\app1\\coils\\src\\webapp\\framework\\client\\components\\main_view.cljs")
-        )
-        ]
-
-  {:value content}
-  ))
+    {:value content}))
 
 
 
@@ -1635,14 +1629,17 @@
 
 (defn !savecode [{:keys [] } code]
   (do
-    (cond
-     (is-mac-osx)
-     (spit "../project_coilsapps/app1/coils/src/webapp/framework/client/components/main_view.cljs" code)
+    (spit (folder "main_view_middle.txt") code)
+    (let [start     (slurp (folder "main_view_start.txt"))
+          middle    (slurp (folder "main_view_middle.txt"))
+          end       (slurp (folder "main_view_end.txt"))
 
-     :else
-     (spit "D:\\appshare\\app1\\coils\\src\\webapp\\framework\\client\\components\\main_view.cljs" code)
-     )
-    (println (str "Saved get:" code))
+          joined    (str  start  middle  end)
+          ]
+      (spit (folder "main_view.cljs") joined)
+      (println (str "COMPILED:" start))
+      )
+
     {:value code}))
 
 

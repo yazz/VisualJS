@@ -6,7 +6,7 @@
     )
   (:use-macros
    [webapp.framework.client.coreclient  :only [ns-coils defn-ui-component def-coils-app
-                                               container  map-many  inline  text log sql textarea
+                                               container  map-many  inline  text log sql textarea a
                                                div img pre component h2 input section header button label form iframe
                                                write-ui read-ui container input component <-- data-view-result-set
                                                h1 h2 h3 h4 h5 h6 span  data-view-v2 select dselect realtime drealtime
@@ -35,18 +35,18 @@
      )}
 
   (div nil
-       (div {}
-            (div {} "App Share")
-            (button {:onClick #(go
-                                 (let [code (.getValue js/myCodeMirror) ]
-
-                                   (log "...")
-
-                                   (let [x (remote !savecode {} code)]
-                                     (log (str "saved: " x)))
-                                   )
-                                 )} "Save")
-            )
+       (div {:style     {:margin "5px"}}
+            (div {:style {:display "inline-block"}} "Clojure on Coils")
+            (button {:className "btn btn-default"
+                     :style     {:display "inline-block" :marginLeft "30px"}
+                     :onClick   #(go
+                                   (let [code (.getValue js/myCodeMirror) ]
+                                     (remote !savecode {} code))
+                                   )} "Save")
+            (a {:className "btn btn-default"
+                :target "new"
+                     :style     {:display "inline-block" :marginLeft "30px"}
+                     :href   "http://127.0.0.1:3450"} "Run in own window"))
        (div {}
             (div {:style {:display "inline-block" :width "1200" :height "800" :verticalAlign "top"}}
                  (textarea {:id "cm" :style {:display "inline-block" :width "1200" :height "800"}} ""))
