@@ -19,13 +19,14 @@
 
 (defn-ui-component     new-do-item-component   [app] {}
 
-  (input-field {:placeholder  "Enter a new todo here"} app
-         (fn [new-todo-item-text] (go
-            (sql "insert into coils_todo_items
-                            (item, item_status)
-                  values
-                            (?,                  ?)"
-                            [new-todo-item-text  "ACTIVE"]  )))))
+  (input-field {:style {:marginBottom "20px"}
+                 :placeholder  "Enter a new todo here"} app
+               (fn [new-todo-item-text] (go
+                                          (sql "insert into coils_todo_items
+                                               (item, item_status)
+                                               values
+                                               (?,                  ?)"
+                                               [new-todo-item-text  "ACTIVE"]  )))))
 
 
 
@@ -52,7 +53,7 @@
 
             (container
 
-             (div {:className  "checkbox"  :style { :top "-20px" :width "20%" :display "inline-block;"} }
+             (div {:className  "checkbox"  :style { :top "-22px" :width "20%" :display "inline-block;"} }
                   (input {:type  "checkbox"
                           :checked   (if (= (<-- :item_status) "COMPLETED") "T" "")
                           :onChange  (fn [event]
@@ -62,7 +63,7 @@
                                            (go (sql "update  coils_todo_items   set item_status = 'COMPLETED' where id = ?" [item-id]  ))
                                            (go (sql "update  coils_todo_items   set item_status = 'ACTIVE' where id = ?" [item-id]  )))))}))
 
-             (label {:style {:width   "70%"}
+             (label {:style {:width   "70%" :height "1.5em"}
                      :className (if (= (<-- :item_status) "COMPLETED") "completed" "item")}
                     (str (<-- :item)))
 
@@ -125,8 +126,8 @@
 
 (defn-ui-component     main-to-do-app   [app] {}
 
-  (section {:className "todoapp"}
-    (header {} (h2 nil "Coils Todo MVC"))
+  (section {:className "todoapp" :style {:fontFamily "Roboto"}}
+    (div {} (h2 {:style {:fontFamily "Ubuntu" :fontWeight "700" :fontSize "2em"}} "Coils Todo MVC"))
     (div {:className "main_div"}
 
          (component  new-do-item-component   app  [])
