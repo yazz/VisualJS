@@ -907,12 +907,6 @@ anywhere
 (defonce  data-views (atom  {}))
 
 
-(count @data-views)
-@data-views
-
-
-
-
 (comment reset! webapp.framework.client.coreclient/data-views-proxy
                (into {}
                      (filter #(if (not (=   "list-questions"

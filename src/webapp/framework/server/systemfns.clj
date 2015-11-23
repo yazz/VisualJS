@@ -110,6 +110,18 @@
 
 
 
+(defn !get-main-background-color []
+  {:value *main-background-color*})
+
+
+
+
+(defn !get-main-text-color []
+  {:value *main-text-color*})
+
+
+
+
 
 
 

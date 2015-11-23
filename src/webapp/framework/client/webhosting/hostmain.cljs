@@ -35,8 +35,10 @@
      )}
 
   (div nil
-       (div {:style     {:margin "5px"}}
-            (div {:style {:display "inline-block"}} "Clojure on Coils")
+       (div {:style     {:border "15px"}}
+            (div {:style {:display "inline-block" :fontFamily "Ubuntu" :fontWeight "700" :fontSize "1em"
+
+                          }} "AppShare")
             (button {:className "btn btn-default"
                      :style     {:display "inline-block" :marginLeft "30px"}
                      :onClick   #(go

@@ -347,7 +347,6 @@
 
 
 
-
 (go
  (let [env (:value (<! (remote-fn "!get-environment" {})))]
    (if (or (= env "dev") (= env "base") (= env "basehost"))
@@ -360,6 +359,21 @@
                                      (<! (remote-fn "!get-record-pointer-locally" {})))]
      (reset! record-pointer-locally
              record-pointer-locally-value)))
+
+
+
+
+(go
+ (let [main-background-color (:value
+                                     (<! (remote-fn "!get-main-background-color" {})))]
+     (set! (.-backgroundColor (.-style (.getElementById js/document  "bodyelement"))) main-background-color)))
+
+
+(go
+ (let [main-text-color (:value
+                                     (<! (remote-fn "!get-main-text-color" {})))]
+     (set! (.-color (.-style (.getElementById js/document  "bodyelement"))) main-text-color)))
+
 
 
 

@@ -8,6 +8,8 @@
 (defonce ^:dynamic *mandrill-api-key* "enter_api_key_for_mandrill_here")
 
 (defonce ^:dynamic *record-pointer-locally* false)
+(defonce ^:dynamic *main-background-color* "white")
+(defonce ^:dynamic *main-text-color* "black")
 
 (defonce ^:dynamic *record-ui* false)
 
