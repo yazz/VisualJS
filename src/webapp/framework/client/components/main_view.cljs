@@ -52,7 +52,7 @@
 
             (container
 
-             (div {:className  "checkbox"  :style { :width "20%" :display "inline-block;"} }
+             (div {:className  "checkbox"  :style { :top "-20px" :width "20%" :display "inline-block;"} }
                   (input {:type  "checkbox"
                           :checked   (if (= (<-- :item_status) "COMPLETED") "T" "")
                           :onChange  (fn [event]
