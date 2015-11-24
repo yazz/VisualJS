@@ -8,7 +8,7 @@
         <pre>
         React + SQL + Clojurescript
         =
-        Amazing realtime webapps!
+        Amazing realtime enterprise webapps!
         </pre>
     </span>
 </div>
