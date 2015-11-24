@@ -19,6 +19,22 @@
 
 
 
+(defn-ui-component     editor-component   [app]
+ {:on-mount
+   (do  (go (let [x (remote  !getfilecontents  {:file-name nil})]
+              (js/createEditor)
+              (js/populateEditor (get x :value)))))}
+
+
+  (div {}
+            (div {:style {:display "inline-block" :width "1200" :height "800" :verticalAlign "top"}}
+                 (textarea {:id "cm" :style {:display "inline-block" :width "1200" :height "800"}} ""))
+
+            (iframe {:style {:display "inline-block"} :src "http://127.0.0.1:3450" :width "600" :height "800"})))
+
+
+
+
 
 
 
@@ -35,19 +51,35 @@
 
             (button {:className    "btn btn-default"
                      :style       {:display "inline-block" :marginLeft "30px" :fontFamily "Ubuntu" :fontSize "1em" :marginTop "-0.9em"}
+                     :onClick     #(write-ui app [:mode] "browse")} "Browse")
+
+            (button {:className    "btn btn-default"
+                     :style       {:display "inline-block" :marginLeft "30px" :fontFamily "Ubuntu" :fontSize "1em" :marginTop "-0.9em"}
+                     :onClick     #(write-ui app [:mode] "edit")} "Edit")
+
+
+
+            (a {:className    "btn btn-default"
+                :target       "new"
+                :style       {:float "right"  :display "inline-block" :marginLeft "30px" :fontFamily "Ubuntu" :fontSize "1em"  :marginTop "0.2em" }
+                :href         "http://127.0.0.1:3450"} "Run in own window")
+
+            (button {:className    "btn btn-default"
+                     :style       {:float "right" :display "inline-block" :marginLeft "30px" :fontFamily "Ubuntu" :fontSize "1em" :marginTop "0.2em"  }
                      :onClick     #(go
                                      (let [code (.getValue js/myCodeMirror) ]
                                        (remote !savecode {} code))   )} "Save")
 
-            (a {:className    "btn btn-default"
-                :target       "new"
-                :style       {:display "inline-block" :marginLeft "30px" :fontFamily "Ubuntu" :fontSize "1em"  :marginTop "-0.9em"}
-                :href         "http://127.0.0.1:3450"} "Run in own window"))
-       (div {}
-            (div {:style {:display "inline-block" :width "1200" :height "800" :verticalAlign "top"}}
-                 (textarea {:id "cm" :style {:display "inline-block" :width "1200" :height "800"}} ""))
+            )
+       (cond
+         (or (= (read-ui app [:mode]) nil) (= (read-ui app [:mode]) "browse"))
+         (div {} "Browse")
 
-            (iframe {:style {:display "inline-block"} :src "http://127.0.0.1:3450" :width "600" :height "800"}))))
+         (= (read-ui app [:mode]) "edit")
+         (component editor-component app [])
+
+         :else
+         (div {} "Nothing selected"))))
 
 
 
