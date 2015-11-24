@@ -18,6 +18,7 @@
 (defonce ^:dynamic *environment* "basehost")
 
 (defonce ^:dynamic *web-server* "127.0.0.1:3449")
+(defonce ^:dynamic *base-dev-port* 3450)
 
 
 (defonce ^:dynamic *database-type* "postgres")

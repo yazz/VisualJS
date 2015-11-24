@@ -177,9 +177,27 @@
 
 ; deletes the realtime log every time the file is reloaded, or the server is restarted
 (if (not *hosted-mode*)
-  (if (does-table-exist "coils_realtime_log")
-    (korma.core/exec-raw ["delete from coils_realtime_log" []] [])))
+  (do
+    (if (does-table-exist "coils_realtime_log")
+      (korma.core/exec-raw ["delete from coils_realtime_log" []] []))))
 
+
+
+(def max-figwheel-processes 2)
+; deletes the realtime log every time the file is reloaded, or the server is restarted
+(if *hosted-mode*
+ (let [figwheel-index    (range 0 max-figwheel-processes)]
+  (if (does-table-exist "coils_figwheel_processes")
+    (korma.core/exec-raw ["delete from coils_figwheel_processes" []] []))
+
+
+  (println (str "****** RANGE ************* " figwheel-index))
+  (doall (for [a figwheel-index]
+           (do
+             (println a)
+             (sql "insert into coils_figwheel_processes (figwheel_port) values (?);" [(+ a *base-dev-port*)])
+             (sql "select count(*) from coils_todo_items")
+             )))))
 
 
 

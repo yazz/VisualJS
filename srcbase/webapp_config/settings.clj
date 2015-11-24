@@ -18,8 +18,7 @@
 (defonce ^:dynamic *environment* "base")
 
 (defonce ^:dynamic *web-server* "127.0.0.1:3449")
-
-(defonce ^:dynamic *hosted-mode* false)
+(defonce ^:dynamic *base-dev-port* 3450)
 
 
 (defonce ^:dynamic *database-type* "postgres")
@@ -27,6 +26,12 @@
 (defonce ^:dynamic *database-user* "postgres")
 (defonce ^:dynamic *database-password* "manager")
 (defonce ^:dynamic *database-name* "postgres")
+
+(defonce ^:dynamic *hosted-mode* false)
+
+(defonce ^:dynamic *project-root-windows* "D:\\appshare\\")
+(defonce ^:dynamic *project-root-mac* "../project_coilsapps/")
+(defonce ^:dynamic *project-root-linux* "")
 
 
 ;(defonce ^:dynamic *database-type* "oracle")
