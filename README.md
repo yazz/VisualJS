@@ -1,3 +1,6 @@
+### Explore, Create, Share
+### The Open Source Enterprise App Store
+
 <div >
     <img style="float: left" src='http://coils.cc/coils/images/enterpriseapp.jpg' /> 
     
