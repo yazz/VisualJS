@@ -1,6 +1,7 @@
 # Coils - Explore, Create, Share
 ### The Open Source Enterprise App Store
 
+Click the image to see the video
 [![IMAGE Click here to see video](http://coils.cc/coils/images/enterpriseapp.jpg)] (http://www.youtube.com/watch?v=CzwikfCAdws)
 
 <div >
