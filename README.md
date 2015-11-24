@@ -1,4 +1,4 @@
-### Explore, Create, Share
+# Coils - Explore, Create, Share
 ### The Open Source Enterprise App Store
 
 <div >
