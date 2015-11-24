@@ -28,6 +28,9 @@
 
 (defonce ^:dynamic *hosted-mode* true)
 
+(defonce ^:dynamic *project-root-windows* "D:\\appshare\\")
+(defonce ^:dynamic *project-root-mac* "../project_coilsapps/")
+(defonce ^:dynamic *project-root-linux* "")
 
 
 ;(defonce ^:dynamic *database-type* "oracle")
