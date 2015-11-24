@@ -24,29 +24,24 @@
 
 (defn-ui-component     main-hosting-component   [app]
   {:on-mount
-   (do
-     (go
-       (log (str "*******************"))
-       (let [x (remote  !getfilecontents  {:file-name nil})]
-         (log (str "*******************" x))
-         (js/createEditor)
-         (js/populateEditor (get x :value))
-         ))
-     )}
+   (do  (go (let [x (remote  !getfilecontents  {:file-name nil})]
+              (js/createEditor)
+              (js/populateEditor (get x :value)))))}
+
 
   (div nil
-       (div {:style     {:border "15px"}}
-            (div {:style {:display "inline-block" :fontFamily "Ubuntu" :fontWeight "700" :fontSize "1em"}} "AppShare")
+       (div {:style     {:border "0px" :backgroundColor "black" :width "100%" :height "3em" :verticalAlign "top"}}
+            (div {:style {:display "inline-block" :fontFamily "Ubuntu" :fontWeight "700" :fontSize "1.3em" ::marginTop "0.7em"}} "AppShare")
 
             (button {:className    "btn btn-default"
-                     :style       {:display "inline-block" :marginLeft "30px"}
+                     :style       {:display "inline-block" :marginLeft "30px" :fontFamily "Ubuntu" :fontSize "1em" :marginTop "-0.9em"}
                      :onClick     #(go
                                      (let [code (.getValue js/myCodeMirror) ]
                                        (remote !savecode {} code))   )} "Save")
 
             (a {:className    "btn btn-default"
                 :target       "new"
-                :style       {:display "inline-block" :marginLeft "30px"}
+                :style       {:display "inline-block" :marginLeft "30px" :fontFamily "Ubuntu" :fontSize "1em"  :marginTop "-0.9em"}
                 :href         "http://127.0.0.1:3450"} "Run in own window"))
        (div {}
             (div {:style {:display "inline-block" :width "1200" :height "800" :verticalAlign "top"}}
