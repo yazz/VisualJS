@@ -38,6 +38,34 @@
 
 
 
+
+
+
+
+(defn-ui-component     browser-component   [app]
+ {}
+
+
+  (div {:style {:margin "30px"}}
+            (select id, application_name,application_code from coils_applications {}
+                    (div {:style {:fontFamily "Ubuntu" :fontWeight "700" :fontSize "1.3em" ::marginTop "0.7em"}}
+                         (str (<-- :application_name)
+                         " - "
+                         (<-- :application_code))
+                         ))))
+
+
+
+
+
+
+
+
+
+
+
+
+
 (defn-ui-component     main-hosting-component   [app]
   {:on-mount
    (do  (go (let [x (remote  !getfilecontents  {:file-name nil})]
@@ -73,13 +101,15 @@
             )
        (cond
          (or (= (read-ui app [:mode]) nil) (= (read-ui app [:mode]) "browse"))
-         (div {} "Browse")
+         (component browser-component app [])
 
          (= (read-ui app [:mode]) "edit")
          (component editor-component app [])
 
          :else
          (div {} "Nothing selected"))))
+
+
 
 
 
