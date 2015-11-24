@@ -36,26 +36,23 @@
 
   (div nil
        (div {:style     {:border "15px"}}
-            (div {:style {:display "inline-block" :fontFamily "Ubuntu" :fontWeight "700" :fontSize "1em"
+            (div {:style {:display "inline-block" :fontFamily "Ubuntu" :fontWeight "700" :fontSize "1em"}} "AppShare")
 
-                          }} "AppShare")
-            (button {:className "btn btn-default"
-                     :style     {:display "inline-block" :marginLeft "30px"}
-                     :onClick   #(go
-                                   (let [code (.getValue js/myCodeMirror) ]
-                                     (remote !savecode {} code))
-                                   )} "Save")
-            (a {:className "btn btn-default"
-                :target "new"
-                     :style     {:display "inline-block" :marginLeft "30px"}
-                     :href   "http://127.0.0.1:3450"} "Run in own window"))
+            (button {:className    "btn btn-default"
+                     :style       {:display "inline-block" :marginLeft "30px"}
+                     :onClick     #(go
+                                     (let [code (.getValue js/myCodeMirror) ]
+                                       (remote !savecode {} code))   )} "Save")
+
+            (a {:className    "btn btn-default"
+                :target       "new"
+                :style       {:display "inline-block" :marginLeft "30px"}
+                :href         "http://127.0.0.1:3450"} "Run in own window"))
        (div {}
             (div {:style {:display "inline-block" :width "1200" :height "800" :verticalAlign "top"}}
                  (textarea {:id "cm" :style {:display "inline-block" :width "1200" :height "800"}} ""))
 
-            (iframe {:style {:display "inline-block"} :src "http://127.0.0.1:3450" :width "600" :height "800"})
-            )
-       ))
+            (iframe {:style {:display "inline-block"} :src "http://127.0.0.1:3450" :width "600" :height "800"}))))
 
 
 

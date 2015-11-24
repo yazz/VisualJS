@@ -304,10 +304,7 @@
                                     "data"
                                     data-watchers
                                     [app]
-                                    data-chan)
-
-
-                  ))
+                                    data-chan)))
 
 
 

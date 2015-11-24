@@ -98,8 +98,7 @@
           (om/root   main-view
                      app-state
 
-                 {:target (. js/document (getElementById "main"))
-                })))
+                 {:target (. js/document (getElementById "main"))})))
 
 
 
