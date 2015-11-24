@@ -2,8 +2,7 @@
 ### The Open Source Enterprise App Store
 
 <div >
-    <img style="float: left" src='http://coils.cc/coils/images/enterpriseapp.jpg' /> 
-    [![Click here to see video](http://coils.cc/coils/images/enterpriseapp.jpg)](http://www.youtube.com/watch?v=CzwikfCAdws)
+    [![Click here to see video](http://coils.cc/coils/images/enterpriseapp.jpg)](http://www.youtube.com/watch?v=CzwikfCAdws)]
     
     <span style="float: left">
         <pre>
