@@ -13,7 +13,7 @@
   (:require [clojure.java.io :as io])
   (:use [webapp.framework.server.globals])
   (:use [webapp.framework.server.db-helper])
-
+  (:require [me.raynes.fs    :as fs])
   (:require [ring.middleware.json :refer [wrap-json-response  wrap-json-body  wrap-json-params]])
 )
 
@@ -223,12 +223,14 @@
 
       (println (str "****** RANGE ************* " figwheel-index))
       (doall (for [a figwheel-index]
-               (let [new-dir          (str *project-root-windows* "figwheel_dev_envs\\app" a)
-                     java-new-dir     (io/file new-dir)
+               (let [src-dir           (str *project-root-windows* "coils\\")
+                     new-dir           (str *project-root-windows* "figwheel_dev_envs\\app" a)
+                     java-new-dir      (io/file new-dir)
                      ]
                  (println (str "making new fiwheel instance: " a " + " new-dir))
                  (sql "insert into coils_figwheel_processes (figwheel_port) values (?);" [(+ a *base-dev-port*)])
                  (.mkdir   java-new-dir)
+                 (fs/copy-dir src-dir  new-dir)
                  )))
 
       )
@@ -238,8 +240,6 @@
 
 
    ))
-
-
 
 
 

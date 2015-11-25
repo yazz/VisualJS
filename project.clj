@@ -1,33 +1,35 @@
 (defproject org.clojars.zubairq/coils "0.7.5-beta"
   :dependencies [
-                 [org.clojure/clojure "1.7.0" :scope "provided"]
-                 [org.clojure/clojurescript "1.7.170" :scope "provided"]
-                 [org.omcljs/om "1.0.0-alpha22"]
-                 [org.clojure/core.async "0.2.374" :scope "provided"]
-                 [cljsjs/react "0.14.0-0"]
+                  [org.clojure/clojure "1.7.0" :scope "provided"]
+                  [org.clojure/clojurescript "1.7.170" :scope "provided"]
+                  [org.omcljs/om "1.0.0-alpha22"]
+                  [org.clojure/core.async "0.2.374" :scope "provided"]
+                  [cljsjs/react "0.14.0-0"]
 
-                 [korma "0.4.2"]
+                  [korma "0.4.2"]
 
-                 [org.postgresql/postgresql "9.2-1004-jdbc41"]
-                 [org.clojars.gukjoon/ojdbc "1.4"]
-                 ; [com.oracle/ojdbc "12.1.0.2"]
+                  [org.postgresql/postgresql "9.2-1004-jdbc41"]
+                  [org.clojars.gukjoon/ojdbc "1.4"]
+                  ; [com.oracle/ojdbc "12.1.0.2"]
 
-                 [compojure "1.4.0"]
-                 [ring "1.4.0"]
-                 [ring-middleware-format "0.7.0"]
-                 [rewrite-clj "0.2.0"]
-                 [org.jasypt/jasypt "1.9.2"]
-                 [clj-http "2.0.0"]
-                 [cheshire "5.5.0"]
-                 [ankha "0.1.4"]
-                 [overtone/at-at "1.2.0"]
-                 [org.clojure/tools.nrepl "0.2.11"]
-                 [instaparse "1.4.1"]
+                  [compojure "1.4.0"]
+                  [ring "1.4.0"]
+                  [ring-middleware-format "0.7.0"]
+                  [rewrite-clj "0.2.0"]
+                  [org.jasypt/jasypt "1.9.2"]
+                  [clj-http "2.0.0"]
+                  [cheshire "5.5.0"]
+                  [ankha "0.1.4"]
+                  [overtone/at-at "1.2.0"]
+                  [org.clojure/tools.nrepl "0.2.11"]
+                  [instaparse "1.4.1"]
 
-                [ring/ring-json "0.4.0"]
+                  [me.raynes/fs "1.4.6"]
 
-                 [org.webjars/codemirror "5.8"]
-                 ]
+                  [ring/ring-json "0.4.0"]
+
+                  [org.webjars/codemirror "5.8"]
+                  ]
   :repositories {"sonatype-oss-public"
                  "https://oss.sonatype.org/content/groups/public/"}
 
