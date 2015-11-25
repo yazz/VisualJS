@@ -1702,24 +1702,42 @@
 
 
 
-(defn !getfilecontents [{:keys []}]
-  (let [content (slurp (folder "main_view_middle.txt"))]
-
-    {:value content}))
-
-
-
-
-
+(defn !getfilecontents [{:keys [id]}]
+  (if id
+    (let [content-records (sql "select  application_code from coils_applications where id = ?" [id])
+          content (get (first content-records) :application_code)
+          ]
+      (println (str "id: " id))
+      {:value content})))
 
 
 
 
-(defn !savecode [{:keys [] } code]
+(defn !loadapp [{:keys [id] }]
   (do
-    (spit (folder "main_view_middle.txt") code)
+    (let [content-records  (sql "select  application_code from coils_applications where id = ?" [id])
+          content          (get (first content-records) :application_code)
+          start     (slurp (folder "main_view_start.txt"))
+          middle    content
+          end       (slurp (folder "main_view_end.txt"))
+
+          joined    (str  start  middle  end)
+          ]
+      (spit (folder "main_view.cljs") joined)
+      (println (str "COMPILED:" start))
+      )
+
+    {:value ""}))
+
+
+
+
+
+(defn !savecode [{:keys [id] } code]
+  (do
+    (sql "update coils_applications set application_code = ? where id = ?" [code id])
     (let [start     (slurp (folder "main_view_start.txt"))
-          middle    (slurp (folder "main_view_middle.txt"))
+          middle    code
           end       (slurp (folder "main_view_end.txt"))
 
           joined    (str  start  middle  end)
@@ -1732,4 +1750,9 @@
 
 
 
+
+(defn !newapp []
+  (do
+    (sql "insert into coils_applications (application_name,application_code) values (?,?)" ["name"      "(defn-ui-component     main-to-do-app   [app] {} (div nil \"demo\"))"])
+    {}))
 

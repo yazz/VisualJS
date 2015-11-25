@@ -19,11 +19,13 @@
 
 
 
+
 (defn-ui-component     editor-component   [app]
  {:on-mount
-   (do  (go (let [x (remote  !getfilecontents  {:file-name nil})]
-              (js/createEditor)
-              (js/populateEditor (get x :value)))))}
+  (do  (go (if  (read-ui app [:app-id])
+             (let [x (remote  !getfilecontents  {:id (read-ui app [:app-id]) })]
+               (js/createEditor)
+               (js/populateEditor (get x :value))))))}
 
 
   (div {}
@@ -42,17 +44,20 @@
 
 
 
-(defn-ui-component     browser-component   [app]
- {}
+(defn-ui-component     browser-component   [app]  {}
 
 
   (div {:style {:margin "30px"}}
-            (select id, application_name,application_code from coils_applications {}
-                    (div {:style {:fontFamily "Ubuntu" :fontWeight "700" :fontSize "1.3em" ::marginTop "0.7em"}}
-                         (str (<-- :application_name)
-                         " - "
-                         (<-- :application_code))
-                         ))))
+       (select id, application_name from coils_applications {}
+               (div nil
+                    (div {:style {:display "inline-block" :fontFamily "Ubuntu" :fontWeight "700" :fontSize "1.3em" ::marginTop "0.7em"}}
+                         (str (<-- :application_name)))
+                    (button {:style {:marginLeft "30px"} :className "btn btn-default"
+                             :onClick     #(go (write-ui app [:mode] "edit")
+                                             (write-ui app [:app-id] (<-- :id))
+                                             (remote !loadapp {:id (<-- :id)})
+                                             )
+                             } "Edit")))))
 
 
 
@@ -83,7 +88,8 @@
 
             (button {:className    "btn btn-default"
                      :style       {:display "inline-block" :marginLeft "30px" :fontFamily "Ubuntu" :fontSize "1em" :marginTop "-0.9em"}
-                     :onClick     #(write-ui app [:mode] "edit")} "Edit")
+                     :onClick     #(go
+                                      (remote !newapp {}))   } "New")
 
 
 
@@ -96,7 +102,7 @@
                      :style       {:float "right" :display "inline-block" :marginLeft "30px" :fontFamily "Ubuntu" :fontSize "1em" :marginTop "0.2em"  }
                      :onClick     #(go
                                      (let [code (.getValue js/myCodeMirror) ]
-                                       (remote !savecode {} code))   )} "Save")
+                                       (remote !savecode {:id (read-ui app [:app-id])} code))   )} "Save")
 
             )
        (cond
