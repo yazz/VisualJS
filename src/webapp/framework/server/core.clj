@@ -175,31 +175,6 @@
 
 
 
-; deletes the realtime log every time the file is reloaded, or the server is restarted
-(if (not *hosted-mode*)
-  (do
-    (if (does-table-exist "coils_realtime_log")
-      (korma.core/exec-raw ["delete from coils_realtime_log" []] []))))
-
-
-
-(def max-figwheel-processes 2)
-; deletes the realtime log every time the file is reloaded, or the server is restarted
-(if *hosted-mode*
- (let [figwheel-index    (range 0 max-figwheel-processes)]
-  (if (does-table-exist "coils_figwheel_processes")
-    (korma.core/exec-raw ["delete from coils_figwheel_processes" []] []))
-
-
-  (println (str "****** RANGE ************* " figwheel-index))
-  (doall (for [a figwheel-index]
-           (do
-             (println a)
-             (sql "insert into coils_figwheel_processes (figwheel_port) values (?);" [(+ a *base-dev-port*)])
-             (sql "select count(*) from coils_todo_items")
-             )))))
-
-
 (defn delete-recursively [fname]
   (let [func (fn [func f]
                (when (.isDirectory f)
@@ -212,11 +187,59 @@
 
 
 
-(let [dir (str *project-root-windows* "figwheel_dev_envs")
-      java-dir (io/file dir)
-      app-dire-exists (.exists   java-dir)
-      ]
-  (println dir ":" app-dire-exists)
-  (if app-dire-exists
-    (delete-recursively   java-dir)
-    ))
+
+; deletes the realtime log every time the file is reloaded, or the server is restarted
+(if (not *hosted-mode*)
+  (do
+    (if (does-table-exist "coils_realtime_log")
+      (korma.core/exec-raw ["delete from coils_realtime_log" []] []))))
+
+
+
+(def max-figwheel-processes 2)
+; deletes the realtime log every time the file is reloaded, or the server is restarted
+(if *hosted-mode*
+  (let [figwheel-index    (range 0 max-figwheel-processes)]
+    (if (does-table-exist "coils_figwheel_processes")
+      (korma.core/exec-raw ["delete from coils_figwheel_processes" []] []))
+
+
+
+
+
+    (let [dir (str *project-root-windows* "figwheel_dev_envs")
+          java-dir (io/file dir)
+          app-dire-exists (.exists   java-dir)
+          ]
+      (println dir ":" app-dire-exists)
+      (if app-dire-exists
+        (delete-recursively   java-dir)
+        )
+
+
+      (.mkdir   java-dir)
+
+
+
+      (println (str "****** RANGE ************* " figwheel-index))
+      (doall (for [a figwheel-index]
+               (let [new-dir          (str *project-root-windows* "figwheel_dev_envs\\app" a)
+                     java-new-dir     (io/file new-dir)
+                     ]
+                 (println (str "making new fiwheel instance: " a " + " new-dir))
+                 (sql "insert into coils_figwheel_processes (figwheel_port) values (?);" [(+ a *base-dev-port*)])
+                 (.mkdir   java-new-dir)
+                 )))
+
+      )
+
+
+
+
+
+   ))
+
+
+
+
+
