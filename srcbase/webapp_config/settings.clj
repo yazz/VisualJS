@@ -17,7 +17,7 @@
 
 (defonce ^:dynamic *environment* "base")
 
-(defonce ^:dynamic *web-server* "127.0.0.1:3449")
+(defonce ^:dynamic *web-server* "127.0.0.1:3450")
 (defonce ^:dynamic *base-dev-port* 3450)
 
 
