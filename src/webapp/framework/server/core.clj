@@ -1,6 +1,7 @@
 (ns webapp.framework.server.core
   [:require [webapp.server.fns]]
   [:use [webapp.framework.server.systemfns]]
+  (:use [clojure.java.shell :only [sh]])
   [:use [ring.middleware.format]]
   [:use [compojure.core]]
 ;  [:use [ring.middleware.json]]
@@ -207,7 +208,7 @@
 
 
 
-(def max-figwheel-processes 2)
+(def max-figwheel-processes 1)
 ; deletes the realtime log every time the file is reloaded, or the server is restarted
 (if *hosted-mode*
   (let [figwheel-index    (range 0 max-figwheel-processes)]
@@ -247,8 +248,9 @@
                  (replace-in-file (str new-dir "\\coils\\project.clj")  3449 figwheel-port )
                  (replace-in-file (str new-dir "\\coils\\srcbase\\webapp_config\\settings.clj")  3449 figwheel-port)
 
-                 ))))))
+                 (future (sh "C:\\Users\\user\\.lein\\bin\\lein.bat" "with-profile" "base" "figwheel" :dir (str new-dir "\\coils")))
 
+                 ))))))
 
 
 
