@@ -187,6 +187,17 @@
 
 
 
+(defn replace-in-file [ file-location     text-to-find   text-to-replace ]
+  (do
+    (println (str "***replace-in-file: "  file-location))
+    (let [aa         (slurp  file-location)
+          bb         (.replace  aa    (str text-to-find)  (str text-to-replace))]
+
+      (spit file-location  bb))))
+
+
+
+
 
 ; deletes the realtime log every time the file is reloaded, or the server is restarted
 (if (not *hosted-mode*)
@@ -226,20 +237,19 @@
                (let [src-dir           (str *project-root-windows* "coils\\")
                      new-dir           (str *project-root-windows* "figwheel_dev_envs\\app" a)
                      java-new-dir      (io/file new-dir)
+                     figwheel-port     (+ a *base-dev-port*)
                      ]
-                 (println (str "making new fiwheel instance: " a " + " new-dir))
-                 (sql "insert into coils_figwheel_processes (figwheel_port) values (?);" [(+ a *base-dev-port*)])
+                 (println (str "***making new figheel instance: " a " + " new-dir))
+                 (sql "insert into coils_figwheel_processes (figwheel_port) values (?);" [figwheel-port])
                  (.mkdir   java-new-dir)
                  (fs/copy-dir src-dir  new-dir)
-                 )))
 
-      )
+                 (replace-in-file (str new-dir "\\coils\\project.clj")  3449 figwheel-port )
+                 (replace-in-file (str new-dir "\\coils\\srcbase\\webapp_config\\settings.clj")  3449 figwheel-port)
+
+                 ))))))
 
 
-
-
-
-   ))
 
 
 
