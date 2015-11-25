@@ -15,6 +15,8 @@
   (:use [webapp.framework.server.globals])
   (:use [webapp.framework.server.db-helper])
   (:require [me.raynes.fs    :as fs])
+  (:require [me.raynes.conch])
+  (:require [me.raynes.conch.low-level])
   (:require [ring.middleware.json :refer [wrap-json-response  wrap-json-body  wrap-json-params]])
 )
 
@@ -248,10 +250,9 @@
                  (replace-in-file (str new-dir "\\coils\\project.clj")  3449 figwheel-port )
                  (replace-in-file (str new-dir "\\coils\\srcbase\\webapp_config\\settings.clj")  3449 figwheel-port)
 
-                 (future (sh "C:\\Users\\user\\.lein\\bin\\lein.bat" "with-profile" "base" "figwheel" :dir (str new-dir "\\coils")))
+                 (let [p (me.raynes.conch.low-level/proc  "D:\\project_coils\\figwheel_dev_envs\\app0\\coils\\start_figwheel_client.bat")]
+                   (future (me.raynes.conch.low-level/stream-to-out p :out)))
+                 ;(future (sh "call" "start_figwheel_client.bat"  :dir (str new-dir "\\coils")))
 
                  ))))))
-
-
-
 

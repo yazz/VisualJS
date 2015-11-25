@@ -1,12 +1,16 @@
+
+
+
 (defn-ui-component     new-do-item-component   [app] {}
 
-  (input-field {:placeholder  "Enter a new todo here"} app
-         (fn [new-todo-item-text] (go
-            (sql "insert into coils_todo_items
-                            (item, item_status)
-                  values
-                            (?,                  ?)"
-                            [new-todo-item-text  "ACTIVE"]  )))))
+  (input-field {:style {:marginBottom "20px"}
+                 :placeholder  "Enter a new todo here"} app
+               (fn [new-todo-item-text] (go
+                                          (sql "insert into coils_todo_items
+                                               (item, item_status)
+                                               values
+                                               (?,                  ?)"
+                                               [new-todo-item-text  "ACTIVE"]  )))))
 
 
 
@@ -28,34 +32,31 @@
                  order
                       by id desc
 
-                 {:params [(if (read-ui app [:show]) (read-ui app [:show]) "ACTIVE")
-                           (if (read-ui app [:show]) (read-ui app [:show]) "COMPLETED")]}
+            {:params [(if (read-ui app [:show]) (read-ui app [:show]) "ACTIVE")
+                      (if (read-ui app [:show]) (read-ui app [:show]) "COMPLETED")]}
 
-                 (container
+            (container
 
-                  (div {:className  "checkbox"  :style { :width "20%" :display "inline-block;"} }
-                       (input {:type  "checkbox"
-                               :checked   (if (= (<-- :item_status) "COMPLETED") "T" "")
-                               :onChange  (fn [event]
-                                            (let [newtext   (.. event -target -checked  )
-                                                  item-id   (<-- :id)]
-                                              (if newtext
-                                                (go (sql "update  coils_todo_items   set item_status = 'COMPLETED' where id = ?" [item-id]  ))
-                                                (go (sql "update  coils_todo_items   set item_status = 'ACTIVE' where id = ?" [item-id]  ))
-                                                )))}))
+             (div {:className  "checkbox"  :style { :top "-22px" :width "20%" :display "inline-block;"} }
+                  (input {:type  "checkbox"
+                          :checked   (if (= (<-- :item_status) "COMPLETED") "T" "")
+                          :onChange  (fn [event]
+                                       (let [newtext   (.. event -target -checked  )
+                                             item-id   (<-- :id)]
+                                         (if newtext
+                                           (go (sql "update  coils_todo_items   set item_status = 'COMPLETED' where id = ?" [item-id]  ))
+                                           (go (sql "update  coils_todo_items   set item_status = 'ACTIVE' where id = ?" [item-id]  )))))}))
 
-                  (label {:style {:width   "70%"}
-                          :className (if (= (<-- :item_status) "COMPLETED") "completed" "item")}
-                                (str (<-- :item)))
+             (label {:style {:width   "70%" :height "1.5em"}
+                     :className (if (= (<-- :item_status) "COMPLETED") "completed" "item")}
+                    (str (<-- :item)))
 
-                  (button {:className   "destroy"
-                           :style {:width   "10%"}
-                           :onClick
-                           (fn [e]
-                             (go
-                              (sql "delete from  coils_todo_items  where id = ?"
-                                   [(<-- :id)]  ))
-                                          false)}))))
+             (button {:className    "destroy"
+                      :style       {:width   "10%"}
+                      :onClick     (fn [e]
+                                     (go (sql "delete from  coils_todo_items  where id = ?"
+                                              [(<-- :id)]  ))
+                                     false)}))))
 
 
 
@@ -70,8 +71,7 @@
 
   (let [active-items      (select id from  coils_todo_items where item_status = 'ACTIVE' {})
         total-items       (select id from  coils_todo_items {})
-        completed-items   (select id from  coils_todo_items where item_status = 'COMPLETED' {})
-        ]
+        completed-items   (select id from  coils_todo_items where item_status = 'COMPLETED' {})  ]
 
     (if (pos? (count total-items))
       (do
@@ -98,9 +98,7 @@
                           :onClick #(do (go
                                           (sql "delete from  coils_todo_items  where item_status = 'COMPLETED'" []  ))
                                       false)
-                          } "Clear completed"))
-
-               ))))))
+                          } "Clear completed"))))))))
 
 
 
@@ -112,9 +110,8 @@
 
 (defn-ui-component     main-to-do-app   [app] {}
 
-  (section
-    {:className "todoapp"}
-    (header {} (h2 nil "Coils Todo App"))
+  (section {:className "todoapp" :style {:fontFamily "Roboto"}}
+    (div {} (h2 {:style {:fontFamily "Ubuntu" :fontWeight "700" :fontSize "2em"}} "Coils Todo MVC"))
     (div {:className "main_div"}
 
          (component  new-do-item-component   app  [])

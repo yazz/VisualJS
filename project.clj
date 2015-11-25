@@ -25,6 +25,7 @@
                   [instaparse "1.4.1"]
 
                   [me.raynes/fs "1.4.6"]
+                  [me.raynes/conch "0.8.0"]
 
                   [ring/ring-json "0.4.0"]
 
