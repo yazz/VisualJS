@@ -50,8 +50,38 @@
   (div {:style {:margin "30px"}}
        (select id, application_name from coils_applications {}
                (div nil
-                    (div {:style {:display "inline-block" :fontFamily "Ubuntu" :fontWeight "700" :fontSize "1.3em" ::marginTop "0.7em"}}
-                         (str (<-- :application_name)))
+
+
+                    (cond
+                      (and (= (read-ui app [:submode]) "editappname") (= (<-- :id ) (read-ui app [:app-id])))
+                      (input-field {:style {:marginBottom "20px"} :placeholder  "Enter name"}
+                                   app
+                                   (fn [new-name]
+                                     (let [id (read-ui app [:app-id])]
+                                       (go
+                                         (sql "update  coils_applications
+                                              set application_name = ?
+                                              where id = ?"
+                                              [new-name id ]  )
+                                         ;(js/alert (str new-name ":" id))
+                                         (write-ui app [:submode] nil)
+                                         ))))
+
+
+                      :else
+                      (div {:onClick     #(go  (write-ui app [:submode] "editappname")
+                                               (write-ui app [:app-id] (<-- :id))
+
+                                               )
+
+                            :style {:display "inline-block" :fontFamily "Ubuntu" :fontWeight "700" :fontSize "1.3em" ::marginTop "0.7em"}}
+                           (str (<-- :application_name))))
+
+
+
+
+
+
                     (button {:style {:marginLeft "30px"} :className "btn btn-default"
                              :onClick     #(go (write-ui app [:mode] "edit")
                                              (write-ui app [:app-id] (<-- :id))
