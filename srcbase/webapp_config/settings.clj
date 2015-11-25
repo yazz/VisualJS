@@ -29,7 +29,7 @@
 
 (defonce ^:dynamic *hosted-mode* false)
 
-(defonce ^:dynamic *project-root-windows* "D:\\appshare\\")
+(defonce ^:dynamic *project-root-windows* "D:\\project_coils\\")
 (defonce ^:dynamic *project-root-mac* "../project_coilsapps/")
 (defonce ^:dynamic *project-root-linux* "")
 

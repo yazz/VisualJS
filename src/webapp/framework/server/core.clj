@@ -200,5 +200,23 @@
              )))))
 
 
+(defn delete-recursively [fname]
+  (let [func (fn [func f]
+               (when (.isDirectory f)
+                 (doseq [f2 (.listFiles f)]
+                   (func func f2)))
+               (clojure.java.io/delete-file f))]
+    (func func (clojure.java.io/file fname))))
 
 
+
+
+
+(let [dir (str *project-root-windows* "figwheel_dev_envs")
+      java-dir (io/file dir)
+      app-dire-exists (.exists   java-dir)
+      ]
+  (println dir ":" app-dire-exists)
+  (if app-dire-exists
+    (delete-recursively   java-dir)
+    ))
