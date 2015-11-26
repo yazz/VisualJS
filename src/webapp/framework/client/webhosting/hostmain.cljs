@@ -54,7 +54,7 @@
 
                     (cond
                       (and (= (read-ui app [:submode]) "editappname") (= (<-- :id ) (read-ui app [:app-id])))
-                      (input-field {:style {:marginBottom "20px"} :placeholder  "Enter name"}
+                      (input-field {:style {:marginBottom "20px" :color "black"} :placeholder  "Enter name"}
                                    app
                                    (fn [new-name]
                                      (let [id (read-ui app [:app-id])]
