@@ -60,7 +60,7 @@
     (let [
           lower (.toLowerCase sql-in)
           ]
-         (println "SQL from client: " sql-in)
+         ;(println "SQL from client: " sql-in)
          ;
            (cond
              (.startsWith lower "select") (do (comment println "SELECT") (into [] (map   (fn [r] (to-lower-case-keys r));

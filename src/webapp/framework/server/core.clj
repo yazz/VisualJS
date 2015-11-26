@@ -201,12 +201,20 @@
 
 
 
+(let [max-result    (sql-1 "select max(id) from coils_realtime_log" [])
+      max-n         (:max max-result)
+      ]
+  (reset! server-side-max-realtime-log-entry  max-n)
+  (println (str "*** server-side-max-realtime-log-entry *** : "  max-n))
+  )
 
 ; deletes the realtime log every time the file is reloaded, or the server is restarted
 (if (not *hosted-mode*)
   (do
     (if (does-table-exist "coils_realtime_log")
-      (korma.core/exec-raw ["delete from coils_realtime_log" []] []))))
+      ;(korma.core/exec-raw ["delete from coils_realtime_log" []] [])
+      nil
+      )))
 
 
 
@@ -258,4 +266,5 @@
                  ;(future (sh "call" "start_figwheel_client.bat"  :dir (str new-dir "\\coils")))
 
                  ))))))
+
 

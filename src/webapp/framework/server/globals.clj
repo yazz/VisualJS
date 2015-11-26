@@ -6,10 +6,8 @@
 
 
 
-; -----------------------------------------------------------------------
-; The ID of the last server side realtime log item
-; -----------------------------------------------------------------------
-(defonce server-side-realtime-counter   (atom 0))
+
+
 
 ; -----------------------------------------------------------------------
 ; Used to record realtime changes as the result of database triggers
@@ -59,6 +57,16 @@
 (defonce server-set-up-client-listener?   (atom false))
 (defonce my-pool (mk-pool))
 
+
+
+
+
+
+
+; -----------------------------------------------------------------------
+; Max real time log entry read
+; -----------------------------------------------------------------------
+(defonce server-side-max-realtime-log-entry  (atom -1))
 
 
 
