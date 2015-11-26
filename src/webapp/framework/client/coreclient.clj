@@ -999,4 +999,4 @@ nil
                                                (let [~'newtext (~'read-ui  ~app [~input-path])]
                                                  ((~@code) ~'newtext)
                                                  (~'write-ui  ~app  [~input-path]  ""))))))
-                    }))))
+                    } ))))

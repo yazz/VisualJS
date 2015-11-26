@@ -48,7 +48,7 @@
 
 
   (div {:style {:margin "30px"}}
-       (select id, application_name from coils_applications {}
+       (realtime select id, application_name from coils_applications order by id {}
                (div nil
 
 
