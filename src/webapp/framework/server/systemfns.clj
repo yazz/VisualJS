@@ -410,7 +410,7 @@
                                    "values \n"
                                    "(LOCALTIMESTAMP, '" table-name "', :NEW.id, "
                                    " (SELECT data_type FROM user_tab_columns WHERE table_name = 'COILS_TODO_ITEMS' AND column_name = 'ID') , "
-                                   " 'INSERT',  'WAITING'); "
+                                   " 'INSERT'); "
                                    "END;"
                ))
 
@@ -432,7 +432,7 @@
                                    "values \n"
                                    "(LOCALTIMESTAMP, '" table-name "', :NEW.id, "
                                    " (SELECT data_type FROM user_tab_columns WHERE table_name = 'COILS_TODO_ITEMS' AND column_name = 'ID') , "
-                                   " 'UPDATE',  'WAITING'); "
+                                   " 'UPDATE'); "
                                    "END;"
                ))
 
@@ -449,7 +449,7 @@
                                    "values \n"
                                    "(LOCALTIMESTAMP, '" table-name "', :OLD.id, "
                                    " (SELECT data_type FROM user_tab_columns WHERE table_name = 'COILS_TODO_ITEMS' AND column_name = 'ID') , "
-                                   " 'DELETE',  'WAITING'); "
+                                   " 'DELETE'); "
                                    "END;"
                ))
 
@@ -1318,10 +1318,10 @@
 (defn process-log-entry [ realtime-log-entry ]
 
   (let [
-        id-type          (get-id-type (get realtime-log-entry (cond (= *database-type* "postgres" ) :record_id_type (= *database-type* "oracle") :RECORD_ID_TYPE) ))
-        id               (cond (= id-type "INTEGER")  (parse-id  (get realtime-log-entry (cond (= *database-type* "postgres" ) :record_id (= *database-type* "oracle") :RECORD_ID)))
-                               (= id-type "TEXT")     (get realtime-log-entry (cond (= *database-type* "postgres" ) :record_id (= *database-type* "oracle") :RECORD_ID)))
-        db-table         (get realtime-log-entry (cond (= *database-type* "postgres" ) :record_table_name (= *database-type* "oracle") :RECORD_TABLE_NAME))
+        id-type          (get-id-type (get realtime-log-entry (cond (= *database-type* "postgres" ) :record_id_type (= *database-type* "oracle") :record_id_type) ))
+        id               (cond (= id-type "INTEGER")  (parse-id  (get realtime-log-entry (cond (= *database-type* "postgres" ) :record_id (= *database-type* "oracle") :record_id)))
+                               (= id-type "TEXT")     (get realtime-log-entry (cond (= *database-type* "postgres" ) :record_id (= *database-type* "oracle") :record_id)))
+        db-table         (get realtime-log-entry (cond (= *database-type* "postgres" ) :record_table_name (= *database-type* "oracle") :record_table_name))
         ]
     ;(println (str "**** Processing realtime record change: "))
     ;(println (str "      "  "realtime-log-entry"))
@@ -1338,7 +1338,7 @@
     ; If this is a record update, so update the internal record
     ; cache
     ; ----------------------------------------------------------------
-    (if (= (get realtime-log-entry (cond (= *database-type* "postgres" ) :record_operation (= *database-type* "oracle") :RECORD_OPERATION)) "UPDATE")
+    (if (= (get realtime-log-entry (cond (= *database-type* "postgres" ) :record_operation (= *database-type* "oracle") :record_operation)) "UPDATE")
       (do
         (update-record-in-cache  db-table   id)
         (inform-clients-about-record   db-table   id)))
@@ -1598,14 +1598,17 @@
       ; ----------------------------------------------------------------
       (every 200 (fn []
                    (do
-                     (println (str "***"))
+                     ;(println (str "***"))
                      (let [next-id  @server-side-max-realtime-log-entry]
                        (println (str "*** server-side-max-realtime-log-entry *** : "  next-id))
                        (if next-id
                          (let [
-                                get-realtime-log-entry            (str "select * from coils_realtime_log "
-                                                                       "WHERE "
-                                                                       "id > ? order by id asc limit 1")
+                                get-realtime-log-entry            (cond
+                                                                    (= *database-type* "postgres" )
+                                                                        "select * from coils_realtime_log WHERE id > ? order by id asc limit 1"
+
+                                                                    (= *database-type* "oracle" )
+                                                                        "select * from coils_realtime_log WHERE ROWNUM <= 1 and id > ? order by id asc")
 
                                 realtime-log-entry                (sql-1 get-realtime-log-entry [next-id])
                                 ]
@@ -1619,11 +1622,6 @@
                                  ))
 
                              )))))) my-pool))))))
-
-
-
-
-
 
 
 

@@ -42,7 +42,7 @@
 
                            (= *database-type* "oracle" )
                            (str
-                             " WHERE ROWNUM < 1"
+                             " WHERE ROWNUM <= 1"
                              )                           )
                          )
                     []]

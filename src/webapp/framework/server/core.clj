@@ -190,6 +190,8 @@
 
 
 
+
+
 (defn replace-in-file [ file-location     text-to-find   text-to-replace ]
   (do
     (println (str "***replace-in-file: "  file-location))
@@ -201,12 +203,15 @@
 
 
 
-(let [max-result    (sql-1 "select max(id) from coils_realtime_log" [])
-      max-n         (:max max-result)
+
+(let [max-result    (sql-1 "select max(id) as maxid from coils_realtime_log" [])
+      max-n         (:maxid max-result)
       ]
-  (reset! server-side-max-realtime-log-entry  max-n)
-  (println (str "*** server-side-max-realtime-log-entry *** : "  max-n))
-  )
+  (if max-n
+    (reset! server-side-max-realtime-log-entry  max-n))
+
+  (println (str "*** server-side-max-realtime-log-entry *** : "  max-n)))
+
 
 
 
@@ -225,7 +230,7 @@
 ; deletes the realtime log every time the file is reloaded, or the server is restarted
 (if *hosted-mode*
   (let [figwheel-index    (range 0 max-figwheel-processes)]
-    (println "********************************In hosted mode")
+    ;(println "********************************In hosted mode")
 
     (if (does-table-exist "coils_figwheel_processes")
       (korma.core/exec-raw ["delete from coils_figwheel_processes" []] []))
@@ -248,7 +253,7 @@
 
 
 
-      (println (str "****** RANGE ************* " figwheel-index))
+      ;(println (str "****** RANGE ************* " figwheel-index))
       (doall (for [a figwheel-index]
                (let [src-dir           (str *project-root-windows* "coils\\")
                      new-dir           (str *project-root-windows* "figwheel_dev_envs\\app" a)

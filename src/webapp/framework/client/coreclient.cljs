@@ -279,7 +279,7 @@
        ;(. headers set "Content-Type" "application/x-www-form-urlencoded")
        ;(. headers set "Content-Type" "application/json")
 
-       (log (str "post-data: " post-data))
+       ;(log (str "post-data: " post-data))
        ;(. post-data-in append "postdata" post-data )
        (. io-object send address  (if post-data "POST" "GET")  post-data-in  headers)
        ch))))
