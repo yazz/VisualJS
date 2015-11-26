@@ -215,13 +215,8 @@
 
 
 
-; deletes the realtime log every time the file is reloaded, or the server is restarted
-(if (not *hosted-mode*)
-  (do
-    (if (does-table-exist "coils_realtime_log")
-      ;(korma.core/exec-raw ["delete from coils_realtime_log" []] [])
-      nil
-      )))
+
+
 
 
 
@@ -261,7 +256,7 @@
                      figwheel-port     (+ a *base-dev-port*)
                      ]
                  (println (str "***making new figheel instance: " a " + " new-dir))
-                 (sql "insert into coils_figwheel_processes (figwheel_port) values (?);" [figwheel-port])
+                 (sql "insert into coils_figwheel_processes (figwheel_port) values (?)" [figwheel-port])
                  (.mkdir   java-new-dir)
                  (fs/copy-dir src-dir  new-dir)
 
