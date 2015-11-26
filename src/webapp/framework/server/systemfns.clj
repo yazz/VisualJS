@@ -1670,8 +1670,13 @@
 
 (defn !getfilecontents [{:keys [id]}]
   (if id
-    (let [content-records (sql "select  application_code from coils_applications where id = ?" [id])
-          content (get (first content-records) :application_code)
+    (let [content-records (cond
+                             (= *database-type* "postgres" )
+                             (sql-1 "select  application_code as ac from coils_applications where id = ?" [id])
+
+                             (= *database-type* "oracle" )
+                             (sql-1 "select  dbms_lob.substr( application_code, 3992, 1 ) as ac from coils_applications where id = ?" [id]))
+          content (get content-records :ac)
           ]
       (println (str "id: " id))
       {:value content})))
@@ -1681,8 +1686,15 @@
 
 (defn !loadapp [{:keys [id] }]
   (do
-    (let [content-records  (sql "select  application_code from coils_applications where id = ?" [id])
-          content          (get (first content-records) :application_code)
+    (let [content-records  (cond
+                             (= *database-type* "postgres" )
+                             (sql-1 "select  application_code as ac from coils_applications where id = ?" [id])
+
+                             (= *database-type* "oracle" )
+                             (sql-1 "select  dbms_lob.substr( application_code, 3992, 1 ) as ac from coils_applications where id = ?" [id]))
+
+
+          content   (get content-records :ac)
           start     (slurp (folder "main_view_start.txt"))
           middle    content
           end       (slurp (folder "main_view_end.txt"))
@@ -1694,8 +1706,6 @@
       )
 
     {:value ""}))
-
-
 
 
 
