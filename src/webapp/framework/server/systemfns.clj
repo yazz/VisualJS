@@ -1675,8 +1675,8 @@
                              (sql-1 "select  application_code as ac from coils_applications where id = ?" [id])
 
                              (= *database-type* "oracle" )
-                             (sql-1 "select  dbms_lob.substr( application_code, 3992, 1 ) as ac from coils_applications where id = ?" [id]))
-          content (get content-records :ac)
+                             (sql-1 "select  dbms_lob.substr( application_code, 3000, 1 ) as ac, dbms_lob.substr( application_code, 3000, 3001 ) as ac2 from coils_applications where id = ?" [id]))
+          content (str (get content-records :ac) (get content-records :ac2))
           ]
       (println (str "id: " id))
       {:value content})))
@@ -1691,10 +1691,10 @@
                              (sql-1 "select  application_code as ac from coils_applications where id = ?" [id])
 
                              (= *database-type* "oracle" )
-                             (sql-1 "select  dbms_lob.substr( application_code, 3992, 1 ) as ac from coils_applications where id = ?" [id]))
+                             (sql-1 "select  dbms_lob.substr( application_code, 3000, 1 ) as ac, dbms_lob.substr( application_code, 3000, 3001 ) as ac2 from coils_applications where id = ?" [id]))
 
 
-          content   (get content-records :ac)
+          content   (str (get content-records :ac) (get content-records :ac2))
           start     (slurp (folder "main_view_start.txt"))
           middle    content
           end       (slurp (folder "main_view_end.txt"))
@@ -1706,6 +1706,22 @@
       )
 
     {:value ""}))
+
+
+
+
+
+
+
+
+
+;(sql-1 "select  dbms_lob.substr( application_code, 10, 1 ) as ac, dbms_lob.substr( application_code, 10, 11 ) as ac2 from coils_applications where id = ?" [3])
+
+
+
+
+
+
 
 
 
