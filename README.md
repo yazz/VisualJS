@@ -1,5 +1,5 @@
 # Coils - Explore, Create, Share
-### The Open Source Enterprise App Store - [(By free we mean reall free)](http://ma.tt/2014/01/four-freedoms/)
+### The Open Source Enterprise App Store - [(As in Wordpress freedom)](http://ma.tt/2014/01/four-freedoms/)
 
 Click the image to see the video
 [![IMAGE Click here to see video](http://coils.cc/coils/images/enterpriseapp.jpg)] (http://www.youtube.com/watch?v=CzwikfCAdws)
