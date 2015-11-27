@@ -961,7 +961,7 @@
               ""))
         ]
     (do
-      ;(println "SQL::: " sql "," id)
+      (println "SQL::: " sql "," id , ":fields:" fields)
       (sql-1  sql [id])
       )))
 
@@ -1096,7 +1096,9 @@
     (println (pr-str "Read fields: " fields-entry))
 
     (if fields-entry
-      fields-entry)))
+      fields-entry
+      [:id];if we cant find the fields then just return the ID field
+      )))
 
 
 
