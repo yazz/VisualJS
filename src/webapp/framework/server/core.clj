@@ -267,6 +267,7 @@
                  (replace-in-file (str new-dir (cond (is-mac-osx) "/coils/project.clj" :else "\\coils\\project.clj"))  3449 figwheel-port )
                  (replace-in-file (str new-dir (cond (is-mac-osx) "/coils/srcbase/webapp_config/settings.clj" :else "\\coils\\srcbase\\webapp_config\\settings.clj"))  3449 figwheel-port)
 
+                 (if (is-mac-osx) (me.raynes.conch.low-level/proc (str "chmod +x " *project-root-mac* "figwheel_dev_envs/app0/coils/start_figwheel_client.sh")))
                  (let [p (me.raynes.conch.low-level/proc
                                   (cond (is-mac-osx) (str *project-root-mac*      "figwheel_dev_envs/app0/coils/start_figwheel_client.sh")
                                         :else        (str  *project-root-windows* "figwheel_dev_envs\\app0\\coils\\start_figwheel_client.bat")))]
