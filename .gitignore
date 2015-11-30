@@ -1,6 +1,8 @@
 *
 /resources/public/main.js
 
+!/start_figwheel_client.bat
+!/start_figwheel_client.sh
 
 
 !/project.clj
