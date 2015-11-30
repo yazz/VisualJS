@@ -218,8 +218,6 @@
 
 
 
-
-
 (println "********************************")
 (def max-figwheel-processes 1)
 ; deletes the realtime log every time the file is reloaded, or the server is restarted
@@ -267,13 +265,24 @@
                  (replace-in-file (str new-dir (cond (is-mac-osx) "/coils/project.clj" :else "\\coils\\project.clj"))  3449 figwheel-port )
                  (replace-in-file (str new-dir (cond (is-mac-osx) "/coils/srcbase/webapp_config/settings.clj" :else "\\coils\\srcbase\\webapp_config\\settings.clj"))  3449 figwheel-port)
 
-                 (if (is-mac-osx) (me.raynes.conch.low-level/proc (str "chmod +x " *project-root-mac* "figwheel_dev_envs/app0/coils/start_figwheel_client.sh")))
-                 (let [p (me.raynes.conch.low-level/proc
-                                  (cond (is-mac-osx) (str *project-root-mac*      "figwheel_dev_envs/app0/coils/start_figwheel_client.sh")
-                                        :else        (str  *project-root-windows* "figwheel_dev_envs\\app0\\coils\\start_figwheel_client.bat")))]
-                   (future (me.raynes.conch.low-level/stream-to-out p :out)))
+                 ;(println (str "....pwd: "(me.raynes.conch.low-level/proc (str "pwd"))))
+                 (println (str "***STARTED CHMOD +X "))
+                 (if (is-mac-osx) (me.raynes.fs/chmod "+x" (str *project-root-mac* "figwheel_dev_envs/app0/coils/start_figwheel_client.sh")))
+                 (println (str "***DONE CHMOD +X "))
+
+                 (println (str "***STARTING APP   " a))
+                 (comment let [p  (cond (is-mac-osx) (me.raynes.conch.low-level/proc (str  *project-root-mac*      "figwheel_dev_envs/app0/coils/start_figwheel_client.sh"))
+                                :else        (me.raynes.conch.low-level/proc (str  *project-root-windows* "figwheel_dev_envs\\app0\\coils\\start_figwheel_client.bat")))]
+                   (future (do
+                             (me.raynes.conch.low-level/stream-to-out p :out)
+                             )))
+                 (println (str "***---STARTED APP   " a))
                  ;(future (sh "call" "start_figwheel_client.bat"  :dir (str new-dir "\\coils")))
 
                  ))))))
 
+;(+ 1 1)
+
+;(me.raynes.conch.low-level/stream-to-out (me.raynes.conch.low-level/proc "../../project_coils/figwheel_dev_envs/app0/coils/start_figwheel_client.sh") :out)
+;(me.raynes.conch.low-level/stream-to-out (me.raynes.conch.low-level/proc "ls") :out)
 
