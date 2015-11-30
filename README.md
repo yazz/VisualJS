@@ -1,6 +1,6 @@
-## Clojure on Coils has changed it's name to...
+Clojure on Coils has changed it's name to...
 # AppShare
-### The Free and Open Source Enterprise App Store
+#### The Free and Open Source Enterprise App Store
 [(As in Wordpress freedom)](http://ma.tt/2014/01/four-freedoms/)
 
 Click the image to see the video
