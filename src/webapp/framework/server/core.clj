@@ -220,6 +220,9 @@
 
 (println "********************************")
 (def max-figwheel-processes 1)
+
+(println (str "******************************** *hosted-mode* = " *hosted-mode*))
+
 ; deletes the realtime log every time the file is reloaded, or the server is restarted
 (if *hosted-mode*
   (let [figwheel-index    (range 0 max-figwheel-processes)]
@@ -271,7 +274,7 @@
                  (println (str "***DONE CHMOD +X "))
 
                  (println (str "***STARTING APP   " a))
-                 (comment let [p  (cond (is-mac-osx) (me.raynes.conch.low-level/proc (str  *project-root-mac*      "figwheel_dev_envs/app0/coils/start_figwheel_client.sh"))
+                 (let [p  (cond (is-mac-osx) (me.raynes.conch.low-level/proc (str  *project-root-mac*      "figwheel_dev_envs/app0/coils/start_figwheel_client.sh"))
                                 :else        (me.raynes.conch.low-level/proc (str  *project-root-windows* "figwheel_dev_envs\\app0\\coils\\start_figwheel_client.bat")))]
                    (future (do
                              (me.raynes.conch.low-level/stream-to-out p :out)
