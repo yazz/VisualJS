@@ -1662,7 +1662,7 @@
 (defn folder [file-name]
   (cond
     (is-mac-osx)
-    (str *project-root-windows* "figwheel_dev_envs/app0/coils/src/webapp/framework/client/components/" file-name)
+    (str *project-root-mac* "figwheel_dev_envs/app0/coils/src/webapp/framework/client/components/" file-name)
 
     :else
     (str *project-root-windows* "figwheel_dev_envs\\app0\\coils\\src\\webapp\\framework\\client\\components\\" file-name)))

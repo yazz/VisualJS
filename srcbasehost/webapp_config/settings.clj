@@ -30,7 +30,7 @@
 (defonce ^:dynamic *hosted-mode* true)
 
 (defonce ^:dynamic *project-root-windows* "D:\\project_coils\\")
-(defonce ^:dynamic *project-root-mac* "../project_coilsapps/")
+(defonce ^:dynamic *project-root-mac* "../../project_coils/")
 (defonce ^:dynamic *project-root-linux* "")
 
 

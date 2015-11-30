@@ -234,7 +234,7 @@
 
 
 
-    (let [dir (str *project-root-windows* "figwheel_dev_envs")
+    (let [dir (str (cond (is-mac-osx) *project-root-mac* :else *project-root-windows*) "figwheel_dev_envs")
           java-dir (io/file dir)
           app-dire-exists (.exists   java-dir)
           ]
@@ -244,14 +244,18 @@
         )
 
 
+      (println "")
+      (println "MKDIR:" java-dir)
       (.mkdir   java-dir)
+      (println "DONE")
+      (println "")
 
 
 
       ;(println (str "****** RANGE ************* " figwheel-index))
       (doall (for [a figwheel-index]
-               (let [src-dir           (str *project-root-windows* "coils\\")
-                     new-dir           (str *project-root-windows* "figwheel_dev_envs\\app" a)
+               (let [src-dir           (cond (is-mac-osx) (str  *project-root-mac* "coils/") :else (str *project-root-windows* "coils\\"))
+                     new-dir           (cond (is-mac-osx) (str  *project-root-mac* "figwheel_dev_envs/app" a) :else (str *project-root-windows* "figwheel_dev_envs\\app" a))
                      java-new-dir      (io/file new-dir)
                      figwheel-port     (+ a *base-dev-port*)
                      ]
@@ -260,10 +264,12 @@
                  (.mkdir   java-new-dir)
                  (fs/copy-dir src-dir  new-dir)
 
-                 (replace-in-file (str new-dir "\\coils\\project.clj")  3449 figwheel-port )
-                 (replace-in-file (str new-dir "\\coils\\srcbase\\webapp_config\\settings.clj")  3449 figwheel-port)
+                 (replace-in-file (str new-dir (cond (is-mac-osx) "/coils/project.clj" :else "\\coils\\project.clj"))  3449 figwheel-port )
+                 (replace-in-file (str new-dir (cond (is-mac-osx) "/coils/srcbase/webapp_config/settings.clj" :else "\\coils\\srcbase\\webapp_config\\settings.clj"))  3449 figwheel-port)
 
-                 (let [p (me.raynes.conch.low-level/proc  "D:\\project_coils\\figwheel_dev_envs\\app0\\coils\\start_figwheel_client.bat")]
+                 (let [p (me.raynes.conch.low-level/proc
+                                  (cond (is-mac-osx) (str *project-root-mac*      "figwheel_dev_envs/app0/coils/start_figwheel_client.sh")
+                                        :else        (str  *project-root-windows* "figwheel_dev_envs\\app0\\coils\\start_figwheel_client.bat")))]
                    (future (me.raynes.conch.low-level/stream-to-out p :out)))
                  ;(future (sh "call" "start_figwheel_client.bat"  :dir (str new-dir "\\coils")))
 
