@@ -81,6 +81,10 @@
                 myCodeMirror.setSize(1200, 800);
             }
 
+            function getCodeMirrorValue() {
+              return myCodeMirror.getValue();
+            }
+
             function populateEditor(codeText) {
                 myCodeMirror.setValue(codeText);
             }

@@ -177,9 +177,37 @@
                }
               }
 
+
+
+             :hosttest
+             {
+              :figwheel     false
+              :source-paths ["src" "../srchosttest"]
+              :cljsbuild
+              {
+               :builds
+               [
+                {
+                 :figwheel     false
+                 :source-paths ["src"]
+                 :compiler     {
+                 :figwheel     false
+                                :output-to      "resources/public/main.js"
+                                :optimizations  :advanced
+                                :preamble         ["resources/public/react.min.js"]
+                                :pretty-print      false
+                                }
+                 }
+                ]
+
+               }
+              }
+
+
+
              :prod
              {
-                 :figwheel     false
+              :figwheel     false
               :source-paths ["src" "../srcprod"]
               :cljsbuild
               {

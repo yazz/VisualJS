@@ -136,11 +136,11 @@
             (div {:style {:display "inline-block" :fontFamily "Ubuntu" :fontWeight "700" :fontSize "1.3em" ::marginTop "0.7em"}} "AppShare")
 
             (button {:className    "btn btn-default"
-                     :style       {:display "inline-block" :marginLeft "30px" :fontFamily "Ubuntu" :fontSize "1em" :marginTop "-0.9em"}
+                     :style       {:display "inline-block" :marginLeft "30px" :fontFamily "Ubuntu" :fontSize "1em" :marginTop "-0.3em"}
                      :onClick     #(write-ui app [:mode] "browse")} "Browse")
 
             (button {:className    "btn btn-default"
-                     :style       {:display "inline-block" :marginLeft "30px" :fontFamily "Ubuntu" :fontSize "1em" :marginTop "-0.9em"}
+                     :style       {:display "inline-block" :marginLeft "30px" :fontFamily "Ubuntu" :fontSize "1em" :marginTop "-0.3em"}
                      :onClick     #(go
                                       (remote !newapp {}))   } "New")
 
@@ -154,7 +154,7 @@
             (button {:className    "btn btn-default"
                      :style       {:float "right" :display "inline-block" :marginLeft "30px" :fontFamily "Ubuntu" :fontSize "1em" :marginTop "0.2em"  }
                      :onClick     #(go
-                                     (let [code (.getValue js/myCodeMirror) ]
+                                     (let [code (js/getCodeMirrorValue)]
                                        (remote !savecode {:id (read-ui app [:app-id])} code))   )} "Save")
 
             )
