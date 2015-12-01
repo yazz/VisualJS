@@ -155,7 +155,8 @@
                      :style       {:float "right" :display "inline-block" :marginLeft "30px" :fontFamily "Ubuntu" :fontSize "1em" :marginTop "0.2em"  }
                      :onClick     #(go
                                      (let [code (js/getCodeMirrorValue)]
-                                       (remote !savecode {:id (read-ui app [:app-id])} code))   )} "Save")
+                                       (remote !savecode {:id (read-ui app [:app-id]) :code code}))   )} "Save")
+                                       ;(remote !savecode {:id (read-ui app [:app-id])} code))   )} "Save")
 
             )
        (cond

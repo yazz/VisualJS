@@ -1727,7 +1727,8 @@
 
 
 
-(defn !savecode [{:keys [id] } code]
+;(defn !savecode [{:keys [id] } code]
+(defn !savecode [{:keys [id code] }]
   (do
     (sql "update coils_applications set application_code = ? where id = ?" [code id])
     (let [start     (slurp (folder "main_view_start.txt"))

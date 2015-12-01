@@ -70,6 +70,21 @@
 
 
         <script>
+            function enforceMaxLength(cm, change) {
+                var maxLength = cm.getOption("maxLength");
+                if (maxLength && change.update) {
+                    var str = change.text.join("\n");
+                    var delta = str.length-(cm.indexFromPos(change.to) - cm.indexFromPos(change.from));
+                    if (delta <= 0) { return true; }
+                    delta = cm.getValue().length+delta-maxLength;
+                    if (delta > 0) {
+                        str = str.substr(0, str.length-delta);
+                        change.update(change.from, change.to, str.split("\n"));
+                    }
+                }
+                return true;
+            }
+
             function createEditor() {
                 myCodeMirror = CodeMirror.fromTextArea(
                     document.getElementById('cm'),
@@ -79,6 +94,9 @@
                       theme:       "icecoder",
                       fontSize: "3pt"});
                 myCodeMirror.setSize(1200, 800);
+
+                myCodeMirror.setOption("maxLength", 3800);
+                myCodeMirror.on("beforeChange", enforceMaxLength);
             }
 
             function getCodeMirrorValue() {
