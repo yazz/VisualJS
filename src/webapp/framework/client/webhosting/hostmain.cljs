@@ -1,9 +1,9 @@
 (ns webapp.framework.client.webhosting.hostmain
   (:require
    [webapp.framework.client.coreclient   :as c ]
-    [om.core :as om :include-macros true]
-   [cljs.core.async  :refer [put! chan <! pub timeout]]
-    )
+   [om.core :as om :include-macros true]
+   [cljs.core.async  :refer [put! chan <! pub timeout]])
+
   (:use-macros
    [webapp.framework.client.coreclient  :only [ns-coils defn-ui-component def-coils-app
                                                container  map-many  inline  text log sql textarea a
@@ -12,6 +12,9 @@
                                                h1 h2 h3 h4 h5 h6 span  data-view-v2 select dselect realtime drealtime
                                                input-field remote
                                                ]])
+  (:use
+   [webapp.framework.client.system-globals :only  [appshare-dev-server]])
+
   (:require-macros
    [cljs.core.async.macros :refer [go alt!]]))
 (ns-coils 'webapp.framework.client.webhosting.hostmain)
@@ -32,7 +35,7 @@
             (div {:style {:display "inline-block" :width "1200" :height "800" :verticalAlign "top"}}
                  (textarea {:id "cm" :style {:display "inline-block" :width "1200" :height "800"}} ""))
 
-            (iframe {:style {:display "inline-block"} :src "http://127.0.0.1:3450" :width "600" :height "800"})))
+            (iframe {:style {:display "inline-block"} :src (str "http://" @appshare-dev-server ":3450") :width "600" :height "800"})))
 
 
 

@@ -130,6 +130,8 @@
 
 
 
+(defn !get-appshare-dev-server []
+  {:value *appshare-dev-server*})
 
 
 
@@ -1661,6 +1663,10 @@
 
 (defn folder [file-name]
   (cond
+
+    (is-linux)
+    (str *project-root-linux* "figwheel_dev_envs/app0/coils/src/webapp/framework/client/components/" file-name)
+
     (is-mac-osx)
     (str *project-root-mac* "figwheel_dev_envs/app0/coils/src/webapp/framework/client/components/" file-name)
 

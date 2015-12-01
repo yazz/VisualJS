@@ -17,6 +17,7 @@
 
 (defonce ^:dynamic *environment* "basehost")
 
+(defonce ^:dynamic *appshare-dev-server* "127.0.0.1")
 (defonce ^:dynamic *web-server* "127.0.0.1:3449")
 (defonce ^:dynamic *base-dev-port* 3450)
 
@@ -31,7 +32,7 @@
 
 (defonce ^:dynamic *project-root-windows* "D:\\project_coils\\")
 (defonce ^:dynamic *project-root-mac* "../../project_coils/")
-(defonce ^:dynamic *project-root-linux* "")
+(defonce ^:dynamic *project-root-linux* "/root/appshare/project_coils/")
 
 
 ;(defonce ^:dynamic *database-type* "oracle")

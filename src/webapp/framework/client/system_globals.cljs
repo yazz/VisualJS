@@ -80,6 +80,8 @@
 
 
 
+(defonce appshare-dev-server
+  (atom nil))
 
 
 

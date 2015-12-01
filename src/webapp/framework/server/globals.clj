@@ -71,6 +71,13 @@
 
 
 
+(defn is-linux []
+  (do
+    (println (str "......OS=" (java.lang.System/getProperty "os.name")))
+    (if
+      (= (java.lang.System/getProperty "os.name") "Linux")
+      true
+      )))
 
 
 (defn is-mac-osx []

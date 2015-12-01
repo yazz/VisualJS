@@ -51,7 +51,8 @@
                                                     client-query-cache
                                                     client-record-cache
                                                     ui-paths-mapped-to-data-windows
-                                                    client-datasource-fields]])
+                                                    client-datasource-fields
+                                                    appshare-dev-server]])
   (:use-macros
    [webapp.framework.client.coreclient  :only [ns-coils
                                                sql log sql-1
@@ -383,6 +384,14 @@
                     (<! (remote-fn "!get-record-ui" {})))]
      (reset! record-ui
              record-ui-value)))
+
+
+
+(go
+ (let [appshare-dev-server-value (:value
+                    (<! (remote-fn "!get-appshare-dev-server" {})))]
+     (reset! appshare-dev-server
+             appshare-dev-server-value)))
 
 
 
