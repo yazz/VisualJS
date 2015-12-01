@@ -44,12 +44,28 @@
 
 
 
+
+
+
+
+
 (defn-ui-component     browser-component   [app]  {}
 
 
   (div {:style {:margin "30px"}}
        (realtime select id, application_name from coils_applications order by id {}
                (div nil
+
+
+                    (button {:style {:marginRight "30px" :marginBottom "10px"}
+                             :className "btn btn-small"
+                             :onClick     #(go (sql "delete from coils_applications
+                                              where id = ?"
+                                              [(<-- :id) ]  )
+                                             )
+                             } "X")
+
+
 
 
                     (cond
@@ -82,12 +98,19 @@
 
 
 
-                    (button {:style {:marginLeft "30px"} :className "btn btn-default"
+                    (button {:style {:marginBottom "10px" :marginLeft "30px"} :className "btn btn-default"
                              :onClick     #(go (write-ui app [:mode] "edit")
                                              (write-ui app [:app-id] (<-- :id))
                                              (remote !loadapp {:id (<-- :id)})
                                              )
-                             } "Edit")))))
+                             } "Edit")
+
+                    ))))
+
+
+
+
+
 
 
 
