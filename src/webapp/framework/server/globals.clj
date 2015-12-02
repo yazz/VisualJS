@@ -55,6 +55,7 @@
 
 
 (defonce server-set-up-client-listener?   (atom false))
+(defonce server-set-up-hosted-figwheel-clients?   (atom false))
 (defonce my-pool (mk-pool))
 
 
