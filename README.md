@@ -2,6 +2,8 @@ Clojure on Coils has changed it's name to...
 
 <img src='http://coils.cc/coils/images/appshare.jpg' /> 
 
+[(See why)](http://coils.cc/coils/blog.html)
+
 #### The Free and Open Source Enterprise App Store
 [(As in Wordpress freedom)](http://ma.tt/2014/01/four-freedoms/)
 
