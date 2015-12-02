@@ -178,27 +178,6 @@
 
 
 
-(defn delete-recursively [fname]
-  (let [func (fn [func f]
-               (when (.isDirectory f)
-                 (doseq [f2 (.listFiles f)]
-                   (func func f2)))
-               (clojure.java.io/delete-file f))]
-    (func func (clojure.java.io/file fname))))
-
-
-
-
-
-
-
-(defn replace-in-file [ file-location     text-to-find   text-to-replace ]
-  (do
-    (println (str "***replace-in-file: "  file-location))
-    (let [aa         (slurp  file-location)
-          bb         (.replace  aa    (str text-to-find)  (str text-to-replace))]
-
-      (spit file-location  bb))))
 
 
 
@@ -217,72 +196,6 @@
 
 
 
-
-(println "********************************")
-(def max-figwheel-processes 1)
-
-(println (str "******************************** *hosted-mode* = " *hosted-mode*))
-
-; deletes the realtime log every time the file is reloaded, or the server is restarted
-(if *hosted-mode*
-  (let [figwheel-index    (range 0 max-figwheel-processes)]
-    ;(println "********************************In hosted mode")
-
-    (if (does-table-exist "coils_figwheel_processes")
-      (korma.core/exec-raw ["delete from coils_figwheel_processes" []] []))
-
-
-
-
-
-    (let [dir (str (cond (is-mac-osx) *project-root-mac* :else *project-root-windows*) "figwheel_dev_envs")
-          java-dir (io/file dir)
-          app-dire-exists (.exists   java-dir)
-          ]
-      (println dir ":" app-dire-exists)
-      (if app-dire-exists
-        (delete-recursively   java-dir)
-        )
-
-
-      (println "")
-      (println "MKDIR:" java-dir)
-      (.mkdir   java-dir)
-      (println "DONE")
-      (println "")
-
-
-
-      ;(println (str "****** RANGE ************* " figwheel-index))
-      (doall (for [a figwheel-index]
-               (let [src-dir           (cond (is-mac-osx) (str  *project-root-mac* "coils/") :else (str *project-root-windows* "coils\\"))
-                     new-dir           (cond (is-mac-osx) (str  *project-root-mac* "figwheel_dev_envs/app" a) :else (str *project-root-windows* "figwheel_dev_envs\\app" a))
-                     java-new-dir      (io/file new-dir)
-                     figwheel-port     (+ a *base-dev-port*)
-                     ]
-                 (println (str "***making new figheel instance: " a " + " new-dir))
-                 (sql "insert into coils_figwheel_processes (figwheel_port) values (?)" [figwheel-port])
-                 (.mkdir   java-new-dir)
-                 (fs/copy-dir src-dir  new-dir)
-
-                 (replace-in-file (str new-dir (cond (is-mac-osx) "/coils/project.clj" :else "\\coils\\project.clj"))  3449 figwheel-port )
-                 (replace-in-file (str new-dir (cond (is-mac-osx) "/coils/srcbase/webapp_config/settings.clj" :else "\\coils\\srcbase\\webapp_config\\settings.clj"))  3449 figwheel-port)
-
-                 ;(println (str "....pwd: "(me.raynes.conch.low-level/proc (str "pwd"))))
-                 (println (str "***STARTED CHMOD +X "))
-                 (if (is-mac-osx) (me.raynes.fs/chmod "+x" (str *project-root-mac* "figwheel_dev_envs/app0/coils/start_figwheel_client.sh")))
-                 (println (str "***DONE CHMOD +X "))
-
-                 (println (str "***STARTING APP   " a))
-                 (let [p  (cond (is-mac-osx) (me.raynes.conch.low-level/proc (str  *project-root-mac*      "figwheel_dev_envs/app0/coils/start_figwheel_client.sh"))
-                                :else        (me.raynes.conch.low-level/proc (str  *project-root-windows* "figwheel_dev_envs\\app0\\coils\\start_figwheel_client.bat")))]
-                   (future (do
-                             (me.raynes.conch.low-level/stream-to-out p :out)
-                             )))
-                 (println (str "***---STARTED APP   " a))
-                 ;(future (sh "call" "start_figwheel_client.bat"  :dir (str new-dir "\\coils")))
-
-                 ))))))
 
 ;(+ 1 1)
 
