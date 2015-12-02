@@ -24,7 +24,7 @@ Click the image to see the video
 
 
  - [TLDR](#tldr)
- - [Is AppShare for me?](#is-coils-for-me)
+ - [Is AppShare for me?](#is-appshare-for-me)
  - [How is AppShare different to other web frameworks?](#how-is-coils-different-to-other-web-frameworks)
  - [Is it secure to have SQL in the UI code?](#is-it-secure-to-have-sql-in-the-ui-code)
  - [Product roadmap](#product-roadmap)
