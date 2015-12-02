@@ -25,14 +25,14 @@ Click the image to see the video
 
  - [TLDR](#tldr)
  - [Is AppShare for me?](#is-appshare-for-me)
- - [How is AppShare different to other web frameworks?](#how-is-coils-different-to-other-web-frameworks)
+ - [How is AppShare different to other web frameworks?](#how-is-appshare-different-to-other-web-frameworks)
  - [Is it secure to have SQL in the UI code?](#is-it-secure-to-have-sql-in-the-ui-code)
  - [Product roadmap](#product-roadmap)
  - [Quick start Postgres](#quick-start-postgres)
  - [Quick start Oracle](#quick-start-oracle)
- - [The long story of AppShare](#the-long-story-of-coils)
- - [What is AppShare killer feature?](#what-is-coils-killer-feature)
- - [What is AppShare not good for?](#what-is-coils-not-good-for)
+ - [The long story of AppShare](#the-long-story-of-appshare)
+ - [What is AppShare killer feature?](#what-is-appshare-killer-feature)
+ - [What is AppShare not good for?](#what-is-appshare-not-good-for)
  - [All features](#all-features)
  - [Differences from Om](#differences-from-om)
  - [Comparison with other Clojure web frameworks](#comparison-with-other-clojure-web-frameworks)
@@ -41,14 +41,14 @@ Click the image to see the video
  - [When will full Postgres realtime support be available?](#when-will-full-postgres-realtime-support-be-available)
  - [Deprecated features from April 2013 to July 2014](#deprecated-features-from-april-2013-to-july-2014)
  - [Deprecated features from August 2014 to June 2015](#deprecated-features-from-august-2014-to-june-2015)
- - [Anatomy of an AppShare application](#anatomy-of-a-coils-application)
+ - [Anatomy of an AppShare application](#anatomy-of-a-appshare-application)
  - [Getting started](#getting-started)
  - [Adding something to the web page](#adding-something-to-the-web-page)
  - [Firing events](#firing-events)
  - [Calling server side code](#calling-server-side-code)
  - [List of functions](#list-of-functions)
- - [Recommendations when building your first AppShare app](#recommendations-when-building-your-first-coils-app)
- - [Deploying an AppShare web app to a Java server as a WAR file](#deploying-a-coils-web-app-to-a-java-server-as-a-war-file)
+ - [Recommendations when building your first AppShare app](#recommendations-when-building-your-first-appshare-app)
+ - [Deploying an AppShare web app to a Java server as a WAR file](#deploying-an-appshare-web-app-to-a-java-server-as-a-war-file)
  - [Developer Resources](#developer-resources)
 
 
@@ -329,7 +329,7 @@ Then one day in 2008 Zubair discovered Ruby on Rails. He realised that there was
 
 After around a year of development of AppShare against relational databases (NemCV used Postgres), Zubair met Peter Neubauer from Neo4j when he came to do a talk about Neo4j at MatchingHeads, a Danish startup organisation (http://www.meetup.com/copenhagen-it-people/events/127072702/). Zubair realised that Neo4j could make developing web applications simpler as it allows schema-less development using a powerful SQL like language called Cypher. So first class support for Neo4j was built into AppShare.
 
-In early 2014 Zubair listened to a Javascript Jabber postcast with Pete Hunt of Facebook, and learnt about Facebook React and how Facebook used it for building reactive UIs. Then he discovered a ClojureScript library called Om, made by David Nolen (https://github.com/swannodette/om) which provided a Clojurescript wrapper on top of Facebook React. He wanted to use React/Om in AppShare, but this meant that previous AppShare applications such as NemCV would have to be totally rewritten, as the old Coils used imperative UI libraries like Domina. Zubair decided that a reactive front end would be worth it and all new AppShare webapps would be built using React/Om.
+In early 2014 Zubair listened to a Javascript Jabber postcast with Pete Hunt of Facebook, and learnt about Facebook React and how Facebook used it for building reactive UIs. Then he discovered a ClojureScript library called Om, made by David Nolen (https://github.com/swannodette/om) which provided a Clojurescript wrapper on top of Facebook React. He wanted to use React/Om in AppShare, but this meant that previous AppShare applications such as NemCV would have to be totally rewritten, as the old AppShare used imperative UI libraries like Domina. Zubair decided that a reactive front end would be worth it and all new AppShare webapps would be built using React/Om.
 
 However, there was still something missing, and this piece of the puzzle fell into place when Zubair's business partner in NemCV, Franco Soldera introduced Zubair to Meteor, a realtime Javascript framework which had both Reactive capabilities and also excellent databinding capabilities. In Zubair's opinion Meteor is the best full stack Javascript framework that he had seen (and yes, Zubair had seen Derby, Angular, Ember, Knockout and many others). The reason he loved Meteor was not just because of its features such as a Reactive front end and data-binding, but also because Meteor is opinionated (like Ruby on Rails), which solves the problem of having to continually choose which Javascript libraries to use, thereby saving alot of wasted time experimenting with different Javascript libraries and glueing them together.
 
@@ -423,7 +423,7 @@ AppShare is unsuitable for quite a wide variety of web projects. This is because
 ### Differences from Om
 <img height='350px' src='https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Om.svg/993px-Om.svg.png' /> 
 
-The only part of Om that AppShare uses is the rendering engine and the change listeners (for GUI playback). This means that Coils does not use the component local state features of Om, except for internal framework use. The implications of this are very important. For example, in Om when the end user clicks on a button in a react/Om component then the button event will be passed back via a core.sync channel. However, in AppShare, when the user presses a button then the Application model used to generate the DOM itself is changed, with a property :click being set to true. This :click property is then watched via an event watcher to make any changes.
+The only part of Om that AppShare uses is the rendering engine and the change listeners (for GUI playback). This means that AppShare does not use the component local state features of Om, except for internal framework use. The implications of this are very important. For example, in Om when the end user clicks on a button in a react/Om component then the button event will be passed back via a core.sync channel. However, in AppShare, when the user presses a button then the Application model used to generate the DOM itself is changed, with a property :click being set to true. This :click property is then watched via an event watcher to make any changes.
 
 
 
@@ -442,7 +442,7 @@ The only part of Om that AppShare uses is the rendering engine and the change li
 <br>
 
 
-[Luminus](http://www.luminusweb.net/) - The main difference between Luminus and Clojure-on-Coils is that Luminus uses a HTML templating system for rendering web pages, whereas AppShare currently only supports rendering from within Clojure itself. This makes Luminus at the moment a better choice for companies with seperate design and development teams. Designers will be more comfortable working in clean HTML files.
+[Luminus](http://www.luminusweb.net/) - The main difference between Luminus and AppShare is that Luminus uses a HTML templating system for rendering web pages, whereas AppShare currently only supports rendering from within Clojure itself. This makes Luminus at the moment a better choice for companies with seperate design and development teams. Designers will be more comfortable working in clean HTML files.
 
 <br>
 
@@ -456,13 +456,13 @@ The only part of Om that AppShare uses is the rendering engine and the change li
 ### When will Neo4j be back on the scene?
 <img height='350px' src='http://www.opencredo.com/wp-content/uploads/2013/06/neo4j-logo.png' /> 
 
-Those of you who have followed AppShare for a long time will know that one of the big features was the Neo4j integration. Since AppShare is moving to a real time model we dropped full Neo4j realtime support in June 2015. Neo4 still works with Coils, and Cypher queries can still be issued from Clojurescript, but just not in realtime mode as Neo4j does not have a client side cache in AppShare and it is too tricky to implement right now. At the time Neo4j was chosen for the following reasons:
+Those of you who have followed AppShare for a long time will know that one of the big features was the Neo4j integration. Since AppShare is moving to a real time model we dropped full Neo4j realtime support in June 2015. Neo4 still works with AppShare, and Cypher queries can still be issued from Clojurescript, but just not in realtime mode as Neo4j does not have a client side cache in AppShare and it is too tricky to implement right now. At the time Neo4j was chosen for the following reasons:
 
 - Easy to setup Neo4j on a developer machine, without having to create a schema first
 - Rich data model, using Neo4j labels can also mimic database tables
 - Expressive and powerful Cypher query language
 - Neo4j has funding and a large customer base, so they should be around a long time
-- Neo4j has a dual licensing model, similar to Coils
+- Neo4j has a dual licensing model, similar to AppShare
 
 Once AppShare has finished the realtime support of Postgres and other databases then Neo4j support can be revisited.
 
@@ -943,7 +943,7 @@ Alot of steps, I know!!!
 
 Building an application with AppShare? https://groups.google.com/forum/#!forum/clojure-on-coils
 
-Ask a question: http://stackoverflow.com/search?q=clojure+coils
+Ask a question: http://stackoverflow.com/search?q=appshare
 Interested in contributing to AppShare?
 
 Issue tracker: https://github.com/zubairq/AppShare/issues
