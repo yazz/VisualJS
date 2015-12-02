@@ -903,7 +903,7 @@ Alot of steps, I know!!!
 
 
 
-### Deploying a AppShare web app to a Java server as a WAR file
+### Deploying an AppShare web app to a Java server as a WAR file
 <img height='350px' src='https://host4asp.net/ckfinder/images/deploy-with-webmatrix-using-web-deploy.jpg' /> 
 
     mkdir srcprod && cd srcprod
