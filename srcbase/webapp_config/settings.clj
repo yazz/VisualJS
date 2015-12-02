@@ -34,6 +34,8 @@
 (defonce ^:dynamic *project-root-mac* "../../project_coils/")
 (defonce ^:dynamic *project-root-linux* "/root/appshare/project_coils/")
 
+(defonce ^:dynamic *lein* "~/lein.sh")
+
 
 ;(defonce ^:dynamic *database-type* "oracle")
 ;(defonce ^:dynamic *database-server* "localhost")

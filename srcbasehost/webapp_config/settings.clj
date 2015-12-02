@@ -32,7 +32,9 @@
 
 (defonce ^:dynamic *project-root-windows* "D:\\project_coils\\")
 (defonce ^:dynamic *project-root-mac* "../../project_coils/")
-(defonce ^:dynamic *project-root-linux* "/root/appshare/project_coils/")
+(defonce ^:dynamic *project-root-linux* "../../project_coils/")
+
+(defonce ^:dynamic *lein* "~/lein.sh")
 
 
 ;(defonce ^:dynamic *database-type* "oracle")

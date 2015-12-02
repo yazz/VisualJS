@@ -200,7 +200,7 @@
 (c/defn-ui-component     admin-view   [app]
 
   (c/div nil
-       (c/div nil "Coils admin")
+       (c/div nil "AppShare admin")
 
 		 (c/container
 		  (c/inline "50px" (c/div {:style {:fontSize "12px"}

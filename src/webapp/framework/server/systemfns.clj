@@ -1248,6 +1248,32 @@
 
 
 
+(defn folder [file-name]
+  (cond
+
+    (is-linux)
+    (str *project-root-linux* file-name)
+
+    (is-mac-osx)
+    (str *project-root-mac* file-name)
+
+    :else
+    (str *project-root-windows* file-name)))
+
+
+
+(defn src-folder [file-name]
+  (cond
+
+    (is-linux)
+    (str *project-root-linux* "figwheel_dev_envs/app0/coils/src/webapp/framework/client/components/" file-name)
+
+    (is-mac-osx)
+    (str *project-root-mac* "figwheel_dev_envs/app0/coils/src/webapp/framework/client/components/" file-name)
+
+    :else
+    (str *project-root-windows* "figwheel_dev_envs\\app0\\coils\\src\\webapp\\framework\\client\\components\\" file-name)))
+
 
 
 
@@ -1621,7 +1647,9 @@
 
 
 
-                    ( let [dir (str (cond (is-mac-osx) *project-root-mac* :else *project-root-windows*) "figwheel_dev_envs")
+                    ( let [dir (str (cond (is-mac-osx) *project-root-mac*
+                                          (is-linux)   *project-root-linux*
+                                          :else *project-root-windows*) "figwheel_dev_envs")
                           java-dir (io/file dir)
                           app-dire-exists (.exists   java-dir)
                           ]
@@ -1641,8 +1669,13 @@
 
                       ;(println (str "****** RANGE ************* " figwheel-index))
                       (doall (for [a figwheel-index]
-                               (let [src-dir           (cond (is-mac-osx) (str  *project-root-mac* "coils/") :else (str *project-root-windows* "coils\\"))
-                                     new-dir           (cond (is-mac-osx) (str  *project-root-mac* "figwheel_dev_envs/app" a) :else (str *project-root-windows* "figwheel_dev_envs\\app" a))
+                               (let [src-dir           (cond (is-mac-osx) (str  *project-root-mac* "coils/")
+                                                             (is-linux) (str  *project-root-linux* "coils/")
+                                                             :else (str *project-root-windows* "coils\\"))
+
+                                     new-dir           (cond (is-mac-osx)  (str  *project-root-mac* "figwheel_dev_envs/app" a)
+                                                             (is-linux)    (str  *project-root-linux* "figwheel_dev_envs/app" a)
+                                                             :else         (str *project-root-windows* "figwheel_dev_envs\\app" a))
                                      java-new-dir      (io/file new-dir)
                                      figwheel-port     (+ a *base-dev-port*)
                                      ]
@@ -1651,20 +1684,30 @@
                                  (.mkdir   java-new-dir)
                                  (fs/copy-dir src-dir  new-dir)
 
-                                 (replace-in-file (str new-dir (cond (is-mac-osx) "/coils/project.clj" :else "\\coils\\project.clj"))  3449 figwheel-port )
-                                 (replace-in-file (str new-dir (cond (is-mac-osx) "/coils/srcbase/webapp_config/settings.clj" :else "\\coils\\srcbase\\webapp_config\\settings.clj"))  3449 figwheel-port)
+                                 (replace-in-file (str new-dir (cond (is-mac-osx)  "/coils/project.clj"
+                                                                     (is-linux)    "/coils/project.clj"
+                                                                     :else         "\\coils\\project.clj"))  3449 figwheel-port )
+
+                                 (replace-in-file (str new-dir (cond (is-mac-osx)  "/coils/srcbase/webapp_config/settings.clj"
+                                                                     (is-linux)    "/coils/srcbase/webapp_config/settings.clj"
+                                                                     :else         "\\coils\\srcbase\\webapp_config\\settings.clj"))  3449 figwheel-port)
+
+                                 (replace-in-file (str new-dir "/coils/start_figwheel_client.sh")  "*project-root*" (folder ""))
+                                 (replace-in-file (str new-dir "/coils/start_figwheel_client.sh")  "*lein*" *lein*)
 
                                  ;(println (str "....pwd: "(me.raynes.conch.low-level/proc (str "pwd"))))
                                  (println (str "***STARTED CHMOD +X "))
                                  (if (is-mac-osx) (me.raynes.fs/chmod "+x" (str *project-root-mac* "figwheel_dev_envs/app0/coils/start_figwheel_client.sh")))
+                                 (if (is-linux) (me.raynes.fs/chmod "+x" (str *project-root-linux* "figwheel_dev_envs/app0/coils/start_figwheel_client.sh")))
                                  (println (str "***DONE CHMOD +X "))
 
                                  (println (str "***STARTING APP   " a))
-                                 (let [p  (cond (is-mac-osx) (me.raynes.conch.low-level/proc (str  *project-root-mac*      "figwheel_dev_envs/app0/coils/start_figwheel_client.sh"))
-                                                :else        (me.raynes.conch.low-level/proc (str  *project-root-windows* "figwheel_dev_envs\\app0\\coils\\start_figwheel_client.bat")))]
-                                   (future (do
-                                             (me.raynes.conch.low-level/stream-to-out p :out)
-                                             )))
+                                 (future (let [p  (cond (is-mac-osx) (me.raynes.conch.low-level/proc (str  *project-root-mac*      "figwheel_dev_envs/app0/coils/start_figwheel_client.sh"))
+                                                        (is-linux) (me.raynes.conch.low-level/proc   (str  *project-root-linux*    "figwheel_dev_envs/app0/coils/start_figwheel_client.sh"))
+                                                        :else        (me.raynes.conch.low-level/proc (str  *project-root-windows*  "figwheel_dev_envs\\app0\\coils\\start_figwheel_client.bat")))]
+                                           (do
+                                             (me.raynes.conch.low-level/stream-to-out p :out))))
+
                                  (println (str "***---STARTED APP   " a))
                                  ;(future (sh "call" "start_figwheel_client.bat"  :dir (str new-dir "\\coils")))
 
@@ -1768,18 +1811,6 @@
 
 
 
-(defn folder [file-name]
-  (cond
-
-    (is-linux)
-    (str *project-root-linux* "figwheel_dev_envs/app0/coils/src/webapp/framework/client/components/" file-name)
-
-    (is-mac-osx)
-    (str *project-root-mac* "figwheel_dev_envs/app0/coils/src/webapp/framework/client/components/" file-name)
-
-    :else
-    (str *project-root-windows* "figwheel_dev_envs\\app0\\coils\\src\\webapp\\framework\\client\\components\\" file-name)))
-
 
 
 
@@ -1810,13 +1841,13 @@
 
 
           content   (str (get content-records :ac) (get content-records :ac2))
-          start     (slurp (folder "main_view_start.txt"))
+          start     (slurp (src-folder "main_view_start.txt"))
           middle    content
-          end       (slurp (folder "main_view_end.txt"))
+          end       (slurp (src-folder "main_view_end.txt"))
 
           joined    (str  start  middle  end)
           ]
-      (spit (folder "main_view.cljs") joined)
+      (spit (src-folder "main_view.cljs") joined)
       (println (str "COMPILED:" start))
       )
 
@@ -1844,13 +1875,13 @@
 (defn !savecode [{:keys [id code] }]
   (do
     (sql "update coils_applications set application_code = ? where id = ?" [code id])
-    (let [start     (slurp (folder "main_view_start.txt"))
+    (let [start     (slurp (src-folder "main_view_start.txt"))
           middle    code
-          end       (slurp (folder "main_view_end.txt"))
+          end       (slurp (src-folder "main_view_end.txt"))
 
           joined    (str  start  middle  end)
           ]
-      (spit (folder "main_view.cljs") joined)
+      (spit (src-folder "main_view.cljs") joined)
       (println (str "COMPILED:" start))
       )
 
