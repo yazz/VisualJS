@@ -64,8 +64,7 @@
                              :className "btn btn-small"
                              :onClick     #(go (sql "delete from coils_applications
                                               where id = ?"
-                                              [(<-- :id) ]  )
-                                             )
+                                              [(<-- :id) ]))
                              } "X")
 
 
@@ -89,9 +88,7 @@
 
                       :else
                       (div {:onClick     #(go  (write-ui app [:submode] "editappname")
-                                               (write-ui app [:app-id] (<-- :id))
-
-                                               )
+                                               (write-ui app [:app-id] (<-- :id)))
 
                             :style {:display "inline-block" :fontFamily "Ubuntu" :fontWeight "700" :fontSize "1.3em" ::marginTop "0.7em"}}
                            (str (<-- :application_name))))
@@ -136,7 +133,7 @@
 
   (div nil
        (div {:style     {:border "0px" :backgroundColor "black" :width "100%" :height "3em" :verticalAlign "top"}}
-            (div {:style {:display "inline-block" :fontFamily "Ubuntu" :fontWeight "700" :fontSize "1.3em" ::marginTop "0.7em"}} "AppShare")
+            (img {:style {:display "inline-block" :marginTop "-0.0em"} :src "appshare_logo_dark_background.png"})
 
             (button {:className    "btn btn-default"
                      :style       {:display "inline-block" :marginLeft "30px" :fontFamily "Ubuntu" :fontSize "1em" :marginTop "-0.3em"}
@@ -149,17 +146,26 @@
 
 
 
-            (a {:className    "btn btn-default"
-                :target       "new"
-                :style       {:float "right"  :display "inline-block" :marginLeft "30px" :fontFamily "Ubuntu" :fontSize "1em"  :marginTop "0.2em" }
-                :href         "http://127.0.0.1:3450"} "Run in own window")
+            (cond
+             (= (read-ui app [:mode]) "edit")
+             (div {:style       {:display "inline-block"}}
+               (a {:className    "btn btn-default"
+                   :target       "new"
+                   :style       {:display "inline-block" :marginLeft "30px" :fontFamily "Ubuntu" :fontSize "1em"  :marginTop "-0.3em" }
+                   :href         (str "http://" @appshare-dev-server ":3450")}
+                  "Run in own window")
 
-            (button {:className    "btn btn-default"
-                     :style       {:float "right" :display "inline-block" :marginLeft "30px" :fontFamily "Ubuntu" :fontSize "1em" :marginTop "0.2em"  }
-                     :onClick     #(go
-                                     (let [code (js/getCodeMirrorValue)]
-                                       (remote !savecode {:id (read-ui app [:app-id]) :code code}))   )} "Save")
-                                       ;(remote !savecode {:id (read-ui app [:app-id])} code))   )} "Save")
+               (button {:className    "btn btn-default"
+                        :style       {:display "inline-block" :marginLeft "30px" :fontFamily "Ubuntu" :fontSize "1em" :marginTop "-0.3em"  }
+                        :onClick     #(go
+                                       (let [code (js/getCodeMirrorValue)]
+                                         (remote !savecode {:id (read-ui app [:app-id]) :code code}))   )}
+                       "Save")))
+
+            (a {:target       "appshare.co"
+                :style       {:textDecoration "underline" :float "right"  :display "inline-block" :marginRight "30px" :fontFamily "Ubuntu" :fontSize "2em" :marginTop "0.3em"}
+                :href         (str "http://coils.cc/coils/index.html")}
+               "AppShare.co")
 
             )
        (cond
