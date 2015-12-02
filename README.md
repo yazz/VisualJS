@@ -1,4 +1,5 @@
 Clojure on Coils has changed it's name to...
+
 <img src='http://coils.cc/coils/images/appshare.jpg' /> 
 
 #### The Free and Open Source Enterprise App Store
