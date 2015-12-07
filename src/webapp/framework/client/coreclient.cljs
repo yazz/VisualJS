@@ -11,6 +11,8 @@
    [om.dom                  :as dom]
    [clojure.zip]
    [clojure.set]
+   [cljs.js :as cljs]
+   [cljs.tools.reader :refer [read-string]]
    [goog.Uri.QueryData]
    [goog.events]
    [cljs.core.async         :as async :refer [chan close!]]
@@ -2477,6 +2479,22 @@ with the (<-- :field) method
 
     (get-in @ui-state    relative-path)))
 
+
+
+
+
+
+
+
+
+
+(defn ^:export evalstr [s]
+  (cljs/eval (cljs/empty-state)
+        (read-string s)
+        {:eval       cljs/js-eval
+         :source-map true
+         :context    :expr}
+        (fn [result] result)))
 
 
 

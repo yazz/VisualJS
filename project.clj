@@ -30,6 +30,9 @@
                   [ring/ring-json "0.4.0"]
 
                   [org.webjars/codemirror "5.8"]
+
+                 [org.clojure/tools.reader "0.10.0"]
+                 [lein-figwheel "0.5.0-2"]
                   ]
   :repositories {"sonatype-oss-public"
                  "https://oss.sonatype.org/content/groups/public/"}
@@ -79,6 +82,34 @@
 
 
 
+             :baseidehost
+             {
+              :figwheel {
+                         :websocket-host "localhost"
+                         :server-port 3449
+                         :http-server-root "public" ;; this will be in resources/
+                         :ring-handler    webapp.framework.server.core/app
+                         :css-dirs ["resources/public"]
+                         :on-jsload "webapp.framework.client.main/figwheel-update"
+                         }
+              :source-paths ["src" "srcfig" "srcidehost"]
+              :cljsbuild
+              {
+               :builds
+               [
+                {
+                 :source-paths ["src" "srcfig" "srcidehost"]
+                 :compiler     {
+                                ;:preamble       ["public/react.min.js"]
+                                :output-to      "resources/public/mainide.js"
+                                :output-dir     "resources/public/outide/"
+                                :optimizations  :none
+                                ;:output-wrapper false
+                                ;:externs        ["resources/public/google_maps_api_v3_11.js"]
+                                ;:pretty-print   false
+                                :cache-analysis true
+                                :source-map-timestamp true
+                                :source-map true }}]}}
 
 
              :base
@@ -110,6 +141,16 @@
                                 :cache-analysis true
                                 :source-map-timestamp true
                                 :source-map true }}]}}
+
+
+
+
+
+
+
+
+
+
 
 
 

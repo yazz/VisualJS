@@ -35,7 +35,7 @@
             (div {:style {:display "inline-block" :width "1200" :height "800" :verticalAlign "top"}}
                  (textarea {:id "cm" :style {:display "inline-block" :width "1200" :height "800"}} ""))
 
-            (iframe {:style {:display "inline-block"} :src (str "http://" @appshare-dev-server ":3450") :width "600" :height "800"})))
+            (iframe {:id "appframe" :style {:display "inline-block"} :src (str "http://" @appshare-dev-server ":3449/devclient.html") :width "600" :height "800"})))
 
 
 
@@ -116,14 +116,6 @@
 
 
 
-
-
-
-
-
-
-
-
 (defn-ui-component     main-hosting-component   [app]
   {:on-mount
    (do  (go (let [x (remote  !getfilecontents  {:file-name nil})]
@@ -159,7 +151,9 @@
                         :style       {:display "inline-block" :marginLeft "30px" :fontFamily "Ubuntu" :fontSize "1em" :marginTop "-0.3em"  }
                         :onClick     #(go
                                        (let [code (js/getCodeMirrorValue)]
-                                         (remote !savecode {:id (read-ui app [:app-id]) :code code}))   )}
+                                         (remote !savecode {:id (read-ui app [:app-id]) :code code})
+                                         (js/sendcode (str code))
+                                         ))}
                        "Save")))
 
             (a {:target       "appshare.co"

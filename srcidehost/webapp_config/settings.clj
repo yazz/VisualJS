@@ -49,7 +49,7 @@
 
 (defonce ^:dynamic *show-code* true)
 
-(defonce ^:dynamic *main-page* "main.html")
+(defonce ^:dynamic *main-page* "devclient.html")
 
 (defmacro setup-fn [] (quote webapp.framework.client.init/setup-properties))
 ;(defmacro setup-fn [] (quote webapp.client.demoapp/setup-properties3))

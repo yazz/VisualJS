@@ -20,6 +20,7 @@
 !/resources/*/*/*/*/*/*
 !/resources/*/*/*/*/*/*/*
 /resources/public/main.js
+/resources/public/mainide.js
 
 !/srcfig/
 !/srcfig/*
@@ -34,6 +35,13 @@
 !/src/*/*/*/*/*/*
 !/src/*/*/*/*/*/*/*
 !/src/*/*/*/*/*/*/*/*
+
+
+!/srcidehost/
+!/srcidehost/*
+!/srcidehost/*/*
+!/srcidehost/*/*/*
+!/srcidehost/*/*/*/*
 
 !/srcbasehost/
 !/srcbasehost/*
@@ -95,3 +103,8 @@
 /resources/public/out/*/*/*
 /resources/public/out/*/*/*/*
 /resources/public/out/*/*/*/*/*
+/resources/public/outide/*
+/resources/public/outide/*/*
+/resources/public/outide/*/*/*
+/resources/public/outide/*/*/*/*
+/resources/public/outide/*/*/*/*/*
