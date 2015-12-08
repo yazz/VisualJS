@@ -1,4 +1,4 @@
-(ns webapp.framework.client.components.main_view
+(ns webapp.framework.client.components.main-view
   (:require [webapp.framework.client.coreclient   :as c])
   (:use-macros [webapp.framework.client.coreclient  :only [ns-coils defn-ui-component def-coils-app
                                                            container  map-many  inline  text log sql
@@ -7,7 +7,7 @@
                                                            h1 h2 h3 h4 h5 h6 span  data-view-v2 select dselect realtime drealtime
                                                            input-field ]])
   (:require-macros [cljs.core.async.macros :refer [go alt!]]))
-(ns-coils 'webapp.framework.client.components.main_view)
+(ns-coils 'webapp.framework.client.components.main-view)
 ; the shortest todo mvc in the world at 84 lines of code
 
 
@@ -121,13 +121,13 @@
 
 
 
-
+(defonce aaa (atom  1))
 
 
 (defn-ui-component     main-to-do-app   [app] {}
 
   (section {:className "todoapp" :style {:fontFamily "Roboto"}}
-    (div {} (h2 {:style {:fontFamily "Ubuntu" :fontWeight "700" :fontSize "2em"}} "Coils Todo MVC"))
+    (div {} (h2 {:style {:fontFamily "Ubuntu" :fontWeight "700" :fontSize "2em"}} (str "Coils Todo MVC" @aaa)))
     (div {:className "main_div"}
 
          (component  new-do-item-component   app  [])

@@ -1,4 +1,4 @@
-(ns webapp.framework.client.components.main_view
+(ns webapp.framework.client.components.main-view
   (:require
    [webapp.framework.client.coreclient   :as c ])
   (:use-macros
@@ -11,7 +11,7 @@
                                                ]])
   (:require-macros
    [cljs.core.async.macros :refer [go alt!]]))
-(ns-coils 'webapp.framework.client.components.main_view)
+(ns-coils 'webapp.framework.client.components.main-view)
 
 
 
