@@ -1,7 +1,5 @@
 (ns webapp.framework.client.system-globals
   (:require
-   [om.core          :as om :include-macros true]
-   [om.dom           :as dom :include-macros true]
    [clojure.data     :as data]
    [clojure.string   :as string]
    [cljs.core.async  :as async :refer [chan close!]]
