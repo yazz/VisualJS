@@ -2487,17 +2487,16 @@ with the (<-- :field) method
 
 
 
-
 (defn ^:export evalstr [s]
-  (cljs/eval (cljs/empty-state)
-        (read-string s)
-        {:eval       cljs/js-eval
-         :source-map true
-         :context    :expr}
-        (fn [result] result)))
-
-
-
+  (cljs/compile-str (cljs/empty-state) s 'foo.bar
+                    {
+                      :eval cljs/js-eval
+                      :source-map true}
+                    (fn [result]
+                      (do
+                        (log (pr-str result))
+                        (js/eval (:value result))
+                        result))))
 
 
 

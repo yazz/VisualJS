@@ -1,5 +1,9 @@
 (ns webapp.framework.client.components.main-view
-  (:require [webapp.framework.client.coreclient   :as c])
+  (:require [webapp.framework.client.coreclient   :as c]
+   [goog.net.XhrIo          :as xhr]
+            [cljs.js :as cljs]
+            [cljs.tools.reader :refer [read-string]]
+            )
   (:use-macros [webapp.framework.client.coreclient  :only [ns-coils defn-ui-component def-coils-app
                                                            container  map-many  inline  text log sql
                                                            div img pre component h2 input section header button label form
@@ -121,13 +125,18 @@
 
 
 
-(defonce aaa (atom  1))
+(def  aaa  (atom (fn [] 333)))
+
+
+(def  bbb  (atom (fn [] 333)))
+
+
 
 
 (defn-ui-component     main-to-do-app   [app] {}
 
   (section {:className "todoapp" :style {:fontFamily "Roboto"}}
-    (div {} (h2 {:style {:fontFamily "Ubuntu" :fontWeight "700" :fontSize "2em"}} (str "Coils Todo MVC" @aaa)))
+    (div {} (h2 {:style {:fontFamily "Ubuntu" :fontWeight "700" :fontSize "2em"}} (str "Coils Todo MVC"  (@aaa))))
     (div {:className "main_div"}
 
          (component  new-do-item-component   app  [])
@@ -143,4 +152,57 @@
 
 
 (def-coils-app     main-view   main-to-do-app)
+
+
+(defn get-file [url cb]
+  (.send goog.net.XhrIo url
+    (fn [e]
+      (cb (.. e -target getResponseText)))))
+
+
+(def bar-url "http://127.0.0.1:3449/outide/")
+
+(defn load-fn [lib cb]
+  (let [filename (str bar-url (:path lib) ".cljs")]
+    (log (str "load-fn:" filename))
+    (get-file   filename
+              (fn [src]
+                (cb {:lang :clj :source src})))))
+
+
+
+
+
+
+(defn ^:export evalstr2old [s]
+  (cljs/eval (cljs/empty-state)
+        (read-string s)
+        {:eval            cljs/js-eval
+         :context         :expr
+         :source-map      false
+         :def-emits-var   true
+         :load            load-fn
+         :in-ns           webapp.framework.client.components.main-view
+           ;:ns webapp.framework.client.coreclient
+         }
+        (fn [result] (do (log (pr-str result)) result))))
+
+
+
+
+
+
+(defn ^:export evalstr2 [s]
+  (cljs/eval-str (cljs/empty-state) s 'foo.bar
+                    {
+                      :eval cljs/js-eval
+                      :load load-fn
+                      :source-map true}
+                    (fn [result]
+                      (do
+                        (log (pr-str result))
+                        (js/eval (:value result))
+                        result))))
+
+
 

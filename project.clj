@@ -107,9 +107,10 @@
                                 ;:output-wrapper false
                                 ;:externs        ["resources/public/google_maps_api_v3_11.js"]
                                 ;:pretty-print   false
-                                :cache-analysis true
-                                :source-map-timestamp true
-                                :source-map true }}]}}
+                                ;:cache-analysis true
+                                ;:source-map-timestamp true
+                                ;:source-map true
+                                 }}]}}
 
 
              :base

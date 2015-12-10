@@ -1,6 +1,5 @@
 (ns webapp.framework.client.system-globals
   (:require
-   [goog.net.cookies :as cookie]
    [om.core          :as om :include-macros true]
    [om.dom           :as dom :include-macros true]
    [clojure.data     :as data]
