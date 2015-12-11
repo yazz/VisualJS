@@ -5,7 +5,7 @@
 
 
 (defmacro div [attributes & more]
-  `(~'om.dom/div  nil "dd"))
+  `(om.dom/div  (webapp.framework.client.coreclient/attrs ~attributes) ~@more))
 
 
 
