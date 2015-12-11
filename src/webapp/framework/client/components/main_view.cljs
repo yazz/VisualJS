@@ -3,6 +3,8 @@
    [goog.net.XhrIo          :as xhr]
             [cljs.js :as cljs]
             [cljs.tools.reader :refer [read-string]]
+            [webapp.framework.client.fns]
+            [webapp.framework.client.macros]
             )
   (:use-macros [webapp.framework.client.coreclient  :only [ns-coils defn-ui-component def-coils-app
                                                            container  map-many  inline  text log sql
@@ -178,11 +180,11 @@
   (cljs/eval (cljs/empty-state)
         (read-string s)
         {:eval            cljs/js-eval
-         :context         :expr
-         :source-map      false
-         :def-emits-var   true
+         ;:context         :expr
+         :source-map      true
+         ;:def-emits-var   true
          :load            load-fn
-         :in-ns           webapp.framework.client.components.main-view
+         ;:in-ns           webapp.framework.client.components.main-view
            ;:ns webapp.framework.client.coreclient
          }
         (fn [result] (do (log (pr-str result)) result))))
@@ -193,11 +195,14 @@
 
 
 (defn ^:export evalstr2 [s]
-  (cljs/eval-str (cljs/empty-state) s 'foo.bar
+  (cljs/eval-str (cljs/empty-state) s 'foo2222.bar2222
                     {
                       :eval cljs/js-eval
                       :load load-fn
-                      :source-map true}
+                      :source-map true
+                      :def-emits-var   true
+                      :ns webapp.framework.client.macros
+                      }
                     (fn [result]
                       (do
                         (log (pr-str result))
