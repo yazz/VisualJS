@@ -10,5 +10,5 @@
 
 
 (defmacro zoo [attr]
-  1)
+  attr)
 
