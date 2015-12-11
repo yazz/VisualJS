@@ -3,8 +3,8 @@
    [goog.net.XhrIo          :as xhr]
             [cljs.js :as cljs]
             [cljs.tools.reader :refer [read-string]]
-            [webapp.framework.client.fns]
-            [webapp.framework.client.macros]
+            [webapp.framework.client.fns :refer [cljs-in-cljs]]
+
             )
   (:use-macros [webapp.framework.client.coreclient  :only [ns-coils defn-ui-component def-coils-app
                                                            container  map-many  inline  text log sql
@@ -12,7 +12,8 @@
                                                            write-ui read-ui container input component <-- data-view-result-set
                                                            h1 h2 h3 h4 h5 h6 span  data-view-v2 select dselect realtime drealtime
                                                            input-field ]])
-  (:require-macros [cljs.core.async.macros :refer [go alt!]]))
+  (:require-macros [cljs.core.async.macros :refer [go alt!]]
+                     ))
 (ns-coils 'webapp.framework.client.components.main-view)
 ; the shortest todo mvc in the world at 84 lines of code
 
@@ -147,7 +148,10 @@
          (component  to-do-list-component   app  [])
          (div {:className "mediumGap"})
 
-         (component  to-do-footer-component   app  []))))
+         (component  to-do-footer-component   app  [])
+
+         (cljs-in-cljs)
+         )))
 
 
 
@@ -195,13 +199,13 @@
 
 
 (defn ^:export evalstr2 [s]
-  (cljs/eval-str (cljs/empty-state) s 'foo2222.bar2222
+  (cljs/eval-str (cljs/empty-state) s 'foo.bar
                     {
                       :eval cljs/js-eval
                       :load load-fn
                       :source-map true
                       :def-emits-var   true
-                      :ns webapp.framework.client.macros
+                      :ns webapp.framework.client.fns
                       }
                     (fn [result]
                       (do

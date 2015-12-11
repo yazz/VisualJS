@@ -1000,3 +1000,11 @@ nil
                                                  ((~@code) ~'newtext)
                                                  (~'write-ui  ~app  [~input-path]  ""))))))
                     } ))))
+
+
+(defmacro test [a]
+  `(str ~a))
+
+(test 2)
+
+
