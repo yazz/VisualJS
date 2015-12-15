@@ -2,7 +2,7 @@ Clojure on Coils has changed it's name to...
 
 <img src='http://coils.cc/coils/images/appshare.jpg' /> 
 
-[(See why)](http://www.canlabs.com/canlabs/why-another-framework.html)
+[(See why)](http://www.canlabs.com/canlabs/coils-to-appshare.html)
 
 #### The Free and Open Source Enterprise App Store with MIT licensing
 [(As in Ruby on Rails freedom)](http://opensource.org/licenses/mit-license.php)
