@@ -2,10 +2,10 @@ Clojure on Coils has changed it's name to...
 
 <img src='http://coils.cc/coils/images/appshare.jpg' /> 
 
-[(See why)](http://coils.cc/coils/blog.html)
+[(See why)](http://www.canlabs.com/canlabs/why-another-framework.html)
 
-#### The Free and Open Source Enterprise App Store
-[(As in Wordpress freedom)](http://ma.tt/2014/01/four-freedoms/)
+#### The Free and Open Source Enterprise App Store with MIT licensing
+[(As in Ruby on Rails freedom)](http://opensource.org/licenses/mit-license.php)
 
 Click the image to see the video
 [![IMAGE Click here to see video](http://coils.cc/coils/images/enterpriseapp.jpg)] (http://www.youtube.com/watch?v=CzwikfCAdws)
