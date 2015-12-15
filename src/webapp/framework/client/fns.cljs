@@ -1,10 +1,10 @@
-(ns webapp.framework.client.fns
+(ns webapp.framework.client.fns  )
 
-)
-
-
-
-(defn abcd-fn [] "ya man fn")
+(defn cljs-in-cljs [] (om.dom/div {:style {:color "red"}} "START2"))
 
 
-(defn cljs-in-cljs [] (om.dom/div {:style {:color "red"}} "START"))
+(defn newwidget [data owner]
+  (reify
+    om.core/IRender
+    (om.core/render [this]
+      (om.dom/div nil "text**"))))

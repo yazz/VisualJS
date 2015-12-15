@@ -1,9 +1,11 @@
 (ns webapp.framework.client.components.main-view
   (:require [webapp.framework.client.coreclient   :as c]
-   [goog.net.XhrIo          :as xhr]
+            [goog.net.XhrIo          :as xhr]
+            [om.core]
+            [om.dom]
             [cljs.js :as cljs]
             [cljs.tools.reader :refer [read-string]]
-            [webapp.framework.client.fns :refer [cljs-in-cljs]]
+            [webapp.framework.client.fns :refer [cljs-in-cljs newwidget]]
 
             )
   (:use-macros [webapp.framework.client.coreclient  :only [ns-coils defn-ui-component def-coils-app
@@ -151,6 +153,8 @@
          (component  to-do-footer-component   app  [])
 
          (cljs-in-cljs)
+         (om.core/build newwidget app {})
+
          )))
 
 
