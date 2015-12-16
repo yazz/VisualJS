@@ -1013,6 +1013,19 @@ nil
     )))
 
 
+(comment macroexpand '(select
+                      id, item, item_status
+                 from
+                      coils_todo_items
+
+            {}
+
+            (div nil "a")))
+
+
+
+
+
 
 (defmacro realtime [& select-args]
   (let [

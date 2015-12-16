@@ -158,7 +158,7 @@
 
             (a {:target       "appshare.co"
                 :style       {:textDecoration "underline" :float "right"  :display "inline-block" :marginRight "30px" :fontFamily "Ubuntu" :fontSize "2em" :marginTop "0.3em"}
-                :href         (str "http://coils.cc/coils/index.html")}
+                :href         (str "http://canlabs.com")}
                "AppShare.co")
 
             )
