@@ -8,6 +8,9 @@
 
 
 
+(defmacro ns-coils [nm]
+  `(webapp.framework.client.coreclient/ns-coils  ~nm))
+
 (defmacro span [attributes & more]
   `(om.dom/span  (webapp.framework.client.coreclient/attrs ~attributes) ~@more))
 

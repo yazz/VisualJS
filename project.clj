@@ -93,13 +93,16 @@
                          :on-jsload "webapp.framework.client.main/figwheel-update"
                          }
               :source-paths ["src" "srcfig" "srcidehost"]
+              :target-path "targetide"
               :cljsbuild
               {
                :builds
                [
                 {
                  :source-paths ["src" "srcfig" "srcidehost"]
+                 :target-path "targetide"
                  :compiler     {
+                                :target-path "targetide"
                                 ;:preamble       ["public/react.min.js"]
                                 :output-to      "resources/public/mainide.js"
                                 :output-dir     "resources/public/outide/"
