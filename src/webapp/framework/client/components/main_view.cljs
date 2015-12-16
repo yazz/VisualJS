@@ -48,6 +48,7 @@
 
 (defn-ui-component     to-do-list-component   [app] {}
 
+
   (realtime select
                       id, item, item_status
                  from
@@ -154,6 +155,40 @@
 
          (cljs-in-cljs)
          (om.core/build newwidget app {})
+
+
+
+         (comment let* [data ( webapp.framework.client.coreclient/data-window-fn {
+                                                                           :data-source          :coils_todo_items
+                                                                           :relative-path       [1]
+                                                                           :interval-in-millis   100
+                                                                           :fields                [:id :item :item_status]
+                                                                           :db-table            "coils_todo_items"
+                                                                           :where nil
+                                                                           :params nil
+                                                                           :order nil
+                                                                           :realtime nil
+                                                                           }
+                       {:start 1 :end 20}
+                       newwidget [] app)
+
+
+                data-order             (-> data :order)
+               ]
+               (div nil (map-many
+                 (fn [record-id]
+                   (let [relative-path (:relative-path {:fields [:id :item :item_status],
+                                                        :db-table "coils_todo_items",
+                                                        :relative-path [1],
+                                                        :params nil,
+                                                        :data-source
+                                                        :coils_todo_items}) record
+                         (get (-> data :values) record-id)]
+                     (if (clojure.core/get record :value)
+                       (div {} (div nil "a")))))
+                 (map (fn [x] (get data-order x)) (range (:start {:start 1, :end 20}) (inc (min (:end {:start 1, :end 20})
+                                                                                                (-> data :count))))))))
+
 
          )))
 

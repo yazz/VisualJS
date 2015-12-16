@@ -6,6 +6,15 @@
 
 
 
+(defmacro add-many [items]
+  `(webapp.framework.client.coreclient/add-many-fn      ~items))
+
+
+(defmacro map-many [code items]
+  `(add-many
+   (map
+    ~code
+    ~items)))
 
 
 
