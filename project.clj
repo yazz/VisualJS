@@ -82,6 +82,13 @@
 
 
 
+
+
+
+
+
+
+
              :baseidehost
              {
               :figwheel {
@@ -115,16 +122,26 @@
                                 ;:source-map true
                                  }}]}}
 
+
+
+
+
+
+
+
+
+
+
              :prodidehost
              {
               :figwheel     false
-              :source-paths ["src" "../srcidehost"]
               :target-path "targetide"
               :cljsbuild
               {
                :builds
                [
                 {
+                 :source-paths ["src" "../srcprodidehost"]
                  :target-path "targetide"
                  :compiler     {
                                 :target-path "targetide"
@@ -139,6 +156,16 @@
                                 ;:source-map-timestamp true
                                 ;:source-map true
                                  }}]}}
+
+
+
+
+
+
+
+
+
+
 
 
              :base
