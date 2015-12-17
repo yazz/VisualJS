@@ -198,6 +198,7 @@
 
 (def-coils-app     main-view   main-to-do-app)
 
+(def autoin (atom 0))
 
 (defn get-file [url cb]
   (.send goog.net.XhrIo url
@@ -208,11 +209,13 @@
 (def bar-url "http://127.0.0.1:3449/outide/")
 
 (defn load-fn [lib cb]
-  (let [filename (str bar-url (:path lib) ".cljs")]
-    (log (str "load-fn:" filename))
-    (get-file   filename
-              (fn [src]
-                (cb {:lang :clj :source src})))))
+  (do
+    (swap! autoin inc)
+    (let [filename (str bar-url (:path lib) ".cljs?autoin=" autoin)]
+      (log (str "load-fn:" filename))
+      (get-file   filename
+                  (fn [src]
+                    (cb {:lang :clj :source src}))))))
 
 
 

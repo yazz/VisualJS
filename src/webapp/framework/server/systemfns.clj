@@ -1636,7 +1636,7 @@
 
 
                 ; deletes the realtime log every time the file is reloaded, or the server is restarted
-                (if *hosted-mode*
+                (comment if *hosted-mode*
                   (let [figwheel-index    (range 0 max-figwheel-processes)]
                     ;(println "********************************In hosted mode")
 

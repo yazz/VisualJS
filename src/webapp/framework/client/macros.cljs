@@ -6,6 +6,8 @@
 
 
 
+
+
 (defmacro add-many [items]
   `(webapp.framework.client.coreclient/add-many-fn      ~items))
 
@@ -112,7 +114,7 @@
 
 
 
-(defmacro nscoils [namespace-name]
+(defmacro ns-coils [namespace-name]
   `(defn ~'ns-coils-debug  [] (str ~namespace-name)))
 
 
