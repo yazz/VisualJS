@@ -81,6 +81,9 @@
   (atom nil))
 
 
+(defonce appshare-cljs-source
+  (atom nil))
+
 
 
   "

@@ -2,6 +2,7 @@
   (:require [webapp.framework.client.coreclient   :as c]
             [goog.net.XhrIo          :as xhr]
             [om.core]
+            [webapp.framework.client.system-globals]
             [om.dom]
             [cljs.js :as cljs]
             [cljs.tools.reader :refer [read-string]]
@@ -206,12 +207,11 @@
       (cb (.. e -target getResponseText)))))
 
 
-(def bar-url "http://127.0.0.1:3449/outide/")
 
 (defn load-fn [lib cb]
   (do
     (swap! autoin inc)
-    (let [filename (str bar-url (:path lib) ".cljs?autoin=" autoin)]
+    (let [filename (str @webapp.framework.client.system-globals/appshare-cljs-source (:path lib) ".cljs?autoin=" autoin)]
       (log (str "load-fn:" filename))
       (get-file   filename
                   (fn [src]

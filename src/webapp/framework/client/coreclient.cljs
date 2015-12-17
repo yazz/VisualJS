@@ -54,7 +54,8 @@
                                                     client-record-cache
                                                     ui-paths-mapped-to-data-windows
                                                     client-datasource-fields
-                                                    appshare-dev-server]])
+                                                    appshare-dev-server
+                                                    appshare-cljs-source]])
   (:use-macros
    [webapp.framework.client.coreclient  :only [ns-coils
                                                sql log sql-1
@@ -394,6 +395,18 @@
                     (<! (remote-fn "!get-appshare-dev-server" {})))]
      (reset! appshare-dev-server
              appshare-dev-server-value)))
+
+
+
+
+(go
+ (let [appshare-cljs-source-value (:value
+                    (<! (remote-fn "!get-appshare-cljs-source" {})))]
+     (reset! appshare-cljs-source
+             appshare-cljs-source-value)))
+
+
+
 
 
 

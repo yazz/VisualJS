@@ -138,6 +138,9 @@
   {:value *appshare-dev-server*})
 
 
+(defn !get-appshare-cljs-source []
+  {:value *appshare-cljs-source*})
+
 
 
 (defn !get-environment []
