@@ -137,6 +137,9 @@
 (defn !get-appshare-dev-server []
   {:value *appshare-dev-server*})
 
+(defn !get-appshare-dev-port []
+  {:value *base-dev-port*})
+
 
 (defn !get-appshare-cljs-source []
   {:value *appshare-cljs-source*})

@@ -13,7 +13,7 @@
                                                input-field remote
                                                ]])
   (:use
-   [webapp.framework.client.system-globals :only  [appshare-dev-server]])
+   [webapp.framework.client.system-globals :only  [appshare-dev-server appshare-dev-port]])
 
   (:require-macros
    [cljs.core.async.macros :refer [go alt!]]))
@@ -35,7 +35,10 @@
             (div {:style {:display "inline-block" :width "1200" :height "800" :verticalAlign "top"}}
                  (textarea {:id "cm" :style {:display "inline-block" :width "1200" :height "800"}} ""))
 
-            (iframe {:id "appframe" :style {:display "inline-block"} :src (str "http://" @appshare-dev-server ":3449/devclient.html") :width "600" :height "800"})))
+       (iframe {:id "appframe" :style {:display "inline-block"} :src
+                (str "http://" @appshare-dev-server ":"
+                     @appshare-dev-port
+                     "/devclient.html") :width "600" :height "800"})))
 
 
 

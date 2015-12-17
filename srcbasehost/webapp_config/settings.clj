@@ -20,7 +20,7 @@
 (defonce ^:dynamic *appshare-dev-server* "127.0.0.1")
 (defonce ^:dynamic *appshare-cljs-source* "http://127.0.0.1:3449/outide/")
 (defonce ^:dynamic *web-server* "127.0.0.1:3449")
-(defonce ^:dynamic *base-dev-port* 3450)
+(defonce ^:dynamic *base-dev-port* 3449)
 
 
 (defonce ^:dynamic *database-type* "postgres")

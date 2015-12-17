@@ -398,6 +398,15 @@
 
 
 
+(go
+ (let [appshare-dev-port-value (:value
+                    (<! (remote-fn "!get-appshare-dev-port" {})))]
+     (reset! appshare-dev-port
+             appshare-dev-port-value)))
+
+
+
+
 
 (go
  (let [appshare-cljs-source-value (:value

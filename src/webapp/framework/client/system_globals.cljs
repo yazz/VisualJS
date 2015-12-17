@@ -77,6 +77,9 @@
 
 
 
+(defonce appshare-dev-port
+  (atom nil))
+
 (defonce appshare-dev-server
   (atom nil))
 
