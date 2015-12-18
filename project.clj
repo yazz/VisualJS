@@ -16,7 +16,7 @@
                   [ring "1.4.0"]
                   [ring-middleware-format "0.7.0"]
                   [rewrite-clj "0.2.0"]
-                  [org.jasypt/jasypt "1.9.2"]
+                  ;[org.jasypt/jasypt "1.9.2"]
                   [clj-http "2.0.0"]
                   [cheshire "5.5.0"]
                   [ankha "0.1.4"]
