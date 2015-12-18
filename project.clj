@@ -91,16 +91,7 @@
 
              :baseidehost
              {
-              :figwheel {
-                         :websocket-host "localhost"
-                         :server-port 3449
-                         :http-server-root "public" ;; this will be in resources/
-                         :ring-handler    webapp.framework.server.core/app
-                         :css-dirs ["resources/public"]
-                         :on-jsload "webapp.framework.client.main/figwheel-update"
-                         }
-              :source-paths ["src" "srcfig" "srcidehost"]
-              :target-path "targetide"
+              :figwheel :false
               :cljsbuild
               {
                :builds
@@ -110,16 +101,9 @@
                  :target-path "targetide"
                  :compiler     {
                                 :target-path "targetide"
-                                ;:preamble       ["public/react.min.js"]
                                 :output-to      "resources/public/mainide.js"
                                 :output-dir     "resources/public/outide/"
                                 :optimizations  :none
-                                ;:output-wrapper false
-                                ;:externs        ["resources/public/google_maps_api_v3_11.js"]
-                                ;:pretty-print   false
-                                ;:cache-analysis true
-                                ;:source-map-timestamp true
-                                ;:source-map true
                                  }}]}}
 
 
@@ -141,20 +125,13 @@
                :builds
                [
                 {
-                 :source-paths ["src" "../srcprodidehost"]
+                 :source-paths ["src" "srcfig"  "../srcprodidehost"]
                  :target-path "targetide"
                  :compiler     {
                                 :target-path "targetide"
-                                ;:preamble       ["public/react.min.js"]
                                 :output-to      "resources/public/mainide.js"
                                 :output-dir     "resources/public/outide/"
                                 :optimizations  :none
-                                ;:output-wrapper false
-                                ;:externs        ["resources/public/google_maps_api_v3_11.js"]
-                                ;:pretty-print   false
-                                ;:cache-analysis true
-                                ;:source-map-timestamp true
-                                ;:source-map true
                                  }}]}}
 
 
