@@ -211,11 +211,14 @@
 (defn load-fn [lib cb]
   (do
     (swap! autoin inc)
-    (let [filename (str @webapp.framework.client.system-globals/appshare-cljs-source (:path lib) ".cljs?autoin=" autoin)]
+    (let [filename (str "/appshare/outide/" (:path lib) ".cljs?autoin=" @autoin )]
       (log (str "load-fn:" filename))
       (get-file   filename
                   (fn [src]
-                    (cb {:lang :clj :source src}))))))
+                    (do
+                      ;(log (str "loaded-src:" src))
+
+                      (cb {:lang :clj :source src})))))))
 
 
 

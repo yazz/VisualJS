@@ -36,8 +36,12 @@
                  (textarea {:id "cm" :style {:display "inline-block" :width "1200" :height "800"}} ""))
 
        (iframe {:id "appframe" :style {:display "inline-block"} :src
-                (str "http://" @appshare-dev-server ":"
-                     @appshare-dev-port
+                (str (cond
+                      @c/debug-mode
+                      "http://127.0.0.1:3449"
+
+                      :else
+                      "http://appshare.co/appshare")
                      "/devclient.html") :width "600" :height "800"})))
 
 
