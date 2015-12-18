@@ -55,6 +55,7 @@
                                                     ui-paths-mapped-to-data-windows
                                                     client-datasource-fields
                                                     appshare-dev-server
+                                                    appshare-dev-port
                                                     appshare-cljs-source]])
   (:use-macros
    [webapp.framework.client.coreclient  :only [ns-coils

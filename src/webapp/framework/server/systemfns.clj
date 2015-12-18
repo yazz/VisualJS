@@ -1846,15 +1846,16 @@
                              (sql-1 "select  dbms_lob.substr( application_code, 3000, 1 ) as ac, dbms_lob.substr( application_code, 3000, 3001 ) as ac2 from coils_applications where id = ?" [id]))
 
 
-          content   (str (get content-records :ac) (get content-records :ac2))
-          start     (slurp (src-folder "main_view_start.txt"))
-          middle    content
-          end       (slurp (src-folder "main_view_end.txt"))
+          ;content   (str (get content-records :ac) (get content-records :ac2))
+          ;start     (slurp (src-folder "main_view_start.txt"))
+          ;middle    content
+          ;end       (slurp (src-folder "main_view_end.txt"))
 
-          joined    (str  start  middle  end)
+          ;joined    (str  start  middle  end)
           ]
-      (spit (src-folder "main_view.cljs") joined)
-      (println (str "COMPILED:" start))
+      ;(spit (src-folder "main_view.cljs") joined)
+      ;(println (str "COMPILED:" start))
+      nil
       )
 
     {:value ""}))
@@ -1881,14 +1882,15 @@
 (defn !savecode [{:keys [id code] }]
   (do
     (sql "update coils_applications set application_code = ? where id = ?" [code id])
-    (let [start     (slurp (src-folder "main_view_start.txt"))
-          middle    code
-          end       (slurp (src-folder "main_view_end.txt"))
+    (let [;start     (slurp (src-folder "main_view_start.txt"))
+          ;middle    code
+          ;end       (slurp (src-folder "main_view_end.txt"))
 
-          joined    (str  start  middle  end)
+          ;joined    (str  start  middle  end)
           ]
-      (spit (src-folder "main_view.cljs") joined)
-      (println (str "COMPILED:" start))
+      ;(spit (src-folder "main_view.cljs") joined)
+      ;(println (str "COMPILED:" start))
+      nil
       )
 
     {:value code}))
