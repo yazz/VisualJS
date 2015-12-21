@@ -26,7 +26,7 @@
 
 (def start "(ns webapp.framework.client.fns
   (:require-macros
-    [webapp.framework.client.macros :refer [ ns-coils   div button input span defn-ui-component component]]))
+    [webapp.framework.client.macros :refer [ refresh  ns-coils   div button input span defn-ui-component component]]))
 (ns-coils 'webapp.framework.client.fns)")
 (def end "(webapp.framework.client.system-globals.touch [:ui])")
 
@@ -62,7 +62,6 @@
 
 
   (div nil
-       (div nil (str (read-ui app [:app-id])))
        (textarea {:id "cm" :style {:display "inline-block" :width "1200" :height "800"}} "")))
 
 

@@ -2,6 +2,10 @@
 
 
 
+(defmacro refresh []
+  `(webapp.framework.client.system-globals/touch []))
+
+
 
 
 (defmacro add-many [items]
