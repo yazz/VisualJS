@@ -1902,7 +1902,22 @@
   (do
     (sql "insert into coils_applications (application_name,application_code) values (?,?)"
          ["name"
-          "(defn-ui-component     sub-component   [app] {} (div nil \"... sub component\"))\r\n\r\n
-(defn-ui-component     main   [app] {}\r\n  (div nil\r\n     (component sub-component app []) \r\n     (component sub-component app []) \r\n \"New app\"))"])
+          (str
+           "(def counter (atom 0))\n\n"
+
+           "(defn-ui-component     sub-component   [app] {} \n"
+           "    (div nil \n"
+           "        (input {:type \"button\" \n"
+           "                :style {:margin \"20px\"}\n"
+           "                :value (str \"Click me: \" @counter \" times\")\n"
+           "                :onClick #(do\n"
+           "                              (swap! counter inc)\n"
+           "                              (refresh))})))\n\n"
+
+           "(defn-ui-component     main   [app] {}\n"
+           "    (div nil\n"
+           "        (component sub-component app []) \n"
+           "        (component sub-component app []) \n"
+           "         \"New app\"))")])
     {}))
 
