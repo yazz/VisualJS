@@ -24,6 +24,14 @@
 
 
 
+(def start "(ns webapp.framework.client.fns
+  (:require-macros
+    [webapp.framework.client.macros :refer [ ns-coils   div button input span defn-ui-component]]))
+(ns-coils 'webapp.framework.client.fns)")
+(def end "(webapp.framework.client.system-globals.touch [:ui])")
+
+
+
 
 
 
@@ -31,7 +39,7 @@
   (go
     (let [code (js/getCodeMirrorValue)]
       (remote !savecode {:id app-id :code code})
-      (js/sendcode (str code))
+      (js/sendcode (str start code end ))
       )))
 
 
