@@ -1900,6 +1900,9 @@
 
 (defn !newapp []
   (do
-    (sql "insert into coils_applications (application_name,application_code) values (?,?)" ["name"      "(defn-ui-component     main-to-do-app   [app] {} (div nil \"demo\"))"])
+    (sql "insert into coils_applications (application_name,application_code) values (?,?)"
+         ["name"
+          "(defn-ui-component     sub-component   [app] {} (div nil \"... sub component\"))\r\n\r\n
+(defn-ui-component     main   [app] {}\r\n  (div nil\r\n     (component sub-component app []) \r\n     (component sub-component app []) \r\n \"New app\"))"])
     {}))
 
