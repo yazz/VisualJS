@@ -23,30 +23,39 @@
 
 
 
+
+
+
+
+(defn reeval [app-id]
+  (go
+    (let [code (js/getCodeMirrorValue)]
+      (remote !savecode {:id app-id :code code})
+      (js/sendcode (str code))
+      )))
+
+
+
+
+
+
+
 (defn-ui-component     editor-component   [app]
- {:on-mount
-  (do  (go (if  (read-ui app [:app-id])
-             (let [x (remote  !getfilecontents  {:id (read-ui app [:app-id]) })]
-               (js/createEditor)
-               (js/populateEditor (get x :value))))))}
+  {:on-mount
+   (do  (go (if  (read-ui app [:app-id])
+              (let [x (remote  !getfilecontents  {:id (read-ui app [:app-id]) })]
+
+                (js/createEditor)
+                (js/populateEditor (get x :value))
+                (reeval (read-ui app [:app-id]))
+                ;(js/populateEditor (str "Loaded: " (read-ui app [:app-id])))
+                ;(js/alert (str "loaded" (read-ui app [:app-id])))
+                ))))}
 
 
-  (div {}
-            (div {:style {:display "inline-block" :width "1200" :height "800" :verticalAlign "top"}}
-                 (textarea {:id "cm" :style {:display "inline-block" :width "1200" :height "800"}} ""))
-
-       (iframe {:id "appframe" :style {:display "inline-block"} :src
-                (str (cond
-                      @c/debug-mode
-                      "http://127.0.0.1:3449"
-
-                      :else
-                      "http://appshare.co/appshare")
-                     "/devclient.html") :width "600" :height "800"})))
-
-
-
-
+  (div nil
+       (div nil (str (read-ui app [:app-id])))
+       (textarea {:id "cm" :style {:display "inline-block" :width "1200" :height "800"}} "")))
 
 
 
@@ -93,12 +102,14 @@
                                          ))))
 
 
+                      ; if we select a different app
                       :else
-                      (div {:onClick     #(go  (write-ui app [:submode] "editappname")
-                                               (write-ui app [:app-id] (<-- :id)))
+                      (do
+                        (div {:onClick     #(go  (write-ui app [:submode] "editappname")
+                                                 (write-ui app [:app-id] (<-- :id)))
 
-                            :style {:display "inline-block" :fontFamily "Ubuntu" :fontWeight "700" :fontSize "1.3em" ::marginTop "0.7em"}}
-                           (str (<-- :application_name))))
+                              :style {:display "inline-block" :fontFamily "Ubuntu" :fontWeight "700" :fontSize "1.3em" ::marginTop "0.7em"}}
+                             (str (<-- :application_name)))))
 
 
 
@@ -110,9 +121,9 @@
                                              (write-ui app [:app-id] (<-- :id))
                                              (remote !loadapp {:id (<-- :id)})
                                              )
-                             } "Edit")
+                             } "Edit")))))
 
-                    ))))
+
 
 
 
@@ -124,10 +135,7 @@
 
 
 (defn-ui-component     main-hosting-component   [app]
-  {:on-mount
-   (do  (go (let [x (remote  !getfilecontents  {:file-name nil})]
-              (js/createEditor)
-              (js/populateEditor (get x :value)))))}
+  {}
 
 
   (div nil
@@ -156,28 +164,40 @@
 
                (button {:className    "btn btn-default"
                         :style       {:display "inline-block" :marginLeft "30px" :fontFamily "Ubuntu" :fontSize "1em" :marginTop "-0.3em"  }
-                        :onClick     #(go
-                                       (let [code (js/getCodeMirrorValue)]
-                                         (remote !savecode {:id (read-ui app [:app-id]) :code code})
-                                         (js/sendcode (str code))
-                                         ))}
+                        :onClick     #(reeval  (read-ui app [:app-id]))}
                        "Save")))
 
             (a {:target       "appshare.co"
                 :style       {:textDecoration "underline" :float "right"  :display "inline-block" :marginRight "30px" :fontFamily "Ubuntu" :fontSize "2em" :marginTop "0.3em"}
                 :href         (str "http://canlabs.com")}
-               "AppShare.co")
+               "AppShare.co"))
 
-            )
-       (cond
-         (or (= (read-ui app [:mode]) nil) (= (read-ui app [:mode]) "browse"))
-         (component browser-component app [])
 
-         (= (read-ui app [:mode]) "edit")
-         (component editor-component app [])
 
-         :else
-         (div {} "Nothing selected"))))
+
+       (div {}
+            (div {:style {:display "inline-block" :width "1200" :height "800" :verticalAlign "top"}}
+                 (cond
+                   (or (= (read-ui app [:mode]) nil) (= (read-ui app [:mode]) "browse"))
+                   (component browser-component app [])
+
+                   (= (read-ui app [:mode]) "edit")
+                   (component editor-component app [])
+
+                   :else
+                   (div {} "Nothing selected")))
+
+
+
+       (iframe {:id "appframe" :style {:display "inline-block"} :src
+                (str (cond
+                      @c/debug-mode
+                      "http://127.0.0.1:3449"
+
+                      :else
+                      "http://appshare.co/appshare")
+                     "/devclient.html") :width "600" :height "800"}))
+       ))
 
 
 
