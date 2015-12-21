@@ -134,3 +134,17 @@
 
 
 
+
+
+
+
+(defmacro component
+  [component-render-fn   state   rel-path]
+  `(let [
+         ~'return-value   (~'webapp.framework.client.coreclient/component-fn   ~component-render-fn
+                                                                               ~state
+                                                                               ~'path
+                                                                               ~rel-path)
+         ]
+     (do
+       ~'return-value)))

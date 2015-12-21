@@ -6,7 +6,7 @@
             [om.dom]
             [cljs.js :as cljs]
             [cljs.tools.reader :refer [read-string]]
-            [webapp.framework.client.fns :refer [cljs-in-cljs newwidget]]
+            [webapp.framework.client.fns :refer [cljs-in-cljs main]]
 
             )
   (:use-macros [webapp.framework.client.coreclient  :only [ns-coils defn-ui-component def-coils-app
@@ -169,7 +169,7 @@
                                                                            :realtime nil
                                                                            }
                        {:start 1 :end 20}
-                       newwidget [] app)
+                       main [] app)
 
 
                 data-order             (-> data :order)

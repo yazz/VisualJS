@@ -6,7 +6,7 @@
             [om.dom]
             [cljs.js :as cljs]
             [cljs.tools.reader :refer [read-string]]
-            [webapp.framework.client.fns :refer [cljs-in-cljs newwidget]]
+            [webapp.framework.client.fns :refer [cljs-in-cljs main]]
 
             )
   (:use-macros [webapp.framework.client.coreclient  :only [ns-coils defn-ui-component def-coils-app
@@ -29,7 +29,7 @@
 
     (div {:className "main_div"}
 
-         (om.core/build newwidget app {})
+         (om.core/build main app {})
 
          ))
 
@@ -48,6 +48,8 @@
 
 
 
+
+
 (defn load-fn [lib cb]
   (do
     (swap! autoin inc)
@@ -59,6 +61,8 @@
                       ;(log (str "loaded-src:" src))
 
                       (cb {:lang :clj :source src})))))))
+
+
 
 
 
