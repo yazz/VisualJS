@@ -163,7 +163,7 @@
             (cond
              (= (read-ui app [:mode]) "edit")
              (div {:style       {:display "inline-block"}}
-               (a {:className    "btn btn-default"
+               (comment a {:className    "btn btn-default"
                    :target       "new"
                    :style       {:display "inline-block" :marginLeft "30px" :fontFamily "Ubuntu" :fontSize "1em"  :marginTop "-0.3em" }
                    :href         (str "http://" @appshare-dev-server ":3450")}
