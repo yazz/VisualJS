@@ -1,4 +1,4 @@
-(ns webapp.framework.client.init
+(ns webapp.framework.client.init-empty-app
   (:require
    [goog.net.cookies                     :as cookie]
    [om.core                              :as om    :include-macros true]
@@ -8,22 +8,17 @@
    [clojure.data                         :as data]
    [clojure.string                       :as string]
    [ankha.core                           :as ankha]
-   [webapp.framework.client.init-empty-app]
    )
   (:use
-    [webapp.framework.client.webhosting.hostinit                    :only   [setup-properties2]]
-    [webapp.client.demoapp                                          :only   [setup-properties3]]
-    [webapp.framework.client.components.main-view                   :only   [main-view]]
+    [webapp.framework.client.components.empty-app                   :only   [main-view]]
    [webapp.framework.client.system-globals                          :only   [app-state  data-state  set-ab-tests]]
    )
   (:require-macros
    [cljs.core.async.macros :refer [go]])
   (:use-macros
-   [webapp-config.settings  :only [setup-fn]])
-  )
+   [webapp-config.settings  :only [setup-fn]]))
 
-(c/ns-coils 'webapp.framework.client.init)
-
+(c/ns-coils 'webapp.framework.client.init-empty-app)
 
 
 
@@ -57,9 +52,3 @@
      (set-ab-tests {
                     })
   ))})
-
-
-
-(def  ^:export setup
-  ((setup-fn))
-  )

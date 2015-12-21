@@ -154,8 +154,6 @@
 
          (component  to-do-footer-component   app  [])
 
-         (cljs-in-cljs)
-         (om.core/build newwidget app {})
 
 
 

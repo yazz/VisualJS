@@ -52,7 +52,8 @@
 
 (defonce ^:dynamic *main-page* "devclient.html")
 
-(defmacro setup-fn [] (quote webapp.framework.client.init/setup-properties))
+;(defmacro setup-fn [] (quote webapp.framework.client.init/setup-properties))
+(defmacro setup-fn [] (quote webapp.framework.client.init-empty-app/setup-properties))
 ;(defmacro setup-fn [] (quote webapp.client.demoapp/setup-properties3))
 ;(defmacro setup-fn [] (quote webapp.framework.client.webhosting.hostinit/setup-properties2))
 

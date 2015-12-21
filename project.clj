@@ -31,8 +31,8 @@
 
                   [org.webjars/codemirror "5.8"]
 
-                 [org.clojure/tools.reader "0.10.0"]
-                 [lein-figwheel "0.5.0-2"]
+                  [org.clojure/tools.reader "0.10.0"]
+                  [lein-figwheel "0.5.0-2"]
                   ]
   :repositories {"sonatype-oss-public"
                  "https://oss.sonatype.org/content/groups/public/"}

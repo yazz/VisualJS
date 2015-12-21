@@ -15,8 +15,7 @@
    [cljs.tools.reader :refer [read-string]]
    [goog.Uri.QueryData]
    [goog.events]
-   [cljs.core.async         :as async :refer [chan close!]]
-   )
+   [cljs.core.async         :as async :refer [chan close!]])
 
   (:require-macros
    [cljs.core.async.macros :refer [go alt!]])
