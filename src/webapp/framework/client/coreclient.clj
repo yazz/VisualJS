@@ -1084,3 +1084,9 @@ nil
 (test 2)
 
 
+
+
+
+(defmacro use-figwheel []
+  webapp-config.settings/*use-figwheel*)
+

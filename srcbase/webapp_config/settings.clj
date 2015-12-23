@@ -21,6 +21,7 @@
 (defonce ^:dynamic *appshare-cljs-source* "http://127.0.0.1:3449/outide/")
 (defonce ^:dynamic *web-server* "127.0.0.1:3449")
 (defonce ^:dynamic *base-dev-port* 3449)
+(defonce ^:dynamic *use-figwheel* true)
 
 
 (defonce ^:dynamic *database-type* "postgres")
