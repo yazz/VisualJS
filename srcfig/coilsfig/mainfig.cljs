@@ -5,6 +5,7 @@
   )
 
 
+(.log js/console (str "(use-figwheel): " (use-figwheel)))
 (if (use-figwheel)
   (fw/start { :on-jsload (fn []
                            (touch [:ui])
