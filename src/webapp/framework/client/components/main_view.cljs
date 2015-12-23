@@ -132,18 +132,12 @@
 
 
 
-(def  aaa  (atom (fn [] 333)))
-
-
-(def  bbb  (atom (fn [] 333)))
-
-
 
 
 (defn-ui-component     main-to-do-app   [app] {}
 
   (section {:className "todoapp" :style {:fontFamily "Roboto"}}
-    (div {} (h2 {:style {:fontFamily "Ubuntu" :fontWeight "700" :fontSize "2em"}} (str "Coils Todo MVC"  (@aaa))))
+    (div {} (h2 {:style {:fontFamily "Ubuntu" :fontWeight "700" :fontSize "2em"}} (str "Coils Todo MVC"  )))
     (div {:className "main_div"}
 
          (component  new-do-item-component   app  [])

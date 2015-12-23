@@ -18,6 +18,7 @@
 (defonce ^:dynamic *environment* "base")
 
 (defonce ^:dynamic *appshare-dev-server* "127.0.0.1")
+(defonce ^:dynamic *appshare-cljs-source* "http://127.0.0.1:3449/outide/")
 (defonce ^:dynamic *web-server* "127.0.0.1:3449")
 (defonce ^:dynamic *base-dev-port* 3449)
 
@@ -52,6 +53,7 @@
 (defonce ^:dynamic *main-page* "main.html")
 
 (defmacro setup-fn [] (quote webapp.framework.client.init/setup-properties))
+;(defmacro setup-fn [] (quote webapp.framework.client.init-empty-app/setup-properties))
 ;(defmacro setup-fn [] (quote webapp.client.demoapp/setup-properties3))
 ;(defmacro setup-fn [] (quote webapp.framework.client.webhosting.hostinit/setup-properties2))
 
