@@ -22,13 +22,14 @@
 
 
 
+(def ns-counter (atom 0))
 
-
-(def start "(ns webapp.framework.client.fns
+(defn start [] (str "(ns webapp.framework.client.fns" @ns-counter "\n
   (:require-macros
     [webapp.framework.client.macros :refer [ refresh  ns-coils   div button input span defn-ui-component component]]))
-(ns-coils 'webapp.framework.client.fns)")
-(def end "(webapp.framework.client.system-globals.touch [:ui])")
+(ns-coils 'webapp.framework.client.fns " @ns-counter ")"))
+(defn end [] "(webapp.framework.client.system-globals.touch [:ui])\n
+  (reset! webapp.framework.client.system-globals/start-component  main)")
 
 
 
@@ -39,7 +40,8 @@
   (go
     (let [code (js/getCodeMirrorValue)]
       (remote !savecode {:id app-id :code code})
-      (js/sendcode (str start code end ))
+      (swap! ns-counter inc)
+      (js/sendcode (str (start) code (end) ))
       )))
 
 
