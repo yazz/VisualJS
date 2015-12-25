@@ -102,8 +102,10 @@
                  :compiler     {
                                 :target-path "targetide"
                                 :output-to      "resources/public/mainide.js"
-                                :output-dir     "resources/public/outide/"
+                                :output-dir     "resources/public/outide"
                                 :optimizations  :none
+                                :main           "webapp.framework.client.components.main-view"
+                                :asset-path     "outide"
                                  }}]}}
 
 
@@ -130,8 +132,10 @@
                  :compiler     {
                                 :target-path "targetide"
                                 :output-to      "resources/public/mainide.js"
-                                :output-dir     "resources/public/outide/"
+                                :output-dir     "resources/public/outide"
                                 :optimizations  :none
+                                :main           "webapp.framework.client.components.main-view"
+                                :asset-path     "outide"
                                  }}]}}
 
 
