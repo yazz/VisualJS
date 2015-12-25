@@ -42,7 +42,7 @@
   :jvm-opts ["-Xmx4g"]
 
   :plugins  [
-             [lein-cljsbuild "1.1.1"]
+             [lein-cljsbuild "1.1.2"]
              [lein-httpd "1.0.0"]
              [lein-ring "0.9.7"]
              [lein-figwheel "0.5.0-2"]
