@@ -141,7 +141,7 @@
                :builds
                [
                 {
-                 :source-paths ["src" "srcfig"  "../srcprodidehost"]
+                 :source-paths ["src" "../srcprodidehost"]
                  :target-path "targetide"
                  :compiler     {
                                 :target-path "targetide"
