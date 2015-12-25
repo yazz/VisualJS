@@ -91,24 +91,38 @@
 
              :baseidehost
              {
-              :figwheel :false
+              :figwheel     false
               :cljsbuild
               {
                :builds
                [
                 {
-                 :source-paths ["src" "srcfig" "srcidehost"]
+                 :source-paths ["src" "srcidehost"]
                  :target-path "targetide"
                  :compiler     {
-                                :target-path "targetide"
+                                :target-path    "targetide"
                                 :output-to      "resources/public/mainide.js"
-                                :output-dir     "resources/public/outide"
-                                :optimizations  :none
-                                :main           "webapp.framework.client.components.main-view"
-                                :asset-path     "outide"
+                                :optimizations  :simple
                                  }}]}}
 
 
+
+             :baseidehostsrc
+             {
+              :figwheel     false
+              :cljsbuild
+              {
+               :builds
+               [
+                {
+                 :source-paths ["src" "srcidehost"]
+                 :target-path "targetide"
+                 :compiler     {
+                                :target-path    "targetide"
+                                :output-dir     "resources/public/outide"
+                                :output-to      "resources/public/mainidesrc.js"
+                                :optimizations  :none
+                                 }}]}}
 
 
 
@@ -132,10 +146,27 @@
                  :compiler     {
                                 :target-path "targetide"
                                 :output-to      "resources/public/mainide.js"
+                                :optimizations  :simple
+                                 }}]}}
+
+
+
+             :prodidehostsrc
+             {
+              :figwheel     false
+              :target-path "targetide"
+              :cljsbuild
+              {
+               :builds
+               [
+                {
+                 :source-paths ["src"  "../srcprodidehost"]
+                 :target-path "targetide"
+                 :compiler     {
+                                :target-path "targetide"
+                                :output-to      "resources/public/mainidesrc.js"
                                 :output-dir     "resources/public/outide"
                                 :optimizations  :none
-                                :main           "webapp.framework.client.components.main-view"
-                                :asset-path     "outide"
                                  }}]}}
 
 

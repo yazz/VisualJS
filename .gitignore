@@ -21,6 +21,7 @@
 !/resources/*/*/*/*/*/*/*
 /resources/public/main.js
 /resources/public/mainide.js
+/resources/public/mainidesrc.js
 
 !/srcfig/
 !/srcfig/*
