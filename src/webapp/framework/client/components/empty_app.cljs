@@ -73,6 +73,7 @@
                       :load load-fn
                       :source-map true
                       :def-emits-var   true
+                      :static-fns true
                       :ns webapp.framework.client.fns
                       }
                     (fn [result]

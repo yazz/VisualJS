@@ -102,6 +102,7 @@
                  :compiler     {
                                 :target-path    "targetide"
                                 :output-to      "resources/public/mainide.js"
+                                :static-fns true
                                 :optimizations  :simple
                                  }}]}}
 
@@ -121,6 +122,7 @@
                                 :target-path    "targetide"
                                 :output-dir     "resources/public/outide"
                                 :output-to      "resources/public/mainidesrc.js"
+                                :static-fns true
                                 :optimizations  :none
                                  }}]}}
 
@@ -147,6 +149,7 @@
                                 :target-path "targetide"
                                 :output-to      "resources/public/mainide.js"
                                 :optimizations  :simple
+                                :static-fns true
                                  }}]}}
 
 
@@ -167,6 +170,7 @@
                                 :output-to      "resources/public/mainidesrc.js"
                                 :output-dir     "resources/public/outide"
                                 :optimizations  :none
+                                :static-fns true
                                  }}]}}
 
 
@@ -253,6 +257,7 @@
                                 ;:pretty-print   false
                                 :cache-analysis true
                                 :source-map-timestamp true
+                                :static-fns true
                                 :source-map true }}]}}
 
 
@@ -328,6 +333,7 @@
                  :figwheel     false
                                 :output-to      "resources/public/main.js"
                                 :optimizations  :advanced
+                                :static-fns true
                                 :preamble         ["resources/public/react.min.js"]
                                 :pretty-print      false
                                 }
