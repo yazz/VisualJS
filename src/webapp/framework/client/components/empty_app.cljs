@@ -31,6 +31,8 @@
 
          (om.core/build main app {})
 
+         "App environent loaded. You can start coding now"
+
          ))
 
 
