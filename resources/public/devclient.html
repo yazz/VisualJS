@@ -191,8 +191,8 @@
                     webapp.framework.client.main.load_main(
                         webapp.framework.client.init.setup);
                 };
+                document.getElementById('loadingmessage').innerHTML='App environent loaded. You can start coding now';
             };
-console.log('1');
 
 
         </script>
@@ -213,6 +213,10 @@ console.log('1');
         <div id=debug_button       style='color=black;'></div>
 
         <div>
+            <div id=loadingmessage>
+            Loading app environment... please wait..
+            </div>
+
             <div   id='main_parent' style='display: inline-block; color=black; width: 100%;vertical-align:text-top;'>
                 <div   id='main_playback_slider'  style='color=black;'></div>
                 <div id=main style='display: inline-block; color=black; width: 100%;vertical-align:text-top; border:none;'>
@@ -233,7 +237,6 @@ console.log('1');
         <div id=playback_state     style='color=black;'></div>
         </div>
     </body>
-
 
 
 
