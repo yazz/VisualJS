@@ -1,25 +1,25 @@
 (ns webapp.framework.client.init
   (:require
-   [goog.net.cookies                     :as cookie]
-   [om.core                              :as om    :include-macros true]
-   [om.dom                               :as dom   :include-macros true]
-   [webapp.framework.client.coreclient   :as c     :include-macros true]
-   [cljs.core.async                      :refer [put! chan <! pub timeout]]
-   [clojure.data                         :as data]
-   [clojure.string                       :as string]
-   [ankha.core                           :as ankha]
-   [webapp.framework.client.init-empty-app]
-   )
+   [goog.net.cookies                         :as cookie]
+   [om.core                                  :as om    :include-macros true]
+   [om.dom                                   :as dom   :include-macros true]
+   [webapp.framework.client.coreclient       :as c     :include-macros true]
+   [cljs.core.async                          :refer [put! chan <! pub timeout]]
+   [clojure.data                             :as data]
+   [clojure.string                           :as string]
+   [ankha.core                               :as ankha]
+   [webapp.framework.client.init-empty-app])
+
   (:use
     [webapp.framework.client.webhosting.hostinit                    :only   [setup-properties2]]
-    [myappshare.main                                                :only   [main-view]]
-   [webapp.framework.client.system-globals                          :only   [app-state  data-state  set-ab-tests]]
-   )
+    [myappshare.mainapp                                             :only   [main-view]]
+    [webapp.framework.client.system-globals                         :only   [app-state  data-state  set-ab-tests]])
+
   (:require-macros
    [cljs.core.async.macros :refer [go]])
+
   (:use-macros
-   [webapp-config.settings  :only [setup-fn]])
-  )
+   [webapp-config.settings  :only [setup-fn]]))
 
 (c/ns-coils 'webapp.framework.client.init)
 
@@ -60,5 +60,4 @@
 
 
 (def  ^:export setup
-  ((setup-fn))
-  )
+  ((setup-fn)))

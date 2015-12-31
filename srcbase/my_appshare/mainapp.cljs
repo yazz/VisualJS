@@ -1,4 +1,4 @@
-(ns myappshare.main
+(ns myappshare.mainapp
   (:require [webapp.framework.client.coreclient   :as c]
             [goog.net.XhrIo          :as xhr]
             [om.core]
@@ -17,7 +17,7 @@
                                                            input-field ]])
   (:require-macros [cljs.core.async.macros :refer [go alt!]]
                      ))
-(ns-coils 'myappshare.main)
+(ns-coils 'myappshare.mainapp)
 ; the shortest todo mvc in the world at 84 lines of code
 
 
