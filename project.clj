@@ -240,13 +240,13 @@
                          :on-jsload "webapp.framework.client.main/figwheel-update"
                          }
 
-              :source-paths ["src" "srcfig" "srcbasehost"]
+              :source-paths ["src" "srcfig" "idecode" "srcbasehost"]
               :cljsbuild
               {
                :builds
                [
                 {
-                 :source-paths ["src" "srcfig" "srcbasehost"]
+                 :source-paths ["src" "srcfig" "idecode" "srcbasehost"]
                  :compiler     {
                                 ;:preamble       ["public/react.min.js"]
                                 :output-to      "resources/public/main.js"
@@ -296,7 +296,7 @@
              :hosttest
              {
               :figwheel     false
-              :source-paths ["src" "../srchosttest"]
+              :source-paths ["src" "idecode" "../srchosttest"]
               :cljsbuild
               {
                :builds
@@ -321,7 +321,7 @@
              :hostprod
              {
               :figwheel     false
-              :source-paths ["src" "../srchostprod"]
+              :source-paths ["src" "idecode" "../srchostprod"]
               :cljsbuild
               {
                :builds

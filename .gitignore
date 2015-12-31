@@ -37,6 +37,10 @@
 !/src/*/*/*/*/*/*/*
 !/src/*/*/*/*/*/*/*/*
 
+!/idecode/
+!/idecode/*
+!/idecode/*/*
+
 
 !/srcidehost/
 !/srcidehost/*
