@@ -1,4 +1,4 @@
-(ns myappshare.main-view
+(ns myappshare.main
   (:require [webapp.framework.client.coreclient   :as c]
             [goog.net.XhrIo          :as xhr]
             [om.core]
@@ -17,7 +17,7 @@
                                                            input-field ]])
   (:require-macros [cljs.core.async.macros :refer [go alt!]]
                      ))
-(ns-coils 'myappshare.main-view)
+(ns-coils 'myappshare.main)
 ; the shortest todo mvc in the world at 84 lines of code
 
 
@@ -134,7 +134,7 @@
 
 
 
-(defn-ui-component     main-to-do-app   [app] {}
+(defn-ui-component     main   [app] {}
 
   (section {:className "todoapp" :style {:fontFamily "Roboto"}}
     (div {} (h2 {:style {:fontFamily "Ubuntu" :fontWeight "700" :fontSize "2em"}} (str "AppShare Todo MVC"  )))
@@ -189,6 +189,6 @@
 
 
 
-(def-coils-app     main-view   main-to-do-app)
+(def-coils-app     main-view   main)
 
 

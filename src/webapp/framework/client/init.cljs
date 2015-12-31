@@ -12,7 +12,7 @@
    )
   (:use
     [webapp.framework.client.webhosting.hostinit                    :only   [setup-properties2]]
-    [myappshare.main-view                                           :only   [main-view]]
+    [myappshare.main                                                :only   [main-view]]
    [webapp.framework.client.system-globals                          :only   [app-state  data-state  set-ab-tests]]
    )
   (:require-macros
