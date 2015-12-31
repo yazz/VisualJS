@@ -1,4 +1,4 @@
-(ns webapp.framework.client.components.empty-app
+(ns myappshare.mainapp
   (:require [webapp.framework.client.coreclient   :as c]
             [goog.net.XhrIo          :as xhr]
             [om.core]
@@ -17,7 +17,7 @@
                                                            input-field ]])
   (:require-macros [cljs.core.async.macros :refer [go alt!]]
                      ))
-(ns-coils 'webapp.framework.client.components.empty-app)
+(ns-coils 'myappshare.mainapp)
 
 
 
@@ -25,7 +25,7 @@
 
 
 
-(defn-ui-component     main-to-do-app   [app] {}
+(defn-ui-component     sandbox-app   [app] {}
 
     (div {:className "main_div"}
 
@@ -39,7 +39,7 @@
 
 
 
-(def-coils-app     main-view   main-to-do-app)
+(def-coils-app     main-view   sandbox-app)
 
 (def autoin (atom 0))
 

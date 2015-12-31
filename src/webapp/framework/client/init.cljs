@@ -7,8 +7,7 @@
    [cljs.core.async                          :refer [put! chan <! pub timeout]]
    [clojure.data                             :as data]
    [clojure.string                           :as string]
-   [ankha.core                               :as ankha]
-   [webapp.framework.client.init-empty-app])
+   [ankha.core                               :as ankha])
 
   (:use
     [myappshare.mainapp                                             :only   [main-view]]

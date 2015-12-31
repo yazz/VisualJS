@@ -97,7 +97,7 @@
                :builds
                [
                 {
-                 :source-paths ["src" "srcidehost"]
+                 :source-paths ["src"  "idesandboxcode" "srcidehost"]
                  :target-path "targetide"
                  :compiler     {
                                 :target-path    "targetide"
@@ -116,7 +116,7 @@
                :builds
                [
                 {
-                 :source-paths ["src" "srcidehost"]
+                 :source-paths ["src"  "idesandboxcode" "srcidehost"]
                  :target-path "targetide"
                  :compiler     {
                                 :target-path    "targetide"
@@ -143,7 +143,7 @@
                :builds
                [
                 {
-                 :source-paths ["src" "../srcprodidehost"]
+                 :source-paths ["src"  "idesandboxcode" "../srcprodidehost"]
                  :target-path "targetide"
                  :compiler     {
                                 :target-path "targetide"
@@ -163,7 +163,7 @@
                :builds
                [
                 {
-                 :source-paths ["src"  "../srcprodidehost"]
+                 :source-paths ["src"  "idesandboxcode" "../srcprodidehost"]
                  :target-path "targetide"
                  :compiler     {
                                 :target-path "targetide"
