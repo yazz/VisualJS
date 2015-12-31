@@ -3,12 +3,8 @@
             [goog.net.XhrIo          :as xhr]
             [om.core]
             [webapp.framework.client.system-globals]
-            [om.dom]
-            [cljs.js :as cljs]
-            [cljs.tools.reader :refer [read-string]]
-            [webapp.framework.client.fns :refer [cljs-in-cljs main]]
+            [om.dom])
 
-            )
   (:use-macros [webapp.framework.client.coreclient  :only [ns-coils defn-ui-component def-coils-app
                                                            container  map-many  inline  text log sql
                                                            div img pre component h2 input section header button label form

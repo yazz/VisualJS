@@ -11,15 +11,11 @@
    [webapp.framework.client.init-empty-app])
 
   (:use
-    [webapp.framework.client.webhosting.hostinit                    :only   [setup-properties2]]
     [myappshare.mainapp                                             :only   [main-view]]
     [webapp.framework.client.system-globals                         :only   [app-state  data-state  set-ab-tests]])
 
   (:require-macros
-   [cljs.core.async.macros :refer [go]])
-
-  (:use-macros
-   [webapp-config.settings  :only [setup-fn]]))
+   [cljs.core.async.macros :refer [go]]))
 
 (c/ns-coils 'webapp.framework.client.init)
 

@@ -7,16 +7,14 @@
    [cljs.core.async                      :refer [put! chan <! pub timeout]]
    [clojure.data                         :as data]
    [clojure.string                       :as string]
-   [ankha.core                           :as ankha]
-   )
+   [ankha.core                           :as ankha])
+
   (:use
     [webapp.framework.client.components.empty-app                   :only   [main-view]]
-   [webapp.framework.client.system-globals                          :only   [app-state  data-state  set-ab-tests]]
-   )
+   [webapp.framework.client.system-globals                          :only   [app-state  data-state  set-ab-tests]])
+
   (:require-macros
-   [cljs.core.async.macros :refer [go]])
-  (:use-macros
-   [webapp-config.settings  :only [setup-fn]]))
+   [cljs.core.async.macros :refer [go]]))
 
 (c/ns-coils 'webapp.framework.client.init-empty-app)
 
