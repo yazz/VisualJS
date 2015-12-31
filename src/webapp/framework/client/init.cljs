@@ -60,4 +60,4 @@
 
 
 (def  ^:export setup
-  ((setup-fn)))
+  (setup-properties))
