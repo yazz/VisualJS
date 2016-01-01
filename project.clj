@@ -89,22 +89,65 @@
 
 
 
-             :baseidehost
-             {
-              :figwheel     false
-              :cljsbuild
-              {
-               :builds
-               [
-                {
-                 :source-paths ["src"  "idesandboxcode" "srcidehost"]
-                 :target-path "targetide"
-                 :compiler     {
-                                :target-path    "targetide"
-                                :output-to      "resources/public/mainide.js"
-                                :static-fns true
-                                :optimizations  :simple
-                                 }}]}}
+
+
+
+
+
+
+
+
+
+
+
+              ;----------------------------------------------------------------------------------
+              ; this is used for development for the little sandbox window showing an apps output
+              ; in the AppShare IDE
+              ;----------------------------------------------------------------------------------
+              :baseidehost {
+                :figwheel     false
+
+                :cljsbuild {
+                  :builds [ {
+                      :source-paths [ "src"  "idesandboxcode"  "srcidehost"]
+
+                      :target-path    "targetide"
+
+                      :compiler     { :target-path    "targetide"
+                                      :output-to      "resources/public/mainide.js"
+                                      :static-fns      true
+                                      :optimizations  :simple
+                                      }}]}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
