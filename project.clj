@@ -117,6 +117,7 @@
                                       :output-to      "resources/public/mainide.js"
                                       :static-fns      true
                                       :optimizations  :simple
+                                      :optimize-constants true
                                       }}]}}
 
 
