@@ -2,6 +2,7 @@
   [:require [webapp.server.fns]]
   [:use [webapp.framework.server.systemfns]]
   (:use [clojure.java.shell :only [sh]])
+  (:require [ring.middleware.gzip])
   [:use [ring.middleware.format]]
   [:use [compojure.core]]
 ;  [:use [ring.middleware.json]]
@@ -171,6 +172,7 @@
       ;(wrap-json-body)
         ;(wrap-json-response)
         ;(wrap-json-params)
+     (ring.middleware.gzip/wrap-gzip)
 ))
 
 

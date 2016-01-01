@@ -33,6 +33,8 @@
 
                   [org.clojure/tools.reader "0.10.0"]
                   [lein-figwheel "0.5.0-2"]
+
+                  [bk/ring-gzip "0.1.1"]
                   ]
   :repositories {"sonatype-oss-public"
                  "https://oss.sonatype.org/content/groups/public/"}
