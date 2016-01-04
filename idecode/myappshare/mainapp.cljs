@@ -149,7 +149,10 @@
 (defn-ui-component     browser-component   [app]  {}
 
 
-  (div {:style {:margin "30px"}}
+  (div {:style {:margin-left "5px"}}
+       (div {:style {:display "inline-block" :fontFamily "Ubuntu" :fontSize "1em"}}
+               "Build an app in 5 minutes")
+  (div {:style {:margin-left "25px"}}
        (realtime select id, application_name from coils_applications order by id {}
                (div nil
 
@@ -197,7 +200,7 @@
 
 
 
-                    ))))
+                    )))))
 
 
 
@@ -271,10 +274,12 @@
                      }
                        "Save")
 
-            (a {:target       "appshare.co"
-                :style       {:textDecoration "underline" :float "right"  :display "inline-block" :marginRight "30px" :fontFamily "Ubuntu" :fontSize "2em" :marginTop "0.3em"}
-                :href         (str "https://github.com/zubairq/AppShare")}
-               "AppShare on Github"))
+            (div {:style       {:display "inline-block"}}
+                 (a {:target       "appshare.co"
+                     :style       {:textDecoration "underline" :display "inline-block" :marginLeft "31px" :fontFamily "Ubuntu" :fontSize "1em" :marginTop "0.3em"}
+                     :href         (str "https://github.com/zubairq/AppShare")}
+                    "Github")))
+
 
 
 ;       (div {} (str "mode: " (read-ui app [:mode])))
