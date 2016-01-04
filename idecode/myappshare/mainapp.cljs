@@ -133,7 +133,7 @@
                            :style {:display "inline-block" :fontFamily "Ubuntu" :fontWeight "700" :fontSize "1.3em" ::marginTop "0.7em"}}
                           (str (<-- :application_name)))))
        )
-       (textarea {:id "cm" :style {:display "inline-block" :width "1200" :height "800"}} "TEXT EDITOR")))
+       (textarea {:id "cm" :style {:display "inline-block" :width "100%" :height "800"}} "TEXT EDITOR")))
 
 
 
@@ -236,7 +236,7 @@
                      :onClick     #(go
                                       (remote !newapp {})) } "New")
 
-            (button {:style {:marginBottom "10px" :marginLeft "30px"
+            (button {:style {:marginBottom "10px" :marginLeft "30px"  :fontFamily "Ubuntu" :fontSize "1em"  :marginTop "-0.3em"
 
                              :opacity  (if (= (read-ui app [:mode]) "view")  "1.0" "0.4")
 
@@ -276,7 +276,7 @@
 
             (div {:style       {:display "inline-block"}}
                  (a {:target       "appshare.co"
-                     :style       {:textDecoration "underline" :display "inline-block" :marginLeft "31px" :fontFamily "Ubuntu" :fontSize "1em" :marginTop "0.3em"}
+                     :style       {:textDecoration "underline" :display "inline-block" :marginLeft "30px" :fontFamily "Ubuntu" :fontSize "1em" :marginTop "-0.3em"}
                      :href         (str "https://github.com/zubairq/AppShare")}
                     "Github")))
 
@@ -287,7 +287,7 @@
 ;       (div {} (str "app-id: " (read-ui app [:app-id])))
 
 
-       (div {:style {:display "inline-block" :width "1200" :height "800" :verticalAlign "top"}}
+       (div {:style {:display "inline-block" :width "100%" :height "800" :verticalAlign "top"}}
 
             (cond
 
