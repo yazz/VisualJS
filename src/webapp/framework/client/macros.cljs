@@ -152,3 +152,19 @@
          ]
      (do
        ~'return-value)))
+
+
+
+
+
+
+(defmacro <-- [field]
+  `(webapp.framework.client.coreclient/<---fn
+
+    ~'record
+    ~field
+    ~'path
+    ~'relative-path
+    )
+  )
+
