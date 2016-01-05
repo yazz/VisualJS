@@ -210,10 +210,10 @@
 
 
 
+(defn small-screen [] (if (< (js/width) 800) true false))
 
 
-
-
+(defn large-screen [] (not (small-screen)))
 
 
 
@@ -224,30 +224,27 @@
 
   (div nil
        (div {:style     {:border "0px" :backgroundColor "black" :width "100%" :height "3em" :verticalAlign "top"}}
-            (img {:style {:display "inline-block" :marginTop "-0.0em"} :src "appshare_logo_dark_background.png"})
+            (if (large-screen) (img {:style {:display "inline-block" :marginTop "-0.0em"} :src "appshare_logo_dark_background.png"}))
 
-            (button {:className    "btn-lg btn-default"
-                     :style       {:display "inline-block" :marginLeft "30px" :fontFamily "Ubuntu" :fontSize "1em" :marginTop "-0.3em"}
+            (button {:className    (if (small-screen) "btn btn-default" "btn-lg btn-default")
+                     :style       {:display "inline-block" :marginLeft "30px" :fontFamily "Ubuntu" :fontSize "1em" :marginTop "0.3em"}
                      :onClick     #(write-ui app [:mode] "browse")} "Home")
 
-            (button {:className    "btn-lg btn-default"
-                     :style       {:display "inline-block" :marginLeft "30px" :fontFamily "Ubuntu" :fontSize "1em" :marginTop "-0.3em"
+            (button {:className    (if (small-screen) "btn btn-default" "btn-lg btn-default")
+                     :style       {:display "inline-block" :marginLeft "30px" :fontFamily "Ubuntu" :fontSize "1em" :marginTop "0.3em"
                                    :opacity (if (or (= (read-ui app [:mode]) nil) (= (read-ui app [:mode]) "browse")) "1.0" "0.4")
                                    }
                      :disabled  (if (or (= (read-ui app [:mode]) nil) (= (read-ui app [:mode]) "browse")) "" "true")
                      :onClick     #(go
                                       (remote !newapp {})) } "New")
 
-            (button {:style {:marginBottom "10px" :marginLeft "30px"  :fontFamily "Ubuntu" :fontSize "1em"  :marginTop "-0.3em"
-
+            (button {:className    (if (small-screen) "btn btn-default"  "btn-lg btn-default")
+                     :style {:display "inline-block" :marginLeft "30px"
+                             :fontFamily "Ubuntu"    :fontSize "1em"       :marginTop "0.3em"
                              :opacity  (if (= (read-ui app [:mode]) "view")  "1.0" "0.4")
-
-                             } :className "btn-lg btn-default"
-                             :onClick     #(go (write-ui app [:mode] "edit")
-                                             ;(remote !loadapp {:id (read-ui app [:app-id])})
-                                             )
-                     :disabled  (if (= (read-ui app [:mode]) "view") "" "true")
-
+                             }
+                     :onClick     #(go (write-ui app [:mode] "edit"))
+                     :disabled     (if (= (read-ui app [:mode]) "view") "" "true")
                              } "Edit")
 
 
@@ -264,8 +261,8 @@
 
 
 
-            (button {:className    "btn-lg btn-default"
-                        :style       {:display "inline-block" :marginLeft "30px" :fontFamily "Ubuntu" :fontSize "1em" :marginTop "-0.3em"
+            (button {:className    (if (small-screen) "btn btn-default"  "btn-lg btn-default")
+                        :style       {:display "inline-block" :marginLeft "30px" :fontFamily "Ubuntu" :fontSize "1em" :marginTop "0.3em"
                                       :opacity  (if (= (read-ui app [:mode]) "edit")  "1.0" "0.4")
 
                                       }
@@ -276,11 +273,11 @@
                      }
                        "Save")
 
-            (div {:style       {:display "inline-block"}}
+            (if (large-screen)  (div {:style       {:display "inline-block"}}
                  (a {:target       "appshare.co"
                      :style       {:textDecoration "underline" :display "inline-block" :marginLeft "30px" :fontFamily "Ubuntu" :fontSize "1em" :marginTop "-0.3em"}
                      :href         (str "https://github.com/zubairq/AppShare")}
-                    "Github")))
+                    "Github"))))
 
 
 

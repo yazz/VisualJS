@@ -44,6 +44,12 @@
                 if((temizer= uagent.match(/version\/(\d+)/i))!= null) Mmatch.splice(1, 1, temizer[1]);
                 return Mmatch.join(' ');
             };
+            function width(){
+                return window.innerWidth||document.documentElement.clientWidth||document.body.clientWidth||0;
+            }
+            function height(){
+                return window.innerHeight||document.documentElement.clientHeight||document.body.clientHeight||0;
+            }
         </script>
 
         <!--[if lt IE 9]>
