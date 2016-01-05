@@ -35,6 +35,8 @@
                   [lein-figwheel "0.5.0-2"]
 
                   [bk/ring-gzip "0.1.1"]
+
+                  [com.lucasbradstreet/cljs-uuid-utils "1.0.2"]
                   ]
   :repositories {"sonatype-oss-public"
                  "https://oss.sonatype.org/content/groups/public/"}

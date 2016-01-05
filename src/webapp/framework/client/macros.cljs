@@ -168,3 +168,38 @@
     )
   )
 
+
+
+
+
+
+
+(defmacro data-view-v2 [
+                         opts
+                         position
+                         & code             ]
+
+  `(let [ ~'data        (webapp.framework.client.coreclient/data-window-fn
+                          (merge {:relative-path [
+                                                  (str ~(cljs-uuid-utils.core/make-random-uuid))
+                                                  ]} ~opts )
+                                                                             ~position
+                                                                             ~'ui-component-name
+                                                                             ~'path
+                                                                             ~'ui-state)
+
+          ~'data-order  (~'-> ~'data :order)                                                            ]
+
+     (~'div nil
+            (~'map-many
+             (~'fn [~'record-id]
+                   (~'let [~'relative-path (:relative-path ~opts)
+                           ~'record        (~'get (~'-> ~'data :values) ~'record-id)
+                           ]
+                          (~'if (get ~'record :value)
+                                ~@code)))
+             (~'map (~'fn[~'x] (~'get ~'data-order ~'x)) (~'range (:start ~position) (~'inc
+                                                                                      (~'min (:end ~position) (~'-> ~'data :count) )
+                                                                                      )))))))
+
+
