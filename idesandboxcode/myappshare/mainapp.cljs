@@ -31,7 +31,7 @@
 
          (om.core/build main app {})
 
-         ""
+         "Loading app environment... please wait..."
 
          ))
 
