@@ -227,11 +227,11 @@
             (if (large-screen) (img {:style {:display "inline-block" :marginTop "-0.0em"} :src "appshare_logo_dark_background.png"}))
 
             (button {:className    (if (small-screen) "btn btn-default" "btn-lg btn-default")
-                     :style       {:display "inline-block" :marginLeft "30px" :fontFamily "Ubuntu" :fontSize "1em" :marginTop "0.3em"}
+                     :style       {:display "inline-block" :marginLeft (if (small-screen) "2px"  "30px") :fontFamily "Ubuntu" :fontSize "1em" :marginTop "0.3em"}
                      :onClick     #(write-ui app [:mode] "browse")} "Home")
 
             (button {:className    (if (small-screen) "btn btn-default" "btn-lg btn-default")
-                     :style       {:display "inline-block" :marginLeft "30px" :fontFamily "Ubuntu" :fontSize "1em" :marginTop "0.3em"
+                     :style       {:display "inline-block" :marginLeft (if (small-screen) "2px"  "30px") :fontFamily "Ubuntu" :fontSize "1em" :marginTop "0.3em"
                                    :opacity (if (or (= (read-ui app [:mode]) nil) (= (read-ui app [:mode]) "browse")) "1.0" "0.4")
                                    }
                      :disabled  (if (or (= (read-ui app [:mode]) nil) (= (read-ui app [:mode]) "browse")) "" "true")
@@ -239,7 +239,7 @@
                                       (remote !newapp {})) } "New")
 
             (button {:className    (if (small-screen) "btn btn-default"  "btn-lg btn-default")
-                     :style {:display "inline-block" :marginLeft "30px"
+                     :style {:display "inline-block" :marginLeft (if (small-screen) "2px"  "30px")
                              :fontFamily "Ubuntu"    :fontSize "1em"       :marginTop "0.3em"
                              :opacity  (if (= (read-ui app [:mode]) "view")  "1.0" "0.4")
                              }
@@ -262,7 +262,7 @@
 
 
             (button {:className    (if (small-screen) "btn btn-default"  "btn-lg btn-default")
-                        :style       {:display "inline-block" :marginLeft "30px" :fontFamily "Ubuntu" :fontSize "1em" :marginTop "0.3em"
+                        :style       {:display "inline-block" :marginLeft (if (small-screen) "2px"  "30px") :fontFamily "Ubuntu" :fontSize "1em" :marginTop "0.3em"
                                       :opacity  (if (= (read-ui app [:mode]) "edit")  "1.0" "0.4")
 
                                       }
