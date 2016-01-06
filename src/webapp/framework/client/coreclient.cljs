@@ -16,7 +16,9 @@
    [goog.Uri.QueryData]
    [goog.events]
    [cljs.core.async         :as async :refer [chan close!]]
-   [cljs-uuid-utils.core :as uuid])
+   [cljs-uuid-utils.core :as uuid]
+    [instaparse.core :as insta]
+    )
 
   (:require-macros
    [cljs.core.async.macros :refer [go alt!]])
@@ -2526,5 +2528,65 @@ with the (<-- :field) method
 
 
 
+
+
+
+
+
+(def parse-sql-string-into-instaparse-structure-fn
+  (insta/parser
+    "SQL                = SELECT_QUERY | INSERT_STATEMENT
+
+     <SELECT_QUERY>     = REALTIME_CLAUSE? <SELECT> FIELDS <FROM> TABLE WHERE_CLAUSE?  ORDER_CLAUSE?
+
+     REALTIME_OPTIONS   = 'realtime '
+     REALTIME_CLAUSE    = <REALTIME_OPTIONS>
+
+     <INSERT_STATEMENT> = <INSERT>  TABLE  INSERT_FIELD_SPEC  VALUES
+
+     <INSERT>           = 'insert into '
+     INSERT_FIELD_SPEC  = '(' (FIELD)+ ')'
+     <VALUES>           = 'values  '
+     INSERT_VALUES      = '('   #'[a-z|A-Z|_| |=|0-9|?|\\'|%]+'   ')'
+
+
+     SELECT             = 'select '
+
+     FIELDS             = (FIELD)+
+
+     <FIELD>            = #'[a-z|_|(|)]+'  <#' '+>
+
+
+     FROM               = 'from '
+
+     TABLE              = #'[a-z|_|0-9]+' <' '>
+
+     WHERE              = 'where '
+
+     WHERE_CLAUSE       = <WHERE>  (#'[a-z|A-Z|_| |(|)|>|<|=|!|0-9|?|\\'|%]+')
+
+     ORDER              = 'order by '
+
+     ORDER_CLAUSE       = <ORDER>  (#'[a-z|A-Z|_| |>|<|=|0-9|?|\\'|%]+')
+     "))
+
+
+
+
+
+(defn transform-instaparse-query-into-dataview-map-fn [ s ]
+  [
+   (->> s (insta/transform
+            {
+             :SQL             (fn[& x] (into {} (flatten x)))
+             :FIELDS          (fn[& x] {:fields (into [] (map keyword x) )})
+             :TABLE           (fn[x]   {:db-table x})
+             :WHERE_CLAUSE    (fn[x]   {:where (clojure.string/trim x)})
+             :ORDER_CLAUSE    (fn[x]   {:order (clojure.string/trim x)})
+             :REALTIME_CLAUSE (fn[]    {:realtime true})
+             }
+            ))
+   ]
+  )
 
 

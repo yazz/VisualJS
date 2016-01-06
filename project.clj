@@ -37,6 +37,7 @@
                   [bk/ring-gzip "0.1.1"]
 
                   [com.lucasbradstreet/cljs-uuid-utils "1.0.2"]
+                  [com.lucasbradstreet/instaparse-cljs "1.4.1.0"]
                   ]
   :repositories {"sonatype-oss-public"
                  "https://oss.sonatype.org/content/groups/public/"}

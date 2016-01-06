@@ -32,7 +32,7 @@
   (:require-macros
     [webapp.framework.client.macros :refer [
                     refresh  ns-coils   div button input span defn-ui-component component
-                    map-many  add-many <--  data-view-v2]]))
+                    map-many  add-many <--  data-view-v2  sql-parser  select]]))
 (ns-coils 'webapp.framework.client.fns " @ns-counter ")"))
 (defn end [] "(webapp.framework.client.system-globals.touch [:ui])\n
   (reset! webapp.framework.client.system-globals/start-component  main)")

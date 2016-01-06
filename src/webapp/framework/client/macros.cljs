@@ -203,3 +203,89 @@
                                                                                       )))))))
 
 
+
+
+
+
+
+
+
+
+
+
+
+(def path-index (atom 0))
+
+
+
+(defmacro sql-parser [command & sql-args]
+  (let [
+        list-of-sql        (map (fn[x]
+                                  (if (.startsWith (str x)
+                                                   "(quote ") (apply str "'" (rest x)) x)
+                                  ) (butlast (butlast sql-args)))
+        main-params       (last (butlast   sql-args))
+        om-code           (last   sql-args)
+
+        sql-as-a-string   (str command " " (apply str (for [arg (into []
+                                                                    (apply list list-of-sql))] (str arg " ") ) ))
+        parsed-sql        (webapp.framework.client.coreclient/parse-sql-string-into-instaparse-structure-fn
+                            sql-as-a-string)
+
+        transformed-sql   (webapp.framework.client.coreclient/transform-instaparse-query-into-dataview-map-fn    parsed-sql)
+        params            (get  main-params :params)
+        dataview-map      (do (swap! path-index inc)
+                              (merge (first transformed-sql)
+                                     {
+                                      :relative-path [(deref path-index)]
+                                      :params         (get main-params :params)
+                                      :data-source    (keyword  (get (first
+                                                                     transformed-sql) :db-table))
+                                      ;:order         "(zgen_points IS NULL), zgen_points  DESC , id asc "
+                                      }))
+        typeof2     (str (type []))
+        ]
+    (if
+
+
+    (get main-params :debug)
+      `(~'div {}
+           ;(~'div {}  (~'str "SQL LIST: "                         ~list-of-sql))
+           (~'div {}  (~'str "SQL STRING: "
+                        ~sql-as-a-string))
+           (~'div {}  (~'str "Main Instaparse Query: "       ~parsed-sql))
+           (~'div {}  (~'str "Main Transformed query: "
+                        ~transformed-sql))
+           (~'div {}  (~'str "Main Dataview map: "           ~dataview-map))
+           (~'div {}  (~'str "Main Params: "                 ~main-params))
+           (~'div {}  (~'str "SQL Params: "                 ~params))
+           (~'div {}  (~'str "Type: "  ~typeof2))
+           )
+
+
+    `(~'data-view-v2
+       ~dataview-map
+
+       {:start     1
+        :end       20
+        }
+       (~'div {}
+           ~om-code))
+)))
+
+
+
+
+
+(defmacro select [& select-args]
+  (let [
+        type-of-last-arg     (last  select-args)
+        ]
+    ;(cond
+    ;  (= (type type-of-last-arg)  (type {}))
+    ;  `(remote-sql-parser  "select" ~@select-args) ; direct SQL is always treated as realtime
+
+    ;  :else
+    `(sql-parser  "select" ~@select-args)
+  ;  )
+  ))
