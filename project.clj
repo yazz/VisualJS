@@ -4,7 +4,7 @@
                   [org.clojure/clojurescript "1.7.170" :scope "provided"]
                   [org.omcljs/om "1.0.0-alpha22"]
                   [org.clojure/core.async "0.2.374" :scope "provided"]
-                  [cljsjs/react "0.14.0-0"]
+                  [cljsjs/react "0.14.3-0"]
 
                   [korma "0.4.2"]
 
@@ -31,7 +31,7 @@
 
                   [org.webjars/codemirror "5.8"]
 
-                  [org.clojure/tools.reader "0.10.0"]
+                  [org.clojure/tools.reader "1.0.0-alpha2"]
                   [lein-figwheel "0.5.0-2"]
 
                   [bk/ring-gzip "0.1.1"]
