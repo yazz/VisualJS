@@ -218,6 +218,101 @@
 
 
 
+
+(defmacro data-view-result-set [
+                         opts
+                         position           ]
+
+  `(let [ ~'data        (webapp.framework.client.coreclient/data-window-fn
+                          (merge {:relative-path [
+                                                  (str ~(cljs-uuid-utils.core/make-random-uuid))
+                                                  ]} ~opts )
+                                                                             ~position
+                                                                             ~'ui-component-name
+                                                                             ~'path
+                                                                             ~'ui-state)
+
+          ~'data-order  (~'-> ~'data :order)
+
+
+
+          ]
+
+
+
+     (into [] (~'map
+               (~'fn[~'x] (~'get-in ~'data [:values (~'get ~'data-order ~'x) :value]))
+               (~'range (:start ~position) (~'inc
+                                                                                      (~'min (:end ~position) (~'-> ~'data :count) )
+                                                                                      ))))
+     ;~'data
+     ))
+
+;(macroexpand-1 '(data-view-v2 "aa" {:relative-path [:a]} {} (div )))
+
+
+
+
+
+
+(defmacro remote-sql-parser [command & sql-args]
+  (let [
+        realtime-command   (if (= command "select") "realtime select" command)
+        list-of-sql        (map (fn[x]
+                                  (if (.startsWith (str x)
+                                                   "(quote ") (apply str "'" (rest x)) x)
+                                  ) (butlast sql-args))
+        main-params       (last   sql-args)
+
+        sql-as-a-string   (str realtime-command " " (apply str (for [arg (into []
+                                                                    (apply list list-of-sql))] (str arg " ") ) ))
+        parsed-sql        (webapp.framework.client.coreclient/parse-sql-string-into-instaparse-structure-fn
+                            sql-as-a-string)
+
+        transformed-sql   (webapp.framework.client.coreclient/transform-instaparse-query-into-dataview-map-fn    parsed-sql)
+        dataview-map      (do (swap! path-index inc)
+                              (merge (first transformed-sql)
+                                     {
+                                      :relative-path [(deref path-index)]
+                                      :params   (get main-params :params)
+                                      :data-source  (keyword  (get (first
+                                                                     transformed-sql) :db-table))
+                                      ;:order         "(zgen_points IS NULL), zgen_points  DESC , id asc "
+                                      }))
+        typeof2     (str (type []))
+        ]
+    (if
+
+
+    (get main-params :debug)
+      `{
+        ;"SQL STRING: "                  ~sql-as-a-string
+        ;"Main Instaparse Query: "       ~parsed-sql
+        ;"Main Transformed query: "      ~transformed-sql
+        "Main Dataview map: "           ~dataview-map
+        ;"Main Params: "                 ~main-params
+        ;"Type: "                        ~typeof2
+           }
+
+    `(~'data-view-result-set
+       ~dataview-map
+
+       {:start 1
+        :end   20
+        }
+       ))
+))
+
+
+
+
+
+
+
+
+
+
+
 (defmacro sql-parser [command & sql-args]
   (let [
         list-of-sql        (map (fn[x]
@@ -281,11 +376,11 @@
   (let [
         type-of-last-arg     (last  select-args)
         ]
-    ;(cond
-    ;  (= (type type-of-last-arg)  (type {}))
-    ;  `(remote-sql-parser  "select" ~@select-args) ; direct SQL is always treated as realtime
+    (cond
+      (= (type type-of-last-arg)  (type {}))
+      `(remote-sql-parser  "select" ~@select-args) ; direct SQL is always treated as realtime
 
-    ;  :else
+      :else
     `(sql-parser  "select" ~@select-args)
-  ;  )
+    )
   ))
