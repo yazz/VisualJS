@@ -118,20 +118,17 @@
   `(defn ~'ns-coils-debug  [] (str ~namespace-name)))
 
 
-(defmacro span [attributes & more]
-  `(om.dom/span  (webapp.framework.client.coreclient/attrs ~attributes) ~@more))
-
-
-(defmacro input [attributes & more]
-  `(om.dom/input  (webapp.framework.client.coreclient/attrs ~attributes) ~@more))
-
-
-(defmacro button [attributes & more]
-  `(om.dom/button  (webapp.framework.client.coreclient/attrs ~attributes) ~@more))
-
-
-(defmacro div [attributes & more]
-  `(om.dom/div  (webapp.framework.client.coreclient/attrs ~attributes) ~@more))
+(defmacro span [attributes & more]    `(om.dom/span  (webapp.framework.client.coreclient/attrs ~attributes) ~@more))
+(defmacro input [attributes & more]   `(om.dom/input  (webapp.framework.client.coreclient/attrs ~attributes) ~@more))
+(defmacro button [attributes & more]  `(om.dom/button  (webapp.framework.client.coreclient/attrs ~attributes) ~@more))
+(defmacro div [attributes & more]     `(om.dom/div  (webapp.framework.client.coreclient/attrs ~attributes) ~@more))
+(defmacro section [attributes & more] `(om.dom/section  (webapp.framework.client.coreclient/attrs ~attributes) ~@more))
+(defmacro h1 [attributes & more]      `(om.dom/h1  (webapp.framework.client.coreclient/attrs ~attributes) ~@more))
+(defmacro h2 [attributes & more]      `(om.dom/h2  (webapp.framework.client.coreclient/attrs ~attributes) ~@more))
+(defmacro h3 [attributes & more]      `(om.dom/h3  (webapp.framework.client.coreclient/attrs ~attributes) ~@more))
+(defmacro h4 [attributes & more]      `(om.dom/h4  (webapp.framework.client.coreclient/attrs ~attributes) ~@more))
+(defmacro h5 [attributes & more]      `(om.dom/h5  (webapp.framework.client.coreclient/attrs ~attributes) ~@more))
+(defmacro h6 [attributes & more]      `(om.dom/h6  (webapp.framework.client.coreclient/attrs ~attributes) ~@more))
 
 
 
