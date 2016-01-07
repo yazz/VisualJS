@@ -1632,7 +1632,7 @@
 
 
 (def o2 (Object.))
-(defn server-set-up-hosted-figwheel-clients []
+(comment defn server-set-up-hosted-figwheel-clients []
   (future (locking o2
             (if (= @server-set-up-hosted-figwheel-clients? false)
               (do
@@ -1797,7 +1797,7 @@
   (let [client-data-atom    (if server-side-realtime-clients  (get @server-side-realtime-clients  client-data-session-id))
         response-atom       (if client-data-atom  client-data-atom )
         ]
-      (server-set-up-hosted-figwheel-clients)
+      ;(server-set-up-hosted-figwheel-clients)
 ;    (if (not *hosted-mode*)
       (set-up-server-listeners)
 
