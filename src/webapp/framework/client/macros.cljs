@@ -381,3 +381,78 @@
     `(sql-parser  "select" ~@select-args)
     )
   ))
+
+
+
+(defmacro read-ui
+  [tree sub-path]
+  `(do
+     (webapp.framework.client.coreclient/read-ui-fn
+      ~tree
+      ~'path
+      ~sub-path
+      ~'parent-id
+      )))
+
+
+
+(defmacro write-ui
+  [tree sub-path value]
+  `(do
+     (webapp.framework.client.coreclient/write-ui-fn
+      ~tree
+      ~'path
+      ~sub-path
+      ~value
+      ~'parent-id
+      )))
+
+
+
+
+(defmacro input-field [params  app  code]
+  (let [input-path (swap! path-index inc)]
+    `(input (merge ~params
+                   {
+                    :value      (read-ui  ~app [~input-path])
+                    :onChange   (~'fn [~'event]
+                                      (~'let [~'newtext  (.. ~'event -target -value  )]
+                                             (~'write-ui  ~app  [~input-path]  ~'newtext)))
+                    :onKeyDown  (~'fn [~'event]
+                                      (do
+                                        (~'if (= (.-keyCode ~'event  ) 13)
+                                              (~'go
+                                               (let [~'newtext (~'read-ui  ~app [~input-path])]
+                                                 ((~@code) ~'newtext)
+                                                 (~'write-ui  ~app  [~input-path]  ""))))))
+                    } ))))
+
+
+
+
+
+(defmacro sql
+  ([sql-str]
+  `(webapp.framework.client.coreclient/sql-fn
+       ~sql-str
+       {}))
+  ([sql-str params]
+  `(webapp.framework.client.coreclient/sql-fn
+       ~sql-str
+       ~params)))
+
+
+
+
+
+(defmacro realtime [& select-args]
+  (let [
+        type-of-last-arg     (last  select-args)
+        ]
+    (cond
+      (= (type type-of-last-arg)  (type {}))
+      `(remote-sql-parser "realtime" ~@select-args)
+
+      :else
+      `(sql-parser  "realtime" ~@select-args)
+      )))
