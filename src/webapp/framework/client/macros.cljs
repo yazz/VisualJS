@@ -129,11 +129,13 @@
 (defmacro h4 [attributes & more]      `(om.dom/h4  (webapp.framework.client.coreclient/attrs ~attributes) ~@more))
 (defmacro h5 [attributes & more]      `(om.dom/h5  (webapp.framework.client.coreclient/attrs ~attributes) ~@more))
 (defmacro h6 [attributes & more]      `(om.dom/h6  (webapp.framework.client.coreclient/attrs ~attributes) ~@more))
+(defmacro label [attributes & more]   `(om.dom/label  (webapp.framework.client.coreclient/attrs ~attributes) ~@more))
 
 
 
 
-
+(defmacro container [& more]
+  `(om.dom/div  {} ~@more))
 
 
 
