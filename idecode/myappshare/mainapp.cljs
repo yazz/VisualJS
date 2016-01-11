@@ -53,7 +53,8 @@
 (defn reeval [app-id]
   (go
     (let [code (js/getCodeMirrorValue)]
-      (remote !savecode {:id app-id :code code})
+      (remote !savecode {:id app-id :code (subs code 0 2000)})
+      (remote !savecode2 {:id app-id :code (subs code 2000 4000)})
       (swap! ns-counter inc)
       (js/sendcode (str (start) code (end) ))
       )))
@@ -67,7 +68,6 @@
       (swap! ns-counter inc)
       (js/sendcode (str (start) (:value x) (end) ))
       )))
-
 
 
 

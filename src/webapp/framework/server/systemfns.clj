@@ -1898,6 +1898,27 @@
 
 
 
+
+;(defn !savecode [{:keys [id] } code]
+(defn !savecode2 [{:keys [id code] }]
+  (do
+    (println (str "************* !savecode2" ))
+    (sql "update coils_applications set application_code = CONCAT(application_code, ?) where id = ?" [code id])
+    (let [;start     (slurp (src-folder "main_view_start.txt"))
+          ;middle    code
+          ;end       (slurp (src-folder "main_view_end.txt"))
+
+          ;joined    (str  start  middle  end)
+          ]
+      ;(spit (src-folder "main_view.cljs") joined)
+      nil
+      )
+
+    {:value code}))
+
+
+
+
 (defn !newapp []
   (do
     (sql "insert into coils_applications (application_name,application_code) values (?,?)"
