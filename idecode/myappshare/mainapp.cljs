@@ -156,15 +156,16 @@
        (div {:style {:height "15px"}})
 
        (input-field {:style {:padding "10px" :color "black" :fontSize "2em"}
-                     :placeholder  "Your email address" }
+                     :placeholder  "Your email address" :preserveContents true}
                     app
                     (fn [join-with-email]
                         (go
+                          (write-ui app [:email] join-with-email)
                           (let [email-join-response
                                 (remote !join-with-email {:email join-with-email})]
                             (write-ui app [:join-response] email-join-response)
                           ))))
-       (div nil (pr-str (read-ui app [:join-response])))
+       (span nil (pr-str (read-ui app [:join-response])))
 
 
 
@@ -177,11 +178,12 @@
                     app
                     (fn [join-with-password]
                         (go
+                          (write-ui app [:password] join-with-password)
                           (let [password-join-response
                                 (remote !join-with-password {:password join-with-password})]
                             (write-ui app [:choose-password-response] password-join-response )
                           ))))
-       (div nil (read-ui app [:choose-password-response]))
+       (span nil (read-ui app [:choose-password-response]))
 
 
 
@@ -193,17 +195,29 @@
                     app
                     (fn [join-with-confirm-password]
                         (go
+                          (write-ui app [:confirm-password] join-with-confirm-password)
                           (let [confirm-password-join-response
                                 (remote !join-with-password-confirm {:confirm-password join-with-confirm-password})]
                             (write-ui app [:confirm-password-response] confirm-password-join-response)
                           ))))
-       (div nil (read-ui app [:confirm-password-response]))
+       (span nil (read-ui app [:confirm-password-response]))
 
 
 
 
        (div {:style {:height "10px"}})
-       (button {:className "btn btn-lg" :style {:backgroundColor "#2B61CC" :fontSize "2em"}} "Go")
+       (button {:className "btn btn-lg" :style {:backgroundColor "#2B61CC" :fontSize "2em"}
+                :onClick #(go
+                            (let [email      (read-ui app [:email])
+                                  password   (read-ui app [:password])
+                                  ]
+
+                                  (remote !join-go-pressed {:email     email
+                                                            :password  password})
+
+
+                              ))
+                } "Go")
 
        )
   )

@@ -1062,7 +1062,8 @@ nil
 
 
 (defmacro input-field [params  app  code]
-  (let [input-path (swap! path-index inc)]
+  (let [input-path (swap! path-index inc)
+        preserve (get params :preserveContents )]
     `(let [~'on-change-fn   (~'fn [~'event]
                                  (~'let [~'newtext  (.. ~'event -target -value  )]
                                         (~'write-ui  ~app  [~input-path]  ~'newtext)))
@@ -1076,7 +1077,7 @@ nil
                                        (~'go
                                          (let [~'newtext (~'read-ui  ~app [~input-path])]
                                            ((~@code) ~'newtext)
-                                           (~'write-ui  ~app  [~input-path]  "")))
+                                           (~'if (~'not ~preserve) (~'write-ui  ~app  [~input-path]  ""))))
                                        )))
            ]
        (input (merge ~params

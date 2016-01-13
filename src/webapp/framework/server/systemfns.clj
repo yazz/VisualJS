@@ -2047,7 +2047,6 @@
 
       :else
       (do
-        (sql "insert into appshare_logins (login_email) values (?)" [(.toLowerCase email)])
         {:success true}
         ))))
 
@@ -2058,3 +2057,7 @@
 
 (defn !join-with-password-confirm [{:keys [confirm-password] }]
   confirm-password)
+
+
+(defn !join-go-pressed [{:keys [email password] }]
+          (sql "insert into appshare_logins (login_type, login_email, login_password) values ('normal',?,?)" [(.toLowerCase email) password]))
