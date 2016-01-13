@@ -678,6 +678,7 @@
           login_user_name      character varying,
           login_email          character varying,
           login_password       character varying,
+          fk_appshare_user_id  integer,
           CONSTRAINT appshare_logins_pkey PRIMARY KEY (id)
           );
           "
@@ -691,6 +692,7 @@
           login_user_name      VARCHAR2(200 BYTE),
           login_email          VARCHAR2(200 BYTE),
           login_password       VARCHAR2(200 BYTE),
+          fk_appshare_user_id  NUMBER,
           CONSTRAINT  APPSHARE_LOGINS_PK PRIMARY KEY (ID)
           )")
         ]
@@ -2030,11 +2032,24 @@
 
 
 
-
+; login_type           VARCHAR2(200 BYTE),
+; login_user_name      VARCHAR2(200 BYTE),
+; login_email          VARCHAR2(200 BYTE),
+; login_password       VARCHAR2(200 BYTE),
+; fk_appshare_user_id  NUMBER,
 
 
 (defn !join-with-email [{:keys [email] }]
-  email)
+  (let [res  (:count (sql-1 (str "select count(*) from appshare_logins where UPPER(login_email) like '%" (.toUpperCase email) "%'")))]
+    (cond
+      (pos? res)
+      {:error "User already exists"}
+
+      :else
+      (do
+        (sql "insert into appshare_logins (login_email) values (?)" [(.toLowerCase email)])
+        {:success true}
+        ))))
 
 
 (defn !join-with-password [{:keys [password] }]

@@ -164,7 +164,7 @@
                                 (remote !join-with-email {:email join-with-email})]
                             (write-ui app [:join-response] email-join-response)
                           ))))
-       (div nil (read-ui app [:join-response]))
+       (div nil (pr-str (read-ui app [:join-response])))
 
 
 
@@ -215,7 +215,7 @@
 (defn-ui-component     login-component   [app]  {}
 
 
-  (div {:style {:margin-left "5px" :fontFamily "Ubuntu"}}
+  (div {:style {:marginLeft "5px" :fontFamily "Ubuntu"}}
        (div {:style {:display "inline-block"  :fontSize "1em"}}
                "Login")
        )
@@ -232,10 +232,10 @@
 (defn-ui-component     browser-component   [app]  {}
 
 
-  (div {:style {:margin-left "5px"}}
+  (div {:style {:marginLeft "5px"}}
        (div {:style {:display "inline-block" :fontFamily "Ubuntu" :fontSize "1em"}}
                "Build an app in 5 minutes")
-  (div {:style {:margin-left "25px"}}
+  (div {:style {:marginLeft "25px"}}
        (realtime select id, application_name from coils_applications order by id {}
                (div nil
 

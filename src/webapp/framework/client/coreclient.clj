@@ -1055,27 +1055,36 @@ nil
 
 
 (defmacro insert [& insert-args]
-                 `(remote-sql-parser  ~@insert-args)
+                 `(remote-sql-parser  ~@insert-args))
 
-                 )
+
+
 
 
 (defmacro input-field [params  app  code]
   (let [input-path (swap! path-index inc)]
-    `(input (merge ~params
-                   {
-                    :value      (read-ui  ~app [~input-path])
-                    :onChange   (~'fn [~'event]
-                                      (~'let [~'newtext  (.. ~'event -target -value  )]
-                                             (~'write-ui  ~app  [~input-path]  ~'newtext)))
-                    :onKeyDown  (~'fn [~'event]
-                                      (do
-                                        (~'if (= (.-keyCode ~'event  ) 13)
-                                              (~'go
-                                               (let [~'newtext (~'read-ui  ~app [~input-path])]
-                                                 ((~@code) ~'newtext)
-                                                 (~'write-ui  ~app  [~input-path]  ""))))))
-                    } ))))
+    `(let [~'on-change-fn   (~'fn [~'event]
+                                 (~'let [~'newtext  (.. ~'event -target -value  )]
+                                        (~'write-ui  ~app  [~input-path]  ~'newtext)))
+
+
+           ~'key-down-fn     (~'fn [~'event]
+                                   (do
+
+                                     (~'cond
+                                       (or (= (.-keyCode ~'event  ) 13) (= (.-keyCode ~'event  ) 9))
+                                       (~'go
+                                         (let [~'newtext (~'read-ui  ~app [~input-path])]
+                                           ((~@code) ~'newtext)
+                                           (~'write-ui  ~app  [~input-path]  "")))
+                                       )))
+           ]
+       (input (merge ~params
+                     {
+                       :value      (read-ui  ~app [~input-path])
+                       :onChange   ~'on-change-fn
+                       :onKeyDown  ~'key-down-fn
+                       } )))))
 
 
 (defmacro test [a]
