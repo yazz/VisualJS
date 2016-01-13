@@ -232,7 +232,10 @@
 
             (button {:className    (if (small-screen) "btn btn-default" "btn-lg btn-default")
                      :style       {:display "inline-block" :marginLeft (if (small-screen) "2px"  "30px") :fontFamily "Ubuntu" :fontSize "1em" :marginTop "0.3em"}
-                     :onClick     #(write-ui app [:mode] "browse")} "Home")
+                     :onClick     #(do
+                                     (write-ui app [:mode] "browse")
+                                     (write-ui app [:submode] "")
+                                     )} "Home")
 
             (button {:className    (if (small-screen) "btn btn-default" "btn-lg btn-default")
                      :style       {:display "inline-block" :marginLeft (if (small-screen) "2px"  "30px") :fontFamily "Ubuntu" :fontSize "1em" :marginTop "0.3em"
