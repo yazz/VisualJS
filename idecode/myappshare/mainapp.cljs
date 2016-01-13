@@ -146,6 +146,83 @@
 
 
 
+(defn-ui-component     join-component   [app]  {}
+
+
+  (div {:style {:marginLeft "15px" :fontFamily "Ubuntu"}}
+       (div {:style {:display "inline-block" :fontFamily "Ubuntu" :fontSize "3em" :marginTop "20px"}}
+               "Join")
+
+       (div {:style {:height "15px"}})
+
+       (input-field {:style {:padding "10px" :color "black" :fontSize "2em"}
+                     :placeholder  "Your email address" }
+                    app
+                    (fn [join-with-email]
+                        (go
+                          (let [email-join-response
+                                (remote !join-with-email {:email join-with-email})]
+                            (write-ui app [:join-response] email-join-response)
+                          ))))
+       (div nil (read-ui app [:join-response]))
+
+
+
+
+
+       (div {:style {:height "35px"}})
+
+       (input-field {:style {:padding "10px" :color "black" :fontSize "2em"}
+                     :placeholder  "Choose a password" :type "password" }
+                    app
+                    (fn [join-with-password]
+                        (go
+                          (let [password-join-response
+                                (remote !join-with-password {:password join-with-password})]
+                            (write-ui app [:choose-password-response] password-join-response )
+                          ))))
+       (div nil (read-ui app [:choose-password-response]))
+
+
+
+
+
+       (div {:style {:height "10px"}})
+       (input-field {:style {:padding "10px" :color "black" :fontSize "2em"}
+                     :placeholder  "Reenter password" :type "password" }
+                    app
+                    (fn [join-with-confirm-password]
+                        (go
+                          (let [confirm-password-join-response
+                                (remote !join-with-password-confirm {:confirm-password join-with-confirm-password})]
+                            (write-ui app [:confirm-password-response] confirm-password-join-response)
+                          ))))
+       (div nil (read-ui app [:confirm-password-response]))
+
+
+
+
+       (div {:style {:height "10px"}})
+       (button {:className "btn btn-lg" :style {:backgroundColor "#2B61CC" :fontSize "2em"}} "Go")
+
+       )
+  )
+
+
+
+
+
+(defn-ui-component     login-component   [app]  {}
+
+
+  (div {:style {:margin-left "5px" :fontFamily "Ubuntu"}}
+       (div {:style {:display "inline-block"  :fontSize "1em"}}
+               "Login")
+       )
+  )
+
+
+
 
 
 
@@ -163,7 +240,7 @@
                (div nil
 
 
-                    (comment button {:style {:marginRight "30px" :marginBottom "10px"}
+                    (comment button {:style { :marginRight "30px" :marginBottom "10px"}
                              :className "btn btn-small"
                              :onClick     #(go (sql "delete from coils_applications
                                               where id = ?"
@@ -214,7 +291,7 @@
 
 
 
-(defn small-screen [] (if (< (js/width) 800) true false))
+(defn small-screen [] (if (< (js/width) 1024) true false))
 
 
 (defn large-screen [] (not (small-screen)))
@@ -280,6 +357,36 @@
                      }
                        "Save")
 
+
+
+            (button {:className    (if (small-screen) "btn btn-default"  "btn-lg btn-default")
+                     :style       {:display "inline-block" :marginLeft (if (small-screen) "2px"  "30px") :fontFamily "Ubuntu" :fontSize "1em" :marginTop "0.3em"
+                                   :opacity  (if (= (read-ui app [:mode]) "join")  "0.4" "1.0")
+
+                                   }
+                     :onClick     #(do
+                                     (write-ui app [:mode] "join")
+                                     )
+                     :disabled  (if (= (read-ui app [:mode]) "join") "true" "")
+                     }
+                    "Join")
+
+
+            (button {:className    (if (small-screen) "btn btn-default"  "btn-lg btn-default")
+                     :style       {:display "inline-block" :marginLeft (if (small-screen) "2px"  "30px") :fontFamily "Ubuntu" :fontSize "1em" :marginTop "0.3em"
+                                   :opacity  (if (= (read-ui app [:mode]) "login")  "0.4" "1.0")
+
+                                   }
+                     :onClick     #(do
+                                     (write-ui app [:mode] "login")
+                                     )
+                     :disabled  (if (= (read-ui app [:mode]) "login") "true" "")
+                     }
+                    "Login")
+
+
+
+
             (if (large-screen)  (div {:style       {:display "inline-block"}}
                  (a {:target       "appshare.co"
                      :style       {:textDecoration "underline" :display "inline-block" :marginLeft "30px" :fontFamily "Ubuntu" :fontSize "1em" :marginTop "-0.3em"}
@@ -303,6 +410,13 @@
 
               (= (read-ui app [:mode]) "edit")
               (div {:style {} } (component editor-component app []))
+
+
+              (= (read-ui app [:mode]) "join")
+              (div {:style {} } (component join-component app []))
+
+              (= (read-ui app [:mode]) "login")
+              (div {:style {} } (component login-component app []))
 
             )
 

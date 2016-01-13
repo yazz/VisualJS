@@ -1942,3 +1942,18 @@
            "         \"New app\"))")])
     {}))
 
+
+
+
+
+
+(defn !join-with-email [{:keys [email] }]
+  email)
+
+
+(defn !join-with-password [{:keys [password] }]
+  password)
+
+
+(defn !join-with-password-confirm [{:keys [confirm-password] }]
+  confirm-password)
