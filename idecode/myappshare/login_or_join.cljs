@@ -119,18 +119,23 @@
 
 
 (defn-ui-component     join-component-submit-button   [app]  {}
-  (button {:className "btn btn-lg" :style {:backgroundColor "#2B61CC" :fontSize "2em"}
-           :onClick #(go
-                       (let [email      (read-ui app [:email])
-                             password   (read-ui app [:password])
-                             ]
+  (div nil
+       (button {:disabled (not (and (:success (read-ui app [:choose-password-response])) (:success (read-ui app [:confirm-password-response])) (:success (read-ui app [:join-email-response]))))
+                :className "btn btn-lg" :style {:backgroundColor "#2B61CC" :fontSize "2em"}
+                :onClick #(go
+                            (let [email      (read-ui app [:email])
+                                  password   (read-ui app [:password])
+                                  join-response   (remote !join-go-pressed {:email     email
+                                                                            :password  password})
+                                  ]
+                              (write-ui app [:join-response] join-response)
 
-                         (remote !join-go-pressed {:email     email
-                                                   :password  password})
 
 
-                         ))
-           } "Go"))
+                              ))
+                } "Go")
+
+       (div nil (pr-str (read-ui app [:join-response])))))
 
 
 
