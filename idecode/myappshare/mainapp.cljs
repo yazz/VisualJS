@@ -14,6 +14,8 @@
                                                ]])
   (:use
    [webapp.framework.client.system-globals :only  [appshare-dev-server appshare-dev-port]])
+  (:use
+   [myappshare.login-or-join :only  [join-component  login-component]])
 
   (:require-macros
    [cljs.core.async.macros :refer [go alt!]]))
@@ -140,100 +142,6 @@
                           (str (<-- :application_name)))))
        )
        (textarea {:id "cm" :style {:display "inline-block" :width "100%" :height "800"}} "TEXT EDITOR")))
-
-
-
-
-
-
-(defn-ui-component     join-component   [app]  {}
-
-
-  (div {:style {:marginLeft "15px" :fontFamily "Ubuntu"}}
-       (div {:style {:display "inline-block" :fontFamily "Ubuntu" :fontSize "3em" :marginTop "20px"}}
-               "Join")
-
-       (div {:style {:height "15px"}})
-
-       (input-field {:style {:padding "10px" :color "black" :fontSize "2em"}
-                     :placeholder  "Your email address" :preserveContents true}
-                    app
-                    (fn [join-with-email]
-                        (go
-                          (write-ui app [:email] join-with-email)
-                          (let [email-join-response
-                                (remote !join-with-email {:email join-with-email})]
-                            (write-ui app [:join-response] email-join-response)
-                          ))))
-       (span nil (pr-str (read-ui app [:join-response])))
-
-
-
-
-
-       (div {:style {:height "35px"}})
-
-       (input-field {:style {:padding "10px" :color "black" :fontSize "2em"}
-                     :placeholder  "Choose a password" :type "password" }
-                    app
-                    (fn [join-with-password]
-                        (go
-                          (write-ui app [:password] join-with-password)
-                          (let [password-join-response
-                                (remote !join-with-password {:password join-with-password})]
-                            (write-ui app [:choose-password-response] password-join-response )
-                          ))))
-       (span nil (read-ui app [:choose-password-response]))
-
-
-
-
-
-       (div {:style {:height "10px"}})
-       (input-field {:style {:padding "10px" :color "black" :fontSize "2em"}
-                     :placeholder  "Reenter password" :type "password" }
-                    app
-                    (fn [join-with-confirm-password]
-                        (go
-                          (write-ui app [:confirm-password] join-with-confirm-password)
-                          (let [confirm-password-join-response
-                                (remote !join-with-password-confirm {:confirm-password join-with-confirm-password})]
-                            (write-ui app [:confirm-password-response] confirm-password-join-response)
-                          ))))
-       (span nil (read-ui app [:confirm-password-response]))
-
-
-
-
-       (div {:style {:height "10px"}})
-       (button {:className "btn btn-lg" :style {:backgroundColor "#2B61CC" :fontSize "2em"}
-                :onClick #(go
-                            (let [email      (read-ui app [:email])
-                                  password   (read-ui app [:password])
-                                  ]
-
-                                  (remote !join-go-pressed {:email     email
-                                                            :password  password})
-
-
-                              ))
-                } "Go")
-
-       )
-  )
-
-
-
-
-
-(defn-ui-component     login-component   [app]  {}
-
-
-  (div {:style {:marginLeft "5px" :fontFamily "Ubuntu"}}
-       (div {:style {:display "inline-block"  :fontSize "1em"}}
-               "Login")
-       )
-  )
 
 
 

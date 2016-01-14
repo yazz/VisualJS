@@ -1066,24 +1066,30 @@ nil
         preserve (get params :preserveContents )]
     `(let [~'on-change-fn   (~'fn [~'event]
                                  (~'let [~'newtext  (.. ~'event -target -value  )]
+                                        (~'.log ~'js/console (~'pr-str (.. ~'event -target -value  )))
                                         (~'write-ui  ~app  [~input-path]  ~'newtext)))
 
+
+           ~'callback-fn     (~'fn [~'event]
+                                       (~'go
+                                         (let [~'newtext (~'read-ui  ~app [~input-path])]
+                                           ((~@code) ~'newtext)
+                                           (~'if (~'not ~preserve) (~'write-ui  ~app  [~input-path]  ""))))
+                                       )
 
            ~'key-down-fn     (~'fn [~'event]
                                    (do
 
                                      (~'cond
                                        (or (= (.-keyCode ~'event  ) 13) (= (.-keyCode ~'event  ) 9))
-                                       (~'go
-                                         (let [~'newtext (~'read-ui  ~app [~input-path])]
-                                           ((~@code) ~'newtext)
-                                           (~'if (~'not ~preserve) (~'write-ui  ~app  [~input-path]  ""))))
+                                       (~'callback-fn  ~'event)
                                        )))
            ]
        (input (merge ~params
                      {
                        :value      (read-ui  ~app [~input-path])
                        :onChange   ~'on-change-fn
+                       :onBlur     ~'callback-fn
                        :onKeyDown  ~'key-down-fn
                        } )))))
 

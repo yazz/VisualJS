@@ -2039,11 +2039,16 @@
 ; fk_appshare_user_id  NUMBER,
 
 
+
+
+
 (defn !join-with-email [{:keys [email] }]
   (let [res  (:count (sql-1 (str "select count(*) from appshare_logins where UPPER(login_email) like '%" (.toUpperCase email) "%'")))]
     (cond
       (pos? res)
-      {:error "User already exists"}
+      {:error           "User already exists"
+       :already-exists   true
+       }
 
       :else
       (do
@@ -2051,12 +2056,19 @@
         ))))
 
 
+
+
+
 (defn !join-with-password [{:keys [password] }]
-  password)
+  (if (< (count password) 6)
+    {:error "Password must be at least 6 characters"}
+    {:success true}))
 
 
-(defn !join-with-password-confirm [{:keys [confirm-password] }]
-  confirm-password)
+(defn !join-with-password-confirm [{:keys [password confirm-password] }]
+  (if (not (= password confirm-password))
+    {:error "Passwords do not match"}
+    {:success true}))
 
 
 (defn !join-go-pressed [{:keys [email password] }]
