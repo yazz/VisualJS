@@ -253,12 +253,11 @@
 
 
 
-
 (defmacro remote-sql-parser [command & sql-args]
   (let [
         realtime-command   (if (= command "select") "realtime select" command)
         list-of-sql        (map (fn[x]
-                                  (if (.startsWith (str x)
+                                  (if (js/stringStartsWith (str x)
                                                    "(quote ") (apply str "'" (rest x)) x)
                                   ) (butlast sql-args))
         main-params       (last   sql-args)
@@ -315,7 +314,7 @@
 (defmacro sql-parser [command & sql-args]
   (let [
         list-of-sql        (map (fn[x]
-                                  (if (.startsWith (str x)
+                                  (if (js/stringStartsWith (str x)
                                                    "(quote ") (apply str "'" (rest x)) x)
                                   ) (butlast (butlast sql-args)))
         main-params       (last (butlast   sql-args))
