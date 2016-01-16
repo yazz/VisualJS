@@ -1140,4 +1140,4 @@ anywhere
 
 
 
-(def session-id (atom ""))
+(def client-session-atom (atom {}))

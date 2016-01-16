@@ -13,7 +13,7 @@
                                                input-field remote
                                                ]])
   (:use
-   [webapp.framework.client.system-globals :only  [appshare-dev-server appshare-dev-port session-id]])
+   [webapp.framework.client.system-globals :only  [appshare-dev-server  appshare-dev-port  client-session-atom]])
 
   (:require-macros
    [cljs.core.async.macros :refer [go alt!]]))
@@ -139,9 +139,9 @@
        (button {:disabled (not (and (:success (read-ui app [:choose-password-response])) (:success (read-ui app [:confirm-password-response])) (:success (read-ui app [:join-email-response]))))
                 :className "btn btn-lg" :style {:backgroundColor "#2B61CC" :fontSize "2em"}
                 :onClick #(go
-                            (let [email      (read-ui app [:email])
-                                  password   (read-ui app [:password])
-                                  join-response   (remote !join-go-pressed {:session-id @session-id
+                            (let [email           (read-ui app [:email])
+                                  password        (read-ui app [:password])
+                                  join-response   (remote !join-go-pressed {:session-id (get  @client-session-atom  :session-id)
                                                                             :email       email
                                                                             :password    password})
                                   ]

@@ -22,7 +22,7 @@
                                                     record-ui
                                                     touch
                                                     data-session-id
-                                                    session-id
+                                                    client-session-atom
                                                     ]]
    [webapp.framework.client.components.system-container :only  [main-view]]
 ;   [webapp.framework.client.components.playback  :only  [playback-controls-view ]]
@@ -80,19 +80,25 @@
    (@init-fn)
    (detect-browser)
 
-    (let [cookie-session-id      (cookie/get "appshare.co")
-          session                (remote !create-session {
-                                                           :init-state (with-out-str (prn @app-state))
+    (let [cookie-session-id              (cookie/get "appshare.co")
+          create-session-response        (remote !create-session {
+                                                                   :init-state (with-out-str (prn @app-state))
 
-                                                           :browser    (str (-> @app-state :system :platform) ","
-                                                                            (-> @app-state :system :who-am-i))
+                                                                   :browser    (str (-> @app-state :system :platform) ","
+                                                                                    (-> @app-state :system :who-am-i))
 
-                                                           :session-id-from-browser    cookie-session-id
-                                                           })  ]
-     ;(log session)
-        (reset! session-id      (:value session))
-        (cookie/set "appshare.co" session-id)
-        (reset! data-session-id (:data-session-id session))
+                                                                   :session-id-from-browser    cookie-session-id
+                                                                   })  ]
+     (log (str "cookie-session-id: " cookie-session-id))
+     (log (str "create-session-response: " create-session-response))
+
+        (reset! client-session-atom  {:session-id   (:session-id create-session-response)
+                                      :user         (:user create-session-response)})
+
+        (cookie/set "appshare.co" (:session-id create-session-response))
+
+        (reset! data-session-id (:data-session-id create-session-response))
+
         ;(js/alert (pr-str @data-session-id))
      )
 

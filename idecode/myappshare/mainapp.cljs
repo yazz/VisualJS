@@ -13,9 +13,9 @@
                                                input-field remote
                                                ]])
   (:use
-   [webapp.framework.client.system-globals :only  [appshare-dev-server appshare-dev-port]])
-  (:use
-   [myappshare.login-or-join :only  [join-component  login-component]])
+   [myappshare.login-or-join :only  [join-component  login-component]]
+   [webapp.framework.client.system-globals :only  [appshare-dev-server   appshare-dev-port     client-session-atom]]
+    )
 
   (:require-macros
    [cljs.core.async.macros :refer [go alt!]]))
@@ -291,7 +291,7 @@
                                      )
                      :disabled  (if (= (read-ui app [:mode]) "join") "true" "")
                      }
-                    "Join")
+                    (str (if (get @client-session-atom :user) (get-in @client-session-atom [:user :user_name]) "Join")))
 
 
             (button {:className    (if (small-screen) "btn btn-default"  "btn-lg btn-default")

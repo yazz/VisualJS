@@ -185,12 +185,15 @@
                                     (sql-1 "insert into appshare_web_sessions (session_id) values (?)"   [new-uuid])
                                     new-uuid)))
          data-session-id      (uuid-str)
+         user-id              (get web-session-in-db :fk_appshare_user_id)
+         user                 (if user-id (sql-1 "select id, user_name from appshare_users  where id=?" [user-id]))
         ]
     (do
       (println (str "!create-session: " session-id-from-browser))
       {
-        :value              session-id
+        :session-id         session-id
         :data-session-id    data-session-id
+        :user               user
         })))
 
 
@@ -2148,10 +2151,19 @@
     {:success true}))
 
 
+
+
+
+
 (defn !join-with-password-confirm [{:keys [password confirm-password] }]
   (if (not (= password confirm-password))
     {:error "Passwords do not match"}
     {:success true}))
+
+
+
+
+
 
 
 (defn !join-go-pressed [{:keys [session-id email password] }]
@@ -2161,20 +2173,21 @@
 
     :else
     (let [
-           x3 (sql-1 "insert into appshare_publishers (publisher_name) values (?) returning id"
-                     [(.toLowerCase email)])
-
-           x2 (sql-1 "insert into appshare_users (user_name) values (?) returning id"
-                     [(.toLowerCase email) ])
-
-           x4 (sql-1 "insert into appshare_users_publishers (fk_appshare_user_id, fk_appshare_publisher_id) values (?,?) returning id"
-                     [(:id x2)    (:id x3) ])
+           publisher-id       (get (sql-1 "insert into appshare_publishers (publisher_name) values (?) returning id"     [(.toLowerCase email)]) :id)
+           user-id            (get (sql-1 "insert into appshare_users (user_name) values (?) returning id"               [(.toLowerCase email)]) :id)
            ]
 
       (do
+        (println (str "sessionid: " session-id))
+
+        (sql-1 "insert into appshare_users_publishers (fk_appshare_user_id, fk_appshare_publisher_id) values (?,?) returning id"
+               [user-id    publisher-id ])
+
         (sql "insert into appshare_logins (login_type, login_email, login_password, fk_appshare_user_id) values ('normal',?,?,?)"
-             [(.toLowerCase email)     password    (:id x2)])
-        (sql "update appshare_web_sessions set fk_appshare_user_id = ? where session_id = ?"
-             [(:id x2)  session-id])
+             [(.toLowerCase email)     password    user-id])
+
+        (sql "update  appshare_web_sessions  set fk_appshare_user_id = ? where session_id = ?"
+             [user-id  session-id])
+
         {:success true}
         ))))

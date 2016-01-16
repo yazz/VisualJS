@@ -63,8 +63,9 @@
          ;(println "SQL from client: " sql-in)
          ;
            (cond
-             (or (.startsWith lower "select") (.contains lower "returning")) (do (comment println "SELECT") (into [] (map   (fn [r] (to-lower-case-keys r));
+             (or (.startsWith lower "select")  (.contains lower "returning")) (do (comment println "SELECT") (into [] (map   (fn [r] (to-lower-case-keys r));
                                                                                       (korma.core/exec-raw [sql-in params] :results))))
+
              :else (do (comment println "INSERT") (korma.core/exec-raw [sql-in params]) [])
              ; []
              )))
