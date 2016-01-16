@@ -151,7 +151,7 @@
                               ))
                 } "Go")
 
-       (div nil (str (read-ui app [:join-response])))))
+       (div nil (pr-str (read-ui app [:join-response])))))
 
 
 
