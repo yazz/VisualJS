@@ -1135,3 +1135,9 @@ anywhere
 ;
 ; -----------------------------------------------------
 (defonce  client-datasource-fields            (atom {})) ; list of the data sources and their fields
+
+
+
+
+
+(def session-id (atom ""))

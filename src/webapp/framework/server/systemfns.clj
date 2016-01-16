@@ -2154,7 +2154,7 @@
     {:success true}))
 
 
-(defn !join-go-pressed [{:keys [email password] }]
+(defn !join-go-pressed [{:keys [session-id email password] }]
   (cond
     (does-login-with-email-exist?  email)
     {:error "User already exists"}
@@ -2169,9 +2169,12 @@
 
            x4 (sql-1 "insert into appshare_users_publishers (fk_appshare_user_id, fk_appshare_publisher_id) values (?,?) returning id"
                      [(:id x2)    (:id x3) ])
-
-           xx (sql "insert into appshare_logins (login_type, login_email, login_password, fk_appshare_user_id) values ('normal',?,?,?)"
-                   [(.toLowerCase email)     password    (:id x2)])
            ]
-      {:success true}
-      )))
+
+      (do
+        (sql "insert into appshare_logins (login_type, login_email, login_password, fk_appshare_user_id) values ('normal',?,?,?)"
+             [(.toLowerCase email)     password    (:id x2)])
+        (sql "update appshare_web_sessions set fk_appshare_user_id = ? where session_id = ?"
+             [(:id x2)  session-id])
+        {:success true}
+        ))))

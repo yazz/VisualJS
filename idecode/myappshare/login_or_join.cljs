@@ -13,7 +13,7 @@
                                                input-field remote
                                                ]])
   (:use
-   [webapp.framework.client.system-globals :only  [appshare-dev-server appshare-dev-port]])
+   [webapp.framework.client.system-globals :only  [appshare-dev-server appshare-dev-port session-id]])
 
   (:require-macros
    [cljs.core.async.macros :refer [go alt!]]))
@@ -141,8 +141,9 @@
                 :onClick #(go
                             (let [email      (read-ui app [:email])
                                   password   (read-ui app [:password])
-                                  join-response   (remote !join-go-pressed {:email     email
-                                                                            :password  password})
+                                  join-response   (remote !join-go-pressed {:session-id @session-id
+                                                                            :email       email
+                                                                            :password    password})
                                   ]
                               (write-ui app [:join-response] join-response)))
                 } "Go")

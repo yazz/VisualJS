@@ -22,6 +22,7 @@
                                                     record-ui
                                                     touch
                                                     data-session-id
+                                                    session-id
                                                     ]]
    [webapp.framework.client.components.system-container :only  [main-view]]
 ;   [webapp.framework.client.components.playback  :only  [playback-controls-view ]]
@@ -42,7 +43,7 @@
 
 (def history-order (atom 0))
 (def start-time (.getTime (js/Date.)))
-(def session-id (atom ""))
+
 
 
 
@@ -90,6 +91,7 @@
                                                            })  ]
      ;(log session)
         (reset! session-id      (:value session))
+        (cookie/set "appshare.co" session-id)
         (reset! data-session-id (:data-session-id session))
         ;(js/alert (pr-str @data-session-id))
      )
