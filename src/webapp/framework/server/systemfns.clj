@@ -172,17 +172,26 @@
 
 ;----------------------------------------------------------------
 (defn !create-session
-  [{:keys [init-state browser]}]
+  [{:keys [init-state     browser    session-id-from-browser]}]
   ;----------------------------------------------------------------
   (let [
-        session-id         (uuid-str)
-        data-session-id    (uuid-str)
-        ]
+         web-session-in-db    (if session-id-from-browser (sql-1 "select   id, session_id, fk_appshare_user_id   from    appshare_web_sessions     where session_id = ?"   [session-id-from-browser]))
+         session-id           (if (get web-session-in-db :session_id)
 
-    {
-     :value session-id
-     :data-session-id    data-session-id
-    }))
+                                (get web-session-in-db :session_id)
+
+                                (let [new-uuid (uuid-str)]
+                                  (do
+                                    (sql-1 "insert into appshare_web_sessions (session_id) values (?)"   [new-uuid])
+                                    new-uuid)))
+         data-session-id      (uuid-str)
+        ]
+    (do
+      (println (str "!create-session: " session-id-from-browser))
+      {
+        :value              session-id
+        :data-session-id    data-session-id
+        })))
 
 
 
