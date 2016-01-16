@@ -220,7 +220,7 @@
 
 
 (defn ok [response]
-  (not (:error response)))
+  (not (:system-error response)))
 
 
 
@@ -274,7 +274,7 @@
                        :result      (str "ERROR IN RESPONSE, HTTP : " status)
                        )]
                  (go
-                   (>! ch  {:error "true"})
+                   (>! ch  {:system-error "true"})
                    (close! ch))
                  (remove-debug-event  debug-id)
                  )
