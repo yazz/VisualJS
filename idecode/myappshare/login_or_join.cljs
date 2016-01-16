@@ -144,14 +144,11 @@
                                   join-response   (remote !join-go-pressed {:email     email
                                                                             :password  password})
                                   ]
-                              (write-ui app [:join-response] join-response)
-
-
-
-                              ))
+                              (write-ui app [:join-response] join-response)))
                 } "Go")
 
-       (div nil (pr-str (read-ui app [:join-response])))))
+       ;(div nil (pr-str (read-ui app [:join-response])))
+       ))
 
 
 
@@ -183,6 +180,15 @@
 
        )
   )
+
+
+
+
+
+
+
+
+
 
 
 
