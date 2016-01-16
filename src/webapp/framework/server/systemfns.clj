@@ -2077,20 +2077,24 @@
 
 
 
+(defn does-login-with-email-exist? [email]
+  (let [res  (:count (sql-1 (str "select count(*) from appshare_logins where UPPER(login_email) like '" (.toUpperCase email) "'")))]
+      (pos? res)))
+
+
 
 
 (defn !join-with-email [{:keys [email] }]
-  (let [res  (:count (sql-1 (str "select count(*) from appshare_logins where UPPER(login_email) like '" (.toUpperCase email) "'")))]
-    (cond
-      (pos? res)
-      {:error                 "User already exists"
-       :user-already-exists    true
-       }
+  (cond
+    (does-login-with-email-exist? email)
+    {:error                 "User already exists"
+     :user-already-exists    true
+     }
 
-      :else
-      (do
-        {:success true}
-        ))))
+    :else
+    (do
+      {:success true}
+      )))
 
 
 
@@ -2109,7 +2113,11 @@
 
 
 (defn !join-go-pressed [{:keys [email password] }]
-  (do
+  (cond
+    (does-login-with-email-exist?  email)
+    {:error "User already exists"}
+
+    :else
     (let [
            x3 (sql-1 "insert into appshare_publishers (publisher_name) values (?) returning id"
                      [(.toLowerCase email)])
