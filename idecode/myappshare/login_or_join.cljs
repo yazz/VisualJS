@@ -22,19 +22,28 @@
 
 
 
+
+
+
+
+
 (defn-ui-component     join-component-email-field   [app]  {}
+  (let [response         (read-ui app [:join-email-response])
+        if-error         (fn [on-error on-normal] (if (:error response) on-error on-normal))
+        error-message    (:error response)
+        success-message  (:success response)
+        ]
 
   (div nil
        (container
-         (span {:style {:color (if (:error (read-ui app [:join-email-response])) "red" "lightgreen")}}
+         (span {:style {:color (if-error "red" "lightgreen")}}
                (str
                  (cond
-                   (:error (read-ui app [:join-email-response]))
-                   (:error (read-ui app [:join-email-response]))
+                   error-message            error-message
+                   success-message          "Email OK")))
 
-                   (:success (read-ui app [:join-email-response]))
-                   "Email OK")))
-         (if (:already-exists (read-ui app [:join-email-response]))
+
+         (if (:user-already-exists response)
            (span {:style {:color "red" :marginLeft "30px" :textDecoration "underline"}
                   :onClick     #(do
                                   (write-ui app [:mode] "login")
@@ -51,7 +60,13 @@
                                email-join-response   (remote !join-with-email {:email join-with-email})
                                ]
                           (write-ui app [:join-email-response] email-join-response)
-                          ))))))
+                          ))))
+
+
+
+
+       ;(div nil (pr-str response))
+       )))
 
 
 
@@ -135,7 +150,7 @@
                               ))
                 } "Go")
 
-       (div nil (pr-str (read-ui app [:join-response])))))
+       (div nil (str (read-ui app [:join-response])))))
 
 
 

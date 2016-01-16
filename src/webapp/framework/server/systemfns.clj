@@ -2043,11 +2043,11 @@
 
 
 (defn !join-with-email [{:keys [email] }]
-  (let [res  (:count (sql-1 (str "select count(*) from appshare_logins where UPPER(login_email) like '%" (.toUpperCase email) "%'")))]
+  (let [res  (:count (sql-1 (str "select count(*) from appshare_logins where UPPER(login_email) like '" (.toUpperCase email) "'")))]
     (cond
       (pos? res)
-      {:error           "User already exists"
-       :already-exists   true
+      {:error                 "User already exists"
+       :user-already-exists    true
        }
 
       :else
