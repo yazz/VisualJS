@@ -79,11 +79,15 @@
    (@init-fn)
    (detect-browser)
 
-   (let [session      (remote !create-session {
-                                               :init-state (with-out-str (prn @app-state))
-                                               :browser    (str (-> @app-state :system :platform) ","
-                                                                (-> @app-state :system :who-am-i))
-                                              })  ]
+    (let [cookie-session-id      (cookie/get "appshare.co")
+          session                (remote !create-session {
+                                                           :init-state (with-out-str (prn @app-state))
+
+                                                           :browser    (str (-> @app-state :system :platform) ","
+                                                                            (-> @app-state :system :who-am-i))
+
+                                                           :session-id-from-browser    cookie-session-id
+                                                           })  ]
      ;(log session)
         (reset! session-id      (:value session))
         (reset! data-session-id (:data-session-id session))
