@@ -1062,14 +1062,11 @@ nil
 
 
 (defmacro input-field [params  app  code]
-  (let [input-path (swap! path-index inc)
-        preserve (get params :preserveContents )]
-    `(let [~'on-change-fn   (~'fn [~'event]
-                                 (~'let [~'newtext  (.. ~'event -target -value  )]
-                                        (~'.log ~'js/console (~'pr-str (.. ~'event -target -value  )))
-                                        (~'write-ui  ~app  [~input-path]  ~'newtext)))
+  (let [input-path         (swap! path-index inc)
+        preserve           (get params :preserveContents)
+        send-on-keypress   (get params :sendOnKeypress)]
 
-
+    `(let [
            ~'callback-fn     (~'fn [~'event]
                                        (~'go
                                          (let [~'newtext (~'read-ui  ~app [~input-path])]
@@ -1077,7 +1074,16 @@ nil
                                            (~'if (~'not ~preserve) (~'write-ui  ~app  [~input-path]  ""))))
                                        )
 
-           ~'key-down-fn     (~'fn [~'event]
+            ~'on-change-fn   (~'fn [~'event]
+                                 (~'let [~'newtext  (.. ~'event -target -value  )]
+                                        (~'.log ~'js/console (~'pr-str (.. ~'event -target -value  )))
+                                        (~'write-ui  ~app  [~input-path]  ~'newtext)
+                                        (~'if ~send-on-keypress ((~@code) ~'newtext))
+                                        ))
+
+
+
+            ~'key-down-fn     (~'fn [~'event]
                                    (do
 
                                      (~'cond

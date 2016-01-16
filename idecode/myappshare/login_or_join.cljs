@@ -51,7 +51,8 @@
 
 
        (input-field {:style {:padding "10px" :color "black" :fontSize "2em"}
-                     :placeholder  "Your email address" :preserveContents true}
+                     :placeholder  "Your email address" :preserveContents true
+                     :sendOnKeypress true}
                     app
                     (fn [join-with-email]
                       (go
@@ -87,7 +88,7 @@
                    "Password OK")))
 
        (input-field {:style {:padding "10px" :color "black" :fontSize "2em"}
-                     :placeholder  "Choose a password" :type "password" :preserveContents true}
+                     :placeholder  "Choose a password" :type "password" :preserveContents true :sendOnKeypress true}
                     app
                     (fn [join-with-password]
                       (go
@@ -115,7 +116,7 @@
                    "Passwords match")))
 
        (input-field {:style {:padding "10px" :color "black" :fontSize "2em"}
-                     :placeholder  "Reenter password" :type "password" :preserveContents true}
+                     :placeholder  "Reenter password" :type "password" :preserveContents true :sendOnKeypress true}
                     app
                     (fn [join-with-confirm-password]
                         (go
