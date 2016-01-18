@@ -2175,6 +2175,7 @@
     (let [
            publisher-id       (get (sql-1 "insert into appshare_publishers (publisher_name) values (?) returning id"     [(.toLowerCase email)]) :id)
            user-id            (get (sql-1 "insert into appshare_users (user_name) values (?) returning id"               [(.toLowerCase email)]) :id)
+           user               (sql-1 "select id, user_name from appshare_users  where id=?" [user-id])
            ]
 
       (do
@@ -2189,5 +2190,8 @@
         (sql "update  appshare_web_sessions  set fk_appshare_user_id = ? where session_id = ?"
              [user-id  session-id])
 
-        {:success true}
+        {
+          :success true
+         :user    user
+         }
         ))))

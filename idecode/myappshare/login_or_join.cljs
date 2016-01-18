@@ -13,12 +13,11 @@
                                                input-field remote
                                                ]])
   (:use
-   [webapp.framework.client.system-globals :only  [appshare-dev-server  appshare-dev-port  client-session-atom]])
+   [webapp.framework.client.system-globals :only  [appshare-dev-server  appshare-dev-port  client-session-atom touch]])
 
   (:require-macros
    [cljs.core.async.macros :refer [go alt!]]))
 (ns-coils 'myappshare.login-or-join)
-
 
 
 
@@ -145,7 +144,10 @@
                                                                             :email       email
                                                                             :password    password})
                                   ]
-                              (write-ui app [:join-response] join-response)))
+                              (write-ui app [:join-response] join-response)
+                              (swap! client-session-atom  assoc  :user (:user join-response))
+
+                              (touch [])))
                 } "Go")
 
        ;(div nil (pr-str (read-ui app [:join-response])))
