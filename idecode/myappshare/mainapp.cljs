@@ -14,6 +14,7 @@
                                                ]])
   (:use
    [myappshare.login-or-join :only  [join-component  login-component]]
+   [myappshare.your-account :only  [your-account-component]]
    [webapp.framework.client.system-globals :only  [appshare-dev-server   appshare-dev-port     client-session-atom]]
     )
 
@@ -283,11 +284,11 @@
 
             (button {:className    (if (small-screen) "btn btn-default"  "btn-lg btn-default")
                      :style       {:display "inline-block" :marginLeft (if (small-screen) "2px"  "30px") :fontFamily "Ubuntu" :fontSize "1em" :marginTop "0.3em"
-                                   :opacity  (if (= (read-ui app [:mode]) "join")  "0.4" "1.0")
+                                   :opacity  (if (or (= (read-ui app [:mode]) "join") (= (read-ui app [:mode]) "account"))  "0.4" "1.0")
 
                                    }
                      :onClick     #(do
-                                     (write-ui app [:mode] "join")
+                                     (if (:user @client-session-atom) (write-ui app [:mode] "account") (write-ui app [:mode] "join"))
                                      )
                      :disabled  (if (= (read-ui app [:mode]) "join") "true" "")
                      }
@@ -304,8 +305,7 @@
                                      )
                      :disabled  (if (= (read-ui app [:mode]) "login") "true" "")
                      }
-                    "Login")
-
+                    (if (:user @client-session-atom) "Logout" "Login"))
 
 
 
@@ -339,6 +339,9 @@
 
               (= (read-ui app [:mode]) "login")
               (div {:style {} } (component login-component app []))
+
+              (= (read-ui app [:mode]) "account")
+              (div {:style {} } (component your-account-component app []))
 
             )
 

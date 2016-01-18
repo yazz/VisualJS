@@ -146,6 +146,7 @@
                                   ]
                               (write-ui app [:join-response] join-response)
                               (swap! client-session-atom  assoc  :user (:user join-response))
+                              (write-ui app [:mode] "account")
 
                               (touch [])))
                 } "Go")
