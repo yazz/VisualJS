@@ -301,7 +301,12 @@
 
                                    }
                      :onClick     #(do
-                                     (write-ui app [:mode] "login")
+                                     (if (:user @client-session-atom)
+                                       (do
+                                         (swap! client-session-atom assoc :user nil)
+                                         (write-ui app [:mode] "browse")
+                                         )
+                                       (write-ui app [:mode] "login"))
                                      )
                      :disabled  (if (= (read-ui app [:mode]) "login") "true" "")
                      }
