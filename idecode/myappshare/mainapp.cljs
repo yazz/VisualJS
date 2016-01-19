@@ -13,7 +13,8 @@
                                                input-field remote
                                                ]])
   (:use
-   [myappshare.login-or-join :only  [join-component  login-component]]
+   [myappshare.login :only  [login-component]]
+   [myappshare.join :only  [join-component]]
    [myappshare.your-account :only  [your-account-component]]
    [webapp.framework.client.system-globals :only  [appshare-dev-server   appshare-dev-port     client-session-atom]]
     )

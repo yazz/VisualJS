@@ -202,7 +202,7 @@
 
 
 (macroexpand
-  '(defn-ui-component abc [data] {:path [:ui :request] }
+  '(defn-ui-component xxx [data] {:path [:ui :request] }
      (om.dom/div  nil  " You asdsddsads")
       ))
 ;--------------------------------------------------------------------
@@ -217,29 +217,29 @@
         (clojure.core/fn [x]
                          (if (clojure.core/not
                                (clojure.core/=
-                                 "abc"
+                                 "..."
                                  (clojure.core/get (clojure.core/first x) :ui-component-name))) true))
         (clojure.core/deref webapp.framework.client.coreclient/data-views-proxy))))
 
 
 
-  (clojure.core/defn abc [data owner]
+  (clojure.core/defn somecomp [data owner]
                      (reify om.core/IInitState (init-state [_]
                                                            {:debug-highlight false})
                        om.core/IWillUnmount (will-unmount [_]
-                                                          (let [ui-component-name "abc" path (om.core/get-state owner :parent-path)] nil))
+                                                          (let [ui-component-name "somecomp" path (om.core/get-state owner :parent-path)] nil))
                        om.core/IRender
                        (render [this]
                                (let [debug-id (webapp.framework.client.coreclient/record-component-call
                                                 (ns-coils-debug)
-                                                "abc"
+                                                "somecomp"
                                                 data
                                                 (om.core/get-state owner :parent-path))
-                                     ui-component-name "abc" path
+                                     ui-component-name "somecomp" path
                                      (om.core/get-state owner :parent-path)
                                      ui-state data parent-id debug-id return-val
                                      (webapp.framework.client.coreclient/debug-react
-                                       "abc"
+                                       "somecomp"
                                        owner data
                                        (fn [data]
                                          (om.dom/div nil " You asdsddsads"))
@@ -247,21 +247,21 @@
                        om.core/IDidMount
                        (did-mount [this]
                                   (let [path (om.core/get-state owner :parent-path) debug-id
-                                        (webapp.framework.client.coreclient/record-component-call (ns-coils-debug) "abc" data
+                                        (webapp.framework.client.coreclient/record-component-call (ns-coils-debug) "somecomp" data
                                                                                                   (om.core/get-state owner :parent-path)) parent-id debug-id] nil))))
 
 
 
 
   (webapp.framework.client.coreclient/record-defn-ui-component (ns-coils-debug)
-                                                               abc "abc" "[data]"
+                                                               somecomp "somecomp" "[data]"
                                                                (clojure.core/str "(om.dom/div nil \" You asdsddsads\")"))
 
 
 
 
   (webapp.framework.client.coreclient/process-ui-component
-    "abc"))
+    "somecomp"))
 
 
 
@@ -1062,9 +1062,11 @@ nil
 
 
 (defmacro input-field [params  app  code]
-  (let [input-path         (swap! path-index inc)
+  (let [use-key            (get params :key)
+        input-path         (if use-key use-key (swap! path-index inc))
         preserve           (get params :preserveContents)
-        send-on-keypress   (get params :sendOnKeypress)]
+        send-on-keypress   (get params :sendOnKeypress)
+        ]
 
     `(let [
            ~'callback-fn     (~'fn [~'event]

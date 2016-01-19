@@ -2145,6 +2145,25 @@
 
 
 
+
+(defn !login-with-email [{:keys [email] }]
+  (cond
+    (does-login-with-email-exist? email)
+    {:success true
+     }
+
+    :else
+    (do
+      {
+        :error                 "User does not exist"
+        :user-doesnt-exist      true
+        }
+      )))
+
+
+
+
+
 (defn !join-with-password [{:keys [password] }]
   (if (< (count password) 6)
     {:error "Password must be at least 6 characters"}

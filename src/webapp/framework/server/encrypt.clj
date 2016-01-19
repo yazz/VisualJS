@@ -16,7 +16,7 @@
 )
 
 
-;(. "abc" replaceAll "a" "ff")
+;(. "somecomp" replaceAll "a" "ff")
 
 (defn encrypt [text]
   (let [
