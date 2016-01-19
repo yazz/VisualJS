@@ -80,24 +80,27 @@
 
 (defn-ui-component     login-component-password-field   [app]  {}
   (div nil
-       (div {:style {:color (if (:error (read-ui app [:choose-password-response])) "red" "lightgreen")}}
+       (div {:style {:color (if (:error (read-ui app [:login-password-response])) "red" "lightgreen")}}
             (str
                  (cond
-                   (:error (read-ui app [:choose-password-response]))
-                   (:error (read-ui app [:choose-password-response]))
+                   (:error (read-ui app [:login-password-response]))
+                   (:error (read-ui app [:login-password-response]))
 
-                   (:success (read-ui app [:choose-password-response]))
+                   (:success (read-ui app [:login-password-response]))
                    "Password OK")))
 
        (input-field {:style {:padding "10px" :color "black" :fontSize "2em"}
-                     :placeholder  "Choose a password" :type "password" :preserveContents true :sendOnKeypress true}
+                     :placeholder  "Enter password"
+                     :type "password"
+                     :preserveContents true
+                     :sendOnKeypress true}
                     app
-                    (fn [join-with-password]
+                    (fn [login-with-password]
                       (go
-                        (write-ui app [:password] join-with-password)
-                        (let [password-join-response
-                              (remote !join-with-password {:password join-with-password})]
-                          (write-ui app [:choose-password-response] password-join-response )
+                        (write-ui app [:login-password] login-with-password)
+                        (let [password-login-response
+                              (remote !login-with-password {:password login-with-password})]
+                          (write-ui app [:login-password-response] password-login-response )
                           ))))))
 
 
@@ -108,23 +111,33 @@
 
 (defn-ui-component     login-component-submit-button   [app]  {}
   (div nil
-       (button {:disabled (not (and (:success (read-ui app [:choose-password-response])) (:success (read-ui app [:confirm-password-response])) (:success (read-ui app [:join-email-response]))))
+       (button {:disabled (not (and (:success (read-ui app [:login-password-response])) (:success (read-ui app [:login-email-response]))))
                 :className "btn btn-lg" :style {:backgroundColor "#2B61CC" :fontSize "2em"}
                 :onClick #(go
                             (let [email           (read-ui app [:email])
-                                  password        (read-ui app [:password])
-                                  join-response   (remote !join-go-pressed {:session-id (get  @client-session-atom  :session-id)
-                                                                            :email       email
-                                                                            :password    password})
+                                  password        (read-ui app [:login-password])
+                                  login-response  (remote !login-go-pressed {:session-id (get  @client-session-atom  :session-id)
+                                                                             :email       email
+                                                                             :password    password})
                                   ]
-                              (write-ui app [:join-response] join-response)
-                              (swap! client-session-atom  assoc  :user (:user join-response))
-                              (write-ui app [:mode] "account")
+                              (write-ui app [:login-response] login-response)
+                              (if (:success  login-response)
+                                (do
+                                  (swap! client-session-atom  assoc  :user (:user login-response))
+                                  (write-ui app [:mode] "account")))
 
                               (touch [])))
                 } "Go")
 
-       ;(div nil (pr-str (read-ui app [:join-response])))
+
+
+       (div {:style {:color (if (:error (read-ui app [:login-response])) "red" "lightgreen")}}
+            (str
+                 (if
+                   (:error (read-ui app [:login-response]))
+                   (:error (read-ui app [:login-response])))))
+
+       ;(div nil (pr-str (read-ui app [:login-response])))
        ))
 
 

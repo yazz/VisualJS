@@ -2171,6 +2171,13 @@
 
 
 
+(defn !login-with-password [{:keys [password] }]
+  (if (< (count password) 6)
+    {:error "Password must be at least 6 characters"}
+    {:success true}))
+
+
+
 
 
 
@@ -2214,3 +2221,30 @@
           :user    user
          }
         ))))
+
+
+
+
+
+
+
+(defn !login-go-pressed [{:keys [session-id  email  password] }]
+  (let [
+         login-id           (sql-1 "select id, fk_appshare_user_id from appshare_logins where LOWER(login_email) = ? and  login_password = ?" [(.toLowerCase email)  password] )
+         user-id            (get login-id :fk_appshare_user_id)
+         user               (if user-id (sql-1 "select id, user_name from appshare_users  where id = ?" [user-id]))
+         ]
+
+    (println (str "user:" user))
+    (cond
+      user
+      (do
+        (sql "update  appshare_web_sessions  set fk_appshare_user_id = ? where session_id = ?" [user-id  session-id])
+        {:success     true
+         :user        user   }
+        )
+
+      :else
+      {:error "User name or password incorrect"}
+      )))
+
