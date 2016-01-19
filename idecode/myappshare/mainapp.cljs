@@ -84,7 +84,8 @@
           ;(js/alert "loaded")
           ))}
 
-  (iframe {:id "appframe" :style {:display "inline-block"}
+  (iframe {:id "appframe" :frameBorder "0"
+           :style {:display "inline-block"}
            :src
            (str (cond
                   @c/debug-mode
