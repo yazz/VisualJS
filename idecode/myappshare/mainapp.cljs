@@ -304,7 +304,8 @@
                                    }
                      :onClick     #(do
                                      (if (:user @client-session-atom)
-                                       (do
+                                       (go
+                                         (remote !logout-session {:session-id (:session-id @client-session-atom)})
                                          (swap! client-session-atom assoc :user nil)
                                          (write-ui app [:mode] "browse")
                                          )

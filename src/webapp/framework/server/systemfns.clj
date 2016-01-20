@@ -2248,3 +2248,10 @@
       {:error "User name or password incorrect"}
       )))
 
+
+
+
+
+
+(defn !logout-session [{:keys [session-id]}]
+    (sql "update  appshare_web_sessions  set fk_appshare_user_id = null where session_id = ?" [session-id] ))
