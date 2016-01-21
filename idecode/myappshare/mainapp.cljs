@@ -194,14 +194,16 @@
                       ; if we select a different app
                       :else
                       (do
-                        (div {:onClick     #(go  (write-ui app [:mode] "view")
-                                                 ;(write-ui app [:submode] "editappname")
-                                                 (write-ui app [:app-id] (<-- :id))
-                                                 (evalapp (<-- :id))
-                                                 )
+                        (span {:className "glyphicon glyphicon-align-left" :aria-hidden "true"}
+                              (span {:onClick     #(go  (write-ui app [:mode] "view")
+                                                       ;(write-ui app [:submode] "editappname")
+                                                       (write-ui app [:app-id] (<-- :id))
+                                                       (evalapp (<-- :id))
+                                                       )
 
-                              :style {:display "inline-block" :fontFamily "Ubuntu" :fontWeight "700" :fontSize "1.3em" ::marginTop "0.7em"}}
-                             (str (<-- :application_name)))))
+                                    :style {:display "inline-block" :fontFamily "Ubuntu" :fontWeight "700" :fontSize "1.3em" :marginTop "0.7em" :marginLeft "0.7em"}}
+                                   (str (<-- :application_name))))
+                        ))
 
 
 
