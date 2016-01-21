@@ -117,7 +117,7 @@
 
 
   (div {}
-       (realtime select id, application_name from coils_applications where id = ? {:params [(read-ui app [:app-id])]}
+       (realtime select id, application_name from appshare_applications where id = ? {:params [(read-ui app [:app-id])]}
                  (cond
                    (and (= (read-ui app [:submode]) "editappname") (= (<-- :id ) (read-ui app [:app-id])))
                    (input-field {:style {:marginBottom "20px" :color "black"} :placeholder  (str (<-- :application_name))}
@@ -125,7 +125,7 @@
                                 (fn [new-name]
                                   (let [id (read-ui app [:app-id])]
                                     (go
-                                      (sql "update  coils_applications
+                                      (sql "update  appshare_applications
                                            set application_name = ?
                                            where id = ?"
                                            [new-name id ]  )
@@ -161,13 +161,13 @@
        (div {:style {:display "inline-block" :fontFamily "Ubuntu" :fontSize "1em"}}
                "Build an app in 5 minutes")
   (div {:style {:marginLeft "25px"}}
-       (realtime select id, application_name from coils_applications order by id {}
+       (realtime select id, application_name from appshare_applications order by id {}
                (div nil
 
 
                     (comment button {:style { :marginRight "30px" :marginBottom "10px"}
                              :className "btn btn-small"
-                             :onClick     #(go (sql "delete from coils_applications
+                             :onClick     #(go (sql "delete from appshare_applications
                                               where id = ?"
                                               [(<-- :id) ]))
                              } "X")
@@ -182,7 +182,7 @@
                                    (fn [new-name]
                                      (let [id (read-ui app [:app-id])]
                                        (go
-                                         (sql "update  coils_applications
+                                         (sql "update  appshare_applications
                                               set application_name = ?
                                               where id = ?"
                                               [new-name id ]  )
