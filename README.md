@@ -941,7 +941,7 @@ Alot of steps, I know!!!
 ### Developer Resources
 <img height='350px' src='https://webkori.files.wordpress.com/2009/12/billgates_microsoft_support_team-santosh-kori.jpg' /> 
 
-Building an application with AppShare? https://groups.google.com/forum/#!forum/clojure-on-coils
+Building an application with AppShare? https://groups.google.com/forum/#!forum/appshareco
 
 Ask a question: http://stackoverflow.com/search?q=appshare
 Interested in contributing to AppShare?
