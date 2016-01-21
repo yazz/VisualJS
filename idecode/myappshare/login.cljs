@@ -50,7 +50,7 @@
                                   )} "Click here to register instead")))
 
 
-       (input-field {:style {:padding "10px" :color "black" :fontSize "2em"}
+       (input-field {:style {:paddingLeft "10px" :color "black" :fontSize "2em" :lineHeight "2em"}
                      :placeholder      "Your email address"
                      :key              :email
                      :preserveContents  true
@@ -89,7 +89,7 @@
                    (:success (read-ui app [:login-password-response]))
                    "Password OK")))
 
-       (input-field {:style {:padding "10px" :color "black" :fontSize "2em"}
+       (input-field {:style {:paddingLeft "10px" :color "black" :fontSize "2em"  :lineHeight "2em"}
                      :placeholder  "Enter password"
                      :type "password"
                      :preserveContents true

@@ -49,7 +49,7 @@
                                   )} "Click here to login instead")))
 
 
-       (input-field {:style {:padding "10px" :color "black" :fontSize "2em"}
+       (input-field {:style {:paddingLeft "10px" :color "black" :fontSize "2em" :lineHeight "2em"}
                      :placeholder  "Your email address" :preserveContents true
                      :key          :email
                      :sendOnKeypress true}
@@ -87,7 +87,7 @@
                    (:success (read-ui app [:choose-password-response]))
                    "Password OK")))
 
-       (input-field {:style {:padding "10px" :color "black" :fontSize "2em"}
+       (input-field {:style {:paddingLeft "10px" :color "black" :fontSize "2em" :lineHeight "2em"}
                      :placeholder  "Choose a password" :type "password" :preserveContents true :sendOnKeypress true}
                     app
                     (fn [join-with-password]
@@ -115,7 +115,7 @@
                    (:success (read-ui app [:confirm-password-response]))
                    "Passwords match")))
 
-       (input-field {:style {:padding "10px" :color "black" :fontSize "2em"}
+       (input-field {:style {:paddingLeft "10px" :color "black" :fontSize "2em" :lineHeight "2em"}
                      :placeholder  "Reenter password" :type "password" :preserveContents true :sendOnKeypress true}
                     app
                     (fn [join-with-confirm-password]
@@ -137,7 +137,7 @@
 (defn-ui-component     join-component-submit-button   [app]  {}
   (div nil
        (button {:disabled (not (and (:success (read-ui app [:choose-password-response])) (:success (read-ui app [:confirm-password-response])) (:success (read-ui app [:join-email-response]))))
-                :className "btn btn-lg" :style {:backgroundColor "#2B61CC" :fontSize "2em"}
+                :className "btn btn-lg" :style {:backgroundColor "#2B61CC" :fontSize "2em" :lineHeight "2em"}
                 :onClick #(go
                             (let [email           (read-ui app [:email])
                                   password        (read-ui app [:password])
