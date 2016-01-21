@@ -106,44 +106,48 @@
   {:on-mount
    (do  (go
           (if  (read-ui app [:app-id])
-              (let [x (remote  !getfilecontents  {:id (read-ui app [:app-id]) })]
+            (let [x (remote  !getfilecontents  {:id (read-ui app [:app-id]) })]
 
-                (js/createEditor)
-                (js/populateEditor (get x :value))
-                ;(reeval (read-ui app [:app-id]))
-                ;(js/populateEditor (str "Loaded: " (read-ui app [:app-id])))
+              (js/createEditor)
+              (js/populateEditor (get x :value))
+              ;(reeval (read-ui app [:app-id]))
+              ;(js/populateEditor (str "Loaded: " (read-ui app [:app-id])))
 
-                ))))}
+              ))))}
 
 
   (div {}
-       (realtime select id, application_name from appshare_applications where id = ? {:params [(read-ui app [:app-id])]}
-                 (cond
-                   (and (= (read-ui app [:submode]) "editappname") (= (<-- :id ) (read-ui app [:app-id])))
-                   (input-field {:style {:marginBottom "20px" :color "black"} :placeholder  (str (<-- :application_name))}
-                                app
-                                (fn [new-name]
-                                  (let [id (read-ui app [:app-id])]
-                                    (go
-                                      (sql "update  appshare_applications
-                                           set application_name = ?
-                                           where id = ?"
-                                           [new-name id ]  )
-                                      ;(js/alert (str new-name ":" id))
-                                      (write-ui app [:submode] nil)
-                                      ))))
+       (realtime select   id, application_name, application_glyph   from appshare_applications where id = ? {:params [(read-ui app [:app-id])]}
+                 (div {:style {:marginLeft "20px" :padding "5px"}}
+                      (let [glyphicon (if (<-- :application_glyph)  (<-- :application_glyph) "glyphicon-align-left")]
+                        (span {:className (str "glyphicon " glyphicon)
+                               :aria-hidden "true"} ""))
+                      (cond
+                        (and (= (read-ui app [:submode]) "editappname") (= (<-- :id ) (read-ui app [:app-id])))
+                        (input-field {:style {:marginLeft "20px" :color "black"} :placeholder  (str (<-- :application_name))}
+                                     app
+                                     (fn [new-name]
+                                       (let [id (read-ui app [:app-id])]
+                                         (go
+                                           (sql "update  appshare_applications
+                                                set application_name = ?
+                                                where id = ?"
+                                                [new-name id ]  )
+                                           ;(js/alert (str new-name ":" id))
+                                           (write-ui app [:submode] nil)
+                                           ))))
 
 
-                   ; if we select a different app
-                   :else
-                   (do
-                     (div {:onClick     #(go  (write-ui app [:submode] "editappname")
-                                              (write-ui app [:app-id] (<-- :id))
-                                              )
+                        ; show the name of the app
+                        :else
+                        (do
+                          (div {:onClick     #(go  (write-ui app [:submode] "editappname")
+                                                   (write-ui app [:app-id] (<-- :id))
+                                                   )
 
-                           :style {:display "inline-block" :fontFamily "Ubuntu" :fontWeight "700" :fontSize "1.3em" ::marginTop "0.7em"}}
-                          (str (<-- :application_name)))))
-       )
+                                :style {:display "inline-block" :fontFamily "Ubuntu" :fontWeight "700" :fontSize "1.3em"  :marginLeft "20px"}}
+                               (str (<-- :application_name)))))
+                      ))
        (textarea {:id "cm" :style {:display "inline-block" :width "100%" :height "800"}} "TEXT EDITOR")))
 
 
@@ -161,7 +165,7 @@
        (div {:style {:display "inline-block" :fontFamily "Ubuntu" :fontSize "1em"}}
                "Build an app in 5 minutes")
   (div {:style {:marginLeft "25px"}}
-       (realtime select id, application_name from appshare_applications order by id {}
+       (realtime select id, application_name, application_glyph from appshare_applications order by id {}
                (div nil
 
 
@@ -193,8 +197,9 @@
 
                       ; if we select a different app
                       :else
-                      (do
-                        (span {:className "glyphicon glyphicon-align-left" :aria-hidden "true"}
+                      (let [glyphicon (if (<-- :application_glyph)  (<-- :application_glyph) "glyphicon-align-left")]
+                        (span {:className (str "glyphicon " glyphicon)
+                               :aria-hidden "true"}
                               (span {:onClick     #(go  (write-ui app [:mode] "view")
                                                        ;(write-ui app [:submode] "editappname")
                                                        (write-ui app [:app-id] (<-- :id))
