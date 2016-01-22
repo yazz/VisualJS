@@ -33,8 +33,11 @@
 
 
   (div {:style {:marginLeft "5px" :fontFamily "Ubuntu"}}
-       (div {:style {:display "inline-block"  :fontSize "1em"}}
+       (div {:style {:display ""  :fontSize "1em"}}
                "My account")
+
+       (div {:style {:display ""  :fontSize "1em"}}
+               (str @client-session-atom ))
        )
   )
 

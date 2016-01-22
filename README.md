@@ -128,7 +128,7 @@ To understand a bit more about this you need to realise that Clojure is an imple
 Before I stray too much away from the point, there are two parts of the Clojure implementation of Lisp that allows synchronous secure client-side SQL:
 
 - core.async
-- macros (not like C++ macros, so don't say that C++ has them. Same name, different thing!)
+- macros (not like C++ macros. Same name, but a totally different thing!)
 
 When you make a client side SQL/Cypher call it is encyrpted using a Macro at compile time:
 
