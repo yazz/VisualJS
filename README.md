@@ -192,7 +192,7 @@ Postgres is described first and is the default in AppShare simply because it is 
 
 Edit the file
 
-    src/webapp/framework/client/components/main_view.cljs
+    srcbase/myappshare/main_app.cljs
 
 and change
 
@@ -292,7 +292,7 @@ In the file settings.clj comment out the Postgres settings and uncomment the Ora
 
 Edit the file
 
-    src/webapp/framework/client/components/main_view.cljs
+    srcbase/myappshare/main_app.cljs
 
 and change
 
@@ -582,6 +582,10 @@ Again, if you still wish to use the discontinued features then use an older vers
           project.clj
 
         └ srcbase - the default environment when you install AppShare
+            └ srcbase
+                └ myappshare
+                    └ main_app.cljs
+
             └ webapp_config
                 └ settings.clj
 
