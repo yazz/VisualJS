@@ -2257,3 +2257,10 @@
 
 (defn !logout-session [{:keys [session-id]}]
     (sql "update  appshare_web_sessions  set fk_appshare_user_id = null where session_id = ?" [session-id] ))
+
+
+
+
+
+(defn !saveappglyph [{:keys [id glyph]}]
+  (sql "update  appshare_applications  set application_glyph = ? where id = ?" [glyph id ] ))

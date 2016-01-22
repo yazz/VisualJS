@@ -103,11 +103,34 @@
 
 
 
+
+
+
 (defn-ui-component     edit-app-glyph-component   [app]
-  (map-many
-    #(span {:className (str "glyphicon " %1)
-           :aria-hidden "true"} "")
-    glyphs))
+  (div {:style {:margin "20px"}}
+       (map-many
+         #(span {:style {:margin "10px"}
+                 :className (str "glyphicon " %1)
+                 :aria-hidden "true"
+                 :onClick     (fn [x]
+                                (go
+                                  (remote  !saveappglyph  {:id (read-ui app [:app-id])  :glyph (str %1)})
+                                  (write-ui app [:mode] "edit")))
+                } "")
+         glyphs)
+
+
+       (button {:style { :marginRight "30px" :marginBottom "10px" :marginTop "20px"}
+                :className "btn-lg btn-default"
+                :onClick     #(go
+                                (write-ui app [:mode] "edit"))}
+               "Cancel")
+
+       ))
+
+
+
+
 
 
 
