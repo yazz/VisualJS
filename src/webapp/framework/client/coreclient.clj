@@ -1066,6 +1066,8 @@ nil
         input-path         (if use-key use-key (swap! path-index inc))
         preserve           (get params :preserveContents)
         send-on-keypress   (get params :sendOnKeypress)
+        send-on-blur       (get params :sendOnBlur)
+        send-on-tab        (get params :sendOnTab)
         ]
 
     `(let [
@@ -1089,7 +1091,8 @@ nil
                                    (do
 
                                      (~'cond
-                                       (or (= (.-keyCode ~'event  ) 13) (= (.-keyCode ~'event  ) 9))
+                                       (or (= (.-keyCode ~'event  ) 13)
+                                           (and (= (.-keyCode ~'event  ) 9) ~send-on-tab))
                                        (~'callback-fn  ~'event)
                                        )))
            ]
@@ -1097,7 +1100,7 @@ nil
                      {
                        :value      (read-ui  ~app [~input-path])
                        :onChange   ~'on-change-fn
-                       :onBlur     ~'callback-fn
+                       :onBlur     (if ~send-on-blur ~'callback-fn)
                        :onKeyDown  ~'key-down-fn
                        } )))))
 
