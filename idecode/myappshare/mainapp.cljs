@@ -10,10 +10,11 @@
                                                div img pre component h2 input section header button label form iframe
                                                write-ui read-ui container input component <-- data-view-result-set
                                                h1 h2 h3 h4 h5 h6 span  data-view-v2 select dselect realtime drealtime
-                                               input-field remote
+                                               input-field remote add-many map-many
                                                ]])
   (:use
    [myappshare.login :only  [login-component]]
+   [myappshare.glyphs :only  [glyphs]]
    [myappshare.join :only  [join-component]]
    [myappshare.your-account :only  [your-account-component]]
    [webapp.framework.client.system-globals :only  [appshare-dev-server   appshare-dev-port     client-session-atom]]
@@ -102,6 +103,14 @@
 
 
 
+(defn-ui-component     edit-app-glyph-component   [app]
+  (map-many
+    #(span {:className (str "glyphicon " %1)
+           :aria-hidden "true"} "")
+    glyphs))
+
+
+
 (defn-ui-component     editor-component   [app]
   {:on-mount
    (do  (go
@@ -120,7 +129,8 @@
        (realtime select   id, application_name, application_glyph   from appshare_applications where id = ? {:params [(read-ui app [:app-id])]}
                  (div {:style {:marginLeft "20px" :padding "5px"}}
                       (let [glyphicon (if (<-- :application_glyph)  (<-- :application_glyph) "glyphicon-align-left")]
-                        (span {:className (str "glyphicon " glyphicon)
+                        (span {:onClick #(go  (write-ui app [:mode] "editappglyph"))
+                               :className (str "glyphicon " glyphicon)
                                :aria-hidden "true"} ""))
                       (cond
                         (and (= (read-ui app [:submode]) "editappname") (= (<-- :id ) (read-ui app [:app-id])))
@@ -164,6 +174,7 @@
   (div {:style {:marginLeft "5px"}}
        (div {:style {:display "inline-block" :fontFamily "Ubuntu" :fontSize "1em"}}
                "Build an app in 5 minutes")
+
   (div {:style {:marginLeft "25px"}}
        (realtime select id, application_name, application_glyph from appshare_applications order by id {}
                (div nil
@@ -208,14 +219,7 @@
 
                                     :style {:display "inline-block" :fontFamily "Ubuntu" :fontWeight "700" :fontSize "1.3em" :marginTop "0.7em" :marginLeft "0.7em"}}
                                    (str (<-- :application_name))))
-                        ))
-
-
-
-
-
-
-                    )))))
+                        )))))))
 
 
 
@@ -347,6 +351,9 @@
 
               (= (read-ui app [:mode]) "edit")
               (div {:style {} } (component editor-component app []))
+
+              (= (read-ui app [:mode]) "editappglyph")
+              (div {:style {} } (component edit-app-glyph-component app []))
 
 
               (= (read-ui app [:mode]) "join")
