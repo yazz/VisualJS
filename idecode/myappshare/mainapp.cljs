@@ -279,7 +279,14 @@
                                    }
                      :disabled  (if (or (= (read-ui app [:mode]) nil) (= (read-ui app [:mode]) "browse")) "" "true")
                      :onClick     #(go
-                                      (remote !newapp {})) } "New")
+                                      (let [resp (remote !newapp {})]
+                                        (if (:id resp)
+                                          (do
+                                            (write-ui app [:mode] "edit")
+                                            (write-ui app [:app-id] (:id resp))
+                                            )
+                                          )
+                                        )) } "New")
 
             (button {:className    (if (small-screen) "btn btn-default"  "btn-lg btn-default")
                      :style {:display "inline-block" :marginLeft (if (small-screen) "2px"  "30px")

@@ -2090,8 +2090,8 @@
 
 
 (defn !newapp []
-  (do
-    (sql "insert into appshare_applications (application_name,application_code) values (?,?)"
+  (let [response
+    (sql-1 "insert into appshare_applications (application_name,application_code) values (?,?) returning id"
          ["name"
           (str
            "(def counter (atom 0))\n\n"
@@ -2109,8 +2109,8 @@
            "    (div nil\n"
            "        (component sub-component app []) \n"
            "        (component sub-component app []) \n"
-           "         \"New app\"))")])
-    {}))
+           "         \"New app\"))")])]
+    {:id (:id response)}))
 
 
 
