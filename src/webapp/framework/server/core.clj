@@ -185,7 +185,7 @@
 
 
 
-(let [max-result    (sql-1 "select max(id) as maxid from coils_realtime_log" [])
+(let [max-result    (sql-1 "select max(id) as maxid from appshare_realtime_log" [])
       max-n         (:maxid max-result)
       ]
   (if max-n

@@ -1475,7 +1475,7 @@
            ;zzz
            ;(log (str "@client-record-cache=" @client-record-cache))
            ;(log (str "keys @client-record-cache=" (keys @client-record-cache)))
-           (log (pr-str ":coils_todo_items @client-record-cache=" (keys @(:values @(:coils_todo_items @client-record-cache)))))
+           (log (pr-str ":appshare_todo_items @client-record-cache=" (keys @(:values @(:appshare_todo_items @client-record-cache)))))
 
            (doall (map
                     (fn[table-name]

@@ -28,7 +28,7 @@
   (input-field {:style {:marginBottom "20px"}
                  :placeholder  "Enter a new todo here"} app
                (fn [new-todo-item-text] (go
-                                          (sql "insert into coils_todo_items
+                                          (sql "insert into appshare_todo_items
                                                (item, item_status)
                                                values
                                                (?,                  ?)"
@@ -49,7 +49,7 @@
   (realtime select
                       id, item, item_status
                  from
-                      coils_todo_items
+                      appshare_todo_items
                  where
                       item_status = ? OR item_status = ?
                  order
@@ -67,8 +67,8 @@
                                        (let [newtext   (.. event -target -checked  )
                                              item-id   (<-- :id)]
                                          (if newtext
-                                           (go (sql "update  coils_todo_items   set item_status = 'COMPLETED' where id = ?" [item-id]  ))
-                                           (go (sql "update  coils_todo_items   set item_status = 'ACTIVE' where id = ?" [item-id]  )))))}))
+                                           (go (sql "update  appshare_todo_items   set item_status = 'COMPLETED' where id = ?" [item-id]  ))
+                                           (go (sql "update  appshare_todo_items   set item_status = 'ACTIVE' where id = ?" [item-id]  )))))}))
 
              (label {:style {:width   "70%" :height "1.5em"}
                      :className (if (= (<-- :item_status) "COMPLETED") "completed" "item")}
@@ -77,7 +77,7 @@
              (button {:className    "destroy"
                       :style       {:width   "10%"}
                       :onClick     (fn [e]
-                                     (go (sql "delete from  coils_todo_items  where id = ?"
+                                     (go (sql "delete from  appshare_todo_items  where id = ?"
                                               [(<-- :id)]  ))
                                      false)}))))
 
@@ -92,9 +92,9 @@
 
 (defn-ui-component     to-do-footer-component   [app] {}
 
-  (let [active-items      (select id from  coils_todo_items where item_status = 'ACTIVE' {})
-        total-items       (select id from  coils_todo_items {})
-        completed-items   (select id from  coils_todo_items where item_status = 'COMPLETED' {})  ]
+  (let [active-items      (select id from  appshare_todo_items where item_status = 'ACTIVE' {})
+        total-items       (select id from  appshare_todo_items {})
+        completed-items   (select id from  appshare_todo_items where item_status = 'COMPLETED' {})  ]
 
     (if (pos? (count total-items))
       (do
@@ -119,7 +119,7 @@
                (if (pos? (count completed-items))
                  (button {:style {  :width "34%" :textAlign "right"}
                           :onClick #(do (go
-                                          (sql "delete from  coils_todo_items  where item_status = 'COMPLETED'" []  ))
+                                          (sql "delete from  appshare_todo_items  where item_status = 'COMPLETED'" []  ))
                                       false)
                           } "Clear completed"))))))))
 
@@ -148,11 +148,11 @@
 
 
          (comment let* [data ( webapp.framework.client.coreclient/data-window-fn {
-                                                                           :data-source          :coils_todo_items
+                                                                           :data-source          :appshare_todo_items
                                                                            :relative-path       [1]
                                                                            :interval-in-millis   100
                                                                            :fields                [:id :item :item_status]
-                                                                           :db-table            "coils_todo_items"
+                                                                           :db-table            "appshare_todo_items"
                                                                            :where nil
                                                                            :params nil
                                                                            :order nil
@@ -167,11 +167,11 @@
                (div nil (map-many
                  (fn [record-id]
                    (let [relative-path (:relative-path {:fields [:id :item :item_status],
-                                                        :db-table "coils_todo_items",
+                                                        :db-table "appshare_todo_items",
                                                         :relative-path [1],
                                                         :params nil,
                                                         :data-source
-                                                        :coils_todo_items}) record
+                                                        :appshare_todo_items}) record
                          (get (-> data :values) record-id)]
                      (if (clojure.core/get record :value)
                        (div {} (div nil "a")))))
