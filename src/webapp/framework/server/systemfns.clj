@@ -2104,7 +2104,7 @@
               "select   fk_appshare_publisher_id   from   appshare_users_publishers   where fk_appshare_user_id = ? and default_publisher = 'T'" [user-id]))
 
           publisher
-          (if publisher-id (sql-1 "select id, publisher_name, from appshare_publishers where id = ?" [publisher-id]))]
+          (if publisher-id (sql-1 "select   id, publisher_name   from appshare_publishers where id = ?" [publisher-id]))]
 
       publisher)))
 
@@ -2114,8 +2114,8 @@
 
 (defn get-user-for-session-id   [session-id]
   (if session-id
-    (let [user-id  (:fk_appshare_user_id (sql-1 "select fk_appshare_user_id from appshare_web_sessions where session_id = ?" [session-id]))
-          user     (if user-id (sql-1 "select id, user_name, from appshare_users where id = ?" [user-id]))]
+    (let [user-id  (:fk_appshare_user_id (sql-1 "select  fk_appshare_user_id  from  appshare_web_sessions  where  session_id = ?" [session-id]))
+          user     (if user-id (sql-1 "select  id, user_name  from appshare_users where id = ?" [user-id]))]
       user)))
 
 
