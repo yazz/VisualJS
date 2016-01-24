@@ -279,7 +279,7 @@
                                    }
                      :disabled  (if (or (= (read-ui app [:mode]) nil) (= (read-ui app [:mode]) "browse")) "" "true")
                      :onClick     #(go
-                                      (let [resp (remote !newapp {})]
+                                      (let [resp (remote !newapp {:session-id (:session-id @client-session-atom)})]
                                         (if (:id resp)
                                           (do
                                             (write-ui app [:mode] "edit")
