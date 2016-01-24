@@ -199,7 +199,7 @@
                "Build an app in 5 minutes")
 
   (div {:style {:marginLeft "25px"}}
-       (realtime select id, application_name, application_glyph from appshare_applications order by id {}
+       (realtime select id, application_name, application_glyph, fk_appshare_publisher_id from appshare_applications order by id {}
                (div nil
 
 
@@ -241,7 +241,12 @@
                                                        )
 
                                     :style {:display "inline-block" :fontFamily "Ubuntu" :fontWeight "700" :fontSize "1.3em" :marginTop "0.7em" :marginLeft "0.7em"}}
-                                   (str (<-- :application_name))))
+                                   (str (<-- :application_name)))
+
+                              (if (<-- :fk_appshare_publisher_id) (span {:style {:display "inline-block" :fontFamily "Ubuntu" :fontWeight "700" :fontSize "1.3em" :marginTop "0.7em" :marginLeft "0.7em"}}
+                                   (select id, publisher_name from appshare_publishers where id = ? {:params [(<-- :fk_appshare_publisher_id)]}
+                                                (str  (first (clojure.string/split (<-- :publisher_name) "@"))))))
+                              )
                         )))))))
 
 
