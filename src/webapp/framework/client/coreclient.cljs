@@ -58,6 +58,7 @@
                                                     client-datasource-fields
                                                     appshare-dev-server
                                                     appshare-dev-port
+                                                    realtime-started
                                                     appshare-cljs-source]])
   (:use-macros
    [webapp.framework.client.coreclient  :only [ns-coils
@@ -1435,6 +1436,7 @@
 
    ;(log (pr-str (count (keys @client-query-cache))))
 
+   (if @realtime-started
    (let [realtime-update-check-response            (remote  !check-for-server-updates  {:client-data-session-id  @data-session-id} )
          changed-realtime-queries                  (-> realtime-update-check-response :queries keys)
          list-of-tables                            (-> realtime-update-check-response :records keys)
@@ -1565,7 +1567,7 @@
 
 
 
-       ))) 500)
+       )))) 500)
 
 
 
@@ -2487,6 +2489,8 @@ with the (<-- :field) method
                                 :realtime            realtime
                               }
         ]
+
+    (if realtime (reset! realtime-started true))
 
     ;(log (str "Calling keep-client-fields-up-tp-date"    data-source ":"  fields))
     (keep-client-fields-up-tp-date   data-source  fields)
