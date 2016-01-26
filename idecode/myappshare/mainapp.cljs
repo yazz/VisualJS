@@ -138,10 +138,18 @@
   {:on-mount
    (do  (go
           (if  (read-ui app [:app-id])
-            (let [x (remote  !getfilecontents  {:id (read-ui app [:app-id]) })]
+            (let [x (remote  !getfilecontents  {:id (read-ui app [:app-id]) })
+
+                  user-can-edit-app (:value (remote  !user-can-edit-app?  {:id             (read-ui app [:app-id])
+                                                                           :session-id     (:session-id @client-session-atom)}))]
 
               (js/createEditor)
               (js/populateEditor (get x :value))
+
+              (if user-can-edit-app
+               (.setOption js/myCodeMirror "readOnly" false)
+               (.setOption js/myCodeMirror "readOnly" true))
+
               ;(reeval (read-ui app [:app-id]))
               ;(js/populateEditor (str "Loaded: " (read-ui app [:app-id])))
 

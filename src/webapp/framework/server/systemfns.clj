@@ -2010,6 +2010,13 @@
 
 
 
+
+
+
+
+
+
+
 (defn !loadapp [{:keys [id] }]
   (do
     (let [content-records  (cond
@@ -2310,3 +2317,30 @@
 
 (defn !saveappglyph [{:keys [id glyph]}]
   (sql "update  appshare_applications  set application_glyph = ? where id = ?" [glyph id ] ))
+
+
+
+
+
+
+
+
+
+
+
+(defn !user-can-edit-app? [{:keys [id session-id]}]
+  (if id
+    (let [user    (get-user-for-session-id    session-id)
+
+          app-publisher-id (:fk_appshare_publisher_id (sql-1 "select  fk_appshare_publisher_id   from    appshare_applications where id = ?" [id]))
+
+          link             (if user (sql-1 "select  id from   appshare_users_publishers   where  fk_appshare_publisher_id = ? and  fk_appshare_user_id = ?" [app-publisher-id (:id user)]))
+
+          no-publisher     (not app-publisher-id)
+
+          ]
+      (if (or link   no-publisher)
+        {:value true}
+        {:value false}
+        ))))
+
