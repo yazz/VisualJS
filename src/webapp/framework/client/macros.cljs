@@ -330,7 +330,7 @@
         dataview-map      (do (swap! path-index inc)
                               (merge (first transformed-sql)
                                      {
-                                      :relative-path [(deref path-index)]
+                                      :relative-path [(if (:relative-path main-params) (:relative-path main-params) (deref path-index))]
                                       :params         (get main-params :params)
                                       :data-source    (keyword  (get (first
                                                                      transformed-sql) :db-table))

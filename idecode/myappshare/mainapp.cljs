@@ -195,8 +195,10 @@
 
 
 
-
-
+(defn-ui-component     application-list-item-component   [app-list-item]  {}
+ (select id, publisher_name from appshare_publishers where id = ? {:params [(read-ui app-list-item [:value :fk_appshare_publisher_id])]}
+                                                (str  (first (clojure.string/split (<-- :publisher_name) "@"))))
+  )
 
 
 (defn-ui-component     browser-component   [app]  {}
@@ -207,7 +209,8 @@
                "Build an app in 5 minutes")
 
   (div {:style {:marginLeft "25px"}}
-       (realtime select id, application_name, application_glyph, fk_appshare_publisher_id from appshare_applications order by id {}
+       (realtime select id, application_name, application_glyph, fk_appshare_publisher_id from appshare_applications order by id
+                 {:relative-path "applications"}
                (div nil
 
 
@@ -217,6 +220,8 @@
                                               where id = ?"
                                               [(<-- :id) ]))
                              } "X")
+
+
 
 
 
@@ -252,8 +257,9 @@
                                    (str (<-- :application_name)))
 
                               (if (<-- :fk_appshare_publisher_id) (span {:style {:display "inline-block" :fontFamily "Ubuntu" :fontWeight "700" :fontSize "1.3em" :marginTop "0.7em" :marginLeft "0.7em"}}
-                                   (select id, publisher_name from appshare_publishers where id = ? {:params [(<-- :fk_appshare_publisher_id)]}
-                                                (str  (first (clojure.string/split (<-- :publisher_name) "@"))))))
+
+                                                                        (component  application-list-item-component  app  ["applications" :values  (<-- :id)])
+                                                                        ))
                               )
                         )))))))
 
