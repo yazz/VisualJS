@@ -197,8 +197,11 @@
 
 (defn-ui-component     application-list-item-component   [app-list-item]  {}
  (select id, publisher_name from appshare_publishers where id = ? {:params [(read-ui app-list-item [:value :fk_appshare_publisher_id])]}
-                                                (str  (first (clojure.string/split (<-- :publisher_name) "@"))))
-  )
+                                                (str  (first (clojure.string/split (<-- :publisher_name) "@")))))
+
+
+
+
 
 
 (defn-ui-component     browser-component   [app]  {}
@@ -259,7 +262,13 @@
                               (if (<-- :fk_appshare_publisher_id) (span {:style {:display "inline-block" :fontFamily "Ubuntu" :fontWeight "700" :fontSize "1.3em" :marginTop "0.7em" :marginLeft "0.7em"}}
 
                                                                         (component  application-list-item-component  app  ["applications" :values  (<-- :id)])
-                                                                        ))
+
+                                                                        (comment let [path ["applications" :values  (<-- :id)]
+                                                                               ddd    (<-- :fk_appshare_publisher_id)]
+                                                                          (select id, publisher_name from appshare_publishers where id = ? {:params [ddd]}
+                                                                                  (str  ddd ":" (first (clojure.string/split (<-- :publisher_name) "@"))))
+
+                                                                          )))
                               )
                         )))))))
 
@@ -330,8 +339,10 @@
 
 
 
-            (button {:className    (if (small-screen) "btn btn-default"  "btn-lg btn-default")
+
+                   (button {:className    (if (small-screen) "btn btn-default"  "btn-lg btn-default")
                         :style       {:display "inline-block" :marginLeft (if (small-screen) "2px"  "30px") :fontFamily "Ubuntu" :fontSize "1em" :marginTop "0.3em"
+                                      :backgroundColor "lightgreen"
                                       :opacity  (if (= (read-ui app [:mode]) "edit")  "1.0" "0.4")
 
                                       }
@@ -340,7 +351,11 @@
                                         (reeval  (read-ui app [:app-id])))
                      :disabled  (if (= (read-ui app [:mode]) "edit") "" "true")
                      }
-                       "Save")
+                           "Run"
+                           (span {:style {:marginLeft "4px"}
+                                  :className (str "glyphicon glyphicon-play")
+                                  :aria-hidden "true"})
+                       )
 
 
 
