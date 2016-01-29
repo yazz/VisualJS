@@ -147,8 +147,8 @@
               (js/populateEditor (get x :value))
 
               (if user-can-edit-app
-               (.setOption js/myCodeMirror "readOnly" false)
-               (.setOption js/myCodeMirror "readOnly" true))
+               (js/setCodeMirrorOption "readOnly" false)
+               (js/setCodeMirrorOption "readOnly" true))
 
               ;(reeval (read-ui app [:app-id]))
               ;(js/populateEditor (str "Loaded: " (read-ui app [:app-id])))

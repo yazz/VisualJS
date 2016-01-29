@@ -233,3 +233,8 @@ var ready = (function(){
 function stringStartsWith (string, prefix) {
     return string.slice(0, prefix.length) == prefix;
 }
+
+
+function setCodeMirrorOption(optionname , optionvalue) {
+  myCodeMirror.setOption(optionname, optionvalue);
+}
