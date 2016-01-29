@@ -197,7 +197,7 @@
 
 (defn-ui-component     application-list-item-component   [app-list-item]  {}
  (select id, publisher_name from appshare_publishers where id = ? {:params [(read-ui app-list-item [:value :fk_appshare_publisher_id])]}
-                                                (str  (first (clojure.string/split (<-- :publisher_name) "@")))))
+                                                (str  (first (clojure.string/split (<-- :publisher_name) "@"))  )))
 
 
 
@@ -213,7 +213,8 @@
 
   (div {:style {:marginLeft "25px"}}
        (realtime select id, application_name, application_glyph, fk_appshare_publisher_id from appshare_applications order by id
-                 {:relative-path "applications"}
+                 {;:relative-path ["applications"]
+                  }
                (div nil
 
 
@@ -257,20 +258,16 @@
                                                        )
 
                                     :style {:display "inline-block" :fontFamily "Ubuntu" :fontWeight "700" :fontSize "1.3em" :marginTop "0.7em" :marginLeft "0.7em"}}
-                                   (str (<-- :application_name)))
+                                   (str   (<-- :application_name)))
 
                               (if (<-- :fk_appshare_publisher_id) (span {:style {:display "inline-block" :fontFamily "Ubuntu" :fontWeight "700" :fontSize "1.3em" :marginTop "0.7em" :marginLeft "0.7em"}}
 
-                                                                        (component  application-list-item-component  app  ["applications" :values  (<-- :id)])
+                                                                        ;(component  application-list-item-component  app  ["applications" :values  (<-- :id)])
 
-                                                                        (comment let [path ["applications" :values  (<-- :id)]
-                                                                               ddd    (<-- :fk_appshare_publisher_id)]
-                                                                          (select id, publisher_name from appshare_publishers where id = ? {:params [ddd]}
-                                                                                  (str  ddd ":" (first (clojure.string/split (<-- :publisher_name) "@"))))
-
-                                                                          )))
-                              )
-                        )))))))
+                                                                          (select id, publisher_name from appshare_publishers where id = ? {:params [(<-- :fk_appshare_publisher_id)]
+                                                                                                                                            ;:relative-path (conj (conj relative-path :values)  (<-- :id))
+                                                                                                                                            }
+                                                                                  (str  (first (clojure.string/split (<-- :publisher_name) "@"))))))))))))))
 
 
 

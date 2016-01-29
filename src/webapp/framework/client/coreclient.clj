@@ -133,6 +133,8 @@
           (~'render [~'this]
 
                     (~'let [
+                            ~'select-id     nil
+
                             ~'debug-id       (webapp.framework.client.coreclient/record-component-call
                                               (~'ns-coils-debug)
                                               ~(str `~fn-name)
@@ -642,6 +644,7 @@ nil
              (~'fn [~'record-id]
                    (~'let [~'relative-path (:relative-path ~opts)
                            ~'record        (~'get (~'-> ~'data :values) ~'record-id)
+                           ~'select-id     (~'get-in ~'record [:value :id])
                            ]
                           (~'if (get ~'record :value)
                                 ~@code)))
@@ -900,7 +903,6 @@ nil
 
 
 
-
 (defmacro sql-parser [command & sql-args]
   (let [
         list-of-sql        (map (fn[x]
@@ -920,7 +922,17 @@ nil
         dataview-map      (do (swap! path-index inc)
                               (merge (first transformed-sql)
                                      {
-                                      :relative-path [(if (:relative-path main-params) (:relative-path main-params) (deref path-index))]
+                                      :relative-path (cond
+                                                       (:relative-path main-params)
+                                                       (:relative-path main-params)
+
+
+                                                       ;(<-- :id)
+                                                       ;(conj (conj relative-path :values)  (<-- :id))
+
+                                                       :else
+                                                       [(deref path-index)])
+
                                       :params         (get main-params :params)
                                       :data-source    (keyword  (get (first
                                                                      transformed-sql) :db-table))
@@ -928,6 +940,7 @@ nil
                                       }))
         typeof2     (str (type []))
         ]
+    (do
     (if
 
 
@@ -947,14 +960,13 @@ nil
 
 
     `(~'data-view-v2
-       ~dataview-map
+       (~'if ~'select-id (~'merge ~dataview-map {:relative-path (~'conj (~'conj (~'get ~dataview-map :relative-path) :values)  ~'select-id)}) ~dataview-map)
 
        {:start     1
         :end       20
         }
        (~'div {}
-           ~om-code))
-)))
+           ~om-code))))))
 
 
 
