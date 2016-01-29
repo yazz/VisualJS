@@ -296,7 +296,7 @@
            }
 
     `(~'data-view-result-set
-       ~dataview-map
+       (~'if ~'select-id (~'merge ~dataview-map {:relative-path (~'conj (~'conj (~'get ~dataview-map :relative-path) :values)  ~'select-id)}) ~dataview-map)
 
        {:start 1
         :end   20
