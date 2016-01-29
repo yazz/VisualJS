@@ -53,7 +53,9 @@
           (~'render [~'this]
 
                     (~'let [
-                            ~'debug-id       (webapp.framework.client.coreclient/record-component-call
+                             ~'select-id     nil
+
+                             ~'debug-id       (webapp.framework.client.coreclient/record-component-call
                                               (~'ns-coils-debug)
                                               ~(str `~fn-name)
                                               ~(first data-paramater-name)
@@ -194,6 +196,7 @@
              (~'fn [~'record-id]
                    (~'let [~'relative-path (:relative-path ~opts)
                            ~'record        (~'get (~'-> ~'data :values) ~'record-id)
+                           ~'select-id     (~'get-in ~'record [:value :id])
                            ]
                           (~'if (get ~'record :value)
                                 ~@code)))
@@ -357,7 +360,7 @@
 
 
     `(~'data-view-v2
-       ~dataview-map
+       (~'if ~'select-id (~'merge ~dataview-map {:relative-path (~'conj (~'conj (~'get ~dataview-map :relative-path) :values)  ~'select-id)}) ~dataview-map)
 
        {:start     1
         :end       20
