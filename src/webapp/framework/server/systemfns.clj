@@ -1161,14 +1161,21 @@
 
 
 (defn delete-record-from-realtime-update  [ table-name    record-id     data-session-id ]
+  (do
+    (println (str "delete-record-from-realtime-update: " ))
+    (println (str "              table-name: "       table-name))
+    (println (str "              record-id: "        record-id))
+    (println (str "              data-session-id: "  data-session-id))
+
   (let [client-data-atom         (if server-side-realtime-clients  (get @server-side-realtime-clients  data-session-id))
         response-atom            (if client-data-atom  client-data-atom )
         update-request-atom      (if response-atom  (get @response-atom :update-request ))
         update-request           (if update-request-atom  @update-request-atom)
         ]
     ;(println (str "      update-request: " update-request))
-    (swap! update-request-atom  dissoc-in  [:records table-name record-id])
-  ))
+    (if update-request-atom
+      (swap! update-request-atom  dissoc-in  [:records table-name record-id])
+      ))))
 
 
 
