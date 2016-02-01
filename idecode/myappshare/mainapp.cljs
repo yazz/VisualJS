@@ -184,10 +184,10 @@
                         ; show the name of the app
                         :else
                         (do
-                          (span nil
-                          (div {:onClick     #(go  (write-ui app [:submode] "editappname")
+                          (span {:onClick     #(go  (write-ui app [:submode] "editappname")
                                                    (write-ui app [:app-id] (<-- :id))
-                                                   )
+                                                   )}
+                          (div {
 
                                 :style {:display "inline-block" :fontFamily "Ubuntu" :fontWeight "700" :fontSize "1.3em"  :marginLeft "20px"}}
                                (str (<-- :application_name)))
@@ -261,7 +261,7 @@
                                                        (write-ui app [:app-id] (<-- :id))
                                                        (evalapp (<-- :id))
                                                        )
-                               }
+                                 }
                               (span {
 
                                     :style {:display "inline-block" :fontFamily "Ubuntu" :fontWeight "700" :fontSize "1.3em" :marginTop "0.7em" :marginLeft "0.7em"}}
