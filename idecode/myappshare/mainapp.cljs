@@ -165,29 +165,34 @@
                                :aria-hidden "true"} ""))
                       (cond
                         (and (= (read-ui app [:submode]) "editappname") (= (<-- :id ) (read-ui app [:app-id])))
-                        (input-field {:style {:marginLeft "20px" :color "black"} :placeholder  (str (<-- :application_name))}
-                                     app
-                                     (fn [new-name]
-                                       (let [id (read-ui app [:app-id])]
-                                         (go
-                                           (sql "update  appshare_applications
-                                                set application_name = ?
-                                                where id = ?"
-                                                [new-name id ]  )
-                                           ;(js/alert (str new-name ":" id))
-                                           (write-ui app [:submode] nil)
-                                           ))))
+                        (span nil
+                              (input-field {:style {:marginLeft "20px" :color "black"} :placeholder  (str (<-- :application_name))}
+                                           app
+                                           (fn [new-name]
+                                             (let [id (read-ui app [:app-id])]
+                                               (go
+                                                 (sql "update  appshare_applications
+                                                      set application_name = ?
+                                                      where id = ?"
+                                                      [new-name id ]  )
+                                                 ;(js/alert (str new-name ":" id))
+                                                 (write-ui app [:submode] nil)
+                                                 ))))
+                              (span {:style {:marginLeft "20px" :color "white"} } "<<< Type new name and press Enter" ))
 
 
                         ; show the name of the app
                         :else
                         (do
+                          (span nil
                           (div {:onClick     #(go  (write-ui app [:submode] "editappname")
                                                    (write-ui app [:app-id] (<-- :id))
                                                    )
 
                                 :style {:display "inline-block" :fontFamily "Ubuntu" :fontWeight "700" :fontSize "1.3em"  :marginLeft "20px"}}
-                               (str (<-- :application_name)))))
+                               (str (<-- :application_name)))
+                          (span {:style {:marginLeft "20px" :color "white"} } "<<< Click to edit name" )
+                                )))
                       ))
        (textarea {:id "cm" :style {:display "inline-block" :width "100%" :height "800"}} "TEXT EDITOR")))
 
@@ -250,12 +255,14 @@
                       :else
                       (let [glyphicon (if (<-- :application_glyph)  (<-- :application_glyph) "glyphicon-align-left")]
                         (span {:className (str "glyphicon " glyphicon)
-                               :aria-hidden "true"}
-                              (span {:onClick     #(go  (write-ui app [:mode] "view")
+                               :aria-hidden "true"
+                               :onClick     #(go  (write-ui app [:mode] "view")
                                                        ;(write-ui app [:submode] "editappname")
                                                        (write-ui app [:app-id] (<-- :id))
                                                        (evalapp (<-- :id))
                                                        )
+                               }
+                              (span {
 
                                     :style {:display "inline-block" :fontFamily "Ubuntu" :fontWeight "700" :fontSize "1.3em" :marginTop "0.7em" :marginLeft "0.7em"}}
                                    (str   (<-- :application_name)))
