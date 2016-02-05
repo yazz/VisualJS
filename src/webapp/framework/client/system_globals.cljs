@@ -528,8 +528,6 @@ The list of all the AB tests
 
 
 
-(defonce  data-session-id (atom nil))
-
 
 
   "

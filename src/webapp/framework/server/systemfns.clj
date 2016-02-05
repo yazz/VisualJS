@@ -184,7 +184,6 @@
                                   (do
                                     (sql-1 "insert into appshare_web_sessions (session_id) values (?)"   [new-uuid])
                                     new-uuid)))
-         data-session-id      (uuid-str)
          user-id              (get web-session-in-db :fk_appshare_user_id)
          user                 (if user-id (sql-1 "select id, user_name from appshare_users  where id=?" [user-id]))
         ]
@@ -192,7 +191,6 @@
       (println (str "!create-session: " session-id-from-browser))
       {
         :session-id         session-id
-        :data-session-id    data-session-id
         :user               user
         })))
 
@@ -1589,7 +1587,8 @@
         id-type          (get-id-type (get realtime-log-entry (cond (= *database-type* "postgres" ) :record_id_type (= *database-type* "oracle") :record_id_type) ))
         id               (cond (= id-type "INTEGER")  (parse-id  (get realtime-log-entry (cond (= *database-type* "postgres" ) :record_id (= *database-type* "oracle") :record_id)))
                                (= id-type "TEXT")     (get realtime-log-entry (cond (= *database-type* "postgres" ) :record_id (= *database-type* "oracle") :record_id)))
-        db-table         (str (:record_table_schema realtime-log-entry) "." (:record_table_name realtime-log-entry))
+        ;db-table         (str (:record_table_schema realtime-log-entry) "." (:record_table_name realtime-log-entry))
+        db-table         (str (:record_table_name realtime-log-entry))
         ]
     (println (str "**** Processing realtime record change: "))
     (println (str "      db-table: "  db-table))
@@ -2125,9 +2124,13 @@
 
     (sql "update  appshare_applications  set application_code = ?  where  id = ?" [code id])
 
-    (if app-schema-id
+    (cond
+      app-schema-id
       (sql "update  appshare_web_sessions  set appshare_application_schema_id = ?  where  session_id = ?"  [app-schema-id   app-session-id])
-      (sql "update  appshare_web_sessions  set appshare_application_schema_id = NULL  where  session_id = ?"  [app-session-id]))
+
+      :else
+      (do
+        (sql "update  appshare_web_sessions  set appshare_application_schema_id = NULL  where  session_id = ?"  [app-session-id])))
 
     (let [;start     (slurp (src-folder "main_view_start.txt"))
           ;middle    code

@@ -48,7 +48,6 @@
                                                     assoc-in-atom
                                                     add-init-state-fn
                                                     global-om-state
-                                                    data-session-id
                                                     client-data-window-requests
                                                     client-query-cache-requests
                                                     client-record-cache-requests
@@ -1441,7 +1440,7 @@
    ;(log (pr-str (count (keys @client-query-cache))))
 
    (if @realtime-started
-   (let [realtime-update-check-response            (remote  !check-for-server-updates  {:client-data-session-id  @data-session-id} )
+   (let [realtime-update-check-response            (remote  !check-for-server-updates  {:client-data-session-id  (:session-id @client-session-atom)} )
          changed-realtime-queries                  (-> realtime-update-check-response :queries keys)
          list-of-tables                            (-> realtime-update-check-response :records keys)
          info                                      (-> realtime-update-check-response :info)
@@ -1495,7 +1494,7 @@
                                                             :db-table            (name table-name)
                                                             :fields              (get-default-fields-for-data-source  table-name)
                                                             :id                  record-id
-                                                            :data-session-id     @data-session-id
+                                                            :data-session-id     (:session-id @client-session-atom)
                                                             :realtime            true
                                                             :force               true
                                                             }]
@@ -1553,7 +1552,7 @@
                                              :db-table            the-table
                                              :fields              (get-default-fields-for-data-source  (keyword the-table))
                                              :id                   id
-                                             :data-session-id     @data-session-id
+                                             :data-session-id     (:session-id @client-session-atom)
                                              :realtime            true
                                              :force               true
                                              }
@@ -1810,7 +1809,7 @@
                                  :db-table            (query :db-table)
                                  :fields              (get-default-fields-for-data-source (query :data-source))
                                  :id                   record-id
-                                 :data-session-id     @data-session-id
+                                 :data-session-id     (:session-id @client-session-atom)
                                  :realtime            (get query :realtime)
                                  }]
          ;(log "**    :" record-request)
@@ -1941,7 +1940,7 @@ records
    (let [request (<! client-query-cache-requests)]  ; <-- reads the request from the channel
 
      (let [
-           params         (merge (merge (:query-key request) (:subset-range request)) {:data-session-id     @data-session-id})
+           params         (merge (merge (:query-key request) (:subset-range request)) {:data-session-id     (:session-id @client-session-atom)})
            return-value   (remote      !get-query-results  params)
            records        (:records    return-value)
            records-count  (:count      return-value)
@@ -2247,7 +2246,7 @@ reused by many views.
                                    :db-table            (name db-table)
                                    :fields              (get-default-fields-for-data-source  db-table)
                                    :id                   x
-                                   :data-session-id     @data-session-id
+                                   :data-session-id     (:session-id @client-session-atom)
                                    :realtime            true
                                    :force               true
                                    }]

@@ -21,7 +21,6 @@
                                                      app-watch-on?
                                                      record-ui
                                                      touch
-                                                     data-session-id
                                                      client-session-atom
                                                      ]]
     [webapp.framework.client.components.system-container :only  [main-view]]
@@ -103,13 +102,12 @@
                                                                    })  ]
       (log (str "cookie-session-id: " cookie-session-id))
       (log (str "create-session-response: " create-session-response))
-      ;(js/alert (pr-str @data-session-id))
+      ;(js/alert (pr-str (:session-id @client-session-atom)))
 
       (reset! client-session-atom  {:session-id   (:session-id create-session-response)
                                     :user         (:user create-session-response)})
 
-      (cookie/set "appshare.co" (:session-id create-session-response))
-      (reset! data-session-id   (:data-session-id create-session-response)))
+      (cookie/set "appshare.co" (:session-id create-session-response)))
 
 
     (om/root   main-view
