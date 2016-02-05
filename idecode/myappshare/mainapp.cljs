@@ -57,22 +57,35 @@
 
 (defn reeval [app-id]
   (go
-    (let [code (js/getCodeMirrorValue)]
-      (remote !savecode {:id app-id :code (subs code 0 2000)})
-      (remote !savecode2 {:id app-id :code (subs code 2000 4000)})
+    (let [
+           code             (js/getCodeMirrorValue)
+           app-session-id   (str (js/getappsessionid) )
+           ]
+
+      (remote !savecode {:id app-id :code (subs code 0 2000)      :app-session-id app-session-id})
+      (remote !savecode2 {:id app-id :code (subs code 2000 4000)  :app-session-id app-session-id})
       (swap! ns-counter inc)
       (js/sendcode (str (start) code (end) ))
       )))
 
 
 
+
+
+
 (defn evalapp [app-id]
   (go
-;    (js/alert (str app-id))
-    (let [x (remote  !getfilecontents  {:id app-id })]
+    ;(js/alert (str app-id))
+    (let [
+           app-code         (remote  !getfilecontents  {:id app-id})
+           app-session-id   (str (js/getappsessionid))
+           ]
       (swap! ns-counter inc)
-      (js/sendcode (str (start) (:value x) (end) ))
-      )))
+      (js/sendcode (str (start)
+                        (:value app-code)
+                        (end))))))
+
+
 
 
 

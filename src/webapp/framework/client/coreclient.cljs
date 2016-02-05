@@ -59,7 +59,8 @@
                                                     appshare-dev-server
                                                     appshare-dev-port
                                                     realtime-started
-                                                    appshare-cljs-source]])
+                                                    appshare-cljs-source
+                                                    client-session-atom]])
   (:use-macros
    [webapp.framework.client.coreclient  :only [ns-coils
                                                sql log sql-1
@@ -75,6 +76,9 @@
                                                div
                                                ]]))
 (ns-coils 'webapp.framework.client.coreclient)
+
+
+
 
 
 
@@ -2512,6 +2516,10 @@ with the (<-- :field) method
 
 
 
+(defn ^:export getsessionid []
+  (if client-session-atom
+    (if @client-session-atom
+      (:session-id @client-session-atom))))
 
 
 

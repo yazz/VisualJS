@@ -83,6 +83,11 @@
                 //webapp.framework.client.coreclient.evalstr(code);
             }
 
+            function getappsessionid () {
+                return document.getElementById('appframe').contentWindow.webapp.framework.client.coreclient.getsessionid();
+            }
+
+
 
             function enforceMaxLength(cm, change) {
                 var maxLength = cm.getOption("maxLength");
