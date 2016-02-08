@@ -102,10 +102,10 @@
                                                                    })  ]
       (log (str "cookie-session-id: " cookie-session-id))
       (log (str "create-session-response: " create-session-response))
-      ;(js/alert (pr-str (:session-id @client-session-atom)))
 
       (reset! client-session-atom  {:session-id   (:session-id create-session-response)
                                     :user         (:user create-session-response)})
+
 
       (cookie/set "appshare.co" (:session-id create-session-response)))
 

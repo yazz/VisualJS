@@ -19,6 +19,19 @@
   )
 
 
+
+(defn get-schema-name    [full-name]
+  (str (first (clojure.string/split  full-name  #"\."))))
+
+
+(defn get-table-name    [full-name]
+  (str (second (clojure.string/split  full-name  #"\."))))
+
+
+
+
+
+
 (try
   (cond
     (= *database-type* "postgres" )
@@ -1126,13 +1139,10 @@
 
 
 
-
-
-
 (defn do-real [& {:keys [:table-name]}]
-  ;(println "table name: " table-name)
+  (println "-real**: table name: " table-name)
 
-  (create-realtime-trigger  :table-name  table-name))
+  (create-realtime-trigger  :table-name  (get-table-name  table-name)))
 
 
 
@@ -1353,7 +1363,7 @@
 ; This is called whenever there has been an update of a realtime
 ; query.
 ; ----------------------------------------------------------------
-(defn update-record-in-cache [db-table  id]
+(defn update-record-in-cache [db-schema  db-table  id]
   (do
     (println "Update record")
     (let [
@@ -1575,7 +1585,7 @@
   ))
 
 
-
+;zzz
 ; ----------------------------------------------------------------
 ; Whenever a record changes an entry is added to the real time log
 ; which is processed here. It first finds which queries it
@@ -1589,9 +1599,10 @@
                                (= id-type "TEXT")     (get realtime-log-entry (cond (= *database-type* "postgres" ) :record_id (= *database-type* "oracle") :record_id)))
         ;db-table         (str (:record_table_schema realtime-log-entry) "." (:record_table_name realtime-log-entry))
         db-table         (str (:record_table_name realtime-log-entry))
+        db-schema        (str (:record_table_schema realtime-log-entry))
         ]
     (println (str "**** Processing realtime record change: "))
-    (println (str "      db-table: "  db-table))
+    (println (str "      schema.db-table: "  db-schema "." db-table))
     ;(println (str "      "  "realtime-log-entry"))
     ;(println (str "      "  realtime-log-entry))
     ;(println (str "      "))
@@ -1608,7 +1619,7 @@
     ; ----------------------------------------------------------------
     (if (= (get realtime-log-entry (cond (= *database-type* "postgres" ) :record_operation (= *database-type* "oracle") :record_operation)) "UPDATE")
       (do
-        (update-record-in-cache  db-table   id)
+        (update-record-in-cache  db-schema  db-table   id)
         (inform-clients-about-record   db-table   id)))
 
 
@@ -1704,12 +1715,13 @@
 
 
 
+(defn get-schema-name-for-session-id [data-session-id]
+  "public")
 
 
 
 
-
-
+;zzz
 ; ----------------------------------------------------------------
 ; Whenever the web browser asks the server for data it calls
 ; this function (!get-query-results) telling the server
@@ -1726,6 +1738,9 @@
                                      data-session-id
                                      ]}]
 
+  (let [
+         schema-name  (get-schema-name-for-session-id  data-session-id)
+         ]
   ;(println "************************************************************************************")
   ;(println "    **** " db-table " : "  fields)
   ;(println " ")
@@ -1755,8 +1770,9 @@
    realtime
 
    (let [
+
          query-key   (create-query-key
-                      :db-table  db-table
+                      :db-table  (str schema-name "." db-table)
                       :where     where
                       :start     start
                       :end       end
@@ -1773,7 +1789,7 @@
 
      (add-client-to-query  query-key  data-session-id)
 
-     (do-real   :table-name db-table)
+     (do-real   :table-name (str schema-name "." db-table))
 
      ;(println "-------------------------------")
      ;(println "SERVER @server-side-cached-queries     " @server-side-cached-queries)
@@ -1798,13 +1814,13 @@
 
    (do
      (let [
-           record-count      (get-count   db-table  where   params)
+           record-count      (get-count   (str schema-name "." db-table)  where   params)
 
 
 
            results
 
-           (get-results   :db-table db-table
+           (get-results   :db-table (str schema-name "." db-table)
                           :where    where
                           :order    order
                           :start    start
@@ -1821,7 +1837,7 @@
         :records      result-id-vector
         :count        record-count
         }
-       ))))
+       )))))
 
 
 
@@ -2012,7 +2028,7 @@
 
 
 
-
+;zzz
 ; ----------------------------------------------------------------
 ; Whenever a web client wants to know if the data it is showing
 ; needs to be updated it sends a request to this server side
@@ -2032,8 +2048,8 @@
     ;(println (str "      " ))
     ;(println "SERVER: check-for-server-updates for client: " client-data-session-id)
     ;(println (str "      " (keys @server-side-realtime-clients)))
-    ;(println (str "      " (if client-data-atom  @client-data-atom)))
-    ;(println (str "      response: " (if response-atom  @(get @response-atom :update-request )  )))
+    (println (str "      " (if client-data-atom  @client-data-atom)))
+    (println (str "      response: " (if response-atom  @(get @response-atom :update-request )  )))
     (if response-atom
       @(get @response-atom :update-request )
 
@@ -2112,7 +2128,7 @@
 
 
 
-
+;zzz
 ;(defn !savecode [{:keys [id] } code]
 (defn !savecode [{:keys [id   code   app-session-id] }]
   (do
