@@ -313,9 +313,9 @@
 (defn    get-count    [db-table  where   params]
 
   (do
-    (println (str "db-table: " db-table))
-    (println (str "where: " where))
-    (println (str "params: " params))
+    ;(println (str "db-table: " db-table))
+    ;(println (str "where: " where))
+    ;(println (str "params: " params))
 
     (:cnt (sql-1 (str
                   "select count (id) as CNT from "
@@ -1140,7 +1140,7 @@
 
 
 (defn do-real [& {:keys [:table-name]}]
-  (println "-real**: table name: " table-name)
+  ;(println "-real**: table name: " table-name)
 
   (create-realtime-trigger  :table-name  (get-table-name  table-name)))
 
@@ -1202,7 +1202,7 @@
               ""))
         ]
     (do
-      (println "SQL::: " sql "," id , ":fields:" fields)
+      ;(println "SQL::: " sql "," id , ":fields:" fields)
       (sql-1  sql [id])
       )))
 
@@ -1217,10 +1217,10 @@
 
 (defn delete-record-from-realtime-update  [ table-name    record-id     data-session-id ]
   (do
-    (println (str "delete-record-from-realtime-update: " ))
-    (println (str "              table-name: "       table-name))
-    (println (str "              record-id: "        record-id))
-    (println (str "              data-session-id: "  data-session-id))
+    ;(println (str "delete-record-from-realtime-update: " ))
+    ;(println (str "              table-name: "       table-name))
+    ;(println (str "              record-id: "        record-id))
+    ;(println (str "              data-session-id: "  data-session-id))
 
   (let [client-data-atom         (if server-side-realtime-clients  (get @server-side-realtime-clients  data-session-id))
         response-atom            (if client-data-atom  client-data-atom )
@@ -1565,7 +1565,7 @@
 
 (defn parse-id [s]
   (do
-    (println (str "(defn parse-id [" s "]"))
+    ;(println (str "(defn parse-id [" s "]"))
     (let [find-num (re-find  #"\d+" s )]
       (if find-num
         (Integer. find-num)
@@ -1573,7 +1573,7 @@
 
 (defn get-id-type [ column-type ]
   (do
-    (println (str "*******COLTYPE:" column-type ":"))
+    ;(println (str "*******COLTYPE:" column-type ":"))
     (cond
     (= column-type "NUMBER")                       "INTEGER"
     (= column-type "integer")                      "INTEGER"
@@ -1601,8 +1601,8 @@
         db-table         (str (:record_table_name realtime-log-entry))
         db-schema        (str (:record_table_schema realtime-log-entry))
         ]
-    (println (str "**** Processing realtime record change: "))
-    (println (str "      schema.db-table: "  db-schema "." db-table))
+    ;(println (str "**** Processing realtime record change: "))
+    ;(println (str "      schema.db-table: "  db-schema "." db-table))
     ;(println (str "      "  "realtime-log-entry"))
     ;(println (str "      "  realtime-log-entry))
     ;(println (str "      "))
@@ -2048,8 +2048,8 @@
     ;(println (str "      " ))
     ;(println "SERVER: check-for-server-updates for client: " client-data-session-id)
     ;(println (str "      " (keys @server-side-realtime-clients)))
-    (println (str "      " (if client-data-atom  @client-data-atom)))
-    (println (str "      response: " (if response-atom  @(get @response-atom :update-request )  )))
+    ;(println (str "      " (if client-data-atom  @client-data-atom)))
+    ;(println (str "      response: " (if response-atom  @(get @response-atom :update-request )  )))
     (if response-atom
       @(get @response-atom :update-request )
 
@@ -2074,7 +2074,7 @@
                              (sql-1 "select  dbms_lob.substr( application_code, 3000, 1 ) as ac, dbms_lob.substr( application_code, 3000, 3001 ) as ac2 from appshare_applications where id = ?" [id]))
           content (str (get content-records :ac) (get content-records :ac2))
           ]
-      (println (str "id: " id))
+      ;(println (str "id: " id))
       {:value content})))
 
 
