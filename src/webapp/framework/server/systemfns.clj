@@ -1452,11 +1452,14 @@
       ;(println (str "    " ))
       ;(println (str "    update-query-in-cache" ))
       ;(println (str "    " query))
+      ;(println (str "     existing-query: "  existing-query))
 
       (if (not existing-query)
         (swap! server-side-cached-queries assoc  query (atom {:clients  (atom #{})})))
 
 
+
+      ;(println (str "    server: " @(get @server-side-cached-queries   query)))
 
       (let [the-query        (get @server-side-cached-queries   query)
             clients-atom     (:clients @the-query)
@@ -1467,7 +1470,7 @@
         (swap! the-query assoc  :count         record-count)
         (swap! the-query assoc  :timestamp     query-time)
 
-        ;(println (str "    clients: " @clients-atom))
+        (println (str "    clients: " @clients-atom))
         (doall (for [client @clients-atom]
                  (do
                    ;(println (str "    Client: " client))
@@ -1475,9 +1478,11 @@
                          response-atom    (:update-request @the-client)
                          ]
                      (if (not response-atom) (swap! the-query assoc  :update-request (atom {})))
-                     (swap! (:update-request @the-client) assoc-in [:queries query] {:timestamp query-time})
-                     ;(println (str "    responses: " (if response-atom @response-atom)))
-
+                     (let [client-query    (assoc query :db-table (get-table-name  (:db-table query)))]
+                       (println (str "    query: " client-query))
+                       (swap! (:update-request @the-client) assoc-in [:queries client-query] {:timestamp query-time})
+                       ;(println (str "    responses: " (if response-atom @response-atom)))
+                       )
                      ;                   (swap! (:update-request @the-query) assoc  1 2)
                      ))))))))
 
@@ -1631,7 +1636,7 @@
     (let [queries (keys @server-side-cached-queries)]
       (doall (for [query queries]
                (do
-                 (if (= (get query :db-table)   db-table)
+                 (if (= (get-table-name (get query :db-table))   db-table)
                    (do
                      ;(println (str "    "))
                      ;(println (str "    " "Query"))
