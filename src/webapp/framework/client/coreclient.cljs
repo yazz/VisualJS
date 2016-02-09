@@ -348,10 +348,16 @@
 
 
 
-(defn sql-fn [sql-str params]
-  (go
-    (<! (remote-fn
-                "!sql" {:sql sql-str :params params}))))
+(defn sql-fn
+  ([schema sql-str params]
+   (go
+     (<! (remote-fn
+           "!sql" {:sql sql-str :params params}))))
+
+  ([sql-str params]
+   (go
+     (<! (remote-fn
+           "!sql" {:sql sql-str :params params})))))
 
 
 

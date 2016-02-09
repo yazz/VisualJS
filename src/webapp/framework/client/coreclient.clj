@@ -582,10 +582,19 @@ nil
 (defmacro sql
   ([sql-str]
   `(~'<! (webapp.framework.client.coreclient/sql-fn
+        nil
        ~(encrypt sql-str)
        {})))
+
   ([sql-str params]
   `(~'<! (webapp.framework.client.coreclient/sql-fn
+        nil
+       ~(encrypt sql-str)
+       ~params)))
+
+  ([schema sql-str params]
+  `(~'<! (webapp.framework.client.coreclient/sql-fn
+       ~schema
        ~(encrypt sql-str)
        ~params)))
   )
@@ -598,8 +607,11 @@ nil
    `(~'first (~'sql  ~sql-str {})))
 
   ([sql-str params]
-   `(~'first (~'sql  ~sql-str ~params))
-   ))
+   `(~'first (~'sql  ~sql-str ~params)))
+
+  ([schema sql-str params]
+   `(~'first (~'schema ~'sql  ~sql-str ~params)))
+  )
 
 
 
