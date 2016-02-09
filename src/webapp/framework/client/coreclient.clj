@@ -591,12 +591,6 @@ nil
         nil
        ~(encrypt sql-str)
        ~params)))
-
-  ([schema sql-str params]
-  `(~'<! (webapp.framework.client.coreclient/sql-fn
-       ~schema
-       ~(encrypt sql-str)
-       ~params)))
   )
 
 ;( macroexpand '(sql "SELECT * FROM test_table where name = ?" ["shopping"] ))
@@ -607,11 +601,7 @@ nil
    `(~'first (~'sql  ~sql-str {})))
 
   ([sql-str params]
-   `(~'first (~'sql  ~sql-str ~params)))
-
-  ([schema sql-str params]
-   `(~'first (~'schema ~'sql  ~sql-str ~params)))
-  )
+   `(~'first (~'sql  ~sql-str ~params))))
 
 
 

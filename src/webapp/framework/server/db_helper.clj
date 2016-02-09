@@ -55,7 +55,23 @@
   ([sql-in]
    (sql sql-in {}))
 
-  ([sql-in params]
+  ([sql-in  params]
+  (do
+    (let [
+          lower (.toLowerCase sql-in)
+          ]
+         ;(println "SQL from client: " sql-in)
+         ;
+           (cond
+             (or (.startsWith lower "select")  (.contains lower "returning")) (do (comment println "SELECT") (into [] (map   (fn [r] (to-lower-case-keys r));
+                                                                                      (korma.core/exec-raw [sql-in params] :results))))
+
+             :else (do (comment println "INSERT") (korma.core/exec-raw [sql-in params]) [])
+             ; []
+             )))
+  )
+
+ ([schema  sql-in  params]
   (do
     (let [
           lower (.toLowerCase sql-in)
@@ -78,6 +94,9 @@
 
   ([sql-in params]
    (first (sql  sql-in params)))
+
+  ([schema sql-in params]
+   (first (sql  schema sql-in params)))
 )
 
 (defn uuid []
