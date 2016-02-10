@@ -89,8 +89,9 @@
        update-only?
        ;-----------
        (do
+
          (korma.db/transaction
-           (korma.core/exec-raw [(str "set schema ' " use-schema "'") []])
+           (korma.core/exec-raw [(str "set schema '" use-schema "'") []])
            (korma.core/exec-raw [sql-in params])
            (korma.core/exec-raw [(str "set schema 'public'") []]))
          [])
@@ -151,6 +152,6 @@
 
 
 
-(comment korma.db/transaction
+( korma.db/transaction
   (korma.core/exec-raw [(str "set schema 'public'") []])
-  (korma.core/exec-raw ["select id from appshare_applications" []] :results))
+  (korma.core/exec-raw ["insert into appshare_applications (application_name) values ('........')" []]))
