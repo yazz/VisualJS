@@ -4,7 +4,6 @@
   [:require [korma.core]]
   [:use [webapp-config.settings]]
   [:use [webapp.framework.server.encrypt]]
-  (:require [clojure.java.jdbc :as j])
 )
 
 
@@ -59,63 +58,43 @@
    (sql sql-in {}))
 
   ([sql-in  params]
-   (do
-     (let [
-            lower (.toLowerCase sql-in)
-            ]
-       ;(println "SQL from client: " sql-in)
-       ;
-       (cond
-         (or (.startsWith lower "select")  (.contains lower "returning"))
-         (do (into [] (map   (fn [r] (to-lower-case-keys r));
-                             (korma.core/exec-raw [sql-in params] :results))))
+   (sql nil sql-in params))
 
-         :else
-         (do (comment println "INSERT") (korma.core/exec-raw [sql-in params]) [])
-         ; []
-         )))
-   )
 
   ([schema  sql-in  params]
-   (do
+   (let [
+          lower             (.toLowerCase sql-in)
+          returns-results?  (or (.startsWith lower "select")  (.contains lower "returning"))
+          update-only?      (not returns-results?)
+          use-schema        (cond
+                              (or (= schema "public") (nil? schema))      "public"
+                              :else                                        schema)
+          ]
+
      (cond
-       (or (= schema "public") (nil? schema))
-       (let [
-              lower (.toLowerCase sql-in)
-              ]
-         (cond
-           (or (.startsWith lower "select")  (.contains lower "returning"))
-           (do  (into [] (map   (fn [r] (to-lower-case-keys r));
-                                (korma.core/exec-raw [sql-in params] :results))))
+       returns-results?
+       ;---------------
+       (let [res     (korma.db/transaction
+                       (korma.core/exec-raw [(str "set schema '" use-schema "'") []])
+                       (korma.core/exec-raw [sql-in params] :results))
 
-           :else (do (comment println "INSERT") (korma.core/exec-raw [sql-in params]) [])
-           ; []
-           ))
+             formatted   (into [] (map   (fn [r] (to-lower-case-keys r)) res))
+             ]
+         (korma.core/exec-raw [(str "set schema 'public'") []])
+         formatted)
 
 
 
-       :else
-       (let [
-              jdbc-conn        (cond
-                                 (= *database-type* "postgres" )
-                                 (. java.sql.DriverManager getConnection  (str "jdbc:postgresql://" *database-server* ":5432/" *database-name*)  *database-user*  *database-password*)
 
-                                 (= *database-type* "oracle" )
-                                 (. java.sql.DriverManager getConnection  (str "jdbc:oracle:thin:" *database-user* "/" *database-password* "@" *database-server* ":1521:" *database-name*)  *database-user*  *database-password*))
+       update-only?
+       ;-----------
+       (do
+         (korma.db/transaction
+           (korma.core/exec-raw [(str "set schema ' " use-schema "'") []])
+           (korma.core/exec-raw [sql-in params])
+           (korma.core/exec-raw [(str "set schema 'public'") []]))
+         [])
 
-              statement    (. jdbc-conn createStatement)
-
-              change-schema   (. statement execute  (str "set schema '" schema "'"))
-              res             (. statement executeQuery  sql-in)
-              outrows         (into [] (j/result-set-seq res))
-              ]
-
-         (if outrows
-           (do
-             (. statement close)
-             (. jdbc-conn close)
-             outrows
-             )))
        ))))
 
 
@@ -167,3 +146,11 @@
     ;(println (str table-name " table-exists-result: " (count table-exists-result)))
     (println (str table-name " table exists: " table-exists?))
     table-exists?))
+
+
+
+
+
+(comment korma.db/transaction
+  (korma.core/exec-raw [(str "set schema 'public'") []])
+  (korma.core/exec-raw ["select id from appshare_applications" []] :results))
