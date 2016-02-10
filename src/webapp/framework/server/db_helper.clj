@@ -147,11 +147,3 @@
     ;(println (str table-name " table-exists-result: " (count table-exists-result)))
     (println (str table-name " table exists: " table-exists?))
     table-exists?))
-
-
-
-
-
-( korma.db/transaction
-  (korma.core/exec-raw [(str "set schema 'public'") []])
-  (korma.core/exec-raw ["insert into appshare_applications (application_name) values ('........')" []]))
