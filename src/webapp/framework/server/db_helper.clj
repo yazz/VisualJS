@@ -4,6 +4,7 @@
   [:require [korma.core]]
   [:use [webapp-config.settings]]
   [:use [webapp.framework.server.encrypt]]
+  (:require [clojure.java.jdbc :as j])
 )
 
 
@@ -51,42 +52,74 @@
 
 
 
+
+
 (defn sql
   ([sql-in]
    (sql sql-in {}))
 
   ([sql-in  params]
-  (do
-    (let [
-          lower (.toLowerCase sql-in)
-          ]
-         ;(println "SQL from client: " sql-in)
-         ;
-           (cond
-             (or (.startsWith lower "select")  (.contains lower "returning")) (do (comment println "SELECT") (into [] (map   (fn [r] (to-lower-case-keys r));
-                                                                                      (korma.core/exec-raw [sql-in params] :results))))
+   (do
+     (let [
+            lower (.toLowerCase sql-in)
+            ]
+       ;(println "SQL from client: " sql-in)
+       ;
+       (cond
+         (or (.startsWith lower "select")  (.contains lower "returning"))
+         (do (into [] (map   (fn [r] (to-lower-case-keys r));
+                             (korma.core/exec-raw [sql-in params] :results))))
 
-             :else (do (comment println "INSERT") (korma.core/exec-raw [sql-in params]) [])
-             ; []
+         :else
+         (do (comment println "INSERT") (korma.core/exec-raw [sql-in params]) [])
+         ; []
+         )))
+   )
+
+  ([schema  sql-in  params]
+   (do
+     (cond
+       (or (= schema "public") (nil? schema))
+       (let [
+              lower (.toLowerCase sql-in)
+              ]
+         (cond
+           (or (.startsWith lower "select")  (.contains lower "returning"))
+           (do  (into [] (map   (fn [r] (to-lower-case-keys r));
+                                (korma.core/exec-raw [sql-in params] :results))))
+
+           :else (do (comment println "INSERT") (korma.core/exec-raw [sql-in params]) [])
+           ; []
+           ))
+
+
+
+       :else
+       (let [
+              jdbc-conn        (cond
+                                 (= *database-type* "postgres" )
+                                 (. java.sql.DriverManager getConnection  (str "jdbc:postgresql://" *database-server* ":5432/" *database-name*)  *database-user*  *database-password*)
+
+                                 (= *database-type* "oracle" )
+                                 (. java.sql.DriverManager getConnection  (str "jdbc:oracle:thin:" *database-user* "/" *database-password* "@" *database-server* ":1521:" *database-name*)  *database-user*  *database-password*))
+
+              statement    (. jdbc-conn createStatement)
+
+              change-schema   (. statement execute  (str "set schema '" schema "'"))
+              res             (. statement executeQuery  sql-in)
+              outrows         (into [] (j/result-set-seq res))
+              ]
+
+         (if outrows
+           (do
+             (. statement close)
+             (. jdbc-conn close)
+             outrows
              )))
-  )
+       ))))
 
- ([schema  sql-in  params]
-  (do
-    (let [
-          lower (.toLowerCase sql-in)
-          ]
-         ;(println "SQL from client: " sql-in)
-         ;
-           (cond
-             (or (.startsWith lower "select")  (.contains lower "returning")) (do (comment println "SELECT") (into [] (map   (fn [r] (to-lower-case-keys r));
-                                                                                      (korma.core/exec-raw [sql-in params] :results))))
 
-             :else (do (comment println "INSERT") (korma.core/exec-raw [sql-in params]) [])
-             ; []
-             )))
-  )
-)
+
 
 (defn sql-1
   ([sql-in]
