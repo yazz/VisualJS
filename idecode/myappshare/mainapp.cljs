@@ -62,8 +62,14 @@
            app-session-id   (str (js/getappsessionid) )
            ]
 
-      (remote !savecode {:id app-id :code (subs code 0 2000)      :app-session-id app-session-id})
-      (remote !savecode2 {:id app-id :code (subs code 2000 4000)  :app-session-id app-session-id})
+      (remote !savecode {:id                 app-id
+                         :code               (subs code 0 2000)
+                         :app-session-id     app-session-id})
+
+      (remote !savecode2 {:id               app-id
+                          :code             (subs code 2000 4000)
+                          :app-session-id   app-session-id})
+
       (swap! ns-counter inc)
       (js/sendcode (str (start) code (end) ))
       )))
@@ -80,7 +86,7 @@
            app-code         (remote  !getfilecontents  {:id app-id})
            app-session-id   (str (js/getappsessionid))
            ]
-      ;(js/alert (pr-str "HOST SESSION ID: " (:session-id @client-session-atom)))
+      ;(js/alert (pr-str "HOST SESSION ID: "   (:session-id @client-session-atom)))
       ;(js/alert (pr-str "CLIENT SESSION ID: " (js/getappsessionid)))
       (swap! ns-counter inc)
       (js/sendcode (str (start)

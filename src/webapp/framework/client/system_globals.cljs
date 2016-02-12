@@ -1144,3 +1144,6 @@ anywhere
 
 
 (def realtime-started (atom false))
+
+
+(def cookie-name (atom nil))

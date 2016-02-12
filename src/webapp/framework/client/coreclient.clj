@@ -1131,3 +1131,6 @@ nil
 (defmacro use-figwheel []
   webapp-config.settings/*use-figwheel*)
 
+
+(defmacro get-cookie-name []
+  webapp-config.settings/*cookie-name*)

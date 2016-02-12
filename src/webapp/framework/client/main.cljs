@@ -20,6 +20,7 @@
                                                      data-state
                                                      app-watch-on?
                                                      record-ui
+                                                     cookie-name
                                                      touch
                                                      client-session-atom
                                                      ]]
@@ -27,7 +28,7 @@
     ;   [webapp.framework.client.components.playback  :only  [playback-controls-view ]]
     )
   (:use-macros
-    [webapp.framework.client.coreclient :only  [ns-coils remote log]]
+    [webapp.framework.client.coreclient :only  [ns-coils  remote  log  get-cookie-name]]
     )
   (:require-macros
     [cljs.core.async.macros :refer [go]]))
@@ -90,8 +91,9 @@
     (reset-app-state)
     (@init-fn)
     (detect-browser)
+    ;(js/alert (str "cookie name:" (get-cookie-name)))
 
-    (let [cookie-session-id              (cookie/get "appshare.co")
+    (let [cookie-session-id              (cookie/get  (get-cookie-name))
           create-session-response        (remote !create-session {
                                                                    :init-state (with-out-str (prn @app-state))
 
@@ -106,8 +108,9 @@
       (reset! client-session-atom  {:session-id   (:session-id create-session-response)
                                     :user         (:user create-session-response)})
 
+      ;(js/alert (str "Retrieved session ID : " cookie-session-id))
 
-      (cookie/set "appshare.co" (:session-id create-session-response)))
+      (cookie/set  (get-cookie-name)  (:session-id create-session-response)))
 
 
     (om/root   main-view

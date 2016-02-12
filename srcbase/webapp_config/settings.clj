@@ -38,6 +38,9 @@
 
 (defonce ^:dynamic *lein* "~/lein.sh")
 
+(defonce ^:dynamic *cookie-name* "appshare.co")
+
+
 
 ;(defonce ^:dynamic *database-type* "oracle")
 ;(defonce ^:dynamic *database-server* "localhost")

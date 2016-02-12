@@ -59,7 +59,8 @@
                                                     appshare-dev-port
                                                     realtime-started
                                                     appshare-cljs-source
-                                                    client-session-atom]])
+                                                    client-session-atom
+                                                    cookie-name]])
   (:use-macros
    [webapp.framework.client.coreclient  :only [ns-coils
                                                sql log sql-1
@@ -79,9 +80,9 @@
 
 
 
-
-
 (def debug-mode (atom false))
+
+
 
 (def data-views-proxy  data-views)
 
@@ -361,67 +362,45 @@
 
 
 
-
-
-
 (go
- (let [env (:value (<! (remote-fn "!get-environment" {})))]
-   (if (or (= env "dev") (= env "base") (= env "basehost"))
-     (reset! debug-mode true))))
+  (let [env (:value (<! (remote-fn "!get-environment" {})))]
+    (if (or (= env "dev") (= env "base") (= env "basehost"))
+      (reset! debug-mode true)))
+
+  (let [record-pointer-locally-value (:value
+                                       (<! (remote-fn "!get-record-pointer-locally" {})))]
+    (reset! record-pointer-locally
+            record-pointer-locally-value))
+
+  (let [main-background-color (:value
+                                (<! (remote-fn "!get-main-background-color" {})))]
+    (set! (.-backgroundColor (.-style (.getElementById js/document  "bodyelement"))) main-background-color))
+
+
+  (let [main-text-color (:value
+                          (<! (remote-fn "!get-main-text-color" {})))]
+    (set! (.-color (.-style (.getElementById js/document  "bodyelement"))) main-text-color))
 
 
 
-(go
- (let [record-pointer-locally-value (:value
-                                     (<! (remote-fn "!get-record-pointer-locally" {})))]
-     (reset! record-pointer-locally
-             record-pointer-locally-value)))
+  (let [record-ui-value (:value
+                          (<! (remote-fn "!get-record-ui" {})))]
+    (reset! record-ui
+            record-ui-value))
 
 
+  (let [appshare-dev-server-value (:value
+                                    (<! (remote-fn "!get-appshare-dev-server" {})))]
+    (reset! appshare-dev-server
+            appshare-dev-server-value))
 
 
-(go
- (let [main-background-color (:value
-                                     (<! (remote-fn "!get-main-background-color" {})))]
-     (set! (.-backgroundColor (.-style (.getElementById js/document  "bodyelement"))) main-background-color)))
+  (let [appshare-dev-port-value (:value
+                                  (<! (remote-fn "!get-appshare-dev-port" {})))]
+    (reset! appshare-dev-port
+            appshare-dev-port-value))
 
 
-(go
- (let [main-text-color (:value
-                                     (<! (remote-fn "!get-main-text-color" {})))]
-     (set! (.-color (.-style (.getElementById js/document  "bodyelement"))) main-text-color)))
-
-
-
-
-
-(go
- (let [record-ui-value (:value
-                    (<! (remote-fn "!get-record-ui" {})))]
-     (reset! record-ui
-             record-ui-value)))
-
-
-
-(go
- (let [appshare-dev-server-value (:value
-                    (<! (remote-fn "!get-appshare-dev-server" {})))]
-     (reset! appshare-dev-server
-             appshare-dev-server-value)))
-
-
-
-(go
- (let [appshare-dev-port-value (:value
-                    (<! (remote-fn "!get-appshare-dev-port" {})))]
-     (reset! appshare-dev-port
-             appshare-dev-port-value)))
-
-
-
-
-
-(go
  (let [appshare-cljs-source-value (:value
                     (<! (remote-fn "!get-appshare-cljs-source" {})))]
      (reset! appshare-cljs-source
