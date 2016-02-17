@@ -2,7 +2,7 @@
   :dependencies [
                   [org.clojure/clojure "1.8.0" :scope "provided"]
                   [org.clojure/clojurescript "1.7.228" :scope "provided"]
-                  [org.omcljs/om "1.0.0-alpha22"]
+                  [org.omcljs/om "1.0.0-alpha30"]
                   [org.clojure/core.async "0.2.374" :scope "provided"]
                   [cljsjs/react "0.14.3-0"]
 
@@ -31,8 +31,8 @@
 
                   [org.webjars/codemirror "5.8"]
 
-                  [org.clojure/tools.reader "1.0.0-alpha2"]
-                  [lein-figwheel "0.5.0-2"]
+                  [org.clojure/tools.reader "1.0.0-alpha3"]
+                  [lein-figwheel "0.5.0-6"]
 
                   [bk/ring-gzip "0.1.1"]
 
@@ -50,7 +50,7 @@
              [lein-cljsbuild "1.1.2"]
              [lein-httpd "1.0.0"]
              [lein-ring "0.9.7"]
-             [lein-figwheel "0.5.0-2"]
+             [lein-figwheel "0.5.0-6"]
              ]
 
   :profiles {
