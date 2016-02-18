@@ -387,24 +387,7 @@
                           (<! (remote-fn "!get-record-ui" {})))]
     (reset! record-ui
             record-ui-value))
-
-
-  (let [appshare-dev-server-value (:value
-                                    (<! (remote-fn "!get-appshare-dev-server" {})))]
-    (reset! appshare-dev-server
-            appshare-dev-server-value))
-
-
-  (let [appshare-dev-port-value (:value
-                                  (<! (remote-fn "!get-appshare-dev-port" {})))]
-    (reset! appshare-dev-port
-            appshare-dev-port-value))
-
-
- (let [appshare-cljs-source-value (:value
-                    (<! (remote-fn "!get-appshare-cljs-source" {})))]
-     (reset! appshare-cljs-source
-             appshare-cljs-source-value)))
+)
 
 
 
