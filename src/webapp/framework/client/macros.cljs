@@ -418,15 +418,15 @@
   (let [input-path (swap! path-index inc)]
     `(input (merge ~params
                    {
-                    :value      (read-ui  ~app [~input-path])
+                    :value      (~'read-ui  ~app [~input-path])
                     :onChange   (~'fn [~'event]
                                       (~'let [~'newtext  (.. ~'event -target -value  )]
                                              (~'write-ui  ~app  [~input-path]  ~'newtext)))
                     :onKeyDown  (~'fn [~'event]
-                                      (do
+                                      (~'do
                                         (~'if (= (.-keyCode ~'event  ) 13)
                                               (~'go
-                                               (let [~'newtext (~'read-ui  ~app [~input-path])]
+                                               (~'let [~'newtext (~'read-ui  ~app [~input-path])]
                                                  ((~@code) ~'newtext)
                                                  (~'write-ui  ~app  [~input-path]  ""))))))
                     } ))))
