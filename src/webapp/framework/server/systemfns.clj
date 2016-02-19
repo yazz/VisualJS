@@ -1695,7 +1695,6 @@
     schema-name2))
 
 
-
 ;zzz
 ; ----------------------------------------------------------------
 ; Whenever the web browser asks the server for data it calls
@@ -1714,12 +1713,16 @@
                                      ]}]
 
   (let [
-         schema-name  "public" ;(get-schema-name-for-session-id  data-session-id)
+         schema-name  (get-schema-name-for-session-id   data-session-id)
          ]
-  (println "************************************************************************************")
-  (println (str "* SCHEMA: "  (get-schema-name-for-session-id  data-session-id)))
-  (println "************************************************************************************")
-  (println "")
+
+    ;(if (not (= "public" schema-name ))
+    (do
+      (println "************************************************************************************")
+      (println (str "* SCHEMA: "  schema-name))
+      (println "************************************************************************************")
+      (println ""))
+    ;)
 
 
   ;(println "************************************************************************************")
