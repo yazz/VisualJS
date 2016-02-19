@@ -1549,7 +1549,7 @@
   ))
 
 
-;zzz
+
 ; ----------------------------------------------------------------
 ; Whenever a record changes an entry is added to the real time log
 ; which is processed here. It first finds which queries it
@@ -1680,8 +1680,19 @@
 
 
 (defn get-schema-name-for-session-id [data-session-id]
-  "public")
+  (let [
+         app-schema-id     (:appshare_application_schema_id (sql-1 "select   appshare_application_schema_id   from   public.appshare_web_sessions    where   session_id = ?" [data-session-id]))
 
+         schema-name       (cond
+                             app-schema-id
+                             (:database_schema_name (sql-1 "select   database_schema_name   from   public.appshare_application_schemas  where  id = ?"  [app-schema-id]))
+
+                             :else
+                             "public")
+
+         schema-name2      (if (= (count schema-name) 0) "public" schema-name)
+         ]
+    schema-name2))
 
 
 
@@ -1703,8 +1714,14 @@
                                      ]}]
 
   (let [
-         schema-name  (get-schema-name-for-session-id  data-session-id)
+         schema-name  "public" ;(get-schema-name-for-session-id  data-session-id)
          ]
+  (println "************************************************************************************")
+  (println (str "* SCHEMA: "  (get-schema-name-for-session-id  data-session-id)))
+  (println "************************************************************************************")
+  (println "")
+
+
   ;(println "************************************************************************************")
   ;(println "    **** " db-table " : "  fields)
   ;(println " ")
@@ -1992,7 +2009,6 @@
 
 
 
-;zzz
 ; ----------------------------------------------------------------
 ; Whenever a web client wants to know if the data it is showing
 ; needs to be updated it sends a request to this server side
@@ -2111,7 +2127,6 @@
 
 
 
-;zzz
 ;(defn !savecode [{:keys [id] } code]
 (defn !savecode [{:keys [id   code   app-session-id] }]
   (do
