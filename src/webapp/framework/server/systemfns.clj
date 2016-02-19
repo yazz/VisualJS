@@ -2028,18 +2028,37 @@
 
 
 
-(defn !getfilecontents [{:keys [id]}]
+(defn !getfilecontents [{:keys [id  app-session-id]}]
   (if id
-    (let [content-records (cond
-                             (= *database-type* "postgres" )
-                             (sql-1 "select  application_code as ac from appshare_applications where id = ?" [id])
+    (let [content-records   (cond
+                              (= *database-type* "postgres" )
+                              (sql-1 "select  application_code as ac from appshare_applications where id = ?" [id])
 
-                             (= *database-type* "oracle" )
-                             (sql-1 "select  dbms_lob.substr( application_code, 3000, 1 ) as ac, dbms_lob.substr( application_code, 3000, 3001 ) as ac2 from appshare_applications where id = ?" [id]))
-          content (str (get content-records :ac) (get content-records :ac2))
+                              (= *database-type* "oracle" )
+                              (sql-1 "select  dbms_lob.substr( application_code, 3000, 1 ) as ac, dbms_lob.substr( application_code, 3000, 3001 ) as ac2 from appshare_applications where id = ?" [id]))
+
+          content           (str (get content-records :ac) (get content-records :ac2))
+
+          app-schema-id     (:id (sql-1 "select  id  from  appshare_application_schemas  where  application_environment = 'DEV' and fk_appshare_application_id = ?"  [id]))
           ]
-      ;(println (str "id: " id))
-      {:value content})))
+
+      (do
+        (println (str "!getfilecontents        id: "        id))
+        (println (str "!getfilecontents  app-schema-id: "   app-schema-id))
+        (println (str "" ))
+
+        (cond
+          app-schema-id
+          (sql "update  appshare_web_sessions  set appshare_application_schema_id = ?  where  session_id = ?"  [app-schema-id   app-session-id])
+
+          :else
+          (do
+            (sql "update  appshare_web_sessions  set appshare_application_schema_id = NULL  where  session_id = ?"  [app-session-id])))
+
+        {:value content}))
+
+    {:value "" :error "No content"}
+    ))
 
 
 
@@ -2097,20 +2116,9 @@
 (defn !savecode [{:keys [id   code   app-session-id] }]
   (do
     (println (str "***********id: " id))
-  (let [
-         app-schema-id   (:id (sql-1 "select  id  from  appshare_application_schemas  where  application_environment = 'DEV' and fk_appshare_application_id = ?"  [id]))
-         ]
-    (println (str "***********app-schema-id: " app-schema-id))
-
     (sql "update  appshare_applications  set application_code = ?  where  id = ?" [code id])
 
-    (cond
-      app-schema-id
-      (sql "update  appshare_web_sessions  set appshare_application_schema_id = ?  where  session_id = ?"  [app-schema-id   app-session-id])
 
-      :else
-      (do
-        (sql "update  appshare_web_sessions  set appshare_application_schema_id = NULL  where  session_id = ?"  [app-session-id])))
 
     (let [;start     (slurp (src-folder "main_view_start.txt"))
           ;middle    code
@@ -2123,7 +2131,7 @@
       nil
       )
 
-    {:value code})))
+    {:value code}))
 
 
 

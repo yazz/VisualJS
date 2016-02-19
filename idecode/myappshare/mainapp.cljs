@@ -83,8 +83,9 @@
   (go
     ;(js/alert (str app-id))
     (let [
-           app-code         (remote  !getfilecontents  {:id app-id})
            app-session-id   (str (js/getappsessionid))
+           app-code         (remote  !getfilecontents  {:id               app-id
+                                                        :app-session-id   app-session-id})
            ]
       ;(js/alert (pr-str "HOST SESSION ID: "   (:session-id @client-session-atom)))
       ;(js/alert (pr-str "CLIENT SESSION ID: " (js/getappsessionid)))
@@ -159,7 +160,10 @@
   {:on-mount
    (do  (go
           (if  (read-ui app [:app-id])
-            (let [x (remote  !getfilecontents  {:id (read-ui app [:app-id]) })
+            (let [app-session-id    (str (js/getappsessionid))
+
+                  x                 (remote  !getfilecontents  {:id                (read-ui app [:app-id])
+                                                                :app-session-id     app-session-id})
 
                   user-can-edit-app (:value (remote  !user-can-edit-app?  {:id             (read-ui app [:app-id])
                                                                            :session-id     (:session-id @client-session-atom)}))]
