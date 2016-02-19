@@ -1102,11 +1102,10 @@ nil
 
 
             ~'key-down-fn     (~'fn [~'event]
-                                   (do
-
-                                     (~'cond
-                                       (or (= (.-keyCode ~'event  ) 13)
-                                           (and (= (.-keyCode ~'event  ) 9) ~send-on-tab))
+                                   (~'do
+                                     (~'if (~'or
+                                             (~'= (~'.-keyCode ~'event  ) 13)
+                                             (~'and (~'= (~'.-keyCode ~'event  ) 9) ~send-on-tab))
                                        (~'callback-fn  ~'event)
                                        )))
            ]
@@ -1117,7 +1116,6 @@ nil
                        :onBlur     (if ~send-on-blur ~'callback-fn)
                        :onKeyDown  ~'key-down-fn
                        } )))))
-
 
 (defmacro test [a]
   `(str ~a))

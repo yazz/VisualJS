@@ -415,21 +415,48 @@
 
 
 (defmacro input-field [params  app  code]
-  (let [input-path (swap! path-index inc)]
-    `(input (merge ~params
-                   {
-                    :value      (~'read-ui  ~app [~input-path])
-                    :onChange   (~'fn [~'event]
-                                      (~'let [~'newtext  (.. ~'event -target -value  )]
-                                             (~'write-ui  ~app  [~input-path]  ~'newtext)))
-                    :onKeyDown  (~'fn [~'event]
-                                      (~'do
-                                        (~'if (= (.-keyCode ~'event  ) 13)
-                                              (~'go
-                                               (~'let [~'newtext (~'read-ui  ~app [~input-path])]
-                                                 ((~@code) ~'newtext)
-                                                 (~'write-ui  ~app  [~input-path]  ""))))))
-                    } ))))
+  (let [use-key            (get params :key)
+        input-path         (if use-key use-key (swap! path-index inc))
+        preserve           (get params :preserveContents)
+        send-on-keypress   (get params :sendOnKeypress)
+        send-on-blur       (get params :sendOnBlur)
+        send-on-tab        (get params :sendOnTab)
+        ]
+
+    `(let [
+           ~'callback-fn     (~'fn [~'event]
+                                       (~'go
+                                         (let [~'newtext (~'read-ui  ~app [~input-path])]
+                                           ((~@code) ~'newtext)
+                                           (~'if (~'not ~preserve) (~'write-ui  ~app  [~input-path]  ""))))
+                                       )
+
+            ~'on-change-fn   (~'fn [~'event]
+                                 (~'let [~'newtext  (.. ~'event -target -value  )]
+                                        (~'.log ~'js/console (~'pr-str (.. ~'event -target -value  )))
+                                        (~'write-ui  ~app  [~input-path]  ~'newtext)
+                                        (~'if ~send-on-keypress ((~@code) ~'newtext))
+                                        ))
+
+
+
+            ~'key-down-fn     (~'fn [~'event]
+                                   (~'do
+                                     (~'if (~'or
+                                             (~'= (~'.-keyCode ~'event  ) 13)
+                                             (~'and (~'= (~'.-keyCode ~'event  ) 9) ~send-on-tab))
+                                       (~'callback-fn  ~'event)
+                                       )))
+           ]
+       (input (merge ~params
+                     {
+                       :value      (read-ui  ~app [~input-path])
+                       :onChange   ~'on-change-fn
+                       :onBlur     (if ~send-on-blur ~'callback-fn)
+                       :onKeyDown  ~'key-down-fn
+                       } )))))
+
+
 
 
 
