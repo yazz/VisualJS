@@ -1099,7 +1099,7 @@
 
 
 (defn do-real [& {:keys [:table-name]}]
-  (println "-real**: table name: " table-name)
+  ;(println "-real**: table name: " table-name)
 
   (create-realtime-trigger  :table-name  table-name));(get-table-name  table-name)))
 
@@ -1309,7 +1309,7 @@
 ; This is called whenever there has been an update of a realtime
 ; query.
 ; ----------------------------------------------------------------
-(defn update-record-in-cache [db-schema  db-table  id]
+(defn update-record-in-cache [db-table  id]
   (do
     (println "Update record")
     (let [
@@ -1338,9 +1338,10 @@
 
 
 
-(defn inform-clients-about-record  [db-table   id]
-  (println "inform-clients-about-record ")
-  (let [the-record        (get-record-from-server-cache-for-id  db-table  id )
+(defn inform-clients-about-record  [schema  db-table   id]
+  (println (str "inform-clients-about-record: " schema " . " db-table))
+  (let [full-table-name    (str schema "." db-table)
+         the-record        (get-record-from-server-cache-for-id  full-table-name  id )
         clients-atom      (:clients the-record)
         ]
     (println (str "    the-record: " the-record))
@@ -1551,6 +1552,7 @@
         ;db-table         (str (:record_table_schema realtime-log-entry) "." (:record_table_name realtime-log-entry))
         db-table         (str (:record_table_name realtime-log-entry))
         db-schema        (str (:record_table_schema realtime-log-entry))
+        full-table-name  (str db-schema "." db-table)
         ]
     ;(println (str "**** Processing realtime record change: "))
     ;(println (str "      schema.db-table: "  db-schema "." db-table))
@@ -1570,8 +1572,12 @@
     ; ----------------------------------------------------------------
     (if (= (get realtime-log-entry (cond (= *database-type* "postgres" ) :record_operation (= *database-type* "oracle") :record_operation)) "UPDATE")
       (do
-        (update-record-in-cache  db-schema  db-table   id)
-        (inform-clients-about-record   db-table   id)))
+    (println (str "********************************  "))
+    (println (str "*       db-table: "   db-table ))
+    (println (str "********************************  "))
+    (println (str ""))
+        (update-record-in-cache  full-table-name   id)
+        (inform-clients-about-record  db-schema   db-table   id)))
 
 
 
@@ -1706,11 +1712,12 @@
 
     ;(if (not (= "public" schema-name ))
     (do
-      (println "************************************************************************************")
-      (println (str "* SCHEMA:          "  schema-name))
-      (println (str "* full-table-name: "  full-table-name))
-      (println "************************************************************************************")
-      (println ""))
+      ;(println "************************************************************************************")
+      ;(println (str "* SCHEMA:          "  schema-name))
+      ;(println (str "* full-table-name: "  full-table-name))
+      ;(println "************************************************************************************")
+      ;(println "")
+      )
     ;)
 
 
