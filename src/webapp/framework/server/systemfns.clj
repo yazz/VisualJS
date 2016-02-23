@@ -1646,6 +1646,12 @@
       (swap! server-side-realtime-clients assoc client-realtime-id (atom {:queries (atom {})    :records (atom {})    :update-request (atom {})})))))
 
 
+(defn clear-client-cache [client-realtime-id]
+  (let [client-cache     (get @server-side-realtime-clients  client-realtime-id)
+        ]
+    (if client-cache
+      (swap! server-side-realtime-clients assoc client-realtime-id (atom {:queries (atom {})    :records (atom {})    :update-request (atom {})})))))
+
 
 
 
@@ -2067,7 +2073,6 @@
 
 
 
-
 (defn !getfilecontents [{:keys [id  app-session-id]}]
   (if id
     (let [content-records   (cond
@@ -2083,6 +2088,8 @@
           ]
 
       (do
+        (clear-client-cache   app-session-id)
+
         (println (str "!getfilecontents        id: "        id))
         (println (str "!getfilecontents  app-schema-id: "   app-schema-id))
         (println (str "" ))
