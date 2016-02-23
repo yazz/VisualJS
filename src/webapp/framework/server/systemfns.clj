@@ -1266,19 +1266,6 @@
 
 
 
-;zzz
-(defn !get-record-result
-  [{:keys [
-           db-table
-           id
-           fields
-           data-session-id
-           realtime
-           ]}]
-      ;(println (str " !get-record-result DATA_SESSION_ID: " data-session-id))
-      ;(println (str " !get-record-result realtime: " realtime))
-  {:value
-   (get-record   db-table  id  fields  realtime  data-session-id)})
 
 
 
@@ -1824,6 +1811,31 @@
         :count        record-count
         }
        )))))
+
+
+
+
+
+
+
+
+;zzz
+(defn !get-record-result
+  [{:keys [
+            db-table
+            id
+            fields
+            data-session-id
+            realtime
+            ]}]
+  (let [
+         schema-name        (get-schema-name-for-session-id   data-session-id)
+         full-table-name    (str schema-name "." db-table)
+         ]
+    ;(println (str " !get-record-result DATA_SESSION_ID: " data-session-id))
+    ;(println (str " !get-record-result realtime: " realtime))
+    {:value
+     (get-record   full-table-name  id  fields  realtime  data-session-id)}))
 
 
 
