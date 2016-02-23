@@ -1099,9 +1099,9 @@
 
 
 (defn do-real [& {:keys [:table-name]}]
-  ;(println "-real**: table name: " table-name)
+  (println "-real**: table name: " table-name)
 
-  (create-realtime-trigger  :table-name  (get-table-name  table-name)))
+  (create-realtime-trigger  :table-name  table-name));(get-table-name  table-name)))
 
 
 
@@ -1207,7 +1207,7 @@
 
 
 
-(defn get-record [db-table  id  fields  realtime client-id]
+(defn get-record [db-table  id  fields  realtime  client-id]
   (if id
     (do
 
@@ -1266,7 +1266,7 @@
 
 
 
-
+;zzz
 (defn !get-record-result
   [{:keys [
            db-table
@@ -1713,13 +1713,15 @@
                                      ]}]
 
   (let [
-         schema-name  (get-schema-name-for-session-id   data-session-id)
+         schema-name        (get-schema-name-for-session-id   data-session-id)
+         full-table-name    (str schema-name "." db-table)
          ]
 
     ;(if (not (= "public" schema-name ))
     (do
       (println "************************************************************************************")
-      (println (str "* SCHEMA: "  schema-name))
+      (println (str "* SCHEMA:          "  schema-name))
+      (println (str "* full-table-name: "  full-table-name))
       (println "************************************************************************************")
       (println ""))
     ;)
@@ -1756,7 +1758,7 @@
    (let [
 
          query-key   (create-query-key
-                      :db-table  (str schema-name "." db-table)
+                      :db-table  full-table-name
                       :where     where
                       :start     start
                       :end       end
