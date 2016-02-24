@@ -92,6 +92,20 @@
 
 
 
+(defn get-schema-name-for-session-id [data-session-id]
+  (let [
+         app-schema-id     (:appshare_application_schema_id (sql-1 "select   appshare_application_schema_id   from   public.appshare_web_sessions    where   session_id = ?" [data-session-id]))
+
+         schema-name       (cond
+                             app-schema-id
+                             (:database_schema_name (sql-1 "select   database_schema_name   from   public.appshare_application_schemas  where  id = ?"  [app-schema-id]))
+
+                             :else
+                             "public")
+
+         schema-name2      (if (= (count schema-name) 0) "public" schema-name)
+         ]
+    schema-name2))
 
 
 
@@ -99,15 +113,33 @@
 
 
 
-(defn !sql [{coded-sql :sql params :params}]
+;zzz
+(defn !sql [{coded-sql  :sql
+             params     :params
+             session-id :session-id}]
   (do
     (let [sql             (decrypt coded-sql)
           lower           (.toLowerCase sql)
+          schema          (get-schema-name-for-session-id   session-id)
           ]
-      ;(println "SQL from client: " coded-sql " -> " sql)
+      (println "")
+      (println "SQL from client: " coded-sql " -> " sql)
+      (println "     session-id: " session-id)
+      (println "         schema: " schema)
+      (println "")
+
       (cond
-       (.startsWith lower "select")  (do (comment println "SELECT") (korma.core/exec-raw [sql params] :results))
-       :else                         (do (comment println "INSERT") (korma.core/exec-raw [sql params]) [])
+       (.startsWith lower "select")  (korma.db/transaction
+                                       (korma.core/exec-raw [(str "set schema '" schema "';") []])
+                                       (korma.core/exec-raw [sql params] :results)
+                                       (korma.core/exec-raw [(str "set schema 'public';") []])
+                                       )
+
+       :else                         (korma.db/transaction
+                                       (korma.core/exec-raw [(str "set schema '" schema "';") []])
+                                       (korma.core/exec-raw [sql params])
+                                       (korma.core/exec-raw [(str "set schema 'public';") []])
+                                       [])
     ))))
 
 
@@ -435,7 +467,7 @@
         sql-to-create-insert-trigger
         (cond
           (= *database-type* "postgres")
-          (str "CREATE TRIGGER trigger_afterInsert AFTER INSERT ON " table-name " FOR EACH ROW EXECUTE PROCEDURE trigger_function_afterInsert();")
+          (str "CREATE TRIGGER trigger_afterInsert AFTER INSERT ON " table-name " FOR EACH ROW EXECUTE PROCEDURE public.trigger_function_afterInsert();")
 
           (= *database-type* "oracle")
           (str "create or replace trigger I" table-name " AFTER INSERT ON " table-name " "
@@ -457,7 +489,7 @@
         sql-to-create-update-trigger
         (cond
           (= *database-type* "postgres")
-          (str "CREATE TRIGGER trigger_afterUpdate AFTER UPDATE ON " table-name " FOR EACH ROW EXECUTE PROCEDURE trigger_function_afterUpdate();")
+          (str "CREATE TRIGGER trigger_afterUpdate AFTER UPDATE ON " table-name " FOR EACH ROW EXECUTE PROCEDURE public.trigger_function_afterUpdate();")
 
           (= *database-type* "oracle")
           (str "create or replace trigger U" table-name " AFTER UPDATE ON " table-name " "
@@ -474,7 +506,7 @@
         sql-to-create-delete-trigger
         (cond
           (= *database-type* "postgres")
-          (str "CREATE TRIGGER trigger_afterDelete AFTER DELETE ON " table-name " FOR EACH ROW EXECUTE PROCEDURE trigger_function_afterDelete();")
+          (str "CREATE TRIGGER trigger_afterDelete AFTER DELETE ON " table-name " FOR EACH ROW EXECUTE PROCEDURE public.trigger_function_afterDelete();")
 
           (= *database-type* "oracle")
           (str "create or replace trigger D" table-name " AFTER DELETE ON " table-name " "
@@ -955,7 +987,7 @@
         RETURNS trigger AS
         $BODY$
         BEGIN
-        INSERT INTO appshare_realtime_log
+        INSERT INTO public.appshare_realtime_log
         (record_timestamp,  record_table_schema, record_table_name,  record_id, record_id_type, record_operation)
         VALUES
         ( now(),   TG_TABLE_SCHEMA , TG_TABLE_NAME ,  NEW.id,
@@ -1003,7 +1035,7 @@
         RETURNS trigger AS
         $BODY$
         BEGIN
-        INSERT INTO appshare_realtime_log
+        INSERT INTO public.appshare_realtime_log
         (record_timestamp,  record_table_schema, record_table_name,  record_id, record_id_type,  record_operation)
         VALUES
         ( now(),   TG_TABLE_SCHEMA ,TG_TABLE_NAME ,  NEW.id,
@@ -1047,7 +1079,7 @@
         RETURNS trigger AS
         $BODY$
         BEGIN
-        INSERT INTO appshare_realtime_log
+        INSERT INTO public.appshare_realtime_log
         (record_timestamp,  record_table_schema, record_table_name,  record_id, record_id_type,  record_operation)
         VALUES
         ( now(),   TG_TABLE_SCHEMA, TG_TABLE_NAME ,  OLD.id,
@@ -1572,10 +1604,10 @@
     ; ----------------------------------------------------------------
     (if (= (get realtime-log-entry (cond (= *database-type* "postgres" ) :record_operation (= *database-type* "oracle") :record_operation)) "UPDATE")
       (do
-    (println (str "********************************  "))
-    (println (str "*       db-table: "   db-table ))
-    (println (str "********************************  "))
-    (println (str ""))
+    ;(println (str "********************************  "))
+    ;(println (str "*       db-table: "   db-table ))
+    ;(println (str "********************************  "))
+    ;(println (str ""))
         (update-record-in-cache  full-table-name   id)
         (inform-clients-about-record  db-schema   db-table   id)))
 
@@ -1678,23 +1710,7 @@
 
 
 
-(defn get-schema-name-for-session-id [data-session-id]
-  (let [
-         app-schema-id     (:appshare_application_schema_id (sql-1 "select   appshare_application_schema_id   from   public.appshare_web_sessions    where   session_id = ?" [data-session-id]))
 
-         schema-name       (cond
-                             app-schema-id
-                             (:database_schema_name (sql-1 "select   database_schema_name   from   public.appshare_application_schemas  where  id = ?"  [app-schema-id]))
-
-                             :else
-                             "public")
-
-         schema-name2      (if (= (count schema-name) 0) "public" schema-name)
-         ]
-    schema-name2))
-
-
-;zzz
 ; ----------------------------------------------------------------
 ; Whenever the web browser asks the server for data it calls
 ; this function (!get-query-results) telling the server
@@ -1832,7 +1848,6 @@
 
 
 
-;zzz
 (defn !get-record-result
   [{:keys [
             db-table

@@ -348,17 +348,23 @@
 
 
 
-
+;zzz
 (defn sql-fn
   ([schema sql-str params]
    (go
      (<! (remote-fn
-           "!sql" {:sql sql-str :params params}))))
+           "!sql" {:sql         sql-str
+                   :params      params
+                   :session-id  (:session-id @client-session-atom)
+                   }))))
 
   ([sql-str params]
    (go
      (<! (remote-fn
-           "!sql" {:sql sql-str :params params})))))
+           "!sql" {:sql         sql-str
+                   :params      params
+                   :session-id  (:session-id @client-session-atom)
+                   })))))
 
 
 
@@ -1445,7 +1451,6 @@
 
 
 
-           ;zzz
            ;(log (str "@client-record-cache=" @client-record-cache))
            ;(log (str "keys @client-record-cache=" (keys @client-record-cache)))
            (log (pr-str ":appshare_todo_items @client-record-cache=" (keys @(:values @(:appshare_todo_items @client-record-cache)))))
