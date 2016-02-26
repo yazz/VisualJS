@@ -2322,8 +2322,23 @@
                               "         \"New app\"))")
 
                             (:id publisher)]
-                           )]
-    {:id (:id response)}))
+                           )
+
+        new-app-id      (:id response)
+
+        new-schema-name    (str "app_" new-app-id "_dev")
+        new-schema         (sql-1 "insert into appshare_schemas (database_schema_name) values (?) returning id" [new-schema-name])
+        new-schema-id      (:id new-schema)
+        ]
+    (do
+      (sql-1 "insert into appshare_application_schemas  (fk_appshare_application_id,fk_appshare_schema_id, application_environment) values (?, ?,?)"
+             [new-app-id  new-schema-id  "DEV"])
+
+
+      (sql-1 (str "create schema " new-schema-name)
+             [])
+
+      {:id new-app-id})))
 
 
 
