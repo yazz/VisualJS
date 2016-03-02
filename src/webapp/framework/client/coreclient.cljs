@@ -60,6 +60,7 @@
                                                     realtime-started
                                                     appshare-cljs-source
                                                     client-session-atom
+                                                    resetclientstate
                                                     cookie-name]])
   (:use-macros
    [webapp.framework.client.coreclient  :only [ns-coils
@@ -2574,3 +2575,9 @@ with the (<-- :field) method
   )
 
 
+
+
+
+
+(defn ^:export callresetclientstate []
+  (resetclientstate))

@@ -86,6 +86,11 @@
                 return document.getElementById('appframe').contentWindow.webapp.framework.client.coreclient.getsessionid();
             }
 
+
+            function callresetclientstate () {
+                return document.getElementById('appframe').contentWindow.webapp.framework.client.coreclient.callresetclientstate();
+            }
+
             function enforceMaxLength(cm, change) {
                 var maxLength = cm.getOption("maxLength");
                 if (maxLength && change.update) {

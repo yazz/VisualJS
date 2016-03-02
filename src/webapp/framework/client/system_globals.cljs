@@ -1147,3 +1147,48 @@ anywhere
 
 
 (def cookie-name (atom nil))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+(defn resetclientstate []
+  (do
+    (reset! call-stack [])
+    (reset! data-accesses {})
+    (reset! data-state {})
+    (reset! app-state {})
+    (reset! ui-watchers [])
+    (reset! data-watchers [])
+    (reset!  app-state  blank-app-state)
+    (reset!  playback-app-state {})
+    (reset!  debug-event-timeline {})
+    (reset!  component-usage {})
+    (reset!  gui-calls {})
+    (reset!  paths-for-refresh  {})
+    (reset!  data-views {})
+    (reset!  client-data-windows   {})
+    (reset!  client-query-cache    {})
+    (reset!  client-record-cache   {})
+    (reset!  client-datasource-fields  {})
+    ))
+
+
