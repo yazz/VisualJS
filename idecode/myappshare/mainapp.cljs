@@ -17,6 +17,7 @@
    [myappshare.glyphs :only  [glyphs]]
    [myappshare.join :only  [join-component]]
    [myappshare.your-account :only  [your-account-component]]
+   [myappshare.edit-data :only  [edit-data-component]]
    [webapp.framework.client.system-globals :only  [appshare-dev-server   appshare-dev-port     client-session-atom]]
     )
 
@@ -185,6 +186,9 @@
   (div {}
        (realtime select   id, application_name, application_glyph   from appshare_applications where id = ? {:params [(read-ui app [:app-id])]}
                  (div {:style {:marginLeft "20px" :padding "5px"}}
+                      (span {:onClick #(go  (write-ui app [:mode] "editdata"))} "Data")
+
+
                       (let [glyphicon (if (<-- :application_glyph)  (<-- :application_glyph) "glyphicon-align-left")]
                         (span {:onClick #(go  (write-ui app [:mode] "editappglyph"))
                                :className (str "glyphicon " glyphicon)
@@ -459,6 +463,9 @@
               (= (read-ui app [:mode]) "account")
               (div {:style {} } (component your-account-component app []))
 
+
+              (= (read-ui app [:mode]) "editdata")
+              (div {:style {} } (component edit-data-component app []))
             )
 
 
