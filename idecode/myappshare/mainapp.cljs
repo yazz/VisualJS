@@ -350,14 +350,6 @@
                                           )
                                         )) } "New")
 
-            (button {:className    (if (small-screen) "btn btn-default"  "btn-lg btn-default")
-                     :style {:display "inline-block" :marginLeft (if (small-screen) "2px"  "30px")
-                             :fontFamily "Ubuntu"    :fontSize "1em"       :marginTop "0.3em"
-                             :opacity  (if (= (read-ui app [:mode]) "view")  "1.0" "0.4")
-                             }
-                     :onClick     #(go (write-ui app [:mode] "edit"))
-                     :disabled     (if (= (read-ui app [:mode]) "view") "" "true")
-                             } "Edit")
 
 
             (cond
@@ -373,24 +365,36 @@
 
 
 
+(cond
+  (not (= (read-ui app [:mode]) "edit"))
+            (button {:className    (if (small-screen) "btn btn-default"  "btn-lg btn-default")
+                     :style {:display "inline-block" :marginLeft (if (small-screen) "2px"  "30px")
+                             :fontFamily "Ubuntu"    :fontSize "1em"       :marginTop "0.3em"
+                             :opacity  (if (= (read-ui app [:mode]) "view")  "1.0" "0.4")
+                             }
+                     :onClick     #(go (write-ui app [:mode] "edit"))
+                     :disabled     (if (= (read-ui app [:mode]) "view") "" "true")
+                     } "Edit")
 
-                   (button {:className    (if (small-screen) "btn btn-default"  "btn-lg btn-default")
-                        :style       {:display "inline-block" :marginLeft (if (small-screen) "2px"  "30px") :fontFamily "Ubuntu" :fontSize "1em" :marginTop "0.3em"
-                                      :backgroundColor "lightgreen"
-                                      :opacity  (if (= (read-ui app [:mode]) "edit")  "1.0" "0.4")
 
-                                      }
-                        :onClick     #(do
-                                        (write-ui app [:mode] "view")
-                                        (reeval  (read-ui app [:app-id])))
+  (= (read-ui app [:mode]) "edit")
+            (button {:className    (if (small-screen) "btn btn-default"  "btn-lg btn-default")
+                     :style       {:display "inline-block" :marginLeft (if (small-screen) "2px"  "30px") :fontFamily "Ubuntu" :fontSize "1em" :marginTop "0.3em"
+                                   :backgroundColor "lightgreen"
+                                   :opacity  (if (= (read-ui app [:mode]) "edit")  "1.0" "0.4")
+
+                                   }
+                     :onClick     #(do
+                                     (write-ui app [:mode] "view")
+                                     (reeval  (read-ui app [:app-id])))
                      :disabled  (if (= (read-ui app [:mode]) "edit") "" "true")
                      }
-                           "Run"
-                           (span {:style {:marginLeft "4px"}
-                                  :className (str "glyphicon glyphicon-play")
-                                  :aria-hidden "true"})
-                       )
-
+                    "Run"
+                    (span {:style {:marginLeft "4px"}
+                           :className (str "glyphicon glyphicon-play")
+                           :aria-hidden "true"})
+                    )
+)
 
 
             (button {:className    (if (small-screen) "btn btn-default"  "btn-lg btn-default")
