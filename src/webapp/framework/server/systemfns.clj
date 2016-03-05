@@ -123,26 +123,42 @@
     (let [sql             (decrypt coded-sql)
           lower           (.toLowerCase sql)
           schema          (get-schema-name-for-session-id   session-id)
+          schema-sql      (str "set schema '" schema "';")
           ]
       (println "")
       (println "SQL from client: " coded-sql " -> " sql)
       (println "     session-id: " session-id)
-      (println "         schema: " schema)
+      (println "         schema: " schema-sql)
       (println "")
 
-      (cond
-       (.startsWith lower "select")  (korma.db/transaction
-                                       (korma.core/exec-raw [(str "set schema '" schema "';") []])
-                                       (korma.core/exec-raw [sql params] :results)
-                                       (korma.core/exec-raw [(str "set schema 'public';") []])
-                                       )
+      (let [results
+            (cond
+              (.startsWith lower "select")  (korma.db/transaction
+                                              (korma.core/exec-raw [schema-sql []])
+                                              (korma.core/exec-raw [sql params] :results)
+                                              )
 
-       :else                         (korma.db/transaction
-                                       (korma.core/exec-raw [(str "set schema '" schema "';") []])
-                                       (korma.core/exec-raw [sql params])
-                                       (korma.core/exec-raw [(str "set schema 'public';") []])
-                                       [])
-    ))))
+              :else                         (korma.db/transaction
+                                              (korma.core/exec-raw [(str "set schema '" schema "';") []])
+                                              (korma.core/exec-raw [sql params])
+                                              []))]
+        (do
+          (korma.core/exec-raw [(str "set schema 'public';") []])
+          results
+          )))))
+
+
+
+
+
+(defn !get-list-of-tables [{session-id :session-id}]
+  (do
+    (let [schema          (get-schema-name-for-session-id   session-id)
+          table-names     (korma.core/exec-raw ["select * from information_schema.tables where table_schema = ?" [schema]] :results)
+          ]
+      (map :table_name table-names)
+      )))
+
 
 
 
@@ -2519,3 +2535,7 @@
         {:value false}
         ))))
 
+
+
+
+;(sql "select count(*) from information_schema.tables"  [])

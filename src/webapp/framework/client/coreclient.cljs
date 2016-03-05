@@ -2594,3 +2594,22 @@ with the (<-- :field) method
         (function-callback   result)
         ))
     {}))
+
+
+
+
+
+(defn sql-callback
+  ([sql-str  params  sql-function-callback]
+   (do
+
+     (remote-callback  "!sql"
+
+                       {:sql          sql-str
+                        :params       params
+                        :session-id  (:session-id @client-session-atom)
+                        }
+
+                       (fn [x] (js/alert (pr-str "Returned: " x)))))))
+                       ;sql-function-callback))))
+
