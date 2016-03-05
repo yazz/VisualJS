@@ -2610,6 +2610,6 @@ with the (<-- :field) method
                         :session-id  (:session-id @client-session-atom)
                         }
 
-                       (fn [x] (js/alert (pr-str "Returned: " x)))))))
-                       ;sql-function-callback))))
+                       ;(fn [x] (js/alert (pr-str "Returned: " x)))))))
+                       sql-function-callback))))
 

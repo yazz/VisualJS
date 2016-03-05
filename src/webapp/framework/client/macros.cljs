@@ -467,10 +467,17 @@
   `(webapp.framework.client.coreclient/sql-fn
        ~sql-str
        {}))
+
   ([sql-str params]
   `(webapp.framework.client.coreclient/sql-fn
        ~sql-str
-       ~params)))
+       ~params))
+
+  ([sql-str params callback-fn]
+   `(webapp.framework.client.coreclient/sql-callback
+      ~sql-str
+      ~params
+      ~callback-fn)))
 
 
 
