@@ -41,7 +41,7 @@
                     map-many  add-many <--  data-view-v2  sql-parser  select
                     remote-sql-parser sql realtime
                     data-view-result-set section h1 h2 h3 h4 h5 h6
-                    input-field read-ui write-ui container label
+                    input-field read-ui write-ui container label remote
                     ]]))
 (ns-coils 'webapp.framework.client.fns " @ns-counter ")"))
 (defn end [] "(webapp.framework.client.system-globals.touch [:ui])\n

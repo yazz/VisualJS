@@ -494,3 +494,13 @@
       :else
       `(sql-parser  "realtime" ~@select-args)
       )))
+
+
+
+
+
+(defmacro remote [remote-fn  params  callback-fn]
+  `(webapp.framework.client.coreclient/remote-callback
+     ~remote-fn
+     ~params
+     ~callback-fn))
