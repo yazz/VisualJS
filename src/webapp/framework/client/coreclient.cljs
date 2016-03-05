@@ -2581,3 +2581,16 @@ with the (<-- :field) method
 
 (defn ^:export callresetclientstate []
   (resetclientstate))
+
+
+
+(defn remote-callback [function-name    function-params   function-callback]
+  (do
+    (go
+      (let [result
+            (<! (remote-fn
+                  function-name
+                  function-params))]
+        (function-callback   result)
+        ))
+    {}))
