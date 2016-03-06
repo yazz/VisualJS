@@ -186,7 +186,14 @@
   (div {}
        (realtime select   id, application_name, application_glyph   from appshare_applications where id = ? {:params [(read-ui app [:app-id])]}
                  (div {:style {:marginLeft "20px" :padding "5px"}}
-                      (span {:onClick #(go  (write-ui app [:mode] "editdata"))} "Data")
+;                      (span {:onClick #(go  (write-ui app [:mode] "editdata"))} "Data")
+                      (span {:onClick #(go  (write-ui app [:mode] "view")
+                                                       ;(write-ui app [:submode] "editappname")
+                                                       (write-ui app [:app-id] 81)
+                                                       (evalapp 81)
+                                                       )} "Data")
+
+
 
 
                       (let [glyphicon (if (<-- :application_glyph)  (<-- :application_glyph) "glyphicon-align-left")]
