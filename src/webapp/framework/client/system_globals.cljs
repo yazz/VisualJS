@@ -1154,6 +1154,7 @@ anywhere
 
 
 
+(defonce  can-use-interfaces            (atom {}))
 
 
 
@@ -1189,6 +1190,7 @@ anywhere
     (reset!  client-query-cache    {})
     (reset!  client-record-cache   {})
     (reset!  client-datasource-fields  {})
+    (reset!  can-use-interfaces {})
     ))
 
 

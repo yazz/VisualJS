@@ -18,7 +18,7 @@
    [myappshare.join :only  [join-component]]
    [myappshare.your-account :only  [your-account-component]]
    [myappshare.edit-data :only  [edit-data-component]]
-   [webapp.framework.client.system-globals :only  [appshare-dev-server   appshare-dev-port     client-session-atom]]
+   [webapp.framework.client.system-globals :only  [appshare-dev-server   appshare-dev-port     client-session-atom  can-use-interfaces]]
     )
 
   (:require-macros
@@ -90,6 +90,7 @@
            ]
       ;(js/alert (pr-str "HOST SESSION ID: "   (:session-id @client-session-atom)))
       ;(js/alert (pr-str "CLIENT SESSION ID: " (js/getappsessionid)))
+      (reset! can-use-interfaces (:can-use-interfaces app-code))
       (js/callresetclientstate)
       (swap! ns-counter inc)
       (js/sendcode (str (start)
@@ -187,11 +188,12 @@
        (realtime select   id, application_name, application_glyph   from appshare_applications where id = ? {:params [(read-ui app [:app-id])]}
                  (div {:style {:marginLeft "20px" :padding "5px"}}
 ;                      (span {:onClick #(go  (write-ui app [:mode] "editdata"))} "Data")
-                      (span {:onClick #(go  (write-ui app [:mode] "view")
-                                                       ;(write-ui app [:submode] "editappname")
-                                                       (write-ui app [:app-id] 81)
-                                                       (evalapp 81)
-                                                       )} "Data")
+                      (if (get @can-use-interfaces "edit.my.database")
+                        (span {:onClick #(go  (write-ui app [:mode] "view")
+                                              ;(write-ui app [:submode] "editappname")
+                                              (write-ui app [:app-id] 81)
+                                              (evalapp (get @can-use-interfaces "edit.my.database"))
+                                              )} "Data"))
 
 
 
