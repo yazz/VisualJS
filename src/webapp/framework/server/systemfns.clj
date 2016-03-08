@@ -2264,19 +2264,30 @@
 
 
 
-
 (defn !getfilecontents [{:keys [id  app-session-id]}]
   (if id
-    (let [content-records   (cond
-                              (= *database-type* "postgres" )
-                              (sql-1 "select  application_code as ac from appshare_applications where id = ?" [id])
+    (let [content-records      (cond
+                                 (= *database-type* "postgres" )
+                                 (sql-1 "select  application_code as ac from appshare_applications where id = ?" [id])
 
-                              (= *database-type* "oracle" )
-                              (sql-1 "select  dbms_lob.substr( application_code, 3000, 1 ) as ac, dbms_lob.substr( application_code, 3000, 3001 ) as ac2 from appshare_applications where id = ?" [id]))
+                                 (= *database-type* "oracle" )
+                                 (sql-1 "select  dbms_lob.substr( application_code, 3000, 1 ) as ac, dbms_lob.substr( application_code, 3000, 3001 ) as ac2 from appshare_applications where id = ?" [id]))
 
-          content           (str (get content-records :ac) (get content-records :ac2))
+          content              (str (get content-records :ac) (get content-records :ac2))
 
-          schema-id         (:fk_appshare_schema_id (sql-1 "select  fk_appshare_schema_id  from  appshare_application_schemas  where  application_environment = 'DEV' and fk_appshare_application_id = ?"  [id]))
+          schema-id            (:fk_appshare_schema_id (sql-1 "select  fk_appshare_schema_id  from  appshare_application_schemas  where  application_environment = 'DEV' and fk_appshare_application_id = ?"  [id]))
+
+          int-sql              (sql "select interface_name from appshare_application_can_call_interface where  fk_application_id = ?" [id])
+          interfaces-list      (map  :interface_name  int-sql)
+
+          get-default-app-fn   (fn [interface-name]
+                                 {interface-name
+                                  (:fk_default_interface_application_id
+                                    (sql-1 "select   fk_default_interface_application_id   from   appshare_interfaces   where   interface_name  =   ?" [interface-name]))})
+
+          enriched-interfaces  (reduce merge (map get-default-app-fn  interfaces-list))
+
+          can-use-interfaces   enriched-interfaces
           ]
 
       (do
@@ -2294,7 +2305,7 @@
           (do
             (sql "update  appshare_web_sessions  set fk_appshare_schema_id = NULL  where  session_id = ?"  [app-session-id])))
 
-        {:value content}))
+        {:value content :can-use-interfaces can-use-interfaces }))
 
     {:value "" :error "No content"}
     ))
