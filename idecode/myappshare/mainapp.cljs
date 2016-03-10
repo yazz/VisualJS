@@ -190,8 +190,7 @@
 ;                      (span {:onClick #(go  (write-ui app [:mode] "editdata"))} "Data")
                       (if (get @can-use-interfaces "edit.my.database")
                         (span {:onClick #(go  (write-ui app [:mode] "view")
-                                              ;(write-ui app [:submode] "editappname")
-                                              (write-ui app [:app-id] 81)
+                                              (write-ui app [:app-id] (get @can-use-interfaces "edit.my.database"))
                                               (evalapp (get @can-use-interfaces "edit.my.database"))
                                               )} "Data"))
 
