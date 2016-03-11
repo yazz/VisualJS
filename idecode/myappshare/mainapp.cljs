@@ -56,7 +56,7 @@
 
 
 
-(defn reeval [app-id]
+(defn reeval [app-id   calling-app-id]
   (go
     (let [
            code             (js/getCodeMirrorValue)
@@ -72,7 +72,8 @@
                           :app-session-id   app-session-id})
 
       (swap! ns-counter inc)
-      (js/sendcode (str (start) code (end) ))
+      (js/sendcode  (str (start) code (end))
+                    calling-app-id)
       )))
 
 
@@ -80,7 +81,7 @@
 
 
 
-(defn evalapp [app-id]
+(defn evalapp [app-id   calling-app-id]
   (go
     ;(js/alert (str app-id))
     (let [
@@ -95,7 +96,9 @@
       (swap! ns-counter inc)
       (js/sendcode (str (start)
                         (:value app-code)
-                        (end))))))
+                        (end))
+                   calling-app-id
+                   ))))
 
 
 
@@ -177,10 +180,6 @@
               (if user-can-edit-app
                (js/setCodeMirrorOption "readOnly" false)
                (js/setCodeMirrorOption "readOnly" true))
-
-              ;(reeval (read-ui app [:app-id]))
-              ;(js/populateEditor (str "Loaded: " (read-ui app [:app-id])))
-
               ))))}
 
 
@@ -189,9 +188,10 @@
                  (div {:style {:marginLeft "20px" :padding "5px"}}
 ;                      (span {:onClick #(go  (write-ui app [:mode] "editdata"))} "Data")
                       (if (get @can-use-interfaces "edit.my.database")
-                        (span {:onClick #(go  (write-ui app [:mode] "view")
-                                              (write-ui app [:app-id] (get @can-use-interfaces "edit.my.database"))
-                                              (evalapp (get @can-use-interfaces "edit.my.database"))
+                        (span {:onClick #(go  (let [old-app-id   (read-ui app [:app-id])]
+                                                (write-ui app [:mode] "view")
+                                                (write-ui app [:app-id] (get @can-use-interfaces "edit.my.database"))
+                                                (evalapp (get @can-use-interfaces "edit.my.database")   old-app-id))
                                               )} "Data"))
 
 
@@ -297,7 +297,7 @@
                                :onClick     #(go  (write-ui app [:mode] "view")
                                                        ;(write-ui app [:submode] "editappname")
                                                        (write-ui app [:app-id] (<-- :id))
-                                                       (evalapp (<-- :id))
+                                                       (evalapp (<-- :id) nil)
                                                        )
                                  }
                               (span {
@@ -394,7 +394,7 @@
                                    }
                      :onClick     #(do
                                      (write-ui app [:mode] "view")
-                                     (reeval  (read-ui app [:app-id])))
+                                     (reeval  (read-ui app [:app-id]))   nil)
                      :disabled  (if (= (read-ui app [:mode]) "edit") "" "true")
                      }
                     "Run"

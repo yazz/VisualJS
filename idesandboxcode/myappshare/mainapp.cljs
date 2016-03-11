@@ -68,20 +68,25 @@
 
 
 
-(defn ^:export execute_app_code [s]
-  (cljs/eval-str (cljs/empty-state) s 'foo.bar
+
+
+(defn  ^:export  execute_app_code  [code  calling-app-id]
+
+  (cljs/eval-str (cljs/empty-state) code 'foo.bar
                     {
-                      :eval cljs/js-eval
-                      :load load-fn
-                      :source-map true
-                      :def-emits-var   true
-                      :static-fns true
-                      :ns webapp.framework.client.fns
+                      :eval           cljs/js-eval
+                      :load           load-fn
+                      :source-map     true
+                      :def-emits-var  true
+                      :static-fns     true
+                      :ns             webapp.framework.client.fns
                       }
+
                     (fn [result]
                       (do
-                        (log (pr-str result))
+                        (log     (pr-str result))
                         (js/eval (:value result))
+
                         result))))
 
 
