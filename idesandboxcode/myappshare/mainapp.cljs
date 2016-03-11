@@ -68,7 +68,7 @@
 
 
 
-(defn ^:export evalstr2 [s]
+(defn ^:export execute_app_code [s]
   (cljs/eval-str (cljs/empty-state) s 'foo.bar
                     {
                       :eval cljs/js-eval
