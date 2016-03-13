@@ -86,7 +86,8 @@
     ;(js/alert (str app-id))
     (let [
            app-session-id   (str (js/getappsessionid))
-           app-code         (remote  !getfilecontents  {:running-application-id               app-id
+           app-code         (remote  !getfilecontents  {:calling-from-application-id          calling-app-id
+                                                        :running-application-id               app-id
                                                         :app-session-id                       app-session-id})
            ]
       ;(js/alert (pr-str "HOST SESSION ID: "   (:session-id @client-session-atom)))
@@ -168,8 +169,9 @@
           (if  (read-ui app [:app-id])
             (let [app-session-id    (str (js/getappsessionid))
 
-                  x                 (remote  !getfilecontents  {:running-application-id      (read-ui app [:app-id])
-                                                                :app-session-id              app-session-id})
+                  x                 (remote  !getfilecontents  {:calling-from-application-id     (read-ui app [:app-id])
+                                                                :running-application-id          (read-ui app [:app-id])
+                                                                :app-session-id                  app-session-id})
 
                   user-can-edit-app (:value (remote  !user-can-edit-app?  {:id             (read-ui app [:app-id])
                                                                            :session-id     (:session-id @client-session-atom)}))]

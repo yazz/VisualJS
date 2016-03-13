@@ -2264,7 +2264,7 @@
 
 
 
-(defn !getfilecontents [{:keys [running-application-id  app-session-id]}]
+(defn !getfilecontents [{:keys [calling-from-application-id    running-application-id    app-session-id]}]
   (if running-application-id
     (let [content-records      (cond
                                  (= *database-type* "postgres" )
@@ -2275,9 +2275,12 @@
 
           content              (str (get content-records :ac) (get content-records :ac2))
 
-          schema-id            (:fk_appshare_schema_id (sql-1 "select  fk_appshare_schema_id  from  appshare_application_schemas  where  application_environment = 'DEV' and fk_appshare_application_id = ?"  [running-application-id]))
+          app-id-schema-to-use (if  calling-from-application-id  calling-from-application-id  running-application-id)
 
-          int-sql              (sql "select interface_name from appshare_application_can_call_interface where  fk_application_id = ?" [running-application-id])
+          schema-id            (:fk_appshare_schema_id (sql-1 "select  fk_appshare_schema_id  from  appshare_application_schemas  where  application_environment = 'DEV' and fk_appshare_application_id = ?"
+                                                              [app-id-schema-to-use]))
+
+          int-sql              (sql "select interface_name from appshare_application_can_call_interface where  fk_application_id = ?" [app-id-schema-to-use])
           interfaces-list      (map  :interface_name  int-sql)
 
           get-default-app-fn   (fn [interface-name]
@@ -2293,7 +2296,11 @@
       (do
         (clear-client-cache   app-session-id)
 
-        (println (str "!getfilecontents        running-application-id: "        running-application-id))
+        (println (str ""))
+        (println (str "************************************************************************************"))
+        (println (str "!getfilecontents        calling-from-application-id: "        calling-from-application-id))
+        (println (str "!getfilecontents        running-application-id:      "        running-application-id))
+        (println (str "!getfilecontents        app-id-schema-to-use:        "        app-id-schema-to-use))
         (println (str "!getfilecontents  schema-id: "   schema-id))
         (println (str "" ))
 
