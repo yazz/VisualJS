@@ -2487,6 +2487,9 @@
       (sql-1 "insert into appshare_application_schemas  (fk_appshare_application_id,fk_appshare_schema_id, application_environment) values (?, ?,?)"
              [new-app-id  new-schema-id  "DEV"])
 
+      (sql-1 "insert into appshare_application_can_call_interface  (fk_application_id, interface_name) values (?, ?)"
+             [new-app-id  "edit.my.database"])
+
 
       (sql-1 (str "create schema " new-schema-name)
              [])
