@@ -2678,4 +2678,18 @@
 
 
 
-;(sql "select count(*) from information_schema.tables"  [])
+
+
+
+(if (= (:count (sql-1 "select count(*) from public.appshare_applications"  [])) 0)
+
+  ( do
+    ( sql-1 "insert into appshare_applications (application_name,  application_code) values (?,?) returning id"
+      ["todo", (slurp "resources\\public\\init\\todo.cljs")])
+
+    (let [id ( sql-1 "insert into appshare_applications (application_name,  application_code) values (?,?) returning id"
+               ["DBExplorer", (slurp "resources\\public\\init\\dbexplorer.cljs")])]
+
+
+      )
+    ))

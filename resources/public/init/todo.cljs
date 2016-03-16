@@ -96,7 +96,7 @@ false)}))))
 (defn-ui-component     main   [app] {}
 
   (section {:className "todoapp" :style {:fontFamily "Roboto"}}
-    (div {} (h2 {:style {:fontFamily "Ubuntu" :fontWeight "700" :fontSize "2em"}} (str "Todo MVC2"  )))
+    (div {} (h2 {:style {:fontFamily "Ubuntu" :fontWeight "700" :fontSize "2em"}} (str "Todo MVC"  )))
     (div {:className "main_div"}
 
          (component  new-do-item-component   app  [])
