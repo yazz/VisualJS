@@ -2443,6 +2443,23 @@
 
 
 
+(defn make-schema-for-app-id [new-app-id]
+  (let [new-schema-name    (str "app_" new-app-id "_dev")
+        new-schema         (sql-1 "insert into appshare_schemas (database_schema_name) values (?) returning id" [new-schema-name])
+        new-schema-id      (:id new-schema)
+        ]
+    (do
+      (sql-1 "insert into appshare_application_schemas  (fk_appshare_application_id,fk_appshare_schema_id, application_environment) values (?, ?,?)"
+             [new-app-id  new-schema-id  "DEV"])
+
+      (sql-1 "insert into appshare_application_can_call_interface  (fk_application_id, interface_name) values (?, ?)"
+             [new-app-id  "edit.my.database"])
+
+
+      (sql-1 (str "create schema " new-schema-name)
+             [])
+
+      {:id new-app-id})))
 
 
 
@@ -2478,22 +2495,10 @@
                            )
 
         new-app-id      (:id response)
-
-        new-schema-name    (str "app_" new-app-id "_dev")
-        new-schema         (sql-1 "insert into appshare_schemas (database_schema_name) values (?) returning id" [new-schema-name])
-        new-schema-id      (:id new-schema)
         ]
     (do
-      (sql-1 "insert into appshare_application_schemas  (fk_appshare_application_id,fk_appshare_schema_id, application_environment) values (?, ?,?)"
-             [new-app-id  new-schema-id  "DEV"])
 
-      (sql-1 "insert into appshare_application_can_call_interface  (fk_application_id, interface_name) values (?, ?)"
-             [new-app-id  "edit.my.database"])
-
-
-      (sql-1 (str "create schema " new-schema-name)
-             [])
-
+      (make-schema-for-app-id   new-app-id)
       {:id new-app-id})))
 
 
@@ -2693,5 +2698,8 @@
         (sql "insert into appshare_interfaces (interface_name,  fk_default_interface_application_id) values (?,?)"       ["edit.my.database"  id])
 
         (sql "insert into appshare_application_implements_interface (fk_application_id, interface_name) values (?,?)"    [id   "edit.my.database"])
+
+        (make-schema-for-app-id   id)
+
 
         ))))
