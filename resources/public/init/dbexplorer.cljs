@@ -1,4 +1,3 @@
-
 (defn get-tables []
 (remote "!get-list-of-tables"
         {:session-id  (:session-id @webapp.framework.client.system-globals.client-session-atom)}
@@ -6,11 +5,6 @@
             (reset! webapp.framework.client.system-globals/app-state (assoc-in @webapp.framework.client.system-globals/app-state [:ui :table-list] result2))))
 )
 (get-tables)
-
-
-(comment sql "select * from newtable" [] (fn [rr] (js/alert (pr-str rr))))
-
-
 
 (defn-ui-component     main   [app] {}
   (div nil
@@ -29,8 +23,9 @@
 
             (span {:className "input-group-btn"}
                   (button {:className "btn btn-default" :type "button"
-                           :onClick #(let [table-name    (.. (js/document.getElementById "tablename") -value  )]
-                                       (sql  (str "create table " table-name " (did     integer)") {}
+                           :onClick #(let [table-name    (.. (js/document.getElementById "tablename") -value  )
+                                           create-sql    (str "create table " table-name " (id       serial NOT NULL,tfield    character varying,  CONSTRAINT  " table-name "_PK    PRIMARY KEY (id))")]
+                                       (sql create-sql  {}
                                              (fn [ss]
                                                (do
                                                  (set! (js/document.getElementById "tablename") -value  "")
