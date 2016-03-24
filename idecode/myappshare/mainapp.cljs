@@ -396,7 +396,7 @@
                                    }
                      :onClick     #(do
                                      (write-ui app [:mode] "view")
-                                     (reeval  (read-ui app [:app-id]))   nil)
+                                     (reeval  (read-ui app [:app-id]) nil))
                      :disabled  (if (= (read-ui app [:mode]) "edit") "" "true")
                      }
                     "Run"
