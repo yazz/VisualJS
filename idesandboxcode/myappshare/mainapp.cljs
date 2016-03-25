@@ -70,7 +70,7 @@
 
 
 
-(defn  ^:export  execute_app_code  [code  calling-app-id]
+(defn  ^:export  execute_app_code  [code  calling-app-id  args]
 
   (cljs/eval-str (cljs/empty-state) code 'foo.bar
                     {
@@ -86,6 +86,8 @@
                       (do
                         (log     (pr-str result))
                         (js/eval (:value result))
+                        ;(js/alert (str ":"  (js->clj args)))
+                        ;(js/alert (pr-str (get (js->clj args) :b)))
 
                         result))))
 

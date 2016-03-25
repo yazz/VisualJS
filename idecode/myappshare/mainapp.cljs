@@ -73,7 +73,10 @@
 
       (swap! ns-counter inc)
       (js/sendcode  (str (start) code (end))
-                    calling-app-id)
+                    calling-app-id
+                    ;"reevalapp"
+                    nil
+                    )
       )))
 
 
@@ -81,7 +84,7 @@
 
 
 
-(defn evalapp [app-id   calling-app-id]
+(defn evalapp [app-id   calling-app-id   args]
   (go
     ;(js/alert (str app-id))
     (let [
@@ -99,6 +102,7 @@
                         (:value app-code)
                         (end))
                    calling-app-id
+                   (clj->js "last one")
                    ))))
 
 
@@ -193,7 +197,7 @@
                         (span {:onClick #(go  (let [old-app-id   (read-ui app [:app-id])]
                                                 (write-ui app [:mode] "view")
                                                 (write-ui app [:app-id] (get @can-use-interfaces "edit.my.database"))
-                                                (evalapp (get @can-use-interfaces "edit.my.database")   old-app-id))
+                                                (evalapp (get @can-use-interfaces "edit.my.database")   old-app-id) nil)
                                               )} "Data"))
 
 
@@ -299,7 +303,7 @@
                                :onClick     #(go  (write-ui app [:mode] "view")
                                                        ;(write-ui app [:submode] "editappname")
                                                        (write-ui app [:app-id] (<-- :id))
-                                                       (evalapp (<-- :id) nil)
+                                                       (evalapp (<-- :id) nil nil)
                                                        )
                                  }
                               (span {
