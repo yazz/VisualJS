@@ -77,7 +77,7 @@
 
 
         <script>
-            function sendcode (code, calling_app_id,args) {
+            function sendcode (code, calling_app_id,appargs) {
                 document.getElementById('appframe').contentWindow.document.write(code);
                 webapp.framework.client.coreclient.evalstr(code);
             }

@@ -75,7 +75,8 @@
       (js/sendcode  (str (start) code (end))
                     calling-app-id
                     ;"reevalapp"
-                    nil
+                    (clj->js "REV first one"
+                             )
                     )
       )))
 
@@ -102,7 +103,9 @@
                         (:value app-code)
                         (end))
                    calling-app-id
-                   (clj->js "last one")
+                   (clj->js ;["a" "b" {:d 1 :r "sfs"}]
+                            "first one"
+                            )
                    ))))
 
 
@@ -197,7 +200,7 @@
                         (span {:onClick #(go  (let [old-app-id   (read-ui app [:app-id])]
                                                 (write-ui app [:mode] "view")
                                                 (write-ui app [:app-id] (get @can-use-interfaces "edit.my.database"))
-                                                (evalapp (get @can-use-interfaces "edit.my.database")   old-app-id) nil)
+                                                (evalapp (get @can-use-interfaces "edit.my.database")   old-app-id nil))
                                               )} "Data"))
 
 

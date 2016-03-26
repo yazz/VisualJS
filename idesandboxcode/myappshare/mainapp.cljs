@@ -72,26 +72,28 @@
 
 (defn  ^:export  execute_app_code  [code  calling-app-id  args]
 
-  (cljs/eval-str (cljs/empty-state) code 'foo.bar
-                    {
-                      :eval           cljs/js-eval
-                      :load           load-fn
-                      :source-map     true
-                      :def-emits-var  true
-                      :static-fns     true
-                      :ns             webapp.framework.client.fns
-                      }
+  (do
+    ;(js/alert (pr-str "::::::::::::" (js->clj args :keywordize-keys true)))
+    (reset!  webapp.framework.client.system-globals/app-input-parameters   (js->clj args {:keywordize-keys true}))
+    (cljs/eval-str (cljs/empty-state) code 'foo.bar
+                   {
+                     :eval           cljs/js-eval
+                     :load           load-fn
+                     :source-map     true
+                     :def-emits-var  true
+                     :static-fns     true
+                     :ns             webapp.framework.client.fns
+                     }
 
-                    (fn [result]
-                      (do
-                        (log     (pr-str result))
-                        (reset!  webapp.framework.client.system-globals/app-input-parameters   (js->clj args))
-                        (js/eval (:value result))
+                   (fn [result]
+                     (do
+                       (log     (pr-str result))
+                       (js/eval (:value result))
 
-                        ;(js/alert (str ":"  (js->clj args)))
-                        ;(js/alert (pr-str (get (js->clj args) :b)))
+                       ;(js/alert (str ":"  (js->clj args)))
+                       ;(js/alert (pr-str (get (js->clj args) :b)))
 
-                        result))))
+                       result)))))
 
 
 
