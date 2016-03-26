@@ -85,7 +85,9 @@
                     (fn [result]
                       (do
                         (log     (pr-str result))
+                        (reset!  webapp.framework.client.system-globals/app-input-parameters   (js->clj args))
                         (js/eval (:value result))
+
                         ;(js/alert (str ":"  (js->clj args)))
                         ;(js/alert (pr-str (get (js->clj args) :b)))
 

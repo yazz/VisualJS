@@ -1157,6 +1157,7 @@ anywhere
 (defonce  can-use-interfaces            (atom {}))
 
 
+(defonce  app-input-parameters          (atom nil))
 
 
 
