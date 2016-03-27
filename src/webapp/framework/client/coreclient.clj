@@ -157,7 +157,6 @@
                                           (~'fn [~(first data-paramater-name)]
                                                 ~code)
                                           ~'path
-                                          ~'parent-id
                                           )
 
                             ~'removed-id     (~'webapp.framework.client.coreclient/remove-debug-event  ~'debug-id)
@@ -245,7 +244,7 @@
                                        owner data
                                        (fn [data]
                                          (om.dom/div nil " You asdsddsads"))
-                                       path parent-id) removed-id (webapp.framework.client.coreclient/remove-debug-event debug-id)] return-val))
+                                       path) removed-id (webapp.framework.client.coreclient/remove-debug-event debug-id)] return-val))
                        om.core/IDidMount
                        (did-mount [this]
                                   (let [path (om.core/get-state owner :parent-path) debug-id

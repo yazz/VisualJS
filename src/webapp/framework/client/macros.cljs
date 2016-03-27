@@ -77,7 +77,6 @@
                                           (~'fn [~(first data-paramater-name)]
                                                 ~code)
                                           ~'path
-                                          ~'parent-id
                                           )
 
                             ~'removed-id     (~'webapp.framework.client.coreclient/remove-debug-event  ~'debug-id)

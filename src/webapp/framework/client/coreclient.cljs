@@ -661,7 +661,7 @@
 
 
 
-(defn debug-react [str-nm owner data react-fn path parent-id]
+(defn debug-react [str-nm owner data react-fn path]
   (let
     [
      react-fn-name    (str str-nm)
