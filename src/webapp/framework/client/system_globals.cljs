@@ -15,63 +15,6 @@
 
 
 
-
-
-
-
-
-
-  "
- This determines whether the mouse pointer events are
- recorded for the local Coils debugger. For an example
- of mouse pointer events looks at the playback of a Coils
- app where you can see where the website user moved the
- mouse. In the React/Om UI tree this is stored in:
-
-  {
-     :pointer
-     {
-         :mouse-x 0
-         :mouse-y 0
-     }
-  }
-
-
- To enable or disable this you must be specify
- it as a global setting in system_globals.clj as
-
- (defonce ^:dynamic *record-pointer-locally* false)
-  "
-(defonce record-pointer-locally
-
-  (atom true))
-
-
-
-
-
-
-  "
- This determines whether the mouse pointer events are
- recorded for the local Coils debugger. For an example
- of mouse pointer events looks at the playback of a Coils
- app where you can see where the website user moved the
- mouse. In the React/Om UI tree this is stored in:
-
-  {
-     :pointer
-     {
-         :mouse-x 0
-         :mouse-y 0
-     }
-  }
-
-
- To enable or disable this you must be specify
- it as a global setting in system_globals.clj as
-
- (defonce ^:dynamic *record-pointer-locally* false)
-  "
 (defonce record-ui
   (atom nil))
 
@@ -674,7 +617,6 @@ The list of all the AB tests
 
     (and
      (or
-      @record-pointer-locally
       (not (and (= event-type "UI") (get (first (data/diff old new)) :pointer)))
       )
      (not (= (get action-name 0) "!"))

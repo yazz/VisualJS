@@ -169,11 +169,6 @@
 
 
 
-(defn !get-record-pointer-locally []
-  {:value *record-pointer-locally*})
-
-
-
 
 
 

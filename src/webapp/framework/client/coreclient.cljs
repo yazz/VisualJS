@@ -27,7 +27,6 @@
    [clojure.browser.event :only [listen]]
    [webapp.framework.client.system-globals  :only  [touch
                                                     debugger-ui
-                                                    record-pointer-locally
                                                     app-state
                                                     reset-app-state
                                                     client-data-windows
@@ -374,10 +373,6 @@
     (if (or (= env "dev") (= env "base") (= env "basehost"))
       (reset! debug-mode true)))
 
-  (let [record-pointer-locally-value (:value
-                                       (<! (remote-fn "!get-record-pointer-locally" {})))]
-    (reset! record-pointer-locally
-            record-pointer-locally-value))
 
   (let [main-background-color (:value
                                 (<! (remote-fn "!get-main-background-color" {})))]
