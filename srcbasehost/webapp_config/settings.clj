@@ -10,8 +10,6 @@
 (defonce ^:dynamic *main-background-color* "rgb(37, 40, 48)")
 (defonce ^:dynamic *main-text-color* "white")
 
-(defonce ^:dynamic *record-ui* false)
-
 (defonce ^:dynamic *email-debug-mode* true)
 
 (defonce ^:dynamic *environment* "basehost")

@@ -42,7 +42,6 @@
                                                     data-accesses
                                                     paths-for-refresh
                                                     data-views
-                                                    record-ui
                                                     touch-data
                                                     assoc-in-atom
                                                     add-init-state-fn
@@ -384,11 +383,6 @@
     (set! (.-color (.-style (.getElementById js/document  "bodyelement"))) main-text-color))
 
 
-
-  (let [record-ui-value (:value
-                          (<! (remote-fn "!get-record-ui" {})))]
-    (reset! record-ui
-            record-ui-value))
 )
 
 

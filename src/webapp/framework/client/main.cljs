@@ -19,7 +19,6 @@
                                                      init-fn
                                                      data-state
                                                      app-watch-on?
-                                                     record-ui
                                                      cookie-name
                                                      touch
                                                      client-session-atom

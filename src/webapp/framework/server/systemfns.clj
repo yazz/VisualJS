@@ -187,10 +187,6 @@
 
 
 
-(defn !get-record-ui []
-  {:value *record-ui*})
-
-
 
 (defn !get-appshare-dev-server []
   {:value *appshare-dev-server*})

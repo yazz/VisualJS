@@ -15,10 +15,6 @@
 
 
 
-(defonce record-ui
-  (atom nil))
-
-
 
 (defonce appshare-dev-port
   (atom nil))
