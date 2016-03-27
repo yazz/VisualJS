@@ -904,31 +904,6 @@
 
 
 
-(defn record-component-call [caller-namespace-name
-                             called-fn-name
-                             state
-                             full-path]
-
-  (let [
-        entry-name    (str caller-namespace-name ": " full-path)
-        is-diff?      (not (= (pr-str state) (last (get @gui-calls  entry-name) )))
-        debug-id      (add-debug-event   :event-type      "render"
-                                         :component-name  called-fn-name
-                                         :component-path  full-path
-                                         :component-data  state)
-        ]
-    (do
-      (add-refresh-path  called-fn-name  full-path)
-      (reset! gui-calls (assoc @gui-calls entry-name
-
-
-                          (if is-diff?
-                            (conj
-                             (if (get @gui-calls entry-name) (get @gui-calls  entry-name) [])   (pr-str state))
-                            (get @gui-calls  entry-name))))
-      ;(log (str "DEBUG ID: "debug-id))
-      debug-id
-      )))
 
 
 
@@ -942,7 +917,7 @@
 ;clojure.zip/down
 
 
-(defn write-ui-fn [tree path sub-path value parent-id]
+(defn write-ui-fn [tree path sub-path value]
 
   (let [
         full-path         (into [] (flatten (conj path sub-path)))
@@ -959,21 +934,7 @@
     ;(assoc-in-atom  app-state  full-path  value)
     ;(touch  [:ui])
 
-    (let [debug-id (add-debug-event
-                     :event-type "UI"
-                     :old old-val
-                     :new @app-state
-                     :parent-id parent-id
-                     )]
-      ;(log (str "    parent id: " parent-id))
-      (reset! data-accesses (assoc @data-accesses
-                              data-access-key
-                              (if current-value
-                                (conj current-value debug-id)
-                                [debug-id])))
-
-      (remove-debug-event debug-id)
-      )))
+    ))
 
 
 
@@ -1012,21 +973,15 @@
 
 
 
-(defn read-ui-fn [tree  path  sub-path  parent-id]
+(defn read-ui-fn [tree  path  sub-path]
   (let [
         full-path          (into [] (flatten (conj path sub-path)))
         value              (get-in  tree  sub-path)
         data-access-key    {:tree  "UI"
                             :path  full-path}
         current-value      (get @ data-accesses  data-access-key)
-        debug-id           (last @ call-stack)
         ]
-    ;(log (str "*read-ui-fn: " full-path "    parent id: " debug-id))
-    (reset!  data-accesses (assoc @data-accesses
-                             data-access-key
-                             (if current-value
-                               (conj current-value  debug-id)
-                               [debug-id])))
+
 
     ;(remove-debug-event  debug-id)
     value))
@@ -1041,9 +996,8 @@
   (let
     [
      calls          @call-stack
-     parent-id      (last calls)
      ]
-  (read-ui-fn   app   []  path   parent-id)
+  (read-ui-fn   app   []  path)
   ))
 
 @ data-accesses
@@ -1054,9 +1008,8 @@
   (let
     [
      calls          @call-stack
-     parent-id      (last calls)
      ]
-  (write-ui-fn  app  [] path value parent-id)))
+  (write-ui-fn  app  [] path value)))
 
 
 (defn add-many-fn [items]

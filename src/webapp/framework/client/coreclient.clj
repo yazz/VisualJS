@@ -135,20 +135,10 @@
                     (~'let [
                             ~'select-id     nil
 
-                            ~'debug-id       (webapp.framework.client.coreclient/record-component-call
-                                              (~'ns-coils-debug)
-                                              ~(str `~fn-name)
-                                              ~(first data-paramater-name)
-                                              ~'(om.core/get-state owner :parent-path)
-                                              )
-
-
                             ~'ui-component-name    ~(str `~fn-name)
                             ~'path       ~'(om.core/get-state owner :parent-path)
 
                             ~'ui-state   ~(first data-paramater-name)
-
-                            ~'parent-id  ~'debug-id
 
                             ~'return-val (webapp.framework.client.coreclient/debug-react
                                           ~(str `~fn-name)
@@ -158,8 +148,6 @@
                                                 ~code)
                                           ~'path
                                           )
-
-                            ~'removed-id     (~'webapp.framework.client.coreclient/remove-debug-event  ~'debug-id)
                             ]
 
                       ~'return-val)
@@ -171,15 +159,6 @@
            [~'this]
            (~'let [
                    ~'path           ~'(om.core/get-state owner :parent-path)
-
-                   ~'debug-id       (webapp.framework.client.coreclient/record-component-call
-                                     (~'ns-coils-debug)
-                                     ~(str `~fn-name)
-                                     ~(first data-paramater-name)
-                                     ~'(om.core/get-state owner :parent-path)
-                                     )
-
-                   ~'parent-id       ~'debug-id
                    ]
 
 
@@ -200,72 +179,6 @@
        (webapp.framework.client.coreclient/process-ui-component  ~(str `~fn-name))
 
        )))
-
-
-(macroexpand
-  '(defn-ui-component xxx [data] {:path [:ui :request] }
-     (om.dom/div  nil  " You asdsddsads")
-      ))
-;--------------------------------------------------------------------
-
-
-(comment do
-  (clojure.core/reset!
-    webapp.framework.client.coreclient/data-views-proxy
-    (clojure.core/into
-      {}
-      (clojure.core/filter
-        (clojure.core/fn [x]
-                         (if (clojure.core/not
-                               (clojure.core/=
-                                 "..."
-                                 (clojure.core/get (clojure.core/first x) :ui-component-name))) true))
-        (clojure.core/deref webapp.framework.client.coreclient/data-views-proxy))))
-
-
-
-  (clojure.core/defn somecomp [data owner]
-                     (reify om.core/IInitState (init-state [_]
-                                                           {:debug-highlight false})
-                       om.core/IWillUnmount (will-unmount [_]
-                                                          (let [ui-component-name "somecomp" path (om.core/get-state owner :parent-path)] nil))
-                       om.core/IRender
-                       (render [this]
-                               (let [debug-id (webapp.framework.client.coreclient/record-component-call
-                                                (ns-coils-debug)
-                                                "somecomp"
-                                                data
-                                                (om.core/get-state owner :parent-path))
-                                     ui-component-name "somecomp" path
-                                     (om.core/get-state owner :parent-path)
-                                     ui-state data parent-id debug-id return-val
-                                     (webapp.framework.client.coreclient/debug-react
-                                       "somecomp"
-                                       owner data
-                                       (fn [data]
-                                         (om.dom/div nil " You asdsddsads"))
-                                       path) removed-id (webapp.framework.client.coreclient/remove-debug-event debug-id)] return-val))
-                       om.core/IDidMount
-                       (did-mount [this]
-                                  (let [path (om.core/get-state owner :parent-path) debug-id
-                                        (webapp.framework.client.coreclient/record-component-call (ns-coils-debug) "somecomp" data
-                                                                                                  (om.core/get-state owner :parent-path)) parent-id debug-id] nil))))
-
-
-
-
-  (webapp.framework.client.coreclient/record-defn-ui-component (ns-coils-debug)
-                                                               somecomp "somecomp" "[data]"
-                                                               (clojure.core/str "(om.dom/div nil \" You asdsddsads\")"))
-
-
-
-
-  (webapp.framework.client.coreclient/process-ui-component
-    "somecomp"))
-
-
-
 
 
 
@@ -558,7 +471,6 @@ nil
       ~'path
       ~sub-path
       ~value
-      ~'parent-id
       )))
 
 
@@ -570,7 +482,6 @@ nil
       ~tree
       ~'path
       ~sub-path
-      ~'parent-id
       )))
 
 ;(macroexpand '(read-ui app [:ui :tab-browser]))

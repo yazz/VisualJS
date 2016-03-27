@@ -55,20 +55,10 @@
                     (~'let [
                              ~'select-id     nil
 
-                             ~'debug-id       (webapp.framework.client.coreclient/record-component-call
-                                              (~'ns-coils-debug)
-                                              ~(str `~fn-name)
-                                              ~(first data-paramater-name)
-                                              ~'(om.core/get-state owner :parent-path)
-                                              )
-
-
                             ~'ui-component-name    ~(str `~fn-name)
                             ~'path       ~'(om.core/get-state owner :parent-path)
 
                             ~'ui-state   ~(first data-paramater-name)
-
-                            ~'parent-id  ~'debug-id
 
                             ~'return-val (webapp.framework.client.coreclient/debug-react
                                           ~(str `~fn-name)
@@ -78,8 +68,6 @@
                                                 ~code)
                                           ~'path
                                           )
-
-                            ~'removed-id     (~'webapp.framework.client.coreclient/remove-debug-event  ~'debug-id)
                             ]
 
                       ~'return-val)
@@ -91,15 +79,6 @@
            [~'this]
            (~'let [
                    ~'path           ~'(om.core/get-state owner :parent-path)
-
-                   ~'debug-id       (webapp.framework.client.coreclient/record-component-call
-                                     (~'ns-coils-debug)
-                                     ~(str `~fn-name)
-                                     ~(first data-paramater-name)
-                                     ~'(om.core/get-state owner :parent-path)
-                                     )
-
-                   ~'parent-id       ~'debug-id
                    ]
 
 
@@ -394,7 +373,6 @@
       ~tree
       ~'path
       ~sub-path
-      ~'parent-id
       )))
 
 
@@ -407,7 +385,6 @@
       ~'path
       ~sub-path
       ~value
-      ~'parent-id
       )))
 
 
