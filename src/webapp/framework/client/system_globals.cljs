@@ -327,75 +327,6 @@ The list of all the AB tests
 
 
   "
-  This holds the UI state of the web applications when
-  it is being played back. I'm not sure why we didn't just
-  use the normal app state for this?
-  "
-(defonce  playback-app-state
-  (atom
-   {}
-   ))
-
-
-
-
-
-
-
-
-
-
-
-  "
-  The react/Om UI state for the debugger
-  "
-(defonce  playback-controls-state
-  (atom
-   {:ui
-    {
-     :current-session   nil
-     :current-page      0
-     :delete-password {:label "Delete password"
-                       :placeholder ""
-                       :value ""}
-
-     }
-    :data {
-           :sessions          []
-           }
-    }
-
-   ))
-
-
-
-
-
-
-
-
-
-
-
-
-"
-  Reset the app state for playback using the initial blank state
-  "
-(defn reset-playback-app-state
-  []
-  (reset!  playback-app-state  blank-app-state))
-
-
-
-
-
-
-
-
-
-
-
-  "
   Updates the data tree
   "
 (defn  update-data
@@ -1098,7 +1029,6 @@ anywhere
     (reset! ui-watchers [])
     (reset! data-watchers [])
     (reset!  app-state  blank-app-state)
-    (reset!  playback-app-state {})
     (reset!  debug-event-timeline {})
     (reset!  component-usage {})
     (reset!  gui-calls {})

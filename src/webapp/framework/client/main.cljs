@@ -12,7 +12,6 @@
   (:use
     [webapp.framework.client.coreclient      :only  [remote-fn]]
     [webapp.framework.client.system-globals  :only  [app-state
-                                                     playback-controls-state
                                                      reset-app-state
                                                      start-component
                                                      init-fn
@@ -23,7 +22,6 @@
                                                      client-session-atom
                                                      ]]
     [webapp.framework.client.components.system-container :only  [main-view]]
-    ;   [webapp.framework.client.components.playback  :only  [playback-controls-view ]]
     )
   (:use-macros
     [webapp.framework.client.coreclient :only  [ns-coils  remote  log  get-cookie-name]]
