@@ -31,15 +31,12 @@
                                                     reset-app-state
                                                     client-data-windows
                                                     ui-watchers
-                                                    call-stack
                                                     data-watchers
                                                     data-state
                                                     update-data
-                                                    add-debug-event
                                                     component-usage
                                                     gui-calls
                                                     app-watch-on?
-                                                    data-accesses
                                                     paths-for-refresh
                                                     data-views
                                                     touch-data
@@ -140,36 +137,6 @@
 
 
 
-(defn remove-debug-event
-  "
-  "
-  [did]
-  (reset! call-stack
-          (into [] (filter #(not= %1 did) @call-stack))))
-
-
-
-
-
-;-----------------------------------------------------
-; watch when the data changes
-;
-;
-;-----------------------------------------------------
-(add-watch data-state
-           :change
-           (fn [_ _ old-val new-val]
-             (if @app-watch-on?
-               (let [debug-id (add-debug-event
-                               :event-type  "DATA"
-                               :old         old-val
-                               :new         new-val
-                               :parent-id   (last @call-stack)
-                               )]
-                 (remove-debug-event debug-id)))))
-
-
-
 
 
 
@@ -252,32 +219,18 @@
                       response-text   (. target (getResponseText))
                       response        (reader/read-string response-text)
                       ]
-                 (let [
-                        debug-id (add-debug-event
-                                   :event-type  "remote"
-                                   :action-name (str action)
-                                   :input       parameters-in
-                                   :result      response
-                                   )]
+                 (let []
 
                    (go
                      ;        (log (str "             : " response ))
                      (>! ch response)
                      (close! ch))
-                   (remove-debug-event  debug-id)
                    ))
 
-               (let [debug-id
-                     (add-debug-event
-                       :event-type  "remote"
-                       :action-name (str action)
-                       :input       parameters-in
-                       :result      (str "ERROR IN RESPONSE, HTTP : " status)
-                       )]
+               (let []
                  (go
                    (>! ch  {:system-error "true"})
                    (close! ch))
-                 (remove-debug-event  debug-id)
                  )
 
 
@@ -915,8 +868,6 @@
         old-val           @app-state
         data-access-key   {:tree "UI"
                            :path full-path}
-
-        current-value     (get @data-accesses data-access-key)
         ]
 
     ;(log (str "(om/update! " full-path) " = " value )
@@ -939,28 +890,12 @@
   (let [
         full-path          path
         old-val            @ data-state
-        data-access-key    {:tree  "DATA"
-                            :path  full-path}
-        current-value      (get @data-accesses  data-access-key)
         ]
     (om/update!     tree     path  value)
     ;(assoc-in-atom  app-state     full-path  value)
     ;(om/update!  @global-om-state  full-path  value)
     ;(touch  full-path)
-    (let [debug-id       (add-debug-event
-                          :event-type  "DATA"
-                          :old         old-val
-                          :new         @app-state
-                          :parent-id   parent-id
-                          )]
-      (reset!  data-accesses (assoc @data-accesses
-                               data-access-key
-                               (if current-value
-                                 (conj current-value  debug-id)
-                                 [debug-id])))
-
-      (remove-debug-event debug-id)
-      )))
+    ))
 
 
 
@@ -968,13 +903,9 @@
   (let [
         full-path          (into [] (flatten (conj path sub-path)))
         value              (get-in  tree  sub-path)
-        data-access-key    {:tree  "UI"
-                            :path  full-path}
-        current-value      (get @ data-accesses  data-access-key)
         ]
 
 
-    ;(remove-debug-event  debug-id)
     value))
 
 
@@ -984,23 +915,12 @@
   "
   "
   [app path]
-  (let
-    [
-     calls          @call-stack
-     ]
-  (read-ui-fn   app   []  path)
-  ))
-
-@ data-accesses
+  (read-ui-fn   app   []  path))
 
 
 
 (defn update-ui [app  path  value]
-  (let
-    [
-     calls          @call-stack
-     ]
-  (write-ui-fn  app  [] path value)))
+  (write-ui-fn  app  [] path value))
 
 
 (defn add-many-fn [items]

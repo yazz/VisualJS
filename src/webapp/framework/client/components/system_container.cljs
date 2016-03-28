@@ -9,8 +9,7 @@
    [ankha.core       :as ankha])
 
   (:use
-   [webapp.framework.client.coreclient           :only  [remote-fn debug-mode component-fn
-                                                         remove-debug-event]]
+   [webapp.framework.client.coreclient           :only  [remote-fn debug-mode component-fn]]
    [webapp.framework.client.components.admin     :only  [admin-view]]
    [webapp.framework.client.system-globals       :only  [app-state
                                                          ui-watchers
@@ -20,8 +19,7 @@
                                                          ab-tests
                                                          init-state-fns
                                                          data-and-ui-events-on?
-                                                         global-om-state
-                                                         add-debug-event]])
+                                                         global-om-state]])
   (:use-macros
    [webapp.framework.client.coreclient :only  [defn-ui-component ns-coils div component remote
                                                admin watch-data <--data -->ui
@@ -104,18 +102,13 @@
                          (= (:type watch) "path equals")
                          ;------------------------------
                          (if (= (get-in new-val (:path watch)) (:value watch) )
-                           (let [debug-id
-                                 (add-debug-event
-                                  :event-type  "event"
-                                  :event-name  (str "==" tree-name " " (:path watch) " " (:value watch))
-                                  )]
+                           (let []
                              (do
                                ;(apply (:fn watch) args)
                                (go (>! ch {:watch watch :extra []}))
                                ;(log (str "path equals"))
                                ;(swap! ch conj {:watch watch :extra []})
                                ;(swap! app-state assoc :touch-id (rand-int 99999))
-                               ;(remove-debug-event  debug-id)
 
                                )))
 
@@ -123,11 +116,7 @@
 
                          (= (:type watch) "value change")
                          ;-------------------------------
-                         (let [debug-id
-                               (add-debug-event
-                                :event-type  "event"
-                                :event-name  (str "watch-" tree-name " " (:path watch))
-                                )]
+                         (let []
                            (do
                              ;                               (. js/console log  (str "value change"))
                              ;(js/alert (str "watch-" tree-name " " (:path watch)))
@@ -135,7 +124,6 @@
                              (go (>! ch {:watch watch :extra []}))
                              ;(swap! ch conj {:watch watch :extra []})
                              ;(swap! app-state assoc :touch-id (rand-int 99999))
-                             ;(remove-debug-event  debug-id)
                              ))
 
 

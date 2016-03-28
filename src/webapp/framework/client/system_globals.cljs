@@ -70,56 +70,6 @@
 
 
 
-  "
-  This is supposed to be a vector which lists the debug IDs of what has
-  been called, eg:
-
-  [1 45 99 103]
-  "
-(defonce call-stack
-  (atom
-   []))
-
-
-
-
-
-
-
-  "
-  This shows where the UI and DATA trees change. The list contains
-  the debug IDs of where an action reads or writes this part of
-  the tree
-
-  {
-      {:tree UI, :path [:ui :companies :values]}
-          [7 14 18 nil nil nil nil]
-
-      {:tree UI, :path [:ui :latest-endorsements :values]}
-          [30]
-
-      {:tree UI, :path [:ui :splash-screen :click]}
-          [37]
-
-      {:tree UI, :path [:ui :splash-screen :show]}
-          [36]
-
-      {:tree UI, :path [:values]}
-          [nil nil nil nil nil nil nil]
-  }
-
-  Some of these seem erroneous, like:
-
-  - nil values should never be there
-  - {:tree UI, :path [:values]} does not even exist
-
-  "
-(defonce data-accesses
-  (atom
-   {}))
-
-
-;@ data-accesses
 
 
 
@@ -498,123 +448,6 @@ The list of all the AB tests
 
 
 
-"
-"
-(defn add-debug-event
-  [& {:keys [
-                                 event-type
-                                 old
-                                 new
-                                 error
-                                 event-name
-                                 component-name
-                                 component-data
-                                 component-path
-                                 action-name
-                                 input
-                                 result
-                                 parent-id
-                                 ] :or {
-                                        event-type     "UI"
-                                        error          "Error in field"
-                                        }}]
-
-  (if
-
-    (and
-     (or
-      (not (and (= event-type "UI") (get (first (data/diff old new)) :pointer)))
-      )
-     (not (= (get action-name 0) "!"))
-     @app-watch-on?
-     )
-
-
-    (do
-
-      (let [debug-id (swap! debug-count inc)]
-        (cond
-
-
-
-         (or (first (data/diff old new)) (second (data/diff old new)))
-
-         (swap! debug-event-timeline assoc
-                debug-id  {
-                           :id          debug-id
-                           :event-type  event-type
-                           :old-value   old
-                           :value       new
-                           :parent-id   parent-id
-                           })
-
-
-
-
-         (and (= event-type     "event"))
-
-         (do
-           (swap! debug-event-timeline assoc
-                  debug-id  {
-                             :id          debug-id
-                             :event-type  event-type
-                             :event-name  event-name
-                             }))
-
-         (and (= event-type     "render"))
-
-         (let [component-id {:fn-name component-name :fn-path component-path}]
-           (swap! debug-event-timeline assoc
-                  debug-id  {
-                             :id              debug-id
-                             :event-type      event-type
-                             :component-name  component-name
-                             :component-path  component-path
-                             :component-data  component-data
-                             })
-
-           (if (get @component-usage  component-id)
-             (reset! component-usage (assoc @component-usage component-id
-                                       (conj (get @component-usage component-id) debug-id)))
-             (reset! component-usage (assoc @component-usage component-id [debug-id]))
-             )
-           )
-
-
-
-         (and (= event-type     "remote"))
-         (do
-           (swap! debug-event-timeline assoc
-                  debug-id  {
-                             :id              debug-id
-                             :event-type      event-type
-                             :action-name     action-name
-                             :input           input
-                             :result          result
-                             }))
-
-
-         )
-
-
-        (reset! debugger-ui
-                (assoc @debugger-ui
-                  :total-events-count (count @debug-event-timeline)))
-
-        (if (> (+ (:pos @debugger-ui) 5) (:total-events-count @debugger-ui))
-          (reset! debugger-ui
-                  (assoc @debugger-ui
-                    :pos (:total-events-count @debugger-ui))))
-
-        (swap! call-stack conj debug-id)
-        debug-id
-        )
-
-      )))
-
-
-
-
 
 
 
@@ -689,18 +522,6 @@ The list of all the AB tests
 
 
 
-
-
-
-(comment add-debug-event
-                :event-type  "event"
-                :event-name  "watch-ui [:ui :request :to-email :value]"
-                )
-
-;(map :event-type (vals @debug-event-timeline))
-
-
-; (:events-filter-path @debugger-ui)
 
 
 
@@ -1022,8 +843,6 @@ anywhere
 
 (defn resetclientstate []
   (do
-    (reset! call-stack [])
-    (reset! data-accesses {})
     (reset! data-state {})
     (reset! app-state {})
     (reset! ui-watchers [])
