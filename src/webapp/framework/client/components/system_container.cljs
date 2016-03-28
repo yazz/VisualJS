@@ -13,7 +13,6 @@
                                                          remove-debug-event]]
    [webapp.framework.client.components.admin     :only  [admin-view]]
    [webapp.framework.client.system-globals       :only  [app-state
-                                                         playbackmode
                                                          ui-watchers
                                                          data-watchers
                                                          start-component
@@ -76,30 +75,6 @@
 
 
 
-
-
-
-
-
-(defn on-mouse [e app]
-
-  (let [mousex (.-clientX e)
-        mousey (.-clientY e)
-        ]
-    ;(log (str "x=" mousex ", " "y=" mousey  ))
-    (if (or
-         (< mousex (- (get-in @app [:pointer :mouse-x]) 30))
-         (> mousex (+ (get-in @app [:pointer :mouse-x]) 30))
-         (< mousey (- (get-in @app [:pointer :mouse-y]) 30))
-         (> mousey (+ (get-in @app [:pointer :mouse-y]) 30))
-         )
-
-      (do
-        (if (not (= (get-in @app [:pointer :mouse-x]) mousex))
-          (om/update! app [:pointer :mouse-x] mousex))
-        (if (not (= (get-in @app [:pointer :mouse-y]) mousey))
-          (om/update! app [:pointer :mouse-y] mousey))
-        ))))
 
 
 
@@ -283,11 +258,10 @@
                   (reset! global-om-state app)
 
                   ; set up the initial state
-                  (if (not @playbackmode)
-                           (dorun (for [init-state-fn  @init-state-fns]
-                                    (do
-                                      (init-state-fn)
-                                      ))))
+                  (dorun (for [init-state-fn  @init-state-fns]
+                           (do
+                             (init-state-fn)
+                             )))
 
 
                   ; set up the UI and data watchers
@@ -334,27 +308,12 @@
 
 
        (dom/div nil
-                  (if @playbackmode
-                    (dom/div #js {:style #js {:fontWeight "bold"}}
-                             (str (-> app :system :platform) ","
-                                  (-> app :system :who-am-i))))
-                  (dom/div #js {:style
-                                (if @playbackmode #js {
-                                                       :position "relative"
-                                                       :border "2px black solid"
-                                                       :margin "10px"
-                                                       :width    (-> app :view :width)
-                                                       :height   (-> app :view :height)
-                                                       }
-
-                                  #js {
-                                       :position "relative"
-                                       })
+                  (dom/div
+                    #js {:style #js {:position "relative"}
 
 
-                                :id "mainel"  :onMouseMove
-                                (fn[e] (if (not @playbackmode) (on-mouse e app)))}
-                           ;(if @playbackmode (on-mouse e app)) (-> app :pointer :mouse-y)) ")"
+                         :id "mainel"
+                         }
 
 
                            (do
@@ -368,16 +327,6 @@
                                  )
                                )
                              )
-
-                           (if @playbackmode
-                             (dom/div #js {
-                                           :style
-                                           #js {
-                                                :position  "absolute"
-                                                :left      (str (-> app :pointer :mouse-x) "px")
-                                                :top       (str (-> app :pointer :mouse-y) "px")
-                                                :z-index   100
-                                                }} "X"))
 
                            (if @debug-mode
                              (dom/div #js {

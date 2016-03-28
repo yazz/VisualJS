@@ -14,7 +14,6 @@
     [webapp.framework.client.system-globals  :only  [app-state
                                                      playback-controls-state
                                                      reset-app-state
-                                                     playbackmode
                                                      start-component
                                                      init-fn
                                                      data-state

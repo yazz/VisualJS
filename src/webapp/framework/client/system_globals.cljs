@@ -68,15 +68,6 @@
 
 
 
-  "
-  If set to true then this means that the user interface is being replayed based on
-  the server side recording
-  "
-(defonce playbackmode
-  (atom false))
-
-
-
 
 
   "

@@ -12,7 +12,6 @@
    [webapp.framework.client.coreclient      :only  [remote-fn write-ui-fn read-ui-fn]]
    [webapp.framework.client.system-globals  :only  [app-state
                                                     reset-app-state
-                                                    playbackmode
                                                     data-watchers
                                                     data-state
                                                     update-data
@@ -135,7 +134,7 @@
              #js {:type        "text"
                   :className   "form-control"
                   :placeholder placeholder
-                  :value       (if (and @playbackmode (get-in field [:private]))
+                  :value       (if (and (get-in field [:private]))
                                  (read-ui (replace-in-map  field  :private :value
                                                   (fn[x] (apply str (repeat (count x) "*")))) [:value])
 
