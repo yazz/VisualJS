@@ -13,7 +13,7 @@
                                                input-field remote
                                                ]])
   (:use
-   [webapp.framework.client.system-globals :only  [appshare-dev-server  appshare-dev-port  client-session-atom touch]])
+   [webapp.framework.client.system-globals :only  [client-session-atom touch]])
 
   (:require-macros
    [cljs.core.async.macros :refer [go alt!]]))

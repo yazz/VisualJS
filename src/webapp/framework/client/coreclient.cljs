@@ -53,10 +53,7 @@
                                                     client-record-cache
                                                     ui-paths-mapped-to-data-windows
                                                     client-datasource-fields
-                                                    appshare-dev-server
-                                                    appshare-dev-port
                                                     realtime-started
-                                                    appshare-cljs-source
                                                     client-session-atom
                                                     resetclientstate
                                                     cookie-name]])

@@ -16,18 +16,6 @@
 
 
 
-(defonce appshare-dev-port
-  (atom nil))
-
-(defonce appshare-dev-server
-  (atom nil))
-
-
-(defonce appshare-cljs-source
-  (atom nil))
-
-
-
   "
  This is a reference to the first component of a Coils
  app that must be loaded

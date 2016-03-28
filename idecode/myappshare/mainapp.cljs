@@ -18,7 +18,7 @@
    [myappshare.join :only  [join-component]]
    [myappshare.your-account :only  [your-account-component]]
    [myappshare.edit-data :only  [edit-data-component]]
-   [webapp.framework.client.system-globals :only  [appshare-dev-server   appshare-dev-port     client-session-atom  can-use-interfaces]]
+   [webapp.framework.client.system-globals :only  [client-session-atom  can-use-interfaces]]
     )
 
   (:require-macros
@@ -367,18 +367,6 @@
                                           )
                                         )) } "New")
 
-
-
-            (cond
-             (= (read-ui app [:mode]) "edit")
-             (div {:style       {:display "inline-block"}}
-               (comment a {:className    "btn btn-default"
-                   :target       "new"
-                   :style       {:display "inline-block" :marginLeft "30px" :fontFamily "Ubuntu" :fontSize "1em"  :marginTop "-0.3em" }
-                   :href         (str "http://" @appshare-dev-server ":3450")}
-                  "Run in own window")
-
-               ))
 
 
 
