@@ -144,30 +144,6 @@ on the DATA tree
 
 
 
-"
-The list of all the AB tests
-"
-(defonce ab-tests
-  (atom {}))
-
-
-
-
-
-
-
-
-
-
-
-  "
-  The list of all the AB goals
-  "
-(defonce ab-goals
-  (atom {}))
-
-
-
 
 
 
@@ -291,34 +267,6 @@ The list of all the AB tests
 
 
 
-
-
-
-
-
-
-
-
-
-
-  "
-  "
-(defn  set-ab-tests
-  [tree]
-  (do
-    (reset! ab-tests tree)
-))
-
-
-
-
-
-
-  "
-  "
-(defn  set-ab-goals
-  [tree]
-   (reset! ab-goals tree))
 
 
 

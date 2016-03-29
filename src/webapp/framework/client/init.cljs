@@ -11,7 +11,7 @@
 
   (:use
     [myappshare.mainapp                                             :only   [main-view]]
-    [webapp.framework.client.system-globals                         :only   [app-state  data-state  set-ab-tests]])
+    [webapp.framework.client.system-globals                         :only   [app-state  data-state]])
 
   (:require-macros
    [cljs.core.async.macros :refer [go]]))
@@ -48,8 +48,6 @@
                          })
 
 
-     (set-ab-tests {
-                    })
   ))})
 
 

@@ -16,7 +16,6 @@
                                                          data-watchers
                                                          start-component
                                                          data-state
-                                                         ab-tests
                                                          init-state-fns
                                                          data-and-ui-events-on?
                                                          global-om-state]])
