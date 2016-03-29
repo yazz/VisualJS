@@ -276,21 +276,6 @@ The list of all the AB tests
 
 
 
-  "
-  Updates the data tree
-  "
-(defn  update-data
-  [path value]
-   (reset! data-state (assoc-in @data-state path value)))
-
-
-
-
-
-
-
-
-
 
 
 

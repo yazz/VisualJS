@@ -33,7 +33,6 @@
                                                     ui-watchers
                                                     data-watchers
                                                     data-state
-                                                    update-data
                                                     component-usage
                                                     gui-calls
                                                     app-watch-on?

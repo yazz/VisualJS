@@ -14,7 +14,6 @@
                                                     reset-app-state
                                                     data-watchers
                                                     data-state
-                                                    update-data
 
                                                     ]]
    [clojure.string :only [blank?]]

@@ -418,22 +418,6 @@ nil
 
 
 
-(comment macroexpand '(when-ui-value-changes [:ui :company-details :company-url]
-
-
-   (go
-    (webapp.framework.client.coreclient/update-ui  ui  [:ui  :company-details   :skills  ] nil)
-     (let [ l (remote  get-company-details
-             {
-              :company-url    (get-in @app-state [:ui :company-details :company-url])
-              })]
-
-       ;(log (pr-str l))
-       (update-data [:company-details]  l)
-       ))))
-;--------------------------------------------------------------------
-
-
 
 
 
