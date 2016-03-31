@@ -70,7 +70,7 @@
 (ns-coils 'webapp.framework.client.coreclient)
 
 
-(cljs-uuid-utils.core/make-random-uuid);only here so that the library gets built
+
 
 (def debug-mode (atom false))
 
