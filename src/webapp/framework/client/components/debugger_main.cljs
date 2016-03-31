@@ -15,8 +15,7 @@
    [webapp.framework.client.system-globals :only  [debugger-ui
                                                    debug-event-timeline
                                                    app-state
-                                                   app-watch-on?
-                                                   data-accesses]]
+                                                   app-watch-on?]]
    )
   (:use-macros
    [webapp.framework.client.coreclient    :only  [component remote log]]
@@ -174,93 +173,8 @@
 ;-----------------------------------------------------
 (defn show-tree [a-tree  is-map?  current-path   tree  debugger]
   (dom/div nil
-           ;------
-           ;START
-           ;------
-           (cond
-
-            is-map?
-            (let [idt (get @data-accesses {:tree tree :path current-path})]
-              (dom/div #js {:style #js {:paddingLeft "20px" :display "inline-block"
-                                        :verticalAlign "top"
-                                        :color (if idt "red" "")
-                                        }
-                            :onClick (fn[e] (if idt
-                                              (om/update! debugger [:events-filter-path] current-path)
-                                              ))
-                            } (str
-                               (:key a-tree)
-                               )))
-
-            (map? a-tree)
-            (dom/div #js {:style #js {:paddingLeft "20px"}} "{")
-
-            (or
-             (vector? a-tree)
-             (seq? a-tree)
-             (list? a-tree)
-             (coll? a-tree)
-             )
-            (dom/div #js {:style #js {:paddingLeft "20px"}} "[")
-            )
-
-
-           ;------
-           ;VALUE
-           ;------
-           (cond
-
-            is-map?
-            (dom/div #js {:style #js {:paddingLeft "20px"  :display "inline-block"
-                                      :verticalAlign "top"}}
-                     (show-tree (:value a-tree) false current-path tree debugger)
-                     )
-
-            (map? a-tree)
-            (do
-              (apply dom/div #js {:style #js {:paddingLeft "20px"}}
-                     (map
-                      #(show-tree  {:key %1 :value (get a-tree %1)} true (conj current-path %1 ) tree debugger)
-                      (keys a-tree) ))
-              )
-
-            (or
-             (vector? a-tree)
-             (seq? a-tree)
-             (list? a-tree)
-             (coll? a-tree)
-             )
-            (apply dom/div #js {:style #js {:paddingLeft "20px"}}
-                   (map #(show-tree %1 false (conj current-path %1 ) tree debugger) a-tree))
-
-
-            :else
-            (dom/div  #js {:style #js {:paddingLeft "20px"}}
-                      (pr-str a-tree))
-
-            )
-
-
-           ;------
-           ;END
-           ;------
-           (cond
-
-            is-map?
-            (dom/div nil "")
-
-            (map? a-tree)
-            (dom/div #js {:style #js {:paddingLeft "20px" :paddingBottom "20px"}} "}")
-
-            (or
-             (vector? a-tree)
-             (seq? a-tree)
-             (list? a-tree)
-             (coll? a-tree)
-             )
-            (dom/div #js {:style #js {:paddingLeft "20px" :paddingBottom "20px" }} "]")
-
-            )))
+         ""
+            ))
 
 
 
