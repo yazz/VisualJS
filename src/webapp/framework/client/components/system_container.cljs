@@ -12,7 +12,6 @@
    [webapp.framework.client.coreclient           :only  [remote-fn debug-mode component-fn]]
    [webapp.framework.client.components.admin     :only  [admin-view]]
    [webapp.framework.client.system-globals       :only  [app-state
-                                                         ui-watchers
                                                          start-component
                                                          init-state-fns]])
   (:use-macros

@@ -84,35 +84,6 @@ The UI tree
 
 
 
-"
-Whenever the application UI changes then we record the event,
-unless the app-watch-on? is set to false
-"
-(defonce app-watch-on?
-  (atom true))
-
-
-
-
-
-
-
-
-
-"
-This is a list of all the code that waits for things to happen
-on the UI tree
-"
-(defonce ui-watchers
-  (atom []))
-
-
-
-
-
-
-
-
 
 
 
@@ -576,7 +547,6 @@ on the UI tree
 (defn resetclientstate []
   (do
     (reset!  app-state                 {})
-    (reset!  ui-watchers               [])
     (reset!  app-state                 blank-app-state)
     (reset!  paths-for-refresh         {})
     (reset!  data-views                {})

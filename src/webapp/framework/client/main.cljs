@@ -15,7 +15,6 @@
                                                      reset-app-state
                                                      start-component
                                                      init-fn
-                                                     app-watch-on?
                                                      cookie-name
                                                      touch
                                                      client-session-atom

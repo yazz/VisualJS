@@ -29,8 +29,6 @@
                                                     app-state
                                                     reset-app-state
                                                     client-data-windows
-                                                    ui-watchers
-                                                    app-watch-on?
                                                     paths-for-refresh
                                                     data-views
                                                     assoc-in-atom

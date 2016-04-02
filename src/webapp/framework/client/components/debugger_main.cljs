@@ -12,8 +12,7 @@
 
   (:use
    [webapp.framework.client.coreclient     :only  [remote-fn component-fn]]
-   [webapp.framework.client.system-globals :only  [app-state
-                                                   app-watch-on?]]
+   [webapp.framework.client.system-globals :only  [app-state]]
    )
   (:use-macros
    [webapp.framework.client.coreclient    :only  [component remote log]]
@@ -49,7 +48,7 @@
 
 (defn  ^:export loadDebugger []
   (do
-   (reset! app-watch-on? false)
+    nil
 ))
 
 
