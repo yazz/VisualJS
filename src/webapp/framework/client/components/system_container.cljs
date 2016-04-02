@@ -70,57 +70,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-( go (loop []
-      (let [ui-event (<! ui-chan)]
-        (do
-          ;(. js/console log (pr-str "****CALLED UI EVENT: "  (:type (:watch ui-event)) ":" (:path (:watch ui-event))  ))
-          ;(. js/console log (pr-str "****FN: "  (:fn (:watch ui-event)) ))
-          ;(. js/console log (pr-str "****extra: "  (:extra ui-event)) )
-          ;(. js/console log (pr-str "****app: "  app) )
-          ;(. js/console log (pr-str "****Om : "  @global-om-state) )
-          ;(. js/console log (pr-str "****App : "  @app-state) )
-          (if @global-om-state
-            (apply (:fn (:watch ui-event)) (conj [@global-om-state] (:extra ui-event)) )
-            ;(. js/console log (pr-str "No globAL OM STATE" ) )
-            )
-          ;(swap! app-state assoc :touch-id (rand-int 99999))
-          (recur)))))
-
-
-
-
-
-
-
-
-
-
-
-
 (defn main-view [app owner]
   (reify
     ;---------------------------------------------------------
@@ -148,19 +97,7 @@
                   (dorun (for [init-state-fn  @init-state-fns]
                            (do
                              (init-state-fn)
-                             )))
-
-
-
-
-                    ))
-
-
-
-
-
-
-
+                             )))))
 
 
 
