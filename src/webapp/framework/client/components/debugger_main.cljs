@@ -149,9 +149,6 @@
 
      )))
 
-;(get @data-accesses
-;      {:tree "UI" :path [:ui :companies :values]})
-
 
 
 
@@ -415,147 +412,9 @@
 
                                                   )))))))))))))
 
-;(get @data-accesses {:tree "UI" :path (get @debugger-ui :events-filter-path)})
-;(get @debugger-ui :events-filter-path)
 
 
 
-
-
-
-
-
-(defn main-debug-comp [app owner]
-  (reify
-    om/IRender
-    ;---------
-    (render
-     [_]
-     (dom/div #js {
-                   :style #js {:width "100%"}
-                   }
-              (dom/div #js {
-                            :style #js {:height "300px" :border "1px solid black"
-                                        :borderRadius "15px" :padding "5px"
-                                        :width "100%"}
-                            :onMouseEnter #(reset! debugger-ui (assoc-in @ debugger-ui [:mode] "show-event"))
-                            }
-
-                       (dom/div nil
-                                (dom/div #js {:style #js {  :display         "inline-block"}}  (str "Filter: "
-                                                   (if (get app :events-filter-path)
-                                                     (pr-str (get app :events-filter-path))
-                                                     "Show all in past"
-                                                     )))
-                                (if (get app :events-filter-path)
-                                  (dom/button #js {:style #js { :marginLeft "10px" :display  "inline-block"}
-                                                   :onClick (fn [e] (do
-                                                                      (om/update! app [:events-filter-path] nil)
-                                                                      (om/update! app [:code-show_index] nil)
-                                                                      (om/update! app [:code-show_index2] nil)
-                                                                      ))
-                                                   }  (str "Cancel")))
-                                )
-
-                       (dom/div #js {:style #js {:height "250px" :overflow "scroll" :paddingRight "40px"}}
-                                (apply dom/div nil
-
-                                         (map
-                                          (fn[x]
-                                            (if x
-                                              (dom/div #js {:style #js {:paddingLeft "20px"}
-                                                          }
-                                                     (let [thisitem      (get @ debug-event-timeline x)]
-                                                       (dom/pre #js {:style #js {:paddingLeft "20px"
-                                                                                 :backgroundColor "darkgray"}
-                                                                     :onClick (fn[e] (update-app-pos app x))
-                                                                     }
-
-                                                                (dom/div #js {:style #js {  :display         "inline-block"}}
-                                                                                     (str x " "  (:event-type thisitem) " "
-                                                                     (cond
-                                                                      (=  (:event-type thisitem) "render")
-                                                                      (str (:component-name thisitem) " " (:component-path thisitem))
-                                                                      )
-
-                                                                     ))
-
-
-                                                                (cond
-                                                                 (= (:event-type thisitem) "render")
-                                                                 (dom/div #js {
-                                                                               :onClick #(do
-                                                                                           (om/update!
-                                                                                            app
-                                                                                            [:code-data-show_index2]
-                                                                                            (if (= (get @app :code-data-show_index2) x)
-                                                                                              nil
-                                                                                              x))
-                                                                                           (om/update!
-                                                                                            app
-                                                                                            [:code-show_index2] nil))
-                                                                               :style #js {:color           "blue"
-                                                                                           :textDecoration "underline"
-                                                                                           :display         "inline-block"
-                                                                                           :paddingLeft     "10px"
-                                                                                           }
-                                                                               }
-                                                                          (str
-                                                                           (if (= (get app :code-data-show_index2) x)
-                                                                             "-" "+")
-                                                                           "Input data")))
-
-
-                                                                (if (= (get app :code-data-show_index2) x)
-                                                                  (dom/pre #js {
-                                                                                :style #js {:position "absolute" }
-                                                                                :onMouseLeave #(om/update! app [:code-data-show_index2]
-                                                                                                           nil)}
-                                                                           (show-tree
-                                                                            (get thisitem :component-data)  false
-                                                                            (get thisitem :component-path) "UI" app)
-
-                                                                           ))
-
-
-                                                                ))
-
-                                                     (let [thisitem      (get @debug-event-timeline x)
-                                                           parentitemid  (get thisitem :parent-id)
-                                                           parentitem    (if parentitemid (get  @debug-event-timeline  parentitemid))
-                                                           ]
-
-                                                       (if parentitemid
-                                                         (dom/pre #js {:style #js {:paddingLeft "20px" :marginLeft "50px"
-                                                                                 }
-                                                                     :onClick (fn[e] (update-app-pos  app  parentitemid))}
-
-                                                                (str
-                                                                 (if parentitem (cond
-                                                                                 (= (:event-type parentitem) "event")
-                                                                                 (str parentitemid " " (:event-type parentitem) "::"
-                                                                                      (:event-name parentitem) )
-
-                                                                                 (= (:event-type parentitem) "render")
-                                                                                 (str parentitemid " " (:event-type parentitem) " "
-                                                                                      (:component-name parentitem) " "
-                                                                                      (:component-path parentitem)
-                                                                                      )
-
-                                                                                 ))
-                                                                 )))
-
-                                                       )
-                                                     )))
-
-                                          (if (get app :events-filter-path)
-                                            (reverse (get @data-accesses {:tree "UI" :path (get app :events-filter-path)}))
-                                            (reverse
-                                             (let [aps   (- (-> app :pos) 20)
-                                                   act   (if (> aps 0) aps 1)
-                                                   ]
-                                               (into [] (range act (+ 1 (-> app :pos))))
-)))))))))))
 
 
 
@@ -582,50 +441,16 @@
 (defn  ^:export loadDebugger []
   (do
    (reset! app-watch-on? false)
-
-    (om/root
-     main-debug-comp
-     debugger-ui
-     {:target (js/document.getElementById "right_of_main")})
-
-
-    (om/root
-     details-debug-comp
-     debugger-ui
-     {:target (js/document.getElementById "debugger_details")})
-
-    (om/root
-     main-debug-slider-comp
-     debugger-ui
-     {:target (js/document.getElementById "main_playback_slider")})))
+))
 
 
 
 (defn  ^:export unloadDebugger []
   (do
-    (reset! debugger-ui
 
-            (assoc-in
-             @debugger-ui
-             [:react-components] []))
+nil
 
-
-    (reset! debugger-ui
-            (assoc-in
-             @debugger-ui
-             [:current-component] nil))
-
-
-    (reset! debugger-ui
-            (assoc-in
-             @debugger-ui
-             [:mode] "show-event"))
-
-
-    (om/root
-     (fn [app owner] (om/component (dom/div nil "")))
-     debugger-ui
-     {:target (js/document.getElementById "right_of_main")})))
+    ))
 
 ;(unloadDebugger)
 

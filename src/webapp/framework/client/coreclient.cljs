@@ -31,14 +31,11 @@
                                                     reset-app-state
                                                     client-data-windows
                                                     ui-watchers
-                                                    data-watchers
-                                                    data-state
                                                     component-usage
                                                     gui-calls
                                                     app-watch-on?
                                                     paths-for-refresh
                                                     data-views
-                                                    touch-data
                                                     assoc-in-atom
                                                     add-init-state-fn
                                                     global-om-state
@@ -56,9 +53,7 @@
   (:use-macros
    [webapp.framework.client.coreclient  :only [ns-coils
                                                sql log sql-1
-                                               watch-data
                                                -->ui
-                                               <--data
                                                remote
                                                defn-ui-component
                                                container
@@ -80,14 +75,6 @@
 
 
 
-(defn  data-tree!
-  "
-  Updates the data tree
-  "
-  [path value]
-   (reset! data-state (assoc-in @data-state path value)))
-
-
 
 
 
@@ -96,40 +83,6 @@
     val2
     val1))
 
-
-
-
-(defn  data-tree
-  "
-  "
-  [path]
-  (get-in @data-state path))
-
-
-
-
-
-
-
-
-(defn  -->data-fn
-  "
-  "
-  [path value]
-   (reset! data-state (assoc-in @data-state path value)))
-
-
-
-
-
-
-
-
-(defn  <--data-fn
-  "
-  "
-  [path]
-  (get-in @data-state path))
 
 
 
@@ -396,29 +349,6 @@
 
 
 
-(defn delete-data-watcher [watcher-name]
-  (reset!
-   webapp.framework.client.system-globals/data-watchers
-   (into []
-         (filter
-          #(not (=
-                 (get %1 :name)
-                 watcher-name))
-          @webapp.framework.client.system-globals/data-watchers))))
-
-
-(count @data-watchers)
-(map :name @data-watchers)
-
-
-;(reset! data-watchers [])
-(comment reset! data-watchers (into [] (filter #(not (=
-          (get %1 :name)
-          "component-cv-browser [:ui :cvs :values] List of the users") )
-        @data-watchers)))
-
-
-;(filter #(= %1 2) [1 2 3])
 
 (defn record-watcher [namespace-name path tree-name & code]
   (let [
@@ -763,43 +693,6 @@
 
 
 
-(defn when-data-path-equals-fn
-  [path value data-fn]
-
-  (when-path-equals
-   data-watchers
-   path
-   value
-   data-fn))
-
-
-
-
-
-
-(defn when-data-value-changes-fn
-  [watcher-name  path  data-fn]
-
-  (when-value-changes
-   data-watchers
-   watcher-name
-   path
-   data-fn))
-
-
-
-
-
-
-(defn when-data-property-equals-in-record
-  [path field value data-fn]
-
-  (when-property-equals-in-record
-   data-watchers
-   path
-   field
-   value
-   data-fn))
 
 
 
@@ -865,8 +758,6 @@
   (let [
         full-path         (into [] (flatten (conj path sub-path)))
         old-val           @app-state
-        data-access-key   {:tree "UI"
-                           :path full-path}
         ]
 
     ;(log (str "(om/update! " full-path) " = " value )
@@ -883,18 +774,6 @@
 
 
 
-
-
-(defn write-data-fn [tree  path  value  parent-id]
-  (let [
-        full-path          path
-        old-val            @ data-state
-        ]
-    (om/update!     tree     path  value)
-    ;(assoc-in-atom  app-state     full-path  value)
-    ;(om/update!  @global-om-state  full-path  value)
-    ;(touch  full-path)
-    ))
 
 
 
@@ -968,7 +847,6 @@
   (if (nil? (get-in  app-state  [:system :ui :tab :value]))
 	(swap!  app-state  assoc-in  [:system :ui :tab :value]  "data sources"))
 
-  (swap!  app-state  assoc-in  [:system :ui :data-sources :values]  (:data-sources @data-state))
   (swap!  app-state  assoc-in  [:system :ui :views :values]  @data-views)
   )
 
@@ -2241,8 +2119,6 @@ It is actually called from the <--id macro
     record-id)
 
 
-(defn session-user-id-fn []
-  (((get @data-state :session) :user ) :id))
 
 
 

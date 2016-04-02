@@ -71,20 +71,6 @@
 
 
 
-
-
-
-
-"
-The data tree
-"
-(defonce data-state
-  (atom
-    {}))
-
-
-
-
 "
 The UI tree
 "
@@ -120,21 +106,6 @@ on the UI tree
 (defonce ui-watchers
   (atom []))
 
-
-
-
-
-
-
-
-
-
-"
-This is a list of all the code that waits for things to happen
-on the DATA tree
-"
-(defonce data-watchers
-  (atom []))
 
 
 
@@ -298,20 +269,6 @@ on the DATA tree
                                   (swap! touch-id inc)
                                   )))
 
-
-
-
-
-
-  "
-  "
-(defn touch-data
-  [path]
-  (reset! data-state (assoc-in @data-state
-                               (conj path
-                                     :touch-id)
-                               (swap! touch-id inc)
-                               )))
 
 
 
@@ -776,10 +733,8 @@ anywhere
 
 (defn resetclientstate []
   (do
-    (reset! data-state {})
     (reset! app-state {})
     (reset! ui-watchers [])
-    (reset! data-watchers [])
     (reset!  app-state  blank-app-state)
     (reset!  debug-event-timeline {})
     (reset!  component-usage {})

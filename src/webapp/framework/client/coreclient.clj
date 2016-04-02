@@ -316,54 +316,6 @@ nil
       (~'fn [~'ui] (do ~@code)))))
 ;--------------------------------------------------------------------
 
-;--------------------------------------------------------------------
-(defmacro watch-data
-  [path watcher-name & code]
-
-  `(do
-     (if (pos? (count ~watcher-name))
-         (webapp.framework.client.coreclient/delete-data-watcher  ~watcher-name)
-     )
-
-     (webapp.framework.client.coreclient/record-watcher
-      (~'ns-coils-debug)
-      ~(str `~path)
-      "data"
-      (str ~(with-out-str   (write (first `~code))
-              :dispatch clojure.pprint/code-dispatch))
-      )
-
-     (~'webapp.framework.client.coreclient/when-data-value-changes-fn
-      ~watcher-name
-      ~path
-      (~'fn [~'ui] (do ~@code)))))
-;--------------------------------------------------------------------
-
-
-
-
-
-
-
-;--------------------------------------------------------------------
-(defmacro ==data
-  [path value test-name & code]
-
-  `(do
-     (webapp.framework.client.coreclient/record-path=
-      (~'ns-coils-debug)
-      ~(str `~path)
-      ~(str `~value)
-      "data"
-      (str ~(with-out-str   (write (first `~code))
-              :dispatch clojure.pprint/code-dispatch))
-      )
-
-     (~'webapp.framework.client.coreclient/when-data-path-equals-fn
-      ~path
-      ~value
-      (~'fn [~'ui] (do ~@code)))))
-;--------------------------------------------------------------------
 
 
 
@@ -393,20 +345,6 @@ nil
 
 
 
-
-
-
-(defmacro  -->data
-  "Writes to the data tree"
-  [path value]
-   `(~'webapp.framework.client.coreclient/-->data-fn ~path ~value))
-
-
-
-(defmacro  <--data
-  "Reads from the data tree"
-  [path]
-   `(~'webapp.framework.client.coreclient/<--data-fn ~path))
 
 
 
@@ -641,12 +579,6 @@ nil
 
 
 
-
-(defmacro session-user-id []
-  `(webapp.framework.client.coreclient/session-user-id-fn
-
-     )
-     )
 
 
 

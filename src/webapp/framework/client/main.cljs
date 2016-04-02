@@ -15,7 +15,6 @@
                                                      reset-app-state
                                                      start-component
                                                      init-fn
-                                                     data-state
                                                      app-watch-on?
                                                      cookie-name
                                                      touch

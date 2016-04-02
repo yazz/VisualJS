@@ -11,7 +11,7 @@
 
   (:use
     [myappshare.mainapp                                             :only   [main-view]]
-    [webapp.framework.client.system-globals                         :only   [app-state  data-state]])
+    [webapp.framework.client.system-globals                         :only   [app-state]])
 
   (:require-macros
    [cljs.core.async.macros :refer [go]]))
@@ -41,12 +41,6 @@
 
 
         }))
-
-
-     (reset! data-state {
-                         :submit {}
-                         })
-
 
   ))})
 
