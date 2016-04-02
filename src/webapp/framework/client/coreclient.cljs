@@ -26,18 +26,15 @@
   (:use
    [clojure.browser.event :only [listen]]
    [webapp.framework.client.system-globals  :only  [touch
-                                                    debugger-ui
                                                     app-state
                                                     reset-app-state
                                                     client-data-windows
                                                     ui-watchers
-                                                    component-usage
                                                     app-watch-on?
                                                     paths-for-refresh
                                                     data-views
                                                     assoc-in-atom
                                                     add-init-state-fn
-                                                    global-om-state
                                                     client-data-window-requests
                                                     client-query-cache-requests
                                                     client-record-cache-requests
@@ -323,108 +320,6 @@
 
 
 
-(defn record-path= [namespace-name  path  value  tree-name  &  code]
-  (let [
-        code-str
-        (str (apply str (map #(if (= "\n" %1) (str "\r\n")  %1) code)))
-        ]
-
-    (reset!
-     webapp.framework.client.system-globals/debugger-ui
-     (assoc-in
-      (deref webapp.framework.client.system-globals/debugger-ui)
-      [:watchers-code (str "==" tree-name " " path " " value) ]
-      (xml-str (str
-                "(ns  " namespace-name ")"
-                (char 13) (char 13)
-
-
-                "(==" tree-name " " path "  " value
-                     (char 13) (char 13)
-                     code-str
-                     ""
-                     ))))))
-
-
-
-
-
-(defn record-watcher [namespace-name path tree-name & code]
-  (let [
-        code-str
-        (str (apply str (map #(if (= "\n" %1) (str "\r\n")  %1) code)))
-        ]
-
-    (reset!
-     webapp.framework.client.system-globals/debugger-ui
-     (assoc-in
-      (deref webapp.framework.client.system-globals/debugger-ui)
-      [:watchers-code (str "watch-" tree-name " " path) ]
-      (xml-str (str
-                "(ns  " namespace-name ")"
-                (char 13) (char 13)
-
-
-                "(watch-" tree-name " " path "  "
-                     (char 13) (char 13)
-                     code-str
-                     ""
-                     ))))))
-
-
-
-
-
-(defn record-defn-ui-component [namespace-name fn-pointer fname args & code]
-  (let [
-        code-str
-        (str (apply str (map #(if (= "\n" %1) (str "\r\n")  %1) code)))
-        ]
-
-    ;(.log js/console (str "NAMESPACE: "            namespace-name))
-    ;(.log js/console (str "NAMESPACE fname: "      fname))
-    ;(.log js/console (str "NAMESPACE orig code: "  code))
-    ;(.log js/console (str "NAMESPACE code: "       code-str))
-
-    (reset!
-     webapp.framework.client.system-globals/debugger-ui
-     (assoc-in
-      (deref webapp.framework.client.system-globals/debugger-ui)
-      [:react-components-code (str fname)]
-      (xml-str (str
-                "(ns  " namespace-name ")"
-                (char 13) (char 13)
-
-
-                "(defn-ui-component  "
-                     fname "  "
-                     args (char 13) (char 13)
-                     code-str
-                     ""
-                     ))))
-
-
-    (reset!
-     webapp.framework.client.system-globals/debugger-ui
-     (assoc-in
-      (deref webapp.framework.client.system-globals/debugger-ui)
-      [:react-components-fns (str fname)]
-      fn-pointer))
-
-
-    ))
-
-
-(comment
-  (record-defn-ui-component nil
-   "a.b" "start" '[a b] '(def 1)))
-
-
-
-
-
-
-
 
 
 (defn process-ui-component [fn-name]
@@ -450,88 +345,6 @@
 
 
 
-(defn display-debug-code []
-  (let [component-name  (last (get @debugger-ui :react-components))]
-    (reset! debugger-ui
-            (assoc-in @debugger-ui [:current-component]
-                      component-name))))
-
-
-
-;(get @debugger-ui :current-component)
-
-
-
-
-(defn component-clicked [x]
-  (if js/debug_live
-    (do
-      (reset! debugger-ui (assoc-in @debugger-ui [:mode]              "show-event"))
-      (reset! debugger-ui (assoc-in @debugger-ui [:current-component] (last (get @debugger-ui :react-components))))
-
-      (if (get @component-usage  (get @debugger-ui :current-component))
-        (do
-          (reset! debugger-ui (assoc-in @debugger-ui [:mode] "show-event"))
-
-          (reset! debugger-ui (assoc-in @debugger-ui [:pos]
-                                        (first
-                                         (drop-while
-                                          (fn[xx] (> xx
-                                                     (get-in @debugger-ui [:pos])
-                                                     ))
-                                          (reverse (get @component-usage (get @debugger-ui :current-component))))
-                                         ))))))))
-
-
-;@component-usage
-;(get-in @debugger-ui [:pos])
-;(get @debugger-ui :current-component)
-;(get @component-usage (get @debugger-ui :current-component))
-
-
-(defn set-debug-component [component-name  component-path]
-  (let [component-identifier   {:fn-name component-name :fn-path component-path}]
-    (if (not-any? #(= %1 component-identifier) (get @debugger-ui :react-components))
-      (reset! debugger-ui
-              (assoc-in @debugger-ui [:react-components]
-                        (conj (get @debugger-ui :react-components)
-                              component-identifier
-                              )))
-      (reset! debugger-ui
-              (assoc-in @debugger-ui [:mode]
-                        "show-event"))
-      )
-    (display-debug-code)
-
-    ))
-
-
-
-
-
-
-
-
-(defn unset-debug-component [component-name   component-path]
-  (let [component-identifier   {:fn-name component-name :fn-path component-path}]
-    (reset! debugger-ui
-
-            (assoc-in
-             @debugger-ui
-             [:react-components]
-             (into []
-                   (filter #(not= %1 component-identifier)
-                           (get @debugger-ui :react-components))
-                   ))
-            )
-    (display-debug-code)
-    ))
-
-
-
-
-
-
 
 (defn debug-react [str-nm owner data react-fn path]
   (let
@@ -542,27 +355,6 @@
 
         (dom/div
        #js {
-            :onMouseEnter #(if js/debug_live (om/set-state! owner :debug-highlight true))
-
-            :onMouseLeave #(if js/debug_live (om/set-state! owner :debug-highlight false))
-
-            :onClick component-clicked
-
-            :style (if js/debug_live
-                     #js {:backgroundColor
-
-                          (if
-                            (om/get-state owner :debug-highlight)
-                            (do
-                              (if (not= (:mode @debugger-ui) "component")
-                                (set-debug-component  react-fn-name   (om/get-state owner :parent-path)))
-                              "lightGray")
-                            (do
-                              (if (not= (:mode @debugger-ui) "component")
-                                (unset-debug-component  react-fn-name  (om/get-state owner :parent-path)))
-                              "")
-                            )
-                          })
             }
        (react-fn data)
        ""))))
@@ -589,38 +381,6 @@
 
 
 
-
-
-
-
-(defn when-path-equals [watcher path value fn-def]
-  (swap! watcher conj
-         {
-          :type     "path equals"
-          :path     path
-          :value    value
-          :fn       fn-def
-          }))
-
-
-
-
-
-(defn when-value-changes [watcher watcher-path path fn-def]
-  (swap! watcher conj
-         {
-          :name     watcher-path
-          :type     "value change"
-          :path     path
-          :fn       fn-def
-          }))
-
-
-
-
-
-
-
 (defn amend-record [records field value amend-fn]
   (into [] (map
             (fn[x] (if (= (get x field) value) (amend-fn x) x))
@@ -630,61 +390,6 @@
 
 
 
-
-
-(defn when-property-equals-in-record  [watcher path field value fn-def]
- (swap! watcher conj
-         {
-          :type     "record property equals"
-          :path     path
-          :field    field
-          :value    value
-          :fn       fn-def
-          }))
-
-
-
-
-
-
-
-(defn when-ui-path-equals-fn
-  [path value ui-fn]
-
-  (when-path-equals
-   ui-watchers
-   path
-   value
-   ui-fn))
-
-
-
-
-
-
-(defn when-ui-value-changes-fn
-  [path ui-fn]
-
-  (when-value-changes
-   ui-watchers
-   ""
-   path
-   ui-fn))
-
-
-
-
-
-
-(defn when-ui-property-equals-in-record
-  [path field value ui-fn]
-
-  (when-property-equals-in-record
-   ui-watchers
-   path
-   field
-   value
-   ui-fn))
 
 
 
@@ -752,7 +457,6 @@
 
     ;(log (str "(om/update! " full-path) " = " value )
     (om/update! tree sub-path value)
-    ;(om/update!  @global-om-state  full-path  value)
     ;(assoc-in-atom  app-state  full-path  value)
     ;(touch  [:ui])
 

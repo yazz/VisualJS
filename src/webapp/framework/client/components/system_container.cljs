@@ -14,9 +14,7 @@
    [webapp.framework.client.system-globals       :only  [app-state
                                                          ui-watchers
                                                          start-component
-                                                         init-state-fns
-                                                         data-and-ui-events-on?
-                                                         global-om-state]])
+                                                         init-state-fns]])
   (:use-macros
    [webapp.framework.client.coreclient :only  [defn-ui-component ns-coils div component remote
                                                admin -->ui
@@ -75,23 +73,19 @@
     ;---------------------------------------------------------
     om/IWillUpdate
       (will-update [this next-props next-state]
-        ;(reset! global-om-state app)
-        ;(log "(reset! global-om-state app)")
-                   )
+                   (do
+                     nil
+                     ))
 
     om/IDidUpdate
     (did-update [_ _ _ ]
-      ;(reset! global-om-state app)
-      ;(log "(reset! global-om-state app)")
-
-
-                )
+                   (do
+                     nil
+                     ))
 
     om/IWillMount
     (will-mount [_]
                 (do
-                  ;(log "Mounting main component")
-                  (reset! global-om-state app)
 
                   ; set up the initial state
                   (dorun (for [init-state-fn  @init-state-fns]
@@ -115,8 +109,6 @@
      [this state]
 
      (do
-       (reset! global-om-state app)
-       ;(log "(reset! global-om-state app)")
 
 
        (dom/div nil

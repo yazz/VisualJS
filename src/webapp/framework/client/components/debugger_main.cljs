@@ -12,8 +12,7 @@
 
   (:use
    [webapp.framework.client.coreclient     :only  [remote-fn component-fn]]
-   [webapp.framework.client.system-globals :only  [debugger-ui
-                                                   app-state
+   [webapp.framework.client.system-globals :only  [app-state
                                                    app-watch-on?]]
    )
   (:use-macros

@@ -165,15 +165,6 @@
                   ~(get opts :on-mount )))))
 
 
-       (webapp.framework.client.coreclient/record-defn-ui-component
-             (~'ns-coils-debug)
-             ~fn-name
-             ~(str `~fn-name) ~(str `~data-paramater-name)
-
-          (str ~(with-out-str   (write `~code)
-                                        :dispatch clojure.pprint/code-dispatch)))
-
-
 
 
        (webapp.framework.client.coreclient/process-ui-component  ~(str `~fn-name))
@@ -271,50 +262,6 @@ nil
 
 
 
-
-;--------------------------------------------------------------------
-(defmacro watch-ui
-  [path watcher-name & code]
-
-  `(do
-
-     (webapp.framework.client.coreclient/record-watcher
-      (~'ns-coils-debug)
-      ~(str `~path)
-      "ui"
-      (str ~(with-out-str   (write (first `~code))
-              :dispatch clojure.pprint/code-dispatch))
-      )
-
-     (~'webapp.framework.client.coreclient/when-ui-value-changes-fn
-      ~path
-      (~'fn [~'ui] (do ~@code)))))
-;--------------------------------------------------------------------
-
-
-
-
-
-;--------------------------------------------------------------------
-(defmacro ==ui
-  "Checks the UI tree for a value"
-  [path value test-name & code]
-
-  `(do
-     (webapp.framework.client.coreclient/record-path=
-      (~'ns-coils-debug)
-      ~(str `~path)
-      ~(str `~value)
-      "ui"
-      (str ~(with-out-str   (write (first `~code))
-              :dispatch clojure.pprint/code-dispatch))
-      )
-
-     (~'webapp.framework.client.coreclient/when-ui-path-equals-fn
-      ~path
-      ~value
-      (~'fn [~'ui] (do ~@code)))))
-;--------------------------------------------------------------------
 
 
 

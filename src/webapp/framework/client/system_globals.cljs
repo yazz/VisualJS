@@ -279,91 +279,12 @@ on the UI tree
 
 
 
-"
-"
-(defonce  component-usage
-  (atom
-                      {}
-                      ))
 
 
 
 
 
 
-
-  "
-  "
-(defonce  debugger-ui
-  (atom {
-         :mode                     "show-event"
-         :react-components         []
-         :react-components-code    {}
-         :watchers-code            {}
-         :pos                      1
-         :total-events-count       0
-         :events-filter-path       nil
-         }))
-
-
-
-
-
-
-
-
-
-  "
-  "
-(defonce  debug-count
-  (atom 0))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-;-----------------------------------------------------
-; This is when the user moves the timeline slider
-; left and right. If the slider is currently being moves
-; (ie: not at the right of the slider - meaning the
-; latest position) then turn off the events capture
-; from the application
-;
-; We do this because otherwise the application keeps
-; receiving events otherwise
-;-----------------------------------------------------
-(defonce  data-and-ui-events-on? (atom true))
-(add-watch debugger-ui
-           :change-debugger-ui
-
-           (fn [_ _ old-val new-val]
-
-             (cond
-               (or
-                (= js/debug_live false)
-                (= (new-val :pos) (new-val :total-events-count))
-                )
-               (reset! data-and-ui-events-on? true)
-
-              :else
-               (reset! data-and-ui-events-on? false)
-             )
-             ;(. js/console log (pr-str new-val))
-))
 
 
 
@@ -413,12 +334,6 @@ on the UI tree
 (defn assoc-in-atom [the-atom  pos   value]
   (reset!   the-atom   (assoc-in  @the-atom    pos   value)))
 
-
-
-
-
-
-(defonce  global-om-state (atom nil))
 
 
 
@@ -663,7 +578,6 @@ on the UI tree
     (reset!  app-state                 {})
     (reset!  ui-watchers               [])
     (reset!  app-state                 blank-app-state)
-    (reset!  component-usage           {})
     (reset!  paths-for-refresh         {})
     (reset!  data-views                {})
     (reset!  client-data-windows       {})
