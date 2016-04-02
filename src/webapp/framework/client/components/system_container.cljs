@@ -40,9 +40,7 @@
 
 
 (def ui-events   (atom []))
-(def data-events (atom []))
 (def ui-chan     (chan))
-(def data-chan   (chan))
 
 
 
@@ -184,29 +182,6 @@
             )
           ;(swap! app-state assoc :touch-id (rand-int 99999))
           (recur)))))
-
-
-( go (loop []
-      (let [data-event (<! data-chan)]
-        (do
-          ;(. js/console log (pr-str "****CALLED DATA EVENT: "  (:type (:watch data-event)) ":" (:path (:watch data-event))  ))
-          ;(. js/console log (pr-str "****FN: "  (:fn (:watch ui-event)) ))
-          ;(. js/console log (pr-str "****extra: "  (:extra ui-event)) )
-          ;(. js/console log (pr-str "****app: "  app) )
-          ;(. js/console log (pr-str "****Om : "  @global-om-state) )
-          (if @global-om-state
-            (apply (:fn (:watch data-event)) (conj [@global-om-state] (:extra data-event)) )
-            ; (. js/console log (pr-str "No globAL OM STATE" ) )
-            )
-          ;(swap! app-state assoc :touch-id (rand-int 99999))
-          (recur)))))
-
-
-
-
-
-
-
 
 
 

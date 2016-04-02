@@ -32,7 +32,6 @@
                                                     client-data-windows
                                                     ui-watchers
                                                     component-usage
-                                                    gui-calls
                                                     app-watch-on?
                                                     paths-for-refresh
                                                     data-views
@@ -742,15 +741,6 @@
 
 
 
-
-
-;(keys @gui-calls)
-
-;(get @gui-calls "splash-screen: []:[:ui :splash-screen]")
-
-;@gui-calls
-
-;clojure.zip/down
 
 
 (defn write-ui-fn [tree path sub-path value]

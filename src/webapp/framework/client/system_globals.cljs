@@ -277,20 +277,6 @@ on the UI tree
 
 
 
-  "
-  "
-(defonce  debug-event-timeline
-  (atom {}))
-;(map #(str %1) @debug-event-timeline)
-;(keys (get @debug-event-timeline 49))
-
-
-
-
-
-
-
-
 
 
 "
@@ -413,54 +399,6 @@ on the UI tree
 
 
 
-
-
-
-
-"
-A UI state history of all the GUI components
-
-{
-'main-view: []'
-....
-
-'splash-screen: [:ui :splash-screen]'
-[
-{:show true}
-{:show false, :click false}
-{:show true}
-]
-
-'letter-a: [:ui :splash-screen]'
-....
-
-'letter-a: [:ui]'
-....
-
-'browser-menu: []'
-....
-
-'text-graph: [:ui :companies]'
-[
-nil
-{:values [{company apple.com inbound 3}
-{company were.com inbound 1}
-]}
-]
-'browser-menu:'
-....
-
-'text-graph:'
-....
-}
-
-This can be removed as it is not used by the system
-anywhere
-"
-(defonce  gui-calls
-  (atom {}))
-
- ;(get @gui-calls "text-graph: [:ui :companies]")
 
 
 
@@ -733,19 +671,17 @@ anywhere
 
 (defn resetclientstate []
   (do
-    (reset! app-state {})
-    (reset! ui-watchers [])
-    (reset!  app-state  blank-app-state)
-    (reset!  debug-event-timeline {})
-    (reset!  component-usage {})
-    (reset!  gui-calls {})
-    (reset!  paths-for-refresh  {})
-    (reset!  data-views {})
-    (reset!  client-data-windows   {})
-    (reset!  client-query-cache    {})
-    (reset!  client-record-cache   {})
+    (reset!  app-state                 {})
+    (reset!  ui-watchers               [])
+    (reset!  app-state                 blank-app-state)
+    (reset!  component-usage           {})
+    (reset!  paths-for-refresh         {})
+    (reset!  data-views                {})
+    (reset!  client-data-windows       {})
+    (reset!  client-query-cache        {})
+    (reset!  client-record-cache       {})
     (reset!  client-datasource-fields  {})
-    (reset!  can-use-interfaces {})
+    (reset!  can-use-interfaces        {})
     ))
 
 
