@@ -78,79 +78,6 @@
 
 
 
-(defn add-as-watch [the-ref  tree-name  watchers   args  ch]
-
-  (add-watch the-ref :events-change
-
-             (fn [_ _ old-val new-val]
-
-               (if @data-and-ui-events-on?
-                 (doall
-
-                  ;(. js/console log (pr-str "Events changed" ))
-                  (for [watch @watchers]
-                    (if (subtree-different? old-val new-val (:path watch))
-                      (do
-;                        (. js/console log  (str "Subtree changed: " (:path watch)))
-                        (cond
-
-                         (= (:type watch) "path equals")
-                         ;------------------------------
-                         (if (= (get-in new-val (:path watch)) (:value watch) )
-                           (let []
-                             (do
-                               ;(apply (:fn watch) args)
-                               (go (>! ch {:watch watch :extra []}))
-                               ;(log (str "path equals"))
-                               ;(swap! ch conj {:watch watch :extra []})
-                               ;(swap! app-state assoc :touch-id (rand-int 99999))
-
-                               )))
-
-
-
-                         (= (:type watch) "value change")
-                         ;-------------------------------
-                         (let []
-                           (do
-                             ;                               (. js/console log  (str "value change"))
-                             ;(js/alert (str "watch-" tree-name " " (:path watch)))
-                             ;(apply (:fn watch) args)
-                             (go (>! ch {:watch watch :extra []}))
-                             ;(swap! ch conj {:watch watch :extra []})
-                             ;(swap! app-state assoc :touch-id (rand-int 99999))
-                             ))
-
-
-
-                         (= (:type watch) "record property equals")
-                         ;-----------------------------------------
-                         (let [records (filter
-                                        (fn [r] (=  (get r (:field watch)) (:value watch)))
-                                        (get-in new-val (:path watch))
-                                        )]
-                           (if (pos? (count records))
-                             (do
-                               ;(. js/console log  (str "record property equals"))
-                               ;(apply (:fn watch) (conj args records))
-                               (go (>! ch {:watch watch :extra records}))
-                               ;(swap! ch conj {:watch watch :extra records})
-                               (swap! app-state assoc :touch-id (rand-int 99999))
-                               ;nil
-                               )))
-                         :else
-                         nil
-
-
-                         ))))
-
-
-                      )))))
-
-
-
-
-
 
 
 
@@ -222,14 +149,6 @@
                            (do
                              (init-state-fn)
                              )))
-
-
-                  ; set up the UI and data watchers
-                    (add-as-watch   global-om-state
-                                    "ui"
-                                    ui-watchers
-                                    [app]
-                                    ui-chan)
 
 
 
