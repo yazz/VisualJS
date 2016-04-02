@@ -13,15 +13,13 @@
    [webapp.framework.client.components.admin     :only  [admin-view]]
    [webapp.framework.client.system-globals       :only  [app-state
                                                          ui-watchers
-                                                         data-watchers
                                                          start-component
-                                                         data-state
                                                          init-state-fns
                                                          data-and-ui-events-on?
                                                          global-om-state]])
   (:use-macros
    [webapp.framework.client.coreclient :only  [defn-ui-component ns-coils div component remote
-                                               admin watch-data <--data -->ui
+                                               admin -->ui
                                                ns-coils   log]])
   (:require-macros
    [cljs.core.async.macros :refer [go]]))
@@ -261,11 +259,7 @@
 
 
 
-                    (add-as-watch   data-state
-                                    "data"
-                                    data-watchers
-                                    [app]
-                                    data-chan)))
+                    ))
 
 
 
@@ -328,12 +322,8 @@
                                                                            {:target (js/document.getElementById "playback_state")})
                                                                   nil )} "UI state")
 
-                                      (dom/button #js {:style #js  {:margin "10px" :color "blue"}
 
-                                                       :onClick (fn [e]
-                                                                  (om/root ankha/inspector data-state
-                                                                           {:target (js/document.getElementById "data_state")})
-                                                                  nil )} "Data state")
+
                                       (dom/button #js {:style #js  {:margin "10px" :color "green"}
 
                                                        :onClick (fn [e]
@@ -347,9 +337,3 @@
 ))
 
 
-(watch-data  [:data-sources]
-			 "When the system data sources change add this to the admin console"
-			 (do
-			   (-->ui [:system :ui :data-sources :values] (<--data [:data-sources]))
-			   )
-			 )
