@@ -58,9 +58,8 @@
         <script src="es5-sham.js"></script>
         <script src="html5shiv.js"></script>
         <![endif]-->
-        <script type="text/javascript" src="react.min.js"></script>
         <link rel="stylesheet" href="codemirror-5.8/lib/codemirror.css">
-        <script src="codemirror-5.8/lib/codemirror.js"></script>
+        <script src="codemirror-compressed.js"></script>
         <script src="codemirror-5.8/mode/clojure/clojure.js"></script>
         <link rel="stylesheet" href="codemirror-5.8/theme/icecoder.css"></link>
         <link href='https://fonts.googleapis.com/css?family=Ubuntu:400,500,700|Roboto:400,700' rel='stylesheet' type='text/css'>
@@ -226,14 +225,6 @@
             else
             {
                 livedebug    = getQueryVariable("livedebug");
-                if (livedebug) {
-                    document.getElementById('main_parent').style.width='49%';
-                    document.getElementById('right_of_main_parent').style.width='49%';
-                    dbutton = document.getElementById("debug_button");
-                    dbutton.innerHTML=
-                        "<button onclick='debug_live=true;document.getElementById(\"debug_button\").innerHTML=\"\";if (debug_live == true) { webapp.framework.client.components.debugger_main.loadDebugger();} else { webapp.framework.client.components.debugger-main.unloadDebugger();};'>debug</button>" +
-                        "<div id='debug_status' style='display: inline-block; font-size: 25; color: red;'>&lt; ---- Play with the application below and then press Debug</div>";
-                };
                 webapp.framework.client.main.load_main(
                     webapp.framework.client.init.setup);
             };
