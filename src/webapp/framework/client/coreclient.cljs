@@ -65,9 +65,6 @@
 
 
 
-(def data-views-proxy  data-views)
-
-
 
 
 
@@ -304,20 +301,6 @@
 
 
 
-(defn- xml-str
- "Like clojure.core/str but escapes < > and &."
- [x]
-  (-> x str
-      ;(clojure.string/replace #" " "  " )
-      (clojure.string/replace #"&amp;" "&" )
-      (clojure.string/replace #"&lt;" "<")
-      (clojure.string/replace #"&gt;" ">" )))
-
-
-
-
-
-
 
 
 (defn process-ui-component [fn-name]
@@ -351,11 +334,9 @@
      ]
       (do
 
-        (dom/div
-       #js {
-            }
-       (react-fn data)
-       ""))))
+        (dom/div  nil   (react-fn data)   ""))))
+
+
 
 
 
@@ -368,24 +349,6 @@
       )
     nil)
   )
-
-
-
-
-
-
-
-
-
-
-
-(defn amend-record [records field value amend-fn]
-  (into [] (map
-            (fn[x] (if (= (get x field) value) (amend-fn x) x))
-            records )))
-
-
-
 
 
 

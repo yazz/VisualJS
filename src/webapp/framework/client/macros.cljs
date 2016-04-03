@@ -33,11 +33,6 @@
        (defn ~fn-name [~(first data-paramater-name)  ~'owner]
          (~'reify
 
-          ~'om.core/IInitState
-          (~'init-state ~'[_]
-                      {:debug-highlight false})
-
-
            ~'om.core/IWillUnmount
            (~'will-unmount ~'[_]
              (~'let [

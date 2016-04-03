@@ -85,10 +85,6 @@
 
 
 
-(defmacro aa [x]
-  `(str ~(str `~x)))
-
-(macroexpand '(aa "a1"))
 
 
 ;--------------------------------------------------------------------
@@ -101,22 +97,8 @@
 
   ([fn-name data-paramater-name opts code ]
     `(do
-       (reset! webapp.framework.client.coreclient/data-views-proxy
-               (into {}
-                     (filter (fn [~'x] (if (not (=   ~(str `~fn-name)
-                                            (get (first  ~'x) :ui-component-name)))
-                                true))
-                             (deref webapp.framework.client.coreclient/data-views-proxy))))
-
-
-
        (defn ~fn-name [~(first data-paramater-name)  ~'owner]
          (~'reify
-
-          ~'om.core/IInitState
-          (~'init-state ~'[_]
-                      {:debug-highlight false})
-
 
            ~'om.core/IWillUnmount
            (~'will-unmount ~'[_]
@@ -181,9 +163,8 @@
 (defmacro def-coils-app
   [fn-name  component-name]
   `(~'defn-ui-component  ~fn-name [~'app]
-nil
-                       ;(div {} "s")))
-                       (~'component ~component-name   ~'app  [])))
+                         nil
+                         (~'component ~component-name   ~'app  [])))
 
 
 
