@@ -18,6 +18,7 @@
                                                      cookie-name
                                                      touch
                                                      client-session-atom
+                                                     client-sessions
                                                      ]]
     [webapp.framework.client.components.system-container :only  [main-view]]
     )
@@ -101,6 +102,7 @@
 
       (reset! client-session-atom  {:session-id   (:session-id create-session-response)
                                     :user         (:user create-session-response)})
+      (swap! client-sessions assoc (:session-id create-session-response) (atom {}))
 
       ;(js/alert (str "Retrieved session ID : " cookie-session-id))
 
