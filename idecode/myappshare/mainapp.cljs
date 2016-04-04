@@ -18,7 +18,7 @@
    [myappshare.join :only  [join-component]]
    [myappshare.your-account :only  [your-account-component]]
    [myappshare.edit-data :only  [edit-data-component]]
-   [webapp.framework.client.system-globals :only  [client-session-atom  can-use-interfaces]]
+   [webapp.framework.client.system-globals :only  [client-session-atom  can-use-interfaces  debug-mode]]
     )
 
   (:require-macros
@@ -126,7 +126,7 @@
            :style {:display "inline-block"}
            :src
            (str (cond
-                  @c/debug-mode
+                  @debug-mode
                   "http://127.0.0.1:3449"
 
                   :else

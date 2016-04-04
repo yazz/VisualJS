@@ -558,3 +558,7 @@ The UI tree
     ))
 
 
+
+
+
+(def debug-mode (atom false))

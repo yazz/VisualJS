@@ -43,7 +43,8 @@
                                                     realtime-started
                                                     client-session-atom
                                                     resetclientstate
-                                                    cookie-name]])
+                                                    cookie-name
+                                                    debug-mode]])
   (:use-macros
    [webapp.framework.client.coreclient  :only [ns-coils
                                                sql log sql-1
@@ -61,7 +62,6 @@
 
 
 
-(def debug-mode (atom false))
 
 
 

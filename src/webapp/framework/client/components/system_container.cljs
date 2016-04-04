@@ -13,7 +13,8 @@
    [webapp.framework.client.components.admin     :only  [admin-view]]
    [webapp.framework.client.system-globals       :only  [app-state
                                                          start-component
-                                                         init-state-fns]])
+                                                         init-state-fns
+                                                         debug-mode]])
   (:use-macros
    [webapp.framework.client.coreclient :only  [defn-ui-component ns-coils div component remote
                                                admin -->ui
