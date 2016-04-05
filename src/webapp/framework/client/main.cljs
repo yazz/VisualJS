@@ -81,15 +81,11 @@
 
 
 
-(defn main []
-  (go
-    (reset-app-state)
-    (@init-fn)
-    (detect-browser)
-    ;(js/alert (str "cookie name:" (get-cookie-name)))
 
-    (let [cookie-session-id              (cookie/get  (get-cookie-name))
-          create-session-response        (remote !create-session {
+
+(defn load-vm [cookie-name    cookie-session-id    view-window     dom-element]
+  (go
+    (let [create-session-response        (remote !create-session {
                                                                    :init-state (with-out-str (prn @app-state))
 
                                                                    :browser    (str (-> @app-state :system :platform) ","
@@ -100,19 +96,39 @@
       (log (str "cookie-session-id: " cookie-session-id))
       (log (str "create-session-response: " create-session-response))
 
+      (reset-app-state)
+      (@init-fn)
+      (detect-browser)
+      ;(js/alert (str "cookie name:" (get-cookie-name)))
+
+
+
       (reset! client-session-atom  {:session-id   (:session-id create-session-response)
                                     :user         (:user create-session-response)})
       (swap! client-sessions assoc (:session-id create-session-response) (atom {}))
 
       ;(js/alert (str "Retrieved session ID : " cookie-session-id))
 
-      (cookie/set  (get-cookie-name)  (:session-id create-session-response)))
+      (cookie/set  cookie-name  (:session-id create-session-response))
+
+      (om/root   view-window
+                 app-state
+
+                 {:target dom-element}))))
 
 
-    (om/root   main-view
-               app-state
 
-               {:target (. js/document (getElementById "main"))})))
+
+
+
+
+
+(defn main []
+
+  (load-vm  (get-cookie-name)
+            (cookie/get  (get-cookie-name))
+            main-view
+            (. js/document (getElementById "main"))))
 
 
 
