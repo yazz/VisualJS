@@ -83,16 +83,18 @@
 
 
 
-(defn load-vm [cookie-name    cookie-session-id    view-window     dom-element]
+(defn load-vm [cookie-name    view-window     dom-element-name]
   (go
-    (let [create-session-response        (remote !create-session {
-                                                                   :init-state (with-out-str (prn @app-state))
+    (let [ dom-element                    (. js/document (getElementById  dom-element-name))
+           cookie-session-id              (cookie/get  cookie-name)
+           create-session-response        (remote !create-session {
+                                                                    :init-state                 (with-out-str (prn @app-state))
 
-                                                                   :browser    (str (-> @app-state :system :platform) ","
-                                                                                    (-> @app-state :system :who-am-i))
+                                                                    :browser                    (str (-> @app-state :system :platform) ","
+                                                                                                     (-> @app-state :system :who-am-i))
 
-                                                                   :session-id-from-browser    cookie-session-id
-                                                                   })  ]
+                                                                    :session-id-from-browser     cookie-session-id
+                                                                    })  ]
       (log (str "cookie-session-id: " cookie-session-id))
       (log (str "create-session-response: " create-session-response))
 
@@ -112,6 +114,7 @@
       (cookie/set  cookie-name  (:session-id create-session-response))
 
       (om/root   view-window
+
                  app-state
 
                  {:target dom-element}))))
@@ -126,9 +129,8 @@
 (defn main []
 
   (load-vm  (get-cookie-name)
-            (cookie/get  (get-cookie-name))
             main-view
-            (. js/document (getElementById "main"))))
+            "main"))
 
 
 
