@@ -10,14 +10,13 @@
 
   (:use
    [webapp.framework.client.coreclient           :only  [remote-fn debug-mode component-fn]]
-   [webapp.framework.client.components.admin     :only  [admin-view]]
    [webapp.framework.client.system-globals       :only  [app-state
                                                          start-component
                                                          init-state-fns
                                                          debug-mode]])
   (:use-macros
    [webapp.framework.client.coreclient :only  [defn-ui-component ns-coils div component remote
-                                               admin -->ui
+                                                -->ui
                                                ns-coils   log]])
   (:require-macros
    [cljs.core.async.macros :refer [go]]))
@@ -123,8 +122,6 @@
                            (do
                              (let [path []]
                                (cond
-                                (get app :admin)
-                                 (component    admin-view       app  [])
 
                                 (and app start-component (not (get app :admin)))
                                  (component    @start-component app  [])
@@ -143,20 +140,6 @@
                                                        :onClick (fn [e]
                                                                   (om/root ankha/inspector app-state
                                                                            {:target (js/document.getElementById "playback_state")})
-                                                                  nil )} "UI state")
-
-
-
-                                      (dom/button #js {:style #js  {:margin "10px" :color "green"}
-
-                                                       :onClick (fn [e]
-                                                                  (admin)
-                                                                  nil )} "Admin")
-                                      ))
-
-                           ))))
-    ;---------------------------------------------------------
-
-))
+                                                                  nil )} "UI state")))))))))
 
 

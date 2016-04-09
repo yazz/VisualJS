@@ -496,23 +496,6 @@
 
 
 
-(defn admin-fn []
-  (swap!  app-state  assoc     :admin (not (get @app-state :admin)))
-
-  (if (nil? (get-in  app-state  [:system :ui :tab :value]))
-	(swap!  app-state  assoc-in  [:system :ui :tab :value]  "data sources"))
-
-  (swap!  app-state  assoc-in  [:system :ui :views :values]  @data-views)
-  )
-
-
-
-
-
-
-
-
-
 
 
 

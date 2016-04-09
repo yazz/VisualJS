@@ -370,8 +370,6 @@
 
 
 
-(defmacro admin []
-  `(webapp.framework.client.coreclient/admin-fn))
 
 
 
