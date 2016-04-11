@@ -98,7 +98,7 @@
       (log (str "cookie-session-id: " cookie-session-id))
       (log (str "create-session-response: " create-session-response))
 
-      (reset-app-state)
+      (reset-app-state    cookie-session-id)
       (@init-fn)
       (detect-browser)
       ;(js/alert (str "cookie name:" (get-cookie-name)))

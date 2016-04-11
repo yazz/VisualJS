@@ -11,7 +11,6 @@
   (:use
    [webapp.framework.client.coreclient      :only  [remote-fn write-ui-fn read-ui-fn]]
    [webapp.framework.client.system-globals  :only  [app-state
-                                                    reset-app-state
                                                     ]]
    [clojure.string :only [blank?]]
    )

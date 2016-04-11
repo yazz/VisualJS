@@ -27,7 +27,6 @@
    [clojure.browser.event :only [listen]]
    [webapp.framework.client.system-globals  :only  [touch
                                                     app-state
-                                                    reset-app-state
                                                     client-data-windows
                                                     paths-for-refresh
                                                     data-views
