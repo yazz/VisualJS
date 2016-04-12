@@ -394,7 +394,7 @@
                                      (reeval  (read-ui app [:app-id]) nil))
                      :disabled  (if (= (read-ui app [:mode]) "edit") "" "true")
                      }
-                    "Run"
+                    "Play!"
                     (span {:style {:marginLeft "4px"}
                            :className (str "glyphicon glyphicon-play")
                            :aria-hidden "true"})
