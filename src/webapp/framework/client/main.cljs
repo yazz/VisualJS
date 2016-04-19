@@ -107,17 +107,19 @@
 
       (reset! client-session-atom  {:session-id   (:session-id create-session-response)
                                     :user         (:user create-session-response)})
-      (swap! client-sessions assoc (:session-id create-session-response) (atom {}))
 
       ;(js/alert (str "Retrieved session ID : " cookie-session-id))
 
-      (cookie/set  cookie-name  (:session-id create-session-response))
 
-      (om/root   view-window
+      (if (:session-id create-session-response)
+        (do
+          (swap! client-sessions assoc (:session-id create-session-response) (atom {}))
+          (cookie/set  cookie-name  (:session-id create-session-response))
+          (om/root   view-window
 
-                 app-state
+                     app-state
 
-                 {:target dom-element}))))
+                     {:target dom-element}))))))
 
 
 
