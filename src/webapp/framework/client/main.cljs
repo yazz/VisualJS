@@ -98,21 +98,23 @@
       (log (str "cookie-session-id: " cookie-session-id))
       (log (str "create-session-response: " create-session-response))
 
-      (reset-app-state    cookie-session-id)
-      (@init-fn)
-      (detect-browser)
       ;(js/alert (str "cookie name:" (get-cookie-name)))
 
 
 
-      (reset! client-session-atom  {:session-id   (:session-id create-session-response)
-                                    :user         (:user create-session-response)})
+
 
       ;(js/alert (str "Retrieved session ID : " cookie-session-id))
 
 
       (if (:session-id create-session-response)
         (do
+          (reset-app-state    cookie-session-id)
+          (@init-fn)
+          (detect-browser)
+
+          (reset! client-session-atom  {:session-id   (:session-id create-session-response)
+                                        :user         (:user create-session-response)})
           (swap! client-sessions assoc (:session-id create-session-response) (atom {}))
           (cookie/set  cookie-name  (:session-id create-session-response))
           (om/root   view-window

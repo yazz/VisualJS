@@ -164,11 +164,8 @@ The UI tree
 
 
 
-"
-Resets the UI to be blank
-"
-(defn reset-app-state
-  [session-id]
+(defn reset-app-state  [session-id]
+
   (do
     (reset!  app-state  blank-app-state)
     (swap!  app-state  assoc :session-id  session-id)))
