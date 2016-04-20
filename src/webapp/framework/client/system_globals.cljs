@@ -71,12 +71,43 @@
 
 
 
+
+
+  "
+  The initial starting state for the UI tree
+  "
+(defonce  blank-app-state
+  {
+   :data
+   {
+    :width "50"
+    }
+   :pointer
+   {
+    :mouse-x 0
+    :mouse-y 0
+    }
+   :view
+   {
+    :width   0
+    :height  0
+    }
+   }
+  )
+
+
+
+
+
+
+
+
 "
 The UI tree
 "
 (defonce app-state
   (atom
-    {}))
+    blank-app-state))
 
 
 
@@ -113,31 +144,6 @@ The UI tree
 
 
 
-  "
-  The initial starting state for the UI tree
-  "
-(defonce  blank-app-state
-  {
-   :data
-   {
-    :width "50"
-    }
-   :pointer
-   {
-    :mouse-x 0
-    :mouse-y 0
-    }
-   :view
-   {
-    :width   0
-    :height  0
-    }
-   }
-  )
-
-
-
-
 
 
 
@@ -152,7 +158,7 @@ The UI tree
 
   (do
     (reset!  app-state  blank-app-state)
-    (swap!  app-state  assoc :session-id  session-id)))
+    (swap!  app-state  assoc :client-session-id  session-id)))
 
 
 
@@ -529,8 +535,7 @@ The UI tree
 
 (defn resetclientstate []
   (do
-    (reset!  app-state                 {})
-    (reset!  app-state                 blank-app-state)
+    (swap!   app-state                 assoc :ui {})
     (reset!  paths-for-refresh         {})
     (reset!  data-views                {})
     (reset!  client-data-windows       {})
