@@ -105,6 +105,7 @@
 
 
       ;(js/alert (str "Retrieved session ID : " cookie-session-id))
+      ;(js/alert (str "Retrieved session ID : " (:session-id create-session-response)))
 
 
       (if (:session-id create-session-response)
@@ -131,10 +132,11 @@
 
 
 (defn main []
-
-  (load-vm  (get-cookie-name)
-            main-view
-            "main"))
+  (do
+    ;(js/alert (str "Loaded VM for cookie: "  (get-cookie-name)))
+    (load-vm  (get-cookie-name)
+              main-view
+              "main")))
 
 
 

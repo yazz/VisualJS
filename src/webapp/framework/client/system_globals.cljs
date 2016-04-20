@@ -110,22 +110,6 @@ The UI tree
 
 
 
-  "
-  This checks to see if a subtree of a tree is
-  different
-  "
-(defn subtree-different?
-  [orig-val new-val path]
-  (let [
-        orig-subset    (get-in orig-val  path)
-        new-subset     (get-in new-val   path)
-        ]
-      (not (identical?  orig-subset  new-subset))))
-
-
-
-
-
 
 
 
