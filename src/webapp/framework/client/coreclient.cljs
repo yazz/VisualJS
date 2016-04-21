@@ -1950,8 +1950,8 @@ with the (<-- :field) method
 
 
 
-(defn ^:export callresetclientstate []
-  (resetclientstate))
+(defn ^:export callresetclientstate [session-id]
+  (resetclientstate   session-id))
 
 
 

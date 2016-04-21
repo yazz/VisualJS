@@ -533,7 +533,7 @@ The UI tree
 
 
 
-(defn resetclientstate []
+(defn resetclientstate [session-id]
   (do
     (swap!   app-state                 assoc :ui {})
     (reset!  paths-for-refresh         {})

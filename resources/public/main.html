@@ -87,8 +87,8 @@
                 return document.getElementById('appframe').contentWindow.webapp.framework.client.coreclient.getsessionid();
             }
 
-            function callresetclientstate () {
-                return document.getElementById('appframe').contentWindow.webapp.framework.client.coreclient.callresetclientstate();
+            function callresetclientstate (sessionid) {
+                return document.getElementById('appframe').contentWindow.webapp.framework.client.coreclient.callresetclientstate(sessionid);
             }
 
 

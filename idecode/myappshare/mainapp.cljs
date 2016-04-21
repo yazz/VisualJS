@@ -97,7 +97,7 @@
       ;(js/alert (pr-str "HOST SESSION ID: "   (:session-id @client-session-atom)))
       ;(js/alert (pr-str "CLIENT SESSION ID: " (js/getappsessionid)))
       (reset! can-use-interfaces (:can-use-interfaces app-code))
-      (js/callresetclientstate)
+      (js/callresetclientstate    app-session-id)
       (swap! ns-counter inc)
       (js/sendcode (str (start)
                         (:value app-code)
