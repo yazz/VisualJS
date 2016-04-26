@@ -431,15 +431,7 @@
                                      )
                      :disabled  (if (= (read-ui app [:mode]) "login") "true" "")
                      }
-                    (if (:user @client-session-atom) "Logout" "Login"))
-
-
-
-            (if (large-screen)  (div {:style       {:display "inline-block"}}
-                 (a {:target       "appshare.co"
-                     :style       {:textDecoration "underline" :display "inline-block" :marginLeft "30px" :fontFamily "Ubuntu" :fontSize "1em" :marginTop "-0.3em"}
-                     :href         (str "https://github.com/zubairq/AppShare")}
-                    "Github"))))
+                    (if (:user @client-session-atom) "Logout" "Login")))
 
 
 
