@@ -63,7 +63,9 @@
         <script src="codemirror-compressed.js"></script>
         <script src="codemirror-5.8/mode/clojure/clojure.js"></script>
         <script src="blockly/blockly_compressed.js"></script>
+        <script src="blockly/blocks_compressed.js"></script>
         <script src="blockly/msg/js/en.js"></script>
+        <script src="blockly/javascript_compressed.js"></script>
         <link rel="stylesheet" href="codemirror-5.8/theme/icecoder.css"></link>
         <link href='https://fonts.googleapis.com/css?family=Ubuntu:400,500,700|Roboto:400,700' rel='stylesheet' type='text/css'>
 
@@ -234,6 +236,10 @@
                 webapp.framework.client.main.load_main(
                     webapp.framework.client.init.setup);
             };
+
+
+          workspace = Blockly.inject('blocklyDiv',
+                                         {toolbox: document.getElementById('toolbox')});
         });
     </script>
 
@@ -258,6 +264,26 @@
     <script type="text/javascript">goog.require("myappshare.mainapp");</script>
 
     <script type="text/javascript">goog.require("coilsfig.mainfig");</script>
+
+
+<xml id="toolbox" style="display: none">
+  <block type="controls_if"></block>
+  <block type="controls_repeat_ext"></block>
+  <block type="logic_compare"></block>
+  <block type="math_number"></block>
+  <block type="math_arithmetic"></block>
+  <block type="text"></block>
+  <block type="text_print"></block>
+</xml>
+
+<form>
+  <input onClick='alert("" + Blockly.JavaScript.workspaceToCode(workspace));'
+         style='color: black;'
+          value='click me'
+          type=button></input>
+</form>
+
+<div id="blocklyDiv" style="background: white; color:white; height: 480px; width: 600px;"></div>
 
 
 </html>
