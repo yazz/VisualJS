@@ -1,4 +1,11 @@
-Clojure on Coils has changed it's name to...
+###Demo
+at appashare.co
+
+###Quick start
+
+
+
+###Clojure on Coils has changed it's name to...
 
 <img src='http://coils.cc/coils/images/appshare.jpg' />
 
