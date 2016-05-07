@@ -2,6 +2,7 @@
 [appshare.co](http://appshare.co)
 
 ###Quick start for Windows
+- Install Postgres database from http://www.postgresql.org/download/windows/
 - Download GIT from https://git-scm.com/downloads
 - Download the Appshare code using "git clone https://github.com/zubairq/AppShare.git" my_new_application
 - cd my_new_application

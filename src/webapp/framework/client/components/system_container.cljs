@@ -118,6 +118,19 @@
                                                        :onClick (fn [e]
                                                                   (om/root ankha/inspector app-state
                                                                            {:target (js/document.getElementById "playback_state")})
-                                                                  nil )} "UI state")))))))))
+                                                                  nil )} "UI state")
+
+                                      (dom/button #js {:style #js  {:margin "10px" :color "red"}
+
+                                                       :onClick (fn [e]
+                                                                  (set!
+                                                                    (.-visibility
+                                                                      (.-style
+                                                                        (js/document.getElementById "blockly"))) "visible") nil)
+                                                                  } "Blockly")
+                                      ))
+
+
+                    ))))))
 
 
