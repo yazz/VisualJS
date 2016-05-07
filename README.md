@@ -1,7 +1,14 @@
 ###Demo
-at appashare.co
+[appshare.co](http://appshare.co)
 
-###Quick start
+###Quick start for Windows
+- Download GIT from https://git-scm.com/downloads
+- Download the Appshare code using "git clone https://github.com/zubairq/AppShare.git" my_new_application
+- cd my_new_application
+- Download Leiningen from https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein.bat
+- Run "lein.bat self-install"
+- Download and install Java 8 from http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
+- Run "lein with-profile base figwheel"
 
 
 
