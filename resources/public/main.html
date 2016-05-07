@@ -85,6 +85,7 @@
       <script src="blockly/generators/clojurescript/colour.js"></script>
       <script src="blockly/generators/clojurescript/variables.js"></script>
       <script src="blockly/generators/clojurescript/procedures.js"></script>
+      <script src="blockly/generators/clojurescript/zubair.js"></script>
 
 
         <link rel="stylesheet" href="codemirror-5.8/theme/icecoder.css"></link>
@@ -265,7 +266,7 @@
 
 
           function myUpdateFunction(event) {
-            var code = Blockly.JavaScript.workspaceToCode(workspace);
+            var code = Blockly.ClojureScript.workspaceToCode(workspace);
             document.getElementById('blocklyCode').innerHTML = code;
           }
           workspace.addChangeListener(myUpdateFunction);
@@ -302,6 +303,7 @@
 <div id=blockly style="visibility: hidden">
   <xml id="toolbox" style="display: none">
     <block type="zubair"></block>
+    <block type="math_constant"></block>
     <block type="controls_if"></block>
     <block type="controls_repeat_ext"></block>
     <block type="logic_compare"></block>
