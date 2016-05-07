@@ -1,39 +1,15 @@
-/**
- * @license
- * Visual Blocks Language
- *
- * Copyright 2012 Google Inc.
- * https://developers.google.com/blockly/
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-/**
- * @fileoverview Helper functions for generating JavaScript for blocks.
- * @author fraser@google.com (Neil Fraser)
- */
 'use strict';
 
-goog.provide('Blockly.JavaScript');
+goog.provide('Blockly.ClojureScript');
 
 goog.require('Blockly.Generator');
 
 
 /**
- * JavaScript code generator.
+ * ClojureScript code generator.
  * @type {!Blockly.Generator}
  */
-Blockly.JavaScript = new Blockly.Generator('JavaScript');
+Blockly.ClojureScript = new Blockly.Generator('ClojureScript');
 
 /**
  * List of illegal variable names.
@@ -42,13 +18,13 @@ Blockly.JavaScript = new Blockly.Generator('JavaScript');
  * accidentally clobbering a built-in object or function.
  * @private
  */
-Blockly.JavaScript.addReservedWords(
+Blockly.ClojureScript.addReservedWords(
     'Blockly,' +  // In case JS is evaled in the current window.
-    // https://developer.mozilla.org/en/JavaScript/Reference/Reserved_Words
+    // https://developer.mozilla.org/en/ClojureScript/Reference/Reserved_Words
     'break,case,catch,continue,debugger,default,delete,do,else,finally,for,function,if,in,instanceof,new,return,switch,this,throw,try,typeof,var,void,while,with,' +
     'class,enum,export,extends,import,super,implements,interface,let,package,private,protected,public,static,yield,' +
     'const,null,true,false,' +
-    // https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects
+    // https://developer.mozilla.org/en/ClojureScript/Reference/Global_Objects
     'Array,ArrayBuffer,Boolean,Date,decodeURI,decodeURIComponent,encodeURI,encodeURIComponent,Error,eval,EvalError,Float32Array,Float64Array,Function,Infinity,Int16Array,Int32Array,Int8Array,isFinite,isNaN,Iterator,JSON,Math,NaN,Number,Object,parseFloat,parseInt,RangeError,ReferenceError,RegExp,StopIteration,String,SyntaxError,TypeError,Uint16Array,Uint32Array,Uint8Array,Uint8ClampedArray,undefined,uneval,URIError,' +
     // https://developer.mozilla.org/en/DOM/window
     'applicationCache,closed,Components,content,_content,controllers,crypto,defaultStatus,dialogArguments,directories,document,frameElement,frames,fullScreen,globalStorage,history,innerHeight,innerWidth,length,location,locationbar,localStorage,menubar,messageManager,mozAnimationStartTime,mozInnerScreenX,mozInnerScreenY,mozPaintCount,name,navigator,opener,outerHeight,outerWidth,pageXOffset,pageYOffset,parent,performance,personalbar,pkcs11,returnValue,screen,screenX,screenY,scrollbars,scrollMaxX,scrollMaxY,scrollX,scrollY,self,sessionStorage,sidebar,status,statusbar,toolbar,top,URL,window,' +
@@ -68,67 +44,67 @@ Blockly.JavaScript.addReservedWords(
 
 /**
  * Order of operation ENUMs.
- * https://developer.mozilla.org/en/JavaScript/Reference/Operators/Operator_Precedence
+ * https://developer.mozilla.org/en/ClojureScript/Reference/Operators/Operator_Precedence
  */
-Blockly.JavaScript.ORDER_ATOMIC = 0;         // 0 "" ...
-Blockly.JavaScript.ORDER_MEMBER = 1;         // . []
-Blockly.JavaScript.ORDER_NEW = 1;            // new
-Blockly.JavaScript.ORDER_FUNCTION_CALL = 2;  // ()
-Blockly.JavaScript.ORDER_INCREMENT = 3;      // ++
-Blockly.JavaScript.ORDER_DECREMENT = 3;      // --
-Blockly.JavaScript.ORDER_LOGICAL_NOT = 4;    // !
-Blockly.JavaScript.ORDER_BITWISE_NOT = 4;    // ~
-Blockly.JavaScript.ORDER_UNARY_PLUS = 4;     // +
-Blockly.JavaScript.ORDER_UNARY_NEGATION = 4; // -
-Blockly.JavaScript.ORDER_TYPEOF = 4;         // typeof
-Blockly.JavaScript.ORDER_VOID = 4;           // void
-Blockly.JavaScript.ORDER_DELETE = 4;         // delete
-Blockly.JavaScript.ORDER_MULTIPLICATION = 5; // *
-Blockly.JavaScript.ORDER_DIVISION = 5;       // /
-Blockly.JavaScript.ORDER_MODULUS = 5;        // %
-Blockly.JavaScript.ORDER_ADDITION = 6;       // +
-Blockly.JavaScript.ORDER_SUBTRACTION = 6;    // -
-Blockly.JavaScript.ORDER_BITWISE_SHIFT = 7;  // << >> >>>
-Blockly.JavaScript.ORDER_RELATIONAL = 8;     // < <= > >=
-Blockly.JavaScript.ORDER_IN = 8;             // in
-Blockly.JavaScript.ORDER_INSTANCEOF = 8;     // instanceof
-Blockly.JavaScript.ORDER_EQUALITY = 9;       // == != === !==
-Blockly.JavaScript.ORDER_BITWISE_AND = 10;   // &
-Blockly.JavaScript.ORDER_BITWISE_XOR = 11;   // ^
-Blockly.JavaScript.ORDER_BITWISE_OR = 12;    // |
-Blockly.JavaScript.ORDER_LOGICAL_AND = 13;   // &&
-Blockly.JavaScript.ORDER_LOGICAL_OR = 14;    // ||
-Blockly.JavaScript.ORDER_CONDITIONAL = 15;   // ?:
-Blockly.JavaScript.ORDER_ASSIGNMENT = 16;    // = += -= *= /= %= <<= >>= ...
-Blockly.JavaScript.ORDER_COMMA = 17;         // ,
-Blockly.JavaScript.ORDER_NONE = 99;          // (...)
+Blockly.ClojureScript.ORDER_ATOMIC = 0;         // 0 "" ...
+Blockly.ClojureScript.ORDER_MEMBER = 1;         // . []
+Blockly.ClojureScript.ORDER_NEW = 1;            // new
+Blockly.ClojureScript.ORDER_FUNCTION_CALL = 2;  // ()
+Blockly.ClojureScript.ORDER_INCREMENT = 3;      // ++
+Blockly.ClojureScript.ORDER_DECREMENT = 3;      // --
+Blockly.ClojureScript.ORDER_LOGICAL_NOT = 4;    // !
+Blockly.ClojureScript.ORDER_BITWISE_NOT = 4;    // ~
+Blockly.ClojureScript.ORDER_UNARY_PLUS = 4;     // +
+Blockly.ClojureScript.ORDER_UNARY_NEGATION = 4; // -
+Blockly.ClojureScript.ORDER_TYPEOF = 4;         // typeof
+Blockly.ClojureScript.ORDER_VOID = 4;           // void
+Blockly.ClojureScript.ORDER_DELETE = 4;         // delete
+Blockly.ClojureScript.ORDER_MULTIPLICATION = 5; // *
+Blockly.ClojureScript.ORDER_DIVISION = 5;       // /
+Blockly.ClojureScript.ORDER_MODULUS = 5;        // %
+Blockly.ClojureScript.ORDER_ADDITION = 6;       // +
+Blockly.ClojureScript.ORDER_SUBTRACTION = 6;    // -
+Blockly.ClojureScript.ORDER_BITWISE_SHIFT = 7;  // << >> >>>
+Blockly.ClojureScript.ORDER_RELATIONAL = 8;     // < <= > >=
+Blockly.ClojureScript.ORDER_IN = 8;             // in
+Blockly.ClojureScript.ORDER_INSTANCEOF = 8;     // instanceof
+Blockly.ClojureScript.ORDER_EQUALITY = 9;       // == != === !==
+Blockly.ClojureScript.ORDER_BITWISE_AND = 10;   // &
+Blockly.ClojureScript.ORDER_BITWISE_XOR = 11;   // ^
+Blockly.ClojureScript.ORDER_BITWISE_OR = 12;    // |
+Blockly.ClojureScript.ORDER_LOGICAL_AND = 13;   // &&
+Blockly.ClojureScript.ORDER_LOGICAL_OR = 14;    // ||
+Blockly.ClojureScript.ORDER_CONDITIONAL = 15;   // ?:
+Blockly.ClojureScript.ORDER_ASSIGNMENT = 16;    // = += -= *= /= %= <<= >>= ...
+Blockly.ClojureScript.ORDER_COMMA = 17;         // ,
+Blockly.ClojureScript.ORDER_NONE = 99;          // (...)
 
 /**
  * Initialise the database of variable names.
  * @param {!Blockly.Workspace} workspace Workspace to generate code from.
  */
-Blockly.JavaScript.init = function(workspace) {
+Blockly.ClojureScript.init = function(workspace) {
   // Create a dictionary of definitions to be printed before the code.
-  Blockly.JavaScript.definitions_ = Object.create(null);
+  Blockly.ClojureScript.definitions_ = Object.create(null);
   // Create a dictionary mapping desired function names in definitions_
   // to actual function names (to avoid collisions with user functions).
-  Blockly.JavaScript.functionNames_ = Object.create(null);
+  Blockly.ClojureScript.functionNames_ = Object.create(null);
 
-  if (!Blockly.JavaScript.variableDB_) {
-    Blockly.JavaScript.variableDB_ =
-        new Blockly.Names(Blockly.JavaScript.RESERVED_WORDS_);
+  if (!Blockly.ClojureScript.variableDB_) {
+    Blockly.ClojureScript.variableDB_ =
+        new Blockly.Names(Blockly.ClojureScript.RESERVED_WORDS_);
   } else {
-    Blockly.JavaScript.variableDB_.reset();
+    Blockly.ClojureScript.variableDB_.reset();
   }
 
   var defvars = [];
   var variables = Blockly.Variables.allVariables(workspace);
   for (var i = 0; i < variables.length; i++) {
     defvars[i] = 'var ' +
-        Blockly.JavaScript.variableDB_.getName(variables[i],
+        Blockly.ClojureScript.variableDB_.getName(variables[i],
         Blockly.Variables.NAME_TYPE) + ';';
   }
-  Blockly.JavaScript.definitions_['variables'] = defvars.join('\n');
+  Blockly.ClojureScript.definitions_['variables'] = defvars.join('\n');
 };
 
 /**
@@ -136,16 +112,16 @@ Blockly.JavaScript.init = function(workspace) {
  * @param {string} code Generated code.
  * @return {string} Completed code.
  */
-Blockly.JavaScript.finish = function(code) {
+Blockly.ClojureScript.finish = function(code) {
   // Convert the definitions dictionary into a list.
   var definitions = [];
-  for (var name in Blockly.JavaScript.definitions_) {
-    definitions.push(Blockly.JavaScript.definitions_[name]);
+  for (var name in Blockly.ClojureScript.definitions_) {
+    definitions.push(Blockly.ClojureScript.definitions_[name]);
   }
   // Clean up temporary data.
-  delete Blockly.JavaScript.definitions_;
-  delete Blockly.JavaScript.functionNames_;
-  Blockly.JavaScript.variableDB_.reset();
+  delete Blockly.ClojureScript.definitions_;
+  delete Blockly.ClojureScript.functionNames_;
+  Blockly.ClojureScript.variableDB_.reset();
   return definitions.join('\n\n') + '\n\n\n' + code;
 };
 
@@ -155,18 +131,18 @@ Blockly.JavaScript.finish = function(code) {
  * @param {string} line Line of generated code.
  * @return {string} Legal line of code.
  */
-Blockly.JavaScript.scrubNakedValue = function(line) {
+Blockly.ClojureScript.scrubNakedValue = function(line) {
   return line + ';\n';
 };
 
 /**
- * Encode a string as a properly escaped JavaScript string, complete with
+ * Encode a string as a properly escaped ClojureScript string, complete with
  * quotes.
  * @param {string} string Text to encode.
- * @return {string} JavaScript string.
+ * @return {string} ClojureScript string.
  * @private
  */
-Blockly.JavaScript.quote_ = function(string) {
+Blockly.ClojureScript.quote_ = function(string) {
   // TODO: This is a quick hack.  Replace with goog.string.quote
   string = string.replace(/\\/g, '\\\\')
                  .replace(/\n/g, '\\\n')
@@ -175,22 +151,22 @@ Blockly.JavaScript.quote_ = function(string) {
 };
 
 /**
- * Common tasks for generating JavaScript from blocks.
+ * Common tasks for generating ClojureScript from blocks.
  * Handles comments for the specified block and any connected value blocks.
  * Calls any statements following this block.
  * @param {!Blockly.Block} block The current block.
- * @param {string} code The JavaScript code created for this block.
- * @return {string} JavaScript code with comments and subsequent blocks added.
+ * @param {string} code The ClojureScript code created for this block.
+ * @return {string} ClojureScript code with comments and subsequent blocks added.
  * @private
  */
-Blockly.JavaScript.scrub_ = function(block, code) {
+Blockly.ClojureScript.scrub_ = function(block, code) {
   var commentCode = '';
   // Only collect comments for blocks that aren't inline.
   if (!block.outputConnection || !block.outputConnection.targetConnection) {
     // Collect comment for this block.
     var comment = block.getCommentText();
     if (comment) {
-      commentCode += Blockly.JavaScript.prefixLines(comment, '// ') + '\n';
+      commentCode += Blockly.ClojureScript.prefixLines(comment, '// ') + '\n';
     }
     // Collect comments for all value arguments.
     // Don't collect comments for nested statements.
@@ -198,15 +174,15 @@ Blockly.JavaScript.scrub_ = function(block, code) {
       if (block.inputList[x].type == Blockly.INPUT_VALUE) {
         var childBlock = block.inputList[x].connection.targetBlock();
         if (childBlock) {
-          var comment = Blockly.JavaScript.allNestedComments(childBlock);
+          var comment = Blockly.ClojureScript.allNestedComments(childBlock);
           if (comment) {
-            commentCode += Blockly.JavaScript.prefixLines(comment, '// ');
+            commentCode += Blockly.ClojureScript.prefixLines(comment, '// ');
           }
         }
       }
     }
   }
   var nextBlock = block.nextConnection && block.nextConnection.targetBlock();
-  var nextCode = Blockly.JavaScript.blockToCode(nextBlock);
+  var nextCode = Blockly.ClojureScript.blockToCode(nextBlock);
   return commentCode + code + nextCode;
 };
