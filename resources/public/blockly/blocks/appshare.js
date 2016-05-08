@@ -1,6 +1,6 @@
 'use strict';
 
-goog.provide('Blockly.Blocks.zubair');
+goog.provide('Blockly.Blocks.appshare');
 
 goog.require('Blockly.Blocks');
 
@@ -9,7 +9,7 @@ goog.require('Blockly.Blocks');
 
 
 
-Blockly.Blocks['zubair'] = {
+Blockly.Blocks['appshare'] = {
   init: function() {
     this.setColour(160);
     this.setTooltip('');
