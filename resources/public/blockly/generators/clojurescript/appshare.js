@@ -15,6 +15,24 @@ Blockly.ClojureScript['appshare_app'] = function(block) {
 
 Blockly.ClojureScript['appshare_div'] = function(block) {
   // TODO: Assemble JavaScript into code variable.
-  var code = '(div nil)\n';
+
+  var value_attributes = block.getFieldValue('attributes');
+  var statements_more_elements = Blockly.ClojureScript.statementToCode(block, 'more elements');
+
+  var code = '(div ' + value_attributes + ' ' +
+      statements_more_elements +
+      ')\n' ;
   return code;
+};
+
+
+
+Blockly.ClojureScript['appshare_element_attribute'] = function(block) {
+  return "{}";
+};
+
+
+
+Blockly.ClojureScript['appshare_no_attributes'] = function(block) {
+  return "nil";
 };
