@@ -9,7 +9,7 @@ goog.require('Blockly.Blocks');
 //https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#3ggmju
 Blockly.Blocks['appshare_app'] = {
   init: function() {
-    this.appendDummyInput().appendField("Applicaiton");
+    this.appendDummyInput().appendField("Application");
     this.setTooltip('');
     this.setHelpUrl('http://www.example.com/');
     this.setColour(230);
@@ -22,7 +22,7 @@ Blockly.Blocks['appshare_app'] = {
 Blockly.Blocks['appshare_div'] = {
   init: function() {
     this.appendDummyInput().appendField("<div");
-    this.appendValueInput("attributes").setCheck("HtmlElementAttribute");
+    this.appendValueInput("ATTRIBUTES").setCheck("HtmlElementAttribute");
     this.appendDummyInput().appendField(">");
     this.appendStatementInput("more elements").setCheck("HtmlElement");
     this.appendDummyInput().appendField("</div>");
@@ -77,7 +77,7 @@ Blockly.Blocks['appshare_element_text'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("text")
-        .appendField(new Blockly.FieldTextInput("value"), "Type text here");
+        .appendField(new Blockly.FieldTextInput("Type text here"), "VALUE");
 
     this.appendDummyInput().setAlign(Blockly.ALIGN_RIGHT);
     this.setInputsInline(true);
@@ -89,3 +89,8 @@ Blockly.Blocks['appshare_element_text'] = {
     this.setHelpUrl('http://www.example.com/');
   }
 };
+
+
+
+
+
