@@ -7,10 +7,26 @@ goog.require('Blockly.ClojureScript');
 
 
 Blockly.ClojureScript['appshare_app'] = function(block) {
-  // TODO: Assemble JavaScript into code variable.
-  var code = '(app nil)\n';
+  var main_app = Blockly.ClojureScript.statementToCode(block, 'main application element');
+  var code = main_app + '\n';
   return code;
 };
+
+
+
+
+
+
+Blockly.ClojureScript['appshare_ui_component'] = function(block) {
+  var main_div = Blockly.ClojureScript.statementToCode(block, 'main div element');
+  var code = '(defn-ui-component     main   [app] {}\r\n   ' + main_div + ')\r\n';
+  return code;
+};
+
+
+
+
+
 
 
 Blockly.ClojureScript['appshare_div'] = function(block) {

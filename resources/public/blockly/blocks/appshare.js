@@ -6,15 +6,39 @@ goog.require('Blockly.Blocks');
 
 
 
-//https://blockly-demo.appspot.com/static/demos/blockfactory/index.html#3ggmju
 Blockly.Blocks['appshare_app'] = {
   init: function() {
-    this.appendDummyInput().appendField("Application");
+    this.appendDummyInput().appendField("Appshare Application");
     this.setTooltip('');
     this.setHelpUrl('http://www.example.com/');
     this.setColour(230);
+    this.appendDummyInput().appendField("");
+    this.appendDummyInput().appendField("Main Application Element");
+    this.appendStatementInput("main application element").setCheck("UiComponent");
+
+    this.appendDummyInput().appendField("");
+    this.appendDummyInput().appendField("Optional Application Elements");
+    this.appendStatementInput("application elements").setCheck("ApplicationElement");
+}
+};
+
+
+
+Blockly.Blocks['appshare_ui_component'] = {
+  init: function() {
+    this.appendDummyInput().appendField("UI component");
+    this.setColour(230);
+    this.appendDummyInput().appendField("");
+    this.appendDummyInput().appendField("Main Div");
+    this.appendStatementInput("main div element").setCheck("HtmlElement");
+    this.setOutput(true, 'UiComponent')
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
   }
 };
+
+
+
 
 
 
