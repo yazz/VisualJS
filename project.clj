@@ -237,12 +237,12 @@
              :base
              {
               :figwheel {
-                         :websocket-host "localhost"
-                         :server-port 3449
-                         :http-server-root "public" ;; this will be in resources/
-                         :ring-handler    webapp.framework.server.core/app
-                         :css-dirs ["resources/public"]
-                         :on-jsload "webapp.framework.client.main/figwheel-update"
+                         :websocket-host     "localhost"
+                         :server-port         3449
+                         :http-server-root   "public" ;; this will be in resources/
+                         :ring-handler        webapp.framework.server.core/app
+                         :css-dirs          ["resources/public"]
+                         :on-jsload          "webapp.framework.client.main/figwheel-update"
                          }
 
               :source-paths ["src" "srcfig" "srcbase"]
@@ -270,12 +270,12 @@
              :basehost
              {
               :figwheel {
-                         :websocket-host "localhost"
-                         :server-port 3449
-                         :http-server-root "public" ;; this will be in resources/
-                         :ring-handler    webapp.framework.server.core/app
-                         :css-dirs ["resources/public"]
-                         :on-jsload "webapp.framework.client.main/figwheel-update"
+                         :websocket-host    "localhost"
+                         :server-port        3449
+                         :http-server-root  "public" ;; this will be in resources/
+                         :ring-handler       webapp.framework.server.core/app
+                         :css-dirs         ["resources/public"]
+                         :on-jsload         "webapp.framework.client.main/figwheel-update"
                          }
 
               :source-paths ["src" "srcfig" "idecode" "srcbasehost"]
