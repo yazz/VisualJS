@@ -170,6 +170,17 @@
 
 
 
+(defn-ui-component     blockly-editor-component   [app]
+  {:on-mount
+   (do  (go
+          nil))}
+
+
+  (div {}
+         (textarea {:id "txt" :style {:width "100%" :height "800" :display "inline-block" }} "TEXT EDITOR")
+
+       ))
+
 
 
 (defn-ui-component     text-editor-component   [app]
@@ -273,8 +284,13 @@
                                      (str (<-- :application_name)))
                                 (span {:style {:marginLeft "20px" :color "white"} } "<<< Click to edit name" )
                                 )))))
+       (cond
+         (= (read-ui app [:editor]) "text")
          (component  text-editor-component  app  [])
 
+         (or (= (read-ui app [:editor]) "blockly") (= (read-ui app [:editor]) nil))
+         (component  blockly-editor-component  app  [])
+         )
        ))
 
 
