@@ -225,26 +225,25 @@
         <div id=playback_state     style='color=black;'></div>
 
 
+<xml id="toolbox" style="display: none; background: white;">
+    <block type="appshare_app"></block>
+    <block type="appshare_ui_component"></block>
 
-      <xml id="toolbox" style="display: none;visibility: hidden">
-        <category name='aa'>
-          <block type="appshare_app"></block>
-          <block type="appshare_ui_component"></block>
+    <block type="appshare_div"></block>
+    <block type="appshare_no_attributes"></block>
+    <block type="appshare_element_attribute"></block>
+    <block type="appshare_element_text"></block>
+    <block type="math_constant"></block>
+    <block type="controls_if"></block>
+    <block type="controls_repeat_ext"></block>
+    <block type="logic_compare"></block>
+    <block type="math_number"></block>
+    <block type="math_arithmetic"></block>
+    <block type="text"></block>
+    <block type="text_print"></block>
 
-          <block type="appshare_div"></block>
-          <block type="appshare_no_attributes"></block>
-          <block type="appshare_element_attribute"></block>
-          <block type="appshare_element_text"></block>
-          <block type="math_constant"></block>
-          <block type="controls_if"></block>
-          <block type="controls_repeat_ext"></block>
-          <block type="logic_compare"></block>
-          <block type="math_number"></block>
-          <block type="math_arithmetic"></block>
-          <block type="text"></block>
-          <block type="text_print"></block>
-        </category>
-      </xml>
+</xml>
+
 </body>
 
 
@@ -301,7 +300,14 @@
 
       function initBlockly() {
         workspace = Blockly.inject('blocklyDiv',
-                                   {toolbox: document.getElementById('toolbox')});
+                                   {toolbox: document.getElementById('toolbox'),
+                                   scrollbars: true,
+                                    grid2:
+                                    {spacing: 20,
+                                     length: 3,
+                                     colour: '#ccc',
+                                     snap: true},
+                                   css: true});
         workspace.addChangeListener(myUpdateFunction);
       }
 

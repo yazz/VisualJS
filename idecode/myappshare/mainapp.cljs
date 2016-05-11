@@ -176,12 +176,11 @@
           (js/initBlockly)))}
 
 
-  (div {:id "blockly" :style {}}
-       (div {:style {:background "blue" :color "white" :width "100%"  :height "480px" :align "top"}}
+  (div {:style {:background "white" :width "100%"  :height "800px" :align "top"}}
 
-            (div {:id "blocklyDiv" :style {:background "white" :color "white" :height "480px" :width "600px" :display "inline-block"}}
-                 (pre {:id "blocklyCode" :style {:background "white" :color "black" :height "480px" :width "500px"
-                                                 :display "inline-block"}})))))
+       (div {:id "blocklyDiv" :style {:background "white" :color "white" :height "800px" :width "600px" :display "inline-block"}})
+       (pre {:id "blocklyCode" :style {:background "white" :color "black" :height "800px" :width "500px"
+                                       :display "inline-block"}})))
 
 
 
