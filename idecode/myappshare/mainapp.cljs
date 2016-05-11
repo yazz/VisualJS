@@ -176,9 +176,10 @@
           (js/initBlockly)))}
 
 
-  (div {:style {:background "white" :width "100%"  :height "800px" :align "top"}}
+  (div {:style {:background "white" :width "100%"  :height "800px" :align "top" :top "100px" }}
 
-       (div {:id "blocklyDiv" :style {:background "white" :color "white" :height "800px" :width "600px" :display "inline-block"}})
+       (div {:id "blocklyDiv" :style {:left "200px"
+                                      :background "white" :color "white" :height "800px" :width "600px" :display "inline-block"}})
        (pre {:id "blocklyCode" :style {:background "white" :color "black" :height "800px" :width "500px"
                                        :display "inline-block"}})))
 

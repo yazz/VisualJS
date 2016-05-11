@@ -225,25 +225,6 @@
         <div id=playback_state     style='color=black;'></div>
 
 
-<xml id="toolbox" style="display: none; background: white;">
-    <block type="appshare_app"></block>
-    <block type="appshare_ui_component"></block>
-
-    <block type="appshare_div"></block>
-    <block type="appshare_no_attributes"></block>
-    <block type="appshare_element_attribute"></block>
-    <block type="appshare_element_text"></block>
-    <block type="math_constant"></block>
-    <block type="controls_if"></block>
-    <block type="controls_repeat_ext"></block>
-    <block type="logic_compare"></block>
-    <block type="math_number"></block>
-    <block type="math_arithmetic"></block>
-    <block type="text"></block>
-    <block type="text_print"></block>
-
-</xml>
-
 </body>
 
 
@@ -299,16 +280,33 @@
 
 
       function initBlockly() {
+        var toolbox = '<xml id="toolbox"  style="display: none">';
+
+        //toolbox += ' <category  name="fdsfds" colour="210">';
+        toolbox += '  <block type="appshare_app"></block>';
+        toolbox += '  <block type="appshare_ui_component"></block>';
+        toolbox += '  <block type="appshare_div"></block>';
+        //toolbox += '</category>';
+
+        //toolbox += ' <category name="fdsfdsdsffds" colour="210">';
+        toolbox += '  <block type="appshare_no_attributes"></block>';
+        toolbox += '  <block type="appshare_element_attribute"></block>';
+        toolbox += '  <block type="appshare_element_text"></block>';
+        //toolbox += '</category>';
+
+        toolbox += '</xml>';
         workspace = Blockly.inject('blocklyDiv',
-                                   {toolbox: document.getElementById('toolbox'),
-                                   scrollbars: true,
-                                    grid2:
+                                   {toolbox: toolbox,
+                                   scrollbars: false,
+                                    grid:
                                     {spacing: 20,
                                      length: 3,
                                      colour: '#ccc',
                                      snap: true},
                                    css: true});
         workspace.addChangeListener(myUpdateFunction);
+        Blockly.fireUiEvent(window, 'resize')
+        workspace.updateToolbox(toolbox);
       }
 
     </script>
