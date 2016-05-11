@@ -170,7 +170,9 @@
 
 
 
-(defn-ui-component     editor-component   [app]
+
+
+(defn-ui-component     text-editor-component   [app]
   {:on-mount
    (do  (go
           (if  (read-ui app [:app-id])
@@ -187,21 +189,44 @@
               (js/populateEditor (get x :value))
 
               (if user-can-edit-app
-               (js/setCodeMirrorOption "readOnly" false)
-               (js/setCodeMirrorOption "readOnly" true))
+                (js/setCodeMirrorOption "readOnly" false)
+                (js/setCodeMirrorOption "readOnly" true))
               ))))}
 
 
   (div {}
-       (realtime select   id, application_name, application_glyph   from appshare_applications where id = ? {:params [(read-ui app [:app-id])]}
+         (textarea {:id "cm" :style {:width "100%" :height "800" :display "inline-block" }} "TEXT EDITOR")
+
+       ))
+
+
+
+
+
+(defn-ui-component     editor-component   [app]   {}
+
+
+  (div {}
+       (realtime select   id, application_name, application_glyph
+                 from appshare_applications where id = ? {:params [(read-ui app [:app-id])]}
+
                  (div {:style {:marginLeft "20px" :padding "5px"}}
-;                      (span {:onClick #(go  (write-ui app [:mode] "editdata"))} "Data")
+                      ;                      (span {:onClick #(go  (write-ui app [:mode] "editdata"))} "Data")
+                      (cond
+                        (= (read-ui app [:editor]) "text")
+                        (span {:onClick #(go  (write-ui app [:editor] "blockly"))} "Text | ")
+
+                        (or (= (read-ui app [:editor]) "blockly") (= (read-ui app [:editor]) nil))
+                        (span {:onClick #(go  (write-ui app [:editor] "text"))} "Blockly | ")
+                        )
+
+
                       (if (get @can-use-interfaces "edit.my.database")
                         (span {:onClick #(go  (let [old-app-id   (read-ui app [:app-id])]
                                                 (write-ui app [:mode] "view")
                                                 (write-ui app [:app-id] (get @can-use-interfaces "edit.my.database"))
                                                 (evalapp (get @can-use-interfaces "edit.my.database")   old-app-id nil))
-                                              )} "Data"))
+                                              )} "Data | "))
 
 
 
@@ -210,6 +235,9 @@
                         (span {:onClick #(go  (write-ui app [:mode] "editappglyph"))
                                :className (str "glyphicon " glyphicon)
                                :aria-hidden "true"} ""))
+
+                      (span nil " | ")
+
                       (cond
                         (and (= (read-ui app [:submode]) "editappname") (= (<-- :id ) (read-ui app [:app-id])))
                         (span nil
@@ -232,16 +260,23 @@
                         :else
                         (do
                           (span {:onClick     #(go  (write-ui app [:submode] "editappname")
-                                                   (write-ui app [:app-id] (<-- :id))
-                                                   )}
-                          (div {
+                                                    (write-ui app [:app-id] (<-- :id))
+                                                    )}
+                                (div {
 
-                                :style {:display "inline-block" :fontFamily "Ubuntu" :fontWeight "700" :fontSize "1.3em"  :marginLeft "20px"}}
-                               (str (<-- :application_name)))
-                          (span {:style {:marginLeft "20px" :color "white"} } "<<< Click to edit name" )
-                                )))
-                      ))
-       (textarea {:id "cm" :style {:display "inline-block" :width "100%" :height "800"}} "TEXT EDITOR")))
+                                       :style {:display      "inline-block"
+                                               :fontFamily   "Ubuntu"
+                                               :fontWeight   "700"
+                                               :fontSize     "1.3em"
+                                               :marginLeft "20px"}}
+
+                                     (str (<-- :application_name)))
+                                (span {:style {:marginLeft "20px" :color "white"} } "<<< Click to edit name" )
+                                )))))
+         (component  text-editor-component  app  [])
+
+       ))
+
 
 
 

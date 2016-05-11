@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv='Content-type' content='text/html; charset=utf-8'>
+
+
+      <meta http-equiv='Content-type' content='text/html; charset=utf-8'>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
         <script type="text/javascript">
@@ -142,7 +144,7 @@
                       mode:        "clojure",
                       height:      "800",
                       theme:       "icecoder",
-                      fontSize: "3pt"});
+                      fontSize:    "3pt"});
                 myCodeMirror.setSize("100%", 800);
 
                 myCodeMirror.setOption("maxLength", 4400);
@@ -221,7 +223,39 @@
         <div id=playback_canvas    style='color=black;'></div>
         <div id=data_state         style='color=black;'></div>
         <div id=playback_state     style='color=black;'></div>
-    </body>
+
+      <div id=blockly style="visibility: hidden">
+        <div style="background: blue; color:white; width:100%;  height: 480px; align: top;">
+
+          <div id="blocklyDiv" style="background: white; color:white; height: 480px; width: 600px; display:inline-block;">
+          </div>
+
+          <pre id="blocklyCode" style="background: white; color:black; height: 480px; width: 500px; display:inline-block;">
+
+    </pre>
+        </div>
+      </div>
+
+      <xml id="toolbox" style="display: none;visibility: hidden">
+        <category name='aa'>
+          <block type="appshare_app"></block>
+          <block type="appshare_ui_component"></block>
+
+          <block type="appshare_div"></block>
+          <block type="appshare_no_attributes"></block>
+          <block type="appshare_element_attribute"></block>
+          <block type="appshare_element_text"></block>
+          <block type="math_constant"></block>
+          <block type="controls_if"></block>
+          <block type="controls_repeat_ext"></block>
+          <block type="logic_compare"></block>
+          <block type="math_number"></block>
+          <block type="math_arithmetic"></block>
+          <block type="text"></block>
+          <block type="text_print"></block>
+        </category>
+      </xml>
+</body>
 
 
 
@@ -300,38 +334,6 @@
     <script type="text/javascript">goog.require("coilsfig.mainfig");</script>
 
 
-<div id=blockly style="visibility: hidden">
-  <xml id="toolbox" style="display: none">
-    <block type="appshare_app"></block>
-    <block type="appshare_ui_component"></block>
-
-    <block type="appshare_div"></block>
-    <block type="appshare_no_attributes"></block>
-    <block type="appshare_element_attribute"></block>
-    <block type="appshare_element_text"></block>
-    <block type="math_constant"></block>
-    <block type="controls_if"></block>
-    <block type="controls_repeat_ext"></block>
-    <block type="logic_compare"></block>
-    <block type="math_number"></block>
-    <block type="math_arithmetic"></block>
-    <block type="text"></block>
-    <block type="text_print"></block>
-  </xml>
-
-
-
-
-  <div style="background: blue; color:white; width:100%;  height: 480px; align: top;">
-    <div id="blocklyDiv" style="background: white; color:white; height: 100%; width: 600px; display:inline-block;">
-    </div>
-
-    <pre id="blocklyCode" style="background: white; color:black; height: 100%; width: 500px;
-                                 display:inline-block; vertical-align: top;">
-
-    </pre>
-  </div>
-</div>
 
 
 </html>
