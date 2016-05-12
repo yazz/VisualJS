@@ -61,7 +61,32 @@
         <link rel="stylesheet" href="codemirror-5.8/lib/codemirror.css">
         <script src="codemirror-compressed.js"></script>
         <script src="codemirror-5.8/mode/clojure/clojure.js"></script>
-        <link rel="stylesheet" href="codemirror-5.8/theme/icecoder.css"></link>
+        <script src="blockly/blockly_compressed.js"></script>
+
+      <script src="blockly/blocks/logic.js"></script>
+      <script src="blockly/blocks/loops.js"></script>
+      <script src="blockly/blocks/math.js"></script>
+      <script src="blockly/blocks/text.js"></script>
+      <script src="blockly/blockly/blocks/lists.js"></script>
+      <script src="blockly/blocks/colour.js"></script>
+      <script src="blockly/blocks/variables.js"></script>
+      <script src="blockly/blocks/procedures.js"></script>
+      <script src="blockly/blocks/appshare.js"></script>
+
+      <script src="blockly/msg/js/en.js"></script>
+
+      <script src="blockly/generators/clojurescript.js"></script>
+      <script src="blockly/generators/clojurescript/logic.js"></script>
+      <script src="blockly/generators/clojurescript/loops.js"></script>
+      <script src="blockly/generators/clojurescript/math.js"></script>
+      <script src="blockly/generators/clojurescript/text.js"></script>
+      <script src="blockly/generators/clojurescript/lists.js"></script>
+      <script src="blockly/generators/clojurescript/colour.js"></script>
+      <script src="blockly/generators/clojurescript/variables.js"></script>
+      <script src="blockly/generators/clojurescript/procedures.js"></script>
+      <script src="blockly/generators/clojurescript/appshare.js"></script>
+
+      <link rel="stylesheet" href="codemirror-5.8/theme/icecoder.css"></link>
         <link href='https://fonts.googleapis.com/css?family=Ubuntu:400,500,700|Roboto:400,700' rel='stylesheet' type='text/css'>
 
         <title>AppShare</title>
@@ -229,7 +254,47 @@
                     webapp.framework.client.init.setup);
             };
         });
-    </script>
+
+
+
+
+
+      function myUpdateFunction(event) {
+        var code = Blockly.ClojureScript.workspaceToCode(workspace);
+        document.getElementById('blocklyCode').innerHTML = code;
+      }
+
+
+      function initBlockly() {
+        var toolbox = '<xml id="toolbox"  style="display: none">';
+
+        //toolbox += ' <category  name="fdsfds" colour="210">';
+        toolbox += '  <block type="appshare_app"></block>';
+        toolbox += '  <block type="appshare_ui_component"></block>';
+        toolbox += '  <block type="appshare_div"></block>';
+        //toolbox += '</category>';
+
+        //toolbox += ' <category name="fdsfdsdsffds" colour="210">';
+        toolbox += '  <block type="appshare_no_attributes"></block>';
+        toolbox += '  <block type="appshare_element_attribute"></block>';
+        toolbox += '  <block type="appshare_element_text"></block>';
+        //toolbox += '</category>';
+
+        toolbox += '</xml>';
+        workspace = Blockly.inject('blocklyDiv',
+                                   {toolbox: toolbox,
+                                   scrollbars: true,
+                                    grid:
+                                    {spacing: 20,
+                                     length: 3,
+                                     colour: '#ccc',
+                                     snap: true},
+                                   css: true});
+        workspace.addChangeListener(myUpdateFunction);
+        Blockly.fireUiEvent(window, 'resize')
+        workspace.updateToolbox(toolbox);
+      }
+</script>
 
     <script type="text/javascript" src="main.js"></script>
 
