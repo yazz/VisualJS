@@ -168,7 +168,10 @@
 
 
 
-
+(defn add-blocks [n y] (div {:onMouseOver (fn [e] (. js/workspace updateToolbox
+                          (str "<xml>"
+                               (apply str (map (fn [x] (str "<block type=\"" x "\"></block>")) y))
+                               "</xml>")))} n))
 
 (defn-ui-component     blockly-editor-component   [app]
   {:on-mount
@@ -176,12 +179,38 @@
           (js/initBlockly)))}
 
 
-  (div {:style {:background "white" :width "100%"  :height "800px" :align "top" :top "100px" }}
+  (div {:style {:background "white" :width "100%"  :height "800px" :align "top" :top "100px"  }}
 
-       (div {:id "blocklyDiv" :style {:left "200px"
-                                      :background "white" :color "white" :height "800px" :width "600px" :display "inline-block"}})
-       (pre {:id "blocklyCode" :style {:background "white" :color "black" :height "800px" :width "500px"
-                                       :display "inline-block"}})))
+
+
+
+       (div {:id "blocklyCategorySelector" :style {:background "lightgrey"
+                                                   :color "black"
+                                                   :height "800px"
+                                                   :width "100px"
+                                                   :display "inline-block"
+                                                   :vertical-align "text-top"}}
+            (add-blocks "Samples"  ["appshare_app"])
+            (add-blocks "Easy"     ["appshare_div" "appshare_element_text"])
+
+            )
+
+
+
+
+       (div {:id "blocklyDiv" :style {:vertical-align "text-top"
+                                      :background     "white"
+                                      :color          "white"
+                                      :height         "800px"
+                                      :width          "600px"
+                                      :display        "inline-block"}} "")
+
+       (pre {:id "blocklyCode" :style {:vertical-align "text-top"
+                                       :background     "white"
+                                       :color          "black"
+                                       :height         "800px"
+                                       :width          "500px"
+                                       :display        "inline-block"}} "")))
 
 
 

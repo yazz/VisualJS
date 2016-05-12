@@ -42,6 +42,13 @@
 
         }))
 
+       (reset!
+         app-state
+
+         (assoc-in
+           @app-state [:editor] "text"
+           ))
+
   ))})
 
 
