@@ -168,10 +168,8 @@
 
 
 
-(defn add-blocks [n y] (div {:onMouseOver (fn [e] (. js/workspace updateToolbox
-                          (str "<xml>"
-                               (apply str (map (fn [x] (str "<block type=\"" x "\"></block>")) y))
-                               "</xml>")))} n))
+(defn add-blocks [n y] (div {:onMouseOver
+                             (fn [e] (js/uuuttt (str "<xml>" (apply str (map (fn [x] (str "<block type=\"" x "\"></block>")) y)) "</xml>")))} n))
 
 (defn-ui-component     blockly-editor-component   [app]
   {:on-mount
