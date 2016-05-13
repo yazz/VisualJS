@@ -188,7 +188,7 @@
                                                    :width "100px"
                                                    :display "inline-block"
                                                    :vertical-align "text-top"}}
-            (add-blocks "Samples"  ["appshare_app"])
+            (add-blocks "Samples"  ["appshare_samples_helloworld"])
             (add-blocks "Easy"     ["appshare_div" "appshare_element_text"])
 
             )

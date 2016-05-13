@@ -6,6 +6,18 @@ goog.require('Blockly.ClojureScript');
 
 
 
+
+Blockly.ClojureScript['appshare_samples_helloworld'] = function(block) {
+  var code = '\
+  (defn-ui-component     main   [app] {}\n\
+       (div   nil   "hello world"\n\
+    ))';
+  return code;
+};
+
+
+
+
 Blockly.ClojureScript['appshare_app'] = function(block) {
   var main_app = Blockly.ClojureScript.statementToCode(block, 'main application element');
   var code = main_app + '\n';

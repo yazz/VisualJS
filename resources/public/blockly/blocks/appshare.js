@@ -6,6 +6,16 @@ goog.require('Blockly.Blocks');
 
 
 
+Blockly.Blocks['appshare_samples_helloworld'] = {
+  init: function() {
+    this.appendDummyInput().appendField("Hello World");
+    this.setTooltip('');
+    this.setHelpUrl('http://www.example.com/');
+    this.setColour(230);
+
+}
+};
+
 Blockly.Blocks['appshare_app'] = {
   init: function() {
     this.appendDummyInput().appendField("Appshare Application");
