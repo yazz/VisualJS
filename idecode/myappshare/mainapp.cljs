@@ -28,6 +28,12 @@
 
 
 
+(defn small-screen [] (if (< (js/width) 1024) true false))
+
+(defn large-screen [] (not (small-screen)))
+
+
+
 
 
 
@@ -168,8 +174,20 @@
 
 
 
-(defn add-blocks [n y] (div {:onMouseOver
-                             (fn [e] (js/uuuttt (str "<xml>" (apply str (map (fn [x] (str "<block type=\"" x "\"></block>")) y)) "</xml>")))} n))
+(defn add-blocks [section-name  block-names]
+  (div {
+         :onMouseOver
+         (fn [e]
+           (js/uuuttt
+             (str "<xml>"
+                  (apply str
+                         (map (fn [x] (str "<block type=\"" x "\"></block>"))
+                              block-names))
+                  "</xml>")))
+         }
+       section-name))
+
+
 
 (defn-ui-component     blockly-editor-component   [app]
   {:on-mount
@@ -236,7 +254,7 @@
 
 
   (div {}
-         (textarea {:id "cm" :style {:width "100%" :height "800" :display "inline-block" }} "TEXT EDITOR")
+         (textarea {:id "cm" :style {:width "600px" :height "800" :display "inline-block" }} "TEXT EDITOR")
 
        ))
 
@@ -407,13 +425,6 @@
 
 
 
-
-
-
-(defn small-screen [] (if (< (js/width) 1024) true false))
-
-
-(defn large-screen [] (not (small-screen)))
 
 
 
