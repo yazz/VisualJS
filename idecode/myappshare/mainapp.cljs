@@ -18,7 +18,7 @@
    [myappshare.join :only  [join-component]]
    [myappshare.your-account :only  [your-account-component]]
    [myappshare.edit-data :only  [edit-data-component]]
-   [webapp.framework.client.system-globals :only  [client-session-atom  can-use-interfaces  debug-mode]]
+   [webapp.framework.client.system-globals :only  [client-session-atom  can-use-interfaces  debug-mode   app-state]]
     )
 
   (:require-macros
@@ -65,7 +65,13 @@
 (defn reeval [app-id   calling-app-id]
   (go
     (let [
-           code             (js/getCodeMirrorValue)
+           code             (cond
+                              (= (get @app-state :editor)  "text")
+                                     (js/getCodeMirrorValue)
+
+                              (= (get @app-state :editor)  "blockly")
+                                     (js/getBlocklyValue))
+
            app-session-id   (str (js/getappsessionid) )
            ]
 
@@ -218,7 +224,7 @@
                                       :background     "white"
                                       :color          "white"
                                       :height         "800px"
-                                      :width          "600px"
+                                      :width          "500px"
                                       :display        "inline-block"}} "")
 
        (pre {:id "blocklyCode" :style {:vertical-align "text-top"
@@ -563,7 +569,7 @@
             (div {:style {:display (if
                                      (or (= (read-ui app [:mode]) "view")
                                          (and (= (read-ui app [:mode]) "edit") (large-screen)))
-                                     "inline-block" "none") :width "600px" :verticalAlign "top"} }
+                                     "inline-block" "none") :width "600px" :verticalAlign "top" :padding-top "40px"} }
                  (component  view-app-component  app [])))
 
 

@@ -279,6 +279,12 @@
       }
 
 
+      function getBlocklyValue()
+      {
+        return Blockly.ClojureScript.workspaceToCode(workspace);
+      }
+
+
       function initBlockly() {
         var toolbox = '<xml id="toolbox"  style="display: none">';
         toolbox += '</xml>';
