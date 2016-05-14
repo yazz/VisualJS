@@ -270,7 +270,6 @@
                  from appshare_applications where id = ? {:params [(read-ui app [:app-id])]}
 
                  (div {:style {:marginLeft "20px" :padding "5px"}}
-                      ;                      (span {:onClick #(go  (write-ui app [:mode] "editdata"))} "Data")
                       (cond
                         (= (read-ui app [:editor]) "text")
                         (span {:onClick #(go  (write-ui app [:editor] "blockly"))} "Text | ")
@@ -532,7 +531,7 @@
 ;       (div {} (str "app-id: " (read-ui app [:app-id])))
 
 
-       (div {:style {:display "inline-block" :width "100%" :height "800" :verticalAlign "top"}}
+       (div {:style {:display "inline-block" :width "100%" :height "100%" :verticalAlign "top"}}
 
             (cond
 
@@ -540,8 +539,8 @@
               (div {:style {}} (component browser-component app []))
 
 
-              (= (read-ui app [:mode]) "edit")
-              (div {:style {} } (component editor-component app []))
+              (or (and (= (read-ui app [:mode]) "view") (large-screen)) (= (read-ui app [:mode]) "edit"))
+              (div {:style {:display "inline-block"  :width "600px"} } (component editor-component app []))
 
               (= (read-ui app [:mode]) "editappglyph")
               (div {:style {} } (component edit-app-glyph-component app []))
@@ -555,14 +554,13 @@
 
               (= (read-ui app [:mode]) "account")
               (div {:style {} } (component your-account-component app []))
-
-
-              (= (read-ui app [:mode]) "editdata")
-              (div {:style {} } (component edit-data-component app []))
             )
 
 
-            (div {:style {:display (if (= (read-ui app [:mode]) "view") "" "none")}} (component  view-app-component  app [])))
+            (div {:style {:display (if
+                                     (or (= (read-ui app [:mode]) "view")
+                                         (and (= (read-ui app [:mode]) "edit") (large-screen)))
+                                     "inline-block" "none") :width "600px"} } (component  view-app-component  app [])))
 
 
        ))
