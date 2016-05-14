@@ -475,13 +475,15 @@
 
   (= (read-ui app [:mode]) "edit")
             (button {:className    (if (small-screen) "btn btn-default"  "btn-lg btn-default")
-                     :style       {:display "inline-block" :marginLeft (if (small-screen) "2px"  "30px") :fontFamily "Ubuntu" :fontSize "1em" :marginTop "0.3em"
+                     :style       {:display "inline-block"
+                                   :marginLeft (if (small-screen) "2px"  "30px")
+                                   :fontFamily "Ubuntu" :fontSize "1em" :marginTop "0.3em"
                                    :backgroundColor "lightgreen"
                                    :opacity  (if (= (read-ui app [:mode]) "edit")  "1.0" "0.4")
 
                                    }
                      :onClick     #(do
-                                     (write-ui app [:mode] "view")
+                                     (if (small-screen) (write-ui app [:mode] "view"))
                                      (reeval  (read-ui app [:app-id]) nil))
                      :disabled  (if (= (read-ui app [:mode]) "edit") "" "true")
                      }
@@ -539,7 +541,8 @@
               (div {:style {}} (component browser-component app []))
 
 
-              (or (and (= (read-ui app [:mode]) "view") (large-screen)) (= (read-ui app [:mode]) "edit"))
+              ;(or (and (= (read-ui app [:mode]) "view") (large-screen)) (= (read-ui app [:mode]) "edit"))
+              (= (read-ui app [:mode]) "edit")
               (div {:style {:display "inline-block"  :width "600px"} } (component editor-component app []))
 
               (= (read-ui app [:mode]) "editappglyph")
