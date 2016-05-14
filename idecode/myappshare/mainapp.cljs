@@ -533,7 +533,7 @@
 ;       (div {} (str "app-id: " (read-ui app [:app-id])))
 
 
-       (div {:style {:display "inline-block" :width "100%" :height "100%" :verticalAlign "top"}}
+       (div {:style {:display "inline-block" :width "100%" :height "600px" :verticalAlign "top"}}
 
             (cond
 
@@ -543,7 +543,7 @@
 
               ;(or (and (= (read-ui app [:mode]) "view") (large-screen)) (= (read-ui app [:mode]) "edit"))
               (= (read-ui app [:mode]) "edit")
-              (div {:style {:display "inline-block"  :width "600px"} } (component editor-component app []))
+              (div {:style {:display "inline-block"  :width "600px" :verticalAlign "top"} } (component editor-component app []))
 
               (= (read-ui app [:mode]) "editappglyph")
               (div {:style {} } (component edit-app-glyph-component app []))
@@ -563,7 +563,8 @@
             (div {:style {:display (if
                                      (or (= (read-ui app [:mode]) "view")
                                          (and (= (read-ui app [:mode]) "edit") (large-screen)))
-                                     "inline-block" "none") :width "600px"} } (component  view-app-component  app [])))
+                                     "inline-block" "none") :width "600px" :verticalAlign "top"} }
+                 (component  view-app-component  app [])))
 
 
        ))

@@ -135,10 +135,10 @@
                     document.getElementById('cm'),
                     { lineNumbers:  true,
                       mode:        "clojure",
-                      height:      "800",
+                      height:      "600",
                       theme:       "icecoder",
                       fontSize: "3pt"});
-                myCodeMirror.setSize(600, 800);
+                myCodeMirror.setSize(600, 600);
 
                 myCodeMirror.setOption("maxLength", 4400);
                 myCodeMirror.on("beforeChange", enforceMaxLength);
