@@ -181,17 +181,18 @@
 
 
 (defn add-blocks [section-name  block-names]
-  (div {
-         :onMouseOver
-         (fn [e]
-           (js/uuuttt
-             (str "<xml>"
-                  (apply str
-                         (map (fn [x] (str "<block type=\"" x "\"></block>"))
-                              block-names))
-                  "</xml>")))
-         }
-       section-name))
+  (let [xxx (fn [e]
+              (js/uuuttt
+                (str "<xml>"
+                     (apply str
+                            (map (fn [x] (str "<block type=\"" x "\"></block>"))
+                                 block-names))
+                     "</xml>")))]
+    (div {
+           :onMouseOver  xxx
+           :onTouchStart  xxx
+           }
+         section-name)))
 
 
 
