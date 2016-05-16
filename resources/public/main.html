@@ -291,8 +291,8 @@
       function getBlocklyXml()
       {
         var xml = Blockly.Xml.workspaceToDom(workspace);
-        //var code = Blockly.Xml.domToText(xml);
-        var code = Blockly.Xml.domToPrettyText(xml);
+        var code = Blockly.Xml.domToText(xml);
+        //var code = Blockly.Xml.domToPrettyText(xml);
         return code;
       }
 

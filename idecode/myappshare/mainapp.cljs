@@ -263,8 +263,7 @@
                                        :background     "white"
                                        :color          "black"
                                        :height         "800px"
-                                       :width          "500px"
-                                       :display        "inline-block"}} "")))
+                                       :width          "500px"}} "")))
 
 
 
