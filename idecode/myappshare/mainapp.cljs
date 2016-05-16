@@ -212,7 +212,19 @@
 (defn-ui-component     blockly-editor-component   [app]
   {:on-mount
    (do  (go
-          (js/initBlockly)))}
+          (js/initBlockly)
+          (if  (read-ui app [:app-id])
+            (let [app-session-id    (str (js/getappsessionid))
+
+                  x                 (remote  !getfilecontents  {:calling-from-application-id     (read-ui app [:app-id])
+                                                                :running-application-id          (read-ui app [:app-id])
+                                                                :app-session-id                  app-session-id})]
+
+              (js/setBlocklyXml (str (:blockly x)))
+              ))
+
+
+          ))}
 
 
   (div {:style {:background "white" :width "100%"  :height "800px" :align "top" :top "100px"  }}
@@ -270,6 +282,9 @@
               (if user-can-edit-app
                 (js/setCodeMirrorOption "readOnly" false)
                 (js/setCodeMirrorOption "readOnly" true))
+
+
+
               ))))}
 
 

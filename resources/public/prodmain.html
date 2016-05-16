@@ -279,6 +279,12 @@
         return code;
       }
 
+      function setBlocklyXml(xml_text)
+      {
+        var xml = Blockly.Xml.textToDom(xml_text);
+        Blockly.Xml.domToWorkspace(xml, workspace);
+      }
+
       function initBlockly() {
         var toolbox = '<xml id="toolbox"  style="display: none">';
         toolbox += '</xml>';

@@ -2155,25 +2155,36 @@
   (if running-application-id
     (let [content-records      (cond
                                  (= *database-type* "postgres" )
-                                 (sql-1 "select  application_code as ac from appshare_applications where id = ?" [running-application-id])
+                                 (sql-1 "select  application_code as ac, blockly_xml
+                                        from appshare_applications where id = ?" [running-application-id])
 
                                  (= *database-type* "oracle" )
-                                 (sql-1 "select  dbms_lob.substr( application_code, 3000, 1 ) as ac, dbms_lob.substr( application_code, 3000, 3001 ) as ac2 from appshare_applications where id = ?" [running-application-id]))
+                                 (sql-1 "select  dbms_lob.substr( application_code, 3000, 1 ) as ac,
+                                        dbms_lob.substr( application_code, 3000, 3001 ) as ac2,
+                                        dbms_lob.substr( blockly_xml, 3000, 1 ) from appshare_applications where id = ?"
+                                        [running-application-id]))
 
           content              (str (get content-records :ac) (get content-records :ac2))
 
+          blockly              (str (get content-records :blockly_xml) )
+
           app-id-schema-to-use (if  calling-from-application-id  calling-from-application-id  running-application-id)
 
-          schema-id            (:fk_appshare_schema_id (sql-1 "select  fk_appshare_schema_id  from  appshare_application_schemas  where  application_environment = 'DEV' and fk_appshare_application_id = ?"
+          schema-id            (:fk_appshare_schema_id (sql-1 "select  fk_appshare_schema_id  from
+                                                              appshare_application_schemas  where
+                                                              application_environment = 'DEV' and fk_appshare_application_id = ?"
                                                               [app-id-schema-to-use]))
 
-          int-sql              (sql "select interface_name from appshare_application_can_call_interface where  fk_application_id = ?" [app-id-schema-to-use])
+          int-sql              (sql "select interface_name from
+                                    appshare_application_can_call_interface where  fk_application_id = ?" [app-id-schema-to-use])
+
           interfaces-list      (map  :interface_name  int-sql)
 
           get-default-app-fn   (fn [interface-name]
                                  {interface-name
                                   (:fk_default_interface_application_id
-                                    (sql-1 "select   fk_default_interface_application_id   from   appshare_interfaces   where   interface_name  =   ?" [interface-name]))})
+                                    (sql-1 "select   fk_default_interface_application_id   from
+                                           appshare_interfaces   where   interface_name  =   ?" [interface-name]))})
 
           enriched-interfaces  (reduce merge (map get-default-app-fn  interfaces-list))
 
@@ -2199,7 +2210,7 @@
           (do
             (sql "update  appshare_web_sessions  set fk_appshare_schema_id = NULL  where  session_id = ?"  [app-session-id])))
 
-        {:value content :can-use-interfaces can-use-interfaces }))
+        {:value content :can-use-interfaces can-use-interfaces :blockly blockly}))
 
     {:value "" :error "No content"}
     ))
