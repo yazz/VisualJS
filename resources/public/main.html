@@ -65,6 +65,7 @@
         <script src="codemirror-compressed.js"></script>
         <script src="codemirror-5.8/mode/clojure/clojure.js"></script>
         <script src="blockly/blockly_compressed.js"></script>
+        <script src="blockly/core/xml.js"></script>
 
       <script src="blockly/blocks/logic.js"></script>
       <script src="blockly/blocks/loops.js"></script>
@@ -275,6 +276,7 @@
 
       function myUpdateFunction(event) {
         var code = Blockly.ClojureScript.workspaceToCode(workspace);
+
         document.getElementById('blocklyCode').innerHTML = code;
       }
 
@@ -282,6 +284,15 @@
       function getBlocklyValue()
       {
         return Blockly.ClojureScript.workspaceToCode(workspace);
+      }
+
+
+
+      {
+        var xml = Blockly.Xml.workspaceToDom(workspace);
+        //var code = Blockly.Xml.domToText(xml);
+        var code = Blockly.Xml.domToPrettyText(xml);
+        return code;
       }
 
 

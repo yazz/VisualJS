@@ -72,16 +72,29 @@
                               (= (get @app-state :editor)  "blockly")
                                      (js/getBlocklyValue))
 
+           blockly-xml      (if (= (get @app-state :editor)  "blockly")
+                              (js/getBlocklyXml))
+
            app-session-id   (str (js/getappsessionid) )
            ]
 
-      (remote !savecode {:id                 app-id
-                         :code               (subs code 0 2000)
-                         :app-session-id     app-session-id})
+      (if
+        (= (get @app-state :editor)  "text")
+        (do
+          (remote !savecode {:id                 app-id
+                             :code               (subs code 0 2000)
+                             :app-session-id     app-session-id})
 
-      (remote !savecode2 {:id               app-id
-                          :code             (subs code 2000 4000)
-                          :app-session-id   app-session-id})
+          (remote !savecode2 {:id               app-id
+                              :code             (subs code 2000 4000)
+                              :app-session-id   app-session-id})))
+
+
+      (if blockly-xml
+        (remote !save-blockly-xml {:id                 app-id
+                                   :xml               (subs blockly-xml 0 1000)
+                                   :code              (subs code 0 1000)
+                                   :app-session-id     app-session-id}))
 
       (swap! ns-counter inc)
       (js/sendcode  (str (start) code (end))
