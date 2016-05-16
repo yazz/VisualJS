@@ -239,7 +239,13 @@
                                                    :display "inline-block"
                                                    :vertical-align "text-top"}}
             (add-blocks "Samples"  ["appshare_samples_helloworld"])
-            (add-blocks "Easy"     ["appshare_div" "appshare_element_text"])
+
+            (add-blocks "Easy"     ["appshare_app"
+                                    "appshare_ui_component"
+                                    "appshare_div"
+                                    "appshare_no_attributes"
+                                    "appshare_element_attribute"
+                                    "appshare_element_text"])
 
             )
 
