@@ -2517,8 +2517,7 @@
         {
           :success true
           :user    user
-         }
-        ))))
+         }))))
 
 
 
@@ -2594,19 +2593,25 @@
 
 
 
-(if (= (get (sql-1 "select count(*) from public.appshare_applications"  []) :count) 0)
-  (do
-    (sql "insert into appshare_applications (application_name,  application_code) values (?,?)" ["todo", (slurp "resources\\public\\init\\todo.cljs")])
-
-    (let [id (get (sql-1 "insert into appshare_applications (application_name,  application_code) values (?,?) returning id"
-               ["DBExplorer", (slurp "resources\\public\\init\\dbexplorer.cljs")]) :id)]
-
-      (do
-        (sql "insert into appshare_interfaces (interface_name,  fk_default_interface_application_id) values (?,?)"       ["edit.my.database"  id])
-
-        (sql "insert into appshare_application_implements_interface (fk_application_id, interface_name) values (?,?)"    [id   "edit.my.database"])
-
-        (make-schema-for-app-id   id)
 
 
-        ))))
+
+(try
+  (if (= (get (sql-1 "select count(*) from public.appshare_applications"  []) :count) 0)
+    (do
+      (sql "insert into appshare_applications (application_name,  application_code) values (?,?)" ["todo", (slurp "resources\\public\\init\\todo.cljs")])
+
+      (let [id (get (sql-1 "insert into appshare_applications (application_name,  application_code) values (?,?) returning id"
+                           ["DBExplorer", (slurp "resources\\public\\init\\dbexplorer.cljs")]) :id)]
+
+        (do
+          (sql "insert into appshare_interfaces (interface_name,  fk_default_interface_application_id) values (?,?)"       ["edit.my.database"  id])
+
+          (sql "insert into appshare_application_implements_interface (fk_application_id, interface_name) values (?,?)"    [id   "edit.my.database"])
+
+          (make-schema-for-app-id   id)
+
+
+          ))))
+  (catch Exception e
+    (str "Error creating public.appshare_applications: " (.getMessage e))))
