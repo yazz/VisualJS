@@ -37,11 +37,11 @@ Blockly.Blocks['appshare_app'] = {
 Blockly.Blocks['appshare_ui_component'] = {
   init: function() {
     this.appendDummyInput().appendField("UI component");
-    this.setColour(230);
+    this.setColour(130);
     this.appendDummyInput().appendField("");
     this.appendDummyInput().appendField("Main Div");
     this.appendStatementInput("main div element").setCheck("HtmlElement");
-    this.setOutput(true, 'UiComponent')
+    //this.setOutput(true, 'UiComponent')
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
   }
@@ -64,7 +64,7 @@ Blockly.Blocks['appshare_div'] = {
 
     this.setPreviousStatement(true, "HtmlElement");
     this.setNextStatement(true, "HtmlElement");
-    this.setColour(230);
+    this.setColour(130);
     this.setTooltip('');
     this.setHelpUrl('http://www.example.com/');
   }
@@ -77,7 +77,7 @@ Blockly.Blocks['appshare_no_attributes'] = {
     this.appendDummyInput().appendField("no attributes");
     this.setInputsInline(true);
 
-    this.setColour(230);
+    this.setColour(150);
     this.setTooltip('');
     this.setOutput(true, 'HtmlElementAttribute')
     this.setHelpUrl('http://www.example.com/');
@@ -119,7 +119,7 @@ Blockly.Blocks['appshare_element_text'] = {
     this.setNextStatement(true, "HtmlElement");
     this.setColour(230);
     this.setTooltip('');
-    this.setOutput(true, 'HtmlElement')
+    //this.setOutput(true, 'HtmlElement')
     this.setHelpUrl('http://www.example.com/');
   }
 };

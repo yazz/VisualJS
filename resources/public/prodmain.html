@@ -281,6 +281,7 @@
 
       function setBlocklyXml(xml_text)
       {
+        Blockly.mainWorkspace.clear();
         var xml = Blockly.Xml.textToDom(xml_text);
         Blockly.Xml.domToWorkspace(xml, workspace);
       }
