@@ -118,9 +118,14 @@
            app-code         (remote  !getfilecontents  {:calling-from-application-id          calling-app-id
                                                         :running-application-id               app-id
                                                         :app-session-id                       app-session-id})
+           code-format      (:code-format   app-code)
            ]
       ;(js/alert (pr-str "HOST SESSION ID: "   (:session-id @client-session-atom)))
       ;(js/alert (pr-str "CLIENT SESSION ID: " (js/getappsessionid)))
+      ;(js/alert (pr-str "Code format: " code-format))
+      (cond
+        (= code-format "blockly") (swap! app-state assoc :editor "blockly")
+        :else (swap! app-state assoc :editor "text"))
       (reset! can-use-interfaces (:can-use-interfaces app-code))
       (js/callresetclientstate    app-session-id)
       (swap! ns-counter inc)
@@ -239,6 +244,11 @@
                                                    :display "inline-block"
                                                    :vertical-align "text-top"}}
             (add-blocks "Samples"  ["appshare_samples_helloworld"])
+
+
+            (add-blocks "Quick"     ["appshare_quick_app"])
+
+            ;(add-blocks "Forms"    ["appshare_basic_form"])
 
             (add-blocks "Easy"     ["appshare_app"
                                     "appshare_ui_component"

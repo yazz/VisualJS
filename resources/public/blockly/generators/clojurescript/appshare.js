@@ -17,6 +17,20 @@ Blockly.ClojureScript['appshare_samples_helloworld'] = function(block) {
 
 
 
+Blockly.ClojureScript['appshare_quick_app'] = function(block) {
+  var textval = block.getFieldValue('VALUE') ;
+
+  var code = '\
+  (defn-ui-component     main   [app] {}\n\
+       (div   nil   "' + textval + '"\n\
+    ))';
+  return code;
+};
+
+
+
+
+
 
 Blockly.ClojureScript['appshare_app'] = function(block) {
   var main_app = Blockly.ClojureScript.statementToCode(block, 'main application element');

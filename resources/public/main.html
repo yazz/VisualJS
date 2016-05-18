@@ -274,10 +274,12 @@
         });
 
 
+      var toolbox = '<xml id="toolbox"  style="display: none"></xml>';
       function myUpdateFunction(event) {
         var code = Blockly.ClojureScript.workspaceToCode(workspace);
 
         document.getElementById('blocklyCode').innerHTML = code;
+        uuuttt(toolbox);
       }
 
 
@@ -297,6 +299,7 @@
       }
 
 
+
       function setBlocklyXml(xml_text)
       {
         Blockly.mainWorkspace.clear();
@@ -306,11 +309,17 @@
 
 
       function initBlockly() {
-        var toolbox = '<xml id="toolbox"  style="display: none">';
-        toolbox += '</xml>';
+
         workspace = Blockly.inject('blocklyDiv',
                                    {toolbox: toolbox,
                                    scrollbars: true,
+                                    zoom:
+         {controls: true,
+          wheel: true,
+          startScale: 1.0,
+          maxScale: 3,
+          minScale: 0.3,
+          scaleSpeed: 1.2},
                                     grid:
                                     {spacing: 20,
                                      length: 3,

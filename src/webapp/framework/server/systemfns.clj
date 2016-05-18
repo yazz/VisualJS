@@ -2155,18 +2155,27 @@
   (if running-application-id
     (let [content-records      (cond
                                  (= *database-type* "postgres" )
-                                 (sql-1 "select  application_code as ac, blockly_xml
+                                 (sql-1 "select
+                                            application_code as ac,
+                                            blockly_xml,
+                                            code_format
                                         from appshare_applications where id = ?" [running-application-id])
 
                                  (= *database-type* "oracle" )
-                                 (sql-1 "select  dbms_lob.substr( application_code, 3000, 1 ) as ac,
-                                        dbms_lob.substr( application_code, 3000, 3001 ) as ac2,
-                                        dbms_lob.substr( blockly_xml, 3000, 1 ) from appshare_applications where id = ?"
+                                 (sql-1 "select
+                                            dbms_lob.substr( application_code, 3000, 1 ) as ac,
+                                            dbms_lob.substr( application_code, 3000, 3001 ) as ac2,
+                                            dbms_lob.substr( blockly_xml, 3000, 1 ),
+                                            code_format
+                                        from
+                                            appshare_applications where id = ?"
                                         [running-application-id]))
 
           content              (str (get content-records :ac) (get content-records :ac2))
 
           blockly              (str (get content-records :blockly_xml) )
+
+          code-format          (str (get content-records :code_format) )
 
           app-id-schema-to-use (if  calling-from-application-id  calling-from-application-id  running-application-id)
 
@@ -2210,7 +2219,10 @@
           (do
             (sql "update  appshare_web_sessions  set fk_appshare_schema_id = NULL  where  session_id = ?"  [app-session-id])))
 
-        {:value content :can-use-interfaces can-use-interfaces :blockly blockly}))
+        {:value                 content
+         :can-use-interfaces    can-use-interfaces
+         :blockly               blockly
+         :code-format           code-format}))
 
     {:value "" :error "No content"}
     ))
