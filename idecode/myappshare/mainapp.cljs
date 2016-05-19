@@ -248,7 +248,7 @@
                                                    :height "800px"
                                                    :width "100px"
                                                    :display "inline-block"
-                                                   :vertical-align "text-top"}}
+                                                   :verticalAlign "text-top"}}
             (add-blocks "Samples"  ["appshare_samples_helloworld"])
 
 
@@ -268,14 +268,14 @@
 
 
 
-       (div {:id "blocklyDiv" :style {:vertical-align "text-top"
+       (div {:id "blocklyDiv" :style {:verticalAlign "text-top"
                                       :background     "white"
                                       :color          "white"
                                       :height         "800px"
                                       :width          "500px"
                                       :display        "inline-block"}} "")
 
-       (pre {:id "blocklyCode" :style {:vertical-align "text-top"
+       (pre {:id "blocklyCode" :style {:verticalAlign "text-top"
                                        :background     "white"
                                        :color          "black"
                                        :height         "800px"
@@ -620,7 +620,7 @@
             (div {:style {:display (if
                                      (or (= (read-ui app [:mode]) "view")
                                          (and (= (read-ui app [:mode]) "edit") (large-screen)))
-                                     "inline-block" "none") :width "600px" :verticalAlign "top" :padding-top "40px"} }
+                                     "inline-block" "none") :width "600px" :verticalAlign "top" :paddingTop "40px"} }
                  (component  view-app-component  app [])))
 
 
