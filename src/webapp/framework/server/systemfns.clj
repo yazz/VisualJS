@@ -1432,7 +1432,8 @@
                   (let [
                         clients-atom        (get cached-record :clients)
                         ]
-                    (swap!  clients-atom  conj  client-id)
+                    (if clients-atom
+                      (swap!  clients-atom  conj  client-id))
                     )
 
 
