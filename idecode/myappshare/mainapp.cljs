@@ -108,6 +108,8 @@
 
 
 
+(defn  ^:export refreshapp []
+  (reeval (get @app-state :app-id) nil))
 
 
 
