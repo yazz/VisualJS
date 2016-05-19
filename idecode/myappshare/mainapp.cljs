@@ -64,6 +64,7 @@
 
 (defn reeval [app-id   calling-app-id]
   (go
+     ;(js/alert (str "(get @app-state :editor):" (get @app-state :editor)))
     (let [
            code             (cond
                               (= (get @app-state :editor)  "text")
@@ -200,15 +201,20 @@
 
 (defn add-blocks [section-name  block-names]
   (let [xxx (fn [e]
+              (do
               (js/uuuttt
                 (str "<xml>"
                      (apply str
                             (map (fn [x] (str "<block type=\"" x "\"></block>"))
                                  block-names))
-                     "</xml>")))]
+                     "</xml>")))
+              (swap! app-state assoc :blockly-category section-name)
+              )]
     (div {
            :onMouseOver  xxx
            :onTouchStart  xxx
+           :style {:backgroundColor
+                   (if (= (get @app-state :blockly-category) section-name) "darkgray" "lightgray")}
            }
          section-name)))
 
@@ -504,6 +510,7 @@
                                           (do
                                             (write-ui app [:mode] "edit")
                                             (write-ui app [:app-id] (:id resp))
+                                            (if (large-screen) (do (reeval  (:id resp) nil)))
                                             )
                                           )
                                         )) } "New")

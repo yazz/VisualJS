@@ -2389,26 +2389,12 @@
 
         publisher   (get-publisher-for-user-id   (:id user))
 
-        response    (sql-1 "insert into appshare_applications (application_name,application_code, fk_appshare_publisher_id) values (?,?,?) returning id"
+        response    (sql-1 "insert into appshare_applications (application_name,blockly_xml, code_format, fk_appshare_publisher_id) values (?,?,'blockly',?) returning id"
                            ["name"
 
                             (str
-                              "(def counter (atom 0))\n\n"
+                              "<xml xmlns=\"http://www.w3.org/1999/xhtml\"><block type=\"appshare_app\" id=\"!l)a_mnb@`(+hS99rySU\" x=\"170\" y=\"190\"><statement name=\"main application element\"><block type=\"appshare_ui_component\" id=\"kyI)G(A7i7f1;Oxp%4F%\"><statement name=\"main div element\"><block type=\"appshare_div\" id=\"brY})RgAu~zdsVIu|!b@\"><value name=\"ATTRIBUTES\"><block type=\"appshare_no_attributes\" id=\"dA`V!.T8(]=8WT{;5et,\"></block></value><statement name=\"more elements\"><block type=\"appshare_element_text\" id=\"rqS~mm*7R#G;lx4XRqb@\"><field name=\"VALUE\">My first app</field></block></statement></block></statement></block></statement></block></xml>")
 
-                              "(defn-ui-component     sub-component   [app] {} \n"
-                              "    (div nil \n"
-                              "        (input {:type \"button\" \n"
-                              "                :style {:margin \"20px\"}\n"
-                              "                :value (str \"Click me: \" @counter \" times\")\n"
-                              "                :onClick #(do\n"
-                              "                              (swap! counter inc)\n"
-                              "                              (refresh))})))\n\n"
-
-                              "(defn-ui-component     main   [app] {}\n"
-                              "    (div nil\n"
-                              "        (component sub-component app []) \n"
-                              "        (component sub-component app []) \n"
-                              "         \"New app\"))")
 
                             (:id publisher)]
                            )
