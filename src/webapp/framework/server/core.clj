@@ -40,7 +40,7 @@
            (if (:action params) (:action params) (:systemaction params))
            " "
 
-           (if (or (> (count (keys (load-string (:params params)))) 0) post-data)
+           (if (or (> (count (keys (load-string (str (:params params))))) 0) post-data)
              (str  (:params params)))
            " "
 
