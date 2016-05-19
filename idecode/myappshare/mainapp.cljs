@@ -116,22 +116,38 @@
     ;(js/alert (str app-id))
     (let [
            app-session-id   (str (js/getappsessionid))
-           app-code         (remote  !getfilecontents  {:calling-from-application-id          calling-app-id
+           app-code-resp    (remote  !getfilecontents  {:calling-from-application-id          calling-app-id
                                                         :running-application-id               app-id
                                                         :app-session-id                       app-session-id})
-           code-format      (:code-format   app-code)
+           code-format      (:code-format   app-code-resp)
+
+           app-code-value         (cond
+                                    (= code-format "blockly")
+                                    (do
+                                      (js/setBlocklyXml  (:blockly app-code-resp))
+                                      (js/getBlocklyValue))
+
+                                    :else
+                                    (:value app-code-resp))
+
            ]
       ;(js/alert (pr-str "HOST SESSION ID: "   (:session-id @client-session-atom)))
       ;(js/alert (pr-str "CLIENT SESSION ID: " (js/getappsessionid)))
       ;(js/alert (pr-str "Code format: " code-format))
+      ;(js/alert (pr-str "app-code-value: " js/Blockly.ClojureScript.valueToCode ))
+
       (cond
-        (= code-format "blockly") (swap! app-state assoc :editor "blockly")
-        :else (swap! app-state assoc :editor "text"))
-      (reset! can-use-interfaces (:can-use-interfaces app-code))
+        (= code-format "blockly")
+        (swap! app-state assoc :editor "blockly")
+
+        :else
+        (swap! app-state assoc :editor "text"))
+
+      (reset! can-use-interfaces (:can-use-interfaces app-code-resp))
       (js/callresetclientstate    app-session-id)
       (swap! ns-counter inc)
       (js/sendcode (str (start)
-                        (:value app-code)
+                         app-code-value
                         (end))
                    calling-app-id
                    (clj->js ;["a" "b" {:d 1 :r "sfs"}]
@@ -510,7 +526,8 @@
                                           (do
                                             (write-ui app [:mode] "edit")
                                             (write-ui app [:app-id] (:id resp))
-                                            (if (large-screen) (do (reeval  (:id resp) nil)))
+                                            (if (large-screen) (do
+                                                                 (evalapp  (:id resp) nil nil)))
                                             )
                                           )
                                         )) } "New")
