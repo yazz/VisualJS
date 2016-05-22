@@ -279,10 +279,6 @@
           (js/initBlockly)
           ))
 
-   :after-update
-   (js/refreshBlockly)
-
-
    }
 
 
@@ -354,6 +350,8 @@
          (textarea {:id "cm" :style {:width "600px" :height "800" :display "inline-block" }} "TEXT EDITOR")
 
        ))
+
+
 
 
 
@@ -576,7 +574,7 @@
                              :fontFamily "Ubuntu"    :fontSize "1em"       :marginTop "0.3em"
                              :opacity  (if (= (read-ui app [:mode]) "view")  "1.0" "0.4")
                              }
-                     :onClick     #(go (write-ui app [:mode] "edit"))
+                     :onClick     #(go (write-ui app [:mode] "edit") (js/refreshBlockly))
                      :disabled     (if (= (read-ui app [:mode]) "view") "" "true")
                      } "Edit")
 
