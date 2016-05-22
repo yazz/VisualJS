@@ -574,7 +574,7 @@
                              :fontFamily "Ubuntu"    :fontSize "1em"       :marginTop "0.3em"
                              :opacity  (if (= (read-ui app [:mode]) "view")  "1.0" "0.4")
                              }
-                     :onClick     #(go (write-ui app [:mode] "edit") (js/refreshBlockly))
+                     :onClick     #(go (write-ui app [:mode] "edit") (js/setTimeout js/refreshBlockly 500))
                      :disabled     (if (= (read-ui app [:mode]) "view") "" "true")
                      } "Edit")
 

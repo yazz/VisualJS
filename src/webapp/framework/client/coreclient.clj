@@ -144,18 +144,7 @@
                    ]
 
 
-                  ~(get opts :on-mount )))
-
-
-          ~'om.core/IDidUpdate
-          (~'did-update
-           [~'this  ~'oldstate ~'newstate]
-           (~'let [
-                   ~'path           ~'(om.core/get-state owner :parent-path)
-                   ]
-
-
-                  ~(get opts :after-update )))))
+                  ~(get opts :on-mount )))))
 
 
        (webapp.framework.client.coreclient/process-ui-component  ~(str `~fn-name))
