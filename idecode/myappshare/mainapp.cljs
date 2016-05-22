@@ -67,20 +67,20 @@
      ;(js/alert (str "(get @app-state :ui :editor :mode):" (get @app-state :ui :editor :mode)))
     (let [
            code             (cond
-                              (= (get-in @app-state [:ui :ui :editor :mode])  "text")
+                              (= (get-in @app-state [:ui :editor :mode])  "text")
                                      (js/getCodeMirrorValue)
 
-                              (= (get-in @app-state [:ui :ui :editor :mode])  "blockly")
+                              (= (get-in @app-state [:ui :editor :mode])  "blockly")
                                      (js/getBlocklyValue))
 
-           blockly-xml      (if (= (get-in @app-state [:ui :ui :editor :mode])  "blockly")
+           blockly-xml      (if (= (get-in @app-state [:ui :editor :mode])  "blockly")
                               (js/getBlocklyXml))
 
            app-session-id   (str (js/getappsessionid) )
            ]
 
       (if
-        (= (get-in @app-state [:ui :ui :editor :mode])  "text")
+        (= (get-in @app-state [:ui :editor :mode])  "text")
         (do
           (remote !savecode {:id                 app-id
                              :code               (subs code 0 2000)
@@ -157,7 +157,7 @@
       (cond
         (= code-format "blockly")
         (do
-          (swap! app-state assoc-in [:ui :ui :editor :mode] "blockly")
+          (swap! app-state assoc-in [:ui :editor :mode] "blockly")
           ;(js/alert  (str (:blockly app-code-resp)))
           (js/setBlocklyXml (str (:blockly app-code-resp)))
           (js/populateEditor app-code-value)
@@ -165,7 +165,7 @@
 
         :else
         (do
-          (swap! app-state assoc-in [:ui :ui :editor :mode] "text")
+          (swap! app-state assoc-in [:ui :editor :mode] "text")
           (js/populateEditor app-code-value)
 
           (if user-can-edit-app
@@ -228,8 +228,8 @@
                  :aria-hidden "true"
                  :onClick     (fn [x]
                                 (go
-                                  (remote  !saveappglyph  {:id (read-ui app [:app-id])  :glyph (str %1)})
-                                  (write-ui app [:mode] "edit")))
+                                  (remote  !saveappglyph  {:id (get-in @app-state [:app-id])  :glyph (str %1)})
+                                  (swap! app-state assoc-in [:mode] "edit")))
                 } "")
          glyphs)
 
@@ -237,7 +237,7 @@
        (button {:style { :marginRight "30px" :marginBottom "10px" :marginTop "20px"}
                 :className "btn-lg btn-default"
                 :onClick     #(go
-                                (write-ui app [:mode] "edit"))}
+                                (swap! app-state assoc-in [:mode] "edit"))}
                "Cancel")
 
        ))
@@ -286,7 +286,10 @@
   (do
 
     (div {:style {
-                   :display (if (or (= (read-ui app [:ui :ui :editor :mode]) "blockly") (= (read-ui app [:ui :ui :editor :mode]) nil)) "display-inline" "none")
+                   :display (if (or (= (get-in @app-state [:ui :editor :mode]) "blockly")
+                                    (= (get-in @app-state [:ui :editor :mode]) nil))
+                              "display-inline"
+                              "none")
 
                    :background "white" :width "100%"  :height "800px" :align "top" :top "100px"  }}
 
@@ -349,7 +352,7 @@
               ))}
 
 
-  (div {:style {:display (if (= (read-ui app [:ui :ui :editor :mode]) "text") "inline-block" "none")}}
+  (div {:style {:display (if (= (get-in @app-state [:ui :editor :mode]) "text") "inline-block" "none")}}
          (textarea {:id "cm" :style {:width "600px" :height "800" :display "inline-block" }} "TEXT EDITOR")
 
        ))
@@ -372,20 +375,20 @@
 
   ;(or (and (= (read-ui app [:mode]) "view") (large-screen)) (= (read-ui app [:mode]) "edit"))
 
-  (div {:style {:display (if (= (read-ui app [:mode]) "edit") "inline-block" "none")}}
+  (div {:style {:display (if (= (get-in @app-state  [:mode]) "edit") "inline-block" "none")}}
        (realtime select   id, application_name, application_glyph
-                 from appshare_applications where id = ? {:params [(read-ui app [:app-id])]}
+                 from appshare_applications where id = ? {:params [(get-in @app-state [:app-id])]}
 
                  (div {:style {:marginLeft "20px" :padding "5px"}}
                       (cond
-                        (= (read-ui app [:ui :ui :editor :mode]) "text")
-                        (span {:onClick #(go  (write-ui app [:ui :ui :editor :mode] "blockly")
+                        (= (get-in @app-state [:ui :editor :mode]) "text")
+                        (span {:onClick #(go  (swap! app-state assoc-in [:ui :editor :mode] "blockly")
                                               (js/setTimeout js/refreshBlockly 500)
-                                              (touch [:ui :editor])
+                                              (js/setTimeout (fn [ee] (touch [:ui :editor])) 500)
                                               )} "Text | ")
 
-                        (or (= (read-ui app [:ui :ui :editor :mode]) "blockly") (= (read-ui app [:ui :ui :editor :mode]) nil))
-                        (span {:onClick #(go  (write-ui app [:ui :ui :editor :mode] "text")
+                        (or (= (get-in @app-state [:ui :editor :mode]) "blockly") (= (get-in @app-state [:ui :editor :mode]) nil))
+                        (span {:onClick #(go  (swap! app-state assoc-in [:ui :editor :mode] "text")
                                               (js/setTimeout js/refreshCodeMirror 500)
                                               (touch [])
                                               )} "Blockly | ")
@@ -393,9 +396,9 @@
 
 
                       (if (get @can-use-interfaces "edit.my.database")
-                        (span {:onClick #(go  (let [old-app-id   (read-ui app [:app-id])]
-                                                (write-ui app [:mode] "view")
-                                                (write-ui app [:app-id] (get @can-use-interfaces "edit.my.database"))
+                        (span {:onClick #(go  (let [old-app-id   (get-in @app-state [:app-id])]
+                                                (swap! app-state assoc-in [:mode] "view")
+                                                (swap! app-state assoc-in [:app-id] (get @can-use-interfaces "edit.my.database"))
                                                 (evalapp (get @can-use-interfaces "edit.my.database")   old-app-id nil))
                                               )} "Data | "))
 
@@ -403,26 +406,26 @@
 
 
                       (let [glyphicon (if (<-- :application_glyph)  (<-- :application_glyph) "glyphicon-align-left")]
-                        (span {:onClick #(go  (write-ui app [:mode] "editappglyph"))
+                        (span {:onClick #(go  (swap! app-state assoc-in [:mode] "editappglyph"))
                                :className (str "glyphicon " glyphicon)
                                :aria-hidden "true"} ""))
 
                       (span nil " | ")
 
                       (cond
-                        (and (= (read-ui app [:submode]) "editappname") (= (<-- :id ) (read-ui app [:app-id])))
+                        (and (= (get-in @app-state [:submode]) "editappname") (= (<-- :id ) (get-in @app-state [:app-id])))
                         (span nil
                               (input-field {:style {:marginLeft "20px" :color "black"} :placeholder  (str (<-- :application_name))}
                                            app
                                            (fn [new-name]
-                                             (let [id (read-ui app [:app-id])]
+                                             (let [id (get-in @app-state [:app-id])]
                                                (go
                                                  (sql "update  appshare_applications
                                                       set application_name = ?
                                                       where id = ?"
                                                       [new-name id ]  )
                                                  ;(js/alert (str new-name ":" id))
-                                                 (write-ui app [:submode] nil)
+                                                 (swap! app-state assoc-in [:submode] nil)
                                                  ))))
                               (span {:style {:marginLeft "20px" :color "white"} } "<<< Type new name and press Enter" ))
 
@@ -430,8 +433,8 @@
                         ; show the name of the app
                         :else
                         (do
-                          (span {:onClick     #(go  (write-ui app [:submode] "editappname")
-                                                    (write-ui app [:app-id] (<-- :id))
+                          (span {:onClick     #(go  (swap! app-state assoc-in [:submode] "editappname")
+                                                    (swap! app-state assoc-in [:app-id] (<-- :id))
                                                     )}
                                 (div {
 
@@ -446,10 +449,10 @@
                                 )))))
 
        (div {:style {:display "inline-block"}}
-            (component  text-editor-component  app  []))
+            (component  blockly-editor-component  app  [:ui :editor])
+            (component  text-editor-component  app  [:ui :editor])
+            )
 
-       (div {:style {:display "inline-block"}}
-            (component  blockly-editor-component  app  []))
 
        ))
 
