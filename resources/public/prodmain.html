@@ -322,6 +322,10 @@
         Blockly.mainWorkspace.clear();
         Blockly.Xml.domToWorkspace(workspace, xml);
       }
+
+      function refreshCodeMirror() {
+        myCodeMirror.refresh();
+      }
 </script>
 
     <script type="text/javascript" src="main.js"></script>

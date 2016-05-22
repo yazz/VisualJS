@@ -160,6 +160,7 @@
           (swap! app-state assoc :editor "blockly")
           ;(js/alert  (str (:blockly app-code-resp)))
           (js/setBlocklyXml (str (:blockly app-code-resp)))
+          (js/populateEditor app-code-value)
           )
 
         :else
@@ -376,10 +377,14 @@
                  (div {:style {:marginLeft "20px" :padding "5px"}}
                       (cond
                         (= (read-ui app [:editor]) "text")
-                        (span {:onClick #(go  (write-ui app [:editor] "blockly"))} "Text | ")
+                        (span {:onClick #(go  (write-ui app [:editor] "blockly")
+                                              (js/setTimeout js/refreshBlockly 500)
+                                              )} "Text | ")
 
                         (or (= (read-ui app [:editor]) "blockly") (= (read-ui app [:editor]) nil))
-                        (span {:onClick #(go  (write-ui app [:editor] "text"))} "Blockly | ")
+                        (span {:onClick #(go  (write-ui app [:editor] "text")
+                                              (js/setTimeout js/refreshCodeMirror 500)
+                                              )} "Blockly | ")
                         )
 
 
@@ -574,7 +579,11 @@
                              :fontFamily "Ubuntu"    :fontSize "1em"       :marginTop "0.3em"
                              :opacity  (if (= (read-ui app [:mode]) "view")  "1.0" "0.4")
                              }
-                     :onClick     #(go (write-ui app [:mode] "edit") (js/setTimeout js/refreshBlockly 500))
+                     :onClick     #(go (write-ui app [:mode] "edit")
+                                       (do
+                                         (js/setTimeout js/refreshBlockly 500)
+                                         (js/setTimeout js/refreshCodeMirror 500)
+                                       ))
                      :disabled     (if (= (read-ui app [:mode]) "view") "" "true")
                      } "Edit")
 
