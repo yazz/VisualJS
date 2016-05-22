@@ -337,6 +337,12 @@
         workspace.updateToolbox(ttt);
       }
 
+      function refreshBlockly() {
+        var xml = Blockly.Xml.workspaceToDom(workspace);
+        Blockly.mainWorkspace.clear();
+        Blockly.Xml.domToWorkspace(workspace, xml);
+      }
+
     </script>
 
     <script type="text/javascript" src="out/goog/base.js"></script>
