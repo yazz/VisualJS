@@ -18,7 +18,7 @@
    [myappshare.join :only  [join-component]]
    [myappshare.your-account :only  [your-account-component]]
    [myappshare.edit-data :only  [edit-data-component]]
-   [webapp.framework.client.system-globals :only  [client-session-atom  can-use-interfaces  debug-mode   app-state]]
+   [webapp.framework.client.system-globals :only  [client-session-atom  can-use-interfaces  debug-mode   app-state  touch]]
     )
 
   (:require-macros
@@ -64,23 +64,23 @@
 
 (defn reeval [app-id   calling-app-id]
   (go
-     ;(js/alert (str "(get @app-state :editor):" (get @app-state :editor)))
+     ;(js/alert (str "(get @app-state :ui :editor :mode):" (get @app-state :ui :editor :mode)))
     (let [
            code             (cond
-                              (= (get @app-state :editor)  "text")
+                              (= (get-in @app-state [:ui :ui :editor :mode])  "text")
                                      (js/getCodeMirrorValue)
 
-                              (= (get @app-state :editor)  "blockly")
+                              (= (get-in @app-state [:ui :ui :editor :mode])  "blockly")
                                      (js/getBlocklyValue))
 
-           blockly-xml      (if (= (get @app-state :editor)  "blockly")
+           blockly-xml      (if (= (get-in @app-state [:ui :ui :editor :mode])  "blockly")
                               (js/getBlocklyXml))
 
            app-session-id   (str (js/getappsessionid) )
            ]
 
       (if
-        (= (get @app-state :editor)  "text")
+        (= (get-in @app-state [:ui :ui :editor :mode])  "text")
         (do
           (remote !savecode {:id                 app-id
                              :code               (subs code 0 2000)
@@ -157,7 +157,7 @@
       (cond
         (= code-format "blockly")
         (do
-          (swap! app-state assoc :editor "blockly")
+          (swap! app-state assoc-in [:ui :ui :editor :mode] "blockly")
           ;(js/alert  (str (:blockly app-code-resp)))
           (js/setBlocklyXml (str (:blockly app-code-resp)))
           (js/populateEditor app-code-value)
@@ -165,7 +165,7 @@
 
         :else
         (do
-          (swap! app-state assoc :editor "text")
+          (swap! app-state assoc-in [:ui :ui :editor :mode] "text")
           (js/populateEditor app-code-value)
 
           (if user-can-edit-app
@@ -286,9 +286,11 @@
   (do
 
     (div {:style {
-                   :display (if (or (= (read-ui app [:editor]) "blockly") (= (read-ui app [:editor]) nil)) "display-inline" "none")
+                   :display (if (or (= (read-ui app [:ui :ui :editor :mode]) "blockly") (= (read-ui app [:ui :ui :editor :mode]) nil)) "display-inline" "none")
 
                    :background "white" :width "100%"  :height "800px" :align "top" :top "100px"  }}
+
+
 
 
 
@@ -347,7 +349,7 @@
               ))}
 
 
-  (div {:style {:display (if (= (read-ui app [:editor]) "text") "inline-block" "none")}}
+  (div {:style {:display (if (= (read-ui app [:ui :ui :editor :mode]) "text") "inline-block" "none")}}
          (textarea {:id "cm" :style {:width "600px" :height "800" :display "inline-block" }} "TEXT EDITOR")
 
        ))
@@ -376,14 +378,16 @@
 
                  (div {:style {:marginLeft "20px" :padding "5px"}}
                       (cond
-                        (= (read-ui app [:editor]) "text")
-                        (span {:onClick #(go  (write-ui app [:editor] "blockly")
+                        (= (read-ui app [:ui :ui :editor :mode]) "text")
+                        (span {:onClick #(go  (write-ui app [:ui :ui :editor :mode] "blockly")
                                               (js/setTimeout js/refreshBlockly 500)
+                                              (touch [:ui :editor])
                                               )} "Text | ")
 
-                        (or (= (read-ui app [:editor]) "blockly") (= (read-ui app [:editor]) nil))
-                        (span {:onClick #(go  (write-ui app [:editor] "text")
+                        (or (= (read-ui app [:ui :ui :editor :mode]) "blockly") (= (read-ui app [:ui :ui :editor :mode]) nil))
+                        (span {:onClick #(go  (write-ui app [:ui :ui :editor :mode] "text")
                                               (js/setTimeout js/refreshCodeMirror 500)
+                                              (touch [])
                                               )} "Blockly | ")
                         )
 
@@ -583,6 +587,7 @@
                                        (do
                                          (js/setTimeout js/refreshBlockly 500)
                                          (js/setTimeout js/refreshCodeMirror 500)
+
                                        ))
                      :disabled     (if (= (read-ui app [:mode]) "view") "" "true")
                      } "Edit")

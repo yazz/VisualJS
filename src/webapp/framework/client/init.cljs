@@ -46,7 +46,7 @@
          app-state
 
          (assoc-in
-           @app-state [:editor] "blockly"
+           @app-state [:ui :editor :mode] "blockly"
            ))
 
   ))})
