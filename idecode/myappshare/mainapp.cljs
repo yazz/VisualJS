@@ -113,6 +113,19 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 (defn evalapp [app-id   calling-app-id   args]
   (go
     ;(js/alert (str app-id))
@@ -132,6 +145,9 @@
                                     :else
                                     (:value app-code-resp))
 
+           user-can-edit-app (:value (remote  !user-can-edit-app?  {:id             app-id
+                                                                    :session-id     (:session-id @client-session-atom)}))
+
            ]
       ;(js/alert (pr-str "HOST SESSION ID: "   (:session-id @client-session-atom)))
       ;(js/alert (pr-str "CLIENT SESSION ID: " (js/getappsessionid)))
@@ -140,10 +156,22 @@
 
       (cond
         (= code-format "blockly")
-        (swap! app-state assoc :editor "blockly")
+        (do
+          (swap! app-state assoc :editor "blockly")
+          ;(js/alert  (str (:blockly app-code-resp)))
+          (js/setBlocklyXml (str (:blockly app-code-resp)))
+          )
 
         :else
-        (swap! app-state assoc :editor "text"))
+        (do
+          (swap! app-state assoc :editor "text")
+          (js/populateEditor app-code-value)
+
+          (if user-can-edit-app
+            (js/setCodeMirrorOption "readOnly" false)
+            (js/setCodeMirrorOption "readOnly" true)))
+
+        )
 
       (reset! can-use-interfaces (:can-use-interfaces app-code-resp))
       (js/callresetclientstate    app-session-id)
@@ -238,66 +266,79 @@
 
 
 
+
+
+
+
+
+
+
 (defn-ui-component     blockly-editor-component   [app]
   {:on-mount
    (do  (go
           (js/initBlockly)
-          (if  (read-ui app [:app-id])
-            (let [app-session-id    (str (js/getappsessionid))
+          ))
 
-                  x                 (remote  !getfilecontents  {:calling-from-application-id     (read-ui app [:app-id])
-                                                                :running-application-id          (read-ui app [:app-id])
-                                                                :app-session-id                  app-session-id})]
-
-              (js/setBlocklyXml (str (:blockly x)))
-              ))
+   :after-update
+   (js/refreshBlockly)
 
 
-          ))}
+   }
 
 
-  (div {:style {:background "white" :width "100%"  :height "800px" :align "top" :top "100px"  }}
+  (do
 
+    (div {:style {
+                   :display (if (or (= (read-ui app [:editor]) "blockly") (= (read-ui app [:editor]) nil)) "display-inline" "none")
 
-
-
-       (div {:id "blocklyCategorySelector" :style {:background "lightgrey"
-                                                   :color "black"
-                                                   :height "800px"
-                                                   :width "100px"
-                                                   :display "inline-block"
-                                                   :verticalAlign "text-top"}}
-            (add-blocks "Samples"  ["appshare_samples_helloworld"])
-
-
-            (add-blocks "Quick"     ["appshare_quick_app"])
-
-            ;(add-blocks "Forms"    ["appshare_basic_form"])
-
-            (add-blocks "Easy"     ["appshare_app"
-                                    "appshare_ui_component"
-                                    "appshare_div"
-                                    "appshare_no_attributes"
-                                    "appshare_element_attribute"
-                                    "appshare_element_text"])
-
-            )
+                   :background "white" :width "100%"  :height "800px" :align "top" :top "100px"  }}
 
 
 
 
-       (div {:id "blocklyDiv" :style {:verticalAlign "text-top"
-                                      :background     "white"
-                                      :color          "white"
-                                      :height         "800px"
-                                      :width          "500px"
-                                      :display        "inline-block"}} "")
+         (div {:id "blocklyCategorySelector" :style {:background "lightgrey"
+                                                     :color "black"
+                                                     :height "800px"
+                                                     :width "100px"
+                                                     :display "inline-block"
+                                                     :verticalAlign "text-top"}}
+              (add-blocks "Samples"  ["appshare_samples_helloworld"])
 
-       (pre {:id "blocklyCode" :style {:verticalAlign "text-top"
-                                       :background     "white"
-                                       :color          "black"
-                                       :height         "800px"
-                                       :width          "500px"}} "")))
+
+              (add-blocks "Quick"     ["appshare_quick_app"])
+
+              ;(add-blocks "Forms"    ["appshare_basic_form"])
+
+              (add-blocks "Easy"     ["appshare_app"
+                                      "appshare_ui_component"
+                                      "appshare_div"
+                                      "appshare_no_attributes"
+                                      "appshare_element_attribute"
+                                      "appshare_element_text"])
+
+              )
+
+
+
+
+         (div {:id "blocklyDiv" :style {:verticalAlign "text-top"
+                                        :background     "white"
+                                        :color          "white"
+                                        :height         "800px"
+                                        :width          "500px"
+                                        :display        "inline-block"}} "")
+
+         (pre {:id "blocklyCode" :style {:verticalAlign "text-top"
+                                         :background     "white"
+                                         :color          "black"
+                                         :height         "800px"
+                                         :width          "500px"}} ""))))
+
+
+
+
+
+
 
 
 
@@ -305,29 +346,11 @@
 (defn-ui-component     text-editor-component   [app]
   {:on-mount
    (do  (go
-          (if  (read-ui app [:app-id])
-            (let [app-session-id    (str (js/getappsessionid))
-
-                  x                 (remote  !getfilecontents  {:calling-from-application-id     (read-ui app [:app-id])
-                                                                :running-application-id          (read-ui app [:app-id])
-                                                                :app-session-id                  app-session-id})
-
-                  user-can-edit-app (:value (remote  !user-can-edit-app?  {:id             (read-ui app [:app-id])
-                                                                           :session-id     (:session-id @client-session-atom)}))]
-
               (js/createEditor)
-              (js/populateEditor (get x :value))
-
-              (if user-can-edit-app
-                (js/setCodeMirrorOption "readOnly" false)
-                (js/setCodeMirrorOption "readOnly" true))
+              ))}
 
 
-
-              ))))}
-
-
-  (div {}
+  (div {:style {:display (if (= (read-ui app [:editor]) "text") "inline-block" "none")}}
          (textarea {:id "cm" :style {:width "600px" :height "800" :display "inline-block" }} "TEXT EDITOR")
 
        ))
@@ -336,10 +359,19 @@
 
 
 
+
+
+
+
+
+
+
+
 (defn-ui-component     editor-component   [app]   {}
 
+  ;(or (and (= (read-ui app [:mode]) "view") (large-screen)) (= (read-ui app [:mode]) "edit"))
 
-  (div {}
+  (div {:style {:display (if (= (read-ui app [:mode]) "edit") "inline-block" "none")}}
        (realtime select   id, application_name, application_glyph
                  from appshare_applications where id = ? {:params [(read-ui app [:app-id])]}
 
@@ -405,13 +437,13 @@
                                      (str (<-- :application_name)))
                                 (span {:style {:marginLeft "20px" :color "white"} } "<<< Click to edit name" )
                                 )))))
-       (cond
-         (= (read-ui app [:editor]) "text")
-         (component  text-editor-component  app  [])
 
-         (or (= (read-ui app [:editor]) "blockly") (= (read-ui app [:editor]) nil))
-         (component  blockly-editor-component  app  [])
-         )
+       (div {:style {:display "inline-block"}}
+            (component  text-editor-component  app  []))
+
+       (div {:style {:display "inline-block"}}
+            (component  blockly-editor-component  app  []))
+
        ))
 
 
@@ -611,36 +643,37 @@
 
        (div {:style {:display "inline-block" :width "100%" :height "600px" :verticalAlign "top"}}
 
-            (cond
+            (div {:style {:display "inline-block" :verticalAlign "top"}}
+                 (component editor-component app []))
+            (div {:style {:display "inline-block" :verticalAlign "top"}}
+                 (cond
 
-              (or (= (read-ui app [:mode]) nil) (= (read-ui app [:mode]) "browse"))
-              (div {:style {}} (component browser-component app []))
-
-
-              ;(or (and (= (read-ui app [:mode]) "view") (large-screen)) (= (read-ui app [:mode]) "edit"))
-              (= (read-ui app [:mode]) "edit")
-              (div {:style {:display "inline-block"  :width "600px" :verticalAlign "top"} } (component editor-component app []))
-
-              (= (read-ui app [:mode]) "editappglyph")
-              (div {:style {} } (component edit-app-glyph-component app []))
+                   (or (= (read-ui app [:mode]) nil) (= (read-ui app [:mode]) "browse"))
+                   (div {:style {}} (component browser-component app []))
 
 
-              (= (read-ui app [:mode]) "join")
-              (div {:style {} } (component join-component app []))
 
-              (= (read-ui app [:mode]) "login")
-              (div {:style {} } (component login-component app []))
-
-              (= (read-ui app [:mode]) "account")
-              (div {:style {} } (component your-account-component app []))
-            )
+                   (= (read-ui app [:mode]) "editappglyph")
+                   (div {:style {} } (component edit-app-glyph-component app []))
 
 
-            (div {:style {:display (if
-                                     (or (= (read-ui app [:mode]) "view")
-                                         (and (= (read-ui app [:mode]) "edit") (large-screen)))
-                                     "inline-block" "none") :width "600px" :verticalAlign "top" :paddingTop "40px"} }
-                 (component  view-app-component  app [])))
+                   (= (read-ui app [:mode]) "join")
+                   (div {:style {} } (component join-component app []))
+
+                   (= (read-ui app [:mode]) "login")
+                   (div {:style {} } (component login-component app []))
+
+                   (= (read-ui app [:mode]) "account")
+                   (div {:style {} } (component your-account-component app []))
+                   ))
+
+
+            (div {:style {:display "inline-block" :verticalAlign "top"}}
+                 (div {:style {:display (if
+                                          (or (= (read-ui app [:mode]) "view")
+                                              (and (= (read-ui app [:mode]) "edit") (large-screen)))
+                                          "inline-block" "none") :width "600px" :verticalAlign "top" :paddingTop "40px"} }
+                      (component  view-app-component  app []))))
 
 
        ))
