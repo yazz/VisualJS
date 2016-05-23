@@ -288,10 +288,10 @@
     (div {:style {
                    :display (if (or (= (get-in @app-state [:ui :editor :mode]) "blockly")
                                     (= (get-in @app-state [:ui :editor :mode]) nil))
-                              "display-inline"
+                              "inline-block"
                               "none")
 
-                   :background "white" :width "100%"  :height "800px" :align "top" :top "100px"  }}
+                   :background2 "white" :width "100%"  :height "800px" :align "top" :top "100px"  }}
 
 
 
@@ -330,12 +330,20 @@
                                         :width          "500px"
                                         :display        "inline-block"}} "")
 
-         (pre {:id "blocklyCode" :style {:verticalAlign "text-top"
+         (div nil
+               (button {
+                         :onClick (fn[e] (swap! app-state assoc-in [:ui :editor :show-generated-code] true))
+                         :className    (if (small-screen) "btn btn-default" "btn-lg btn-default")} "Show generated code")
+
+         (pre {:id "blocklyCode" :style {:display (if (get-in @app-state [:ui :editor :show-generated-code])
+                                                    ""
+                                                    "none")
+                                         :verticalAlign "text-top"
                                          :background     "white"
                                          :color          "black"
                                          :height         "800px"
                                          :width          "500px"}} ""))))
-
+)
 
 
 
@@ -390,7 +398,7 @@
                         (or (= (get-in @app-state [:ui :editor :mode]) "blockly") (= (get-in @app-state [:ui :editor :mode]) nil))
                         (span {:onClick #(go  (swap! app-state assoc-in [:ui :editor :mode] "text")
                                               (js/setTimeout js/refreshCodeMirror 500)
-                                              (touch [])
+                                              (js/setTimeout (fn [ee] (touch [:ui :editor])) 500)
                                               )} "Blockly | ")
                         )
 
