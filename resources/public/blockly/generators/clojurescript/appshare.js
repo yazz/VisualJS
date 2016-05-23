@@ -45,7 +45,7 @@ Blockly.ClojureScript['appshare_app'] = function(block) {
 
 Blockly.ClojureScript['appshare_ui_component'] = function(block) {
   var main_div = Blockly.ClojureScript.statementToCode(block, 'main div element');
-  var code = '(defn-ui-component     main   [app] {}\r\n   ' + main_div + ')\r\n';
+  var code = '(defn-ui-component     main   [app] {}\r\n   (div   nil  \r\n' + main_div + '))\r\n';
   return code;
 };
 
