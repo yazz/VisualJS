@@ -245,17 +245,20 @@
 
 
 
+(def current-toolbox (atom ""))
 
 (defn add-blocks [section-name  block-names]
   (let [xxx (fn [e]
-              (do
-              (js/uuuttt
-                (str "<xml>"
-                     (apply str
-                            (map (fn [x] (str "<block type=\"" x "\"></block>"))
-                                 block-names))
-                     "</xml>")))
-              (swap! app-state assoc :blockly-category section-name)
+              (let [this-toolbox   (str "<xml>"
+                       (apply str
+                              (map (fn [x] (str "<block type=\"" x "\"></block>"))
+                                   block-names))
+                       "</xml>")]
+                (js/uuuttt  this-toolbox)
+                (reset! current-toolbox  this-toolbox)
+                (swap! app-state assoc :blockly-category section-name)
+                (js/setTimeout (fn [ee] (touch [:ui :editor])) 100)
+                )
               )]
     (div {
            :onMouseOver  xxx
@@ -303,7 +306,11 @@
                                                      :height "800px"
                                                      :width "100px"
                                                      :display "inline-block"
-                                                     :verticalAlign "text-top"}}
+                                                     :verticalAlign "text-top"}
+               :onMouseOver (fn[ee]
+                              (if @current-toolbox (js/uuuttt  @current-toolbox))
+                              )
+               }
               (add-blocks "Samples"  ["appshare_samples_helloworld"])
 
 
