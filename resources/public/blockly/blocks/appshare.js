@@ -39,7 +39,7 @@ Blockly.Blocks['appshare_ui_component'] = {
     this.appendDummyInput().appendField("UI component");
     this.setColour(130);
     this.appendDummyInput().appendField("");
-    this.appendDummyInput().appendField("Main Div");
+    this.appendDummyInput().appendField("Add Divs here");
     this.appendStatementInput("main div element").setCheck("HtmlElement");
     //this.setOutput(true, 'UiComponent')
     this.setPreviousStatement(true, null);
