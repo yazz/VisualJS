@@ -263,7 +263,8 @@
     (div {
            :onMouseOver  xxx
            :onTouchStart  xxx
-           :style {:backgroundColor
+           :style {:padding "10px"
+                    :backgroundColor
                    (if (= (get @app-state :blockly-category) section-name) "darkgray" "lightgray")}
            }
          section-name)))
@@ -304,6 +305,7 @@
          (div {:id "blocklyCategorySelector" :style {:background "lightgrey"
                                                      :color "black"
                                                      :height "800px"
+                                                     :fontSize "15px"
                                                      :width "100px"
                                                      :display "inline-block"
                                                      :verticalAlign "text-top"}
@@ -311,19 +313,23 @@
                               (if @current-toolbox (js/uuuttt  @current-toolbox))
                               )
                }
-              (add-blocks "Samples"  ["appshare_samples_helloworld"])
 
 
-              (add-blocks "Quick"     ["appshare_quick_app"])
 
               ;(add-blocks "Forms"    ["appshare_basic_form"])
 
-              (add-blocks "Easy"     ["appshare_app"
-                                      "appshare_ui_component"
-                                      "appshare_div"
-                                      "appshare_no_attributes"
-                                      "appshare_element_attribute"
-                                      "appshare_element_text"])
+              (add-blocks "Start"     ["appshare_app"])
+              (add-blocks "UI Blocks"     ["appshare_div"
+                                           "appshare_no_attributes"
+                                           "appshare_element_attribute"
+                                           "appshare_element_text"])
+
+              (add-blocks "My Blocks"     ["appshare_ui_component"
+                                               "appshare_div"
+                                               "appshare_no_attributes"
+                                               "appshare_element_attribute"
+                                               "appshare_element_text"])
+              (add-blocks "Samples"  [])
 
               )
 

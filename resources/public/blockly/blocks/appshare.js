@@ -5,17 +5,6 @@ goog.provide('Blockly.Blocks.appshare');
 goog.require('Blockly.Blocks');
 
 
-
-Blockly.Blocks['appshare_samples_helloworld'] = {
-  init: function() {
-    this.appendDummyInput().appendField("Hello World");
-    this.setTooltip('');
-    this.setHelpUrl('http://www.example.com/');
-    this.setColour(230);
-
-  }
-};
-
 Blockly.Blocks['appshare_app'] = {
   init: function() {
     this.appendDummyInput().appendField("Appshare Application");
@@ -23,12 +12,14 @@ Blockly.Blocks['appshare_app'] = {
     this.setHelpUrl('http://www.example.com/');
     this.setColour(230);
     this.appendDummyInput().appendField("");
-    this.appendDummyInput().appendField("Main Application Element");
-    this.appendStatementInput("main application element").setCheck("UiComponent");
+    this.appendDummyInput().appendField("Add UI blocks here");
+    this.appendStatementInput("main application element").setCheck("HtmlElement");
 
-    this.appendDummyInput().appendField("");
-    this.appendDummyInput().appendField("Optional Application Elements");
-    this.appendStatementInput("application elements").setCheck("ApplicationElement");
+    this.setColour(230);
+    this.appendDummyInput().appendField("Main Application Text")
+        .appendField(new Blockly.FieldTextInput("Type text here"), "VALUE");
+
+
   }
 };
 
@@ -128,20 +119,3 @@ Blockly.Blocks['appshare_element_text'] = {
 
 
 
-
-
-
-
-
-Blockly.Blocks['appshare_quick_app'] = {
-  init: function()
-  {
-    this.appendDummyInput().appendField("Quick app");
-    this.setTooltip('');
-    this.setHelpUrl('http://www.example.com/');
-    this.setColour(230);
-    this.appendDummyInput().appendField("Main Application Text")
-        .appendField(new Blockly.FieldTextInput("Type text here"), "VALUE");
-
-  }
-};
