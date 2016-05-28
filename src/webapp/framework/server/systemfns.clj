@@ -2394,7 +2394,7 @@
                            ["name"
 
                             (str
-                              "<xml xmlns=\"http://www.w3.org/1999/xhtml\"><block type=\"appshare_app\" id=\"!l)a_mnb@`(+hS99rySU\" x=\"170\" y=\"190\"><statement name=\"main application element\"><block type=\"appshare_ui_component\" id=\"kyI)G(A7i7f1;Oxp%4F%\"><statement name=\"main div element\"><block type=\"appshare_div\" id=\"brY})RgAu~zdsVIu|!b@\"><value name=\"ATTRIBUTES\"><block type=\"appshare_no_attributes\" id=\"dA`V!.T8(]=8WT{;5et,\"></block></value><statement name=\"more elements\"><block type=\"appshare_element_text\" id=\"rqS~mm*7R#G;lx4XRqb@\"><field name=\"VALUE\">My first app</field></block></statement></block></statement></block></statement></block></xml>")
+                              "<xml xmlns=\"http://www.w3.org/1999/xhtml\"><block type=\"appshare_element_text\" id=\"d?V/0)?e6WKZ+NR2PXE|\" x=\"190\" y=\"50\"><field name=\"VALUE\">Drags the blocks on the left</field></block><block type=\"appshare_element_br\" id=\"U6WZDp1Q,t{cst)udJXM\" x=\"210\" y=\"96\"></block><block type=\"appshare_element_text\" id=\"KZ*thb:kjZx#BEgF|Dq%\" x=\"190\" y=\"150\"><field name=\"VALUE\">...</field></block><block type=\"appshare_element_br\" id=\"`:n[GgLg5RHREGdii]Oc\" x=\"210\" y=\"190\"></block><block type=\"appshare_element_text\" id=\"K~Ozon5%-t4sdwy:27cy\" x=\"190\" y=\"250\"><field name=\"VALUE\">And see the result on the right</field></block></xml>")
 
 
                             (:id publisher)]

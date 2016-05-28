@@ -247,29 +247,44 @@
 
 (def current-toolbox (atom ""))
 
+
+(def basic-blocks  [
+                     "appshare_element_text"
+                     "appshare_element_br"
+                     "appshare_element_box"
+                     ])
+
+
+
+
+(defn show-blocks [section-name  block-names]
+  (let [this-toolbox   (str "<xml>"
+                            (apply str
+                                   (map (fn [x] (str "<block type=\"" x "\"></block>"))
+                                        block-names))
+                            "</xml>")]
+    (js/uuuttt  this-toolbox)
+    (reset! current-toolbox  this-toolbox)
+    (swap! app-state assoc :blockly-category section-name)
+    )
+  )
+
+
+
+
+
 (defn add-blocks [section-name  block-names]
-  (let [xxx (fn [e]
-              (let [this-toolbox   (str "<xml>"
-                       (apply str
-                              (map (fn [x] (str "<block type=\"" x "\"></block>"))
-                                   block-names))
-                       "</xml>")]
-                (js/uuuttt  this-toolbox)
-                (reset! current-toolbox  this-toolbox)
-                (swap! app-state assoc :blockly-category section-name)
-                (js/setTimeout (fn [ee] (touch [:ui :editor])) 100)
-                )
-              )]
+
     (div {
-           :onMouseOver  xxx
-           :onTouchStart  xxx
+           :onMouseOver  (fn [e] (show-blocks  section-name  block-names))
+           :onTouchStart  (fn [e] (show-blocks  section-name  block-names))
 
            :style {:display "inline-block"
                    :padding "10px"
                     :backgroundColor
                    (if (= (get @app-state :blockly-category) section-name) "darkgray" "lightgray")}
            }
-         section-name)))
+         section-name))
 
 
 
@@ -284,6 +299,8 @@
   {:on-mount
    (do  (go
           (js/initBlockly)
+
+          (show-blocks  "Basic"  basic-blocks)
           ))
 
    }
@@ -306,11 +323,7 @@
 
             ;(add-blocks "Forms"    ["appshare_basic_form"])
 
-            (add-blocks "Basic"     [
-                                      "appshare_element_text"
-                                      "appshare_element_br"
-                                      "appshare_element_box"
-                                      ])
+            (add-blocks "Basic"     basic-blocks)
 
             (add-blocks "Medium"     ["appshare_div"
                                       "appshare_no_attributes"

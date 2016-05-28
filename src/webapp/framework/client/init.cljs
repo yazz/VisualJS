@@ -48,7 +48,6 @@
          (assoc-in
            @app-state [:ui :editor :mode] "blockly"
            ))
-
   ))})
 
 
