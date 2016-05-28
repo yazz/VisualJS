@@ -275,18 +275,26 @@
 
 
       var toolbox = '<xml id="toolbox"  style="display: none"></xml>';
-      function myUpdateFunction(event) {
-        var code = Blockly.ClojureScript.workspaceToCode(workspace);
 
-        document.getElementById('blocklyCode').innerHTML = code;
-        uuuttt(toolbox);
-        myappshare.mainapp.refreshapp();
-      }
 
 
       function getBlocklyValue()
       {
-        return Blockly.ClojureScript.workspaceToCode(workspace);
+        var inline = Blockly.ClojureScript.workspaceToCode(workspace);
+        var code = '(defn-ui-component     main   [app] {}\n\
+(div   nil  ' + inline + '\n\
+))';
+        return code;
+      }
+
+
+
+      function myUpdateFunction(event) {
+        var code = getBlocklyValue();
+
+        document.getElementById('blocklyCode').innerHTML = code;
+        //uuuttt(toolbox);
+        myappshare.mainapp.refreshapp();
       }
 
 

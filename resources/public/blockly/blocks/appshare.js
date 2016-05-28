@@ -93,6 +93,7 @@ Blockly.Blocks['appshare_element_attribute'] = {
     this.setTooltip('');
     this.setHelpUrl('http://www.example.com/');
   }
+
 };
 
 
@@ -117,5 +118,32 @@ Blockly.Blocks['appshare_element_text'] = {
 
 
 
+
+Blockly.Blocks['appshare_element_br'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Newline");
+    this.appendDummyInput().setAlign(Blockly.ALIGN_RIGHT);
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, "HtmlElement");
+    this.setNextStatement(true, "HtmlElement");
+    this.setColour(230);
+    this.setTooltip('');
+  }
+};
+
+
+Blockly.Blocks['appshare_element_box'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Box");
+    this.appendDummyInput().setAlign(Blockly.ALIGN_RIGHT);
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, "HtmlElement");
+    this.setNextStatement(true, "HtmlElement");
+    this.setColour(230);
+    this.setTooltip('');
+  }
+};
 
 

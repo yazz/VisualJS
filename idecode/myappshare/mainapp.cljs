@@ -263,7 +263,9 @@
     (div {
            :onMouseOver  xxx
            :onTouchStart  xxx
-           :style {:padding "10px"
+
+           :style {:display "inline-block"
+                   :padding "10px"
                     :backgroundColor
                    (if (= (get @app-state :blockly-category) section-name) "darkgray" "lightgray")}
            }
@@ -287,7 +289,43 @@
    }
 
 
-  (do
+  (div nil
+
+
+       (div {:id "blocklyCategorySelector" :style {:background "lightgrey"
+                                                   :color "black"
+                                                   :height "50px"
+                                                   :fontSize "15px"
+                                                   :verticalAlign "text-top"}
+             :onMouseOver (fn[ee]
+                            (if @current-toolbox (js/uuuttt  @current-toolbox))
+                            )
+             }
+
+
+
+            ;(add-blocks "Forms"    ["appshare_basic_form"])
+
+            (add-blocks "Basic"     [
+                                      "appshare_element_text"
+                                      "appshare_element_br"
+                                      "appshare_element_box"
+                                      ])
+
+            (add-blocks "Medium"     ["appshare_div"
+                                      "appshare_no_attributes"
+                                      "appshare_element_attribute"
+                                      "appshare_element_text"])
+
+            (add-blocks "Hard"     ["appshare_ui_component"
+                                    "appshare_div"
+                                    "appshare_no_attributes"
+                                    "appshare_element_attribute"
+                                    "appshare_element_text"])
+            (add-blocks "Extreme"  [])
+
+            )
+
 
     (div {:style {
                    :display (if (or (= (get-in @app-state [:ui :editor :mode]) "blockly")
@@ -302,36 +340,6 @@
 
 
 
-         (div {:id "blocklyCategorySelector" :style {:background "lightgrey"
-                                                     :color "black"
-                                                     :height "800px"
-                                                     :fontSize "15px"
-                                                     :width "100px"
-                                                     :display "inline-block"
-                                                     :verticalAlign "text-top"}
-               :onMouseOver (fn[ee]
-                              (if @current-toolbox (js/uuuttt  @current-toolbox))
-                              )
-               }
-
-
-
-              ;(add-blocks "Forms"    ["appshare_basic_form"])
-
-              (add-blocks "Start"     ["appshare_app"])
-              (add-blocks "UI Blocks"     ["appshare_div"
-                                           "appshare_no_attributes"
-                                           "appshare_element_attribute"
-                                           "appshare_element_text"])
-
-              (add-blocks "My Blocks"     ["appshare_ui_component"
-                                               "appshare_div"
-                                               "appshare_no_attributes"
-                                               "appshare_element_attribute"
-                                               "appshare_element_text"])
-              (add-blocks "Samples"  [])
-
-              )
 
 
 
