@@ -276,8 +276,10 @@
 (defn add-blocks [section-name  block-names]
 
     (div {
-           :onMouseOver  (fn [e] (show-blocks  section-name  block-names))
-           :onTouchStart  (fn [e] (show-blocks  section-name  block-names))
+           :onMouseOver  (fn [e] (do (show-blocks  section-name  block-names)
+                                       (js/setTimeout (fn [ee] (touch [:ui :editor])) 100)))
+           :onTouchStart  (fn [e] (do (show-blocks  section-name  block-names)
+                                       (js/setTimeout (fn [ee] (touch [:ui :editor])) 100)))
 
            :style {:display "inline-block"
                    :padding "10px"

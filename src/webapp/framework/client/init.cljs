@@ -42,12 +42,10 @@
 
         }))
 
-       (reset!
-         app-state
+       (reset!  app-state  (assoc-in @app-state [:blockly-category] "Basic"))
 
-         (assoc-in
-           @app-state [:ui :editor :mode] "blockly"
-           ))
+       (reset!  app-state  (assoc-in @app-state [:ui :editor :mode] "blockly"))
+
   ))})
 
 
