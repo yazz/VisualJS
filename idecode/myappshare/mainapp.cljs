@@ -108,9 +108,6 @@
 
 
 
-(defn  ^:export refreshapp []
-  (reeval (get @app-state :app-id) nil))
-
 
 
 
@@ -272,6 +269,14 @@
 
 
 
+(defn  ^:export refreshapp []
+  (do
+    (reeval (get @app-state :app-id) nil)
+    (show-blocks  "Basic"  basic-blocks)))
+
+
+
+
 
 (defn add-blocks [section-name  block-names]
 
@@ -293,7 +298,8 @@
 
 
 
-
+(defn ^:export dooo []
+  (show-blocks  "Basic"  basic-blocks))
 
 
 
@@ -301,8 +307,6 @@
   {:on-mount
    (do  (go
           (js/initBlockly)
-
-          (show-blocks  "Basic"  basic-blocks)
           ))
 
    }
