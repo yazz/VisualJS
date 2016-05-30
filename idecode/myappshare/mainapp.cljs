@@ -334,7 +334,7 @@
 
                    :style {:display "inline-block"
                            :padding "10px"
-                           :backgroundColor "lightblue" }
+                           :backgroundColor "gray" }
                    }
                  "Clear")
             ;(add-blocks "Forms"    ["appshare_basic_form"])
