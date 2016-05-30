@@ -78,6 +78,19 @@ Blockly.ClojureScript['appshare_element_text'] = function(block) {
 
 
 
+Blockly.ClojureScript['appshare_element_header'] = function(block) {
+  // TODO: Assemble JavaScript into code variable.
+
+  var value_attributes = ''   + block.getFieldValue('VALUE')
+
+
+  var code = '(div {:style {:fontSize "3em" :display "inline-block"}} "' + value_attributes + '"' + ')\n' ;
+
+  return code;
+};
+
+
+
 
 
 
@@ -98,6 +111,16 @@ Blockly.ClojureScript['appshare_element_box'] = function(block) {
 
 
   var code = '(div {:style {:border "1px solid black" :width "200px" :height "200px" :display "inline-block"}} "")' ;
+
+  return code;
+};
+
+
+Blockly.ClojureScript['appshare_element_padding'] = function(block) {
+  // TODO: Assemble JavaScript into code variable.
+
+
+  var code = '(div {:style {:padding "10px" :display "inline-block"}} "")' ;
 
   return code;
 };

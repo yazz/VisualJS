@@ -246,9 +246,11 @@
 
 
 (def basic-blocks  [
+                     "appshare_element_header"
                      "appshare_element_text"
                      "appshare_element_br"
                      "appshare_element_box"
+                     "appshare_element_padding"
                      ])
 
 
@@ -339,17 +341,18 @@
 
             (add-blocks "Basic"     basic-blocks)
 
-            (add-blocks "Medium"     ["appshare_div"
+            (add-blocks "Text"     ["appshare_div"
                                       "appshare_no_attributes"
                                       "appshare_element_attribute"
                                       "appshare_element_text"])
 
-            (add-blocks "Hard"     ["appshare_ui_component"
+            (add-blocks "Shapes"   [])
+
+            (add-blocks "Custom"  ["appshare_ui_component"
                                     "appshare_div"
                                     "appshare_no_attributes"
                                     "appshare_element_attribute"
                                     "appshare_element_text"])
-            (add-blocks "Extreme"  [])
 
             )
 

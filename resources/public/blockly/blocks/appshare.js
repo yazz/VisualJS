@@ -99,6 +99,26 @@ Blockly.Blocks['appshare_element_attribute'] = {
 
 
 
+
+Blockly.Blocks['appshare_element_header'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Header text")
+        .appendField(new Blockly.FieldTextInput("Header text"), "VALUE");
+
+    this.appendDummyInput().setAlign(Blockly.ALIGN_RIGHT);
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, "HtmlElement");
+    this.setNextStatement(true, "HtmlElement");
+    this.setColour(230);
+    this.setTooltip('');
+    //this.setOutput(true, 'HtmlElement')
+    this.setHelpUrl('http://www.example.com/');
+  }
+};
+
+
+
 Blockly.Blocks['appshare_element_text'] = {
   init: function() {
     this.appendDummyInput()
@@ -137,6 +157,21 @@ Blockly.Blocks['appshare_element_box'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Box");
+    this.appendDummyInput().setAlign(Blockly.ALIGN_RIGHT);
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, "HtmlElement");
+    this.setNextStatement(true, "HtmlElement");
+    this.setColour(230);
+    this.setTooltip('');
+  }
+};
+
+
+
+Blockly.Blocks['appshare_element_padding'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Padding");
     this.appendDummyInput().setAlign(Blockly.ALIGN_RIGHT);
     this.setInputsInline(true);
     this.setPreviousStatement(true, "HtmlElement");
