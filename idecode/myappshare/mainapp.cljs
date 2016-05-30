@@ -326,7 +326,15 @@
              }
 
 
+            (div {
+                   :onClick  (fn [e] (js/clearBlockly))
+                   :onTouchStart  (fn [e] (js/clearBlockly))
 
+                   :style {:display "inline-block"
+                           :padding "10px"
+                           :backgroundColor "lightblue" }
+                   }
+                 "Clear")
             ;(add-blocks "Forms"    ["appshare_basic_form"])
 
             (add-blocks "Basic"     basic-blocks)
