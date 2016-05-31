@@ -186,3 +186,12 @@ Blockly.ClojureScript.scrub_ = function(block, code) {
   var nextCode = Blockly.ClojureScript.blockToCode(nextBlock);
   return commentCode + code + nextCode;
 };
+
+
+
+
+
+
+Blockly.ClojureScript.workspaceToCode = function(workspace) {
+  return Blockly.Generator.prototype.workspaceToCode.call(this, workspace);
+}

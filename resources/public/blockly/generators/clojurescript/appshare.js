@@ -124,3 +124,18 @@ Blockly.ClojureScript['appshare_element_padding'] = function(block) {
 
   return code;
 };
+
+
+
+
+
+
+
+Blockly.ClojureScript['appshare_custom_component'] = function(block) {
+  // TODO: Assemble JavaScript into code variable.
+
+
+  var code = '(defn-ui-component     new-do-item-component   [app] {} (div nil "abc"))' ;
+
+  return code;
+};

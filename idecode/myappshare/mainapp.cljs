@@ -341,6 +341,10 @@
 
             (add-blocks "Basic"     basic-blocks)
 
+            (add-blocks "Glue"     ["appshare_custom_component"])
+
+
+
             (add-blocks "Text"     ["appshare_div"
                                       "appshare_no_attributes"
                                       "appshare_element_attribute"

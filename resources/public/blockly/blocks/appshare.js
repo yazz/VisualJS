@@ -182,3 +182,17 @@ Blockly.Blocks['appshare_element_padding'] = {
 };
 
 
+
+
+
+Blockly.Blocks['appshare_custom_component'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Thing")
+        .appendField(new Blockly.FieldTextInput("Component name"), "COMPONENT_NAME");
+    this.setColour(230);
+    this.appendDummyInput().appendField("");
+    this.appendDummyInput().appendField("Add DIV blocks here");
+    this.appendStatementInput("UI").setCheck("HtmlElement");
+  }
+}
