@@ -271,9 +271,15 @@
 
 
 
+
       function getBlocklyValue()
       {
-        var inline = Blockly.ClojureScript.workspaceToCode(workspace);
+
+        var dom = Blockly.Xml.workspaceToDom(workspace);
+        var headlessWorkspace = new Blockly.Workspace();
+        Blockly.Xml.domToWorkspace(dom, headlessWorkspace);
+
+        var inline = Blockly.ClojureScript.workspaceToCode(headlessWorkspace);
         var code = '(defn-ui-component     main   [app] {}\n\
 (div   nil  ' + inline + '\n\
 ))';
@@ -331,6 +337,8 @@
         workspace.addChangeListener(myUpdateFunction);
         Blockly.fireUiEvent(window, 'resize')
         workspace.updateToolbox(toolbox);
+
+        //headlessWorkspace = new Blockly.Workspace();
 
       }
 
