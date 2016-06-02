@@ -98,6 +98,8 @@
                                    :app-session-id     app-session-id}))
 
       (swap! ns-counter inc)
+      ;(js/alert (str  @ns-counter))
+      (touch [:ui])
       (js/sendcode  (str (start) code (end))
                     calling-app-id
                     ;"reevalapp"
@@ -105,10 +107,6 @@
                              )
                     )
       )))
-
-
-
-
 
 
 
@@ -303,6 +301,8 @@
 (defn ^:export dooo []
   (show-blocks  "Basic"  basic-blocks))
 
+(defn ^:export calcEvals []
+  @ns-counter)
 
 
 (defn-ui-component     blockly-editor-component   [app]
@@ -391,14 +391,17 @@
                          :onClick (fn[e] (swap! app-state assoc-in [:ui :editor :show-generated-code] true))
                          :className    (if (small-screen) "btn btn-default" "btn-lg btn-default")} "Show generated code")
 
-         (pre {:id "blocklyCode" :style {:display (if (get-in @app-state [:ui :editor :show-generated-code])
-                                                    ""
-                                                    "none")
-                                         :verticalAlign "text-top"
-                                         :background     "white"
-                                         :color          "black"
-                                         :height         "800px"
-                                         :width          "500px"}} ""))))
+
+              (div nil
+                   (div {:id "numberOfEvals"} "...")
+                   (pre {:id "blocklyCode" :style {:display (if (get-in @app-state [:ui :editor :show-generated-code])
+                                                              ""
+                                                              "none")
+                                                   :verticalAlign "text-top"
+                                                   :background     "white"
+                                                   :color          "black"
+                                                   :height         "800px"
+                                                   :width          "500px"}}  "")))))
 )
 
 

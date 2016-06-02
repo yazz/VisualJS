@@ -305,6 +305,8 @@
         var code = getBlocklyValue();
 
         document.getElementById('blocklyCode').innerHTML = code;
+        calcEvals = myappshare.mainapp.calcEvals();
+        document.getElementById('numberOfEvals').innerHTML = '' + calcEvals;
         //uuuttt(toolbox);
         myappshare.mainapp.refreshapp();
       }

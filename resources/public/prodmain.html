@@ -293,6 +293,8 @@
 
         document.getElementById('blocklyCode').innerHTML = code;
         //uuuttt(toolbox);
+        calcEvals = myappshare.mainapp.calcEvals();
+        document.getElementById('numberOfEvals').innerHTML = '' + calcEvals;
         myappshare.mainapp.refreshapp();
       }
 
