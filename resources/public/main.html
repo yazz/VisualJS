@@ -293,6 +293,7 @@
         Blockly.Xml.domToWorkspace(dom, headlessWorkspace);
 
         var inline = Blockly.ClojureScript.workspaceToCode(headlessWorkspace);
+        headlessWorkspace.dispose();
         var code = '(defn-ui-component     main   [app] {}\n\
 (div   nil  ' + inline + '\n\
 ))';
