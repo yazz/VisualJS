@@ -276,11 +276,11 @@
       {
 
         var dom = Blockly.Xml.workspaceToDom(workspace);
-        var headlessWorkspace = new Blockly.Workspace();
-        Blockly.Xml.domToWorkspace(dom, headlessWorkspace);
+        //var headlessWorkspace = new Blockly.Workspace();
+        //Blockly.Xml.domToWorkspace(dom, headlessWorkspace);
 
-        var inline = Blockly.ClojureScript.workspaceToCode(headlessWorkspace);
-        headlessWorkspace.dispose();
+        var inline = Blockly.ClojureScript.workspaceToCode(workspace);
+        //headlessWorkspace.dispose();
         var code = '(defn-ui-component     main   [app] {}\n\
 (div   nil  ' + inline + '\n\
 ))';
