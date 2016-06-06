@@ -39,6 +39,7 @@
 
 
 (def ns-counter (atom 0))
+(def in-eval (atom false))
 
 (defn start [] (str "(ns webapp.framework.client.fns" @ns-counter "\n
   (:require-macros
@@ -63,15 +64,17 @@
 
 
 (defn reeval [app-id   calling-app-id]
+  (if (not @in-eval)
   (go
-     ;(js/alert (str "(get @app-state :ui :editor :mode):" (get @app-state :ui :editor :mode)))
+    (reset! in-eval true)
+    ;(js/alert (str "(get @app-state :ui :editor :mode):" (get @app-state :ui :editor :mode)))
     (let [
            code             (cond
                               (= (get-in @app-state [:ui :editor :mode])  "text")
-                                     (js/getCodeMirrorValue)
+                              (js/getCodeMirrorValue)
 
                               (= (get-in @app-state [:ui :editor :mode])  "blockly")
-                                     (js/getBlocklyValue))
+                              (js/getBlocklyValue))
 
            blockly-xml      (if (= (get-in @app-state [:ui :editor :mode])  "blockly")
                               (js/getBlocklyXml))
@@ -106,7 +109,8 @@
                     (clj->js "REV first one"
                              )
                     )
-      )))
+      (reset! in-eval false)
+      ))))
 
 
 
@@ -122,7 +126,9 @@
 
 
 (defn evalapp [app-id   calling-app-id   args]
+  (if (not @in-eval)
   (go
+    (reset! in-eval true)
     ;(js/alert (str app-id))
     (let [
            app-session-id   (str (js/getappsessionid))
@@ -179,7 +185,10 @@
                    (clj->js ;["a" "b" {:d 1 :r "sfs"}]
                             "first one"
                             )
-                   ))))
+                   )
+      (reset! in-eval false)
+
+      ))))
 
 
 
@@ -296,6 +305,8 @@
 
 
 
+(defn ^:export inEval []
+  @in-eval)
 
 
 (defn ^:export dooo []

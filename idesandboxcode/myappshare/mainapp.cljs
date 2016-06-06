@@ -56,7 +56,7 @@
   (do
     (swap! autoin inc)
     (let [filename (str "/appshare/outide/" (:path lib) ".cljs?autoin=" @autoin )]
-      (log (str "load-fn:" filename))
+      ;(log (str "load-fn:" filename))
       (get-file   filename
                   (fn [src]
                     (do
@@ -87,7 +87,7 @@
 
                    (fn [result]
                      (do
-                       (log     (pr-str result))
+                       ;(log     (pr-str result))
                        (js/eval (:value result))
 
                        ;(js/alert (str ":"  (js->clj args)))

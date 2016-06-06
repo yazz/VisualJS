@@ -303,10 +303,15 @@
 
 
       function myUpdateFunction(event) {
+        if (event.type == 'ui') {return;}
+        inEval = myappshare.mainapp.inEval();
+        if (inEval) {return;}
+
         var code = getBlocklyValue();
 
         document.getElementById('blocklyCode').innerHTML = code;
         calcEvals = myappshare.mainapp.calcEvals();
+        console.log("Event.type= " + event.type + " : " + calcEvals);
         document.getElementById('numberOfEvals').innerHTML = '' + calcEvals;
         //uuuttt(toolbox);
         myappshare.mainapp.refreshapp();
