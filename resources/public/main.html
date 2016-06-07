@@ -302,15 +302,21 @@
 
 
 
+      lastEval = -1;
       function myUpdateFunction(event) {
         if (event.type == 'ui') {return;}
         inEval = myappshare.mainapp.inEval();
         if (inEval) {return;}
 
+        calcEvals = myappshare.mainapp.calcEvals();
+        if (calcEvals == lastEval) {return;}
+
+        lastEval = calcEvals;
+
+
         var code = getBlocklyValue();
 
         document.getElementById('blocklyCode').innerHTML = code;
-        calcEvals = myappshare.mainapp.calcEvals();
         console.log("Event.type= " + event.type + " : " + calcEvals);
         document.getElementById('numberOfEvals').innerHTML = '' + calcEvals;
         //uuuttt(toolbox);
@@ -334,6 +340,7 @@
         Blockly.mainWorkspace.clear();
         var xml = Blockly.Xml.textToDom(xml_text);
         Blockly.Xml.domToWorkspace(xml, workspace);
+        centerBlocks();
       }
 
 
@@ -359,6 +366,7 @@
         Blockly.fireUiEvent(window, 'resize')
         workspace.updateToolbox(toolbox);
 
+
         //headlessWorkspace = new Blockly.Workspace();
 
       }
@@ -381,7 +389,14 @@
       function clearBlockly() {
         Blockly.mainWorkspace.clear();
       }
-    </script>
+
+      function centerBlocks() {
+        Blockly.mainWorkspace.scrollX =  250;
+        Blockly.mainWorkspace.scrollY =  0;
+        refreshBlockly();
+         //Blockly.mainWorkspace.scrollbar.set(20,550);
+      }
+  </script>
 
     <script type="text/javascript" src="out/goog/base.js"></script>
 
