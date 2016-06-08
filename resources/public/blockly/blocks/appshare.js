@@ -168,10 +168,10 @@ Blockly.Blocks['appshare_element_box'] = {
 
 
 
-Blockly.Blocks['appshare_element_padding'] = {
+Blockly.Blocks['appshare_element_left_padding'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("Padding");
+        .appendField("Left Padding");
     this.appendDummyInput().setAlign(Blockly.ALIGN_RIGHT);
     this.setInputsInline(true);
     this.setPreviousStatement(true, "HtmlElement");
@@ -181,6 +181,18 @@ Blockly.Blocks['appshare_element_padding'] = {
   }
 };
 
+Blockly.Blocks['appshare_element_top_padding'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Top Padding");
+    this.appendDummyInput().setAlign(Blockly.ALIGN_RIGHT);
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, "HtmlElement");
+    this.setNextStatement(true, "HtmlElement");
+    this.setColour(230);
+    this.setTooltip('');
+  }
+};
 
 
 

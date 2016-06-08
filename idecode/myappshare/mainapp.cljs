@@ -257,7 +257,8 @@
                      "appshare_element_text"
                      "appshare_element_br"
                      "appshare_element_box"
-                     "appshare_element_padding"
+                     "appshare_element_left_padding"
+                     "appshare_element_top_padding"
                      ])
 
 

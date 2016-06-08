@@ -116,11 +116,24 @@ Blockly.ClojureScript['appshare_element_box'] = function(block) {
 };
 
 
-Blockly.ClojureScript['appshare_element_padding'] = function(block) {
+Blockly.ClojureScript['appshare_element_left_padding'] = function(block) {
   // TODO: Assemble JavaScript into code variable.
 
 
   var code = '(div {:style {:padding "10px" :display "inline-block"}} "")' ;
+
+  return code;
+};
+
+
+
+
+
+Blockly.ClojureScript['appshare_element_top_padding'] = function(block) {
+  // TODO: Assemble JavaScript into code variable.
+
+
+  var code = '(div {:style {:padding "10px" }} "")' ;
 
   return code;
 };
