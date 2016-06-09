@@ -272,18 +272,48 @@
 
 
 
+//<xml xmlns="http://www.w3.org/1999/xhtml">
+//    <block type="appshare_ui_component" x="70" y="-90">
+//        <statement name="main div element">
+//             <block type="appshare_element_text">
+//                 <field name="VALUE">Type text here</field>
+//                     <next>
+//                         <block type="appshare_element_box" >
+//                         </block>
+//                     </next>
+//             </block>
+//         </statement>
+//    </block>
+//</xml>
+      function rearrangeDom(dom)
+      {
+        var mainProg = document.createElement("block");
+        mainProg.setAttribute("type","appshare_ui_component");
+        var mainStatement = document.createElement("statement");
+        mainStatement.setAttribute("name","main div element");
+        mainProg.appendChild(mainStatement);
+
+        var blocks = dom.children;
+        for (i = 0; i  < blocks.length; i++) {
+          var block = blocks[i];
+          mainStatement.appendChild(block);
+        };
+        dom.appendChild(mainProg);
+      }
+
       function getBlocklyValue()
       {
 
         var dom = Blockly.Xml.workspaceToDom(workspace);
-        //var headlessWorkspace = new Blockly.Workspace();
-        //Blockly.Xml.domToWorkspace(dom, headlessWorkspace);
+        var headlessWorkspace = new Blockly.Workspace();
+        rearrangeDom(dom);
+        Blockly.Xml.domToWorkspace(dom, headlessWorkspace);
 
-        var inline = Blockly.ClojureScript.workspaceToCode(workspace);
-        //headlessWorkspace.dispose();
-        var code = '(defn-ui-component     main   [app] {}\n\
-(div   nil  ' + inline + '\n\
-))';
+
+        var inline = Blockly.ClojureScript.workspaceToCode(headlessWorkspace);
+        headlessWorkspace.dispose();
+        var code = inline;
+
         return code;
       }
 
@@ -309,7 +339,6 @@
         //uuuttt(toolbox);
         myappshare.mainapp.refreshapp();
       }
-
 
 
 
@@ -354,6 +383,7 @@
         Blockly.fireUiEvent(window, 'resize')
         workspace.updateToolbox(toolbox);
 
+
         //headlessWorkspace = new Blockly.Workspace();
 
       }
@@ -383,7 +413,6 @@
         refreshBlockly();
          //Blockly.mainWorkspace.scrollbar.set(20,550);
       }
-
 </script>
 
     <script type="text/javascript" src="main.js"></script>
