@@ -238,3 +238,193 @@ function stringStartsWith (string, prefix) {
 function setCodeMirrorOption(optionname , optionvalue) {
   myCodeMirror.setOption(optionname, optionvalue);
 }
+
+
+
+
+
+      var toolbox = '<xml id="toolbox"  style="display: none"></xml>';
+
+
+//<xml xmlns="http://www.w3.org/1999/xhtml">
+//    <block type="appshare_ui_component" x="70" y="-90">
+//        <statement name="main div element">
+//             <block type="appshare_element_text">
+//                 <field name="VALUE">Type text here</field>
+//                 <next>
+//                     <block type="appshare_element_box"></block>
+//                 </next>
+//             </block>
+//         </statement>
+//    </block>
+//</xml>
+      function findLastChild(el)
+      {
+        var blocks = el.getElementsByTagName("next");
+        if (blocks.length == 0) {
+          return el;
+        }
+        else {
+          return findLastChild(blocks[0].children[0]);
+        }
+      }
+
+      function rearrangeDom(dom)
+      {
+        var mainProg = document.createElement("block");
+        mainProg.setAttribute("type","appshare_ui_component");
+        var mainStatement = document.createElement("statement");
+        mainStatement.setAttribute("name","main div element");
+        mainProg.appendChild(mainStatement);
+
+        lastblock = null;
+        var blocks = dom.children;
+        console.log("Block count: " + blocks.length);
+        bc = blocks.length;
+        for (i = 0; i  < bc; i++) {
+          blocks = dom.children;
+          block = blocks[0];
+          console.log("next block is: " + i + " : " + block);
+          if (i == 0) {
+            mainStatement.appendChild(block);
+          }
+          else {
+            var nextelement = document.createElement("next");
+            lastblock.appendChild(nextelement);
+            nextelement.appendChild(block);
+          }
+          lastblock = findLastChild(block);
+        };
+        dom.appendChild(mainProg);
+      }
+
+      function getBlocklyValue()
+      {
+
+        var dom = Blockly.Xml.workspaceToDom(workspace);
+        var headlessWorkspace = new Blockly.Workspace();
+        rearrangeDom(dom);
+        Blockly.Xml.domToWorkspace(dom, headlessWorkspace);
+
+
+        var inline = Blockly.ClojureScript.workspaceToCode(headlessWorkspace);
+        headlessWorkspace.dispose();
+        var code = inline;
+
+        return code;
+      }
+
+
+
+      lastEval = -1;
+      function myUpdateFunction(event) {
+        if (event.type == 'ui') {return;}
+        inEval = myappshare.mainapp.inEval();
+        if (inEval) {return;}
+
+        calcEvals = myappshare.mainapp.calcEvals();
+        if (calcEvals == lastEval) {return;}
+
+        lastEval = calcEvals;
+
+
+        var code = getBlocklyValue();
+
+        document.getElementById('blocklyCode').innerHTML = code;
+        console.log("Event.type= " + event.type + " : " + calcEvals);
+        document.getElementById('numberOfEvals').innerHTML = '' + calcEvals;
+        //uuuttt(toolbox);
+        myappshare.mainapp.refreshapp();
+      }
+
+
+
+      function getBlocklyXml()
+      {
+        var xml = Blockly.Xml.workspaceToDom(workspace);
+        var code = Blockly.Xml.domToText(xml);
+        //var code = Blockly.Xml.domToPrettyText(xml);
+        return code;
+      }
+
+
+      function getBlocklyXml2()
+      {
+
+        var dom = Blockly.Xml.workspaceToDom(workspace);
+        var headlessWorkspace = new Blockly.Workspace();
+        rearrangeDom(dom);
+        Blockly.Xml.domToWorkspace(dom, headlessWorkspace);
+
+
+        var inline = Blockly.ClojureScript.workspaceToCode(headlessWorkspace);
+        var dom = Blockly.Xml.workspaceToDom(headlessWorkspace);
+        headlessWorkspace.dispose();
+        var code = Blockly.Xml.domToText(dom);
+        //var code = Blockly.Xml.domToPrettyText(xml);
+        return code;
+      }
+
+
+
+      function setBlocklyXml(xml_text)
+      {
+        Blockly.mainWorkspace.clear();
+        var xml = Blockly.Xml.textToDom(xml_text);
+        Blockly.Xml.domToWorkspace(xml, workspace);
+        centerBlocks();
+      }
+
+
+      function initBlockly() {
+
+        workspace = Blockly.inject('blocklyDiv',
+                                   {toolbox: toolbox,
+                                   scrollbars: true,
+                                    zoom:
+         {controls: true,
+          wheel: true,
+          startScale: 1.0,
+          maxScale: 3,
+          minScale: 0.3,
+          scaleSpeed: 1.2},
+                                    grid:
+                                    {spacing: 20,
+                                     length: 3,
+                                     colour: '#ccc',
+                                     snap: true},
+                                   css: true});
+        workspace.addChangeListener(myUpdateFunction);
+        Blockly.fireUiEvent(window, 'resize')
+        workspace.updateToolbox(toolbox);
+
+
+        //headlessWorkspace = new Blockly.Workspace();
+
+      }
+
+
+      function uuuttt(ttt) {
+        workspace.updateToolbox(ttt);
+      }
+
+      function refreshBlockly() {
+        var xml = Blockly.Xml.workspaceToDom(workspace);
+        Blockly.mainWorkspace.clear();
+        Blockly.Xml.domToWorkspace(workspace, xml);
+      }
+
+      function refreshCodeMirror() {
+        myCodeMirror.refresh();
+      }
+
+      function clearBlockly() {
+        Blockly.mainWorkspace.clear();
+      }
+
+      function centerBlocks() {
+        Blockly.mainWorkspace.scrollX =  250;
+        Blockly.mainWorkspace.scrollY =  0;
+        refreshBlockly();
+         //Blockly.mainWorkspace.scrollbar.set(20,550);
+      }
