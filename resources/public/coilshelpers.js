@@ -287,6 +287,8 @@ function setCodeMirrorOption(optionname , optionvalue) {
         for (i = 0; i  < bc; i++) {
           blocks = dom.children;
           block = blocks[0];
+          block.removeAttribute('x');
+          block.removeAttribute('y');
           console.log("next block is: " + i + " : " + block.getAttribute('type'));
 
 
@@ -316,6 +318,8 @@ function setCodeMirrorOption(optionname , optionvalue) {
         for (i = 0; i  < customBlocksLength; i++) {
           customBlocks = mainCustomComponents.children;
           cblock = customBlocks[0];
+          cblock.removeAttribute('x');
+          cblock.removeAttribute('y');
           dom.appendChild(cblock);
         }
         dom.appendChild(mainProg);
@@ -377,6 +381,16 @@ function setCodeMirrorOption(optionname , optionvalue) {
         var dom = Blockly.Xml.workspaceToDom(workspace);
         var headlessWorkspace = new Blockly.Workspace();
         rearrangeDom(dom);
+        return dom;
+      }
+
+
+      function getBlocklyXml3()
+      {
+
+        var dom = Blockly.Xml.workspaceToDom(workspace);
+        var headlessWorkspace = new Blockly.Workspace();
+        rearrangeDom(dom);
         Blockly.Xml.domToWorkspace(dom, headlessWorkspace);
 
 
@@ -387,8 +401,6 @@ function setCodeMirrorOption(optionname , optionvalue) {
         //var code = Blockly.Xml.domToPrettyText(xml);
         return code;
       }
-
-
 
       function setBlocklyXml(xml_text)
       {
