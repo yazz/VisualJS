@@ -148,7 +148,21 @@ Blockly.ClojureScript['appshare_custom_component'] = function(block) {
   // TODO: Assemble JavaScript into code variable.
 
   var value_attributes = ''   + block.getFieldValue('COMPONENT_NAME');
-  var code = '(defn-ui-component     ' + value_attributes +  '    [app] {} (div nil "abc"))' ;
+  var main_div = Blockly.ClojureScript.statementToCode(block, 'main div element');
+  var code = '(defn-ui-component     ' + value_attributes +  '    [app] {} (div nil \r\n' + main_div + '))' ;
+
+  return code;
+};
+
+
+
+
+
+Blockly.ClojureScript['appshare_call_custom_component'] = function(block) {
+  // TODO: Assemble JavaScript into code variable.
+
+  var value_attributes = ''   + block.getFieldValue('COMPONENT_NAME');
+  var code = '(component  ' + value_attributes +  ' app   []  )' ;
 
   return code;
 };

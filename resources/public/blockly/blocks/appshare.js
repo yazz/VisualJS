@@ -201,10 +201,29 @@ Blockly.Blocks['appshare_custom_component'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Thing")
-        .appendField(new Blockly.FieldTextInput("Component name"), "COMPONENT_NAME");
+        .appendField(new Blockly.FieldTextInput("Component_Name"), "COMPONENT_NAME");
     this.setColour(230);
     this.appendDummyInput().appendField("");
     this.appendDummyInput().appendField("Add DIV blocks here");
-    this.appendStatementInput("UI").setCheck("HtmlElement");
+    this.appendStatementInput("main div element").setCheck("HtmlElement");
   }
 }
+
+
+
+Blockly.Blocks['appshare_call_custom_component'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("component name")
+        .appendField(new Blockly.FieldTextInput(""), "COMPONENT_NAME");
+
+    this.appendDummyInput().setAlign(Blockly.ALIGN_RIGHT);
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, "HtmlElement");
+    this.setNextStatement(true, "HtmlElement");
+    this.setColour(230);
+    this.setTooltip('');
+    //this.setOutput(true, 'HtmlElement')
+    this.setHelpUrl('http://www.example.com/');
+  }
+};
