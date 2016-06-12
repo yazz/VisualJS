@@ -353,8 +353,7 @@
 
             (add-blocks "Basic"     basic-blocks)
 
-            (add-blocks "Glue"     ["appshare_custom_component"
-                                    "appshare_ui_component"])
+            (add-blocks "Glue"     ["appshare_custom_component"])
 
 
 

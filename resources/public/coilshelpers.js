@@ -271,6 +271,8 @@ function setCodeMirrorOption(optionname , optionvalue) {
 
       function rearrangeDom(dom)
       {
+        var mainCustomComponents = document.createElement("block");
+
         var mainProg = document.createElement("block");
         mainProg.setAttribute("type","appshare_ui_component");
         var mainStatement = document.createElement("statement");
@@ -286,7 +288,12 @@ function setCodeMirrorOption(optionname , optionvalue) {
           blocks = dom.children;
           block = blocks[0];
           console.log("next block is: " + i + " : " + block.getAttribute('type'));
-          if (block.getAttribute('type') == 'appshare_ui_component') {
+
+
+          if (block.getAttribute('type') == 'appshare_custom_component') {
+            mainCustomComponents.appendChild(block);
+          }
+          else if (block.getAttribute('type') == 'appshare_ui_component') {
             block.parentElement.removeChild(block);
           }
           else {
@@ -302,6 +309,14 @@ function setCodeMirrorOption(optionname , optionvalue) {
             lastblock = findLastChild(block);
           }
         };
+
+        var customBlocks = mainCustomComponents.children;
+        customBlocksLength = customBlocks.length;
+        for (i = 0; i  < customBlocksLength; i++) {
+          customBlocks = mainCustomComponents.children;
+          block = customBlocks[0];
+          dom.appendChild(block);
+        }
         dom.appendChild(mainProg);
       }
 
