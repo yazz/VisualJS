@@ -271,7 +271,7 @@ function setCodeMirrorOption(optionname , optionvalue) {
 
       function rearrangeDom(dom)
       {
-        var mainCustomComponents = document.createElement("block");
+        var mainCustomComponents = document.createElement("custcomponents");
 
         var mainProg = document.createElement("block");
         mainProg.setAttribute("type","appshare_ui_component");
@@ -310,12 +310,13 @@ function setCodeMirrorOption(optionname , optionvalue) {
           }
         };
 
+
         var customBlocks = mainCustomComponents.children;
         customBlocksLength = customBlocks.length;
         for (i = 0; i  < customBlocksLength; i++) {
           customBlocks = mainCustomComponents.children;
-          block = customBlocks[0];
-          dom.appendChild(block);
+          cblock = customBlocks[0];
+          dom.appendChild(cblock);
         }
         dom.appendChild(mainProg);
       }
