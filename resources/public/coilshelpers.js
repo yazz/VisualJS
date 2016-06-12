@@ -281,19 +281,26 @@ function setCodeMirrorOption(optionname , optionvalue) {
         var blocks = dom.children;
         console.log("Block count: " + blocks.length);
         bc = blocks.length;
+        var foundFirstMainUiBlock = false;
         for (i = 0; i  < bc; i++) {
           blocks = dom.children;
           block = blocks[0];
-          console.log("next block is: " + i + " : " + block);
-          if (i == 0) {
-            mainStatement.appendChild(block);
+          console.log("next block is: " + i + " : " + block.getAttribute('type'));
+          if (block.getAttribute('type') == 'appshare_ui_component') {
+            block.parentElement.removeChild(block);
           }
           else {
-            var nextelement = document.createElement("next");
-            lastblock.appendChild(nextelement);
-            nextelement.appendChild(block);
+            if (foundFirstMainUiBlock == false) {
+              mainStatement.appendChild(block);
+            }
+            else {
+              var nextelement = document.createElement("next");
+              lastblock.appendChild(nextelement);
+              nextelement.appendChild(block);
+            }
+            foundFirstMainUiBlock = true;
+            lastblock = findLastChild(block);
           }
-          lastblock = findLastChild(block);
         };
         dom.appendChild(mainProg);
       }
