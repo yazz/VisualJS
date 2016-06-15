@@ -54,7 +54,7 @@
 
 (defn load-fn [lib cb]
   (do
-    (swap! autoin inc)
+    ;(swap! autoin inc)
     (let [filename (str "/appshare/outide/" (:path lib) ".cljs?autoin=" @autoin )]
       ;(log (str "load-fn:" filename))
       (get-file   filename
@@ -87,8 +87,16 @@
 
                    (fn [result]
                      (do
-                       ;(log     (pr-str result))
-                       (js/eval (:value result))
+                           ;(js/alert     (pr-str result))
+                       (cond
+                         (:error result)
+                         (do
+                           ;(log     "******************* ERROR *******************************")
+                           (js/alert     (pr-str result)))
+
+                         :else
+                         (do
+                           (js/eval (:value result))))
 
                        ;(js/alert (str ":"  (js->clj args)))
                        ;(js/alert (pr-str (get (js->clj args) :b)))
