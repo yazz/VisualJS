@@ -54,7 +54,7 @@
 
 (defn load-fn [lib cb]
   (do
-    ;(swap! autoin inc)
+    (swap! autoin inc)
     (let [filename (str "/appshare/outide/" (:path lib) ".cljs?autoin=" @autoin )]
       ;(log (str "load-fn:" filename))
       (get-file   filename
