@@ -253,21 +253,26 @@
 
 
 (def basic-blocks  [
-                     "appshare_element_header"
-                     "appshare_element_text"
-                     "appshare_element_br"
-                     "appshare_element_box"
-                     "appshare_element_left_padding"
-                     "appshare_element_top_padding"
+                     ["appshare_element_header"]
+                     ["appshare_element_text"]
+                     ["appshare_element_br"]
+                     ["appshare_element_box"]
+                     ["appshare_element_left_padding"]
+                     ["appshare_element_top_padding"]
                      ])
 
 
 
 
-(defn show-blocks [section-name  block-names]
+(defn show-blocks [section-name   block-names ]
   (let [this-toolbox   (str "<xml>"
                             (apply str
-                                   (map (fn [x] (str "<block type=\"" x "\"></block>"))
+                                   (map (fn [x] (str
+                                                  "<block "
+                                                      "type=\"" (first x) "\" "
+                                                  ">"
+                                                      "<data>" (second x) "</data>"
+                                                  "</block>"))
                                         block-names))
                             "</xml>")]
     (js/uuuttt  this-toolbox)
@@ -353,24 +358,24 @@
 
             (add-blocks "Basic"     basic-blocks)
 
-            (add-blocks "Glue"     ["appshare_custom_component"
-                                    "appshare_call_custom_component"
+            (add-blocks "Glue"     [["appshare_custom_component"]
+                                    ["appshare_call_custom_component"]
                                     ])
 
 
 
-            (add-blocks "Text"     ["appshare_div"
-                                      "appshare_no_attributes"
-                                      "appshare_element_attribute"
-                                      "appshare_element_text"])
+            (add-blocks "Text"     [  ["appshare_div"]
+                                      ["appshare_no_attributes"]
+                                      ["appshare_element_attribute"]
+                                      ["appshare_element_text"]])
 
             (add-blocks "Shapes"   [])
 
-            (add-blocks "Custom"  ["appshare_ui_component"
-                                    "appshare_div"
-                                    "appshare_no_attributes"
-                                    "appshare_element_attribute"
-                                    "appshare_element_text"])
+            (add-blocks "Custom"  [ ["appshare_ui_component"]
+                                    ["appshare_div"]
+                                    ["appshare_no_attributes"]
+                                    ["appshare_element_attribute"]
+                                    ["appshare_element_text"]])
 
             )
 
