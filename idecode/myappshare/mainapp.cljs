@@ -253,12 +253,12 @@
 
 
 (def basic-blocks  [
-                     ["appshare_element_header"]
-                     ["appshare_element_text"]
-                     ["appshare_element_br"]
-                     ["appshare_element_box"]
-                     ["appshare_element_left_padding"]
-                     ["appshare_element_top_padding"]
+                     ["appshare_element_header" "ui"]
+                     ["appshare_element_text" "ui"]
+                     ["appshare_element_br" "ui"]
+                     ["appshare_element_box" "ui"]
+                     ["appshare_element_left_padding" "ui"]
+                     ["appshare_element_top_padding" "ui"]
                      ])
 
 
@@ -358,24 +358,24 @@
 
             (add-blocks "Basic"     basic-blocks)
 
-            (add-blocks "Glue"     [["appshare_custom_component"]
-                                    ["appshare_call_custom_component"]
+            (add-blocks "Glue"     [["appshare_custom_component" "component"]
+                                    ["appshare_call_custom_component" "ui"]
                                     ])
 
 
 
-            (add-blocks "Text"     [  ["appshare_div"]
-                                      ["appshare_no_attributes"]
-                                      ["appshare_element_attribute"]
-                                      ["appshare_element_text"]])
+            (add-blocks "Text"     [  ["appshare_div" "ui"]
+                                      ["appshare_no_attributes" "ui"]
+                                      ["appshare_element_attribute" "ui"]
+                                      ["appshare_element_text" "ui"]])
 
             (add-blocks "Shapes"   [])
 
-            (add-blocks "Custom"  [ ["appshare_ui_component"]
-                                    ["appshare_div"]
-                                    ["appshare_no_attributes"]
-                                    ["appshare_element_attribute"]
-                                    ["appshare_element_text"]])
+            (add-blocks "Custom"  [ ["appshare_ui_component" "ui"]
+                                    ["appshare_div" "ui"]
+                                    ["appshare_no_attributes" "ui"]
+                                    ["appshare_element_attribute" "ui"]
+                                    ["appshare_element_text" "ui"]])
 
             )
 
