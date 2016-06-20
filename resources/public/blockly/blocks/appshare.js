@@ -214,8 +214,7 @@ Blockly.Blocks['appshare_custom_component'] = {
 Blockly.Blocks['appshare_call_custom_component'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("component name")
-        .appendField(new Blockly.FieldTextInput(""), "COMPONENT_NAME");
+    .appendField("component name");
 
     this.appendDummyInput().setAlign(Blockly.ALIGN_RIGHT);
     this.setInputsInline(true);
@@ -223,7 +222,26 @@ Blockly.Blocks['appshare_call_custom_component'] = {
     this.setNextStatement(true, "HtmlElement");
     this.setColour(230);
     this.setTooltip('');
+
+    var dropdown = new Blockly.FieldDropdown([['world', 'WORLD'], ['computer', 'CPU']]);
+    this.appendValueInput("COMPONENT_NAME").appendField(dropdown, 'MODE');
+    dropdown.setText(""); // set the actual text
+    dropdown.setValue("");
+
     //this.setOutput(true, 'HtmlElement')
     this.setHelpUrl('http://www.example.com/');
+  },
+
+  onchange: function(event) {
+    //var dropdown = new Blockly.FieldDropdown([['1', '1'], ['2', '2']]);
+    //this.getInput("COMPONENT_NAME").appendField(dropdown, 'MODE');
+    //this.removeInput('COMPONENT_NAME');
+    //var dropdown = new Blockly.FieldDropdown([['1', '1'], ['2', '2']]);
+    //this.appendValueInput("COMPONENT_NAME2").appendField(dropdown, 'MODE2');
+    var dummyData = component_list;
+
+    // setting the menuGenerator for your "variable_name"
+    this.getField("MODE").menuGenerator_ = dummyData;
   }
+
 };

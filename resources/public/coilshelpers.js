@@ -269,6 +269,7 @@ function setCodeMirrorOption(optionname , optionvalue) {
         }
       }
 
+var component_list = [];
       function rearrangeDom(dom)
       {
         var mainCustomComponents = document.createElement("custcomponents");
@@ -284,6 +285,7 @@ function setCodeMirrorOption(optionname , optionvalue) {
         console.log("Block count: " + blocks.length);
         bc = blocks.length;
         var foundFirstMainUiBlock = false;
+        component_list = [];
         for (i = 0; i  < bc; i++) {
           blocks = dom.children;
           block = blocks[0];
@@ -293,6 +295,8 @@ function setCodeMirrorOption(optionname , optionvalue) {
 
 
           if (block.getAttribute('type') == 'appshare_custom_component') {
+            var tt = block.children[0].textContent;
+            component_list.push([tt,tt]);
             mainCustomComponents.appendChild(block);
           }
           else if (block.getAttribute('type') == 'appshare_ui_component') {
@@ -462,4 +466,10 @@ function setCodeMirrorOption(optionname , optionvalue) {
         Blockly.mainWorkspace.scrollY =  0;
         refreshBlockly();
          //Blockly.mainWorkspace.scrollbar.set(20,550);
+      }
+
+      function getComponentNames()
+      {
+
+        return "";
       }

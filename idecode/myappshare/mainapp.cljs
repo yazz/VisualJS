@@ -50,7 +50,9 @@
                     data-view-result-set section h1 h2 h3 h4 h5 h6
                     input-field read-ui write-ui container label remote
                     ]]))
-(ns-coils 'webapp.framework.client.fns " @ns-counter ")"))
+(ns-coils 'webapp.framework.client.fns " @ns-counter ")
+(defn-ui-component     default   [app] (div nil))
+"))
 (defn end [] "(webapp.framework.client.system-globals.touch [:ui])\n
   (reset! webapp.framework.client.system-globals/start-component  main)")
 
