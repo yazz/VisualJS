@@ -51,7 +51,7 @@
                     input-field read-ui write-ui container label remote
                     ]]))
 (ns-coils 'webapp.framework.client.fns " @ns-counter ")
-(defn-ui-component     default   [app] (div nil))
+(defn-ui-component     default-component   [app] (div nil))
 "))
 (defn end [] "(webapp.framework.client.system-globals.touch [:ui])\n
   (reset! webapp.framework.client.system-globals/start-component  main)")

@@ -269,7 +269,13 @@ function setCodeMirrorOption(optionname , optionvalue) {
         }
       }
 
-var component_list = [];
+      var component_list = [];
+
+
+
+
+
+
       function rearrangeDom(dom)
       {
         var mainCustomComponents = document.createElement("custcomponents");
@@ -302,6 +308,9 @@ var component_list = [];
           else if (block.getAttribute('type') == 'appshare_ui_component') {
             block.parentElement.removeChild(block);
           }
+          else if (block.getAttribute('type') == 'appshare_call_custom_component') {
+            block.parentElement.removeChild(block);
+          }
           else {
             if (foundFirstMainUiBlock == false) {
               mainStatement.appendChild(block);
@@ -315,6 +324,8 @@ var component_list = [];
             lastblock = findLastChild(block);
           }
         };
+
+
 
 
         var customBlocks = mainCustomComponents.children;
