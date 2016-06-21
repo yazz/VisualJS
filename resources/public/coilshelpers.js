@@ -270,6 +270,7 @@ function setCodeMirrorOption(optionname , optionvalue) {
       }
 
       var component_list = [];
+      var component_names = [];
 
 
 
@@ -292,6 +293,15 @@ function setCodeMirrorOption(optionname , optionvalue) {
         bc = blocks.length;
         var foundFirstMainUiBlock = false;
         component_list = [];
+        component_names = [];
+        for (i = 0; i  < bc; i++) {
+          if (blocks[i].getAttribute('type') == 'appshare_call_custom_component') {
+            var tt = blocks[i].children[0].textContent;
+            component_list.push([tt,tt]);
+            component_names.push(tt);
+          }
+        };
+
         for (i = 0; i  < bc; i++) {
           blocks = dom.children;
           block = blocks[0];
@@ -300,17 +310,25 @@ function setCodeMirrorOption(optionname , optionvalue) {
           console.log("next block is: " + i + " : " + block.getAttribute('type'));
 
 
+          if (block.getAttribute('type') == 'appshare_call_custom_component') {
+            childr = block.children;
+            chi = childr[0];
+            if (component_names.indexOf(chi.textContent) == -1 ) {
+              console.log("call: " + " : " + chi.textContent);
+              chi.textContent = 'default-component';
+              //block.parentElement.removeChild(block);
+            };
+
+          }
+
+
           if (block.getAttribute('type') == 'appshare_custom_component') {
-            var tt = block.children[0].textContent;
-            component_list.push([tt,tt]);
             mainCustomComponents.appendChild(block);
           }
           else if (block.getAttribute('type') == 'appshare_ui_component') {
             block.parentElement.removeChild(block);
           }
-          else if (block.getAttribute('type') == 'appshare_call_custom_component') {
-            block.parentElement.removeChild(block);
-          }
+
           else {
             if (foundFirstMainUiBlock == false) {
               mainStatement.appendChild(block);

@@ -161,7 +161,7 @@ Blockly.ClojureScript['appshare_custom_component'] = function(block) {
 Blockly.ClojureScript['appshare_call_custom_component'] = function(block) {
   // TODO: Assemble JavaScript into code variable.
 
-  var value_attributes = ''   + block.getFieldValue('COMPONENT_NAME');
+  var value_attributes = ''   + block.getFieldValue('COMPONENT_NAME_VALUE');
   var code = '(component  ' + value_attributes +  ' app   []  )' ;
 
   return code;
