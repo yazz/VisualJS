@@ -372,7 +372,8 @@
                                 :output-to      "resources/public/main.js"
                                 :optimizations  :advanced
                                 :static-fns true
-                                :preamble         ["resources/public/react.min.js"]
+                                :preamble         ["resources/public/react.min.js"
+                                                   "resources/public/react-dom.min.js"]
                                 :pretty-print      false
                                 }
                  }
