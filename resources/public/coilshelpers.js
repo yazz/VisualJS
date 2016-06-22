@@ -295,7 +295,7 @@ function setCodeMirrorOption(optionname , optionvalue) {
         component_list = [];
         component_names = [];
         for (i = 0; i  < bc; i++) {
-          if (blocks[i].getAttribute('type') == 'appshare_call_custom_component') {
+          if (blocks[i].getAttribute('type') == 'appshare_custom_component') {
             var tt = blocks[i].children[0].textContent;
             component_list.push([tt,tt]);
             component_names.push(tt);
