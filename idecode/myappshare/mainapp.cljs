@@ -97,10 +97,25 @@
 
 
       (if blockly-xml
-        (remote !save-blockly-xml {:id                 app-id
-                                   :xml               (subs blockly-xml 0 1000)
-                                   :code              (subs code 0 1000)
-                                   :app-session-id     app-session-id}))
+        (do
+          (remote !savecode {:id                 app-id
+                             :code               (subs code 0 2000)
+                             :app-session-id     app-session-id})
+
+          (remote !savecode2 {:id               app-id
+                              :code             (subs code 2000 4000)
+                              :app-session-id   app-session-id})
+          (remote !saveblockly {:id                 app-id
+                             :code               (subs blockly-xml 0 2000)
+                             :app-session-id     app-session-id})
+
+          (remote !saveblockly2 {:id               app-id
+                              :code             (subs blockly-xml 2000 4000)
+                              :app-session-id   app-session-id})
+          )
+
+
+        )
 
       (swap! ns-counter inc)
       ;(js/alert (str  @ns-counter))

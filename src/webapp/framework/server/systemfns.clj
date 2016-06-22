@@ -2302,14 +2302,31 @@
 
 
 
-(defn !save-blockly-xml [{:keys [id   xml   code   app-session-id] }]
+
+
+
+
+
+
+
+(defn !saveblockly [{:keys [id   code   app-session-id] }]
   (do
     (println (str "***********id: " id))
-    (sql "update  appshare_applications  set code_format='blockly', blockly_xml = ?,
-         application_code = ? where  id = ?" [xml  code  id])
+    (sql "update  appshare_applications  set  code_format='blockly',
+         blockly_xml = ? where  id = ?" [code id])
+    {:value code}))
 
 
-    {:saved true}))
+(defn !saveblockly2 [{:keys [id code] }]
+  (do
+    (println (str "************* !savecode2" ))
+    (sql "update appshare_applications set application_code = CONCAT(blockly_xml, ?) where id = ?" [code id])
+    {:value code}))
+
+
+
+
+
 
 
 
