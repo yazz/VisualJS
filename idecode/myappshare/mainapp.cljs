@@ -62,6 +62,39 @@
 
 
 
+(def current-toolbox (atom ""))
+
+
+(def basic-blocks  [
+                     ["appshare_element_header" "ui"]
+                     ["appshare_element_text" "ui"]
+                     ["appshare_element_br" "ui"]
+                     ["appshare_element_box" "ui"]
+                     ["appshare_element_left_padding" "ui"]
+                     ["appshare_element_top_padding" "ui"]
+                     ["appshare_custom_component" "component"]
+                     ["appshare_call_custom_component" "ui"]
+                     ])
+
+
+
+
+(defn show-blocks [section-name   block-names ]
+  (let [this-toolbox   (str "<xml>"
+                            (apply str
+                                   (map (fn [x] (str
+                                                  "<block "
+                                                      "type=\"" (first x) "\" "
+                                                  ">"
+                                                      "<data>" (second x) "</data>"
+                                                  "</block>"))
+                                        block-names))
+                            "</xml>")]
+    (js/uuuttt  this-toolbox)
+    (reset! current-toolbox  this-toolbox)
+    (swap! app-state assoc :blockly-category section-name)
+    )
+  )
 
 
 
@@ -204,6 +237,7 @@
                             )
                    )
       (reset! in-eval false)
+      (show-blocks  "Basic"  basic-blocks)
 
       ))))
 
@@ -266,37 +300,6 @@
 
 
 
-(def current-toolbox (atom ""))
-
-
-(def basic-blocks  [
-                     ["appshare_element_header" "ui"]
-                     ["appshare_element_text" "ui"]
-                     ["appshare_element_br" "ui"]
-                     ["appshare_element_box" "ui"]
-                     ["appshare_element_left_padding" "ui"]
-                     ["appshare_element_top_padding" "ui"]
-                     ])
-
-
-
-
-(defn show-blocks [section-name   block-names ]
-  (let [this-toolbox   (str "<xml>"
-                            (apply str
-                                   (map (fn [x] (str
-                                                  "<block "
-                                                      "type=\"" (first x) "\" "
-                                                  ">"
-                                                      "<data>" (second x) "</data>"
-                                                  "</block>"))
-                                        block-names))
-                            "</xml>")]
-    (js/uuuttt  this-toolbox)
-    (reset! current-toolbox  this-toolbox)
-    (swap! app-state assoc :blockly-category section-name)
-    )
-  )
 
 
 
@@ -304,7 +307,8 @@
 (defn  ^:export refreshapp []
   (do
     (reeval (get @app-state :app-id) nil)
-    (show-blocks  "Basic"  basic-blocks)))
+    ;(show-blocks  "Basic"  basic-blocks)
+    ))
 
 
 
@@ -375,24 +379,28 @@
 
             (add-blocks "Basic"     basic-blocks)
 
-            (add-blocks "Glue"     [["appshare_custom_component" "component"]
-                                    ["appshare_call_custom_component" "ui"]
-                                    ])
 
 
 
-            (add-blocks "Text"     [  ["appshare_div" "ui"]
+            (comment add-blocks "Text"     [  ["appshare_div" "ui"]
                                       ["appshare_no_attributes" "ui"]
                                       ["appshare_element_attribute" "ui"]
                                       ["appshare_element_text" "ui"]])
 
-            (add-blocks "Shapes"   [])
+            (comment add-blocks "Shapes"   [])
 
-            (add-blocks "Custom"  [ ["appshare_ui_component" "ui"]
+            (add-blocks "Coming soon"  [ ["appshare_ui_component" "ui"]
                                     ["appshare_div" "ui"]
                                     ["appshare_no_attributes" "ui"]
                                     ["appshare_element_attribute" "ui"]
                                     ["appshare_element_text" "ui"]])
+
+            (div {
+                   :style {:display "inline-block"
+                           :padding "10px"
+                           :backgroundColor
+                           "lightblue"}
+                   })
 
             )
 
