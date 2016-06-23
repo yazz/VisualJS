@@ -6,7 +6,8 @@
    [cljs.core.async  :refer [put! chan <! pub timeout]]
    [clojure.data     :as data]
    [clojure.string   :as string]
-   [ankha.core       :as ankha])
+;   [ankha.core       :as ankha]
+    )
 
   (:use
    [webapp.framework.client.coreclient           :only  [remote-fn debug-mode component-fn]]
@@ -113,7 +114,7 @@
                                            #js {
                                                 :marginTop "30px"
                                                 }}
-                                      (dom/button #js {:style #js  {:margin "10px" :color "red"}
+                                      (comment dom/button #js {:style #js  {:margin "10px" :color "red"}
 
                                                        :onClick (fn [e]
                                                                   (om/root ankha/inspector app-state

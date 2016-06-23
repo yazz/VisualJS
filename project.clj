@@ -18,7 +18,7 @@
                   ;[org.jasypt/jasypt "1.9.2"]
                   [clj-http "2.0.0"]
                   [cheshire "5.5.0"]
-                  [ankha "0.1.4"]
+                  ;[ankha "0.1.4"]
                   [overtone/at-at "1.2.0"]
                   [org.clojure/tools.nrepl "0.2.11"]
                   [instaparse "1.4.1"]

@@ -6,7 +6,6 @@
    [cljs.core.async  :refer [put! chan <! pub timeout]]
    [clojure.data     :as data]
    [clojure.string   :as string]
-   [ankha.core       :as ankha]
    [cljs.reader      :as reader]
    )
 

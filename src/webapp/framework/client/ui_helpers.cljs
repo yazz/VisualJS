@@ -6,7 +6,6 @@
    [cljs.core.async  :refer [put! chan <! pub timeout]]
    [clojure.data     :as data]
    [clojure.string   :as string]
-   [ankha.core       :as ankha]
    )
   (:use
    [webapp.framework.client.coreclient      :only  [remote-fn write-ui-fn read-ui-fn]]
