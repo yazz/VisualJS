@@ -16,7 +16,6 @@
   (:require-macros
    [cljs.core.async.macros :refer [go]]))
 
-(c/ns-coils 'webapp.framework.client.init)
 
 
 

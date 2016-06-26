@@ -89,9 +89,6 @@
 
 
 
-(defmacro ns-coils [namespace-name]
-  `(defn ~'ns-coils-debug  [] (str ~namespace-name)))
-
 
 (defmacro span [attributes & more]    `(om.dom/span  (webapp.framework.client.coreclient/attrs ~attributes) ~@more))
 (defmacro input [attributes & more]   `(om.dom/input  (webapp.framework.client.coreclient/attrs ~attributes) ~@more))

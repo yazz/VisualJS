@@ -726,7 +726,7 @@ You may wonder where the elements div, h2 , and so on are defined. They are defi
     (:require
         [webapp.framework.client.coreclient   :as c ])
     (:use-macros
-        [webapp.framework.client.coreclient  :only [ns-coils defn-ui-component def-coils-app
+        [webapp.framework.client.coreclient  :only [defn-ui-component def-coils-app
                                                     container  map-many  inline  text
                                                     div img pre component h2 input section
                                                     write-ui read-ui container input component <--
@@ -903,7 +903,7 @@ Please note that the raw SQL is not visible from web browsers since it's encryte
 
 5) Copy **src/webapp/framework/client/components/main.cljs** to **src/webapp/client/react/views/main.cljs**
 
-6) Rename the namespace in **webapp.client.components.main_view.cljs** from **webapp.framework.client.components.main-view** to **webapp.client.react.components.main-view**. This will be in two places, one at the top of the file (ns webapp.client.react.views.main-view) and the other below it as (c/ns-coils 'webapp.client.components.main-view)
+6) Rename the namespace in **webapp.client.components.main_view.cljs** from **webapp.framework.client.components.main-view** to **webapp.client.react.components.main-view**. This will be at the top of the file (ns webapp.client.react.views.main-view)
 
 7) In init.cljs change    **[webapp.framework.client.components.main-view  :only  [main-view]]** to **[webapp.client.react.main-view   :only   [main-view]]**
 

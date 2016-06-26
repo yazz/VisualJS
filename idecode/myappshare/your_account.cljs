@@ -5,7 +5,7 @@
    [cljs.core.async  :refer [put! chan <! pub timeout]])
 
   (:use-macros
-   [webapp.framework.client.coreclient  :only [ns-coils defn-ui-component def-coils-app
+   [webapp.framework.client.coreclient  :only [defn-ui-component def-coils-app
                                                container  map-many  inline  text log sql textarea a
                                                div img pre component h2 input section header button label form iframe
                                                write-ui read-ui container input component <-- data-view-result-set
@@ -17,7 +17,6 @@
 
   (:require-macros
    [cljs.core.async.macros :refer [go alt!]]))
-(ns-coils 'myappshare.your-account)
 
 
 

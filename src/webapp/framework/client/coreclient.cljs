@@ -45,8 +45,7 @@
                                                     cookie-name
                                                     debug-mode]])
   (:use-macros
-   [webapp.framework.client.coreclient  :only [ns-coils
-                                               sql log sql-1
+   [webapp.framework.client.coreclient  :only [sql log sql-1
                                                -->ui
                                                remote
                                                defn-ui-component
@@ -56,7 +55,6 @@
                                                text
                                                div
                                                ]]))
-(ns-coils 'webapp.framework.client.coreclient)
 
 
 

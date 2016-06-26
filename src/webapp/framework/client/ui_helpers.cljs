@@ -18,9 +18,7 @@
 
   (:use-macros
    [webapp.framework.client.coreclient
-    :only  [defn-ui-component ns-coils div write-ui read-ui remote log]]))
-
-(ns-coils 'webapp.framework.client.ui-helpers)
+    :only  [defn-ui-component div write-ui read-ui remote log]]))
 
 
 

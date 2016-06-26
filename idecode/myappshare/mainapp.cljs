@@ -5,7 +5,7 @@
    [cljs.core.async  :refer [put! chan <! pub timeout]])
 
   (:use-macros
-   [webapp.framework.client.coreclient  :only [ns-coils defn-ui-component def-coils-app
+   [webapp.framework.client.coreclient  :only [defn-ui-component def-coils-app
                                                container  map-many  inline  text log sql textarea a
                                                div img pre component h2 input section header button label form iframe
                                                write-ui read-ui container input component <-- data-view-result-set
@@ -23,7 +23,6 @@
 
   (:require-macros
    [cljs.core.async.macros :refer [go alt!]]))
-(ns-coils 'myappshare.mainapp)
 
 
 
@@ -44,13 +43,12 @@
 (defn start [] (str "(ns webapp.framework.client.fns" @ns-counter "\n
   (:require-macros
     [webapp.framework.client.macros :refer [
-                    refresh  ns-coils   div button input span defn-ui-component component
+                    refresh  div button input span defn-ui-component component
                     map-many  add-many <--  data-view-v2  sql-parser  select
                     remote-sql-parser sql realtime
                     data-view-result-set section h1 h2 h3 h4 h5 h6
                     input-field read-ui write-ui container label remote
                     ]]))
-(ns-coils 'webapp.framework.client.fns " @ns-counter ")
 (defn-ui-component     default-component   [app] (div nil))
 "))
 (defn end [] "(webapp.framework.client.system-globals.touch [:ui])\n

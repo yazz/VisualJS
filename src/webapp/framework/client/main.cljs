@@ -22,7 +22,7 @@
     [webapp.framework.client.components.system-container :only  [main-view]]
     )
   (:use-macros
-    [webapp.framework.client.coreclient :only  [ns-coils  remote  log  get-cookie-name]]
+    [webapp.framework.client.coreclient :only  [remote  log  get-cookie-name]]
     )
   (:require-macros
     [cljs.core.async.macros :refer [go]]))

@@ -16,14 +16,10 @@
                                                          init-state-fns
                                                          debug-mode]])
   (:use-macros
-   [webapp.framework.client.coreclient :only  [defn-ui-component ns-coils div component remote
-                                                -->ui
-                                               ns-coils   log]])
+   [webapp.framework.client.coreclient :only  [defn-ui-component div component remote
+                                                -->ui log]])
   (:require-macros
    [cljs.core.async.macros :refer [go]]))
-(ns-coils 'webapp.framework.client.components.system-container)
-
-
 
 
 
