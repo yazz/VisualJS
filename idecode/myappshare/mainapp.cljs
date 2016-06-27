@@ -58,6 +58,36 @@
 
 
 
+(defn start-optimized [] (str "(ns webapp.framework.client.fns" @ns-counter "\n
+  )
+
+
+(defn default-component [inpi  owner]
+    (reify
+          om.core/IRender
+          (render [this]
+
+                    (let [
+                            ui-state   inpi
+
+                            return-val (webapp.framework.client.coreclient/debug-react
+                                          \"default-component\"
+                                          owner
+                                          inpi
+                                          (fn [inpi]
+                                                (om.dom/div nil \"default-component\")
+                                          [ ]
+                                          ))
+                            ]
+
+                      return-val))))"))
+
+
+(defn end-optimized [] "(webapp.framework.client.system-globals.touch [:ui])\n
+  (reset! webapp.framework.client.system-globals/start-component  main)")
+
+
+
 
 
 (def current-toolbox (atom ""))
@@ -109,6 +139,10 @@
                               (= (get-in @app-state [:ui :editor :mode])  "blockly")
                               (js/getBlocklyValue))
 
+           app-code-value-optimized         (cond
+                                              (= (get-in @app-state [:ui :editor :mode])  "blockly")
+                                              (js/getBlocklyValueOptimized))
+
            blockly-xml      (if (= (get-in @app-state [:ui :editor :mode])  "blockly")
                               (js/getBlocklyXml))
 
@@ -151,12 +185,18 @@
       (swap! ns-counter inc)
       ;(js/alert (str  @ns-counter))
       (touch [:ui])
-      (js/sendcode  (str (start) code (end))
-                    calling-app-id
-                    ;"reevalapp"
-                    (clj->js "REV first one"
-                             )
-                    )
+      (cond
+        (= (get-in @app-state [:ui :editor :mode])  "blockly")
+        (js/sendcode  (str (start-optimized) app-code-value-optimized (end-optimized))
+                      calling-app-id
+                      ;"reevalapp"
+                      (clj->js "REV first one"))
+
+        :else
+        (js/sendcode  (str (start) code (end))
+                      calling-app-id
+                      ;"reevalapp"
+                      (clj->js "REV first one")))
       (reset! in-eval false)
       ))))
 
@@ -194,6 +234,10 @@
                                     :else
                                     (:value app-code-resp))
 
+           app-code-value-optimized         (cond
+                                              (= code-format "blockly")
+                                              (js/getBlocklyValueOptimized))
+
            user-can-edit-app (:value (remote  !user-can-edit-app?  {:id             app-id
                                                                     :session-id     (:session-id @client-session-atom)}))
 
@@ -226,14 +270,23 @@
       (reset! can-use-interfaces (:can-use-interfaces app-code-resp))
       (js/callresetclientstate    app-session-id)
       (swap! ns-counter inc)
-      (js/sendcode (str (start)
-                         app-code-value
-                        (end))
-                   calling-app-id
-                   (clj->js ;["a" "b" {:d 1 :r "sfs"}]
-                            "first one"
-                            )
-                   )
+      (cond
+        (= code-format "blockly")
+        (js/sendcode (str (start-optimized)
+                          app-code-value-optimized
+                          (end-optimized))
+                     calling-app-id
+                     (clj->js ;["a" "b" {:d 1 :r "sfs"}]
+                       "first one"))
+
+        :else
+        (js/sendcode (str (start)
+                          app-code-value
+                          (end))
+                     calling-app-id
+                     (clj->js ;["a" "b" {:d 1 :r "sfs"}]
+                       "first one")))
+
       (reset! in-eval false)
       (show-blocks  "Basic"  basic-blocks)
 

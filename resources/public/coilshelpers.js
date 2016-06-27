@@ -374,6 +374,22 @@ function setCodeMirrorOption(optionname , optionvalue) {
         return code;
       }
 
+      function getBlocklyValueOptimized()
+      {
+
+        var dom = Blockly.Xml.workspaceToDom(workspace);
+        var headlessWorkspace = new Blockly.Workspace();
+        rearrangeDom(dom);
+        Blockly.Xml.domToWorkspace(dom, headlessWorkspace);
+
+
+        var inline = Blockly.ClojureScriptOptimized.workspaceToCode(headlessWorkspace);
+        headlessWorkspace.dispose();
+        var code = inline;
+
+        return code;
+      }
+
 
 
       lastEval = -1;
