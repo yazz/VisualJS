@@ -103,7 +103,7 @@ Blockly.ClojureScriptOptimized['appshare_element_header'] = function(block) {
   var value_attributes = ''   + block.getFieldValue('VALUE')
 
 
-  var code = '(div {:style {:fontSize "3em" :display "inline-block"}} "' + value_attributes + '"' + ')\n' ;
+  var code = '(om.dom/div  (webapp.framework.client.coreclient/attrs  {:style {:fontSize "3em" :display "inline-block"}}) "' + value_attributes + '"' + ')\n' ;
 
   return code;
 };
@@ -118,7 +118,7 @@ Blockly.ClojureScriptOptimized['appshare_element_br'] = function(block) {
   // TODO: Assemble JavaScript into code variable.
 
 
-  var code = '(div nil "")' ;
+  var code = '(om.dom/div nil "")' ;
 
   return code;
 };
@@ -129,7 +129,7 @@ Blockly.ClojureScriptOptimized['appshare_element_box'] = function(block) {
   // TODO: Assemble JavaScript into code variable.
 
 
-  var code = '(div {:style {:border "1px solid black" :width "200px" :height "200px" :display "inline-block"}} "")' ;
+  var code = '(om.dom/div  (webapp.framework.client.coreclient/attrs {:style {:border "1px solid black" :width "200px" :height "200px" :display "inline-block"}}) "")' ;
 
   return code;
 };
@@ -139,7 +139,7 @@ Blockly.ClojureScriptOptimized['appshare_element_left_padding'] = function(block
   // TODO: Assemble JavaScript into code variable.
 
 
-  var code = '(div {:style {:padding "10px" :display "inline-block"}} "")' ;
+  var code = '(om.dom/div  (webapp.framework.client.coreclient/attrs  {:style {:padding "10px" :display "inline-block"}}) "")' ;
 
   return code;
 };
@@ -152,10 +152,21 @@ Blockly.ClojureScriptOptimized['appshare_element_top_padding'] = function(block)
   // TODO: Assemble JavaScript into code variable.
 
 
-  var code = '(div {:style {:padding "10px" }} "")' ;
+  var code = '(om.dom/div  (webapp.framework.client.coreclient/attrs  {:style {:padding "10px" }}) "")' ;
 
   return code;
 };
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -168,10 +179,40 @@ Blockly.ClojureScriptOptimized['appshare_custom_component'] = function(block) {
 
   var value_attributes = ''   + block.getFieldValue('COMPONENT_NAME');
   var main_div = Blockly.ClojureScriptOptimized.statementToCode(block, 'main div element');
-  var code = '(defn-ui-component     ' + value_attributes +  '    [app] {} (div nil \r\n' + main_div + '))' ;
+  var code = '(defn ' + value_attributes +  ' [app  owner]                                                          \n\
+    (reify                                                                                      \n\
+          om.core/IRender                                                                       \n\
+          (render [this]                                                                        \n\
+                                                                                                \n\
+                    (let [                                                                      \n\
+                            ui-state   app                                                     \n\
+                            path       (om.core/get-state owner :parent-path)                     \n\
+                                                                                                \n\
+                            return-val (webapp.framework.client.coreclient/debug-react          \n\
+                                          "main"                                                \n\
+                                          owner                                                 \n\
+                                          app                                                  \n\
+                                          (fn [app]                                            \n\
+                                                (om.dom/div nil ' + main_div + '))               \n\
+                                          path                                                   \n\
+                                          )                                                    \n\
+                            ]                                                                   \n\
+                      return-val))))';
 
   return code;
 };
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -181,7 +222,6 @@ Blockly.ClojureScriptOptimized['appshare_call_custom_component'] = function(bloc
   // TODO: Assemble JavaScript into code variable.
 
   var value_attributes = ''   + block.getFieldValue('COMPONENT_NAME_VALUE');
-  var code = '(component  ' + value_attributes +  ' app   []  )' ;
-
+  var code = '(webapp.framework.client.coreclient/component-fn  ' + value_attributes + '  app     path   [])';
   return code;
 };
