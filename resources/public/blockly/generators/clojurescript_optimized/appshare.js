@@ -225,3 +225,12 @@ Blockly.ClojureScriptOptimized['appshare_call_custom_component'] = function(bloc
   var code = '(webapp.framework.client.coreclient/component-fn  ' + value_attributes + '  app     path   [])';
   return code;
 };
+
+
+
+Blockly.ClojureScriptOptimized['appshare_db_component'] = function(block) {
+  var code = '(realtime select id, field1  from test {}  (<-- :field1))' ;
+
+  return code;
+};
+

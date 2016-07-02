@@ -102,6 +102,7 @@
                      ["appshare_element_top_padding" "ui"]
                      ["appshare_custom_component" "component"]
                      ["appshare_call_custom_component" "ui"]
+                     ["appshare_db_component" "ui"]
                      ])
 
 
@@ -288,7 +289,6 @@
                        "first one")))
 
       (reset! in-eval false)
-      (show-blocks  "Basic"  basic-blocks)
 
       ))))
 
@@ -368,7 +368,7 @@
 (defn add-blocks [section-name  block-names]
 
     (div {
-           :onMouseOver  (fn [e] (do (show-blocks  section-name  block-names)
+           :onClick  (fn [e] (do (show-blocks  section-name  block-names)
                                        (js/setTimeout (fn [ee] (touch [:ui :editor])) 100)))
            :onTouchStart  (fn [e] (do (show-blocks  section-name  block-names)
                                        (js/setTimeout (fn [ee] (touch [:ui :editor])) 100)))
@@ -446,12 +446,7 @@
                                     ["appshare_element_attribute" "ui"]
                                     ["appshare_element_text" "ui"]])
 
-            (div {
-                   :style {:display "inline-block"
-                           :padding "10px"
-                           :backgroundColor
-                           "lightblue"}
-                   })
+
 
             )
 

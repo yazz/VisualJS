@@ -166,3 +166,13 @@ Blockly.ClojureScript['appshare_call_custom_component'] = function(block) {
 
   return code;
 };
+
+
+
+
+Blockly.ClojureScript['appshare_db_component'] = function(block) {
+  var code = '(realtime select id, field1  from test {}  (<-- :field1))' ;
+
+  return code;
+};
+

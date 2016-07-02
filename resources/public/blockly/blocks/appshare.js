@@ -245,3 +245,12 @@ Blockly.Blocks['appshare_call_custom_component'] = {
   }
 
 };
+
+Blockly.Blocks['appshare_db_component'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("DB");
+    this.setColour(230);
+    this.appendDummyInput().appendField("");
+  }
+}
