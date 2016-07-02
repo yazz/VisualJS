@@ -1,9 +1,5 @@
-###Demo
+### Build and share applications by dragging and dropping blocks
 [appshare.co](http://appshare.co)
-
-
-#### Build and share applications by dragging and dropping blocks
-
 
 ###Quick start for Windows
 - Install Postgres database from http://www.postgresql.org/download/windows/
