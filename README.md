@@ -1,6 +1,10 @@
 ###Demo
 [appshare.co](http://appshare.co)
 
+
+#### Build and share applications by dragging and dropping blocks
+
+
 ###Quick start for Windows
 - Install Postgres database from http://www.postgresql.org/download/windows/
 - Download GIT from https://git-scm.com/downloads
@@ -20,7 +24,7 @@
 
 [(See why)](http://www.canlabs.com/canlabs/coils-to-appshare.html)
 
-#### The Free and Open Source Enterprise App Store with MIT licensing
+#### MIT licensing
 [(As in Ruby on Rails freedom)](http://opensource.org/licenses/mit-license.php)
 
 Click the image to see the video
