@@ -13,9 +13,9 @@
 
 
 
-###Clojure on Coils has changed it's name to...
+###Clojure on Coils has changed it's name to Appshare... and Appshare is now Blockly Builder!
 
-<img src='http://coils.cc/coils/images/appshare.jpg' />
+<img src='http://appshare.co/appshare/appshare_logo_dark_background.png' />
 
 [(See why)](http://www.canlabs.com/canlabs/coils-to-appshare.html)
 
