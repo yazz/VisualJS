@@ -1908,7 +1908,7 @@ with the (<-- :field) method
 
      FIELDS             = (FIELD)+
 
-     <FIELD>            = #'[a-z|_|(|)]+'  <#' '+>
+     <FIELD>            = #'[a-z|0-9|_|(|)]+'  <#' '+>
 
 
      FROM               = 'from '
