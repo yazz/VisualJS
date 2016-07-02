@@ -1147,7 +1147,7 @@
         (record_timestamp,  record_table_schema, record_table_name,  record_id, record_id_type, record_operation)
         VALUES
         ( now(),   TG_TABLE_SCHEMA , TG_TABLE_NAME ,  NEW.id,
-        (select data_type from information_schema.columns where column_name='id' and table_name = TG_TABLE_NAME),
+        (select data_type from information_schema.columns where column_name='id' and table_name = TG_TABLE_NAME and table_schema = TG_TABLE_SCHEMA),
         'INSERT');
         RETURN NULL;
         END;
@@ -1195,7 +1195,7 @@
         (record_timestamp,  record_table_schema, record_table_name,  record_id, record_id_type,  record_operation)
         VALUES
         ( now(),   TG_TABLE_SCHEMA ,TG_TABLE_NAME ,  NEW.id,
-        (select data_type from information_schema.columns where column_name='id' and table_name = TG_TABLE_NAME),
+        (select data_type from information_schema.columns where column_name='id' and table_name = TG_TABLE_NAME and table_schema = TG_TABLE_SCHEMA),
         'UPDATE');
         RETURN NULL;
         END;
@@ -1239,7 +1239,7 @@
         (record_timestamp,  record_table_schema, record_table_name,  record_id, record_id_type,  record_operation)
         VALUES
         ( now(),   TG_TABLE_SCHEMA, TG_TABLE_NAME ,  OLD.id,
-        (select data_type from information_schema.columns where column_name='id' and table_name = TG_TABLE_NAME),
+        (select data_type from information_schema.columns where column_name='id' and table_name = TG_TABLE_NAME and table_schema = TG_TABLE_SCHEMA),
         'DELETE');
         RETURN NULL;
         END;
