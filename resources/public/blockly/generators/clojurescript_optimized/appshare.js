@@ -271,8 +271,12 @@ Blockly.ClojureScriptOptimized['appshare_db_component'] = function(block) {
                  data-order                                                                         \n\
                  (-> data :order)]                                                                  \n\
                                                                                                     \n\
-                 (om.dom/div nil (str data  "**************************************** "  \n\
-                  (fn [record-id]                                                     \n\
+  (om.dom/div                                                                                              \n\
+    nil                                                     \n\
+    (apply\n\
+   om.dom/div nil \n\
+         (map                                                   \n\
+     (fn [record-id]                                                     \n\
                     (let                                                              \n\
                       [relative-path                                                  \n\
                         (:relative-path                                               \n\
@@ -305,10 +309,10 @@ Blockly.ClojureScriptOptimized['appshare_db_component'] = function(block) {
                              (get (-> data :values) record-id)                        \n\
                              select-id                                                \n\
                              (get-in record [:value :id])]                            \n\
-                            (if (clojure.core/get record :value) (div {} (div nil "a")))))                 \n\
-                 \n\
-                 ))                                                       \n\
-                 )             ';
+                            (if (clojure.core/get record :value) (om.dom/div {} (om.dom/div nil "a")))))                 \n\
+      (map         \n\
+        (fn [x] (get data-order x))         \n\
+        (range (:start {:start 1, :end 20}) (inc (min (:end {:start 1, :end 20}) (-> data :count))))))))) ';
 
   return code;
 };
