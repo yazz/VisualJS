@@ -271,7 +271,43 @@ Blockly.ClojureScriptOptimized['appshare_db_component'] = function(block) {
                  data-order                                                                         \n\
                  (-> data :order)]                                                                  \n\
                                                                                                     \n\
-                 (om.dom/div nil (str data))                                                       \n\
+                 (om.dom/div nil (str data  "**************************************** "  \n\
+                  (fn [record-id]                                                     \n\
+                    (let                                                              \n\
+                      [relative-path                                                  \n\
+                        (:relative-path                                               \n\
+                               (if                                                    \n\
+                                 select-id                                            \n\
+                                   (merge                                             \n\
+                                   {:fields [:id :field1],                            \n\
+                                    :db-table "test",                                 \n\
+                                    :relative-path [1],                               \n\
+                                    :params nil,                                      \n\
+                                    :data-source :test}                               \n\
+                                   {:relative-path                                    \n\
+                                    (conj                                             \n\
+                                      (conj                                           \n\
+                                        (get                                          \n\
+                                          {:fields [:id :field1],                     \n\
+                                           :db-table "test",                          \n\
+                                           :relative-path [1],                        \n\
+                                           :params nil,                               \n\
+                                           :data-source :test}                        \n\
+                                          :relative-path)                             \n\
+                                        :values)                                      \n\
+                                      select-id)})                                    \n\
+                  {:fields [:id :field1],                                             \n\
+                                  :db-table "test",                                   \n\
+                                  :relative-path [1],                                 \n\
+                                  :params nil,                                        \n\
+                                  :data-source :test}))                               \n\
+                             record                                                   \n\
+                             (get (-> data :values) record-id)                        \n\
+                             select-id                                                \n\
+                             (get-in record [:value :id])]                            \n\
+                            (if (clojure.core/get record :value) (div {} (div nil "a")))))                 \n\
+                 \n\
+                 ))                                                       \n\
                  )             ';
 
   return code;
