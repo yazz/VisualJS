@@ -316,7 +316,8 @@
 
     (get main-params :debug)
       `(~'div {}
-           ;(~'div {}  (~'str "SQL LIST: "                         ~list-of-sql))
+           ;(~'div {}  (~'pr-str "SQL LIST: "  ~list-of-sql))
+           ;(~'div {}  (~'str (count ~list-of-sql)))
            (~'div {}  (~'str "SQL STRING: "
                         ~sql-as-a-string))
            (~'div {}  (~'str "Main Instaparse Query: "       ~parsed-sql))
@@ -325,7 +326,7 @@
            (~'div {}  (~'str "Main Dataview map: "           ~dataview-map))
            (~'div {}  (~'str "Main Params: "                 ~main-params))
            (~'div {}  (~'str "SQL Params: "                 ~params))
-           (~'div {}  (~'str "Type: "  ~typeof2))
+           ;(~'div {}  (~'str "Type: "  ~typeof2))
            )
 
 
@@ -356,6 +357,16 @@
     )
   ))
 
+(comment macroexpand '(select
+                      id, item, item_status
+                 from
+                      appshare_todo_items
+
+            {}
+
+            (div nil "a")))
+
+(+ 1 1)
 
 
 (defmacro read-ui

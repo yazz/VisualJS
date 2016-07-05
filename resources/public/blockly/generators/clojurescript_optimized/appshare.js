@@ -179,23 +179,23 @@ Blockly.ClojureScriptOptimized['appshare_custom_component'] = function(block) {
 
   var value_attributes = ''   + block.getFieldValue('COMPONENT_NAME');
   var main_div = Blockly.ClojureScriptOptimized.statementToCode(block, 'main div element');
-  var code = '(defn ' + value_attributes +  ' [app  owner]                                                          \n\
+  var code = '(defn ' + value_attributes +  ' [app  owner]                                      \n\
     (reify                                                                                      \n\
           om.core/IRender                                                                       \n\
           (render [this]                                                                        \n\
                                                                                                 \n\
                     (let [                                                                      \n\
-                            ui-state   app                                                     \n\
-                            path       (om.core/get-state owner :parent-path)                     \n\
+                            ui-state   app                                                      \n\
+                            path       (om.core/get-state owner :parent-path)                   \n\
                                                                                                 \n\
                             return-val (webapp.framework.client.coreclient/debug-react          \n\
                                           "main"                                                \n\
                                           owner                                                 \n\
-                                          app                                                  \n\
-                                          (fn [app]                                            \n\
-                                                (om.dom/div nil ' + main_div + '))               \n\
-                                          path                                                   \n\
-                                          )                                                    \n\
+                                          app                                                   \n\
+                                          (fn [app]                                             \n\
+                                                (om.dom/div nil ' + main_div + '))              \n\
+                                          path                                                  \n\
+                                          )                                                     \n\
                             ]                                                                   \n\
                       return-val))))';
 
@@ -223,13 +223,56 @@ Blockly.ClojureScriptOptimized['appshare_call_custom_component'] = function(bloc
 
   var value_attributes = ''   + block.getFieldValue('COMPONENT_NAME_VALUE');
   var code = '(webapp.framework.client.coreclient/component-fn  ' + value_attributes + '  app     path   [])';
+
   return code;
 };
 
 
 
 Blockly.ClojureScriptOptimized['appshare_db_component'] = function(block) {
-  var code = '(realtime select id, field1  from test {}  (<-- :field1))' ;
+  //var code = '(realtime select id, field1  from test {}  (<-- :field1))' ;
+  //(sql-parser  "select" ~@select-args)
+
+  var code = '(om.dom/div nil (str "dbb"))' ;
+      code = '(let                                                                                  \n\
+                [data                                                                               \n\
+                 (webapp.framework.client.coreclient/data-window-fn                                 \n\
+                   (clojure.core/merge                                                              \n\
+                     {:relative-path [(str (cljs-uuid-utils.core/make-random-uuid))]}              \n\
+                     (if                                                                            \n\
+                       select-id                                                                    \n\
+                       (merge                                                                       \n\
+                         {:fields [:id :field1],                                         \n\
+                          :db-table "test",                                          \n\
+                          :relative-path [1],                                                       \n\
+                          :params nil,                                                              \n\
+                          :data-source :test}                                        \n\
+                         {:relative-path                                                            \n\
+                          (conj                                                                     \n\
+                            (conj                                                                   \n\
+                              (get                                                                  \n\
+                                {:fields [:id :field1],                                  \n\
+                                 :db-table "test",                                   \n\
+                                 :relative-path [1],                                                \n\
+                                 :params nil,                                                       \n\
+                                 :data-source :test}                                 \n\
+                                :relative-path)                                                     \n\
+                              :values)                                                              \n\
+                            select-id)})                                                            \n\
+                       {:fields [:id :field1],                                           \n\
+                        :db-table "test",                                            \n\
+                        :relative-path [1],                                                         \n\
+                        :params nil,                                                                \n\
+                        :data-source :test}))                                        \n\
+                   {:start 1, :end 20}                                                              \n\
+                   ui-component-name                                                                \n\
+                   path                                                                             \n\
+                   ui-state)                                                                        \n\
+                 data-order                                                                         \n\
+                 (-> data :order)]                                                                  \n\
+                                                                                                    \n\
+                 (om.dom/div nil (str data))                                                       \n\
+                 )             ';
 
   return code;
 };
