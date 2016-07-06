@@ -246,6 +246,7 @@ Blockly.ClojureScriptOptimized['appshare_db_component'] = function(block) {
                           :db-table "test",                                          \n\
                           :relative-path [1],                                                       \n\
                           :params nil,                                                              \n\
+                          :realtime true,                                                              \n\
                           :data-source :test}                                        \n\
                          {:relative-path                                                            \n\
                           (conj                                                                     \n\
@@ -261,6 +262,7 @@ Blockly.ClojureScriptOptimized['appshare_db_component'] = function(block) {
                             select-id)})                                                            \n\
                        {:fields [:id :field1],                                           \n\
                         :db-table "test",                                            \n\
+                          :realtime true,                                                              \n\
                         :relative-path [1],                                                         \n\
                         :params nil,                                                                \n\
                         :data-source :test}))                                        \n\
@@ -285,6 +287,7 @@ Blockly.ClojureScriptOptimized['appshare_db_component'] = function(block) {
                                    (merge                                             \n\
                                    {:fields [:id :field1],                            \n\
                                     :db-table "test",                                 \n\
+                          :realtime true,                                                              \n\
                                     :relative-path [1],                               \n\
                                     :params nil,                                      \n\
                                     :data-source :test}                               \n\
@@ -302,6 +305,7 @@ Blockly.ClojureScriptOptimized['appshare_db_component'] = function(block) {
                                       select-id)})                                    \n\
                   {:fields [:id :field1],                                             \n\
                                   :db-table "test",                                   \n\
+                          :realtime true,                                                              \n\
                                   :relative-path [1],                                 \n\
                                   :params nil,                                        \n\
                                   :data-source :test}))                               \n\
@@ -309,7 +313,12 @@ Blockly.ClojureScriptOptimized['appshare_db_component'] = function(block) {
                              (get (-> data :values) record-id)                        \n\
                              select-id                                                \n\
                              (get-in record [:value :id])]                            \n\
-                            (if (clojure.core/get record :value) (om.dom/div {} (om.dom/div nil "a")))))                 \n\
+                            (if (clojure.core/get record :value) (om.dom/div {} (om.dom/div nil                \n\
+                            (str                  \n\
+                            (webapp.framework.client.coreclient/<---fn   record  :id  path  relative-path  )                 \n\
+                             " "  \n\
+                            (webapp.framework.client.coreclient/<---fn   record  :field1  path  relative-path  )                 \n\
+                            ))))))                 \n\
       (map         \n\
         (fn [x] (get data-order x))         \n\
         (range (:start {:start 1, :end 20}) (inc (min (:end {:start 1, :end 20}) (-> data :count))))))))) ';
