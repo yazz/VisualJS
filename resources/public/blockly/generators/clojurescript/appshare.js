@@ -177,3 +177,8 @@ Blockly.ClojureScript['appshare_db_component'] = function(block) {
   return code;
 };
 
+Blockly.ClojureScript['appshare_db_field'] = function(block) {
+  var value_attributes = ''   + block.getFieldValue('VALUE');
+  var code = '(webapp.framework.client.coreclient/<---fn   record  :' + value_attributes +  '  path  relative-path  )';
+  return code;
+};

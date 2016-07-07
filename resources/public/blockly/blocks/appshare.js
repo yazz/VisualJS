@@ -257,3 +257,17 @@ Blockly.Blocks['appshare_db_component'] = {
     this.setNextStatement(true, "HtmlElement");
   }
 }
+
+
+
+Blockly.Blocks['appshare_db_field'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Field")
+        .appendField(new Blockly.FieldTextInput("id"), "VALUE");
+    this.setColour(230);
+    this.appendDummyInput().appendField("");
+    this.setPreviousStatement(true, "HtmlElement");
+    this.setNextStatement(true, "HtmlElement");
+  }
+}

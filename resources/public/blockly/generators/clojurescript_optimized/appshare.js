@@ -316,14 +316,19 @@ Blockly.ClojureScriptOptimized['appshare_db_component'] = function(block) {
                              (get-in record [:value :id])]                            \n\
                             (if (clojure.core/get record :value) (om.dom/div {} (om.dom/div nil                \n\
                             (str                  \n\
-                            (webapp.framework.client.coreclient/<---fn   record  :id  path  relative-path  )                 \n\
-                             " "' + statements_more_elements + '  \n\
-                            (webapp.framework.client.coreclient/<---fn   record  :field1  path  relative-path  )                 \n\
+                             " " ' + statements_more_elements + '  \n\
                             ))))))                 \n\
       (map         \n\
         (fn [x] (get data-order x))         \n\
         (range (:start {:start 1, :end 20}) (inc (min (:end {:start 1, :end 20}) (-> data :count))))))))) ';
 
+  return code;
+};
+
+
+Blockly.ClojureScriptOptimized['appshare_db_field'] = function(block) {
+  var value_attributes = ''   + block.getFieldValue('VALUE');
+  var code = ' (webapp.framework.client.coreclient/<---fn   record  :' + value_attributes +  '  path  relative-path  ) ';
   return code;
 };
 

@@ -102,9 +102,13 @@
                      ["appshare_element_top_padding" "ui"]
                      ["appshare_custom_component" "component"]
                      ["appshare_call_custom_component" "ui"]
-                     ["appshare_db_component" "ui"]
                      ])
 
+
+(def database-blocks  [
+                     ["appshare_db_component" "ui"]
+                     ["appshare_db_field" "ui"]
+                     ])
 
 
 
@@ -428,7 +432,8 @@
                  "Clear")
             ;(add-blocks "Forms"    ["appshare_basic_form"])
 
-            (add-blocks "Basic"     basic-blocks)
+            (add-blocks "Basic"        basic-blocks)
+            (add-blocks "Database"     database-blocks)
 
 
 
