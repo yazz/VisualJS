@@ -232,6 +232,7 @@ Blockly.ClojureScriptOptimized['appshare_call_custom_component'] = function(bloc
 Blockly.ClojureScriptOptimized['appshare_db_component'] = function(block) {
   //var code = '(realtime select id, field1  from test {}  (<-- :field1))' ;
   //(sql-parser  "select" ~@select-args)
+  var statements_more_elements = Blockly.ClojureScript.statementToCode(block, 'more elements');
 
   var code = '(om.dom/div nil (str "dbb"))' ;
       code = '(let                                                                                  \n\
@@ -316,7 +317,7 @@ Blockly.ClojureScriptOptimized['appshare_db_component'] = function(block) {
                             (if (clojure.core/get record :value) (om.dom/div {} (om.dom/div nil                \n\
                             (str                  \n\
                             (webapp.framework.client.coreclient/<---fn   record  :id  path  relative-path  )                 \n\
-                             " "  \n\
+                             " "' + statements_more_elements + '  \n\
                             (webapp.framework.client.coreclient/<---fn   record  :field1  path  relative-path  )                 \n\
                             ))))))                 \n\
       (map         \n\

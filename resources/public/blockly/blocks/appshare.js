@@ -250,6 +250,7 @@ Blockly.Blocks['appshare_db_component'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("DB");
+    this.appendStatementInput("more elements").setCheck("HtmlElement");
     this.setColour(230);
     this.appendDummyInput().appendField("");
     this.setPreviousStatement(true, "HtmlElement");
