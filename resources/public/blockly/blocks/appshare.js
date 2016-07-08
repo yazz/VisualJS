@@ -249,7 +249,8 @@ Blockly.Blocks['appshare_call_custom_component'] = {
 Blockly.Blocks['appshare_db_component'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("DB");
+        .appendField("DB")
+        .appendField(new Blockly.FieldTextInput("table_name"), "VALUE");
     this.appendStatementInput("more elements").setCheck("HtmlElement");
     this.setColour(230);
     this.appendDummyInput().appendField("");
