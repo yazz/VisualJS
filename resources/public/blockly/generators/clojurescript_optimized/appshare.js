@@ -235,6 +235,7 @@ Blockly.ClojureScriptOptimized['appshare_db_component'] = function(block) {
   //var code = '(realtime select id, field1  from test {}  (<-- ))' ;
   //(sql-parser  "select" ~@select-args)
   var table_name = ''   + block.getFieldValue('VALUE');
+  var field_names = ''   + block.getFieldValue('DB_FIELDS');
   var statements_more_elements = Blockly.ClojureScript.statementToCode(block, 'more elements');
 
   tttt ++;
@@ -248,7 +249,7 @@ Blockly.ClojureScriptOptimized['appshare_db_component'] = function(block) {
                      (if                                                                            \n\
                        select-id                                                                    \n\
                        (merge                                                                       \n\
-                         {:fields [:id ],                                         \n\
+                         {:fields [' + field_names + ' ],                                         \n\
                           :db-table "' + table_name +  '",                                          \n\
                           :relative-path [relative-path-id],                                                       \n\
                           :params nil,                                                              \n\
@@ -258,7 +259,7 @@ Blockly.ClojureScriptOptimized['appshare_db_component'] = function(block) {
                           (conj                                                                     \n\
                             (conj                                                                   \n\
                               (get                                                                  \n\
-                                {:fields [:id ],                                  \n\
+                                {:fields [ ' + field_names + ' ],                                  \n\
                                  :db-table "' + table_name +  '",                                   \n\
                                  :relative-path [relative-path-id],                                                \n\
                                  :params nil,                                                       \n\
@@ -266,7 +267,7 @@ Blockly.ClojureScriptOptimized['appshare_db_component'] = function(block) {
                                 :relative-path)                                                     \n\
                               :values)                                                              \n\
                             select-id)})                                                            \n\
-                       {:fields [:id ],                                           \n\
+                       {:fields [ ' + field_names + ' ],                                           \n\
                         :db-table "' + table_name +  '",                                            \n\
                           :realtime true,                                                              \n\
                         :relative-path [relative-path-id],                                                         \n\
@@ -291,7 +292,7 @@ Blockly.ClojureScriptOptimized['appshare_db_component'] = function(block) {
                                (if                                                    \n\
                                  select-id                                            \n\
                                    (merge                                             \n\
-                                   {:fields [:id ],                            \n\
+                                   {:fields [' + field_names + ' ],                            \n\
                                     :db-table "' + table_name +  '",                                 \n\
                           :realtime true,                                                              \n\
                                     :relative-path [relative-path-id],                               \n\
@@ -301,7 +302,7 @@ Blockly.ClojureScriptOptimized['appshare_db_component'] = function(block) {
                                     (conj                                             \n\
                                       (conj                                           \n\
                                         (get                                          \n\
-                                          {:fields [:id ],                     \n\
+                                          {:fields [' + field_names + ' ],                     \n\
                                            :db-table "' + table_name +  '",                          \n\
                                            :relative-path [relative-path-id],                        \n\
                                            :params nil,                               \n\
@@ -309,7 +310,7 @@ Blockly.ClojureScriptOptimized['appshare_db_component'] = function(block) {
                                           :relative-path)                             \n\
                                         :values)                                      \n\
                                       select-id)})                                    \n\
-                  {:fields [:id ],                                             \n\
+                  {:fields [' + field_names + ' ],                                             \n\
                                   :db-table "' + table_name +  '",                                   \n\
                           :realtime true,                                                              \n\
                                   :relative-path [relative-path-id],                                 \n\
