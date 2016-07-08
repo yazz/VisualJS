@@ -321,7 +321,7 @@ Blockly.ClojureScriptOptimized['appshare_db_component'] = function(block) {
                              select-id                                                \n\
                              (get-in record [:value :id])]                            \n\
                             (if (clojure.core/get record :value) (om.dom/div {} (om.dom/div nil                \n\
-                            (str  relative-path-id                \n\
+                            (str        \n\
                              " " ' + statements_more_elements + '  \n\
                             ))))))                 \n\
       (map         \n\
