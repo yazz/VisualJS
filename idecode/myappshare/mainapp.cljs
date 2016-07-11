@@ -402,6 +402,9 @@
   {:on-mount
    (do  (go
           (js/initBlockly)
+          (show-blocks  "Basic"  basic-blocks)
+
+
           ))
 
    }
@@ -456,7 +459,8 @@
             )
 
 
-    (div {:style {
+    (div {
+           :style {
                    :display (if (or (= (get-in @app-state [:ui :editor :mode]) "blockly")
                                     (= (get-in @app-state [:ui :editor :mode]) nil))
                               "inline-block"
