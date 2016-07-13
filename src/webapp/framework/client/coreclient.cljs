@@ -1982,3 +1982,13 @@ with the (<-- :field) method
                        ;(fn [x] (js/alert (pr-str "Returned: " x)))))))
                        sql-function-callback))))
 
+
+
+
+
+(defn get-tables []
+  (remote-callback "!get-list-of-tables"
+                   {:session-id  (:session-id @webapp.framework.client.system-globals.client-session-atom)}
+                   (fn [result2]
+                       (reset! webapp.framework.client.system-globals/app-state
+                               (assoc-in @webapp.framework.client.system-globals/app-state [:ui :table-list] result2)))))

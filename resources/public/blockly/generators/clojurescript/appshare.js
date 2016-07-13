@@ -182,3 +182,11 @@ Blockly.ClojureScript['appshare_db_field'] = function(block) {
   var code = '(webapp.framework.client.coreclient/<---fn   record  :' + value_attributes +  '  path  relative-path  )';
   return code;
 };
+
+
+
+
+Blockly.ClojureScript['appshare_show_tables'] = function(block) {
+  var code = '';
+  return code;
+};

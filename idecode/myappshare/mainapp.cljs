@@ -80,7 +80,9 @@
                                           ))
                             ]
 
-                      return-val))))"))
+                      return-val))))
+                              (webapp.framework.client.coreclient/get-tables)
+"))
 
 
 (defn end-optimized [] "(webapp.framework.client.system-globals.touch [:ui])\n
@@ -108,6 +110,7 @@
 (def database-blocks  [
                      ["appshare_db_component" "ui"]
                      ["appshare_db_field" "ui"]
+                     ["appshare_show_tables" "ui"]
                      ])
 
 

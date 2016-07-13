@@ -321,7 +321,7 @@ Blockly.ClojureScriptOptimized['appshare_db_component'] = function(block) {
                              select-id                                                \n\
                              (get-in record [:value :id])]                            \n\
                             (if (clojure.core/get record :value) (om.dom/div {} (om.dom/div nil                \n\
-                            (str        \n\
+                            (str       \n\
                              " " ' + statements_more_elements + '  \n\
                             ))))))                 \n\
       (map         \n\
@@ -338,3 +338,18 @@ Blockly.ClojureScriptOptimized['appshare_db_field'] = function(block) {
   return code;
 };
 
+
+
+
+
+Blockly.ClojureScriptOptimized['appshare_show_tables'] = function(block) {
+  var value_attributes = ''   + block.getFieldValue('VALUE');
+  var code = '(om.dom/div                                                                                              \n\
+                  nil     (apply            \n\
+                         om.dom/div nil     (map                 \n\
+                             (fn [table-name]               \n\
+                                 (om.dom/div nil (str table-name)))               \n\
+                                 (get-in @webapp.framework.client.system-globals/app-state [:ui :table-list])               \n\
+         ))) ';
+  return code;
+};
