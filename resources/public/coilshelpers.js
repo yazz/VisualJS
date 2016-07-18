@@ -258,7 +258,7 @@ function setCodeMirrorOption(optionname , optionvalue) {
 //         </statement>
 //    </block>
 //</xml>
-      function findLastChild(el)
+      function findLastChild( el )
       {
         var blocks = el.getElementsByTagName("next");
         if (blocks.length == 0) {
@@ -269,23 +269,39 @@ function setCodeMirrorOption(optionname , optionvalue) {
         }
       }
 
+
+
+      function findFirstNextElement(el)
+      {
+        var blocks = el.getElementsByTagName("next");
+        if (blocks.length == 0) {
+          return el;
+        }
+        else {
+          return blocks[0].children[0];
+        }
+      }
+
       var component_list = [];
       var component_names = [];
 
 
 
 
-
-
+      //
+      // this function rearranges the XML for blockly so that it can be parsed by
+      // the blockly compiler to make valid clojure code
+      //
       function rearrangeDom(dom)
       {
         var mainCustomComponents = document.createElement("custcomponents");
 
-        var mainProg = document.createElement("block");
-        mainProg.setAttribute("type","appshare_ui_component");
+        var mainProgramBlocklycomponent = document.createElement("block");
+        mainProgramBlocklycomponent.setAttribute("type","appshare_ui_component");
+
         var mainStatement = document.createElement("statement");
         mainStatement.setAttribute("name","main div element");
-        mainProg.appendChild(mainStatement);
+        mainProgramBlocklycomponent.appendChild(mainStatement);
 
         lastblock = null;
         var blocks = dom.children;
@@ -339,7 +355,7 @@ function setCodeMirrorOption(optionname , optionvalue) {
               nextelement.appendChild(block);
             }
             foundFirstMainUiBlock = true;
-            lastblock = findLastChild(block);
+            lastblock = findFirstNextElement(block);
           }
         };
 
@@ -353,10 +369,19 @@ function setCodeMirrorOption(optionname , optionvalue) {
           cblock = customBlocks[0];
           cblock.removeAttribute('x');
           cblock.removeAttribute('y');
-          dom.appendChild(cblock);
+          blocklyDom.appendChild(cblock);
         }
-        dom.appendChild(mainProg);
+        dom.appendChild(mainProgramBlocklycomponent);
       }
+
+
+
+
+
+
+
+
+
 
       function getBlocklyValue()
       {
@@ -373,6 +398,13 @@ function setCodeMirrorOption(optionname , optionvalue) {
 
         return code;
       }
+
+
+
+
+
+
+
 
       function getBlocklyValueOptimized()
       {

@@ -240,37 +240,37 @@ Blockly.ClojureScriptOptimized['appshare_db_component'] = function(block) {
 
   tttt ++;
   var code = '(let                                                                                  \n\
-                [relative-path-id2   (str (cljs-uuid-utils.core/make-random-uuid))           \n\
-                relative-path-id   '+tttt+'         \n\
+                [relative-path-id2   (str (cljs-uuid-utils.core/make-random-uuid))                  \n\
+                relative-path-id   ' + tttt + '                                                     \n\
                  data                                                                               \n\
                  (webapp.framework.client.coreclient/data-window-fn                                 \n\
                    (clojure.core/merge                                                              \n\
-                     {:relative-path [relative-path-id]}              \n\
+                     {:relative-path [relative-path-id]}                                            \n\
                      (if                                                                            \n\
                        select-id                                                                    \n\
                        (merge                                                                       \n\
-                         {:fields [' + field_names + ' ],                                         \n\
+                         {:fields [' + field_names + ' ],                                           \n\
                           :db-table "' + table_name +  '",                                          \n\
-                          :relative-path [relative-path-id],                                                       \n\
+                          :relative-path [relative-path-id],                                        \n\
                           :params nil,                                                              \n\
-                          :realtime true,                                                              \n\
+                          :realtime true,                                                           \n\
                           :data-source :' + table_name +  '}                                        \n\
                          {:relative-path                                                            \n\
                           (conj                                                                     \n\
                             (conj                                                                   \n\
                               (get                                                                  \n\
-                                {:fields [ ' + field_names + ' ],                                  \n\
+                                {:fields [ ' + field_names + ' ],                                   \n\
                                  :db-table "' + table_name +  '",                                   \n\
-                                 :relative-path [relative-path-id],                                                \n\
+                                 :relative-path [relative-path-id],                                 \n\
                                  :params nil,                                                       \n\
                                  :data-source :' + table_name +  '}                                 \n\
                                 :relative-path)                                                     \n\
                               :values)                                                              \n\
                             select-id)})                                                            \n\
-                       {:fields [ ' + field_names + ' ],                                           \n\
+                       {:fields [ ' + field_names + ' ],                                            \n\
                         :db-table "' + table_name +  '",                                            \n\
-                          :realtime true,                                                              \n\
-                        :relative-path [relative-path-id],                                                         \n\
+                          :realtime true,                                                           \n\
+                        :relative-path [relative-path-id],                                          \n\
                         :params nil,                                                                \n\
                         :data-source :' + table_name +  '}))                                        \n\
                    {:start 1, :end 20}                                                              \n\
@@ -280,53 +280,54 @@ Blockly.ClojureScriptOptimized['appshare_db_component'] = function(block) {
                  data-order                                                                         \n\
                  (-> data :order)]                                                                  \n\
                                                                                                     \n\
-  (om.dom/div                                                                                              \n\
-    nil                                                     \n\
-    (apply\n\
-   om.dom/div nil \n\
-         (map                                                   \n\
-     (fn [record-id]                                                     \n\
-                    (let                                                              \n\
-                      [relative-path                                                  \n\
-                        (:relative-path                                               \n\
-                               (if                                                    \n\
-                                 select-id                                            \n\
-                                   (merge                                             \n\
-                                   {:fields [' + field_names + ' ],                            \n\
-                                    :db-table "' + table_name +  '",                                 \n\
-                          :realtime true,                                                              \n\
-                                    :relative-path [relative-path-id],                               \n\
-                                    :params nil,                                      \n\
-                                    :data-source :' + table_name +  '}                               \n\
-                                   {:relative-path                                    \n\
-                                    (conj                                             \n\
-                                      (conj                                           \n\
-                                        (get                                          \n\
-                                          {:fields [' + field_names + ' ],                     \n\
-                                           :db-table "' + table_name +  '",                          \n\
-                                           :relative-path [relative-path-id],                        \n\
-                                           :params nil,                               \n\
-                                           :data-source :' + table_name +  '}                        \n\
-                                          :relative-path)                             \n\
-                                        :values)                                      \n\
-                                      select-id)})                                    \n\
-                  {:fields [' + field_names + ' ],                                             \n\
-                                  :db-table "' + table_name +  '",                                   \n\
-                          :realtime true,                                                              \n\
-                                  :relative-path [relative-path-id],                                 \n\
-                                  :params nil,                                        \n\
-                                  :data-source :' + table_name +  '}))                               \n\
-                             record                                                   \n\
-                             (get (-> data :values) record-id)                        \n\
-                             select-id                                                \n\
-                             (get-in record [:value :id])]                            \n\
-                            (if (clojure.core/get record :value) (om.dom/div {} (om.dom/div nil                \n\
-                            (str       \n\
-                             " " ' + statements_more_elements + '  \n\
-                            ))))))                 \n\
-      (map         \n\
-        (fn [x] (get data-order x))         \n\
-        (range (:start {:start 1, :end 20}) (inc (min (:end {:start 1, :end 20}) (-> data :count))))))))) ';
+  (om.dom/div                                                                                       \n\
+    nil                                                                                             \n\
+    (apply                                                                                          \n\
+         om.dom/div nil                                                                             \n\
+         (map                                                                                       \n\
+     (fn [record-id]                                                                                \n\
+                    (let                                                                            \n\
+                      [relative-path                                                                \n\
+                        (:relative-path                                                             \n\
+                               (if                                                                  \n\
+                                 select-id                                                          \n\
+                                   (merge                                                           \n\
+                                   {:fields [' + field_names + ' ],                                 \n\
+                                    :db-table "' + table_name +  '",                                \n\
+                          :realtime true,                                                           \n\
+                                    :relative-path [relative-path-id],                              \n\
+                                    :params nil,                                                    \n\
+                                    :data-source :' + table_name +  '}                              \n\
+                                   {:relative-path                                                  \n\
+                                    (conj                                                           \n\
+                                      (conj                                                         \n\
+                                        (get                                                        \n\
+                                          {:fields [' + field_names + ' ],                          \n\
+                                           :db-table "' + table_name +  '",                         \n\
+                                           :relative-path [relative-path-id],                       \n\
+                                           :params nil,                                             \n\
+                                           :data-source :' + table_name +  '}                       \n\
+                                          :relative-path)                                           \n\
+                                        :values)                                                    \n\
+                                      select-id)})                                                  \n\
+                  {:fields [' + field_names + ' ],                                                  \n\
+                                  :db-table "' + table_name +  '",                                  \n\
+                          :realtime true,                                                           \n\
+                                  :relative-path [relative-path-id],                                \n\
+                                  :params nil,                                                      \n\
+                                  :data-source :' + table_name +  '}))                              \n\
+                             record                                                                 \n\
+                             (get (-> data :values) record-id)                                      \n\
+                             select-id                                                              \n\
+                             (get-in record [:value :id])]                                          \n\
+                            (if (clojure.core/get record :value) (om.dom/div {} (om.dom/div nil     \n\
+                            (str                                                                    \n\
+                             " " ' + statements_more_elements + '                                   \n\
+                            ))))))                                                                  \n\
+      (map                                                                                          \n\
+        (fn [x] (get data-order x))                                                                 \n\
+        (range (:start {:start 1, :end 20})                                                         \n\
+               (inc (min (:end {:start 1, :end 20}) (-> data :count))))))))) ';
 
   return code;
 };
