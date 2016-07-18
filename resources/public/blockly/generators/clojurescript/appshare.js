@@ -187,6 +187,6 @@ Blockly.ClojureScript['appshare_db_field'] = function(block) {
 
 
 Blockly.ClojureScript['appshare_show_tables'] = function(block) {
-  var code = '';
+  var code = ' "" ';
   return code;
 };

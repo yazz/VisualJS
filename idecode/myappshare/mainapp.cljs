@@ -96,21 +96,21 @@
 
 
 (def basic-blocks  [
-                     ["appshare_element_header" "ui"]
-                     ["appshare_element_text" "ui"]
-                     ["appshare_element_br" "ui"]
-                     ["appshare_element_box" "ui"]
-                     ["appshare_element_left_padding" "ui"]
-                     ["appshare_element_top_padding" "ui"]
-                     ["appshare_custom_component" "component"]
-                     ["appshare_call_custom_component" "ui"]
+                     ["appshare_element_header"         "ui"]
+                     ["appshare_element_text"           "ui"]
+                     ["appshare_element_br"             "ui"]
+                     ["appshare_element_box"            "ui"]
+                     ["appshare_element_left_padding"   "ui"]
+                     ["appshare_element_top_padding"    "ui"]
+                     ["appshare_custom_component"       "component"]
+                     ["appshare_call_custom_component"  "ui"]
                      ])
 
 
 (def database-blocks  [
-                     ["appshare_db_component" "ui"]
-                     ["appshare_db_field" "ui"]
-                     ["appshare_show_tables" "ui"]
+                     ["appshare_db_component"           "ui"]
+                     ["appshare_db_field"               "ui"]
+                     ["appshare_show_tables"            "ui"]
                      ])
 
 

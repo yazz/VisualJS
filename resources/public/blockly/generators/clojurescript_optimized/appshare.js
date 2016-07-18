@@ -343,13 +343,13 @@ Blockly.ClojureScriptOptimized['appshare_db_field'] = function(block) {
 
 
 Blockly.ClojureScriptOptimized['appshare_show_tables'] = function(block) {
-  var value_attributes = ''   + block.getFieldValue('VALUE');
-  var code = '(om.dom/div                                                                                              \n\
-                  nil     (apply            \n\
-                         om.dom/div nil     (map                 \n\
-                             (fn [table-name]               \n\
-                                 (om.dom/div nil (str table-name)))               \n\
-                                 (get-in @webapp.framework.client.system-globals/app-state [:ui :table-list])               \n\
+  var code = ' (om.dom/div  nil                                                                                         \n\
+                   (apply                                                                                               \n\
+                         om.dom/div nil                                                                                 \n\
+                         (map                                                                                           \n\
+                             (fn [table-name]                                                                           \n\
+                                 (om.dom/div nil (str table-name)))                                                     \n\
+                            (get-in @webapp.framework.client.system-globals/app-state [:ui :table-list])                \n\
          ))) ';
   return code;
 };
