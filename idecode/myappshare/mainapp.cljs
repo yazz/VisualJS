@@ -10,7 +10,7 @@
                                                div img pre component h2 input section header button label form iframe
                                                write-ui read-ui container input component <-- data-view-result-set
                                                h1 h2 h3 h4 h5 h6 span  data-view-v2 select dselect realtime drealtime
-                                               input-field remote add-many map-many
+                                               input-field remote add-many map-many code
                                                ]])
   (:use
    [myappshare.login :only  [login-component]]
@@ -493,6 +493,22 @@
 
          (div nil
                (button {
+                         :onClick (fn[e] (swap! app-state assoc-in [:ui :editor :show-generated-code2] true))
+                         :className    (if (small-screen) "btn btn-default" "btn-lg btn-default")} "Show generated XML")
+
+
+              (div nil
+                   (pre {:id "blocklyCode2" :style {:display (if (get-in @app-state [:ui :editor :show-generated-code2])
+                                                              ""
+                                                              "none")
+                                                   :verticalAlign "text-top"
+                                                   :background     "white"
+                                                   :color          "black"
+                                                   :height         "800px"
+                                                   :width          "1200px"}}  "")))
+
+         (div nil
+               (button {
                          :onClick (fn[e] (swap! app-state assoc-in [:ui :editor :show-generated-code] true))
                          :className    (if (small-screen) "btn btn-default" "btn-lg btn-default")} "Show generated code")
 
@@ -506,7 +522,10 @@
                                                    :background     "white"
                                                    :color          "black"
                                                    :height         "800px"
-                                                   :width          "500px"}}  "")))))
+                                                   :width          "1200px"}}  "")))
+
+
+         ))
 )
 
 
