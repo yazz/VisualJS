@@ -162,10 +162,12 @@
         (do
           (remote !savecode {:id                 app-id
                              :code               (subs code 0 2000)
+                             :code-index         1
                              :app-session-id     app-session-id})
 
-          (remote !savecode2 {:id               app-id
+          (remote !savecode  {:id               app-id
                               :code             (subs code 2000 4000)
+                              :code-index       2
                               :app-session-id   app-session-id})))
 
 
@@ -173,10 +175,12 @@
         (do
           (remote !savecode {:id                 app-id
                              :code               (subs code 0 2000)
+                             :code-index         1
                              :app-session-id     app-session-id})
 
-          (remote !savecode2 {:id               app-id
+          (remote !savecode  {:id               app-id
                               :code             (subs code 2000 4000)
+                              :code-index       2
                               :app-session-id   app-session-id})
           (remote !saveblockly {:id                 app-id
                              :code               (subs blockly-xml 0 2000)

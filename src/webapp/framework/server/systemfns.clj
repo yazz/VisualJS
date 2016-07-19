@@ -2279,24 +2279,14 @@
 
 
 
-(defn !savecode [{:keys [id   code   app-session-id] }]
+(defn !savecode [{:keys [id   code  code-index   app-session-id] }]
   (do
     (println (str "***********id: " id))
-    (sql "update  appshare_applications  set  code_format='text', application_code = ?,
-         blockly_xml = NULL where  id = ?" [code id])
+    (if (= 1 code-index)
+      (sql "update  appshare_applications  set  code_format='text', application_code = '',
+           blockly_xml = NULL where  id = ?" [id]))
 
-
-
-    (let [;start     (slurp (src-folder "main_view_start.txt"))
-          ;middle    code
-          ;end       (slurp (src-folder "main_view_end.txt"))
-
-          ;joined    (str  start  middle  end)
-          ]
-      ;(spit (src-folder "main_view.cljs") joined)
-      ;(println (str "COMPILED:" start))
-      nil
-      )
+    (sql "update appshare_applications set application_code = CONCAT(application_code, ?) where id = ?" [code id])
 
     {:value code}))
 
@@ -2329,23 +2319,6 @@
 
 
 
-
-
-(defn !savecode2 [{:keys [id code] }]
-  (do
-    (println (str "************* !savecode2" ))
-    (sql "update appshare_applications set application_code = CONCAT(application_code, ?) where id = ?" [code id])
-    (let [;start     (slurp (src-folder "main_view_start.txt"))
-          ;middle    code
-          ;end       (slurp (src-folder "main_view_end.txt"))
-
-          ;joined    (str  start  middle  end)
-          ]
-      ;(spit (src-folder "main_view.cljs") joined)
-      nil
-      )
-
-    {:value code}))
 
 
 
