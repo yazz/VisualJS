@@ -505,7 +505,17 @@
                                                    :background     "white"
                                                    :color          "black"
                                                    :height         "800px"
-                                                   :width          "1200px"}}  "")))
+                                                   :width          "1200px"}}  ""))
+              (div nil
+                   (pre {:id "blocklyCode3" :style {:display (if (get-in @app-state [:ui :editor :show-generated-code2])
+                                                              ""
+                                                              "none")
+                                                   :verticalAlign "text-top"
+                                                   :background     "white"
+                                                   :color          "black"
+                                                   :height         "800px"
+                                                   :width          "1200px"}}  ""))
+              )
 
          (div nil
                (button {

@@ -440,6 +440,7 @@ function setCodeMirrorOption(optionname , optionvalue) {
 
         document.getElementById('blocklyCode').innerHTML = code;
         document.getElementById('blocklyCode2').innerHTML = getBlocklyXml15();
+        document.getElementById('blocklyCode3').innerHTML = getBlocklyXml35();
         console.log("Event.type= " + event.type + " : " + calcEvals);
         document.getElementById('numberOfEvals').innerHTML = '' + calcEvals;
         //uuuttt(toolbox);
@@ -496,6 +497,23 @@ function escapeHtml(unsafe) {
         var code = Blockly.Xml.domToText(dom);
         //var code = Blockly.Xml.domToPrettyText(xml);
         return code;
+      }
+
+      function getBlocklyXml35()
+      {
+
+        var dom = Blockly.Xml.workspaceToDom(workspace);
+        var headlessWorkspace = new Blockly.Workspace();
+        rearrangeDom(dom);
+        Blockly.Xml.domToWorkspace(dom, headlessWorkspace);
+
+
+        var inline = Blockly.ClojureScript.workspaceToCode(headlessWorkspace);
+        var dom = Blockly.Xml.workspaceToDom(headlessWorkspace);
+        headlessWorkspace.dispose();
+        var code = Blockly.Xml.domToText(dom);
+        //var code = Blockly.Xml.domToPrettyText(xml);
+        return escapeHtml(formatXml(code));
       }
 
       function setBlocklyXml(xml_text)
