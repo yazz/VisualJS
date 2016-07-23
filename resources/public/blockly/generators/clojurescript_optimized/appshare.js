@@ -15,7 +15,7 @@ Blockly.ClojureScriptOptimized['appshare_app'] = function(block) {
   var textval = block.getFieldValue('VALUE') ;
   var code = '(defn-ui-component     main   [app] {}\n\
        (div   nil  ' + main_app + ' \"' + textval + '"\n\
-    ))';
+    ))  ';
   return code;
 };
 
@@ -63,16 +63,16 @@ Blockly.ClojureScriptOptimized['appshare_div'] = function(block) {
 
   var statements_more_elements = Blockly.ClojureScriptOptimized.statementToCode(block, 'more elements');
 
-  var code = '(om.dom/div  nil ' + value_attributes + ' ' +
+  var code = ' (om.dom/div  nil ' + value_attributes + ' ' +
       statements_more_elements +
-      ')\n' ;
+      ') n' ;
   return code;
 };
 
 
 
 Blockly.ClojureScriptOptimized['appshare_element_attribute'] = function(block) {
-  return "{:style {:" + block.getFieldValue('style') + ' \"' + block.getFieldValue('value') + "\"}}";
+  return " {:style {:" + block.getFieldValue('style') + ' \"' + block.getFieldValue('value') + "\"}} ";
 };
 
 
@@ -89,7 +89,7 @@ Blockly.ClojureScriptOptimized['appshare_element_text'] = function(block) {
   var value_attributes = ''   + block.getFieldValue('VALUE')
 
 
-  var code = '"' + value_attributes + '"' + '\n' ;
+  var code = '\n "' + value_attributes + '" ' + '\n' ;
 
   return code;
 };
@@ -118,7 +118,7 @@ Blockly.ClojureScriptOptimized['appshare_element_br'] = function(block) {
   // TODO: Assemble JavaScript into code variable.
 
 
-  var code = '(om.dom/div nil "")' ;
+  var code = ' (om.dom/div nil "") ' ;
 
   return code;
 };
@@ -129,7 +129,7 @@ Blockly.ClojureScriptOptimized['appshare_element_box'] = function(block) {
   // TODO: Assemble JavaScript into code variable.
 
 
-  var code = '(om.dom/div  (webapp.framework.client.coreclient/attrs {:style {:border "1px solid black" :width "200px" :height "200px" :display "inline-block"}}) "")' ;
+  var code = ' (om.dom/div  (webapp.framework.client.coreclient/attrs {:style {:border "1px solid black" :width "200px" :height "200px" :display "inline-block"}}) "") ' ;
 
   return code;
 };
@@ -139,7 +139,7 @@ Blockly.ClojureScriptOptimized['appshare_element_left_padding'] = function(block
   // TODO: Assemble JavaScript into code variable.
 
 
-  var code = '(om.dom/div  (webapp.framework.client.coreclient/attrs  {:style {:padding "10px" :display "inline-block"}}) "")' ;
+  var code = ' (om.dom/div  (webapp.framework.client.coreclient/attrs  {:style {:padding "10px" :display "inline-block"}}) "") ' ;
 
   return code;
 };
@@ -152,7 +152,7 @@ Blockly.ClojureScriptOptimized['appshare_element_top_padding'] = function(block)
   // TODO: Assemble JavaScript into code variable.
 
 
-  var code = '(om.dom/div  (webapp.framework.client.coreclient/attrs  {:style {:padding "10px" }}) "")' ;
+  var code = ' (om.dom/div  (webapp.framework.client.coreclient/attrs  {:style {:padding "10px" }}) "") ' ;
 
   return code;
 };
@@ -179,7 +179,7 @@ Blockly.ClojureScriptOptimized['appshare_custom_component'] = function(block) {
 
   var value_attributes = ''   + block.getFieldValue('COMPONENT_NAME');
   var main_div = Blockly.ClojureScriptOptimized.statementToCode(block, 'main div element');
-  var code = '(defn ' + value_attributes +  ' [app  owner]                                      \n\
+  var code = ' (defn ' + value_attributes +  ' [app  owner]                                      \n\
     (reify                                                                                      \n\
           om.core/IRender                                                                       \n\
           (render [this]                                                                        \n\
@@ -197,7 +197,7 @@ Blockly.ClojureScriptOptimized['appshare_custom_component'] = function(block) {
                                           path                                                  \n\
                                           )                                                     \n\
                             ]                                                                   \n\
-                      return-val))))';
+                      return-val)))) ';
 
   return code;
 };
@@ -222,7 +222,8 @@ Blockly.ClojureScriptOptimized['appshare_call_custom_component'] = function(bloc
   // TODO: Assemble JavaScript into code variable.
 
   var value_attributes = ''   + block.getFieldValue('COMPONENT_NAME_VALUE');
-  var code = '(webapp.framework.client.coreclient/component-fn  ' + value_attributes + '  app     path   [])';
+  var code = '(webapp.framework.client.coreclient/component-fn  ' + value_attributes + '  app     []   []) ';
+//code = '(om.dom/div nil " - ")';
 
   return code;
 };
@@ -236,7 +237,7 @@ Blockly.ClojureScriptOptimized['appshare_db_component'] = function(block) {
   //(sql-parser  "select" ~@select-args)
   var table_name = ''   + block.getFieldValue('VALUE');
   var field_names = ''   + block.getFieldValue('DB_FIELDS');
-  var statements_more_elements = Blockly.ClojureScript.statementToCode(block, 'more elements');
+  var statements_more_elements = Blockly.ClojureScriptOptimized.statementToCode(block, 'more elements');
 
   tttt ++;
   var code = '(let                                                                                  \n\
@@ -321,21 +322,21 @@ Blockly.ClojureScriptOptimized['appshare_db_component'] = function(block) {
                              select-id                                                              \n\
                              (get-in record [:value :id])]                                          \n\
                             (if (clojure.core/get record :value) (om.dom/div {} (om.dom/div nil     \n\
-                            (str                                                                    \n\
                              " " ' + statements_more_elements + '                                   \n\
-                            ))))))                                                                  \n\
+                            )))))                                                                  \n\
       (map                                                                                          \n\
         (fn [x] (get data-order x))                                                                 \n\
         (range (:start {:start 1, :end 20})                                                         \n\
                (inc (min (:end {:start 1, :end 20}) (-> data :count))))))))) ';
 
+  console.log(code);
   return code;
 };
 
 
 Blockly.ClojureScriptOptimized['appshare_db_field'] = function(block) {
   var value_attributes = ''   + block.getFieldValue('VALUE');
-  var code = ' (webapp.framework.client.coreclient/<---fn   record  :' + value_attributes +  '  path  relative-path  ) ';
+  var code = ' (webapp.framework.client.coreclient/<---fn   record  :' + value_attributes +  '  path  relative-path  )   ' + ' ';
   return code;
 };
 

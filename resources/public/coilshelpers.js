@@ -366,10 +366,12 @@ function setCodeMirrorOption(optionname , optionvalue) {
 
           // if it is a custom component then move it to the top
           if (block.getAttribute('type') == 'appshare_custom_component') {
+            console.log("Found custom component ");
             mainCustomComponents.appendChild(block);
           }
           // if it is a deprecated UI component then remove it
           else if (block.getAttribute('type') == 'appshare_ui_component') {
+            console.log("Removed block ");
             block.parentElement.removeChild(block);
           }
 
@@ -399,7 +401,7 @@ function setCodeMirrorOption(optionname , optionvalue) {
           cblock = customBlocks[0];
           cblock.removeAttribute('x');
           cblock.removeAttribute('y');
-          blocklyDom.appendChild(cblock);
+          dom.appendChild(cblock);
         }
         dom.appendChild(mainProgramBlocklycomponent);
       }
