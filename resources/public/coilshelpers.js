@@ -273,13 +273,21 @@ function setCodeMirrorOption(optionname , optionvalue) {
 
       function findFirstNextElement(el)
       {
-        var blocks = el.getElementsByTagName("next");
-        if (blocks.length == 0) {
-          return el;
+        var blocks = el.children;
+        var bc = blocks.length;
+        var hasNext = false;
+        for (i = 0; i  < bc; i++) {
+          if (blocks[i].tagName == 'next') {
+            hasNext = true;
+          }
         }
-        else {
-          return blocks[0].children[0];
+
+        if (hasNext) {
+          console.log('findLastChild');
+          return findLastChild(el);
         }
+
+        return el;
       }
 
       var component_list = [];
@@ -294,16 +302,9 @@ function setCodeMirrorOption(optionname , optionvalue) {
       //
       function rearrangeDom(dom)
       {
-        var mainCustomComponents = document.createElement("custcomponents");
-
-        var mainProgramBlocklycomponent = document.createElement("block");
-        mainProgramBlocklycomponent.setAttribute("type","appshare_ui_component");
-
-        var mainStatement = document.createElement("statement");
-        mainStatement.setAttribute("name","main div element");
-        mainProgramBlocklycomponent.appendChild(mainStatement);
-
-        lastblock = null;
+        //
+        // Save the names of all the custom components
+        //
         var blocks = dom.children;
         console.log("Block count: " + blocks.length);
         bc = blocks.length;
@@ -318,14 +319,40 @@ function setCodeMirrorOption(optionname , optionvalue) {
           }
         };
 
-        for (i = 0; i  < bc; i++) {
+
+
+
+
+        //
+        // make a main element for the program, which contains a main div statement.
+        // Inside this div statement place all the blocks which
+        // are just 'hanging around' so that we can show something on
+        // the screen
+        //
+        // keep the custom components at the top
+        var mainCustomComponents = document.createElement("custcomponents");
+
+        var mainProgramBlocklycomponent = document.createElement("block");
+        mainProgramBlocklycomponent.setAttribute("type","appshare_ui_component");
+
+        var mainStatement = document.createElement("statement");
+        mainStatement.setAttribute("name","main div element");
+        mainProgramBlocklycomponent.appendChild(mainStatement);
+
+        lastblock = null;
+
+        // go through all the blocks
+        for (var bi = 0; bi  < bc; bi++) {
           blocks = dom.children;
           block = blocks[0];
+
+          // remove any screen positions from the blocks since we are rearranging them
           block.removeAttribute('x');
           block.removeAttribute('y');
-          console.log("next block is: " + i + " : " + block.getAttribute('type'));
+          console.log("next block is: " + bi + " : " + block.getAttribute('type'));
 
 
+          // if it is a custom component then make sure it calls something valid
           if (block.getAttribute('type') == 'appshare_call_custom_component') {
             childr = block.children;
             chi = childr[0];
@@ -334,17 +361,19 @@ function setCodeMirrorOption(optionname , optionvalue) {
               chi.textContent = 'default-component';
               //block.parentElement.removeChild(block);
             };
-
           }
 
 
+          // if it is a custom component then move it to the top
           if (block.getAttribute('type') == 'appshare_custom_component') {
             mainCustomComponents.appendChild(block);
           }
+          // if it is a deprecated UI component then remove it
           else if (block.getAttribute('type') == 'appshare_ui_component') {
             block.parentElement.removeChild(block);
           }
 
+          // otherwise it is a UI component
           else {
             if (foundFirstMainUiBlock == false) {
               mainStatement.appendChild(block);
@@ -356,6 +385,7 @@ function setCodeMirrorOption(optionname , optionvalue) {
             }
             foundFirstMainUiBlock = true;
             lastblock = findFirstNextElement(block);
+            console.log("    last block is: " + bi + " : " + lastblock.getAttribute('type'));
           }
         };
 
