@@ -450,7 +450,7 @@ function setCodeMirrorOption(optionname , optionvalue) {
         var inline = Blockly.ClojureScriptOptimized.workspaceToCode(headlessWorkspace);
         headlessWorkspace.dispose();
         var code = inline;
-
+        console.log(code);
         return code;
       }
 

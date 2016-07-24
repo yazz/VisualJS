@@ -222,7 +222,7 @@ Blockly.ClojureScriptOptimized['appshare_call_custom_component'] = function(bloc
   // TODO: Assemble JavaScript into code variable.
 
   var value_attributes = ''   + block.getFieldValue('COMPONENT_NAME_VALUE');
-  var code = '(webapp.framework.client.coreclient/component-fn  ' + value_attributes + '  app     []   []) ';
+  var code = '(om.dom/div (webapp.framework.client.coreclient/attrs {:style {:display "inline-block"}}) (webapp.framework.client.coreclient/component-fn  ' + value_attributes + '  app     []   [])) ';
 //code = '(om.dom/div nil " - ")';
 
   return code;
@@ -329,7 +329,7 @@ Blockly.ClojureScriptOptimized['appshare_db_component'] = function(block) {
         (range (:start {:start 1, :end 20})                                                         \n\
                (inc (min (:end {:start 1, :end 20}) (-> data :count))))))))) ';
 
-  console.log(code);
+  //console.log(code);
   return code;
 };
 
