@@ -487,8 +487,8 @@
          (div {:id "blocklyDiv" :style {:verticalAlign "text-top"
                                         :background     "white"
                                         :color          "white"
-                                        :height         "800px"
-                                        :width          "500px"
+                                        :height         "600px"
+                                        :width          "800px"
                                         :display        "inline-block"}} "")
 
          (div nil
