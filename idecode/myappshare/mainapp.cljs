@@ -182,13 +182,31 @@
                               :code             (subs code 2000 4000)
                               :code-index       2
                               :app-session-id   app-session-id})
-          (remote !saveblockly {:id                 app-id
-                             :code               (subs blockly-xml 0 2000)
-                             :app-session-id     app-session-id})
 
-          (remote !saveblockly2 {:id               app-id
-                              :code             (subs blockly-xml 2000 4000)
-                              :app-session-id   app-session-id})
+          (let [count-blockly-chars     (+ (/ (- (count blockly-xml) 1) 2000) 1)
+                blockly-code-chunks     (into [] (range 0 (- count-blockly-chars 1)))
+                ]
+            (doall (for [code-chunk-index  blockly-code-chunks]
+                     (go
+              ;(js/alert (str "Count:" code-chunk-index))
+                       (remote !saveblockly {:id                app-id
+                                             :code              (subs blockly-xml
+                                                                      (* 2000 code-chunk-index)
+                                                                      (+ (* 2000 code-chunk-index) 2000))
+                                             :code-index        (+ code-chunk-index 1)
+                                             :app-session-id    app-session-id})
+              ))
+            ))
+
+           (comment remote !saveblockly {:id                app-id
+                                :code              (subs blockly-xml 0 2000)
+                                :code-index        1
+                                :app-session-id    app-session-id})
+
+           (comment remote !saveblockly {:id                app-id
+                                :code              (subs blockly-xml 2000 4000)
+                                :code-index        2
+                                :app-session-id    app-session-id})
           )
 
 
