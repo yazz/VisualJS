@@ -77,15 +77,8 @@ var workspace = null;
 
 function start() {
   workspace = Blockly.inject('blocklyDiv',
-      {grid:
-         {spacing: 25,
-          length: 3,
-          colour: '#ccc',
-          snap: true},
-       media: '../../media/',
-       toolbox: document.getElementById('toolbox'),
-       zoom: {controls: true, wheel: true}
-       });
+      {media: '../../media/',
+       toolbox: document.getElementById('toolbox')});
 }
 
 function loadXml() {
@@ -153,23 +146,17 @@ function toXml() {
 }
 
 function toJavaScript() {
-  var oneBasedIndexing = document.getElementById('indexing').checked;
-  Blockly.JavaScript.ONE_BASED_INDEXING = oneBasedIndexing;
   var code = '\'use strict\';\n\n'
   code += Blockly.JavaScript.workspaceToCode(workspace);
   setOutput(code);
 }
 
 function toPython() {
-  var oneBasedIndexing = document.getElementById('indexing').checked;
-  Blockly.Python.ONE_BASED_INDEXING = oneBasedIndexing;
   var code = Blockly.Python.workspaceToCode(workspace);
   setOutput(code);
 }
 
 function toPhp() {
-  var oneBasedIndexing = document.getElementById('indexing').checked;
-  Blockly.PHP.ONE_BASED_INDEXING = oneBasedIndexing;
   var code = Blockly.PHP.workspaceToCode(workspace);
   setOutput(code);
 }
@@ -180,8 +167,6 @@ function toLua() {
 }
 
 function toDart() {
-  var oneBasedIndexing = document.getElementById('indexing').checked;
-  Blockly.Dart.ONE_BASED_INDEXING = oneBasedIndexing;
   var code = Blockly.Dart.workspaceToCode(workspace);
   setOutput(code);
 }
@@ -220,22 +205,9 @@ h1 {
   <xml id="toolbox" style="display: none">
     <category name="Unit test" colour="65">
       <block type="unittest_main"></block>
-      <block type="unittest_assertequals">
-        <value name="MESSAGE">
-          <block type="text">
-            <field name="TEXT"></field>
-          </block>
-        </value>
-      </block>
-      <block type="unittest_assertvalue">
-        <value name="MESSAGE">
-          <block type="text">
-            <field name="TEXT"></field>
-          </block>
-        </value>
-      </block>
+      <block type="unittest_assertequals"></block>
+      <block type="unittest_assertvalue"></block>
       <block type="unittest_fail"></block>
-      <block type="unittest_adjustindex"></block>
     </category>
     <category name="Logic" colour="210">
       <block type="controls_if"></block>
@@ -292,7 +264,6 @@ h1 {
       <block type="lists_getIndex"></block>
       <block type="lists_setIndex"></block>
       <block type="lists_getSublist"></block>
-      <block type="lists_sort"></block>
       <block type="lists_split"></block>
     </category>
     <category name="Colour" colour="20">
@@ -324,10 +295,6 @@ h1 {
         <option value="">Other...</option>
       </select>
       <input type="button" value="Load" onclick="loadXml()">
-    </p>
-
-    <p>
-      <input id="indexing" type="checkbox" checked> Generate with one-based indexing
     </p>
 
     <p>

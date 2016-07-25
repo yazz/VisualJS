@@ -26,7 +26,8 @@
 
 goog.provide('Blockly.Variables');
 
-goog.require('Blockly.Blocks');
+// TODO(scr): Fix circular dependencies
+// goog.require('Blockly.Block');
 goog.require('Blockly.Workspace');
 goog.require('goog.string');
 
@@ -54,10 +55,10 @@ Blockly.Variables.allVariables = function(root) {
   }
   var variableHash = Object.create(null);
   // Iterate through every block and add each variable to the hash.
-  for (var i = 0; i < blocks.length; i++) {
-    var blockVariables = blocks[i].getVars();
-    for (var j = 0; j < blockVariables.length; j++) {
-      var varName = blockVariables[j];
+  for (var x = 0; x < blocks.length; x++) {
+    var blockVariables = blocks[x].getVars();
+    for (var y = 0; y < blockVariables.length; y++) {
+      var varName = blockVariables[y];
       // Variable name may be null if the block is only half-built.
       if (varName) {
         variableHash[varName.toLowerCase()] = varName;

@@ -51,6 +51,35 @@ Blockly.FieldAngle = function(text, opt_validator) {
 goog.inherits(Blockly.FieldAngle, Blockly.FieldTextInput);
 
 /**
+ * Sets a new change handler for angle field.
+ * @param {Function} handler New change handler, or null.
+ */
+Blockly.FieldAngle.prototype.setValidator = function(handler) {
+  var wrappedHandler;
+  if (handler) {
+    // Wrap the user's change handler together with the angle validator.
+    wrappedHandler = function(value) {
+      var v1 = handler.call(this, value);
+      if (v1 === null) {
+        var v2 = v1;
+      } else {
+        if (v1 === undefined) {
+          v1 = value;
+        }
+        var v2 = Blockly.FieldAngle.angleValidator.call(this, v1);
+        if (v2 === undefined) {
+          v2 = v1;
+        }
+      }
+      return v2 === value ? undefined : v2;
+    };
+  } else {
+    wrappedHandler = Blockly.FieldAngle.angleValidator;
+  }
+  Blockly.FieldAngle.superClass_.setValidator.call(this, wrappedHandler);
+};
+
+/**
  * Round angles to the nearest 15 degrees when using mouse.
  * Set to 0 to disable rounding.
  */
@@ -154,15 +183,15 @@ Blockly.FieldAngle.prototype.showEditor_ = function() {
       'y1': Blockly.FieldAngle.HALF,
       'class': 'blocklyAngleLine'}, svg);
   // Draw markers around the edge.
-  for (var angle = 0; angle < 360; angle += 15) {
+  for (var a = 0; a < 360; a += 15) {
     Blockly.createSvgElement('line', {
       'x1': Blockly.FieldAngle.HALF + Blockly.FieldAngle.RADIUS,
       'y1': Blockly.FieldAngle.HALF,
       'x2': Blockly.FieldAngle.HALF + Blockly.FieldAngle.RADIUS -
-          (angle % 45 == 0 ? 10 : 5),
+          (a % 45 == 0 ? 10 : 5),
       'y2': Blockly.FieldAngle.HALF,
       'class': 'blocklyAngleMarks',
-      'transform': 'rotate(' + angle + ',' +
+      'transform': 'rotate(' + a + ',' +
           Blockly.FieldAngle.HALF + ',' + Blockly.FieldAngle.HALF + ')'
     }, svg);
   }
@@ -205,7 +234,7 @@ Blockly.FieldAngle.prototype.onMouseMove = function(e) {
     angle = Math.round(angle / Blockly.FieldAngle.ROUND) *
         Blockly.FieldAngle.ROUND;
   }
-  angle = this.callValidator(angle);
+  angle = Blockly.FieldAngle.angleValidator(angle);
   Blockly.FieldTextInput.htmlInput_.value = angle;
   this.setValue(angle);
   this.validate_();
@@ -275,20 +304,17 @@ Blockly.FieldAngle.prototype.updateGraph_ = function() {
  * @param {string} text The user's text.
  * @return {?string} A string representing a valid angle, or null if invalid.
  */
-Blockly.FieldAngle.prototype.classValidator = function(text) {
-  if (text === null) {
-    return null;
-  }
-  var n = parseFloat(text || 0);
-  if (isNaN(n)) {
-    return null;
-  }
-  n = n % 360;
-  if (n < 0) {
-    n += 360;
-  }
-  if (n > Blockly.FieldAngle.WRAP) {
-    n -= 360;
-  }
-  return String(n);
+Blockly.FieldAngle.angleValidator = function(text) {
+  var n = Blockly.FieldTextInput.numberValidator(text);
+  if (n !== null) {
+    n = n % 360;
+    if (n < 0) {
+      n += 360;
+    }
+    if (n > Blockly.FieldAngle.WRAP) {
+      n -= 360;
+    }
+    n = String(n);
+   }
+  return n;
 };

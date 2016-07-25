@@ -65,15 +65,14 @@ Blockly.Python['procedures_defreturn'] = function(block) {
     branch = Blockly.Python.PASS;
   }
   var args = [];
-  for (var i = 0; i < block.arguments_.length; i++) {
-    args[i] = Blockly.Python.variableDB_.getName(block.arguments_[i],
+  for (var x = 0; x < block.arguments_.length; x++) {
+    args[x] = Blockly.Python.variableDB_.getName(block.arguments_[x],
         Blockly.Variables.NAME_TYPE);
   }
   var code = 'def ' + funcName + '(' + args.join(', ') + '):\n' +
       globals + branch + returnValue;
   code = Blockly.Python.scrub_(block, code);
-  // Add % so as not to collide with helper functions in definitions list.
-  Blockly.Python.definitions_['%' + funcName] = code;
+  Blockly.Python.definitions_[funcName] = code;
   return null;
 };
 
@@ -87,8 +86,8 @@ Blockly.Python['procedures_callreturn'] = function(block) {
   var funcName = Blockly.Python.variableDB_.getName(block.getFieldValue('NAME'),
       Blockly.Procedures.NAME_TYPE);
   var args = [];
-  for (var i = 0; i < block.arguments_.length; i++) {
-    args[i] = Blockly.Python.valueToCode(block, 'ARG' + i,
+  for (var x = 0; x < block.arguments_.length; x++) {
+    args[x] = Blockly.Python.valueToCode(block, 'ARG' + x,
         Blockly.Python.ORDER_NONE) || 'None';
   }
   var code = funcName + '(' + args.join(', ') + ')';
@@ -100,8 +99,8 @@ Blockly.Python['procedures_callnoreturn'] = function(block) {
   var funcName = Blockly.Python.variableDB_.getName(block.getFieldValue('NAME'),
       Blockly.Procedures.NAME_TYPE);
   var args = [];
-  for (var i = 0; i < block.arguments_.length; i++) {
-    args[i] = Blockly.Python.valueToCode(block, 'ARG' + i,
+  for (var x = 0; x < block.arguments_.length; x++) {
+    args[x] = Blockly.Python.valueToCode(block, 'ARG' + x,
         Blockly.Python.ORDER_NONE) || 'None';
   }
   var code = funcName + '(' + args.join(', ') + ')\n';

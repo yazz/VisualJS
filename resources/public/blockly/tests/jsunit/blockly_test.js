@@ -123,18 +123,18 @@ function test_commonWordSuffix() {
 }
 
 function test_tokenizeInterpolation() {
-  var tokens = Blockly.utils.tokenizeInterpolation('');
+  var tokens = Blockly.tokenizeInterpolation('');
   assertArrayEquals('Null interpolation', [], tokens);
-  tokens = Blockly.utils.tokenizeInterpolation('Hello');
+  tokens = Blockly.tokenizeInterpolation('Hello');
   assertArrayEquals('No interpolation', ['Hello'], tokens);
-  tokens = Blockly.utils.tokenizeInterpolation('Hello%World');
+  tokens = Blockly.tokenizeInterpolation('Hello%World');
   assertArrayEquals('Unescaped %.', ['Hello%World'], tokens);
-  tokens = Blockly.utils.tokenizeInterpolation('Hello%%World');
+  tokens = Blockly.tokenizeInterpolation('Hello%%World');
   assertArrayEquals('Escaped %.', ['Hello%World'], tokens);
-  tokens = Blockly.utils.tokenizeInterpolation('Hello %1 World');
+  tokens = Blockly.tokenizeInterpolation('Hello %1 World');
   assertArrayEquals('Interpolation.', ['Hello ', 1, ' World'], tokens);
-  tokens = Blockly.utils.tokenizeInterpolation('%123Hello%456World%789');
+  tokens = Blockly.tokenizeInterpolation('%123Hello%456World%789');
   assertArrayEquals('Interpolations.', [123, 'Hello', 456, 'World', 789], tokens);
-  tokens = Blockly.utils.tokenizeInterpolation('%%%x%%0%00%01%');
+  tokens = Blockly.tokenizeInterpolation('%%%x%%0%00%01%');
   assertArrayEquals('Torture interpolations.', ['%%x%0', 0, 1, '%'], tokens);
 }

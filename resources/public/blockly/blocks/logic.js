@@ -271,23 +271,21 @@ Blockly.Blocks['logic_compare'] = {
    * @this Blockly.Block
    */
   init: function() {
-    var rtlOperators = [
-      ['=', 'EQ'],
-      ['\u2260', 'NEQ'],
-      ['>', 'LT'],
-      ['\u2265', 'LTE'],
-      ['<', 'GT'],
-      ['\u2264', 'GTE']
-    ];
-    var ltrOperators = [
-      ['=', 'EQ'],
-      ['\u2260', 'NEQ'],
-      ['<', 'LT'],
-      ['\u2264', 'LTE'],
-      ['>', 'GT'],
-      ['\u2265', 'GTE']
-    ];
-    var OPERATORS = this.RTL ? rtlOperators : ltrOperators;
+    var OPERATORS = this.RTL ? [
+          ['=', 'EQ'],
+          ['\u2260', 'NEQ'],
+          ['>', 'LT'],
+          ['\u2265', 'LTE'],
+          ['<', 'GT'],
+          ['\u2264', 'GTE']
+        ] : [
+          ['=', 'EQ'],
+          ['\u2260', 'NEQ'],
+          ['<', 'LT'],
+          ['\u2264', 'LTE'],
+          ['>', 'GT'],
+          ['\u2265', 'GTE']
+        ];
     this.setHelpUrl(Blockly.Msg.LOGIC_COMPARE_HELPURL);
     this.setColour(Blockly.Blocks.logic.HUE);
     this.setOutput(true, 'Boolean');

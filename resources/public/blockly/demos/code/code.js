@@ -294,7 +294,7 @@ Code.tabClick = function(clickedName) {
   if (clickedName == 'blocks') {
     Code.workspace.setVisible(true);
   }
-  Blockly.svgResize(Code.workspace);
+  Blockly.fireUiEvent(window, 'resize');
 };
 
 /**
@@ -380,14 +380,10 @@ Code.init = function() {
           // Account for the 19 pixel margin and on each side.
     }
   };
+  onresize();
   window.addEventListener('resize', onresize, false);
 
-  // Interpolate translated messages into toolbox.
-  var toolboxText = document.getElementById('toolbox').outerHTML;
-  toolboxText = toolboxText.replace(/{(\w+)}/g,
-      function(m, p1) {return MSG[p1]});
-  var toolboxXml = Blockly.Xml.textToDom(toolboxText);
-
+  var toolbox = document.getElementById('toolbox');
   Code.workspace = Blockly.inject('content_blocks',
       {grid:
           {spacing: 25,
@@ -396,7 +392,7 @@ Code.init = function() {
            snap: true},
        media: '../../media/',
        rtl: rtl,
-       toolbox: toolboxXml,
+       toolbox: toolbox,
        zoom:
            {controls: true,
             wheel: true}
@@ -436,8 +432,6 @@ Code.init = function() {
     Code.bindClick('tab_' + name,
         function(name_) {return function() {Code.tabClick(name_);};}(name));
   }
-  onresize();
-  Blockly.svgResize(Code.workspace);
 
   // Lazy-load the syntax-highlighting.
   window.setTimeout(Code.importPrettify, 1);
@@ -486,6 +480,20 @@ Code.initLanguage = function() {
   document.getElementById('linkButton').title = MSG['linkTooltip'];
   document.getElementById('runButton').title = MSG['runTooltip'];
   document.getElementById('trashButton').title = MSG['trashTooltip'];
+
+  var categories = ['catLogic', 'catLoops', 'catMath', 'catText', 'catLists',
+                    'catColour', 'catVariables', 'catFunctions'];
+  for (var i = 0, cat; cat = categories[i]; i++) {
+    document.getElementById(cat).setAttribute('name', MSG[cat]);
+  }
+  var textVars = document.getElementsByClassName('textVar');
+  for (var i = 0, textVar; textVar = textVars[i]; i++) {
+    textVar.textContent = MSG['textVariable'];
+  }
+  var listVars = document.getElementsByClassName('listVar');
+  for (var i = 0, listVar; listVar = listVars[i]; i++) {
+    listVar.textContent = MSG['listVariable'];
+  }
 };
 
 /**

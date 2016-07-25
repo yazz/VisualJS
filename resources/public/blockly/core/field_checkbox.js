@@ -58,13 +58,14 @@ Blockly.FieldCheckbox.prototype.CURSOR = 'default';
 
 /**
  * Install this checkbox on a block.
+ * @param {!Blockly.Block} block The block containing this text.
  */
-Blockly.FieldCheckbox.prototype.init = function() {
+Blockly.FieldCheckbox.prototype.init = function(block) {
   if (this.fieldGroup_) {
     // Checkbox has already been initialized once.
     return;
   }
-  Blockly.FieldCheckbox.superClass_.init.call(this);
+  Blockly.FieldCheckbox.superClass_.init.call(this, block);
   // The checkbox doesn't use the inherited text element.
   // Instead it uses a custom checkmark element that is either visible or not.
   this.checkElement_ = Blockly.createSvgElement('text',
@@ -107,9 +108,12 @@ Blockly.FieldCheckbox.prototype.setValue = function(strBool) {
  */
 Blockly.FieldCheckbox.prototype.showEditor_ = function() {
   var newState = !this.state_;
-  if (this.sourceBlock_) {
+  if (this.sourceBlock_ && this.validator_) {
     // Call any validation function, and allow it to override.
-    newState = this.callValidator(newState);
+    var override = this.validator_(newState);
+    if (override !== undefined) {
+      newState = override;
+    }
   }
   if (newState !== null) {
     this.setValue(String(newState).toUpperCase());

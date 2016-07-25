@@ -38,35 +38,32 @@ Blockly.Python['text'] = function(block) {
 Blockly.Python['text_join'] = function(block) {
   // Create a string made up of any number of elements of any type.
   //Should we allow joining by '-' or ',' or any other characters?
-  switch (block.itemCount_) {
-    case 0:
-      return ['\'\'', Blockly.Python.ORDER_ATOMIC];
-      break;
-    case 1:
-      var element = Blockly.Python.valueToCode(block, 'ADD0',
-              Blockly.Python.ORDER_NONE) || '\'\'';
-      var code = 'str(' + element + ')';
-      return [code, Blockly.Python.ORDER_FUNCTION_CALL];
-      break;
-    case 2:
-      var element0 = Blockly.Python.valueToCode(block, 'ADD0',
-              Blockly.Python.ORDER_NONE) || '\'\'';
-      var element1 = Blockly.Python.valueToCode(block, 'ADD1',
-              Blockly.Python.ORDER_NONE) || '\'\'';
-      var code = 'str(' + element0 + ') + str(' + element1 + ')';
-      return [code, Blockly.Python.ORDER_ADDITIVE];
-      break;
-    default:
-      var elements = [];
-      for (var i = 0; i < block.itemCount_; i++) {
-        elements[i] = Blockly.Python.valueToCode(block, 'ADD' + i,
-                Blockly.Python.ORDER_NONE) || '\'\'';
-      }
-      var tempVar = Blockly.Python.variableDB_.getDistinctName('x',
-          Blockly.Variables.NAME_TYPE);
-      var code = '\'\'.join([str(' + tempVar + ') for ' + tempVar + ' in [' +
-          elements.join(', ') + ']])';
-      return [code, Blockly.Python.ORDER_FUNCTION_CALL];
+  var code;
+  if (block.itemCount_ == 0) {
+    return ['\'\'', Blockly.Python.ORDER_ATOMIC];
+  } else if (block.itemCount_ == 1) {
+    var argument0 = Blockly.Python.valueToCode(block, 'ADD0',
+        Blockly.Python.ORDER_NONE) || '\'\'';
+    code = 'str(' + argument0 + ')';
+    return [code, Blockly.Python.ORDER_FUNCTION_CALL];
+  } else if (block.itemCount_ == 2) {
+    var argument0 = Blockly.Python.valueToCode(block, 'ADD0',
+        Blockly.Python.ORDER_NONE) || '\'\'';
+    var argument1 = Blockly.Python.valueToCode(block, 'ADD1',
+        Blockly.Python.ORDER_NONE) || '\'\'';
+    var code = 'str(' + argument0 + ') + str(' + argument1 + ')';
+    return [code, Blockly.Python.ORDER_UNARY_SIGN];
+  } else {
+    var code = [];
+    for (var n = 0; n < block.itemCount_; n++) {
+      code[n] = Blockly.Python.valueToCode(block, 'ADD' + n,
+          Blockly.Python.ORDER_NONE) || '\'\'';
+    }
+    var tempVar = Blockly.Python.variableDB_.getDistinctName('temp_value',
+        Blockly.Variables.NAME_TYPE);
+    code = '\'\'.join([str(' + tempVar + ') for ' + tempVar + ' in [' +
+        code.join(', ') + ']])';
+    return [code, Blockly.Python.ORDER_FUNCTION_CALL];
   }
 };
 
@@ -74,23 +71,23 @@ Blockly.Python['text_append'] = function(block) {
   // Append to a variable in place.
   var varName = Blockly.Python.variableDB_.getName(block.getFieldValue('VAR'),
       Blockly.Variables.NAME_TYPE);
-  var value = Blockly.Python.valueToCode(block, 'TEXT',
+  var argument0 = Blockly.Python.valueToCode(block, 'TEXT',
       Blockly.Python.ORDER_NONE) || '\'\'';
-  return varName + ' = str(' + varName + ') + str(' + value + ')\n';
+  return varName + ' = str(' + varName + ') + str(' + argument0 + ')\n';
 };
 
 Blockly.Python['text_length'] = function(block) {
   // Is the string null or array empty?
-  var text = Blockly.Python.valueToCode(block, 'VALUE',
+  var argument0 = Blockly.Python.valueToCode(block, 'VALUE',
       Blockly.Python.ORDER_NONE) || '\'\'';
-  return ['len(' + text + ')', Blockly.Python.ORDER_FUNCTION_CALL];
+  return ['len(' + argument0 + ')', Blockly.Python.ORDER_FUNCTION_CALL];
 };
 
 Blockly.Python['text_isEmpty'] = function(block) {
   // Is the string null or array empty?
-  var text = Blockly.Python.valueToCode(block, 'VALUE',
+  var argument0 = Blockly.Python.valueToCode(block, 'VALUE',
       Blockly.Python.ORDER_NONE) || '\'\'';
-  var code = 'not len(' + text + ')';
+  var code = 'not len(' + argument0 + ')';
   return [code, Blockly.Python.ORDER_LOGICAL_NOT];
 };
 
@@ -98,21 +95,20 @@ Blockly.Python['text_indexOf'] = function(block) {
   // Search the text for a substring.
   // Should we allow for non-case sensitive???
   var operator = block.getFieldValue('END') == 'FIRST' ? 'find' : 'rfind';
-  var substring = Blockly.Python.valueToCode(block, 'FIND',
+  var argument0 = Blockly.Python.valueToCode(block, 'FIND',
       Blockly.Python.ORDER_NONE) || '\'\'';
-  var text = Blockly.Python.valueToCode(block, 'VALUE',
+  var argument1 = Blockly.Python.valueToCode(block, 'VALUE',
       Blockly.Python.ORDER_MEMBER) || '\'\'';
-  var code = text + '.' + operator + '(' + substring + ')';
-  if (Blockly.Python.ONE_BASED_INDEXING) {
-    return [code + ' + 1', Blockly.Python.ORDER_ADDITIVE];
-  }
-  return [code, Blockly.Python.ORDER_FUNCTION_CALL];
+  var code = argument1 + '.' + operator + '(' + argument0 + ') + 1';
+  return [code, Blockly.Python.ORDER_MEMBER];
 };
 
 Blockly.Python['text_charAt'] = function(block) {
   // Get letter at index.
   // Note: Until January 2013 this block did not have the WHERE input.
   var where = block.getFieldValue('WHERE') || 'FROM_START';
+  var at = Blockly.Python.valueToCode(block, 'AT',
+      Blockly.Python.ORDER_UNARY_SIGN) || '1';
   var text = Blockly.Python.valueToCode(block, 'VALUE',
       Blockly.Python.ORDER_MEMBER) || '\'\'';
   switch (where) {
@@ -123,12 +119,18 @@ Blockly.Python['text_charAt'] = function(block) {
       var code = text + '[-1]';
       return [code, Blockly.Python.ORDER_MEMBER];
     case 'FROM_START':
-      var at = Blockly.Python.getAdjustedInt(block, 'AT');
+      // Blockly uses one-based indicies.
+      if (Blockly.isNumber(at)) {
+        // If the index is a naked number, decrement it right now.
+        at = parseInt(at, 10) - 1;
+      } else {
+        // If the index is dynamic, decrement it in code.
+        at = 'int(' + at + ' - 1)';
+      }
       var code = text + '[' + at + ']';
       return [code, Blockly.Python.ORDER_MEMBER];
     case 'FROM_END':
-      var at = Blockly.Python.getAdjustedInt(block, 'AT', 1, true);
-      var code = text + '[' + at + ']';
+      var code = text + '[-' + at + ']';
       return [code, Blockly.Python.ORDER_MEMBER];
     case 'RANDOM':
       Blockly.Python.definitions_['import_random'] = 'import random';
@@ -145,46 +147,53 @@ Blockly.Python['text_charAt'] = function(block) {
 
 Blockly.Python['text_getSubstring'] = function(block) {
   // Get substring.
-  var where1 = block.getFieldValue('WHERE1');
-  var where2 = block.getFieldValue('WHERE2');
   var text = Blockly.Python.valueToCode(block, 'STRING',
       Blockly.Python.ORDER_MEMBER) || '\'\'';
-  switch (where1) {
-    case 'FROM_START':
-      var at1 = Blockly.Python.getAdjustedInt(block, 'AT1');
-      if (at1 == '0') {
-        at1 = '';
-      }
-      break;
-    case 'FROM_END':
-      var at1 = Blockly.Python.getAdjustedInt(block, 'AT1', 1, true);
-      break;
-    case 'FIRST':
-      var at1 = '';
-      break;
-    default:
-      throw 'Unhandled option (text_getSubstring)';
+  var where1 = block.getFieldValue('WHERE1');
+  var where2 = block.getFieldValue('WHERE2');
+  var at1 = Blockly.Python.valueToCode(block, 'AT1',
+      Blockly.Python.ORDER_ADDITIVE) || '1';
+  var at2 = Blockly.Python.valueToCode(block, 'AT2',
+      Blockly.Python.ORDER_ADDITIVE) || '1';
+  if (where1 == 'FIRST' || (where1 == 'FROM_START' && at1 == '1')) {
+    at1 = '';
+  } else if (where1 == 'FROM_START') {
+    // Blockly uses one-based indicies.
+    if (Blockly.isNumber(at1)) {
+      // If the index is a naked number, decrement it right now.
+      at1 = parseInt(at1, 10) - 1;
+    } else {
+      // If the index is dynamic, decrement it in code.
+      at1 = 'int(' + at1 + ' - 1)';
+    }
+  } else if (where1 == 'FROM_END') {
+    if (Blockly.isNumber(at1)) {
+      at1 = -parseInt(at1, 10);
+    } else {
+      at1 = '-int(' + at1 + ')';
+    }
   }
-  switch (where2) {
-    case 'FROM_START':
-      var at2 = Blockly.Python.getAdjustedInt(block, 'AT2', 1);
-      break;
-    case 'FROM_END':
-      var at2 = Blockly.Python.getAdjustedInt(block, 'AT2', 0, true);
-      // Ensure that if the result calculated is 0 that sub-sequence will
-      // include all elements as expected.
-      if (!Blockly.isNumber(String(at2))) {
-        Blockly.Python.definitions_['import_sys'] = 'import sys';
-        at2 += ' or sys.maxsize';
-      } else if (at2 == '0') {
+  if (where2 == 'LAST' || (where2 == 'FROM_END' && at2 == '1')) {
+    at2 = '';
+  } else if (where1 == 'FROM_START') {
+    if (Blockly.isNumber(at2)) {
+      at2 = parseInt(at2, 10);
+    } else {
+      at2 = 'int(' + at2 + ')';
+    }
+  } else if (where1 == 'FROM_END') {
+    if (Blockly.isNumber(at2)) {
+      // If the index is a naked number, increment it right now.
+      at2 = 1 - parseInt(at2, 10);
+      if (at2 == 0) {
         at2 = '';
       }
-      break;
-    case 'LAST':
-      var at2 = '';
-      break;
-    default:
-      throw 'Unhandled option (text_getSubstring)';
+    } else {
+      // If the index is dynamic, increment it in code.
+      // Add special case for -0.
+      Blockly.Python.definitions_['import_sys'] = 'import sys';
+      at2 = 'int(1 - ' + at2 + ') or sys.maxsize';
+    }
   }
   var code = text + '[' + at1 + ' : ' + at2 + ']';
   return [code, Blockly.Python.ORDER_MEMBER];
@@ -198,10 +207,10 @@ Blockly.Python['text_changeCase'] = function(block) {
     'TITLECASE': '.title()'
   };
   var operator = OPERATORS[block.getFieldValue('CASE')];
-  var text = Blockly.Python.valueToCode(block, 'TEXT',
+  var argument0 = Blockly.Python.valueToCode(block, 'TEXT',
       Blockly.Python.ORDER_MEMBER) || '\'\'';
-  var code = text + operator;
-  return [code, Blockly.Python.ORDER_FUNCTION_CALL];
+  var code = argument0 + operator;
+  return [code, Blockly.Python.ORDER_MEMBER];
 };
 
 Blockly.Python['text_trim'] = function(block) {
@@ -212,17 +221,17 @@ Blockly.Python['text_trim'] = function(block) {
     'BOTH': '.strip()'
   };
   var operator = OPERATORS[block.getFieldValue('MODE')];
-  var text = Blockly.Python.valueToCode(block, 'TEXT',
+  var argument0 = Blockly.Python.valueToCode(block, 'TEXT',
       Blockly.Python.ORDER_MEMBER) || '\'\'';
-  var code = text + operator;
-  return [code, Blockly.Python.ORDER_FUNCTION_CALL];
+  var code = argument0 + operator;
+  return [code, Blockly.Python.ORDER_MEMBER];
 };
 
 Blockly.Python['text_print'] = function(block) {
   // Print statement.
-  var msg = Blockly.Python.valueToCode(block, 'TEXT',
+  var argument0 = Blockly.Python.valueToCode(block, 'TEXT',
       Blockly.Python.ORDER_NONE) || '\'\'';
-  return 'print(' + msg + ')\n';
+  return 'print(' + argument0 + ')\n';
 };
 
 Blockly.Python['text_prompt_ext'] = function(block) {

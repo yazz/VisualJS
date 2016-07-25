@@ -71,11 +71,9 @@ Blockly.Blocks['controls_repeat'] = {
       "message0": Blockly.Msg.CONTROLS_REPEAT_TITLE,
       "args0": [
         {
-          "type": "field_number",
+          "type": "field_input",
           "name": "TIMES",
-          "value": 10,
-          "min": 0,
-          "precision": 1
+          "text": "10"
         }
       ],
       "previousStatement": null,
@@ -86,6 +84,8 @@ Blockly.Blocks['controls_repeat'] = {
     });
     this.appendStatementInput('DO')
         .appendField(Blockly.Msg.CONTROLS_REPEAT_INPUT_DO);
+    this.getField('TIMES').setValidator(
+        Blockly.FieldTextInput.nonnegativeIntegerValidator);
   }
 };
 

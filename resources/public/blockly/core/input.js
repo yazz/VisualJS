@@ -26,6 +26,8 @@
 
 goog.provide('Blockly.Input');
 
+// TODO(scr): Fix circular dependencies
+// goog.require('Blockly.Block');
 goog.require('Blockly.Connection');
 goog.require('Blockly.FieldLabel');
 goog.require('goog.asserts');
@@ -45,10 +47,7 @@ Blockly.Input = function(type, name, block, connection) {
   this.type = type;
   /** @type {string} */
   this.name = name;
-  /**
-   * @type {!Blockly.Block}
-   * @private
-   */
+  /** @type {!Blockly.Block} */
   this.sourceBlock_ = block;
   /** @type {Blockly.Connection} */
   this.connection = connection;
@@ -222,8 +221,8 @@ Blockly.Input.prototype.init = function() {
   if (!this.sourceBlock_.workspace.rendered) {
     return;  // Headless blocks don't need fields initialized.
   }
-  for (var i = 0; i < this.fieldRow.length; i++) {
-    this.fieldRow[i].init();
+  for (var x = 0; x < this.fieldRow.length; x++) {
+    this.fieldRow[x].init(this.sourceBlock_);
   }
 };
 

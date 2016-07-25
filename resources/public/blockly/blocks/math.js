@@ -43,15 +43,15 @@ Blockly.Blocks['math_number'] = {
     this.setHelpUrl(Blockly.Msg.MATH_NUMBER_HELPURL);
     this.setColour(Blockly.Blocks.math.HUE);
     this.appendDummyInput()
-        .appendField(new Blockly.FieldNumber('0'), 'NUM');
+        .appendField(new Blockly.FieldTextInput('0',
+        Blockly.FieldTextInput.numberValidator), 'NUM');
     this.setOutput(true, 'Number');
     // Assign 'this' to a variable for use in the tooltip closure below.
     var thisBlock = this;
     // Number block is trivial.  Use tooltip of parent block if it exists.
     this.setTooltip(function() {
       var parent = thisBlock.getParent();
-      return (parent && parent.getInputsInline() && parent.tooltip) ||
-          Blockly.Msg.MATH_NUMBER_TOOLTIP;
+      return (parent && parent.tooltip) || Blockly.Msg.MATH_NUMBER_TOOLTIP;
     });
   }
 };

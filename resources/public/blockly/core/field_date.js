@@ -82,11 +82,11 @@ Blockly.FieldDate.prototype.getValue = function() {
  * @param {string} date The new date.
  */
 Blockly.FieldDate.prototype.setValue = function(date) {
-  if (this.sourceBlock_) {
-    var validated = this.callValidator(date);
+  if (this.sourceBlock_ && this.validator_) {
+    var validated = this.validator_(date);
     // If the new date is invalid, validation returns null.
     // In this case we still want to display the illegal result.
-    if (validated !== null) {
+    if (validated !== null && validated !== undefined) {
       date = validated;
     }
   }
@@ -149,9 +149,12 @@ Blockly.FieldDate.prototype.showEditor_ = function() {
       function(event) {
         var date = event.date ? event.date.toIsoString(true) : '';
         Blockly.WidgetDiv.hide();
-        if (thisField.sourceBlock_) {
+        if (thisField.sourceBlock_ && thisField.validator_) {
           // Call any validation function, and allow it to override.
-          date = thisField.callValidator(date);
+          var override = thisField.validator_(date);
+          if (override !== undefined) {
+            date = override;
+          }
         }
         thisField.setValue(date);
       });
@@ -190,14 +193,14 @@ Blockly.FieldDate.loadLanguage_ = function() {
  */
 Blockly.FieldDate.CSS = [
   /* Copied from: goog/css/datepicker.css */
-  /**
+  /*
    * Copyright 2009 The Closure Library Authors. All Rights Reserved.
    *
    * Use of this source code is governed by the Apache License, Version 2.0.
    * See the COPYING file for details.
    */
 
-  /**
+  /*
    * Standard styling for a goog.ui.DatePicker.
    *
    * @author arv@google.com (Erik Arvidsson)

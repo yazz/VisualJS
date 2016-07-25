@@ -43,35 +43,15 @@ Blockly.Workspace = function(opt_options) {
   this.options = opt_options || {};
   /** @type {boolean} */
   this.RTL = !!this.options.RTL;
-  /** @type {boolean} */
-  this.horizontalLayout = !!this.options.horizontalLayout;
-  /** @type {number} */
-  this.toolboxPosition = this.options.toolboxPosition;
-
-  /**
-   * @type {!Array.<!Blockly.Block>}
-   * @private
-   */
+  /** @type {!Array.<!Blockly.Block>} */
   this.topBlocks_ = [];
-  /**
-   * @type {!Array.<!Function>}
-   * @private
-   */
+  /** @type {!Array.<!Function>} */
   this.listeners_ = [];
-  /**
-   * @type {!Array.<!Blockly.Events.Abstract>}
-   * @private
-   */
+  /** @type {!Array.<!Blockly.Events.Abstract>} */
   this.undoStack_ = [];
-  /**
-   * @type {!Array.<!Blockly.Events.Abstract>}
-   * @private
-   */
+  /** @type {!Array.<!Blockly.Events.Abstract>} */
   this.redoStack_ = [];
-  /**
-   * @type {!Object}
-   * @private
-   */
+  /** @type {!Object} */
   this.blockDB_ = Object.create(null);
 };
 
@@ -224,14 +204,14 @@ Blockly.Workspace.prototype.remainingCapacity = function() {
 Blockly.Workspace.prototype.undo = function(redo) {
   var inputStack = redo ? this.redoStack_ : this.undoStack_;
   var outputStack = redo ? this.undoStack_ : this.redoStack_;
-  var inputEvent = inputStack.pop();
-  if (!inputEvent) {
+  var event = inputStack.pop();
+  if (!event) {
     return;
   }
-  var events = [inputEvent];
+  var events = [event];
   // Do another undo/redo if the next one is of the same group.
-  while (inputStack.length && inputEvent.group &&
-      inputEvent.group == inputStack[inputStack.length - 1].group) {
+  while (inputStack.length && event.group &&
+      event.group == inputStack[inputStack.length - 1].group) {
     events.push(inputStack.pop());
   }
   // Push these popped events on the opposite stack.

@@ -49,20 +49,48 @@ Blockly.FieldVariable = function(varname, opt_validator) {
 goog.inherits(Blockly.FieldVariable, Blockly.FieldDropdown);
 
 /**
- * Install this dropdown on a block.
+ * Sets a new change handler for angle field.
+ * @param {Function} handler New change handler, or null.
  */
-Blockly.FieldVariable.prototype.init = function() {
+Blockly.FieldVariable.prototype.setValidator = function(handler) {
+  var wrappedHandler;
+  if (handler) {
+    // Wrap the user's change handler together with the variable rename handler.
+    wrappedHandler = function(value) {
+      var v1 = handler.call(this, value);
+      if (v1 === null) {
+        var v2 = v1;
+      } else {
+        if (v1 === undefined) {
+          v1 = value;
+        }
+        var v2 = Blockly.FieldVariable.dropdownChange.call(this, v1);
+        if (v2 === undefined) {
+          v2 = v1;
+        }
+      }
+      return v2 === value ? undefined : v2;
+    };
+  } else {
+    wrappedHandler = Blockly.FieldVariable.dropdownChange;
+  }
+  Blockly.FieldVariable.superClass_.setValidator.call(this, wrappedHandler);
+};
+
+/**
+ * Install this dropdown on a block.
+ * @param {!Blockly.Block} block The block containing this text.
+ */
+Blockly.FieldVariable.prototype.init = function(block) {
   if (this.fieldGroup_) {
     // Dropdown has already been initialized once.
     return;
   }
-  Blockly.FieldVariable.superClass_.init.call(this);
+  Blockly.FieldVariable.superClass_.init.call(this, block);
   if (!this.getValue()) {
     // Variables without names get uniquely named for this workspace.
     var workspace =
-        this.sourceBlock_.isInFlyout ?
-            this.sourceBlock_.workspace.targetWorkspace :
-            this.sourceBlock_.workspace;
+        block.isInFlyout ? block.workspace.targetWorkspace : block.workspace;
     this.setValue(Blockly.Variables.generateUniqueName(workspace));
   }
 };
@@ -113,8 +141,8 @@ Blockly.FieldVariable.dropdownCreate = function() {
   // Variables are not language-specific, use the name as both the user-facing
   // text and the internal representation.
   var options = [];
-  for (var i = 0; i < variableList.length; i++) {
-    options[i] = [variableList[i], variableList[i]];
+  for (var x = 0; x < variableList.length; x++) {
+    options[x] = [variableList[x], variableList[x]];
   }
   return options;
 };
@@ -127,8 +155,9 @@ Blockly.FieldVariable.dropdownCreate = function() {
  * @return {null|undefined|string} An acceptable new variable name, or null if
  *     change is to be either aborted (cancel button) or has been already
  *     handled (rename), or undefined if an existing variable was chosen.
+ * @this {!Blockly.FieldVariable}
  */
-Blockly.FieldVariable.prototype.classValidator = function(text) {
+Blockly.FieldVariable.dropdownChange = function(text) {
   function promptName(promptText, defaultText) {
     Blockly.hideChaff();
     var newVar = window.prompt(promptText, defaultText);

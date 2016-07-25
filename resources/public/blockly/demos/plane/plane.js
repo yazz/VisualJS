@@ -276,7 +276,6 @@ Plane.init = function() {
   Plane.loadBlocks(defaultXml);
 
   Plane.workspace.addChangeListener(Plane.recalculate);
-  Plane.workspace.addChangeListener(Blockly.Events.disableOrphans);
 
   // Initialize the slider.
   var svg = document.getElementById('plane');
