@@ -421,7 +421,7 @@ function setCodeMirrorOption(optionname , optionvalue) {
         var dom = Blockly.Xml.workspaceToDom(workspace);
         var headlessWorkspace = new Blockly.Workspace();
         rearrangeDom(dom);
-        Blockly.Xml.domToWorkspace(dom, headlessWorkspace);
+        Blockly.Xml.domToWorkspace(dom, headlessWorkspace );
 
 
         var inline = Blockly.ClojureScript.workspaceToCode(headlessWorkspace);
@@ -520,7 +520,7 @@ function escapeHtml(unsafe) {
         var dom = Blockly.Xml.workspaceToDom(workspace);
         var headlessWorkspace = new Blockly.Workspace();
         rearrangeDom(dom);
-        Blockly.Xml.domToWorkspace(dom, headlessWorkspace);
+        Blockly.Xml.domToWorkspace(dom,headlessWorkspace);
 
 
         var inline = Blockly.ClojureScript.workspaceToCode(headlessWorkspace);
@@ -537,7 +537,7 @@ function escapeHtml(unsafe) {
         var dom = Blockly.Xml.workspaceToDom(workspace);
         var headlessWorkspace = new Blockly.Workspace();
         rearrangeDom(dom);
-        Blockly.Xml.domToWorkspace(dom, headlessWorkspace);
+        Blockly.Xml.domToWorkspace(dom,headlessWorkspace);
 
 
         var inline = Blockly.ClojureScript.workspaceToCode(headlessWorkspace);
@@ -592,7 +592,7 @@ function escapeHtml(unsafe) {
       function refreshBlockly() {
         var xml = Blockly.Xml.workspaceToDom(workspace);
         Blockly.mainWorkspace.clear();
-        Blockly.Xml.domToWorkspace(workspace, xml);
+        Blockly.Xml.domToWorkspace(xml, workspace);
       }
 
       function refreshCodeMirror() {

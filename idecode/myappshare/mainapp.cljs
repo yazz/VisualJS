@@ -92,7 +92,7 @@
 
 
 
-(def current-toolbox (atom ""))
+(def current-toolbox (atom "<xml></xml>"))
 
 
 (def basic-blocks  [
