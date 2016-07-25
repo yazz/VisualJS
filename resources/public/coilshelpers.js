@@ -275,16 +275,22 @@ function setCodeMirrorOption(optionname , optionvalue) {
       {
         var blocks = el.children;
         var bc = blocks.length;
+        if (bc == 0) {
+          return el;
+        }
+
         var hasNext = false;
+        var foundblock = null;
         for (i = 0; i  < bc; i++) {
-          if (blocks[i].tagName == 'next') {
+          if (blocks[i].tagName.toUpperCase() == 'NEXT') {
             hasNext = true;
+            foundblock = blocks[i].children[0];
           }
         }
 
-        if (hasNext) {
-          console.log('findLastChild');
-          return findLastChild(el);
+        if (hasNext == true) {
+          console.log('findLastChild: ' + foundblock.tagName);
+          return findFirstNextElement(foundblock);
         }
 
         return el;
