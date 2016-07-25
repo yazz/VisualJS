@@ -38,6 +38,7 @@ goog.require('Blockly.FieldColour');
 goog.require('Blockly.FieldDropdown');
 goog.require('Blockly.FieldImage');
 goog.require('Blockly.FieldTextInput');
+goog.require('Blockly.FieldNumber');
 goog.require('Blockly.FieldVariable');
 goog.require('Blockly.Generator');
 goog.require('Blockly.Msg');
@@ -83,6 +84,13 @@ Blockly.highlightedConnection_ = null;
 Blockly.localConnection_ = null;
 
 /**
+ * All of the connections on blocks that are currently being dragged.
+ * @type {!Array.<!Blockly.Connection>}
+ * @private
+ */
+Blockly.draggingConnections_ = [];
+
+/**
  * Contents of the local clipboard.
  * @type {Element}
  * @private
@@ -98,9 +106,9 @@ Blockly.clipboardSource_ = null;
 
 /**
  * Is the mouse dragging a block?
- * 0 - No drag operation.
- * 1 - Still inside the sticky DRAG_RADIUS.
- * 2 - Freely draggable.
+ * DRAG_NONE - No drag operation.
+ * DRAG_STICKY - Still inside the sticky DRAG_RADIUS.
+ * DRAG_FREE - Freely draggable.
  * @private
  */
 Blockly.dragMode_ = Blockly.DRAG_NONE;
@@ -133,7 +141,20 @@ Blockly.svgSize = function(svg) {
 };
 
 /**
- * Size the SVG image to completely fill its container.
+ * Size the workspace when the contents change.  This also updates
+ * scrollbars accordingly.
+ * @param {!Blockly.WorkspaceSvg} workspace The workspace to resize.
+ */
+Blockly.resizeSvgContents = function(workspace) {
+  workspace.resizeContents();
+};
+
+
+/**
+ * Size the SVG image to completely fill its container. Call this when the view
+ * actually changes sizes (e.g. on a window resize/device orientation change).
+ * See Blockly.resizeSvgContents to resize the workspace when the contents
+ * change (e.g. when a block is added or removed).
  * Record the height/width of the SVG image.
  * @param {!Blockly.WorkspaceSvg} workspace Any workspace in the SVG.
  */
@@ -145,7 +166,7 @@ Blockly.svgResize = function(workspace) {
   var svg = mainWorkspace.getParentSvg();
   var div = svg.parentNode;
   if (!div) {
-    // Workspace deteted, or something.
+    // Workspace deleted, or something.
     return;
   }
   var width = div.offsetWidth;
@@ -169,8 +190,7 @@ Blockly.svgResize = function(workspace) {
 Blockly.onMouseUp_ = function(e) {
   var workspace = Blockly.getMainWorkspace();
   Blockly.Css.setCursor(Blockly.Css.Cursor.OPEN);
-  workspace.isScrolling = false;
-  Blockly.setPageSelectable(true);
+  workspace.dragMode_ = Blockly.DRAG_NONE;
   // Unbind the touch event if it exists.
   if (Blockly.onTouchUpWrapper_) {
     Blockly.unbindEvent_(Blockly.onTouchUpWrapper_);
@@ -192,7 +212,7 @@ Blockly.onMouseMove_ = function(e) {
     return;  // Multi-touch gestures won't have e.clientX.
   }
   var workspace = Blockly.getMainWorkspace();
-  if (workspace.isScrolling) {
+  if (workspace.dragMode_ != Blockly.DRAG_NONE) {
     var dx = e.clientX - workspace.startDragMouseX;
     var dy = e.clientY - workspace.startDragMouseY;
     var metrics = workspace.startDragMetrics;
@@ -211,8 +231,10 @@ Blockly.onMouseMove_ = function(e) {
     // Cancel the long-press if the drag has moved too far.
     if (Math.sqrt(dx * dx + dy * dy) > Blockly.DRAG_RADIUS) {
       Blockly.longStop_();
+      workspace.dragMode_ = Blockly.DRAG_FREE;
     }
     e.stopPropagation();
+    e.preventDefault();
   }
 };
 
@@ -256,7 +278,9 @@ Blockly.onKeyDown_ = function(e) {
     if (e.keyCode == 86) {
       // 'v' for paste.
       if (Blockly.clipboardXml_) {
+        Blockly.Events.setGroup(true);
         Blockly.clipboardSource_.paste(Blockly.clipboardXml_);
+        Blockly.Events.setGroup(false);
       }
     } else if (e.keyCode == 90) {
       // 'z' for undo 'Z' is for redo.
@@ -283,7 +307,7 @@ Blockly.onKeyDown_ = function(e) {
  * @private
  */
 Blockly.terminateDrag_ = function() {
-  Blockly.BlockSvg.terminateDrag_();
+  Blockly.BlockSvg.terminateDrag();
   Blockly.Flyout.terminateDrag_();
 };
 
@@ -307,9 +331,9 @@ Blockly.longPid_ = 0;
 Blockly.longStart_ = function(e, uiObject) {
   Blockly.longStop_();
   Blockly.longPid_ = setTimeout(function() {
-      e.button = 2;  // Simulate a right button click.
-      uiObject.onMouseDown_(e);
-    }, Blockly.LONGPRESS);
+    e.button = 2;  // Simulate a right button click.
+    uiObject.onMouseDown_(e);
+  }, Blockly.LONGPRESS);
 };
 
 /**
@@ -403,6 +427,11 @@ Blockly.hideChaff = function(opt_allowToolbox) {
  * .contentLeft: Offset of the left-most content from the x=0 coordinate.
  * .absoluteTop: Top-edge of view.
  * .absoluteLeft: Left-edge of view.
+ * .toolboxWidth: Width of toolbox, if it exists.  Otherwise zero.
+ * .toolboxHeight: Height of toolbox, if it exists.  Otherwise zero.
+ * .flyoutWidth: Width of the flyout if it is always open.  Otherwise zero.
+ * .flyoutHeight: Height of flyout if it is always open.  Otherwise zero.
+ * .toolboxPosition: Top, bottom, left or right.
  * @return {Object} Contains size and position metrics of main workspace.
  * @private
  * @this Blockly.WorkspaceSvg
@@ -410,7 +439,13 @@ Blockly.hideChaff = function(opt_allowToolbox) {
 Blockly.getMainWorkspaceMetrics_ = function() {
   var svgSize = Blockly.svgSize(this.getParentSvg());
   if (this.toolbox_) {
-    svgSize.width -= this.toolbox_.width;
+    if (this.toolboxPosition == Blockly.TOOLBOX_AT_TOP ||
+        this.toolboxPosition == Blockly.TOOLBOX_AT_BOTTOM) {
+      svgSize.height -= this.toolbox_.getHeight();
+    } else if (this.toolboxPosition == Blockly.TOOLBOX_AT_LEFT ||
+        this.toolboxPosition == Blockly.TOOLBOX_AT_RIGHT) {
+      svgSize.width -= this.toolbox_.getWidth();
+    }
   }
   // Set the margin to match the flyout's margin so that the workspace does
   // not jump as blocks are added.
@@ -442,9 +477,14 @@ Blockly.getMainWorkspaceMetrics_ = function() {
     var bottomEdge = topEdge + blockBox.height;
   }
   var absoluteLeft = 0;
-  if (!this.RTL && this.toolbox_) {
-    absoluteLeft = this.toolbox_.width;
+  if (this.toolbox_ && this.toolboxPosition == Blockly.TOOLBOX_AT_LEFT) {
+    absoluteLeft = this.toolbox_.getWidth();
   }
+  var absoluteTop = 0;
+  if (this.toolbox_ && this.toolboxPosition == Blockly.TOOLBOX_AT_TOP) {
+    absoluteTop = this.toolbox_.getHeight();
+  }
+
   var metrics = {
     viewHeight: svgSize.height,
     viewWidth: svgSize.width,
@@ -454,8 +494,13 @@ Blockly.getMainWorkspaceMetrics_ = function() {
     viewLeft: -this.scrollX,
     contentTop: topEdge,
     contentLeft: leftEdge,
-    absoluteTop: 0,
-    absoluteLeft: absoluteLeft
+    absoluteTop: absoluteTop,
+    absoluteLeft: absoluteLeft,
+    toolboxWidth: this.toolbox_ ? this.toolbox_.getWidth() : 0,
+    toolboxHeight: this.toolbox_ ? this.toolbox_.getHeight() : 0,
+    flyoutWidth: this.flyout_ ? this.flyout_.getWidth() : 0,
+    flyoutHeight: this.flyout_ ? this.flyout_.getHeight() : 0,
+    toolboxPosition: this.toolboxPosition
   };
   return metrics;
 };
@@ -507,12 +552,21 @@ Blockly.addChangeListener = function(func) {
 
 /**
  * Returns the main workspace.  Returns the last used main workspace (based on
- * focus).
+ * focus).  Try not to use this function, particularly if there are multiple
+ * Blockly instances on a page.
  * @return {!Blockly.Workspace} The main workspace.
  */
 Blockly.getMainWorkspace = function() {
   return Blockly.mainWorkspace;
 };
+
+// IE9 does not have a console.  Create a stub to stop errors.
+if (!goog.global['console']) {
+  goog.global['console'] = {
+    'log': function() {},
+    'warn': function() {}
+  };
+}
 
 // Export symbols that would otherwise be renamed by Closure compiler.
 if (!goog.global['Blockly']) {
