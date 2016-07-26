@@ -809,6 +809,7 @@
                                        (do
                                          (js/setTimeout js/refreshBlockly 500)
                                          (js/setTimeout js/refreshCodeMirror 500)
+                                         (js/setTimeout (fn [] (if @current-toolbox (js/uuuttt  @current-toolbox))) 500)
 
                                        ))
                      :disabled     (if (= (read-ui app [:mode]) "view") "" "true")
