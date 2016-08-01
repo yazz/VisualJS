@@ -494,6 +494,11 @@ function setCodeMirrorOption(optionname , optionvalue) {
         //var code = Blockly.Xml.domToPrettyText(xml);
         return code;
       }
+
+function showerror(sometext) {
+  document.getElementById('error1').innerHTML = sometext;
+}
+
 function escapeHtml(unsafe) {
     return unsafe
          .replace(/&/g, "&amp;")

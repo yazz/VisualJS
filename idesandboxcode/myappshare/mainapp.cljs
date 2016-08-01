@@ -87,8 +87,8 @@
                        (cond
                          (:error result)
                          (do
-                           ;(log     "******************* ERROR *******************************")
-                           (js/alert     (pr-str result)))
+                           (log     "******************* ERROR *******************************")
+                           (js/showerror     (pr-str result)))
 
                          :else
                          (do
