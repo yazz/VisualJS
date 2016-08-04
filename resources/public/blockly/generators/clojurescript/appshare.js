@@ -191,3 +191,14 @@ Blockly.ClojureScript['appshare_show_tables'] = function(block) {
   var code = ' "" ';
   return code;
 };
+
+
+
+
+
+
+Blockly.ClojureScript['appshare_input_field'] = function(block) {
+  var code = '';
+  return code;
+};
+

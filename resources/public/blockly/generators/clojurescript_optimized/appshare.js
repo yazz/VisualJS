@@ -355,3 +355,16 @@ Blockly.ClojureScriptOptimized['appshare_show_tables'] = function(block) {
          ))) ';
   return code;
 };
+
+
+
+
+
+
+
+
+Blockly.ClojureScriptOptimized['appshare_input_field'] = function(block) {
+  var code = ' (om.dom/input {:style {:marginBottom "20px"} :placeholder  "Enter a new todo here"}            \n\
+                               ) ';
+  return code;
+};
