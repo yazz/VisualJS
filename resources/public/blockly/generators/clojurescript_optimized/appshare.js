@@ -364,7 +364,10 @@ Blockly.ClojureScriptOptimized['appshare_show_tables'] = function(block) {
 
 
 Blockly.ClojureScriptOptimized['appshare_input_field'] = function(block) {
-  var code = ' (om.dom/input {:style {:marginBottom "20px"} :placeholder  "Enter a new todo here"}            \n\
-                               ) ';
+  var code = ' (om.dom/input (webapp.framework.client.coreclient/attrs{                                                  \n\
+                              :onChange    (fn [event] (js/alert (str (.. event -target -value  ) " pressed")))          \n\
+                              :style        {:marginBottom "20px"}                                                       \n\
+                              :placeholder  "Enter a new todo here"                                                      \n\
+                             }) "") ';
   return code;
 };
