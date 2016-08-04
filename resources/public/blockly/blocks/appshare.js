@@ -295,8 +295,8 @@ Blockly.Blocks['appshare_show_tables'] = {
 Blockly.Blocks['appshare_input_field'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("Field")
-        .appendField(new Blockly.FieldTextInput("input"), "VALUE");
+        .appendField("Placeholder")
+        .appendField(new Blockly.FieldTextInput("Some text"), "PLACEHOLDER");
     this.setColour(230);
     this.appendDummyInput().appendField("");
     this.setPreviousStatement(true, "HtmlElement");
