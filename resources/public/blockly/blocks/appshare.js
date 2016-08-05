@@ -295,10 +295,16 @@ Blockly.Blocks['appshare_show_tables'] = {
 Blockly.Blocks['appshare_input_field'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("Placeholder")
+        .appendField("Input field")
+        .appendField();
+    this.appendDummyInput()
+        .appendField("Placeholder text")
         .appendField(new Blockly.FieldTextInput("Some text"), "PLACEHOLDER");
     this.setColour(230);
     this.appendDummyInput().appendField("");
+
+    this.appendDummyInput().appendField("Add callback code here");
+    this.appendStatementInput("main div element").setCheck("CodeElement");
     this.setPreviousStatement(true, "HtmlElement");
     this.setNextStatement(true, "HtmlElement");
   }
