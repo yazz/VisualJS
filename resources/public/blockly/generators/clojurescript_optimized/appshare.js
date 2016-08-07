@@ -380,3 +380,10 @@ Blockly.ClojureScriptOptimized['appshare_code_alert'] = function(block) {
   var code = ' (js/alert (str  "' + text + '")) ';
   return code;
 };
+
+
+
+Blockly.ClojureScriptOptimized['appshare_code_raw'] = function(block) {
+  var code = ''   + block.getFieldValue('CODE');
+  return code;
+};

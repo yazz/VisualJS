@@ -207,3 +207,9 @@ Blockly.ClojureScript['appshare_code_alert'] = function(block) {
   var code = ' (js/alert (str (.. event -target -value  ) " pressed2")) ';
   return code;
 };
+
+
+Blockly.ClojureScript['appshare_code_raw'] = function(block) {
+  var code = ' (js/alert (str (.. event -target -value  ) " pressed2")) ';
+  return code;
+};

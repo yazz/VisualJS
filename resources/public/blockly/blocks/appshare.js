@@ -325,3 +325,21 @@ Blockly.Blocks['appshare_code_alert'] = {
     this.setNextStatement(true, "CodeElement");
   }
 }
+
+
+
+
+
+Blockly.Blocks['appshare_code_raw'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("RAW code");
+    this.appendDummyInput()
+        .appendField("Code")
+        .appendField(new Blockly.FieldTextInput("nil"), "CODE");
+    this.setColour(230);
+    this.appendDummyInput().appendField("");
+    this.setPreviousStatement(true, "CodeElement");
+    this.setNextStatement(true, "CodeElement");
+  }
+}
