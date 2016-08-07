@@ -382,7 +382,7 @@ function setCodeMirrorOption(optionname , optionvalue) {
           }
 
           // if it is a code then remove it
-          else if (block.getAttribute('type') == 'appshare_code_alert') {
+          else if (block.getAttribute('type').startsWith('appshare_code_')) {
             console.log("Removed block ");
             block.parentElement.removeChild(block);
           }

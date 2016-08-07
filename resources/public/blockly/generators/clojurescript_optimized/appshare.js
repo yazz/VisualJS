@@ -367,7 +367,7 @@ Blockly.ClojureScriptOptimized['appshare_input_field'] = function(block) {
   var placeholder = ''   + block.getFieldValue('PLACEHOLDER');
   var value_callback = Blockly.ClojureScriptOptimized.statementToCode(block, 'CALLBACK');
   var code = ' (om.dom/input (webapp.framework.client.coreclient/attrs{                                                  \n\
-                              :onChange    (fn [event] ' + value_callback + ' )          \n\
+                              :onChange    (fn [event] (do (let [key (.. event -target -value  )] ' + value_callback + ' nil )))  \n\
                               :style        {:marginBottom "20px"}                                                       \n\
                               :placeholder  "' + placeholder + '"                                                      \n\
                              }) "") ';
@@ -376,6 +376,7 @@ Blockly.ClojureScriptOptimized['appshare_input_field'] = function(block) {
 
 
 Blockly.ClojureScriptOptimized['appshare_code_alert'] = function(block) {
-  var code = ' (js/alert (str (.. event -target -value  ) " pressed2")) ';
+  var text = ''   + block.getFieldValue('TEXT');
+  var code = ' (js/alert (str  "' + text + '")) ';
   return code;
 };

@@ -316,9 +316,12 @@ Blockly.Blocks['appshare_code_alert'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("JS Alert");
+    this.appendDummyInput()
+        .appendField("Text")
+        .appendField(new Blockly.FieldTextInput("Some text"), "TEXT");
     this.setColour(230);
     this.appendDummyInput().appendField("");
     this.setPreviousStatement(true, "CodeElement");
-    //this.setNextStatement(true, "CodeElement");
+    this.setNextStatement(true, "CodeElement");
   }
 }
