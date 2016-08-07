@@ -365,10 +365,17 @@ Blockly.ClojureScriptOptimized['appshare_show_tables'] = function(block) {
 
 Blockly.ClojureScriptOptimized['appshare_input_field'] = function(block) {
   var placeholder = ''   + block.getFieldValue('PLACEHOLDER');
+  var value_callback = Blockly.ClojureScriptOptimized.statementToCode(block, 'CALLBACK');
   var code = ' (om.dom/input (webapp.framework.client.coreclient/attrs{                                                  \n\
-                              :onChange    (fn [event] (js/alert (str (.. event -target -value  ) " pressed")))          \n\
+                              :onChange    (fn [event] ' + value_callback + ' )          \n\
                               :style        {:marginBottom "20px"}                                                       \n\
                               :placeholder  "' + placeholder + '"                                                      \n\
                              }) "") ';
+  return code;
+};
+
+
+Blockly.ClojureScriptOptimized['appshare_code_alert'] = function(block) {
+  var code = ' (js/alert (str (.. event -target -value  ) " pressed2")) ';
   return code;
 };

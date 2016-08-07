@@ -304,8 +304,21 @@ Blockly.Blocks['appshare_input_field'] = {
     this.appendDummyInput().appendField("");
 
     this.appendDummyInput().appendField("Add callback code here");
-    this.appendStatementInput("main div element").setCheck("CodeElement");
+    this.appendStatementInput("CALLBACK").setCheck("CodeElement");
     this.setPreviousStatement(true, "HtmlElement");
     this.setNextStatement(true, "HtmlElement");
+  }
+}
+
+
+
+Blockly.Blocks['appshare_code_alert'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("JS Alert");
+    this.setColour(230);
+    this.appendDummyInput().appendField("");
+    this.setPreviousStatement(true, "CodeElement");
+    //this.setNextStatement(true, "CodeElement");
   }
 }

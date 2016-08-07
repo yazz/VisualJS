@@ -112,6 +112,8 @@
                      ["appshare_db_field"               "ui"]
                      ["appshare_input_field"            "ui"]
                      ["appshare_show_tables"            "ui"]
+                     ["appshare_code_alert"             "code"]
+
                      ])
 
 

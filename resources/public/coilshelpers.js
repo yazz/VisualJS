@@ -347,7 +347,7 @@ function setCodeMirrorOption(optionname , optionvalue) {
 
         lastblock = null;
 
-        // go through all the blocks
+        // go through all the top level blocks
         for (var bi = 0; bi  < bc; bi++) {
           blocks = dom.children;
           block = blocks[0];
@@ -377,6 +377,12 @@ function setCodeMirrorOption(optionname , optionvalue) {
           }
           // if it is a deprecated UI component then remove it
           else if (block.getAttribute('type') == 'appshare_ui_component') {
+            console.log("Removed block ");
+            block.parentElement.removeChild(block);
+          }
+
+          // if it is a code then remove it
+          else if (block.getAttribute('type') == 'appshare_code_alert') {
             console.log("Removed block ");
             block.parentElement.removeChild(block);
           }
@@ -439,6 +445,22 @@ function setCodeMirrorOption(optionname , optionvalue) {
 
 
 
+      function getBlocklyOptimizedValue()
+      {
+
+        var dom = Blockly.Xml.workspaceToDom(workspace);
+        var headlessWorkspace = new Blockly.Workspace();
+        rearrangeDom(dom);
+        Blockly.Xml.domToWorkspace(dom, headlessWorkspace );
+
+
+        var inline = Blockly.ClojureScriptOptimized.workspaceToCode(headlessWorkspace);
+        headlessWorkspace.dispose();
+        var code = inline;
+
+        return code;
+      }
+
 
 
 
@@ -476,7 +498,7 @@ function setCodeMirrorOption(optionname , optionvalue) {
 
         var code = getBlocklyValue();
 
-        document.getElementById('blocklyCode').innerHTML = code;
+        document.getElementById('blocklyCode').innerHTML = getBlocklyOptimizedValue();//code;
         document.getElementById('blocklyCode2').innerHTML = getBlocklyXml15();
         document.getElementById('blocklyCode3').innerHTML = getBlocklyXml35();
         console.log("Event.type= " + event.type + " : " + calcEvals);
