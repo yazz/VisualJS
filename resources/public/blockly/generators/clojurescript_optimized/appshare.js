@@ -399,6 +399,7 @@ Blockly.ClojureScriptOptimized['appshare_code_raw'] = function(block) {
 
 Blockly.ClojureScriptOptimized['appshare_code_insert'] = function(block) {
   var sql = block.getFieldValue('SQL');
+  var code = '(webapp.framework.client.coreclient/sql-callback "' + sql +  '" {} (fn [xx] nil ))';
   return code;
 };
 
