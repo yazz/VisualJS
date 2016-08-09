@@ -343,3 +343,23 @@ Blockly.Blocks['appshare_code_raw'] = {
     this.setNextStatement(true, "CodeElement");
   }
 }
+
+
+
+
+
+
+
+Blockly.Blocks['appshare_code_insert'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("DB Insert");
+    this.appendDummyInput()
+        .appendField("SQL code")
+        .appendField(new Blockly.FieldTextInput(""), "SQL");
+    this.setColour(230);
+    this.appendDummyInput().appendField("");
+    this.setPreviousStatement(true, "CodeElement");
+    this.setNextStatement(true, "CodeElement");
+  }
+}

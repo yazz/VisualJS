@@ -387,3 +387,20 @@ Blockly.ClojureScriptOptimized['appshare_code_raw'] = function(block) {
   var code = ''   + block.getFieldValue('CODE');
   return code;
 };
+
+
+
+
+
+
+
+
+
+
+Blockly.ClojureScriptOptimized['appshare_code_insert'] = function(block) {
+  var sql = block.getFieldValue('SQL');
+  return code;
+};
+
+
+
