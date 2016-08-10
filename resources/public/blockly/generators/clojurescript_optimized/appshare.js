@@ -366,7 +366,7 @@ Blockly.ClojureScriptOptimized['appshare_show_tables'] = function(block) {
 Blockly.ClojureScriptOptimized['appshare_input_field'] = function(block) {
   var placeholder = ''   + block.getFieldValue('PLACEHOLDER');
   var value_callback = Blockly.ClojureScriptOptimized.statementToCode(block, 'CALLBACK');
-  var code = ' (om.dom/input (webapp.framework.client.coreclient/attrs{                                                  \n\
+  var code = ' (om.dom/input (webapp.framework.client.coreclient/attrs {                                                  \n\
                               :onChange    (fn [event] (do (let [key (.. event -target -value  )] ' + value_callback + ' nil )))  \n\
                               :style        {:marginBottom "20px"}                                                       \n\
                               :placeholder  "' + placeholder + '"                                                      \n\
@@ -400,6 +400,15 @@ Blockly.ClojureScriptOptimized['appshare_code_raw'] = function(block) {
 Blockly.ClojureScriptOptimized['appshare_code_insert'] = function(block) {
   var sql = block.getFieldValue('SQL');
   var code = '(webapp.framework.client.coreclient/sql-callback "' + sql +  '" {} (fn [xx] nil ))';
+  return code;
+};
+
+
+
+
+Blockly.ClojureScriptOptimized['appshare_db_rowid_button'] = function(block) {
+  var text = ''   + block.getFieldValue('TEXT');
+  var code = '(om.dom/button  (webapp.framework.client.coreclient/attrs { :type "button" :className "btn btn-default" :onClick (fn [e] (js/alert (str "clicked" (webapp.framework.client.coreclient/<---fn   record  :id  path  relative-path  )  ))) })  "' + text + '")';
   return code;
 };
 

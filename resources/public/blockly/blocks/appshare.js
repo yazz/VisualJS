@@ -276,6 +276,11 @@ Blockly.Blocks['appshare_db_field'] = {
   }
 }
 
+
+
+
+
+
 Blockly.Blocks['appshare_show_tables'] = {
   init: function() {
     this.appendDummyInput()
@@ -363,3 +368,26 @@ Blockly.Blocks['appshare_code_insert'] = {
     this.setNextStatement(true, "CodeElement");
   }
 }
+
+
+
+
+
+
+Blockly.Blocks['appshare_db_rowid_button'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("DB Row Button")
+        .appendField(new Blockly.FieldTextInput("Button text"), "TEXT");
+    this.setColour(230);
+    this.appendDummyInput().appendField("");
+    this.appendDummyInput().appendField("Add callback code here");
+    this.appendStatementInput("CALLBACK").setCheck("CodeElement");
+
+    this.setPreviousStatement(true, "HtmlElement");
+    this.setNextStatement(true, "HtmlElement");
+  }
+}
+
+
+

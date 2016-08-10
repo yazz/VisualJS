@@ -110,6 +110,7 @@
 (def database-blocks  [
                      ["appshare_db_component"           "ui"]
                      ["appshare_db_field"               "ui"]
+                     ["appshare_db_rowid_button"        "ui"]
                      ["appshare_input_field"            "ui"]
                      ["appshare_show_tables"            "ui"]
 
