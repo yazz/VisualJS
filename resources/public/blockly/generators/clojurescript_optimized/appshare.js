@@ -408,7 +408,17 @@ Blockly.ClojureScriptOptimized['appshare_code_insert'] = function(block) {
 
 Blockly.ClojureScriptOptimized['appshare_db_rowid_button'] = function(block) {
   var text = ''   + block.getFieldValue('TEXT');
-  var code = '(om.dom/button  (webapp.framework.client.coreclient/attrs { :type "button" :className "btn btn-default" :onClick (fn [e] (js/alert (str "clicked" (webapp.framework.client.coreclient/<---fn   record  :id  path  relative-path  )  ))) })  "' + text + '")';
+  var callbackcode = Blockly.ClojureScriptOptimized.statementToCode(block, 'CALLBACK');
+
+  var code = '(om.dom/button                                                                                                \n\
+                            (webapp.framework.client.coreclient/attrs {                                                     \n\
+                                   :type          "button"                                                                  \n\
+                                   :className     "btn  btn-default"                                                        \n\
+                                   :onClick       (fn [e]                                                                   \n\
+                                                       (let [id    (webapp.framework.client.coreclient/<---fn               \n\
+                                                                           record  :id  path  relative-path)]               \n\
+                                                                               (do ' + callbackcode +  '  nil))) })         \n\
+                            "' + text + '")';
   return code;
 };
 
