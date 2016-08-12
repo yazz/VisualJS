@@ -359,9 +359,9 @@ Blockly.Blocks['appshare_code_insert'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("DB Insert");
-    this.appendDummyInput()
-        .appendField("SQL code")
-        .appendField(new Blockly.FieldTextInput(""), "SQL");
+    this.appendDummyInput().appendField("Table Name").appendField(new Blockly.FieldTextInput(""), "TABLENAME");
+    this.appendDummyInput().appendField("Fields").appendField(new Blockly.FieldTextInput(""), "FIELDS");
+    this.appendDummyInput().appendField("Values").appendField(new Blockly.FieldTextInput(""), "VALUES");
     this.setColour(230);
     this.appendDummyInput().appendField("");
     this.setPreviousStatement(true, "CodeElement");

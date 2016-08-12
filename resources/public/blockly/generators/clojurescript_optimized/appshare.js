@@ -398,8 +398,11 @@ Blockly.ClojureScriptOptimized['appshare_code_raw'] = function(block) {
 
 
 Blockly.ClojureScriptOptimized['appshare_code_insert'] = function(block) {
-  var sql = block.getFieldValue('SQL');
-  var code = '(webapp.framework.client.coreclient/sql-callback (str "' + sql +  '") {} (fn [xx] nil ))';
+  var tablename = block.getFieldValue('TABLENAME');
+  var fields = block.getFieldValue('FIELDS');
+  var values = block.getFieldValue('VALUES');
+  var code = '(webapp.framework.client.coreclient/sql-callback (str "insert into ' +
+      tablename + ' (' + fields + ') values ( ' + values + ')") {} (fn [xx] nil ))';
   //var code = '(webapp.framework.client.coreclient/sql-callback select id from todo_items {} (fn [xx] nil ))';
   return code;
 };
