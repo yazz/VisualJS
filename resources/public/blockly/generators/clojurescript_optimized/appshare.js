@@ -367,7 +367,7 @@ Blockly.ClojureScriptOptimized['appshare_input_field'] = function(block) {
   var placeholder = ''   + block.getFieldValue('PLACEHOLDER');
   var value_callback = Blockly.ClojureScriptOptimized.statementToCode(block, 'CALLBACK');
   var code = ' (om.dom/input (webapp.framework.client.coreclient/attrs {                                                  \n\
-                              :onChange    (fn [event] (do (let [key (.. event -target -value  )] ' + value_callback + ' nil )))  \n\
+                              :onKeyDown    (fn [event] (do (let [key (.. event -target -value  )] (if (= (.-keyCode event  ) 13) ' + value_callback + ' nil ))))  \n\
                               :style        {:marginBottom "20px"}                                                       \n\
                               :placeholder  "' + placeholder + '"                                                      \n\
                              }) "") ';
@@ -399,7 +399,8 @@ Blockly.ClojureScriptOptimized['appshare_code_raw'] = function(block) {
 
 Blockly.ClojureScriptOptimized['appshare_code_insert'] = function(block) {
   var sql = block.getFieldValue('SQL');
-  var code = '(webapp.framework.client.coreclient/sql-callback "' + sql +  '" {} (fn [xx] nil ))';
+  var code = '(webapp.framework.client.coreclient/sql-callback (str "' + sql +  '") {} (fn [xx] nil ))';
+  //var code = '(webapp.framework.client.coreclient/sql-callback select id from todo_items {} (fn [xx] nil ))';
   return code;
 };
 
