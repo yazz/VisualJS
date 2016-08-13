@@ -364,12 +364,20 @@ Blockly.ClojureScriptOptimized['appshare_show_tables'] = function(block) {
 
 
 Blockly.ClojureScriptOptimized['appshare_input_field'] = function(block) {
-  var placeholder = ''   + block.getFieldValue('PLACEHOLDER');
-  var value_callback = Blockly.ClojureScriptOptimized.statementToCode(block, 'CALLBACK');
-  var code = ' (om.dom/input (webapp.framework.client.coreclient/attrs {                                                  \n\
-                              :onKeyDown    (fn [event] (do (let [key (.. event -target -value  )] (if (= (.-keyCode event  ) 13) ' + value_callback + ' nil ))))  \n\
-                              :style        {:marginBottom "20px"}                                                       \n\
-                              :placeholder  "' + placeholder + '"                                                      \n\
+  var placeholder     = block.getFieldValue('PLACEHOLDER');
+  var value_callback  = Blockly.ClojureScriptOptimized.statementToCode(block, 'CALLBACK');
+
+  var code = ' (om.dom/input                                                                                              \n\
+                         (webapp.framework.client.coreclient/attrs {                                                      \n\
+                              :onKeyDown     (fn [event]                                                                  \n\
+                                                   (let [ input-value  (.. event -target -value  ) ]                      \n\
+                                                      (if (= (.-keyCode event  ) 13)                                      \n\
+                                                         (do ' +
+                                                             value_callback + '                                           \n\
+                                                              (set!  (.. event -target -value  ) ""  )                    \n\
+                                                             nil ))))                                                     \n\
+                              :style        {:marginBottom "20px"}                                                        \n\
+                              :placeholder  "' + placeholder + '"                                                         \n\
                              }) "") ';
   return code;
 };
