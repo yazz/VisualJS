@@ -308,6 +308,10 @@ Blockly.Blocks['appshare_input_field'] = {
     this.setColour(230);
     this.appendDummyInput().appendField("");
 
+    this.appendDummyInput()
+        .appendField("Store the name in")
+        .appendField(new Blockly.FieldTextInput("input-value"), "STOREIN");
+
     this.appendDummyInput().appendField("Add callback code here");
     this.appendStatementInput("CALLBACK").setCheck("CodeElement");
     this.setPreviousStatement(true, "HtmlElement");
@@ -360,8 +364,8 @@ Blockly.Blocks['appshare_code_insert'] = {
     this.appendDummyInput()
         .appendField("DB Insert");
     this.appendDummyInput().appendField("Table Name").appendField(new Blockly.FieldTextInput(""), "TABLENAME");
-    this.appendDummyInput().appendField("Fields").appendField(new Blockly.FieldTextInput(""), "FIELDS");
-    this.appendDummyInput().appendField("Values").appendField(new Blockly.FieldTextInput(""), "VALUES");
+    this.appendDummyInput().appendField("Field").appendField(new Blockly.FieldTextInput(""), "FIELD");
+    this.appendDummyInput().appendField("Value").appendField(new Blockly.FieldTextInput(""), "VALUE");
     this.setColour(230);
     this.appendDummyInput().appendField("");
     this.setPreviousStatement(true, "CodeElement");

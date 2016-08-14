@@ -366,11 +366,12 @@ Blockly.ClojureScriptOptimized['appshare_show_tables'] = function(block) {
 Blockly.ClojureScriptOptimized['appshare_input_field'] = function(block) {
   var placeholder     = block.getFieldValue('PLACEHOLDER');
   var value_callback  = Blockly.ClojureScriptOptimized.statementToCode(block, 'CALLBACK');
+  var storein         = block.getFieldValue('STOREIN');
 
   var code = ' (om.dom/input                                                                                              \n\
                          (webapp.framework.client.coreclient/attrs {                                                      \n\
                               :onKeyDown     (fn [event]                                                                  \n\
-                                                   (let [ input-value  (.. event -target -value  ) ]                      \n\
+                                                   (let [ ' + storein + '  (.. event -target -value  ) ]                  \n\
                                                       (if (= (.-keyCode event  ) 13)                                      \n\
                                                          (do ' +
                                                              value_callback + '                                           \n\
@@ -407,10 +408,10 @@ Blockly.ClojureScriptOptimized['appshare_code_raw'] = function(block) {
 
 Blockly.ClojureScriptOptimized['appshare_code_insert'] = function(block) {
   var tablename = block.getFieldValue('TABLENAME');
-  var fields = block.getFieldValue('FIELDS');
-  var values = block.getFieldValue('VALUES');
+  var field = block.getFieldValue('FIELD');
+  var value = block.getFieldValue('VALUE');
   var code = '(webapp.framework.client.coreclient/sql-callback (str "insert into ' +
-      tablename + ' (' + fields + ') values ( ' + values + ')") {} (fn [xx] nil ))';
+      tablename + ' (' + field + ') values ( ? )") [' + value + '] (fn [xx] nil ))';
   //var code = '(webapp.framework.client.coreclient/sql-callback select id from todo_items {} (fn [xx] nil ))';
   return code;
 };
