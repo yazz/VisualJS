@@ -386,6 +386,11 @@ function setCodeMirrorOption(optionname , optionvalue) {
             console.log("Removed block ");
             block.parentElement.removeChild(block);
           }
+          // if it is defining the database then remove it
+          else if (block.getAttribute('type').startsWith('appshare_definedb_')) {
+            console.log("Removed block ");
+            block.parentElement.removeChild(block);
+          }
 
           // otherwise it is a UI component
           else {

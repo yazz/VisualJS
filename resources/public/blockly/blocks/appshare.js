@@ -395,3 +395,16 @@ Blockly.Blocks['appshare_db_rowid_button'] = {
 
 
 
+
+
+Blockly.Blocks['appshare_definedb_table'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Define table")
+        .appendField(new Blockly.FieldTextInput("Table name"), "NAME");
+    this.setColour(230);
+  }
+}
+
+
+

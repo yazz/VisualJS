@@ -120,6 +120,9 @@
 
                      ])
 
+(def define-database-blocks  [
+                               ["appshare_definedb_table"           "definedb"]
+                               ])
 
 
 (defn show-blocks [section-name   block-names ]
@@ -469,6 +472,7 @@
 
             (add-blocks "Basic"        basic-blocks)
             (add-blocks "Database"     database-blocks)
+            (add-blocks "Make DB"      define-database-blocks)
 
 
 
