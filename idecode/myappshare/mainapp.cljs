@@ -122,6 +122,7 @@
 
 (def define-database-blocks  [
                                ["appshare_definedb_table"           "definedb"]
+                               ["appshare_definedb_column"          "definedb"]
                                ])
 
 

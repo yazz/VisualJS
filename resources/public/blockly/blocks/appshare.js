@@ -403,8 +403,31 @@ Blockly.Blocks['appshare_definedb_table'] = {
         .appendField("Define table")
         .appendField(new Blockly.FieldTextInput("Table name"), "NAME");
     this.setColour(230);
+    this.appendStatementInput("Columns").setCheck("ColumnElement");
   }
 }
+
+
+
+
+Blockly.Blocks['appshare_definedb_column'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Column name")
+        .appendField(new Blockly.FieldTextInput("Table name"), "NAME");
+
+    var dropdown = new Blockly.FieldDropdown([['Text', 'TEXT'], ['Number', 'NUMBER'], ['ID', 'ID'], ['Picture', 'PICTURE'], ['Boolean', 'BOOLEAN']]);
+    this.appendDummyInput()
+    .appendField("Type").appendField(dropdown, 'COLUMN_TYPE');
+    dropdown.setText(""); // set the actual text
+    dropdown.setValue("");
+
+    this.setColour(230);
+    this.setPreviousStatement(true, "ColumnElement");
+    this.setNextStatement(true, "ColumnElement");
+  }
+}
+
 
 
 
