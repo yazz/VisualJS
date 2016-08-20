@@ -51,8 +51,8 @@
                     ]]))
 (defn-ui-component     default-component   [app] (div nil))
                     (def table-defns (atom []))
-                    (swap! table-defns conj \"ooo\")
-                    (swap! table-defns conj \"ooo22\")
+"))
+(defn end [] "(webapp.framework.client.system-globals.touch [:ui])\n
                     (defn get-tables []
                     (remote \"!update-tables\"
                     {:session-id      (:session-id @webapp.framework.client.system-globals.client-session-atom)
@@ -62,8 +62,6 @@
                     (reset! webapp.framework.client.system-globals/app-state (assoc-in @webapp.framework.client.system-globals/app-state [:ui :table-list] result2))))
                     )
                     (get-tables)
-"))
-(defn end [] "(webapp.framework.client.system-globals.touch [:ui])\n
   (reset! webapp.framework.client.system-globals/start-component  main)")
 
 
@@ -94,10 +92,20 @@
 
                       return-val))))
                               (webapp.framework.client.coreclient/get-tables)
+                    (def table-defns (atom []))
 "))
 
 
 (defn end-optimized [] "(webapp.framework.client.system-globals.touch [:ui])\n
+                    (defn get-tables []\n
+                    (webapp.framework.client.coreclient/remote-fn \"!update-tables\"\n
+                    {:session-id      (:session-id @webapp.framework.client.system-globals.client-session-atom)\n
+                    :table-defns @table-defns\n
+                    }\n
+                    (fn [result2]\n
+                    (reset! webapp.framework.client.system-globals/app-state (assoc-in @webapp.framework.client.system-globals/app-state [:ui :table-list] result2))))\n
+                    )\n
+                    (get-tables)\n
   (reset! webapp.framework.client.system-globals/start-component  main)")
 
 
