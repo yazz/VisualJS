@@ -50,6 +50,18 @@
                     input-field read-ui write-ui container label remote
                     ]]))
 (defn-ui-component     default-component   [app] (div nil))
+                    (def table-defns (atom []))
+                    (swap! table-defns conj \"ooo\")
+                    (swap! table-defns conj \"ooo22\")
+                    (defn get-tables []
+                    (remote \"!update-tables\"
+                    {:session-id      (:session-id @webapp.framework.client.system-globals.client-session-atom)
+                    :table-defns @table-defns
+                    }
+                    (fn [result2]
+                    (reset! webapp.framework.client.system-globals/app-state (assoc-in @webapp.framework.client.system-globals/app-state [:ui :table-list] result2))))
+                    )
+                    (get-tables)
 "))
 (defn end [] "(webapp.framework.client.system-globals.touch [:ui])\n
   (reset! webapp.framework.client.system-globals/start-component  main)")

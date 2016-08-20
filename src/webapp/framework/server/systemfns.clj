@@ -163,6 +163,14 @@
 
 
 
+(defn !update-tables [{session-id    :session-id
+                       table-defns   :table-defns}]
+  (do
+      {:value (pr-str table-defns )}))
+
+
+
+
 
 
 
