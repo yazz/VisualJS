@@ -443,7 +443,7 @@ Blockly.ClojureScriptOptimized['appshare_db_rowid_button'] = function(block) {
 
 Blockly.ClojureScriptOptimized['appshare_definedb_table'] = function(block) {
   var tablename = block.getFieldValue('TABLENAME');
-  //var code = '(swap! table-defns conj "' + tablename + '") ';
-  var code = '(swap! table-defns conj "kjhhjh") ';
+  var code = '(swap! table-defns conj "' + tablename + '") ';
+  //var code = '(swap! table-defns conj "kjhhjh") ';
   return code;
 };

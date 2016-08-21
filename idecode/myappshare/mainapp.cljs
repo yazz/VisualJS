@@ -54,7 +54,7 @@
 "))
 (defn end [] "(webapp.framework.client.system-globals.touch [:ui])\n
                     (defn get-tables []
-                    (remote \"!update-tables\"
+                    (remote-callback \"!update-tables\"
                     {:session-id      (:session-id @webapp.framework.client.system-globals.client-session-atom)
                     :table-defns @table-defns
                     }
@@ -97,16 +97,19 @@
 
 
 (defn end-optimized [] "(webapp.framework.client.system-globals.touch [:ui])\n
-                    (defn get-tables []\n
-                    (webapp.framework.client.coreclient/remote-fn \"!update-tables\"\n
-                    {:session-id      (:session-id @webapp.framework.client.system-globals.client-session-atom)\n
-                    :table-defns @table-defns\n
-                    }\n
-                    (fn [result2]\n
-                    (reset! webapp.framework.client.system-globals/app-state (assoc-in @webapp.framework.client.system-globals/app-state [:ui :table-list] result2))))\n
-                    )\n
-                    (get-tables)\n
-  (reset! webapp.framework.client.system-globals/start-component  main)")
+                    (defn update-tables [] \n
+                        (webapp.framework.client.coreclient/remote-callback         \n
+                             \"!update-tables\"                               \n
+                             {  \n
+                                :session-id      (:session-id @webapp.framework.client.system-globals.client-session-atom) \n
+                                :table-defns     @table-defns \n
+                             }\n
+                             (fn [result2]   \n
+                               (do         \n
+                                  (reset! webapp.framework.client.system-globals/app-state (assoc-in @webapp.framework.client.system-globals/app-state [:ui :table-list] result2))\n
+                               ))))\n
+                    (update-tables) \n
+                    (reset! webapp.framework.client.system-globals/start-component  main)")
 
 
 

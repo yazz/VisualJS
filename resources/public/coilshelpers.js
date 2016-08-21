@@ -421,7 +421,6 @@ function setCodeMirrorOption(optionname , optionvalue) {
           cblock.removeAttribute('y');
           dom.appendChild(cblock);
         }
-        dom.appendChild(mainProgramBlocklycomponent);
 
 
 
@@ -433,9 +432,10 @@ function setCodeMirrorOption(optionname , optionvalue) {
           cblock = defineDbBlocks[0];
           cblock.removeAttribute('x');
           cblock.removeAttribute('y');
-          //dom.appendChild(cblock);
+          dom.appendChild(cblock);
         }
 
+        dom.appendChild(mainProgramBlocklycomponent);
 
       }
 
