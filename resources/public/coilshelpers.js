@@ -337,6 +337,7 @@ function setCodeMirrorOption(optionname , optionvalue) {
         //
         // keep the custom components at the top
         var mainCustomComponents = document.createElement("custcomponents");
+        var defineDbComponents = document.createElement("definedbcomponents");
 
         var mainProgramBlocklycomponent = document.createElement("block");
         mainProgramBlocklycomponent.setAttribute("type","appshare_ui_component");
@@ -389,7 +390,8 @@ function setCodeMirrorOption(optionname , optionvalue) {
           // if it is defining the database then remove it
           else if (block.getAttribute('type').startsWith('appshare_definedb_')) {
             console.log("Removed block ");
-            block.parentElement.removeChild(block);
+            //block.parentElement.removeChild(block);
+            defineDbComponents.appendChild(block);
           }
 
           // otherwise it is a UI component
@@ -410,7 +412,6 @@ function setCodeMirrorOption(optionname , optionvalue) {
 
 
 
-
         var customBlocks = mainCustomComponents.children;
         customBlocksLength = customBlocks.length;
         for (i = 0; i  < customBlocksLength; i++) {
@@ -421,6 +422,21 @@ function setCodeMirrorOption(optionname , optionvalue) {
           dom.appendChild(cblock);
         }
         dom.appendChild(mainProgramBlocklycomponent);
+
+
+
+
+        var defineDbBlocks = defineDbComponents.children;
+        defineDbBlocksLength = defineDbBlocks.length;
+        for (i = 0; i  < defineDbBlocksLength; i++) {
+          defineDbBlocks = defineDbComponents.children;
+          cblock = defineDbBlocks[0];
+          cblock.removeAttribute('x');
+          cblock.removeAttribute('y');
+          //dom.appendChild(cblock);
+        }
+
+
       }
 
 

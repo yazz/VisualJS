@@ -401,7 +401,7 @@ Blockly.Blocks['appshare_definedb_table'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Define table")
-        .appendField(new Blockly.FieldTextInput("Table name"), "NAME");
+        .appendField(new Blockly.FieldTextInput("Table name"), "TABLENAME");
     this.setColour(230);
     this.appendStatementInput("Columns").setCheck("ColumnElement");
   }

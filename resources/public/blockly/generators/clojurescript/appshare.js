@@ -234,3 +234,16 @@ Blockly.ClojureScript['appshare_db_rowid_button'] = function(block) {
   return code;
 };
 
+
+
+
+Blockly.ClojureScript['appshare_definedb_table'] = function(block) {
+  var code = ' ';
+  return code;
+};
+
+
+
+
+
+
