@@ -93,11 +93,7 @@
                       return-val))))
                               (webapp.framework.client.coreclient/get-tables)
                     (def table-defns (atom []))
-"))
-
-
-(defn end-optimized [] "(webapp.framework.client.system-globals.touch [:ui])\n
-                    (defn update-tables [] \n
+                    (defn update-tables [xfn] \n
                         (webapp.framework.client.coreclient/remote-callback         \n
                              \"!update-tables\"                               \n
                              {  \n
@@ -107,10 +103,15 @@
                              (fn [result2]   \n
                                (do         \n
                                   (reset! webapp.framework.client.system-globals/app-state (assoc-in @webapp.framework.client.system-globals/app-state [:ui :table-list] result2))\n
+                                  (xfn)
                                ))))\n
-                    (update-tables) \n
+"))
+
+
+(defn end-optimized [] "(webapp.framework.client.system-globals.touch [:ui])\n
                     (reset! webapp.framework.client.system-globals/start-component  main)")
 
+;                    (update-tables) \n
 
 
 
