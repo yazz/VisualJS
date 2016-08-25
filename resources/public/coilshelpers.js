@@ -506,10 +506,18 @@ function setCodeMirrorOption(optionname , optionvalue) {
 
 
       lastEval = -1;
-      function myUpdateFunction(event) {
+      function myChangeFunction(event) {
         if (event.type == 'ui') {return;}
         inEval = myappshare.mainapp.inEval();
         if (inEval) {return;}
+        console.log("Event.type= " + event.type + " : " + calcEvals);
+
+      }
+
+
+
+
+      function myUpdateFunction() {
 
         calcEvals = myappshare.mainapp.calcEvals();
         if (calcEvals == lastEval) {return;}
@@ -522,12 +530,12 @@ function setCodeMirrorOption(optionname , optionvalue) {
         document.getElementById('blocklyCode').innerHTML = getBlocklyOptimizedValue();//code;
         document.getElementById('blocklyCode2').innerHTML = getBlocklyXml15();
         document.getElementById('blocklyCode3').innerHTML = getBlocklyXml35();
-        console.log("Event.type= " + event.type + " : " + calcEvals);
         document.getElementById('numberOfEvals').innerHTML = '' + calcEvals;
         //uuuttt(toolbox);
         myappshare.mainapp.refreshapp();
       }
 
+      setInterval(myUpdateFunction, 2000);
 
 
       function getBlocklyXml()
@@ -629,7 +637,7 @@ function escapeHtml(unsafe) {
                                      colour: '#ccc',
                                      snap: true},
                                    css: true});
-        workspace.addChangeListener(myUpdateFunction);
+        workspace.addChangeListener(myChangeFunction);
         Blockly.fireUiEvent(window, 'resize')
         workspace.updateToolbox(toolbox);
 
