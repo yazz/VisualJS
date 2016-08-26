@@ -505,12 +505,43 @@ function setCodeMirrorOption(optionname , optionvalue) {
 
 
 
+      var lastkeypresstime = -1;
+      var updateblockly = false;
+      var keypressed = false;
+
       lastEval = -1;
       function myChangeFunction(event) {
+        if ((event.type == Blockly.Events.CHANGE) &&
+            (event.oldValue != event.newValue)) {
+          if ((lastkeypresstime == -1) || ((new Date().getTime() - lastkeypresstime) < 2000)) {
+            updateblockly = false;
+          } else {
+            updateblockly = true;
+          };
+
+          keypressed = true;
+
+          lastkeypresstime = new Date().getTime();
+          return;}
+
+        if ((!updateblockly) && keypressed && ((new Date().getTime() - lastkeypresstime) > 2000)) {
+          keypressed = false;
+          updateblockly = true;
+        };
+
+
+
         if (event.type == 'ui') {return;}
         inEval = myappshare.mainapp.inEval();
         if (inEval) {return;}
+        calcEvals = myappshare.mainapp.calcEvals();
         console.log("Event.type= " + event.type + " : " + calcEvals);
+        if (calcEvals == lastEval) {return;}
+
+        lastEval = calcEvals;
+
+
+        updateblockly = true;
 
       }
 
@@ -519,23 +550,20 @@ function setCodeMirrorOption(optionname , optionvalue) {
 
       function myUpdateFunction() {
 
-        calcEvals = myappshare.mainapp.calcEvals();
-        if (calcEvals == lastEval) {return;}
+        if (updateblockly) {
+          var code = getBlocklyValue();
 
-        lastEval = calcEvals;
-
-
-        var code = getBlocklyValue();
-
-        document.getElementById('blocklyCode').innerHTML = getBlocklyOptimizedValue();//code;
-        document.getElementById('blocklyCode2').innerHTML = getBlocklyXml15();
-        document.getElementById('blocklyCode3').innerHTML = getBlocklyXml35();
-        document.getElementById('numberOfEvals').innerHTML = '' + calcEvals;
-        //uuuttt(toolbox);
-        myappshare.mainapp.refreshapp();
+          document.getElementById('blocklyCode').innerHTML = getBlocklyOptimizedValue();//code;
+          document.getElementById('blocklyCode2').innerHTML = getBlocklyXml15();
+          document.getElementById('blocklyCode3').innerHTML = getBlocklyXml35();
+          document.getElementById('numberOfEvals').innerHTML = '' + calcEvals;
+          //uuuttt(toolbox);
+          myappshare.mainapp.refreshapp();
+          updateblockly = false;
+        }
       }
 
-      setInterval(myUpdateFunction, 2000);
+      setInterval(myUpdateFunction, 1000);
 
 
       function getBlocklyXml()
