@@ -524,11 +524,6 @@ function setCodeMirrorOption(optionname , optionvalue) {
           lastkeypresstime = new Date().getTime();
           return;}
 
-        if ((!updateblockly) && keypressed && ((new Date().getTime() - lastkeypresstime) > 2000)) {
-          keypressed = false;
-          updateblockly = true;
-        };
-
 
 
         if (event.type == 'ui') {return;}
@@ -549,6 +544,12 @@ function setCodeMirrorOption(optionname , optionvalue) {
 
 
       function myUpdateFunction() {
+
+
+        if ((!updateblockly) && keypressed && ((new Date().getTime() - lastkeypresstime) > 2000)) {
+          keypressed = false;
+          updateblockly = true;
+        };
 
         if (updateblockly) {
           var code = getBlocklyValue();
