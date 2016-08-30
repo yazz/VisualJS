@@ -162,23 +162,23 @@
 
 
 
-(defn create-table [session-id   table-details]
+(defn create-table [schema-name   table-details]
   (let [table-name    (:table-name   table-details)]
     (do
       (println (str "***************    Making table: " table-details))
       (if (not (does-table-exist  table-name))
-        (sql (str "create table " table-name " (id       serial NOT NULL,tfield    character varying,  CONSTRAINT  " table-name "_PK    PRIMARY KEY (id))") [])
+        (sql schema-name (str "create table " table-name " (id       serial NOT NULL,tfield    character varying,  CONSTRAINT  " table-name "_PK    PRIMARY KEY (id))") [])
         ))))
 
 
 
 (defn !update-tables [{session-id    :session-id
                        table-defns   :table-defns}]
-  (do
-      (println (str ""))
+  (let [schema-name        (get-schema-name-for-session-id   session-id)]
+      (println (str "Scehma: " schema-name))
       (println (str "******Table count: " (count table-defns)))
     (doall (map
-         (fn [x] (create-table session-id  x))
+         (fn [x] (create-table schema-name  x))
          table-defns
       ))
       {:value (pr-str table-defns )}))
