@@ -246,4 +246,9 @@ Blockly.ClojureScript['appshare_definedb_table'] = function(block) {
 
 
 
+Blockly.ClojureScript['appshare_definedb_column'] = function(block) {
+  var code = ' ';
+  return code;
+};
+
 

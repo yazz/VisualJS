@@ -443,7 +443,24 @@ Blockly.ClojureScriptOptimized['appshare_db_rowid_button'] = function(block) {
 
 Blockly.ClojureScriptOptimized['appshare_definedb_table'] = function(block) {
   var tablename = block.getFieldValue('TABLENAME');
-  var code = '(swap! table-defns conj {:table-name "' + tablename + '"}) ';
+  var columns = Blockly.ClojureScriptOptimized.statementToCode(block, 'COLUMNS');
+  var code = '(swap! table-defns conj {:table-name "' + tablename + ' :columns {' + columns + '}" }) ';
   //var code = '(swap! table-defns conj "kjhhjh") ';
   return code;
 };
+
+
+
+
+
+
+
+
+Blockly.ClojureScriptOptimized['appshare_definedb_column'] = function(block) {
+  var colname = block.getFieldValue('COLUMNNAME');
+  var code = ' :col {:col-name "' + colname + '"}  ';
+  //var code = '(swap! table-defns conj "kjhhjh") ';
+  return code;
+};
+
+
