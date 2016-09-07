@@ -166,7 +166,7 @@
   (let [table-name    (:table-name   table-details)]
     (do
       (println (str "***************    Making table: " table-details))
-      (if (not (does-table-exist  table-name))
+      (if (not (does-table-exist   schema-name  table-name))
         (sql schema-name (str "create table " table-name " (id       serial NOT NULL,tfield    character varying,  CONSTRAINT  " table-name "_PK    PRIMARY KEY (id))") [])
         ))))
 
