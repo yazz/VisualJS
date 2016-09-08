@@ -458,7 +458,8 @@ Blockly.ClojureScriptOptimized['appshare_definedb_table'] = function(block) {
 
 Blockly.ClojureScriptOptimized['appshare_definedb_column'] = function(block) {
   var colname = block.getFieldValue('COLUMNNAME');
-  var code = ' :col {:col-name "' + colname + '"}  ';
+  var coltype = block.getFieldValue('COLUMN_TYPE');
+  var code = ' :' + colname + ' {:name "' + colname + '" :type "' + coltype + '"}  ';
   //var code = '(swap! table-defns conj "kjhhjh") ';
   return code;
 };
