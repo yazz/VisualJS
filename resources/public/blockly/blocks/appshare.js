@@ -3,6 +3,7 @@
 goog.provide('Blockly.Blocks.appshare');
 
 goog.require('Blockly.Blocks');
+goog.require('Blockly.FieldClickImage');
 
 
 Blockly.Blocks['appshare_app'] = {
@@ -395,13 +396,17 @@ Blockly.Blocks['appshare_db_rowid_button'] = {
 
 
 
-
+function fff(e) {
+  return 0;};
 
 Blockly.Blocks['appshare_definedb_table'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Define table")
         .appendField(new Blockly.FieldTextInput("Table name"), "TABLENAME");
+    this.appendDummyInput()
+        .appendField("update DB")
+        .appendField(new Blockly.FieldImage("https://www.gstatic.com/codesite/ph/images/star_on.gif", 15, 15, "*"));
     this.setColour(230);
     this.appendStatementInput("COLUMNS").setCheck("ColumnElement");
   }
