@@ -396,8 +396,19 @@ Blockly.Blocks['appshare_db_rowid_button'] = {
 
 
 
-function fff(e) {
+
+
+
+var fff = function (eventpat) {
+  alert('Clicked');
   return 0;};
+
+
+
+
+
+
+
 
 Blockly.Blocks['appshare_definedb_table'] = {
   init: function() {
@@ -406,7 +417,7 @@ Blockly.Blocks['appshare_definedb_table'] = {
         .appendField(new Blockly.FieldTextInput("Table name"), "TABLENAME");
     this.appendDummyInput()
         .appendField("update DB")
-        .appendField(new Blockly.FieldImage("https://www.gstatic.com/codesite/ph/images/star_on.gif", 15, 15, "*"));
+        .appendField(new Blockly.FieldClickImage("https://www.gstatic.com/codesite/ph/images/star_on.gif", 15, 15, "*",fff));
     this.setColour(230);
     this.appendStatementInput("COLUMNS").setCheck("ColumnElement");
   }

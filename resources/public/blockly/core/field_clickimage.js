@@ -19,107 +19,167 @@
  */
 
 /**
- * @fileoverview clickable image field.
- * @author toebes@extremenetworks.com (John Toebes)
+ * @fileoverview Image field.  Used for titles, labels, etc.
+ * @author fraser@google.com (Neil Fraser)
  */
 'use strict';
 
 goog.provide('Blockly.FieldClickImage');
 
-goog.require('Blockly.FieldImage');
+goog.require('Blockly.Field');
+goog.require('goog.dom');
+goog.require('goog.math.Size');
+goog.require('goog.userAgent');
+
 
 /**
- * Class for a clickable image.
+ * Class for an image.
  * @param {string} src The URL of the image.
  * @param {number} width Width of the image.
  * @param {number} height Height of the image.
- * @param {?string} opt_alt Optional alt text for when block is collapsed.
- * @param {?Function} handler A function that is executed when the
- *     image is selected.
- * @extends {Blockly.FieldImage}
+ * @param {string=} opt_alt Optional alt text for when block is collapsed.
+ * @extends {Blockly.Field}
  * @constructor
  */
-Blockly.FieldClickImage = function(src, width, height, opt_alt, handler) {
-  Blockly.FieldClickImage.superClass_.constructor.call(this,
-                                                   src, width, height, '');
-
-  this.setChangeHandler(handler);
+Blockly.FieldClickImage = function(src, width, height, opt_alt, clickEvent) {
+  this.sourceBlock_ = null;
+  // Ensure height and width are numbers.  Strings are bad at math.
+  this.height_ = Number(height);
+  this.width_ = Number(width);
+  this.size_ = new goog.math.Size(this.width_,
+      this.height_ + 2 * Blockly.BlockSvg.INLINE_PADDING_Y);
+  this.text_ = opt_alt || '';
+  this.setValue(src);
+  this.clickEvent = clickEvent;
 };
+goog.inherits(Blockly.FieldClickImage, Blockly.Field);
 
-goog.inherits(Blockly.FieldClickImage, Blockly.FieldImage);
+/**
+ * Rectangular mask used by Firefox.
+ * @type {Element}
+ * @private
+ */
+Blockly.FieldClickImage.prototype.rectElement_ = null;
 
 /**
  * Editable fields are saved by the XML renderer, non-editable fields are not.
- * However we don't want to serialize it even if it is present
  */
-Blockly.FieldClickImage.prototype.EDITABLE = true;
-Blockly.FieldClickImage.prototype.SERIALIZABLE = false;
+Blockly.FieldClickImage.prototype.EDITABLE = false;
+
+
+Blockly.FieldClickImage.prototype.clickEventListener = function(imageElement, functionName){
+
+ if(functionName){
+	imageElement.addEventListener("click", functionName);
+ }
+
+};
+
 
 /**
- * Mouse cursor style when over the hotspot that initiates the editor.
+ * Install this image on a block.
  */
-Blockly.FieldClickImage.prototype.CURSOR = 'default';
+Blockly.FieldClickImage.prototype.init = function() {
+  if (this.fieldGroup_) {
+    // Image has already been initialized once.
+    return;
+  }
+  // Build the DOM.
+  /** @type {SVGElement} */
+  this.fieldGroup_ = Blockly.createSvgElement('g', {}, null);
+  if (!this.visible_) {
+    this.fieldGroup_.style.display = 'none';
+  }
+  /** @type {SVGElement} */
+  this.imageElement_ = Blockly.createSvgElement('image',
+      {'height': this.height_ + 'px',
+       'width': this.width_ + 'px'}, this.fieldGroup_);
+  this.setValue(this.src_);
+  if (goog.userAgent.GECKO) {
+    /**
+     * Due to a Firefox bug which eats mouse events on image elements,
+     * a transparent rectangle needs to be placed on top of the image.
+     * @type {SVGElement}
+     */
+    this.rectElement_ = Blockly.createSvgElement('rect',
+        {'height': this.height_ + 'px',
+         'width': this.width_ + 'px',
+         'fill-opacity': 0}, this.fieldGroup_);
+  }
+  this.sourceBlock_.getSvgRoot().appendChild(this.fieldGroup_);
+
+  // Configure the field to be transparent with respect to tooltips.
+  var topElement = this.rectElement_ || this.imageElement_;
+  topElement.tooltip = this.sourceBlock_;
+  Blockly.Tooltip.bindMouseEvents(topElement);
+
+  // assigning the clickevent handler
+  this.clickEventListener(this.imageElement_,this.clickEvent);
+};
 
 /**
- * Add or remove the UI indicating if this image may be clicked or not.
+ * Dispose of all DOM objects belonging to this text.
  */
-Blockly.FieldClickImage.prototype.updateEditable = function() {
-  if (this.sourceBlock_.isInFlyout || !this.EDITABLE) {
-    Blockly.addClass_(/** @type {!Element} */ (this.fieldGroup_),
-                      'blocklyIconGroupReadonly');
-  } else {
-    Blockly.removeClass_(/** @type {!Element} */ (this.fieldGroup_),
-                         'blocklyIconGroupReadonly');
+Blockly.FieldClickImage.prototype.dispose = function() {
+  goog.dom.removeNode(this.fieldGroup_);
+  this.fieldGroup_ = null;
+  this.imageElement_ = null;
+  this.rectElement_ = null;
+};
+
+/**
+ * Change the tooltip text for this field.
+ * @param {string|!Element} newTip Text for tooltip or a parent element to
+ *     link to for its tooltip.
+ */
+Blockly.FieldClickImage.prototype.setTooltip = function(newTip) {
+  var topElement = this.rectElement_ || this.imageElement_;
+  topElement.tooltip = newTip;
+};
+
+/**
+ * Get the source URL of this image.
+ * @return {string} Current text.
+ * @override
+ */
+Blockly.FieldClickImage.prototype.getValue = function() {
+  return this.src_;
+};
+
+/**
+ * Set the source URL of this image.
+ * @param {?string} src New source.
+ * @override
+ */
+Blockly.FieldClickImage.prototype.setValue = function(src) {
+  if (src === null) {
+    // No change if null.
+    return;
+  }
+  this.src_ = src;
+  if (this.imageElement_) {
+    this.imageElement_.setAttributeNS('http://www.w3.org/1999/xlink',
+        'xlink:href', goog.isString(src) ? src : '');
   }
 };
 
 /**
- * Install this field on a block.
- * @param {!Blockly.Block} block The block containing this field.
+ * Set the alt text of this image.
+ * @param {?string} alt New alt text.
+ * @override
  */
-Blockly.FieldClickImage.prototype.init = function(block) {
-  if (this.sourceBlock_) {
-    // Image has already been initialized once.
+Blockly.FieldClickImage.prototype.setText = function(alt) {
+  if (alt === null) {
+    // No change if null.
     return;
   }
-  Blockly.FieldClickImage.superClass_.init.call(this, block);
-
-  // We want to use the styling of an Icon  to indicate clickability
-  Blockly.addClass_(/** @type {!Element} */ (this.fieldGroup_),
-                    'blocklyIconGroup');
-  // Mark this as being a fadable Icon
-  Blockly.addClass_(/** @type {!Element} */ (this.fieldGroup_),
-                    'blocklyIconFading');
-  // If the image was already hidden, make it hidden.  We have to do this
-  // because setVisible skips this step if the object wasn't rendered at the
-  // time it marked it as hidden.
-  if (!this.visible_) {
-    this.visible_ = true;
-    this.setVisible(false);
-  }
-  //
-  // Update the classes for this to appear editable
-  this.updateEditable();
-  // And bind to the mouseup so that we can get called for a click
-  this.mouseUpWrapper_ =
-      Blockly.bindEvent_(this.fieldGroup_, 'mouseup', this, this.onMouseUp_);
-  // Force a render.
-  this.updateTextNode_();
-}
+  this.text_ = alt;
+};
 
 /**
- * Take the action of the block
- * Note that this does swap out the dragMode_ variable because we know that
- * We only get invoked when we aren't actually dragging (otherwise the click
- * would be consumed by the drag code).  Once we return, there is a small amount
- * of cleanup which needs to complete
+ * Images are fixed width, no need to render.
  * @private
  */
-Blockly.FieldClickImage.prototype.showEditor_ = function() {
-  if (this.changeHandler_) {
-    var saveDragMode = Blockly.dragMode_;
-    Blockly.dragMode_ = 0;
-    this.changeHandler_.call(this.sourceBlock_,this);
-    Blockly.dragMode_ = saveDragMode;
-  }
+Blockly.FieldClickImage.prototype.render_ = function() {
+  // NOP
 };
