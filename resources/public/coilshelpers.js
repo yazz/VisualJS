@@ -312,7 +312,7 @@ function setCodeMirrorOption(optionname , optionvalue) {
         // Save the names of all the custom components
         //
         var blocks = dom.children;
-        console.log("Block count: " + blocks.length);
+        //console.log("Block count: " + blocks.length);
         bc = blocks.length;
         var foundFirstMainUiBlock = false;
         component_list = [];
@@ -356,7 +356,7 @@ function setCodeMirrorOption(optionname , optionvalue) {
           // remove any screen positions from the blocks since we are rearranging them
           block.removeAttribute('x');
           block.removeAttribute('y');
-          console.log("next block is: " + bi + " : " + block.getAttribute('type'));
+          //console.log("next block is: " + bi + " : " + block.getAttribute('type'));
 
 
           // if it is a custom component then make sure it calls something valid
@@ -364,7 +364,7 @@ function setCodeMirrorOption(optionname , optionvalue) {
             childr = block.children;
             chi = childr[0];
             if (component_names.indexOf(chi.textContent) == -1 ) {
-              console.log("call: " + " : " + chi.textContent);
+              //console.log("call: " + " : " + chi.textContent);
               chi.textContent = 'default-component';
               //block.parentElement.removeChild(block);
             };
@@ -373,23 +373,23 @@ function setCodeMirrorOption(optionname , optionvalue) {
 
           // if it is a custom component then move it to the top
           if (block.getAttribute('type') == 'appshare_custom_component') {
-            console.log("Found custom component ");
+            //console.log("Found custom component ");
             mainCustomComponents.appendChild(block);
           }
           // if it is a deprecated UI component then remove it
           else if (block.getAttribute('type') == 'appshare_ui_component') {
-            console.log("Removed block ");
+            //console.log("Removed block ");
             block.parentElement.removeChild(block);
           }
 
           // if it is a code then remove it
           else if (block.getAttribute('type').startsWith('appshare_code_')) {
-            console.log("Removed block ");
+            //console.log("Removed block ");
             block.parentElement.removeChild(block);
           }
           // if it is defining the database then remove it
           else if (block.getAttribute('type').startsWith('appshare_definedb_')) {
-            console.log("Removed block ");
+            //console.log("Removed block ");
             //block.parentElement.removeChild(block);
             defineDbComponents.appendChild(block);
           }
@@ -406,7 +406,7 @@ function setCodeMirrorOption(optionname , optionvalue) {
             }
             foundFirstMainUiBlock = true;
             lastblock = findFirstNextElement(block);
-            console.log("    last block is: " + bi + " : " + lastblock.getAttribute('type'));
+            //console.log("    last block is: " + bi + " : " + lastblock.getAttribute('type'));
           }
         };
 
@@ -499,7 +499,7 @@ function setCodeMirrorOption(optionname , optionvalue) {
         var inline = Blockly.ClojureScriptOptimized.workspaceToCode(headlessWorkspace);
         headlessWorkspace.dispose();
         var code = inline;
-        console.log(code);
+        //console.log(code);
         return code;
       }
 
@@ -531,7 +531,7 @@ function setCodeMirrorOption(optionname , optionvalue) {
         inEval = myappshare.mainapp.inEval();
         if (inEval) {return;}
         calcEvals = myappshare.mainapp.calcEvals();
-        console.log("Event.type= " + event.type + " : " + calcEvals);
+        //console.log("Event.type= " + event.type + " : " + calcEvals);
         if (calcEvals == lastEval) {return;}
 
         lastEval = calcEvals;
