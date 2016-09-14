@@ -512,6 +512,7 @@ function setCodeMirrorOption(optionname , optionvalue) {
 
       lastEval = -1;
       function myChangeFunction(event) {
+        console.log("Event.type= " + event.type + " : " + event.oldValue  + " : " + event.newValue + " : " + event.name + " : " + event.blockId);
         if ((event.type == Blockly.Events.CHANGE) &&
             (event.oldValue != event.newValue)) {
           if ((lastkeypresstime == -1) || ((new Date().getTime() - lastkeypresstime) < savelagtime)) {
@@ -562,6 +563,8 @@ function setCodeMirrorOption(optionname , optionvalue) {
           //uuuttt(toolbox);
           myappshare.mainapp.refreshapp();
           updateblockly = false;
+
+          //console.log("Event.type= " + event.type + " : " + calcEvals);
         }
       }
 
