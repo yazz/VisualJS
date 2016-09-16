@@ -252,3 +252,12 @@ Blockly.ClojureScript['appshare_definedb_column'] = function(block) {
 };
 
 
+
+
+
+
+Blockly.ClojureScript['appshare_code_update_ddl'] = function(block) {
+  var code = ' ';
+  return code;
+};
+

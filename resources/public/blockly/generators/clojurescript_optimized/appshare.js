@@ -465,3 +465,22 @@ Blockly.ClojureScriptOptimized['appshare_definedb_column'] = function(block) {
 };
 
 
+
+
+
+
+
+
+
+
+Blockly.ClojureScriptOptimized['appshare_code_update_ddl'] = function(block) {
+  var done = block.getFieldValue('DONETEXT');
+  var code = ' (update-tables (fn [] (js/alert (str "' + done + '"))))';
+  //var code = '(swap! table-defns conj "kjhhjh") ';
+  return code;
+};
+
+
+
+
+

@@ -447,3 +447,22 @@ Blockly.Blocks['appshare_definedb_column'] = {
 
 
 
+
+
+
+Blockly.Blocks['appshare_code_update_ddl'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("update DDL");
+    this.appendDummyInput()
+        .appendField("Success message")
+        .appendField(new Blockly.FieldTextInput("Done"), "DONETEXT");
+
+    this.setColour(230);
+    this.setPreviousStatement(true, "CodeElement");
+    this.setNextStatement(true, "CodeElement");
+  }
+}
+
+
+

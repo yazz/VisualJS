@@ -91,9 +91,13 @@
                             ]
 
                       return-val))))
-                              (webapp.framework.client.coreclient/get-tables)
-                    (def table-defns (atom []))
-                    (defn update-tables [xfn] \n
+
+
+(webapp.framework.client.coreclient/get-tables)
+
+(def table-defns (atom []))
+
+(defn update-tables [xfn] \n
                         (webapp.framework.client.coreclient/remote-callback         \n
                              \"!update-tables\"                               \n
                              {  \n
@@ -141,6 +145,7 @@
                      ["appshare_code_alert"             "code"]
                      ["appshare_code_raw"               "code"]
                      ["appshare_code_insert"            "code"]
+                     ["appshare_code_update_ddl"        "code"]
 
                      ])
 
