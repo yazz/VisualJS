@@ -466,3 +466,25 @@ Blockly.Blocks['appshare_code_update_ddl'] = {
 
 
 
+
+
+
+
+
+
+
+
+Blockly.Blocks['appshare_element_button'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Button")
+        .appendField(new Blockly.FieldTextInput("Button text"), "TEXT");
+    this.setColour(230);
+    this.appendDummyInput().appendField("");
+    this.appendDummyInput().appendField("Add callback code here");
+    this.appendStatementInput("CALLBACK").setCheck("CodeElement");
+
+    this.setPreviousStatement(true, "HtmlElement");
+    this.setNextStatement(true, "HtmlElement");
+  }
+}

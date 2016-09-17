@@ -132,6 +132,7 @@
                      ["appshare_element_top_padding"    "ui"]
                      ["appshare_custom_component"       "component"]
                      ["appshare_call_custom_component"  "ui"]
+                     ["appshare_element_button"                 "ui"]
                      ])
 
 

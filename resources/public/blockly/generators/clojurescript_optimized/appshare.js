@@ -484,3 +484,26 @@ Blockly.ClojureScriptOptimized['appshare_code_update_ddl'] = function(block) {
 
 
 
+
+
+
+
+
+
+
+Blockly.ClojureScriptOptimized['appshare_element_button'] = function(block) {
+  var text = ''   + block.getFieldValue('TEXT');
+  var callbackcode = Blockly.ClojureScriptOptimized.statementToCode(block, 'CALLBACK');
+
+  var code = '(om.dom/button                                                                                                \n\
+                            (webapp.framework.client.coreclient/attrs {                                                     \n\
+                                   :type          "button"                                                                  \n\
+                                   :className     "btn  btn-default"                                                        \n\
+                                   :onClick       (fn [e]                                                                   \n\
+                                                       (do ' + callbackcode +  '  nil)) })         \n\
+                            "' + text + '")';
+  return code;
+};
+
+
+
