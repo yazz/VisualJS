@@ -175,7 +175,7 @@
 (defn !update-tables [{session-id    :session-id
                        table-defns   :table-defns}]
   (let [schema-name        (get-schema-name-for-session-id   session-id)]
-      (println (str "Scehma: " schema-name))
+      (println (str "Schema: " schema-name))
       (println (str "******Table count: " (count table-defns)))
     (doall (map
          (fn [x] (create-table schema-name  x))

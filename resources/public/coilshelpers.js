@@ -511,8 +511,20 @@ function setCodeMirrorOption(optionname , optionvalue) {
       var savelagtime = 3000;
 
       lastEval = -1;
+
+
+      var listoftableblocks = {};
       function myChangeFunction(event) {
-        console.log("Event.type= " + event.type + " : " + event.oldValue  + " : " + event.newValue + " : " + event.name + " : " + event.blockId);
+        ;console.log("Event.type= " + event.type + " : " + event.oldValue  + " : " + event.newValue + " : " + event.name + " : " + event.blockId);
+        if (event.name == "TABLENAME") {
+          if (listoftableblocks[event.blockId]) {
+          }
+          else {
+            listoftableblocks[event.blockId] = {};
+            listoftableblocks[event.blockId]["tableName"] = event.oldValue;
+          }
+          console.log("    table: " +   listoftableblocks);
+        };
         if ((event.type == Blockly.Events.CHANGE) &&
             (event.oldValue != event.newValue)) {
           if ((lastkeypresstime == -1) || ((new Date().getTime() - lastkeypresstime) < savelagtime)) {
