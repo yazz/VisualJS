@@ -1499,11 +1499,11 @@
 
 
 (defn get-fields-for-table   [db-table]
-    (println (pr-str "get-fields-for-table: " db-table))
+    ;(println (pr-str "get-fields-for-table: " db-table))
   (let [fields-atom          (get @server-datasource-fields  db-table)
         fields-entry         (if fields-atom (into [] @fields-atom))   ]
 
-    (println (pr-str "Read fields: " fields-entry))
+    ;(println (pr-str "Read fields: " fields-entry))
 
     (if fields-entry
       fields-entry
@@ -1527,7 +1527,7 @@
 ; ----------------------------------------------------------------
 (defn update-record-in-cache [db-table  id]
   (do
-    (println "Update record")
+    ;(println "Update record")
     (let [
           cached-record    (get-record-from-server-cache-for-id  db-table   id)
           fields           (get-fields-for-table   db-table)
@@ -1555,12 +1555,12 @@
 
 
 (defn inform-clients-about-record  [schema  db-table   id]
-  (println (str "inform-clients-about-record: " schema " . " db-table))
+  ;(println (str "inform-clients-about-record: " schema " . " db-table))
   (let [full-table-name    (str schema "." db-table)
          the-record        (get-record-from-server-cache-for-id  full-table-name  id )
         clients-atom      (:clients the-record)
         ]
-    (println (str "    the-record: " the-record))
+    ;(println (str "    the-record: " the-record))
     ;(println (str "    Record Clients: " @clients-atom))
     (if clients-atom
 
@@ -1633,7 +1633,7 @@
         (swap! the-query assoc  :count         record-count)
         (swap! the-query assoc  :timestamp     query-time)
 
-        (println (str "    clients: " @clients-atom))
+        ;(println (str "    clients: " @clients-atom))
         (doall (for [client @clients-atom]
                  (do
                    ;(println (str "    Client: " client))
@@ -1642,7 +1642,7 @@
                          ]
                      (if (not response-atom) (swap! the-query assoc  :update-request (atom {})))
                      (let [client-query    (assoc query :db-table (get-table-name  (:db-table query)))]
-                       (println (str "    query: " client-query))
+                       ;(println (str "    query: " client-query))
                        (swap! (:update-request @the-client) assoc-in [:queries client-query] {:timestamp query-time})
                        ;(println (str "    responses: " (if response-atom @response-atom)))
                        )
@@ -2304,7 +2304,7 @@
 
 (defn !savecode [{:keys [id   code  code-index   app-session-id] }]
   (do
-    (println (str "***********id: " id))
+    ;(println (str "***********id: " id))
     (if (= 1 code-index)
       (sql "update  appshare_applications  set  code_format='text', application_code = '',
            blockly_xml = NULL where  id = ?" [id]))
@@ -2324,7 +2324,7 @@
 
 (defn !saveblockly [{:keys [id   code   code-index  app-session-id] }]
   (do
-    (println (str "***********id: " id))
+    ;(println (str "***********id: " id))
     (cond
       (= 1 code-index)
       (sql "update  appshare_applications  set  code_format='blockly',
