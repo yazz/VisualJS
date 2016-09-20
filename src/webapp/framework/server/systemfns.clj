@@ -240,7 +240,9 @@
   [{:keys [init-state     browser    session-id-from-browser]}]
   ;----------------------------------------------------------------
   (let [
-         web-session-in-db    (if session-id-from-browser (sql-1 "select   id, session_id, fk_appshare_user_id   from    appshare_web_sessions     where session_id = ?"   [session-id-from-browser]))
+         web-session-in-db    (if session-id-from-browser (sql-1 "select   id, session_id, fk_appshare_user_id   from    appshare_web_sessions     where session_id = ?"
+                                                                 [session-id-from-browser]))
+
          session-id           (if (get web-session-in-db :session_id)
 
                                 (get web-session-in-db :session_id)
@@ -253,7 +255,7 @@
          user                 (if user-id (sql-1 "select id, user_name from appshare_users  where id=?" [user-id]))
         ]
     (do
-      (println (str "!create-session: " session-id-from-browser))
+      ;(println (str "!create-session: " session-id-from-browser))
       {
         :session-id         session-id
         :user               user
@@ -2227,13 +2229,13 @@
       (do
         (clear-client-cache   app-session-id)
 
-        (println (str ""))
-        (println (str "************************************************************************************"))
-        (println (str "!getfilecontents        calling-from-application-id: "        calling-from-application-id))
-        (println (str "!getfilecontents        running-application-id:      "        running-application-id))
-        (println (str "!getfilecontents        app-id-schema-to-use:        "        app-id-schema-to-use))
-        (println (str "!getfilecontents  schema-id: "   schema-id))
-        (println (str "" ))
+        ;(println (str ""))
+        ;(println (str "************************************************************************************"))
+        ;(println (str "!getfilecontents        calling-from-application-id: "        calling-from-application-id))
+        ;(println (str "!getfilecontents        running-application-id:      "        running-application-id))
+        ;(println (str "!getfilecontents        app-id-schema-to-use:        "        app-id-schema-to-use))
+        ;(println (str "!getfilecontents  schema-id: "   schema-id))
+        ;(println (str "" ))
 
         (cond
           schema-id

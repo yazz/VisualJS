@@ -31,9 +31,23 @@
 
 (defn large-screen [] (not (small-screen)))
 
+(def table-defn-changes (atom {}))
+(defn  ^:export reset_table_defn_changes []
+  (reset! table-defn-changes {})
+  (log (str "tables: " @table-defn-changes))
+  )
+
+(defn  ^:export set_old_table_name [block-id  old-name]
+  (swap! table-defn-changes assoc-in [block-id  :old-name] old-name)
+  (log (str "tables: " @table-defn-changes))
+  )
 
 
 
+(defn  ^:export set_new_table_name [block-id  new-name]
+  (swap! table-defn-changes assoc-in [block-id  :new-name] new-name)
+  (log (str "tables: " @table-defn-changes))
+  )
 
 
 

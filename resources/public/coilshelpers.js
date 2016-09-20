@@ -515,15 +515,18 @@ function setCodeMirrorOption(optionname , optionvalue) {
 
       var listoftableblocks = {};
       function myChangeFunction(event) {
-        ;console.log("Event.type= " + event.type + " : " + event.oldValue  + " : " + event.newValue + " : " + event.name + " : " + event.blockId);
+        //console.log("Event.type= " + event.type + " : " + event.oldValue  + " : " + event.newValue + " : " + event.name + " : " + event.blockId);
         if (event.name == "TABLENAME") {
           if (listoftableblocks[event.blockId]) {
+            listoftableblocks[event.blockId]["newTableName"] = event.newValue;
+            myappshare.mainapp.set_new_table_name( event.blockId, event.newValue );
           }
           else {
             listoftableblocks[event.blockId] = {};
             listoftableblocks[event.blockId]["tableName"] = event.oldValue;
+            myappshare.mainapp.set_old_table_name( event.blockId, event.oldValue );
           }
-          console.log("    table: " +   listoftableblocks);
+          //console.log("    table: " +   listoftableblocks);
         };
         if ((event.type == Blockly.Events.CHANGE) &&
             (event.oldValue != event.newValue)) {
@@ -665,6 +668,7 @@ function escapeHtml(unsafe) {
 
 
       function initBlockly() {
+        myappshare.mainapp.reset_table_defn_changes();
 
         workspace = Blockly.inject('blocklyDiv',
                                    {toolbox: toolbox,
