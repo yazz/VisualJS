@@ -44,6 +44,12 @@
 
 
 
+(defn  ^:export  table_block_exists  [block-id]
+  (if  (get  @table-defn-changes  block-id)
+    true
+    false))
+
+
 (defn  ^:export set_new_table_name [block-id  new-name]
   (swap! table-defn-changes assoc-in [block-id  :new-name] new-name)
   (log (str "tables: " @table-defn-changes))

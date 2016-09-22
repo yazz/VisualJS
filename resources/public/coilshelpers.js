@@ -510,20 +510,15 @@ function setCodeMirrorOption(optionname , optionvalue) {
 
       lastEval = -1;
 
-      var listoftableblocks = {};
       function myChangeFunction(event) {
         //console.log("Event.type= " + event.type + " : " + event.oldValue  + " : " + event.newValue + " : " + event.name + " : " + event.blockId);
         if (event.name == "TABLENAME") {
-          if (listoftableblocks[event.blockId]) {
-            listoftableblocks[event.blockId]["newTableName"] = event.newValue;
+          if (myappshare.mainapp.table_name_exists(event.blockId) {
             myappshare.mainapp.set_new_table_name( event.blockId, event.newValue );
           }
           else {
-            listoftableblocks[event.blockId] = {};
-            listoftableblocks[event.blockId]["tableName"] = event.oldValue;
             myappshare.mainapp.set_old_table_name( event.blockId, event.oldValue );
           }
-          //console.log("    table: " +   listoftableblocks);
         } else if (event.name == "COLUMNNAME") {
           var bblock = workspace.getBlockById(event.blockId);
           var prbl = bblock.getParent();
