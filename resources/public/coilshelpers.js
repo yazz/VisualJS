@@ -503,15 +503,12 @@ function setCodeMirrorOption(optionname , optionvalue) {
         return code;
       }
 
-
-
       var lastkeypresstime = -1;
       var updateblockly = false;
       var keypressed = false;
       var savelagtime = 3000;
 
       lastEval = -1;
-
 
       var listoftableblocks = {};
       function myChangeFunction(event) {
@@ -527,7 +524,12 @@ function setCodeMirrorOption(optionname , optionvalue) {
             myappshare.mainapp.set_old_table_name( event.blockId, event.oldValue );
           }
           //console.log("    table: " +   listoftableblocks);
+        } else if (event.name == "COLUMNNAME") {
+          var bblock = workspace.getBlockById(event.blockId);
+          var prbl = bblock.getParent();
+          console.log("    column: " +   event.newValue + " :parent id:" + prbl.id);
         };
+
         if ((event.type == Blockly.Events.CHANGE) &&
             (event.oldValue != event.newValue)) {
           if ((lastkeypresstime == -1) || ((new Date().getTime() - lastkeypresstime) < savelagtime)) {

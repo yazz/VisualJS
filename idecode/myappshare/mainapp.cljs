@@ -50,6 +50,12 @@
   )
 
 
+(defn  ^:export set_old_column_name [block-id  parent-block-id   old-name]
+  (swap! table-defn-changes assoc-in [parent-block-id   :columns    :block-id  :new-name] old-name)
+  (log (str "tables: " @table-defn-changes))
+  )
+
+
 
 (def ns-counter (atom 0))
 (def in-eval (atom false))
