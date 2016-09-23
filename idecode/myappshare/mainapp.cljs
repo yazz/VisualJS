@@ -50,14 +50,30 @@
     false))
 
 
+
+
+
+(defn  ^:export  column_block_exists  [table-id  block-id]
+  (if  (get-in  @table-defn-changes  [table-id  :columns  block-id])
+    true
+    false))
+
+
+
+
 (defn  ^:export set_new_table_name [block-id  new-name]
   (swap! table-defn-changes assoc-in [block-id  :new-name] new-name)
   (log (str "tables: " @table-defn-changes))
   )
 
 
-(defn  ^:export set_old_column_name [block-id  parent-block-id   old-name]
-  (swap! table-defn-changes assoc-in [parent-block-id   :columns    :block-id  :new-name] old-name)
+(defn  ^:export set_new_column_name [ table-block-id  block-id    new-name]
+  (swap! table-defn-changes assoc-in [table-block-id   :columns    block-id  :new-name] new-name)
+  (log (str "tables: " @table-defn-changes))
+  )
+
+(defn  ^:export set_old_column_name [ table-block-id  block-id    old-name]
+  (swap! table-defn-changes assoc-in [table-block-id   :columns    block-id  :old-name] old-name)
   (log (str "tables: " @table-defn-changes))
   )
 

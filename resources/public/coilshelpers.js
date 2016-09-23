@@ -522,7 +522,22 @@ function setCodeMirrorOption(optionname , optionvalue) {
         } else if (event.name == "COLUMNNAME") {
           var bblock = workspace.getBlockById(event.blockId);
           var prbl = bblock.getParent();
-          console.log("    column: " +   event.newValue + " :parent id:" + prbl.id);
+          var tablename = prbl.getFieldValue('TABLENAME');
+          console.log("    column: " +   event.newValue + " :parent id:" + prbl.id + " :parent name:" + tablename);
+          if (myappshare.mainapp.table_block_exists(prbl.id)) {
+          }
+          else {
+            myappshare.mainapp.set_new_table_name( prbl.id, tablename );
+          }
+
+
+          if (myappshare.mainapp.column_block_exists(prbl.id ,  event.blockId)) {
+            myappshare.mainapp.set_new_column_name(  prbl.id, event.blockId, event.newValue );
+          }
+          else {
+            myappshare.mainapp.set_old_column_name(  prbl.id, event.blockId, event.oldValue );
+          }
+
         };
 
         if ((event.type == Blockly.Events.CHANGE) &&
