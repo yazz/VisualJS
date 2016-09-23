@@ -513,7 +513,7 @@ function setCodeMirrorOption(optionname , optionvalue) {
       function myChangeFunction(event) {
         //console.log("Event.type= " + event.type + " : " + event.oldValue  + " : " + event.newValue + " : " + event.name + " : " + event.blockId);
         if (event.name == "TABLENAME") {
-          if (myappshare.mainapp.table_name_exists(event.blockId) {
+          if (myappshare.mainapp.table_block_exists(event.blockId)) {
             myappshare.mainapp.set_new_table_name( event.blockId, event.newValue );
           }
           else {
