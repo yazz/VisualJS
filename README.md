@@ -1,5 +1,7 @@
 ### Build and share applications by dragging and dropping blocks
-[appshare.co](http://appshare.co)
+<img src='https://github.com/zubairq/yazz/blob/master/resources/public/demoscreen.PNG?raw=true' />
+
+
 
 ###Quick start for Windows
 - Install Postgres database from http://www.postgresql.org/download/windows/
