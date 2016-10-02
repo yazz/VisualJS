@@ -346,6 +346,8 @@ function getBlocklyValueOptimized()
 
 
 // --------------------------------------------------------------------
+//                        PROCESS BLOCKLY EVENTS
+//
 //                      function myChangeFunction
 //
 //  input:        a blockly event
@@ -353,8 +355,16 @@ function getBlocklyValueOptimized()
 //  dependencies: The global blockly workspace
 //
 // --------------------------------------------------------------------
+gg= 1;
 function myChangeFunction(event) {
-  //console.log("Event.type= " + event.type + " : " + event.oldValue  + " : " + event.newValue + " : " + event.name + " : " + event.blockId);
+  console.log("Event.type= " + event.type + " : " + event.oldValue  + " : " + event.newValue + " : " + event.name + " : " + event.blockId + " : " + event.xml);
+  if (event.xml) {
+    gg = event.xml;
+    allfields = gg.getElementsByTagName("field");
+    console.log("All XML: " ,gg);
+  };
+
+
   if (event.name == "TABLENAME") {
     if (myappshare.mainapp.table_block_exists(event.blockId)) {
       myappshare.mainapp.set_new_table_name( event.blockId, event.newValue );
