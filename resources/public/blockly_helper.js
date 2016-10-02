@@ -1,11 +1,29 @@
+// --------------------------------------------------------------------
+//                           BLOCKLY TOOLBOX
+// --------------------------------------------------------------------
+var toolbox = '<xml id="toolbox"  style="display: none"></xml>';
 
 
 
+// --------------------------------------------------------------------
+//       ALL THE FUNCTIONS IN A BLOCKLY PROGRAM ARE STORED HERE
+// --------------------------------------------------------------------
+var component_list = [];
+
+// --------------------------------------------------------------------
+//   NAMES OF ALL THE FUNCTIONS IN A BLOCKLY PROGRAM ARE STORED HERE
+//
+//   It could be argued that this is not needed as it is information
+//   already stored in "component_list", so maybe we can get rid of this
+//   soon
+// --------------------------------------------------------------------
+var component_names = [];
 
 
-      var toolbox = '<xml id="toolbox"  style="display: none"></xml>';
 
-
+// --------------------------------------------------------------------
+//                     EXAMPLE XML FOR BLOCKLY CODE
+// --------------------------------------------------------------------
 //<xml xmlns="http://www.w3.org/1999/xhtml">
 //    <block type="appshare_ui_component" x="70" y="-90">
 //        <statement name="main div element">
@@ -18,46 +36,53 @@
 //         </statement>
 //    </block>
 //</xml>
-      function findLastChild( el )
-      {
-        var blocks = el.getElementsByTagName("next");
-        if (blocks.length == 0) {
-          return el;
-        }
-        else {
-          return findLastChild(blocks[0].children[0]);
-        }
-      }
 
 
 
-      function findFirstNextElement(el)
-      {
-        var blocks = el.children;
-        var bc = blocks.length;
-        if (bc == 0) {
-          return el;
-        }
 
-        var hasNext = false;
-        var foundblock = null;
-        for (i = 0; i  < bc; i++) {
-          if (blocks[i].tagName.toUpperCase() == 'NEXT') {
-            hasNext = true;
-            foundblock = blocks[i].children[0];
-          }
-        }
 
-        if (hasNext == true) {
-          console.log('findLastChild: ' + foundblock.tagName);
-          return findFirstNextElement(foundblock);
-        }
+// --------------------------------------------------------------------
+//                              FUNCTIONS TO
+//      MAKE ON SCREEN BLOCKLY LOOK NICE TO THE BLOCKLY COMPILER
+// --------------------------------------------------------------------
+function findLastChild( el )
+{
+  var blocks = el.getElementsByTagName("next");
+  if (blocks.length == 0) {
+    return el;
+  }
+  else {
+    return findLastChild(blocks[0].children[0]);
+  }
+}
 
-        return el;
-      }
 
-      var component_list = [];
-      var component_names = [];
+
+function findFirstNextElement(el)
+{
+  var blocks = el.children;
+  var bc = blocks.length;
+  if (bc == 0) {
+    return el;
+  }
+
+  var hasNext = false;
+  var foundblock = null;
+  for (i = 0; i  < bc; i++) {
+    if (blocks[i].tagName.toUpperCase() == 'NEXT') {
+      hasNext = true;
+      foundblock = blocks[i].children[0];
+    }
+  }
+
+  if (hasNext == true) {
+    console.log('findLastChild: ' + foundblock.tagName);
+    return findFirstNextElement(foundblock);
+  }
+
+  return el;
+}
+
 
 
 
