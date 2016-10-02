@@ -852,8 +852,8 @@
 
 
   (div nil
-       (div {:style     {:border "0px" :backgroundColor "black" :width "100%" :height "3em" :verticalAlign "top"}}
-            (if (large-screen) (img {:style {:display "inline-block" :marginTop "-0.0em"} :src "appshare_logo_dark_background.png"}))
+       (div {:style     {:border "0px" :backgroundColor "white" :width "100%" :height "3em" :verticalAlign "top"}}
+            (if (large-screen) (img {:style {:display "inline-block" :marginTop "-0.0em"} :src "yazz.gif"}))
 
             (button {:className    (if (small-screen) "btn btn-default" "btn-lg btn-default")
                      :style       {:display "inline-block" :marginLeft (if (small-screen) "2px"  "30px") :fontFamily "Ubuntu" :fontSize "1em" :marginTop "0.3em"}
