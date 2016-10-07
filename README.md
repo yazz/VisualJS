@@ -3,6 +3,8 @@
 
 
 
+
+
 ###Quick start for Windows
 - Install Postgres database from http://www.postgresql.org/download/windows/
 - Download GIT from https://git-scm.com/downloads
@@ -15,10 +17,7 @@
 
 
 
-###Clojure on Coils has changed it's name to Appshare... and Appshare is now Yazz!
 
-<img src='http://www.canlabs.com/canlabs/images/pasted%20image%201295x971.jpg' />
-<img src='http://appshare.co/appshare/appshare_logo_dark_background.png' />
 
 [(See why)](http://www.canlabs.com/canlabs/coils-to-appshare.html)
 
