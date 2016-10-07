@@ -18,9 +18,6 @@
 
 
 
-
-[(See why)](http://www.canlabs.com/canlabs/coils-to-appshare.html)
-
 #### MIT licensing
 [(As in Ruby on Rails freedom)](http://opensource.org/licenses/mit-license.php)
 
