@@ -8,7 +8,10 @@
 
     <span style="float: left">
         <pre>
-        Build and share webapps running on top of your enterprise database!
+        Yazz is designed to be used inside your company so that you can build and share small web applications
+        with data stored in a Postgres or Oracle database.
+        
+        It is meant to be used by non-tech people.
         </pre>
     </span>
 </div>
