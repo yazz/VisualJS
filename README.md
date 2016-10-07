@@ -4,26 +4,6 @@
 
 
 
-
-###Quick start for Windows
-- Install Postgres database from http://www.postgresql.org/download/windows/
-- Download GIT from https://git-scm.com/downloads
-- Download the Appshare code using "git clone https://github.com/zubairq/AppShare.git" my_new_application
-- cd my_new_application
-- Download Leiningen from https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein.bat
-- Run "lein.bat self-install"
-- Download and install Java 8 from http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
-- Run "lein with-profile base figwheel"
-
-
-
-
-#### MIT licensing
-[(As in Ruby on Rails freedom)](http://opensource.org/licenses/mit-license.php)
-
-Click the image to see the video
-[![IMAGE Click here to see video](http://coils.cc/coils/images/enterpriseapp.jpg)] (http://www.youtube.com/watch?v=CzwikfCAdws)
-
 <div >
 
     <span style="float: left">
@@ -44,6 +24,8 @@ Click the image to see the video
  - [Product roadmap](#product-roadmap)
  - [Quick start Postgres](#quick-start-postgres)
  - [Quick start Oracle](#quick-start-oracle)
+ - [Quick start for Windows](#quick-start-for-windows)
+ - [MIT licensing](#mit-licensing)
  - [The long story of AppShare](#the-long-story-of-appshare)
  - [What is AppShare killer feature?](#what-is-appshare-killer-feature)
  - [What is AppShare not good for?](#what-is-appshare-not-good-for)
@@ -884,6 +866,24 @@ Please note that the raw SQL is not visible from web browsers since it's encryte
 
 
 
+
+
+
+###Quick start for Windows
+- Install Postgres database from http://www.postgresql.org/download/windows/
+- Download GIT from https://git-scm.com/downloads
+- Download the Appshare code using "git clone https://github.com/zubairq/AppShare.git" my_new_application
+- cd my_new_application
+- Download Leiningen from https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein.bat
+- Run "lein.bat self-install"
+- Download and install Java 8 from http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
+- Run "lein with-profile base figwheel"
+
+
+
+
+#### MIT licensing
+[(As in Ruby on Rails freedom)](http://opensource.org/licenses/mit-license.php)
 
 
 
