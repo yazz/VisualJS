@@ -8,9 +8,7 @@
 
     <span style="float: left">
         <pre>
-        React + SQL + Clojurescript
-        =
-        Amazing realtime enterprise webapps!
+        Build and share webapps running on top of your enterprise database!
         </pre>
     </span>
 </div>
