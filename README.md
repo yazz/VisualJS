@@ -56,16 +56,7 @@
 ### TLDR
 <img src='http://damiaodias.typepad.com/.a/6a014e882a9af0970d01a3fcbe2289970b-pi' />
 
-Yazz lets you build web apps using Clojure and relational databases, with SQL directly in the UI code:
-
-    (defn-ui-component  my-todo-app   [app] {}
-
-        (select id, item from todo_items
-            {}
-            (container
-                (inline "10%" (str (<-- :id)))  (inline "80%" (str (<-- :item))))))
-
-The language used is Clojure/Clojurescript and the supports Postgres 9+ and Oracle 11+.
+Yazz lets non programmers build web apps using Blockly, a drag and drop interface builder from Google. It supports Postgres 9+ or Oracle 11+ as a database.
 
 
 
@@ -75,9 +66,8 @@ The language used is Clojure/Clojurescript and the supports Postgres 9+ and Orac
 
 Yazz may be for you if you can answer 'yes' to the following:
 
-1. You want a batteries included opinionated web framework like Rails or Meteor
-2. You believe that Clojurescript is cool
-3. The Postgres database and SQL is a good match for your problem domain
+1. You want a simple way to build a database and share it with others
+2. The Postgres database and SQL is a good match for your problem domain
 
 
 
