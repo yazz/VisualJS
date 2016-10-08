@@ -1,4 +1,4 @@
-### Build and share database webapps with others by dragging and dropping blocks
+### Build and share database webapps with others by swiping blocks
 <img src='https://github.com/zubairq/yazz/blob/master/resources/public/demoscreen.PNG?raw=true' />
 
 
@@ -8,7 +8,7 @@
 
     <span style="float: left">
         <pre>
-        Build and share database webapps with others by dragging and dropping blocks
+        Build and share database webapps with others by swiping blocks
         </pre>
     </span>
 </div>
@@ -113,6 +113,7 @@ Postgres is described first and is the default in Yazz simply because it is the 
 
     git clone https://github.com/zubairq/Yazz.git my_new_application
     cd my_new_application
+    
     lein with-profile base figwheel
 
 
