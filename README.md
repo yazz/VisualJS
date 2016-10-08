@@ -18,7 +18,6 @@
  - [TLDR](#tldr)
  - [Is Yazz for me?](#is-yazz-for-me)
  - [How is Yazz different to other web frameworks?](#how-is-yazz-different-to-other-web-frameworks)
- - [Is it secure to have SQL in the UI code?](#is-it-secure-to-have-sql-in-the-ui-code)
  - [Product roadmap](#product-roadmap)
  - [Quick start Postgres](#quick-start-postgres)
  - [Quick start Oracle](#quick-start-oracle)
@@ -51,7 +50,7 @@
 
 
 ### TLDR
-<img src='http://damiaodias.typepad.com/.a/6a014e882a9af0970d01a3fcbe2289970b-pi' />
+<img src='https://github.com/zubairq/yazz/blob/master/resources/public/demoscreen.PNG?raw=true' />
 
 Yazz lets non programmers build database webapps using Blockly, a drag and drop interface builder from Google. It supports Postgres 9+ or the Oracle 11+ as a database.
 
