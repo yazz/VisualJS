@@ -8,7 +8,7 @@
 
     <span style="float: left">
         <pre>
-        Build database webapps and share with your coworkers by dragging and dropping blocks
+        Build and share database webapps with others by dragging and dropping blocks
         </pre>
     </span>
 </div>
@@ -53,7 +53,7 @@
 ### TLDR
 <img src='http://damiaodias.typepad.com/.a/6a014e882a9af0970d01a3fcbe2289970b-pi' />
 
-Yazz lets non programmers build web apps using Blockly, a drag and drop interface builder from Google. It supports Postgres 9+ or Oracle 11+ as a database.
+Yazz lets non programmers build database webapps using Blockly, a drag and drop interface builder from Google. It supports Postgres 9+ or the Oracle 11+ as a database.
 
 
 
@@ -64,7 +64,7 @@ Yazz lets non programmers build web apps using Blockly, a drag and drop interfac
 Yazz may be for you if you can answer 'yes' to the following:
 
 1. You want a simple way to build a database and share it with others
-2. The Postgres database and SQL is a good match for your problem domain
+2. You use Postgres 9+ or oracle 11g+ as a database
 
 
 
@@ -79,55 +79,7 @@ Yazz may be for you if you can answer 'yes' to the following:
 ### How is Yazz different to other web frameworks?
 <img height='350px' src='http://cdn.shopify.com/s/files/1/0070/7032/files/rubberduck.jpg?2841' />
 
-To show data on a webpage most frameworks require a developer to have code in three different places:
-
-- Code to display UI components
-- Code to bind UI components to a back end using AJAX callbacks
-- Server side code to read a data store and return this to the web browser
-
-This means that a webapp will typically will have code to show data on a webpage spread out in three different places. Yazz simplifies these three steps by moving the data acess directly into the UI components. So instead of writing code in three places, you just write it in one place, in the UI component itself:
-
-    (select id, item from todo_items
-                {}
-                (container
-                    (inline "10%" (str (<-- :id)))  (inline "80%" (str (<-- :item))))))
-
-This greatly simplifies the building of database based webapps.
-
-
-
-
-
-
-
-
-### Is it secure to have SQL in the UI code?
-<img height='350px' src='http://38.media.tumblr.com/b5ae76c4f7f9ca3732eec9d19a5d5663/tumblr_inline_mugyqbcTcZ1qclfey.jpg' />
-
-
-It may seem strange that you can call SQL synchronously from the client yet the call is sent to the server, is secure, and behaves asynchronous internally. Welcome to the world of Lisp!
-
-To understand a bit more about this you need to realise that Clojure is an implementation of Lisp on the JVM, and Clojurescript is an implementation of Lisp on Javascript. Lisp itself has alot of special features which are not available in other languages, such as the ability to write code itself, also known as Lisp Macros. This ability is not available as a first class feature in almost every other language.
-
-Before I stray too much away from the point, there are two parts of the Clojure implementation of Lisp that allows synchronous secure client-side SQL:
-
-- core.async
-- macros (not like C++ macros. Same name, but a totally different thing!)
-
-When you make a client side SQL/Cypher call it is encyrpted using a Macro at compile time:
-
-    (defmacro sql [sql-str params]
-        `(webapp.framework.client.coreclient.sql-fn
-            ~(encrypt sql-str)
-            ~params))
-
-This means that the string in a client side SQL call...
-
-    (go
-        (log (pr-str (sql "SELECT * FROM test_table where name = ?" ["shopping"] ))))
-
-... will be rewritten at compile time, making it impossible for anyone who does "View source" on your web page to see the SQL code!
-
+Most web frameworks require the developer to write code using Java, Javascript, Ruby, or other languages. Yazz is simply a drag and drop builder. This greatly simplifies the building of database based webapps.
 
 
 
@@ -143,10 +95,8 @@ As of June 2015 Yazz is in active development and is used in production systems.
  - November 2015 - make all SQL queries fully realtime like Meteor.js
  - December 2016 - Renamed product to AppShare
  - January 2016 - Alpha version of Hosted version available
- - July 2016 - hosted development environment so you can build Clojurescript database webapps using just a web browser
-
-
-
+ - July 2016 - Hosted development environment so you can build Clojurescript database webapps using just a web browser
+ - December 2016 - Hosted development environment so you can build database webapps using just a web browser and Google Blockly
 
 
 
