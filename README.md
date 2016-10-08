@@ -1,4 +1,4 @@
-### Build and share applications by dragging and dropping blocks
+### Build database webapps and share with your coworkers by dragging and dropping blocks
 <img src='https://github.com/zubairq/yazz/blob/master/resources/public/demoscreen.PNG?raw=true' />
 
 
@@ -8,7 +8,7 @@
 
     <span style="float: left">
         <pre>
-        Using Yazz non-tech people can build and share small web applications using data stored in a Postgres or Oracle database.
+        Build database webapps and share with your coworkers by dragging and dropping blocks
         </pre>
     </span>
 </div>
