@@ -1,4 +1,4 @@
-### Build database webapps and share with your coworkers by dragging and dropping blocks
+### Build and share database webapps with others by dragging and dropping blocks
 <img src='https://github.com/zubairq/yazz/blob/master/resources/public/demoscreen.PNG?raw=true' />
 
 
