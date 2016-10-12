@@ -8,7 +8,7 @@
 
     <span style="float: left">
         <pre>
-        Copy, edit and share database webapps
+        Think of Yazz as Github for small database webapps. You can create, copy, and extend existing Yazz apps. You can even let people copy your own apps and extend them if they like. Public apps which can be extended are free, you only pay if you wish to make apps that are private within your organisation.
         </pre>
     </span>
 </div>
