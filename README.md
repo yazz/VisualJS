@@ -52,7 +52,7 @@
 ### TLDR
 <img src='https://github.com/zubairq/yazz/blob/master/resources/public/demoscreen.PNG?raw=true' />
 
-Yazz lets non programmers build database webapps using Blockly, a drag and drop interface builder from Google. It supports Postgres 9+ or the Oracle 11+ as a database.
+Yazz lets you build and share database webapps by moving blocks around on the screen. It supports Postgres 9+ or the Oracle 11+ as a database.
 
 
 
