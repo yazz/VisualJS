@@ -1,4 +1,4 @@
-### Build and share database webapps with others by swiping blocks
+### Copy, edit and share database webapps
 <img src='https://github.com/zubairq/yazz/blob/master/resources/public/demoscreen.PNG?raw=true' />
 
 
@@ -8,7 +8,7 @@
 
     <span style="float: left">
         <pre>
-        Build and share database webapps with others by swiping blocks
+        Copy, edit and share database webapps
         </pre>
     </span>
 </div>
