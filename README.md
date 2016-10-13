@@ -1,4 +1,4 @@
-### I love to help people build their dreams, so I built Yazz to help you create and share database webapps 
+### I love to help people build their dreams, so I built Yazz to help you create and share yours
 <img src='https://github.com/zubairq/yazz/blob/master/resources/public/builddreams.jpg?raw=true' />
 
 <img src='https://github.com/zubairq/yazz/blob/master/resources/public/demoscreen.PNG?raw=true' />
