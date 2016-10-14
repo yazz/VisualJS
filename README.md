@@ -1,4 +1,4 @@
-### I love to help people build their dreams, so I built Yazz, an easy to you web database for your business
+### I want you to build your dream, so I built Yazz, an easy to use web database for your business
 <img src='https://github.com/zubairq/yazz/blob/master/resources/public/builddreams.jpg?raw=true' />
 
 <img src='https://github.com/zubairq/yazz/blob/master/resources/public/demoscreen.PNG?raw=true' />
