@@ -1,4 +1,4 @@
-### I believe collaboration at work should be easy, so I built Yazz on the web, so that you can share and collect data
+### I believe collaboration at work should be easy, so I built Yazz on the web, so that you can share data
 <img src='https://github.com/zubairq/yazz/blob/master/resources/public/team-brainstorming.jpg?raw=true' />
 
 <img src='https://github.com/zubairq/yazz/blob/master/resources/public/demoscreen.PNG?raw=true' />
