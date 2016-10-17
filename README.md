@@ -30,7 +30,6 @@
  - [All features](#all-features)
  - [Differences from Om](#differences-from-om)
  - [Comparison with other Clojure web frameworks](#comparison-with-other-clojure-web-frameworks)
- - [When will Neo4j be back on the scene?](#when-will-neo4j-be-back-on-the-scene)
  - [When will full Oracle realtime support be available?](#when-will-full-oracle-realtime-support-be-available)
  - [When will full Postgres realtime support be available?](#when-will-full-postgres-realtime-support-be-available)
  - [Deprecated features from April 2013 to July 2014](#deprecated-features-from-april-2013-to-july-2014)
@@ -345,7 +344,6 @@ Yazz is unsuitable for quite a wide variety of web projects. This is because Yaz
 - Twitter Bootstrap 3.x for styling
 - Google Closure for advanced Javascript compression
 - Chris Granger's SQL Korma for database access
-- Michael Klishin's Neocons for Neo4j access
 - Core.async for a client-side synchronous programming model
 - James Reeves's Compojure for server side access
 - Yazz web apps are deployed using Java WAR files to Jetty, Tomcat, JBoss, Glassfish, Weblogic, or Webspher
@@ -384,29 +382,6 @@ The only part of Om that Yazz uses is the rendering engine and the change listen
 <br>
 
 [Pedestal](http://pedestal.io/) - Pedestal is an amazing Clojure web framework made by the main Clojure developers at Cognitect. It has a number of differences to Yazz, but in 2014 the front end part of Pedestal was dropped. The frontend of Yazz is actually based on the Original Pedestal model, which did so much right, by having a seperate data and UI model
-
-
-
-
-
-
-### When will Neo4j be back on the scene?
-<img height='350px' src='http://www.opencredo.com/wp-content/uploads/2013/06/neo4j-logo.png' />
-
-Those of you who have followed Yazz for a long time will know that one of the big features was the Neo4j integration. Since Yazz is moving to a real time model we dropped full Neo4j realtime support in June 2015. Neo4 still works with Yazz, and Cypher queries can still be issued from Clojurescript, but just not in realtime mode as Neo4j does not have a client side cache in Yazz and it is too tricky to implement right now. At the time Neo4j was chosen for the following reasons:
-
-- Easy to setup Neo4j on a developer machine, without having to create a schema first
-- Rich data model, using Neo4j labels can also mimic database tables
-- Expressive and powerful Cypher query language
-- Neo4j has funding and a large customer base, so they should be around a long time
-- Neo4j has a dual licensing model, similar to Yazz
-
-Once Yazz has finished the realtime support of Postgres and other databases then Neo4j support can be revisited.
-
-
-
-
-
 
 
 
@@ -459,7 +434,6 @@ In 2013 Facebook created React, a Virtual Dom based Javascript library. David No
 - Google Closure for advanced compression
 - clj-http for server side HTTP requests
 - SQL Korma for database requests
-- Neocons for Neo4j access
 - Compojure, Ring, and Shoreleave for server side code
 - core.async for a client-side synchronous programming model
 
