@@ -366,6 +366,7 @@ function myChangeFunction(event) {
 
 
   if (event.name == "TABLENAME") {
+    myappshare.mainapp.set_edit_database_mode(true);
     if (myappshare.mainapp.table_block_exists(event.blockId)) {
       myappshare.mainapp.set_new_table_name( event.blockId, event.newValue );
     }

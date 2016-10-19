@@ -31,11 +31,27 @@
 
 (defn large-screen [] (not (small-screen)))
 
+
+
+
 (def table-defn-changes (atom {}))
+
+
 (defn  ^:export reset_table_defn_changes []
   (reset! table-defn-changes {})
-  (log (str "tables: " @table-defn-changes))
-  )
+  (log (str "tables: " @table-defn-changes)))
+
+
+
+
+(def edit-database (atom false))
+
+(defn  ^:export set_edit_database_mode [value]
+  (do
+    (reset! edit-database  value)
+    (swap! app-state assoc-in [:ui :editing-database] value)
+    ))
+
 
 (defn  ^:export set_old_table_name [block-id  old-name]
   (swap! table-defn-changes assoc-in [block-id  :old-name] old-name)
@@ -217,6 +233,18 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 (defn reeval [app-id   calling-app-id]
   (if (not @in-eval)
   (go
@@ -326,6 +354,11 @@
 
 
 
+
+
+
+
+
 (defn evalapp [app-id   calling-app-id   args]
   (if (not @in-eval)
   (go
@@ -411,6 +444,13 @@
 
 
 
+
+
+
+
+
+
+
 (defn-ui-component     view-app-component   [app]
   {:on-mount
    (do  (go
@@ -418,16 +458,24 @@
           ;(js/alert "loaded")
           ))}
 
-  (iframe {:id "appframe" :frameBorder "0"
-           :style {:display "inline-block"}
-           :src
-           (str (cond
-                  @debug-mode
-                  "http://127.0.0.1:3449"
+  (cond
+    (get-in @app-state [:ui :editing-database])
+    (div nil "Editing database")
 
-                  :else
-                  "http://appshare.co/appshare")
-                "/devclient.html") :width "600" :height "800"}))
+    :else
+    (div nil (str "edit: " (get-in @app-state [:ui :editing-database]))
+    (iframe {:id "appframe" :frameBorder "0"
+             :style {:display "inline-block"}
+             :src
+             (str (cond
+                    @debug-mode
+                    "http://127.0.0.1:3449"
+
+                    :else
+                    "http://appshare.co/appshare")
+                  "/devclient.html") :width "600" :height "800"}))))
+
+
 
 
 
