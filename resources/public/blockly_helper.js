@@ -341,9 +341,29 @@ function getBlocklyValueOptimized()
 
 
 
+fff=1;
+function setBlocksToReadOnly() {
 
+  //
+  // Save the names of all the custom components
+  //
+  var dom = Blockly.Xml.workspaceToDom(workspace);
+  var blocks = dom.children;
+  bc = blocks.length;
+  for (i = bc - 1; i  >= 0; i--) {
+    blocks = dom.children;
+    console.log("Block= " + blocks[i].getAttribute('type'));
+    if (blocks[i].getAttribute('type') == 'appshare_element_button') {
+      blocks[i].setAttribute('deletable', 'false');
+      blocks[i].setAttribute('movable', 'false');
+      //blocks[i].setAttribute('editable', 'false');
+    };
+    fff= blocks[i];
 
-
+  };
+  Blockly.mainWorkspace.clear();
+  Blockly.Xml.domToWorkspace(dom, workspace);
+};
 
 // --------------------------------------------------------------------
 //                        PROCESS BLOCKLY EVENTS
