@@ -341,8 +341,7 @@ function getBlocklyValueOptimized()
 
 
 
-fff=1;
-function setBlocksToReadOnly() {
+function setNonDBBlocksToReadOnly() {
 
   //
   // Save the names of all the custom components
@@ -353,17 +352,39 @@ function setBlocksToReadOnly() {
   for (i = bc - 1; i  >= 0; i--) {
     blocks = dom.children;
     console.log("Block= " + blocks[i].getAttribute('type'));
-    if (blocks[i].getAttribute('type') == 'appshare_element_button') {
+    if (blocks[i].getAttribute('type') != 'appshare_definedb_table') {
       blocks[i].setAttribute('deletable', 'false');
       blocks[i].setAttribute('movable', 'false');
-      blocks[i].setAttribute('editable', 'false');
+      //blocks[i].setAttribute('editable', 'false');
     };
-    fff= blocks[i];
-
   };
   Blockly.mainWorkspace.clear();
   Blockly.Xml.domToWorkspace(dom, workspace);
 };
+
+
+
+  function setAllBlocksToEditable(xxx) {
+
+  //
+  // Save the names of all the custom components
+  //
+  var dom = Blockly.Xml.workspaceToDom(workspace);
+  var blocks = dom.children;
+  bc = blocks.length;
+  for (i = bc - 1; i  >= 0; i--) {
+    blocks = dom.children;
+    console.log("Block= " + blocks[i].getAttribute('type'));
+      blocks[i].setAttribute('deletable', 'true');
+      blocks[i].setAttribute('movable', 'true');
+      //blocks[i].setAttribute('editable', 'false');
+  };
+  Blockly.mainWorkspace.clear();
+  Blockly.Xml.domToWorkspace(dom, workspace);
+};
+
+
+
 
 // --------------------------------------------------------------------
 //                        PROCESS BLOCKLY EVENTS
@@ -387,6 +408,7 @@ function myChangeFunction(event) {
 
   if (event.name == "TABLENAME") {
     myappshare.mainapp.set_edit_database_mode(true);
+    setNonDBBlocksToReadOnly();
     if (myappshare.mainapp.table_block_exists(event.blockId)) {
       myappshare.mainapp.set_new_table_name( event.blockId, event.newValue );
     }

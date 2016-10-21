@@ -460,7 +460,15 @@
 
   (cond
     (get-in @app-state [:ui :editing-database])
-    (div nil "Editing database")
+    (div nil
+         (div nil "Editing database")
+         (button {:style {:margin "10px"}
+                 :className (str "btn-lg btn-default" )
+                 :aria-hidden "true"
+                 :onClick     (fn [x]
+                                  (js/setAllBlocksToEditable nil))
+                } "Stop Editing")
+         )
 
     :else
     (div nil (str "edit: " (get-in @app-state [:ui :editing-database]))
