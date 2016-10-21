@@ -356,7 +356,7 @@ function setBlocksToReadOnly() {
     if (blocks[i].getAttribute('type') == 'appshare_element_button') {
       blocks[i].setAttribute('deletable', 'false');
       blocks[i].setAttribute('movable', 'false');
-      //blocks[i].setAttribute('editable', 'false');
+      blocks[i].setAttribute('editable', 'false');
     };
     fff= blocks[i];
 

@@ -32,6 +32,7 @@
 goog.provide('Blockly.Tooltip');
 
 goog.require('goog.dom');
+goog.require('goog.dom.TagName');
 
 
 /**
@@ -120,7 +121,8 @@ Blockly.Tooltip.createDom = function() {
     return;  // Already created.
   }
   // Create an HTML container for popup overlays (e.g. editor widgets).
-  Blockly.Tooltip.DIV = goog.dom.createDom('div', 'blocklyTooltipDiv');
+  Blockly.Tooltip.DIV =
+      goog.dom.createDom(goog.dom.TagName.DIV, 'blocklyTooltipDiv');
   document.body.appendChild(Blockly.Tooltip.DIV);
 };
 
@@ -129,9 +131,15 @@ Blockly.Tooltip.createDom = function() {
  * @param {!Element} element SVG element onto which tooltip is to be bound.
  */
 Blockly.Tooltip.bindMouseEvents = function(element) {
-  Blockly.bindEvent_(element, 'mouseover', null, Blockly.Tooltip.onMouseOver_);
-  Blockly.bindEvent_(element, 'mouseout', null, Blockly.Tooltip.onMouseOut_);
-  Blockly.bindEvent_(element, 'mousemove', null, Blockly.Tooltip.onMouseMove_);
+  Blockly.bindEvent_(element, 'mouseover', null,
+      Blockly.Tooltip.onMouseOver_);
+  Blockly.bindEvent_(element, 'mouseout', null,
+      Blockly.Tooltip.onMouseOut_);
+
+  // Don't use bindEvent_ for mousemove since that would create a
+  // corresponding touch handler, even though this only makes sense in the
+  // context of a mouseover/mouseout.
+  element.addEventListener('mousemove', Blockly.Tooltip.onMouseMove_, false);
 };
 
 /**
