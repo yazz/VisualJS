@@ -27,53 +27,54 @@ blocklyApp.ToolboxComponent = ng.core
   .Component({
     selector: 'blockly-toolbox',
     template: `
-      <h3 #toolboxTitle id="blockly-toolbox-title">Toolbox</h3>
-      <ol #tree
-          id="blockly-toolbox-tree" role="tree" class="blocklyTree"
-          *ngIf="toolboxCategories && toolboxCategories.length > 0" tabIndex="0"
-          [attr.aria-labelledby]="toolboxTitle.id"
-          [attr.aria-activedescendant]="getActiveDescId()"
-          (keydown)="treeService.onKeypress($event, tree)">
-        <template [ngIf]="xmlHasCategories">
-          <li #parent
-              [id]="idMap['Parent' + i]" role="treeitem"
-              [ngClass]="{blocklyHasChildren: true, blocklyActiveDescendant: tree.getAttribute('aria-activedescendant') == idMap['Parent' + i]}"
-              *ngFor="#category of toolboxCategories; #i=index"
-              aria-level="1" aria-selected="false"
-              [attr.aria-label]="category.attributes.name.value">
-            <div *ngIf="category && category.attributes">
-              <label [id]="idMap['Label' + i]" #name>
-                {{category.attributes.name.value}}
-              </label>
-              <ol role="group" *ngIf="getToolboxWorkspace(category).topBlocks_.length > 0">
-                <blockly-toolbox-tree *ngFor="#block of getToolboxWorkspace(category).topBlocks_"
-                                      [level]="2" [block]="block"
-                                      [displayBlockMenu]="true"
-                                      [tree]="tree">
-                </blockly-toolbox-tree>
-              </ol>
-            </div>
-          </li>
-        </template>
-        <div *ngIf="!xmlHasCategories">
-          <blockly-toolbox-tree *ngFor="#block of getToolboxWorkspace(toolboxCategories[0]).topBlocks_; #i=index"
-                                [level]="1" [block]="block"
-                                [displayBlockMenu]="true"
-                                [index]="i" [tree]="tree"
-                                [noCategories]="true"
-                                [isTopLevel]="true">
-          </blockly-toolbox-tree>
-        </div>
-      </ol>
+      <div class="blocklyToolboxColumn">
+        <h3 #toolboxTitle id="blockly-toolbox-title">{{'TOOLBOX'|translate}}</h3>
+        <ol #tree
+            id="blockly-toolbox-tree" role="tree" class="blocklyTree"
+            *ngIf="toolboxCategories && toolboxCategories.length > 0" tabindex="0"
+            [attr.aria-labelledby]="toolboxTitle.id"
+            [attr.aria-activedescendant]="getActiveDescId()"
+            (keydown)="treeService.onKeypress($event, tree)">
+          <template [ngIf]="xmlHasCategories">
+            <li #parent
+                [id]="idMap['Parent' + i]" role="treeitem"
+                [ngClass]="{blocklyHasChildren: true, blocklyActiveDescendant: tree.getAttribute('aria-activedescendant') == idMap['Parent' + i]}"
+                *ngFor="#category of toolboxCategories; #i=index"
+                aria-level="0"
+                [attr.aria-label]="getCategoryAriaLabel(category)">
+              <div *ngIf="category && category.attributes">
+                <label [id]="idMap['Label' + i]" #name>
+                  {{category.attributes.name.value}}
+                </label>
+                <ol role="group" *ngIf="getToolboxWorkspace(category).topBlocks_.length > 0">
+                  <blockly-toolbox-tree *ngFor="#block of getToolboxWorkspace(category).topBlocks_"
+                                        [level]="1" [block]="block"
+                                        [displayBlockMenu]="true"
+                                        [tree]="tree">
+                  </blockly-toolbox-tree>
+                </ol>
+              </div>
+            </li>
+          </template>
+
+          <div *ngIf="!xmlHasCategories">
+            <blockly-toolbox-tree *ngFor="#block of getToolboxWorkspace(toolboxCategories[0]).topBlocks_; #i=index"
+                                  role="treeitem" [level]="0" [block]="block"
+                                  [tree]="tree" [displayBlockMenu]="true"
+                                  [isFirstToolboxTree]="i === 0">
+            </blockly-toolbox-tree>
+          </div>
+        </ol>
+      </div>
     `,
-    directives: [blocklyApp.ToolboxTreeComponent]
+    directives: [blocklyApp.ToolboxTreeComponent],
+    pipes: [blocklyApp.TranslatePipe]
   })
   .Class({
     constructor: [
         blocklyApp.TreeService, blocklyApp.UtilsService,
         function(_treeService, _utilsService) {
       this.toolboxCategories = [];
-      this.toolboxWorkspaces = Object.create(null);
       this.treeService = _treeService;
       this.utilsService = _utilsService;
 
@@ -119,25 +120,12 @@ blocklyApp.ToolboxComponent = ng.core
     getActiveDescId: function() {
       return this.treeService.getActiveDescId('blockly-toolbox-tree');
     },
+    getCategoryAriaLabel: function(category) {
+      var numBlocks = this.getToolboxWorkspace(category).topBlocks_.length;
+      return category.attributes.name.value + ' category. ' +
+          'Move right to access ' + numBlocks + ' blocks in this category.';
+    },
     getToolboxWorkspace: function(categoryNode) {
-      if (categoryNode.attributes && categoryNode.attributes.name) {
-        var categoryName = categoryNode.attributes.name.value;
-      } else {
-        var categoryName = 'no-category';
-      }
-      if (this.toolboxWorkspaces[categoryName]) {
-        return this.toolboxWorkspaces[categoryName];
-      } else {
-        var categoryWorkspace = new Blockly.Workspace();
-        if (categoryName == 'no-category') {
-          for (var i = 0; i < categoryNode.length; i++) {
-            Blockly.Xml.domToBlock(categoryWorkspace, categoryNode[i]);
-          }
-        } else {
-          Blockly.Xml.domToWorkspace(categoryNode, categoryWorkspace);
-        }
-        this.toolboxWorkspaces[categoryName] = categoryWorkspace;
-        return this.toolboxWorkspaces[categoryName];
-      }
+      return this.treeService.getToolboxWorkspace(categoryNode);
     }
   });
