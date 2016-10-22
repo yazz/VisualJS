@@ -418,9 +418,12 @@ Blockly.Blocks['appshare_definedb_table'] = {
     this.appendDummyInput()
         .appendField("update DB")
         .appendField(new Blockly.FieldClickImage("https://www.gstatic.com/codesite/ph/images/star_on.gif", 15, 15, "*",fff));
-    this.setColour(230);
+    this.setcolor();
     this.appendStatementInput("COLUMNS").setCheck("ColumnElement");
-  }
+  },
+  setcolor: function() {
+          this.setColour(230);
+      }
 }
 
 

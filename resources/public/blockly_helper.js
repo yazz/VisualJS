@@ -356,6 +356,11 @@ function setNonDBBlocksToReadOnly() {
       blocks[i].setAttribute('deletable', 'false');
       blocks[i].setAttribute('movable', 'false');
       //blocks[i].setAttribute('editable', 'false');
+
+
+      Blockly.Blocks['appshare_definedb_table'].setcolor = function() {
+          this.setColour(30);
+      };
     };
   };
   Blockly.mainWorkspace.clear();
@@ -378,6 +383,9 @@ function setNonDBBlocksToReadOnly() {
       blocks[i].setAttribute('deletable', 'true');
       blocks[i].setAttribute('movable', 'true');
       //blocks[i].setAttribute('editable', 'false');
+      Blockly.Blocks['appshare_definedb_table'].setcolor = function() {
+          this.setColour(230);
+      };
   };
   Blockly.mainWorkspace.clear();
   Blockly.Xml.domToWorkspace(dom, workspace);
@@ -407,8 +415,10 @@ function myChangeFunction(event) {
 
 
   if (event.name == "TABLENAME") {
-    myappshare.mainapp.set_edit_database_mode(true);
-    setNonDBBlocksToReadOnly();
+    if (!myappshare.mainapp.get_edit_database_mode()) {
+      myappshare.mainapp.set_edit_database_mode(true);
+      setNonDBBlocksToReadOnly();
+    };
     if (myappshare.mainapp.table_block_exists(event.blockId)) {
       myappshare.mainapp.set_new_table_name( event.blockId, event.newValue );
     }

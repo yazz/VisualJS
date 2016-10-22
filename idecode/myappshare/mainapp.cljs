@@ -53,6 +53,10 @@
     ))
 
 
+(defn  ^:export get_edit_database_mode []
+  @edit-database)
+
+
 (defn  ^:export set_old_table_name [block-id  old-name]
   (swap! table-defn-changes assoc-in [block-id  :old-name] old-name)
   (log (str "tables: " @table-defn-changes))
