@@ -466,6 +466,7 @@
     (get-in @app-state [:ui :editing-database])
     (div nil
          (div nil "Editing database")
+         (pre nil (pr-str @table-defn-changes))
          (button {:style {:margin "10px"}
                  :className (str "btn-lg btn-default" )
                  :aria-hidden "true"
