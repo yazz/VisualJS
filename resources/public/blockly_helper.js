@@ -359,7 +359,7 @@ function setNonDBBlocksToReadOnly() {
 
 
       Blockly.Blocks['appshare_definedb_table'].setcolor = function() {
-          this.setColour(30);
+          this.setColour(60);
       };
     };
   };
