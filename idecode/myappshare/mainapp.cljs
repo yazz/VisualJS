@@ -470,12 +470,14 @@
                  :className (str "btn-lg btn-default" )
                  :aria-hidden "true"
                  :onClick     (fn [x]
-                                  (js/setAllBlocksToEditable nil))
+                                (do
+                                  (js/setAllBlocksToEditable nil)
+                                  (set_edit_database_mode  false)
+                                  ))
                 } "Stop Editing")
          )
 
     :else
-    (div nil (str "edit: " (get-in @app-state [:ui :editing-database]))
     (iframe {:id "appframe" :frameBorder "0"
              :style {:display "inline-block"}
              :src
@@ -485,7 +487,7 @@
 
                     :else
                     "http://appshare.co/appshare")
-                  "/devclient.html") :width "600" :height "800"}))))
+                  "/devclient.html") :width "600" :height "800"})))
 
 
 
