@@ -352,7 +352,7 @@ function setNonDBBlocksToReadOnly() {
   for (i = bc - 1; i  >= 0; i--) {
     blocks = dom.children;
     console.log("Block= " + blocks[i].getAttribute('type'));
-    if (blocks[i].getAttribute('type').startsWith('appshare_definedb_')) {
+    if (!(blocks[i].getAttribute('type').startsWith('appshare_definedb_'))) {
       blocks[i].setAttribute('deletable', 'false');
       blocks[i].setAttribute('movable', 'false');
       //blocks[i].setAttribute('editable', 'false');
