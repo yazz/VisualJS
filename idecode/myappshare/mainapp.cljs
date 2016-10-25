@@ -404,6 +404,8 @@
           ;(js/alert  (str (:blockly app-code-resp)))
           (js/setBlocklyXml (str (:blockly app-code-resp)))
           (js/populateEditor app-code-value)
+          (js/setTimeout (fn [ee] (js/setCatchChanges   true)) 500)
+
           )
 
         :else
@@ -422,24 +424,28 @@
       (swap! ns-counter inc)
       (cond
         (= code-format "blockly")
-        (js/sendcode (str (start-optimized)
+        (do
+          (js/sendcode (str (start-optimized)
                           app-code-value-optimized
                           (end-optimized))
                      calling-app-id
                      (clj->js ;["a" "b" {:d 1 :r "sfs"}]
                        "first one"))
+          )
 
         :else
-        (js/sendcode (str (start)
-                          app-code-value
-                          (end))
-                     calling-app-id
-                     (clj->js ;["a" "b" {:d 1 :r "sfs"}]
-                       "first one")))
+          (js/sendcode (str (start)
+                            app-code-value
+                            (end))
+                       calling-app-id
+                       (clj->js ;["a" "b" {:d 1 :r "sfs"}]
+                         "first one"))
+        )
 
       (reset! in-eval false)
 
-      ))))
+      )
+    )))
 
 
 

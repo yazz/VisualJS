@@ -364,8 +364,10 @@ function setNonDBBlocksToReadOnly() {
   Blockly.Blocks['appshare_definedb_column'].setcolor = function() {
     this.setColour(60);
   };
+setCatchChanges(false);
   Blockly.mainWorkspace.clear();
   Blockly.Xml.domToWorkspace(dom, workspace);
+setCatchChanges(true);
 };
 
 
@@ -391,8 +393,10 @@ function setNonDBBlocksToReadOnly() {
   Blockly.Blocks['appshare_definedb_column'].setcolor = function() {
     this.setColour(230);
   };
+setCatchChanges(false);
   Blockly.mainWorkspace.clear();
   Blockly.Xml.domToWorkspace(dom, workspace);
+setCatchChanges(true);
 };
 
 
@@ -409,8 +413,24 @@ function setNonDBBlocksToReadOnly() {
 //
 // --------------------------------------------------------------------
 gg= 1;
+catchChanges = false;
+function setCatchChanges(newvalue) {
+  if (newvalue) {
+    setTimeout(function(e) {catchChanges = newvalue;}, 500);
+  } else {
+    catchChanges = newvalue;
+  };
+};
+
 function myChangeFunction(event) {
+  if (!catchChanges) {
+    return;
+  };
   console.log("Event.type= " + event.type + " : " + event.oldValue  + " : " + event.newValue + " : " + event.name + " : " + event.blockId + " : " + event.xml);
+
+  var blockaa = workspace.getBlockById(event.blockId);
+  console.log("block.type= " + blockaa.type + " : " + event.oldValue  + " : " + event.newValue + " : " + event.name + " : " + event.blockId + " : " + event.xml);
+
   if (event.xml) {
     gg = event.xml;
     allfields = gg.getElementsByTagName("field");
@@ -418,7 +438,7 @@ function myChangeFunction(event) {
   };
 
 
-  if (event.name == "TABLENAME") {
+  if (blockaa.type.startsWith("appshare_definedb_")) {
     if (!myappshare.mainapp.get_edit_database_mode()) {
       myappshare.mainapp.set_edit_database_mode(true);
       setNonDBBlocksToReadOnly();
@@ -571,10 +591,12 @@ function myChangeFunction(event) {
 
       function setBlocklyXml(xml_text)
       {
+setCatchChanges(false);
         Blockly.mainWorkspace.clear();
         var xml = Blockly.Xml.textToDom(xml_text);
         Blockly.Xml.domToWorkspace(xml, workspace);
         centerBlocks();
+setCatchChanges(true);
       }
 
 
@@ -612,13 +634,17 @@ function myChangeFunction(event) {
       }
 
       function refreshBlockly() {
-        var xml = Blockly.Xml.workspaceToDom(workspace);
+setCatchChanges(false);
+  var xml = Blockly.Xml.workspaceToDom(workspace);
         Blockly.mainWorkspace.clear();
         Blockly.Xml.domToWorkspace(xml, workspace);
+setCatchChanges(true);
       }
 
       function clearBlockly() {
+setCatchChanges(false);
         Blockly.mainWorkspace.clear();
+setCatchChanges(true);
       }
 
       function centerBlocks() {
