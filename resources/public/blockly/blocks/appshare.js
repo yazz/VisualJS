@@ -441,9 +441,12 @@ Blockly.Blocks['appshare_definedb_column'] = {
     dropdown.setText(""); // set the actual text
     dropdown.setValue("");
 
-    this.setColour(230);
+    this.setcolor();
     this.setPreviousStatement(true, "ColumnElement");
     this.setNextStatement(true, "ColumnElement");
+  },
+  setcolor: function() {
+          this.setColour(230);
   }
 }
 

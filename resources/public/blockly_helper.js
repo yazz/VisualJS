@@ -352,16 +352,17 @@ function setNonDBBlocksToReadOnly() {
   for (i = bc - 1; i  >= 0; i--) {
     blocks = dom.children;
     console.log("Block= " + blocks[i].getAttribute('type'));
-    if (blocks[i].getAttribute('type') != 'appshare_definedb_table') {
+    if (blocks[i].getAttribute('type').startsWith('appshare_definedb_')) {
       blocks[i].setAttribute('deletable', 'false');
       blocks[i].setAttribute('movable', 'false');
       //blocks[i].setAttribute('editable', 'false');
-
-
-      Blockly.Blocks['appshare_definedb_table'].setcolor = function() {
-          this.setColour(60);
-      };
     };
+  };
+  Blockly.Blocks['appshare_definedb_table'].setcolor = function() {
+    this.setColour(60);
+  };
+  Blockly.Blocks['appshare_definedb_column'].setcolor = function() {
+    this.setColour(60);
   };
   Blockly.mainWorkspace.clear();
   Blockly.Xml.domToWorkspace(dom, workspace);
@@ -383,9 +384,12 @@ function setNonDBBlocksToReadOnly() {
       blocks[i].setAttribute('deletable', 'true');
       blocks[i].setAttribute('movable', 'true');
       //blocks[i].setAttribute('editable', 'false');
-      Blockly.Blocks['appshare_definedb_table'].setcolor = function() {
-          this.setColour(230);
-      };
+  };
+  Blockly.Blocks['appshare_definedb_table'].setcolor = function() {
+    this.setColour(230);
+  };
+  Blockly.Blocks['appshare_definedb_column'].setcolor = function() {
+    this.setColour(230);
   };
   Blockly.mainWorkspace.clear();
   Blockly.Xml.domToWorkspace(dom, workspace);
