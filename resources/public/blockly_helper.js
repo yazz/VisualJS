@@ -451,46 +451,47 @@ function myChangeFunction(event) {
   console.log("Event.type= " + event.type + " : " + event.oldValue  + " : " + event.newValue + " : " + event.name + " : " + event.blockId + " : " + event.xml);
 
   var blockaa = workspace.getBlockById(event.blockId);
-  console.log("block.type= " + blockaa.type + " : " + event.oldValue  + " : " + event.newValue + " : " + event.name + " : " + event.blockId + " : " + event.xml);
+  if (blockaa != null) {
+    console.log("block.type= " + blockaa.type + " : " + event.oldValue  + " : " + event.newValue + " : " + event.name + " : " + event.blockId + " : " + event.xml);
 
-  if (event.xml) {
-    gg = event.xml;
-    allfields = gg.getElementsByTagName("field");
-    console.log("All XML: " ,gg);
-  };
-
-
-  if (blockaa.type.startsWith("appshare_definedb_")) {
-    if (!myappshare.mainapp.get_edit_database_mode()) {
-      myappshare.mainapp.set_edit_database_mode(true);
-      setNonDBBlocksToReadOnly();
+    if (event.xml) {
+      gg = event.xml;
+      allfields = gg.getElementsByTagName("field");
+      console.log("All XML: " ,gg);
     };
-    if (myappshare.mainapp.table_block_exists(event.blockId)) {
-      myappshare.mainapp.set_new_table_name( event.blockId, event.newValue );
-    }
-    else {
-      myappshare.mainapp.set_old_table_name( event.blockId, event.oldValue );
-    }
-  } else if (event.name == "COLUMNNAME") {
-    var bblock = workspace.getBlockById(event.blockId);
-    var prbl = bblock.getParent();
-    var tablename = prbl.getFieldValue('TABLENAME');
-    console.log("    column: " +   event.newValue + " :parent id:" + prbl.id + " :parent name:" + tablename);
-    if (myappshare.mainapp.table_block_exists(prbl.id)) {
-    }
-    else {
-      myappshare.mainapp.set_new_table_name( prbl.id, tablename );
-    }
 
 
-    if (myappshare.mainapp.column_block_exists(prbl.id ,  event.blockId)) {
-      myappshare.mainapp.set_new_column_name(  prbl.id, event.blockId, event.newValue );
-    }
-    else {
-      myappshare.mainapp.set_old_column_name(  prbl.id, event.blockId, event.oldValue );
-    }
+    if (blockaa.type.startsWith("appshare_definedb_")) {
+      if (!myappshare.mainapp.get_edit_database_mode()) {
+        myappshare.mainapp.set_edit_database_mode(true);
+        setNonDBBlocksToReadOnly();
+      };
+      if (myappshare.mainapp.table_block_exists(event.blockId)) {
+        myappshare.mainapp.set_new_table_name( event.blockId, event.newValue );
+      }
+      else {
+        myappshare.mainapp.set_old_table_name( event.blockId, event.oldValue );
+      }
+    } else if (event.name == "COLUMNNAME") {
+      var bblock = workspace.getBlockById(event.blockId);
+      var prbl = bblock.getParent();
+      var tablename = prbl.getFieldValue('TABLENAME');
+      console.log("    column: " +   event.newValue + " :parent id:" + prbl.id + " :parent name:" + tablename);
+      if (myappshare.mainapp.table_block_exists(prbl.id)) {
+      }
+      else {
+        myappshare.mainapp.set_new_table_name( prbl.id, tablename );
+      }
 
-  };
+
+      if (myappshare.mainapp.column_block_exists(prbl.id ,  event.blockId)) {
+        myappshare.mainapp.set_new_column_name(  prbl.id, event.blockId, event.newValue );
+      }
+      else {
+        myappshare.mainapp.set_old_column_name(  prbl.id, event.blockId, event.oldValue );
+      }
+
+    }};
 
   if ((event.type == Blockly.Events.CHANGE) &&
       (event.oldValue != event.newValue)) {
@@ -523,29 +524,29 @@ function myChangeFunction(event) {
 
 
 
+var calcEvals = -1;
+function myUpdateFunction() {
 
-      function myUpdateFunction() {
 
+  if ((!updateblockly) && keypressed && ((new Date().getTime() - lastkeypresstime) > savelagtime)) {
+    keypressed = false;
+    updateblockly = true;
+  };
 
-        if ((!updateblockly) && keypressed && ((new Date().getTime() - lastkeypresstime) > savelagtime)) {
-          keypressed = false;
-          updateblockly = true;
-        };
+  if (updateblockly) {
+    var code = getBlocklyValue();
 
-        if (updateblockly) {
-          var code = getBlocklyValue();
+    document.getElementById('blocklyCode').innerHTML = getBlocklyOptimizedValue();//code;
+    document.getElementById('blocklyCode2').innerHTML = getBlocklyXml15();
+    document.getElementById('blocklyCode3').innerHTML = getBlocklyXml35();
+    document.getElementById('numberOfEvals').innerHTML = '' + calcEvals;
+    //uuuttt(toolbox);
+    myappshare.mainapp.refreshapp();
+    updateblockly = false;
 
-          document.getElementById('blocklyCode').innerHTML = getBlocklyOptimizedValue();//code;
-          document.getElementById('blocklyCode2').innerHTML = getBlocklyXml15();
-          document.getElementById('blocklyCode3').innerHTML = getBlocklyXml35();
-          document.getElementById('numberOfEvals').innerHTML = '' + calcEvals;
-          //uuuttt(toolbox);
-          myappshare.mainapp.refreshapp();
-          updateblockly = false;
-
-          //console.log("Event.type= " + event.type + " : " + calcEvals);
-        }
-      }
+    //console.log("Event.type= " + event.type + " : " + calcEvals);
+  }
+}
 
       setInterval(myUpdateFunction, 1000);
 
