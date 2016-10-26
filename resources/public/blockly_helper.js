@@ -341,8 +341,17 @@ function getBlocklyValueOptimized()
 
 
 
+// --------------------------------------------------------------------
+//                   ONLY ALLOW DATABASE BLOCKS TO BE EDITED
+//
+//                     function  setNonDBBlocksToReadOnly
+//
+//  input:        nil
+//  output:
+//  dependencies: The global blockly workspace
+//
+// --------------------------------------------------------------------
 function setNonDBBlocksToReadOnly() {
-
   //
   // Save the names of all the custom components
   //
@@ -364,16 +373,29 @@ function setNonDBBlocksToReadOnly() {
   Blockly.Blocks['appshare_definedb_column'].setcolor = function() {
     this.setColour(60);
   };
-setCatchChanges(false);
+  setCatchChanges(false);
   Blockly.mainWorkspace.clear();
   Blockly.Xml.domToWorkspace(dom, workspace);
-setCatchChanges(true);
+  setCatchChanges(true);
 };
 
 
 
-  function setAllBlocksToEditable(xxx) {
 
+
+
+
+// --------------------------------------------------------------------
+//                       ALLOW ALL BLOCKS TO BE EDITED
+//
+//                   function  setAllBlocksToEditable
+//
+//  input:        nil
+//  output:
+//  dependencies: The global blockly workspace
+//
+// --------------------------------------------------------------------
+function setAllBlocksToEditable(xxx) {
   //
   // Save the names of all the custom components
   //
@@ -393,10 +415,10 @@ setCatchChanges(true);
   Blockly.Blocks['appshare_definedb_column'].setcolor = function() {
     this.setColour(230);
   };
-setCatchChanges(false);
+  setCatchChanges(false);
   Blockly.mainWorkspace.clear();
   Blockly.Xml.domToWorkspace(dom, workspace);
-setCatchChanges(true);
+  setCatchChanges(true);
 };
 
 
