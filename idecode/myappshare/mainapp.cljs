@@ -50,6 +50,7 @@
   (do
     (reset! edit-database  value)
     (swap! app-state assoc-in [:ui :editing-database] value)
+
     ))
 
 
@@ -60,6 +61,8 @@
 (defn  ^:export set_old_table_name [block-id  old-name]
   (swap! table-defn-changes assoc-in [block-id  :old-name] old-name)
   (log (str "tables: " @table-defn-changes))
+    (swap! app-state assoc-in [:ui :editing-database-text] @table-defn-changes)
+    (touch [:ui])
   )
 
 
@@ -84,6 +87,8 @@
 (defn  ^:export set_new_table_name [block-id  new-name]
   (swap! table-defn-changes assoc-in [block-id  :new-name] new-name)
   (log (str "tables: " @table-defn-changes))
+  (swap! app-state assoc-in [:ui :editing-database-text] @table-defn-changes)
+  (touch [:ui])
   )
 
 
@@ -472,7 +477,7 @@
     (get-in @app-state [:ui :editing-database])
     (div nil
          (div nil "Editing database")
-         (pre nil (pr-str @table-defn-changes))
+         (pre nil (pr-str (get-in @app-state [:ui :editing-database-text])))
          (button {:style {:margin "10px"}
                  :className (str "btn-lg btn-default" )
                  :aria-hidden "true"

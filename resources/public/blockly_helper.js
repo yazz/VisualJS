@@ -90,7 +90,7 @@ function findFirstNextElement(el)
   }
 
   if (hasNext == true) {
-    console.log('findLastChild: ' + foundblock.tagName);
+    //console.log('findLastChild: ' + foundblock.tagName);
     return findFirstNextElement(foundblock);
   }
 
@@ -448,24 +448,28 @@ function myChangeFunction(event) {
   if (!catchChanges) {
     return;
   };
-  console.log("Event.type= " + event.type + " : " + event.oldValue  + " : " + event.newValue + " : " + event.name + " : " + event.blockId + " : " + event.xml);
 
   var blockaa = workspace.getBlockById(event.blockId);
   if (blockaa != null) {
-    console.log("block.type= " + blockaa.type + " : " + event.oldValue  + " : " + event.newValue + " : " + event.name + " : " + event.blockId + " : " + event.xml);
+    //console.log("block.type= " + blockaa.type + " : " + event.oldValue  + " : " + event.newValue + " : " + event.name + " : " + event.blockId + " : " + event.xml);
 
     if (event.xml) {
       gg = event.xml;
       allfields = gg.getElementsByTagName("field");
-      console.log("All XML: " ,gg);
+      //console.log("All XML: " ,gg);
     };
 
 
     if (blockaa.type.startsWith("appshare_definedb_")) {
+
+      // set to db mode if not already in it
       if (!myappshare.mainapp.get_edit_database_mode()) {
         myappshare.mainapp.set_edit_database_mode(true);
         setNonDBBlocksToReadOnly();
       };
+
+      console.log("Event.type= " + event.type + " : " + event.oldValue  + " : " + event.newValue + " : " + event.name + " : " + event.blockId + " : " + event.xml);
+
       if (myappshare.mainapp.table_block_exists(event.blockId)) {
         myappshare.mainapp.set_new_table_name( event.blockId, event.newValue );
       }
