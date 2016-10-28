@@ -471,9 +471,11 @@ function myChangeFunction(event) {
       console.log("Event.type= " + event.type + " : " + event.oldValue  + " : " + event.newValue + " : " + event.name + " : " + event.blockId + " : " + event.xml);
 
       if (myappshare.mainapp.table_block_exists(event.blockId)) {
+         console.log("1");
         myappshare.mainapp.set_new_table_name( event.blockId, event.newValue );
       }
-      else {
+      else if (event.oldValue != null) {
+         console.log("2");
         myappshare.mainapp.set_old_table_name( event.blockId, event.oldValue );
       }
     } else if (event.name == "COLUMNNAME") {

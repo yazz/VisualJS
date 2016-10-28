@@ -49,6 +49,7 @@
 (defn  ^:export set_edit_database_mode [value]
   (do
     (reset! edit-database  value)
+    (swap! app-state assoc-in [:ui :editing-database-text] @table-defn-changes)
     (swap! app-state assoc-in [:ui :editing-database] value)
 
     ))
@@ -927,7 +928,7 @@
 
   (div nil
        (div {:style     {:border "0px" :backgroundColor "white" :width "100%" :height "3em" :verticalAlign "top"}}
-            (if (large-screen) (img {:style {:display "inline-block" :marginTop "-0.0em"} :src "yazz.gif"}))
+            ;(if (large-screen) (img {:style {:display "inline-block" :marginTop "-0.0em"} :src "yazz.gif"}))
 
             (button {:className    (if (small-screen) "btn btn-default" "btn-lg btn-default")
                      :style       {:display "inline-block" :marginLeft (if (small-screen) "2px"  "30px") :fontFamily "Ubuntu" :fontSize "1em" :marginTop "0.3em"}
