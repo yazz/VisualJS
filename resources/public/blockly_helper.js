@@ -434,7 +434,6 @@ function setAllBlocksToEditable(xxx) {
 //  dependencies: The global blockly workspace
 //
 // --------------------------------------------------------------------
-gg= 1;
 catchChanges = false;
 function setCatchChanges(newvalue) {
   if (newvalue) {
@@ -445,19 +444,18 @@ function setCatchChanges(newvalue) {
 };
 
 function myChangeFunction(event) {
+
+  //
+  // If events not supposed to fire then exit
+  //
   if (!catchChanges) {
     return;
   };
 
   var blockaa = workspace.getBlockById(event.blockId);
   if (blockaa != null) {
-    //console.log("block.type= " + blockaa.type + " : " + event.oldValue  + " : " + event.newValue + " : " + event.name + " : " + event.blockId + " : " + event.xml);
-
-    if (event.xml) {
-      gg = event.xml;
-      allfields = gg.getElementsByTagName("field");
-      //console.log("All XML: " ,gg);
-    };
+    //console.log("block.type= " + blockaa.type + " : " + event.oldValue  + " : " +
+    //  event.newValue + " : " + event.name + " : " + event.blockId + " : " + event.xml);
 
 
     if (blockaa.type.startsWith("appshare_definedb_")) {
@@ -471,8 +469,10 @@ function myChangeFunction(event) {
       console.log("Event.type= " + event.type + " : " + event.oldValue  + " : " + event.newValue + " : " + event.name + " : " + event.blockId + " : " + event.xml);
 
       if (myappshare.mainapp.table_block_exists(event.blockId)) {
-         console.log("1");
-        myappshare.mainapp.set_new_table_name( event.blockId, event.newValue );
+        if (event.newValue) {
+          console.log("1");
+          myappshare.mainapp.set_new_table_name( event.blockId, event.newValue );
+        };
       }
       else if (event.oldValue != null) {
          console.log("2");
