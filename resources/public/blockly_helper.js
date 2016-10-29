@@ -475,7 +475,8 @@ function myChangeFunction(event) {
         };
       }
       else if (event.oldValue != null) {
-         console.log("2");
+        console.log("2");
+        myappshare.mainapp.set_new_table_name( event.blockId, event.newValue );
         myappshare.mainapp.set_old_table_name( event.blockId, event.oldValue );
       }
     } else if (event.name == "COLUMNNAME") {

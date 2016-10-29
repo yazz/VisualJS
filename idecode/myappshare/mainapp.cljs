@@ -462,11 +462,6 @@
 
 
 
-
-
-
-
-
 (defn-ui-component     view-app-component   [app]
   {:on-mount
    (do  (go
@@ -478,7 +473,21 @@
     (get-in @app-state [:ui :editing-database])
     (div nil
          (div nil "Editing database")
-         (pre nil (pr-str (get-in @app-state [:ui :editing-database-text])))
+
+         ;(map-many
+               ;(div nil (str %1))
+               ;(div  nil (str  "- " (get (get @app-state [:ui :editing-database-text]) %1)))
+               ;)
+
+         (map-many
+            #(div nil (str %1)
+                  (pre nil (str (get (get-in @app-state [:ui :editing-database-text]) %1))))
+                       (keys (get-in @app-state [:ui :editing-database-text])))
+               ;(div nil (str %1))
+               ;(div  nil (str  "- " (get (get @app-state [:ui :editing-database-text]) %1)))
+
+          ;(keys (get-in @app-state [:ui :editing-database-text])))
+
          (button {:style {:margin "10px"}
                  :className (str "btn-lg btn-default" )
                  :aria-hidden "true"
