@@ -465,6 +465,9 @@ function myChangeFunction(event) {
         myappshare.mainapp.set_edit_database_mode(true);
         setNonDBBlocksToReadOnly();
       };
+    };
+    if (blockaa.type == "appshare_definedb_table") {
+
 
       console.log("Event.type= " + event.type + " : " + event.oldValue  + " : " + event.newValue + " : " + event.name + " : " + event.blockId + " : " + event.xml);
 

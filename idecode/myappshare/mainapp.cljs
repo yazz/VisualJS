@@ -96,11 +96,15 @@
 (defn  ^:export set_new_column_name [ table-block-id  block-id    new-name]
   (swap! table-defn-changes assoc-in [table-block-id   :columns    block-id  :new-name] new-name)
   (log (str "tables: " @table-defn-changes))
+  (swap! app-state assoc-in [:ui :editing-database-text] @table-defn-changes)
+  (touch [:ui])
   )
 
 (defn  ^:export set_old_column_name [ table-block-id  block-id    old-name]
   (swap! table-defn-changes assoc-in [table-block-id   :columns    block-id  :old-name] old-name)
   (log (str "tables: " @table-defn-changes))
+  (swap! app-state assoc-in [:ui :editing-database-text] @table-defn-changes)
+  (touch [:ui])
   )
 
 
@@ -480,9 +484,28 @@
                ;)
 
          (map-many
-            #(div nil (str %1)
-                  (pre nil (str (get (get-in @app-state [:ui :editing-database-text]) %1))))
+            #(let [
+                    table-entries       (get-in @app-state [:ui :editing-database-text])
+                    this-table-entry    (get table-entries %1)
+                    old-table-name      (:old-name this-table-entry)
+                    new-table-name      (:new-name this-table-entry)
+                    columns             (get this-table-entry :columns)
+                   ]
+               (div {:style {:marginTop "40px"}} (str "Table: " old-table-name)
+                  (div {:style {:marginLeft "40px"}} (str "New table name: " new-table-name))
+                   (map-many
+                      (fn [col-key]
+                       ( let [column   (get columns col-key)
+                              column-old-name  (:old-name   column)
+                              column-new-name  (:new-name   column)
+                              ] (div {:style {:marginLeft "80px"}} (str "Column: " column-old-name))))
+                      ;[1 2]
+                      (keys columns)
+                      )
+
+                    ))
                        (keys (get-in @app-state [:ui :editing-database-text])))
+
                ;(div nil (str %1))
                ;(div  nil (str  "- " (get (get @app-state [:ui :editing-database-text]) %1)))
 
