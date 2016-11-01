@@ -498,7 +498,10 @@
                        ( let [column   (get columns col-key)
                               column-old-name  (:old-name   column)
                               column-new-name  (:new-name   column)
-                              ] (div {:style {:marginLeft "80px"}} (str "Column: " column-old-name))))
+                              ]
+                         (div {:style {:marginLeft "80px"}} (str "Column: " column-old-name))
+                         (div {:style {:marginLeft "120px"}} (str "New column name: " column-new-name))
+                        ))
                       ;[1 2]
                       (keys columns)
                       )
