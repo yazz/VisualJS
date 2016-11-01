@@ -63,8 +63,23 @@
   (swap! table-defn-changes assoc-in [block-id  :old-name] old-name)
   (log (str "tables: " @table-defn-changes))
     (swap! app-state assoc-in [:ui :editing-database-text] @table-defn-changes)
-    (touch [:ui])
-  )
+    (touch [:ui]))
+
+
+(defn  ^:export set_new_table_name [block-id  new-name]
+  (swap! table-defn-changes assoc-in [block-id  :new-name] new-name)
+  (log (str "tables: " @table-defn-changes))
+  (swap! app-state assoc-in [:ui :editing-database-text] @table-defn-changes)
+  (touch [:ui]))
+
+
+(defn  ^:export create_new_table [block-id  new-name]
+  (swap! table-defn-changes assoc-in [block-id  :new-table-name] new-name)
+  (log (str "tables: " @table-defn-changes))
+  (swap! app-state assoc-in [:ui :editing-database-text] @table-defn-changes)
+  (touch [:ui]))
+
+
 
 
 
@@ -85,12 +100,6 @@
 
 
 
-(defn  ^:export set_new_table_name [block-id  new-name]
-  (swap! table-defn-changes assoc-in [block-id  :new-name] new-name)
-  (log (str "tables: " @table-defn-changes))
-  (swap! app-state assoc-in [:ui :editing-database-text] @table-defn-changes)
-  (touch [:ui])
-  )
 
 
 (defn  ^:export set_new_column_name [ table-block-id  block-id    new-name]
@@ -260,7 +269,7 @@
 
 
 (defn reeval [app-id   calling-app-id]
-  (if (not @in-eval)
+  (if (and (not @in-eval) (not js/catchChanges))
   (go
     (reset! in-eval true)
     ;(js/alert (str "(get @app-state :ui :editor :mode):" (get @app-state :ui :editor :mode)))

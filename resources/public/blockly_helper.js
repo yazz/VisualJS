@@ -451,9 +451,13 @@ function myChangeFunction(event) {
   if (!catchChanges) {
     return;
   };
+  //console.log("Event.type= " + event.type + " : " + event.oldValue  + " : " + event.newValue + " : " + event.name + " : " + event.blockId + " : " + event.xml);
+  if (event.type == 'create') {
+  };
 
   var blockaa = workspace.getBlockById(event.blockId);
   if (blockaa != null) {
+    console.log("   if (blockaa != null) {");
     //console.log("block.type= " + blockaa.type + " : " + event.oldValue  + " : " +
     //  event.newValue + " : " + event.name + " : " + event.blockId + " : " + event.xml);
 
