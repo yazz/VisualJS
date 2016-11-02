@@ -281,6 +281,12 @@ function getBlocklyValue()
 
 
 
+
+
+
+
+
+
 // --------------------------------------------------------------------
 //                      function getBlocklyOptimizedValue
 //
@@ -311,6 +317,8 @@ function getBlocklyOptimizedValue()
 
 
 
+
+
 // --------------------------------------------------------------------
 //                      function getBlocklyValueOptimized
 //
@@ -335,6 +343,9 @@ function getBlocklyValueOptimized()
   //console.log(code);
   return code;
 }
+
+
+
 
 
 
@@ -385,6 +396,10 @@ function setNonDBBlocksToReadOnly() {
 
 
 
+
+
+
+
 // --------------------------------------------------------------------
 //                       ALLOW ALL BLOCKS TO BE EDITED
 //
@@ -424,16 +439,14 @@ function setAllBlocksToEditable(xxx) {
 
 
 
+
+
+
+
 // --------------------------------------------------------------------
-//                        PROCESS BLOCKLY EVENTS
-//
-//                      function myChangeFunction
-//
-//  input:        a blockly event
-//  output:       ??
-//  dependencies: The global blockly workspace
-//
+//                             catchChanges
 // --------------------------------------------------------------------
+
 catchChanges = false;
 function setCatchChanges(newvalue) {
   if (newvalue) {
@@ -442,6 +455,30 @@ function setCatchChanges(newvalue) {
     catchChanges = newvalue;
   };
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// --------------------------------------------------------------------
+//                       PROCESS BLOCKLY EVENTS
+//
+//                      function myChangeFunction
+//
+//  input:        a blockly event
+//  output:       ??
+//  dependencies: The global blockly workspace
+//
+// --------------------------------------------------------------------
 
 function myChangeFunction(event) {
 
@@ -452,14 +489,23 @@ function myChangeFunction(event) {
     return;
   };
   //console.log("Event.type= " + event.type + " : " + event.oldValue  + " : " + event.newValue + " : " + event.name + " : " + event.blockId + " : " + event.xml);
-  if (event.type == 'create') {
-  };
 
   var blockaa = workspace.getBlockById(event.blockId);
+
+  if (event.type == 'create') {
+    console.log("Created new block ");
+    console.log("  Block type: " + blockaa.type);
+    if (blockaa.type == 'appshare_definedb_table') {
+      myappshare.mainapp.create_new_table(event.blockId, 'table_name' );
+    } else if (blockaa.type == 'appshare_definedb_column') {
+      myappshare.mainapp.create_new_column(event.blockId, 'Col_Name' );
+    };
+  };
+
   if (blockaa != null) {
     console.log("   if (blockaa != null) {");
-    //console.log("block.type= " + blockaa.type + " : " + event.oldValue  + " : " +
-    //  event.newValue + " : " + event.name + " : " + event.blockId + " : " + event.xml);
+    console.log("block.type= " + blockaa.type + " : " + event.oldValue  + " : " +
+      event.newValue + " : " + event.name + " : " + event.blockId + " : " + event.xml);
 
 
     if (blockaa.type.startsWith("appshare_definedb_")) {
@@ -535,6 +581,27 @@ function myChangeFunction(event) {
   updateblockly = true;
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

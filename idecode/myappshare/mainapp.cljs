@@ -82,6 +82,14 @@
 
 
 
+(defn  ^:export create_new_column [block-id  new-name]
+  (swap! table-defn-changes assoc-in [block-id  :columns    block-id :new-column-name] new-name)
+  (log (str "tables: " @table-defn-changes))
+  (swap! app-state assoc-in [:ui :editing-database-text] @table-defn-changes)
+  (touch [:ui]))
+
+
+
 
 (defn  ^:export  table_block_exists  [block-id]
   (if  (get  @table-defn-changes  block-id)
