@@ -496,8 +496,10 @@ function myChangeFunction(event) {
     console.log("Created new block ");
     console.log("  Block type: " + blockaa.type);
     if (blockaa.type == 'appshare_definedb_table') {
+      setNonDBBlocksToReadOnly();
       myappshare.mainapp.create_new_table(event.blockId, 'table_name' );
     } else if (blockaa.type == 'appshare_definedb_column') {
+      setNonDBBlocksToReadOnly();
       myappshare.mainapp.create_new_column(event.blockId, 'Col_Name' );
     };
   };

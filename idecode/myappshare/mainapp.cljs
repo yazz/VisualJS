@@ -507,9 +507,12 @@
                     old-table-name      (:old-name this-table-entry)
                     new-table-name      (:new-name this-table-entry)
                     columns             (get this-table-entry :columns)
+                    created-table-name      (:new-table-name this-table-entry)
+                    created-column-name      (:new-column-name this-table-entry)
                    ]
-               (div {:style {:marginTop "40px"}} (str "Table: " old-table-name)
-                  (div {:style {:marginLeft "40px"}} (str "New table name: " new-table-name))
+               (div nil
+                    (div {:style {:marginTop "40px"}} (str  (if old-table-name "Changed table" "Created table") ": " (if old-table-name  old-table-name  created-table-name))
+                  (if new-table-name (div {:style {:marginLeft "40px"}} (str "New table name: " new-table-name)))
                    (map-many
                       (fn [col-key]
                        ( let [column   (get columns col-key)
@@ -523,7 +526,9 @@
                       (keys columns)
                       )
 
-                    ))
+                    )
+                    )
+               )
                        (keys (get-in @app-state [:ui :editing-database-text])))
 
                ;(div nil (str %1))
