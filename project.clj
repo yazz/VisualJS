@@ -3,7 +3,7 @@
                   [org.clojure/clojure "1.8.0" :scope "provided"]
                   [org.clojure/clojurescript "1.9.293" :scope "provided"]
                   [org.omcljs/om "1.0.0-alpha30"]
-                  [org.clojure/core.async "0.2.374" :scope "provided"]
+                  [org.clojure/core.async "0.2.395" :scope "provided"]
 
                   [korma "0.4.2"]
 
