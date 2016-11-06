@@ -30,7 +30,7 @@
 
                   [org.webjars/codemirror "5.8"]
 
-                  [org.clojure/tools.reader "1.0.0-alpha3"]
+                  [org.clojure/tools.reader "1.0.0-beta3"]
                   [lein-figwheel "0.5.0-6"]
 
                   [bk/ring-gzip "0.1.1"]
