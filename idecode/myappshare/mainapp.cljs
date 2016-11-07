@@ -277,7 +277,7 @@
 
 
 (defn reeval [app-id   calling-app-id]
-  (if (and (not @in-eval) (not js/catchChanges))
+  (if (and (not @in-eval) );(not js/catchChanges))
   (go
     (reset! in-eval true)
     ;(js/alert (str "(get @app-state :ui :editor :mode):" (get @app-state :ui :editor :mode)))
