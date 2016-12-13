@@ -6,6 +6,7 @@
 
 !/LICENSE
 !/.README.md
+/node32.exe
 /oracledb.node
 !/package.json
 !/start32.bat
