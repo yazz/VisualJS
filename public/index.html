@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" Content-Type="text/javascript; charset=utf-8" content="initial-scale=1.0, width=device-width, height=device-height, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta charset="UTF-8" />
+
+    <script type="text/javascript" src="polyfill.min.js"></script>
+    <script type="text/javascript" src="blockly/blockly_compressed.js"></script>
+    <script type="text/javascript" src="blockly/blocks_compressed.js"></script>
+    <script type="text/javascript" src="yazz_blockly_blocks.js"></script>
+    <script type="text/javascript" src="yazz_blockly_generator.js"></script>
+    <script type="text/javascript" src="yazz_blockly_output_code.js"></script>
+    <script type="text/javascript" src="blockly/msg/js/en.js"></script>
+    <script type="text/javascript" src="jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="jquery.zoomooz.js"></script>
+    <script type="text/javascript" src="blockly_helper.js"></script>
+    <script type="text/javascript" src="vue.min.js"></script>
+    <script type="text/javascript" src="gun.js"></script>
+    <style>
+      html, body, div, span, applet, object, iframe,
+      h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+      a, abbr, acronym, address, big, cite, code,
+      del, dfn, em, img, ins, kbd, q, s, samp,
+      small, strike, strong, sub, sup, tt, var,
+      b, u, i, center,
+      dl, dt, dd, ol, ul, li,
+      fieldset, form, label, legend,
+      table, caption, tbody, tfoot, thead, tr, th, td,
+      article, aside, canvas, details, embed,
+      figure, figcaption, footer, header, hgroup,
+      menu, nav, output, ruby, section, summary,
+      time, mark, audio, video {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        font-size: 100%;
+        font: inherit;
+        vertical-align: baseline;
+      }
+      /* HTML5 display-role reset for older browsers */
+      article, aside, details, figcaption, figure,
+      footer, header, hgroup, menu, nav, section {
+        display: block;
+      }
+      body {
+        line-height: 1;
+      }
+      ol, ul {
+        list-style: none;
+      }
+      blockquote, q {
+        quotes: none;
+      }
+      blockquote:before, blockquote:after,
+      q:before, q:after {
+        content: '';
+        content: none;
+      }
+      table {
+        border-collapse: collapse;
+        border-spacing: 0;
+      }
+      html, body {
+        height: 100%;
+        margin: 0;
+      }
+      body {
+        background-color: #fff;
+        font-family: sans-serif;
+        overflow: hidden;
+      }
+      h1 {
+        font-weight: normal;
+        font-size: 140%;
+      }
+      table {
+        height: 100%;
+        width: 100%;
+      }
+      #blocklyArea {
+        height: 99%;
+      }
+    </style>
+    <script type="text/javascript">
+    </script>
+
+  </head>
+  <body id=body style='margin:0px; padding: 0px;  border: 0px;  width: 100%;  height:100%;  left: 0px;'>
+
+
+
+
+
+
+
+
+
+
+
+
+<div id=blocklyid style="width: 100%;height: 90%; position: absolute; top: 0px; display:block; left: -500px;">
+  <table>
+    <tr>
+      <td id="blocklyArea" style=" width: 100%;height: 200px;">
+      </td>
+    </tr>
+  </table>
+
+  <div id="blocklyDiv"   style=" width: 100%;height: 90%;position: absolute; top: 0px;"></div>
+
+  <xml id="toolbox" style="display: none">
+
+    <block type="yazz_builder"></block>
+    <block type="yazz_search_expr"></block>
+    <block type="yazz_any_watcher"></block>
+    <block type="yazz_new_record"></block>
+    <block type="yazz_div"></block>
+    <block type="yazz_input"></block>
+    <block type="yazz_code"></block>
+    <block type="yazz_time_watcher"></block>
+
+  </xml>
+</div>
+
+
+
+
+
+<div class="zoomViewport   noScroll" id=other style=' width: 100%;height: 90%;position: absolute; bottom: 10%; left: 0px; '>
+  <div id=zoommain class="zoomTarget zoomContainer"  style='height: 100%; width: 100%;'>
+
+
+    <div id=zzz class="zoomTarget" style='height: 100%; width: 100%; '>
+
+      <div  id=editorttt class="zoomTarget" data-targetsize="1"
+           style='position: absolute; left: 0%; top: 0%; height: 30%; width: 30%; display: inline-block; transform: scale(0.9, 0.9);border: 5px solid blue;'>
+        <h1>
+          Make
+        </h1>
+        <img style='width: 90%; height: 90%;' src='/blockly.png' onclick='ineditor = true;setTimeout(function(){swapelements();},200);'></img>
+      </div>
+      <div  id=mainsources class="zoomTarget" data-targetsize="1"
+           style='position: absolute; left: 30%; top: 0%; height: 30%; width: 30%; display: inline-block; transform: scale(0.9, 0.9);border: 5px solid blue;'>
+        <h1>
+          Sources
+        </h1>
+      </div>
+      <div  id=maindashboard class="zoomTarget" data-targetsize="1"
+           style='position: absolute; left: 60%; top: 0%; height: 30%; width: 30%; display: inline-block; transform: scale(0.9, 0.9);border: 5px solid blue;'>
+        <h1>
+          Dashboard
+        </h1>
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+      <div id=ttt class="zoomTarget"  data-targetsize="1"
+           style='position: absolute; left: 0%; top: 30%; height: 30%; width: 30%; display: inline-block; transform: scale(0.9, 0.9);border: 5px solid red;'>
+        <h1>
+          Output
+        </h1>
+        <div id="app3" style='height: 85%; width: 100%;overflow: auto;'>
+
+
+
+
+
+
+
+          <ol>
+            <rows-table  v-bind:rows="rows"></rows-table>
+            <DIV>
+              ------
+            </DIV>
+            <todo-item v-for="item in groceryList" v-bind:todo="item"></todo-item>
+          </ol>
+        </div>
+
+
+
+
+        <script>
+          rows = [];
+          tbrows = new Object();
+          Vue.component('todo-item', {
+            props: ['todo'],
+            template: '<li>{{ todo.text }}</li>'
+          });
+
+
+
+          Vue.component('rows-table', {
+            props: ["rows"],
+            template: '<div>length={{rows.length}}<div v-for="row in rows">row = {{row.full_name}}</div></div>'
+          });
+
+
+
+
+          var app3 = new Vue({
+            el: '#app3',
+            data: {
+              message: 'Hello Vue!',
+              rows: rows,
+              groceryList: [
+                { text: 'Vegetables' },
+                { text: 'Cheese' },
+                { text: 'Whatever else humans are supposed to eat' }
+              ]
+
+            }
+          })
+          var gun = Gun( ['http://' + location.host + '/gun']);
+          gun.get('default').on(function(data,id){if (document.getElementById('mainid')){document.getElementById('mainid').innerHTML=data.value}});
+
+          gun.get("data").path("pg").path("cvs").on().map(function(a,b){
+            console.log(a);
+            delete a["_"];
+            if (!tbrows[a.id]) {
+              rows.push(a);
+              tbrows[a.id] = a;
+            }
+
+          },true);
+
+
+
+        </script>
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div  id=mainsources class="zoomTarget" data-targetsize="1"
+           style='position: absolute; left: 30%; top: 30%; height: 30%; width: 30%; display: inline-block; transform: scale(0.9, 0.9);border: 5px solid blue;'>
+        <h1>
+          Drivers
+        </h1>
+      </div>
+      <div  id=mainpeople class="zoomTarget" data-targetsize="1"
+           style='position: absolute; left: 60%; top: 30%; height: 30%; width: 30%; display: inline-block; transform: scale(0.9, 0.9);border: 5px solid blue;'>
+        <h1>
+          people
+        </h1>
+      </div>
+
+
+
+      <div id=ttt2 class="zoomTarget"  data-targetsize="1"
+           style='position: absolute; left: 0%; top: 60%; height: 30%; width: 30%; display: inline-block; transform: scale(0.9, 0.9);border: 5px solid blue;'>
+        <h1>
+          Generated code
+        </h1>
+        <div id="outputcode">
+          <input type=button value='Click Network test' onClick='alert("clicked " + location.host );'>
+
+          </input>
+
+        <input id=maininput
+               onkeyup="gun.get('default').put({value: document.getElementById('maininput').value}); ">
+        </input>
+        <div id=mainid></div>
+
+        </div>
+      </div>
+      <div  id=maindirectory class="zoomTarget" data-targetsize="1"
+           style='position: absolute; left: 30%; top: 60%; height: 30%; width: 30%; display: inline-block; transform: scale(0.9, 0.9);border: 5px solid blue;'>
+        <h1>
+          driectory
+        </h1>
+      </div>
+      <div  id=mainviews class="zoomTarget" data-targetsize="1"
+           style='position: absolute; left: 60%; top: 60%; height: 30%; width: 30%; display: inline-block; transform: scale(0.9, 0.9);border: 5px solid blue;'>
+        <h1>
+          Views
+        </h1>
+      </div>
+
+
+    </div>
+
+  </div>
+
+
+</div>
+
+
+
+<div  style=' position: absolute; bottom: 0px; width: 100%; height: 10%;'>
+  <div  style='background-color: lightblue; width: 100%; height: 100%; display: inline-block;' onclick='if (ineditor) {ineditor = false; swapelements();resetzoom();} else {resetzoom();}'>
+  </div>
+</div>
+
+</body>
+
+<script>
+  code = '';
+  function myChangeFunction2(event) {
+    //swapelements();
+  }
+  function swapelements() {
+    inline = document.getElementById('other').style.display;
+    if (inline == 'none') {
+      code = getBlocklyValue();
+      document.getElementById('outputcode').innerHTML = code;
+      codeevaluation.store({code: code});
+      console.log('Code: ' + code);
+
+      document.getElementById('blocklyid').style.display = 'none';
+      document.getElementById('other').style.display = 'block';
+
+      //eval(code);
+      //alert(code);
+    } else {
+      document.getElementById('blocklyid').style.display = 'block';
+      document.getElementById('other').style.display = 'none';
+    };
+  };
+
+  function resetzoom() {
+    document.getElementById('zoommain').style.transform='';
+    document.getElementById('body').style.transform='';
+  };
+
+  var ineditor=false;
+
+  var blocklyArea = document.getElementById('blocklyArea');
+  var blocklyDiv = document.getElementById('blocklyDiv');
+  var workspace = Blockly.inject(blocklyDiv,
+                                 {media: '../../media/',
+                                  toolbox: document.getElementById('toolbox')});
+  workspace.addChangeListener(myChangeFunction2);
+  setTimeout(function() {
+    console.log('Closing blockly');
+    document.getElementById('blocklyid').style.display = 'none';
+    document.getElementById('blocklyid').style.left = '+500px';
+
+  },100);
+  var onresize = function(e) {
+    // Compute the absolute coordinates and dimensions of blocklyArea.
+    var element = blocklyArea;
+    var x = 0;
+    var y = 0;
+    do {
+      x += element.offsetLeft;
+      y += element.offsetTop;
+      element = element.offsetParent;
+    } while (element);
+    // Position blocklyDiv over blocklyArea.
+    blocklyDiv.style.left = x + 'px';
+    blocklyDiv.style.top = y + 'px';
+    blocklyDiv.style.width = blocklyArea.offsetWidth + 'px';
+    blocklyDiv.style.height = blocklyArea.offsetHeight + 'px';
+
+  };
+  window.addEventListener('resize', onresize, false);
+  onresize();
+  Blockly.svgResize(workspace);
+
+
+
+
+</script>
+</body>
+</html>
