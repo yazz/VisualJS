@@ -83,7 +83,7 @@ function newInit3() {
     gun = Gun( ['http://' + location.host + '/gun']);
   };
 
-  //gun.get('default').on(function(data,id){if (document.getElementById('mainid')){document.getElementById('mainid').innerHTML=data.value}});
+  gun.get('networktest').on(function(data,id){if (document.getElementById('mainid')){document.getElementById('mainid').innerHTML=data.value}});
 
   /*gun.get("data").path("pg").path("cvs").on().map(function(a,b){
     //console.log(a);
