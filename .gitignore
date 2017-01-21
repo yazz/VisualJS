@@ -16,6 +16,7 @@
 
 
 
+
 /instantclient32/
 /instantclient32/*
 /instantclient32/*/*
@@ -46,6 +47,12 @@
 !/public/*/*/*/*/*
 !/public/*/*/*/*/*/*
 !/public/*/*/*/*/*/*/*
+
+/public/build.js
+/public/dist/build.js
+/public/dist/build.js.map
+/public/index.js
+/public/index copy.html
 
 
 
