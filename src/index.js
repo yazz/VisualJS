@@ -10,7 +10,7 @@ var http       = require('http');
 var fs         = require('fs');
 var unzip      = require('unzip');
 var postgresdb = require('pg');
-
+var useOracle  = false;
 
 
 var drivers     = new Object();
@@ -83,20 +83,26 @@ var ip = process.env.OPENSHIFT_NODEJS_IP || '' + hostaddress;
 
 
 
-
+if (fs.existsSync(process.cwd() + '\\oracle_driver.zip')) {
+    useOracle = true;
+}
 //
 // copy the oracle files
 //
-if (!fs.existsSync(process.cwd() + '\\oracle_driver\\instantclient32')) {
-  fs.createReadStream(path.join(__dirname, '../oracle_driver.zip')).pipe(unzip.Extract({ path: process.cwd() + '\\.' }));
-  console.log('Creating oracle_driver');
-} else {
-  console.log('oracle_driver already exists');
-};
+if (useOracle) {
+    if (!fs.existsSync(process.cwd() + '\\oracle_driver\\instantclient32')) {
+      fs.createReadStream(path.join(__dirname, '../oracle_driver.zip')).pipe(unzip.Extract({ path: process.cwd() + '\\.' }));
+      console.log('Creating oracle_driver');
+    } else {
+      console.log('oracle_driver already exists');
+    };
+}
 
 
 var toeval = fs.readFileSync(path.join(__dirname, './oracle.js')).toString();
-process.env['PATH'] = process.cwd() + '\\oracle_driver\\instantclient32' + ';' + process.env['PATH'];
+if (useOracle) {
+    process.env['PATH'] = process.cwd() + '\\oracle_driver\\instantclient32' + ';' + process.env['PATH'];
+}
 //var oracledb = require('oracledb');
 //eval(toeval);
 
@@ -128,8 +134,9 @@ function function2() {
     console.log('HTTP: ' + req.url);
     if (!init_drivers) {
       init_drivers = true;
-      eval(toeval);
-
+      if (useOracle) {
+           eval(toeval);
+      }
       eval(pgeval);
 
     };
