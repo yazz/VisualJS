@@ -6,6 +6,7 @@
 
 !/LICENSE
 !/.README.md
+!/.babelrc
 /node32.exe
 /oracledb.node
 !/package.json
@@ -58,6 +59,20 @@
 !/src/*/*/*/*/*/*
 !/src/*/*/*/*/*/*/*
 !/src/*/*/*/*/*/*/*/*
+
+
+
+
+!/media/
+!/media/*
+!/media/*/*
+!/media/*/*/*
+!/media/*/*/*/*
+!/media/*/*/*/*/*
+!/media/*/*/*/*/*/*
+!/media/*/*/*/*/*/*/*
+!/media/*/*/*/*/*/*/*/*
+
 
 
 

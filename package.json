@@ -10,12 +10,14 @@
     "test": "cross-env NODE_ENV=production webpack-dev-server"
   },
   "dependencies": {
+    "debug": "^2.6.0",
     "gun": "^0.3.9991",
     "ip": "^1.1.4",
     "open": "0.0.5",
     "pg": "^6.1.2",
     "unzip": "^0.1.11",
-    "vue": "^2.1.0"
+    "vue": "^2.1.0",
+    "vuex": "^2.1.1"
   },
   "devDependencies": {
     "babel-core": "^6.0.0",
