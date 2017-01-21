@@ -10,7 +10,7 @@
 /oracledb.node
 !/package.json
 !/start32.bat
-
+!/webpack.config.js
 
 
 
