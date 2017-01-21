@@ -1,8 +1,0 @@
-node_modules/
-*.swp
-*.log
-.lock-wscript
-build/
-*~
-test/
-script/
