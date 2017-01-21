@@ -706,7 +706,7 @@ setCatchChanges(true);
       }
 
 
-      function initBlockly() {
+      function initBlockly2() {
         myappshare.mainapp.reset_table_defn_changes();
 
         workspace = Blockly.inject('blocklyDiv',
