@@ -1,9 +1,17 @@
-## Yazz Data
-### The easy way to share data in the enterprise
 ##The Problem
-### People working in large enterprises would like to share the data they have access to with their colleagues, without having to email and open Excel and other tools
+###People working in large enterprises would like to share the data they have access to with their colleagues
 
-### I believe collaboration at work should be easy, so I built Yazz
+##Possible solutions
+###Email, Excel, Qlik Sense, Tableue, and many other data tools
+
+## The Yazz Data solution
+### 1 second installation and you can see everything in your organisation
+
+
+
+
+
+
 <img src='https://github.com/zubairq/yazz/blob/master/resources/public/team-brainstorming.jpg?raw=true' />
 
 <img src='https://github.com/zubairq/yazz/blob/master/resources/public/demoscreen.PNG?raw=true' />
@@ -117,7 +125,7 @@ Postgres is described first and is the default in Yazz simply because it is the 
 
     git clone https://github.com/zubairq/Yazz.git my_new_application
     cd my_new_application
-    
+
     lein with-profile base figwheel
 
 
