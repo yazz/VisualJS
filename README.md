@@ -4,6 +4,8 @@
 
 ##Possible solutions
 ####Email, Excel, Qlik Sense, Tableue, and many other data tools
+<img src='https://github.com/zubairq/yazz/blob/master/public/landscape.jpg' />
+
 
 ## The Yazz Data solution
 #### 1 second installation and you can see everything in your organisation
