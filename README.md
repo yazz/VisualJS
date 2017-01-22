@@ -16,7 +16,7 @@ We are not there yet, but we are this far:
 * Connect to Oracle and Postgres databases.DONE
 * Execute SQL.DONE
 * One click .exe for Windows.DONE
-* Development environment realtime with Vue.js and GunDB.DONE ****<--- We are here****
+* Development environment realtime with Vue.js and GunDB.DONE ***<--- We are here***
 * Ability to see other users in my organisation
 * Ability to browse datasets
 
@@ -113,7 +113,7 @@ We are not there yet, but we are this far:
 
  - [TLDR](#tldr)
  - [Is Yazz for me?](#is-yazz-for-me)
- - [How is Yazz different to other web frameworks?](#how-is-yazz-different-to-other-web-frameworks)
+ - [How is Yazz different to other data tools?](#how-is-yazz-different-to-other-data-tools)
  - [Product roadmap](#product-roadmap)
  - [Quick start Postgres](#quick-start-postgres)
  - [Quick start Oracle](#quick-start-oracle)
@@ -147,7 +147,7 @@ We are not there yet, but we are this far:
 ### TLDR
 <img src='https://github.com/zubairq/yazz/blob/master/resources/public/demoscreen.PNG?raw=true' />
 
-Yazz lets you build and share database webapps by moving blocks around on the screen. It supports Postgres 9+ or the Oracle 11+ as a database.
+Yazz is a a tool for people who work wiht data in enterprises. For Windows it canbe downloaded as a .exe file. It is free for personal use or for teams of less than 5 people. Above 5 people it costs USD 50 per person per month.
 
 
 
@@ -157,8 +157,8 @@ Yazz lets you build and share database webapps by moving blocks around on the sc
 
 Yazz may be for you if you can answer 'yes' to the following:
 
-1. You want a simple way to build a database and share it with others
-2. You use Postgres 9+ or oracle 11g+ as a database
+1. You need to see what data your colleagues are working on
+2. You use Postgres or Oracle as your data store
 
 
 
@@ -170,10 +170,10 @@ Yazz may be for you if you can answer 'yes' to the following:
 
 
 
-### How is Yazz different to other web frameworks?
+### How is Yazz different to other data tools?
 <img height='350px' src='http://cdn.shopify.com/s/files/1/0070/7032/files/rubberduck.jpg?2841' />
 
-Most web frameworks require the developer to write code using Java, Javascript, Ruby, or other languages. Yazz is simply a drag and drop builder. This greatly simplifies the building of database based webapps.
+Most data tools fall into either low level data access tools such as TOAD, or high end visualisation tools such as Qlik sense. Yazz fits into the middle as it can be downloaded on an individuals PC like TOAD, yet it lets you share and explore data like Qlik Sense
 
 
 
