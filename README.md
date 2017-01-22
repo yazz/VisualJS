@@ -1,4 +1,8 @@
-## Yazz Data. The easy way to share data in the enterprise
+## Yazz Data
+### The easy way to share data in the enterprise
+##The Problem
+### People working in large enterprises would like to share the data they have access to with their colleagues, without having to email and open Excel and other tools
+
 ### I believe collaboration at work should be easy, so I built Yazz
 <img src='https://github.com/zubairq/yazz/blob/master/resources/public/team-brainstorming.jpg?raw=true' />
 
