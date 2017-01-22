@@ -11,7 +11,15 @@
 ### Yazz is building a system so that you can see everything in your organisation
 <img src='https://github.com/zubairq/yazz/blob/master/public/screenshot.PNG' />
 
-We are not there yet, but we are here:
+We are not there yet, but we are this far:
+
+    Connect to Oracle and Postgres databases.DONE
+    Execute SQL.DONE
+    One click .exe for Windows.DONE
+    Development environment realtime with Vue.js and GunDB.DONE <--- We are here
+    Ability to see other users in my organisation
+    Ability to browse datasets
+
 
 ##Running Yazz locally on Windows
 #####1) Install GIT from https://git-scm.com/downloads
