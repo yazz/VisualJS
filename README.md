@@ -11,26 +11,54 @@
 ### 1 second installation and you can see everything in your organisation
 <img src='https://github.com/zubairq/yazz/blob/master/public/screenshot.PNG' />
 
-##Running locally on Windows
-#####1) Install GIT
-#####2) Install Node.js 6.9
+##Running Yazz locally on Windows
+#####1) Install GIT from https://git-scm.com/downloads
+#####2) Install Node.js 6.9 32 bit installer from https://nodejs.org/en/blog/release/v6.9.1/
 #####3) git clone https://github.com/zubairq/yazz.git
 #####4) cd yazz
 #####5) npm install
 #####6) npm run build
 #####7) node src\index.js
 
+###If you wish to edit Yazz in realtime on Windows then you need the following additional steps
 
-##Running locally on Mac OS X
-#####1) Install GIT
-#####2) Install Node.js 6.9
+#####8) Make a note of the machine's IP address from the shell, something like:
+    node src\index.js
+    '192.168.2.87'
+    addr: 192.168.2.87
+
+#####9) Open yazz\src\main.js
+
+#####10) Find the line like:
+    const gun_ip_address = '43.47.1.45'
+
+#####11) Replace it with:
+    const gun_ip_address = '192.168.2.87'
+
+#####12) Open a new command line prompt
+
+#####13) npm run dev
+
+#####14) Open http://localhost:8080/public/
+
+#####15) Go to yazz\src\components\App.vue
+
+#####16) Change the text "Browse Data" to Live Editing
+
+#####17) when you save the file then your changes should be updated in real time in the browser
+
+
+
+##Running Yazz locally on Mac OS X
+#####1) Install GIT from https://git-scm.com/downloads
+#####2) Install Node.js 6.9 for Mac OS X from https://nodejs.org/en/blog/release/v6.9.1/
 #####3) git clone https://github.com/zubairq/yazz.git
 #####4) cd yazz
 #####5) npm install
 #####6) npm run build
 #####7) sudo node src/index.js
 
-##If you wish to edit Yazz in realtime then you need the following additional steps
+###If you wish to edit Yazz in realtime on OS X then you need the following additional steps
 
 #####8) Make a note of the machine's IP address from the shell, something like:
     $ sudo node src/index.js
