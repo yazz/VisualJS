@@ -13,12 +13,12 @@
 
 We are not there yet, but we are this far:
 
-    Connect to Oracle and Postgres databases.DONE
-    Execute SQL.DONE
-    One click .exe for Windows.DONE
-    Development environment realtime with Vue.js and GunDB.DONE ****<--- We are here****
-    Ability to see other users in my organisation
-    Ability to browse datasets
+Connect to Oracle and Postgres databases.DONE
+Execute SQL.DONE
+One click .exe for Windows.DONE
+Development environment realtime with Vue.js and GunDB.DONE ****<--- We are here****
+Ability to see other users in my organisation
+Ability to browse datasets
 
 
 ##Running Yazz locally on Windows
