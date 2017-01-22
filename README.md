@@ -1,11 +1,11 @@
 ##The Problem
-###People working in large enterprises would like to share the data they have access to with their colleagues
+####People working in large enterprises would like to share the data they have access to with their colleagues
 
 ##Possible solutions
-###Email, Excel, Qlik Sense, Tableue, and many other data tools
+####Email, Excel, Qlik Sense, Tableue, and many other data tools
 
 ## The Yazz Data solution
-### 1 second installation and you can see everything in your organisation
+#### 1 second installation and you can see everything in your organisation
 
 
 
