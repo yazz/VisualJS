@@ -28,7 +28,7 @@ export default {
   name: 'app',
   data () {
     return {
-      msg: 'Browse DBss'
+      msg: 'Browse Data'
     }
   }
 }
