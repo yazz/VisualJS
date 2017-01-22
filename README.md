@@ -11,14 +11,24 @@
 ### 1 second installation and you can see everything in your organisation
 <img src='https://github.com/zubairq/yazz/blob/master/public/screenshot.PNG' />
 
-##Getting started
+##Getting started with Windows
 #####1) Install GIT
-#####2) Install Node.js
+#####2) Install Node.js 6.9
 #####3) git clone https://github.com/zubairq/yazz.git
 #####4) cd yazz
 #####5) npm install
 #####6) npm run build
 #####7) node src\index.js
+
+
+##Getting started with Windows
+#####1) Install GIT
+#####2) Install Node.js 6.9
+#####3) git clone https://github.com/zubairq/yazz.git
+#####4) cd yazz
+#####5) npm install
+#####6) npm run build
+#####7) sudo node src/index.js
 
 
 #Table of contents
