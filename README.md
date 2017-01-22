@@ -1,4 +1,4 @@
-## Yazz. The easy way to build and share database webapps
+## Yazz Data. The easy way to share data in the enterprise
 ### I believe collaboration at work should be easy, so I built Yazz
 <img src='https://github.com/zubairq/yazz/blob/master/resources/public/team-brainstorming.jpg?raw=true' />
 
