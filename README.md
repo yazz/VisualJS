@@ -8,9 +8,16 @@
 
 
 ## The Yazz Data solution
-#### 1 second installation and you can see everything in your organisation
+### 1 second installation and you can see everything in your organisation
 
-
+##Getting started
+#####1) Install GIT
+#####2) Install Node.js
+#####3) git clone https://github.com/zubairq/yazz.git
+#####4) cd yazz
+#####5) npm install
+#####6) npm run build
+#####7) node src\index.js
 
 
 
