@@ -21,82 +21,6 @@ We are still building this data collaboarion tools, and this is our progress so 
 * Ability to browse datasets
 
 
-##Running Yazz locally on Windows
-#####1) Install GIT from https://git-scm.com/downloads
-#####2) Install Node.js 6.9.1 32 bit installer from https://nodejs.org/en/blog/release/v6.9.1/
-#####3) git clone https://github.com/zubairq/yazz.git
-#####4) cd yazz
-#####5) npm install
-#####6) npm run build
-#####7) node src\index.js
-
-###If you wish to edit Yazz in realtime on Windows then you need the following additional steps
-
-#####8) Make a note of the machine's IP address from the shell, something like:
-    node src\index.js
-    '192.168.2.87'
-    addr: 192.168.2.87
-
-#####9) Open yazz\src\main.js
-
-#####10) Find the line:
-    const gun_ip_address = '43.47.1.45'
-
-#####11) Replace it with the IP address from above:
-    const gun_ip_address = '192.168.2.87'
-
-#####12) Open a new command line prompt in Windows which should opoen to the "yazz" folder 
-
-#####13) Type into the command line:
-    npm run dev
-
-#####14) Open http://localhost:8080/public/
-
-#####15) Go to yazz\src\components\App.vue
-
-#####16) Change the text "Browse Data" to "Live Editing"
-
-#####17) When you save the file then your changes should be updated in real time in the browser
-
-
-
-##Running Yazz locally on Mac OS X
-#####1) Install GIT from https://git-scm.com/downloads
-#####2) Install Node.js 6.9.1 for Mac OS X from https://nodejs.org/en/blog/release/v6.9.1/
-#####3) git clone https://github.com/zubairq/yazz.git
-#####4) cd yazz
-#####5) npm install
-#####6) npm run build
-#####7) sudo node src/index.js
-
-###If you wish to edit Yazz in realtime on OS X then you need the following additional steps
-
-#####8) Make a note of the machine's IP address from the shell, something like:
-    $ sudo node src/index.js
-    '192.168.2.87'
-    addr: 192.168.2.87
-
-#####9) Open yazz/src/main.js
-
-#####10) Find the line like:
-    const gun_ip_address = '43.47.1.45'
-
-#####11) Replace it with the IP address from above:
-    const gun_ip_address = '192.168.2.87'
-
-#####12) Open a new shell.
-
-#####13) sudo npm run dev
-
-#####14) Open http://localhost:8080/public/
-
-#####15) Go to yazz/src/components/App.vue
-
-#####16) Change the text "Browse Data" to "Live Editing"
-
-
-#####17) when you save the file then your changes should be updated in real time in the browser
-
 
 #Table of contents
 
@@ -115,8 +39,8 @@ We are still building this data collaboarion tools, and this is our progress so 
  - [Is Yazz for me?](#is-yazz-for-me)
  - [How is Yazz different to other data tools?](#how-is-yazz-different-to-other-data-tools)
  - [Product roadmap](#product-roadmap)
- - [Quick start Postgres](#quick-start-postgres)
- - [Quick start Oracle](#quick-start-oracle)
+ - [Quick start Windows](#quick-start-windows)
+ - [Quick start Mac](#quick-start-mac)
  - [Quick start for Windows](#quick-start-for-windows)
  - [MIT licensing](#mit-licensing)
  - [The long story of Yazz](#the-long-story-of-yazz)
@@ -185,61 +109,54 @@ Most data tools fall into either low level data access tools such as TOAD, or hi
 ### Product Roadmap
 <img height='350px' src='http://www.slideteam.net/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/p/r/product_roadmap_timeline_2012_to_2016_road_mapping_future_perspectives_powerpoint_templates_slides_Slide01_2.jpg' />
 
-As of June 2015 Yazz is in active development and is used in production systems. The future product roadmap is as follows:
- - November 2015 - make all SQL queries fully realtime like Meteor.js
- - December 2016 - Renamed product to AppShare
- - January 2016 - Alpha version of Hosted version available
- - July 2016 - Hosted development environment so you can build Clojurescript database webapps using just a web browser
- - December 2016 - Hosted development environment so you can build database webapps using just a web browser and Google Blockly
+As of January 2017 Yazz is in active development. The future product roadmap is as follows:
+ - January 2017 - Basic data tool released
+ - February 2017 - Team sharing tool released
 
 
 
 
 
 
-### Quick start Postgres
-<img height='350px' src='http://www.postgresql.org/media/img/about/press/elephant.png' />
-
-Postgres is described first and is the default in Yazz simply because it is the more common developer setup. and is also easier to setup than Oracle.
-
-#####1) Install the Postgres database product with a user called 'postgres' and password 'manager' in the schema 'postgres'
-
-#####2) Install and build Yazz from Github:
-
-    git clone https://github.com/zubairq/Yazz.git my_new_application
-    cd my_new_application
-
-    lein with-profile base figwheel
+### Quick start Windows
+<img height='350px' src='http://vignette4.wikia.nocookie.net/uncyclopedia/images/b/bb/Xplogo.jpg/revision/latest?cb=20140331164120' />
 
 
-#####3) Open the application
+#####1) Install GIT from https://git-scm.com/downloads
+#####2) Install Node.js 6.9.1 32 bit installer from https://nodejs.org/en/blog/release/v6.9.1/
+#####3) git clone https://github.com/zubairq/yazz.git
+#####4) cd yazz
+#####5) npm install
+#####6) npm run build
+#####7) node src\index.js
 
-    http://127.0.0.1:3449
+###If you wish to edit Yazz in realtime on Windows then you need the following additional steps
 
+#####8) Make a note of the machine's IP address from the shell, something like:
+    node src\index.js
+    '192.168.2.87'
+    addr: 192.168.2.87
 
-#####4) Make a change and see Figwheel reload the changes live.
+#####9) Open yazz\src\main.js
 
-Edit the file
+#####10) Find the line:
+    const gun_ip_address = '43.47.1.45'
 
-    srcbase/myYazz/main_app.cljs
+#####11) Replace it with the IP address from above:
+    const gun_ip_address = '192.168.2.87'
 
-and change
+#####12) Open a new command line prompt in Windows which should opoen to the "yazz" folder 
 
-    "Build database webapps with Clojure"
+#####13) Type into the command line:
+    npm run dev
 
-to
+#####14) Open http://localhost:8080/public/
 
-    "Yazz made a live change using Figwheel!".
+#####15) Go to yazz\src\components\App.vue
 
-Save the file and the text should change in the live web app
+#####16) Change the text "Browse Data" to "Live Editing"
 
-
-#####5) To see debug mode open:
-
-    http://127.0.0.1:3449/main.html?livedebug=true
-
-
-
+#####17) When you save the file then your changes should be updated in real time in the browser
 
 
 
@@ -249,94 +166,47 @@ Save the file and the text should change in the live web app
 
 
 
-### Quick start Oracle
+### Quick start Mac
 <img height='350px' src='http://littlehandytips.com/wp-content/uploads/2010/08/oraclesw.jpg' />
 
-Oracle is a lot more tricky to set up compared to Postgres. We recommend using the latest version, Oracle 12c, since it has support for auto IDs, which mean that you can have autogenerated IDs on all of your tables.
+#####1) Install GIT from https://git-scm.com/downloads
+#####2) Install Node.js 6.9.1 for Mac OS X from https://nodejs.org/en/blog/release/v6.9.1/
+#####3) git clone https://github.com/zubairq/yazz.git
+#####4) cd yazz
+#####5) npm install
+#####6) npm run build
+#####7) sudo node src/index.js
 
-#####1) Install the Oracle database product
+###If you wish to edit Yazz in realtime on OS X then you need the following additional steps
 
-#####2) Create the table
+#####8) Make a note of the machine's IP address from the shell, something like:
+    $ sudo node src/index.js
+    '192.168.2.87'
+    addr: 192.168.2.87
 
-ORACLE 12c and above:
+#####9) Open yazz/src/main.js
 
-    CREATE TABLE todo_items
-    (
-      id NUMBER GENERATED BY DEFAULT ON NULL AS IDENTITY,
-      item VARCHAR(128) ,
-      UNIQUE (id)
-    );
+#####10) Find the line like:
+    const gun_ip_address = '43.47.1.45'
 
-For Oracle databases before 12c you will need to use a trigger. See this Stackoverflow question for more details:
+#####11) Replace it with the IP address from above:
+    const gun_ip_address = '192.168.2.87'
 
-http://stackoverflow.com/questions/11296361/how-to-create-id-with-auto-increment-on-oracle
+#####12) Open a new shell.
 
+#####13) sudo npm run dev
 
-#####3) Install Yazz from Github:
+#####14) Open http://localhost:8080/public/
 
-    git clone https://github.com/zubairq/Yazz.git my_new_application
-    cd my_new_application
+#####15) Go to yazz/src/components/App.vue
 
-
-
-#####4) Confgure Oracle to work with Yazz:
-
-    One problem with using Oracle form Clojure is that Oracle do not supply the Official driver for the database on Clojars which Leiningen uses for libraries. So a third party has supplied an Oracle library which Yazz uses. Unfortunately this means that the following must be added to the oracle sqlnet.ora file:
-
-    SQLNET.ALLOWED_LOGON_VERSION=8
-
-
+#####16) Change the text "Browse Data" to "Live Editing"
 
 
-#####4) Configure Yazz to run with Oracle
-
-In the file settings.clj comment out the Postgres settings and uncomment the Oracle settings:
-
-
-     ;(defonce ^:dynamic *database-type* "postgres")
-     ;(defonce ^:dynamic *database-server* "127.0.0.1")
-     ;(defonce ^:dynamic *database-user* "postgres")
-     ;(defonce ^:dynamic *database-password* "manager")
-     ;(defonce ^:dynamic *database-name* "postgres")
-
-     (defonce ^:dynamic *database-type* "oracle")
-     (defonce ^:dynamic *database-server* "localhost")
-     (defonce ^:dynamic *database-name* "ORCL")
-     (defonce ^:dynamic *database-user* "system")
-     (defonce ^:dynamic *database-password* "Manager2")
-
-
-#####5) Build and run Yazz:
-
-    lein with-profile base figwheel
+#####17) when you save the file then your changes should be updated in real time in the browser
 
 
 
-#####6) Open the application
-
-    http://127.0.0.1:3449
-
-
-#####7) Make a change and see Figwheel reload the changes live.
-
-Edit the file
-
-    srcbase/myYazz/main_app.cljs
-
-and change
-
-    "Build database webapps with Clojure"
-
-to
-
-    "Yazz made a live change using Figwheel!".
-
-Save the file and the text should change in the live web app
-
-
-#####8) To see debug mode open:
-
-    http://127.0.0.1:3449/main.html?livedebug=true
 
 
 
