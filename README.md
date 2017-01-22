@@ -11,7 +11,7 @@
 ### Yazz is building a system so that you can see everything in your organisation
 <img src='https://github.com/zubairq/yazz/blob/master/public/screenshot.PNG' />
 
-We are not there yet, but we are this far:
+We are still building this data collaboarion tools, and this is our progress so far:
 
 * Connect to Oracle and Postgres databases.DONE
 * Execute SQL.DONE
