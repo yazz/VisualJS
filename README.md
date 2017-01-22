@@ -13,7 +13,7 @@
 
 ##Running Yazz locally on Windows
 #####1) Install GIT from https://git-scm.com/downloads
-#####2) Install Node.js 6.9 32 bit installer from https://nodejs.org/en/blog/release/v6.9.1/
+#####2) Install Node.js 6.9.1 32 bit installer from https://nodejs.org/en/blog/release/v6.9.1/
 #####3) git clone https://github.com/zubairq/yazz.git
 #####4) cd yazz
 #####5) npm install
@@ -29,29 +29,30 @@
 
 #####9) Open yazz\src\main.js
 
-#####10) Find the line like:
+#####10) Find the line:
     const gun_ip_address = '43.47.1.45'
 
-#####11) Replace it with:
+#####11) Replace it with the IP address from above:
     const gun_ip_address = '192.168.2.87'
 
-#####12) Open a new command line prompt
+#####12) Open a new command line prompt in Windows which should opoen to the "yazz" folder 
 
-#####13) npm run dev
+#####13) Type into the command line:
+    npm run dev
 
 #####14) Open http://localhost:8080/public/
 
 #####15) Go to yazz\src\components\App.vue
 
-#####16) Change the text "Browse Data" to Live Editing
+#####16) Change the text "Browse Data" to "Live Editing"
 
-#####17) when you save the file then your changes should be updated in real time in the browser
+#####17) When you save the file then your changes should be updated in real time in the browser
 
 
 
 ##Running Yazz locally on Mac OS X
 #####1) Install GIT from https://git-scm.com/downloads
-#####2) Install Node.js 6.9 for Mac OS X from https://nodejs.org/en/blog/release/v6.9.1/
+#####2) Install Node.js 6.9.1 for Mac OS X from https://nodejs.org/en/blog/release/v6.9.1/
 #####3) git clone https://github.com/zubairq/yazz.git
 #####4) cd yazz
 #####5) npm install
@@ -70,7 +71,7 @@
 #####10) Find the line like:
     const gun_ip_address = '43.47.1.45'
 
-#####11) Replace it with:
+#####11) Replace it with the IP address from above:
     const gun_ip_address = '192.168.2.87'
 
 #####12) Open a new shell.
@@ -81,7 +82,8 @@
 
 #####15) Go to yazz/src/components/App.vue
 
-#####16) Change the text "Browse Data" to Live Editing
+#####16) Change the text "Browse Data" to "Live Editing"
+
 
 #####17) when you save the file then your changes should be updated in real time in the browser
 
