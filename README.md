@@ -9,6 +9,7 @@
 
 ## The Yazz Data solution
 ### 1 second installation and you can see everything in your organisation
+<img src='https://github.com/zubairq/yazz/blob/master/public/screenshot.PNG' />
 
 ##Getting started
 #####1) Install GIT
