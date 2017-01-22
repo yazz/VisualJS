@@ -8,8 +8,10 @@
 
 
 ## The Yazz Data solution
-### 1 second installation and you can see everything in your organisation
+### Yazz is building a system so that you can see everything in your organisation
 <img src='https://github.com/zubairq/yazz/blob/master/public/screenshot.PNG' />
+
+We are not there yet, but we are here:
 
 ##Running Yazz locally on Windows
 #####1) Install GIT from https://git-scm.com/downloads
