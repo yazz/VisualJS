@@ -1,5 +1,6 @@
 ##The Problem
 ####People working in large enterprises would like to share the data they have access to with their colleagues
+<img src='https://github.com/zubairq/yazz/blob/master/resources/public/collab.gif?raw=true' />
 
 ##Possible solutions
 ####Email, Excel, Qlik Sense, Tableue, and many other data tools
@@ -10,11 +11,6 @@
 
 
 
-
-
-<img src='https://github.com/zubairq/yazz/blob/master/resources/public/team-brainstorming.jpg?raw=true' />
-
-<img src='https://github.com/zubairq/yazz/blob/master/resources/public/demoscreen.PNG?raw=true' />
 
 
 
