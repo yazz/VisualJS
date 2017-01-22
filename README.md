@@ -11,7 +11,7 @@
 ### Yazz is building a system so that you can see everything in your organisation
 <img src='https://github.com/zubairq/yazz/blob/master/public/screenshot.PNG' />
 
-We are still building this data collaboarion tools, and this is our progress so far:
+I are still building this data collaboration tool. Here is my progress so far:
 
 * Connect to Oracle and Postgres databases.DONE
 * Execute SQL.DONE
@@ -167,7 +167,7 @@ As of January 2017 Yazz is in active development. The future product roadmap is 
 
 
 ### Quick start Mac
-<img height='350px' src='http://littlehandytips.com/wp-content/uploads/2010/08/oraclesw.jpg' />
+<img height='350px' src='http://www.alessioatzeni.com/mac-osx-lion-css3/res/img/MacOSX.png' />
 
 #####1) Install GIT from https://git-scm.com/downloads
 #####2) Install Node.js 6.9.1 for Mac OS X from https://nodejs.org/en/blog/release/v6.9.1/
@@ -223,37 +223,9 @@ As of January 2017 Yazz is in active development. The future product roadmap is 
 ### The long story of Yazz
 <img height='350px' src='http://makeameme.org/media/created/Its-a-long.jpg' />
 
+My name is Zubair Quraishi and I worked in the 1990s and 2000s as a C++ and Java programmer, building mostly server side web applications, only to find the whole develop, compile, test cycle hugely unproductive. Starting around 2007 I tried to build a web framework unsuccessfully, and then again in 2013. In 2016 I realised that I was trying to "boil the ocean" with far to ambitious an idea, and also frameworks like Vue.js, React, GoMix, and Eve had started to make web development a lot less painful, so they solved the problem I had and they were doing a far better job than I could ever do. As a postmorten for why the web framework failed, despite some amazing features I would 
 
-The Yazz framework started because of one web developer's pain over many years building web applications. Zubair Quraishi worked in the 1990s and 2000s as a C++ and Java programmer, building mostly server side web applications, only to find the whole develop, compile, test cycle hugely unproductive.
-
-Then one day in 2008 Zubair discovered Ruby on Rails. He realised that there was a better way to develop web software by using interactive languages such as Ruby with easy database access via ActiveRecord. However, he soon became frustrated again, as the UI in Rails was generated on the server and fine grained control of the DOM was not easy to do without resorting to heavy Javascript. So, in true developer style, Zubair did the "wrong thing", and took the long and painful route of trying to find his programming Nirvana, going to Erlang, Vaadin, Grails, JQuery, Javascript, GWT, Google Closure, Dart, and finally deciding to use Clojure and ClojureScript for a project he was involved with. That project Zubair was NemCV, the CV system for Denmark (http://www.meetup.com/CV-help/). Zubair took inspiration from Ruby on Rails (also from Denmark) and extracted the reuseable parts of NemCV to make the Yazz framework in June 2013.
-
-After around a year of development of Yazz against relational databases (NemCV used Postgres), Zubair met Peter Neubauer from Neo4j when he came to do a talk about Neo4j at MatchingHeads, a Danish startup organisation (http://www.meetup.com/copenhagen-it-people/events/127072702/). Zubair realised that Neo4j could make developing web applications simpler as it allows schema-less development using a powerful SQL like language called Cypher. So first class support for Neo4j was built into Yazz.
-
-In early 2014 Zubair listened to a Javascript Jabber postcast with Pete Hunt of Facebook, and learnt about Facebook React and how Facebook used it for building reactive UIs. Then he discovered a ClojureScript library called Om, made by David Nolen (https://github.com/swannodette/om) which provided a Clojurescript wrapper on top of Facebook React. He wanted to use React/Om in Yazz, but this meant that previous Yazz applications such as NemCV would have to be totally rewritten, as the old Yazz used imperative UI libraries like Domina. Zubair decided that a reactive front end would be worth it and all new Yazz webapps would be built using React/Om.
-
-However, there was still something missing, and this piece of the puzzle fell into place when Zubair's business partner in NemCV, Franco Soldera introduced Zubair to Meteor, a realtime Javascript framework which had both Reactive capabilities and also excellent databinding capabilities. In Zubair's opinion Meteor is the best full stack Javascript framework that he had seen (and yes, Zubair had seen Derby, Angular, Ember, Knockout and many others). The reason he loved Meteor was not just because of its features such as a Reactive front end and data-binding, but also because Meteor is opinionated (like Ruby on Rails), which solves the problem of having to continually choose which Javascript libraries to use, thereby saving alot of wasted time experimenting with different Javascript libraries and glueing them together.
-
-Meteor's realtime databinding uses a Document based database called MongoDB on the server and MiniMongo on the client, but Yazz already had full client side data access to both relational databases and Neo4j. So the goal of Yazz changed to make Neo4j and Relational Databases work more seamlessly with the front-end development in Yazz, just as Meteor does with MongoDb.
-
-Another core feature of Yazz was the Time Travelling Debugger. This is based on the principle that program code is read 99% of the time, and written only 1% of the time. See this Dougas Crockford video on Software Quality who explains it better than I ever could:
-
-https://www.youtube.com/watch?v=t9YLtDJZtPY
-
-So Yazz in 2014 allowed all programs to be examined visually using a GUI time travelling debugger, which is one of the killer features, as it reduces the cost of maintenance of complex applications.
-
-... long period of time passes ...
-
-There felt like a long gap of time in Yazz land, where not much was committed to GitHub, and during this time Zubair first tried to learn more about Meteor.js, to see how they implemented Real Time client side data. He attended meetups with Franco in Copenhagen and learn as much as he could. His first idea was to implement the Meteor real time protocol DDP, and connect it to Neo4j on the back end. There were a few problems with this, the main one being with how real time works. Real time in Meteor works by having a small client side cache of MongoDb, called MiniMongo which runs in the Metoer web application. With Neo4j implementing a real time client side cache was orders of magnitude more tricky than it is for MongoDB because of the way Neo4j has a totally schemaless (not including Neo4j labels) graph.
-
-So Zubair decided to build the first version of the real time facilities on top of the Postgres relational database since NemCV used Postgres, and he created his own client side SQL cache which works pretty well. He intends to revisit Neo4j and create a real time solution for this in the future though.
-
-The next issue he had to solve was how to access data from the server. Zubair saw how other frameworks did it by having data access sprinkled throughout the framework, but then he thought, why not just use SQL directly in the client side components? This is something that is not possible in languages like Javascript since you cannot redefine the language itself. But since Clojurescript is a Lisp you can define whatever language you like. So uses the amazing Instaparse library he implemented SQL in the GUI components, so that you can do things like "select * from things" within your front end component.
-
-
-
-
-
+I did however have a new itch to scratch, and that was that I also needed to share data with my colleagues. So I dumped my old project, and am trying a new experiment now!
 
 
 
