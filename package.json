@@ -5,7 +5,7 @@
   "author": "",
   "private": true,
   "scripts": {
-    "dev": "cross-env NODE_ENV=development webpack-dev-server --open --inline --hot  --host localhost",
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --inline --hot  --host localhost",
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
     "test": "cross-env NODE_ENV=production webpack-dev-server"
   },

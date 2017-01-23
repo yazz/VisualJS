@@ -10,6 +10,7 @@ drivers['oracle'] = new Object();
 
 drivers['oracle']['setup'] = function(connection, callbackfn) {
   console.error('drivers[oracle][setup]');
+  console.error('******************Loading Oracle Database');
   oracledb.getConnection(
     {
       user          : connection.user,
@@ -19,11 +20,13 @@ drivers['oracle']['setup'] = function(connection, callbackfn) {
     function(err, newconnection)
     {
       if (err) {
-        console.error(err.message);
-        return;
+          console.error('******************Loading Oracle Database ERROR');
+          console.error(err.message);
+          return;
       };
       connection.connection = newconnection;
       connection.status = 'connected';
+      console.error('******************Loading Oracle Database CONNECTED');
       callbackfn();
     })};
 
@@ -33,7 +36,8 @@ drivers['oracle']['setup'] = function(connection, callbackfn) {
 
 function getResult(connection, sql, callfn) {
   console.error('drivers[oracle][get]');
-  if (connection.connection) {
+
+    if (connection.connection) {
       connection.connection.execute(
         // The statement to execute
         sql,
@@ -64,7 +68,12 @@ function getResult(connection, sql, callfn) {
 
 
 drivers['oracle']['get'] = function(connection, sql, callfn) {
-  if (connection.status == 'disconnected') {
+    if (
+        (connection.status == 'disconnected')
+        ||
+        (connection.status == null)
+    )
+    {
     drivers['oracle']['setup'](connection,
                                function() {
                                        getResult(connection, sql, callfn)});
