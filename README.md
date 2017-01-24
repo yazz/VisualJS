@@ -47,7 +47,7 @@ I are still building this data collaboration tool. Here is my progress so far:
  - [What is Yazz killer feature?](#what-is-yazz-killer-feature)
  - [What is Yazz not good for?](#what-is-yazz-not-good-for)
  - [All features](#all-features)
- - [Differences from Om](#differences-from-om)
+ - [Differences from TOAD](#differences-from-toad)
  - [Comparison with other Clojure web frameworks](#comparison-with-other-clojure-web-frameworks)
  - [When will full Oracle realtime support be available?](#when-will-full-oracle-realtime-support-be-available)
  - [When will full Postgres realtime support be available?](#when-will-full-postgres-realtime-support-be-available)
@@ -283,16 +283,12 @@ Yazz is unsuitable for quite a wide variety of data needs, since it is a desktop
 <img src='https://fundraising.myevent.com/images/common/features.png' />
 
 
-- Clojurescript Om by David Nolen for React.js components on the frontend
-- Mark Engelberg's Instaparse for client side SQL with commands like (select id, name from employees where ...)
-- Interactive client and server side development with Bruce Hauman's Figwheel
-- Integration with Mandrill for sending transactional emails
-- Twitter Bootstrap 3.x for styling
+- connect to different data sources such as Oracle and postgres
+- Share data with colleagues
+- no dedicated servers required to install - can work off user's machines
+- fast setup - can install in seconds
+- free to use up to 5 users 
 - Google Closure for advanced Javascript compression
-- Chris Granger's SQL Korma for database access
-- Core.async for a client-side synchronous programming model
-- James Reeves's Compojure for server side access
-- Yazz web apps are deployed using Java WAR files to Jetty, Tomcat, JBoss, Glassfish, Weblogic, or Webspher
 
 
 
@@ -300,15 +296,10 @@ Yazz is unsuitable for quite a wide variety of data needs, since it is a desktop
 
 
 
-
-### Differences from Om
+### Differences from TOAD
 <img height='350px' src='https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Om.svg/993px-Om.svg.png' />
 
-The only part of Om that Yazz uses is the rendering engine and the change listeners (for GUI playback). This means that Yazz does not use the component local state features of Om, except for internal framework use. The implications of this are very important. For example, in Om when the end user clicks on a button in a react/Om component then the button event will be passed back via a core.sync channel. However, in Yazz, when the user presses a button then the Application model used to generate the DOM itself is changed, with a property :click being set to true. This :click property is then watched via an event watcher to make any changes.
-
-
-
-
+the main different from TOAD is that Yazz only does simple queries. but is FAST.
 
 
 
