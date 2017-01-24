@@ -83,7 +83,7 @@ var ip = process.env.OPENSHIFT_NODEJS_IP || '' + hostaddress;
 
 
 
-if (fs.existsSync(process.cwd() + '\\oracle_driver.zip')) {
+if (fs.existsSync(path.join(__dirname, '../oracle_driver.zip'))) {
     useOracle = true;
 }
 //
