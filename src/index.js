@@ -11,7 +11,8 @@ var fs         = require('fs');
 var unzip      = require('unzip');
 var postgresdb = require('pg');
 var useOracle  = false;
-
+ var program = require('commander');
+ 
 
 var drivers     = new Object();
 var connections = new Object();
@@ -73,6 +74,10 @@ path.join(__dirname, '../public/dist/build.js')
 
 path.join(__dirname, '../oracle_driver.zip')
 
+
+
+
+
 var ip = require("ip");
 console.dir ( ip.address() );
 
@@ -80,6 +85,23 @@ console.log('addr: '+ ip.address());
 var hostaddress = ip.address();
 
 var ip = process.env.OPENSHIFT_NODEJS_IP || '' + hostaddress;
+
+
+
+
+
+
+process.argv.forEach(function (val, index, array) {
+  console.log(index + ': ' + val);
+});
+
+
+
+
+
+
+
+
 
 
 
