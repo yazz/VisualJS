@@ -247,9 +247,7 @@ I did however have a new itch to scratch, and that was that I also needed to sha
 <img height='350px' src='http://blog.wiserspread.com/wp-content/uploads/2014/07/Killer.jpg' />
 
 
-Yazz killer feature is the **client side SQL**. This enables you to insert SQL statements directly inside the code for the UI. For a developer this is a HUGE time saver as it saves having to put code to display data on the screen in several parts of the codebase.
-
-Yazz also has a **time travelling debugger**. This time travelling debugger lets you replay your GUI and select parts of the UI, and trace back the UI and any data used to make that part of the UI in time. This is an absolute "must" for the maintenance of complex web applications. This allows rapid interations for webapps that must change frequently, and live over a long period of time, much in the vein of the Lean Startup philisophy. Just add ***?livedebug=true*** to the end of the broswer URL when making a Yazz appliction to see the application in debug mode.
+Yazz's killer feature is being able to share snippets of your data with your colleagues. So for example, you may have some SQL to show you a total of monthly sales. this can be shared as a data snippet, instead of cutting and pasting SQL results and emailing them to colleagues.
 
 
 
@@ -266,15 +264,15 @@ Yazz also has a **time travelling debugger**. This time travelling debugger lets
 <img height='350px' src='http://918thefan.com/wp-content/uploads/2012/05/anthony-taber-square-peg-looking-at-round-hole-thinking-with-a-proper-diet-moderate-bu-new-yorker-cartoon-e1336682469227.jpg' />
 
 
-Yazz is unsuitable for quite a wide variety of web projects. This is because Yazz uses a langauge called Clojure, which is a Lisp language, and most developers **hate Lisp**. However, Yazz does not use Lisp for the sake of it. Lisp it has a feature called Macros which makes the client side SQL in Yazz possible, which would not be possible in a non-Lisp language. So for a variety of use cases the following may be a better choice:
+Yazz is unsuitable for quite a wide variety of data needs, since it is a desktop product. it is NOT suitable for:
 
-**Multi page informational websites** - Squarespace, Wix, Weebly, Adobe Muse, Wordpress, and many others are perfect for this
+**Small businesses** - Since yazz needs an intranet to work, it is unsuitable for most small businesses, as they do not have their own network
 
-**Simple websites with a bit of interactivity** - HTML, JQuery, Kendo UI are much better choices for this where Javascript widgets can be added to HTML pages as needed
+**regulatory reporting** - yazz Data is a tool to help you understand and share your data, but it is not for full blown professional reporting
 
-**SEO friendly interactive websites** - Ruby on Rails, Derby.js are a much better fit for this
+**Web based forms** - Survey Monkey, Typeform and others are a much better fit for this
 
-**Fast to get up and running web applications using web standards** - Meteor.js is a much better for fit for this as it uses standard Javascriptinstead of Clojurescript
+**Realtime data analysis** - Up coming tools such as Appollo, and Eve are much better suited for this
 
 
 
