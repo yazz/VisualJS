@@ -49,7 +49,7 @@ I are still building this data collaboration tool. Here is my progress so far:
  - [All features](#all-features)
  - [Differences from TOAD](#differences-from-toad)
  - [Comparison with other Data access tools](#comparison-with-other-data-access-tools)
- - [When will full Oracle realtime support be available?](#when-will-full-oracle-realtime-support-be-available)
+ - [When will Excel support be available?](#when-will-excel-support-be-available)
  - [When will full Postgres realtime support be available?](#when-will-full-postgres-realtime-support-be-available)
  - [Deprecated features from April 2013 to July 2014](#deprecated-features-from-april-2013-to-july-2014)
  - [Deprecated features from August 2014 to June 2015](#deprecated-features-from-august-2014-to-june-2015)
@@ -326,16 +326,19 @@ the main different from TOAD is that Yazz only does simple queries. but is FAST.
 [Tableu](https://www.tableau.com) - Tableu allows end users to get reports based on data from multiple data sources in an organisation
 
 
+<br>
+
+[IBM Watson analytics](https://www.ibm.com/us-en/marketplace/watson-analytics) - Watson Analytics is used to query Watson's AI datastore
 
 
 
 
 
 
-### When will full Oracle realtime support be available?
+### When will Excel support be available?
 <img height='350px' src='http://siliconangle.com/files/2013/03/Oracle-Empire-Under-Threat.jpg' />
 
-Postgres is the first database to be supported, and Oracle is being developed.
+Excel support is under development
 
 
 
