@@ -51,8 +51,7 @@ I are still building this data collaboration tool. Here is my progress so far:
  - [Comparison with other Data access tools](#comparison-with-other-data-access-tools)
  - [When will Excel support be available?](#when-will-excel-support-be-available)
  - [When will other databases be supported?](#when-will-other-databases-be-supported)
- - [Deprecated features from April 2013 to July 2014](#deprecated-features-from-april-2013-to-july-2014)
- - [Deprecated features from August 2014 to June 2015](#deprecated-features-from-august-2014-to-june-2015)
+ - [Deprecated features from April 2013 to December 2016](#deprecated-features-from-april-2013-to-december-2016)
  - [Anatomy of an Yazz application](#anatomy-of-a-yazz-application)
  - [Getting started](#getting-started)
  - [Adding something to the web page](#adding-something-to-the-web-page)
@@ -358,43 +357,6 @@ Other data sources that are planned to be supported are MySql, MongoDB, GunDB, R
 <img height='350px' src='http://www.pixelle.be/wp-content/uploads/2014/01/2013-origami.jpg' />
 
 In 2013 Yazz aimed to be a full framework for viewing, editing, and building applications on data. The scope has been drastically reduced now to just be a system to share data.
-
-
-
-
-
-
-
-### Deprecated features from August 2014 to June 2015
-<img height='350px' src='http://www.weather.gov/images/gid/events/2014/dec/yearend2014/images/2014_logo.jpg' />
-
-Even though in 2014 Yazz switched to using React.js via David Nolen's awesome Om library, building applications still didn't feel as natural as it should. This was mostly because data access still didn't feel right. One thing that was a huge influence was meteor.js, which provided real time webapps ove Mongodb. Realtime may seem simple, but to program a web application to update data as data changes without something like meteor.js soon becomes very complicated, as you need to add timers and callbacks for data everywhere. Since Yazz used Neo4j as a backend I wanted to create a similar live uploading method for Yazz. It was not as simple as I thought, as Neo4j has a far more complex data structure than the document based MongoDb. So I had to make the tough decision to postpone Neo4j work on Yazz for the time being. Since NemCV used a database backend anyway I decided to base it on a database instead. My idea is that you can program SQL directly in React.js components, for which I also chose Instaparse, which blows my mind!
-
-Another thing that was dropped was something very dear to my heart, LighttTable. The latest version of Light Tavble was not able to support interactive development with the latest Clojurescript versions. Also, it kept pauses every minute or so for several seconds, so I started to look for alternatives. I used Cursive and Intellij, although emacs or any other text editor works fine too. To replace the killer Light Table feature of live browser code changes I discovered Figwheel, which lets you save a file, then sends the recompiled javascript to the browser. When the new Atom based LightTable comes out the story may change again however.
-
-So the following features were dropped:
-
-- Exclusive use of the Light Table IDE
-- Neo4j as the main data provider
-- Web session playback to understand customer behaviour - (there are better web UI recording tools on the market anyway)
-- AB testing built in (will be added in future maybe, but not for now)
-
-:and the following things stay:
-
-- React.js via Om for the front end
-- Instaparse for parsing client side SQL
-- Integration with Mandrill for sending transactional emails
-- Twitter Bootstrap 3.0 for styling
-- Google Closure for advanced compression
-- clj-http for server side HTTP requests
-- SQL Korma for database requests
-- Compojure, Ring, and Shoreleave for server side code
-- core.async for a client-side synchronous programming model
-
-Again, if you still wish to use the discontinued features then use an older version of the Yazz framework from March 2015.
-
-
-
 
 
 
