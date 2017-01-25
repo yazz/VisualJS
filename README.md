@@ -50,7 +50,7 @@ I are still building this data collaboration tool. Here is my progress so far:
  - [Differences from TOAD](#differences-from-toad)
  - [Comparison with other Data access tools](#comparison-with-other-data-access-tools)
  - [When will Excel support be available?](#when-will-excel-support-be-available)
- - [When will full Postgres realtime support be available?](#when-will-full-postgres-realtime-support-be-available)
+ - [When will other databases be supported?](#when-will-other-databases-be-supported)
  - [Deprecated features from April 2013 to July 2014](#deprecated-features-from-april-2013-to-july-2014)
  - [Deprecated features from August 2014 to June 2015](#deprecated-features-from-august-2014-to-june-2015)
  - [Anatomy of an Yazz application](#anatomy-of-a-yazz-application)
@@ -336,7 +336,7 @@ the main different from TOAD is that Yazz only does simple queries. but is FAST.
 
 
 ### When will Excel support be available?
-<img height='350px' src='http://siliconangle.com/files/2013/03/Oracle-Empire-Under-Threat.jpg' />
+<img height='350px' src='https://udemy-images.udemy.com/course/750x422/164058_e914_2.jpg' />
 
 Excel support is under development
 
@@ -344,42 +344,20 @@ Excel support is under development
 
 
 
-### When will full Postgres realtime support be available?
+### When will other databases be supported?
 <img height='350px' src='https://scottlinux.com/wp-content/uploads/2014/11/postgres.png' />
 
-Postgres is supported now.
+Only Oracle and Postgres is supported now.
 
-The realtime support for Yazz is based around the pinciples of the Meteor.js realtime system. Just like Meteor, Yazz also uses a client side cache connected to a server which contains the full data for each connected client.
-
-With Meteor.js it uses a client side cache called MiniMongo which gets updates from the MongoDb server by uses Mongo Oplog tailing to get changes from the Mongo database. The first version of Yazz realtime database support uses the Postgres database to detect when changes are made.
+Other data sources that are planned to be supported are MySql, MongoDB, GunDB, RethinkDB, CSV files, IBM DB2, Microsoft SQL Server and many others. 
 
 
 
 
-### Deprecated features from April 2013 to July 2014
+### Deprecated features from April 2013 to December 2016
 <img height='350px' src='http://www.pixelle.be/wp-content/uploads/2014/01/2013-origami.jpg' />
 
-In 2013 Facebook created React, a Virtual Dom based Javascript library. David Nolen then created Om, a ClojureScript wrapper on top of React, which changed the ClojureScript client side story forever! Upon seeing Om I immediately knew that this was the future of ClojureScript development, using a Reactive GUI paradigm, also similar to Angular.js, Ember.js, and Meteor. So I took the tough decision to deprecate the whole UI that I had created in the previous version of Yazz. So the following features are now a thing of the past:
-
-- Crate for HTML
-- Dommy
-- Domina
-- JayQ for JQuery integration
-- Google Closure UI Library
-
-:and the following things stayed or were added:
-
-- React.js via Om for the front end
-- Interactive client and server side development with LightTable IDE
-- Integration with Mandrill for sending transactional emails
-- Twitter Bootstrap 3.0 for styling
-- Google Closure for advanced compression
-- clj-http for server side HTTP requests
-- SQL Korma for database requests
-- Compojure, Ring, and Shoreleave for server side code
-- core.async for a client-side synchronous programming model
-
-The reason for the discontinued features is that they all require explicit calls to manipulate the DOM, which is oppisite to the way that Facebook React works. If you still wish to use the discontinued features then you can use an older version of the Yazz framework.
+In 2013 Yazz aimed to be a full framework for viewing, editing, and building applications on data. The scope has been drastically reduced now to just be a system to share data.
 
 
 
