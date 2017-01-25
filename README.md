@@ -48,7 +48,7 @@ I are still building this data collaboration tool. Here is my progress so far:
  - [What is Yazz not good for?](#what-is-yazz-not-good-for)
  - [All features](#all-features)
  - [Differences from TOAD](#differences-from-toad)
- - [Comparison with other Clojure web frameworks](#comparison-with-other-clojure-web-frameworks)
+ - [Comparison with other Data access tools](#comparison-with-other-data-access-tools)
  - [When will full Oracle realtime support be available?](#when-will-full-oracle-realtime-support-be-available)
  - [When will full Postgres realtime support be available?](#when-will-full-postgres-realtime-support-be-available)
  - [Deprecated features from April 2013 to July 2014](#deprecated-features-from-april-2013-to-july-2014)
@@ -268,7 +268,7 @@ Yazz is unsuitable for quite a wide variety of data needs, since it is a desktop
 
 **Small businesses** - Since yazz needs an intranet to work, it is unsuitable for most small businesses, as they do not have their own network
 
-**regulatory reporting** - yazz Data is a tool to help you understand and share your data, but it is not for full blown professional reporting
+**Regulatory reporting** - yazz Data is a tool to help you understand and share your data, but it is not for full blown professional reporting
 
 **Web based forms** - Survey Monkey, Typeform and others are a much better fit for this
 
@@ -306,22 +306,24 @@ the main different from TOAD is that Yazz only does simple queries. but is FAST.
 
 
 
-### Comparison with other Clojure web frameworks
+### Comparison with other Data access tools
 <img height='350px' src='https://upload.wikimedia.org/wikipedia/commons/4/40/Human-allosaurus_size_comparison.png' />
 
-[Hoplon](http://hoplon.io/) - In my mind Hoplon is the most complete of all the Clojure web frameworks, and I think that Yazz has alot of catching up to do to get as full featured as Hoplon. Hoplon uses Reactive programming and has an amazing is web designer friendly as GUIs can be made from HTML, instead of Clojurescript
+[PL/SQL Developer](https://www.allroundautomations.com/) - This is a very in depth Oracle SQL tool. 
 
 <br>
 
 
-[Luminus](http://www.luminusweb.net/) - The main difference between Luminus and Yazz is that Luminus uses a HTML templating system for rendering web pages, whereas Yazz currently only supports rendering from within Clojure itself. This makes Luminus at the moment a better choice for companies with seperate design and development teams. Designers will be more comfortable working in clean HTML files.
+[RazorSQL](https://razorsql.com/) - A multi-platform database browser
 
 <br>
 
-[Pedestal](http://pedestal.io/) - Pedestal is an amazing Clojure web framework made by the main Clojure developers at Cognitect. It has a number of differences to Yazz, but in 2014 the front end part of Pedestal was dropped. The frontend of Yazz is actually based on the Original Pedestal model, which did so much right, by having a seperate data and UI model
+[Qlik Sense](http://qlik.com) - Qlik allows end users to get reports based on data from multiple data sources in an organisation
 
 
+<br>
 
+[Tableu](https://www.tableau.com) - Tableu allows end users to get reports based on data from multiple data sources in an organisation
 
 
 
