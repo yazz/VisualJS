@@ -12,7 +12,7 @@ var unzip      = require('unzip');
 var postgresdb = require('pg');
 var useOracle  = false;
  var program = require('commander');
- 
+
 
 var drivers     = new Object();
 var connections = new Object();
@@ -74,8 +74,15 @@ path.join(__dirname, '../public/dist/build.js')
 
 path.join(__dirname, '../oracle_driver.zip')
 
+var type;
+program
+  .version('0.0.1')
+  .option('-t, --type [type]', 'Add the specified type of app [type]', 'client')
+  .parse(process.argv);
 
 
+  var typeOfSystem = program.type;
+  console.log('you specified a type of ' + typeOfSystem);
 
 
 var ip = require("ip");
