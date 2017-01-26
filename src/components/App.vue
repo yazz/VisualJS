@@ -1,6 +1,7 @@
 <template>
   <div id="app">
-    <img width='100%' src="http://gking.harvard.edu/files/gking/files/dataandcloudcomputing.jpg?m=1430186249">
+     <h1 class="display-2">Data</h1>
+    <img width='100%' src="https://library.wustl.edu/wp-content/uploads/2016/10/Big-Data.jpg">
   </div>
 </template>
 

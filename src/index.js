@@ -1,9 +1,5 @@
 'use strict';
 
-//
-// setup
-//
-
 var url        = require('url');
 var path       = require('path');
 var http       = require('http');
@@ -18,7 +14,6 @@ var drivers     = new Object();
 var connections = new Object();
 
 
-//path.join(__dirname, 'asset');
 path.join(__dirname, '../public/blockly/blockly_compressed.js')
 path.join(__dirname, '../public/blockly/blocks_compressed.js')
 path.join(__dirname, '../public/yazz_blockly_blocks.js')
@@ -30,44 +25,27 @@ path.join(__dirname, '../public/jquery.zoomooz.js')
 path.join(__dirname, '../public/blockly_helper.js')
 path.join(__dirname, '../public/blockly.png')
 path.join(__dirname, '../public/polyfill.min.js')
-
 path.join(__dirname, '../public/vue.min.js')
 path.join(__dirname, '../public/vue.js')
 path.join(__dirname, '../public/vuex.min.js')
 path.join(__dirname, '../public/vuex.js')
-
 path.join(__dirname, '../src/oracle.js')
 path.join(__dirname, '../src/postgres.js')
-
 path.join(__dirname, '../public/vue_components.js')
 path.join(__dirname, '../public/vue_store.js')
 path.join(__dirname, '../public/vue_setup.js')
-
 path.join(__dirname, '../public/blockly_setup.js')
-
 path.join(__dirname, '../public/tether.min.js')
 path.join(__dirname, '../public/bootstrap.min.js')
 path.join(__dirname, '../public/bootstrap.min.css')
-
 path.join(__dirname, '../public/es6-shim.js')
-
-
-
-path.join(__dirname, '../public/blockrain.jquery.min.js')
-path.join(__dirname, '../public/blockrain.css')
 path.join(__dirname, '../public/vue_app.css')
-
-
-
 path.join(__dirname, '../public/components/connections_table.js')
 path.join(__dirname, '../public/components/yazz_new_connection.js')
 path.join(__dirname, '../public/components/oracle_view_connection.js')
 path.join(__dirname, '../public/components/postgres_view_connection.js')
 path.join(__dirname, '../public/components/oracle_add_connection.js')
 path.join(__dirname, '../public/components/postgres_add_connection.js')
-
-
-
 path.join(__dirname, '../public/dist/build.js')
 
 //path.join(__dirname, '../oracle.node')
@@ -82,7 +60,11 @@ program
 
 
   var typeOfSystem = program.type;
-  console.log('you specified a type of ' + typeOfSystem);
+  if (!(typeOfSystem == 'client' || typeOfSystem == 'server')) {
+      console.log('-------* Invalid system type: ' + typeOfSystem);
+      process.exit();
+  };
+  console.log('-------* System type: ' + typeOfSystem);
 
 
 var ip = require("ip");
@@ -171,9 +153,9 @@ function function2() {
     };
     if (req.url.startsWith("/getresult")) {
       var queryData = url.parse(req.url, true).query;
-      console.log('request received: ' + queryData.sql);
+      //console.log('request received: ' + queryData.sql);
       if (connections[queryData.source]) {
-          console.log('query driver: ' + connections[queryData.source].driver);
+          //console.log('query driver: ' + connections[queryData.source].driver);
           drivers[connections[queryData.source].driver]['get'](connections[queryData.source],queryData.sql,function(ordata) {
                 res.writeHead(200, {'Content-Type': 'text/plain'});
             res.end(JSON.stringify(ordata));
@@ -183,9 +165,9 @@ function function2() {
       };
 
     } else {
-      console.log('URL: ' + req.url);
+      //console.log('URL: ' + req.url);
       if (req.url.endsWith('.css')) {
-        console.log('CSS found: ' + req.url);
+        //console.log('CSS found: ' + req.url);
         res.writeHead(200, {'Content-Type': 'text/css'});
       } else {
         res.writeHead(200, {'Content-Type': 'text/html'});
@@ -252,7 +234,7 @@ function function2() {
     if (!connectionrows[a.id]) {
       //data_connections_list.push(a);
       connectionrows[a.id] = a;
-      console.log(a);
+      //console.log(a);
       connections[a.id] = a;
     }
 
