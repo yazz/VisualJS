@@ -173,7 +173,12 @@ function function2() {
         res.writeHead(200, {'Content-Type': 'text/html'});
       };
       fs.createReadStream(path.join(__dirname, '../public/' + req.url)).on('error',function(){ // static files!
-        res.end(fs.readFileSync(path.join(__dirname, '../public/index.html'))); // or default to index
+          if (typeOfSystem == 'client') {
+              res.end(fs.readFileSync(path.join(__dirname, '../public/index.html')));
+          }
+          if (typeOfSystem == 'server') {
+              res.end(fs.readFileSync(path.join(__dirname, '../public/index_server.html')));               
+          }
       }).pipe(res); // stream
     };
   });
