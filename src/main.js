@@ -14,7 +14,7 @@ import connections_table        from './components/connections_table.vue'
 
 import store from './store.js'
 
-const gun_ip_address = '172.18.0.106'
+const gun_ip_address = '172.27.0.118'
 
 
 
