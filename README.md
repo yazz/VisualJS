@@ -1,5 +1,7 @@
-##The Problem
-####People working in large enterprises would like to share the data they have access to with their colleagues
+##Yazz - the adventure
+Welcome to Yazz Data, an interactive fiction product. You are Bob Smith, a data scientist at a large automotive company. You have a wife, two kids, and a pretty interesting job.
+
+You work in a large enterprise. You have working in large enterprises would like to share the data they have access to with their colleagues
 <img src='https://github.com/zubairq/yazz/blob/master/public/collab.gif' />
 
 ##Possible solutions
