@@ -1,7 +1,7 @@
 ##Yazz - a big data adventure
-Welcome to Yazz Data, an interactive fiction product. You are Bob Smith, a data scientist at a large financial company in London. You have a wife, two kids, and a pretty interesting job. You live in the suburbs of Surrey, England, and have a long commute to work.
+Welcome to Yazz Data, an interactive fiction product. You are Bob Smith, a data scientist, working at a large financial company in London. You have a wife, two kids, and a large mortgage on your house. You live in the suburbs of Surrey, England, and have a long commute to work.
 
-It is dark.
+It is dark. Please enter a command.
 
 > open eyes
 
