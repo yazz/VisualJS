@@ -13,7 +13,7 @@
       <div class='col-md-6'>
 
 
-
+ 
 
       <!--
                   show the list of connections

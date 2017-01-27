@@ -15,7 +15,7 @@
 
 
 
-
+ 
 <script>
 export default {
   name:   'oracle-view-connection',
@@ -54,8 +54,3 @@ export default {
 
 
 });
-
-
-
-
-
