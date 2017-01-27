@@ -1,15 +1,13 @@
 'use strict';
 
-var url        = require('url');
-var path       = require('path');
-var http       = require('http');
-var fs         = require('fs');
-var unzip      = require('unzip');
-var postgresdb = require('pg');
-var useOracle  = false;
- var program = require('commander');
-
-
+var url         = require('url');
+var path        = require('path');
+var http        = require('http');
+var fs          = require('fs');
+var unzip       = require('unzip');
+var postgresdb  = require('pg');
+var useOracle   = false;
+var program     = require('commander');
 var drivers     = new Object();
 var connections = new Object();
 
@@ -47,24 +45,30 @@ path.join(__dirname, '../public/components/postgres_view_connection.js')
 path.join(__dirname, '../public/components/oracle_add_connection.js')
 path.join(__dirname, '../public/components/postgres_add_connection.js')
 path.join(__dirname, '../public/dist/build.js')
-
-//path.join(__dirname, '../oracle.node')
-
 path.join(__dirname, '../oracle_driver.zip')
+
+function isNumber(n) {
+  return !isNaN(parseFloat(n)) && isFinite(n);
+}
 
 var type;
 program
   .version('0.0.1')
   .option('-t, --type [type]', 'Add the specified type of app [type]', 'client')
+  .option('-p, --port [port]', 'Which port should I listen on? [port]', parseInt)
   .parse(process.argv);
 
-
+  var port = program.port;
+  if (!isNumber(port)) {port = 80;};
   var typeOfSystem = program.type;
+
+
   if (!(typeOfSystem == 'client' || typeOfSystem == 'server')) {
       console.log('-------* Invalid system type: ' + typeOfSystem);
       process.exit();
   };
   console.log('-------* System type: ' + typeOfSystem);
+  console.log('-------* Port: ' + port);
 
 
 var ip = require("ip");
@@ -177,15 +181,15 @@ function function2() {
               res.end(fs.readFileSync(path.join(__dirname, '../public/index.html')));
           }
           if (typeOfSystem == 'server') {
-              res.end(fs.readFileSync(path.join(__dirname, '../public/index_server.html')));               
+              res.end(fs.readFileSync(path.join(__dirname, '../public/index_server.html')));
           }
       }).pipe(res); // stream
     };
   });
   gun.wsp(gunserver);
-  gunserver.listen(80, ip);
+  gunserver.listen(port, ip);
 
-  console.log('Server started on port 80 with /gun');
+  console.log(typeOfSystem + ' started on port ' + port + ' with /gun');
 
 
 
@@ -211,7 +215,7 @@ function function2() {
 
   var open = require('open');
 
-  open('http://' + hostaddress);
+  open('http://' + hostaddress  + ":" + port);
 
 
   //process.env['PATH'] = path.join(__dirname, '/instantclient') + ';' + process.env['PATH'];
@@ -221,7 +225,7 @@ function function2() {
   //eval("oracledb= require('oracledb');");
 
 
-  console.log('addr: '+ hostaddress);
+  console.log('addr: '+ hostaddress + ":" + port);
 
 
   //console.log(toeval);
