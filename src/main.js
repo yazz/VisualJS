@@ -4,6 +4,7 @@ import Vue from 'vue'
 
 
 import App                      from './components/App.vue'
+import ConnectedClients         from './components/central_server/connected_clients.vue'
 import oracle_view_connection   from './components/oracle_view_connection.vue'
 import postgres_view_connection from './components/postgres_view_connection.vue'
 import oracle_add_connection    from './components/oracle_add_connection.vue'
@@ -158,9 +159,28 @@ function initConnectionsListVuePane() {
 
 
 
+function initClientsConnectedVuePane() {
+
+    if (document.getElementById('clients_connected')) {
+
+        new Vue({
+          el: '#clients_connected'
+          ,
+          template: `<app></app>`
+          ,
+          store: store
+          ,
+          components: {app: ConnectedClients}
+        });
+    }
+}
+
+
+
 $( document ).ready(function() {
   console.log( "ready now!" );
   initWelcomeVuePane();
   setupSqlVuePane();
   initConnectionsListVuePane();
+  initClientsConnectedVuePane();
 });
