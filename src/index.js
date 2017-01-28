@@ -10,6 +10,8 @@ var useOracle   = false;
 var program     = require('commander');
 var drivers     = new Object();
 var connections = new Object();
+var express = require('express')
+var app = express()
 
 
 path.join(__dirname, '../public/blockly/blockly_compressed.js')
@@ -142,52 +144,7 @@ function function2() {
   });
 
   var  init_drivers = false;
-  var gunserver = http.createServer(function(req, res){
-    if(gun.wsp.server(req, res)){
-      return; // filters gun requests!
-    }
-    console.log('HTTP: ' + req.url);
-    if (!init_drivers) {
-      init_drivers = true;
-      if (useOracle) {
-           eval(toeval);
-      }
-      eval(pgeval);
-
-    };
-    if (req.url.startsWith("/getresult")) {
-      var queryData = url.parse(req.url, true).query;
-      //console.log('request received: ' + queryData.sql);
-      if (connections[queryData.source]) {
-          //console.log('query driver: ' + connections[queryData.source].driver);
-          drivers[connections[queryData.source].driver]['get'](connections[queryData.source],queryData.sql,function(ordata) {
-                res.writeHead(200, {'Content-Type': 'text/plain'});
-            res.end(JSON.stringify(ordata));
-          });
-      } else {
-          console.log('query driver not found: ' + connections[queryData.source]);
-      };
-
-    } else {
-      //console.log('URL: ' + req.url);
-      if (req.url.endsWith('.css')) {
-        //console.log('CSS found: ' + req.url);
-        res.writeHead(200, {'Content-Type': 'text/css'});
-      } else {
-        res.writeHead(200, {'Content-Type': 'text/html'});
-      };
-      fs.createReadStream(path.join(__dirname, '../public/' + req.url)).on('error',function(){ // static files!
-          if (typeOfSystem == 'client') {
-              res.end(fs.readFileSync(path.join(__dirname, '../public/index.html')));
-          }
-          if (typeOfSystem == 'server') {
-              res.end(fs.readFileSync(path.join(__dirname, '../public/index_server.html')));
-          }
-      }).pipe(res); // stream
-    };
-  });
-  gun.wsp(gunserver);
-  gunserver.listen(port, ip);
+  gun.wsp(app);
 
   console.log(typeOfSystem + ' started on port ' + port + ' with /gun');
 
@@ -195,7 +152,47 @@ function function2() {
 
 
 
- 
+  app.get('/', function (req, res) {
+      if (!init_drivers) {
+        init_drivers = true;
+        if (useOracle) {
+             eval(toeval);
+        }
+        eval(pgeval);
+
+      };
+
+      if (typeOfSystem == 'client') {
+          res.end(fs.readFileSync(path.join(__dirname, '../public/index.html')));
+      }
+      if (typeOfSystem == 'server') {
+          res.end(fs.readFileSync(path.join(__dirname, '../public/index_server.html')));
+      }
+  })
+app.use(express.static('public'))
+
+  app.get('/getresult', function (req, res) {
+    var queryData = url.parse(req.url, true).query;
+    //console.log('request received: ' + queryData.sql);
+    if (connections[queryData.source]) {
+        //console.log('query driver: ' + connections[queryData.source].driver);
+        drivers[connections[queryData.source].driver]['get'](connections[queryData.source],queryData.sql,function(ordata) {
+              res.writeHead(200, {'Content-Type': 'text/plain'});
+          res.end(JSON.stringify(ordata));
+        });
+    } else {
+        console.log('query driver not found: ' + connections[queryData.source]);
+    };
+})
+
+
+
+
+  app.listen(port, function () {
+    console.log('Example app listening on port ' + port + '!')
+  })
+
+
 
 
 
