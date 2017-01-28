@@ -6,6 +6,7 @@ var http        = require('http');
 var fs          = require('fs');
 var unzip       = require('unzip');
 var postgresdb  = require('pg');
+var ip          = require("ip");
 var useOracle   = false;
 var program     = require('commander');
 var drivers     = new Object();
@@ -13,6 +14,10 @@ var connections = new Object();
 var express     = require('express')
 var app         = express()
 var timeout     = 0;
+var init_drivers = false;
+var port;
+var hostaddress;
+
 
 path.join(__dirname, '../public/blockly/blockly_compressed.js')
 path.join(__dirname, '../public/blockly/blocks_compressed.js')
@@ -49,11 +54,14 @@ path.join(__dirname, '../public/components/postgres_add_connection.js')
 path.join(__dirname, '../public/dist/build.js')
 path.join(__dirname, '../oracle_driver.zip')
 
+
+
 function isNumber(n) {
   return !isNaN(parseFloat(n)) && isFinite(n);
 }
 
-var type;
+
+
 program
   .version('0.0.1')
   .option('-t, --type [type]', 'Add the specified type of app [type]', 'client')
@@ -62,7 +70,7 @@ program
   .option('-s, --hostport [hostport]', 'Server port of the central host [hostport]', parseInt)
   .parse(process.argv);
 
-  var port = program.port;
+  port = program.port;
   if (!isNumber(port)) {port = 80;};
   var typeOfSystem = program.type;
 
@@ -75,13 +83,11 @@ program
   console.log('-------* Port: ' + port);
 
 
-var ip = require("ip");
 console.dir ( ip.address() );
 
 console.log('addr: '+ ip.address());
-var hostaddress = ip.address();
+hostaddress = ip.address();
 
-var ip = process.env.OPENSHIFT_NODEJS_IP || '' + hostaddress;
 
 
 
@@ -151,7 +157,6 @@ function startYazz() {
     }
   });
 
-  var  init_drivers = false;
   gun.wsp(app);
 
   console.log(typeOfSystem + ' started on port ' + port + ' with /gun');
