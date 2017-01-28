@@ -17,6 +17,9 @@ var timeout     = 0;
 var init_drivers = false;
 var port;
 var hostaddress;
+var typeOfSystem;
+var centralHostAddress;
+var centralHostPort;
 
 
 path.join(__dirname, '../public/blockly/blockly_compressed.js')
@@ -72,7 +75,10 @@ program
 
   port = program.port;
   if (!isNumber(port)) {port = 80;};
-  var typeOfSystem = program.type;
+  typeOfSystem = program.type;
+  centralHostAddress = program.host;
+  centralHostPort = program.hostport;
+  if (!isNumber(centralHostPort)) {centralHostPort = 80;};
 
 
   if (!(typeOfSystem == 'client' || typeOfSystem == 'server')) {
@@ -81,6 +87,8 @@ program
   };
   console.log('-------* System type: ' + typeOfSystem);
   console.log('-------* Port: ' + port);
+  console.log('-------* Central host: ' + centralHostAddress);
+  console.log('-------* Central host port: ' + centralHostPort);
 
 
 console.dir ( ip.address() );
