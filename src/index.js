@@ -169,7 +169,8 @@ function function2() {
           res.end(fs.readFileSync(path.join(__dirname, '../public/index_server.html')));
       }
   })
-app.use(express.static('public'))
+
+app.use(express.static(path.join(__dirname, '../public/')))
 
   app.get('/getresult', function (req, res) {
     var queryData = url.parse(req.url, true).query;
@@ -188,7 +189,7 @@ app.use(express.static('public'))
 
 
 
-  app.listen(port, function () {
+  app.listen(port, hostaddress, function () {
     console.log('Example app listening on port ' + port + '!')
   })
 
