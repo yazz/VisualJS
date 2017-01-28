@@ -14,12 +14,13 @@ import connections_table        from './components/connections_table.vue'
 
 import store from './store.js'
 
-const gun_ip_address = '172.27.0.118'
+const gun_ip_address = '172.18.0.102'
 
 
 
 function initWelcomeVuePane() {
     if (document.getElementById('welcome')) {
+        console.log(' Welcome pane exists');
         new Vue({
           el: '#welcome'
           ,
@@ -27,11 +28,16 @@ function initWelcomeVuePane() {
           ,
           store: store
           ,
-          components: {app: App,
-                      'oracle-add-connection': oracle_add_connection,
-                      'connections-table': connections_table}
+          components: {app: App}
         });
+
+        setupGunDB();
     }
+    if (document.getElementById('welcome')) {
+        console.log(' Welcome pane still exists');
+    } else {
+        console.log(' Welcome pane does not exist anymore');
+        }
 }
 
 
@@ -65,8 +71,7 @@ function setupSqlVuePane() {
             }
           }
           ,
-          components: {'oracle-add-connection': oracle_add_connection,
-                      'connections-table': connections_table}
+          components: {'connections-table': connections_table}
         });
     }
 }
@@ -79,7 +84,6 @@ function setupSqlVuePane() {
 
 
 function setupGunDB() {
-    //if (document.getElementById('welcome')) {
         if (location.port == '8080') {
             gun = Gun( ['http://' + gun_ip_address + '/gun']);
         } else { // we are on port 80
@@ -105,7 +109,6 @@ function setupGunDB() {
             store.dispatch('clear_connections');
             gun.get("connections").map(read_connections,true);
         },true);
-    //};
 }
 
 export function inccc(){
@@ -159,6 +162,5 @@ $( document ).ready(function() {
   console.log( "ready now!" );
   initWelcomeVuePane();
   setupSqlVuePane();
-  setupGunDB();
   initConnectionsListVuePane();
 });
