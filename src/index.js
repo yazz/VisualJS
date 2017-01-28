@@ -131,7 +131,7 @@ var pgeval = fs.readFileSync(path.join(__dirname, './postgres.js')).toString();
 // wait three seconds for stuff to initialize
 //------------------------------------------------------------
 setTimeout(startYazz, timeout);
-
+console.log('Creating timeout: ' + timeout);
 
 
 //------------------------------------------------------------
