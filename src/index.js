@@ -10,9 +10,9 @@ var useOracle   = false;
 var program     = require('commander');
 var drivers     = new Object();
 var connections = new Object();
-var express = require('express')
-var app = express()
-
+var express     = require('express')
+var app         = express()
+var timeout     = 0;
 
 path.join(__dirname, '../public/blockly/blockly_compressed.js')
 path.join(__dirname, '../public/blockly/blocks_compressed.js')
@@ -58,6 +58,8 @@ program
   .version('0.0.1')
   .option('-t, --type [type]', 'Add the specified type of app [type]', 'client')
   .option('-p, --port [port]', 'Which port should I listen on? [port]', parseInt)
+  .option('-h, --host [host]', 'Server address of the central host [host]', 'yazz.com')
+  .option('-s, --hostport [hostport]', 'Server port of the central host [hostport]', parseInt)
   .parse(process.argv);
 
   var port = program.port;
@@ -86,9 +88,6 @@ var ip = process.env.OPENSHIFT_NODEJS_IP || '' + hostaddress;
 
 
 
-process.argv.forEach(function (val, index, array) {
-  console.log(index + ': ' + val);
-});
 
 
 
@@ -98,38 +97,47 @@ process.argv.forEach(function (val, index, array) {
 
 
 
-
-
+//------------------------------------------------------------
+// copy the oracle files if they exist
+//------------------------------------------------------------
 if (fs.existsSync(path.join(__dirname, '../oracle_driver.zip'))) {
     useOracle = true;
 }
-//
-// copy the oracle files
-//
 if (useOracle) {
     if (!fs.existsSync(process.cwd() + '\\oracle_driver\\instantclient32')) {
       fs.createReadStream(path.join(__dirname, '../oracle_driver.zip')).pipe(unzip.Extract({ path: process.cwd() + '\\.' }));
+      timeout = 3000;
       console.log('Creating oracle_driver');
     } else {
       console.log('oracle_driver already exists');
     };
 }
-
-
 var toeval = fs.readFileSync(path.join(__dirname, './oracle.js')).toString();
 if (useOracle) {
     process.env['PATH'] = process.cwd() + '\\oracle_driver\\instantclient32' + ';' + process.env['PATH'];
 }
-//var oracledb = require('oracledb');
-//eval(toeval);
 
+
+
+//------------------------------------------------------------
+// postgres
+//------------------------------------------------------------
 var pgeval = fs.readFileSync(path.join(__dirname, './postgres.js')).toString();
 
 
 
-setTimeout(function2, 3000);
 
-function function2() {
+//------------------------------------------------------------
+// wait three seconds for stuff to initialize
+//------------------------------------------------------------
+setTimeout(startYazz, timeout);
+
+
+
+//------------------------------------------------------------
+// wait three seconds for stuff to initialize
+//------------------------------------------------------------
+function startYazz() {
   //
   // start the server
   //
@@ -207,7 +215,7 @@ app.use(express.static(path.join(__dirname, '../public/')))
   //
   // open the app in a web browser
   //
-  console.log('Ran postgres too');
+  //console.log('Ran postgres too');
 
 
 
@@ -218,7 +226,7 @@ app.use(express.static(path.join(__dirname, '../public/')))
 
   //process.env['PATH'] = path.join(__dirname, '/instantclient') + ';' + process.env['PATH'];
   //var oracledb = require('oracledb');
-  console.log('Start oracle');
+  //console.log('Start oracle');
 
   //eval("oracledb= require('oracledb');");
 
@@ -229,7 +237,7 @@ app.use(express.static(path.join(__dirname, '../public/')))
   //console.log(toeval);
   //setTimeout(function(){eval(toeval)},1000);
 
-  console.log('Done.');
+  //  console.log('Done.');
 
 
 
