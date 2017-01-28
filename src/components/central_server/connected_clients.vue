@@ -1,7 +1,6 @@
 <template>
   <div id="app">
-      <h1 class="display-2">Clients</h1>
-      <p class="display-4">get connected and share</p>
+      <p class="display-5">list of clients connected</p>
   </div>
 </template>
 
