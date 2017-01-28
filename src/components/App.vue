@@ -1,6 +1,7 @@
 <template>
   <div id="app">
-     <h1 class="display-2">Data</h1>
+      <h1 class="display-2">Data</h1>
+      <p class="display-4">Now using ExpressJS !</p>
     <img width='100%' src="https://library.wustl.edu/wp-content/uploads/2016/10/Big-Data.jpg">
   </div>
 </template>
@@ -21,7 +22,7 @@ export default {
 </script>
 
 
-  
+
 
 
 <style>
