@@ -1,8 +1,7 @@
 <template>
   <div id="app">
-      <h1 class="display-2">Data</h1>
-      <p class="display-4">get connected and share</p>
-    <img width='100%' src="https://library.wustl.edu/wp-content/uploads/2016/10/Big-Data.jpg">
+      <h1 class="display-2">Starship Data</h1>
+    <img width='100%' src="https://i.kinja-img.com/gawker-media/image/upload/s--PqnVC4BL--/c_scale,fl_progressive,q_80,w_800/18nscxevw4bh2png.png">
   </div>
 </template>
 
