@@ -1,26 +1,26 @@
 'use strict';
 
-var url         = require('url');
-var path        = require('path');
-var http        = require('http');
-var fs          = require('fs');
-var unzip       = require('unzip');
-var postgresdb  = require('pg');
-var ip          = require("ip");
-var useOracle   = false;
-var program     = require('commander');
-var drivers     = new Object();
-var connections = new Object();
-var express     = require('express')
-var app         = express()
-var timeout     = 0;
+var url          = require('url');
+var path         = require('path');
+var http         = require('http');
+var fs           = require('fs');
+var unzip        = require('unzip');
+var postgresdb   = require('pg');
+var ip           = require("ip");
+var useOracle    = false;
+var program      = require('commander');
+var drivers      = new Object();
+var connections  = new Object();
+var express      = require('express')
+var app          = express()
+var timeout      = 0;
 var init_drivers = false;
 var port;
 var hostaddress;
 var typeOfSystem;
 var centralHostAddress;
 var centralHostPort;
-
+var request      = require("request");
 
 path.join(__dirname, '../public/blockly/blockly_compressed.js')
 path.join(__dirname, '../public/blockly/blocks_compressed.js')
@@ -197,9 +197,18 @@ app.use(express.static(path.join(__dirname, '../public/')))
 
 
 
-  app.listen(port, hostaddress, function () {
+app.get('/client_connect', function (req, res) {
+    var queryData = url.parse(req.url, true).query;
+    console.log('Client attempting to connect');
+    console.log('Name: ' + req.query.name)
+})
+
+
+
+
+app.listen(port, hostaddress, function () {
     console.log('Example app listening on port ' + port + '!')
-  })
+})
 
 
 
@@ -254,5 +263,28 @@ app.use(express.static(path.join(__dirname, '../public/')))
     }
 
   },true);
+
+
+
+
+    if (typeOfSystem == 'client') {
+        var urlToConnectTo = "http://" + centralHostAddress + ":" + centralHostPort + '/client_connect';
+        console.log('-------* urlToConnectTo: ' + urlToConnectTo);
+        console.log('trying to connect to central server...');
+        request({
+              uri: urlToConnectTo,
+              method: "GET",
+              timeout: 10000,
+              followRedirect: true,
+              maxRedirects: 10,
+              qs: {
+                  name: "Bob"
+              }
+            },
+            function(error, response, body) {
+                console.log(body);
+            });
+    }
+
 
 }
