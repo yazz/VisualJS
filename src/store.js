@@ -16,6 +16,16 @@ export default new Vuex.Store({
     viewed_connection_id: null
     ,
     viewed_connection_driver: null
+    ,
+    central_server_client_connected: false
+    ,
+    central_server_client_internal_ip_address: ""
+    ,
+    central_server_client_internal_port: -1
+    ,
+    central_server_client_public_ip_address: ""
+    ,
+    central_server_client_public_port: -1
   },
 
 
@@ -28,6 +38,17 @@ export default new Vuex.Store({
     viewed_connection_id: state => state.viewed_connection_id
     ,
     viewed_connection_driver: state => state.viewed_connection_driver
+    ,
+    central_server_client_connected: state => state.central_server_client_connected
+    ,
+    central_server_client_internal_ip_address: state => state.central_server_client_internal_ip_address
+    ,
+    central_server_client_internal_port: state => state.central_server_client_internal_port
+    ,
+    central_server_client_public_ip_address: state => state.central_server_client_public_ip_address
+    ,
+    central_server_client_public_port: state => state.central_server_client_public_port
+
   },
 
 
