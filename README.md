@@ -1,27 +1,4 @@
-##GoShareData - a big data adventure
-Welcome to GoShareData Data, an interactive fiction product. You are Bob Smith, a data scientist, working at a large financial company in London. You have a wife, two kids, and a large mortgage on your house. You live in the suburbs of Surrey, England, and have a long commute to work.
-
-It is dark. Please enter a command.
-
-> open eyes
-
-You yawn and yawn, but you can't seem to open your eyes, probably as a result of having to stay up late every night at work working, and then spending the rest of the time commuting.
-
-> try again to open my eyes
-
-You try, and briefly open your eyelids... just for a moment, glimpse the alarm clock saying 4 something and then you close your eyes again, and fall into a deep slumber.
-
-> wait
-
-You dream of dragons and data...
-
-> wait
-
-Your dreams continue. Just as you get to an amazing part you wake up, having solved many of your future problems with the realisations you had in your marvellous dream. You don't need to write it down, as this time you won't forget it, as this was really unforgettable.
-
-> get up
-
-you get up, with a smile on your face, look at the alarm clock, saying 7:05 am, and think you are going to be late for work again. Damn! Now you forgot that dream that was going to change your life too!
+##GoShareData -
 
 You work in a large enterprise. You have working in large enterprises would like to share the data they have access to with their colleagues
 <img src='https://github.com/zubairq/GoShareData/blob/master/public/collab.gif' />
