@@ -186,8 +186,8 @@ app.use(express.static(path.join(__dirname, '../public/')))
     if (connections[queryData.source]) {
         //console.log('query driver: ' + connections[queryData.source].driver);
         drivers[connections[queryData.source].driver]['get'](connections[queryData.source],queryData.sql,function(ordata) {
-              res.writeHead(200, {'Content-Type': 'text/plain'});
-          res.end(JSON.stringify(ordata));
+            res.writeHead(200, {'Content-Type': 'text/plain'});
+            res.end(JSON.stringify(ordata));
         });
     } else {
         console.log('query driver not found: ' + connections[queryData.source]);
@@ -195,7 +195,22 @@ app.use(express.static(path.join(__dirname, '../public/')))
 })
 
 
-
+var requesthostaddress='';
+var requestport       =-1;
+var requestip         ='';
+app.get('/get_connect', function (req, res) {
+    res.writeHead(200, {'Content-Type': 'text/plain'});
+    res.end(
+            JSON.stringify(
+                {
+                    requesthostaddress: requesthostaddress
+                    ,
+                    requestport: requestport
+                    ,
+                    requestip: requestip
+                }
+          ));
+})
 
 app.get('/client_connect', function (req, res) {
     var queryData = url.parse(req.url, true).query;
@@ -203,6 +218,9 @@ app.get('/client_connect', function (req, res) {
     console.log('internal host:    ' + req.query.hostaddress)
     console.log('internal port:    ' + req.query.port)
     console.log('external host:    ' + req.ip)
+    requesthostaddress = req.query.hostaddress;
+    requestport        = req.query.port;
+    requestip          = req.ip;
 })
 
 

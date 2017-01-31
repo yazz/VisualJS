@@ -18,9 +18,27 @@
     <body id=body style='margin:0px; padding: 0px;  border: 0px;  width: 100%;  height:100%;  left: 0px;' >
 
        <div id='clients_connected'></div>
+       <button   onClick='getcurrent();'>Click me</button>
+       <div id='result'></div>
 
         <h1 class="display-1">GoShareData</h1>
 
         <script type="text/javascript" src="dist/build.js"></script>
+        <script>
+        function getcurrent() {
+          $.ajax({
+
+            //type: "POST",
+            url: '/get_connect',
+            data: {},
+            success: function(data) {
+              $("#result").text(data);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+              alert('error ' + textStatus + " " + errorThrown);
+            }
+          });
+        };
+        </script>
     </body>
 </html>
