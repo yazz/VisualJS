@@ -1,5 +1,5 @@
-##Yazz - a big data adventure
-Welcome to Yazz Data, an interactive fiction product. You are Bob Smith, a data scientist, working at a large financial company in London. You have a wife, two kids, and a large mortgage on your house. You live in the suburbs of Surrey, England, and have a long commute to work.
+##GoShareData - a big data adventure
+Welcome to GoShareData Data, an interactive fiction product. You are Bob Smith, a data scientist, working at a large financial company in London. You have a wife, two kids, and a large mortgage on your house. You live in the suburbs of Surrey, England, and have a long commute to work.
 
 It is dark. Please enter a command.
 
@@ -17,23 +17,23 @@ You dream of dragons and data...
 
 > wait
 
-Your dreams continue. Just as you get to an amazing part you wake up, having solved many of your future problems with the realisations you had in your marvellous dream. You don't need to write it down, as this time you won't forget it, as this was really unforgettable. 
+Your dreams continue. Just as you get to an amazing part you wake up, having solved many of your future problems with the realisations you had in your marvellous dream. You don't need to write it down, as this time you won't forget it, as this was really unforgettable.
 
 > get up
 
 you get up, with a smile on your face, look at the alarm clock, saying 7:05 am, and think you are going to be late for work again. Damn! Now you forgot that dream that was going to change your life too!
 
 You work in a large enterprise. You have working in large enterprises would like to share the data they have access to with their colleagues
-<img src='https://github.com/zubairq/yazz/blob/master/public/collab.gif' />
+<img src='https://github.com/zubairq/GoShareData/blob/master/public/collab.gif' />
 
 ##Possible solutions
 ####Email, Excel, Qlik Sense, Tableue, and many other data tools
-<img src='https://github.com/zubairq/yazz/blob/master/public/landscape.jpg' />
+<img src='https://github.com/zubairq/GoShareData/blob/master/public/landscape.jpg' />
 
 
-## The Yazz Data solution
-### Yazz is building a system so that you can see everything in your organisation
-<img src='https://github.com/zubairq/yazz/blob/master/public/screenshot.PNG' />
+## The GoShareData Data solution
+### GoShareData is building a system so that you can see everything in your organisation
+<img src='https://github.com/zubairq/GoShareData/blob/master/public/screenshot.PNG' />
 
 I are still building this data collaboration tool. Here is my progress so far:
 
@@ -53,23 +53,23 @@ I are still building this data collaboration tool. Here is my progress so far:
 <div >
 
     <span style="float: left">
-        Think of Yazz as a way to see all the data that your colleagues are working on
+        Think of GoShareData as a way to see all the data that your colleagues are working on
     </span>
 </div>
 
 
 
  - [TLDR](#tldr)
- - [Is Yazz for me?](#is-yazz-for-me)
- - [How is Yazz different to other data tools?](#how-is-yazz-different-to-other-data-tools)
+ - [Is GoShareData for me?](#is-GoShareData-for-me)
+ - [How is GoShareData different to other data tools?](#how-is-GoShareData-different-to-other-data-tools)
  - [Product roadmap](#product-roadmap)
  - [Quick start Windows](#quick-start-windows)
  - [Quick start Mac](#quick-start-mac)
  - [Quick start for Windows](#quick-start-for-windows)
  - [MIT licensing](#mit-licensing)
- - [The long story of Yazz](#the-long-story-of-yazz)
- - [What is Yazz killer feature?](#what-is-yazz-killer-feature)
- - [What is Yazz not good for?](#what-is-yazz-not-good-for)
+ - [The long story of GoShareData](#the-long-story-of-GoShareData)
+ - [What is GoShareData killer feature?](#what-is-GoShareData-killer-feature)
+ - [What is GoShareData not good for?](#what-is-GoShareData-not-good-for)
  - [All features](#all-features)
  - [Differences from TOAD](#differences-from-toad)
  - [Comparison with other Data access tools](#comparison-with-other-data-access-tools)
@@ -84,17 +84,17 @@ I are still building this data collaboration tool. Here is my progress so far:
 
 
 ### TLDR
-<img src='https://github.com/zubairq/yazz/blob/master/resources/public/demoscreen.PNG?raw=true' />
+<img src='https://github.com/zubairq/GoShareData/blob/master/resources/public/demoscreen.PNG?raw=true' />
 
-Yazz is a a tool for people who work wiht data in enterprises. For Windows it canbe downloaded as a .exe file. It is free for personal use or for teams of less than 5 people. Above 5 people it costs USD 50 per person per month.
-
-
+GoShareData is a a tool for people who work wiht data in enterprises. For Windows it canbe downloaded as a .exe file. It is free for personal use or for teams of less than 5 people. Above 5 people it costs USD 50 per person per month.
 
 
-### Is Yazz for me?
+
+
+### Is GoShareData for me?
 <img height='350px' src='http://i.imgur.com/QsIsjo8.jpg' />
 
-Yazz may be for you if you can answer 'yes' to the following:
+GoShareData may be for you if you can answer 'yes' to the following:
 
 1. You need to see what data your colleagues are working on
 2. You use Postgres or Oracle as your data store
@@ -109,10 +109,10 @@ Yazz may be for you if you can answer 'yes' to the following:
 
 
 
-### How is Yazz different to other data tools?
+### How is GoShareData different to other data tools?
 <img height='350px' src='http://cdn.shopify.com/s/files/1/0070/7032/files/rubberduck.jpg?2841' />
 
-Most data tools fall into either low level data access tools such as TOAD, or high end visualisation tools such as Qlik sense. Yazz fits into the middle as it can be downloaded on an individuals PC like TOAD, yet it lets you share and explore data like Qlik Sense
+Most data tools fall into either low level data access tools such as TOAD, or high end visualisation tools such as Qlik sense. GoShareData fits into the middle as it can be downloaded on an individuals PC like TOAD, yet it lets you share and explore data like Qlik Sense
 
 
 
@@ -124,7 +124,7 @@ Most data tools fall into either low level data access tools such as TOAD, or hi
 ### Product Roadmap
 <img height='350px' src='http://www.slideteam.net/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/p/r/product_roadmap_timeline_2012_to_2016_road_mapping_future_perspectives_powerpoint_templates_slides_Slide01_2.jpg' />
 
-As of January 2017 Yazz is in active development. The future product roadmap is as follows:
+As of January 2017 GoShareData is in active development. The future product roadmap is as follows:
  - January 2017 - Basic data tool released
  - February 2017 - Team sharing tool released
 
@@ -139,20 +139,20 @@ As of January 2017 Yazz is in active development. The future product roadmap is 
 
 #####1) Install GIT from https://git-scm.com/downloads
 #####2) Install Node.js 6.9.1 32 bit installer from https://nodejs.org/en/blog/release/v6.9.1/
-#####3) git clone https://github.com/zubairq/yazz.git
-#####4) cd yazz
+#####3) git clone https://github.com/zubairq/GoShareData.git
+#####4) cd GoShareData
 #####5) npm install
 #####6) npm run build
 #####7) node src\index.js
 
-###If you wish to edit Yazz in realtime on Windows then you need the following additional steps
+###If you wish to edit GoShareData in realtime on Windows then you need the following additional steps
 
 #####8) Make a note of the machine's IP address from the shell, something like:
     node src\index.js
     '192.168.2.87'
     addr: 192.168.2.87
 
-#####9) Open yazz\src\main.js
+#####9) Open GoShareData\src\main.js
 
 #####10) Find the line:
     const gun_ip_address = '43.47.1.45'
@@ -160,14 +160,14 @@ As of January 2017 Yazz is in active development. The future product roadmap is 
 #####11) Replace it with the IP address from above:
     const gun_ip_address = '192.168.2.87'
 
-#####12) Open a new command line prompt in Windows which should opoen to the "yazz" folder 
+#####12) Open a new command line prompt in Windows which should opoen to the "GoShareData" folder 
 
 #####13) Type into the command line:
     npm run dev
 
 #####14) Open http://localhost:8080/public/
 
-#####15) Go to yazz\src\components\App.vue
+#####15) Go to GoShareData\src\components\App.vue
 
 #####16) Change the text "Browse Data" to "Live Editing"
 
@@ -186,20 +186,20 @@ As of January 2017 Yazz is in active development. The future product roadmap is 
 
 #####1) Install GIT from https://git-scm.com/downloads
 #####2) Install Node.js 6.9.1 for Mac OS X from https://nodejs.org/en/blog/release/v6.9.1/
-#####3) git clone https://github.com/zubairq/yazz.git
-#####4) cd yazz
+#####3) git clone https://github.com/zubairq/GoShareData.git
+#####4) cd GoShareData
 #####5) npm install
 #####6) npm run build
 #####7) sudo node src/index.js
 
-###If you wish to edit Yazz in realtime on OS X then you need the following additional steps
+###If you wish to edit GoShareData in realtime on OS X then you need the following additional steps
 
 #####8) Make a note of the machine's IP address from the shell, something like:
     $ sudo node src/index.js
     '192.168.2.87'
     addr: 192.168.2.87
 
-#####9) Open yazz/src/main.js
+#####9) Open GoShareData/src/main.js
 
 #####10) Find the line like:
     const gun_ip_address = '43.47.1.45'
@@ -213,7 +213,7 @@ As of January 2017 Yazz is in active development. The future product roadmap is 
 
 #####14) Open http://localhost:8080/public/
 
-#####15) Go to yazz/src/components/App.vue
+#####15) Go to GoShareData/src/components/App.vue
 
 #####16) Change the text "Browse Data" to "Live Editing"
 
@@ -235,7 +235,7 @@ As of January 2017 Yazz is in active development. The future product roadmap is 
 
 
 
-### The long story of Yazz
+### The long story of GoShareData
 <img height='350px' src='http://makeameme.org/media/created/Its-a-long.jpg' />
 
 My name is Zubair Quraishi and I worked in the 1990s and 2000s as a C++ and Java programmer, building mostly server side web applications, only to find the whole develop, compile, test cycle hugely unproductive. Starting around 2007 I tried to build a web framework unsuccessfully, and then again in 2013. In 2016 I realised that I was trying to "boil the ocean" with far to ambitious an idea, and also frameworks like Vue.js, React, GoMix, and Eve had started to make web development a lot less painful, so they solved the problem I had and they were doing a far better job than I could ever do. As a postmorten for why the web framework failed, despite some amazing features I had:
@@ -258,11 +258,11 @@ I did however have a new itch to scratch, and that was that I also needed to sha
 
 
 
-### What is Yazz's killer feature?
+### What is GoShareData's killer feature?
 <img height='350px' src='http://blog.wiserspread.com/wp-content/uploads/2014/07/Killer.jpg' />
 
 
-Yazz's killer feature is being able to share snippets of your data with your colleagues. So for example, you may have some SQL to show you a total of monthly sales. this can be shared as a data snippet, instead of cutting and pasting SQL results and emailing them to colleagues.
+GoShareData's killer feature is being able to share snippets of your data with your colleagues. So for example, you may have some SQL to show you a total of monthly sales. this can be shared as a data snippet, instead of cutting and pasting SQL results and emailing them to colleagues.
 
 
 
@@ -275,15 +275,15 @@ Yazz's killer feature is being able to share snippets of your data with your col
 
 
 
-### What is Yazz not good for?
+### What is GoShareData not good for?
 <img height='350px' src='http://918thefan.com/wp-content/uploads/2012/05/anthony-taber-square-peg-looking-at-round-hole-thinking-with-a-proper-diet-moderate-bu-new-yorker-cartoon-e1336682469227.jpg' />
 
 
-Yazz is unsuitable for quite a wide variety of data needs, since it is a desktop product. it is NOT suitable for:
+GoShareData is unsuitable for quite a wide variety of data needs, since it is a desktop product. it is NOT suitable for:
 
-**Small businesses** - Since yazz needs an intranet to work, it is unsuitable for most small businesses, as they do not have their own network
+**Small businesses** - Since GoShareData needs an intranet to work, it is unsuitable for most small businesses, as they do not have their own network
 
-**Regulatory reporting** - yazz Data is a tool to help you understand and share your data, but it is not for full blown professional reporting
+**Regulatory reporting** - GoShareData Data is a tool to help you understand and share your data, but it is not for full blown professional reporting
 
 **Web based forms** - Survey Monkey, Typeform and others are a much better fit for this
 
@@ -302,7 +302,7 @@ Yazz is unsuitable for quite a wide variety of data needs, since it is a desktop
 - Share data with colleagues
 - no dedicated servers required to install - can work off user's machines
 - fast setup - can install in seconds
-- free to use up to 5 users 
+- free to use up to 5 users
 - Google Closure for advanced Javascript compression
 
 
@@ -314,7 +314,7 @@ Yazz is unsuitable for quite a wide variety of data needs, since it is a desktop
 ### Differences from TOAD
 <img height='350px' src='https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Om.svg/993px-Om.svg.png' />
 
-the main different from TOAD is that Yazz only does simple queries. but is FAST.
+the main different from TOAD is that GoShareData only does simple queries. but is FAST.
 
 
 
@@ -324,7 +324,7 @@ the main different from TOAD is that Yazz only does simple queries. but is FAST.
 ### Comparison with other Data access tools
 <img height='350px' src='https://upload.wikimedia.org/wikipedia/commons/4/40/Human-allosaurus_size_comparison.png' />
 
-[PL/SQL Developer](https://www.allroundautomations.com/) - This is a very in depth Oracle SQL tool. 
+[PL/SQL Developer](https://www.allroundautomations.com/) - This is a very in depth Oracle SQL tool.
 
 <br>
 
@@ -364,7 +364,7 @@ Excel support is under development
 
 Only Oracle and Postgres is supported now.
 
-Other data sources that are planned to be supported are MySql, MongoDB, GunDB, RethinkDB, CSV files, IBM DB2, Microsoft SQL Server and many others. 
+Other data sources that are planned to be supported are MySql, MongoDB, GunDB, RethinkDB, CSV files, IBM DB2, Microsoft SQL Server and many others.
 
 
 
@@ -372,7 +372,7 @@ Other data sources that are planned to be supported are MySql, MongoDB, GunDB, R
 ### Deprecated features from April 2013 to December 2016
 <img height='350px' src='http://www.pixelle.be/wp-content/uploads/2014/01/2013-origami.jpg' />
 
-In 2013 Yazz aimed to be a full framework for viewing, editing, and building applications on data. The scope has been drastically reduced now to just be a system to share data.
+In 2013 GoShareData aimed to be a full framework for viewing, editing, and building applications on data. The scope has been drastically reduced now to just be a system to share data.
 
 
 
@@ -384,13 +384,12 @@ In 2013 Yazz aimed to be a full framework for viewing, editing, and building app
 ### Developer Resources
 <img height='350px' src='https://webkori.files.wordpress.com/2009/12/billgates_microsoft_support_team-santosh-kori.jpg' />
 
-Yazz on gitter: https://gitter.im/yazzdevs/
+GoShareData on gitter: https://gitter.im/GoShareDatadevs/
 
-Building an application with Yazz? https://groups.google.com/forum/#!forum/Yazzco
+Building an application with GoShareData? https://groups.google.com/forum/#!forum/GoShareDataco
 
-Ask a question: http://stackoverflow.com/search?q=Yazz
-Interested in contributing to Yazz?
+Ask a question: http://stackoverflow.com/search?q=GoShareData
+Interested in contributing to GoShareData?
 
-Issue tracker: https://github.com/zubairq/Yazz/issues
-Contribution guidelines: https://github.com/zubairq/Yazz/graphs/contributors
-
+Issue tracker: https://github.com/zubairq/GoShareData/issues
+Contribution guidelines: https://github.com/zubairq/GoShareData/graphs/contributors
