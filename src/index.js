@@ -199,8 +199,10 @@ app.use(express.static(path.join(__dirname, '../public/')))
 
 app.get('/client_connect', function (req, res) {
     var queryData = url.parse(req.url, true).query;
-    console.log('Client attempting to connect');
-    console.log('Name: ' + req.query.name)
+    console.log('Client attempting to connect from:');
+    console.log('internal host:    ' + req.query.hostaddress)
+    console.log('internal port:    ' + req.query.port)
+    console.log('external host:    ' + req.ip)
 })
 
 
@@ -278,7 +280,9 @@ app.listen(port, hostaddress, function () {
               followRedirect: true,
               maxRedirects: 10,
               qs: {
-                  name: "Bob"
+                  hostaddress: hostaddress
+                  ,
+                  port:        port
               }
             },
             function(error, response, body) {
