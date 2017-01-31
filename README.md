@@ -1,6 +1,6 @@
 ##GoShareData -
 
-You work in a large enterprise. You would like to share the data they have access to with your colleagues
+You work in a large enterprise. You would like to share data with your colleagues
 
 <img src='https://github.com/zubairq/GoShareData/blob/master/public/collab.gif' />
 
