@@ -217,9 +217,13 @@ app.get('/get_connect', function (req, res) {
                     requestClientPublicIp:            requestClientPublicIp
                     ,
                     requestClientPublicHostName:      requestClientPublicHostName
+                    ,
+                    version:      1
                 }
           ));
 })
+
+app.enable('trust proxy')
 
 //------------------------------------------------------------------------------
 // This is where the client sends its details to the central server
