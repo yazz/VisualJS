@@ -218,7 +218,7 @@ app.get('/get_connect', function (req, res) {
                     ,
                     requestClientPublicHostName:      requestClientPublicHostName
                     ,
-                    version:      28
+                    version:      30
                 }
           ));
 })
@@ -235,7 +235,7 @@ app.get('/client_connect', function (req, res) {
     requestClientInternalPort        = req.query.requestClientInternalPort;
     requestClientPublicIp            = req.ip;
     //requestClientPublicHostName      = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-    requestClientPublicHostName      = "req keys::" + Object.keys(req) + ", VIA::" + req.headers.via;
+    requestClientPublicHostName      = "req keys::" + Object.keys(req) + ", VIA::" + req.headers.via + ", raw::" + JSON.stringify(req.rawHeaders);
 
     console.log('Client attempting to connect from:');
     console.log('client internal host address:    ' + requestClientInternalHostAddress)
