@@ -195,32 +195,47 @@ app.use(express.static(path.join(__dirname, '../public/')))
 })
 
 
-var requesthostaddress='';
-var requestport       =-1;
-var requestip         ='';
+var requestClientInternalHostAddress = '';
+var requestClientInternalPort        = -1;
+var requestClientPublicIp            = '';
+var requestClientPublicHostName      = '';
+
+
+//------------------------------------------------------------------------------
+// This is called by the central server to get the details of the last
+// client that connected tp the central server
+//------------------------------------------------------------------------------
 app.get('/get_connect', function (req, res) {
     res.writeHead(200, {'Content-Type': 'text/plain'});
     res.end(
             JSON.stringify(
                 {
-                    requesthostaddress: requesthostaddress
+                    requestClientInternalHostAddress: requestClientInternalHostAddress
                     ,
-                    requestport: requestport
+                    requestClientInternalPort:        requestClientInternalPort
                     ,
-                    requestip: requestip
+                    requestClientPublicIp:            requestClientPublicIp
                 }
           ));
 })
 
+//------------------------------------------------------------------------------
+// This is where the client sends its details to the central server
+//------------------------------------------------------------------------------
 app.get('/client_connect', function (req, res) {
     var queryData = url.parse(req.url, true).query;
+
+    requestClientInternalHostAddress = req.query.requestClientInternalHostAddress;
+    requestClientInternalPort        = req.query.requestClientInternalPort;
+    requestClientPublicIp            = req.ip;
+    requestClientPublicHostName      = req.headers.host;
+
     console.log('Client attempting to connect from:');
-    console.log('internal host:    ' + req.query.hostaddress)
-    console.log('internal port:    ' + req.query.port)
-    console.log('external host:    ' + req.ip)
-    requesthostaddress = req.query.hostaddress;
-    requestport        = req.query.port;
-    requestip          = req.ip;
+    console.log('client internal host address:    ' + requestClientInternalHostAddress)
+    console.log('client internal port:            ' + requestClientInternalPort)
+    console.log('client public IP address:        ' + requestClientPublicIp)
+    console.log('client public IP host name:      ' + requestClientPublicHostName)
+
 })
 
 
@@ -298,9 +313,9 @@ app.listen(port, hostaddress, function () {
               followRedirect: true,
               maxRedirects: 10,
               qs: {
-                  hostaddress: hostaddress
+                  requestClientInternalHostAddress: hostaddress
                   ,
-                  port:        port
+                  requestClientInternalPort:        port
               }
             },
             function(error, response, body) {
