@@ -230,7 +230,7 @@ app.get('/client_connect', function (req, res) {
     requestClientInternalHostAddress = req.query.requestClientInternalHostAddress;
     requestClientInternalPort        = req.query.requestClientInternalPort;
     requestClientPublicIp            = req.ip;
-    requestClientPublicHostName      = req.headers.host;
+    requestClientPublicHostName      = req.connection.remoteAddress;
 
     console.log('Client attempting to connect from:');
     console.log('client internal host address:    ' + requestClientInternalHostAddress)
