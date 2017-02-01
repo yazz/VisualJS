@@ -215,6 +215,8 @@ app.get('/get_connect', function (req, res) {
                     requestClientInternalPort:        requestClientInternalPort
                     ,
                     requestClientPublicIp:            requestClientPublicIp
+                    ,
+                    requestClientPublicHostName:      requestClientPublicHostName
                 }
           ));
 })
