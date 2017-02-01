@@ -218,12 +218,12 @@ app.get('/get_connect', function (req, res) {
                     ,
                     requestClientPublicHostName:      requestClientPublicHostName
                     ,
-                    version:      5
+                    version:      6
                 }
           ));
 })
 
-//app.enable('trust proxy')
+app.enable('trust proxy')
 
 //------------------------------------------------------------------------------
 // This is where the client sends its details to the central server
@@ -235,7 +235,7 @@ app.get('/client_connect', function (req, res) {
     requestClientInternalPort        = req.query.requestClientInternalPort;
     requestClientPublicIp            = req.ip;
     //requestClientPublicHostName      = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-    requestClientPublicHostName      = req.headers.via;
+    requestClientPublicHostName      = req.headers;
 
     console.log('Client attempting to connect from:');
     console.log('client internal host address:    ' + requestClientInternalHostAddress)
