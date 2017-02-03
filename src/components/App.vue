@@ -1,7 +1,6 @@
 <template>
   <div id="app">
-      <h1 class="display-2">Go Share Data</h1>
-    <img width='100%' src="https://i.kinja-img.com/gawker-media/image/upload/s--PqnVC4BL--/c_scale,fl_progressive,q_80,w_800/18nscxevw4bh2png.png">
+      <h6 class="display-6">Go Share Data</h6>
   </div>
 </template>
 
