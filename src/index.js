@@ -56,7 +56,7 @@ program
   .version('0.0.1')
   .option('-t, --type [type]', 'Add the specified type of app [type]', 'client')
   .option('-p, --port [port]', 'Which port should I listen on? [port]', parseInt)
-  .option('-h, --host [host]', 'Server address of the central host [host]', 'yazz.com')
+  .option('-h, --host [host]', 'Server address of the central host [host]', 'gosharedata.com')
   .option('-s, --hostport [hostport]', 'Server port of the central host [hostport]', parseInt)
   .parse(process.argv);
 
