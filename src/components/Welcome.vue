@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app2">
       <h6 class="display-6">Go Share Data</h6>
   </div>
 </template>
@@ -10,12 +10,7 @@
 
 <script>
 export default {
-  name: 'app',
-  data () {
-    return {
-      msg: 'Data'
-    }
-  }
+
 }
 </script>
 
@@ -24,7 +19,7 @@ export default {
 
 
 <style>
-#app {
+#app2 {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

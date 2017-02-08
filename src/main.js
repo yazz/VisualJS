@@ -1,9 +1,5 @@
-import Vue from 'vue'
-
-
-
-
-import App                      from './components/App.vue'
+import Vue                      from 'vue'
+import Welcome                  from './components/Welcome.vue'
 import ConnectedClients         from './components/central_server/connected_clients.vue'
 import oracle_view_connection   from './components/oracle_view_connection.vue'
 import postgres_view_connection from './components/postgres_view_connection.vue'
@@ -11,11 +7,10 @@ import oracle_add_connection    from './components/oracle_add_connection.vue'
 import postgres_add_connection  from './components/postgres_add_connection.vue'
 import yazz_new_connection      from './components/yazz_new_connection.vue'
 import connections_table        from './components/connections_table.vue'
+import store                    from './store.js'
 
 
-import store from './store.js'
-
-const gun_ip_address = '172.18.0.102'
+const gun_ip_address = '172.27.6.36'
 
 
 
@@ -25,11 +20,9 @@ function initWelcomeVuePane() {
         new Vue({
           el: '#welcome'
           ,
-          template: `<app></app>`
+          template: `<welcome-component></welcome-component>`
           ,
-          store: store
-          ,
-          components: {app: App}
+          components: {'welcome-component': Welcome}
         });
 
         setupGunDB();
@@ -37,8 +30,8 @@ function initWelcomeVuePane() {
     if (document.getElementById('welcome')) {
         console.log(' Welcome pane still exists');
     } else {
-        console.log(' Welcome pane does not exist anymore');
-        }
+        console.log(' Welcome pane does not exist anymore. Vue.js destroyed it with new Vue(...)');
+    }
 }
 
 

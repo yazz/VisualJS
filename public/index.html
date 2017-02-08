@@ -2,7 +2,7 @@
 <html>
   <!--
 
-                                        Include all the libraries
+               set up the web page to work with desktop, mobile, and IE 9+
 
       -->
   <head>
@@ -10,8 +10,12 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-    <script type="text/javascript" src="es6-shim.js"></script>
+    <!--
 
+                                          Include all the libraries
+
+        -->
+    <script type="text/javascript" src="es6-shim.js"></script>
     <script type="text/javascript" src="blockly/blockly_compressed.js"></script>
     <script type="text/javascript" src="blockly/blocks_compressed.js"></script>
     <script type="text/javascript" src="yazz_blockly_blocks.js"></script>
@@ -20,26 +24,24 @@
     <script type="text/javascript" src="blockly/msg/js/en.js"></script>
     <script type="text/javascript" src="jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="jquery.zoomooz.js"></script>
-
-
-
-
     <script type="text/javascript" src="blockly_helper.js"></script>
-
     <script type="text/javascript" src="gun.js"></script>
-
     <script type="text/javascript" src="tether.min.js"></script>
     <script type="text/javascript" src="bootstrap.min.js"></script>
 
+    <!--
+
+                                          Include all the CSS
+
+        -->
     <link rel="stylesheet" type="text/css" href="bootstrap.min.css"></link>
     <link rel="stylesheet" type="text/css" href="vue_app.css"></link>
 
-
-
-
-
-
 </head>
+
+
+
+
 
 <body id=body style='margin:0px; padding: 0px;  border: 0px;  width: 100%;  height:100%;  left: 0px;' >
 
@@ -49,7 +51,7 @@
 
   <!--
 
-                                                   Blockly code
+                                                   Blockly code - not used yet
 
     -->
   <div id=blocklyid  style="width: 100%;height: 90%; position: absolute; top: 0px; display:block; left: -500px;">
@@ -82,7 +84,7 @@
 
   <!--
 
-                            The zoomable part of the screen containing 9 zoom areas
+                            The zoomable part of the screen containing 4 zoom areas
 
     -->
   <div class='zoomViewport noScroll' id=other style=' width: 100%;height: 90%;position: absolute; bottom: 10%; left: 0px;display: block '>
@@ -98,9 +100,9 @@
 
       <!--
 
-                                                ...
-                                                ... - Blockly editor
-                                                ...
+                                                ..
+                                                .. - Blockly editor - not used yet
+
 
        -->
         <div  id=editorttt class="zoomTarget" data-targetsize="1"
@@ -117,9 +119,9 @@
 
       <!--
 
-                                                *..
-                                                ... - Welcome
-                                                ...
+                                                x.
+                                                .. - Welcome
+
 
        -->
       <div  id=mainsources class="zoomTarget" data-targetsize="1"
@@ -136,9 +138,9 @@
 
   <!-- -
 
-                                                ..*
-                                                ... - SQL Input window
-                                                ...
+                                                .x
+                                                .. - SQL Input window
+
 
        -->
       <div id=ttt2 class="zoomTarget"  data-targetsize="1"
@@ -182,9 +184,9 @@
 
       <!--
 
-                                                ...
-                                                ... - Connections
-                                                *..
+                                                ..
+                                                x. - Connections
+
 
        -->
       <div  id=mainsources class="zoomTarget" data-targetsize="1"
@@ -213,9 +215,9 @@
 
       <!--
 
-                                                ...
-                                                ... - Game
-                                                ..*
+                                                ..
+                                                .x - take a break
+
 
        -->
     <div  id=mainviews class="zoomTarget" data-targetsize="1"
@@ -237,9 +239,9 @@
 
       <!--
 
-                                                ...
-                                                ... - Overview Dashboard
-                                                ...
+                                                ..
+                                                .. - Overview Dashboard - not used yet
+
 
        -->
       <div  id=maindashboard class="zoomTarget" data-targetsize="1"
@@ -259,9 +261,9 @@
 
       <!--
 
-                                                ...
-                                                ... - Main output window
-                                                ...
+                                                ..
+                                                .. - Main output window - not used yet
+
 
        -->
       <div id=ttt class="zoomTarget"  data-targetsize="1"
@@ -294,9 +296,9 @@
 
       <!--
 
-                                                ...
-                                                ... - People
-                                                ...
+                                                ..
+                                                .. - People - not used yet
+
 
        -->
       <div  id=mainpeople class="zoomTarget" data-targetsize="1"
@@ -319,9 +321,9 @@
 
       <!--
 
-                                                ...
-                                                ... - Directory of apps
-                                                ...
+                                                ..
+                                                .. - Directory of apps - not used yet
+
 
        -->
     <div  id=maindirectory class="zoomTarget" data-targetsize="1"
@@ -388,7 +390,7 @@
                                                 ...
                                                 ...
                                                 ...
-                                                ***   -  the BACK button at the bottom of the screen
+                                                xxx   -  the BACK button at the bottom of the screen
 
        -->
 <div  style=' position: absolute; bottom: 0px; width: 100%; height: 10%;'>
@@ -398,45 +400,46 @@
 </div>
 
 
-<script type="text/javascript" >
+    <script type="text/javascript" >
 
-  var gun;
-  var data_connections_list = [];
-  rows                  = [];
-  tbrows                = new Object();
-  connectionrows        = new Object();
-  code                  = '';
-  var ineditor=false;
-  var blocklyArea;
-  var blocklyDiv;
-  var workspace;
-  var main_output_window;
-  var connections_window;
-
-
+      var gun;
+      var data_connections_list = [];
+      rows                      = [];
+      tbrows                    = new Object();
+      connectionrows            = new Object();
+      code                      = '';
+      var ineditor              = false;
+      var blocklyArea;
+      var blocklyDiv;
+      var workspace;
+      var main_output_window;
+      var connections_window;
 
 
 
 
 
-function getresult(source, sql) {
-  $.ajax({
 
-    //type: "POST",
-    url: '/getresult',
-    data: {source: source, sql: sql},
-    success: function(data) {
-      $("#result").text(data);
-    },
-    error: function(jqXHR, textStatus, errorThrown) {
-      alert('error ' + textStatus + " " + errorThrown);
-    }
-  });
-};
+    // --------------------------------------------------------------------
+    // get the SQL result
+    // --------------------------------------------------------------------
+    function getresult(source, sql) {
+      $.ajax({
+
+        //type: "POST",
+        url: '/getresult',
+        data: {source: source, sql: sql},
+        success: function(data) {
+          $("#result").text(data);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+          alert('error ' + textStatus + " " + errorThrown);
+        }
+      });
+    };
 
 
-
-</script>
+    </script>
 
     <script type="text/javascript" src="blockly_setup.js"></script>
     <script type="text/javascript" src="dist/build.js"></script>
