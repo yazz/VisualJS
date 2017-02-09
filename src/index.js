@@ -98,47 +98,20 @@ hostaddress = ip.address();
 
 
 
-//------------------------------------------------------------
-// copy the oracle files if they exist
-//------------------------------------------------------------
-if (fs.existsSync(path.join(__dirname, '../oracle_driver.zip'))) {
-    useOracle = true;
-}
-if (useOracle) {
-    if (!fs.existsSync(process.cwd() + '\\oracle_driver\\instantclient32')) {
-      fs.createReadStream(path.join(__dirname, '../oracle_driver.zip')).pipe(unzip.Extract({ path: process.cwd() + '\\.' }));
-      timeout = 3000;
-      console.log('Creating oracle_driver');
-    } else {
-      console.log('oracle_driver already exists');
-    };
-}
-var toeval = fs.readFileSync(path.join(__dirname, './oracle.js')).toString();
-if (useOracle) {
-    process.env['PATH'] = process.cwd() + '\\oracle_driver\\instantclient32' + ';' + process.env['PATH'];
-}
-
-
-
-//------------------------------------------------------------
-// postgres
-//------------------------------------------------------------
-var pgeval = fs.readFileSync(path.join(__dirname, './postgres.js')).toString();
-
 
 
 
 //------------------------------------------------------------
 // wait three seconds for stuff to initialize
 //------------------------------------------------------------
-setTimeout(startYazz, timeout);
+setTimeout(startServices, timeout);
 console.log('Creating timeout: ' + timeout);
 
 
 //------------------------------------------------------------
 // wait three seconds for stuff to initialize
 //------------------------------------------------------------
-function startYazz() {
+function startServices() {
   //
   // start the server
   //
@@ -329,6 +302,39 @@ app.listen(port, hostaddress, function () {
                 console.log(body);
             });
     }
+
+
+
+
+
+
+
+    //------------------------------------------------------------
+    // copy the oracle files if they exist
+    //------------------------------------------------------------
+    if (fs.existsSync(path.join(__dirname, '../oracle_driver.zip'))) {
+        useOracle = true;
+    }
+    if (useOracle) {
+        if (!fs.existsSync(process.cwd() + '\\oracle_driver\\instantclient32')) {
+          fs.createReadStream(path.join(__dirname, '../oracle_driver.zip')).pipe(unzip.Extract({ path: process.cwd() + '\\.' }));
+          timeout = 3000;
+          console.log('Creating oracle_driver');
+        } else {
+          console.log('oracle_driver already exists');
+        };
+    }
+    var toeval = fs.readFileSync(path.join(__dirname, './oracle.js')).toString();
+    if (useOracle) {
+        process.env['PATH'] = process.cwd() + '\\oracle_driver\\instantclient32' + ';' + process.env['PATH'];
+    }
+
+
+
+    //------------------------------------------------------------
+    // postgres
+    //------------------------------------------------------------
+    var pgeval = 'drivers[\'postgres\'] = ' + fs.readFileSync(path.join(__dirname, './postgres.js')).toString();
 
 
 }

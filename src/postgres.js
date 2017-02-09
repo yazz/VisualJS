@@ -1,52 +1,49 @@
-drivers['postgres'] = new Object();
-
-console.log('Start postgres from NodeJS module ');
-
-
-drivers['postgres']['setup'] = function(connection) {
-  var config = {
-    id:                connection.id,
-    user:              connection.user,
-    database:          connection.database,
-    password:          connection.password,
-    host:              connection.host,
-    port:              connection.port,
-    max:               connection.max,
-    idleTimeoutMillis: connection.idleTimeoutMillis
-  };
-
-  connection.connection = new postgresdb.Client(config);
-  connection.connection.connect(function (err) {
-    if (err) throw err;
-  });
-  connection.status = 'connected';
-};
-
-
-
-drivers['postgres']['get'] = function( connection , sql , callfn )
 {
-    console.log('********************************');
-    if (
-        (connection.status == 'disconnected')
-        ||
-        (connection.status == null)
-      )
-     {
-        drivers['postgres']['setup'](connection);
-    }
+    'setup': function(connection) {
+          var config = {
+            id:                connection.id,
+            user:              connection.user,
+            database:          connection.database,
+            password:          connection.password,
+            host:              connection.host,
+            port:              connection.port,
+            max:               connection.max,
+            idleTimeoutMillis: connection.idleTimeoutMillis
+          };
 
-  console.error('drivers[postgres][get]');
-  // execute a query on our database
-  connection.connection.query(sql, [], function (err, result) {
-    if (err) throw err;
+          connection.connection = new postgresdb.Client(config);
+          connection.connection.connect(function (err) {
+            if (err) throw err;
+          });
+          connection.status = 'connected';
+      },
 
-    // just print the result to the console
-    console.log(result.rows); // outputs: { name: 'brianc' }
-    callfn(result.rows);
 
-    // disconnect the client
-    //connection.connection.end(function (err) {
-      if (err) throw err;
-    });
-  };
+
+        'get': function( connection , sql , callfn )
+        {
+            console.log('********************************');
+            if (
+                (connection.status == 'disconnected')
+                ||
+                (connection.status == null)
+              )
+             {
+                drivers['postgres']['setup'](connection);
+            }
+
+          console.error('drivers[postgres][get]');
+          // execute a query on our database
+          connection.connection.query(sql, [], function (err, result) {
+            if (err) throw err;
+
+            // just print the result to the console
+            console.log(result.rows); // outputs: { name: 'brianc' }
+            callfn(result.rows);
+
+            // disconnect the client
+            //connection.connection.end(function (err) {
+              if (err) throw err;
+            });
+          }
+};
