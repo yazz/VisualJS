@@ -21,6 +21,7 @@ var typeOfSystem;
 var centralHostAddress;
 var centralHostPort;
 var request      = require("request");
+var toeval;
 
 path.join(__dirname, '../public/blockly/blockly_compressed.js')
 path.join(__dirname, '../public/blockly/blocks_compressed.js')
@@ -138,7 +139,7 @@ function startServices() {
         init_drivers = true;
         if (useOracle) {
              eval(toeval);
-        }
+        };
         eval(pgeval);
 
       };
@@ -324,7 +325,7 @@ app.listen(port, hostaddress, function () {
           console.log('oracle_driver already exists');
         };
     }
-    var toeval = fs.readFileSync(path.join(__dirname, './oracle.js')).toString();
+    toeval = 'drivers[\'oracle\'] = ' + fs.readFileSync(path.join(__dirname, './oracle.js')).toString();
     if (useOracle) {
         process.env['PATH'] = process.cwd() + '\\oracle_driver\\instantclient32' + ';' + process.env['PATH'];
     }
