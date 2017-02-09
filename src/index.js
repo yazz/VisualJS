@@ -7,7 +7,6 @@ var fs           = require('fs');
 var unzip        = require('unzip');
 var postgresdb   = require('pg');
 var ip           = require("ip");
-var useOracle    = false;
 var program      = require('commander');
 var drivers      = new Object();
 var connections  = new Object();
@@ -137,8 +136,9 @@ function startServices() {
   app.get('/', function (req, res) {
       if (!init_drivers) {
         init_drivers = true;
-        if (useOracle) {
-             eval(toeval);
+        eval(toeval);
+        if (drivers['oracle']['loadOnCondition']()) {
+            drivers['oracle']['loadDriver']();
         };
         eval(pgeval);
 
@@ -310,31 +310,7 @@ app.listen(port, hostaddress, function () {
 
 
 
-    //------------------------------------------------------------
-    // copy the oracle files if they exist
-    //------------------------------------------------------------
-    if (fs.existsSync(path.join(__dirname, '../oracle_driver.zip'))) {
-        useOracle = true;
-    }
-    if (useOracle) {
-        if (!fs.existsSync(process.cwd() + '\\oracle_driver\\instantclient32')) {
-          fs.createReadStream(path.join(__dirname, '../oracle_driver.zip')).pipe(unzip.Extract({ path: process.cwd() + '\\.' }));
-          timeout = 3000;
-          console.log('Creating oracle_driver');
-        } else {
-          console.log('oracle_driver already exists');
-        };
-    }
     toeval = 'drivers[\'oracle\'] = ' + fs.readFileSync(path.join(__dirname, './oracle.js')).toString();
-    if (useOracle) {
-        process.env['PATH'] = process.cwd() + '\\oracle_driver\\instantclient32' + ';' + process.env['PATH'];
-    }
-
-
-
-    //------------------------------------------------------------
-    // postgres
-    //------------------------------------------------------------
     var pgeval = 'drivers[\'postgres\'] = ' + fs.readFileSync(path.join(__dirname, './postgres.js')).toString();
 
 

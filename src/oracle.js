@@ -1,4 +1,27 @@
 {
+    'loadOnCondition': function() {
+        var useOracle    = false;
+        if (fs.existsSync(path.join(__dirname, '../oracle_driver.zip'))) {
+            useOracle = true;
+        }
+        return useOracle;
+    },
+
+
+    'loadDriver': function() {
+        if (!fs.existsSync(process.cwd() + '\\oracle_driver\\instantclient32')) {
+          fs.createReadStream(path.join(__dirname, '../oracle_driver.zip')).pipe(unzip.Extract({ path: process.cwd() + '\\.' }));
+          timeout = 3000;
+          console.log('Creating oracle_driver');
+        } else {
+          console.log('oracle_driver already exists');
+        };
+        process.env['PATH'] = process.cwd() + '\\oracle_driver\\instantclient32' + ';' + process.env['PATH'];
+    },
+
+
+
+
     'setup': function(connection, callbackfn) {
         var oracledb;
         var oraloc = process.cwd() + '\\oracle_driver\\node_modules\\oracledb';
