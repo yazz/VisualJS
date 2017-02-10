@@ -21,6 +21,7 @@ var centralHostAddress;
 var centralHostPort;
 var request      = require("request");
 var toeval;
+var open         = require('open');
 
 path.join(__dirname, '../public/blockly/blockly_compressed.js')
 path.join(__dirname, '../public/blockly/blocks_compressed.js')
@@ -127,13 +128,16 @@ function startServices() {
 
   gun.wsp(app);
 
-  console.log(typeOfSystem + ' started on port ' + port + ' with /gun');
 
 
 
 
 
-  app.get('/', function (req, res) {
+
+  //------------------------------------------------------------------------------
+  // Show the default page
+  //------------------------------------------------------------------------------
+    app.get('/', function (req, res) {
       if (!init_drivers) {
         init_drivers = true;
         eval(toeval);
@@ -154,6 +158,13 @@ function startServices() {
 
 app.use(express.static(path.join(__dirname, '../public/')))
 
+
+
+
+
+//------------------------------------------------------------------------------
+// Get the result of a SQL query
+//------------------------------------------------------------------------------
   app.get('/getresult', function (req, res) {
     var queryData = url.parse(req.url, true).query;
     //console.log('request received: ' + queryData.sql);
@@ -200,6 +211,8 @@ app.get('/get_connect', function (req, res) {
 //app.enable('trust proxy')
 
 //------------------------------------------------------------------------------
+// run on the central server only
+//
 // This is where the client sends its details to the central server
 //------------------------------------------------------------------------------
 app.get('/client_connect', function (req, res) {
@@ -217,13 +230,19 @@ app.get('/client_connect', function (req, res) {
     console.log('client public IP address:        ' + requestClientPublicIp)
     console.log('client public IP host name:      ' + requestClientPublicHostName)
 
+
+    //TODO
+    // add the host to a list here
 })
 
 
 
-
+//------------------------------------------------------------------------------
+// start the web server
+//------------------------------------------------------------------------------
 app.listen(port, hostaddress, function () {
-    console.log('Example app listening on port ' + port + '!')
+    console.log('GunDB listening on port ' + port + '!' + ' with /gun')
+    console.log(typeOfSystem + ' started on port ' + port );
 })
 
 
@@ -237,15 +256,9 @@ app.listen(port, hostaddress, function () {
 
 
 
-  //
+  //--------------------------------------------------------
   // open the app in a web browser
-  //
-  //console.log('Ran postgres too');
-
-
-
-  var open = require('open');
-
+  //--------------------------------------------------------
   open('http://' + hostaddress  + ":" + port);
 
 
