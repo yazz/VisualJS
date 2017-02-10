@@ -22,6 +22,16 @@ var centralHostPort;
 var request      = require("request");
 var toeval;
 var open         = require('open');
+var dbhelper     = require('../public/dbhelper');
+var Gun          = require('gun');
+var gun          = Gun({ file: 'data.json',
+                          s3: {
+                            key: '', // AWS Access Key
+                            secret: '', // AWS Secret Token
+                            bucket: '' // The bucket you want to save into
+                          }
+                        });
+
 
 path.join(__dirname, '../public/blockly/blockly_compressed.js')
 path.join(__dirname, '../public/blockly/blocks_compressed.js')
@@ -116,20 +126,11 @@ function startServices() {
   //
   // start the server
   //
-  var Gun = require('gun');
-  var gun = Gun({
-    file: 'data.json',
-    s3: {
-      key: '', // AWS Access Key
-      secret: '', // AWS Secret Token
-      bucket: '' // The bucket you want to save into
-    }
-  });
-
   gun.wsp(app);
 
 
-
+  dbhelper.init(gun)
+  dbhelper.helpme()
 
 
 

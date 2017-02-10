@@ -8,6 +8,7 @@ import postgres_add_connection  from './components/postgres_add_connection.vue'
 import yazz_new_connection      from './components/yazz_new_connection.vue'
 import connections_table        from './components/connections_table.vue'
 import store                    from './store.js'
+import db                       from '../public/dbhelper.js'
 
 
 const gun_ip_address = '172.27.6.36'
@@ -103,6 +104,9 @@ function setupGunDB() {
             store.dispatch('clear_connections');
             gun.get("connections").map(read_connections,true);
         },true);
+
+        db.init(gun)
+        db.helpme()
 }
 
 export function inccc(){
