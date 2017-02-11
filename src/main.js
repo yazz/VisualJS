@@ -181,3 +181,9 @@ $( document ).ready(function() {
   initConnectionsListVuePane();
   initClientsConnectedVuePane();
 });
+
+
+
+window.sql = function(sql) {
+    console.log("sql: " + sql);
+}
