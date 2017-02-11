@@ -1,773 +1,1256 @@
-(function(exports) {
-	"use strict";
+(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.simpleSqlParser = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+'use strict';
 
-	function trim(str) {
-		if (typeof str == 'string') return str.replace(/^\s+/g,'').replace(/\s+$/g,'');
-		else return str;
-	}
+module.exports.sql2ast = require('./src/sql2ast.js');
+module.exports.ast2sql = require('./src/ast2sql.js');
 
-	// Split a string using a separator, only if this separator isn't beetween brackets
-	function protect_split(separator, str) {
-		var sep = '######';
+},{"./src/ast2sql.js":5,"./src/sql2ast.js":6}],2:[function(require,module,exports){
+// pass
+var Parsimmon = {};
 
-		var string = false;
-		var nb_brackets = 0;
-		var new_str = "";
-		for (var i = 0 ; i < str.length ; i++) {
-			if (!string && /['"`]/.test(str[i])) string = str[i];
-			else if (string && str[i] == string) string = false;
-			else if (!string && str[i] == '(') nb_brackets ++;
-			else if (!string && str[i] == ')') nb_brackets --;
+Parsimmon.Parser = (function() {
+  "use strict";
 
-			if (str[i] == separator && (nb_brackets > 0 || string)) new_str += sep;
-			else new_str += str[i];
-		}
-		str = new_str;
+  // The Parser object is a wrapper for a parser function.
+  // Externally, you use one to parse a string by calling
+  //   var result = SomeParser.parse('Me Me Me! Parse Me!');
+  // You should never call the constructor, rather you should
+  // construct your Parser from the base parsers and the
+  // parser combinator methods.
+  function Parser(action) {
+    if (!(this instanceof Parser)) return new Parser(action);
+    this._ = action;
+  };
 
-		str = str.split(separator);
-		str = str.map(function (item) {
-			return trim(item.replace(new RegExp(sep, 'g'), separator));
-		});
+  var _ = Parser.prototype;
 
-		return str;
-	}
+  function makeSuccess(index, value) {
+    return {
+      status: true,
+      index: index,
+      value: value,
+      furthest: -1,
+      expected: []
+    };
+  }
 
-	// Add some # inside a string to avoid it to match a regex/split
-	function protect(str) {
-		var result = '#';
-		var length = str.length;
-		for (var i = 0 ; i < length ; i++) result += str[i] + "#";
+  function makeFailure(index, expected) {
+    return {
+      status: false,
+      index: -1,
+      value: null,
+      furthest: index,
+      expected: [expected]
+    };
+  }
+
+  function mergeReplies(result, last) {
+    if (!last) return result;
+    if (result.furthest > last.furthest) return result;
+
+    var expected = (result.furthest === last.furthest)
+      ? result.expected.concat(last.expected)
+      : last.expected;
+
+    return {
+      status: result.status,
+      index: result.index,
+      value: result.value,
+      furthest: last.furthest,
+      expected: expected
+    }
+  }
+
+  function assertParser(p) {
+    if (!(p instanceof Parser)) throw new Error('not a parser: '+p);
+  }
+
+  function formatExpected(expected) {
+    if (expected.length === 1) return expected[0];
+
+    return 'one of ' + expected.join(', ')
+  }
+
+  function formatGot(stream, error) {
+    var i = error.index;
+
+    if (i === stream.length) return ', got the end of the stream'
+
+
+    var prefix = (i > 0 ? "'..." : "'");
+    var suffix = (stream.length - i > 12 ? "...'" : "'");
+
+    return ' at character ' + i + ', got ' + prefix + stream.slice(i, i+12) + suffix
+  }
+
+  var formatError = Parsimmon.formatError = function(stream, error) {
+    return 'expected ' + formatExpected(error.expected) + formatGot(stream, error)
+  };
+
+  _.parse = function(stream) {
+    var result = this.skip(eof)._(stream, 0);
+
+    return result.status ? {
+      status: true,
+      value: result.value
+    } : {
+      status: false,
+      index: result.furthest,
+      expected: result.expected
+    };
+  };
+
+  // [Parser a] -> Parser [a]
+  var seq = Parsimmon.seq = function() {
+    var parsers = [].slice.call(arguments);
+    var numParsers = parsers.length;
+
+    return Parser(function(stream, i) {
+      var result;
+      var accum = new Array(numParsers);
+
+      for (var j = 0; j < numParsers; j += 1) {
+        result = mergeReplies(parsers[j]._(stream, i), result);
+        if (!result.status) return result;
+        accum[j] = result.value
+        i = result.index;
+      }
+
+      return mergeReplies(makeSuccess(i, accum), result);
+    });
+  };
+
+
+  var seqMap = Parsimmon.seqMap = function() {
+    var args = [].slice.call(arguments);
+    var mapper = args.pop();
+    return seq.apply(null, args).map(function(results) {
+      return mapper.apply(null, results);
+    });
+  };
+
+  /**
+   * Allows to add custom primitive parsers
+   */
+  var custom = Parsimmon.custom = function(parsingFunction) {
+    return Parser(parsingFunction(makeSuccess, makeFailure));
+  };
+
+  var alt = Parsimmon.alt = function() {
+    var parsers = [].slice.call(arguments);
+    var numParsers = parsers.length;
+    if (numParsers === 0) return fail('zero alternates')
+
+    return Parser(function(stream, i) {
+      var result;
+      for (var j = 0; j < parsers.length; j += 1) {
+        result = mergeReplies(parsers[j]._(stream, i), result);
+        if (result.status) return result;
+      }
+      return result;
+    });
+  };
+
+  // -*- primitive combinators -*- //
+  _.or = function(alternative) {
+    return alt(this, alternative);
+  };
+
+  _.then = function(next) {
+    if (typeof next === 'function') {
+      throw new Error('chaining features of .then are no longer supported, use .chain instead');
+    }
+
+    assertParser(next);
+    return seq(this, next).map(function(results) { return results[1]; });
+  };
+
+  // -*- optimized iterative combinators -*- //
+  // equivalent to:
+  // _.many = function() {
+  //   return this.times(0, Infinity);
+  // };
+  // or, more explicitly:
+  // _.many = function() {
+  //   var self = this;
+  //   return self.then(function(x) {
+  //     return self.many().then(function(xs) {
+  //       return [x].concat(xs);
+  //     });
+  //   }).or(succeed([]));
+  // };
+  _.many = function() {
+    var self = this;
+
+    return Parser(function(stream, i) {
+      var accum = [];
+      var result;
+      var prevResult;
+
+      for (;;) {
+        result = mergeReplies(self._(stream, i), result);
+
+        if (result.status) {
+          i = result.index;
+          accum.push(result.value);
+        }
+        else {
+          return mergeReplies(makeSuccess(i, accum), result);
+        }
+      }
+    });
+  };
+
+  // equivalent to:
+  // _.times = function(min, max) {
+  //   if (arguments.length < 2) max = min;
+  //   var self = this;
+  //   if (min > 0) {
+  //     return self.then(function(x) {
+  //       return self.times(min - 1, max - 1).then(function(xs) {
+  //         return [x].concat(xs);
+  //       });
+  //     });
+  //   }
+  //   else if (max > 0) {
+  //     return self.then(function(x) {
+  //       return self.times(0, max - 1).then(function(xs) {
+  //         return [x].concat(xs);
+  //       });
+  //     }).or(succeed([]));
+  //   }
+  //   else return succeed([]);
+  // };
+  _.times = function(min, max) {
+    if (arguments.length < 2) max = min;
+    var self = this;
+
+    return Parser(function(stream, i) {
+      var accum = [];
+      var start = i;
+      var result;
+      var prevResult;
+
+      for (var times = 0; times < min; times += 1) {
+        result = self._(stream, i);
+        prevResult = mergeReplies(result, prevResult);
+        if (result.status) {
+          i = result.index;
+          accum.push(result.value);
+        }
+        else return prevResult;
+      }
+
+      for (; times < max; times += 1) {
+        result = self._(stream, i);
+        prevResult = mergeReplies(result, prevResult);
+        if (result.status) {
+          i = result.index;
+          accum.push(result.value);
+        }
+        else break;
+      }
+
+      return mergeReplies(makeSuccess(i, accum), prevResult);
+    });
+  };
+
+  // -*- higher-level combinators -*- //
+  _.result = function(res) { return this.map(function(_) { return res; }); };
+  _.atMost = function(n) { return this.times(0, n); };
+  _.atLeast = function(n) {
+    var self = this;
+    return seqMap(this.times(n), this.many(), function(init, rest) {
+      return init.concat(rest);
+    });
+  };
+
+  _.map = function(fn) {
+    var self = this;
+    return Parser(function(stream, i) {
+      var result = self._(stream, i);
+      if (!result.status) return result;
+      return mergeReplies(makeSuccess(result.index, fn(result.value)), result);
+    });
+  };
+
+  _.skip = function(next) {
+    return seq(this, next).map(function(results) { return results[0]; });
+  };
+
+  _.mark = function() {
+    return seqMap(index, this, index, function(start, value, end) {
+      return { start: start, value: value, end: end };
+    });
+  };
+
+  _.desc = function(expected) {
+    var self = this;
+    return Parser(function(stream, i) {
+      var reply = self._(stream, i);
+      if (!reply.status) reply.expected = [expected];
+      return reply;
+    });
+  };
+
+  // -*- primitive parsers -*- //
+  var string = Parsimmon.string = function(str) {
+    var len = str.length;
+    var expected = "'"+str+"'";
+
+    return Parser(function(stream, i) {
+      var head = stream.slice(i, i+len);
+
+      if (head === str) {
+        return makeSuccess(i+len, head);
+      }
+      else {
+        return makeFailure(i, expected);
+      }
+    });
+  };
+
+  var regex = Parsimmon.regex = function(re, group) {
+    var anchored = RegExp('^(?:'+re.source+')', (''+re).slice((''+re).lastIndexOf('/')+1));
+    var expected = '' + re;
+    if (group == null) group = 0;
+
+    return Parser(function(stream, i) {
+      var match = anchored.exec(stream.slice(i));
+
+      if (match) {
+        var fullMatch = match[0];
+        var groupMatch = match[group];
+        if (groupMatch != null) return makeSuccess(i+fullMatch.length, groupMatch);
+      }
+
+      return makeFailure(i, expected);
+    });
+  };
+
+  var succeed = Parsimmon.succeed = function(value) {
+    return Parser(function(stream, i) {
+      return makeSuccess(i, value);
+    });
+  };
+
+  var fail = Parsimmon.fail = function(expected) {
+    return Parser(function(stream, i) { return makeFailure(i, expected); });
+  };
+
+  var letter = Parsimmon.letter = regex(/[a-z]/i).desc('a letter')
+  var letters = Parsimmon.letters = regex(/[a-z]*/i)
+  var digit = Parsimmon.digit = regex(/[0-9]/).desc('a digit');
+  var digits = Parsimmon.digits = regex(/[0-9]*/)
+  var whitespace = Parsimmon.whitespace = regex(/\s+/).desc('whitespace');
+  var optWhitespace = Parsimmon.optWhitespace = regex(/\s*/);
+
+  var any = Parsimmon.any = Parser(function(stream, i) {
+    if (i >= stream.length) return makeFailure(i, 'any character');
+
+    return makeSuccess(i+1, stream.charAt(i));
+  });
+
+  var all = Parsimmon.all = Parser(function(stream, i) {
+    return makeSuccess(stream.length, stream.slice(i));
+  });
+
+  var eof = Parsimmon.eof = Parser(function(stream, i) {
+    if (i < stream.length) return makeFailure(i, 'EOF');
+
+    return makeSuccess(i, null);
+  });
+
+  var test = Parsimmon.test = function(predicate) {
+    return Parser(function(stream, i) {
+      var char = stream.charAt(i);
+      if (i < stream.length && predicate(char)) {
+        return makeSuccess(i+1, char);
+      }
+      else {
+        return makeFailure(i, 'a character matching '+predicate);
+      }
+    });
+  };
+
+  var oneOf = Parsimmon.oneOf = function(str) {
+    return test(function(ch) { return str.indexOf(ch) >= 0; });
+  };
+
+  var noneOf = Parsimmon.noneOf = function(str) {
+    return test(function(ch) { return str.indexOf(ch) < 0; });
+  };
+
+  var takeWhile = Parsimmon.takeWhile = function(predicate) {
+    return Parser(function(stream, i) {
+      var j = i;
+      while (j < stream.length && predicate(stream.charAt(j))) j += 1;
+      return makeSuccess(j, stream.slice(i, j));
+    });
+  };
+
+  var lazy = Parsimmon.lazy = function(desc, f) {
+    if (arguments.length < 2) {
+      f = desc;
+      desc = undefined;
+    }
+
+    var parser = Parser(function(stream, i) {
+      parser._ = f()._;
+      return parser._(stream, i);
+    });
+
+    if (desc) parser = parser.desc(desc)
+
+    return parser;
+  };
+
+  var index = Parsimmon.index = Parser(function(stream, i) {
+    return makeSuccess(i, i);
+  });
+
+  //- fantasyland compat
+
+  //- Monoid (Alternative, really)
+  _.concat = _.or;
+  _.empty = fail('empty')
+
+  //- Applicative
+  _.of = Parser.of = Parsimmon.of = succeed
+
+  _.ap = function(other) {
+    return seqMap(this, other, function(f, x) { return f(x); })
+  };
+
+  //- Monad
+  _.chain = function(f) {
+    var self = this;
+    return Parser(function(stream, i) {
+      var result = self._(stream, i);
+      if (!result.status) return result;
+      var nextParser = f(result.value);
+      return mergeReplies(nextParser._(stream, result.index), result);
+    });
+  };
+
+  return Parser;
+})();
+module.exports = Parsimmon;
+
+},{}],3:[function(require,module,exports){
+module.exports = require('./build/parsimmon.commonjs');
+exports.version = require('./package.json').version;
+
+},{"./build/parsimmon.commonjs":2,"./package.json":4}],4:[function(require,module,exports){
+module.exports={
+  "_args": [
+    [
+      {
+        "name": "parsimmon",
+        "raw": "parsimmon@0.7.0",
+        "rawSpec": "0.7.0",
+        "scope": null,
+        "spec": "0.7.0",
+        "type": "version"
+      },
+      "D:\\Users\\David\\Documents\\EscaleDigitale\\simpleSqlParser"
+    ]
+  ],
+  "_from": "parsimmon@0.7.0",
+  "_id": "parsimmon@0.7.0",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/parsimmon",
+  "_npmUser": {
+    "email": "jjmadkisson@gmail.com",
+    "name": "jayferd"
+  },
+  "_npmVersion": "1.4.14",
+  "_phantomChildren": {},
+  "_requested": {
+    "name": "parsimmon",
+    "raw": "parsimmon@0.7.0",
+    "rawSpec": "0.7.0",
+    "scope": null,
+    "spec": "0.7.0",
+    "type": "version"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/parsimmon/-/parsimmon-0.7.0.tgz",
+  "_shasum": "652fc7cbade73c5edb42a266ec556c906d82c9fb",
+  "_shrinkwrap": null,
+  "_spec": "parsimmon@0.7.0",
+  "_where": "D:\\Users\\David\\Documents\\EscaleDigitale\\simpleSqlParser",
+  "author": {
+    "email": "jneen at jneen dot net",
+    "name": "Jeanine Adkisson"
+  },
+  "bugs": {
+    "url": "https://github.com/jneen/parsimmon/issues"
+  },
+  "dependencies": {
+    "pjs": "5.x"
+  },
+  "description": "A monadic LL(infinity) parser combinator library",
+  "devDependencies": {
+    "chai": "1.5.x",
+    "mocha": "1.8.x",
+    "uglify-js": "2.x"
+  },
+  "directories": {},
+  "dist": {
+    "shasum": "652fc7cbade73c5edb42a266ec556c906d82c9fb",
+    "tarball": "https://registry.npmjs.org/parsimmon/-/parsimmon-0.7.0.tgz"
+  },
+  "files": [
+    "index.js",
+    "src",
+    "test",
+    "Makefile",
+    "package.json",
+    "build/parsimmon.commonjs.js",
+    "build/parsimmon.browser.js",
+    "build/parsimmon.browser.min.js"
+  ],
+  "homepage": "https://github.com/jneen/parsimmon",
+  "keywords": [
+    "parsing",
+    "parse",
+    "parser combinators"
+  ],
+  "main": "index.js",
+  "maintainers": [
+    {
+      "email": "jjmadkisson@gmail.com",
+      "name": "jayferd"
+    },
+    {
+      "email": "jneen@jneen.net",
+      "name": "jneen"
+    }
+  ],
+  "name": "parsimmon",
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jneen/parsimmon.git"
+  },
+  "scripts": {
+    "test": "make test"
+  },
+  "version": "0.7.0"
+}
+
+},{}],5:[function(require,module,exports){
+'use strict';
+
+module.exports = function(astObject) {
+	/*if (typeof ast === 'object' && ast.status === true) ast = ast.value;
+	else return false;*/
+	if (typeof astObject !== 'object' || astObject.status !== true) return false;
+
+	function select(ast) {
+		var result = 'SELECT ';
+		result += ast.select.map(function(item) {
+			return item.expression;
+		}).join(', ');
 		return result;
 	}
 
-	// Restore a string output by protect() to its original state
-	function unprotect(str) {
+	function from(ast) {
 		var result = '';
-		var length = str.length;
-		for (var i = 1 ; i < length ; i = i + 2) result += str[i];
+		if (ast.from.length > 0) {
+			result += 'FROM ';
+			result += ast.from.map(function(item) {
+				return item.expression;
+			}).join(', ');
+		}
 		return result;
 	}
 
-
-	// Parse a query
-	// parseCond: (bool) parse conditions in WHERE and JOIN (default true)
-	exports.sql2ast = function (query, parseCond) {
-		if (typeof parseCond == 'undefined' || parseCond === null) parseCond = true;
-
-		// Remove semi-colons and keep only the first query
-		var semi_colon = '###semi-colon###';
-		query = query.replace(/[("'`].*;.*[)"'`]/g, function (match) {
-			return match.replace(/;/g, semi_colon);
-		});
-		var eor = '###EOR###';
-		query = query.replace(/;/g, eor);
-		query = query.split(eor)[0];
-		query = query.replace(new RegExp(semi_colon, 'g'), ';');
-
-		// Define which words can act as separator
-		var keywords = ['SELECT', 'FROM', 'DELETE FROM', 'INSERT INTO', 'UPDATE', 'JOIN', 'LEFT JOIN', 'RIGHT JOIN', 'INNER JOIN', 'ORDER BY', 'GROUP BY', 'HAVING', 'WHERE', 'LIMIT', 'VALUES', 'SET'];
-		var parts_name = keywords.map(function (item) {
-			return item + ' ';
-		});
-		parts_name = parts_name.concat(keywords.map(function (item) {
-			return item + '(';
-		}));
-		parts_name = parts_name.concat(parts_name.map(function (item) {
-			return item.toLowerCase();
-		}));
-		var parts_name_escaped = parts_name.map(function (item) {
-			return item.replace('(', '[\\(]');
-		});
-
-		// Hide words defined as separator but written inside brackets in the query
-		query = query.replace(/\((.+?)\)|"(.+?)"|'(.+?)'|`(.+?)`/gi, function (match) {
-			return match.replace(new RegExp(parts_name_escaped.join('|'), 'gi'), protect);
-		});
-
-		// Write the position(s) in query of these separators
-		var parts_order = [];
-		function realNameCallback(match, name) {
-			return name;
-		}
-		parts_name.forEach(function (item) {
-			var pos = 0;
-			var part;
-
-			do {
-				part = query.indexOf(item, pos);
-				if (part != -1) {
-					var realName = item.replace(/^((\w|\s)+?)\s?\(?$/i, realNameCallback);
-					parts_order[part] = realName;	// Position won't be exact because the use of protect() (above) and unprotect() alter the query string ; but we just need the order :)
-					pos = part + realName.length;
-				}
-			}
-			while (part != -1);
-		});
-
-		// Delete duplicates (caused, for example, by JOIN and INNER JOIN)
-		var busy_until = 0;
-		parts_order.forEach(function (item, key) {
-			if (busy_until > key) delete parts_order[key];
-			else {
-				busy_until = parseInt(key, 10) + item.length;
-
-				// Replace JOIN by INNER JOIN
-				if (item == 'JOIN') parts_order[key] = 'INNER JOIN';
-			}
-		});
-
-		// Generate protected word list to reverse the use of protect()
-		var words = parts_name_escaped.slice(0);
-		words = words.map(function (item) {
-			return protect(item);
-		});
-		words = words.join('|');
-
-		// Split parts
-		var parts = query.split(new RegExp(parts_name_escaped.join('|'), 'i'));
-
-		// Unhide words precedently hidden with protect()
-		query = query.replace(/\((.+?)\)|"(.+?)"|'(.+?)'|`(.+?)`/gi, function (match) {
-			return match.replace(new RegExp(words, 'gi'), unprotect);
-		});
-		parts = parts.map(function (item) {
-			return item.replace(/\((.+?)\)|"(.+?)"|'(.+?)'|`(.+?)`/gi, function (match) {
-				return match.replace(new RegExp(words, 'gi'), unprotect);
-			});
-		});
-
-		// Define analysis functions
-		var analysis = [];
-
-		analysis['SELECT'] = function (str) {
-			var result = protect_split(',', str);
-			result = result.filter(function(item) {
-				return item !== '';
-			}).map(function(item) {
-				return {name: item};
-			});
+	function join(ast) {
+		return ast.join.map(function(item) {
+			var result = '';
+			if (item.type === 'inner') result += 'INNER JOIN ';
+			else if (item.type === 'left') result += 'LEFT JOIN ';
+			else if (item.type === 'right') result += 'RIGHT JOIN ';
+			else return '';
+			result += item.table;
+			if (item.alias !== null) result += ' AS ' + item.alias;
+			result += ' ON ';
+			result += item.condition.expression;
 			return result;
-		};
-
-		analysis['SET'] = function (str) {
-			var result = protect_split(',', str);
-			result = result.filter(function(item) {
-				return item !== '';
-			}).map(function(item) {
-				return {expression: item};
-			});
-			return result;
-		};
-
-		analysis['FROM'] = analysis['DELETE FROM'] = analysis['UPDATE'] = function (str) {
-			var result = str.split(',');
-			result = result.map(function(item) {
-				return trim(item);
-			});
-			result.forEach(function(item, key) {
-				if (item === '') result.splice(key);
-			});
-			result = result.map(function(item) {
-				var table = item.split(' AS ');
-				var alias = table[1] || '';
-				if (alias.indexOf('"') === 0 && alias.lastIndexOf('"') == alias.length - 1) alias = alias.substring(1, alias.length - 1);
-				return {table: table[0], as: alias};
-			});
-			return result;
-		};
-
-		analysis['LEFT JOIN'] = analysis['JOIN'] = analysis['INNER JOIN'] = analysis['RIGHT JOIN'] = function (str) {
-			str = str.split(' ON ');
-			var table = str[0].split(' AS ');
-			var result = {};
-			result['table'] = trim(table[0]);
-			result['as'] = trim(table[1]) || '';
-			result['cond'] = trim(str[1]);
-
-			return result;
-		};
-
-		analysis['WHERE'] = function (str) {
-			return trim(str);
-		};
-
-		analysis['ORDER BY'] = function (str) {
-			str = str.split(',');
-			var result = [];
-			str.forEach(function (item, key) {
-				var order_by = /([A-Za-z0-9_\.]+)\s*(ASC|DESC){0,1}/gi;
-				order_by = order_by.exec(item);
-				if (order_by !== null) {
-					var tmp = {};
-					tmp['column'] = trim(order_by[1]);
-					tmp['order'] = trim(order_by[2]);
-					if(order_by[2] === undefined ){
-						tmp['order']="ASC";
-					}
-					result.push(tmp);
-				}
-			});
-			return result;
-		};
-
-		analysis['GROUP BY'] = function (str) {
-			str = str.split(',');
-			var result = [];
-			str.forEach(function (item, key) {
-				var group_by = /([A-Za-z0-9_\.]+)/gi;
-				group_by = group_by.exec(item);
-				if (group_by !== null) {
-					var tmp = {};
-					tmp['column'] = trim(group_by[1]);
-					result.push(tmp);
-				}
-			});
-			return result;
-		};
-		analysis['LIMIT'] = function (str) {
-			var limit = /((\d+)\s*,\s*)?(\d+)/gi;
-			limit = limit.exec(str);
-			if (typeof limit[2] == 'undefined') limit[2] = 0;
-			var result = {};
-			result['nb'] = parseInt(trim(limit[3]), 10);
-			result['from'] = parseInt(trim(limit[2]), 10);
-			return result;
-		};
-
-		analysis['INSERT INTO'] = function (str) {
-			var insert = /([A-Za-z0-9_\.]+)\s*(\(([A-Za-z0-9_\., ]+)\))?/gi;
-			insert = insert.exec(str);
-			var result = {};
-			result['table'] = trim(insert[1]);
-			if (typeof insert[3] != 'undefined') {
-				result['columns'] = insert[3].split(',');
-				result['columns'] = result['columns'].map(function (item) {
-					return trim(item);
-				});
-			}
-			return result;
-		};
-
-		analysis['VALUES'] = function (str) {
-			str = trim(str);
-			if (str[0] != '(') str = '(' + str;	// If query has "VALUES(...)" instead of "VALUES (...)"
-			var groups = protect_split(',', str);
-			var result = [];
-			groups.forEach(function(group) {
-				group = group.replace(/^\(/g,'').replace(/\)$/g,'');
-				group = protect_split(',', group);
-				result.push(group);
-			});
-			return result;
-		};
-
-		// TODO: handle HAVING
-
-		// Analyze parts
-		var result = {};
-		var j = 0;
-		parts_order.forEach(function (item, key) {
-			item = item.toUpperCase();
-			j++;
-			if (typeof analysis[item] != 'undefined') {
-				var part_result = analysis[item](parts[j]);
-
-				if (typeof result[item] != 'undefined') {
-					if (typeof result[item] == 'string' || typeof result[item][0] == 'undefined') {
-						var tmp = result[item];
-						result[item] = [];
-						result[item].push(tmp);
-					}
-
-					result[item].push(part_result);
-				}
-				else result[item] = part_result;
-			}
-			else console.log('Can\'t analyze statement "' + item + '"');
-		});
-
-		// Reorganize joins
-		if (typeof result['LEFT JOIN'] != 'undefined') {
-			if (typeof result['JOIN'] == 'undefined') result['JOIN'] = [];
-			if (typeof result['LEFT JOIN'][0] != 'undefined') {
-				result['LEFT JOIN'].forEach(function (item) {
-					item.type = 'left';
-					result['JOIN'].push(item);
-				});
-			}
-			else {
-				result['LEFT JOIN'].type = 'left';
-				result['JOIN'].push(result['LEFT JOIN']);
-			}
-			delete result['LEFT JOIN'];
-		}
-		if (typeof result['INNER JOIN'] != 'undefined') {
-			if (typeof result['JOIN'] == 'undefined') result['JOIN'] = [];
-			if (typeof result['INNER JOIN'][0] != 'undefined') {
-				result['INNER JOIN'].forEach(function (item) {
-					item.type = 'inner';
-					result['JOIN'].push(item);
-				});
-			}
-			else {
-				result['INNER JOIN'].type = 'inner';
-				result['JOIN'].push(result['INNER JOIN']);
-			}
-			delete result['INNER JOIN'];
-		}
-		if (typeof result['RIGHT JOIN'] != 'undefined') {
-			if (typeof result['JOIN'] == 'undefined') result['JOIN'] = [];
-			if (typeof result['RIGHT JOIN'][0] != 'undefined') {
-				result['RIGHT JOIN'].forEach(function (item) {
-					item.type = 'right';
-					result['JOIN'].push(item);
-				});
-			}
-			else {
-				result['RIGHT JOIN'].type = 'right';
-				result['JOIN'].push(result['RIGHT JOIN']);
-			}
-			delete result['RIGHT JOIN'];
-		}
-
-		// Parse conditions
-		if (parseCond) {
-			if (typeof result['WHERE'] == 'string') {
-				result['WHERE'] = CondParser.parse(result['WHERE']);
-			}
-			if (typeof result['JOIN'] != 'undefined') {
-				result['JOIN'].forEach(function (item, key) {
-					result['JOIN'][key]['cond'] = CondParser.parse(item['cond']);
-				});
-			}
-		}
-
-		return result;
-	};
-
-
-	/*
-	 * LEXER & PARSER FOR SQL CONDITIONS
-	 * Inspired by https://github.com/DmitrySoshnikov/Essentials-of-interpretation
-	 */
-
-	// Constructor
-	function CondLexer(source) {
-		this.source = source;
-		this.cursor = 0;
-		this.currentChar = "";
-
-		this.readNextChar();
+		}).join(' ');
 	}
 
-	CondLexer.prototype = {
-		constructor: CondLexer,
-
-		// Read the next character (or return an empty string if cursor is at the end of the source)
-		readNextChar: function () {
-			if (typeof this.source != 'string') this.currentChar = "";
-			else this.currentChar = this.source[this.cursor++] || "";
-		},
-
-		// Determine the next token
-		readNextToken: function () {
-			if (/\w/.test(this.currentChar)) return this.readWord();
-			if (/["'`]/.test(this.currentChar)) return this.readString();
-			if (/[()]/.test(this.currentChar)) return this.readGroupSymbol();
-			if (/[!=<>]/.test(this.currentChar)) return this.readOperator();
-
-			if (this.currentChar === "") return {type: 'eot', value: ''};
-			else {
-				this.readNextChar();
-				return {type: 'empty', value: ''};
-			}
-		},
-
-		readWord: function () {
-			var tokenValue = "";
-			var nb_brackets = 0;
-			var string = false;
-			while (/./.test(this.currentChar)) {
-				// Check if we are in a string
-				if (!string && /['"`]/.test(this.currentChar)) string = this.currentChar;
-				else if (string && this.currentChar == string) string = false;
-				else {
-					// Allow spaces inside functions (only if we are not in a string)
-					if (!string) {
-						// Token is finished if there is a closing bracket outside a string and with no opening
-						if (this.currentChar == ')' && nb_brackets <= 0) break;
-
-						if (this.currentChar == '(') nb_brackets++;
-						else if (this.currentChar == ')') nb_brackets--;
-
-						// Token is finished if there is a operator symbol outside a string
-						if (/[!=<>]/.test(this.currentChar)) break;
-					}
-
-					// Token is finished on the first space which is outside a string or a function
-					if (this.currentChar == ' ' && nb_brackets <= 0) break;
-				}
-
-				tokenValue += this.currentChar;
-				this.readNextChar();
-			}
-
-			if (/^(AND|OR)$/i.test(tokenValue)) return {type: 'logic', value: tokenValue};
-			if (/^(IN|IS|NOT|LIKE)$/i.test(tokenValue)) return {type: 'operator', value: tokenValue};
-			else return {type: 'word', value: tokenValue};
-		},
-
-		readString: function () {
-			var tokenValue = "";
-			var quote = this.currentChar;
-
-			tokenValue += this.currentChar;
-			this.readNextChar();
-
-			while (this.currentChar != quote && this.currentChar !== "") {
-				tokenValue += this.currentChar;
-				this.readNextChar();
-			}
-
-			tokenValue += this.currentChar;
-			this.readNextChar();
-
-			// Handle this case : `table`.`column`
-			if (this.currentChar == '.') {
-				tokenValue += this.currentChar;
-				this.readNextChar();
-				tokenValue += this.readString().value;
-
-				return {type: 'word', value: tokenValue};
-			}
-
-			return {type: 'string', value: tokenValue};
-		},
-
-		readGroupSymbol: function () {
-			var tokenValue = this.currentChar;
-			this.readNextChar();
-
-			return {type: 'group', value: tokenValue};
-		},
-
-		readOperator: function () {
-			var tokenValue = this.currentChar;
-			this.readNextChar();
-
-			if (/[=<>]/.test(this.currentChar)) {
-				tokenValue += this.currentChar;
-				this.readNextChar();
-			}
-
-			return {type: 'operator', value: tokenValue};
-		},
-	};
-
-	// Tokenise a string (only useful for debug)
-	CondLexer.tokenize = function (source) {
-		var lexer = new CondLexer(source);
-		var tokens = [];
-		do {
-			var token = lexer.readNextToken();
-			if (token.type != 'empty') tokens.push(token);
-		}
-		while (lexer.currentChar);
-		return tokens;
-	};
-
-
-	// Constructor
-	function CondParser(source) {
-		this.lexer = new CondLexer(source);
-		this.currentToken = "";
-
-		this.readNextToken();
-	}
-
-	CondParser.prototype = {
-		constructor: CondParser,
-
-		// Read the next token (skip empty tokens)
-		readNextToken: function () {
-			this.currentToken = this.lexer.readNextToken();
-			while (this.currentToken.type == 'empty') this.currentToken = this.lexer.readNextToken();
-			return this.currentToken;
-		},
-
-		// Wrapper function ; parse the source
-		parseExpressionsRecursively: function () {
-			return this.parseLogicalExpression();
-		},
-
-		// Parse logical expressions (AND/OR)
-		parseLogicalExpression: function () {
-			var leftNode = this.parseConditionExpression();
-
-			while (this.currentToken.type == 'logic') {
-				var logic = this.currentToken.value;
-				this.readNextToken();
-
-				var rightNode = this.parseConditionExpression();
-
-				// If we are chaining the same logical operator, add nodes to existing object instead of creating another one
-				if (typeof leftNode.logic != 'undefined' && leftNode.logic == logic && typeof leftNode.terms != 'undefined') leftNode.terms.push(rightNode);
-				else {
-					var terms = [leftNode, rightNode];
-					leftNode = {'logic': logic, 'terms': terms.slice(0)};
-				}
-			}
-
-			return leftNode;
-		},
-
-		// Parse conditions ([word/string] [operator] [word/string])
-		parseConditionExpression: function () {
-			var leftNode = this.parseBaseExpression();
-
-			if (this.currentToken.type == 'operator') {
-				var operator = this.currentToken.value;
-				this.readNextToken();
-
-				// If there are 2 adjacent operators, join them with a space (exemple: IS NOT)
-				if (this.currentToken.type == 'operator') {
-					operator += ' ' + this.currentToken.value;
-					this.readNextToken();
-				}
-
-				var rightNode = this.parseBaseExpression();
-
-				leftNode = {'operator': operator, 'left': leftNode, 'right': rightNode};
-			}
-
-			return leftNode;
-		},
-
-		// Parse base items
-		parseBaseExpression: function () {
-			var astNode = "";
-
-			// If this is a word/string, return its value
-			if (this.currentToken.type == 'word' || this.currentToken.type == 'string') {
-				astNode = this.currentToken.value;
-				this.readNextToken();
-			}
-			// If this is a group, skip brackets and parse the inside
-			else if (this.currentToken.type == 'group') {
-				this.readNextToken();
-				astNode = this.parseExpressionsRecursively();
-				this.readNextToken();
-			}
-
-			return astNode;
-		},
-	};
-
-	// Parse a string
-	CondParser.parse = function (source) {
-		return new CondParser(source).parseExpressionsRecursively();
-	};
-
-	// Generate the SQL query corresponding to an AST output by sql2ast()
-	exports.ast2sql = function (ast) {
+	function where(ast) {
 		var result = '';
-
-		// Define subfunctions
-		function select(ast) {
-			if (typeof ast['SELECT'] != 'undefined') {
-				return 'SELECT ' + ast['SELECT'].map(function(item) {
-					return item.name;
-				}).join(', ');
-			}
-			else return '';
-		}
-
-		function from(ast) {
-			if (typeof ast['FROM'] != 'undefined') {
-				var result = ' FROM ';
-				var tmp = ast['FROM'].map(function (item) {
-					var str = item.table;
-					if (item.as !== '') str += ' AS ' + item.as;
-					return str;
-				});
-				result += tmp.join(', ');
-				return result;
-			}
-			else return '';
-		}
-
-		function join(ast) {
-			if (typeof ast['JOIN'] != 'undefined') {
-				var result = '';
-				ast['JOIN'].forEach(function(item) {
-					result += ' ' + item.type.toUpperCase() + ' JOIN ' + item.table;
-					if (item.as !== '') result += ' AS ' + item.as;
-					result += ' ON ' + cond2sql(item.cond);
-				});
-				return result;
-			}
-			else return '';
-		}
-
-		function where(ast) {
-			if (typeof ast['WHERE'] != 'undefined') {
-				return ' WHERE ' + cond2sql(ast['WHERE']);
-			}
-			else return '';
-		}
-
-		function order_by(ast) {
-			if (typeof ast['ORDER BY'] != 'undefined') {
-				var result = ' ORDER BY ';
-				var orders = ast['ORDER BY'].map(function (item) {
-					return item.column + ' ' + item.order;
-				});
-				result += orders.join(', ');
-				return result;
-			}
-			else return '';
-		}
-
-		function group_by(ast) {
-			if (typeof ast['GROUP BY'] != 'undefined') {
-				var result = ' GROUP BY ';
-				var groups = ast['GROUP BY'].map(function (item) {
-					return item.column;
-				});
-				result += groups.join(', ');
-				return result;
-			}
-			else return '';
-		}
-
-		function limit(ast) {
-			if (typeof ast['LIMIT'] != 'undefined' && typeof ast['LIMIT'].nb != 'undefined' && parseInt(ast['LIMIT'].nb, 10) > 0) {
-				var result = ' LIMIT ';
-				if (typeof ast['LIMIT'].from != 'undefined' && parseInt(ast['LIMIT'].from, 10) > 1) result += ast['LIMIT'].from + ',';
-				result += ast['LIMIT'].nb;
-				return result;
-			}
-			else return '';
-		}
-
-		function insert_into(ast) {
-			if (typeof ast['INSERT INTO'] != 'undefined') {
-				var result = 'INSERT INTO ' + ast['INSERT INTO'].table;
-				if (typeof ast['INSERT INTO'].columns != 'undefined') {
-					result += ' (';
-					result += ast['INSERT INTO'].columns.join(', ');
-					result += ')';
-				}
-				return result;
-			}
-			else return '';
-		}
-
-		function values(ast) {
-			if (typeof ast['VALUES'] != 'undefined') {
-				var result = ' VALUES ';
-				var vals = ast['VALUES'].map(function (item) {
-					return '(' + item.join(', ') + ')';
-				});
-				result += vals.join(', ');
-				return result;
-			}
-			else return '';
-		}
-
-		function delete_from(ast) {
-			if (typeof ast['DELETE FROM'] != 'undefined') {
-				var result = 'DELETE FROM ';
-				result += ast['DELETE FROM'].map(function (item) {
-					var str = item.table;
-					if (item.as !== '') str += ' AS ' + item.as;
-					return str;
-				}).join(', ');
-				return result;
-			}
-			else return '';
-		}
-
-		function update(ast) {
-			if (typeof ast['UPDATE'] != 'undefined') {
-				var result = 'UPDATE ';
-				result += ast['UPDATE'].map(function (item) {
-					var str = item.table;
-					if (item.as !== '') str += ' AS ' + item.as;
-					return str;
-				}).join(', ');
-				return result;
-			}
-			else return '';
-		}
-
-		function set(ast) {
-			if (typeof ast['SET'] != 'undefined') {
-				return ' SET ' + ast['SET'].map(function(item) {
-					return item.expression;
-				}).join(', ');
-			}
-			else return '';
-		}
-
-
-		// Check request's type
-		if (typeof ast['SELECT'] != 'undefined' && typeof ast['FROM'] != 'undefined') {
-			result = select(ast) + from(ast) + join(ast) + where(ast) + group_by(ast) + order_by(ast) + limit(ast);
-		}
-		else if (typeof ast['INSERT INTO'] != 'undefined') {
-			result = insert_into(ast) + values(ast);
-		}
-		else if (typeof ast['UPDATE'] != 'undefined') {
-			result = update(ast) + set(ast) + where(ast);
-		}
-		else if (typeof ast['DELETE FROM'] != 'undefined') {
-			result = delete_from(ast) + where(ast);
-		}
-		else result = null;
-
-		return result;
-	};
-
-	// Generate SQL from a condition AST output by sql2ast() or CondParser
-	function cond2sql(cond, not_first) {
-		var result = '';
-
-		// If there is a logical operation
-		if (typeof cond.logic != 'undefined') {
-			result = cond.terms.map(function (item) {
-				return cond2sql(item, true);
-			});
-			result = result.join(' ' + cond.logic + ' ');
-			if (typeof not_first !== 'undefined') result = '(' + result + ')';
-		}
-		// If there is a condition
-		else if (typeof cond.left != 'undefined') {
-			result = cond.left;
-			if (typeof cond.operator != 'undefined') {
-				result += ' ' + cond.operator;
-				if (typeof cond.right != 'undefined') {
-					if (cond.operator === 'IN') {
-						result += ' (' + cond.right + ')';
-					}
-					else {
-						result += ' ' + cond.right;
-					}
-				}
-			}
-		}
-		// If there is a boolean
-		else result = cond;
-
+		if (ast.where !== null) result += 'WHERE ' + ast.where.expression;
 		return result;
 	}
 
-	// Export some methods for tests
-	exports.trim = trim;
-	exports.protect = protect;
-	exports.unprotect = unprotect;
-	exports.protect_split = protect_split;
-	exports.CondLexer = CondLexer;
-	exports.CondParser = CondParser;
+	function group(ast) {
+		var result = '';
+		if (ast.group.length > 0) {
+			result += 'GROUP BY ';
+			result += ast.group.map(function(item) {
+				return item.expression;
+			}).join(', ');
+		}
+		return result;
+	}
 
-}(typeof exports === "undefined" ? (this.simpleSqlParser = {}) : exports));
+	function order(ast) {
+		var result = '';
+		if (ast.order.length > 0) {
+			result += 'ORDER BY ';
+			result += ast.order.map(function(item) {
+				return item.expression;
+			}).join(', ');
+		}
+		return result;
+	}
+
+	function limit(ast) {
+		var result = '';
+		if (ast.limit !== null) {
+			result += 'LIMIT ';
+			if (ast.limit.from !== null) result += ast.limit.from + ', ';
+			result += ast.limit.nb;
+		}
+		return result;
+	}
+
+	function into(ast) {
+		return 'INSERT INTO ' + ast.into.expression;
+	}
+
+	function values(ast) {
+		var result = '';
+		var targets = ast.values.filter(function(item) {
+			return item.target !== null;
+		});
+		if (targets.length > 0) {
+			result += '(';
+			result += targets.map(function(item) {
+				return item.target.expression;
+			}).join(', ');
+			result += ') ';
+		}
+		result += 'VALUES (';
+		result += ast.values.map(function(item) {
+			return item.value;
+		}).join(', ');
+		result += ')';
+		return result;
+	}
+
+	function table(ast) {
+		return 'UPDATE ' + ast.table.expression;
+	}
+
+	function update(ast) {
+		var result = 'SET ';
+		result += ast.values.map(function(item) {
+			return item.target.expression + ' = ' + item.value;
+		}).join(', ');
+		return result;
+	}
+
+	var ast = astObject.value;
+	var parts = [];
+	if (ast.type === 'select') {
+		parts.push(select(ast));
+		parts.push(from(ast));
+		parts.push(join(ast));
+		parts.push(where(ast));
+		parts.push(group(ast));
+		parts.push(order(ast));
+		parts.push(limit(ast));
+	}
+	else if (ast.type === 'insert') {
+		parts.push(into(ast));
+		parts.push(values(ast));
+	}
+	else if (ast.type === 'update') {
+		parts.push(table(ast));
+		parts.push(update(ast));
+		parts.push(where(ast));
+	}
+	else if (ast.type === 'delete') {
+		parts.push('DELETE');
+		parts.push(from(ast));
+		parts.push(where(ast));
+	}
+	else return false;
+
+	return parts.filter(function(item) {
+		return item !== '';
+	}).join(' ');
+};
+
+},{}],6:[function(require,module,exports){
+'use strict';
+var Parsimmon = require('parsimmon');
+
+/********************************************************************************************
+	ALIASES
+********************************************************************************************/
+
+var seq = Parsimmon.seq;
+var alt = Parsimmon.alt;
+var regex = Parsimmon.regex;
+var string = Parsimmon.string;
+var optWhitespace = Parsimmon.optWhitespace;
+var whitespace = Parsimmon.whitespace;
+var lazy = Parsimmon.lazy;
+
+
+
+/********************************************************************************************
+	COMMON PATTERNS
+********************************************************************************************/
+
+// Make a parser optionnal
+// "empty" parameter will be returned as result if the optionnal parser can't match
+function opt(parser, empty) {
+	if (typeof empty == 'undefined') return parser.or(Parsimmon.succeed([]));
+	return parser.or(Parsimmon.succeed(empty));
+}
+
+// Join results of a parser
+function mkString(node) {
+	return node.join('');
+}
+
+// Add an item to an optionnal list and return the final list
+function mergeOptionnalList(node) {
+	node[0].push(node[1]);
+	return node[0];
+}
+
+// Generate a parser that accept a comma-separated list of something
+function optionnalList(parser) {
+	return seq(
+		parser.skip(optWhitespace).skip(string(',')).skip(optWhitespace).many(),
+		parser.skip(optWhitespace)
+	).map(mergeOptionnalList);
+}
+
+// Remove first and last character of a string
+function removeQuotes(str) {
+	return str.replace(/^([`'"])(.*)\1$/, '$2');
+}
+
+// Add the starting and ending char positions of matches of a given parser
+function getPos(parser) {
+	return seq(
+		Parsimmon.index,
+		parser,
+		Parsimmon.index
+	).map(function(node) {
+		var pos = {
+			start: node[0],
+			end: node[2],
+		};
+		if (typeof node[1] == 'object') {
+			var n = node[1];
+			n.position = pos;
+			return n;
+		}
+		else {
+			pos.out = node[1];
+			return pos;
+		}
+	});
+}
+
+
+
+/********************************************************************************************
+	LOW LEVEL PARSERS
+********************************************************************************************/
+
+// The name of a column/table
+var colName = alt(
+	regex(/(?!(FROM|WHERE|GROUP BY|ORDER BY|LIMIT|INNER|LEFT|RIGHT|JOIN|ON|VALUES|SET)\s)[a-z*][a-z0-9_]*/i),
+	regex(/`[^`\\]*(?:\\.[^`\\]*)*`/)
+);
+
+// A string
+var str = alt(
+	regex(/"[^"\\]*(?:\\.[^"\\]*)*"/),
+	regex(/'[^'\\]*(?:\\.[^'\\]*)*'/)
+);
+
+// A function expression
+var func = seq(
+	alt(
+		regex(/[a-zA-Z0-9_]+\(/),
+		string('(')
+		),
+	/*eslint-disable no-use-before-define*/
+	opt(lazy(function() {
+		return argList;
+	})).map(mkString),
+	/*eslint-enable no-use-before-define*/
+	string(')')
+).map(mkString);
+
+// A table.column expression
+var tableAndColumn = seq(
+	colName,
+	string('.'),
+	colName
+);
+
+// An operator
+var operator = alt(
+	string('+'),
+	string('-'),
+	string('*'),
+	string('/'),
+	string('&&'),
+	string('&'),
+	string('~'),
+	string('||'),
+	string('|'),
+	string('^'),
+	regex(/XOR/i),
+	string('<=>'),
+	string('='),
+	string('!='),
+	string('>='),
+	string('>>'),
+	string('>'),
+	string('<='),
+	string('<<'),
+	string('<'),
+	regex(/IS NULL/i),
+	regex(/IS NOT/i),
+	regex(/IS NOT NULL/i),
+	regex(/IS/i),
+	regex(/LIKE/i),
+	regex(/NOT LIKE/i),
+	string('%'),
+	regex(/MOD/i),
+	regex(/NOT/i),
+	regex(/OR\s/i),	// A space is forced after so this doesn't get mixed up with ORDER BY
+	regex(/AND/i),
+	regex(/IN/i)
+);
+
+// A number
+var number = regex(/[-]?\d+\.?\d*/);
+
+
+
+/********************************************************************************************
+	EXPRESSION PARSERS
+********************************************************************************************/
+
+// List (following IN, for example)
+var list = seq(
+	string('('),
+	optWhitespace,
+	seq(
+		alt(
+			number,
+			str
+		),
+		optWhitespace,
+		opt(string(',')),
+		optWhitespace,
+		opt(
+			alt(
+				number,
+				str
+			)
+		)
+	).map(mkString),
+	optWhitespace,
+	string(')')
+).map(mkString);
+
+// Expression
+var expression = seq(
+	alt(
+		tableAndColumn.map(function(node) {
+			return {
+				expression: node.join(''),
+				table: removeQuotes(node[0]),
+				column: removeQuotes(node[2]),
+			};
+		}),
+		func.map(function(node) {
+			return {
+				expression: node,
+				table: null,
+				column: null,
+			};
+		}),
+		colName.map(function(node) {
+			return {
+				expression: node,
+				table: null,
+				column: removeQuotes(node),
+			};
+		}),
+		str.map(function(node) {
+			return {
+				expression: node,
+				table: null,
+				column: null,
+			};
+		}),
+		number.map(function(node) {
+			return {
+				expression: node,
+				table: null,
+				column: null,
+			};
+		}),
+		list.map(function(node) {
+			return {
+				expression: node,
+				table: null,
+				column: null,
+			};
+		})
+	),
+	opt(seq(
+		optWhitespace,
+		operator,
+		opt(seq(
+			optWhitespace,
+			lazy(function() {
+				return expression;
+			}).map(function(node) {
+				return node.expression;
+			})
+		).map(mkString), null)
+	).map(mkString), null)
+).map(function(node) {
+	if (node[1] !== null) {
+		node[0] = node[0].expression;
+		return {
+			expression: node.join(''),
+			table: null,
+			column: null,
+		};
+	}
+	else return node[0];
+});
+
+// Expression following a SELECT statement
+var colListExpression = seq(
+	expression,
+	opt(	// Alias
+		seq(
+			optWhitespace,
+			opt(regex(/AS\s/i)),
+			alt(colName, str)
+		).map(function(node) {
+			var n = {};
+			n.alias = removeQuotes(node[2]);
+			n.expression = node.join('');
+			return n;
+		}),
+		null
+	)
+).map(function(node) {
+	var n = node[0];
+	n.alias = (node[1] !== null) ? node[1].alias : null;
+	n.expression += ((node[1] !== null) ? node[1].expression : '');
+	return n;
+});
+
+// Expression inside a function
+var argListExpression = expression.map(function(node) {
+	return node.expression;
+});
+
+// Expression following a FROM statement
+var tableListExpression = seq(
+	alt(
+		tableAndColumn.map(mkString),
+		colName
+	),
+	opt(	// Alias
+		seq(
+			optWhitespace,
+			opt(regex(/AS\s/i)),
+			alt(colName, str)
+		).map(function(node) {
+			return {
+				alias: removeQuotes(node[2]),
+				expression: node.join(''),
+			};
+		}),
+		null
+	)
+).map(function(node) {
+	var n = {};
+	n.table = node[0];
+	n.alias = (node[1] !== null) ? node[1].alias : null;
+	n.expression = node[0] + ((node[1] !== null) ? node[1].expression : '');
+	return n;
+});
+
+// JOIN expression (including JOIN statements)
+var joinExpression = seq(
+	opt(seq(
+		regex(/INNER|LEFT|RIGHT/i),
+		whitespace
+	).map(function(node) {
+		return node[0].toLowerCase();
+	}), null),
+	regex(/JOIN/i),
+	optWhitespace,
+	getPos(tableListExpression),
+	optWhitespace,
+	regex(/ON/i),
+	optWhitespace,
+	getPos(expression)
+).map(function(node) {
+	var n = {};
+	n.type = node[0] || 'inner';
+	n.table = node[3].table;
+	n.alias = node[3].alias;
+	n.position = node[3].position;
+	n.condition = {
+		expression: node[7].expression,
+		position: node[7].position,
+	};
+	return n;
+});
+
+// Expression following a WHERE statement
+var whereExpression = getPos(expression).map(function(node) {
+	return {
+		expression: node.expression,
+		position: node.position,
+	};
+});
+
+// Expression following an ORDER BY statement
+var orderListExpression = seq(
+	expression,
+	opt(seq(
+		optWhitespace,
+		regex(/ASC|DESC/i)
+	), null)
+).map(function(node) {
+	return {
+		expression: node[0].expression + ((node[1] !== null) ? node[1].join('') : ''),
+		order: (node[1] !== null) ? node[1][1] : 'ASC',
+		table: node[0].table,
+		column: node[0].column,
+	};
+});
+
+// Expression following a LIMIT statement
+var limitExpression = seq(
+	number,
+	opt(seq(
+		optWhitespace,
+		string(','),
+		optWhitespace,
+		number
+	), null)
+).map(function(node) {
+	if (node[1] === null) {
+		return {
+			from: null,
+			nb: parseInt(node[0], 10),
+		};
+	}
+	else {
+		return {
+			from: parseInt(node[0], 10),
+			nb: parseInt(node[1][3], 10),
+		};
+	}
+});
+
+// Expression designating a column before VALUES in INSERT query
+var insertColListExpression = alt(
+	tableAndColumn.map(function(node) {
+		return {
+			expression: node.join(''),
+			column: removeQuotes(node[2]),
+		};
+	}),
+	colName.map(function(node) {
+		return {
+			expression: node,
+			column: removeQuotes(node),
+		};
+	})
+);
+
+// Expression following a VALUES statement
+var valueExpression = expression.map(function(node) {
+	return node.expression;
+});
+
+// Expression that assign a value to a column
+var assignExpression = seq(
+	insertColListExpression,
+	optWhitespace,
+	string('='),
+	optWhitespace,
+	expression
+).map(function(node) {
+	return {
+		target: node[0],
+		value: node[4].expression,
+	};
+});
+
+
+
+/********************************************************************************************
+	HIGH LEVEL PARSERS
+********************************************************************************************/
+
+// List of arguments inside a function
+var argList = seq(
+	seq(argListExpression, optWhitespace, string(','), optWhitespace).map(mkString).many(),
+	argListExpression.skip(optWhitespace)
+).map(mergeOptionnalList);
+
+// List of expressions following a SELECT statement
+var colList = optionnalList(getPos(colListExpression));
+
+// List of table following a FROM statement
+var tableList = optionnalList(getPos(tableListExpression));
+
+// List of table following an GROUP BY statement
+var groupList = optionnalList(getPos(expression));
+
+// List of table following an ORDER BY statement
+var orderList = optionnalList(getPos(orderListExpression));
+
+// List of joins (including JOIN statements)
+var joinList = optWhitespace.then(joinExpression).skip(optWhitespace).many();
+
+// List of columns before VALUES in INSERT query
+var insertColList = optionnalList(insertColListExpression);
+
+// List of values following a VALUES statement
+var valuesList = optionnalList(valueExpression);
+
+// List of assign expression following a SET statement
+var assignList = optionnalList(assignExpression);
+
+
+
+/********************************************************************************************
+	MAIN PARSERS
+********************************************************************************************/
+
+// SELECT parser
+var selectParser = seq(
+	regex(/SELECT/i).skip(optWhitespace).then(opt(colList)),
+	opt(regex(/FROM/i).skip(optWhitespace).then(opt(tableList)), []),
+	opt(joinList),
+	opt(regex(/WHERE/i).skip(optWhitespace).then(opt(whereExpression)), null),
+	opt(regex(/\s?GROUP BY/i).skip(optWhitespace).then(opt(groupList))),
+	opt(regex(/\s?ORDER BY/i).skip(optWhitespace).then(opt(orderList))),
+	opt(regex(/\s?LIMIT/i).skip(optWhitespace).then(opt(limitExpression)), null)
+).map(function(node) {
+	return {
+		type: 'select',
+		select: node[0],
+		from: node[1],
+		join: node[2],
+		where: node[3],
+		group: node[4],
+		order: node[5],
+		limit: node[6],
+	};
+});
+
+// INSERT parser
+var insertParser = seq(
+	regex(/INSERT INTO/i).skip(optWhitespace).then(tableListExpression),
+	optWhitespace,
+	opt(
+		seq(
+			string('('),
+			insertColList,
+			string(')')
+		).map(function(node) {
+			return node[1];
+		})
+	),
+	optWhitespace,
+	regex(/VALUES\s?\(/i).skip(optWhitespace).then(valuesList),
+	string(')')
+).map(function(node) {
+	var values = [];
+	var bigger = Math.max(node[2].length, node[4].length);
+
+	for (var i = 0; i < bigger; ++i) {
+		values[i] = {
+			target: node[2][i] || null,
+			value: node[4][i] || null,
+		};
+	}
+
+	return {
+		type: 'insert',
+		into: node[0],
+		values: values,
+	};
+});
+
+// UPDATE parser
+var updateParser = seq(
+	regex(/UPDATE/i).skip(optWhitespace).then(tableListExpression),
+	optWhitespace,
+	regex(/SET/i).skip(optWhitespace).then(assignList),
+	optWhitespace,
+	opt(regex(/WHERE/i).skip(optWhitespace).then(opt(whereExpression)), null)
+).map(function(node) {
+	return {
+		type: 'update',
+		table: node[0],
+		values: node[2],
+		where: node[4],
+	};
+});
+
+// DELETE parser
+var deleteParser = seq(
+	regex(/DELETE FROM/i).skip(optWhitespace).then(opt(tableList)),
+	opt(regex(/WHERE/i).skip(optWhitespace).then(opt(whereExpression)), null)
+).map(function(node) {
+	return {
+		type: 'delete',
+		from: node[0],
+		where: node[1],
+	};
+});
+
+// Main parser
+var p = alt(selectParser, insertParser, updateParser, deleteParser);
+
+
+
+/********************************************************************************************
+	PUBLIC FUNCTIONS
+********************************************************************************************/
+
+module.exports = function(sql) {
+	var result = p.parse(sql);
+	if (result.status === false) result.error = Parsimmon.formatError(sql, result);
+	return result;
+};
+
+},{"parsimmon":3}]},{},[1])(1)
+});

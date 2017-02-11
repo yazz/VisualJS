@@ -25,6 +25,8 @@ var simpleSqlParser;
       //console.log('simpleSqlParser: ' + simpleSqlParser);
       var ast = simpleSqlParser.sql2ast(sql);
       console.log('ast: ' + JSON.stringify(ast));
+      console.log('ast keys: ' + Object.keys(ast));
+
   };
 
 
