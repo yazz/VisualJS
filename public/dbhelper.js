@@ -1,9 +1,13 @@
 var localgun;
+var simpleSqlParser;
 
 (function(exports){
 
     exports.init = function(lg) {
         localgun = lg;
+    }
+    exports.setParser = function(lg) {
+        simpleSqlParser = lg;
     }
 
   exports.helpme = function() {
@@ -12,18 +16,22 @@ var localgun;
 
 
 
-  exports.sql = function(sql, callbackFn) {
-      sql('default', sql, callbackFn);
-  };
-  exports.sql = function(schema, sql, callbackFn) {
+  exports.sql = function(sql, callbackFn, schema) {
+      console.log('function(schema, sql, callbackFn) : ');
       console.log('SQL: ' + sql);
+      console.log('callbackFn: ' + callbackFn);
+      console.log('schema: ' + schema);
+
+      //console.log('simpleSqlParser: ' + simpleSqlParser);
+      var ast = simpleSqlParser.sql2ast(sql);
+      console.log('ast: ' + JSON.stringify(ast));
   };
 
 
 
 
   exports.ifNull = function(entry, callbackFn) {
-      ifNull('default',entry, callbackFn); 
+      ifNull('default',entry, callbackFn);
   }
   exports.ifNull = function(schema,entry, callbackFn) {
       gun.get(schema).path(entry).not(function(pp) {

@@ -106,6 +106,7 @@ function setupGunDB() {
         },true);
 
         db.init(gun)
+        db.setParser(simpleSqlParser)
         db.helpme()
 }
 
@@ -180,10 +181,12 @@ $( document ).ready(function() {
   setupSqlVuePane();
   initConnectionsListVuePane();
   initClientsConnectedVuePane();
+
+  sql('select * from clienttable', null)
 });
 
 
 
 window.sql = function(sql) {
-    console.log("sql: " + sql);
+    console.log("sql: " + db.sql(sql, null));
 }

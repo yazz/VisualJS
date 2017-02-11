@@ -31,7 +31,7 @@ var gun          = Gun({ file: 'data.json',
                             bucket: '' // The bucket you want to save into
                           }
                         });
-
+var simpleSqlParser = require('simple-sql-parser');
 
 path.join(__dirname, '../public/blockly/blockly_compressed.js')
 path.join(__dirname, '../public/blockly/blocks_compressed.js')
@@ -130,8 +130,9 @@ function startServices() {
 
 
   dbhelper.init(gun)
+  dbhelper.setParser(simpleSqlParser)
   dbhelper.helpme()
-
+  dbhelper.sql('select * from servertable', null)
 
 
 
