@@ -1,6 +1,8 @@
 var localgun;
 var simpleSqlParser;
 
+
+
 (function(exports){
 
     exports.init = function(lg) {
@@ -16,18 +18,42 @@ var simpleSqlParser;
 
 
 
-  exports.sql = function(sql, callbackFn, schema) {
-      console.log('function(schema, sql, callbackFn) : ');
-      console.log('SQL: ' + sql);
-      console.log('callbackFn: ' + callbackFn);
-      console.log('schema: ' + schema);
 
-      //console.log('simpleSqlParser: ' + simpleSqlParser);
-      var ast = simpleSqlParser.sql2ast(sql);
-      console.log('ast: ' + JSON.stringify(ast));
-      console.log('ast keys: ' + Object.keys(ast));
+    exports.realtime_sql = function(sql, callbackFn, schema) {
+        console.log('SQL: ' + sql);
+        console.log('callbackFn: ' + callbackFn);
+        console.log('schema: ' + schema);
 
-  };
+        var ast = simpleSqlParser.sql2ast(sql);
+        console.log('ast: ' + JSON.stringify(ast , null, 2));
+    };
+
+
+
+    exports.sql = function(sql, callbackFn, schema) {
+        console.log('SQL: ' + sql);
+        console.log('callbackFn: ' + callbackFn);
+        if (!schema) {
+            schema = 'default'
+        }
+        console.log('schema: ' + schema);
+
+        var ast = simpleSqlParser.sql2ast(sql);
+        if (ast.status) {
+            console.log('ast: ' + JSON.stringify(ast , null, 2));
+            console.log('type: ' + ast.value.type)
+            if (ast.value.type == 'insert') {
+                console.log('table name: ' + ast.value.into.table)
+                var newRecord = new Object()
+                for (column of ast.value.values) {
+                    newRecord[column.target.column] = column.value
+                    console.log('Col ' + column.target.column + ' = ' + column.value)
+                    gun.get(schema).path(ast.value.into.table).put(newRecord);
+                }
+            }
+        }
+        return ast.status
+    };
 
 
 

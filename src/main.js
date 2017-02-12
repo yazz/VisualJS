@@ -11,7 +11,7 @@ import store                    from './store.js'
 import db                       from '../public/dbhelper.js'
 
 
-const gun_ip_address = '172.27.6.36'
+const gun_ip_address = '172.18.0.104'
 
 
 
@@ -100,7 +100,7 @@ function setupGunDB() {
         gun.get('default').path('connections_changed.value').on(function(x) {
             connectionrows = new Object();
             data_connections_list = [];
-            console.log('*****new val = ' + x);
+            //console.log('*****new val = ' + x);
             store.dispatch('clear_connections');
             gun.get("connections").map(read_connections,true);
         },true);
@@ -122,7 +122,7 @@ function read_connections(a,b){
         if (!a.deleted) {
             data_connections_list.push(a);
             connectionrows[a.id] = a;
-            console.log("deleted: " + a.deleted);
+            //console.log("deleted: " + a.deleted);
             store.dispatch('add_connection', {cn: a.id, cp: a})
         }
     }
@@ -182,11 +182,19 @@ $( document ).ready(function() {
   initConnectionsListVuePane();
   initClientsConnectedVuePane();
 
-  sql('select * from clienttable', null)
+  /*sql('insert into clienttable (id, next) values (1,"fdg")',
+      function(record) {
+          console.log('record:' + record)
+      })*/
+
+  sql('select * from clienttable',
+      function(record) {
+          console.log('record:' + record)
+      })
 });
 
 
 
-window.sql = function(sql) {
-    console.log("sql: " + db.sql(sql, null));
+window.sql = function(sql, callBackFn, schema) {
+    db.sql(sql, callBackFn, schema);
 }

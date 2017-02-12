@@ -133,7 +133,7 @@ function startServices() {
   dbhelper.init(gun)
   dbhelper.setParser(simpleSqlParser)
   dbhelper.helpme()
-  dbhelper.sql('select * from servertable', null)
+  //dbhelper.sql('select * from servertable', null)
 
 
 
