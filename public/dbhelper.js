@@ -55,8 +55,17 @@ var simpleSqlParser;
                 console.log('table name: ' + ast.value.from[0].table)
                 gun.get(schema).path(ast.value.from[0].table).on().map(function(a,b){
                   delete a["_"];
-                 // callbackFn(a)
-                 console.log(a)
+                  if (callbackFn) {
+                    callbackFn(a)
+                } else {
+                  console.log(a)
+                }
+                },true);
+            }
+            else if (ast.value.type == 'delete') {
+                console.log('table name: ' + ast.value.from[0].table)
+                gun.get(schema).path(ast.value.from[0].table).on().map(function(a,b){
+                  console.log(a)
                 },true);
             }
         }
