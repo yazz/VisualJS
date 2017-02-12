@@ -48,7 +48,7 @@ var simpleSqlParser;
                 for (column of ast.value.values) {
                     newRecord[column.target.column] = column.value
                     console.log('Col ' + column.target.column + ' = ' + column.value)
-                    gun.get(schema).path(ast.value.into.table).set(newRecord);
+                    gun.get(schema).path(ast.value.into.table + '.' + Gun.text.random()).set(newRecord);
                 }
             }
             else if (ast.value.type == 'select') {
