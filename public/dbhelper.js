@@ -48,25 +48,28 @@ var simpleSqlParser;
                 for (column of ast.value.values) {
                     newRecord[column.target.column] = column.value
                     console.log('Col ' + column.target.column + ' = ' + column.value)
-                    gun.get(schema).path(ast.value.into.table + '.' + Gun.text.random()).set(newRecord);
+                    gun.get(schema).path(ast.value.into.table + '.' + Gun.text.random()).put(newRecord);
                 }
             }
             else if (ast.value.type == 'select') {
                 console.log('table name: ' + ast.value.from[0].table)
-                gun.get(schema).path(ast.value.from[0].table).on().map(function(a,b){
-                  delete a["_"];
+                gun.get(schema).path(ast.value.from[0].table).map().val(function(a){
                   if (callbackFn) {
+                    delete a["_"];
                     callbackFn(a)
                 } else {
-                  console.log(a)
+                      //console.log(JSON.stringify(a,null,2));
+                      console.log(a);
+
+
                 }
                 },true);
             }
             else if (ast.value.type == 'delete') {
                 console.log('table name: ' + ast.value.from[0].table)
                 gun.get(schema).path(ast.value.from[0].table).on().map(function(a,b){
-                  console.log(a)
-                },true);
+
+                });
             }
         }
         return ast.status
