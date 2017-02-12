@@ -48,8 +48,16 @@ var simpleSqlParser;
                 for (column of ast.value.values) {
                     newRecord[column.target.column] = column.value
                     console.log('Col ' + column.target.column + ' = ' + column.value)
-                    gun.get(schema).path(ast.value.into.table).put(newRecord);
+                    gun.get(schema).path(ast.value.into.table).set(newRecord);
                 }
+            }
+            else if (ast.value.type == 'select') {
+                console.log('table name: ' + ast.value.from[0].table)
+                gun.get(schema).path(ast.value.from[0].table).on().map(function(a,b){
+                  delete a["_"];
+                 // callbackFn(a)
+                 console.log(a)
+                },true);
             }
         }
         return ast.status

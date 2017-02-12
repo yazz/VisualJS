@@ -182,14 +182,14 @@ $( document ).ready(function() {
   initConnectionsListVuePane();
   initClientsConnectedVuePane();
 
-  /*sql('insert into clienttable (id, next) values (1,"fdg")',
+  sql('insert into clienttable2 (id, next) values (3,"fdg")',
       function(record) {
           console.log('record:' + record)
-      })*/
+      })
 
-  sql('select * from clienttable',
+  sql('select * from clienttable2',
       function(record) {
-          console.log('record:' + record)
+          console.log('record:' + JSON.stringify(record) )
       })
 });
 
