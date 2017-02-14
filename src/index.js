@@ -285,7 +285,7 @@ app.listen(port, hostaddress, function () {
 
   console.log("*********** CHECKING CONNECTIONS *****************8");
   var connectionrows        = new Object();
-  gun.get("connections").on().map(function(a,b){
+  gun.get("connections").map(function(a,b){
     delete a["_"];
     if (!connectionrows[a.id]) {
       //data_connections_list.push(a);

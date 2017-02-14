@@ -90,7 +90,8 @@ function setupGunDB() {
                 document.getElementById('mainid').innerHTML=data.value
             }});
 
-        gun.get("connections").on().map(read_connections,true);
+
+        gun.get("connections").map(read_connections,true);
 
         gun.get('default').not(function(pp) {
             gun.path('connections_changed').put({value: 1}).key('default');
