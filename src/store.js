@@ -92,7 +92,7 @@ export default new Vuex.Store({
     add_new_connection: function(a, connection){
       //a.commit('ADD_NEW_CONNECTION', connection)
       //console.log(JSON.stringify(connection.cp));
-      gun.get('connections').path(connection.cp.id).put(connection.cp);
+      //gun.get('connections').path(connection.cp.id).put(connection.cp);
 
     },
     clear_connections: function(a){
@@ -103,10 +103,10 @@ export default new Vuex.Store({
       //a.commit('ADD_NEW_CONNECTION', connection)
       //console.log(JSON.stringify(connection.cp));
       connection.deleted = true;
-      gun.get('connections').path(connection.id).put(connection,
-      function() {gun.get('default').path('connections_changed').val(function(v){
-            gun.get('default').path('connections_changed').put({value: v.value + 1});
-      },true);});
+      //gun.get('connections').path(connection.id).put(connection,
+      //function() {gun.get('default').path('connections_changed').val(function(v){
+      //      gun.get('default').path('connections_changed').put({value: v.value + 1});
+      //},true);});
       //alert(connection.id);
 
     },

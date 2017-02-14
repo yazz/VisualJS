@@ -29,9 +29,9 @@ function initWelcomeVuePane() {
         setupGunDB();
     }
     if (document.getElementById('welcome')) {
-        console.log(' Welcome pane still exists');
+        //console.log(' Welcome pane still exists');
     } else {
-        console.log(' Welcome pane does not exist anymore. Vue.js destroyed it with new Vue(...)');
+        //console.log(' Welcome pane does not exist anymore. Vue.js destroyed it with new Vue(...)');
     }
 }
 
@@ -85,9 +85,9 @@ function setupGunDB() {
             gun = Gun( ['http://' + location.host + '/gun']);
         };
 
-        gun.get('networktest').on(function(data,id) {
+        /*gun.get('networktest').on(function(data,id) {
             if (document.getElementById('mainid')) {
-                document.getElementById('mainid').innerHTML=data.value
+                document.getElementById('mainid').innerHTML = data.value
             }});
 
 
@@ -104,11 +104,15 @@ function setupGunDB() {
             //console.log('*****new val = ' + x);
             store.dispatch('clear_connections');
             gun.get("connections").map(read_connections,true);
-        },true);
+        },true);*/
 
-        db.init(gun)
+        //localStorage.clear();
+
+        db.setGunDB(gun)
+        db.setGunDBClass(Gun)
         db.setParser(simpleSqlParser)
-        db.helpme()
+        //db.sql("INSERT INTO Customers (CustomerName, ContactName, Address, City, PostalCode, Country)\n VALUES ('Cardinal','Tom B. Erichsen','Skagen 21','Stavanger','4006','Norway')")
+        //db.sql("SELECT age, name FROM Customers");
 }
 
 export function inccc(){
@@ -197,5 +201,5 @@ $( document ).ready(function() {
 
 
 window.sql = function(sql, callBackFn, schema) {
-    db.sql(sql, callBackFn, schema);
+    db.sql(sql);
 }

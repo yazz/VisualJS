@@ -130,10 +130,11 @@ function startServices() {
   gun.wsp(app);
 
 
-  dbhelper.init(gun)
+  dbhelper.setGunDB(gun)
+  dbhelper.setGunDBClass(Gun)
   dbhelper.setParser(simpleSqlParser)
-  dbhelper.helpme()
   //dbhelper.sql('select * from servertable', null)
+  dbhelper.sql("SELECT age, name FROM Customers");
 
 
 
@@ -262,7 +263,8 @@ app.listen(port, hostaddress, function () {
   //--------------------------------------------------------
   // open the app in a web browser
   //--------------------------------------------------------
-  open('http://' + hostaddress  + ":" + port);
+  //open('http://' + hostaddress  + ":" + port);
+  console.log('http://' + hostaddress  + ":" + port);
 
 
   //process.env['PATH'] = path.join(__dirname, '/instantclient') + ';' + process.env['PATH'];
@@ -285,7 +287,7 @@ app.listen(port, hostaddress, function () {
 
   console.log("*********** CHECKING CONNECTIONS *****************8");
   var connectionrows        = new Object();
-  gun.get("connections").map(function(a,b){
+  /*gun.get("connections").map(function(a,b){
     delete a["_"];
     if (!connectionrows[a.id]) {
       //data_connections_list.push(a);
@@ -294,7 +296,7 @@ app.listen(port, hostaddress, function () {
       connections[a.id] = a;
     }
 
-  },true);
+},true);*/
 
 
 

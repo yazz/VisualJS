@@ -1,36 +1,25 @@
 var localgun;
+var localgunclass;
 var simpleSqlParser;
 
 
 
 (function(exports){
 
-    exports.init = function(lg) {
+    exports.setGunDB  = function(lg) {
         localgun = lg;
+    }
+    exports.setGunDBClass  = function(lg) {
+        localgunclass = lg;
     }
     exports.setParser = function(lg) {
         simpleSqlParser = lg;
     }
 
-  exports.helpme = function() {
-      console.log('HELP ME!' + localgun);
-  };
-
-
-
-
-    exports.realtime_sql = function(sql, callbackFn, schema) {
-        console.log('SQL: ' + sql);
-        console.log('callbackFn: ' + callbackFn);
-        console.log('schema: ' + schema);
-
-        var ast = simpleSqlParser.sql2ast(sql);
-        console.log('ast: ' + JSON.stringify(ast , null, 2));
-    };
-
 
 
     exports.sql = function(sql, callbackFn, schema) {
+        console.log('gun: ' + localgun);
         console.log('SQL: ' + sql);
         console.log('callbackFn: ' + callbackFn);
         if (!schema) {
@@ -39,35 +28,40 @@ var simpleSqlParser;
         console.log('schema: ' + schema);
 
         var ast = simpleSqlParser.sql2ast(sql);
+        //console.log('ast: ' + JSON.stringify(ast , null, 2));
         if (ast.status) {
-            console.log('ast: ' + JSON.stringify(ast , null, 2));
-            console.log('type: ' + ast.value.type)
+            //console.log('type: ' + ast.value.type)
             if (ast.value.type == 'insert') {
-                console.log('table name: ' + ast.value.into.table)
+                console.log('insert table name: ' + ast.value.into.table)
                 var newRecord = new Object()
+                //console.log('fields: ' + JSON.stringify(ast.value.values))
+                var newId = Gun.text.random()
                 for (column of ast.value.values) {
+                    console.log('saving record field ' + column.target.column)
                     newRecord[column.target.column] = column.value
-                    console.log('Col ' + column.target.column + ' = ' + column.value)
-                    gun.get(schema).path(ast.value.into.table + '.' + Gun.text.random()).put(newRecord);
+                    localgun.get(schema).path(
+                        ast.value.into.table + '.' + newId).put(newRecord,function(ack) {console.log('saved')});
+                    console.log('INSERTED ' + newId + ': ' + JSON.stringify(newRecord) )
                 }
             }
             else if (ast.value.type == 'select') {
-                console.log('table name: ' + ast.value.from[0].table)
-                gun.get(schema).path(ast.value.from[0].table).map().val(function(a){
+                console.log('select table name: ' + ast.value.from[0].table)
+                var i = 0
+                localgun.get(schema).path(ast.value.from[0].table).map().val(function(a){
+                  var b = localgunclass.obj.copy(a);
                   if (callbackFn) {
-                    delete a["_"];
-                    callbackFn(a)
+                    delete b["_"];
+                    callbackFn(b)
                 } else {
-                      //console.log(JSON.stringify(a,null,2));
-                      console.log(a);
-
-
+                     i++
+                     console.log(i + ':');
+                     console.log( b);
                 }
-                },true);
+            },false);
             }
             else if (ast.value.type == 'delete') {
                 console.log('table name: ' + ast.value.from[0].table)
-                gun.get(schema).path(ast.value.from[0].table).on().map(function(a,b){
+                localgun.get(schema).path(ast.value.from[0].table).on().map(function(a,b){
 
                 });
             }
@@ -75,30 +69,5 @@ var simpleSqlParser;
         return ast.status
     };
 
-
-
-
-  exports.ifNull = function(entry, callbackFn) {
-      ifNull('default',entry, callbackFn);
-  }
-  exports.ifNull = function(schema,entry, callbackFn) {
-      gun.get(schema).path(entry).not(function(pp) {
-          callbackFn();
-      });
-  }
-
-
-
-
-
-  exports.onChangeRecords = function(schema, table, callbackFn) {
-    gun.get(schema).path(table).on().map(function(a,b){
-      delete a["_"];
-      callbackFn(a);
-    },true);
-  };
-  exports.onChangeRecords = function(table, callbackFn) {
-      onChangeRecords('default', table, callbackFn)
-    };
 
 }(typeof exports === 'undefined' ? this.share = {} : exports));
