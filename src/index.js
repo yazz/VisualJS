@@ -134,7 +134,7 @@ function startServices() {
   dbhelper.setGunDBClass(Gun)
   dbhelper.setParser(simpleSqlParser)
   //dbhelper.sql('select * from servertable', null)
-  dbhelper.sql("SELECT age, name FROM Customers");
+  //dbhelper.sql("SELECT age, name FROM Customers");
 
 
 

@@ -4,6 +4,7 @@ var simpleSqlParser;
 
 
 
+
 (function(exports){
 
     exports.setGunDB  = function(lg) {
@@ -19,9 +20,9 @@ var simpleSqlParser;
 
 
     exports.sql = function(sql, callbackFn, schema) {
-        console.log('gun: ' + localgun);
+        //console.log('gun: ' + localgun);
         console.log('SQL: ' + sql);
-        console.log('callbackFn: ' + callbackFn);
+        //console.log('callbackFn: ' + callbackFn);
         if (!schema) {
             schema = 'default'
         }
@@ -37,12 +38,12 @@ var simpleSqlParser;
                 //console.log('fields: ' + JSON.stringify(ast.value.values))
                 var newId = Gun.text.random()
                 for (column of ast.value.values) {
-                    console.log('saving record field ' + column.target.column)
+                    //console.log('saving record field ' + column.target.column)
                     newRecord[column.target.column] = column.value
                     localgun.get(schema).path(
                         ast.value.into.table + '.' + newId).put(newRecord,function(ack) {console.log('saved')});
-                    console.log('INSERTED ' + newId + ': ' + JSON.stringify(newRecord) )
                 }
+              console.log('INSERTED ' + newId + ': ' + JSON.stringify(newRecord) )
             }
             else if (ast.value.type == 'select') {
                 console.log('select table name: ' + ast.value.from[0].table)
@@ -54,8 +55,9 @@ var simpleSqlParser;
                     callbackFn(b)
                 } else {
                      i++
+                     delete b["_"];
                      console.log(i + ':');
-                     console.log( b);
+                     console.log(b);
                 }
             },false);
             }
@@ -68,6 +70,7 @@ var simpleSqlParser;
         }
         return ast.status
     };
+
 
 
 }(typeof exports === 'undefined' ? this.share = {} : exports));
