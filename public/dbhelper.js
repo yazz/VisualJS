@@ -1,7 +1,7 @@
 var localgun;
 var localgunclass;
 var simpleSqlParser;
-
+var sqlParser;
 
 
 
@@ -16,6 +16,11 @@ var simpleSqlParser;
     exports.setParser = function(lg) {
         simpleSqlParser = lg;
     }
+    exports.setSqlParser = function(lg) {
+        sqlParser = lg;
+    }
+
+    
 
 
 

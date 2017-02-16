@@ -9397,14 +9397,14 @@ module.exports = function (ast, opt) {
 var sql2 = 'select * from tablea where field1 = 0';
 var parse = require('node-sqlparser').parse;
 var stringify = require('node-sqlparser').stringify;
-var astObj = parse(sql2);
+//var astObj = parse(sql2);
 window.parseSql = function(p) {
     var x = parse(p);
     console.log(JSON.stringify(x , null, 2));
     return x;
 };
 
-var sqlstr = stringify(astObj);
-console.log(JSON.stringify(astObj , null, 2))
+//var sqlstr = stringify(astObj);
+//console.log(JSON.stringify(astObj , null, 2))
 
 },{"node-sqlparser":5}]},{},[9]);
