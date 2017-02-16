@@ -10,15 +10,18 @@
     "test": "cross-env NODE_ENV=production webpack-dev-server"
   },
   "dependencies": {
+    "browserify": "^14.1.0",
     "commander": "^2.9.0",
     "debug": "^2.6.0",
     "express": "^4.14.0",
     "gun": "^0.5.9",
     "ip": "^1.1.4",
+    "node-sqlparser": "^1.0.2",
     "open": "0.0.5",
     "pg": "^6.1.2",
     "request": "^2.79.0",
     "simple-sql-parser": "^2.0.0-alpha.1",
+    "uniq": "^1.0.1",
     "unzip": "^0.1.11",
     "uuid": "^3.0.1",
     "vue": "^2.1.0",
