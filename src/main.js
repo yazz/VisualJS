@@ -111,7 +111,7 @@ function setupGunDB() {
         db.setGunDB(gun)
         db.setGunDBClass(Gun)
         db.setParser(simpleSqlParser)
-        db.setSqlParser(simpleSqlParser)
+        db.setSqlParseFn(parseSql)
         //db.sql("INSERT INTO Customers (CustomerName, ContactName, Address, City, PostalCode, Country)\n VALUES ('Cardinal','Tom B. Erichsen','Skagen 21','Stavanger','4006','Norway')")
         //db.sql("SELECT age, name FROM Customers");
 }

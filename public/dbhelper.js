@@ -1,7 +1,7 @@
 var localgun;
 var localgunclass;
 var simpleSqlParser;
-var sqlParser;
+var sqlParseFn;
 
 
 
@@ -16,16 +16,16 @@ var sqlParser;
     exports.setParser = function(lg) {
         simpleSqlParser = lg;
     }
-    exports.setSqlParser = function(lg) {
-        sqlParser = lg;
+    exports.setSqlParseFn = function(lg) {
+        sqlParseFn = lg;
     }
 
-    
+
 
 
 
     exports.sql = function(sql, callbackFn, schema) {
-        //console.log('gun: ' + localgun);
+        console.log('New SQL AST: ' + JSON.stringify(sqlParseFn(sql) , null, 2));
         console.log('SQL: ' + sql);
         //console.log('callbackFn: ' + callbackFn);
         if (!schema) {

@@ -32,7 +32,7 @@ var gun          = Gun({ file: 'data.json',
                           }
                         });
 var simpleSqlParser = require('simple-sql-parser');
-var parseSql = require('node-sqlparser').parse;
+var parseSqlFn = require('node-sqlparser').parse;
 
 
 
@@ -139,8 +139,8 @@ function startServices() {
   dbhelper.setGunDB(gun)
   dbhelper.setGunDBClass(Gun)
   dbhelper.setParser(simpleSqlParser)
-  dbhelper.setSqlParser(parseSql)
-  //dbhelper.sql('select * from servertable', null)
+  dbhelper.setSqlParseFn(parseSqlFn)
+  //dbhelper.sql('select * from servertable where a.s = 1', null)
   //dbhelper.sql("SELECT age, name FROM Customers");
 
 
