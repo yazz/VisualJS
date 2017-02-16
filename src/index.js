@@ -61,6 +61,7 @@ path.join(__dirname, '../public/es6-shim.js')
 path.join(__dirname, '../public/vue_app.css')
 path.join(__dirname, '../public/dist/build.js')
 path.join(__dirname, '../oracle_driver.zip')
+path.join(__dirname, '../public/sql.js')
 
 
 
