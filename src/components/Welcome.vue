@@ -1,6 +1,6 @@
 <template>
   <div id="app2">
-      <h6 class="display-6">Go Share Data</h6>
+      <img src='gosharedata_logo.PNG'></img>
   </div>
 </template>
 
