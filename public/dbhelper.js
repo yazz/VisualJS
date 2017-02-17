@@ -17,20 +17,28 @@ var sqlParseFn;
     }
 
 
-
+   function in_where(o, where) {
+       //console.log('Where: ' + JSON.stringify(where , null, 2));
+       if (where.operator == '=') {
+           if (o[where.left.column] == where.right.value) {
+               return true;
+           }
+       }
+       return false;
+   }
 
 
     exports.sql = function(sql, callbackFn, schema) {
         var newAst;
         try {
         newAst = sqlParseFn(sql);
-        console.log('New SQL AST: ' + JSON.stringify(newAst , null, 2));
-        console.log('SQL: ' + sql);
+        //console.log('New SQL AST: ' + JSON.stringify(newAst , null, 2));
+        //console.log('SQL: ' + sql);
         //console.log('callbackFn: ' + callbackFn);
         if (!schema) {
             schema = 'default'
         }
-        console.log('schema: ' + schema);
+        //console.log('schema: ' + schema);
 
         //console.log('ast: ' + JSON.stringify(ast , null, 2));
         //console.log('type: ' + ast.value.type)
@@ -51,18 +59,20 @@ var sqlParseFn;
             console.log('INSERTED ' + newId + ': ' + JSON.stringify(newRecord) )
             }
             else if (newAst.type == 'select') {
-                console.log('select table name: ' + newAst.from[0].table)
+                //console.log('select table name: ' + newAst.from[0].table)
                 var i = 0
                 localgun.get(schema).path(newAst.from[0].table).map().val(function(a){
                   var b = localgunclass.obj.copy(a);
-                  if (callbackFn) {
-                    delete b["_"];
-                    callbackFn(b)
-                } else {
-                     i++
-                     delete b["_"];
-                     console.log(i + ':');
-                     console.log(b);
+                  if (in_where(b, newAst.where)) {
+                      if (callbackFn) {
+                        delete b["_"];
+                        callbackFn(b)
+                    } else {
+                         i++
+                         delete b["_"];
+                         console.log(i + ':');
+                         console.log(b);
+                    }
                 }
             },false);
             }
