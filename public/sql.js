@@ -9400,7 +9400,7 @@ var stringify = require('node-sqlparser').stringify;
 //var astObj = parse(sql2);
 window.parseSql = function(p) {
     var x = parse(p);
-    console.log(JSON.stringify(x , null, 2));
+    //console.log(JSON.stringify(x , null, 2));
     return x;
 };
 

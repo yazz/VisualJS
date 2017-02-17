@@ -1,6 +1,5 @@
 var localgun;
 var localgunclass;
-var simpleSqlParser;
 var sqlParseFn;
 
 
@@ -13,9 +12,6 @@ var sqlParseFn;
     exports.setGunDBClass  = function(lg) {
         localgunclass = lg;
     }
-    exports.setParser = function(lg) {
-        simpleSqlParser = lg;
-    }
     exports.setSqlParseFn = function(lg) {
         sqlParseFn = lg;
     }
@@ -25,7 +21,10 @@ var sqlParseFn;
 
 
     exports.sql = function(sql, callbackFn, schema) {
-        console.log('New SQL AST: ' + JSON.stringify(sqlParseFn(sql) , null, 2));
+        var newAst;
+        try {
+        newAst = sqlParseFn(sql);
+        console.log('New SQL AST: ' + JSON.stringify(newAst , null, 2));
         console.log('SQL: ' + sql);
         //console.log('callbackFn: ' + callbackFn);
         if (!schema) {
@@ -33,27 +32,28 @@ var sqlParseFn;
         }
         console.log('schema: ' + schema);
 
-        var ast = simpleSqlParser.sql2ast(sql);
         //console.log('ast: ' + JSON.stringify(ast , null, 2));
-        if (ast.status) {
-            //console.log('type: ' + ast.value.type)
-            if (ast.value.type == 'insert') {
-                console.log('insert table name: ' + ast.value.into.table)
-                var newRecord = new Object()
-                //console.log('fields: ' + JSON.stringify(ast.value.values))
-                var newId = Gun.text.random()
-                for (column of ast.value.values) {
-                    //console.log('saving record field ' + column.target.column)
-                    newRecord[column.target.column] = column.value
-                    localgun.get(schema).path(
-                        ast.value.into.table + '.' + newId).put(newRecord,function(ack) {console.log('saved')});
-                }
-              console.log('INSERTED ' + newId + ': ' + JSON.stringify(newRecord) )
+        //console.log('type: ' + ast.value.type)
+        if (newAst.type == 'insert') {
+            console.log('insert table name: ' + newAst.table)
+            var newRecord = new Object()
+            //console.log('fields: ' + JSON.stringify(ast.value.values))
+            var newId = Gun.text.random();
+            console.log('col count: ' +  JSON.stringify(newAst.columns , null, 2));
+            for (i = 0; i < newAst.values[0].value.length; i ++) {
+                var columnValue = newAst.values[0].value[i].value;
+                //console.log('saving record field ' + column.target.column)
+                newRecord[newAst.columns[i]] = columnValue;
+                localgun.get(schema).path(
+                    newAst.table + '.' + newId).put(
+                        newRecord,function(ack) {console.log('saved')});
             }
-            else if (ast.value.type == 'select') {
-                console.log('select table name: ' + ast.value.from[0].table)
+            console.log('INSERTED ' + newId + ': ' + JSON.stringify(newRecord) )
+            }
+            else if (newAst.type == 'select') {
+                console.log('select table name: ' + newAst.from[0].table)
                 var i = 0
-                localgun.get(schema).path(ast.value.from[0].table).map().val(function(a){
+                localgun.get(schema).path(newAst.from[0].table).map().val(function(a){
                   var b = localgunclass.obj.copy(a);
                   if (callbackFn) {
                     delete b["_"];
@@ -66,14 +66,12 @@ var sqlParseFn;
                 }
             },false);
             }
-            else if (ast.value.type == 'delete') {
-                console.log('table name: ' + ast.value.from[0].table)
-                localgun.get(schema).path(ast.value.from[0].table).on().map(function(a,b){
-
-                });
-            }
         }
-        return ast.status
+        catch(err) {
+            console.log(err);
+            return false;
+        }
+        return true;
     };
 
 
