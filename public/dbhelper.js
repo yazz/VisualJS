@@ -18,6 +18,9 @@ var sqlParseFn;
 
 
    function in_where(o, where) {
+       if (!where) {
+           return true;
+       }
        //console.log('Where: ' + JSON.stringify(where , null, 2));
        if (where.operator == '=') {
            if (o[where.left.column] == where.right.value) {
@@ -40,7 +43,7 @@ var sqlParseFn;
         }
         //console.log('schema: ' + schema);
 
-        //console.log('ast: ' + JSON.stringify(ast , null, 2));
+        //console.log('ast: ' + JSON.stringify(newAst , null, 2));
         //console.log('type: ' + ast.value.type)
         if (newAst.type == 'insert') {
             console.log('insert table name: ' + newAst.table)
@@ -57,11 +60,16 @@ var sqlParseFn;
                         newRecord,function(ack) {console.log('saved')});
             }
             console.log('INSERTED ' + newId + ': ' + JSON.stringify(newRecord) )
-            }
-            else if (newAst.type == 'select') {
-                //console.log('select table name: ' + newAst.from[0].table)
-                var i = 0
-                localgun.get(schema).path(newAst.from[0].table).map().val(function(a){
+        }
+
+
+
+
+        else if (newAst.type == 'select') {
+            //console.log('select table name: ' + newAst.from[0].table)
+            var i = 0
+            localgun.get(schema).path(newAst.from[0].table).map().val(
+                function(a){
                   var b = localgunclass.obj.copy(a);
                   if (in_where(b, newAst.where)) {
                       if (callbackFn) {
@@ -75,14 +83,44 @@ var sqlParseFn;
                     }
                 }
             },false);
-            }
         }
-        catch(err) {
-            console.log(err);
-            return false;
+
+
+
+        else if (newAst.type == 'update') {
+            //console.log('select table name: ' + newAst.from[0].table)
+            var i = 0
+            localgun.get(schema).path(newAst.table).map().val(
+                function(a){
+                  var b = localgunclass.obj.copy(a);
+                  if (in_where(b, newAst.where)) {
+                      i ++;
+                      delete b["_"];
+                      console.log(i + ': OLD VALUE');
+                      console.log(b);
+
+                      for (column of newAst.set) {
+                          a[column.column] = column.value.value;
+                          console.log( column.column + ' = ' + column.value.value);
+                      }
+                      localgun.get(schema).path(
+                          newAst.table + '.' + newId).put(
+                              a,function(ack) {console.log('saved')});
+                  }
+              }
+            ,false);
         }
-        return true;
-    };
+
+
+
+
+    }
+    catch(err) {
+        console.log(err);
+        return false;
+    }
+    return true;
+};
 
 
 
