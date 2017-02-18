@@ -91,7 +91,7 @@ var sqlParseFn;
             //console.log('select table name: ' + newAst.from[0].table)
             var i = 0
             localgun.get(schema).path(newAst.table).map().val(
-                function(a){
+                function(a,newId){
                   var b = localgunclass.obj.copy(a);
                   if (in_where(b, newAst.where)) {
                       i ++;
@@ -103,9 +103,12 @@ var sqlParseFn;
                           a[column.column] = column.value.value;
                           console.log( column.column + ' = ' + column.value.value);
                       }
+                      //console.log("ID: " + newId);
                       localgun.get(schema).path(
                           newAst.table + '.' + newId).put(
                               a,function(ack) {console.log('saved')});
+                      console.log(i + ': NEW VALUE');
+                      console.log(b);
                   }
               }
             ,false);
