@@ -203,3 +203,7 @@ $( document ).ready(function() {
 window.sql = function(sql, callBackFn, schema) {
     return db.sql(sql);
 }
+
+window.realtimeSql = function(sql, callBackFn, schema) {
+    return db.realtimeSql(sql);
+}

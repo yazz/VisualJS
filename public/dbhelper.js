@@ -140,6 +140,10 @@ var sqlParseFn;
     return true;
 };
 
+
+
+
+
 exports.realtimeSql = function(sql, callbackFn, schema) {
     var newAst;
     try {
@@ -153,8 +157,12 @@ exports.realtimeSql = function(sql, callbackFn, schema) {
         if (newAst.type == 'select') {
             //console.log('select table name: ' + newAst.from[0].table)
             var i = 0
-            localgun.get(schema).path(newAst.from[0].table).map().val(
+            localgun.get(schema).path(newAst.from[0].table).map(
                 function(a){
+                    console.log('*****************************')
+                    console.log('' + sql)
+                    console.log('*****************************')
+
                   var b = localgunclass.obj.copy(a);
                   if (in_where(b, newAst.where)) {
                       if (callbackFn) {
@@ -167,7 +175,7 @@ exports.realtimeSql = function(sql, callbackFn, schema) {
                          console.log(b);
                     }
                 }
-            },false);
+            },true);
         }
     }
     catch(err) {
