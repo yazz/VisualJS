@@ -115,8 +115,6 @@ var sqlParseFn;
                   if (in_where(b, newAst.where)) {
                       i ++;
                       delete b["_"];
-                      console.log(i + ': OLD VALUE');
-                      console.log(b);
 
                       for (column of newAst.set) {
                           a[column.column] = column.value.value;
@@ -126,8 +124,6 @@ var sqlParseFn;
                       localgun.get(schema).path(
                           newAst.table + '.' + newId).put(
                               a,function(ack) {console.log('saved')});
-                      console.log(i + ': NEW VALUE');
-                      console.log(b);
                   }
               }
             ,false);
@@ -144,6 +140,42 @@ var sqlParseFn;
     return true;
 };
 
+exports.realtimeSql = function(sql, callbackFn, schema) {
+    var newAst;
+    try {
+        newAst = sqlParseFn(sql);
+        //console.log('New SQL AST: ' + JSON.stringify(newAst , null, 2));
+        //console.log('SQL: ' + sql);
+        //console.log('callbackFn: ' + callbackFn);
+        if (!schema) {
+            schema = 'default'
+        }
+        if (newAst.type == 'select') {
+            //console.log('select table name: ' + newAst.from[0].table)
+            var i = 0
+            localgun.get(schema).path(newAst.from[0].table).map().val(
+                function(a){
+                  var b = localgunclass.obj.copy(a);
+                  if (in_where(b, newAst.where)) {
+                      if (callbackFn) {
+                        delete b["_"];
+                        callbackFn(b)
+                    } else {
+                         i++
+                         delete b["_"];
+                         console.log(i + ':');
+                         console.log(b);
+                    }
+                }
+            },false);
+        }
+    }
+    catch(err) {
+        console.log(err);
+        return false;
+    }
+    return true;
+};
 
 
 }(typeof exports === 'undefined' ? this.share = {} : exports));
