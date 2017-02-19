@@ -26,12 +26,26 @@ var sqlParseFn;
            if (o[where.left.column] == where.right.value) {
                return true;
            }
+       } else if (where.operator == '>') {
+           if (o[where.left.column] > where.right.value) {
+               return true;
+           }
+       } else if (where.operator == '<') {
+           if (o[where.left.column] < where.right.value) {
+               return true;
+           }
        } else if (where.operator == 'AND') {
            if (in_where(o, where.left) && in_where(o, where.right)) {
                return true;
            }
            return false;
+       } else if (where.operator == 'OR') {
+           if (in_where(o, where.left) || in_where(o, where.right)) {
+               return true;
+           }
+           return false;
        }
+
        return false;
    }
 
