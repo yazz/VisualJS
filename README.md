@@ -1,4 +1,6 @@
-<img src='https://github.com/zubairq/GoShareData/blob/master/public/gosharedata_logo.PNG' />
+<center>
+    <img src='https://github.com/zubairq/GoShareData/blob/master/public/gosharedata_logo.PNG' />
+</center>
 
 You work in a large enterprise. You would like to share data with your colleagues
 
