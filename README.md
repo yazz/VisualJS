@@ -11,7 +11,7 @@ GoShareData may be for you if:
 
 <img src='https://github.com/zubairq/GoShareData/blob/master/public/collab.gif' />
 
-##Possible solutions
+##Other Possible Solutions to share data in your company
 ####Email, Excel, Qlik Sense, Tableue, and many other data tools
 <img src='https://github.com/zubairq/GoShareData/blob/master/public/landscape.jpg' />
 
