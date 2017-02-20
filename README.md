@@ -1,6 +1,13 @@
 <img src='https://github.com/zubairq/GoShareData/blob/master/public/gosharedata_logo.PNG' />
 
-You work in a large enterprise. You would like to share data with your colleagues and see what they are working on too
+GoShareData may be for you if:
+
+- You work in a large enterprise
+- You work with SQL
+- You often send data or SQL snippets to your colleagues
+- You would like to see what data your colleagues are working on
+- Privacy is important to you and your company
+- You would like an easy to install and use tool
 
 <img src='https://github.com/zubairq/GoShareData/blob/master/public/collab.gif' />
 
