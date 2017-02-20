@@ -1,7 +1,6 @@
-<div style="text-align:center">
-    <img src='https://github.com/zubairq/GoShareData/blob/master/public/gosharedata_logo.PNG' />
-</div>
-You work in a large enterprise. You would like to share data with your colleagues
+<img src='https://github.com/zubairq/GoShareData/blob/master/public/gosharedata_logo.PNG' />
+
+You work in a large enterprise. You would like to share data with your colleagues and see what they are working on too
 
 <img src='https://github.com/zubairq/GoShareData/blob/master/public/collab.gif' />
 
