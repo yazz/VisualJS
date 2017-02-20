@@ -9,8 +9,6 @@ GoShareData may be for you if:
 - Privacy is important to you and your company
 - You would like an easy to install and use tool
 
-<img src='https://github.com/zubairq/GoShareData/blob/master/public/collab.gif' />
-
 ##Other Possible Solutions to share data in your company
 ####Email, Excel, Qlik Sense, Tableue, and many other data tools
 <img src='https://github.com/zubairq/GoShareData/blob/master/public/landscape.jpg' />
