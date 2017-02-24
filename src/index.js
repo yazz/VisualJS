@@ -141,7 +141,7 @@ function startServices() {
   dbhelper.setSqlParseFn(parseSqlFn)
   //dbhelper.sql('select * from servertable where a.s = 1', null)
   //dbhelper.sql("SELECT age, name FROM Customers");
-
+  dbhelper.realtimeSql("SELECT * FROM Customers where Age > 8");
 
 
   //------------------------------------------------------------------------------

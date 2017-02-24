@@ -278,7 +278,7 @@ var realtimeSqlResultSets = new Object();
       setInterval(function(){
         //console.log('Changed: ' + changed);
         if (changed) {
-          sql("SELECT * FROM Customers ");
+          localgun.sql("SELECT * FROM Customers ");
           }
         changed = false;
 

@@ -11,7 +11,7 @@ import store                    from './store.js'
 import db                       from '../public/dbhelper.js'
 
 
-const gun_ip_address = '10.0.0.7'
+const gun_ip_address = '172.18.0.107'
 
 
 
@@ -113,6 +113,8 @@ function setupGunDB() {
         db.setSqlParseFn(parseSql)
         //db.sql("INSERT INTO Customers (CustomerName, ContactName, Address, City, PostalCode, Country)\n VALUES ('Cardinal','Tom B. Erichsen','Skagen 21','Stavanger','4006','Norway')")
         //db.sql("SELECT age, name FROM Customers");
+        db.realtimeSql("SELECT * FROM Customers where Age > 8");
+
 }
 
 export function inccc(){
