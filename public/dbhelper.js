@@ -6,10 +6,28 @@
 var localgun;
 var localgunclass;
 var sqlParseFn;
+var changed               =     false;
+var staticSqlResultSets   = new Object();
+var realtimeSqlResultSets = new Object();
 
 
 
 (function(exports){
+
+    function objectToArray(data) {
+        var list2 = [];
+        for (var itemkey in Object.keys(data)) {
+            var obj = data[itemkey];
+            //console.log(itemkey);
+          if(data[itemkey] != undefined) {
+            list2.push(obj);
+            }
+        };
+        return list2;
+    }
+
+
+
 
     // ---------------------------------------------
     //                  in_where
@@ -64,25 +82,35 @@ var sqlParseFn;
     //
     // This uses SQL to get records
     // ---------------------------------------------
-    function g_select( newAst, gun, cb, schema ) {
-        var i = 0;
+    function g_select( sql, newAst, gun, cb, schema ) {
+        staticSqlResultSets[sql] = [];
+        var i = 0
+        var count = 0;
 
         function each(a){
+            count++;
             var b = localgunclass.obj.copy(a);
             if(in_where(b, newAst.where)) {
                 if (cb) {
                     cb(b)
                 } else {
-             	    console.log('select from each',a);
+             	    //console.log('select from each',a);
+                  staticSqlResultSets[sql].push(b)
                 }
             };
         }
 
         function end(coll){
-            console.log('Finished Get')
+            //console.log('coll: '  + JSON.stringify(coll , null, 2))
+            //staticSqlResultSets[sql] = objectToArray(temp);
+            console.log('**Get: '  + JSON.stringify(staticSqlResultSets[sql] , null, 2))
+            console.log('**Finished Get: '  + count)
+
         }
 
         gun.get(schema).get(newAst.from[0].table).valMapEnd(each,end);
+
+      return staticSqlResultSets[sql];
    };
 
 
@@ -99,13 +127,13 @@ var sqlParseFn;
     // This uses SQL to update records
     // ---------------------------------------------
     function g_update( newAst, gun, schema ){
-        console.log('Update table name: ' + newAst.table);
-        console.log('Update schema name: ' + schema);
+        //console.log('Update table name: ' + newAst.table);
+        //console.log('Update schema name: ' + schema);
 
         var i = 0;
 
         function each(a, newId){
-            console.log("ID: " + newId);
+            //console.log("ID: " + newId);
             if (in_where( a, newAst.where )) {
                 i ++;
 
@@ -123,7 +151,7 @@ var sqlParseFn;
         }
 
         function end(coll){
-            console.log('Finished Get')
+            //console.log('Finished Get')
         }
 
         gun.get(schema).get(newAst.table).valMapEnd(each,end);
@@ -160,9 +188,9 @@ var sqlParseFn;
             var chain  = this.chain();
 
             switch(newAst.type ) {
-                case 'insert' : g_insert(newAst, this, schema);break;
-                case 'select' : g_select(newAst, this, cb, schema);break;
-                case 'update' : g_update(newAst, this, schema);break;
+                case 'insert' : g_insert(newAst, this,     schema);break;
+                case 'select' : g_select(sql, newAst, this, cb, schema);break;
+                case 'update' : g_update(newAst, this,     schema);break;
             }
             //return this
         }
@@ -219,6 +247,42 @@ var sqlParseFn;
 
 
 
+    exports.realtimeSql = function(sql3, callbackFn, schema) {
+        try {
+            if (!schema) {
+                schema = 'default'
+            }
+            newAst = sqlParseFn(sql3);
+            //console.log('RTable: ' + newAst.from[0].table);
+            if (newAst.type == 'select') {
+                localgun.get( schema ).get( newAst.from[0].table ).on(
+                  function(a) {
+                       //localgun.sql(sql3);
+                    changed = true;
+                    //console.log('(REAL:): ' + sql3)
+                    },false);
+            }
+        }
+        catch(err) {
+            console.log(err);
+            return false;
+        }
+        return true;
+      };
+
+
+
+
+
+
+      setInterval(function(){
+        //console.log('Changed: ' + changed);
+        if (changed) {
+          sql("SELECT * FROM Customers ");
+          }
+        changed = false;
+
+                            }, 1000)
 
 
 
