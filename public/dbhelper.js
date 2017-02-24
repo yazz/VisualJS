@@ -1,3 +1,8 @@
+// ***********************************************************
+// ***********************************************************
+// This is the code to add SQL Support to GunDB
+// ***********************************************************
+// ***********************************************************
 var localgun;
 var localgunclass;
 var sqlParseFn;
@@ -6,184 +11,218 @@ var sqlParseFn;
 
 (function(exports){
 
+    // ---------------------------------------------
+    //                  in_where
+    //
+    // This defines the where claus for the SQL
+    // ---------------------------------------------
+    function in_where( o, where ) {
+        if (!where) {
+            return true;
+        }
+        switch(where.operator) {
+            case '='  : // fall through
+            case 'IS' : return o[where.left.column] == where.right.value; break;
+            case '>'  : return o[where.left.column] > where.right.value; break;
+            case '<'  : return o[where.left.column] < where.right.value;break;
+            case '&'  : // fall through
+            case 'AND': return in_where(o, where.left) && in_where(o, where.right); break;
+            case '||' : // fall through
+            case 'OR' : return in_where(o, where.left) || in_where(o, where.right);break;
+            default: return false;
+        }
+    };
+
+
+
+
+
+    // ---------------------------------------------
+    //                  g_insert
+    //
+    // This creates a new record
+    // ---------------------------------------------
+    function g_insert( newAst, gun, schema){
+        var newRecord = {};
+        var fields    = newAst.values[0].value;
+
+        for(i = 0; i < fields.length; i ++) {
+            newRecord[newAst.columns[i]] = fields[i].value;
+        };
+        gun.get(schema).get(newAst.table).set(newRecord);
+    }
+
+
+
+
+
+
+
+
+    // ---------------------------------------------
+    //                  g_select
+    //
+    // This uses SQL to get records
+    // ---------------------------------------------
+    function g_select( newAst, gun, cb, schema ) {
+        var i = 0;
+
+        function each(a){
+            var b = localgunclass.obj.copy(a);
+            if(in_where(b, newAst.where)) {
+                if (cb) {
+                    cb(b)
+                } else {
+             	    console.log('select from each',a);
+                }
+            };
+        }
+
+        function end(coll){
+            console.log('Finished Get')
+        }
+
+        gun.get(schema).get(newAst.from[0].table).valMapEnd(each,end);
+   };
+
+
+
+
+
+
+
+
+
+    // ---------------------------------------------
+    //                  g_update
+    //
+    // This uses SQL to update records
+    // ---------------------------------------------
+    function g_update( newAst, gun, schema ){
+        console.log('Update table name: ' + newAst.table);
+        console.log('Update schema name: ' + schema);
+
+        var i = 0;
+
+        function each(a, newId){
+            console.log("ID: " + newId);
+            if (in_where( a, newAst.where )) {
+                i ++;
+
+                for (column of newAst.set) {
+                    a[ column.column ] = column.value.value;
+                    //console.log( column.column + ' = ' + column.value.value);
+                }
+                //console.log("ID: " + newId);
+                gun.get(schema).get(newAst.table).get(newId).put(
+                a,
+                function(ack) {
+                  //console.log('Updated')
+                });
+            }
+        }
+
+        function end(coll){
+            console.log('Finished Get')
+        }
+
+        gun.get(schema).get(newAst.table).valMapEnd(each,end);
+    };
+
+
+
+
+    // ---------------------------------------------
+    //                  setGunDB
+    //
+    // This sets the instance of GunDB
+    // ---------------------------------------------
     exports.setGunDB  = function(lg) {
         localgun = lg;
-    }
+    };
+
+
+
+
+    // ---------------------------------------------
+    //                  setGunDBClass
+    //
+    // This sets the Class GunDB
+    // ---------------------------------------------
     exports.setGunDBClass  = function(lg) {
         localgunclass = lg;
+        localgunclass.chain.sql = function( sql, cb, schema ){
+            var newAst = sqlParseFn(sql);
+            if (!schema) {
+                schema = 'default'
+            }
+
+            var chain  = this.chain();
+
+            switch(newAst.type ) {
+                case 'insert' : g_insert(newAst, this, schema);break;
+                case 'select' : g_select(newAst, this, cb, schema);break;
+                case 'update' : g_update(newAst, this, schema);break;
+            }
+            //return this
+        }
+
+
+        localgunclass.chain.valMapEnd = function (cb, end) {
+            var n   = function () {},
+            count   = 0,
+            souls   = [],
+            gun     = this;
+            cb      = cb || n;
+            end     = end || n;
+
+            gun.val( function (list) {
+                var args = Array.prototype.slice.call(arguments);
+                localgunclass.node.is(list, function (n, soul) {
+                    count += 1;
+                    souls.push(soul);
+                });
+
+                souls.forEach(function (soul) {
+                    gun.back(-1).get(soul).val(function (val, key) {
+                        count -= 1;
+                        cb.apply(this, arguments);
+                        if (!count) {
+                            end.apply(this, args);
+                        }
+                    });
+                });
+            });
+            return gun;
+        };
+    };
+
+
+
+
+    exports.sql = function( sql, cb, schema ){
+        localgun.sql( sql, cb, schema );
     }
+
+
+    // ---------------------------------------------
+    //                  setSqlParseFn
+    //
+    // This sets the parse function to use
+    // ---------------------------------------------
     exports.setSqlParseFn = function(lg) {
         sqlParseFn = lg;
-    }
-
-
-   function in_where(o, where) {
-       if (!where) {
-           return true;
-       }
-       //console.log('Where: ' + JSON.stringify(where , null, 2));
-       if (where.operator == '=') {
-           if (o[where.left.column] == where.right.value) {
-               return true;
-           }
-       } else if (where.operator == '>') {
-           if (o[where.left.column] > where.right.value) {
-               return true;
-           }
-       } else if (where.operator == '<') {
-           if (o[where.left.column] < where.right.value) {
-               return true;
-           }
-       } else if (where.operator == 'AND') {
-           if (in_where(o, where.left) && in_where(o, where.right)) {
-               return true;
-           }
-           return false;
-       } else if (where.operator == 'OR') {
-           if (in_where(o, where.left) || in_where(o, where.right)) {
-               return true;
-           }
-           return false;
-       }
-
-       return false;
-   }
-
-
-    exports.sql = function(sql, callbackFn, schema) {
-        var newAst;
-        try {
-        newAst = sqlParseFn(sql);
-        //console.log('New SQL AST: ' + JSON.stringify(newAst , null, 2));
-        //console.log('SQL: ' + sql);
-        //console.log('callbackFn: ' + callbackFn);
-        if (!schema) {
-            schema = 'default'
-        }
-        //console.log('schema: ' + schema);
-
-        //console.log('ast: ' + JSON.stringify(newAst , null, 2));
-        //console.log('type: ' + ast.value.type)
-        if (newAst.type == 'insert') {
-            console.log('insert table name: ' + newAst.table)
-            var newRecord = new Object()
-            //console.log('fields: ' + JSON.stringify(ast.value.values))
-            var newId = Gun.text.random();
-            console.log('col count: ' +  JSON.stringify(newAst.columns , null, 2));
-            for (i = 0; i < newAst.values[0].value.length; i ++) {
-                var columnValue = newAst.values[0].value[i].value;
-                //console.log('saving record field ' + column.target.column)
-                newRecord[newAst.columns[i]] = columnValue;
-                localgun.get(schema).path(
-                    newAst.table + '.' + newId).put(
-                        newRecord,function(ack) {console.log('saved')});
-            }
-            console.log('INSERTED ' + newId + ': ' + JSON.stringify(newRecord) )
-        }
-
-
-
-
-        else if (newAst.type == 'select') {
-            //console.log('select table name: ' + newAst.from[0].table)
-            var i = 0
-            localgun.get(schema).path(newAst.from[0].table).map().val(
-                function(a){
-                  var b = localgunclass.obj.copy(a);
-                  if (in_where(b, newAst.where)) {
-                      if (callbackFn) {
-                        delete b["_"];
-                        callbackFn(b)
-                    } else {
-                         i++
-                         delete b["_"];
-                         console.log(i + ':');
-                         console.log(b);
-                    }
-                }
-            },false);
-        }
-
-
-
-        else if (newAst.type == 'update') {
-            //console.log('select table name: ' + newAst.from[0].table)
-            var i = 0
-            localgun.get(schema).path(newAst.table).map().val(
-                function(a,newId){
-                  var b = localgunclass.obj.copy(a);
-                  if (in_where(b, newAst.where)) {
-                      i ++;
-                      delete b["_"];
-
-                      for (column of newAst.set) {
-                          a[column.column] = column.value.value;
-                          console.log( column.column + ' = ' + column.value.value);
-                      }
-                      //console.log("ID: " + newId);
-                      localgun.get(schema).path(
-                          newAst.table + '.' + newId).put(
-                              a,function(ack) {console.log('saved')});
-                  }
-              }
-            ,false);
-        }
-
-
-
-
-    }
-    catch(err) {
-        console.log(err);
-        return false;
-    }
-    return true;
-};
+    };
 
 
 
 
 
-exports.realtimeSql = function(sql, callbackFn, schema) {
-    var newAst;
-    try {
-        newAst = sqlParseFn(sql);
-        //console.log('New SQL AST: ' + JSON.stringify(newAst , null, 2));
-        //console.log('SQL: ' + sql);
-        //console.log('callbackFn: ' + callbackFn);
-        if (!schema) {
-            schema = 'default'
-        }
-        if (newAst.type == 'select') {
-            //console.log('select table name: ' + newAst.from[0].table)
-            var i = 0
-            localgun.get(schema).path(newAst.from[0].table).map(
-                function(a){
-                    console.log('*****************************')
-                    console.log('' + sql)
-                    console.log('*****************************')
 
-                  var b = localgunclass.obj.copy(a);
-                  if (in_where(b, newAst.where)) {
-                      if (callbackFn) {
-                        delete b["_"];
-                        callbackFn(b)
-                    } else {
-                         i++
-                         delete b["_"];
-                         console.log(i + ':');
-                         console.log(b);
-                    }
-                }
-            },true);
-        }
-    }
-    catch(err) {
-        console.log(err);
-        return false;
-    }
-    return true;
-};
+
+
+
+
 
 
 }(typeof exports === 'undefined' ? this.share = {} : exports));
