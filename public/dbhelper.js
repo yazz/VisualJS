@@ -95,6 +95,7 @@ var realtimeSqlResultSets = new Object();
                     cb(b)
                 } else {
              	    //console.log('select from each',a);
+                  delete b['_'];
                   staticSqlResultSets[sql].push(b)
                 }
             };
@@ -143,10 +144,10 @@ var realtimeSqlResultSets = new Object();
                 }
                 //console.log("ID: " + newId);
                 gun.get(schema).get(newAst.table).get(newId).put(
-                a,
-                function(ack) {
-                  //console.log('Updated')
-                });
+                    a,
+                    function(ack) {
+                        //console.log('Updated')
+                    });
             }
         }
 
