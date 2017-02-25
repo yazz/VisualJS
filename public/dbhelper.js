@@ -86,32 +86,34 @@ var realtimeSqlResultSets = new Object();
         staticSqlResultSets[sql] = [];
         var i = 0
         var count = 0;
+        //console.log('*cb: '  + cb)
 
         function each(a){
-            count++;
             var b = localgunclass.obj.copy(a);
             if(in_where(b, newAst.where)) {
-                if (cb) {
-                    cb(b)
-                } else {
-             	    //console.log('select from each',a);
-                  delete b['_'];
-                  staticSqlResultSets[sql].push(b)
-                }
+                count++;
+                delete b['_'];
+         	    //console.log('select from each',a);
+                staticSqlResultSets[sql].push(b)
             };
         }
 
         function end(coll){
             //console.log('coll: '  + JSON.stringify(coll , null, 2))
             //staticSqlResultSets[sql] = objectToArray(temp);
-            console.log('**Get: '  + JSON.stringify(staticSqlResultSets[sql] , null, 2))
+            //console.log('**Get: '  + JSON.stringify(staticSqlResultSets[sql] , null, 2))
             console.log('**Finished Get: '  + count)
+            //console.log('**cb: '  + cb)
+            if (cb) {
+                cb( staticSqlResultSets[sql] );
+            };
 
         }
 
         gun.get(schema).get(newAst.from[0].table).valMapEnd(each,end);
+        gun.get(schema).get(newAst.from[0].table).not(end);
 
-      return staticSqlResultSets[sql];
+      return true;//staticSqlResultSets[sql];
    };
 
 
@@ -187,14 +189,14 @@ var realtimeSqlResultSets = new Object();
             }
 
             var chain  = this.chain();
-
             switch(newAst.type ) {
-                case 'insert' : g_insert(newAst, this,     schema);break;
+                case 'insert' : g_insert(newAst,      this,     schema);break;
                 case 'select' : g_select(sql, newAst, this, cb, schema);break;
-                case 'update' : g_update(newAst, this,     schema);break;
+                case 'update' : g_update(newAst,      this,     schema);break;
             }
             //return this
         }
+
 
 
         localgunclass.chain.valMapEnd = function (cb, end) {

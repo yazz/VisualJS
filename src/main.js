@@ -203,9 +203,9 @@ $( document ).ready(function() {
 
 
 window.sql = function(sql, callBackFn, schema) {
-    return db.sql(sql);
+    return db.sql(sql, callBackFn, schema);
 }
 
 window.realtimeSql = function(sql, callBackFn, schema) {
-    return db.realtimeSql(sql);
+    return db.realtimeSql(sql, callBackFn, schema);
 }
