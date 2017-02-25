@@ -31,7 +31,6 @@ var gun          = Gun({ file: 'data.json',
                             bucket: '' // The bucket you want to save into
                           }
                         });
-var simpleSqlParser = require('simple-sql-parser');
 var parseSqlFn = require('node-sqlparser').parse;
 
 
