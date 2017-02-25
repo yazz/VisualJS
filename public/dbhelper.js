@@ -90,8 +90,8 @@ var realtimeSqlResultSets = new Object();
 
         function each(a){
             var b = localgunclass.obj.copy(a);
-            if(in_where(b, newAst.where)) {
-                count++;
+            if(in_where( b, newAst.where )) {
+                count ++;
                 delete b['_'];
          	    //console.log('select from each',a);
                 staticSqlResultSets[sql].push(b)
@@ -102,11 +102,11 @@ var realtimeSqlResultSets = new Object();
             //console.log('coll: '  + JSON.stringify(coll , null, 2))
             //staticSqlResultSets[sql] = objectToArray(temp);
             //console.log('**Get: '  + JSON.stringify(staticSqlResultSets[sql] , null, 2))
-            console.log('**Finished Get: '  + count)
             //console.log('**cb: '  + cb)
             if (cb) {
                 cb( staticSqlResultSets[sql] );
             };
+            console.log('**Finished Get: '  + count)
 
         }
 
@@ -278,14 +278,13 @@ var realtimeSqlResultSets = new Object();
 
 
 
-      setInterval(function(){
-        //console.log('Changed: ' + changed);
-        if (changed) {
-          localgun.sql("SELECT * FROM Customers ");
+      setInterval( function () {
+          //console.log('Changed: ' + changed);
+          if (changed) {
+              //localgun.sql("SELECT * FROM Customers ");
           }
-        changed = false;
-
-                            }, 1000)
+          changed = false;
+      }, 1000)
 
 
 
