@@ -9,6 +9,7 @@ var sqlParseFn;
 var changed               =     false;
 var staticSqlResultSets   = new Object();
 var realtimeSqlResultSets = new Object();
+var realtimeTablesToWatch = new Object();
 
 
 
@@ -258,12 +259,25 @@ var realtimeSqlResultSets = new Object();
             newAst = sqlParseFn(sql3);
             //console.log('RTable: ' + newAst.from[0].table);
             if (newAst.type == 'select') {
-                localgun.get( schema ).get( newAst.from[0].table ).on(
-                  function(a) {
-                       //localgun.sql(sql3);
-                    changed = true;
-                    //console.log('(REAL:): ' + sql3)
-                    },false);
+                if (!realtimeTablesToWatch[newAst.from[0].table]) {
+                    realtimeTablesToWatch[newAst.from[0].table] = new Object();
+                    localgun.get( schema ).get( newAst.from[0].table ).on(
+                      function(a) {
+                          console.log('Change to table : ' + newAst.from[0].table )
+                        },false);
+                }
+                if (!realtimeTablesToWatch[newAst.from[0].table][sql3]) {
+                    realtimeTablesToWatch[newAst.from[0].table][sql3] = new Object();
+                    realtimeTablesToWatch[newAst.from[0].table][sql3]["callback"] = callbackFn;
+                    realtimeTablesToWatch[newAst.from[0].table][sql3]["schema"] = schema;
+                    realtimeTablesToWatch[newAst.from[0].table][sql3]["dsfds"] = 'fdsfds';
+                }
+
+
+                 //localgun.sql(sql3);
+              changed = true;
+              console.log('(REAL:sql): ' + sql3)
+              console.log('(REAL:realtimeTablesToWatch): ' + JSON.stringify(realtimeTablesToWatch , null, 2))
             }
         }
         catch(err) {
