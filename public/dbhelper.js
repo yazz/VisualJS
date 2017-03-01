@@ -61,13 +61,14 @@ var realtimeTablesToWatch = new Object();
     //
     // This creates a new record
     // ---------------------------------------------
-    function g_insert( newAst, gun, schema){
+    function g_insert( newAst, gun, schema ){
         var newRecord = {};
         var fields    = newAst.values[0].value;
 
         for(i = 0; i < fields.length; i ++) {
             newRecord[newAst.columns[i]] = fields[i].value;
         };
+        newRecord["_table"] = newAst.table;
         gun.get(schema).get(newAst.table).set(newRecord);
     }
 
@@ -94,6 +95,7 @@ var realtimeTablesToWatch = new Object();
             if(in_where( b, newAst.where )) {
                 count ++;
                 delete b['_'];
+                delete b['_table'];
          	    //console.log('select from each',a);
                 staticSqlResultSets[sql].push(b)
             };
@@ -106,6 +108,8 @@ var realtimeTablesToWatch = new Object();
             //console.log('**cb: '  + cb)
             if (cb) {
                 cb( staticSqlResultSets[sql] );
+            } else {
+                console.log( JSON.stringify(staticSqlResultSets[sql] , null, 2) );
             };
             console.log('**Finished Get: '  + count)
 
@@ -263,7 +267,9 @@ var realtimeTablesToWatch = new Object();
                     realtimeTablesToWatch[newAst.from[0].table] = new Object();
                     localgun.get( schema ).get( newAst.from[0].table ).on(
                       function(a) {
-                          console.log('Change to table : ' + newAst.from[0].table )
+                          var tableName = newAst.from[0].table;
+                          //console.log('Change to table name: ' + tableName )
+                          //console.log('Change to a: ' + JSON.stringify(a , null, 2) )
                         },false);
                 }
                 if (!realtimeTablesToWatch[newAst.from[0].table][sql3]) {
