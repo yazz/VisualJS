@@ -68,7 +68,6 @@ var realtimeTablesToWatch = new Object();
         for(i = 0; i < fields.length; i ++) {
             newRecord[newAst.columns[i]] = fields[i].value;
         };
-        newRecord["_table"] = newAst.table;
         gun.get(schema).get(newAst.table).set(newRecord);
     }
 
@@ -95,7 +94,6 @@ var realtimeTablesToWatch = new Object();
             if(in_where( b, newAst.where )) {
                 count ++;
                 delete b['_'];
-                delete b['_table'];
          	    //console.log('select from each',a);
                 staticSqlResultSets[sql].push(b)
             };
@@ -265,10 +263,10 @@ var realtimeTablesToWatch = new Object();
             if (newAst.type == 'select') {
                 if (!realtimeTablesToWatch[newAst.from[0].table]) {
                     realtimeTablesToWatch[newAst.from[0].table] = new Object();
+                    var tableName = newAst.from[0].table;
                     localgun.get( schema ).get( newAst.from[0].table ).on(
                       function(a) {
-                          var tableName = newAst.from[0].table;
-                          //console.log('Change to table name: ' + tableName )
+                          console.log('Change to table name: ' + tableName )
                           //console.log('Change to a: ' + JSON.stringify(a , null, 2) )
                         },false);
                 }
@@ -276,7 +274,6 @@ var realtimeTablesToWatch = new Object();
                     realtimeTablesToWatch[newAst.from[0].table][sql3] = new Object();
                     realtimeTablesToWatch[newAst.from[0].table][sql3]["callback"] = callbackFn;
                     realtimeTablesToWatch[newAst.from[0].table][sql3]["schema"] = schema;
-                    realtimeTablesToWatch[newAst.from[0].table][sql3]["dsfds"] = 'fdsfds';
                 }
 
 
