@@ -6,7 +6,6 @@
 var localgun;
 var localgunclass;
 var sqlParseFn;
-var changed               =     false;
 var staticSqlResultSets   = new Object();
 var realtimeSqlResultSets = new Object();
 var realtimeTablesToWatch = new Object();
@@ -263,22 +262,22 @@ var realtimeTablesToWatch = new Object();
             if (newAst.type == 'select') {
                 if (!realtimeTablesToWatch[newAst.from[0].table]) {
                     realtimeTablesToWatch[newAst.from[0].table] = new Object();
+                    realtimeTablesToWatch[newAst.from[0].table]['sql'] = new Object();
                     var tableName = newAst.from[0].table;
                     localgun.get( schema ).get( newAst.from[0].table ).on(
                       function(a) {
                           console.log('Change to table name: ' + tableName )
-                          //console.log('Change to a: ' + JSON.stringify(a , null, 2) )
+                          realtimeTablesToWatch[newAst.from[0].table]["changed"] = true
                         },false);
                 }
                 if (!realtimeTablesToWatch[newAst.from[0].table][sql3]) {
-                    realtimeTablesToWatch[newAst.from[0].table][sql3] = new Object();
-                    realtimeTablesToWatch[newAst.from[0].table][sql3]["callback"] = callbackFn;
-                    realtimeTablesToWatch[newAst.from[0].table][sql3]["schema"] = schema;
+                    realtimeTablesToWatch[newAst.from[0].table]['sql'][sql3] = new Object();
+                    realtimeTablesToWatch[newAst.from[0].table]['sql'][sql3]["callback"] = callbackFn;
+                    realtimeTablesToWatch[newAst.from[0].table]['sql'][sql3]["schema"] = schema;
                 }
 
 
                  //localgun.sql(sql3);
-              changed = true;
               console.log('(REAL:sql): ' + sql3)
               console.log('(REAL:realtimeTablesToWatch): ' + JSON.stringify(realtimeTablesToWatch , null, 2))
             }
@@ -294,13 +293,27 @@ var realtimeTablesToWatch = new Object();
 
 
 
-
+      var inRealtimeUpdate=false;
       setInterval( function () {
-          //console.log('Changed: ' + changed);
-          if (changed) {
-              //localgun.sql("SELECT * FROM Customers ");
+          if (!inRealtimeUpdate) {
+              inRealtimeUpdate = true;
+              //console.log('Changed: ' + changed);
+              var allRealtimetables = Object.keys(realtimeTablesToWatch);
+              //console.log('tables: ' + JSON.stringify(allRealtimetables , null, 2))
+              for ( tableName of allRealtimetables) {
+                  //console.log("tableName: " + tableName );
+                  if (realtimeTablesToWatch[ tableName ] ) {
+                      if (realtimeTablesToWatch[ tableName ][ "changed" ]) {
+                          console.log("table changed: " + tableName );
+                          //localgun.sql("SELECT * FROM Customers ");
+                          var sqlToUpdate = Object.keys(realtimeTablesToWatch[ tableName ]['sql'])
+                          console.log('    sql: ' + JSON.stringify(sqlToUpdate , null, 2))
+                          realtimeTablesToWatch[ tableName ][ "changed" ] = false
+                      }
+                  }
+              }
+              inRealtimeUpdate = false;
           }
-          changed = false;
       }, 1000)
 
 
