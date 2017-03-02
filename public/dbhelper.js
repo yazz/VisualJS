@@ -304,10 +304,18 @@ var realtimeTablesToWatch = new Object();
                   //console.log("tableName: " + tableName );
                   if (realtimeTablesToWatch[ tableName ] ) {
                       if (realtimeTablesToWatch[ tableName ][ "changed" ]) {
-                          console.log("table changed: " + tableName );
+                          //console.log("table changed: " + tableName );
                           //localgun.sql("SELECT * FROM Customers ");
-                          var sqlToUpdate = Object.keys(realtimeTablesToWatch[ tableName ]['sql'])
+                          var sqlToUpdate = Object.keys(realtimeTablesToWatch[ tableName ]['sql']).toString()
                           console.log('    sql: ' + JSON.stringify(sqlToUpdate , null, 2))
+                          var cbb = realtimeTablesToWatch[tableName]['sql'][sqlToUpdate]["callback"];
+                          if (cbb) {
+                              console.log('**HAS A CALLBACK on SQL: ' + sqlToUpdate);
+                              //console.log('localgun: ' + localgun.sql(sqlToUpdate));
+                              localgun.sql(sqlToUpdate,cbb);
+                          };
+
+
                           realtimeTablesToWatch[ tableName ][ "changed" ] = false
                       }
                   }
