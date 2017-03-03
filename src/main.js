@@ -11,7 +11,7 @@ import store                    from './store.js'
 import db                       from '../public/dbhelper.js'
 
 
-const gun_ip_address = '188.114.155.219'
+const gun_ip_address = '172.27.11.34'
 
 
 
@@ -219,6 +219,9 @@ window.sql1 = function(sql, callBackFn, schema) {
         } else {
           if (callBackFn) {
             callBackFn(valsReturned[0])
+            }
+            else {
+                console.log(valsReturned[0])
             }
         }
       }
