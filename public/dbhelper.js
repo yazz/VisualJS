@@ -266,7 +266,7 @@ var realtimeTablesToWatch = new Object();
                     var tableName = newAst.from[0].table;
                     localgun.get( schema ).get( newAst.from[0].table ).on(
                       function(a) {
-                          console.log('Change to table name: ' + tableName )
+                          //console.log('Change to table name: ' + tableName )
                           realtimeTablesToWatch[newAst.from[0].table]["changed"] = true
                         },false);
                 }
@@ -278,8 +278,8 @@ var realtimeTablesToWatch = new Object();
 
 
                  //localgun.sql(sql3);
-              console.log('(REAL:sql): ' + sql3)
-              console.log('(REAL:realtimeTablesToWatch): ' + JSON.stringify(realtimeTablesToWatch , null, 2))
+              //console.log('(REAL:sql): ' + sql3)
+              //console.log('(REAL:realtimeTablesToWatch): ' + JSON.stringify(realtimeTablesToWatch , null, 2))
             }
         }
         catch(err) {
@@ -307,10 +307,10 @@ var realtimeTablesToWatch = new Object();
                           //console.log("table changed: " + tableName );
                           //localgun.sql("SELECT * FROM Customers ");
                           var sqlToUpdate = Object.keys(realtimeTablesToWatch[ tableName ]['sql']).toString()
-                          console.log('    sql: ' + JSON.stringify(sqlToUpdate , null, 2))
+                          //console.log('    sql: ' + JSON.stringify(sqlToUpdate , null, 2))
                           var cbb = realtimeTablesToWatch[tableName]['sql'][sqlToUpdate]["callback"];
                           if (cbb) {
-                              console.log('**HAS A CALLBACK on SQL: ' + sqlToUpdate);
+                              //console.log('**HAS A CALLBACK on SQL: ' + sqlToUpdate);
                               //console.log('localgun: ' + localgun.sql(sqlToUpdate));
                               localgun.sql(sqlToUpdate,cbb);
                           };

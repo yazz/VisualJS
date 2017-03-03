@@ -113,9 +113,28 @@ function setupGunDB() {
         db.setSqlParseFn(parseSql)
         //db.sql("INSERT INTO Customers (CustomerName, ContactName, Address, City, PostalCode, Country)\n VALUES ('Cardinal','Tom B. Erichsen','Skagen 21','Stavanger','4006','Norway')")
         //db.sql("SELECT age, name FROM Customers");
-        db.realtimeSql("SELECT * FROM Customers where Age > 5"
-          ,function(results) {console.log('********* CALLED REALTIME *************:' + results);}
-      );
+        //db.realtimeSql("SELECT * FROM Customers where Age > 5"
+        //  ,function(results) {console.log('********* CALLED REALTIME *************:' + results);}
+        //);
+
+
+
+
+        sql("select * from globals where id = 'network_test'",
+          function(res) {
+              if (res.length == 0) {
+                  sql("insert into globals (id, value) values ('network_test','')")
+              }
+          })
+
+          realtimeSql("SELECT * FROM globals where id = 'network_test'"
+            ,function(results) {
+                if (results[0]) {
+                    document.getElementById('maininput').value = results[0].value
+
+                    document.getElementById('mainid').innerHTML = results[0].value
+                }
+            })
 
 }
 

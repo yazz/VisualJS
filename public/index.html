@@ -157,8 +157,10 @@
           </input>
 
         <input id=maininput
-               onkeyup="gun.get('networktest').put({value: document.getElementById('maininput').value}); ">
+               onkeyup="updateNetworkTest()">
         </input>
+
+
       <div id=mainid></div>
 
       <textarea rows="4" cols="50" type=input
@@ -439,7 +441,11 @@
       });
     };
 
-
+    function updateNetworkTest() {
+            sql("update globals set value = '" +
+            document.getElementById('maininput').value
+            + "' where id = 'network_test'"); 
+    }
     </script>
 
     <script type="text/javascript" src="blockly_setup.js"></script>
