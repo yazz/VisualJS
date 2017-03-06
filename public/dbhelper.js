@@ -67,6 +67,12 @@ var realtimeTablesToWatch = new Object();
         for(i = 0; i < fields.length; i ++) {
             newRecord[newAst.columns[i]] = fields[i].value;
         };
+
+        // this line is only here as often an insert without
+        // a select first is very buggy and doesn't see the whole
+        // existing result set
+        localgun.sql('select * from ' + newAst.table)
+
         gun.get(schema).get(newAst.table).set(newRecord);
     }
 
