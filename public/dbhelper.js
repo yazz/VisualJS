@@ -62,10 +62,29 @@ var realtimeTablesToWatch = new Object();
     // ---------------------------------------------
     function g_insert( newAst, params, gun, schema ){
         var newRecord = {};
-        var fields    = newAst.values[0].value;
+        var columns    = newAst.columns;
+        console.log('columns: ' + JSON.stringify(fields , null, 2))
+        var fieldsDefined    = newAst.values[0].value;
+        var fields           = new Object();
+        var paramsDefined    = newAst.params;
 
-        for(i = 0; i < fields.length; i ++) {
-            newRecord[newAst.columns[i]] = fields[i].value;
+
+        //console.log('paramsDefined: ' + JSON.stringify(paramsDefined , null, 2))
+        for(i = 0; i < paramsDefined.length; i ++) {
+            fields[paramsDefined[i].pos] = {value: params[i]};
+        };
+        console.log('fields: ' + JSON.stringify(fields , null, 2))
+
+        fieldsDefinedIndex = 0;
+        for(i = 0; i < columns.length; i ++) {
+            if (!fields[i]) {
+                fields[i] = fieldsDefined[fieldsDefinedIndex]
+                fieldsDefinedIndex ++
+            }
+        };
+
+        for(i = 0; i < columns.length; i ++) {
+            newRecord[columns[i]] = fields[i].value;
         };
 
         // this line is only here as often an insert without
@@ -192,6 +211,7 @@ var realtimeTablesToWatch = new Object();
         localgunclass = lg;
         localgunclass.chain.sql = function( sql, params, cb, schema ){
             var newAst = sqlParseFn(sql);
+            console.log('newAst: ' + JSON.stringify(newAst , null, 2))
             if (!schema) {
                 schema = 'default'
             }
