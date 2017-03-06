@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import db                       from '../public/dbhelper.js'
 
 Vue.use(Vuex)
 
@@ -93,6 +94,11 @@ export default new Vuex.Store({
       //a.commit('ADD_NEW_CONNECTION', connection)
       //console.log(JSON.stringify(connection.cp));
       //gun.get('connections').path(connection.cp.id).put(connection.cp);
+      db.sql(`insert into
+                  connections
+                  (id)
+              values
+                  ('4')`)
 
     },
     clear_connections: function(a){

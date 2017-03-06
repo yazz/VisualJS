@@ -60,7 +60,7 @@ var realtimeTablesToWatch = new Object();
     //
     // This creates a new record
     // ---------------------------------------------
-    function g_insert( newAst, gun, schema ){
+    function g_insert( newAst, params, gun, schema ){
         var newRecord = {};
         var fields    = newAst.values[0].value;
 
@@ -88,7 +88,7 @@ var realtimeTablesToWatch = new Object();
     //
     // This uses SQL to get records
     // ---------------------------------------------
-    function g_select( sql, newAst, gun, cb, schema ) {
+    function g_select( sql, params, newAst, gun, cb, schema ) {
         staticSqlResultSets[sql] = [];
         var i = 0
         var count = 0;
@@ -137,7 +137,7 @@ var realtimeTablesToWatch = new Object();
     //
     // This uses SQL to update records
     // ---------------------------------------------
-    function g_update( newAst, gun, schema ){
+    function g_update( newAst, params, gun, schema ){
         //console.log('Update table name: ' + newAst.table);
         //console.log('Update schema name: ' + schema);
 
@@ -190,7 +190,7 @@ var realtimeTablesToWatch = new Object();
     // ---------------------------------------------
     exports.setGunDBClass  = function(lg) {
         localgunclass = lg;
-        localgunclass.chain.sql = function( sql, cb, schema ){
+        localgunclass.chain.sql = function( sql, params, cb, schema ){
             var newAst = sqlParseFn(sql);
             if (!schema) {
                 schema = 'default'
@@ -198,9 +198,9 @@ var realtimeTablesToWatch = new Object();
 
             var chain  = this.chain();
             switch(newAst.type ) {
-                case 'insert' : g_insert(newAst,      this,     schema);break;
-                case 'select' : g_select(sql, newAst, this, cb, schema);break;
-                case 'update' : g_update(newAst,      this,     schema);break;
+                case 'insert' : g_insert(newAst, params,         this,     schema);break;
+                case 'select' : g_select(sql,    params, newAst, this, cb, schema);break;
+                case 'update' : g_update(newAst, params,         this,     schema);break;
             }
             //return this
         }
@@ -239,9 +239,64 @@ var realtimeTablesToWatch = new Object();
 
 
 
-    exports.sql = function( sql, cb, schema ){
-        localgun.sql( sql, cb, schema );
+    exports.sql = function( sql, p2, p3, p4 ){
+        var hasParams = Array.isArray(p2);
+        var params
+        var cb
+        var schema
+
+        if (hasParams) {
+            params = p2
+            cb     = p3
+            schema = p4
+        } else {
+            params = null
+            cb     = p2
+            schema = p3
+        }
+        localgun.sql( sql, params, cb, schema );
     }
+
+    exports.sql1 = function(sql, p2, p3, p4 ){
+        var hasParams = Array.isArray(p2);
+        var params
+        var cb
+        var schema
+
+        if (hasParams) {
+            params = p2
+            cb     = p3
+            schema = p4
+        } else {
+            params = null
+            cb     = p2
+            schema = p3
+        }
+
+        return localgun.sql(
+          sql
+          ,
+          params
+          ,
+          function(valsReturned) {
+            if (!valsReturned) {
+              return null;
+            } else if (valsReturned.length == 0) {
+              return null;
+            } else {
+              if (cb) {
+                cb(valsReturned[0])
+                }
+                else {
+                    console.log(valsReturned[0])
+                }
+            }
+          }
+          ,
+           schema);
+    }
+
+
 
 
     // ---------------------------------------------
@@ -318,7 +373,7 @@ var realtimeTablesToWatch = new Object();
                           if (cbb) {
                               //console.log('**HAS A CALLBACK on SQL: ' + sqlToUpdate);
                               //console.log('localgun: ' + localgun.sql(sqlToUpdate));
-                              localgun.sql(sqlToUpdate,cbb);
+                              localgun.sql(sqlToUpdate, null, cbb);
                           };
 
 

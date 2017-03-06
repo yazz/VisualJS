@@ -11,7 +11,7 @@ import store                    from './store.js'
 import db                       from '../public/dbhelper.js'
 
 
-const gun_ip_address = '172.27.11.34'
+const gun_ip_address = '172.18.0.107'
 
 
 
@@ -223,30 +223,13 @@ $( document ).ready(function() {
 
 
 
-window.sql = function(sql, callBackFn, schema) {
-    return db.sql(sql, callBackFn, schema);
+window.sql = function(sql, p2, p3, p4) {
+    return db.sql(sql, p2, p3, p4);
 }
-window.sql1 = function(sql, callBackFn, schema) {
-    return db.sql(
-      sql
-      ,
-      function(valsReturned) {
-        if (!valsReturned) {
-          return null;
-        } else if (valsReturned.length == 0) {
-          return null;
-        } else {
-          if (callBackFn) {
-            callBackFn(valsReturned[0])
-            }
-            else {
-                console.log(valsReturned[0])
-            }
-        }
-      }
-      ,
-       schema);
+window.sql1 = function(sql, p2, p3, p4) {
+    return db.sql1(sql, p2, p3, p4);
 }
+
 
 window.realtimeSql = function(sql, callBackFn, schema) {
     return db.realtimeSql(sql, callBackFn, schema);
