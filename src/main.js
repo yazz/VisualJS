@@ -11,7 +11,7 @@ import store                    from './store.js'
 import db                       from '../public/dbhelper.js'
 
 
-const gun_ip_address = '172.18.0.107'
+const gun_ip_address = '172.18.0.106'
 
 
 
@@ -111,6 +111,7 @@ function setupGunDB() {
         db.setGunDB(gun)
         db.setGunDBClass(Gun)
         db.setSqlParseFn(parseSql)
+        db.start()
         //db.sql("INSERT INTO Customers (CustomerName, ContactName, Address, City, PostalCode, Country)\n VALUES ('Cardinal','Tom B. Erichsen','Skagen 21','Stavanger','4006','Norway')")
         //db.sql("SELECT age, name FROM Customers");
         //db.realtimeSql("SELECT * FROM Customers where Age > 5"
@@ -228,6 +229,9 @@ window.sql = function(sql, p2, p3, p4) {
 }
 window.sql1 = function(sql, p2, p3, p4) {
     return db.sql1(sql, p2, p3, p4);
+}
+window.autoIndexSerialId = function() {
+    return db.autoIndexSerialId();
 }
 
 

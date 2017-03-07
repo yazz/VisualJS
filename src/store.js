@@ -92,14 +92,24 @@ export default new Vuex.Store({
     },
     add_new_connection: function(a, connection){
       //a.commit('ADD_NEW_CONNECTION', connection)
-      //console.log(JSON.stringify(connection.cp));
+      console.log(JSON.stringify(connection));
       //gun.get('connections').path(connection.cp.id).put(connection.cp);
       db.sql(`insert into
-                  connections
-                  (id)
+                  connections2
+                  (
+                      id
+                      ,
+                      name
+                  )
               values
-                  ('4')`)
-
+                  (?,?)`
+                  ,
+                  [
+                        autoIndexSerialId()
+                        ,
+                        connection.cn
+                  ]
+            )
     },
     clear_connections: function(a){
       a.commit('CLEAR_CONNECTIONS')

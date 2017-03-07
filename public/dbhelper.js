@@ -9,6 +9,7 @@ var sqlParseFn;
 var staticSqlResultSets   = new Object();
 var realtimeSqlResultSets = new Object();
 var realtimeTablesToWatch = new Object();
+var autoSerialId = null;
 
 
 
@@ -211,7 +212,7 @@ var realtimeTablesToWatch = new Object();
         localgunclass = lg;
         localgunclass.chain.sql = function( sql, params, cb, schema ){
             var newAst = sqlParseFn(sql);
-            console.log('newAst: ' + JSON.stringify(newAst , null, 2))
+            //console.log('newAst: ' + JSON.stringify(newAst , null, 2))
             if (!schema) {
                 schema = 'default'
             }
@@ -224,6 +225,7 @@ var realtimeTablesToWatch = new Object();
             }
             //return this
         }
+
 
 
 
@@ -293,6 +295,11 @@ var realtimeTablesToWatch = new Object();
             schema = p3
         }
 
+        //console.log('called sql1')
+        //console.log('    sql: ' + sql)
+        //console.log('    sql: ' + params)
+        //console.log('    sql: ' + cb)
+
         return localgun.sql(
           sql
           ,
@@ -300,9 +307,13 @@ var realtimeTablesToWatch = new Object();
           ,
           function(valsReturned) {
             if (!valsReturned) {
-              return null;
+                if (cb) {
+                    cb(null)
+                  }
             } else if (valsReturned.length == 0) {
-              return null;
+                if (cb) {
+                    cb(null)
+                  }
             } else {
               if (cb) {
                 cb(valsReturned[0])
@@ -317,6 +328,32 @@ var realtimeTablesToWatch = new Object();
     }
 
 
+    exports.start = function() {
+        sql1("select * from systemsettings where name='autoindex'",
+                    function(valret) {
+                        console.log('valret: ' + valret)
+                       if (valret) {
+                           autoSerialId = valret.value;
+                       } else {
+                           sql('insert into systemsettings (name, value ) values (?,?)',['autoindex', 1])
+                       }
+                    })
+    //autoSerialId
+    }
+
+
+
+    exports.autoIndexSerialId = function() {
+        if (!autoSerialId) {
+            autoSerialId = 1;
+        } else {
+            autoSerialId ++;
+        }
+        sql("update systemsettings set value = " +
+        autoSerialId
+        + " where name = 'autoindex'")
+        return autoSerialId;
+    }
 
 
     // ---------------------------------------------
