@@ -131,13 +131,14 @@ function setupGunDB() {
 
 
 
-        db.realtimeSql("SELECT * FROM db_connections "
+        realtimeSql("SELECT * FROM db_connections where deleted != 'T'"
           ,function(results) {
+              alert('SELECT * FROM db_connections')
                               console.log('********* CALLED REALTIME DBCONN*************:' + JSON.stringify(results[0] , null, 2));
                               for (var i = 0 ; i < results.length ; i ++) {
                                   var conn = results[i]
                                   console.log('********* CALLED REALTIME DBCONN*************:' + JSON.stringify(conn , null, 2));
-                                  store.dispatch( 'add_connection' , {cn:       conn.id,
+                                  store.dispatch( 'add_connection' , {cn:       conn.name,
 
                                                                       cp: {     id:      conn.name
                                                                                 ,

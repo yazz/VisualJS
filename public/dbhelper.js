@@ -40,7 +40,8 @@ var autoSerialId = null;
             return true;
         }
         switch(where.operator) {
-            case '='  : // fall through
+            case '='  : return o[where.left.column] == where.right.value; break;
+            case '!=' : return o[where.left.column] != where.right.value; break;
             case 'IS' : return o[where.left.column] == where.right.value; break;
             case '>'  : return o[where.left.column] > where.right.value; break;
             case '<'  : return o[where.left.column] < where.right.value;break;
