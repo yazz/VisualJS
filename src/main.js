@@ -133,7 +133,7 @@ function setupGunDB() {
 
         realtimeSql("SELECT * FROM db_connections where deleted != 'T'"
           ,function(results) {
-              alert('SELECT * FROM db_connections')
+              //alert('SELECT * FROM db_connections')
                               console.log('********* CALLED REALTIME DBCONN*************:' + JSON.stringify(results[0] , null, 2));
                               for (var i = 0 ; i < results.length ; i ++) {
                                   var conn = results[i]

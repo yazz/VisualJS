@@ -183,7 +183,8 @@ export default new Vuex.Store({
       //      gun.get('default').path('connections_changed').put({value: v.value + 1});
       //},true);});
       //alert(connection.id);
-
+      console.log('Delete connection: ' + connection.id)
+      db.sql("update db_connections set deleted = 'T' where name = '" + connection.id + "'")
     },
 
 
