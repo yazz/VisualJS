@@ -65,7 +65,7 @@ var autoSerialId = null;
     function g_insert( newAst, params, gun, schema ){
         var newRecord = {};
         var columns    = newAst.columns;
-        console.log('columns: ' + JSON.stringify(fields , null, 2))
+        //console.log('columns: ' + JSON.stringify(fields , null, 2))
         var fieldsDefined    = newAst.values[0].value;
         var fields           = new Object();
         var paramsDefined    = newAst.params;
@@ -75,7 +75,7 @@ var autoSerialId = null;
         for(i = 0; i < paramsDefined.length; i ++) {
             fields[paramsDefined[i].pos] = {value: params[i]};
         };
-        console.log('fields: ' + JSON.stringify(fields , null, 2))
+        //console.log('fields: ' + JSON.stringify(fields , null, 2))
 
         fieldsDefinedIndex = 0;
         for(i = 0; i < columns.length; i ++) {
@@ -133,9 +133,9 @@ var autoSerialId = null;
             if (cb) {
                 cb( staticSqlResultSets[sql] );
             } else {
-                console.log( JSON.stringify(staticSqlResultSets[sql] , null, 2) );
+                //console.log( JSON.stringify(staticSqlResultSets[sql] , null, 2) );
             };
-            console.log('**Finished Get: '  + count)
+            //console.log('**Finished Get: '  + count)
 
         }
 
@@ -379,6 +379,7 @@ var autoSerialId = null;
             newAst = sqlParseFn(sql3);
             //console.log('RTable: ' + newAst.from[0].table);
             if (newAst.type == 'select') {
+                console.log("select RR********* SQL: " + sql3 + ", table: " + newAst.from[0].table)
                 if (!realtimeTablesToWatch[newAst.from[0].table]) {
                     realtimeTablesToWatch[newAst.from[0].table] = new Object();
                     realtimeTablesToWatch[newAst.from[0].table]['sql'] = new Object();
@@ -386,7 +387,7 @@ var autoSerialId = null;
                     localgun.get( schema ).get( newAst.from[0].table ).on(
                       function(a) {
                           //console.log('Change to table name: ' + tableName )
-                          realtimeTablesToWatch[newAst.from[0].table]["changed"] = true
+                          realtimeTablesToWatch[tableName]["changed"] = true
                         },false);
                 }
                 if (!realtimeTablesToWatch[newAst.from[0].table][sql3]) {
@@ -423,7 +424,7 @@ var autoSerialId = null;
                   //console.log("tableName: " + tableName );
                   if (realtimeTablesToWatch[ tableName ] ) {
                       if (realtimeTablesToWatch[ tableName ][ "changed" ]) {
-                          //console.log("table changed: " + tableName );
+                          console.log("table changed: " + tableName );
                           //localgun.sql("SELECT * FROM Customers ");
                           var sqlToUpdate = Object.keys(realtimeTablesToWatch[ tableName ]['sql']).toString()
                           //console.log('    sql: ' + JSON.stringify(sqlToUpdate , null, 2))
