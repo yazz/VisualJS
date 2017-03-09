@@ -55,6 +55,19 @@ export default new Vuex.Store({
 
 
 
+
+
+
+  //-------------------------------------------------------------------
+  //                           CHANGE THE STATE
+  //
+  // This contains the things that change the Vue.js VUEX applicaiton
+  // state
+  //
+  //
+  //
+  //
+  //-------------------------------------------------------------------
   mutations: {
       ADD_CONNECTION: function (state, connection) {
         state.list_of_connections.push(connection.cp);
@@ -82,20 +95,48 @@ export default new Vuex.Store({
 
 
 
+
+
+
+
+
+  //-------------------------------------------------------------------
+  //                     PERFORM ACTIONS IN THE APPLICATION
+  //
+  // This contains the things that change the whole applicaiton
+  //
+  //
+  // This can change both the Vue.js state and external things, like
+  // HTTP requests, database code, etc
+  //
+  //-------------------------------------------------------------------
   actions: {
 
+    //
+    // add_connection
+    //
+    //
+    //
     add_connection: function(a, connection){
       a.commit('ADD_CONNECTION', connection)
       //console.log(JSON.stringify(connection.cp));
       //gun.get('connections').path('user_data').put(connections['user_data']);
 
     },
+
+
+
+    //
+    // add_new_connection
+    //
+    //
+    //
     add_new_connection: function(a, connection){
       //a.commit('ADD_NEW_CONNECTION', connection)
       console.log(JSON.stringify(connection));
       //gun.get('connections').path(connection.cp.id).put(connection.cp);
       db.sql(`insert into
-                  connections2
+                  db_connections
                   (
                       id
                       ,
@@ -111,10 +152,28 @@ export default new Vuex.Store({
                   ]
             )
     },
+
+
+
+    //
+    // clear_connections
+    //
+    //
+    //
     clear_connections: function(a){
       a.commit('CLEAR_CONNECTIONS')
     }
     ,
+
+
+
+
+
+    //
+    // delete_connection
+    //
+    //
+    //
     delete_connection: function(a, connection){
       //a.commit('ADD_NEW_CONNECTION', connection)
       //console.log(JSON.stringify(connection.cp));
@@ -126,18 +185,48 @@ export default new Vuex.Store({
       //alert(connection.id);
 
     },
+
+
+
+
+
+    //
+    // hide_add_connection
+    //
+    //
+    //
     hide_add_connection: function(a){
       a.commit('HIDE_ADD_CONNECTION')
     },
 
 
 
+
+
+
+
+
+    //
+    // set_viewed_connection
+    //
+    //
+    //
     set_viewed_connection: function(a, b){
       a.commit('SET_VIEWED_CONNECTION', b)
     },
 
 
 
+
+
+
+
+
+    //
+    // show_add_connection
+    //
+    //
+    //
     show_add_connection: function(a){
       a.commit('SHOW_ADD_CONNECTION')
     }

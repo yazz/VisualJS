@@ -11,7 +11,7 @@ import store                    from './store.js'
 import db                       from '../public/dbhelper.js'
 
 
-const gun_ip_address = '172.18.0.106'
+const gun_ip_address = '127.0.0.1'
 
 
 
@@ -78,12 +78,22 @@ function setupSqlVuePane() {
 
 
 
+
+//-----------------------------------------------------------------
+// setupGunDB
+//
+// Set up stuff related to data handling
+//
+//-----------------------------------------------------------------
 function setupGunDB() {
         if (location.port == '8080') {
             gun = Gun( ['http://' + gun_ip_address + '/gun']);
         } else { // we are on port 80
             gun = Gun( ['http://' + location.host + '/gun']);
         };
+
+
+
 
         /*gun.get('networktest').on(function(data,id) {
             if (document.getElementById('mainid')) {
@@ -121,6 +131,34 @@ function setupGunDB() {
 
 
 
+        db.realtimeSql("SELECT * FROM db_connections "
+          ,function(results) {
+                              console.log('********* CALLED REALTIME DBCONN*************:' + JSON.stringify(results[0] , null, 2));
+                              for (var i = 0 ; i < results.length ; i ++) {
+                                  var conn = results[i]
+                                  console.log('********* CALLED REALTIME DBCONN*************:' + JSON.stringify(conn , null, 2));
+                                  store.dispatch( 'add_connection' , {cn:       conn.id,
+
+                                                                      cp: {     id:      conn.name
+                                                                                ,
+                                                                                driver: 'postgres'
+                                                                                ,
+                                                                                status: 'postgres'
+                                                                                ,
+                                                                                database: 'postgres'
+                                                                                ,
+                                                                                host: 'postgres'
+                                                                                ,
+                                                                                port: 'postgres'
+                                                                                ,
+                                                                                user: 'postgres'
+                                                                                ,
+                                                                                password: 'postgres'
+                                                                               }});
+                              };
+           }
+        );
+
         sql("select * from globals where id = 'network_test'",
           function(res) {
               if (res.length == 0) {
@@ -145,6 +183,16 @@ export function inccc(){
     },true);
 }
 
+
+
+
+
+//-----------------------------------------------------------------
+// read_connections
+//
+// Show the list of database connections
+//
+//-----------------------------------------------------------------
 function read_connections(a,b){
     delete a["_"];
     if (!connectionrows[a.id]) {
@@ -159,6 +207,15 @@ function read_connections(a,b){
 
 
 
+
+
+
+//-----------------------------------------------------------------
+// initConnectionsListVuePane
+//
+// Show the list of database connections
+//
+//-----------------------------------------------------------------
 function initConnectionsListVuePane() {
 
     if (document.getElementById('connections_window')) {
@@ -177,8 +234,8 @@ function initConnectionsListVuePane() {
                 ,
                 store: store
                 ,
-                components: {'oracle-add-connection': oracle_add_connection,
-                             'connections-table': connections_table}
+                components: {'oracle-add-connection':  oracle_add_connection,
+                             'connections-table':      connections_table}
                 });
                 }
 }
@@ -186,6 +243,12 @@ function initConnectionsListVuePane() {
 
 
 
+//-----------------------------------------------------------------
+// initClientsConnectedVuePane
+//
+// not sure what this does
+//
+//-----------------------------------------------------------------
 function initClientsConnectedVuePane() {
 
     if (document.getElementById('clients_connected')) {
@@ -204,6 +267,18 @@ function initClientsConnectedVuePane() {
 
 
 
+
+
+
+
+
+
+//-----------------------------------------------------------------
+// This is called when the web page has loaded
+//
+//
+//
+//-----------------------------------------------------------------
 $( document ).ready(function() {
   console.log( "ready now!" );
   initWelcomeVuePane();
@@ -224,6 +299,15 @@ $( document ).ready(function() {
 
 
 
+
+
+
+//-----------------------------------------------------------------
+// This is code to give a SQL interface in the browser
+//
+//
+//
+//-----------------------------------------------------------------
 window.sql = function(sql, p2, p3, p4) {
     return db.sql(sql, p2, p3, p4);
 }
