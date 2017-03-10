@@ -11,7 +11,7 @@ import store                    from './store.js'
 import db                       from '../public/dbhelper.js'
 
 
-const gun_ip_address = '127.0.0.1'
+const gun_ip_address = '172.18.0.100'
 
 
 
@@ -138,29 +138,28 @@ function setupGunDB() {
                               store.dispatch('clear_connections');
                               for (var i = 0 ; i < results.length ; i ++) {
                                   var conn = results[i]
-                                  //console.log('********* CALLED REALTIME DBCONN*************:' + JSON.stringify(conn , null, 2));
+                                  console.log('********* CALLED REALTIME DBCONN*************:' + JSON.stringify(conn , null, 2));
                                   store.dispatch( 'add_connection' , {cn:       conn.name,
 
                                                                       cp: {     id:      conn.name
                                                                                 ,
-                                                                                driver: 'postgres'
+                                                                                driver: conn.driver
                                                                                 ,
-                                                                                status: 'postgres'
+                                                                                status: ''
                                                                                 ,
-                                                                                database: 'postgres'
+                                                                                database: conn.database
                                                                                 ,
-                                                                                host: 'postgres'
+                                                                                host: conn.host
                                                                                 ,
-                                                                                port: 'postgres'
+                                                                                port: conn.port
                                                                                 ,
-                                                                                user: 'postgres'
+                                                                                user: conn.user
                                                                                 ,
-                                                                                password: 'postgres'
+                                                                                password: conn.password
                                                                                }});
                               };
            }
         );
-
         sql("select * from globals where id = 'network_test'",
           function(res) {
               if (res.length == 0) {

@@ -141,18 +141,41 @@ export default new Vuex.Store({
                       id
                       ,
                       name
+                      ,
+                      driver
+                      ,
+                      database
+                      ,
+                      host
+                      ,
+                      port
+                      ,
+                      user
+                      ,
+                      password
                   )
               values
-                  (?,?)`
+                  (?,?,?,?,?,?,?,?)`
                   ,
                   [
                         autoIndexSerialId()
                         ,
                         connection.cn
+                        ,
+                        connection.cp.driver
+                        ,
+                        connection.cp.database
+                        ,
+                        connection.cp.host
+                        ,
+                        connection.cp.port
+                        ,
+                        connection.cp.user
+                        ,
+                        connection.cp.password
                   ]
             )
     },
-
 
 
     //
