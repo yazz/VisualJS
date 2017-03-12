@@ -141,6 +141,23 @@ function startServices() {
   //dbhelper.sql('select * from servertable where a.s = 1', null)
   //dbhelper.sql("SELECT age, name FROM Customers");
   dbhelper.realtimeSql("SELECT * FROM Customers where Age > 8");
+//zzz
+  dbhelper.realtimeSql("select * from db_connections where deleted != 'T'"
+    ,function(results) {
+        console.log("select * from db_connections where deleted != 'T'")
+        for (var i = 0 ; i < results.length ; i ++) {
+            var conn = results[i]
+
+            console.log("    " + JSON.stringify(conn, null, 2))
+            if (!connectionrows[conn.name]) {
+              //data_connections_list.push(a);
+              connectionrows[conn.name] = conn;
+              //console.log(a);
+              connections[conn.name] = conn;
+            }
+        }
+
+    })
 
 
   //------------------------------------------------------------------------------
@@ -171,12 +188,17 @@ app.use(express.static(path.join(__dirname, '../public/')))
 
 
 
+
+
+
+
 //------------------------------------------------------------------------------
 // Get the result of a SQL query
 //------------------------------------------------------------------------------
   app.get('/getresult', function (req, res) {
     var queryData = url.parse(req.url, true).query;
-    //console.log('request received: ' + queryData.sql);
+    //console.log('request received source: ' + queryData.source);
+    //console.log('request received SQL: ' + queryData.sql);
     if (connections[queryData.source]) {
         //console.log('query driver: ' + connections[queryData.source].driver);
         drivers[connections[queryData.source].driver]['get'](connections[queryData.source],queryData.sql,function(ordata) {
@@ -187,6 +209,14 @@ app.use(express.static(path.join(__dirname, '../public/')))
         console.log('query driver not found: ' + connections[queryData.source]);
     };
 })
+
+
+
+
+
+
+
+
 
 
 var requestClientInternalHostAddress = '';
@@ -306,6 +336,7 @@ app.listen(port, hostaddress, function () {
 
 
 
+
     if (typeOfSystem == 'client') {
         var urlToConnectTo = "http://" + centralHostAddress + ":" + centralHostPort + '/client_connect';
         console.log('-------* urlToConnectTo: ' + urlToConnectTo);
@@ -336,5 +367,8 @@ app.listen(port, hostaddress, function () {
     toeval = 'drivers[\'oracle\'] = ' + fs.readFileSync(path.join(__dirname, './oracle.js')).toString();
     var pgeval = 'drivers[\'postgres\'] = ' + fs.readFileSync(path.join(__dirname, './postgres.js')).toString();
 
-
+//connections['postgres'] = eval(pgeval)
+drivers['postgres'] = eval(pgeval)
+//console.log("postgres.get = " + JSON.stringify(eval(pgeval) , null, 2))
+//console.log("postgres.get = " + eval(pgeval).get)
 }

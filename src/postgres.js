@@ -1,5 +1,5 @@
 {
-    'setup': function(connection) {
+    "setup": function(connection) {
           var config = {
             id:                connection.id,
             user:              connection.user,
@@ -20,7 +20,7 @@
 
 
 
-        'get': function( connection , sql , callfn )
+    "get": function( connection , sql , callfn )
         {
             console.log('********************************');
             if (
