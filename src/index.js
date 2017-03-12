@@ -369,6 +369,7 @@ app.listen(port, hostaddress, function () {
 
 //connections['postgres'] = eval(pgeval)
 drivers['postgres'] = eval(pgeval)
+drivers['oracle'] = eval(toeval)
 //console.log("postgres.get = " + JSON.stringify(eval(pgeval) , null, 2))
 //console.log("postgres.get = " + eval(pgeval).get)
 }

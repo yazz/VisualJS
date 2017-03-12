@@ -88,7 +88,7 @@
 
 
 
-    'get': function(connection, sql, callfn) {
+    get: function(connection, sql, callfn) {
         if (
             (connection.status == 'disconnected')
             ||

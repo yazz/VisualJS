@@ -150,12 +150,14 @@ export default new Vuex.Store({
                       ,
                       port
                       ,
+                      connectString
+                      ,
                       user
                       ,
                       password
                   )
               values
-                  (?,?,?,?,?,?,?,?)`
+                  (?,?,?,?,?,?,?,?,?)`
                   ,
                   [
                         autoIndexSerialId()
@@ -164,11 +166,13 @@ export default new Vuex.Store({
                         ,
                         connection.cp.driver
                         ,
-                        connection.cp.database
+                        (connection.cp.database?connection.cp.database:null)
                         ,
-                        connection.cp.host
+                        (connection.cp.host?connection.cp.host:null)
                         ,
-                        connection.cp.port
+                        (connection.cp.port?connection.cp.port:null)
+                        ,
+                        (connection.cp.connectString?connection.cp.connectString:null)
                         ,
                         connection.cp.user
                         ,
