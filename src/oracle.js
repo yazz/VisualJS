@@ -1,5 +1,5 @@
 {
-    'loadOnCondition': function() {
+    loadOnCondition: function() {
         var useOracle    = false;
         if (fs.existsSync(path.join(__dirname, '../oracle_driver.zip'))) {
             useOracle = true;
