@@ -374,7 +374,8 @@ app.listen(port, hostaddress, function () {
 //connections['postgres'] = eval(pgeval)
 drivers['postgres'] = eval( pgeval )
 drivers['oracle']   = eval( toeval )
-
+addOrUpdateDriver('postgres', pgeval)
+addOrUpdateDriver('oracle', toeval)
 if (drivers['oracle'].loadOnCondition()) {
     drivers['oracle'].loadDriver()
 }
@@ -383,8 +384,19 @@ if (drivers['oracle'].loadOnCondition()) {
 var tdeval = 'drivers[\'testdriver\'] = ' + fs.readFileSync(path.join(__dirname, './testdriver.js')).toString();
 eval(tdeval)
 
-function addOrUpdateDriver() {
+function addOrUpdateDriver(name, code) {
+    console.log("******************************dbhelper= " + dbhelper)
+    dbhelper.sql1("select * from drivers where name = '" +  name +  "' ",
+        function(record) {
+            if(record) {
+                console.log("******************************record= " + JSON.stringify(record , null, 2))
+                dbhelper.sql("update drivers set code = ? where name = '" + name + "'")
+            } else {
+                console.log("******************************INSERT DRIVER "+name)
+                dbhelper.sql("insert into drivers (name,code    ) values (?,?)",[name, code])
 
+            }
+        })
 }
 
 

@@ -133,7 +133,7 @@ var autoSerialId = null;
             if (cb) {
                 cb( staticSqlResultSets[sql] );
             } else {
-                //console.log( JSON.stringify(staticSqlResultSets[sql] , null, 2) );
+                console.log( JSON.stringify(staticSqlResultSets[sql] , null, 2) );
             };
             //console.log('**Finished Get: '  + count)
 
