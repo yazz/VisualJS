@@ -368,12 +368,13 @@ app.listen(port, hostaddress, function () {
 
 
 
-    toeval = 'drivers[\'oracle\'] = ' + fs.readFileSync(path.join(__dirname, './oracle.js')).toString();
-    var pgeval = 'drivers[\'postgres\'] = ' + fs.readFileSync(path.join(__dirname, './postgres.js')).toString();
+    toeval =  '(' + fs.readFileSync(path.join(__dirname, './oracle.js')).toString() + ')';
+    var pgeval = '(' + fs.readFileSync(path.join(__dirname, './postgres.js')).toString() + ')';
 
 //connections['postgres'] = eval(pgeval)
-eval(pgeval)
-eval(toeval)
+drivers['postgres'] = eval( pgeval )
+drivers['oracle']   = eval( toeval )
+
 if (drivers['oracle'].loadOnCondition()) {
     drivers['oracle'].loadDriver()
 }
@@ -381,6 +382,10 @@ if (drivers['oracle'].loadOnCondition()) {
 
 var tdeval = 'drivers[\'testdriver\'] = ' + fs.readFileSync(path.join(__dirname, './testdriver.js')).toString();
 eval(tdeval)
+
+function addOrUpdateDriver() {
+
+}
 
 
 
