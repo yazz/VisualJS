@@ -372,11 +372,17 @@ app.listen(port, hostaddress, function () {
     var pgeval = 'drivers[\'postgres\'] = ' + fs.readFileSync(path.join(__dirname, './postgres.js')).toString();
 
 //connections['postgres'] = eval(pgeval)
-drivers['postgres'] = eval(pgeval)
-drivers['oracle'] = eval(toeval)
+eval(pgeval)
+eval(toeval)
 if (drivers['oracle'].loadOnCondition()) {
     drivers['oracle'].loadDriver()
 }
+
+
+var tdeval = 'drivers[\'testdriver\'] = ' + fs.readFileSync(path.join(__dirname, './testdriver.js')).toString();
+eval(tdeval)
+
+
 
 //console.log("postgres.get = " + JSON.stringify(eval(pgeval) , null, 2))
 //console.log("postgres.get = " + eval(pgeval).get)

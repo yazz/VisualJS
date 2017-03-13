@@ -1,4 +1,6 @@
 {
+    type: 'db_driver'
+    ,
     setup: function(connection) {
           var config = {
             id:                connection.id,
