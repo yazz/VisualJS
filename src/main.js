@@ -11,7 +11,7 @@ import store                    from './store.js'
 import db                       from '../public/dbhelper.js'
 
 
-const gun_ip_address = '172.27.0.54'
+const gun_ip_address = '172.27.15.193'
 
 
 
@@ -246,6 +246,43 @@ function initConnectionsListVuePane() {
 
 
 
+
+
+
+
+
+//-----------------------------------------------------------------
+// initConnectionsListVuePane
+//
+// Show the list of database connections
+//
+//-----------------------------------------------------------------
+function initDriversListVuePane() {
+
+    if (document.getElementById('drivers_window')) {
+
+          new Vue({
+                el: '#drivers_window'
+                ,
+                computed: {
+                  count: function () {
+                    return this.$store.state.count
+                  }
+                }
+                ,
+                methods: {
+                }
+                ,
+                store: store
+                ,
+                components: {'oracle-add-connection':  oracle_add_connection,
+                             'connections-table':      connections_table}
+                });
+                }
+}
+
+
+
 //-----------------------------------------------------------------
 // initClientsConnectedVuePane
 //
@@ -287,6 +324,7 @@ $( document ).ready(function() {
   initWelcomeVuePane();
   setupSqlVuePane();
   initConnectionsListVuePane();
+  initDriversListVuePane();
   initClientsConnectedVuePane();
 
   /*sql('insert into clienttable2 (id, next) values (3,"fdg")',

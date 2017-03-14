@@ -390,7 +390,7 @@ function addOrUpdateDriver(name, code) {
         function(record) {
             if(record) {
                 console.log("******************************record= " + JSON.stringify(record , null, 2))
-                dbhelper.sql("update drivers set code = ? where name = '" + name + "'")
+                dbhelper.sql("update drivers set code = ? where name = '" + name + "'",[code])
             } else {
                 console.log("******************************INSERT DRIVER "+name)
                 dbhelper.sql("insert into drivers (name,code    ) values (?,?)",[name, code])

@@ -224,11 +224,19 @@
 
        -->
     <div  id=mainviews class="zoomTarget" data-targetsize="1"
-         style='position: absolute; left: 50%; top: 50%; height: 90%; width: 90%; display: inline-block; -webkit-transform: translatez(0); transform:   scale(0.5, 0.5);border: 5px solid blue;;overflow: auto'>
+         style='padding: 5px;position: absolute; left: 50%; top: 50%; height: 90%; width: 90%; display: inline-block; -webkit-transform: translatez(0); transform:   scale(0.5, 0.5);border: 5px solid blue;;overflow: auto'>
       <h3>
         Take a break
       </h3>
-      <div class="game" style="width:250px; height:90%;"></div>
+      <div id="drivers_window" style='height: 85%; width: 85%;' >
+        <div class='container'>
+          <div class="row">
+          <div class="col-xs-12">
+               <connections-table></connections-table>
+            </div>
+            </div>
+        </div>
+        </div>
     </div>
 
 
@@ -444,7 +452,7 @@
     function updateNetworkTest() {
             sql("update globals set value = '" +
             document.getElementById('maininput').value
-            + "' where id = 'network_test'"); 
+            + "' where id = 'network_test'");
     }
     </script>
 
