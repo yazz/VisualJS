@@ -7,11 +7,12 @@ import oracle_add_connection    from './components/oracle_add_connection.vue'
 import postgres_add_connection  from './components/postgres_add_connection.vue'
 import yazz_new_connection      from './components/yazz_new_connection.vue'
 import connections_table        from './components/connections_table.vue'
+import drivers_table            from './components/drivers_table.vue'
 import store                    from './store.js'
 import db                       from '../public/dbhelper.js'
 
 
-const gun_ip_address = '172.27.15.193'
+const gun_ip_address = '172.18.0.107'
 
 
 
@@ -276,7 +277,7 @@ function initDriversListVuePane() {
                 store: store
                 ,
                 components: {'oracle-add-connection':  oracle_add_connection,
-                             'connections-table':      connections_table}
+                             'drivers-table':          drivers_table}
                 });
                 }
 }
