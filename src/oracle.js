@@ -1,4 +1,6 @@
 {
+    name: 'oracleDRIVER'
+    ,
     type: 'db_driver'
     ,
     loadOnCondition: function() {

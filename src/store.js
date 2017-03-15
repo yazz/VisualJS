@@ -14,6 +14,8 @@ export default new Vuex.Store({
     ,
     list_of_connections: []
     ,
+    list_of_drivers: []
+    ,
     viewed_connection_id: null
     ,
     viewed_connection_driver: null
@@ -35,6 +37,8 @@ export default new Vuex.Store({
     add_connection_visible: state => state.add_connection_visible
     ,
     list_of_connections: state => state.list_of_connections
+    ,
+    list_of_drivers: state => state.list_of_drivers
     ,
     viewed_connection_id: state => state.viewed_connection_id
     ,
@@ -72,8 +76,14 @@ export default new Vuex.Store({
       ADD_CONNECTION: function (state, connection) {
         state.list_of_connections.push(connection.cp);
       },
+      ADD_DRIVER: function (state, driver) {
+        state.list_of_drivers.push(driver.cp);
+      },
       CLEAR_CONNECTIONS: function (state) {
         state.list_of_connections = [];
+      },
+      CLEAR_DRIVERS: function (state) {
+        state.list_of_drivers = [];
       },
     HIDE_ADD_CONNECTION: function (state) {
       state.add_connection_visible = false
@@ -123,6 +133,23 @@ export default new Vuex.Store({
       //gun.get('connections').path('user_data').put(connections['user_data']);
 
     },
+
+
+
+        //
+        // add_connection
+        //
+        //
+        //
+        add_driver: function(a, driver){
+          a.commit('ADD_DRIVER', driver)
+          //console.log(JSON.stringify(connection.cp));
+          //gun.get('connections').path('user_data').put(connections['user_data']);
+
+        },
+
+
+
 
 
 
@@ -191,6 +218,20 @@ export default new Vuex.Store({
       a.commit('CLEAR_CONNECTIONS')
     }
     ,
+
+
+
+
+    //
+    // clear_drivers
+    //
+    //
+    //
+    clear_drivers: function(a){
+      a.commit('CLEAR_DRIVERS')
+    }
+    ,
+
 
 
 

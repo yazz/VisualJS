@@ -18,7 +18,7 @@
       <!--
                   show the list of connections
          -->
-      {{list_of_connections.length}} drivers
+      {{list_of_drivers.length}} drivers
 
         <table class="table  table-striped  table-bordered " style="width: 100%;">
           <thead >
@@ -28,7 +28,7 @@
               <th></th>
             </tr>
           </thead>
-          <tbody v-for="a_connection in list_of_connections">
+          <tbody v-for="a_connection in list_of_drivers">
             <tr scope="row" >
               <td v-on:click="set_viewed_connection(a_connection)">{{a_connection.id}}</td>
               <td v-on:click="set_viewed_connection(a_connection)">{{a_connection.driver}}</td>
@@ -118,8 +118,8 @@ export default {
   name: 'drivers-table',
 
   computed: {
-    list_of_connections: function () {
-      return this.$store.getters.list_of_connections
+    list_of_drivers: function () {
+      return this.$store.getters.list_of_drivers
     },
 
     add_connection_visible: function () {

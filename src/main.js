@@ -163,6 +163,36 @@ function setupGunDB() {
                               };
            }
         );
+
+
+
+
+
+                realtimeSql("SELECT * FROM drivers where deleted != 'T'"
+                  ,function(results) {
+                      //alert('SELECT * FROM db_connections')
+                                      //console.log('********* CALLED REALTIME DBCONN*************:' + JSON.stringify(results[0] , null, 2));
+                                      store.dispatch('clear_drivers');
+                                      for (var i = 0 ; i < results.length ; i ++) {
+                                          var conn = results[i]
+                                          console.log('********* CALLED REALTIME DBCONN*************:' + JSON.stringify(conn , null, 2));
+                                          store.dispatch( 'add_driver' , {cn:       conn.name,
+
+                                                                              cp: {     id:      conn.name
+                                                                                       }});
+                                      };
+                   }
+                );
+
+
+
+
+
+
+
+
+
+
         sql("select * from globals where id = 'network_test'",
           function(res) {
               if (res.length == 0) {

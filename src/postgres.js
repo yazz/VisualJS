@@ -1,5 +1,5 @@
 {
-    type: 'db_driver'
+    name: 'postgresDRIVER'
     ,
     setup: function(connection) {
           var config = {
