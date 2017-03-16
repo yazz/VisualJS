@@ -163,20 +163,28 @@ var autoSerialId = null;
         console.log('Update schema name: ' + schema);
         console.log('AST: ' + JSON.stringify(newAst , null, 2));
 
-        var i = 0;
 
-        function each(a, newId){
+        var i = 0;
+        var paramIndex = 0;
+        function processRecord( record , newId ) {
+
             //console.log("ID: " + newId);
-            if (in_where( a, newAst.where )) {
+
+            if ( in_where( record , newAst.where ) ) {
                 i ++;
 
-                for (column of newAst.set) {
-                    a[ column.column ] = column.value.value;
+                for ( column of newAst.set ) {
+                    if (column.value.type == 'param') {
+                        record[ column.column ] = params[ paramIndex ];
+                        paramIndex ++;
+                    } else {
+                        record[ column.column ] = column.value.value;
+                    }
                     //console.log( column.column + ' = ' + column.value.value);
                 }
                 //console.log("ID: " + newId);
                 gun.get(schema).get(newAst.table).get(newId).put(
-                    a,
+                    record,
                     function(ack) {
                         //console.log('Updated')
                     });
@@ -187,7 +195,7 @@ var autoSerialId = null;
             //console.log('Finished Get')
         }
 
-        gun.get(schema).get(newAst.table).valMapEnd(each,end);
+        gun.get(schema).get(newAst.table).valMapEnd( processRecord , end );
     };
 
 
