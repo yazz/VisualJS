@@ -394,22 +394,24 @@ app.listen(port, hostaddress, function () {
     addOrUpdateDriver('TestDriver', tdeval, drivers['TestDriver'])
 
 
-dbhelper.sql("insert into drivers (name,code,driver_type) values (?,?,?)",            ['a', 'b', 'c'])
+//dbhelper.sql("insert into drivers (name,code,driver_type) values (?,?,?)",            ['a', 'b', 'c'])
 //dbhelper.sql("update drivers set type = '...2' where name = 'TestDriver'")
 dbhelper.sql("select * from drivers where name = 'TestDriver' ")
 dbhelper.sql("select * from drivers ")
 
 
 function addOrUpdateDriver(name, code, theObject) {
-    //console.log("******************************addOrUpdateDriver ")
+    console.log("******************************addOrUpdateDriver ")
+    console.log("       name = " + name)
+    console.log("       code = " + JSON.stringify(code , null, 2))
     var driverType = theObject.type;
     //console.log("******************************driver type= " + driverType)
     //console.log("******************************driver= " + JSON.stringify(theObject , null, 2))
     dbhelper.sql("select * from drivers where name = '" +  name +  "' ",
         function(records) {
             console.log("******************************records = " + records.length  )
-            for (var record of records) {
-              if(record) {
+            if(records.length > 0) {
+                for (var record of records) {
                     dbhelper.sql("update drivers set code = ?  where name = '" + name + "'",  [code])
                     if (typeof driverType === 'string' || driverType instanceof String) {
                         console.log("******************************INSERT DRIVER "+name)
@@ -423,11 +425,11 @@ function addOrUpdateDriver(name, code, theObject) {
                         dbhelper.sql(sqlToRun)
                         //dbhelper.sql("update drivers set type = '...' where name = 'TestDriver'")
                     }
-                } else {
-                    console.log("******************************INSERT DRIVER "+name)
-                    dbhelper.sql("insert into drivers (name,code,driver_type) values (?,?,?)",            [name, code, driverType])
-
                 }
+            } else {
+                console.log("******************************INSERT DRIVER "+name)
+                dbhelper.sql("insert into drivers (name,code,driver_type) values (?,?,?)",            [name, code, driverType])
+
             }
         })
 }
