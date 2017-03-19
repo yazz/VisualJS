@@ -9,27 +9,31 @@ Vue.use(Vuex)
 export default new Vuex.Store({
 
 
-  state: {
-    add_connection_visible: false
-    ,
-    list_of_connections: []
-    ,
-    list_of_drivers: []
-    ,
-    viewed_connection_id: null
-    ,
-    viewed_connection_driver: null
-    ,
-    central_server_client_connected: false
-    ,
-    central_server_client_internal_ip_address: ""
-    ,
-    central_server_client_internal_port: -1
-    ,
-    central_server_client_public_ip_address: ""
-    ,
-    central_server_client_public_port: -1
-  },
+    state: {
+        add_connection_visible: false
+        ,
+        add_driver_visible: false
+        ,
+        list_of_connections: []
+        ,
+        list_of_drivers: []
+        ,
+        viewed_connection_id: null
+        ,
+        viewed_driver_id: null
+        ,
+        viewed_connection_driver: null
+        ,
+        central_server_client_connected: false
+        ,
+        central_server_client_internal_ip_address: ""
+        ,
+        central_server_client_internal_port: -1
+        ,
+        central_server_client_public_ip_address: ""
+        ,
+        central_server_client_public_port: -1
+    },
 
 
 
