@@ -31,7 +31,6 @@
           <tbody v-for="a_driver in list_of_drivers">
             <tr scope="row" >
               <td v-on:click="set_viewed_driver(a_driver)">{{a_driver.id}}</td>
-              <td v-on:click="set_viewed_driver(a_driver)">{{a_driver.driver}}</td>
               <td><button v-on:click.prevent='delete_item(a_driver)'>X</button></td>
             </tr>
           <tbody>
@@ -133,8 +132,9 @@ export default {
     },
 
     set_viewed_driver: function(selected_item) {
-      this.$store.dispatch('set_viewed_driver', selected_item);
-      this.$store.dispatch('hide_add_driver');
+        //alert(selected_item.id)
+        this.$store.dispatch('set_viewed_driver', selected_item);
+        this.$store.dispatch('hide_add_driver');
   },
 
   delete_item: function(driver) {

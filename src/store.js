@@ -89,9 +89,12 @@ export default new Vuex.Store({
       CLEAR_DRIVERS: function (state) {
         state.list_of_drivers = [];
       },
-    HIDE_ADD_CONNECTION: function (state) {
-      state.add_connection_visible = false
-    },
+      HIDE_ADD_CONNECTION: function (state) {
+        state.add_connection_visible = false
+      },
+      HIDE_ADD_DRIVER: function (state) {
+        state.add_driver_visible = false
+      },
     SET_VIEWED_CONNECTION: function (state, connection) {
       if (connection) {
         state.viewed_connection_id   = connection.id;
@@ -99,6 +102,13 @@ export default new Vuex.Store({
       } else {
         state.viewed_connection_id   = null;
         state.viewed_connection_driver = null;
+      }
+    },
+    SET_VIEWED_DRIVER: function (state, driver) {
+      if (driver) {
+        state.viewed_driver_id   = driver.id;
+      } else {
+        state.viewed_connection_id   = null;
       }
     },
     SHOW_ADD_CONNECTION: function (state) {
@@ -278,6 +288,20 @@ export default new Vuex.Store({
 
 
 
+        //
+        // hide_add_driver
+        //
+        //
+        //
+        hide_add_driver: function(a){
+          a.commit('HIDE_ADD_DRIVER')
+        },
+
+
+
+
+
+
 
     //
     // set_viewed_connection
@@ -290,6 +314,16 @@ export default new Vuex.Store({
 
 
 
+
+
+        //
+        // set_viewed_driver
+        //
+        //
+        //
+        set_viewed_driver: function(a, b){
+          a.commit('SET_VIEWED_DRIVER', b)
+        },
 
 
 

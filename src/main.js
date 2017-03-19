@@ -12,7 +12,7 @@ import store                    from './store.js'
 import db                       from '../public/dbhelper.js'
 
 
-const gun_ip_address = '172.18.0.107'
+const gun_ip_address = '172.18.0.104'
 
 
 
@@ -167,22 +167,31 @@ function setupGunDB() {
 
 
 
-
-                realtimeSql("SELECT * FROM drivers where deleted != 'T'"
-                  ,function(results) {
-                      //alert('SELECT * FROM db_connections')
-                                      //console.log('********* CALLED REALTIME DBCONN*************:' + JSON.stringify(results[0] , null, 2));
-                                      store.dispatch('clear_drivers');
-                                      for (var i = 0 ; i < results.length ; i ++) {
-                                          var conn = results[i]
-                                          console.log('********* CALLED REALTIME DBCONN*************:' + JSON.stringify(conn , null, 2));
-                                          store.dispatch( 'add_driver' , {cn:       conn.name,
-
-                                                                              cp: {     id:      conn.name
-                                                                                       }});
-                                      };
-                   }
-                );
+        // ------------------------------------------------------------------
+        //  Update the drivers in the UI
+        // ------------------------------------------------------------------
+        realtimeSql(
+            "SELECT * FROM drivers where deleted != 'T'"
+            ,
+            function(results) {
+                store.dispatch('clear_drivers');
+                for (var i = 0 ; i < results.length ; i ++) {
+                    var driver = results[i]
+                    //console.log('********* CALLED REALTIME DBCONN*************:' + JSON.stringify(conn , null, 2));
+                    store.dispatch(
+                        'add_driver'
+                        ,
+                         {
+                             cn: driver.name
+                             ,
+                             cp: {
+                                      id:      driver.name,
+                                      code:    driver.code
+                                  }
+                          });
+                  };
+            }
+        );
 
 
 
