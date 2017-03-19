@@ -369,53 +369,65 @@ app.listen(port, hostaddress, function () {
 
     console.log("******************************ADDING DRIVERS*********************************")
 
-    toeval =  '(' + fs.readFileSync(path.join(__dirname, './oracle.js')).toString() + ')';
+
+
+
     var pgeval = '(' + fs.readFileSync(path.join(__dirname, './postgres.js')).toString() + ')';
-
-//connections['postgres'] = eval(pgeval)
-drivers['postgres'] = eval( pgeval )
-drivers['oracle']   = eval( toeval )
-addOrUpdateDriver('postgres', pgeval, drivers['postgres'])
-addOrUpdateDriver('oracle', toeval,drivers['oracle'])
-if (drivers['oracle'].loadOnCondition()) {
-    drivers['oracle'].loadDriver()
-}
+    drivers['postgres'] = eval( pgeval )
+    addOrUpdateDriver('postgres', pgeval, drivers['postgres'])
 
 
 
 
 
+    toeval =  '(' + fs.readFileSync(path.join(__dirname, './oracle.js')).toString() + ')';
+    drivers['oracle']   = eval( toeval )
+    addOrUpdateDriver('oracle',   toeval, drivers['oracle'])
+    if (drivers['oracle'].loadOnCondition()) {
+        drivers['oracle'].loadDriver()
+    }
 
-var tdeval = '(' + fs.readFileSync(path.join(__dirname, './testdriver.js')).toString() + ')';
-drivers['TestDriver'] = eval(tdeval)
-addOrUpdateDriver('TestDriver', tdeval, drivers['TestDriver'])
 
 
+    var tdeval = '(' + fs.readFileSync(path.join(__dirname, './testdriver.js')).toString() + ')';
+    drivers['TestDriver'] = eval(tdeval)
+    addOrUpdateDriver('TestDriver', tdeval, drivers['TestDriver'])
+
+
+dbhelper.sql("insert into drivers (name,code,driver_type) values (?,?,?)",            ['a', 'b', 'c'])
+//dbhelper.sql("update drivers set type = '...2' where name = 'TestDriver'")
 dbhelper.sql("select * from drivers where name = 'TestDriver' ")
+dbhelper.sql("select * from drivers ")
 
 
 function addOrUpdateDriver(name, code, theObject) {
-    //console.log("******************************dbhelper= " + dbhelper)
+    //console.log("******************************addOrUpdateDriver ")
     var driverType = theObject.type;
-    console.log("******************************driver type= " + driverType)
+    //console.log("******************************driver type= " + driverType)
     //console.log("******************************driver= " + JSON.stringify(theObject , null, 2))
-    dbhelper.sql1("select * from drivers where name = '" +  name +  "' ",
-        function(record) {
-            if(record) {
-                //dbhelper.sql("update drivers set code = ?  where name = '" + name + "'",  [code])
-                if (driverType) {
-                    //console.log("******************************set driver type = " + JSON.stringify(driverType , null, 2))
-                    //console.log("******************************for name = " + JSON.stringify(name , null, 2))
-                    var sqlToRun = "update drivers set type = '" + driverType.toString() + "' where name = '" + name + "'";
-                    console.log("******************************SQL  = " + JSON.stringify(sqlToRun , null, 2))
+    dbhelper.sql("select * from drivers where name = '" +  name +  "' ",
+        function(records) {
+            console.log("******************************records = " + records.length  )
+            for (var record of records) {
+              if(record) {
+                    dbhelper.sql("update drivers set code = ?  where name = '" + name + "'",  [code])
+                    if (typeof driverType === 'string' || driverType instanceof String) {
+                        console.log("******************************INSERT DRIVER "+name)
+                        //console.log("******************************record type = " + JSON.stringify(record.type , null, 2))
+                        //console.log("******************************desired type = " + JSON.stringify(driverType , null, 2))
+                        //console.log("******************************set driver type = " + JSON.stringify(driverType , null, 2))
+                        //console.log("******************************for name = " + JSON.stringify(name , null, 2))
+                        var sqlToRun = "update  drivers  set driver_type = '" + driverType + "'  where  name = '" + name + "'";
+                        //console.log("******************************SQL  = " + JSON.stringify(sqlToRun , null, 2))
 
-                    dbhelper.sql(sqlToRun,  [])
-                    //dbhelper.sql("update drivers set type = '...' where name = 'TestDriver'")
+                        dbhelper.sql(sqlToRun)
+                        //dbhelper.sql("update drivers set type = '...' where name = 'TestDriver'")
+                    }
+                } else {
+                    console.log("******************************INSERT DRIVER "+name)
+                    dbhelper.sql("insert into drivers (name,code,driver_type) values (?,?,?)",            [name, code, driverType])
+
                 }
-            } else {
-                //console.log("******************************INSERT DRIVER "+name)
-                dbhelper.sql("insert into drivers (name,code, type    ) values (?,?,?)",            [name, code, driverType])
-
             }
         })
 }

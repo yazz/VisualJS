@@ -1,5 +1,5 @@
 {
-    name: 'oracleDRIVER'
+    name: 'oracle'
     ,
     type: 'db_driver'
     ,
