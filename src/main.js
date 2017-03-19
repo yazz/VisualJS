@@ -185,8 +185,9 @@ function setupGunDB() {
                              cn: driver.name
                              ,
                              cp: {
-                                      id:      driver.name,
-                                      code:    driver.code
+                                 id:      driver.name,
+                                 type:    driver.type,
+                                 code:    driver.code
                                   }
                           });
                   };

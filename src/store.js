@@ -37,6 +37,9 @@ export default new Vuex.Store({
 
 
 
+
+
+
   getters: {
     add_connection_visible: state => state.add_connection_visible
     ,

@@ -159,9 +159,9 @@ var autoSerialId = null;
     // This uses SQL to update records
     // ---------------------------------------------
     function g_update( newAst, params, gun, schema ){
-        console.log('Update table name: ' + newAst.table);
-        console.log('Update schema name: ' + schema);
-        console.log('AST: ' + JSON.stringify(newAst , null, 2));
+        //console.log('Update table name: ' + newAst.table);
+        //console.log('Update schema name: ' + schema);
+        //console.log('AST: ' + JSON.stringify(newAst , null, 2));
 
 
         var i = 0;
