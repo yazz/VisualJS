@@ -397,13 +397,13 @@ app.listen(port, hostaddress, function () {
 //dbhelper.sql("insert into drivers (name,code,driver_type) values (?,?,?)",            ['a', 'b', 'c'])
 //dbhelper.sql("update drivers set type = '...2' where name = 'TestDriver'")
 dbhelper.sql("select * from drivers where name = 'TestDriver' ")
-dbhelper.sql("select * from drivers ")
+//dbhelper.sql("select * from drivers ")
 
 
 function addOrUpdateDriver(name, code, theObject) {
     console.log("******************************addOrUpdateDriver ")
     console.log("       name = " + name)
-    console.log("       code = " + JSON.stringify(code , null, 2))
+    //console.log("       code = " + JSON.stringify(code , null, 2))
     var driverType = theObject.type;
     //console.log("******************************driver type= " + driverType)
     //console.log("******************************driver= " + JSON.stringify(theObject , null, 2))
@@ -416,11 +416,11 @@ function addOrUpdateDriver(name, code, theObject) {
                     if (typeof driverType === 'string' || driverType instanceof String) {
                         console.log("******************************INSERT DRIVER "+name)
                         //console.log("******************************record type = " + JSON.stringify(record.type , null, 2))
-                        //console.log("******************************desired type = " + JSON.stringify(driverType , null, 2))
+                        console.log("******************************desired type = " + JSON.stringify(driverType , null, 2))
                         //console.log("******************************set driver type = " + JSON.stringify(driverType , null, 2))
                         //console.log("******************************for name = " + JSON.stringify(name , null, 2))
-                        var sqlToRun = "update  drivers  set driver_type = '" + driverType + "'  where  name = '" + name + "'";
-                        //console.log("******************************SQL  = " + JSON.stringify(sqlToRun , null, 2))
+                        var sqlToRun = "update drivers set driver_type = '" + driverType + "' where  name = '" + name + "'";
+                        console.log("******************************SQL  = " + JSON.stringify(sqlToRun , null, 2))
 
                         dbhelper.sql(sqlToRun)
                         //dbhelper.sql("update drivers set type = '...' where name = 'TestDriver'")

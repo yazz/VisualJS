@@ -64,7 +64,12 @@
                  selected driver
          -->
          <h2>Properties</h2>
-
+         <view-driver driver_name='TestDriver'>
+             <div slot="elements">
+                 <input type="text" name="item_name" value="">
+                 <input type="text" name="item_value" value="">
+               </div>
+         </view-driver>
 
 
 
@@ -90,6 +95,8 @@
 
 
 <script>
+import view_driver    from './view_driver.vue'
+
 
 export default {
   name: 'drivers-table',
@@ -114,6 +121,7 @@ export default {
 
 
   components: {
+      'view-driver': view_driver
 },
 
 

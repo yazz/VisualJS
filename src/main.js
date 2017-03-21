@@ -12,9 +12,9 @@ import store                    from './store.js'
 import db                       from '../public/dbhelper.js'
 
 
-const gun_ip_address = '172.18.0.104'
+const gun_ip_address = '127.0.0.1'
 
-
+window.vue = Vue;
 
 function initWelcomeVuePane() {
     if (document.getElementById('welcome')) {
