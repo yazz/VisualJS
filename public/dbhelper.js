@@ -161,16 +161,22 @@ var autoSerialId = null;
     function g_update( newAst, params, gun, schema ){
         //console.log('Update table name: ' + newAst.table);
         //console.log('Update schema name: ' + schema);
-        //console.log('AST: ' + JSON.stringify(newAst , null, 2));
+        //console.log('*newAst.where: ' + JSON.stringify(newAst.where , null, 2));
 
 
         var i = 0;
         var paramIndex = 0;
         function processRecord( record , newId ) {
 
-            //console.log("ID: " + newId);
+            //console.log("update AST: " + JSON.stringify(newAst , null, 2));
+
+            if (record.name == "TestDriver") {
+                //console.log("update record: " + JSON.stringify(record.name , null, 2));
+                //console.log('newAst.where: ' + JSON.stringify(newAst.where , null, 2));
+            }
 
             if ( in_where( record , newAst.where ) ) {
+                console.log("    match")
                 i ++;
 
                 for ( column of newAst.set ) {
@@ -179,8 +185,8 @@ var autoSerialId = null;
                         paramIndex ++;
                     } else {
                         record[ column.column ] = column.value.value;
+                        console.log( '----------------' + column.column + ' = ' + column.value.value);
                     }
-                    //console.log( column.column + ' = ' + column.value.value);
                 }
                 //console.log("ID: " + newId);
                 gun.get(schema).get(newAst.table).get(newId).put(
@@ -188,11 +194,13 @@ var autoSerialId = null;
                     function(ack) {
                         //console.log('Updated')
                     });
+            } else {
+                console.log("    no match")
             }
         }
 
         function end(coll){
-            //console.log('Finished Get')
+            console.log('Finished Update')
         }
 
         gun.get(schema).get(newAst.table).valMapEnd( processRecord , end );
