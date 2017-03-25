@@ -1,7 +1,7 @@
 {
     name: 'TestDriver'
     ,
-    type: 'text22'
+    type: 'basic'
     ,
     text: 'Hello driver'
     ,

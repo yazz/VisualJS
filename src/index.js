@@ -395,7 +395,7 @@ app.listen(port, hostaddress, function () {
 
 
 ////dbhelper.sql("insert into drivers (name,code,driver_type) values (?,?,?)",            ['a', 'b', 'c'])
-dbhelper.sql("update drivers set type = '...2' where name = 'TestDriver'")
+//dbhelper.sql("update drivers set type = '...2' where name = 'TestDriver'")
 dbhelper.sql("select * from drivers where name = 'TestDriver' ")
 //dbhelper.sql("select * from drivers ")
 

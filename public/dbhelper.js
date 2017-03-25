@@ -9,19 +9,20 @@ var sqlParseFn;
 var staticSqlResultSets   = new Object();
 var realtimeSqlResultSets = new Object();
 var realtimeTablesToWatch = new Object();
+var sqlQueue              = [];
 var autoSerialId = null;
 
 
 
 (function(exports){
 
-    function objectToArray(data) {
+    function objectToArray( data ) {
         var list2 = [];
-        for (var itemkey in Object.keys(data)) {
-            var obj = data[itemkey];
+        for (var itemkey in Object.keys( data )) {
+            var obj = data[ itemkey ];
             //console.log(itemkey);
           if(data[itemkey] != undefined) {
-            list2.push(obj);
+            list2.push( obj );
             }
         };
         return list2;
@@ -36,10 +37,10 @@ var autoSerialId = null;
     // This defines the where claus for the SQL
     // ---------------------------------------------
     function in_where( o, where ) {
-        if (!where) {
+        if ( !where ) {
             return true;
         }
-        switch(where.operator) {
+        switch( where.operator ) {
             case '='  : return o[where.left.column] == where.right.value; break;
             case '!=' : return o[where.left.column] != where.right.value; break;
             case 'IS' : return o[where.left.column] == where.right.value; break;
@@ -73,12 +74,12 @@ var autoSerialId = null;
 
         //console.log('paramsDefined: ' + JSON.stringify(paramsDefined , null, 2))
         for(i = 0; i < paramsDefined.length; i ++) {
-            fields[paramsDefined[i].pos] = {value: params[i]};
+            fields[ paramsDefined[ i ].pos ] = { value: params[i] };
         };
         //console.log('fields: ' + JSON.stringify(fields , null, 2))
 
         fieldsDefinedIndex = 0;
-        for(i = 0; i < columns.length; i ++) {
+        for( i = 0; i < columns.length; i ++ ) {
             if (!fields[i]) {
                 fields[i] = fieldsDefined[fieldsDefinedIndex]
                 fieldsDefinedIndex ++
@@ -115,7 +116,7 @@ var autoSerialId = null;
         var count = 0;
         //console.log('*cb: '  + cb)
 
-        function each(a){
+        var each = function (a){
             var b = localgunclass.obj.copy(a);
             if(in_where( b, newAst.where )) {
                 count ++;
@@ -125,7 +126,7 @@ var autoSerialId = null;
             };
         }
 
-        function end(coll){
+        var end = function (coll){
             //console.log('coll: '  + JSON.stringify(coll , null, 2))
             //staticSqlResultSets[sql] = objectToArray(temp);
             //console.log('**Get: '  + JSON.stringify(staticSqlResultSets[sql] , null, 2))
@@ -139,8 +140,8 @@ var autoSerialId = null;
 
         }
 
-        gun.get(schema).get(newAst.from[0].table).valMapEnd(each,end);
-        gun.get(schema).get(newAst.from[0].table).not(end);
+        gun.get(schema).get(newAst.from[0].table).valMapEnd( each , end , newAst);
+        gun.get(schema).get(newAst.from[0].table).not( end );
 
       return true;//staticSqlResultSets[sql];
    };
@@ -158,52 +159,52 @@ var autoSerialId = null;
     //
     // This uses SQL to update records
     // ---------------------------------------------
-    function g_update( newAst, params, gun, schema ){
+    function g_update( newAst2, params, gun, schema ){
         //console.log('Update table name: ' + newAst.table);
         //console.log('Update schema name: ' + schema);
-        //console.log('*newAst.where: ' + JSON.stringify(newAst.where , null, 2));
+        var newAst = JSON.parse(JSON.stringify( newAst2 ));
+        console.log('******* newAst.where: ' + JSON.stringify(newAst.where.right.value , null, 2));
 
 
-        var i = 0;
-        var paramIndex = 0;
-        function processRecord( record , newId ) {
+         var processRecord  = function ( record2 , newId ) {
+             var record = localgunclass.obj.copy(record2);
 
-            //console.log("update AST: " + JSON.stringify(newAst , null, 2));
+            console.log("      processRecord: " + JSON.stringify(newAst.where.right.value , null, 2));
 
-            if (record.name == "TestDriver") {
+            //if (record.name == "TestDriver") {
                 //console.log("update record: " + JSON.stringify(record.name , null, 2));
                 //console.log('newAst.where: ' + JSON.stringify(newAst.where , null, 2));
-            }
+            //}
 
             if ( in_where( record , newAst.where ) ) {
-                console.log("    match")
-                i ++;
+                //console.log("    match")
 
-                for ( column of newAst.set ) {
-                    if (column.value.type == 'param') {
+                var paramIndex = 0;
+                for ( var column of newAst.set ) {
+                    if ( column.value.type == 'param' ) {
                         record[ column.column ] = params[ paramIndex ];
                         paramIndex ++;
                     } else {
                         record[ column.column ] = column.value.value;
-                        console.log( '----------------' + column.column + ' = ' + column.value.value);
+                        //console.log( '----------------' + column.column + ' = ' + column.value.value);
                     }
                 }
                 //console.log("ID: " + newId);
                 gun.get(schema).get(newAst.table).get(newId).put(
                     record,
                     function(ack) {
-                        //console.log('Updated')
+                        console.log('Updated: ' + newAst.where.right.value)
                     });
             } else {
                 console.log("    no match")
             }
         }
 
-        function end(coll){
-            console.log('Finished Update')
+        var end = function(coll){
+            console.log('Finished Update: ' + newAst.where.right.value)
         }
 
-        gun.get(schema).get(newAst.table).valMapEnd( processRecord , end );
+        gun.get(schema).get(newAst.table).valMapEnd( processRecord , end , newAst);
     };
 
 
@@ -226,50 +227,45 @@ var autoSerialId = null;
     //
     // This sets the Class GunDB
     // ---------------------------------------------
-    exports.setGunDBClass  = function(lg) {
+    exports.setGunDBClass  = function( lg ) {
         localgunclass = lg;
-        localgunclass.chain.sql = function( sql, params, cb, schema ){
-            var newAst = sqlParseFn(sql);
-            //console.log('newAst: ' + JSON.stringify(newAst , null, 2))
-            if (!schema) {
-                schema = 'default'
-            }
 
-            var chain  = this.chain();
-            switch(newAst.type ) {
-                case 'insert' : g_insert(newAst, params,         this,     schema);break;
-                case 'select' : g_select(sql,    params, newAst, this, cb, schema);break;
-                case 'update' : g_update(newAst, params,         this,     schema);break;
-            }
-            //return this
+
+        localgunclass.chain.sql = function( sql, params, cb, schema ){
+            sqlQueue.push({sql: sql, params: params, cb: cb, schema: schema})
+
         }
 
 
 
 
-        localgunclass.chain.valMapEnd = function (cb, end) {
-            var n   = function () {},
-            count   = 0,
-            souls   = [],
-            gun     = this;
-            cb      = cb || n;
-            end     = end || n;
+        localgunclass.chain.valMapEnd = function ( incb , inend , ast2 ) {
+            var n       = function () {};
+            var count   = 0;
+            var souls   = [];
+            var gun     = this;
+            var cb      = incb || n;
+            var end     = inend || n;
+            var ast     = JSON.parse(JSON.stringify(ast2));
 
-            gun.val( function (list) {
-                var args = Array.prototype.slice.call(arguments);
-                localgunclass.node.is(list, function (n, soul) {
+            gun.val( function ( list ) {
+                var args = Array.prototype.slice.call( arguments );
+                localgunclass.node.is( list , function ( n , soul ) {
                     count += 1;
-                    souls.push(soul);
+                    souls.push( soul );
                 });
 
-                souls.forEach(function (soul) {
-                    gun.back(-1).get(soul).val(function (val, key) {
-                        count -= 1;
-                        cb.apply(this, arguments);
-                        if (!count) {
-                            end.apply(this, args);
-                        }
-                    });
+                souls.forEach(
+                    function ( soul ) {
+                        gun.back( -1 ).get( soul ).val( function ( val , key ) {
+                            count -= 1;
+                            var args2 = Array.prototype.slice.call( arguments );
+                            args2.push( ast )
+                            cb.apply( this , args2 );
+                            if ( !count ) {
+                                end.apply( this , args2 );
+                            }
+                        });
                 });
             });
             return gun;
@@ -290,7 +286,7 @@ var autoSerialId = null;
             cb     = p3
             schema = p4
         } else {
-            params = null
+            params = []
             cb     = p2
             schema = p3
         }
@@ -308,7 +304,7 @@ var autoSerialId = null;
             cb     = p3
             schema = p4
         } else {
-            params = null
+            params = []
             cb     = p2
             schema = p3
         }
@@ -431,6 +427,7 @@ var autoSerialId = null;
 
 
       var inRealtimeUpdate=false;
+      var queueCount = 0;
       setInterval( function () {
           if (!inRealtimeUpdate) {
               inRealtimeUpdate = true;
@@ -441,7 +438,7 @@ var autoSerialId = null;
                   //console.log("tableName: " + tableName );
                   if (realtimeTablesToWatch[ tableName ] ) {
                       if (realtimeTablesToWatch[ tableName ][ "changed" ]) {
-                          console.log("table changed: " + tableName );
+                          //console.log("table changed: " + tableName );
                           //localgun.sql("SELECT * FROM Customers ");
                           var sqlToUpdate = Object.keys(realtimeTablesToWatch[ tableName ]['sql']).toString()
                           //console.log('    sql: ' + JSON.stringify(sqlToUpdate , null, 2))
@@ -459,7 +456,38 @@ var autoSerialId = null;
               }
               inRealtimeUpdate = false;
           }
-      }, 1000)
+
+
+
+
+
+
+          var sqlQueueItem = sqlQueue.shift()
+          if (sqlQueueItem) {
+              queueCount ++;
+              var sql    = sqlQueueItem.sql
+              var params = sqlQueueItem.params
+              var schema = sqlQueueItem.schema
+              var cb     = sqlQueueItem.cb
+
+
+              var newAst = JSON.parse(JSON.stringify( sqlParseFn(sql) ));
+              //console.log(queueCount + ' : ' + sql)
+              //console.log('newAst: ' + JSON.stringify(newAst , null, 2))
+              if (!schema) {
+                  schema = 'default'
+              }
+
+              var chain  = localgun.chain();
+              switch( newAst.type ) {
+                  case 'insert' : g_insert(newAst, params,         localgun,     schema);break;
+                  case 'select' : g_select(sql,    params, newAst, localgun, cb, schema);break;
+                  case 'update' : g_update(newAst, params,         localgun,     schema);break;
+              }
+              //return this
+          }
+
+      }, 200)
 
 
 
