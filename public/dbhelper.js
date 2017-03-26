@@ -95,7 +95,9 @@ var autoSerialId = null;
         // existing result set
         localgun.sql('select * from ' + newAst.table)
 
-        gun.get(schema).get(newAst.table).set(newRecord);
+        gun.get(schema).get(newAst.table).set(newRecord, function(ack){
+            inSql = false
+        });
     }
 
 
@@ -137,6 +139,7 @@ var autoSerialId = null;
                 console.log( JSON.stringify(staticSqlResultSets[sql] , null, 2) );
             };
             //console.log('**Finished Get: '  + count)
+            inSql = false
 
         }
 
@@ -169,7 +172,7 @@ var autoSerialId = null;
          var processRecord  = function ( record2 , newId ) {
              var record = localgunclass.obj.copy(record2);
 
-            console.log("      processRecord: " + JSON.stringify(newAst.where.right.value , null, 2));
+            //console.log("      processRecord: " + JSON.stringify(newAst.where.right.value , null, 2));
 
             //if (record.name == "TestDriver") {
                 //console.log("update record: " + JSON.stringify(record.name , null, 2));
@@ -193,15 +196,16 @@ var autoSerialId = null;
                 gun.get(schema).get(newAst.table).get(newId).put(
                     record,
                     function(ack) {
-                        console.log('Updated: ' + newAst.where.right.value)
+                        //console.log('Updated: ' + newAst.where.right.value)
                     });
             } else {
-                console.log("    no match")
+                //console.log("    no match")
             }
         }
 
         var end = function(coll){
-            console.log('Finished Update: ' + newAst.where.right.value)
+            //console.log('Finished Update: ' + newAst.where.right.value)
+            inSql = false
         }
 
         gun.get(schema).get(newAst.table).valMapEnd( processRecord , end , newAst);
@@ -427,6 +431,8 @@ var autoSerialId = null;
 
 
       var inRealtimeUpdate=false;
+      var inSql=false;
+
       var queueCount = 0;
       setInterval( function () {
           if (!inRealtimeUpdate) {
@@ -462,29 +468,32 @@ var autoSerialId = null;
 
 
 
-          var sqlQueueItem = sqlQueue.shift()
-          if (sqlQueueItem) {
-              queueCount ++;
-              var sql    = sqlQueueItem.sql
-              var params = sqlQueueItem.params
-              var schema = sqlQueueItem.schema
-              var cb     = sqlQueueItem.cb
+          if (!inSql) {
+              inSql = true
+              var sqlQueueItem = sqlQueue.shift()
+              if (sqlQueueItem) {
+                  queueCount ++;
+                  var sql    = sqlQueueItem.sql
+                  var params = sqlQueueItem.params
+                  var schema = sqlQueueItem.schema
+                  var cb     = sqlQueueItem.cb
 
 
-              var newAst = JSON.parse(JSON.stringify( sqlParseFn(sql) ));
-              //console.log(queueCount + ' : ' + sql)
-              //console.log('newAst: ' + JSON.stringify(newAst , null, 2))
-              if (!schema) {
-                  schema = 'default'
+                  var newAst = JSON.parse(JSON.stringify( sqlParseFn(sql) ));
+                  //console.log(queueCount + ' : ' + sql)
+                  //console.log('newAst: ' + JSON.stringify(newAst , null, 2))
+                  if (!schema) {
+                      schema = 'default'
+                  }
+
+                  var chain  = localgun.chain();
+                  switch( newAst.type ) {
+                      case 'insert' : g_insert(newAst, params,         localgun,     schema);break;
+                      case 'select' : g_select(sql,    params, newAst, localgun, cb, schema);break;
+                      case 'update' : g_update(newAst, params,         localgun,     schema);break;
+                  }
+                  //return this
               }
-
-              var chain  = localgun.chain();
-              switch( newAst.type ) {
-                  case 'insert' : g_insert(newAst, params,         localgun,     schema);break;
-                  case 'select' : g_select(sql,    params, newAst, localgun, cb, schema);break;
-                  case 'update' : g_update(newAst, params,         localgun,     schema);break;
-              }
-              //return this
           }
 
       }, 200)

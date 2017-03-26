@@ -414,17 +414,17 @@ function addOrUpdateDriver(name, code, theObject) {
                 for (var record of records) {
                     dbhelper.sql("update drivers set code = ?  where name = '" + name + "'",  [code])
                     if (typeof driverType === 'string' || driverType instanceof String) {
-                        console.log("******************************UPDATE DRIVER "+name)
+                        //console.log("******************************UPDATE DRIVER "+name)
                         //console.log("******************************record type = " + JSON.stringify(record.type , null, 2))
-                        console.log("******************************desired type = " + JSON.stringify(driverType , null, 2))
+                        //console.log("******************************desired type = " + JSON.stringify(driverType , null, 2))
                         //console.log("******************************set driver type = " + JSON.stringify(driverType , null, 2))
                         //console.log("******************************for name = " + JSON.stringify(name , null, 2))
                         var sqlToRun = "update drivers set type = '" + driverType + "' where  name = '" + name + "'";
 
 
-                        console.log("******************************SQL  = " + JSON.stringify(sqlToRun , null, 2))
+                        //console.log("******************************SQL  = " + JSON.stringify(sqlToRun , null, 2))
                         dbhelper.sql(sqlToRun, function(ack) {
-                            console.log("******************************SQL Done  = " + JSON.stringify(sqlToRun , null, 2))
+                            //console.log("******************************SQL Done  = " + JSON.stringify(sqlToRun , null, 2))
                         })
                         //dbhelper.sql("update drivers set type = '...' where name = 'TestDriver'")
                     }
