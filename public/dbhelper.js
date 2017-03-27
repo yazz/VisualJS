@@ -435,37 +435,6 @@ var autoSerialId = null;
 
       var queueCount = 0;
       setInterval( function () {
-          if (!inRealtimeUpdate) {
-              inRealtimeUpdate = true;
-              //console.log('Changed: ' + changed);
-              var allRealtimetables = Object.keys(realtimeTablesToWatch);
-              //console.log('tables: ' + JSON.stringify(allRealtimetables , null, 2))
-              for ( tableName of allRealtimetables) {
-                  //console.log("tableName: " + tableName );
-                  if (realtimeTablesToWatch[ tableName ] ) {
-                      if (realtimeTablesToWatch[ tableName ][ "changed" ]) {
-                          //console.log("table changed: " + tableName );
-                          //localgun.sql("SELECT * FROM Customers ");
-                          var sqlToUpdate = Object.keys(realtimeTablesToWatch[ tableName ]['sql']).toString()
-                          //console.log('    sql: ' + JSON.stringify(sqlToUpdate , null, 2))
-                          var cbb = realtimeTablesToWatch[tableName]['sql'][sqlToUpdate]["callback"];
-                          if (cbb) {
-                              //console.log('**HAS A CALLBACK on SQL: ' + sqlToUpdate);
-                              //console.log('localgun: ' + localgun.sql(sqlToUpdate));
-                              localgun.sql(sqlToUpdate, null, cbb);
-                          };
-
-
-                          realtimeTablesToWatch[ tableName ][ "changed" ] = false
-                      }
-                  }
-              }
-              inRealtimeUpdate = false;
-          }
-
-
-
-
 
 
           if (!inSql) {
@@ -494,6 +463,42 @@ var autoSerialId = null;
                   }
                   //return this
               }
+
+
+
+              if (sqlQueue.length == 0) {
+                  if (!inRealtimeUpdate) {
+                      inRealtimeUpdate = true;
+                      //console.log('Changed: ' + changed);
+                      var allRealtimetables = Object.keys(realtimeTablesToWatch);
+                      //console.log('tables: ' + JSON.stringify(allRealtimetables , null, 2))
+                      for ( tableName of allRealtimetables) {
+                          //console.log("tableName: " + tableName );
+                          if (realtimeTablesToWatch[ tableName ] ) {
+                              if (realtimeTablesToWatch[ tableName ][ "changed" ]) {
+                                  //console.log("table changed: " + tableName );
+                                  //localgun.sql("SELECT * FROM Customers ");
+                                  var sqlToUpdate = Object.keys(realtimeTablesToWatch[ tableName ]['sql']).toString()
+                                  //console.log('    sql: ' + JSON.stringify(sqlToUpdate , null, 2))
+                                  var cbb = realtimeTablesToWatch[tableName]['sql'][sqlToUpdate]["callback"];
+                                  if (cbb) {
+                                      //console.log('**HAS A CALLBACK on SQL: ' + sqlToUpdate);
+                                      //console.log('localgun: ' + localgun.sql(sqlToUpdate));
+                                      localgun.sql(sqlToUpdate, null, cbb);
+                                  };
+
+
+                                  realtimeTablesToWatch[ tableName ][ "changed" ] = false
+                              }
+                          }
+                      }
+                      inRealtimeUpdate = false;
+                  }
+              }
+
+
+
+
           }
 
       }, 200)
