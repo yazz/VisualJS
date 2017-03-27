@@ -403,7 +403,7 @@ var autoSerialId = null;
                     var tableName = newAst.from[0].table;
                     localgun.get( schema ).get( newAst.from[0].table ).on(
                       function(a) {
-                          //console.log('Change to table name: ' + tableName )
+                          console.log('Change to table name: ' + tableName )
                           realtimeTablesToWatch[tableName]["changed"] = true
                         },false);
                 }
@@ -438,9 +438,10 @@ var autoSerialId = null;
 
 
           if (!inSql) {
-              inSql = true
               var sqlQueueItem = sqlQueue.shift()
               if (sqlQueueItem) {
+                  inSql = true
+                  console.log('sql: ' + JSON.stringify(sqlQueueItem.sql , null, 2))
                   queueCount ++;
                   var sql    = sqlQueueItem.sql
                   var params = sqlQueueItem.params
@@ -482,7 +483,7 @@ var autoSerialId = null;
                                   //console.log('    sql: ' + JSON.stringify(sqlToUpdate , null, 2))
                                   var cbb = realtimeTablesToWatch[tableName]['sql'][sqlToUpdate]["callback"];
                                   if (cbb) {
-                                      //console.log('**HAS A CALLBACK on SQL: ' + sqlToUpdate);
+                                      console.log('**HAS A CALLBACK on SQL: ' + sqlToUpdate);
                                       //console.log('localgun: ' + localgun.sql(sqlToUpdate));
                                       localgun.sql(sqlToUpdate, null, cbb);
                                   };
