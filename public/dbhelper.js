@@ -405,20 +405,14 @@ var autoSerialId = null;
                     realtimeTablesToWatch[newAst.from[0].table] = new Object();
                     realtimeTablesToWatch[newAst.from[0].table]['sql'] = new Object();
                     var tableName = newAst.from[0].table;
-                    localgun.get( schema ).get( newAst.from[0].table ).on(
-                      function(a) {
-                          //a.value(function(q){console.log('a: ' + JSON.stringify(q , null, 2) )})
-                          //console.log('Change to table name: ' + tableName )
-                          //console.log('     a: ' + JSON.stringify(a , null, 2) )
-                          //realtimeTablesToWatch[tableName]["changed"] = true
-                        },false);
 
+                    realtimeTablesToWatch[tableName]["changed"] = true
                     localgun.get('change_log').get( schema ).get( newAst.from[0].table ).on(
                       function(a) {
                           //a.value(function(q){console.log('a: ' + JSON.stringify(q , null, 2) )})
                           if (a.changed) {
                               console.log('Change to table name: ' + tableName )
-                              console.log('     a: ' + JSON.stringify(a , null, 2) )
+                              //console.log('     a: ' + JSON.stringify(a , null, 2) )
                               realtimeTablesToWatch[tableName]["changed"] = true
                               localgun.get('change_log').get( schema ).get( newAst.from[0].table ).put(
                                   {changed: false})
