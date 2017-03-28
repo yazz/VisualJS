@@ -98,7 +98,7 @@ var autoSerialId = null;
         gun.get(schema).get(newAst.table).set(newRecord, function(ack){
             inSql = false
             gun.get('change_log').get( schema ).get( newAst.table ).put(
-                {changed: true})
+                {changed: true, time: new Date().getTime()})
         });
     }
 
@@ -209,7 +209,7 @@ var autoSerialId = null;
             //console.log('Finished Update: ' + newAst.where.right.value)
             inSql = false
             gun.get('change_log').get( schema ).get( newAst.table ).put(
-                {changed: true})
+                {changed: true, time: new Date().getTime()})
         }
 
         gun.get(schema).get(newAst.table).valMapEnd( processRecord , end , newAst);
@@ -407,15 +407,15 @@ var autoSerialId = null;
                     var tableName = newAst.from[0].table;
 
                     realtimeTablesToWatch[tableName]["changed"] = true
-                    localgun.get('change_log').get( schema ).get( newAst.from[0].table ).on(
+                    localgun.get('change_log').get( schema ).get( tableName ).on(
                       function(a) {
                           //a.value(function(q){console.log('a: ' + JSON.stringify(q , null, 2) )})
                           if (a.changed) {
                               console.log('Change to table name: ' + tableName )
                               //console.log('     a: ' + JSON.stringify(a , null, 2) )
                               realtimeTablesToWatch[tableName]["changed"] = true
-                              localgun.get('change_log').get( schema ).get( newAst.from[0].table ).put(
-                                  {changed: false})
+                              localgun.get('change_log').get( schema ).get( tableName ).put(
+                                  {changed: false, time: new Date().getTime() })
                           }
                         },false);
 
