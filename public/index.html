@@ -156,12 +156,16 @@
 
           </input>
 
-        <input id=maininput
-               onkeyup="updateNetworkTest()">
-        </input>
+          <input id=maininput
+                 onkeyup="updateNetworkTest()">
+          </input>
+          <div id=mainid></div>
+          <input id=maininput2
+                 onkeyup="updateNetworkTest2()">
+          </input>
+          <div id=mainid2></div>
 
 
-      <div id=mainid></div>
 
       <textarea rows="4" cols="50" type=input
                 id=sqlinput >SELECT * FROM ojobs_users limit 2</textarea>
@@ -453,6 +457,14 @@
             sql("update globals set value = '" +
             document.getElementById('maininput').value
             + "' where id = 'network_test'");
+    }
+    function updateNetworkTest2() {
+        gun.get('network_data2').not(function() {
+            gun.put({value: document.getElementById('maininput2').value }).key('network_data2')
+        })
+
+            gun.get('network_data2').put({value: document.getElementById('maininput2').value })
+
     }
     </script>
 

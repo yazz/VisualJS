@@ -12,7 +12,7 @@ import store                    from './store.js'
 import db                       from '../public/dbhelper.js'
 
 
-const gun_ip_address = '172.18.0.104'
+const gun_ip_address = '10.6.91.155'
 
 window.vue = Vue;
 
@@ -96,12 +96,12 @@ function setupGunDB() {
 
 
 
-        /*gun.get('networktest').on(function(data,id) {
-            if (document.getElementById('mainid')) {
-                document.getElementById('mainid').innerHTML = data.value
-            }});
+        gun.get('network_data2').on(function(data,id) {
+            if (document.getElementById('mainid2')) {
+                document.getElementById('mainid2').innerHTML = JSON.stringify(data.value , null, 2)
+            }},false);
 
-
+/*
         gun.get("connections").map(read_connections,true);
 
         gun.get('default').not(function(pp) {
@@ -213,7 +213,7 @@ function setupGunDB() {
           realtimeSql("SELECT * FROM globals where id = 'network_test'"
             ,function(results) {
                 if (results[0]) {
-                    document.getElementById('maininput').value = results[0].value
+                    //document.getElementById('maininput').value = results[0].value
 
                     document.getElementById('mainid').innerHTML = results[0].value
                 }
