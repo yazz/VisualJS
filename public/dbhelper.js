@@ -97,8 +97,17 @@ var autoSerialId = null;
 
         gun.get(schema).get(newAst.table).set(newRecord, function(ack){
             inSql = false
-            gun.get('change_log').get( schema ).get( newAst.table ).put(
-                {changed: true, time: new Date().getTime()})
+
+            gun.get('change_log').get( schema ).get( newAst.table ).val(
+
+              function(a) {
+                    var newVersion = 0;
+                    if (a.version) {
+                        newVersion = a.version + 1
+                    }
+                    gun.get('change_log').get( schema ).get( newAst.table ).put(
+                        {version: newVersion + 1})
+                    })
         });
     }
 
@@ -208,8 +217,16 @@ var autoSerialId = null;
         var end = function(coll){
             //console.log('Finished Update: ' + newAst.where.right.value)
             inSql = false
-            gun.get('change_log').get( schema ).get( newAst.table ).put(
-                {changed: true, time: new Date().getTime()})
+            gun.get('change_log').get( schema ).get( newAst.table ).val(
+
+              function(a) {
+                  var newVersion = 0;
+                  if (a.version) {
+                      newVersion = a.version + 1
+                  }
+                  gun.get('change_log').get( schema ).get( newAst.table ).put(
+                      {version: newVersion + 1})
+                  })
         }
 
         gun.get(schema).get(newAst.table).valMapEnd( processRecord , end , newAst);
@@ -404,18 +421,19 @@ var autoSerialId = null;
                 if (!realtimeTablesToWatch[newAst.from[0].table]) {
                     realtimeTablesToWatch[newAst.from[0].table] = new Object();
                     realtimeTablesToWatch[newAst.from[0].table]['sql'] = new Object();
+                    realtimeTablesToWatch[newAst.from[0].table]['version'] = -1;
                     var tableName = newAst.from[0].table;
 
                     realtimeTablesToWatch[tableName]["changed"] = true
                     localgun.get('change_log').get( schema ).get( tableName ).on(
                       function(a) {
+                          //console.log('*****Change to table name: ' + tableName )
                           //a.value(function(q){console.log('a: ' + JSON.stringify(q , null, 2) )})
-                          if (a.changed) {
-                              console.log('Change to table name: ' + tableName )
+                          if (a.version > realtimeTablesToWatch[newAst.from[0].table]['version']) {
+                              console.log('Change to table name: ' + tableName + ' : ' + a.version)
                               //console.log('     a: ' + JSON.stringify(a , null, 2) )
                               realtimeTablesToWatch[tableName]["changed"] = true
-                              localgun.get('change_log').get( schema ).get( tableName ).put(
-                                  {changed: false, time: new Date().getTime() })
+                              realtimeTablesToWatch[newAst.from[0].table]['version'] = a.version
                           }
                         },false);
 
