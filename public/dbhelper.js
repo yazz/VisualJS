@@ -466,14 +466,29 @@ var autoSerialId = null;
                       }
                       console.log('    schema: ' + JSON.stringify(schema , null, 2))
                       inSql = true
+					  
+					  // increment the version number
                       localgun.get('change_log').get( schema ).get( tableName ).val(
 
                         function(a) {
-                            console.log('    a: ' + JSON.stringify(a , null, 2))
+                            console.log('    UPdateing version: ' + JSON.stringify(a , null, 2))
                               var newVersion = 0;
                               if (a.version) {
                                   newVersion = a.version + 1
                               }
+                              localgun.get('change_log').get( schema ).get( tableName ).put(
+                                  {version: newVersion + 1})
+                              inSql = false
+                              tablesToWatch[tableName]["dirty"] = false
+                          })
+						  
+						  
+					  // create the version number if it does not exist
+                      localgun.get('change_log').get( schema ).get( tableName ).not(
+
+                        function(a) {
+                            console.log('    creating new version for: ' + JSON.stringify(a , null, 2))
+                              var newVersion = 0;
                               localgun.get('change_log').get( schema ).get( tableName ).put(
                                   {version: newVersion + 1})
                               inSql = false
