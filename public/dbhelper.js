@@ -9,6 +9,7 @@ var sqlParseFn;
 var staticSqlResultSets   = new Object();
 var realtimeSqlResultSets = new Object();
 var realtimeTablesToWatch = new Object();
+var tablesToWatch         = new Object();
 var sqlQueue              = [];
 var autoSerialId = null;
 
@@ -95,19 +96,11 @@ var autoSerialId = null;
         // existing result set
         localgun.sql('select * from ' + newAst.table)
 
-        gun.get(schema).get(newAst.table).set(newRecord, function(ack){
+        localgun.get(schema).get(newAst.table).set(newRecord, function(ack){
             inSql = false
+            tablesToWatch[newAst.table]["dirty"] = true
 
-            gun.get('change_log').get( schema ).get( newAst.table ).val(
 
-              function(a) {
-                    var newVersion = 0;
-                    if (a.version) {
-                        newVersion = a.version + 1
-                    }
-                    gun.get('change_log').get( schema ).get( newAst.table ).put(
-                        {version: newVersion + 1})
-                    })
         });
     }
 
@@ -217,16 +210,7 @@ var autoSerialId = null;
         var end = function(coll){
             //console.log('Finished Update: ' + newAst.where.right.value)
             inSql = false
-            gun.get('change_log').get( schema ).get( newAst.table ).val(
-
-              function(a) {
-                  var newVersion = 0;
-                  if (a.version) {
-                      newVersion = a.version + 1
-                  }
-                  gun.get('change_log').get( schema ).get( newAst.table ).put(
-                      {version: newVersion + 1})
-                  })
+            tablesToWatch[newAst.table]["dirty"] = true
         }
 
         gun.get(schema).get(newAst.table).valMapEnd( processRecord , end , newAst);
@@ -416,6 +400,7 @@ var autoSerialId = null;
             }
             newAst = sqlParseFn(sql3);
             //console.log('RTable: ' + newAst.from[0].table);
+
             if (newAst.type == 'select') {
                 console.log("select RR********* SQL: " + sql3 + ", table: " + newAst.from[0].table)
                 if (!realtimeTablesToWatch[newAst.from[0].table]) {
@@ -470,6 +455,29 @@ var autoSerialId = null;
 
 
           if (!inSql) {
+              var allTables = Object.keys(tablesToWatch);
+              //console.log('tables: ' + JSON.stringify(allRealtimetables , null, 2))
+              for ( tableName of allTables) {
+
+                  if (tablesToWatch[tableName]['dirty']) {
+                      inSql = true
+                      localgun.get('change_log').get( schema ).get( tableName ).val(
+
+                        function(a) {
+                              var newVersion = 0;
+                              if (a.version) {
+                                  newVersion = a.version + 1
+                              }
+                              localgun.get('change_log').get( schema ).get( tableName ).put(
+                                  {version: newVersion + 1})
+                              })
+                              inSql = false
+                              tablesToWatch[tableName]["dirty"] = false
+                  }
+              }
+
+
+
               var sqlQueueItem = sqlQueue.shift()
               if (sqlQueueItem) {
                   inSql = true
@@ -489,6 +497,22 @@ var autoSerialId = null;
                   }
 
                   var chain  = localgun.chain();
+                  if (newAst.type == 'select') {
+                      if (!tablesToWatch[newAst.from[0].table]) {
+                          tablesToWatch[newAst.from[0].table] = new Object();
+                          tablesToWatch[newAst.from[0].table]["dirty"] = false
+                      }
+                  } else if (newAst.type == 'update') {
+                      if (!tablesToWatch[newAst.table]) {
+                          tablesToWatch[newAst.table] = new Object();
+                          tablesToWatch[newAst.table]["dirty"] = false
+                      }
+                  } else if (newAst.type == 'insert') {
+                      if (!tablesToWatch[newAst.table]) {
+                          tablesToWatch[newAst.table] = new Object();
+                          tablesToWatch[newAst.table]["dirty"] = false
+                      }
+                  }
                   switch( newAst.type ) {
                       case 'insert' : g_insert(newAst, params,         localgun,     schema);break;
                       case 'select' : g_select(sql,    params, newAst, localgun, cb, schema);break;
