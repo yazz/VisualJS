@@ -459,20 +459,28 @@ var autoSerialId = null;
               //console.log('tables: ' + JSON.stringify(allRealtimetables , null, 2))
               for ( tableName of allTables) {
 
-                  if (tablesToWatch[tableName]['dirty']) {
+                  if (tablesToWatch[tableName]['dirty'] == true) {
+                      console.log('Dirty table: ' + JSON.stringify(tableName , null, 2))
+                      if (!schema) {
+                          schema = 'default'
+                      }
+                      console.log('    schema: ' + JSON.stringify(schema , null, 2))
                       inSql = true
                       localgun.get('change_log').get( schema ).get( tableName ).val(
 
                         function(a) {
+                            console.log('    a: ' + JSON.stringify(a , null, 2))
                               var newVersion = 0;
                               if (a.version) {
                                   newVersion = a.version + 1
                               }
                               localgun.get('change_log').get( schema ).get( tableName ).put(
                                   {version: newVersion + 1})
-                              })
                               inSql = false
                               tablesToWatch[tableName]["dirty"] = false
+                          })
+
+                      return
                   }
               }
 
