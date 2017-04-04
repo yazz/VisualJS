@@ -412,13 +412,13 @@ var autoSerialId = null;
                     realtimeTablesToWatch[tableName]["changed"] = true
                     localgun.get('change_log').get( schema ).get( tableName ).on(
                       function(a) {
-                          console.log('*****Change to table name: ' + tableName + ' : ' + a.version + ' : '  + realtimeTablesToWatch[newAst.from[0].table]['version'])
+                          console.log('*****Change to table name: ' + tableName + ' : ' + a.version + ' : '  + realtimeTablesToWatch[tableName]['version'])
                           //a.value(function(q){console.log('a: ' + JSON.stringify(q , null, 2) )})
-                          if (a.version > realtimeTablesToWatch[newAst.from[0].table]['version']) {
+                          if (a.version > realtimeTablesToWatch[tableName]['version']) {
                               console.log('Change to table name: ' + tableName + ' : ' + a.version)
                               //console.log('     a: ' + JSON.stringify(a , null, 2) )
                               realtimeTablesToWatch[tableName]["changed"] = true
-                              realtimeTablesToWatch[newAst.from[0].table]['version'] = a.version
+                              realtimeTablesToWatch[tableName]['version'] = a.version
                           }
                         },false);
 
