@@ -412,7 +412,7 @@ var autoSerialId = null;
                     realtimeTablesToWatch[tableName]["changed"] = true
                     localgun.get('change_log').get( schema ).get( tableName ).on(
                       function(a) {
-                          //console.log('*****Change to table name: ' + tableName )
+                          console.log('*****Change to table name: ' + tableName + ' : ' + a.version + ' : '  + realtimeTablesToWatch[newAst.from[0].table]['version'])
                           //a.value(function(q){console.log('a: ' + JSON.stringify(q , null, 2) )})
                           if (a.version > realtimeTablesToWatch[newAst.from[0].table]['version']) {
                               console.log('Change to table name: ' + tableName + ' : ' + a.version)
@@ -466,23 +466,24 @@ var autoSerialId = null;
                       }
                       console.log('    schema: ' + JSON.stringify(schema , null, 2))
                       inSql = true
-					  
+
 					  // increment the version number
                       localgun.get('change_log').get( schema ).get( tableName ).val(
 
                         function(a) {
-                            console.log('    UPdateing version: ' + JSON.stringify(a , null, 2))
-                              var newVersion = 0;
+                              var oldVersion = 0;
                               if (a.version) {
-                                  newVersion = a.version + 1
+                                  oldVersion = a.version
+								  newVersion = oldVersion + 1
                               }
+                            console.log('    Updating version from : ' + JSON.stringify(oldVersion , null, 2) + ' to ' + JSON.stringify(newVersion , null, 2))
                               localgun.get('change_log').get( schema ).get( tableName ).put(
-                                  {version: newVersion + 1})
+                                  {version: newVersion})
                               inSql = false
                               tablesToWatch[tableName]["dirty"] = false
                           })
-						  
-						  
+
+
 					  // create the version number if it does not exist
                       localgun.get('change_log').get( schema ).get( tableName ).not(
 
@@ -490,12 +491,15 @@ var autoSerialId = null;
                             console.log('    creating new version for: ' + JSON.stringify(a , null, 2))
                               var newVersion = 0;
                               localgun.get('change_log').get( schema ).get( tableName ).put(
-                                  {version: newVersion + 1})
+                                  {version: newVersion})
                               inSql = false
                               tablesToWatch[tableName]["dirty"] = false
                           })
 
                       return
+					  //inSql = false
+        			  //tablesToWatch[tableName]["dirty"] = false
+
                   }
               }
 
