@@ -471,7 +471,8 @@ var autoSerialId = null;
                       localgun.get('change_log').get( schema ).get( tableName ).val(
 
                         function(a) {
-                              var oldVersion = 0;
+                            var oldVersion = 0;
+                            var newVersion = 0;
                               if (a.version) {
                                   oldVersion = a.version
 								  newVersion = oldVersion + 1
