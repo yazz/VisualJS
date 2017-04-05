@@ -12,6 +12,9 @@ var realtimeTablesToWatch = new Object();
 var tablesToWatch         = new Object();
 var sqlQueue              = [];
 var autoSerialId = null;
+var inRealtimeUpdate=false;
+var inSql=false;
+var queueCount = 0;
 
 
 
@@ -418,6 +421,10 @@ var autoSerialId = null;
                               console.log('Change to table name: ' + tableName + ' : ' + a.version)
                               //console.log('     a: ' + JSON.stringify(a , null, 2) )
                               realtimeTablesToWatch[tableName]["changed"] = true
+                              if (!tablesToWatch[tableName]) {
+                                  tablesToWatch[tableName] = new Object();
+                                  tablesToWatch[tableName]["dirty"] = true
+                              }
                               realtimeTablesToWatch[tableName]['version'] = a.version
                           }
                         },false);
@@ -447,10 +454,6 @@ var autoSerialId = null;
 
 
 
-      var inRealtimeUpdate=false;
-      var inSql=false;
-
-      var queueCount = 0;
       setInterval( function () {
 
 
