@@ -28,7 +28,7 @@
               <th></th>
             </tr>
           </thead>
-          <tbody v-for="a_driver in list_of_drivers">
+          <tbody v-for="a_driver  in  list_of_drivers">
             <tr scope="row" >
                 <td v-on:click="set_viewed_driver(a_driver)">{{a_driver.id}}</td>
                 <td v-on:click="set_viewed_driver(a_driver)">{{a_driver.type}}</td>
@@ -64,7 +64,7 @@
                  selected driver
          -->
          <h2>Properties</h2>
-         <view-driver driver_name='TestDriver'>
+         <view-driver driver_name='viewed_driver_id'>
              <div slot="elements">
                  <input type="text" name="item_name" value="">
                  <input type="text" name="item_value" value="">

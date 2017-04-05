@@ -62,14 +62,22 @@ export default {
       ,
       //driver_name2: function() {return this.driver_name}
       driver_name2: function() {
-          for (var driver of this.$store.state.list_of_drivers) {
-              if (this.$store.state.viewed_driver_id === driver.id) {
+          var driverNames = '';
+          for (var i = 0; i <  this.$store.state.list_of_drivers.length; i ++) {
+              var driver = this.$store.state.list_of_drivers[i]
+              console.log('   driver.id: ' + driver['id'])
+              driverNames = driverNames + driver.id + ' : '
+              if (this.$store.state.viewed_driver_id == driver.id) {
                   var evalede = eval(driver.code)
                   if (evalede.vue) {
                      return "Something"
                   }
+                  else {
+                      return driver.code
+                  }
               }
-              return driver.code
+              //return driver.code
+              return "No driver code found for " + this.$store.state.viewed_driver_id + " from " + driverNames + " :COUNT: " + this.$store.state.list_of_drivers.length
           }
       }
 

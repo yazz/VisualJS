@@ -111,7 +111,7 @@ export default new Vuex.Store({
       if (driver) {
         state.viewed_driver_id   = driver.id;
       } else {
-        state.viewed_connection_id   = null;
+        state.viewed_driver_id   = null;
       }
     },
     SHOW_ADD_CONNECTION: function (state) {
