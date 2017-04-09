@@ -438,7 +438,7 @@ var queueCount = 0;
                 }
 
 
-                 //localgun.sql(sql3);
+                   localgun.sql(sql3);
               //console.log('(REAL:sql): ' + sql3)
               //console.log('(REAL:realtimeTablesToWatch): ' + JSON.stringify(realtimeTablesToWatch , null, 2))
             }
