@@ -32,8 +32,7 @@ var gun          = Gun({ file: 'data.json',
                           }
                         });
 var parseSqlFn = require('node-sqlparser').parse;
-
-
+var witheve = require("witheve");
 
 
 
@@ -394,13 +393,69 @@ app.listen(port, hostaddress, function () {
     addOrUpdateDriver('TestDriver', tdeval, drivers['TestDriver'])
 
 
-////dbhelper.sql("insert into drivers (name,code,driver_type) values (?,?,?)",            ['a', 'b', 'c'])
-//dbhelper.sql("update drivers set type = '...2' where name = 'TestDriver'")
-dbhelper.sql("select * from drivers where name = 'TestDriver' ")
-//dbhelper.sql("select * from drivers ")
+    ////dbhelper.sql("insert into drivers (name,code,driver_type) values (?,?,?)",            ['a', 'b', 'c'])
+    //dbhelper.sql("update drivers set type = '...2' where name = 'TestDriver'")
+    dbhelper.sql("select * from drivers where name = 'TestDriver' ")
+    //dbhelper.sql("select * from drivers ")
+
+
+
+
+
+
+
+    console.log("************************************************ ")
+    console.log("******************************Doing Eve stuff ")
+    console.log("************************************************ ")
+    let eve = new witheve.Program("program name");
+
+    let inputs = [];
+    console.log(JSON.stringify(Object.keys(eve) , null, 2))
+    var vv = 0
+    /*setInterval(function() {
+        console.log("--Tick ")
+        let newinputs = [];
+        witheve.appendAsEAVs(newinputs, {tag: "student", name: "Zubair " + vv});
+        eve.inputEAVs(newinputs);
+        vv ++
+    }, 1000)
+
+
+    eve.watch("Export information about students", function(arg) {
+        console.log("--Eve Export information ")
+      // search for records tagged student
+      let student = arg.find("student");
+      let eav = arg.lookup(student);
+      return [
+          // Add these attributes and values to the student, creating a diff to which we can react
+          student.add(eav.attribute, eav.value)
+      ];
+
+    }).asDiffs(function(diff)  {
+          console.log("--Eve in adDiffs ")
+          for(let [e, a, v] of diff.adds) {
+            console.log("--Eve add " + JSON.stringify(e , null, 2) + ", " + JSON.stringify(a , null, 2) + JSON.stringify(v , null, 2))
+          }
+          for(let [e, a, v] of diff.removes) {
+              console.log("--Eve remove " + JSON.stringify(e , null, 2) + ", " + JSON.stringify(a , null, 2) + JSON.stringify(v , null, 2))
+          }
+        });;
+        witheve.appendAsEAVs(inputs, {tag: "student", name: "Archibald"});
+        witheve.appendAsEAVs(inputs, {tag: "student", name: "Zubair"});
+        eve.inputEAVs(inputs);*/
+
+    console.log("************************************************ ")
+    console.log("******************************finished Eve stuff ")
+    console.log("************************************************ ")
+
+
+
+
+
 
 
 function addOrUpdateDriver(name, code, theObject) {
+    return
     console.log("******************************addOrUpdateDriver ")
     console.log("       name = " + name)
     //console.log("       code = " + JSON.stringify(code , null, 2))
