@@ -13,7 +13,7 @@ export default {
     return {
                 template:
                 `<div>
-                  {{driver_name3}} =  {{driver_name2}}
+                  {{currently_selected_driver_name}} =  {{currently_selected_driver_code}}
                 </div>`
                 ,
                 templateRender: null
@@ -56,16 +56,17 @@ export default {
   }
   ,
   computed: {
-      driver_name3: function() {
+      currently_selected_driver_name: function() {
           return this.$store.state.viewed_driver_id
       }
       ,
-      //driver_name2: function() {return this.driver_name}
-      driver_name2: function() {
+      //currently_selected_driver_code: function() {return this.driver_name}
+      currently_selected_driver_code: function() {
           var driverNames = '';
+          //console.log('   driver.id: ' + JSON.stringify(this.$store.state.list_of_drivers[2] , null, 2))
           for (var i = 0; i <  this.$store.state.list_of_drivers.length; i ++) {
               var driver = this.$store.state.list_of_drivers[i]
-              console.log('   driver.id: ' + driver['id'])
+              console.log('   driver.id[' + i +']: ' + JSON.stringify(driver , null, 2))
               driverNames = driverNames + driver.id + ' : '
               if (this.$store.state.viewed_driver_id == driver.id) {
                   var evalede = eval(driver.code)
@@ -76,9 +77,9 @@ export default {
                       return driver.code
                   }
               }
-              //return driver.code
-              return "No driver code found for " + this.$store.state.viewed_driver_id + " from " + driverNames + " :COUNT: " + this.$store.state.list_of_drivers.length
           }
+          //return driver.code
+          return "No driver code found for " + this.$store.state.viewed_driver_id + " from [" + driverNames + "] :COUNT: " + this.$store.state.list_of_drivers.length
       }
 
 
