@@ -395,7 +395,7 @@ app.listen(port, hostaddress, function () {
 
     ////dbhelper.sql("insert into drivers (name,code,driver_type) values (?,?,?)",            ['a', 'b', 'c'])
     //dbhelper.sql("update drivers set type = '...2' where name = 'TestDriver'")
-    dbhelper.sql("select * from drivers where name = 'TestDriver' ")
+    //dbhelper.sql("select * from drivers where name = 'TestDriver' ")
     //dbhelper.sql("select * from drivers ")
 
 
@@ -404,13 +404,13 @@ app.listen(port, hostaddress, function () {
 
 
 
-    console.log("************************************************ ")
-    console.log("******************************Doing Eve stuff ")
-    console.log("************************************************ ")
+    //console.log("************************************************ ")
+    //console.log("******************************Doing Eve stuff ")
+    //console.log("************************************************ ")
     let eve = new witheve.Program("program name");
 
     let inputs = [];
-    console.log(JSON.stringify(Object.keys(eve) , null, 2))
+    //console.log(JSON.stringify(Object.keys(eve) , null, 2))
     var vv = 0
     /*setInterval(function() {
         console.log("--Tick ")
@@ -444,9 +444,9 @@ app.listen(port, hostaddress, function () {
         witheve.appendAsEAVs(inputs, {tag: "student", name: "Zubair"});
         eve.inputEAVs(inputs);*/
 
-    console.log("************************************************ ")
-    console.log("******************************finished Eve stuff ")
-    console.log("************************************************ ")
+    //console.log("************************************************ ")
+    //console.log("******************************finished Eve stuff ")
+    //console.log("************************************************ ")
 
 
 
@@ -455,7 +455,6 @@ app.listen(port, hostaddress, function () {
 
 
 function addOrUpdateDriver(name, code, theObject) {
-    return
     console.log("******************************addOrUpdateDriver ")
     console.log("       name = " + name)
     //console.log("       code = " + JSON.stringify(code , null, 2))
@@ -469,7 +468,7 @@ function addOrUpdateDriver(name, code, theObject) {
                 for (var record of records) {
                     dbhelper.sql("update drivers set code = ?  where name = '" + name + "'",  [code])
                     if (typeof driverType === 'string' || driverType instanceof String) {
-                        //console.log("******************************UPDATE DRIVER "+name)
+                        console.log("******************************UPDATE DRIVER "+name)
                         //console.log("******************************record type = " + JSON.stringify(record.type , null, 2))
                         //console.log("******************************desired type = " + JSON.stringify(driverType , null, 2))
                         //console.log("******************************set driver type = " + JSON.stringify(driverType , null, 2))

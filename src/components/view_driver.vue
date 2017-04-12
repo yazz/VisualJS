@@ -13,10 +13,12 @@ export default {
     return {
                 template:
                 `<div>
-                  {{currently_selected_driver_name}} =  {{currently_selected_driver_code}}
+                  {{currently_selected_driver_name}} =  {{currently_selected_driver_code}} {{sometext}}
                 </div>`
                 ,
                 templateRender: null
+                ,
+                sometext: '...'
           }
   }
   ,
@@ -32,24 +34,25 @@ export default {
   watch: {
   	// Every time the template prop changes, I recompile it to update the DOM
   	template:{
-    	immediate: true, // makes the watcher fire on first render, too.
-      handler() {
-        var res = Vue.compile(this.template);
+        immediate: true
+        , // makes the watcher fire on first render, too.
+        handler() {
+            var res = Vue.compile(this.template);
 
-        this.templateRender = res.render;
+            this.templateRender = res.render;
 
-        // staticRenderFns belong into $options,
-        // appearantly
-        this.$options.staticRenderFns = []
+            // staticRenderFns belong into $options,
+            // appearantly
+            this.$options.staticRenderFns = []
 
-        // clean the cache of static elements
-        // this is a cache with the results from the staticRenderFns
-        this._staticTrees = []
+            // clean the cache of static elements
+            // this is a cache with the results from the staticRenderFns
+            this._staticTrees = []
 
-        // Fill it with the new staticRenderFns
-        for (var i in res.staticRenderFns) {
-          //staticRenderFns.push(res.staticRenderFns[i]);
-          this.$options.staticRenderFns.push(res.staticRenderFns[i])
+            // Fill it with the new staticRenderFns
+            for (var i in res.staticRenderFns) {
+              //staticRenderFns.push(res.staticRenderFns[i]);
+              this.$options.staticRenderFns.push(res.staticRenderFns[i])
         }
       }
     }
@@ -63,7 +66,7 @@ export default {
       //currently_selected_driver_code: function() {return this.driver_name}
       currently_selected_driver_code: function() {
           var driverNames = '';
-          //console.log('   driver.id: ' + JSON.stringify(this.$store.state.list_of_drivers[2] , null, 2))
+          console.log('    currently_selected_driver_code clicked: ')
           for (var i = 0; i <  this.$store.state.list_of_drivers.length; i ++) {
               var driver = this.$store.state.list_of_drivers[i]
               console.log('   driver.id[' + i +']: ' + JSON.stringify(driver , null, 2))
@@ -71,9 +74,11 @@ export default {
               if (this.$store.state.viewed_driver_id == driver.id) {
                   var evalede = eval(driver.code)
                   if (evalede.vue) {
-                     return "Something"
+                     //this.template =  evalede.vue
+                     return evalede
                   }
                   else {
+                      this.sometext = '<div>Hello ducks</div>'
                       return driver.code
                   }
               }
