@@ -11,10 +11,10 @@ var realtimeSqlResultSets = new Object();
 var realtimeTablesToWatch = new Object();
 var tablesToWatch         = new Object();
 var sqlQueue              = [];
-var autoSerialId = null;
-var inRealtimeUpdate=false;
-var inSql=false;
-var queueCount = 0;
+var autoSerialId          = null;
+var inRealtimeUpdate      = false;
+var inSql                 = false;
+var queueCount            = 0;
 
 
 
@@ -97,7 +97,7 @@ var queueCount = 0;
         // this line is only here as often an insert without
         // a select first is very buggy and doesn't see the whole
         // existing result set
-        localgun.sql('select * from ' + newAst.table)
+        //localgun.sql('select * from ' + newAst.table)
 
         localgun.get(schema).get(newAst.table).set(newRecord, function(ack){
             inSql = false
@@ -423,8 +423,8 @@ var queueCount = 0;
                               realtimeTablesToWatch[tableName]["changed"] = true
                               if (!tablesToWatch[tableName]) {
                                   tablesToWatch[tableName] = new Object();
-                                  tablesToWatch[tableName]["dirty"] = true
                               }
+                              tablesToWatch[tableName]["dirty"] = true
                               realtimeTablesToWatch[tableName]['version'] = a.version
                           }
                         },false);
@@ -454,21 +454,28 @@ var queueCount = 0;
 
 
 
+
+
+
+
+
+
       setInterval( function () {
 
 
+          //console.log('inSql: ' + JSON.stringify(inSql , null, 2))
           if (!inSql) {
               var allTables = Object.keys(tablesToWatch);
               //console.log('tables: ' + JSON.stringify(allRealtimetables , null, 2))
               for ( tableName of allTables) {
 
                   if (tablesToWatch[tableName]['dirty'] == true) {
+                      inSql = true
                       console.log('Dirty table: ' + JSON.stringify(tableName , null, 2))
                       if (!schema) {
                           schema = 'default'
                       }
                       console.log('    schema: ' + JSON.stringify(schema , null, 2))
-                      inSql = true
 
 					  // increment the version number
                       localgun.get('change_log').get( schema ).get( tableName ).val(
@@ -500,9 +507,9 @@ var queueCount = 0;
                               tablesToWatch[tableName]["dirty"] = false
                           })
 
+                      inSql = false
+                      tablesToWatch[tableName]["dirty"] = false
                       return
-					  //inSql = false
-        			  //tablesToWatch[tableName]["dirty"] = false
 
                   }
               }
@@ -521,7 +528,7 @@ var queueCount = 0;
 
 
                   var newAst = JSON.parse(JSON.stringify( sqlParseFn(sql) ));
-                  //console.log(queueCount + ' : ' + sql)
+                  console.log(queueCount + ' : ' + sql)
                   //console.log('newAst: ' + JSON.stringify(newAst , null, 2))
                   if (!schema) {
                       schema = 'default'
@@ -536,12 +543,12 @@ var queueCount = 0;
                   } else if (newAst.type == 'update') {
                       if (!tablesToWatch[newAst.table]) {
                           tablesToWatch[newAst.table] = new Object();
-                          tablesToWatch[newAst.table]["dirty"] = false
+                          tablesToWatch[newAst.table]["dirty"] = true
                       }
                   } else if (newAst.type == 'insert') {
                       if (!tablesToWatch[newAst.table]) {
                           tablesToWatch[newAst.table] = new Object();
-                          tablesToWatch[newAst.table]["dirty"] = false
+                          tablesToWatch[newAst.table]["dirty"] = true
                       }
                   }
                   switch( newAst.type ) {
