@@ -15,6 +15,8 @@ var autoSerialId          = null;
 var inRealtimeUpdate      = false;
 var inSql                 = false;
 var queueCount            = 0;
+var updateTableVersion    = new Object();
+var createNewTableVersion = new Object();
 
 
 
@@ -469,6 +471,50 @@ var queueCount            = 0;
               //console.log('tables: ' + JSON.stringify(allRealtimetables , null, 2))
               for ( tableName of allTables) {
 
+                  if (updateTableVersion[ tableName ] == true) {
+                      inSql = true
+                      //console.log('Dirty table: ' + JSON.stringify(tableName , null, 2))
+                      if (!schema) {
+                          schema = 'default'
+                      }
+                      console.log('////    updating version for: ' + tableName + ', ' + JSON.stringify(realtimeTablesToWatch[tableName]['version'] , null, 2))
+                      var oldVersion = 0;
+                      var newVersion = 0;
+                        if (realtimeTablesToWatch[tableName]['version'] > -2) {
+                            oldVersion = realtimeTablesToWatch[tableName]['version']
+                            newVersion = oldVersion + 1
+                        }
+                      //console.log('    Updating version from : ' + JSON.stringify(oldVersion , null, 2) + ' to ' + JSON.stringify(newVersion , null, 2))
+                        localgun.get('change_log').get( schema ).get( tableName ).put(
+                            {version: newVersion})
+                        inSql = false
+                        tablesToWatch[tableName]["dirty"] = false
+                        updateTableVersion[ tableName ] = false
+                        return;
+                  }
+
+
+
+                  if (createNewTableVersion[ tableName ] == true) {
+                      inSql = true
+                      //console.log('Dirty table: ' + JSON.stringify(tableName , null, 2))
+                      if (!schema) {
+                          schema = 'default'
+                      }
+                      createNewTableVersion[ tableName ] = true
+                      console.log('////    creating new version for: ' + JSON.stringify(tableName , null, 2))
+                        var newVersion = 0;
+                        localgun.get('change_log').get( schema ).get( tableName ).put(
+                            {version: newVersion})
+
+                        inSql = false
+                        tablesToWatch[tableName]["dirty"] = false
+                        createNewTableVersion[ tableName ] = false
+                        return;
+                  }
+
+
+
                   if (tablesToWatch[tableName]['dirty'] == true) {
                       inSql = true
                       //console.log('Dirty table: ' + JSON.stringify(tableName , null, 2))
@@ -481,17 +527,10 @@ var queueCount            = 0;
                       localgun.get('change_log').get( schema ).get( tableName ).val(
 
                         function(a) {
-                            var oldVersion = 0;
-                            var newVersion = 0;
-                              if (a.version > -2) {
-                                  oldVersion = a.version
-								  newVersion = oldVersion + 1
-                              }
-                            //console.log('    Updating version from : ' + JSON.stringify(oldVersion , null, 2) + ' to ' + JSON.stringify(newVersion , null, 2))
-                              localgun.get('change_log').get( schema ).get( tableName ).put(
-                                  {version: newVersion})
-                              inSql = false
-                              tablesToWatch[tableName]["dirty"] = false
+                            updateTableVersion[ tableName ] = true
+                            realtimeTablesToWatch[ tableName ]['version'] = a.version
+                            inSql = false
+                            tablesToWatch[tableName]["dirty"] = false
                           })
 
 
@@ -499,12 +538,7 @@ var queueCount            = 0;
                       localgun.get('change_log').get( schema ).get( tableName ).not(
 
                         function(a) {
-                            //console.log('    creating new version for: ' + JSON.stringify(a , null, 2))
-                              var newVersion = 0;
-                              localgun.get('change_log').get( schema ).get( tableName ).put(
-                                  {version: newVersion})
-                              inSql = false
-                              tablesToWatch[tableName]["dirty"] = false
+                            createNewTableVersion[ tableName ] = true
                           })
 
                       inSql = false
