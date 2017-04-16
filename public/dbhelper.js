@@ -143,7 +143,7 @@ var queueCount            = 0;
             if (cb) {
                 cb( staticSqlResultSets[sql] );
             } else {
-                console.log( JSON.stringify(staticSqlResultSets[sql] , null, 2) );
+                //console.log( JSON.stringify(staticSqlResultSets[sql] , null, 2) );
             };
             //console.log('**Finished Get: '  + count)
             inSql = false
@@ -173,7 +173,7 @@ var queueCount            = 0;
         //console.log('Update table name: ' + newAst.table);
         //console.log('Update schema name: ' + schema);
         var newAst = JSON.parse(JSON.stringify( newAst2 ));
-        console.log('******* newAst.where: ' + JSON.stringify(newAst.where.right.value , null, 2));
+        //console.log('******* newAst.where: ' + JSON.stringify(newAst.where.right.value , null, 2));
 
 
          var processRecord  = function ( record2 , newId ) {
@@ -345,7 +345,7 @@ var queueCount            = 0;
                 cb(valsReturned[0])
                 }
                 else {
-                    console.log(valsReturned[0])
+                    //console.log(valsReturned[0])
                 }
             }
           }
@@ -357,7 +357,7 @@ var queueCount            = 0;
     exports.start = function() {
         sql1("select * from systemsettings where name='autoindex'",
                     function(valret) {
-                        console.log('valret: ' + valret)
+                        //console.log('valret: ' + valret)
                        if (valret) {
                            autoSerialId = valret.value;
                        } else {
@@ -405,7 +405,7 @@ var queueCount            = 0;
             //console.log('RTable: ' + newAst.from[0].table);
 
             if (newAst.type == 'select') {
-                console.log("select RR********* SQL: " + sql3 + ", table: " + newAst.from[0].table)
+                //console.log("select RR********* SQL: " + sql3 + ", table: " + newAst.from[0].table)
                 if (!realtimeTablesToWatch[newAst.from[0].table]) {
                     realtimeTablesToWatch[newAst.from[0].table] = new Object();
                     realtimeTablesToWatch[newAst.from[0].table]['sql'] = new Object();
@@ -415,10 +415,10 @@ var queueCount            = 0;
                     realtimeTablesToWatch[tableName]["changed"] = true
                     localgun.get('change_log').get( schema ).get( tableName ).on(
                       function(a) {
-                          console.log('*****Change to table name: ' + tableName + ' : ' + a.version + ' : '  + realtimeTablesToWatch[tableName]['version'])
+                          //console.log('*****Change to table name: ' + tableName + ' : ' + a.version + ' : '  + realtimeTablesToWatch[tableName]['version'])
                           //a.value(function(q){console.log('a: ' + JSON.stringify(q , null, 2) )})
                           if (a.version > realtimeTablesToWatch[tableName]['version']) {
-                              console.log('Change to table name: ' + tableName + ' : ' + a.version)
+                              //console.log('Change to table name: ' + tableName + ' : ' + a.version)
                               //console.log('     a: ' + JSON.stringify(a , null, 2) )
                               realtimeTablesToWatch[tableName]["changed"] = true
                               if (!tablesToWatch[tableName]) {
@@ -444,7 +444,7 @@ var queueCount            = 0;
             }
         }
         catch(err) {
-            console.log(err);
+            //console.log(err);
             return false;
         }
         return true;
@@ -471,11 +471,11 @@ var queueCount            = 0;
 
                   if (tablesToWatch[tableName]['dirty'] == true) {
                       inSql = true
-                      console.log('Dirty table: ' + JSON.stringify(tableName , null, 2))
+                      //console.log('Dirty table: ' + JSON.stringify(tableName , null, 2))
                       if (!schema) {
                           schema = 'default'
                       }
-                      console.log('    schema: ' + JSON.stringify(schema , null, 2))
+                      //console.log('    schema: ' + JSON.stringify(schema , null, 2))
 
 					  // increment the version number
                       localgun.get('change_log').get( schema ).get( tableName ).val(
@@ -483,11 +483,11 @@ var queueCount            = 0;
                         function(a) {
                             var oldVersion = 0;
                             var newVersion = 0;
-                              if (a.version) {
+                              if (a.version > -2) {
                                   oldVersion = a.version
 								  newVersion = oldVersion + 1
                               }
-                            console.log('    Updating version from : ' + JSON.stringify(oldVersion , null, 2) + ' to ' + JSON.stringify(newVersion , null, 2))
+                            //console.log('    Updating version from : ' + JSON.stringify(oldVersion , null, 2) + ' to ' + JSON.stringify(newVersion , null, 2))
                               localgun.get('change_log').get( schema ).get( tableName ).put(
                                   {version: newVersion})
                               inSql = false
@@ -499,7 +499,7 @@ var queueCount            = 0;
                       localgun.get('change_log').get( schema ).get( tableName ).not(
 
                         function(a) {
-                            console.log('    creating new version for: ' + JSON.stringify(a , null, 2))
+                            //console.log('    creating new version for: ' + JSON.stringify(a , null, 2))
                               var newVersion = 0;
                               localgun.get('change_log').get( schema ).get( tableName ).put(
                                   {version: newVersion})
@@ -519,7 +519,7 @@ var queueCount            = 0;
               var sqlQueueItem = sqlQueue.shift()
               if (sqlQueueItem) {
                   inSql = true
-                  console.log('sql: ' + JSON.stringify(sqlQueueItem.sql , null, 2))
+                  //console.log('sql: ' + JSON.stringify(sqlQueueItem.sql , null, 2))
                   queueCount ++;
                   var sql    = sqlQueueItem.sql
                   var params = sqlQueueItem.params
@@ -528,7 +528,7 @@ var queueCount            = 0;
 
 
                   var newAst = JSON.parse(JSON.stringify( sqlParseFn(sql) ));
-                  console.log(queueCount + ' : ' + sql)
+                  //console.log(queueCount + ' : ' + sql)
                   //console.log('newAst: ' + JSON.stringify(newAst , null, 2))
                   if (!schema) {
                       schema = 'default'
@@ -577,7 +577,7 @@ var queueCount            = 0;
                                   //console.log('    sql: ' + JSON.stringify(sqlToUpdate , null, 2))
                                   var cbb = realtimeTablesToWatch[tableName]['sql'][sqlToUpdate]["callback"];
                                   if (cbb) {
-                                      console.log('**HAS A CALLBACK on SQL: ' + sqlToUpdate);
+                                      //console.log('**HAS A CALLBACK on SQL: ' + sqlToUpdate);
                                       //console.log('localgun: ' + localgun.sql(sqlToUpdate));
                                       localgun.sql(sqlToUpdate, null, cbb);
                                   };
