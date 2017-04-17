@@ -15,8 +15,6 @@ var autoSerialId           = null;
 var inRealtimeUpdate       = false;
 var inSql                  = false;
 var queueCount             = 0;
-var tableVersions          = new Object();
-var createNewTableVersion  = new Object();
 
 
 
@@ -457,8 +455,11 @@ var createNewTableVersion  = new Object();
     function ensureTableMetaDataExists( tableName ) {
         if (!tablesMetaData[ tableName ] ) {
             tablesMetaData[ tableName ] = new Object()
-            tablesMetaData[ tableName ]["updateTableVersions"] = false
-            tablesMetaData[ tableName ]["version"]             = -1
+            tablesMetaData[ tableName ]["updateTableVersions"]      = false
+            tablesMetaData[ tableName ]["version"]                  = -1
+            tablesMetaData[ tableName ]["refreshTableVersion"]      = false
+            tablesMetaData[ tableName ]["incrementTableVersion"]    = false
+            tablesMetaData[ tableName ]["createNewTableVersion"]    = false
         }
     }
 
@@ -484,55 +485,12 @@ var createNewTableVersion  = new Object();
               //console.log('tables: ' + JSON.stringify(allRealtimetables , null, 2))
               for ( tableName of allTables) {
 
-                  if (tableVersions[ tableName ]) {
-                      inSql = true
-                      //console.log('updateTableVersions table: ' + JSON.stringify(tableName , null, 2))
-                      if (!schema) {
-                          schema = 'default'
-                      }
-                      console.log('////    updating version for: ' + tableName + ', ' + JSON.stringify(realtimeSqlQueries[tableName]['version'] , null, 2))
-                      var oldVersion = 0;
-                      var newVersion = 0;
-                        if (realtimeSqlQueries[tableName]['version'] > -2) {
-                            oldVersion = realtimeSqlQueries[tableName]['version']
-                            newVersion = oldVersion + 1
-                        }
-                      //console.log('    Updating version from : ' + JSON.stringify(oldVersion , null, 2) + ' to ' + JSON.stringify(newVersion , null, 2))
-                        localgun.get('change_log').get( schema ).get( tableName ).put(
-                            {version: newVersion})
-                        inSql = false
-                        tablesMetaData[tableName]["updateTableVersions"] = false
-                        tableVersions[ tableName ] = false
-                        return;
-                  }
-
-
-
                   //-------------------------------------------------------------------------------------------
                   // If a table changes then we need to inform everyone else that the table has changed
                   //
                   //
                   //-------------------------------------------------------------------------------------------
-                  if (createNewTableVersion[ tableName ] == true) {
-                      inSql = true
-                      //console.log('updateTableVersions table: ' + JSON.stringify(tableName , null, 2))
-                      if (!schema) {
-                          schema = 'default'
-                      }
-                      console.log('////    creating new version for: ' + JSON.stringify(tableName , null, 2))
-                        var newVersion = 0;
-                        localgun.get('change_log').get( schema ).get( tableName ).put(
-                            {version: newVersion})
-
-                        inSql = false
-                        tablesMetaData[tableName]["updateTableVersions"] = false
-                        createNewTableVersion[ tableName ] = false
-                        return;
-                  }
-
-
-
-                  if (tablesMetaData[tableName]['updateTableVersions'] == true) {
+                  if (tablesMetaData[tableName]['refreshTableVersion'] == true) {
                       inSql = true
                       //console.log('updateTableVersions table: ' + JSON.stringify(tableName , null, 2))
                       if (!schema) {
@@ -544,11 +502,11 @@ var createNewTableVersion  = new Object();
                       localgun.get('change_log').get( schema ).get( tableName ).val(
 
                         function(a) {
-                            tableVersions[ tableName ] = true
-                            ensureRealtimeQueriesMetaDataExists( tableName )
-                            realtimeSqlQueries[ tableName ][ 'version' ] = a.version
+                            ensureTableMetaDataExists( tableName )
+                            tablesMetaData[ tableName ][ 'version' ] = a.version
+
                             inSql = false
-                            tablesMetaData[tableName]["updateTableVersions"] = false
+                            tablesMetaData[ tableName ]["refreshTableVersion"] = false
                           })
 
 
@@ -560,10 +518,61 @@ var createNewTableVersion  = new Object();
                           })
 
                       inSql = false
-                      tablesMetaData[tableName]["updateTableVersions"] = false
+                      tablesMetaData[ tableName ]["refreshTableVersion"] = false
                       return
 
                   }
+
+
+
+                  //-------------------------------------------------------------------------------------------
+                  // If a table changes then we need to inform everyone else that the table has changed
+                  //
+                  //
+                  //-------------------------------------------------------------------------------------------
+                  if ( tablesMetaData[ tableName ] [ "incrementTableVersion"] ) {
+                      inSql = true
+                      //console.log('updateTableVersions table: ' + JSON.stringify(tableName , null, 2))
+                      if (!schema) {
+                          schema = 'default'
+                      }
+                      var oldVersion = tablesMetaData[ tableName ][ 'version' ]
+                      console.log('////    updating version for: ' + tableName + ', ' + JSON.stringify(oldVersion , null, 2))
+                      var newVersion = oldVersion + 1
+
+                      //console.log('    Updating version from : ' + JSON.stringify(oldVersion , null, 2) + ' to ' + JSON.stringify(newVersion , null, 2))
+                      localgun.get('change_log').get( schema ).get( tableName ).put(
+                            {version: newVersion})
+
+                      inSql = false
+                      tablesMetaData[ tableName ] [ "incrementTableVersion" ]      = false
+                      return;
+                  }
+
+
+
+                  //-------------------------------------------------------------------------------------------
+                  // If a table is created then add a version number to it
+                  //
+                  //
+                  //-------------------------------------------------------------------------------------------
+                  if (tablesMetaData[ tableName ] ['createNewTableVersion']) {
+                      inSql = true
+                      //console.log('updateTableVersions table: ' + JSON.stringify(tableName , null, 2))
+                      if (!schema) {
+                          schema = 'default'
+                      }
+                      console.log('////    creating new version for: ' + JSON.stringify(tableName , null, 2))
+                      localgun.get('change_log').get( schema ).get( tableName ).put(
+                          {version: 0})
+
+                      inSql = false
+                      tablesMetaData[ tableName ] ['createNewTableVersion'] = false
+                      return;
+                  }
+
+
+
               }
 
 
