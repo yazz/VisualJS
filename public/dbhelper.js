@@ -462,6 +462,13 @@ var createNewTableVersion  = new Object();
         }
     }
 
+    function ensureRealtimeQueriesMetaDataExists( tableName ) {
+        if (!realtimeSqlQueries[ tableName ] ) {
+            realtimeSqlQueries[ tableName ] = new Object()
+            realtimeSqlQueries[ tableName ][ "lastReadVersion" ]     = -1
+            realtimeSqlQueries[ tableName ][ "sql" ]                 = new Object()
+        }
+    }
 
 
 
@@ -477,7 +484,7 @@ var createNewTableVersion  = new Object();
               //console.log('tables: ' + JSON.stringify(allRealtimetables , null, 2))
               for ( tableName of allTables) {
 
-                  if (tableVersions[ tableName ] == true) {
+                  if (tableVersions[ tableName ]) {
                       inSql = true
                       //console.log('updateTableVersions table: ' + JSON.stringify(tableName , null, 2))
                       if (!schema) {
@@ -538,7 +545,8 @@ var createNewTableVersion  = new Object();
 
                         function(a) {
                             tableVersions[ tableName ] = true
-                            realtimeSqlQueries[ tableName ]['version'] = a.version
+                            ensureRealtimeQueriesMetaDataExists( tableName )
+                            realtimeSqlQueries[ tableName ][ 'version' ] = a.version
                             inSql = false
                             tablesMetaData[tableName]["updateTableVersions"] = false
                           })
