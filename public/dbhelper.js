@@ -6,17 +6,17 @@
 var localgun;
 var localgunclass;
 var sqlParseFn;
-var staticSqlResultSets   = new Object();
-var realtimeSqlResultSets = new Object();
-var realtimeTablesToWatch = new Object();
-var tablesToWatch         = new Object();
-var sqlQueue              = [];
-var autoSerialId          = null;
-var inRealtimeUpdate      = false;
-var inSql                 = false;
-var queueCount            = 0;
-var tableVersions         = new Object();
-var createNewTableVersion = new Object();
+var staticSqlResultSets    = new Object();
+var realtimeSqlResultSets  = new Object();
+var realtimetablesMetaData = new Object();
+var tablesMetaData         = new Object();
+var sqlQueue               = [];
+var autoSerialId           = null;
+var inRealtimeUpdate       = false;
+var inSql                  = false;
+var queueCount             = 0;
+var tableVersions          = new Object();
+var createNewTableVersion  = new Object();
 
 
 
@@ -103,7 +103,7 @@ var createNewTableVersion = new Object();
 
         localgun.get(schema).get(newAst.table).set(newRecord, function(ack){
             inSql = false
-            tablesToWatch[newAst.table]["updateTableVersions"] = true
+            tablesMetaData[newAst.table]["updateTableVersions"] = true
 
 
         });
@@ -215,7 +215,7 @@ var createNewTableVersion = new Object();
         var end = function(coll){
             //console.log('Finished Update: ' + newAst.where.right.value)
             inSql = false
-            tablesToWatch[newAst.table]["updateTableVersions"] = true
+            tablesMetaData[newAst.table]["updateTableVersions"] = true
         }
 
         gun.get(schema).get(newAst.table).valMapEnd( processRecord , end , newAst);
@@ -408,41 +408,41 @@ var createNewTableVersion = new Object();
 
             if (newAst.type == 'select') {
                 //console.log("select RR********* SQL: " + sql3 + ", table: " + newAst.from[0].table)
-                if (!realtimeTablesToWatch[newAst.from[0].table]) {
-                    realtimeTablesToWatch[newAst.from[0].table] = new Object();
-                    realtimeTablesToWatch[newAst.from[0].table]['sql'] = new Object();
-                    realtimeTablesToWatch[newAst.from[0].table]['version'] = -1;
+                if (!realtimetablesMetaData[newAst.from[0].table]) {
+                    realtimetablesMetaData[newAst.from[0].table] = new Object();
+                    realtimetablesMetaData[newAst.from[0].table]['sql'] = new Object();
+                    realtimetablesMetaData[newAst.from[0].table]['version'] = -1;
                     var tableName = newAst.from[0].table;
 
-                    realtimeTablesToWatch[tableName]["changed"] = true
+                    realtimetablesMetaData[tableName]["changed"] = true
                     localgun.get('change_log').get( schema ).get( tableName ).on(
                       function(a) {
-                          //console.log('*****Change to table name: ' + tableName + ' : ' + a.version + ' : '  + realtimeTablesToWatch[tableName]['version'])
+                          //console.log('*****Change to table name: ' + tableName + ' : ' + a.version + ' : '  + realtimetablesMetaData[tableName]['version'])
                           //a.value(function(q){console.log('a: ' + JSON.stringify(q , null, 2) )})
-                          if (a.version > realtimeTablesToWatch[tableName]['version']) {
+                          if (a.version > realtimetablesMetaData[tableName]['version']) {
                               //console.log('Change to table name: ' + tableName + ' : ' + a.version)
                               //console.log('     a: ' + JSON.stringify(a , null, 2) )
-                              realtimeTablesToWatch[tableName]["changed"] = true
-                              if (!tablesToWatch[tableName]) {
-                                  tablesToWatch[tableName] = new Object();
+                              realtimetablesMetaData[tableName]["changed"] = true
+                              if (!tablesMetaData[tableName]) {
+                                  tablesMetaData[tableName] = new Object();
                               }
-                              tablesToWatch[tableName]["updateTableVersions"] = true
-                              realtimeTablesToWatch[tableName]['version'] = a.version
+                              tablesMetaData[tableName]["updateTableVersions"] = true
+                              realtimetablesMetaData[tableName]['version'] = a.version
                           }
                         },false);
 
 
                 }
-                if (!realtimeTablesToWatch[newAst.from[0].table][sql3]) {
-                    realtimeTablesToWatch[newAst.from[0].table]['sql'][sql3] = new Object();
-                    realtimeTablesToWatch[newAst.from[0].table]['sql'][sql3]["callback"] = callbackFn;
-                    realtimeTablesToWatch[newAst.from[0].table]['sql'][sql3]["schema"] = schema;
+                if (!realtimetablesMetaData[newAst.from[0].table][sql3]) {
+                    realtimetablesMetaData[newAst.from[0].table]['sql'][sql3] = new Object();
+                    realtimetablesMetaData[newAst.from[0].table]['sql'][sql3]["callback"] = callbackFn;
+                    realtimetablesMetaData[newAst.from[0].table]['sql'][sql3]["schema"] = schema;
                 }
 
 
                    localgun.sql(sql3);
               //console.log('(REAL:sql): ' + sql3)
-              //console.log('(REAL:realtimeTablesToWatch): ' + JSON.stringify(realtimeTablesToWatch , null, 2))
+              //console.log('(REAL:realtimetablesMetaData): ' + JSON.stringify(realtimetablesMetaData , null, 2))
             }
         }
         catch(err) {
@@ -454,7 +454,12 @@ var createNewTableVersion = new Object();
 
 
 
-
+    function ensureTableMetaDataExists( tableName ) {
+        if (!tablesMetaData[ tableName ] ) {
+            tablesMetaData[ tableName ] = new Object()
+            tablesMetaData[ tableName ]["updateTableVersions"] = false
+        }
+    }
 
 
 
@@ -467,7 +472,7 @@ var createNewTableVersion = new Object();
 
           //console.log('inSql: ' + JSON.stringify(inSql , null, 2))
           if (!inSql) {
-              var allTables = Object.keys(tablesToWatch);
+              var allTables = Object.keys(tablesMetaData);
               //console.log('tables: ' + JSON.stringify(allRealtimetables , null, 2))
               for ( tableName of allTables) {
 
@@ -477,45 +482,49 @@ var createNewTableVersion = new Object();
                       if (!schema) {
                           schema = 'default'
                       }
-                      console.log('////    updating version for: ' + tableName + ', ' + JSON.stringify(realtimeTablesToWatch[tableName]['version'] , null, 2))
+                      console.log('////    updating version for: ' + tableName + ', ' + JSON.stringify(realtimetablesMetaData[tableName]['version'] , null, 2))
                       var oldVersion = 0;
                       var newVersion = 0;
-                        if (realtimeTablesToWatch[tableName]['version'] > -2) {
-                            oldVersion = realtimeTablesToWatch[tableName]['version']
+                        if (realtimetablesMetaData[tableName]['version'] > -2) {
+                            oldVersion = realtimetablesMetaData[tableName]['version']
                             newVersion = oldVersion + 1
                         }
                       //console.log('    Updating version from : ' + JSON.stringify(oldVersion , null, 2) + ' to ' + JSON.stringify(newVersion , null, 2))
                         localgun.get('change_log').get( schema ).get( tableName ).put(
                             {version: newVersion})
                         inSql = false
-                        tablesToWatch[tableName]["updateTableVersions"] = false
+                        tablesMetaData[tableName]["updateTableVersions"] = false
                         tableVersions[ tableName ] = false
                         return;
                   }
 
 
 
+                  //-------------------------------------------------------------------------------------------
+                  // If a table changes then we need to inform everyone else that the table has changed
+                  //
+                  //
+                  //-------------------------------------------------------------------------------------------
                   if (createNewTableVersion[ tableName ] == true) {
                       inSql = true
                       //console.log('updateTableVersions table: ' + JSON.stringify(tableName , null, 2))
                       if (!schema) {
                           schema = 'default'
                       }
-                      createNewTableVersion[ tableName ] = true
                       console.log('////    creating new version for: ' + JSON.stringify(tableName , null, 2))
                         var newVersion = 0;
                         localgun.get('change_log').get( schema ).get( tableName ).put(
                             {version: newVersion})
 
                         inSql = false
-                        tablesToWatch[tableName]["updateTableVersions"] = false
+                        tablesMetaData[tableName]["updateTableVersions"] = false
                         createNewTableVersion[ tableName ] = false
                         return;
                   }
 
 
 
-                  if (tablesToWatch[tableName]['updateTableVersions'] == true) {
+                  if (tablesMetaData[tableName]['updateTableVersions'] == true) {
                       inSql = true
                       //console.log('updateTableVersions table: ' + JSON.stringify(tableName , null, 2))
                       if (!schema) {
@@ -528,9 +537,9 @@ var createNewTableVersion = new Object();
 
                         function(a) {
                             tableVersions[ tableName ] = true
-                            realtimeTablesToWatch[ tableName ]['version'] = a.version
+                            realtimetablesMetaData[ tableName ]['version'] = a.version
                             inSql = false
-                            tablesToWatch[tableName]["updateTableVersions"] = false
+                            tablesMetaData[tableName]["updateTableVersions"] = false
                           })
 
 
@@ -542,7 +551,7 @@ var createNewTableVersion = new Object();
                           })
 
                       inSql = false
-                      tablesToWatch[tableName]["updateTableVersions"] = false
+                      tablesMetaData[tableName]["updateTableVersions"] = false
                       return
 
                   }
@@ -570,20 +579,13 @@ var createNewTableVersion = new Object();
 
                   var chain  = localgun.chain();
                   if (newAst.type == 'select') {
-                      if (!tablesToWatch[newAst.from[0].table]) {
-                          tablesToWatch[newAst.from[0].table] = new Object();
-                          tablesToWatch[newAst.from[0].table]["updateTableVersions"] = false
-                      }
+                      ensureTableMetaDataExists(newAst.from[0].table)
                   } else if (newAst.type == 'update') {
-                      if (!tablesToWatch[newAst.table]) {
-                          tablesToWatch[newAst.table] = new Object();
-                          tablesToWatch[newAst.table]["updateTableVersions"] = true
-                      }
+                      ensureTableMetaDataExists(newAst.table)
+                      tablesMetaData[ newAst.table ]["updateTableVersions"] = true
                   } else if (newAst.type == 'insert') {
-                      if (!tablesToWatch[newAst.table]) {
-                          tablesToWatch[newAst.table] = new Object();
-                          tablesToWatch[newAst.table]["updateTableVersions"] = true
-                      }
+                      ensureTableMetaDataExists(newAst.table)
+                      tablesMetaData[ newAst.table ]["updateTableVersions"] = true
                   }
                   switch( newAst.type ) {
                       case 'insert' : g_insert(newAst, params,         localgun,     schema);break;
@@ -599,17 +601,17 @@ var createNewTableVersion = new Object();
                   if (!inRealtimeUpdate) {
                       inRealtimeUpdate = true;
                       //console.log('Changed: ' + changed);
-                      var allRealtimetables = Object.keys(realtimeTablesToWatch);
+                      var allRealtimetables = Object.keys(realtimetablesMetaData);
                       //console.log('tables: ' + JSON.stringify(allRealtimetables , null, 2))
                       for ( tableName of allRealtimetables) {
                           //console.log("tableName: " + tableName );
-                          if (realtimeTablesToWatch[ tableName ] ) {
-                              if (realtimeTablesToWatch[ tableName ][ "changed" ]) {
+                          if (realtimetablesMetaData[ tableName ] ) {
+                              if (realtimetablesMetaData[ tableName ][ "changed" ]) {
                                   //console.log("table changed: " + tableName );
                                   //localgun.sql("SELECT * FROM Customers ");
-                                  var sqlToUpdate = Object.keys(realtimeTablesToWatch[ tableName ]['sql']).toString()
+                                  var sqlToUpdate = Object.keys(realtimetablesMetaData[ tableName ]['sql']).toString()
                                   //console.log('    sql: ' + JSON.stringify(sqlToUpdate , null, 2))
-                                  var cbb = realtimeTablesToWatch[tableName]['sql'][sqlToUpdate]["callback"];
+                                  var cbb = realtimetablesMetaData[tableName]['sql'][sqlToUpdate]["callback"];
                                   if (cbb) {
                                       //console.log('**HAS A CALLBACK on SQL: ' + sqlToUpdate);
                                       //console.log('localgun: ' + localgun.sql(sqlToUpdate));
@@ -617,7 +619,7 @@ var createNewTableVersion = new Object();
                                   };
 
 
-                                  realtimeTablesToWatch[ tableName ][ "changed" ] = false
+                                  realtimetablesMetaData[ tableName ][ "changed" ] = false
                               }
                           }
                       }
