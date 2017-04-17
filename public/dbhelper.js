@@ -15,7 +15,7 @@ var autoSerialId          = null;
 var inRealtimeUpdate      = false;
 var inSql                 = false;
 var queueCount            = 0;
-var updateTableVersion    = new Object();
+var tableVersions         = new Object();
 var createNewTableVersion = new Object();
 
 
@@ -103,7 +103,7 @@ var createNewTableVersion = new Object();
 
         localgun.get(schema).get(newAst.table).set(newRecord, function(ack){
             inSql = false
-            tablesToWatch[newAst.table]["dirty"] = true
+            tablesToWatch[newAst.table]["updateTableVersions"] = true
 
 
         });
@@ -215,7 +215,7 @@ var createNewTableVersion = new Object();
         var end = function(coll){
             //console.log('Finished Update: ' + newAst.where.right.value)
             inSql = false
-            tablesToWatch[newAst.table]["dirty"] = true
+            tablesToWatch[newAst.table]["updateTableVersions"] = true
         }
 
         gun.get(schema).get(newAst.table).valMapEnd( processRecord , end , newAst);
@@ -426,7 +426,7 @@ var createNewTableVersion = new Object();
                               if (!tablesToWatch[tableName]) {
                                   tablesToWatch[tableName] = new Object();
                               }
-                              tablesToWatch[tableName]["dirty"] = true
+                              tablesToWatch[tableName]["updateTableVersions"] = true
                               realtimeTablesToWatch[tableName]['version'] = a.version
                           }
                         },false);
@@ -471,9 +471,9 @@ var createNewTableVersion = new Object();
               //console.log('tables: ' + JSON.stringify(allRealtimetables , null, 2))
               for ( tableName of allTables) {
 
-                  if (updateTableVersion[ tableName ] == true) {
+                  if (tableVersions[ tableName ] == true) {
                       inSql = true
-                      //console.log('Dirty table: ' + JSON.stringify(tableName , null, 2))
+                      //console.log('updateTableVersions table: ' + JSON.stringify(tableName , null, 2))
                       if (!schema) {
                           schema = 'default'
                       }
@@ -488,8 +488,8 @@ var createNewTableVersion = new Object();
                         localgun.get('change_log').get( schema ).get( tableName ).put(
                             {version: newVersion})
                         inSql = false
-                        tablesToWatch[tableName]["dirty"] = false
-                        updateTableVersion[ tableName ] = false
+                        tablesToWatch[tableName]["updateTableVersions"] = false
+                        tableVersions[ tableName ] = false
                         return;
                   }
 
@@ -497,7 +497,7 @@ var createNewTableVersion = new Object();
 
                   if (createNewTableVersion[ tableName ] == true) {
                       inSql = true
-                      //console.log('Dirty table: ' + JSON.stringify(tableName , null, 2))
+                      //console.log('updateTableVersions table: ' + JSON.stringify(tableName , null, 2))
                       if (!schema) {
                           schema = 'default'
                       }
@@ -508,16 +508,16 @@ var createNewTableVersion = new Object();
                             {version: newVersion})
 
                         inSql = false
-                        tablesToWatch[tableName]["dirty"] = false
+                        tablesToWatch[tableName]["updateTableVersions"] = false
                         createNewTableVersion[ tableName ] = false
                         return;
                   }
 
 
 
-                  if (tablesToWatch[tableName]['dirty'] == true) {
+                  if (tablesToWatch[tableName]['updateTableVersions'] == true) {
                       inSql = true
-                      //console.log('Dirty table: ' + JSON.stringify(tableName , null, 2))
+                      //console.log('updateTableVersions table: ' + JSON.stringify(tableName , null, 2))
                       if (!schema) {
                           schema = 'default'
                       }
@@ -527,10 +527,10 @@ var createNewTableVersion = new Object();
                       localgun.get('change_log').get( schema ).get( tableName ).val(
 
                         function(a) {
-                            updateTableVersion[ tableName ] = true
+                            tableVersions[ tableName ] = true
                             realtimeTablesToWatch[ tableName ]['version'] = a.version
                             inSql = false
-                            tablesToWatch[tableName]["dirty"] = false
+                            tablesToWatch[tableName]["updateTableVersions"] = false
                           })
 
 
@@ -542,7 +542,7 @@ var createNewTableVersion = new Object();
                           })
 
                       inSql = false
-                      tablesToWatch[tableName]["dirty"] = false
+                      tablesToWatch[tableName]["updateTableVersions"] = false
                       return
 
                   }
@@ -572,17 +572,17 @@ var createNewTableVersion = new Object();
                   if (newAst.type == 'select') {
                       if (!tablesToWatch[newAst.from[0].table]) {
                           tablesToWatch[newAst.from[0].table] = new Object();
-                          tablesToWatch[newAst.from[0].table]["dirty"] = false
+                          tablesToWatch[newAst.from[0].table]["updateTableVersions"] = false
                       }
                   } else if (newAst.type == 'update') {
                       if (!tablesToWatch[newAst.table]) {
                           tablesToWatch[newAst.table] = new Object();
-                          tablesToWatch[newAst.table]["dirty"] = true
+                          tablesToWatch[newAst.table]["updateTableVersions"] = true
                       }
                   } else if (newAst.type == 'insert') {
                       if (!tablesToWatch[newAst.table]) {
                           tablesToWatch[newAst.table] = new Object();
-                          tablesToWatch[newAst.table]["dirty"] = true
+                          tablesToWatch[newAst.table]["updateTableVersions"] = true
                       }
                   }
                   switch( newAst.type ) {
