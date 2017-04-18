@@ -503,7 +503,6 @@ var queueCount             = 0;
                       localgun.get('change_log').get( schema ).get( tableName ).val(
 
                         function(a) {
-                            ensureTableMetaDataExists( tableName )
                             tablesMetaData[ tableName ][ 'version' ] = a.version
 
                             inSql = false
@@ -515,7 +514,10 @@ var queueCount             = 0;
                       localgun.get('change_log').get( schema ).get( tableName ).not(
 
                         function(a) {
-                            tablesMetaData[ tableName ]["createNewTableVersion" ] = true
+                            tablesMetaData[ tableName ][ 'version' ] = 0
+
+                            inSql = false
+                            tablesMetaData[ tableName ]["refreshTableVersion"] = false
                           })
 
                       inSql = false
