@@ -101,9 +101,8 @@ var queueCount             = 0;
 
         localgun.get(schema).get(newAst.table).set(newRecord, function(ack){
             inSql = false
-            tablesMetaData[newAst.table]["updateTableVersions"] = true
-
-
+            tablesMetaData[newAst.table]["refreshTableVersion"] = true
+            tablesMetaData[newAst.table]["incrementTableVersion"] = true
         });
     }
 
@@ -213,7 +212,8 @@ var queueCount             = 0;
         var end = function(coll){
             //console.log('Finished Update: ' + newAst.where.right.value)
             inSql = false
-            tablesMetaData[newAst.table]["updateTableVersions"] = true
+            tablesMetaData[newAst.table]["refreshTableVersion"] = true
+            tablesMetaData[newAst.table]["incrementTableVersion"] = true
         }
 
         gun.get(schema).get(newAst.table).valMapEnd( processRecord , end , newAst);
@@ -484,6 +484,7 @@ var queueCount             = 0;
               var allTables = Object.keys(tablesMetaData);
               //console.log('tables: ' + JSON.stringify(allRealtimetables , null, 2))
               for ( tableName of allTables) {
+                  ensureTableMetaDataExists(tableName)
 
                   //-------------------------------------------------------------------------------------------
                   // If a table changes then we need to inform everyone else that the table has changed
@@ -514,7 +515,7 @@ var queueCount             = 0;
                       localgun.get('change_log').get( schema ).get( tableName ).not(
 
                         function(a) {
-                            createNewTableVersion[ tableName ] = true
+                            tablesMetaData[ tableName ]["createNewTableVersion" ] = true
                           })
 
                       inSql = false
@@ -550,6 +551,7 @@ var queueCount             = 0;
                   }
 
 
+                  ensureTableMetaDataExists(tableName)
 
                   //-------------------------------------------------------------------------------------------
                   // If a table is created then add a version number to it
