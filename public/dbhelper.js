@@ -500,6 +500,7 @@ var queueCount             = 0;
                       //console.log('    schema: ' + JSON.stringify(schema , null, 2))
 
 					  // increment the version number
+                      console.log("tablesMetaData[ tableName ][ 'version' ] = a.version..................")
                       localgun.get('change_log').get( schema ).get( tableName ).val(
 
                         function(a) {
@@ -511,9 +512,11 @@ var queueCount             = 0;
 
 
 					  // create the version number if it does not exist
+                      console.log("tablesMetaData[ tableName ][ 'version' ] = 0..................")
                       localgun.get('change_log').get( schema ).get( tableName ).not(
 
                         function(a) {
+                            console.log("..................tablesMetaData[ tableName ][ 'version' ] = 0")
                             tablesMetaData[ tableName ][ 'version' ] = 0
 
                             inSql = false
