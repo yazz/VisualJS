@@ -15,7 +15,8 @@ var autoSerialId           = null;
 var inRealtimeUpdate       = false;
 var inSql                  = false;
 var queueCount             = 0;
-
+var queryId                = 1;
+var queryDone              = new Object();
 
 
 (function(exports){
@@ -122,6 +123,8 @@ var queueCount             = 0;
         staticSqlResultSets[sql] = [];
         var i = 0
         var count = 0;
+        var thisQueryId = queryId ++;
+        queryDone[ thisQueryId ] = false
         //console.log('*cb: '  + cb)
 
         var each = function (a){
@@ -135,18 +138,20 @@ var queueCount             = 0;
         }
 
         var end = function (coll){
-            //console.log('coll: '  + JSON.stringify(coll , null, 2))
-            //staticSqlResultSets[sql] = objectToArray(temp);
-            //console.log('**Get: '  + JSON.stringify(staticSqlResultSets[sql] , null, 2))
-            //console.log('**cb: '  + cb)
-            if (cb) {
-                cb( staticSqlResultSets[sql] );
-            } else {
-                //console.log( JSON.stringify(staticSqlResultSets[sql] , null, 2) );
-            };
-            //console.log('**Finished Get: '  + count)
-            inSql = false
-
+            if (!queryDone[ thisQueryId ]) {
+                queryDone[ thisQueryId ] = true
+                //console.log('coll: '  + JSON.stringify(coll , null, 2))
+                //staticSqlResultSets[sql] = objectToArray(temp);
+                //console.log('**Get: '  + JSON.stringify(staticSqlResultSets[sql] , null, 2))
+                //console.log('**cb: '  + cb)
+                if (cb) {
+                    cb( staticSqlResultSets[sql] );
+                } else {
+                    //console.log( JSON.stringify(staticSqlResultSets[sql] , null, 2) );
+                };
+                //console.log('**Finished Get: '  + count)
+                inSql = false
+            }
         }
 
         gun.get(schema).get(newAst.from[0].table).valMapEnd( each , end , newAst);
@@ -498,30 +503,41 @@ var queueCount             = 0;
                           schema = 'default'
                       }
                       //console.log('    schema: ' + JSON.stringify(schema , null, 2))
+                      var thisQueryId = queryId ++;
+                      queryDone[ thisQueryId ] = false
+
+                      // create the version number if it does not exist
+                      console.log("tablesMetaData[ tableName ][ 'version' ] = 0..................")
+                      localgun.get('change_log').get( schema ).get( tableName ).not(
+
+                        function(a) {
+                            if (!queryDone[ thisQueryId ]) {
+                                queryDone[ thisQueryId ] = true
+                                console.log("..................tablesMetaData[ tableName ][ 'version' ] = 0")
+                                tablesMetaData[ tableName ][ 'version' ] = 0
+
+                                inSql = false
+                                tablesMetaData[ tableName ]["refreshTableVersion"] = false
+                            }
+                          })
+
+
 
 					  // increment the version number
                       console.log("tablesMetaData[ tableName ][ 'version' ] = a.version..................")
                       localgun.get('change_log').get( schema ).get( tableName ).val(
 
                         function(a) {
-                            tablesMetaData[ tableName ][ 'version' ] = a.version
+                            if (!queryDone[ thisQueryId ]) {
+                                queryDone[ thisQueryId ] = true
+                                tablesMetaData[ tableName ][ 'version' ] = a.version
 
-                            inSql = false
-                            tablesMetaData[ tableName ]["refreshTableVersion"] = false
+                                inSql = false
+                                tablesMetaData[ tableName ]["refreshTableVersion"] = false
+                            }
                           })
 
 
-					  // create the version number if it does not exist
-                      console.log("tablesMetaData[ tableName ][ 'version' ] = 0..................")
-                      localgun.get('change_log').get( schema ).get( tableName ).not(
-
-                        function(a) {
-                            console.log("..................tablesMetaData[ tableName ][ 'version' ] = 0")
-                            tablesMetaData[ tableName ][ 'version' ] = 0
-
-                            inSql = false
-                            tablesMetaData[ tableName ]["refreshTableVersion"] = false
-                          })
 
                       inSql = false
                       tablesMetaData[ tableName ]["refreshTableVersion"] = false

@@ -12,7 +12,7 @@ import store                    from './store.js'
 import db                       from '../public/dbhelper.js'
 
 
-const gun_ip_address = '10.6.87.193'
+const gun_ip_address = '172.27.11.109'
 
 window.vue = Vue;
 
@@ -137,10 +137,10 @@ function setupGunDB() {
               //alert('SELECT * FROM db_connections')
                               //console.log('********* CALLED REALTIME DBCONN*************:' + JSON.stringify(results[0] , null, 2));
                               store.dispatch('clear_connections');
-                              console.log('********* CALLED REALTIME DBCONN len:' + JSON.stringify(results.length , null, 2));
+                              //console.log('********* CALLED REALTIME DBCONN len:' + JSON.stringify(results.length , null, 2));
                               for (var i = 0 ; i < results.length ; i ++) {
                                   var conn = results[i]
-                                  console.log('********* CALLED REALTIME DBCONN*************:' + JSON.stringify(conn , null, 2));
+                                  //console.log('********* CALLED REALTIME DBCONN*************:' + JSON.stringify(conn , null, 2));
                                   store.dispatch( 'add_connection' , {cn:       conn.name,
 
                                                                       cp: {     id:      conn.name
