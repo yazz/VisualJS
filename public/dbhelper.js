@@ -673,7 +673,7 @@ var queryDone              = new Object();
 
           }
 
-      }, 200)
+      }, 90)
 
 
 
