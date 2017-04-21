@@ -418,19 +418,18 @@ var queryDone              = new Object();
                     var tableName = newAst.from[0].table;
 
                     realtimeSqlQueries[tableName]["changed"] = true
-                    localgun.get('change_log').get( schema ).get( tableName ).on(
+                    localgun.get('change_log').get( schema ).get( tableName ).get('version').on(
                       function(a) {
-                          //console.log('*****Change to table name: ' + tableName + ' : ' + a.version + ' : '  + realtimeSqlQueries[tableName]['version'])
+                          console.log('*****Change to table name: ' + tableName + ' : ' + a + ' : '  + realtimeSqlQueries[tableName]['version'])
                           //a.value(function(q){console.log('a: ' + JSON.stringify(q , null, 2) )})
-                          if (a.version > realtimeSqlQueries[tableName]['version']) {
+                          if (a > realtimeSqlQueries[tableName]['version']) {
                               //console.log('Change to table name: ' + tableName + ' : ' + a.version)
                               //console.log('     a: ' + JSON.stringify(a , null, 2) )
                               realtimeSqlQueries[tableName]["changed"] = true
                               if (!tablesMetaData[tableName]) {
                                   tablesMetaData[tableName] = new Object();
                               }
-                              tablesMetaData[tableName]["updateTableVersions"] = true
-                              realtimeSqlQueries[tableName]['version'] = a.version
+                              realtimeSqlQueries[tableName]['version'] = a
                           }
                         },false);
 
@@ -460,7 +459,6 @@ var queryDone              = new Object();
     function ensureTableMetaDataExists( tableName ) {
         if (!tablesMetaData[ tableName ] ) {
             tablesMetaData[ tableName ] = new Object()
-            tablesMetaData[ tableName ]["updateTableVersions"]      = false
             tablesMetaData[ tableName ]["version"]                  = -1
             tablesMetaData[ tableName ]["refreshTableVersion"]      = false
             tablesMetaData[ tableName ]["incrementTableVersion"]    = false
@@ -517,7 +515,7 @@ var queryDone              = new Object();
                                 tablesMetaData[ tableName ][ 'version' ] = 0
 
                                 inSql = false
-                                tablesMetaData[ tableName ]["refreshTableVersion"] = false
+                                tablesMetaData[ tableName ]["refreshTableVersions"] = false
                             }
                           })
 
@@ -531,6 +529,7 @@ var queryDone              = new Object();
                             if (!queryDone[ thisQueryId ]) {
                                 queryDone[ thisQueryId ] = true
                                 tablesMetaData[ tableName ][ 'version' ] = a.version
+                                tablesMetaData[ tableName ][ "updateTableVersion" ] = true
 
                                 inSql = false
                                 tablesMetaData[ tableName ]["refreshTableVersion"] = false
@@ -539,8 +538,8 @@ var queryDone              = new Object();
 
 
 
-                      inSql = false
-                      tablesMetaData[ tableName ]["refreshTableVersion"] = false
+                      //inSql = false
+                      //tablesMetaData[ tableName ]["refreshTableVersion"] = false
                       return
 
                   }
@@ -552,7 +551,7 @@ var queryDone              = new Object();
                   //
                   //
                   //-------------------------------------------------------------------------------------------
-                  if ( tablesMetaData[ tableName ] [ "incrementTableVersion"] ) {
+                  if ( tablesMetaData[ tableName ] [ "incrementTableVersion"] && !tablesMetaData[ tableName ]["refreshTableVersion"]) {
                       inSql = true
                       //console.log('updateTableVersions table: ' + JSON.stringify(tableName , null, 2))
                       if (!schema) {
@@ -572,7 +571,6 @@ var queryDone              = new Object();
                   }
 
 
-                  ensureTableMetaDataExists(tableName)
 
                   //-------------------------------------------------------------------------------------------
                   // If a table is created then add a version number to it
@@ -623,10 +621,8 @@ var queryDone              = new Object();
                       ensureTableMetaDataExists(newAst.from[0].table)
                   } else if (newAst.type == 'update') {
                       ensureTableMetaDataExists(newAst.table)
-                      tablesMetaData[ newAst.table ]["updateTableVersions"] = true
                   } else if (newAst.type == 'insert') {
                       ensureTableMetaDataExists(newAst.table)
-                      tablesMetaData[ newAst.table ]["updateTableVersions"] = true
                   }
                   switch( newAst.type ) {
                       case 'insert' : g_insert(newAst, params,         localgun,     schema);break;
@@ -644,7 +640,7 @@ var queryDone              = new Object();
                       //console.log('Changed: ' + changed);
                       var allRealtimetables = Object.keys(realtimeSqlQueries);
                       //console.log('tables: ' + JSON.stringify(allRealtimetables , null, 2))
-                      for ( tableName of allRealtimetables) {
+                      for ( tableName of allRealtimetables ) {
                           //console.log("tableName: " + tableName );
                           if (realtimeSqlQueries[ tableName ] ) {
                               if (realtimeSqlQueries[ tableName ][ "changed" ]) {
