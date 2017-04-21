@@ -5,5 +5,7 @@
     ,
     text: 'Hello driver'
     ,
-    vue: "<div>UI code is here</div>"
+    vue: {
+            template: '<div>A custom component2!</div>'
+            }
 }

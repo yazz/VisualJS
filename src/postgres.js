@@ -1,6 +1,10 @@
 {
     name: 'postgres'
     ,
+    vue: {
+            template: '<div>postgres driver</div>'
+            }
+    ,
     type: 'db_driver'
     ,
     setup: function(connection) {

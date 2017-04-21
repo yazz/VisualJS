@@ -3,6 +3,10 @@
     ,
     type: 'db_driver'
     ,
+    vue: {
+            template: '<div>Oracle driver</div>'
+            }
+    ,
     loadOnCondition: function() {
         var useOracle    = false;
         if (fs.existsSync(path.join(__dirname, '../oracle_driver.zip'))) {

@@ -14,6 +14,7 @@ export default {
                 template:
                 `<div>
                   {{currently_selected_driver_name}} =  {{currently_selected_driver_code}} {{sometext}}
+                  <my-component></my-component>
                 </div>`
                 ,
                 templateRender: null
@@ -75,6 +76,7 @@ export default {
                   var evalede = eval(driver.code)
                   if (evalede.vue) {
                      //this.template =  evalede.vue
+                     Vue.component('my-component', evalede.vue)
                      return evalede
                   }
                   else {
