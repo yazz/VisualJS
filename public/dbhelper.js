@@ -412,24 +412,22 @@ var queryDone              = new Object();
             if (newAst.type == 'select') {
                 //console.log("select RR********* SQL: " + sql3 + ", table: " + newAst.from[0].table)
                 if (!realtimeSqlQueries[newAst.from[0].table]) {
-                    realtimeSqlQueries[newAst.from[0].table] = new Object();
-                    realtimeSqlQueries[newAst.from[0].table]['sql'] = new Object();
-                    realtimeSqlQueries[newAst.from[0].table]['version'] = -1;
                     var tableName = newAst.from[0].table;
+                    ensureRealtimeQueriesMetaDataExists( tableName )
 
                     realtimeSqlQueries[tableName]["changed"] = true
                     localgun.get('change_log').get( schema ).get( tableName ).get('version').on(
                       function(a) {
-                          console.log('*****Change to table name: ' + tableName + ' : ' + a + ' : '  + realtimeSqlQueries[tableName]['version'])
+                          console.log('*****Change to table name: ' + tableName + ' : ' + a + ' :realTimeUpdated '  + realtimeSqlQueries[tableName]['lastReadVersion'])
                           //a.value(function(q){console.log('a: ' + JSON.stringify(q , null, 2) )})
-                          if (a > realtimeSqlQueries[tableName]['version']) {
+                          if (a > realtimeSqlQueries[tableName]['lastReadVersion']) {
                               //console.log('Change to table name: ' + tableName + ' : ' + a.version)
                               //console.log('     a: ' + JSON.stringify(a , null, 2) )
                               realtimeSqlQueries[tableName]["changed"] = true
                               if (!tablesMetaData[tableName]) {
                                   tablesMetaData[tableName] = new Object();
                               }
-                              realtimeSqlQueries[tableName]['version'] = a
+                              tablesMetaData[ tableName ]['version'] = a
                           }
                         },false);
 
@@ -471,6 +469,7 @@ var queryDone              = new Object();
             realtimeSqlQueries[ tableName ] = new Object()
             realtimeSqlQueries[ tableName ][ "lastReadVersion" ]     = -1
             realtimeSqlQueries[ tableName ][ "sql" ]                 = new Object()
+            realtimeSqlQueries[ tableName ][ "changed" ]             = true
         }
     }
 
@@ -633,7 +632,8 @@ var queryDone              = new Object();
               }
 
 
-
+              //console.log('sqlQueue.length: ' + JSON.stringify(sqlQueue.length , null, 2))
+              //console.log('inRealtimeUpdate: ' + JSON.stringify(inRealtimeUpdate , null, 2))
               if (sqlQueue.length == 0) {
                   if (!inRealtimeUpdate) {
                       inRealtimeUpdate = true;
@@ -654,6 +654,7 @@ var queryDone              = new Object();
                                       //console.log('**HAS A CALLBACK on SQL: ' + sqlToUpdate);
                                       //console.log('localgun: ' + localgun.sql(sqlToUpdate));
                                       localgun.sql(sqlToUpdate, null, cbb);
+                                      realtimeSqlQueries[ tableName ]['lastReadVersion'] = tablesMetaData[ tableName ] ['version']
                                   };
 
 
