@@ -641,6 +641,7 @@ var queryDone              = new Object();
                       var allRealtimetables = Object.keys(realtimeSqlQueries);
                       //console.log('tables: ' + JSON.stringify(allRealtimetables , null, 2))
                       for ( tableName of allRealtimetables ) {
+                          ensureRealtimeQueriesMetaDataExists( tableName )
                           //console.log("tableName: " + tableName );
                           if (realtimeSqlQueries[ tableName ] ) {
                               if (realtimeSqlQueries[ tableName ][ "changed" ]) {

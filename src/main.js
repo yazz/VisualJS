@@ -117,7 +117,7 @@ function setupGunDB() {
             gun.get("connections").map(read_connections,true);
         },true);*/
 
-        //localStorage.clear();
+        localStorage.clear();
 
         db.setGunDB(gun)
         db.setGunDBClass(Gun)
