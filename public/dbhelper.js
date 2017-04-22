@@ -515,14 +515,14 @@ var queryDone              = new Object();
                                 tablesMetaData[ tableName ][ 'version' ] = 0
 
                                 inSql = false
-                                tablesMetaData[ tableName ]["refreshTableVersions"] = false
+                                tablesMetaData[ tableName ]["refreshTableVersion"] = false
                             }
                           })
 
 
 
 					  // increment the version number
-                      console.log("tablesMetaData[ tableName ][ 'version' ] = a.version..................")
+                      console.log("tablesMetaData[ " + tableName + " ][ 'version' ] = a.version..................")
                       localgun.get('change_log').get( schema ).get( tableName ).val(
 
                         function(a) {
