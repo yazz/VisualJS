@@ -410,23 +410,22 @@ var queryDone              = new Object();
             //console.log('RTable: ' + newAst.from[0].table);
 
             if (newAst.type == 'select') {
-                //console.log("select RR********* SQL: " + sql3 + ", table: " + newAst.from[0].table)
+                console.log("select RR********* SQL: " + sql3 + ", table: " + newAst.from[0].table)
                 if (!realtimeSqlQueries[newAst.from[0].table]) {
                     var tableName = newAst.from[0].table;
                     ensureRealtimeQueriesMetaDataExists( tableName )
+                    ensureTableMetaDataExists( tableName )
 
                     realtimeSqlQueries[tableName]["changed"] = true
-                    localgun.get('change_log').get( schema ).get( tableName ).get('version').on(
+                    localgun.get('change_log').get( schema ).get( tableName ).on(
                       function(a) {
-                          console.log('*****Change to table name: ' + tableName + ' : ' + a + ' :realTimeUpdated '  + realtimeSqlQueries[tableName]['lastReadVersion'])
+                          console.log('*****Change to table name: ' + tableName + ' : New version: ' + a.version )
+                          console.log('              : current version: ' + tablesMetaData[tableName]['version'] )
                           //a.value(function(q){console.log('a: ' + JSON.stringify(q , null, 2) )})
-                          if (a > realtimeSqlQueries[tableName]['lastReadVersion']) {
+                          if (a > tablesMetaData[tableName]['version']) {
                               //console.log('Change to table name: ' + tableName + ' : ' + a.version)
                               //console.log('     a: ' + JSON.stringify(a , null, 2) )
-                              realtimeSqlQueries[tableName]["changed"] = true
-                              if (!tablesMetaData[tableName]) {
-                                  tablesMetaData[tableName] = new Object();
-                              }
+                              realtimeSqlQueries[ tableName ]["changed"] = true
                               tablesMetaData[ tableName ]['version'] = a
                           }
                         },false);
