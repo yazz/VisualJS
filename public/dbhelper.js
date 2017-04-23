@@ -422,11 +422,11 @@ var queryDone              = new Object();
                           console.log('*****Change to table name: ' + tableName + ' : New version: ' + a.version )
                           console.log('              : current version: ' + tablesMetaData[tableName]['version'] )
                           //a.value(function(q){console.log('a: ' + JSON.stringify(q , null, 2) )})
-                          if (a > tablesMetaData[tableName]['version']) {
+                          if (a.version > tablesMetaData[tableName]['version']) {
                               //console.log('Change to table name: ' + tableName + ' : ' + a.version)
                               //console.log('     a: ' + JSON.stringify(a , null, 2) )
                               realtimeSqlQueries[ tableName ]["changed"] = true
-                              tablesMetaData[ tableName ]['version'] = a
+                              tablesMetaData[ tableName ]['version'] = a.version
                           }
                         },false);
 
