@@ -401,16 +401,16 @@ var queryDone              = new Object();
 
 
 
-    exports.realtimeSql = function(sql3, callbackFn, schema) {
+    exports.realtimeSql = function(realtimeSqlString, callbackFn, schema) {
         try {
             if (!schema) {
                 schema = 'default'
             }
-            newAst = sqlParseFn(sql3);
+            newAst = sqlParseFn(realtimeSqlString);
             //console.log('RTable: ' + newAst.from[0].table);
 
             if (newAst.type == 'select') {
-                console.log("select RR********* SQL: " + sql3 + ", table: " + newAst.from[0].table)
+                console.log("select RR********* SQL: " + realtimeSqlString + ", table: " + newAst.from[0].table)
                 if (!realtimeSqlQueries[newAst.from[0].table]) {
                     var tableName = newAst.from[0].table;
                     ensureRealtimeQueriesMetaDataExists( tableName )
@@ -432,15 +432,15 @@ var queryDone              = new Object();
 
 
                 }
-                if (!realtimeSqlQueries[newAst.from[0].table][sql3]) {
-                    realtimeSqlQueries[newAst.from[0].table]['sql'][sql3] = new Object();
-                    realtimeSqlQueries[newAst.from[0].table]['sql'][sql3]["callback"] = callbackFn;
-                    realtimeSqlQueries[newAst.from[0].table]['sql'][sql3]["schema"] = schema;
+                if (!realtimeSqlQueries[newAst.from[0].table][realtimeSqlString]) {
+                    realtimeSqlQueries[newAst.from[0].table]['sql'][realtimeSqlString] = new Object();
+                    realtimeSqlQueries[newAst.from[0].table]['sql'][realtimeSqlString]["callback"] = callbackFn;
+                    realtimeSqlQueries[newAst.from[0].table]['sql'][realtimeSqlString]["schema"] = schema;
                 }
 
 
-                   localgun.sql(sql3);
-              //console.log('(REAL:sql): ' + sql3)
+                localgun.sql( realtimeSqlString );
+              //console.log('(REAL:sql): ' + realtimeSqlString)
               //console.log('(REAL:realtimeSqlQueries): ' + JSON.stringify(realtimeSqlQueries , null, 2))
             }
         }
@@ -646,15 +646,17 @@ var queryDone              = new Object();
                               if (realtimeSqlQueries[ tableName ][ "changed" ]) {
                                   //console.log("table changed: " + tableName );
                                   //localgun.sql("SELECT * FROM Customers ");
-                                  var sqlToUpdate = Object.keys(realtimeSqlQueries[ tableName ]['sql']).toString()
+                                  var sqlToUpdateList = Object.keys(realtimeSqlQueries[ tableName ]['sql'])
                                   //console.log('    sql: ' + JSON.stringify(sqlToUpdate , null, 2))
-                                  var cbb = realtimeSqlQueries[tableName]['sql'][sqlToUpdate]["callback"];
-                                  if (cbb) {
-                                      //console.log('**HAS A CALLBACK on SQL: ' + sqlToUpdate);
-                                      //console.log('localgun: ' + localgun.sql(sqlToUpdate));
-                                      localgun.sql(sqlToUpdate, null, cbb);
-                                      realtimeSqlQueries[ tableName ]['lastReadVersion'] = tablesMetaData[ tableName ] ['version']
-                                  };
+                                  for ( sqlToUpdate of sqlToUpdateList ) {
+                                      var cbb = realtimeSqlQueries[tableName]['sql'][sqlToUpdate]["callback"];
+                                      if (cbb) {
+                                          //console.log('**HAS A CALLBACK on SQL: ' + sqlToUpdate);
+                                          //console.log('localgun: ' + localgun.sql(sqlToUpdate));
+                                          localgun.sql(sqlToUpdate, null, cbb);
+                                          realtimeSqlQueries[ tableName ]['lastReadVersion'] = tablesMetaData[ tableName ] ['version']
+                                      };
+                                  }
 
 
                                   realtimeSqlQueries[ tableName ][ "changed" ] = false
