@@ -417,16 +417,16 @@ var queryDone              = new Object();
                     ensureTableMetaDataExists( tableName )
 
                     realtimeSqlQueries[tableName]["changed"] = true
-                    localgun.get('change_log').get( schema ).get( tableName ).on(
+                    localgun.get('change_log').get( schema ).get( tableName ).get('version').on(
                       function(a) {
-                          console.log('*****Change to table name: ' + tableName + ' : New version: ' + a.version )
+                          console.log('*****Change to table name: ' + tableName + ' : New version: ' + a )
                           console.log('              : current version: ' + tablesMetaData[tableName]['version'] )
                           //a.value(function(q){console.log('a: ' + JSON.stringify(q , null, 2) )})
-                          if (a.version > tablesMetaData[tableName]['version']) {
+                          if (a > tablesMetaData[tableName]['version']) {
                               //console.log('Change to table name: ' + tableName + ' : ' + a.version)
                               //console.log('     a: ' + JSON.stringify(a , null, 2) )
                               realtimeSqlQueries[ tableName ]["changed"] = true
-                              tablesMetaData[ tableName ]['version'] = a.version
+                              tablesMetaData[ tableName ]['version'] = a
                           }
                         },false);
 

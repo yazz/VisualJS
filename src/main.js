@@ -12,7 +12,7 @@ import store                    from './store.js'
 import db                       from '../public/dbhelper.js'
 
 
-const gun_ip_address = '172.18.0.103'
+const gun_ip_address = '172.18.0.106'
 
 window.vue = Vue;
 
