@@ -2,7 +2,8 @@
     name: 'postgres'
     ,
     vue: {
-            template:'<div>POSTGRES driver</div>'
+            template:'<div>POSTGRES driver' + 
+			' V@2</div>'
             }
     ,
     type: 'db_driver'
