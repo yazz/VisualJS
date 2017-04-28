@@ -2,20 +2,7 @@
     name: 'postgres'
     ,
     vue: {
-            template:
-            `
-            <div>
-                 Postgres driver
-                 <div>
-                     <div class="input-group">
-                 </div>
-
-                 <div class="form-group">
-                   <label for="ID" class=" col-form-label">Connection name</label>
-                   <input  type="text" class="form-control" v-model='connection_name'></input>
-                 </div>
-            </div>
-            `
+            template:'<div>POSTGRES driver</div>'
             }
     ,
     type: 'db_driver'
