@@ -3,7 +3,11 @@
     ,
     vue: {
             template:'<div>POSTGRES driver' + 
-			' V@2</div>'
+			' V@2' + 
+			'<div class="form-group">' + 
+                   '<label for="ID" class=" col-form-label">Connection name</label>' + 
+                   '<input  type="text" class="form-control" ></input>' + 
+                 '</div></div>'
             }
     ,
     type: 'db_driver'
