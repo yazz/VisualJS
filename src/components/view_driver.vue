@@ -13,7 +13,8 @@ export default {
     return {
                 template:
                 `<div>
-                  {{currently_selected_driver_name}} =  {{currently_selected_driver_code}} {{sometext}}
+                  {{currently_selected_driver_name}} 
+				  {{currently_selected_driver_code}} 
                   <my-component></my-component>
                 </div>`
                 ,
@@ -77,11 +78,13 @@ export default {
                   if (evalede.vue) {
                      //this.template =  evalede.vue
                      Vue.component('my-component', evalede.vue)
-                     return evalede
+                     //return evalede
+                      return ""
                   }
                   else {
                       this.sometext = '<div>Hello ducks</div>'
-                      return driver.code
+                      //return driver.code
+                      return ""
                   }
               }
           }
