@@ -15,7 +15,7 @@ export default {
                 `<div>
                   {{currently_selected_driver_name}} 
 				  {{currently_selected_driver_code}} 
-                  <my-component connection_name=postgres></my-component>
+       
                 </div>`
                 ,
                 templateRender: null

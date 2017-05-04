@@ -2,7 +2,6 @@ import Vue                      from 'vue'
 import Welcome                  from './components/Welcome.vue'
 import ConnectedClients         from './components/central_server/connected_clients.vue'
 import oracle_view_connection   from './components/oracle_view_connection.vue'
-import postgres_view_connection from './components/postgres_view_connection.vue'
 import oracle_add_connection    from './components/oracle_add_connection.vue'
 import postgres_add_connection  from './components/postgres_add_connection.vue'
 import yazz_new_connection      from './components/yazz_new_connection.vue'
@@ -12,7 +11,7 @@ import store                    from './store.js'
 import db                       from '../public/dbhelper.js'
 
 
-const gun_ip_address = '172.18.0.100'
+const gun_ip_address = '172.27.9.82'
 
 window.vue = Vue;
 
