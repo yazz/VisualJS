@@ -12,7 +12,7 @@ import store                    from './store.js'
 import db                       from '../public/dbhelper.js'
 
 
-const gun_ip_address = '172.18.0.104'
+const gun_ip_address = '172.18.0.100'
 
 window.vue = Vue;
 
@@ -191,6 +191,17 @@ function setupGunDB() {
                                  code:    driver.code
                                   }
                           });
+						  
+						  
+                  var evalede = eval(driver.code)
+                  //if (evalede.vue) {
+				  if (driver.name == 'postgres') {
+                     //this.template =  evalede.vue
+                     Vue.component('my-component', evalede.vue)
+                     //return evalede
+                  }
+
+				  
                   };
             }
         );
