@@ -196,7 +196,7 @@ function setupGunDB() {
                   //if (evalede.vue) {
 				  if (driver.name == 'postgres') {
                      //this.template =  evalede.vue
-                     Vue.component('my-component', evalede.vue)
+                     Vue.component('postgres_view_connection', evalede.vue)
                      //return evalede
                   }
 

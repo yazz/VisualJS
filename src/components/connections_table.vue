@@ -82,7 +82,7 @@
                  postgres
          -->
         <div v-if="viewed_connection_driver == 'postgres'">
-		     <component is="my-component" connection_name=postgres></component>
+		     <component is="postgres_view_connection" connection_name=postgres></component>
         </div>
 
 
