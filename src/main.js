@@ -11,7 +11,7 @@ import store                    from './store.js'
 import db                       from '../public/dbhelper.js'
 
 
-const gun_ip_address = '172.27.9.82'
+const gun_ip_address = '10.6.81.173'
 
 window.vue = Vue;
 
