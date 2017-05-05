@@ -82,7 +82,7 @@
                  postgres
          -->
         <div v-if="viewed_connection_driver == 'postgres'">
-		     <component is="postgres_view_connection" :connection_name=viewed_connection_id></component>
+		     <component is="postgres-view-connection" :connection_name=viewed_connection_id></component>
         </div>
 
 
@@ -109,7 +109,6 @@
 
 <script>
 import oracle_add_connection    from './oracle_add_connection.vue'
-import postgres_add_connection  from './postgres_add_connection.vue'
 import oracle_view_connection    from './oracle_view_connection.vue'
 import yazz_new_connection       from './yazz_new_connection.vue'
 
@@ -141,7 +140,6 @@ export default {
 
   components: {
   'oracle-add-connection': oracle_add_connection,
-  'postgres-add-connection': postgres_add_connection,
   'oracle-view-connection': oracle_view_connection,
   'yazz-new-connection': yazz_new_connection},
 

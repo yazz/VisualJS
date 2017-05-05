@@ -1,4 +1,3 @@
-
 <template>
   <div class="input-group">
 
@@ -17,8 +16,8 @@
     </transition>
 
     <transition name="fast-fade">
-      <postgres-add-connection v-if='connection_driver == "postgres"'>
-      </postgres-add-connection>
+			 <component is="postgres-add-connection" v-if='connection_driver == "postgres"'>
+			 </component>
     </transition>
 
  
@@ -33,7 +32,6 @@
 
 <script>
 import oracle_add_connection    from './oracle_add_connection.vue'
-import postgres_add_connection  from './postgres_add_connection.vue'
 
 export default {
   name: 'yazz-new-connection',
@@ -45,7 +43,7 @@ export default {
                            }},
 
   components: {'oracle-add-connection': oracle_add_connection,
-  'postgres-add-connection': postgres_add_connection,},
+},
 
   computed: {
     options: function () {

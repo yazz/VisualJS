@@ -3,7 +3,6 @@ import Welcome                  from './components/Welcome.vue'
 import ConnectedClients         from './components/central_server/connected_clients.vue'
 import oracle_view_connection   from './components/oracle_view_connection.vue'
 import oracle_add_connection    from './components/oracle_add_connection.vue'
-import postgres_add_connection  from './components/postgres_add_connection.vue'
 import yazz_new_connection      from './components/yazz_new_connection.vue'
 import connections_table        from './components/connections_table.vue'
 import drivers_table            from './components/drivers_table.vue'
@@ -196,7 +195,14 @@ function setupGunDB() {
                   //if (evalede.vue) {
 				  if (driver.name == 'postgres') {
                      //this.template =  evalede.vue
-                     Vue.component('postgres_view_connection', evalede.vue)
+					 if (evalede.vue)
+					 {
+						 Vue.component('postgres-view-connection', evalede.vue)
+					 }
+					 if (evalede.vue_add) {
+						Vue.component('postgres-add-connection', evalede.vue_add)
+						//alert('postgres add + ' + evalede.vue_add.template)
+					 }
                      //return evalede
                   }
 
