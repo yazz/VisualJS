@@ -1,7 +1,6 @@
 import Vue                      from 'vue'
 import Welcome                  from './components/Welcome.vue'
 import ConnectedClients         from './components/central_server/connected_clients.vue'
-import oracle_add_connection    from './components/oracle_add_connection.vue'
 import yazz_new_connection      from './components/yazz_new_connection.vue'
 import connections_table        from './components/connections_table.vue'
 import drivers_table            from './components/drivers_table.vue'
@@ -306,7 +305,7 @@ function initConnectionsListVuePane() {
                 ,
                 store: store
                 ,
-                components: {'oracle-add-connection':  oracle_add_connection,
+                components: {
                              'connections-table':      connections_table}
                 });
                 }
@@ -344,7 +343,7 @@ function initDriversListVuePane() {
                 ,
                 store: store
                 ,
-                components: {'oracle-add-connection':  oracle_add_connection,
+                components: {
                              'drivers-table':          drivers_table}
                 });
                 }

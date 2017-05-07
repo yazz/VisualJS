@@ -31,7 +31,6 @@
 
 
 <script>
-import oracle_add_connection    from './oracle_add_connection.vue'
 
 export default {
   name: 'yazz-new-connection',
@@ -42,8 +41,7 @@ export default {
                             connection_driver: null
                            }},
 
-  components: {'oracle-add-connection': oracle_add_connection,
-},
+  components: {},
 
   computed: {
     options: function () {
