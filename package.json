@@ -25,7 +25,7 @@
     "uuid": "^3.0.1",
     "vue": "^2.1.0",
     "vuex": "^2.1.1",
-    "witheve": "^0.3.0-preview1"
+    "witheve": "^0.3.0-preview2"
   },
   "devDependencies": {
     "babel-core": "^6.0.0",
