@@ -382,6 +382,7 @@ app.listen(port, hostaddress, function () {
     toeval =  '(' + fs.readFileSync(path.join(__dirname, './oracle.js')).toString() + ')';
     drivers['oracle']   = eval( toeval )
     addOrUpdateDriver('oracle',   toeval, drivers['oracle'])
+	process.env['PATH'] = process.cwd() + '\\oracle_driver\\instantclient32' + ';' + process.env['PATH'];
     if (drivers['oracle'].loadOnCondition()) {
         drivers['oracle'].loadDriver()
     }
