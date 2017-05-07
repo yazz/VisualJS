@@ -298,11 +298,6 @@ app.listen(port, hostaddress, function () {
 
 
 
-  //--------------------------------------------------------
-  // open the app in a web browser
-  //--------------------------------------------------------
-  //open('http://' + hostaddress  + ":" + port);
-  console.log('http://' + hostaddress  + ":" + port);
 
 
   //process.env['PATH'] = path.join(__dirname, '/instantclient') + ';' + process.env['PATH'];
@@ -497,3 +492,12 @@ function addOrUpdateDriver(name, code, theObject) {
 //console.log("postgres.get = " + JSON.stringify(eval(pgeval) , null, 2))
 //console.log("postgres.get = " + eval(pgeval).get)
 }
+
+
+
+
+//--------------------------------------------------------
+// open the app in a web browser
+//--------------------------------------------------------
+open('http://' + hostaddress  + ":" + port);
+console.log('http://' + hostaddress  + ":" + port);
