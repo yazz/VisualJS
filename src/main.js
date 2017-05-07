@@ -1,7 +1,6 @@
 import Vue                      from 'vue'
 import Welcome                  from './components/Welcome.vue'
 import ConnectedClients         from './components/central_server/connected_clients.vue'
-import oracle_view_connection   from './components/oracle_view_connection.vue'
 import oracle_add_connection    from './components/oracle_add_connection.vue'
 import yazz_new_connection      from './components/yazz_new_connection.vue'
 import connections_table        from './components/connections_table.vue'
@@ -10,7 +9,7 @@ import store                    from './store.js'
 import db                       from '../public/dbhelper.js'
 
 
-const gun_ip_address = '10.6.81.173'
+const gun_ip_address = '172.27.10.119'
 
 window.vue = Vue;
 
@@ -206,6 +205,18 @@ function setupGunDB() {
                      //return evalede
                   }
 
+				  
+				  if (driver.name == 'oracle') {
+					 if (evalede.vue)
+					 {
+						 Vue.component('oracle-view-connection', evalede.vue)
+					 }
+					 if (evalede.vue_add) {
+						Vue.component('oracle-add-connection', evalede.vue_add)
+					 }
+                  }
+
+				  
 				  
                   };
             }
