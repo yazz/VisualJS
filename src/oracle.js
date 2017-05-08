@@ -26,7 +26,7 @@
 			,
 
 
-			  data () {
+			data:  function() {
 				return {
 				  msg: 'Browse DBss'
 				}
@@ -152,7 +152,7 @@
     },
 
 
-    'loadDriver': function() {
+    loadDriver: function() {
         if (!fs.existsSync(process.cwd() + '\\oracle_driver\\instantclient32')) {
           fs.createReadStream(path.join(__dirname, '../oracle_driver.zip')).pipe(unzip.Extract({ path: process.cwd() + '\\.' }));
           timeout = 3000;
@@ -166,7 +166,7 @@
 
 
 
-    'setup': function(connection, callbackfn) {
+    setup: function(connection, callbackfn) {
         var oracledb;
         var oraloc = process.cwd() + '\\oracle_driver\\node_modules\\oracledb';
         console.log('Start oracle from NodeJS module ' + oraloc);
@@ -198,7 +198,7 @@
 
 
 
-    'getResult': function(connection, sql, callfn) {
+    getResult: function(connection, sql, callfn) {
         console.error('drivers[oracle][get]');
 
         if (connection.connection) {
@@ -252,7 +252,7 @@
 
 
     // Note: connections should always be released when not needed
-    'doRelease': function(connection) {
+    doRelease: function(connection) {
       connection.close(
         function(err) {
           if (err) {

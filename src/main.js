@@ -173,8 +173,12 @@ function setupGunDB() {
             function(results) {
                 store.dispatch('clear_drivers');
                 for (var i = 0 ; i < results.length ; i ++) {
-                    var driver = results[i]
+                    var driver  = results[i];
+                    console.log('********* CALLED REALTIME DBCONN*************:' + JSON.stringify(driver.name , null, 2));
+                    var evalede = eval(driver.code);
+				  
                     //console.log('********* CALLED REALTIME DBCONN*************:' + JSON.stringify(conn , null, 2));
+					
                     store.dispatch(
                         'add_driver'
                         ,
@@ -189,31 +193,31 @@ function setupGunDB() {
                           });
 						  
 						  
-                  var evalede = eval(driver.code)
+				  
                   //if (evalede.vue) {
 				  if (driver.name == 'postgres') {
                      //this.template =  evalede.vue
 					 if (evalede.vue)
 					 {
-						 Vue.component('postgres-view-connection', evalede.vue)
-					 }
+						 Vue.component( 'postgres-view-connection' , evalede.vue );
+					 };
 					 if (evalede.vue_add) {
-						Vue.component('postgres-add-connection', evalede.vue_add)
+						Vue.component('postgres-add-connection', evalede.vue_add);
 						//alert('postgres add + ' + evalede.vue_add.template)
-					 }
+					 };
                      //return evalede
-                  }
+                  };
 
 				  
 				  if (driver.name == 'oracle') {
 					 if (evalede.vue)
 					 {
-						 Vue.component('oracle-view-connection', evalede.vue)
-					 }
+						 Vue.component( 'oracle-view-connection' , evalede.vue );
+					 };
 					 if (evalede.vue_add) {
-						Vue.component('oracle-add-connection', evalede.vue_add)
-					 }
-                  }
+						Vue.component('oracle-add-connection', evalede.vue_add);
+					 };
+                  };
 
 				  
 				  
