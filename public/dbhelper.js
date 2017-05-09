@@ -101,7 +101,7 @@ var queryDone              = new Object();
         // existing result set
         //localgun.sql('select * from ' + tableName)
 
-        console.log('adding: ' + JSON.stringify(newRecord , null, 2) + '...')
+        console.log('adding: ' + JSON.stringify(newRecord , null, 2) + '...');
         localgun.get(schema).get(tableName).set(newRecord, function(ack){
             inSql = false;
             tablesMetaData[tableName]["refreshTableVersion"] = true;
@@ -124,11 +124,11 @@ var queryDone              = new Object();
     // ---------------------------------------------
     function g_select( sql, params, newAst, gun, cb, schema ) {
         staticSqlResultSets[sql] = [];
-        var i = 0
+        var i = 0;
         var count = 0;
         var thisQueryId = queryId ++;
-        queryDone[ thisQueryId ] = false
-        //console.log('*cb: '  + cb)
+        queryDone[ thisQueryId ] = false;
+        //console.log('*cb: '  + cb);
 
         var each = function (a){
             var b = localgunclass.obj.copy(a);
@@ -136,13 +136,13 @@ var queryDone              = new Object();
                 count ++;
                 delete b['_'];
          	    //console.log('select from each',a);
-                staticSqlResultSets[sql].push(b)
+                staticSqlResultSets[sql].push(b);
             };
         }
 
         var end = function (coll){
             if (!queryDone[ thisQueryId ]) {
-                queryDone[ thisQueryId ] = true
+                queryDone[ thisQueryId ] = true;
                 //console.log('coll: '  + JSON.stringify(coll , null, 2))
                 //staticSqlResultSets[sql] = objectToArray(temp);
                 //console.log('**Get: '  + JSON.stringify(staticSqlResultSets[sql] , null, 2))
@@ -153,7 +153,7 @@ var queryDone              = new Object();
                     //console.log( JSON.stringify(staticSqlResultSets[sql] , null, 2) );
                 };
                 //console.log('**Finished Get: '  + count)
-                inSql = false
+                inSql = false;
             }
         }
 
@@ -219,9 +219,9 @@ var queryDone              = new Object();
 
         var end = function(coll){
             //console.log('Finished Update: ' + newAst.where.right.value)
-            inSql = false
-            tablesMetaData[newAst.table]["refreshTableVersion"] = true
-            tablesMetaData[newAst.table]["incrementTableVersion"] = true
+            inSql = false;
+            tablesMetaData[newAst.table]["refreshTableVersion"] = true;
+            tablesMetaData[newAst.table]["incrementTableVersion"] = true;
         }
 
         gun.get(schema).get(newAst.table).valMapEnd( processRecord , end , newAst);
@@ -252,8 +252,7 @@ var queryDone              = new Object();
 
 
         localgunclass.chain.sql = function( sql, params, cb, schema ){
-            sqlQueue.push({sql: sql, params: params, cb: cb, schema: schema})
-
+            sqlQueue.push({sql: sql, params: params, cb: cb, schema: schema});
         }
 
 
@@ -280,11 +279,11 @@ var queryDone              = new Object();
                         gun.back( -1 ).get( soul ).val( function ( val , key ) {
                             count -= 1;
                             var args2 = Array.prototype.slice.call( arguments );
-                            args2.push( ast )
+                            args2.push( ast );
                             cb.apply( this , args2 );
                             if ( !count ) {
                                 end.apply( this , args2 );
-                            }
+                            };
                         });
                 });
             });
@@ -297,9 +296,9 @@ var queryDone              = new Object();
 
     exports.sql = function( sql, p2, p3, p4 ){
         var hasParams = Array.isArray(p2);
-        var params
-        var cb
-        var schema
+        var params;
+        var cb;
+        var schema;
 
         if (hasParams) {
             params = p2
@@ -599,31 +598,31 @@ var queryDone              = new Object();
 
 
 
-              var sqlQueueItem = sqlQueue.shift()
+              var sqlQueueItem = sqlQueue.shift();
               if (sqlQueueItem) {
-                  inSql = true
+                  inSql = true;
                   //console.log('sql: ' + JSON.stringify(sqlQueueItem.sql , null, 2))
                   queueCount ++;
-                  var sql    = sqlQueueItem.sql
-                  var params = sqlQueueItem.params
-                  var schema = sqlQueueItem.schema
-                  var cb     = sqlQueueItem.cb
+                  var sql    = sqlQueueItem.sql;
+                  var params = sqlQueueItem.params;
+                  var schema = sqlQueueItem.schema;
+                  var cb     = sqlQueueItem.cb;
 
 
                   var newAst = JSON.parse(JSON.stringify( sqlParseFn(sql) ));
                   //console.log(queueCount + ' : ' + sql)
                   //console.log('newAst: ' + JSON.stringify(newAst , null, 2))
                   if (!schema) {
-                      schema = 'default'
+                      schema = 'default';
                   }
 
                   var chain  = localgun.chain();
                   if (newAst.type == 'select') {
                       ensureTableMetaDataExists(newAst.from[0].table)
                   } else if (newAst.type == 'update') {
-                      ensureTableMetaDataExists(newAst.table)
+                      ensureTableMetaDataExists(newAst.table);
                   } else if (newAst.type == 'insert') {
-                      ensureTableMetaDataExists(newAst.table)
+                      ensureTableMetaDataExists(newAst.table);
                   }
                   switch( newAst.type ) {
                       case 'insert' : g_insert(newAst, params,         localgun,     schema);break;
