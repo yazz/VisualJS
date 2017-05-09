@@ -75,6 +75,7 @@ var queryDone              = new Object();
         var fieldsDefined    = newAst.values[0].value;
         var fields           = new Object();
         var paramsDefined    = newAst.params;
+		var tableName        = newAst.table;
 
 
         //console.log('paramsDefined: ' + JSON.stringify(paramsDefined , null, 2))
@@ -86,9 +87,9 @@ var queryDone              = new Object();
         fieldsDefinedIndex = 0;
         for( i = 0; i < columns.length; i ++ ) {
             if (!fields[i]) {
-                fields[i] = fieldsDefined[fieldsDefinedIndex]
-                fieldsDefinedIndex ++
-            }
+                fields[i] = fieldsDefined[fieldsDefinedIndex];
+                fieldsDefinedIndex ++;
+            };
         };
 
         for(i = 0; i < columns.length; i ++) {
@@ -98,12 +99,14 @@ var queryDone              = new Object();
         // this line is only here as often an insert without
         // a select first is very buggy and doesn't see the whole
         // existing result set
-        //localgun.sql('select * from ' + newAst.table)
+        //localgun.sql('select * from ' + tableName)
 
-        localgun.get(schema).get(newAst.table).set(newRecord, function(ack){
-            inSql = false
-            tablesMetaData[newAst.table]["refreshTableVersion"] = true
-            tablesMetaData[newAst.table]["incrementTableVersion"] = true
+        console.log('adding: ' + JSON.stringify(newRecord , null, 2) + '...')
+        localgun.get(schema).get(tableName).set(newRecord, function(ack){
+            inSql = false;
+            tablesMetaData[tableName]["refreshTableVersion"] = true;
+            tablesMetaData[tableName]["incrementTableVersion"] = true;
+            console.log('... added to ' + tableName + '.');
         });
     }
 
