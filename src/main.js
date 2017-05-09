@@ -8,13 +8,13 @@ import store                    from './store.js'
 import db                       from '../public/dbhelper.js'
 
 
-const gun_ip_address = '172.27.10.119'
+const gun_ip_address = '172.18.0.104'
 
 window.vue = Vue;
 
 function initWelcomeVuePane() {
     if (document.getElementById('welcome')) {
-        console.log(' Welcome pane exists');
+        //console.log(' Welcome pane exists');
         new Vue({
           el: '#welcome'
           ,
@@ -174,7 +174,7 @@ function setupGunDB() {
                 store.dispatch('clear_drivers');
                 for (var i = 0 ; i < results.length ; i ++) {
                     var driver  = results[i];
-                    console.log('********* CALLED REALTIME DBCONN*************:' + JSON.stringify(driver.name , null, 2));
+                    //console.log('********* CALLED REALTIME DBCONN*************:' + JSON.stringify(driver.name , null, 2));
                     var evalede = eval(driver.code);
 				  
                     //console.log('********* CALLED REALTIME DBCONN*************:' + JSON.stringify(conn , null, 2));
@@ -392,7 +392,7 @@ function initClientsConnectedVuePane() {
 //
 //-----------------------------------------------------------------
 $( document ).ready(function() {
-  console.log( "ready now!" );
+  //console.log( "ready now!" );
   initWelcomeVuePane();
   setupSqlVuePane();
   initConnectionsListVuePane();

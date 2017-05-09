@@ -410,7 +410,7 @@ var queryDone              = new Object();
             //console.log('RTable: ' + newAst.from[0].table);
 
             if (newAst.type == 'select') {
-                console.log("select RR********* SQL: " + realtimeSqlString + ", table: " + newAst.from[0].table)
+                //console.log("select RR********* SQL: " + realtimeSqlString + ", table: " + newAst.from[0].table)
                 if (!realtimeSqlQueries[newAst.from[0].table]) {
                     var tableName = newAst.from[0].table;
                     ensureRealtimeQueriesMetaDataExists( tableName )
@@ -419,8 +419,8 @@ var queryDone              = new Object();
                     realtimeSqlQueries[tableName]["changed"] = true
                     localgun.get('change_log').get( schema ).get( tableName ).get('version').on(
                       function(a) {
-                          console.log('*****Change to table name: ' + tableName + ' : New version: ' + a )
-                          console.log('              : current version: ' + tablesMetaData[tableName]['version'] )
+                          //console.log('*****Change to table name: ' + tableName + ' : New version: ' + a )
+                          //console.log('              : current version: ' + tablesMetaData[tableName]['version'] )
                           //a.value(function(q){console.log('a: ' + JSON.stringify(q , null, 2) )})
                           if (a > tablesMetaData[tableName]['version']) {
                               //console.log('Change to table name: ' + tableName + ' : ' + a.version)
@@ -503,13 +503,13 @@ var queryDone              = new Object();
                       queryDone[ thisQueryId ] = false
 
                       // create the version number if it does not exist
-                      console.log("tablesMetaData[ tableName ][ 'version' ] = 0..................")
+                      //console.log("tablesMetaData[ tableName ][ 'version' ] = 0..................")
                       localgun.get('change_log').get( schema ).get( tableName ).not(
 
                         function(a) {
                             if (!queryDone[ thisQueryId ]) {
                                 queryDone[ thisQueryId ] = true
-                                console.log("..................tablesMetaData[ tableName ][ 'version' ] = 0")
+                                //console.log("..................tablesMetaData[ tableName ][ 'version' ] = 0")
                                 tablesMetaData[ tableName ][ 'version' ] = 0
 
                                 inSql = false
@@ -520,7 +520,7 @@ var queryDone              = new Object();
 
 
 					  // increment the version number
-                      console.log("tablesMetaData[ " + tableName + " ][ 'version' ] = a.version..................")
+                      //console.log("tablesMetaData[ " + tableName + " ][ 'version' ] = a.version..................")
                       localgun.get('change_log').get( schema ).get( tableName ).val(
 
                         function(a) {
@@ -556,7 +556,7 @@ var queryDone              = new Object();
                           schema = 'default'
                       }
                       var oldVersion = tablesMetaData[ tableName ][ 'version' ]
-                      console.log('////    updating version for: ' + tableName + ', ' + JSON.stringify(oldVersion , null, 2))
+                      //console.log('////    updating version for: ' + tableName + ', ' + JSON.stringify(oldVersion , null, 2))
                       var newVersion = oldVersion + 1
 
                       //console.log('    Updating version from : ' + JSON.stringify(oldVersion , null, 2) + ' to ' + JSON.stringify(newVersion , null, 2))
@@ -581,7 +581,7 @@ var queryDone              = new Object();
                       if (!schema) {
                           schema = 'default'
                       }
-                      console.log('////    creating new version for: ' + JSON.stringify(tableName , null, 2))
+                      //console.log('////    creating new version for: ' + JSON.stringify(tableName , null, 2))
                       localgun.get('change_log').get( schema ).get( tableName ).put(
                           {version: 0})
 

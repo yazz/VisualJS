@@ -177,7 +177,7 @@ export default new Vuex.Store({
     //
     add_new_connection: function(a, connection){
       //a.commit('ADD_NEW_CONNECTION', connection)
-      console.log(JSON.stringify(connection));
+      //console.log(JSON.stringify(connection));
       //gun.get('connections').path(connection.cp.id).put(connection.cp);
       db.sql(`insert into
                   db_connections
@@ -268,7 +268,7 @@ export default new Vuex.Store({
       //      gun.get('default').path('connections_changed').put({value: v.value + 1});
       //},true);});
       //alert(connection.id);
-      console.log('Delete connection: ' + connection.id)
+      //console.log('Delete connection: ' + connection.id)
       db.sql("update db_connections set deleted = 'T' where name = '" + connection.id + "'")
     },
 

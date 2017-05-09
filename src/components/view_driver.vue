@@ -68,10 +68,10 @@ export default {
       //currently_selected_driver_code: function() {return this.driver_name}
       currently_selected_driver_code: function() {
           var driverNames = '';
-          console.log('    currently_selected_driver_code clicked: ')
+          //console.log('    currently_selected_driver_code clicked: ')
           for (var i = 0; i <  this.$store.state.list_of_drivers.length; i ++) {
               var driver = this.$store.state.list_of_drivers[i]
-              console.log('   driver.id[' + i +']: ' + JSON.stringify(driver , null, 2))
+              //console.log('   driver.id[' + i +']: ' + JSON.stringify(driver , null, 2))
               driverNames = driverNames + driver.id + ' : '
               if (this.$store.state.viewed_driver_id == driver.id) {
                   var evalede = eval(driver.code)
