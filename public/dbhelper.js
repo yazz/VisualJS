@@ -17,7 +17,7 @@ var inSql                  = false;
 var queueCount             = 0;
 var queryId                = 1;
 var queryDone              = new Object();
-
+var sqlQueueItem = null;
 
 (function(exports){
 
@@ -142,7 +142,7 @@ var queryDone              = new Object();
 
         var end = function (coll){
             if (!queryDone[ thisQueryId ]) {
-                queryDone[ thisQueryId ] = true;
+					queryDone[ thisQueryId ] = true;
                 //console.log('coll: '  + JSON.stringify(coll , null, 2))
                 //staticSqlResultSets[sql] = objectToArray(temp);
                 //console.log('**Get: '  + JSON.stringify(staticSqlResultSets[sql] , null, 2))
@@ -153,7 +153,7 @@ var queryDone              = new Object();
                     //console.log( JSON.stringify(staticSqlResultSets[sql] , null, 2) );
                 };
                 //console.log('**Finished Get: '  + count)
-                inSql = false;
+    			inSql = false;
             }
         }
 
@@ -482,12 +482,20 @@ var queryDone              = new Object();
       setInterval( function () {
 
 
-          //console.log('inSql: ' + JSON.stringify(inSql , null, 2))
+          console.log('inSql: ' + JSON.stringify(inSql , null, 2)   + ', queue: ' + JSON.stringify(sqlQueue.length , null, 2)   )
+          console.log('inSql: ' + JSON.stringify(inSql , null, 2)   + ', queue: ' + JSON.stringify(sqlQueue.length , null, 2)   )
+		  if (sqlQueueItem) {
+			console.log('     sql: ' + JSON.stringify(sqlQueueItem.sql , null, 2))
+		  }
+		  console.log(' ')
           if (!inSql) {
               var allTables = Object.keys(tablesMetaData);
               //console.log('tables: ' + JSON.stringify(allRealtimetables , null, 2))
               for ( tableName of allTables) {
                   ensureTableMetaDataExists(tableName)
+					console.log(tableName + ', refreshTableVersion: ' + JSON.stringify(tablesMetaData[tableName]['refreshTableVersion'] , null, 2)    )
+					console.log('           , incrementTableVersion: ' + JSON.stringify(tablesMetaData[tableName]['incrementTableVersion'] , null, 2)    )
+					console.log('           , createNewTableVersion: ' + JSON.stringify(tablesMetaData[tableName]['createNewTableVersion'] , null, 2)    )
 
                   //-------------------------------------------------------------------------------------------
                   // If a table changes then we need to inform everyone else that the table has changed
@@ -496,7 +504,7 @@ var queryDone              = new Object();
                   //-------------------------------------------------------------------------------------------
                   if (tablesMetaData[tableName]['refreshTableVersion'] == true) {
                       inSql = true
-                      //console.log('updateTableVersions table: ' + JSON.stringify(tableName , null, 2))
+                      console.log('updateTableVersions table: ' + JSON.stringify(tableName , null, 2))
                       if (!schema) {
                           schema = 'default'
                       }
@@ -553,7 +561,7 @@ var queryDone              = new Object();
                   //-------------------------------------------------------------------------------------------
                   if ( tablesMetaData[ tableName ] [ "incrementTableVersion"] && !tablesMetaData[ tableName ]["refreshTableVersion"]) {
                       inSql = true
-                      //console.log('updateTableVersions table: ' + JSON.stringify(tableName , null, 2))
+                      console.log('updateTableVersions table: ' + JSON.stringify(tableName , null, 2))
                       if (!schema) {
                           schema = 'default'
                       }
@@ -579,7 +587,7 @@ var queryDone              = new Object();
                   //-------------------------------------------------------------------------------------------
                   if (tablesMetaData[ tableName ] ['createNewTableVersion']) {
                       inSql = true
-                      //console.log('updateTableVersions table: ' + JSON.stringify(tableName , null, 2))
+                      console.log('createNewTableVersion table: ' + JSON.stringify(tableName , null, 2))
                       if (!schema) {
                           schema = 'default'
                       }
@@ -598,10 +606,10 @@ var queryDone              = new Object();
 
 
 
-              var sqlQueueItem = sqlQueue.shift();
+              sqlQueueItem = sqlQueue.shift();
               if (sqlQueueItem) {
                   inSql = true;
-                  //console.log('sql: ' + JSON.stringify(sqlQueueItem.sql , null, 2))
+                  console.log('sql: ' + JSON.stringify(sqlQueueItem.sql , null, 2))
                   queueCount ++;
                   var sql    = sqlQueueItem.sql;
                   var params = sqlQueueItem.params;
