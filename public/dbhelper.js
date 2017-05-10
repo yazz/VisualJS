@@ -413,8 +413,8 @@ var sqlQueueItem = null;
 
             if (newAst.type == 'select') {
                 //console.log("select RR********* SQL: " + realtimeSqlString + ", table: " + newAst.from[0].table)
-                if (!realtimeSqlQueries[newAst.from[0].table]) {
-                    var tableName = newAst.from[0].table;
+				var tableName = newAst.from[0].table;
+                if (!realtimeSqlQueries[tableName]) {
                     ensureRealtimeQueriesMetaDataExists( tableName )
                     ensureTableMetaDataExists( tableName )
 
@@ -434,10 +434,10 @@ var sqlQueueItem = null;
 
 
                 }
-                if (!realtimeSqlQueries[newAst.from[0].table][realtimeSqlString]) {
-                    realtimeSqlQueries[newAst.from[0].table]['sql'][realtimeSqlString] = new Object();
-                    realtimeSqlQueries[newAst.from[0].table]['sql'][realtimeSqlString]["callback"] = callbackFn;
-                    realtimeSqlQueries[newAst.from[0].table]['sql'][realtimeSqlString]["schema"] = schema;
+                if (!realtimeSqlQueries[tableName]['sql'][realtimeSqlString]) {
+                    realtimeSqlQueries[tableName]['sql'][realtimeSqlString] = new Object();
+                    realtimeSqlQueries[tableName]['sql'][realtimeSqlString]["callback"] = callbackFn;
+                    realtimeSqlQueries[tableName]['sql'][realtimeSqlString]["schema"] = schema;
                 }
 
 
