@@ -441,7 +441,7 @@ var sqlQueueItem = null;
                 }
 
 
-                localgun.sql( realtimeSqlString );
+                //localgun.sql( realtimeSqlString );
               //console.log('(REAL:sql): ' + realtimeSqlString)
               //console.log('(REAL:realtimeSqlQueries): ' + JSON.stringify(realtimeSqlQueries , null, 2))
             }
