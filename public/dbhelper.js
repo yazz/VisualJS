@@ -522,8 +522,8 @@ var sqlQueueItem = null;
                                 //console.log("..................tablesMetaData[ tableName ][ 'version' ] = 0")
                                 tablesMetaData[ tableName ][ 'version' ] = 0
 
-                                inSql = false
                                 tablesMetaData[ tableName ]["refreshTableVersion"] = false
+                                inSql = false
                             }
                           })
 
@@ -654,6 +654,7 @@ var sqlQueueItem = null;
                           //console.log("tableName: " + tableName );
                           if (realtimeSqlQueries[ tableName ] ) {
                               if (realtimeSqlQueries[ tableName ][ "changed" ]) {
+                                  realtimeSqlQueries[ tableName ][ "changed" ] = false
                                   //console.log("table changed: " + tableName );
                                   //localgun.sql("SELECT * FROM Customers ");
                                   var sqlToUpdateList = Object.keys(realtimeSqlQueries[ tableName ]['sql'])
@@ -669,7 +670,6 @@ var sqlQueueItem = null;
                                   }
 
 
-                                  realtimeSqlQueries[ tableName ][ "changed" ] = false
                               }
                           }
                       }
