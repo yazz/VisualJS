@@ -438,6 +438,8 @@ var sqlQueueItem = null;
                     realtimeSqlQueries[tableName]['sql'][realtimeSqlString] = new Object();
                     realtimeSqlQueries[tableName]['sql'][realtimeSqlString]["callback"] = callbackFn;
                     realtimeSqlQueries[tableName]['sql'][realtimeSqlString]["schema"] = schema;
+                    realtimeSqlQueries[tableName]["changed"] = true;
+                    tablesMetaData[tableName]['version'] = -1;
                 }
 
 
