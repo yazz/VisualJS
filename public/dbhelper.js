@@ -675,6 +675,9 @@ var sqlQueueItem = null;
                                       if (cbb) {
                                           //console.log('**HAS A CALLBACK on SQL: ' + sqlToUpdate);
                                           //console.log('**Updating realtime SQL :  ' + sqlToUpdate);
+										  
+										  // double call makes sure we read the data or it doesnt work???/
+                                          localgun.sql(sqlToUpdate, null, null);
                                           localgun.sql(sqlToUpdate, null, cbb);
                                           realtimeSqlQueries[ tableName ]['sql'][sqlToUpdate]['lastReadVersion'] = tablesMetaData[ tableName ] ['version']
                                       };
