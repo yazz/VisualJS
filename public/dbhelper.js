@@ -123,12 +123,13 @@ var sqlQueueItem = null;
     // This uses SQL to get records
     // ---------------------------------------------
     function g_select( sql, params, newAst, gun, cb, schema ) {
-        staticSqlResultSets[sql] = [];
+		console.log('**************SQL****: '  + JSON.stringify(sql , null, 2))
         var i = 0;
         var count = 0;
         var thisQueryId = queryId ++;
         queryDone[ thisQueryId ] = false;
         //console.log('*cb: '  + cb);
+        staticSqlResultSets[thisQueryId] = [];
 
         var each = function (a){
             var b = localgunclass.obj.copy(a);
@@ -136,7 +137,7 @@ var sqlQueueItem = null;
                 count ++;
                 delete b['_'];
          	    //console.log('select from each',a);
-                staticSqlResultSets[sql].push(b);
+                staticSqlResultSets[thisQueryId].push(b);
             };
         }
 
@@ -144,13 +145,14 @@ var sqlQueueItem = null;
             if (!queryDone[ thisQueryId ]) {
 					queryDone[ thisQueryId ] = true;
                 //console.log('coll: '  + JSON.stringify(coll , null, 2))
-                //staticSqlResultSets[sql] = objectToArray(temp);
-                //console.log('**Get: '  + JSON.stringify(staticSqlResultSets[sql] , null, 2))
+                //staticSqlResultSets[thisQueryId] = objectToArray(temp);
+                //console.log('**Get: '  + JSON.stringify(staticSqlResultSets[thisQueryId] , null, 2))
                 //console.log('**cb: '  + cb)
                 if (cb) {
-                    cb( staticSqlResultSets[sql] );
+					console.log('                count results: '  + JSON.stringify(staticSqlResultSets[thisQueryId] , null, 2))
+                    cb( staticSqlResultSets[thisQueryId] );
                 } else {
-                    //console.log( JSON.stringify(staticSqlResultSets[sql] , null, 2) );
+                    //console.log( JSON.stringify(staticSqlResultSets[thisQueryId] , null, 2) );
                 };
                 //console.log('**Finished Get: '  + count)
     			inSql = false;
@@ -160,7 +162,7 @@ var sqlQueueItem = null;
         gun.get(schema).get(newAst.from[0].table).valMapEnd( each , end , newAst);
         gun.get(schema).get(newAst.from[0].table).not( end );
 
-      return true;//staticSqlResultSets[sql];
+      return true;//staticSqlResultSets[thisQueryId];
    };
 
 
@@ -418,7 +420,6 @@ var sqlQueueItem = null;
                     ensureRealtimeQueriesMetaDataExists( tableName )
                     ensureTableMetaDataExists( tableName )
 
-                    realtimeSqlQueries[tableName]["changed"] = true
                     localgun.get('change_log').get( schema ).get( tableName ).get('version').on(
                       function(a) {
                           //console.log('*****Change to table name: ' + tableName + ' : New version: ' + a )
@@ -427,7 +428,6 @@ var sqlQueueItem = null;
                           if (a > tablesMetaData[tableName]['version']) {
                               //console.log('Change to table name: ' + tableName + ' : ' + a.version)
                               //console.log('     a: ' + JSON.stringify(a , null, 2) )
-                              realtimeSqlQueries[ tableName ]["changed"] = true
                               tablesMetaData[ tableName ]['version'] = a
                           }
                         },false);
@@ -438,8 +438,7 @@ var sqlQueueItem = null;
                     realtimeSqlQueries[tableName]['sql'][realtimeSqlString] = new Object();
                     realtimeSqlQueries[tableName]['sql'][realtimeSqlString]["callback"] = callbackFn;
                     realtimeSqlQueries[tableName]['sql'][realtimeSqlString]["schema"] = schema;
-                    realtimeSqlQueries[tableName]["changed"] = true;
-                    tablesMetaData[tableName]['version'] = -1;
+                    realtimeSqlQueries[tableName]['sql'][realtimeSqlString]["lastReadVersion" ]     = -1
                 }
 
 
@@ -470,9 +469,7 @@ var sqlQueueItem = null;
     function ensureRealtimeQueriesMetaDataExists( tableName ) {
         if (!realtimeSqlQueries[ tableName ] ) {
             realtimeSqlQueries[ tableName ] = new Object()
-            realtimeSqlQueries[ tableName ][ "lastReadVersion" ]     = -1
             realtimeSqlQueries[ tableName ][ "sql" ]                 = new Object()
-            realtimeSqlQueries[ tableName ][ "changed" ]             = true
         }
     }
 
@@ -484,6 +481,7 @@ var sqlQueueItem = null;
       setInterval( function () {
 
 
+          console.log('inRealtimeUpdate: ' + JSON.stringify(inRealtimeUpdate , null, 2)      )
           console.log('inSql: ' + JSON.stringify(inSql , null, 2)   + ', queue: ' + JSON.stringify(sqlQueue.length , null, 2)   )
           console.log('inSql: ' + JSON.stringify(inSql , null, 2)   + ', queue: ' + JSON.stringify(sqlQueue.length , null, 2)   )
 		  if (sqlQueueItem) {
@@ -495,9 +493,18 @@ var sqlQueueItem = null;
               //console.log('tables: ' + JSON.stringify(allRealtimetables , null, 2))
               for ( tableName of allTables) {
                   ensureTableMetaDataExists(tableName)
+				  ensureRealtimeQueriesMetaDataExists(tableName)
+				  
 					console.log(tableName + ', refreshTableVersion: ' + JSON.stringify(tablesMetaData[tableName]['refreshTableVersion'] , null, 2)    )
 					console.log('           , incrementTableVersion: ' + JSON.stringify(tablesMetaData[tableName]['incrementTableVersion'] , null, 2)    )
 					console.log('           , createNewTableVersion: ' + JSON.stringify(tablesMetaData[tableName]['createNewTableVersion'] , null, 2)    )
+					console.log('           , version: ' + JSON.stringify(tablesMetaData[tableName]['version'] , null, 2)    )
+					
+  	   			    var sqlToUpdateList2 = Object.keys(realtimeSqlQueries[ tableName ]['sql'])
+					var sqlToUpdate2;
+				    for ( sqlToUpdate2 of sqlToUpdateList2 ) {
+					  console.log('        ' + sqlToUpdate2 + '   , realtime  lastReadVersion: ' + JSON.stringify(realtimeSqlQueries[ tableName ]['sql'][sqlToUpdate2][ "lastReadVersion" ] , null, 2) + ' : ' + tablesMetaData[tableName]['version']   )
+					}
 
                   //-------------------------------------------------------------------------------------------
                   // If a table changes then we need to inform everyone else that the table has changed
@@ -639,6 +646,7 @@ var sqlQueueItem = null;
                       case 'select' : g_select(sql,    params, newAst, localgun, cb, schema);break;
                       case 'update' : g_update(newAst, params,         localgun,     schema);break;
                   }
+				  return
                   //return this
               }
 
@@ -655,19 +663,20 @@ var sqlQueueItem = null;
                           ensureRealtimeQueriesMetaDataExists( tableName )
                           //console.log("tableName: " + tableName );
                           if (realtimeSqlQueries[ tableName ] ) {
-                              if (realtimeSqlQueries[ tableName ][ "changed" ]) {
-                                  realtimeSqlQueries[ tableName ][ "changed" ] = false
-                                  //console.log("table changed: " + tableName );
-                                  //localgun.sql("SELECT * FROM Customers ");
-                                  var sqlToUpdateList = Object.keys(realtimeSqlQueries[ tableName ]['sql'])
-                                  //console.log('    sql: ' + JSON.stringify(sqlToUpdate , null, 2))
-                                  for ( sqlToUpdate of sqlToUpdateList ) {
+							  var sqlToUpdateList = Object.keys(realtimeSqlQueries[ tableName ]['sql'])
+							  var sqlToUpdate;
+							  for ( sqlToUpdate of sqlToUpdateList ) {
+								  //console.log("realtimeSqlQueries[" + sqlToUpdate + "] = " + JSON.stringify(realtimeSqlQueries[ tableName ]["sql"][ sqlToUpdate ] , null, 2) + ", "+ tablesMetaData[ tableName ] ['version'] + "");
+								  if (realtimeSqlQueries[ tableName ]["sql"][ sqlToUpdate ][ "lastReadVersion" ] < tablesMetaData[ tableName ] ['version']) {
+									  //console.log("table changed: " + tableName );
+									  //localgun.sql("SELECT * FROM Customers ");
+									  //console.log('    sql: ' + JSON.stringify(sqlToUpdate , null, 2))
                                       var cbb = realtimeSqlQueries[tableName]['sql'][sqlToUpdate]["callback"];
                                       if (cbb) {
                                           //console.log('**HAS A CALLBACK on SQL: ' + sqlToUpdate);
-                                          //console.log('localgun: ' + localgun.sql(sqlToUpdate));
+                                          //console.log('**Updating realtime SQL :  ' + sqlToUpdate);
                                           localgun.sql(sqlToUpdate, null, cbb);
-                                          realtimeSqlQueries[ tableName ]['lastReadVersion'] = tablesMetaData[ tableName ] ['version']
+                                          realtimeSqlQueries[ tableName ]['sql'][sqlToUpdate]['lastReadVersion'] = tablesMetaData[ tableName ] ['version']
                                       };
                                   }
 
