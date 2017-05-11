@@ -254,7 +254,12 @@ var sqlQueueItem = null;
 
 
         localgunclass.chain.sql = function( sql, params, cb, schema ){
-            sqlQueue.push({sql: sql, params: params, cb: cb, schema: schema});
+			  var newAst = JSON.parse(JSON.stringify( sqlParseFn(sql) ));
+			  if (newAst.type == 'insert') {
+				  sqlQueue.push({sql: "select * from " + newAst.table, params: [], cb: null, schema: schema});
+			  }
+
+			  sqlQueue.push({sql: sql, params: params, cb: cb, schema: schema});
         }
 
 
