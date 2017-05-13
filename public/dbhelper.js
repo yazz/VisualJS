@@ -101,12 +101,12 @@ var sqlQueueItem = null;
         // existing result set
         //localgun.sql('select * from ' + tableName)
 
-        console.log('adding: ' + JSON.stringify(newRecord , null, 2) + '...');
+        //console.log('adding: ' + JSON.stringify(newRecord , null, 2) + '...');
         localgun.get(schema).get(tableName).set(newRecord, function(ack){
             inSql = false;
             tablesMetaData[tableName]["refreshTableVersion"] = true;
             tablesMetaData[tableName]["incrementTableVersion"] = true;
-            console.log('... added to ' + tableName + '.');
+            //console.log('... added to ' + tableName + '.');
         });
     }
 
@@ -256,7 +256,7 @@ var sqlQueueItem = null;
         localgunclass.chain.sql = function( sql, params, cb, schema ){
 			  var newAst = JSON.parse(JSON.stringify( sqlParseFn(sql) ));
 			  if (newAst.type == 'insert') {
-				  sqlQueue.push({sql: "select * from " + newAst.table, params: [], cb: null, schema: schema});
+				  //sqlQueue.push({sql: "select * from " + newAst.table, params: [], cb: null, schema: schema});
 			  }
 
 			  sqlQueue.push({sql: sql, params: params, cb: cb, schema: schema});
@@ -486,13 +486,13 @@ var sqlQueueItem = null;
       setInterval( function () {
 
 
-          console.log('inRealtimeUpdate: ' + JSON.stringify(inRealtimeUpdate , null, 2)      )
-          console.log('inSql: ' + JSON.stringify(inSql , null, 2)   + ', queue: ' + JSON.stringify(sqlQueue.length , null, 2)   )
-          console.log('inSql: ' + JSON.stringify(inSql , null, 2)   + ', queue: ' + JSON.stringify(sqlQueue.length , null, 2)   )
+          //console.log('inRealtimeUpdate: ' + JSON.stringify(inRealtimeUpdate , null, 2)      )
+          //console.log('inSql: ' + JSON.stringify(inSql , null, 2)   + ', queue: ' + JSON.stringify(sqlQueue.length , null, 2)   )
+          //console.log('inSql: ' + JSON.stringify(inSql , null, 2)   + ', queue: ' + JSON.stringify(sqlQueue.length , null, 2)   )
 		  if (sqlQueueItem) {
 			console.log('     sql: ' + JSON.stringify(sqlQueueItem.sql , null, 2))
 		  }
-		  console.log(' ')
+		  //console.log(' ')
           if (!inSql) {
               var allTables = Object.keys(tablesMetaData);
               //console.log('tables: ' + JSON.stringify(allRealtimetables , null, 2))
@@ -500,15 +500,15 @@ var sqlQueueItem = null;
                   ensureTableMetaDataExists(tableName)
 				  ensureRealtimeQueriesMetaDataExists(tableName)
 				  
-					console.log(tableName + ', refreshTableVersion: ' + JSON.stringify(tablesMetaData[tableName]['refreshTableVersion'] , null, 2)    )
-					console.log('           , incrementTableVersion: ' + JSON.stringify(tablesMetaData[tableName]['incrementTableVersion'] , null, 2)    )
-					console.log('           , createNewTableVersion: ' + JSON.stringify(tablesMetaData[tableName]['createNewTableVersion'] , null, 2)    )
-					console.log('           , version: ' + JSON.stringify(tablesMetaData[tableName]['version'] , null, 2)    )
+					//console.log(tableName + ', refreshTableVersion: ' + JSON.stringify(tablesMetaData[tableName]['refreshTableVersion'] , null, 2)    )
+					//console.log('           , incrementTableVersion: ' + JSON.stringify(tablesMetaData[tableName]['incrementTableVersion'] , null, 2)    )
+					//console.log('           , createNewTableVersion: ' + JSON.stringify(tablesMetaData[tableName]['createNewTableVersion'] , null, 2)    )
+					//console.log('           , version: ' + JSON.stringify(tablesMetaData[tableName]['version'] , null, 2)    )
 					
   	   			    var sqlToUpdateList2 = Object.keys(realtimeSqlQueries[ tableName ]['sql'])
 					var sqlToUpdate2;
 				    for ( sqlToUpdate2 of sqlToUpdateList2 ) {
-					  console.log('        ' + sqlToUpdate2 + '   , realtime  lastReadVersion: ' + JSON.stringify(realtimeSqlQueries[ tableName ]['sql'][sqlToUpdate2][ "lastReadVersion" ] , null, 2) + ' : ' + tablesMetaData[tableName]['version']   )
+					  //console.log('        ' + sqlToUpdate2 + '   , realtime  lastReadVersion: ' + JSON.stringify(realtimeSqlQueries[ tableName ]['sql'][sqlToUpdate2][ "lastReadVersion" ] , null, 2) + ' : ' + tablesMetaData[tableName]['version']   )
 					}
 
                   //-------------------------------------------------------------------------------------------
@@ -518,7 +518,7 @@ var sqlQueueItem = null;
                   //-------------------------------------------------------------------------------------------
                   if (tablesMetaData[tableName]['refreshTableVersion'] == true) {
                       inSql = true
-                      console.log('updateTableVersions table: ' + JSON.stringify(tableName , null, 2))
+                      //console.log('updateTableVersions table: ' + JSON.stringify(tableName , null, 2))
                       if (!schema) {
                           schema = 'default'
                       }
@@ -575,7 +575,7 @@ var sqlQueueItem = null;
                   //-------------------------------------------------------------------------------------------
                   if ( tablesMetaData[ tableName ] [ "incrementTableVersion"] && !tablesMetaData[ tableName ]["refreshTableVersion"]) {
                       inSql = true
-                      console.log('updateTableVersions table: ' + JSON.stringify(tableName , null, 2))
+                      //console.log('updateTableVersions table: ' + JSON.stringify(tableName , null, 2))
                       if (!schema) {
                           schema = 'default'
                       }
@@ -601,7 +601,7 @@ var sqlQueueItem = null;
                   //-------------------------------------------------------------------------------------------
                   if (tablesMetaData[ tableName ] ['createNewTableVersion']) {
                       inSql = true
-                      console.log('createNewTableVersion table: ' + JSON.stringify(tableName , null, 2))
+                      //console.log('createNewTableVersion table: ' + JSON.stringify(tableName , null, 2))
                       if (!schema) {
                           schema = 'default'
                       }
@@ -623,7 +623,7 @@ var sqlQueueItem = null;
               sqlQueueItem = sqlQueue.shift();
               if (sqlQueueItem) {
                   inSql = true;
-                  console.log('sql: ' + JSON.stringify(sqlQueueItem.sql , null, 2))
+                  //console.log('sql: ' + JSON.stringify(sqlQueueItem.sql , null, 2))
                   queueCount ++;
                   var sql    = sqlQueueItem.sql;
                   var params = sqlQueueItem.params;
