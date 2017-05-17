@@ -4,12 +4,13 @@
   "version": "1.0.0",
   "author": "",
   "private": true,
-  "scripts": {
+    "scripts": {"start": "node src/index.js",
     "dev": "cross-env NODE_ENV=development webpack-dev-server --inline --hot  --host localhost",
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
     "test": "cross-env NODE_ENV=production webpack-dev-server"
   },
   "dependencies": {
+    "babel-polyfill": "^6.23.0",
     "browserify": "^14.1.0",
     "commander": "^2.9.0",
     "debug": "^2.6.0",
@@ -19,7 +20,12 @@
     "node-sqlparser": "^1.0.2",
     "open": "0.0.5",
     "pg": "^6.1.2",
+    "pouchdb-adapter-http": "^6.2.0",
+    "pouchdb-adapter-node-websql": "^6.2.0",
+    "pouchdb-replication": "^6.2.0",
     "request": "^2.79.0",
+    "rxdb": "^4.0.0",
+    "rxjs": "^5.4.0",
     "uniq": "^1.0.1",
     "unzip": "^0.1.11",
     "uuid": "^3.0.1",
