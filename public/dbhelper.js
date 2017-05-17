@@ -123,7 +123,7 @@ var sqlQueueItem = null;
     // This uses SQL to get records
     // ---------------------------------------------
     function g_select( sql, params, newAst, gun, cb, schema ) {
-		console.log('**************SQL****: '  + JSON.stringify(sql , null, 2))
+		//console.log('**************SQL****: '  + JSON.stringify(sql , null, 2))
         var i = 0;
         var count = 0;
         var thisQueryId = queryId ++;
@@ -149,7 +149,7 @@ var sqlQueueItem = null;
                 //console.log('**Get: '  + JSON.stringify(staticSqlResultSets[thisQueryId] , null, 2))
                 //console.log('**cb: '  + cb)
                 if (cb) {
-					console.log('                count results: '  + JSON.stringify(staticSqlResultSets[thisQueryId] , null, 2))
+					//console.log('                count results: '  + JSON.stringify(staticSqlResultSets[thisQueryId] , null, 2))
                     cb( staticSqlResultSets[thisQueryId] );
                 } else {
                     //console.log( JSON.stringify(staticSqlResultSets[thisQueryId] , null, 2) );
@@ -490,7 +490,7 @@ var sqlQueueItem = null;
           //console.log('inSql: ' + JSON.stringify(inSql , null, 2)   + ', queue: ' + JSON.stringify(sqlQueue.length , null, 2)   )
           //console.log('inSql: ' + JSON.stringify(inSql , null, 2)   + ', queue: ' + JSON.stringify(sqlQueue.length , null, 2)   )
 		  if (sqlQueueItem) {
-			console.log('     sql: ' + JSON.stringify(sqlQueueItem.sql , null, 2))
+			//console.log('     sql: ' + JSON.stringify(sqlQueueItem.sql , null, 2))
 		  }
 		  //console.log(' ')
           if (!inSql) {
