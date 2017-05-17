@@ -4,7 +4,8 @@
   "version": "1.0.0",
   "author": "",
   "private": true,
-    "scripts": {"start": "node src/index.js",
+  "scripts": {
+    "start": "babel-node --presets es2015,stage-2 src/index.js ",
     "dev": "cross-env NODE_ENV=development webpack-dev-server --inline --hot  --host localhost",
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
     "test": "cross-env NODE_ENV=production webpack-dev-server"

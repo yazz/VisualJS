@@ -495,6 +495,7 @@ var sqlQueueItem = null;
 		  //console.log(' ')
           if (!inSql) {
               var allTables = Object.keys(tablesMetaData);
+			  var tableName;
               //console.log('tables: ' + JSON.stringify(allRealtimetables , null, 2))
               for ( tableName of allTables) {
                   ensureTableMetaDataExists(tableName)
