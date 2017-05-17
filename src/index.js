@@ -1,7 +1,7 @@
 'use strict';
 
-//require('babel-polyfill');
-//var RxDB         = require('rxdb');
+require('babel-polyfill');
+var RxDB         = require('rxdb');
 var url          = require('url');
 var path         = require('path');
 var http         = require('http');
@@ -520,10 +520,11 @@ console.log('**********************************************************');
 console.log('**********************************************************');
 console.log('**********************************************************');
 console.log('**********************************************************');
-/*const db = await RxDB.create({
-  name: 'heroesDB',           // <- name
+RxDB.plugin(require('pouchdb-adapter-websql'));
+const db = RxDB.create({
+  name: 'heroesdb',           // <- name
   adapter: 'websql',          // <- storage-adapter
   password: 'myPassword',     // <- password (optional)
   multiInstance: true         // <- multiInstance (default: true)
-});*/
-//console.dir(db);
+});
+console.dir(db);
