@@ -510,21 +510,25 @@ console.log('http://' + hostaddress  + ":" + port);
 
 
 //import * as RxDB from 'rxdb';
-
-
-
-console.log('**********************************************************');
-console.log('**********************************************************');
-console.log('**********************************************************');
-console.log('**********************************************************');
-console.log('**********************************************************');
-console.log('**********************************************************');
-console.log('**********************************************************');
+//RxDB.plugin(require('pouchdb-adapter-node-websql'));
+RxDB.plugin(require('pouchdb-adapter-http'));
+RxDB.plugin(require('pouchdb-replication'));
+RxDB.plugin(require('pouchdb-adapter-memory'));
 RxDB.plugin(require('pouchdb-adapter-websql'));
 const db = RxDB.create({
   name: 'heroesdb',           // <- name
-  adapter: 'websql',          // <- storage-adapter
+  adapter: 'memory',          // <- storage-adapter
   password: 'myPassword',     // <- password (optional)
   multiInstance: true         // <- multiInstance (default: true)
 });
 console.dir(db);
+
+
+
+console.log('**********************************************************');
+console.log('**********************************************************');
+console.log('**********************************************************');
+console.log('**********************************************************');
+console.log('**********************************************************');
+console.log('**********************************************************');
+console.log('**********************************************************');

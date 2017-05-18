@@ -22,6 +22,7 @@
     "open": "0.0.5",
     "pg": "^6.1.2",
     "pouchdb-adapter-http": "^6.2.0",
+    "pouchdb-adapter-memory": "^6.2.0",
     "pouchdb-adapter-node-websql": "^6.2.0",
     "pouchdb-adapter-websql": "^6.2.0",
     "pouchdb-replication": "^6.2.0",
