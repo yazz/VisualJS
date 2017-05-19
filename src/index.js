@@ -509,11 +509,13 @@ var yesno = require('yesno');
 
 yesno.ask('Are you sure you want to open a browser?', true, function(ok) {
     if(ok) {
-        open('http://' + hostaddress  + ":" + port);
+        //open('http://' + hostaddress  + ":" + port);
     } else {
         console.log("Nope.");
     }
 });
+
+open('http://' + hostaddress  + ":" + port);
 console.log('http://' + hostaddress  + ":" + port);
 
 }
