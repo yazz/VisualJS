@@ -9,7 +9,7 @@ import store                    from './store.js'
 import db                       from '../public/dbhelper.js'
 
 
-const gun_ip_address = '172.27.14.185'
+const gun_ip_address = '172.18.0.102'
 
 window.vue = Vue;
 
@@ -310,10 +310,15 @@ function read_connections(a,b){
     }
 }
 
-
-
-
-
+//store.dispatch('set_output_records', data);
+window.setOutputData = function(data) {
+	if (data.length > 0) {
+		var fields = Object.keys(data[0]);
+		store.dispatch('set_output_fields', fields);
+		alert(fields);
+		store.dispatch('set_output_records', data);
+	}
+};
 
 //-----------------------------------------------------------------
 // initConnectionsListVuePane

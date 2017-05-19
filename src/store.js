@@ -18,6 +18,10 @@ export default new Vuex.Store({
         ,
         list_of_drivers: []
         ,
+        list_of_output_fields: []
+        ,
+        list_of_output_records: []
+        ,
         viewed_connection_id: null
         ,
         viewed_driver_id: null
@@ -46,6 +50,10 @@ export default new Vuex.Store({
     list_of_connections: state => state.list_of_connections
     ,
     list_of_drivers: state => state.list_of_drivers
+    ,
+    list_of_output_fields: state => state.list_of_output_fields
+    ,
+    list_of_output_drivers: state => state.list_of_output_drivers
     ,
     viewed_connection_id: state => state.viewed_connection_id
     ,
@@ -113,6 +121,12 @@ export default new Vuex.Store({
       } else {
         state.viewed_driver_id   = null;
       }
+    },
+    SET_OUTPUT_FIELDS: function (state, fields) {
+        state.list_of_output_fields = fields;
+    },
+    SET_OUTPUT_RECORDS: function (state, records) {
+        state.list_of_output_records = records;
     },
     SHOW_ADD_CONNECTION: function (state) {
       state.add_connection_visible = true
@@ -303,7 +317,13 @@ export default new Vuex.Store({
 
 
 
+        set_output_fields: function(a, fields){
+          a.commit('SET_OUTPUT_FIELDS', fields)
+        },
 
+        set_output_records: function(a, records){
+          a.commit('SET_OUTPUT_RECORDS', records)
+        },
 
 
     //

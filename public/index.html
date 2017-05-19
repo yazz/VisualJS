@@ -450,7 +450,8 @@
         data: {source: source, sql: sql},
         success: function(data) {
           $("#result").text(data);
-        },
+		    setOutputData(eval(data));
+			},
         error: function(jqXHR, textStatus, errorThrown) {
           alert('error ' + textStatus + " " + errorThrown);
         }

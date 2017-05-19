@@ -34,15 +34,10 @@ export default {
 
   computed: {
     list_of_records: function () {
-      return [
-	          {'ID': 1      ,'name': 'Zubair'   ,'age': 45},
-	          {'ID': 2      ,'name': 'john'   ,'age': 45},
-			  {'ID': 311    ,'name': 'peter'   ,'age': 45},
-			  {'ID': 4      ,'name': 'paul'   ,'age': 45}
-			  ]
+      return this.$store.state.list_of_output_records
     },
     list_of_fields: function () {
-      return ['ID','name','age']
+      return this.$store.state.list_of_output_fields
     },
 
     add_connection_visible: function () {
