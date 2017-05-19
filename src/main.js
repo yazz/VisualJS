@@ -8,7 +8,7 @@ import store                    from './store.js'
 import db                       from '../public/dbhelper.js'
 
 
-const gun_ip_address = '172.18.0.104'
+const gun_ip_address = '10.6.85.91'
 
 window.vue = Vue;
 

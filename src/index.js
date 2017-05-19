@@ -513,11 +513,12 @@ console.log('http://' + hostaddress  + ":" + port);
 //RxDB.plugin(require('pouchdb-adapter-node-websql'));
 RxDB.plugin(require('pouchdb-adapter-http'));
 RxDB.plugin(require('pouchdb-replication'));
-RxDB.plugin(require('pouchdb-adapter-memory'));
-RxDB.plugin(require('pouchdb-adapter-websql'));
+RxDB.plugin(require('pouchdb-adapter-leveldb'));
+
+const leveldown = require('leveldown');
 const db = RxDB.create({
   name: 'heroesdb',           // <- name
-  adapter: 'memory',          // <- storage-adapter
+  adapter: leveldown,          // <- storage-adapter
   password: 'myPassword',     // <- password (optional)
   multiInstance: true         // <- multiInstance (default: true)
 });

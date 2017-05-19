@@ -369,13 +369,13 @@ var sqlQueueItem = null;
 
 
     exports.start = function() {
-        sql1("select * from systemsettings where name='autoindex'",
+        this.sql1("select * from systemsettings where name='autoindex'",
                     function(valret) {
                         //console.log('valret: ' + valret)
                        if (valret) {
                            autoSerialId = valret.value;
                        } else {
-                           sql('insert into systemsettings (name, value ) values (?,?)',['autoindex', 1])
+                           localgun.sql('insert into systemsettings (name, value ) values (?,?)',['autoindex', 1])
                        }
                     })
     //autoSerialId
@@ -389,7 +389,7 @@ var sqlQueueItem = null;
         } else {
             autoSerialId ++;
         }
-        sql("update systemsettings set value = " +
+        localgun.sql("update systemsettings set value = " +
         autoSerialId
         + " where name = 'autoindex'")
         return autoSerialId;
