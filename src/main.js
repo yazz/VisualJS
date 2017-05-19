@@ -3,12 +3,13 @@ import Welcome                  from './components/Welcome.vue'
 import ConnectedClients         from './components/central_server/connected_clients.vue'
 import yazz_new_connection      from './components/yazz_new_connection.vue'
 import connections_table        from './components/connections_table.vue'
+import output_table             from './components/output_table.vue'
 import drivers_table            from './components/drivers_table.vue'
 import store                    from './store.js'
 import db                       from '../public/dbhelper.js'
 
 
-const gun_ip_address = '10.6.85.91'
+const gun_ip_address = '172.27.14.185'
 
 window.vue = Vue;
 
@@ -64,6 +65,35 @@ function setupSqlVuePane() {
           }
           ,
           components: {'connections-table': connections_table}
+        });
+    }
+}
+
+
+
+
+
+function setupSqlResultPane() {
+
+    if (document.getElementById('vue_db_result')) {
+        new Vue({
+          el: '#vue_db_result'
+          ,
+          store: store
+          ,
+          template: `
+                <div>
+				    <output-table></output-table>
+                </div>
+        `
+          ,
+          computed: {
+            options: function () {
+              return this.$store.state.list_of_connections;
+            }
+          }
+          ,
+          components: {'output-table': output_table}
         });
     }
 }
@@ -398,6 +428,7 @@ $( document ).ready(function() {
   initConnectionsListVuePane();
   initDriversListVuePane();
   initClientsConnectedVuePane();
+  setupSqlResultPane();
 
   /*sql('insert into clienttable2 (id, next) values (3,"fdg")',
       function(record) {
