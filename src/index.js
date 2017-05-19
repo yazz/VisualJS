@@ -1,7 +1,5 @@
 'use strict';
 
-require('babel-polyfill');
-var RxDB         = require('rxdb');
 var url          = require('url');
 var path         = require('path');
 var http         = require('http');
@@ -204,15 +202,21 @@ app.use(express.static(path.join(__dirname, '../public/')))
     var queryData = url.parse(req.url, true).query;
     //console.log('request received source: ' + queryData.source);
     //console.log('request received SQL: ' + queryData.sql);
-    if (connections[queryData.source]) {
-        //console.log('query driver: ' + connections[queryData.source].driver);
-        drivers[connections[queryData.source].driver]['get'](connections[queryData.source],queryData.sql,function(ordata) {
-            res.writeHead(200, {'Content-Type': 'text/plain'});
-            res.end(JSON.stringify(ordata));
-        });
-    } else {
-        console.log('query driver not found: ' + connections[queryData.source]);
-    };
+	if (queryData) {
+		if (queryData.source) {
+			if (connections[queryData.source]) {
+				if (connections[queryData.source].driver) {
+					//console.log('query driver: ' + connections[queryData.source].driver);
+					drivers[connections[queryData.source].driver]['get'](connections[queryData.source],queryData.sql,function(ordata) {
+						res.writeHead(200, {'Content-Type': 'text/plain'});
+						res.end(JSON.stringify(ordata));
+					});
+				} else {
+					console.log('query driver not found: ' + connections[queryData.source]);
+				};
+			};
+		};
+	};
 })
 
 
@@ -503,33 +507,3 @@ function addOrUpdateDriver(name, code, theObject) {
 //--------------------------------------------------------
 open('http://' + hostaddress  + ":" + port);
 console.log('http://' + hostaddress  + ":" + port);
-
-
-
-
-
-
-//import * as RxDB from 'rxdb';
-//RxDB.plugin(require('pouchdb-adapter-node-websql'));
-RxDB.plugin(require('pouchdb-adapter-http'));
-RxDB.plugin(require('pouchdb-replication'));
-RxDB.plugin(require('pouchdb-adapter-leveldb'));
-
-const leveldown = require('leveldown');
-const db = RxDB.create({
-  name: 'heroesdb',           // <- name
-  adapter: leveldown,          // <- storage-adapter
-  password: 'myPassword',     // <- password (optional)
-  multiInstance: true         // <- multiInstance (default: true)
-});
-console.dir(db);
-
-
-
-console.log('**********************************************************');
-console.log('**********************************************************');
-console.log('**********************************************************');
-console.log('**********************************************************');
-console.log('**********************************************************');
-console.log('**********************************************************');
-console.log('**********************************************************');
