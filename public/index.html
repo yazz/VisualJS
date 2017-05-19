@@ -445,11 +445,11 @@
     function getresult(source, sql) {
       $.ajax({
 
-        //type: "POST",
+        type: "POST",
         url: '/getresult',
         data: {source: source, sql: sql},
         success: function(data) {
-          $("#result").text(data);
+          //$("#result").text(data);
 		    setOutputData(eval(data));
 			},
         error: function(jqXHR, textStatus, errorThrown) {

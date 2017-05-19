@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "babel-polyfill": "^6.23.0",
+    "body-parser": "^1.17.2",
     "browserify": "^14.1.0",
     "commander": "^2.9.0",
     "debug": "^2.6.0",

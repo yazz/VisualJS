@@ -187,6 +187,9 @@ function startServices() {
   })
 
 app.use(express.static(path.join(__dirname, '../public/')))
+var bodyParser = require('body-parser');
+app.use(bodyParser.json()); // support json encoded bodies
+app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
 
 
@@ -199,10 +202,10 @@ app.use(express.static(path.join(__dirname, '../public/')))
 //------------------------------------------------------------------------------
 // Get the result of a SQL query
 //------------------------------------------------------------------------------
-  app.get('/getresult', function (req, res) {
+  app.post('/getresult', function (req, res) {
 	  console.log('in getresult');
-    var queryData = url.parse(req.url, true).query;
-    console.log('request received source: ' + queryData.source);
+    var queryData = req.body;
+    console.log('request received source: ' + Object.keys(req));
     console.log('request received SQL: ' + queryData.sql);
 	if (queryData) {
 		if (queryData.source) {
