@@ -151,7 +151,8 @@ function startServices() {
         for (var i = 0 ; i < results.length ; i ++) {
             var conn = results[i]
 
-            //console.log("    " + JSON.stringify(conn, null, 2))
+			console.log("***************select * from db_connections where deleted != 'T'")
+            console.log("    " + JSON.stringify(conn, null, 2))
             if (!connectionrows[conn.name]) {
               //data_connections_list.push(a);
               connectionrows[conn.name] = conn;
@@ -199,9 +200,10 @@ app.use(express.static(path.join(__dirname, '../public/')))
 // Get the result of a SQL query
 //------------------------------------------------------------------------------
   app.get('/getresult', function (req, res) {
+	  console.log('in getresult');
     var queryData = url.parse(req.url, true).query;
-    //console.log('request received source: ' + queryData.source);
-    //console.log('request received SQL: ' + queryData.sql);
+    console.log('request received source: ' + queryData.source);
+    console.log('request received SQL: ' + queryData.sql);
 	if (queryData) {
 		if (queryData.source) {
 			if (connections[queryData.source]) {
@@ -497,13 +499,22 @@ function addOrUpdateDriver(name, code, theObject) {
 
 //console.log("postgres.get = " + JSON.stringify(eval(pgeval) , null, 2))
 //console.log("postgres.get = " + eval(pgeval).get)
+//--------------------------------------------------------
+// open the app in a web browser
+//--------------------------------------------------------
+var yesno = require('yesno');
+
+yesno.ask('Are you sure you want to open a browser?', true, function(ok) {
+    if(ok) {
+        open('http://' + hostaddress  + ":" + port);
+    } else {
+        console.log("Nope.");
+    }
+});
+console.log('http://' + hostaddress  + ":" + port);
+
 }
 
 
 
 
-//--------------------------------------------------------
-// open the app in a web browser
-//--------------------------------------------------------
-open('http://' + hostaddress  + ":" + port);
-console.log('http://' + hostaddress  + ":" + port);

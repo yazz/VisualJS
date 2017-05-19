@@ -315,7 +315,7 @@ window.setOutputData = function(data) {
 	if (data.length > 0) {
 		var fields = Object.keys(data[0]);
 		store.dispatch('set_output_fields', fields);
-		alert(fields);
+		//alert(fields);
 		store.dispatch('set_output_records', data);
 	}
 };
