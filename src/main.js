@@ -318,6 +318,11 @@ window.setOutputData = function(data) {
 		//alert(fields);
 		store.dispatch('set_output_records', data);
 	}
+	else
+	{
+		store.dispatch('set_output_fields', []);
+		store.dispatch('set_output_records', []);
+	}
 };
 
 //-----------------------------------------------------------------
