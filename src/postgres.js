@@ -121,25 +121,25 @@
 						  user:      this.connection_username,
 						  password:  this.connection_password
 					  }
-				  })
-				  this.$store.dispatch('hide_add_connection')
+				  });
+				  this.$store.dispatch('hide_add_connection');
 				}
 				,
 				Cancel: function() {
-				  this.$store.dispatch('hide_add_connection')
+				  this.$store.dispatch('hide_add_connection');
 				}
 			  }
 			  ,
 			  data: function() {
 				return {
-				  connection_name:           null,
+				  connection_name:           "postgres",
 				  connection_connect_string: null,
-				  database:                  null,
-				  host:                      null,
-				  port:                      null,
+				  database:                  "postgres",
+				  host:                      "127.0.0.1",
+				  port:                      "5432",
 				  connection_status:         null,
-				  connection_username:       null,
-				  connection_password:       null
+				  connection_username:       "postgres",
+				  connection_password:       "manager"
 				};
 			  }
 	}

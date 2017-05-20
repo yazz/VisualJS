@@ -29,7 +29,7 @@
 			data:  function() {
 				return {
 				  msg: 'Browse DBss'
-				}
+				};
 			  }
 			  ,
 
@@ -45,11 +45,11 @@
 				  return 'Unknown ' + cn + ":" + prop_name;
 				},
 				OK: function() {
-				  this.$store.dispatch('add_connection', {cn: this.connection_name, cp: {id: this.connection_name, driver: this.connection_driver}})
-				  this.$store.dispatch('hide_add_connection')
+				  this.$store.dispatch('add_connection', {cn: this.connection_name, cp: {id: this.connection_name, driver: this.connection_driver}});
+				  this.$store.dispatch('hide_add_connection');
 				},
 				Cancel: function() {
-				  this.$store.dispatch('hide_add_connection')
+				  this.$store.dispatch('hide_add_connection');
 				}
 			  }
             }
@@ -128,7 +128,7 @@
 				  this.$store.dispatch('hide_add_connection')
 				},
 				Cancel: function() {
-				  this.$store.dispatch('hide_add_connection')
+				  this.$store.dispatch('hide_add_connection');
 				}
 			  },
 			  data: function() {

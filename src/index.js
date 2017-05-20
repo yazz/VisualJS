@@ -205,8 +205,8 @@ app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
   app.post('/getresult', function (req, res) {
 	  console.log('in getresult');
     var queryData = req.body;
-    console.log('request received source: ' + Object.keys(req));
-    console.log('request received SQL: ' + queryData.sql);
+    //console.log('request received source: ' + Object.keys(req));
+    //console.log('request received SQL: ' + queryData.sql);
 	if (queryData) {
 		if (queryData.source) {
 			if (connections[queryData.source]) {
