@@ -433,7 +433,7 @@ var sqlQueueItem = null;
                           if (a > tablesMetaData[tableName]['version']) {
                               //console.log('Change to table name: ' + tableName + ' : ' + a.version)
                               //console.log('     a: ' + JSON.stringify(a , null, 2) )
-                              tablesMetaData[ tableName ]['version'] = a
+                              tablesMetaData[ tableName ]['version'] = a;
                           }
                         },false);
 
@@ -486,7 +486,7 @@ var sqlQueueItem = null;
       setInterval( function () {
 
 
-          console.log('inRealtimeUpdate: ' + JSON.stringify(inRealtimeUpdate , null, 2)      )
+          //console.log('inRealtimeUpdate: ' + JSON.stringify(inRealtimeUpdate , null, 2)      )
           //console.log('inSql: ' + JSON.stringify(inSql , null, 2)   + ', queue: ' + JSON.stringify(sqlQueue.length , null, 2)   )
           //console.log('inSql: ' + JSON.stringify(inSql , null, 2)   + ', queue: ' + JSON.stringify(sqlQueue.length , null, 2)   )
 		  if (sqlQueueItem) {
