@@ -422,7 +422,6 @@ var sqlQueueItem = null;
                 //console.log("select RR********* SQL: " + realtimeSqlString + ", table: " + newAst.from[0].table)
 				var tableName = newAst.from[0].table;
                 if (!realtimeSqlQueries[tableName]) {
-                    ensureRealtimeQueriesMetaDataExists( tableName )
                     ensureTableMetaDataExists( tableName )
 
                     localgun.get('change_log').get( schema ).get( tableName ).get('version').on(
@@ -469,9 +468,7 @@ var sqlQueueItem = null;
             tablesMetaData[ tableName ]["incrementTableVersion"]    = false
             tablesMetaData[ tableName ]["createNewTableVersion"]    = false
         }
-    }
 
-    function ensureRealtimeQueriesMetaDataExists( tableName ) {
         if (!realtimeSqlQueries[ tableName ] ) {
             realtimeSqlQueries[ tableName ] = new Object()
             realtimeSqlQueries[ tableName ][ "sql" ]                 = new Object()
@@ -499,7 +496,6 @@ var sqlQueueItem = null;
               //console.log('tables: ' + JSON.stringify(allRealtimetables , null, 2))
               for ( tableName of allTables) {
                   ensureTableMetaDataExists(tableName)
-				  ensureRealtimeQueriesMetaDataExists(tableName)
 				  
 					//console.log(tableName + ', refreshTableVersion: ' + JSON.stringify(tablesMetaData[tableName]['refreshTableVersion'] , null, 2)    )
 					//console.log('           , incrementTableVersion: ' + JSON.stringify(tablesMetaData[tableName]['incrementTableVersion'] , null, 2)    )
@@ -664,7 +660,6 @@ var sqlQueueItem = null;
                       var allRealtimetables = Object.keys(realtimeSqlQueries);
                       //console.log('tables: ' + JSON.stringify(allRealtimetables , null, 2))
                       for ( tableName of allRealtimetables ) {
-                          ensureRealtimeQueriesMetaDataExists( tableName )
                           //console.log("tableName: " + tableName );
                           if (realtimeSqlQueries[ tableName ] ) {
 							  var sqlToUpdateList = Object.keys(realtimeSqlQueries[ tableName ]['sql'])
