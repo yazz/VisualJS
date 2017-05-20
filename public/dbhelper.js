@@ -103,9 +103,9 @@ var sqlQueueItem = null;
 
         //console.log('adding: ' + JSON.stringify(newRecord , null, 2) + '...');
         localgun.get(schema).get(tableName).set(newRecord, function(ack){
+            inSql = false;
             tablesMetaData[tableName]["refreshTableVersion"] = true;
             tablesMetaData[tableName]["incrementTableVersion"] = true;
-            inSql = false;
             //console.log('... added to ' + tableName + '.');
         });
     }
@@ -127,7 +127,6 @@ var sqlQueueItem = null;
         var i = 0;
         var count = 0;
         var thisQueryId = queryId ++;
-		var tableName = newAst.from[0].table;
         queryDone[ thisQueryId ] = false;
         //console.log('*cb: '  + cb);
         staticSqlResultSets[thisQueryId] = [];
@@ -144,8 +143,7 @@ var sqlQueueItem = null;
 
         var end = function (coll){
             if (!queryDone[ thisQueryId ]) {
-				tablesMetaData[tableName]["refreshTableVersion"] = true;
-				queryDone[ thisQueryId ] = true;
+					queryDone[ thisQueryId ] = true;
                 //console.log('coll: '  + JSON.stringify(coll , null, 2))
                 //staticSqlResultSets[thisQueryId] = objectToArray(temp);
                 //console.log('**Get: '  + JSON.stringify(staticSqlResultSets[thisQueryId] , null, 2))
@@ -161,8 +159,8 @@ var sqlQueueItem = null;
             }
         }
 
-        gun.get(schema).get(tableName).valMapEnd( each , end , newAst);
-        gun.get(schema).get(tableName).not( end );
+        gun.get(schema).get(newAst.from[0].table).valMapEnd( each , end , newAst);
+        gun.get(schema).get(newAst.from[0].table).not( end );
 
       return true;//staticSqlResultSets[thisQueryId];
    };
@@ -223,9 +221,9 @@ var sqlQueueItem = null;
 
         var end = function(coll){
             //console.log('Finished Update: ' + newAst.where.right.value)
+            inSql = false;
             tablesMetaData[newAst.table]["refreshTableVersion"] = true;
             tablesMetaData[newAst.table]["incrementTableVersion"] = true;
-            inSql = false;
         }
 
         gun.get(schema).get(newAst.table).valMapEnd( processRecord , end , newAst);
@@ -432,12 +430,12 @@ var sqlQueueItem = null;
                           //console.log('*****Change to table name: ' + tableName + ' : New version: ' + a )
                           //console.log('              : current version: ' + tablesMetaData[tableName]['version'] )
                           //a.value(function(q){console.log('a: ' + JSON.stringify(q , null, 2) )})
-                          if (a > tablesMetaData[ tableName ][ 'version' ]) {
+                          if (a > tablesMetaData[tableName]['version']) {
                               //console.log('Change to table name: ' + tableName + ' : ' + a.version)
                               //console.log('     a: ' + JSON.stringify(a , null, 2) )
-                              tablesMetaData[ tableName ][ 'version' ] = a
+                              tablesMetaData[ tableName ]['version'] = a
                           }
-                        },true);
+                        },false);
 
 
                 }
@@ -475,9 +473,9 @@ var sqlQueueItem = null;
 
     function ensureRealtimeQueriesMetaDataExists( tableName ) {
         if (!realtimeSqlQueries[ tableName ] ) {
-            realtimeSqlQueries[ tableName ] 				= new Object();
-            realtimeSqlQueries[ tableName ][ "sql" ]        = new Object();
-        };
+            realtimeSqlQueries[ tableName ] = new Object()
+            realtimeSqlQueries[ tableName ][ "sql" ]                 = new Object()
+        }
     }
 
 
@@ -500,15 +498,15 @@ var sqlQueueItem = null;
 			  var tableName;
               //console.log('tables: ' + JSON.stringify(allRealtimetables , null, 2))
               for ( tableName of allTables) {
-                  ensureTableMetaDataExists( tableName );
-				  ensureRealtimeQueriesMetaDataExists( tableName );
+                  ensureTableMetaDataExists(tableName)
+				  ensureRealtimeQueriesMetaDataExists(tableName)
 				  
 					//console.log(tableName + ', refreshTableVersion: ' + JSON.stringify(tablesMetaData[tableName]['refreshTableVersion'] , null, 2)    )
 					//console.log('           , incrementTableVersion: ' + JSON.stringify(tablesMetaData[tableName]['incrementTableVersion'] , null, 2)    )
 					//console.log('           , createNewTableVersion: ' + JSON.stringify(tablesMetaData[tableName]['createNewTableVersion'] , null, 2)    )
 					//console.log('           , version: ' + JSON.stringify(tablesMetaData[tableName]['version'] , null, 2)    )
 					
-  	   			    var sqlToUpdateList2 = Object.keys(realtimeSqlQueries[ tableName ][ 'sql' ])
+  	   			    var sqlToUpdateList2 = Object.keys(realtimeSqlQueries[ tableName ]['sql'])
 					var sqlToUpdate2;
 				    for ( sqlToUpdate2 of sqlToUpdateList2 ) {
 					  //console.log('        ' + sqlToUpdate2 + '   , realtime  lastReadVersion: ' + JSON.stringify(realtimeSqlQueries[ tableName ]['sql'][sqlToUpdate2][ "lastReadVersion" ] , null, 2) + ' : ' + tablesMetaData[tableName]['version']   )
@@ -531,7 +529,7 @@ var sqlQueueItem = null;
 
                       // create the version number if it does not exist
                       //console.log("tablesMetaData[ tableName ][ 'version' ] = 0..................")
-                      localgun.get('change_log').get( schema ).get( tableName ).get('version').not(
+                      localgun.get('change_log').get( schema ).get( tableName ).not(
 
                         function(a) {
                             if (!queryDone[ thisQueryId ]) {
@@ -549,12 +547,12 @@ var sqlQueueItem = null;
 
 					  // increment the version number
                       //console.log("tablesMetaData[ " + tableName + " ][ 'version' ] = a.version..................")
-                      localgun.get('change_log').get( schema ).get( tableName ).get('version').val(
+                      localgun.get('change_log').get( schema ).get( tableName ).val(
 
                         function(a) {
                             if (!queryDone[ thisQueryId ]) {
                                 queryDone[ thisQueryId ] = true
-                                tablesMetaData[ tableName ][ 'version' ] = a
+                                tablesMetaData[ tableName ][ 'version' ] = a.version
 
                                 tablesMetaData[ tableName ]["refreshTableVersion"] = false
                                 inSql = false
@@ -563,7 +561,7 @@ var sqlQueueItem = null;
 
                       //inSql = false
                       //tablesMetaData[ tableName ]["refreshTableVersion"] = false
-                      return;
+                      return
 
                   }
 
@@ -575,21 +573,21 @@ var sqlQueueItem = null;
                   //
                   //-------------------------------------------------------------------------------------------
                   if ( tablesMetaData[ tableName ] [ "incrementTableVersion"] && !tablesMetaData[ tableName ]["refreshTableVersion"]) {
-                      inSql = true;
+                      inSql = true
                       //console.log('updateTableVersions table: ' + JSON.stringify(tableName , null, 2))
                       if (!schema) {
-                          schema = 'default';
+                          schema = 'default'
                       }
                       var oldVersion = tablesMetaData[ tableName ][ 'version' ]
                       //console.log('////    updating version for: ' + tableName + ', ' + JSON.stringify(oldVersion , null, 2))
-                      var newVersion = oldVersion + 1;
+                      var newVersion = oldVersion + 1
 
                       //console.log('    Updating version from : ' + JSON.stringify(oldVersion , null, 2) + ' to ' + JSON.stringify(newVersion , null, 2))
-                      localgun.get('change_log').get( schema ).get( tableName ).get('version').put(
-                            newVersion)
+                      localgun.get('change_log').get( schema ).get( tableName ).put(
+                            {version: newVersion})
 
-                      tablesMetaData[ tableName ] [ "incrementTableVersion" ]      = false
                       inSql = false
+                      tablesMetaData[ tableName ] [ "incrementTableVersion" ]      = false
                       return;
                   }
 
@@ -604,13 +602,14 @@ var sqlQueueItem = null;
                       inSql = true
                       //console.log('createNewTableVersion table: ' + JSON.stringify(tableName , null, 2))
                       if (!schema) {
-                          schema = 'default';
-                      };
+                          schema = 'default'
+                      }
                       //console.log('////    creating new version for: ' + JSON.stringify(tableName , null, 2))
-                      localgun.get('change_log').get( schema ).get( tableName ).get('version').put(0);
+                      localgun.get('change_log').get( schema ).get( tableName ).put(
+                          {version: 0})
 
-                      tablesMetaData[ tableName ] ['createNewTableVersion'] = false;
-                      inSql = false;
+                      inSql = false
+                      tablesMetaData[ tableName ] ['createNewTableVersion'] = false
                       return;
                   }
 
