@@ -103,10 +103,11 @@ var sqlQueueItem = null;
 
         //console.log('adding: ' + JSON.stringify(newRecord , null, 2) + '...');
         localgun.get(schema).get(tableName).set(newRecord, function(ack){
-            inSql = false;
             tablesMetaData[tableName]["refreshTableVersion"] = true;
             tablesMetaData[tableName]["incrementTableVersion"] = true;
+            inSql = false;
             //console.log('... added to ' + tableName + '.');
+			return;
         });
     }
 
@@ -212,7 +213,10 @@ var sqlQueueItem = null;
                 gun.get(schema).get(newAst.table).get(newId).put(
                     record,
                     function(ack) {
+						tablesMetaData[newAst.table]["refreshTableVersion"] = true;
+						tablesMetaData[newAst.table]["incrementTableVersion"] = true;
                         //console.log('Updated: ' + newAst.where.right.value)
+						inSql = false;
                     });
             } else {
                 //console.log("    no match")
@@ -221,9 +225,6 @@ var sqlQueueItem = null;
 
         var end = function(coll){
             //console.log('Finished Update: ' + newAst.where.right.value)
-            inSql = false;
-            tablesMetaData[newAst.table]["refreshTableVersion"] = true;
-            tablesMetaData[newAst.table]["incrementTableVersion"] = true;
         }
 
         gun.get(schema).get(newAst.table).valMapEnd( processRecord , end , newAst);
