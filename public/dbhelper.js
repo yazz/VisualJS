@@ -537,18 +537,18 @@ var sqlQueueItem = null;
                                 tablesMetaData[ tableName ]["createNewTableVersion"] = true
                                 inSql = false
                             }
-                          })
+                          });
 
 
 
 					  // increment the version number
                       //console.log("tablesMetaData[ " + tableName + " ][ 'version' ] = a.version..................")
-                      localgun.get('change_log').get( schema ).get( tableName ).val(
+                      localgun.get('change_log').get( schema ).get( tableName ).get('version').val(
 
                         function(a) {
                             if (!queryDone[ thisQueryId ]) {
                                 queryDone[ thisQueryId ] = true
-                                tablesMetaData[ tableName ][ 'version' ] = a.version
+                                tablesMetaData[ tableName ][ 'version' ] = a
 
                                 tablesMetaData[ tableName ]["refreshTableVersion"] = false
                                 inSql = false
@@ -568,7 +568,7 @@ var sqlQueueItem = null;
                   //
                   //
                   //-------------------------------------------------------------------------------------------
-                  if ( tablesMetaData[ tableName ] [ "incrementTableVersion"] && !tablesMetaData[ tableName ]["refreshTableVersion"]) {
+                  if ( tablesMetaData[ tableName ] [ "incrementTableVersion"] ) {
                       inSql = true
                       //console.log('updateTableVersions table: ' + JSON.stringify(tableName , null, 2))
                       if (!schema) {
@@ -582,8 +582,8 @@ var sqlQueueItem = null;
                       localgun.get('change_log').get( schema ).get( tableName ).put(
                             {version: newVersion})
 
-                      inSql = false
                       tablesMetaData[ tableName ] [ "incrementTableVersion" ]      = false
+                      inSql = false
                       return;
                   }
 
@@ -604,8 +604,8 @@ var sqlQueueItem = null;
                       localgun.get('change_log').get( schema ).get( tableName ).put(
                           {version: 0})
 
-                      inSql = false
                       tablesMetaData[ tableName ] ['createNewTableVersion'] = false
+                      inSql = false
                       return;
                   }
 
