@@ -421,23 +421,7 @@ var sqlQueueItem = null;
             if (newAst.type == 'select') {
                 //console.log("select RR********* SQL: " + realtimeSqlString + ", table: " + newAst.from[0].table)
 				var tableName = newAst.from[0].table;
-                if (!realtimeSqlQueries[tableName]) {
-                    ensureTableMetaDataExists( tableName )
-
-                    localgun.get('change_log').get( schema ).get( tableName ).get('version').on(
-                      function(a) {
-                          console.log('*****Change to table name: ' + tableName + ' : New version: ' + a )
-                          console.log('              : current version: ' + tablesMetaData[tableName]['version'] )
-                          //a.value(function(q){console.log('a: ' + JSON.stringify(q , null, 2) )})
-                          if (a > tablesMetaData[tableName]['version']) {
-                              //console.log('Change to table name: ' + tableName + ' : ' + a.version)
-                              //console.log('     a: ' + JSON.stringify(a , null, 2) )
-                              tablesMetaData[ tableName ]['version'] = a;
-                          }
-                        },false);
-
-
-                }
+				ensureTableMetaDataExists( tableName );
                 if (!realtimeSqlQueries[tableName]['sql'][realtimeSqlString]) {
                     realtimeSqlQueries[tableName]['sql'][realtimeSqlString] = new Object();
                     realtimeSqlQueries[tableName]['sql'][realtimeSqlString]["callback"] = callbackFn;
@@ -472,8 +456,23 @@ var sqlQueueItem = null;
         if (!realtimeSqlQueries[ tableName ] ) {
             realtimeSqlQueries[ tableName ] = new Object()
             realtimeSqlQueries[ tableName ][ "sql" ]                 = new Object()
-        }
-    }
+
+			localgun.get('change_log').get( "default" ).get( tableName ).get('version').on(
+			  function(a) {
+				  console.log('*****Change to table name: ' + tableName + ' : New version: ' + a )
+				  console.log('              : current version: ' + tablesMetaData[tableName]['version'] )
+				  //a.value(function(q){console.log('a: ' + JSON.stringify(q , null, 2) )})
+				  if (a > tablesMetaData[tableName]['version']) {
+					  //console.log('Change to table name: ' + tableName + ' : ' + a.version)
+					  //console.log('     a: ' + JSON.stringify(a , null, 2) )
+					  tablesMetaData[ tableName ]['version'] = a;
+				  }
+				},false);
+
+
+		}
+
+	}
 
 
 
