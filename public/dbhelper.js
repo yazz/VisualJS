@@ -535,9 +535,10 @@ var sqlQueueItem = null;
                             if (!queryDone[ thisQueryId ]) {
                                 queryDone[ thisQueryId ] = true
                                 //console.log("..................tablesMetaData[ tableName ][ 'version' ] = 0")
-                                tablesMetaData[ tableName ][ 'version' ] = 0
 
                                 tablesMetaData[ tableName ]["refreshTableVersion"] = false
+                                tablesMetaData[ tableName ]["incrementTableVersion"] = false
+                                tablesMetaData[ tableName ]["createNewTableVersion"] = true
                                 inSql = false
                             }
                           })
@@ -552,14 +553,11 @@ var sqlQueueItem = null;
                             if (!queryDone[ thisQueryId ]) {
                                 queryDone[ thisQueryId ] = true
                                 tablesMetaData[ tableName ][ 'version' ] = a.version
-                                tablesMetaData[ tableName ][ "updateTableVersion" ] = true
 
-                                inSql = false
                                 tablesMetaData[ tableName ]["refreshTableVersion"] = false
+                                inSql = false
                             }
                           })
-
-
 
                       //inSql = false
                       //tablesMetaData[ tableName ]["refreshTableVersion"] = false
