@@ -24,13 +24,6 @@ var toeval;
 var open         = require('open');
 var dbhelper     = require('../public/dbhelper');
 var Gun          = require('gun');
-var gun          = Gun({ file: 'data.json',
-                          s3: {
-                            key: '', // AWS Access Key
-                            secret: '', // AWS Secret Token
-                            bucket: '' // The bucket you want to save into
-                          }
-                        });
 var parseSqlFn = require('node-sqlparser').parse;
 var witheve = require("witheve");
 
@@ -96,6 +89,22 @@ program
   console.log('-------* Port: ' + port);
   console.log('-------* Central host: ' + centralHostAddress);
   console.log('-------* Central host port: ' + centralHostPort);
+
+
+var storageFileName = 'data.json';
+  if (typeOfSystem == 'client') {
+    storageFileName = 'data.json';
+  } else if (typeOfSystem == 'server') {
+    storageFileName = 'server.json';
+  }
+  var gun          = Gun({ file: storageFileName,
+                            s3: {
+                              key: '', // AWS Access Key
+                              secret: '', // AWS Secret Token
+                              bucket: '' // The bucket you want to save into
+                            }
+                          });
+
 
 
 console.dir ( ip.address() );
@@ -282,10 +291,16 @@ app.get('/client_connect', function (req, res) {
     console.log('client internal port:            ' + requestClientInternalPort)
     console.log('client public IP address:        ' + requestClientPublicIp)
     console.log('client public IP host name:      ' + requestClientPublicHostName)
+    dbhelper.sql("insert into client_connect (internal_host, internal_port, public_ip, public_host) values (?,?,?,?)",
+          [requestClientInternalHostAddress,requestClientInternalPort,requestClientPublicIp,requestClientPublicHostName])
 
+    dbhelper.sql("select * from client_connect", function(aa){console.log("**********" + JSON.stringify(aa.length))});
+    dbhelper.sql("select * from client_connect", function(aaa){  var aa;for (aa in aaa) {console.log(aaa[aa].internal_host + ", " + aaa[aa].internal_port + ", " + aaa[aa].public_ip )}});
 
     res.writeHead(200, {'Content-Type': 'text/plain'});
     res.end(JSON.stringify({connected: true}));
+
+
 })
 
 
@@ -367,7 +382,6 @@ app.listen(port, hostaddress, function () {
               console.log('response: ' + JSON.stringify(response));
                 console.log(body);
             });
-    }
 
 
 
@@ -459,6 +473,7 @@ app.listen(port, hostaddress, function () {
 
 
 
+  }
 
 
 

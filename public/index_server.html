@@ -4,10 +4,16 @@
         <meta name="viewport" Content-Type="text/javascript; charset=utf-8" content="initial-scale=1.0, width=device-width, height=device-height, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         <meta charset="UTF-8" />
 
+        <script type="text/javascript" >
+        window.system_type = 'server';
+</script>
+
         <script type="text/javascript" src="jquery-1.9.1.min.js"></script>
         <script type="text/javascript" src="tether.min.js"></script>
         <script type="text/javascript" src="bootstrap.min.js"></script>
         <script type="text/javascript" src="es6-shim.js"></script>
+        <script type="text/javascript" src="gun.js"></script>
+        <script type="text/javascript" src="sql.js"></script>
 
         <link rel="stylesheet" type="text/css" href="bootstrap.min.css"></link>
     </head>
@@ -40,7 +46,11 @@
 
 
         <script type="text/javascript" src="dist/build.js"></script>
-        <script>
+
+            <script type="text/javascript" >
+
+              var gun;
+
         function getcurrent() {
           $.ajax({
 

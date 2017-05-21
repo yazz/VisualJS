@@ -206,9 +206,9 @@ function setupGunDB() {
                     var driver  = results[i];
                     //console.log('********* CALLED REALTIME DBCONN*************:' + JSON.stringify(driver.name , null, 2));
                     var evalede = eval(driver.code);
-				  
+
                     //console.log('********* CALLED REALTIME DBCONN*************:' + JSON.stringify(conn , null, 2));
-					
+
                     store.dispatch(
                         'add_driver'
                         ,
@@ -221,9 +221,9 @@ function setupGunDB() {
                                  code:    driver.code
                                   }
                           });
-						  
-						  
-				  
+
+
+
                   //if (evalede.vue) {
 				  if (driver.name == 'postgres') {
                      //this.template =  evalede.vue
@@ -238,7 +238,7 @@ function setupGunDB() {
                      //return evalede
                   };
 
-				  
+
 				  if (driver.name == 'oracle') {
 					 if (evalede.vue)
 					 {
@@ -249,8 +249,8 @@ function setupGunDB() {
 					 };
                   };
 
-				  
-				  
+
+
                   };
             }
         );
@@ -432,13 +432,18 @@ function initClientsConnectedVuePane() {
 //
 //-----------------------------------------------------------------
 $( document ).ready(function() {
-  //console.log( "ready now!" );
-  initWelcomeVuePane();
-  setupSqlVuePane();
-  initConnectionsListVuePane();
-  initDriversListVuePane();
-  initClientsConnectedVuePane();
-  setupSqlResultPane();
+
+  console.log( "****ready now!" + window.system_type);
+  if (window.system_type == 'client') {
+    initWelcomeVuePane();
+    setupSqlVuePane();
+    initConnectionsListVuePane();
+    initDriversListVuePane();
+    initClientsConnectedVuePane();
+    setupSqlResultPane();
+  } else if (window.system_type == 'server') {
+    setupGunDB();
+  };
 
   /*sql('insert into clienttable2 (id, next) values (3,"fdg")',
       function(record) {
