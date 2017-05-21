@@ -452,6 +452,7 @@ var sqlQueueItem = null;
             tablesMetaData[ tableName ]["refreshTableVersion"]      = false
             tablesMetaData[ tableName ]["incrementTableVersion"]    = false
             tablesMetaData[ tableName ]["createNewTableVersion"]    = false
+            localgun.sql("select * from " + tableName, null, null);
         }
 
         if (!realtimeSqlQueries[ tableName ] ) {
@@ -496,12 +497,12 @@ var sqlQueueItem = null;
               //console.log('tables: ' + JSON.stringify(allRealtimetables , null, 2))
               for ( tableName of allTables) {
                   ensureTableMetaDataExists(tableName)
-				  
+
 					//console.log(tableName + ', refreshTableVersion: ' + JSON.stringify(tablesMetaData[tableName]['refreshTableVersion'] , null, 2)    )
 					//console.log('           , incrementTableVersion: ' + JSON.stringify(tablesMetaData[tableName]['incrementTableVersion'] , null, 2)    )
 					//console.log('           , createNewTableVersion: ' + JSON.stringify(tablesMetaData[tableName]['createNewTableVersion'] , null, 2)    )
 					//console.log('           , version: ' + JSON.stringify(tablesMetaData[tableName]['version'] , null, 2)    )
-					
+
   	   			    var sqlToUpdateList2 = Object.keys(realtimeSqlQueries[ tableName ]['sql'])
 					var sqlToUpdate2;
 				    for ( sqlToUpdate2 of sqlToUpdateList2 ) {
@@ -667,18 +668,20 @@ var sqlQueueItem = null;
 							  for ( sqlToUpdate of sqlToUpdateList ) {
 								  //console.log("realtimeSqlQueries[" + sqlToUpdate + "] = " + JSON.stringify(realtimeSqlQueries[ tableName ]["sql"][ sqlToUpdate ] , null, 2) + ", "+ tablesMetaData[ tableName ] ['version'] + "");
 								  if (realtimeSqlQueries[ tableName ]["sql"][ sqlToUpdate ][ "lastReadVersion" ] < tablesMetaData[ tableName ] ['version']) {
-									  //console.log("table changed: " + tableName );
+									  console.log("table changed: " + tableName );
 									  //localgun.sql("SELECT * FROM Customers ");
 									  //console.log('    sql: ' + JSON.stringify(sqlToUpdate , null, 2))
                                       var cbb = realtimeSqlQueries[tableName]['sql'][sqlToUpdate]["callback"];
                                       if (cbb) {
-                                          //console.log('**HAS A CALLBACK on SQL: ' + sqlToUpdate);
+                                          console.log('   **HAS A CALLBACK on SQL: ' + sqlToUpdate);
                                           //console.log('**Updating realtime SQL :  ' + sqlToUpdate);
-										  
+
 										  // double call makes sure we read the data or it doesnt work???/
-                                          localgun.sql(sqlToUpdate, null, null);
+                                          //localgun.sql(sqlToUpdate, null, null);
                                           localgun.sql(sqlToUpdate, null, cbb);
                                           realtimeSqlQueries[ tableName ]['sql'][sqlToUpdate]['lastReadVersion'] = tablesMetaData[ tableName ] ['version']
+                                      } else {
+                                        console.log('    Error , no call back found for : ' + sqlToUpdate);
                                       };
                                   }
 
