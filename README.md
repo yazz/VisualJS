@@ -6,7 +6,7 @@
 
 GoShareData currently is:
 
-- a download for Windows that lets you query a Postgres database.
+- a download for Windows that lets you query a Postgres databas (Down here http://GoShareData.com)
 
 Upcoming is:
 
