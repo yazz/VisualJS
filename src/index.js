@@ -256,7 +256,7 @@ app.get('/get_connect', function (req, res) {
                     ,
                     requestClientPublicHostName:      requestClientPublicHostName
                     ,
-                    version:      30
+                    version:      31
                 }
           ));
 })
@@ -507,7 +507,11 @@ function addOrUpdateDriver(name, code, theObject) {
 //--------------------------------------------------------
 
 
-open('http://' + hostaddress  + ":" + port);
+if (typeOfSystem == 'client') {
+  open('http://' + hostaddress  + ":" + port);
+} else if (typeOfSystem == 'server') {
+  open('http://' + hostaddress  + ":" + port + "/index_server.html");
+}
 console.log('http://' + hostaddress  + ":" + port);
 
 }
