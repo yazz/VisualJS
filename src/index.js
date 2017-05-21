@@ -284,8 +284,8 @@ app.get('/client_connect', function (req, res) {
     console.log('client public IP host name:      ' + requestClientPublicHostName)
 
 
-    //TODO
-    // add the host to a list here
+    res.writeHead(200, {'Content-Type': 'text/plain'});
+    res.end(JSON.stringify({connected: true}));
 })
 
 
@@ -363,6 +363,8 @@ app.listen(port, hostaddress, function () {
               }
             },
             function(error, response, body) {
+              console.log('Error: ' + error);
+              console.log('response: ' + JSON.stringify(response));
                 console.log(body);
             });
     }
