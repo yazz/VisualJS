@@ -1,4 +1,4 @@
-<div style='text-align: center;'>
+<div style='text-align: center; width: 100%;'>
     <img src='https://github.com/zubairq/GoShareData/blob/master/public/gosharedata_logo.PNG' />
 </div>
 
