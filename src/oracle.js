@@ -57,10 +57,6 @@
 	    vue_add: {
             template: ''+
 			'    <div>'+
-			'        <div class="input-group">'+
-			''+
-			''+
-			' '+
 			'        <div class="form-group">'+
 			'          <label for="ID" class=" col-form-label">Connection name</label>'+
 			'          <input  type="text" class="form-control" v-model="connection_name"></input>'+
@@ -96,7 +92,6 @@
 			'            </div>'+
 			'        </div>'+
 			''+
-			'      </div>'+
 			'    </div>'
 
 			,

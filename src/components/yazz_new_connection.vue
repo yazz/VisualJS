@@ -1,7 +1,6 @@
 <template>
   <div class="input-group">
 
-
     <div class="form-group">
        <select id=select_source v-model='connection_driver' class="col-xs-10  custom-select">
             <option value="postgres">Postgres</option>
