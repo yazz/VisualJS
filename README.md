@@ -1,4 +1,6 @@
-<img src='https://github.com/zubairq/GoShareData/blob/master/public/gosharedata_logo.PNG' />
+<div style='text-align: center;'>
+    <img src='https://github.com/zubairq/GoShareData/blob/master/public/gosharedata_logo.PNG' />
+</div>
 
 GoShareData may be for you if:
 
