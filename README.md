@@ -1,5 +1,7 @@
 <div style='text-align: center; width: 100%;'>
+<p align="center">
     <img src='https://github.com/zubairq/GoShareData/blob/master/public/gosharedata_logo.PNG' />
+    </p>
 </div>
 
 GoShareData may be for you if:
