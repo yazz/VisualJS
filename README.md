@@ -4,18 +4,17 @@
     </p>
 </div>
 
-GoShareData may be for you if:
+GoShareData currently is:
 
-- You work in a large enterprise
-- You work with SQL
+- a download for Windows that lets you query a Postgres database.
+
+Upcoming is:
+
+- Drivers for Oracle, SQL Server, and other databases
 - You often send data or SQL snippets to your colleagues
 - You would like to see what data your colleagues are working on
 - Privacy is important to you and your company
 - You would like an easy to install and use tool
-
-##Other Possible Solutions to share data in your company
-####Email, Excel, Qlik Sense, Tableue, and many other data tools
-<img src='https://github.com/zubairq/GoShareData/blob/master/public/landscape.jpg' />
 
 
 ## The GoShareData Data solution
