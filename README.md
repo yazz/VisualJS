@@ -8,6 +8,15 @@ GoShareData currently is:
 
 - a download for Windows that lets you query a Postgres databas (Down here http://GoShareData.com)
 
+Command line options:
+
+    -h, --help                 output usage information
+    -V, --version              output the version number
+    -t, --type [type]          Add the specified type of app [type]
+    -p, --port [port]          Which port should I listen on? [port]
+    -h, --host [host]          Server address of the central host [host]
+    -s, --hostport [hostport]  Server port of the central host [hostport]
+
 Upcoming is:
 
 - Drivers for Oracle, SQL Server, and other databases
@@ -15,6 +24,7 @@ Upcoming is:
 - You would like to see what data your colleagues are working on
 - Privacy is important to you and your company
 - You would like an easy to install and use tool
+
 
 
 ## The GoShareData Data solution
