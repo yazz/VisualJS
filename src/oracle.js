@@ -202,6 +202,7 @@
         console.error('drivers[oracle][get]');
 
         if (connection.connection) {
+			var fields = [];
           connection.connection.execute(
             // The statement to execute
             sql,
@@ -221,9 +222,27 @@
                 //doRelease(connection.connection);
                 return;
               }
-              //console.log(result.metaData); // [ { name: 'DEPARTMENT_ID' }, { name: 'DEPARTMENT_NAME' } ]
-              console.log(result.rows);     // [ [ 180, 'Construction' ] ]
-              callfn(result.rows);
+			  if (!result["metaData"]) {
+				  return;
+			  }
+			  var field;
+		      for (var i = 0; i < result["metaData"].length; i++) { 
+				  field = result["metaData"][i];
+				  fields.push(field["name"]);
+			  }
+              console.log(fields); // [ { name: 'DEPARTMENT_ID' }, { name: 'DEPARTMENT_NAME' } ]
+			  
+			  var newarray = [];
+			  var thing;
+			  for(var y = 0; y < result.rows.length; y++){
+				thing = {};
+				for(var i = 0; i < fields.length; i++){
+					thing[fields[i]] = result.rows[y][i];
+				}
+				newarray.push(thing);
+			}
+			  
+              callfn(newarray);
               //doRelease(connection.connection);
           })}
           },
