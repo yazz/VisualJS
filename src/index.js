@@ -30,20 +30,12 @@ var witheve = require("witheve");
 
 
 
-path.join(__dirname, '../public/blockly/blockly_compressed.js')
-path.join(__dirname, '../public/blockly/blocks_compressed.js')
-path.join(__dirname, '../public/yazz_blockly_blocks.js')
-path.join(__dirname, '../public/yazz_blockly_generator.js')
-path.join(__dirname, '../public/yazz_blockly_output_code.js')
-path.join(__dirname, '../public/blockly/msg/js/en.js')
 path.join(__dirname, '../public/jquery-1.9.1.min.js')
 path.join(__dirname, '../public/jquery.zoomooz.js')
-path.join(__dirname, '../public/blockly_helper.js')
-path.join(__dirname, '../public/blockly.png')
 path.join(__dirname, '../public/polyfill.min.js')
 path.join(__dirname, '../src/oracle.js')
 path.join(__dirname, '../src/postgres.js')
-path.join(__dirname, '../public/blockly_setup.js')
+path.join(__dirname, '../public/gosharedata_setup.js')
 path.join(__dirname, '../public/tether.min.js')
 path.join(__dirname, '../public/bootstrap.min.js')
 path.join(__dirname, '../public/bootstrap.min.css')

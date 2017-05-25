@@ -9,7 +9,7 @@ import store                    from './store.js'
 import db                       from '../public/dbhelper.js'
 
 
-const gun_ip_address = '172.18.0.102'
+const gun_ip_address = '10.0.0.6'
 
 window.vue = Vue;
 
@@ -454,6 +454,7 @@ $( document ).ready(function() {
       function(record) {
           console.log('record:' + JSON.stringify(record) )
       })*/
+	  
 });
 
 
