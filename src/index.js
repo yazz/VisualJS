@@ -26,7 +26,7 @@ var dbhelper     = require('../public/dbhelper');
 var Gun          = require('gun');
 var parseSqlFn = require('node-sqlparser').parse;
 var witheve = require("witheve");
-
+var Excel = require('exceljs');
 
 
 
@@ -524,3 +524,33 @@ if (typeOfSystem == 'client') {
 console.log('http://' + hostaddress  + ":" + port);
 
 }
+
+
+
+
+var workbook = new Excel.Workbook();
+workbook.creator = 'Me';
+workbook.lastModifiedBy = 'Her';
+workbook.created = new Date(1985, 8, 30);
+workbook.modified = new Date();
+workbook.lastPrinted = new Date(2016, 9, 27);
+workbook.properties.date1904 = true;
+var worksheet = workbook.addWorksheet('My Sheet');
+worksheet.addRow({id: 1, name: 'John Doe', dob: new Date(1970,1,1)});
+worksheet.addRow({id: 2, name: 'Jane Doe', dob: new Date(1965,1,7)});
+ 
+// Add a row by contiguous Array (assign to columns A, B & C) 
+worksheet.addRow([3, 'Sam', new Date()]);
+ 
+// Add a row by sparse Array (assign to columns A, E & I) 
+var rowValues = [];
+rowValues[1] = 4;
+rowValues[5] = 'Kyle';
+rowValues[9] = new Date();
+worksheet.addRow(rowValues);
+
+
+workbook.xlsx.writeFile('c:\myexcel.xlsx')
+    .then(function() {
+        // done 
+    });
