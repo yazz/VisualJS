@@ -35,6 +35,7 @@ path.join(__dirname, '../public/jquery.zoomooz.js')
 path.join(__dirname, '../public/polyfill.min.js')
 path.join(__dirname, '../src/oracle.js')
 path.join(__dirname, '../src/postgres.js')
+path.join(__dirname, '../src/excel.js')
 path.join(__dirname, '../public/gosharedata_setup.js')
 path.join(__dirname, '../public/tether.min.js')
 path.join(__dirname, '../public/bootstrap.min.js')
@@ -384,7 +385,11 @@ app.listen(port, hostaddress, function () {
 
 
 
+    var pgeval = '(' + fs.readFileSync(path.join(__dirname, './excel.js')).toString() + ')';
+    drivers['excel'] = eval( pgeval )
+    addOrUpdateDriver('excel', pgeval, drivers['excel'])
 
+	
     var pgeval = '(' + fs.readFileSync(path.join(__dirname, './postgres.js')).toString() + ')';
     drivers['postgres'] = eval( pgeval )
     addOrUpdateDriver('postgres', pgeval, drivers['postgres'])

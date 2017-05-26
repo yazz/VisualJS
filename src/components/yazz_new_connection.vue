@@ -6,6 +6,7 @@
        <select id=select_source v-model='connection_driver' class="col-xs-10  custom-select">
             <option value="postgres">Postgres</option>
             <option value="oracle">Oracle</option>
+            <option value="excel">Excel</option>
        </select>
     </div>
 
@@ -20,6 +21,10 @@
 			 </component>
     </transition>
 
+    <transition name="fast-fade">
+			 <component is="excel-add-connection" v-if='connection_driver == "excel"'>
+			 </component>
+    </transition>
  
 
   </div>

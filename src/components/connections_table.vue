@@ -67,21 +67,13 @@
 
 
 
-      <!--
-                 oracle
-         -->
         <div v-if="viewed_connection_driver == 'oracle'">
              <oracle-view-connection  :connection_name=viewed_connection_id>      </oracle-view-connection>
         </div>
-
-
-
-
-
-      <!--
-                 postgres
-         -->
         <div v-if="viewed_connection_driver == 'postgres'">
+		     <component is="postgres-view-connection" :connection_name=viewed_connection_id></component>
+        </div>
+        <div v-if="viewed_connection_driver == 'excel'">
 		     <component is="postgres-view-connection" :connection_name=viewed_connection_id></component>
         </div>
 
