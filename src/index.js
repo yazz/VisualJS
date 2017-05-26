@@ -409,8 +409,8 @@ app.listen(port, hostaddress, function () {
 
 
     var tdeval = '(' + fs.readFileSync(path.join(__dirname, './testdriver.js')).toString() + ')';
-    drivers['TestDriver'] = eval(tdeval)
-    addOrUpdateDriver('TestDriver', tdeval, drivers['TestDriver'])
+    drivers['testdriver'] = eval(tdeval)
+    addOrUpdateDriver('testdriver', tdeval, drivers['testdriver'])
 
 
     ////dbhelper.sql("insert into drivers (name,code,driver_type) values (?,?,?)",            ['a', 'b', 'c'])

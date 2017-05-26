@@ -216,38 +216,23 @@ function setupGunDB() {
                              cn: driver.name
                              ,
                              cp: {
-                                 id:      driver.name,
-                                 type:    driver.driver_type,
-                                 code:    driver.code
+									 id:      driver.name,
+									 type:    driver.driver_type,
+									 code:    driver.code
                                   }
                           });
 
 
 
-                  //if (evalede.vue) {
-				  if (driver.name == 'postgres') {
-                     //this.template =  evalede.vue
 					 if (evalede.vue)
 					 {
-						 Vue.component( 'postgres-view-connection' , evalede.vue );
+						 Vue.component( driver.name + '-view-connection' , evalede.vue );
 					 };
+					 
 					 if (evalede.vue_add) {
-						Vue.component('postgres-add-connection', evalede.vue_add);
-						//alert('postgres add + ' + evalede.vue_add.template)
+						Vue.component(driver.name + '-add-connection', evalede.vue_add);
 					 };
-                     //return evalede
-                  };
 
-
-				  if (driver.name == 'oracle') {
-					 if (evalede.vue)
-					 {
-						 Vue.component( 'oracle-view-connection' , evalede.vue );
-					 };
-					 if (evalede.vue_add) {
-						Vue.component('oracle-add-connection', evalede.vue_add);
-					 };
-                  };
 
 
 

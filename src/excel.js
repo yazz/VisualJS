@@ -5,7 +5,7 @@
             template:   '<div>'+
 						'     <table class="table table-striped table-bordered " style="width: 100%;">'+
 						'        <tbody>'+
-						'          <tr scope="row"><td>Type</td><td>postgres</td></tr>'+
+						'          <tr scope="row"><td>Type</td><td>Excel</td></tr>'+
 						'          <tr scope="row"><td>ID</td><td>{{get_connection_property(connection_name,"id")}}</td></tr>'+
 						'          <tr scope="row"><td>Status</td><td>{{get_connection_property(connection_name,"status")}}</td></tr>'+
 						'          <tr scope="row"><td>Database</td><td>{{get_connection_property(connection_name,"database")}}</td></tr>'+
@@ -114,7 +114,7 @@
 					  cn: this.connection_name,
 					  cp: {
 						  id:        this.connection_name,
-						  driver:    'postgres',
+						  driver:    'excel',
 						  database:  this.database,
 						  host:      this.host,
 						  port:      this.port,
@@ -132,13 +132,13 @@
 			  ,
 			  data: function() {
 				return {
-				  connection_name:           "postgres",
+				  connection_name:           "Excel",
 				  connection_connect_string: null,
-				  database:                  "postgres",
+				  database:                  "excel",
 				  host:                      "127.0.0.1",
 				  port:                      "5432",
 				  connection_status:         null,
-				  connection_username:       "postgres",
+				  connection_username:       "excel",
 				  connection_password:       "manager"
 				};
 			  }
