@@ -4,25 +4,13 @@
 
     <div class="form-group">
        <select id=select_source v-model='connection_driver' class="col-xs-10  custom-select">
-            <option value="postgres">Postgres</option>
-            <option value="oracle">Oracle</option>
-            <option value="excel">Excel</option>
+            <option v-for='driver in this.$store.state.list_of_drivers' v-bind:value="driver.id">{{driver.id}}</option>
        </select>
     </div>
 
 
-    <transition name="fast-fade">
-      <oracle-add-connection v-if='connection_driver == "oracle"'>
-      </oracle-add-connection>
-    </transition>
-
-    <transition name="fast-fade">
-			 <component is="postgres-add-connection" v-if='connection_driver == "postgres"'>
-			 </component>
-    </transition>
-
-    <transition name="fast-fade">
-			 <component is="excel-add-connection" v-if='connection_driver == "excel"'>
+    <transition v-for='driver in this.$store.state.list_of_drivers' name="fast-fade">
+			 <component v-bind:is="driver.id + '-add-connection'" v-if='connection_driver == driver.id'>
 			 </component>
     </transition>
  
