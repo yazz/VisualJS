@@ -63,18 +63,12 @@
                  show the properties of the currently
                  selected connection
          -->
-         <h2>Properties</h2>
+         <h2>Properties </h2>
 
 
 
-        <div v-if="viewed_connection_driver == 'oracle'">
-             <oracle-view-connection  :connection_name=viewed_connection_id>      </oracle-view-connection>
-        </div>
-        <div v-if="viewed_connection_driver == 'postgres'">
-		     <component is="postgres-view-connection" :connection_name=viewed_connection_id></component>
-        </div>
-        <div v-if="viewed_connection_driver == 'excel'">
-		     <component is="postgres-view-connection" :connection_name=viewed_connection_id></component>
+        <div v-for='driver in this.$store.state.list_of_drivers' >
+		     <component v-if="viewed_connection_driver == driver.id" v-bind:is="driver.id + '-view-connection'" :connection_name=viewed_connection_id></component>
         </div>
 
 
