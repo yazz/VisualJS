@@ -186,6 +186,8 @@ function setupGunDB() {
                                                                                 password: conn.password
                                                                                 ,
                                                                                 connectString: conn.connectString
+                                                                                ,
+                                                                                fileName: conn.fileName
                                                                                }});
                               };
            }

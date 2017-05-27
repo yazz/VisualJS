@@ -7,7 +7,7 @@
 						'        <tbody>'+
 						'          <tr scope="row"><td>Type</td><td>Excel</td></tr>'+
 						'          <tr scope="row"><td>ID</td><td>{{get_connection_property(connection_name,"id")}}</td></tr>'+
-						'          <tr scope="row"><td>File</td><td>{{get_connection_property(connection_name,"file")}}</td></tr>'+
+						'          <tr scope="row"><td>File</td><td>{{get_connection_property(connection_name,"fileName")}}</td></tr>'+
 						'        <tbody>'+
 						'      </table>'+
 						'</div>'
@@ -66,29 +66,30 @@
 			  props: []
 			  ,
 			  methods: {
-				  onFileChange(e) {
+				  onFileChange: function(e) {
 					  var files = e.target.files || e.dataTransfer.files;
 					  if (!files.length)
 						return;
-					  //alert(files[0].value);
+					 this.fileName = document.getElementById('FileItem').value;
+					 //alert(this.fileName);
 					},
 				get_connection_property: function (cn, prop_name) {
 				  for (cc in this.$store.state.list_of_connections) {
 					if (this.$store.state.list_of_connections[cc].id == cn) {
+						alert(this.$store.state.list_of_connections[cc][prop_name]);
 					  return this.$store.state.list_of_connections[cc][prop_name];
 					};
 				  };
 				  return 'Unknown ' + cn + ":" + prop_name;
 				},
 				OK: function() {
-					alert('OK: ' + this.connection_name);
 				  this.$store.dispatch('add_new_connection',
 				  {
 					  cn: this.connection_name,
 					  cp: {
 						  id:        this.connection_name,
 						  driver:    'excel',
-						  file:      this.file
+						  fileName: this.fileName
 					  }
 				  });
 				  this.$store.dispatch('hide_add_connection');

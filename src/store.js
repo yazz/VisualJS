@@ -214,7 +214,7 @@ export default new Vuex.Store({
                       ,
                       password
 					  ,
-					  file
+					  fileName
                   )
               values
                   (?,?,?,?,?,?,?,?,?,?)`
@@ -238,7 +238,7 @@ export default new Vuex.Store({
                         ,
 						(connection.cp.password?connection.cp.password:null)
                         ,
-						(connection.cp.file?connection.cp.file:null)
+						(connection.cp.fileName?connection.cp.fileName:null)
                   ]
             )
     },
