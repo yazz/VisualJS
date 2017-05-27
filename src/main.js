@@ -1,5 +1,6 @@
 import Vue                      from 'vue'
 import Welcome                  from './components/Welcome.vue'
+import FileBrowser              from './components/FileBrowser.vue'
 import ConnectedClients         from './components/central_server/connected_clients.vue'
 import yazz_new_connection      from './components/yazz_new_connection.vue'
 import connections_table        from './components/connections_table.vue'
@@ -7,6 +8,8 @@ import output_table             from './components/output_table.vue'
 import drivers_table            from './components/drivers_table.vue'
 import store                    from './store.js'
 import db                       from '../public/dbhelper.js'
+
+Vue.component('FileBrowser',FileBrowser);
 
 
 const gun_ip_address = '10.0.0.6'
