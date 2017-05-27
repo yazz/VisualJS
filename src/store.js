@@ -213,16 +213,18 @@ export default new Vuex.Store({
                       user
                       ,
                       password
+					  ,
+					  file
                   )
               values
-                  (?,?,?,?,?,?,?,?,?)`
+                  (?,?,?,?,?,?,?,?,?,?)`
                   ,
                   [
                         autoIndexSerialId()
                         ,
                         connection.cn
                         ,
-                        connection.cp.driver
+                        (connection.cp.driver?connection.cp.driver:null)
                         ,
                         (connection.cp.database?connection.cp.database:null)
                         ,
@@ -232,9 +234,11 @@ export default new Vuex.Store({
                         ,
                         (connection.cp.connectString?connection.cp.connectString:null)
                         ,
-                        connection.cp.user
+						(connection.cp.user?connection.cp.user:null)
                         ,
-                        connection.cp.password
+						(connection.cp.password?connection.cp.password:null)
+                        ,
+						(connection.cp.file?connection.cp.file:null)
                   ]
             )
     },
