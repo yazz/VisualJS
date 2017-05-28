@@ -27,6 +27,33 @@ var Gun          = require('gun');
 var parseSqlFn = require('node-sqlparser').parse;
 var witheve = require("witheve");
 var Excel = require('exceljs');
+const drivelist = require('drivelist');
+ 
+ 
+ var walk = function(dir, done) {
+  var results = [];
+  fs.readdir(dir, function(err, list) {
+    if (err) return done(err);
+    var pending = list.length;
+    if (!pending) return done(null, results);
+    list.forEach(function(file) {
+      file = path.resolve(dir, file);
+      fs.stat(file, function(err, stat) {
+        if (stat && stat.isDirectory()) {
+          walk(file, function(err, res) {
+            results = results.concat(res);
+            if (!--pending) done(null, results);
+          });
+        } else {
+		  if (file.indexOf('.xls') != -1) {
+			results.push(file);
+		  }
+          if (!--pending) done(null, results);
+        }
+      });
+    });
+  });
+};
 
 
 
@@ -470,6 +497,26 @@ app.listen(port, hostaddress, function () {
 
 
 
+	
+	
+	drivelist.list((error, drives) => {
+		  if (error) {
+			throw error;
+		  }
+		 
+		  drives.forEach((drive) => {
+			console.log(drive);
+			var driveStart = 
+			console.log("Drive: " + drive.mountpoints[0].path);
+			walk("C:\\", function(error, results){
+				console.log('*Error: ' + error);
+				var excelFile;
+				for (excelFile in results) {
+					console.log('   *Results: ' + results[excelFile]);
+				}
+			});
+		  });
+		});
   }
 
 
@@ -559,3 +606,10 @@ workbook.xlsx.writeFile('c:\myexcel.xlsx')
     .then(function() {
         // done 
     });
+	
+	
+	
+	
+	
+	
+ 

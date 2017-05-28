@@ -72,7 +72,6 @@
 					  if (!files.length)
 						return;
 					 this.fileName = document.getElementById('FileItem').value;
-					 //alert(this.fileName);
 					},
 				get_connection_property: function (cn, prop_name) {
 				  for (cc in this.$store.state.list_of_connections) {
