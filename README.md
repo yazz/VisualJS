@@ -1,8 +1,78 @@
+
+<div >
+
+    <span style="float: left">
+        Think of GoShareData as a way to see all the data that your colleagues are working on
+    </span>
+</div>
+
+
+
+
 <div style='text-align: center; width: 100%;'>
 <p align="center">
     <img src='https://github.com/zubairq/GoShareData/blob/master/public/gosharedata_logo.PNG' />
     </p>
 </div>
+
+	
+As a hobby, in October 2016 I started building GoShareData as an Open Source Project to solve a problem that I have faced at every large company, which is "How do I access and share frequently used data from different places"?
+
+The product is built with:
+
+- VueJS 2 and Vuex
+- GunDB
+- Javascript
+- NodeJS
+- Express
+
+
+
+The current progress so far from October 2016 - May 2017:
+
+- 259 stars on Guthub: https://github.com/zubairq/gosharedata
+- I am still the only user of the product
+- The product is a downloadable Windows application that can be downloaded and run for Windows or Mac within 1 minute on a fast connections
+- There is a test homepage at gosharedata.com where you can download the product
+- Used for very basic tasks like making queries to different databases so far, mainly because it is so fast to load compared to other data access tools like TOAD
+- Support for Postgres and Oracle databases works
+- A meetup group at https://www.meetup.com/gosharedata/ has had 11 events, a couple from me, and the rest which Suomen Chatterjee uses to promote his work with the SQL Server databases
+- The product works on Internet explorer, Safari, Firefox and Chrome
+- One click .exe for Windows
+
+
+Upcoming tasks scheduled for June 2017:
+
+- Only have the 2 dedicated servers until 10 June. I have asked to get another 3 months trial. If they say no then I have to find the cheapest hosting provider that I can get, since this is open source
+- Need to make a clear message on the website
+- Allow all local Excel and CSV files to be read in
+- Build a file browser in to be able to select a file to link to
+- Add MySQL, Microsoft SQL Server, Maria DB
+- Be able to browse the SQL Schemas
+- Show the product at a GoShareData meetup
+- Get small companies to use it to share their databases
+- Make Links work on the product
+- Write more data articles on LinkedIn 
+
+
+
+Future roadmap
+
+- Enable an export to the Eve Language
+- Send data or SQL snippets to your colleagues
+- See what data your colleagues are working on
+- Ability to see other users in my organisation
+- Ability to browse datasets
+
+
+Current thinking about monetization:
+
+- Free for up to 5 users in an organisation and then $10 per user per month
+- Free for personal use. $200 per year for commercial use per user
+
+
+
+
 
 GoShareData currently is:
 
@@ -17,13 +87,6 @@ Command line options:
     -h, --host [host]          Server address of the central host [host]
     -s, --hostport [hostport]  Server port of the central host [hostport]
 
-Upcoming is:
-
-- Drivers for Oracle, SQL Server, and other databases
-- You often send data or SQL snippets to your colleagues
-- You would like to see what data your colleagues are working on
-- Privacy is important to you and your company
-- You would like an easy to install and use tool
 
 
 
@@ -31,98 +94,8 @@ Upcoming is:
 ### GoShareData is building a system so that you can see everything in your organisation
 <img src='https://github.com/zubairq/GoShareData/blob/master/public/screenshot.PNG' />
 
-I are still building this data collaboration tool. Here is my progress so far:
-
-* Connect to Oracle and Postgres databases.DONE
-* Execute SQL.DONE
-* One click .exe for Windows.DONE
-* Development environment realtime with Vue.js and GunDB.DONE ***<--- We are here***
-* Ability to see other users in my organisation
-* Ability to browse datasets
 
 
-
-#Table of contents
-
-
-
-<div >
-
-    <span style="float: left">
-        Think of GoShareData as a way to see all the data that your colleagues are working on
-    </span>
-</div>
-
-
-
- - [TLDR](#tldr)
- - [Is GoShareData for me?](#is-GoShareData-for-me)
- - [How is GoShareData different to other data tools?](#how-is-GoShareData-different-to-other-data-tools)
- - [Product roadmap](#product-roadmap)
- - [Quick start Windows](#quick-start-windows)
- - [Quick start Mac](#quick-start-mac)
- - [Quick start for Windows](#quick-start-for-windows)
- - [MIT licensing](#mit-licensing)
- - [The long story of GoShareData](#the-long-story-of-GoShareData)
- - [What is GoShareData killer feature?](#what-is-GoShareData-killer-feature)
- - [What is GoShareData not good for?](#what-is-GoShareData-not-good-for)
- - [All features](#all-features)
- - [Differences from TOAD](#differences-from-toad)
- - [Comparison with other Data access tools](#comparison-with-other-data-access-tools)
- - [When will Excel support be available?](#when-will-excel-support-be-available)
- - [When will other databases be supported?](#when-will-other-databases-be-supported)
- - [Deprecated features from April 2013 to December 2016](#deprecated-features-from-april-2013-to-december-2016)
- - [Developer Resources](#developer-resources)
-
-
-
-
-
-
-### TLDR
-<img src='https://github.com/zubairq/GoShareData/blob/master/resources/public/demoscreen.PNG?raw=true' />
-
-GoShareData is a a tool for people who work wiht data in enterprises. For Windows it canbe downloaded as a .exe file. It is free for personal use or for teams of less than 5 people. Above 5 people it costs USD 50 per person per month.
-
-
-
-
-### Is GoShareData for me?
-<img height='350px' src='http://i.imgur.com/QsIsjo8.jpg' />
-
-GoShareData may be for you if you can answer 'yes' to the following:
-
-1. You need to see what data your colleagues are working on
-2. You use Postgres or Oracle as your data store
-
-
-
-
-
-
-
-
-
-
-
-### How is GoShareData different to other data tools?
-<img height='350px' src='http://cdn.shopify.com/s/files/1/0070/7032/files/rubberduck.jpg?2841' />
-
-Most data tools fall into either low level data access tools such as TOAD, or high end visualisation tools such as Qlik sense. GoShareData fits into the middle as it can be downloaded on an individuals PC like TOAD, yet it lets you share and explore data like Qlik Sense
-
-
-
-
-
-
-
-
-### Product Roadmap
-<img height='350px' src='http://www.slideteam.net/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/p/r/product_roadmap_timeline_2012_to_2016_road_mapping_future_perspectives_powerpoint_templates_slides_Slide01_2.jpg' />
-
-As of January 2017 GoShareData is in active development. The future product roadmap is as follows:
- - January 2017 - Basic data tool released
- - February 2017 - Team sharing tool released
 
 
 
