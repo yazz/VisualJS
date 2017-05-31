@@ -1,11 +1,9 @@
+---
+**GO SHARE DATA**
 
-<div >
+Think of GoShareData as a way to see all the data that your colleagues are working on
 
-    <span style="float: left">
-        Think of GoShareData as a way to see all the data that your colleagues are working on
-    </span>
-</div>
-
+---
 
 
 
