@@ -28,8 +28,8 @@ var parseSqlFn = require('node-sqlparser').parse;
 var witheve = require("witheve");
 var Excel = require('exceljs');
 const drivelist = require('drivelist');
- 
- 
+
+
  function isExcelFile(fname) {
 	 if (!fname) {
 		return false;
@@ -40,8 +40,8 @@ const drivelist = require('drivelist');
 	 if (ext == "xlsx") return true;
 	 return false;
  }
- 
- 
+
+
  var walk = function(dir, done) {
   var results = [];
   fs.readdir(dir, function(err, list) {
@@ -209,6 +209,7 @@ function startServices() {
   // Show the default page
   //------------------------------------------------------------------------------
     app.get('/', function (req, res) {
+      console.log("Host: " + req.headers.host);
       if (!init_drivers) {
         init_drivers = true;
         eval(toeval);
@@ -428,7 +429,7 @@ app.listen(port, hostaddress, function () {
     drivers['excel'] = eval( pgeval )
     addOrUpdateDriver('excel', pgeval, drivers['excel'])
 
-	
+
     var pgeval = '(' + fs.readFileSync(path.join(__dirname, './postgres.js')).toString() + ')';
     drivers['postgres'] = eval( pgeval )
     addOrUpdateDriver('postgres', pgeval, drivers['postgres'])
@@ -509,16 +510,16 @@ app.listen(port, hostaddress, function () {
 
 
 
-	
-	
+
+
 	drivelist.list((error, drives) => {
 		  if (error) {
 			throw error;
 		  }
-		 
+
 		  drives.forEach((drive) => {
 			console.log(drive);
-			var driveStart = 
+			var driveStart =
 			console.log("Drive: " + drive.mountpoints[0].path);
 			walk("C:\\", function(error, results){
 				console.log('*Error: ' + error);
@@ -604,11 +605,11 @@ workbook.properties.date1904 = true;
 var worksheet = workbook.addWorksheet('My Sheet');
 worksheet.addRow({id: 1, name: 'John Doe', dob: new Date(1970,1,1)});
 worksheet.addRow({id: 2, name: 'Jane Doe', dob: new Date(1965,1,7)});
- 
-// Add a row by contiguous Array (assign to columns A, B & C) 
+
+// Add a row by contiguous Array (assign to columns A, B & C)
 worksheet.addRow([3, 'Sam', new Date()]);
- 
-// Add a row by sparse Array (assign to columns A, E & I) 
+
+// Add a row by sparse Array (assign to columns A, E & I)
 var rowValues = [];
 rowValues[1] = 4;
 rowValues[5] = 'Kyle';
@@ -618,12 +619,5 @@ worksheet.addRow(rowValues);
 
 workbook.xlsx.writeFile('c:\myexcel.xlsx')
     .then(function() {
-        // done 
+        // done
     });
-	
-	
-	
-	
-	
-	
- 
