@@ -8,7 +8,7 @@
 </div>
 
 	
-As a hobby, in October 2016 I started building GoShareData as an Open Source Project to solve a problem that I have faced at every large company, which is "How do I access and share frequently used data from different places"?
+As a hobby, in October 2016 I started building GoShareData as an Open Source Project to solve a problem that I have faced at every large company, which is "How do I access and share frequently used data on my computer"?
 
 The product is built with:
 
