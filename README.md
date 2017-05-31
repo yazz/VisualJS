@@ -1,5 +1,4 @@
-Think of GoShareData as a way to see all the data that your colleagues are working on
-
+## Think of GoShareData as a way to see all the data that your colleagues are working on
 
 
 <div style='text-align: center; width: 100%;'>
