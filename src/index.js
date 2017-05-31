@@ -211,6 +211,13 @@ function startServices() {
     app.get('/', function (req, res) {
       console.log("Host: " + req.headers.host);
       console.log("URL: " + req.originalUrl);
+      if (req.headers.host.toLowerCase() == 'canlabs.com') {
+        res.writeHead(301,
+            {Location: 'http://canlabs.com/canlabs'}
+          );
+          res.end();
+          return;
+      }
 
       if (!init_drivers) {
         init_drivers = true;
