@@ -210,7 +210,7 @@ function startServices() {
   //------------------------------------------------------------------------------
     app.get('/', function (req, res) {
       console.log("Host: " + req.headers.host);
-      console.log("URL: " + req.url);
+      console.log("URL: " + req.originalUrl);
 
       if (!init_drivers) {
         init_drivers = true;
