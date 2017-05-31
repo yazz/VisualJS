@@ -30,6 +30,18 @@ var Excel = require('exceljs');
 const drivelist = require('drivelist');
  
  
+ function isExcelFile(fname) {
+	 if (!fname) {
+		return false;
+	 };
+	 var ext = fname.split('.').pop();
+	 ext = ext.toLowerCase();
+	 if (ext == "xls") return true;
+	 if (ext == "xlsx") return true;
+	 return false;
+ }
+ 
+ 
  var walk = function(dir, done) {
   var results = [];
   fs.readdir(dir, function(err, list) {
@@ -45,7 +57,7 @@ const drivelist = require('drivelist');
             if (!--pending) done(null, results);
           });
         } else {
-		  if (file.indexOf('.xls') != -1) {
+		  if (isExcelFile(file)) {
 			results.push(file);
 		  }
           if (!--pending) done(null, results);
@@ -512,7 +524,9 @@ app.listen(port, hostaddress, function () {
 				console.log('*Error: ' + error);
 				var excelFile;
 				for (excelFile in results) {
-					console.log('   *Results: ' + results[excelFile]);
+					if (typeof results[excelFile] !== "undefined") {
+						console.log('   *Results: ' + results[excelFile]);
+					}
 				}
 			});
 		  });
