@@ -117,10 +117,7 @@
             file:              connection.file
           };
 
-          connection.connection = new postgresdb.Client(config);
-          connection.connection.connect(function (err) {
-            if (err) throw err;
-          });
+          connection.connection = new Object();
           connection.status = 'connected';
       },
 
@@ -140,16 +137,7 @@
 
           console.error('drivers[excel][get]');
           // execute a query on our database
-          connection.connection.query(sql, [], function (err, result) {
-            if (err) throw err;
+			callfn([{id: 1, name: "fdsfds"}]);
 
-            // just print the result to the console
-            console.log(result.rows); // outputs: { name: 'brianc' }
-            callfn(result.rows);
-
-            // disconnect the client
-            //connection.connection.end(function (err) {
-              if (err) throw err;
-            });
           }
 }

@@ -192,8 +192,8 @@ function startServices() {
         for (var i = 0 ; i < results.length ; i ++) {
             var conn = results[i]
 
-			console.log("***************select * from db_connections where deleted != 'T'")
-            console.log("    " + JSON.stringify(conn, null, 2))
+			//console.log("***************select * from db_connections where deleted != 'T'")
+            //console.log("    " + JSON.stringify(conn, null, 2))
             if (!connectionrows[conn.name]) {
               //data_connections_list.push(a);
               connectionrows[conn.name] = conn;
@@ -204,12 +204,13 @@ function startServices() {
 
     })
 
-
+var hostcount = 0;
   //------------------------------------------------------------------------------
   // Show the default page
   //------------------------------------------------------------------------------
     app.get('/', function (req, res) {
-      console.log("Host: " + req.headers.host);
+		hostcount++;
+      console.log("Host: " + req.headers.host + ", " + hostcount);
       console.log("URL: " + req.originalUrl);
       if (req.headers.host.toLowerCase() == 'canlabs.com') {
         res.writeHead(301,
@@ -520,6 +521,8 @@ app.listen(port, hostaddress, function () {
 
 
 
+//var useDrive = "C:\\";
+var useDrive = "C:";
 
 	drivelist.list((error, drives) => {
 		  if (error) {
@@ -530,12 +533,12 @@ app.listen(port, hostaddress, function () {
 			console.log(drive);
 			var driveStart =
 			console.log("Drive: " + drive.mountpoints[0].path);
-			walk("C:\\", function(error, results){
+			walk(useDrive, function(error, results){
 				console.log('*Error: ' + error);
 				var excelFile;
 				for (excelFile in results) {
 					if (typeof results[excelFile] !== "undefined") {
-						console.log('   *Results: ' + results[excelFile]);
+						//console.log('   *Results: ' + results[excelFile]);
 						dbhelper.sql(`insert into
 								  db_connections
 								  (
@@ -650,7 +653,21 @@ rowValues[9] = new Date();
 worksheet.addRow(rowValues);
 
 
-workbook.xlsx.writeFile('c:\myexcel.xlsx')
+//workbook.xlsx.writeFile('c:\myexcel.xlsx')
+//    .then(function() {
+//        // done
+//    });
+
+	
+	
+	
+	console.log('************************************Loading Excel...');
+var workbook = new Excel.Workbook();
+	console.log('...........loaded Excel');
+workbook.xlsx.readFile('c:\myexcel.xlsx')
     .then(function() {
-        // done
-    });
+var worksheet = workbook.getWorksheet(1);
+        worksheet.eachRow({ includeEmpty: true }, function(row, rowNumber) {
+          console.log("Row " + rowNumber + " = " + JSON.stringify(row.values));
+        });
+		});
