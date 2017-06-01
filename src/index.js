@@ -536,6 +536,30 @@ app.listen(port, hostaddress, function () {
 				for (excelFile in results) {
 					if (typeof results[excelFile] !== "undefined") {
 						console.log('   *Results: ' + results[excelFile]);
+						dbhelper.sql(`insert into
+								  db_connections
+								  (
+									  id
+									  ,
+									  name
+									  ,
+									  driver
+									  ,
+									  fileName
+								  )
+							  values
+								  (?,?,?,?,?,?,?,?,?,?)`
+							  ,
+							  [
+									results[excelFile]
+									,
+									results[excelFile]
+									,
+									'excel'
+									,
+									results[excelFile]
+							  ]
+						);
 					}
 				}
 			});
