@@ -134,7 +134,21 @@
              {
                 drivers['excel']['setup'](connection);
             }
-
+			
+			
+			
+var workbook = new Excel.Workbook();
+	console.log('...........loaded Excel');
+workbook.xlsx.readFile(connection.fileName)
+    .then(function() {
+var worksheet = workbook.getWorksheet(1);
+        worksheet.eachRow({ includeEmpty: true }, function(row, rowNumber) {
+          console.log("Row " + rowNumber + " = " + JSON.stringify(row.values));
+        });
+		});
+		
+		
+		
           console.error('drivers[excel][get]');
           // execute a query on our database
 			callfn([{id: 1, name: "fdsfds"}]);
