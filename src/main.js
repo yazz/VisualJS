@@ -302,16 +302,53 @@ function read_connections(a,b){
 
 //store.dispatch('set_output_records', data);
 window.setOutputData = function(data) {
-	if (data.length > 0) {
-		var fields = Object.keys(data[0]);
-		store.dispatch('set_output_fields', fields);
-		//alert(fields);
-		store.dispatch('set_output_records', data);
-	}
-	else
-	{
-		store.dispatch('set_output_fields', []);
-		store.dispatch('set_output_records', []);
+	if (data) {
+		//alert(data);
+		if( Object.prototype.toString.call( data ) === '[object Array]' ) {
+			if (data.length > 0) {
+				var fields = Object.keys(data[0]);
+				store.dispatch('set_output_fields', fields);
+				//alert(fields);
+				store.dispatch('set_output_records', data);
+			}
+			else
+			{
+				store.dispatch('set_output_fields', []);
+				store.dispatch('set_output_records', []);
+			}
+		}
+		else
+		{
+			if (data.values.length > 0) {
+				var fields = [];
+				if (data.fields) {
+					fields = data.fields;
+				}
+				else
+				{
+					fields = Object.keys(data.values[0]);
+				}
+				store.dispatch('set_output_fields', fields);
+				if( Object.prototype.toString.call( data.values ) === '[object Array]' ) {
+					var output = [];
+					for(var i = 0; i < data.values.length; i++){
+						var row = new Object();
+						for(var j = 0; j < fields.length; j++){
+							row[fields[j]] = data.values[i][j];
+						}
+						output.push(row);
+					}
+					store.dispatch('set_output_records', output);
+				} else {
+					store.dispatch('set_output_records', data.values);
+				};
+			}
+			else
+			{
+				store.dispatch('set_output_fields', []);
+				store.dispatch('set_output_records', []);
+			}
+		}
 	}
 };
 

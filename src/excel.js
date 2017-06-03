@@ -139,21 +139,28 @@
 			var rows=[];
 			
 			var workbook = new Excel.Workbook();
-			//console.log('...........loaded Excel');
+			console.log('...........loaded Excel');
 			workbook.xlsx.readFile(connection.fileName)
 			.then(function() {
 			var worksheet = workbook.getWorksheet(1);
+			var maxLength = 0;
 			worksheet.eachRow({ includeEmpty: true }, function(row, rowNumber) {
 				//console.log("Row " + rowNumber + " = " + JSON.stringify(row.values));
-				var thisRow = {};
-				for(var i = 0; i < row.values.length; i++){
-					thisRow['' + i] = row.values[i];
+				if (row.values.length > maxLength ) {
+					maxLength = row.values.length;
 				}
 				//console.log("ThisRow  = " + JSON.stringify(thisRow));
-				rows.push(thisRow);
+				rows.push(row.values);
 			});
-						callfn(rows);
-						console.log("Rows  = " + JSON.stringify(rows));
+			var fields = [];
+			for(var i = 0; i < maxLength; i++){
+				fields.push('' + i);
+			}
+			var ret = new Object();
+			ret["fields"] = fields;
+			ret["values"] = rows;
+			callfn(ret);
+			console.log("ret  = " + JSON.stringify(ret));
 
 			});
 
