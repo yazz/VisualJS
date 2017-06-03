@@ -136,22 +136,32 @@
             }
 			
 			
+			var rows=[];
 			
-var workbook = new Excel.Workbook();
-	console.log('...........loaded Excel');
-workbook.xlsx.readFile(connection.fileName)
-    .then(function() {
-var worksheet = workbook.getWorksheet(1);
-        worksheet.eachRow({ includeEmpty: true }, function(row, rowNumber) {
-          console.log("Row " + rowNumber + " = " + JSON.stringify(row.values));
-        });
-		});
-		
+			var workbook = new Excel.Workbook();
+			//console.log('...........loaded Excel');
+			workbook.xlsx.readFile(connection.fileName)
+			.then(function() {
+			var worksheet = workbook.getWorksheet(1);
+			worksheet.eachRow({ includeEmpty: true }, function(row, rowNumber) {
+				//console.log("Row " + rowNumber + " = " + JSON.stringify(row.values));
+				var thisRow = {};
+				for(var i = 0; i < row.values.length; i++){
+					thisRow['' + i] = row.values[i];
+				}
+				//console.log("ThisRow  = " + JSON.stringify(thisRow));
+				rows.push(thisRow);
+			});
+						callfn(rows);
+						console.log("Rows  = " + JSON.stringify(rows));
+
+			});
+
+			
 		
 		
           console.error('drivers[excel][get]');
           // execute a query on our database
-			callfn([{id: 1, name: "fdsfds"}]);
 
           }
 }
