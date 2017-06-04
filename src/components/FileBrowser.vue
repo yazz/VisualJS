@@ -1,6 +1,6 @@
 <template>
   <div id="app2">
-  File browser
+  
   </div>
 </template>
 
