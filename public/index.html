@@ -144,9 +144,9 @@
       <div  id=mainsources class="zoomTarget" data-targetsize="1"
                style='padding: 5px;position: absolute; left: 0%; top: 50%; height: 90%; width: 90%; display: inline-block; -webkit-transform: translatez(0); transform:   scale(0.5, 0.5);border: 5px solid blue;overflow: auto'; >
         <h1>
-          Network 
+          Network
         </h1>
-		Keep all my data Private <input type=checkbox checked></input> 
+		Keep all my data Private <input type=checkbox checked></input>
 
         </div>
 
@@ -169,34 +169,36 @@
       <h3>
         Settings
       </h3>
-	  
-	  
-	  
-	  
+
+
+
+
 			<div   id=mainsources class="zoomTarget" data-targetsize="1"
 		    	   style='padding: 5px;position: absolute; left: 0%; top: 6%; height: 85%; width: 90%; margin: 5px; display: inline-block;
           				  -webkit-transform: translatez(0);        transform:   scale(0.5, 0.5);border: 5px solid blue;overflow: auto'; >
 	    		<h1>
 			        Connections
 			    </h1>
-				<input type=button value='Scan Harddisk'
-					   onClick='scanHardDisk();'>
+          <input type=button value='Scan Harddisk'
+  					   onClick='scanHardDisk();'>
+               <input type=button value='Stop scan'
+       					   onClick='stopScanHardDisk();'>
 		    	<div id="connections_window" style='height: 85%; width: 85%;' >
 			        <div class='container'>
 				        <div class="row">
 				            <div class="col-xs-12">
 					            <connections-table></connections-table>
 				            </div>
-				        </div> 
+				        </div>
 			        </div>
-			    </div>  
+			    </div>
 			</div>
 
 
-	  
-	  
-	  
-	  
+
+
+
+
 		  <div id=ttt322 class="zoomTarget"  data-targetsize="1"
 			   style='position: absolute; left: 0%; top: 50%; height: 90%; width: 90%;
 					  display: inline-block; -webkit-transform: translatez(0); transform:   scale(0.5, 0.5);margin: 5px;border: 5px solid blue;
@@ -214,9 +216,9 @@
 				</div>
 				</div>
 				</div>
-		
-		
-		
+
+
+
 		  <div id=ttt32 class="zoomTarget"  data-targetsize="1"
 			   style='position: absolute; left: 50%; top: 50%; height: 90%; width: 90%;
 					  display: inline-block; -webkit-transform: translatez(0); transform:   scale(0.5, 0.5);border: 5px solid blue;
@@ -442,7 +444,22 @@
         url: '/scanharddisk',
         success: function(data) {
           //$("#result").text(data);
-		  alert('Hard disk scan complete!');
+		  alert('Hard disk scan started!');
+			},
+        error: function(jqXHR, textStatus, errorThrown) {
+          alert('error ' + textStatus + " " + errorThrown);
+        }
+      });
+    };
+
+    function stopScanHardDisk() {
+      $.ajax({
+
+        type: "GET",
+        url: '/stopscanharddisk',
+        success: function(data) {
+          //$("#result").text(data);
+		  alert('Hard disk scan stopped!');
 			},
         error: function(jqXHR, textStatus, errorThrown) {
           alert('error ' + textStatus + " " + errorThrown);

@@ -28,6 +28,8 @@ var parseSqlFn = require('node-sqlparser').parse;
 var witheve = require("witheve");
 var Excel = require('exceljs');
 const drivelist = require('drivelist');
+
+var stopScan = false;
 var XLSX = require('xlsx');
 
  function isExcelFile(fname) {
@@ -43,6 +45,11 @@ var XLSX = require('xlsx');
 
 
  var walk = function(dir, done) {
+   if (stopScan) {
+     done(null, results);
+     return;
+   };
+   //console.log('dir: ' + dir);
   var results = [];
   fs.readdir(dir, function(err, list) {
     if (err) return done(err);
@@ -58,6 +65,7 @@ var XLSX = require('xlsx');
           });
         } else {
 		  if (isExcelFile(file)) {
+        console.log('file: ' + file);
 			results.push(file);
 		  }
           if (!--pending) done(null, results);
@@ -252,11 +260,20 @@ app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 // Get the result of a SQL query
 //------------------------------------------------------------------------------
   app.get('/scanharddisk', function (req, res) {
-						
+
 						res.writeHead(200, {'Content-Type': 'text/plain'});
 						res.end('');
+            stopScan = false;
 						scanHardDisk();
-						
+
+  });
+
+  app.get('/stopscanharddisk', function (req, res) {
+
+            res.writeHead(200, {'Content-Type': 'text/plain'});
+            res.end('');
+            stopScan = true;
+
   });
 
 
@@ -532,8 +549,8 @@ app.listen(port, hostaddress, function () {
 	}
 
 
-	  
-	  
+
+
 function addOrUpdateDriver(name, code, theObject) {
     console.log("******************************addOrUpdateDriver ")
     console.log("       name = " + name)
@@ -619,9 +636,9 @@ worksheet.addRow(rowValues);
 //        // done
 //    });
 
-	
-	
-	
+
+
+
 	console.log('************************************Loading Excel...');
 var workbook = new Excel.Workbook();
 	console.log('...........loaded Excel');
@@ -632,14 +649,14 @@ var worksheet = workbook.getWorksheet(1);
           console.log("Row " + rowNumber + " = " + JSON.stringify(row.values));
         });
 		});
-		
-		
-		
-		
-		
-		
-		
-function scanHardDisk() { 
+
+
+
+
+
+
+
+function scanHardDisk() {
 	var useDrive = "C:\\";
 	//var useDrive = "C:";
 
@@ -652,39 +669,41 @@ function scanHardDisk() {
 				console.log(drive);
 				var driveStart =
 				console.log("Drive: " + drive.mountpoints[0].path);
-				walk(useDrive, function(error, results){
-					console.log('*Error: ' + error);
-					var excelFile;
-					for (excelFile in results) {
-						if (typeof results[excelFile] !== "undefined") {
-							//console.log('   *Results: ' + results[excelFile]);
-							dbhelper.sql(`insert into
-									  db_connections
-									  (
-										  id
-										  ,
-										  name
-										  ,
-										  driver
-										  ,
-										  fileName
-									  )
-								  values
-									  (?,?,?,?,?,?,?,?,?,?)`
-								  ,
-								  [
-										results[excelFile]
-										,
-										results[excelFile]
-										,
-										'excel'
-										,
-										results[excelFile]
-								  ]
-							);
-						}
-					}
-				});
+        if (!stopScan) {
+  				walk(drive.mountpoints[0].path, function(error, results){
+  					console.log('*Error: ' + error);
+  					var excelFile;
+  					for (excelFile in results) {
+  						if (typeof results[excelFile] !== "undefined") {
+  							//console.log('   *Results: ' + results[excelFile]);
+  							dbhelper.sql(`insert into
+  									  db_connections
+  									  (
+  										  id
+  										  ,
+  										  name
+  										  ,
+  										  driver
+  										  ,
+  										  fileName
+  									  )
+  								  values
+  									  (?,?,?,?,?,?,?,?,?,?)`
+  								  ,
+  								  [
+  										results[excelFile]
+  										,
+  										results[excelFile]
+  										,
+  										'excel'
+  										,
+  										results[excelFile]
+  								  ]
+  							);
+  						}
+  					}
+  				});
+        };
 			  });
 			});
 	  };
