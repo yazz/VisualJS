@@ -179,6 +179,8 @@
 	    		<h1>
 			        Connections
 			    </h1>
+				<input type=button value='Scan Harddisk'
+					   onClick='scanHardDisk();'>
 		    	<div id="connections_window" style='height: 85%; width: 85%;' >
 			        <div class='container'>
 				        <div class="row">
@@ -429,6 +431,24 @@
 
 
 
+
+    // --------------------------------------------------------------------
+    // get the SQL result
+    // --------------------------------------------------------------------
+    function scanHardDisk() {
+      $.ajax({
+
+        type: "GET",
+        url: '/scanharddisk',
+        success: function(data) {
+          //$("#result").text(data);
+		  alert('Hard disk scan complete!');
+			},
+        error: function(jqXHR, textStatus, errorThrown) {
+          alert('error ' + textStatus + " " + errorThrown);
+        }
+      });
+    };
 
 
 

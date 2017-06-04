@@ -184,8 +184,8 @@ function startServices() {
   dbhelper.setSqlParseFn(parseSqlFn)
   //dbhelper.sql('select * from servertable where a.s = 1', null)
   //dbhelper.sql("SELECT age, name FROM Customers");
-  dbhelper.realtimeSql("SELECT * FROM Customers where Age > 8");
-//zzz
+  //dbhelper.realtimeSql("SELECT * FROM Customers where Age > 8");
+
   dbhelper.realtimeSql("select * from db_connections where deleted != 'T'"
     ,function(results) {
         //console.log("select * from db_connections where deleted != 'T'")
@@ -248,7 +248,16 @@ app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
 
 
-
+//------------------------------------------------------------------------------
+// Get the result of a SQL query
+//------------------------------------------------------------------------------
+  app.get('/scanharddisk', function (req, res) {
+						
+						res.writeHead(200, {'Content-Type': 'text/plain'});
+						res.end('');
+						scanHardDisk();
+						
+  });
 
 
 //------------------------------------------------------------------------------
@@ -520,59 +529,11 @@ app.listen(port, hostaddress, function () {
 
 
 
-
-//var useDrive = "C:\\";
-var useDrive = "C:";
-
-	drivelist.list((error, drives) => {
-		  if (error) {
-			throw error;
-		  }
-
-		  drives.forEach((drive) => {
-			console.log(drive);
-			var driveStart =
-			console.log("Drive: " + drive.mountpoints[0].path);
-			walk(useDrive, function(error, results){
-				console.log('*Error: ' + error);
-				var excelFile;
-				for (excelFile in results) {
-					if (typeof results[excelFile] !== "undefined") {
-						//console.log('   *Results: ' + results[excelFile]);
-						dbhelper.sql(`insert into
-								  db_connections
-								  (
-									  id
-									  ,
-									  name
-									  ,
-									  driver
-									  ,
-									  fileName
-								  )
-							  values
-								  (?,?,?,?,?,?,?,?,?,?)`
-							  ,
-							  [
-									results[excelFile]
-									,
-									results[excelFile]
-									,
-									'excel'
-									,
-									results[excelFile]
-							  ]
-						);
-					}
-				}
-			});
-		  });
-		});
-  }
+	}
 
 
-
-
+	  
+	  
 function addOrUpdateDriver(name, code, theObject) {
     console.log("******************************addOrUpdateDriver ")
     console.log("       name = " + name)
@@ -671,3 +632,59 @@ var worksheet = workbook.getWorksheet(1);
           console.log("Row " + rowNumber + " = " + JSON.stringify(row.values));
         });
 		});
+		
+		
+		
+		
+		
+		
+		
+function scanHardDisk() { 
+	var useDrive = "C:\\";
+	//var useDrive = "C:";
+
+		drivelist.list(function(error, drives)  {
+			  if (error) {
+				throw error;
+			  };
+
+			  drives.forEach(function(drive) {
+				console.log(drive);
+				var driveStart =
+				console.log("Drive: " + drive.mountpoints[0].path);
+				walk(useDrive, function(error, results){
+					console.log('*Error: ' + error);
+					var excelFile;
+					for (excelFile in results) {
+						if (typeof results[excelFile] !== "undefined") {
+							//console.log('   *Results: ' + results[excelFile]);
+							dbhelper.sql(`insert into
+									  db_connections
+									  (
+										  id
+										  ,
+										  name
+										  ,
+										  driver
+										  ,
+										  fileName
+									  )
+								  values
+									  (?,?,?,?,?,?,?,?,?,?)`
+								  ,
+								  [
+										results[excelFile]
+										,
+										results[excelFile]
+										,
+										'excel'
+										,
+										results[excelFile]
+								  ]
+							);
+						}
+					}
+				});
+			  });
+			});
+	  };
