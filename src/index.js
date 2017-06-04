@@ -28,7 +28,7 @@ var parseSqlFn = require('node-sqlparser').parse;
 var witheve = require("witheve");
 var Excel = require('exceljs');
 const drivelist = require('drivelist');
-
+var XLSX = require('xlsx');
 
  function isExcelFile(fname) {
 	 if (!fname) {

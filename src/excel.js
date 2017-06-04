@@ -138,32 +138,44 @@
 			
 			var rows=[];
 			
-			var workbook = new Excel.Workbook();
-			console.log('...........loaded Excel');
-			workbook.xlsx.readFile(connection.fileName)
-			.then(function() {
-			var worksheet = workbook.getWorksheet(1);
+
+
+
+
+			var workbook = XLSX.readFile(connection.fileName);
+			rows = XLSX.utils.sheet_to_json( workbook.Sheets[workbook.SheetNames[0]],{ header: 1 });
+			console.log('XL: ' + JSON.stringify(rows));
+
+
 			var maxLength = 0;
-			worksheet.eachRow({ includeEmpty: true }, function(row, rowNumber) {
-				//console.log("Row " + rowNumber + " = " + JSON.stringify(row.values));
-				if (row.values.length > maxLength ) {
-					maxLength = row.values.length;
-				}
-				//console.log("ThisRow  = " + JSON.stringify(thisRow));
-				rows.push(row.values);
-			});
+			for (var i =0; i < rows.length; i++) {
+				if (rows[i].length > maxLength ) {
+					maxLength = rows[i].length;
+				};
+			};
+			
 			var fields = [];
 			for(var i = 0; i < maxLength; i++){
 				fields.push('' + i);
-			}
+			};
+
+			
+			
+
 			var ret = new Object();
 			ret["fields"] = fields;
 			ret["values"] = rows;
+
+
+
+
+
+
 			callfn(ret);
 			console.log("ret  = " + JSON.stringify(ret));
 
-			});
-
+			
+			
 			
 		
 		
