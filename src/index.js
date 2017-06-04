@@ -28,6 +28,7 @@ var parseSqlFn = require('node-sqlparser').parse;
 var witheve = require("witheve");
 var Excel = require('exceljs');
 const drivelist = require('drivelist');
+var isWin = /^win/.test(process.platform);
 
 var stopScan = false;
 var XLSX = require('xlsx');
@@ -670,7 +671,11 @@ function scanHardDisk() {
 				var driveStart =
 				console.log("Drive: " + drive.mountpoints[0].path);
         if (!stopScan) {
-  				walk(drive.mountpoints[0].path, function(error, results){
+			useDrive = drive.mountpoints[0].path;
+			if (isWin) {
+				useDrive = useDrive + '\\';
+			}
+  				walk(useDrive, function(error, results){
   					console.log('*Error: ' + error);
   					var excelFile;
   					for (excelFile in results) {
