@@ -668,13 +668,17 @@ function scanHardDisk() {
 
 			  drives.forEach(function(drive) {
 				console.log(drive);
-				var driveStart =
-				console.log("Drive: " + drive.mountpoints[0].path);
+
         if (!stopScan) {
+	    if (drive.mountpoints.length > 0){
+var driveStart =
+    console.log("Drive: " + drive.mountpoints[0].path);
 			useDrive = drive.mountpoints[0].path;
 			if (isWin) {
 				useDrive = useDrive + '\\';
 			}
+
+
   				walk(useDrive, function(error, results){
   					console.log('*Error: ' + error);
   					var excelFile;
@@ -708,6 +712,7 @@ function scanHardDisk() {
   						}
   					}
   				});
+			};
         };
 			  });
 			});
