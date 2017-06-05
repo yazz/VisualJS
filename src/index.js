@@ -68,7 +68,7 @@ var XLSX = require('xlsx');
   						if (typeof excelFile !== "undefined") {
 							var fileId = excelFile.replace(/[^\w\s]/gi,'');
   							console.log('   *file id: ' + fileId);
-							
+
   							dbhelper.sql(`insert into
   									  db_connections
   									  (
@@ -253,7 +253,14 @@ var hostcount = 0;
           );
           res.end();
           return;
-      }
+      };
+      if (req.headers.host.toLowerCase() == 'gosharedata.com') {
+        res.writeHead(301,
+            {Location: 'http://gosharedata.com/gosharedata'}
+          );
+          res.end();
+          return;
+      };
 
       if (!init_drivers) {
         init_drivers = true;
