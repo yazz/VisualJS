@@ -47,29 +47,55 @@ var XLSX = require('xlsx');
 
  var walk = function(dir, done) {
    if (stopScan) {
-     done(null, results);
      return;
    };
    //console.log('dir: ' + dir);
-  var results = [];
   fs.readdir(dir, function(err, list) {
     if (err) return done(err);
     var pending = list.length;
-    if (!pending) return done(null, results);
+    if (!pending) return done(null);
     list.forEach(function(file) {
       file = path.resolve(dir, file);
       fs.stat(file, function(err, stat) {
         if (stat && stat.isDirectory()) {
-          walk(file, function(err, res) {
-            results = results.concat(res);
-            if (!--pending) done(null, results);
+          walk(file, function(err) {
+            if (!--pending) done(null);
           });
         } else {
 		  if (isExcelFile(file)) {
         console.log('file: ' + file);
-			results.push(file);
-		  }
-          if (!--pending) done(null, results);
+  					var excelFile = file;
+  						if (typeof excelFile !== "undefined") {
+							var fileId = excelFile.replace(/[^\w\s]/gi,'');
+  							console.log('   *file id: ' + fileId);
+							
+  							dbhelper.sql(`insert into
+  									  db_connections
+  									  (
+  										  id
+  										  ,
+  										  name
+  										  ,
+  										  driver
+  										  ,
+  										  fileName
+  									  )
+  								  values
+  									  (? , ? , ? , ?)`
+  								  ,
+  								  [
+  										fileId
+  										,
+  										fileId
+  										,
+  										'excel'
+  										,
+  										excelFile
+  								  ]
+  							);
+  						}
+					}
+          if (!--pending) done(null);
         }
       });
     });
@@ -679,40 +705,9 @@ var driveStart =
 			}
 
 
-  				walk(useDrive, function(error, results){
+  				walk(useDrive, function(error){
   					console.log('*Error: ' + error);
-  					var excelFile;
-  					for (excelFile in results) {
-  						if (typeof results[excelFile] !== "undefined") {
-							var fileId = results[excelFile].replace(/[^\w\s]/gi,'');
-  							console.log('   *file id: ' + fileId);
-							
-  							dbhelper.sql(`insert into
-  									  db_connections
-  									  (
-  										  id
-  										  ,
-  										  name
-  										  ,
-  										  driver
-  										  ,
-  										  fileName
-  									  )
-  								  values
-  									  (? , ? , ? , ?)`
-  								  ,
-  								  [
-  										fileId
-  										,
-  										fileId
-  										,
-  										'excel'
-  										,
-  										results[excelFile]
-  								  ]
-  							);
-  						}
-  					}
+
   				});
 			};
         };
