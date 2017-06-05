@@ -684,7 +684,9 @@ var driveStart =
   					var excelFile;
   					for (excelFile in results) {
   						if (typeof results[excelFile] !== "undefined") {
-  							//console.log('   *Results: ' + results[excelFile]);
+							var fileId = results[excelFile].replace(/[^\w\s]/gi,'');
+  							console.log('   *file id: ' + fileId);
+							
   							dbhelper.sql(`insert into
   									  db_connections
   									  (
@@ -697,12 +699,12 @@ var driveStart =
   										  fileName
   									  )
   								  values
-  									  (?,?,?,?,?,?,?,?,?,?)`
+  									  (? , ? , ? , ?)`
   								  ,
   								  [
-  										results[excelFile]
+  										fileId
   										,
-  										results[excelFile]
+  										fileId
   										,
   										'excel'
   										,
