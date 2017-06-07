@@ -46,7 +46,7 @@
 '' +
 '            <div class="form-group">' +
 '                <label for="FileItem" class="col-form-label">File name</label>' +
-'                <input id="FileItem"  type="file"  class="form-control"  @change="onFileChange"></input>' +
+'                <input id="FileItem"  type="text"  class="form-control"  v-model="file"></input>' +
 '            </div>' +
 '' +
 '            <div class="form-group row">' +
@@ -89,7 +89,7 @@
 					  cp: {
 						  id:        this.connection_name,
 						  driver:    'excel',
-						  fileName: this.fileName
+						  fileName:  this.file
 					  }
 				  });
 				  this.$store.dispatch('hide_add_connection');
