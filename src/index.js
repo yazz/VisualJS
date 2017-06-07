@@ -291,35 +291,31 @@ app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 //------------------------------------------------------------------------------
 // Get the result of a SQL query
 //------------------------------------------------------------------------------
-  app.get('/scanharddisk', function (req, res) {
+app.get('/scanharddisk', function (req, res) {
+	res.writeHead(200, {'Content-Type': 'text/plain'});
+	res.end(JSON.stringify([]));
+	stopScan = false;
+	scanHardDisk();
+});
 
-						res.writeHead(200, {'Content-Type': 'text/plain'});
-						res.end('');
-            stopScan = false;
-						scanHardDisk();
-
-  });
-
-  app.get('/stopscanharddisk', function (req, res) {
-
-            res.writeHead(200, {'Content-Type': 'text/plain'});
-            res.end('');
-            stopScan = true;
-
-  });
+app.get('/stopscanharddisk', function (req, res) {
+	res.writeHead(200, {'Content-Type': 'text/plain'});
+	res.end(JSON.stringify([]));
+	stopScan = true;
+});
 
 
 //------------------------------------------------------------------------------
 // Get the result of a SQL query
 //------------------------------------------------------------------------------
-  app.post('/getresult', function (req, res) {
-	  console.log('in getresult');
+app.post('/getresult', function (req, res) {
+	console.log('in getresult');
     var queryData = req.body;
     //console.log('request received source: ' + Object.keys(req));
     //console.log('request received SQL: ' + queryData.sql);
 	if (queryData) {
-			if (connections[queryData.source]) {
-		if (queryData.source) {
+		if (connections[queryData.source]) {
+			if (queryData.source) {
 				if (connections[queryData.source].driver) {
 					//console.log('query driver: ' + connections[queryData.source].driver);
 					drivers[connections[queryData.source].driver]['get'](connections[queryData.source],queryData.sql,function(ordata) {
