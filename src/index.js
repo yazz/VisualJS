@@ -313,24 +313,36 @@ app.post('/getresult', function (req, res) {
     var queryData = req.body;
     //console.log('request received source: ' + Object.keys(req));
     //console.log('request received SQL: ' + queryData.sql);
+	var error = new Object();
 	if (queryData) {
 		if (connections[queryData.source]) {
 			if (queryData.source) {
 				if (connections[queryData.source].driver) {
 					//console.log('query driver: ' + connections[queryData.source].driver);
-					drivers[connections[queryData.source].driver]['get'](connections[queryData.source],queryData.sql,function(ordata) {
+					try {
+						drivers[connections[queryData.source].driver]['get'](connections[queryData.source],queryData.sql,function(ordata) {
+							res.writeHead(200, {'Content-Type': 'text/plain'});
+							res.end(JSON.stringify(ordata));
+						});
+					}
+					catch(err) {
 						res.writeHead(200, {'Content-Type': 'text/plain'});
-						res.end(JSON.stringify(ordata));
-					});
+						
+						res.end(JSON.stringify({Error: 'Error: ' + JSON.stringify(err)}));
+					};
 				} else {
 					console.log('query driver not found: ' + connections[queryData.source]);
+						res.writeHead(200, {'Content-Type': 'text/plain'});
+						res.end(JSON.stringify({message: 'query driver not found'}));
 				};
 			};
 		};
 	};
 })
 
-
+process.on('uncaughtException', function (err) {
+  console.log(err);
+})
 
 
 
