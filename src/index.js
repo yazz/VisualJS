@@ -229,9 +229,7 @@ function startServices() {
 
 			//console.log("***************select * from db_connections where deleted != 'T'")
             //console.log("    " + JSON.stringify(conn, null, 2))
-            if (!connectionrows[conn.name]) {
-              //data_connections_list.push(a);
-              connectionrows[conn.name] = conn;
+            if (!connections[conn.name]) {
               //console.log(a);
               connections[conn.name] = conn;
             }
@@ -320,8 +318,8 @@ app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
     //console.log('request received source: ' + Object.keys(req));
     //console.log('request received SQL: ' + queryData.sql);
 	if (queryData) {
-		if (queryData.source) {
 			if (connections[queryData.source]) {
+		if (queryData.source) {
 				if (connections[queryData.source].driver) {
 					//console.log('query driver: ' + connections[queryData.source].driver);
 					drivers[connections[queryData.source].driver]['get'](connections[queryData.source],queryData.sql,function(ordata) {
@@ -423,46 +421,12 @@ app.listen(port, hostaddress, function () {
 
 
 
-
-
-
-
-
-
-  //process.env['PATH'] = path.join(__dirname, '/instantclient') + ';' + process.env['PATH'];
-  //var oracledb = require('oracledb');
-  //console.log('Start oracle');
-
-  //eval("oracledb= require('oracledb');");
-
-
   console.log('addr: '+ hostaddress + ":" + port);
 
 
-  //console.log(toeval);
-  //setTimeout(function(){eval(toeval)},1000);
-
-  //  console.log('Done.');
 
 
-
-
-  console.log("*********** CHECKING CONNECTIONS *****************8");
-  var connectionrows        = new Object();
-  /*gun.get("connections").map(function(a,b){
-    delete a["_"];
-    if (!connectionrows[a.id]) {
-      //data_connections_list.push(a);
-      connectionrows[a.id] = a;
-      //console.log(a);
-      connections[a.id] = a;
-    }
-
-},true);*/
-
-
-
-
+  
 
     if (typeOfSystem == 'client') {
         var urlToConnectTo = "http://" + centralHostAddress + ":" + centralHostPort + '/client_connect';

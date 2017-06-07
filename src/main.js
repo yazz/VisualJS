@@ -12,7 +12,7 @@ import db                       from '../public/dbhelper.js'
 Vue.component('FileBrowser',FileBrowser);
 
 
-const gun_ip_address = '10.0.0.6'
+const gun_ip_address = '10.6.89.241'
 
 window.vue = Vue;
 
@@ -130,21 +130,7 @@ function setupGunDB() {
                 document.getElementById('mainid2').innerHTML = JSON.stringify(data.value , null, 2)
             }},false);
 
-/*
-        gun.get("connections").map(read_connections,true);
 
-        gun.get('default').not(function(pp) {
-            gun.path('connections_changed').put({value: 1}).key('default');
-            console.log('Doesnt exist: ' + pp);
-        });
-
-        gun.get('default').path('connections_changed.value').on(function(x) {
-            connectionrows = new Object();
-            data_connections_list = [];
-            //console.log('*****new val = ' + x);
-            store.dispatch('clear_connections');
-            gun.get("connections").map(read_connections,true);
-        },true);*/
 
         localStorage.clear();
 
@@ -288,6 +274,7 @@ export function inccc(){
 // Show the list of database connections
 //
 //-----------------------------------------------------------------
+var connectionrows = new Object();
 function read_connections(a,b){
     delete a["_"];
     if (!connectionrows[a.id]) {
