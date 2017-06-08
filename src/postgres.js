@@ -183,15 +183,17 @@
           console.error('drivers[postgres][get]');
           // execute a query on our database
           connection.connection.query(sql, [], function (err, result) {
-            if (err) throw err;
+            if (err) {
+				callfn({error: '' + err});
+			} else {
+				// just print the result to the console
+				console.log(result.rows); // outputs: { name: 'brianc' }
+				callfn(result.rows);
+			};
 
-            // just print the result to the console
-            console.log(result.rows); // outputs: { name: 'brianc' }
-            callfn(result.rows);
 
             // disconnect the client
             //connection.connection.end(function (err) {
-              if (err) throw err;
             });
           }
 }

@@ -306,7 +306,12 @@ window.setOutputData = function(data) {
 		}
 		else
 		{
-			if (data.values.length > 0) {
+			if (data.error)
+			{
+				store.dispatch('set_output_fields', ['Error in getting data']);
+				store.dispatch('set_output_records', [{'Error in getting data': data.error}]);
+			}
+			else if (data.values.length > 0) {
 				var fields = [];
 				if (data.fields) {
 					fields = data.fields;
