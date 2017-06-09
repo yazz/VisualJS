@@ -141,7 +141,7 @@
 
 
 
-
+            try {
 			var workbook = XLSX.readFile(connection.fileName);
 			rows = XLSX.utils.sheet_to_json( workbook.Sheets[workbook.SheetNames[0]],{ header: 1 });
 			console.log('XL: ' + JSON.stringify(rows));
@@ -181,6 +181,11 @@
 		
           console.error('drivers[excel][get]');
           // execute a query on our database
+			}
+			catch(err) {
+				console.log('Excel error: ' + err);
+				callfn({error: 'Excel error: ' + err});
+			}
 
           }
 }
