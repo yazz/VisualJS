@@ -121,7 +121,7 @@ path.join(__dirname, '../public/dist/build.js')
 path.join(__dirname, '../public/sql.js')
 path.join(__dirname, '../public/gosharedata_logo.PNG')
 path.join(__dirname, '../public/favicon.ico')
-path.join(__dirname, '../public/babylon.js')
+path.join(__dirname, '../public/aframe.min.js')
 
 
 
