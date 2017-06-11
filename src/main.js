@@ -1,6 +1,7 @@
 import Vue                      from 'vue'
 import Welcome                  from './components/Welcome.vue'
 import FileBrowser              from './components/FileBrowser.vue'
+import VR                       from './components/VR.vue'
 import ConnectedClients         from './components/central_server/connected_clients.vue'
 import yazz_new_connection      from './components/yazz_new_connection.vue'
 import connections_table        from './components/connections_table.vue'
@@ -72,6 +73,33 @@ function setupSqlVuePane() {
     }
 }
 
+
+
+
+
+function setupVRVuePane() {
+
+    if (document.getElementById('vr_element')) {
+        new Vue({
+          el: '#vr_element'
+          ,
+          store: store
+          ,
+          template: `
+                <VR>
+                </VR>
+        `
+          ,
+          computed: {
+            options: function () {
+              return this.$store.state.list_of_connections;
+            }
+          }
+          ,
+          components: {'VR': VR}
+        });
+    }
+}
 
 
 
@@ -456,6 +484,7 @@ $( document ).ready(function() {
   if (window.system_type == 'client') {
     initWelcomeVuePane();
     setupSqlVuePane();
+	setupVRVuePane();
     initConnectionsListVuePane();
     initDriversListVuePane();
     initClientsConnectedVuePane();
