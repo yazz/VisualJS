@@ -1,12 +1,19 @@
 <template>
   <div id="app2">
-			<a-scene>
-				<a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9"></a-box>
-				<a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E"></a-sphere>
-				<a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder>
-				<a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
-				<a-sky color="#ECECEC"></a-sky>
-			</a-scene>
+<a-scene>
+
+
+
+      <!-- Alignments. -->
+        <a-entity position=".1 1.85 0.9" geometry="primitive: plane; width: auto; height: auto" material="color: #333"
+                  text="color: yellow; align: left; value: Go Share Data VR; width: 2; "
+				  rotation='0 75 0'>
+        </a-entity>
+
+      <a-entity position="0 1.8 2">
+        <a-entity camera look-controls wasd-controls></a-entity>
+      </a-entity>
+    </a-scene>
         </div>  
   </div>
 </template>
