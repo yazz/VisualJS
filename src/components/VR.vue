@@ -5,8 +5,8 @@
 
 
       <!-- Alignments. -->
-        <a-entity position=".1 1.85 0.9" geometry="primitive: plane; width: auto; height: auto" material="color: #333"
-                  text="color: yellow; align: left; value: Go Share Data VR; width: 2; "
+        <a-entity position=".1 1.85 0.9" geometry="primitive: plane; width: auto; height: auto" material="color: white"
+                  text="color: black; align: left; value: Go Share Data VR; width: 2; "
 				  rotation='0 75 0'>
         </a-entity>
 
