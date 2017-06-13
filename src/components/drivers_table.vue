@@ -113,7 +113,7 @@ export default {
     viewed_driver_id: function () {
       return this.$store.state.viewed_driver_id
     }
-},
+  },
 
 
 
