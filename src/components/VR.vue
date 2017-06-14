@@ -1,4 +1,5 @@
 <template>
+	<div style='position: absolute; height: 100%; width: 100%;'>
         <a-scene>
             <a-entity position=".1 2.5 0.9" 
 			          geometry="primitive: plane; width: auto; height: auto" material="color: white"
@@ -24,7 +25,9 @@
 			   v-bind:text="'color: black; align: left; value: ' + a_driver.id + ' ; width: 2; '">
 				   <a-box position='-0.2 0.0' width=0.1 height=0.1 v-bind:color="(index % 2 == 0)?'blue':'green'"></a-box>
 		   </a-entity>
-</a-scene>
+		   <a-sky color="white"></a-sky>
+		</a-scene>
+	</div>
 </template>
 
 
