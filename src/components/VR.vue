@@ -1,20 +1,17 @@
 <template>
 	<div style='position: absolute; height: 20%; width: 20%;'>
         <a-scene>
-					<a-assets>
-    <a-mixin id="cube" geometry="primitive: box"></a-mixin>
-    <a-mixin id="cube-hovered" material="color: magenta"></a-mixin>
-    <a-mixin id="cube-selected" material="color: cyan"></a-mixin>
-    <a-mixin id="red" material="color: red"></a-mixin>
-    <a-mixin id="green" material="color: green"></a-mixin>
-    <a-mixin id="blue" material="color: blue"></a-mixin>
-    <a-mixin id="yellow" material="color: yellow"></a-mixin>
-		<a-mixin id="sphere" geometry="primitive: sphere"></a-mixin>
-		<a-mixin id="gsd" geometry="primitive: box; width: 0.1; height: 0.1; depth: 0.1;" position="-1.1 0 0" ></a-mixin>
-
-  </a-assets>
-
-
+			<a-assets>
+				<a-mixin id="cube" geometry="primitive: box"></a-mixin>
+				<a-mixin id="cube-hovered" material="color: magenta"></a-mixin>
+				<a-mixin id="cube-selected" material="color: cyan"></a-mixin>
+				<a-mixin id="red" material="color: red"></a-mixin>
+				<a-mixin id="green" material="color: green"></a-mixin>
+				<a-mixin id="blue" material="color: blue"></a-mixin>
+				<a-mixin id="yellow" material="color: yellow"></a-mixin>
+				<a-mixin id="sphere" geometry="primitive: sphere"></a-mixin>
+				<a-mixin id="gsd" geometry="primitive: box; width: 0.3; height: 0.3; depth: 0.3;" position="-1.4 0 0" ></a-mixin>
+			</a-assets>
 
             <a-entity position="0 2.2 4"
 			          geometry="primitive: plane; width: auto; height: auto" material="color: white"
@@ -23,51 +20,65 @@
             </a-entity>
 
             <a-entity position="0 1.8 2.5">
-                <a-entity camera look-controls
-		              wasd-control>
-
-									<a-entity position="0 0 -3"
-								 geometry="primitive: ring; radiusOuter: 0.020;
-													 radiusInner: 0.0001;"
-								 material="color: red; shader: flat"
-								 cursor="maxDistance: 30; fuse: true">
-								 <a-animation begin="click" easing="ease-in" attribute="scale"
-								              fill="backwards" from="0.1 0.1 0.1" to="1 1 1" dur="150"></a-animation>
-								         <a-animation begin="fusing" easing="ease-in" attribute="scale"
-								              fill="forwards" from="1 1 1" to="0.1 0.1 0.1" dur="1500"></a-animation>
-							     </a-entity>
-								 		</a-entity>
+                <a-entity camera look-controls wasd-control>
+					<a-entity 	position="0 0 -3"
+								geometry="primitive: ring; radiusOuter: 0.020; radiusInner: 0.0001;"
+								material="color: red; shader: flat"
+								cursor="maxDistance: 1000; fuse: true">
+					</a-entity>
+				</a-entity>
             </a-entity>
-						<a-entity position="-3.5 1 ">
-					     <a-entity mixin="cube red">
-					       <a-animation begin="click" attribute="position" from="0 0 0"
-					                    to="0 0 -10" dur="2000" fill="both"></a-animation>
-					     </a-entity>
-					   </a-entity>
+						
+			<a-entity position="-7.5 1 1">
+			    <a-entity mixin="cube red">
+					<a-animation 	begin="click" attribute="position" from="0 0 0"
+									to="0 0 -10" dur="2000" direction="alternate"  repeat="indefinite"></a-animation>
+				</a-entity>
+			</a-entity>
 
 
+					   
+					   
+					   
+			<a-entity position="-5 1 1">
+			    <a-entity mixin="cube red">
+					<a-animation 	begin="click" attribute="position" from="0 0 0"
+					                to="0 0 -10" direction="alternate"  repeat="indefinite"></a-animation>
+				</a-entity>
+			</a-entity>
 
 
-
-			<a-entity  v-for="(a_driver,index)  in  list_of_drivers"
-			       v-bind:position="index + ' 1 1'"  width=1 height=1
-				   v-bind:color="(index % 2 == 0)?'blue':'green'"
-				   v-bind:text="'color: black; align: left; value: ' + a_driver.id + ' ; width: 2; '">
-				   <a-entity mixin='gsd'  v-bind:color="(index % 2 == 0)?'blue':'green'">
-						 <a-animation begin="cursor-fusing" attribute="position" from="0 0 0"
-										to="0 0 -10" dur="2000" fill="both"></a-animation>
-									</a-entity>
-				   </a-entity>
 
 			<a-entity v-for="(a_driver,index)  in  list_of_connections"
-			   v-bind:position="index + ' 2 1'"  width=1 height=1
+			   v-bind:position="(index*1.5) + ' 2 -1'"  width=1 height=1
 			   v-bind:color="(index % 2 == 0)?'blue':'green'"
 			   v-bind:text="'color: black; align: left; value: ' + a_driver.id + ' ; width: 2; '">
 				   <a-entity  mixin='gsd'  v-bind:color="(index % 2 == 0)?'blue':'green'">
-					 <a-animation begin="click" attribute="position" from="0 0 0"
-									to="0 0 -10" dur="2000" fill="both"></a-animation>
-									</a-entity>
+						 <a-animation begin="click" attribute="geometry.depth" from="1"
+										to="2.5'" dur="500" direction="alternate"  repeat="indefinite"></a-animation>
+					</a-entity>
 		   </a-entity>
+		   
+		   
+		   
+		   
+			<a-entity  	v-for="(a_driver,index)  in  list_of_drivers"
+						v-bind:position="(index*1.5) + ' 1 -1'"  
+						width=1 
+						height=1
+						v-bind:color="(index % 2 == 0)?'blue':'green'"
+						v-bind:text="'color: black; align: left; value: ' + a_driver.id + ' ; width: 2; '">
+						
+				    <a-entity mixin='gsd'  v-bind:color="(index % 2 == 0)?'blue':'green'">
+					<a-animation 	begin="click" attribute="position" from="-1.5 0 0"
+					                to="-1.5 0 -3.5" direction="alternate"  repeat="indefinite"></a-animation>
+					</a-entity>
+			</a-entity>
+
+			
+			
+			
+			
 		   <a-sky color="white"></a-sky>
 		</a-scene>
 	</div>
