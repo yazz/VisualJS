@@ -35,6 +35,13 @@
 
   window.CustomEvent = CustomEvent;
 })();
+
+setTimeout(function(){
+  var scene = document.querySelector('a-scene');
+  scene.addEventListener('enter-vr', function(event) {
+    window.scrollTop = 0;
+  });
+  },2000);
 </script>
 
     <script type="text/javascript" src="es6-shim.js"></script>
