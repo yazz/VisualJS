@@ -39,8 +39,9 @@
 setTimeout(function(){
   var scene = document.querySelector('a-scene');
   scene.addEventListener('enter-vr', function(event) {
-    window.scrollTop = 0;
+    //window.scrollTop = 0;
 	//alert('in VR mode!');
+	alert('h: ' + ocument.getElementById('main_screen').style.height);
 	document.getElementById('bottom_bar').style.display='none';
 	document.getElementById('main_screen').style.height='100%';
 	
