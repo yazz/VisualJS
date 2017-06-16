@@ -41,16 +41,17 @@ setTimeout(function(){
   scene.addEventListener('enter-vr', function(event) {
     //window.scrollTop = 0;
 	//alert('in VR mode!');
-	alert('h: ' + ocument.getElementById('main_screen').style.height);
+	//alert('h: ' + document.getElementById('other').style.height);
 	document.getElementById('bottom_bar').style.display='none';
-	document.getElementById('main_screen').style.height='100%';
+	document.getElementById('other').style.height='100%';
 	
   });
   scene.addEventListener('exit-vr', function(event) {
     //window.scrollTop = 0;
 	//alert('left in VR mode!');
+	//alert('h: ' + document.getElementById('other').style.height);
 	document.getElementById('bottom_bar').style.display='';
-	document.getElementById('main_screen').style.height='90%';
+	document.getElementById('other').style.height='90%';
   });
   },2000);
 </script>
@@ -94,7 +95,7 @@ setTimeout(function(){
                             The zoomable part of the screen containing 4 zoom areas
 
     -->
-  <div id=main_screen class='zoomViewport noScroll' id=other style=' width: 100%;height: 90%;position: absolute; bottom: 10%; left: 0px;display: block '>
+  <div  class='zoomViewport noScroll' id=other style=' width: 100%;height: 90%;position: absolute; bottom: 10%; left: 0px;display: block '>
     <div data-duration="600" id=zoommain class='zoomTarget zoomContainer'  style='height: 100%; width: 100%;'>
       <div data-duration="600" id=zzz class='zoomTarget' style='height: 100%; width: 100%; '>
 
