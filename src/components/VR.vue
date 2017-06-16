@@ -31,7 +31,7 @@
 						
 			<a-entity position="-7.5 1 1">
 			    <a-entity mixin="cube red">
-					<a-animation 	begin="click" attribute="position" from="0 0 0"
+					<a-animation 	begin="mouseenter" attribute="position" from="0 0 0"
 									to="0 0 -10" dur="2000" direction="alternate"  repeat="indefinite"></a-animation>
 				</a-entity>
 			</a-entity>
@@ -42,7 +42,7 @@
 					   
 			<a-entity position="-5 1 1">
 			    <a-entity mixin="cube red">
-					<a-animation 	begin="click" attribute="position" from="0 0 0"
+					<a-animation 	begin="mouseenter" attribute="position" from="0 0 0"
 					                to="0 0 -10" direction="alternate"  repeat="indefinite"></a-animation>
 				</a-entity>
 			</a-entity>
@@ -54,8 +54,8 @@
 			   v-bind:color="(index % 2 == 0)?'blue':'green'"
 			   v-bind:text="'color: black; align: left; value: ' + a_driver.id + ' ; width: 2; '">
 				   <a-entity  mixin='gsd'  v-bind:color="(index % 2 == 0)?'blue':'green'">
-						 <a-animation begin="click" attribute="geometry.depth" from="1"
-										to="2.5'" dur="500" direction="alternate"  repeat="indefinite"></a-animation>
+						 <a-animation begin="mouseenter" attribute="geometry.depth" from="0"
+										to=".5'" dur="1500" direction="alternate"  repeat="1"></a-animation>
 					</a-entity>
 		   </a-entity>
 		   
@@ -70,8 +70,8 @@
 						v-bind:text="'color: black; align: left; value: ' + a_driver.id + ' ; width: 2; '">
 						
 				    <a-entity mixin='gsd'  v-bind:color="(index % 2 == 0)?'blue':'green'">
-					<a-animation 	begin="click" attribute="position" from="-1.5 0 0"
-					                to="-1.5 0 -3.5" direction="alternate"  repeat="indefinite"></a-animation>
+					<a-animation 	begin="mouseenter" attribute="position" from="-1.5 0 0"
+					                to="-1.5 0 -1" direction="alternate"  repeat="1"></a-animation>
 					</a-entity>
 			</a-entity>
 
