@@ -42,11 +42,14 @@ setTimeout(function(){
     //window.scrollTop = 0;
 	//alert('in VR mode!');
 	document.getElementById('bottom_bar').style.display='none';
+	document.getElementById('main_screen').style.height='100%';
+	
   });
   scene.addEventListener('exit-vr', function(event) {
     //window.scrollTop = 0;
 	//alert('left in VR mode!');
 	document.getElementById('bottom_bar').style.display='';
+	document.getElementById('main_screen').style.height='90%';
   });
   },2000);
 </script>
@@ -90,7 +93,7 @@ setTimeout(function(){
                             The zoomable part of the screen containing 4 zoom areas
 
     -->
-  <div class='zoomViewport noScroll' id=other style=' width: 100%;height: 90%;position: absolute; bottom: 10%; left: 0px;display: block '>
+  <div id=main_screen class='zoomViewport noScroll' id=other style=' width: 100%;height: 90%;position: absolute; bottom: 10%; left: 0px;display: block '>
     <div data-duration="600" id=zoommain class='zoomTarget zoomContainer'  style='height: 100%; width: 100%;'>
       <div data-duration="600" id=zzz class='zoomTarget' style='height: 100%; width: 100%; '>
 
@@ -107,7 +110,7 @@ setTimeout(function(){
       <!--
 
                                                 x.
-                                                .. - Welcome
+                                                .. - VR
 
 
        -->
@@ -164,7 +167,7 @@ setTimeout(function(){
       <!--
 
                                                 ..
-                                                x. - VR
+                                                x. - Welcome
 
 
        -->
