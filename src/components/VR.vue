@@ -1,6 +1,6 @@
 <template>
 	<div style='position: absolute; height: 20%; width: 20%;'>
-        <a-scene  embedded always-fullscreen platform='all'>
+        <a-scene  platform='all' id='vr_scene'>
 			<a-assets>
 				<a-mixin id="cube" geometry="primitive: box"></a-mixin>
 				<a-mixin id="cube-hovered" material="color: magenta"></a-mixin>
