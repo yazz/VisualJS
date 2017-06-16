@@ -41,6 +41,12 @@ setTimeout(function(){
   scene.addEventListener('enter-vr', function(event) {
     //window.scrollTop = 0;
 	//alert('in VR mode!');
+	document.getElementById('bottom_bar').style.visibility='hidden';
+  });
+  scene.addEventListener('exit-vr', function(event) {
+    //window.scrollTop = 0;
+	//alert('left in VR mode!');
+	document.getElementById('bottom_bar').style.visibility='';
   });
   },2000);
 </script>
@@ -434,7 +440,7 @@ setTimeout(function(){
                                                 xxx   -  the BACK button at the bottom of the screen
 
        -->
-<div  style=' position: absolute; bottom: 0px; width: 100%; height: 10%;'>
+<div  id=bottom_bar style=' position: absolute; bottom: 0px; width: 100%; height: 10%;'>
   <div  style='background-color: lightblue; width: 100%; height: 100%; display: inline-block;'
        onclick='resetzoom();'>
   </div>
