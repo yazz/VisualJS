@@ -73,8 +73,10 @@
 		</a-entity>
 </a-entity>
 
-<a-entity position="1 1 -14">
+<a-entity position="2 1 -5">
 		<a-entity mixin="cube red">
+			<a-animation 	 attribute="position" from="0 0 0"
+											to="0 0 -20" direction="alternate"  repeat="indefinite"></a-animation>
 	</a-entity>
 </a-entity>
 
