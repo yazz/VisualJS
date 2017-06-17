@@ -20,7 +20,7 @@
             </a-entity>
 
             <a-entity position="0 1.8 2.5">
-                <a-entity camera look-controls="reverseMouseDrag: true" reverse-look-controls >
+                <a-entity camera reverse-look-controls >
 									<a-entity 	position="0 0 -3"
 										geometry="primitive: ring; radiusOuter: 0.020; radiusInner: 0.0001;"
 										material="color: red; shader: flat"
