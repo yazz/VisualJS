@@ -19,7 +19,7 @@
 
             <script type="text/javascript" >
             window.system_type = 'client';
-			
+
 			(function () {
 
   if ( typeof window.CustomEvent === "function" ) return false;
@@ -47,7 +47,7 @@ setTimeout(function(){
 	//document.getElementById('bottom_bar').style.display='none';
 	//document.getElementById('vr_scene')['always-fullscreen']='always-fullscreen';
 	//document.getElementById('vr_scene')['embedded']='embedded';
-	
+
   });
   scene.addEventListener('exit-vr', function(event) {
     //window.scrollTop = 0;
@@ -69,10 +69,11 @@ setTimeout(function(){
     <script type="text/javascript" src="tether.min.js"></script>
     <script type="text/javascript" src="bootstrap.min.js"></script>
     <script type="text/javascript" src="sql.js"></script>
-	<script type="text/javascript" src="aframe.min.js"></script>	
+	<script type="text/javascript" src="aframe.min.js"></script>
 	//<script src="https://rawgit.com/bestiejs/platform.js/master/platform.js"></script>
 	//<script src="https://rawgit.com/protyze/aframe-always-fullscreen-component/master/dist/aframe-always-fullscreen-component.min.js"></script>
-	
+  <script src="https://rawgithub.com/ngokevin/kframe/master/components/reverse-look-controls/dist/aframe-reverse-look-controls-component.min.js"></script>
+
     <!--
 
                                           Include all the CSS
@@ -183,7 +184,7 @@ setTimeout(function(){
        -->
       <div  id=mainsources class="zoomTarget" data-targetsize="1"
                style='padding: 5px;position: absolute; left: 0%; top: 50%; height: 90%; width: 90%; display: inline-block; -webkit-transform: translatez(0); transform:   scale(0.5, 0.5);border: 5px solid blue;overflow: false'; >
-		
+
         <div id=welcome>
         </div>
         <div style='  text-align: center;'>
