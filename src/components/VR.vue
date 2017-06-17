@@ -20,26 +20,20 @@
             </a-entity>
 
             <a-entity position="0 1.8 2.5">
-                <a-entity camera look-controls wasd-control>
-					<a-entity 	position="0 0 -3"
-								geometry="primitive: ring; radiusOuter: 0.020; radiusInner: 0.0001;"
-								material="color: red; shader: flat"
-								cursor="maxDistance: 1000; fuse: true">
-					</a-entity>
-				</a-entity>
-            </a-entity>
-						
-			<a-entity position="-7.5 1 1">
-			    <a-entity mixin="cube red">
-					<a-animation 	begin="mouseenter" attribute="position" from="0 0 0"
-									to="0 0 -10" dur="2000" direction="alternate"  repeat="indefinite"></a-animation>
-				</a-entity>
-			</a-entity>
+                <a-entity camera look-controls >
+									<a-entity 	position="0 0 -3"
+										geometry="primitive: ring; radiusOuter: 0.020; radiusInner: 0.0001;"
+										material="color: red; shader: flat"
+										cursor="maxDistance: 1000; fuse: true">
+									</a-entity>
 
 
-					   
-					   
-					   
+
+
+
+
+
+
 			<a-entity position="-5 1 1">
 			    <a-entity mixin="cube red">
 					<a-animation 	begin="mouseenter" attribute="position" from="0 0 0"
@@ -58,27 +52,33 @@
 										to=".5'" dur="1500" direction="alternate"  repeat="1"></a-animation>
 					</a-entity>
 		   </a-entity>
-		   
-		   
-		   
-		   
+
+
+
+
 			<a-entity  	v-for="(a_driver,index)  in  list_of_drivers"
-						v-bind:position="(index*1.5) + ' 1 -1'"  
-						width=1 
+						v-bind:position="(index*1.5) + ' 1 -1'"
+						width=1
 						height=1
 						v-bind:color="(index % 2 == 0)?'blue':'green'"
 						v-bind:text="'color: black; align: left; value: ' + a_driver.id + ' ; width: 2; '">
-						
+
 				    <a-entity mixin='gsd'  v-bind:color="(index % 2 == 0)?'blue':'green'">
 					<a-animation 	begin="mouseenter" attribute="position" from="-1.5 0 0"
 					                to="-1.5 0 -1" direction="alternate"  repeat="1"></a-animation>
 					</a-entity>
 			</a-entity>
 
-			
-			
-			
-			
+
+		</a-entity>
+</a-entity>
+
+<a-entity position="1 1 -14">
+		<a-entity mixin="cube red">
+	</a-entity>
+</a-entity>
+
+
 		   <a-sky color="white"></a-sky>
 		</a-scene>
 	</div>
