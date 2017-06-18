@@ -29,6 +29,15 @@
 
 
 					</a-entity>
+                <a-entity camera reverse-look-controls >
+									<a-entity 	position="0 0 -3"
+										geometry="primitive: ring; radiusOuter: 0.020; radiusInner: 0.0001;"
+										material="color: red; shader: flat"
+										cursor="maxDistance: 1000; fuse: true">
+									</a-entity>
+
+
+					</a-entity>
 			</a-entity>
 
 <a-entity position="2 1 -5">
