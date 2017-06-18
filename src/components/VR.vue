@@ -15,11 +15,6 @@
 				<a-mixin id="gsd" geometry="primitive: box; width: 0.3; height: 0.3; depth: 0.3;" position="-1.4 0 0" ></a-mixin>
 			</a-assets>
 
-            <a-entity position="0 2.2 4"
-			          geometry="primitive: plane; width: auto; height: auto" material="color: white"
-                      text="color: black; align: left; value: Go Share Data VR; width: 2; "
-				      rotation='0 0 0'>
-            </a-entity>
 
             <a-entity position="0 1.8 2.5" material="color: white">
                 <a-entity camera material="color: white">
@@ -31,7 +26,7 @@
 					</a-entity>
                 <a-entity  look-controls material="color: white;">
 									<a-entity 	position="0 0 -3"
-										geometry="primitive: ring; radiusOuter: 0.040; radiusInner: 0.016; color:white;"
+										geometry="primitive: ring; radiusOuter: 0.010; radiusInner: 0.006; color:white;"
 										material="color: red; shader: flat"
 										cursor="maxDistance: 1000; fuse: true"
 										>
@@ -43,9 +38,28 @@
 
 			
 			
-					<a-entity  position="0 3 -5" material="color: white; " geometry="primitive: box; width:200; height: 100; " >
+            <a-entity position="0 3.5 0"
+			          geometry="primitive: plane; width: auto; height: auto" material="color: white"
+                      text="color: black; align: left; value: Go Share Data VR; width: 2; "
+				      rotation='0 0 0'>
+            </a-entity>
 
-    				</a-entity>
+            <a-entity v-for="(field_name,index)  in  list_of_fields"
+					  v-bind:position='index + " 3 0"'
+			          geometry="primitive: plane; width: auto; height: auto" material="color: white"
+                      v-bind:text='"color: black; align: left; value: " + field_name + "; width: 2; "'
+				      rotation='0 0 0'>
+					  
+
+					<a-entity v-for="(a_record,rindex)  in  list_of_records"
+							  v-bind:position='"0 " + (-.2 - (rindex * 0.2)) + " 0"'
+							  geometry="primitive: plane; width: auto; height: auto" material="color: white"
+							  v-bind:text='"color: black; align: left; value: " + a_record[field_name] + "; width: 2; "'
+							  rotation='0 0 0'>
+						  
+					</a-entity>
+					  
+            </a-entity>
 
 
 
@@ -101,6 +115,13 @@ export default {
 name: 'VR'
 ,
   computed: {
+    list_of_records: function () {
+	if (this.$store.state.list_of_output_records) {
+		return this.$store.state.list_of_output_records;
+		} else {
+		return [];
+	};
+    },
     list_of_connections: function () {
       return this.$store.getters.list_of_connections
     },
@@ -114,7 +135,11 @@ name: 'VR'
 
     viewed_driver_id: function () {
       return this.$store.state.viewed_driver_id
-    }
+    },
+	    list_of_fields: function () {
+      return this.$store.state.list_of_output_fields
+    },
+
 	},
   components: {
   'output-table': output_table}
