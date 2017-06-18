@@ -20,7 +20,7 @@
             </a-entity>
 
             <a-entity position="0 1.8 2.5">
-                <a-entity camera reverse-look-controls >
+                <a-entity camera look-controls >
 									<a-entity 	position="0 0 -3"
 										geometry="primitive: ring; radiusOuter: 0.020; radiusInner: 0.0001;"
 										material="color: red; shader: flat"
@@ -28,9 +28,15 @@
 									</a-entity>
 
 
+					</a-entity>
+			</a-entity>
 
-
-
+<a-entity position="2 1 -5">
+		<a-entity mixin="cube red">
+			<a-animation 	 attribute="position" from="0 0 0"
+											to="0 0 -20" direction="alternate"  repeat="indefinite"></a-animation>
+	</a-entity>
+</a-entity>
 
 
 
@@ -68,18 +74,6 @@
 					                to="-1.5 0 -1" direction="alternate"  repeat="1"></a-animation>
 					</a-entity>
 			</a-entity>
-
-
-		</a-entity>
-</a-entity>
-
-<a-entity position="2 1 -5">
-		<a-entity mixin="cube red">
-			<a-animation 	 attribute="position" from="0 0 0"
-											to="0 0 -20" direction="alternate"  repeat="indefinite"></a-animation>
-	</a-entity>
-</a-entity>
-
 
 		   <a-sky color="white"></a-sky>
 		</a-scene>
