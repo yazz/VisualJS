@@ -1,5 +1,5 @@
 <template>
-  <div class='container-fluid'>
+  <div class='container-fluid' style='background: white; width: 100%; height:100%;'>
     <div class='row'>
       <div class='col-md-6'>
       {{list_of_records.length}} records

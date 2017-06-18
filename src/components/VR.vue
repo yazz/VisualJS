@@ -1,6 +1,8 @@
 <template>
 	<div style='position: absolute; height: 20%; width: 20%;'>
-        <a-scene  platform='all' id='vr_scene'>
+
+	
+        <a-scene  platform='all' id='vr_scene' renderer="clearColor: #222">
 			<a-assets>
 				<a-mixin id="cube" geometry="primitive: box"></a-mixin>
 				<a-mixin id="cube-hovered" material="color: magenta"></a-mixin>
@@ -19,33 +21,31 @@
 				      rotation='0 0 0'>
             </a-entity>
 
-            <a-entity position="0 1.8 2.5">
-                <a-entity camera >
+            <a-entity position="0 1.8 2.5" material="color: white">
+                <a-entity camera material="color: white">
 									<a-entity 	position="0 0 -3"
-										geometry="primitive: ring; radiusOuter: 0.020; radiusInner: 0.0001;"
-										material="color: red; shader: flat"
 										cursor="maxDistance: 1000; fuse: true">
 									</a-entity>
 
 
 					</a-entity>
-                <a-entity camera look-controls >
+                <a-entity  look-controls material="color: white;">
 									<a-entity 	position="0 0 -3"
-										geometry="primitive: ring; radiusOuter: 0.020; radiusInner: 0.0001;"
+										geometry="primitive: ring; radiusOuter: 0.040; radiusInner: 0.016; color:white;"
 										material="color: red; shader: flat"
-										cursor="maxDistance: 1000; fuse: true">
+										cursor="maxDistance: 1000; fuse: true"
+										>
 									</a-entity>
 
 
 					</a-entity>
 			</a-entity>
 
-<a-entity position="2 1 -5">
-		<a-entity mixin="cube red">
-			<a-animation 	 attribute="position" from="0 0 0"
-											to="0 0 -20" direction="alternate"  repeat="indefinite"></a-animation>
-	</a-entity>
-</a-entity>
+			
+			
+					<a-entity  position="0 3 -5" material="color: white; " geometry="primitive: box; width:200; height: 100; " >
+
+    				</a-entity>
 
 
 
@@ -94,7 +94,12 @@
 
 
 <script>
+import output_table             from './output_table.vue'
+
+
 export default {
+name: 'VR'
+,
   computed: {
     list_of_connections: function () {
       return this.$store.getters.list_of_connections
@@ -109,16 +114,12 @@ export default {
 
     viewed_driver_id: function () {
       return this.$store.state.viewed_driver_id
-    },
-	getRandomColor: function() {
-        var letters = '0123456789ABCDEF';
-        var color = '#';
-        for (var i = 0; i < 6; i++ ) {
-            color += letters[Math.floor(Math.random() * 16)];
-        }
-        return color;
     }
-}
+	},
+  components: {
+  'output-table': output_table}
+
+
 }
 </script>
 
