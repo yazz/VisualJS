@@ -26,7 +26,7 @@
 					</a-entity>
                 <a-entity  look-controls material="color: white;">
 									<a-entity 	position="0 0 -3"
-										geometry="primitive: ring; radiusOuter: 0.010; radiusInner: 0.006; color:white;"
+										geometry="primitive: ring; radiusOuter: 0.030; radiusInner: 0.006; color:white;"
 										material="color: red; shader: flat"
 										cursor="maxDistance: 1000; fuse: true"
 										>
@@ -76,7 +76,7 @@
 			   v-bind:position="(index*1.5) + ' 2 -1'"  width=1 height=1
 			   v-bind:color="(index % 2 == 0)?'blue':'green'"
 			   v-bind:text="'color: black; align: left; value: ' + a_driver.id + ' ; width: 2; '">
-				   <a-entity  mixin='gsd'  v-bind:color="(index % 2 == 0)?'blue':'green'">
+				   <a-entity  mixin='gsd'  v-bind:color="(index % 2 == 0)?'blue':'green'" v-bind:log='"" + a_driver.id'>
 						 <a-animation begin="mouseenter" attribute="geometry.depth" from="0"
 										to=".5'" dur="1500" direction="alternate"  repeat="1"></a-animation>
 					</a-entity>
@@ -92,7 +92,7 @@
 						v-bind:color="(index % 2 == 0)?'blue':'green'"
 						v-bind:text="'color: black; align: left; value: ' + a_driver.id + ' ; width: 2; '">
 
-				    <a-entity mixin='gsd'  v-bind:color="(index % 2 == 0)?'blue':'green'">
+				    <a-entity mixin='gsd'  v-bind:color="(index % 2 == 0)?'blue':'green'" >
 					<a-animation 	begin="mouseenter" attribute="position" from="-1.5 0 0"
 					                to="-1.5 0 -1" direction="alternate"  repeat="1"></a-animation>
 					</a-entity>

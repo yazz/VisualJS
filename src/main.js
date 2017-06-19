@@ -13,7 +13,7 @@ import db                       from '../public/dbhelper.js'
 Vue.component('FileBrowser',FileBrowser);
 
 
-const gun_ip_address = '172.18.0.105'
+const gun_ip_address = '10.6.88.153'
 
 window.vue = Vue;
 
@@ -98,6 +98,19 @@ function setupVRVuePane() {
           ,
           components: {'VR': VR}
         });
+		
+		
+		AFRAME.registerComponent('log', {
+		  schema: {type: 'string'},
+		  init: function () {
+			var stringToLog = this.data;
+		   this.el.addEventListener('click', function (evt) {
+			    //alert(stringToLog);
+				getresult(stringToLog,  document.getElementById("sqlinput").value);
+				console.log(stringToLog + ' was clicked at: ', evt.detail.intersection.point);
+			});
+		  }
+		});
     }
 }
 
