@@ -73,10 +73,11 @@
 
 
 			<a-entity v-for="(a_driver,index)  in  list_of_connections"
-			   v-bind:position="(index*1.5) + ' 2 -1'"  width=1 height=1
+			   v-bind:position="((get_x_position(index,list_of_connections.length)*1) - 5)+ ' ' + (0 + (get_y_position(index,list_of_connections.length)*1)) + ' -1'"  
 			   v-bind:color="(index % 2 == 0)?'blue':'green'"
 			   v-bind:text="'color: black; align: left; value: ' + a_driver.id + ' ; width: 2; '">
-				   <a-entity  mixin='gsd'  v-bind:color="(index % 2 == 0)?'blue':'green'" v-bind:log='"" + a_driver.id'>
+				   <a-entity  position="-0.8 .3 0" geometry='width: .5; height: .5; depth: 0.1;'
+				   mixin='gsd'  v-bind:color="(index % 2 == 0)?'blue':'green'" v-bind:log='"" + a_driver.id'>
 						 <a-animation begin="mouseenter" attribute="geometry.depth" from="0"
 										to=".5'" dur="1500" direction="alternate"  repeat="1"></a-animation>
 					</a-entity>
@@ -85,18 +86,6 @@
 
 
 
-			<a-entity  	v-for="(a_driver,index)  in  list_of_drivers"
-						v-bind:position="(index*1.5) + ' 1 -1'"
-						width=1
-						height=1
-						v-bind:color="(index % 2 == 0)?'blue':'green'"
-						v-bind:text="'color: black; align: left; value: ' + a_driver.id + ' ; width: 2; '">
-
-				    <a-entity mixin='gsd'  v-bind:color="(index % 2 == 0)?'blue':'green'" >
-					<a-animation 	begin="mouseenter" attribute="position" from="-1.5 0 0"
-					                to="-1.5 0 -1" direction="alternate"  repeat="1"></a-animation>
-					</a-entity>
-			</a-entity>
 
 		   <a-sky color="white"></a-sky>
 		</a-scene>
@@ -138,8 +127,24 @@ name: 'VR'
     },
 	    list_of_fields: function () {
       return this.$store.state.list_of_output_fields
-    },
+    }
+	
 
+
+	},
+	methods: {
+		get_x_position: function(index, total) {
+		var cols = (Math.ceil(Math.sqrt(total)));
+		return index % cols;
+	},
+	get_y_position: function(index, total) {
+		var cols = (Math.ceil(Math.sqrt(total)));
+		var rawQuotient = index / cols;
+		var remainder = rawQuotient % 1;
+		var quotient = rawQuotient - remainder;
+		console.log('get_y_position( ' + index + ', ' + total + ') = ' + quotient);
+		return quotient ;
+	}
 	},
   components: {
   'output-table': output_table}
