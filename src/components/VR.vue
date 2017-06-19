@@ -45,7 +45,7 @@
             </a-entity>
 
             <a-entity v-for="(field_name,index)  in  list_of_fields"
-					  v-bind:position='index + " 3 0"'
+					  v-bind:position='(index + 1) + " 3 0"'
 			          geometry="primitive: plane; width: auto; height: auto" material="color: white"
                       v-bind:text='"color: black; align: left; value: " + field_name + "; width: 2; "'
 				      rotation='0 0 0'>
@@ -66,10 +66,10 @@
 
 
 			<a-entity v-for="(a_driver,index)  in  list_of_connections"
-			   v-bind:position="((get_x_position(index,list_of_connections.length)*0.7) - 5)+ ' ' + (0 + (get_y_position(index,list_of_connections.length)*0.6)) + ' -1'"  
+			   v-bind:position="(-(get_x_position(index,list_of_connections.length)*0.5))+ ' ' + (3 - (get_y_position(index,list_of_connections.length)*0.6)) + ' -1'"  
 			   v-bind:color="(index % 2 == 0)?'blue':'green'"
 			   v-bind:text="'color: black; align: left; value: ' + a_driver.id.substr(a_driver.id.length - 10) + ' ; width: 2; '">
-				   <a-entity  position="-0.8 .3 0" geometry='width: .5; height: .5; depth: 0.1;'
+				   <a-entity  position="-0.8 .3 0" geometry='width: .3; height: .3; depth: 0.1;'
 				   mixin='gsd'  v-bind:color="(index % 2 == 0)?'blue':'green'" v-bind:log='"" + a_driver.id'>
 						 <a-animation begin="mouseenter" attribute="rotation" from="0 0 0"
 										to="0 30 0" dur="500" direction="alternate"  repeat="1"></a-animation>
