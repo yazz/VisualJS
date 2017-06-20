@@ -138,11 +138,29 @@
 			
 			var rows=[];
 			
+var firstRow = false;
+			var ret = new Object();
+
+var stream = fs.createReadStream(connection.fileName);
+ 
+csv
+ .fromStream(stream)
+ .on("data", function(data){
+     console.log(data);
+          try {
+	
+if (!firstRow) {
+	firstRow = true;
+	ret["fields"] = data;
+}
+
+rows.push(data);
 
 
 
-            try {
-			var workbook = XLSX.readFile(connection.fileName);
+
+/*
+ var workbook = XLSX.readFile(connection.fileName);
 			rows = XLSX.utils.sheet_to_json( workbook.Sheets[workbook.SheetNames[0]],{ header: 1 });
 			console.log('XL: ' + JSON.stringify(rows));
 
@@ -158,20 +176,16 @@
 			for(var i = 0; i < maxLength; i++){
 				fields.push('' + i);
 			};
-
+*/
 			
 			
 
-			var ret = new Object();
-			ret["fields"] = fields;
-			ret["values"] = rows;
 
 
 
 
 
 
-			callfn(ret);
 			console.log("ret  = " + JSON.stringify(ret));
 
 			
@@ -186,6 +200,15 @@
 				console.log('CSV error: ' + err);
 				callfn({error: 'CSV error: ' + err});
 			}
+			
+			})
+ .on("end", function(){
+     console.log("done");
+
+			ret["values"] = rows;
+			callfn(ret);
+   
+ });
 
           }
 }

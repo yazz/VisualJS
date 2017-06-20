@@ -32,6 +32,7 @@ var isWin = /^win/.test(process.platform);
 
 var stopScan = false;
 var XLSX = require('xlsx');
+var csv = require('fast-csv');
 
  function isExcelFile(fname) {
 	 if (!fname) {
@@ -44,6 +45,19 @@ var XLSX = require('xlsx');
 	 return false;
  }
 
+ 
+  function isCsvFile(fname) {
+	 if (!fname) {
+		return false;
+	 };
+	 var ext = fname.split('.').pop();
+	 ext = ext.toLowerCase();
+	 if (ext == "csv") return true;
+	 return false;
+ }
+
+ 
+ 
 
  var walk = function(dir, done) {
    if (stopScan) {
@@ -89,6 +103,39 @@ var XLSX = require('xlsx');
   										fileId
   										,
   										'excel'
+  										,
+  										excelFile
+  								  ]
+  							);
+  						}
+					}
+		  if (isCsvFile(file)) {
+        console.log('file: ' + file);
+  					var excelFile = file;
+  						if (typeof excelFile !== "undefined") {
+							var fileId = excelFile.replace(/[^\w\s]/gi,'');
+  							console.log('   *file id: ' + fileId);
+
+  							dbhelper.sql(`insert into
+  									  db_connections
+  									  (
+  										  id
+  										  ,
+  										  name
+  										  ,
+  										  driver
+  										  ,
+  										  fileName
+  									  )
+  								  values
+  									  (? , ? , ? , ?)`
+  								  ,
+  								  [
+  										fileId
+  										,
+  										fileId
+  										,
+  										'csv'
   										,
   										excelFile
   								  ]
@@ -180,17 +227,6 @@ console.dir ( ip.address() );
 
 console.log('addr: '+ ip.address());
 hostaddress = ip.address();
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -508,6 +544,10 @@ app.listen(port, hostaddress, function () {
     //dbhelper.sql("select * from drivers ")
 
 
+	
+	
+	
+	
 
 
 
@@ -663,3 +703,6 @@ var driveStart =
 			  });
 			});
 	  };
+
+	  
+	  

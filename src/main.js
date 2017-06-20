@@ -13,7 +13,7 @@ import db                       from '../public/dbhelper.js'
 Vue.component('FileBrowser',FileBrowser);
 
 
-const gun_ip_address = '172.18.0.103'
+const gun_ip_address = '10.105.112.72'
 
 window.vue = Vue;
 
