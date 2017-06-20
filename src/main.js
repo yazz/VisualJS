@@ -34,9 +34,9 @@ function initWelcomeVuePane() {
     } else {
         //console.log(' Welcome pane does not exist anymore. Vue.js destroyed it with new Vue(...)');
     }
-//	if (window.system_type == 'client') {
+	if (window.system_type == 'client') {
 		setupGunDB();
-//	}
+	}
 }
 
 
