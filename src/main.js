@@ -13,7 +13,7 @@ import db                       from '../public/dbhelper.js'
 Vue.component('FileBrowser',FileBrowser);
 
 
-const gun_ip_address = '10.6.88.153'
+const gun_ip_address = '172.18.0.103'
 
 window.vue = Vue;
 
@@ -28,13 +28,15 @@ function initWelcomeVuePane() {
           components: {'welcome-component': Welcome}
         });
 
-        setupGunDB();
     }
     if (document.getElementById('welcome')) {
         //console.log(' Welcome pane still exists');
     } else {
         //console.log(' Welcome pane does not exist anymore. Vue.js destroyed it with new Vue(...)');
     }
+	if (window.system_type == 'client') {
+		setupGunDB();
+	}
 }
 
 
@@ -103,11 +105,13 @@ function setupVRVuePane() {
 		AFRAME.registerComponent('log', {
 		  schema: {type: 'string'},
 		  init: function () {
+
 			var stringToLog = this.data;
 		   this.el.addEventListener('click', function (evt) {
 			    //alert(stringToLog);
 				getresult(stringToLog,  document.getElementById("sqlinput").value);
-				console.log(stringToLog + ' was clicked at: ', evt.detail.intersection.point);
+				//alert(stringToLog + ' was clicked at: ', evt.detail.intersection.point);
+				//alert(stringToLog + ' was clicked with: ' + document.getElementById("sqlinput"));
 			});
 		  }
 		});
@@ -157,6 +161,8 @@ function setupSqlResultPane() {
 //
 //-----------------------------------------------------------------
 function setupGunDB() {
+			//alert('gun' );
+
         if (location.port == '8080') {
             gun = Gun( ['http://' + gun_ip_address + '/gun']);
         } else { // we are on port 80
@@ -292,8 +298,9 @@ function setupGunDB() {
             ,function(results) {
                 if (results[0]) {
                     //document.getElementById('maininput').value = results[0].value
-
-                    document.getElementById('mainid').innerHTML = results[0].value
+					if (document.getElementById('mainid')) {
+						document.getElementById('mainid').innerHTML = results[0].value
+					}
                 }
             })
 

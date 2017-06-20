@@ -72,7 +72,7 @@
 				   <a-entity  position="-0.8 .3 0" geometry='width: .3; height: .3; depth: 0.1;'
 				   mixin='gsd'  v-bind:color="(index % 2 == 0)?'blue':'green'" v-bind:log='"" + a_driver.id'>
 						 <a-animation begin="mouseenter" attribute="rotation" from="0 0 0"
-										to="0 30 0" dur="500" direction="alternate"  repeat="1"></a-animation>
+										to="0 60 0" dur="1000" direction="alternate"  repeat="1"></a-animation>
 					</a-entity>
 		   </a-entity>
 

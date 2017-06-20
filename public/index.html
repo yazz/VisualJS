@@ -36,30 +36,6 @@
   window.CustomEvent = CustomEvent;
 })();
 
-setTimeout(function(){
-  var scene = document.querySelector('a-scene');
-  scene.addEventListener('enter-vr', function(event) {
-    //window.scrollTop = 0;
-	//alert('in VR mode!');
-	//alert('h: ' + document.getElementById('other').style.height);
-	//document.getElementById('bottom_bar').style.height='0%';
-	//document.getElementById('other').style.height='100%';
-	//document.getElementById('bottom_bar').style.display='none';
-	//document.getElementById('vr_scene')['always-fullscreen']='always-fullscreen';
-	//document.getElementById('vr_scene')['embedded']='embedded';
-
-  });
-  scene.addEventListener('exit-vr', function(event) {
-    //window.scrollTop = 0;
-	//alert('left in VR mode!');
-	//alert('h: ' + document.getElementById('other').style.height);
-	//document.getElementById('bottom_bar').style.height='10%';
-	//document.getElementById('other').style.height='90%';
-	//document.getElementById('bottom_bar').style.display='';
-	//document.getElementById('vr_scene')['always-fullscreen']='';
-	//document.getElementById('vr_scene')['embedded']='';
-  });
-  },2000);
 </script>
 
     <script type="text/javascript" src="es6-shim.js"></script>
@@ -70,8 +46,6 @@ setTimeout(function(){
     <script type="text/javascript" src="bootstrap.min.js"></script>
     <script type="text/javascript" src="sql.js"></script>
 	<script type="text/javascript" src="aframe.min.js"></script>
-	//<script src="https://rawgit.com/bestiejs/platform.js/master/platform.js"></script>
-	//<script src="https://rawgit.com/protyze/aframe-always-fullscreen-component/master/dist/aframe-always-fullscreen-component.min.js"></script>
   <script  type="text/javascript"  src="aframe-reverse-look-controls-component.js"></script>
 
     <!--
@@ -127,8 +101,8 @@ setTimeout(function(){
        -->
       <div  id=mainsources class="zoomTarget" data-targetsize="1"
            style='position: absolute; left: 0%; top: 0%; height: 100%; width: 100%; display: inline-block; -webkit-transform: translatez(0); transform:   scale(0.5, 0.5);border: 0px ;overflow: false'>
-		<div style='width: 100%; heigtht: 100%;  margin:0 auto; margin-top: 0px;overflow: false' id=vr_element>
-        </div>
+		<a style='font-size: 5em;' href='index_vr_mode.html' >VR mode
+        </a>
       </div>
 
 
