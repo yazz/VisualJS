@@ -40,21 +40,21 @@
 			
             <a-entity position="0 3.5 0"
 			          geometry="primitive: plane; width: auto; height: auto" material="color: white"
-                      text="color: black; align: left; value: Go Share Data VR; width: 2; "
+                      text="font: roboto; color: black; align: left; value: Go Share Data VR; width: 2; "
 				      rotation='0 0 0'>
             </a-entity>
 
             <a-entity v-for="(field_name,index)  in  list_of_fields"
 					  v-bind:position='(index + 1) + " 3 0"'
 			          geometry="primitive: plane; width: auto; height: auto" material="color: white"
-                      v-bind:text='"color: black; align: left; value: " + field_name + "; width: 2; "'
+                      v-bind:text='"font: aileronsemibold;color: black; align: left; value: " + field_name + "; width: 2; "'
 				      rotation='0 0 0'>
 					  
 
 					<a-entity v-for="(a_record,rindex)  in  list_of_records"
 							  v-bind:position='"0 " + (-.2 - (rindex * 0.2)) + " 0"'
 							  geometry="primitive: plane; width: auto; height: auto" material="color: white"
-							  v-bind:text='"color: black; align: left; value: " + a_record[field_name] + "; width: 2; "'
+							  v-bind:text='"font: sourcecodepro;color: black; align: left; value: " + a_record[field_name] + "; width: 1.5; "'
 							  rotation='0 0 0'>
 						  
 					</a-entity>
