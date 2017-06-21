@@ -34,6 +34,8 @@ var stopScan = false;
 var XLSX = require('xlsx');
 var csv = require('fast-csv');
 
+var mysql      = require('mysql');
+
  function isExcelFile(fname) {
 	 if (!fname) {
 		return false;
@@ -520,6 +522,10 @@ app.listen(port, hostaddress, function () {
     addOrUpdateDriver('postgres', pgeval, drivers['postgres'])
 
 
+
+    var pgeval = '(' + fs.readFileSync(path.join(__dirname, './mysql.js')).toString() + ')';
+    drivers['mysql'] = eval( pgeval )
+    addOrUpdateDriver('mysql', pgeval, drivers['mysql'])
 
 
 
