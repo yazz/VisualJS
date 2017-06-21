@@ -136,10 +136,10 @@
 				  connection_connect_string: null,
 				  database:                  "mysql",
 				  host:                      "127.0.0.1",
-				  port:                      "5432",
+				  port:                      "3306",
 				  connection_status:         null,
-				  connection_username:       "mysql",
-				  connection_password:       "manager"
+				  connection_username:       "root",
+				  connection_password:       "password"
 				};
 			  }
 	}
@@ -148,6 +148,7 @@
     type: 'db_driver'
     ,
     setup: function(connection) {
+			  console.log('**** setup');
           var config = {
             id:                connection.id,
             user:              connection.user,
@@ -158,19 +159,22 @@
             max:               connection.max,
             idleTimeoutMillis: connection.idleTimeoutMillis
           };
+			  console.log('**** setup2');
 
-          connection.connection = new postgresdb.Client(config);
-          connection.connection.connect(function (err) {
-            if (err) throw err;
-          });
+          connection.connection = mysql.createConnection(config);
+			  console.log('**** setu3');
+          connection.connection.connect();
+			  console.log('**** setup4');
           connection.status = 'connected';
+			  console.log('**** setup5');
       },
 
 
 
     get: function( connection , sql , callfn )
         {
-            console.log('********************************');
+			  console.log(sql);
+			  
             if (
                 (connection.status == 'disconnected')
                 ||
@@ -179,16 +183,18 @@
              {
                 drivers['mysql']['setup'](connection);
             }
+            console.log('********************************connection.status:'  + connection.status);
 
           console.error('drivers[mysql][get]');
           // execute a query on our database
-          connection.connection.query(sql, [], function (err, result) {
+          connection.connection.query(sql, function (err, result, fields) {
             if (err) {
+				console.log(err); // outputs: { name: 'brianc' }
 				callfn({error: '' + err});
 			} else {
 				// just print the result to the console
-				console.log(result.rows); // outputs: { name: 'brianc' }
-				callfn(result.rows);
+				console.log(result); // outputs: { name: 'brianc' }
+				callfn(result);
 			};
 
 
