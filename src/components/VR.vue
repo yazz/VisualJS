@@ -16,7 +16,7 @@
 			</a-assets>
 
 
-            <a-entity position="0 1.8 2.5" material="color: white">
+            <a-entity v-if='vr_type=="mouse"' position="0 1.8 2.5" material="color: white">
                 <a-entity camera material="color: white">
 									<a-entity 	position="0 0 -3"
 										cursor="maxDistance: 1000; fuse: true">
@@ -38,9 +38,32 @@
 
 			
 			
+			
+            <a-entity v-if='vr_type=="move"' position="0 1.8 2.5" material="color: white">
+                <a-entity camera look-controls material="color: white">
+									<a-entity 	position="0 0 -3"
+										cursor="maxDistance: 1000; fuse: true">
+									</a-entity>
+
+                <a-entity   material="color: white;">
+									<a-entity 	position="0 0 -3"
+										geometry="primitive: ring; radiusOuter: 0.030; radiusInner: 0.006; color:white;"
+										material="color: red; shader: flat"
+										cursor="maxDistance: 1000; fuse: true"
+										>
+									</a-entity>
+
+
+
+					</a-entity>
+					</a-entity>
+			</a-entity>
+
+			
+			
             <a-entity position="0 3.5 0"
 			          geometry="primitive: plane; width: auto; height: auto" material="color: white"
-                      text="font: roboto; color: black; align: left; value: Go Share Data VR; width: 2; "
+                      v-bind:text='"font: roboto; color: black; align: left; value: Go Share Data VR "  + vr_type + "; width: 2; "'
 				      rotation='0 0 0'>
             </a-entity>
 
@@ -95,7 +118,9 @@ import output_table             from './output_table.vue'
 
 export default {
 name: 'VR'
-,
+		,
+			props: ['vr_type'],
+
   computed: {
     list_of_records: function () {
 	if (this.$store.state.list_of_output_records) {

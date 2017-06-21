@@ -13,7 +13,7 @@ import db                       from '../public/dbhelper.js'
 Vue.component('FileBrowser',FileBrowser);
 
 
-const gun_ip_address = '10.105.112.72'
+const gun_ip_address = '10.6.88.153'
 
 window.vue = Vue;
 
@@ -82,20 +82,26 @@ function setupSqlVuePane() {
 function setupVRVuePane() {
 
     if (document.getElementById('vr_element')) {
+		 var vrParam = location.search.split('type=')[1];
+		 //alert(vrParam);
+
         new Vue({
           el: '#vr_element'
           ,
           store: store
           ,
           template: `
-                <VR>
+                <VR :vr_type=vrType>
                 </VR>
         `
           ,
           computed: {
             options: function () {
               return this.$store.state.list_of_connections;
-            }
+            },
+			vrType: function() {
+				return vrParam;
+			}
           }
           ,
           components: {'VR': VR}
