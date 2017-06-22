@@ -130,6 +130,7 @@ function setupVRVuePane() {
 		   this.el.addEventListener('mouseenter', function (evt) {
 			    //alert(stringToLog);
 				if (document.getElementById("mousevr")) {
+					alert('hit the border');
 					//document.getElementById("mousevr"),position='0 0 0';
 					//document.getElementById("mousevr").rotation='0 0 0';
 					//el.setAttribute('look-controls','false');
@@ -139,6 +140,7 @@ function setupVRVuePane() {
 					document.querySelector("#mousevr").setAttribute('look-controls', true);
 				};
 				if (document.getElementById("movevr")) {
+					alert('hit the border');
 					//document.querySelector("#movevr").setAttribute('position', {x: 0, y: 2, z: 3 });//0 1.8 2.5
 					document.querySelector("#movevr").setAttribute('look-controls', false);
 					document.querySelector("#movevr").setAttribute('rotation', {x: 0, y: 2, z: 3 });//0 1.8 2.5
