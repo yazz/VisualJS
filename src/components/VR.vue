@@ -37,15 +37,6 @@
 			</a-entity>
 
 			
-                <a-box  v-if='vr_type=="mouse"' material="color: white" position="-3 0 0" depth=0 reset-view height=10> </a-box>
-                <a-box  v-if='vr_type=="mouse"' material="color: white" position="3 0 0" depth=0 reset-view height=10> </a-box>
-                <a-box  v-if='vr_type=="mouse"' material="color: white" position="-3 -1 0" depth=0 reset-view width=20> </a-box>
-                <a-box  v-if='vr_type=="mouse"' material="color: white" position="-3 5 0" depth=0 reset-view width=20> </a-box>
-			
-                <a-box  v-if='vr_type=="move"' material="color: white" position="-3 0 0" depth=0 reset-view height=10> </a-box>
-                <a-box  v-if='vr_type=="move"' material="color: white" position="3 0 0" depth=0 reset-view height=10> </a-box>
-                <a-box  v-if='vr_type=="move"' material="color: white" position="-3 -1 0" depth=0 reset-view width=20> </a-box>
-                <a-box  v-if='vr_type=="move"' material="color: white" position="-3 5 0" depth=0 reset-view width=20> </a-box>
 			
 			
             <a-entity v-if='vr_type=="move"' position="0 2 3" material="color: white" >
@@ -69,45 +60,58 @@
 			</a-entity>
 
 			
+			<a-entity id=vr_objects >
+			  <a-entity position='0 0 -3' >
+                <a-box  v-if='vr_type=="mouse"' material="color: white" position="-3 0 0" depth=0 reset-view height=10> </a-box>
+                <a-box  v-if='vr_type=="mouse"' material="color: white" position="3 0 0" depth=0 reset-view height=10> </a-box>
+                <a-box  v-if='vr_type=="mouse"' material="color: white" position="-3 -1 0" depth=0 reset-view width=20> </a-box>
+                <a-box  v-if='vr_type=="mouse"' material="color: white" position="-3 5 0" depth=0 reset-view width=20> </a-box>
 			
-            <a-entity position="0 3.5 0"
-			          geometry="primitive: plane; width: auto; height: auto" material="color: white"
-                      v-bind:text='"font: roboto; color: black; align: left; value: Go Share Data VR "  + vr_type + "; width: 2; "'
-				      rotation='0 0 0'>
-            </a-entity>
+                <a-box  v-if='vr_type=="move"' material="color: white" position="-3 0 0" depth=0 reset-view height=10> </a-box>
+                <a-box  v-if='vr_type=="move"' material="color: white" position="3 0 0" depth=0 reset-view height=10> </a-box>
+                <a-box  v-if='vr_type=="move"' material="color: white" position="-3 -1 0" depth=0 reset-view width=20> </a-box>
+                <a-box  v-if='vr_type=="move"' material="color: white" position="-3 5 0" depth=0 reset-view width=20> </a-box>
+			
+				<a-entity position="0 3.5 0"
+						  geometry="primitive: plane; width: auto; height: auto" material="color: white"
+						  v-bind:text='"font: roboto; color: black; align: left; value: Go Share Data VR "  + vr_type + "; width: 2; "'
+						  rotation='0 0 0'>
+				</a-entity>
 
-            <a-entity v-for="(field_name,index)  in  list_of_fields"
-					  v-bind:position='(index + 1) + " 3 0"'
-			          geometry="primitive: plane; width: auto; height: auto" material="color: white"
-                      v-bind:text='"font: aileronsemibold;color: black; align: left; value: " + field_name + "; width: 2; "'
-				      rotation='0 0 0'>
-					  
-
-					<a-entity v-for="(a_record,rindex)  in  list_of_records"
-							  v-bind:position='"0 " + (-.2 - (rindex * 0.2)) + " 0"'
-							  geometry="primitive: plane; width: auto; height: auto" material="color: white"
-							  v-bind:text='"font: sourcecodepro;color: black; align: left; value: " + a_record[field_name] + "; width: 1.5; "'
-							  rotation='0 0 0'>
+				<a-entity v-for="(field_name,index)  in  list_of_fields"
+						  v-bind:position='(index + 1) + " 3 0"'
+						  geometry="primitive: plane; width: auto; height: auto" material="color: white"
+						  v-bind:text='"font: aileronsemibold;color: black; align: left; value: " + field_name + "; width: 2; "'
+						  rotation='0 0 0'>
 						  
-					</a-entity>
-					  
-            </a-entity>
+
+						<a-entity v-for="(a_record,rindex)  in  list_of_records"
+								  v-bind:position='"0 " + (-.2 - (rindex * 0.2)) + " 0"'
+								  geometry="primitive: plane; width: auto; height: auto" material="color: white"
+								  v-bind:text='"font: sourcecodepro;color: black; align: left; value: " + a_record[field_name] + "; width: 1.5; "'
+								  rotation='0 0 0'>
+							  
+						</a-entity>
+						  
+				</a-entity>
 
 
 
 
 
-			<a-entity v-for="(a_driver,index)  in  list_of_connections"
-			   v-bind:position="(-(get_x_position(index,list_of_connections.length)*0.5))+ ' ' + (3 - (get_y_position(index,list_of_connections.length)*0.6)) + ' -1'"  
-			   v-bind:color="(index % 2 == 0)?'blue':'green'"
-			   v-bind:text="'color: black; align: left; value: ' + a_driver.id.substr(a_driver.id.length - 10) + ' ; width: 2; '">
-				   <a-entity  position="-0.8 .3 0" geometry='width: .3; height: .3; depth: 0.1;'
-				   mixin='gsd'  v-bind:color="(index % 2 == 0)?'blue':'green'" v-bind:log='"" + a_driver.id'>
-						 <a-animation begin="mouseenter" attribute="rotation" from="0 0 0"
-										to="0 60 0" dur="1000" direction="alternate"  repeat="1"></a-animation>
-					</a-entity>
-		   </a-entity>
+				<a-entity v-for="(a_driver,index)  in  list_of_connections"
+				   v-bind:position="(-(get_x_position(index,list_of_connections.length)*0.5))+ ' ' + (3 - (get_y_position(index,list_of_connections.length)*0.6)) + ' -1'"  
+				   v-bind:color="(index % 2 == 0)?'blue':'green'"
+				   v-bind:text="'color: black; align: left; value: ' + a_driver.id.substr(a_driver.id.length - 10) + ' ; width: 2; '">
+					   <a-entity  position="-0.8 .3 0" geometry='width: .3; height: .3; depth: 0.1;'
+					   mixin='gsd'  v-bind:color="(index % 2 == 0)?'blue':'green'" v-bind:log='"" + a_driver.id'>
+							 <a-animation begin="mouseenter" attribute="rotation" from="0 0 0"
+											to="0 60 0" dur="1000" direction="alternate"  repeat="1"></a-animation>
+						</a-entity>
+			   </a-entity>
+			  </a-entity>
 
+			</a-entity>
 
 
 

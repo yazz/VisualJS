@@ -135,18 +135,43 @@ function setupVRVuePane() {
 					//document.getElementById("mousevr").rotation='0 0 0';
 					//el.setAttribute('look-controls','false');
 					//document.querySelector("#mousevr").setAttribute('position', {x: 0, y: 0, z: 0 });
-					document.querySelector("#mousevr").setAttribute('look-controls', 'false');
-					document.querySelector("#mousevr").setAttribute('rotation', {x: 0, y: 0, z: 0 });
-					document.querySelector("#mousevr").setAttribute('look-controls', 'true');
+					//document.querySelector("#mousevr").setAttribute('look-controls', 'false');
+					//document.querySelector("#mousevr").setAttribute('rotation', {x: 0, y: 0, z: 0 });
+					//document.querySelector("#mousevr").setAttribute('look-controls', 'true');
+					//document.querySelector('#vr_objects').setAttribute('rotation',pos);
+					//document.querySelector('#vr_objects').setAttribute('rotation',pos);
+					//alert('' + pos.x + ', ' + pos.y +', ' + pos.z );
+					//document.querySelector('#vr_objects').setAttribute('look-at',"src: #mousevr");
+					//document.querySelector('#vr_objects').setAttribute('updateWorldTransform',"true");
+
+					var posCamera = document.querySelector('#vr_objects').getAttribute('position');
+					var rotCamera = document.querySelector('#vr_objects').getAttribute('rotation');
+					//rotCamera.z = 2;
+					document.querySelector('#mousevr').setAttribute('position',posCamera);
+					document.querySelector('#mousevr').setAttribute('rotation',rotCamera);
+					
+					
 				};
 				if (document.getElementById("movevr")) {
 					//alert('hit the border');
 					//document.querySelector("#movevr").setAttribute('position', {x: 0, y: 2, z: 3 });//0 1.8 2.5
-					document.querySelector("#movevr").setAttribute('look-controls', 'false');
-					document.querySelector("#movevr").setAttribute('rotation', {x: 0, y: 2, z: 3 });//0 1.8 2.5
-					document.querySelector("#movevr").setAttribute('look-controls', 'true');
+					//document.querySelector("#movevr").setAttribute('look-controls', 'false');
+					//document.querySelector("#movevr").setAttribute('rotation', {x: 0, y: 2, z: 3 });//0 1.8 2.5
+					//document.querySelector("#movevr").setAttribute('look-controls', 'true');
 					//document.getElementById("movevr"),position='0 0 0';
 					//document.getElementById("movevr").rotation='0 0 0';
+					//var pos = document.querySelector('#movevr').getAttribute('rotation');
+					
+					//alert('' + pos.x + ', ' + pos.y +', ' + pos.z );
+					
+					var posCamera = document.querySelector('#movevr').getAttribute('position');
+					var rotCamera = document.querySelector('#movevr').getAttribute('rotation');
+					//rotCamera.z = 2;
+					document.querySelector('#vr_objects').setAttribute('position',posCamera);
+					document.querySelector('#vr_objects').setAttribute('rotation',rotCamera);
+					//alert("Done");
+					
+
 				};
 				//alert(stringToLog + ' was clicked at: ', evt.detail.intersection.point);
 				//alert(stringToLog + ' was clicked with: ' + document.getElementById("sqlinput"));
