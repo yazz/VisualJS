@@ -13,7 +13,7 @@ import db                       from '../public/dbhelper.js'
 Vue.component('FileBrowser',FileBrowser);
 
 
-const gun_ip_address = '172.18.0.104'
+const gun_ip_address = '172.18.0.103'
 
 window.vue = Vue;
 
@@ -116,6 +116,32 @@ function setupVRVuePane() {
 		   this.el.addEventListener('click', function (evt) {
 			    //alert(stringToLog);
 				getresult(stringToLog,  document.getElementById("sqlinput").value);
+				//alert(stringToLog + ' was clicked at: ', evt.detail.intersection.point);
+				//alert(stringToLog + ' was clicked with: ' + document.getElementById("sqlinput"));
+			});
+		  }
+		});
+
+		AFRAME.registerComponent('reset-view', {
+		  schema: {type: 'string'},
+		  init: function () {
+
+			var stringToLog = this.data;
+		   this.el.addEventListener('mouseenter', function (evt) {
+			    //alert(stringToLog);
+				if (document.getElementById("mousevr")) {
+					//document.getElementById("mousevr"),position='0 0 0';
+					//document.getElementById("mousevr").rotation='0 0 0';
+					//el.setAttribute('look-controls','false');
+					//document.querySelector("#mousevr").setAttribute('position', {x: 0, y: 0, z: 0 });
+					document.querySelector("#mousevr").setAttribute('rotation', {x: 0, y: 0, z: 0 });
+				};
+				if (document.getElementById("movevr")) {
+					//document.querySelector("#movevr").setAttribute('position', {x: 0, y: 2, z: 3 });//0 1.8 2.5
+					document.querySelector("#movevr").setAttribute('rotation', {x: 0, y: 2, z: 3 });//0 1.8 2.5
+					//document.getElementById("movevr"),position='0 0 0';
+					//document.getElementById("movevr").rotation='0 0 0';
+				};
 				//alert(stringToLog + ' was clicked at: ', evt.detail.intersection.point);
 				//alert(stringToLog + ' was clicked with: ' + document.getElementById("sqlinput"));
 			});

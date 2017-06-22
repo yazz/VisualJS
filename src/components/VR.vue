@@ -16,16 +16,16 @@
 			</a-assets>
 
 
-            <a-entity v-if='vr_type=="mouse"' position="0 1.8 2.5" material="color: white">
-                <a-entity camera material="color: white">
-									<a-entity 	position="0 0 -3"
+            <a-entity v-if='vr_type=="mouse"' position="0 2 3" material="color: white" >
+                <a-entity camera material="color: white" >
+									<a-entity 	position="0 0 -3" 
 										cursor="maxDistance: 1000; fuse: true">
 									</a-entity>
 
 
 					</a-entity>
-                <a-entity  look-controls material="color: white;">
-									<a-entity 	position="0 0 -3"
+                <a-entity  look-controls material="color: white;" id=mousevr>
+									<a-entity 	position="0 0 -3" 
 										geometry="primitive: ring; radiusOuter: 0.030; radiusInner: 0.006; color:white;"
 										material="color: red; shader: flat"
 										cursor="maxDistance: 1000; fuse: true"
@@ -37,15 +37,24 @@
 			</a-entity>
 
 			
+                <a-box  v-if='vr_type=="mouse"' material="color: white" position="-3 0 0" depth=0 reset-view height=10> </a-box>
+                <a-box  v-if='vr_type=="mouse"' material="color: white" position="3 0 0" depth=0 reset-view height=10> </a-box>
+                <a-box  v-if='vr_type=="mouse"' material="color: white" position="-3 -1 0" depth=0 reset-view width=20> </a-box>
+                <a-box  v-if='vr_type=="mouse"' material="color: white" position="-3 5 0" depth=0 reset-view width=20> </a-box>
+			
+                <a-box  v-if='vr_type=="move"' material="color: white" position="-3 0 0" depth=0 reset-view height=10> </a-box>
+                <a-box  v-if='vr_type=="move"' material="color: white" position="3 0 0" depth=0 reset-view height=10> </a-box>
+                <a-box  v-if='vr_type=="move"' material="color: white" position="-3 -1 0" depth=0 reset-view width=20> </a-box>
+                <a-box  v-if='vr_type=="move"' material="color: white" position="-3 5 0" depth=0 reset-view width=20> </a-box>
 			
 			
-            <a-entity v-if='vr_type=="move"' position="0 1.8 2.5" material="color: white">
-                <a-entity camera look-controls material="color: white">
+            <a-entity v-if='vr_type=="move"' position="0 2 3" material="color: white" >
+                <a-entity camera look-controls material="color: white" id=movevr>
 									<a-entity 	position="0 0 -3"
 										cursor="maxDistance: 1000; fuse: true">
 									</a-entity>
 
-                <a-entity   material="color: white;">
+                <a-entity   material="color: white;" >
 									<a-entity 	position="0 0 -3"
 										geometry="primitive: ring; radiusOuter: 0.030; radiusInner: 0.006; color:white;"
 										material="color: red; shader: flat"
