@@ -59,10 +59,10 @@
 					</a-entity>
 			</a-entity>
 
-                <a-box  color=blue position="0 -5 0" depth=2 height=2 width=2> </a-box>
+                <a-box  color=blue position="0 0 0" depth=1 height=1 width=1> </a-box>
 				
 			<a-entity id=vr_objects >
-			  <a-entity position='0 0 -3' >
+			  <a-entity position='0 -5 0' rotation='90 0 0'>
 			  
 				
                 <a-box  id=m1 v-if='vr_type=="mouse"' material="color: white" position="-13 0 0" depth=0 reset-view height=10 width=20> </a-box>
