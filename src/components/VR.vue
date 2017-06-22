@@ -59,11 +59,15 @@
 					</a-entity>
 			</a-entity>
 
-                <a-box  color=blue position="0 0 0" depth=.1 height=.1 width=.1> </a-box>
 				
 			<a-entity id=vr_objects >
-			  <a-entity position='0 -7 0' rotation='0 0 0'>
-			  	  <a-entity2 position='0 0 -3' ></a-entity2>
+				<a-entity position="0 3.5 0"
+						  geometry="primitive: plane; width: auto; height: auto" material="color: white"
+						  v-bind:text='"font: roboto; color: black; align: left; value: Go Share Data VR "  + vr_type + "; width: 2; "'
+						  rotation='0 0 0'>
+				</a-entity>
+
+				<a-entity position='-1 -4 -1' rotation='-5'>
 				
                 <a-box  id=m1 v-if='vr_type=="mouse"' material="color: white" position="-13 0 0" depth=0 reset-view height=10 width=20> </a-box>
                 <a-box  id=m2 v-if='vr_type=="mouse"' material="color: white" position="13 0 0" depth=0 reset-view height=10 width=20> </a-box>
@@ -75,11 +79,6 @@
                 <a-box2  id=m7 v-if='vr_type=="move"' material="color: white" position="-3 -8 0" depth=0 height=15 reset-view width=30> </a-box2>
                 <a-box2  id=m8 v-if='vr_type=="move"' material="color: white" position="-3 12 0" depth=0 height=14 reset-view width=30> </a-box2>
 			
-				<a-entity position="0 3.5 0"
-						  geometry="primitive: plane; width: auto; height: auto" material="color: white"
-						  v-bind:text='"font: roboto; color: black; align: left; value: Go Share Data VR "  + vr_type + "; width: 2; "'
-						  rotation='0 0 0'>
-				</a-entity>
 
 				<a-entity v-for="(field_name,index)  in  list_of_fields"
 						  v-bind:position='(index + 1) + " 3 0"'
@@ -112,7 +111,6 @@
 											to="0 60 0" dur="1000" direction="alternate"  repeat="1"></a-animation>
 						</a-entity>
 			   </a-entity>
-			  </a-entity>
 
 			</a-entity>
 
