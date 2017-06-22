@@ -13,7 +13,7 @@ import db                       from '../public/dbhelper.js'
 Vue.component('FileBrowser',FileBrowser);
 
 
-const gun_ip_address = '172.18.0.103'
+const gun_ip_address = '10.6.88.153'
 
 window.vue = Vue;
 
@@ -134,11 +134,15 @@ function setupVRVuePane() {
 					//document.getElementById("mousevr").rotation='0 0 0';
 					//el.setAttribute('look-controls','false');
 					//document.querySelector("#mousevr").setAttribute('position', {x: 0, y: 0, z: 0 });
+					document.querySelector("#mousevr").setAttribute('look-controls', false);
 					document.querySelector("#mousevr").setAttribute('rotation', {x: 0, y: 0, z: 0 });
+					document.querySelector("#mousevr").setAttribute('look-controls', true);
 				};
 				if (document.getElementById("movevr")) {
 					//document.querySelector("#movevr").setAttribute('position', {x: 0, y: 2, z: 3 });//0 1.8 2.5
+					document.querySelector("#movevr").setAttribute('look-controls', false);
 					document.querySelector("#movevr").setAttribute('rotation', {x: 0, y: 2, z: 3 });//0 1.8 2.5
+					document.querySelector("#movevr").setAttribute('look-controls', true);
 					//document.getElementById("movevr"),position='0 0 0';
 					//document.getElementById("movevr").rotation='0 0 0';
 				};
