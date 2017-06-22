@@ -47,6 +47,30 @@ setTimeout(function(){
 	//document.getElementById('bottom_bar').style.display='none';
 	//document.getElementById('vr_scene')['always-fullscreen']='always-fullscreen';
 	//document.getElementById('vr_scene')['embedded']='embedded';
+	if (document.getElementById("m1")) {
+		var child = document.getElementById("m1");
+		child.parentNode.removeChild(child);
+		var child = document.getElementById("m2");
+		child.parentNode.removeChild(child);
+		var child = document.getElementById("m3");
+		child.parentNode.removeChild(child);
+		var child = document.getElementById("m4");
+		child.parentNode.removeChild(child);
+		};
+		if (document.getElementById("m5")) {
+			var child = document.getElementById("m5");
+
+			child.parentNode.removeChild(child);
+			var child = document.getElementById("m6");
+			child.parentNode.removeChild(child);
+			var child = document.getElementById("m7");
+			child.parentNode.removeChild(child);
+			var child = document.getElementById("m8");
+			child.parentNode.removeChild(child);
+		}	
+		
+	document.querySelector('#vr_objects').setAttribute('position',{x: 0,y: 0,z: 0});
+	document.querySelector('#vr_objects').setAttribute('rotation',{x: -90,y: 0,z: 0});
 
   });
   scene.addEventListener('exit-vr', function(event) {

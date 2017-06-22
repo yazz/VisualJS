@@ -41,7 +41,7 @@
 			
             <a-entity v-if='vr_type=="move"' position="0 2 3" material="color: white" >
                 <a-entity camera look-controls material="color: white" id=movevr>
-									<a-entity 	position="0 0 -3"
+									<a-entity 	position="0 0 -3" 
 										cursor="maxDistance: 1000; fuse: true">
 									</a-entity>
 
@@ -62,15 +62,15 @@
 			
 			<a-entity id=vr_objects >
 			  <a-entity position='0 0 -3' >
-                <a-box  v-if='vr_type=="mouse"' material="color: white" position="-3 0 0" depth=0 reset-view height=10> </a-box>
-                <a-box  v-if='vr_type=="mouse"' material="color: white" position="3 0 0" depth=0 reset-view height=10> </a-box>
-                <a-box  v-if='vr_type=="mouse"' material="color: white" position="-3 -1 0" depth=0 reset-view width=20> </a-box>
-                <a-box  v-if='vr_type=="mouse"' material="color: white" position="-3 5 0" depth=0 reset-view width=20> </a-box>
+                <a-box  id=m1 v-if='vr_type=="mouse"' material="color: white" position="-13 0 0" depth=0 reset-view height=10 width=20> </a-box>
+                <a-box  id=m2 v-if='vr_type=="mouse"' material="color: white" position="13 0 0" depth=0 reset-view height=10 width=20> </a-box>
+                <a-box  id=m3 v-if='vr_type=="mouse"' material="color: white" position="-3 -8 0" height=15 depth=0 reset-view width=30> </a-box>
+                <a-box  id=m4 v-if='vr_type=="mouse"' material="color: white" position="-3 12 0" height=14 depth=0 reset-view width=30> </a-box>
 			
-                <a-box  v-if='vr_type=="move"' material="color: white" position="-3 0 0" depth=0 reset-view height=10> </a-box>
-                <a-box  v-if='vr_type=="move"' material="color: white" position="3 0 0" depth=0 reset-view height=10> </a-box>
-                <a-box  v-if='vr_type=="move"' material="color: white" position="-3 -8 0" depth=0 height=15 reset-view width=20> </a-box>
-                <a-box  v-if='vr_type=="move"' material="color: white" position="-3 12 0" depth=0 height=14 reset-view width=20> </a-box>
+                <a-box  id=m5 v-if='vr_type=="move"' material="color: white" position="-13 0 0" depth=0 reset-view height=10 width=20> </a-box>
+                <a-box  id=m6 v-if='vr_type=="move"' material="color: white" position="13 0 0" depth=0 reset-view height=10 width=20> </a-box>
+                <a-box  id=m7 v-if='vr_type=="move"' material="color: white" position="-3 -8 0" depth=0 height=15 reset-view width=30> </a-box>
+                <a-box  id=m8 v-if='vr_type=="move"' material="color: white" position="-3 12 0" depth=0 height=14 reset-view width=30> </a-box>
 			
 				<a-entity position="0 3.5 0"
 						  geometry="primitive: plane; width: auto; height: auto" material="color: white"
