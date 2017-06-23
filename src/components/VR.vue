@@ -130,7 +130,7 @@ name: 'VR'
 		var rawQuotient = index / cols;
 		var remainder = rawQuotient % 1;
 		var quotient = rawQuotient - remainder;
-		console.log('get_y_position( ' + index + ', ' + total + ') = ' + quotient);
+		//console.log('get_y_position( ' + index + ', ' + total + ') = ' + quotient);
 		return quotient ;
 	}
 	},

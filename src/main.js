@@ -13,7 +13,7 @@ import db                       from '../public/dbhelper.js'
 Vue.component('FileBrowser',FileBrowser);
 
 
-const gun_ip_address = '10.6.88.153'
+const gun_ip_address = '172.18.0.105'
 
 window.vue = Vue;
 
@@ -81,6 +81,11 @@ function setupSqlVuePane() {
 var moveToX = 0;
 var moveToY = 0;
 
+var useX = 0;
+var useY = 0;
+
+var inMove = false;
+
 function setupVRVuePane() {
 
     if (document.getElementById('vr_element')) {
@@ -118,12 +123,37 @@ function setupVRVuePane() {
 		  init: function () {
 			var self = this;
 		   this.el.addEventListener('mouseenter', function (evt) {
-				//alert("item clicked at: (" + self.data.x + ", " + self.data.y + ")");
-				var newpos = (0.6 -(self.data.x * 0.5)) + ' ' + (-1 + (self.data.y * 0.6)) + ' 0';
+			   if (inMove) {
+				   return;
+			   };
+			   inMove = true;
+				var posX = 0;
+				var posY = 0;
+				
+				//alert('x: ' + self.data.x + ', useX: ' + useX);
+				//alert('y: ' + self.data.y + ', useY: ' + useY);
+				if (self.data.x < 2) {
+					useX = 0;
+				} else if (self.data.x == (useX + 2)) {
+					useX = useX + 1;
+				} else if (self.data.x == useX) {
+					useX = useX - 1;					
+				};
+				posX = -(useX * 0.5);
+				
+				if (self.data.y < 2) {
+					useY = 0;
+				} else if (self.data.y == (useY + 2)) {
+					useY = useY + 1;
+				} else if (self.data.y == useY) {
+					useY = useY - 1;
+				};
+				posY = (useY * 0.6);
+
+				var newpos = posX + ' ' + posY + ' 0';
 				
 				
 				var node = document.getElementById("animscroll");
-				
 				if (node) {
 				  node.parentNode.removeChild(node);
 				};
@@ -135,8 +165,9 @@ function setupVRVuePane() {
 				animation.setAttribute('id', "animscroll");
 				animation.setAttribute('attribute', "position");
 				animation.setAttribute('to', newpos);
-				animation.setAttribute('duration', "2000");
+				animation.setAttribute('dur', "2000");
 				document.querySelector("#scrollable_grid").appendChild(animation);
+				inMove = false;
 
 				
 			});
