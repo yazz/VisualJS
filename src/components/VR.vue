@@ -60,7 +60,7 @@
 			</a-entity>
 
 				
-			<a-entity id=vr_objects >
+			<a-entity id=vr_objects rotation='-45 0 0' position='0 -5 0'>
 			  <a-entity position='0 0 -3' >
 				
                 <a-box  id=m1 v-if='vr_type=="mouse"' material="color: white" position="-13 0 0" depth=0 reset-view height=10 width=20> </a-box>
