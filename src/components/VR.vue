@@ -111,6 +111,13 @@
 						</a-entity>
 			   </a-entity>
 
+			   
+			   
+			   <a-sphere src='https://upload.wikimedia.org/wikibooks/en/thumb/0/06/Web2.0.jpg/400px-Web2.0.jpg' radius=4 position='-100 0 0'></a-sphere>
+			   <a-sphere src='https://upload.wikimedia.org/wikibooks/en/thumb/0/06/Web2.0.jpg/400px-Web2.0.jpg' radius=4 position='100 0 0'></a-sphere>
+			   <a-sphere src='https://upload.wikimedia.org/wikibooks/en/thumb/0/06/Web2.0.jpg/400px-Web2.0.jpg' radius=4 position='0 100 0'></a-sphere>
+			   <a-sphere src='https://upload.wikimedia.org/wikibooks/en/thumb/0/06/Web2.0.jpg/400px-Web2.0.jpg' radius=4 position='0 -100 0'></a-sphere>
+			   <a-sphere src='https://upload.wikimedia.org/wikibooks/en/thumb/0/06/Web2.0.jpg/400px-Web2.0.jpg' radius=4 position='0 0 100'></a-sphere>
 			</a-entity>
 
 
