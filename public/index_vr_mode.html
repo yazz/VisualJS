@@ -47,6 +47,8 @@ setTimeout(function(){
 	//document.getElementById('bottom_bar').style.display='none';
 	//document.getElementById('vr_scene')['always-fullscreen']='always-fullscreen';
 	//document.getElementById('vr_scene')['embedded']='embedded';
+	document.querySelector('#vr_objects').setAttribute('position',{x: 0,y: 0,z: -4});
+	document.querySelector('#vr_objects').setAttribute('rotation',{x: 0,y: 0,z: 0});
 	if (document.getElementById("m1")) {
 		var child = document.getElementById("m1");
 		child.parentNode.removeChild(child);
@@ -83,7 +85,7 @@ setTimeout(function(){
 	//document.getElementById('vr_scene')['always-fullscreen']='';
 	//document.getElementById('vr_scene')['embedded']='';
   });
-  },2000);
+  },800);
 </script>
 
     <script type="text/javascript" src="es6-shim.js"></script>
