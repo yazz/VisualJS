@@ -39,9 +39,9 @@
 			
 			
 			
-            <a-entity v-if='vr_type=="move"' position="0 2 3" material="color: white" >
+            <a-entity v-if='vr_type=="move"' position="0 2 -98" material="color: white" >
                 <a-entity camera look-controls material="color: white" id=movevr>
-									<a-entity 	position="0 0 -3" 
+									<a-entity 	position="0 0 -20"   rotation='0 0 0'
 										cursor="maxDistance: 1000; fuse: true">
 									</a-entity>
 
@@ -60,8 +60,8 @@
 			</a-entity>
 
 				
-			<a-entity id=vr_objects rotation='-90 0 0' position='0 0 4'>
-			  <a-entity position='0 0 -3' >
+			<a-entity id=vr_objects rotation='0 0 0' position='0 0 -100'>
+			  <a-entity position='0 0 0' >
 				
                 <a-box  id=m1 v-if='vr_type=="mouse"' material="color: white" position="-13 0 0" depth=0 reset-view height=10 width=20> </a-box>
                 <a-box  id=m2 v-if='vr_type=="mouse"' material="color: white" position="13 0 0" depth=0 reset-view height=10 width=20> </a-box>
@@ -123,11 +123,14 @@
 			   
 			   
 			   
-			   <a-sphere src='https://upload.wikimedia.org/wikibooks/en/thumb/0/06/Web2.0.jpg/400px-Web2.0.jpg' radius=4 position='-100 0 0'></a-sphere>
-			   <a-sphere src='https://upload.wikimedia.org/wikibooks/en/thumb/0/06/Web2.0.jpg/400px-Web2.0.jpg' radius=4 position='100 0 0'></a-sphere>
-			   <a-sphere src='https://upload.wikimedia.org/wikibooks/en/thumb/0/06/Web2.0.jpg/400px-Web2.0.jpg' radius=4 position='0 100 0'></a-sphere>
+			   <a-sphere src='https://upload.wikimedia.org/wikibooks/en/thumb/0/06/Web2.0.jpg/400px-Web2.0.jpg' radius=4 
+						position='-100 0 0'></a-sphere>
+			   <a-sphere src='https://upload.wikimedia.org/wikibooks/en/thumb/0/06/Web2.0.jpg/400px-Web2.0.jpg' radius=4
+						position='100 0 0'></a-sphere>
+			   <a-sphere src='https://upload.wikimedia.org/wikibooks/en/thumb/0/06/Web2.0.jpg/400px-Web2.0.jpg' radius=4
+						position='0 100 0'></a-sphere>
 			   <a-sphere color=blue radius=4 position='0 -100 0'></a-sphere>
-			   <a-sphere src='https://upload.wikimedia.org/wikibooks/en/thumb/0/06/Web2.0.jpg/400px-Web2.0.jpg' radius=4 position='0 0 100'></a-sphere>
+			   <a-sphere color=red radius=4 position='0 0 100'></a-sphere>
 			</a-entity>
 
 
