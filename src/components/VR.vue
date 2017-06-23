@@ -20,7 +20,7 @@
             <a-entity v-if='vr_type=="mouse"' position="0 2 3" material="color: white" >
                 <a-entity camera material="color: white" >
 									<a-entity 	position="0 0 -3" 
-										cursor="maxDistance: 1000; fuse: true">
+										cursor="maxDistance: 1000; fuse: true;  fuseTimeout: 2500">
 									</a-entity>
 
 
@@ -29,7 +29,7 @@
 									<a-entity 	position="0 0 -3" 
 										geometry="primitive: ring; radiusOuter: 0.030; radiusInner: 0.006; color:white;"
 										material="color: red; shader: flat"
-										cursor="maxDistance: 1000; fuse: true"
+										cursor="maxDistance: 1000; fuse: true;  fuseTimeout: 2500"
 										>
 									</a-entity>
 

@@ -36,10 +36,10 @@
 
 
 
-<a-box  material="color: white" position="-2 1.5 0" height=1 depth=0  width=6> </a-box>
-<a-box  material="color: white" position="-2 4.5 0" height=1 depth=0 width=5> </a-box>
-<a-box  material="color: white" position="0.7 3 0" depth=0  height=3 width=2> </a-box>
-<a-box  material="color: white" position="-2.5 2.5 0" depth=0  height=4 width=1> </a-box>
+<a-box  material="color: white" position="-2 -7.5 0" height=19 depth=0  width=26> </a-box>
+<a-box  material="color: white" position="-2 9.4 0" height=10 depth=0 width=25> </a-box>
+<a-box  material="color: white" position="12.2 3 0" depth=0  height=3 width=25> </a-box>
+<a-box  material="color: white" position="-8.2 2.5 0" depth=0  height=4 width=11> </a-box>
 
 <a-entity id=scrollable_grid>
 				
