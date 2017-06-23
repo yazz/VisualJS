@@ -13,7 +13,7 @@ import db                       from '../public/dbhelper.js'
 Vue.component('FileBrowser',FileBrowser);
 
 
-const gun_ip_address = '172.18.0.103'
+const gun_ip_address = '10.6.88.153'
 
 window.vue = Vue;
 
@@ -119,13 +119,22 @@ function setupVRVuePane() {
 			var self = this;
 		   this.el.addEventListener('mouseenter', function (evt) {
 				//alert("item clicked at: (" + self.data.x + ", " + self.data.y + ")");
-				var newpos = self.data.x + ' ' + self.data.y + ' 0';
+				var newpos = (0.6 -(self.data.x * 0.5)) + ' ' + (-1 + (self.data.y * 0.6)) + ' 0';
+				
+				
+				var node = document.getElementById("animscroll");
+				
+				if (node) {
+				  node.parentNode.removeChild(node);
+				};
+
+				
 				//alert(newpos);
 				//document.querySelector("#scrollable_grid").setAttribute('position', {x: self.data.x, y: self.data.y, z: 0 });
 				var animation = document.createElement('a-animation');
-				animation.setAttribute('attribute', "rotation");
-				animation.setAttribute('from', "0 0 0");
-				animation.setAttribute('to', "0 60 0");
+				animation.setAttribute('id', "animscroll");
+				animation.setAttribute('attribute', "position");
+				animation.setAttribute('to', newpos);
 				animation.setAttribute('duration', "2000");
 				document.querySelector("#scrollable_grid").appendChild(animation);
 
