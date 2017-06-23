@@ -118,11 +118,18 @@ function setupVRVuePane() {
 		  init: function () {
 			var self = this;
 		   this.el.addEventListener('mouseenter', function (evt) {
-				//alert('over: ' +  JSON.stringify(self.data.x , null, 2));
-			    //alert(stringToLog);
-				alert("item clicked at: (" + self.data.x + ", " + self.data.y + ")");
-				//alert(stringToLog + ' was clicked at: ', evt.detail.intersection.point);
-				//alert(stringToLog + ' was clicked with: ' + document.getElementById("sqlinput"));
+				//alert("item clicked at: (" + self.data.x + ", " + self.data.y + ")");
+				var newpos = self.data.x + ' ' + self.data.y + ' 0';
+				//alert(newpos);
+				//document.querySelector("#scrollable_grid").setAttribute('position', {x: self.data.x, y: self.data.y, z: 0 });
+				var animation = document.createElement('a-animation');
+				animation.setAttribute('attribute', "rotation");
+				animation.setAttribute('from', "0 0 0");
+				animation.setAttribute('to', "0 60 0");
+				animation.setAttribute('duration', "2000");
+				document.querySelector("#scrollable_grid").appendChild(animation);
+
+				
 			});
 		  }
 		});
