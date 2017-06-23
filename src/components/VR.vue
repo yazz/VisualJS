@@ -39,7 +39,7 @@
 			
 			
 			
-            <a-entity v-if='vr_type=="move"' position="0 2 -98" material="color: white" >
+            <a-entity v-if='vr_type=="move"' position="0 0 0" material="color: white" >
                 <a-entity camera look-controls material="color: white" id=movevr>
 									<a-entity 	position="0 0 -20"   rotation='0 0 0'
 										cursor="maxDistance: 1000; fuse: true">
@@ -60,7 +60,7 @@
 			</a-entity>
 
 				
-			<a-entity id=vr_objects rotation='0 0 0' position='0 0 -100'>
+			<a-entity id=vr_objects rotation='-50 0 0' position='0 -4 0'>
 			  <a-entity position='0 0 0' >
 				
                 <a-box  id=m1 v-if='vr_type=="mouse"' material="color: white" position="-13 0 0" depth=0 reset-view height=10 width=20> </a-box>
@@ -98,10 +98,10 @@
 
 
 
-<a-box  material="color: white" position="0 1 0" height=1 depth=0 reset-view width=3> </a-box>
-<a-box  material="color: white" position="0 4 0" height=1 depth=0 reset-view width=3> </a-box>
-<a-box  material="color: white" position="1 3 0" depth=0 reset-view height=3 width=1> </a-box>
-<a-box  material="color: white" position="-2 2.5 0" depth=0 reset-view height=4 width=1> </a-box>
+<a-box  material="color: white" position="0 1 0" height=1 depth=0  width=3> </a-box>
+<a-box  material="color: white" position="0 4 0" height=1 depth=0 width=3> </a-box>
+<a-box  material="color: white" position="1 3 0" depth=0  height=3 width=1> </a-box>
+<a-box  material="color: white" position="-2 2.5 0" depth=0  height=4 width=1> </a-box>
 
 <a-entity id=scrollable_grid>
 				
