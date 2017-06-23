@@ -105,12 +105,16 @@
 				   v-bind:color="(index % 2 == 0)?'blue':'green'"
 				   v-bind:text="'color: black; align: left; value: ' + a_driver.id.substr(a_driver.id.length - 10) + ' ; width: 2; '">
 					   <a-entity  position="-0.8 .3 0" geometry='width: .3; height: .3; depth: 0.1;'
+							      v-bind:griditem='"x: " + get_x_position(index,list_of_connections.length) + "; y:" + get_y_position(index,list_of_connections.length) + ";"'
 					   mixin='gsd'  v-bind:color="(index % 2 == 0)?'blue':'green'" v-bind:log='"" + a_driver.id'>
 							 <a-animation begin="mouseenter" attribute="rotation" from="0 0 0"
 											to="0 60 0" dur="1000" direction="alternate"  repeat="1"></a-animation>
 						</a-entity>
 			   </a-entity>
 
+			   
+			   
+			   
 			   
 			   
 			   <a-sphere src='https://upload.wikimedia.org/wikibooks/en/thumb/0/06/Web2.0.jpg/400px-Web2.0.jpg' radius=4 position='-100 0 0'></a-sphere>

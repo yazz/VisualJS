@@ -13,7 +13,7 @@ import db                       from '../public/dbhelper.js'
 Vue.component('FileBrowser',FileBrowser);
 
 
-const gun_ip_address = '10.6.88.153'
+const gun_ip_address = '172.18.0.103'
 
 window.vue = Vue;
 
@@ -78,6 +78,8 @@ function setupSqlVuePane() {
 
 
 
+var moveToX = 0;
+var moveToY = 0;
 
 function setupVRVuePane() {
 
@@ -107,7 +109,26 @@ function setupVRVuePane() {
           components: {'VR': VR}
         });
 		
-		
+
+
+		AFRAME.registerComponent('griditem', {
+		  schema: {	x:  {type: 'number', default: 0},
+					y: {type: 'number', default: 0}
+					},
+		  init: function () {
+			var self = this;
+		   this.el.addEventListener('mouseenter', function (evt) {
+				//alert('over: ' +  JSON.stringify(self.data.x , null, 2));
+			    //alert(stringToLog);
+				alert("item clicked at: (" + self.data.x + ", " + self.data.y + ")");
+				//alert(stringToLog + ' was clicked at: ', evt.detail.intersection.point);
+				//alert(stringToLog + ' was clicked with: ' + document.getElementById("sqlinput"));
+			});
+		  }
+		});
+
+
+	
 		AFRAME.registerComponent('log', {
 		  schema: {type: 'string'},
 		  init: function () {
