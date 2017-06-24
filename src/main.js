@@ -5,6 +5,7 @@ import VR                       from './components/VR.vue'
 import ConnectedClients         from './components/central_server/connected_clients.vue'
 import yazz_new_connection      from './components/yazz_new_connection.vue'
 import connections_table        from './components/connections_table.vue'
+import queries_table            from './components/queries_table.vue'
 import output_table             from './components/output_table.vue'
 import drivers_table            from './components/drivers_table.vue'
 import store                    from './store.js'
@@ -70,7 +71,10 @@ function setupSqlVuePane() {
             }
           }
           ,
-          components: {'connections-table': connections_table}
+          components: {
+							'connections-table': connections_table,
+							'queries-table': queries_table
+							}
         });
     }
 }
@@ -555,6 +559,36 @@ function initConnectionsListVuePane() {
 
 
 
+//-----------------------------------------------------------------
+// initQueriesListVuePane
+//
+// Show the list of queries
+//
+//-----------------------------------------------------------------
+function initQueriesListVuePane() {
+
+    if (document.getElementById('queries_window')) {
+
+          new Vue({
+                el: '#queries_window'
+                ,
+                computed: {
+                  count: function () {
+                    return this.$store.state.count
+                  }
+                }
+                ,
+                methods: {
+                }
+                ,
+                store: store
+                ,
+                components: {
+                             'queries-table':      queries_table}
+                });
+                }
+}
+
 
 
 
@@ -637,6 +671,7 @@ $( document ).ready(function() {
     setupSqlVuePane();
 	setupVRVuePane();
     initConnectionsListVuePane();
+    initQueriesListVuePane();
     initDriversListVuePane();
     initClientsConnectedVuePane();
     setupSqlResultPane();
