@@ -16,26 +16,10 @@
 				<a-mixin id="gsd" geometry="primitive: box; width: 0.3; height: 0.3; depth: 0.3;" position="-1.4 0 0" ></a-mixin>
 			</a-assets>
 
-
-            <a-entity v-if='vr_type=="mouse"' position="0 2 3" material="color: white" >
-                <a-entity camera material="color: white" >
-									<a-entity 	position="0 0 -3" 
-										cursor="maxDistance: 1000; fuse: true;  fuseTimeout: 2500">
-									</a-entity>
-
-
-					</a-entity>
-                <a-entity  look-controls material="color: white;" id=mousevr>
-									<a-entity 	position="0 0 -3" 
-										geometry="primitive: ring; radiusOuter: 0.030; radiusInner: 0.006; color:white;"
-										material="color: red; shader: flat"
-										cursor="maxDistance: 1000; fuse: true;  fuseTimeout: 2500"
-										>
-									</a-entity>
-
-
-					</a-entity>
-			</a-entity>
+			<a-entity v-if='vr_type=="mouse"' position="0 2 3">
+				<a-entity camera mouse-cursor>
+				</a-entity>
+			</a-entity>	
 
 			
 			
