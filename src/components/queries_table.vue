@@ -25,12 +25,14 @@
             <tr>
               <th>ID</th>
               <th>Connection</th>
+              <th>Driver</th>
               <th></th>
             </tr>
           </thead>
           <tbody v-for="a_query in list_of_queries">
             <tr scope="row" >
               <td v-on:click="set_viewed_query(a_query)">{{a_query.id}}</td>
+              <td v-on:click="set_viewed_query(a_query)">{{a_query.connection}}</td>
               <td v-on:click="set_viewed_query(a_query)">{{a_query.driver}}</td>
               <td><button v-on:click.prevent='delete_item(a_query)'>X</button></td>
             </tr>
@@ -67,8 +69,8 @@
 
 
 
-        <div v-for='connection in this.$store.state.list_of_connections' >
-		     <component v-if="viewed_query_connection == connection.id" v-bind:is="connection.id + '-view-query'" :connection_name=viewed_connection_id></component>
+        <div v-for='query in this.$store.state.list_of_queries' >
+		     <component v-if="viewed_query_id == query.id" v-bind:is="query.driver + '-view-query'" :query_name=viewed_query_id></component>
         </div>
 
 
