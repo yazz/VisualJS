@@ -16,23 +16,23 @@
 
 
       <!--
-                  show the list of connections
+                  show the list of queries
          -->
-      {{list_of_connections.length}} connections
+      {{list_of_queries.length}} queries
 
         <table class="table  table-striped  table-bordered " style="width: 100%;">
           <thead >
             <tr>
               <th>ID</th>
-              <th>Driver</th>
+              <th>Connection</th>
               <th></th>
             </tr>
           </thead>
-          <tbody v-for="a_connection in list_of_connections">
+          <tbody v-for="a_query in list_of_queries">
             <tr scope="row" >
-              <td v-on:click="set_viewed_connection(a_connection)">{{a_connection.id}}</td>
-              <td v-on:click="set_viewed_connection(a_connection)">{{a_connection.driver}}</td>
-              <td><button v-on:click.prevent='delete_item(a_connection)'>X</button></td>
+              <td v-on:click="set_viewed_query(a_query)">{{a_query.id}}</td>
+              <td v-on:click="set_viewed_query(a_query)">{{a_query.driver}}</td>
+              <td><button v-on:click.prevent='delete_item(a_query)'>X</button></td>
             </tr>
           <tbody>
         </table>
@@ -40,11 +40,11 @@
 
 
       <!--
-                the "Add connection" button
+                the "Add query" button
          -->
        <button class="btn btn-primary"
-                v-if="!add_connection_visible"
-                @click="add_new_connection">Add new connection</button>
+                v-if="!add_query_visible"
+                @click="add_new_query">Add new query</button>
 
       </div>
 
@@ -61,14 +61,14 @@
 
       <!--
                  show the properties of the currently
-                 selected connection
+                 selected query
          -->
          <h2>Properties </h2>
 
 
 
-        <div v-for='driver in this.$store.state.list_of_drivers' >
-		     <component v-if="viewed_connection_driver == driver.id" v-bind:is="driver.id + '-view-connection'" :connection_name=viewed_connection_id></component>
+        <div v-for='connection in this.$store.state.list_of_connections' >
+		     <component v-if="viewed_query_connection == connection.id" v-bind:is="connection.id + '-view-query'" :connection_name=viewed_connection_id></component>
         </div>
 
 
@@ -80,7 +80,7 @@
       <!--
                  show the fields to add a new connection
          -->
-        <yazz-new-connection v-if="add_connection_visible"></yazz-new-connection>
+        <yazz-new-query v-if="add_query_visible"></yazz-new-query>
 
 
       </div>
@@ -94,26 +94,26 @@
 
 
 <script>
-import yazz_new_connection       from './yazz_new_connection.vue'
+import yazz_new_query       from './yazz_new_query.vue'
 
 export default {
   name: 'queries-table',
 
   computed: {
-    list_of_connections: function () {
-      return this.$store.getters.list_of_connections
+    list_of_queries: function () {
+      return this.$store.getters.list_of_queries
     },
 
-    add_connection_visible: function () {
-      return this.$store.state.add_connection_visible
+    add_query_visible: function () {
+      return this.$store.state.add_query_visible
     },
 
-    viewed_connection_driver: function () {
-      return this.$store.state.viewed_connection_driver
+    viewed_query_connection: function () {
+      return this.$store.state.viewed_query_connection
     },
 
-    viewed_connection_id: function () {
-      return this.$store.state.viewed_connection_id
+    viewed_query_id: function () {
+      return this.$store.state.viewed_query_id
     }
 },
 
@@ -123,7 +123,7 @@ export default {
 
 
   components: {
-  'yazz-new-connection': yazz_new_connection},
+  'yazz-new-query': yazz_new_query},
 
 
 
@@ -135,16 +135,16 @@ export default {
 
 
   methods: {
-    add_new_connection: function() {
-      this.$store.dispatch('show_add_connection')
-      this.$store.dispatch('set_viewed_connection', null);
+    add_new_query: function() {
+      this.$store.dispatch('show_add_query')
+      this.$store.dispatch('set_viewed_query', null);
     },
-    set_viewed_connection: function(selected_item) {
-      this.$store.dispatch('set_viewed_connection', selected_item);
-      this.$store.dispatch('hide_add_connection');
+    set_viewed_query: function(selected_item) {
+      this.$store.dispatch('set_viewed_query', selected_item);
+      this.$store.dispatch('hide_add_query');
   },
   delete_item: function(conn) {
-      this.$store.dispatch('delete_connection', conn);
+      this.$store.dispatch('delete_query', conn);
   }
   }
 }
