@@ -433,6 +433,10 @@ function setupGunDB() {
 						Vue.component(driver.name + '-add-query', evalede.vue_add_query);
 					 };
 
+					 if (evalede.vue_view_query) {
+						Vue.component(driver.name + '-view-query', evalede.vue_view_query);
+					 };
+
 
 
                   };

@@ -32,8 +32,12 @@ export default new Vuex.Store({
         ,
         viewed_connection_driver: null
         ,
-        viewed_query_driver: null
+        viewed_query_id: null
         ,
+        viewed_query_connection_driver: null
+		,
+        viewed_query_connection: null
+		,
         central_server_client_connected: false
         ,
         central_server_client_internal_ip_address: ""
@@ -140,11 +144,13 @@ export default new Vuex.Store({
     },
     SET_VIEWED_QUERY: function (state, query) {
       if (query) {
-        state.viewed_query_id   = query.id;
-        state.viewed_query_connection_driver = query.connection;
+        state.viewed_query_id                = query.id;
+        state.viewed_query_connection_driver = query.driver;
+        state.viewed_query_connection        = query.connection;
       } else {
-        state.viewed_query_id   = null;
+        state.viewed_query_id                = null;
         state.viewed_query_connection_driver = null;
+        state.viewed_query_connection        = null;
       }
     },
     SET_VIEWED_DRIVER: function (state, driver) {
