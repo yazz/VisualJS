@@ -3,14 +3,15 @@
 
 
     <div class="form-group">
-       <select id=select_source v-model='query_connection' class="col-xs-10  custom-select">
+	   <label for="select_connection" class=" col-form-label">Connection name</label>
+       <select id=select_connection v-model='query_connection' class="col-xs-10  custom-select">
             <option v-for='connection in this.$store.state.list_of_connections' v-bind:value="connection.id">{{connection.id}}</option>
        </select>
     </div>
 
 
     <transition v-for='connection in this.$store.state.list_of_connections' name="fast-fade">
-			 <component v-bind:is="connection.id + '-add-query'" v-if='query_connection == connection.id'>
+			 <component v-bind:is="connection.driver + '-add-query'" v-if='query_connection == connection.id'>
 			 </component>
     </transition>
  

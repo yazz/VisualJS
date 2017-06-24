@@ -143,6 +143,86 @@
 				};
 			  }
 	}
+    ,
+    vue_add_query: {
+            template:   '    <div>' +
+'        <div class="input-group">' +
+'' +
+ '' +
+'' +
+ '       <div class="form-group">' +
+  '        <label for="ID" class=" col-form-label">Query name</label>' +
+   '       <input  type="text" class="form-control" v-model="connection_name"></input>' +
+    '    </div>' +
+'' +
+ '       <div class="form-group">' +
+  '          <label for="SQL" class="col-form-label">SQL</label>' +
+   '         <input  type="text" class="form-control" v-model="sql" ></input>' +
+    '    </div>' +
+'' +
+'' +
+ '       <div class="form-group row">' +
+  '            <span class="input-group-btn">' +
+   '             <button class="btn btn-secondary" type="button" v-on:click="OK">OK</button>' +
+    '            <button class="btn btn-secondary" type="button" v-on:click="Cancel">Cancel</button>' +
+     '         </span>' +
+      '      </div>' +
+       ' </div>' +
+'' +
+ '     </div>' +
+  '  </div>'
+
+
+			,
+			name: 'postgres-add-query'
+			,
+			  props: []
+			  ,
+			  methods: {
+				get_connection_property: function (cn, prop_name) {
+				  for (cc in this.$store.state.list_of_connections) {
+					if (this.$store.state.list_of_connections[cc].id == cn) {
+					  return this.$store.state.list_of_connections[cc][prop_name];
+					};
+				  };
+				  return 'Unknown ' + cn + ":" + prop_name;
+				},
+				OK: function() {
+				  this.$store.dispatch('add_new_connection',
+				  {
+					  cn: this.connection_name,
+					  cp: {
+						  id:        this.connection_name,
+						  driver:    'postgres',
+						  database:  this.database,
+						  host:      this.host,
+						  port:      this.port,
+						  user:      this.connection_username,
+						  password:  this.connection_password
+					  }
+				  });
+				  this.$store.dispatch('hide_add_connection');
+				}
+				,
+				Cancel: function() {
+				  this.$store.dispatch('hide_add_connection');
+				}
+			  }
+			  ,
+			  data: function() {
+				return {
+				  connection_name:           "postgres",
+				  sql:                       "SELECT * FROM ojobs_users limit 2",
+				  connection_connect_string: null,
+				  database:                  "postgres",
+				  host:                      "127.0.0.1",
+				  port:                      "5432",
+				  connection_status:         null,
+				  connection_username:       "postgres",
+				  connection_password:       "manager"
+				};
+			  }
+	}
             
     ,
     type: 'db_driver'
