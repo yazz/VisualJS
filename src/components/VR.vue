@@ -61,13 +61,16 @@
 			</a-entity>
 
 				
-			<a-entity v-if='vr_type=="move"' id=vr_objects rotation='-50 0 0' position='0 -4 0'>
+			<a-entity 	v-if='vr_type=="move"' id=vr_objects rotation='-50 0 0' 
+						position='1.5 -4 0'>
 			  <VR-items></VR-items>
 			 </a-entity >
 
 
 				
-			<a-entity v-if='vr_type=="mouse"' id=vr_objects>
+			<a-entity 	v-if='vr_type=="mouse"' 
+						id=vr_objects
+						position='1.5 -1 0'>
 			  <VR-items></VR-items>
 			 </a-entity >
 
