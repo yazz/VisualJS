@@ -10,6 +10,7 @@ var ip           = require("ip");
 var program      = require('commander');
 var drivers      = new Object();
 var connections  = new Object();
+var queries      = new Object();
 var express      = require('express')
 var app          = express()
 var timeout      = 0;
@@ -278,6 +279,23 @@ function startServices() {
 
     })
 
+	
+  dbhelper.realtimeSql("select * from queries where deleted != 'T'"
+    ,function(results) {
+        for (var i = 0 ; i < results.length ; i ++) {
+            var query = results[i];
+			//console.log("***************select * from db_connections where deleted != 'T'")
+            //console.log("    " + JSON.stringify(conn, null, 2))
+            if (!queries[query.name]) {
+              //console.log(a);
+              queries[query.name] = query;
+            }
+        }
+
+    })
+
+	
+	
 var hostcount = 0;
   //------------------------------------------------------------------------------
   // Show the default page

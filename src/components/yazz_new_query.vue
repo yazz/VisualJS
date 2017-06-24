@@ -31,9 +31,11 @@ export default {
 
   props: [],
 
-  data: function() {return {query_name:   '',
-                            query_connection: null
-                           }},
+  data: function() {
+			return {query_name:   				'',
+					query_connection_driver: 	null,
+					query_connection: 			null
+			}},
 
   components: {},
 
@@ -46,7 +48,7 @@ export default {
 
   methods: {
     OK: function() {
-      this.$store.dispatch('add_connection', {cn: this.query_name, cp: {id: this.query_name, driver: this.query_connection}})
+      this.$store.dispatch('add_query', {cn: this.query_name, cp: {id: this.query_name, connection: this.query_connection, driver: this.query_connection_driver}})
       this.$store.dispatch('hide_add_query')
     },
     Cancel: function() {

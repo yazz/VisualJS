@@ -328,7 +328,30 @@ function setupGunDB() {
 
 
 
+        realtimeSql("SELECT * FROM queries where deleted != 'T'"
+          ,function(results) {
+              //alert('SELECT * FROM db_connections')
+                              //console.log('********* CALLED REALTIME DBCONN*************:' + JSON.stringify(results[0] , null, 2));
+                              store.dispatch('clear_queries');
+                              //console.log('********* CALLED REALTIME DBCONN len:' + JSON.stringify(results.length , null, 2));
+                              for (var i = 0 ; i < results.length ; i ++) {
+                                  var query = results[i]
+                                  //console.log('********* CALLED REALTIME DBCONN*************:' + JSON.stringify(conn , null, 2));
+                                  store.dispatch( 'add_query' , {cn:       query.name,
 
+                                                                      cp: {     id:      query.name
+                                                                                ,
+                                                                                driver: query.driver
+                                                                                ,
+                                                                                status: ''
+                                                                                ,
+                                                                                connection: query.connection
+                                                                               }});
+                              };
+           }
+        );
+
+		
         realtimeSql("SELECT * FROM db_connections where deleted != 'T'"
           ,function(results) {
               //alert('SELECT * FROM db_connections')

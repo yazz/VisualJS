@@ -305,12 +305,14 @@ export default new Vuex.Store({
                       ,
                       connection
                       ,
+                      driver
+                      ,
                       definition
                       ,
                       status
                   )
               values
-                  (?,?,?,?,?)`
+                  (?,?,?,?,?,?)`
                   ,
                   [
                         autoIndexSerialId()
@@ -318,6 +320,8 @@ export default new Vuex.Store({
                         query.cn
                         ,
                         (query.cp.connection ? query.cp.connection:null)
+                        ,
+                        (query.cp.driver ? query.cp.driver:null)
                         ,
                         (query.cp.definition ? query.cp.definition:null)
                         ,
