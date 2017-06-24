@@ -12,9 +12,13 @@ export default new Vuex.Store({
     state: {
         add_connection_visible: false
         ,
+        add_query_visible: false
+        ,
         add_driver_visible: false
         ,
         list_of_connections: []
+        ,
+        list_of_queries: []
         ,
         list_of_drivers: []
         ,
@@ -27,6 +31,8 @@ export default new Vuex.Store({
         viewed_driver_id: null
         ,
         viewed_connection_driver: null
+        ,
+        viewed_query_driver: null
         ,
         central_server_client_connected: false
         ,
@@ -47,7 +53,11 @@ export default new Vuex.Store({
   getters: {
     add_connection_visible: state => state.add_connection_visible
     ,
+    add_query_visible: state => state.add_query_visible
+    ,
     list_of_connections: state => state.list_of_connections
+    ,
+    list_of_queries: state => state.list_of_queries
     ,
     list_of_drivers: state => state.list_of_drivers
     ,
@@ -57,7 +67,11 @@ export default new Vuex.Store({
     ,
     viewed_connection_id: state => state.viewed_connection_id
     ,
+    viewed_query_id: state => state.viewed_query_id
+    ,
     viewed_connection_driver: state => state.viewed_connection_driver
+    ,
+    viewed_connection_driver: state => state.viewed_query_connection
     ,
     central_server_client_connected: state => state.central_server_client_connected
     ,
@@ -91,17 +105,26 @@ export default new Vuex.Store({
       ADD_CONNECTION: function (state, connection) {
         state.list_of_connections.push(connection.cp);
       },
+      ADD_QUERY: function (state, query) {
+        state.list_of_queries.push(query.cp);
+      },
       ADD_DRIVER: function (state, driver) {
         state.list_of_drivers.push(driver.cp);
       },
       CLEAR_CONNECTIONS: function (state) {
         state.list_of_connections = [];
       },
+      CLEAR_QUERIES: function (state) {
+        state.list_of_queries = [];
+      },
       CLEAR_DRIVERS: function (state) {
         state.list_of_drivers = [];
       },
       HIDE_ADD_CONNECTION: function (state) {
         state.add_connection_visible = false
+      },
+      HIDE_ADD_QUERY: function (state) {
+        state.add_query_visible = false
       },
       HIDE_ADD_DRIVER: function (state) {
         state.add_driver_visible = false
@@ -113,6 +136,15 @@ export default new Vuex.Store({
       } else {
         state.viewed_connection_id   = null;
         state.viewed_connection_driver = null;
+      }
+    },
+    SET_VIEWED_QUERY: function (state, query) {
+      if (query) {
+        state.viewed_query_id   = query.id;
+        state.viewed_query_connection_driver = query.connection;
+      } else {
+        state.viewed_query_id   = null;
+        state.viewed_query_connection_driver = null;
       }
     },
     SET_VIEWED_DRIVER: function (state, driver) {
@@ -130,6 +162,9 @@ export default new Vuex.Store({
     },
     SHOW_ADD_CONNECTION: function (state) {
       state.add_connection_visible = true
+    },
+    SHOW_ADD_QUERY: function (state) {
+      state.add_query_visible = true
     }
   },
 
@@ -153,22 +188,28 @@ export default new Vuex.Store({
   //-------------------------------------------------------------------
   actions: {
 
-    //
-    // add_connection
-    //
-    //
-    //
-    add_connection: function(a, connection){
-      a.commit('ADD_CONNECTION', connection)
-      //console.log(JSON.stringify(connection.cp));
-      //gun.get('connections').path('user_data').put(connections['user_data']);
+		//
+		// add_connection
+		//
+		//
+		//
+		add_connection: function(a, connection){
+		  a.commit('ADD_CONNECTION', connection)
+		  //console.log(JSON.stringify(connection.cp));
+		  //gun.get('connections').path('user_data').put(connections['user_data']);
 
-    },
+		},
+		add_query: function(a, query){
+		  a.commit('ADD_QUERY', query)
+		  //console.log(JSON.stringify(connection.cp));
+		  //gun.get('connections').path('user_data').put(connections['user_data']);
+
+		},
 
 
 
         //
-        // add_connection
+        // add driver
         //
         //
         //
@@ -243,6 +284,49 @@ export default new Vuex.Store({
             )
     },
 
+	
+	
+	
+    //
+    // add new query
+    //
+    //
+    //
+    add_new_query: function(a, query){
+      //a.commit('ADD_NEW_QUERY', query)
+      //console.log(JSON.stringify(query));
+      //gun.get('queries').path(quert.cp.id).put(query.cp);
+      db.sql(`insert into
+                  queries
+                  (
+                      id
+                      ,
+                      name
+                      ,
+                      connection
+                      ,
+                      definition
+                      ,
+                      status
+                  )
+              values
+                  (?,?,?,?,?)`
+                  ,
+                  [
+                        autoIndexSerialId()
+                        ,
+                        query.cn
+                        ,
+                        (query.cp.connection ? query.cp.connection:null)
+                        ,
+                        (query.cp.definition ? query.cp.definition:null)
+                        ,
+                        (query.cp.status ? query.cp.status:null)
+                  ]
+            )
+    },
+
+	
 
     //
     // clear_connections
@@ -251,6 +335,15 @@ export default new Vuex.Store({
     //
     clear_connections: function(a){
       a.commit('CLEAR_CONNECTIONS')
+    }
+    ,
+    //
+    // clear_queries
+    //
+    //
+    //
+    clear_queries: function(a){
+      a.commit('CLEAR_QUERIES')
     }
     ,
 
@@ -291,6 +384,24 @@ export default new Vuex.Store({
     },
 
 
+    //
+    // delete query
+    //
+    //
+    //
+    delete_query: function(a, query){
+      //a.commit('ADD_NEW_CONNECTION', connection)
+      //console.log(JSON.stringify(connection.cp));
+      query.deleted = true;
+      //gun.get('connections').path(connection.id).put(connection,
+      //function() {gun.get('default').path('connections_changed').val(function(v){
+      //      gun.get('default').path('connections_changed').put({value: v.value + 1});
+      //},true);});
+      //alert(connection.id);
+      //console.log('Delete connection: ' + connection.id)
+      db.sql("update queries  set deleted = 'T' where name = '" + query.id + "'")
+    },
+
 
 
 
@@ -301,6 +412,17 @@ export default new Vuex.Store({
     //
     hide_add_connection: function(a){
       a.commit('HIDE_ADD_CONNECTION')
+    },
+
+
+
+    //
+    // hide add query
+    //
+    //
+    //
+    hide_add_query: function(a){
+      a.commit('HIDE_ADD_QUERY')
     },
 
 
@@ -342,6 +464,16 @@ export default new Vuex.Store({
 
 
 
+    //
+    // set viewed query
+    //
+    //
+    //
+    set_viewed_query: function(a, b){
+      a.commit('SET_VIEWED_QUERY', b)
+    },
+
+
 
         //
         // set_viewed_driver
@@ -354,6 +486,15 @@ export default new Vuex.Store({
 
 
 
+
+    //
+    // show add query
+    //
+    //
+    //
+    show_add_query: function(a){
+      a.commit('SHOW_ADD_QUERY')
+    },
 
 
     //
