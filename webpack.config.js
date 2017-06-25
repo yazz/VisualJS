@@ -57,6 +57,10 @@ module.exports = {
         target: 'http://' + hostaddress,
         secure: false
       },
+      '/getqueryresult': {
+        target: 'http://' + hostaddress,
+        secure: false
+      },
       '/scanharddisk': {
         target: 'http://' + hostaddress,
         secure: false
