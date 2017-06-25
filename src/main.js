@@ -211,7 +211,7 @@ function setupVRVuePane() {
 			var stringToLog = this.data;
 		   this.el.addEventListener('click', function (evt) {
 			    //alert(stringToLog);
-				getresult(stringToLog,  document.getElementById("sqlinput").value);
+				get_query_result(stringToLog);
 				//alert(stringToLog + ' was clicked at: ', evt.detail.intersection.point);
 				//alert(stringToLog + ' was clicked with: ' + document.getElementById("sqlinput"));
 			});

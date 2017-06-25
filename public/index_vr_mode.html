@@ -141,6 +141,25 @@ setTimeout(function(){
         }
       });
     };
+    // --------------------------------------------------------------------
+    // get the query  result
+    // --------------------------------------------------------------------
+    function get_query_result(source) {
+      $.ajax({
+
+        type: "POST",
+        url: '/getqueryresult',
+        data: {source: source},
+        success: function(data) {
+          //$("#result").text(data);
+		  //alert(eval('(' + data + ')'));
+		    setOutputData(eval('(' + data + ')'));
+			},
+        error: function(jqXHR, textStatus, errorThrown) {
+          alert('error ' + textStatus + " " + errorThrown);
+        }
+      });
+    };
     </script>
 
     <script type="text/javascript" src="gosharedata_setup.js"></script>
