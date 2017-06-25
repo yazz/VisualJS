@@ -545,7 +545,7 @@ function read_connections(a,b){
 //store.dispatch('set_output_records', data);
 window.setOutputData = function(data) {
 	if (data) {
-		//alert(data);
+		//alert(JSON.stringify(data));
 		if( Object.prototype.toString.call( data ) === '[object Array]' ) {
 			if (data.length > 0) {
 				var fields = Object.keys(data[0]);
