@@ -65,7 +65,7 @@
                  show the properties of the currently
                  selected query
          -->
-         <h2>Properties </h2>
+         <h2>Query properties </h2>
 
 
 

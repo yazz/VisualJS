@@ -181,6 +181,7 @@
 				  return 'Unknown ' + cn + ":" + prop_name;
 				},
 				OK: function() {
+					//alert(JSON.stringify({sql: this.sql} , null, 2));
 				  this.$store.dispatch('add_new_query',
 				  {
 					  cn: this.query_name,
@@ -188,7 +189,7 @@
 						  id:             this.query_name,
 						  connection:     this.query_connection,
 						  driver:        'postgres',
-						  sql:            this.sql,
+						  definition:    JSON.stringify({sql: this.sql} , null, 2),
 					  }
 				  });
 				  this.$store.dispatch('hide_add_query');
@@ -212,36 +213,30 @@
             template:   '<div>'+
 						'     <table class="table table-striped table-bordered " style="width: 100%;">'+
 						'        <tbody>'+
-						'          <tr scope="row"><td>Type</td><td>postgres</td></tr>'+
-						'          <tr scope="row"><td>ID</td><td>{{get_connection_property(connection_name,"id")}}</td></tr>'+
-						'          <tr scope="row"><td>Status</td><td>{{get_connection_property(connection_name,"status")}}</td></tr>'+
-						'          <tr scope="row"><td>Database</td><td>{{get_connection_property(connection_name,"database")}}</td></tr>'+
-						'          <tr scope="row"><td>Host</td><td>{{get_connection_property(connection_name,"host")}}</td></tr>'+
-						'          <tr scope="row"><td>Port</td><td>{{get_connection_property(connection_name,"port")}}</td></tr>'+
-						'          <tr scope="row"><td>Username</td><td>{{get_connection_property(connection_name,"user")}}</td></tr>'+
-						'          <tr scope="row"><td>Password</td><td>*****************</td></tr>'+
+						'          <tr scope="row"><td>ID</td><td>{{get_query_property(query_name,"id")}}</td></tr>'+
+						'          <tr scope="row"><td>Driver</td><td>postgres</td></tr>'+
+						'          <tr scope="row"><td>SQL</td><td>{{get_query_property(query_name,"definition").sql}}</td></tr>'+
 						'        <tbody>'+
 						'      </table>'+
 						'</div>'
 			,
-			props: ['connection_name']
+			props: ['query_name']
 			,
 			methods: {
-				get_connection_property: function (cn, prop_name) {
+				get_query_property: function (cn, prop_name) {
 				  var cc;
-				  for (cc in this.$store.state.list_of_connections) {
-					if (this.$store.state.list_of_connections[cc].id == cn) {
-					  return this.$store.state.list_of_connections[cc][prop_name];
+				  for (cc in this.$store.state.list_of_queries) {
+					if (this.$store.state.list_of_queries[cc].id == cn) {
+					  return this.$store.state.list_of_queries[cc][prop_name];
 					};
 				  };
 				  return 'Unknown ' + cn + ":" + prop_name;
 				},
 				OK: function() {
-				  this.$store.dispatch('add_connection', {cn: this.connection_name, cp: {id: this.connection_name, driver: this.connection_driver}})
-				  this.$store.dispatch('hide_add_connection')
+				  this.$store.dispatch('hide_view_query')
 				},
 				Cancel: function() {
-				  this.$store.dispatch('hide_add_connection')
+				  this.$store.dispatch('hide_view_query')
 				}
 			  }
 			}
