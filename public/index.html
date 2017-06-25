@@ -121,12 +121,15 @@
            style='position: absolute; left: 50%; top: 0%; height: 90%; width: 90%;
                   display: inline-block; -webkit-transform: translatez(0); transform:   scale(0.5, 0.5);border: 5px solid blue;
                   overflow: auto'>
+      <h3>
+        Get Data
+      </h3>
 
 			<div   id=mysql class="zoomTarget" data-targetsize="1"
 		    	   style='padding: 5px;position: absolute; left: 0%; top: 6%; height: 85%; width: 90%; margin: 5px; display: inline-block;
           				  -webkit-transform: translatez(0);        transform:   scale(0.5, 0.5);border: 5px solid blue;overflow: auto'; >
 			<h3>
-          My Data
+          Direct from connections
         </h3>
 
 
@@ -146,6 +149,35 @@
         </div>
 
 		</div>
+		
+		
+		
+		  <div id=ttt32 class="zoomTarget"  data-targetsize="1"
+			   style='position: absolute; left: 50%; top: 50%; height: 90%; width: 90%;
+					  display: inline-block; -webkit-transform: translatez(0); transform:   scale(0.5, 0.5);border: 5px solid blue;
+					  overflow: auto'>
+			<h3>
+			  Run queries
+			</h3>
+
+		Keep all my data Private <input type=checkbox checked></input>
+        <div id="outputcode2" style='margin: 5px '>
+
+
+
+      <textarea rows="6" cols="80" type=input id=sqlinput2 >SELECT * FROM ojobs_users limit 2</textarea>
+
+        <div id=select_source_parent>
+        </div>
+        <input type=button value='get result'
+               onClick='getresult(document.getElementById("select_source").value,  document.getElementById("sqlinput").value);'>
+        <div id=result></div>
+        <div id=vue_db_result></div>
+        </div>
+
+		</div>
+
+		
 		</div>
 
 
