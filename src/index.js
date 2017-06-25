@@ -405,9 +405,16 @@ app.post('/getqueryresult', function (req, res) {
 	console.log('           source: ' + JSON.stringify(queryData2.source));
     //console.log('request received source: ' + Object.keys(req));
     //console.log('request received SQL: ' + queryData.sql);
-	var query = queries[queryData2];
+	var query = queries[queryData2.source];
+	
+	console.log('           query: ' + JSON.stringify(query));
 	if (query) {
 		var queryData = new Object();
+		queryData.source = query.connection;
+		queryData.sql = eval('(' + query.definition + ')' ).sql;
+    	console.log('   query.definition.sql: ' + JSON.stringify(query.definition.sql));
+    	console.log('           ***queryData: ' + JSON.stringify(queryData));
+		
 	
 		var error = new Object();
 		if (queryData) {
