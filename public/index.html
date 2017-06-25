@@ -165,14 +165,13 @@
 
 
 
-      <textarea rows="6" cols="80" type=input id=sqlinput2 >SELECT * FROM ojobs_users limit 2</textarea>
 
-        <div id=select_source_parent>
+        <div id=select_query_source>
         </div>
         <input type=button value='get result'
-               onClick='getresult(document.getElementById("select_source").value,  document.getElementById("sqlinput").value);'>
-        <div id=result></div>
-        <div id=vue_db_result></div>
+               onClick='get_query_result(document.getElementById("select_query").value);'>
+        <div id=queryresult></div>
+        <div id=vue_db_query_result></div>
         </div>
 
 		</div>
@@ -561,6 +560,26 @@
         type: "POST",
         url: '/getresult',
         data: {source: source, sql: sql},
+        success: function(data) {
+          //$("#result").text(data);
+		  //alert(eval('(' + data + ')'));
+		    setOutputData(eval('(' + data + ')'));
+			},
+        error: function(jqXHR, textStatus, errorThrown) {
+          alert('error ' + textStatus + " " + errorThrown);
+        }
+      });
+    };
+	
+    // --------------------------------------------------------------------
+    // get the query  result
+    // --------------------------------------------------------------------
+    function get_query_result(source) {
+      $.ajax({
+
+        type: "POST",
+        url: '/getqueryresult',
+        data: {source: source},
         success: function(data) {
           //$("#result").text(data);
 		  //alert(eval('(' + data + ')'));

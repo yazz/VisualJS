@@ -77,6 +77,30 @@ function setupSqlVuePane() {
 							}
         });
     }
+	
+
+    if (document.getElementById('select_query_source')) {
+        new Vue({
+          el: '#select_query_source'
+          ,
+          store: store
+          ,
+          template: `
+                <select id=select_query>
+                  <option v-for="option in options" v-bind:value="option.id">
+                      {{ option.id }}
+                  </option>
+                </select>
+        `
+          ,
+          computed: {
+            options: function () {
+              return this.$store.state.list_of_queries;
+            }
+          }
+        });
+    }
+	
 }
 
 
@@ -275,6 +299,22 @@ function setupSqlResultPane() {
               return this.$store.state.list_of_connections;
             }
           }
+          ,
+          components: {'output-table': output_table}
+        });
+    }
+
+    if (document.getElementById('vue_db_query_result')) {
+        new Vue({
+          el: '#vue_db_query_result'
+          ,
+          store: store
+          ,
+          template: `
+                <div>
+				    <output-table></output-table>
+                </div>
+        `
           ,
           components: {'output-table': output_table}
         });
