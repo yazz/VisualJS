@@ -16,6 +16,12 @@
 						  v-bind:text='"font: roboto; color: black; align: left; value: Go Share Data VR "  + vr_type + "; width: 2; "'
 						  rotation='0 0 0'>
 				</a-entity>
+			
+				<a-entity position="-1.5 4.7 0" id=vr_file_name
+						  geometry="primitive: plane; width: auto; height: auto" material="color: white"
+						  text='font: roboto; color: black; align: left; value: ; width: 4; '
+						  rotation='0 0 0'>
+				</a-entity>
 
 				<a-entity v-for="(field_name,index)  in  list_of_fields"
 						  v-bind:position='(index + 3) + " 3 0"'
@@ -48,7 +54,8 @@
 				   v-bind:color="(index % 2 == 0)?'blue':'green'"
 				   v-bind:text="'color: black; align: left; value: ' + a_driver.id.substr(a_driver.id.length - 10) + ' ; width: 2; '">
 					   <a-entity  position="-0.8 .3 0" geometry='width: .3; height: .3; depth: 0.1;'
-							      v-bind:griditem='"x: " + get_x_position(index,list_of_queries.length) + "; y:" + get_y_position(index,list_of_queries.length) + ";"'
+							      v-bind:griditem='"x: " + get_x_position(index,list_of_queries.length) + "; y:" + get_y_position(index,list_of_queries.length) + ";" +
+								  "query_name: " +a_driver.id'
 					   mixin='gsd'  v-bind:color="(index % 2 == 0)?'blue':'green'" v-bind:log='"" + a_driver.id'>
 							 <a-animation begin="mouseenter" attribute="rotation" 
 											to="0 0 -90" dur="1000" direction="alternate"  repeat="1"></a-animation>

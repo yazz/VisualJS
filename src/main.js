@@ -146,7 +146,8 @@ function setupVRVuePane() {
 
 		AFRAME.registerComponent('griditem', {
 		  schema: {	x:  {type: 'number', default: 0},
-					y: {type: 'number', default: 0}
+					y: {type: 'number', default: 0},
+					query_name: {type: 'string', default: ''}
 					},
 		  init: function () {
 			var self = this;
@@ -197,6 +198,9 @@ function setupVRVuePane() {
 				document.querySelector("#scrollable_grid").appendChild(animation);
 				inMove = false;
 
+				document.querySelector('#vr_file_name').setAttribute('text','font: roboto; color: black; align: left; value: ' + self.data.query_name + ' ; width: 4; ');
+					
+					
 				
 			});
 		  }
