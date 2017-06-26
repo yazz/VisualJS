@@ -24,8 +24,9 @@
 				</a-entity>
 
 				<a-entity v-for="(field_name,index)  in  list_of_fields"
-						  v-bind:position='(index + 3) + " 3 0"'
-						  geometry="primitive: plane; width: auto; height: auto" material="color: white"
+						  v-bind:position='(index + 1) + " 4.3 0"'
+						  geometry="primitive: plane; width: auto; height: auto" 
+						  material="color: white"
 						  v-bind:text='"font: aileronsemibold;color: black; align: left; value: " + field_name + "; width: 2; "'
 						  rotation='0 0 0'>
 						  
@@ -33,7 +34,7 @@
 						<a-entity v-for="(a_record,rindex)  in  list_of_records"
 								  v-bind:position='"0 " + (-.2 - (rindex * 0.2)) + " 0"'
 								  geometry="primitive: plane; width: auto; height: auto" material="color: white"
-								  v-bind:text='"font: sourcecodepro;color: black; align: left; value: " + a_record[field_name] + "; width: 1.5; "'
+								  v-bind:text='"font: sourcecodepro;color: black; align: left; value: " + truncate(a_record[field_name]) + "; width: 2; "'
 								  rotation='0 0 0'>
 							  
 						</a-entity>
@@ -125,6 +126,9 @@ name: 'VR-items'
 		get_x_position: function(index, total) {
 		var cols = (Math.ceil(Math.sqrt(total)));
 		return index % cols;
+	},
+	truncate: function(txt) {
+	    return (txt?txt.toString().substring(0,10):'');
 	},
 	get_y_position: function(index, total) {
 		var cols = (Math.ceil(Math.sqrt(total)));
