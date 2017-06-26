@@ -110,13 +110,36 @@ var mysql      = require('mysql');
   										excelFile
   								  ]
   							);
-  						}
+							
+  							dbhelper.sql(`insert into
+  									  queries
+  									  (
+										  id,
+										  name,
+										  connection,
+										  driver,
+										  type,
+										  definition
+  									  )
+  								  values
+  									  (?, ? , ? , ? , ?, ?)`
+  								  ,
+  								  [
+									  fileId,
+									  fileId,
+									  fileId,
+									  'excel',
+									  '|SPREADSHEET|',
+									  JSON.stringify({} , null, 2)
+  								  ]
+  							);
+						}
 					}
 		  if (isCsvFile(file)) {
-        console.log('file: ' + file);
-  					var excelFile = file;
-  						if (typeof excelFile !== "undefined") {
-							var fileId = excelFile.replace(/[^\w\s]/gi,'');
+        console.log('CSV file: ' + file);
+  					var CSVFile = file;
+  						if (typeof CSVFile !== "undefined") {
+							var fileId = CSVFile.replace(/[^\w\s]/gi,'');
   							console.log('   *file id: ' + fileId);
 
   							dbhelper.sql(`insert into
@@ -143,7 +166,30 @@ var mysql      = require('mysql');
   										excelFile
   								  ]
   							);
-  						}
+							
+  							dbhelper.sql(`insert into
+  									  queries
+  									  (
+										  id,
+										  name,
+										  connection,
+										  driver,
+										  type,
+										  definition
+  									  )
+  								  values
+  									  (? , ? , ? , ?, ?, ?)`
+  								  ,
+  								  [
+									  fileId,
+									  fileId,
+									  fileId,
+									  'csv',
+									  '|CSV|',
+									  JSON.stringify({} , null, 2)
+  								  ]
+  							);
+						}
 					}
           if (!--pending) done(null);
         }

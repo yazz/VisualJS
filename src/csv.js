@@ -149,6 +149,7 @@
 						  id:             this.query_name,
 						  connection:     this.query_connection,
 						  driver:        'csv',
+						  type:          '|CSV|',
 						  definition:    JSON.stringify({} , null, 2),
 					  }
 				  });
@@ -199,7 +200,7 @@
 			  }
 			}
     ,
-    type: 'db_driver'
+    type: 'csv_driver'
     ,
     setup: function(connection) {
           var config = {

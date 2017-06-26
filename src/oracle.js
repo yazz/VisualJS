@@ -188,6 +188,7 @@
 						  id:             this.query_name,
 						  connection:     this.query_connection,
 						  driver:        'oracle',
+						  type:          '|DATABASE|',
 						  definition:    JSON.stringify({sql: this.sql} , null, 2),
 					  }
 				  });
