@@ -123,25 +123,6 @@ setTimeout(function(){
 
 
     // --------------------------------------------------------------------
-    // get the SQL result
-    // --------------------------------------------------------------------
-    function getresult(source, sql) {
-      $.ajax({
-
-        type: "POST",
-        url: '/getresult',
-        data: {source: source, sql: sql},
-        success: function(data) {
-          //$("#result").text(data);
-		  //alert(eval('(' + data + ')'));
-		    setOutputData(eval('(' + data + ')'));
-			},
-        error: function(jqXHR, textStatus, errorThrown) {
-          alert('error ' + textStatus + " " + errorThrown);
-        }
-      });
-    };
-    // --------------------------------------------------------------------
     // get the query  result
     // --------------------------------------------------------------------
     function get_query_result(source) {

@@ -379,7 +379,7 @@ app.post('/getresult', function (req, res) {
 				if (connections[queryData.source].driver) {
 					//console.log('query driver: ' + connections[queryData.source].driver);
 					try {
-						drivers[connections[queryData.source].driver]['get'](connections[queryData.source],queryData.sql,function(ordata) {
+						drivers[connections[queryData.source].driver]['get_v2'](connections[queryData.source],{sql: queryData.sql},function(ordata) {
 							res.writeHead(200, {'Content-Type': 'text/plain'});
 							res.end(JSON.stringify(ordata));
 						});
@@ -409,9 +409,10 @@ app.post('/getqueryresult', function (req, res) {
 	
 	console.log('           query: ' + JSON.stringify(query));
 	if (query) {
-		var queryData = new Object();
-		queryData.source = query.connection;
-		queryData.sql = eval('(' + query.definition + ')' ).sql;
+		var queryData 			= new Object();
+		queryData.source 		= query.connection;
+		queryData.definition 	= eval('(' + query.definition + ')' );
+
     	console.log('   query.definition.sql: ' + JSON.stringify(query.definition.sql));
     	console.log('           ***queryData: ' + JSON.stringify(queryData));
 		
@@ -423,7 +424,7 @@ app.post('/getqueryresult', function (req, res) {
 					if (connections[queryData.source].driver) {
 						//console.log('query driver: ' + connections[queryData.source].driver);
 						try {
-							drivers[connections[queryData.source].driver]['get'](connections[queryData.source],queryData.sql,function(ordata) {
+							drivers[connections[queryData.source].driver]['get_v2'](connections[queryData.source],queryData.definition,function(ordata) {
 								res.writeHead(200, {'Content-Type': 'text/plain'});
 								res.end(JSON.stringify(ordata));
 							});
