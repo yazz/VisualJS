@@ -143,6 +143,103 @@
 			  }
 		}
 	,
+    vue_add_query: {
+            template:   '' +
+						'<div>' +
+						'    <div class="input-group">' +
+						'        <div class="form-group">' +
+						'            <label for="ID" class=" col-form-label">Query name</label>' +
+						'            <input  type="text" class="form-control" v-model="query_name"></input>' +
+						'        </div>' +
+						'        <div class="form-group">' +
+						'            <label for="SQL" class="col-form-label">SQL</label>' +
+						'            <input  type="text" class="form-control" v-model="sql" ></input>' +
+						'        </div>' +
+						'        <div class="form-group row">' +
+						'            <span class="input-group-btn">' +
+						'                <button class="btn btn-secondary" type="button" v-on:click="OK">OK</button>' +
+						'                <button class="btn btn-secondary" type="button" v-on:click="Cancel">Cancel</button>' +
+						'            </span>' +
+						'        </div>' +
+						'    </div>' +
+						'</div>' 
+
+
+			,
+			name: 'oracle-add-query'
+			,
+			props: ['query_connection']
+			,
+			methods: {
+				get_connection_property: function (cn, prop_name) {
+				  for (cc in this.$store.state.list_of_connections) {
+					if (this.$store.state.list_of_connections[cc].id == cn) {
+					  return this.$store.state.list_of_connections[cc][prop_name];
+					};
+				  };
+				  return 'Unknown ' + cn + ":" + prop_name;
+				},
+				OK: function() {
+					//alert(JSON.stringify({sql: this.sql} , null, 2));
+				  this.$store.dispatch('add_new_query',
+				  {
+					  cn: this.query_name,
+					  cp: {
+						  id:             this.query_name,
+						  connection:     this.query_connection,
+						  driver:        'oracle',
+						  definition:    JSON.stringify({sql: this.sql} , null, 2),
+					  }
+				  });
+				  this.$store.dispatch('hide_add_query');
+				}
+				,
+				Cancel: function() {
+				  this.$store.dispatch('hide_add_query');
+				}
+			  }
+			  ,
+			  data: function() {
+				return {
+				  query_name:                "oracle query",
+				  sql:                       "SELECT 1 FROM dual"
+				};
+			  }
+	}
+            
+    ,
+    vue_view_query: {
+            template:   '<div>'+
+						'     <table class="table table-striped table-bordered " style="width: 100%;">'+
+						'        <tbody>'+
+						'          <tr scope="row"><td>ID</td><td>{{get_query_property(query_name,"id")}}</td></tr>'+
+						'          <tr scope="row"><td>Driver</td><td>oracle</td></tr>'+
+						'          <tr scope="row"><td>SQL</td><td>{{get_query_property(query_name,"definition").sql}}</td></tr>'+
+						'        <tbody>'+
+						'      </table>'+
+						'</div>'
+			,
+			props: ['query_name']
+			,
+			methods: {
+				get_query_property: function (cn, prop_name) {
+				  var cc;
+				  for (cc in this.$store.state.list_of_queries) {
+					if (this.$store.state.list_of_queries[cc].id == cn) {
+					  return this.$store.state.list_of_queries[cc][prop_name];
+					};
+				  };
+				  return 'Unknown ' + cn + ":" + prop_name;
+				},
+				OK: function() {
+				  this.$store.dispatch('hide_view_query')
+				},
+				Cancel: function() {
+				  this.$store.dispatch('hide_view_query')
+				}
+			  }
+			}
+    ,
     loadOnCondition: function() {
         var useOracle    = false;
         if (fs.existsSync(path.join(__dirname, '../oracle_driver.zip'))) {
