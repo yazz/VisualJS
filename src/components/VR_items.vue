@@ -45,7 +45,7 @@
 
 <a-box  material="color: white" position="-2 -7.5 0" height=19 depth=0  width=26> </a-box>
 <a-box  material="color: white" position="-2 9.4 0" height=10 depth=0 width=25> </a-box>
-<a-box  material="color: white" position="12.2 3 0" depth=0  height=3 width=25> </a-box>
+<a-box  material="color: white" position="11.7 3 0" depth=0  height=3 width=25> </a-box>
 <a-box  material="color: white" position="-8.2 2.5 0" depth=0  height=4 width=11> </a-box>
 
 <a-entity id=scrollable_grid>

@@ -547,28 +547,33 @@ app.get('/get_connect', function (req, res) {
 // This is where the client sends its details to the central server
 //------------------------------------------------------------------------------
 app.get('/client_connect', function (req, res) {
-    var queryData = url.parse(req.url, true).query;
+	try 
+	{
+		var queryData = url.parse(req.url, true).query;
 
-    requestClientInternalHostAddress = req.query.requestClientInternalHostAddress;
-    requestClientInternalPort        = req.query.requestClientInternalPort;
-    requestClientPublicIp            = req.ip;
-    //requestClientPublicHostName      = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-    requestClientPublicHostName      = "req keys::" + Object.keys(req) + ", VIA::" + req.headers.via + ", raw::" + JSON.stringify(req.rawHeaders);
+		requestClientInternalHostAddress = req.query.requestClientInternalHostAddress;
+		requestClientInternalPort        = req.query.requestClientInternalPort;
+		requestClientPublicIp            = req.ip;
+		//requestClientPublicHostName      = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+		requestClientPublicHostName      = "req keys::" + Object.keys(req) + ", VIA::" + req.headers.via + ", raw::" + JSON.stringify(req.rawHeaders);
 
-    console.log('Client attempting to connect from:');
-    console.log('client internal host address:    ' + requestClientInternalHostAddress)
-    console.log('client internal port:            ' + requestClientInternalPort)
-    console.log('client public IP address:        ' + requestClientPublicIp)
-    console.log('client public IP host name:      ' + requestClientPublicHostName)
-    dbhelper.sql("insert into client_connect (internal_host, internal_port, public_ip, public_host) values (?,?,?,?)",
-          [requestClientInternalHostAddress,requestClientInternalPort,requestClientPublicIp,requestClientPublicHostName])
+		console.log('Client attempting to connect from:');
+		console.log('client internal host address:    ' + requestClientInternalHostAddress)
+		console.log('client internal port:            ' + requestClientInternalPort)
+		console.log('client public IP address:        ' + requestClientPublicIp)
+		console.log('client public IP host name:      ' + requestClientPublicHostName)
+		dbhelper.sql("insert into client_connect (internal_host, internal_port, public_ip, public_host) values (?,?,?,?)",
+			  [requestClientInternalHostAddress,requestClientInternalPort,requestClientPublicIp,requestClientPublicHostName])
 
-    dbhelper.sql("select * from client_connect", function(aa){console.log("**********" + JSON.stringify(aa.length))});
-    dbhelper.sql("select * from client_connect", function(aaa){  var aa;for (aa in aaa) {console.log(aaa[aa].internal_host + ", " + aaa[aa].internal_port + ", " + aaa[aa].public_ip )}});
+		dbhelper.sql("select * from client_connect", function(aa){console.log("**********" + JSON.stringify(aa.length))});
+		dbhelper.sql("select * from client_connect", function(aaa){  var aa;for (aa in aaa) {console.log(aaa[aa].internal_host + ", " + aaa[aa].internal_port + ", " + aaa[aa].public_ip )}});
 
-    res.writeHead(200, {'Content-Type': 'text/plain'});
-    res.end(JSON.stringify({connected: true}));
-
+		res.writeHead(200, {'Content-Type': 'text/plain'});
+		res.end(JSON.stringify({connected: true}));
+	}
+	catch (err) {
+		console.log('Warning: Central server not available:');
+	}
 
 })
 

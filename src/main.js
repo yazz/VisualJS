@@ -14,7 +14,7 @@ import db                       from '../public/dbhelper.js'
 Vue.component('FileBrowser',FileBrowser);
 
 
-const gun_ip_address = '172.18.0.100'
+const gun_ip_address = '172.27.10.196'
 
 window.vue = Vue;
 
@@ -161,20 +161,20 @@ function setupVRVuePane() {
 				
 				//alert('x: ' + self.data.x + ', useX: ' + useX);
 				//alert('y: ' + self.data.y + ', useY: ' + useY);
-				if (self.data.x < 2) {
+				if (self.data.x < 1) {
 					useX = 0;
-				} else if (self.data.x == (useX + 2)) {
+				} else if (self.data.x > useX) {
 					useX = useX + 1;
-				} else if (self.data.x == useX) {
+				} else if (self.data.x < useX) {
 					useX = useX - 1;					
 				};
 				posX = -(useX * 0.5);
 				
-				if (self.data.y < 2) {
+				if (self.data.y < 1) {
 					useY = 0;
-				} else if (self.data.y == (useY + 2)) {
+				} else if (self.data.y > useY) {
 					useY = useY + 1;
-				} else if (self.data.y == useY) {
+				} else if (self.data.y < useY) {
 					useY = useY - 1;
 				};
 				posY = (useY * 0.6);
