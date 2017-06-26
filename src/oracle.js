@@ -251,7 +251,8 @@
 
 
 
-    get: function(connection, sql, callfn) {
+    get_v2: function(connection, parameters, callfn) {
+		var sql = parameters.sql;
         if (
             (connection.status == 'disconnected')
             ||
