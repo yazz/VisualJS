@@ -110,12 +110,6 @@ var mysql      = require('mysql');
   										excelFile
   								  ]
   							);
-							var oout = [{a: 'no EXCEL'}];
-							try {
-								//drivers[connections[queryData.source].driver]['get_v2'](connections[queryData.source],{sql: queryData.sql}
-							} catch (err) {
-								
-							}
 							
   							dbhelper.sql(`insert into
   									  queries
@@ -138,7 +132,7 @@ var mysql      = require('mysql');
 									  'excel',
 									  '|SPREADSHEET|',
 									  JSON.stringify({} , null, 2),
-									  JSON.stringify(oout , null, 2)
+									  JSON.stringify([] , null, 2)
   								  ]
   							);
 						}
@@ -175,12 +169,6 @@ var mysql      = require('mysql');
   										excelFile
   								  ]
   							);
-							var oout = [{a: 'no CSV'}];
-							try {
-								//drivers[connections[queryData.source].driver]['get_v2'](connections[queryData.source],{sql: queryData.sql}
-							} catch (err) {
-								
-							}
 							
   							dbhelper.sql(`insert into
   									  queries
@@ -203,7 +191,7 @@ var mysql      = require('mysql');
 									  'csv',
 									  '|CSV|',
 									  JSON.stringify({} , null, 2),
-									  JSON.stringify(oout , null, 2)
+									  JSON.stringify([] , null, 2)
   								  ]
   							);
 						}
@@ -352,7 +340,31 @@ function startServices() {
             if (!queries[query.name]) {
               //console.log(a);
               queries[query.name] = query;
-            }
+			  //if (query.preview == []) {
+							var oout = [{a: 'no EXCEL'}];
+							try {
+								console.log('*************************************************************************');
+								console.log('     query.id : ' + query.id); 
+								console.log('     query.connection : ' + query.connection); 
+								console.log('     query.driver : ' + query.driver); 
+								console.log('     query.definition : ' + query.definition); 
+									drivers[query.driver]['get_v2'](connections[query.connection],{sql: query.sql},
+									function(ordata) {
+										//console.log('********* ' + JSON.stringify(ordata));
+											dbhelper.sql("update queries set  preview = ? where id = '" + query.id +  "'"
+												  ,
+												  [
+													  JSON.stringify(ordata, null, 2),
+													  query.id
+												  ]
+											);
+									});
+							} catch (err) {
+								
+						}
+
+				//}
+			}
         }
 
     })
