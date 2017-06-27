@@ -262,9 +262,11 @@ export default new Vuex.Store({
                       password
 					  ,
 					  fileName
+					  ,
+					  preview
                   )
               values
-                  (?,?,?,?,?,?,?,?,?,?)`
+                  (?,?,?,?,?,?,?,?,?,?,?)`
                   ,
                   [
                         autoIndexSerialId()
@@ -286,6 +288,8 @@ export default new Vuex.Store({
 						(connection.cp.password?connection.cp.password:null)
                         ,
 						(connection.cp.fileName?connection.cp.fileName:null)
+                        ,
+						(connection.cp.preview?connection.cp.preview:null)
                   ]
             )
     },

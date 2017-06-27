@@ -14,7 +14,7 @@ import db                       from '../public/dbhelper.js'
 Vue.component('FileBrowser',FileBrowser);
 
 
-const gun_ip_address = '172.27.10.196'
+const gun_ip_address = '172.18.0.103'
 
 window.vue = Vue;
 
@@ -142,7 +142,26 @@ function setupVRVuePane() {
           components: {'VR': VR}
         });
 		
-
+		AFRAME.registerComponent('preview', {
+		    schema: {	id: {type: 'string', default: ''}}
+			,
+		    init: function () {
+			    var self = this;
+		        this.el.addEventListener('mouseenter', function (evt) {
+			        var lll = store.state.list_of_queries.length;
+				    for (var i = 0 ; i < lll ; i ++) {
+						var query = store.state.list_of_queries[i];
+					    if (query.id == self.data.id) {
+						    if (query.preview) {
+							    setOutputData(query.preview);
+								//alert(JSON.stringify(query.preview , null, 2));
+							};
+							return;
+						};
+					}
+			   });
+		    }
+		});
 
 		AFRAME.registerComponent('griditem', {
 		  schema: {	x:  {type: 'number', default: 0},
@@ -392,6 +411,8 @@ function setupGunDB() {
                                                                                 connection: query.connection
 																				,
 																				definition: eval('(' + query.definition + ')')
+																				,
+																				preview: eval('(' + query.preview + ')')
                                                                                }});
                               };
            }
@@ -428,6 +449,8 @@ function setupGunDB() {
                                                                                 connectString: conn.connectString
                                                                                 ,
                                                                                 fileName: conn.fileName
+                                                                                ,
+                                                                                preview: conn.preview
                                                                                }});
                               };
            }

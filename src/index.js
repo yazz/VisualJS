@@ -110,6 +110,12 @@ var mysql      = require('mysql');
   										excelFile
   								  ]
   							);
+							var oout = [{a: 'no EXCEL'}];
+							try {
+								//drivers[connections[queryData.source].driver]['get_v2'](connections[queryData.source],{sql: queryData.sql}
+							} catch (err) {
+								
+							}
 							
   							dbhelper.sql(`insert into
   									  queries
@@ -119,10 +125,11 @@ var mysql      = require('mysql');
 										  connection,
 										  driver,
 										  type,
-										  definition
+										  definition,
+										  preview
   									  )
   								  values
-  									  (?, ? , ? , ? , ?, ?)`
+  									  (?, ? , ? , ? , ?, ?, ?)`
   								  ,
   								  [
 									  fileId,
@@ -130,7 +137,8 @@ var mysql      = require('mysql');
 									  fileId,
 									  'excel',
 									  '|SPREADSHEET|',
-									  JSON.stringify({} , null, 2)
+									  JSON.stringify({} , null, 2),
+									  JSON.stringify(oout , null, 2)
   								  ]
   							);
 						}
@@ -152,6 +160,7 @@ var mysql      = require('mysql');
   										  driver
   										  ,
   										  fileName
+										  
   									  )
   								  values
   									  (? , ? , ? , ?)`
@@ -166,6 +175,12 @@ var mysql      = require('mysql');
   										excelFile
   								  ]
   							);
+							var oout = [{a: 'no CSV'}];
+							try {
+								//drivers[connections[queryData.source].driver]['get_v2'](connections[queryData.source],{sql: queryData.sql}
+							} catch (err) {
+								
+							}
 							
   							dbhelper.sql(`insert into
   									  queries
@@ -175,10 +190,11 @@ var mysql      = require('mysql');
 										  connection,
 										  driver,
 										  type,
-										  definition
+										  definition,
+										  preview
   									  )
   								  values
-  									  (? , ? , ? , ?, ?, ?)`
+  									  (? , ? , ? , ?, ?, ?, ?)`
   								  ,
   								  [
 									  fileId,
@@ -186,7 +202,8 @@ var mysql      = require('mysql');
 									  fileId,
 									  'csv',
 									  '|CSV|',
-									  JSON.stringify({} , null, 2)
+									  JSON.stringify({} , null, 2),
+									  JSON.stringify(oout , null, 2)
   								  ]
   							);
 						}

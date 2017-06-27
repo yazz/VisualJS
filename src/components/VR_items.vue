@@ -53,11 +53,13 @@
 				<a-entity v-for="(a_driver,index)  in  list_of_queries"
 				   v-bind:position="(-0.9 + (get_x_position(index,list_of_queries.length)*0.5))+ ' ' + (3 - (get_y_position(index,list_of_queries.length)*0.6)) + ' -.1'"  
 				   v-bind:color="(index % 2 == 0)?'blue':'green'"
+				   
 				   v-bind:text="'color: black; align: left; value: ' + a_driver.id.substr(a_driver.id.length - 10) + ' ; width: 2; '">
 					   <a-entity  position="-0.8 .3 0" geometry='width: .3; height: .3; depth: 0.1;'
 							      v-bind:griditem='"x: " + get_x_position(index,list_of_queries.length) + "; y:" + get_y_position(index,list_of_queries.length) + ";" +
 								  "query_name: " +a_driver.id'
-					   mixin='gsd'  v-bind:color="(index % 2 == 0)?'blue':'green'" v-bind:log='"" + a_driver.id'>
+								  v-bind:preview='"id: " + a_driver.id + ";"'
+					   mixin='gsd'  v-bind:color="(index % 2 == 0)?'blue':'green'" v-bind:log='"" + a_driver.id' >
 							 <a-animation begin="mouseenter" attribute="rotation" 
 											to="0 0 -90" dur="1000" direction="alternate"  repeat="1"></a-animation>
 						</a-entity>

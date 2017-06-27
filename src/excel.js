@@ -175,6 +175,7 @@
 						'        <tbody>'+
 						'          <tr scope="row"><td>ID</td><td>{{get_query_property(query_name,"id")}}</td></tr>'+
 						'          <tr scope="row"><td>Driver</td><td>excel</td></tr>'+
+						'          <tr scope="row"><td>Preview</td><td>{{get_query_property(query_name,"preview")}}</td></tr>'+
 						'        <tbody>'+
 						'      </table>'+
 						'</div>'
