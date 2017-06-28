@@ -1,15 +1,10 @@
 <template>
 			  <a-entity position='0 0 0' >
 				
-                <a-box  id=m1 v-if='vr_type=="mouse"' material="color: white" position="-13 0 0" depth=0 reset-view height=10 width=20> </a-box>
-                <a-box  id=m2 v-if='vr_type=="mouse"' material="color: white" position="13 0 0" depth=0 reset-view height=10 width=20> </a-box>
-                <a-box  id=m3 v-if='vr_type=="mouse"' material="color: white" position="-3 -8 0" height=15 depth=0 reset-view width=30> </a-box>
-                <a-box  id=m4 v-if='vr_type=="mouse"' material="color: white" position="-3 12 0" height=14 depth=0 reset-view width=30> </a-box>
-			
-                <a-box2  id=m5 v-if='vr_type=="move"' material="color: white" position="-13 0 0" depth=0 reset-view height=10 width=20> </a-box2>
-                <a-box2  id=m6 v-if='vr_type=="move"' material="color: white" position="13 0 0" depth=0 reset-view height=10 width=20> </a-box2>
-                <a-box2  id=m7 v-if='vr_type=="move"' material="color: white" position="-3 -8 0" depth=0 height=15 reset-view width=30> </a-box2>
-                <a-box2  id=m8 v-if='vr_type=="move"' material="color: white" position="-3 12 0" depth=0 height=14 reset-view width=30> </a-box2>
+                <a-box  id=m1 v-if='vr_type=="mouse" && (!can_show_full_doc())'  material="color: white" position="-13 0 0" depth=0 reset-view height=10 width=20> </a-box>
+                <a-box  id=m2 v-if='vr_type=="mouse" && (!can_show_full_doc())' material="color: white" position="13 0 0" depth=0 reset-view height=10 width=20> </a-box>
+                <a-box  id=m3 v-if='vr_type=="mouse" && (!can_show_full_doc())' material="color: white" position="-3 -8 0" height=15 depth=0 reset-view width=30> </a-box>
+                <a-box  id=m4 v-if='vr_type=="mouse" && (!can_show_full_doc())' material="color: white" position="-3 12 0" height=14 depth=0 reset-view width=30> </a-box>
 			
 				<a-entity position="0 6 0"  position2="-1.5 4 0"
 						  geometry="primitive: plane; width: auto; height: auto" material="color: white"
@@ -69,10 +64,10 @@
 
 
 
-<a-box  material="color: white" position="-2 -7.5 0" height=19 depth=0  width=26> </a-box>
-<a-box  material="color: white" position="-2 9.4 0" height=10 depth=0 width=25> </a-box>
-<a-box  material="color: white" position="11.7 3 0" depth=0  height=3 width=25> </a-box>
-<a-box  material="color: white" position="-8.2 2.5 0" depth=0  height=4 width=11> </a-box>
+<a-box  v-if='!can_show_full_doc()'  material="color: white" position="-2 -7.5 0" height=19 depth=0  width=26> </a-box>
+<a-box  v-if='!can_show_full_doc()'  material="color: white" position="-2 9.4 0" height=10 depth=0 width=25> </a-box>
+<a-box  v-if='!can_show_full_doc()'  material="color: white" position="11.7 3 0" depth=0  height=3 width=25> </a-box>
+<a-box  v-if='!can_show_full_doc()'  material="color: white" position="-8.2 2.5 0" depth=0  height=4 width=11> </a-box>
 
 <a-entity id=scrollable_grid>
 				
