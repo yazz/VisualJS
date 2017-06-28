@@ -245,8 +245,19 @@ function setupVRVuePane() {
 		AFRAME.registerComponent('close-doc', {
 		  init: function () {
 
-		   this.el.addEventListener('click', function (evt) {
-				store.dispatch('hide_full_doc');
+		   this.el.addEventListener('mouseenter', function (evt) {
+				
+				
+				var animation = document.createElement('a-animation');
+				animation.setAttribute('id', "animscroll");
+				animation.setAttribute('attribute', "rotation");
+				animation.setAttribute('to', "0 45 0");
+				animation.setAttribute('dur', "500");
+				animation.setAttribute('repeat', "1");
+				animation.setAttribute('direction', "alternate");
+				document.querySelector("#close_doc").appendChild(animation);
+
+				setTimeout(function(){store.dispatch('hide_full_doc');},1000);
 			});
 		  }
 		});

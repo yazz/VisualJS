@@ -41,7 +41,7 @@
 
 				<a-entity v-if='can_show_full_doc()' geometry="primitive: plane; height: 5; width: 8;" material="color: white" position='-1 3.3 0' >
 				
-					<a-entity 	geometry="primitive: circle; radius: .3" material="color: red" position='-2.5 1 1' close-doc=''>
+					<a-entity id=close_doc	geometry="primitive: circle; radius: .3" material="color: red" position='-2.5 1 1' close-doc=''>
 						<a-entity 	position=".9 0 0"
 									text="font: aileronsemibold; color: white; align: left; value: Close; width: 2; height: 1; opacity: 1;">
 						</a-entity>
