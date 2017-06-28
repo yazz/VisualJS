@@ -161,6 +161,9 @@ export default new Vuex.Store({
         state.viewed_query_connection        = null;
       }
     },
+    SET_VIEWED_QUERY_ID: function (state, query) {
+        state.viewed_query_id                = query;
+    },
     SET_VIEWED_DRIVER: function (state, driver) {
       if (driver) {
         state.viewed_driver_id   = driver.id;
@@ -504,6 +507,18 @@ export default new Vuex.Store({
       a.commit('SET_VIEWED_QUERY', b)
     },
 
+
+
+
+
+    //
+    // set viewed query
+    //
+    //
+    //
+    set_viewed_query_id: function(a, b){
+      a.commit('SET_VIEWED_QUERY_ID', b)
+    },
 
 
         //

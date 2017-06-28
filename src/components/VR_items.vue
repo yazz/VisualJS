@@ -46,6 +46,13 @@
 									text="font: aileronsemibold; color: white; align: left; value: Close; width: 2; height: 1; opacity: 1;">
 						</a-entity>
 					</a-entity>
+
+					<a-entity 	id=open_doc geometry="primitive: circle; radius: .3" material="color: green" position='2.5 1 1' 
+								v-bind:open_query_in_native_app='"" + get_viewed_query_id() ' >
+						<a-entity 	position=".9 0 0"
+									text="font: aileronsemibold; color: white; align: left; value: Open; width: 2; height: 1; opacity: 1;">
+						</a-entity>
+					</a-entity>
 					
 					<a-entity v-for="(field_name,index)  in  list_of_fields"
 							  v-bind:position='(index - 2) + " 1 0"'
@@ -150,6 +157,9 @@ name: 'VR-items'
 
 	},
 	methods: {
+	get_viewed_query_id: function() {
+	    return this.$store.state.viewed_query_id;
+	},
     can_show_full_doc: function() {
 		return this.$store.state.show_full_doc;
 	},

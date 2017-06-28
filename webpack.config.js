@@ -53,6 +53,10 @@ module.exports = {
     historyApiFallback: true,
     noInfo: false,
     proxy: {
+      '/open_query_in_native_app': {
+        target: 'http://' + hostaddress,
+        secure: false
+      },
       '/getresult': {
         target: 'http://' + hostaddress,
         secure: false

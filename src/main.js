@@ -227,6 +227,30 @@ function setupVRVuePane() {
 
 
 	
+		AFRAME.registerComponent('open_query_in_native_app', {
+		  schema: {type: 'string'},
+		  init: function () {
+			var stringToLog = this.data;
+		   this.el.addEventListener('click', function (evt) {
+//alert('open: ' + stringToLog);
+			    //alert(stringToLog);
+				open_query_in_native_app(stringToLog);
+				//alert(stringToLog + ' was clicked at: ', evt.detail.intersection.point);
+				//alert(stringToLog + ' was clicked with: ' + document.getElementById("sqlinput"));
+			});
+		   this.el.addEventListener('mouseenter', function (evt) {
+				var animation = document.createElement('a-animation');
+				animation.setAttribute('id', "animscroll");
+				animation.setAttribute('attribute', "rotation");
+				animation.setAttribute('to', "0 45 0");
+				animation.setAttribute('dur', "3000");
+				animation.setAttribute('repeat', "1");
+				animation.setAttribute('direction', "alternate");
+				document.querySelector("#open_doc").appendChild(animation);
+			});
+		  }
+		});
+	
 		AFRAME.registerComponent('log', {
 		  schema: {type: 'string'},
 		  init: function () {
@@ -236,6 +260,7 @@ function setupVRVuePane() {
 			    //alert(stringToLog);
 				get_query_result(stringToLog);
 				store.dispatch('show_full_doc');
+				store.dispatch('set_viewed_query_id', stringToLog);
 				//alert(stringToLog + ' was clicked at: ', evt.detail.intersection.point);
 				//alert(stringToLog + ' was clicked with: ' + document.getElementById("sqlinput"));
 			});
@@ -257,7 +282,7 @@ function setupVRVuePane() {
 				animation.setAttribute('direction', "alternate");
 				document.querySelector("#close_doc").appendChild(animation);
 
-				setTimeout(function(){store.dispatch('hide_full_doc');},1000);
+				setTimeout(function(){store.dispatch('hide_full_doc');},600);
 			});
 		  }
 		});

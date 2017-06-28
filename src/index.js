@@ -443,6 +443,32 @@ app.get('/stopscanharddisk', function (req, res) {
 });
 
 
+app.post('/open_query_in_native_app', function (req, res) {
+						
+	console.log('in open_query_in_native_app');
+    var queryData = req.body;
+    console.log('queryData.source: ' + queryData.source);
+    console.log('queries[queryData.source]: ' + queries[queryData.source]);
+    console.log('connections[queries[queryData.source].connection]: ' + connections[queries[queryData.source].connection]);
+    console.log('connections[queries[queryData.source].connection].fileName: ' + connections[queries[queryData.source].connection].fileName);
+	var error = new Object();
+	//console.log('query driver: ' + connections[queryData.source].driver);
+	try {
+		//drivers[connections[queryData.source].driver]['get_v2'](connections[queryData.source],{sql: queryData.sql},function(ordata) {
+		   open(connections[queries[queryData.source].connection].fileName);
+
+		   res.writeHead(200, {'Content-Type': 'text/plain'});
+			res.end(JSON.stringify(ordata));
+	}
+	
+	catch(err) {
+		res.writeHead(200, {'Content-Type': 'text/plain'});
+		
+		res.end(JSON.stringify({error: 'Error: ' + JSON.stringify(err)}));
+	};
+})
+
+
 //------------------------------------------------------------------------------
 // Get the result of a SQL query
 //------------------------------------------------------------------------------
@@ -609,6 +635,10 @@ app.get('/client_connect', function (req, res) {
 	}
 
 })
+
+
+
+
 
 
 
@@ -872,5 +902,8 @@ var driveStart =
 			});
 	  };
 
+	  
+	  
+	  
 	  
 	  

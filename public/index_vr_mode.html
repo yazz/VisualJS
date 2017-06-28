@@ -142,9 +142,32 @@ setTimeout(function(){
         }
       });
     };
+    // --------------------------------------------------------------------
+    // get the query  result
+    // --------------------------------------------------------------------
+    function open_query_in_native_app(source) {
+	//alert('zz');
+      $.ajax({
+
+        type: "POST",
+        url: '/open_query_in_native_app',
+        data: {source: source},
+        success: function(data) {
+          //$("#result").text(data);
+		  //alert(eval('(' + data + ')'));
+			},
+        error: function(jqXHR, textStatus, errorThrown) {
+          //alert('error ' + textStatus + " " + errorThrown);
+        }
+      });
+    };
     </script>
 
     <script type="text/javascript" src="gosharedata_setup.js"></script>
     <script type="text/javascript" src="dist/build.js?1501"></script>
 </body>
 </html>
+
+
+
+
