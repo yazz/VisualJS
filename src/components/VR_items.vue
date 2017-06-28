@@ -76,7 +76,7 @@
 
 <a-entity id=scrollable_grid>
 				
-				<a-entity v-for="(a_driver,index)  in  list_of_queries"
+				<a-entity v-if='!can_show_full_doc()' v-for="(a_driver,index)  in  list_of_queries"
 				   v-bind:position="(-0.9 + (get_x_position(index,list_of_queries.length)*0.5))+ ' ' + (3 - (get_y_position(index,list_of_queries.length)*0.6)) + ' -.1'"  
 				   v-bind:color="(index % 2 == 0)?'blue':'green'"
 				   
