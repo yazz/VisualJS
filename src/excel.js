@@ -229,17 +229,22 @@
 			
 			
 			var rows=[];
-			
 
 
+			var excelQuery = new Object();
+			excelQuery.header = 1;
+			if (parameters.maxRows) {
+				excelQuery.range = 'A1:Z' + parameters.maxRows;
+			}
 
             try {
 			var workbook = XLSX.readFile(connection.fileName);
-			rows = XLSX.utils.sheet_to_json( workbook.Sheets[workbook.SheetNames[0]],{ header: 1 });
+			rows = XLSX.utils.sheet_to_json( workbook.Sheets[workbook.SheetNames[0]],excelQuery);
 			//console.log('XL: ' + JSON.stringify(rows));
 
 
 			var maxLength = 0;
+			
 			for (var i =0; i < rows.length; i++) {
 				if (rows[i].length > maxLength ) {
 					maxLength = rows[i].length;

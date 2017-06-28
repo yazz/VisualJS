@@ -348,7 +348,9 @@ function startServices() {
 								console.log('     query.connection : ' + query.connection); 
 								console.log('     query.driver : ' + query.driver); 
 								console.log('     query.definition : ' + query.definition); 
-									drivers[query.driver]['get_v2'](connections[query.connection],{sql: query.sql},
+								var restrictRows = JSON.parse(query.definition);
+								restrictRows.maxRows = 10;
+									drivers[query.driver]['get_v2'](connections[query.connection],restrictRows,
 									function(ordata) {
 										//console.log('********* ' + JSON.stringify(ordata));
 											dbhelper.sql("update queries set  preview = ? where id = '" + query.id +  "'"
