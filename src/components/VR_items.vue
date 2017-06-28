@@ -19,17 +19,17 @@
 				</a-entity>
 
 				<a-entity v-if='!can_show_full_doc()' v-for="(field_name,index)  in  list_of_fields"
-						  v-bind:position='(index + 1) + " 4.3 0"'
+						  v-bind:position='(index + 1) + " 4.3 .1"'
 						  geometry="primitive: plane; width: auto; height: auto" 
 						  material="color: white"
-						  v-bind:text='"font: aileronsemibold;color: black; align: left; value: " + field_name + "; width: 2; "'
+						  v-bind:text='"font: aileronsemibold;color: black; align: left; value: " + field_name + "; width: 2; opacity: 1;"'
 						  rotation='0 0 0'>
 						  
 
 						<a-entity v-for="(a_record,rindex)  in  list_of_records"
 								  v-bind:position='"0 " + (-.2 - (rindex * 0.2)) + " 0"'
-								  geometry="primitive: plane; width: auto; height: auto" material="color: white"
-								  v-bind:text='"font: sourcecodepro;color: black; align: left; value: " + truncate(a_record[field_name]) + "; width: 2; "'
+								  geometry="primitive: plane; width: 2; height: 0.2" material="color: white"
+								  v-bind:text='"font: sourcecodepro;color: black; align: left; value: " + truncate(a_record[field_name]) + "; width: 2; opacity: 1;"'
 								  rotation='0 0 0'>
 							  
 						</a-entity>
@@ -39,9 +39,13 @@
 				
 				
 
-				<a-entity v-if='can_show_full_doc()' geometry="primitive: plane; height: 5; width: 8;" material="color: white" position='-1 3 0' >
+				<a-entity v-if='can_show_full_doc()' geometry="primitive: plane; height: 5; width: 8;" material="color: white" position='-1 3.3 0' >
 				
-					<a-entity geometry="primitive: plane; height: .5; width: .5;" material="color: blue" position='-2.5 1 1' close-doc=''></a-entity>
+					<a-entity 	geometry="primitive: circle; radius: .3" material="color: red" position='-2.5 1 1' close-doc=''>
+						<a-entity 	position=".9 0 0"
+									text="font: aileronsemibold; color: white; align: left; value: Close; width: 2; height: 1; opacity: 1;">
+						</a-entity>
+					</a-entity>
 					
 					<a-entity v-for="(field_name,index)  in  list_of_fields"
 							  v-bind:position='(index - 2) + " 1 0"'
