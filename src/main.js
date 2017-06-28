@@ -14,7 +14,7 @@ import db                       from '../public/dbhelper.js'
 Vue.component('FileBrowser',FileBrowser);
 
 
-const gun_ip_address = '172.18.0.103'
+const gun_ip_address = '172.18.0.100'
 
 window.vue = Vue;
 
@@ -764,7 +764,7 @@ function initClientsConnectedVuePane() {
 //-----------------------------------------------------------------
 $( document ).ready(function() {
 
-  console.log( "****ready now!" + window.system_type);
+  //console.log( "****ready now!" + window.system_type);
   if (window.system_type == 'client') {
     initWelcomeVuePane();
     setupSqlVuePane();

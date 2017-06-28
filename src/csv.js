@@ -217,7 +217,7 @@
 
     get_v2: function( connection , parameters , callfn )
         {
-            console.log('********************************');
+            //console.log('********************************');
             if (
                 (connection.status == 'disconnected')
                 ||
@@ -230,23 +230,23 @@
 			
 			var rows=[];
 			
-var firstRow = false;
-			var ret = new Object();
+			var firstRow = false;
+						var ret = new Object();
 
-var stream = fs.createReadStream(connection.fileName);
- 
-csv
- .fromStream(stream)
- .on("data", function(data){
-     console.log(data);
-          try {
-	
-if (!firstRow) {
-	firstRow = true;
-	ret["fields"] = data;
-}
+			var stream = fs.createReadStream(connection.fileName);
+			 
+			csv
+			 .fromStream(stream)
+			 .on("data", function(data){
+				 //console.log(data);
+					  try {
+				
+			if (!firstRow) {
+				firstRow = true;
+				ret["fields"] = data;
+			}
 
-rows.push(data);
+			rows.push(data);
 
 
 
@@ -278,7 +278,7 @@ rows.push(data);
 
 
 
-			console.log("ret  = " + JSON.stringify(ret));
+			//console.log("ret  = " + JSON.stringify(ret));
 
 			
 			
@@ -289,13 +289,13 @@ rows.push(data);
           // execute a query on our database
 			}
 			catch(err) {
-				console.log('CSV error: ' + err);
+				//console.log('CSV error: ' + err);
 				callfn({error: 'CSV error: ' + err});
 			}
 			
 			})
  .on("end", function(){
-     console.log("done");
+     //console.log("done");
 
 			ret["values"] = rows;
 			callfn(ret);

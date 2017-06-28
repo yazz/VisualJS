@@ -217,7 +217,7 @@
 
     get_v2: function( connection , parameters , callfn )
         {
-            console.log('********************************');
+            //console.log('********************************');
             if (
                 (connection.status == 'disconnected')
                 ||
@@ -236,7 +236,7 @@
             try {
 			var workbook = XLSX.readFile(connection.fileName);
 			rows = XLSX.utils.sheet_to_json( workbook.Sheets[workbook.SheetNames[0]],{ header: 1 });
-			console.log('XL: ' + JSON.stringify(rows));
+			//console.log('XL: ' + JSON.stringify(rows));
 
 
 			var maxLength = 0;
@@ -264,18 +264,18 @@
 
 
 			callfn(ret);
-			console.log("ret  = " + JSON.stringify(ret));
+			//console.log("ret  = " + JSON.stringify(ret));
 
 			
 			
 			
 		
 		
-          console.error('drivers[excel][get]');
+          //console.error('drivers[excel][get]');
           // execute a query on our database
 			}
 			catch(err) {
-				console.log('Excel error: ' + err);
+				//console.log('Excel error: ' + err);
 				callfn({error: 'Excel error: ' + err});
 			}
 

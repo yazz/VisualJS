@@ -461,8 +461,8 @@ var sqlQueueItem = null;
 
 			localgun.get('change_log').get( "default" ).get( tableName ).get('version').on(
 			  function(a) {
-				  console.log('*****Change to table name: ' + tableName + ' : New version: ' + a )
-				  console.log('              : current version: ' + tablesMetaData[tableName]['version'] )
+				  //console.log('*****Change to table name: ' + tableName + ' : New version: ' + a )
+				  //console.log('              : current version: ' + tablesMetaData[tableName]['version'] )
 				  //a.value(function(q){console.log('a: ' + JSON.stringify(q , null, 2) )})
 				  if (a > tablesMetaData[tableName]['version']) {
 					  //console.log('Change to table name: ' + tableName + ' : ' + a.version)
@@ -668,12 +668,12 @@ var sqlQueueItem = null;
 							  for ( sqlToUpdate of sqlToUpdateList ) {
 								  //console.log("realtimeSqlQueries[" + sqlToUpdate + "] = " + JSON.stringify(realtimeSqlQueries[ tableName ]["sql"][ sqlToUpdate ] , null, 2) + ", "+ tablesMetaData[ tableName ] ['version'] + "");
 								  if (realtimeSqlQueries[ tableName ]["sql"][ sqlToUpdate ][ "lastReadVersion" ] < tablesMetaData[ tableName ] ['version']) {
-									  console.log("table changed: " + tableName );
+									  //console.log("table changed: " + tableName );
 									  //localgun.sql("SELECT * FROM Customers ");
 									  //console.log('    sql: ' + JSON.stringify(sqlToUpdate , null, 2))
                                       var cbb = realtimeSqlQueries[tableName]['sql'][sqlToUpdate]["callback"];
                                       if (cbb) {
-                                          console.log('   **HAS A CALLBACK on SQL: ' + sqlToUpdate);
+                                          //console.log('   **HAS A CALLBACK on SQL: ' + sqlToUpdate);
                                           //console.log('**Updating realtime SQL :  ' + sqlToUpdate);
 
 										  // double call makes sure we read the data or it doesnt work???/
@@ -681,7 +681,7 @@ var sqlQueueItem = null;
                                           localgun.sql(sqlToUpdate, null, cbb);
                                           realtimeSqlQueries[ tableName ]['sql'][sqlToUpdate]['lastReadVersion'] = tablesMetaData[ tableName ] ['version']
                                       } else {
-                                        console.log('    Error , no call back found for : ' + sqlToUpdate);
+                                        //console.log('    Error , no call back found for : ' + sqlToUpdate);
                                       };
                                   }
 

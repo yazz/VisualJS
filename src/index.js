@@ -166,7 +166,7 @@ var mysql      = require('mysql');
   										,
   										'csv'
   										,
-  										excelFile
+  										CSVFile
   								  ]
   							);
 							
