@@ -11,9 +11,9 @@
                 <a-box2  id=m7 v-if='vr_type=="move"' material="color: white" position="-3 -8 0" depth=0 height=15 reset-view width=30> </a-box2>
                 <a-box2  id=m8 v-if='vr_type=="move"' material="color: white" position="-3 12 0" depth=0 height=14 reset-view width=30> </a-box2>
 			
-				<a-entity position="0 6 0"
+				<a-entity position="0 6 0"  position2="-1.5 4 0"
 						  geometry="primitive: plane; width: auto; height: auto" material="color: white"
-						  v-bind:text='"font: roboto; color: black; align: left; value: Go Share Data VR "  + vr_type + "; width: 2; "'
+						  v-bind:text='"font: roboto; color: black; align: left; value: Go Share Data VR :" + "" + "; width: 2; "'
 						  rotation='0 0 0'>
 				</a-entity>
 			
@@ -23,7 +23,7 @@
 						  rotation='0 0 0'>
 				</a-entity>
 
-				<a-entity v-for="(field_name,index)  in  list_of_fields"
+				<a-entity v-if='!can_show_full_doc()' v-for="(field_name,index)  in  list_of_fields"
 						  v-bind:position='(index + 1) + " 4.3 0"'
 						  geometry="primitive: plane; width: auto; height: auto" 
 						  material="color: white"
@@ -39,6 +39,32 @@
 							  
 						</a-entity>
 						  
+				</a-entity>
+
+				
+				
+
+				<a-entity v-if='can_show_full_doc()' geometry="primitive: plane; height: 5; width: 8;" material="color: white" position='-1 3 0' >
+				
+					<a-entity geometry="primitive: plane; height: .5; width: .5;" material="color: blue" position='-2.5 1 1' close-doc=''></a-entity>
+					
+					<a-entity v-for="(field_name,index)  in  list_of_fields"
+							  v-bind:position='(index - 2) + " 1 0"'
+							  geometry="primitive: plane; width: auto; height: auto" 
+							  material="color: white"
+							  v-bind:text='"font: aileronsemibold;color: black; align: left; value: " + field_name + "; width: 2; "'
+							  rotation='0 0 0'>
+							  
+
+							<a-entity v-for="(a_record,rindex)  in  list_of_records"
+									  v-bind:position='"0 " + (-.2 - (rindex * 0.2)) + " 0"'
+									  geometry="primitive: plane; width: auto; height: auto" material="color: white"
+									  v-bind:text='"font: sourcecodepro;color: black; align: left; value: " + truncate(a_record[field_name]) + "; width: 2; "'
+									  rotation='0 0 0'>
+								  
+							</a-entity>
+							  
+					</a-entity>
 				</a-entity>
 
 
@@ -125,6 +151,9 @@ name: 'VR-items'
 
 	},
 	methods: {
+    can_show_full_doc: function() {
+		return this.$store.state.show_full_doc;
+	},
 		get_x_position: function(index, total) {
 		var cols = (Math.ceil(Math.sqrt(total)));
 		return index % cols;

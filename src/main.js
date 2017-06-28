@@ -14,7 +14,7 @@ import db                       from '../public/dbhelper.js'
 Vue.component('FileBrowser',FileBrowser);
 
 
-const gun_ip_address = '172.18.0.100'
+const gun_ip_address = '10.6.78.31'
 
 window.vue = Vue;
 
@@ -235,12 +235,24 @@ function setupVRVuePane() {
 		   this.el.addEventListener('click', function (evt) {
 			    //alert(stringToLog);
 				get_query_result(stringToLog);
+				store.dispatch('show_full_doc');
 				//alert(stringToLog + ' was clicked at: ', evt.detail.intersection.point);
 				//alert(stringToLog + ' was clicked with: ' + document.getElementById("sqlinput"));
 			});
 		  }
 		});
 
+		AFRAME.registerComponent('close-doc', {
+		  init: function () {
+
+		   this.el.addEventListener('click', function (evt) {
+				store.dispatch('hide_full_doc');
+			});
+		  }
+		});
+		
+		
+		
 		AFRAME.registerComponent('reset-view', {
 		  schema: {type: 'string'},
 		  init: function () {
@@ -377,7 +389,7 @@ function setupGunDB() {
 
 
 
-        localStorage.clear();
+        //localStorage.clear();
 
         db.setGunDB(gun)
         db.setGunDBClass(Gun)

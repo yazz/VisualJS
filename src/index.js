@@ -381,20 +381,22 @@ var hostcount = 0;
 		hostcount++;
       console.log("Host: " + req.headers.host + ", " + hostcount);
       console.log("URL: " + req.originalUrl);
-      if (req.headers.host.toLowerCase() == 'canlabs.com') {
-        res.writeHead(301,
-            {Location: 'http://canlabs.com/canlabs'}
-          );
-          res.end();
-          return;
-      };
-      if (req.headers.host.toLowerCase() == 'gosharedata.com') {
-        res.writeHead(301,
-            {Location: 'http://gosharedata.com/gosharedata'}
-          );
-          res.end();
-          return;
-      };
+	  if (req.headers.host) {
+		  if (req.headers.host.toLowerCase() == 'canlabs.com') {
+			res.writeHead(301,
+				{Location: 'http://canlabs.com/canlabs'}
+			  );
+			  res.end();
+			  return;
+		  };
+		  if (req.headers.host.toLowerCase() == 'gosharedata.com') {
+			res.writeHead(301,
+				{Location: 'http://gosharedata.com/gosharedata'}
+			  );
+			  res.end();
+			  return;
+		  };
+	  };
 
       if (!init_drivers) {
         init_drivers = true;
@@ -650,8 +652,12 @@ app.listen(port, hostaddress, function () {
             },
             function(error, response, body) {
               console.log('Error: ' + error);
-              console.log('response: ' + JSON.stringify(response));
-                console.log(body);
+			  if (response.statusCode == '403') {
+					console.log('403 received, not allowed through firewall ');
+			  } else {
+					console.log('response: ' + JSON.stringify(response));
+					console.log(body);
+			  }
             });
 
 

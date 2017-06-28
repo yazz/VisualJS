@@ -235,6 +235,8 @@
 			excelQuery.header = 1;
 			if (parameters.maxRows) {
 				excelQuery.range = 'A1:Z' + parameters.maxRows;
+			} else {
+				excelQuery.range = 'A1:Z100';
 			}
 
             try {

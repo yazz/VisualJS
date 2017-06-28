@@ -12,6 +12,8 @@ export default new Vuex.Store({
     state: {
         add_connection_visible: false
         ,
+        show_full_doc: false
+        ,
         add_query_visible: false
         ,
         add_driver_visible: false
@@ -123,6 +125,12 @@ export default new Vuex.Store({
       },
       CLEAR_DRIVERS: function (state) {
         state.list_of_drivers = [];
+      },
+      SHOW_FULL_DOC: function (state) {
+        state.show_full_doc = true;
+      },
+      HIDE_FULL_DOC: function (state) {
+        state.show_full_doc = false;
       },
       HIDE_ADD_CONNECTION: function (state) {
         state.add_connection_visible = false
@@ -442,6 +450,15 @@ export default new Vuex.Store({
 
 
 
+    //
+    // hide add query
+    //
+    //
+    //
+    hide_full_doc: function(a){
+      a.commit('HIDE_FULL_DOC')
+    },
+
 
 
 
@@ -518,8 +535,19 @@ export default new Vuex.Store({
     //
     show_add_connection: function(a){
       a.commit('SHOW_ADD_CONNECTION')
-    }
+    },
 
+
+
+
+    //
+    // hide add query
+    //
+    //
+    //
+    show_full_doc: function(a){
+      a.commit('SHOW_FULL_DOC')
+    },
 
   }
 })
