@@ -242,9 +242,9 @@ function setupVRVuePane() {
 				var animation = document.createElement('a-animation');
 				animation.setAttribute('id', "animscroll");
 				animation.setAttribute('attribute', "rotation");
-				animation.setAttribute('to', "0 45 0");
-				animation.setAttribute('dur', "3000");
-				animation.setAttribute('repeat', "1");
+				animation.setAttribute('to', "10 0 20");
+				animation.setAttribute('dur', "100");
+				animation.setAttribute('repeat', "0");
 				animation.setAttribute('direction', "alternate");
 				document.querySelector("#open_doc").appendChild(animation);
 			});
@@ -276,13 +276,14 @@ function setupVRVuePane() {
 				var animation = document.createElement('a-animation');
 				animation.setAttribute('id', "animscroll");
 				animation.setAttribute('attribute', "rotation");
-				animation.setAttribute('to', "0 45 0");
-				animation.setAttribute('dur', "500");
-				animation.setAttribute('repeat', "1");
+				animation.setAttribute('to', "10 0 20");
+				animation.setAttribute('dur', "100");
+				animation.setAttribute('repeat', "0");
 				animation.setAttribute('direction', "alternate");
 				document.querySelector("#close_doc").appendChild(animation);
-
-				setTimeout(function(){store.dispatch('hide_full_doc');},600);
+			});
+		   this.el.addEventListener('click', function (evt) {
+				store.dispatch('hide_full_doc');
 			});
 		  }
 		});
