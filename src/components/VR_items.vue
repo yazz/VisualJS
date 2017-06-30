@@ -8,7 +8,7 @@
 						  rotation='0 0 0'>
 				</a-entity>
 			
-				<a-entity position="-1.5 4.7 0" id=vr_file_name
+				<a-entity position="-1.5 4.9 0" id=vr_file_name
 						  geometry="primitive: plane; width: auto; height: auto" material="color: white"
 						  text='font: roboto; color: black; align: left; value: ; width: 4; '
 						  rotation='0 0 0'>
@@ -37,14 +37,14 @@
 
 				<a-entity v-if='can_show_full_doc()' geometry="primitive: plane; height: 5; width: 8;" material="color: white" position='0 2.5 0' >
 				
-					<a-entity id=close_doc	geometry="primitive: circle; radius: .25" material="color: red" position='-2.5 1.2 1' closedoc=''>
+					<a-entity geometry="primitive: circle; radius: .25" material="color: red" position='-2.5 1.3 1' closedoc=''>
 						<a-entity 	position=".9 0 0"
 									text="font: aileronsemibold; color: white; align: left; value: Close; width: 2; height: 1; opacity: 1;">
 						</a-entity>
 					</a-entity>
 
-					<a-entity 	id=open_doc geometry="primitive: circle; radius: .25" material="color: green" position='0 1.2 1' 
-								v-bind:open_query_in_native_app='"" + get_viewed_query_id() ' >
+					<a-entity  geometry="primitive: circle; radius: .25" material="color: green" position='0 1.3 1' 
+								v-bind:openquerynativeapp='"" + get_viewed_query_id() ' >
 						<a-entity 	position=".9 0 0"
 									text="font: aileronsemibold; color: white; align: left; value: Open; width: 2; height: 1; opacity: 1;">
 						</a-entity>

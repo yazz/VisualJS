@@ -227,9 +227,10 @@ function setupVRVuePane() {
 
 
 	
-		AFRAME.registerComponent('open_query_in_native_app', {
+		AFRAME.registerComponent('openquerynativeapp', {
 		  schema: {type: 'string'},
 		  init: function () {
+			    var self = this;
 			var stringToLog = this.data;
 		   this.el.addEventListener('click', function (evt) {
 //alert('open: ' + stringToLog);
@@ -240,13 +241,13 @@ function setupVRVuePane() {
 			});
 		   this.el.addEventListener('mouseenter', function (evt) {
 				var animation = document.createElement('a-animation');
-				animation.setAttribute('id', "animscroll");
+				animation.setAttribute('id', "animscrollclick");
 				animation.setAttribute('attribute', "rotation");
 				animation.setAttribute('to', "10 0 20");
 				animation.setAttribute('dur', "100");
 				animation.setAttribute('repeat', "0");
 				animation.setAttribute('direction', "alternate");
-				document.querySelector("#open_doc").appendChild(animation);
+				self.el.appendChild(animation);
 			});
 		  }
 		});
@@ -269,18 +270,19 @@ function setupVRVuePane() {
 
 		AFRAME.registerComponent('closedoc', {
 		  init: function () {
+			    var self = this;
 
 		   this.el.addEventListener('mouseenter', function (evt) {
 				
 				
 				var animation = document.createElement('a-animation');
-				animation.setAttribute('id', "animscroll");
+				animation.setAttribute('id', "animscrollclose");
 				animation.setAttribute('attribute', "rotation");
 				animation.setAttribute('to', "10 0 20");
 				animation.setAttribute('dur', "100");
 				animation.setAttribute('repeat', "0");
 				animation.setAttribute('direction', "alternate");
-				document.querySelector("#close_doc").appendChild(animation);
+				self.el.appendChild(animation);
 			});
 		   this.el.addEventListener('click', function (evt) {
 				store.dispatch('hide_full_doc');
