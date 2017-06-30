@@ -8,6 +8,7 @@
 						  rotation='0 0 0'>
 				</a-entity>
 			
+			
 				<a-entity position="-1.5 4.9 0" id=vr_file_name
 						  geometry="primitive: plane; width: auto; height: auto" material="color: white"
 						  text='font: roboto; color: black; align: left; value: ; width: 4; '
@@ -23,7 +24,7 @@
 						  
 
 						<a-entity v-for="(a_record,rindex)  in  list_of_records"
-								  v-bind:position='"0 " + (-.2 - (rindex * 0.2)) + " 0"'
+								  v-bind:position='"0 " + (-.2 - (rindex * 0.2)) + " 0.1"'
 								  geometry="primitive: plane; width: 2; height: 0.2" material="color: white"
 								  v-bind:text='"font: sourcecodepro;color: black; align: left; value: " + truncate(a_record[field_name]) + "; width: 2; opacity: 1;"'
 								  rotation='0 0 0'>
@@ -37,18 +38,31 @@
 
 				<a-entity v-if='can_show_full_doc()' geometry="primitive: plane; height: 5; width: 8;" material="color: white" position='0 2.5 0' >
 				
-					<a-entity geometry="primitive: circle; radius: .25" material="color: red" position='-2.5 1.3 1' closedoc=''>
+					<a-entity v-if='get_vr_type_mouse' geometry="primitive: circle; radius: .25" material="color: red" position='-3 .4 1.1' closedoc=''>
 						<a-entity 	position=".9 0 0"
 									text="font: aileronsemibold; color: white; align: left; value: Close; width: 2; height: 1; opacity: 1;">
 						</a-entity>
 					</a-entity>
-
-					<a-entity  geometry="primitive: circle; radius: .25" material="color: green" position='0 1.3 1' 
+					<a-entity  v-if='get_vr_type_mouse' geometry="primitive: circle; radius: .25" material="color: green" position='-3 -.3 1.1' 
 								v-bind:openquerynativeapp='"" + get_viewed_query_id() ' >
 						<a-entity 	position=".9 0 0"
 									text="font: aileronsemibold; color: white; align: left; value: Open; width: 2; height: 1; opacity: 1;">
 						</a-entity>
 					</a-entity>
+					
+					
+					<a-entity v-if='get_vr_type_move' geometry="primitive: circle; radius: .4" material="color: red" position='-4 .4 1.1' closedoc='' rotation='0 40 0'>
+						<a-entity 	position=".9 0 0"
+									text="font: aileronsemibold; color: white; align: left; value: Close; width: 2; height: 1; opacity: 1;">
+						</a-entity>
+					</a-entity>
+					<a-entity  v-if='get_vr_type_move' geometry="primitive: circle; radius: .4" material="color: green" position='-4 -.5 1.1' rotation='0 40 0' 
+								v-bind:openquerynativeapp='"" + get_viewed_query_id() ' >
+						<a-entity 	position=".9 0 0"
+									text="font: aileronsemibold; color: white; align: left; value: Open; width: 2; height: 1; opacity: 1;">
+						</a-entity>
+					</a-entity>
+					
 					
 					<a-entity v-for="(field_name,index)  in  list_of_fields"
 							  v-bind:position='(index - 2) + " 1 0"'
@@ -89,7 +103,7 @@
 								  v-bind:preview='"id: " + a_driver.id + ";"'
 					   mixin='gsd'  v-bind:color="(index % 2 == 0)?'blue':'green'" v-bind:log='"" + a_driver.id' >
 							 <a-animation begin="mouseenter" attribute="rotation" 
-											to="0 0 -90" dur="1000" direction="alternate"  repeat="1"></a-animation>
+											to="0 0 90" dur="1000" direction="alternate"  repeat="0"></a-animation>
 						</a-entity>
 			   </a-entity>
 </a-entity >
@@ -130,6 +144,15 @@ name: 'VR-items'
 		} else {
 		return [];
 	};
+    },
+    get_vr_type: function () {
+      return this.vr_type;
+    },
+    get_vr_type_mouse: function () {
+      return this.vr_type == 'mouse';
+    },
+    get_vr_type_move: function () {
+      return this.vr_type == 'move';
     },
     list_of_queries: function () {
       return this.$store.getters.list_of_queries

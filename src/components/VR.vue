@@ -25,15 +25,12 @@
 			
 			
             <a-entity v-if='vr_type=="move"' position="0 0 0" material="color: white" >
-                <a-entity camera look-controls material="color: white" id=movevr>
-									<a-entity 	position="0 0 -20"   rotation='0 0 0'
-										cursor="maxDistance: 1000; fuse: true">
-									</a-entity>
+                <a-entity camera='near: 0.005;' look-controls material="color: white" id=movevr>
 
                 <a-entity   material="color: white;" >
 									<a-entity 	position="0 0 -3"
 										geometry="primitive: ring; radiusOuter: 0.030; radiusInner: 0.006; color:white;"
-										material="color: red; shader: flat"
+										material="color: black; shader: flat"
 										cursor="maxDistance: 1000; fuse: true"
 										>
 									</a-entity>
@@ -47,15 +44,15 @@
 				
 			<a-entity 	v-if='vr_type=="move"' id=vr_objects rotation='-50 0 0' 
 						position='1.5 -4 0'>
-			  <VR-items></VR-items>
+			  <VR-items v-bind:vr_type='get_vr_type'></VR-items>
 			 </a-entity >
 
 
 				
 			<a-entity 	v-if='vr_type=="mouse"' 
-						id=vr_objects
+						id='vr_objects'
 						position='1.5 -1 0'>
-			  <VR-items></VR-items>
+				<VR-items v-bind:vr_type='get_vr_type'></VR-items>
 			 </a-entity >
 
 
@@ -69,7 +66,7 @@
 
 
 <script>
-import output_table             from './output_table.vue'
+import output_table         from './output_table.vue'
 import VR_items             from './VR_items.vue'
 
 
@@ -88,6 +85,9 @@ name: 'VR'
     },
     list_of_connections: function () {
       return this.$store.getters.list_of_connections
+    },
+    get_vr_type: function () {
+      return this.vr_type
     },
     list_of_drivers: function () {
       return this.$store.getters.list_of_drivers

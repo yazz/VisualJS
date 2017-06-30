@@ -228,28 +228,32 @@ function setupVRVuePane() {
 
 	
 		AFRAME.registerComponent('openquerynativeapp', {
-		  schema: {type: 'string'},
-		  init: function () {
-			    var self = this;
-			var stringToLog = this.data;
-		   this.el.addEventListener('click', function (evt) {
-//alert('open: ' + stringToLog);
-			    //alert(stringToLog);
-				open_query_in_native_app(stringToLog);
-				//alert(stringToLog + ' was clicked at: ', evt.detail.intersection.point);
-				//alert(stringToLog + ' was clicked with: ' + document.getElementById("sqlinput"));
-			});
-		   this.el.addEventListener('mouseenter', function (evt) {
-				var animation = document.createElement('a-animation');
-				animation.setAttribute('id', "animscrollclick");
-				animation.setAttribute('attribute', "rotation");
-				animation.setAttribute('to', "10 0 20");
-				animation.setAttribute('dur', "100");
-				animation.setAttribute('repeat', "0");
-				animation.setAttribute('direction', "alternate");
-				self.el.appendChild(animation);
-			});
-		  }
+			schema: {type: 'string'},
+			init: function () {
+				var self = this;
+				var stringToLog = this.data;
+				this.el.addEventListener('click', function (evt) {
+					//alert('open: ' + stringToLog);
+					//alert(stringToLog);
+					open_query_in_native_app(stringToLog);
+					//alert(stringToLog + ' was clicked at: ', evt.detail.intersection.point);
+					//alert(stringToLog + ' was clicked with: ' + document.getElementById("sqlinput"));
+				});
+				this.el.addEventListener('mouseenter', function (evt) {
+					var node = document.getElementById("animopenclick");
+					if (node) {
+					  node.parentNode.removeChild(node);
+					};
+					var animation = document.createElement('a-animation');
+					animation.setAttribute('id', "animopenclick");
+					animation.setAttribute('attribute', "rotation");
+					animation.setAttribute('to', "10 0 20");
+					animation.setAttribute('dur', "100");
+					animation.setAttribute('repeat', "0");
+					animation.setAttribute('direction', "alternate");
+					self.el.appendChild(animation);
+				});
+			}
 		});
 	
 		AFRAME.registerComponent('log', {
@@ -270,23 +274,25 @@ function setupVRVuePane() {
 
 		AFRAME.registerComponent('closedoc', {
 		  init: function () {
-			    var self = this;
+			   var self = this;
 
-		   this.el.addEventListener('mouseenter', function (evt) {
-				
-				
-				var animation = document.createElement('a-animation');
-				animation.setAttribute('id', "animscrollclose");
-				animation.setAttribute('attribute', "rotation");
-				animation.setAttribute('to', "10 0 20");
-				animation.setAttribute('dur', "100");
-				animation.setAttribute('repeat', "0");
-				animation.setAttribute('direction', "alternate");
-				self.el.appendChild(animation);
-			});
-		   this.el.addEventListener('click', function (evt) {
-				store.dispatch('hide_full_doc');
-			});
+			   this.el.addEventListener('mouseenter', function (evt) {
+					var node = document.getElementById("animscrollclose");
+					if (node) {
+					  node.parentNode.removeChild(node);
+					};
+					var animation = document.createElement('a-animation');
+					animation.setAttribute('id', "animscrollclose");
+					animation.setAttribute('attribute', "rotation");
+					animation.setAttribute('to', "10 0 20");
+					animation.setAttribute('dur', "100");
+					animation.setAttribute('repeat', "0");
+					animation.setAttribute('direction', "alternate");
+					self.el.appendChild(animation);
+				});
+			   this.el.addEventListener('click', function (evt) {
+					store.dispatch('hide_full_doc');
+				});
 		  }
 		});
 		
