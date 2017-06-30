@@ -1,10 +1,6 @@
 <template>
 			  <a-entity position='0 0 0' >
 				
-                <a-box  id=m1 v-if='vr_type=="mouse" && (!can_show_full_doc())'  material="color: white" position="-13 0 0" depth=0 reset-view height=10 width=20> </a-box>
-                <a-box  id=m2 v-if='vr_type=="mouse" && (!can_show_full_doc())' material="color: white" position="13 0 0" depth=0 reset-view height=10 width=20> </a-box>
-                <a-box  id=m3 v-if='vr_type=="mouse" && (!can_show_full_doc())' material="color: white" position="-3 -8 0" height=15 depth=0 reset-view width=30> </a-box>
-                <a-box  id=m4 v-if='vr_type=="mouse" && (!can_show_full_doc())' material="color: white" position="-3 12 0" height=14 depth=0 reset-view width=30> </a-box>
 			
 				<a-entity position="0 6 0"  position2="-1.5 4 0"
 						  geometry="primitive: plane; width: auto; height: auto" material="color: white"
@@ -41,7 +37,7 @@
 
 				<a-entity v-if='can_show_full_doc()' geometry="primitive: plane; height: 5; width: 8;" material="color: white" position='0 2.5 0' >
 				
-					<a-entity id=close_doc	geometry="primitive: circle; radius: .25" material="color: red" position='-2.5 1.2 1' close-doc=''>
+					<a-entity id=close_doc	geometry="primitive: circle; radius: .25" material="color: red" position='-2.5 1.2 1' closedoc=''>
 						<a-entity 	position=".9 0 0"
 									text="font: aileronsemibold; color: white; align: left; value: Close; width: 2; height: 1; opacity: 1;">
 						</a-entity>
@@ -103,11 +99,11 @@
 			   
 			   
 			   
-			   <a-sphere src='https://upload.wikimedia.org/wikibooks/en/thumb/0/06/Web2.0.jpg/400px-Web2.0.jpg' radius=4 
+			   <a-sphere radius=4 
 						position='-100 0 0'></a-sphere>
-			   <a-sphere src='https://upload.wikimedia.org/wikibooks/en/thumb/0/06/Web2.0.jpg/400px-Web2.0.jpg' radius=4
+			   <a-sphere radius=4
 						position='100 0 0'></a-sphere>
-			   <a-sphere src='https://upload.wikimedia.org/wikibooks/en/thumb/0/06/Web2.0.jpg/400px-Web2.0.jpg' radius=4
+			   <a-sphere  radius=4
 						position='0 100 0'></a-sphere>
 			   <a-sphere color=blue radius=4 position='0 -100 0'></a-sphere>
 			   <a-sphere color=red radius=4 position='0 0 100'></a-sphere>
