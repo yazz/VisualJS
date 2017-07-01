@@ -48,7 +48,7 @@ var mysql      = require('mysql');
 	 return false;
  }
 
- 
+
   function isCsvFile(fname) {
 	 if (!fname) {
 		return false;
@@ -59,8 +59,8 @@ var mysql      = require('mysql');
 	 return false;
  }
 
- 
- 
+
+
 
  var walk = function(dir, done) {
    if (stopScan) {
@@ -110,7 +110,7 @@ var mysql      = require('mysql');
   										excelFile
   								  ]
   							);
-							
+
   							dbhelper.sql(`insert into
   									  queries
   									  (
@@ -132,7 +132,7 @@ var mysql      = require('mysql');
 									  'excel',
 									  '|SPREADSHEET|',
 									  JSON.stringify({} , null, 2),
-									  JSON.stringify([] , null, 2)
+                    JSON.stringify([{message: 'No preview available'}] , null, 2)
   								  ]
   							);
 						}
@@ -154,7 +154,7 @@ var mysql      = require('mysql');
   										  driver
   										  ,
   										  fileName
-										  
+
   									  )
   								  values
   									  (? , ? , ? , ?)`
@@ -169,7 +169,7 @@ var mysql      = require('mysql');
   										CSVFile
   								  ]
   							);
-							
+
   							dbhelper.sql(`insert into
   									  queries
   									  (
@@ -191,7 +191,7 @@ var mysql      = require('mysql');
 									  'csv',
 									  '|CSV|',
 									  JSON.stringify({} , null, 2),
-									  JSON.stringify([] , null, 2)
+                    JSON.stringify([{message: 'No preview available'}] , null, 2)
   								  ]
   							);
 						}
@@ -330,7 +330,7 @@ function startServices() {
 
     })
 
-	
+
   dbhelper.realtimeSql("select * from queries where deleted != 'T'"
     ,function(results) {
         for (var i = 0 ; i < results.length ; i ++) {
@@ -344,10 +344,10 @@ function startServices() {
 							var oout = [{a: 'no EXCEL'}];
 							try {
 								console.log('*************************************************************************');
-								console.log('     query.id : ' + query.id); 
-								console.log('     query.connection : ' + query.connection); 
-								console.log('     query.driver : ' + query.driver); 
-								console.log('     query.definition : ' + query.definition); 
+								console.log('     query.id : ' + query.id);
+								console.log('     query.connection : ' + query.connection);
+								console.log('     query.driver : ' + query.driver);
+								console.log('     query.definition : ' + query.definition);
 								var restrictRows = JSON.parse(query.definition);
 								restrictRows.maxRows = 10;
 									drivers[query.driver]['get_v2'](connections[query.connection],restrictRows,
@@ -362,7 +362,7 @@ function startServices() {
 											);
 									});
 							} catch (err) {
-								
+
 						}
 
 				//}
@@ -371,8 +371,8 @@ function startServices() {
 
     })
 
-	
-	
+
+
 var hostcount = 0;
   //------------------------------------------------------------------------------
   // Show the default page
@@ -444,7 +444,7 @@ app.get('/stopscanharddisk', function (req, res) {
 
 
 app.post('/open_query_in_native_app', function (req, res) {
-						
+
 	console.log('in open_query_in_native_app');
     var queryData = req.body;
     console.log('queryData.source: ' + queryData.source);
@@ -460,10 +460,10 @@ app.post('/open_query_in_native_app', function (req, res) {
 		   res.writeHead(200, {'Content-Type': 'text/plain'});
 			res.end(JSON.stringify(ordata));
 	}
-	
+
 	catch(err) {
 		res.writeHead(200, {'Content-Type': 'text/plain'});
-		
+
 		res.end(JSON.stringify({error: 'Error: ' + JSON.stringify(err)}));
 	};
 })
@@ -491,7 +491,7 @@ app.post('/getresult', function (req, res) {
 					}
 					catch(err) {
 						res.writeHead(200, {'Content-Type': 'text/plain'});
-						
+
 						res.end(JSON.stringify({error: 'Error: ' + JSON.stringify(err)}));
 					};
 				} else {
@@ -511,7 +511,7 @@ app.post('/getqueryresult', function (req, res) {
     //console.log('request received source: ' + Object.keys(req));
     //console.log('request received SQL: ' + queryData.sql);
 	var query = queries[queryData2.source];
-	
+
 	console.log('           query: ' + JSON.stringify(query));
 	if (query) {
 		var queryData 			= new Object();
@@ -520,8 +520,8 @@ app.post('/getqueryresult', function (req, res) {
 
     	console.log('   query.definition.sql: ' + JSON.stringify(query.definition.sql));
     	console.log('           ***queryData: ' + JSON.stringify(queryData));
-		
-	
+
+
 		var error = new Object();
 		if (queryData) {
 			if (connections[queryData.source]) {
@@ -536,7 +536,7 @@ app.post('/getqueryresult', function (req, res) {
 						}
 						catch(err) {
 							res.writeHead(200, {'Content-Type': 'text/plain'});
-							
+
 							res.end(JSON.stringify({error: 'Error: ' + JSON.stringify(err)}));
 						};
 					} else {
@@ -551,7 +551,7 @@ app.post('/getqueryresult', function (req, res) {
 		console.log('query not found: ' + queryData2.source);
 		res.writeHead(200, {'Content-Type': 'text/plain'});
 		res.end(JSON.stringify({error: 'query ' + queryData2.source + ' not found'}));
-		
+
 	};
 })
 
@@ -606,7 +606,7 @@ app.get('/get_connect', function (req, res) {
 // This is where the client sends its details to the central server
 //------------------------------------------------------------------------------
 app.get('/client_connect', function (req, res) {
-	try 
+	try
 	{
 		var queryData = url.parse(req.url, true).query;
 
@@ -662,7 +662,7 @@ app.listen(port, hostaddress, function () {
 
 
 
-  
+
 
     if (typeOfSystem == 'client') {
         var urlToConnectTo = "http://" + centralHostAddress + ":" + centralHostPort + '/client_connect';
@@ -702,7 +702,7 @@ app.listen(port, hostaddress, function () {
     var pgeval = '(' + fs.readFileSync(path.join(__dirname, './csv.js')).toString() + ')';
     drivers['csv'] = eval( pgeval )
     addOrUpdateDriver('csv', pgeval, drivers['csv'])
-	
+
 
     var pgeval = '(' + fs.readFileSync(path.join(__dirname, './excel.js')).toString() + ')';
     drivers['excel'] = eval( pgeval )
@@ -742,10 +742,10 @@ app.listen(port, hostaddress, function () {
     //dbhelper.sql("select * from drivers ")
 
 
-	
-	
-	
-	
+
+
+
+
 
 
 
@@ -901,9 +901,3 @@ var driveStart =
 			  });
 			});
 	  };
-
-	  
-	  
-	  
-	  
-	  
