@@ -53,14 +53,14 @@
 					</a-entity>
 
 
-					<a-entity v-if='get_vr_type_move' geometry="primitive: box; width:.5;height: 0.5;depth: 0.5;" material="color: red"
-					position='-4 .4 .7' closedoc='' rotation='0 40 0'>
+					<a-entity v-if='get_vr_type_move' geometry="primitive: box; width:.6;height: 0.6;depth: 0.6;" material="color: red"
+					position='-5 .4 .7' closedoc='' rotation='0 40 0'>
 					</a-entity>
 					<a-entity v-if='get_vr_type_move' 	position="-1.8 .4 1.5" rotation='0 40 0'
 								text="font: aileronsemibold; color: black; align: left; value: Close; width: 2; height: 1; opacity: 1;">
 					</a-entity>
-					<a-entity  v-if='get_vr_type_move' geometry="primitive: box; width:.5;height: 0.5;depth: 0.5;" material="color: green"
-					position='-4 -.5 0.7' rotation='0 40 0'
+					<a-entity  v-if='get_vr_type_move' geometry="primitive: box; width:.6;height: 0.6;depth: 0.6;" material="color: green"
+					position='-5 -.5 0.7' rotation='0 40 0'
 								v-bind:openquerynativeapp='"" + get_viewed_query_id() ' >
 					</a-entity>
 					<a-entity v-if='get_vr_type_move' 	position="-1.8 -.4 1.5" rotation='0 40 0'
