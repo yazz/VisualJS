@@ -14,7 +14,7 @@ import db                       from '../public/dbhelper.js'
 Vue.component('FileBrowser',FileBrowser);
 
 
-const gun_ip_address = '172.18.0.103'
+const gun_ip_address = '192.168.2.160'
 
 window.vue = Vue;
 
@@ -77,7 +77,7 @@ function setupSqlVuePane() {
 							}
         });
     }
-	
+
 
     if (document.getElementById('select_query_source')) {
         new Vue({
@@ -100,7 +100,7 @@ function setupSqlVuePane() {
           }
         });
     }
-	
+
 }
 
 
@@ -141,7 +141,7 @@ function setupVRVuePane() {
           ,
           components: {'VR': VR}
         });
-		
+
 		AFRAME.registerComponent('preview', {
 		    schema: {	id: {type: 'string', default: ''}}
 			,
@@ -177,7 +177,7 @@ function setupVRVuePane() {
 			   inMove = true;
 				var posX = 0;
 				var posY = 0;
-				
+
 				//alert('x: ' + self.data.x + ', useX: ' + useX);
 				//alert('y: ' + self.data.y + ', useY: ' + useY);
 				if (self.data.x < 1) {
@@ -185,10 +185,10 @@ function setupVRVuePane() {
 				} else if (self.data.x > useX) {
 					useX = useX + 1;
 				} else if (self.data.x < useX) {
-					useX = useX - 1;					
+					useX = useX - 1;
 				};
 				posX = -(useX * 0.5);
-				
+
 				if (self.data.y < 1) {
 					useY = 0;
 				} else if (self.data.y > useY) {
@@ -199,14 +199,14 @@ function setupVRVuePane() {
 				posY = (useY * 0.6);
 
 				var newpos = posX + ' ' + posY + ' 0';
-				
-				
+
+
 				var node = document.getElementById("animscroll");
 				if (node) {
 				  node.parentNode.removeChild(node);
 				};
 
-				
+
 				//alert(newpos);
 				//document.querySelector("#scrollable_grid").setAttribute('position', {x: self.data.x, y: self.data.y, z: 0 });
 				var animation = document.createElement('a-animation');
@@ -218,15 +218,15 @@ function setupVRVuePane() {
 				inMove = false;
 
 				document.querySelector('#vr_file_name').setAttribute('text','font: roboto; color: black; align: left; value: ' + self.data.query_name + ' ; width: 4; ');
-					
-					
-				
+
+
+
 			});
 		  }
 		});
 
 
-	
+
 		AFRAME.registerComponent('openquerynativeapp', {
 			schema: {type: 'string'},
 			init: function () {
@@ -239,7 +239,7 @@ function setupVRVuePane() {
 					//alert(stringToLog + ' was clicked at: ', evt.detail.intersection.point);
 					//alert(stringToLog + ' was clicked with: ' + document.getElementById("sqlinput"));
 				});
-				this.el.addEventListener('mouseenter', function (evt) {
+        this.el.addEventListener('mouseenter', function (evt) {
 					var node = document.getElementById("animopenclick");
 					if (node) {
 					  node.parentNode.removeChild(node);
@@ -247,15 +247,29 @@ function setupVRVuePane() {
 					var animation = document.createElement('a-animation');
 					animation.setAttribute('id', "animopenclick");
 					animation.setAttribute('attribute', "rotation");
-					animation.setAttribute('to', "10 0 20");
-					animation.setAttribute('dur', "100");
+					animation.setAttribute('to', "00 0 90");
+					animation.setAttribute('dur', "500");
+					animation.setAttribute('repeat', "0");
+					animation.setAttribute('direction', "alternate");
+					self.el.appendChild(animation);
+				});
+        this.el.addEventListener('mouseleave', function (evt) {
+					var node = document.getElementById("animopenclick");
+					if (node) {
+					  node.parentNode.removeChild(node);
+					};
+					var animation = document.createElement('a-animation');
+					animation.setAttribute('id', "animopenclick");
+					animation.setAttribute('attribute', "rotation");
+					animation.setAttribute('to', "00 0 0");
+					animation.setAttribute('dur', "500");
 					animation.setAttribute('repeat', "0");
 					animation.setAttribute('direction', "alternate");
 					self.el.appendChild(animation);
 				});
 			}
 		});
-	
+
 		AFRAME.registerComponent('log', {
 		  schema: {type: 'string'},
 		  init: function () {
@@ -276,7 +290,7 @@ function setupVRVuePane() {
 		  init: function () {
 			   var self = this;
 
-			   this.el.addEventListener('mouseenter', function (evt) {
+         this.el.addEventListener('mouseenter', function (evt) {
 					var node = document.getElementById("animscrollclose");
 					if (node) {
 					  node.parentNode.removeChild(node);
@@ -284,18 +298,32 @@ function setupVRVuePane() {
 					var animation = document.createElement('a-animation');
 					animation.setAttribute('id', "animscrollclose");
 					animation.setAttribute('attribute', "rotation");
-					animation.setAttribute('to', "10 0 20");
-					animation.setAttribute('dur', "100");
+					animation.setAttribute('to', "0 0 90");
+					animation.setAttribute('dur', "500");
 					animation.setAttribute('repeat', "0");
 					animation.setAttribute('direction', "alternate");
 					self.el.appendChild(animation);
 				});
+        this.el.addEventListener('mouseleave', function (evt) {
+         var node = document.getElementById("animscrollclose");
+         if (node) {
+           node.parentNode.removeChild(node);
+         };
+         var animation = document.createElement('a-animation');
+         animation.setAttribute('id', "animscrollclose");
+         animation.setAttribute('attribute', "rotation");
+         animation.setAttribute('to', "0 0 0");
+         animation.setAttribute('dur', "500");
+         animation.setAttribute('repeat', "0");
+         animation.setAttribute('direction', "alternate");
+         self.el.appendChild(animation);
+       });
 			   this.el.addEventListener('click', function (evt) {
 					store.dispatch('hide_full_doc');
 				});
 		  }
 		});
-		
+
     }
 }
 
@@ -417,7 +445,7 @@ function setupGunDB() {
            }
         );
 
-		
+
         realtimeSql("SELECT * FROM db_connections where deleted != 'T'"
           ,function(results) {
               //alert('SELECT * FROM db_connections')
@@ -492,7 +520,7 @@ function setupGunDB() {
 					 {
 						 Vue.component( driver.name + '-view-connection' , evalede.vue );
 					 };
-					 
+
 					 if (evalede.vue_add) {
 						Vue.component(driver.name + '-add-connection', evalede.vue_add);
 					 };
@@ -786,7 +814,7 @@ $( document ).ready(function() {
       function(record) {
           console.log('record:' + JSON.stringify(record) )
       })*/
-	  
+
 });
 
 
