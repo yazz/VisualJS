@@ -56,15 +56,15 @@
 					<a-entity v-if='get_vr_type_move' geometry="primitive: box; width:.6;height: 0.6;depth: 0.6;" material="color: red"
 					position='-5 .4 .7' closedoc='' rotation='0 40 0'>
 					</a-entity>
-					<a-entity v-if='get_vr_type_move' 	position="-1.8 .4 1.5" rotation='0 40 0'
-								text="font: aileronsemibold; color: black; align: left; value: Close; width: 2; height: 1; opacity: 1;">
+					<a-entity v-if='get_vr_type_move' 	position="-5 .4 -1" rotation='0 40 0'
+								text="font: aileronsemibold; color: red; align: middle; value: Close; width: 8; height: 2; opacity: 1;">
 					</a-entity>
 					<a-entity  v-if='get_vr_type_move' geometry="primitive: box; width:.6;height: 0.6;depth: 0.6;" material="color: green"
 					position='-5 -.5 0.7' rotation='0 40 0'
 								v-bind:openquerynativeapp='"" + get_viewed_query_id() ' >
 					</a-entity>
-					<a-entity v-if='get_vr_type_move' 	position="-1.8 -.4 1.5" rotation='0 40 0'
-								text="font: aileronsemibold; color: black; align: left; value: Open; width: 2; height: 1; opacity: 1;">
+					<a-entity v-if='get_vr_type_move' 	position="-5 -.5 -1" rotation='0 40 0'
+								text="font: aileronsemibold; color: green; align: left; value: Open; width: 8; height: 1; opacity: 1;">
 					</a-entity>
 
 
@@ -101,7 +101,7 @@
 				   v-bind:color="(index % 2 == 0)?'blue':'green'"
 
 				   v-bind:text="'color: black; align: left; value: ' + a_driver.id.substr(a_driver.id.length - 10) + ' ; width: 2; '">
-					   <a-entity  position="-0.8 .3 0" geometry="primitive: box; width:.4;height: 0.4;depth: 0.4;"
+					   <a-entity  position="-0.8 .3 -.3" geometry="primitive: box; width:.3.5;height: 0.35;depth: 0.35;"
 							      v-bind:griditem='"x: " + get_x_position(index,list_of_queries.length) + "; y:" + get_y_position(index,list_of_queries.length) + ";" +
 								  "query_name: " +a_driver.id'
 								  v-bind:preview='"id: " + a_driver.id + ";"'
