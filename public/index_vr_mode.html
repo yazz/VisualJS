@@ -49,7 +49,7 @@ setTimeout(function(){
 	//document.getElementById('vr_scene')['embedded']='embedded';
 	document.querySelector('#vr_objects').setAttribute('position',{x: 1.5,y: -4,z: -4});
 	document.querySelector('#vr_objects').setAttribute('rotation',{x: 0,y: 0,z: 0});
-		
+
 	//document.querySelector('#vr_objects').setAttribute('position',{x: 0,y: 0,z: 0});
 	//document.querySelector('#vr_objects').setAttribute('rotation',{x: 0,y: 0,z: 0});
 
@@ -117,7 +117,8 @@ setTimeout(function(){
 		    setOutputData(eval('(' + data + ')'));
 			},
         error: function(jqXHR, textStatus, errorThrown) {
-          alert('error ' + textStatus + " " + errorThrown);
+          //alert('error ' + textStatus + " " + errorThrown);
+          console.log('error ' + textStatus + " " + errorThrown);
         }
       });
     };
@@ -137,6 +138,7 @@ setTimeout(function(){
 			},
         error: function(jqXHR, textStatus, errorThrown) {
           //alert('error ' + textStatus + " " + errorThrown);
+          console.log('error ' + textStatus + " " + errorThrown);
         }
       });
     };
@@ -146,7 +148,3 @@ setTimeout(function(){
     <script type="text/javascript" src="dist/build.js?1501"></script>
 </body>
 </html>
-
-
-
-

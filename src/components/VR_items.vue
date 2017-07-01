@@ -38,31 +38,32 @@
 
 				<a-entity v-if='can_show_full_doc()' geometry="primitive: plane; height: 5; width: 8;" material="color: white" position='0 2.5 0' >
 
-					<a-entity v-if='get_vr_type_mouse' geometry="primitive: box; width:.5;height: 0.5;depth: 0.1;" material="color: red"
-					position='-3 .4 1.1' closedoc=''>
-						<a-entity 	position="1 0 0.2"
-									text="font: aileronsemibold; color: white; align: left; value: Close; width: 2; height: 1; opacity: 1;">
-						</a-entity>
+					<a-entity geometry="primitive: box; width:.5;height: 0.5;depth: 0.1;" material="color: red"
+					v-if='get_vr_type_mouse'  position='-3 .4 1.1' closedoc=''>
+							<a-entity 	position="1 0 0.07"
+										text="font: aileronsemibold; color: white; align: left; value: Close; width: 2; height: 1; opacity: 1;">
+							</a-entity>
 					</a-entity>
 					<a-entity  v-if='get_vr_type_mouse' geometry="primitive: box; width:.5;height: 0.5;depth: 0.1;" material="color: green"
 					position='-3 -.3 1.1'
 								v-bind:openquerynativeapp='"" + get_viewed_query_id() ' >
-						<a-entity 	position="1 0 0.2"
+						<a-entity 	position="1 0 0.07"
 									text="font: aileronsemibold; color: white; align: left; value: Open; width: 2; height: 1; opacity: 1;">
 						</a-entity>
 					</a-entity>
 
 
-					<a-entity v-if='get_vr_type_move' geometry="primitive: circle; radius: .4" material="color: red" position='-4 .4 1.1' closedoc='' rotation='0 40 0'>
-						<a-entity 	position=".9 0 0"
-									text="font: aileronsemibold; color: white; align: left; value: Close; width: 2; height: 1; opacity: 1;">
-						</a-entity>
+					<a-entity v-if='get_vr_type_move' geometry="primitive: box; width:.5;height: 0.5;depth: 0.5;" material="color: red"
+					position='-4 .4 1.1' closedoc='' rotation='0 40 0'>
 					</a-entity>
-					<a-entity  v-if='get_vr_type_move' geometry="primitive: circle; radius: .4" material="color: green" position='-4 -.5 1.1' rotation='0 40 0'
+					<a-entity v-if='get_vr_type_move' 	position="-1.8 .4 1.5" rotation='0 40 0'
+								text="font: aileronsemibold; color: black; align: left; value: Close; width: 2; height: 1; opacity: 1;">
+					</a-entity>
+					<a-entity  v-if='get_vr_type_move' geometry="primitive: box; width:.5;height: 0.5;depth: 0.5;" material="color: green" position='-4 -.5 1.1' rotation='0 40 0'
 								v-bind:openquerynativeapp='"" + get_viewed_query_id() ' >
-						<a-entity 	position=".9 0 0"
-									text="font: aileronsemibold; color: white; align: left; value: Open; width: 2; height: 1; opacity: 1;">
-						</a-entity>
+					</a-entity>
+					<a-entity v-if='get_vr_type_move' 	position="-1.8 -.4 1.5" rotation='0 40 0'
+								text="font: aileronsemibold; color: black; align: left; value: Open; width: 2; height: 1; opacity: 1;">
 					</a-entity>
 
 
