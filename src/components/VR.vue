@@ -1,8 +1,8 @@
 <template>
 	<div style='position: absolute; height: 20%; width: 20%;'>
 
-	
-        <a-scene  	platform='all' id='vr_scene' renderer="clearColor: #222" 
+
+        <a-scene  	platform='all' id='vr_scene' renderer="clearColor: #222"
 					v-bind:vr-mode-ui='"enabled: " + (vr_type=="move")'>
 			<a-assets>
 				<a-mixin id="cube" geometry="primitive: box"></a-mixin>
@@ -19,11 +19,10 @@
 			<a-entity v-if='vr_type=="mouse"' position="0 2 3">
 				<a-entity camera mouse-cursor>
 				</a-entity>
-			</a-entity>	
+			</a-entity>
 
-			
-			
-			
+
+
             <a-entity v-if='vr_type=="move"' position="0 0 0" material="color: white" >
                 <a-entity camera='near: 0.005;' look-controls material="color: white" id=movevr>
 
@@ -41,15 +40,15 @@
 					</a-entity>
 			</a-entity>
 
-				
-			<a-entity 	v-if='vr_type=="move"' id=vr_objects rotation='-50 0 0' 
+
+			<a-entity 	v-if='vr_type=="move"' id=vr_objects rotation='-50 0 0'
 						position='1.5 -4 0'>
 			  <VR-items v-bind:vr_type='get_vr_type'></VR-items>
 			 </a-entity >
 
 
-				
-			<a-entity 	v-if='vr_type=="mouse"' 
+
+			<a-entity 	v-if='vr_type=="mouse"'
 						id='vr_objects'
 						position='1.5 -1 0'>
 				<VR-items v-bind:vr_type='get_vr_type'></VR-items>
@@ -103,7 +102,7 @@ name: 'VR'
 	    list_of_fields: function () {
       return this.$store.state.list_of_output_fields
     }
-	
+
 
 
 	},

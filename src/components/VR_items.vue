@@ -24,7 +24,7 @@
 
 
 						<a-entity v-for="(a_record,rindex)  in  list_of_records"
-								  v-bind:position='"0 " + (-.2 - (rindex * 0.2)) + " 0.1"'
+								  v-bind:position='"-0.7 " + (-.2 - (rindex * 0.2)) + " 0.6"'
 								  geometry="primitive: plane; width: 2; height: 0.2" material="color: white"
 								  v-bind:text='"font: sourcecodepro;color: black; align: left; value: " + truncate(a_record[field_name]) + "; width: 2; opacity: 1;"'
 								  rotation='0 0 0'>
@@ -36,7 +36,7 @@
 
 
 
-				<a-entity v-if='can_show_full_doc()' geometry="primitive: plane; height: 5; width: 8;" material="color: white" position='0 2.5 0' >
+				<a-entity v-if='can_show_full_doc()' geometry="primitive: plane; height: 5; width: 8;" material="color: white" position='0 2.5 0.5' >
 
 					<a-entity geometry="primitive: box; width:.5;height: 0.5;depth: 0.1;" material="color: red"
 					v-if='get_vr_type_mouse'  position='-3 .4 1.1' closedoc=''>
@@ -89,10 +89,10 @@
 
 
 
-<a-box  v-if='!can_show_full_doc()'  material="color: white" position="-2 -7.5 0" height=19 depth=0  width=26> </a-box>
-<a-box  v-if='!can_show_full_doc()'  material="color: white" position="-2 9.4 0" height=10 depth=0 width=25> </a-box>
-<a-box  v-if='!can_show_full_doc()'  material="color: white" position="11.7 3 0" depth=0  height=3 width=25> </a-box>
-<a-box  v-if='!can_show_full_doc()'  material="color: white" position="-8.2 2.5 0" depth=0  height=4 width=11> </a-box>
+<a-box  v-if='!can_show_full_doc()'  material="color: white" position="-2 -7.5 .5" height=19 depth=0  width=26> </a-box>
+<a-box  v-if='!can_show_full_doc()'  material="color: white" position="-2 9.4 .5" height=10 depth=0 width=25> </a-box>
+<a-box  v-if='!can_show_full_doc()'  material="color: white" position="11.7 3 .5" depth=0  height=3 width=25> </a-box>
+<a-box  v-if='!can_show_full_doc()'  material="color: white" position="-8.2 2.5 .5" depth=0  height=4 width=11> </a-box>
 
 <a-entity id=scrollable_grid>
 
@@ -101,13 +101,13 @@
 				   v-bind:color="(index % 2 == 0)?'blue':'green'"
 
 				   v-bind:text="'color: black; align: left; value: ' + a_driver.id.substr(a_driver.id.length - 10) + ' ; width: 2; '">
-					   <a-entity  position="-0.8 .3 0" geometry='width: .3; height: .3; depth: 0.1;'
+					   <a-entity  position="-0.8 .3 0" geometry="primitive: box; width:.4;height: 0.4;depth: 0.4;"
 							      v-bind:griditem='"x: " + get_x_position(index,list_of_queries.length) + "; y:" + get_y_position(index,list_of_queries.length) + ";" +
 								  "query_name: " +a_driver.id'
 								  v-bind:preview='"id: " + a_driver.id + ";"'
 					   mixin='gsd'  v-bind:color="(index % 2 == 0)?'blue':'green'" v-bind:log='"" + a_driver.id' >
 							 <a-animation begin="mouseenter" attribute="rotation"
-											to="0 0 90" dur="1000" direction="alternate"  repeat="0"></a-animation>
+											to="90 90 90" dur="1000" direction="alternate"  repeat="0"></a-animation>
 						</a-entity>
 			   </a-entity>
 </a-entity >
