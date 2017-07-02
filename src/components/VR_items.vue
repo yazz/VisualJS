@@ -1,5 +1,5 @@
 <template>
-			  <a-entity position='0 0 0' >
+			  <a-entity position='1 0 0' >
 
 
 				<a-entity position="0 6 0"
@@ -15,7 +15,7 @@
 						  rotation='0 0 0'>
 				</a-entity>
 
-				<a-entity v-if='!can_show_full_doc()' v-for="(field_name,index)  in  list_of_fields"
+				<a-entity v-if='can_show_full_doc()' v-for="(field_name,index)  in  list_of_fields"
 						  v-bind:position='(index + 1) + " 4.3 .1"'
 						  geometry="primitive: plane; width: auto; height: auto"
 						  material="color: white"
@@ -105,7 +105,8 @@
 							      v-bind:griditem='"x: " + get_x_position(index,list_of_queries.length) + "; y:" + get_y_position(index,list_of_queries.length) + ";" +
 								  "query_name: " +a_driver.id'
 								  v-bind:preview='"id: " + a_driver.id + ";"'
-					   mixin='gsd'  v-bind:color="(index % 2 == 0)?'blue':'green'" v-bind:log='"" + a_driver.id' >
+					   mixin='gsd'  v-bind:color="(index % 2 == 0)?'blue':'green'"
+						 v-bind:log='"x: " + get_x_position(index,list_of_queries.length) + "; y:" + get_y_position(index,list_of_queries.length) + ";queryId: "  + a_driver.id + ";"' >
 							 <a-animation begin="mouseenter" attribute="rotation"
 											to="90 90 90" dur="1000" direction="alternate"  repeat="0"></a-animation>
 						</a-entity>
