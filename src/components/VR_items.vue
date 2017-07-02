@@ -2,16 +2,16 @@
 			  <a-entity position='0 0 0' >
 
 
-				<a-entity position="0 6 0"  position2="-1.5 4 0"
+				<a-entity position="0 6 0"
 						  geometry="primitive: plane; width: auto; height: auto" material="color: white"
 						  v-bind:text='"font: roboto; color: black; align: left; value: Go Share Data VR :" + "" + "; width: 2; "'
 						  rotation='0 0 0'>
 				</a-entity>
 
 
-				<a-entity position="-1.5 4.9 0" id=vr_file_name
+				<a-entity position="-1.4 4.7 .6" id=vr_file_name
 						  geometry="primitive: plane; width: auto; height: auto" material="color: white"
-						  text='font: roboto; color: black; align: left; value: ; width: 4; '
+						  text='font: roboto; color: black; align: left; value: ; width: 4;  '
 						  rotation='0 0 0'>
 				</a-entity>
 
@@ -89,15 +89,15 @@
 
 
 
-<a-box  v-if='!can_show_full_doc()'  material="color: white" position="-2 -7.5 .5" height=19 depth=0  width=26> </a-box>
-<a-box  v-if='!can_show_full_doc()'  material="color: white" position="-2 9.4 .5" height=10 depth=0 width=25> </a-box>
-<a-box  v-if='!can_show_full_doc()'  material="color: white" position="11.7 3 .5" depth=0  height=3 width=25> </a-box>
-<a-box  v-if='!can_show_full_doc()'  material="color: white" position="-8.2 2.5 .5" depth=0  height=4 width=11> </a-box>
+<a-box  v-if='!can_show_full_doc()'  material="color: white" position="-2 -7.6 .5" height=19 depth=0  width=135> </a-box>
+<a-box  v-if='!can_show_full_doc()'  material="color: white" position="-2 19.5 .5" height=30 depth=0 width=135> </a-box>
+<a-box  v-if='!can_show_full_doc()'  material="color: white" position="31.7 3.2 .5" depth=0  height=2.6 width=67> </a-box>
+<a-box  v-if='!can_show_full_doc()'  material="color: white" position="-37 3.2 .5" depth=0  height=2.6 width=67> </a-box>
 
 <a-entity id=scrollable_grid>
 
 				<a-entity  v-for="(a_driver,index)  in  list_of_queries"
-				   v-bind:position="(-0.9 + (get_x_position(index,list_of_queries.length)*0.5))+ ' ' + (3 - (get_y_position(index,list_of_queries.length)*0.6)) + ' -.1'"
+				   v-bind:position="(-2.2 + (get_x_position(index,list_of_queries.length)*0.5))+ ' ' + (3 - (get_y_position(index,list_of_queries.length)*0.6)) + ' -.1'"
 				   v-bind:color="(index % 2 == 0)?'blue':'green'"
 
 				   v-bind:text="'color: black; align: left; value: ' + a_driver.id.substr(a_driver.id.length - 10) + ' ; width: 2; '">
@@ -117,14 +117,7 @@
 
 
 
-			   <a-sphere radius=4
-						position='-100 0 0'></a-sphere>
-			   <a-sphere radius=4
-						position='100 0 0'></a-sphere>
-			   <a-sphere  radius=4
-						position='0 100 0'></a-sphere>
-			   <a-sphere color=blue radius=4 position='0 -100 0'></a-sphere>
-			   <a-sphere color=red radius=4 position='0 0 100'></a-sphere>
+
 			</a-entity>
 </template>
 
@@ -144,7 +137,13 @@ name: 'VR-items'
   computed: {
     list_of_records: function () {
 	if (this.$store.state.list_of_output_records) {
-		return this.$store.state.list_of_output_records;
+		var newl=new Object();
+		for (var i=0; i<10;i++){
+			if (this.$store.state.list_of_output_records[i]){
+			     newl[i]=this.$store.state.list_of_output_records[i];
+				 };
+		}
+		return newl;
 		} else {
 		return [];
 	};

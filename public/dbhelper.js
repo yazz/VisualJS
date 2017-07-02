@@ -698,7 +698,7 @@ var sqlQueueItem = null;
 
           }
 
-      }, 90)
+      }, 500)
 
 
 
