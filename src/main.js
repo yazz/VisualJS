@@ -270,6 +270,54 @@ function setupVRVuePane() {
 			}
 		});
 
+
+
+
+    		AFRAME.registerComponent('goto', {
+    		  schema: {name:    {type: 'string'}
+                 },
+    		  init: function () {
+            var self = this;
+
+    		   this.el.addEventListener('click', function (evt) {
+             var goto_name = self.data.name;
+             //alert(goto_name);
+
+              var worldPos = new THREE.Vector3();
+              var goto_item = document.querySelector("#" + goto_name);
+              worldPos.setFromMatrixPosition(goto_item.object3D.matrixWorld);
+            var node = document.getElementById("itemzoom");
+            if (node) {
+              node.parentNode.removeChild(node);
+            };
+            var animation = document.createElement('a-animation');
+            animation.setAttribute('id', "itemzoom");
+            animation.setAttribute('attribute', "position");
+            //animation.setAttribute('to', '' + (-2.2 + (x * 0.5)) + ' ' + (3 - (y * 0.6)) +  '-.1');
+            //animation.setAttribute('to', '0.6 0 -2.5');
+
+
+            animation.setAttribute('dur', "5000");
+            animation.setAttribute('repeat', "0");
+            animation.setAttribute('direction', "alternate");
+    //        self.el.appendChild(animation);
+            if (document.querySelector("#camera_id")){
+                animation.setAttribute('to', '' + (worldPos.x)  + ' ' + ((worldPos.y-2)) + ' ' + ((worldPos.z + 2.5)));
+                document.querySelector("#camera_id").appendChild(animation);
+            }
+            if (document.querySelector("#movevr")){
+                animation.setAttribute('to', '' + (worldPos.x+2)  + ' ' + ((worldPos.y )-4) + ' ' + ((worldPos.z + .5)));
+                document.querySelector("#movevr").appendChild(animation);
+            }
+    			});
+    		  }
+    		});
+
+
+
+
+
+
 		AFRAME.registerComponent('log', {
 		  schema: {x:  {type: 'number', default: 0},
 					     y: {type: 'number', default: 0},
@@ -321,11 +369,6 @@ function setupVRVuePane() {
             animation.setAttribute('to', '' + (worldPos.x+2)  + ' ' + ((worldPos.y )-4) + ' ' + ((worldPos.z + .5)));
             document.querySelector("#movevr").appendChild(animation);
         }
-
-
-
-
-
 			});
 		  }
 		});

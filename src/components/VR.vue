@@ -38,18 +38,7 @@
 		</a-entity>
 
 
-			<a-entity 	v-if='vr_type=="move"' id=vr_objects
-						position='-0.0 .7 -4'>
-			  <VR-items v-bind:vr_type='get_vr_type'></VR-items>
-			 </a-entity >
-
-
-
-			<a-entity 	v-if='vr_type=="mouse"'
-						id='vr_objects'
-						position='1.5 -1 0'>
-				<VR-items v-bind:vr_type='get_vr_type'></VR-items>
-			 </a-entity >
+ <VR-Home v-bind:vr_type='get_vr_type'></VR-Home>
 
 
 		   <a-sky color="white"></a-sky>
@@ -64,6 +53,7 @@
 <script>
 import output_table         from './output_table.vue'
 import VR_items             from './VR_items.vue'
+import VR_Home             from './VR_Home.vue'
 
 
 export default {
@@ -119,7 +109,8 @@ name: 'VR'
 	},
   components: {
   'output-table': output_table,
-  'VR-items': VR_items
+	'VR-Home': VR_Home,
+	'VR-items': VR_items
   }
 
 
