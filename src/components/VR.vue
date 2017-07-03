@@ -18,27 +18,25 @@
 
 
 
-			<a-entity v-if='vr_type=="mouse"' position="0 2 3">
-				<a-entity camera mouse-cursor id='camera_id'>
-				</a-entity>
+			<a-entity v-if='vr_type=="mouse"' id='camera_id'  position="0 0 0"  camera  mouse-cursor >
 			</a-entity>
 
 
 
-		<a-entity v-if='vr_type=="move"' position="-2 4 0" material="color: white" >
+    		<a-entity v-if='vr_type=="move"' position="0 0 0" material="color: white" >
 				<a-entity camera='near: 0.005;' look-controls material="color: white" id='movevr'>
 						<a-entity material='color: white;' >
 								<a-entity 	position="0 0 -3"
 														geometry="primitive: ring; radiusOuter: 0.030; radiusInner: 0.006; color:white;"
 														material="color: black; shader: flat"
-														cursor="maxDistance: 1000; fuse: true">
+														cursor="maxDistance: 1000; fuse: true;">
 								</a-entity>
 						</a-entity>
 				</a-entity>
-		</a-entity>
+	    	</a-entity>
 
 
- <VR-Home v-bind:vr_type='get_vr_type'></VR-Home>
+			<VR-Home v-bind:vr_type='get_vr_type'></VR-Home>
 
 
 		   <a-sky color="white"></a-sky>

@@ -14,7 +14,7 @@ import db                       from '../public/dbhelper.js'
 Vue.component('FileBrowser',FileBrowser);
 
 
-const gun_ip_address = '192.168.2.160'
+const gun_ip_address = '10.6.88.27'
 
 window.vue = Vue;
 
@@ -274,13 +274,16 @@ function setupVRVuePane() {
 
 
     		AFRAME.registerComponent('goto', {
-    		  schema: {name:    {type: 'string'}
+    		  schema: {
+				  name:     {type: 'string', default: 'vr_home'},
+				  distance: {type: 'number', default: 5}
                  },
     		  init: function () {
             var self = this;
 
     		   this.el.addEventListener('click', function (evt) {
              var goto_name = self.data.name;
+             var distance = self.data.distance;
              //alert(goto_name);
 
               var worldPos = new THREE.Vector3();
@@ -297,16 +300,16 @@ function setupVRVuePane() {
             //animation.setAttribute('to', '0.6 0 -2.5');
 
 
-            animation.setAttribute('dur', "5000");
+            animation.setAttribute('dur', "1000");
             animation.setAttribute('repeat', "0");
             animation.setAttribute('direction', "alternate");
     //        self.el.appendChild(animation);
             if (document.querySelector("#camera_id")){
-                animation.setAttribute('to', '' + (worldPos.x)  + ' ' + ((worldPos.y-2)) + ' ' + ((worldPos.z + 2.5)));
+                animation.setAttribute('to', '' + (worldPos.x)  + ' ' + (worldPos.y) + ' ' + ((worldPos.z + distance)));
                 document.querySelector("#camera_id").appendChild(animation);
             }
             if (document.querySelector("#movevr")){
-                animation.setAttribute('to', '' + (worldPos.x+2)  + ' ' + ((worldPos.y )-4) + ' ' + ((worldPos.z + .5)));
+                animation.setAttribute('to', '' + (worldPos.x)  + ' ' + (worldPos.y ) + ' ' + ((worldPos.z + distance)));
                 document.querySelector("#movevr").appendChild(animation);
             }
     			});
@@ -339,8 +342,7 @@ function setupVRVuePane() {
          //alert('*: ' +self.data.queryId);
 			    //alert(stringToLog);
 
-				//get_query_result(self.data.queryId);
-				//store.dispatch('show_full_doc');
+				get_query_result(self.data.queryId);
 				store.dispatch('set_viewed_query_id', self.data.queryId);
 
 				//alert(stringToLog + ' was clicked at: ', evt.detail.intersection.point);
@@ -357,16 +359,19 @@ function setupVRVuePane() {
         //animation.setAttribute('to', '0.6 0 -2.5');
 
 
-        animation.setAttribute('dur', "5000");
+        animation.setAttribute('dur', "3000");
         animation.setAttribute('repeat', "0");
         animation.setAttribute('direction', "alternate");
+		animation.addEventListener('animationend', function () {
+				store.dispatch('show_full_doc');
+		});
 //        self.el.appendChild(animation);
         if (document.querySelector("#camera_id")){
-            animation.setAttribute('to', '' + (worldPos.x)  + ' ' + ((worldPos.y-2)) + ' ' + ((worldPos.z - 2.5)));
+            animation.setAttribute('to', '' + (worldPos.x)  + ' ' + ((worldPos.y)) + ' ' + ((worldPos.z + 4)));
             document.querySelector("#camera_id").appendChild(animation);
         }
         if (document.querySelector("#movevr")){
-            animation.setAttribute('to', '' + (worldPos.x+2)  + ' ' + ((worldPos.y )-4) + ' ' + ((worldPos.z + .5)));
+            animation.setAttribute('to', '' + (worldPos.x)  + ' ' + (worldPos.y ) + ' ' + ((worldPos.z + 4)));
             document.querySelector("#movevr").appendChild(animation);
         }
 			});

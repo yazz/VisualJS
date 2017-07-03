@@ -1,8 +1,8 @@
 <template>
-			  <a-entity position='1 0 -10' id='vr_home'>
+			  <a-entity position='0 0 -5' id='vr_home' >
 
 					<a-entity 	v-if='vr_type=="move"' id=vr_objects
-								position='-0.0 .7 -4'>
+								position='7 -6 0'>
 					  <VR-items v-bind:vr_type='get_vr_type'></VR-items>
 					 </a-entity >
 
@@ -10,7 +10,7 @@
 
 					<a-entity 	v-if='vr_type=="mouse"'
 								id='vr_objects'
-								position='1.5 -1 0'>
+								position='7 -6 0'>
 						<VR-items v-bind:vr_type='get_vr_type'></VR-items>
 					 </a-entity >
 
@@ -18,38 +18,40 @@
 
 
 
+					 <a-entity position="1.4 -2.1 2">
 
-					 <a-entity position="0 3 10"
-		 						geometry="primitive: plane; width: 1.9; height: 1.9;" material="color: green"
-		 						v-bind:text='"font: roboto; color: white; align: center; value: Items ; width: 2; "'
-		 						rotation='0 0 0' goto='name: scrollable_grid;'>
+						 <a-entity position="0 3 0"
+									geometry="primitive: plane; width: 1.9; height: 1.9;" material="color: green"
+									v-bind:text='"font: roboto; color: white; align: center; value: My data ; width: 6; "'
+									rotation='0 0 0' goto='name: scrollable_grid; distance: 7;'>
+									<a-animation begin="mouseenter" attribute="rotation"
+												to="0 0 1" dur="100" direction="alternate"  repeat="3"></a-animation>
+													</a-entity>
+
+						<a-entity position="0 1 0"
+								 geometry="primitive: plane; width: 1.9; height: 1.9;" material="color: yellow"
+								 v-bind:text='"font: roboto; color: black; align: center; value:  ; width: 2; "'
+								 rotation='0 0 0' >
 								<a-animation begin="mouseenter" attribute="rotation"
- 											to="0 0 9" dur="40" direction="alternate"  repeat="3"></a-animation>
-									 			</a-entity>
+												to="0 0 1" dur="100" direction="alternate"  repeat="3"></a-animation>
+						</a-entity>
 
-					<a-entity position="0 1 10"
-							 geometry="primitive: plane; width: 1.9; height: 1.9;" material="color: yellow"
-							 v-bind:text='"font: roboto; color: black; align: center; value: Items ; width: 2; "'
-							 rotation='0 0 0' goto='name: red;'>
-														<a-animation begin="mouseenter" attribute="rotation"
-							  											to="0 0 9" dur="40" direction="alternate"  repeat="3"></a-animation>
-				 </a-entity>
+						 <a-entity position="-2 3 0"
+									geometry="primitive: plane; width: 1.9; height: 1.9;" material="color: red"
+									v-bind:text='"font: roboto; color: white; align: center; value:  ; width: 2; "'
+									rotation='0 0 0' id='red_home'>
+									<a-animation begin="mouseenter" attribute="rotation"
+														to="0 0 1" dur="100" direction="alternate"  repeat="3"></a-animation>
+						</a-entity>
 
-				 <a-entity position="-2 3 10"
-							geometry="primitive: plane; width: 1.9; height: 1.9;" material="color: red"
-							v-bind:text='"font: roboto; color: white; align: center; value: Items ; width: 2; "'
-							rotation='0 0 0' id='red'>
-							<a-animation begin="mouseenter" attribute="rotation"
-												to="0 0 9" dur="40" direction="alternate"  repeat="3"></a-animation>
-				</a-entity>
-
-				<a-entity position="-2 1 10"
-						 geometry="primitive: plane; width: 1.9; height: 1.9;" material="color: blue"
-						 v-bind:text='"font: roboto; color: white; align: center; value: Items ; width: 2; "'
-						 rotation='0 0 0'>
-						 <a-animation begin="mouseenter" attribute="rotation"
-											 to="0 0 9" dur="40" direction="alternate"  repeat="3"></a-animation>
-			 </a-entity>
+						<a-entity position="-2 1 0"
+								 geometry="primitive: plane; width: 1.9; height: 1.9;" material="color: blue"
+								 v-bind:text='"font: roboto; color: white; align: center; value:  ; width: 2; "'
+								 rotation='0 0 0'>
+								 <a-animation begin="mouseenter" attribute="rotation"
+													 to="0 0 1" dur="100" direction="alternate"  repeat="3"></a-animation>
+						</a-entity>
+					</a-entity>
 
 			</a-entity>
 
