@@ -35,10 +35,30 @@
 	.box {
       display:block;
       position:relative;
-      top:45%;
+      top:15%;
       left:10%;
-	  font-size: 2em;
     }
+	@media screen and (max-device-width : 320px)
+	{
+	  body 
+	  {
+		font-size:1em;
+	  }
+	}
+	@media screen and (max-device-width : 1204px)
+	{
+	  body 
+	  {
+		font-size:2em;
+	  }
+	}
+	@media screen and (max-device-width : 5000px)
+	{
+	  body 
+	  {
+		font-size:3em;
+	  }
+	}
 	</style>
 
 </head>
