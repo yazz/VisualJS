@@ -36,7 +36,7 @@
 
 
 
-				<a-entity v-if='can_show_full_doc()' geometry="primitive: plane; height: 5; width: 8;" material="color: white" position='0 2.5 0.5' >
+				<a-entity v-if='can_show_full_doc()' geometry="primitive: plane; height: 5; width: 8;" material="color: white" position='0 2.5 -2.5' >
 
 					<a-entity geometry="primitive: box; width:.5;height: 0.5;depth: 0.1;" material="color: red"
 					v-if='get_vr_type_mouse'  position='-3.5 .4 1.1' closedoc=''>
@@ -68,7 +68,7 @@
 					</a-entity>
 
 
-					<a-entity v-for="(field_name,index)  in  list_of_fields"
+					<a-entity v-if='!can_show_full_doc()' v-for="(field_name,index)  in  list_of_fields"
 							  v-bind:position='(index - 2) + " 1 0"'
 							  geometry="primitive: plane; width: auto; height: auto"
 							  material="color: white"
