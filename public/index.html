@@ -18,25 +18,29 @@
 		background-color: lightgrey;
       }
 	.flex-container {
-		display: -webkit-flex;
-		display: flex;
-		width: 100%;
-		height: 100%;
 	}
 
 	.flex-item {
-		width: 33%;
-		height: 50%;
+		width: 25%;
+		top: 0;
 		margin-left: 15px;
 		margin-right: 15px;
 		margin-top: 25px;
 		margin-bottom: 25px;
+        position:relative;
+		display: inline-block;
+		box-shadow: 10px 10px 5px #888888;
+	}
+	.flex-item:after {
+		content: '';
+		display: inline-block;
+		padding-bottom: 100%;
 	}
 	.box {
-      display:block;
-      position:relative;
+      display:inline-block;
+      position:absolute;
       top:35%;
-      left:0%;
+      left:35%;
 	  text-align: center;
     }
 	@media only screen and (min-width : 320px)
@@ -46,6 +50,14 @@
 		font-size:1em;
 	  }
 	}
+	
+	@-ms-keyframes wiggle{0%{-ms-transform:rotate(3deg);}50%{-ms-transform:rotate(-3deg);}100%{-ms-transform:rotate(3deg);}}
+	@-moz-keyframes wiggle{0%{-moz-transform:rotate(3deg);}50%{-moz-transform:rotate(-3deg);}100%{-moz-transform:rotate(3deg);}}
+	@-webkit-keyframes wiggle{0%{-webkit-transform:rotate(3deg);}50%{-webkit-transform:rotate(-3deg);}100%{-webkit-transform:rotate(3deg);}}
+	@keyframes wiggle{0%{transform:rotate(3deg);}50%{transform:rotate(-3deg);}100%{transform:rotate(3deg);}}
+	div.wiggle-me:hover{-ms-animation:wiggle .3s 2;-moz-animation:wiggle .3s 2;-webkit-animation:wiggle .3s 2;animation:wiggle .3s 2;}
+
+	
 	@media only screen and (min-width : 1025)
 	{
 	  body 
@@ -70,14 +82,20 @@
 
 <body id=body style='margin:0px; padding: 0px;  border: 0px;  width: 100%;  height:100%;  left: 0px; ' >
 <div class="flex-container">
-    <div class="flex-item" style='background-color: blue; ' onclick="location.href='index_pc_mode.html';">
+
+	    <div style='color: white; text-align: center;'>
+		Go Share Data
+		</div>
+		
+		
+    <div class="flex-item wiggle-me" style='background-color: blue; ' onclick="location.href='index_pc_mode.html';">
 	    <div class="box" style='color: white; '>
 		    Start<br>
 			(PC/mac)
 	    </div>
     </div>
 	
-    <div class="flex-item" style='background-color: yellow;'  onclick="location.href='index_vr_mode.html?type=mouse';">
+    <div class="flex-item wiggle-me" style='background-color: yellow;'  onclick="location.href='index_vr_mode.html?type=mouse';">
   	    <div class="box" style='color: black; '>
 		    PC
 			<br>
@@ -85,7 +103,7 @@
 	    </div>
     </div>
 	
-    <div class="flex-item" style='background-color: green;'  onclick="location.href='index_vr_mode.html?type=move';">
+    <div class="flex-item wiggle-me" style='background-color: green;'  onclick="location.href='index_vr_mode.html?type=move';">
   	    <div class="box" style='color: white; '>
 		    Mobile/
 			<br>Headset
