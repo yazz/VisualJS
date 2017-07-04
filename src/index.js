@@ -223,6 +223,7 @@ path.join(__dirname, '../public/sql.js')
 path.join(__dirname, '../public/gosharedata_logo.PNG')
 path.join(__dirname, '../public/favicon.ico')
 path.join(__dirname, '../public/aframe.min.js')
+path.join(__dirname, '../public/index_pc_mode.html')
 path.join(__dirname, '../public/index_vr_mode.html')
 path.join(__dirname, '../public/aframe-mouse-cursor-component.min.js')
 
