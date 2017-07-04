@@ -89,10 +89,6 @@
 
 
 
-<a-box  v-if='!can_show_full_doc()' goto='name: vr_home;' material="color: white" position="-2 -7.6 .5" height=19 depth=0  width=135> </a-box>
-<a-box  v-if='!can_show_full_doc()' goto='name: vr_home;' material="color: white" position="-2 19.5 .5" height=30 depth=0 width=135> </a-box>
-<a-box  v-if='!can_show_full_doc()' goto='name: vr_home;' material="color: white" position="31.7 3.2 .5" depth=0  height=2.6 width=67> </a-box>
-<a-box  v-if='!can_show_full_doc()' goto='name: vr_home;' material="color: white" position="-37 3.2 .5" depth=0  height=2.6 width=67> </a-box>
 
 <a-entity id=scrollable_grid>
 

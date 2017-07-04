@@ -14,7 +14,7 @@ import db                       from '../public/dbhelper.js'
 Vue.component('FileBrowser',FileBrowser);
 
 
-const gun_ip_address = '10.6.88.27'
+const gun_ip_address = '172.20.10.3'
 
 window.vue = Vue;
 
@@ -296,11 +296,8 @@ function setupVRVuePane() {
             var animation = document.createElement('a-animation');
             animation.setAttribute('id', "itemzoom");
             animation.setAttribute('attribute', "position");
-            //animation.setAttribute('to', '' + (-2.2 + (x * 0.5)) + ' ' + (3 - (y * 0.6)) +  '-.1');
-            //animation.setAttribute('to', '0.6 0 -2.5');
 
-
-            animation.setAttribute('dur', "1000");
+            animation.setAttribute('dur', "2500");
             animation.setAttribute('repeat', "0");
             animation.setAttribute('direction', "alternate");
     //        self.el.appendChild(animation);
@@ -312,7 +309,21 @@ function setupVRVuePane() {
                 animation.setAttribute('to', '' + (worldPos.x)  + ' ' + (worldPos.y ) + ' ' + ((worldPos.z + distance)));
                 document.querySelector("#movevr").appendChild(animation);
             }
-    			});
+
+if (document.querySelector("#move_bar")) {
+            var animation2 = document.createElement('a-animation');
+            animation2.setAttribute('id', "itemzoom");
+            animation2.setAttribute('attribute', "position");
+
+            animation2.setAttribute('dur', "2500");
+            animation2.setAttribute('repeat', "0");
+            animation2.setAttribute('direction', "alternate");
+                animation2.setAttribute('to', '' + (worldPos.x)  + ' ' + (worldPos.y ) + ' ' + ((worldPos.z + distance)));
+	document.querySelector("#move_bar").appendChild(animation2);
+}
+
+
+			});
     		  }
     		});
 

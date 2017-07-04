@@ -18,7 +18,7 @@
 
 
 
-					 <a-entity position="1.4 -2.1 2">
+					 <a-entity position="1 -1.6 2">
 
 						 <a-entity position="0 3 0"
 									geometry="primitive: plane; width: 1.9; height: 1.9;" material="color: green"
