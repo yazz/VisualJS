@@ -20,7 +20,10 @@
 
 			<a-entity v-if='vr_type=="mouse"' id='camera_id'  position="0 0 0"  camera  mouse-cursor >
 				<a-box color=black width=10 height=.001 depth-.1 position='0 -1.3 -2' 
-				opacity='0.5'>
+				opacity='0.5' >
+					<a-sphere 	color=yellow radius=0.1 position='-.5 .6 1' opacity='1'
+								go_back > 
+					</a-sphere>
 					<a-sphere 	color=black radius=0.1 position='0 .6 1' opacity='1'
 								goto='name: vr_home;' > 
 					</a-sphere>
@@ -44,7 +47,10 @@
 
 			<a-entity v-if='vr_type=="move"' position='0 -3.6 -5' >
 				<a-box  id='move_bar' color=black width=20 height=1 depth-1 
-						opacity='0.5'>
+						opacity='0.5' >
+					<a-sphere 	color=yellow radius=0.3 position='-2 0.9 1' opacity='1'
+								go_back > 
+					</a-sphere>
 						<a-sphere 	color=black radius=0.4 position='0 .6 1' opacity='1'
 									goto='name: vr_home;' > 
 						</a-sphere>

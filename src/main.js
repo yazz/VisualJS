@@ -404,6 +404,16 @@ if (document.querySelector("#move_bar")) {
 		  }
 		});
 
+				AFRAME.registerComponent('go_back', {
+		  init: function () {
+			   var self = this;
+         this.el.addEventListener('click', function (evt) {
+window.history.go(-1);
+		 });
+				}});
+
+		
+		
 		AFRAME.registerComponent('closedoc', {
 		  init: function () {
 			   var self = this;
