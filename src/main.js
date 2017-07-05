@@ -297,7 +297,7 @@ function setupVRVuePane() {
             animation.setAttribute('id', "itemzoom");
             animation.setAttribute('attribute', "position");
 
-            animation.setAttribute('dur', "2500");
+            animation.setAttribute('dur', "5000");
             animation.setAttribute('repeat', "0");
             animation.setAttribute('direction', "alternate");
     //        self.el.appendChild(animation);
@@ -315,7 +315,7 @@ if (document.querySelector("#move_bar")) {
             animation2.setAttribute('id', "itemzoom");
             animation2.setAttribute('attribute', "position");
 
-            animation2.setAttribute('dur', "2500");
+            animation2.setAttribute('dur', "5000");
             animation2.setAttribute('repeat', "0");
             animation2.setAttribute('direction', "alternate");
                 animation2.setAttribute('to', '' + (worldPos.x)  + ' ' + (worldPos.y ) + ' ' + ((worldPos.z + distance)));
@@ -371,7 +371,7 @@ if (document.querySelector("#move_bar")) {
         //animation.setAttribute('to', '0.6 0 -2.5');
 
 
-        animation.setAttribute('dur', "3000");
+        animation.setAttribute('dur', "5000");
         animation.setAttribute('repeat', "0");
         animation.setAttribute('direction', "alternate");
 		animation.addEventListener('animationend', function () {
@@ -391,7 +391,7 @@ if (document.querySelector("#move_bar")) {
 	animation2.setAttribute('id', "itemzoom");
 	animation2.setAttribute('attribute', "position");
 
-	animation2.setAttribute('dur', "2500");
+	animation2.setAttribute('dur', "5000");
 	animation2.setAttribute('repeat', "0");
 	animation2.setAttribute('direction', "alternate");
 		animation2.setAttribute('to', '' + (worldPos.x)  + ' ' + (worldPos.y ) + ' ' + ((worldPos.z + 4)));
