@@ -345,9 +345,11 @@ if (document.querySelector("#move_bar")) {
 		   this.el.addEventListener('click', function (evt) {
          var x = self.data.x;
          var y = self.data.y;
+		 
+		 var doc_details = document.querySelector("#doc_details");
 
           var worldPos = new THREE.Vector3();
-          worldPos.setFromMatrixPosition(self.el.object3D.matrixWorld);
+          worldPos.setFromMatrixPosition(doc_details.object3D.matrixWorld);
           //alert(worldPos.x);
          //alert('x: ' +self.data.x);
          //alert('y: ' +self.data.y);
@@ -379,7 +381,7 @@ if (document.querySelector("#move_bar")) {
 		});
 //        self.el.appendChild(animation);
         if (document.querySelector("#camera_id")){
-            animation.setAttribute('to', '' + (worldPos.x)  + ' ' + ((worldPos.y)) + ' ' + ((worldPos.z + 4)));
+            animation.setAttribute('to', '' + (worldPos.x)  + ' ' + ((worldPos.y)) + ' ' + ((worldPos.z + 6)));
             document.querySelector("#camera_id").appendChild(animation);
         }
         if (document.querySelector("#movevr")){
@@ -436,7 +438,36 @@ if (document.querySelector("#move_bar")) {
        });
 			   this.el.addEventListener('click', function (evt) {
 					store.dispatch('hide_full_doc');
-				});
+				//
+				var scrollable_grid = document.querySelector("#scrollable_grid");
+
+          var worldPos = new THREE.Vector3();
+          worldPos.setFromMatrixPosition(scrollable_grid.object3D.matrixWorld);
+        var node = document.getElementById("itemback");
+        if (node) {
+          node.parentNode.removeChild(node);
+        };
+        var animation = document.createElement('a-animation');
+        animation.setAttribute('id', "itemback");
+        animation.setAttribute('attribute', "position");
+        animation.setAttribute('dur', "5000");
+        animation.setAttribute('repeat', "0");
+        animation.setAttribute('direction', "alternate");
+        if (document.querySelector("#camera_id")){
+            animation.setAttribute('to', '' + (worldPos.x)  + ' ' + ((worldPos.y)) + ' ' + ((worldPos.z + 4)));
+            document.querySelector("#camera_id").appendChild(animation);
+        }
+		        if (document.querySelector("#movevr")){
+            animation.setAttribute('to', '' + (worldPos.x)  + ' ' + (worldPos.y ) + ' ' + ((worldPos.z + 4)));
+            document.querySelector("#movevr").appendChild(animation);
+        }
+		
+		});
+				
+				
+				
+
+		
 		  }
 		});
 
