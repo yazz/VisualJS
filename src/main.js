@@ -141,6 +141,12 @@ function setupVRVuePane() {
           ,
           components: {'VR': VR}
         });
+		
+			var gotoFn = function(params) {
+			};
+		
+		
+
 
 		AFRAME.registerComponent('preview', {
 		    schema: {	id: {type: 'string', default: ''}}

@@ -118,14 +118,16 @@
 				<a-entity  v-for="(a_driver,index)  in  list_of_queries"
 				   v-bind:position="(-2.2 + (get_x_position(index,list_of_queries.length)*0.5))+ ' ' + (2 - (get_y_position(index,list_of_queries.length)*0.6)) + ' -.1'"
 				   v-bind:color="(index % 2 == 0)?'blue':'green'"
-
 				   v-bind:text="'color: black; align: left; value: ' + a_driver.id.substr(a_driver.id.length - 10) + ' ; width: 2; '">
-					   <a-entity  position="-0.8 .3 -.3" geometry="primitive: box; width:.3.5;height: 0.35;depth: 0.35;"
-							      v-bind:griditem='"x: " + get_x_position(index,list_of_queries.length) + "; y:" + get_y_position(index,list_of_queries.length) + ";" +
+					   <a-entity    position="-0.8 .3 -.3" 
+									geometry="primitive: box; width:.35;height: 0.35;depth: 0.35;"
+							        v-bind:griditem='"x: " + get_x_position(index,list_of_queries.length) + "; y:" + get_y_position(index,list_of_queries.length) + ";" +
 								  "query_name: " +a_driver.id'
 								  v-bind:preview='"id: " + a_driver.id + ";"'
-					   mixin='gsd'  v-bind:color="(index % 2 == 0)?'blue':'green'"
-						 v-bind:log='"x: " + get_x_position(index,list_of_queries.length) + "; y:" + get_y_position(index,list_of_queries.length) + ";queryId: "  + a_driver.id + ";"' >
+								mixin='gsd'  
+								v-bind:material='"src: driver_icons/" + a_driver.driver + ".jpg;"'
+								v-bind:color="(index % 2 == 0)?'blue':'green'"
+								v-bind:log='"x: " + get_x_position(index,list_of_queries.length) + "; y:" + get_y_position(index,list_of_queries.length) + ";queryId: "  + a_driver.id + ";"' >
 							 <a-animation begin="mouseenter" attribute="rotation"
 											to="90 90 90" dur="1000" direction="alternate"  repeat="0"></a-animation>
 						</a-entity>
