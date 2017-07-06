@@ -14,7 +14,7 @@ import db                       from '../public/dbhelper.js'
 Vue.component('FileBrowser',FileBrowser);
 
 
-const gun_ip_address = '172.18.0.103'
+const gun_ip_address = '10.6.88.27'
 
 window.vue = Vue;
 
@@ -148,6 +148,9 @@ function setupVRVuePane() {
 		    init: function () {
 			    var self = this;
 		        this.el.addEventListener('mouseenter', function (evt) {
+				   if (inMove) {
+					   return;
+				   };
 			        var lll = store.state.list_of_queries.length;
 				    for (var i = 0 ; i < lll ; i ++) {
 						var query = store.state.list_of_queries[i];
@@ -214,7 +217,7 @@ function setupVRVuePane() {
 				animation.setAttribute('attribute', "position");
 				animation.setAttribute('to', newpos);
 				animation.setAttribute('dur', "2000");
-				document.querySelector("#scrollable_grid").appendChild(animation);
+				//document.querySelector("#scrollable_grid").appendChild(animation);
 				inMove = false;
 
 				document.querySelector('#vr_file_name').setAttribute('text','font: roboto; color: black; align: left; value: ' + self.data.query_name + ' ; width: 4; ');
@@ -343,6 +346,10 @@ if (document.querySelector("#move_bar")) {
 
 			var stringToLog = this.data;
 		   this.el.addEventListener('click', function (evt) {
+			   if (inMove) {
+				   return;
+			   };
+			   inMove = true;
          var x = self.data.x;
          var y = self.data.y;
 		 
@@ -378,6 +385,7 @@ if (document.querySelector("#move_bar")) {
         animation.setAttribute('direction', "alternate");
 		animation.addEventListener('animationend', function () {
 				store.dispatch('show_full_doc');
+			   inMove = false;
 		});
 //        self.el.appendChild(animation);
         if (document.querySelector("#camera_id")){

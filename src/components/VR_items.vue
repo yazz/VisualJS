@@ -1,16 +1,24 @@
 <template>
-			  <a-entity position='5 -5 -15' id='vr_items'>
+			  <a-entity position='5 -5 -17' id='vr_items'>
 
 			  
-					 <a-entity  position="6 0 -7"
-								geometry="primitive: plane; width: 4.9; height: 4.9;" 
+					 <a-entity  position="-10 -2 -7"
+								geometry="primitive: plane; width: 4.9; height: 6.9;" 
 								material="color: lightgray; opacity: 0.5;"
 								rotation='0 0 0' ></a-entity>
-					 <a-entity  position="5.5 -1 -10"
+					 <a-entity  position="-9.8 -2.5 -8"
+								geometry="primitive: plane; width: 4.9; height: 5.9;" 
+								material="color: gray; opacity: 0.5;"
+								rotation='0 0 0' ></a-entity>
+					 <a-entity  position="-9.5 -3 -9"
+								geometry="primitive: plane; width: 3.9; height: 4.9;" 
+								material="color: lightgray; opacity: 0.5;"
+								rotation='0 0 0' ></a-entity>
+					 <a-entity  position="-9.3 -3.5 -10"
 								geometry="primitive: plane; width: 3.9; height: 3.9;" 
 								material="color: gray; opacity: 0.5;"
 								rotation='0 0 0' ></a-entity>
-					 <a-entity  position="5 -2 -12"
+					 <a-entity  position="-9 -4 -11"
 								geometry="primitive: plane; width: 2.9; height: 2.9;" 
 								material="color: lightgray; opacity: 0.5;"
 								rotation='0 0 0' ></a-entity>
@@ -82,8 +90,12 @@
 							</a-entity>
 
 					</a-entity>
+						</a-entity>
+					</a-entity>
+
+
 						<a-entity v-if='!can_show_full_doc()' v-for="(field_name,index)  in  list_of_fields"
-								  v-bind:position='(index - 2) + " 1 0"'
+								  v-bind:position='(index + 3) + " 1 0"'
 								  geometry="primitive: plane; width: auto; height: auto"
 								  material="color: white"
 								  v-bind:text='"font: aileronsemibold;color: black; align: left; value: " + field_name + "; width: 2; "'
@@ -99,10 +111,6 @@
 								</a-entity>
 
 							</a-entity>
-						</a-entity>
-					</a-entity>
-
-
 
 
 <a-entity id=scrollable_grid>

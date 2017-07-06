@@ -14,21 +14,21 @@
 						<VR-items v-bind:vr_type='get_vr_type'></VR-items>
 					 </a-entity >
 
-					 <a-entity  position="1 1 -2"
-								geometry="primitive: plane; width: 5.9; height: 5.9;" 
+					 <a-entity  position="-8 1 -2"
+								geometry="primitive: plane; width: 5.9; height: 8.9;" 
 								material="color: lightgray; opacity: 0.5;"
 								v-bind:text='"font: roboto; color: white; align: center; value: GoShareData ; width: 6; "'
 								rotation='0 0 0' ></a-entity>
-					 <a-entity  position="2 0 -7"
-								geometry="primitive: plane; width: 4.9; height: 4.9;" 
+					 <a-entity  position="-47 0 -7"
+								geometry="primitive: plane; width: 4.9; height: 8.9;" 
 								material="color: lightblue; opacity: 0.5;"
 								rotation='0 0 0' ></a-entity>
-					 <a-entity  position="3 -1 -10"
-								geometry="primitive: plane; width: 3.9; height: 3.9;" 
+					 <a-entity  position="-6 -1 -10"
+								geometry="primitive: plane; width: 3.9; height: 8.9;" 
 								material="color: gray; opacity: 0.5;"
 								rotation='0 0 0' ></a-entity>
-					 <a-entity  position="4 -2 -12"
-								geometry="primitive: plane; width: 2.9; height: 2.9;" 
+					 <a-entity  position="-5 -2 -12"
+								geometry="primitive: plane; width: 2.9; height: 8.9;" 
 								material="color: lightgray; opacity: 0.5;"
 								rotation='0 0 0' ></a-entity>
 
