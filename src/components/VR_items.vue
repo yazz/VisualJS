@@ -1,6 +1,22 @@
 <template>
-			  <a-entity position='5 -5 -10' id='vr_items'>
+			  <a-entity position='5 -5 -15' id='vr_items'>
 
+			  
+					 <a-entity  position="6 0 -7"
+								geometry="primitive: plane; width: 4.9; height: 4.9;" 
+								material="color: lightgray; opacity: 0.5;"
+								rotation='0 0 0' ></a-entity>
+					 <a-entity  position="7 -1 -10"
+								geometry="primitive: plane; width: 3.9; height: 3.9;" 
+								material="color: gray; opacity: 0.5;"
+								rotation='0 0 0' ></a-entity>
+					 <a-entity  position="8 -2 -12"
+								geometry="primitive: plane; width: 2.9; height: 2.9;" 
+								material="color: lightgray; opacity: 0.5;"
+								rotation='0 0 0' ></a-entity>
+			  
+			  
+			  
 
 				<a-entity position="0 6 0"
 						  geometry="primitive: plane; width: auto; height: auto" material="color: white"
@@ -15,7 +31,7 @@
 						  rotation='0 0 0'>
 				</a-entity>
 
-				<a-entity position="0 0 -10" id='doc_details'>
+				<a-entity position="0 -4 -10" id='doc_details'>
 					<a-entity v-if='can_show_full_doc()' v-for="(field_name,index)  in  list_of_fields"
 							  v-bind:position='(index + 1) + " 4.3 .1"'
 							  geometry="primitive: plane; width: auto; height: auto"
@@ -25,7 +41,7 @@
 
 
 							<a-entity v-for="(a_record,rindex)  in  list_of_records"
-									  v-bind:position='"-0.7 " + (-.2 - (rindex * 0.2)) + " 0.6"'
+									  v-bind:position='"-1.5 " + (-.2 - (rindex * 0.2)) + " 0.6"'
 									  geometry="primitive: plane; width: 2; height: 0.2" material="color: white"
 									  v-bind:text='"font: sourcecodepro;color: black; align: left; value: " + truncate(a_record[field_name]) + "; width: 2; opacity: 1;"'
 									  rotation='0 0 0'>

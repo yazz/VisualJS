@@ -2,7 +2,7 @@
 			  <a-entity position='0 0 -5' id='vr_home' >
 
 					<a-entity 	v-if='vr_type=="move"' id=vr_objects
-								position='7 -6 0'>
+								position='0 0 0'>
 					  <VR-items v-bind:vr_type='get_vr_type'></VR-items>
 					 </a-entity >
 
@@ -10,10 +10,27 @@
 
 					<a-entity 	v-if='vr_type=="mouse"'
 								id='vr_objects'
-								position='7 -6 0'>
+								position='0 0 0'>
 						<VR-items v-bind:vr_type='get_vr_type'></VR-items>
 					 </a-entity >
 
+					 <a-entity  position="1 1 -2"
+								geometry="primitive: plane; width: 5.9; height: 5.9;" 
+								material="color: lightgray; opacity: 0.5;"
+								v-bind:text='"font: roboto; color: white; align: center; value: GoShareData ; width: 6; "'
+								rotation='0 0 0' ></a-entity>
+					 <a-entity  position="2 0 -7"
+								geometry="primitive: plane; width: 4.9; height: 4.9;" 
+								material="color: lightblue; opacity: 0.5;"
+								rotation='0 0 0' ></a-entity>
+					 <a-entity  position="3 -1 -10"
+								geometry="primitive: plane; width: 3.9; height: 3.9;" 
+								material="color: gray; opacity: 0.5;"
+								rotation='0 0 0' ></a-entity>
+					 <a-entity  position="4 -2 -12"
+								geometry="primitive: plane; width: 2.9; height: 2.9;" 
+								material="color: lightgray; opacity: 0.5;"
+								rotation='0 0 0' ></a-entity>
 
 
 
