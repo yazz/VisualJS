@@ -27,11 +27,15 @@
 								geometry='primitive: circle; radius: .2;'
 								position='-.5 .8 1' 
 								go_back > 
+								 <a-animation begin="mouseenter" attribute="rotation"
+												to="20 29 29" dur="1000" direction="alternate"  repeat="1"></a-animation>
 					</a-entity >
 					<a-entity  	material='color: black;opacity: 1;'  
 								geometry='primitive: circle; radius: .2;'
 								position='.5 .8 1'
 								goto='name: vr_home;' > 
+								 <a-animation begin="mouseenter" attribute="rotation"
+												to="20 29 29" dur="1000" direction="alternate"  repeat="1"></a-animation>
 					</a-entity >
 				</a-entity>
 			</a-entity>
@@ -61,11 +65,15 @@
 								geometry='primitive: circle; radius: .5;'
 								position='-1 .8 1' 
 								go_back > 
+								 <a-animation begin="mouseenter" attribute="rotation"
+												to="20 29 29" dur="1000" direction="alternate"  repeat="1"></a-animation>
 					</a-entity >
 					<a-entity  	material='color: black;opacity: 1;'  
 								geometry='primitive: circle; radius: .5;'
 								position='1 .8 1'
 								goto='name: vr_home;' > 
+								 <a-animation begin="mouseenter" attribute="rotation"
+												to="20 29 29" dur="1000" direction="alternate"  repeat="1"></a-animation>
 					</a-entity >
 				</a-entity>
 	    	</a-entity>
