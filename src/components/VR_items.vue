@@ -74,7 +74,7 @@
 
 
 					<a-entity v-if='can_show_full_doc()' v-for="(field_name,index)  in  list_of_fields"
-							  v-bind:position='(index + .5) + " -1 2.5"'
+							  v-bind:position='(index + .5) + " -2 2.5"'
 							  geometry="primitive: plane; width: auto; height: auto"
 							  material="color: white"
 							  v-bind:text='"font: aileronsemibold;color: black; align: left; value: " + field_name + "; width: 2; opacity: 1;"'
@@ -120,7 +120,7 @@
 				   v-bind:color="(index % 2 == 0)?'blue':'green'"
 				   v-bind:text="'color: black; align: left; value: ' + a_driver.id.substr(a_driver.id.length - 10) + ' ; width: 2; '">
 					   <a-entity    position="-0.8 .3 -.3" 
-									geometry="primitive: box; width:.35;height: 0.35;depth: 0.35;"
+									geometry="primitive: plane; width:.35;height: 0.35;depth: 0.35;"
 							        v-bind:griditem='"x: " + get_x_position(index,list_of_queries.length) + "; y:" + get_y_position(index,list_of_queries.length) + ";" +
 								  "query_name: " +a_driver.id'
 								  v-bind:preview='"id: " + a_driver.id + ";"'
@@ -128,8 +128,8 @@
 								v-bind:material='"src: driver_icons/" + a_driver.driver + ".jpg;"'
 								v-bind:color="(index % 2 == 0)?'blue':'green'"
 								v-bind:log='"x: " + get_x_position(index,list_of_queries.length) + "; y:" + get_y_position(index,list_of_queries.length) + ";queryId: "  + a_driver.id + ";"' >
-							 <a-animation begin="mouseenter" attribute="rotation"
-											to="90 90 90" dur="1000" direction="alternate"  repeat="0"></a-animation>
+								<a-animation begin="mouseenter" attribute="rotation"
+												to="0 0 10" dur="100" direction="alternate"  repeat="3"></a-animation>
 						</a-entity>
 			   </a-entity>
 </a-entity >
