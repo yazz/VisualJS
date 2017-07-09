@@ -30,6 +30,8 @@ var witheve = require("witheve");
 var Excel = require('exceljs');
 const drivelist = require('drivelist');
 var isWin = /^win/.test(process.platform);
+var sqlliteloc = process.cwd() + '\\node_modules_win32\\sqlite3';
+var sqlite3   = require(sqlliteloc);
 
 var stopScan = false;
 var XLSX = require('xlsx');
@@ -802,7 +804,25 @@ app.listen(port, hostaddress, function () {
     //console.log("************************************************ ")
 
 
+	var db = new sqlite3.Database(':memory:');
 
+    db.serialize(function() {
+          db.run("CREATE TABLE lorem (info TEXT)");
+
+		  var stmt = db.prepare("INSERT INTO lorem VALUES (?)");
+		  for (var i = 0; i < 10; i++) {
+			  stmt.run("Ipsum " + i);
+		  }
+		  stmt.finalize();
+
+		  db.each("SELECT rowid AS id, info FROM lorem", function(err, row) {
+			  console.log(row.id + ": " + row.info);
+		  });
+		});
+
+		db.close();
+		
+		
 	}
 
 
