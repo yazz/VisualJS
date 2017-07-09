@@ -53,5 +53,8 @@
     "vue-template-compiler": "^2.1.0",
     "webpack": "^2.1.0-beta.25",
     "webpack-dev-server": "^2.1.0-beta.9"
-  }
-}
+  },
+	"bin": "src/index.js",
+  "pkg": {
+    "assets": "node_modules_win32/**/**/**/**/*"
+  }}

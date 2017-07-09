@@ -30,8 +30,18 @@ var witheve = require("witheve");
 var Excel = require('exceljs');
 const drivelist = require('drivelist');
 var isWin = /^win/.test(process.platform);
-var sqlliteloc = process.cwd() + '\\node_modules_win32\\sqlite3';
-var sqlite3   = require(sqlliteloc);
+
+
+if (!fs.existsSync(process.cwd() + "/node_modules_win32") ) {
+	
+				
+    copyFolderRecursiveSync(path.join(__dirname, "../node_modules_win32")  , process.cwd());
+    fs.renameSync(
+				process.cwd() + "/node_modules_win32/sqlite3/lib/binding/node-v48-win32-ia32/node_sqlite3.noderename",
+				
+	    		process.cwd() + "/node_modules_win32/sqlite3/lib/binding/node-v48-win32-ia32/node_sqlite3.node") ;
+}
+var sqlite3   = eval('require(process.cwd() + "/node_modules_win32/sqlite3");');
 
 var stopScan = false;
 var XLSX = require('xlsx');
@@ -927,3 +937,43 @@ var driveStart =
 			  });
 			});
 	  };
+
+	  
+	  
+function copyFileSync( source, target ) {
+
+    var targetFile = target;
+
+    //if target is a directory a new file with the same name will be created
+    if ( fs.existsSync( target ) ) {
+        if ( fs.lstatSync( target ).isDirectory() ) {
+            targetFile = path.join( target, path.basename( source ) );
+        }
+    }
+
+    fs.writeFileSync(targetFile, fs.readFileSync(source));
+}
+
+function copyFolderRecursiveSync( source, target ) {
+    var files = [];
+
+    //check if folder needs to be created or integrated
+    var targetFolder = path.join( target, path.basename( source ) );
+    if ( !fs.existsSync( targetFolder ) ) {
+        fs.mkdirSync( targetFolder );
+    }
+
+    //copy
+    if ( fs.lstatSync( source ).isDirectory() ) {
+        files = fs.readdirSync( source );
+        files.forEach( function ( file ) {
+            var curSource = path.join( source, file );
+            if ( fs.lstatSync( curSource ).isDirectory() ) {
+                copyFolderRecursiveSync( curSource, targetFolder );
+            } else {
+                copyFileSync( curSource, targetFolder );
+				console.log('copying :' + targetFolder);
+            }
+        } );
+    }
+}
