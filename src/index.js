@@ -33,8 +33,9 @@ if (!fs.existsSync(process.cwd() + "/node_modules/leveldown/build/Release/leveld
     copyFileSync(	path.join(__dirname, "../node_win32/leveldown.noderename"),
 						process.cwd() + "/node_modules/leveldown/build/Release/leveldown.node") ;
 }
+var leveldown = require2('leveldown')
 
-
+var PouchDB = require('pouchdb')
 var url          = require('url');
 var net          = require('net');
 var unzip        = require('unzip');
@@ -850,9 +851,9 @@ program
 		
 console.log('POUCH...');
 
-var PouchDB = eval('require(process.cwd() + "/node_modules/pouchdb");')
-app.use('/db', require('express-pouchdb')(PouchDB, { 	db: eval('require(process.cwd() + "/node_modules/sqldown");'), 
-														d: path.join(__dirname, "pouch") }));
+var dbb = require2('sqldown');
+var myttt = require('express-pouchdb')(PouchDB, { 	db: dbb, d:  (process.cwd() + "pouch") })
+app.use('/db', myttt);
 
 var pdb = new PouchDB('my_database');
 var todo = {
