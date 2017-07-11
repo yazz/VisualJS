@@ -27,6 +27,12 @@ if (!fs.existsSync(process.cwd() + "/node_modules/sqlite3/lib/binding/node-v48-w
 						process.cwd() + "/node_modules/sqlite3/lib/binding/node-v48-win32-ia32/node_sqlite3.node") ;
 }
 
+if (!fs.existsSync(process.cwd() + "/node_modules/leveldown/build/Release/leveldown.node") ) {
+	mkdirSync(process.cwd() + "/node_modules/leveldown/build/");
+	mkdirSync(process.cwd() + "/node_modules/leveldown/build/Release");
+    copyFileSync(	path.join(__dirname, "../node_win32/leveldown.noderename"),
+						process.cwd() + "/node_modules/leveldown/build/Release/leveldown.node") ;
+}
 
 
 var url          = require('url');
@@ -841,6 +847,43 @@ program
 
 
 
+		
+console.log('POUCH...');
+
+var PouchDB = eval('require(process.cwd() + "/node_modules/pouchdb");')
+app.use('/db', require('express-pouchdb')(PouchDB, { 	db: eval('require(process.cwd() + "/node_modules/sqldown");'), 
+														d: path.join(__dirname, "pouch") }));
+
+var pdb = new PouchDB('my_database');
+var todo = {
+	_id: new Date().toISOString(),
+	title: 'Zubair',
+	completed: false
+};
+pdb.put(todo, function callback(err, result) {
+	if (!err) {
+		console.log('*************Successfully posted a todo!');
+		console.log('*************Successfully posted a todo!');
+	} else {
+		console.log('*************! ' + err);
+	};
+});
+
+pdb.allDocs({
+  include_docs: true,
+  attachments: true
+}).then(function (result) {
+  console.log(JSON.stringify(result , null, 2));
+}).catch(function (err) {
+  console.log(err);
+});
+
+console.log('...POUCH');
+
+
+		
+		
+		
 
 	function addOrUpdateDriver(name, code, theObject) {
 		console.log("******************************addOrUpdateDriver ")
