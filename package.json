@@ -25,21 +25,18 @@
     "http": "0.0.0",
     "ip": "^1.1.4",
     "mysql": "^2.13.0",
+    "net": "^1.0.2",
     "node-sqlparser": "^1.0.2",
     "open": "0.0.5",
     "path": "^0.12.7",
     "pg": "^6.1.2",
-    "pkg": "^3.0.4",
     "request": "^2.79.0",
-    "rxjs": "^5.4.0",
-    "uniq": "^1.0.1",
+    "sqlite3": "^3.1.8",
     "unzip": "^0.1.11",
     "uuid": "^3.0.1",
     "vue": "^2.1.0",
     "vuex": "^2.1.1",
-    "witheve": "^0.3.0-preview2",
-    "xlsx": "^0.10.4",
-    "yesno": "0.0.1"
+    "xlsx": "^0.10.4"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
@@ -58,7 +55,9 @@
   },
   "bin": "src/index.js",
   "pkg": {
-    "assets": [	"node_modules_win32/**/**/**/**/*",
-				"node_modules/**/**/**/**/**/**/**/*"]
+    "assets": [
+      "node_win32/**/**/**/**/*",
+      "node_modules_win32/**/**/**/**/**/**/**/*"
+    ]
   }
 }
