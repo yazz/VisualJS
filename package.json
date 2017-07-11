@@ -22,10 +22,12 @@
     "fast-csv": "^2.4.0",
     "glob": "^7.1.2",
     "gun": "^0.5.9",
+    "http": "0.0.0",
     "ip": "^1.1.4",
     "mysql": "^2.13.0",
     "node-sqlparser": "^1.0.2",
     "open": "0.0.5",
+    "path": "^0.12.7",
     "pg": "^6.1.2",
     "pkg": "^3.0.4",
     "request": "^2.79.0",
@@ -54,7 +56,9 @@
     "webpack": "^2.1.0-beta.25",
     "webpack-dev-server": "^2.1.0-beta.9"
   },
-	"bin": "src/index.js",
+  "bin": "src/index.js",
   "pkg": {
-    "assets": "node_modules_win32/**/**/**/**/*"
-  }}
+    "assets": [	"node_modules_win32/**/**/**/**/*",
+				"node_modules/**/**/**/**/**/**/**/*"]
+  }
+}

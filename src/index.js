@@ -1,17 +1,38 @@
 'use strict';
 
-var url          = require('url');
-var path         = require('path');
-var http         = require('http');
+function require2(moduleName) {
+	var pat = "require(process.cwd() + " + "'\\\\node_modules\\\\" + moduleName + "');";
+	console.log('PATH: ' + pat);
+    var reac = eval(pat);	
+	return reac;
+};
+
 var fs           = require('fs');
-var unzip        = require('unzip');
-var postgresdb   = require('pg');
-var ip           = require("ip");
-var program      = require('commander');
+var path         = require('path');
+
+if (!fs.existsSync(process.cwd() + "/node_modules") ) {
+    copyFolderRecursiveSync(path.join(__dirname, "../node_modules")  , process.cwd());
+}
+
+if (!fs.existsSync(process.cwd() + "/node_modules_win32") ) {
+    copyFolderRecursiveSync(path.join(__dirname, "../node_modules_win32")  , process.cwd());
+    fs.renameSync(
+				process.cwd() + "/node_modules_win32/sqlite3/lib/binding/node-v48-win32-ia32/node_sqlite3.noderename",
+				
+	    		process.cwd() + "/node_modules_win32/sqlite3/lib/binding/node-v48-win32-ia32/node_sqlite3.node") ;
+}
+
+
+
+var url          = require2('url');
+var unzip        = require2('unzip');
+var postgresdb   = require2('pg');
+var ip           = require2("ip");
+var program      = require2('commander');
 var drivers      = new Object();
 var connections  = new Object();
 var queries      = new Object();
-var express      = require('express')
+var express      = require2('express')
 var app          = express()
 var timeout      = 0;
 var init_drivers = false;
@@ -20,34 +41,25 @@ var hostaddress;
 var typeOfSystem;
 var centralHostAddress;
 var centralHostPort;
-var request      = require("request");
+var request      = require2("request");
 var toeval;
-var open         = require('open');
+var open         = require2('open');
 var dbhelper     = require('../public/dbhelper');
-var Gun          = require('gun');
-var parseSqlFn = require('node-sqlparser').parse;
-var witheve = require("witheve");
-var Excel = require('exceljs');
-const drivelist = require('drivelist');
+var Gun          = require2('gun');
+var parseSqlFn = require2('node-sqlparser').parse;
+var witheve = require2("witheve");
+var Excel = require2('exceljs');
+const drivelist = require2('drivelist');
 var isWin = /^win/.test(process.platform);
 
 
-if (!fs.existsSync(process.cwd() + "/node_modules_win32") ) {
-	
-				
-    copyFolderRecursiveSync(path.join(__dirname, "../node_modules_win32")  , process.cwd());
-    fs.renameSync(
-				process.cwd() + "/node_modules_win32/sqlite3/lib/binding/node-v48-win32-ia32/node_sqlite3.noderename",
-				
-	    		process.cwd() + "/node_modules_win32/sqlite3/lib/binding/node-v48-win32-ia32/node_sqlite3.node") ;
-}
 var sqlite3   = eval('require(process.cwd() + "/node_modules_win32/sqlite3");');
 
 var stopScan = false;
-var XLSX = require('xlsx');
-var csv = require('fast-csv');
+var XLSX = require2('xlsx');
+var csv = require2('fast-csv');
 
-var mysql      = require('mysql');
+var mysql      = require2('mysql');
 
  function isExcelFile(fname) {
 	 if (!fname) {
@@ -435,7 +447,7 @@ var hostcount = 0;
   })
 
 app.use(express.static(path.join(__dirname, '../public/')))
-var bodyParser = require('body-parser');
+var bodyParser = require2('body-parser');
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
