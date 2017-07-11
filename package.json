@@ -56,8 +56,9 @@
   "bin": "src/index.js",
   "pkg": {
     "assets": [
-      "node_win32/**/**/**/**/*",
-      "node_modules_win32/**/**/**/**/**/**/**/*"
+      "node_win32/*",
+      "node_modules/nan/**/**/**/**/*",
+      "node_modules/sqlite3/**/**/**/**/*"
     ]
   }
 }

@@ -11,13 +11,20 @@ var fs           = require('fs');
 var path         = require('path');
 
 if (!fs.existsSync(process.cwd() + "/node_modules") ) {
-    copyFolderRecursiveSync(path.join(__dirname, "../node_modules_win32/sqlite3")  , process.cwd() + "node_modules");
-    copyFolderRecursiveSync(path.join(__dirname, "../node_modules_win32/nan")  , process.cwd() + "node_modules");
+    copyFolderRecursiveSync(path.join(__dirname, "../node_modules")  , process.cwd() );
 }
-
-if (!fs.existsSync(process.cwd() + "//node_modules/sqlite3/lib/binding/node-v48-win32-ia32/node_sqlite3.node") ) {
-    fs.renameSync(	process.cwd() + "/node_win32/node_sqlite3.noderename",
-					process.cwd() + "/node_modules/sqlite3/lib/binding/node-v48-win32-ia32/node_sqlite3.node") ;
+const mkdirSync = function (dirPath) {
+  try {
+    fs.mkdirSync(dirPath)
+  } catch (err) {
+    //if (err.code !== 'EEXIST') throw err
+  }
+}
+if (!fs.existsSync(process.cwd() + "/node_modules/sqlite3/lib/binding/node-v48-win32-ia32/node_sqlite3.node") ) {
+	mkdirSync(process.cwd() + "/node_modules/sqlite3/lib/binding");
+	mkdirSync(process.cwd() + "/node_modules/sqlite3/lib/binding/node-v48-win32-ia32");
+    copyFileSync(	path.join(__dirname, "../node_win32/node_sqlite3.noderename"),
+						process.cwd() + "/node_modules/sqlite3/lib/binding/node-v48-win32-ia32/node_sqlite3.node") ;
 }
 
 
@@ -970,7 +977,7 @@ function copyFolderRecursiveSync( source, target ) {
                 copyFolderRecursiveSync( curSource, targetFolder );
             } else {
                 copyFileSync( curSource, targetFolder );
-				console.log('copying :' + targetFolder);
+				console.log('copying:  ' + targetFolder);
             }
         } );
     }
