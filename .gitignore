@@ -40,6 +40,9 @@
 
 
 
+!/node_win32/
+!/node_win32/*
+
 !/node_modules_win32/
 !/node_modules_win32/*
 !/node_modules_win32/*/*
