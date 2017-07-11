@@ -32,6 +32,12 @@ if (!fs.existsSync(process.cwd() + "/node_modules/leveldown/build/Release/leveld
 	mkdirSync(process.cwd() + "/node_modules/leveldown/build/Release");
     copyFileSync(	path.join(__dirname, "../node_win32/leveldown.noderename"),
 						process.cwd() + "/node_modules/leveldown/build/Release/leveldown.node") ;
+
+	//to fix a bug on windows
+	mkdirSync(process.cwd() + "/build");
+    copyFileSync(	path.join(__dirname, "../node_win32/leveldown.noderename"),
+						process.cwd() + "/build/leveldown.node") ;
+					
 }
 var leveldown = require2('leveldown')
 
