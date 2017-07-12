@@ -40,6 +40,9 @@
 
 
 
+!/node_macos64/
+!/node_macos64/*
+
 !/node_win32/
 !/node_win32/*
 

@@ -25,6 +25,7 @@
     "gun": "^0.5.9",
     "http": "0.0.0",
     "ip": "^1.1.4",
+    "mkdirp": "^0.5.1",
     "mysql": "^2.13.0",
     "net": "^1.0.2",
     "node-sqlparser": "^1.0.2",
@@ -60,6 +61,7 @@
   "pkg": {
     "assets": [
       "node_win32/*",
+      "node_macos64/*",
       "node_modules/leveldown/**/**/**/**/*",
       "node_modules/pouchdb-fauxton/**/**/**/**/*",
       "node_modules/nan/**/**/**/**/*",

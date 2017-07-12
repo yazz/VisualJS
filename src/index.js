@@ -13,38 +13,39 @@ function require2(moduleName) {
 	return reac;
 };
 
+
 var fs           = require('fs');
 var path         = require('path');
+var mkdirp       = require('mkdirp')
 
 if (!fs.existsSync(process.cwd() + "/node_modules") ) {
     copyFolderRecursiveSync(path.join(__dirname, "../node_modules")  , process.cwd() );
 }
 const mkdirSync = function (dirPath) {
   try {
-    fs.mkdirSync(dirPath)
+    mkdirp.sync(dirPath)
   } catch (err) {
     //if (err.code !== 'EEXIST') throw err
   }
 }
-if (!fs.existsSync(process.cwd() + "/node_modules/sqlite3/lib/binding/node-v48-win32-ia32/node_sqlite3.node") ) {
-	mkdirSync(process.cwd() + "/node_modules/sqlite3/lib/binding");
-	mkdirSync(process.cwd() + "/node_modules/sqlite3/lib/binding/node-v48-win32-ia32");
-    copyFileSync(	path.join(__dirname, "../node_win32/node_sqlite3.noderename"),
-						process.cwd() + "/node_modules/sqlite3/lib/binding/node-v48-win32-ia32/node_sqlite3.node") ;
+
+function copyNodeNativeAdapter( osName, moduleName, directoryToSaveTo , nativeFileName) {
+	if (!fs.existsSync(process.cwd() + "/node_modules/" + moduleName + "/" + directoryToSaveTo + "/" + nativeFileName) ) {
+		mkdirSync(process.cwd() + "/node_modules/" + moduleName +  "/" + directoryToSaveTo);
+		copyFileSync(	path.join(__dirname, "../node_" + osName + "/" + nativeFileName + "rename"),
+							process.cwd() + "/node_modules/" + moduleName + "/" + directoryToSaveTo + "/" + nativeFileName) ;
+	}
 }
 
-if (!fs.existsSync(process.cwd() + "/node_modules/leveldown/build/Release/leveldown.node") ) {
-	mkdirSync(process.cwd() + "/node_modules/leveldown/build/");
-	mkdirSync(process.cwd() + "/node_modules/leveldown/build/Release");
-    copyFileSync(	path.join(__dirname, "../node_win32/leveldown.noderename"),
-						process.cwd() + "/node_modules/leveldown/build/Release/leveldown.node") ;
-
-	//to fix a bug on windows
+copyNodeNativeAdapter( "win32", "sqlite3", 		"lib/binding/node-v48-win32-ia32" , "node_sqlite3.node")
+copyNodeNativeAdapter( "win32", "leveldown", 	"build/Release" , "leveldown.node")
+//to fix a bug on windows
+if (!fs.existsSync(process.cwd() + "/build/leveldown.node") ) {
 	mkdirSync(process.cwd() + "/build");
-    copyFileSync(	path.join(__dirname, "../node_win32/leveldown.noderename"),
-						process.cwd() + "/build/leveldown.node") ;
-					
+	copyFileSync(	path.join(__dirname, "../node_win32/leveldown.noderename"), process.cwd() + "/build/leveldown.node") ;
 }
+
+					
 var leveldown = require2('leveldown')
 
 var PouchDB = require('pouchdb')
