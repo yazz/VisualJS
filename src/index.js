@@ -33,6 +33,7 @@ const mkdirSync = function (dirPath) {
 
 function copyNodeNativeAdapter( osName, moduleName, directoryToSaveTo , nativeFileName) {
 	if (!fs.existsSync(process.cwd() + "/node_modules/" + moduleName + "/" + directoryToSaveTo + "/" + nativeFileName) ) {
+		console.log('* Creating native driver for: ' + moduleName);
 		mkdirSync(process.cwd() + "/node_modules/" + moduleName +  "/" + directoryToSaveTo);
 		copyFileSync(	path.join(__dirname, "../node_" + osName + "/" + nativeFileName + "rename"),
 							process.cwd() + "/node_modules/" + moduleName + "/" + directoryToSaveTo + "/" + nativeFileName) ;
