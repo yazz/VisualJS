@@ -1,7 +1,13 @@
 'use strict';
 
 function require2(moduleName) {
-	var pat = "require(process.cwd() + " + "'\\\\node_modules\\\\" + moduleName + "');";
+	var pat;
+	if (isWin) {
+		pat = "require(process.cwd() + " + "'\\\\node_modules\\\\" + moduleName + "');";
+	} else {
+		pat = "require(process.cwd() + " + "'/node_modules/" + moduleName + "');";
+	}
+	
 	console.log('PATH: ' + pat);
     var reac = eval(pat);	
 	return reac;
