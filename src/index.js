@@ -43,7 +43,7 @@ if (isWin) {
 	// copy WIndows 32 node native files
 	copyNodeNativeAdapter( "win32", "sqlite3", 		"lib/binding/node-v48-win32-ia32" , "node_sqlite3.node")
 	copyNodeNativeAdapter( "win32", "leveldown", 	"build/Release" , "leveldown.node")
-	//to fix a bug on windows
+	//to fix a bug on leveldown
 	if (!fs.existsSync(process.cwd() + "/build/leveldown.node") ) {
 		mkdirSync(process.cwd() + "/build");
 		copyFileSync(	path.join(__dirname, "../node_win32/leveldown.noderename"), process.cwd() + "/build/leveldown.node") ;
@@ -52,6 +52,11 @@ if (isWin) {
 	// copy Mac OS 64 node native files
 	copyNodeNativeAdapter( "macos64", "sqlite3", 	"lib/binding/node-v48-darwin-x64" , "node_sqlite3.node")
 	copyNodeNativeAdapter( "macos64", "leveldown", 	"build/Release" , "leveldown.node")
+	//to fix a bug on leveldown
+	if (!fs.existsSync(process.cwd() + "/build/leveldown.node") ) {
+		mkdirSync(process.cwd() + "/build");
+		copyFileSync(	path.join(__dirname, "../node_macos64/leveldown.noderename"), process.cwd() + "/build/leveldown.node") ;
+	}
 }
 
 					
