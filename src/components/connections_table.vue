@@ -34,7 +34,7 @@
               <td v-on:click="set_viewed_connection(a_connection)">{{a_connection.driver}}</td>
               <td><button v-on:click.prevent='delete_item(a_connection)'>X</button></td>
             </tr>
-          <tbody>
+          </tbody>
         </table>
 
 

@@ -34,7 +34,7 @@
                 <td v-on:click="set_viewed_driver(a_driver)">{{a_driver.type}}</td>
               <td><button v-on:click.prevent='delete_item(a_driver)'>X</button></td>
             </tr>
-          <tbody>
+          </tbody>
         </table>
 
 

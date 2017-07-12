@@ -14,7 +14,7 @@
             <tr scope="row" >
               <td v-for="field_name  in  list_of_fields" v-on:click="set_viewed_connection(a_record)">{{a_record[field_name]}}</td>
             </tr>
-          <tbody>
+          </tbody>
         </table>
       </div>
     </div>

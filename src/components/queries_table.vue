@@ -36,7 +36,7 @@
               <td v-on:click="set_viewed_query(a_query)">{{a_query.driver}}</td>
               <td><button v-on:click.prevent='delete_item(a_query)'>X</button></td>
             </tr>
-          <tbody>
+          </tbody>
         </table>
 
 
