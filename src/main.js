@@ -598,11 +598,18 @@ function setupGunDB() {
 				console.log('***ERR');
 			});
 			
+			
         var remote_pouch_system_table = new PouchDB('http://172.20.10.7/db/system_settings')
+        if ((location.port == '8080')  && (location.host == '127.0.0.1')) {
+			remote_pouch_system_table = new PouchDB('http://127.0.0.1:8080/db/system_settings')
+        } else { // we are on port 80
+			remote_pouch_system_table = new PouchDB('http://' + location.host + '/db/system_settings')
+        };
+
 		pouch_system_table.sync(remote_pouch_system_table, {
 			  live: true
 			}).on('change', function (change) {
-				console.log('*** pouch_system_table.sync(172.20.10.7/db/system_settings, { called');
+				console.log('*** pouch_system_table.sync(HOST/db/system_settings, { called');
 			  //localDB.replicate.to(remote_pouch_system_table);
 			  //localDB.replicate.from(pouch_system_table);
 			  
