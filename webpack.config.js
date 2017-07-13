@@ -57,7 +57,11 @@ module.exports = {
         target: 'http://' + hostaddress,
         secure: false
       },
-      '/db/system_settings/': {
+      '/db/pouchdb_system_settings/': {
+        target: 'http://' + hostaddress,
+        secure: false
+      },
+      '/db/pouchdb_drivers/': {
         target: 'http://' + hostaddress,
         secure: false
       },

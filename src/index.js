@@ -891,41 +891,20 @@ app.use('/db', myttt);
 
 
 
-var pouch_system_table = new PouchDB('system_settings');
-var testValue = {
-	_id: 'test',
-	value: 'Zubair'
-};
-
-pouch_system_table.allDocs({
-  include_docs: true,
-  attachments: true
-}).then(function (result) {
-  //console.log("pouch_system_table: " + JSON.stringify(result , null, 2));
-  if (result.total_rows == 0) {
-	  console.log("No system records");
-  }
-}).catch(function (err) {
-  console.log(err);
-});
-
-
+var pouch_system_table = new PouchDB('pouchdb_system_settings');
 pouch_system_table.createIndex({
 		index: {
 			fields: ['_id']
 	}});
-	
-pouch_system_table.find({
-  selector: {_id: 'test'},
-  fields: ['_id', 'value'],
-  sort: ['_id']
-}).then(function (result) {
-  console.log("pouch_system_table test: " + JSON.stringify(result , null, 2));
-}).catch(function (err) {
-  // ouch, an error
-});
-
 console.log('...POUCH');
+
+
+
+var pouch_drivers_table = new PouchDB('pouchdb_drivers');
+pouch_drivers_table.createIndex({
+		index: {
+			fields: ['_id']
+	}});
 
 
 		

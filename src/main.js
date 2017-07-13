@@ -599,11 +599,11 @@ function setupGunDB() {
 			});
 			
 			
-        var remote_pouch_system_table = new PouchDB('http://' + location.host + '/db/system_settings')
+        var remote_pouch_system_table;
         if ((location.port == '8080')  && (location.host == '127.0.0.1')) {
-			remote_pouch_system_table = new PouchDB('http://127.0.0.1:8080/db/system_settings')
+			remote_pouch_system_table = new PouchDB('http://127.0.0.1:8080/db/pouchdb_system_settings')
         } else { // we are on port 80
-			remote_pouch_system_table = new PouchDB('http://' + location.host + '/db/system_settings')
+			remote_pouch_system_table = new PouchDB('http://' + location.host + '/db/pouchdb_system_settings')
         };
 
 		pouch_system_table.sync(remote_pouch_system_table, {
@@ -636,6 +636,26 @@ function setupGunDB() {
 			  console.log('sync error : ' +err);
 			});
 
+			
+			
+			
+		var remote_pouch_drivers_table;
+        if ((location.port == '8080')  && (location.host == '127.0.0.1')) {
+			remote_pouch_drivers_table = new PouchDB('http://127.0.0.1:8080/db/pouchdb_drivers')
+        } else { // we are on port 80
+			remote_pouch_drivers_table = new PouchDB('http://' + location.host + '/db/pouchdb_drivers')
+        };
+
+		pouch_drivers_table.sync(remote_pouch_drivers_table, {live: true}).on('change', 
+			function (change) {
+				console.log('*** pouch_drivers_table.sync(HOST/db/pouchdb_drivers, { called');
+		}).on('error', function (err) {
+		  console.log('sync error : ' +err);
+		});
+
+			
+			
+			
 
 
         //localStorage.clear();
@@ -1075,4 +1095,25 @@ window.autoIndexSerialId = function() {
 
 window.realtimeSql = function(sql, callBackFn, schema) {
     return db.realtimeSql(sql, callBackFn, schema);
+}
+
+
+
+window.all = function(pouchCollection) {
+	pouchCollection.find(
+		{ selector: 
+			{_id: {$gte: null}}}).then(
+				function(v){console.log(JSON.stringify(v.docs , null, 2))});
+}
+window.count = function(pouchCollection) {
+	pouchCollection.find(
+		{ selector: 
+			{_id: {$gte: null}}}).then(
+				function(v){console.log(JSON.stringify(v.docs.length , null, 2))});
+}
+window.insert = function(pouchCollection, objectval) {
+	pouchCollection.post(objectval);
+}
+window.drop = function(pouchCollection) {
+	pouchCollection.destroy();
 }
