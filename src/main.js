@@ -599,7 +599,7 @@ function setupGunDB() {
 			});
 			
 			
-        var remote_pouch_system_table = new PouchDB('http://172.20.10.7/db/system_settings')
+        var remote_pouch_system_table = new PouchDB('http://' + location.host + '/db/system_settings')
         if ((location.port == '8080')  && (location.host == '127.0.0.1')) {
 			remote_pouch_system_table = new PouchDB('http://127.0.0.1:8080/db/system_settings')
         } else { // we are on port 80
