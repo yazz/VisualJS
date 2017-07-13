@@ -574,6 +574,61 @@ function setupGunDB() {
                 document.getElementById('mainid2').innerHTML = JSON.stringify(data.value , null, 2)
             }},false);
 
+		pouch_system_table.changes({
+			  since: 0,
+			  include_docs: false
+			}).then(function (changes) {
+				console.log('*** pouch_system_table.changes({ called');
+					pouch_system_table.find({
+					  selector: {_id: 'test'},
+					  fields: ['_id', 'value'],
+					  sort: ['_id']
+					}).then(function (result) {
+					  //console.log("pouch_system_table test: " + JSON.stringify(result , null, 2));
+					  if (result.docs.length > 0) {
+						  if (document.getElementById('mainid3')) {
+								document.getElementById('mainid3').innerHTML = JSON.stringify(result.docs[0].value , null, 2)
+							}
+					  }
+					}).catch(function (err) {
+					  // ouch, an error
+					});
+
+			}).catch(function (err) {
+				console.log('***ERR');
+			});
+			
+        var remote_pouch_system_table = new PouchDB('http://172.20.10.7/db/system_settings')
+		pouch_system_table.sync(remote_pouch_system_table, {
+			  live: true
+			}).on('change', function (change) {
+				console.log('*** pouch_system_table.sync(172.20.10.7/db/system_settings, { called');
+			  //localDB.replicate.to(remote_pouch_system_table);
+			  //localDB.replicate.from(pouch_system_table);
+			  
+			  
+			  
+			  
+			  
+					pouch_system_table.find({
+					  selector: {_id: 'test'},
+					  fields: ['_id', 'value'],
+					  sort: ['_id']
+					}).then(function (result) {
+					  console.log("pouch_system_table test: " + JSON.stringify(result , null, 2));
+					  console.log("    result.docs.length: " + JSON.stringify(result.docs.length , null, 2));
+					  if (result.docs.length > 0) {
+						  if (document.getElementById('mainid3')) {
+								document.getElementById('mainid3').innerHTML = JSON.stringify(result.docs[0].value , null, 2)
+							}
+					  }
+					}).catch(function (err) {
+					  // ouch, an error
+					});
+			}).on('error', function (err) {
+			  console.log('sync error : ' +err);
+			});
+
 
 
         //localStorage.clear();

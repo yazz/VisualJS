@@ -64,6 +64,7 @@ if (isWin) {
 var leveldown = require2('leveldown')
 
 var PouchDB = require('pouchdb')
+PouchDB.plugin(require('pouchdb-find'));
 var url          = require('url');
 var net          = require('net');
 var unzip        = require('unzip');
@@ -294,6 +295,8 @@ path.join(__dirname, '../public/driver_icons/mysql.jpg')
 path.join(__dirname, '../public/index_pc_mode.html')
 path.join(__dirname, '../public/index_vr_mode.html')
 path.join(__dirname, '../public/aframe-mouse-cursor-component.min.js')
+path.join(__dirname, '../public/pouchdb.min.js')
+path.join(__dirname, '../public/pouchdb.find.min.js')
 
 
 
@@ -879,31 +882,47 @@ program
 console.log('POUCH...');
 
 var dbb = require2('sqldown');
-var myttt = require('express-pouchdb')(PouchDB, { 	db: dbb, d:  (process.cwd() + "pouch") })
+var myttt = require('express-pouchdb')(PouchDB, { 	db: dbb, 
+													d:  (process.cwd() + "pouch") ,
+													mode: 'fullCouchDB'})
 app.use('/db', myttt);
 
-var pdb = new PouchDB('my_database');
-var todo = {
-	_id: new Date().toISOString(),
-	title: 'Zubair',
-	completed: false
-};
-pdb.put(todo, function callback(err, result) {
-	if (!err) {
-		console.log('*************Successfully posted a todo!');
-		console.log('*************Successfully posted a todo!');
-	} else {
-		console.log('*************! ' + err);
-	};
-});
 
-pdb.allDocs({
+
+
+
+var pouch_system_table = new PouchDB('system_settings');
+var testValue = {
+	_id: 'test',
+	value: 'Zubair'
+};
+
+pouch_system_table.allDocs({
   include_docs: true,
   attachments: true
 }).then(function (result) {
-  console.log(JSON.stringify(result , null, 2));
+  //console.log("pouch_system_table: " + JSON.stringify(result , null, 2));
+  if (result.total_rows == 0) {
+	  console.log("No system records");
+  }
 }).catch(function (err) {
   console.log(err);
+});
+
+
+pouch_system_table.createIndex({
+		index: {
+			fields: ['_id']
+	}});
+	
+pouch_system_table.find({
+  selector: {_id: 'test'},
+  fields: ['_id', 'value'],
+  sort: ['_id']
+}).then(function (result) {
+  console.log("pouch_system_table test: " + JSON.stringify(result , null, 2));
+}).catch(function (err) {
+  // ouch, an error
 });
 
 console.log('...POUCH');
