@@ -848,9 +848,9 @@ console.log('...POUCH');
 
 
 
-var pouch_drivers = new PouchDB('pouchdb_drivers');
-pouch_drivers.createIndex({index: {fields: ['_id']}});
-pouch_drivers.createIndex({index: {fields: ['name']}});
+var pouchdb_drivers = new PouchDB('pouchdb_drivers');
+pouchdb_drivers.createIndex({index: {fields: ['_id']}});
+pouchdb_drivers.createIndex({index: {fields: ['name']}});
 
 
 				
@@ -926,14 +926,11 @@ pouch_drivers.createIndex({index: {fields: ['name']}});
 		//console.log("******************************driver type= " + driverType)
 		//console.log("******************************driver= " + JSON.stringify(theObject , null, 2))
 		
-		pouch_drivers.find({
-									  selector: {
-										name: {$eq: name}
-									  }
-		}, function(err, result){
-			console.log('POUCH: ' + JSON.stringify(result , null, 2));
-			if (result.doc.length == 0) {
-				pouch_drivers.push({
+		pouchdb_drivers.find({selector: {name: {$eq: name}}}, 
+			function(err, result){
+				console.log('POUCH: ' + JSON.stringify(result , null, 2));
+			if (result.docs.length == 0) {
+				pouchdb_drivers.post({
 											name: name,
 											type: driverType,
 											code: code

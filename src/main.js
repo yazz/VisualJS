@@ -612,11 +612,10 @@ function setupGunDB() {
 			remote_pouch_drivers_table = new PouchDB('http://' + location.host + '/db/pouchdb_drivers')
         };
 
-		pouch_drivers_table.sync(remote_pouch_drivers_table, {live: true}).on('change', 
-			function (change) {
-				console.log('*** pouch_drivers_table.sync(HOST/db/pouchdb_drivers, { called');
-		}).on('error', function (err) {
-		  console.log('sync error : ' +err);
+		PouchDB.sync(pouch_drivers_table, remote_pouch_drivers_table, {live: true}
+		).on('change', function (change) {
+			console.log('*** remote_pouch_drivers_table.sync(HOST/db/pouch_drivers_table, { called');
+			when_pouchdb_system_settings_changes();
 		});
 
 			
