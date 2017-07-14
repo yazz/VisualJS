@@ -831,8 +831,11 @@ var pouchdb_system_settings     = dbhelper.get_pouchdb_system_settings();;
 var pouchdb_connections         = dbhelper.get_pouchdb_connections();;
 var pouchdb_drivers             = dbhelper.get_pouchdb_drivers();;
 
-when_pouchdb_connections_changes_on_server(pouchdb_connections);
 
+dbhelper.pouchdbTableOnServer('pouchdb_system_settings', pouchdb_system_settings, null);
+dbhelper.pouchdbTableOnServer('pouchdb_connections', pouchdb_connections, when_pouchdb_connections_changes);
+dbhelper.pouchdbTableOnServer('pouchdb_drivers', pouchdb_drivers, null);
+when_pouchdb_connections_changes(pouchdb_connections);
 				
 
 
@@ -1024,7 +1027,7 @@ function copyFolderRecursiveSync( source, target ) {
 }
 
 
-function when_pouchdb_connections_changes_on_server(pouchdb_connections) {
+function when_pouchdb_connections_changes(pouchdb_connections) {
     pouchdb_connections.find({selector: {name: {$ne: null}}}, function (err, result) {
         var results = result.docs;
         for (var i = 0 ; i < results.length ; i ++) {
@@ -1035,4 +1038,4 @@ function when_pouchdb_connections_changes_on_server(pouchdb_connections) {
             }
         }
     });
-};
+}

@@ -64,7 +64,7 @@ var pouchdb_drivers;
     }
 
 
-    exports.pouchdbTableonServer = function(stringName, objectPouchdb, when_fn) {
+    exports.pouchdbTableOnServer = function(stringName, objectPouchdb, when_fn) {
         objectPouchdb.changes({
               since: 0,
               include_docs: false
