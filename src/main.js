@@ -574,17 +574,17 @@ function setupGunDB() {
                 document.getElementById('mainid2').innerHTML = JSON.stringify(data.value , null, 2)
             }},false);
 
-		pouch_system_table.changes({
+		pouchdb_system_settings.changes({
 			  since: 0,
 			  include_docs: false
 			}).then(function (changes) {
-				console.log('*** pouch_system_table.changes({ called');
-					pouch_system_table.find({
+				console.log('*** pouchdb_system_settings.changes({ called');
+					pouchdb_system_settings.find({
 					  selector: {_id: 'test'},
 					  fields: ['_id', 'value'],
 					  sort: ['_id']
 					}).then(function (result) {
-					  //console.log("pouch_system_table test: " + JSON.stringify(result , null, 2));
+					  //console.log("pouchdb_system_settings test: " + JSON.stringify(result , null, 2));
 					  if (result.docs.length > 0) {
 						  if (document.getElementById('mainid3')) {
 								document.getElementById('mainid3').innerHTML = JSON.stringify(result.docs[0].value , null, 2)
@@ -599,42 +599,24 @@ function setupGunDB() {
 			});
 			
 			
-        var remote_pouch_system_table;
+        var remote_pouchdb_system_settings;
         if ((location.port == '8080')  && (location.host == '127.0.0.1')) {
-			remote_pouch_system_table = new PouchDB('http://127.0.0.1:8080/db/pouchdb_system_settings')
+			remote_pouchdb_system_settings = new PouchDB('http://127.0.0.1:8080/db/pouchdb_system_settings')
         } else { // we are on port 80
-			remote_pouch_system_table = new PouchDB('http://' + location.host + '/db/pouchdb_system_settings')
+			remote_pouchdb_system_settings = new PouchDB('http://' + location.host + '/db/pouchdb_system_settings')
         };
 
-		pouch_system_table.sync(remote_pouch_system_table, {
-			  live: true
-			}).on('change', function (change) {
-				console.log('*** pouch_system_table.sync(HOST/db/system_settings, { called');
-			  //localDB.replicate.to(remote_pouch_system_table);
-			  //localDB.replicate.from(pouch_system_table);
-			  
-			  
-			  
-			  
-			  
-					pouch_system_table.find({
-					  selector: {_id: 'test'},
-					  fields: ['_id', 'value'],
-					  sort: ['_id']
-					}).then(function (result) {
-					  console.log("pouch_system_table test: " + JSON.stringify(result , null, 2));
-					  console.log("    result.docs.length: " + JSON.stringify(result.docs.length , null, 2));
-					  if (result.docs.length > 0) {
-						  if (document.getElementById('mainid3')) {
-								document.getElementById('mainid3').innerHTML = JSON.stringify(result.docs[0].value , null, 2)
-							}
-					  }
-					}).catch(function (err) {
-					  // ouch, an error
-					});
-			}).on('error', function (err) {
-			  console.log('sync error : ' +err);
+		PouchDB.sync(pouchdb_system_settings, remote_pouchdb_system_settings, {live: true}
+		).on('change', function (change) {
+			console.log('*** pouchdb_system_settings.sync(HOST/db/system_settings, { called');
+			pouchdb_system_settings.find({selector: {_id: 'test'},fields: ['_id', 'value']},function (err, result) {
+				if (result.docs.length > 0) {
+					if (document.getElementById('mainid3')) {
+						document.getElementById('mainid3').innerHTML = JSON.stringify(result.docs[0].value , null, 2)
+					};
+				};
 			});
+		});
 
 			
 			
@@ -1100,20 +1082,20 @@ window.realtimeSql = function(sql, callBackFn, schema) {
 
 
 window.all = function(pouchCollection) {
-	pouchCollection.find(
+	new PouchDB(pouchCollection).find(
 		{ selector: 
 			{_id: {$gte: null}}}).then(
 				function(v){console.log(JSON.stringify(v.docs , null, 2))});
 }
 window.count = function(pouchCollection) {
-	pouchCollection.find(
+	new PouchDB(pouchCollection).find(
 		{ selector: 
 			{_id: {$gte: null}}}).then(
 				function(v){console.log(JSON.stringify(v.docs.length , null, 2))});
 }
 window.insert = function(pouchCollection, objectval) {
-	pouchCollection.post(objectval);
+	new PouchDB(pouchCollection).post(objectval);
 }
 window.drop = function(pouchCollection) {
-	pouchCollection.destroy();
+	new PouchDB(pouchCollection).destroy();
 }

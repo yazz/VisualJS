@@ -607,17 +607,17 @@
 
     }
     function updateNetworkTest3() {
-		pouch_system_table.createIndex({
+		pouchdb_system_settings.createIndex({
 				index: {
 					fields: ['_id']
 			}});
 			
-		pouch_system_table.find({
+		pouchdb_system_settings.find({
 		  selector: {_id: 'test'},
 		  fields: ['_id', 'value'],
 		  sort: ['_id']
 		}).then(function (result) {
-		  //console.log("pouch_system_table test2: " + JSON.stringify(result , null, 2));
+		  //console.log("pouchdb_system_settings test2: " + JSON.stringify(result , null, 2));
 			var testValue; 
 			if (result.docs.length == 0) {
 				//console.log("New val: " );
@@ -625,7 +625,7 @@
 					_id: 'test',
 					value: document.getElementById('maininput3').value
 				};
-				pouch_system_table.put(testValue, function callback(err, result) {
+				pouchdb_system_settings.put(testValue, function callback(err, result) {
 					if (!err) {
 						//console.log('*************Successfully posted a todo!');
 					} else {
@@ -635,11 +635,11 @@
 
 			} else {
 				console.log("Update existing val: " );
-				pouch_system_table.get('test').then(function (doc) {
+				pouchdb_system_settings.get('test').then(function (doc) {
 					//console.log("Existing val: " + JSON.stringify(doc , null, 2));
 					doc.value = document.getElementById('maininput3').value;
 					//console.log("changed to: " + JSON.stringify(doc , null, 2) , null, 2);
-					pouch_system_table.put(doc);
+					pouchdb_system_settings.put(doc);
 					
 					});
 			}
@@ -651,12 +651,12 @@
     }
 	
 	
-	var pouch_system_table = new PouchDB('system_settings');
+	var pouchdb_system_settings = new PouchDB('pouchdb_system_settings');
 	var testValue = {
 		_id: 'test',
 		value: 'Zubair'
 	};
-	pouch_system_table.put(testValue, function callback(err, result) {
+	pouchdb_system_settings.put(testValue, function callback(err, result) {
 		if (!err) {
 			console.log('*************Successfully posted a todo!');
 			console.log('*************Successfully posted a todo!');
@@ -665,11 +665,11 @@
 		};
 	});
 
-	pouch_system_table.allDocs({
+	pouchdb_system_settings.allDocs({
 	  include_docs: true,
 	  attachments: true
 	}).then(function (result) {
-	  //console.log("pouch_system_table: " + JSON.stringify(result , null, 2));
+	  //console.log("pouchdb_system_settings: " + JSON.stringify(result , null, 2));
 	  if (result.total_rows == 0) {
 		  console.log("No system records");
 	  }
@@ -678,22 +678,22 @@
 	});
 
 
-	pouch_system_table.createIndex({
+	pouchdb_system_settings.createIndex({
 			index: {
 				fields: ['_id']
 		}});
 		
-	pouch_system_table.find({
+	pouchdb_system_settings.find({
 	  selector: {_id: 'test'},
 	  fields: ['_id', 'value'],
 	  sort: ['_id']
 	}).then(function (result) {
-	  console.log("pouch_system_table test: " + JSON.stringify(result , null, 2));
+	  console.log("pouchdb_system_settings test: " + JSON.stringify(result , null, 2));
 	}).catch(function (err) {
 	  // ouch, an error
 	});
 
-	var pouch_drivers_table = new PouchDB('drivers');
+	var pouchdb_drivers = new PouchDB('pouchdb_drivers');
 
 	
 	

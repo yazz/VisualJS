@@ -797,9 +797,67 @@ program
 
 
 
+				
+				
+				
+				
+						var db = new sqlite3.Database(':memory:');
+
+		db.serialize(function() {
+			  db.run("CREATE TABLE lorem (info TEXT)");
+
+			  var stmt = db.prepare("INSERT INTO lorem VALUES (?)");
+			  for (var i = 0; i < 10; i++) {
+				  stmt.run("Ipsum " + i);
+			  }
+			  stmt.finalize();
+
+			  db.each("SELECT rowid AS id, info FROM lorem", function(err, row) {
+				  console.log(row.id + ": " + row.info);
+			  });
+			});
+
+			db.close();
+			
+			
+		}
 
 
 
+				console.log("******************************ADDING POUCH*********************************")
+				console.log("******************************ADDING POUCH*********************************")
+
+console.log('POUCH...');
+
+var dbb = require2('sqldown');
+var myttt = require('express-pouchdb')(PouchDB, { 	db: dbb, 
+													d:  (process.cwd() + "pouch") ,
+													mode: 'fullCouchDB'})
+app.use('/db', myttt);
+
+
+
+
+
+var pouchdb_system_settings = new PouchDB('pouchdb_system_settings');
+pouchdb_system_settings.createIndex({
+		index: {
+			fields: ['_id']
+	}});
+console.log('...POUCH');
+
+
+
+var pouch_drivers = new PouchDB('pouchdb_drivers');
+pouch_drivers.createIndex({index: {fields: ['_id']}});
+pouch_drivers.createIndex({index: {fields: ['name']}});
+
+
+				
+
+
+
+		console.log("******************************ADDING DRIVERS*********************************")
 		console.log("******************************ADDING DRIVERS*********************************")
 
 
@@ -855,57 +913,6 @@ program
 
 
 
-		var db = new sqlite3.Database(':memory:');
-
-		db.serialize(function() {
-			  db.run("CREATE TABLE lorem (info TEXT)");
-
-			  var stmt = db.prepare("INSERT INTO lorem VALUES (?)");
-			  for (var i = 0; i < 10; i++) {
-				  stmt.run("Ipsum " + i);
-			  }
-			  stmt.finalize();
-
-			  db.each("SELECT rowid AS id, info FROM lorem", function(err, row) {
-				  console.log(row.id + ": " + row.info);
-			  });
-			});
-
-			db.close();
-			
-			
-		}
-
-
-
-		
-console.log('POUCH...');
-
-var dbb = require2('sqldown');
-var myttt = require('express-pouchdb')(PouchDB, { 	db: dbb, 
-													d:  (process.cwd() + "pouch") ,
-													mode: 'fullCouchDB'})
-app.use('/db', myttt);
-
-
-
-
-
-var pouch_system_table = new PouchDB('pouchdb_system_settings');
-pouch_system_table.createIndex({
-		index: {
-			fields: ['_id']
-	}});
-console.log('...POUCH');
-
-
-
-var pouch_drivers_table = new PouchDB('pouchdb_drivers');
-pouch_drivers_table.createIndex({
-		index: {
-			fields: ['_id']
-	}});
-
 
 		
 		
@@ -918,6 +925,22 @@ pouch_drivers_table.createIndex({
 		var driverType = theObject.type;
 		//console.log("******************************driver type= " + driverType)
 		//console.log("******************************driver= " + JSON.stringify(theObject , null, 2))
+		
+		pouch_drivers.find({
+									  selector: {
+										name: {$eq: name}
+									  }
+		}, function(err, result){
+			console.log('POUCH: ' + JSON.stringify(result , null, 2));
+			if (result.doc.length == 0) {
+				pouch_drivers.push({
+											name: name,
+											type: driverType,
+											code: code
+											});
+			}
+		});
+		
 		dbhelper.sql("select * from drivers where name = '" +  name +  "' ",
 			function(records) {
 				console.log("******************************records = " + records.length  )
