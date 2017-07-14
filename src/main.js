@@ -596,7 +596,7 @@ function setupGunDB() {
 			remote_pouchdb_system_settings = new PouchDB('http://' + location.host + '/db/pouchdb_system_settings')
         };
 
-		PouchDB.sync(pouchdb_system_settings, remote_pouchdb_system_settings, {live: true}
+		PouchDB.sync(pouchdb_system_settings, remote_pouchdb_system_settings, {live: true,retry: true}
 		).on('change', function (change) {
 			console.log('*** pouchdb_system_settings.sync(HOST/db/system_settings, { called');
 			when_pouchdb_system_settings_changes();
@@ -605,17 +605,17 @@ function setupGunDB() {
 			
 			
 			
-		var remote_pouch_drivers_table;
+		var remote_pouchdb_drivers;
         if ((location.port == '8080')  && (location.host == '127.0.0.1')) {
-			remote_pouch_drivers_table = new PouchDB('http://127.0.0.1:8080/db/pouchdb_drivers')
+			remote_pouchdb_drivers = new PouchDB('http://127.0.0.1:8080/db/pouchdb_drivers')
         } else { // we are on port 80
-			remote_pouch_drivers_table = new PouchDB('http://' + location.host + '/db/pouchdb_drivers')
+			remote_pouchdb_drivers = new PouchDB('http://' + location.host + '/db/pouchdb_drivers')
         };
 
-		PouchDB.sync(pouch_drivers_table, remote_pouch_drivers_table, {live: true}
+		PouchDB.sync(pouchdb_drivers, remote_pouchdb_drivers, {live: true, retry: true}
 		).on('change', function (change) {
-			console.log('*** remote_pouch_drivers_table.sync(HOST/db/pouch_drivers_table, { called');
-			when_pouchdb_system_settings_changes();
+			console.log('*** remote_pouchdb_drivers.sync(HOST/db/pouchdb_drivers_table, { called');
+			//when_pouchdb_system_settings_changes();
 		});
 
 			
