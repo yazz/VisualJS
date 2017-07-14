@@ -587,6 +587,17 @@ function setupGunDB() {
 			}).catch(function (err) {
 				console.log('***ERR');
 			});
+
+		pouchdb_drivers.changes({
+			  since: 0,
+			  include_docs: false
+			}).then(function (changes) {
+				console.log('*** pouchdb_drivers.changes({ called');
+				when_pouchdb_drivers_changes();
+				
+			}).catch(function (err) {
+				console.log('***ERR');
+			});
 			
 			
         var remote_pouchdb_system_settings;
@@ -615,7 +626,7 @@ function setupGunDB() {
 		PouchDB.sync(pouchdb_drivers, remote_pouchdb_drivers, {live: true, retry: true}
 		).on('change', function (change) {
 			console.log('*** remote_pouchdb_drivers.sync(HOST/db/pouchdb_drivers_table, { called');
-			//when_pouchdb_system_settings_changes();
+			when_pouchdb_drivers_changes();
 		});
 
 			
@@ -703,60 +714,6 @@ function setupGunDB() {
         );
 
 
-
-
-        // ------------------------------------------------------------------
-        //  Update the drivers in the UI
-        // ------------------------------------------------------------------
-        realtimeSql(
-            "SELECT * FROM drivers where deleted != 'T'"
-            ,
-            function(results) {
-                store.dispatch('clear_drivers');
-                for (var i = 0 ; i < results.length ; i ++) {
-                    var driver  = results[i];
-                    //console.log('********* CALLED REALTIME DBCONN*************:' + JSON.stringify(driver.name , null, 2));
-                    var evalede = eval(driver.code);
-
-                    //console.log('********* CALLED REALTIME DBCONN*************:' + JSON.stringify(conn , null, 2));
-
-                    store.dispatch(
-                        'add_driver'
-                        ,
-                         {
-                             cn: driver.name
-                             ,
-                             cp: {
-									 id:      driver.name,
-									 type:    driver.driver_type,
-									 code:    driver.code
-                                  }
-                          });
-
-
-
-					 if (evalede.vue)
-					 {
-						 Vue.component( driver.name + '-view-connection' , evalede.vue );
-					 };
-
-					 if (evalede.vue_add) {
-						Vue.component(driver.name + '-add-connection', evalede.vue_add);
-					 };
-
-					 if (evalede.vue_add_query) {
-						Vue.component(driver.name + '-add-query', evalede.vue_add_query);
-					 };
-
-					 if (evalede.vue_view_query) {
-						Vue.component(driver.name + '-view-query', evalede.vue_view_query);
-					 };
-
-
-
-                  };
-            }
-        );
 
 
 
@@ -1091,6 +1048,55 @@ function when_pouchdb_system_settings_changes() {
 				document.getElementById('mainid3').innerHTML = JSON.stringify(result.docs[0].value , null, 2)
 			};
 		};
+	});
+};
+
+
+function when_pouchdb_drivers_changes() {
+	pouchdb_drivers.find({selector: {name: {$ne: null}}},function (err, result) {
+		var results = result.docs;
+		//if (result.docs.length > 0) {
+		//alert( JSON.stringify(result , null, 2));
+        // ------------------------------------------------------------------
+        //  Update the drivers in the UI
+        // ------------------------------------------------------------------
+		store.dispatch('clear_drivers');
+        for (var i = 0 ; i < results.length ; i ++) {
+			var driver  = results[i];
+			var evalede = eval(driver.code);
+
+			store.dispatch(
+				'add_driver'
+				,
+				{
+					cn: driver.name
+					,
+					cp: {
+							 id:      driver.name,
+							 type:    driver.driver_type,
+							 code:    driver.code
+					    }
+				});
+
+
+
+			if (evalede.vue)
+			{
+				Vue.component( driver.name + '-view-connection' , evalede.vue );
+			};
+
+			if (evalede.vue_add) {
+				Vue.component(driver.name + '-add-connection', evalede.vue_add);
+			};
+
+			if (evalede.vue_add_query) {
+				Vue.component(driver.name + '-add-query', evalede.vue_add_query);
+			};
+
+			if (evalede.vue_view_query) {
+				Vue.component(driver.name + '-view-query', evalede.vue_view_query);
+			};
+        }
 	});
 };
 
