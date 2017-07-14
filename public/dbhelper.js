@@ -26,6 +26,7 @@ var PouchDB;
 var pouchdb_system_settings;
 var pouchdb_connections;
 var pouchdb_drivers;
+var pouchdb_queries;
 
 (function(exports){
     exports.setPouchDB = function(val) {
@@ -39,6 +40,9 @@ var pouchdb_drivers;
     };
     exports.get_pouchdb_drivers = function(val) {
         return pouchdb_drivers;
+    };
+    exports.get_pouchdb_queries = function(val) {
+        return pouchdb_queries;
     };
     
     exports.initPouchdb = function() {        
@@ -61,6 +65,12 @@ var pouchdb_drivers;
         pouchdb_connections.createIndex({index: {fields: ['_id']}});
         pouchdb_connections.createIndex({index: {fields: ['name']}});
         console.log("pouchdb_connections=" + pouchdb_connections);
+
+
+        pouchdb_queries = new PouchDB('pouchdb_pouchdb_queries');
+        pouchdb_queries.createIndex({index: {fields: ['_id']}});
+        pouchdb_queries.createIndex({index: {fields: ['name']}});
+        console.log("pouchdb_queries=" + pouchdb_queries);
     }
 
 

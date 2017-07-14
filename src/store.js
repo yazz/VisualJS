@@ -269,40 +269,20 @@ export default new Vuex.Store({
 		// add new query
 		//
 		add_new_query: function(a, query){
-		//a.commit('ADD_NEW_QUERY', query)
-		//console.log(JSON.stringify(query));
-      db.sql(`insert into
-                  queries
-                  (
-                      id
+			pouchdb_queries.post(
+				{
+                      name:         query.cn
                       ,
-                      name
+                      connection:   query.cp.connection
                       ,
-                      connection
+                      driver:       query.cp.driver
                       ,
-                      driver
+                      definition:   query.cp.definition
                       ,
-                      definition
-                      ,
-                      status
-                  )
-              values
-                  (?,?,?,?,?,?)`
-                  ,
-                  [
-                        autoIndexSerialId()
-                        ,
-                        query.cn
-                        ,
-                        (query.cp.connection ? query.cp.connection:null)
-                        ,
-                        (query.cp.driver ? query.cp.driver:null)
-                        ,
-                        (query.cp.definition ? query.cp.definition:null)
-                        ,
-                        (query.cp.status ? query.cp.status:null)
-                  ]
-            )
+                      status:       query.cp.status
+				}
+			);
+                        
     },
 
 	

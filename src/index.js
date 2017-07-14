@@ -830,6 +830,7 @@ dbhelper.initPouchdb();
 var pouchdb_system_settings     = dbhelper.get_pouchdb_system_settings();;
 var pouchdb_connections         = dbhelper.get_pouchdb_connections();;
 var pouchdb_drivers             = dbhelper.get_pouchdb_drivers();;
+var pouchdb_queries             = dbhelper.get_pouchdb_queries();;
 
 
 dbhelper.pouchdbTableOnServer('pouchdb_system_settings', pouchdb_system_settings, null);

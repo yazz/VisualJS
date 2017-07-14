@@ -5,7 +5,7 @@
     <div class="form-group">
 	   <label for="select_connection" class=" col-form-label">Connection name</label>
        <select id=select_connection v-model='query_connection' class="col-xs-10  custom-select">
-            <option v-for='connection in this.$store.state.list_of_connections' v-bind:value="connection.id">{{connection.id}}</option>
+            <option v-for='connection in this.$store.state.list_of_connections' v-bind:value="connection.id">{{connection.name}}</option>
        </select>
     </div>
 
