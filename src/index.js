@@ -419,23 +419,10 @@ program
 	  //dbhelper.sql("SELECT age, name FROM Customers");
 	  //dbhelper.realtimeSql("SELECT * FROM Customers where Age > 8");
 
-	  dbhelper.realtimeSql("select * from db_connections where deleted != 'T'"
-		,function(results) {
-			//console.log("select * from db_connections where deleted != 'T'")
-			for (var i = 0 ; i < results.length ; i ++) {
-				var conn = results[i]
 
-				//console.log("***************select * from db_connections where deleted != 'T'")
-				//console.log("    " + JSON.stringify(conn, null, 2))
-				if (!connections[conn.name]) {
-				  //console.log(a);
-				  connections[conn.name] = conn;
-				}
-			}
-
-		})
-
-
+      
+      
+      
 	  dbhelper.realtimeSql("select * from queries where deleted != 'T'"
 		,function(results) {
 			for (var i = 0 ; i < results.length ; i ++) {
@@ -855,9 +842,11 @@ pouchdb_drivers.createIndex({index: {fields: ['name']}});
 
 
 var pouchdb_connections = new PouchDB('pouchdb_connections');
-pouchdb_drivers.createIndex({index: {fields: ['_id']}});
-pouchdb_drivers.createIndex({index: {fields: ['name']}});
-
+pouchdb_connections.createIndex({index: {fields: ['_id']}});
+pouchdb_connections.createIndex({index: {fields: ['name']}});
+pouchdbTableonServer('pouchdb_connections', pouchdb_connections, when_pouchdb_connections_changes_on_server);
+console.log("pouchdb_connections=" + pouchdb_connections);
+when_pouchdb_connections_changes_on_server(pouchdb_connections);
 
 				
 
@@ -934,7 +923,7 @@ pouchdb_drivers.createIndex({index: {fields: ['name']}});
 		
 		pouchdb_drivers.find({selector: {name: {$eq: name}}}, 
 			function(err, result){
-				console.log('POUCH: ' + JSON.stringify(result , null, 2));
+				console.log('POUCH added driver: ' + JSON.stringify(result.name , null, 2));
 			if (result.docs.length == 0) {
 				pouchdb_drivers.post({
 											name: name,
@@ -943,35 +932,6 @@ pouchdb_drivers.createIndex({index: {fields: ['name']}});
 											});
 			}
 		});
-		
-		dbhelper.sql("select * from drivers where name = '" +  name +  "' ",
-			function(records) {
-				console.log("******************************records = " + records.length  )
-				if(records.length > 0) {
-					for (var record of records) {
-						dbhelper.sql("update drivers set code = ?  where name = '" + name + "'",  [code])
-						if (typeof driverType === 'string' || driverType instanceof String) {
-							console.log("******************************UPDATE DRIVER "+name)
-							//console.log("******************************record type = " + JSON.stringify(record.type , null, 2))
-							//console.log("******************************desired type = " + JSON.stringify(driverType , null, 2))
-							//console.log("******************************set driver type = " + JSON.stringify(driverType , null, 2))
-							//console.log("******************************for name = " + JSON.stringify(name , null, 2))
-							var sqlToRun = "update drivers set type = '" + driverType + "' where  name = '" + name + "'";
-
-
-							//console.log("******************************SQL  = " + JSON.stringify(sqlToRun , null, 2))
-							dbhelper.sql(sqlToRun, function(ack) {
-								//console.log("******************************SQL Done  = " + JSON.stringify(sqlToRun , null, 2))
-							})
-							//dbhelper.sql("update drivers set type = '...' where name = 'TestDriver'")
-						}
-					}
-				} else {
-					console.log("******************************INSERT DRIVER "+name)
-					dbhelper.sql("insert into drivers (name,code,type) values (?,?,?)",            [name, code, driverType])
-
-				}
-			})
 	}
 
 
@@ -1077,3 +1037,33 @@ function copyFolderRecursiveSync( source, target ) {
         } );
     }
 }
+
+
+function pouchdbTableonServer(stringName, objectPouchdb, when_fn) {
+	objectPouchdb.changes({
+		  since: 0,
+		  include_docs: false
+		}).then(function (changes) {
+			console.log('*** ' + stringName + '.changes({ called');
+		if (when_fn) {
+			when_fn();
+		}
+			
+		}).catch(function (err) {
+			console.log('***ERR');
+		});
+}
+
+
+function when_pouchdb_connections_changes_on_server(pouchdb_connections) {
+	pouchdb_connections.find({selector: {name: {$ne: null}}}, function (err, result) {
+		var results = result.docs;
+        for (var i = 0 ; i < results.length ; i ++) {
+            var conn = results[i]
+            if (!connections[conn.name]) {
+              //console.log(a);
+              connections[conn.name] = conn;
+            }
+        }
+	});
+};

@@ -193,130 +193,84 @@ export default new Vuex.Store({
 
 
 
-  //-------------------------------------------------------------------
-  //                     PERFORM ACTIONS IN THE APPLICATION
-  //
-  // This contains the things that change the whole applicaiton
-  //
-  //
-  // This can change both the Vue.js state and external things, like
-  // HTTP requests, database code, etc
-  //
-  //-------------------------------------------------------------------
-  actions: {
+	//-------------------------------------------------------------------
+	//                     PERFORM ACTIONS IN THE APPLICATION
+	//
+	// This contains the things that change the whole applicaiton
+	//
+	//
+	// This can change both the Vue.js state and external things, like
+	// HTTP requests, database code, etc
+	//
+	//-------------------------------------------------------------------
+	actions: {
 
 		//
 		// add_connection
 		//
-		//
-		//
 		add_connection: function(a, connection){
 		  a.commit('ADD_CONNECTION', connection)
-		  //console.log(JSON.stringify(connection.cp));
-		  //gun.get('connections').path('user_data').put(connections['user_data']);
-
 		},
+
+
+
+		//
+		// add_query
+		//
 		add_query: function(a, query){
 		  a.commit('ADD_QUERY', query)
-		  //console.log(JSON.stringify(connection.cp));
-		  //gun.get('connections').path('user_data').put(connections['user_data']);
-
 		},
 
 
 
-        //
-        // add driver
-        //
-        //
-        //
-        add_driver: function(a, driver){
-          a.commit('ADD_DRIVER', driver)
-          //console.log(JSON.stringify(connection.cp));
-          //gun.get('connections').path('user_data').put(connections['user_data']);
-
-        },
+		//
+		// add driver
+		//
+		add_driver: function(a, driver){
+		  a.commit('ADD_DRIVER', driver)
+		  //console.log(JSON.stringify(connection.cp));
+		},
 
 
 
-
-
-
-    //
-    // add_new_connection
-    //
-    //
-    //
-    add_new_connection: function(a, connection){
-      //a.commit('ADD_NEW_CONNECTION', connection)
-      //console.log(JSON.stringify(connection));
-      //gun.get('connections').path(connection.cp.id).put(connection.cp);
-      db.sql(`insert into
-                  db_connections
-                  (
-                      id
-                      ,
-                      name
-                      ,
-                      driver
-                      ,
-                      database
-                      ,
-                      host
-                      ,
-                      port
-                      ,
-                      connectString
-                      ,
-                      user
-                      ,
-                      password
+		//
+		// add_new_connection
+		//
+		add_new_connection: function(a, connection){
+			//console.log(JSON.stringify(connection));
+			pouchdb_connections.post(
+				{
+					  name: 			connection.cn
 					  ,
-					  fileName
+					  driver:			connection.cp.driver
 					  ,
-					  preview
-                  )
-              values
-                  (?,?,?,?,?,?,?,?,?,?,?)`
-                  ,
-                  [
-                        autoIndexSerialId()
-                        ,
-                        connection.cn
-                        ,
-                        (connection.cp.driver?connection.cp.driver:null)
-                        ,
-                        (connection.cp.database?connection.cp.database:null)
-                        ,
-                        (connection.cp.host?connection.cp.host:null)
-                        ,
-                        (connection.cp.port?connection.cp.port:null)
-                        ,
-                        (connection.cp.connectString?connection.cp.connectString:null)
-                        ,
-						(connection.cp.user?connection.cp.user:null)
-                        ,
-						(connection.cp.password?connection.cp.password:null)
-                        ,
-						(connection.cp.fileName?connection.cp.fileName:null)
-                        ,
-						(connection.cp.preview?connection.cp.preview:null)
-                  ]
-            )
-    },
+					  database:			connection.cp.database
+					  ,
+					  host:				connection.cp.host
+					  ,
+					  port:				connection.cp.port
+					  ,
+					  connectString:	connection.cp.connectString
+					  ,
+					  user:				connection.cp.user
+					  ,
+					  password:			connection.cp.password
+					  ,
+					  fileName:			connection.cp.fileName
+					  ,
+					  preview:			connection.cp.preview
+				}
+			);
+		},
 
 	
 	
-	
-    //
-    // add new query
-    //
-    //
-    //
-    add_new_query: function(a, query){
-      //a.commit('ADD_NEW_QUERY', query)
-      //console.log(JSON.stringify(query));
-      //gun.get('queries').path(quert.cp.id).put(query.cp);
+		//
+		// add new query
+		//
+		add_new_query: function(a, query){
+		//a.commit('ADD_NEW_QUERY', query)
+		//console.log(JSON.stringify(query));
       db.sql(`insert into
                   queries
                   (
@@ -353,60 +307,59 @@ export default new Vuex.Store({
 
 	
 
-    //
-    // clear_connections
-    //
-    //
-    //
-    clear_connections: function(a){
-      a.commit('CLEAR_CONNECTIONS')
-    }
-    ,
-    //
-    // clear_queries
-    //
-    //
-    //
-    clear_queries: function(a){
-      a.commit('CLEAR_QUERIES')
-    }
-    ,
+		//
+		// clear_connections
+		//
+		clear_connections: function(a){
+		  a.commit('CLEAR_CONNECTIONS')
+		}
+		,
+
+
+
+		//
+		// clear_queries
+		//
+		clear_queries: function(a){
+		  a.commit('CLEAR_QUERIES')
+		}
+		,
 
 
 
 
-    //
-    // clear_drivers
-    //
-    //
-    //
-    clear_drivers: function(a){
-      a.commit('CLEAR_DRIVERS')
-    }
-    ,
+		//
+		// clear_drivers
+		//
+		//
+		//
+		clear_drivers: function(a){
+		  a.commit('CLEAR_DRIVERS')
+		}
+		,
 
 
 
 
 
 
-    //
-    // delete_connection
-    //
-    //
-    //
-    delete_connection: function(a, connection){
-      //a.commit('ADD_NEW_CONNECTION', connection)
-      //console.log(JSON.stringify(connection.cp));
-      connection.deleted = true;
-      //gun.get('connections').path(connection.id).put(connection,
-      //function() {gun.get('default').path('connections_changed').val(function(v){
-      //      gun.get('default').path('connections_changed').put({value: v.value + 1});
-      //},true);});
-      //alert(connection.id);
-      //console.log('Delete connection: ' + connection.id)
-      db.sql("update db_connections set deleted = 'T' where name = '" + connection.id + "'")
-    },
+		//
+		// delete_connection
+		//
+		//
+		//
+		delete_connection: function(a, connection){
+		  //a.commit('ADD_NEW_CONNECTION', connection)
+		  //console.log(JSON.stringify(connection.cp));
+		  connection.deleted = true;
+		  //gun.get('connections').path(connection.id).put(connection,
+		  //function() {gun.get('default').path('connections_changed').val(function(v){
+		  //      gun.get('default').path('connections_changed').put({value: v.value + 1});
+		  //},true);});
+		  //alert(connection.id);
+		  //console.log('Delete connection: ' + connection.id)
+		  db.sql("update db_connections set deleted = 'T' where name = '" + connection.id + "'")
+		},
 
 
     //
@@ -430,139 +383,118 @@ export default new Vuex.Store({
 
 
 
-    //
-    // hide_add_connection
-    //
-    //
-    //
-    hide_add_connection: function(a){
-      a.commit('HIDE_ADD_CONNECTION')
-    },
+		//
+		// hide_add_connection
+		//
+		hide_add_connection: function(a){
+            a.commit('HIDE_ADD_CONNECTION')
+		},
 
 
 
-    //
-    // hide add query
-    //
-    //
-    //
-    hide_add_query: function(a){
-      a.commit('HIDE_ADD_QUERY')
-    },
+        //
+        // hide add query
+        //
+        hide_add_query: function(a){
+            a.commit('HIDE_ADD_QUERY')
+        },
 
 
 
 
-    //
-    // hide add query
-    //
-    //
-    //
-    hide_full_doc: function(a){
-      a.commit('HIDE_FULL_DOC')
-    },
-
+        //
+        // hide add query
+        //
+        hide_full_doc: function(a){
+            a.commit('HIDE_FULL_DOC')
+        },
 
 
 
         //
         // hide_add_driver
         //
-        //
-        //
         hide_add_driver: function(a){
-          a.commit('HIDE_ADD_DRIVER')
+            a.commit('HIDE_ADD_DRIVER')
         },
 
 
 
-
+        //
+        // set_output_fields
+        //
         set_output_fields: function(a, fields){
-          a.commit('SET_OUTPUT_FIELDS', fields)
+            a.commit('SET_OUTPUT_FIELDS', fields)
         },
 
+        
+        
+        //
+        // set_output_records
+        //
         set_output_records: function(a, records){
-          a.commit('SET_OUTPUT_RECORDS', records)
+            a.commit('SET_OUTPUT_RECORDS', records)
         },
 
 
-    //
-    // set_viewed_connection
-    //
-    //
-    //
-    set_viewed_connection: function(a, b){
-      a.commit('SET_VIEWED_CONNECTION', b)
-    },
+        //
+        // set_viewed_connection
+        //
+        set_viewed_connection: function(a, b){
+            a.commit('SET_VIEWED_CONNECTION', b)
+        },
+
+
+        //
+        // set viewed query
+        //
+        set_viewed_query: function(a, b){
+            a.commit('SET_VIEWED_QUERY', b)
+        },
 
 
 
 
-    //
-    // set viewed query
-    //
-    //
-    //
-    set_viewed_query: function(a, b){
-      a.commit('SET_VIEWED_QUERY', b)
-    },
-
-
-
-
-
-    //
-    // set viewed query
-    //
-    //
-    //
-    set_viewed_query_id: function(a, b){
-      a.commit('SET_VIEWED_QUERY_ID', b)
-    },
+        //
+        // set viewed query
+        //
+        set_viewed_query_id: function(a, b){
+            a.commit('SET_VIEWED_QUERY_ID', b)
+        },
 
 
         //
         // set_viewed_driver
         //
-        //
-        //
         set_viewed_driver: function(a, b){
-          a.commit('SET_VIEWED_DRIVER', b)
+            a.commit('SET_VIEWED_DRIVER', b)
         },
 
 
 
 
-    //
-    // show add query
-    //
-    //
-    //
-    show_add_query: function(a){
-      a.commit('SHOW_ADD_QUERY')
-    },
+        //
+        // show add query
+        //
+        show_add_query: function(a){
+          a.commit('SHOW_ADD_QUERY')
+        },
 
 
-    //
-    // show_add_connection
-    //
-    //
-    //
-    show_add_connection: function(a){
-      a.commit('SHOW_ADD_CONNECTION')
-    },
+        //
+        // show_add_connection
+        //
+        show_add_connection: function(a){
+            a.commit('SHOW_ADD_CONNECTION')
+        },
 
 
-
-
-    //
-    // hide add query
-    //
-    //
-    //
-    show_full_doc: function(a){
-      a.commit('SHOW_FULL_DOC')
-    },
+        //
+        // hide add query
+        //
+        show_full_doc: function(a){
+            a.commit('SHOW_FULL_DOC')
+        },
 
   }
 })

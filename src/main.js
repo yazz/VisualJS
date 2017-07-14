@@ -631,42 +631,6 @@ function setupGunDB() {
         );
 
 
-        realtimeSql("SELECT * FROM db_connections where deleted != 'T'"
-          ,function(results) {
-              //alert('SELECT * FROM db_connections')
-                              //console.log('********* CALLED REALTIME DBCONN*************:' + JSON.stringify(results[0] , null, 2));
-                              store.dispatch('clear_connections');
-                              //console.log('********* CALLED REALTIME DBCONN len:' + JSON.stringify(results.length , null, 2));
-                              for (var i = 0 ; i < results.length ; i ++) {
-                                  var conn = results[i]
-                                  //console.log('********* CALLED REALTIME DBCONN*************:' + JSON.stringify(conn , null, 2));
-                                  store.dispatch( 'add_connection' , {cn:       conn.name,
-
-                                                                      cp: {     id:      conn.name
-                                                                                ,
-                                                                                driver: conn.driver
-                                                                                ,
-                                                                                status: ''
-                                                                                ,
-                                                                                database: conn.database
-                                                                                ,
-                                                                                host: conn.host
-                                                                                ,
-                                                                                port: conn.port
-                                                                                ,
-                                                                                user: conn.user
-                                                                                ,
-                                                                                password: conn.password
-                                                                                ,
-                                                                                connectString: conn.connectString
-                                                                                ,
-                                                                                fileName: conn.fileName
-                                                                                ,
-                                                                                preview: conn.preview
-                                                                               }});
-                              };
-           }
-        );
 
 
 
@@ -1011,9 +975,37 @@ function when_pouchdb_system_settings_changes() {
 
 
 function when_pouchdb_connections_changes() {
-	pouchdb_connections.find({selector: {_id: 'test'},fields: ['_id', 'value']},function (err, result) {
-		if (result.docs.length > 0) {
-		};
+	pouchdb_connections.find({selector: {name: {$ne: null}}}, function (err, result) {
+		var results = result.docs;
+        store.dispatch('clear_connections');
+        for (var i = 0 ; i < results.length ; i ++) {
+            var conn = results[i]
+            //console.log('********* CALLED REALTIME DBCONN*************:' + JSON.stringify(conn , null, 2));
+            store.dispatch( 'add_connection' , {  cn:       conn.name,
+
+                                                    cp: {       id:      conn.name
+                                                                ,
+                                                                driver: conn.driver
+                                                                ,
+                                                                status: ''
+                                                                ,
+                                                                database: conn.database
+                                                                ,
+                                                                host: conn.host
+                                                                ,
+                                                                port: conn.port
+                                                                ,
+                                                                user: conn.user
+                                                                ,
+                                                                password: conn.password
+                                                                ,
+                                                                connectString: conn.connectString
+                                                                ,
+                                                                fileName: conn.fileName
+                                                                ,
+                                                                preview: conn.preview
+                                                               }});
+        }
 	});
 };
 
@@ -1022,7 +1014,6 @@ function when_pouchdb_connections_changes() {
 function when_pouchdb_drivers_changes() {
 	pouchdb_drivers.find({selector: {name: {$ne: null}}},function (err, result) {
 		var results = result.docs;
-		//if (result.docs.length > 0) {
 		//alert( JSON.stringify(result , null, 2));
         // ------------------------------------------------------------------
         //  Update the drivers in the UI
