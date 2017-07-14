@@ -652,9 +652,18 @@
 	
 	
 	var pouchdb_system_settings = new PouchDB('pouchdb_system_settings');
+	pouchdb_system_settings.createIndex({
+			index: {
+				fields: ['_id']
+		}});
+	var pouchdb_drivers = new PouchDB('pouchdb_drivers');
+	var pouchdb_connections = new PouchDB('pouchdb_connections');
+		
+		
+		
 	var testValue = {
 		_id: 'test',
-		value: 'Zubair'
+		value: ''
 	};
 	pouchdb_system_settings.put(testValue, function callback(err, result) {
 		if (!err) {
@@ -678,10 +687,6 @@
 	});
 
 
-	pouchdb_system_settings.createIndex({
-			index: {
-				fields: ['_id']
-		}});
 		
 	pouchdb_system_settings.find({
 	  selector: {_id: 'test'},
@@ -693,7 +698,6 @@
 	  // ouch, an error
 	});
 
-	var pouchdb_drivers = new PouchDB('pouchdb_drivers');
 
 	
 	

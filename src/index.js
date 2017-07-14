@@ -853,6 +853,12 @@ pouchdb_drivers.createIndex({index: {fields: ['_id']}});
 pouchdb_drivers.createIndex({index: {fields: ['name']}});
 
 
+
+var pouchdb_connections = new PouchDB('pouchdb_connections');
+pouchdb_drivers.createIndex({index: {fields: ['_id']}});
+pouchdb_drivers.createIndex({index: {fields: ['name']}});
+
+
 				
 
 
