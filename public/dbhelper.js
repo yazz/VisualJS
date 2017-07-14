@@ -19,7 +19,84 @@ var queryId                = 1;
 var queryDone              = new Object();
 var sqlQueueItem = null;
 
+
+
+
+var PouchDB;
+var pouchdb_system_settings;
+var pouchdb_connections;
+var pouchdb_drivers;
+
 (function(exports){
+    exports.setPouchDB = function(val) {
+        PouchDB = val;
+    };
+    exports.get_pouchdb_system_settings = function(val) {
+        return pouchdb_system_settings;
+    };
+    exports.get_pouchdb_connections = function(val) {
+        return pouchdb_connections;
+    };
+    exports.get_pouchdb_drivers = function(val) {
+        return pouchdb_drivers;
+    };
+    
+    exports.initPouchdb = function() {        
+        pouchdb_system_settings = new PouchDB('pouchdb_system_settings');
+        pouchdb_system_settings.createIndex({
+                index: {
+                    fields: ['_id']
+            }});
+        console.log('...POUCH');
+
+
+
+        pouchdb_drivers = new PouchDB('pouchdb_drivers');
+        pouchdb_drivers.createIndex({index: {fields: ['_id']}});
+        pouchdb_drivers.createIndex({index: {fields: ['name']}});
+
+
+
+        pouchdb_connections = new PouchDB('pouchdb_connections');
+        pouchdb_connections.createIndex({index: {fields: ['_id']}});
+        pouchdb_connections.createIndex({index: {fields: ['name']}});
+        console.log("pouchdb_connections=" + pouchdb_connections);
+    }
+
+
+    exports.pouchdbTableonServer = function(stringName, objectPouchdb, when_fn) {
+        objectPouchdb.changes({
+              since: 0,
+              include_docs: false
+            }).then(function (changes) {
+                console.log('*** ' + stringName + '.changes({ called');
+            if (when_fn) {
+                when_fn();
+            }
+                
+            }).catch(function (err) {
+                console.log('***ERR');
+            });
+    }
+
+
+    exports.when_pouchdb_connections_changes_on_server = function(pouchdb_connections) {
+        pouchdb_connections.find({selector: {name: {$ne: null}}}, function (err, result) {
+            var results = result.docs;
+            for (var i = 0 ; i < results.length ; i ++) {
+                var conn = results[i]
+                if (!connections[conn.name]) {
+                  //console.log(a);
+                  connections[conn.name] = conn;
+                }
+            }
+        });
+    };
+
+
+
+
+
 
     function objectToArray( data ) {
         var list2 = [];

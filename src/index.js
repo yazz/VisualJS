@@ -825,28 +825,13 @@ app.use('/db', myttt);
 
 
 
+dbhelper.setPouchDB(PouchDB);
+dbhelper.initPouchdb();
+var pouchdb_system_settings     = dbhelper.get_pouchdb_system_settings();;
+var pouchdb_connections         = dbhelper.get_pouchdb_connections();;
+var pouchdb_drivers             = dbhelper.get_pouchdb_drivers();;
 
-var pouchdb_system_settings = new PouchDB('pouchdb_system_settings');
-pouchdb_system_settings.createIndex({
-		index: {
-			fields: ['_id']
-	}});
-console.log('...POUCH');
-
-
-
-var pouchdb_drivers = new PouchDB('pouchdb_drivers');
-pouchdb_drivers.createIndex({index: {fields: ['_id']}});
-pouchdb_drivers.createIndex({index: {fields: ['name']}});
-
-
-
-var pouchdb_connections = new PouchDB('pouchdb_connections');
-pouchdb_connections.createIndex({index: {fields: ['_id']}});
-pouchdb_connections.createIndex({index: {fields: ['name']}});
-pouchdbTableonServer('pouchdb_connections', pouchdb_connections, when_pouchdb_connections_changes_on_server);
-console.log("pouchdb_connections=" + pouchdb_connections);
-when_pouchdb_connections_changes_on_server(pouchdb_connections);
+dbhelper.when_pouchdb_connections_changes_on_server(pouchdb_connections);
 
 				
 
@@ -1039,31 +1024,3 @@ function copyFolderRecursiveSync( source, target ) {
 }
 
 
-function pouchdbTableonServer(stringName, objectPouchdb, when_fn) {
-	objectPouchdb.changes({
-		  since: 0,
-		  include_docs: false
-		}).then(function (changes) {
-			console.log('*** ' + stringName + '.changes({ called');
-		if (when_fn) {
-			when_fn();
-		}
-			
-		}).catch(function (err) {
-			console.log('***ERR');
-		});
-}
-
-
-function when_pouchdb_connections_changes_on_server(pouchdb_connections) {
-	pouchdb_connections.find({selector: {name: {$ne: null}}}, function (err, result) {
-		var results = result.docs;
-        for (var i = 0 ; i < results.length ; i ++) {
-            var conn = results[i]
-            if (!connections[conn.name]) {
-              //console.log(a);
-              connections[conn.name] = conn;
-            }
-        }
-	});
-};
