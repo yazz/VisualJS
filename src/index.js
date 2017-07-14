@@ -831,7 +831,7 @@ var pouchdb_system_settings     = dbhelper.get_pouchdb_system_settings();;
 var pouchdb_connections         = dbhelper.get_pouchdb_connections();;
 var pouchdb_drivers             = dbhelper.get_pouchdb_drivers();;
 
-dbhelper.when_pouchdb_connections_changes_on_server(pouchdb_connections);
+when_pouchdb_connections_changes_on_server(pouchdb_connections);
 
 				
 
@@ -1024,3 +1024,15 @@ function copyFolderRecursiveSync( source, target ) {
 }
 
 
+function when_pouchdb_connections_changes_on_server(pouchdb_connections) {
+    pouchdb_connections.find({selector: {name: {$ne: null}}}, function (err, result) {
+        var results = result.docs;
+        for (var i = 0 ; i < results.length ; i ++) {
+            var conn = results[i]
+            if (!connections[conn.name]) {
+              //console.log(a);
+              connections[conn.name] = conn;
+            }
+        }
+    });
+};

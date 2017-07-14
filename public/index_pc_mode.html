@@ -650,55 +650,12 @@
 
     }
 	
-	
-	var pouchdb_system_settings = new PouchDB('pouchdb_system_settings');
-	pouchdb_system_settings.createIndex({
-			index: {
-				fields: ['_id']
-		}});
-	var pouchdb_drivers = new PouchDB('pouchdb_drivers');
-	var pouchdb_connections = new PouchDB('pouchdb_connections');
+    var pouchdb_system_settings;
+    var pouchdb_connections;
+    var pouchdb_drivers;
 		
 		
 		
-	var testValue = {
-		_id: 'test',
-		value: ''
-	};
-	pouchdb_system_settings.put(testValue, function callback(err, result) {
-		if (!err) {
-			console.log('*************Successfully posted a todo!');
-			console.log('*************Successfully posted a todo!');
-		} else {
-			console.log('*************! ' + err);
-		};
-	});
-
-	pouchdb_system_settings.allDocs({
-	  include_docs: true,
-	  attachments: true
-	}).then(function (result) {
-	  //console.log("pouchdb_system_settings: " + JSON.stringify(result , null, 2));
-	  if (result.total_rows == 0) {
-		  console.log("No system records");
-	  }
-	}).catch(function (err) {
-	  console.log(err);
-	});
-
-
-		
-	pouchdb_system_settings.find({
-	  selector: {_id: 'test'},
-	  fields: ['_id', 'value'],
-	  sort: ['_id']
-	}).then(function (result) {
-	  console.log("pouchdb_system_settings test: " + JSON.stringify(result , null, 2));
-	}).catch(function (err) {
-	  // ouch, an error
-	});
-
-
 	
 	
 	

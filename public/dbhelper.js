@@ -80,19 +80,41 @@ var pouchdb_drivers;
     }
 
 
-    exports.when_pouchdb_connections_changes_on_server = function(pouchdb_connections) {
-        pouchdb_connections.find({selector: {name: {$ne: null}}}, function (err, result) {
-            var results = result.docs;
-            for (var i = 0 ; i < results.length ; i ++) {
-                var conn = results[i]
-                if (!connections[conn.name]) {
-                  //console.log(a);
-                  connections[conn.name] = conn;
-                }
+
+
+
+    
+    exports.pouchdbTable = function (stringName, objectPouchdb, when_fn) {
+        objectPouchdb.changes({
+              since: 0,
+              include_docs: false
+            }).then(function (changes) {
+                console.log('*** ' + stringName + '.changes({ called');
+            if (when_fn) {
+                when_fn();
+            }
+                
+            }).catch(function (err) {
+                console.log('***ERR');
+            });
+
+            
+            
+        var remote_pouchdb_table;
+        if ((location.port == '8080')  && (location.host == '127.0.0.1')) {
+            remote_pouchdb_table = new PouchDB('http://127.0.0.1:8080/db/' + stringName)
+        } else { // we are on port 80
+            remote_pouchdb_table = new PouchDB('http://' + location.host + '/db/' + stringName)
+        };
+
+        PouchDB.sync(objectPouchdb, remote_pouchdb_table, {live: true,retry: true}
+        ).on('change', function (change) {
+            console.log('*** ' + stringName + '.sync(HOST/db/system_settings, { called');
+            if (when_fn) {
+                when_fn();
             }
         });
-    };
-
+    }
 
 
 
