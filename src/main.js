@@ -685,17 +685,7 @@ export function inccc(){
 //
 //-----------------------------------------------------------------
 var connectionrows = new Object();
-function read_connections(a,b){
-    delete a["_"];
-    if (!connectionrows[a.id]) {
-        if (!a.deleted) {
-            data_connections_list.push(a);
-            connectionrows[a.id] = a;
-            //console.log("deleted: " + a.deleted);
-            store.dispatch('add_connection', {cn: a.id, cp: a})
-        }
-    }
-}
+
 
 //store.dispatch('set_output_records', data);
 window.setOutputData = function(data) {
@@ -989,7 +979,9 @@ function when_pouchdb_connections_changes() {
             //console.log('********* CALLED REALTIME DBCONN*************:' + JSON.stringify(conn , null, 2));
             store.dispatch( 'add_connection' , {  cn:       conn.name,
 
-                                                    cp: {       id:      conn.name
+                                                    cp: {       id:      conn._id
+                                                                ,
+                                                                name: conn.name
                                                                 ,
                                                                 driver: conn.driver
                                                                 ,

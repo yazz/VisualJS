@@ -349,16 +349,11 @@ export default new Vuex.Store({
 		//
 		//
 		delete_connection: function(a, connection){
-		  //a.commit('ADD_NEW_CONNECTION', connection)
-		  //console.log(JSON.stringify(connection.cp));
-		  connection.deleted = true;
-		  //gun.get('connections').path(connection.id).put(connection,
-		  //function() {gun.get('default').path('connections_changed').val(function(v){
-		  //      gun.get('default').path('connections_changed').put({value: v.value + 1});
-		  //},true);});
-		  //alert(connection.id);
-		  //console.log('Delete connection: ' + connection.id)
-		  db.sql("update db_connections set deleted = 'T' where name = '" + connection.id + "'")
+            console.log(JSON.stringify(connection));
+            pouchdb_connections.get(connection.id,function(err,doc) {
+                pouchdb_connections.remove(doc);
+            });
+            
 		},
 
 

@@ -23,14 +23,14 @@
         <table class="table  table-striped  table-bordered " style="width: 100%;">
           <thead >
             <tr>
-              <th>ID</th>
+              <th>Name</th>
               <th>Driver</th>
               <th></th>
             </tr>
           </thead>
           <tbody v-for="a_connection in list_of_connections">
             <tr scope="row" >
-              <td v-on:click="set_viewed_connection(a_connection)">{{a_connection.id}}</td>
+              <td v-on:click="set_viewed_connection(a_connection)">{{a_connection.name}}</td>
               <td v-on:click="set_viewed_connection(a_connection)">{{a_connection.driver}}</td>
               <td><button v-on:click.prevent='delete_item(a_connection)'>X</button></td>
             </tr>
