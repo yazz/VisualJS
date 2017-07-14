@@ -574,26 +574,16 @@ function setupGunDB() {
                 document.getElementById('mainid2').innerHTML = JSON.stringify(data.value , null, 2)
             }},false);
 
+			
+			
+			
 		pouchdb_system_settings.changes({
 			  since: 0,
 			  include_docs: false
 			}).then(function (changes) {
 				console.log('*** pouchdb_system_settings.changes({ called');
-					pouchdb_system_settings.find({
-					  selector: {_id: 'test'},
-					  fields: ['_id', 'value'],
-					  sort: ['_id']
-					}).then(function (result) {
-					  //console.log("pouchdb_system_settings test: " + JSON.stringify(result , null, 2));
-					  if (result.docs.length > 0) {
-						  if (document.getElementById('mainid3')) {
-								document.getElementById('mainid3').innerHTML = JSON.stringify(result.docs[0].value , null, 2)
-							}
-					  }
-					}).catch(function (err) {
-					  // ouch, an error
-					});
-
+				when_pouchdb_system_settings_changes();
+				
 			}).catch(function (err) {
 				console.log('***ERR');
 			});
@@ -609,13 +599,7 @@ function setupGunDB() {
 		PouchDB.sync(pouchdb_system_settings, remote_pouchdb_system_settings, {live: true}
 		).on('change', function (change) {
 			console.log('*** pouchdb_system_settings.sync(HOST/db/system_settings, { called');
-			pouchdb_system_settings.find({selector: {_id: 'test'},fields: ['_id', 'value']},function (err, result) {
-				if (result.docs.length > 0) {
-					if (document.getElementById('mainid3')) {
-						document.getElementById('mainid3').innerHTML = JSON.stringify(result.docs[0].value , null, 2)
-					};
-				};
-			});
+			when_pouchdb_system_settings_changes();
 		});
 
 			
@@ -1099,3 +1083,16 @@ window.insert = function(pouchCollection, objectval) {
 window.drop = function(pouchCollection) {
 	new PouchDB(pouchCollection).destroy();
 }
+
+
+function when_pouchdb_system_settings_changes() {
+	pouchdb_system_settings.find({selector: {_id: 'test'},fields: ['_id', 'value']},function (err, result) {
+		if (result.docs.length > 0) {
+			if (document.getElementById('mainid3')) {
+				document.getElementById('mainid3').innerHTML = JSON.stringify(result.docs[0].value , null, 2)
+			};
+		};
+	});
+};
+
+
