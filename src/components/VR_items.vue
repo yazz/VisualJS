@@ -118,7 +118,7 @@
 				<a-entity  v-for="(a_driver,index)  in  list_of_queries"
 				   v-bind:position="(-2.2 + (get_x_position(index,list_of_queries.length)*0.5))+ ' ' + (2 - (get_y_position(index,list_of_queries.length)*0.6)) + ' -.1'"
 				   v-bind:color="(index % 2 == 0)?'blue':'green'"
-				   v-bind:text="'color: black; align: left; value: ' + a_driver.id.substr(a_driver.id.length - 10) + ' ; width: 2; '">
+				   v-bind:text="'color: black; align: left; value: ' + a_driver.name.substr(a_driver.name.length - 10) + ' ; width: 2; '">
 					   <a-entity    position="-0.8 .3 -.3" 
 									geometry="primitive: plane; width:.35;height: 0.35;depth: 0.35;"
 							        v-bind:griditem='"x: " + get_x_position(index,list_of_queries.length) + "; y:" + get_y_position(index,list_of_queries.length) + ";" +

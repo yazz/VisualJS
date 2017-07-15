@@ -10,7 +10,7 @@
 '          <tr scope="row"><td>ID</td><td>{{get_connection_property(connection_name,"id")}}</td></tr>'+
 '          <tr scope="row"><td>File</td><td>{{get_connection_property(connection_name,"fileName")}}</td></tr>'+
 '<FileBrowser></FileBrowser>'+
-'        <tbody>'+
+'        </tbody>'+
 '      </table>'+
 '</div>'
 			,
@@ -178,7 +178,7 @@
 						'          <tr scope="row"><td>ID</td><td>{{get_query_property(query_name,"id")}}</td></tr>'+
 						'          <tr scope="row"><td>Driver</td><td>excel</td></tr>'+
 						'          <tr scope="row"><td>Preview</td><td>{{get_query_property(query_name,"preview")}}</td></tr>'+
-						'        <tbody>'+
+						'        </tbody>'+
 						'      </table>'+
 						'</div>'
 			,
