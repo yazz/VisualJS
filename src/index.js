@@ -87,8 +87,6 @@ var request      = require("request");
 var toeval;
 var open         = require('open');
 var dbhelper     = require('../public/dbhelper');
-var Gun          = require('gun');
-var parseSqlFn = require('node-sqlparser').parse;
 var Excel = require('exceljs');
 const drivelist = require('drivelist');
 
@@ -150,7 +148,8 @@ var mysql      = require('mysql');
 							var fileId = excelFile.replace(/[^\w\s]/gi,'');
   							console.log('   *file id: ' + fileId);
 
-  							dbhelper.sql(`insert into
+                            //zzz
+  							/*dbhelper.sql(`insert into
   									  db_connections
   									  (
   										  id
@@ -198,7 +197,7 @@ var mysql      = require('mysql');
 									  JSON.stringify({} , null, 2),
                     JSON.stringify([{message: 'No preview available'}] , null, 2)
   								  ]
-  							);
+  							);*/
 						}
 					}
 		  if (isCsvFile(file)) {
@@ -208,7 +207,8 @@ var mysql      = require('mysql');
 							var fileId = CSVFile.replace(/[^\w\s]/gi,'');
   							console.log('   *file id: ' + fileId);
 
-  							dbhelper.sql(`insert into
+                            //zzz
+  							/*dbhelper.sql(`insert into
   									  db_connections
   									  (
   										  id
@@ -257,7 +257,7 @@ var mysql      = require('mysql');
 									  JSON.stringify({} , null, 2),
                     JSON.stringify([{message: 'No preview available'}] , null, 2)
   								  ]
-  							);
+  							);*/
 						}
 					}
           if (!--pending) done(null);
@@ -374,15 +374,6 @@ program
 		} else if (typeOfSystem == 'server') {
 			storageFileName = 'server.json';
 		}
-		var gun          = Gun({	file: storageFileName,
-									s3: {
-											key: '', // AWS Access Key
-											secret: '', // AWS Secret Token
-											bucket: '' // The bucket you want to save into
-										}
-							  });
-
-
 		console.dir ( ip.address() );
 
 		console.log('addr: '+ ip.address());
@@ -406,64 +397,6 @@ program
 	// wait three seconds for stuff to initialize
 	//------------------------------------------------------------
 	function startServices() {
-	  //
-	  // start the server
-	  //
-	  gun.wsp(app);
-
-
-	  dbhelper.setGunDB(gun)
-	  dbhelper.setGunDBClass(Gun)
-	  dbhelper.setSqlParseFn(parseSqlFn)
-	  //dbhelper.sql('select * from servertable where a.s = 1', null)
-	  //dbhelper.sql("SELECT age, name FROM Customers");
-	  //dbhelper.realtimeSql("SELECT * FROM Customers where Age > 8");
-
-
-      
-      
-      
-	  dbhelper.realtimeSql("select * from queries where deleted != 'T'"
-		,function(results) {
-			for (var i = 0 ; i < results.length ; i ++) {
-				var query = results[i];
-				//console.log("***************select * from db_connections where deleted != 'T'")
-				//console.log("    " + JSON.stringify(conn, null, 2))
-				if (!queries[query.name]) {
-				  //console.log(a);
-				  queries[query.name] = query;
-				  //if (query.preview == []) {
-								var oout = [{a: 'no EXCEL'}];
-								try {
-									console.log('*************************************************************************');
-									console.log('     query.id : ' + query.id);
-									console.log('     query.connection : ' + query.connection);
-									console.log('     query.driver : ' + query.driver);
-									console.log('     query.definition : ' + query.definition);
-									var restrictRows = JSON.parse(query.definition);
-									restrictRows.maxRows = 10;
-										drivers[query.driver]['get_v2'](connections[query.connection],restrictRows,
-										function(ordata) {
-											//console.log('********* ' + JSON.stringify(ordata));
-												dbhelper.sql("update queries set  preview = ? where id = '" + query.id +  "'"
-													  ,
-													  [
-														  JSON.stringify(ordata, null, 2),
-														  query.id
-													  ]
-												);
-										});
-								} catch (err) {
-
-							}
-
-					//}
-				}
-			}
-
-		})
-
-
 
 	var hostcount = 0;
 	  //------------------------------------------------------------------------------
@@ -738,7 +671,7 @@ program
 	// start the web server
 	//------------------------------------------------------------------------------
 	app.listen(port, hostaddress, function () {
-		console.log('GunDB listening on port ' + port + '!' + ' with /gun')
+		console.log('PouchDB Listening on port ' + port + '!' + ' with /db')
 		console.log(typeOfSystem + ' started on port ' + port );
 	})
 
@@ -836,7 +769,9 @@ var pouchdb_queries             = dbhelper.get_pouchdb_queries();;
 dbhelper.pouchdbTableOnServer('pouchdb_system_settings', pouchdb_system_settings, null);
 dbhelper.pouchdbTableOnServer('pouchdb_connections', pouchdb_connections, when_pouchdb_connections_changes);
 dbhelper.pouchdbTableOnServer('pouchdb_drivers', pouchdb_drivers, null);
+dbhelper.pouchdbTableOnServer('pouchdb_queries', pouchdb_drivers, when_pouchdb_queries_changes);
 when_pouchdb_connections_changes(pouchdb_connections);
+when_pouchdb_queries_changes(pouchdb_queries);
 				
 
 
@@ -912,16 +847,24 @@ when_pouchdb_connections_changes(pouchdb_connections);
 		
 		pouchdb_drivers.find({selector: {name: {$eq: name}}}, 
 			function(err, result){
-				console.log('POUCH added driver: ' + JSON.stringify(result.name , null, 2));
-			if (result.docs.length == 0) {
-				pouchdb_drivers.post({
-											name: name,
-											type: driverType,
-											code: code
-											});
-			}
-		});
-	}
+				console.log('POUCH scanning driver: ' + JSON.stringify(name , null, 2));
+				if (result.docs.length == 0) {
+					pouchdb_drivers.post({
+												name: name,
+												type: driverType,
+												code: code
+												});
+				} else {
+					console.log('   *** Checking DRIVER ' + name);
+					var existingDriver = result.docs[0];
+					if (!(code === existingDriver.code)) {
+						console.log('      *** UPDATED CODE FOR DRIVER ' + name);
+						existingDriver.code = code;
+						pouchdb_drivers.put(existingDriver);
+					}
+				}
+			});
+		}
 
 
 
@@ -1040,3 +983,28 @@ function when_pouchdb_connections_changes(pouchdb_connections) {
         }
     });
 }
+
+
+
+
+function when_pouchdb_queries_changes(pouchdb_queries) {
+    pouchdb_queries.find({selector: {name: {$ne: null}}}, function (err, result) {
+        var results = result.docs;
+		for (var i = 0 ; i < results.length ; i ++) {
+			var query = results[i];
+			if (!queries[query.name]) {
+				queries[query.name] = query;
+				var oout = [{a: 'no EXCEL'}];
+				try {
+					var restrictRows = JSON.parse(query.definition);
+					restrictRows.maxRows = 10;
+						drivers[query.driver]['get_v2'](connections[query.connection],restrictRows,
+						function(ordata) {//zzz
+						});
+				} catch (err) {};
+			}
+		};
+	});
+};
+
+

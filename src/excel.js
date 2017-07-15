@@ -2,16 +2,17 @@
     name: 'excel'
     ,
     vue: {
-            template:   '<div>'+
-						'     <table class="table table-striped table-bordered " style="width: 100%;">'+
-						'        <tbody>'+
-						'          <tr scope="row"><td>Type</td><td>Excel</td></tr>'+
-						'          <tr scope="row"><td>ID</td><td>{{get_connection_property(connection_name,"id")}}</td></tr>'+
-						'          <tr scope="row"><td>File</td><td>{{get_connection_property(connection_name,"fileName")}}</td></tr>'+
-						'<FileBrowser></FileBrowser>'+
-						'        <tbody>'+
-						'      </table>'+
-						'</div>'
+            template:   
+'<div>'+
+'     <table class="table table-striped table-bordered " style="width: 100%;">'+
+'        <tbody>'+
+'          <tr scope="row"><td>Type</td><td>Excel</td></tr>'+
+'          <tr scope="row"><td>ID</td><td>{{get_connection_property(connection_name,"id")}}</td></tr>'+
+'          <tr scope="row"><td>File</td><td>{{get_connection_property(connection_name,"fileName")}}</td></tr>'+
+'<FileBrowser></FileBrowser>'+
+'        <tbody>'+
+'      </table>'+
+'</div>'
 			,
 			props: ['connection_name']
 			,
@@ -26,7 +27,7 @@
 				  return 'Unknown ' + cn + ":" + prop_name;
 				},
 				OK: function() {
-				  this.$store.dispatch('add_connection', {cn: this.connection_name, cp: {id: this.connection_name, driver: this.connection_driver}})
+				  this.$store.dispatch('add_connection', {cn: this.connection_name, cp: {name: this.connection_name, driver: this.connection_driver}})
 				  this.$store.dispatch('hide_add_connection')
 				},
 				Cancel: function() {
@@ -87,7 +88,7 @@
 				  {
 					  cn: this.connection_name,
 					  cp: {
-						  id:        this.connection_name,
+						  name:      this.connection_name,
 						  driver:    'excel',
 						  fileName:  this.file
 					  }
@@ -100,6 +101,7 @@
 				}
 			  }
 			  ,
+			  
 			  data: function() {
 				return {
 				  connection_name:           "Excel connection",
@@ -146,7 +148,7 @@
 				  {
 					  cn: this.query_name,
 					  cp: {
-						  id:             this.query_name,
+						  name:             this.query_name,
 						  connection:     this.query_connection,
 						  driver:        'excel',
 						  type:          '|SPREADSHEET|',

@@ -14,7 +14,7 @@ import db                       from '../public/dbhelper.js'
 Vue.component('FileBrowser',FileBrowser);
 
 
-const gun_ip_address = '172.20.10.7'
+const gun_ip_address = '192.168.1.9'
 
 
 window.vue = Vue;
@@ -558,24 +558,6 @@ function setupSqlResultPane() {
 //
 //-----------------------------------------------------------------
 function setupGunDB() {
-			//alert('gun' );
-
-        if (location.port == '8080') {
-            gun = Gun( ['http://' + gun_ip_address + '/gun']);
-        } else { // we are on port 80
-            gun = Gun( ['http://' + location.host + '/gun']);
-        };
-
-
-
-
-        gun.get('network_data2').on(function(data,id) {
-            if (document.getElementById('mainid2')) {
-                document.getElementById('mainid2').innerHTML = JSON.stringify(data.value , null, 2)
-            }},false);
-
-			
-			
 
         db.setPouchDB(PouchDB);
         db.initPouchdb();
@@ -587,93 +569,10 @@ function setupGunDB() {
 		db.pouchdbTable('pouchdb_system_settings',  pouchdb_system_settings,   	when_pouchdb_system_settings_changes);
 		db.pouchdbTable('pouchdb_drivers', 			pouchdb_drivers, 			when_pouchdb_drivers_changes);
 		db.pouchdbTable('pouchdb_connections', 		pouchdb_connections, 		when_pouchdb_connections_changes);
-		db.pouchdbTable('pouchdb_queries', 		    pouchdb_queries, 		    null);
-
-			
-			
-			
-			
-			
-			
-
-
-        //localStorage.clear();
-
-        db.setGunDB(gun)
-        db.setGunDBClass(Gun)
-        db.setSqlParseFn(parseSql)
-        db.start()
-        //db.sql("INSERT INTO Customers (CustomerName, ContactName, Address, City, PostalCode, Country)\n VALUES ('Cardinal','Tom B. Erichsen','Skagen 21','Stavanger','4006','Norway')")
-        //db.sql("SELECT age, name FROM Customers");
-        //db.realtimeSql("SELECT * FROM Customers where Age > 5"
-        //  ,function(results) {console.log('********* CALLED REALTIME *************:' + results);}
-        //);
+		db.pouchdbTable('pouchdb_queries', 		    pouchdb_queries, 		    when_pouchdb_queries_changes);
 
 
 
-        realtimeSql("SELECT * FROM queries where deleted != 'T'"
-          ,function(results) {
-              //alert('SELECT * FROM db_connections')
-                              //console.log('********* CALLED REALTIME DBCONN*************:' + JSON.stringify(results[0] , null, 2));
-                              store.dispatch('clear_queries');
-                              //console.log('********* CALLED REALTIME DBCONN len:' + JSON.stringify(results.length , null, 2));
-                              for (var i = 0 ; i < results.length ; i ++) {
-                                  var query = results[i]
-                                  //console.log('********* CALLED REALTIME DBCONN*************:' + JSON.stringify(conn , null, 2));
-                                  store.dispatch( 'add_query' , {cn:       query.name,
-
-                                                                      cp: {     id:      query.name
-                                                                                ,
-                                                                                driver: query.driver
-                                                                                ,
-                                                                                status: ''
-                                                                                ,
-                                                                                connection: query.connection
-																				,
-																				definition: eval('(' + query.definition + ')')
-																				,
-																				preview: eval('(' + query.preview + ')')
-                                                                               }});
-                              };
-           }
-        );
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        sql("select * from globals where id = 'network_test'",
-          function(res) {
-              if (res.length == 0) {
-                  sql("insert into globals (id, value) values ('network_test','')")
-              }
-          })
-
-          realtimeSql("SELECT * FROM globals where id = 'network_test'"
-            ,function(results) {
-                if (results[0]) {
-                    //document.getElementById('maininput').value = results[0].value
-					if (document.getElementById('mainid')) {
-						document.getElementById('mainid').innerHTML = results[0].value
-					}
-                }
-            })
-
-}
-
-export function inccc(){
-    gun.get('default').path('connections_changed').val(function(v){
-          gun.get('default').path('connections_changed').put({value: v.value + 1});
-    },true);
 }
 
 
@@ -898,15 +797,6 @@ $( document ).ready(function() {
     setupGunDB();
   };
 
-  /*sql('insert into clienttable2 (id, next) values (3,"fdg")',
-      function(record) {
-          console.log('record:' + record)
-      })
-
-  sql('select * from clienttable2',
-      function(record) {
-          console.log('record:' + JSON.stringify(record) )
-      })*/
 
 });
 
@@ -914,27 +804,6 @@ $( document ).ready(function() {
 
 
 
-
-//-----------------------------------------------------------------
-// This is code to give a SQL interface in the browser
-//
-//
-//
-//-----------------------------------------------------------------
-window.sql = function(sql, p2, p3, p4) {
-    return db.sql(sql, p2, p3, p4);
-}
-window.sql1 = function(sql, p2, p3, p4) {
-    return db.sql1(sql, p2, p3, p4);
-}
-window.autoIndexSerialId = function() {
-    return db.autoIndexSerialId();
-}
-
-
-window.realtimeSql = function(sql, callBackFn, schema) {
-    return db.realtimeSql(sql, callBackFn, schema);
-}
 
 
 
@@ -954,7 +823,20 @@ window.insert = function(pouchCollection, objectval) {
 	new PouchDB(pouchCollection).post(objectval);
 }
 window.drop = function(pouchCollection) {
-	new PouchDB(pouchCollection).destroy();
+	var pdc = new PouchDB(pouchCollection);
+	pdc.allDocs({
+	  include_docs: true,
+	  attachments: true
+	}, function(err, response) {
+	  if (err) { return console.log(err); }
+	  // handle result
+	  for (var i = 0 ; i < response.rows.length ; i ++) {
+			var conn = response.rows[i].doc;
+			//console.log(JSON.stringify(conn , null, 2));
+			pdc.remove(conn);
+	  };
+
+	});
 }
 
 
@@ -1064,4 +946,32 @@ function when_pouchdb_drivers_changes() {
 
 
 
+function when_pouchdb_queries_changes() {
+	pouchdb_queries.find({selector: {name: {$ne: null}}},function (err, result) {
+		var results = result.docs;
+
+        store.dispatch('clear_queries');
+        //console.log('********* CALLED REALTIME DBCONN len:' + JSON.stringify(results.length , null, 2));
+        for (var i = 0 ; i < results.length ; i ++) {
+            var query = results[i]
+            //console.log('********* CALLED REALTIME DBCONN*************:' + JSON.stringify(conn , null, 2));
+                store.dispatch( 'add_query' , {cn:       query.id,
+
+                                        cp: {     id:      query.id
+                                                    ,
+                                                    name: query.name
+                                                    ,
+                                                    driver: query.driver
+                                                    ,
+                                                    status: ''
+                                                    ,
+                                                    connection: query.connection
+                                                    ,
+                                                    definition: eval('(' + query.definition + ')')
+                                                    ,
+                                                    preview: eval('(' + query.preview + ')')
+                                                   }});
+        };
+    });
+};
 

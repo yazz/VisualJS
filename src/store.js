@@ -269,9 +269,10 @@ export default new Vuex.Store({
 		// add new query
 		//
 		add_new_query: function(a, query){
+            //alert('new query: ' + JSON.stringify(query));;
 			pouchdb_queries.post(
 				{
-                      name:         query.cn
+                      name:         query.cp.name
                       ,
                       connection:   query.cp.connection
                       ,
@@ -343,16 +344,10 @@ export default new Vuex.Store({
     //
     //
     delete_query: function(a, query){
-      //a.commit('ADD_NEW_CONNECTION', connection)
-      //console.log(JSON.stringify(connection.cp));
-      query.deleted = true;
-      //gun.get('connections').path(connection.id).put(connection,
-      //function() {gun.get('default').path('connections_changed').val(function(v){
-      //      gun.get('default').path('connections_changed').put({value: v.value + 1});
-      //},true);});
-      //alert(connection.id);
-      //console.log('Delete connection: ' + connection.id)
-      db.sql("update queries  set deleted = 'T' where name = '" + query.id + "'")
+            console.log(JSON.stringify(connection));
+            pouchdb_queries.get(connection.id,function(err,doc) {
+                pouchdb_queries.remove(doc);
+            });
     },
 
 

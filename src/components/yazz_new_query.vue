@@ -48,7 +48,12 @@ export default {
 
   methods: {
     OK: function() {
-      this.$store.dispatch('add_query', {cn: this.query_name, cp: {id: this.query_name, connection: this.query_connection, driver: this.query_connection_driver}})
+	alert('store');
+      this.$store.dispatch('add_query', {	cn: this.query_name, 
+											cp: {
+												name: 		this.query_name, 
+												connection: this.query_connection, 
+												driver: 	this.query_connection_driver}})
       this.$store.dispatch('hide_add_query')
     },
     Cancel: function() {
