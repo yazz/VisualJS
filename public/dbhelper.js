@@ -23,10 +23,7 @@ var pouchdb_queries;
     
     exports.initPouchdb = function() {        
         pouchdb_system_settings = new PouchDB('pouchdb_system_settings');
-        pouchdb_system_settings.createIndex({
-                index: {
-                    fields: ['_id']
-            }});
+        pouchdb_system_settings.createIndex({index: {fields: ['_id']}});
         console.log('...POUCH');
 
 
@@ -53,15 +50,12 @@ var pouchdb_queries;
     exports.pouchdbTableOnServer = function(stringName, objectPouchdb, when_fn) {
         objectPouchdb.changes({
               since: 0,
-              include_docs: false
-            }).then(function (changes) {
+              live: true
+            }).on('change', function (changes) {
                 console.log('*** ' + stringName + '.changes({ called');
-            if (when_fn) {
-                when_fn();
-            }
-                
-            }).catch(function (err) {
-                console.log('***ERR');
+                if (when_fn) {
+                    when_fn();
+                }
             });
     }
 
@@ -73,15 +67,12 @@ var pouchdb_queries;
     exports.pouchdbTable = function (stringName, objectPouchdb, when_fn) {
         objectPouchdb.changes({
               since: 0,
-              include_docs: false
-            }).then(function (changes) {
+              live: true
+            }).on('change', function (changes) {
                 console.log('*** ' + stringName + '.changes({ called');
-            if (when_fn) {
-                when_fn();
-            }
-                
-            }).catch(function (err) {
-                console.log('***ERR');
+                if (when_fn) {
+                    when_fn();
+                };
             });
 
             
