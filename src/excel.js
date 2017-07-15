@@ -172,15 +172,17 @@
             
     ,
     vue_view_query: {
-            template:   '<div>'+
-						'     <table class="table table-striped table-bordered " style="width: 100%;">'+
-						'        <tbody>'+
-						'          <tr scope="row"><td>ID</td><td>{{get_query_property(query_name,"id")}}</td></tr>'+
-						'          <tr scope="row"><td>Driver</td><td>excel</td></tr>'+
-						'          <tr scope="row"><td>Preview</td><td>{{get_query_property(query_name,"preview")}}</td></tr>'+
-						'        </tbody>'+
-						'      </table>'+
-						'</div>'
+            template:   
+'<div>'+
+'     <table class="table table-striped table-bordered " style="width: 100%;">'+
+'        <tbody>'+
+'          <tr scope="row"><td>ID</td><td>{{get_query_property(query_name,"id")}}</td></tr>'+
+'          <tr scope="row"><td>Name</td><td>{{get_query_property(query_name,"name")}}</td></tr>'+
+'          <tr scope="row"><td>Driver</td><td>excel</td></tr>'+
+'          <tr scope="row"><td>Preview</td><td>{{get_query_property(query_name,"preview")}}</td></tr>'+
+'        </tbody>'+
+'      </table>'+
+'</div>'
 			,
 			props: ['query_name']
 			,

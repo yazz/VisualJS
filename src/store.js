@@ -344,8 +344,8 @@ export default new Vuex.Store({
     //
     //
     delete_query: function(a, query){
-            console.log(JSON.stringify(connection));
-            pouchdb_queries.get(connection.id,function(err,doc) {
+            //alert(JSON.stringify(query));
+            pouchdb_queries.get(query.id,function(err,doc) {
                 pouchdb_queries.remove(doc);
             });
     },

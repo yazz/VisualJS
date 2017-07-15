@@ -146,6 +146,7 @@ export default {
       this.$store.dispatch('hide_add_query');
   },
   delete_item: function(conn) {
+  //alert(JSON.stringify(conn))
       this.$store.dispatch('delete_query', conn);
   }
   }

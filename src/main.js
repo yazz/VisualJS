@@ -957,7 +957,7 @@ function when_pouchdb_queries_changes() {
             //console.log('********* CALLED REALTIME DBCONN*************:' + JSON.stringify(conn , null, 2));
                 store.dispatch( 'add_query' , {cn:       query.id,
 
-                                        cp: {     id:      query.id
+                                        cp: {     id:      query._id
                                                     ,
                                                     name: query.name
                                                     ,
