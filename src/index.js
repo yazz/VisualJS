@@ -155,10 +155,8 @@ var mysql      = require('mysql');
 
 							pouchdb_connections.post(
 									{
-  										  name: 		fileId
-  										  ,
-  										  driver: 		'excel'
-  										  ,
+  										  name: 		fileId,
+  										  driver: 		'excel',
   										  fileName: 	excelFile
 									}, function (err, response) {
                                           if (err) { 
@@ -185,57 +183,27 @@ var mysql      = require('mysql');
 							var fileId = CSVFile.replace(/[^\w\s]/gi,'');
   							console.log('   *file id: ' + fileId);
 
-                            //zzz
-  							/*dbhelper.sql(`insert into
-  									  db_connections
-  									  (
-  										  id
-  										  ,
-  										  name
-  										  ,
-  										  driver
-  										  ,
-  										  fileName
-
-  									  )
-  								  values
-  									  (? , ? , ? , ?)`
-  								  ,
-  								  [
-  										fileId
-  										,
-  										fileId
-  										,
-  										'csv'
-  										,
-  										CSVFile
-  								  ]
-  							);
-
-  							dbhelper.sql(`insert into
-  									  queries
-  									  (
-										  id,
-										  name,
-										  connection,
-										  driver,
-										  type,
-										  definition,
-										  preview
-  									  )
-  								  values
-  									  (? , ? , ? , ?, ?, ?, ?)`
-  								  ,
-  								  [
-									  fileId,
-									  fileId,
-									  fileId,
-									  'csv',
-									  '|CSV|',
-									  JSON.stringify({} , null, 2),
-                    JSON.stringify([{message: 'No preview available'}] , null, 2)
-  								  ]
-  							);*/
+							pouchdb_connections.post(
+									{
+  										  name: 		fileId,
+  										  driver: 		'csv',
+  										  fileName: 	CSVFile
+									}, function (err, response) {
+                                          if (err) { 
+                                                return console.log(err); 
+                                          }
+                                          pouchdb_queries.post(
+                                          {
+                                              name: fileId,
+                                              connection: response.id,
+                                              driver: 'csv',
+                                              type: '|CSV|',
+                                              definition:JSON.stringify({} , null, 2),
+                                              preview: JSON.stringify([{message: 'No preview available'}] , null, 2)
+                                              
+                                          });
+                                    });
+									  
 						}
 					}
           if (!--pending) done(null);
