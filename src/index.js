@@ -1,5 +1,10 @@
 'use strict';
 
+var pouchdb_system_settings;
+var pouchdb_connections;
+var pouchdb_drivers;
+var pouchdb_queries;
+
 var isWin = /^win/.test(process.platform);
 
 function require2(moduleName) {
@@ -148,56 +153,29 @@ var mysql      = require('mysql');
 							var fileId = excelFile.replace(/[^\w\s]/gi,'');
   							console.log('   *file id: ' + fileId);
 
-                            //zzz
-  							/*dbhelper.sql(`insert into
-  									  db_connections
-  									  (
-  										  id
+							pouchdb_connections.post(
+									{
+  										  name: 		fileId
   										  ,
-  										  name
+  										  driver: 		'excel'
   										  ,
-  										  driver
-  										  ,
-  										  fileName
-  									  )
-  								  values
-  									  (? , ? , ? , ?)`
-  								  ,
-  								  [
-  										fileId
-  										,
-  										fileId
-  										,
-  										'excel'
-  										,
-  										excelFile
-  								  ]
-  							);
-
-  							dbhelper.sql(`insert into
-  									  queries
-  									  (
-										  id,
-										  name,
-										  connection,
-										  driver,
-										  type,
-										  definition,
-										  preview
-  									  )
-  								  values
-  									  (?, ? , ? , ? , ?, ?, ?)`
-  								  ,
-  								  [
-									  fileId,
-									  fileId,
-									  fileId,
-									  'excel',
-									  '|SPREADSHEET|',
-									  JSON.stringify({} , null, 2),
-                    JSON.stringify([{message: 'No preview available'}] , null, 2)
-  								  ]
-  							);*/
+  										  fileName: 	excelFile
+									}, function (err, response) {
+                                          if (err) { 
+                                                return console.log(err); 
+                                          }
+                                          pouchdb_queries.post(
+                                          {
+                                              name: fileId,
+                                              connection: response.id,
+                                              driver: 'excel',
+                                              type: '|SPREADSHEET|',
+                                              definition:JSON.stringify({} , null, 2),
+                                              preview: JSON.stringify([{message: 'No preview available'}] , null, 2)
+                                              
+                                          });
+                                    });
+									  
 						}
 					}
 		  if (isCsvFile(file)) {
@@ -759,10 +737,10 @@ app.use('/db', myttt);
 
 dbhelper.setPouchDB(PouchDB);
 dbhelper.initPouchdb();
-var pouchdb_system_settings     = dbhelper.get_pouchdb_system_settings();;
-var pouchdb_connections         = dbhelper.get_pouchdb_connections();;
-var pouchdb_drivers             = dbhelper.get_pouchdb_drivers();;
-var pouchdb_queries             = dbhelper.get_pouchdb_queries();;
+pouchdb_system_settings     = dbhelper.get_pouchdb_system_settings();;
+pouchdb_connections         = dbhelper.get_pouchdb_connections();;
+pouchdb_drivers             = dbhelper.get_pouchdb_drivers();;
+pouchdb_queries             = dbhelper.get_pouchdb_queries();;
 
 
 dbhelper.pouchdbTableOnServer('pouchdb_system_settings', pouchdb_system_settings, null);
