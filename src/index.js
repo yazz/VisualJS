@@ -919,11 +919,14 @@ function copyFolderRecursiveSync( source, target ) {
 function when_pouchdb_connections_changes(pouchdb_connections) {
     console.log('------------------------------------');
     console.log('Called when_pouchdb_ CONNS _changes ');
+    console.log('------------------------------------');
+    console.log('------------------------------------');
+    
     pouchdb_connections.find({selector: {name: {'$exists': true}}}, function (err, result) {
         var results = result.docs;
         for (var i = 0 ; i < results.length ; i ++) {
             var conn = results[i]
-            console.log('    --------Found conn:  ' + conn._id);
+            //console.log('    --------Found conn:  ' + conn._id);
             //console.log('                      :  ' + conn.name);
             if (!connections[conn._id]) {
               //console.log(a);

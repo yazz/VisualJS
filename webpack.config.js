@@ -61,7 +61,7 @@ module.exports = {
         target: 'http://' + hostaddress,
         secure: false
       },
-      '/db/pouchdb_system_queries/': {
+      '/db/pouchdb_queries/': {
         target: 'http://' + hostaddress,
         secure: false
       },

@@ -61,7 +61,7 @@ function setupSqlVuePane() {
           template: `
                 <select id=select_source>
                   <option v-for="option in options" v-bind:value="option.id">
-                      {{ option.id }}
+                      {{ option.name }}
                   </option>
                 </select>
         `
@@ -89,7 +89,7 @@ function setupSqlVuePane() {
           template: `
                 <select id=select_query>
                   <option v-for="option in options" v-bind:value="option.id">
-                      {{ option.id }}
+                      {{ option.name }}
                   </option>
                 </select>
         `

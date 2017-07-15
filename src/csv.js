@@ -2,16 +2,17 @@
     name: 'csv'
     ,
     vue: {
-            template:   '<div>'+
-						'     <table class="table table-striped table-bordered " style="width: 100%;">'+
-						'        <tbody>'+
-						'          <tr scope="row"><td>Type</td><td>CSV</td></tr>'+
-						'          <tr scope="row"><td>ID</td><td>{{get_connection_property(connection_name,"id")}}</td></tr>'+
-						'          <tr scope="row"><td>File</td><td>{{get_connection_property(connection_name,"fileName")}}</td></tr>'+
-						'<FileBrowser></FileBrowser>'+
-						'        <tbody>'+
-						'      </table>'+
-						'</div>'
+            template:   
+'<div>'+
+'     <table class="table table-striped table-bordered " style="width: 100%;">'+
+'        <tbody>'+
+'          <tr scope="row"><td>Type</td><td>CSV</td></tr>'+
+'          <tr scope="row"><td>ID</td><td>{{get_connection_property(connection_name,"id")}}</td></tr>'+
+'          <tr scope="row"><td>File</td><td>{{get_connection_property(connection_name,"fileName")}}</td></tr>'+
+'<FileBrowser></FileBrowser>'+
+'        <tbody>'+
+'      </table>'+
+'</div>'
 			,
 			props: ['connection_name']
 			,
@@ -40,7 +41,7 @@
 '    <div>' +
 '        <div class="input-group">' +
 '            <div class="form-group">' +
-'                <label for="ID" class=" col-form-label">Connection name</label>' +
+'                <label for="Name" class=" col-form-label">Connection name</label>' +
 '                <input  type="text" class="form-control" v-model="connection_name"></input>' +
 '            </div>' +
 '' +
@@ -87,7 +88,7 @@
 				  {
 					  cn: this.connection_name,
 					  cp: {
-						  id:        this.connection_name,
+						  name:      this.connection_name,
 						  driver:    'csv',
 						  fileName:  this.file
 					  }
@@ -110,21 +111,22 @@
             
     ,
     vue_add_query: {
-            template:   '' +
-						'<div>' +
-						'    <div class="input-group">' +
-						'        <div class="form-group">' +
-						'            <label for="ID" class=" col-form-label">Query name</label>' +
-						'            <input  type="text" class="form-control" v-model="query_name"></input>' +
-						'        </div>' +
-						'        <div class="form-group row">' +
-						'            <span class="input-group-btn">' +
-						'                <button class="btn btn-secondary" type="button" v-on:click="OK">OK</button>' +
-						'                <button class="btn btn-secondary" type="button" v-on:click="Cancel">Cancel</button>' +
-						'            </span>' +
-						'        </div>' +
-						'    </div>' +
-						'</div>' 
+            template:   
+'' +
+'<div>' +
+'    <div class="input-group">' +
+'        <div class="form-group">' +
+'            <label for="Name" class=" col-form-label">Query name</label>' +
+'            <input  type="text" class="form-control" v-model="query_name"></input>' +
+'        </div>' +
+'        <div class="form-group row">' +
+'            <span class="input-group-btn">' +
+'                <button class="btn btn-secondary" type="button" v-on:click="OK">OK</button>' +
+'                <button class="btn btn-secondary" type="button" v-on:click="Cancel">Cancel</button>' +
+'            </span>' +
+'        </div>' +
+'    </div>' +
+'</div>' 
 
 
 			,
@@ -146,7 +148,7 @@
 				  {
 					  cn: this.query_name,
 					  cp: {
-						  id:             this.query_name,
+						  name:           this.query_name,
 						  connection:     this.query_connection,
 						  driver:        'csv',
 						  type:          '|CSV|',
@@ -174,6 +176,7 @@
 						'     <table class="table table-striped table-bordered " style="width: 100%;">'+
 						'        <tbody>'+
 						'          <tr scope="row"><td>ID</td><td>{{get_query_property(query_name,"id")}}</td></tr>'+
+						'          <tr scope="row"><td>Name</td><td>{{get_query_property(query_name,"name")}}</td></tr>'+
 						'          <tr scope="row"><td>Driver</td><td>csv</td></tr>'+
 						'          <tr scope="row"><td>Preview</td><td>{{get_query_property(query_name,"preview")}}</td></tr>'+
 						'        <tbody>'+
@@ -227,16 +230,33 @@
                 drivers['csv']['setup'](connection);
             }
 			
+            
+
 			
 			var rows=[];
 			
 			var firstRow = false;
 						var ret = new Object();
 
-			var stream = fs.createReadStream(connection.fileName);
-			 
+            var content = fs.readFileSync(connection.fileName, "utf8");
+              console.log('var content = fs.readFileSync(connection.fileName);');
+             //console.log(content);
+            var delim = ',';
+            var numCommas = ((content.match(new RegExp(",", "g")) || []).length);
+            var numSemi = ((content.match(new RegExp(";", "g")) || []).length);
+            var numColons = ((content.match(new RegExp(":", "g")) || []).length);
+            
+            if (numSemi > numCommas) {
+                delim = ';';
+                };
+            if (numColons > numSemi) {
+                delim = ':';
+                };
+              console.log('delim = ' + delim);
+                        
+                        
 			csv
-			 .fromStream(stream)
+			 .fromString(content, { headers: false, delimiter: delim })
 			 .on("data", function(data){
 				 //console.log(data);
 					  try {
