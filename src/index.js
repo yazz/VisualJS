@@ -160,7 +160,7 @@ var mysql      = require('mysql');
   										  fileName: 	excelFile
 									}, function (err, response) {
                                           if (err) { 
-                                                return console.log(err); 
+                                                return err; 
                                           }
                                           pouchdb_queries.post(
                                           {
@@ -190,7 +190,7 @@ var mysql      = require('mysql');
   										  fileName: 	CSVFile
 									}, function (err, response) {
                                           if (err) { 
-                                                return console.log(err); 
+                                                return err; 
                                           }
                                           pouchdb_queries.post(
                                           {
@@ -714,10 +714,18 @@ pouchdb_queries             = dbhelper.get_pouchdb_queries();;
 dbhelper.pouchdbTableOnServer('pouchdb_system_settings', pouchdb_system_settings, null);
 dbhelper.pouchdbTableOnServer('pouchdb_connections', pouchdb_connections, when_pouchdb_connections_changes);
 dbhelper.pouchdbTableOnServer('pouchdb_drivers', pouchdb_drivers, null);
-dbhelper.pouchdbTableOnServer('pouchdb_queries', pouchdb_drivers, when_pouchdb_queries_changes);
+dbhelper.pouchdbTableOnServer('pouchdb_queries', pouchdb_queries, when_pouchdb_queries_changes);
 when_pouchdb_connections_changes(pouchdb_connections);
 //when_pouchdb_queries_changes(pouchdb_queries);
 				
+pouchdb_queries.changes({
+              since: 0,
+              include_docs: false
+            }).then(function (changes) {
+                console.log('*** QUERIES CHANGED FROM CLIENT called');
+            }).catch(function (err) {
+                console.log('***ERR');
+            });
 
 
 
@@ -942,7 +950,7 @@ function when_pouchdb_connections_changes(pouchdb_connections) {
 
 function when_pouchdb_queries_changes(pouchdb_queries) {
     console.log('Called when_pouchdb_queries_changes ');
-    console.log('    connection keys:  ' + JSON.stringify(Object.keys(connections),null,2));
+    //console.log('    connection keys:  ' + JSON.stringify(Object.keys(connections),null,2));
     pouchdb_queries.find({selector: {name: {'$exists': true}}}, function (err, result) {
         if (err) {
             console.log('    --------Error:  ' + err);
@@ -963,7 +971,7 @@ function when_pouchdb_queries_changes(pouchdb_queries) {
 					restrictRows.maxRows = 10;
                     drivers[query.driver]['get_v2'](connections[query.connection],restrictRows,
                         function(ordata) {
-                            console.log('getting preview for query : ' + query.name);
+                            //console.log('getting preview for query : ' + query.name);
                             query.preview = JSON.stringify(ordata, null, 2);
                             pouchdb_queries.put(query);
                     });
