@@ -716,7 +716,7 @@ dbhelper.pouchdbTableOnServer('pouchdb_connections', pouchdb_connections, when_p
 dbhelper.pouchdbTableOnServer('pouchdb_drivers', pouchdb_drivers, null);
 dbhelper.pouchdbTableOnServer('pouchdb_queries', pouchdb_drivers, when_pouchdb_queries_changes);
 when_pouchdb_connections_changes(pouchdb_connections);
-when_pouchdb_queries_changes(pouchdb_queries);
+//when_pouchdb_queries_changes(pouchdb_queries);
 				
 
 
@@ -917,35 +917,53 @@ function copyFolderRecursiveSync( source, target ) {
 
 
 function when_pouchdb_connections_changes(pouchdb_connections) {
-    pouchdb_connections.find({selector: {name: {$ne: null}}}, function (err, result) {
+    console.log('------------------------------------');
+    console.log('Called when_pouchdb_ CONNS _changes ');
+    pouchdb_connections.find({selector: {name: {'$exists': true}}}, function (err, result) {
         var results = result.docs;
         for (var i = 0 ; i < results.length ; i ++) {
             var conn = results[i]
-            if (!connections[conn.name]) {
+            console.log('    --------Found conn:  ' + conn._id);
+            //console.log('                      :  ' + conn.name);
+            if (!connections[conn._id]) {
               //console.log(a);
-              connections[conn.name] = conn;
+              connections[conn._id] = conn;
             }
         }
     });
+    when_pouchdb_queries_changes(pouchdb_queries);
 }
 
 
 
 
 function when_pouchdb_queries_changes(pouchdb_queries) {
-    pouchdb_queries.find({selector: {name: {$ne: null}}}, function (err, result) {
+    console.log('Called when_pouchdb_queries_changes ');
+    console.log('    connection keys:  ' + JSON.stringify(Object.keys(connections),null,2));
+    pouchdb_queries.find({selector: {name: {'$exists': true}}}, function (err, result) {
+        if (err) {
+            console.log('    --------Error:  ' + err);
+            return;
+        }
         var results = result.docs;
+        console.log('    --------Found:  ' + results.length);
+        
 		for (var i = 0 ; i < results.length ; i ++) {
 			var query = results[i];
-			if (!queries[query.name]) {
-				queries[query.name] = query;
+			if (!queries[query._id]) {
+				queries[query._id] = query;
 				var oout = [{a: 'no EXCEL'}];
 				try {
+                    //console.log('get preview for query id : ' + query._id);
+                    //console.log('          driver : ' + query.driver);
 					var restrictRows = JSON.parse(query.definition);
 					restrictRows.maxRows = 10;
-						drivers[query.driver]['get_v2'](connections[query.connection],restrictRows,
-						function(ordata) {//zzz
-						});
+                    drivers[query.driver]['get_v2'](connections[query.connection],restrictRows,
+                        function(ordata) {
+                            console.log('getting preview for query : ' + query.name);
+                            query.preview = JSON.stringify(ordata, null, 2);
+                            pouchdb_queries.put(query);
+                    });
 				} catch (err) {};
 			}
 		};
