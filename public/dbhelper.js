@@ -46,13 +46,16 @@ var pouchdb_queries;
         console.log("pouchdb_queries=" + pouchdb_queries);
     }
 
-
+    var changesCount = new Object();
     exports.pouchdbTableOnServer = function(stringName, objectPouchdb, when_fn) {
+        changesCount[stringName] = 0;
         objectPouchdb.changes({
-              since: 0,
+              since: 'now',
+              includeDocs: false,
               live: true
             }).on('change', function (changes) {
-                console.log('*** ' + stringName + '.changes({ called');
+                changesCount[stringName] ++;
+                console.log('*** ' + stringName + '.changes({ called : ' + changesCount[stringName]);
                 if (when_fn) {
                     when_fn();
                 }
@@ -65,11 +68,14 @@ var pouchdb_queries;
 
     
     exports.pouchdbTable = function (stringName, objectPouchdb, when_fn) {
+        changesCount[stringName] = 0 ;
         objectPouchdb.changes({
-              since: 0,
+              since: 'now',
+              includeDocs: false,
               live: true
             }).on('change', function (changes) {
-                console.log('*** ' + stringName + '.changes({ called');
+                changesCount[stringName] ++;
+                console.log('*** ' + stringName + '.changes({ called : ' + changesCount[stringName]);
                 if (when_fn) {
                     when_fn();
                 };

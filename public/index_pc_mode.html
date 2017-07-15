@@ -593,15 +593,9 @@
 
     }
     function updateNetworkTest3() {
-		pouchdb_system_settings.createIndex({
-				index: {
-					fields: ['_id']
-			}});
 			
 		pouchdb_system_settings.find({
-		  selector: {_id: 'test'},
-		  fields: ['_id', 'value'],
-		  sort: ['_id']
+		  selector: {_id: 'test'}
 		}).then(function (result) {
 		  //console.log("pouchdb_system_settings test2: " + JSON.stringify(result , null, 2));
 			var testValue; 

@@ -711,19 +711,12 @@ pouchdb_drivers             = dbhelper.get_pouchdb_drivers();;
 pouchdb_queries             = dbhelper.get_pouchdb_queries();;
 
 
-dbhelper.pouchdbTableOnServer('pouchdb_system_settings', pouchdb_system_settings, null);
-dbhelper.pouchdbTableOnServer('pouchdb_connections', pouchdb_connections, function(){when_pouchdb_connections_changes(pouchdb_connections)});
-dbhelper.pouchdbTableOnServer('pouchdb_drivers', pouchdb_drivers, null);
-    dbhelper.pouchdbTableOnServer('pouchdb_queries', pouchdb_queries, function(){when_pouchdb_queries_changes(pouchdb_queries)});
-when_pouchdb_connections_changes(pouchdb_connections);
-//when_pouchdb_queries_changes(pouchdb_queries);
+dbhelper.pouchdbTableOnServer('pouchdb_system_settings',    pouchdb_system_settings,null);
+dbhelper.pouchdbTableOnServer('pouchdb_connections',        pouchdb_connections,    function(){when_pouchdb_connections_changes(pouchdb_connections)});
+dbhelper.pouchdbTableOnServer('pouchdb_drivers',            pouchdb_drivers,        null);
+dbhelper.pouchdbTableOnServer('pouchdb_queries',            pouchdb_queries,        function(){when_pouchdb_queries_changes(pouchdb_queries)});
 				
-pouchdb_system_settings.changes({
-              since: 'now',
-              live: true
-            }).on('change',function (changes) {
-                console.log('*** QUERIES CHANGED FROM CLIENT called');
-            });
+
 
 
 
@@ -940,7 +933,6 @@ function when_pouchdb_connections_changes(pouchdb_connections) {
             }
         }
     });
-    when_pouchdb_queries_changes(pouchdb_queries);
 }
 
 
@@ -957,6 +949,9 @@ function when_pouchdb_queries_changes(pouchdb_queries) {
         var results = result.docs;
         console.log('    --------Found:  ' + results.length);
         
+        
+        // find previews
+        return;
 		for (var i = 0 ; i < results.length ; i ++) {
 			var query = results[i];
 			if (!queries[query._id]) {
