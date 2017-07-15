@@ -9,41 +9,33 @@ var pouchdb_queries;
         PouchDB = val;
     };
     exports.get_pouchdb_system_settings = function(val) {
-        return pouchdb_system_settings;
-    };
-    exports.get_pouchdb_connections = function(val) {
-        return pouchdb_connections;
-    };
-    exports.get_pouchdb_drivers = function(val) {
-        return pouchdb_drivers;
-    };
-    exports.get_pouchdb_queries = function(val) {
-        return pouchdb_queries;
-    };
-    
-    exports.initPouchdb = function() {        
         pouchdb_system_settings = new PouchDB('pouchdb_system_settings');
         pouchdb_system_settings.createIndex({index: {fields: ['_id']}});
         console.log('...POUCH');
-
-
-
-        pouchdb_drivers = new PouchDB('pouchdb_drivers');
-        pouchdb_drivers.createIndex({index: {fields: ['_id']}});
-        pouchdb_drivers.createIndex({index: {fields: ['name']}});
-
-
-
+        return pouchdb_system_settings;
+    };
+    exports.get_pouchdb_connections = function(val) {
         pouchdb_connections = new PouchDB('pouchdb_connections');
         pouchdb_connections.createIndex({index: {fields: ['_id']}});
         pouchdb_connections.createIndex({index: {fields: ['name']}});
         console.log("pouchdb_connections=" + pouchdb_connections);
-
-
+        return pouchdb_connections;
+    };
+    exports.get_pouchdb_drivers = function(val) {
+        pouchdb_drivers = new PouchDB('pouchdb_drivers');
+        pouchdb_drivers.createIndex({index: {fields: ['_id']}});
+        pouchdb_drivers.createIndex({index: {fields: ['name']}});
+        return pouchdb_drivers;
+    };
+    exports.get_pouchdb_queries = function(val) {
         pouchdb_queries = new PouchDB('pouchdb_queries');
         pouchdb_queries.createIndex({index: {fields: ['_id']}});
         pouchdb_queries.createIndex({index: {fields: ['name']}});
         console.log("pouchdb_queries=" + pouchdb_queries);
+        return pouchdb_queries;
+    };
+    
+    exports.initPouchdb = function() {        
     }
 
     var changesCount = new Object();

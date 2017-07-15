@@ -566,12 +566,14 @@ function setupGunDB() {
         pouchdb_drivers             = db.get_pouchdb_drivers();;
         pouchdb_queries             = db.get_pouchdb_queries();;
 
+when_pouchdb_drivers_changes()
+when_pouchdb_connections_changes()
+when_pouchdb_queries_changes()
 		db.pouchdbTable('pouchdb_system_settings',  pouchdb_system_settings,   	when_pouchdb_system_settings_changes);
 		db.pouchdbTable('pouchdb_drivers', 			pouchdb_drivers, 			when_pouchdb_drivers_changes);
 		db.pouchdbTable('pouchdb_connections', 		pouchdb_connections, 		when_pouchdb_connections_changes);
 		db.pouchdbTable('pouchdb_queries', 		    pouchdb_queries, 		    when_pouchdb_queries_changes);
-
-
+        
 
 }
 
