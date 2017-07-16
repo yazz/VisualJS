@@ -8,32 +8,50 @@ var pouchdb_queries;
     exports.setPouchDB = function(val) {
         PouchDB = val;
     };
-    exports.get_pouchdb_system_settings = function(val) {
-        pouchdb_system_settings = new PouchDB('pouchdb_system_settings');
+    exports.get_pouchdb_system_settings = function(useMemory) {
+        if (useMemory) {
+            pouchdb_system_settings = new PouchDB('pouchdb_system_settings', {adapter: 'memory'});
+        } else {
+            pouchdb_system_settings = new PouchDB('pouchdb_system_settings');
+        }
         pouchdb_system_settings.createIndex({index: {fields: ['_id']}});
         console.log('...POUCH');
         return pouchdb_system_settings;
     };
-    exports.get_pouchdb_connections = function(val) {
-        pouchdb_connections = new PouchDB('pouchdb_connections');
+    exports.get_pouchdb_connections = function(useMemory) {
+        if (useMemory) {
+            pouchdb_connections = new PouchDB('pouchdb_connections', {adapter: 'memory'});
+        } else {
+            pouchdb_connections = new PouchDB('pouchdb_connections');
+        }
         pouchdb_connections.createIndex({index: {fields: ['_id']}});
         pouchdb_connections.createIndex({index: {fields: ['name']}});
         console.log("pouchdb_connections=" + pouchdb_connections);
         return pouchdb_connections;
     };
-    exports.get_pouchdb_drivers = function(val) {
-        pouchdb_drivers = new PouchDB('pouchdb_drivers');
+    exports.get_pouchdb_drivers = function(useMemory) {
+        if (useMemory) {
+            pouchdb_drivers = new PouchDB('pouchdb_drivers', {adapter: 'memory'});
+        } else {
+            pouchdb_drivers = new PouchDB('pouchdb_drivers');
+        }
         pouchdb_drivers.createIndex({index: {fields: ['_id']}});
         pouchdb_drivers.createIndex({index: {fields: ['name']}});
         return pouchdb_drivers;
     };
-    exports.get_pouchdb_queries = function(val) {
-        pouchdb_queries = new PouchDB('pouchdb_queries');
+    exports.get_pouchdb_queries = function(useMemory) {
+        if (useMemory) {
+            pouchdb_queries = new PouchDB('pouchdb_queries', {adapter: 'memory'});
+        } else {
+            pouchdb_queries = new PouchDB('pouchdb_queries');
+        }
         pouchdb_queries.createIndex({index: {fields: ['_id']}});
         pouchdb_queries.createIndex({index: {fields: ['name']}});
         console.log("pouchdb_queries=" + pouchdb_queries);
         return pouchdb_queries;
     };
+    
+    
     
     exports.initPouchdb = function() {        
     }

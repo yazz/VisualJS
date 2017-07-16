@@ -113,7 +113,7 @@
 				  {
 					  cn: this.connection_name,
 					  cp: {
-						  id:        this.connection_name,
+						  name:      this.connection_name,
 						  driver:    'postgres',
 						  database:  this.database,
 						  host:      this.host,
@@ -186,7 +186,7 @@
 				  {
 					  cn: this.query_name,
 					  cp: {
-						  id:             this.query_name,
+						  name:           this.query_name,
 						  connection:     this.query_connection,
 						  driver:        'postgres',
 						  type:          '|DATABASE|',

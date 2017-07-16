@@ -118,7 +118,7 @@
 				  {
 					  cn: this.connection_name,
 					  cp: {
-						  id:             this.connection_name,
+						  name:             this.connection_name,
 						  driver:         'oracle',
 						  connectString:  this.connectString,
 						  user:           this.connection_username,
@@ -185,7 +185,7 @@
 				  {
 					  cn: this.query_name,
 					  cp: {
-						  id:             this.query_name,
+						  name:             this.query_name,
 						  connection:     this.query_connection,
 						  driver:        'oracle',
 						  type:          '|DATABASE|',

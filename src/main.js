@@ -561,10 +561,11 @@ function setupGunDB() {
 
         db.setPouchDB(PouchDB);
         db.initPouchdb();
-        pouchdb_system_settings     = db.get_pouchdb_system_settings();;
-        pouchdb_connections         = db.get_pouchdb_connections();;
-        pouchdb_drivers             = db.get_pouchdb_drivers();;
-        pouchdb_queries             = db.get_pouchdb_queries();;
+        var useMemory = true;
+        pouchdb_system_settings     = db.get_pouchdb_system_settings(useMemory);
+        pouchdb_connections         = db.get_pouchdb_connections(useMemory);
+        pouchdb_drivers             = db.get_pouchdb_drivers(useMemory);
+        pouchdb_queries             = db.get_pouchdb_queries(useMemory);
 
 when_pouchdb_drivers_changes()
 when_pouchdb_connections_changes()

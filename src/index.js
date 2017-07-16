@@ -163,7 +163,7 @@ var mysql      = require('mysql');
           });
         } else {
 		  if (isExcelFile(file)) {
-        console.log('file: ' + file);
+                console.log('file: ' + file);
   					var excelFile = file;
   						if (typeof excelFile !== "undefined") {
 							var fileId = excelFile.replace(/[^\w\s]/gi,'');
@@ -193,7 +193,7 @@ var mysql      = require('mysql');
 						}
 					}
 		  if (isCsvFile(file)) {
-        console.log('CSV file: ' + file);
+                console.log('CSV file: ' + file);
   					var CSVFile = file;
   						if (typeof CSVFile !== "undefined") {
 							var fileId = CSVFile.replace(/[^\w\s]/gi,'');
@@ -462,6 +462,8 @@ program
 	app.post('/getresult', function (req, res) {
 		console.log('in getresult');
 		var queryData = req.body;
+		console.log('queryData.source: ' + JSON.stringify(queryData.source,null,2));
+        
 		//console.log('request received source: ' + Object.keys(req));
 		//console.log('request received SQL: ' + queryData.sql);
 		var error = new Object();
@@ -932,63 +934,72 @@ function copyFolderRecursiveSync( source, target ) {
 }
 
 
+var in_when_pouchdb_connections_changes=false;
 function when_pouchdb_connections_changes(pouchdb_connections) {
-    console.log('------------------------------------');
-    console.log('Called when_pouchdb_ CONNS _changes ');
-    console.log('------------------------------------');
-    console.log('------------------------------------');
-    
-    pouchdb_connections.find({selector: {name: {'$exists': true}}}, function (err, result) {
-        var results = result.docs;
-        for (var i = 0 ; i < results.length ; i ++) {
-            var conn = results[i]
-            //console.log('    --------Found conn:  ' + conn._id);
-            //console.log('                      :  ' + conn.name);
-            if (!connections[conn._id]) {
-              //console.log(a);
-              connections[conn._id] = conn;
+    if (!in_when_pouchdb_connections_changes) {
+        in_when_pouchdb_connections_changes=true;
+        console.log('------------------------------------');
+        console.log('Called when_pouchdb_ CONNS _changes ');
+        console.log('------------------------------------');
+        console.log('------------------------------------');
+        
+        pouchdb_connections.find({selector: {name: {'$exists': true}}}, function (err, result) {
+            var results = result.docs;
+            for (var i = 0 ; i < results.length ; i ++) {
+                var conn = results[i]
+                //console.log('    --------Found conn:  ' + conn._id);
+                //console.log('                      :  ' + conn.name);
+                if (!connections[conn._id]) {
+                  //console.log(a);
+                  connections[conn._id] = conn;
+                }
             }
-        }
-    });
+        });
+        in_when_pouchdb_connections_changes=false;
+    }
 }
 
 
 
 
+var in_when_pouchdb_queries_changes = false;
 function when_pouchdb_queries_changes(pouchdb_queries) {
-    console.log('Called when_pouchdb_queries_changes ');
-    //console.log('    connection keys:  ' + JSON.stringify(Object.keys(connections),null,2));
-    pouchdb_queries.find({selector: {name: {'$exists': true}}}, function (err, result) {
-        if (err) {
-            console.log('    --------Error:  ' + err);
-            return;
-        }
-        var results = result.docs;
-        console.log('    --------Found:  ' + results.length);
-        
-        
-        // find previews
-        return;
-		for (var i = 0 ; i < results.length ; i ++) {
-			var query = results[i];
-			if (!queries[query._id]) {
-				queries[query._id] = query;
-				var oout = [{a: 'no EXCEL'}];
-				try {
-                    //console.log('get preview for query id : ' + query._id);
-                    //console.log('          driver : ' + query.driver);
-					var restrictRows = JSON.parse(query.definition);
-					restrictRows.maxRows = 10;
-                    drivers[query.driver]['get_v2'](connections[query.connection],restrictRows,
-                        function(ordata) {
-                            //console.log('getting preview for query : ' + query.name);
-                            query.preview = JSON.stringify(ordata, null, 2);
-                            pouchdb_queries.put(query);
-                    });
-				} catch (err) {};
-			}
-		};
-	});
+    if (!in_when_pouchdb_queries_changes) {
+        in_when_pouchdb_queries_changes = true;
+        console.log('Called when_pouchdb_queries_changes ');
+        //console.log('    connection keys:  ' + JSON.stringify(Object.keys(connections),null,2));
+        pouchdb_queries.find({selector: {name: {'$exists': true}}}, function (err, result) {
+            if (err) {
+                console.log('    --------Error:  ' + err);
+                return;
+            }
+            var results = result.docs;
+            console.log('    --------Found:  ' + results.length);
+            
+            
+            // find previews
+            for (var i = 0 ; i < results.length ; i ++) {
+                var query = results[i];
+                if (!queries[query._id]) {
+                    queries[query._id] = query;
+                    var oout = [{a: 'no EXCEL'}];
+                    try {
+                        //console.log('get preview for query id : ' + query._id);
+                        //console.log('          driver : ' + query.driver);
+                        var restrictRows = JSON.parse(query.definition);
+                        restrictRows.maxRows = 10;
+                        /*drivers[query.driver]['get_v2'](connections[query.connection],restrictRows,
+                            function(ordata) {
+                                //console.log('getting preview for query : ' + query.name);
+                                query.preview = JSON.stringify(ordata, null, 2);
+                                pouchdb_queries.put(query);
+                        });*/
+                    } catch (err) {};
+                }
+            };
+        });
+        in_when_pouchdb_queries_changes = false;
+    }
 };
 
 
