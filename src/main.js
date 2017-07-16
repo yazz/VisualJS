@@ -857,6 +857,7 @@ function when_pouchdb_system_settings_changes() {
 
 
 var in_when_pouchdb_connections_changes = false;
+var callConnAgain = false;
 function when_pouchdb_connections_changes() {
     if (!in_when_pouchdb_connections_changes) {
         in_when_pouchdb_connections_changes = true;
@@ -895,6 +896,12 @@ function when_pouchdb_connections_changes() {
             }
         });
         in_when_pouchdb_connections_changes = false;
+        if (callConnAgain) {
+            callConnAgain = false;
+            when_pouchdb_connections_changes();
+        }
+    } else {
+        callConnAgain = true;
     }
 };
 
@@ -953,6 +960,7 @@ function when_pouchdb_drivers_changes() {
 
 
 var in_when_pouchdb_queries_changes = false;
+var callQueriesAgain = false;
 function when_pouchdb_queries_changes() {
     if (!in_when_pouchdb_queries_changes) {
         in_when_pouchdb_queries_changes = true;
@@ -983,6 +991,12 @@ function when_pouchdb_queries_changes() {
             };
         });
         in_when_pouchdb_queries_changes = false;
+        if (callQueriesAgain) {
+            callQueriesAgain = false;
+            when_pouchdb_queries_changes();
+        }
+    } else {
+        callQueriesAgain = true;
     }
 };
 
