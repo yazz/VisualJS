@@ -14,7 +14,7 @@ import db                       from '../public/dbhelper.js'
 Vue.component('FileBrowser',FileBrowser);
 
 
-const gun_ip_address = '192.168.1.9'
+const gun_ip_address = '192.168.1.3'
 
 
 window.vue = Vue;
@@ -856,42 +856,46 @@ function when_pouchdb_system_settings_changes() {
 
 
 
-
+var in_when_pouchdb_connections_changes = false;
 function when_pouchdb_connections_changes() {
-	pouchdb_connections.find({selector: {name: {$ne: null}}}, function (err, result) {
-		var results = result.docs;
-        store.dispatch('clear_connections');
-        for (var i = 0 ; i < results.length ; i ++) {
-            var conn = results[i]
-            //console.log('********* CALLED REALTIME DBCONN*************:' + JSON.stringify(conn , null, 2));
-            store.dispatch( 'add_connection' , {  cn:       conn.name,
+    if (!in_when_pouchdb_connections_changes) {
+        in_when_pouchdb_connections_changes = true;
+        pouchdb_connections.find({selector: {name: {$ne: null}}}, function (err, result) {
+            var results = result.docs;
+            store.dispatch('clear_connections');
+            for (var i = 0 ; i < results.length ; i ++) {
+                var conn = results[i]
+                //console.log('********* CALLED REALTIME DBCONN*************:' + JSON.stringify(conn , null, 2));
+                store.dispatch( 'add_connection' , {  cn:       conn.name,
 
-                                                    cp: {       id:      conn._id
-                                                                ,
-                                                                name: conn.name
-                                                                ,
-                                                                driver: conn.driver
-                                                                ,
-                                                                status: ''
-                                                                ,
-                                                                database: conn.database
-                                                                ,
-                                                                host: conn.host
-                                                                ,
-                                                                port: conn.port
-                                                                ,
-                                                                user: conn.user
-                                                                ,
-                                                                password: conn.password
-                                                                ,
-                                                                connectString: conn.connectString
-                                                                ,
-                                                                fileName: conn.fileName
-                                                                ,
-                                                                preview: conn.preview
-                                                               }});
-        }
-	});
+                                                        cp: {       id:      conn._id
+                                                                    ,
+                                                                    name: conn.name
+                                                                    ,
+                                                                    driver: conn.driver
+                                                                    ,
+                                                                    status: ''
+                                                                    ,
+                                                                    database: conn.database
+                                                                    ,
+                                                                    host: conn.host
+                                                                    ,
+                                                                    port: conn.port
+                                                                    ,
+                                                                    user: conn.user
+                                                                    ,
+                                                                    password: conn.password
+                                                                    ,
+                                                                    connectString: conn.connectString
+                                                                    ,
+                                                                    fileName: conn.fileName
+                                                                    ,
+                                                                    preview: conn.preview
+                                                                   }});
+            }
+        });
+        in_when_pouchdb_connections_changes = false;
+    }
 };
 
 
@@ -948,33 +952,37 @@ function when_pouchdb_drivers_changes() {
 
 
 
-
+var in_when_pouchdb_queries_changes = false;
 function when_pouchdb_queries_changes() {
-	pouchdb_queries.find({selector: {name: {$ne: null}}},function (err, result) {
-		var results = result.docs;
+    if (!in_when_pouchdb_queries_changes) {
+        in_when_pouchdb_queries_changes = true;
+        pouchdb_queries.find({selector: {name: {$ne: null}}},function (err, result) {
+            var results = result.docs;
 
-        store.dispatch('clear_queries');
-        //console.log('********* CALLED REALTIME DBCONN len:' + JSON.stringify(results.length , null, 2));
-        for (var i = 0 ; i < results.length ; i ++) {
-            var query = results[i]
-            //console.log('********* CALLED REALTIME DBCONN*************:' + JSON.stringify(conn , null, 2));
-                store.dispatch( 'add_query' , {cn:       query.id,
+            store.dispatch('clear_queries');
+            //console.log('********* CALLED REALTIME DBCONN len:' + JSON.stringify(results.length , null, 2));
+            for (var i = 0 ; i < results.length ; i ++) {
+                var query = results[i]
+                //console.log('********* CALLED REALTIME DBCONN*************:' + JSON.stringify(conn , null, 2));
+                    store.dispatch( 'add_query' , {cn:       query.id,
 
-                                        cp: {     id:      query._id
-                                                    ,
-                                                    name: query.name
-                                                    ,
-                                                    driver: query.driver
-                                                    ,
-                                                    status: ''
-                                                    ,
-                                                    connection: query.connection
-                                                    ,
-                                                    definition: eval('(' + query.definition + ')')
-                                                    ,
-                                                    preview: eval('(' + query.preview + ')')
-                                                   }});
-        };
-    });
+                                            cp: {     id:      query._id
+                                                        ,
+                                                        name: query.name
+                                                        ,
+                                                        driver: query.driver
+                                                        ,
+                                                        status: ''
+                                                        ,
+                                                        connection: query.connection
+                                                        ,
+                                                        definition: eval('(' + query.definition + ')')
+                                                        ,
+                                                        preview: eval('(' + query.preview + ')')
+                                                       }});
+            };
+        });
+        in_when_pouchdb_queries_changes = false;
+    }
 };
 

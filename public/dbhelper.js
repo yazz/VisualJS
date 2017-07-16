@@ -85,7 +85,7 @@ var pouchdb_queries;
               live: true
             }).on('change', function (changes) {
                 changesCount[stringName] ++;
-                console.log('*** ' + stringName + '.changes({ called : ' + changesCount[stringName]);
+                //console.log('*** ' + stringName + '.changes({ called : ' + changesCount[stringName]);
                 if (when_fn) {
                     when_fn();
                 };
