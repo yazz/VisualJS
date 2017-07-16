@@ -28,6 +28,22 @@ var mkdirp       = require('mkdirp')
 if (!fs.existsSync(process.cwd() + "/node_modules") ) {
     copyFolderRecursiveSync(path.join(__dirname, "../node_modules")  , process.cwd() );
 }
+
+
+var expressNodeJsPackageFile = process.cwd() + "/node_modules/express-pouchdb/package.json";
+if (fs.existsSync(expressNodeJsPackageFile) ) {
+    fs.readFile(expressNodeJsPackageFile, 'utf8', function (err,data) {
+      if (err) {
+        return console.log(err);
+      }
+      var result = data.replace('"pouchdb-fauxton": "^0.0.6",', '');
+
+      fs.writeFile(expressNodeJsPackageFile, result, 'utf8', function (err) {
+         if (err) return console.log(err);
+      });
+    });
+}
+
 const mkdirSync = function (dirPath) {
   try {
     mkdirp.sync(dirPath)
@@ -242,6 +258,7 @@ path.join(__dirname, '../public/index_vr_mode.html')
 path.join(__dirname, '../public/aframe-mouse-cursor-component.min.js')
 path.join(__dirname, '../public/pouchdb.min.js')
 path.join(__dirname, '../public/pouchdb.find.min.js')
+path.join(__dirname, '../public/pouchdb.memory.min.js')
 
 
 
