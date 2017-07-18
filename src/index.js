@@ -658,7 +658,7 @@ program
                 public_ip:          requestClientPublicIp, 
                 public_host:        requestClientPublicHostName
             });
-
+            console.log('***SAVED***');
 			
 			res.writeHead(200, {'Content-Type': 'text/plain'});
 			res.end(JSON.stringify({connected: true}));
