@@ -275,10 +275,10 @@ function isNumber(n) {
 
 program
   .version('0.0.1')
-  .option('-t, --type [type]', 'Add the specified type of app [type]', 'client')
-  .option('-p, --port [port]', 'Which port should I listen on? [port]', parseInt)
-  .option('-h, --host [host]', 'Server address of the central host [host]', 'gosharedata.com')
-  .option('-s, --hostport [hostport]', 'Server port of the central host [hostport]', parseInt)
+  .option('-t, --type [type]', 'Add the specified type of app (client/server) [type]', 'client')
+  .option('-p, --port [port]', 'Which port should I listen on? (default 80) [port]', parseInt)
+  .option('-h, --host [host]', 'Server address of the central host (default gosharedata.com) [host]', 'gosharedata.com')
+  .option('-s, --hostport [hostport]', 'Server port of the central host (default 80) [hostport]', parseInt)
   .parse(process.argv);
 
 
@@ -381,7 +381,7 @@ program
 			  };
 			  if (req.headers.host.toLowerCase() == 'gosharedata.com') {
 				res.writeHead(301,
-					{Location: 'http://gosharedata.com/gosharedata'}
+					{Location: 'http://gosharedata.com/gosharedata/index.html'}
 				  );
 				  res.end();
 				  return;
@@ -406,11 +406,42 @@ program
 		  }
 	  })
 
+      
+    
+//
+// This injects the local machine into the HTML page
+//    
+      var cheerio     = require('cheerio');
+    var interceptor = require('express-interceptor');
+    var finalParagraphInterceptor = interceptor(function(req, res){
+      return {
+        // Only HTML responses will be intercepted 
+        isInterceptable: function(){
+          return /text\/html/.test(res.get('Content-Type'));
+        },
+        // Appends a paragraph at the end of the response body 
+        intercept: function(body, send) {
+          var tosend = cheerio.load(body);
+          tosend('#local_machine_in_intranet').append("<div>Your local machine is here: <a href=''>Click here</a></div>");
+     
+          send(tosend.html());
+        }
+      };
+    })
+     
+    // Add the interceptor middleware 
+    app.use(finalParagraphInterceptor);
+
+
+
+
 	app.use(express.static(path.join(__dirname, '../public/')))
 	var bodyParser = require('body-parser');
 	app.use(bodyParser.json()); // support json encoded bodies
 	app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
+    
+        
 
 
 
@@ -844,7 +875,7 @@ dbhelper.pouchdbTableOnServer('pouchdb_queries',            pouchdb_queries,    
 	if (typeOfSystem == 'client') {
 	  open('http://' + hostaddress  + ":" + port);
 	} else if (typeOfSystem == 'server') {
-	  open('http://' + hostaddress  + ":" + port + "/index_server.html");
+	  open('http://' + hostaddress  + ":" + port + "/gosharedata/index.html");
 	}
 	console.log('http://' + hostaddress  + ":" + port);
 
