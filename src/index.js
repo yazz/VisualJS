@@ -4,6 +4,7 @@ var pouchdb_system_settings;
 var pouchdb_connections;
 var pouchdb_drivers;
 var pouchdb_queries;
+var pouchdb_intranet_client_connects;
 
 var isWin = /^win/.test(process.platform);
 
@@ -623,6 +624,10 @@ program
 
 	//app.enable('trust proxy')
 
+    
+    
+    
+    
 	//------------------------------------------------------------------------------
 	// run on the central server only
 	//
@@ -644,12 +649,17 @@ program
 			console.log('client internal port:            ' + requestClientInternalPort)
 			console.log('client public IP address:        ' + requestClientPublicIp)
 			console.log('client public IP host name:      ' + requestClientPublicHostName)
-			dbhelper.sql("insert into client_connect (internal_host, internal_port, public_ip, public_host) values (?,?,?,?)",
-				  [requestClientInternalHostAddress,requestClientInternalPort,requestClientPublicIp,requestClientPublicHostName])
+            
+            //zzz
+            pouchdb_intranet_client_connects.post(
+            {
+                internal_host:      requestClientInternalHostAddress,  
+                internal_port:      requestClientInternalPort, 
+                public_ip:          requestClientPublicIp, 
+                public_host:        requestClientPublicHostName
+            });
 
-			dbhelper.sql("select * from client_connect", function(aa){console.log("**********" + JSON.stringify(aa.length))});
-			dbhelper.sql("select * from client_connect", function(aaa){  var aa;for (aa in aaa) {console.log(aaa[aa].internal_host + ", " + aaa[aa].internal_port + ", " + aaa[aa].public_ip )}});
-
+			
 			res.writeHead(200, {'Content-Type': 'text/plain'});
 			res.end(JSON.stringify({connected: true}));
 		}
@@ -758,10 +768,11 @@ app.use('/db', myttt);
 
 dbhelper.setPouchDB(PouchDB);
 dbhelper.initPouchdb();
-pouchdb_system_settings     = dbhelper.get_pouchdb_system_settings();;
-pouchdb_connections         = dbhelper.get_pouchdb_connections();;
-pouchdb_drivers             = dbhelper.get_pouchdb_drivers();;
-pouchdb_queries             = dbhelper.get_pouchdb_queries();;
+pouchdb_system_settings             = dbhelper.get_pouchdb_system_settings();;
+pouchdb_connections                 = dbhelper.get_pouchdb_connections();;
+pouchdb_drivers                     = dbhelper.get_pouchdb_drivers();;
+pouchdb_queries                     = dbhelper.get_pouchdb_queries();;
+pouchdb_intranet_client_connects    = dbhelper.get_pouchdb_intranet_client_connects();;
 
 
 dbhelper.pouchdbTableOnServer('pouchdb_system_settings',    pouchdb_system_settings,null);

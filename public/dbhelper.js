@@ -3,10 +3,22 @@ var pouchdb_system_settings;
 var pouchdb_connections;
 var pouchdb_drivers;
 var pouchdb_queries;
+var pouchdb_intranet_client_connects;
 
 (function(exports){
     exports.setPouchDB = function(val) {
         PouchDB = val;
+    };
+
+    exports.get_pouchdb_intranet_client_connects = function(useMemory) {
+        if (useMemory) {
+            pouchdb_intranet_client_connects = new PouchDB('pouchdb_intranet_client_connects', {adapter: 'memory'});
+        } else {
+            pouchdb_intranet_client_connects = new PouchDB('pouchdb_intranet_client_connects');
+        }
+        pouchdb_intranet_client_connects.createIndex({index: {fields: ['_id']}});
+        console.log('...POUCH');
+        return pouchdb_intranet_client_connects;
     };
     exports.get_pouchdb_system_settings = function(useMemory) {
         if (useMemory) {

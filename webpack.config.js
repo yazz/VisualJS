@@ -65,6 +65,10 @@ module.exports = {
         target: 'http://' + hostaddress,
         secure: false
       },
+      '/db/pouchdb_intranet_client_connects/': {
+        target: 'http://' + hostaddress,
+        secure: false
+      },
       '/db/pouchdb_drivers/': {
         target: 'http://' + hostaddress,
         secure: false

@@ -14,7 +14,7 @@ import db                       from '../public/dbhelper.js'
 Vue.component('FileBrowser',FileBrowser);
 
 
-const gun_ip_address = '192.168.1.3'
+const gun_ip_address = '172.18.0.106'
 
 
 window.vue = Vue;
@@ -562,10 +562,11 @@ function setupGunDB() {
         db.setPouchDB(PouchDB);
         db.initPouchdb();
         var useMemory = true;
-        pouchdb_system_settings     = db.get_pouchdb_system_settings(useMemory);
-        pouchdb_connections         = db.get_pouchdb_connections(useMemory);
-        pouchdb_drivers             = db.get_pouchdb_drivers(useMemory);
-        pouchdb_queries             = db.get_pouchdb_queries(useMemory);
+        pouchdb_system_settings             = db.get_pouchdb_system_settings(useMemory);
+        pouchdb_connections                 = db.get_pouchdb_connections(useMemory);
+        pouchdb_drivers                     = db.get_pouchdb_drivers(useMemory);
+        pouchdb_queries                     = db.get_pouchdb_queries(useMemory);
+        pouchdb_intranet_client_connects    = db.get_pouchdb_intranet_client_connects();
 
 when_pouchdb_drivers_changes()
 when_pouchdb_connections_changes()

@@ -104,6 +104,7 @@ setTimeout(function(){
         var pouchdb_connections;
         var pouchdb_drivers;
         var pouchdb_queries;
+        var pouchdb_intranet_client_connects;
 
 
     // --------------------------------------------------------------------
@@ -130,7 +131,6 @@ setTimeout(function(){
     // get the query  result
     // --------------------------------------------------------------------
     function open_query_in_native_app(source) {
-	//alert('zz');
       $.ajax({
 
         type: "POST",
