@@ -6,6 +6,7 @@ var pouchdb_drivers;
 var pouchdb_queries;
 var pouchdb_intranet_client_connects;
 
+
 var isWin = /^win/.test(process.platform);
 
 function require2(moduleName) {
@@ -415,6 +416,7 @@ program
       var cheerio     = require('cheerio');
     var interceptor = require('express-interceptor');
     var finalParagraphInterceptor = interceptor(function(req, res){
+            requestClientPublicIp            = req.ip;
       return {
         // Only HTML responses will be intercepted 
         isInterceptable: function(){
@@ -424,14 +426,18 @@ program
         intercept: function(body, send) {
           var tosend = cheerio.load(body);
             pouchdb_intranet_client_connects.find({
-              selector: {when_connected: {$gt: new Date().getTime() - (10 * 60 * 1000)}}
+              selector: {
+                  when_connected: {$gt: new Date().getTime() - (10 * 60 * 1000)}}
+                  ,
+                  public_ip: {$eq: requestClientPublicIp}
+                  
             }).then(function (result) {
               console.log(JSON.stringify(result,null,2));
               if (result.docs.length == 0 ) {
                 tosend('#local_machine_in_intranet').append("<div>No local servers on your intranet, sorry</a></div>");
               } else {
                   var intranetGoShareDataHost = 'http://' + result.docs[0].internal_host + ':' + result.docs[0].internal_port;
-                tosend('#local_machine_in_intranet').append("<div>Error: <a href='" + intranetGoShareDataHost + "'>Your local server is here at " + 
+                tosend('#local_machine_in_intranet').append("<div>Your local server is here at  <a href='" + intranetGoShareDataHost + "'>" + 
                     intranetGoShareDataHost + "</a></div>");
               }
           send(tosend.html());
@@ -675,7 +681,10 @@ program
             console.log('***SAVED***');
 			
 			res.writeHead(200, {'Content-Type': 'text/plain'});
-			res.end(JSON.stringify({connected: true}));
+			res.end(JSON.stringify(
+                {
+                    connected: true, 
+                }));
 		}
 		catch (err) {
 			console.log('Warning: Central server not available:');
@@ -712,30 +721,33 @@ program
 
 
 		if (typeOfSystem == 'client') {
-			var urlToConnectTo = "http://" + centralHostAddress + ":" + centralHostPort + '/client_connect';
-			console.log('-------* urlToConnectTo: ' + urlToConnectTo);
-			console.log('trying to connect to central server...');
-			request({
-				  uri: urlToConnectTo,
-				  method: "GET",
-				  timeout: 10000,
-				  followRedirect: true,
-				  maxRedirects: 10,
-				  qs: {
-					  requestClientInternalHostAddress: hostaddress
-					  ,
-					  requestClientInternalPort:        port
-				  }
-				},
-				function(error, response, body) {
-				  console.log('Error: ' + error);
-				  if (response.statusCode == '403') {
-						console.log('403 received, not allowed through firewall ');
-				  } else {
-						console.log('response: ' + JSON.stringify(response));
-						console.log(body);
-				  }
-				});
+            setInterval(
+                function() {
+                    var urlToConnectTo = "http://" + centralHostAddress + ":" + centralHostPort + '/client_connect';
+                    console.log('-------* urlToConnectTo: ' + urlToConnectTo);
+                    console.log('trying to connect to central server...');
+                    request({
+                          uri: urlToConnectTo,
+                          method: "GET",
+                          timeout: 10000,
+                          followRedirect: true,
+                          maxRedirects: 10,
+                          qs: {
+                              requestClientInternalHostAddress: hostaddress
+                              ,
+                              requestClientInternalPort:        port
+                          }
+                        },
+                        function(error, response, body) {
+                          console.log('Error: ' + error);
+                          if (response.statusCode == '403') {
+                                console.log('403 received, not allowed through firewall ');
+                          } else {
+                                console.log('response: ' + JSON.stringify(response));
+                                console.log(body);
+                          }
+                        });
+                },10 * 60 * 1000);
 
 
 
