@@ -423,9 +423,22 @@ program
         // Appends a paragraph at the end of the response body 
         intercept: function(body, send) {
           var tosend = cheerio.load(body);
-          tosend('#local_machine_in_intranet').append("<div>Your local machine is here: <a href=''>Click here</a></div>");
-     
+            pouchdb_intranet_client_connects.find({
+              selector: {when_connected: {$gt: new Date().getTime() - (10 * 60 * 1000)}}
+            }).then(function (result) {
+              console.log(JSON.stringify(result,null,2));
+              if (result.docs.length == 0 ) {
+                tosend('#local_machine_in_intranet').append("<div>No local servers on your intranet, sorry</a></div>");
+              } else {
+                  var intranetGoShareDataHost = 'http://' + result.docs[0].internal_host + ':' + result.docs[0].internal_port;
+                tosend('#local_machine_in_intranet').append("<div>Error: <a href='" + intranetGoShareDataHost + "'>Your local server is here at " + 
+                    intranetGoShareDataHost + "</a></div>");
+              }
           send(tosend.html());
+            }).catch(function (err) {
+                tosend('#local_machine_in_intranet').append("<div>Error</div>");
+                send(tosend.html());
+            });
         }
       };
     })
@@ -656,7 +669,8 @@ program
                 internal_host:      requestClientInternalHostAddress,  
                 internal_port:      requestClientInternalPort, 
                 public_ip:          requestClientPublicIp, 
-                public_host:        requestClientPublicHostName
+                public_host:        requestClientPublicHostName,
+                when_connected:     new Date().getTime()
             });
             console.log('***SAVED***');
 			

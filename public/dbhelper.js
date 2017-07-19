@@ -17,6 +17,8 @@ var pouchdb_intranet_client_connects;
             pouchdb_intranet_client_connects = new PouchDB('pouchdb_intranet_client_connects');
         }
         pouchdb_intranet_client_connects.createIndex({index: {fields: ['_id']}});
+        pouchdb_intranet_client_connects.createIndex({index: {fields: ['when_connected']}});
+    
         console.log('...POUCH');
         return pouchdb_intranet_client_connects;
     };
