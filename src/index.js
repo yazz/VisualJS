@@ -383,7 +383,7 @@ program
 			  };
 			  if (req.headers.host.toLowerCase() == 'gosharedata.com') {
 				res.writeHead(301,
-					{Location: 'http://gosharedata.com/gosharedata/index.html'}
+					{Location: 'http://gosharedata.com/gosharedata/index.html?time=' + new Date().getTime()}
 				  );
 				  res.end();
 				  return;
@@ -430,7 +430,8 @@ program
                   when_connected: {$gt: new Date().getTime() - (10 * 60 * 1000)}}
                   ,
                   public_ip: {$eq: requestClientPublicIp}
-                  
+                  ,
+                  sort: [{when_connected: 'desc'}]
             }).then(function (result) {
               console.log(JSON.stringify(result,null,2));
               if (result.docs.length == 0 ) {
@@ -452,8 +453,8 @@ program
     // Add the interceptor middleware 
     app.use(finalParagraphInterceptor);
 
-
-	app.use(express.static(path.join(__dirname, '../public/'), {etag: false}))
+    
+	app.use(express.static(path.join(__dirname, '../public/')))
 	var bodyParser = require('body-parser');
 	app.use(bodyParser.json()); // support json encoded bodies
 	app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
@@ -910,7 +911,7 @@ dbhelper.pouchdbTableOnServer('pouchdb_queries',            pouchdb_queries,    
 	if (typeOfSystem == 'client') {
 	  open('http://' + hostaddress  + ":" + port);
 	} else if (typeOfSystem == 'server') {
-	  open('http://' + hostaddress  + ":" + port + "/gosharedata/index.html");
+	  open('http://' + hostaddress  + ":" + port + "/gosharedata/index.html?time=" +  + new Date().getTime());
 	}
 	console.log('http://' + hostaddress  + ":" + port);
 
