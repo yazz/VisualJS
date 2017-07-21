@@ -430,7 +430,7 @@ program
 		res.writeHead(200, {'Content-Type': 'text/plain'});
         pouchdb_intranet_client_connects.find({
           selector: {
-              when_connected: {$gt: new Date().getTime() - (numberOfSecondsAliveCheck * 1000)}}
+              when_connected: {$gt: new Date().getTime() - (numberOfSecondsAliveCheck * 1000 * 2)}}
               ,
               public_ip: {$eq: requestClientPublicIp}
               ,
@@ -438,12 +438,22 @@ program
         }).then(function (result) {
             console.log(JSON.stringify(result,null,2));
             if (result.docs.length == 0 ) {
-                res.end(JSON.stringify({html: "<div>No local servers on your intranet, sorry</a></div>"}));
+                res.end(JSON.stringify({html: "<div>No local servers on your intranet, sorry</div>"}));
             } else {
                 var intranetGoShareDataHost = 'http://' + result.docs[0].internal_host + ':' + result.docs[0].internal_port;
                 
-                res.end(JSON.stringify({html: "<div>Your local server is here at  <a href='" + intranetGoShareDataHost + "'>" + 
-                        intranetGoShareDataHost + "</a></div>"}));
+                var i=0;
+                var extrahtml = '';
+                for (var i = 0; i < result.docs.length; i++) {
+                    var server = result.docs[i];
+                        extrahtml += "<div>*" + server.internal_host + ":" + 
+                                        server.internal_port + "</div><br>";
+                }
+                
+                var html = "<div>Your local server is here at  <a href='" + intranetGoShareDataHost + "'>" + intranetGoShareDataHost + "</a>"
+                           + extrahtml + "</div>";
+                
+                res.end(JSON.stringify({html: html}));
             }
         });
 	});
