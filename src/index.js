@@ -5,7 +5,7 @@ var pouchdb_connections;
 var pouchdb_drivers;
 var pouchdb_queries;
 var pouchdb_intranet_client_connects;
-
+var numberOfSecondsAliveCheck = 60; 
 
 var isWin = /^win/.test(process.platform);
 
@@ -410,49 +410,7 @@ program
 
       
     
-//
-// This injects the local machine into the HTML page
-//    
-      var cheerio     = require('cheerio');
-    var interceptor = require('express-interceptor');
-    var finalParagraphInterceptor = interceptor(function(req, res){
-            requestClientPublicIp            = req.ip;
-      return {
-        // Only HTML responses will be intercepted 
-        isInterceptable: function(){
-          return /text\/html/.test(res.get('Content-Type'));
-        },
-        // Appends a paragraph at the end of the response body 
-        intercept: function(body, send) {
-          var tosend = cheerio.load(body);
-            pouchdb_intranet_client_connects.find({
-              selector: {
-                  when_connected: {$gt: new Date().getTime() - (10 * 60 * 1000)}}
-                  ,
-                  public_ip: {$eq: requestClientPublicIp}
-                  ,
-                  sort: [{when_connected: 'desc'}]
-            }).then(function (result) {
-              console.log(JSON.stringify(result,null,2));
-              if (result.docs.length == 0 ) {
-                tosend('#local_machine_in_intranet').append("<div>No local servers on your intranet, sorry</a></div>");
-              } else {
-                  var intranetGoShareDataHost = 'http://' + result.docs[0].internal_host + ':' + result.docs[0].internal_port;
-                tosend('#local_machine_in_intranet').append("<div>Your local server is here at  <a href='" + intranetGoShareDataHost + "'>" + 
-                    intranetGoShareDataHost + "</a></div>");
-              }
-          send(tosend.html());
-            }).catch(function (err) {
-                tosend('#local_machine_in_intranet').append("<div>Error</div>");
-                send(tosend.html());
-            });
-        }
-      };
-    })
-     
-    // Add the interceptor middleware 
-    app.use(finalParagraphInterceptor);
-
+    
     
 	app.use(express.static(path.join(__dirname, '../public/')))
 	var bodyParser = require('body-parser');
@@ -463,6 +421,32 @@ program
         
 
 
+	//------------------------------------------------------------------------------
+	// get_intranet_servers
+	//------------------------------------------------------------------------------
+	app.get('/get_intranet_servers', function (req, res) {
+        var requestClientPublicIp = req.ip;
+        
+		res.writeHead(200, {'Content-Type': 'text/plain'});
+        pouchdb_intranet_client_connects.find({
+          selector: {
+              when_connected: {$gt: new Date().getTime() - (numberOfSecondsAliveCheck * 1000)}}
+              ,
+              public_ip: {$eq: requestClientPublicIp}
+              ,
+              sort: [{when_connected: 'desc'}]
+        }).then(function (result) {
+            console.log(JSON.stringify(result,null,2));
+            if (result.docs.length == 0 ) {
+                res.end(JSON.stringify({html: "<div>No local servers on your intranet, sorry</a></div>"}));
+            } else {
+                var intranetGoShareDataHost = 'http://' + result.docs[0].internal_host + ':' + result.docs[0].internal_port;
+                
+                res.end(JSON.stringify({html: "<div>Your local server is here at  <a href='" + intranetGoShareDataHost + "'>" + 
+                        intranetGoShareDataHost + "</a></div>"}));
+            }
+        });
+	});
 
 
 
@@ -746,7 +730,7 @@ program
                                 console.log(body);
                           }
                         });
-                },10 * 60 * 1000);
+                },numberOfSecondsAliveCheck * 1000);
 
 
 
