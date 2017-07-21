@@ -430,7 +430,7 @@ program
 		res.writeHead(200, {'Content-Type': 'text/plain'});
         pouchdb_intranet_client_connects.find({
           selector: {
-              when_connected: {$gt: new Date().getTime() - (numberOfSecondsAliveCheck * 1000 * 2)}}
+              when_connected: {$gt: new Date().getTime() - (numberOfSecondsAliveCheck * 1000)}}
               ,
               public_ip: {$eq: requestClientPublicIp}
               ,
@@ -712,10 +712,7 @@ program
 
 
 
-
-		if (typeOfSystem == 'client') {
-            setInterval(
-                function() {
+    var aliveCheckFn =                 function() {
                     var urlToConnectTo = "http://" + centralHostAddress + ":" + centralHostPort + '/client_connect';
                     console.log('-------* urlToConnectTo: ' + urlToConnectTo);
                     console.log('trying to connect to central server...');
@@ -740,7 +737,10 @@ program
                                 console.log(body);
                           }
                         });
-                },numberOfSecondsAliveCheck * 1000);
+                };
+                aliveCheckFn();
+		if (typeOfSystem == 'client') {
+            setInterval(aliveCheckFn ,numberOfSecondsAliveCheck * 1000);
 
 
 
