@@ -451,7 +451,7 @@ program
                 }
                 
                 var html = "<div>Your local server is here at  <a href='" + intranetGoShareDataHost + "'>" + intranetGoShareDataHost + "</a>"
-                           + extrahtml + "</div>";
+                            + " - <div style='text-decoration: underline; color: blue;' onclick=call_on_click('" + intranetGoShareDataHost + "')> " + intranetGoShareDataHost + "</div>" + extrahtml + "</div>";
                 
                 res.end(JSON.stringify({html: html}));
             }
