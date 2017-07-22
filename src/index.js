@@ -421,12 +421,12 @@ program
     
         
 
-
 	//------------------------------------------------------------------------------
 	// test_firewall
 	//------------------------------------------------------------------------------
 	app.get('/test_firewall', function (req, res) {
-        var tracking_id = req.params.tracking_id;
+        var tracking_id = url.parse(req.url, true).query.tracking_id;
+        console.log(JSON.stringify(tracking_id,null,2));
         
         res.writeHead(200, {'Content-Type': 'text/plain'});
         res.end(JSON.stringify({got_through_firewall: tracking_id}));
