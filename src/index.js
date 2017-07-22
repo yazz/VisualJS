@@ -243,6 +243,7 @@ path.join(__dirname, '../src/oracle.js')
 path.join(__dirname, '../src/postgres.js')
 path.join(__dirname, '../src/excel.js')
 path.join(__dirname, '../public/gosharedata_setup.js')
+path.join(__dirname, '../public/intranet.js')
 path.join(__dirname, '../public/tether.min.js')
 path.join(__dirname, '../public/bootstrap.min.js')
 path.join(__dirname, '../public/bootstrap.min.css')
@@ -421,6 +422,17 @@ program
         
 
 
+	//------------------------------------------------------------------------------
+	// test_firewall
+	//------------------------------------------------------------------------------
+	app.get('/test_firewall', function (req, res) {
+        var tracking_id = req.params.tracking_id;
+        
+        res.writeHead(200, {'Content-Type': 'text/plain'});
+        res.end(JSON.stringify({got_through_firewall: tracking_id}));
+	});
+
+    
 	//------------------------------------------------------------------------------
 	// get_intranet_servers
 	//------------------------------------------------------------------------------
