@@ -443,9 +443,11 @@ program
 		res.writeHead(200, {'Content-Type': 'text/plain'});
         pouchdb_intranet_client_connects.find({
           selector: {
-              when_connected: {$gt: new Date().getTime() - (numberOfSecondsAliveCheck * 1000)}}
-              ,
-              public_ip: {$eq: requestClientPublicIp}
+              $and: [
+                        {when_connected: {$gt: new Date().getTime() - (numberOfSecondsAliveCheck * 1000)}}
+                        ,
+                        {public_ip: {$eq: requestClientPublicIp}}
+          ]}
               ,
               sort: [{when_connected: 'desc'}]
         }).then(function (result) {
