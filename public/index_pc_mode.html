@@ -653,8 +653,8 @@
     
 	var showIntranetsFilterByIp = function(ip) {
         pouchdb_intranet_client_connects.find({
-          selector: {$and: [when_connected: {$gt: new Date().getTime() - (60 * 1000)},
-              public_ip: {$eq: ip}]}
+          selector: {$and: [{when_connected: {$gt: new Date().getTime() - (60 * 1000)}},
+              {public_ip: {$eq: ip}}]}
         }).then(function (result) {
           console.log(JSON.stringify(result.docs,null,2));
         }).catch(function (err) {
