@@ -1,6 +1,6 @@
     var call_on_click = function(addr) {
         //alert(addr);
-        window.location.href  = 'http://' + addr;
+        window.location.href  = addr;
     };
         setInterval(
             function() {
