@@ -462,10 +462,11 @@ program
                                         server.internal_port + "</div><br>";
                 }
                 
-                var html = "<div>Your local server is here at  <a href='" + intranetGoShareDataHost + "'>" + intranetGoShareDataHost + "</a>"
-                            + " - <div style='text-decoration: underline; color: blue;' onclick=call_on_click('" + intranetGoShareDataHost + "')> " + intranetGoShareDataHost + "</div>" + extrahtml + "</div>";
+                var html = "<div>Your local server is here at  
+                            + " <div style='text-decoration: underline; color: blue;' onclick=call_on_click('" + intranetGoShareDataHost + "')> " + intranetGoShareDataHost + "</div>" + extrahtml + "</div>";
                 
-                res.end(JSON.stringify({html: html}));
+                res.end(JSON.stringify({  html:         html, 
+                                          localServer:  intranetGoShareDataHost}));
             }
         });
 	});
