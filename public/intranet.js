@@ -9,7 +9,8 @@
                     url: '/get_intranet_servers',
                     success: function(data1) {
                         var  blocked  =  '';
-                        if (typeof data1.localServer !== "undefined"){
+                        console.log("data1.localServer: " + data1.localServer);
+                        if ((typeof data1.localServer !== "undefined") && (data1.localServer)){ 
                             $.ajax({
                                 type: "GET",
                                 url: data1.localServer + '/test_firewall',
@@ -29,7 +30,7 @@
                                 }
                             });
                         } else {
-                            $("#local_machine_in_intranet").html(eval( "(" + data1 + ")").html  );
+                            $("#local_machine_in_intranet").html('<div>' + eval( "(" + data1 + ")").html + 'NO LOCAL NODE</div>' );
                         } 
                         
                         
