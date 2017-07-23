@@ -462,7 +462,7 @@ program
                                         server.internal_port + "</div><br>";
                 }
                 
-                var html = "<div>Your local server is here at   " 
+                var html = "<div><div>Your Public IP is " + requestClientPublicIp + "</div>Your local server is here at   " 
                             + " <div style='text-decoration: underline; color: blue;' onclick=call_on_click('" + intranetGoShareDataHost + "')> " + intranetGoShareDataHost + "</div>" + extrahtml + "</div>";
                 
                 res.end(JSON.stringify({  html:         html, 
