@@ -19,17 +19,17 @@
                                 success: function(data) {
                                     //alert(JSON.stringify(data,null,2));
                                     console.log( JSON.stringify(data,null,2) );
-                                   blocked = ' (all ok)'
-                                    $("#local_machine_in_intranet").html(eval( "(" + data1 + ")").html + blocked );
+                                   blocked = '<div> (all ok)</div>';
+                                    $("#local_machine_in_intranet").html('<div>' + eval( "(" + data1 + ")").html + blocked + '</div>');
                                 },
                                 error: function(jqXHR, textStatus, errorThrown) {
                                    //alert('firewall blocked' + textStatus + " " + errorThrown);
-                                   blocked = ' (Probably blocked by firewall)'
-                                   $("#local_machine_in_intranet").html(eval( "(" + data1 + ")").html + blocked );
+                                   blocked = '<div> (Probably blocked by firewall)</div>';
+                                   $("#local_machine_in_intranet").html('<div>' + eval( "(" + data1 + ")").html + blocked  + '</div>');
                                 }
                             });
                         } else {
-                            $("#local_machine_in_intranet").html(eval( "(" + data1 + ")").html + blocked );
+                            $("#local_machine_in_intranet").html(eval( "(" + data1 + ")").html  );
                         } 
                         
                         
