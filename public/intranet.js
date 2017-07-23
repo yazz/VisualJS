@@ -19,6 +19,7 @@
                                 success: function(data) {
                                     //alert(JSON.stringify(data,null,2));
                                     console.log( JSON.stringify(data,null,2) );
+                                   blocked = ' (all ok)'
                                     $("#local_machine_in_intranet").html(eval( "(" + data1 + ")").html + blocked );
                                 },
                                 error: function(jqXHR, textStatus, errorThrown) {
