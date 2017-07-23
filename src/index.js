@@ -436,9 +436,9 @@ program
 	//------------------------------------------------------------------------------
 	// get_intranet_servers
 	//------------------------------------------------------------------------------
-    requestClientPublicIp = req.ip;
+    var requestClientPublicIp;
 	app.get('/get_intranet_servers', function (req, res) {
-        var requestClientPublicIp = req.ip;
+        requestClientPublicIp = req.ip;
         
 		res.writeHead(200, {'Content-Type': 'text/plain'});
         pouchdb_intranet_client_connects.find({
