@@ -23,7 +23,7 @@
                                 },
                                 error: function(jqXHR, textStatus, errorThrown) {
                                    //alert('firewall blocked' + textStatus + " " + errorThrown);
-                                   //blocked = ' (Probably blocked by firewall)'
+                                   blocked = ' (Probably blocked by firewall)'
                                    $("#local_machine_in_intranet").html(eval( "(" + data1 + ")").html + blocked );
                                 }
                             });
