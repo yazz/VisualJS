@@ -799,6 +799,10 @@ var myttt = require('express-pouchdb')(PouchDB, { 	db: dbb,
 app.use('/db', myttt);
 
 
+var cors = require('cors')
+
+app.use(cors())
+
 
 
 dbhelper.setPouchDB(PouchDB);

@@ -9,11 +9,12 @@
                     url: '/get_intranet_servers',
                     success: function(data1) {
                         var  blocked  =  '';
-                        console.log("data1.localServer: " + data1.localServer);
-                        if ((typeof data1.localServer !== "undefined") && (data1.localServer)){ 
+                        var returned= eval( "(" + data1 + ")");
+                        console.log("data1.localServer: " + returned.localServer);
+                        if ((typeof returned.localServer !== "undefined") && (returned.localServer)){ 
                             $.ajax({
                                 type: "GET",
-                                url: data1.localServer + '/test_firewall',
+                                url: returned.localServer + '/test_firewall',
                                 data: {
                                     tracking_id: '7698698768768' //generate a random number here
                                 },
@@ -21,16 +22,16 @@
                                     //alert(JSON.stringify(data,null,2));
                                     console.log( JSON.stringify(data,null,2) );
                                    blocked = '<div> (all ok)</div>';
-                                    $("#local_machine_in_intranet").html('<div>' + eval( "(" + data1 + ")").html + blocked + '</div>');
+                                    $("#local_machine_in_intranet").html('<div>' + returned.html + blocked + '</div>');
                                 },
                                 error: function(jqXHR, textStatus, errorThrown) {
                                    //alert('firewall blocked' + textStatus + " " + errorThrown);
                                    blocked = '<div> (Probably blocked by firewall)</div>';
-                                   $("#local_machine_in_intranet").html('<div>' + eval( "(" + data1 + ")").html + blocked  + '</div>');
+                                   $("#local_machine_in_intranet").html('<div>' + returned.html + blocked  + '</div>');
                                 }
                             });
                         } else {
-                            $("#local_machine_in_intranet").html('<div>' + eval( "(" + data1 + ")").html + 'NO LOCAL NODE</div>' );
+                            $("#local_machine_in_intranet").html('<div>' + returned.html + 'NO LOCAL NODE</div>' );
                         } 
                         
                         
@@ -45,4 +46,4 @@
                 
 
                 
-                },1000);
+                },5000);
