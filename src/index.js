@@ -436,6 +436,7 @@ program
 	//------------------------------------------------------------------------------
 	// get_intranet_servers
 	//------------------------------------------------------------------------------
+    requestClientPublicIp = req.ip;
 	app.get('/get_intranet_servers', function (req, res) {
         var requestClientPublicIp = req.ip;
         
