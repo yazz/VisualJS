@@ -11,7 +11,8 @@
                     success: function(data1) {
                         var returned= eval( "(" + data1 + ")");
                         var i = 0;
-                        $("#local_machine_in_intranet").html('<div>Your intranet public IP:' + returned.intranetPublicIp + '</div><br>' );
+                        $("#local_machine_in_intranet").html(   '<div>Your intranet public IP:' + returned.intranetPublicIp + 
+                                                                '</div><br><br>Your local servers:<br>');
                         for (i = 0 ; i < returned.allServers.length; i++) {
                             var ss = returned.allServers[i];
                             var intranetGoShareDataHost = ss.internal_host + ":" + ss.internal_port;
@@ -29,8 +30,8 @@
                                     var intranetGoShareDataHost = eval( "(" + data + ")").server;
                                     var quotedIntranetGoShareDataHost =  '"' + intranetGoShareDataHost + '"';
                                    blocked = '(all ok)';
-                                    var newHtml =  "<div>Your local server is here at   " +
-                                                " <a href='#' onclick='call_on_click(" + quotedIntranetGoShareDataHost + ");'> " + intranetGoShareDataHost + "</a> " +
+                                    var newHtml =  "<div>" +
+                                                "<a href='#' onclick='call_on_click(" + quotedIntranetGoShareDataHost + ");'> " + intranetGoShareDataHost + "</a> " +
                                                 blocked + "</div>";
                                     $("#local_machine_in_intranet").append('<div>' + newHtml + '</div>' );
                                 },
@@ -38,10 +39,10 @@
                                     var intranetGoShareDataHost = eval( "(" + data + ")").server;
                                     var quotedIntranetGoShareDataHost =  '"' + intranetGoShareDataHost + '"';
                                    blocked = '(Probably blocked by firewall)';
-                                    var newHtml =  "<div>Your local server is here at   " +
-                                                " <a href='#' onclick='call_on_click(" + quotedIntranetGoShareDataHost + ");'> " + intranetGoShareDataHost + "</a> " +
+                                    var newHtml =  "<div>" +
+                                                "<a href='#' onclick='call_on_click(" + quotedIntranetGoShareDataHost + ");'> " + intranetGoShareDataHost + "</a> " +
                                                 blocked + "</div>";
-                                    $("#local_machine_in_intranet").append('<div>' + newHtml + '</div>' );
+                                    $("#local_machine_in_intranet").append('<div style="width: 200px;">' + newHtml + '</div>' );
                                 }
                             });
                         }                            
