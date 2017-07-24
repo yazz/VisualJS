@@ -79,4 +79,4 @@
                 };
     
     setTimeout(checkServers,800);
-    setInterval(checkServers,4000);
+    //setInterval(checkServers,4000);
