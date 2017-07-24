@@ -8,10 +8,11 @@
     var target = this;
     return target.split(search).join(replacement);
 };
-
+var inCheck = 0;
 
     var checkHost = function(host) {
         var  blocked  =  '';
+        inCheck ++;
         $.ajax({
             type: "GET",
             url: "http://" + host + '/test_firewall',
@@ -31,7 +32,7 @@
                 //console.log("newid: " + JSON.stringify(newid,null,2) + " = " + newHtml);
                 $("#" + newid).html(newHtml);
                 $("#" + newid + "_status").html(blocked);
-                
+                inCheck --;
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 //console.log("host:  "       + JSON.stringify(host,null,2) );
@@ -45,11 +46,15 @@
                 //console.log("newid: " + JSON.stringify(newid,null,2) + " = " + newHtml);
                 $("#" + newid).html(newHtml);
                 $("#" + newid + "_status").html(blocked);
+                inCheck --;
             }
         });
     }
     
     var checkServers = function() {
+        if (inCheck > 0) {
+            return;
+        }
                 $.ajax({
                     type: "GET",
                     url: '/get_intranet_servers',
@@ -79,4 +84,4 @@
                 };
     
     setTimeout(checkServers,800);
-    //setInterval(checkServers,4000);
+    setInterval(checkServers,4000);
