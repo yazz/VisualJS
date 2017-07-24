@@ -428,11 +428,14 @@ app.use(cors())
 	// test_firewall
 	//------------------------------------------------------------------------------
 	app.get('/test_firewall', function (req, res) {
-        var tracking_id = url.parse(req.url, true).query.tracking_id;
+        var tracking_id =    url.parse(req.url, true).query.tracking_id;
+        var server      =    url.parse(req.url, true).query.server;
+        
         console.log(JSON.stringify(tracking_id,null,2));
         
         res.writeHead(200, {'Content-Type': 'text/plain'});
-        res.end(JSON.stringify({got_through_firewall: tracking_id}));
+        res.end(JSON.stringify({  got_through_firewall: tracking_id  ,  
+                                  server:               server  }));
 	});
 
     
@@ -455,25 +458,8 @@ app.use(cors())
               sort: [{when_connected: 'desc'}]
         }).then(function (result) {
             console.log(JSON.stringify(result,null,2));
-            if (result.docs.length == 0 ) {
-                res.end(JSON.stringify({html: "<div>No local servers on your intranet, sorry</div>"}));
-            } else {
-                var intranetGoShareDataHost = 'http://' + result.docs[0].internal_host + ':' + result.docs[0].internal_port;
-                
-                var i=0;
-                var extrahtml = '';
-                for (var i = 0; i < result.docs.length; i++) {
-                    var server = result.docs[i];
-                        extrahtml += "<div>*" + server.internal_host + ":" + 
-                                        server.internal_port + "</div><br>";
-                }
-                var quotedIntranetGoShareDataHost = '"' + intranetGoShareDataHost + '"';
-                var html = "<div><div>Your Public IP is " + requestClientPublicIp + "</div>Your local server is here at   " 
-                            + " <a href='#' style='text-decoration: underline; color: blue;' onclick='call_on_click(" + quotedIntranetGoShareDataHost + ");'> " + intranetGoShareDataHost + "</a>" + extrahtml + "</div>";
-                
-                res.end(JSON.stringify({  html:         html, 
-                                          localServer:  intranetGoShareDataHost}));
-            }
+            res.end(JSON.stringify({  allServers:       result.docs,
+                                      intranetPublicIp: requestClientPublicIp}));
         });
 	});
 
