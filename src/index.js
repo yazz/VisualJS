@@ -417,6 +417,9 @@ program
 	var bodyParser = require('body-parser');
 	app.use(bodyParser.json()); // support json encoded bodies
 	app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
+var cors = require('cors')
+
+app.use(cors())
 
     
         
@@ -799,9 +802,6 @@ var myttt = require('express-pouchdb')(PouchDB, { 	db: dbb,
 app.use('/db', myttt);
 
 
-var cors = require('cors')
-
-app.use(cors())
 
 
 
