@@ -4,6 +4,50 @@
         return false;
     };
     
+    String.prototype.replaceAll = function(search, replacement) {
+    var target = this;
+    return target.split(search).join(replacement);
+};
+
+
+    var checkHost = function(host) {
+        var  blocked  =  '';
+        $.ajax({
+            type: "GET",
+            url: "http://" + host + '/test_firewall',
+            data: {
+                tracking_id: '7698698768768', //generate a random number here
+                server:      host
+            },
+            success: function(data) {
+                //console.log("host:  "       + JSON.stringify(host,null,2) );
+                //alert(JSON.stringify(data,null,2));
+                var intranetGoShareDataHost = eval( "(" + data + ")").server;
+                var quotedIntranetGoShareDataHost =  '"' + intranetGoShareDataHost + '"';
+                blocked = '<div style="color: green; PADDING: 5PX;">(all ok)</div>';
+                var newHtml =  "<div>" +
+                            "<a href='#' onclick='call_on_click(" + quotedIntranetGoShareDataHost + ");'> " + intranetGoShareDataHost + "</a> </div>";
+                var newid = intranetGoShareDataHost.replace(":",".").replaceAll(".","_");
+                //console.log("newid: " + JSON.stringify(newid,null,2) + " = " + newHtml);
+                $("#" + newid).html(newHtml);
+                $("#" + newid + "_status").html(blocked);
+                
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                //console.log("host:  "       + JSON.stringify(host,null,2) );
+                //alert(JSON.stringify(data,null,2));
+                var intranetGoShareDataHost = host;
+                var quotedIntranetGoShareDataHost =  '"' + intranetGoShareDataHost + '"';
+                blocked = '<div style="color: red; PADDING: 5PX;">(probably behind a firewall)</div>';
+                var newHtml =  "<div>" +
+                            "<div> " + intranetGoShareDataHost + "</div> </div>";
+                var newid = intranetGoShareDataHost.replace(":",".").replaceAll(".","_");
+                //console.log("newid: " + JSON.stringify(newid,null,2) + " = " + newHtml);
+                $("#" + newid).html(newHtml);
+                $("#" + newid + "_status").html(blocked);
+            }
+        });
+    }
     
     var checkServers = function() {
                 $.ajax({
@@ -17,35 +61,13 @@
                         for (i = 0 ; i < returned.allServers.length; i++) {
                             var ss = returned.allServers[i];
                             var intranetGoShareDataHost = ss.internal_host + ":" + ss.internal_port;
-                            var  blocked  =  '';
-                            $.ajax({
-                                type: "GET",
-                                url: "http://" + intranetGoShareDataHost + '/test_firewall',
-                                data: {
-                                    tracking_id: '7698698768768', //generate a random number here
-                                    server:      intranetGoShareDataHost
-                                },
-                                success: function(data) {
-                                    //alert(JSON.stringify(data,null,2));
-                                    console.log( JSON.stringify(data,null,2) );
-                                    var intranetGoShareDataHost = eval( "(" + data + ")").server;
-                                    var quotedIntranetGoShareDataHost =  '"' + intranetGoShareDataHost + '"';
-                                   blocked = '(all ok)';
-                                    var newHtml =  "<div>" +
-                                                "<a href='#' onclick='call_on_click(" + quotedIntranetGoShareDataHost + ");'> " + intranetGoShareDataHost + "</a> " +
-                                                blocked + "</div>";
-                                    $("#local_machine_in_intranet").append('<div>' + newHtml + '</div>' );
-                                },
-                                error: function(jqXHR, textStatus, errorThrown) {
-                                    //var intranetGoShareDataHost = eval( "(" + data + ")").server;
-                                    var quotedIntranetGoShareDataHost =  '"' + intranetGoShareDataHost + '"';
-                                    blocked = '(Probably blocked by firewall)';
-                                    var newHtml =  "<div>" +
-                                                "<a href='#' onclick='call_on_click(" + quotedIntranetGoShareDataHost + ");'> " + intranetGoShareDataHost + "</a> " +
-                                                blocked + "</div>";
-                                    $("#local_machine_in_intranet").append('<div style="width: 200px;">' + newHtml + '</div>' );
-                                }
-                            });
+                            var thisHost = intranetGoShareDataHost;
+                            var elid = intranetGoShareDataHost.replace(":",".").replaceAll(".","_");
+                            //console.log("elid:  " + JSON.stringify(elid,null,2) );
+                            $("#local_machine_in_intranet").append('<div style="padding: 5px; display: inline-block;" id=' + elid + '>' + intranetGoShareDataHost + '</div>');
+                            $("#local_machine_in_intranet").append('<div style="padding: 5px; display: inline-block;" id=' + elid + '_status> checking server...</div><BR>' );
+                            
+                            checkHost(intranetGoShareDataHost);
                         }                            
                         
                         
