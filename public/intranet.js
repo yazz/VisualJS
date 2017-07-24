@@ -3,8 +3,9 @@
         window.location.href  = 'http://' + addr;
         return false;
     };
-        setInterval(
-            function() {
+    
+    
+    var checkServers = function() {
                 $.ajax({
                     type: "GET",
                     url: '/get_intranet_servers',
@@ -12,7 +13,7 @@
                         var returned= eval( "(" + data1 + ")");
                         var i = 0;
                         $("#local_machine_in_intranet").html(   '<div>Your intranet public IP:' + returned.intranetPublicIp + 
-                                                                '</div><br><br>Your local servers:<br>');
+                                                                '</div><br>Your local servers:<br><br>');
                         for (i = 0 ; i < returned.allServers.length; i++) {
                             var ss = returned.allServers[i];
                             var intranetGoShareDataHost = ss.internal_host + ":" + ss.internal_port;
@@ -36,9 +37,9 @@
                                     $("#local_machine_in_intranet").append('<div>' + newHtml + '</div>' );
                                 },
                                 error: function(jqXHR, textStatus, errorThrown) {
-                                    var intranetGoShareDataHost = eval( "(" + data + ")").server;
+                                    //var intranetGoShareDataHost = eval( "(" + data + ")").server;
                                     var quotedIntranetGoShareDataHost =  '"' + intranetGoShareDataHost + '"';
-                                   blocked = '(Probably blocked by firewall)';
+                                    blocked = '(Probably blocked by firewall)';
                                     var newHtml =  "<div>" +
                                                 "<a href='#' onclick='call_on_click(" + quotedIntranetGoShareDataHost + ");'> " + intranetGoShareDataHost + "</a> " +
                                                 blocked + "</div>";
@@ -53,9 +54,7 @@
                         $("#local_machine_in_intranet").html("Error. No local servers available on your intranet right now" );
                     }
                 });
-                
-                
-                
-
-                
-                },1000);
+                };
+    
+    checkServers();
+    setInterval(checkServers,4000);
