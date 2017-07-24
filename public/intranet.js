@@ -78,5 +78,5 @@
                 });
                 };
     
-    checkServers();
+    setTimeout(checkServers,800);
     setInterval(checkServers,4000);
