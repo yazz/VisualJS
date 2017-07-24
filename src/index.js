@@ -467,9 +467,9 @@ app.use(cors())
                         extrahtml += "<div>*" + server.internal_host + ":" + 
                                         server.internal_port + "</div><br>";
                 }
-                
+                var quotedIntranetGoShareDataHost = '"' + intranetGoShareDataHost + '"';
                 var html = "<div><div>Your Public IP is " + requestClientPublicIp + "</div>Your local server is here at   " 
-                            + " <div style='text-decoration: underline; color: blue;' onclick=call_on_click('" + intranetGoShareDataHost + "')> " + intranetGoShareDataHost + "</div>" + extrahtml + "</div>";
+                            + " <a href='#' style='text-decoration: underline; color: blue;' onclick='call_on_click(" + quotedIntranetGoShareDataHost + ");'> " + intranetGoShareDataHost + "</a>" + extrahtml + "</div>";
                 
                 res.end(JSON.stringify({  html:         html, 
                                           localServer:  intranetGoShareDataHost}));
