@@ -6,8 +6,10 @@ var pouchdb_drivers;
 var pouchdb_queries;
 var pouchdb_intranet_client_connects;
 var numberOfSecondsAliveCheck = 60; 
+var isPi = require('detect-rpi');
 
 var isWin = /^win/.test(process.platform);
+var isRaspberryPi = isPi();
 
 function require2(moduleName) {
 	var pat;
@@ -71,6 +73,18 @@ if (isWin) {
 	if (!fs.existsSync(process.cwd() + "/build/leveldown.node") ) {
 		mkdirSync(process.cwd() + "/build");
 		copyFileSync(	path.join(__dirname, "../node_win32/leveldown.noderename"), process.cwd() + "/build/leveldown.node") ;
+	}
+} else if (isRaspberryPi) {
+	// copy Raspberry PI ARM node native files
+	copyNodeNativeAdapter( "pi", "sqlite3", 	"lib/binding/node-v48-linux-arm" , "node_sqlite3.node")
+	copyNodeNativeAdapter( "pi", "leveldown", 	"build/Release" , "leveldown.node")
+    
+    // my Raspberry PI ARM at home may complain if I don't do this
+	copyNodeNativeAdapter( "pi", "leveldown", 	"pouchdb/node_modules/build/Release" , "leveldown.node")
+	//to fix a bug on leveldown
+	if (!fs.existsSync(process.cwd() + "/build/leveldown.node") ) {
+		mkdirSync(process.cwd() + "/build");
+		copyFileSync(	path.join(__dirname, "../node_pi/leveldown.noderename"), process.cwd() + "/build/leveldown.node") ;
 	}
 } else { //means Mac OS
 	// copy Mac OS 64 node native files

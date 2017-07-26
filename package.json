@@ -17,6 +17,7 @@
     "commander": "^2.9.0",
     "cors": "^2.8.4",
     "debug": "^2.6.0",
+    "detect-rpi": "^1.2.0",
     "drivelist": "^5.0.21",
     "exceljs": "^0.4.10",
     "express": "^4.14.0",
