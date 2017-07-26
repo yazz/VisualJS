@@ -244,7 +244,7 @@
     ,
     type: 'db_driver'
     ,
-    setup: function(connection) {
+    setup: function(connection, callfn) {
           var config = {
             id:                connection.id,
             user:              connection.user,
@@ -258,7 +258,10 @@
 
           connection.connection = new postgresdb.Client(config);
           connection.connection.connect(function (err) {
-            if (err) throw err;
+            if (err) {
+                callfn({error: '' + err});
+                throw err;
+            }
           });
           connection.status = 'connected';
       },
@@ -266,15 +269,21 @@
 
     get_v2: function( connection , parameters , callfn )
         {
+            
 			var sql = parameters.sql;
-            console.log('********************************');
+            console.log('******************************** in postgres get');
             if (
                 (connection.status == 'disconnected')
                 ||
                 (connection.status == null)
               )
              {
-                drivers['postgres']['setup'](connection);
+                 try {
+                    drivers['postgres']['setup'](connection, callfn);
+                 } catch (error) {
+                     console.log('postgres connection error: ' + error.toString());
+                     return;
+                 };
             }
 
           console.error('drivers[postgres][get]');
