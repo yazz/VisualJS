@@ -9,6 +9,7 @@
 '          <tr scope="row"><td>Type</td><td>CSV</td></tr>'+
 '          <tr scope="row"><td>ID</td><td>{{get_connection_property(connection_name,"id")}}</td></tr>'+
 '          <tr scope="row"><td>File</td><td>{{get_connection_property(connection_name,"fileName")}}</td></tr>'+
+'          <tr scope="row"><td>Size</td><td>{{get_connection_property(connection_name,"size")}}</td></tr>'+
 '<FileBrowser></FileBrowser>'+
 '        <tbody>'+
 '      </table>'+

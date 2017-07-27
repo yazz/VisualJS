@@ -14,7 +14,7 @@ import db                       from '../public/dbhelper.js'
 Vue.component('FileBrowser',FileBrowser);
 
 
-const gun_ip_address = '172.18.0.106'
+const gun_ip_address = '192.168.1.129'
 
 
 window.vue = Vue;
@@ -888,6 +888,8 @@ function when_pouchdb_connections_changes() {
                                                                     port: conn.port
                                                                     ,
                                                                     user: conn.user
+                                                                    ,
+                                                                    size: conn.size
                                                                     ,
                                                                     password: conn.password
                                                                     ,

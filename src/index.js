@@ -189,11 +189,13 @@ var mysql      = require('mysql');
   						if (typeof excelFile !== "undefined") {
 							var fileId = excelFile.replace(/[^\w\s]/gi,'');
   							console.log('   *file id: ' + fileId);
+  							console.log('   *size: ' + stat.size);
 
 							pouchdb_connections.post(
 									{
   										  name: 		fileId,
   										  driver: 		'excel',
+                                          size: stat.size,
   										  fileName: 	excelFile
 									}, function (err, response) {
                                           if (err) { 
@@ -219,11 +221,13 @@ var mysql      = require('mysql');
   						if (typeof CSVFile !== "undefined") {
 							var fileId = CSVFile.replace(/[^\w\s]/gi,'');
   							console.log('   *file id: ' + fileId);
+  							console.log('   *size: ' + stat.size);
 
 							pouchdb_connections.post(
 									{
   										  name: 		fileId,
   										  driver: 		'csv',
+                                          size: stat.size,
   										  fileName: 	CSVFile
 									}, function (err, response) {
                                           if (err) { 

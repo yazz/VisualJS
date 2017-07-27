@@ -258,6 +258,8 @@ export default new Vuex.Store({
 					  ,
 					  fileName:			connection.cp.fileName
 					  ,
+					  size:			    connection.cp.size
+					  ,
 					  preview:			connection.cp.preview
 				}
 			);
