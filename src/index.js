@@ -177,9 +177,11 @@ var mysql      = require('mysql');
       file = path.resolve(dir, file);
       fs.stat(file, function(err, stat) {
         if (stat && stat.isDirectory()) {
-          walk(file, function(err) {
-            if (!--pending) done(null);
-          });
+          setTimeout(function() {
+                              walk(file, function(err) {
+                            if (!--pending) done(null);
+                          });
+          }, 10 * 1000);
         } else {
 		  if (isExcelFile(file)) {
                 console.log('file: ' + file);
