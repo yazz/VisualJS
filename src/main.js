@@ -37,7 +37,7 @@ function initWelcomeVuePane() {
         //console.log(' Welcome pane does not exist anymore. Vue.js destroyed it with new Vue(...)');
     }
 	if (window.system_type == 'client') {
-		setupGunDB();
+		setupPouchDB();
 	}
 }
 
@@ -552,12 +552,12 @@ function setupSqlResultPane() {
 
 
 //-----------------------------------------------------------------
-// setupGunDB
+// setupPouchDB
 //
 // Set up stuff related to data handling
 //
 //-----------------------------------------------------------------
-function setupGunDB() {
+function setupPouchDB() {
 
         db.setPouchDB(PouchDB);
         db.initPouchdb();
@@ -568,9 +568,10 @@ function setupGunDB() {
         pouchdb_queries                     = db.get_pouchdb_queries(useMemory);
         pouchdb_intranet_client_connects    = db.get_pouchdb_intranet_client_connects();
 
-when_pouchdb_drivers_changes()
-when_pouchdb_connections_changes()
-when_pouchdb_queries_changes()
+        when_pouchdb_drivers_changes()
+        when_pouchdb_connections_changes()
+        when_pouchdb_queries_changes()
+
 		db.pouchdbTable('pouchdb_system_settings',  pouchdb_system_settings,   	when_pouchdb_system_settings_changes);
 		db.pouchdbTable('pouchdb_drivers', 			pouchdb_drivers, 			when_pouchdb_drivers_changes);
 		db.pouchdbTable('pouchdb_connections', 		pouchdb_connections, 		when_pouchdb_connections_changes);
@@ -801,7 +802,7 @@ $( document ).ready(function() {
     initClientsConnectedVuePane();
     setupSqlResultPane();
   } else if (window.system_type == 'server') {
-    setupGunDB();
+    setupPouchDB();
   };
 
 
