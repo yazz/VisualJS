@@ -14,9 +14,6 @@ import db                       from '../public/dbhelper.js'
 Vue.component('FileBrowser',FileBrowser);
 
 
-const gun_ip_address = '192.168.1.129'
-
-
 window.vue = Vue;
 
 function initWelcomeVuePane() {
