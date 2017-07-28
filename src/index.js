@@ -162,7 +162,32 @@ var mysql      = require('mysql');
  }
 
 
+function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileType2) {
+    pouchdb_connections.post(
+        {
+              name: 		fileId,
+              driver: 		'excel',
+              size:         size,
+              fileName: 	fileName
+        }, function (err, response) {
+              if (err) { 
+                    return err; 
+              }
+              console.log("*RESP: " + JSON.stringify(response,null,2));
+              pouchdb_queries.post(
+              {
+                  name: fileId,
+                  connection: response.id,
+                  driver: fileType,
+                  size: size,
+                  type: fileType2,
+                  definition:JSON.stringify({} , null, 2),
+                  preview: JSON.stringify([{message: 'No preview available'}] , null, 2)
+                  
+              });
+        });
 
+}
 
  var walk = function(dir, done) {
    if (stopScan) {
@@ -191,27 +216,7 @@ var mysql      = require('mysql');
   							console.log('   *file id: ' + fileId);
   							console.log('   *size: ' + stat.size);
 
-							pouchdb_connections.post(
-									{
-  										  name: 		fileId,
-  										  driver: 		'excel',
-                                          size: stat.size,
-  										  fileName: 	excelFile
-									}, function (err, response) {
-                                          if (err) { 
-                                                return err; 
-                                          }
-                                          pouchdb_queries.post(
-                                          {
-                                              name: fileId,
-                                              connection: response.id,
-                                              driver: 'excel',
-                                              type: '|SPREADSHEET|',
-                                              definition:JSON.stringify({} , null, 2),
-                                              preview: JSON.stringify([{message: 'No preview available'}] , null, 2)
-                                              
-                                          });
-                                    });
+                            saveConnectionAndQueryForFile(fileId, 'excel', stat.size, excelFile, '|SPREADSHEET|');
 									  
 						}
 					}
@@ -223,28 +228,7 @@ var mysql      = require('mysql');
   							console.log('   *file id: ' + fileId);
   							console.log('   *size: ' + stat.size);
 
-							pouchdb_connections.post(
-									{
-  										  name: 		fileId,
-  										  driver: 		'csv',
-                                          size: stat.size,
-  										  fileName: 	CSVFile
-									}, function (err, response) {
-                                          if (err) { 
-                                                return err; 
-                                          }
-                                          pouchdb_queries.post(
-                                          {
-                                              name: fileId,
-                                              connection: response.id,
-                                              driver: 'csv',
-                                              type: '|CSV|',
-                                              definition:JSON.stringify({} , null, 2),
-                                              preview: JSON.stringify([{message: 'No preview available'}] , null, 2)
-                                              
-                                          });
-                                    });
-									  
+                            saveConnectionAndQueryForFile(fileId, 'csv', stat.size, CSVFile, '|CSV|');
 						}
 					}
           if (!--pending) done(null);

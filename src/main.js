@@ -984,6 +984,8 @@ function when_pouchdb_queries_changes() {
                                                         ,
                                                         driver: query.driver
                                                         ,
+                                                        size: query.size
+                                                        ,
                                                         status: ''
                                                         ,
                                                         connection: query.connection
