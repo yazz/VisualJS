@@ -31,7 +31,7 @@
           </thead>
           <tbody v-for="a_query in list_of_queries">
             <tr scope="row" >
-              <td v-on:click="set_viewed_query(a_query)">{{a_query.name.substring(0,10)}}</td>
+              <td v-on:click="set_viewed_query(a_query)">{{a_query.name.substr(a_query.name.length - 25)}}</td>
               <td v-on:click="set_viewed_query(a_query)">{{a_query.connection.substring(0,10)}}</td>
               <td v-on:click="set_viewed_query(a_query)">{{a_query.driver}}</td>
               <td><button v-on:click.prevent='delete_item(a_query)'>X</button></td>
