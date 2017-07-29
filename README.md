@@ -7,6 +7,12 @@
     </p>
 </div>
 
+<p align="center">
+    <img src='http://gosharedata.com/gosharedata/images/img_1514.jpg' />
+    </p>
+</div>
+	
+	
 	
 As a hobby, in October 2016 I started building GoShareData as an Open Source Project to solve a problem that I have faced at every large company, which is "How do I access and share frequently used data on my computer"?
 
