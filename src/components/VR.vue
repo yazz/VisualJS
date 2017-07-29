@@ -84,7 +84,20 @@
 								 <a-animation begin="mouseenter" attribute="rotation"
 												to="20 29 29" dur="1000" direction="alternate"  repeat="1"></a-animation>
 					</a-entity >
-				</a-entity>
+                    
+                    
+						 <a-entity position="6.5 1 1" id='vr_file_name_2'
+									geometry="primitive: plane; width: 1.9; height: 1.9;" material="color: white;opacity: 1;"
+									v-bind:text='"font: roboto; color: black; align: center; value: _ ; width: 2; "'>
+						</a-entity>
+						 <a-entity position="6.5 .6 1" id='vr_file_size_2'
+									geometry="primitive: plane; width: 1.9; height: 1.9;" material="color: white;opacity: 1;"
+									v-bind:text='"font: roboto; color: black; align: center; value: ? ; width: 2; "'>
+						</a-entity>
+
+
+
+                        </a-entity>
 	    	</a-entity>
 
 
