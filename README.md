@@ -1,4 +1,4 @@
-## GoShareData - Share your Team Data on the Raspberry PI
+## GoShareData - Share your Team SQL Data (via the Raspberry PI)
 
 
 <div style='text-align: center; width: 100%;'>
