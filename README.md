@@ -15,11 +15,13 @@
     <img src='http://gosharedata.com/gosharedata/images/screen%20shot%202017-07-07%20at%20073249.jpg' />
     </p>
 </div>
-Go Share Data lets you share SQL queries over an intranet. It supports MySQL, Oracle, Postgres, MariaDB for SQL queries. You can view Excel and CSV files but you can't query them (yet).
+Go Share Data lets you share SQL queries over an intranet. It supports MySQL, Oracle, Postgres, MariaDB for SQL queries. You can view Excel and CSV files but you can't query them with SQL (coming soon).
 	
 	
-	
-<p align="center" style='padding-top:30px;'>
+<br>
+<br>
+<br>
+<p align="center">
     <img src='http://gosharedata.com/gosharedata/images/img_1514.jpg' />
     </p>
 </div>
