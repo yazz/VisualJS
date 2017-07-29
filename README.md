@@ -44,9 +44,19 @@ There is a commercial version baed on the Raspberry PI which you can buy at http
     <img src='http://gosharedata.com/gosharedata/images/pasted%20image%20575x575.jpg' />
     </p>
 </div>
+GoShareData DOES NOT work over the cloud. It can ONLY share data over a local network, so it is secure by design. Even if I turned into an evil overlord I still would not be able to access your data
 
 
 
+
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 <p align="center">
     <img src='http://gosharedata.com/gosharedata/images/pasted%20image%202844x1458.jpg' />
     </p>
