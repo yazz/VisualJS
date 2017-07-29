@@ -21,12 +21,25 @@ Go Share Data lets you share SQL queries over an intranet. It supports MySQL, Or
 <br>
 <br>
 <br>
+<br>
+<br>
+<br>
 <p align="center">
     <img src='http://gosharedata.com/gosharedata/images/img_1514.jpg' />
     </p>
 </div>
+There is a commercial version baed on the Raspberry PI which you can buy at http://gosharedata.com/gosharedata. However, if you prefer to build it yourself then you can create (and sell!) your own Raspberry PI version. It uses an MIT license so there are no restrictions
 
-	
+
+
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 <p align="center">
     <img src='http://gosharedata.com/gosharedata/images/pasted%20image%20575x575.jpg' />
     </p>
