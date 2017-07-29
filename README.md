@@ -1,4 +1,4 @@
-## Think of GoShareData as a way to see all the data that your colleagues are working on
+## GoShareData - Share your Team Data on the Raspberry PI
 
 
 <div style='text-align: center; width: 100%;'>
