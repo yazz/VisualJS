@@ -20,6 +20,7 @@ function require2(moduleName) {
 	}
 	
 	console.log('PATH: ' + pat);
+	console.log('    MODULE PATH: ' + process.cwd() + '/node_modules/' + moduleName);
     var reac = eval(pat);	
 	return reac;
 };
