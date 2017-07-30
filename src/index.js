@@ -99,20 +99,22 @@ if (isWin) {
 	//to fix a bug on leveldown
 	if (!fs.existsSync(process.cwd() + "/build/leveldown.node") ) {
 		mkdirSync(process.cwd() + "/build");
-		copyFileSync( process.cwd() +  "../node_pi/leveldown.noderename", process.cwd() + "/build/leveldown.node") ;
+		copyFileSync( process.cwd() +  "/node_pi/leveldown.noderename", process.cwd() + "/build/leveldown.node") ;
 	}
 } else { //means Mac OS
     console.log('******* MAC *******');
 	// copy Mac OS 64 node native files
 	copyNodeNativeAdapter( "macos64", "sqlite3", 	"lib/binding/node-v48-darwin-x64" , "node_sqlite3.node")
 	copyNodeNativeAdapter( "macos64", "leveldown", 	"build/Release" , "leveldown.node")
+        copyNodeNativeAdapter( "macos64", "drivelist",  "build/Release" , "drivelist.node")
 
     // my 64 bit mac at home complains if I don't do this
-	copyNodeNativeAdapter( "macos64", "pouchdb", 	"node_modules/leveldown/out/Release" , "leveldown.node")
+	    copyNodeNativeAdapter( "macos64", "pouchdb", 	"node_modules/leveldown/out/Release" , "leveldown.node")
+	    copyNodeNativeAdapter( "macos64", "leveldown",       "pouchdb/node_modules/build/Release" , "leveldown.node")
 	//to fix a bug on leveldown
 	if (!fs.existsSync(process.cwd() + "/build/leveldown.node") ) {
 		mkdirSync(process.cwd() + "/build");
-		copyFileSync(process.cwd() +  "../node_macos64/leveldown.noderename", process.cwd() + "/build/leveldown.node") ;
+		copyFileSync(process.cwd() +  "/node_macos64/leveldown.noderename", process.cwd() + "/build/leveldown.node") ;
 	}
 }
 
