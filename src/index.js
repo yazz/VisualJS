@@ -66,6 +66,7 @@ function copyNodeNativeAdapter( osName, moduleName, directoryToSaveTo , nativeFi
 }
 
 if (isWin) {
+    console.log('******* WINDOWS *******');
 	// copy WIndows 32 node native files
 	copyNodeNativeAdapter( "win32", "sqlite3", 		"lib/binding/node-v48-win32-ia32" , "node_sqlite3.node")
 	copyNodeNativeAdapter( "win32", "leveldown", 	"build/Release" , "leveldown.node")
@@ -75,6 +76,7 @@ if (isWin) {
 		copyFileSync(	path.join(__dirname, "../node_win32/leveldown.noderename"), process.cwd() + "/build/leveldown.node") ;
 	}
 } else if (isRaspberryPi) {
+    console.log('******* PI *******');
 	// copy Raspberry PI ARM node native files
 	copyNodeNativeAdapter( "pi", "sqlite3", 	"lib/binding/node-v48-linux-arm" , "node_sqlite3.node")
 	copyNodeNativeAdapter( "pi", "leveldown", 	"build/Release" , "leveldown.node")
@@ -87,6 +89,7 @@ if (isWin) {
 		copyFileSync(	path.join(__dirname, "../node_pi/leveldown.noderename"), process.cwd() + "/build/leveldown.node") ;
 	}
 } else { //means Mac OS
+    console.log('******* MAC *******');
 	// copy Mac OS 64 node native files
 	copyNodeNativeAdapter( "macos64", "sqlite3", 	"lib/binding/node-v48-darwin-x64" , "node_sqlite3.node")
 	copyNodeNativeAdapter( "macos64", "leveldown", 	"build/Release" , "leveldown.node")
