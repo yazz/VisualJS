@@ -109,8 +109,8 @@ if (isWin) {
         copyNodeNativeAdapter( "macos64", "drivelist",  "build/Release" , "drivelist.node")
 
     // my 64 bit mac at home complains if I don't do this
-	    copyNodeNativeAdapter( "macos64", "pouchdb", 	"node_modules/leveldown/out/Release" , "leveldown.node")
-	    copyNodeNativeAdapter( "macos64", "leveldown",       "pouchdb/node_modules/build/Release" , "leveldown.node")
+    copyNodeNativeAdapter( "macos64", "pouchdb", 	"node_modules/leveldown/out/Release" , "leveldown.node")
+    copyNodeNativeAdapter( "macos64", "leveldown",       "pouchdb/node_modules/build/Release" , "leveldown.node")
 	//to fix a bug on leveldown
 	if (!fs.existsSync(process.cwd() + "/build/leveldown.node") ) {
 		mkdirSync(process.cwd() + "/build");
