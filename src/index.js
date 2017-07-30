@@ -84,11 +84,11 @@ if (isWin) {
 	copyNodeNativeAdapter( "win32", "sqlite3", 		"lib/binding/node-v48-win32-ia32" , "node_sqlite3.node")
 	copyNodeNativeAdapter( "win32", "leveldown", 	"build/Release" , "leveldown.node")
 	//to fix a bug on leveldown
-    copyNodeNativeAdapter( "win32", "pouchdb", 	"node_modules/leveldown/out/Release" , "leveldown.node")
-    copyNodeNativeAdapter( "win32", "leveldown",       "pouchdb/node_modules/build/Release" , "leveldown.node")
+    //copyNodeNativeAdapter( "win32", "pouchdb", 	"node_modules/leveldown/out/Release" , "leveldown.node")
+    //copyNodeNativeAdapter( "win32", "leveldown",       "pouchdb/node_modules/build/Release" , "leveldown.node")
 	if (!fs.existsSync(process.cwd() + "/build/leveldown.node") ) {
 		mkdirSync(process.cwd() + "/build");
-		copyFileSync(process.cwd() +  "../node_win32/leveldown.noderename", process.cwd() + "/build/leveldown.node") ;
+		copyFileSync(process.cwd() +  "/node_win32/leveldown.noderename", process.cwd() + "/build/leveldown.node") ;
 	}
 } else if (isRaspberryPi) {
     console.log('******* PI *******');
