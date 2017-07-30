@@ -66,10 +66,7 @@
       "node_win32/*",
       "node_pi/*",	
       "node_macos64/*",
-      "node_modules/leveldown/**/**/**/**/*",
-      "node_modules/pouchdb-fauxton/**/**/**/**/*",
-      "node_modules/nan/**/**/**/**/*",
-      "node_modules/sqlite3/**/**/**/**/*"
+      "node_modules/**/**/**/**/**/**/**/*",
     ]
   }
 }

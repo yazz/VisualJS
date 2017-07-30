@@ -16,7 +16,7 @@ function require2(moduleName) {
 	if (isWin) {
 		pat = "require(process.cwd() + " + "'\\\\node_modules\\\\" + moduleName + "');";
 	} else {
-		pat = "require(process.cwd() + " + "'/node_modules/" + moduleName + "');";
+		pat = "require(path.join(__dirname, '../node_modules/" + moduleName + "'));";
 	}
 	
 	console.log('PATH: ' + pat);
@@ -31,8 +31,18 @@ var path         = require('path');
 var mkdirp       = require('mkdirp')
 
 if (!fs.existsSync(process.cwd() + "/node_modules") ) {
-    copyFolderRecursiveSync(path.join(__dirname, "../node_modules")  , process.cwd() );
-}
+    copyFolderRecursiveSync(path.join(__dirname, "../node_modules")  , process.cwd() ); }
+
+    if (!fs.existsSync(process.cwd() + "/node_macos64") ) {
+	copyFolderRecursiveSync(path.join(__dirname, "../node_macos64")  , process.cwd() ); }
+
+if (!fs.existsSync(process.cwd() + "/node_win32") ) {
+    copyFolderRecursiveSync(path.join(__dirname, "../node_win32")  , process.cwd() ); }
+
+
+if (!fs.existsSync(process.cwd() + "/node_pi") ) {
+    copyFolderRecursiveSync(path.join(__dirname, "../node_pi")  , process.cwd() ); }
+
 
 
 var expressNodeJsPackageFile = process.cwd() + "/node_modules/express-pouchdb/package.json";
@@ -58,12 +68,14 @@ const mkdirSync = function (dirPath) {
 }
 
 function copyNodeNativeAdapter( osName, moduleName, directoryToSaveTo , nativeFileName) {
+    console.log('Copy started of : ' + osName + ', '+ moduleName + ','+ directoryToSaveTo + ','+ nativeFileName);
 	if (!fs.existsSync(process.cwd() + "/node_modules/" + moduleName + "/" + directoryToSaveTo + "/" + nativeFileName) ) {
 		console.log('* Creating native driver for: ' + moduleName);
 		mkdirSync(process.cwd() + "/node_modules/" + moduleName +  "/" + directoryToSaveTo);
-		copyFileSync(	path.join(__dirname, "../node_" + osName + "/" + nativeFileName + "rename"),
+		copyFileSync(	 process.cwd() + "/node_" + osName + "/" + nativeFileName + "rename",
 							process.cwd() + "/node_modules/" + moduleName + "/" + directoryToSaveTo + "/" + nativeFileName) ;
 	}
+	console.log('Copy done');
 }
 
 if (isWin) {
@@ -74,7 +86,7 @@ if (isWin) {
 	//to fix a bug on leveldown
 	if (!fs.existsSync(process.cwd() + "/build/leveldown.node") ) {
 		mkdirSync(process.cwd() + "/build");
-		copyFileSync(	path.join(__dirname, "../node_win32/leveldown.noderename"), process.cwd() + "/build/leveldown.node") ;
+		copyFileSync(process.cwd() +  "../node_win32/leveldown.noderename", process.cwd() + "/build/leveldown.node") ;
 	}
 } else if (isRaspberryPi) {
     console.log('******* PI *******');
@@ -87,20 +99,20 @@ if (isWin) {
 	//to fix a bug on leveldown
 	if (!fs.existsSync(process.cwd() + "/build/leveldown.node") ) {
 		mkdirSync(process.cwd() + "/build");
-		copyFileSync(	path.join(__dirname, "../node_pi/leveldown.noderename"), process.cwd() + "/build/leveldown.node") ;
+		copyFileSync( process.cwd() +  "../node_pi/leveldown.noderename", process.cwd() + "/build/leveldown.node") ;
 	}
 } else { //means Mac OS
     console.log('******* MAC *******');
 	// copy Mac OS 64 node native files
 	copyNodeNativeAdapter( "macos64", "sqlite3", 	"lib/binding/node-v48-darwin-x64" , "node_sqlite3.node")
 	copyNodeNativeAdapter( "macos64", "leveldown", 	"build/Release" , "leveldown.node")
-    
+
     // my 64 bit mac at home complains if I don't do this
-	copyNodeNativeAdapter( "macos64", "leveldown", 	"pouchdb/node_modules/build/Release" , "leveldown.node")
+	copyNodeNativeAdapter( "macos64", "pouchdb", 	"node_modules/leveldown/out/Release" , "leveldown.node")
 	//to fix a bug on leveldown
 	if (!fs.existsSync(process.cwd() + "/build/leveldown.node") ) {
 		mkdirSync(process.cwd() + "/build");
-		copyFileSync(	path.join(__dirname, "../node_macos64/leveldown.noderename"), process.cwd() + "/build/leveldown.node") ;
+		copyFileSync(process.cwd() +  "../node_macos64/leveldown.noderename", process.cwd() + "/build/leveldown.node") ;
 	}
 }
 
@@ -988,6 +1000,7 @@ function copyFileSync( source, target ) {
 }
 
 function copyFolderRecursiveSync( source, target ) {
+    console.log('çopy from: '+ source + ' to ' + target);
     var files = [];
 
     //check if folder needs to be created or integrated
