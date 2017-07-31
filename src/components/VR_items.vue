@@ -51,7 +51,7 @@
 						</a-entity>
 						<a-entity  v-if='get_vr_type_mouse' geometry="primitive: box; width:.5;height: 0.5;depth: 0.1;" material="color: green"
 						position='-4 -1 1.1'
-									v-bind:openquerynativeapp='"" + get_viewed_query_id() ' >
+									v-bind:open_file='"" + get_viewed_query_file() ' >
 							<a-entity 	position="1 0 0.07"
 										text="font: aileronsemibold; color: white; align: left; value: Open; width: 2; height: 1; opacity: 1;">
 							</a-entity>
@@ -63,10 +63,6 @@
 						</a-entity>
 						<a-entity v-if='get_vr_type_move' 	position="-5 -3.5 -1" rotation='0 40 0'
 									text="font: aileronsemibold; color: red; align: middle; value: Close; width: 8; height: 2; opacity: 1;">
-						</a-entity>
-						<a-entity  v-if='get_vr_type_move' geometry="primitive: box; width:.6;height: 0.6;depth: 0.6;" material="color: green"
-						position='-6 -.5 0.7' rotation='0 40 0'
-									v-bind:openquerynativeapp='"" + get_viewed_query_id() ' >
 						</a-entity>
 						<a-entity v-if='get_vr_type_move' 	position="-5 -.5 -1" rotation='0 40 0'
 									text="font: aileronsemibold; color: green; align: left; value: Open; width: 8; height: 1; opacity: 1;">
@@ -130,7 +126,8 @@
 								mixin='gsd'  
 								v-bind:material='"src: driver_icons/" + a_driver.driver + ".jpg;"'
 								v-bind:color="(index % 2 == 0)?'blue':'green'"
-								v-bind:log='"x: " + get_x_position(index,list_of_queries.length) + "; y:" + get_y_position(index,list_of_queries.length) + ";queryId: "  + a_driver.id + ";"' >
+								v-bind:log='"x: " + get_x_position(index,list_of_queries.length) + "; y:" + get_y_position(index,list_of_queries.length) + ";queryFile: " + a_driver.hash + (a_driver.fileName?"." +
+                                        a_driver.fileName.split(".").pop():"") + ";queryId: "  + a_driver.id + ";"' >
 								<a-animation begin="mouseenter" attribute="rotation"
 												to="0 0 10" dur="100" direction="alternate"  repeat="3"></a-animation>
 						</a-entity>
@@ -206,6 +203,9 @@ name: 'VR-items'
 	methods: {
 	get_viewed_query_id: function() {
 	    return this.$store.state.viewed_query_id;
+	},
+	get_viewed_query_file: function() {
+	    return this.$store.state.viewed_query_file;
 	},
     can_show_full_doc: function() {
 		return this.$store.state.show_full_doc;

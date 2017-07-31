@@ -36,6 +36,8 @@ export default new Vuex.Store({
         ,
         viewed_query_id: null
         ,
+        viewed_query_file: null
+        ,
         viewed_query_connection_driver: null
 		,
         viewed_query_connection: null
@@ -74,6 +76,8 @@ export default new Vuex.Store({
     viewed_connection_id: state => state.viewed_connection_id
     ,
     viewed_query_id: state => state.viewed_query_id
+    ,
+    viewed_query_file: state => state.viewed_query_file
     ,
     viewed_connection_driver: state => state.viewed_connection_driver
     ,
@@ -153,16 +157,21 @@ export default new Vuex.Store({
     SET_VIEWED_QUERY: function (state, query) {
       if (query) {
         state.viewed_query_id                = query.id;
+        state.viewed_query_file              = "sss22";//query.hash + '.' + (query.fileName?"." + query.fileName.split(".").pop():"");
         state.viewed_query_connection_driver = query.driver;
         state.viewed_query_connection        = query.connection;
       } else {
         state.viewed_query_id                = null;
+        state.viewed_query_file              = null;
         state.viewed_query_connection_driver = null;
         state.viewed_query_connection        = null;
       }
     },
     SET_VIEWED_QUERY_ID: function (state, query) {
         state.viewed_query_id                = query;
+    },
+    SET_VIEWED_QUERY_FILE: function (state, query) {
+        state.viewed_query_file                = query;
     },
     SET_VIEWED_DRIVER: function (state, driver) {
       if (driver) {
@@ -432,6 +441,12 @@ export default new Vuex.Store({
         //
         set_viewed_query_id: function(a, b){
             a.commit('SET_VIEWED_QUERY_ID', b)
+        },
+        //
+        // set viewed query
+        //
+        set_viewed_query_file: function(a, b){
+            a.commit('SET_VIEWED_QUERY_FILE', b)
         },
 
 

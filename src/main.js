@@ -233,7 +233,7 @@ function setupVRVuePane() {
                 document.querySelector('#vr_file_size_2').setAttribute('text','font: roboto; color: black; align: left; value: ' + self.data.query_size + ' bytes ;width: 4; ');
                 
 				
-                document.querySelector('#vr_file_saved_as').setAttribute('text','font: roboto; color: black; align: left; value: ' + self.data.query_saved_as + ' bytes ;width: 4; ');
+                document.querySelector('#vr_file_saved_as').setAttribute('text','font: roboto; color: black; align: left; value: ' + self.data.query_saved_as + '  ;width: 4; ');
 
 
 
@@ -354,7 +354,8 @@ if (document.querySelector("#move_bar")) {
 		AFRAME.registerComponent('log', {
 		  schema: {x:  {type: 'number', default: 0},
 					     y: {type: 'number', default: 0},
-               queryId: {type: 'string'}
+               queryId: {type: 'string'},
+               queryFile: {type: 'string'},
              },
 		  init: function () {
         var self = this;
@@ -367,6 +368,7 @@ if (document.querySelector("#move_bar")) {
 			   inMove = true;
          var x = self.data.x;
          var y = self.data.y;
+         var queryFile = self.data.queryFile;
 		 
 		 var doc_details = document.querySelector("#doc_details");
 
@@ -380,6 +382,9 @@ if (document.querySelector("#move_bar")) {
 
 				get_query_result(self.data.queryId);
 				store.dispatch('set_viewed_query_id', self.data.queryId);
+                
+				store.dispatch('set_viewed_query_file', self.data.queryFile);
+                //alert(queryFile);
 
 				//alert(stringToLog + ' was clicked at: ', evt.detail.intersection.point);
 				//alert(stringToLog + ' was clicked with: ' + document.getElementById("sqlinput"));
@@ -434,7 +439,21 @@ if (document.querySelector("#move_bar")) {
 window.history.go(-1);
 		 });
 				}});
+                
+                
+				AFRAME.registerComponent('open_file', {
+                schema: {
+               type: 'string'
+             },
+		  init: function () {
+			   var self = this;
+               var queryFile = self.data;
+         this.el.addEventListener('click', function (evt) {
+             //alert(queryFile);
+    window.open("http://"+window.location.hostname + '/docs/' + queryFile, '_blank');
 
+		 });
+				}});
 		
 		
 		AFRAME.registerComponent('closedoc', {
