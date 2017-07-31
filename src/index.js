@@ -181,6 +181,7 @@ var mysql      = require('mysql');
 	 return false;
  }
 
+var crypto = require('crypto');
 
 function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileType2) {
     pouchdb_connections.post(
@@ -193,6 +194,20 @@ function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileTyp
               if (err) { 
                     return err; 
               }
+              
+            var contents = fs.readFileSync(fileName, "utf8");
+            var hash = crypto.createHash('sha1');
+            hash.setEncoding('hex');
+            hash.write(contents);
+            hash.end();
+            var sha1sum = hash.read();
+              
+              var saveTo = process.cwd() + "//public\\docs\\" + sha1sum.toString() + path.extname(fileName);
+              var copyfrom = fileName;
+              console.log('Copy from : ' + copyfrom + ' to : ' + saveTo);
+              copyFileSync(copyfrom, saveTo);
+              
+              
               console.log("*RESP: " + JSON.stringify(response,null,2));
               pouchdb_queries.post(
               {

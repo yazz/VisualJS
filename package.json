@@ -16,6 +16,7 @@
     "browserify": "^14.1.0",
     "commander": "^2.9.0",
     "cors": "^2.8.4",
+    "crypto": "0.0.3",
     "debug": "^2.6.0",
     "detect-rpi": "^1.2.0",
     "drivelist": "^5.0.21",
@@ -64,7 +65,7 @@
   "pkg": {
     "assets": [
       "node_win32/*",
-      "node_pi/*",	
+      "node_pi/*",
       "node_macos64/*",
       "node_modules/drivelist/**/**/**/**/*",
       "node_modules/leveldown/**/**/**/**/*",
