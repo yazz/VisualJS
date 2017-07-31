@@ -901,6 +901,8 @@ function when_pouchdb_connections_changes() {
                                                                     ,
                                                                     fileName: conn.fileName
                                                                     ,
+                                                                    hash: conn.hash
+                                                                    ,
                                                                     preview: conn.preview
                                                                    }});
             }
@@ -991,6 +993,10 @@ function when_pouchdb_queries_changes() {
                                                         driver: query.driver
                                                         ,
                                                         size: query.size
+                                                        ,
+                                                        fileName: query.fileName
+                                                        ,
+                                                        hash: query.hash
                                                         ,
                                                         status: ''
                                                         ,

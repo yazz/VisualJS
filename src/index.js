@@ -184,23 +184,26 @@ var mysql      = require('mysql');
 var crypto = require('crypto');
 
 function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileType2) {
-    pouchdb_connections.post(
+        var contents = fs.readFileSync(fileName, "utf8");
+        var hash = crypto.createHash('sha1');
+        hash.setEncoding('hex');
+        hash.write(contents);
+        hash.end();
+        var sha1sum = hash.read();
+
+        pouchdb_connections.post(
         {
               name: 		fileId,
               driver: 		'excel',
               size:         size,
+              hash:         sha1sum,
+              type:         fileType2,
               fileName: 	fileName
         }, function (err, response) {
               if (err) { 
                     return err; 
               }
               
-            var contents = fs.readFileSync(fileName, "utf8");
-            var hash = crypto.createHash('sha1');
-            hash.setEncoding('hex');
-            hash.write(contents);
-            hash.end();
-            var sha1sum = hash.read();
               
               var saveTo = process.cwd() + "//public\\docs\\" + sha1sum.toString() + path.extname(fileName);
               var copyfrom = fileName;
@@ -215,6 +218,8 @@ function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileTyp
                   connection: response.id,
                   driver: fileType,
                   size: size,
+                  hash: sha1sum,
+                  fileName: fileName,
                   type: fileType2,
                   definition:JSON.stringify({} , null, 2),
                   preview: JSON.stringify([{message: 'No preview available'}] , null, 2)
