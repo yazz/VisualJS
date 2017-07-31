@@ -40,7 +40,7 @@
 						 <a-entity position="0 3 0"
 									geometry="primitive: plane; width: 1.9; height: 1.9;" material="color: green"
 									v-bind:text='"font: roboto; color: white; align: center; value: My data ; width: 6; "'
-									rotation='0 0 0' goto='name: scrollable_grid; distance: 4;'>
+									rotation='0 0 0' goto='name: scrollable_grid; distance: 4; duration: 500;'>
 									<a-animation begin="mouseenter" attribute="rotation"
 												to="0 0 1" dur="100" direction="alternate"  repeat="3"></a-animation>
 													</a-entity>

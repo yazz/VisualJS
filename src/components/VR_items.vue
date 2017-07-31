@@ -123,6 +123,8 @@
 									geometry="primitive: plane; width:.35;height: 0.35;depth: 0.35;"
 							        v-bind:griditem='"x: " + get_x_position(index,list_of_queries.length) + "; y:" + get_y_position(index,list_of_queries.length) + ";" +
 								  "  query_name: " + a_driver.name.substr(a_driver.name.length - 20) + 
+								  ";  query_saved_as: " + a_driver.hash.substr(a_driver.hash.length - 5) + (a_driver.fileName?"." +
+                                        a_driver.fileName.split(".").pop():"") + 
                                   "; query_size: " + a_driver.size + "; " '
 								  v-bind:preview='"id: " + a_driver.id + ";"'
 								mixin='gsd'  

@@ -174,6 +174,7 @@ function setupVRVuePane() {
 		  schema: {	x:  {type: 'number', default: 0},
 					y: {type: 'number', default: 0},
 					query_name: {type: 'string', default: ''},
+                    query_saved_as: {type: 'string', default: ''},
 					query_size: {type: 'string', default: ''}
 					},
 		  init: function () {
@@ -231,6 +232,8 @@ function setupVRVuePane() {
 				
                 document.querySelector('#vr_file_size_2').setAttribute('text','font: roboto; color: black; align: left; value: ' + self.data.query_size + ' bytes ;width: 4; ');
                 
+				
+                document.querySelector('#vr_file_saved_as').setAttribute('text','font: roboto; color: black; align: left; value: ' + self.data.query_saved_as + ' bytes ;width: 4; ');
 
 
 
@@ -289,7 +292,8 @@ function setupVRVuePane() {
     		AFRAME.registerComponent('goto', {
     		  schema: {
 				  name:     {type: 'string', default: 'vr_home'},
-				  distance: {type: 'number', default: 5}
+				  distance: {type: 'number', default: 5},
+				  duration: {type: 'string', default: "5000"}
                  },
     		  init: function () {
             var self = this;
@@ -297,6 +301,7 @@ function setupVRVuePane() {
     		   this.el.addEventListener('click', function (evt) {
              var goto_name = self.data.name;
              var distance = self.data.distance;
+             var duration = self.data.duration;
              //alert(goto_name);
 
               var worldPos = new THREE.Vector3();
@@ -310,7 +315,7 @@ function setupVRVuePane() {
             animation.setAttribute('id', "itemzoom");
             animation.setAttribute('attribute', "position");
 
-            animation.setAttribute('dur', "5000");
+            animation.setAttribute('dur', duration);
             animation.setAttribute('repeat', "0");
             animation.setAttribute('direction', "alternate");
     //        self.el.appendChild(animation);

@@ -45,6 +45,10 @@
 									geometry="primitive: plane; width: 1.9; height: 1.9;" material="color: white;opacity: 1;"
 									v-bind:text='"font: roboto; color: black; align: center; value: ? ; width: 2; "'>
 						</a-entity>
+						 <a-entity position="6 -1.4 -1.9" id='vr_file_saved_as'
+									geometry="primitive: plane; width: 1.9; height: 1.9;" material="color: white;opacity: 1;"
+									v-bind:text='"font: roboto; color: black; align: center; value: ? ; width: 2; "'>
+						</a-entity>
 
 				</a-entity>
 			</a-entity>
@@ -91,6 +95,10 @@
 									v-bind:text='"font: roboto; color: black; align: center; value: _ ; width: 2; "'>
 						</a-entity>
 						 <a-entity position="6.5 .6 1" id='vr_file_size_2'
+									geometry="primitive: plane; width: 1.9; height: 1.9;" material="color: white;opacity: 1;"
+									v-bind:text='"font: roboto; color: black; align: center; value: ? ; width: 2; "'>
+						</a-entity>
+						 <a-entity position="6.5 .1 1" id='vr_file_saved_as'
 									geometry="primitive: plane; width: 1.9; height: 1.9;" material="color: white;opacity: 1;"
 									v-bind:text='"font: roboto; color: black; align: center; value: ? ; width: 2; "'>
 						</a-entity>
