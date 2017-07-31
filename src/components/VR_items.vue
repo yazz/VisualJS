@@ -64,9 +64,6 @@
 						<a-entity v-if='get_vr_type_move' 	position="-5 -3.5 -1" rotation='0 40 0'
 									text="font: aileronsemibold; color: red; align: middle; value: Close; width: 8; height: 2; opacity: 1;">
 						</a-entity>
-						<a-entity v-if='get_vr_type_move' 	position="-5 -.5 -1" rotation='0 40 0'
-									text="font: aileronsemibold; color: green; align: left; value: Open; width: 8; height: 1; opacity: 1;">
-						</a-entity>
 
 
 					<a-entity v-if='can_show_full_doc()' v-for="(field_name,index)  in  list_of_fields"
@@ -118,10 +115,10 @@
 					   <a-entity    position="-0.8 .3 -.3" 
 									geometry="primitive: plane; width:.35;height: 0.35;depth: 0.35;"
 							        v-bind:griditem='"x: " + get_x_position(index,list_of_queries.length) + "; y:" + get_y_position(index,list_of_queries.length) + ";" +
-								  "  query_name: " + a_driver.name.substr(a_driver.name.length - 20) + 
-								  ";  query_saved_as: " + a_driver.hash.substr(a_driver.hash.length - 5) + (a_driver.fileName?"." +
-                                        a_driver.fileName.split(".").pop():"") + 
-                                  "; query_size: " + a_driver.size + "; " '
+								    "   query_name: " + a_driver.name.substr(a_driver.name.length - 20) +
+                                    ";  query_saved_as: " + (a_driver.hash.substr(a_driver.hash.length - 5) + (a_driver.fileName?"." + a_driver.fileName.split(".").pop():"")) +                                   
+					    			";  query_display: " + (a_driver.fileName?a_driver.fileName.replace(/^.*[\\\/]/, ""):"") + 
+                                    ";  query_size: " + a_driver.size + "; " '
 								  v-bind:preview='"id: " + a_driver.id + ";"'
 								mixin='gsd'  
 								v-bind:material='"src: driver_icons/" + a_driver.driver + ".jpg;"'

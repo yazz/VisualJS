@@ -37,15 +37,15 @@
 								 <a-animation begin="mouseenter" attribute="rotation"
 												to="20 29 29" dur="1000" direction="alternate"  repeat="1"></a-animation>
 					</a-entity >
-						 <a-entity position="6 -1 -1.9" id='vr_file_name_2'
+						 <a-entity position="-4 -1 -1.9" id='vr_file_name_2'
 									geometry="primitive: plane; width: 1.9; height: 1.9;" material="color: white;opacity: 1;"
 									v-bind:text='"font: roboto; color: black; align: center; value: _ ; width: 2; "'>
 						</a-entity>
-						 <a-entity position="6 -1.2 -1.9" id='vr_file_size_2'
+						 <a-entity position="-4 -1.2 -1.9" id='vr_file_size_2'
 									geometry="primitive: plane; width: 1.9; height: 1.9;" material="color: white;opacity: 1;"
 									v-bind:text='"font: roboto; color: black; align: center; value: ? ; width: 2; "'>
 						</a-entity>
-						 <a-entity position="6 -1.4 -1.9" id='vr_file_saved_as'
+						 <a-entity position="-4 -1.4 -1.9" id='vr_file_saved_as'
 									geometry="primitive: plane; width: 1.9; height: 1.9;" material="color: white;opacity: 1;"
 									v-bind:text='"font: roboto; color: black; align: center; value: ? ; width: 2; "'>
 						</a-entity>

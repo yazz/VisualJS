@@ -175,6 +175,7 @@ function setupVRVuePane() {
 					y: {type: 'number', default: 0},
 					query_name: {type: 'string', default: ''},
                     query_saved_as: {type: 'string', default: ''},
+                    query_display: {type: 'string', default: ''},
 					query_size: {type: 'string', default: ''}
 					},
 		  init: function () {
@@ -233,7 +234,7 @@ function setupVRVuePane() {
                 document.querySelector('#vr_file_size_2').setAttribute('text','font: roboto; color: black; align: left; value: ' + self.data.query_size + ' bytes ;width: 4; ');
                 
 				
-                document.querySelector('#vr_file_saved_as').setAttribute('text','font: roboto; color: black; align: left; value: ' + self.data.query_saved_as + '  ;width: 4; ');
+                document.querySelector('#vr_file_saved_as').setAttribute('text','font: roboto; color: black; align: left; value: ' + self.data.query_display + '  ;width: 4; ');
 
 
 
