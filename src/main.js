@@ -224,7 +224,7 @@ function setupVRVuePane() {
 				animation.setAttribute('id', "animscroll");
 				animation.setAttribute('attribute', "position");
 				animation.setAttribute('to', newpos);
-				animation.setAttribute('dur', "2000");
+				animation.setAttribute('dur', "200");
 				//document.querySelector("#scrollable_grid").appendChild(animation);
 				inMove = false;
 
@@ -294,7 +294,7 @@ function setupVRVuePane() {
     		  schema: {
 				  name:     {type: 'string', default: 'vr_home'},
 				  distance: {type: 'number', default: 5},
-				  duration: {type: 'string', default: "5000"}
+				  duration: {type: 'string', default: "500"}
                  },
     		  init: function () {
             var self = this;
@@ -334,7 +334,7 @@ if (document.querySelector("#move_bar")) {
             animation2.setAttribute('id', "itemzoom");
             animation2.setAttribute('attribute', "position");
 
-            animation2.setAttribute('dur', "5000");
+            animation2.setAttribute('dur', "500");
             animation2.setAttribute('repeat', "0");
             animation2.setAttribute('direction', "alternate");
                 animation2.setAttribute('to', '' + (worldPos.x)  + ' ' + (worldPos.y ) + ' ' + ((worldPos.z + distance)));
@@ -401,7 +401,7 @@ if (document.querySelector("#move_bar")) {
         //animation.setAttribute('to', '0.6 0 -2.5');
 
 
-        animation.setAttribute('dur', "5000");
+        animation.setAttribute('dur', "500");
         animation.setAttribute('repeat', "0");
         animation.setAttribute('direction', "alternate");
 		animation.addEventListener('animationend', function () {
@@ -422,7 +422,7 @@ if (document.querySelector("#move_bar")) {
 	animation2.setAttribute('id', "itemzoom");
 	animation2.setAttribute('attribute', "position");
 
-	animation2.setAttribute('dur', "5000");
+	animation2.setAttribute('dur', "500");
 	animation2.setAttribute('repeat', "0");
 	animation2.setAttribute('direction', "alternate");
 		animation2.setAttribute('to', '' + (worldPos.x)  + ' ' + (worldPos.y ) + ' ' + ((worldPos.z + 4)));
@@ -503,7 +503,7 @@ window.history.go(-1);
         var animation = document.createElement('a-animation');
         animation.setAttribute('id', "itemback");
         animation.setAttribute('attribute', "position");
-        animation.setAttribute('dur', "5000");
+        animation.setAttribute('dur', "500");
         animation.setAttribute('repeat', "0");
         animation.setAttribute('direction', "alternate");
         if (document.querySelector("#camera_id")){

@@ -123,8 +123,8 @@
 								mixin='gsd'  
 								v-bind:material='"src: driver_icons/" + a_driver.driver + ".jpg;"'
 								v-bind:color="(index % 2 == 0)?'blue':'green'"
-								v-bind:log='"x: " + get_x_position(index,list_of_queries.length) + "; y:" + get_y_position(index,list_of_queries.length) + ";queryFile: " + a_driver.hash + (a_driver.fileName?"." +
-                                        a_driver.fileName.split(".").pop():"") + ";queryId: "  + a_driver.id + ";"' >
+								v-bind:log='"x: " + get_x_position(index,list_of_queries.length) + "; y:" + get_y_position(index,list_of_queries.length) + ";queryFile: " + a_driver.hash + (a_driver.fileName?"." +a_driver.fileName.split(".").pop():"") + 
+                                ";queryId: "  + a_driver.id + ";"' >
 								<a-animation begin="mouseenter" attribute="rotation"
 												to="0 0 10" dur="100" direction="alternate"  repeat="3"></a-animation>
 						</a-entity>

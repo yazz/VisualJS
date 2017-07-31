@@ -184,6 +184,13 @@ var mysql      = require('mysql');
 var crypto = require('crypto');
 
 function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileType2) {
+    if (!fileName) {
+        return;
+    };
+    if (fileName.indexOf("$") != -1) {
+        return;
+    };
+    try {
         var contents = fs.readFileSync(fileName, "utf8");
         var hash = crypto.createHash('sha1');
         hash.setEncoding('hex');
@@ -226,7 +233,9 @@ function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileTyp
                   
               });
         });
-
+    } catch (err) {
+        console.log("Error with file: " + fileName);     
+    }
 }
 
  var walk = function(dir, done) {
