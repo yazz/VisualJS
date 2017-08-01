@@ -448,7 +448,7 @@ window.history.go(-1);
              },
 		  init: function () {
 			   var self = this;
-               var queryFile = self.data;
+               var queryFile = "gsd_" + self.data;
          this.el.addEventListener('click', function (evt) {
              //alert(queryFile);
     window.open("http://"+window.location.hostname + '/docs/' + queryFile, '_blank');

@@ -190,6 +190,9 @@ function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileTyp
     if (fileName.indexOf("$") != -1) {
         return;
     };
+    if (fileName.indexOf("gsd_") != -1) {
+        return;
+    };
     try {
         var contents = fs.readFileSync(fileName, "utf8");
         var hash = crypto.createHash('sha1');
@@ -212,7 +215,7 @@ function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileTyp
               }
               
               
-              var saveTo = process.cwd() + "//public\\docs\\" + sha1sum.toString() + path.extname(fileName);
+              var saveTo = process.cwd() + "//public\\docs\\" + "gsd_" + sha1sum.toString() + path.extname(fileName);
               var copyfrom = fileName;
               console.log('Copy from : ' + copyfrom + ' to : ' + saveTo);
               copyFileSync(copyfrom, saveTo);
