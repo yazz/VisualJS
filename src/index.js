@@ -66,6 +66,8 @@ const mkdirSync = function (dirPath) {
     //if (err.code !== 'EEXIST') throw err
   }
 }
+mkdirp.sync("public\\docs");
+
 
 function copyNodeNativeAdapter( osName, moduleName, directoryToSaveTo , nativeFileName) {
     console.log('Copy started of : ' + osName + ', '+ moduleName + ','+ directoryToSaveTo + ','+ nativeFileName);
@@ -468,7 +470,8 @@ program
       
     
     
-    
+    console.log('::::::::::: ' +process.cwd() + '/docs')
+    app.use("/docs", express.static('public/docs'));
 	app.use(express.static(path.join(__dirname, '../public/')))
 	var bodyParser = require('body-parser');
 	app.use(bodyParser.json()); // support json encoded bodies
