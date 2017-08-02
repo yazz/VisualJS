@@ -67,6 +67,7 @@ const mkdirSync = function (dirPath) {
   }
 }
 mkdirp.sync("public\\docs");
+mkdirp.sync("uploads");
 
 
 function copyNodeNativeAdapter( osName, moduleName, directoryToSaveTo , nativeFileName) {
@@ -206,7 +207,7 @@ function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileTyp
         pouchdb_connections.post(
         {
               name: 		fileId,
-              driver: 		'excel',
+              driver: 		fileType,
               size:         size,
               hash:         sha1sum,
               type:         fileType2,
@@ -323,6 +324,8 @@ path.join(__dirname, '../public/aframe-mouse-cursor-component.min.js')
 path.join(__dirname, '../public/pouchdb.min.js')
 path.join(__dirname, '../public/pouchdb.find.min.js')
 path.join(__dirname, '../public/pouchdb.memory.min.js')
+path.join(__dirname, '../public/dropzone.js')
+path.join(__dirname, '../public/dropzone.css')
 
 
 
@@ -523,7 +526,6 @@ app.use(cors())
 	});
 
 
-
 	//------------------------------------------------------------------------------
 	// Get the result of a SQL query
 	//------------------------------------------------------------------------------
@@ -541,6 +543,57 @@ app.use(cors())
 	});
 
 
+    
+    
+    
+    
+    
+    
+    
+    
+var multer = require('multer');
+var upload = multer( { dest: 'uploads/' } );
+
+
+    app.post('/file_upload', upload.single( 'file' ), function (req, res, next) {
+        console.log('-------------------------------------------------------------------------------------');
+        console.log('-------------------------------------------------------------------------------------');
+        console.log('-------------------------------------------------------------------------------------');
+        console.log('-------------------------------------------------------------------------------------');
+        console.log('-------------------------------------------------------------------------------------');
+
+        console.log(JSON.stringify(req.file));
+        console.log(JSON.stringify(req.file.originalname));
+        console.log(JSON.stringify(req.file.filename));
+ 
+
+        console.log('......................................................................................');
+        console.log('......................................................................................');
+        console.log('......................................................................................');
+        console.log('......................................................................................');
+        console.log('......................................................................................');
+        res.status( 200 ).send( req.file );
+
+        var ext = req.file.originalname.split('.').pop();
+        ext = ext.toLowerCase();
+        console.log('Ext: ' + ext);
+
+        var localp = process.cwd() + '\\uploads\\' + req.file.filename;
+        console.log('Local saved path: ' + localp);
+        fs.stat(localp, function(err, stat) {
+          if (isExcelFile(req.file.originalname)) {
+                console.log('file: ' + req.file.originalname);
+  					var excelFile = localp;
+  						if (typeof excelFile !== "undefined") {
+							var fileId = excelFile.replace(/[^\w\s]/gi,'');
+  							console.log('   *file id: ' + fileId);
+  							console.log('   *size: ' + stat.size);
+
+                            saveConnectionAndQueryForFile(fileId, 'excel', stat.size, excelFile, '|SPREADSHEET|');
+        }}});
+									  
+
+    });
 	app.post('/open_query_in_native_app', function (req, res) {
 
 		console.log('in open_query_in_native_app');
@@ -702,6 +755,7 @@ app.use(cors())
 
     
     
+
     
     
 	//------------------------------------------------------------------------------

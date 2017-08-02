@@ -46,8 +46,10 @@
 	<script src="pouchdb.min.js"></script>
 	<script src="pouchdb.find.min.js"></script>
 	<script src="pouchdb.memory.min.js"></script>
+	<script type="text/javascript" src="dropzone.js"></script>
     
     <link rel="stylesheet" type="text/css" href="bootstrap.min.css"></link>
+    <link rel="stylesheet" type="text/css" href="dropzone.css"></link>
     <link rel="stylesheet" type="text/css" href="vue_app.css"></link>
 
 </head>
@@ -191,7 +193,7 @@
       <!--
 
                                                 ..
-                                                x. - VR
+                                                x. - Drop files
 
 
        -->
@@ -199,6 +201,13 @@
                style='padding: 5px;position: absolute; left: 0%; top: 50%; height: 90%; width: 90%; display: inline-block; -webkit-transform: translatez(0); transform:   scale(0.5, 0.5);border: 5px solid blue;overflow: false'; >
 			   
 
+               
+               <form    action="/file_upload"
+                        class="dropzone"
+                        id="my-awesome-dropzone" 
+                        style='width:50%; height: 50%; margin-left: 20%; margin-top: 20%; '>
+                      </form>
+               
         </div>
 
 
