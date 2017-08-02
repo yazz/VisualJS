@@ -578,8 +578,11 @@ var upload = multer( { dest: 'uploads/' } );
         ext = ext.toLowerCase();
         console.log('Ext: ' + ext);
 
-        var localp = process.cwd() + '\\uploads\\' + req.file.filename;
+        var localp2 = process.cwd() + '\\uploads\\' + req.file.filename;
+        var localp = localp2 + '.' + ext;
+        fs.renameSync(localp2, localp);
         console.log('Local saved path: ' + localp);
+        
         fs.stat(localp, function(err, stat) {
           if (isExcelFile(req.file.originalname)) {
                 console.log('file: ' + req.file.originalname);
@@ -589,8 +592,19 @@ var upload = multer( { dest: 'uploads/' } );
   							console.log('   *file id: ' + fileId);
   							console.log('   *size: ' + stat.size);
 
-                            saveConnectionAndQueryForFile(fileId, 'excel', stat.size, excelFile, '|SPREADSHEET|');
-        }}});
+                            saveConnectionAndQueryForFile(req.file.originalname, 'excel', stat.size, excelFile, '|SPREADSHEET|');
+            }};
+          if (isCsvFile(req.file.originalname)) {
+                console.log('file: ' + req.file.originalname);
+  					var excelFile = localp;
+  						if (typeof excelFile !== "undefined") {
+							var fileId = excelFile.replace(/[^\w\s]/gi,'');
+  							console.log('   *file id: ' + fileId);
+  							console.log('   *size: ' + stat.size);
+
+                            saveConnectionAndQueryForFile(req.file.originalname, 'csv', stat.size, excelFile, '|CSV|');
+            }};
+        });
 									  
 
     });
