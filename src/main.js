@@ -442,19 +442,50 @@ window.history.go(-1);
 				}});
                 
                 
-				AFRAME.registerComponent('open_file', {
+        AFRAME.registerComponent(
+            'open_file', {
                 schema: {
-               type: 'string'
-             },
-		  init: function () {
-			   var self = this;
-               var queryFile = "gsd_" + self.data;
-         this.el.addEventListener('click', function (evt) {
-             //alert(queryFile);
-    window.open("http://"+window.location.hostname + '/docs/' + queryFile, '_blank');
-
-		 });
-				}});
+                    type: 'string'
+                },
+                init: function () {
+                    var self = this;
+                    
+                    this.el.addEventListener('mouseenter', function (evt) {
+                        var node = document.getElementById("animscrollclose");
+                        if (node) {
+                          node.parentNode.removeChild(node);
+                        };
+                        var animation = document.createElement('a-animation');
+                        animation.setAttribute('id', "animscrollclose");
+                        animation.setAttribute('attribute', "rotation");
+                        animation.setAttribute('to', "0 0 90");
+                        animation.setAttribute('dur', "500");
+                        animation.setAttribute('repeat', "0");
+                        animation.setAttribute('direction', "alternate");
+                        self.el.appendChild(animation);
+                    });
+                    this.el.addEventListener('mouseleave', function (evt) {
+                        var node = document.getElementById("animscrollclose");
+                        if (node) {
+                        node.parentNode.removeChild(node);
+                        };
+                        var animation = document.createElement('a-animation');
+                        animation.setAttribute('id', "animscrollclose");
+                        animation.setAttribute('attribute', "rotation");
+                        animation.setAttribute('to', "0 0 0");
+                        animation.setAttribute('dur', "500");
+                        animation.setAttribute('repeat', "0");
+                        animation.setAttribute('direction', "alternate");
+                        self.el.appendChild(animation);
+                   });
+                    
+                    var queryFile = "gsd_" + self.data;
+                    this.el.addEventListener('click', function (evt) {
+                        //alert(queryFile);
+                        window.open("http://"+window.location.hostname + '/docs/' + queryFile, '_blank');
+                    });
+                }
+        });
 		
 		
 		AFRAME.registerComponent('closedoc', {
