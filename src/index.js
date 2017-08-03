@@ -66,7 +66,11 @@ const mkdirSync = function (dirPath) {
     //if (err.code !== 'EEXIST') throw err
   }
 }
-mkdirp.sync("public\\docs");
+    if (isWin) {
+        mkdirp.sync("public\\docs");
+    } else {
+        mkdirp.sync("public/docs");
+    };
 mkdirp.sync("uploads");
 
 
@@ -218,7 +222,12 @@ function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileTyp
               }
               
               
-              var saveTo = process.cwd() + "//public\\docs\\" + "gsd_" + sha1sum.toString() + path.extname(fileName);
+              var saveTo;
+              if (isWin) {
+                  saveTo = process.cwd() + "\\public\\docs\\" + "gsd_" + sha1sum.toString() + path.extname(fileName);
+	      } else {
+		  saveTo = process.cwd() + "/public/docs/" + "gsd_" + sha1sum.toString() + path.extname(fileName);
+	      };
               var copyfrom = fileName;
               console.log('Copy from : ' + copyfrom + ' to : ' + saveTo);
               copyFileSync(copyfrom, saveTo);
@@ -578,7 +587,12 @@ var upload = multer( { dest: 'uploads/' } );
         ext = ext.toLowerCase();
         console.log('Ext: ' + ext);
 
-        var localp2 = process.cwd() + '\\uploads\\' + req.file.filename;
+        var localp2;
+        if (isWin) {
+	    localp2 = process.cwd() + '\\uploads\\' + req.file.filename;
+	} else{
+	    localp2 = process.cwd() + '/uploads/' + req.file.filename;
+	};
         var localp = localp2 + '.' + ext;
         fs.renameSync(localp2, localp);
         console.log('Local saved path: ' + localp);
