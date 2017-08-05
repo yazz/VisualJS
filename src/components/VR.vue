@@ -23,19 +23,16 @@
 					material='color: gray;opacity: .5;' 
 					geometry='primitive: plane; width: 10; height: 1; ' 
 					position='0 -1.6 -2' >
-					<a-entity  	material='color: yellow;opacity: 1;'  
-								geometry='primitive: circle; radius: .2;'
-								position='-.5 .8 1' 
-								go_back > 
-								 <a-animation begin="mouseenter" attribute="rotation"
-												to="20 29 29" dur="1000" direction="alternate"  repeat="1"></a-animation>
-					</a-entity >
-					<a-entity  	material='color: black;opacity: 1;'  
-								geometry='primitive: circle; radius: .2;'
-								position='.5 .8 1'
+					<a-entity  	material='color: gray;opacity: .95;'  
+								geometry='primitive: box; width: 2.5; height: .2; depth: .2;'
+                                rotation='45 0 0'
+								position='0.01 .9 1'
 								goto='name: vr_home; duration: 3000;' > 
 								 <a-animation begin="mouseenter" attribute="rotation"
-												to="20 29 29" dur="1000" direction="alternate"  repeat="1"></a-animation>
+												from="45 0 0" to="135 0 0" dur="700" direction="alternate"  repeat="1"></a-animation>
+                                 <a-entity position="0 .2 0.02" rotation="-90 0 0" 
+                                            text='font: roboto; color: gray; align: center; value: Go back ; width: 2; '>
+                                </a-entity>
 					</a-entity >
 						 <a-entity position="-5.2 -1 -1.9" id='vr_file_name_2'
                                     scale="0.6 0.6 1"

@@ -97,6 +97,15 @@ module.exports = {
         target: 'http://' + hostaddress,
         secure: false
       },
+      '/file_upload': {
+        target: 'http://' + hostaddress,
+        secure: false
+      },
+      '/docs': {
+        target: 'http://' + hostaddress,
+        secure: false
+      },
+      
       '/stopscanharddisk': {
         target: 'http://' + hostaddress,
         secure: false
