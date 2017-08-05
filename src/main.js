@@ -46,7 +46,7 @@ function sendClientDetails() {
         url: '/send_client_details',
         data: {},
         success: function(data) {
-          alert(JSON.stringify(data,null,2));
+          //alert(JSON.stringify(data,null,2));
         },
         error: function(jqXHR, textStatus, errorThrown) {
           alert('error ' + textStatus + ' : ' +  errorThrown);
@@ -125,7 +125,10 @@ var inMove = false;
 function setupVRVuePane() {
 
     if (document.getElementById('vr_element')) {
-		 var vrParam = location.search.split('type=')[1];
+        var vrParam = 'mouse';
+        if (location.search) { 
+            vrParam = location.search.split('type=')[1];
+        }
 		 //alert(vrParam);
 
         new Vue({
@@ -492,10 +495,49 @@ window.history.go(-1);
                     var queryFile = "gsd_" + self.data;
                     this.el.addEventListener('click', function (evt) {
                         //alert(queryFile);
-                        window.open("http://"+window.location.hostname + '/docs/' + queryFile, '_blank');
+                        window.open("http://"+window.location.hostname + ":" + window.location.port +  '/docs/' + queryFile, '_blank');
                     });
                 }
         });
+
+
+        AFRAME.registerComponent(
+            'goto_settings', {
+                schema: {
+                    type: 'string'
+                },
+                init: function () {
+                    var self = this;
+                    
+                    this.el.addEventListener('click', function (evt) {
+                        //alert(queryFile);
+                        window.location.href = ("http://"+window.location.hostname + ":" + window.location.port + '/public/index_pc_mode.html');
+                    });
+                }
+        });
+        
+        
+
+
+
+
+        AFRAME.registerComponent(
+            'goto_vr', {
+                schema: {
+                    type: 'string'
+                },
+                init: function () {
+                    var self = this;
+                    
+                    this.el.addEventListener('click', function (evt) {
+                        //alert(queryFile);
+                        window.location.href = ("http://"+window.location.hostname + ":" + window.location.port + '/public/index.html?type=move');
+                    });
+                }
+        });
+        
+        
+
 		
 		
 		AFRAME.registerComponent('closedoc', {
