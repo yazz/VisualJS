@@ -89,6 +89,10 @@ module.exports = {
         target: 'http://' + hostaddress,
         secure: false
       },
+      '/send_client_details': {
+        target: 'http://' + hostaddress,
+        secure: false
+      },
       '/scanharddisk': {
         target: 'http://' + hostaddress,
         secure: false

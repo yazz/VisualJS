@@ -41,8 +41,18 @@ function initWelcomeVuePane() {
 
 
 
-
-
+function sendClientDetails() {
+   $.ajax({
+        url: '/send_client_details',
+        data: {},
+        success: function(data) {
+          alert(JSON.stringify(data,null,2));
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+          alert('error ' + textStatus + ' : ' +  errorThrown);
+        }
+      });
+}
 
 
 
@@ -860,6 +870,7 @@ $( document ).ready(function() {
     initDriversListVuePane();
     initClientsConnectedVuePane();
     setupSqlResultPane();
+    sendClientDetails();
   } else if (window.system_type == 'server') {
     setupPouchDB();
   };

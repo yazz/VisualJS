@@ -5,6 +5,11 @@ var pouchdb_connections;
 var pouchdb_drivers;
 var pouchdb_queries;
 var pouchdb_intranet_client_connects;
+var pouchdb_users;
+var pouchdb_user_zones;
+var pouchdb_user_identifiers;
+var pouchdb_user_requests;
+
 var numberOfSecondsAliveCheck = 60; 
 var isPi = require('detect-rpi');
 
@@ -132,6 +137,7 @@ var leveldown = require2('leveldown')
 
 var PouchDB = require('pouchdb')
 PouchDB.plugin(require('pouchdb-find'));
+var dns          = require('dns');
 var url          = require('url');
 var net          = require('net');
 var unzip        = require('unzip');
@@ -737,6 +743,12 @@ var upload = multer( { dest: 'uploads/' } );
 	})
 
 
+	app.get('/send_client_details', function (req, res) {
+		//console.log('in send_client_details: ' + JSON.stringify(req,null,2));
+        res.writeHead(200, {'Content-Type': 'text/plain'});
+        res.end(JSON.stringify({returned: 'some data '}));
+	})
+
 
 
 
@@ -939,6 +951,11 @@ pouchdb_connections                 = dbhelper.get_pouchdb_connections();;
 pouchdb_drivers                     = dbhelper.get_pouchdb_drivers();;
 pouchdb_queries                     = dbhelper.get_pouchdb_queries();;
 pouchdb_intranet_client_connects    = dbhelper.get_pouchdb_intranet_client_connects();;
+
+pouchdb_users                       = dbhelper.get_pouchdb_users();;
+pouchdb_user_zones                  = dbhelper.get_pouchdb_user_zones();;
+pouchdb_user_identifiers            = dbhelper.get_pouchdb_user_identifiers();;
+pouchdb_user_requests               = dbhelper.get_pouchdb_user_requests();;
 
 
 dbhelper.pouchdbTableOnServer('pouchdb_system_settings',    pouchdb_system_settings,null);
@@ -1213,5 +1230,13 @@ function when_pouchdb_queries_changes(pouchdb_queries) {
         in_when_pouchdb_queries_changes = false;
     }
 };
+
+var x='';
+ dns.reverse(   '10.6.69.142', 
+                function(err, domains) {
+                    x = domains;
+                    console.log("...............   host is: " + x);
+ });
+ 
 
 
