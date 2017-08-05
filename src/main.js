@@ -511,7 +511,7 @@ window.history.go(-1);
                     
                     this.el.addEventListener('click', function (evt) {
                         //alert(queryFile);
-                        window.location.href = ("http://"+window.location.hostname + ":" + window.location.port + '/public/index_pc_mode.html');
+                        window.location.href = 'index_pc_mode.html';
                     });
                 }
         });
