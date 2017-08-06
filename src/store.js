@@ -28,6 +28,8 @@ export default new Vuex.Store({
         ,
         list_of_output_records: []
         ,
+        locked: true
+        ,
         viewed_connection_id: null
         ,
         viewed_driver_id: null
@@ -62,6 +64,8 @@ export default new Vuex.Store({
     add_connection_visible: state => state.add_connection_visible
     ,
     add_query_visible: state => state.add_query_visible
+    ,
+    get_locked: state => state.locked
     ,
     list_of_connections: state => state.list_of_connections
     ,
@@ -144,6 +148,9 @@ export default new Vuex.Store({
       },
       HIDE_ADD_DRIVER: function (state) {
         state.add_driver_visible = false
+      },
+      SET_LOCKED: function (state, val) {
+        state.locked = val;
       },
     SET_VIEWED_CONNECTION: function (state, connection) {
       if (connection) {
@@ -409,6 +416,14 @@ export default new Vuex.Store({
         },
 
         
+
+        //
+        // set_output_fields
+        //
+        set_locked: function(a, fields){
+            a.commit('SET_LOCKED', fields)
+        },
+
         
         //
         // set_output_records

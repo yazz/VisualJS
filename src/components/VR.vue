@@ -34,6 +34,18 @@
                                             text='font: roboto; color: gray; align: center; value: Go back ; width: 2; '>
                                 </a-entity>
 					</a-entity >
+                    
+                    <a-entity  	id=locked
+                                material='color: white;opacity: 1;'  
+								geometry='primitive: plane; height: .3 ; width: .256'
+								position='1.63 .9 1' 
+								v-bind:material='"src: " + (locked?"":"un") + "locked.jpg;"'
+                                lock_icon=''
+								> 
+					</a-entity >
+
+                    
+                    
 						 <a-entity position="-5.2 -1 -1.9" id='vr_file_name_2'
                                     scale="0.6 0.6 1"
 									geometry="primitive: plane; width: 1.9; height: 1.9;" material="color: white;opacity: 1;"
@@ -139,6 +151,9 @@ name: 'VR'
 		} else {
 		return [];
 	};
+    },
+    locked: function () {
+	 return this.$store.state.locked;
     },
     list_of_connections: function () {
       return this.$store.getters.list_of_connections

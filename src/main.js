@@ -518,7 +518,22 @@ window.history.go(-1);
         
         
 
+        AFRAME.registerComponent(
+            'lock_icon', {
+                schema: {
+                    type: 'string'
+                },
+                init: function () {
+                    var self = document.getElementById("locked");
+                    
+                    this.el.addEventListener('click', function (evt) {
 
+                      store.dispatch('set_locked', false);
+                      //store.dispatch('set_locked', !store.getters.get_locked);
+                      //alert("unlocked: " + store.getters.get_locked);
+                    });
+                }
+        });
 
 
         AFRAME.registerComponent(
