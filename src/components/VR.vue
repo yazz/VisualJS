@@ -27,7 +27,7 @@
 								geometry='primitive: box; width: 2.5; height: .2; depth: .2;'
                                 rotation='45 0 0'
 								position='0.01 .9 1'
-								goto='name: vr_home; duration: 3000;' > 
+								goto='name: vr_home; duration: 300;' > 
 								 <a-animation begin="mouseenter" attribute="rotation"
 												from="45 0 0" to="135 0 0" dur="700" direction="alternate"  repeat="1"></a-animation>
                                  <a-entity position="0 .2 0.02" rotation="-90 0 0" 
