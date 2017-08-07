@@ -36,9 +36,9 @@
 					</a-entity >
                     
                     <a-entity  	id=locked
-                                material='color: white;opacity: 1;'  
+                                material='color: white;opacity: 0;'  
 								geometry='primitive: plane; height: .3 ; width: .256'
-								position='1.63 .9 1' 
+								position='3.63 3 -.5' 
 								v-bind:material='"src: " + (locked?"":"un") + "locked.jpg;"'
                                 lock_icon=''
 								> 

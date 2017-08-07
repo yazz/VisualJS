@@ -525,11 +525,13 @@ window.history.go(-1);
                 },
                 init: function () {
                     var self = document.getElementById("locked");
+                    //alert('init')
                     
                     this.el.addEventListener('click', function (evt) {
+                    //alert('clicked')
 
-                      store.dispatch('set_locked', false);
-                      //store.dispatch('set_locked', !store.getters.get_locked);
+                      //store.dispatch('set_locked', false);
+                      store.dispatch('set_locked', !store.getters.get_locked);
                       //alert("unlocked: " + store.getters.get_locked);
                     });
                 }
