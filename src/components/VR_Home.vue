@@ -47,7 +47,7 @@
 
 						<a-entity position="0 1 0"
 								 geometry="primitive: plane; width: 1.9; height: 1.9;" material="color: yellow"
-								 v-bind:text='"font: roboto; color: black; align: center; value: Settings ; width: 2; "'
+								 v-bind:text='"font: roboto; color: black; align: center; value: Settings ; width: 6; "'
 								 rotation='0 0 0' goto_settings=''>
 								<a-animation begin="mouseenter" attribute="rotation"
 												to="0 0 1" dur="100" direction="alternate"  repeat="3"></a-animation>
@@ -55,15 +55,15 @@
 
 						 <a-entity position="-2 3 0"
 									geometry="primitive: plane; width: 1.9; height: 1.9;" material="color: red"
-									v-bind:text='"font: roboto; color: white; align: center; value:  ; width: 2; "'
-									rotation='0 0 0' id='red_home'>
+									v-bind:text='"font: roboto; color: white; align: center; value: + Add Files ; width: 6; "'
+									rotation='0 0 0' id='red_home' add_data=''>
 									<a-animation begin="mouseenter" attribute="rotation"
 														to="0 0 1" dur="100" direction="alternate"  repeat="3"></a-animation>
 						</a-entity>
 
 						<a-entity position="-2 1 0"
 								 geometry="primitive: plane; width: 1.9; height: 1.9;" material="color: blue"
-								 v-bind:text='"font: roboto; color: white; align: center; value: VR  ; width: 2; "'
+								 v-bind:text='"font: roboto; color: white; align: center; value: VR  ; width: 6; "'
 								 rotation='0 0 0' goto_vr=''>
 								 <a-animation begin="mouseenter" attribute="rotation"
 													 to="0 0 1" dur="100" direction="alternate"  repeat="3"></a-animation>

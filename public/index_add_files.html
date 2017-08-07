@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+  <!--
+
+               set up the web page to work with desktop, mobile, and IE 9+
+
+      -->
+  <head>
+    <meta name="viewport" Content-Type="text/javascript; charset=utf-8" content="initial-scale=1.0, width=device-width, height=device-height, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!--
+
+                                          Include all the libraries
+
+        -->
+
+
+            <script type="text/javascript" >
+            window.system_type = 'client';
+
+			(function () {
+
+  if ( typeof window.CustomEvent === "function" ) return false;
+
+  function CustomEvent ( event, params ) {
+    params = params || { bubbles: false, cancelable: false, detail: undefined };
+    var evt = document.createEvent( 'CustomEvent' );
+    evt.initCustomEvent( event, params.bubbles, params.cancelable, params.detail );
+    return evt;
+   }
+
+  CustomEvent.prototype = window.Event.prototype;
+
+  window.CustomEvent = CustomEvent;
+})();
+
+</script>
+
+    <script type="text/javascript" src="es6-shim.js"></script>
+    <script type="text/javascript" src="jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="jquery.zoomooz.js"></script>
+    <script type="text/javascript" src="tether.min.js"></script>
+    <script type="text/javascript" src="bootstrap.min.js"></script>
+	<script src="pouchdb.min.js"></script>
+	<script src="pouchdb.find.min.js"></script>
+	<script src="pouchdb.memory.min.js"></script>
+	<script type="text/javascript" src="dropzone.js"></script>
+    
+    <link rel="stylesheet" type="text/css" href="bootstrap.min.css"></link>
+    <link rel="stylesheet" type="text/css" href="dropzone.css"></link>
+    <link rel="stylesheet" type="text/css" href="vue_app.css"></link>
+
+</head>
+
+
+
+
+
+<body id=body style='margin:0px; padding: 0px;  border: 0px;  width: 100%;  height:100%;  left: 0px; ' >
+
+
+
+
+
+
+
+
+
+               
+               <form    action="/file_upload"
+                        class="dropzone"
+                        id="my-awesome-dropzone" 
+                        style='width:100%; height: 100%; margin-left: 0%; margin-top: 0%; '>
+                      </form>
+               
+
+
+
+
+
+      <!--
+
+                                                ...
+                                                ...
+                                                ...
+                                                xxx   -  the BACK button at the bottom of the screen
+
+       -->
+<div  id=bottom_bar style=' position: absolute; bottom: 0px; width: 100%; height: 10%;'>
+  <div  style='background-color: lightblue; width: 100%; height: 100%; display: inline-block;'
+       onclick='window.history.go(-1);'>
+  </div>
+</div>
+
+
+    <script type="text/javascript" >
+		localStorage.clear();
+      var gun;
+      var data_connections_list = [];
+      rows                      = [];
+      tbrows                    = new Object();
+      connectionrows            = new Object();
+      code                      = '';
+      var workspace;
+      var main_output_window;
+      var connections_window;
+      var queries_window;
+
+
+
+
+    var pouchdb_system_settings;
+    var pouchdb_connections;
+    var pouchdb_drivers;
+    var pouchdb_queries;
+    var pouchdb_intranet_client_connects;
+		
+		
+	
+	var showIntranets = function() {
+        pouchdb_intranet_client_connects.find({
+          selector: {when_connected: {$gt: new Date().getTime() - (60 * 1000)}}
+        }).then(function (result) {
+          console.log(JSON.stringify(result.docs,null,2));
+        }).catch(function (err) {
+          // ouch, an error
+        });	
+    }
+    
+    
+	var showIntranetsFilterByIp = function(ip) {
+        pouchdb_intranet_client_connects.find({
+          selector: {$and: [{when_connected: {$gt: new Date().getTime() - (60 * 1000)}},
+              {public_ip: {$eq: ip}}]}
+        }).then(function (result) {
+          console.log(JSON.stringify(result.docs,null,2));
+        }).catch(function (err) {
+          // ouch, an error
+        });	
+    }
+    </script>
+
+    <script type="text/javascript" src="gosharedata_setup.js"></script>
+    <script type="text/javascript" src="dist/build.js?1501"></script>
+</body>
+</html>

@@ -516,6 +516,21 @@ window.history.go(-1);
                 }
         });
         
+        AFRAME.registerComponent(
+            'add_data', {
+                schema: {
+                    type: 'string'
+                },
+                init: function () {
+                    var self = this;
+                    
+                    this.el.addEventListener('click', function (evt) {
+                        //alert(queryFile);
+                        window.location.href = 'index_add_files.html';
+                    });
+                }
+        });
+        
         
 
         AFRAME.registerComponent(
