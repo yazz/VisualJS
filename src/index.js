@@ -822,7 +822,6 @@ var upload = multer( { dest: 'uploads/' } );
 			console.log('client public IP address:        ' + requestClientPublicIp)
 			console.log('client public IP host name:      ' + requestClientPublicHostName)
             
-            //zzz
             pouchdb_intranet_client_connects.post(
             {
                 internal_host:      requestClientInternalHostAddress,  
@@ -892,6 +891,7 @@ var upload = multer( { dest: 'uploads/' } );
                           console.log('Error: ' + error);
                           if (response.statusCode == '403') {
                                 console.log('403 received, not allowed through firewall ');
+                                open("http://" + centralHostAddress + ":" + centralHostPort);
                           } else {
                                 console.log('response: ' + JSON.stringify(response));
                                 console.log(body);
