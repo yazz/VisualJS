@@ -20,7 +20,7 @@
 
 			<a-entity v-if='vr_type=="mouse"' id='camera_id'  position="0 0 0"  camera  mouse-cursor >
 				<a-entity 
-					material='color: gray;opacity: 0;' 
+					material='color: gray;opacity: 0.5;' 
 					geometry='primitive: plane; width: 10; height: 1; ' 
 					position='0 -1.6 -2' >
 					<a-entity  	material='color: gray;opacity: .95;'  
@@ -49,21 +49,6 @@
 
                     
                     
-						 <a-entity position="-5.2 -1 -1.9" id='vr_file_name_2'
-                                    scale="0.6 0.6 1"
-									geometry="primitive: plane; width: 1.9; height: 1.9;" material="color: white;opacity: 1;"
-									v-bind:text='"font: roboto; color: black; align: center; value: _ ; width: 3; "'>
-						</a-entity>
-						 <a-entity position="-5.2 -1.2 -1.9" id='vr_file_size_2'
-                                    scale="0.6 0.6 1"
-									geometry="primitive: plane; width: 1.9; height: 1.9;" material="color: white;opacity: 1;"
-									v-bind:text='"font: roboto; color: black; align: center; value: ? ; width: 3; "'>
-						</a-entity>
-						 <a-entity position="-5.2 -1.4 -1.9" id='vr_file_saved_as'
-                                    scale="0.6 0.6 1"
-									geometry="primitive: plane; width: 1.9; height: 1.9;" material="color: white;opacity: 1;"
-									v-bind:text='"font: roboto; color: black; align: center; value: ? ; width: 3; "'>
-						</a-entity>
 
 				</a-entity>
 			</a-entity>

@@ -32,6 +32,25 @@
 						  rotation='0 0 0'>
 				</a-entity>
 
+                
+                        <a-entity position="-5.2 4 -1.9" id='vr_file_name_2'
+                                    scale="0.6 0.6 1"
+									geometry="primitive: plane; width: 3.9; height: 1.9;" material="color: white;opacity: 1;"
+									v-bind:text='"font: roboto; color: black; align: center; value: _ ; width: 6; "'>
+						</a-entity>
+						 <a-entity position="-5.2 4.2 -1.9" id='vr_file_size_2'
+                                    scale="0.6 0.6 1"
+									geometry="primitive: plane; width: 3.9; height: 1.9;" material="color: white;opacity: 1;"
+									v-bind:text='"font: roboto; color: black; align: center; value: ? ; width: 6; "'>
+						</a-entity>
+						 <a-entity position="-5.2 4.4 -1.9" id='vr_file_saved_as'
+                                    scale="0.6 0.6 1"
+									geometry="primitive: plane; width: 3.9; height: 1.9;" material="color: white;opacity: 1;"
+									v-bind:text='"font: roboto; color: black; align: center; value: ? ; width: 6; "'>
+						</a-entity>
+
+                
+                
 
 				<a-entity position="-1.4 4.7 .6" id=vr_file_name
 						  geometry="primitive: plane; width: auto; height: auto" material="color: white"
@@ -115,8 +134,8 @@
 					   <a-entity    position="-0.8 .3 -.3" 
 									geometry="primitive: plane; width:.35;height: 0.35;"
 							        v-bind:griditem='"x: " + get_x_position(index,list_of_queries.length) + "; y:" + get_y_position(index,list_of_queries.length) + ";" +
-								    "   query_name: " + a_driver.name.substr(a_driver.name.length - 20) +
-                                    ";  query_saved_as: " + (a_driver.hash?(a_driver.hash.substr(a_driver.hash.length - 5) + (a_driver.fileName?"." + a_driver.fileName.split(".").pop():"")):"") +                                   
+								    "   query_name: " + a_driver.name +
+                                    ";  query_saved_as: " + (a_driver.hash?(a_driver.hash + (a_driver.fileName?"." + a_driver.fileName.split(".").pop():"")):"") +                                   
 					    			";  query_display: " + (a_driver.fileName?a_driver.fileName.replace(/^.*[\\\/]/, ""):"") + 
                                     ";  query_size: " + a_driver.size + "; " '
 								  v-bind:preview='"id: " + a_driver.id + ";"'
