@@ -20,7 +20,7 @@
 
 			<a-entity v-if='vr_type=="mouse"' id='camera_id'  position="0 0 0"  camera  mouse-cursor >
 				<a-entity 
-					material='color: gray;opacity: .5;' 
+					material='color: gray;opacity: 0;' 
 					geometry='primitive: plane; width: 10; height: 1; ' 
 					position='0 -1.6 -2' >
 					<a-entity  	material='color: gray;opacity: .95;'  
@@ -30,7 +30,7 @@
 								goto='name: vr_home; duration: 300;' > 
 									<a-animation begin="mouseenter" attribute="position"
 												from="0.01 .9 1" to="0.01 .9 .98" dur="400" direction="alternate"  repeat="1"></a-animation>
-                                 <a-entity position="0 0 0.02" rotation="0 0 0" 
+                                 <a-entity position="0 0.2 0.3" rotation="0 0 0" 
                                             text='font: roboto; color: black; align: center; value: Go back ; width: 2; '>
                                 </a-entity>
 					</a-entity >
@@ -42,6 +42,9 @@
 								v-bind:material='"src: " + (locked?"":"un") + "locked.jpg;"'
                                 lock_icon=''
 								> 
+									<a-animation begin="mouseenter" attribute="rotation"
+												to="0 0 4" dur="100" direction="alternate"  repeat="3"></a-animation>
+													</a-entity>
 					</a-entity >
 
                     
