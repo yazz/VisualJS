@@ -78,10 +78,10 @@
                     <a-entity  	material='color: gray;opacity: .95;'  
 								geometry='primitive: box; width: 10; height: 1; depth: .7'
                                 rotation='0 0 0'
-								position='0.01 2 2'
+								position='0.01 1 1.5'
 								goto='name: vr_home; duration: 300;' > 
 									<a-animation begin="mouseenter" attribute="position"
-												from="0.01 .9 1" to="0.01 .9 .9" dur="400" direction="alternate"  repeat="1"></a-animation>
+												from="0.01 1 1.5" to="0.01 1 1.4" dur="400" direction="alternate"  repeat="1"></a-animation>
                                  <a-entity position="0 0.3 0.6" rotation="-45
                                  0 0 0" 
                                             text='font: roboto; color: black; align: center; value: Go back ; width: 10; '>
