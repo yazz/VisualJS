@@ -301,29 +301,17 @@ function setupVRVuePane() {
 		});
 
 
-
-
-    		AFRAME.registerComponent('goto', {
-    		  schema: {
-				  name:     {type: 'string', default: 'vr_home'},
-				  distance: {type: 'number', default: 5},
-				  duration: {type: 'string', default: "500"}
-                 },
-    		  init: function () {
-            var self = this;
-
-    		   this.el.addEventListener('click', function (evt) {
-             var goto_name = self.data.name;
-             var distance = self.data.distance;
-             var duration = self.data.duration;
-             //alert(goto_name);
-
-              var worldPos = new THREE.Vector3();
-              var goto_item = document.querySelector("#" + goto_name);
-              worldPos.setFromMatrixPosition(goto_item.object3D.matrixWorld);
+        var gotoFunction = function(options) {
+            var goto_name = options.goto_name;
+            var distance = options.distance;
+            var duration = options.duration;
+            
+            var worldPos = new THREE.Vector3();
+            var goto_item = document.querySelector("#" + goto_name);
+            worldPos.setFromMatrixPosition(goto_item.object3D.matrixWorld);
             var node = document.getElementById("itemzoom");
             if (node) {
-              node.parentNode.removeChild(node);
+                node.parentNode.removeChild(node);
             };
             var animation = document.createElement('a-animation');
             animation.setAttribute('id', "itemzoom");
@@ -332,7 +320,7 @@ function setupVRVuePane() {
             animation.setAttribute('dur', duration);
             animation.setAttribute('repeat', "0");
             animation.setAttribute('direction', "alternate");
-    //        self.el.appendChild(animation);
+            //        self.el.appendChild(animation);
             if (document.querySelector("#camera_id")){
                 animation.setAttribute('to', '' + (worldPos.x)  + ' ' + (worldPos.y) + ' ' + ((worldPos.z + distance)));
                 document.querySelector("#camera_id").appendChild(animation);
@@ -342,23 +330,44 @@ function setupVRVuePane() {
                 document.querySelector("#movevr").appendChild(animation);
             }
 
-if (document.querySelector("#move_bar")) {
-            var animation2 = document.createElement('a-animation');
-            animation2.setAttribute('id', "itemzoom");
-            animation2.setAttribute('attribute', "position");
+            if (document.querySelector("#move_bar")) {
+                var animation2 = document.createElement('a-animation');
+                animation2.setAttribute('id', "itemzoom");
+                animation2.setAttribute('attribute', "position");
 
-            animation2.setAttribute('dur', "500");
-            animation2.setAttribute('repeat', "0");
-            animation2.setAttribute('direction', "alternate");
+                animation2.setAttribute('dur', "500");
+                animation2.setAttribute('repeat', "0");
+                animation2.setAttribute('direction', "alternate");
                 animation2.setAttribute('to', '' + (worldPos.x)  + ' ' + (worldPos.y ) + ' ' + ((worldPos.z + distance)));
-	document.querySelector("#move_bar").appendChild(animation2);
-}
-				store.dispatch('hide_full_doc');
+                document.querySelector("#move_bar").appendChild(animation2);
+            }
+        };
 
+        AFRAME.registerComponent('goto', {
+    		  schema: {
+				  name:     {type: 'string', default: 'vr_home'},
+				  distance: {type: 'number', default: 5},
+				  duration: {type: 'string', default: "500"}
+                 },
+    		  init: function () {
+                var self = this;
 
+                this.el.addEventListener('click', function (evt) {
+                    var goto_name = self.data.name;
+                    var distance = self.data.distance;
+                    var duration = self.data.duration;
+                    //alert(goto_name);
+                    
+                    gotoFunction({
+                        goto_name:  goto_name,
+                        distance:   distance,
+                        duration:   duration
+                    });
+
+                    store.dispatch('hide_full_doc');
 			});
-    		  }
-    		});
+    	}
+    });
 
 
 
@@ -446,14 +455,7 @@ if (document.querySelector("#move_bar")) {
 		  }
 		});
 
-				AFRAME.registerComponent('go_back', {
-		  init: function () {
-			   var self = this;
-         this.el.addEventListener('click', function (evt) {
-window.history.go(-1);
-		 });
-				}});
-                
+        
                 
         AFRAME.registerComponent(
             'open_file', {
@@ -592,10 +594,10 @@ window.history.go(-1);
 		
 		
 		AFRAME.registerComponent('closedoc', {
-		  init: function () {
-			   var self = this;
+            init: function () {
+                var self = this;
 
-         this.el.addEventListener('mouseenter', function (evt) {
+                this.el.addEventListener('mouseenter', function (evt) {
 					var node = document.getElementById("animscrollclose");
 					if (node) {
 					  node.parentNode.removeChild(node);
@@ -609,54 +611,51 @@ window.history.go(-1);
 					animation.setAttribute('direction', "alternate");
 					self.el.appendChild(animation);
 				});
-        this.el.addEventListener('mouseleave', function (evt) {
-         var node = document.getElementById("animscrollclose");
-         if (node) {
-           node.parentNode.removeChild(node);
-         };
-         var animation = document.createElement('a-animation');
-         animation.setAttribute('id', "animscrollclose");
-         animation.setAttribute('attribute', "rotation");
-         animation.setAttribute('to', "0 0 0");
-         animation.setAttribute('dur', "500");
-         animation.setAttribute('repeat', "0");
-         animation.setAttribute('direction', "alternate");
-         self.el.appendChild(animation);
-       });
-			   this.el.addEventListener('click', function (evt) {
-					store.dispatch('hide_full_doc');
-				//
-				var scrollable_grid = document.querySelector("#scrollable_grid");
+                
+            this.el.addEventListener('mouseleave', function (evt) {
+                var node = document.getElementById("animscrollclose");
+                if (node) {
+                    node.parentNode.removeChild(node);
+                };
+                var animation = document.createElement('a-animation');
+                animation.setAttribute('id', "animscrollclose");
+                animation.setAttribute('attribute', "rotation");
+                animation.setAttribute('to', "0 0 0");
+                animation.setAttribute('dur', "500");
+                animation.setAttribute('repeat', "0");
+                animation.setAttribute('direction', "alternate");
+                self.el.appendChild(animation);
+            });
+           
+            this.el.addEventListener('click', function (evt) {
+                store.dispatch('hide_full_doc');
+                //
+                var scrollable_grid = document.querySelector("#scrollable_grid");
 
-          var worldPos = new THREE.Vector3();
-          worldPos.setFromMatrixPosition(scrollable_grid.object3D.matrixWorld);
-        var node = document.getElementById("itemback");
-        if (node) {
-          node.parentNode.removeChild(node);
-        };
-        var animation = document.createElement('a-animation');
-        animation.setAttribute('id', "itemback");
-        animation.setAttribute('attribute', "position");
-        animation.setAttribute('dur', "500");
-        animation.setAttribute('repeat', "0");
-        animation.setAttribute('direction', "alternate");
-        if (document.querySelector("#camera_id")){
-            animation.setAttribute('to', '' + (worldPos.x)  + ' ' + ((worldPos.y)) + ' ' + ((worldPos.z + 4)));
-            document.querySelector("#camera_id").appendChild(animation);
-        }
-		        if (document.querySelector("#movevr")){
-            animation.setAttribute('to', '' + (worldPos.x)  + ' ' + (worldPos.y ) + ' ' + ((worldPos.z + 4)));
-            document.querySelector("#movevr").appendChild(animation);
-        }
-		
-		});
-				
-				
-				
-
-		
-		  }
-		});
+                var worldPos = new THREE.Vector3();
+                worldPos.setFromMatrixPosition(scrollable_grid.object3D.matrixWorld);
+                var node = document.getElementById("itemback");
+                if (node) {
+                    node.parentNode.removeChild(node);
+                };
+                
+                var animation = document.createElement('a-animation');
+                animation.setAttribute('id', "itemback");
+                animation.setAttribute('attribute', "position");
+                animation.setAttribute('dur', "500");
+                animation.setAttribute('repeat', "0");
+                animation.setAttribute('direction', "alternate");
+                if (document.querySelector("#camera_id")){
+                    animation.setAttribute('to', '' + (worldPos.x)  + ' ' + ((worldPos.y)) + ' ' + ((worldPos.z + 4)));
+                    document.querySelector("#camera_id").appendChild(animation);
+                }
+                if (document.querySelector("#movevr")){
+                    animation.setAttribute('to', '' + (worldPos.x)  + ' ' + (worldPos.y ) + ' ' + ((worldPos.z + 4)));
+                    document.querySelector("#movevr").appendChild(animation);
+                }
+            });
+		}
+    });
 
     }
 }

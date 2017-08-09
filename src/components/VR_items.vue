@@ -86,7 +86,7 @@
 
 
 					<a-entity v-if='can_show_full_doc()' v-for="(field_name,index)  in  list_of_fields"
-							  v-bind:position='(index + .5) + " -2 2.5"'
+							  v-bind:position='(index + .5) + " -1 2.5"'
 							  geometry="primitive: plane; width: auto; height: auto"
 							  material="color: white"
 							  v-bind:text='"font: aileronsemibold;color: black; align: left; value: " + field_name + "; width: 2; opacity: 1;"'
