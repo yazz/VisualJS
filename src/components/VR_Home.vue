@@ -45,7 +45,7 @@
 												to="0 0 1" dur="100" direction="alternate"  repeat="3"></a-animation>
 													</a-entity>
 
-						<a-entity position="0 1 0"
+						<a-entity  v-if='vr_type=="mouse"' position="0 1 0"
 								 geometry="primitive: plane; width: 1.9; height: 1.9;" material="color: yellow"
 								 v-bind:text='"font: roboto; color: black; align: center; value: Settings ; width: 6; "'
 								 rotation='0 0 0' goto_settings=''>
@@ -53,7 +53,18 @@
 												to="0 0 1" dur="100" direction="alternate"  repeat="3"></a-animation>
 						</a-entity>
 
-						 <a-entity position="-2 3 0"
+						<a-entity  v-if='vr_type=="move"' position="0 1 0"
+								 geometry="primitive: plane; width: 1.9; height: 1.9;" material="color: yellow"
+								 v-bind:text='"font: roboto; color: black; align: center; value:  ; width: 6; "'
+								 rotation='0 0 0'>
+								<a-animation begin="mouseenter" attribute="rotation"
+												to="0 0 1" dur="100" direction="alternate"  repeat="3"></a-animation>
+						</a-entity>
+
+
+                        
+                        
+                        <a-entity v-if='vr_type=="mouse"' position="-2 3 0"
 									geometry="primitive: plane; width: 1.9; height: 1.9;" material="color: red"
 									v-bind:text='"font: roboto; color: white; align: center; value: + Add Files ; width: 6; "'
 									rotation='0 0 0' id='red_home' add_data=''>
@@ -61,6 +72,22 @@
 														to="0 0 1" dur="100" direction="alternate"  repeat="3"></a-animation>
 						</a-entity>
 
+                        
+                        
+                        <a-entity v-if='vr_type=="move"' position="-2 3 0"
+									geometry="primitive: plane; width: 1.9; height: 1.9;" material="color: red"
+									v-bind:text='"font: roboto; color: white; align: center; value:  ; width: 6; "'
+									rotation='0 0 0' id='red_home' >
+									<a-animation begin="mouseenter" attribute="rotation"
+														to="0 0 1" dur="100" direction="alternate"  repeat="3"></a-animation>
+						</a-entity>
+
+                        
+                        
+                        
+                        
+                        
+                        
 						<a-entity v-if='vr_type=="mouse"' position="-2 1 0"
 								 geometry="primitive: plane; width: 1.9; height: 1.9;" material="color: blue"
 								 v-bind:text='"font: roboto; color: white; align: center; value: VR  ; width: 6; "'
