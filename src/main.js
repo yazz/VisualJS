@@ -629,30 +629,14 @@ if (document.querySelector("#move_bar")) {
            
             this.el.addEventListener('click', function (evt) {
                 store.dispatch('hide_full_doc');
-                //
-                var scrollable_grid = document.querySelector("#scrollable_grid");
 
-                var worldPos = new THREE.Vector3();
-                worldPos.setFromMatrixPosition(scrollable_grid.object3D.matrixWorld);
-                var node = document.getElementById("itemback");
-                if (node) {
-                    node.parentNode.removeChild(node);
-                };
+                gotoFunction({
+                    goto_name:  "scrollable_grid",
+                    distance:   4,
+                    duration:   "500"
+                });
+
                 
-                var animation = document.createElement('a-animation');
-                animation.setAttribute('id', "itemback");
-                animation.setAttribute('attribute', "position");
-                animation.setAttribute('dur', "500");
-                animation.setAttribute('repeat', "0");
-                animation.setAttribute('direction', "alternate");
-                if (document.querySelector("#camera_id")){
-                    animation.setAttribute('to', '' + (worldPos.x)  + ' ' + ((worldPos.y)) + ' ' + ((worldPos.z + 4)));
-                    document.querySelector("#camera_id").appendChild(animation);
-                }
-                if (document.querySelector("#movevr")){
-                    animation.setAttribute('to', '' + (worldPos.x)  + ' ' + (worldPos.y ) + ' ' + ((worldPos.z + 4)));
-                    document.querySelector("#movevr").appendChild(animation);
-                }
             });
 		}
     });
