@@ -140,7 +140,8 @@
                                     ";  query_size: " + a_driver.size + "; " '
 								  v-bind:preview='"id: " + a_driver.id + ";"'
 								mixin='gsd'  
-								v-bind:material='"src: driver_icons/" + a_driver.driver + ".jpg;"'
+								v-bind:material2='"src: driver_icons/" + a_driver.driver + ".jpg;"'
+								v-bind:material='"color: gray;"'
 								v-bind:color="(index % 2 == 0)?'blue':'green'"
 								v-bind:log='"x: " + get_x_position(index,list_of_queries.length) + "; y:" + get_y_position(index,list_of_queries.length) + ";queryFile: " + a_driver.hash + (a_driver.fileName?"." +a_driver.fileName.split(".").pop():"") + 
                                 ";queryId: "  + a_driver.id + ";"' >
