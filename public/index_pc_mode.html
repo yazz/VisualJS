@@ -205,7 +205,7 @@
                <form    action="/file_upload"
                         class="dropzone"
                         id="my-awesome-dropzone" 
-                        style='width:50%; height: 50%; margin-left: 20%; margin-top: 20%; '>
+                        style='width:50%; height: 50%; margin-left: 20%; margin-top: 20%; ' >
                       </form>
                
         </div>
@@ -671,6 +671,11 @@
           // ouch, an error
         });	
     }
+
+        Dropzone.options.myAwesomeDropzone = {
+          dictDefaultMessage: "Drag and drop any Excel or CSV files into here"
+        };
+    
     </script>
 
     <script type="text/javascript" src="gosharedata_setup.js"></script>
