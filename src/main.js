@@ -568,6 +568,25 @@ window.history.go(-1);
                 }
         });
         
+
+
+
+
+
+        AFRAME.registerComponent(
+            'exit_vr', {
+                schema: {
+                    type: 'string'
+                },
+                init: function () {
+                    var self = this;
+                    
+                    this.el.addEventListener('click', function (evt) {
+                        //alert(queryFile);
+                        window.location.href = 'index.html?type=mouse';
+                    });
+                }
+        });
         
 
 		

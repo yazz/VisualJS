@@ -61,10 +61,20 @@
 														to="0 0 1" dur="100" direction="alternate"  repeat="3"></a-animation>
 						</a-entity>
 
-						<a-entity position="-2 1 0"
+						<a-entity v-if='vr_type=="mouse"' position="-2 1 0"
 								 geometry="primitive: plane; width: 1.9; height: 1.9;" material="color: blue"
 								 v-bind:text='"font: roboto; color: white; align: center; value: VR  ; width: 6; "'
 								 rotation='0 0 0' goto_vr=''>
+								 <a-animation begin="mouseenter" attribute="rotation"
+													 to="0 0 1" dur="100" direction="alternate"  repeat="3"></a-animation>
+						</a-entity>
+                        
+                        
+                        
+						<a-entity v-if='vr_type=="move"' position="-2 1 0"
+								 geometry="primitive: plane; width: 1.9; height: 1.9;" material="color: blue"
+								 v-bind:text='"font: roboto; color: white; align: center; value: Exit VR  ; width: 6; "'
+								 rotation='0 0 0' exit_vr=''>
 								 <a-animation begin="mouseenter" attribute="rotation"
 													 to="0 0 1" dur="100" direction="alternate"  repeat="3"></a-animation>
 						</a-entity>

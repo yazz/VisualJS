@@ -74,34 +74,20 @@
 					material='color: gray;opacity: .5;' 
 					geometry='primitive: plane; width: 20; height: 2; ' 
 					position='0 -.8 -1' >
-					<a-entity  	material='color: yellow;opacity: 1;'  
-								geometry='primitive: circle; radius: .5;'
-								position='-1 .8 1' 
-								go_back > 
-								 <a-animation begin="mouseenter" attribute="rotation"
-												to="20 29 29" dur="1000" direction="alternate"  repeat="1"></a-animation>
+
+                    <a-entity  	material='color: gray;opacity: .95;'  
+								geometry='primitive: box; width: 10; height: 1; depth: .7'
+                                rotation='0 0 0'
+								position='0.01 2 3'
+								goto='name: vr_home; duration: 300;' > 
+									<a-animation begin="mouseenter" attribute="position"
+												from="0.01 .9 1" to="0.01 .9 .9" dur="400" direction="alternate"  repeat="1"></a-animation>
+                                 <a-entity position="0 0.3 0.6" rotation="-45
+                                 0 0 0" 
+                                            text='font: roboto; color: black; align: center; value: Go back ; width: 10; '>
+                                </a-entity>
 					</a-entity >
-					<a-entity  	material='color: black;opacity: 1;'  
-								geometry='primitive: circle; radius: .5;'
-								position='1 .8 1'
-								goto='name: vr_home;' > 
-								 <a-animation begin="mouseenter" attribute="rotation"
-												to="20 29 29" dur="1000" direction="alternate"  repeat="1"></a-animation>
-					</a-entity >
-                    
-                    
-						 <a-entity position="10 1 1" id='vr_file_name_2'
-									geometry="primitive: plane; width: 1.9; height: 1.9;" material="color: white;opacity: 1;"
-									v-bind:text='"font: roboto; color: black; align: center; value: _ ; width: 2; "'>
-						</a-entity>
-						 <a-entity position="10 .6 1" id='vr_file_size_2'
-									geometry="primitive: plane; width: 1.9; height: 1.9;" material="color: white;opacity: 1;"
-									v-bind:text='"font: roboto; color: black; align: center; value: ? ; width: 2; "'>
-						</a-entity>
-						 <a-entity position="10 .1 1" id='vr_file_saved_as'
-									geometry="primitive: plane; width: 1.9; height: 1.9;" material="color: white;opacity: 1;"
-									v-bind:text='"font: roboto; color: black; align: center; value: ? ; width: 2; "'>
-						</a-entity>
+
 
 
 
