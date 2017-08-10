@@ -988,6 +988,12 @@ dbhelper.pouchdbTableOnServer('pouchdb_queries',            pouchdb_queries,    
 		drivers['postgres'] = eval( pgeval )
 		addOrUpdateDriver('postgres', pgeval, drivers['postgres'])
 
+        
+        
+		var sqliteeval = '(' + fs.readFileSync(path.join(__dirname, './sqlite.js')).toString() + ')';
+		drivers['sqlite'] = eval( sqliteeval )
+		addOrUpdateDriver('sqlite', sqliteeval, drivers['sqlite'])
+
 
 
 		var pgeval = '(' + fs.readFileSync(path.join(__dirname, './mysql.js')).toString() + ')';
