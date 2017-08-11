@@ -675,7 +675,21 @@ var upload = multer( { dest: 'uploads/' } );
 						try {
 							drivers[connections[queryData.source].driver]['get_v2'](connections[queryData.source],{sql: queryData.sql},function(ordata) {
 								res.writeHead(200, {'Content-Type': 'text/plain'});
-								res.end(JSON.stringify(ordata));
+                                
+        var db = new sqlite3.Database('gosharedata.sqlite3');
+
+		db.serialize(function() {
+			  var stmt = db.prepare("INSERT INTO search VALUES (?, ?)");
+              stmt.run(queryData.source, JSON.stringify(ordata));
+			  stmt.finalize();
+
+			});
+
+			db.close();
+			
+			
+
+                                res.end(JSON.stringify(ordata));
 							});
 						}
 						catch(err) {
@@ -719,7 +733,20 @@ var upload = multer( { dest: 'uploads/' } );
 							//console.log('query driver: ' + connections[queryData.source].driver);
 							try {
 								drivers[connections[queryData.source].driver]['get_v2'](connections[queryData.source],queryData.definition,function(ordata) {
-									res.writeHead(200, {'Content-Type': 'text/plain'});
+                                
+        var db = new sqlite3.Database('gosharedata.sqlite3');
+
+		db.serialize(function() {
+			  var stmt = db.prepare("INSERT INTO search VALUES (?, ?)");
+              stmt.run(queryData.source, JSON.stringify(ordata));
+			  stmt.finalize();
+
+			});
+
+			db.close();
+
+
+            res.writeHead(200, {'Content-Type': 'text/plain'});
 									res.end(JSON.stringify(ordata));
 								});
 							}
@@ -911,17 +938,7 @@ var upload = multer( { dest: 'uploads/' } );
         var db = new sqlite3.Database('gosharedata.sqlite3');
 
 		db.serialize(function() {
-			  db.run("CREATE TABLE lorem (info TEXT)");
-
-			  var stmt = db.prepare("INSERT INTO lorem VALUES (?)");
-			  for (var i = 0; i < 10; i++) {
-				  stmt.run("Ipsum " + i);
-			  }
-			  stmt.finalize();
-
-			  db.each("SELECT rowid AS id, info FROM lorem", function(err, row) {
-				  console.log(row.id + ": " + row.info);
-			  });
+			  db.run("CREATE VIRTUAL TABLE search USING fts5(query_id, data);");
 			});
 
 			db.close();
