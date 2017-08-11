@@ -908,7 +908,7 @@ var upload = multer( { dest: 'uploads/' } );
 				
 				
 				
-						var db = new sqlite3.Database(':memory:');
+        var db = new sqlite3.Database('gosharedata.sqlite3');
 
 		db.serialize(function() {
 			  db.run("CREATE TABLE lorem (info TEXT)");

@@ -8,12 +8,8 @@
 						'          <tr scope="row"><td>Type</td><td>sqlite</td></tr>'+
 						'          <tr scope="row"><td>ID</td><td>{{get_connection_property(connection_name,"id")}}</td></tr>'+
 						'          <tr scope="row"><td>Status</td><td>{{get_connection_property(connection_name,"status")}}</td></tr>'+
-						'          <tr scope="row"><td>Database</td><td>{{get_connection_property(connection_name,"database")}}</td></tr>'+
-						'          <tr scope="row"><td>Host</td><td>{{get_connection_property(connection_name,"host")}}</td></tr>'+
-						'          <tr scope="row"><td>Port</td><td>{{get_connection_property(connection_name,"port")}}</td></tr>'+
-						'          <tr scope="row"><td>Username</td><td>{{get_connection_property(connection_name,"user")}}</td></tr>'+
-						'          <tr scope="row"><td>Password</td><td>*****************</td></tr>'+
-						'        <tbody>'+
+						'          <tr scope="row"><td>Database file name</td><td>{{get_connection_property(connection_name,"database")}}</td></tr>'+
+						'        </tbody>'+
 						'      </table>'+
 						'</div>'
 			,
@@ -62,26 +58,6 @@
    '         <input  type="text" class="form-control" v-model="database"></input>' +
     '    </div>' +
 '' +
- '       <div class="form-group">' +
-  '          <label for="Host" class="col-form-label">Host</label>' +
-   '         <input  type="text" class="form-control" v-model="host"></input>' +
-    '    </div>' +
-'' +
- '       <div class="form-group">' +
-  '          <label for="Port" class=" col-form-label">Port</label>' +
-   '         <input  type="text" class="form-control" v-model="port"></input>' +
-    '    </div>' +
-'' +
- '       <div class="form-group">' +
-  '          <label for="Username" class="col-form-label">User name</label>' +
-   '         <input  type="text" class="form-control" v-model="connection_username"></input>' +
-    '    </div>' +
-'' +
- '       <div class="form-group ">' +
-  '          <label for="Password" class=" col-form-label">Password</label>' +
-   '         <input  class="form-control" type=password v-model="connection_password"></input>' +
-    '    </div>' +
-'' +
  '       <div class="form-group row">' +
   '            <span class="input-group-btn">' +
    '             <button class="btn btn-secondary" type="button" v-on:click="OK">OK</button>' +
@@ -115,11 +91,7 @@
 					  cp: {
 						  name:      this.connection_name,
 						  driver:    'sqlite',
-						  database:  this.database,
-						  host:      this.host,
-						  port:      this.port,
-						  user:      this.connection_username,
-						  password:  this.connection_password
+						  database:  this.database
 					  }
 				  });
 				  this.$store.dispatch('hide_add_connection');
@@ -134,12 +106,7 @@
 				return {
 				  connection_name:           "sqlite",
 				  connection_connect_string: null,
-				  database:                  "sqlite",
-				  host:                      "127.0.0.1",
-				  port:                      "5432",
-				  connection_status:         null,
-				  connection_username:       "sqlite",
-				  connection_password:       "manager"
+				  database:                  "default.sqlite3"
 				};
 			  }
 	}
@@ -188,6 +155,7 @@
 					  cp: {
 						  name:           this.query_name,
 						  connection:     this.query_connection,
+						  database:       this.database,
 						  driver:        'sqlite',
 						  type:          '|DATABASE|',
 						  definition:    JSON.stringify({sql: this.sql} , null, 2),
@@ -204,7 +172,8 @@
 			  data: function() {
 				return {
 				  query_name:                "sqlite query",
-				  sql:                       "SELECT * FROM ojobs_users limit 2"
+				  database:                  "default.sqlite3",
+				  sql:                       "select * from sqlite_master"
 				};
 			  }
 	}
@@ -217,7 +186,7 @@
 						'          <tr scope="row"><td>ID</td><td>{{get_query_property(query_name,"id")}}</td></tr>'+
 						'          <tr scope="row"><td>Driver</td><td>sqlite</td></tr>'+
 						'          <tr scope="row"><td>SQL</td><td>{{get_query_property(query_name,"definition").sql}}</td></tr>'+
-						'        <tbody>'+
+						'        </tbody>'+
 						'      </table>'+
 						'</div>'
 			,
@@ -247,23 +216,9 @@
     setup: function(connection, callfn) {
           var config = {
             id:                connection.id,
-            user:              connection.user,
-            database:          connection.database,
-            password:          connection.password,
-            host:              connection.host,
-            port:              connection.port,
-            max:               connection.max,
-            idleTimeoutMillis: connection.idleTimeoutMillis
+            database:          connection.database
           };
-
-//          connection.connection = new sqlitedb.Client(config);
-//          connection.connection.connect(function (err) {
-//            if (err) {
-//                callfn({error: '' + err});
-//                throw err;
-//            }
-//          });
-               // callfn({error: 'zzz' });
+          connection.connection = new sqlite3.Database(config.database);
 
           connection.status = 'connected';
       },
@@ -271,7 +226,7 @@
 
     get_v2: function( connection , parameters , callfn )
         {
-            
+           
 			var sql = parameters.sql;
             console.log('******************************** in sqlite get');
             if (
@@ -290,23 +245,20 @@
 
             console.log('drivers[sqlite][get]');
             // execute a query on our database
-            var db = new sqlite3.Database('mytable');
             console.log('    Loaded DB');
 
-            db.serialize(function() {
-                console.log('    db.serialize');
-                db.all(sql, function(err, rows) {
+            connection.connection.serialize(function() {
+                connection.connection.all(sql, function(err, rows) {
                     if (err) {
                         callfn({error: '' + err});
                     } else {
                         // just print the result to the console
-                        console.log(rows); // outputs: { name: 'brianc' }
+                        //console.log(rows); // outputs: { name: 'brianc' }
                         callfn(rows);
                     };
                 });
             });
 
-			db.close();
 		}
 
 
