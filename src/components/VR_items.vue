@@ -2,26 +2,6 @@
 			  <a-entity position='5 -5 -17' id='vr_items'>
 
 			  
-					 <a-entity  position="-10 -2 -7"
-								geometry="primitive: plane; width: 4.9; height: 6.9;" 
-								material="color: lightgray; opacity: 0.5;"
-								rotation='0 0 0' ></a-entity>
-					 <a-entity  position="-9.8 -2.5 -8"
-								geometry="primitive: plane; width: 4.9; height: 5.9;" 
-								material="color: gray; opacity: 0.5;"
-								rotation='0 0 0' ></a-entity>
-					 <a-entity  position="-9.5 -3 -9"
-								geometry="primitive: plane; width: 3.9; height: 4.9;" 
-								material="color: lightgray; opacity: 0.5;"
-								rotation='0 0 0' ></a-entity>
-					 <a-entity  position="-9.3 -3.5 -10"
-								geometry="primitive: plane; width: 3.9; height: 3.9;" 
-								material="color: gray; opacity: 0.5;"
-								rotation='0 0 0' ></a-entity>
-					 <a-entity  position="-9 -4 -11"
-								geometry="primitive: plane; width: 2.9; height: 2.9;" 
-								material="color: lightgray; opacity: 0.5;"
-								rotation='0 0 0' ></a-entity>
 			  
 			  
 			  
