@@ -661,24 +661,29 @@ if (document.querySelector("#move_bar")) {
         var keynum = evt.keyCode ;
         if (keynum == 37) {
             searchPos --;
+            showText();
         } else if (keynum == 39) {
             searchPos ++;
-        } else if (keynum == 8) {
+            showText();
+} else if (keynum == 8) {
             searchtext =   searchtext.substring(0,searchPos - 1)  + searchtext.substring(searchPos );
             searchPos --;
-            
+            showText();
         }
     });
 
     var cursorShow = true;
-    setInterval(showText,1000);
+    setInterval(showText,600);
+    setInterval(showText2,600);
     
     
     function showText() {
-        cursorShow = !cursorShow;
         var showtext =   searchtext.substring(0,searchPos) + (cursorShow?'|':' ') + searchtext.substring(searchPos);
         
         store.dispatch('set_current_search', showtext );
+    }
+    function showText2() {
+        cursorShow = !cursorShow;
     }
   
     window.addEventListener('keypress', function (evt) {
@@ -687,6 +692,7 @@ if (document.querySelector("#move_bar")) {
         var cc = String.fromCharCode(keynum);
         searchtext = searchtext.substring(0,searchPos) + cc + searchtext.substring(searchPos);;
         searchPos ++;
+        showText();
     });
 
     }
