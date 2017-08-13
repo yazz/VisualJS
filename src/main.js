@@ -661,15 +661,22 @@ if (document.querySelector("#move_bar")) {
         var keynum = evt.keyCode ;
         if (keynum == 37) {
             searchPos --;
-            showText()
         } else if (keynum == 39) {
             searchPos ++;
-            showText()
+        } else if (keynum == 8) {
+            searchtext =   searchtext.substring(0,searchPos - 1)  + searchtext.substring(searchPos );
+            searchPos --;
+            
         }
     });
 
+    var cursorShow = true;
+    setInterval(showText,1000);
+    
+    
     function showText() {
-        var showtext =   searchtext.substring(0,searchPos) + '|' + searchtext.substring(searchPos);
+        cursorShow = !cursorShow;
+        var showtext =   searchtext.substring(0,searchPos) + (cursorShow?'|':' ') + searchtext.substring(searchPos);
         
         store.dispatch('set_current_search', showtext );
     }
@@ -678,8 +685,8 @@ if (document.querySelector("#move_bar")) {
         
         var keynum = myKeyPress(evt);
         var cc = String.fromCharCode(keynum);
-        searchtext = searchtext + cc;
-        showText();
+        searchtext = searchtext.substring(0,searchPos) + cc + searchtext.substring(searchPos);;
+        searchPos ++;
     });
 
     }
