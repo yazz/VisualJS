@@ -14,17 +14,12 @@
 						<VR-items v-bind:vr_type='get_vr_type'></VR-items>
 					 </a-entity >
 
-					 <a-entity2  position="-8 1 -2"
-								geometry="primitive: plane; width: 5.9; height: 8.9;" 
-								material="color: lightgray; opacity: 0;"
-								v-bind:text='"font: roboto; color: white; align: center; value: GoShareData ; width: 6; "'
-								rotation='0 0 0' ></a-entity2>
 
                     
 
 					 <a-entity  v-for="i in 50" v-bind:position='"-11 11 " + (-1 -(i * 5))' 
                                 geometry="primitive: plane; width: .3; height: 38.9;"  
-                                material="color: lightgray; opacity: 0.5;"></a-entity>
+                                material="color: lightgray; opacity: 1;"></a-entity>
 
 
 					 <a-entity position="1 -1.6 2">

@@ -640,10 +640,18 @@ if (document.querySelector("#move_bar")) {
             });
 		}
     });
+    
+    
+    window.addEventListener('keyup', function (evt) {
+        //alert(String.fromCharCode(evt.keyCode));
+        searchtext = searchtext + String.fromCharCode(evt.keyCode);
+        store.dispatch('set_current_search', searchtext);
+        evt.preventDefault();
+    });
 
     }
 }
-
+var searchtext='';
 
 
 

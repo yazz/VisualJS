@@ -10,6 +10,8 @@ export default new Vuex.Store({
 
 
     state: {
+        current_search: ""
+        ,
         add_connection_visible: false
         ,
         show_full_doc: false
@@ -62,6 +64,8 @@ export default new Vuex.Store({
 
   getters: {
     add_connection_visible: state => state.add_connection_visible
+    ,
+    current_search: state => state.current_search
     ,
     add_query_visible: state => state.add_query_visible
     ,
@@ -143,6 +147,10 @@ export default new Vuex.Store({
       HIDE_ADD_CONNECTION: function (state) {
         state.add_connection_visible = false
       },
+      SET_CURRENT_SEARCH: function (state,y) {
+        state.current_search = y
+      },
+      
       HIDE_ADD_QUERY: function (state) {
         state.add_query_visible = false
       },
@@ -376,6 +384,13 @@ export default new Vuex.Store({
 		//
 		hide_add_connection: function(a){
             a.commit('HIDE_ADD_CONNECTION')
+		},
+
+		//
+		//
+		//
+		set_current_search: function(a,b){
+            a.commit('SET_CURRENT_SEARCH',b)
 		},
 
 
