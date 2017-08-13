@@ -642,17 +642,50 @@ if (document.querySelector("#move_bar")) {
     });
     
     
-    window.addEventListener('keyup', function (evt) {
-        //alert(String.fromCharCode(evt.keyCode));
-        searchtext = searchtext + String.fromCharCode(evt.keyCode);
-        store.dispatch('set_current_search', searchtext);
-        evt.preventDefault();
+    function myKeyPress(e){
+    var keynum;
+
+    if(window.event) { // IE                    
+      keynum = e.keyCode;
+    } else if(e.which){ // Netscape/Firefox/Opera                   
+      keynum = e.which;
+    }
+
+    return keynum;
+  }
+
+
+
+    window.addEventListener('keydown', function (evt) {
+        
+        var keynum = evt.keyCode ;
+        if (keynum == 37) {
+            searchPos --;
+            showText()
+        } else if (keynum == 39) {
+            searchPos ++;
+            showText()
+        }
+    });
+
+    function showText() {
+        var showtext =   searchtext.substring(0,searchPos) + '|' + searchtext.substring(searchPos);
+        
+        store.dispatch('set_current_search', showtext );
+    }
+  
+    window.addEventListener('keypress', function (evt) {
+        
+        var keynum = myKeyPress(evt);
+        var cc = String.fromCharCode(keynum);
+        searchtext = searchtext + cc;
+        showText();
     });
 
     }
 }
 var searchtext='';
-
+var searchPos = 0;
 
 
 function setupSqlResultPane() {
