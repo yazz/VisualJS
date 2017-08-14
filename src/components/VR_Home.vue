@@ -17,9 +17,10 @@
 
                     
 
-					 <a-entity  v-for="i in 50" v-bind:position='"-11 11 " + (-1 -(i * 5))' 
-                                geometry="primitive: plane; width: .3; height: 38.9;"  
-                                material="color: lightgray; opacity: 1;"></a-entity>
+					 <a-entity  v-for="i in 25" v-bind:position='"-45 11 " + (-1 -(i * 55))' 
+                                geometry="primitive: plane; width: 1; height: 138.9;"  
+                                rotation="0 90 0"
+                                v-bind:material='"color: " + (((i % 2)==0)?"lightgrey":"blue") + "; opacity: " + (((i % 2)==0)?".1":".1") + ";"'></a-entity>
 
 
 					 <a-entity position="1 -1.6 2">

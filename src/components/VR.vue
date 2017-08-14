@@ -25,9 +25,9 @@
 					geometry='primitive: plane; width: 10; height: 1; ' 
 					position='0 -1.6 -2' >
                     
-					<a-entity   position="-6 1 -4"
+					<a-entity   position="-7.5 2 -4"
 								geometry="primitive: plane; width: 5.9; height: 8.9;" 
-								material="color: white; opacity: 0.9;"
+								material="color: white; opacity: .9;"
 								rotation='0 0 0' >
                         <a-entity   position="0 4 0" v-bind:text='"font: roboto; color: black; align: center; value: GoShareData ; width: 6; "'></a-entity>
                         
