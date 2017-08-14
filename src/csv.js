@@ -249,12 +249,20 @@
             var numCommas = ((content.match(new RegExp(",", "g")) || []).length);
             var numSemi = ((content.match(new RegExp(";", "g")) || []).length);
             var numColons = ((content.match(new RegExp(":", "g")) || []).length);
+            var numPipes = ((content.match(new RegExp("|", "g")) || []).length);
             
-            if (numSemi > numCommas) {
+            var maxDelim = numCommas;
+            if (numSemi > maxDelim) {
                 delim = ';';
+                maxDelim = numSemi;
                 };
-            if (numColons > numSemi) {
+            if (numColons > maxDelim) {
                 delim = ':';
+                maxDelim = numColons;
+                };
+            if (numPipes > maxDelim) {
+                delim = '|';
+                maxDelim = numPipes;
                 };
               console.log('delim = ' + delim);
                         
