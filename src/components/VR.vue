@@ -3,7 +3,8 @@
 
 
         <a-scene  	platform='all' id='vr_scene' renderer="clearColor: #222"
-					v-bind:vr-mode-ui='"enabled: " + (vr_type=="move")'>
+					v-bind:vr-mode-ui='"enabled: " + (vr_type=="move")'
+                    keyboard-shortcuts="enterVR: false">
 			<a-assets>
 				<a-mixin id="cube" geometry="primitive: box"></a-mixin>
 				<a-mixin id="cube-hovered" material="color: magenta"></a-mixin>
