@@ -153,7 +153,7 @@
 						'        </div>' +
 						'        <div class="form-group">' +
 						'            <label for="SQL" class="col-form-label">SQL</label>' +
-						'            <input  type="text" class="form-control" v-model="sql" ></input>' +
+						'            <textarea  type="text" class="form-control" v-model="sql" style="resize: both;overflow:auto;" rows=10 cols=30></textarea>' +
 						'        </div>' +
 						'        <div class="form-group row">' +
 						'            <span class="input-group-btn">' +
