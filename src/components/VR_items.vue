@@ -116,7 +116,7 @@
 							        v-bind:griditem='"x: " + get_x_position(index,list_of_queries.length) + "; y:" + get_y_position(index,list_of_queries.length) + ";" +
 								    "   query_name: " + a_driver.name +
                                     ";  query_saved_as: " + (a_driver.hash?(a_driver.hash + (a_driver.fileName?"." + a_driver.fileName.split(".").pop():"")):"") +                                   
-					    			";  query_display: " + (a_driver.fileName?a_driver.fileName.replace(/^.*[\\\/]/, ""):"") + 
+					    			";  query_display: " + "" + a_driver.fileName + 
                                     ";  query_size: " + a_driver.size + "; " '
 								  v-bind:preview='"id: " + a_driver.id + ";"'
 								mixin='gsd'  
