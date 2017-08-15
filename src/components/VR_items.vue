@@ -1,5 +1,5 @@
 <template>
-			  <a-entity position='5 -5 -17' id='vr_items'>
+			  <a-entity position='5 -25 0' id='vr_items'>
 
 			  
 			  
