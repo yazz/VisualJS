@@ -31,9 +31,9 @@
 								rotation='0 0 0' >
                         <a-entity   position="0 4 0" v-bind:text='"font: roboto; color: black; align: center; value: GoShareData ; width: 6; "'></a-entity>
                         
-                        <a-entity   position="0 1 0" v-bind:text='"font: roboto; color: black; align: center; value: Search ; width: 6; "'></a-entity>
+                        <a-entity   position="0 3    0" v-bind:text='"font: roboto; color: black; align: center; value: Search ; width: 6; "'></a-entity>
                         <a-entity   geometry="primitive: plane; width: 4; height: .7;"  
-                                    position="0 .4 0" 
+                                    position="0 2.4 0" 
                                     material="color: blue; opacity: 1;">
                             <a-entity   position="0 0 0" 
                                         v-bind:text='"font: roboto; color: black; align: center; value: " + zzz + " ; width: 6; "'>
