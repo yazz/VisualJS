@@ -69,9 +69,11 @@
 							  v-bind:position='(index + .5) + " -1 2.5"'
 							  geometry="primitive: plane; width: auto; height: auto"
 							  material="color: white"
-							  v-bind:text='"font: aileronsemibold;color: black; align: left; value: " + field_name + "; width: 2; opacity: 1;"'
 							  rotation='0 0 0'>
 
+                            <a-entity position='-1.5 0 0.6'
+                                      v-bind:text='"font: aileronsemibold;color: black; align: left; value: " + field_name + "; width: 2; "'>
+                            </a-entity>
 
 							<a-entity v-for="(a_record,rindex)  in  list_of_records"
 									  v-bind:position='"-1.5 " + (-.2 - (rindex * 0.2)) + " 0.6"'
@@ -90,9 +92,12 @@
 								  v-bind:position='(index + 3) + " 1 0"'
 								  geometry="primitive: plane; width: auto; height: auto"
 								  material="color: white"
-								  v-bind:text='"font: aileronsemibold;color: black; align: left; value: " + field_name + "; width: 2; "'
+								  
 								  rotation='0 0 0'>
 
+								<a-entity position='0 0 0'
+                                          v-bind:text='"font: aileronsemibold;color: black; align: left; value: " + field_name + "; width: 2; "'>
+								</a-entity>
 
 								<a-entity v-for="(a_record,rindex)  in  list_of_records"
 										  v-bind:position='"0 " + (-.2 - (rindex * 0.2)) + " 0"'
