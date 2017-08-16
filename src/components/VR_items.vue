@@ -38,7 +38,7 @@
 						  rotation='0 0 0'>
 				</a-entity>
 
-				<a-entity position="0 -4 -10" id='doc_details'>
+				<a-entity position="10 -10 0" id='doc_details'>
 
 					<a-entity v-if='can_show_full_doc()' geometry="primitive: plane; height: 5; width: 8;" material="color: white" position='0 2.5 -1' >
 
@@ -88,26 +88,7 @@
 					</a-entity>
 
 
-						<a-entity v-if='!can_show_full_doc()' v-for="(field_name,index)  in  list_of_fields"
-								  v-bind:position='(index + 3) + " 1 0"'
-								  geometry="primitive: plane; width: auto; height: auto"
-								  material="color: white"
-								  
-								  rotation='0 0 0'>
 
-								<a-entity position='0 0 0'
-                                          v-bind:text='"font: aileronsemibold;color: black; align: left; value: " + field_name + "; width: 2; "'>
-								</a-entity>
-
-								<a-entity v-for="(a_record,rindex)  in  list_of_records"
-										  v-bind:position='"0 " + (-.2 - (rindex * 0.2)) + " 0"'
-										  geometry="primitive: plane; width: auto; height: auto" material="color: white"
-										  v-bind:text='"font: sourcecodepro;color: black; align: left; value: " + truncate(a_record[field_name]) + "; width: 2; "'
-										  rotation='0 0 0'>
-
-								</a-entity>
-
-							</a-entity>
 
 
 <a-entity id=scrollable_grid>

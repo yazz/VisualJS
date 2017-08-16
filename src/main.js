@@ -385,71 +385,27 @@ function setupVRVuePane() {
 
 			var stringToLog = this.data;
 		   this.el.addEventListener('click', function (evt) {
-			   if (inMove) {
+                if (inMove) {
 				   return;
-			   };
-			   inMove = true;
-         var x = self.data.x;
-         var y = self.data.y;
-         var queryFile = self.data.queryFile;
-		 
-		 var doc_details = document.querySelector("#doc_details");
-
-          var worldPos = new THREE.Vector3();
-          worldPos.setFromMatrixPosition(doc_details.object3D.matrixWorld);
-          //alert(worldPos.x);
-         //alert('x: ' +self.data.x);
-         //alert('y: ' +self.data.y);
-         //alert('*: ' +self.data.queryId);
-			    //alert(stringToLog);
+                };
+                inMove = true;
+                var x = self.data.x;
+                var y = self.data.y;
+                var queryFile = self.data.queryFile;
+                
 
 				get_query_result(self.data.queryId);
 				store.dispatch('set_viewed_query_id', self.data.queryId);
                 
 				store.dispatch('set_viewed_query_file', self.data.queryFile);
-                //alert(queryFile);
 
-				//alert(stringToLog + ' was clicked at: ', evt.detail.intersection.point);
-				//alert(stringToLog + ' was clicked with: ' + document.getElementById("sqlinput"));
-
-        var node = document.getElementById("itemzoom");
-        if (node) {
-          node.parentNode.removeChild(node);
-        };
-        var animation = document.createElement('a-animation');
-        animation.setAttribute('id', "itemzoom");
-        animation.setAttribute('attribute', "position");
-        //animation.setAttribute('to', '' + (-2.2 + (x * 0.5)) + ' ' + (3 - (y * 0.6)) +  '-.1');
-        //animation.setAttribute('to', '0.6 0 -2.5');
-
-
-        animation.setAttribute('dur', "500");
-        animation.setAttribute('repeat', "0");
-        animation.setAttribute('direction', "alternate");
-		animation.addEventListener('animationend', function () {
+                    gotoFunction({
+                        goto_name:  "doc_details",
+                        distance:   6,
+                        duration:   "500"
+                    });
 				store.dispatch('show_full_doc');
 			   inMove = false;
-		});
-//        self.el.appendChild(animation);
-        if (document.querySelector("#camera_id")){
-            animation.setAttribute('to', '' + (worldPos.x)  + ' ' + ((worldPos.y)) + ' ' + ((worldPos.z + 6)));
-            document.querySelector("#camera_id").appendChild(animation);
-        }
-        if (document.querySelector("#movevr")){
-            animation.setAttribute('to', '' + (worldPos.x)  + ' ' + (worldPos.y ) + ' ' + ((worldPos.z + 4)));
-            document.querySelector("#movevr").appendChild(animation);
-        }
-if (document.querySelector("#move_bar")) {
-	var animation2 = document.createElement('a-animation');
-	animation2.setAttribute('id', "itemzoom");
-	animation2.setAttribute('attribute', "position");
-
-	animation2.setAttribute('dur', "500");
-	animation2.setAttribute('repeat', "0");
-	animation2.setAttribute('direction', "alternate");
-		animation2.setAttribute('to', '' + (worldPos.x)  + ' ' + (worldPos.y ) + ' ' + ((worldPos.z + 4)));
-	document.querySelector("#move_bar").appendChild(animation2);
-}
 
 			});
 		  }
