@@ -152,6 +152,9 @@ export default new Vuex.Store({
       SET_CURRENT_SEARCH: function (state,y) {
         state.current_search = y
       },
+      SET_USER_NAME: function (state,y) {
+        state.user_name = y
+      },
       
       HIDE_ADD_QUERY: function (state) {
         state.add_query_visible = false
@@ -396,7 +399,13 @@ export default new Vuex.Store({
 		},
 
 
+		set_user_name: function(a,b){
+            a.commit('SET_USER_NAME',b)
+		},
 
+        
+        
+        
         //
         // hide add query
         //

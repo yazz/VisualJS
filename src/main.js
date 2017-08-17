@@ -46,7 +46,9 @@ function sendClientDetails() {
         url: '/send_client_details',
         data: {},
         success: function(data) {
-          //alert(JSON.stringify(data,null,2));
+            var ret = eval("(" + data + ")");
+          store.dispatch('set_user_name', ret.username);  
+          //alert(JSON.stringify(ret,null,2));
         },
         error: function(jqXHR, textStatus, errorThrown) {
           alert('error ' + textStatus + ' : ' +  errorThrown);

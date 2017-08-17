@@ -12,6 +12,7 @@ var pouchdb_user_requests;
 
 var numberOfSecondsAliveCheck = 60; 
 var isPi = require('detect-rpi');
+var username = "Unknown user";
 
 var isWin = /^win/.test(process.platform);
 var isRaspberryPi = isPi();
@@ -775,7 +776,7 @@ var upload = multer( { dest: 'uploads/' } );
 	app.get('/send_client_details', function (req, res) {
 		//console.log('in send_client_details: ' + JSON.stringify(req,null,2));
         res.writeHead(200, {'Content-Type': 'text/plain'});
-        res.end(JSON.stringify({returned: 'some data '}));
+        res.end(JSON.stringify({returned: 'some data ', username: username}));
 	})
 
 
@@ -1263,5 +1264,12 @@ var x='';
                     console.log("...............   host is: " + x);
  });
  
+console.log("-------------------------------------------------------------------");
+console.log("-------------------------------------------------------------------");
+console.log("-------------------------------------------------------------------");
+console.log("-------------------------------------------------------------------");
+console.log("-------------------------------------------------------------------");
 
-
+var os= require('os')
+username = os.userInfo().username
+console.log(username);

@@ -27,7 +27,7 @@
                     
                     <a-entity position="1.4 3.15 0"
 						  geometry="primitive: plane; width: auto; height: auto" material="color: white"
-						  v-bind:text='"font: roboto; color: black; align: left; value: " + getUserName + "; width: 4; "'
+						  v-bind:text='"font: roboto; color: black; align: left; value: Data for: " + getUserName + "; width: 4; "'
 						  rotation='0 0 0'>
                     </a-entity>
 
