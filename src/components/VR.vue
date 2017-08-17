@@ -86,6 +86,7 @@
 
     		<a-entity v-if='vr_type=="move"' position="0 0 0" material="color: white" >
 				<a-entity camera='near: 0.005;' look-controls material="color: white" id='movevr'>
+                    
 						<a-entity material='color: white;' >
 								<a-entity 	position="0 0 -3"
 														geometry="primitive: ring; radiusOuter: 0.030; radiusInner: 0.006; color:white;"
@@ -98,21 +99,29 @@
 
 
 			<a-entity v-if='vr_type=="move"' position='0 -3.6 -5' >
-				<a-entity
+
+
+
+                <a-entity
 					id='move_bar' 
 					material='color: gray;opacity: .5;' 
 					geometry='primitive: plane; width: 20; height: 2; ' 
 					position='0 -.8 -1' >
 
+                    <a-entity position="2.5 7.8 1.5"
+						  geometry="primitive: plane; width: auto; height: auto" material="color: white"
+						  v-bind:text='"font: roboto; color: black; align: left; value: Data for user: " + getUserName + "; width: 8; "'
+						  rotation='0 0 0'>
+                    </a-entity>
+
                     <a-entity  	material='color: gray;opacity: .95;'  
 								geometry='primitive: box; width: 10; height: 1; depth: .7'
                                 rotation='0 0 0'
 								position='0.01 1 1.5'
-								goto='name: vr_home; duration: 300;' > 
+								goto='name: vr_home; duration: 500;' > 
 									<a-animation begin="mouseenter" attribute="position"
 												from="0.01 1 1.5" to="0.01 1 1.4" dur="400" direction="alternate"  repeat="1"></a-animation>
-                                 <a-entity position="0 0.3 0.6" rotation="-45
-                                 0 0 0" 
+                                 <a-entity position="0 0.3 0.6" rotation="-45 0 0" 
                                             text='font: roboto; color: black; align: center; value: Go back ; width: 10; '>
                                 </a-entity>
 					</a-entity >
@@ -120,7 +129,7 @@
 
 
 
-                        </a-entity>
+                </a-entity>
 	    	</a-entity>
 
 
