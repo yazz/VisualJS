@@ -21,24 +21,24 @@
 
 					 <a-entity position="1 -1.6 2">
 
-						 <a-entity position="0 3 0"
-									geometry="primitive: plane; width: 1.9; height: 1.9;" material="color: green"
+						 <a-entity position="0 2.8 0"
+									geometry="primitive: plane; width: 1.8; height: 1.8;" material="color: green"
 									v-bind:text='"font: roboto; color: white; align: center; value: My data ; width: 6; "'
 									rotation='0 0 0' goto='name: scrollable_grid; distance: 4; duration: 500;'>
 									<a-animation begin="mouseenter" attribute="rotation"
 												to="0 0 1" dur="100" direction="alternate"  repeat="3"></a-animation>
 													</a-entity>
 
-						<a-entity  v-if='vr_type=="mouse"' position="0 1 0"
-								 geometry="primitive: plane; width: 1.9; height: 1.9;" material="color: yellow"
+						<a-entity  v-if='vr_type=="mouse"' position="0 .9 0"
+								 geometry="primitive: plane; width: 1.8; height: 1.8;" material="color: yellow"
 								 v-bind:text='"font: roboto; color: black; align: center; value: Settings ; width: 6; "'
 								 rotation='0 0 0' goto_settings=''>
 								<a-animation begin="mouseenter" attribute="rotation"
 												to="0 0 1" dur="100" direction="alternate"  repeat="3"></a-animation>
 						</a-entity>
 
-						<a-entity  v-if='vr_type=="move"' position="0 1 0"
-								 geometry="primitive: plane; width: 1.9; height: 1.9;" material="color: yellow"
+						<a-entity  v-if='vr_type=="move"' position="0 .9 0"
+								 geometry="primitive: plane; width: 1.8; height: 1.8;" material="color: yellow"
 								 v-bind:text='"font: roboto; color: black; align: center; value:  ; width: 6; "'
 								 rotation='0 0 0'>
 								<a-animation begin="mouseenter" attribute="rotation"
@@ -48,8 +48,8 @@
 
                         
                         
-                        <a-entity v-if='vr_type=="mouse"' position="-2 3 0"
-									geometry="primitive: plane; width: 1.9; height: 1.9;" material="color: red"
+                        <a-entity v-if='vr_type=="mouse"' position="-2 2.8 0"
+									geometry="primitive: plane; width: 1.8; height: 1.8;" material="color: red"
 									v-bind:text='"font: roboto; color: white; align: center; value: + Add Files ; width: 6; "'
 									rotation='0 0 0' id='red_home' add_data=''>
 									<a-animation begin="mouseenter" attribute="rotation"
@@ -58,8 +58,8 @@
 
                         
                         
-                        <a-entity v-if='vr_type=="move"' position="-2 3 0"
-									geometry="primitive: plane; width: 1.9; height: 1.9;" material="color: red"
+                        <a-entity v-if='vr_type=="move"' position="-2 2.8 0"
+									geometry="primitive: plane; width: 1.8; height: 1.8;" material="color: red"
 									v-bind:text='"font: roboto; color: white; align: center; value:  ; width: 6; "'
 									rotation='0 0 0' id='red_home' >
 									<a-animation begin="mouseenter" attribute="rotation"
@@ -72,8 +72,8 @@
                         
                         
                         
-						<a-entity v-if='vr_type=="mouse"' position="-2 1 0"
-								 geometry="primitive: plane; width: 1.9; height: 1.9;" material="color: blue"
+						<a-entity v-if='vr_type=="mouse"' position="-2 .9 0"
+								 geometry="primitive: plane; width: 1.8; height: 1.8;" material="color: blue"
 								 v-bind:text='"font: roboto; color: white; align: center; value: VR  ; width: 6; "'
 								 rotation='0 0 0' goto_vr=''>
 								 <a-animation begin="mouseenter" attribute="rotation"
@@ -82,8 +82,8 @@
                         
                         
                         
-						<a-entity v-if='vr_type=="move"' position="-2 1 0"
-								 geometry="primitive: plane; width: 1.9; height: 1.9;" material="color: blue"
+						<a-entity v-if='vr_type=="move"' position="-2 .9 0"
+								 geometry="primitive: plane; width: 1.8; height: 1.8;" material="color: blue"
 								 v-bind:text='"font: roboto; color: white; align: center; value: Exit VR  ; width: 6; "'
 								 rotation='0 0 0' exit_vr=''>
 								 <a-animation begin="mouseenter" attribute="rotation"

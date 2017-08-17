@@ -12,6 +12,8 @@ export default new Vuex.Store({
     state: {
         current_search: ""
         ,
+        user_name: ""
+        ,
         add_connection_visible: false
         ,
         show_full_doc: false

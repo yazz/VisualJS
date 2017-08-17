@@ -25,13 +25,22 @@
 					geometry='primitive: plane; width: 10; height: 1; ' 
 					position='0 -1.6 -2' >
                     
+                    <a-entity position="1.4 3.15 0"
+						  geometry="primitive: plane; width: auto; height: auto" material="color: white"
+						  v-bind:text='"font: roboto; color: black; align: left; value: " + getUserName + "; width: 4; "'
+						  rotation='0 0 0'>
+                    </a-entity>
+
+                    
+                    
+                    
 					<a-entity   position="-6 2 -4"
 								geometry="primitive: plane; width: 5.9; height: 8.9;" 
 								material="color: white; opacity: .9;"
 								rotation='0 0 0' >
                         <a-entity   position="0 4 0" v-bind:text='"font: roboto; color: black; align: center; value: GoShareData ; width: 6; "'></a-entity>
                         
-                        <a-entity   position="0 3 0" v-bind:text='"font: roboto; color: black; align: center; value: Search ; width: 5; "'></a-entity>
+                        <a-entity   position="1 2.83 0" v-bind:text='"font: roboto; color: black; align: left; value: Search ; width: 5; "'></a-entity>
                         <a-entity   geometry="primitive: plane; width: 3; height: .5;"  
                                     position="0 2.4 0" 
                                     material="color: blue; opacity: 0.9;">
@@ -141,6 +150,9 @@ name: 'VR'
   computed: {
   zzz: function() {
     return this.$store.state.current_search
+  },
+ getUserName: function() {
+    return this.$store.state.user_name
   },
     list_of_records: function () {
 	if (this.$store.state.list_of_output_records) {
