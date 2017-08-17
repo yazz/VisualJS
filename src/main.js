@@ -305,6 +305,7 @@ function setupVRVuePane() {
             var goto_name = options.goto_name;
             var distance = options.distance;
             var duration = options.duration;
+            var animEnd  = options.animEnd;
             
             var worldPos = new THREE.Vector3();
             var goto_item = document.querySelector("#" + goto_name);
@@ -316,6 +317,9 @@ function setupVRVuePane() {
             var animation = document.createElement('a-animation');
             animation.setAttribute('id', "itemzoom");
             animation.setAttribute('attribute', "position");
+            if (animEnd) {
+                animation.addEventListener('animationend', animEnd);
+            };
 
             animation.setAttribute('dur', duration);
             animation.setAttribute('repeat', "0");
@@ -584,12 +588,13 @@ function setupVRVuePane() {
             });
            
             this.el.addEventListener('click', function (evt) {
-                store.dispatch('hide_full_doc');
+                
 
                 gotoFunction({
                     goto_name:  "scrollable_grid",
-                    distance:   4,
-                    duration:   "500"
+                    distance:    4,
+                    duration:   "500",
+                    animEnd:     function() {store.dispatch('hide_full_doc');}
                 });
 
                 
