@@ -13,17 +13,17 @@
 				</a-entity>
 
                 
-                        <a-entity position="-2.2 4 -1.9" id='vr_file_name_2'
+                        <a-entity position="-2.2 3 -1.9" id='vr_file_name_2'
                                     scale="0.6 0.6 1"
 									geometry="primitive: plane; width: 3.9; height: 1.9;" material="color: white;opacity: 1;"
 									v-bind:text='"font: roboto; color: black; align: center; value: _ ; width: 6; "'>
 						</a-entity>
-						 <a-entity position="-2.2 4.2 -1.9" id='vr_file_size_2'
+						 <a-entity position="-2.2 3.2 -1.9" id='vr_file_size_2'
                                     scale="0.6 0.6 1"
 									geometry="primitive: plane; width: 3.9; height: 1.9;" material="color: white;opacity: 1;"
 									v-bind:text='"font: roboto; color: black; align: center; value: ? ; width: 6; "'>
 						</a-entity>
-						 <a-entity position="-2.2 4.4 -1.9" id='vr_file_saved_as'
+						 <a-entity position="-2.2 3.4 -1.9" id='vr_file_saved_as'
                                     scale="0.6 0.6 1"
 									geometry="primitive: plane; width: 3.9; height: 1.9;" material="color: white;opacity: 1;"
 									v-bind:text='"font: roboto; color: black; align: center; value: ? ; width: 6; "'>
@@ -94,7 +94,7 @@
 <a-entity id=scrollable_grid>
 
 				<a-entity  v-for="(a_driver,index)  in  list_of_queries"
-				   v-bind:position="(-1.2 + (get_x_position(index,list_of_queries.length)*0.5))+ ' ' + (2 - (get_y_position(index,list_of_queries.length)*0.6)) + ' -.1'"
+				   v-bind:position="(-1.2 + (get_x_position(index,list_of_queries.length)*0.5))+ ' ' + (1.5 - (get_y_position(index,list_of_queries.length)*0.6)) + ' -.1'"
 				   v-bind:color="(index % 2 == 0)?'blue':'green'"
 				   v-bind:text="'color: black; align: left; value: ' + a_driver.name.substr(a_driver.name.length - 10) + ' ; width: 2; '">
 					   <a-entity    position="-0.8 .3 -.3" 
