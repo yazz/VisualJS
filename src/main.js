@@ -47,7 +47,9 @@ function sendClientDetails() {
         data: {},
         success: function(data) {
             var ret = eval("(" + data + ")");
-          store.dispatch('set_user_name', ret.username);  
+            store.dispatch('set_user_name', ret.username); 
+            store.dispatch('set_is_local_machine', ret.isLocalMachine);
+            store.dispatch('set_locked', ret.locked);          
           //alert(JSON.stringify(ret,null,2));
         },
         error: function(jqXHR, textStatus, errorThrown) {
@@ -511,6 +513,21 @@ function setupVRVuePane() {
 
                       //store.dispatch('set_locked', false);
                       store.dispatch('set_locked', !store.getters.get_locked);
+                         $.ajax({
+                            url: '/lock',
+                            dataType: 'json',
+                            contentType: 'application/json',
+                            data: {locked: store.getters.get_locked},
+                            success: function(data) {
+                                //var ret = eval("(" + data + ")");
+                              //store.dispatch('set_user_name', ret.username);  
+                              //alert(JSON.stringify(ret,null,2));
+                            },
+                            error: function(jqXHR, textStatus, errorThrown) {
+                              alert('error ' + textStatus + ' : ' +  errorThrown);
+                            }
+                          });
+
                       //alert("unlocked: " + store.getters.get_locked);
                     });
                 }

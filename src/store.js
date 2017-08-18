@@ -14,6 +14,8 @@ export default new Vuex.Store({
         ,
         user_name: ""
         ,
+        is_local_machine: false
+        ,
         add_connection_visible: false
         ,
         show_full_doc: false
@@ -154,6 +156,9 @@ export default new Vuex.Store({
       },
       SET_USER_NAME: function (state,y) {
         state.user_name = y
+      },
+      SET_IS_LOCAL_MACHINE: function (state,y) {
+        state.is_local_machine = y
       },
       
       HIDE_ADD_QUERY: function (state) {
@@ -404,6 +409,11 @@ export default new Vuex.Store({
 		},
 
         
+
+		set_is_local_machine: function(a,b){
+            a.commit('SET_IS_LOCAL_MACHINE',b)
+		},
+
         
         
         //

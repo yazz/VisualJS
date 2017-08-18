@@ -64,16 +64,24 @@
                                 </a-entity>
 					</a-entity >
                     
-                    <a-entity  	id=locked
-                                material='color: white;opacity: 0;'  
-								geometry='primitive: plane; height: .3 ; width: .256'
-								position='3.63 3 -.5' 
-								v-bind:material='"src: " + (locked?"":"un") + "locked.jpg;"'
-                                lock_icon=''
-								> 
-									<a-animation begin="mouseenter" attribute="rotation"
-												to="0 0 4" dur="100" direction="alternate"  repeat="3"></a-animation>
-													</a-entity>
+                        <a-entity  	id=locked
+                                    material='color: white;opacity: 0;'  
+                                    geometry='primitive: plane; height: .3 ; width: .256'
+                                    position='3.63 3 -.5' 
+                                    v-bind:material='"src: " + (locked?"":"un") + "locked.jpg;"'
+                                    lock_icon=''
+                                    v-if='getIsLocalMachine'
+                                    > 
+                                        <a-animation begin="mouseenter" attribute="rotation"
+                                                    to="0 0 4" dur="100" direction="alternate"  repeat="3"></a-animation>
+                                                    
+                                                    
+                                <a-entity   position="0 .3 0" rotation="0 0 0" 
+                                            v-bind:text='"font: roboto; color: black; align: left; value: " + (locked?"ONLY YOU can see your data":"Others can see your SHARED data") + " ; width: 2; "'>
+                                </a-entity>
+
+                                                    
+                        </a-entity>
 					</a-entity >
 
                     
@@ -162,6 +170,9 @@ name: 'VR'
   },
  getUserName: function() {
     return this.$store.state.user_name
+  },
+ getIsLocalMachine: function() {
+    return this.$store.state.is_local_machine
   },
     list_of_records: function () {
 	if (this.$store.state.list_of_output_records) {

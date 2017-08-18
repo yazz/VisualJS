@@ -481,6 +481,7 @@ program
 		  };
 
 		  if (typeOfSystem == 'client') {
+              if (!canAccess(req,res)) {return;}
 			  res.end(fs.readFileSync(path.join(__dirname, '../public/index.html')));
 		  }
 		  if (typeOfSystem == 'server') {
@@ -502,6 +503,28 @@ var cors = require('cors')
 app.use(cors())
 
     
+    function isLocalMachine(req) {
+        if ((req.ip == '127.0.0.1') || (hostaddress == req.ip)) {  // this is the correct line to use
+        //if (req.ip == '127.0.0.1')  {      // this is used for debugging only so that we can deny access from the local machine
+            return true;
+        };
+        return false;
+    }
+	//------------------------------------------------------------------------------
+	// test if allowed
+	//------------------------------------------------------------------------------
+	function canAccess(req,res) {
+        if (!locked) {
+            return true;
+        };
+        //zzz
+        if (isLocalMachine(req) ) {      // this is used for debugging only so that we can deny access from the local machine
+            return true;
+        };
+        res.writeHead(200, {'Content-Type': 'text/plain'});
+        res.end("Sorry but access to " + username + "'s data is not allowed. Please ask " + username + " to unlocked their GoShareData account");
+        return false;
+	};
         
 
 	//------------------------------------------------------------------------------
@@ -514,8 +537,10 @@ app.use(cors())
         console.log(JSON.stringify(tracking_id,null,2));
         
         res.writeHead(200, {'Content-Type': 'text/plain'});
-        res.end(JSON.stringify({  got_through_firewall: tracking_id  ,  
-                                  server:               server  }));
+        res.end(JSON.stringify({    got_through_firewall:   tracking_id  ,  
+                                    server:                 server,
+                                    username:               username
+                                    }));
 	});
 
     
@@ -772,14 +797,31 @@ var upload = multer( { dest: 'uploads/' } );
 		};
 	})
 
+    var locked = true;
 
 	app.get('/send_client_details', function (req, res) {
 		//console.log('in send_client_details: ' + JSON.stringify(req,null,2));
         res.writeHead(200, {'Content-Type': 'text/plain'});
-        res.end(JSON.stringify({returned: 'some data ', username: username}));
+        res.end(JSON.stringify({
+                returned:           'some data ', 
+                username:           username, 
+                locked:             locked,
+                localIp:            req.ip,
+                isLocalMachine:     isLocalMachine(req) }));
 	})
 
 
+	app.get('/lock', function (req, res) {
+        if ((req.query.locked == "TRUE") || (req.query.locked == "true")) {
+            locked = true;
+        } else {
+            locked = false;
+        }
+
+            //console.log('in lock: ' + JSON.stringify(req,null,2));
+        res.writeHead(200, {'Content-Type': 'text/plain'});
+        res.end(JSON.stringify({locked: locked}));
+	})
 
 
 	process.on('uncaughtException', function (err) {
@@ -856,6 +898,7 @@ var upload = multer( { dest: 'uploads/' } );
                 internal_port:      requestClientInternalPort, 
                 public_ip:          requestClientPublicIp, 
                 public_host:        requestClientPublicHostName,
+                user_name:          username,
                 when_connected:     new Date().getTime()
             });
             console.log('***SAVED***');

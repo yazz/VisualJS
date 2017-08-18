@@ -89,6 +89,10 @@ module.exports = {
         target: 'http://' + hostaddress,
         secure: false
       },
+      '/lock': {
+        target: 'http://' + hostaddress,
+        secure: false
+      },
       '/send_client_details': {
         target: 'http://' + hostaddress,
         secure: false

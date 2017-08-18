@@ -24,8 +24,9 @@ var inCheck = 0;
                 //console.log("host:  "       + JSON.stringify(host,null,2) );
                 //alert(JSON.stringify(data,null,2));
                 var intranetGoShareDataHost = eval( "(" + data + ")").server;
+                var intranetGoShareDataHostUserName = eval( "(" + data + ")").username;
                 var quotedIntranetGoShareDataHost =  '"' + intranetGoShareDataHost + '"';
-                blocked = '<div style="color: green; PADDING: 5PX;">(all ok)</div>';
+                blocked = '<div style="color: green; PADDING: 5PX;">(all ok) - ' + intranetGoShareDataHostUserName + '</div>';
                 var newHtml =  "<div>" +
                             "<a href='#' onclick='call_on_click(" + quotedIntranetGoShareDataHost + ");'> " + intranetGoShareDataHost + "</a> </div>";
                 var newid = intranetGoShareDataHost.replace(":",".").replaceAll(".","_");
