@@ -360,6 +360,7 @@ program
   .option('-t, --type [type]', 'Add the specified type of app (client/server) [type]', 'client')
   .option('-p, --port [port]', 'Which port should I listen on? (default 80) [port]', parseInt)
   .option('-h, --host [host]', 'Server address of the central host (default gosharedata.com) [host]', 'gosharedata.com')
+  .option('-l, --locked [locked]', 'Allow server to be locked/unlocked on start up (default true) [locked]', 'true')
   .option('-s, --hostport [hostport]', 'Server port of the central host (default 80) [hostport]', parseInt)
   .parse(process.argv);
 
@@ -797,7 +798,7 @@ var upload = multer( { dest: 'uploads/' } );
 		};
 	})
 
-    var locked = true;
+    var locked = (program.locked == 'true');
 
 	app.get('/send_client_details', function (req, res) {
 		//console.log('in send_client_details: ' + JSON.stringify(req,null,2));
