@@ -1048,11 +1048,22 @@ function when_pouchdb_connections_changes() {
         in_when_pouchdb_connections_changes = true;
         pouchdb_connections.find({selector: {name: {$ne: null}}}, function (err, result) {
             var results = result.docs;
-            store.dispatch('clear_connections');
+            //store.dispatch('clear_connections');
             for (var i = 0 ; i < results.length ; i ++) {
                 var conn = results[i]
                 //console.log('********* CALLED REALTIME DBCONN*************:' + JSON.stringify(conn , null, 2));
-                store.dispatch( 'add_connection' , {  cn:       conn.name,
+                var listOfConns = store.getters.list_of_connections;
+                //console.log(listOfConns.length);
+                var exists = false;
+                for (var  i = 0;  i < listOfConns.length; i ++) {
+                    if (listOfConns[i].id == conn._id) {
+                        exists = true;
+                        break;
+                    }
+                }
+
+                if (!exists) {
+                    store.dispatch( 'add_connection' , {  cn:       conn.name,
 
                                                         cp: {       id:      conn._id
                                                                     ,
@@ -1079,9 +1090,8 @@ function when_pouchdb_connections_changes() {
                                                                     fileName: conn.fileName
                                                                     ,
                                                                     hash: conn.hash
-                                                                    ,
-                                                                    preview: conn.preview
                                                                    }});
+                };
             }
         });
         in_when_pouchdb_connections_changes = false;
@@ -1156,11 +1166,23 @@ function when_pouchdb_queries_changes() {
         pouchdb_queries.find({selector: {name: {$ne: null}}},function (err, result) {
             var results = result.docs;
 
-            store.dispatch('clear_queries');
+            //store.dispatch('clear_queries');
             //console.log('********* CALLED REALTIME DBCONN len:' + JSON.stringify(results.length , null, 2));
             for (var i = 0 ; i < results.length ; i ++) {
                 var query = results[i]
                 //console.log('********* CALLED REALTIME DBCONN*************:' + JSON.stringify(conn , null, 2));
+                var listOfConns = store.getters.list_of_queries;
+                //console.log(listOfConns.length);
+                var exists = false;
+                for (var  i = 0;  i < listOfConns.length; i ++) {
+                    if (listOfConns[i].id == query._id) {
+                        exists = true;
+                        break;
+                    }
+                }
+
+                if (!exists) {
+                
                     store.dispatch( 'add_query' , {cn:       query.id,
 
                                             cp: {     id:      query._id
@@ -1180,9 +1202,8 @@ function when_pouchdb_queries_changes() {
                                                         connection: query.connection
                                                         ,
                                                         definition: eval('(' + query.definition + ')')
-                                                        ,
-                                                        preview: eval('(' + query.preview + ')')
                                                        }});
+                };
             };
         });
         in_when_pouchdb_queries_changes = false;
