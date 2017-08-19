@@ -1052,15 +1052,7 @@ function when_pouchdb_connections_changes() {
             for (var i = 0 ; i < results.length ; i ++) {
                 var conn = results[i]
                 //console.log('********* CALLED REALTIME DBCONN*************:' + JSON.stringify(conn , null, 2));
-                var listOfConns = store.getters.list_of_connections;
-                //console.log(listOfConns.length);
-                var exists = false;
-                for (var  i = 0;  i < listOfConns.length; i ++) {
-                    if (listOfConns[i].id == conn._id) {
-                        exists = true;
-                        break;
-                    }
-                }
+                var exists = (store.getters.connection_map[conn._id] == true);
 
                 if (!exists) {
                     store.dispatch( 'add_connection' , {  cn:       conn.name,
@@ -1171,15 +1163,7 @@ function when_pouchdb_queries_changes() {
             for (var i = 0 ; i < results.length ; i ++) {
                 var query = results[i]
                 //console.log('********* CALLED REALTIME DBCONN*************:' + JSON.stringify(conn , null, 2));
-                var listOfConns = store.getters.list_of_queries;
-                //console.log(listOfConns.length);
-                var exists = false;
-                for (var  i = 0;  i < listOfConns.length; i ++) {
-                    if (listOfConns[i].id == query._id) {
-                        exists = true;
-                        break;
-                    }
-                }
+                var exists = (store.getters.query_map[query._id] == true);
 
                 if (!exists) {
                 

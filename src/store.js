@@ -24,7 +24,11 @@ export default new Vuex.Store({
         ,
         add_driver_visible: false
         ,
+        connection_map: new Object()
+        ,
         list_of_connections: []
+        ,
+        query_map: new Object()
         ,
         list_of_queries: []
         ,
@@ -77,7 +81,11 @@ export default new Vuex.Store({
     ,
     list_of_connections: state => state.list_of_connections
     ,
+    connection_map: state => state.connection_map
+    ,
     list_of_queries: state => state.list_of_queries
+    ,
+    query_map: state => state.query_map
     ,
     list_of_drivers: state => state.list_of_drivers
     ,
@@ -126,9 +134,11 @@ export default new Vuex.Store({
   mutations: {
       ADD_CONNECTION: function (state, connection) {
         state.list_of_connections.push(connection.cp);
+        state.connection_map[connection.cp.id] = true;
       },
       ADD_QUERY: function (state, query) {
         state.list_of_queries.push(query.cp);
+        state.query_map[query.cp.id] = true;
       },
       ADD_DRIVER: function (state, driver) {
         state.list_of_drivers.push(driver.cp);
