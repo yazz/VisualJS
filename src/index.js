@@ -344,6 +344,7 @@ path.join(__dirname, '../public/dropzone.js')
 path.join(__dirname, '../public/dropzone.css')
 path.join(__dirname, '../public/locked.jpg')
 path.join(__dirname, '../public/unlocked.jpg')
+//path.join(__dirname, '../public/gosharedata/index.html')
 
 
 
@@ -518,8 +519,7 @@ app.use(cors())
         if (!locked) {
             return true;
         };
-        //zzz
-        if (isLocalMachine(req) ) {      // this is used for debugging only so that we can deny access from the local machine
+        if (isLocalMachine(req) ) {      
             return true;
         };
         res.writeHead(200, {'Content-Type': 'text/plain'});
@@ -540,7 +540,8 @@ app.use(cors())
         res.writeHead(200, {'Content-Type': 'text/plain'});
         res.end(JSON.stringify({    got_through_firewall:   tracking_id  ,  
                                     server:                 server,
-                                    username:               username
+                                    username:               username,
+                                    locked:                 locked
                                     }));
 	});
 
