@@ -5,8 +5,8 @@
     };
     
     String.prototype.replaceAll = function(search, replacement) {
-    var target = this;
-    return target.split(search).join(replacement);
+        var target = this;
+        return target.split(search).join(replacement);
 };
 var inCheck = 0;
 
@@ -25,12 +25,22 @@ var inCheck = 0;
                 //alert(JSON.stringify(data,null,2));
                 var intranetGoShareDataHost = eval( "(" + data + ")").server;
                 var intranetGoShareDataHostUserName = eval( "(" + data + ")").username;
+                var locked = eval( "(" + data + ")").locked;
+                var lt = '';
+                if ((locked == 'true') || locked) {
+                    lt = "(This server is locked by " + intranetGoShareDataHostUserName + ")"
+                }
+
                 var quotedIntranetGoShareDataHost =  '"' + intranetGoShareDataHost + '"';
-                blocked = '<div style="color: green; PADDING: 5PX;">(all ok) - ' + intranetGoShareDataHostUserName + '</div>';
+                blocked =  ' <span style="color: green; PADDING: 5PX;"> (all ok)' + '</span>';
                 var newHtml =  "<div>" +
-                            "<a href='#' onclick='call_on_click(" + quotedIntranetGoShareDataHost + ");'> " + intranetGoShareDataHost + "</a> </div>";
+                            "<a href='#' onclick='call_on_click(" + quotedIntranetGoShareDataHost + ");'> " + intranetGoShareDataHost + " </a> </div>";
+                if (locked) {
+                    newHtml = intranetGoShareDataHost + " " + lt ;
+                }
                 var newid = intranetGoShareDataHost.replace(":",".").replaceAll(".","_");
                 //console.log("newid: " + JSON.stringify(newid,null,2) + " = " + newHtml);
+                $("#" + newid+ "_username").html(intranetGoShareDataHostUserName);
                 $("#" + newid).html(newHtml);
                 $("#" + newid + "_status").html("");
                 $("#" + newid + "_result").html(blocked);
@@ -46,6 +56,7 @@ var inCheck = 0;
                             "<div> " + intranetGoShareDataHost + "</div> </div>";
                 var newid = intranetGoShareDataHost.replace(":",".").replaceAll(".","_");
                 //console.log("newid: " + JSON.stringify(newid,null,2) + " = " + newHtml);
+                
                 $("#" + newid).html(newHtml);
                 $("#" + newid + "_status").html("");
                 $("#" + newid + "_result").html(blocked);
@@ -78,6 +89,7 @@ var inCheck = 0;
                             var elid = intranetGoShareDataHost.replace(":",".").replaceAll(".","_");
                             //console.log("elid:  " + JSON.stringify(elid,null,2) );
                         if (!$('#' + elid).length) {
+                                $("#local_machine_in_intranet").append('<div style="padding: 5px; display: inline-block;" id=' + elid + '_username>'  + '</div>');
                                 $("#local_machine_in_intranet").append('<div style="padding: 5px; display: inline-block;" id=' + elid + '>' + intranetGoShareDataHost + '</div>');
                                 $("#local_machine_in_intranet").append('<div style="padding: 5px; display: inline-block;" id=' + elid + '_status> checking server...</div>' );
                                 $("#local_machine_in_intranet").append('<div style="padding: 5px; display: inline-block;" id=' + elid + '_result></div><BR>' );
