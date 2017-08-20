@@ -28,7 +28,7 @@ var inCheck = 0;
                 var locked = eval( "(" + data + ")").locked;
                 var lt = '';
                 if ((locked == 'true') || locked) {
-                    lt = "(This server is locked by " + intranetGoShareDataHostUserName + ")"
+                    lt = "(Locked by " + intranetGoShareDataHostUserName + ")"
                 }
 
                 var quotedIntranetGoShareDataHost =  '"' + intranetGoShareDataHost + '"';
@@ -78,24 +78,29 @@ var inCheck = 0;
                         var returned= eval( "(" + data1 + ")");
                         var i = 0;
                         if (!generated) {
-                            $("#local_machine_in_intranet").html(   '<div style="width: 300px">Your intranet public IP:' + returned.intranetPublicIp + 
-                                                                '</div><br>Your local servers:<br><br>');
+                            //$("#local_machine_in_intranet").html(   '<div style="width: 300px">Your intranet public IP:' + returned.intranetPublicIp + 
+                            //                                    '</div><br>Your local servers:<br><br>');
                             generated = true;
                         }
+                        if (returned.allServers.length == 0) {
+                            $("#local_machine_in_intranet").html(   '<div style=" font-family: helvetica;">No GoShareData servers on your intranet</div>');
+                        } else {
+                            $("#local_machine_in_intranet").html('');
+                        };
                         for (i = 0 ; i < returned.allServers.length; i++) {
                             var ss = returned.allServers[i];
                             var intranetGoShareDataHost = ss.internal_host + ":" + ss.internal_port;
                             var thisHost = intranetGoShareDataHost;
                             var elid = intranetGoShareDataHost.replace(":",".").replaceAll(".","_");
                             //console.log("elid:  " + JSON.stringify(elid,null,2) );
-                        if (!$('#' + elid).length) {
-                                $("#local_machine_in_intranet").append('<div style="padding: 5px; display: inline-block;" id=' + elid + '_username>'  + '</div>');
-                                $("#local_machine_in_intranet").append('<div style="padding: 5px; display: inline-block;" id=' + elid + '>' + intranetGoShareDataHost + '</div>');
-                                $("#local_machine_in_intranet").append('<div style="padding: 5px; display: inline-block;" id=' + elid + '_status> checking server...</div>' );
-                                $("#local_machine_in_intranet").append('<div style="padding: 5px; display: inline-block;" id=' + elid + '_result></div><BR>' );
-                        }                            
+                            if (!$('#' + elid).length) {
+                                    $("#local_machine_in_intranet").append('<div style="font-family: helvetica; padding: 5px; display: inline-block;" id=' + elid + '_username>'  + '</div>');
+                                    $("#local_machine_in_intranet").append('<div style="font-family: helvetica; padding: 5px; display: inline-block;" id=' + elid + '>' + intranetGoShareDataHost + '</div>');
+                                    $("#local_machine_in_intranet").append('<div style="font-family: helvetica; padding: 5px; display: inline-block;" id=' + elid + '_status> checking server...</div>' );
+                                    $("#local_machine_in_intranet").append('<div style="font-family: helvetica; padding: 5px; display: inline-block;" id=' + elid + '_result></div><BR>' );
+                            }                            
                             checkHost(intranetGoShareDataHost);
-                        }
+                        };
 
                         
                         
