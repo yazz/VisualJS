@@ -82,6 +82,22 @@
 
                                                     
                         </a-entity>
+                        <a-entity  	id=locked2
+                                    material='color: lightgray;opacity: 1;'  
+                                    geometry='primitive: box; height: 2.4; width: 10; depth: .05;'
+                                    position='9 1.7 -.5' 
+                                    rotation='0 0 0' 
+                                    av-if='getIsLocalMachine'
+                                    > 
+                                        <a-animation begin="mouseenter" attribute="position"
+                                                    to="6 1.7 -.5" dur="1000" direction="normal"  repeat="0"></a-animation>
+                                                    
+                                        <a-animation begin="mouseleave" attribute="position"
+                                                    to="9 1.7 -.5" dur="1000" direction="normal"  repeat="0"></a-animation>
+                                                    
+
+                                                    
+                        </a-entity>
 					</a-entity >
 
                     
