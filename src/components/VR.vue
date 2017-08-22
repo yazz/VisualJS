@@ -63,45 +63,60 @@
                                             text='font: roboto; color: black; align: center; value: Go back ; width: 2; '>
                                 </a-entity>
 					</a-entity >
-                    
-                        <a-entity  	id=locked
-                                    material='color: white;opacity: 0;'  
-                                    geometry='primitive: plane; height: .3 ; width: .256'
-                                    position='3.63 3 -.5' 
-                                    v-bind:material='"src: " + (locked?"":"un") + "locked.jpg;"'
-                                    lock_icon=''
-                                    v-if='getIsLocalMachine'
-                                    > 
-                                        <a-animation begin="mouseenter" attribute="rotation"
-                                                    to="0 0 4" dur="100" direction="alternate"  repeat="3"></a-animation>
-                                                    
-                                                    
-                                <a-entity   position="0 .3 0" rotation="0 0 0" 
-                                            v-bind:text='"font: roboto; color: black; align: left; value: " + (locked?"ONLY YOU can see your data":"Others can see your SHARED data") + " ; width: 2; "'>
-                                </a-entity>
 
+
+
+
+
+                    
+                        <a-entity  	id=pullout_right
+                                    position='8.6 1.7 -.5' 
+                                    v-if='getIsLocalMachine'
+                        >
+                                        
+
+                            <a-entity
+                                    material='color: lightgray;opacity: 1;'  
+                                    geometry='primitive: box; height: 1; width: .7; depth: .05;'
+                                    users_tab=''
+                                    rotation='0 0 0' 
+                                    position='-4.8 .7 0' 
+                                    > 
                                                     
-                        </a-entity>
-                        <a-entity  	id=locked2
+                                        <a-entity  	id=locked
+                                                    material='color: lightgray;opacity: 1;'  
+                                                    geometry='primitive: plane; height: .3 ; width: .256'
+                                                    position='0 -.05 0.05' 
+                                                    v-bind:material='"src: " + (locked?"":"un") + "locked.svg; alphaTest: 0.5;"'
+                                                    lock_icon=''
+                                                    v-if='getIsLocalMachine'
+                                                    > 
+                                                        <a-animation begin="mouseenter" attribute="rotation"
+                                                                    to="0 0 4" dur="100" direction="alternate"  repeat="3"></a-animation>
+                                        </a-entity>
+                            </a-entity>
+                            <a-entity
                                     material='color: lightgray;opacity: 1;'  
                                     geometry='primitive: box; height: 2.4; width: 10; depth: .05;'
-                                    position='9 1.7 -.5' 
                                     rotation='0 0 0' 
+                                    users_tab2=''
+                                    position='.5 0 0' 
                                     av-if='getIsLocalMachine'
                                     > 
-                                        <a-animation begin="mouseenter" attribute="position"
-                                                    to="6 1.7 -.5" dur="1000" direction="normal"  repeat="0"></a-animation>
-                                                    
-                                        <a-animation begin="mouseleave" attribute="position"
-                                                    to="9 1.7 -.5" dur="1000" direction="normal"  repeat="0"></a-animation>
-                                                    
+                                                <a-entity   position="-4 .8 .5" rotation="0 0 0" 
+                                                            v-bind:text='"font: roboto; color: black; align: left; value: " + (locked?"ONLY YOU can see your data":"Others can see your SHARED data") + " ; width: 2; "'>
+                                                </a-entity>
+                            </a-entity>
+                            
 
-                                                    
                         </a-entity>
+                        
+                        
+                        
+                        
+                        
+                        
 					</a-entity >
-
-                    
-                    
 
 				</a-entity>
 			</a-entity>

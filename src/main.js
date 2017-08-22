@@ -570,6 +570,53 @@ function setupVRVuePane() {
         });
         
 
+		AFRAME.registerComponent('users_tab', {
+            init: function () {
+                var self = this;
+                
+                this.el.addEventListener('click', function (evt) {
+                    //alert('')
+					var pullout = document.getElementById("pullout_right");
+                    
+					var node = document.getElementById("anim_pullout_right");
+					if (node) {
+					  node.parentNode.removeChild(node);
+					};
+					var animation = document.createElement('a-animation');
+					animation.setAttribute('id', "anim_pullout_right");
+					animation.setAttribute('attribute', "position");
+					animation.setAttribute('to', "6 1.7 -.5");
+					animation.setAttribute('dur', "1000");
+					animation.setAttribute('repeat', "0");
+					animation.setAttribute('direction', "normal");
+					pullout.appendChild(animation);
+				});
+            }
+        });
+
+		AFRAME.registerComponent('users_tab2', {
+            init: function () {
+                var self = this;
+                
+                this.el.addEventListener('click', function (evt) {
+                    //alert('')
+					var pullout = document.getElementById("pullout_right");
+                    
+					var node = document.getElementById("anim_pullout_right");
+					if (node) {
+					  node.parentNode.removeChild(node);
+					};
+					var animation = document.createElement('a-animation');
+					animation.setAttribute('id', "anim_pullout_right");
+					animation.setAttribute('attribute', "position");
+					animation.setAttribute('to', "8.6 1.7 -.5");
+					animation.setAttribute('dur', "1000");
+					animation.setAttribute('repeat', "0");
+					animation.setAttribute('direction', "normal");
+					pullout.appendChild(animation);
+				});
+            }
+        });
 		
 		
 		AFRAME.registerComponent('closedoc', {
