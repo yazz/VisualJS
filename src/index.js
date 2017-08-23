@@ -342,8 +342,8 @@ path.join(__dirname, '../public/pouchdb.find.min.js')
 path.join(__dirname, '../public/pouchdb.memory.min.js')
 path.join(__dirname, '../public/dropzone.js')
 path.join(__dirname, '../public/dropzone.css')
-path.join(__dirname, '../public/locked.svg')
-path.join(__dirname, '../public/unlocked.svg')
+path.join(__dirname, '../public/locked.png')
+path.join(__dirname, '../public/unlocked.png')
 //path.join(__dirname, '../public/gosharedata/index.html')
 
 

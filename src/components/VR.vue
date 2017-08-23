@@ -87,7 +87,7 @@
                                                     material='color: lightgray;opacity: 1;'  
                                                     geometry='primitive: plane; height: .3 ; width: .256'
                                                     position='0 -.05 0.05' 
-                                                    v-bind:material='"src: " + (locked?"":"un") + "locked.svg; alphaTest: 0.5;"'
+                                                    v-bind:material='"src: " + (locked?"":"un") + "locked.png; alphaTest: 0.5;"'
                                                     lock_icon=''
                                                     v-if='getIsLocalMachine'
                                                     > 
