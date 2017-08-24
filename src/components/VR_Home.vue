@@ -28,6 +28,50 @@
 									<a-animation begin="mouseenter" attribute="rotation"
 												to="0 0 1" dur="100" direction="alternate"  repeat="3"></a-animation>
 													</a-entity>
+                                                    
+                                                    
+                                                    
+                                                    
+                                                    
+                                                    
+                                                    
+						 <a-entity position="2 2.8 0"
+									geometry="primitive: plane; width: 1.8; height: 1.8;" material="color: lightgray"
+									v-bind:text='"font: roboto; color: white; align: center; value: ; width: 6; "'
+									rotation='0 0 0' >
+									<a-animation begin="mouseenter" attribute="rotation"
+												to="0 0 1" dur="100" direction="alternate"  repeat="3"></a-animation>
+                                        <a-entity  	id=locked
+                                                    material='color: blue;opacity: 1;'  
+                                                    geometry='primitive: plane; height: .3 ; width: .256'
+                                                    position='0 .2 0.1' 
+                                                    v-bind:material='"src: " + (locked?"":"un") + "locked.png; alphaTest: 0.5;"'
+                                                    lock_icon=''
+                                                    v-if='getIsLocalMachine'
+                                                    > 
+                                                        <a-animation begin="mouseenter" attribute="rotation"
+                                                                    to="0 0 4" dur="100" direction="alternate"  repeat="3"></a-animation>
+                                        </a-entity>
+                                        <a-entity   position="-.4 -.2 .4" rotation="0 0 0" 
+                                                    v-bind:text='"font: roboto; color: black; align: center; value: " + (locked?"ONLY YOU can see your data":"Others can see your SHARED data") + " ; width: 2; "'>
+                                        </a-entity>
+						</a-entity>
+                                                    
+						 <a-entity position="13 -1.7 -11" id=people
+									geometry="primitive: plane; width: 8.4; height: 8.4;" material="color: gray"
+									v-bind:text='"font: roboto; color: white; align: center; value: People; width: 24; "'
+                                    goto='name: people; distance: 8; duration: 500;'
+									rotation='0 0 0' >
+									<a-animation begin="mouseenter" attribute="rotation"
+												to="0 0 1" dur="100" direction="alternate"  repeat="3"></a-animation>
+						</a-entity>
+                                                    
+                                                    
+                                                    
+                                                    
+                                                    
+                                                    
+                                                    
 
 						<a-entity  v-if='vr_type=="mouse"' position="0 .9 0"
 								 geometry="primitive: plane; width: 1.8; height: 1.8;" material="color: yellow"
@@ -110,6 +154,12 @@ name: 'VR-Home'
 			props: ['vr_type'],
 
   computed: {
+ getIsLocalMachine: function() {
+    return this.$store.state.is_local_machine
+  },
+    locked: function () {
+	 return this.$store.state.locked;
+    },
     list_of_records: function () {
 	if (this.$store.state.list_of_output_records) {
 		var newl=new Object();

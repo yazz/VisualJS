@@ -69,51 +69,6 @@
 
 
                     
-                        <a-entity  	id=pullout_right
-                                    position='8.6 1.7 -.5' 
-                                    v-if='getIsLocalMachine'
-                        >
-                                        
-
-                            <a-entity
-                                    material='color: lightgray;opacity: 1;'  
-                                    geometry='primitive: box; height: 1; width: .7; depth: .05;'
-                                    users_tab=''
-                                    rotation='0 0 0' 
-                                    position='-4.8 .7 0' 
-                                    > 
-                                                    
-                                        <a-entity  	id=locked
-                                                    material='color: lightgray;opacity: 1;'  
-                                                    geometry='primitive: plane; height: .3 ; width: .256'
-                                                    position='0 -.05 0.05' 
-                                                    v-bind:material='"src: " + (locked?"":"un") + "locked.png; alphaTest: 0.5;"'
-                                                    lock_icon=''
-                                                    v-if='getIsLocalMachine'
-                                                    > 
-                                                        <a-animation begin="mouseenter" attribute="rotation"
-                                                                    to="0 0 4" dur="100" direction="alternate"  repeat="3"></a-animation>
-                                        </a-entity>
-                            </a-entity>
-                            <a-entity
-                                    material='color: lightgray;opacity: 1;'  
-                                    geometry='primitive: box; height: 2.4; width: 10; depth: .05;'
-                                    rotation='0 0 0' 
-                                    users_tab2=''
-                                    position='.5 0 0' 
-                                    av-if='getIsLocalMachine'
-                                    > 
-                                                <a-entity   position="-4 .8 .5" rotation="0 0 0" 
-                                                            v-bind:text='"font: roboto; color: black; align: left; value: " + (locked?"ONLY YOU can see your data":"Others can see your SHARED data") + " ; width: 2; "'>
-                                                </a-entity>
-                            </a-entity>
-                            
-
-                        </a-entity>
-                        
-                        
-                        
-                        
                         
                         
 					</a-entity >
