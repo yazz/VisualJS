@@ -361,9 +361,9 @@ function setupVRVuePane() {
                 var self = this;
 
                 this.el.addEventListener('click', function (evt) {
-                    if (people) {
+                    if (self.data.people) {
                         //alert('Zoom to people: ' + JSON.stringify(self.data.people,null,2));
-                        store.dispatch('set_zoom_people', (self.data.people == 'true'));
+                        store.dispatch('set_zoom_people', (self.data.people == 'true')?true:false);
                         
                     }
                 });
