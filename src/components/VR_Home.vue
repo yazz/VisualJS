@@ -58,12 +58,15 @@
 						</a-entity>
                                                     
 						 <a-entity position="13 -1.7 -11" id=people
-									geometry="primitive: plane; width: 8.4; height: 8.4;" material="color: gray"
-									v-bind:text='"font: roboto; color: white; align: center; value: People; width: 24; "'
+									geometry="primitive: plane; width: 8.4; height: 8.4;" material="color: gray; opacity: 1;"
+									v-bind:text='"font: roboto; color: white; align: center; value: People "  + getIsPeopleZoomed +"; width: 24; "'
                                     goto='name: people; distance: 8; duration: 500;'
+                                    set_zoom='people: true;'
 									rotation='0 0 0' >
 									<a-animation begin="mouseenter" attribute="rotation"
 												to="0 0 1" dur="100" direction="alternate"  repeat="3"></a-animation>
+									<a-animation v-if='getIsPeopleZoomed2'  begin="0" attribute="material.opacity" to="1"></a-animation>
+									<a-animation v-if='getIsPeopleZoomed'   begin="0" attribute="material.opacity" to="0"></a-animation>
 						</a-entity>
                                                     
                                                     
@@ -154,6 +157,14 @@ name: 'VR-Home'
 			props: ['vr_type'],
 
   computed: {
+getIsPeopleZoomed: function() {
+console.log('return this.$store.state.zoom_people := ' + this.$store.state.zoom_people)
+    return this.$store.state.zoom_people
+  },
+getIsPeopleZoomed2: function() {
+console.log('return this.$store.state.zoom_people := ' + this.$store.state.zoom_people)
+    return !this.$store.state.zoom_people
+  },
  getIsLocalMachine: function() {
     return this.$store.state.is_local_machine
   },

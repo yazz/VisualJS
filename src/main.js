@@ -351,6 +351,27 @@ function setupVRVuePane() {
             }
         };
 
+        AFRAME.registerComponent('set_zoom', {
+    		  schema: {
+				  people:   {type: 'string', default: 'false'},
+				  distance: {type: 'number', default: 5},
+				  duration: {type: 'string', default: "500"}
+                 },
+    		  init: function () {
+                var self = this;
+
+                this.el.addEventListener('click', function (evt) {
+                    if (people) {
+                        //alert('Zoom to people: ' + JSON.stringify(self.data.people,null,2));
+                        store.dispatch('set_zoom_people', (self.data.people == 'true'));
+                        
+                    }
+                });
+              }
+        });
+
+        
+        
         AFRAME.registerComponent('goto', {
     		  schema: {
 				  name:     {type: 'string', default: 'vr_home'},

@@ -56,6 +56,7 @@
 								geometry='primitive: box; width: 2.5; height: .2; depth: .1.8;'
                                 rotation='0 0 0'
 								position='0.01 .9 1'
+                                set_zoom='people: false;'
 								goto='name: vr_home; duration: 300;' > 
 									<a-animation begin="mouseenter" attribute="position"
 												from="0.01 .9 1" to="0.01 .9 .98" dur="400" direction="alternate"  repeat="1"></a-animation>
@@ -112,6 +113,7 @@
 								geometry='primitive: box; width: 10; height: 1; depth: .7'
                                 rotation='0 0 0'
 								position='0.01 1 1.5'
+                                set_zoom='people: false;'
 								goto='name: vr_home; duration: 500;' > 
 									<a-animation begin="mouseenter" attribute="position"
 												from="0.01 1 1.5" to="0.01 1 1.4" dur="400" direction="alternate"  repeat="1"></a-animation>

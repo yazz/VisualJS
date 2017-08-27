@@ -63,6 +63,8 @@ export default new Vuex.Store({
         central_server_client_public_ip_address: ""
         ,
         central_server_client_public_port: -1
+        ,
+        zoom_people: false
     },
 
 
@@ -74,6 +76,8 @@ export default new Vuex.Store({
     add_connection_visible: state => state.add_connection_visible
     ,
     current_search: state => state.current_search
+    ,
+    zoom_people: state => state.zoom_people
     ,
     add_query_visible: state => state.add_query_visible
     ,
@@ -132,6 +136,9 @@ export default new Vuex.Store({
   //
   //-------------------------------------------------------------------
   mutations: {
+      SET_ZOOM_PEOPLE: function (state, va) {
+        state.zoom_people = va;
+      },
       ADD_CONNECTION: function (state, connection) {
         state.list_of_connections.push(connection.cp);
         state.connection_map[connection.cp.id] = true;
@@ -248,6 +255,10 @@ export default new Vuex.Store({
 	//
 	//-------------------------------------------------------------------
 	actions: {
+
+		set_zoom_people: function(a, zp){
+		  a.commit('SET_ZOOM_PEOPLE', zp)
+		},
 
 		//
 		// add_connection
