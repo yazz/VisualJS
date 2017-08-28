@@ -882,12 +882,12 @@ var upload = multer( { dest: 'uploads/' } );
 		{
 			var queryData = url.parse(req.url, true).query;
 
-			requestClientInternalHostAddress = req.query.requestClientInternalHostAddress;
-			requestClientInternalPort        = req.query.requestClientInternalPort;
-			requestClientPublicIp            = req.ip;
-            clientUsername                   = req.query.clientUsername;
+			var requestClientInternalHostAddress = req.query.requestClientInternalHostAddress;
+			var requestClientInternalPort        = req.query.requestClientInternalPort;
+			var requestClientPublicIp            = req.ip;
+            var clientUsername                   = req.query.clientUsername;
 			//requestClientPublicHostName      = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-			requestClientPublicHostName      = "req keys::" + Object.keys(req) + ", VIA::" + req.headers.via + ", raw::" + JSON.stringify(req.rawHeaders);
+			var requestClientPublicHostName      = "req keys::" + Object.keys(req) + ", VIA::" + req.headers.via + ", raw::" + JSON.stringify(req.rawHeaders);
 
 			console.log('Client attempting to connect from:');
 			console.log('client internal host address:    ' + requestClientInternalHostAddress)
@@ -1309,12 +1309,7 @@ function when_pouchdb_queries_changes(pouchdb_queries) {
     }
 };
 
-var x='';
- dns.reverse(   '10.6.69.142', 
-                function(err, domains) {
-                    x = domains;
-                    console.log("...............   host is: " + x);
- });
+
  
 console.log("-------------------------------------------------------------------");
 console.log("-------------------------------------------------------------------");
