@@ -70,13 +70,24 @@
 												to="0 0 20" dur="2000" direction="alternate"  repeat="1"></a-animation>
 						</a-entity>
                                                     
-						 <a-entity v-bind:position='"27 -1.7 -22"' id="people_num"
+						 <a-entity v-bind:position='"27 -1.7 -22"' id="people_num">
+                            <a-entity 
+                                        v-if='getIsPeopleZoomed'
 									geometry="primitive: plane; width: 8.4; height: 8.4;"
-                                    v-bind:material='"color: gray; opacity: 1  ;"'
+                                    v-bind:material='"color: white; opacity: 1  ;"'
 									rotation='0 0 0' >
                                     <a-entity   position="-2 2 .4" rotation="0 0 0" 
-                                                v-bind:text='"font: roboto; color: white; align: center; value: People; width: 10; "'>
+                                                v-bind:text='"font: roboto; color: black; align: center; value: People; width: 10; "'>
                                     </a-entity>
+                                <a-entity  v-for="(item,index)  in  getNetwork"
+                                v-bind:position='"0 " + (index - 1) + "  .5"'
+                                geometry="primitive: plane; width: .1; height: .1"
+                                material="color: white"
+                                v-bind:text='"font: roboto; color: black; align: center; value: " + item.username + "; width: 10; "'
+                                rotation='0 0 0'>
+                            </a-entity>
+
+                            </a-entity>
 						</a-entity>
                                                     
                                                     
@@ -169,6 +180,10 @@ name: 'VR-Home'
 getIsPeopleZoomed: function() {
 //console.log('return this.$store.state.zoom_people := ' + this.$store.state.zoom_people)
     return this.$store.state.zoom_people
+  },
+getNetwork: function() {
+//console.log('return this.$store.state.zoom_people := ' + this.$store.state.zoom_people)
+    return this.$store.state.network;
   },
 getIsPeopleZoomed2: function() {
 //console.log('return this.$store.state.zoom_people := ' + this.$store.state.zoom_people)

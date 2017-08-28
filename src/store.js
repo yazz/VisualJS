@@ -10,6 +10,12 @@ export default new Vuex.Store({
 
 
     state: {
+        network: [
+                    {username: 'testUSER'}
+                    ,
+                    {username: 'testUSER2'}
+                    ]
+        ,
         current_search: ""
         ,
         user_name: ""
@@ -73,6 +79,8 @@ export default new Vuex.Store({
 
 
   getters: {
+    network: state => state.network
+    ,
     add_connection_visible: state => state.add_connection_visible
     ,
     current_search: state => state.current_search
@@ -136,6 +144,9 @@ export default new Vuex.Store({
   //
   //-------------------------------------------------------------------
   mutations: {
+      ADD_NETWORK: function (state, details) {
+        state.network.push(details);
+      },
       SET_ZOOM_PEOPLE: function (state, va) {
         state.zoom_people = va;
       },
@@ -260,6 +271,9 @@ export default new Vuex.Store({
 		  a.commit('SET_ZOOM_PEOPLE', zp)
 		},
 
+		add_network: function(a, zp){
+		  a.commit('ADD_NETWORK', zp)
+		},
 		//
 		// add_connection
 		//
