@@ -1288,7 +1288,7 @@ function when_pouchdb_queries_changes() {
                 
             },
             error: function(jqXHR, textStatus, errorThrown) {
-                    console.log('error getting servers')
+                    console.log('error getting servers: ' + errorThrown)
             }
         });
         };

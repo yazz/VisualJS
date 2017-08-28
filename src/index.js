@@ -954,6 +954,7 @@ var upload = multer( { dest: 'uploads/' } );
                           uri: urlToConnectTo,
                           method: "GET",
                           timeout: 10000,
+                          agent: false,
                           followRedirect: true,
                           maxRedirects: 10,
                           qs: {
@@ -966,12 +967,14 @@ var upload = multer( { dest: 'uploads/' } );
                         },
                         function(error, response, body) {
                           console.log('Error: ' + error);
-                          if (response.statusCode == '403') {
-                                console.log('403 received, not allowed through firewall ');
-                                open("http://" + centralHostAddress + ":" + centralHostPort);
-                          } else {
-                                console.log('response: ' + JSON.stringify(response));
-                                console.log(body);
+                          if (response) {
+                              if (response.statusCode == '403') {
+                                    console.log('403 received, not allowed through firewall for ' + urlToConnectTo);
+                                    open("http://" + centralHostAddress + ":" + centralHostPort);
+                              } else {
+                                    console.log('response: ' + JSON.stringify(response));
+                                    console.log(body);
+                              }
                           }
                         });
                 };
