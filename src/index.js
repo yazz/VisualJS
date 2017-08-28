@@ -885,6 +885,7 @@ var upload = multer( { dest: 'uploads/' } );
 			requestClientInternalHostAddress = req.query.requestClientInternalHostAddress;
 			requestClientInternalPort        = req.query.requestClientInternalPort;
 			requestClientPublicIp            = req.ip;
+            clientUsername                   = req.query.clientUsername;
 			//requestClientPublicHostName      = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 			requestClientPublicHostName      = "req keys::" + Object.keys(req) + ", VIA::" + req.headers.via + ", raw::" + JSON.stringify(req.rawHeaders);
 
@@ -901,6 +902,7 @@ var upload = multer( { dest: 'uploads/' } );
                 public_ip:          requestClientPublicIp, 
                 public_host:        requestClientPublicHostName,
                 user_name:          username,
+                client_user_name:   clientUsername,
                 when_connected:     new Date().getTime()
             });
             console.log('***SAVED***');
@@ -958,6 +960,8 @@ var upload = multer( { dest: 'uploads/' } );
                               requestClientInternalHostAddress: hostaddress
                               ,
                               requestClientInternalPort:        port
+                              ,
+                              clientUsername:        username
                           }
                         },
                         function(error, response, body) {

@@ -1268,3 +1268,30 @@ function when_pouchdb_queries_changes() {
     }
 };
 
+
+
+
+    var checkServers = function() {
+        $.ajax({
+            type: "GET",
+            url: 'http://gosharedata.com/get_intranet_servers',
+            success: function(data1) {
+                var returned= eval( "(" + data1 + ")");
+                for (var i = 0 ; i < returned.allServers.length; i++) {
+                    console.log('got servers')
+                    console.log(JSON.stringify(returned,null,2))
+                    var tt = new Object();
+                    tt.username = returned.allServers[i].client_user_name;
+                    //alert(tt.username)
+                    store.dispatch('add_network', tt);  
+                };
+                
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                    console.log('error getting servers')
+            }
+        });
+        };
+    
+    setTimeout(checkServers,800);
+    //setInterval(checkServers,4000);

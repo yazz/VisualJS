@@ -11,9 +11,7 @@ export default new Vuex.Store({
 
     state: {
         network: [
-                    {username: 'testUSER'}
-                    ,
-                    {username: 'testUSER2'}
+                    //{username: 'testUSER'}
                     ]
         ,
         current_search: ""
