@@ -517,6 +517,24 @@ function setupVRVuePane() {
                     });
                 }
         });
+
+
+        
+        AFRAME.registerComponent(
+            'jump_to', {
+                schema: {
+                    host: {type: 'string'},
+                    port: {type: 'string'}
+                },
+                init: function () {
+                    var self = this;
+                    
+                    this.el.addEventListener('click', function (evt) {
+                        //alert(queryFile);
+                        window.location.href = 'http://' + self.data.host + ':' + self.data.port;
+                    });
+                }
+        });
         
         
 
@@ -1282,6 +1300,8 @@ function when_pouchdb_queries_changes() {
                     console.log(JSON.stringify(returned,null,2))
                     var tt = new Object();
                     tt.username = returned.allServers[i].client_user_name;
+                    tt.internal_host = returned.allServers[i].internal_host;
+                    tt.internal_port = returned.allServers[i].internal_port;
                     //alert(tt.username)
                     store.dispatch('add_network', tt);  
                 };

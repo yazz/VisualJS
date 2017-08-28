@@ -83,8 +83,13 @@
                                 v-bind:position='"0 " + (index - 1) + "  .5"'
                                 geometry="primitive: plane; width: .1; height: .1"
                                 material="color: white"
-                                v-bind:text='"font: roboto; color: black; align: center; value: " + item.username + "; width: 10; "'
+                                v-bind:text='"font: roboto; color: black; align: center; value: " + item.username + " - " + item.internal_host  + " : " + item.internal_port + "; width: 10; "'
+                                v-bind:jump_to='"host: " + item.internal_host + ";port: " + + item.internal_port + ";"'
                                 rotation='0 0 0'>
+                                    <a-entity geometry="primitive: plane; width: 1; height: .5" position='4 0 0' material="color: blue">
+                                        <a-animation begin="mouseenter" attribute="rotation"
+                                                    to="0 0 10" dur="100" direction="alternate"  repeat="3"></a-animation>
+                                    </a-entity>
                             </a-entity>
 
                             </a-entity>
