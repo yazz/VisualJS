@@ -87,8 +87,16 @@
                                 v-bind:jump_to='"host: " + item.internal_host + ";port: " + item.internal_port + ";"'
                                 rotation='0 0 0'>
                                     <a-entity geometry="primitive: plane; width: 2; height: .7" position='4 0 0' 
-                                    v-bind:material='"color: " + (item.locked?"red":"blue")'
+                                    v-bind:material='"color: " + (item.locked?"red":"green")'
                                     v-bind:text='"font: roboto; color: black; align: center; value: " + (item.locked?"Locked":"") + "; width: 8; "'
+                                    >
+                                        <a-animation begin="mouseenter" attribute="rotation"
+                                                    to="0 0 10" dur="100" direction="alternate"  repeat="3"></a-animation>
+                                    </a-entity>
+                                    
+                                    <a-entity geometry="primitive: plane; width: 2; height: .7" position='7 0 0' 
+                                    v-bind:material='"color: " + (item.accessable?"green":"blue")'
+                                    v-bind:text='"font: roboto; color: black; align: center; value: " + (item.accessable?"All ok":"Can not access , firewall in place?") + "; width: 8; "'
                                     >
                                         <a-animation begin="mouseenter" attribute="rotation"
                                                     to="0 0 10" dur="100" direction="alternate"  repeat="3"></a-animation>

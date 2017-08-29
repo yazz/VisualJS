@@ -1306,6 +1306,7 @@ var inCheckForServers = 0;
                 var intranetGoShareDataHostUserName = eval( "(" + data + ")").username;
                 var locked = eval( "(" + data + ")").locked;
                 tt.locked = locked;
+                tt.accessable = true;
                 inCheckForServers --;
                 store.dispatch('add_network', tt);
             },
@@ -1321,6 +1322,7 @@ var inCheckForServers = 0;
                 //console.log("newid: " + JSON.stringify(newid,null,2) + " = " + newHtml);
                 
                 inCheckForServers --;
+                tt.accessable = false;
                 store.dispatch('add_network', tt);
             }
         });
