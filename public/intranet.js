@@ -33,10 +33,9 @@ var inCheck = 0;
 
                 var quotedIntranetGoShareDataHost =  '"' + intranetGoShareDataHost + '"';
                 blocked =  ' <span style="color: green; PADDING: 5PX;"> (all ok)' + '</span>';
-                var newHtml =  "<div>" +
-                            "<a href='#' onclick='call_on_click(" + quotedIntranetGoShareDataHost + ");'> " + intranetGoShareDataHost + " </a> </div>";
+                var newHtml =  "<div><a href='#' onclick='call_on_click(" + quotedIntranetGoShareDataHost + ");'> " + intranetGoShareDataHost + " </a> </div>";
                 if (locked) {
-                    newHtml = intranetGoShareDataHost + " " + lt ;
+                    newHtml = "<a href='#' onclick='call_on_click(" + quotedIntranetGoShareDataHost + ");'> " + intranetGoShareDataHost + " </a>" + " " + lt ;
                 }
                 var newid = intranetGoShareDataHost.replace(":",".").replaceAll(".","_");
                 //console.log("newid: " + JSON.stringify(newid,null,2) + " = " + newHtml);

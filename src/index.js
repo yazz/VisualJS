@@ -970,7 +970,7 @@ var upload = multer( { dest: 'uploads/' } );
                           if (response) {
                               if (response.statusCode == '403') {
                                     console.log('403 received, not allowed through firewall for ' + urlToConnectTo);
-                                    open("http://" + centralHostAddress + ":" + centralHostPort);
+                                    //open("http://" + centralHostAddress + ":" + centralHostPort);
                               } else {
                                     console.log('response: ' + JSON.stringify(response));
                                     console.log(body);
@@ -1145,7 +1145,8 @@ dbhelper.pouchdbTableOnServer('pouchdb_queries',            pouchdb_queries,    
 
 
 	if (typeOfSystem == 'client') {
-	  open('http://' + hostaddress  + ":" + port);
+	  //open('http://' + hostaddress  + ":" + port);
+      open('http://' + centralHostAddress  + ":" + centralHostPort + "/gosharedata/index.html?time=" +  + new Date().getTime());
 	} else if (typeOfSystem == 'server') {
 	  open('http://' + hostaddress  + ":" + port + "/gosharedata/index.html?time=" +  + new Date().getTime());
 	}
