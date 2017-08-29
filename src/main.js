@@ -1287,14 +1287,56 @@ function when_pouchdb_queries_changes() {
 };
 
 
+var inCheckForServers = 0;
 
+    var checkHostForServer = function(host, tt) {
+        var  blocked  =  '';
+        inCheckForServers ++;
+        $.ajax({
+            type: "GET",
+            url: "http://" + host + '/test_firewall',
+            data: {
+                tracking_id: '7698698768768', //generate a random number here
+                server:      host
+            },
+            success: function(data) {
+                //console.log("host:  "       + JSON.stringify(host,null,2) );
+                //alert(JSON.stringify(data,null,2));
+                var intranetGoShareDataHost = eval( "(" + data + ")").server;
+                var intranetGoShareDataHostUserName = eval( "(" + data + ")").username;
+                var locked = eval( "(" + data + ")").locked;
+                tt.locked = locked;
+                inCheckForServers --;
+                store.dispatch('add_network', tt);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                //console.log("host:  "       + JSON.stringify(host,null,2) );
+                //alert(JSON.stringify(data,null,2));
+                var intranetGoShareDataHost = host;
+                var quotedIntranetGoShareDataHost =  '"' + intranetGoShareDataHost + '"';
+                blocked = '<div style="color: red; PADDING: 5PX;">(probably behind a firewall)</div>';
+                var newHtml =  "<div>" +
+                            "<div> " + intranetGoShareDataHost + "</div> </div>";
+                var newid = intranetGoShareDataHost.replace(":",".").replaceAll(".","_");
+                //console.log("newid: " + JSON.stringify(newid,null,2) + " = " + newHtml);
+                
+                inCheckForServers --;
+                store.dispatch('add_network', tt);
+            }
+        });
+    }
 
-    var checkServers = function() {
+    
+    var checkServersFromClient = function() {
+        if (inCheckForServers > 0) {
+            return;
+        }
         $.ajax({
             type: "GET",
             url: 'http://gosharedata.com/get_intranet_servers',
             success: function(data1) {
                 var returned= eval( "(" + data1 + ")");
+                store.dispatch('clear_network', tt);  
                 for (var i = 0 ; i < returned.allServers.length; i++) {
                     console.log('got servers')
                     console.log(JSON.stringify(returned,null,2))
@@ -1303,7 +1345,9 @@ function when_pouchdb_queries_changes() {
                     tt.internal_host = returned.allServers[i].internal_host;
                     tt.internal_port = returned.allServers[i].internal_port;
                     //alert(tt.username)
-                    store.dispatch('add_network', tt);  
+
+                    var intranetGoShareDataHost = returned.allServers[i].internal_host + ":" + returned.allServers[i].internal_port;                    
+                    checkHostForServer(intranetGoShareDataHost, tt);
                 };
                 
             },
@@ -1313,5 +1357,5 @@ function when_pouchdb_queries_changes() {
         });
         };
     
-    setTimeout(checkServers,800);
-    //setInterval(checkServers,4000);
+    setTimeout(checkServersFromClient,800);
+    setInterval(checkServersFromClient,4000);

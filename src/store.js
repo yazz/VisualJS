@@ -145,6 +145,9 @@ export default new Vuex.Store({
       ADD_NETWORK: function (state, details) {
         state.network.push(details);
       },
+      CLEAR_NETWORK: function (state) {
+        state.network = [];
+      },
       SET_ZOOM_PEOPLE: function (state, va) {
         state.zoom_people = va;
       },
@@ -272,6 +275,11 @@ export default new Vuex.Store({
 		add_network: function(a, zp){
 		  a.commit('ADD_NETWORK', zp)
 		},
+		clear_network: function(a){
+		  a.commit('CLEAR_NETWORK')
+		},
+        
+        
 		//
 		// add_connection
 		//
