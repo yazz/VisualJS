@@ -904,7 +904,7 @@ var upload = multer( { dest: 'uploads/' } );
         }
         
         var ll = inp.split(' ');
-        for (var i; i< ll.length ; i++){
+        for (var i=0; i< ll.length ; i++){
             if (ll[i] != null) {
                 if (ll[i].indexOf(":") != -1) {
                     return extractRootDomain(ll[i]);
