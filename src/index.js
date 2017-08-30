@@ -867,10 +867,52 @@ var upload = multer( { dest: 'uploads/' } );
 
 	//app.enable('trust proxy')
 
-    
-    
+    var extractHostname = function (url) {
+    var hostname;
+    //find & remove protocol (http, ftp, etc.) and get hostname
 
-    
+    if (url.indexOf("://") > -1) {
+        hostname = url.split('/')[2];
+    }
+    else {
+        hostname = url.split('/')[0];
+    }
+
+    //find & remove port number
+    hostname = hostname.split(':')[0];
+    //find & remove "?"
+    hostname = hostname.split('?')[0];
+
+    return hostname;
+}
+
+    var extractRootDomain = function(url) {
+    var domain = extractHostname(url),
+        splitArr = domain.split('.'),
+        arrLen = splitArr.length;
+
+    //extracting the root domain here
+    if (arrLen > 2) {
+        domain = splitArr[arrLen - 2] + '.' + splitArr[arrLen - 1];
+    }
+    return domain;
+}
+
+    var findViafromString = function(inp) {
+        if (inp == null) {
+            return "";
+        }
+        
+        var ll = inp.split(' ');
+        for (var i; i< ll.length ; i++){
+            if (ll[i] != null) {
+                if (ll[i].indexOf(":") != -1) {
+                    return extractRootDomain(ll[i]);
+                }
+            }
+        }
+        return "";
+    }
     
 	//------------------------------------------------------------------------------
 	// run on the central server only
@@ -884,7 +926,7 @@ var upload = multer( { dest: 'uploads/' } );
 
 			var requestClientInternalHostAddress = req.query.requestClientInternalHostAddress;
 			var requestClientInternalPort        = req.query.requestClientInternalPort;
-			var requestVia                       = req.headers.via;
+			var requestVia                       = findViafromString(req.headers.via);
 			var requestClientPublicIp            = req.ip;
             var clientUsername                   = req.query.clientUsername;
 			//requestClientPublicHostName      = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
