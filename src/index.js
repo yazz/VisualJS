@@ -884,6 +884,7 @@ var upload = multer( { dest: 'uploads/' } );
 
 			var requestClientInternalHostAddress = req.query.requestClientInternalHostAddress;
 			var requestClientInternalPort        = req.query.requestClientInternalPort;
+			var requestVia                       = req.headers.via;
 			var requestClientPublicIp            = req.ip;
             var clientUsername                   = req.query.clientUsername;
 			//requestClientPublicHostName      = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
@@ -894,12 +895,14 @@ var upload = multer( { dest: 'uploads/' } );
 			console.log('client internal port:            ' + requestClientInternalPort)
 			console.log('client public IP address:        ' + requestClientPublicIp)
 			console.log('client public IP host name:      ' + requestClientPublicHostName)
+			console.log('client VIA:                      ' + requestVia)
             
             pouchdb_intranet_client_connects.post(
             {
                 internal_host:      requestClientInternalHostAddress,  
                 internal_port:      requestClientInternalPort, 
                 public_ip:          requestClientPublicIp, 
+                via:                requestVia,
                 public_host:        requestClientPublicHostName,
                 user_name:          username,
                 client_user_name:   clientUsername,

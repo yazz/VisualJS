@@ -1340,12 +1340,13 @@ var inCheckForServers = 0;
                 var returned= eval( "(" + data1 + ")");
                 store.dispatch('clear_network', tt);  
                 for (var i = 0 ; i < returned.allServers.length; i++) {
-                    console.log('got servers')
-                    console.log(JSON.stringify(returned,null,2))
+                    console.log('got server ' + i)
+                    console.log(JSON.stringify(returned.allServers[i],null,2))
                     var tt = new Object();
                     tt.username = returned.allServers[i].client_user_name;
                     tt.internal_host = returned.allServers[i].internal_host;
                     tt.internal_port = returned.allServers[i].internal_port;
+                    tt.via           = returned.allServers[i].via;
                     //alert(tt.username)
 
                     var intranetGoShareDataHost = returned.allServers[i].internal_host + ":" + returned.allServers[i].internal_port;                    
