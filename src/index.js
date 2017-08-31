@@ -552,6 +552,7 @@ app.use(cors())
     var requestClientPublicIp;
 	app.get('/get_intranet_servers', function (req, res) {
         requestClientPublicIp = req.ip;
+        var requestVia                       = findViafromString(req.headers.via);
         
 		res.writeHead(200, {'Content-Type': 'text/plain'});
         pouchdb_intranet_client_connects.find({
@@ -559,7 +560,10 @@ app.use(cors())
               $and: [
                         {when_connected: {$gt: new Date().getTime() - (numberOfSecondsAliveCheck * 1000)}}
                         ,
-                        {public_ip: {$eq: requestClientPublicIp}}
+                        {$or: [
+                                {public_ip: {$eq: requestClientPublicIp}},
+                                {via:       {$eq: requestVia}}
+                        ]}
           ]}
               ,
               sort: [{when_connected: 'desc'}]
