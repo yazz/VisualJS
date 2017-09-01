@@ -2,7 +2,8 @@
 
 
 
-## GoShareData - Share your Team SQL Data (via the Raspberry PI)
+## GoShareData Enterprise Search
+    Fast, secure search across all the tools you use at work, including Excel, Oracle, SharePoint and more.
 
 
 <div style='text-align: center; width: 100%;'>
