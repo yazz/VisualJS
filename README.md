@@ -2,7 +2,7 @@
 
 
 
-## GoShareData Enterprise Search - http://139.162.228.5/
+## GoShareData Enterprise Search - For demo click here http://139.162.228.5/
     Fast, secure search across all the tools you use at work, including Excel, Oracle, SharePoint and more.
 
 
