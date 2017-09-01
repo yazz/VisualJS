@@ -16,13 +16,13 @@
     </p>
 </div>
 Go Share Data lets you search data on your intranet but creating nodes running on desktop PCs to form a network of data. The data types supported are:
-    * MySQL
-    * Oracle
-    * Postgres
-    * MariaDB
-    * Excel
-    * CSV
-    * SqLite
+* MySQL
+* Oracle
+* Postgres
+* MariaDB
+* Excel
+* CSV
+* SqLite
 	
 	
 <br>
