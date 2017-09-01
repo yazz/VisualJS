@@ -6,11 +6,6 @@
     Fast, secure search across all the tools you use at work, including Excel, Oracle, SharePoint and more.
 
 
-<div style='text-align: center; width: 100%;'>
-<p align="center">
-    <img src='https://github.com/zubairq/GoShareData/blob/master/public/gosharedata_logo.PNG' />
-    </p>
-</div>
 
 
 
