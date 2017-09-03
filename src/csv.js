@@ -252,6 +252,7 @@
             var numPipes = ((content.match(new RegExp("|", "g")) || []).length);
             
             var maxDelim = numCommas;
+            var delim = ',';
             if (numSemi > maxDelim) {
                 delim = ';';
                 maxDelim = numSemi;
