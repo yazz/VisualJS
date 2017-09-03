@@ -247,12 +247,15 @@
              //console.log(content);
             var delim = ',';
             var numCommas = ((content.match(new RegExp(",", "g")) || []).length);
+	    console.log('numCommas = ' + numCommas);
             var numSemi = ((content.match(new RegExp(";", "g")) || []).length);
+            console.log('numSemi = ' + numSemi);
             var numColons = ((content.match(new RegExp(":", "g")) || []).length);
-            var numPipes = ((content.match(new RegExp("|", "g")) || []).length);
+            console.log('numColons = ' + numColons);
+            var numPipes = ((content.match(new RegExp("[|]", "g")) || []).length);
+            console.log('numPipes = ' + numPipes);
             
             var maxDelim = numCommas;
-            var delim = ',';
             if (numSemi > maxDelim) {
                 delim = ';';
                 maxDelim = numSemi;
