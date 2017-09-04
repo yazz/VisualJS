@@ -47,6 +47,12 @@
                             <a-entity   position="1.6 0 0" 
                                         v-bind:text='"font: roboto; color: black;align: left; value: " + zzz + " ; width: 6; "'>
                             </a-entity>
+                            
+                            <a-entity  v-for="(item,index)  in  getSearchResults"
+                                    v-bind:position='"1.6 " +(-1 - index) + "  0"'
+
+                                        v-bind:text='"font: roboto; color: black;align: left; value: " + item.b + " ; width: 6; "'>
+                            </a-entity>
                                     
                                     
                         </a-entity>
@@ -153,6 +159,12 @@ name: 'VR'
 			props: ['vr_type'],
 
   computed: {
+getSearchResults: function() {
+//console.log('return this.$store.state.zoom_people := ' + this.$store.state.zoom_people)
+//alert(JSON.stringify(this.$store.state.search_results.local.results,null,2))
+    return this.$store.state.search_results.local.results;
+  },
+
   zzz: function() {
     return this.$store.state.current_search
   },

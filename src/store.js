@@ -16,6 +16,12 @@ export default new Vuex.Store({
         ,
         current_search: ""
         ,
+        search_results: {
+                    local: {results: [
+                    //{a: 1, b: 2}, {a: 2, b: "dd"}
+                    ], when: 0}
+        }
+        ,
         user_name: ""
         ,
         is_local_machine: false
@@ -77,11 +83,14 @@ export default new Vuex.Store({
 
 
   getters: {
+      
+    search_results: state => state.search_results
+    ,
     network: state => state.network
     ,
     add_connection_visible: state => state.add_connection_visible
     ,
-    current_search: state => state.current_search
+    get_current_search: state => state.current_search
     ,
     zoom_people: state => state.zoom_people
     ,
@@ -142,6 +151,15 @@ export default new Vuex.Store({
   //
   //-------------------------------------------------------------------
   mutations: {
+      
+      CLEAR_SEARCH_RESULTS: function (state) {
+        state.search_results = {
+                    local: {results: [], when: 0}
+        };
+      },
+      ADD_SEARCH_RESULT: function (state, details) {
+        state.search_results.local.results.push(details);
+      },
       ADD_NETWORK: function (state, details) {
         state.network.push(details);
       },
@@ -268,6 +286,13 @@ export default new Vuex.Store({
 	//-------------------------------------------------------------------
 	actions: {
 
+		clear_search_results: function(a){
+		  a.commit('CLEAR_SEARCH_RESULTS')
+		},
+		add_search_result: function(a,b){
+		  a.commit('ADD_SEARCH_RESULT', b)
+		},
+        
 		set_zoom_people: function(a, zp){
 		  a.commit('SET_ZOOM_PEOPLE', zp)
 		},

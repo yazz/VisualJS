@@ -93,6 +93,11 @@ module.exports = {
         target: 'http://' + hostaddress,
         secure: false
       },
+      
+      '/get_search_results': {
+        target: 'http://' + hostaddress,
+        secure: false
+      },
       '/send_client_details': {
         target: 'http://' + hostaddress,
         secure: false

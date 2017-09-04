@@ -711,7 +711,7 @@ var upload = multer( { dest: 'uploads/' } );
         var db = new sqlite3.Database('gosharedata.sqlite3');
 
 		db.serialize(function() {
-			  var stmt = db.prepare("INSERT INTO search VALUES (?, ?)");
+			  var stmt = db.prepare("INSERT OR REPLACE INTO search VALUES ((select QUERY_ID from search where QUERY_ID = ?), ?)");
               stmt.run(queryData.source, JSON.stringify(ordata));
 			  stmt.finalize();
 
@@ -739,6 +739,44 @@ var upload = multer( { dest: 'uploads/' } );
 		};
 	})
 
+    
+    
+    //------------------------------------------------------------------------------
+	// Get the result of a SQL query
+	//------------------------------------------------------------------------------
+	app.get('/get_search_results', function (req, res) {
+        var st = req.query.search_text;
+        res.writeHead(200, {'Content-Type': 'text/plain'});
+
+        var db = new sqlite3.Database('gosharedata.sqlite3');
+
+		db.serialize(function() {
+            var mysql = "select query_id from search where search match '"  + st + "*'";
+			var stmt = db.all(mysql, function(err, rows) {
+                if (!err) {
+                    console.log( "search for: " + st);
+                    console.log( "    sql: " + mysql);
+                    
+                    console.log( "           " + JSON.stringify(rows));
+                    var newres = [];
+                    for  (var i=0; i < rows.length;i++) {
+                        if (rows[i]["query_id"]) {
+                            newres.push({b: rows[i]["query_id"]});
+                        }
+                    }
+                    res.end(JSON.stringify(newres));
+                }
+        });
+
+			db.close();
+        });
+});
+
+    
+    
+    
+    
+    
 	app.post('/getqueryresult', function (req, res) {
 		var queryData2 = req.body;
 		console.log('in getqueryresult: ' + JSON.stringify(queryData2));

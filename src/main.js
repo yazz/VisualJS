@@ -723,7 +723,6 @@ function setupVRVuePane() {
 
 
     window.addEventListener('keydown', function (evt) {
-        
         var keynum = evt.keyCode ;
         if (keynum == 37) {
             searchPos --;
@@ -731,11 +730,38 @@ function setupVRVuePane() {
         } else if (keynum == 39) {
             searchPos ++;
             showText();
-} else if (keynum == 8) {
+        } else if (keynum == 8) {
             searchtext =   searchtext.substring(0,searchPos - 1)  + searchtext.substring(searchPos );
             searchPos --;
             showText();
         }
+        $.ajax({
+            type: "GET",
+            url: '/get_search_results',
+            data: {
+                search_text: searchtext
+            },
+            success: function(data) {
+                console.log(searchtext + '=:' + data);
+                alert('s:' + data);
+                var lor = eval('(' + data + ')');
+                console.log('   sl:' + lor.length);
+                store.dispatch('clear_search_results');
+                for (var i = 0; i < lor.length ; i++) {
+                    store.dispatch('add_search_result', 
+                                  {
+                                  b:   lor[i].b});
+                };
+                if (lor.length == 0) {
+                    store.dispatch('add_search_result', {b:   "No results for " + searchtext});
+                
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                store.dispatch('clear_search_results');
+                store.dispatch('add_search_result',{b: "Search failed for " + searchtext});
+            }
+        });    
     });
 
     var cursorShow = true;
@@ -1322,6 +1348,7 @@ var inCheckForServers = 0;
                 //console.log("newid: " + JSON.stringify(newid,null,2) + " = " + newHtml);
                 
                 inCheckForServers --;
+                tt.locked = true;
                 tt.accessable = false;
                 store.dispatch('add_network', tt);
             }
@@ -1340,8 +1367,8 @@ var inCheckForServers = 0;
                 var returned= eval( "(" + data1 + ")");
                 store.dispatch('clear_network', tt);  
                 for (var i = 0 ; i < returned.allServers.length; i++) {
-                    console.log('got server ' + i)
-                    console.log(JSON.stringify(returned.allServers[i],null,2))
+                    //console.log('got server ' + i)
+                    //console.log(JSON.stringify(returned.allServers[i],null,2))
                     var tt = new Object();
                     tt.username = returned.allServers[i].client_user_name;
                     tt.internal_host = returned.allServers[i].internal_host;
