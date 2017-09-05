@@ -16,6 +16,8 @@ export default new Vuex.Store({
         ,
         current_search: ""
         ,
+        search_subtext: ""
+        ,
         search_results: {
                     local: {results: [
                     //{a: 1, b: 2}, {a: 2, b: "dd"}
@@ -91,6 +93,8 @@ export default new Vuex.Store({
     add_connection_visible: state => state.add_connection_visible
     ,
     get_current_search: state => state.current_search
+    ,
+    get_search_subtext: state => state.search_subtext
     ,
     zoom_people: state => state.zoom_people
     ,
@@ -200,6 +204,9 @@ export default new Vuex.Store({
       },
       SET_CURRENT_SEARCH: function (state,y) {
         state.current_search = y
+      },
+      SET_SEARCH_SUBTEXT: function (state,y) {
+        state.search_subtext = y
       },
       SET_USER_NAME: function (state,y) {
         state.user_name = y
@@ -467,6 +474,9 @@ export default new Vuex.Store({
 		//
 		set_current_search: function(a,b){
             a.commit('SET_CURRENT_SEARCH',b)
+		},
+		set_search_subtext: function(a,b){
+            a.commit('SET_SEARCH_SUBTEXT',b)
 		},
 
 

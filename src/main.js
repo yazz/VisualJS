@@ -720,13 +720,60 @@ function setupVRVuePane() {
     return keynum;
   }
 
+var showSearchResults = function() {
+            if (searchtext.length == 0) {
+                   store.dispatch('clear_search_results');
+             
+        }
+        if ((searchtext.length > 0) && (inSearch == false)) {
+            inSearch = true;
+                    //alert("DO SEARCH  " )
+            $.ajax({
+                type: "GET",
+                url: '/get_search_results',
+                data: {
+                    search_text: searchtext
+                },
+                success: function(data) {
+                    console.log(searchtext + '=:' + data);
+                    
+                    var lor = eval('(' + data + ')');
+                    //alert("returned in  " + lor.duration)
+                    console.log('   length:' + lor.values.length);
 
+                    store.dispatch('clear_search_results');
+                    
+                    for (var i = 0; i < lor.values.length ; i++) {
+                        store.dispatch('add_search_result', 
+                                      {
+                                        b:          lor.values[i].b});
+                    };
+                    if (lor.values.length == 0) {
+                        store.dispatch('add_search_result', {b:   "No results for " + lor.search});
+                        store.dispatch('set_search_subtext', '');
+                    
+                    } else {
+                        store.dispatch('set_search_subtext', "For: '" + lor.search + "', found " +
+                                    lor.values.length + " values,  took " + (lor.duration / 1000) + ' seconds' );
+                        
+                    }
+                    inSearch = false;
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    store.dispatch('clear_search_results');
+                    store.dispatch('add_search_result',{b: "Search failed" });
+                        store.dispatch('set_search_subtext', '');
+                    inSearch = false;
+                }
+            });
+        };        
 
+}
+var inSearch = false;
     window.addEventListener('keydown', function (evt) {
         var keynum = evt.keyCode ;
         if (keynum == 37) {
             searchPos --;
-            showText();
         } else if (keynum == 39) {
             searchPos ++;
             showText();
@@ -734,34 +781,11 @@ function setupVRVuePane() {
             searchtext =   searchtext.substring(0,searchPos - 1)  + searchtext.substring(searchPos );
             searchPos --;
             showText();
+            showSearchResults();
+        
+             
         }
-        $.ajax({
-            type: "GET",
-            url: '/get_search_results',
-            data: {
-                search_text: searchtext
-            },
-            success: function(data) {
-                console.log(searchtext + '=:' + data);
-                alert('s:' + data);
-                var lor = eval('(' + data + ')');
-                console.log('   sl:' + lor.length);
-                store.dispatch('clear_search_results');
-                for (var i = 0; i < lor.length ; i++) {
-                    store.dispatch('add_search_result', 
-                                  {
-                                  b:   lor[i].b});
-                };
-                if (lor.length == 0) {
-                    store.dispatch('add_search_result', {b:   "No results for " + searchtext});
-                
-                }
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                store.dispatch('clear_search_results');
-                store.dispatch('add_search_result',{b: "Search failed for " + searchtext});
-            }
-        });    
+
     });
 
     var cursorShow = true;
@@ -785,6 +809,7 @@ function setupVRVuePane() {
         searchtext = searchtext.substring(0,searchPos) + cc + searchtext.substring(searchPos);;
         searchPos ++;
         showText();
+        showSearchResults();
     });
 
     }

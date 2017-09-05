@@ -47,11 +47,16 @@
                             <a-entity   position="1.6 0 0" 
                                         v-bind:text='"font: roboto; color: black;align: left; value: " + zzz + " ; width: 6; "'>
                             </a-entity>
-                            
-                            <a-entity  v-for="(item,index)  in  getSearchResults"
-                                    v-bind:position='"1.6 " +(-1 - index) + "  0"'
+                            <a-entity   position="0 -.5 0" 
+                                        v-bind:text='"font: roboto; color: gray;align: left; value: " + getSearchSubtext + " ; width: 5; "'>
+                            </a-entity>
+                        
 
-                                        v-bind:text='"font: roboto; color: black;align: left; value: " + item.b + " ; width: 6; "'>
+                        
+                            <a-entity id=search_results_text v-for="(item,index)  in  getSearchResults"
+                                    v-bind:position='"-1 " +(-1 - index) + "  0"'
+
+                                        v-bind:text='"font: roboto; color: black;align: left; value: " + item.b + "; width: 5; "'>
                             </a-entity>
                                     
                                     
@@ -158,52 +163,53 @@ name: 'VR'
 		,
 			props: ['vr_type'],
 
-  computed: {
-getSearchResults: function() {
-//console.log('return this.$store.state.zoom_people := ' + this.$store.state.zoom_people)
-//alert(JSON.stringify(this.$store.state.search_results.local.results,null,2))
-    return this.$store.state.search_results.local.results;
-  },
+    computed: {
+        getSearchResults: function() {
+            return this.$store.state.search_results.local.results;
+        },
+        getSearchSubtext: function() {
+            return this.$store.state.search_subtext;
+        },
 
-  zzz: function() {
-    return this.$store.state.current_search
-  },
- getUserName: function() {
-    return this.$store.state.user_name
-  },
- getIsLocalMachine: function() {
-    return this.$store.state.is_local_machine
-  },
-    list_of_records: function () {
-	if (this.$store.state.list_of_output_records) {
-		return this.$store.state.list_of_output_records;
-		} else {
-		return [];
-	};
-    },
-    locked: function () {
-	 return this.$store.state.locked;
-    },
-    list_of_connections: function () {
-      return this.$store.getters.list_of_connections
-    },
-    get_vr_type: function () {
-      return this.vr_type
-    },
-    list_of_drivers: function () {
-      return this.$store.getters.list_of_drivers
-    },
+        zzz: function() {
+            return this.$store.state.current_search
+        },
+        getUserName: function() {
+            return this.$store.state.user_name
+        },
+        getIsLocalMachine: function() {
+            return this.$store.state.is_local_machine
+        },
+        list_of_records: function () {
+            if (this.$store.state.list_of_output_records) {
+                return this.$store.state.list_of_output_records;
+            } else {
+                return [];
+            };
+        },
+        locked: function () {
+            return this.$store.state.locked;
+        },
+        list_of_connections: function () {
+            return this.$store.getters.list_of_connections
+        },
+        get_vr_type: function () {
+            return this.vr_type
+        },
+        list_of_drivers: function () {
+            return this.$store.getters.list_of_drivers
+        },
 
-    add_driver_visible: function () {
-      return this.$store.state.add_driver_visible
-    },
+        add_driver_visible: function () {
+          return this.$store.state.add_driver_visible
+        },
 
-    viewed_driver_id: function () {
-      return this.$store.state.viewed_driver_id
-    },
-	    list_of_fields: function () {
-      return this.$store.state.list_of_output_fields
-    }
+        viewed_driver_id: function () {
+          return this.$store.state.viewed_driver_id
+        },
+            list_of_fields: function () {
+          return this.$store.state.list_of_output_fields
+        }
 
 
 

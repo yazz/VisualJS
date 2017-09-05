@@ -745,18 +745,20 @@ var upload = multer( { dest: 'uploads/' } );
 	// Get the result of a SQL query
 	//------------------------------------------------------------------------------
 	app.get('/get_search_results', function (req, res) {
-        var st = req.query.search_text;
+        var searchTerm = req.query.search_text;
+        
         res.writeHead(200, {'Content-Type': 'text/plain'});
 
         var db = new sqlite3.Database('gosharedata.sqlite3');
 
 		db.serialize(function() {
-            var mysql = "select query_id from search where search match '"  + st + "*'";
+            var timeStart = new Date().getTime();
+            var mysql = "select query_id from search where search match '"  + searchTerm + "*'";
+            console.log( "search for: " + searchTerm);
+            console.log( "    sql: " + mysql);
+            
 			var stmt = db.all(mysql, function(err, rows) {
                 if (!err) {
-                    console.log( "search for: " + st);
-                    console.log( "    sql: " + mysql);
-                    
                     console.log( "           " + JSON.stringify(rows));
                     var newres = [];
                     for  (var i=0; i < rows.length;i++) {
@@ -764,13 +766,25 @@ var upload = multer( { dest: 'uploads/' } );
                             newres.push({b: rows[i]["query_id"]});
                         }
                     }
-                    res.end(JSON.stringify(newres));
+                    var timeEnd = new Date().getTime();
+                    var timing = timeEnd - timeStart;
+                    res.end( JSON.stringify({   search: searchTerm, 
+                                                values: newres, 
+                                                duration: timing}));
+                    console.log( "    took: " + timing + " millis");
+                } else {
+                    var timeEnd = new Date().getTime();
+                    var timing = timeEnd - timeStart;
+                    res.end( JSON.stringify({search:    searchTerm, 
+                                             values:    [{b: "Error searching for: " + searchTerm }], 
+                                             duration:  timing    }  ));
+                    console.log( "    took: " + timing + " millis");
                 }
-        });
+            });
 
 			db.close();
         });
-});
+    });
 
     
     
