@@ -708,16 +708,17 @@ var upload = multer( { dest: 'uploads/' } );
 							drivers[connections[queryData.source].driver]['get_v2'](connections[queryData.source],{sql: queryData.sql},function(ordata) {
 								res.writeHead(200, {'Content-Type': 'text/plain'});
                                 
-        var db = new sqlite3.Database('gosharedata.sqlite3');
+        if (queryData.sql.indexOf("snippet(" == -1)) {
+            dbsearch.serialize(function() {
+                  var stmt = dbsearch.prepare("INSERT OR REPLACE INTO search VALUES ((select QUERY_ID from search where QUERY_ID = ?), ?)");
+                  for (var i =0 ; i < ordata.length; i++) {
+                    stmt.run(queryData.source, JSON.stringify(ordata[i]));
+                  }
+                  stmt.finalize();
 
-		db.serialize(function() {
-			  var stmt = db.prepare("INSERT OR REPLACE INTO search VALUES ((select QUERY_ID from search where QUERY_ID = ?), ?)");
-              stmt.run(queryData.source, JSON.stringify(ordata));
-			  stmt.finalize();
-
-			});
-
-			db.close();
+                });
+        }
+			//dbsearch.close();
 			
 			
 
@@ -748,22 +749,19 @@ var upload = multer( { dest: 'uploads/' } );
         var searchTerm = req.query.search_text;
         
         res.writeHead(200, {'Content-Type': 'text/plain'});
-
-        var db = new sqlite3.Database('gosharedata.sqlite3');
-
-		db.serialize(function() {
+		dbsearch.serialize(function() {
             var timeStart = new Date().getTime();
-            var mysql = "select query_id from search where search match '"  + searchTerm + "*'";
-            console.log( "search for: " + searchTerm);
-            console.log( "    sql: " + mysql);
+            var mysql = "select data, snippet(search,0,'*','*','...',1) from search where search match '"  + searchTerm + "*'";
+            //console.log( "search for: " + searchTerm);
+            //console.log( "    sql: " + mysql);
             
-			var stmt = db.all(mysql, function(err, rows) {
+			var stmt = dbsearch.all(mysql, function(err, rows) {
                 if (!err) {
                     console.log( "           " + JSON.stringify(rows));
                     var newres = [];
                     for  (var i=0; i < rows.length;i++) {
-                        if (rows[i]["query_id"]) {
-                            newres.push({b: rows[i]["query_id"]});
+                        if (rows[i]["data"]) {
+                            newres.push({b: rows[i]["data"]});
                         }
                     }
                     var timeEnd = new Date().getTime();
@@ -771,7 +769,7 @@ var upload = multer( { dest: 'uploads/' } );
                     res.end( JSON.stringify({   search: searchTerm, 
                                                 values: newres, 
                                                 duration: timing}));
-                    console.log( "    took: " + timing + " millis");
+                    //console.log( "    took: " + timing + " millis");
                 } else {
                     var timeEnd = new Date().getTime();
                     var timing = timeEnd - timeStart;
@@ -782,7 +780,6 @@ var upload = multer( { dest: 'uploads/' } );
                 }
             });
 
-			db.close();
         });
     });
 
@@ -818,17 +815,26 @@ var upload = multer( { dest: 'uploads/' } );
 							try {
 								drivers[connections[queryData.source].driver]['get_v2'](connections[queryData.source],queryData.definition,function(ordata) {
                                 
-        var db = new sqlite3.Database('gosharedata.sqlite3');
+        //if (queryData.sql.indexOf("snippet(" == -1)) {
+            var rrows = [];
 
-		db.serialize(function() {
-			  var stmt = db.prepare("INSERT INTO search VALUES (?, ?)");
-              stmt.run(queryData.source, JSON.stringify(ordata));
-			  stmt.finalize();
+            if( Object.prototype.toString.call( ordata ) === '[object Array]' ) {
+                rrows = ordata;
+            } else {
+                rrows = ordata.values;
+            }
+            //console.log('           adding to search index: ' + JSON.stringify(rrows.length));
+            
+            dbsearch.serialize(function() {
+                  var stmt = dbsearch.prepare("INSERT INTO search VALUES (?, ?)");
+                      for (var i =0 ; i < rrows.length; i++) {
+                        //console.log('                 : ' + JSON.stringify(rrows[i]));
+                        stmt.run(queryData.source, JSON.stringify(rrows[i]));
+                      }
+                      stmt.finalize();
 
-			});
-
-			db.close();
-
+                });
+        //}
 
             res.writeHead(200, {'Content-Type': 'text/plain'});
 									res.end(JSON.stringify(ordata));
@@ -889,6 +895,7 @@ var upload = multer( { dest: 'uploads/' } );
 
 
 
+        var dbsearch = new sqlite3.Database('gosharedatasearch.sqlite3');
 
 
 
@@ -1073,8 +1080,8 @@ var upload = multer( { dest: 'uploads/' } );
                                     console.log('403 received, not allowed through firewall for ' + urlToConnectTo);
                                     //open("http://" + centralHostAddress + ":" + centralHostPort);
                               } else {
-                                    console.log('response: ' + JSON.stringify(response));
-                                    console.log(body);
+                                    //console.log('response: ' + JSON.stringify(response));
+                                    //console.log(body);
                               }
                           }
                         });
@@ -1089,15 +1096,15 @@ var upload = multer( { dest: 'uploads/' } );
 				
 				
 				
-        var db = new sqlite3.Database('gosharedata.sqlite3');
 
-		db.serialize(function() {
-			  db.run("CREATE VIRTUAL TABLE search USING fts5(query_id, data);");
-			});
-
-			db.close();
-			
-			
+        try {
+            dbsearch.serialize(function() {
+                  dbsearch.run("CREATE VIRTUAL TABLE search USING fts5(query_id, data);");
+                });
+            } catch(err) {
+            } finally {
+                
+            }
 		}
 
 
