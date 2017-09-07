@@ -53,11 +53,16 @@
                         
 
                         
-                            <a-entity id=search_results_text v-for="(item,index)  in  getSearchResults"
-                                    v-bind:position='"-1 " +(-1 - index) + "  0"'
-
-                                        v-bind:text='"font: roboto; color: black;align: left; value: " + item.b + "; width: 5; "'>
-                            </a-entity>
+            <a-entity   position="-1 -1 0" 
+                        v-bind:text='"font: roboto; color: black;align: left; value: " + (getSearchResults[0]?getSearchResults[0].b:"") + "; width: 5; "'></a-entity>
+            <a-entity   position="-1 -2 0" 
+                        v-bind:text='"font: roboto; color: black;align: left; value: " + (getSearchResults[1]?getSearchResults[0].b:"") + "; width: 5; "'></a-entity>
+            <a-entity   position="-1 -3 0" 
+                        v-bind:text='"font: roboto; color: black;align: left; value: " + (getSearchResults[2]?getSearchResults[0].b:"") + "; width: 5; "'></a-entity>
+            <a-entity   position="-1 -4 0" 
+                        v-bind:text='"font: roboto; color: black;align: left; value: " + (getSearchResults[3]?getSearchResults[0].b:"") + "; width: 5; "'></a-entity>
+            <a-entity   position="-1 -5 0" 
+                        v-bind:text='"font: roboto; color: black;align: left; value: " + (getSearchResults[4]?getSearchResults[0].b:"") + "; width: 5; "'></a-entity>
                                     
                                     
                         </a-entity>
