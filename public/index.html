@@ -64,6 +64,50 @@ setTimeout(function(){
 	//document.getElementById('vr_scene')['always-fullscreen']='';
 	//document.getElementById('vr_scene')['embedded']='';
   });
+  
+  
+  
+  
+//Bind back button to prevent escaping the page with backspace
+$(document).unbind('keydown').bind('keydown', function (event) {
+    if (event.keyCode === 8) 
+    {
+     var doPrevent = true;
+     //Chrome, FF, Safari
+     if(event.target == document.body){
+      doPrevent = true;
+     }
+     //IE
+     else
+     {
+      var nodeName = event.target.nodeName.toLowerCase();
+      if((nodeName == "input" && event.target.type == "text") || nodeName == "textarea")
+      {
+       doPrevent = false;
+      }
+      var SPEditTabInstance = $(document).find("li[id='Ribbon.EditingTools']");
+      if(SPEditTabInstance != "undefined" && SPEditTabInstance != null && $(SPEditTabInstance).children().length > 0){
+       doPrevent = false;
+      }
+     }
+
+     if(doPrevent)
+     {
+      //Chrome, FF, Safari
+      if(event.preventDefault()){ event.preventDefault(); }
+      //IE
+      else
+      {
+       event.returnValue = false;
+      }
+     }
+    }
+});
+
+
+
+
+
   },800);
 </script>
 
@@ -146,6 +190,8 @@ setTimeout(function(){
         }
       });
     };
+    
+    
     </script>
 
     <script type="text/javascript" src="gosharedata_setup.js"></script>
