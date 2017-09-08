@@ -126,6 +126,8 @@ var useY = 0;
 
 var inMove = false;
 
+var allQueries = new Object();
+
 function setupVRVuePane() {
 
     if (document.getElementById('vr_element')) {
@@ -751,11 +753,12 @@ var showSearchResults = function() {
                     if (lor.values.length == 0) {
                         store.dispatch('add_search_result', {b:   "No results for " + lor.search});
                         store.dispatch('set_search_subtext', '');
+                        setvuexitemssearch(lor.values);
                     
                     } else {
                         store.dispatch('set_search_subtext', "For: '" + lor.search + "', found " +
                                     lor.values.length + " values,  took " + (lor.duration / 1000) + ' seconds' );
-                        
+                        setvuexitemssearch(lor.values);
                     }
                     inSearch = false;
                 },
@@ -766,6 +769,8 @@ var showSearchResults = function() {
                     inSearch = false;
                 }
             });
+        } else if ((searchtext.length == 0) && (inSearch == false)) {
+               recalcVuexQueries()
         };        
 
 }
@@ -1289,6 +1294,105 @@ function when_pouchdb_drivers_changes() {
 
 var in_when_pouchdb_queries_changes = false;
 var callQueriesAgain = false;
+function recalcVuexQueries() {
+    var results = Object.keys(allQueries);
+
+        store.dispatch('clear_queries');
+    //store.dispatch('clear_queries');
+    console.log('********* CALLED recalcVuexQueries len:' + JSON.stringify(results.length , null, 2));
+    for (var i = 0 ; i < results.length ; i ++) {
+        var query = allQueries[results[i]];
+        console.log('                      query *********:' + JSON.stringify(query , null, 2));
+        var exists = (store.getters.query_map[query._id] == true);
+
+        if (!exists) {
+        
+            store.dispatch( 'add_query' , {cn:       query.id,
+
+                                    cp: {     id:      query.id
+                                                ,
+                                                name: query.name
+                                                ,
+                                                driver: query.driver
+                                                ,
+                                                size: query.size
+                                                ,
+                                                fileName: query.fileName
+                                                ,
+                                                hash: query.hash
+                                                ,
+                                                status: ''
+                                                ,
+                                                connection: query.connection
+                                                ,
+                                                definition: eval('(' + query.definition + ')')
+                                               }});
+        };
+    };
+};
+
+var inupdatesearch = false;
+function  setvuexitemssearch( results2 ) {
+    if (!inupdatesearch) {
+        inupdatesearch = true;
+        
+        if (results2 == null) {
+            recalcVuexQueries();
+            alert('all')
+        }
+            
+        console.log('                          results2 *********:' + JSON.stringify(results2 , null, 2));
+        var tt= new Object();
+        for (var i = 0 ; i < results2.length ; i ++) {
+            var qid = results2[i].b;
+            if (!tt.hasOwnProperty(qid)) {
+                tt[qid] = new Object();
+                tt[qid].b = qid;
+            }
+        }
+        console.log('                          tt *********:' + JSON.stringify(tt , null, 2));
+        console.log('                          Object.keys(tt) *********:' + JSON.stringify(Object.keys(tt) , null, 2));
+
+        var results = Object.keys(tt);
+
+        console.log('                      results *********:' + JSON.stringify( results , null, 2));
+
+
+        store.dispatch('clear_queries');
+        for (var i = 0 ; i < results.length ; i ++) {
+            //console.log('                          queries *********:' + JSON.stringify(allQueries , null, 2));
+            var query = allQueries[results[i]];
+            console.log('                          query *********:' + JSON.stringify(query , null, 2));
+            var exists = false;//!(!store.getters.query_map[query.id]);
+
+            if (!exists) {
+                store.dispatch( 'add_query' , {cn:       query.id,
+
+                                        cp: {     id:      query.id
+                                                    ,
+                                                    name: query.name
+                                                    ,
+                                                    driver: query.driver
+                                                    ,
+                                                    size: query.size
+                                                    ,
+                                                    fileName: query.fileName
+                                                    ,
+                                                    hash: query.hash
+                                                    ,
+                                                    status: ''
+                                                    ,
+                                                    connection: query.connection
+                                                    ,
+                                                    definition: eval('(' + query.definition + ')')
+                                                   }});
+            };
+        };
+        
+            inupdatesearch = false;
+    }
+}
+
 function when_pouchdb_queries_changes() {
     if (!in_when_pouchdb_queries_changes) {
         in_when_pouchdb_queries_changes = true;
@@ -1296,17 +1400,15 @@ function when_pouchdb_queries_changes() {
             var results = result.docs;
 
             //store.dispatch('clear_queries');
-            //console.log('********* CALLED REALTIME DBCONN len:' + JSON.stringify(results.length , null, 2));
+            console.log('********* CALLED REALTIME DBCONN len:' + JSON.stringify(results.length , null, 2));
             for (var i = 0 ; i < results.length ; i ++) {
                 var query = results[i]
                 //console.log('********* CALLED REALTIME DBCONN*************:' + JSON.stringify(conn , null, 2));
-                var exists = (store.getters.query_map[query._id] == true);
+                var exists = !(!allQueries[query._id]);
 
                 if (!exists) {
                 
-                    store.dispatch( 'add_query' , {cn:       query.id,
-
-                                            cp: {     id:      query._id
+                    allQueries[query._id] =  {     id:      query._id
                                                         ,
                                                         name: query.name
                                                         ,
@@ -1322,10 +1424,11 @@ function when_pouchdb_queries_changes() {
                                                         ,
                                                         connection: query.connection
                                                         ,
-                                                        definition: eval('(' + query.definition + ')')
-                                                       }});
+                                                        definition: query.definition
+                                                       };
                 };
             };
+            recalcVuexQueries();
         });
         in_when_pouchdb_queries_changes = false;
         if (callQueriesAgain) {
@@ -1336,7 +1439,6 @@ function when_pouchdb_queries_changes() {
         callQueriesAgain = true;
     }
 };
-
 
 var inCheckForServers = 0;
 

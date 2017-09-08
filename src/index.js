@@ -708,16 +708,16 @@ var upload = multer( { dest: 'uploads/' } );
 							drivers[connections[queryData.source].driver]['get_v2'](connections[queryData.source],{sql: queryData.sql},function(ordata) {
 								res.writeHead(200, {'Content-Type': 'text/plain'});
                                 
-        if (queryData.sql.indexOf("snippet(" == -1)) {
-            dbsearch.serialize(function() {
-                  var stmt = dbsearch.prepare("INSERT OR REPLACE INTO search VALUES ((select QUERY_ID from search where QUERY_ID = ?), ?)");
-                  for (var i =0 ; i < ordata.length; i++) {
-                    stmt.run(queryData.source, JSON.stringify(ordata[i]));
-                  }
-                  stmt.finalize();
-
-                });
-        }
+        //if (queryData.sql.indexOf("snippet(" == -1)) {
+        //    dbsearch.serialize(function() {
+        //          var stmt = dbsearch.prepare("INSERT OR REPLACE INTO search VALUES ((select QUERY_ID from search where QUERY_ID = ?), ?)");
+        //          for (var i =0 ; i < ordata.length; i++) {
+        //            stmt.run(queryData.source, JSON.stringify(ordata[i]));
+        //          }
+        //          stmt.finalize();
+        //
+        //        });
+        //}
 			//dbsearch.close();
 			
 			
@@ -751,7 +751,7 @@ var upload = multer( { dest: 'uploads/' } );
         res.writeHead(200, {'Content-Type': 'text/plain'});
 		dbsearch.serialize(function() {
             var timeStart = new Date().getTime();
-            var mysql = "select data, snippet(search,0,'*','*','...',1) from search where search match '"  + searchTerm + "*'";
+            var mysql = "select query_id, snippet(search,0,'*','*','...',1) from search where search match '"  + searchTerm + "*'";
             //console.log( "search for: " + searchTerm);
             //console.log( "    sql: " + mysql);
             
@@ -760,8 +760,8 @@ var upload = multer( { dest: 'uploads/' } );
                     console.log( "           " + JSON.stringify(rows));
                     var newres = [];
                     for  (var i=0; i < rows.length;i++) {
-                        if (rows[i]["data"]) {
-                            newres.push({b: rows[i]["data"]});
+                        if (rows[i]["query_id"]) {
+                            newres.push({b: rows[i]["query_id"]});
                         }
                     }
                     var timeEnd = new Date().getTime();
@@ -829,7 +829,7 @@ var upload = multer( { dest: 'uploads/' } );
                   var stmt = dbsearch.prepare("INSERT INTO search VALUES (?, ?)");
                       for (var i =0 ; i < rrows.length; i++) {
                         //console.log('                 : ' + JSON.stringify(rrows[i]));
-                        stmt.run(queryData.source, JSON.stringify(rrows[i]));
+                        stmt.run(queryData2.source, JSON.stringify(rrows[i]));
                       }
                       stmt.finalize();
 
