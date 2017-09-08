@@ -157,8 +157,7 @@ export default new Vuex.Store({
   mutations: {
       
       CLEAR_SEARCH_RESULTS: function (state) {
-        state.search_results.local.results  = []
-        };
+        state.search_results.local.results  = [];
       },
       ADD_SEARCH_RESULT: function (state, details) {
         state.search_results.local.results.push(details);
