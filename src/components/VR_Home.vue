@@ -70,7 +70,7 @@
 												to="0 0 20" dur="2000" direction="alternate"  repeat="1"></a-animation>
 						</a-entity>
                                                     
-						 <a-entity v-bind:position='"27 -1.7 -22"' id="people_num">
+						 <a-entity v-bind:position='"27 -1.7 -30"' id="people_num">
                             <a-entity 
                                         v-if='getIsPeopleZoomed'
 									geometry="primitive: plane; width: 8.4; height: 8.4;"

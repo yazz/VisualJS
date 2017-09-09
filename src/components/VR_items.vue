@@ -1,5 +1,5 @@
 <template>
-			  <a-entity position='5 -25 0' id='vr_items'>
+			  <a-entity position='5 -10 -20' id='vr_items'>
 
 			  
 			  
@@ -33,7 +33,7 @@
 						  rotation='0 0 0'>
 				</a-entity>
 
-				<a-entity position="10 -10 0" id='doc_details'>
+				<a-entity position="10 -10 -10" id='doc_details'>
 
 					<a-entity v-if='can_show_full_doc()' geometry="primitive: plane; height: 5; width: 8;" material="color: white" position='0 2.5 -1' >
 
