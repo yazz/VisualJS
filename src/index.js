@@ -977,6 +977,21 @@ var upload = multer( { dest: 'uploads/' } );
         return "";
     }
     
+	app.get('/get_all_drivers', 
+            function (req, res) {
+                var stmt = dbsearch.all("select id, name, type, code from drivers",
+                    function(err, rows) {
+                        if (!err) {
+                            res.writeHead(200, {'Content-Type': 'text/plain'});
+                            res.end(JSON.stringify(
+                                rows));
+                            console.log("Sent: " + JSON.stringify(rows.length));
+                        };
+                    })
+    });
+
+    
+    
 	//------------------------------------------------------------------------------
 	// run on the central server only
 	//
@@ -1207,7 +1222,7 @@ dbhelper.pouchdbTableOnServer('pouchdb_queries',            pouchdb_queries,    
 
 
 
-
+    
 
 
 
@@ -1221,12 +1236,12 @@ dbhelper.pouchdbTableOnServer('pouchdb_queries',            pouchdb_queries,    
 		var driverType = theObject.type;
 		console.log('addOrUpdateDriver: ' + name);
         
-        var stmt = dbsearch.all("select count(name) as driver_exists from drivers where name = '" + name + "';", 
+        var stmt = dbsearch.all("select name from drivers where name = '" + name + "';", 
             function(err, rows) {
                 console.log('err             : ' + err);
                 if (!err) {
-                    console.log('             : ' + rows[0]["driver_exists"]);
-                    if (rows[0]["driver_exists"] == 0) {
+                    console.log('             : ' + rows.length);
+                    if (rows.length == 0) {
                         pouchdb_drivers.post({
 												name: name,
 												type: driverType,
@@ -1249,11 +1264,19 @@ dbhelper.pouchdbTableOnServer('pouchdb_queries',            pouchdb_queries,    
                     
                     } else {
                         console.log('   *** Checking DRIVER ' + name);
-                        var existingDriver = result.docs[0];
+                        var existingDriver = rows[0];
                         if (!(code === existingDriver.code)) {
-                            
-                            existingDriver.code = code;
-                            pouchdb_drivers.put(existingDriver);
+                            try 
+                            {
+                                dbsearch.serialize(function() {
+                                    var stmt = dbsearch.prepare(" update   drivers   set code = ? where id = ?");
+                                    stmt.run( code , rows[0].id );
+                                    stmt.finalize();
+                                });
+                            } catch(err) {
+                            } finally {
+                                
+                            }
                         }
                     }
                 }

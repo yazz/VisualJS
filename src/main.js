@@ -927,7 +927,6 @@ function setupPouchDB() {
         when_pouchdb_queries_changes()
 
 		db.pouchdbTable('pouchdb_system_settings',  pouchdb_system_settings,   	when_pouchdb_system_settings_changes);
-		db.pouchdbTable('pouchdb_drivers', 			pouchdb_drivers, 			when_pouchdb_drivers_changes);
 		db.pouchdbTable('pouchdb_connections', 		pouchdb_connections, 		when_pouchdb_connections_changes);
 		db.pouchdbTable('pouchdb_queries', 		    pouchdb_queries, 		    when_pouchdb_queries_changes);
         
@@ -1274,50 +1273,55 @@ function when_pouchdb_connections_changes() {
 
 
 function when_pouchdb_drivers_changes() {
-	pouchdb_drivers.find({selector: {name: {$ne: null}}},function (err, result) {
-		var results = result.docs;
-		//alert( JSON.stringify(result , null, 2));
-        // ------------------------------------------------------------------
-        //  Update the drivers in the UI
-        // ------------------------------------------------------------------
-		store.dispatch('clear_drivers');
-        for (var i = 0 ; i < results.length ; i ++) {
-			var driver  = results[i];
-			var evalede = eval(driver.code);
+    store.dispatch('clear_drivers');
+    $.ajax({
+                type: "GET",
+                url: '/get_all_drivers',
+                data:   {
+                        },
+            success: function(results2) {
+                var results = eval("(" + results2 + ")") ;
+    
+                //alert(JSON.stringify(results.length, null, 2) );
+               //store.dispatch('clear_connections');
+                for (var i = 0 ; i < results.length ; i ++) {
+                    var driver  = results[i];
+                    var evalede = eval(driver.code);
+ 
+                    store.dispatch(
+                        'add_driver'
+                        ,
+                        {
+                            cn: driver.name
+                            ,
+                            cp: {
+                                     id:      driver.name,
+                                     type:    driver.driver_type,
+                                     code:    driver.code
+                                }
+                        });
 
-			store.dispatch(
-				'add_driver'
-				,
-				{
-					cn: driver.name
-					,
-					cp: {
-							 id:      driver.name,
-							 type:    driver.driver_type,
-							 code:    driver.code
-					    }
-				});
 
 
+                if (evalede.vue)
+                {
+                    Vue.component( driver.name + '-view-connection' , evalede.vue );
+                };
 
-			if (evalede.vue)
-			{
-				Vue.component( driver.name + '-view-connection' , evalede.vue );
-			};
+                if (evalede.vue_add) {
+                    Vue.component(driver.name + '-add-connection', evalede.vue_add);
+                };
 
-			if (evalede.vue_add) {
-				Vue.component(driver.name + '-add-connection', evalede.vue_add);
-			};
+                if (evalede.vue_add_query) {
+                    Vue.component(driver.name + '-add-query', evalede.vue_add_query);
+                };
 
-			if (evalede.vue_add_query) {
-				Vue.component(driver.name + '-add-query', evalede.vue_add_query);
-			};
-
-			if (evalede.vue_view_query) {
-				Vue.component(driver.name + '-view-query', evalede.vue_view_query);
-			};
+                if (evalede.vue_view_query) {
+                    Vue.component(driver.name + '-view-query', evalede.vue_view_query);
+                };
+            }
         }
-	});
+    });
 };
 
 

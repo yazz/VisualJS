@@ -89,6 +89,11 @@ module.exports = {
         target: 'http://' + hostaddress,
         secure: false
       },
+
+      '/get_all_drivers': {
+        target: 'http://' + hostaddress,
+        secure: false
+      },
       '/lock': {
         target: 'http://' + hostaddress,
         secure: false
