@@ -16,6 +16,8 @@ export default new Vuex.Store({
         ,
         current_search: ""
         ,
+        current_location: "vr_home"
+        ,
         search_subtext: ""
         ,
         search_results: {
@@ -93,6 +95,8 @@ export default new Vuex.Store({
     add_connection_visible: state => state.add_connection_visible
     ,
     get_current_search: state => state.current_search
+    ,
+    get_current_location: state => state.current_location
     ,
     get_search_subtext: state => state.search_subtext
     ,
@@ -202,6 +206,9 @@ export default new Vuex.Store({
       },
       SET_CURRENT_SEARCH: function (state,y) {
         state.current_search = y
+      },
+      SET_CURRENT_LOCATION: function (state,y) {
+        state.current_location = y
       },
       SET_SEARCH_SUBTEXT: function (state,y) {
         state.search_subtext = y
@@ -472,6 +479,9 @@ export default new Vuex.Store({
 		//
 		set_current_search: function(a,b){
             a.commit('SET_CURRENT_SEARCH',b)
+		},
+		set_current_location: function(a,b){
+            a.commit('SET_CURRENT_LOCATION',b)
 		},
 		set_search_subtext: function(a,b){
             a.commit('SET_SEARCH_SUBTEXT',b)

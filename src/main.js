@@ -159,11 +159,12 @@ function setupVRVuePane() {
           components: {'VR': VR}
         });
 		
-			var gotoFn = function(params) {
-			};
-		
-		
 
+        
+        
+        
+        
+        
 
 		AFRAME.registerComponent('preview', {
 		    schema: {	id: {type: 'string', default: ''}}
@@ -307,7 +308,15 @@ function setupVRVuePane() {
 		});
 
 
+        
+        
+        
+        
+        
+        
+        
         var gotoFunction = function(options) {
+            
             var goto_name = options.goto_name;
             var distance = options.distance;
             var duration = options.duration;
@@ -351,6 +360,7 @@ function setupVRVuePane() {
                 animation2.setAttribute('to', '' + (worldPos.x)  + ' ' + (worldPos.y ) + ' ' + ((worldPos.z + distance)));
                 document.querySelector("#move_bar").appendChild(animation2);
             }
+            store.dispatch('set_current_location', "goto_name");
         };
 
         AFRAME.registerComponent('set_zoom', {
@@ -723,6 +733,14 @@ function setupVRVuePane() {
   }
 
 var showSearchResults = function() {
+
+    gotoFunction({
+        goto_name:  "scrollable_grid",
+        distance:    4,
+        duration:   "500",
+        animEnd:     function() {store.dispatch('hide_full_doc');}
+    });
+
 
     if (searchtext.length == 0) {
         store.dispatch('set_search_subtext', "");
