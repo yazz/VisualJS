@@ -316,8 +316,12 @@ function setupVRVuePane() {
         
         
         var gotoFunction = function(options) {
-            
+                
             var goto_name = options.goto_name;
+            if (store.getters.get_current_location == goto_name) {
+                return;
+            }
+                
             var distance = options.distance;
             var duration = options.duration;
             var animEnd  = options.animEnd;
