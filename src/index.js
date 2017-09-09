@@ -2,7 +2,6 @@
 
 var pouchdb_system_settings;
 var pouchdb_connections;
-var pouchdb_drivers;
 var pouchdb_queries;
 var pouchdb_intranet_client_connects;
 var pouchdb_users;
@@ -1151,7 +1150,6 @@ dbhelper.setPouchDB(PouchDB);
 dbhelper.initPouchdb();
 pouchdb_system_settings             = dbhelper.get_pouchdb_system_settings();;
 pouchdb_connections                 = dbhelper.get_pouchdb_connections();;
-pouchdb_drivers                     = dbhelper.get_pouchdb_drivers();;
 pouchdb_queries                     = dbhelper.get_pouchdb_queries();;
 pouchdb_intranet_client_connects    = dbhelper.get_pouchdb_intranet_client_connects();;
 
@@ -1163,7 +1161,6 @@ pouchdb_user_requests               = dbhelper.get_pouchdb_user_requests();;
 
 dbhelper.pouchdbTableOnServer('pouchdb_system_settings',    pouchdb_system_settings,null);
 dbhelper.pouchdbTableOnServer('pouchdb_connections',        pouchdb_connections,    function(){when_pouchdb_connections_changes(pouchdb_connections)});
-dbhelper.pouchdbTableOnServer('pouchdb_drivers',            pouchdb_drivers,        null);
 dbhelper.pouchdbTableOnServer('pouchdb_queries',            pouchdb_queries,        function(){when_pouchdb_queries_changes(pouchdb_queries)});
 				
 
@@ -1242,11 +1239,6 @@ dbhelper.pouchdbTableOnServer('pouchdb_queries',            pouchdb_queries,    
                 if (!err) {
                     console.log('             : ' + rows.length);
                     if (rows.length == 0) {
-                        pouchdb_drivers.post({
-												name: name,
-												type: driverType,
-												code: code
-												});
                         try 
                         {
                             dbsearch.serialize(function() {

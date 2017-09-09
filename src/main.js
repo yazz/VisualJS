@@ -918,7 +918,6 @@ function setupPouchDB() {
         var useMemory = true;
         pouchdb_system_settings             = db.get_pouchdb_system_settings(useMemory);
         pouchdb_connections                 = db.get_pouchdb_connections(useMemory);
-        pouchdb_drivers                     = db.get_pouchdb_drivers(useMemory);
         pouchdb_queries                     = db.get_pouchdb_queries(useMemory);
         pouchdb_intranet_client_connects    = db.get_pouchdb_intranet_client_connects();
 
