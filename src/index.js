@@ -1107,6 +1107,14 @@ var upload = multer( { dest: 'uploads/' } );
             }
 		}
 
+        try {
+            dbsearch.serialize(function() {
+                  dbsearch.run("CREATE TABLE drivers (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, type TEXT, code TEXT);");
+                });
+            } catch(err) {
+            } finally {
+                
+            }
 
 
 				console.log("******************************ADDING POUCH*********************************")
@@ -1195,10 +1203,6 @@ dbhelper.pouchdbTableOnServer('pouchdb_queries',            pouchdb_queries,    
 		addOrUpdateDriver('testdriver', tdeval, drivers['testdriver'])
 
 
-		////dbhelper.sql("insert into drivers (name,code,driver_type) values (?,?,?)",            ['a', 'b', 'c'])
-		//dbhelper.sql("update drivers set type = '...2' where name = 'TestDriver'")
-		//dbhelper.sql("select * from drivers where name = 'TestDriver' ")
-		//dbhelper.sql("select * from drivers ")
 
 
 
@@ -1210,38 +1214,53 @@ dbhelper.pouchdbTableOnServer('pouchdb_queries',            pouchdb_queries,    
 
 
 
-		
 		
 		
 
 	function addOrUpdateDriver(name, code, theObject) {
-		console.log("******************************addOrUpdateDriver ")
-		console.log("       name = " + name)
-		//console.log("       code = " + JSON.stringify(code , null, 2))
 		var driverType = theObject.type;
-		//console.log("******************************driver type= " + driverType)
-		//console.log("******************************driver= " + JSON.stringify(theObject , null, 2))
-		
-		pouchdb_drivers.find({selector: {name: {$eq: name}}}, 
-			function(err, result){
-				console.log('POUCH scanning driver: ' + JSON.stringify(name , null, 2));
-				if (result.docs.length == 0) {
-					pouchdb_drivers.post({
+		console.log('addOrUpdateDriver: ' + name);
+        
+        var stmt = dbsearch.all("select count(name) as driver_exists from drivers where name = '" + name + "';", 
+            function(err, rows) {
+                console.log('err             : ' + err);
+                if (!err) {
+                    console.log('             : ' + rows[0]["driver_exists"]);
+                    if (rows[0]["driver_exists"] == 0) {
+                        pouchdb_drivers.post({
 												name: name,
 												type: driverType,
 												code: code
 												});
-				} else {
-					console.log('   *** Checking DRIVER ' + name);
-					var existingDriver = result.docs[0];
-					if (!(code === existingDriver.code)) {
-						console.log('      *** UPDATED CODE FOR DRIVER ' + name);
-						existingDriver.code = code;
-						pouchdb_drivers.put(existingDriver);
-					}
-				}
-			});
-		}
+                        try 
+                        {
+                            dbsearch.serialize(function() {
+                                var stmt = dbsearch.prepare(" insert into drivers " + 
+                                                            "    (name, type, code ) " +
+                                                            " values " + 
+                                                            "    (?,?,?);");
+                            stmt.run(name,  driverType,  code);
+                            stmt.finalize();
+                            });
+                        } catch(err) {
+                        } finally {
+                            
+                        }
+                    
+                    } else {
+                        console.log('   *** Checking DRIVER ' + name);
+                        var existingDriver = result.docs[0];
+                        if (!(code === existingDriver.code)) {
+                            
+                            existingDriver.code = code;
+                            pouchdb_drivers.put(existingDriver);
+                        }
+                    }
+                }
+            }
+        );
+    }
+    
 
 
 
