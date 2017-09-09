@@ -39,7 +39,6 @@
     "path": "^0.12.7",
     "pg": "^6.1.2",
     "pouchdb": "^6.2.0",
-    "pouchdb-fauxton": "0.0.6",
     "pouchdb-find": "^6.2.0",
     "request": "^2.79.0",
     "sqldown": "^2.1.0",
