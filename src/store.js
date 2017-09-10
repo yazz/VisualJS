@@ -351,31 +351,6 @@ export default new Vuex.Store({
 		add_new_connection: function(a, connection){
 			//console.log(JSON.stringify(connection));
             window.add_connection(connection);
-			pouchdb_connections.post(
-				{
-					  name: 			connection.cn
-					  ,
-					  driver:			connection.cp.driver
-					  ,
-					  database:			connection.cp.database
-					  ,
-					  host:				connection.cp.host
-					  ,
-					  port:				connection.cp.port
-					  ,
-					  connectString:	connection.cp.connectString
-					  ,
-					  user:				connection.cp.user
-					  ,
-					  password:			connection.cp.password
-					  ,
-					  fileName:			connection.cp.fileName
-					  ,
-					  size:			    connection.cp.size
-					  ,
-					  preview:			connection.cp.preview
-				}
-			);
 		},
 
 	
@@ -446,9 +421,9 @@ export default new Vuex.Store({
 		//
 		delete_connection: function(a, connection){
             console.log(JSON.stringify(connection));
-            pouchdb_connections.get(connection.id,function(err,doc) {
-                pouchdb_connections.remove(doc);
-            });
+            //pouchdb_connections.get(connection.id,function(err,doc) {
+            //    pouchdb_connections.remove(doc);
+            //});
             
 		},
 

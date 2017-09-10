@@ -1,6 +1,5 @@
 'use strict';
 
-var pouchdb_connections;
 var pouchdb_queries;
 var pouchdb_intranet_client_connects;
 var pouchdb_users;
@@ -1177,7 +1176,6 @@ app.use('/db', myttt);
 
 dbhelper.setPouchDB(PouchDB);
 dbhelper.initPouchdb();
-pouchdb_connections                 = dbhelper.get_pouchdb_connections();;
 pouchdb_queries                     = dbhelper.get_pouchdb_queries();;
 pouchdb_intranet_client_connects    = dbhelper.get_pouchdb_intranet_client_connects();;
 

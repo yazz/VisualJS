@@ -1,5 +1,4 @@
 var PouchDB;
-var pouchdb_connections;
 var pouchdb_queries;
 var pouchdb_intranet_client_connects;
 var pouchdb_users;
@@ -69,17 +68,6 @@ var pouchdb_user_requests;
     
         console.log('...POUCH');
         return pouchdb_intranet_client_connects;
-    };
-    exports.get_pouchdb_connections = function(useMemory) {
-        if (useMemory) {
-            pouchdb_connections = new PouchDB('pouchdb_connections', {adapter: 'memory'});
-        } else {
-            pouchdb_connections = new PouchDB('pouchdb_connections');
-        }
-        pouchdb_connections.createIndex({index: {fields: ['_id']}});
-        pouchdb_connections.createIndex({index: {fields: ['name']}});
-        console.log("pouchdb_connections=" + pouchdb_connections);
-        return pouchdb_connections;
     };
     exports.get_pouchdb_queries = function(useMemory) {
         if (useMemory) {

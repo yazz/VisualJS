@@ -916,7 +916,6 @@ function setupPouchDB() {
         db.setPouchDB(PouchDB);
         db.initPouchdb();
         var useMemory = true;
-        pouchdb_connections                 = db.get_pouchdb_connections(useMemory);
         pouchdb_queries                     = db.get_pouchdb_queries(useMemory);
         pouchdb_intranet_client_connects    = db.get_pouchdb_intranet_client_connects();
 
@@ -925,7 +924,6 @@ function setupPouchDB() {
         when_pouchdb_queries_changes()
 
 		db.pouchdbTable('pouchdb_queries', 		    pouchdb_queries, 		    when_pouchdb_queries_changes);
-        
 		db.pouchdbTable('pouchdb_intranet_client_connects', 		    pouchdb_intranet_client_connects, 		    null);
         
         
