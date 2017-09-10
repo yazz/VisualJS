@@ -33,6 +33,7 @@ function require2(moduleName) {
 var fs           = require('fs');
 var path         = require('path');
 var mkdirp       = require('mkdirp')
+const uuidv1 = require('uuid/v1');
 
 if (!fs.existsSync(process.cwd() + "/node_modules") ) {
     copyFolderRecursiveSync(path.join(__dirname, "../node_modules")  , process.cwd() ); }
@@ -165,7 +166,32 @@ const drivelist = require('drivelist');
 
 var sqlite3   = require2('sqlite3');
 var dbsearch = new sqlite3.Database('gosharedatasearch.sqlite3');
+        try {
+            dbsearch.serialize(function() {
+                  dbsearch.run("CREATE VIRTUAL TABLE search USING fts5(query_id, data);");
+                });
+            } catch(err) {
+            } finally {
+                
+            }
+        try {
+            dbsearch.serialize(function() {
+                  dbsearch.run("CREATE TABLE drivers (id TEXT, name TEXT, type TEXT, code TEXT);");
+                });} catch(err) {} finally {}
 
+        try {
+            dbsearch.serialize(function() {
+                  dbsearch.run("CREATE TABLE connections (id TEXT, name TEXT, driver TEXT, database TEXT, host TEXT, port TEXT ,connectString TEXT, user TEXT, password TEXT, fileName TEXT, size INTEGER, type TEXT, preview TEXT, hash TEXT);");
+                });} catch(err) {} finally {}
+                
+        try {
+            dbsearch.serialize(function() {
+                  dbsearch.run("CREATE TABLE queries (id TEXT, name TEXT, connection INTEGER, driver TEXT, size INTEGER, hash TEXT, type TEXT, fileName TEXT, definition TEXT, preview TEXT);");
+                });} catch(err) {} finally {}
+
+                
+                
+                
 var stopScan = false;
 var XLSX = require('xlsx');
 var csv = require('fast-csv');
@@ -213,49 +239,59 @@ function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileTyp
         hash.write(contents);
         hash.end();
         var sha1sum = hash.read();
-
-        pouchdb_connections.post(
-        {
-              name: 		fileId,
-              driver: 		fileType,
-              size:         size,
-              hash:         sha1sum,
-              type:         fileType2,
-              fileName: 	fileName
-        }, function (err, response) {
-              if (err) { 
-                    return err; 
-              }
-              
-              
-              var saveTo;
-              if (isWin) {
-                  saveTo = process.cwd() + "\\public\\docs\\" + "gsd_" + sha1sum.toString() + path.extname(fileName);
-	      } else {
-		  saveTo = process.cwd() + "/public/docs/" + "gsd_" + sha1sum.toString() + path.extname(fileName);
-	      };
-              var copyfrom = fileName;
-              console.log('Copy from : ' + copyfrom + ' to : ' + saveTo);
-              copyFileSync(copyfrom, saveTo);
-              
-              
-              console.log("*RESP: " + JSON.stringify(response,null,2));
-              pouchdb_queries.post(
-              {
-                  name: fileId,
-                  connection: response.id,
-                  driver: fileType,
-                  size: size,
-                  hash: sha1sum,
-                  fileName: fileName,
-                  type: fileType2,
-                  definition:JSON.stringify({} , null, 2),
-                  preview: JSON.stringify([{message: 'No preview available'}] , null, 2)
-                  
-              });
+                                        
+        dbsearch.serialize(function() {
+            var stmt = dbsearch.prepare(" insert into connections " + 
+                                        "    ( id, name, driver, size, hash, type, fileName ) " +
+                                        " values " + 
+                                        "    (?,  ?,?,?,  ?,?,?);");
+                                        
+            var newid = uuidv1();
+            stmt.run(newid,
+                     fileId, 
+                     fileType,
+                     size,
+                     sha1sum,
+                     fileType2,
+                     fileName, function(err) {
+                         
+            
+                            var saveTo;
+                            if (isWin) {
+                                saveTo = process.cwd() + "\\public\\docs\\" + "gsd_" + sha1sum.toString() + path.extname(fileName);
+                            } else {
+                                saveTo = process.cwd() + "/public/docs/" + "gsd_" + sha1sum.toString() + path.extname(fileName);
+                            };
+                            var copyfrom = fileName;
+                            console.log('Copy from : ' + copyfrom + ' to : ' + saveTo);
+                            copyFileSync(copyfrom, saveTo);
+                              
+                              
+                            pouchdb_queries.post(
+                            {
+                                name: fileId,
+                                connection: newid,
+                                driver: fileType,
+                                size: size,
+                                hash: sha1sum,
+                                fileName: fileName,
+                                type: fileType2,
+                                definition:JSON.stringify({} , null, 2),
+                                preview: JSON.stringify([{message: 'No preview available'}] , null, 2)
+                                  
+                            });
+                            console.log(":      saved query = " + fileId);
+                         
+                     });
+                     
+            stmt.finalize();
+            
         });
-    } catch (err) {
-        console.log("Error with file: " + fileName);     
+    } catch(err) {
+        console.log("Error " + err + " with file: " + fileName);     
+        return err; 
+    } finally {
+        
     }
 }
 
@@ -1117,30 +1153,8 @@ var upload = multer( { dest: 'uploads/' } );
 				
 				
 
-        try {
-            dbsearch.serialize(function() {
-                  dbsearch.run("CREATE VIRTUAL TABLE search USING fts5(query_id, data);");
-                });
-            } catch(err) {
-            } finally {
-                
-            }
 		}
 
-        try {
-            dbsearch.serialize(function() {
-                  dbsearch.run("CREATE TABLE drivers (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, type TEXT, code TEXT);");
-                });} catch(err) {} finally {}
-
-        try {
-            dbsearch.serialize(function() {
-                  dbsearch.run("CREATE TABLE connections (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, driver TEXT, database TEXT, host TEXT, port TEXT ,connectString TEXT, user TEXT, password TEXT, fileName TEXT, size INTEGER, type TEXT, preview TEXT);");
-                });} catch(err) {} finally {}
-                
-        try {
-            dbsearch.serialize(function() {
-                  dbsearch.run("CREATE TABLE queries (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, connection INTEGER, driver TEXT, size INTEGER, hash TEXT, type TEXT, fileName TEXT, definition TEXT, preview TEXT);");
-                });} catch(err) {} finally {}
 
 
                   
@@ -1255,10 +1269,10 @@ dbhelper.pouchdbTableOnServer('pouchdb_queries',            pouchdb_queries,    
                         {
                             dbsearch.serialize(function() {
                                 var stmt = dbsearch.prepare(" insert into drivers " + 
-                                                            "    (name, type, code ) " +
+                                                            "    (id,  name, type, code ) " +
                                                             " values " + 
-                                                            "    (?,?,?);");
-                            stmt.run(name,  driverType,  code);
+                                                            "    (?, ?,?,?);");
+                            stmt.run(uuidv1(),  name,  driverType,  code);
                             stmt.finalize();
                             });
                         } catch(err) {
@@ -1431,11 +1445,12 @@ function addNewConnection( params ) {
         console.log("------------------function addNewConnection( params ) { -------------------");
         dbsearch.serialize(function() {
             var stmt = dbsearch.prepare(" insert into connections " + 
-                                        "    ( name, driver, database, host, port, connectString, user, password, fileName, size, preview ) " +
+                                        "    ( id, name, driver, database, host, port, connectString, user, password, fileName, size, preview ) " +
                                         " values " + 
-                                        "    (?,?,?,?,?,?,?,?,?,?,?);");
+                                        "    (?,  ?,?,?,?,?,?,?,?,?,?,?);");
                                         
-            stmt.run(params.name, 
+            stmt.run(uuidv1(),
+                     params.name, 
                      params.driver, 
                      params.database, 
                      params.host, 

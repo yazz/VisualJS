@@ -44,7 +44,7 @@
     "sqldown": "^2.1.0",
     "sqlite3": "^3.1.8",
     "unzip": "^0.1.11",
-    "uuid": "^3.0.1",
+    "uuid": "^3.1.0",
     "vue": "^2.4.2",
     "vue-loader": "^10.3.0",
     "vue-template-compiler": "^2.4.2",
