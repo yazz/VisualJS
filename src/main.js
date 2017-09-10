@@ -916,7 +916,6 @@ function setupPouchDB() {
         db.setPouchDB(PouchDB);
         db.initPouchdb();
         var useMemory = true;
-        pouchdb_system_settings             = db.get_pouchdb_system_settings(useMemory);
         pouchdb_connections                 = db.get_pouchdb_connections(useMemory);
         pouchdb_queries                     = db.get_pouchdb_queries(useMemory);
         pouchdb_intranet_client_connects    = db.get_pouchdb_intranet_client_connects();
@@ -925,7 +924,6 @@ function setupPouchDB() {
         when_pouchdb_connections_changes()
         when_pouchdb_queries_changes()
 
-		db.pouchdbTable('pouchdb_system_settings',  pouchdb_system_settings,   	when_pouchdb_system_settings_changes);
 		db.pouchdbTable('pouchdb_connections', 		pouchdb_connections, 		when_pouchdb_connections_changes);
 		db.pouchdbTable('pouchdb_queries', 		    pouchdb_queries, 		    when_pouchdb_queries_changes);
         
@@ -1201,15 +1199,6 @@ window.drop = function(pouchCollection) {
 }
 
 
-function when_pouchdb_system_settings_changes() {
-	pouchdb_system_settings.find({selector: {_id: 'test'},fields: ['_id', 'value']},function (err, result) {
-		if (result.docs.length > 0) {
-			if (document.getElementById('mainid3')) {
-				document.getElementById('mainid3').innerHTML = JSON.stringify(result.docs[0].value , null, 2)
-			};
-		};
-	});
-};
 
 
 

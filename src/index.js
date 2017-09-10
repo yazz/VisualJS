@@ -1,6 +1,5 @@
 'use strict';
 
-var pouchdb_system_settings;
 var pouchdb_connections;
 var pouchdb_queries;
 var pouchdb_intranet_client_connects;
@@ -1148,7 +1147,6 @@ app.use('/db', myttt);
 
 dbhelper.setPouchDB(PouchDB);
 dbhelper.initPouchdb();
-pouchdb_system_settings             = dbhelper.get_pouchdb_system_settings();;
 pouchdb_connections                 = dbhelper.get_pouchdb_connections();;
 pouchdb_queries                     = dbhelper.get_pouchdb_queries();;
 pouchdb_intranet_client_connects    = dbhelper.get_pouchdb_intranet_client_connects();;
@@ -1159,7 +1157,6 @@ pouchdb_user_identifiers            = dbhelper.get_pouchdb_user_identifiers();;
 pouchdb_user_requests               = dbhelper.get_pouchdb_user_requests();;
 
 
-dbhelper.pouchdbTableOnServer('pouchdb_system_settings',    pouchdb_system_settings,null);
 dbhelper.pouchdbTableOnServer('pouchdb_connections',        pouchdb_connections,    function(){when_pouchdb_connections_changes(pouchdb_connections)});
 dbhelper.pouchdbTableOnServer('pouchdb_queries',            pouchdb_queries,        function(){when_pouchdb_queries_changes(pouchdb_queries)});
 				
