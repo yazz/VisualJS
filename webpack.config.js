@@ -90,7 +90,16 @@ module.exports = {
         secure: false
       },
 
-      '/get_all_drivers': {
+      '/get_all_table': {
+        target: 'http://' + hostaddress,
+        secure: false
+      },
+
+      '/add_new_connection': {
+        target: 'http://' + hostaddress,
+        secure: false
+      },
+      '/add_new_query': {
         target: 'http://' + hostaddress,
         secure: false
       },

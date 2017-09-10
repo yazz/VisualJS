@@ -350,6 +350,7 @@ export default new Vuex.Store({
 		//
 		add_new_connection: function(a, connection){
 			//console.log(JSON.stringify(connection));
+            window.add_connection(connection);
 			pouchdb_connections.post(
 				{
 					  name: 			connection.cn

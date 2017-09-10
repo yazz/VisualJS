@@ -975,19 +975,28 @@ var upload = multer( { dest: 'uploads/' } );
         return "";
     }
     
-	app.get('/get_all_drivers', 
-            function (req, res) {
-                var stmt = dbsearch.all("select id, name, type, code from drivers",
-                    function(err, rows) {
-                        if (!err) {
-                            res.writeHead(200, {'Content-Type': 'text/plain'});
-                            res.end(JSON.stringify(
-                                rows));
-                            console.log("Sent: " + JSON.stringify(rows.length));
-                        };
-                    })
+	app.get('/get_all_table', 
+        function (req, res) {
+			var tableName = url.parse(req.url, true).query.tableName;
+            var stmt = dbsearch.all("select id, name, type, code from " + tableName,
+                function(err, rows) {
+                    if (!err) {
+                        res.writeHead(200, {'Content-Type': 'text/plain'});
+                        res.end(JSON.stringify(
+                            rows));
+                        console.log("Sent: " + JSON.stringify(rows.length));
+                    };
+                })
     });
+    
 
+	app.post('/add_new_connection', 
+        function (req, res) {
+			var tableName = req.body.name;
+            res.writeHead(200, {'Content-Type': 'text/plain'});
+            res.end(JSON.stringify(
+        {name: tableName}))});
+    
     
     
 	//------------------------------------------------------------------------------
@@ -1123,13 +1132,22 @@ var upload = multer( { dest: 'uploads/' } );
         try {
             dbsearch.serialize(function() {
                   dbsearch.run("CREATE TABLE drivers (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, type TEXT, code TEXT);");
-                });
-            } catch(err) {
-            } finally {
+                });} catch(err) {} finally {}
                 
-            }
+        try {
+            dbsearch.serialize(function() {
+                  dbsearch.run("CREATE TABLE connections (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, driver TEXT, size INTEGER, hash TEXT, type TEXT, fileName TEXT);");
+                });} catch(err) {} finally {}
+                
+        try {
+            dbsearch.serialize(function() {
+                  dbsearch.run("CREATE TABLE queries (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, connection INTEGER, driver TEXT, size INTEGER, hash TEXT, type TEXT, fileName TEXT, definition TEXT, preview TEXT);");
+                });} catch(err) {} finally {}
 
 
+                  
+                  
+                  
 				console.log("******************************ADDING POUCH*********************************")
 				console.log("******************************ADDING POUCH*********************************")
 

@@ -1259,13 +1259,48 @@ function when_pouchdb_connections_changes() {
 };
 
 
+window.add_connection = function(connection) {
+    alert("Added3")
+    $.ajax({
+                type: "POST",
+                url: '/add_new_connection',
+                data:   {
+                          name: 			connection.cn
+                          ,
+                          driver:			connection.cp.driver
+                          ,
+                          database:			connection.cp.database
+                          ,
+                          host:				connection.cp.host
+                          ,
+                          port:				connection.cp.port
+                          ,
+                          connectString:	connection.cp.connectString
+                          ,
+                          user:				connection.cp.user
+                          ,
+                          password:			connection.cp.password
+                          ,
+                          fileName:			connection.cp.fileName
+                          ,
+                          size:			    connection.cp.size
+                          ,
+                          preview:			connection.cp.preview
+                        },
+            success: function(results2) {
+                   // alert("success: " + results2);
+    }});
+}   
+
+
 
 function when_pouchdb_drivers_changes() {
     store.dispatch('clear_drivers');
     $.ajax({
                 type: "GET",
-                url: '/get_all_drivers',
+                url: '/get_all_table',
                 data:   {
+                            tableName: "drivers"
                         },
             success: function(results2) {
                 var results = eval("(" + results2 + ")") ;
