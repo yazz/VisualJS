@@ -164,6 +164,7 @@ const drivelist = require('drivelist');
 
 
 var sqlite3   = require2('sqlite3');
+var dbsearch = new sqlite3.Database('gosharedatasearch.sqlite3');
 
 var stopScan = false;
 var XLSX = require('xlsx');
@@ -893,7 +894,6 @@ var upload = multer( { dest: 'uploads/' } );
 
 
 
-        var dbsearch = new sqlite3.Database('gosharedatasearch.sqlite3');
 
 
 
@@ -989,13 +989,12 @@ var upload = multer( { dest: 'uploads/' } );
                 })
     });
     
-
 	app.post('/add_new_connection', 
         function (req, res) {
-			var tableName = req.body.name;
+			var params = req.body;//zzz
+            addNewConnection( params );
             res.writeHead(200, {'Content-Type': 'text/plain'});
-            res.end(JSON.stringify(
-        {name: tableName}))});
+            res.end(JSON.stringify({done: "ok"}))});
     
     
     
@@ -1133,10 +1132,10 @@ var upload = multer( { dest: 'uploads/' } );
             dbsearch.serialize(function() {
                   dbsearch.run("CREATE TABLE drivers (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, type TEXT, code TEXT);");
                 });} catch(err) {} finally {}
-                
+
         try {
             dbsearch.serialize(function() {
-                  dbsearch.run("CREATE TABLE connections (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, driver TEXT, size INTEGER, hash TEXT, type TEXT, fileName TEXT);");
+                  dbsearch.run("CREATE TABLE connections (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, driver TEXT, database TEXT, host TEXT, port TEXT ,connectString TEXT, user TEXT, password TEXT, fileName TEXT, size INTEGER, type TEXT, preview TEXT);");
                 });} catch(err) {} finally {}
                 
         try {
@@ -1424,7 +1423,36 @@ function when_pouchdb_connections_changes(pouchdb_connections) {
     }
 }
 
-
+function addNewConnection( params ) { 
+    try 
+    {
+        console.log("------------------function addNewConnection( params ) { -------------------");
+        dbsearch.serialize(function() {
+            var stmt = dbsearch.prepare(" insert into connections " + 
+                                        "    ( name, driver, database, host, port, connectString, user, password, fileName, size, preview ) " +
+                                        " values " + 
+                                        "    (?,?,?,?,?,?,?,?,?,?,?);");
+                                        
+            stmt.run(params.name, 
+                     params.driver, 
+                     params.database, 
+                     params.host, 
+                     params.port, 
+                     params.connectString, 
+                     params.user, 
+                     params.password, 
+                     params.fileName, 
+                     params.size, 
+                     params.preview);
+                     
+            stmt.finalize();
+        });
+    } catch(err) {
+        console.log("                          err: " + err);
+    } finally {
+        
+    }
+}
 
 
 var in_when_pouchdb_queries_changes = false;

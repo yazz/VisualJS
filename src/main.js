@@ -1260,7 +1260,6 @@ function when_pouchdb_connections_changes() {
 
 
 window.add_connection = function(connection) {
-    alert("Added3")
     $.ajax({
                 type: "POST",
                 url: '/add_new_connection',
