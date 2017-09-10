@@ -924,7 +924,6 @@ function setupPouchDB() {
         when_pouchdb_connections_changes()
         when_pouchdb_queries_changes()
 
-		db.pouchdbTable('pouchdb_connections', 		pouchdb_connections, 		when_pouchdb_connections_changes);
 		db.pouchdbTable('pouchdb_queries', 		    pouchdb_queries, 		    when_pouchdb_queries_changes);
         
 		db.pouchdbTable('pouchdb_intranet_client_connects', 		    pouchdb_intranet_client_connects, 		    null);
@@ -1208,46 +1207,40 @@ var callConnAgain = false;
 function when_pouchdb_connections_changes() {
     if (!in_when_pouchdb_connections_changes) {
         in_when_pouchdb_connections_changes = true;
-        pouchdb_connections.find({selector: {name: {$ne: null}}}, function (err, result) {
-            var results = result.docs;
-            //store.dispatch('clear_connections');
-            for (var i = 0 ; i < results.length ; i ++) {
-                var conn = results[i]
-                //console.log('********* CALLED REALTIME DBCONN*************:' + JSON.stringify(conn , null, 2));
-                var exists = (store.getters.connection_map[conn._id] == true);
+        store.dispatch('clear_connections');
+        $.ajax({
+                type: "GET",
+                url: '/get_all_table',
+                data:   {
+                            tableName: "connections"
+                        },
+            success: function(results2) {
+                var results = eval("(" + results2 + ")") ;
+    
+                for (var i = 0 ; i < results.length ; i ++) {
+                    var conn = results[i]
+                    //console.log('********* CALLED REALTIME DBCONN*************:' + JSON.stringify(conn , null, 2));
+                    var exists = (store.getters.connection_map[conn.id] == true);
 
-                if (!exists) {
-                    store.dispatch( 'add_connection' , {  cn:       conn.name,
-
-                                                        cp: {       id:      conn._id
-                                                                    ,
-                                                                    name: conn.name
-                                                                    ,
-                                                                    driver: conn.driver
-                                                                    ,
-                                                                    status: ''
-                                                                    ,
-                                                                    database: conn.database
-                                                                    ,
-                                                                    host: conn.host
-                                                                    ,
-                                                                    port: conn.port
-                                                                    ,
-                                                                    user: conn.user
-                                                                    ,
-                                                                    size: conn.size
-                                                                    ,
-                                                                    password: conn.password
-                                                                    ,
-                                                                    connectString: conn.connectString
-                                                                    ,
-                                                                    fileName: conn.fileName
-                                                                    ,
-                                                                    hash: conn.hash
-                                                                   }});
-                };
-            }
-        });
+                    if (!exists) {
+                        store.dispatch( 'add_connection' , {  cn:       conn.name,
+                                                              cp: {     id:      conn.id,
+                                                                        name: conn.name,
+                                                                        driver: conn.driver,
+                                                                        status: '',
+                                                                        database: conn.database,
+                                                                        host: conn.host,
+                                                                        port: conn.port,
+                                                                        user: conn.user,
+                                                                        size: conn.size,
+                                                                        password: conn.password,
+                                                                        connectString: conn.connectString,
+                                                                        fileName: conn.fileName,
+                                                                        hash: conn.hash
+                                                                       }});
+                    };
+                }
+        }});
         in_when_pouchdb_connections_changes = false;
         if (callConnAgain) {
             callConnAgain = false;

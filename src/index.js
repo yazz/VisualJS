@@ -693,16 +693,15 @@ var upload = multer( { dest: 'uploads/' } );
 	app.post('/getresult', function (req, res) {
 		console.log('in getresult');
 		var queryData = req.body;
-		console.log('queryData.source: ' + JSON.stringify(queryData.source,null,2));
+		console.log('queryData.source: ' + queryData.source);
         
 		//console.log('request received source: ' + Object.keys(req));
-		//console.log('request received SQL: ' + queryData.sql);
 		var error = new Object();
 		if (queryData) {
 			if (connections[queryData.source]) {
 				if (queryData.source) {
 					if (connections[queryData.source].driver) {
-						//console.log('query driver: ' + connections[queryData.source].driver);
+						console.log('query driver: ' + connections[queryData.source].driver);
 						try {
 							drivers[connections[queryData.source].driver]['get_v2'](connections[queryData.source],{sql: queryData.sql},function(ordata) {
 								res.writeHead(200, {'Content-Type': 'text/plain'});
@@ -978,7 +977,7 @@ var upload = multer( { dest: 'uploads/' } );
 	app.get('/get_all_table', 
         function (req, res) {
 			var tableName = url.parse(req.url, true).query.tableName;
-            var stmt = dbsearch.all("select id, name, type, code from " + tableName,
+            var stmt = dbsearch.all("select * from " + tableName,
                 function(err, rows) {
                     if (!err) {
                         res.writeHead(200, {'Content-Type': 'text/plain'});
@@ -1173,8 +1172,7 @@ pouchdb_user_zones                  = dbhelper.get_pouchdb_user_zones();;
 pouchdb_user_identifiers            = dbhelper.get_pouchdb_user_identifiers();;
 pouchdb_user_requests               = dbhelper.get_pouchdb_user_requests();;
 
-
-dbhelper.pouchdbTableOnServer('pouchdb_connections',        pouchdb_connections,    function(){when_pouchdb_connections_changes(pouchdb_connections)});
+when_pouchdb_connections_changes();
 dbhelper.pouchdbTableOnServer('pouchdb_queries',            pouchdb_queries,        function(){when_pouchdb_queries_changes(pouchdb_queries)});
 				
 
@@ -1399,29 +1397,33 @@ function copyFolderRecursiveSync( source, target ) {
 
 
 var in_when_pouchdb_connections_changes=false;
-function when_pouchdb_connections_changes(pouchdb_connections) {
+function when_pouchdb_connections_changes() {
     if (!in_when_pouchdb_connections_changes) {
         in_when_pouchdb_connections_changes=true;
         console.log('------------------------------------');
         console.log('Called when_pouchdb_ CONNS _changes ');
         console.log('------------------------------------');
         console.log('------------------------------------');
-        
-        pouchdb_connections.find({selector: {name: {'$exists': true}}}, function (err, result) {
-            var results = result.docs;
-            for (var i = 0 ; i < results.length ; i ++) {
-                var conn = results[i]
-                //console.log('    --------Found conn:  ' + conn._id);
-                //console.log('                      :  ' + conn.name);
-                if (!connections[conn._id]) {
-                  //console.log(a);
-                  connections[conn._id] = conn;
+//zzz        
+        var stmt = dbsearch.all("select * from connections",
+            function(err, results) {
+                if (!err) {
+                    for (var i = 0 ; i < results.length ; i ++) {
+                        var conn = results[i]
+                        //console.log('    --------Found conn:  ' + conn._id);
+                        //console.log('                      :  ' + conn.name);
+                        if (!connections[conn.id]) {
+                          //console.log(a);
+                          connections[conn.id] = conn;
+                        }
+                    }
                 }
             }
-        });
-        in_when_pouchdb_connections_changes=false;
-    }
+        );
+    };
+    in_when_pouchdb_connections_changes=false;
 }
+
 
 function addNewConnection( params ) { 
     try 
