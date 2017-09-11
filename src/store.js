@@ -360,20 +360,7 @@ export default new Vuex.Store({
 		//
 		add_new_query: function(a, query){
             //alert('new query: ' + JSON.stringify(query));;
-			pouchdb_queries.post(
-				{
-                      name:         query.cp.name
-                      ,
-                      connection:   query.cp.connection
-                      ,
-                      driver:       query.cp.driver
-                      ,
-                      definition:   query.cp.definition
-                      ,
-                      status:       query.cp.status
-				}
-			);
-                        
+            window.add_query(query);
     },
 
 	

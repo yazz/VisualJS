@@ -1,6 +1,5 @@
 'use strict';
 
-var pouchdb_queries;
 var pouchdb_intranet_client_connects;
 var pouchdb_users;
 var pouchdb_user_zones;
@@ -185,7 +184,7 @@ var dbsearch = new sqlite3.Database('gosharedatasearch.sqlite3');
                 
         try {
             dbsearch.serialize(function() {
-                  dbsearch.run("CREATE TABLE queries (id TEXT, name TEXT, connection INTEGER, driver TEXT, size INTEGER, hash TEXT, type TEXT, fileName TEXT, definition TEXT, preview TEXT);");
+                  dbsearch.run("CREATE TABLE queries (id TEXT, name TEXT, connection INTEGER, driver TEXT, size INTEGER, hash TEXT, type TEXT, fileName TEXT, definition TEXT, preview TEXT, status TEXT);");
                 });} catch(err) {} finally {}
 
                 
@@ -266,18 +265,23 @@ function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileTyp
                             copyFileSync(copyfrom, saveTo);
                               
                               
-                            pouchdb_queries.post(
-                            {
-                                name: fileId,
-                                connection: newid,
-                                driver: fileType,
-                                size: size,
-                                hash: sha1sum,
-                                fileName: fileName,
-                                type: fileType2,
-                                definition:JSON.stringify({} , null, 2),
-                                preview: JSON.stringify([{message: 'No preview available'}] , null, 2)
-                                  
+                            dbsearch.serialize(function() {
+                                var stmt = dbsearch.prepare(" insert into queries " + 
+                                                            "    ( id, name, connection, driver, size, hash, fileName, type, definition, preview ) " +
+                                                            " values " + 
+                                                            "    (?,  ?,?,?,  ?,?,?, ?,?,?);");
+                                                            
+                                var newqueryid = uuidv1();
+                                stmt.run(newqueryid,
+                                         fileId, 
+                                         newid,
+                                         fileType,
+                                         size,
+                                         sha1sum,
+                                         fileName,
+                                         fileType2,
+                                         JSON.stringify({} , null, 2),
+                                         JSON.stringify([{message: 'No preview available'}] , null, 2))
                             });
                             console.log(":      saved query = " + fileId);
                          
@@ -1030,6 +1034,16 @@ var upload = multer( { dest: 'uploads/' } );
             res.writeHead(200, {'Content-Type': 'text/plain'});
             res.end(JSON.stringify({done: "ok"}))});
     
+
+
+	app.post('/add_new_query', 
+        function (req, res) {
+			var params = req.body;//zzz
+            addNewQuery( params );
+            res.writeHead(200, {'Content-Type': 'text/plain'});
+            res.end(JSON.stringify({done: "ok"}))});
+
+
     
     
 	//------------------------------------------------------------------------------
@@ -1176,7 +1190,6 @@ app.use('/db', myttt);
 
 dbhelper.setPouchDB(PouchDB);
 dbhelper.initPouchdb();
-pouchdb_queries                     = dbhelper.get_pouchdb_queries();;
 pouchdb_intranet_client_connects    = dbhelper.get_pouchdb_intranet_client_connects();;
 
 pouchdb_users                       = dbhelper.get_pouchdb_users();;
@@ -1185,7 +1198,7 @@ pouchdb_user_identifiers            = dbhelper.get_pouchdb_user_identifiers();;
 pouchdb_user_requests               = dbhelper.get_pouchdb_user_requests();;
 
 when_pouchdb_connections_changes();
-dbhelper.pouchdbTableOnServer('pouchdb_queries',            pouchdb_queries,        function(){when_pouchdb_queries_changes(pouchdb_queries)});
+when_pouchdb_queries_changes();
 				
 
 
@@ -1470,42 +1483,73 @@ function addNewConnection( params ) {
 }
 
 
+
+function addNewQuery( params ) { 
+    try 
+    {
+        console.log("------------------function addNewQuery( params ) { -------------------");
+        dbsearch.serialize(function() {
+            var stmt = dbsearch.prepare(" insert into query " + 
+                                        "    ( id, name, connection, driver, definition, status ) " +
+                                        " values " + 
+                                        "    (?,    ?, ?, ?, ?, ?);");
+                                        
+            stmt.run(uuidv1(),
+                     params.name, 
+                     params.connection, 
+                     params.driver, 
+                     params.definition,
+                     params.status
+                     );
+                     
+            stmt.finalize();
+        });
+    } catch(err) {
+        console.log("                          err: " + err);
+    } finally {
+        
+    }
+}
+
+
+
+
+
+
+
 var in_when_pouchdb_queries_changes = false;
-function when_pouchdb_queries_changes(pouchdb_queries) {
+function when_pouchdb_queries_changes() {
     if (!in_when_pouchdb_queries_changes) {
         in_when_pouchdb_queries_changes = true;
         console.log('Called when_pouchdb_queries_changes ');
         //console.log('    connection keys:  ' + JSON.stringify(Object.keys(connections),null,2));
-        pouchdb_queries.find({selector: {name: {'$exists': true}}}, function (err, result) {
-            if (err) {
-                console.log('    --------Error:  ' + err);
-                return;
-            }
-            var results = result.docs;
-            console.log('    --------Found:  ' + results.length);
-            
-            
-            // find previews
-            for (var i = 0 ; i < results.length ; i ++) {
-                var query = results[i];
-                if (!queries[query._id]) {
-                    queries[query._id] = query;
-                    var oout = [{a: 'no EXCEL'}];
-                    try {
-                        //console.log('get preview for query id : ' + query._id);
-                        //console.log('          driver : ' + query.driver);
-                        var restrictRows = JSON.parse(query.definition);
-                        restrictRows.maxRows = 10;
-                        /*drivers[query.driver]['get_v2'](connections[query.connection],restrictRows,
-                            function(ordata) {
-                                //console.log('getting preview for query : ' + query.name);
-                                query.preview = JSON.stringify(ordata, null, 2);
-                                pouchdb_queries.put(query);
-                        });*/
-                    } catch (err) {};
-                }
-            };
-        });
+        var stmt = dbsearch.all("select * from queries",
+            function(err, results) {
+                if (!err) {
+                console.log('    --------Found:  ' + results.length);
+                
+                
+                // find previews
+                for (var i = 0 ; i < results.length ; i ++) {
+                    var query = results[i];
+                    if (!queries[query.id]) {
+                        queries[query.id] = query;
+                        var oout = [{a: 'no EXCEL'}];
+                        try {
+                            //console.log('get preview for query id : ' + query._id);
+                            //console.log('          driver : ' + query.driver);
+                            var restrictRows = JSON.parse(query.definition);
+                            restrictRows.maxRows = 10;
+                            /*drivers[query.driver]['get_v2'](connections[query.connection],restrictRows,
+                                function(ordata) {
+                                    //console.log('getting preview for query : ' + query.name);
+                                    query.preview = JSON.stringify(ordata, null, 2);
+                                    pouchdb_queries.put(query);
+                            });*/
+                        } catch (err) {};
+                    }
+                };
+            }});
         in_when_pouchdb_queries_changes = false;
     }
 };

@@ -916,14 +916,13 @@ function setupPouchDB() {
         db.setPouchDB(PouchDB);
         db.initPouchdb();
         var useMemory = true;
-        pouchdb_queries                     = db.get_pouchdb_queries(useMemory);
         pouchdb_intranet_client_connects    = db.get_pouchdb_intranet_client_connects();
 
         when_pouchdb_drivers_changes()
         when_pouchdb_connections_changes()
         when_pouchdb_queries_changes()
 
-		db.pouchdbTable('pouchdb_queries', 		    pouchdb_queries, 		    when_pouchdb_queries_changes);
+		//db.pouchdbTable('pouchdb_queries', 		    pouchdb_queries, 		    when_pouchdb_queries_changes);
 		db.pouchdbTable('pouchdb_intranet_client_connects', 		    pouchdb_intranet_client_connects, 		    null);
         
         
@@ -1284,6 +1283,27 @@ window.add_connection = function(connection) {
 
 
 
+window.add_query = function(query) {
+    $.ajax({
+                type: "POST",
+                url: '/add_new_query',
+                data:   {
+                          name:         query.cp.name
+                          ,
+                          connection:   query.cp.connection
+                          ,
+                          driver:       query.cp.driver
+                          ,
+                          definition:   query.cp.definition
+                          ,
+                          status:       query.cp.status
+                        },
+            success: function(results2) {
+                   // alert("success: " + results2);
+    }});
+}   
+
+
 function when_pouchdb_drivers_changes() {
     store.dispatch('clear_drivers');
     $.ajax({
@@ -1347,13 +1367,21 @@ var callQueriesAgain = false;
 function recalcVuexQueries() {
     var results = Object.keys(allQueries);
 
-        store.dispatch('clear_queries');
-    //store.dispatch('clear_queries');
-    console.log('********* CALLED recalcVuexQueries len:' + JSON.stringify(results.length , null, 2));
+    store.dispatch('clear_queries');
+    $.ajax({
+                type: "GET",
+                url: '/get_all_table',
+                data:   {
+                            tableName: "queries"
+                        },
+            success: function(results2) {
+                var results = eval("(" + results2 + ")") ;
+            //alert(JSON.stringify(results , null, 2));
     for (var i = 0 ; i < results.length ; i ++) {
-        var query = allQueries[results[i]];
+        var query = results[i];
+            //alert(JSON.stringify(query , null, 2));
         console.log('                      query *********:' + JSON.stringify(query , null, 2));
-        var exists = (store.getters.query_map[query._id] == true);
+        var exists = (store.getters.query_map[query.id] == true);
 
         if (!exists) {
         
@@ -1378,8 +1406,8 @@ function recalcVuexQueries() {
                                                 definition: eval('(' + query.definition + ')')
                                                }});
         };
-    };
-};
+    }
+        }})}
 
 var inupdatesearch = false;
 function  setvuexitemssearch( results2 ) {
@@ -1410,6 +1438,7 @@ function  setvuexitemssearch( results2 ) {
 
         store.dispatch('clear_queries');
         for (var i = 0 ; i < results.length ; i ++) {
+            //alert(JSON.stringify(query , null, 2));
             //console.log('                          queries *********:' + JSON.stringify(allQueries , null, 2));
             var query = allQueries[results[i]];
             console.log('                          query *********:' + JSON.stringify(query , null, 2));
@@ -1446,19 +1475,26 @@ function  setvuexitemssearch( results2 ) {
 function when_pouchdb_queries_changes() {
     if (!in_when_pouchdb_queries_changes) {
         in_when_pouchdb_queries_changes = true;
-        pouchdb_queries.find({selector: {name: {$ne: null}}},function (err, result) {
-            var results = result.docs;
+    store.dispatch('clear_queries');
+    $.ajax({
+                type: "GET",
+                url: '/get_all_table',
+                data:   {
+                            tableName: "queries"
+                        },
+            success: function(results2) {
+                var results = eval("(" + results2 + ")") ;
 
             //store.dispatch('clear_queries');
             console.log('********* CALLED REALTIME DBCONN len:' + JSON.stringify(results.length , null, 2));
             for (var i = 0 ; i < results.length ; i ++) {
                 var query = results[i]
                 //console.log('********* CALLED REALTIME DBCONN*************:' + JSON.stringify(conn , null, 2));
-                var exists = !(!allQueries[query._id]);
+                var exists = !(!allQueries[query.id]);
 
                 if (!exists) {
                 
-                    allQueries[query._id] =  {     id:      query._id
+                    allQueries[query.id] =  {     id:      query.id
                                                         ,
                                                         name: query.name
                                                         ,
@@ -1479,7 +1515,7 @@ function when_pouchdb_queries_changes() {
                 };
             };
             recalcVuexQueries();
-        });
+    }});
         in_when_pouchdb_queries_changes = false;
         if (callQueriesAgain) {
             callQueriesAgain = false;
