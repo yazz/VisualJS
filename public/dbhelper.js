@@ -1,58 +1,11 @@
 var PouchDB;
 var pouchdb_intranet_client_connects;
-var pouchdb_users;
-var pouchdb_user_zones;
-var pouchdb_user_identifiers;
-var pouchdb_user_requests;
 
 (function(exports){
     exports.setPouchDB = function(val) {
         PouchDB = val;
     };
 
-    exports.get_pouchdb_users = function(useMemory) {
-        if (useMemory) {
-            pouchdb_users = new PouchDB('pouchdb_users', {adapter: 'memory'});
-        } else {
-            pouchdb_users = new PouchDB('pouchdb_users');
-        }
-        pouchdb_users.createIndex({index: {fields: ['_id']}});
-        console.log('...POUCH');
-        return pouchdb_users;
-    };
-
-    exports.get_pouchdb_user_zones = function(useMemory) {
-        if (useMemory) {
-            pouchdb_user_zones = new PouchDB('pouchdb_user_zones', {adapter: 'memory'});
-        } else {
-            pouchdb_user_zones = new PouchDB('pouchdb_user_zones');
-        }
-        pouchdb_user_zones.createIndex({index: {fields: ['_id']}});
-        console.log('...POUCH');
-        return pouchdb_user_zones;
-    };
-
-    exports.get_pouchdb_user_identifiers = function(useMemory) {
-        if (useMemory) {
-            pouchdb_user_identifiers = new PouchDB('pouchdb_user_identifiers', {adapter: 'memory'});
-        } else {
-            pouchdb_user_identifiers = new PouchDB('pouchdb_user_identifiers');
-        }
-        pouchdb_user_identifiers.createIndex({index: {fields: ['_id']}});
-        console.log('...POUCH');
-        return pouchdb_user_identifiers;
-    };
-
-    exports.get_pouchdb_user_requests = function(useMemory) {
-        if (useMemory) {
-            pouchdb_user_requests = new PouchDB('pouchdb_user_requests', {adapter: 'memory'});
-        } else {
-            pouchdb_user_requests = new PouchDB('pouchdb_user_requests');
-        }
-        pouchdb_user_requests.createIndex({index: {fields: ['_id']}});
-        console.log('...POUCH');
-        return pouchdb_user_requests;
-    };
 
     
     

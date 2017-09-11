@@ -1,10 +1,6 @@
 'use strict';
 
 var pouchdb_intranet_client_connects;
-var pouchdb_users;
-var pouchdb_user_zones;
-var pouchdb_user_identifiers;
-var pouchdb_user_requests;
 
 var numberOfSecondsAliveCheck = 60; 
 var isPi = require('detect-rpi');
@@ -1192,10 +1188,6 @@ dbhelper.setPouchDB(PouchDB);
 dbhelper.initPouchdb();
 pouchdb_intranet_client_connects    = dbhelper.get_pouchdb_intranet_client_connects();;
 
-pouchdb_users                       = dbhelper.get_pouchdb_users();;
-pouchdb_user_zones                  = dbhelper.get_pouchdb_user_zones();;
-pouchdb_user_identifiers            = dbhelper.get_pouchdb_user_identifiers();;
-pouchdb_user_requests               = dbhelper.get_pouchdb_user_requests();;
 
 when_pouchdb_connections_changes();
 when_pouchdb_queries_changes();
