@@ -128,8 +128,6 @@ if (isWin) {
 					
 var leveldown = require2('leveldown')
 
-var PouchDB = require('pouchdb')
-PouchDB.plugin(require('pouchdb-find'));
 var dns          = require('dns');
 var url          = require('url');
 var net          = require('net');
@@ -374,9 +372,6 @@ path.join(__dirname, '../public/driver_icons/mysql.jpg')
 path.join(__dirname, '../public/index_pc_mode.html')
 path.join(__dirname, '../public/index_add_files.html')
 path.join(__dirname, '../public/aframe-mouse-cursor-component.min.js')
-path.join(__dirname, '../public/pouchdb.min.js')
-path.join(__dirname, '../public/pouchdb.find.min.js')
-path.join(__dirname, '../public/pouchdb.memory.min.js')
 path.join(__dirname, '../public/dropzone.js')
 path.join(__dirname, '../public/dropzone.css')
 path.join(__dirname, '../public/locked.png')
@@ -1108,7 +1103,6 @@ var upload = multer( { dest: 'uploads/' } );
 	// start the web server
 	//------------------------------------------------------------------------------
 	app.listen(port, hostaddress, function () {
-		console.log('PouchDB Listening on port ' + port + '!' + ' with /db')
 		console.log(typeOfSystem + ' started on port ' + port );
 	})
 
@@ -1174,20 +1168,6 @@ var upload = multer( { dest: 'uploads/' } );
 
                   
                   
-                  
-				console.log("******************************ADDING POUCH*********************************")
-				console.log("******************************ADDING POUCH*********************************")
-
-console.log('POUCH...');
-
-var dbb = require2('sqldown');
-var myttt = require('express-pouchdb')(PouchDB, { 	db: dbb, 
-													d:  (process.cwd() + "pouch") ,
-													mode: 'fullCouchDB'})
-app.use('/db', myttt);
-
-
-
 
 
 
