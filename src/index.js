@@ -184,6 +184,10 @@ var dbsearch = new sqlite3.Database('gosharedatasearch.sqlite3');
                 });} catch(err) {} finally {}
 
                 
+        try {
+            dbsearch.serialize(function() {
+                  dbsearch.run("CREATE TABLE intranet_client_connects (id TEXT, internal_host TEXT, internal_port INTEGER, public_ip TEXT, via TEXT, public_host TEXT, user_name TEXT, client_user_name TEXT, when_connected INTEGER);");
+                });} catch(err) {} finally {}
                 
                 
 var stopScan = false;
@@ -1025,7 +1029,7 @@ var upload = multer( { dest: 'uploads/' } );
     
 	app.post('/add_new_connection', 
         function (req, res) {
-			var params = req.body;//zzz
+			var params = req.body;
             addNewConnection( params );
             res.writeHead(200, {'Content-Type': 'text/plain'});
             res.end(JSON.stringify({done: "ok"}))});
@@ -1034,7 +1038,7 @@ var upload = multer( { dest: 'uploads/' } );
 
 	app.post('/add_new_query', 
         function (req, res) {
-			var params = req.body;//zzz
+			var params = req.body;
             addNewQuery( params );
             res.writeHead(200, {'Content-Type': 'text/plain'});
             res.end(JSON.stringify({done: "ok"}))});
@@ -1066,7 +1070,7 @@ var upload = multer( { dest: 'uploads/' } );
 			console.log('client public IP address:        ' + requestClientPublicIp)
 			console.log('client public IP host name:      ' + requestClientPublicHostName)
 			console.log('client VIA:                      ' + requestVia)
-            
+//zzz            
             pouchdb_intranet_client_connects.post(
             {
                 internal_host:      requestClientInternalHostAddress,  
@@ -1077,6 +1081,24 @@ var upload = multer( { dest: 'uploads/' } );
                 user_name:          username,
                 client_user_name:   clientUsername,
                 when_connected:     new Date().getTime()
+            });
+            dbsearch.serialize(function() {
+                var stmt = dbsearch.prepare(" insert  into  intranet_client_connects " + 
+                                        "    ( id, internal_host, internal_port, public_ip, via, public_host, user_name, client_user_name, when_connected) " +
+                                        " values " + 
+                                        "    (?,   ?,?,?,?,  ?,?,?,?);");
+                                        
+                var newid = uuidv1();
+                stmt.run(   newid,
+                            requestClientInternalHostAddress,  
+                            requestClientInternalPort, 
+                            requestClientPublicIp, 
+                            requestVia,
+                            requestClientPublicHostName,
+                            username,
+                            clientUsername,
+                            new Date().getTime()
+                    );
             });
             console.log('***SAVED***');
 			
