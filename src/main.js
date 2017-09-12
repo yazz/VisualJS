@@ -913,17 +913,11 @@ function setupSqlResultPane() {
 //-----------------------------------------------------------------
 function setupPouchDB() {
 
-        db.setPouchDB(PouchDB);
-        db.initPouchdb();
-        var useMemory = true;
-        pouchdb_intranet_client_connects    = db.get_pouchdb_intranet_client_connects();
 
         when_pouchdb_drivers_changes()
         when_pouchdb_connections_changes()
         when_pouchdb_queries_changes()
 
-		//db.pouchdbTable('pouchdb_queries', 		    pouchdb_queries, 		    when_pouchdb_queries_changes);
-		db.pouchdbTable('pouchdb_intranet_client_connects', 		    pouchdb_intranet_client_connects, 		    null);
         
         
 

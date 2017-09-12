@@ -606,67 +606,10 @@
     }
     function updateNetworkTest3() {
 			
-		pouchdb_system_settings.find({
-		  selector: {_id: 'test'}
-		}).then(function (result) {
-		  //console.log("pouchdb_system_settings test2: " + JSON.stringify(result , null, 2));
-			var testValue; 
-			if (result.docs.length == 0) {
-				//console.log("New val: " );
-				testValue = {
-					_id: 'test',
-					value: document.getElementById('maininput3').value
-				};
-				pouchdb_system_settings.put(testValue, function callback(err, result) {
-					if (!err) {
-						//console.log('*************Successfully posted a todo!');
-					} else {
-						console.log('*************! ' + err);
-					};
-				});
-
-			} else {
-				console.log("Update existing val: " );
-				pouchdb_system_settings.get('test').then(function (doc) {
-					//console.log("Existing val: " + JSON.stringify(doc , null, 2));
-					doc.value = document.getElementById('maininput3').value;
-					//console.log("changed to: " + JSON.stringify(doc , null, 2) , null, 2);
-					pouchdb_system_settings.put(doc);
-					
-					});
-			}
-		}).catch(function (err) {
-		  // ouch, an error
-		});
 
 
     }
-	
-    var pouchdb_intranet_client_connects;
-		
-		
-	
-	var showIntranets = function() {
-        pouchdb_intranet_client_connects.find({
-          selector: {when_connected: {$gt: new Date().getTime() - (60 * 1000)}}
-        }).then(function (result) {
-          console.log(JSON.stringify(result.docs,null,2));
-        }).catch(function (err) {
-          // ouch, an error
-        });	
-    }
-    
-    
-	var showIntranetsFilterByIp = function(ip) {
-        pouchdb_intranet_client_connects.find({
-          selector: {$and: [{when_connected: {$gt: new Date().getTime() - (60 * 1000)}},
-              {public_ip: {$eq: ip}}]}
-        }).then(function (result) {
-          console.log(JSON.stringify(result.docs,null,2));
-        }).catch(function (err) {
-          // ouch, an error
-        });	
-    }
+
 
         Dropzone.options.myAwesomeDropzone = {
           dictDefaultMessage: "Drag and drop any Excel or CSV files into here"

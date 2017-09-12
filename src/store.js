@@ -422,9 +422,9 @@ export default new Vuex.Store({
     //
     delete_query: function(a, query){
             //alert(JSON.stringify(query));
-            pouchdb_queries.get(query.id,function(err,doc) {
-                pouchdb_queries.remove(doc);
-            });
+            //pouchdb_queries.get(query.id,function(err,doc) {
+            //    pouchdb_queries.remove(doc);
+            //});
     },
 
 

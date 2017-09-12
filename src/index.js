@@ -1,6 +1,5 @@
 'use strict';
 
-var pouchdb_intranet_client_connects;
 
 var numberOfSecondsAliveCheck = 60; 
 var isPi = require('detect-rpi');
@@ -1067,17 +1066,6 @@ var upload = multer( { dest: 'uploads/' } );
 			console.log('client public IP host name:      ' + requestClientPublicHostName)
 			console.log('client VIA:                      ' + requestVia)
 //zzz            
-            pouchdb_intranet_client_connects.post(
-            {
-                internal_host:      requestClientInternalHostAddress,  
-                internal_port:      requestClientInternalPort, 
-                public_ip:          requestClientPublicIp, 
-                via:                requestVia,
-                public_host:        requestClientPublicHostName,
-                user_name:          username,
-                client_user_name:   clientUsername,
-                when_connected:     new Date().getTime()
-            });
             dbsearch.serialize(function() {
                 var stmt = dbsearch.prepare(" insert  into  intranet_client_connects " + 
                                         "    ( id, internal_host, internal_port, public_ip, via, public_host, user_name, client_user_name, when_connected) " +
@@ -1202,9 +1190,6 @@ app.use('/db', myttt);
 
 
 
-dbhelper.setPouchDB(PouchDB);
-dbhelper.initPouchdb();
-pouchdb_intranet_client_connects    = dbhelper.get_pouchdb_intranet_client_connects();;
 
 
 when_pouchdb_connections_changes();
