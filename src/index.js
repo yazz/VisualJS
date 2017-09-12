@@ -593,23 +593,19 @@ app.use(cors())
         var requestVia                       = findViafromString(req.headers.via);
         
 		res.writeHead(200, {'Content-Type': 'text/plain'});
-        pouchdb_intranet_client_connects.find({
-          selector: {
-              $and: [
-                        {when_connected: {$gt: new Date().getTime() - (numberOfSecondsAliveCheck * 1000)}}
-                        ,
-                        {$or: [
-                                {public_ip: {$eq: requestClientPublicIp}},
-                                {via:       {$eq: requestVia}}
-                        ]}
-          ]}
-              ,
-              sort: [{when_connected: 'desc'}]
-        }).then(function (result) {
-            console.log(JSON.stringify(result,null,2));
-            res.end(JSON.stringify({  allServers:       result.docs,
-                                      intranetPublicIp: requestClientPublicIp}));
-        });
+        //zzz
+        var mysql = "select *  from  intranet_client_connects  where " +
+                    "    (when_connected > " + ( new Date().getTime() - (numberOfSecondsAliveCheck * 1000)) + ") " +
+                    " and " + 
+                    "    (( public_ip = '" + requestClientPublicIp + "') or " +
+                              "((via = '" + requestVia + "') and (length(via) > 0)))";
+        console.log("check IP: " + mysql);
+        var stmt = dbsearch.all(mysql, function(err, rows) {
+            if (!err) {
+                console.log( "           " + JSON.stringify(rows));
+                res.end(JSON.stringify({  allServers:       rows,
+                                          intranetPublicIp: requestClientPublicIp}));
+        }});
 	});
 
 
