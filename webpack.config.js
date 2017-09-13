@@ -57,26 +57,6 @@ module.exports = {
         target: 'http://' + hostaddress,
         secure: false
       },
-      '/db/pouchdb_system_settings/': {
-        target: 'http://' + hostaddress,
-        secure: false
-      },
-      '/db/pouchdb_queries/': {
-        target: 'http://' + hostaddress,
-        secure: false
-      },
-      '/db/pouchdb_intranet_client_connects/': {
-        target: 'http://' + hostaddress,
-        secure: false
-      },
-      '/db/pouchdb_drivers/': {
-        target: 'http://' + hostaddress,
-        secure: false
-      },
-      '/db/pouchdb_connections/': {
-        target: 'http://' + hostaddress,
-        secure: false
-      },
       '/open_query_in_native_app': {
         target: 'http://' + hostaddress,
         secure: false

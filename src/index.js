@@ -43,20 +43,6 @@ if (!fs.existsSync(process.cwd() + "/node_pi") ) {
 
 
 
-var expressNodeJsPackageFile = process.cwd() + "/node_modules/express-pouchdb/package.json";
-if (fs.existsSync(expressNodeJsPackageFile) ) {
-    fs.readFile(expressNodeJsPackageFile, 'utf8', function (err,data) {
-      if (err) {
-        return console.log(err);
-      }
-      var result = data.replace('"pouchdb-fauxton": "^0.0.6",', '');
-
-      fs.writeFile(expressNodeJsPackageFile, result, 'utf8', function (err) {
-         if (err) return console.log(err);
-      });
-    });
-}
-
 const mkdirSync = function (dirPath) {
   try {
     mkdirp.sync(dirPath)
@@ -87,46 +73,24 @@ if (isWin) {
     console.log('******* WINDOWS *******');
 	// copy WIndows 32 node native files
 	copyNodeNativeAdapter( "win32", "sqlite3", 		"lib/binding/node-v48-win32-ia32" , "node_sqlite3.node")
-	copyNodeNativeAdapter( "win32", "leveldown", 	"build/Release" , "leveldown.node")
-	//to fix a bug on leveldown
-    //copyNodeNativeAdapter( "win32", "pouchdb", 	"node_modules/leveldown/out/Release" , "leveldown.node")
-    //copyNodeNativeAdapter( "win32", "leveldown",       "pouchdb/node_modules/build/Release" , "leveldown.node")
-	if (!fs.existsSync(process.cwd() + "/build/leveldown.node") ) {
-		mkdirSync(process.cwd() + "/build");
-		copyFileSync(process.cwd() +  "/node_win32/leveldown.noderename", process.cwd() + "/build/leveldown.node") ;
-	}
+    
+    
+    
 } else if (isRaspberryPi) {
     console.log('******* PI *******');
 	// copy Raspberry PI ARM node native files
 	copyNodeNativeAdapter( "pi", "sqlite3", 	"lib/binding/node-v48-linux-arm" , "node_sqlite3.node")
-	copyNodeNativeAdapter( "pi", "leveldown", 	"build/Release" , "leveldown.node")
     
-    // my Raspberry PI ARM at home may complain if I don't do this
-	copyNodeNativeAdapter( "pi", "leveldown", 	"pouchdb/node_modules/build/Release" , "leveldown.node")
-	//to fix a bug on leveldown
-	if (!fs.existsSync(process.cwd() + "/build/leveldown.node") ) {
-		mkdirSync(process.cwd() + "/build");
-		copyFileSync( process.cwd() +  "/node_pi/leveldown.noderename", process.cwd() + "/build/leveldown.node") ;
-	}
+    
+    
 } else { //means Mac OS
     console.log('******* MAC *******');
 	// copy Mac OS 64 node native files
 	copyNodeNativeAdapter( "macos64", "sqlite3", 	"lib/binding/node-v48-darwin-x64" , "node_sqlite3.node")
-	copyNodeNativeAdapter( "macos64", "leveldown", 	"build/Release" , "leveldown.node")
-        copyNodeNativeAdapter( "macos64", "drivelist",  "build/Release" , "drivelist.node")
-
-    // my 64 bit mac at home complains if I don't do this
-    copyNodeNativeAdapter( "macos64", "pouchdb", 	"node_modules/leveldown/out/Release" , "leveldown.node")
-    copyNodeNativeAdapter( "macos64", "leveldown",       "pouchdb/node_modules/build/Release" , "leveldown.node")
-	//to fix a bug on leveldown
-	if (!fs.existsSync(process.cwd() + "/build/leveldown.node") ) {
-		mkdirSync(process.cwd() + "/build");
-		copyFileSync(process.cwd() +  "/node_macos64/leveldown.noderename", process.cwd() + "/build/leveldown.node") ;
-	}
+    copyNodeNativeAdapter( "macos64", "drivelist",  "build/Release" , "drivelist.node")
 }
 
 					
-var leveldown = require2('leveldown')
 
 var dns          = require('dns');
 var url          = require('url');
