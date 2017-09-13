@@ -1272,6 +1272,7 @@ window.add_connection = function(connection) {
                         },
             success: function(results2) {
                    // alert("success: " + results2);
+                   when_pouchdb_connections_changes();
     }});
 }   
 
@@ -1294,6 +1295,8 @@ window.add_query = function(query) {
                         },
             success: function(results2) {
                    // alert("success: " + results2);
+                   when_pouchdb_queries_changes();
+                   recalcVuexQueries();
     }});
 }   
 

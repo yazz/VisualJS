@@ -211,7 +211,7 @@ function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileTyp
                      sha1sum,
                      fileType2,
                      fileName, function(err) {
-                         
+                         when_pouchdb_connections_changes();
             
                             var saveTo;
                             if (isWin) {
@@ -240,14 +240,15 @@ function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileTyp
                                          fileName,
                                          fileType2,
                                          JSON.stringify({} , null, 2),
-                                         JSON.stringify([{message: 'No preview available'}] , null, 2))
+                                         JSON.stringify([{message: 'No preview available'}] , null, 2),
+                                         function(err) {when_pouchdb_queries_changes();})
                             });
                             console.log(":      saved query = " + fileId);
+                            
                          
                      });
                      
             stmt.finalize();
-            
         });
     } catch(err) {
         console.log("Error " + err + " with file: " + fileName);     
@@ -1361,10 +1362,10 @@ function when_pouchdb_connections_changes() {
                         }
                     }
                 }
+            in_when_pouchdb_connections_changes=false;
             }
         );
     };
-    in_when_pouchdb_connections_changes=false;
 }
 
 
@@ -1392,11 +1393,11 @@ function addNewConnection( params ) {
                      params.preview);
                      
             stmt.finalize();
+            when_pouchdb_connections_changes();
         });
     } catch(err) {
         console.log("                          err: " + err);
     } finally {
-        
     }
 }
 
@@ -1421,11 +1422,11 @@ function addNewQuery( params ) {
                      );
                      
             stmt.finalize();
+            when_pouchdb_queries_changes();
         });
     } catch(err) {
         console.log("                          err: " + err);
     } finally {
-        
     }
 }
 
@@ -1467,8 +1468,10 @@ function when_pouchdb_queries_changes() {
                         } catch (err) {};
                     }
                 };
-            }});
-        in_when_pouchdb_queries_changes = false;
+            }
+            in_when_pouchdb_queries_changes = false;
+
+            });
     }
 };
 
