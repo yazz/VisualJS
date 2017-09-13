@@ -87,7 +87,6 @@ if (isWin) {
     console.log('******* MAC *******');
 	// copy Mac OS 64 node native files
 	copyNodeNativeAdapter( "macos64", "sqlite3", 	"lib/binding/node-v48-darwin-x64" , "node_sqlite3.node")
-    copyNodeNativeAdapter( "macos64", "drivelist",  "build/Release" , "drivelist.node")
 }
 
 					
@@ -116,7 +115,6 @@ var toeval;
 var open         = require('open');
 var dbhelper     = require('../public/dbhelper');
 var Excel = require('exceljs');
-const drivelist = require('drivelist');
 
 
 var sqlite3   = require2('sqlite3');
@@ -1288,35 +1286,16 @@ when_pouchdb_queries_changes();
 
 function scanHardDisk() {
 	var useDrive = "C:\\";
-	//var useDrive = "C:";
+    if (!isWin) {
+        useDrive = '/';
+    }
 
-		drivelist.list(function(error, drives)  {
-			  if (error) {
-				throw error;
-			  };
-
-			  drives.forEach(function(drive) {
-				console.log(drive);
-
-        if (!stopScan) {
-	    if (drive.mountpoints.length > 0){
-var driveStart =
-    console.log("Drive: " + drive.mountpoints[0].path);
-			useDrive = drive.mountpoints[0].path;
-			if (isWin) {
-				useDrive = useDrive + '\\';
-			}
-
-
-  				walk(useDrive, function(error){
-  					console.log('*Error: ' + error);
-
-  				});
-			};
-        };
-			  });
-			});
+    if (!stopScan) {
+        walk(useDrive, function(error){
+            console.log('*Error: ' + error);
+        });
 	  };
+};
 
 	  
 	  
