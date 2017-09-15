@@ -410,8 +410,8 @@ export default new Vuex.Store({
 		//
 		delete_connection: function(a, connection){
             console.log(JSON.stringify(connection));
-            //pouchdb_connections.get(connection.id,function(err,doc) {
-            //    pouchdb_connections.remove(doc);
+            //connections.get(connection.id,function(err,doc) {
+            //    connections.remove(doc);
             //});
             
 		},
@@ -424,8 +424,8 @@ export default new Vuex.Store({
     //
     delete_query: function(a, query){
             //alert(JSON.stringify(query));
-            //pouchdb_queries.get(query.id,function(err,doc) {
-            //    pouchdb_queries.remove(doc);
+            //queries.get(query.id,function(err,doc) {
+            //    queries.remove(doc);
             //});
     },
 

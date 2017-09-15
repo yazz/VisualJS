@@ -34,7 +34,7 @@ function initWelcomeVuePane() {
         //console.log(' Welcome pane does not exist anymore. Vue.js destroyed it with new Vue(...)');
     }
 	if (window.system_type == 'client') {
-		setupPouchDB();
+		setupDB();
 	}
 }
 
@@ -906,17 +906,17 @@ function setupSqlResultPane() {
 
 
 //-----------------------------------------------------------------
-// setupPouchDB
+// setupDB
 //
 // Set up stuff related to data handling
 //
 //-----------------------------------------------------------------
-function setupPouchDB() {
+function setupDB() {
 
 
-        window.when_pouchdb_drivers_changes()
-        window.when_pouchdb_connections_changes()
-        window.when_pouchdb_queries_changes()
+        window.when_drivers_changes()
+        window.when_connections_changes()
+        window.when_queries_changes()
 
         
         
@@ -1143,7 +1143,7 @@ $( document ).ready(function() {
     setupSqlResultPane();
     sendClientDetails();
   } else if (window.system_type == 'server') {
-    setupPouchDB();
+    setupDB();
   };
 
 
@@ -1156,48 +1156,16 @@ $( document ).ready(function() {
 
 
 
-window.all = function(pouchCollection) {
-	new PouchDB(pouchCollection).find(
-		{ selector: 
-			{_id: {$gte: null}}}).then(
-				function(v){console.log(JSON.stringify(v.docs , null, 2))});
-}
-window.count = function(pouchCollection) {
-	new PouchDB(pouchCollection).find(
-		{ selector: 
-			{_id: {$gte: null}}}).then(
-				function(v){console.log(JSON.stringify(v.docs.length , null, 2))});
-}
-window.insert = function(pouchCollection, objectval) {
-	new PouchDB(pouchCollection).post(objectval);
-}
-window.drop = function(pouchCollection) {
-	var pdc = new PouchDB(pouchCollection);
-	pdc.allDocs({
-	  include_docs: true,
-	  attachments: true
-	}, function(err, response) {
-	  if (err) { return console.log(err); }
-	  // handle result
-	  for (var i = 0 ; i < response.rows.length ; i ++) {
-			var conn = response.rows[i].doc;
-			//console.log(JSON.stringify(conn , null, 2));
-			pdc.remove(conn);
-	  };
-
-	});
-}
 
 
 
 
 
-
-var in_when_pouchdb_connections_changes = false;
+var in_when_connections_changes = false;
 var callConnAgain = false;
-window.when_pouchdb_connections_changes = function() {
-    if (!in_when_pouchdb_connections_changes) {
-        in_when_pouchdb_connections_changes = true;
+window.when_connections_changes = function() {
+    if (!in_when_connections_changes) {
+        in_when_connections_changes = true;
         store.dispatch('clear_connections');
         $.ajax({
                 type: "GET",
@@ -1233,10 +1201,10 @@ window.when_pouchdb_connections_changes = function() {
                     };
                 }
         }});
-        in_when_pouchdb_connections_changes = false;
+        in_when_connections_changes = false;
         if (callConnAgain) {
             callConnAgain = false;
-            window.when_pouchdb_connections_changes();
+            window.when_connections_changes();
         }
     } else {
         callConnAgain = true;
@@ -1273,7 +1241,7 @@ window.add_connection = function(connection) {
                         },
             success: function(results2) {
                    // alert("success: " + results2);
-                   window.when_pouchdb_connections_changes();
+                   window.when_connections_changes();
     }});
 }   
 
@@ -1296,13 +1264,13 @@ window.add_query = function(query) {
                         },
             success: function(results2) {
                    // alert("success: " + results2);
-                   window.when_pouchdb_queries_changes();
+                   window.when_queries_changes();
                    window.recalcVuexQueries();
     }});
 }   
 
 
-window.when_pouchdb_drivers_changes = function() {
+window.when_drivers_changes = function() {
     store.dispatch('clear_drivers');
     $.ajax({
                 type: "GET",
@@ -1361,7 +1329,7 @@ window.when_pouchdb_drivers_changes = function() {
 
 
 
-var in_when_pouchdb_queries_changes = false;
+var in_when_queries_changes = false;
 var callQueriesAgain = false;
 window.recalcVuexQueries = function() {
     var results = Object.keys(allQueries);
@@ -1472,9 +1440,9 @@ function  setvuexitemssearch( results2 ) {
     }
 }
 
-window.when_pouchdb_queries_changes = function() {
-    if (!in_when_pouchdb_queries_changes) {
-        in_when_pouchdb_queries_changes = true;
+window.when_queries_changes = function() {
+    if (!in_when_queries_changes) {
+        in_when_queries_changes = true;
     store.dispatch('clear_queries');
     $.ajax({
                 type: "GET",
@@ -1517,10 +1485,10 @@ window.when_pouchdb_queries_changes = function() {
             };
             window.recalcVuexQueries();
     }});
-        in_when_pouchdb_queries_changes = false;
+        in_when_queries_changes = false;
         if (callQueriesAgain) {
             callQueriesAgain = false;
-            window.when_pouchdb_queries_changes();
+            window.when_queries_changes();
         }
     } else {
         callQueriesAgain = true;

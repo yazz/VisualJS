@@ -43,9 +43,6 @@
     <script type="text/javascript" src="jquery.zoomooz.js"></script>
     <script type="text/javascript" src="tether.min.js"></script>
     <script type="text/javascript" src="bootstrap.min.js"></script>
-	<script src="pouchdb.min.js"></script>
-	<script src="pouchdb.find.min.js"></script>
-	<script src="pouchdb.memory.min.js"></script>
 	<script type="text/javascript" src="dropzone.js"></script>
     
     <link rel="stylesheet" type="text/css" href="bootstrap.min.css"></link>
@@ -315,10 +312,6 @@
 			  <div id=mainid></div>
 			  
 			  
-			  PouchDB test<input id=maininput3
-					 onkeyup="updateNetworkTest3()">
-			  </input>
-			  <div id=mainid3></div>
 
 			  
 			</div>
@@ -604,12 +597,6 @@
             gun.get('network_data2').put({value: document.getElementById('maininput2').value })
 
     }
-    function updateNetworkTest3() {
-			
-
-
-    }
-
 
         Dropzone.options.myAwesomeDropzone = {
           dictDefaultMessage: "Drag and drop any Excel or CSV files into here"
@@ -618,8 +605,8 @@
           init: function() {
             this.on("queuecomplete", function() {
                 setTimeout(function() {
-                    window.when_pouchdb_connections_changes();
-                    window.when_pouchdb_queries_changes();
+                    window.when_connections_changes();
+                    window.when_queries_changes();
                     window.recalcVuexQueries();
                     },200);
             });

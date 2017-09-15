@@ -211,7 +211,7 @@ function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileTyp
                      sha1sum,
                      fileType2,
                      fileName, function(err) {
-                         when_pouchdb_connections_changes();
+                         when_connections_changes();
             
                             var saveTo;
                             if (isWin) {
@@ -241,7 +241,7 @@ function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileTyp
                                          fileType2,
                                          JSON.stringify({} , null, 2),
                                          JSON.stringify([{message: 'No preview available'}] , null, 2),
-                                         function(err) {when_pouchdb_queries_changes();})
+                                         function(err) {when_queries_changes();})
                             });
                             console.log(":      saved query = " + fileId);
                             
@@ -1135,8 +1135,8 @@ var upload = multer( { dest: 'uploads/' } );
 
 
 
-when_pouchdb_connections_changes();
-when_pouchdb_queries_changes();
+when_connections_changes();
+when_queries_changes();
 				
 
 
@@ -1340,12 +1340,12 @@ function copyFolderRecursiveSync( source, target ) {
 }
 
 
-var in_when_pouchdb_connections_changes=false;
-function when_pouchdb_connections_changes() {
-    if (!in_when_pouchdb_connections_changes) {
-        in_when_pouchdb_connections_changes=true;
+var in_when_connections_changes=false;
+function when_connections_changes() {
+    if (!in_when_connections_changes) {
+        in_when_connections_changes=true;
         console.log('------------------------------------');
-        console.log('Called when_pouchdb_ CONNS _changes ');
+        console.log('Called when_ CONNS _changes ');
         console.log('------------------------------------');
         console.log('------------------------------------');
 //zzz        
@@ -1362,7 +1362,7 @@ function when_pouchdb_connections_changes() {
                         }
                     }
                 }
-            in_when_pouchdb_connections_changes=false;
+            in_when_connections_changes=false;
             }
         );
     };
@@ -1393,7 +1393,7 @@ function addNewConnection( params ) {
                      params.preview);
                      
             stmt.finalize();
-            when_pouchdb_connections_changes();
+            when_connections_changes();
         });
     } catch(err) {
         console.log("                          err: " + err);
@@ -1422,7 +1422,7 @@ function addNewQuery( params ) {
                      );
                      
             stmt.finalize();
-            when_pouchdb_queries_changes();
+            when_queries_changes();
         });
     } catch(err) {
         console.log("                          err: " + err);
@@ -1436,11 +1436,11 @@ function addNewQuery( params ) {
 
 
 
-var in_when_pouchdb_queries_changes = false;
-function when_pouchdb_queries_changes() {
-    if (!in_when_pouchdb_queries_changes) {
-        in_when_pouchdb_queries_changes = true;
-        console.log('Called when_pouchdb_queries_changes ');
+var in_when_queries_changes = false;
+function when_queries_changes() {
+    if (!in_when_queries_changes) {
+        in_when_queries_changes = true;
+        console.log('Called when_queries_changes ');
         //console.log('    connection keys:  ' + JSON.stringify(Object.keys(connections),null,2));
         var stmt = dbsearch.all("select * from queries",
             function(err, results) {
@@ -1463,13 +1463,13 @@ function when_pouchdb_queries_changes() {
                                 function(ordata) {
                                     //console.log('getting preview for query : ' + query.name);
                                     query.preview = JSON.stringify(ordata, null, 2);
-                                    pouchdb_queries.put(query);
+                                    queries.put(query);
                             });*/
                         } catch (err) {};
                     }
                 };
             }
-            in_when_pouchdb_queries_changes = false;
+            in_when_queries_changes = false;
 
             });
     }
