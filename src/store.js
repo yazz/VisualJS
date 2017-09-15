@@ -188,9 +188,11 @@ export default new Vuex.Store({
       },
       CLEAR_CONNECTIONS: function (state) {
         state.list_of_connections = [];
+        state.connection_map = new Object();
       },
       CLEAR_QUERIES: function (state) {
         state.list_of_queries = [];
+        state.query_map = new Object();
       },
       CLEAR_DRIVERS: function (state) {
         state.list_of_drivers = [];

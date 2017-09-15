@@ -794,7 +794,7 @@ var showSearchResults = function() {
             }
         });
     } else if ((searchtext.length == 0) && (inSearch == false)) {
-        recalcVuexQueries()
+        window.recalcVuexQueries()
     };        
 }
 
@@ -914,9 +914,9 @@ function setupSqlResultPane() {
 function setupPouchDB() {
 
 
-        when_pouchdb_drivers_changes()
-        when_pouchdb_connections_changes()
-        when_pouchdb_queries_changes()
+        window.when_pouchdb_drivers_changes()
+        window.when_pouchdb_connections_changes()
+        window.when_pouchdb_queries_changes()
 
         
         
@@ -1195,7 +1195,7 @@ window.drop = function(pouchCollection) {
 
 var in_when_pouchdb_connections_changes = false;
 var callConnAgain = false;
-function when_pouchdb_connections_changes() {
+window.when_pouchdb_connections_changes = function() {
     if (!in_when_pouchdb_connections_changes) {
         in_when_pouchdb_connections_changes = true;
         store.dispatch('clear_connections');
@@ -1204,6 +1204,7 @@ function when_pouchdb_connections_changes() {
                 url: '/get_all_table',
                 data:   {
                             tableName: "connections"
+                            ,timestamp: new Date().getTime()
                         },
             success: function(results2) {
                 var results = eval("(" + results2 + ")") ;
@@ -1235,7 +1236,7 @@ function when_pouchdb_connections_changes() {
         in_when_pouchdb_connections_changes = false;
         if (callConnAgain) {
             callConnAgain = false;
-            when_pouchdb_connections_changes();
+            window.when_pouchdb_connections_changes();
         }
     } else {
         callConnAgain = true;
@@ -1272,7 +1273,7 @@ window.add_connection = function(connection) {
                         },
             success: function(results2) {
                    // alert("success: " + results2);
-                   when_pouchdb_connections_changes();
+                   window.when_pouchdb_connections_changes();
     }});
 }   
 
@@ -1295,19 +1296,20 @@ window.add_query = function(query) {
                         },
             success: function(results2) {
                    // alert("success: " + results2);
-                   when_pouchdb_queries_changes();
-                   recalcVuexQueries();
+                   window.when_pouchdb_queries_changes();
+                   window.recalcVuexQueries();
     }});
 }   
 
 
-function when_pouchdb_drivers_changes() {
+window.when_pouchdb_drivers_changes = function() {
     store.dispatch('clear_drivers');
     $.ajax({
                 type: "GET",
                 url: '/get_all_table',
                 data:   {
                             tableName: "drivers"
+                            ,timestamp: new Date().getTime()
                         },
             success: function(results2) {
                 var results = eval("(" + results2 + ")") ;
@@ -1361,7 +1363,7 @@ function when_pouchdb_drivers_changes() {
 
 var in_when_pouchdb_queries_changes = false;
 var callQueriesAgain = false;
-function recalcVuexQueries() {
+window.recalcVuexQueries = function() {
     var results = Object.keys(allQueries);
 
     store.dispatch('clear_queries');
@@ -1370,6 +1372,7 @@ function recalcVuexQueries() {
                 url: '/get_all_table',
                 data:   {
                             tableName: "queries"
+                            ,timestamp: new Date().getTime()
                         },
             success: function(results2) {
                 var results = eval("(" + results2 + ")") ;
@@ -1412,7 +1415,7 @@ function  setvuexitemssearch( results2 ) {
         inupdatesearch = true;
         
         if (results2 == null) {
-            recalcVuexQueries();
+            window.recalcVuexQueries();
             alert('all')
         }
             
@@ -1469,7 +1472,7 @@ function  setvuexitemssearch( results2 ) {
     }
 }
 
-function when_pouchdb_queries_changes() {
+window.when_pouchdb_queries_changes = function() {
     if (!in_when_pouchdb_queries_changes) {
         in_when_pouchdb_queries_changes = true;
     store.dispatch('clear_queries');
@@ -1478,6 +1481,7 @@ function when_pouchdb_queries_changes() {
                 url: '/get_all_table',
                 data:   {
                             tableName: "queries"
+                            ,timestamp: new Date().getTime()
                         },
             success: function(results2) {
                 var results = eval("(" + results2 + ")") ;
@@ -1511,12 +1515,12 @@ function when_pouchdb_queries_changes() {
                                                        };
                 };
             };
-            recalcVuexQueries();
+            window.recalcVuexQueries();
     }});
         in_when_pouchdb_queries_changes = false;
         if (callQueriesAgain) {
             callQueriesAgain = false;
-            when_pouchdb_queries_changes();
+            window.when_pouchdb_queries_changes();
         }
     } else {
         callQueriesAgain = true;

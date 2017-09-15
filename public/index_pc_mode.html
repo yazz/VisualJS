@@ -614,7 +614,17 @@
         Dropzone.options.myAwesomeDropzone = {
           dictDefaultMessage: "Drag and drop any Excel or CSV files into here"
         };
-    
+        Dropzone.options.myAwesomeDropzone = {
+          init: function() {
+            this.on("queuecomplete", function() {
+                setTimeout(function() {
+                    window.when_pouchdb_connections_changes();
+                    window.when_pouchdb_queries_changes();
+                    window.recalcVuexQueries();
+                    },200);
+            });
+          }
+        };
     </script>
 
     <script type="text/javascript" src="gosharedata_setup.js"></script>
