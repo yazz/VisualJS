@@ -8,7 +8,15 @@ console.log('addr: '+ ip.address());
 var hostaddress = ip.address();
 
 module.exports = {
-  entry: ['babel-polyfill', './src/main.js'],
+  entry: [
+        './public/jquery-1.9.1.min.js',
+        'babel-polyfill', 
+        './src/main.js', 
+        './public/aframe.min.js', 
+        './public/aframe-mouse-cursor-component.min.js',
+        './public/es6-shim.js',
+        './public/gosharedata_setup.js'
+    ],
   output: {
     path: path.resolve(__dirname, './public/dist'),
     publicPath: '/public/dist/',

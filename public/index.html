@@ -10,116 +10,104 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-    <!--
-
-                                          Include all the libraries
-
-        -->
-
-
-            <script type="text/javascript" >
+    <script type="text/javascript" >
             window.system_type = 'client';
 
 			(function () {
 
-  if ( typeof window.CustomEvent === "function" ) return false;
+                  if ( typeof window.CustomEvent === "function" ) return false;
 
-  function CustomEvent ( event, params ) {
-    params = params || { bubbles: false, cancelable: false, detail: undefined };
-    var evt = document.createEvent( 'CustomEvent' );
-    evt.initCustomEvent( event, params.bubbles, params.cancelable, params.detail );
-    return evt;
-   }
+                  function CustomEvent ( event, params ) {
+                    params = params || { bubbles: false, cancelable: false, detail: undefined };
+                    var evt = document.createEvent( 'CustomEvent' );
+                    evt.initCustomEvent( event, params.bubbles, params.cancelable, params.detail );
+                    return evt;
+                   }
 
-  CustomEvent.prototype = window.Event.prototype;
+                  CustomEvent.prototype = window.Event.prototype;
 
-  window.CustomEvent = CustomEvent;
-})();
+                  window.CustomEvent = CustomEvent;
+                })();
 
-setTimeout(function(){
-  var scene = document.querySelector('a-scene');
-  scene.addEventListener('enter-vr', function(event) {
-    //window.scrollTop = 0;
-	//alert('in VR mode!');
-	//alert('h: ' + document.getElementById('other').style.height);
-	//document.getElementById('bottom_bar').style.height='0%';
-	//document.getElementById('other').style.height='100%';
-	//document.getElementById('bottom_bar').style.display='none';
-	//document.getElementById('vr_scene')['always-fullscreen']='always-fullscreen';
-	//document.getElementById('vr_scene')['embedded']='embedded';
-	//document.querySelector('#vr_objects').setAttribute('position',{x: 1.5,y: -4,z: -4});
-	//document.querySelector('#vr_objects').setAttribute('rotation',{x: 0,y: 0,z: 0});
+            setTimeout(function(){
+              var scene = document.querySelector('a-scene');
+              scene.addEventListener('enter-vr', function(event) {
+                //window.scrollTop = 0;
+                //alert('in VR mode!');
+                //alert('h: ' + document.getElementById('other').style.height);
+                //document.getElementById('bottom_bar').style.height='0%';
+                //document.getElementById('other').style.height='100%';
+                //document.getElementById('bottom_bar').style.display='none';
+                //document.getElementById('vr_scene')['always-fullscreen']='always-fullscreen';
+                //document.getElementById('vr_scene')['embedded']='embedded';
+                //document.querySelector('#vr_objects').setAttribute('position',{x: 1.5,y: -4,z: -4});
+                //document.querySelector('#vr_objects').setAttribute('rotation',{x: 0,y: 0,z: 0});
 
-	//document.querySelector('#vr_objects').setAttribute('position',{x: 0,y: 0,z: 0});
-	//document.querySelector('#vr_objects').setAttribute('rotation',{x: 0,y: 0,z: 0});
+                //document.querySelector('#vr_objects').setAttribute('position',{x: 0,y: 0,z: 0});
+                //document.querySelector('#vr_objects').setAttribute('rotation',{x: 0,y: 0,z: 0});
 
-  });
-  scene.addEventListener('exit-vr', function(event) {
-    //window.scrollTop = 0;
-	//alert('left in VR mode!');
-	//alert('h: ' + document.getElementById('other').style.height);
-	//document.getElementById('bottom_bar').style.height='10%';
-	//document.getElementById('other').style.height='90%';
-	//document.getElementById('bottom_bar').style.display='';
-	//document.getElementById('vr_scene')['always-fullscreen']='';
-	//document.getElementById('vr_scene')['embedded']='';
-  });
-  
-  
-  
-  
-//Bind back button to prevent escaping the page with backspace
-$(document).unbind('keydown').bind('keydown', function (event) {
-    if (event.keyCode === 8) 
-    {
-     var doPrevent = true;
-     //Chrome, FF, Safari
-     if(event.target == document.body){
-      doPrevent = true;
-     }
-     //IE
-     else
-     {
-      var nodeName = event.target.nodeName.toLowerCase();
-      if((nodeName == "input" && event.target.type == "text") || nodeName == "textarea")
-      {
-       doPrevent = false;
-      }
-      var SPEditTabInstance = $(document).find("li[id='Ribbon.EditingTools']");
-      if(SPEditTabInstance != "undefined" && SPEditTabInstance != null && $(SPEditTabInstance).children().length > 0){
-       doPrevent = false;
-      }
-     }
-
-     if(doPrevent)
-     {
-      //Chrome, FF, Safari
-      if(event.preventDefault()){ event.preventDefault(); }
-      //IE
-      else
-      {
-       event.returnValue = false;
-      }
-     }
-    }
-});
+              });
+              scene.addEventListener('exit-vr', function(event) {
+                //window.scrollTop = 0;
+                //alert('left in VR mode!');
+                //alert('h: ' + document.getElementById('other').style.height);
+                //document.getElementById('bottom_bar').style.height='10%';
+                //document.getElementById('other').style.height='90%';
+                //document.getElementById('bottom_bar').style.display='';
+                //document.getElementById('vr_scene')['always-fullscreen']='';
+                //document.getElementById('vr_scene')['embedded']='';
+              });
+              
+              
+            
 
 
 
+              },800);
+              
+              
+              
+                
+              function init_all() {
+                //Bind back button to prevent escaping the page with backspace
+                $(document).unbind('keydown').bind('keydown', function (event) {
+                    if (event.keyCode === 8) 
+                    {
+                     var doPrevent = true;
+                     //Chrome, FF, Safari
+                     if(event.target == document.body){
+                      doPrevent = true;
+                     }
+                     //IE
+                     else
+                     {
+                      var nodeName = event.target.nodeName.toLowerCase();
+                      if((nodeName == "input" && event.target.type == "text") || nodeName == "textarea")
+                      {
+                       doPrevent = false;
+                      }
+                      var SPEditTabInstance = $(document).find("li[id='Ribbon.EditingTools']");
+                      if(SPEditTabInstance != "undefined" && SPEditTabInstance != null && $(SPEditTabInstance).children().length > 0){
+                       doPrevent = false;
+                      }
+                     }
 
+                     if(doPrevent)
+                     {
+                      //Chrome, FF, Safari
+                      if(event.preventDefault()){ event.preventDefault(); }
+                      //IE
+                      else
+                      {
+                       event.returnValue = false;
+                      }
+                     }
+                    }
+                });
+            };
 
-  },800);
-</script>
+    </script>
 
-    <script type="text/javascript" src="es6-shim.js"></script>
-    <script type="text/javascript" src="jquery-1.9.1.min.js"></script>
-	<script type="text/javascript" src="aframe.min.js"></script>
-	<script type="text/javascript" src="aframe-mouse-cursor-component.min.js"></script>
-    <!--
-
-                                          Include all the CSS
-
-        -->
     <link rel="stylesheet" type="text/css" href="vue_app.css"></link>
 
 </head>
@@ -128,21 +116,10 @@ $(document).unbind('keydown').bind('keydown', function (event) {
 
 
 
-<body id=body style='margin:0px; padding: 0px;  border: 0px;  width: 100%;  height:100%;  left: 0px; ' >
+<body id=body style='margin:0px; padding: 0px;  border: 0px;  width: 100%;  height:100%;  left: 0px; ' onload="init_all();" >
 		<div style='width: 100%; heigtht: 100%;  margin:0 auto; margin-top: 0px;overflow: false' id=vr_element></div>
 
     <script type="text/javascript" >
-	  localStorage.clear();
-      var gun;
-      var data_connections_list = [];
-      rows                      = [];
-      tbrows                    = new Object();
-      connectionrows            = new Object();
-      code                      = '';
-
-
-
-
     // --------------------------------------------------------------------
     // get the query  result
     // --------------------------------------------------------------------
@@ -186,7 +163,6 @@ $(document).unbind('keydown').bind('keydown', function (event) {
     
     </script>
 
-    <script type="text/javascript" src="gosharedata_setup.js"></script>
-    <script type="text/javascript" src="dist/build.js?1501"></script>
+    <script type="text/javascript" src="dist/build.js?1601"></script>
 </body>
 </html>
