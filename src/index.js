@@ -115,7 +115,8 @@ var toeval;
 var open         = require('open');
 var dbhelper     = require('../public/dbhelper');
 var Excel = require('exceljs');
-
+var compression = require('compression')
+app.use(compression())
 
 var sqlite3   = require2('sqlite3');
 var dbsearch = new sqlite3.Database('gosharedatasearch.sqlite3');
