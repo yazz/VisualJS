@@ -180,6 +180,14 @@ var mysql      = require('mysql');
 
 var crypto = require('crypto');
 
+var stmtInsertIntoConnections = dbsearch.prepare(" insert into connections " + 
+                            "    ( id, name, driver, size, hash, type, fileName ) " +
+                            " values " + 
+                            "    (?,  ?,?,?,  ?,?,?);");
+var stmtInsertInsertIntoQueries = dbsearch.prepare(" insert into queries " + 
+                            "    ( id, name, connection, driver, size, hash, fileName, type, definition, preview ) " +
+                            " values " + 
+                            "    (?,  ?,?,?,  ?,?,?, ?,?,?);");
 function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileType2) {
     if (!fileName) {
         return;
@@ -199,21 +207,15 @@ function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileTyp
         var sha1sum = hash.read();
                                         
         dbsearch.serialize(function() {
-            var stmt = dbsearch.prepare(" insert into connections " + 
-                                        "    ( id, name, driver, size, hash, type, fileName ) " +
-                                        " values " + 
-                                        "    (?,  ?,?,?,  ?,?,?);");
-                                        
             var newid = uuidv1();
-            stmt.run(newid,
+            stmtInsertIntoConnections.run(
+                     newid,
                      fileId, 
                      fileType,
                      size,
                      sha1sum,
                      fileType2,
                      fileName, function(err) {
-                         when_connections_changes();
-            
                             var saveTo;
                             if (isWin) {
                                 saveTo = process.cwd() + "\\public\\docs\\" + "gsd_" + sha1sum.toString() + path.extname(fileName);
@@ -226,30 +228,27 @@ function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileTyp
                               
                               
                             dbsearch.serialize(function() {
-                                var stmt = dbsearch.prepare(" insert into queries " + 
-                                                            "    ( id, name, connection, driver, size, hash, fileName, type, definition, preview ) " +
-                                                            " values " + 
-                                                            "    (?,  ?,?,?,  ?,?,?, ?,?,?);");
                                                             
-                                var newqueryid = uuidv1();
-                                stmt.run(newqueryid,
-                                         fileId, 
-                                         newid,
-                                         fileType,
-                                         size,
-                                         sha1sum,
-                                         fileName,
-                                         fileType2,
-                                         JSON.stringify({} , null, 2),
-                                         JSON.stringify([{message: 'No preview available'}] , null, 2),
-                                         function(err) {when_queries_changes();})
+                                    var newqueryid = uuidv1();
+                                    stmtInsertInsertIntoQueries.run(newqueryid,
+                                             fileId, 
+                                             newid,
+                                             fileType,
+                                             size,
+                                             sha1sum,
+                                             fileName,
+                                             fileType2,
+                                             JSON.stringify({} , null, 2),
+                                             JSON.stringify([{message: 'No preview available'}] , null, 2),
+                                             function(err) {
+                                                when_connections_changes();
+                                                when_queries_changes();
+                                                 })
                             });
                             console.log(":      saved query = " + fileId);
                             
                          
-                     });
-                     
-            stmt.finalize();
+                     });                     
         });
     } catch(err) {
         console.log("Error " + err + " with file: " + fileName);     
