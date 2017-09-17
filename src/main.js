@@ -1335,20 +1335,10 @@ window.recalcVuexQueries = function() {
     var results = Object.keys(allQueries);
 
     store.dispatch('clear_queries');
-    $.ajax({
-                type: "GET",
-                url: '/get_all_table',
-                data:   {
-                            tableName: "queries"
-                            ,timestamp: new Date().getTime()
-                        },
-            success: function(results2) {
-                var results = eval("(" + results2 + ")") ;
-            //alert(JSON.stringify(results , null, 2));
     for (var i = 0 ; i < results.length ; i ++) {
-        var query = results[i];
-            //alert(JSON.stringify(query , null, 2));
-        console.log('                      query *********:' + JSON.stringify(query , null, 2));
+        var query = allQueries[results[i]];
+        //alert(JSON.stringify(query , null, 2));
+        //console.log('                      query *********:' + JSON.stringify(query , null, 2));
         var exists = (store.getters.query_map[query.id] == true);
 
         if (!exists) {
@@ -1374,8 +1364,7 @@ window.recalcVuexQueries = function() {
                                                 definition: eval('(' + query.definition + ')')
                                                }});
         };
-    }
-        }})}
+}}
 
 var inupdatesearch = false;
 function  setvuexitemssearch( results2 ) {
