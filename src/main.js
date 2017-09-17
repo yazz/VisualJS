@@ -912,15 +912,12 @@ function setupSqlResultPane() {
 //
 //-----------------------------------------------------------------
 function setupDB() {
-
+    if (window.screenMode != "VR") {
 
         window.when_drivers_changes()
         window.when_connections_changes()
-        window.when_queries_changes()
-
-        
-        
-
+    }
+    window.when_queries_changes()
 }
 
 
