@@ -912,12 +912,14 @@ function setupSqlResultPane() {
 //
 //-----------------------------------------------------------------
 function setupDB() {
-    if (window.screenMode != "VR") {
-
-        window.when_drivers_changes()
-        window.when_connections_changes()
+    if (window.screenMode == "VR") 
+    {
+        window.when_queries_changes("id, name, driver, size, hash, type, fileName")
+    } else {
+        window.when_drivers_changes("*")
+        window.when_connections_changes("*")
+        window.when_queries_changes("*")
     }
-    window.when_queries_changes()
 }
 
 
@@ -1160,7 +1162,7 @@ $( document ).ready(function() {
 
 var in_when_connections_changes = false;
 var callConnAgain = false;
-window.when_connections_changes = function() {
+window.when_connections_changes = function(fields) {
     if (!in_when_connections_changes) {
         in_when_connections_changes = true;
         store.dispatch('clear_connections');
@@ -1170,6 +1172,7 @@ window.when_connections_changes = function() {
                 data:   {
                             tableName: "connections"
                             ,timestamp: new Date().getTime()
+                            , fields: fields
                         },
             success: function(results2) {
                 var results = eval("(" + results2 + ")") ;
@@ -1267,7 +1270,7 @@ window.add_query = function(query) {
 }   
 
 
-window.when_drivers_changes = function() {
+window.when_drivers_changes = function(fields) {
     store.dispatch('clear_drivers');
     $.ajax({
                 type: "GET",
@@ -1275,6 +1278,7 @@ window.when_drivers_changes = function() {
                 data:   {
                             tableName: "drivers"
                             ,timestamp: new Date().getTime()
+                            , fields: fields
                         },
             success: function(results2) {
                 var results = eval("(" + results2 + ")") ;
@@ -1426,7 +1430,7 @@ function  setvuexitemssearch( results2 ) {
     }
 }
 
-window.when_queries_changes = function() {
+window.when_queries_changes = function(fields) {
     if (!in_when_queries_changes) {
         in_when_queries_changes = true;
     store.dispatch('clear_queries');
@@ -1436,6 +1440,7 @@ window.when_queries_changes = function() {
                 data:   {
                             tableName: "queries"
                             ,timestamp: new Date().getTime()
+                            , fields: fields
                         },
             success: function(results2) {
                 var results = eval("(" + results2 + ")") ;
@@ -1555,5 +1560,5 @@ var inCheckForServers = 0;
         });
         };
     
-    setTimeout(checkServersFromClient,800);
-    setInterval(checkServersFromClient,4000);
+    setTimeout(checkServersFromClient,2000);
+    setInterval(checkServersFromClient,6000);

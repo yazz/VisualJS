@@ -969,7 +969,8 @@ var upload = multer( { dest: 'uploads/' } );
 	app.get('/get_all_table', 
         function (req, res) {
 			var tableName = url.parse(req.url, true).query.tableName;
-            var stmt = dbsearch.all("select * from " + tableName,
+			var fields = url.parse(req.url, true).query.fields;
+            var stmt = dbsearch.all("select " + fields + " from " + tableName,
                 function(err, rows) {
                     if (!err) {
                         res.writeHead(200, {'Content-Type': 'text/plain'});
