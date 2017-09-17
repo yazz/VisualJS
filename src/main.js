@@ -1560,5 +1560,4 @@ var inCheckForServers = 0;
         });
         };
     
-    setTimeout(checkServersFromClient,2000);
-    setInterval(checkServersFromClient,6000);
+    setInterval(checkServersFromClient,5000);
