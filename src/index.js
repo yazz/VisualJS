@@ -777,31 +777,33 @@ var upload = multer( { dest: 'uploads/' } );
     
     
     var getResult = function(source, connection, driver, definition, callback) {
+        console.log("var getResult = function(" + source + ", " + connection + ", " + driver + ", " + JSON.stringify(definition));
         var error = new Object();
         if (connections[connection]) {
             try {
-                drivers[connections[queryData.source].driver]['get_v2'](connections[queryData.source],queryData.definition,function(ordata) {
-                var rrows = [];
-                if( Object.prototype.toString.call( ordata ) === '[object Array]' ) {
-                    rrows = ordata;
-                } else {
-                    rrows = ordata.values;
-                }
-                dbsearch.serialize(function() {
-                      var stmt = dbsearch.prepare("INSERT INTO search VALUES (?, ?)");
-                          /*for (var i =0 ; i < rrows.length; i++) {
-                            //console.log('                 : ' + JSON.stringify(rrows[i]));
-                            stmt.run(queryData2.source, JSON.stringify(rrows[i]));
-                          }*/
-                          stmt.run(queryData2.source, JSON.stringify(rrows));
-                          stmt.finalize();
-                    });
-                callback(ordata);
-            })
+                drivers[driver]['get_v2'](connections[connection],definition,function(ordata) {
+                    var rrows = [];
+                    if( Object.prototype.toString.call( ordata ) === '[object Array]' ) {
+                        rrows = ordata;
+                    } else {
+                        rrows = ordata.values;
+                    }
+                    console.log( "   ordata: " + JSON.stringify(ordata));
+                    dbsearch.serialize(function() {
+                          var stmt = dbsearch.prepare("INSERT INTO search VALUES (?, ?)");
+                              /*for (var i =0 ; i < rrows.length; i++) {
+                                //console.log('                 : ' + JSON.stringify(rrows[i]));
+                                stmt.run(queryData2.source, JSON.stringify(rrows[i]));
+                              }*/
+                              stmt.run(source, JSON.stringify(rrows));
+                              stmt.finalize();
+                        });
+                    callback.call(this,ordata);
+                })
             
             }
             catch(err){
-                
+                console.log(err);
             }
         }}
         
@@ -830,41 +832,18 @@ var upload = multer( { dest: 'uploads/' } );
 					if (queryData.source) {
 						if (connections[queryData.source].driver) {
 							//console.log('query driver: ' + connections[queryData.source].driver);
-							try {
-								drivers[connections[queryData.source].driver]['get_v2'](connections[queryData.source],queryData.definition,function(ordata) {
-                                
-        //if (queryData.sql.indexOf("snippet(" == -1)) {
-            var rrows = [];
-
-            if( Object.prototype.toString.call( ordata ) === '[object Array]' ) {
-                rrows = ordata;
-            } else {
-                rrows = ordata.values;
-            }
-            //console.log('           adding to search index: ' + JSON.stringify(rrows.length));
-            
-            
-            dbsearch.serialize(function() {
-                  var stmt = dbsearch.prepare("INSERT INTO search VALUES (?, ?)");
-                      /*for (var i =0 ; i < rrows.length; i++) {
-                        //console.log('                 : ' + JSON.stringify(rrows[i]));
-                        stmt.run(queryData2.source, JSON.stringify(rrows[i]));
-                      }*/
-                      stmt.run(queryData2.source, JSON.stringify(rrows));
-                      stmt.finalize();
-
-                });
-        //}
-
-            res.writeHead(200, {'Content-Type': 'text/plain'});
-									res.end(JSON.stringify(ordata));
-								});
-							}
-							catch(err) {
-								res.writeHead(200, {'Content-Type': 'text/plain'});
-
-								res.end(JSON.stringify({error: 'Error: ' + JSON.stringify(err)}));
-							};
+                            var newres = res;
+                            getResult(  queryData2.source, 
+                                        queryData.source, 
+                                        connections[queryData.source].driver, 
+                                        queryData.definition, 
+                                        function(result){
+                                            console.log("     In getresult callback:")
+                                            console.log("                          :" + JSON.stringify(result))
+                                            newres.writeHead(200, {'Content-Type': 'text/plain'});
+                                            newres.end(JSON.stringify(result));
+                                        }
+                                     );
 						} else {
 							console.log('query driver not found: ' + connections[queryData.source]);
 								res.writeHead(200, {'Content-Type': 'text/plain'});
