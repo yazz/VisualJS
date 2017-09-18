@@ -535,8 +535,8 @@
         success: function(data) {
           //$("#result").text(data);
 		  alert('Hard disk scan stopped!');
-                    window.when_connections_changes();
-                    window.when_queries_changes();
+                    window.when_connections_changes("*");
+                    window.when_queries_changes("*");
                     window.recalcVuexQueries();
 			},
         error: function(jqXHR, textStatus, errorThrown) {
@@ -608,8 +608,8 @@
           init: function() {
             this.on("queuecomplete", function() {
                 setTimeout(function() {
-                    window.when_connections_changes();
-                    window.when_queries_changes();
+                    window.when_connections_changes("*");
+                    window.when_queries_changes("*");
                     window.recalcVuexQueries();
                     },200);
             });

@@ -550,7 +550,7 @@ app.use(cors())
         var requestVia                       = findViafromString(req.headers.via);
         
 		res.writeHead(200, {'Content-Type': 'text/plain'});
-        //zzz
+        
         var mysql = "select *  from  intranet_client_connects  where " +
                     "    (when_connected > " + ( new Date().getTime() - (numberOfSecondsAliveCheck * 1000)) + ") " +
                     " and " + 
@@ -741,7 +741,7 @@ var upload = multer( { dest: 'uploads/' } );
         res.writeHead(200, {'Content-Type': 'text/plain'});
 		dbsearch.serialize(function() {
             var timeStart = new Date().getTime();
-            var mysql = "select query_id, snippet(search,0,'*','*','...',1) from search where search match '"  + searchTerm + "*'";
+            var mysql = "select distinct(query_id) from search where search match '"  + searchTerm + "*'";
             //console.log( "search for: " + searchTerm);
             //console.log( "    sql: " + mysql);
             
@@ -776,7 +776,35 @@ var upload = multer( { dest: 'uploads/' } );
     
     
     
-    
+    var getResult = function(source, connection, driver, definition, callback) {
+        var error = new Object();
+        if (connections[connection]) {
+            try {
+                drivers[connections[queryData.source].driver]['get_v2'](connections[queryData.source],queryData.definition,function(ordata) {
+                var rrows = [];
+                if( Object.prototype.toString.call( ordata ) === '[object Array]' ) {
+                    rrows = ordata;
+                } else {
+                    rrows = ordata.values;
+                }
+                dbsearch.serialize(function() {
+                      var stmt = dbsearch.prepare("INSERT INTO search VALUES (?, ?)");
+                          /*for (var i =0 ; i < rrows.length; i++) {
+                            //console.log('                 : ' + JSON.stringify(rrows[i]));
+                            stmt.run(queryData2.source, JSON.stringify(rrows[i]));
+                          }*/
+                          stmt.run(queryData2.source, JSON.stringify(rrows));
+                          stmt.finalize();
+                    });
+                callback(ordata);
+            })
+            
+            }
+            catch(err){
+                
+            }
+        }}
+        
     
 	app.post('/getqueryresult', function (req, res) {
 		var queryData2 = req.body;
@@ -815,12 +843,14 @@ var upload = multer( { dest: 'uploads/' } );
             }
             //console.log('           adding to search index: ' + JSON.stringify(rrows.length));
             
+            
             dbsearch.serialize(function() {
                   var stmt = dbsearch.prepare("INSERT INTO search VALUES (?, ?)");
-                      for (var i =0 ; i < rrows.length; i++) {
+                      /*for (var i =0 ; i < rrows.length; i++) {
                         //console.log('                 : ' + JSON.stringify(rrows[i]));
                         stmt.run(queryData2.source, JSON.stringify(rrows[i]));
-                      }
+                      }*/
+                      stmt.run(queryData2.source, JSON.stringify(rrows));
                       stmt.finalize();
 
                 });

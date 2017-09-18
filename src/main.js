@@ -762,6 +762,7 @@ var showSearchResults = function() {
             },
             success: function(data) {
                 console.log(searchtext + '=:' + data);
+                //alert("search resturned: " + JSON.stringify(data));
                 
                 var lor = eval('(' + data + ')');
                 //alert("returned in  " + lor.duration)
@@ -1204,7 +1205,7 @@ window.when_connections_changes = function(fields) {
         in_when_connections_changes = false;
         if (callConnAgain) {
             callConnAgain = false;
-            window.when_connections_changes();
+            window.when_connections_changes("*");
         }
     } else {
         callConnAgain = true;
@@ -1241,7 +1242,7 @@ window.add_connection = function(connection) {
                         },
             success: function(results2) {
                    // alert("success: " + results2);
-                   window.when_connections_changes();
+                   window.when_connections_changes("*");
     }});
 }   
 
@@ -1264,7 +1265,7 @@ window.add_query = function(query) {
                         },
             success: function(results2) {
                    // alert("success: " + results2);
-                   window.when_queries_changes();
+                   window.when_queries_changes("*");
                    window.recalcVuexQueries();
     }});
 }   
@@ -1479,7 +1480,7 @@ window.when_queries_changes = function(fields) {
         in_when_queries_changes = false;
         if (callQueriesAgain) {
             callQueriesAgain = false;
-            window.when_queries_changes();
+            window.when_queries_changes("*");
         }
     } else {
         callQueriesAgain = true;
