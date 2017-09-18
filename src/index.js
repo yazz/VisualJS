@@ -243,6 +243,7 @@ function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileTyp
                                              function(err) {
                                                 when_connections_changes();
                                                 when_queries_changes();
+                                                getResult(newqueryid, newid, fileType, {}, function(result){});
                                                  })
                             });
                             console.log(":      saved query = " + fileId);
@@ -344,7 +345,38 @@ path.join(__dirname, '../public/unlocked.png')
 
 
 
+var getResult = function(source, connection, driver, definition, callback) {
+    console.log("var getResult = function(" + source + ", " + connection + ", " + driver + ", " + JSON.stringify(definition));
+    var error = new Object();
+    if (connections[connection]) {
+        try {
+            drivers[driver]['get_v2'](connections[connection],definition,function(ordata) {
+                var rrows = [];
+                if( Object.prototype.toString.call( ordata ) === '[object Array]' ) {
+                    rrows = ordata;
+                } else {
+                    rrows = ordata.values;
+                }
+                //console.log( "   ordata: " + JSON.stringify(ordata));
+                dbsearch.serialize(function() {
+                      var stmt = dbsearch.prepare("INSERT INTO search VALUES (?, ?)");
+                          /*for (var i =0 ; i < rrows.length; i++) {
+                            //console.log('                 : ' + JSON.stringify(rrows[i]));
+                            stmt.run(queryData2.source, JSON.stringify(rrows[i]));
+                          }*/
+                          stmt.run(source, JSON.stringify(rrows));
+                          stmt.finalize();
+                    });
+                callback.call(this,ordata);
+            })
+        
+        }
+        catch(err){
+            console.log(err);
+        }
+    }}
 
+    
 function isNumber(n) {
   return !isNaN(parseFloat(n)) && isFinite(n);
 }
@@ -776,36 +808,6 @@ var upload = multer( { dest: 'uploads/' } );
     
     
     
-    var getResult = function(source, connection, driver, definition, callback) {
-        console.log("var getResult = function(" + source + ", " + connection + ", " + driver + ", " + JSON.stringify(definition));
-        var error = new Object();
-        if (connections[connection]) {
-            try {
-                drivers[driver]['get_v2'](connections[connection],definition,function(ordata) {
-                    var rrows = [];
-                    if( Object.prototype.toString.call( ordata ) === '[object Array]' ) {
-                        rrows = ordata;
-                    } else {
-                        rrows = ordata.values;
-                    }
-                    console.log( "   ordata: " + JSON.stringify(ordata));
-                    dbsearch.serialize(function() {
-                          var stmt = dbsearch.prepare("INSERT INTO search VALUES (?, ?)");
-                              /*for (var i =0 ; i < rrows.length; i++) {
-                                //console.log('                 : ' + JSON.stringify(rrows[i]));
-                                stmt.run(queryData2.source, JSON.stringify(rrows[i]));
-                              }*/
-                              stmt.run(source, JSON.stringify(rrows));
-                              stmt.finalize();
-                        });
-                    callback.call(this,ordata);
-                })
-            
-            }
-            catch(err){
-                console.log(err);
-            }
-        }}
         
     
 	app.post('/getqueryresult', function (req, res) {
@@ -1418,12 +1420,13 @@ function addNewQuery( params ) {
     {
         console.log("------------------function addNewQuery( params ) { -------------------");
         dbsearch.serialize(function() {
-            var stmt = dbsearch.prepare(" insert into query " + 
+            var stmt = dbsearch.prepare(" insert into queries " + 
                                         "    ( id, name, connection, driver, definition, status ) " +
                                         " values " + 
                                         "    (?,    ?, ?, ?, ?, ?);");
-                                        
-            stmt.run(uuidv1(),
+                     
+            var newQueryId = uuidv1();
+            stmt.run(newQueryId,
                      params.name, 
                      params.connection, 
                      params.driver, 
@@ -1433,6 +1436,7 @@ function addNewQuery( params ) {
                      
             stmt.finalize();
             when_queries_changes();
+            getResult(newQueryId, params.connection, params.driver, eval("(" + params.definition + ")"), function(result){});
         });
     } catch(err) {
         console.log("                          err: " + err);
