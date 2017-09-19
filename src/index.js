@@ -126,8 +126,23 @@ var dbsearch = new sqlite3.Database('gosharedatasearch.sqlite3');
                 });
             } catch(err) {
             } finally {
-                
             }
+                
+                
+        try {
+            dbsearch.serialize(function() {
+                  dbsearch.run("CREATE VIRTUAL TABLE search_rows USING fts5(hash, data);");
+                });
+            } catch(err) {
+            } finally {
+            }
+                
+        try {
+            dbsearch.serialize(function() {
+                  dbsearch.run("CREATE TABLE document_hierarchy (query_id TEXT, parent_hash TEXT, child_hash TEXT);");
+                });} catch(err) {} finally {}
+                
+            
         try {
             dbsearch.serialize(function() {
                   dbsearch.run("CREATE TABLE drivers (id TEXT, name TEXT, type TEXT, code TEXT);");
