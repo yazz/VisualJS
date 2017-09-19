@@ -357,17 +357,24 @@ var getResult = function(source, connection, driver, definition, callback) {
                 } else {
                     rrows = ordata.values;
                 }
-                ////console.log( "   ordata: " + JSON.stringify(ordata));
-                dbsearch.serialize(function() {
-                      var stmt = dbsearch.prepare("INSERT or replace INTO search VALUES (?, ?)");
-                          /*for (var i =0 ; i < rrows.length; i++) {
-                            ////console.log('                 : ' + JSON.stringify(rrows[i]));
-                            stmt.run(queryData2.source, JSON.stringify(rrows[i]));
-                          }*/
-                          stmt.run(source, JSON.stringify(rrows));
-                          stmt.finalize();
-                    });
                 callback.call(this,ordata);
+                ////console.log( "   ordata: " + JSON.stringify(ordata));
+                var stmt = dbsearch.all("select query_id from search where query_id = '" + source + "'",
+                    function(err, results) {
+                        if (!err) {
+                            if( results.length == 0) {
+                                dbsearch.serialize(function() {
+                                      var stmt = dbsearch.prepare("INSERT INTO search VALUES (?, ?)");
+                                          /*for (var i =0 ; i < rrows.length; i++) {
+                                            ////console.log('                 : ' + JSON.stringify(rrows[i]));
+                                            stmt.run(queryData2.source, JSON.stringify(rrows[i]));
+                                          }*/
+                                          stmt.run(source, JSON.stringify(rrows));
+                                          stmt.finalize();
+                                    });
+                            }
+                        }
+                    });
             })
         
         }
@@ -1035,7 +1042,7 @@ var upload = multer( { dest: 'uploads/' } );
 			//console.log('client public IP address:        ' + requestClientPublicIp)
 			//console.log('client public IP host name:      ' + requestClientPublicHostName)
 			//console.log('client VIA:                      ' + requestVia)
-//zzz            
+ 
             dbsearch.serialize(function() {
                 var stmt = dbsearch.prepare(" insert  into  intranet_client_connects " + 
                                         "    ( id, internal_host, internal_port, public_ip, via, public_host, user_name, client_user_name, when_connected) " +
@@ -1360,7 +1367,7 @@ function when_connections_changes() {
         //console.log('Called when_ CONNS _changes ');
         //console.log('------------------------------------');
         //console.log('------------------------------------');
-//zzz        
+        
         var stmt = dbsearch.all("select * from connections",
             function(err, results) {
                 if (!err) {

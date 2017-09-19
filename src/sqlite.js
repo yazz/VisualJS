@@ -106,7 +106,7 @@
 				return {
 				  connection_name:           "sqlite",
 				  connection_connect_string: null,
-				  database:                  "default.sqlite3"
+				  database:                  "gosharedatasearch.sqlite3"
 				};
 			  }
 	}
@@ -172,8 +172,8 @@
 			  data: function() {
 				return {
 				  query_name:                "sqlite query",
-				  database:                  "default.sqlite3",
-				  sql:                       "select * from sqlite_master"
+				  database:                  "gosharedatasearch.sqlite3",
+				  sql:                       "select distinct(query_id) from search where search match '*'"
 				};
 			  }
 	}
