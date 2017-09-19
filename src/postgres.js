@@ -269,9 +269,8 @@
 
     get_v2: function( connection , parameters , callfn )
         {
-            
 			var sql = parameters.sql;
-            console.log('******************************** in postgres get');
+            //console.log('******************************** in postgres get');
             if (
                 (connection.status == 'disconnected')
                 ||
@@ -286,14 +285,14 @@
                  };
             }
 
-          console.error('drivers[postgres][get]');
+          //console.error('drivers[postgres][get]');
           // execute a query on our database
           connection.connection.query(sql, [], function (err, result) {
             if (err) {
 				callfn({error: '' + err});
 			} else {
 				// just print the result to the console
-				console.log(result.rows); // outputs: { name: 'brianc' }
+				//console.log(result.rows); // outputs: { name: 'brianc' }
 				callfn(result.rows);
 			};
 

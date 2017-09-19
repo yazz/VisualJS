@@ -16,8 +16,8 @@ function require2(moduleName) {
 		pat = "require(path.join(__dirname, '../node_modules/" + moduleName + "'));";
 	}
 	
-	console.log('PATH: ' + pat);
-	console.log('    MODULE PATH: ' + process.cwd() + '/node_modules/' + moduleName);
+	//console.log('PATH: ' + pat);
+	//console.log('    MODULE PATH: ' + process.cwd() + '/node_modules/' + moduleName);
     var reac = eval(pat);	
 	return reac;
 };
@@ -59,32 +59,32 @@ mkdirp.sync("uploads");
 
 
 function copyNodeNativeAdapter( osName, moduleName, directoryToSaveTo , nativeFileName) {
-    console.log('Copy started of : ' + osName + ', '+ moduleName + ','+ directoryToSaveTo + ','+ nativeFileName);
+    //console.log('Copy started of : ' + osName + ', '+ moduleName + ','+ directoryToSaveTo + ','+ nativeFileName);
 	if (!fs.existsSync(process.cwd() + "/node_modules/" + moduleName + "/" + directoryToSaveTo + "/" + nativeFileName) ) {
-		console.log('* Creating native driver for: ' + moduleName);
+		//console.log('* Creating native driver for: ' + moduleName);
 		mkdirSync(process.cwd() + "/node_modules/" + moduleName +  "/" + directoryToSaveTo);
 		copyFileSync(	 process.cwd() + "/node_" + osName + "/" + nativeFileName + "rename",
 							process.cwd() + "/node_modules/" + moduleName + "/" + directoryToSaveTo + "/" + nativeFileName) ;
 	}
-	console.log('Copy done');
+	//console.log('Copy done');
 }
 
 if (isWin) {
-    console.log('******* WINDOWS *******');
+    //console.log('******* WINDOWS *******');
 	// copy WIndows 32 node native files
 	copyNodeNativeAdapter( "win32", "sqlite3", 		"lib/binding/node-v48-win32-ia32" , "node_sqlite3.node")
     
     
     
 } else if (isRaspberryPi) {
-    console.log('******* PI *******');
+    //console.log('******* PI *******');
 	// copy Raspberry PI ARM node native files
 	copyNodeNativeAdapter( "pi", "sqlite3", 	"lib/binding/node-v48-linux-arm" , "node_sqlite3.node")
     
     
     
 } else { //means Mac OS
-    console.log('******* MAC *******');
+    //console.log('******* MAC *******');
 	// copy Mac OS 64 node native files
 	copyNodeNativeAdapter( "macos64", "sqlite3", 	"lib/binding/node-v48-darwin-x64" , "node_sqlite3.node")
 }
@@ -223,7 +223,7 @@ function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileTyp
                                 saveTo = process.cwd() + "/public/docs/" + "gsd_" + sha1sum.toString() + path.extname(fileName);
                             };
                             var copyfrom = fileName;
-                            console.log('Copy from : ' + copyfrom + ' to : ' + saveTo);
+                            //console.log('Copy from : ' + copyfrom + ' to : ' + saveTo);
                             copyFileSync(copyfrom, saveTo);
                               
                               
@@ -246,13 +246,13 @@ function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileTyp
                                                 getResult(newqueryid, newid, fileType, {}, function(result){});
                                                  })
                             });
-                            console.log(":      saved query = " + fileId);
+                            //console.log(":      saved query = " + fileId);
                             
                          
                      });                     
         });
     } catch(err) {
-        console.log("Error " + err + " with file: " + fileName);     
+        //console.log("Error " + err + " with file: " + fileName);     
         return err; 
     } finally {
         
@@ -263,7 +263,7 @@ function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileTyp
    if (stopScan) {
      return;
    };
-   //console.log('dir: ' + dir);
+   ////console.log('dir: ' + dir);
   fs.readdir(dir, function(err, list) {
     if (err) return done(err);
     var pending = list.length;
@@ -279,24 +279,24 @@ function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileTyp
           }, 10 * 1000);
         } else {
 		  if (isExcelFile(file)) {
-                console.log('file: ' + file);
+                //console.log('file: ' + file);
   					var excelFile = file;
   						if (typeof excelFile !== "undefined") {
 							var fileId = excelFile.replace(/[^\w\s]/gi,'');
-  							console.log('   *file id: ' + fileId);
-  							console.log('   *size: ' + stat.size);
+  							//console.log('   *file id: ' + fileId);
+  							//console.log('   *size: ' + stat.size);
 
                             saveConnectionAndQueryForFile(fileId, 'excel', stat.size, excelFile, '|SPREADSHEET|');
 									  
 						}
 					}
 		  if (isCsvFile(file)) {
-                console.log('CSV file: ' + file);
+                //console.log('CSV file: ' + file);
   					var CSVFile = file;
   						if (typeof CSVFile !== "undefined") {
 							var fileId = CSVFile.replace(/[^\w\s]/gi,'');
-  							console.log('   *file id: ' + fileId);
-  							console.log('   *size: ' + stat.size);
+  							//console.log('   *file id: ' + fileId);
+  							//console.log('   *size: ' + stat.size);
 
                             saveConnectionAndQueryForFile(fileId, 'csv', stat.size, CSVFile, '|CSV|');
 						}
@@ -346,7 +346,7 @@ path.join(__dirname, '../public/unlocked.png')
 
 
 var getResult = function(source, connection, driver, definition, callback) {
-    console.log("var getResult = function(" + source + ", " + connection + ", " + driver + ", " + JSON.stringify(definition));
+    //console.log("var getResult = function(" + source + ", " + connection + ", " + driver + ", " + JSON.stringify(definition));
     var error = new Object();
     if (connections[connection]) {
         try {
@@ -357,11 +357,11 @@ var getResult = function(source, connection, driver, definition, callback) {
                 } else {
                     rrows = ordata.values;
                 }
-                //console.log( "   ordata: " + JSON.stringify(ordata));
+                ////console.log( "   ordata: " + JSON.stringify(ordata));
                 dbsearch.serialize(function() {
-                      var stmt = dbsearch.prepare("INSERT INTO search VALUES (?, ?)");
+                      var stmt = dbsearch.prepare("INSERT or replace INTO search VALUES (?, ?)");
                           /*for (var i =0 ; i < rrows.length; i++) {
-                            //console.log('                 : ' + JSON.stringify(rrows[i]));
+                            ////console.log('                 : ' + JSON.stringify(rrows[i]));
                             stmt.run(queryData2.source, JSON.stringify(rrows[i]));
                           }*/
                           stmt.run(source, JSON.stringify(rrows));
@@ -372,7 +372,7 @@ var getResult = function(source, connection, driver, definition, callback) {
         
         }
         catch(err){
-            console.log(err);
+            //console.log(err);
         }
     }}
 
@@ -397,7 +397,7 @@ program
   if (!isNumber(port)) {port = 80;};
 
   var portrange = 3000
-  console.log('Local hostname: ' + ip.address() + ' ')
+  //console.log('Local hostname: ' + ip.address() + ' ')
   getPort(mainProgram);
 
 	function getPort (cb) {
@@ -405,22 +405,22 @@ program
 		var server = net.createServer()
 		
 		server.listen(port, ip.address(), function (err) {
-			console.log('trying port: ' + port + ' ')
+			//console.log('trying port: ' + port + ' ')
 			server.once('close', function () {
 			})
 			server.close()
 		})
 		server.on('error', function (err) {
-			console.log('Couldnt connect on port ' + port + '...')
+			//console.log('Couldnt connect on port ' + port + '...')
 			if (port < portrange) {
 				port = portrange
 				};
-			console.log('... trying port ' + port)
+			//console.log('... trying port ' + port)
 			portrange += 1
 			getPort(cb)
 		})
 		server.on('listening', function (err) {
-				console.log('Can connect on port ' + port + ' :) ')
+				//console.log('Can connect on port ' + port + ' :) ')
 				cb()
 		})
 	}
@@ -435,13 +435,13 @@ program
 
 
 	if (!(typeOfSystem == 'client' || typeOfSystem == 'server')) {
-		console.log('-------* Invalid system type: ' + typeOfSystem);
+		//console.log('-------* Invalid system type: ' + typeOfSystem);
 		process.exit();
 	};
-	console.log('-------* System type: ' + typeOfSystem);
-	console.log('-------* Port: ' + port);
-	console.log('-------* Central host: ' + centralHostAddress);
-	console.log('-------* Central host port: ' + centralHostPort);
+	//console.log('-------* System type: ' + typeOfSystem);
+	//console.log('-------* Port: ' + port);
+	//console.log('-------* Central host: ' + centralHostAddress);
+	//console.log('-------* Central host port: ' + centralHostPort);
 
 
 	var storageFileName = 'data.json';
@@ -452,7 +452,7 @@ program
 		}
 		console.dir ( ip.address() );
 
-		console.log('addr: '+ ip.address());
+		//console.log('addr: '+ ip.address());
 		hostaddress = ip.address();
 
 
@@ -466,7 +466,7 @@ program
 	// wait three seconds for stuff to initialize
 	//------------------------------------------------------------
 	setTimeout(startServices, timeout);
-	console.log('Creating timeout: ' + timeout);
+	//console.log('Creating timeout: ' + timeout);
 
 
 	//------------------------------------------------------------
@@ -480,8 +480,8 @@ program
 	  //------------------------------------------------------------------------------
 		app.get('/', function (req, res) {
 			hostcount++;
-		  console.log("Host: " + req.headers.host + ", " + hostcount);
-		  console.log("URL: " + req.originalUrl);
+		  //console.log("Host: " + req.headers.host + ", " + hostcount);
+		  //console.log("URL: " + req.originalUrl);
 		  if (req.headers.host) {
 			  if (req.headers.host.toLowerCase() == 'canlabs.com') {
 				res.writeHead(301,
@@ -519,9 +519,9 @@ program
 	  })
 
       
+            
     
-    
-    console.log('::::::::::: ' +process.cwd() + '/docs')
+    //console.log('::::::::::: ' +process.cwd() + '/docs')
     app.use("/docs", express.static('public/docs'));
 	app.use(express.static(path.join(__dirname, '../public/')))
 	var bodyParser = require('body-parser');
@@ -562,7 +562,7 @@ app.use(cors())
         var tracking_id =    url.parse(req.url, true).query.tracking_id;
         var server      =    url.parse(req.url, true).query.server;
         
-        console.log(JSON.stringify(tracking_id,null,2));
+        //console.log(JSON.stringify(tracking_id,null,2));
         
         res.writeHead(200, {'Content-Type': 'text/plain'});
         res.end(JSON.stringify({    got_through_firewall:   tracking_id  ,  
@@ -588,10 +588,10 @@ app.use(cors())
                     " and " + 
                     "    (( public_ip = '" + requestClientPublicIp + "') or " +
                               "((via = '" + requestVia + "') and (length(via) > 0)))";
-        console.log("check IP: " + mysql);
+        //console.log("check IP: " + mysql);
         var stmt = dbsearch.all(mysql, function(err, rows) {
             if (!err) {
-                console.log( "           " + JSON.stringify(rows));
+                //console.log( "           " + JSON.stringify(rows));
                 res.end(JSON.stringify({  allServers:       rows,
                                           intranetPublicIp: requestClientPublicIp}));
         }});
@@ -628,27 +628,27 @@ var upload = multer( { dest: 'uploads/' } );
 
 
     app.post('/file_upload', upload.single( 'file' ), function (req, res, next) {
-        console.log('-------------------------------------------------------------------------------------');
-        console.log('-------------------------------------------------------------------------------------');
-        console.log('-------------------------------------------------------------------------------------');
-        console.log('-------------------------------------------------------------------------------------');
-        console.log('-------------------------------------------------------------------------------------');
+        //console.log('-------------------------------------------------------------------------------------');
+        //console.log('-------------------------------------------------------------------------------------');
+        //console.log('-------------------------------------------------------------------------------------');
+        //console.log('-------------------------------------------------------------------------------------');
+        //console.log('-------------------------------------------------------------------------------------');
 
-        console.log(JSON.stringify(req.file));
-        console.log(JSON.stringify(req.file.originalname));
-        console.log(JSON.stringify(req.file.filename));
+        //console.log(JSON.stringify(req.file));
+        //console.log(JSON.stringify(req.file.originalname));
+        //console.log(JSON.stringify(req.file.filename));
  
 
-        console.log('......................................................................................');
-        console.log('......................................................................................');
-        console.log('......................................................................................');
-        console.log('......................................................................................');
-        console.log('......................................................................................');
+        //console.log('......................................................................................');
+        //console.log('......................................................................................');
+        //console.log('......................................................................................');
+        //console.log('......................................................................................');
+        //console.log('......................................................................................');
         res.status( 200 ).send( req.file );
 
         var ext = req.file.originalname.split('.').pop();
         ext = ext.toLowerCase();
-        console.log('Ext: ' + ext);
+        //console.log('Ext: ' + ext);
 
         var localp2;
         if (isWin) {
@@ -658,26 +658,26 @@ var upload = multer( { dest: 'uploads/' } );
 	};
         var localp = localp2 + '.' + ext;
         fs.renameSync(localp2, localp);
-        console.log('Local saved path: ' + localp);
+        //console.log('Local saved path: ' + localp);
         
         fs.stat(localp, function(err, stat) {
           if (isExcelFile(req.file.originalname)) {
-                console.log('file: ' + req.file.originalname);
+                //console.log('file: ' + req.file.originalname);
   					var excelFile = localp;
   						if (typeof excelFile !== "undefined") {
 							var fileId = excelFile.replace(/[^\w\s]/gi,'');
-  							console.log('   *file id: ' + fileId);
-  							console.log('   *size: ' + stat.size);
+  							//console.log('   *file id: ' + fileId);
+  							//console.log('   *size: ' + stat.size);
 
                             saveConnectionAndQueryForFile(req.file.originalname, 'excel', stat.size, excelFile, '|SPREADSHEET|');
             }};
           if (isCsvFile(req.file.originalname)) {
-                console.log('file: ' + req.file.originalname);
+                //console.log('file: ' + req.file.originalname);
   					var excelFile = localp;
   						if (typeof excelFile !== "undefined") {
 							var fileId = excelFile.replace(/[^\w\s]/gi,'');
-  							console.log('   *file id: ' + fileId);
-  							console.log('   *size: ' + stat.size);
+  							//console.log('   *file id: ' + fileId);
+  							//console.log('   *size: ' + stat.size);
 
                             saveConnectionAndQueryForFile(req.file.originalname, 'csv', stat.size, excelFile, '|CSV|');
             }};
@@ -687,14 +687,14 @@ var upload = multer( { dest: 'uploads/' } );
     });
 	app.post('/open_query_in_native_app', function (req, res) {
 
-		console.log('in open_query_in_native_app');
+		//console.log('in open_query_in_native_app');
 		var queryData = req.body;
-		console.log('queryData.source: ' + queryData.source);
-		console.log('queries[queryData.source]: ' + queries[queryData.source]);
-		console.log('connections[queries[queryData.source].connection]: ' + connections[queries[queryData.source].connection]);
-		console.log('connections[queries[queryData.source].connection].fileName: ' + connections[queries[queryData.source].connection].fileName);
+		//console.log('queryData.source: ' + queryData.source);
+		//console.log('queries[queryData.source]: ' + queries[queryData.source]);
+		//console.log('connections[queries[queryData.source].connection]: ' + connections[queries[queryData.source].connection]);
+		//console.log('connections[queries[queryData.source].connection].fileName: ' + connections[queries[queryData.source].connection].fileName);
 		var error = new Object();
-		//console.log('query driver: ' + connections[queryData.source].driver);
+		////console.log('query driver: ' + connections[queryData.source].driver);
 		try {
 			//drivers[connections[queryData.source].driver]['get_v2'](connections[queryData.source],{sql: queryData.sql},function(ordata) {
 			   open(connections[queries[queryData.source].connection].fileName);
@@ -715,17 +715,17 @@ var upload = multer( { dest: 'uploads/' } );
 	// Get the result of a SQL query
 	//------------------------------------------------------------------------------
 	app.post('/getresult', function (req, res) {
-		console.log('in getresult');
+		//console.log('in getresult');
 		var queryData = req.body;
-		console.log('queryData.source: ' + queryData.source);
+		//console.log('queryData.source: ' + queryData.source);
         
-		//console.log('request received source: ' + Object.keys(req));
+		////console.log('request received source: ' + Object.keys(req));
 		var error = new Object();
 		if (queryData) {
 			if (connections[queryData.source]) {
 				if (queryData.source) {
 					if (connections[queryData.source].driver) {
-						console.log('query driver: ' + connections[queryData.source].driver);
+						//console.log('query driver: ' + connections[queryData.source].driver);
 						try {
 							drivers[connections[queryData.source].driver]['get_v2'](connections[queryData.source],{sql: queryData.sql},function(ordata) {
 								res.writeHead(200, {'Content-Type': 'text/plain'});
@@ -753,7 +753,7 @@ var upload = multer( { dest: 'uploads/' } );
 							res.end(JSON.stringify({error: 'Error: ' + JSON.stringify(err)}));
 						};
 					} else {
-						console.log('query driver not found: ' + connections[queryData.source]);
+						//console.log('query driver not found: ' + connections[queryData.source]);
 							res.writeHead(200, {'Content-Type': 'text/plain'});
 							res.end(JSON.stringify({message: 'query driver not found'}));
 					};
@@ -774,12 +774,12 @@ var upload = multer( { dest: 'uploads/' } );
 		dbsearch.serialize(function() {
             var timeStart = new Date().getTime();
             var mysql = "select distinct(query_id) from search where search match '"  + searchTerm + "*'";
-            //console.log( "search for: " + searchTerm);
-            //console.log( "    sql: " + mysql);
+            ////console.log( "search for: " + searchTerm);
+            ////console.log( "    sql: " + mysql);
             
 			var stmt = dbsearch.all(mysql, function(err, rows) {
                 if (!err) {
-                    console.log( "           " + JSON.stringify(rows));
+                    //console.log( "           " + JSON.stringify(rows));
                     var newres = [];
                     for  (var i=0; i < rows.length;i++) {
                         if (rows[i]["query_id"]) {
@@ -791,14 +791,14 @@ var upload = multer( { dest: 'uploads/' } );
                     res.end( JSON.stringify({   search: searchTerm, 
                                                 values: newres, 
                                                 duration: timing}));
-                    //console.log( "    took: " + timing + " millis");
+                    ////console.log( "    took: " + timing + " millis");
                 } else {
                     var timeEnd = new Date().getTime();
                     var timing = timeEnd - timeStart;
                     res.end( JSON.stringify({search:    searchTerm, 
                                              values:    [{b: "Error searching for: " + searchTerm }], 
                                              duration:  timing    }  ));
-                    console.log( "    took: " + timing + " millis");
+                    //console.log( "    took: " + timing + " millis");
                 }
             });
 
@@ -812,20 +812,20 @@ var upload = multer( { dest: 'uploads/' } );
     
 	app.post('/getqueryresult', function (req, res) {
 		var queryData2 = req.body;
-		console.log('in getqueryresult: ' + JSON.stringify(queryData2));
-		console.log('           source: ' + JSON.stringify(queryData2.source));
-		//console.log('request received source: ' + Object.keys(req));
-		//console.log('request received SQL: ' + queryData.sql);
+		//console.log('in getqueryresult: ' + JSON.stringify(queryData2));
+		//console.log('           source: ' + JSON.stringify(queryData2.source));
+		////console.log('request received source: ' + Object.keys(req));
+		////console.log('request received SQL: ' + queryData.sql);
 		var query = queries[queryData2.source];
 
-		console.log('           query: ' + JSON.stringify(query));
+		//console.log('           query: ' + JSON.stringify(query));
 		if (query) {
 			var queryData 			= new Object();
 			queryData.source 		= query.connection;
 			queryData.definition 	= eval('(' + query.definition + ')' );
 
-			console.log('   query.definition.sql: ' + JSON.stringify(query.definition.sql));
-			console.log('           ***queryData: ' + JSON.stringify(queryData));
+			//console.log('   query.definition.sql: ' + JSON.stringify(query.definition.sql));
+			//console.log('           ***queryData: ' + JSON.stringify(queryData));
 
 
 			var error = new Object();
@@ -833,21 +833,21 @@ var upload = multer( { dest: 'uploads/' } );
 				if (connections[queryData.source]) {
 					if (queryData.source) {
 						if (connections[queryData.source].driver) {
-							//console.log('query driver: ' + connections[queryData.source].driver);
+							////console.log('query driver: ' + connections[queryData.source].driver);
                             var newres = res;
                             getResult(  queryData2.source, 
                                         queryData.source, 
                                         connections[queryData.source].driver, 
                                         queryData.definition, 
                                         function(result){
-                                            console.log("     In getresult callback:")
-                                            console.log("                          :" + JSON.stringify(result))
+                                            //console.log("     In getresult callback:")
+                                            //console.log("                          :" + JSON.stringify(result))
                                             newres.writeHead(200, {'Content-Type': 'text/plain'});
                                             newres.end(JSON.stringify(result));
                                         }
                                      );
 						} else {
-							console.log('query driver not found: ' + connections[queryData.source]);
+							//console.log('query driver not found: ' + connections[queryData.source]);
 								res.writeHead(200, {'Content-Type': 'text/plain'});
 								res.end(JSON.stringify({error: 'query driver not found'}));
 						};
@@ -855,7 +855,7 @@ var upload = multer( { dest: 'uploads/' } );
 				};
 			};
 		} else {
-			console.log('query not found: ' + queryData2.source);
+			//console.log('query not found: ' + queryData2.source);
 			res.writeHead(200, {'Content-Type': 'text/plain'});
 			res.end(JSON.stringify({error: 'query ' + queryData2.source + ' not found'}));
 
@@ -865,7 +865,7 @@ var upload = multer( { dest: 'uploads/' } );
     var locked = (program.locked == 'true');
 
 	app.get('/send_client_details', function (req, res) {
-		//console.log('in send_client_details: ' + JSON.stringify(req,null,2));
+		////console.log('in send_client_details: ' + JSON.stringify(req,null,2));
         res.writeHead(200, {'Content-Type': 'text/plain'});
         res.end(JSON.stringify({
                 returned:           'some data ', 
@@ -883,14 +883,14 @@ var upload = multer( { dest: 'uploads/' } );
             locked = false;
         }
 
-            //console.log('in lock: ' + JSON.stringify(req,null,2));
+            ////console.log('in lock: ' + JSON.stringify(req,null,2));
         res.writeHead(200, {'Content-Type': 'text/plain'});
         res.end(JSON.stringify({locked: locked}));
 	})
 
 
 	process.on('uncaughtException', function (err) {
-	  console.log(err);
+	  //console.log(err);
 	})
 
 
@@ -987,7 +987,7 @@ var upload = multer( { dest: 'uploads/' } );
                         res.writeHead(200, {'Content-Type': 'text/plain'});
                         res.end(JSON.stringify(
                             rows));
-                        console.log("Sent: " + JSON.stringify(rows.length));
+                        //console.log("Sent: " + JSON.stringify(rows.length));
                     };
                 })
     });
@@ -1029,12 +1029,12 @@ var upload = multer( { dest: 'uploads/' } );
 			//requestClientPublicHostName      = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 			var requestClientPublicHostName      = "req keys::" + Object.keys(req) + ", VIA::" + req.headers.via + ", raw::" + JSON.stringify(req.rawHeaders);
 
-			console.log('Client attempting to connect from:');
-			console.log('client internal host address:    ' + requestClientInternalHostAddress)
-			console.log('client internal port:            ' + requestClientInternalPort)
-			console.log('client public IP address:        ' + requestClientPublicIp)
-			console.log('client public IP host name:      ' + requestClientPublicHostName)
-			console.log('client VIA:                      ' + requestVia)
+			//console.log('Client attempting to connect from:');
+			//console.log('client internal host address:    ' + requestClientInternalHostAddress)
+			//console.log('client internal port:            ' + requestClientInternalPort)
+			//console.log('client public IP address:        ' + requestClientPublicIp)
+			//console.log('client public IP host name:      ' + requestClientPublicHostName)
+			//console.log('client VIA:                      ' + requestVia)
 //zzz            
             dbsearch.serialize(function() {
                 var stmt = dbsearch.prepare(" insert  into  intranet_client_connects " + 
@@ -1054,7 +1054,7 @@ var upload = multer( { dest: 'uploads/' } );
                             new Date().getTime()
                     );
             });
-            console.log('***SAVED***');
+            //console.log('***SAVED***');
 			
 			res.writeHead(200, {'Content-Type': 'text/plain'});
 			res.end(JSON.stringify(
@@ -1063,7 +1063,7 @@ var upload = multer( { dest: 'uploads/' } );
                 }));
 		}
 		catch (err) {
-			console.log('Warning: Central server not available:');
+			//console.log('Warning: Central server not available:');
 		}
 
 	})
@@ -1078,7 +1078,7 @@ var upload = multer( { dest: 'uploads/' } );
 	// start the web server
 	//------------------------------------------------------------------------------
 	app.listen(port, hostaddress, function () {
-		console.log(typeOfSystem + ' started on port ' + port );
+		//console.log(typeOfSystem + ' started on port ' + port );
 	})
 
 
@@ -1088,7 +1088,7 @@ var upload = multer( { dest: 'uploads/' } );
 
 
 
-	  console.log('addr: '+ hostaddress + ":" + port);
+	  //console.log('addr: '+ hostaddress + ":" + port);
 
 
 
@@ -1096,8 +1096,8 @@ var upload = multer( { dest: 'uploads/' } );
 
     var aliveCheckFn =                 function() {
                     var urlToConnectTo = "http://" + centralHostAddress + ":" + centralHostPort + '/client_connect';
-                    console.log('-------* urlToConnectTo: ' + urlToConnectTo);
-                    console.log('trying to connect to central server...');
+                    //console.log('-------* urlToConnectTo: ' + urlToConnectTo);
+                    //console.log('trying to connect to central server...');
                     request({
                           uri: urlToConnectTo,
                           method: "GET",
@@ -1114,14 +1114,14 @@ var upload = multer( { dest: 'uploads/' } );
                           }
                         },
                         function(error, response, body) {
-                          console.log('Error: ' + error);
+                          //console.log('Error: ' + error);
                           if (response) {
                               if (response.statusCode == '403') {
-                                    console.log('403 received, not allowed through firewall for ' + urlToConnectTo);
+                                    //console.log('403 received, not allowed through firewall for ' + urlToConnectTo);
                                     //open("http://" + centralHostAddress + ":" + centralHostPort);
                               } else {
-                                    //console.log('response: ' + JSON.stringify(response));
-                                    //console.log(body);
+                                    ////console.log('response: ' + JSON.stringify(response));
+                                    ////console.log(body);
                               }
                           }
                         });
@@ -1154,8 +1154,8 @@ when_queries_changes();
 
 
 
-		console.log("******************************ADDING DRIVERS*********************************")
-		console.log("******************************ADDING DRIVERS*********************************")
+		//console.log("******************************ADDING DRIVERS*********************************")
+		//console.log("******************************ADDING DRIVERS*********************************")
 
 
 
@@ -1218,18 +1218,18 @@ when_queries_changes();
 
 	function addOrUpdateDriver(name, code, theObject) {
 		var driverType = theObject.type;
-		console.log('addOrUpdateDriver: ' + name);
+		//console.log('addOrUpdateDriver: ' + name);
         
         var stmt = dbsearch.all("select name from drivers where name = '" + name + "';", 
             function(err, rows) {
-                console.log('err             : ' + err);
+                //console.log('err             : ' + err);
                 if (!err) {
-                    console.log('             : ' + rows.length);
+                    //console.log('             : ' + rows.length);
                     if (rows.length == 0) {
                         try 
                         {
                             dbsearch.serialize(function() {
-                                var stmt = dbsearch.prepare(" insert into drivers " + 
+                                var stmt = dbsearch.prepare(" insert or replace into drivers " + 
                                                             "    (id,  name, type, code ) " +
                                                             " values " + 
                                                             "    (?, ?,?,?);");
@@ -1242,9 +1242,9 @@ when_queries_changes();
                         }
                     
                     } else {
-                        console.log('   *** Checking DRIVER ' + name);
+                        //console.log('   *** Checking DRIVER ' + name);
                         var existingDriver = rows[0];
-                        if (!(code === existingDriver.code)) {
+                        if (!(code == existingDriver.code)) {
                             try 
                             {
                                 dbsearch.serialize(function() {
@@ -1266,8 +1266,8 @@ when_queries_changes();
 
 
 
-	//console.log("postgres.get = " + JSON.stringify(eval(pgeval) , null, 2))
-	//console.log("postgres.get = " + eval(pgeval).get)
+	////console.log("postgres.get = " + JSON.stringify(eval(pgeval) , null, 2))
+	////console.log("postgres.get = " + eval(pgeval).get)
 	//--------------------------------------------------------
 	// open the app in a web browser
 	//--------------------------------------------------------
@@ -1279,7 +1279,7 @@ when_queries_changes();
 	} else if (typeOfSystem == 'server') {
 	  open('http://' + hostaddress  + ":" + port + "/gosharedata/index.html?time=" +  + new Date().getTime());
 	}
-	console.log('http://' + hostaddress  + ":" + port);
+	//console.log('http://' + hostaddress  + ":" + port);
 
 	}
 	}
@@ -1305,7 +1305,7 @@ function scanHardDisk() {
 
     if (!stopScan) {
         walk(useDrive, function(error){
-            console.log('*Error: ' + error);
+            //console.log('*Error: ' + error);
         });
 	  };
 };
@@ -1327,7 +1327,7 @@ function copyFileSync( source, target ) {
 }
 
 function copyFolderRecursiveSync( source, target ) {
-    console.log('çopy from: '+ source + ' to ' + target);
+    //console.log('çopy from: '+ source + ' to ' + target);
     var files = [];
 
     //check if folder needs to be created or integrated
@@ -1345,7 +1345,7 @@ function copyFolderRecursiveSync( source, target ) {
                 copyFolderRecursiveSync( curSource, targetFolder );
             } else {
                 copyFileSync( curSource, targetFolder );
-				console.log('copying:  ' + targetFolder);
+				//console.log('copying:  ' + targetFolder);
             }
         } );
     }
@@ -1356,20 +1356,20 @@ var in_when_connections_changes=false;
 function when_connections_changes() {
     if (!in_when_connections_changes) {
         in_when_connections_changes=true;
-        console.log('------------------------------------');
-        console.log('Called when_ CONNS _changes ');
-        console.log('------------------------------------');
-        console.log('------------------------------------');
+        //console.log('------------------------------------');
+        //console.log('Called when_ CONNS _changes ');
+        //console.log('------------------------------------');
+        //console.log('------------------------------------');
 //zzz        
         var stmt = dbsearch.all("select * from connections",
             function(err, results) {
                 if (!err) {
                     for (var i = 0 ; i < results.length ; i ++) {
                         var conn = results[i]
-                        //console.log('    --------Found conn:  ' + conn._id);
-                        //console.log('                      :  ' + conn.name);
+                        ////console.log('    --------Found conn:  ' + conn._id);
+                        ////console.log('                      :  ' + conn.name);
                         if (!connections[conn.id]) {
-                          //console.log(a);
+                          ////console.log(a);
                           connections[conn.id] = conn;
                         }
                     }
@@ -1384,7 +1384,7 @@ function when_connections_changes() {
 function addNewConnection( params ) { 
     try 
     {
-        console.log("------------------function addNewConnection( params ) { -------------------");
+        //console.log("------------------function addNewConnection( params ) { -------------------");
         dbsearch.serialize(function() {
             var stmt = dbsearch.prepare(" insert into connections " + 
                                         "    ( id, name, driver, database, host, port, connectString, user, password, fileName, size, preview ) " +
@@ -1408,7 +1408,7 @@ function addNewConnection( params ) {
             when_connections_changes();
         });
     } catch(err) {
-        console.log("                          err: " + err);
+        //console.log("                          err: " + err);
     } finally {
     }
 }
@@ -1418,7 +1418,7 @@ function addNewConnection( params ) {
 function addNewQuery( params ) { 
     try 
     {
-        console.log("------------------function addNewQuery( params ) { -------------------");
+        //console.log("------------------function addNewQuery( params ) { -------------------");
         dbsearch.serialize(function() {
             var stmt = dbsearch.prepare(" insert into queries " + 
                                         "    ( id, name, connection, driver, definition, status ) " +
@@ -1439,7 +1439,7 @@ function addNewQuery( params ) {
             getResult(newQueryId, params.connection, params.driver, eval("(" + params.definition + ")"), function(result){});
         });
     } catch(err) {
-        console.log("                          err: " + err);
+        //console.log("                          err: " + err);
     } finally {
     }
 }
@@ -1454,12 +1454,12 @@ var in_when_queries_changes = false;
 function when_queries_changes() {
     if (!in_when_queries_changes) {
         in_when_queries_changes = true;
-        console.log('Called when_queries_changes ');
-        //console.log('    connection keys:  ' + JSON.stringify(Object.keys(connections),null,2));
+        //console.log('Called when_queries_changes ');
+        ////console.log('    connection keys:  ' + JSON.stringify(Object.keys(connections),null,2));
         var stmt = dbsearch.all("select * from queries",
             function(err, results) {
                 if (!err) {
-                console.log('    --------Found:  ' + results.length);
+                //console.log('    --------Found:  ' + results.length);
                 
                 
                 // find previews
@@ -1469,13 +1469,13 @@ function when_queries_changes() {
                         queries[query.id] = query;
                         var oout = [{a: 'no EXCEL'}];
                         try {
-                            //console.log('get preview for query id : ' + query._id);
-                            //console.log('          driver : ' + query.driver);
+                            ////console.log('get preview for query id : ' + query._id);
+                            ////console.log('          driver : ' + query.driver);
                             var restrictRows = JSON.parse(query.definition);
                             restrictRows.maxRows = 10;
                             /*drivers[query.driver]['get_v2'](connections[query.connection],restrictRows,
                                 function(ordata) {
-                                    //console.log('getting preview for query : ' + query.name);
+                                    ////console.log('getting preview for query : ' + query.name);
                                     query.preview = JSON.stringify(ordata, null, 2);
                                     queries.put(query);
                             });*/
@@ -1491,12 +1491,12 @@ function when_queries_changes() {
 
 
  
-console.log("-------------------------------------------------------------------");
-console.log("-------------------------------------------------------------------");
-console.log("-------------------------------------------------------------------");
-console.log("-------------------------------------------------------------------");
-console.log("-------------------------------------------------------------------");
+//console.log("-------------------------------------------------------------------");
+//console.log("-------------------------------------------------------------------");
+//console.log("-------------------------------------------------------------------");
+//console.log("-------------------------------------------------------------------");
+//console.log("-------------------------------------------------------------------");
 
 var os= require('os')
 username = os.userInfo().username
-console.log(username);
+//console.log(username);
