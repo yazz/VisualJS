@@ -394,22 +394,29 @@ var getResult = function(source, connection, driver, definition, callback) {
                         if (!err) {
                             if( results.length == 0) {
                                 dbsearch.serialize(function() {
+                                     var contents = JSON.stringify(rrows);
                                       var stmt = dbsearch.prepare("INSERT INTO search VALUES (?, ?)");
-                                          stmt.run(source, JSON.stringify(rrows));
+                                          stmt.run(source, contents);
                                           stmt.finalize();
 console.log("Inserting rows");
-var rowhash = crypto.createHash('sha1');
-rowhash.setEncoding('hex');
 stmt = dbsearch.prepare("INSERT INTO search_rows VALUES (?, ?)");
 for (var i =0 ; i < rrows.length; i++) {
-    rowhash.write(contents);
+    var rowhash = crypto.createHash('sha1');
+    var row = JSON.stringify(rrows[i]);
+    rowhash.setEncoding('hex');
+    rowhash.write(row);
     rowhash.end();
     var sha1sum = rowhash.read();
     ////console.log('                 : ' + JSON.stringify(rrows[i]));
-    stmt.run(sha1sum, JSON.stringify(rrows[i]));
+    stmt.run(sha1sum, row);
 }
 stmt.finalize();
 console.log('                 : ' + JSON.stringify(rrows.length));
+
+
+
+
+
                                     });
                             }
                         }
