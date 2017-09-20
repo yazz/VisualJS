@@ -243,17 +243,17 @@
 						var ret = new Object();
 
             var content = fs.readFileSync(connection.fileName, "utf8");
-              console.log('var content = fs.readFileSync(connection.fileName);');
+              //console.log('var content = fs.readFileSync(connection.fileName);');
              //console.log(content);
             var delim = ',';
             var numCommas = ((content.match(new RegExp(",", "g")) || []).length);
-	    console.log('numCommas = ' + numCommas);
+	    //console.log('numCommas = ' + numCommas);
             var numSemi = ((content.match(new RegExp(";", "g")) || []).length);
-            console.log('numSemi = ' + numSemi);
+            //console.log('numSemi = ' + numSemi);
             var numColons = ((content.match(new RegExp(":", "g")) || []).length);
-            console.log('numColons = ' + numColons);
+            //console.log('numColons = ' + numColons);
             var numPipes = ((content.match(new RegExp("[|]", "g")) || []).length);
-            console.log('numPipes = ' + numPipes);
+            //console.log('numPipes = ' + numPipes);
             
             var maxDelim = numCommas;
             if (numSemi > maxDelim) {
@@ -268,7 +268,7 @@
                 delim = '|';
                 maxDelim = numPipes;
                 };
-              console.log('delim = ' + delim);
+              //console.log('delim = ' + delim);
                         
                         
 			csv

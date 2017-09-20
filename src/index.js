@@ -117,14 +117,17 @@ var dbhelper     = require('../public/dbhelper');
 var Excel = require('exceljs');
 var compression = require('compression')
 app.use(compression())
+var crypto = require('crypto');
 
 var sqlite3   = require2('sqlite3');
 var dbsearch = new sqlite3.Database('gosharedatasearch.sqlite3');
+console.log("Creating tables ... ");
         try {
             dbsearch.serialize(function() {
                   dbsearch.run("CREATE VIRTUAL TABLE search USING fts5(query_id, data);");
                 });
             } catch(err) {
+                console.log(err);
             } finally {
             }
                 
@@ -134,35 +137,48 @@ var dbsearch = new sqlite3.Database('gosharedatasearch.sqlite3');
                   dbsearch.run("CREATE VIRTUAL TABLE search_rows USING fts5(hash, data);");
                 });
             } catch(err) {
+                console.log(err);
             } finally {
             }
                 
         try {
             dbsearch.serialize(function() {
-                  dbsearch.run("CREATE TABLE document_hierarchy (query_id TEXT, parent_hash TEXT, child_hash TEXT);");
-                });} catch(err) {} finally {}
+                  dbsearch.run("CREATE TABLE IF NOT EXISTS document_hierarchy (query_id TEXT, parent_hash TEXT, child_hash TEXT);");
+                });} catch(err) {
+                    console.log(err);                    
+                } finally {}
                 
             
         try {
             dbsearch.serialize(function() {
-                  dbsearch.run("CREATE TABLE drivers (id TEXT, name TEXT, type TEXT, code TEXT);");
-                });} catch(err) {} finally {}
+                  dbsearch.run("CREATE TABLE IF NOT EXISTS drivers (id TEXT, name TEXT, type TEXT, code TEXT);");
+                });} catch(err) {
+                    console.log(err);
+                } finally {}
 
         try {
             dbsearch.serialize(function() {
-                  dbsearch.run("CREATE TABLE connections (id TEXT, name TEXT, driver TEXT, database TEXT, host TEXT, port TEXT ,connectString TEXT, user TEXT, password TEXT, fileName TEXT, size INTEGER, type TEXT, preview TEXT, hash TEXT);");
-                });} catch(err) {} finally {}
+                  dbsearch.run("CREATE TABLE IF NOT EXISTS connections (id TEXT, name TEXT, driver TEXT, database TEXT, host TEXT, port TEXT ,connectString TEXT, user TEXT, password TEXT, fileName TEXT, size INTEGER, type TEXT, preview TEXT, hash TEXT);");
+                });} catch(err) {
+                    console.log(err);
+                } finally {}
                 
         try {
             dbsearch.serialize(function() {
-                  dbsearch.run("CREATE TABLE queries (id TEXT, name TEXT, connection INTEGER, driver TEXT, size INTEGER, hash TEXT, type TEXT, fileName TEXT, definition TEXT, preview TEXT, status TEXT);");
-                });} catch(err) {} finally {}
+                  dbsearch.run("CREATE TABLE IF NOT EXISTS queries (id TEXT, name TEXT, connection INTEGER, driver TEXT, size INTEGER, hash TEXT, type TEXT, fileName TEXT, definition TEXT, preview TEXT, status TEXT);");
+                });} catch(err) {
+                    console.log(err);
+                } finally {}
 
                 
         try {
             dbsearch.serialize(function() {
-                  dbsearch.run("CREATE TABLE intranet_client_connects (id TEXT, internal_host TEXT, internal_port INTEGER, public_ip TEXT, via TEXT, public_host TEXT, user_name TEXT, client_user_name TEXT, when_connected INTEGER);");
-                });} catch(err) {} finally {}
+                  dbsearch.run("CREATE TABLE IF NOT EXISTS intranet_client_connects (id TEXT, internal_host TEXT, internal_port INTEGER, public_ip TEXT, via TEXT, public_host TEXT, user_name TEXT, client_user_name TEXT, when_connected INTEGER);");
+                });} catch(err) {
+                    console.log(err);
+                } finally {}
+console.log("...done ");
+console.log("");
                 
                 
 var stopScan = false;
@@ -193,7 +209,6 @@ var mysql      = require('mysql');
 	 return false;
  }
 
-var crypto = require('crypto');
 
 var stmtInsertIntoConnections = dbsearch.prepare(" insert into connections " + 
                             "    ( id, name, driver, size, hash, type, fileName ) " +
@@ -380,12 +395,21 @@ var getResult = function(source, connection, driver, definition, callback) {
                             if( results.length == 0) {
                                 dbsearch.serialize(function() {
                                       var stmt = dbsearch.prepare("INSERT INTO search VALUES (?, ?)");
-                                          /*for (var i =0 ; i < rrows.length; i++) {
-                                            ////console.log('                 : ' + JSON.stringify(rrows[i]));
-                                            stmt.run(queryData2.source, JSON.stringify(rrows[i]));
-                                          }*/
                                           stmt.run(source, JSON.stringify(rrows));
                                           stmt.finalize();
+console.log("Inserting rows");
+var rowhash = crypto.createHash('sha1');
+rowhash.setEncoding('hex');
+stmt = dbsearch.prepare("INSERT INTO search_rows VALUES (?, ?)");
+for (var i =0 ; i < rrows.length; i++) {
+    rowhash.write(contents);
+    rowhash.end();
+    var sha1sum = rowhash.read();
+    ////console.log('                 : ' + JSON.stringify(rrows[i]));
+    stmt.run(sha1sum, JSON.stringify(rrows[i]));
+}
+stmt.finalize();
+console.log('                 : ' + JSON.stringify(rrows.length));
                                     });
                             }
                         }
@@ -869,7 +893,7 @@ var upload = multer( { dest: 'uploads/' } );
                                         }
                                      );
 						} else {
-							//console.log('query driver not found: ' + connections[queryData.source]);
+							console.log('query driver not found: ' + connections[queryData.source]);
 								res.writeHead(200, {'Content-Type': 'text/plain'});
 								res.end(JSON.stringify({error: 'query driver not found'}));
 						};
@@ -877,7 +901,7 @@ var upload = multer( { dest: 'uploads/' } );
 				};
 			};
 		} else {
-			//console.log('query not found: ' + queryData2.source);
+			console.log('query not found: ' + queryData2.source);
 			res.writeHead(200, {'Content-Type': 'text/plain'});
 			res.end(JSON.stringify({error: 'query ' + queryData2.source + ' not found'}));
 
@@ -912,7 +936,7 @@ var upload = multer( { dest: 'uploads/' } );
 
 
 	process.on('uncaughtException', function (err) {
-	  //console.log(err);
+	  console.log(err);
 	})
 
 
@@ -1240,11 +1264,10 @@ when_queries_changes();
 
 	function addOrUpdateDriver(name, code, theObject) {
 		var driverType = theObject.type;
-		//console.log('addOrUpdateDriver: ' + name);
+		console.log('addOrUpdateDriver: ' + name);
         
         var stmt = dbsearch.all("select name from drivers where name = '" + name + "';", 
             function(err, rows) {
-                //console.log('err             : ' + err);
                 if (!err) {
                     //console.log('             : ' + rows.length);
                     if (rows.length == 0) {
@@ -1259,6 +1282,7 @@ when_queries_changes();
                             stmt.finalize();
                             });
                         } catch(err) {
+                            console.log('err             : ' + err);
                         } finally {
                             
                         }
@@ -1275,6 +1299,7 @@ when_queries_changes();
                                     stmt.finalize();
                                 });
                             } catch(err) {
+                                console.log('err             : ' + err);
                             } finally {
                                 
                             }
@@ -1301,7 +1326,7 @@ when_queries_changes();
 	} else if (typeOfSystem == 'server') {
 	  open('http://' + hostaddress  + ":" + port + "/gosharedata/index.html?time=" +  + new Date().getTime());
 	}
-	//console.log('http://' + hostaddress  + ":" + port);
+	console.log('Open in browser http://' + hostaddress  + ":" + port);
 
 	}
 	}
@@ -1461,7 +1486,7 @@ function addNewQuery( params ) {
             getResult(newQueryId, params.connection, params.driver, eval("(" + params.definition + ")"), function(result){});
         });
     } catch(err) {
-        //console.log("                          err: " + err);
+        console.log("                          err: " + err);
     } finally {
     }
 }
