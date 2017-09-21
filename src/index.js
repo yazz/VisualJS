@@ -228,6 +228,7 @@ var stmtInsertInsertIntoQueries = dbsearch.prepare(" insert into queries " +
                             " values " + 
                             "    (?,  ?,?,?,  ?,?,?, ?,?,?);");
 function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileType2) {
+    console.log("... in saveConnectionAndQueryForFile")
     if (!fileName) {
         return;
     };
@@ -705,7 +706,7 @@ var upload = multer( { dest: 'uploads/' } );
         //console.log('-------------------------------------------------------------------------------------');
         //console.log('-------------------------------------------------------------------------------------');
 
-        //console.log(JSON.stringify(req.file));
+        console.log(JSON.stringify(req.files.length));
         //console.log(JSON.stringify(req.file.originalname));
         //console.log(JSON.stringify(req.file.filename));
  
@@ -721,6 +722,7 @@ var upload = multer( { dest: 'uploads/' } );
         var ll = req.files.length;
         for (var i = 0; i < ll ; i ++) {
             var ifile = req.files[i];
+            console.log("        " + JSON.stringify(ifile));
             var ext = ifile.originalname.split('.').pop();
             ext = ext.toLowerCase();
             //console.log('Ext: ' + ext);
@@ -741,8 +743,8 @@ var upload = multer( { dest: 'uploads/' } );
                         var excelFile = localp;
                             if (typeof excelFile !== "undefined") {
                                 var fileId = excelFile.replace(/[^\w\s]/gi,'');
-                                //console.log('   *file id: ' + fileId);
-                                //console.log('   *size: ' + stat.size);
+                                console.log('   *file id: ' + fileId);
+                                console.log('   *size: ' + stat.size);
 
                                 saveConnectionAndQueryForFile(ifile.originalname, 'excel', stat.size, excelFile, '|SPREADSHEET|');
                 }};
@@ -751,8 +753,8 @@ var upload = multer( { dest: 'uploads/' } );
                         var excelFile = localp;
                             if (typeof excelFile !== "undefined") {
                                 var fileId = excelFile.replace(/[^\w\s]/gi,'');
-                                //console.log('   *file id: ' + fileId);
-                                //console.log('   *size: ' + stat.size);
+                                console.log('   *file id: ' + fileId);
+                                console.log('   *size: ' + stat.size);
 
                                 saveConnectionAndQueryForFile(ifile.originalname, 'csv', stat.size, excelFile, '|CSV|');
                 }};
