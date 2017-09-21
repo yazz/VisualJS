@@ -282,7 +282,14 @@ function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileTyp
                                              function(err) {
                                                 when_connections_changes();
                                                 when_queries_changes();
-                                                getResult(newqueryid, newid, fileType, {}, function(result){});
+                                                getResult(  newqueryid, 
+                                                            newid, 
+                                                            fileType, 
+                                                            {}, 
+                                                            function(result)
+                                                            {
+                                                                console.log("File added: " + fileId);
+                                                            });
                                                  })
                             });
                             //console.log(":      saved query = " + fileId);
@@ -691,7 +698,7 @@ var multer = require('multer');
 var upload = multer( { dest: 'uploads/' } );
 
 
-    app.post('/file_upload', upload.single( 'file' ), function (req, res, next) {
+    app.post('/file_upload', upload.array( 'file' ), function (req, res, next) {
         //console.log('-------------------------------------------------------------------------------------');
         //console.log('-------------------------------------------------------------------------------------');
         //console.log('-------------------------------------------------------------------------------------');
@@ -708,47 +715,55 @@ var upload = multer( { dest: 'uploads/' } );
         //console.log('......................................................................................');
         //console.log('......................................................................................');
         //console.log('......................................................................................');
-        res.status( 200 ).send( req.file );
+        res.status( 200 ).send( req.files );
 
-        var ext = req.file.originalname.split('.').pop();
-        ext = ext.toLowerCase();
-        //console.log('Ext: ' + ext);
-
-        var localp2;
-        if (isWin) {
-	    localp2 = process.cwd() + '\\uploads\\' + req.file.filename;
-	} else{
-	    localp2 = process.cwd() + '/uploads/' + req.file.filename;
-	};
-        var localp = localp2 + '.' + ext;
-        fs.renameSync(localp2, localp);
-        //console.log('Local saved path: ' + localp);
         
-        fs.stat(localp, function(err, stat) {
-          if (isExcelFile(req.file.originalname)) {
-                //console.log('file: ' + req.file.originalname);
-  					var excelFile = localp;
-  						if (typeof excelFile !== "undefined") {
-							var fileId = excelFile.replace(/[^\w\s]/gi,'');
-  							//console.log('   *file id: ' + fileId);
-  							//console.log('   *size: ' + stat.size);
+        var ll = req.files.length;
+        for (var i = 0; i < ll ; i ++) {
+            var ifile = req.files[i];
+            var ext = ifile.originalname.split('.').pop();
+            ext = ext.toLowerCase();
+            //console.log('Ext: ' + ext);
 
-                            saveConnectionAndQueryForFile(req.file.originalname, 'excel', stat.size, excelFile, '|SPREADSHEET|');
-            }};
-          if (isCsvFile(req.file.originalname)) {
-                //console.log('file: ' + req.file.originalname);
-  					var excelFile = localp;
-  						if (typeof excelFile !== "undefined") {
-							var fileId = excelFile.replace(/[^\w\s]/gi,'');
-  							//console.log('   *file id: ' + fileId);
-  							//console.log('   *size: ' + stat.size);
+            var localp2;
+            if (isWin) {
+            localp2 = process.cwd() + '\\uploads\\' + ifile.filename;
+        } else{
+            localp2 = process.cwd() + '/uploads/' + ifile.filename;
+        };
+            var localp = localp2 + '.' + ext;
+            fs.renameSync(localp2, localp);
+            //console.log('Local saved path: ' + localp);
+            
+            fs.stat(localp, function(err, stat) {
+              if (isExcelFile(ifile.originalname)) {
+                    //console.log('ifile: ' + ifile.originalname);
+                        var excelFile = localp;
+                            if (typeof excelFile !== "undefined") {
+                                var fileId = excelFile.replace(/[^\w\s]/gi,'');
+                                //console.log('   *file id: ' + fileId);
+                                //console.log('   *size: ' + stat.size);
 
-                            saveConnectionAndQueryForFile(req.file.originalname, 'csv', stat.size, excelFile, '|CSV|');
-            }};
-        });
-									  
+                                saveConnectionAndQueryForFile(ifile.originalname, 'excel', stat.size, excelFile, '|SPREADSHEET|');
+                }};
+              if (isCsvFile(ifile.originalname)) {
+                    //console.log('ifile: ' + ifile.originalname);
+                        var excelFile = localp;
+                            if (typeof excelFile !== "undefined") {
+                                var fileId = excelFile.replace(/[^\w\s]/gi,'');
+                                //console.log('   *file id: ' + fileId);
+                                //console.log('   *size: ' + stat.size);
+
+                                saveConnectionAndQueryForFile(ifile.originalname, 'csv', stat.size, excelFile, '|CSV|');
+                }};
+            });
+        }									  
 
     });
+    
+    
+    
+    
 	app.post('/open_query_in_native_app', function (req, res) {
 
 		//console.log('in open_query_in_native_app');
