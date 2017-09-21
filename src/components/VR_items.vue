@@ -99,7 +99,6 @@
                                     ";  query_saved_as: " + (a_driver.hash?(a_driver.hash + (a_driver.fileName?"." + a_driver.fileName.split(".").pop():"")):"") +                                   
 					    			";  query_display: " + "" + a_driver.fileName + 
                                     ";  query_size: " + a_driver.size + "; " '
-								  v-bind:preview='"id: " + a_driver.id + ";"'
 								mixin='gsd'  
 								v-bind:material2='"src: driver_icons/" + a_driver.driver + ".jpg;"'
 								v-bind:material='"color: gray;"'

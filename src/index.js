@@ -134,7 +134,16 @@ console.log("Creating tables ... ");
                 
         try {
             dbsearch.serialize(function() {
-                  dbsearch.run("CREATE VIRTUAL TABLE search_rows USING fts5(hash, data);");
+                  dbsearch.run("CREATE VIRTUAL TABLE search_rows_hashed USING fts5(row_hash, data);");
+                });
+            } catch(err) {
+                console.log(err);
+            } finally {
+            }
+            
+        try {
+            dbsearch.serialize(function() {
+                  dbsearch.run("CREATE TABLE search_rows_hash_ids (id   INTEGER PRIMARY KEY AUTOINCREMENT, fk_row_hash TEXT);");
                 });
             } catch(err) {
                 console.log(err);
@@ -143,7 +152,7 @@ console.log("Creating tables ... ");
                 
         try {
             dbsearch.serialize(function() {
-                  dbsearch.run("CREATE TABLE IF NOT EXISTS document_hierarchy (query_id TEXT, parent_hash TEXT, child_hash TEXT);");
+                  dbsearch.run("CREATE TABLE IF NOT EXISTS search_rows_hierarchy (query_id TEXT, parent_hash TEXT, child_hash TEXT);");
                 });} catch(err) {
                     console.log(err);                    
                 } finally {}
@@ -399,7 +408,8 @@ var getResult = function(source, connection, driver, definition, callback) {
                                           stmt.run(source, contents);
                                           stmt.finalize();
 console.log("Inserting rows");
-stmt = dbsearch.prepare("INSERT INTO search_rows VALUES (?, ?)");
+stmt = dbsearch.prepare("INSERT INTO search_rows_hashed VALUES (?, ?)");
+var stmt2 = dbsearch.prepare("INSERT INTO search_rows_hash_ids (fk_row_hash) VALUES (?)");
 for (var i =0 ; i < rrows.length; i++) {
     var rowhash = crypto.createHash('sha1');
     var row = JSON.stringify(rrows[i]);
@@ -409,14 +419,15 @@ for (var i =0 ; i < rrows.length; i++) {
     var sha1sum = rowhash.read();
     ////console.log('                 : ' + JSON.stringify(rrows[i]));
     stmt.run(sha1sum, row);
+    stmt2.run(sha1sum);
 }
 stmt.finalize();
+stmt2.finalize();
 console.log('                 : ' + JSON.stringify(rrows.length));
 
 
 
-
-
+ 
                                     });
                             }
                         }
