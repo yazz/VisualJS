@@ -263,12 +263,12 @@ function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileTyp
                                 saveTo = process.cwd() + "/public/docs/" + "gsd_" + sha1sum.toString() + path.extname(fileName);
                             };
                             var copyfrom = fileName;
-                            //console.log('Copy from : ' + copyfrom + ' to : ' + saveTo);
+                            console.log('Copy from : ' + copyfrom + ' to : ' + saveTo);
                             copyFileSync(copyfrom, saveTo);
                               
                               
                             dbsearch.serialize(function() {
-                                                            
+                                    console.log(":      saving query ..." + fileId);                        
                                     var newqueryid = uuidv1();
                                     stmtInsertInsertIntoQueries.run(newqueryid,
                                              fileId, 
@@ -281,25 +281,33 @@ function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileTyp
                                              JSON.stringify({} , null, 2),
                                              JSON.stringify([{message: 'No preview available'}] , null, 2),
                                              function(err) {
+                                                 if (err) {
+                                                    console.log('   err : ' + err);
+                                                 }
+                                                console.log('   save result set : ' + fileId );
                                                 when_connections_changes();
-                                                when_queries_changes();
-                                                getResult(  newqueryid, 
-                                                            newid, 
-                                                            fileType, 
-                                                            {}, 
-                                                            function(result)
-                                                            {
-                                                                console.log("File added: " + fileId);
-                                                            });
-                                                 })
+                                                when_queries_changes(
+                                                    function() {
+                                                        console.log('    ...  entering getresult  ' );
+                                                        getResult(  newqueryid, 
+                                                                    newid, 
+                                                                    fileType, 
+                                                                    {}, 
+                                                                    function(result)
+                                                                    {
+                                                                        console.log("File added: " + fileId);
+                                                                    });
+                                                         })
+                                                    }
+                                                );
                             });
-                            //console.log(":      saved query = " + fileId);
+                            console.log("... query saved" + fileId);
                             
                          
                      });                     
         });
     } catch(err) {
-        //console.log("Error " + err + " with file: " + fileName);     
+        console.log("Error " + err + " with file: " + fileName);     
         return err; 
     } finally {
         
@@ -393,7 +401,7 @@ path.join(__dirname, '../public/unlocked.png')
 
 
 var getResult = function(source, connection, driver, definition, callback) {
-    //console.log("var getResult = function(" + source + ", " + connection + ", " + driver + ", " + JSON.stringify(definition));
+    console.log("var getResult = function(" + source + ", " + connection + ", " + driver + ", " + JSON.stringify(definition));
     var error = new Object();
     if (connections[connection]) {
         try {
@@ -405,7 +413,7 @@ var getResult = function(source, connection, driver, definition, callback) {
                     rrows = ordata.values;
                 }
                 callback.call(this,ordata);
-                ////console.log( "   ordata: " + JSON.stringify(ordata));
+                //console.log( "   ordata: " + JSON.stringify(ordata));
                 var stmt = dbsearch.all("select query_id from search where query_id = '" + source + "'",
                     function(err, results) {
                         if (!err) {
@@ -444,7 +452,7 @@ console.log('                 : ' + JSON.stringify(rrows.length));
         
         }
         catch(err){
-            //console.log(err);
+            console.log(err);
         }
     }}
 
@@ -1229,7 +1237,7 @@ var upload = multer( { dest: 'uploads/' } );
 
 
 when_connections_changes();
-when_queries_changes();
+when_queries_changes(null);
 				
 
 
@@ -1517,7 +1525,7 @@ function addNewQuery( params ) {
                      );
                      
             stmt.finalize();
-            when_queries_changes();
+            when_queries_changes(null);
             getResult(newQueryId, params.connection, params.driver, eval("(" + params.definition + ")"), function(result){});
         });
     } catch(err) {
@@ -1533,7 +1541,7 @@ function addNewQuery( params ) {
 
 
 var in_when_queries_changes = false;
-function when_queries_changes() {
+function when_queries_changes(callback) {
     if (!in_when_queries_changes) {
         in_when_queries_changes = true;
         //console.log('Called when_queries_changes ');
@@ -1561,6 +1569,9 @@ function when_queries_changes() {
                                     query.preview = JSON.stringify(ordata, null, 2);
                                     queries.put(query);
                             });*/
+                            if (callback) {
+                                callback.call(this);
+                            }
                         } catch (err) {};
                     }
                 };
