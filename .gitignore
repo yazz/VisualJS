@@ -61,6 +61,7 @@
 
 
 
+/public/gosharedata
 
 !/public/
 !/public/*
@@ -70,13 +71,13 @@
 !/public/*/*/*/*/*
 !/public/*/*/*/*/*/*
 !/public/*/*/*/*/*/*/*
+!/public/gosharedata/list_intranet_servers.html
 
 /public/build.js
 /public/dist/build.js
 /public/dist/build.js.map
 /public/index.js
 /public/index copy.html
-/public/gosharedata
 /public/canlabs
 /public/docs
 

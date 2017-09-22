@@ -395,7 +395,8 @@ path.join(__dirname, '../public/dropzone.js')
 path.join(__dirname, '../public/dropzone.css')
 path.join(__dirname, '../public/locked.png')
 path.join(__dirname, '../public/unlocked.png')
-//path.join(__dirname, '../public/gosharedata/index.html')
+path.join(__dirname, '../public/gosharedata/list_intranet_servers.html')
+path.join(__dirname, '../public/list_intranet_servers.html')
 
 
 
@@ -1365,9 +1366,9 @@ when_queries_changes(null);
 
 	if (typeOfSystem == 'client') {
 	  //open('http://' + hostaddress  + ":" + port);
-      open('http://' + centralHostAddress  + ":" + centralHostPort + "/gosharedata/index.html?time=" +  + new Date().getTime());
+      open('http://' + centralHostAddress  + ":" + centralHostPort + "/gosharedata/list_intranet_servers.html?time=" +  + new Date().getTime());
 	} else if (typeOfSystem == 'server') {
-	  open('http://' + hostaddress  + ":" + port + "/gosharedata/index.html?time=" +  + new Date().getTime());
+	  open('http://' + hostaddress  + ":" + port + "/gosharedata/list_intranet_servers.html?time=" +  + new Date().getTime());
 	}
 	console.log('Open in browser http://' + hostaddress  + ":" + port);
 
