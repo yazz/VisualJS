@@ -122,28 +122,60 @@ var crypto = require('crypto');
 var sqlite3   = require2('sqlite3');
 var dbsearch = new sqlite3.Database('gosharedatasearch.sqlite3');
 console.log("Creating tables ... ");
-        try {
-            dbsearch.serialize(function() {
-                  dbsearch.run("CREATE VIRTUAL TABLE search USING fts5(query_id, data);");
+        try
+        {
+            var stmt = dbsearch.all(
+                "SELECT name FROM sqlite_master WHERE type='table' AND name='search';",
+                function(err, results) 
+                {
+                    if (!err) 
+                    {
+                        if( results.length == 0) 
+                        {
+                            dbsearch.serialize(function() 
+                            {
+                                dbsearch.run("CREATE VIRTUAL TABLE search USING fts5(query_id, data);");
+                            });
+                        }
+                    }
                 });
-            } catch(err) {
-                console.log(err);
-            } finally {
-            }
-                
-                
-        try {
-            dbsearch.serialize(function() {
-                  dbsearch.run("CREATE VIRTUAL TABLE search_rows_hashed USING fts5(row_hash, data);");
-                });
-            } catch(err) {
-                console.log(err);
-            } finally {
-            }
+        } catch(err) {
+            console.log(err);
+        } finally {
+        }
+    
             
+                
+                
+        try
+        {
+            var stmt = dbsearch.all(
+                "SELECT name FROM sqlite_master WHERE type='table' AND name='search';",
+                function(err, results) 
+                {
+                    if (!err) 
+                    {
+                        if( results.length == 0) 
+                        {
+                            dbsearch.serialize(function() 
+                            {
+                                dbsearch.run("CREATE VIRTUAL TABLE search_rows_hashed USING fts5(row_hash, data);");
+                            });
+                        }
+                    }
+                });
+        } catch(err) {
+            console.log(err);
+        } finally {
+        }
+
+
+
+
+        
         try {
             dbsearch.serialize(function() {
-                  dbsearch.run("CREATE TABLE search_rows_hash_ids (id   INTEGER PRIMARY KEY AUTOINCREMENT, fk_row_hash TEXT);");
+                  dbsearch.run("CREATE TABLE IF NOT EXISTS search_rows_hash_ids (id   INTEGER PRIMARY KEY AUTOINCREMENT, fk_row_hash TEXT);");
                 });
             } catch(err) {
                 console.log(err);
