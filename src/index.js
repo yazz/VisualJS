@@ -7,7 +7,7 @@ var username = "Unknown user";
 
 var isWin = /^win/.test(process.platform);
 var isRaspberryPi = isPi();
-var serverwebsocket = null;
+var serverwebsockets = [];
 
 function require2(moduleName) {
 	var pat;
@@ -490,7 +490,20 @@ console.log('                 : ' + JSON.stringify(rrows.length));
             console.log(err);
         }
     }}
-
+    
+    
+    
+function sendOverWebSockets(data) {
+    var ll = serverwebsockets.length;
+console.log('send to sockets Count: ' + JSON.stringify(serverwebsockets.length));
+    for (var i =0 ; i < ll; i++ ) {
+        var sock = serverwebsockets[i];
+        if (sock.readyState == 1) {
+            sock.send(data);
+        }
+        console.log('                    sock ' + i + ': ' + JSON.stringify(sock.readyState)); 
+    }
+}
     
 function isNumber(n) {
   return !isNaN(parseFloat(n)) && isFinite(n);
@@ -713,10 +726,11 @@ app.use(cors())
 	});
 
 app.ws('/websocket', function(ws, req) {
-  serverwebsocket = ws;
-  ws.on('message', function(msg) {
-    ws.send(msg);
-  });
+    serverwebsockets.push(ws);
+    console.log('Socket connected : ' + serverwebsockets.length);
+    ws.on('message', function(msg) {
+        ws.send(msg);
+    });
 });
 
 
@@ -810,7 +824,7 @@ var upload = multer( { dest: 'uploads/' } );
                 }};
             });
         }
-        serverwebsocket.send("Upload complete");
+        sendOverWebSockets("Upload complete");
 
     });
     
