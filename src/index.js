@@ -7,6 +7,7 @@ var username = "Unknown user";
 
 var isWin = /^win/.test(process.platform);
 var isRaspberryPi = isPi();
+var serverwebsocket = null;
 
 function require2(moduleName) {
 	var pat;
@@ -712,6 +713,7 @@ app.use(cors())
 	});
 
 app.ws('/websocket', function(ws, req) {
+  serverwebsocket = ws;
   ws.on('message', function(msg) {
     ws.send(msg);
   });
@@ -807,7 +809,8 @@ var upload = multer( { dest: 'uploads/' } );
                                 saveConnectionAndQueryForFile(ifile.originalname, 'csv', stat.size, excelFile, '|CSV|');
                 }};
             });
-        }									  
+        }
+        serverwebsocket.send("Upload complete");
 
     });
     
