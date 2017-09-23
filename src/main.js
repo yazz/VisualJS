@@ -1132,18 +1132,24 @@ function setupWebSocket(host, port)
         
         window.ws.onopen = function()
         {
+            //alert("open")
             //window.ws.send(JSON.stringify({a: "z"}));
+            //
         };
 
         window.ws.onmessage = function (evt) 
         { 
           var received_msg = evt.data;
-          alert("Message is received..." + received_msg);
+          //alert("Message is received..." + received_msg);
+          var data = eval("(" + received_msg + ")") ; 
+          if (data.type == "query") {
+                //      zzz
+          }
         };
 
         window.ws.onclose = function()
         { 
-          alert("Connection is closed..."); 
+          //alert("Connection is closed..."); 
         };
     
         window.ws.onbeforeunload = function(event) {
