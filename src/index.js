@@ -103,6 +103,7 @@ var connections  = new Object();
 var queries      = new Object();
 var express      = require('express')
 var app          = express()
+var expressWs    = require('express-ws')(app);
 var timeout      = 0;
 var init_drivers = false;
 var port;
@@ -710,6 +711,12 @@ app.use(cors())
         }});
 	});
 
+app.ws('/websocket', function(ws, req) {
+  ws.on('message', function(msg) {
+    ws.send(msg);
+  });
+});
+
 
 	//------------------------------------------------------------------------------
 	// Get the result of a SQL query
@@ -991,6 +998,8 @@ var upload = multer( { dest: 'uploads/' } );
         res.writeHead(200, {'Content-Type': 'text/plain'});
         res.end(JSON.stringify({
                 returned:           'some data ', 
+                server:             hostaddress,
+                port:               port,
                 username:           username, 
                 locked:             locked,
                 localIp:            req.ip,

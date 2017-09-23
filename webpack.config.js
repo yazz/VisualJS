@@ -61,10 +61,6 @@ module.exports = {
     historyApiFallback: true,
     noInfo: false,
     proxy: {
-      '/db': {
-        target: 'http://' + hostaddress,
-        secure: false
-      },
       '/open_query_in_native_app': {
         target: 'http://' + hostaddress,
         secure: false

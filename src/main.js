@@ -50,7 +50,8 @@ function sendClientDetails() {
             store.dispatch('set_user_name', ret.username); 
             store.dispatch('set_is_local_machine', ret.isLocalMachine);
             store.dispatch('set_locked', ret.locked);          
-          //alert(JSON.stringify(ret,null,2));
+            //alert(JSON.stringify(ret,null,2));
+            setupWebSocket(ret.server, ret.port);
         },
         error: function(jqXHR, textStatus, errorThrown) {
           alert('error ' + textStatus + ' : ' +  errorThrown);
@@ -1121,6 +1122,49 @@ function initClientsConnectedVuePane() {
 
 
 
+function setupWebSocket(host, port)
+{
+    if ("WebSocket" in window)
+    {
+        var wsaddr = "ws://" + host + ":" + port + "/websocket";
+        //alert(wsaddr);
+        window.ws = new WebSocket(wsaddr);
+        
+        window.ws.onopen = function()
+        {
+            //window.ws.send(JSON.stringify({a: "z"}));
+        };
+
+        window.ws.onmessage = function (evt) 
+        { 
+          var received_msg = evt.data;
+          alert("Message is received..." + received_msg);
+        };
+
+        window.ws.onclose = function()
+        { 
+          alert("Connection is closed..."); 
+        };
+    
+        window.ws.onbeforeunload = function(event) {
+          //socket.close();
+        };
+    }
+
+    
+    
+    
+    
+    else
+    {
+        alert("WebSocket NOT supported by your Browser!");
+    }
+}
+
+
+
+
+
 
 
 //-----------------------------------------------------------------
@@ -1142,6 +1186,7 @@ $( document ).ready(function() {
     initClientsConnectedVuePane();
     setupSqlResultPane();
     sendClientDetails();
+    
   } else if (window.system_type == 'server') {
     setupDB();
   };
