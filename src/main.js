@@ -1145,6 +1145,9 @@ function setupWebSocket(host, port)
           if (data.type == "query") {
                 //      zzz
           }
+          if (data.type == "uploaded") {
+                alert("File uploaded");
+          }
         };
 
         window.ws.onclose = function()

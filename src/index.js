@@ -331,6 +331,10 @@ function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileTyp
                                                                     {
                                                                         console.log("File added: " + fileId);
                                                                     });
+                                                        sendOverWebSockets({type: "uploaded",  query: 
+                                                            {
+                                                                
+                                                            }});
                                                          })
                                                     }
                                                 );
@@ -499,7 +503,7 @@ console.log('send to sockets Count: ' + JSON.stringify(serverwebsockets.length))
     for (var i =0 ; i < ll; i++ ) {
         var sock = serverwebsockets[i];
         if (sock.readyState == 1) {
-            sock.send(data);
+            sock.send(JSON.stringify(data));
         }
         console.log('                    sock ' + i + ': ' + JSON.stringify(sock.readyState)); 
     }
@@ -824,7 +828,6 @@ var upload = multer( { dest: 'uploads/' } );
                 }};
             });
         }
-        sendOverWebSockets("Upload complete");
 
     });
     
