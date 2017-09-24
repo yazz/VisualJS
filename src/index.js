@@ -238,7 +238,7 @@ var stmtInsertInsertIntoQueries = dbsearch.prepare(" insert into queries " +
                             " values " + 
                             "    (?,  ?,?,?,  ?,?,?, ?,?,?);");
 function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileType2) {
-    console.log("... in saveConnectionAndQueryForFile")
+    console.log("... in saveConnectionAndQueryForFile:::: " + fileId)
     if (!fileName) {
         return;
     };
@@ -273,7 +273,7 @@ function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileTyp
                                 saveTo = process.cwd() + "/public/docs/" + "gsd_" + sha1sum.toString() + path.extname(fileName);
                             };
                             var copyfrom = fileName;
-                            console.log('Copy from : ' + copyfrom + ' to : ' + saveTo);
+                            //console.log('Copy from : ' + copyfrom + ' to : ' + saveTo);
                             copyFileSync(copyfrom, saveTo);
                               
                               
@@ -294,28 +294,36 @@ function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileTyp
                                                  if (err) {
                                                     console.log('   err : ' + err);
                                                  }
-                                                console.log('   save result set : ' + fileId );
+                                                console.log('   save result set fileid 1 : ' + fileId );
                                                 when_connections_changes();
+                                                var fileId2 = fileId;
+                                                var newqueryid2 = newqueryid;
+                                                var fileType2 = fileType;
+                                                var newid2 = newid;
+                                                
                                                 when_queries_changes(
                                                     function() {
-                                                        console.log('    ...  entering getresult  ' );
-                                                        getResult(  newqueryid, 
-                                                                    newid, 
-                                                                    fileType, 
+                                                        console.log('    ...  entering getresult v2:  '  + fileId2);
+                                                        getResult(  newqueryid2, 
+                                                                    newid2, 
+                                                                    fileType2, 
                                                                     {}, 
                                                                     function(result)
                                                                     {
-                                                                        console.log("File added: " + fileId);
+                                                                        console.log("File added v2: " + fileId2);
+                                                                        sendOverWebSockets({
+                                                                                                type: "uploaded",  
+                                                                                                id:   fileId2,
+                                                                                                query: 
+                                                                                                {
+                                                                                                    
+                                                                                                }});
                                                                     });
-                                                        sendOverWebSockets({type: "uploaded",  query: 
-                                                            {
-                                                                
-                                                            }});
                                                          })
                                                     }
                                                 );
                             });
-                            console.log("... query saved" + fileId);
+                            console.log("... query saved: " + fileId);
                             
                          
                      });                     
@@ -352,7 +360,7 @@ function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileTyp
   					var excelFile = file;
   						if (typeof excelFile !== "undefined") {
 							var fileId = excelFile.replace(/[^\w\s]/gi,'');
-  							//console.log('   *file id: ' + fileId);
+  							console.log('Saving from walk   *file id: ' + fileId);
   							//console.log('   *size: ' + stat.size);
 
                             saveConnectionAndQueryForFile(fileId, 'excel', stat.size, excelFile, '|SPREADSHEET|');
@@ -364,7 +372,7 @@ function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileTyp
   					var CSVFile = file;
   						if (typeof CSVFile !== "undefined") {
 							var fileId = CSVFile.replace(/[^\w\s]/gi,'');
-  							//console.log('   *file id: ' + fileId);
+  							console.log('Saving from walk   *file id: ' + fileId);
   							//console.log('   *size: ' + stat.size);
 
                             saveConnectionAndQueryForFile(fileId, 'csv', stat.size, CSVFile, '|CSV|');
@@ -743,9 +751,9 @@ var upload = multer( { dest: 'uploads/' } );
         //console.log('-------------------------------------------------------------------------------------');
         //console.log('-------------------------------------------------------------------------------------');
 
-        console.log(JSON.stringify(req.files.length));
-        //console.log(JSON.stringify(req.file.originalname));
-        //console.log(JSON.stringify(req.file.filename));
+        //console.log(JSON.stringify(req.files.length));
+        //console.log("**FILES** " + JSON.stringify(req.files));
+        //console.log(    "    next: " + JSON.stringify(next));
  
 
         //console.log('......................................................................................');
@@ -780,17 +788,17 @@ var upload = multer( { dest: 'uploads/' } );
                         var excelFile = localp;
                             if (typeof excelFile !== "undefined") {
                                 var fileId = excelFile.replace(/[^\w\s]/gi,'');
-                                console.log('   *file id: ' + fileId);
+                                console.log('Saving from upload   *file id: ' + ifile.originalname);
                                 console.log('   *size: ' + stat.size);
 
                                 saveConnectionAndQueryForFile(ifile.originalname, 'excel', stat.size, excelFile, '|SPREADSHEET|');
-                }};
-              if (isCsvFile(ifile.originalname)) {
+                                
+                }} else if (isCsvFile(ifile.originalname)) {
                     //console.log('ifile: ' + ifile.originalname);
                         var excelFile = localp;
                             if (typeof excelFile !== "undefined") {
                                 var fileId = excelFile.replace(/[^\w\s]/gi,'');
-                                console.log('   *file id: ' + fileId);
+                                console.log('Saving from upload   *file id: ' + ifile.originalname);
                                 console.log('   *size: ' + stat.size);
 
                                 saveConnectionAndQueryForFile(ifile.originalname, 'csv', stat.size, excelFile, '|CSV|');
