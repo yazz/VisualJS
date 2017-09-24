@@ -136,7 +136,7 @@ console.log("Creating tables ... ");
                         {
                             dbsearch.serialize(function() 
                             {
-                                dbsearch.run("CREATE VIRTUAL TABLE search USING fts5(query_id, data);");
+                                dbsearch.run("CREATE VIRTUAL TABLE fts_search USING fts5(query_id, data);");
                             });
                         }
                     }
@@ -152,7 +152,7 @@ console.log("Creating tables ... ");
         try
         {
             var stmt = dbsearch.all(
-                "SELECT name FROM sqlite_master WHERE type='table' AND name='search';",
+                "SELECT name FROM sqlite_master WHERE type='table' AND name='fts_search_rows_hashed';",
                 function(err, results) 
                 {
                     if (!err) 
@@ -161,7 +161,7 @@ console.log("Creating tables ... ");
                         {
                             dbsearch.serialize(function() 
                             {
-                                dbsearch.run("CREATE VIRTUAL TABLE search_rows_hashed USING fts5(row_hash, data);");
+                                dbsearch.run("CREATE VIRTUAL TABLE fts_search_rows_hashed USING fts5(row_hash, data);");
                             });
                         }
                     }
@@ -453,17 +453,17 @@ var getResult = function(source, connection, driver, definition, callback) {
                 }
                 callback.call(this,ordata);
                 //console.log( "   ordata: " + JSON.stringify(ordata));
-                var stmt = dbsearch.all("select query_id from search where query_id = '" + source + "'",
+                var stmt = dbsearch.all("select query_id from fts_search where query_id = '" + source + "'",
                     function(err, results) {
                         if (!err) {
                             if( results.length == 0) {
                                 dbsearch.serialize(function() {
                                      var contents = JSON.stringify(rrows);
-                                      var stmt = dbsearch.prepare("INSERT INTO search VALUES (?, ?)");
+                                      var stmt = dbsearch.prepare("INSERT INTO fts_search VALUES (?, ?)");
                                           stmt.run(source, contents);
                                           stmt.finalize();
 console.log("Inserting rows");
-stmt = dbsearch.prepare("INSERT INTO search_rows_hashed VALUES (?, ?)");
+stmt = dbsearch.prepare("INSERT INTO fts_search_rows_hashed VALUES (?, ?)");
 var stmt2 = dbsearch.prepare("INSERT INTO search_rows_hash_ids (fk_row_hash) VALUES (?)");
 for (var i =0 ; i < rrows.length; i++) {
     var rowhash = crypto.createHash('sha1');
@@ -881,7 +881,7 @@ var upload = multer( { dest: 'uploads/' } );
                                 
         //if (queryData.sql.indexOf("snippet(" == -1)) {
         //    dbsearch.serialize(function() {
-        //          var stmt = dbsearch.prepare("INSERT OR REPLACE INTO search VALUES ((select QUERY_ID from search where QUERY_ID = ?), ?)");
+        //          var stmt = dbsearch.prepare("INSERT OR REPLACE INTO fts_search VALUES ((select QUERY_ID from fts_search where QUERY_ID = ?), ?)");
         //          for (var i =0 ; i < ordata.length; i++) {
         //            stmt.run(queryData.source, JSON.stringify(ordata[i]));
         //          }
@@ -922,7 +922,7 @@ var upload = multer( { dest: 'uploads/' } );
         res.writeHead(200, {'Content-Type': 'text/plain'});
 		dbsearch.serialize(function() {
             var timeStart = new Date().getTime();
-            var mysql = "select distinct(query_id) from search where search match '"  + searchTerm + "*'";
+            var mysql = "select distinct(query_id) from fts_search where fts_search match '"  + searchTerm + "*'";
             ////console.log( "search for: " + searchTerm);
             ////console.log( "    sql: " + mysql);
             
