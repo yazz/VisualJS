@@ -175,14 +175,6 @@ console.log("Creating tables ... ");
 
 
         
-        try {
-            dbsearch.serialize(function() {
-                  dbsearch.run("CREATE TABLE IF NOT EXISTS search_rows_hash_ids (id   INTEGER PRIMARY KEY AUTOINCREMENT, fk_row_hash TEXT);");
-                });
-            } catch(err) {
-                console.log(err);
-            } finally {
-            }
                 
         try {
             dbsearch.serialize(function() {
@@ -464,7 +456,8 @@ var getResult = function(source, connection, driver, definition, callback) {
                                           stmt.finalize();
 console.log("Inserting rows");
 stmt = dbsearch.prepare("INSERT INTO zfts_search_rows_hashed VALUES (?, ?)");
-var stmt2 = dbsearch.prepare("INSERT INTO search_rows_hash_ids (fk_row_hash) VALUES (?)");
+var stmt3 = dbsearch.prepare("INSERT INTO search_rows_hierarchy (query_id, parent_hash, child_hash) VALUES (?,?,?)");
+
 for (var i =0 ; i < rrows.length; i++) {
     var rowhash = crypto.createHash('sha1');
     var row = JSON.stringify(rrows[i]);
@@ -474,10 +467,10 @@ for (var i =0 ; i < rrows.length; i++) {
     var sha1sum = rowhash.read();
     ////console.log('                 : ' + JSON.stringify(rrows[i]));
     stmt.run(sha1sum, row);
-    stmt2.run(sha1sum);
+    stmt3.run(source, null, sha1sum);
 }
 stmt.finalize();
-stmt2.finalize();
+stmt3.finalize();
 console.log('                 : ' + JSON.stringify(rrows.length));
 
 
