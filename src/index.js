@@ -127,7 +127,7 @@ console.log("Creating tables ... ");
         try
         {
             var stmt = dbsearch.all(
-                "SELECT name FROM sqlite_master WHERE type='table' AND name='search';",
+                "SELECT name FROM sqlite_master WHERE type='table' AND name='zfts_search';",
                 function(err, results) 
                 {
                     if (!err) 
@@ -191,6 +191,11 @@ console.log("Creating tables ... ");
                     console.log(err);
                 } finally {}
 
+                
+                
+                
+                
+                
         try {
             dbsearch.serialize(function() {
                   dbsearch.run("CREATE TABLE IF NOT EXISTS connections (id TEXT, name TEXT, driver TEXT, database TEXT, host TEXT, port TEXT ,connectString TEXT, user TEXT, password TEXT, fileName TEXT, size INTEGER, type TEXT, preview TEXT, hash TEXT);");
@@ -907,12 +912,11 @@ var upload = multer( { dest: 'uploads/' } );
     
     
     //------------------------------------------------------------------------------
-	// Get the result of a SQL query
+	// Get the result of a search
 	//------------------------------------------------------------------------------
 	app.get('/get_search_results', function (req, res) {
         var searchTerm = req.query.search_text;
         
-        res.writeHead(200, {'Content-Type': 'text/plain'});
 		dbsearch.serialize(function() {
             var timeStart = new Date().getTime();
             var mysql = "select distinct(query_id) from zfts_search where zfts_search match '"  + searchTerm + "*'";
@@ -930,6 +934,7 @@ var upload = multer( { dest: 'uploads/' } );
                     }
                     var timeEnd = new Date().getTime();
                     var timing = timeEnd - timeStart;
+                    res.writeHead(200, {'Content-Type': 'text/plain'});
                     res.end( JSON.stringify({   search: searchTerm, 
                                                 values: newres, 
                                                 duration: timing}));
@@ -937,6 +942,7 @@ var upload = multer( { dest: 'uploads/' } );
                 } else {
                     var timeEnd = new Date().getTime();
                     var timing = timeEnd - timeStart;
+                    res.writeHead(200, {'Content-Type': 'text/plain'});
                     res.end( JSON.stringify({search:    searchTerm, 
                                              values:    [{b: "Error searching for: " + searchTerm }], 
                                              duration:  timing    }  ));
