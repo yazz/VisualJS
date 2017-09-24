@@ -124,27 +124,6 @@ var crypto = require('crypto');
 var sqlite3   = require2('sqlite3');
 var dbsearch = new sqlite3.Database('gosharedatasearch.sqlite3');
 console.log("Creating tables ... ");
-        try
-        {
-            var stmt = dbsearch.all(
-                "SELECT name FROM sqlite_master WHERE type='table' AND name='zfts_search';",
-                function(err, results) 
-                {
-                    if (!err) 
-                    {
-                        if( results.length == 0) 
-                        {
-                            dbsearch.serialize(function() 
-                            {
-                                dbsearch.run("CREATE VIRTUAL TABLE zfts_search USING fts5(query_id, data);");
-                            });
-                        }
-                    }
-                });
-        } catch(err) {
-            console.log(err);
-        } finally {
-        }
     
             
                 
@@ -450,38 +429,30 @@ var getResult = function(source, connection, driver, definition, callback) {
                 }
                 callback.call(this,ordata);
                 //console.log( "   ordata: " + JSON.stringify(ordata));
-                var stmt = dbsearch.all("select query_id from zfts_search where query_id = '" + source + "'",
+                var stmt = dbsearch.all("select query_id from search_rows_hierarchy where query_id = '" + source + "'",
                     function(err, results) {
                         if (!err) {
                             if( results.length == 0) {
                                 dbsearch.serialize(function() {
-                                     var contents = JSON.stringify(rrows);
-                                      var stmt = dbsearch.prepare("INSERT INTO zfts_search VALUES (?, ?)");
-                                          stmt.run(source, contents);
-                                          stmt.finalize();
-console.log("Inserting rows");
-stmt = dbsearch.prepare("INSERT INTO zfts_search_rows_hashed VALUES (?, ?)");
-var stmt3 = dbsearch.prepare("INSERT INTO search_rows_hierarchy (query_id, parent_hash, child_hash) VALUES (?,?,?)");
+                                    console.log("Inserting rows");
+                                    stmt = dbsearch.prepare("INSERT INTO zfts_search_rows_hashed VALUES (?, ?)");
+                                    var stmt3 = dbsearch.prepare("INSERT INTO search_rows_hierarchy (query_id, parent_hash, child_hash) VALUES (?,?,?)");
 
-for (var i =0 ; i < rrows.length; i++) {
-    var rowhash = crypto.createHash('sha1');
-    var row = JSON.stringify(rrows[i]);
-    rowhash.setEncoding('hex');
-    rowhash.write(row);
-    rowhash.end();
-    var sha1sum = rowhash.read();
-    ////console.log('                 : ' + JSON.stringify(rrows[i]));
-    stmt.run(sha1sum, row);
-    stmt3.run(source, null, sha1sum);
-}
-stmt.finalize();
-stmt3.finalize();
-console.log('                 : ' + JSON.stringify(rrows.length));
-
-
-
- 
-                                    });
+                                    for (var i =0 ; i < rrows.length; i++) {
+                                        var rowhash = crypto.createHash('sha1');
+                                        var row = JSON.stringify(rrows[i]);
+                                        rowhash.setEncoding('hex');
+                                        rowhash.write(row);
+                                        rowhash.end();
+                                        var sha1sum = rowhash.read();
+                                        ////console.log('                 : ' + JSON.stringify(rrows[i]));
+                                        stmt.run(sha1sum, row);
+                                        stmt3.run(source, null, sha1sum);
+                                    }
+                                    stmt.finalize();
+                                    stmt3.finalize();
+                                    console.log('                 : ' + JSON.stringify(rrows.length));
+                                });
                             }
                         }
                     });
@@ -877,20 +848,6 @@ var upload = multer( { dest: 'uploads/' } );
 							drivers[connections[queryData.source].driver]['get_v2'](connections[queryData.source],{sql: queryData.sql},function(ordata) {
 								res.writeHead(200, {'Content-Type': 'text/plain'});
                                 
-        //if (queryData.sql.indexOf("snippet(" == -1)) {
-        //    dbsearch.serialize(function() {
-        //          var stmt = dbsearch.prepare("INSERT OR REPLACE INTO zfts_search VALUES ((select QUERY_ID from zfts_search where QUERY_ID = ?), ?)");
-        //          for (var i =0 ; i < ordata.length; i++) {
-        //            stmt.run(queryData.source, JSON.stringify(ordata[i]));
-        //          }
-        //          stmt.finalize();
-        //
-        //        });
-        //}
-			//dbsearch.close();
-			
-			
-
                                 res.end(JSON.stringify(ordata));
 							});
 						}
