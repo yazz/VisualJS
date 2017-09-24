@@ -266,6 +266,8 @@ function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileTyp
                      sha1sum,
                      fileType2,
                      fileName, function(err) {
+                            connections[newid] = {id: newid, name: fileId, driver: fileType, size: size, hash: sha1sum, type: fileType2, fileName: fileName };
+                            
                             var saveTo;
                             if (isWin) {
                                 saveTo = process.cwd() + "\\public\\docs\\" + "gsd_" + sha1sum.toString() + path.extname(fileName);
@@ -295,14 +297,23 @@ function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileTyp
                                                     console.log('   err : ' + err);
                                                  }
                                                 console.log('   save result set fileid 1 : ' + fileId );
-                                                when_connections_changes();
                                                 var fileId2 = fileId;
+                                                console.log('   save result set fileid 2 : ' + fileId2 );
                                                 var newqueryid2 = newqueryid;
                                                 var fileType2 = fileType;
                                                 var newid2 = newid;
                                                 
-                                                when_queries_changes(
-                                                    function() {
+                                                queries[newqueryid] = {id: newqueryid,
+                                                                     name: fileId,
+                                                                     connection: newid,
+                                                                     driver: fileType, 
+                                                                     size: size, 
+                                                                     hash: sha1sum, 
+                                                                     fileName: fileName, 
+                                                                     type: fileType2,
+                                                                     definition: JSON.stringify({} , null, 2), 
+                                                                     preview: JSON.stringify([{message: 'No preview available'}] , null, 2)}
+
                                                         console.log('    ...  entering getresult v2:  '  + fileId2);
                                                         getResult(  newqueryid2, 
                                                                     newid2, 
@@ -319,7 +330,7 @@ function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileTyp
                                                                                                     
                                                                                                 }});
                                                                     });
-                                                         })
+                                                         
                                                     }
                                                 );
                             });
@@ -1595,8 +1606,8 @@ function when_queries_changes(callback) {
                                     query.preview = JSON.stringify(ordata, null, 2);
                                     queries.put(query);
                             });*/
-                            if (callback) {
                                 callback.call(this);
+                            if (callback) {
                             }
                         } catch (err) {};
                     }
