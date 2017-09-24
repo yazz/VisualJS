@@ -919,7 +919,7 @@ var upload = multer( { dest: 'uploads/' } );
         
 		dbsearch.serialize(function() {
             var timeStart = new Date().getTime();
-            var mysql = "select distinct(query_id) from zfts_search where zfts_search match '"  + searchTerm + "*'";
+            var mysql = "select distinct(query_id), count(*) from search_rows_hierarchy where child_hash in (select distinct(row_hash) from zfts_search_rows_hashed where zfts_search_rows_hashed match '"  + searchTerm + "*') GROUP BY QUERY_ID";
             ////console.log( "search for: " + searchTerm);
             ////console.log( "    sql: " + mysql);
             
