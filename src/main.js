@@ -1146,7 +1146,7 @@ function setupWebSocket(host, port)
                 //      zzz
           }
           if (data.type == "uploaded") {
-                alert("File uploaded: " + data.id);
+                //alert("File uploaded: " + data.id);
           }
         };
 

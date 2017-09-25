@@ -157,7 +157,7 @@ console.log("Creating tables ... ");
                 
         try {
             dbsearch.serialize(function() {
-                  dbsearch.run("CREATE TABLE IF NOT EXISTS search_rows_hierarchy (query_id TEXT, parent_hash TEXT, child_hash TEXT);");
+                  dbsearch.run("CREATE TABLE IF NOT EXISTS search_rows_hierarchy (document_binary_hash TEXT, parent_hash TEXT, child_hash TEXT);");
                 });} catch(err) {
                     console.log(err);                    
                 } finally {}
@@ -448,33 +448,50 @@ var getResult = function(source, connection, driver, definition, callback) {
                 }
                 callback.call(this,ordata);
                 //console.log( "   ordata: " + JSON.stringify(ordata));
-                var stmt = dbsearch.all("select query_id from search_rows_hierarchy where query_id = '" + source + "'",
-                    function(err, results) {
-                        if (!err) {
-                            if( results.length == 0) {
-                                dbsearch.serialize(function() {
-                                    console.log("Inserting rows");
-                                    stmt = dbsearch.prepare("INSERT INTO zfts_search_rows_hashed VALUES (?, ?)");
-                                    var stmt3 = dbsearch.prepare("INSERT INTO search_rows_hierarchy (query_id, parent_hash, child_hash) VALUES (?,?,?)");
-
-                                    for (var i =0 ; i < rrows.length; i++) {
-                                        var rowhash = crypto.createHash('sha1');
-                                        var row = JSON.stringify(rrows[i]);
-                                        rowhash.setEncoding('hex');
-                                        rowhash.write(row);
-                                        rowhash.end();
-                                        var sha1sum = rowhash.read();
-                                        ////console.log('                 : ' + JSON.stringify(rrows[i]));
-                                        stmt.run(sha1sum, row);
-                                        stmt3.run(source, null, sha1sum);
-                                    }
-                                    stmt.finalize();
-                                    stmt3.finalize();
-                                    console.log('                 : ' + JSON.stringify(rrows.length));
-                                });
-                            }
+                var findHashSql = "select  hash from queries where id = '" + source + "'";
+                console.log("FindHashSql : " + findHashSql );
+                var stmt4 = dbsearch.all(findHashSql,
+                    function(err, results2) {
+                        if( err) {
+                            console.log("Error: " + JSON.stringify(error) + "'");
                         }
-                    });
+                        if( results2.length == 0) {
+                            console.log("No sresults for hash" + source + "'");
+                        }
+                        var binHash = results2[0].hash;
+                        var stmt = dbsearch.all("select  " + 
+                                            "    document_binary_hash  "  + 
+                                            "from  " + 
+                                            "    search_rows_hierarchy  " +
+                                            "where  " +
+                                            "    document_binary_hash = '" + binHash + "'",
+                        function(err, results) {
+                            if (!err) {
+                                if( results.length == 0) {
+                                    dbsearch.serialize(function() {
+                                        console.log("Inserting rows");
+                                        var stmt2 = dbsearch.prepare("INSERT INTO zfts_search_rows_hashed (row_hash, data) VALUES (?, ?)");
+                                        var stmt3 = dbsearch.prepare("INSERT INTO search_rows_hierarchy (document_binary_hash, parent_hash, child_hash) VALUES (?,?,?)");
+
+                                        for (var i =0 ; i < rrows.length; i++) {
+                                            var rowhash = crypto.createHash('sha1');
+                                            var row = JSON.stringify(rrows[i]);
+                                            rowhash.setEncoding('hex');
+                                            rowhash.write(row);
+                                            rowhash.end();
+                                            var sha1sum = rowhash.read();
+                                            ////console.log('                 : ' + JSON.stringify(rrows[i]));
+                                            stmt2.run(sha1sum, row);
+                                            stmt3.run(binHash, null, sha1sum);
+                                        }
+                                        stmt2.finalize();
+                                        stmt3.finalize();
+                                        console.log('                 : ' + JSON.stringify(rrows.length));
+                                    });
+                                }
+                            }
+                        });
+                })
             })
         
         }
@@ -895,7 +912,7 @@ var upload = multer( { dest: 'uploads/' } );
         
 		dbsearch.serialize(function() {
             var timeStart = new Date().getTime();
-            var mysql = "select distinct(query_id), count(*) from search_rows_hierarchy where child_hash in (select distinct(row_hash) from zfts_search_rows_hashed where zfts_search_rows_hashed match '"  + searchTerm + "*') GROUP BY QUERY_ID";
+            var mysql = "select id from queries where hash in (select distinct(document_binary_hash) from search_rows_hierarchy where child_hash in (select distinct(row_hash) from zfts_search_rows_hashed where zfts_search_rows_hashed match '"  + searchTerm + "*')) GROUP BY id";
             ////console.log( "search for: " + searchTerm);
             ////console.log( "    sql: " + mysql);
             
@@ -904,8 +921,8 @@ var upload = multer( { dest: 'uploads/' } );
                     //console.log( "           " + JSON.stringify(rows));
                     var newres = [];
                     for  (var i=0; i < rows.length;i++) {
-                        if (rows[i]["query_id"]) {
-                            newres.push({b: rows[i]["query_id"]});
+                        if (rows[i]["id"]) {
+                            newres.push({b: rows[i]["id"]});
                         }
                     }
                     var timeEnd = new Date().getTime();
