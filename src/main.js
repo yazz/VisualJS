@@ -754,7 +754,6 @@ var showSearchResults = function() {
     
     if ((searchtext.length > 0) && (inSearch == false)) {
         inSearch = true;
-                //alert("DO SEARCH  " )
         $.ajax({
             type: "GET",
             url: '/get_search_results',
@@ -762,29 +761,27 @@ var showSearchResults = function() {
                 search_text: searchtext
             },
             success: function(data) {
-                console.log(searchtext + '=:' + data);
-                //alert("search resturned: " + JSON.stringify(data));
+                console.log(' Searching for ' + searchtext + '=:' + data);
                 
                 var lor = eval('(' + data + ')');
-                //alert("returned in  " + lor.duration)
-                console.log('   length:' + lor.values.length);
+                console.log('   length:' + lor.queries.length);
 
                 store.dispatch('clear_search_results');
                 
-                for (var i = 0; i < lor.values.length ; i++) {
+                for (var i = 0; i < lor.queries.length ; i++) {
                     store.dispatch('add_search_result', 
                                   {
-                                    b:          lor.values[i].b});
+                                    id:          lor.queries[i].id});
                 };
-                if (lor.values.length == 0) {
+                if (lor.queries.length == 0) {
                     store.dispatch('add_search_result', {b:   "No results for " + lor.search});
                     store.dispatch('set_search_subtext', '');
-                    setvuexitemssearch(lor.values);
+                    setvuexitemssearch(lor.queries);
                 
                 } else {
                     store.dispatch('set_search_subtext', "For: '" + lor.search + "', found " +
-                                lor.values.length + " values,  took " + (lor.duration / 1000) + ' seconds' );
-                    setvuexitemssearch(lor.values);
+                                lor.queries.length + " values,  took " + (lor.duration / 1000) + ' seconds' );
+                    setvuexitemssearch(lor.queries);
                 }
                 inSearch = false;
             },
@@ -1432,21 +1429,21 @@ function  setvuexitemssearch( results2 ) {
             alert('all')
         }
             
-        console.log('                          results2 *********:' + JSON.stringify(results2 , null, 2));
+        //console.log('                          results2 *********:' + JSON.stringify(results2 , null, 2));
         var tt= new Object();
         for (var i = 0 ; i < results2.length ; i ++) {
-            var qid = results2[i].b;
+            var qid = results2[i].id;
             if (!tt.hasOwnProperty(qid)) {
                 tt[qid] = new Object();
-                tt[qid].b = qid;
+                tt[qid].id = qid;
             }
         }
-        console.log('                          tt *********:' + JSON.stringify(tt , null, 2));
-        console.log('                          Object.keys(tt) *********:' + JSON.stringify(Object.keys(tt) , null, 2));
+        //console.log('                          tt *********:' + JSON.stringify(tt , null, 2));
+        //console.log('                          Object.keys(tt) *********:' + JSON.stringify(Object.keys(tt) , null, 2));
 
         var results = Object.keys(tt);
 
-        console.log('                      results *********:' + JSON.stringify( results , null, 2));
+        //console.log('                      results *********:' + JSON.stringify( results , null, 2));
 
 
         store.dispatch('clear_queries');
@@ -1454,7 +1451,7 @@ function  setvuexitemssearch( results2 ) {
             //alert(JSON.stringify(query , null, 2));
             //console.log('                          queries *********:' + JSON.stringify(allQueries , null, 2));
             var query = allQueries[results[i]];
-            console.log('                          query *********:' + JSON.stringify(query , null, 2));
+            //console.log('                          query *********:' + JSON.stringify(query , null, 2));
             var exists = false;//!(!store.getters.query_map[query.id]);
 
             if (!exists) {
@@ -1501,7 +1498,7 @@ window.when_queries_changes = function(fields) {
                 var results = eval("(" + results2 + ")") ;
 
             //store.dispatch('clear_queries');
-            console.log('********* CALLED REALTIME DBCONN len:' + JSON.stringify(results.length , null, 2));
+            //console.log('********* CALLED REALTIME DBCONN len:' + JSON.stringify(results.length , null, 2));
             for (var i = 0 ; i < results.length ; i ++) {
                 var query = results[i]
                 //console.log('********* CALLED REALTIME DBCONN*************:' + JSON.stringify(conn , null, 2));

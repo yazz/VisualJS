@@ -912,34 +912,47 @@ var upload = multer( { dest: 'uploads/' } );
         
 		dbsearch.serialize(function() {
             var timeStart = new Date().getTime();
-            var mysql = "select id from queries where hash in (select distinct(document_binary_hash) from search_rows_hierarchy where child_hash in (select distinct(row_hash) from zfts_search_rows_hashed where zfts_search_rows_hashed match '"  + searchTerm + "*')) GROUP BY id";
-            ////console.log( "search for: " + searchTerm);
-            ////console.log( "    sql: " + mysql);
+            var mysql = " select " + 
+                        "     id  " + 
+                        " from  " + 
+                        "     queries " + 
+                        " where  " + 
+                        "     hash in  " + 
+                        "         (select  " + 
+                        "              distinct(document_binary_hash)  " + 
+                        "          from  " + 
+                        "              search_rows_hierarchy " + 
+                        "          where  " + 
+                        "              child_hash in  " + 
+                        "                  (select  " + 
+                        "                       distinct(row_hash)  " + 
+                        "                   from  " + 
+                        "                       zfts_search_rows_hashed  " + 
+                        "                   where  " + 
+                        "                       zfts_search_rows_hashed match '"  + searchTerm + "*'))  " + 
+                        " GROUP BY id";
             
 			var stmt = dbsearch.all(mysql, function(err, rows) {
                 if (!err) {
-                    //console.log( "           " + JSON.stringify(rows));
                     var newres = [];
                     for  (var i=0; i < rows.length;i++) {
                         if (rows[i]["id"]) {
-                            newres.push({b: rows[i]["id"]});
+                            newres.push({id: rows[i]["id"]});
                         }
                     }
                     var timeEnd = new Date().getTime();
                     var timing = timeEnd - timeStart;
                     res.writeHead(200, {'Content-Type': 'text/plain'});
-                    res.end( JSON.stringify({   search: searchTerm, 
-                                                values: newres, 
+                    res.end( JSON.stringify({   search:  searchTerm, 
+                                                queries: newres, 
                                                 duration: timing}));
-                    ////console.log( "    took: " + timing + " millis");
                 } else {
                     var timeEnd = new Date().getTime();
                     var timing = timeEnd - timeStart;
                     res.writeHead(200, {'Content-Type': 'text/plain'});
-                    res.end( JSON.stringify({search:    searchTerm, 
-                                             values:    [{b: "Error searching for: " + searchTerm }], 
-                                             duration:  timing    }  ));
-                    //console.log( "    took: " + timing + " millis");
+                    res.end( JSON.stringify({search:      searchTerm, 
+                                             queries:    [{id: "Error searching for: " + searchTerm }], 
+                                             duration:    timing    }  ));
                 }
             });
 
@@ -1269,7 +1282,7 @@ var upload = multer( { dest: 'uploads/' } );
                           }
                         });
                 };
-                aliveCheckFn();
+        aliveCheckFn();
 		if (typeOfSystem == 'client') {
             setInterval(aliveCheckFn ,numberOfSecondsAliveCheck * 1000);
 
