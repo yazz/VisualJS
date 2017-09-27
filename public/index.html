@@ -31,44 +31,7 @@
                   window.CustomEvent = CustomEvent;
                 })();
 
-            setTimeout(function(){
-              var scene = document.querySelector('a-scene');
-              scene.addEventListener('enter-vr', function(event) {
-                //window.scrollTop = 0;
-                //alert('in VR mode!');
-                //alert('h: ' + document.getElementById('other').style.height);
-                //document.getElementById('bottom_bar').style.height='0%';
-                //document.getElementById('other').style.height='100%';
-                //document.getElementById('bottom_bar').style.display='none';
-                //document.getElementById('vr_scene')['always-fullscreen']='always-fullscreen';
-                //document.getElementById('vr_scene')['embedded']='embedded';
-                //document.querySelector('#vr_objects').setAttribute('position',{x: 1.5,y: -4,z: -4});
-                //document.querySelector('#vr_objects').setAttribute('rotation',{x: 0,y: 0,z: 0});
 
-                //document.querySelector('#vr_objects').setAttribute('position',{x: 0,y: 0,z: 0});
-                //document.querySelector('#vr_objects').setAttribute('rotation',{x: 0,y: 0,z: 0});
-
-              });
-              scene.addEventListener('exit-vr', function(event) {
-                //window.scrollTop = 0;
-                //alert('left in VR mode!');
-                //alert('h: ' + document.getElementById('other').style.height);
-                //document.getElementById('bottom_bar').style.height='10%';
-                //document.getElementById('other').style.height='90%';
-                //document.getElementById('bottom_bar').style.display='';
-                //document.getElementById('vr_scene')['always-fullscreen']='';
-                //document.getElementById('vr_scene')['embedded']='';
-              });
-              
-              
-            
-
-
-
-              },800);
-              
-              
-              
                 
               function init_all() {
                 //Bind back button to prevent escaping the page with backspace

@@ -13,7 +13,6 @@ module.exports = {
         'babel-polyfill', 
         './src/main.js', 
         './public/aframe.min.js', 
-        './public/aframe-mouse-cursor-component.min.js',
         './public/es6-shim.js',
         './public/gosharedata_setup.js'
     ],

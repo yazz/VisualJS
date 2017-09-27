@@ -141,7 +141,7 @@ var dbSearchSync = sqliteSync.connect('gosharedatasearch.sqlite3');
                         {
                             dbsearch.serialize(function() 
                             {
-                                dbsearch.run("CREATE VIRTUAL TABLE zfts_search_search_rows_hashed USING fts5(row_hash, data);");
+                                dbsearch.run("CREATE VIRTUAL TABLE zfts_search_rows_hashed USING fts5(row_hash, data);");
                             });
                         }
                     }
@@ -416,7 +416,6 @@ path.join(__dirname, '../public/dist/build.js')
 //path.join(__dirname, '../oracle_driver.zip')
 path.join(__dirname, '../public/gosharedata_logo.PNG')
 path.join(__dirname, '../public/favicon.ico')
-path.join(__dirname, '../public/aframe.min.js')
 path.join(__dirname, '../public/driver_icons/excel.jpg')
 path.join(__dirname, '../public/driver_icons/csv.jpg')
 path.join(__dirname, '../public/driver_icons/oracle.jpg')
@@ -424,7 +423,6 @@ path.join(__dirname, '../public/driver_icons/postgres.jpg')
 path.join(__dirname, '../public/driver_icons/mysql.jpg')
 path.join(__dirname, '../public/index_pc_mode.html')
 path.join(__dirname, '../public/index_add_files.html')
-path.join(__dirname, '../public/aframe-mouse-cursor-component.min.js')
 path.join(__dirname, '../public/dropzone.js')
 path.join(__dirname, '../public/dropzone.css')
 path.join(__dirname, '../public/locked.png')

@@ -4,7 +4,8 @@
 
         <a-scene  	platform='all' id='vr_scene' renderer="clearColor: #222"
 					v-bind:vr-mode-ui='"enabled: " + (vr_type=="move")'
-                    keyboard-shortcuts="enterVR: false">
+                    keyboard-shortcuts="enterVR: false"
+                    v-bind:cursor='"rayOrigin: " + (vr_type=="mouse"?"mouse":"entity")' >
 			<a-assets>
 				<a-mixin id="cube" geometry="primitive: box"></a-mixin>
 				<a-mixin id="cube-hovered" material="color: magenta"></a-mixin>
@@ -19,7 +20,7 @@
 
 
 
-			<a-entity v-if='vr_type=="mouse"' id='camera_id'  position="0 0 0"  camera  mouse-cursor >
+			<a-entity v-if='vr_type=="mouse"' id='camera_id'  position="0 0 0"  camera  >
 				<a-entity 
 					material='color: gray;opacity: 0.5;' 
 					geometry='primitive: plane; width: 10; height: 1; ' 
