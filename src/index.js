@@ -8,6 +8,7 @@ var username = "Unknown user";
 var isWin = /^win/.test(process.platform);
 var isRaspberryPi = isPi();
 var serverwebsockets = [];
+var sqliteSync = require('sqlite-sync');
 
 function require2(moduleName) {
 	var pat;
@@ -124,7 +125,7 @@ var crypto = require('crypto');
 var sqlite3   = require2('sqlite3');
 var dbsearch = new sqlite3.Database('gosharedatasearch.sqlite3');
 console.log("Creating tables ... ");
-    
+var dbSearchSync = sqliteSync.connect('gosharedatasearch.sqlite3'); 
             
                 
                 
@@ -140,7 +141,7 @@ console.log("Creating tables ... ");
                         {
                             dbsearch.serialize(function() 
                             {
-                                dbsearch.run("CREATE VIRTUAL TABLE zfts_search_rows_hashed USING fts5(row_hash, data);");
+                                dbsearch.run("CREATE VIRTUAL TABLE zfts_search_search_rows_hashed USING fts5(row_hash, data);");
                             });
                         }
                     }
@@ -912,32 +913,48 @@ var upload = multer( { dest: 'uploads/' } );
         
 		dbsearch.serialize(function() {
             var timeStart = new Date().getTime();
-            var mysql = " select " + 
-                        "     id  " + 
+            var mysql = " select  " + 
+                        "      distinct(row_hash)  " + 
                         " from  " + 
-                        "     queries " + 
+                        "      zfts_search_rows_hashed  " + 
                         " where  " + 
-                        "     hash in  " + 
-                        "         (select  " + 
-                        "              distinct(document_binary_hash)  " + 
-                        "          from  " + 
-                        "              search_rows_hierarchy " + 
-                        "          where  " + 
-                        "              child_hash in  " + 
-                        "                  (select  " + 
-                        "                       distinct(row_hash)  " + 
-                        "                   from  " + 
-                        "                       zfts_search_rows_hashed  " + 
-                        "                   where  " + 
-                        "                       zfts_search_rows_hashed match '"  + searchTerm + "*'))  " + 
-                        " GROUP BY id";
+                        "      zfts_search_rows_hashed match '"  + searchTerm + "*'  "; 
             
 			var stmt = dbsearch.all(mysql, function(err, rows) {
                 if (!err) {
+                    console.log('rows: ' + JSON.stringify(rows.length));
                     var newres = [];
                     for  (var i=0; i < rows.length;i++) {
-                        if (rows[i]["id"]) {
-                            newres.push({id: rows[i]["id"]});
+                        var rowHash = rows[i]["row_hash"];
+                        console.log('rowHash: ' + JSON.stringify(rowHash));
+                        if (rowHash) {
+                            var getQueryIdsSql =     " select " + 
+                                                        "     id  " + 
+                                                        " from  " + 
+                                                        "     queries " + 
+                                                        " where  " + 
+                                                        "     hash in  " + 
+                                                        "         (select  " + 
+                                                        "              distinct(document_binary_hash)  " + 
+                                                        "          from  " + 
+                                                        "              search_rows_hierarchy " + 
+                                                        "          where  " + 
+                                                        "              child_hash = '" + rowHash + "' " + 
+                                                        "                  )" + 
+                                                        " GROUP BY id";
+                                                    
+                            console.log('getQueryIdsSql: ' + JSON.stringify(getQueryIdsSql));
+                            var queryIds = sqliteSync.run(getQueryIdsSql)[0].values;
+                            //console.log('               : ' + JSON.stringify(queryIds));
+                            //console.log('               len: ' + JSON.stringify(queryIds.length));
+
+                            for (var x = 0; x < queryIds.length; x++) {
+                                newres.push({
+                                                    id:     queryIds[x][0]
+                                            });
+                            }
+
+                            
                         }
                     }
                     var timeEnd = new Date().getTime();
