@@ -125,7 +125,7 @@ var crypto = require('crypto');
 var sqlite3   = require2('sqlite3');
 var dbsearch = new sqlite3.Database('gosharedatasearch.sqlite3');
 console.log("Creating tables ... ");
-var dbSearchSync = sqliteSync.connect('gosharedatasearch.sqlite3'); 
+
             
                 
                 
@@ -920,6 +920,7 @@ var upload = multer( { dest: 'uploads/' } );
             
 			var stmt = dbsearch.all(mysql, function(err, rows) {
                 if (!err) {
+                    sqliteSync.connect('gosharedatasearch.sqlite3'); 
                     console.log('rows: ' + JSON.stringify(rows.length));
                     var newres = [];
                     for  (var i=0; i < rows.length;i++) {
@@ -942,19 +943,25 @@ var upload = multer( { dest: 'uploads/' } );
                                                         " GROUP BY id";
                                                     
                             console.log('getQueryIdsSql: ' + JSON.stringify(getQueryIdsSql));
-                            var queryIds = sqliteSync.run(getQueryIdsSql)[0].values;
-                            //console.log('               : ' + JSON.stringify(queryIds));
-                            //console.log('               len: ' + JSON.stringify(queryIds.length));
+                            var resultSet = sqliteSync.run(getQueryIdsSql);
+                            console.log('               : ' + JSON.stringify(resultSet,null,2));
+                                    
+                            if (resultSet && (resultSet.length > 0)) {
+                                if (resultSet[0].values) {
+                                    var queryIds = resultSet[0].values;
 
-                            for (var x = 0; x < queryIds.length; x++) {
-                                newres.push({
-                                                    id:     queryIds[x][0]
-                                            });
+                                    for (var x = 0; x < queryIds.length; x++) {
+                                        newres.push({
+                                                            id:     queryIds[x][0]
+                                                    });
+                                    }
+                                }
                             }
 
                             
                         }
                     }
+                    sqliteSync.close();
                     var timeEnd = new Date().getTime();
                     var timing = timeEnd - timeStart;
                     res.writeHead(200, {'Content-Type': 'text/plain'});
