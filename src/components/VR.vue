@@ -5,17 +5,8 @@
         <a-scene  	platform='all' id='vr_scene' renderer="clearColor: #222"
 					v-bind:vr-mode-ui='"enabled: " + (vr_type=="move")'
                     keyboard-shortcuts="enterVR: false"
-                    v-bind:cursor='"rayOrigin: " + (vr_type=="mouse"?"mouse":"entity")' >
+                    v-bind:cursor='(vr_type=="mouse"?"rayOrigin: mouse":false)' >
 			<a-assets>
-				<a-mixin id="cube" geometry="primitive: box"></a-mixin>
-				<a-mixin id="cube-hovered" material="color: magenta"></a-mixin>
-				<a-mixin id="cube-selected" material="color: cyan"></a-mixin>
-				<a-mixin id="red" material="color: red"></a-mixin>
-				<a-mixin id="green" material="color: green"></a-mixin>
-				<a-mixin id="blue" material="color: blue"></a-mixin>
-				<a-mixin id="yellow" material="color: yellow"></a-mixin>
-				<a-mixin id="sphere" geometry="primitive: sphere"></a-mixin>
-				<a-mixin id="gsd" geometry="primitive: box; width: 0.3; height: 0.3; depth: 0.3;" position="-1.4 0 0" ></a-mixin>
 			</a-assets>
 
 
