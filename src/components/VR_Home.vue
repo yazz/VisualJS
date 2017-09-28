@@ -23,7 +23,7 @@
 
 						 <a-entity position="0 2.8 0"
 									geometry="primitive: plane; width: 1.8; height: 1.8;" material="color: green"
-									v-bind:text='"font: roboto; color: white; align: center; value: View data ; width: 6; "'
+									v-bind:text='"font: /public/aframe_fonts/Roboto-msdf.json; color: white; align: center; value: View data ; width: 6; "'
 									rotation='0 0 0' goto='name: scrollable_grid; distance: 4; duration: 500;'>
 									<a-animation begin="mouseenter" attribute="rotation"
 												to="0 0 1" dur="100" direction="alternate"  repeat="3"></a-animation>
@@ -37,7 +37,7 @@
                                                     
 						 <a-entity position="2 2.8 0"
 									geometry="primitive: plane; width: 1.8; height: 1.8;" material="color: lightgray"
-									v-bind:text='"font: roboto; color: white; align: center; value: ; width: 6; "'
+									v-bind:text='"font: /public/aframe_fonts/Roboto-msdf.json; color: white; align: center; value: ; width: 6; "'
 									rotation='0 0 0' >
 									<a-animation begin="mouseenter" attribute="rotation"
 												to="0 0 1" dur="100" direction="alternate"  repeat="3"></a-animation>
@@ -53,14 +53,14 @@
                                                                     to="0 0 4" dur="100" direction="alternate"  repeat="3"></a-animation>
                                         </a-entity>
                                         <a-entity   position="-.4 -.2 .4" rotation="0 0 0" 
-                                                    v-bind:text='"font: roboto; color: black; align: center; value: " + (locked?"ONLY YOU can see your data":"Others can see your SHARED data") + " ; width: 2; "'>
+                                                    v-bind:text='"font: /public/aframe_fonts/Roboto-msdf.json; color: black; align: center; value: " + (locked?"ONLY YOU can see your data":"Others can see your SHARED data") + " ; width: 2; "'>
                                         </a-entity>
 						</a-entity>
                                                     
 						 <a-entity v-bind:position='"13 -1.7 -11"' id="people"  
 									geometry="primitive: plane; width: 8.4; height: 8.4;" 
                                     v-bind:material='"color: gray; opacity: 1;"'
-									v-bind:text='"font: roboto; color: white; align: center; value: People ; width: 24; "'
+									v-bind:text='"font: /public/aframe_fonts/Roboto-msdf.json; color: white; align: center; value: People ; width: 24; "'
                                     goto='name: people_num; distance: 8; duration: 1500;'
                                     set_zoom='people: true;'
 									rotation='0 0 0' >
@@ -77,18 +77,18 @@
                                     v-bind:material='"color: white; opacity: 1  ;"'
 									rotation='0 0 0' >
                                     <a-entity   position="-2 2 .4" rotation="0 0 0" 
-                                                v-bind:text='"font: roboto; color: black; align: center; value: People; width: 10; "'>
+                                                v-bind:text='"font: /public/aframe_fonts/Roboto-msdf.json; color: black; align: center; value: People; width: 10; "'>
                                     </a-entity>
                                 <a-entity  v-for="(item,index)  in  getNetwork"
                                 v-bind:position='"0 " + (index - 1) + "  .5"'
                                 geometry="primitive: plane; width: .1; height: .1"
                                 material="color: white"
-                                v-bind:text='"font: roboto; color: black; align: center; value: " + item.username + " - " + item.internal_host  + " : " + item.internal_port + "@" + item.via + "; width: 5; "'
+                                v-bind:text='"font: /public/aframe_fonts/Roboto-msdf.json; color: black; align: center; value: " + item.username + " - " + item.internal_host  + " : " + item.internal_port + "@" + item.via + "; width: 5; "'
                                 v-bind:jump_to='"host: " + item.internal_host + ";port: " + item.internal_port + ";"'
                                 rotation='0 0 0'>
                                     <a-entity geometry="primitive: plane; width: 2; height: .7" position='4 0 0' 
                                     v-bind:material='"color: " + (item.locked?"red":"green")'
-                                    v-bind:text='"font: roboto; color: black; align: center; value: " + (item.locked?"Locked":"") + "; width: 8; "'
+                                    v-bind:text='"font: /public/aframe_fonts/Roboto-msdf.json; color: black; align: center; value: " + (item.locked?"Locked":"") + "; width: 8; "'
                                     >
                                         <a-animation begin="mouseenter" attribute="rotation"
                                                     to="0 0 10" dur="100" direction="alternate"  repeat="3"></a-animation>
@@ -96,7 +96,7 @@
                                     
                                     <a-entity geometry="primitive: plane; width: 2; height: .7" position='7 0 0' 
                                     v-bind:material='"color: " + (item.accessable?"green":"blue")'
-                                    v-bind:text='"font: roboto; color: black; align: center; value: " + (item.accessable?"All ok":"Can not access , firewall in place?") + "; width: 8; "'
+                                    v-bind:text='"font: /public/aframe_fonts/Roboto-msdf.json; color: black; align: center; value: " + (item.accessable?"All ok":"Can not access , firewall in place?") + "; width: 8; "'
                                     >
                                         <a-animation begin="mouseenter" attribute="rotation"
                                                     to="0 0 10" dur="100" direction="alternate"  repeat="3"></a-animation>
@@ -114,7 +114,7 @@
 
 						<a-entity  v-if='vr_type=="mouse"' position="0 .9 0"
 								 geometry="primitive: plane; width: 1.8; height: 1.8;" material="color: yellow"
-								 v-bind:text='"font: roboto; color: black; align: center; value: Settings ; width: 6; "'
+								 v-bind:text='"font: /public/aframe_fonts/Roboto-msdf.json; color: black; align: center; value: Settings ; width: 6; "'
 								 rotation='0 0 0' goto_settings=''>
 								<a-animation begin="mouseenter" attribute="rotation"
 												to="0 0 1" dur="100" direction="alternate"  repeat="3"></a-animation>
@@ -122,7 +122,7 @@
 
 						<a-entity  v-if='vr_type=="move"' position="0 .9 0"
 								 geometry="primitive: plane; width: 1.8; height: 1.8;" material="color: yellow"
-								 v-bind:text='"font: roboto; color: black; align: center; value:  ; width: 6; "'
+								 v-bind:text='"font: /public/aframe_fonts/Roboto-msdf.json; color: black; align: center; value:  ; width: 6; "'
 								 rotation='0 0 0'>
 								<a-animation begin="mouseenter" attribute="rotation"
 												to="0 0 1" dur="100" direction="alternate"  repeat="3"></a-animation>
@@ -133,7 +133,7 @@
                         
                         <a-entity v-if='vr_type=="mouse"' position="-2 2.8 0"
 									geometry="primitive: plane; width: 1.8; height: 1.8;" material="color: red"
-									v-bind:text='"font: roboto; color: white; align: center; value: + Add Files ; width: 6; "'
+									v-bind:text='"font: /public/aframe_fonts/Roboto-msdf.json; color: white; align: center; value: + Add Files ; width: 6; "'
 									rotation='0 0 0' id='red_home' add_data=''>
 									<a-animation begin="mouseenter" attribute="rotation"
 														to="0 0 1" dur="100" direction="alternate"  repeat="3"></a-animation>
@@ -157,7 +157,7 @@
                         
 						<a-entity v-if='vr_type=="mouse"' position="-2 .9 0"
 								 geometry="primitive: plane; width: 1.8; height: 1.8;" material="color: blue"
-								 v-bind:text='"font: roboto; color: white; align: center; value: VR  ; width: 6; "'
+								 v-bind:text='"font: /public/aframe_fonts/Roboto-msdf.json; color: white; align: center; value: VR  ; width: 6; "'
 								 rotation='0 0 0' goto_vr=''>
 								 <a-animation begin="mouseenter" attribute="rotation"
 													 to="0 0 1" dur="100" direction="alternate"  repeat="3"></a-animation>
@@ -167,7 +167,7 @@
                         
 						<a-entity v-if='vr_type=="move"' position="-2 .9 0"
 								 geometry="primitive: plane; width: 1.8; height: 1.8;" material="color: blue"
-								 v-bind:text='"font: roboto; color: white; align: center; value: Exit VR  ; width: 6; "'
+								 v-bind:text='"font: /public/aframe_fonts/Roboto-msdf.json; color: white; align: center; value: Exit VR  ; width: 6; "'
 								 rotation='0 0 0' exit_vr=''>
 								 <a-animation begin="mouseenter" attribute="rotation"
 													 to="0 0 1" dur="100" direction="alternate"  repeat="3"></a-animation>

@@ -429,6 +429,12 @@ path.join(__dirname, '../public/locked.png')
 path.join(__dirname, '../public/unlocked.png')
 path.join(__dirname, '../public/gosharedata/list_intranet_servers.html')
 path.join(__dirname, '../public/list_intranet_servers.html')
+path.join(__dirname, '../public/\aframe_fonts/Roboto-msdf.json')
+path.join(__dirname, '../public/\aframe_fonts/Roboto-msdf.png')
+path.join(__dirname, '../public/\aframe_fonts/aileronsemibold.fnt')
+path.join(__dirname, '../public/\aframe_fonts/aileronsemibold.png')
+path.join(__dirname, '../public/\aframe_fonts/SourceCodePro.fnt')
+path.join(__dirname, '../public/\aframe_fonts/SourceCodePro.png')
 
 
 
@@ -655,17 +661,18 @@ program
 	  })
 
       
+var cors = require('cors')
+
+app.use(cors())
             
     
     //console.log('::::::::::: ' +process.cwd() + '/docs')
     app.use("/docs", express.static('public/docs'));
+    app.use("/public/aframe_fonts", express.static(path.join(__dirname, '../public/aframe_fonts')));
 	app.use(express.static(path.join(__dirname, '../public/')))
 	var bodyParser = require('body-parser');
 	app.use(bodyParser.json()); // support json encoded bodies
 	app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
-var cors = require('cors')
-
-app.use(cors())
 
     
     function isLocalMachine(req) {
