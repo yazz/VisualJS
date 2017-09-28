@@ -489,20 +489,22 @@ var getResult = function(source, connection, driver, definition, callback) {
                                         var stmt2 = dbsearch.prepare("INSERT INTO zfts_search_rows_hashed (row_hash, data) VALUES (?, ?)");
                                         var stmt3 = dbsearch.prepare("INSERT INTO search_rows_hierarchy (document_binary_hash, parent_hash, child_hash) VALUES (?,?,?)");
 
-                                        for (var i =0 ; i < rrows.length; i++) {
-                                            var rowhash = crypto.createHash('sha1');
-                                            var row = JSON.stringify(rrows[i]);
-                                            rowhash.setEncoding('hex');
-                                            rowhash.write(row);
-                                            rowhash.end();
-                                            var sha1sum = rowhash.read();
-                                            ////console.log('                 : ' + JSON.stringify(rrows[i]));
-                                            stmt2.run(sha1sum, row);
-                                            stmt3.run(binHash, null, sha1sum);
+                                        if (rrows && rrows.length) {
+                                            for (var i =0 ; i < rrows.length; i++) {
+                                                var rowhash = crypto.createHash('sha1');
+                                                var row = JSON.stringify(rrows[i]);
+                                                rowhash.setEncoding('hex');
+                                                rowhash.write(row);
+                                                rowhash.end();
+                                                var sha1sum = rowhash.read();
+                                                ////console.log('                 : ' + JSON.stringify(rrows[i]));
+                                                stmt2.run(sha1sum, row);
+                                                stmt3.run(binHash, null, sha1sum);
+                                            }
+                                            stmt2.finalize();
+                                            stmt3.finalize();
+                                            console.log('                 : ' + JSON.stringify(rrows.length));
                                         }
-                                        stmt2.finalize();
-                                        stmt3.finalize();
-                                        console.log('                 : ' + JSON.stringify(rrows.length));
                                     });
                                 }
                             }
@@ -925,10 +927,23 @@ var upload = multer( { dest: 'uploads/' } );
 	// Get the result of a search
 	//------------------------------------------------------------------------------
 	app.get('/get_search_results', function (req, res) {
+        console.log("called get_search_results: " )
         var searchTerm = req.query.search_text;
+        var timeStart = new Date().getTime();
+        
+        console.log("searchTerm.length: " + searchTerm.length)
+        console.log("searchTerm: " + searchTerm)
+        if (searchTerm.length < 4) {
+            var timeEnd = new Date().getTime();
+            var timing = timeEnd - timeStart;
+            res.writeHead(200, {'Content-Type': 'text/plain'});
+            res.end( JSON.stringify({search:      searchTerm, 
+                                     queries:    [], 
+                                     message:    "Search text must be at least 3 characters: " + searchTerm,
+                                     duration:    timing    }  ));
+        } else {
         
 		dbsearch.serialize(function() {
-            var timeStart = new Date().getTime();
             var mysql = " select  " + 
                         "      distinct(row_hash)  " + 
                         " from  " + 
@@ -995,8 +1010,8 @@ var upload = multer( { dest: 'uploads/' } );
                                              duration:    timing    }  ));
                 }
             });
-
-        });
+        
+        })};
     });
 
     
