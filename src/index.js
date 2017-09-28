@@ -157,19 +157,23 @@ console.log("Creating tables ... ");
         
                 
         try {
-            dbsearch.serialize(function() {
-                  dbsearch.run("CREATE TABLE IF NOT EXISTS search_rows_hierarchy (document_binary_hash TEXT, parent_hash TEXT, child_hash TEXT);");
-                });} catch(err) {
-                    console.log(err);                    
-                } finally {}
+            sqliteSync.connect('gosharedatasearch.sqlite3'); 
+            sqliteSync.run("CREATE TABLE IF NOT EXISTS search_rows_hierarchy (document_binary_hash TEXT, parent_hash TEXT, child_hash TEXT);");
+        } catch(err) {
+            console.log(err);                    
+        } finally {
+            sqliteSync.close();
+        }
                 
             
         try {
-            dbsearch.serialize(function() {
-                  dbsearch.run("CREATE TABLE IF NOT EXISTS drivers (id TEXT, name TEXT, type TEXT, code TEXT);");
-                });} catch(err) {
-                    console.log(err);
-                } finally {}
+            sqliteSync.connect('gosharedatasearch.sqlite3'); 
+            sqliteSync.run("CREATE TABLE IF NOT EXISTS drivers (id TEXT, name TEXT, type TEXT, code TEXT);");
+        } catch(err) {
+            console.log(err);
+        } finally {
+            sqliteSync.close();
+        }
 
                 
                 
@@ -177,26 +181,33 @@ console.log("Creating tables ... ");
                 
                 
         try {
-            dbsearch.serialize(function() {
-                  dbsearch.run("CREATE TABLE IF NOT EXISTS connections (id TEXT, name TEXT, driver TEXT, database TEXT, host TEXT, port TEXT ,connectString TEXT, user TEXT, password TEXT, fileName TEXT, size INTEGER, type TEXT, preview TEXT, hash TEXT);");
-                });} catch(err) {
-                    console.log(err);
-                } finally {}
+            sqliteSync.connect('gosharedatasearch.sqlite3'); 
+            sqliteSync.run("CREATE TABLE IF NOT EXISTS connections (id TEXT, name TEXT, driver TEXT, database TEXT, host TEXT, port TEXT ,connectString TEXT, user TEXT, password TEXT, fileName TEXT, size INTEGER, type TEXT, preview TEXT, hash TEXT);");
+        } catch(err) {
+            console.log(err);
+        } finally {
+            sqliteSync.close();
+        }
                 
         try {
-            dbsearch.serialize(function() {
-                  dbsearch.run("CREATE TABLE IF NOT EXISTS queries (id TEXT, name TEXT, connection INTEGER, driver TEXT, size INTEGER, hash TEXT, type TEXT, fileName TEXT, definition TEXT, preview TEXT, status TEXT);");
-                });} catch(err) {
-                    console.log(err);
-                } finally {}
+            sqliteSync.connect('gosharedatasearch.sqlite3'); 
+            sqliteSync.run("CREATE TABLE IF NOT EXISTS queries (id TEXT, name TEXT, connection INTEGER, driver TEXT, size INTEGER, hash TEXT, type TEXT, fileName TEXT, definition TEXT, preview TEXT, status TEXT);");
+        } catch(err) {
+            console.log(err);
+        } finally {
+            sqliteSync.close();
+        }
 
                 
         try {
-            dbsearch.serialize(function() {
-                  dbsearch.run("CREATE TABLE IF NOT EXISTS intranet_client_connects (id TEXT, internal_host TEXT, internal_port INTEGER, public_ip TEXT, via TEXT, public_host TEXT, user_name TEXT, client_user_name TEXT, when_connected INTEGER);");
-                });} catch(err) {
-                    console.log(err);
-                } finally {}
+            sqliteSync.connect('gosharedatasearch.sqlite3'); 
+            sqliteSync.run("CREATE TABLE IF NOT EXISTS intranet_client_connects (id TEXT, internal_host TEXT, internal_port INTEGER, public_ip TEXT, via TEXT, public_host TEXT, user_name TEXT, client_user_name TEXT, when_connected INTEGER);");
+        } catch(err) {
+            console.log(err);
+        } finally {
+            sqliteSync.close();
+        }
+                
 console.log("...done ");
 console.log("");
                 
