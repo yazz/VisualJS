@@ -310,7 +310,10 @@
                         ret["values"] = rows;
                         callfn(ret);
                
-                });
+                })
+            .on('error', function(error) {
+                callfn({error: 'Invalid CSV file: ' + error});
+            });
         }
         catch(err) {
             //console.log('CSV error: ' + err);
