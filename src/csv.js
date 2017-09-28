@@ -222,60 +222,56 @@
 
 
 
-    get_v2: function( connection , parameters , callfn )
+    get_v2: function( connection , parameters , callfn ) {
+        //console.log('********************************');
+        if (
+            (connection.status == 'disconnected')
+            ||
+            (connection.status == null))
         {
-            //console.log('********************************');
-            if (
-                (connection.status == 'disconnected')
-                ||
-                (connection.status == null)
-              )
-             {
-                drivers['csv']['setup'](connection);
-            }
+            drivers['csv']['setup'](connection);
+        }
 			
             
+        var rows=[];
 
-			
-			var rows=[];
-			
-			var firstRow = false;
-						var ret = new Object();
+        var firstRow = false;
+        var ret = new Object();
 
-            var content = fs.readFileSync(connection.fileName, "utf8");
-              //console.log('var content = fs.readFileSync(connection.fileName);');
-             //console.log(content);
-            var delim = ',';
-            var numCommas = ((content.match(new RegExp(",", "g")) || []).length);
+        var content = fs.readFileSync(connection.fileName, "utf8");
+          //console.log('var content = fs.readFileSync(connection.fileName);');
+         //console.log(content);
+        var delim = ',';
+        var numCommas = ((content.match(new RegExp(",", "g")) || []).length);
 	    //console.log('numCommas = ' + numCommas);
-            var numSemi = ((content.match(new RegExp(";", "g")) || []).length);
-            //console.log('numSemi = ' + numSemi);
-            var numColons = ((content.match(new RegExp(":", "g")) || []).length);
-            //console.log('numColons = ' + numColons);
-            var numPipes = ((content.match(new RegExp("[|]", "g")) || []).length);
-            //console.log('numPipes = ' + numPipes);
+        var numSemi = ((content.match(new RegExp(";", "g")) || []).length);
+        //console.log('numSemi = ' + numSemi);
+        var numColons = ((content.match(new RegExp(":", "g")) || []).length);
+        //console.log('numColons = ' + numColons);
+        var numPipes = ((content.match(new RegExp("[|]", "g")) || []).length);
+        //console.log('numPipes = ' + numPipes);
             
-            var maxDelim = numCommas;
-            if (numSemi > maxDelim) {
-                delim = ';';
-                maxDelim = numSemi;
-                };
-            if (numColons > maxDelim) {
-                delim = ':';
-                maxDelim = numColons;
-                };
-            if (numPipes > maxDelim) {
-                delim = '|';
-                maxDelim = numPipes;
-                };
-              //console.log('delim = ' + delim);
+        var maxDelim = numCommas;
+        if (numSemi > maxDelim) {
+            delim = ';';
+            maxDelim = numSemi;
+            };
+        if (numColons > maxDelim) {
+            delim = ':';
+            maxDelim = numColons;
+            };
+        if (numPipes > maxDelim) {
+            delim = '|';
+            maxDelim = numPipes;
+            };
+          //console.log('delim = ' + delim);
                         
                         
+        try {
 			csv
 			 .fromString(content, { headers: false, delimiter: delim })
 			 .on("data", function(data){
 				 //console.log(data);
-					  try {
 				
 			if (!firstRow) {
 				firstRow = true;
@@ -284,59 +280,43 @@
 
 			rows.push(data);
 
+            /*
+             var workbook = XLSX.readFile(connection.fileName);
+                        rows = XLSX.utils.sheet_to_json( workbook.Sheets[workbook.SheetNames[0]],{ header: 1 });
+                        console.log('XL: ' + JSON.stringify(rows));
 
 
-
-/*
- var workbook = XLSX.readFile(connection.fileName);
-			rows = XLSX.utils.sheet_to_json( workbook.Sheets[workbook.SheetNames[0]],{ header: 1 });
-			console.log('XL: ' + JSON.stringify(rows));
-
-
-			var maxLength = 0;
-			for (var i =0; i < rows.length; i++) {
-				if (rows[i].length > maxLength ) {
-					maxLength = rows[i].length;
-				};
-			};
-			
-			var fields = [];
-			for(var i = 0; i < maxLength; i++){
-				fields.push('' + i);
-			};
-*/
-			
-			
-
-
-
-
-
-
-
+                        var maxLength = 0;
+                        for (var i =0; i < rows.length; i++) {
+                            if (rows[i].length > maxLength ) {
+                                maxLength = rows[i].length;
+                            };
+                        };
+                        
+                        var fields = [];
+                        for(var i = 0; i < maxLength; i++){
+                            fields.push('' + i);
+                        };
+            */
+                        
 			//console.log("ret  = " + JSON.stringify(ret));
 
-			
-			
-			
-		
-		
             //console.error('drivers[csv][get]');
-          // execute a query on our database
-			}
-			catch(err) {
-				//console.log('CSV error: ' + err);
-				callfn({error: 'CSV error: ' + err});
-			}
+            // execute a query on our database
 			
-			})
- .on("end", function(){
-     //console.log("done");
+			}).on("end", function(){
+                 //console.log("done");
 
-			ret["values"] = rows;
-			callfn(ret);
-   
- });
+                        ret["values"] = rows;
+                        callfn(ret);
+               
+                });
+        }
+        catch(err) {
+            //console.log('CSV error: ' + err);
+            callfn({error: 'CSV error: ' + err});
+        }
+    
 
-          }
+    }
 }
