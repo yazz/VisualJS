@@ -933,15 +933,66 @@ var upload = multer( { dest: 'uploads/' } );
         
         console.log("searchTerm.length: " + searchTerm.length)
         console.log("searchTerm: " + searchTerm)
-        if (searchTerm.length < 4) {
+        if (searchTerm.length < 1) {
             var timeEnd = new Date().getTime();
             var timing = timeEnd - timeStart;
             res.writeHead(200, {'Content-Type': 'text/plain'});
             res.end( JSON.stringify({search:      searchTerm, 
                                      queries:    [], 
-                                     message:    "Search text must be at least 3 characters: " + searchTerm,
+                                     message:    "Search text must be at least 1 characters: " + searchTerm,
                                      duration:    timing    }  ));
-        } else {
+        } else if (2 == (1 + 1)){
+        
+		dbsearch.serialize(function() {
+            var mysql = " select queries.id, the1.document_binary_hash, the1.num_occ " + 
+                        " from (  select " + 
+                        " distinct(document_binary_hash), count(document_binary_hash)  as num_occ " +
+                        " from  " + 
+                        " search_rows_hierarchy " + 
+                        " where  " +
+                        " child_hash in (select   " + 
+                        "      distinct(row_hash)  " + 
+                        "  from   " + 
+                        "      zfts_search_rows_hashed  " + 
+                        " where  " + 
+                        "       zfts_search_rows_hashed match '"  + searchTerm + "*'  ) " + 
+                        " group by " + 
+                        "    document_binary_hash) as the1, " + 
+                        "      queries " + 
+                        " where  " + 
+                        " queries.hash = the1.document_binary_hash " ;
+                            
+            
+			var stmt = dbsearch.all(mysql, function(err, rows) {
+                if (!err) {
+                    sqliteSync.connect('gosharedatasearch.sqlite3'); 
+                    console.log('rows: ' + JSON.stringify(rows.length));
+                    var newres = [];
+                    for  (var i=0; i < rows.length;i++) {
+                        var rowId = rows[i]["id"];
+                        newres.push({
+                                            id:     rowId
+                                    });
+                    }
+                    sqliteSync.close();
+                    var timeEnd = new Date().getTime();
+                    var timing = timeEnd - timeStart;
+                    res.writeHead(200, {'Content-Type': 'text/plain'});
+                    res.end( JSON.stringify({   search:  searchTerm, 
+                                                queries: newres, 
+                                                duration: timing}));
+                } else {
+                    var timeEnd = new Date().getTime();
+                    var timing = timeEnd - timeStart;
+                    res.writeHead(200, {'Content-Type': 'text/plain'});
+                    res.end( JSON.stringify({search:      searchTerm, 
+                                             queries:    [{id: "Error searching for: " + searchTerm }], 
+                                             duration:    timing    }  ));
+                }
+            });
+        
+        })
+        } else {//this is the old way of searching but was too slow
         
 		dbsearch.serialize(function() {
             var mysql = " select  " + 
@@ -1011,7 +1062,8 @@ var upload = multer( { dest: 'uploads/' } );
                 }
             });
         
-        })};
+        })
+        };
     });
 
     
