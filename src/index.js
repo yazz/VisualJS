@@ -944,25 +944,31 @@ var upload = multer( { dest: 'uploads/' } );
         } else if (2 == (1 + 1)){
         
 		dbsearch.serialize(function() {
-            var mysql = " select queries.id, the1.document_binary_hash, the1.num_occ " + 
-                        " from (  select " + 
-                        " distinct(document_binary_hash), count(document_binary_hash)  as num_occ " +
-                        " from  " + 
-                        " search_rows_hierarchy " + 
-                        " where  " +
-                        " child_hash in (select   " + 
-                        "      distinct(row_hash)  " + 
-                        "  from   " + 
-                        "      zfts_search_rows_hashed  " + 
-                        " where  " + 
-                        "       zfts_search_rows_hashed match '"  + searchTerm + "*'  ) " + 
-                        " group by " + 
-                        "    document_binary_hash) as the1, " + 
-                        "      queries " + 
-                        " where  " + 
-                        " queries.hash = the1.document_binary_hash " ;
+            var mysql = "  select queries.id, the1.document_binary_hash, the1.num_occ  , the1.child_hash , zfts_search_rows_hashed.data " +
+                        " from (  select   " +
+                       "  distinct(document_binary_hash), count(document_binary_hash)  as num_occ  , child_hash  " +
+                     "    from    " +
+                     "    search_rows_hierarchy   " +
+                     "    where    " +
+                     "    child_hash in (select     " +
+                      " distinct(row_hash)    " +
+                        "  from     " +
+    "                          zfts_search_rows_hashed    " +
+     "                    where    " +
+      "                         zfts_search_rows_hashed match '"  + searchTerm + "*'  )   " +
+       "                  group by   " +
+        "                    document_binary_hash) as the1,   " +
+         "                     queries  , " +
+          "                    zfts_search_rows_hashed  " +
+           "              where    " +
+            "             queries.hash = the1.document_binary_hash   " +
+" and " +
+"zfts_search_rows_hashed.row_hash = the1.child_hash ";
                             
-            
+            var firstWord = searchTerm.split()[0];
+            if (firstWord.length < 1) {
+                firstWord = "";
+            }
 			var stmt = dbsearch.all(mysql, function(err, rows) {
                 if (!err) {
                     sqliteSync.connect('gosharedatasearch.sqlite3'); 
@@ -970,8 +976,19 @@ var upload = multer( { dest: 'uploads/' } );
                     var newres = [];
                     for  (var i=0; i < rows.length;i++) {
                         var rowId = rows[i]["id"];
+                        var rowData =  (i < 5 ? rows[i]["data"]: "");
+                        if (firstWord.length > 0) {
+                            rowData = rowData.replace(firstWord,firstWord.toUpperCase());
+                        }
+                        var rowDataStart = rowData.indexOf(firstWord.toUpperCase()) - 30
+                        if (rowDataStart < 0) {
+                            rowDataStart = 0
+                        }
+                        var rowDataEnd = rowData.indexOf(firstWord.toUpperCase()) + firstWord.length + 30
+                        rowData = rowData.substring(rowDataStart, rowDataEnd)
                         newres.push({
-                                            id:     rowId
+                                            id:     rowId,
+                                            data: rowData
                                     });
                     }
                     sqliteSync.close();

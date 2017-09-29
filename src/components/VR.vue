@@ -44,17 +44,17 @@
                             </a-entity>
                         
 
-    <a-entity   v-if=false >
+    <a-entity   v-if=true position="0 -.3 0">
             <a-entity   position="-1 -1 0" 
-                        v-bind:text='"font: /public/aframe_fonts/Roboto-msdf.json; color: black;align: left; value: " + (getSearchResults[0]?getSearchResults[0].id:"") + "; width: 5; "'></a-entity>
+                        v-bind:text='"font: /public/aframe_fonts/Roboto-msdf.json; color: black;align: left; value: " + (getSearchResults[0]?getSearchResults[0].data:"") + "; width: 5; "'></a-entity>
             <a-entity   position="-1 -2 0" 
-                        v-bind:text='"font: /public/aframe_fonts/Roboto-msdf.json; color: black;align: left; value: " + (getSearchResults[1]?getSearchResults[1].id:"") + "; width: 5; "'></a-entity>
+                        v-bind:text='"font: /public/aframe_fonts/Roboto-msdf.json; color: black;align: left; value: " + (getSearchResults[1]?getSearchResults[1].data:"") + "; width: 5; "'></a-entity>
             <a-entity   position="-1 -3 0" 
-                        v-bind:text='"font: /public/aframe_fonts/Roboto-msdf.json; color: black;align: left; value: " + (getSearchResults[2]?getSearchResults[2].id:"") + "; width: 5; "'></a-entity>
+                        v-bind:text='"font: /public/aframe_fonts/Roboto-msdf.json; color: black;align: left; value: " + (getSearchResults[2]?getSearchResults[2].data:"") + "; width: 5; "'></a-entity>
             <a-entity   position="-1 -4 0" 
-                        v-bind:text='"font: /public/aframe_fonts/Roboto-msdf.json; color: black;align: left; value: " + (getSearchResults[3]?getSearchResults[3].id:"") + "; width: 5; "'></a-entity>
+                        v-bind:text='"font: /public/aframe_fonts/Roboto-msdf.json; color: black;align: left; value: " + (getSearchResults[3]?getSearchResults[3].data:"") + "; width: 5; "'></a-entity>
             <a-entity   position="-1 -5 0" 
-                        v-bind:text='"font: /public/aframe_fonts/Roboto-msdf.json; color: black;align: left; value: " + (getSearchResults[4]?getSearchResults[4].id:"") + "; width: 5; "'></a-entity>
+                        v-bind:text='"font: /public/aframe_fonts/Roboto-msdf.json; color: black;align: left; value: " + (getSearchResults[4]?getSearchResults[4].data:"") + "; width: 5; "'></a-entity>
     </a-entity>
                                     
                         </a-entity>

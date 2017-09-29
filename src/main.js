@@ -771,7 +771,9 @@ var showSearchResults = function() {
                 for (var i = 0; i < lor.queries.length ; i++) {
                     store.dispatch('add_search_result', 
                                   {
-                                    id:          lor.queries[i].id});
+                                    id:          lor.queries[i].id,
+                                    data:        lor.queries[i].data,
+                                    });
                 };
                 if (lor.queries.length == 0) {
                     store.dispatch('add_search_result', {b:   "No results for " + lor.search});
