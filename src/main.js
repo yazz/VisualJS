@@ -365,7 +365,7 @@ function setupVRVuePane() {
                 animation2.setAttribute('to', '' + (worldPos.x)  + ' ' + (worldPos.y ) + ' ' + ((worldPos.z + distance)));
                 document.querySelector("#move_bar").appendChild(animation2);
             }
-            store.dispatch('set_current_location', "goto_name");
+            store.dispatch('set_current_location', goto_name);
         };
 
         AFRAME.registerComponent('set_zoom', {
@@ -420,7 +420,8 @@ function setupVRVuePane() {
 
 
 		AFRAME.registerComponent('jump_to_query', {
-		  schema: {queryId: {type: 'string'}},
+		  schema: { queryId: {type: 'string'},
+                    queryFile: {type: 'string'}},
 		  init: function () {
         var self = this;
 
@@ -431,6 +432,7 @@ function setupVRVuePane() {
                 };
                 inMove = true;
                 
+				store.dispatch('set_viewed_query_file', self.data.queryFile);
 
 				get_query_result(self.data.queryId);
 				store.dispatch('set_viewed_query_id', self.data.queryId);

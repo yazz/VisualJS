@@ -45,7 +45,7 @@
 						</a-entity>
 						<a-entity  v-if='get_vr_type_mouse' geometry="primitive: box; width:.5;height: 0.5;depth: 0.1;" material="color: green"
 						position='-4 -1 1.1'
-									v-bind:open_file='"" + get_viewed_query_file() ' >
+									v-bind:open_file='get_viewed_query_file()?("" + get_viewed_query_file()):false ' >
 							<a-entity 	position="1 0 0.07"
 										text="font: /public/aframe_fonts/Aileron-Semibold.fnt; color: white; align: left; value: Open; width: 2; height: 1; opacity: 1;">
 							</a-entity>

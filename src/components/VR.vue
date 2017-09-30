@@ -30,7 +30,7 @@
 								geometry="primitive: plane; width: 5.9; height: 8.9;" 
 								material="color: white; opacity: .9;"
 								rotation='0 0 0' >
-                        <a-entity   position="0 4 0" v-bind:text='"font: /public/aframe_fonts/Roboto-msdf.json; color: black; align: center; value: GoShareData ; width: 6; "'></a-entity>
+                        <a-entity   position="0 4 0" v-bind:text='"font: /public/aframe_fonts/Roboto-msdf.json; color: black; align: center; value: GoShareData " + "" +" ; width: 6; "'></a-entity>
                         
                         <a-entity   position="1 3 0" v-bind:text='"font: /public/aframe_fonts/Roboto-msdf.json; color: black; align: left; value: Search ; width: 5; "'></a-entity>
                         <a-entity   geometry="primitive: plane; width: 3; height: .5;"  
@@ -44,14 +44,14 @@
                             </a-entity>
                         
 
-    <a-entity   v-if=true position="0 -.7 0">
+    <a-entity   v-if=can_see_search_results  position="0 -.7 0">
     
     
     
     
             <a-entity   position="-1 -1 1" 
                         geometry="primitive: plane; width: 9; height: 1; ;"  
-                        v-bind:jump_to_query='(getSearchResults[0]?"queryId: " + getSearchResults[0].id:false)'
+                        v-bind:jump_to_query='(getSearchResults[0]?"queryId: " + getSearchResults[0].id + "; queryFile: " +  get_hash(getSearchResults[0].id) + ( get_file_name(getSearchResults[0].id)?"." + get_file_name(getSearchResults[0].id).split(".").pop():""):false)'
                         material="color: white; opacity: 1">
                         <a-entity   position="2 0 0.01" 
                                     v-bind:text='"font: /public/aframe_fonts/Roboto-msdf.json; color: black;align: left; value: " + (getSearchResults[0]?getSearchResults[0].data:"") + "; width: 5; "'>
@@ -241,6 +241,9 @@ name: 'VR'
         list_of_connections: function () {
             return this.$store.getters.list_of_connections
         },
+        can_see_search_results: function () {
+            return this.$store.getters.get_current_location != 'doc_details'
+        },
         get_vr_type: function () {
             return this.vr_type
         },
@@ -267,6 +270,33 @@ name: 'VR'
 		var cols = (Math.ceil(Math.sqrt(total)));
 		return index % cols;
 	},
+        where_am_i: function () {
+            return this.$store.getters.get_current_location
+        },
+        get_hash: function (id) {
+            var qq = this.$store.getters.list_of_queries;
+            for (var i =0 ; i < qq.length; i++) {
+                var rt = qq[i];
+                if (rt.id == id) {
+                    console.log("rt.hash: " + rt.hash)
+                    return rt.hash; 
+                }
+            }
+            console.log("rt.hash  not found: ")
+            return "";
+        },
+        get_file_name: function (id) {
+            var qq = this.$store.getters.list_of_queries;
+            for (var i =0 ; i < qq.length; i++) {
+                var rt = qq[i];
+                if (rt.id == id) {
+                    console.log("rt.fileName: " + rt.fileName)
+                    return rt.fileName; 
+                }
+            }
+            console.log("rt.fileName  not found: ")
+            return "";
+        },
 	},
   components: {
   'output-table': output_table,
