@@ -419,7 +419,35 @@ function setupVRVuePane() {
 
 
 
+		AFRAME.registerComponent('jump_to_query', {
+		  schema: {queryId: {type: 'string'}},
+		  init: function () {
+        var self = this;
 
+			var stringToLog = this.data;
+		   this.el.addEventListener('click', function (evt) {
+                if (inMove) {
+				   return;
+                };
+                inMove = true;
+                
+
+				get_query_result(self.data.queryId);
+				store.dispatch('set_viewed_query_id', self.data.queryId);
+
+                gotoFunction({
+                    goto_name:  "doc_details",
+                    distance:   6,
+                    duration:   "500"
+                });
+				store.dispatch('show_full_doc');
+			    inMove = false;
+
+			});
+		  }
+		});
+
+        
 		AFRAME.registerComponent('log', {
 		  schema: {x:  {type: 'number', default: 0},
 					     y: {type: 'number', default: 0},
