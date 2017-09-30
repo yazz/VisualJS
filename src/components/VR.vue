@@ -278,11 +278,11 @@ name: 'VR'
             for (var i =0 ; i < qq.length; i++) {
                 var rt = qq[i];
                 if (rt.id == id) {
-                    console.log("rt.hash: " + rt.hash)
+                    //console.log("rt.hash: " + rt.hash)
                     return rt.hash; 
                 }
             }
-            console.log("rt.hash  not found: ")
+            //console.log("rt.hash  not found: ")
             return "";
         },
         get_file_name: function (id) {
@@ -290,11 +290,11 @@ name: 'VR'
             for (var i =0 ; i < qq.length; i++) {
                 var rt = qq[i];
                 if (rt.id == id) {
-                    console.log("rt.fileName: " + rt.fileName)
+                    //console.log("rt.fileName: " + rt.fileName)
                     return rt.fileName; 
                 }
             }
-            console.log("rt.fileName  not found: ")
+            //console.log("rt.fileName  not found: ")
             return "";
         },
 	},
