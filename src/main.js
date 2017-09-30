@@ -791,7 +791,7 @@ var showSearchResults = function() {
                 search_text: searchtext
             },
             success: function(data) {
-                console.log(' Searching for ' + searchtext + '=:' + data);
+                //console.log(' Searching for ' + searchtext + '=:' + data);
                 
                 var lor = eval('(' + data + ')');
                     if (searchtext.toUpperCase() == lor.search.toUpperCase()) {

@@ -62,7 +62,7 @@
             
             <a-entity   position="-1 -2 1" 
                         geometry="primitive: plane; width: 9; height: 1; "  
-                        v-bind:jump_to_query='(getSearchResults[1]?"queryId: " + getSearchResults[1].id:false)'
+                        v-bind:jump_to_query='(getSearchResults[1]?"queryId: " + getSearchResults[1].id + "; queryFile: " +  get_hash(getSearchResults[1].id) + ( get_file_name(getSearchResults[1].id)?"." + get_file_name(getSearchResults[1].id).split(".").pop():""):false)'
                         material="color: white; opacity: 1;">
                         <a-entity   position="2 0 0.01" 
                                     v-bind:text='"font: /public/aframe_fonts/Roboto-msdf.json; color: black;align: left; value: " + (getSearchResults[1]?getSearchResults[1].data:"") + "; width: 5; "'>
@@ -73,7 +73,7 @@
             
             <a-entity   position="-1 -3 1" 
                         geometry="primitive: plane; width: 9; height: 1; "  
-                        v-bind:jump_to_query='(getSearchResults[2]?"queryId: " + getSearchResults[2].id:false)'
+                        v-bind:jump_to_query='(getSearchResults[2]?"queryId: " + getSearchResults[2].id + "; queryFile: " +  get_hash(getSearchResults[2].id) + ( get_file_name(getSearchResults[2].id)?"." + get_file_name(getSearchResults[2].id).split(".").pop():""):false)'
                         material="color: white; opacity: 1;">
                         <a-entity   position="2 0 0.01" 
                                     v-bind:text='"font: /public/aframe_fonts/Roboto-msdf.json; color: black;align: left; value: " + (getSearchResults[2]?getSearchResults[2].data:"") + "; width: 5; "'>
@@ -84,7 +84,7 @@
             
             <a-entity   position="-1 -4 1" 
                         geometry="primitive: plane; width: 9; height: 1; "  
-                        v-bind:jump_to_query='(getSearchResults[3]?"queryId: " + getSearchResults[3].id:false)'
+                        v-bind:jump_to_query='(getSearchResults[3]?"queryId: " + getSearchResults[3].id + "; queryFile: " +  get_hash(getSearchResults[3].id) + ( get_file_name(getSearchResults[3].id)?"." + get_file_name(getSearchResults[3].id).split(".").pop():""):false)'
                         material="color: white; opacity: 1;">
                         <a-entity   position="2 0 0.01" 
                                     v-bind:text='"font: /public/aframe_fonts/Roboto-msdf.json; color: black;align: left; value: " + (getSearchResults[3]?getSearchResults[3].data:"") + "; width: 5; "'>
@@ -95,7 +95,7 @@
 
             <a-entity   position="-1 -5 1" 
                         geometry="primitive: plane; width: 9; height: 1; "  
-                        v-bind:jump_to_query='(getSearchResults[4]?"queryId: " + getSearchResults[4].id:false)'
+                        v-bind:jump_to_query='(getSearchResults[4]?"queryId: " + getSearchResults[4].id + "; queryFile: " +  get_hash(getSearchResults[4].id) + ( get_file_name(getSearchResults[4].id)?"." + get_file_name(getSearchResults[4].id).split(".").pop():""):false)'
                         material="color: white; opacity: 1;">
                         <a-entity   position="2 0 0.01" 
                                     v-bind:text='"font: /public/aframe_fonts/Roboto-msdf.json; color: black;align: left; value: " + (getSearchResults[4]?getSearchResults[4].data:"") + "; width: 5; "'>
