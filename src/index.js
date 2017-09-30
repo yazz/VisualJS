@@ -972,23 +972,23 @@ var upload = multer( { dest: 'uploads/' } );
 			var stmt = dbsearch.all(mysql, function(err, rows) {
                 if (!err) {
                     sqliteSync.connect('gosharedatasearch.sqlite3'); 
-                    console.log('rows: ' + JSON.stringify(rows.length));
+                    //console.log('rows: ' + JSON.stringify(rows.length));
                     var newres = [];
                     for  (var i=0; i < rows.length;i++) {
                         var rowId = rows[i]["id"];
                         var rowData =  (i < 5 ? rows[i]["data"]: "");
                         if (rowData.length > 0) {
                             var rowDataStartInit = rowData.toUpperCase().indexOf(firstWord.toUpperCase())
-                            console.log('rowDataStartInit: ' + rowDataStartInit );
+                            //console.log('rowDataStartInit: ' + rowDataStartInit );
                             
-                            console.log('for: ' + firstWord + " = " + JSON.stringify(rowData));
+                            //console.log('for: ' + firstWord + " = " + JSON.stringify(rowData));
 
                             var rowDataStart = rowDataStartInit - 30;
                             if (rowDataStart < 0) {
                                 rowDataStart = 0
                             }
                             var rowDataEndInit = rowData.toUpperCase().indexOf(firstWord.toUpperCase()) 
-                            console.log('rowDataEndInit: ' + rowDataEndInit );
+                            //console.log('rowDataEndInit: ' + rowDataEndInit );
                             var rowDataEnd = rowDataEndInit + firstWord.length + 30
                             rowData = rowData.substring(0, rowDataStart) + firstWord.toUpperCase() + 
                                 rowData.substring(rowDataEndInit + firstWord.length, rowDataEnd);
