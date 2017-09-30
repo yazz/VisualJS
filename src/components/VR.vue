@@ -32,11 +32,11 @@
 								rotation='0 0 0' >
                         <a-entity   position="0 4 0" v-bind:text='"font: /public/aframe_fonts/Roboto-msdf.json; color: black; align: center; value: GoShareData ; width: 6; "'></a-entity>
                         
-                        <a-entity   position="1 2.83 0" v-bind:text='"font: /public/aframe_fonts/Roboto-msdf.json; color: black; align: left; value: Search ; width: 5; "'></a-entity>
+                        <a-entity   position="1 3 0" v-bind:text='"font: /public/aframe_fonts/Roboto-msdf.json; color: black; align: left; value: Search ; width: 5; "'></a-entity>
                         <a-entity   geometry="primitive: plane; width: 3; height: .5;"  
-                                    position="0 2.4 0" 
+                                    position="0 2.6 0" 
                                     material="color: blue; opacity: 0.9;">
-                            <a-entity   position="1.6 0 0" 
+                            <a-entity   position="1.6 0.0 0" 
                                         v-bind:text='"font: /public/aframe_fonts/Roboto-msdf.json; color: black;align: left; value: " + zzz + " ; width: 6; "'>
                             </a-entity>
                             <a-entity   position="0 -.5 0" 
@@ -44,17 +44,63 @@
                             </a-entity>
                         
 
-    <a-entity   v-if=true position="0 -.3 0">
-            <a-entity   position="-1 -1 0" 
-                        v-bind:text='"font: /public/aframe_fonts/Roboto-msdf.json; color: black;align: left; value: " + (getSearchResults[0]?getSearchResults[0].data:"") + "; width: 5; "'></a-entity>
-            <a-entity   position="-1 -2 0" 
-                        v-bind:text='"font: /public/aframe_fonts/Roboto-msdf.json; color: black;align: left; value: " + (getSearchResults[1]?getSearchResults[1].data:"") + "; width: 5; "'></a-entity>
-            <a-entity   position="-1 -3 0" 
-                        v-bind:text='"font: /public/aframe_fonts/Roboto-msdf.json; color: black;align: left; value: " + (getSearchResults[2]?getSearchResults[2].data:"") + "; width: 5; "'></a-entity>
-            <a-entity   position="-1 -4 0" 
-                        v-bind:text='"font: /public/aframe_fonts/Roboto-msdf.json; color: black;align: left; value: " + (getSearchResults[3]?getSearchResults[3].data:"") + "; width: 5; "'></a-entity>
-            <a-entity   position="-1 -5 0" 
-                        v-bind:text='"font: /public/aframe_fonts/Roboto-msdf.json; color: black;align: left; value: " + (getSearchResults[4]?getSearchResults[4].data:"") + "; width: 5; "'></a-entity>
+    <a-entity   v-if=true position="0 -.7 0">
+    
+    
+    
+    
+            <a-entity   position="-1 -1 1" 
+                        geometry="primitive: plane; width: 9; height: 1; ;"  
+                        material="color: white; opacity: 1">
+                        <a-entity   position="2 0 0.01" 
+                                    v-bind:text='"font: /public/aframe_fonts/Roboto-msdf.json; color: black;align: left; value: " + (getSearchResults[0]?getSearchResults[0].data:"") + "; width: 5; "'>
+                        </a-entity>
+                        <a-animation begin="mouseenter" attribute="position"
+                                        to="-.5 -1 1.3" dur="300" direction="alternate"  repeat="1"></a-animation>
+            </a-entity>
+            
+            <a-entity   position="-1 -2 1" 
+                        geometry="primitive: plane; width: 9; height: 1; "  
+                        material="color: white; opacity: 1;">
+                        <a-entity   position="2 0 0.01" 
+                                    v-bind:text='"font: /public/aframe_fonts/Roboto-msdf.json; color: black;align: left; value: " + (getSearchResults[1]?getSearchResults[1].data:"") + "; width: 5; "'>
+                        </a-entity>
+                        <a-animation begin="mouseenter" attribute="position"
+                                        to="-.5 -2 1.3" dur="300" direction="alternate"  repeat="1"></a-animation>
+            </a-entity>
+            
+            <a-entity   position="-1 -3 1" 
+                        geometry="primitive: plane; width: 9; height: 1; "  
+                        material="color: white; opacity: 1;">
+                        <a-entity   position="2 0 0.01" 
+                                    v-bind:text='"font: /public/aframe_fonts/Roboto-msdf.json; color: black;align: left; value: " + (getSearchResults[2]?getSearchResults[2].data:"") + "; width: 5; "'>
+                        </a-entity>
+                        <a-animation begin="mouseenter" attribute="position"
+                                        to="-.5 -3 1.3" dur="300" direction="alternate"  repeat="1"></a-animation>
+            </a-entity>
+            
+            <a-entity   position="-1 -4 1" 
+                        geometry="primitive: plane; width: 9; height: 1; "  
+                        material="color: white; opacity: 1;">
+                        <a-entity   position="2 0 0.01" 
+                                    v-bind:text='"font: /public/aframe_fonts/Roboto-msdf.json; color: black;align: left; value: " + (getSearchResults[3]?getSearchResults[3].data:"") + "; width: 5; "'>
+                        </a-entity>
+                        <a-animation begin="mouseenter" attribute="position"
+                                        to="-.5 -4 1.3" dur="300" direction="alternate"  repeat="1"></a-animation>
+            </a-entity>
+
+            <a-entity   position="-1 -5 1" 
+                        geometry="primitive: plane; width: 9; height: 1; "  
+                        material="color: white; opacity: 1;">
+                        <a-entity   position="2 0 0.01" 
+                                    v-bind:text='"font: /public/aframe_fonts/Roboto-msdf.json; color: black;align: left; value: " + (getSearchResults[4]?getSearchResults[4].data:"") + "; width: 5; "'>
+                        </a-entity>
+                        <a-animation begin="mouseenter" attribute="position"
+                                        to="-.5 -5 1.3" dur="300" direction="alternate"  repeat="1"></a-animation>
+            </a-entity>
+            
+            
+            
     </a-entity>
                                     
                         </a-entity>

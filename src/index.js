@@ -987,14 +987,15 @@ var upload = multer( { dest: 'uploads/' } );
                             if (rowDataStart < 0) {
                                 rowDataStart = 0
                             }
-                            var rowDataEndInit = rowData.toUpperCase().indexOf(firstWord.toUpperCase()) 
                             //console.log('rowDataEndInit: ' + rowDataEndInit );
-                            var rowDataEnd = rowDataEndInit + firstWord.length + 30
-                            rowData = rowData.substring(0, rowDataStart) + firstWord.toUpperCase() + 
-                                rowData.substring(rowDataEndInit + firstWord.length, rowDataEnd);
+                            var rowDataEnd = rowDataStartInit + firstWord.length + 30
+                            
+                            var rowDataToSend = rowData.substring(rowDataStart, rowDataStartInit) + firstWord.toUpperCase() + 
+                                rowData.substring(rowDataStartInit + firstWord.length, rowDataEnd);
+                                
                             newres.push({
                                                 id:     rowId,
-                                                data: rowData
+                                                data:   rowDataToSend
                                         });
                         }
                     }
