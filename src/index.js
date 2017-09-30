@@ -8,7 +8,6 @@ var username = "Unknown user";
 var isWin = /^win/.test(process.platform);
 var isRaspberryPi = isPi();
 var serverwebsockets = [];
-var sqliteSync = require('sqlite-sync');
 
 function require2(moduleName) {
 	var pat;
@@ -122,6 +121,7 @@ var compression = require('compression')
 app.use(compression())
 var crypto = require('crypto');
 
+var sqliteSync = require('sqlite-sync');
 var sqlite3   = require2('sqlite3');
 var dbsearch = new sqlite3.Database('gosharedatasearch.sqlite3');
 console.log("Creating tables ... ");
