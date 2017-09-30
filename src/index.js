@@ -121,7 +121,7 @@ var compression = require('compression')
 app.use(compression())
 var crypto = require('crypto');
 
-var sqliteSync = require('sqlite-sync');
+
 var sqlite3   = require2('sqlite3');
 var dbsearch = new sqlite3.Database('gosharedatasearch.sqlite3');
 console.log("Creating tables ... ");
@@ -152,7 +152,7 @@ console.log("Creating tables ... ");
         }
 
 
-
+var sqliteSync = require('sqlite-sync');
 
         
                 
@@ -944,7 +944,7 @@ var upload = multer( { dest: 'uploads/' } );
         } else if (2 == (1 + 1)){
         
 		dbsearch.serialize(function() {
-            var mysql = "  select queries.id, the1.document_binary_hash, the1.num_occ  , the1.child_hash , zfts_search_rows_hashed.data " +
+            var mysql = "  select distinct(queries.id), the1.document_binary_hash, the1.num_occ  , the1.child_hash , zfts_search_rows_hashed.data " +
                         " from (  select   " +
                        "  distinct(document_binary_hash), count(document_binary_hash)  as num_occ  , child_hash  " +
                      "    from    " +

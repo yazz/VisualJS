@@ -39,7 +39,6 @@
     "pg": "^6.1.2",
     "request": "^2.79.0",
     "sqldown": "^2.1.0",
-    "sqlite-sync": "^0.3.6",
     "sqlite3": "^3.1.8",
     "unzip": "^0.1.11",
     "uuid": "^3.1.0",
@@ -47,7 +46,8 @@
     "vue-loader": "^10.3.0",
     "vue-template-compiler": "^2.4.2",
     "vuex": "^2.4.0",
-    "xlsx": "^0.10.4"
+    "xlsx": "^0.10.4",
+    "sqlite-sync": "^0.3.6"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
