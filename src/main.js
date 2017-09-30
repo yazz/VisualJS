@@ -764,28 +764,30 @@ var showSearchResults = function() {
                 console.log(' Searching for ' + searchtext + '=:' + data);
                 
                 var lor = eval('(' + data + ')');
-                console.log('   length:' + lor.queries.length);
+                    if (searchtext.toUpperCase() == lor.search.toUpperCase()) {
+                        console.log('   length:' + lor.queries.length);
 
-                store.dispatch('clear_search_results');
-                
-                for (var i = 0; i < lor.queries.length ; i++) {
-                    store.dispatch('add_search_result', 
-                                  {
-                                    id:          lor.queries[i].id,
-                                    data:        lor.queries[i].data,
-                                    });
-                };
-                if (lor.queries.length == 0) {
-                    store.dispatch('add_search_result', {b:   "No results for " + lor.search});
-                    store.dispatch('set_search_subtext', '');
-                    setvuexitemssearch(lor.queries);
-                
-                } else {
-                    store.dispatch('set_search_subtext', "For: '" + lor.search + "', found " +
-                                lor.queries.length + " values,  took " + (lor.duration / 1000) + ' seconds' );
-                    setvuexitemssearch(lor.queries);
-                }
-                inSearch = false;
+                        store.dispatch('clear_search_results');
+                        
+                        for (var i = 0; i < lor.queries.length ; i++) {
+                            store.dispatch('add_search_result', 
+                                          {
+                                            id:          lor.queries[i].id,
+                                            data:        lor.queries[i].data,
+                                            });
+                        };
+                        if (lor.queries && (lor.queries.length == 0)) {
+                            store.dispatch('add_search_result', {b:   "No results for " + lor.search});
+                            store.dispatch('set_search_subtext', '');
+                            setvuexitemssearch(lor.queries);
+                        
+                        } else if (lor && lor.queries) {
+                            store.dispatch('set_search_subtext', "For: '" + lor.search + "', found " +
+                                        lor.queries.length + " values,  took " + (lor.duration / 1000) + ' seconds' );
+                        setvuexitemssearch(lor.queries);
+                    }
+            }
+            inSearch = false;
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 store.dispatch('clear_search_results');
@@ -793,6 +795,7 @@ var showSearchResults = function() {
                     store.dispatch('set_search_subtext', '');
                 inSearch = false;
             }
+             
         });
     } else if ((searchtext.length == 0) && (inSearch == false)) {
         window.recalcVuexQueries()
@@ -1453,6 +1456,7 @@ function  setvuexitemssearch( results2 ) {
             //alert(JSON.stringify(query , null, 2));
             //console.log('                          queries *********:' + JSON.stringify(allQueries , null, 2));
             var query = allQueries[results[i]];
+            if (query) {
             //console.log('                          query *********:' + JSON.stringify(query , null, 2));
             var exists = false;//!(!store.getters.query_map[query.id]);
 
@@ -1477,10 +1481,10 @@ function  setvuexitemssearch( results2 ) {
                                                     ,
                                                     definition: eval('(' + query.definition + ')')
                                                    }});
+                };
             };
-        };
-        
-            inupdatesearch = false;
+        };        
+        inupdatesearch = false;
     }
 }
 

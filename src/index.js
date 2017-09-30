@@ -977,19 +977,26 @@ var upload = multer( { dest: 'uploads/' } );
                     for  (var i=0; i < rows.length;i++) {
                         var rowId = rows[i]["id"];
                         var rowData =  (i < 5 ? rows[i]["data"]: "");
-                        if (firstWord.length > 0) {
-                            rowData = rowData.replace(firstWord,firstWord.toUpperCase());
+                        if (rowData.length > 0) {
+                            var rowDataStartInit = rowData.toUpperCase().indexOf(firstWord.toUpperCase())
+                            console.log('rowDataStartInit: ' + rowDataStartInit );
+                            
+                            console.log('for: ' + firstWord + " = " + JSON.stringify(rowData));
+
+                            var rowDataStart = rowDataStartInit - 30;
+                            if (rowDataStart < 0) {
+                                rowDataStart = 0
+                            }
+                            var rowDataEndInit = rowData.toUpperCase().indexOf(firstWord.toUpperCase()) 
+                            console.log('rowDataEndInit: ' + rowDataEndInit );
+                            var rowDataEnd = rowDataEndInit + firstWord.length + 30
+                            rowData = rowData.substring(0, rowDataStart) + firstWord.toUpperCase() + 
+                                rowData.substring(rowDataEndInit + firstWord.length, rowDataEnd);
+                            newres.push({
+                                                id:     rowId,
+                                                data: rowData
+                                        });
                         }
-                        var rowDataStart = rowData.indexOf(firstWord.toUpperCase()) - 30
-                        if (rowDataStart < 0) {
-                            rowDataStart = 0
-                        }
-                        var rowDataEnd = rowData.indexOf(firstWord.toUpperCase()) + firstWord.length + 30
-                        rowData = rowData.substring(rowDataStart, rowDataEnd)
-                        newres.push({
-                                            id:     rowId,
-                                            data: rowData
-                                    });
                     }
                     sqliteSync.close();
                     var timeEnd = new Date().getTime();
