@@ -1456,6 +1456,10 @@ when_queries_changes(null);
 		drivers['excel'] = eval( pgeval )
 		addOrUpdateDriver('excel', pgeval, drivers['excel'])
 
+		var pgeval = '(' + fs.readFileSync(path.join(__dirname, './word.js')).toString() + ')';
+		drivers['word'] = eval( pgeval )
+		addOrUpdateDriver('word', pgeval, drivers['word'])
+
 
 		var pgeval = '(' + fs.readFileSync(path.join(__dirname, './postgres.js')).toString() + ')';
 		drivers['postgres'] = eval( pgeval )
