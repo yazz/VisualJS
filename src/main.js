@@ -801,7 +801,9 @@ var showSearchResults = function() {
                         
                         for (var i = 0; i < lor.queries.length ; i++) {
                             var showInAframe = lor.queries[i].data;
-                        if (showInAframe.endsWith("}")) {
+                        showInAframe = showInAframe.replace(/['"]+/g, '')
+                        showInAframe = showInAframe.replace(/[;]+/g, '')
+                        while ((showInAframe.endsWith("}")) || (showInAframe.endsWith('"'))){
                             showInAframe = showInAframe.substring(0, showInAframe.length - 2)
                         }
                             

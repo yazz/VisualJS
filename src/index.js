@@ -1035,7 +1035,7 @@ var upload = multer( { dest: 'uploads/' } );
                             var rowDataStartInit = rowData.toUpperCase().indexOf(firstWord.toUpperCase())
                             //console.log('rowDataStartInit: ' + rowDataStartInit );
                             
-                            console.log('for: ' + firstWord + " = " + JSON.stringify(rowData));
+                            //console.log('for: ' + firstWord + " = " + JSON.stringify(rowData));
 
                             var rowDataStart = rowDataStartInit - 30;
                             if (rowDataStart < 0) {
@@ -1047,7 +1047,7 @@ var upload = multer( { dest: 'uploads/' } );
                             var rowDataToSend = rowData.substring(rowDataStart, rowDataStartInit) + firstWord.toUpperCase() + 
                                 rowData.substring(rowDataStartInit + firstWord.length, rowDataEnd);
                                 
-                            console.log('rowDataToSend: ' + rowDataToSend );
+                            //console.log('rowDataToSend: ' + rowDataToSend );
                             newres.push({
                                                 id:     rowId,
                                                 data:   rowDataToSend
