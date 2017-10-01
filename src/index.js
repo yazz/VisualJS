@@ -215,6 +215,7 @@ console.log("");
 var stopScan = false;
 var XLSX = require('xlsx');
 var csv = require('fast-csv');
+var mammoth = require("mammoth");
 
 var mysql      = require('mysql');
 
@@ -230,6 +231,19 @@ var mysql      = require('mysql');
  }
 
 
+  function isWordFile(fname) {
+	 if (!fname) {
+		return false;
+	 };
+	 var ext = fname.split('.').pop();
+	 ext = ext.toLowerCase();
+	 if (ext == "doc") return true;
+	 if (ext == "docx") return true;
+	 return false;
+ }
+
+ 
+ 
   function isCsvFile(fname) {
 	 if (!fname) {
 		return false;
@@ -399,6 +413,17 @@ function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileTyp
   							//console.log('   *size: ' + stat.size);
 
                             saveConnectionAndQueryForFile(fileId, 'csv', stat.size, CSVFile, '|CSV|');
+						}
+					}
+		  if (isWordFile(file)) {
+                //console.log('CSV file: ' + file);
+  					var WordFile = file;
+  						if (typeof WordFile !== "undefined") {
+							var fileId = WordFile.replace(/[^\w\s]/gi,'');
+  							console.log('Saving from walk   *file id: ' + fileId);
+  							//console.log('   *size: ' + stat.size);
+
+                            saveConnectionAndQueryForFile(fileId, 'word', stat.size, WordFile, '|DOCUMENT|');
 						}
 					}
           if (!--pending) done(null);
@@ -832,23 +857,33 @@ var upload = multer( { dest: 'uploads/' } );
             fs.stat(localp, function(err, stat) {
               if (isExcelFile(ifile.originalname)) {
                     //console.log('ifile: ' + ifile.originalname);
-                        var excelFile = localp;
-                            if (typeof excelFile !== "undefined") {
-                                var fileId = excelFile.replace(/[^\w\s]/gi,'');
-                                console.log('Saving from upload   *file id: ' + ifile.originalname);
-                                console.log('   *size: ' + stat.size);
+                    var excelFile = localp;
+                        if (typeof excelFile !== "undefined") {
+                            var fileId = excelFile.replace(/[^\w\s]/gi,'');
+                            console.log('Saving from upload   *file id: ' + ifile.originalname);
+                            console.log('   *size: ' + stat.size);
 
-                                saveConnectionAndQueryForFile(ifile.originalname, 'excel', stat.size, excelFile, '|SPREADSHEET|');
-                                
-                }} else if (isCsvFile(ifile.originalname)) {
+                            saveConnectionAndQueryForFile(ifile.originalname, 'excel', stat.size, excelFile, '|SPREADSHEET|');                                
+                }
+            } else if (isCsvFile(ifile.originalname)) {
                     //console.log('ifile: ' + ifile.originalname);
                         var excelFile = localp;
-                            if (typeof excelFile !== "undefined") {
-                                var fileId = excelFile.replace(/[^\w\s]/gi,'');
-                                console.log('Saving from upload   *file id: ' + ifile.originalname);
-                                console.log('   *size: ' + stat.size);
+                        if (typeof excelFile !== "undefined") {
+                            var fileId = excelFile.replace(/[^\w\s]/gi,'');
+                            console.log('Saving from upload   *file id: ' + ifile.originalname);
+                            console.log('   *size: ' + stat.size);
 
-                                saveConnectionAndQueryForFile(ifile.originalname, 'csv', stat.size, excelFile, '|CSV|');
+                            saveConnectionAndQueryForFile(ifile.originalname, 'csv', stat.size, excelFile, '|CSV|');
+                };
+            } else if (isWordFile(ifile.originalname)) {
+                    //console.log('ifile: ' + ifile.originalname);
+                        var wordFile = localp;
+                        if (typeof wordFile !== "undefined") {
+                            var fileId = wordFile.replace(/[^\w\s]/gi,'');
+                            console.log('Saving from upload   *file id: ' + ifile.originalname);
+                            console.log('   *size: ' + stat.size);
+
+                            saveConnectionAndQueryForFile(ifile.originalname, 'word', stat.size, wordFile, '|DOCUMENT|');
                 }};
             });
         }

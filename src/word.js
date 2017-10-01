@@ -209,7 +209,7 @@
 			  }
 			}
     ,
-    type: 'spreadsheet_driver'
+    type: 'document_driver'
     ,
     setup: function(connection) {
           var config = {
@@ -238,61 +238,28 @@
 			
 			var rows=[];
 
-
-			var wordQuery = new Object();
-			wordQuery.header = 1;
-			if (parameters.maxRows) {
-				wordQuery.range = 'A1:Z' + parameters.maxRows;
-			} else {
-				wordQuery.range = 'A1:Z100';
-			}
-
             try {
-			var workbook = XLSX.readFile(connection.fileName);
-			rows = XLSX.utils.sheet_to_json( workbook.Sheets[workbook.SheetNames[0]],wordQuery);
-			//console.log('XL: ' + JSON.stringify(rows));
+                mammoth.extractRawText({path: connection.fileName})
+                    .then(function(result){
+                        var text = result.value; // The raw text
+                        var messages = result.messages;
+                        var many = text.split("\n")
+                        
+                        var countc = many.length;
+                        for (var f = 0 ; f < countc; f ++ ) {
+                            var textline  = many[f];
+                            if (textline && (textline.length > 10)) {
+                                console.log("Word text " + f + ": " + textline);
+                                rows.push({value: textline});
+                            }
+                        }
+                        callfn(rows);
+                    })
+                    .done();
 
-
-			var maxLength = 0;
-			
-			for (var i =0; i < rows.length; i++) {
-				if (rows[i].length > maxLength ) {
-					maxLength = rows[i].length;
-				};
-			};
-			
-			var fields = [];
-			for(var i = 0; i < maxLength; i++){
-				fields.push('' + i);
-			};
-
-			
-			
-
-			var ret = new Object();
-			ret["fields"] = fields;
-			ret["values"] = rows;
-
-
-
-
-
-
-			callfn(ret);
-			//console.log("ret  = " + JSON.stringify(ret));
-
-			
-			
-			
-		
-		
-          //console.error('drivers[word][get]');
-          // execute a query on our database
 			}
 			catch(err) {
-				//console.log('Word error: ' + err);
 				callfn({error: 'Word error: ' + err});
 			}
-
           }
 }

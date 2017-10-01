@@ -29,6 +29,7 @@
     "http": "0.0.0",
     "ip": "^1.1.4",
     "leveldown": "^1.7.2",
+    "mammoth": "^1.4.2",
     "mkdirp": "^0.5.1",
     "multer": "^1.3.0",
     "mysql": "^2.13.0",
@@ -39,6 +40,7 @@
     "pg": "^6.1.2",
     "request": "^2.79.0",
     "sqldown": "^2.1.0",
+    "sqlite-sync": "^0.3.6",
     "sqlite3": "^3.1.8",
     "unzip": "^0.1.11",
     "uuid": "^3.1.0",
@@ -46,8 +48,7 @@
     "vue-loader": "^10.3.0",
     "vue-template-compiler": "^2.4.2",
     "vuex": "^2.4.0",
-    "xlsx": "^0.10.4",
-    "sqlite-sync": "^0.3.6"
+    "xlsx": "^0.10.4"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
