@@ -250,11 +250,13 @@
                         for (var f = 0 ; f < countc; f ++ ) {
                             var textline  = many[f];
                             if (textline && (textline.length > 10)) {
-                                //console.log("Word text " + f + ": " + textline);
+                                console.log("Word text length " + f + ": " + textline.length);
                                 rows.push({value: textline});
                             }
                         }
                         callfn(rows);
+                    }).catch(function(err) {
+                        callfn({error: 'Word error: ' + err});
                     })
                     .done();
 

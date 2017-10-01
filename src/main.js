@@ -791,7 +791,7 @@ var showSearchResults = function() {
                 search_text: searchtext
             },
             success: function(data) {
-                //console.log(' Searching for ' + searchtext + '=:' + data);
+                console.log(' Searching for ' + searchtext + '=:' + data);
                 
                 var lor = eval('(' + data + ')');
                     if (searchtext.toUpperCase() == lor.search.toUpperCase()) {
@@ -800,10 +800,15 @@ var showSearchResults = function() {
                         store.dispatch('clear_search_results');
                         
                         for (var i = 0; i < lor.queries.length ; i++) {
+                            var showInAframe = lor.queries[i].data;
+                        if (showInAframe.endsWith("}")) {
+                            showInAframe = showInAframe.substring(0, showInAframe.length - 2)
+                        }
+                            
                             store.dispatch('add_search_result', 
                                           {
                                             id:          lor.queries[i].id,
-                                            data:        lor.queries[i].data,
+                                            data:        showInAframe,
                                             });
                         };
                         if (lor.queries && (lor.queries.length == 0)) {
