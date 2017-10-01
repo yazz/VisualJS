@@ -123,12 +123,87 @@ var crypto = require('crypto');
 
 
 var sqlite3   = require2('sqlite3');
-var dbsearch = new sqlite3.Database('gosharedatasearch.sqlite3');
 console.log("Creating tables ... ");
 
+console.log("1 ");
             
                 
                 
+
+
+var sqliteSync = require('sqlite-sync');
+
+console.log("2 ");
+        
+sqliteSync.connect('gosharedatasearch.sqlite3'); 
+                
+        try {
+            console.log("2.1 ");
+            console.log("2.2 ");
+            sqliteSync.run("CREATE TABLE IF NOT EXISTS search_rows_hierarchy (document_binary_hash TEXT, parent_hash TEXT, child_hash TEXT);");
+            console.log("2.3 ");
+        } catch(err) {
+            console.log(err);                    
+        } finally {
+            console.log("2.4 ");
+            console.log("2.5 ");
+        }
+console.log("3");
+  
+            
+        try {
+            sqliteSync.run("CREATE TABLE IF NOT EXISTS drivers (id TEXT, name TEXT, type TEXT, code TEXT);");
+        } catch(err) {
+            console.log(err);
+        } finally {
+        }
+
+                
+console.log("4");
+  
+                
+                
+                
+        try {
+            sqliteSync.run("CREATE TABLE IF NOT EXISTS connections (id TEXT, name TEXT, driver TEXT, database TEXT, host TEXT, port TEXT ,connectString TEXT, user TEXT, password TEXT, fileName TEXT, size INTEGER, type TEXT, preview TEXT, hash TEXT);");
+        } catch(err) {
+            console.log(err);
+        } finally {
+        }
+              
+
+console.log("5");
+
+
+              
+        try {
+            sqliteSync.run("CREATE TABLE IF NOT EXISTS queries (id TEXT, name TEXT, connection INTEGER, driver TEXT, size INTEGER, hash TEXT, type TEXT, fileName TEXT, definition TEXT, preview TEXT, status TEXT);");
+        } catch(err) {
+            console.log(err);
+        } finally {
+        }
+
+console.log("6");
+ 
+        
+                
+        try {
+            console.log("6.1");
+            sqliteSync.run("CREATE TABLE IF NOT EXISTS intranet_client_connects (id TEXT, internal_host TEXT, internal_port INTEGER, public_ip TEXT, via TEXT, public_host TEXT, user_name TEXT, client_user_name TEXT, when_connected INTEGER);");
+            console.log("6.2");
+        } catch(err) {
+            console.log(err);
+        } finally {
+        }
+console.log("6.3");
+
+//sqliteSync.close();
+        
+        
+console.log("7");
+
+
+var dbsearch = new sqlite3.Database('gosharedatasearch.sqlite3');
         try
         {
             var stmt = dbsearch.all(
@@ -151,63 +226,7 @@ console.log("Creating tables ... ");
         } finally {
         }
 
-
-var sqliteSync = require('sqlite-sync');
-
         
-                
-        try {
-            sqliteSync.connect('gosharedatasearch.sqlite3'); 
-            sqliteSync.run("CREATE TABLE IF NOT EXISTS search_rows_hierarchy (document_binary_hash TEXT, parent_hash TEXT, child_hash TEXT);");
-        } catch(err) {
-            console.log(err);                    
-        } finally {
-            sqliteSync.close();
-        }
-                
-            
-        try {
-            sqliteSync.connect('gosharedatasearch.sqlite3'); 
-            sqliteSync.run("CREATE TABLE IF NOT EXISTS drivers (id TEXT, name TEXT, type TEXT, code TEXT);");
-        } catch(err) {
-            console.log(err);
-        } finally {
-            sqliteSync.close();
-        }
-
-                
-                
-                
-                
-                
-        try {
-            sqliteSync.connect('gosharedatasearch.sqlite3'); 
-            sqliteSync.run("CREATE TABLE IF NOT EXISTS connections (id TEXT, name TEXT, driver TEXT, database TEXT, host TEXT, port TEXT ,connectString TEXT, user TEXT, password TEXT, fileName TEXT, size INTEGER, type TEXT, preview TEXT, hash TEXT);");
-        } catch(err) {
-            console.log(err);
-        } finally {
-            sqliteSync.close();
-        }
-                
-        try {
-            sqliteSync.connect('gosharedatasearch.sqlite3'); 
-            sqliteSync.run("CREATE TABLE IF NOT EXISTS queries (id TEXT, name TEXT, connection INTEGER, driver TEXT, size INTEGER, hash TEXT, type TEXT, fileName TEXT, definition TEXT, preview TEXT, status TEXT);");
-        } catch(err) {
-            console.log(err);
-        } finally {
-            sqliteSync.close();
-        }
-
-                
-        try {
-            sqliteSync.connect('gosharedatasearch.sqlite3'); 
-            sqliteSync.run("CREATE TABLE IF NOT EXISTS intranet_client_connects (id TEXT, internal_host TEXT, internal_port INTEGER, public_ip TEXT, via TEXT, public_host TEXT, user_name TEXT, client_user_name TEXT, when_connected INTEGER);");
-        } catch(err) {
-            console.log(err);
-        } finally {
-            sqliteSync.close();
-        }
-                
 console.log("...done ");
 console.log("");
                 
@@ -1006,17 +1025,17 @@ var upload = multer( { dest: 'uploads/' } );
             }
 			var stmt = dbsearch.all(mysql, function(err, rows) {
                 if (!err) {
-                    sqliteSync.connect('gosharedatasearch.sqlite3'); 
+                    //sqliteSync.connect('gosharedatasearch.sqlite3'); 
                     //console.log('rows: ' + JSON.stringify(rows.length));
                     var newres = [];
                     for  (var i=0; i < rows.length;i++) {
                         var rowId = rows[i]["id"];
-                        var rowData =  (i < 5 ? rows[i]["data"]: "");
+                        var rowData =  rows[i]["data"];
                         if (rowData.length > 0) {
                             var rowDataStartInit = rowData.toUpperCase().indexOf(firstWord.toUpperCase())
                             //console.log('rowDataStartInit: ' + rowDataStartInit );
                             
-                            //console.log('for: ' + firstWord + " = " + JSON.stringify(rowData));
+                            console.log('for: ' + firstWord + " = " + JSON.stringify(rowData));
 
                             var rowDataStart = rowDataStartInit - 30;
                             if (rowDataStart < 0) {
@@ -1028,13 +1047,14 @@ var upload = multer( { dest: 'uploads/' } );
                             var rowDataToSend = rowData.substring(rowDataStart, rowDataStartInit) + firstWord.toUpperCase() + 
                                 rowData.substring(rowDataStartInit + firstWord.length, rowDataEnd);
                                 
+                            console.log('rowDataToSend: ' + rowDataToSend );
                             newres.push({
                                                 id:     rowId,
                                                 data:   rowDataToSend
                                         });
                         }
                     }
-                    sqliteSync.close();
+                    //sqliteSync.close();
                     var timeEnd = new Date().getTime();
                     var timing = timeEnd - timeStart;
                     res.writeHead(200, {'Content-Type': 'text/plain'});
@@ -1046,8 +1066,9 @@ var upload = multer( { dest: 'uploads/' } );
                     var timing = timeEnd - timeStart;
                     res.writeHead(200, {'Content-Type': 'text/plain'});
                     res.end( JSON.stringify({search:      searchTerm, 
-                                             queries:    [{id: "Error searching for: " + searchTerm }], 
-                                             duration:    timing    }  ));
+                                             queries:    [], 
+                                             duration:    timing,
+                                             error: "Error searching for: " + searchTerm }  ));
                 }
             });
         
@@ -1064,7 +1085,7 @@ var upload = multer( { dest: 'uploads/' } );
             
 			var stmt = dbsearch.all(mysql, function(err, rows) {
                 if (!err) {
-                    sqliteSync.connect('gosharedatasearch.sqlite3'); 
+                    //sqliteSync.connect('gosharedatasearch.sqlite3'); 
                     console.log('rows: ' + JSON.stringify(rows.length));
                     var newres = [];
                     for  (var i=0; i < rows.length;i++) {
@@ -1105,7 +1126,7 @@ var upload = multer( { dest: 'uploads/' } );
                             
                         }
                     }
-                    sqliteSync.close();
+                    //sqliteSync.close();
                     var timeEnd = new Date().getTime();
                     var timing = timeEnd - timeStart;
                     res.writeHead(200, {'Content-Type': 'text/plain'});
@@ -1117,8 +1138,9 @@ var upload = multer( { dest: 'uploads/' } );
                     var timing = timeEnd - timeStart;
                     res.writeHead(200, {'Content-Type': 'text/plain'});
                     res.end( JSON.stringify({search:      searchTerm, 
-                                             queries:    [{id: "Error searching for: " + searchTerm }], 
-                                             duration:    timing    }  ));
+                                             queries:    [], 
+                                             duration:    timing,
+                                             error: "Error searching for: " + searchTerm   }  ));
                 }
             });
         
