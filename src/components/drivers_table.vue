@@ -20,7 +20,8 @@
          -->
       {{list_of_drivers.length}} drivers
 
-        <table class="table  table-striped  table-bordered " style="width: 100%;">
+      <div style="position:relative; overflow: auto;height:500px;">
+        <table class="table  table-striped  table-bordered " style="position:absolute;width: 100%; height: 100%;">
           <thead >
             <tr>
               <th>ID</th>
@@ -36,6 +37,7 @@
             </tr>
           </tbody>
         </table>
+      </div>
 
 
 

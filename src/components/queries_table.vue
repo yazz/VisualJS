@@ -14,13 +14,23 @@
 
 
 
+      <!--
+                the "Add query" button
+         -->
+       <button class="btn btn-primary"
+                v-if="!add_query_visible"
+                @click="add_new_query">Add new query</button>
 
+
+      
+      
       <!--
                   show the list of queries
          -->
       {{list_of_queries.length}} queries
 
-        <table class="table  table-striped  table-bordered " style="width: 100%;">
+      <div style="position:relative; overflow: auto;height:400px;">
+        <table class="table  table-striped  table-bordered " style="position:absolute;width: 100%; height: 100%;">
           <thead >
             <tr>
               <th>ID</th>
@@ -38,15 +48,9 @@
             </tr>
           </tbody>
         </table>
+      </div>
 
 
-
-      <!--
-                the "Add query" button
-         -->
-       <button class="btn btn-primary"
-                v-if="!add_query_visible"
-                @click="add_new_query">Add new query</button>
 
       </div>
 
