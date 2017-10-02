@@ -205,6 +205,10 @@ console.log("7");
 
 var dbsearch = new sqlite3.Database('gosharedatasearch.sqlite3');
 dbsearch.run("PRAGMA journal_mode=WAL;")
+dbsearch.run("PRAGMA synchronous=OFF;")
+dbsearch.run("PRAGMA count_changes=OFF;")
+dbsearch.run("PRAGMA journal_mode=MEMORY;")
+dbsearch.run("PRAGMA temp_store=MEMORY;")
 
         try
         {
