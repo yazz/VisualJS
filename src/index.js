@@ -1624,12 +1624,29 @@ when_queries_changes(null);
 
 
 	if (typeOfSystem == 'client') {
-	  //open('http://' + hostaddress  + ":" + port);
-      open('http://' + centralHostAddress  + ":" + centralHostPort + "/gosharedata/list_intranet_servers.html?time=" +  + new Date().getTime());
+        var localClientUrl = 'http://' + hostaddress  + ":" + port;
+        var remoteServerUrl = 'http://' + centralHostAddress  + ":" + centralHostPort + "/gosharedata/list_intranet_servers.html?time=" + new Date().getTime();
+        
+        
+        request({
+                  uri: remoteServerUrl,
+                  method: "GET",
+                  timeout: 10000,
+                  agent: false,
+                  followRedirect: true,
+                  maxRedirects: 10
+            },
+            function(error, response, body) {
+              if (error) {
+                  console.log("Error opening central server: " + error);
+                  open(localClientUrl);
+              } else {
+                open(remoteServerUrl);
+              }
+            });
 	} else if (typeOfSystem == 'server') {
 	  open('http://' + hostaddress  + ":" + port + "/gosharedata/list_intranet_servers.html?time=" +  + new Date().getTime());
 	}
-	console.log('Open in browser http://' + hostaddress  + ":" + port);
 
 	}
 	}
