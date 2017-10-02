@@ -204,6 +204,8 @@ console.log("7");
 
 
 var dbsearch = new sqlite3.Database('gosharedatasearch.sqlite3');
+dbsearch.run("PRAGMA journal_mode=WAL;")
+
         try
         {
             var stmt = dbsearch.all(
@@ -226,7 +228,10 @@ var dbsearch = new sqlite3.Database('gosharedatasearch.sqlite3');
         } finally {
         }
 
-        
+var stmt2 = null;
+var stmt3 = null;
+
+                                        
 console.log("...done ");
 console.log("");
                 
@@ -495,6 +500,13 @@ path.join(__dirname, '../public/\aframe_fonts/SourceCodePro.png')
 
 
 var getResult = function(source, connection, driver, definition, callback) {
+    if (stmt2 == null) {
+        stmt2 = dbsearch.prepare("INSERT INTO zfts_search_rows_hashed (row_hash, data) VALUES (?, ?)");
+    }
+    if (stmt3 == null) {
+        stmt3 = dbsearch.prepare("INSERT INTO search_rows_hierarchy (document_binary_hash, parent_hash, child_hash) VALUES (?,?,?)");
+    }
+
     console.log("var getResult = function(" + source + ", " + connection + ", " + driver + ", " + JSON.stringify(definition));
     var error = new Object();
     if (connections[connection]) {
@@ -530,10 +542,9 @@ var getResult = function(source, connection, driver, definition, callback) {
                                 if( results.length == 0) {
                                     dbsearch.serialize(function() {
                                         console.log("Inserting rows");
-                                        var stmt2 = dbsearch.prepare("INSERT INTO zfts_search_rows_hashed (row_hash, data) VALUES (?, ?)");
-                                        var stmt3 = dbsearch.prepare("INSERT INTO search_rows_hierarchy (document_binary_hash, parent_hash, child_hash) VALUES (?,?,?)");
-
+                                        
                                         if (rrows && rrows.length) {
+                                            dbsearch.run("begin transaction");
                                             for (var i =0 ; i < rrows.length; i++) {
                                                 var rowhash = crypto.createHash('sha1');
                                                 var row = JSON.stringify(rrows[i]);
@@ -545,8 +556,10 @@ var getResult = function(source, connection, driver, definition, callback) {
                                                 stmt2.run(sha1sum, row);
                                                 stmt3.run(binHash, null, sha1sum);
                                             }
-                                            stmt2.finalize();
-                                            stmt3.finalize();
+                                            dbsearch.run("commit");
+                                            console.log("Committed: " + rrows.length)
+                                            //stmt2.finalize();
+                                            //stmt3.finalize();
                                             console.log('                 : ' + JSON.stringify(rrows.length));
                                         }
                                     });
@@ -554,6 +567,7 @@ var getResult = function(source, connection, driver, definition, callback) {
                             }
                         });
                 })
+
             })
         
         }
@@ -799,7 +813,7 @@ app.use(cors())
 
 app.ws('/websocket', function(ws, req) {
     serverwebsockets.push(ws);
-    console.log('Socket connected : ' + serverwebsockets.length);
+    //console.log('Socket connected : ' + serverwebsockets.length);
     ws.on('message', function(msg) {
         ws.send(msg);
     });
