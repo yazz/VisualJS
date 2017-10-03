@@ -201,6 +201,15 @@ function setupVRVuePane() {
 					},
 		  init: function () {
 			var self = this;
+		   this.el.addEventListener('mouseleave', function (evt) {
+				document.querySelector('#vr_file_name_2').setAttribute('text','font: /public/aframe_fonts/Roboto-msdf.json; color: black; align: left; value: ;width: 6; ');
+                
+				
+                document.querySelector('#vr_file_size_2').setAttribute('text','font: /public/aframe_fonts/Roboto-msdf.json; color: black; align: left; value:  ;width: 6; ');
+                
+				
+                document.querySelector('#vr_file_saved_as').setAttribute('text','font: /public/aframe_fonts/Roboto-msdf.json; color: black; align: left; value: ;width: 6; ');
+			});
 		   this.el.addEventListener('mouseenter', function (evt) {
                //alert(self.data.query_name);
 			   if (inMove) {
