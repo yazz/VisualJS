@@ -802,11 +802,11 @@ var showSearchResults = function() {
                         
                         for (var i = 0; i < lor.queries.length ; i++) {
                             var showInAframe = lor.queries[i].data;
-                        showInAframe = showInAframe.replace(/['"]+/g, '')
-                        showInAframe = showInAframe.replace(/[;]+/g, '')
-                        while ((showInAframe.endsWith("}")) || (showInAframe.endsWith('"'))){
-                            showInAframe = showInAframe.substring(0, showInAframe.length - 2)
-                        }
+                            showInAframe = showInAframe.replace(/['"]+/g, '')
+                            showInAframe = showInAframe.replace(/[;]+/g, '')
+                            while ((showInAframe.endsWith("}")) || (showInAframe.endsWith('"'))){
+                                showInAframe = showInAframe.substring(0, showInAframe.length - 2)
+                            }
                             
                             store.dispatch('add_search_result', 
                                           {
@@ -815,8 +815,7 @@ var showSearchResults = function() {
                                             });
                         };
                         if (lor.queries && (lor.queries.length == 0)) {
-                            store.dispatch('add_search_result', {b:   "No results for " + lor.search});
-                            store.dispatch('set_search_subtext', '');
+                            store.dispatch('set_search_subtext', "No results for " + lor.search);
                             setvuexitemssearch(lor.queries);
                         
                         } else if (lor && lor.queries) {
