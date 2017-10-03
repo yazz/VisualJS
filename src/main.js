@@ -782,7 +782,8 @@ var showSearchResults = function() {
         store.dispatch('clear_search_results');
     }
     
-    if ((searchtext.length > 0) && (inSearch == false)) {
+    //if ((searchtext.length > 0) && (inSearch == false)) {
+    if (searchtext.length > 0) {
         inSearch = true;
         $.ajax({
             type: "GET",
@@ -791,7 +792,7 @@ var showSearchResults = function() {
                 search_text: searchtext
             },
             success: function(data) {
-                console.log(' Searching for ' + searchtext + '=:' + data);
+                //console.log(' Searching for ' + searchtext + '=:' + data);
                 
                 var lor = eval('(' + data + ')');
                     if (searchtext.toUpperCase() == lor.search.toUpperCase()) {
