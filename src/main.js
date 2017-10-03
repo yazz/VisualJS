@@ -870,7 +870,7 @@ var inSearch = false;
                 searchtext =   searchtext.substring(0,searchPos - 1)  + searchtext.substring(searchPos );
                 searchPos --;
                 showText();
-                showSearchResults();
+                setTimeout(function(){showSearchResults();},100);
             }                    
         }
 

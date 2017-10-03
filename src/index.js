@@ -141,6 +141,10 @@ sqliteSync.connect('gosharedatasearch.sqlite3');
             console.log("2.1 ");
             console.log("2.2 ");
             sqliteSync.run("CREATE TABLE IF NOT EXISTS search_rows_hierarchy (document_binary_hash TEXT, parent_hash TEXT, child_hash TEXT);");
+            sqliteSync.run("CREATE INDEX search_rows_hierarchy_document_binary_hash_idx ON search_rows_hierarchy (document_binary_hash);");
+            sqliteSync.run("CREATE INDEX search_rows_hierarchy_parent_hash_idx ON search_rows_hierarchy (parent_hash);");
+            sqliteSync.run("CREATE INDEX search_rows_hierarchy_child_hash_idx ON search_rows_hierarchy (child_hash);");
+
             console.log("2.3 ");
         } catch(err) {
             console.log(err);                    
