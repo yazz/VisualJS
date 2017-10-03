@@ -835,7 +835,7 @@ var showSearchResults = function() {
             }
              
         });
-    } else if ((searchtext.length == 0) && (inSearch == false)) {
+    } else if ((searchtext.length == 0) ) {
         window.recalcVuexQueries()
     };        
 }
