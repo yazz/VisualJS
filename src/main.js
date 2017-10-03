@@ -810,11 +810,14 @@ var showSearchResults = function() {
                         store.dispatch('clear_search_results');
                         
                         for (var i = 0; i < lor.queries.length ; i++) {
-                            var showInAframe = lor.queries[i].data;
-                            showInAframe = showInAframe.replace(/['"]+/g, '')
-                            showInAframe = showInAframe.replace(/[;]+/g, '')
-                            while ((showInAframe.endsWith("}")) || (showInAframe.endsWith('"'))){
-                                showInAframe = showInAframe.substring(0, showInAframe.length - 2)
+                            var showInAframe = "";
+                            if (i < 5) {
+                                showInAframe = lor.queries[i].data;
+                                showInAframe = showInAframe.replace(/['"]+/g, '')
+                                showInAframe = showInAframe.replace(/[;]+/g, '')
+                                while ((showInAframe.endsWith("}")) || (showInAframe.endsWith('"'))){
+                                    showInAframe = showInAframe.substring(0, showInAframe.length - 2)
+                                }
                             }
                             
                             store.dispatch('add_search_result', 
@@ -897,7 +900,7 @@ var inSearch = false;
         searchtext = searchtext.substring(0,searchPos) + cc + searchtext.substring(searchPos);;
         searchPos ++;
         showText();
-        showSearchResults();
+        setTimeout(function(){showSearchResults();},100);
     });
 
     }

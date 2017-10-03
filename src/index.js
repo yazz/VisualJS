@@ -1054,21 +1054,23 @@ var upload = multer( { dest: 'uploads/' } );
                         var rowId = rows[i]["id"];
                         var rowData =  rows[i]["data"];
                         if (rowData.length > 0) {
-                            var rowDataStartInit = rowData.toUpperCase().indexOf(firstWord.toUpperCase())
-                            //console.log('rowDataStartInit: ' + rowDataStartInit );
-                            
-                            //console.log('for: ' + firstWord + " = " + JSON.stringify(rowData));
-
-                            var rowDataStart = rowDataStartInit - 30;
-                            if (rowDataStart < 0) {
-                                rowDataStart = 0
-                            }
-                            //console.log('rowDataEndInit: ' + rowDataEndInit );
-                            var rowDataEnd = rowDataStartInit + firstWord.length + 30
-                            
-                            var rowDataToSend = rowData.substring(rowDataStart, rowDataStartInit) + firstWord.toUpperCase() + 
-                                rowData.substring(rowDataStartInit + firstWord.length, rowDataEnd);
+                            var rowDataToSend = ""
+                            if (i < 5) {
+                                var rowDataStartInit = rowData.toUpperCase().indexOf(firstWord.toUpperCase())
+                                //console.log('rowDataStartInit: ' + rowDataStartInit );
                                 
+                                //console.log('for: ' + firstWord + " = " + JSON.stringify(rowData));
+
+                                var rowDataStart = rowDataStartInit - 30;
+                                if (rowDataStart < 0) {
+                                    rowDataStart = 0
+                                }
+                                //console.log('rowDataEndInit: ' + rowDataEndInit );
+                                var rowDataEnd = rowDataStartInit + firstWord.length + 30
+                                
+                                rowDataToSend = rowData.substring(rowDataStart, rowDataStartInit) + firstWord.toUpperCase() + 
+                                    rowData.substring(rowDataStartInit + firstWord.length, rowDataEnd);
+                            }
                             //console.log('rowDataToSend: ' + rowDataToSend );
                             newres.push({
                                                 id:     rowId,
@@ -1112,7 +1114,7 @@ var upload = multer( { dest: 'uploads/' } );
                     var newres = [];
                     for  (var i=0; i < rows.length;i++) {
                         var rowHash = rows[i]["row_hash"];
-                        console.log('rowHash: ' + JSON.stringify(rowHash));
+                        //console.log('rowHash: ' + JSON.stringify(rowHash));
                         if (rowHash) {
                             var getQueryIdsSql =     " select " + 
                                                         "     id  " + 
@@ -1129,9 +1131,9 @@ var upload = multer( { dest: 'uploads/' } );
                                                         "                  )" + 
                                                         " GROUP BY id";
                                                     
-                            console.log('getQueryIdsSql: ' + JSON.stringify(getQueryIdsSql));
+                            //console.log('getQueryIdsSql: ' + JSON.stringify(getQueryIdsSql));
                             var resultSet = sqliteSync.run(getQueryIdsSql);
-                            console.log('               : ' + JSON.stringify(resultSet,null,2));
+                            //console.log('               : ' + JSON.stringify(resultSet,null,2));
                                     
                             if (resultSet && (resultSet.length > 0)) {
                                 if (resultSet[0].values) {
