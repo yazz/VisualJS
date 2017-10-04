@@ -66,17 +66,29 @@
 							  material="color: white"
 							  rotation='0 0 0'>
 
-                            <a-entity position='-1.5 0 0.6'
+                            <a-entity position='-1.5 0 0.6' v-if='get_file_type(get_viewed_query_id())!="word"'
                                       v-bind:text='"font: /public/aframe_fonts/Aileron-Semibold.fnt;color: black; align: left; value: " + field_name + "; width: 2; "'>
                             </a-entity>
 
-							<a-entity v-for="(a_record,rindex)  in  list_of_records"
+							<a-entity v-for="(a_record,rindex)  in  list_of_records" v-if='get_file_type(get_viewed_query_id())!="word"'
 									  v-bind:position='"-1.5 " + (-.2 - (rindex * 0.2)) + " 0.6"'
 									  geometry="primitive: plane; width: 2; height: 0.2" material="color: white"
 									  v-bind:text='"font: /public/aframe_fonts/SourceCodePro.fnt;color: black; align: left; value: " + truncate(a_record[field_name]) + "; width: 2; opacity: 1;"'
 									  rotation='0 0 0'>
 
 							</a-entity>
+                            
+                            
+                            
+                            
+							<a-entity v-for="(a_record,rindex)  in  list_of_records" v-if='get_file_type(get_viewed_query_id())=="word"'
+									  v-bind:position='"1 " + (-.2 - (rindex * 0.2)) + " 0.6"'
+									  geometry="primitive: plane; width: 6; height: 0.2" material="color: white"
+									  v-bind:text='"font: /public/aframe_fonts/SourceCodePro.fnt;color: black; align: left; value: " + truncate2(a_record[field_name]) + "; width: 6; opacity: 1; wrapPixels: 2000; "'
+									  rotation='0 0 0'>
+
+							</a-entity>
+
 
 					</a-entity>
 						</a-entity>
@@ -194,6 +206,9 @@ name: 'VR-items'
 	truncate: function(txt) {
 	    return (txt?txt.toString().substring(0,10):'');
 	},
+	truncate2: function(txt) {
+	    return (txt?txt.toString().substring(0,100):'');
+	},
 	get_y_position: function(index, total) {
 		var cols = (Math.ceil(Math.sqrt(total)));
 		var rawQuotient = index / cols;
@@ -201,7 +216,19 @@ name: 'VR-items'
 		var quotient = rawQuotient - remainder;
 		//console.log('get_y_position( ' + index + ', ' + total + ') = ' + quotient);
 		return quotient ;
-	}
+	},
+            get_file_type: function (id) {
+            var qq = this.$store.getters.list_of_queries;
+            for (var i =0 ; i < qq.length; i++) {
+                var rt = qq[i];
+                if (rt.id == id) {
+                    //console.log("rt.driver: " + rt.driver)
+                    return rt.driver; 
+                }
+            }
+            //console.log("rt.fileName  not found: ")
+            return "";
+        }
 	},
   components: {
 	  'output-table': output_table
