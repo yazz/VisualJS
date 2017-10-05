@@ -242,16 +242,43 @@
 
 
 
-new pdfreader.PdfReader().parseFileItems(connection.fileName, function(err, item){
-  if (err) {
-    console.log(err);
-    callfn({error: 'PDF error: ' + err});
-  }
-  else if (item.text)
-    console.log(item.text);
-});
-                        callfn([{value: "x"}]);
+var PDFParser = require("pdf2json");
 
+var pdfParser = new PDFParser(this,1);
+
+    pdfParser.on("pdfParser_dataError", errData => {
+        console.error(errData.parserError) 
+        callfn({error: 'PDF error: ' + errData.parserError});
+        return;
+
+    });
+    pdfParser.on("pdfParser_dataReady", pdfData => {
+//        console.log(JSON.stringify(pdfData));
+            console.log("pdfParser.getRawTextContent()");
+            var cc = pdfParser.getRawTextContent()
+                //console.log('content:', cc );
+            var lines = cc.split("\n")
+                console.log('');
+                console.log('');
+                console.log('');
+                console.log('');
+                //console.log('lines:', lines);
+            console.log('***PDF line count lines:', cc.length);
+            for (var rr=0; rr<cc.length; rr++){
+                var line = lines[rr]
+                if ((line != null) && (line.length > 0)) {
+                    //console.log('item:', line );
+                    rows.push({value: line });
+                }
+            }
+        callfn(rows);
+    });
+
+    pdfParser.loadPDF(connection.fileName);
+
+            
+            
+            
 
 			}
 			catch(err) {

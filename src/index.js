@@ -120,7 +120,7 @@ var Excel = require('exceljs');
 var compression = require('compression')
 app.use(compression())
 var crypto = require('crypto');
-var pdfreader = require('pdfreader')
+var PDFParser = require("pdf2json");
 
 
 var sqlite3   = require2('sqlite3');
@@ -1928,6 +1928,10 @@ function when_queries_changes(callback) {
 var os= require('os')
 username = os.userInfo().username
 //console.log(username);
+
+
+
+
 
 
 
