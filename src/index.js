@@ -120,6 +120,7 @@ var Excel = require('exceljs');
 var compression = require('compression')
 app.use(compression())
 var crypto = require('crypto');
+var pdfreader = require('pdfreader')
 
 
 var sqlite3   = require2('sqlite3');
@@ -274,6 +275,15 @@ var mysql      = require('mysql');
 	 return false;
  }
 
+  function isPdfFile(fname) {
+	 if (!fname) {
+		return false;
+	 };
+	 var ext = fname.split('.').pop();
+	 ext = ext.toLowerCase();
+	 if (ext == "pdf") return true;
+	 return false;
+ }
  
  
   function isCsvFile(fname) {
@@ -458,7 +468,17 @@ function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileTyp
                             saveConnectionAndQueryForFile(fileId, 'word', stat.size, WordFile, '|DOCUMENT|');
 						}
 					}
-          if (!--pending) done(null);
+		  if (isPdfFile(file)) {
+                //console.log('CSV file: ' + file);
+  					var PdfFile = file;
+  						if (typeof PdfFile !== "undefined") {
+							var fileId = PdfFile.replace(/[^\w\s]/gi,'');
+  							console.log('Saving from walk   *file id: ' + fileId);
+  							//console.log('   *size: ' + stat.size);
+
+                            saveConnectionAndQueryForFile(fileId, 'pdf', stat.size, PdfFile, '|DOCUMENT|');
+						}
+					}          if (!--pending) done(null);
         }
       });
     });
@@ -925,6 +945,16 @@ var upload = multer( { dest: 'uploads/' } );
                             console.log('   *size: ' + stat.size);
 
                             saveConnectionAndQueryForFile(ifile.originalname, 'word', stat.size, wordFile, '|DOCUMENT|');
+                }
+            } else if (isPdfFile(ifile.originalname)) {
+                    //console.log('ifile: ' + ifile.originalname);
+                        var pdfFile = localp;
+                        if (typeof pdfFile !== "undefined") {
+                            var fileId = pdfFile.replace(/[^\w\s]/gi,'');
+                            console.log('Saving from upload   *file id: ' + ifile.originalname);
+                            console.log('   *size: ' + stat.size);
+
+                            saveConnectionAndQueryForFile(ifile.originalname, 'pdf', stat.size, pdfFile, '|DOCUMENT|');
                 }};
             });
         }
@@ -1541,6 +1571,10 @@ when_queries_changes(null);
 		drivers['word'] = eval( pgeval )
 		addOrUpdateDriver('word', pgeval, drivers['word'])
 
+		var pgeval = '(' + fs.readFileSync(path.join(__dirname, './pdf.js')).toString() + ')';
+		drivers['pdf'] = eval( pgeval )
+		addOrUpdateDriver('pdf', pgeval, drivers['pdf'])
+
 
 		var pgeval = '(' + fs.readFileSync(path.join(__dirname, './postgres.js')).toString() + ')';
 		drivers['postgres'] = eval( pgeval )
@@ -1894,3 +1928,6 @@ function when_queries_changes(callback) {
 var os= require('os')
 username = os.userInfo().username
 //console.log(username);
+
+
+

@@ -1464,6 +1464,8 @@ window.recalcVuexQueries = function() {
                                                 ,
                                                 hash: query.hash
                                                 ,
+                                                type: query.type
+                                                ,
                                                 status: ''
                                                 ,
                                                 connection: query.connection
@@ -1528,6 +1530,8 @@ function  setvuexitemssearch( results2 ) {
                                                     ,
                                                     connection: query.connection
                                                     ,
+                                                    type: query.type
+                                                    ,
                                                     definition: eval('(' + query.definition + ')')
                                                    }});
                 };
@@ -1572,6 +1576,8 @@ window.when_queries_changes = function(fields) {
                                                         fileName: query.fileName
                                                         ,
                                                         hash: query.hash
+                                                        ,
+                                                        type: query.type
                                                         ,
                                                         status: ''
                                                         ,

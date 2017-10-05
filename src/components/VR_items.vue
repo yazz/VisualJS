@@ -23,6 +23,11 @@
 									geometry="primitive: plane; width: 3.9; height: 1.9;" material="color: white;opacity: 1;"
 									v-bind:text='"font: /public/aframe_fonts/Roboto-msdf.json; color: black; align: left; value: ? ; width: 6; "'>
 						</a-entity>
+                        <a-entity v-if=false position="0 1.5 -1.9" id='vr_file_type'
+                                    scale="1 1 1"
+									geometry="primitive: plane; width: 3.9; height: 1.9;" material="color: white;opacity: 1;"
+									v-bind:text='"font: /public/aframe_fonts/Roboto-msdf.json; color: black; align: left; value: " + is_document(get_viewed_query_id()) +" ; width: 6; "'>
+						</a-entity>
 
                 
                 
@@ -66,11 +71,11 @@
 							  material="color: white"
 							  rotation='0 0 0'>
 
-                            <a-entity position='-1.5 0 0.6' v-if='get_file_type(get_viewed_query_id())!="word"'
+                            <a-entity position='-1.5 0 0.6' v-if='!is_document(get_viewed_query_id())'
                                       v-bind:text='"font: /public/aframe_fonts/Aileron-Semibold.fnt;color: black; align: left; value: " + field_name + "; width: 2; "'>
                             </a-entity>
 
-							<a-entity v-for="(a_record,rindex)  in  list_of_records" v-if='get_file_type(get_viewed_query_id())!="word"'
+							<a-entity v-for="(a_record,rindex)  in  list_of_records" v-if='!is_document(get_viewed_query_id())'
 									  v-bind:position='"-1.5 " + (-.2 - (rindex * 0.2)) + " 0.6"'
 									  geometry="primitive: plane; width: 2; height: 0.2" material="color: white"
 									  v-bind:text='"font: /public/aframe_fonts/SourceCodePro.fnt;color: black; align: left; value: " + truncate(a_record[field_name]) + "; width: 2; opacity: 1;"'
@@ -81,7 +86,7 @@
                             
                             
                             
-							<a-entity v-for="(a_record,rindex)  in  list_of_records" v-if='get_file_type(get_viewed_query_id())=="word"'
+							<a-entity v-for="(a_record,rindex)  in  list_of_records" v-if='is_document(get_viewed_query_id())'
 									  v-bind:position='"1 " + (-.2 - (rindex * 0.2)) + " 0.6"'
 									  geometry="primitive: plane; width: 6; height: 0.2" material="color: white"
 									  v-bind:text='"font: /public/aframe_fonts/SourceCodePro.fnt;color: black; align: left; value: " + truncate2(a_record[field_name]) + "; width: 6; opacity: 1; wrapPixels: 2000; "'
@@ -217,19 +222,23 @@ name: 'VR-items'
 		//console.log('get_y_position( ' + index + ', ' + total + ') = ' + quotient);
 		return quotient ;
 	},
-            get_file_type: function (id) {
-            var qq = this.$store.getters.list_of_queries;
-            for (var i =0 ; i < qq.length; i++) {
-                var rt = qq[i];
-                if (rt.id == id) {
-                    //console.log("rt.driver: " + rt.driver)
-                    return rt.driver; 
+    is_document: function (id) {
+        var qq = this.$store.getters.list_of_queries;
+        for (var i =0 ; i < qq.length; i++) {
+            var rt = qq[i];
+            if (rt.id == id) {
+                //console.log("rt.driver: " + rt.type)
+                if (rt.type.indexOf("DOCUMENT") != -1) {
+                    return true;
+                } else {
+                    return false;
                 }
             }
-            //console.log("rt.fileName  not found: ")
-            return "";
         }
-	},
+        //console.log("rt.fileName  not found: ")
+        return false;
+    }
+  },
   components: {
 	  'output-table': output_table
 	}
