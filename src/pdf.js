@@ -225,7 +225,12 @@
 
     get_v2: function( connection , parameters , callfn )
         {
-            //console.log('********************************');
+            console.log('********************************');
+            console.log('********************************');
+            console.log('****     LOADING PDF   *********');
+            console.log('****     LOADING PDF   *********' + connection.fileName);
+            console.log('********************************');
+            console.log('********************************');
             if (
                 (connection.status == 'disconnected')
                 ||
@@ -241,8 +246,6 @@
             try {
 
 
-
-var PDFParser = require("pdf2json");
 
 var pdfParser = new PDFParser(this,1);
 

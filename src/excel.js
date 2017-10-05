@@ -225,7 +225,12 @@
 
     get_v2: function( connection , parameters , callfn )
         {
-            //console.log('********************************');
+            console.log('********************************');
+            console.log('********************************');
+            console.log('****    LOADING EXCEL  *********');
+            console.log('****    LOADING EXCEL  *********' + connection.fileName);
+            console.log('********************************');
+            console.log('********************************');     
             if (
                 (connection.status == 'disconnected')
                 ||
