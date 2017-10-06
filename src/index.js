@@ -240,13 +240,14 @@ dbsearch.run("PRAGMA temp_store=MEMORY;")
 
 var stmt2 = null;
 var stmt3 = null;
-
+var setIn = null;
                                         
 console.log("...done ");
 console.log("");
                 
                 
 var stopScan = false;
+var inScan = false;
 var XLSX = require('xlsx');
 var csv = require('fast-csv');
 var mammoth = require("mammoth");
@@ -535,92 +536,111 @@ var getResult = function(source, connection, driver, definition, callback) {
     if (stmt3 == null) {
         stmt3 = dbsearch.prepare("INSERT INTO search_rows_hierarchy (document_binary_hash, parent_hash, child_hash) VALUES (?,?,?)");
     }
+    if (setIn == null) {
+        setIn =  dbsearch.prepare("UPDATE queries set index_status = 'ERROR' where id = ?");
+    }
+                        
 
     console.log("var getResult = function(" + source + ", " + connection + ", " + driver + ", " + JSON.stringify(definition));
     var error = new Object();
     if (connections[connection]) {
         try {
             drivers[driver]['get_v2'](connections[connection],definition,function(ordata) {
-                var rrows = [];
-                if( Object.prototype.toString.call( ordata ) === '[object Array]' ) {
-                    rrows = ordata;
-                } else {
-                    rrows = ordata.values;
-                }
-                callback.call(this,ordata);
-                //console.log( "   ordata: " + JSON.stringify(ordata));
-                var findHashSql = "select  hash from queries where id = '" + source + "'";
-                console.log("FindHashSql : " + findHashSql );
-                var stmt4 = dbsearch.all(findHashSql,
-                    function(err, results2) {
-                        if( err) {
-                            console.log("Error: " + JSON.stringify(error) + "'");
-                        }
-                        if( results2.length == 0) {
-                            console.log("No sresults for hash" + source + "'");
-                        }
-                        var binHash = results2[0].hash;
-                        var stmt = dbsearch.all("select  " + 
-                                            "    document_binary_hash  "  + 
-                                            "from  " + 
-                                            "    search_rows_hierarchy  " +
-                                            "where  " +
-                                            "    document_binary_hash = '" + binHash + "'",
-                        function(err, results) {
-                            if (!err) {
-                                if( results.length == 0) {
-                                    dbsearch.serialize(function() {
-                                        console.log("Inserting rows");
-                                        
-                                        if (rrows && rrows.length) {
-                                            dbsearch.run("begin transaction");
-                                            for (var i =0 ; i < rrows.length; i++) {
-                                                var rowhash = crypto.createHash('sha1');
-                                                var row = JSON.stringify(rrows[i]);
-                                                rowhash.setEncoding('hex');
-                                                rowhash.write(row);
-                                                rowhash.end();
-                                                var sha1sum = rowhash.read();
-                                                ////console.log('                 : ' + JSON.stringify(rrows[i]));
-                                                stmt2.run(sha1sum, row);
-                                                stmt3.run(binHash, null, sha1sum);
-                                            }
-                                            console.log("Committed: " + rrows.length)
-                                            //stmt2.finalize();
-                                            //stmt3.finalize();
-                                            console.log('                 : ' + JSON.stringify(rrows.length));
-                                            
-                                            console.log('                 source: ' + JSON.stringify(source));
-                                            var setIn =  dbsearch.prepare("UPDATE queries set index_status = 'INDEXED' where id = ?");
-                                            setIn.run(source);
-                                            dbsearch.run("commit");
-                                            
-                                        }
-                                    });
-                                }
-                            }
-                        });
-                })
+                if (ordata.error) {
+                    console.log("****************** err 4:" + ordata.error);
+                    dbsearch.serialize(function() {
+                        setIn.run(source);
+                        dbsearch.run("commit");
+                        callback.call(this,ordata);
+                    });
 
-            })
+                } else {
+                    var rrows = [];
+                    if( Object.prototype.toString.call( ordata ) === '[object Array]' ) {
+                        rrows = ordata;
+                    } else {
+                        rrows = ordata.values;
+                    }
+                    callback.call(this,ordata);
+                    //console.log( "   ordata: " + JSON.stringify(ordata));
+                    var findHashSql = "select  hash from queries where id = '" + source + "'";
+                    console.log("FindHashSql : " + findHashSql );
+                    var stmt4 = dbsearch.all(findHashSql,
+                        function(err, results2) {
+                            if( err) {
+                                console.log("Error: " + JSON.stringify(error) + "'");
+                            }
+                            if( results2.length == 0) {
+                                console.log("No sresults for hash" + source + "'");
+                            }
+                            var binHash = results2[0].hash;
+                            var stmt = dbsearch.all("select  " + 
+                                                "    document_binary_hash  "  + 
+                                                "from  " + 
+                                                "    search_rows_hierarchy  " +
+                                                "where  " +
+                                                "    document_binary_hash = '" + binHash + "'",
+                            function(err, results) {
+                                if (!err) {
+                                    if( results.length == 0) {
+                                        dbsearch.serialize(function() {
+                                            console.log("Inserting rows");
+                                            
+                                            if (rrows && rrows.length) {
+                                                dbsearch.run("begin transaction");
+                                                for (var i =0 ; i < rrows.length; i++) {
+                                                    var rowhash = crypto.createHash('sha1');
+                                                    var row = JSON.stringify(rrows[i]);
+                                                    rowhash.setEncoding('hex');
+                                                    rowhash.write(row);
+                                                    rowhash.end();
+                                                    var sha1sum = rowhash.read();
+                                                    ////console.log('                 : ' + JSON.stringify(rrows[i]));
+                                                    stmt2.run(sha1sum, row);
+                                                    stmt3.run(binHash, null, sha1sum);
+                                                }
+                                                console.log("Committed: " + rrows.length)
+                                                //stmt2.finalize();
+                                                //stmt3.finalize();
+                                                console.log('                 : ' + JSON.stringify(rrows.length));
+                                                
+                                                console.log('                 source: ' + JSON.stringify(source));
+                                                var setIn =  dbsearch.prepare("UPDATE queries set index_status = 'INDEXED' where id = ?");
+                                                setIn.run(source);
+                                                dbsearch.run("commit");
+                                                
+                                            } else {
+                                                console.log("****************** err 2");
+                                                
+                                            }
+                                        });
+                                    }
+                                } else {
+                                    console.log("****************** err 3" + err);
+                                }
+                            });
+                    })
+
+            }})
         
         }
         catch(err){
-            console.log(err);
+            console.log("****************** err 1" + err);
         }
-    }}
+    }
+    }
     
     
     
 function sendOverWebSockets(data) {
     var ll = serverwebsockets.length;
-console.log('send to sockets Count: ' + JSON.stringify(serverwebsockets.length));
+    //console.log('send to sockets Count: ' + JSON.stringify(serverwebsockets.length));
     for (var i =0 ; i < ll; i++ ) {
         var sock = serverwebsockets[i];
         if (sock.readyState == 1) {
             sock.send(JSON.stringify(data));
         }
-        console.log('                    sock ' + i + ': ' + JSON.stringify(sock.readyState)); 
+        //console.log('                    sock ' + i + ': ' + JSON.stringify(sock.readyState)); 
     }
 }
     
@@ -1544,6 +1564,9 @@ var upload = multer( { dest: 'uploads/' } );
         
         
         var indexFilesFn = function() {
+           if (inScan) {
+             return;
+           };
             console.log("Index files");
             var stmt = dbsearch.all(
                 "SELECT * FROM queries WHERE index_status IS NULL LIMIT 1 " ,
@@ -1771,6 +1794,7 @@ when_queries_changes(null);
 
 
 function scanHardDisk() {
+    inScan = true;
 	var useDrive = "C:\\";
     if (!isWin) {
         useDrive = '/';
@@ -1780,6 +1804,7 @@ function scanHardDisk() {
         walk(useDrive, function(error){
             //console.log('*Error: ' + error);
         });
+        inScan = false;
 	  };
 };
 
