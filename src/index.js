@@ -2,6 +2,7 @@
 
 
 var numberOfSecondsAliveCheck = 60; 
+var numberOfSecondsIndexFilesInterval = 5; 
 var isPi = require('detect-rpi');
 var username = "Unknown user";
 
@@ -170,7 +171,7 @@ console.log("4");
                 
                 
         try {
-            sqliteSync.run("CREATE TABLE IF NOT EXISTS connections (id TEXT, name TEXT, driver TEXT, database TEXT, host TEXT, port TEXT ,connectString TEXT, user TEXT, password TEXT, fileName TEXT, size INTEGER, type TEXT, preview TEXT, hash TEXT);");
+            sqliteSync.run("CREATE TABLE IF NOT EXISTS connections (id TEXT, name TEXT, driver TEXT, database TEXT, host TEXT, port TEXT ,connectString TEXT, user TEXT, password TEXT, fileName TEXT, size INTEGER, type TEXT, preview TEXT, hash TEXT, status TEXT);");
         } catch(err) {
             console.log(err);
         } finally {
@@ -182,7 +183,7 @@ console.log("5");
 
               
         try {
-            sqliteSync.run("CREATE TABLE IF NOT EXISTS queries (id TEXT, name TEXT, connection INTEGER, driver TEXT, size INTEGER, hash TEXT, type TEXT, fileName TEXT, definition TEXT, preview TEXT, status TEXT);");
+            sqliteSync.run("CREATE TABLE IF NOT EXISTS queries (id TEXT, name TEXT, connection INTEGER, driver TEXT, size INTEGER, hash TEXT, type TEXT, fileName TEXT, definition TEXT, preview TEXT, status TEXT, indexing_status TEXT);");
         } catch(err) {
             console.log(err);
         } finally {
@@ -432,16 +433,16 @@ function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileTyp
       file = path.resolve(dir, file);
       fs.stat(file, function(err, stat) {
         if (stat && stat.isDirectory()) {
-          setTimeout(function() {
+            sendOverWebSockets({
+                                    type:   "server_scan_status",  
+                                    value:  "Scanning directory " + file,
+                                    });
+           setTimeout(function() {
                               walk(file, function(err) {
                             if (!--pending) done(null);
                           });
           }, 10 * 1000);
         } else {
-            sendOverWebSockets({
-                                    type:   "server_scan_status",  
-                                    value:  "Scanning file " + file,
-                                    });
 		  if (isExcelFile(file)) {
                 //console.log('file: ' + file);
   					var excelFile = file;
@@ -1542,8 +1543,18 @@ var upload = multer( { dest: 'uploads/' } );
                         });
                 };
         aliveCheckFn();
+        
+        
+        
+        var indexFilesFn = function() {
+            console.log("Index files");
+        }
+        
 		if (typeOfSystem == 'client') {
             setInterval(aliveCheckFn ,numberOfSecondsAliveCheck * 1000);
+            
+            console.log("Set Index files timer");
+            setInterval(indexFilesFn ,numberOfSecondsIndexFilesInterval * 1000);
 
 
 
