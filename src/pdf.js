@@ -249,18 +249,18 @@
 
 var pdfParser = new PDFParser(this,1);
 
-    pdfParser.on("pdfParser_dataError", errData => {
-        console.error(errData.parserError) 
+    pdfParser.on("pdfParser_dataError", function(errData) {
+        console.error(errData.parserError) ;
         callfn({error: 'PDF error: ' + errData.parserError});
         return;
 
     });
-    pdfParser.on("pdfParser_dataReady", pdfData => {
+    pdfParser.on("pdfParser_dataReady", function(pdfData) {
 //        console.log(JSON.stringify(pdfData));
             console.log("pdfParser.getRawTextContent()");
-            var cc = pdfParser.getRawTextContent()
+            var cc = pdfParser.getRawTextContent();
                 //console.log('content:', cc );
-            var lines = cc.split("\n")
+            var lines = cc.split("\n");
                 console.log('');
                 console.log('');
                 console.log('');
@@ -268,7 +268,7 @@ var pdfParser = new PDFParser(this,1);
                 //console.log('lines:', lines);
             console.log('***PDF line count lines:', cc.length);
             for (var rr=0; rr<cc.length; rr++){
-                var line = lines[rr]
+                var line = lines[rr];
                 if ((line != null) && (line.length > 0)) {
                     //console.log('item:', line );
                     rows.push({value: line });
