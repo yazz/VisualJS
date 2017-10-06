@@ -15,12 +15,22 @@
 
 
 
+
       <!--
+                the "Add driver" button
+         -->
+       <button class="btn btn-primary"
+                v-if="!add_driver_visible"
+                @click="add_new_driver">Add new driver</button>
+
+
+
+                <!--
                   show the list of drivers
          -->
       {{list_of_drivers.length}} drivers
 
-      <div style="position:relative; overflow: auto;height:500px;">
+      <div style="position:relative; overflow: auto;height:400px;">
         <table class="table  table-striped  table-bordered " style="position:absolute;width: 100%; height: 100%;">
           <thead >
             <tr>
@@ -40,13 +50,6 @@
       </div>
 
 
-
-      <!--
-                the "Add driver" button
-         -->
-       <button class="btn btn-primary"
-                v-if="!add_driver_visible"
-                @click="add_new_driver">Add new driver</button>
 
       </div>
 
