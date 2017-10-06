@@ -183,7 +183,7 @@ console.log("5");
 
               
         try {
-            sqliteSync.run("CREATE TABLE IF NOT EXISTS queries (id TEXT, name TEXT, connection INTEGER, driver TEXT, size INTEGER, hash TEXT, type TEXT, fileName TEXT, definition TEXT, preview TEXT, status TEXT, indexing_status TEXT);");
+            sqliteSync.run("CREATE TABLE IF NOT EXISTS queries (id TEXT, name TEXT, connection INTEGER, driver TEXT, size INTEGER, hash TEXT, type TEXT, fileName TEXT, definition TEXT, preview TEXT, status TEXT, index_status TEXT);");
         } catch(err) {
             console.log(err);
         } finally {
@@ -388,21 +388,13 @@ function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileTyp
                                                                      preview: JSON.stringify([{message: 'No preview available'}] , null, 2)}
 
                                                         console.log('    ...  entering getresult v2:  '  + fileId2);
-                                                        getResult(  newqueryid2, 
-                                                                    newid2, 
-                                                                    fileType2, 
-                                                                    {}, 
-                                                                    function(result)
-                                                                    {
-                                                                        console.log("File added v2: " + fileId2);
-                                                                        sendOverWebSockets({
-                                                                                                type: "uploaded",  
-                                                                                                id:   fileId2,
-                                                                                                query: 
-                                                                                                {
-                                                                                                    
-                                                                                                }});
-                                                                    });
+                                                        sendOverWebSockets({
+                                                                                type: "uploaded",  
+                                                                                id:   fileId2,
+                                                                                query: 
+                                                                                {
+                                                                                    
+                                                                                }});
                                                          
                                                     }
                                                 );
@@ -1548,6 +1540,30 @@ var upload = multer( { dest: 'uploads/' } );
         
         var indexFilesFn = function() {
             console.log("Index files");
+            var stmt = dbsearch.all(
+                "SELECT * FROM queries WHERE index_status IS NULL LIMIT 1 " ,
+                function(err, results) 
+                {
+                    if (!err) 
+                    {
+                        if( results.length != 0) 
+                        {
+                            console.log("          : " + JSON.stringify(results[0],null,2));
+                        
+                        }                    
+                    } else {
+                        console.log("          Error: " + JSON.stringify(err,null,2));
+                   } 
+                })
+
+            /*getResult(  newqueryid2, 
+                        newid2, 
+                        fileType2, 
+                        {}, 
+                        function(result)
+                        {
+                            console.log("File added v2: " + fileId2);
+                        });*/
         }
         
 		if (typeOfSystem == 'client') {
