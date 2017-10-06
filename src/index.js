@@ -625,6 +625,7 @@ var getResult = function(source, connection, driver, definition, callback) {
                                                 
                                             } else {
                                                 console.log("****************** err 2");
+                                                dbsearch.run("begin transaction");
                                                 setIn.run("INDEXED: Other error",source);
                                                 dbsearch.run("commit");
                                                 inGetResult = false;
