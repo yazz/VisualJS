@@ -533,8 +533,10 @@ path.join(__dirname, '../public/\aframe_fonts/SourceCodePro.png')
 
 
 var getResult = function(source, connection, driver, definition, callback) {
+    console.log("var getResult = function(" + source + ", " + connection + ", " + driver + ", " + JSON.stringify(definition));
+    console.log("inGetResult: " + inGetResult);
     if (inGetResult == true) {
-        callback.call(this,[]);
+        callback.call(this,{error: true});
         return;
     }
     inGetResult = true;
@@ -549,7 +551,6 @@ var getResult = function(source, connection, driver, definition, callback) {
     }
                         
 
-    console.log("var getResult = function(" + source + ", " + connection + ", " + driver + ", " + JSON.stringify(definition));
     var error = new Object();
     if (connections[connection]) {
         try {
@@ -562,7 +563,7 @@ var getResult = function(source, connection, driver, definition, callback) {
                         dbsearch.run("commit");
                         inGetResult = false;
                         inIndexer = false
-                        callback.call(this,ordata);
+                        callback.call(this,{error: true});
                     });
 
                 } else {
@@ -606,11 +607,11 @@ var getResult = function(source, connection, driver, definition, callback) {
                                                     rowhash.write(row);
                                                     rowhash.end();
                                                     var sha1sum = rowhash.read();
-                                                    ////console.log('                 : ' + JSON.stringify(rrows[i]));
+                                                    //console.log('                 : ' + JSON.stringify(rrows[i]));
                                                     stmt2.run(sha1sum, row);
                                                     stmt3.run(binHash, null, sha1sum);
                                                 }
-                                                console.log("Committed: " + rrows.length)
+                                                //console.log("Committed: " + rrows.length)
                                                 //stmt2.finalize();
                                                 //stmt3.finalize();
                                                 console.log('                 : ' + JSON.stringify(rrows.length));
@@ -618,6 +619,8 @@ var getResult = function(source, connection, driver, definition, callback) {
                                                 console.log('                 source: ' + JSON.stringify(source));
                                                 setIn.run("INDEXED",source);
                                                 dbsearch.run("commit");
+                                                inGetResult = false;
+                                                inIndexer = false
                                                 callback.call(this,ordata);
                                                 
                                             } else {
@@ -626,7 +629,7 @@ var getResult = function(source, connection, driver, definition, callback) {
                                                 dbsearch.run("commit");
                                                 inGetResult = false;
                                                 inIndexer = false
-                                                callback.call(this,[]);
+                                                callback.call(this,{error: true});
                                             }
                                         });
                                     } else {
@@ -648,7 +651,7 @@ var getResult = function(source, connection, driver, definition, callback) {
                                         dbsearch.run("commit");
                                         inGetResult = false;
                                         inIndexer = false
-                                        callback.call(this,[]);
+                                        callback.call(this,{error: true});
                                     });
                                 }
                             });
@@ -661,7 +664,7 @@ var getResult = function(source, connection, driver, definition, callback) {
             console.log("****************** err 1" + err);
             inGetResult = false;
             inIndexer = false
-            callback.call(this,[]);
+            callback.call(this,{error: true});
         }
     } else {
         console.log("****************** err 7" );
@@ -671,7 +674,7 @@ var getResult = function(source, connection, driver, definition, callback) {
             dbsearch.run("commit");
             inGetResult = false;
             inIndexer = false
-            callback.call(this,[]);
+            callback.call(this,{error: true});
         });
     }
         console.log("****************** err 10" );
@@ -1636,7 +1639,7 @@ var upload = multer( { dest: 'uploads/' } );
                             console.log("          : " + JSON.stringify(results[0],null,2));
                             if (inGetResult) {
                                 //do nothing
-                                //inIndexer = false
+                                inIndexer = false
                             } else {
 
                                     getResult(  results[0].id, 
@@ -1645,12 +1648,15 @@ var upload = multer( { dest: 'uploads/' } );
                                                 {}, 
                                                 function(result)
                                                 {
+                                                    
                                                     inIndexer = false
-                                                    console.log("File added v2: " + JSON.stringify(results[0].fileName,null,2));
-                                                    sendOverWebSockets({
-                                                                            type:   "server_scan_status",  
-                                                                            value:  "File indexed: " + results[0].fileName
-                                                                            });
+                                                    if (!result.error) {
+                                                        console.log("File added v2: " + JSON.stringify(results[0].fileName,null,2));
+                                                        sendOverWebSockets({
+                                                                                type:   "server_scan_status",  
+                                                                                value:  "File indexed: " + results[0].fileName
+                                                                                });
+                                                    }
                                                 });
                             }                        
                         } else {
