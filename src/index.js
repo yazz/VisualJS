@@ -311,7 +311,7 @@ function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileTyp
     console.log("... in saveConnectionAndQueryForFile:::: " + fileId)
     sendOverWebSockets({
                             type:   "server_scan_status",  
-                            value:  "Found file " + fileName,
+                            value:  "Found file " + fileName
                             });
     if (!fileName) {
         return;
@@ -429,7 +429,7 @@ function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileTyp
         if (stat && stat.isDirectory()) {
             sendOverWebSockets({
                                     type:   "server_scan_status",  
-                                    value:  "Scanning directory " + file,
+                                    value:  "Scanning directory " + file
                                     });
            setTimeout(function() {
                               walk(file, function(err) {
@@ -894,7 +894,7 @@ app.ws('/websocket', function(ws, req) {
 		scanHardDisk();
         sendOverWebSockets({
                                 type:   "server_scan_status",  
-                                value:  "Hard disk scan in progress",
+                                value:  "Hard disk scan in progress"
                                 });
 	});
 
@@ -904,7 +904,7 @@ app.ws('/websocket', function(ws, req) {
 		stopScan = true;
         sendOverWebSockets({
                                 type:   "server_scan_status",  
-                                value:  "Hard disk scan stopped",
+                                value:  "Hard disk scan stopped"
                                 });
 	});
 
@@ -1594,6 +1594,10 @@ var upload = multer( { dest: 'uploads/' } );
                                         function(result)
                                         {
                                             console.log("File added v2: " + JSON.stringify(result.error,null,2));
+                                            sendOverWebSockets({
+                                                                    type:   "server_scan_status",  
+                                                                    value:  "File indexed: " + results[0].fileName
+                                                                    });
                                         });
                         
                         }                    
