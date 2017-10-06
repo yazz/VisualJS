@@ -248,6 +248,7 @@ console.log("");
                 
 var stopScan = false;
 var inScan = false;
+var inIndexer = false;
 var inGetResult = false;
 var XLSX = require('xlsx');
 var csv = require('fast-csv');
@@ -533,6 +534,7 @@ path.join(__dirname, '../public/\aframe_fonts/SourceCodePro.png')
 
 var getResult = function(source, connection, driver, definition, callback) {
     if (inGetResult == true) {
+        callback.call(this,[]);
         return;
     }
     inGetResult = true;
@@ -554,13 +556,13 @@ var getResult = function(source, connection, driver, definition, callback) {
             drivers[driver]['get_v2'](connections[connection],definition,function(ordata) {
                 if (ordata.error) {
                     console.log("****************** err 4:" + ordata.error);
-                    callback.call(this,ordata);
                     dbsearch.serialize(function() {
                         dbsearch.run("begin transaction");
                         setIn.run("ERROR: " + ordata.error,source);
                         dbsearch.run("commit");
                         inGetResult = false;
-                        return
+                        inIndexer = false
+                        callback.call(this,ordata);
                     });
 
                 } else {
@@ -570,7 +572,6 @@ var getResult = function(source, connection, driver, definition, callback) {
                     } else {
                         rrows = ordata.values;
                     }
-                    callback.call(this,ordata);
                     //console.log( "   ordata: " + JSON.stringify(ordata));
                     var findHashSql = "select  hash from queries where id = '" + source + "'";
                     console.log("FindHashSql : " + findHashSql );
@@ -597,6 +598,7 @@ var getResult = function(source, connection, driver, definition, callback) {
                                             
                                             if (rrows && rrows.length) {
                                                 dbsearch.run("begin transaction");
+                                                console.log("Committing... " + rrows.length)
                                                 for (var i =0 ; i < rrows.length; i++) {
                                                     var rowhash = crypto.createHash('sha1');
                                                     var row = JSON.stringify(rrows[i]);
@@ -616,31 +618,38 @@ var getResult = function(source, connection, driver, definition, callback) {
                                                 console.log('                 source: ' + JSON.stringify(source));
                                                 setIn.run("INDEXED",source);
                                                 dbsearch.run("commit");
+                                                callback.call(this,ordata);
                                                 
                                             } else {
-                                                dbsearch.run("begin transaction");
                                                 console.log("****************** err 2");
                                                 setIn.run("INDEXED: Other error",source);
                                                 dbsearch.run("commit");
                                                 inGetResult = false;
-                                                return
+                                                inIndexer = false
+                                                callback.call(this,[]);
                                             }
                                         });
                                     } else {
                                         console.log("****************** err 5: no rows");
-                                        dbsearch.run("begin transaction");
-                                        setIn.run("INDEXED: No Data",source);
-                                        dbsearch.run("commit");
-                                        inGetResult = false;
-                                        return
+                                        dbsearch.serialize(function() {
+                                            dbsearch.run("begin transaction");
+                                            setIn.run("INDEXED: No Data",source);
+                                            dbsearch.run("commit");
+                                            inGetResult = false;
+                                            inIndexer = false
+                                            callback.call(this,[]);
+                                        });
                                     }
                                 } else {
                                     console.log("****************** err 3" + err);
-                                    dbsearch.run("begin transaction");
-                                    setIn.run("ERROR: " + err, source);
-                                    dbsearch.run("commit");
-                                    inGetResult = false;
-                                    return
+                                    dbsearch.serialize(function() {
+                                        dbsearch.run("begin transaction");
+                                        setIn.run("ERROR: " + err, source);
+                                        dbsearch.run("commit");
+                                        inGetResult = false;
+                                        inIndexer = false
+                                        callback.call(this,[]);
+                                    });
                                 }
                             });
                     })
@@ -651,14 +660,19 @@ var getResult = function(source, connection, driver, definition, callback) {
         catch(err){
             console.log("****************** err 1" + err);
             inGetResult = false;
+            inIndexer = false
+            callback.call(this,[]);
         }
     } else {
         console.log("****************** err 7" );
-        dbsearch.run("begin transaction");
-        setIn.run("ERROR: no connection for " + source , source);
-        dbsearch.run("commit");
-        inGetResult = false;
-        
+        dbsearch.serialize(function() {
+            dbsearch.run("begin transaction");
+            setIn.run("ERROR: no connection for " + source , source);
+            dbsearch.run("commit");
+            inGetResult = false;
+            inIndexer = false
+            callback.call(this,[]);
+        });
     }
         console.log("****************** err 10" );
         //inGetResult = false;
@@ -1599,10 +1613,18 @@ var upload = multer( { dest: 'uploads/' } );
         
         
         var indexFilesFn = function() {
+            console.log("Index files");
+            console.log("    inScan: " + inScan);
            if (inScan) {
              return;
            };
-            console.log("Index files");
+            console.log("    inIndexer: " + inIndexer);
+           if (inIndexer) {
+               return;
+           }
+           inIndexer = true;
+           
+           try {
             var stmt = dbsearch.all(
                 "SELECT * FROM queries WHERE index_status IS NULL LIMIT 1 " ,
                 function(err, results) 
@@ -1612,24 +1634,38 @@ var upload = multer( { dest: 'uploads/' } );
                         if( results.length != 0) 
                         {//zzz
                             console.log("          : " + JSON.stringify(results[0],null,2));
-                            getResult(  results[0].id, 
-                                        results[0].connection, 
-                                        results[0].driver, 
-                                        {}, 
-                                        function(result)
-                                        {
-                                            console.log("File added v2: " + JSON.stringify(result.error,null,2));
-                                            sendOverWebSockets({
-                                                                    type:   "server_scan_status",  
-                                                                    value:  "File indexed: " + results[0].fileName
-                                                                    });
-                                        });
-                        
-                        }                    
+                            if (inGetResult) {
+                                //do nothing
+                                //inIndexer = false
+                            } else {
+
+                                    getResult(  results[0].id, 
+                                                results[0].connection, 
+                                                results[0].driver, 
+                                                {}, 
+                                                function(result)
+                                                {
+                                                    inIndexer = false
+                                                    console.log("File added v2: " + JSON.stringify(results[0].fileName,null,2));
+                                                    sendOverWebSockets({
+                                                                            type:   "server_scan_status",  
+                                                                            value:  "File indexed: " + results[0].fileName
+                                                                            });
+                                                });
+                            }                        
+                        } else {
+                            inIndexer = false
+                            console.log("          else: ");
+                        }                        
                     } else {
-                        console.log("          Error: " + JSON.stringify(err,null,2));
+                        inIndexer = false;
+                        console.log("          Error: " );
                    } 
                 })
+           }catch (err) {
+                        inIndexer = false;
+                        console.log("          Error: " + err);
+           }
 
         }
         
