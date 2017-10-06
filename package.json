@@ -73,7 +73,8 @@
       "node_pi/*",
       "node_macos64/*",
       "node_modules/nan/**/**/**/**/*",
-      "node_modules/sqlite3/**/**/**/**/*"
+      "node_modules/sqlite3/**/**/**/**/*",
+      "node_modules/pdf2json/**/**/**/**/*"
     ]
   }
 }

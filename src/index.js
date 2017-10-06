@@ -120,7 +120,7 @@ var Excel = require('exceljs');
 var compression = require('compression')
 app.use(compression())
 var crypto = require('crypto');
-var PDFParser = require("pdf2json");
+var PDFParser = require2("pdf2json");
 
 
 var sqlite3   = require2('sqlite3');
