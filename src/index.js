@@ -248,6 +248,7 @@ console.log("");
                 
 var stopScan = false;
 var inScan = false;
+var inGetResult = false;
 var XLSX = require('xlsx');
 var csv = require('fast-csv');
 var mammoth = require("mammoth");
@@ -531,6 +532,10 @@ path.join(__dirname, '../public/\aframe_fonts/SourceCodePro.png')
 
 
 var getResult = function(source, connection, driver, definition, callback) {
+    if (inGetResult == true) {
+        return;
+    }
+    inGetResult = true;
     if (stmt2 == null) {
         stmt2 = dbsearch.prepare("INSERT INTO zfts_search_rows_hashed (row_hash, data) VALUES (?, ?)");
     }
@@ -538,7 +543,7 @@ var getResult = function(source, connection, driver, definition, callback) {
         stmt3 = dbsearch.prepare("INSERT INTO search_rows_hierarchy (document_binary_hash, parent_hash, child_hash) VALUES (?,?,?)");
     }
     if (setIn == null) {
-        setIn =  dbsearch.prepare("UPDATE queries SET index_status = 'ERROR' WHERE id = ?");
+        setIn =  dbsearch.prepare("UPDATE queries SET index_status = ? WHERE id = ?");
     }
                         
 
@@ -552,8 +557,9 @@ var getResult = function(source, connection, driver, definition, callback) {
                     callback.call(this,ordata);
                     dbsearch.serialize(function() {
                         dbsearch.run("begin transaction");
-                        setIn.run(source);
+                        setIn.run("ERROR: " + ordata.error,source);
                         dbsearch.run("commit");
+                        inGetResult = false;
                         return
                     });
 
@@ -608,24 +614,33 @@ var getResult = function(source, connection, driver, definition, callback) {
                                                 console.log('                 : ' + JSON.stringify(rrows.length));
                                                 
                                                 console.log('                 source: ' + JSON.stringify(source));
-                                                var setIn =  dbsearch.prepare("UPDATE queries set index_status = 'INDEXED' where id = ?");
-                                                setIn.run(source);
+                                                setIn.run("INDEXED",source);
                                                 dbsearch.run("commit");
                                                 
                                             } else {
+                                                dbsearch.run("begin transaction");
                                                 console.log("****************** err 2");
-                                                
+                                                setIn.run("INDEXED: Other error",source);
+                                                dbsearch.run("commit");
+                                                inGetResult = false;
+                                                return
                                             }
                                         });
                                     } else {
                                         console.log("****************** err 5: no rows");
                                         dbsearch.run("begin transaction");
-                                        setIn.run(source);
+                                        setIn.run("INDEXED: No Data",source);
                                         dbsearch.run("commit");
+                                        inGetResult = false;
                                         return
                                     }
                                 } else {
                                     console.log("****************** err 3" + err);
+                                    dbsearch.run("begin transaction");
+                                    setIn.run("ERROR: " + err, source);
+                                    dbsearch.run("commit");
+                                    inGetResult = false;
+                                    return
                                 }
                             });
                     })
@@ -635,8 +650,18 @@ var getResult = function(source, connection, driver, definition, callback) {
         }
         catch(err){
             console.log("****************** err 1" + err);
+            inGetResult = false;
         }
+    } else {
+        console.log("****************** err 7" );
+        dbsearch.run("begin transaction");
+        setIn.run("ERROR: no connection for " + source , source);
+        dbsearch.run("commit");
+        inGetResult = false;
+        
     }
+        console.log("****************** err 10" );
+        //inGetResult = false;
     }
     
     
