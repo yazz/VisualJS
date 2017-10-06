@@ -585,11 +585,16 @@ var getResult = function(source, connection, driver, definition, callback) {
                                                 stmt2.run(sha1sum, row);
                                                 stmt3.run(binHash, null, sha1sum);
                                             }
-                                            dbsearch.run("commit");
                                             console.log("Committed: " + rrows.length)
                                             //stmt2.finalize();
                                             //stmt3.finalize();
                                             console.log('                 : ' + JSON.stringify(rrows.length));
+                                            
+                                            console.log('                 source: ' + JSON.stringify(source));
+                                            var setIn =  dbsearch.prepare("UPDATE queries set index_status = 'INDEXED' where id = ?");
+                                            setIn.run(source);
+                                            dbsearch.run("commit");
+                                            
                                         }
                                     });
                                 }
@@ -1547,8 +1552,16 @@ var upload = multer( { dest: 'uploads/' } );
                     if (!err) 
                     {
                         if( results.length != 0) 
-                        {
+                        {//zzz
                             console.log("          : " + JSON.stringify(results[0],null,2));
+                            getResult(  results[0].id, 
+                                        results[0].connection, 
+                                        results[0].driver, 
+                                        {}, 
+                                        function(result)
+                                        {
+                                            console.log("File added v2: ");
+                                        });
                         
                         }                    
                     } else {
@@ -1556,14 +1569,6 @@ var upload = multer( { dest: 'uploads/' } );
                    } 
                 })
 
-            /*getResult(  newqueryid2, 
-                        newid2, 
-                        fileType2, 
-                        {}, 
-                        function(result)
-                        {
-                            console.log("File added v2: " + fileId2);
-                        });*/
         }
         
 		if (typeOfSystem == 'client') {
