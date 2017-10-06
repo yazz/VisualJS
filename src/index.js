@@ -415,7 +415,8 @@ function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileTyp
 
  var walk = function(dir, done) {
    if (stopScan) {
-     return;
+       inScan = false;
+         return;
    };
    ////console.log('dir: ' + dir);
   fs.readdir(dir, function(err, list) {
@@ -537,7 +538,7 @@ var getResult = function(source, connection, driver, definition, callback) {
         stmt3 = dbsearch.prepare("INSERT INTO search_rows_hierarchy (document_binary_hash, parent_hash, child_hash) VALUES (?,?,?)");
     }
     if (setIn == null) {
-        setIn =  dbsearch.prepare("UPDATE queries set index_status = 'ERROR' where id = ?");
+        setIn =  dbsearch.prepare("UPDATE queries SET index_status = 'ERROR' WHERE id = ?");
     }
                         
 
@@ -548,10 +549,12 @@ var getResult = function(source, connection, driver, definition, callback) {
             drivers[driver]['get_v2'](connections[connection],definition,function(ordata) {
                 if (ordata.error) {
                     console.log("****************** err 4:" + ordata.error);
+                    callback.call(this,ordata);
                     dbsearch.serialize(function() {
+                        dbsearch.run("begin transaction");
                         setIn.run(source);
                         dbsearch.run("commit");
-                        callback.call(this,ordata);
+                        return
                     });
 
                 } else {
@@ -881,6 +884,7 @@ app.ws('/websocket', function(ws, req) {
 		res.writeHead(200, {'Content-Type': 'text/plain'});
 		res.end(JSON.stringify([]));
 		stopScan = false;
+        inScan = true;
 		scanHardDisk();
         sendOverWebSockets({
                                 type:   "server_scan_status",  
@@ -1583,7 +1587,7 @@ var upload = multer( { dest: 'uploads/' } );
                                         {}, 
                                         function(result)
                                         {
-                                            console.log("File added v2: ");
+                                            console.log("File added v2: " + JSON.stringify(result.error,null,2));
                                         });
                         
                         }                    
