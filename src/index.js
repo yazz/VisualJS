@@ -617,6 +617,12 @@ var getResult = function(source, connection, driver, definition, callback) {
                                                 
                                             }
                                         });
+                                    } else {
+                                        console.log("****************** err 5: no rows");
+                                        dbsearch.run("begin transaction");
+                                        setIn.run(source);
+                                        dbsearch.run("commit");
+                                        return
                                     }
                                 } else {
                                     console.log("****************** err 3" + err);
