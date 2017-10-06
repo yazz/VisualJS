@@ -856,12 +856,20 @@ app.ws('/websocket', function(ws, req) {
 		res.end(JSON.stringify([]));
 		stopScan = false;
 		scanHardDisk();
+        sendOverWebSockets({
+                                type:   "server_scan_status",  
+                                value:  "Hard disk scan in progress",
+                                });
 	});
 
 	app.get('/stopscanharddisk', function (req, res) {
 		res.writeHead(200, {'Content-Type': 'text/plain'});
 		res.end(JSON.stringify([]));
 		stopScan = true;
+        sendOverWebSockets({
+                                type:   "server_scan_status",  
+                                value:  "Hard disk scan stopped",
+                                });
 	});
 
 

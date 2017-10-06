@@ -16,6 +16,8 @@ export default new Vuex.Store({
         ,
         current_search: ""
         ,
+        scanning_status: "Idle"
+        ,
         current_location: "vr_home"
         ,
         search_subtext: ""
@@ -95,6 +97,8 @@ export default new Vuex.Store({
     add_connection_visible: state => state.add_connection_visible
     ,
     get_current_search: state => state.current_search
+    ,
+    get_scanning_status: state => state.scanning_status
     ,
     get_current_location: state => state.current_location
     ,
@@ -208,6 +212,9 @@ export default new Vuex.Store({
       },
       SET_CURRENT_SEARCH: function (state,y) {
         state.current_search = y
+      },
+      SET_SCANNING_STATUS: function (state,y) {
+        state.scanning_status = y
       },
       SET_CURRENT_LOCATION: function (state,y) {
         state.current_location = y
@@ -444,6 +451,9 @@ export default new Vuex.Store({
 		//
 		set_current_search: function(a,b){
             a.commit('SET_CURRENT_SEARCH',b)
+		},
+		set_scanning_status: function(a,b){
+            a.commit('SET_SCANNING_STATUS',b)
 		},
 		set_current_location: function(a,b){
             a.commit('SET_CURRENT_LOCATION',b)

@@ -519,7 +519,7 @@
         url: '/scanharddisk',
         success: function(data) {
           //$("#result").text(data);
-		  alert('Hard disk scan started!');
+		    //alert('Hard disk scan started!');
 			},
         error: function(jqXHR, textStatus, errorThrown) {
           alert('error ' + textStatus + " " + errorThrown);
@@ -534,7 +534,7 @@
         url: '/stopscanharddisk',
         success: function(data) {
           //$("#result").text(data);
-		  alert('Hard disk scan stopped!');
+		  //alert('Hard disk scan stopped!');
                     window.when_connections_changes("*");
                     window.when_queries_changes("*");
                     window.recalcVuexQueries();

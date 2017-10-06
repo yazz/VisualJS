@@ -1199,6 +1199,11 @@ function setupWebSocket(host, port)
           if (data.type == "uploaded") {
                 //alert("File uploaded: " + data.id);
           }
+          else if (data.type == "server_scan_status") {
+              //alert("server_scan_status called on client" );
+            store.dispatch('set_scanning_status', data.value);
+          }
+          
         };
 
         window.ws.onclose = function()
