@@ -22,6 +22,11 @@
 						  v-bind:text='"font: /public/aframe_fonts/Roboto-msdf.json    ; color: black; align: left; value: Data for user: " + getUserName + "; width: 4; "'
 						  rotation='0 0 0'>
                     </a-entity>
+                    <a-entity position="4.5 3.15 0"
+						  geometry="primitive: plane; width: 6; height: auto" material="color: white"
+						  v-bind:text='"font: /public/aframe_fonts/Roboto-msdf.json    ; color: black; align: left; value:  "  + get_scanning_status()+"; width: 6;wrapPixels: 5000; "'
+						  rotation='0 0 0'>
+                    </a-entity>
 
                     
                     
@@ -155,7 +160,6 @@
 						  v-bind:text='"font: /public/aframe_fonts/Roboto-msdf.json; color: black; align: left; value: Data for user: " + getUserName + "; width: 8; "'
 						  rotation='0 0 0'>
                     </a-entity>
-
                     <a-entity  	material='color: gray;opacity: .95;'  
 								geometry='primitive: box; width: 10; height: 1; depth: .7'
                                 rotation='0 0 0'
@@ -258,7 +262,11 @@ name: 'VR'
 		var cols = (Math.ceil(Math.sqrt(total)));
 		return index % cols;
 	},
-        where_am_i: function () {
+		get_scanning_status: function() {
+            return this.$store.state.scanning_status;
+	},
+
+    where_am_i: function () {
             return this.$store.getters.get_current_location
         },
         get_hash: function (id) {

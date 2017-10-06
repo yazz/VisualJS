@@ -307,6 +307,10 @@ var stmtInsertInsertIntoQueries = dbsearch.prepare(" insert into queries " +
                             "    (?,  ?,?,?,  ?,?,?, ?,?,?);");
 function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileType2) {
     console.log("... in saveConnectionAndQueryForFile:::: " + fileId)
+    sendOverWebSockets({
+                            type:   "server_scan_status",  
+                            value:  "Found file " + fileName,
+                            });
     if (!fileName) {
         return;
     };
@@ -434,6 +438,10 @@ function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileTyp
                           });
           }, 10 * 1000);
         } else {
+            sendOverWebSockets({
+                                    type:   "server_scan_status",  
+                                    value:  "Scanning file " + file,
+                                    });
 		  if (isExcelFile(file)) {
                 //console.log('file: ' + file);
   					var excelFile = file;
