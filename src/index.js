@@ -248,7 +248,6 @@ console.log("");
                 
 var stopScan = false;
 var inScan = false;
-var inIndexer = false;
 var XLSX = require('xlsx');
 var csv = require('fast-csv');
 var mammoth = require("mammoth");
@@ -542,56 +541,73 @@ var getResult = function(source, connection, driver, definition, callback) {
     if (setIn == null) {
         setIn =  dbsearch.prepare("UPDATE queries SET index_status = ? WHERE id = ?");
     }
+    console.log("01");
                         
 
     var error = new Object();
     if (connections[connection]) {
+        console.log("02");
         try {
-            drivers[driver]['get_v2'](connections[connection],definition,function(ordata) {
-                if (ordata.error) {
-                    console.log("****************** err 4:" + ordata.error);
-                    dbsearch.serialize(function() {
-                        dbsearch.run("begin transaction");
-                        setIn.run("ERROR: " + ordata.error,source);
-                        dbsearch.run("commit");
-                        callback.call(this,{error: true});
-                    });
+            console.log("22");
+            dbsearch.serialize(function() {
+                dbsearch.run("begin transaction");
+                setIn.run("PROCESSING" ,source);
+                dbsearch.run("commit");
+                drivers[driver]['get_v2'](connections[connection],definition,function(ordata) {
+                    console.log("23");
+                    if (ordata.error) {
+                        console.log("24");
+                        console.log("****************** err 4:" + ordata.error);
+                        dbsearch.serialize(function() {
+                            console.log("25");
+                            dbsearch.run("begin transaction");
+                            setIn.run("ERROR: " + ordata.error,source);
+                            dbsearch.run("commit");
+                            callback.call(this,{error: true});
+                        });
 
-                } else {
-                    var rrows = [];
-                    if( Object.prototype.toString.call( ordata ) === '[object Array]' ) {
-                        rrows = ordata;
                     } else {
-                        rrows = ordata.values;
-                    }
-                    //console.log( "   ordata: " + JSON.stringify(ordata));
-                    var findHashSql = "select  hash from queries where id = '" + source + "'";
-                    console.log("FindHashSql : " + findHashSql );
-                    var stmt4 = dbsearch.all(findHashSql,
-                        function(err, results2) {
-                            if( err) {
-                                console.log("Error: " + JSON.stringify(error) + "'");
-                            }
-                            if( results2.length == 0) {
-                                console.log("No sresults for hash" + source + "'");
-                            }
-                            var binHash = results2[0].hash;
-                            var stmt = dbsearch.all("select  " + 
-                                                "    document_binary_hash  "  + 
-                                                "from  " + 
-                                                "    search_rows_hierarchy  " +
-                                                "where  " +
-                                                "    document_binary_hash = '" + binHash + "'",
-                            function(err, results) {
-                                if (!err) {
-                                    if( results.length == 0) {
-                                        dbsearch.serialize(function() {
-                                            callback.call(this,ordata);
-                                            console.log("Inserting rows");
-                                            
-                                            if (rrows && rrows.length) {
-                                                if (!inIndexer) {
-                                                    inIndexer = true    
+                        console.log("26");
+                        var rrows = [];
+                        if( Object.prototype.toString.call( ordata ) === '[object Array]' ) {
+                            rrows = ordata;
+                        } else {
+                            rrows = ordata.values;
+                        }
+                        console.log("27");
+                        //console.log( "   ordata: " + JSON.stringify(ordata));
+                        var findHashSql = "select  hash from queries where id = '" + source + "'";
+                        console.log("FindHashSql : " + findHashSql );
+                        console.log("1");
+                        var stmt4 = dbsearch.all(findHashSql,
+                            function(err, results2) {
+                                console.log("2");
+                                if( err) {
+                                    console.log("Error: " + JSON.stringify(error) + "'");
+                                }
+                                if( results2.length == 0) {
+                                    console.log("No sresults for hash" + source + "'");
+                                }
+                                var binHash = results2[0].hash;
+                                var stmt = dbsearch.all("select  " + 
+                                                    "    document_binary_hash  "  + 
+                                                    "from  " + 
+                                                    "    search_rows_hierarchy  " +
+                                                    "where  " +
+                                                    "    document_binary_hash = '" + binHash + "'",
+                                function(err, results) {
+                                    console.log("3");
+                                    if (!err) {
+                                        console.log("4");
+                                        if( results.length == 0) {
+                                            console.log("5");
+                                            dbsearch.serialize(function() {
+                                    
+                                                callback.call(this,ordata);
+                                                console.log("Inserting rows");
+                                                
+                                                if (rrows && rrows.length) {
+                            
                                                     dbsearch.run("begin transaction");
                                                     console.log("Committing... " + rrows.length)
                                                     for (var i =0 ; i < rrows.length; i++) {
@@ -613,48 +629,51 @@ var getResult = function(source, connection, driver, definition, callback) {
                                                     console.log('                 source: ' + JSON.stringify(source));
                                                     setIn.run("INDEXED",source);
                                                     dbsearch.run("commit");
-                                                    inIndexer = false
+                                                    
+                                                } else {
+                                                    console.log("****************** err 2");
+                                                    callback.call(this,{error: true});
+                                                    dbsearch.run("begin transaction");
+                                                    setIn.run("INDEXED: Other error",source);
+                                                    dbsearch.run("commit");
                                                 }
-                                                
-                                            } else {
-                                                console.log("****************** err 2");
-                                                callback.call(this,{error: true});
+                                            });
+                                        } else {
+                                            console.log("****************** err 5: no rows");
+                                            callback.call(this,ordata);
+                                            dbsearch.serialize(function() {
                                                 dbsearch.run("begin transaction");
-                                                setIn.run("INDEXED: Other error",source);
+                                                setIn.run("INDEXED: ",source);
                                                 dbsearch.run("commit");
-                                            }
-                                        });
+                                            });
+                                        }
                                     } else {
-                                        console.log("****************** err 5: no rows");
-                                        callback.call(this,ordata);
+                                        console.log("****************** err 3" + err);
                                         dbsearch.serialize(function() {
                                             dbsearch.run("begin transaction");
-                                            setIn.run("INDEXED: ",source);
+                                            setIn.run("ERROR: " + err, source);
                                             dbsearch.run("commit");
+                                            callback.call(this,{error: true});
                                         });
                                     }
-                                } else {
-                                    console.log("****************** err 3" + err);
-                                    dbsearch.serialize(function() {
-                                        dbsearch.run("begin transaction");
-                                        setIn.run("ERROR: " + err, source);
-                                        dbsearch.run("commit");
-                                        callback.call(this,{error: true});
-                                    });
-                                }
-                            });
-                    })
+                                });
+                        })
 
-            }})
+                }})
+            }
+            )
         
         }
         catch(err){
+            console.log("03");
             console.log("****************** err 1" + err);
             callback.call(this,{error: true});
         }
     } else {
+        console.log("04");
         console.log("****************** err 7" );
         dbsearch.serialize(function() {
+            console.log("05");
             dbsearch.run("begin transaction");
             setIn.run("ERROR: no connection for " + source , source);
             dbsearch.run("commit");
@@ -1604,7 +1623,6 @@ var upload = multer( { dest: 'uploads/' } );
            if (inScan) {
              return;
            };
-            console.log("    inIndexer: " + inIndexer);
            
            try {
             var stmt = dbsearch.all(
@@ -1617,6 +1635,7 @@ var upload = multer( { dest: 'uploads/' } );
                         {//zzz
                             console.log("          : " + JSON.stringify(results[0],null,2));
 
+                            
                                     getResult(  results[0].id, 
                                                 results[0].connection, 
                                                 results[0].driver, 
