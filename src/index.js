@@ -15,7 +15,7 @@ function require2(moduleName) {
 	if (isWin) {
 		pat = "require(process.cwd() + " + "'\\\\node_modules\\\\" + moduleName + "');";
 	} else {
-		pat = "require(path.join(__dirname, '../node_modules/" + moduleName + "'));";
+	    pat = "require(process.cwd() + " + "'/node_modules/" + moduleName + "');";
 	}
 	
 	//console.log('PATH: ' + pat);
@@ -33,8 +33,11 @@ const uuidv1 = require('uuid/v1');
 if (!fs.existsSync(process.cwd() + "/node_modules") ) {
     copyFolderRecursiveSync(path.join(__dirname, "../node_modules")  , process.cwd() ); }
 
-    if (!fs.existsSync(process.cwd() + "/node_macos64") ) {
-	copyFolderRecursiveSync(path.join(__dirname, "../node_macos64")  , process.cwd() ); }
+if (!fs.existsSync(process.cwd() + "/node_modules/pdf2json") ) {
+    copyFolderRecursiveSync(path.join(__dirname, "../node_modules/pdf2json")  , process.cwd() + "/node_modules" ); }
+
+if (!fs.existsSync(process.cwd() + "/node_macos64") ) {
+    copyFolderRecursiveSync(path.join(__dirname, "../node_macos64")  , process.cwd() ); }
 
 if (!fs.existsSync(process.cwd() + "/node_win32") ) {
     copyFolderRecursiveSync(path.join(__dirname, "../node_win32")  , process.cwd() ); }
@@ -115,12 +118,12 @@ program
   var portrange = 3000
   console.log('Local hostname: ' + ip.address() + ' ')
 
-var fork  = require('child_process');
+      var fork  = require('child_process');
 var forked;
 if (isWin) {
     forked = fork.fork(path.join(__dirname, '../src/child.js'));
 } else {
-    forked = fork.fork(path.join(__dirname, '../src/child.js'));
+        forked = fork.fork(path.join(__dirname, '../src/child.js'));
 };
 //zzz
 forked.on('message', (msg) => {

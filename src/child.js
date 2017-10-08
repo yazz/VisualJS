@@ -1,3 +1,5 @@
+'use strict';
+
 var isWin = /^win/.test(process.platform);
 var fs           = require('fs');
 var path         = require('path');
@@ -9,7 +11,7 @@ function require2(moduleName) {
 	if (isWin) {
 		pat = "require(process.cwd() + " + "'\\\\node_modules\\\\" + moduleName + "');";
 	} else {
-		pat = "require(path.join(__dirname, '../node_modules/" + moduleName + "'));";
+	    pat = "require(process.cwd() + " + "'/node_modules/" + moduleName + "');";
 	}
     var reac = eval(pat);	
 	return reac;
