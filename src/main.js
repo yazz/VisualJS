@@ -1203,6 +1203,9 @@ function setupWebSocket(host, port)
               //alert("server_scan_status called on client" );
             store.dispatch('set_scanning_status', data.value);
           }
+          else if (data.type == "test_fork") {
+            document.getElementById("mainid").innerHTML = data.value
+          }
           
         };
 

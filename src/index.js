@@ -124,7 +124,11 @@ if (isWin) {
 };
 //zzz
 forked.on('message', (msg) => {
-  console.log('Message from child', msg);
+    console.log('Message from child', msg);
+    sendOverWebSockets({
+                            type:   "test_fork",  
+                            value:  "Counter: " + msg.counter + ", count queries from sqlite: " + msg.sqlite
+                            });
 });
 
 forked.send({ hello: 'world' });
