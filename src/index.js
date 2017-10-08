@@ -91,7 +91,6 @@ if (isWin) {
 	copyNodeNativeAdapter( "macos64", "sqlite3", 	"lib/binding/node-v48-darwin-x64" , "node_sqlite3.node")
 }
 
-					
 
 var dns          = require('dns');
 var url          = require('url');
@@ -100,7 +99,37 @@ var unzip        = require('unzip');
 var postgresdb   = require('pg');
 var ip           = require("ip");
 var program      = require('commander');
-var drivers      = new Object();
+program
+  .version('0.0.1')
+  .option('-t, --type [type]', 'Add the specified type of app (client/server) [type]', 'client')
+  .option('-p, --port [port]', 'Which port should I listen on? (default 80) [port]', parseInt)
+  .option('-h, --host [host]', 'Server address of the central host (default gosharedata.com) [host]', 'gosharedata.com')
+  .option('-l, --locked [locked]', 'Allow server to be locked/unlocked on start up (default true) [locked]', 'true')
+  .option('-s, --hostport [hostport]', 'Server port of the central host (default 80) [hostport]', parseInt)
+  .parse(process.argv);
+
+
+  port = program.port;
+  if (!isNumber(port)) {port = 80;};
+
+  var portrange = 3000
+  console.log('Local hostname: ' + ip.address() + ' ')
+
+var fork  = require('child_process');
+var forked;
+if (isWin) {
+    forked = fork.fork(path.join(__dirname, '../src/child.js'));
+} else {
+    forked = fork.fork(path.join(__dirname, '../src/child.js'));
+};
+//zzz
+forked.on('message', (msg) => {
+  console.log('Message from child', msg);
+});
+
+forked.send({ hello: 'world' });
+  
+  var drivers      = new Object();
 var connections  = new Object();
 var queries      = new Object();
 var express      = require('express')
@@ -122,6 +151,7 @@ var compression = require('compression')
 app.use(compression())
 var crypto = require('crypto');
 var PDFParser = require2("pdf2json");
+
 
 
 var sqlite3   = require2('sqlite3');
@@ -496,6 +526,7 @@ path.join(__dirname, '../public/polyfill.min.js')
 path.join(__dirname, '../src/oracle.js')
 path.join(__dirname, '../src/postgres.js')
 path.join(__dirname, '../src/excel.js')
+path.join(__dirname, '../src/child.js')
 path.join(__dirname, '../public/gosharedata_setup.js')
 path.join(__dirname, '../public/intranet.js')
 path.join(__dirname, '../public/tether.min.js')
@@ -703,21 +734,6 @@ function isNumber(n) {
 
 
 
-program
-  .version('0.0.1')
-  .option('-t, --type [type]', 'Add the specified type of app (client/server) [type]', 'client')
-  .option('-p, --port [port]', 'Which port should I listen on? (default 80) [port]', parseInt)
-  .option('-h, --host [host]', 'Server address of the central host (default gosharedata.com) [host]', 'gosharedata.com')
-  .option('-l, --locked [locked]', 'Allow server to be locked/unlocked on start up (default true) [locked]', 'true')
-  .option('-s, --hostport [hostport]', 'Server port of the central host (default 80) [hostport]', parseInt)
-  .parse(process.argv);
-
-
-  port = program.port;
-  if (!isNumber(port)) {port = 80;};
-
-  var portrange = 3000
-  //console.log('Local hostname: ' + ip.address() + ' ')
   getPort(mainProgram);
 
 	function getPort (cb) {
@@ -1632,7 +1648,7 @@ var upload = multer( { dest: 'uploads/' } );
                     if (!err) 
                     {
                         if( results.length != 0) 
-                        {//zzz
+                        {
                             console.log("          : " + JSON.stringify(results[0],null,2));
 
                             
