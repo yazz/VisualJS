@@ -1,4 +1,8 @@
 var isWin = /^win/.test(process.platform);
+var fs           = require('fs');
+var path         = require('path');
+var mkdirp       = require('mkdirp')
+const uuidv1 = require('uuid/v1');
 
 function require2(moduleName) {
 	var pat;
