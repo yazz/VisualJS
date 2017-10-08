@@ -33,6 +33,12 @@ const uuidv1 = require('uuid/v1');
 if (!fs.existsSync(process.cwd() + "/node_modules") ) {
     copyFolderRecursiveSync(path.join(__dirname, "../node_modules")  , process.cwd() ); }
 
+if (!fs.existsSync(process.cwd() + "/node_modules/nan") ) {
+    copyFolderRecursiveSync(path.join(__dirname, "../node_modules/nan")  , process.cwd() + "/node_modules" ); }
+
+if (!fs.existsSync(process.cwd() + "/node_modules/sqlite3") ) {
+    copyFolderRecursiveSync(path.join(__dirname, "../node_modules/sqlite3")  , process.cwd() + "/node_modules" ); }
+
 if (!fs.existsSync(process.cwd() + "/node_modules/pdf2json") ) {
     copyFolderRecursiveSync(path.join(__dirname, "../node_modules/pdf2json")  , process.cwd() + "/node_modules" ); }
 
