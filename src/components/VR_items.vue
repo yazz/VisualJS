@@ -11,22 +11,26 @@
                         <a-entity position="0 3 -1.9" id='vr_file_name_2'
                                     scale="1 1 1"
 									geometry="primitive: plane; width: 3.9; height: 1.9;" material="color: white;opacity: 1;"
-									v-bind:text='"font: /public/aframe_fonts/Roboto-msdf.json; color: black; align: left; value: _ ; width: 6; "'>
+                                    mixin="RobotoFont"
+									v-bind:text='"color: black; align: left; value: _ ; width: 6; "'>
 						</a-entity>
 						 <a-entity position="0 2.5 -1.9" id='vr_file_size_2'
                                     scale="1 1 1"
 									geometry="primitive: plane; width: 3.9; height: 1.9;" material="color: white;opacity: 1;"
-									v-bind:text='"font: /public/aframe_fonts/Roboto-msdf.json; color: black; align: left; value: ? ; width: 6; "'>
+                                    mixin="RobotoFont"
+									v-bind:text='"color: black; align: left; value: ? ; width: 6; "'>
 						</a-entity>
 						 <a-entity position="0 2 -1.9" id='vr_file_saved_as'
                                     scale="1 1 1"
 									geometry="primitive: plane; width: 3.9; height: 1.9;" material="color: white;opacity: 1;"
-									v-bind:text='"font: /public/aframe_fonts/Roboto-msdf.json; color: black; align: left; value: ? ; width: 6; "'>
+                                    mixin="RobotoFont"
+									v-bind:text='"color: black; align: left; value: ? ; width: 6; "'>
 						</a-entity>
                         <a-entity v-if=false position="0 1.5 -1.9" id='vr_file_type'
                                     scale="1 1 1"
 									geometry="primitive: plane; width: 3.9; height: 1.9;" material="color: white;opacity: 1;"
-									v-bind:text='"font: /public/aframe_fonts/Roboto-msdf.json; color: black; align: left; value: " + is_document(get_viewed_query_id()) +" ; width: 6; "'>
+                                    mixin="RobotoFont"
+									v-bind:text='"color: black; align: left; value: " + is_document(get_viewed_query_id()) +" ; width: 6; "'>
 						</a-entity>
 
                 
@@ -34,7 +38,8 @@
 
 				<a-entity position="-1.4 4.7 .6" id=vr_file_name
 						  geometry="primitive: plane; width: auto; height: auto" material="color: white"
-						  text='font: /public/aframe_fonts/Roboto-msdf.json; color: black; align: left; value: ; width: 4;  '
+                          mixin="RobotoFont"
+						  text='color: black; align: left; value: ; width: 4;  '
 						  rotation='0 0 0'>
 				</a-entity>
 
@@ -45,14 +50,16 @@
 						<a-entity geometry="primitive: box; width:.5;height: 0.5;depth: 0.1;" material="color: red"
 						v-if='get_vr_type_mouse'  position='-4 -2.5 1.1' closedoc=''>
 								<a-entity 	position="1 0 0.07"
-											text="font: /public/aframe_fonts/Aileron-Semibold.fnt; color: white; align: left; value: Close; width: 2; height: 1; opacity: 1;">
+                                            mixin="AileronFont"
+											text="color: white; align: left; value: Close; width: 2; height: 1; opacity: 1;">
 								</a-entity>
 						</a-entity>
 						<a-entity  v-if='get_vr_type_mouse' geometry="primitive: box; width:.5;height: 0.5;depth: 0.1;" material="color: green"
 						position='-4 -1 1.1'
 									v-bind:open_file='get_viewed_query_file()?("" + get_viewed_query_file()):false ' >
 							<a-entity 	position="1 0 0.07"
-										text="font: /public/aframe_fonts/Aileron-Semibold.fnt; color: white; align: left; value: Open; width: 2; height: 1; opacity: 1;">
+                                        mixin="AileronFont"
+										text="color: white; align: left; value: Open; width: 2; height: 1; opacity: 1;">
 							</a-entity>
 						</a-entity>
 
@@ -61,7 +68,8 @@
 						position='-6 -3.4 .7' closedoc='' rotation='0 40 0'>
 						</a-entity>
 						<a-entity v-if='get_vr_type_move' 	position="-5 -3.5 -1" rotation='0 40 0'
-									text="font: /public/aframe_fonts/Aileron-Semibold.fnt; color: red; align: middle; value: Close; width: 8; height: 2; opacity: 1;">
+                                    mixin="AileronFont"
+									text="color: red; align: middle; value: Close; width: 8; height: 2; opacity: 1;">
 						</a-entity>
 
 
@@ -72,13 +80,15 @@
 							  rotation='0 0 0'>
 
                             <a-entity position='-1.5 0 0.6' v-if='!is_document(get_viewed_query_id())'
-                                      v-bind:text='"font: /public/aframe_fonts/Aileron-Semibold.fnt;color: black; align: left; value: " + field_name + "; width: 2; "'>
+                                      mixin="AileronFont"
+                                      v-bind:text='"color: black; align: left; value: " + field_name + "; width: 2; "'>
                             </a-entity>
 
 							<a-entity v-for="(a_record,rindex)  in  list_of_records" v-if='!is_document(get_viewed_query_id())'
 									  v-bind:position='"-1.5 " + (-.2 - (rindex * 0.2)) + " 0.6"'
 									  geometry="primitive: plane; width: 2; height: 0.2" material="color: white"
-									  v-bind:text='"font: /public/aframe_fonts/SourceCodePro.fnt;color: black; align: left; value: " + truncate(a_record[field_name]) + "; width: 2; opacity: 1;"'
+                                      mixin="SourceCodeProFont"
+									  v-bind:text='"color: black; align: left; value: " + truncate(a_record[field_name]) + "; width: 2; opacity: 1;"'
 									  rotation='0 0 0'>
 
 							</a-entity>
@@ -89,7 +99,8 @@
 							<a-entity v-for="(a_record,rindex)  in  list_of_records" v-if='is_document(get_viewed_query_id())'
 									  v-bind:position='"1 " + (-.2 - (rindex * 0.2)) + " 0.6"'
 									  geometry="primitive: plane; width: 6; height: 0.2" material="color: white"
-									  v-bind:text='"font: /public/aframe_fonts/SourceCodePro.fnt;color: black; align: left; value: " + truncate2(a_record[field_name]) + "; width: 6; opacity: 1; wrapPixels: 2000; "'
+                                      mixin="SourceCodeProFont"
+									  v-bind:text='"color: black; align: left; value: " + truncate2(a_record[field_name]) + "; width: 6; opacity: 1; wrapPixels: 2000; "'
 									  rotation='0 0 0'>
 
 							</a-entity>

@@ -7,6 +7,12 @@
                     keyboard-shortcuts="enterVR: false"
                     v-bind:cursor='(vr_type=="mouse"?"rayOrigin: mouse":false)' >
 			<a-assets>
+            
+                <a-mixin id="RobotoFont" text="font: /public/aframe_fonts/Roboto-msdf.json"></a-mixin>
+                <a-mixin id="SourceCodeProFont" text="font: /public/aframe_fonts/SourceCodePro.fnt"></a-mixin>
+                <a-mixin id="AileronFont" text="font: /public/aframe_fonts/Aileron-Semibold.fnt"></a-mixin>
+                           
+            
 			</a-assets>
 
 
@@ -19,12 +25,14 @@
                     
                     <a-entity position="1.4 3.15 0"
 						  geometry="primitive: plane; width: auto; height: auto" material="color: white"
-						  v-bind:text='"font: /public/aframe_fonts/Roboto-msdf.json    ; color: black; align: left; value: Data for user: " + getUserName + "; width: 4; "'
+                          mixin="RobotoFont"
+						  v-bind:text='"    ; color: black; align: left; value: Data for user: " + getUserName + "; width: 4; "'
 						  rotation='0 0 0'>
                     </a-entity>
                     <a-entity position="4.5 3.15 0"
 						  geometry="primitive: plane; width: 6; height: auto" material="color: white"
-						  v-bind:text='"font: /public/aframe_fonts/Roboto-msdf.json    ; color: black; align: left; value:  "  + get_scanning_status()+"; width: 6;wrapPixels: 5000; "'
+                          mixin="RobotoFont"
+						  v-bind:text='"; color: black; align: left; value:  "  + get_scanning_status()+"; width: 6;wrapPixels: 5000; "'
 						  rotation='0 0 0'>
                     </a-entity>
 
@@ -35,17 +43,23 @@
 								geometry="primitive: plane; width: 5.9; height: 8.9;" 
 								material="color: white; opacity: .9;"
 								rotation='0 0 0' >
-                        <a-entity   position="0 4 0" v-bind:text='"font: /public/aframe_fonts/Roboto-msdf.json; color: black; align: center; value: GoShareData " + "" +" ; width: 6; "'></a-entity>
+                        <a-entity   position="0 4 0" 
+                                    mixin="RobotoFont"
+                                    v-bind:text='"color: black; align: center; value: GoShareData " + "" +" ; width: 6; "'></a-entity>
                         
-                        <a-entity   position="1 3 0" v-bind:text='"font: /public/aframe_fonts/Roboto-msdf.json; color: black; align: left; value: Search ; width: 5; "'></a-entity>
+                        <a-entity   position="1 3 0" 
+                                    mixin="RobotoFont"
+                                    v-bind:text='"color: black; align: left; value: Search ; width: 5; "'></a-entity>
                         <a-entity   geometry="primitive: plane; width: 3; height: .5;"  
                                     position="0 2.6 0" 
                                     material="color: blue; opacity: 0.9;">
-                            <a-entity   position="1.6 0.0 0" 
-                                        v-bind:text='"font: /public/aframe_fonts/Roboto-msdf.json; color: black;align: left; value: " + zzz + " ; width: 6; "'>
+                            <a-entity   position="1.6 0.0 0"
+                                        mixin="RobotoFont"                            
+                                        v-bind:text='"color: black;align: left; value: " + zzz + " ; width: 6; "'>
                             </a-entity>
                             <a-entity   position="0 -.5 0" 
-                                        v-bind:text='"font: /public/aframe_fonts/Roboto-msdf.json; color: gray;align: left; value: " + getSearchSubtext + " ; width: 5; "'>
+                                        mixin="RobotoFont"
+                                        v-bind:text='"color: gray;align: left; value: " + getSearchSubtext + " ; width: 5; "'>
                             </a-entity>
                         
 
@@ -59,7 +73,8 @@
                         v-bind:jump_to_query='(getSearchResults[0]?"queryId: " + getSearchResults[0].id + "; queryFile: " +  get_hash(getSearchResults[0].id) + ( get_file_name(getSearchResults[0].id)?"." + get_file_name(getSearchResults[0].id).split(".").pop():""):false)'
                         material="color: white; opacity: 1">
                         <a-entity   position="2 0 0.01" 
-                                    v-bind:text='"font: /public/aframe_fonts/Roboto-msdf.json; color: black;align: left; value: " + (getSearchResults[0]?getSearchResults[0].data:"") + "; width: 5; "'>
+                                    mixin="RobotoFont"
+                                    v-bind:text='"color: black;align: left; value: " + (getSearchResults[0]?getSearchResults[0].data:"") + "; width: 5; "'>
                         </a-entity>
                         <a-animation begin="mouseenter" attribute="position"
                                         to="-.5 -1 1.3" dur="300" direction="alternate"  repeat="1"></a-animation>
@@ -70,7 +85,8 @@
                         v-bind:jump_to_query='(getSearchResults[1]?"queryId: " + getSearchResults[1].id + "; queryFile: " +  get_hash(getSearchResults[1].id) + ( get_file_name(getSearchResults[1].id)?"." + get_file_name(getSearchResults[1].id).split(".").pop():""):false)'
                         material="color: white; opacity: 1;">
                         <a-entity   position="2 0 0.01" 
-                                    v-bind:text='"font: /public/aframe_fonts/Roboto-msdf.json; color: black;align: left; value: " + (getSearchResults[1]?getSearchResults[1].data:"") + "; width: 5; "'>
+                                    mixin="RobotoFont"
+                                    v-bind:text='"color: black;align: left; value: " + (getSearchResults[1]?getSearchResults[1].data:"") + "; width: 5; "'>
                         </a-entity>
                         <a-animation begin="mouseenter" attribute="position"
                                         to="-.5 -2 1.3" dur="300" direction="alternate"  repeat="1"></a-animation>
@@ -81,7 +97,8 @@
                         v-bind:jump_to_query='(getSearchResults[2]?"queryId: " + getSearchResults[2].id + "; queryFile: " +  get_hash(getSearchResults[2].id) + ( get_file_name(getSearchResults[2].id)?"." + get_file_name(getSearchResults[2].id).split(".").pop():""):false)'
                         material="color: white; opacity: 1;">
                         <a-entity   position="2 0 0.01" 
-                                    v-bind:text='"font: /public/aframe_fonts/Roboto-msdf.json; color: black;align: left; value: " + (getSearchResults[2]?getSearchResults[2].data:"") + "; width: 5; "'>
+                                    mixin="RobotoFont"
+                                    v-bind:text='"color: black;align: left; value: " + (getSearchResults[2]?getSearchResults[2].data:"") + "; width: 5; "'>
                         </a-entity>
                         <a-animation begin="mouseenter" attribute="position"
                                         to="-.5 -3 1.3" dur="300" direction="alternate"  repeat="1"></a-animation>
@@ -92,7 +109,8 @@
                         v-bind:jump_to_query='(getSearchResults[3]?"queryId: " + getSearchResults[3].id + "; queryFile: " +  get_hash(getSearchResults[3].id) + ( get_file_name(getSearchResults[3].id)?"." + get_file_name(getSearchResults[3].id).split(".").pop():""):false)'
                         material="color: white; opacity: 1;">
                         <a-entity   position="2 0 0.01" 
-                                    v-bind:text='"font: /public/aframe_fonts/Roboto-msdf.json; color: black;align: left; value: " + (getSearchResults[3]?getSearchResults[3].data:"") + "; width: 5; "'>
+                                    mixin="RobotoFont"
+                                    v-bind:text='"color: black;align: left; value: " + (getSearchResults[3]?getSearchResults[3].data:"") + "; width: 5; "'>
                         </a-entity>
                         <a-animation begin="mouseenter" attribute="position"
                                         to="-.5 -4 1.3" dur="300" direction="alternate"  repeat="1"></a-animation>
@@ -112,8 +130,10 @@
 								goto='name: vr_home; duration: 300;' > 
 									<a-animation begin="mouseenter" attribute="position"
 												from="0.01 .9 1" to="0.01 .9 .98" dur="400" direction="alternate"  repeat="1"></a-animation>
-                                 <a-entity position="0 0.2 0.3" rotation="0 0 0" 
-                                            text='font: /public/aframe_fonts/Roboto-msdf.json; color: black; align: center; value: Go back ; width: 2; '>
+                                 <a-entity position="0 0.2 0.3" 
+                                           rotation="0 0 0" 
+                                           mixin="RobotoFont"
+                                           text='color: black; align: center; value: Go back ; width: 2; '>
                                 </a-entity>
 					</a-entity >
 
@@ -157,7 +177,8 @@
 
                     <a-entity position="2.5 7.8 1.5"
 						  geometry="primitive: plane; width: auto; height: auto" material="color: white"
-						  v-bind:text='"font: /public/aframe_fonts/Roboto-msdf.json; color: black; align: left; value: Data for user: " + getUserName + "; width: 8; "'
+                          mixin="RobotoFont"
+						  v-bind:text='"color: black; align: left; value: Data for user: " + getUserName + "; width: 8; "'
 						  rotation='0 0 0'>
                     </a-entity>
                     <a-entity  	material='color: gray;opacity: .95;'  
@@ -169,7 +190,8 @@
 									<a-animation begin="mouseenter" attribute="position"
 												from="0.01 1 1.5" to="0.01 1 1.4" dur="400" direction="alternate"  repeat="1"></a-animation>
                                  <a-entity position="0 0.3 0.6" rotation="-45 0 0" 
-                                            text='font: /public/aframe_fonts/Roboto-msdf.json; color: black; align: center; value: Go back ; width: 10; '>
+                                           mixin="RobotoFont"
+                                           text='color: black; align: center; value: Go back ; width: 10; '>
                                 </a-entity>
 					</a-entity >
 
