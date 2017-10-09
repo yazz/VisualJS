@@ -114,15 +114,17 @@
 
 
 
-<a-entity id=scrollable_grid>
+<a-entity id=scrollable_grid v-bind:refresh_vr_items='get_refresh_view_counter'>
 
 				<a-entity  v-for="(a_driver,index)  in  list_of_queries"
-				   v-bind:position="(-1.2 + (get_x_position(index,list_of_queries.length)*0.5))+ ' ' + (.5 - (get_y_position(index,list_of_queries.length)*0.6)) + ' -.1'"
-				   v-bind:color="(index % 2 == 0)?'blue':'green'"
+                    v-bind:id='a_driver.id + "_upper"'
+				   v-bind:position="((is_visible(a_driver.id)?-0.8:100) + (get_x_position(get_index(a_driver.id),list_of_queries.length)*0.5))+ ' ' + (.5 - (get_y_position(get_index(a_driver.id),list_of_queries.length)*0.6)) + ' -.1'"
+				   v-bind:color="(get_index(a_driver.id) % 2 == 0)?'blue':'green'"
 				   v-bind:text="'color: black; align: left; value: ' + a_driver.name.substr(a_driver.name.length - 10) + ' ; width: 2; '">
-					   <a-entity    position="-0.8 .3 -.3" 
+					   <a-entity    position='-0.8 .3 -.3" '
+                                    v-bind:id='a_driver.id + "_mid"'
 									geometry="primitive: plane; width:.35;height: 0.35;"
-							        v-bind:griditem='"x: " + get_x_position(index,list_of_queries.length) + "; y:" + get_y_position(index,list_of_queries.length) + ";" +
+							        v-bind:griditem='"x: " + get_x_position(get_index(a_driver.id),list_of_queries.length) + "; y:" + get_y_position(get_index(a_driver.id),list_of_queries.length) + ";" +
 								    "   query_name: " + a_driver.name +
                                     ";  query_saved_as: " + (a_driver.hash?(a_driver.hash + (a_driver.fileName?"." + a_driver.fileName.split(".").pop():"")):"") +                                   
 					    			";  query_display: " + "" + a_driver.fileName + 
@@ -130,10 +132,11 @@
 								mixin='gsd'  
 								v-bind:material2='"src: driver_icons/" + a_driver.driver + ".jpg;"'
 								v-bind:material='"color: gray;"'
-								v-bind:color="(index % 2 == 0)?'blue':'green'"
+								v-bind:color="(get_index(a_driver.id) % 2 == 0)?'blue':'green'"
 								v-bind:log='"x: " + get_x_position(index,list_of_queries.length) + "; y:" + get_y_position(index,list_of_queries.length) + ";queryFile: " + a_driver.hash + (a_driver.fileName?"." +a_driver.fileName.split(".").pop():"") + 
                                 ";queryId: "  + a_driver.id + ";"' >
 								<a-animation begin="mouseenter" attribute="rotation"
+                                    v-bind:id='a_driver.id' + "_anim"'
 												to="0 0 5" dur="90" direction="alternate"  repeat="3"></a-animation>
 						</a-entity>
 			   </a-entity>
@@ -162,6 +165,9 @@ name: 'VR-items'
 			props: ['vr_type'],
 
   computed: {
+  get_refresh_view_counter: function () {
+      return this.$store.state.refresh_view_counter;
+  },
     list_of_records: function () {
 	if (this.$store.state.list_of_output_records) {
 		var newl=new Object();
@@ -248,7 +254,25 @@ name: 'VR-items'
         }
         //console.log("rt.fileName  not found: ")
         return false;
+    },
+    is_visible: function(id) {
+        var qm = this.$store.state.query_map[id];
+        if (!qm) {
+            return false;
+        }
+        //return false;
+        console.log(" this.$store.state.query_map[id].visible = " + this.$store.state.query_map[id].visible);
+        return this.$store.state.query_map[id].visible;
+    },
+    get_index: function(id) {
+        var qm = this.$store.state.query_map[id];
+        if (!qm) {
+            return -1;
+        }
+        //return false;
+        return this.$store.state.query_map[id].index;
     }
+
   },
   components: {
 	  'output-table': output_table

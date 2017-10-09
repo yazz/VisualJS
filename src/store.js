@@ -14,6 +14,8 @@ export default new Vuex.Store({
                     //{username: 'testUSER'}
                     ]
         ,
+        refresh_view_counter: 0
+        ,
         current_search: ""
         ,
         scanning_status: "Idle"
@@ -92,6 +94,8 @@ export default new Vuex.Store({
       
     search_results: state => state.search_results
     ,
+    refresh_view_counter: state => state.refresh_view_counter
+    ,
     network: state => state.network
     ,
     add_connection_visible: state => state.add_connection_visible
@@ -164,6 +168,9 @@ export default new Vuex.Store({
   //-------------------------------------------------------------------
   mutations: {
       
+      REFRESH_VR_ITEMS: function (state) {
+        state.refresh_view_counter ++;
+      },
       CLEAR_SEARCH_RESULTS: function (state) {
         state.search_results.local.results  = [];
       },
@@ -184,8 +191,15 @@ export default new Vuex.Store({
         state.connection_map[connection.cp.id] = true;
       },
       ADD_QUERY: function (state, query) {
-        state.list_of_queries.push(query.cp);
-        state.query_map[query.cp.id] = true;
+        state.list_of_queries.push(query.cp );
+        if (!state.query_map[query.cp.id]) {
+            state.query_map[query.cp.id] = {visible: true, index: state.list_of_queries.length - 1};
+        } else {
+            state.query_map[query.cp.id] = {visible: true, index: state.query_map[query.cp.id].index};
+        }
+      },
+      SET_QUERY_MAP: function (state, details) {
+        state.query_map[details.id] = {visible: details.visible, index: details.index};
       },
       ADD_DRIVER: function (state, driver) {
         state.list_of_drivers.push(driver.cp);
@@ -307,6 +321,9 @@ export default new Vuex.Store({
 	//-------------------------------------------------------------------
 	actions: {
 
+		refresh_vr_items: function(a){
+		  a.commit('REFRESH_VR_ITEMS')
+		},
 		clear_search_results: function(a){
 		  a.commit('CLEAR_SEARCH_RESULTS')
 		},
@@ -343,6 +360,9 @@ export default new Vuex.Store({
 		},
 
 
+		set_query_map: function(a, value){
+		  a.commit('SET_QUERY_MAP', value)
+		},
 
 		//
 		// add driver

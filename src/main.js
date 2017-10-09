@@ -1456,7 +1456,7 @@ window.recalcVuexQueries = function() {
         var query = allQueries[results[i]];
         //alert(JSON.stringify(query , null, 2));
         //console.log('                      query *********:' + JSON.stringify(query , null, 2));
-        var exists = (store.getters.query_map[query.id] == true);
+        var exists = store.getters.query_map[query.id]?true:false;
 
         if (!exists) {
         
@@ -1512,41 +1512,29 @@ function  setvuexitemssearch( results2 ) {
         //console.log('                      results *********:' + JSON.stringify( results , null, 2));
 
 
-        store.dispatch('clear_queries');
+        //console.log(JSON.stringify(Object.keys(allQueries) , null, 2))
+        var kkeys = Object.keys(allQueries)
+        for (var i = 0; i < kkeys.length ; i ++ ) {
+            var queryId = kkeys[i];
+            //console.log({id: queryId, visible: false, index: -1})
+            store.dispatch('set_query_map', {id: queryId, visible: false, index: -1})
+        }
+        //store.dispatch('clear_queries');
         for (var i = 0 ; i < results.length ; i ++) {
             //alert(JSON.stringify(query , null, 2));
             //console.log('                          queries *********:' + JSON.stringify(allQueries , null, 2));
             var query = allQueries[results[i]];
             if (query) {
-            //console.log('                          query *********:' + JSON.stringify(query , null, 2));
-            var exists = false;//!(!store.getters.query_map[query.id]);
-
-            if (!exists) {
-                store.dispatch( 'add_query' , {cn:       query.id,
-
-                                        cp: {     id:      query.id
-                                                    ,
-                                                    name: query.name
-                                                    ,
-                                                    driver: query.driver
-                                                    ,
-                                                    size: query.size
-                                                    ,
-                                                    fileName: query.fileName
-                                                    ,
-                                                    hash: query.hash
-                                                    ,
-                                                    status: ''
-                                                    ,
-                                                    connection: query.connection
-                                                    ,
-                                                    type: query.type
-                                                    ,
-                                                    definition: eval('(' + query.definition + ')')
-                                                   }});
-                };
+                //console.log('                          query *********:' + JSON.stringify(query , null, 2));
+                
+                
+                
+                store.dispatch('set_query_map', {id: query.id, visible: true, index: i})
+                
             };
-        };        
+        };
+        store.dispatch('refresh_vr_items')
+        
         inupdatesearch = false;
     }
 }
