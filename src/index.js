@@ -29,6 +29,7 @@ var fs           = require('fs');
 var path         = require('path');
 var mkdirp       = require('mkdirp')
 const uuidv1 = require('uuid/v1');
+var fork  = require('child_process');
 
 if (!fs.existsSync(process.cwd() + "/node_modules") ) {
     copyFolderRecursiveSync(path.join(__dirname, "../node_modules")  , process.cwd() ); }
@@ -124,23 +125,6 @@ program
   var portrange = 3000
   console.log('Local hostname: ' + ip.address() + ' ')
 
-      var fork  = require('child_process');
-var forked;
-if (isWin) {
-    forked = fork.fork(path.join(__dirname, '../src/child.js'));
-} else {
-        forked = fork.fork(path.join(__dirname, '../src/child.js'));
-};
-//zzz
-forked.on('message', (msg) => {
-    console.log('Message from child', msg);
-    sendOverWebSockets({
-                            type:   "test_fork",  
-                            value:  "Counter: " + msg.counter + ", count queries from sqlite: " + msg.sqlite
-                            });
-});
-
-forked.send({ hello: 'world' });
   
   var drivers      = new Object();
 var connections  = new Object();
@@ -342,14 +326,6 @@ var mysql      = require('mysql');
  }
 
 
-var stmtInsertIntoConnections = dbsearch.prepare(" insert into connections " + 
-                            "    ( id, name, driver, size, hash, type, fileName ) " +
-                            " values " + 
-                            "    (?,  ?,?,?,  ?,?,?);");
-var stmtInsertInsertIntoQueries = dbsearch.prepare(" insert into queries " + 
-                            "    ( id, name, connection, driver, size, hash, fileName, type, definition, preview ) " +
-                            " values " + 
-                            "    (?,  ?,?,?,  ?,?,?, ?,?,?);");
 function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileType2) {
     console.log("... in saveConnectionAndQueryForFile:::: " + fileId)
     sendOverWebSockets({
@@ -366,88 +342,15 @@ function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileTyp
         return;
     };
     try {
-        var contents = fs.readFileSync(fileName, "utf8");
-        var hash = crypto.createHash('sha1');
-        hash.setEncoding('hex');
-        hash.write(contents);
-        hash.end();
-        var sha1sum = hash.read();
-                                        
-        dbsearch.serialize(function() {
-            var newid = uuidv1();
-            stmtInsertIntoConnections.run(
-                     newid,
-                     fileId, 
-                     fileType,
-                     size,
-                     sha1sum,
-                     fileType2,
-                     fileName, function(err) {
-                            connections[newid] = {id: newid, name: fileId, driver: fileType, size: size, hash: sha1sum, type: fileType2, fileName: fileName };
-                            
-                            var saveTo;
-                            if (isWin) {
-                                saveTo = process.cwd() + "\\public\\docs\\" + "gsd_" + sha1sum.toString() + path.extname(fileName);
-                            } else {
-                                saveTo = process.cwd() + "/public/docs/" + "gsd_" + sha1sum.toString() + path.extname(fileName);
-                            };
-                            var copyfrom = fileName;
-                            //console.log('Copy from : ' + copyfrom + ' to : ' + saveTo);
-                            copyFileSync(copyfrom, saveTo);
-                              
-                              
-                            dbsearch.serialize(function() {
-                                    console.log(":      saving query ..." + fileId);                        
-                                    var newqueryid = uuidv1();
-                                    stmtInsertInsertIntoQueries.run(newqueryid,
-                                             fileId, 
-                                             newid,
-                                             fileType,
-                                             size,
-                                             sha1sum,
-                                             fileName,
-                                             fileType2,
-                                             JSON.stringify({} , null, 2),
-                                             JSON.stringify([{message: 'No preview available'}] , null, 2),
-                                             function(err) {
-                                                 if (err) {
-                                                    console.log('   err : ' + err);
-                                                 }
-                                                console.log('   save result set fileid 1 : ' + fileId );
-                                                var fileId2 = fileId;
-                                                console.log('   save result set fileid 2 : ' + fileId2 );
-                                                var newqueryid2 = newqueryid;
-                                                var fileType2 = fileType;
-                                                var newid2 = newid;
-                                                
-                                                queries[newqueryid] = {id: newqueryid,
-                                                                     name: fileId,
-                                                                     connection: newid,
-                                                                     driver: fileType, 
-                                                                     size: size, 
-                                                                     hash: sha1sum, 
-                                                                     fileName: fileName, 
-                                                                     type: fileType2,
-                                                                     definition: JSON.stringify({} , null, 2), 
-                                                                     preview: JSON.stringify([{message: 'No preview available'}] , null, 2)}
+        forked.send({ 
+                        message_type:       'saveConnectionAndQueryForFile',
+                        fileId:             fileId,
+                        fileType:           fileType, 
+                        size:               size, 
+                        fileName:           fileName, 
+                        fileType2:          fileType2
+                        });
 
-                                                        console.log('    ...  entering getresult v2:  '  + fileId2);
-                                                        sendOverWebSockets({
-                                                                                type: "uploaded",  
-                                                                                id:   fileId2,
-                                                                                query: 
-                                                                                {
-                                                                                    
-                                                                                }});
-                                                         
-                                                    }
-                                                );
-                            });
-                            console.log("... query saved: " + fileId);
-                            
-                         
-                     });                     
-        });
     } catch(err) {
         console.log("Error " + err + " with file: " + fileName);     
         return err; 
@@ -1647,8 +1550,8 @@ var upload = multer( { dest: 'uploads/' } );
         
         
         var indexFilesFn = function() {
-            console.log("Index files");
-            console.log("    inScan: " + inScan);
+            //console.log("Index files");
+            //console.log("    inScan: " + inScan);
            if (inScan) {
              return;
            };
@@ -1681,7 +1584,7 @@ var upload = multer( { dest: 'uploads/' } );
                                                     }
                                                 });
                         } else {
-                            console.log("          else: ");
+                            //console.log("          else: ");
                         }                        
                     } else {
                         console.log("          Error: " );
@@ -2107,3 +2010,64 @@ username = os.userInfo().username
 
 
 
+var forked;
+if (isWin) {
+    forked = fork.fork(path.join(__dirname, '../src/child.js'));
+} else {
+        forked = fork.fork(path.join(__dirname, '../src/child.js'));
+};
+//zzz
+forked.on('message', (msg) => {
+    console.log("message from child: " + JSON.stringify(msg,null,2))
+    if (msg.message_type == "return_test_fork") {
+        console.log('Message from child', msg);
+        sendOverWebSockets({
+                                type:   "test_fork",  
+                                value:  "Counter: " + msg.counter + ", count queries from sqlite: " + msg.sqlite
+                                });
+                                
+                                
+    } else if (msg.message_type == "return_set_connection") {
+        connections[msg.id] = {  id:         msg.id, 
+                                name:       msg.name, 
+                                driver:     msg.driver, 
+                                size:       msg.size, 
+                                hash:       msg.hash, 
+                                type:       msg.type, 
+                                fileName:   msg.fileName };
+                                
+                                
+    } else if (msg.message_type == "return_set_query") {
+        queries[msg.id] =     {  id:            msg.id,
+                                 name:          msg.name,
+                                 connection:    msg.connection,
+                                 driver:        msg.driver, 
+                                 size:          msg.size, 
+                                 hash:          msg.hash, 
+                                 fileName:      msg.fileName, 
+                                 type:          msg.type,
+                                 definition:    msg.definition, 
+                                 preview:       msg.preview
+                              }
+            sendOverWebSockets({
+                                    type: "uploaded",  
+                                    id:    msg.id,
+                                    query: 
+                                    {
+                                        
+                                    }});
+    }
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+});
+
+forked.send({ message_type: "greeting", hello: 'world' });
