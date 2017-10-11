@@ -152,9 +152,19 @@ var PDFParser = require2("pdf2json");
 
 
 var sqlite3   = require2('sqlite3');
-console.log("Creating tables ... ");
 
-console.log("1 ");
+console.log(" ");
+console.log("-----------------------------------------------------------------------");
+console.log("                         Starting GoShareData ");
+console.log("-----------------------------------------------------------------------");
+
+console.log(" ");
+console.log(" ");
+console.log(" ");
+console.log("-----------------------------------------------------------------------");
+console.log("                 This takes about 2 minutes the first time");
+console.log("-----------------------------------------------------------------------");
+console.log(" ");
             
                 
                 
@@ -162,26 +172,26 @@ console.log("1 ");
 
 var sqliteSync = require('sqlite-sync');
 
-console.log("2 ");
+console.log("... ");
         
 sqliteSync.connect('gosharedatasearch.sqlite3'); 
                 
         try {
-            console.log("2.1 ");
-            console.log("2.2 ");
+            console.log("... ");
+            console.log("... ");
             sqliteSync.run("CREATE TABLE IF NOT EXISTS search_rows_hierarchy (document_binary_hash TEXT, parent_hash TEXT, child_hash TEXT);");
             sqliteSync.run("CREATE INDEX search_rows_hierarchy_document_binary_hash_idx ON search_rows_hierarchy (document_binary_hash);");
             sqliteSync.run("CREATE INDEX search_rows_hierarchy_parent_hash_idx ON search_rows_hierarchy (parent_hash);");
             sqliteSync.run("CREATE INDEX search_rows_hierarchy_child_hash_idx ON search_rows_hierarchy (child_hash);");
 
-            console.log("2.3 ");
+            console.log("... ");
         } catch(err) {
             console.log(err);                    
         } finally {
-            console.log("2.4 ");
-            console.log("2.5 ");
+            console.log("... ");
+            console.log("... ");
         }
-console.log("3");
+console.log("... still loading");
   
             
         try {
@@ -192,7 +202,9 @@ console.log("3");
         }
 
                 
-console.log("4");
+console.log("...");
+console.log("... ");
+console.log("... ");
   
                 
                 
@@ -205,7 +217,7 @@ console.log("4");
         }
               
 
-console.log("5");
+console.log("... nearly there");
 
 
               
@@ -216,24 +228,24 @@ console.log("5");
         } finally {
         }
 
-console.log("6");
+console.log("...");
  
         
                 
         try {
-            console.log("6.1");
+            console.log("...");
             sqliteSync.run("CREATE TABLE IF NOT EXISTS intranet_client_connects (id TEXT, internal_host TEXT, internal_port INTEGER, public_ip TEXT, via TEXT, public_host TEXT, user_name TEXT, client_user_name TEXT, when_connected INTEGER);");
-            console.log("6.2");
+            console.log("...");
         } catch(err) {
             console.log(err);
         } finally {
         }
-console.log("6.3");
+console.log("...");
 
 //sqliteSync.close();
         
         
-console.log("7");
+console.log("...");
 
 
 var dbsearch = new sqlite3.Database('gosharedatasearch.sqlite3');
@@ -269,7 +281,7 @@ var stmt2 = null;
 var stmt3 = null;
 var setIn = null;
                                         
-console.log("...done ");
+console.log("...  ");
 console.log("");
                 
                 
@@ -460,7 +472,6 @@ path.join(__dirname, '../public/driver_icons/oracle.jpg')
 path.join(__dirname, '../public/driver_icons/postgres.jpg')
 path.join(__dirname, '../public/driver_icons/mysql.jpg')
 path.join(__dirname, '../public/index_pc_mode.html')
-path.join(__dirname, '../public/index_add_files.html')
 path.join(__dirname, '../public/dropzone.js')
 path.join(__dirname, '../public/dropzone.css')
 path.join(__dirname, '../public/locked.png')

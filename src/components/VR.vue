@@ -29,10 +29,10 @@
 						  v-bind:text='"    ; color: black; align: left; value: Data for user: " + getUserName + "; width: 4; "'
 						  rotation='0 0 0'>
                     </a-entity>
-                    <a-entity position="4.5 3.15 0"
+                    <a-entity position="4 3.15 0"
 						  geometry="primitive: plane; width: 6; height: auto" material="color: white"
                           mixin="RobotoFont"
-						  v-bind:text='"; color: black; align: left; value:  "  + get_scanning_status()+"; width: 6;wrapPixels: 5000; "'
+						  v-bind:text='"; color: black; align: left; value:  "  + get_scanning_status()+"; width: 5;wrapPixels: 5000; "'
 						  rotation='0 0 0'>
                     </a-entity>
 

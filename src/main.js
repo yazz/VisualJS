@@ -202,13 +202,13 @@ function setupVRVuePane() {
 		  init: function () {
 			var self = this;
 		   this.el.addEventListener('mouseleave', function (evt) {
-				document.querySelector('#vr_file_name_2').setAttribute('text','color: black; align: left; value: ;width: 6; ');
+				document.querySelector('#vr_file_name_2').setAttribute('text','color: black; align: left; value: ;width: 4; ');
                 
 				
-                document.querySelector('#vr_file_size_2').setAttribute('text','color: black; align: left; value:  ;width: 6; ');
+                document.querySelector('#vr_file_size_2').setAttribute('text','color: black; align: left; value:  ;width: 4; ');
                 
 				
-                document.querySelector('#vr_file_saved_as').setAttribute('text','color: black; align: left; value: ;width: 6; ');
+                document.querySelector('#vr_file_saved_as').setAttribute('text','color: black; align: left; value: ;width: 4;  ');
 			});
 		   this.el.addEventListener('mouseenter', function (evt) {
                //alert(self.data.query_name);
@@ -258,13 +258,13 @@ function setupVRVuePane() {
 				//document.querySelector("#scrollable_grid").appendChild(animation);
 				inMove = false;
 
-				document.querySelector('#vr_file_name_2').setAttribute('text','color: black; align: left; value: ' + self.data.query_name + ' ;width: 6; ');
+				document.querySelector('#vr_file_name_2').setAttribute('text','color: black; align: left; value: ' + self.data.query_name + ' ;width: 4; ');
                 
 				
-                document.querySelector('#vr_file_size_2').setAttribute('text','color: black; align: left; value: ' + self.data.query_size + ' bytes ;width: 6; ');
+                document.querySelector('#vr_file_size_2').setAttribute('text','color: black; align: left; value: ' + self.data.query_size + ' bytes ;width: 4; ');
                 
 				
-                document.querySelector('#vr_file_saved_as').setAttribute('text','color: black; align: left; value: ' + self.data.query_display + '  ;width: 6; ');
+                document.querySelector('#vr_file_saved_as').setAttribute('text','color: black; align: left; value: ' + self.data.query_display + '  ;width: 4;  ');
 
 
 
@@ -325,7 +325,7 @@ function setupVRVuePane() {
         
         
         
-        var gotoFunction = function(options) {
+        window.gotoFunction = function(options) {
                 
             var goto_name = options.goto_name;
             if (store.getters.get_current_location == goto_name) {
@@ -569,7 +569,8 @@ function setupVRVuePane() {
                     
                     this.el.addEventListener('click', function (evt) {
                         //alert(queryFile);
-                        window.location.href = 'index_add_files.html';
+                        //window.location.href = 'index_add_files.html';
+
                     });
                 }
         });
@@ -1194,7 +1195,7 @@ function setupWebSocket(host, port)
           //alert("Message is received..." + received_msg);
           var data = eval("(" + received_msg + ")") ; 
           if (data.type == "query") {
-                //      zzz
+                //
           }
           if (data.type == "uploaded") {
                 //alert("File uploaded: " + data.id);

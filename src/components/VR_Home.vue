@@ -144,7 +144,7 @@
                         <a-entity v-if='vr_type=="mouse"' position="-2 2.8 0"
 									geometry="primitive: plane; width: 1.8; height: 1.8;" material="color: red"
                                     mixin="RobotoFont"
-									v-bind:text='"color: white; align: center; value: + Add Files ; width: 6; "'
+									v-bind:text='"color: white; align: center; value: To add data \ndrag and drop \nfiles here ; width: 6; "'
 									rotation='0 0 0' id='red_home' add_data=''>
 									<a-animation begin="mouseenter" attribute="rotation"
 														to="0 0 1" dur="100" direction="alternate"  repeat="3"></a-animation>

@@ -1,36 +1,23 @@
 <template>
 			  <a-entity position='5 -10 -20' id='vr_items'>
 
-			  
-			  
-			  
-			  
-
-
-                
-                        <a-entity position="0 3 -1.9" id='vr_file_name_2'
+                        <a-entity position="0 4 -1.9" id='vr_file_name_2'
                                     scale="1 1 1"
 									geometry="primitive: plane; width: 3.9; height: 1.9;" material="color: white;opacity: 1;"
                                     mixin="RobotoFont"
-									v-bind:text='"color: black; align: left; value: _ ; width: 6; "'>
+									v-bind:text='"color: black; align: left; value:  ; width: 4; "'>
 						</a-entity>
-						 <a-entity position="0 2.5 -1.9" id='vr_file_size_2'
+						 <a-entity position="0 3.6 -1.9" id='vr_file_size_2'
                                     scale="1 1 1"
 									geometry="primitive: plane; width: 3.9; height: 1.9;" material="color: white;opacity: 1;"
                                     mixin="RobotoFont"
-									v-bind:text='"color: black; align: left; value: ? ; width: 6; "'>
+									v-bind:text='"color: black; align: left; value:  ; width: 4; "'>
 						</a-entity>
-						 <a-entity position="0 2 -1.9" id='vr_file_saved_as'
+						 <a-entity position="0 3.2 -1.9" id='vr_file_saved_as'
                                     scale="1 1 1"
 									geometry="primitive: plane; width: 3.9; height: 1.9;" material="color: white;opacity: 1;"
                                     mixin="RobotoFont"
-									v-bind:text='"color: black; align: left; value: ? ; width: 6; "'>
-						</a-entity>
-                        <a-entity v-if=false position="0 1.5 -1.9" id='vr_file_type'
-                                    scale="1 1 1"
-									geometry="primitive: plane; width: 3.9; height: 1.9;" material="color: white;opacity: 1;"
-                                    mixin="RobotoFont"
-									v-bind:text='"color: black; align: left; value: " + is_document(get_viewed_query_id()) +" ; width: 6; "'>
+									v-bind:text='"color: black; align: left; value: ; width: 4; "'>
 						</a-entity>
 
                 
@@ -118,10 +105,10 @@
 
 				<a-entity  v-for="(a_driver,index)  in  list_of_queries"
                     v-bind:id='a_driver.id + "_upper"'
-				   v-bind:position="((is_visible(a_driver.id)?-0.8:100) + (get_x_position(get_index(a_driver.id),list_of_queries.length)*0.5))+ ' ' + (.5 - (get_y_position(get_index(a_driver.id),list_of_queries.length)*0.6)) + ' -.1'"
+				   v-bind:position="((is_visible(a_driver.id)?-0.8:100) + (get_x_position(get_index(a_driver.id),list_of_queries.length)*0.5))+ ' ' + (1.5 - (get_y_position(get_index(a_driver.id),list_of_queries.length)*0.6)) + ' -.1'"
 				   v-bind:color="(get_index(a_driver.id) % 2 == 0)?'blue':'green'"
 				   v-bind:text="'color: black; align: left; value: ' + a_driver.name.substr(a_driver.name.length - 10) + ' ; width: 2; '">
-					   <a-entity    position='-0.8 .3 -.3" '
+					   <a-entity    position='-0.8 .3 0" '
                                     v-bind:id='a_driver.id + "_mid"'
 									geometry="primitive: plane; width:.35;height: 0.35;"
 							        v-bind:griditem='"x: " + get_x_position(get_index(a_driver.id),list_of_queries.length) + "; y:" + get_y_position(get_index(a_driver.id),list_of_queries.length) + ";" +

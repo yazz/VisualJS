@@ -10,6 +10,9 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
+	<script type="text/javascript" src="dropzone.js"></script>
+    <link rel="stylesheet" type="text/css" href="dropzone.css"></link>
+
     <script type="text/javascript" >
             window.system_type = 'client';
             
@@ -79,9 +82,24 @@
 
 
 
-<body id=body style='margin:0px; padding: 0px;  border: 0px;  width: 100%;  height:100%;  left: 0px; ' onload="init_all();" >
-		<div style='width: 100%; heigtht: 100%;  margin:0 auto; margin-top: 0px;overflow: false' id=vr_element></div>
+<body   id=body 
+        style='margin:0px; padding: 0px;  border: 0px;  width: 100%;  height:100%;  left: 0px; ' 
+        onload="init_all();" >
 
+    <form   action="/file_upload"
+            class="dropzone"
+            id="my-awesome-dropzone" 
+            style='margin:0px; padding: 0px;  border: 0px;  width: 100%;  height:100%;  left: 0px; '>
+        
+                <div    style='width: 100%; height: 100%;  margin:0 auto; padding: 0px; border: 0px; overflow: false' 
+                        id=vr_element>
+                </div>
+            
+    </form>
+
+
+      
+      
     <script type="text/javascript" >
     // --------------------------------------------------------------------
     // get the query  result
@@ -123,7 +141,31 @@
       });
     };
     
-    
+        Dropzone.options.myAwesomeDropzone = {
+          dictDefaultMessage: ""
+        };
+
+        Dropzone.options.myAwesomeDropzone = {
+          init: function() {
+            this.on("processing", function() {
+                window.gotoFunction({
+                    goto_name:  "scrollable_grid",
+                    distance:    4,
+                    duration:   "500",
+                    animEnd:     function() {store.dispatch('hide_full_doc');}
+                });
+            });
+            this.on("queuecomplete", function() {
+                var x = this;
+                setTimeout(function() {
+                    window.when_queries_changes("id, name, driver, size, hash, type, fileName")
+                    window.recalcVuexQueries();
+                    x.removeAllFiles();
+                    },200);
+            });
+          }
+        };
+        
     </script>
 
     <script type="text/javascript" src="dist/build.js?1601"></script>
