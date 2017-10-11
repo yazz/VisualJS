@@ -11,6 +11,7 @@ import drivers_table            from './components/drivers_table.vue'
 import store                    from './store.js'
 import db                       from '../public/dbhelper.js'
 
+window.store = store;
 Vue.component('FileBrowser',FileBrowser);
 
 

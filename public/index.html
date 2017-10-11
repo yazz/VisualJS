@@ -152,7 +152,7 @@
                     goto_name:  "scrollable_grid",
                     distance:    4,
                     duration:   "500",
-                    animEnd:     function() {store.dispatch('hide_full_doc');}
+                    animEnd:     function() {window.store.dispatch('hide_full_doc');}
                 });
             });
             this.on("queuecomplete", function() {
