@@ -50,7 +50,17 @@
 							</a-entity>
 						</a-entity>
 
+						<a-entity  v-if='get_vr_type_mouse' geometry="primitive: box; width:.5;height: 0.5;depth: 0.1;" material="color: blue"
+						position='-4 -.2 1.1'
+									v-bind:related_files='get_viewed_query_id()?("" + get_viewed_query_id()):false ' 
+                                    >
+							<a-entity 	position=".9 0 0.07"
+                                        mixin="AileronFont"
+										text="color: white; align: left; value: Related; width: 2; height: 1; opacity: 1;">
+							</a-entity>
+						</a-entity>
 
+                        
 						<a-entity v-if='get_vr_type_move' geometry="primitive: box; width:.6;height: 0.6;depth: 0.6;" material="color: red"
 						position='-6 -3.4 .7' closedoc='' rotation='0 40 0'>
 						</a-entity>

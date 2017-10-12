@@ -1059,6 +1059,20 @@ var upload = multer( { dest: 'uploads/' } );
 	})
 
     
+    //------------------------------------------------------------------------------
+	// Get the result of a search
+	//------------------------------------------------------------------------------
+	app.get('/get_related_documents', function (req, res) {
+        console.log("called get_related_documents: " )
+        var id = req.query.id;
+        forked.send({ 
+                                message_type:   "getRelatedDocuments",  
+                                id:  id
+                                });
+            res.writeHead(200, {'Content-Type': 'text/plain'});
+            res.end( JSON.stringify({}))
+    })
+
     
     //------------------------------------------------------------------------------
 	// Get the result of a search
@@ -2029,9 +2043,9 @@ if (isWin) {
 };
 //zzz
 forked.on('message', (msg) => {
-    console.log("message from child: " + JSON.stringify(msg,null,2))
+    //console.log("message from child: " + JSON.stringify(msg,null,2))
     if (msg.message_type == "return_test_fork") {
-        console.log('Message from child', msg);
+        //console.log('Message from child', msg);
         sendOverWebSockets({
                                 type:   "test_fork",  
                                 value:  "Counter: " + msg.counter + ", count queries from sqlite: " + msg.sqlite

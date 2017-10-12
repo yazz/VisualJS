@@ -49,7 +49,14 @@ process.on('message', (msg) => {
                                 msg.size, 
                                 msg.fileName, 
                                 msg.fileType2);
+  } else if (msg.message_type == 'getRelatedDocuments') {
+        console.log("got message getRelatedDocuments" );
+                getRelatedDocuments(msg.id, function(results) {
+                    
+                    console.log("**getRelatedDocuments returned: " + results.length);
+                });
   }
+
 
 });
 
@@ -125,6 +132,7 @@ var stmtInsertInsertIntoQueries = dbsearch.prepare(" insert into queries " +
 
 
 
+                                                
 function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileType2) {
     console.log("... in saveConnectionAndQueryForFile:::: " + fileId)
     if (!fileName) {
@@ -206,10 +214,6 @@ console.log("child 4")
                                                 var fileType2 = fileType;
                                                 var newid2 = newid;
                                                 
-                                                getRelatedDocuments(newqueryid, function(results) {
-                                                    
-                                                    console.log("**getRelatedDocuments returned: " + results.length);
-                                                });
                                                 
                                                 process.send({ 
                                                                 message_type:       "return_set_query",
@@ -251,6 +255,7 @@ console.log("child 4")
 
 
 function getRelatedDocuments(id, callback) {
+        console.log("In getRelatedDocuments" );
     var sql = "select  " +
                 "    distinct(id), cc, name, driver, size from ( " +
                 "            select document_binary_hash,  count(child_hash) as cc from  " +
@@ -277,6 +282,7 @@ function getRelatedDocuments(id, callback) {
             {
                 if (!err) 
                 {
+        console.log("OK")
                     if (callback) {
                         callback(results);
                     }
@@ -285,6 +291,7 @@ function getRelatedDocuments(id, callback) {
                 }
             })
     } catch(err) {
+        console.log(err)
                         process.send({  message_type:       "return_similar_documents",
                                         sqlite: "Err: " + err  });
         

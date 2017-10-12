@@ -510,6 +510,36 @@ function setupVRVuePane() {
         
                 
         AFRAME.registerComponent(
+            'related_files', {
+                schema: {
+                    type: 'string'
+                },
+                init: function () {
+                    var self = this;
+                    this.el.addEventListener('click', function (evt) {
+                                //alert(self.data)
+                         $.ajax({
+                            url: '/get_related_documents',
+                            data: {id: self.data},
+                            success: function(data) {
+                                
+                                    gotoFunction({
+                                        goto_name:  "scrollable_grid",
+                                        distance:    4,
+                                        duration:   "500",
+                                        animEnd:     function() {store.dispatch('hide_full_doc');}
+                                    });
+                            },
+                            error: function(jqXHR, textStatus, errorThrown) {
+                              alert('error ' + textStatus + ' : ' +  errorThrown);
+                            }
+                          });
+                })}})
+            
+            
+            
+            
+        AFRAME.registerComponent(
             'open_file', {
                 schema: {
                     type: 'string'
@@ -788,7 +818,7 @@ function setupVRVuePane() {
     return keynum;
   }
 
-var showSearchResults = function() {
+window.showSearchResults = function() {
 
     gotoFunction({
         goto_name:  "scrollable_grid",
@@ -846,6 +876,7 @@ var showSearchResults = function() {
                             store.dispatch('set_search_subtext', "For: '" + lor.search + "', found " +
                                         lor.queries.length + " values,  took " + (lor.duration / 1000) + ' seconds' );
                         setvuexitemssearch(lor.queries);
+//                            console.log(JSON.stringify(lor.queries))
                     }
             }
             inSearch = false;
@@ -885,7 +916,7 @@ var inSearch = false;
                 searchtext =   searchtext.substring(0,searchPos - 1)  + searchtext.substring(searchPos );
                 searchPos --;
                 showText();
-                setTimeout(function(){showSearchResults();},100);
+                setTimeout(function(){window.showSearchResults();},100);
             }                    
         }
 
@@ -912,7 +943,7 @@ var inSearch = false;
         searchtext = searchtext.substring(0,searchPos) + cc + searchtext.substring(searchPos);;
         searchPos ++;
         showText();
-        setTimeout(function(){showSearchResults();},100);
+        setTimeout(function(){window.showSearchResults();},100);
     });
 
     }
@@ -1227,21 +1258,23 @@ function setupWebSocket(host, port)
                         store.dispatch('clear_search_results');
                             
               //alert(recs.length); zzz
+                store.dispatch('clear_search_results');
               for (var i = 0 ; i< recs.length; i++) {
                   var rec  =recs[i]
                   console.log(JSON.stringify(rec))
                 store.dispatch('add_search_result', 
                               {
                                 id:          recs[i].id,
-                                data:        "" + window.get_query_property(recs[i].id,"fileName"),
+                                data:        "" + recs[i].name,
                                 });
 
               }
-                store.dispatch('clear_search_results');
                 store.dispatch('set_search_subtext', "Found " +  recs.length + " similar");
+                
+                //window.recalcVuexQueries()
+                
                 setvuexitemssearch(recs);
-                window.recalcVuexQueries()
-                store.dispatch('refresh_vr_items')
+                setTimeout(function(){store.dispatch('refresh_vr_items');},100)
           }
           
           
@@ -1544,6 +1577,7 @@ function  setvuexitemssearch( results2 ) {
             if (!tt.hasOwnProperty(qid)) {
                 tt[qid] = new Object();
                 tt[qid].id = qid;
+            //console.log('                           *********:' + results2[i].id);
             }
         }
         //console.log('                          tt *********:' + JSON.stringify(tt , null, 2));
@@ -1576,7 +1610,7 @@ function  setvuexitemssearch( results2 ) {
             };
         };
         store.dispatch('refresh_vr_items')
-        
+        //alert(results.length)
         inupdatesearch = false;
     }
 }

@@ -199,7 +199,8 @@ export default new Vuex.Store({
         }
       },
       SET_QUERY_MAP: function (state, details) {
-        state.query_map[details.id] = {visible: details.visible, index: details.index};
+        state.query_map[details.id].visible = details.visible;
+        state.query_map[details.id].index = details.index;
       },
       ADD_DRIVER: function (state, driver) {
         state.list_of_drivers.push(driver.cp);
