@@ -1224,11 +1224,24 @@ function setupWebSocket(host, port)
           
           else if (data.type == "similar_documents") {
               var recs =  eval("(" + data.results + ")")
-              //alert(recs.length);
+                        store.dispatch('clear_search_results');
+                            
+              //alert(recs.length); zzz
               for (var i = 0 ; i< recs.length; i++) {
                   var rec  =recs[i]
                   console.log(JSON.stringify(rec))
+                store.dispatch('add_search_result', 
+                              {
+                                id:          recs[i].id,
+                                data:        "" + window.get_query_property(recs[i].id,"fileName"),
+                                });
+
               }
+                store.dispatch('clear_search_results');
+                store.dispatch('set_search_subtext', "Found " +  recs.length + " similar");
+                setvuexitemssearch(recs);
+                window.recalcVuexQueries()
+                store.dispatch('refresh_vr_items')
           }
           
           
@@ -1659,13 +1672,15 @@ var inCheckForServers = 0;
                 blocked = '<div style="color: red; PADDING: 5PX;">(probably behind a firewall)</div>';
                 var newHtml =  "<div>" +
                             "<div> " + intranetGoShareDataHost + "</div> </div>";
-                var newid = intranetGoShareDataHost.replace(":",".").replaceAll(".","_");
-                //console.log("newid: " + JSON.stringify(newid,null,2) + " = " + newHtml);
-                
-                inCheckForServers --;
-                tt.locked = true;
-                tt.accessable = false;
-                store.dispatch('add_network', tt);
+                if (intranetGoShareDataHost.length > 0) {
+                    //var newid = intranetGoShareDataHost.replace(":",".").replaceAll(".","_");
+                    //console.log("newid: " + JSON.stringify(newid,null,2) + " = " + newHtml);
+                    
+                    inCheckForServers --;
+                    tt.locked = true;
+                    tt.accessable = false;
+                    store.dispatch('add_network', tt);
+                }
             }
         });
     }
