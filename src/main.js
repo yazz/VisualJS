@@ -195,6 +195,7 @@ function setupVRVuePane() {
 		AFRAME.registerComponent('griditem', {
 		  schema: {	x:  {type: 'number', default: 0},
 					y: {type: 'number', default: 0},
+                    query_id: {type: 'string', default: ''},
 					query_name: {type: 'string', default: ''},
                     query_saved_as: {type: 'string', default: ''},
                     query_display: {type: 'string', default: ''},
@@ -259,7 +260,8 @@ function setupVRVuePane() {
 				//document.querySelector("#scrollable_grid").appendChild(animation);
 				inMove = false;
 
-				document.querySelector('#vr_file_name_2').setAttribute('text','color: black; align: left; value: ' + self.data.query_name + ' ;width: 4; ');
+				document.querySelector('#vr_file_name_2').setAttribute('text','color: black; align: left; value: ' + 
+                    self.data.query_name + ' (' + window.get_query_property(self.data.query_id, "similar_count") + ') ;width: 4; ');
                 
 				
                 document.querySelector('#vr_file_size_2').setAttribute('text','color: black; align: left; value: ' + self.data.query_size + ' bytes ;width: 4; ');
@@ -320,6 +322,14 @@ function setupVRVuePane() {
 
 
         
+    window.get_query_property = function(id, property_name) {
+        var qm = store.state.query_map[id];
+        if (!qm) {
+            return "";
+        }
+        //return false;
+        return JSON.stringify(store.state.query_map[id].details[property_name],null,2);
+    }
         
         
         
@@ -969,7 +979,7 @@ function setupSqlResultPane() {
 function setupDB() {
     if (window.screenMode == "VR") 
     {
-        window.when_queries_changes("id, name, driver, size, hash, type, fileName")
+        window.when_queries_changes("id, name, driver, size, hash, type, fileName, similar_count")
     } else {
         window.when_drivers_changes("*")
         window.when_connections_changes("*")
@@ -1211,6 +1221,19 @@ function setupWebSocket(host, port)
               }
           }
           
+          
+          else if (data.type == "similar_documents") {
+              var recs =  eval("(" + data.results + ")")
+              //alert(recs.length);
+              for (var i = 0 ; i< recs.length; i++) {
+                  var rec  =recs[i]
+                  console.log(JSON.stringify(rec))
+              }
+          }
+          
+          
+          
+          
         };
 
         window.ws.onclose = function()
@@ -1376,6 +1399,8 @@ window.add_query = function(query) {
                           ,
                           driver:       query.cp.driver
                           ,
+                          similar_count:       query.cp.similar_count
+                          ,
                           definition:   query.cp.definition
                           ,
                           status:       query.cp.status
@@ -1482,6 +1507,8 @@ window.recalcVuexQueries = function() {
                                                 ,
                                                 connection: query.connection
                                                 ,
+                                                similar_count: query.similar_count
+                                                ,
                                                 definition: eval('(' + query.definition + ')')
                                                }});
         };
@@ -1584,6 +1611,8 @@ window.when_queries_changes = function(fields) {
                                                         connection: query.connection
                                                         ,
                                                         definition: query.definition
+                                                        ,
+                                                        similar_count: query.similar_count
                                                        };
                 };
             };

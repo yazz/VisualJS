@@ -113,6 +113,7 @@
 									geometry="primitive: plane; width:.35;height: 0.35;"
 							        v-bind:griditem='"x: " + get_x_position(get_index(a_driver.id),list_of_queries.length) + "; y:" + get_y_position(get_index(a_driver.id),list_of_queries.length) + ";" +
 								    "   query_name: " + a_driver.name +
+								    ";  query_id: " + a_driver.id +
                                     ";  query_saved_as: " + (a_driver.hash?(a_driver.hash + (a_driver.fileName?"." + a_driver.fileName.split(".").pop():"")):"") +                                   
 					    			";  query_display: " + "" + a_driver.fileName + 
                                     ";  query_size: " + a_driver.size + "; " '

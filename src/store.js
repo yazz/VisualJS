@@ -193,9 +193,9 @@ export default new Vuex.Store({
       ADD_QUERY: function (state, query) {
         state.list_of_queries.push(query.cp );
         if (!state.query_map[query.cp.id]) {
-            state.query_map[query.cp.id] = {visible: true, index: state.list_of_queries.length - 1};
+            state.query_map[query.cp.id] = {visible: true, index: state.list_of_queries.length - 1, details: query.cp};
         } else {
-            state.query_map[query.cp.id] = {visible: true, index: state.query_map[query.cp.id].index};
+            state.query_map[query.cp.id] = {visible: true, index: state.query_map[query.cp.id].index, details: query.cp};
         }
       },
       SET_QUERY_MAP: function (state, details) {

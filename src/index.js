@@ -222,7 +222,7 @@ console.log("... nearly there");
 
               
         try {
-            sqliteSync.run("CREATE TABLE IF NOT EXISTS queries (id TEXT, name TEXT, connection INTEGER, driver TEXT, size INTEGER, hash TEXT, type TEXT, fileName TEXT, definition TEXT, preview TEXT, status TEXT, index_status TEXT);");
+            sqliteSync.run("CREATE TABLE IF NOT EXISTS queries (id TEXT, name TEXT, connection INTEGER, driver TEXT, size INTEGER, hash TEXT, type TEXT, fileName TEXT, definition TEXT, preview TEXT, status TEXT, index_status TEXT, similar_count INTEGER);");
         } catch(err) {
             console.log(err);
         } finally {
@@ -2067,7 +2067,17 @@ forked.on('message', (msg) => {
                                     {
                                         
                                     }});
+    
+    
+    
+    } else if (msg.message_type == "return_similar_documents") {
+            sendOverWebSockets({
+                                    type: "similar_documents", 
+                                    results: msg.results
+                                    
+        });
     }
+    
     
     
     

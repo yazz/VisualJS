@@ -118,9 +118,9 @@ var stmtInsertIntoConnections = dbsearch.prepare(" insert into connections " +
                             " values " + 
                             "    (?,  ?,?,?,  ?,?,?);");
 var stmtInsertInsertIntoQueries = dbsearch.prepare(" insert into queries " + 
-                            "    ( id, name, connection, driver, size, hash, fileName, type, definition, preview ) " +
+                            "    ( id, name, connection, driver, size, hash, fileName, type, definition, preview, similar_count ) " +
                             " values " + 
-                            "    (?,  ?,?,?,  ?,?,?, ?,?,?);");
+                            "    (?,  ?,?,?,  ?,?,?, ?,?,?, 1);");
 
 
 
@@ -206,6 +206,11 @@ console.log("child 4")
                                                 var fileType2 = fileType;
                                                 var newid2 = newid;
                                                 
+                                                getRelatedDocuments(newqueryid, function(results) {
+                                                    
+                                                    console.log("**getRelatedDocuments returned: " + results.length);
+                                                });
+                                                
                                                 process.send({ 
                                                                 message_type:       "return_set_query",
                                                                 id:                 newqueryid,
@@ -235,4 +240,56 @@ console.log("child 4")
     } finally {
         
     }
+}
+
+
+
+
+
+
+
+
+
+function getRelatedDocuments(id, callback) {
+    var sql = "select  " +
+                "    distinct(id), cc, name, driver, size from ( " +
+                "            select document_binary_hash,  count(child_hash) as cc from  " +
+                "            search_rows_hierarchy where child_hash in ( " +
+                "            select  " +
+                "                child_hash " +
+                "            from  " +
+                "                search_rows_hierarchy " +
+                "            where  " +
+                "                document_binary_hash = ( " +
+                "                    select   " +
+                "                        hash from queries where id = '" + id+ "' " +
+                "                 )) group by document_binary_hash ) as ttt,  " +
+                "            queries " +
+                "where hash = document_binary_hash " +
+                "group by id "
+                     
+     
+    try
+    {
+        var stmt = dbsearch.all(
+            sql,
+            function(err, results) 
+            {
+                if (!err) 
+                {
+                    if (callback) {
+                        callback(results);
+                    }
+                    process.send({  message_type:       "return_similar_documents",
+                                    results: JSON.stringify(results,null,2)  });
+                }
+            })
+    } catch(err) {
+                        process.send({  message_type:       "return_similar_documents",
+                                        sqlite: "Err: " + err  });
+        
+    }
+     
+     
+     
 }
