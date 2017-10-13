@@ -2041,7 +2041,7 @@ if (isWin) {
 } else {
         forked = fork.fork(path.join(__dirname, '../src/child.js'));
 };
-//zzz
+
 forked.on('message', (msg) => {
     //console.log("message from child: " + JSON.stringify(msg,null,2))
     if (msg.message_type == "return_test_fork") {
@@ -2085,9 +2085,17 @@ forked.on('message', (msg) => {
     
     
     } else if (msg.message_type == "return_similar_documents") {
-            sendOverWebSockets({
-                                    type: "similar_documents", 
-                                    results: msg.results
+        sendOverWebSockets({
+                                type: "similar_documents", 
+                                results: msg.results
+                                    
+        });
+        
+        //zzz
+        queries[msg.query_id].similar_count = eval("(" + msg.results + ")").length
+        sendOverWebSockets({
+                                type: "update_query_item", 
+                                query: queries[msg.query_id]
                                     
         });
     }

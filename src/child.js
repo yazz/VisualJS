@@ -49,6 +49,12 @@ process.on('message', (msg) => {
                                 msg.size, 
                                 msg.fileName, 
                                 msg.fileType2);
+                                
+                                
+                                
+                                
+                                
+                                
   } else if (msg.message_type == 'getRelatedDocuments') {
         console.log("got message getRelatedDocuments" );
                 getRelatedDocuments(msg.id, function(results) {
@@ -129,6 +135,10 @@ var stmtInsertInsertIntoQueries = dbsearch.prepare(" insert into queries " +
                             " values " + 
                             "    (?,  ?,?,?,  ?,?,?, ?,?,?, 1);");
 
+var stmtUpdateRelatedDocumentCount = dbsearch.prepare(" update queries " + 
+                            "    set  similar_count = ?  " +
+                            " where  " + 
+                            "    id = ? ;");
 
 
 
@@ -271,7 +281,8 @@ function getRelatedDocuments(id, callback) {
                 "                 )) group by document_binary_hash ) as ttt,  " +
                 "            queries " +
                 "where hash = document_binary_hash " +
-                "group by id "
+                "group by id " +
+                "order by cc desc "
                      
      
     try
@@ -282,11 +293,16 @@ function getRelatedDocuments(id, callback) {
             {
                 if (!err) 
                 {
+                    dbsearch.serialize(function() {
+                            stmtUpdateRelatedDocumentCount.run(results.length, id);
+                    })                                    
+                     
         console.log("OK")
                     if (callback) {
                         callback(results);
                     }
                     process.send({  message_type:       "return_similar_documents",
+                                    query_id:            id,
                                     results: JSON.stringify(results,null,2)  });
                 }
             })

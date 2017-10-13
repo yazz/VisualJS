@@ -191,16 +191,21 @@ export default new Vuex.Store({
         state.connection_map[connection.cp.id] = true;
       },
       ADD_QUERY: function (state, query) {
-        state.list_of_queries.push(query.cp );
         if (!state.query_map[query.cp.id]) {
+            state.list_of_queries.push(query.cp );
             state.query_map[query.cp.id] = {visible: true, index: state.list_of_queries.length - 1, details: query.cp};
         } else {
             state.query_map[query.cp.id] = {visible: true, index: state.query_map[query.cp.id].index, details: query.cp};
         }
       },
       SET_QUERY_MAP: function (state, details) {
-        state.query_map[details.id].visible = details.visible;
-        state.query_map[details.id].index = details.index;
+          if (details.visible != null) {
+              state.query_map[details.id].visible = details.visible;
+          }
+          console.log("details.index: " + details.index)
+          if (details.index != null) {
+              state.query_map[details.id].index = details.index;
+          }
       },
       ADD_DRIVER: function (state, driver) {
         state.list_of_drivers.push(driver.cp);
