@@ -416,7 +416,7 @@ function setupVRVuePane() {
         
         AFRAME.registerComponent('goto', {
     		  schema: {
-				  name:     {type: 'string', default: 'vr_home'},
+				  name:     {type: 'string', default: ''},
 				  distance: {type: 'number', default: 5},
 				  duration: {type: 'string', default: "500"}
                  },
@@ -424,6 +424,12 @@ function setupVRVuePane() {
                 var self = this;
 
                 this.el.addEventListener('click', function (evt) {
+    if (self.data.name == 'vr_home') {
+        //alert("here")
+    }
+                    if (self.data.name == '') {
+                        alert("no name for goto")
+                    }
                     var goto_name = self.data.name;
                     var distance = self.data.distance;
                     var duration = self.data.duration;

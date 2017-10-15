@@ -202,7 +202,7 @@ export default new Vuex.Store({
           if (details.visible != null) {
               state.query_map[details.id].visible = details.visible;
           }
-          console.log("details.index: " + details.index)
+          //console.log("details.index: " + details.index)
           if (details.index != null) {
               state.query_map[details.id].index = details.index;
           }
