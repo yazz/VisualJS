@@ -374,11 +374,14 @@ function setupVRVuePane() {
                 animation.setAttribute('to', '' + (worldPos.x)  + ' ' + (worldPos.y) + ' ' + ((worldPos.z + distance)));
                 document.querySelector("#camera_id").appendChild(animation);
             }
+            
+            // only in VR mode move the console
             if (document.querySelector("#movevr")){
                 animation.setAttribute('to', '' + (worldPos.x)  + ' ' + (worldPos.y ) + ' ' + ((worldPos.z + distance)));
                 document.querySelector("#movevr").appendChild(animation);
             }
 
+            // only in VR mode move the bottom bar
             if (document.querySelector("#move_bar")) {
                 var animation2 = document.createElement('a-animation');
                 animation2.setAttribute('id', "itemzoom");

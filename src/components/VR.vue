@@ -133,7 +133,7 @@
                                  <a-entity position="0 0.2 0.3" 
                                            rotation="0 0 0" 
                                            mixin="RobotoFont"
-                                           text='color: black; align: center; value: Go back ; width: 2; '>
+                                           text='color: black; align: center; value: Go back; width: 2; '>
                                 </a-entity>
 					</a-entity >
 
@@ -147,7 +147,6 @@
 					</a-entity >
 
 				</a-entity>
-			</a-entity>
 
 
 
