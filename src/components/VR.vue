@@ -251,7 +251,8 @@ name: 'VR'
         },
         can_see_search_results: function () {
             console.log("*** At: " + this.$store.getters.get_current_location )
-            return this.$store.getters.get_current_location === 'scrollable_grid'
+             return (this.$store.getters.get_current_location != 'doc_details') 
+//            return this.$store.getters.get_current_location === 'scrollable_grid'
             //return this.$store.getters.get_current_location != 'doc_details'
         },
         get_vr_type: function () {
