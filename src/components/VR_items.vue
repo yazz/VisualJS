@@ -111,7 +111,7 @@
 
 
 
-<a-entity id=scrollable_grid v-bind:refresh_vr_items='get_refresh_view_counter'>
+<a-entity id='scrollable_grid' v-bind:refresh_vr_items='get_refresh_view_counter'>
 
 				<a-entity  v-for="(a_driver,index)  in  list_of_queries"
                     v-bind:id='a_driver.id + "_upper"'

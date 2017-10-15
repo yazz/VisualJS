@@ -125,6 +125,7 @@
                     <a-entity  	material='color: gray;opacity: .95;'  
 								geometry='primitive: box; width: 2.5; height: .2; depth: .1.8;'
                                 rotation='0 0 0'
+                                id='mouse_click_home'
 								position='0.01 .9 1'
                                 set_zoom='people: false;'
 								goto='name: vr_home; duration: 300;' > 
