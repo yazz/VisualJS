@@ -118,7 +118,7 @@
 				   v-bind:position="((is_visible(a_driver.id)?-0.8:100) + (get_x_position(get_index(a_driver.id),list_of_queries.length)*0.5))+ ' ' + (1.5 - (get_y_position(get_index(a_driver.id),list_of_queries.length)*0.6)) + ' -.1'"
 				   v-bind:color="(get_index(a_driver.id) % 2 == 0)?'blue':'green'"
 				   v-bind:text="'color: black; align: left; value: ' + a_driver.name.substr(a_driver.name.length - 10) + ' ; width: 2; '">
-					   <a-entity    position='-0.8 .3 0" '
+					   <a-entity    position='-0.8 .3 0'
                                     v-bind:id='a_driver.id + "_mid"'
 									geometry="primitive: plane; width:.35;height: 0.35;"
 							        v-bind:griditem='"x: " + get_x_position(get_index(a_driver.id),list_of_queries.length) + "; y:" + get_y_position(get_index(a_driver.id),list_of_queries.length) + ";" +
@@ -132,9 +132,10 @@
 								v-bind:material='"color: gray;"'
 								v-bind:color="(get_index(a_driver.id) % 2 == 0)?'blue':'green'"
 								v-bind:log='"x: " + get_x_position(index,list_of_queries.length) + "; y:" + get_y_position(index,list_of_queries.length) + ";queryFile: " + a_driver.hash + (a_driver.fileName?"." +a_driver.fileName.split(".").pop():"") + 
-                                ";queryId: "  + a_driver.id + ";"' >
+                                ";queryId: "  + a_driver.id + ";"' 
+                                >
 								<a-animation begin="mouseenter" attribute="rotation"
-                                    v-bind:id='a_driver.id' + "_anim"'
+                                    v-bind:id='a_driver.id + "_anim"'
 												to="0 0 5" dur="90" direction="alternate"  repeat="3"></a-animation>
 						</a-entity>
 			   </a-entity>

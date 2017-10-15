@@ -138,15 +138,9 @@
 					</a-entity >
 
 
+                </a-entity >
 
-
-
-                    
-                        
-                        
-					</a-entity >
-
-				</a-entity>
+            </a-entity>
 
 
 
