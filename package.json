@@ -20,6 +20,7 @@
     "cors": "^2.8.4",
     "crypto": "0.0.3",
     "debug": "^2.6.0",
+    "deep-diff": "^0.3.8",
     "detect-rpi": "^1.2.0",
     "exceljs": "^0.4.10",
     "express": "^4.14.0",

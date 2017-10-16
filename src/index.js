@@ -1723,7 +1723,7 @@ when_queries_changes(null);
 
 	function addOrUpdateDriver(name, code, theObject) {
 		var driverType = theObject.type;
-		console.log('addOrUpdateDriver: ' + name);
+		//console.log('addOrUpdateDriver: ' + name);
         
         var stmt = dbsearch.all("select name from drivers where name = '" + name + "';", 
             function(err, rows) {
@@ -2114,3 +2114,44 @@ forked.on('message', (msg) => {
 });
 
 forked.send({ message_type: "greeting", hello: 'world' });
+
+
+
+
+
+
+
+
+var diff = require('deep-diff').diff
+console.log("Deep: " + diff)
+
+
+var lhs = [
+{line: 2, value: "The cat sat on the mat"}
+,
+{line: 1, value: "The cat sat on the mat2"}
+,
+{line: 3, value: "The cat sat on the mat2"}
+    ]
+;
+ 
+var rhs = [
+
+{line: 1, value: "The cat sat on the mat2"}
+,
+{line: 2, value: "The cat sat on the mat"}
+,
+{line: 3, value: "The cat sat on the mat2"}
+
+];
+ 
+var differences = diff(lhs, rhs);
+console.log("")
+console.log("")
+console.log("")
+console.log("----------------------------------------------------------------------------------------------")
+console.log(JSON.stringify(differences,null,2))
+console.log("----------------------------------------------------------------------------------------------")
+console.log("")
+console.log("")
+console.log("")
