@@ -116,6 +116,9 @@
                 position="-.5 2.4 0"
                 text="color: black; align: left; value: Related items ; width: 4; ">
     </a-entity>
+    <a-box   witdth=1 height=0.4 depth=1 color=blue position="-1 1.4 0"></a-box>
+    <a-box   witdth=1 height=0.4 depth=1 color=green position="0.1 .7 0"></a-box>
+    
 </a-entity>
 
 
