@@ -109,6 +109,14 @@
 
 
 
+<a-entity   id='related_items'  
+            position="-200 0 0"
+            >
+    <a-entity   
+                position="-.5 2.4 0"
+                text="color: black; align: left; value: Related items ; width: 4; ">
+    </a-entity>
+</a-entity>
 
 
 <a-entity id='scrollable_grid' v-bind:refresh_vr_items='get_refresh_view_counter'>

@@ -145,7 +145,9 @@
 									geometry="primitive: plane; width: 1.8; height: 1.8;" material="color: red"
                                     mixin="RobotoFont"
 									v-bind:text='"color: white; align: center; value: To add data \ndrag and drop \nfiles here ; width: 6; "'
-									rotation='0 0 0' id='red_home' add_data=''>
+									rotation='0 0 0' id='red_home' add_data=''
+                                    goto='name: related_items; distance: 4; duration: 500;'
+                                    >
 									<a-animation begin="mouseenter" attribute="rotation"
 														to="0 0 1" dur="100" direction="alternate"  repeat="3"></a-animation>
 						</a-entity>
