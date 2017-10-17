@@ -132,7 +132,7 @@
 					   <a-entity    position='-0.8 .3 0'
                                     v-bind:id='a_driver.id + "_mid"'
 									geometry="primitive: plane; width:.35;height: 0.35;"
-							        v-bind:griditem='"x: " + get_x_position(get_index(a_driver.id),list_of_queries.length) + "; y:" + get_y_position(get_index(a_driver.id),list_of_queries.length) + ";" +
+							        v-bind:griditem='"" +
 								    "   query_name: " + a_driver.name +
 								    ";  query_id: " + a_driver.id +
                                     ";  query_saved_as: " + (a_driver.hash?(a_driver.hash + (a_driver.fileName?"." + a_driver.fileName.split(".").pop():"")):"") +                                   

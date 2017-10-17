@@ -192,90 +192,48 @@ function setupVRVuePane() {
 		    }
 		});
 
+        
+        //-----------------------------------------------------------------
+        //
+        // this is the component handler for query items on the grid
+        //
+        //-----------------------------------------------------------------
 		AFRAME.registerComponent('griditem', {
-		  schema: {	x:  {type: 'number', default: 0},
-					y: {type: 'number', default: 0},
-                    query_id: {type: 'string', default: ''},
-					query_name: {type: 'string', default: ''},
-                    query_saved_as: {type: 'string', default: ''},
-                    query_display: {type: 'string', default: ''},
-					query_size: {type: 'string', default: ''}
+            schema: {   query_id:       {type: 'string', default: ''},
+                        query_name:     {type: 'string', default: ''},
+                        query_saved_as: {type: 'string', default: ''},
+                        query_display:  {type: 'string', default: ''},
+                        query_size:     {type: 'string', default: ''}
 					},
-		  init: function () {
-			var self = this;
-		   this.el.addEventListener('mouseleave', function (evt) {
-				document.querySelector('#vr_file_name_2').setAttribute('text','color: black; align: left; value: ;width: 4; ');
+            init: function () {
+                var self = this;
                 
-				
-                document.querySelector('#vr_file_size_2').setAttribute('text','color: black; align: left; value:  ;width: 4; ');
+                this.el.addEventListener('mouseleave', function (evt) {
+                    document.querySelector('#vr_file_name_2').setAttribute('text','color: black; align: left; value: ;width: 4; ');
+                    document.querySelector('#vr_file_size_2').setAttribute('text','color: black; align: left; value:  ;width: 4; ');
+                    document.querySelector('#vr_file_saved_as').setAttribute('text','color: black; align: left; value: ;width: 4;  ');
+                });
+
+
+
                 
-				
-                document.querySelector('#vr_file_saved_as').setAttribute('text','color: black; align: left; value: ;width: 4;  ');
-			});
-		   this.el.addEventListener('mouseenter', function (evt) {
-               //alert(self.data.query_name);
-			   if (inMove) {
-				   return;
-			   };
-			   inMove = true;
-				var posX = 0;
-				var posY = 0;
-
-				//alert('x: ' + self.data.x + ', useX: ' + useX);
-				//alert('y: ' + self.data.y + ', useY: ' + useY);
-				if (self.data.x < 1) {
-					useX = 0;
-				} else if (self.data.x > useX) {
-					useX = useX + 1;
-				} else if (self.data.x < useX) {
-					useX = useX - 1;
-				};
-				posX = -(useX * 0.5);
-
-				if (self.data.y < 1) {
-					useY = 0;
-				} else if (self.data.y > useY) {
-					useY = useY + 1;
-				} else if (self.data.y < useY) {
-					useY = useY - 1;
-				};
-				posY = (useY * 0.6);
-
-				var newpos = posX + ' ' + posY + ' 0';
-
-
-				var node = document.getElementById("animscroll");
-				if (node) {
-				  node.parentNode.removeChild(node);
-				};
-
-
-				//alert(newpos);
-				//document.querySelector("#scrollable_grid").setAttribute('position', {x: self.data.x, y: self.data.y, z: 0 });
-				var animation = document.createElement('a-animation');
-				animation.setAttribute('id', "animscroll");
-				animation.setAttribute('attribute', "position");
-				animation.setAttribute('to', newpos);
-				animation.setAttribute('dur', "200");
-				//document.querySelector("#scrollable_grid").appendChild(animation);
-				inMove = false;
-
-                var similarCount = window.get_query_property(self.data.query_id, "similar_count");
-                var similarText = ''
-                if (similarCount.length > 0 ) {
-                    similarText = ' (' + similarCount + ')';
-                }
-				document.querySelector('#vr_file_name_2').setAttribute('text','color: black; align: left; value: ' + 
-                    self.data.query_name + similarText + ' ;width: 4; ');
-                
-				
-                document.querySelector('#vr_file_size_2').setAttribute('text','color: black; align: left; value: ' + self.data.query_size + ' bytes ;width: 4; ');
-                
-				
-                document.querySelector('#vr_file_saved_as').setAttribute('text','color: black; align: left; value: ' + self.data.query_display + '  ;width: 4;  ');
-
-
-
+                this.el.addEventListener('mouseenter', function (evt) {
+                    var similarCount = window.get_query_property(self.data.query_id, "similar_count");
+                    var similarText = ''
+                    if (similarCount.length > 0 ) {
+                        similarText = ' (' + similarCount + ')';
+                    }
+                    document.querySelector('#vr_file_name_2').setAttribute(
+                        'text',
+                        'color: black; align: left; value: ' + self.data.query_name + similarText + ' ;width: 4; ');
+                    
+                    document.querySelector('#vr_file_size_2').setAttribute(
+                        'text',
+                        'color: black; align: left; value: ' + self.data.query_size + ' bytes ;width: 4; ');
+                    
+                    document.querySelector('#vr_file_saved_as').setAttribute(
+                        'text',
+                        'color: black; align: left; value: ' + self.data.query_display + '  ;width: 4;  ');
 			});
 		  }
 		});
