@@ -114,6 +114,7 @@
             >
     <a-entity   
                 position="-.5 2.4 0"
+                mixin="RobotoFont"
                 text="color: black; align: left; value: Related items ; width: 4; ">
     </a-entity>
     <a-box   witdth=1 height=0.4 depth=1 color=blue position="-1 1.4 0"></a-box>
@@ -124,11 +125,12 @@
 
 <a-entity id='scrollable_grid' v-bind:refresh_vr_items='get_refresh_view_counter'>
 
-				<a-entity  v-for="(a_driver,index)  in  list_of_queries"
-                    v-bind:id='a_driver.id + "_upper"'
-				   v-bind:position="((is_visible(a_driver.id)?-0.8:100) + (get_x_position(get_index(a_driver.id),list_of_queries.length)*0.5))+ ' ' + (1.5 - (get_y_position(get_index(a_driver.id),list_of_queries.length)*0.6)) + ' -.1'"
-				   v-bind:color="(get_index(a_driver.id) % 2 == 0)?'blue':'green'"
-				   v-bind:text="'color: black; align: left; value: ' + a_driver.name.substr(a_driver.name.length - 10) + ' ; width: 2; '">
+				<a-entity   v-for="(a_driver,index)  in  list_of_queries"
+                            v-bind:id='a_driver.id + "_upper"'
+                            v-bind:position="((is_visible(a_driver.id)?-0.8:100) + (get_x_position(get_index(a_driver.id),list_of_queries.length)*0.5))+ ' ' + (1.5 - (get_y_position(get_index(a_driver.id),list_of_queries.length)*0.6)) + ' -.1'"
+                            v-bind:color="(get_index(a_driver.id) % 2 == 0)?'blue':'green'"
+                            mixin="RobotoFont"
+                            v-bind:text="'color: black; align: left; value: ' + a_driver.name.substr(a_driver.name.length - 10) + ' ; width: 2; '">
 					   <a-entity    position='-0.8 .3 0'
                                     v-bind:id='a_driver.id + "_mid"'
 									geometry="primitive: plane; width:.35;height: 0.35;"
