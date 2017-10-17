@@ -443,11 +443,10 @@ function setupVRVuePane() {
 
         
 		AFRAME.registerComponent('log', {
-		  schema: {x:  {type: 'number', default: 0},
-					     y: {type: 'number', default: 0},
-               queryId: {type: 'string'},
-               queryFile: {type: 'string'},
-             },
+		  schema:   { 
+                        queryId: {type: 'string'},
+                        queryFile: {type: 'string'},
+                    },
 		  init: function () {
         var self = this;
 
@@ -457,8 +456,6 @@ function setupVRVuePane() {
 				   return;
                 };
                 inMove = true;
-                var x = self.data.x;
-                var y = self.data.y;
                 var queryFile = self.data.queryFile;
                 
 

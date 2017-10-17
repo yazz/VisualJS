@@ -138,11 +138,10 @@
                                     ";  query_saved_as: " + (a_driver.hash?(a_driver.hash + (a_driver.fileName?"." + a_driver.fileName.split(".").pop():"")):"") +                                   
 					    			";  query_display: " + "" + a_driver.fileName + 
                                     ";  query_size: " + a_driver.size + "; " '
-								mixin='gsd'  
-								v-bind:material2='"src: driver_icons/" + a_driver.driver + ".jpg;"'
-								v-bind:material='"color: gray;"'
+								v-bind:material='"src: driver_icons/" + a_driver.driver + ".jpg;"'
+								v-bind:material2='"color: gray;"'
 								v-bind:color="(get_index(a_driver.id) % 2 == 0)?'blue':'green'"
-								v-bind:log='"x: " + get_x_position(index,list_of_queries.length) + "; y:" + get_y_position(index,list_of_queries.length) + ";queryFile: " + a_driver.hash + (a_driver.fileName?"." +a_driver.fileName.split(".").pop():"") + 
+								v-bind:log='"queryFile: " + a_driver.hash + (a_driver.fileName?"." +a_driver.fileName.split(".").pop():"") + 
                                 ";queryId: "  + a_driver.id + ";"' 
                                 >
 								<a-animation begin="mouseenter" attribute="rotation"
