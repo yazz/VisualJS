@@ -311,7 +311,7 @@ function setupVRVuePane() {
             var animEnd  = options.animEnd;
             
             var worldPos = new THREE.Vector3();
-            var goto_item = document.querySelector("#" + goto_name);
+            var goto_item = document.getElementById(goto_name);
             worldPos.setFromMatrixPosition(goto_item.object3D.matrixWorld);
             var node = document.getElementById("itemzoom");
             if (node) {
@@ -443,38 +443,105 @@ function setupVRVuePane() {
 
         
 		AFRAME.registerComponent('log', {
-		  schema:   { 
+            schema: { 
                         queryId: {type: 'string'},
                         queryFile: {type: 'string'},
                     },
-		  init: function () {
-        var self = this;
-
-			var stringToLog = this.data;
-		   this.el.addEventListener('click', function (evt) {
-                if (inMove) {
-				   return;
-                };
-                inMove = true;
-                var queryFile = self.data.queryFile;
+                    
+            init: function () {
+                var self = this;
+                var stringToLog = this.data;
                 
-
-				get_query_result(self.data.queryId);
-				store.dispatch('set_viewed_query_id', self.data.queryId);
+                this.el.addEventListener('click', function (evt) {
+                    if (inMove) {
+                        return;
+                    };
+                    inMove = true;
                 
-				store.dispatch('set_viewed_query_file', self.data.queryFile);
+                    store.dispatch('set_viewed_query_id', self.data.queryId);
+                    store.dispatch('set_viewed_query_file', self.data.queryFile);
+
+                    /*gotoFunction({
+                        goto_name:  self.data.queryId + "_upper",
+                        distance:   6,
+                        duration:   "500"
+                    });*/
+                    inMove = false;
+                });
+            }
+		});
+
+
+
+
+        
+		AFRAME.registerComponent('view', {
+            schema: { 
+                        queryId: {type: 'string'}
+                    },
+                    
+            init: function () {
+                var self = this;
+                var stringToLog = this.data;
+                
+                this.el.addEventListener('click', function (evt) {
+                    if (inMove) {
+                        return;
+                    };
+                    inMove = true;
+                    get_query_result(self.data.queryId);
+                    
 
                     gotoFunction({
                         goto_name:  "doc_details",
                         distance:   6,
                         duration:   "500"
                     });
-				store.dispatch('show_full_doc');
-			   inMove = false;
-
-			});
-		  }
+                    store.dispatch('show_full_doc');
+                    inMove = false;
+                });
+            }
 		});
+
+
+        
+        
+        
+        
+        
+        
+        AFRAME.registerComponent('show_related', {
+            schema: { 
+                        queryId: {type: 'string'}
+                    },
+                    
+            init: function () {
+                var self = this;
+                var stringToLog = this.data;
+                
+                this.el.addEventListener('click', function (evt) {
+                    if (inMove) {
+                        return;
+                    };
+                    inMove = true;
+                    
+
+                    gotoFunction({
+                        goto_name:  "related_items",
+                        distance:   6,
+                        duration:   "500"
+                    });
+                    inMove = false;
+                });
+            }
+		});
+
+        
+        
+        
+        
+        
+        
 
         
                 

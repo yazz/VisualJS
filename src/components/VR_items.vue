@@ -150,7 +150,24 @@
                                     v-bind:id='a_driver.id + "_anim"'
 												to="0 0 5" dur="90" direction="alternate"  repeat="3"></a-animation>
 						</a-entity>
-			   </a-entity>
+                        
+                </a-entity>
+                <a-entity   geometry="primitive: plane; width:.35;height: .35; opacity: 1; " 
+                            material="color: green;"
+                            v-bind:position='(is_query_selected()?(get_x_position(get_index(get_viewed_query_id()),list_of_queries.length)*0.5)-1.55:-100) + " " + (is_query_selected()?(2.15-get_y_position(get_index(get_viewed_query_id()),list_of_queries.length)*0.6):0) + " -.09"'
+                            mixin="RobotoFont"
+                            v-bind:view='"queryId: "  + get_viewed_query_id() + ";"' 
+                            v-bind:text='"color: black; align: center; value: View; width: 3;"'
+                            >
+                </a-entity>
+                <a-entity   geometry="primitive: plane; width:.35;height: .35; opacity: 1; " 
+                            material="color: blue;"
+                            v-bind:position='(is_query_selected()?(get_x_position(get_index(get_viewed_query_id()),list_of_queries.length)*0.5)-1.2:-100) + " " + (is_query_selected()?(1.8-get_y_position(get_index(get_viewed_query_id()),list_of_queries.length)*0.6):0) + " -.09"'
+                            mixin="RobotoFont"
+                            v-bind:show_related='"queryId: "  + get_viewed_query_id() + ";"' 
+                            v-bind:text='"color: black; align: center; value: Related; width: 2;"'
+                            >
+                </a-entity>
 </a-entity >
 
 
@@ -225,6 +242,11 @@ name: 'VR-items'
 	methods: {
 	get_viewed_query_id: function() {
 	    return this.$store.state.viewed_query_id;
+	},
+    is_query_selected: function() {
+	    if ( this.$store.state.viewed_query_id == null) { return false; };
+	    if ( this.$store.state.viewed_query_id.length == 0) { return false; };
+        return true
 	},
 	get_viewed_query_file: function() {
 	    return this.$store.state.viewed_query_file;
