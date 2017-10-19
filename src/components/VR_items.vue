@@ -127,7 +127,7 @@
 
 				<a-entity   v-for="(a_driver,index)  in  list_of_queries"
                             v-bind:id='a_driver.id + "_upper"'
-                            v-bind:position="((is_visible(a_driver.id)?-0.8:100) + (get_x_position(get_index(a_driver.id),list_of_queries.length)*0.5))+ ' ' + (1.5 - (get_y_position(get_index(a_driver.id),list_of_queries.length)*0.6)) + ' -.1'"
+                            v-bind:position="((is_visible(a_driver.id)?-0.8:100) + (get_x_position(get_index(a_driver.id),list_of_queries.length)*0.5))+ ' ' + (1.5 - (get_y_position(get_index(a_driver.id),list_of_queries.length)*0.6)) + ' ' + ((get_viewed_query_id() == a_driver.id)?.1:-.1)"
                             v-bind:color="(get_index(a_driver.id) % 2 == 0)?'blue':'green'"
                             mixin="RobotoFont"
                             v-bind:text="'color: black; align: left; value: ' + a_driver.name.substr(a_driver.name.length - 10) + ' ; width: 2; '">
@@ -161,30 +161,32 @@
                 
                 <a-entity
                     id='query_menu'
-                    v-bind:position='"" + ((is_visible(get_viewed_query_id()) && is_query_selected())?0:-100) + " 0 0"'
+                    geometry="primitive: plane; width:35;height: 35; " 
+                    material="color: lightgray; opacity: .9;"
+                    v-bind:position='"" + ((is_visible(get_viewed_query_id()) && is_query_selected())?0:-100) + " 0.2 -.1"'
                 >
-                    <a-entity   geometry="primitive: plane; width:.35;height: .35; opacity: 1; " 
+                    <a-entity   geometry="primitive: plane; width:.70;height: .70; opacity: 1; " 
                                 material="color: green;"
-                                v-bind:position='(is_query_selected()?(get_x_position(get_index(get_viewed_query_id()),list_of_queries.length)*0.5)-1.55:-100) + " " + (is_query_selected()?(2.15-get_y_position(get_index(get_viewed_query_id()),list_of_queries.length)*0.6):0) + " -.09"'
+                                v-bind:position='(is_query_selected()?(get_x_position(get_index(get_viewed_query_id()),list_of_queries.length)*0.5)-1.55:-100) + " " + (is_query_selected()?(2.15-get_y_position(get_index(get_viewed_query_id()),list_of_queries.length)*0.6):0) + " .2"'
                                 mixin="RobotoFont"
                                 v-bind:view='"queryId: "  + get_viewed_query_id() + ";"' 
-                                v-bind:text='"color: black; align: center; value: View; width: 3;"'
+                                v-bind:text='"color: white; align: center; value: View; width: 3;"'
                                 >
                     </a-entity>
-                    <a-entity   geometry="primitive: plane; width:.35;height: .35; opacity: 1; " 
+                    <a-entity   geometry="primitive: plane; width:.70;height: .70; opacity: 1; " 
                                 material="color: blue;"
-                                v-bind:position='(is_query_selected()?(get_x_position(get_index(get_viewed_query_id()),list_of_queries.length)*0.5)-1.2:-100) + " " + (is_query_selected()?(1.8-get_y_position(get_index(get_viewed_query_id()),list_of_queries.length)*0.6):0) + " -.09"'
+                                v-bind:position='(is_query_selected()?(get_x_position(get_index(get_viewed_query_id()),list_of_queries.length)*0.5)-.85:-100) + " " + (is_query_selected()?(2.15-get_y_position(get_index(get_viewed_query_id()),list_of_queries.length)*0.6):0) + " .2"'
                                 mixin="RobotoFont"
                                 v-bind:show_related='"queryId: "  + get_viewed_query_id() + ";"' 
-                                v-bind:text='"color: black; align: center; value: Related; width: 2;"'
+                                v-bind:text='"color: white; align: center; value: Related; width: 3;"'
                                 >
                     </a-entity>
-                    <a-entity   geometry="primitive: plane; width:.35;height: .35; opacity: 1; " 
+                    <a-entity   geometry="primitive: plane; width:.70;height: .70; opacity: 1; " 
                                 material="color: black;"
-                                v-bind:position='(is_query_selected()?(get_x_position(get_index(get_viewed_query_id()),list_of_queries.length)*0.5)-1.55:-100) + " " + (is_query_selected()?(1.25-get_y_position(get_index(get_viewed_query_id()),list_of_queries.length)*0.6):0) + " -.09"'
+                                v-bind:position='(is_query_selected()?(get_x_position(get_index(get_viewed_query_id()),list_of_queries.length)*0.5)-.15:-100) + " " + (is_query_selected()?(2.15-get_y_position(get_index(get_viewed_query_id()),list_of_queries.length)*0.6):0) + " .2+"'
                                 mixin="RobotoFont"
                                 v-bind:close_item_menu='"queryId: "  + get_viewed_query_id() + ";"' 
-                                v-bind:text='"color: white; align: center; value: Close; width: 2;"'
+                                v-bind:text='"color: white; align: center; value: Close; width: 3;"'
                                 >
                     </a-entity>
                 </a-entity>
