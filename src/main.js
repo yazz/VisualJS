@@ -507,6 +507,28 @@ function setupVRVuePane() {
         
         
         
+        AFRAME.registerComponent('close_item_menu', {
+            schema: { 
+                        queryId: {type: 'string'}
+                    },
+                    
+            init: function () {
+                var self = this;
+                var stringToLog = this.data;
+                
+                this.el.addEventListener('click', function (evt) {
+                    if (inMove) {
+                        return;
+                    };
+                    inMove = true;
+                    
+                    store.dispatch('set_viewed_query_id', null);
+                    store.dispatch('set_viewed_query_file', null);
+
+                    inMove = false;
+                });
+            }
+		});
         
         
         
