@@ -88,7 +88,7 @@
                     geometry="primitive: plane; width:35;height: 35; " 
                     material="color: lightgray; opacity: .9;"
                     v-bind:close_item_menu2='"queryId: "  + get_viewed_query_id() + ";"' 
-                    v-bind:position='((is_visible(get_viewed_query_id()) && is_query_selected())?-2:-100) + " 2.2 -.1"'
+                    v-bind:position='((is_visible(get_viewed_query_id()) && is_query_selected())?-4.5:-100) + " 2.5 -.1"'
                 >
                 	   <a-entity    position='.3 -1.1 .2'
                                     v-bind:id='"selected_item"'
@@ -167,7 +167,7 @@
 
 
                         <a-entity v-if='can_show_full_doc()' v-for="(field_name,index)  in  list_of_fields"
-                                  v-bind:position='(index + .5) + " -1 2.5"'
+                                  v-bind:position='(index + 1.8) + " -1.15 2.5"'
                                   geometry="primitive: plane; width: auto; height: auto"
                                   material="color: white"
                                   rotation='0 0 0'>

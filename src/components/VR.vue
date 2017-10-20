@@ -62,12 +62,12 @@
                                         v-bind:text='"color: gray;align: left; value: " + getSearchSubtext + " ; width: 5; "'>
                             </a-entity>
                             
-                            <a-entity   v-bind:position='(get_show_related()?1:-100) + " -.5 0"'
+                            <a-entity   v-bind:position='(get_show_related()?.75:-100) + " -.5 0"'
                                         mixin="RobotoFont"
-                                        geometry="primitive: plane; width: 1; height: .3; ;"  
-                                        material="color: green; opacity: 0.9;"
+                                        geometry="primitive: plane; width: 1.5; height: .3; ;"  
+                                        material="color: gray; opacity: 0.9;"
                                         close_related=''
-                                        v-bind:text='"color: blue;align: center; value: Close ; width: 5; "'>
+                                        v-bind:text='"color: blue;align: center; value: Cancel filter ; width: 5; "'>
                             </a-entity>
                         
 

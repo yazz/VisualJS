@@ -426,11 +426,12 @@ function setupVRVuePane() {
                 
 				store.dispatch('set_viewed_query_file', self.data.queryFile);
 
-				get_query_result(self.data.queryId);
-				store.dispatch('set_viewed_query_id', self.data.queryId);
+                store.dispatch('hide_full_doc');
+				get_query_result(self.data.queryId, function() {
+                    store.dispatch('set_viewed_query_id', self.data.queryId);
+                    store.dispatch('show_full_doc');
+                });
 
-
-				store.dispatch('show_full_doc');
 			    inMove = false;
 
 			});
@@ -485,10 +486,15 @@ function setupVRVuePane() {
                         return;
                     };
                     inMove = true;
-                    get_query_result(self.data.queryId);
+                    store.dispatch('hide_full_doc');
+                    get_query_result(
+                        self.data.queryId, 
+                        (function() {
+                            store.dispatch('show_full_doc');
+                        })
+                    );
                     
 
-                    store.dispatch('show_full_doc');
                     inMove = false;
                 });
             }

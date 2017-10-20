@@ -104,7 +104,7 @@
     // --------------------------------------------------------------------
     // get the query  result
     // --------------------------------------------------------------------
-    function get_query_result(source) {
+    function get_query_result(source, callback) {
       $.ajax({
 
         type: "POST",
@@ -113,7 +113,13 @@
         success: function(data) {
           //$("#result").text(data);
 		  //alert(eval('(' + data + ')'));
-		    setOutputData(eval('(' + data + ')'));
+                var getType = {};
+                if (callback && getType.toString.call(callback) === '[object Function]') {
+                    setOutputData(eval('(' + data + ')'));
+                    callback.call(this);
+                } else {
+                    setOutputData(eval('(' + data + ')'));
+                };
 			},
         error: function(jqXHR, textStatus, errorThrown) {
           //alert('error ' + textStatus + " " + errorThrown);
