@@ -429,11 +429,7 @@ function setupVRVuePane() {
 				get_query_result(self.data.queryId);
 				store.dispatch('set_viewed_query_id', self.data.queryId);
 
-                gotoFunction({
-                    goto_name:  "doc_details",
-                    distance:   6,
-                    duration:   "500"
-                });
+
 				store.dispatch('show_full_doc');
 			    inMove = false;
 
@@ -492,11 +488,6 @@ function setupVRVuePane() {
                     get_query_result(self.data.queryId);
                     
 
-                    gotoFunction({
-                        goto_name:  "doc_details",
-                        distance:   6,
-                        duration:   "500"
-                    });
                     store.dispatch('show_full_doc');
                     inMove = false;
                 });
@@ -524,6 +515,7 @@ function setupVRVuePane() {
                     
                     store.dispatch('set_viewed_query_id', null);
                     store.dispatch('set_viewed_query_file', null);
+                    store.dispatch('hide_full_doc');
 
                     inMove = false;
                 });

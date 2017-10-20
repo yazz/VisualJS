@@ -30,82 +30,6 @@
 						  rotation='0 0 0'>
 				</a-entity>
 
-				<a-entity position="10 -10 -10" id='doc_details'>
-
-					<a-entity v-if='can_show_full_doc()' geometry="primitive: plane; height: 5; width: 8;" material="color: white" position='0 2.5 -1' >
-
-						<a-entity geometry="primitive: box; width:.5;height: 0.5;depth: 0.1;" material="color: red"
-						v-if='get_vr_type_mouse'  position='-4 -2.5 1.1' closedoc=''>
-								<a-entity 	position="1 0 0.07"
-                                            mixin="AileronFont"
-											text="color: white; align: left; value: Close; width: 2; height: 1; opacity: 1;">
-								</a-entity>
-						</a-entity>
-						<a-entity  v-if='get_vr_type_mouse' geometry="primitive: box; width:.5;height: 0.5;depth: 0.1;" material="color: green"
-						position='-4 -1 1.1'
-									v-bind:open_file='get_viewed_query_file()?("" + get_viewed_query_file()):false ' >
-							<a-entity 	position="1 0 0.07"
-                                        mixin="AileronFont"
-										text="color: white; align: left; value: Open; width: 2; height: 1; opacity: 1;">
-							</a-entity>
-						</a-entity>
-
-						<a-entity  v-if='get_vr_type_mouse' geometry="primitive: box; width:.5;height: 0.5;depth: 0.1;" material="color: blue"
-						position='-4 -.2 1.1'
-									v-bind:related_files='get_viewed_query_id()?("" + get_viewed_query_id()):false ' 
-                                    >
-							<a-entity 	position=".9 0 0.07"
-                                        mixin="AileronFont"
-										text="color: white; align: left; value: Related; width: 2; height: 1; opacity: 1;">
-							</a-entity>
-						</a-entity>
-
-                        
-						<a-entity v-if='get_vr_type_move' geometry="primitive: box; width:.6;height: 0.6;depth: 0.6;" material="color: red"
-						position='-6 -3.4 .7' closedoc='' rotation='0 40 0'>
-						</a-entity>
-						<a-entity v-if='get_vr_type_move' 	position="-5 -3.5 -1" rotation='0 40 0'
-                                    mixin="AileronFont"
-									text="color: red; align: middle; value: Close; width: 8; height: 2; opacity: 1;">
-						</a-entity>
-
-
-					<a-entity v-if='can_show_full_doc()' v-for="(field_name,index)  in  list_of_fields"
-							  v-bind:position='(index + .5) + " -1 2.5"'
-							  geometry="primitive: plane; width: auto; height: auto"
-							  material="color: white"
-							  rotation='0 0 0'>
-
-                            <a-entity position='-1.5 0 0.6' v-if='!is_document(get_viewed_query_id())'
-                                      mixin="AileronFont"
-                                      v-bind:text='"color: black; align: left; value: " + field_name + "; width: 2; "'>
-                            </a-entity>
-
-							<a-entity v-for="(a_record,rindex)  in  list_of_records" v-if='!is_document(get_viewed_query_id())'
-									  v-bind:position='"-1.5 " + (-.2 - (rindex * 0.2)) + " 0.6"'
-									  geometry="primitive: plane; width: 2; height: 0.2" material="color: white"
-                                      mixin="SourceCodeProFont"
-									  v-bind:text='"color: black; align: left; value: " + truncate(a_record[field_name]) + "; width: 2; opacity: 1;"'
-									  rotation='0 0 0'>
-
-							</a-entity>
-                            
-                            
-                            
-                            
-							<a-entity v-for="(a_record,rindex)  in  list_of_records" v-if='is_document(get_viewed_query_id())'
-									  v-bind:position='"1 " + (-.2 - (rindex * 0.2)) + " 0.6"'
-									  geometry="primitive: plane; width: 6; height: 0.2" material="color: white"
-                                      mixin="SourceCodeProFont"
-									  v-bind:text='"color: black; align: left; value: " + truncate2(a_record[field_name]) + "; width: 6; opacity: 1; wrapPixels: 2000; "'
-									  rotation='0 0 0'>
-
-							</a-entity>
-
-
-					</a-entity>
-						</a-entity>
-					</a-entity>
 
 
 
@@ -163,7 +87,7 @@
                     id='query_menu'
                     geometry="primitive: plane; width:35;height: 35; " 
                     material="color: lightgray; opacity: .9;"
-                    v-bind:close_item_menu='"queryId: "  + get_viewed_query_id() + ";"' 
+                    v-bind:close_item_menu2='"queryId: "  + get_viewed_query_id() + ";"' 
                     v-bind:position='((is_visible(get_viewed_query_id()) && is_query_selected())?-2:-100) + " 2.2 -.1"'
                 >
                 	   <a-entity    position='.3 -1.1 .2'
@@ -227,7 +151,85 @@
 									<a-animation begin="mouseenter" attribute="rotation"
 												to="0 0 3" dur="80" direction="alternate"  repeat="3"></a-animation>
                     </a-entity>
-                </a-entity>
+
+
+
+
+
+
+
+
+
+                    <a-entity position="3.6 -2.985 .2" id='doc_details'>
+
+                        <a-entity v-if='can_show_full_doc()' geometry="primitive: plane; height: 5; width: 8;" material="color: white" position='0 2.5 -1' >
+
+
+
+                        <a-entity v-if='can_show_full_doc()' v-for="(field_name,index)  in  list_of_fields"
+                                  v-bind:position='(index + .5) + " -1 2.5"'
+                                  geometry="primitive: plane; width: auto; height: auto"
+                                  material="color: white"
+                                  rotation='0 0 0'>
+
+                                <a-entity position='-1.5 0 0.6' 
+                                          v-if='!is_document(get_viewed_query_id())'
+                                          geometry="primitive: plane; width: 2; height: 0.2" 
+                                          material="color: gray; opacity: 1;">
+                                    <a-entity position='0.1 0 0' 
+                                              v-if='!is_document(get_viewed_query_id())'
+                                              geometry="primitive: plane; width: 2; height: 0.2" 
+                                              mixin="AileronFont"
+                                              material="color: gray; opacity: 1;"
+                                              v-bind:text='"color: white; align: left; value: " + field_name + "; width: 2; "'>
+                                    </a-entity>
+                                </a-entity>
+
+                                <a-entity v-for="(a_record,rindex)  in  list_of_records" v-if='!is_document(get_viewed_query_id())'
+                                          v-bind:position='"-1.5 " + (-.2 - (rindex * 0.2)) + " 0.6"'
+                                          geometry="primitive: plane; width: 2; height: 0.2" 
+                                          material="color: white"
+                                          rotation='0 0 0'>
+                                    <a-entity v-bind:position='".1 0 0"'
+                                              geometry="primitive: plane; width: 2; height: 0.2" 
+                                              material="color: white"
+                                              mixin="SourceCodeProFont"
+                                              v-bind:text='"color: black; align: left; value: " + truncate(a_record[field_name]) + "; width: 2; opacity: 1;"'
+                                              rotation='0 0 0'>
+
+                                    </a-entity>
+
+                                </a-entity>
+                                
+                                
+                                
+                                
+                                <a-entity v-for="(a_record,rindex)  in  list_of_records" v-if='is_document(get_viewed_query_id())'
+                                          v-bind:position='".5 " + (-0.01 - (rindex * 0.2)) + " 0.6"'
+                                          geometry="primitive: plane; width: 6; height: 0.2" 
+                                          material="color: white; opacity: 1;"
+                                          mixin="SourceCodeProFont"
+                                          v-bind:text='"color: black; align: left; value: " + truncate2(a_record[field_name]) + "; width: 6; opacity: 1; wrapPixels: 2000; "'
+                                          rotation='0 0 0'>
+
+                                </a-entity>
+
+
+                            </a-entity>
+                        </a-entity>
+                    </a-entity>
+
+
+
+
+
+
+
+
+
+
+
+                    </a-entity>
                 
                 
                 
