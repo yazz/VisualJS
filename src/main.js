@@ -591,6 +591,9 @@ function setupVRVuePane() {
                         store.dispatch('set_viewed_query_file', null);
                         store.dispatch('hide_full_doc');
                         store.dispatch('set_show_related', true);
+                        searchtext = "";
+                        searchPos = 0;
+                        showText();
                         
                         
                         
@@ -949,6 +952,8 @@ var inSearch = false;
     window.addEventListener('keydown', function (evt) {
         var keynum = evt.keyCode ;
         
+        store.dispatch('set_show_related', false);
+
         if (keynum == LEFT_ARROW_KEY_CODE) {
             if (searchPos > 0) {
                 searchPos --;
