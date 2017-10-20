@@ -61,6 +61,14 @@
                                         mixin="RobotoFont"
                                         v-bind:text='"color: gray;align: left; value: " + getSearchSubtext + " ; width: 5; "'>
                             </a-entity>
+                            
+                            <a-entity   v-bind:position='(get_show_related()?1:-100) + " -.5 0"'
+                                        mixin="RobotoFont"
+                                        geometry="primitive: plane; width: 1; height: .3; ;"  
+                                        material="color: green; opacity: 0.9;"
+                                        close_related=''
+                                        v-bind:text='"color: blue;align: center; value: Close ; width: 5; "'>
+                            </a-entity>
                         
 
     <a-entity   v-bind:position='(can_see_search_results?0:-100) + " -.7 0"'>
@@ -283,6 +291,9 @@ name: 'VR'
 	},
 		get_scanning_status: function() {
             return this.$store.state.scanning_status;
+	},
+		get_show_related: function() {
+            return this.$store.state.show_related;
 	},
 
     where_am_i: function () {

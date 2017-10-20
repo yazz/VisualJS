@@ -24,6 +24,8 @@ export default new Vuex.Store({
         ,
         search_subtext: ""
         ,
+        show_related: false
+        ,
         search_results: {
                     local: {results: [
                     //{a: 1, b: 2}, {a: 2, b: "dd"}
@@ -107,6 +109,8 @@ export default new Vuex.Store({
     get_current_location: state => state.current_location
     ,
     get_search_subtext: state => state.search_subtext
+    ,
+    get_show_related: state => state.show_related
     ,
     zoom_people: state => state.zoom_people
     ,
@@ -241,6 +245,9 @@ export default new Vuex.Store({
       },
       SET_SEARCH_SUBTEXT: function (state,y) {
         state.search_subtext = y
+      },
+      SET_SHOW_RELATED: function (state,y) {
+        state.show_related = y
       },
       SET_USER_NAME: function (state,y) {
         state.user_name = y
@@ -486,6 +493,9 @@ export default new Vuex.Store({
 		},
 		set_search_subtext: function(a,b){
             a.commit('SET_SEARCH_SUBTEXT',b)
+		},
+		set_show_related: function(a,b){
+            a.commit('SET_SHOW_RELATED',b)
 		},
 
 

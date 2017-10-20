@@ -557,6 +557,20 @@ function setupVRVuePane() {
         
         
 
+        AFRAME.registerComponent(
+            'close_related', {
+                schema: {
+                },
+                init: function () {
+                    var self = this;
+                    this.el.addEventListener('click', function (evt) {
+                        store.dispatch('set_show_related', false);
+                        store.dispatch('set_search_subtext', "");
+                        store.dispatch('clear_search_results');
+                        window.recalcVuexQueries()
+                    })
+                }
+            } ) ;
         
                 
         AFRAME.registerComponent(
@@ -567,8 +581,14 @@ function setupVRVuePane() {
                 init: function () {
                     var self = this;
                     this.el.addEventListener('click', function (evt) {
-                                //alert(self.data)
-                         $.ajax({
+                        store.dispatch('set_viewed_query_id', null);
+                        store.dispatch('set_viewed_query_file', null);
+                        store.dispatch('hide_full_doc');
+                        store.dispatch('set_show_related', true);
+                        
+                        
+                        
+                        $.ajax({
                             url: '/get_related_documents',
                             data: {id: self.data},
                             success: function(data) {
@@ -1278,7 +1298,6 @@ function setupWebSocket(host, port)
               var recs =  eval("(" + data.results + ")")
                         store.dispatch('clear_search_results');
                             
-              //alert(recs.length); zzz
                 store.dispatch('clear_search_results');
               for (var i = 0 ; i< recs.length; i++) {
                   var rec  =recs[i]
