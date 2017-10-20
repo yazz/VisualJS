@@ -574,34 +574,6 @@ function setupVRVuePane() {
                 },
                 init: function () {
                     var self = this;
-                    this.el.addEventListener('mouseenter', function (evt) {
-                        var node = document.getElementById("animscrollrelated");
-                        if (node) {
-                          node.parentNode.removeChild(node);
-                        };
-                        var animation = document.createElement('a-animation');
-                        animation.setAttribute('id', "animscrollrelated");
-                        animation.setAttribute('attribute', "rotation");
-                        animation.setAttribute('to', "0 0 90");
-                        animation.setAttribute('dur', "500");
-                        animation.setAttribute('repeat', "0");
-                        animation.setAttribute('direction', "alternate");
-                        self.el.appendChild(animation);
-                    });
-                    this.el.addEventListener('mouseleave', function (evt) {
-                        var node = document.getElementById("animscrollrelated");
-                        if (node) {
-                        node.parentNode.removeChild(node);
-                        };
-                        var animation = document.createElement('a-animation');
-                        animation.setAttribute('id', "animscrollrelated");
-                        animation.setAttribute('attribute', "rotation");
-                        animation.setAttribute('to', "0 0 0");
-                        animation.setAttribute('dur', "500");
-                        animation.setAttribute('repeat', "0");
-                        animation.setAttribute('direction', "alternate");
-                        self.el.appendChild(animation);
-                   });
                     this.el.addEventListener('click', function (evt) {
                                 //alert(self.data)
                          $.ajax({
