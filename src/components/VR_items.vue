@@ -163,6 +163,7 @@
                     id='query_menu'
                     geometry="primitive: plane; width:35;height: 35; " 
                     material="color: lightgray; opacity: .9;"
+                    v-bind:close_item_menu='"queryId: "  + get_viewed_query_id() + ";"' 
                     v-bind:position='"" + ((is_visible(get_viewed_query_id()) && is_query_selected())?0:-100) + " 0.2 -.1"'
                 >
                     <a-entity   geometry="primitive: plane; width:.70;height: .70; opacity: 1; " 
@@ -172,14 +173,18 @@
                                 v-bind:view='"queryId: "  + get_viewed_query_id() + ";"' 
                                 v-bind:text='"color: white; align: center; value: View; width: 3;"'
                                 >
+									<a-animation begin="mouseenter" attribute="rotation"
+												to="0 0 3" dur="80" direction="alternate"  repeat="3"></a-animation>
                     </a-entity>
                     <a-entity   geometry="primitive: plane; width:.70;height: .70; opacity: 1; " 
                                 material="color: blue;"
                                 v-bind:position='(is_query_selected()?(get_x_position(get_index(get_viewed_query_id()),list_of_queries.length)*0.5)-.85:-100) + " " + (is_query_selected()?(2.15-get_y_position(get_index(get_viewed_query_id()),list_of_queries.length)*0.6):0) + " .2"'
                                 mixin="RobotoFont"
                                 v-bind:show_related='"queryId: "  + get_viewed_query_id() + ";"' 
-                                v-bind:text='"color: white; align: center; value: Related; width: 3;"'
+                                v-bind:text='"color: white; align: center; value: Changes; width: 3;"'
                                 >
+									<a-animation begin="mouseenter" attribute="rotation"
+												to="0 0 3" dur="80" direction="alternate"  repeat="3"></a-animation>
                     </a-entity>
                     <a-entity   geometry="primitive: plane; width:.70;height: .70; opacity: 1; " 
                                 material="color: black;"
@@ -188,6 +193,28 @@
                                 v-bind:close_item_menu='"queryId: "  + get_viewed_query_id() + ";"' 
                                 v-bind:text='"color: white; align: center; value: Close; width: 3;"'
                                 >
+									<a-animation begin="mouseenter" attribute="rotation"
+												to="0 0 3" dur="80" direction="alternate"  repeat="3"></a-animation>
+                    </a-entity>
+                    <a-entity   geometry="primitive: plane; width:.70;height: .70; opacity: 1; " 
+                                material="color: gray;"
+                                v-bind:position='(is_query_selected()?(get_x_position(get_index(get_viewed_query_id()),list_of_queries.length)*0.5) + .55:-100) + " " + (is_query_selected()?(2.15-get_y_position(get_index(get_viewed_query_id()),list_of_queries.length)*0.6):0) + " .2+"'
+                                mixin="RobotoFont"
+                                v-bind:open_file='get_viewed_query_file()?("" + get_viewed_query_file()):false '
+                                v-bind:text='"color: white; align: center; value: Open; width: 3;"'
+                                >
+									<a-animation begin="mouseenter" attribute="rotation"
+												to="0 0 3" dur="80" direction="alternate"  repeat="3"></a-animation>
+                    </a-entity>
+                    <a-entity   geometry="primitive: plane; width:.70;height: .70; opacity: 1; " 
+                                material="color: brown;"
+                                v-bind:position='(is_query_selected()?(get_x_position(get_index(get_viewed_query_id()),list_of_queries.length)*0.5) + 1.25:-100) + " " + (is_query_selected()?(2.15-get_y_position(get_index(get_viewed_query_id()),list_of_queries.length)*0.6):0) + " .2+"'
+                                mixin="RobotoFont"
+                                v-bind:related_files='get_viewed_query_id()?("" + get_viewed_query_id()):false ' 
+                                v-bind:text='"color: white; align: center; value: Related; width: 3;"'
+                                >
+									<a-animation begin="mouseenter" attribute="rotation"
+												to="0 0 3" dur="80" direction="alternate"  repeat="3"></a-animation>
                     </a-entity>
                 </a-entity>
                 
