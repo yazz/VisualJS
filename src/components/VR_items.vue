@@ -46,11 +46,17 @@
 
     <a-box   width=10 height=4 depth=1 color=gray position="0.1 .7 -4"></a-box>
     
-    <a-entity gltf-model="http://gosharedata.com/truck.glb" scale=".5 .5 .5" position="2 -1 0" >
+    <a-entity gltf-model="http://gosharedata.com/truck.glb" scale=".5 .5 .5" position="2 -2 0" >
     								<a-animation begin="mouseenter" attribute="rotation"
-                                    to="0 360 20" dur="10000" direction="alternate"  repeat="3"></a-animation>
+                                    to="0 360 20" dur="10000" direction="alternate"  repeat="3"></a-animation></a-entity>
+    
+    <a-entity gltf-model="http://gosharedata.com/man.glb" scale="1 1 1" position="2 0 1" >
+    								<a-animation begin="mouseenter" attribute="rotation"
+                                    to="0 360 20" dur="10000" direction="alternate"  repeat="3"></a-animation></a-entity>
 
-                                                </a-entity>
+    <a-entity gltf-model="http://gosharedata.com/monster.glb" scale=".05 .05 .05" position="-2 0 0" >
+    								<a-animation begin="mouseenter" attribute="rotation"
+                                    to="0 360 200" dur="10000" direction="alternate"  repeat="3"></a-animation></a-entity>
     
 </a-entity>
 
