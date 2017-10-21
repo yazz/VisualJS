@@ -39,10 +39,18 @@
     <a-entity   
                 position="-.5 2.4 0"
                 mixin="RobotoFont"
-                text="color: black; align: left; value: Related items ; width: 4; ">
+                text="color: black; align: left; value: Fun stuff ; width: 4; ">
     </a-entity>
-    <a-box   witdth=1 height=0.4 depth=1 color=blue position="-1 1.4 0"></a-box>
-    <a-box   witdth=1 height=0.4 depth=1 color=green position="0.1 .7 0"></a-box>
+    <a-box   width=1 height=0.4 depth=1 color=blue position="-1 1.4 0"></a-box>
+    <a-box   width=1 height=0.4 depth=1 color=green position="0.1 .7 0"></a-box>
+
+    <a-box   width=10 height=4 depth=1 color=gray position="0.1 .7 -4"></a-box>
+    
+    <a-entity gltf-model="http://gosharedata.com/truck.glb" scale=".5 .5 .5" position="2 -1 0" >
+    								<a-animation begin="mouseenter" attribute="rotation"
+                                    to="0 360 20" dur="10000" direction="alternate"  repeat="3"></a-animation>
+
+                                                </a-entity>
     
 </a-entity>
 
@@ -116,7 +124,7 @@
                                 v-bind:position='"0.75 0 .2"'
                                 mixin="RobotoFont"
                                 v-bind:show_related='"queryId: "  + get_viewed_query_id() + ";"' 
-                                v-bind:text='"color: white; align: center; value: Changes; width: 3;"'
+                                v-bind:text='"color: white; align: center; value: Fun; width: 3;"'
                                 >
 									<a-animation begin="mouseenter" attribute="rotation"
 												to="0 0 3" dur="80" direction="alternate"  repeat="3"></a-animation>
