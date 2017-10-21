@@ -463,6 +463,14 @@ function setupVRVuePane() {
                         distance:   6,
                         duration:   "500"
                     });*/
+                    store.dispatch('hide_full_doc');
+                    get_query_result(
+                        self.data.queryId, 
+                        (function() {
+                            store.dispatch('show_full_doc');
+                        })
+                    );
+                    
                     inMove = false;
                 });
             }
