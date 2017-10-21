@@ -146,7 +146,16 @@
         }
       });
     };
-    
+
+    if (location.search.split('type=')[1] == "move") {
+        var dropzone    = document.getElementById('my-awesome-dropzone');
+        var body        = document.getElementById('body');
+        var vr          = document.getElementById('vr_element');
+        
+        body.appendChild(vr);
+        
+        body.removeChild(dropzone);
+    } else {
         Dropzone.options.myAwesomeDropzone = {
           dictDefaultMessage: ""
         };
@@ -171,6 +180,7 @@
             });
           }
         };
+    };
         
     </script>
 
