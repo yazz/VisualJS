@@ -1,12 +1,12 @@
 {
-    name: 'csv'
+    name: 'glb'
     ,
     vue: {
             template:   
 '<div>'+
 '     <table class="table table-striped table-bordered " style="width: 100%;">'+
 '        <tbody>'+
-'          <tr scope="row"><td>Type</td><td>CSV</td></tr>'+
+'          <tr scope="row"><td>Type</td><td>GLB</td></tr>'+
 '          <tr scope="row"><td>ID</td><td>{{get_connection_property(connection_name,"id")}}</td></tr>'+
 '          <tr scope="row"><td>File</td><td>{{get_connection_property(connection_name,"fileName")}}</td></tr>'+
 '          <tr scope="row"><td>Size</td><td>{{get_connection_property(connection_name,"size")}}</td></tr>'+
@@ -65,7 +65,7 @@
 
 
 			,
-			name: 'csv-add-connection'
+			name: 'glb-add-connection'
 			,
 			  props: []
 			  ,
@@ -91,7 +91,7 @@
 					  cn: this.connection_name,
 					  cp: {
 						  name:      this.connection_name,
-						  driver:    'csv',
+						  driver:    'glb',
 						  fileName:  this.file
 					  }
 				  });
@@ -105,7 +105,7 @@
 			  ,
 			  data: function() {
 				return {
-				  connection_name:           "CSV connection",
+				  connection_name:           "GLTF .Glb binary 3d file",
 				  file:                       null
 				};
 			  }
@@ -132,7 +132,7 @@
 
 
 			,
-			name: 'csv-add-query'
+			name: 'glb-add-query'
 			,
 			props: ['query_connection']
 			,
@@ -152,8 +152,8 @@
 					  cp: {
 						  name:           this.query_name,
 						  connection:     this.query_connection,
-						  driver:        'csv',
-						  type:          '|CSV|',
+						  driver:        'glb',
+						  type:          '|GLB|',
 						  definition:    JSON.stringify({} , null, 2),
 					  }
 				  });
@@ -167,7 +167,7 @@
 			  ,
 			  data: function() {
 				return {
-				  query_name:                "csv query",
+				  query_name:                ".Glb query",
 				};
 			  }
 	}
@@ -179,7 +179,7 @@
 						'        <tbody>'+
 						'          <tr scope="row"><td>ID</td><td>{{get_query_property(query_name,"id")}}</td></tr>'+
 						'          <tr scope="row"><td>Name</td><td>{{get_query_property(query_name,"name")}}</td></tr>'+
-						'          <tr scope="row"><td>Driver</td><td>csv</td></tr>'+
+						'          <tr scope="row"><td>Driver</td><td>glb</td></tr>'+
                         '          <tr scope="row"><td>Size</td><td>{{get_query_property(query_name,"size")}}</td></tr>'+
                         '          <tr scope="row"><td>Hash</td><td>{{get_query_property(query_name,"hash")}}</td></tr>'+
 						'          <tr scope="row"><td>Preview</td><td>{{get_query_property(query_name,"preview")}}</td></tr>'+
@@ -208,14 +208,9 @@
 			  }
 			}
     ,
-    type: 'csv_driver'
+    type: 'glb_driver'
     ,
     setup: function(connection) {
-          var config = {
-            id:                connection.id,
-            file:              connection.file
-          };
-
           connection.connection = new Object();
           connection.status = 'connected';
       },
@@ -225,8 +220,8 @@
     get_v2: function( connection , parameters , callfn ) {
         console.log('********************************');
         console.log('********************************');
-        console.log('****     LOADING CSV   *********');
-        console.log('****     LOADING CSV   *********' + connection.fileName);
+        console.log('****     LOADING GLB   *********');
+        console.log('****     LOADING GLB   *********' + connection.fileName);
         console.log('********************************');
         console.log('********************************');
         if (
@@ -234,95 +229,16 @@
             ||
             (connection.status == null))
         {
-            drivers['csv']['setup'](connection);
+            drivers['glb']['setup'](connection);
         }
 			
             
-        var rows=[];
-
-        var firstRow = false;
-        var ret = new Object();
-
-        var content = fs.readFileSync(connection.fileName, "utf8");
-          //console.log('var content = fs.readFileSync(connection.fileName);');
-         //console.log(content);
-        var delim = ',';
-        var numCommas = ((content.match(new RegExp(",", "g")) || []).length);
-	    //console.log('numCommas = ' + numCommas);
-        var numSemi = ((content.match(new RegExp(";", "g")) || []).length);
-        //console.log('numSemi = ' + numSemi);
-        var numColons = ((content.match(new RegExp(":", "g")) || []).length);
-        //console.log('numColons = ' + numColons);
-        var numPipes = ((content.match(new RegExp("[|]", "g")) || []).length);
-        //console.log('numPipes = ' + numPipes);
-            
-        var maxDelim = numCommas;
-        if (numSemi > maxDelim) {
-            delim = ';';
-            maxDelim = numSemi;
-            };
-        if (numColons > maxDelim) {
-            delim = ':';
-            maxDelim = numColons;
-            };
-        if (numPipes > maxDelim) {
-            delim = '|';
-            maxDelim = numPipes;
-            };
-          //console.log('delim = ' + delim);
-                        
-                        
         try {
-			csv
-			 .fromString(content, { headers: false, delimiter: delim })
-			 .on("data", function(data){
-				 //console.log(data);
-				
-			if (!firstRow) {
-				firstRow = true;
-				ret["fields"] = data;
-			}
-
-			rows.push(data);
-
-            /*
-             var workbook = XLSX.readFile(connection.fileName);
-                        rows = XLSX.utils.sheet_to_json( workbook.Sheets[workbook.SheetNames[0]],{ header: 1 });
-                        console.log('XL: ' + JSON.stringify(rows));
-
-
-                        var maxLength = 0;
-                        for (var i =0; i < rows.length; i++) {
-                            if (rows[i].length > maxLength ) {
-                                maxLength = rows[i].length;
-                            };
-                        };
-                        
-                        var fields = [];
-                        for(var i = 0; i < maxLength; i++){
-                            fields.push('' + i);
-                        };
-            */
-                        
-			//console.log("ret  = " + JSON.stringify(ret));
-
-            //console.error('drivers[csv][get]');
-            // execute a query on our database
-			
-			}).on("end", function(){
-                 //console.log("done");
-
-                        ret["values"] = rows;
-                        callfn(ret);
-               
-                })
-            .on('error', function(error) {
-                callfn({error: 'Invalid CSV file: ' + error});
-            });
+            callfn([{value: "GLTF 3d model: " + connection.fileName}]);
         }
         catch(err) {
-            //console.log('CSV error: ' + err);
-            callfn({error: 'CSV error: ' + err});
+            //console.log('GLB error: ' + err);
+            callfn({error: 'GLB error: ' + err});
         }
     
 

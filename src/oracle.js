@@ -14,7 +14,7 @@
 			'            <tr scope="row"><td>Connect String</td><td>{{get_connection_property(connection_name,"connectString")}}</td></tr>'+
 			'            <tr scope="row"><td>Username</td><td>{{get_connection_property(connection_name,"user")}}</td></tr>'+
 			'            <tr scope="row"><td>Password</td><td>*****************</td></tr>'+
-			'          <tbody>'+
+			'          </tbody>'+
 			'        </table>'+
 			'  </div>'
 
@@ -216,7 +216,7 @@
 						'          <tr scope="row"><td>ID</td><td>{{get_query_property(query_name,"id")}}</td></tr>'+
 						'          <tr scope="row"><td>Driver</td><td>oracle</td></tr>'+
 						'          <tr scope="row"><td>SQL</td><td>{{get_query_property(query_name,"definition").sql}}</td></tr>'+
-						'        <tbody>'+
+						'        </tbody>'+
 						'      </table>'+
 						'</div>'
 			,

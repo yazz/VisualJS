@@ -337,6 +337,17 @@ var mysql      = require('mysql');
 	 return false;
  }
 
+ 
+  function isGlbFile(fname) {
+	 if (!fname) {
+		return false;
+	 };
+	 var ext = fname.split('.').pop();
+	 ext = ext.toLowerCase();
+	 if (ext == "glb") return true;
+	 return false;
+ }
+
 
 function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileType2) {
     console.log("... in saveConnectionAndQueryForFile:::: " + fileId)
@@ -407,6 +418,17 @@ function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileTyp
 									  
 						}
 					}
+		  if (isGlbFile(file)) {
+                //console.log('GLB file: ' + file);
+  					var GLBFile = file;
+  						if (typeof GLBFile !== "undefined") {
+							var fileId = GLBFile.replace(/[^\w\s]/gi,'');
+  							console.log('Saving from walk   *file id: ' + fileId);
+  							//console.log('   *size: ' + stat.size);
+
+                            saveConnectionAndQueryForFile(fileId, 'glb', stat.size, GLBFile, '|GLB|');
+						}
+					}
 		  if (isCsvFile(file)) {
                 //console.log('CSV file: ' + file);
   					var CSVFile = file;
@@ -419,7 +441,7 @@ function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileTyp
 						}
 					}
 		  if (isWordFile(file)) {
-                //console.log('CSV file: ' + file);
+                //console.log('WORD file: ' + file);
   					var WordFile = file;
   						if (typeof WordFile !== "undefined") {
 							var fileId = WordFile.replace(/[^\w\s]/gi,'');
@@ -430,7 +452,7 @@ function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileTyp
 						}
 					}
 		  if (isPdfFile(file)) {
-                //console.log('CSV file: ' + file);
+                //console.log('PDF file: ' + file);
   					var PdfFile = file;
   						if (typeof PdfFile !== "undefined") {
 							var fileId = PdfFile.replace(/[^\w\s]/gi,'');
@@ -960,15 +982,25 @@ var upload = multer( { dest: 'uploads/' } );
 
                             saveConnectionAndQueryForFile(ifile.originalname, 'excel', stat.size, excelFile, '|SPREADSHEET|');                                
                 }
-            } else if (isCsvFile(ifile.originalname)) {
+            } else if (isGlbFile(ifile.originalname)) {
                     //console.log('ifile: ' + ifile.originalname);
-                        var excelFile = localp;
-                        if (typeof excelFile !== "undefined") {
-                            var fileId = excelFile.replace(/[^\w\s]/gi,'');
+                        var glbFile = localp;
+                        if (typeof glbFile !== "undefined") {
+                            var fileId = glbFile.replace(/[^\w\s]/gi,'');
                             console.log('Saving from upload   *file id: ' + ifile.originalname);
                             console.log('   *size: ' + stat.size);
 
-                            saveConnectionAndQueryForFile(ifile.originalname, 'csv', stat.size, excelFile, '|CSV|');
+                            saveConnectionAndQueryForFile(ifile.originalname, 'glb', stat.size, glbFile, '|GLB|');
+                };
+            } else if (isCsvFile(ifile.originalname)) {
+                    //console.log('ifile: ' + ifile.originalname);
+                        var csvFile = localp;
+                        if (typeof csvFile !== "undefined") {
+                            var fileId = csvFile.replace(/[^\w\s]/gi,'');
+                            console.log('Saving from upload   *file id: ' + ifile.originalname);
+                            console.log('   *size: ' + stat.size);
+
+                            saveConnectionAndQueryForFile(ifile.originalname, 'csv', stat.size, csvFile, '|CSV|');
                 };
             } else if (isWordFile(ifile.originalname)) {
                     //console.log('ifile: ' + ifile.originalname);
@@ -1658,6 +1690,10 @@ when_queries_changes(null);
 		//console.log("******************************ADDING DRIVERS*********************************")
 
 
+
+		var pgeval = '(' + fs.readFileSync(path.join(__dirname, './glb.js')).toString() + ')';
+		drivers['glb'] = eval( pgeval )
+		addOrUpdateDriver('glb', pgeval, drivers['glb'])
 
 		var pgeval = '(' + fs.readFileSync(path.join(__dirname, './csv.js')).toString() + ')';
 		drivers['csv'] = eval( pgeval )

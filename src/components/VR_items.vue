@@ -68,31 +68,38 @@
                             position="-200 -200 2"
                             >
                     <a-entity   
-                                position="-1.6 2.2 0"
-                                mixin="RobotoFont"
-                                text="color: black; align: left; value: Query info ; width: 6; ">
+                                position="0.6 1.1 0">
+                        <a-entity   
+                                    position="-1.55 2 0"
+                                    mixin="RobotoFont"
+                                    text="color: black; align: left; value: Query info ; width: 6; ">
+                        </a-entity>
+
+                                    
+                        <a-entity   position="-.5 1.4 0" mixin="RobotoFont"
+                                    v-bind:text='"wrapPixels: 2000; color: black; align: left; value: Name: " + get_query_property(get_viewed_query_id(),"name") +"  ; width: 8; "'></a-entity>
+                        <a-entity   position="-.5 1 0" mixin="RobotoFont"
+                                    v-bind:text='"wrapPixels: 2000; color: black; align: left; value: Size: " + get_query_property(get_viewed_query_id(),"size") +" bytes ; width: 8; "'></a-entity>
+                        <a-entity   position="-.5 .6 0" mixin="RobotoFont"
+                                    v-bind:text='"wrapPixels: 2000; color: black; align: left; value: Location: " + get_query_property(get_viewed_query_id(),"fileName") +"  ; width: 8; "'></a-entity>                                
+                        <a-entity   position="-.5 .2 0" mixin="RobotoFont"
+                                    v-bind:text='"wrapPixels: 2000; color: black; align: left; value: Hash: " + get_query_property(get_viewed_query_id(),"hash") +" ; width: 8; "'></a-entity>
+                        <a-entity   position="-.5 -.2 0" mixin="RobotoFont"
+                                    v-bind:text='"wrapPixels: 2000; color: black; align: left; value: doc: " + get_viewed_query_file() +" ; width: 8; "'></a-entity>
+                        
+                        <a-entity  	material='color: gray;opacity: .5;'  
+                                    geometry='primitive: box; width: 2.5; height: .5; depth: .1.8;'
+                                    position="1 -.8 0"
+                                    mixin="RobotoFont"
+                                    text='color: black; align: center; value: Close; width: 4; '
+                                    goto='name: scrollable_grid;  distance: 4; duration: 300;' 
+                                    >
+                                        <a-animation begin="mouseenter" attribute="rotation"
+                                                    to="0 0 4" dur="100" direction="alternate"  repeat="3"></a-animation>
+                                               
+                        </a-entity >
+
                     </a-entity>
-
-                                
-                    <a-entity   position="-.5 1.4 0" mixin="RobotoFont"
-                                v-bind:text='"wrapPixels: 2000; color: black; align: left; value: Name: " + get_query_property(get_viewed_query_id(),"name") +"  ; width: 8; "'></a-entity>
-                    <a-entity   position="-.5 1 0" mixin="RobotoFont"
-                                v-bind:text='"wrapPixels: 2000; color: black; align: left; value: Size: " + get_query_property(get_viewed_query_id(),"size") +" bytes ; width: 8; "'></a-entity>
-                    <a-entity   position="-.5 .6 0" mixin="RobotoFont"
-                                v-bind:text='"wrapPixels: 2000; color: black; align: left; value: Location: " + get_query_property(get_viewed_query_id(),"fileName") +"  ; width: 8; "'></a-entity>                                
-                    
-                    <a-entity  	material='color: gray;opacity: .5;'  
-								geometry='primitive: box; width: 2.5; height: .5; depth: .1.8;'
-                                position="1 -.4 0"
-                                mixin="RobotoFont"
-                                text='color: black; align: center; value: Close; width: 4; '
-								goto='name: scrollable_grid;  distance: 4; duration: 300;' 
-                                >
-                                    <a-animation begin="mouseenter" attribute="rotation"
-                                                to="0 0 4" dur="100" direction="alternate"  repeat="3"></a-animation>
-                                           
-					</a-entity >
-
                 </a-entity>
 
                 
@@ -140,7 +147,7 @@
                 <a-entity
                     id='query_menu'
                     geometry="primitive: plane; width:35;height: 35; " 
-                    material="color: lightgray; opacity: .9;"
+                    material="color: lightgray; opacity: .92;"
                     v-bind:close_item_menu2='"queryId: "  + get_viewed_query_id() + ";"' 
                     v-bind:position='((is_visible(get_viewed_query_id()) && is_query_selected())?-4.5:-100) + " 2.5 -.1"'
                 >
@@ -280,6 +287,16 @@
                                 </a-entity>
 
 
+                                
+                                <a-entity v-if='is_3d(get_viewed_query_id())'
+                                    v-bind:gltf-model='"/docs/gsd_" + get_viewed_query_file()'
+                                    scale=".2 .2 .2" 
+                                    position="-1 -1.5 0" >
+                                    <a-animation 
+                                        begin="mouseenter" 
+                                        attribute="rotation"
+                                        to="0 360 20" dur="10000" direction="alternate"  repeat="3"></a-animation></a-entity>
+
                             </a-entity>
                         </a-entity>
                     </a-entity>
@@ -415,6 +432,24 @@ name: 'VR-items'
                     return true;
                 } else {
                     return false;
+                }
+            }
+        }
+        //console.log("rt.fileName  not found: ")
+        return false;
+    },
+    is_3d: function (id) {
+        var qq = this.$store.getters.list_of_queries;
+        for (var i =0 ; i < qq.length; i++) {
+            var rt = qq[i];
+            if (rt.id == id) {
+                //console.log("rt.driver: " + rt.type)
+                if (rt.type != null) {
+                    if (rt.type.indexOf("GLB") != -1) {
+                        return true;
+                    } else {
+                        return false;
+                    }
                 }
             }
         }
