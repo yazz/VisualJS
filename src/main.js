@@ -376,18 +376,18 @@ function setupVRVuePane() {
         
         
         AFRAME.registerComponent('goto', {
-    		  schema: {
-				  name:     {type: 'string', default: ''},
-				  distance: {type: 'number', default: 5},
-				  duration: {type: 'string', default: "500"}
-                 },
-    		  init: function () {
+    		schema: {
+                        name:     {type: 'string', default: ''},
+                        distance: {type: 'number', default: 5},
+                        duration: {type: 'string', default: "500"}
+                   },
+    		init: function () {
                 var self = this;
 
                 this.el.addEventListener('click', function (evt) {
-    if (self.data.name == 'vr_home') {
-        //alert("here")
-    }
+                    if (self.data.name == 'vr_home') {
+                        //alert("here")
+                    }
                     if (self.data.name == '') {
                         alert("no name for goto")
                     }
@@ -402,10 +402,10 @@ function setupVRVuePane() {
                         duration:   duration
                     });
 
-                    store.dispatch('hide_full_doc');
-			});
-    	}
-    });
+                    //store.dispatch('hide_full_doc');
+                });
+            }
+        });
 
 
 
