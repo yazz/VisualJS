@@ -65,7 +65,7 @@
                 
                 
                 <a-entity   id='query_info'  
-                            position="-200 -200 0"
+                            position="-200 -200 2"
                             >
                     <a-entity   
                                 position="-1.6 2.2 0"
@@ -77,7 +77,7 @@
                     <a-entity   position="-.5 1.4 0" mixin="RobotoFont"
                                 v-bind:text='"wrapPixels: 2000; color: black; align: left; value: Name: " + get_query_property(get_viewed_query_id(),"name") +"  ; width: 8; "'></a-entity>
                     <a-entity   position="-.5 1 0" mixin="RobotoFont"
-                                v-bind:text='"wrapPixels: 2000; color: black; align: left; value: Size: " + get_query_property(get_viewed_query_id(),"size") +"  ; width: 8; "'></a-entity>
+                                v-bind:text='"wrapPixels: 2000; color: black; align: left; value: Size: " + get_query_property(get_viewed_query_id(),"size") +" bytes ; width: 8; "'></a-entity>
                     <a-entity   position="-.5 .6 0" mixin="RobotoFont"
                                 v-bind:text='"wrapPixels: 2000; color: black; align: left; value: Location: " + get_query_property(get_viewed_query_id(),"fileName") +"  ; width: 8; "'></a-entity>                                
                     
@@ -86,7 +86,7 @@
                                 position="1 -.4 0"
                                 mixin="RobotoFont"
                                 text='color: black; align: center; value: Close; width: 4; '
-								goto='name: scrollable_grid; duration: 300;' 
+								goto='name: scrollable_grid;  distance: 4; duration: 300;' 
                                 >
                                     <a-animation begin="mouseenter" attribute="rotation"
                                                 to="0 0 4" dur="100" direction="alternate"  repeat="3"></a-animation>
