@@ -33,33 +33,73 @@
 
 
 
-<a-entity   id='related_items'  
-            position="-200 0 0"
-            >
-    <a-entity   
-                position="-.5 2.4 0"
-                mixin="RobotoFont"
-                text="color: black; align: left; value: Fun stuff ; width: 4; ">
-    </a-entity>
-    <a-box   width=1 height=0.4 depth=1 color=blue position="-1 1.4 0"></a-box>
-    <a-box   width=1 height=0.4 depth=1 color=green position="0.1 .7 0"></a-box>
+                <a-entity   id='related_items'  
+                            position="-200 0 0"
+                            >
+                    <a-entity   
+                                position="-.5 2.4 0"
+                                mixin="RobotoFont"
+                                text="color: black; align: left; value: Fun stuff ; width: 4; ">
+                    </a-entity>
+                    <a-box   width=1 height=0.4 depth=1 color=blue position="-1 1.4 0"></a-box>
+                    <a-box   width=1 height=0.4 depth=1 color=green position="0.1 .7 0"></a-box>
 
-    <a-box   width=10 height=4 depth=1 color=gray position="0.1 .7 -4"></a-box>
-    
-    <a-entity gltf-model="http://gosharedata.com/truck.glb" scale=".5 .5 .5" position="2 -2 0" >
-    								<a-animation begin="mouseenter" attribute="rotation"
-                                    to="0 360 20" dur="10000" direction="alternate"  repeat="3"></a-animation></a-entity>
-    
-    <a-entity gltf-model="http://gosharedata.com/man.glb" scale="1 1 1" position="2 0 1" >
-    								<a-animation begin="mouseenter" attribute="rotation"
-                                    to="0 360 20" dur="10000" direction="alternate"  repeat="3"></a-animation></a-entity>
+                    <a-box   width=10 height=4 depth=1 color=gray position="0.1 .7 -4"></a-box>
+                    
+                    <a-entity gltf-model="http://gosharedata.com/truck.glb" scale=".5 .5 .5" position="2 -2 0" >
+                                                    <a-animation begin="mouseenter" attribute="rotation"
+                                                    to="0 360 20" dur="10000" direction="alternate"  repeat="3"></a-animation></a-entity>
+                    
+                    <a-entity gltf-model="http://gosharedata.com/man.glb" scale="1 1 1" position="2 0 1" >
+                                                    <a-animation begin="mouseenter" attribute="rotation"
+                                                    to="0 360 20" dur="10000" direction="alternate"  repeat="3"></a-animation></a-entity>
 
-    <a-entity gltf-model="http://gosharedata.com/monster.glb" scale=".05 .05 .05" position="-2 0 0" >
-    								<a-animation begin="mouseenter" attribute="rotation"
-                                    to="0 360 200" dur="10000" direction="alternate"  repeat="3"></a-animation></a-entity>
-    
-</a-entity>
+                    <a-entity gltf-model="http://gosharedata.com/monster.glb" scale=".05 .05 .05" position="-2 0 0" >
+                                                    <a-animation begin="mouseenter" attribute="rotation"
+                                                    to="0 360 200" dur="10000" direction="alternate"  repeat="3"></a-animation></a-entity>
+                    
+                </a-entity>
 
+                
+                
+                
+                
+                <a-entity   id='query_info'  
+                            position="-200 -200 0"
+                            >
+                    <a-entity   
+                                position="-1.6 2.2 0"
+                                mixin="RobotoFont"
+                                text="color: black; align: left; value: Query info ; width: 6; ">
+                    </a-entity>
+
+                                
+                    <a-entity   position="-.5 1.4 0" mixin="RobotoFont"
+                                v-bind:text='"wrapPixels: 2000; color: black; align: left; value: Name: " + get_query_property(get_viewed_query_id(),"name") +"  ; width: 8; "'></a-entity>
+                    <a-entity   position="-.5 1 0" mixin="RobotoFont"
+                                v-bind:text='"wrapPixels: 2000; color: black; align: left; value: Size: " + get_query_property(get_viewed_query_id(),"size") +"  ; width: 8; "'></a-entity>
+                    <a-entity   position="-.5 .6 0" mixin="RobotoFont"
+                                v-bind:text='"wrapPixels: 2000; color: black; align: left; value: Location: " + get_query_property(get_viewed_query_id(),"fileName") +"  ; width: 8; "'></a-entity>                                
+                    
+                    <a-entity  	material='color: gray;opacity: .5;'  
+								geometry='primitive: box; width: 2.5; height: .5; depth: .1.8;'
+                                position="1 -.4 0"
+                                mixin="RobotoFont"
+                                text='color: black; align: center; value: Close; width: 4; '
+								goto='name: scrollable_grid; duration: 300;' 
+                                >
+                                    <a-animation begin="mouseenter" attribute="rotation"
+                                                to="0 0 4" dur="100" direction="alternate"  repeat="3"></a-animation>
+                                           
+					</a-entity >
+
+                </a-entity>
+
+                
+                
+                
+                
+                
 
 <a-entity id='scrollable_grid' v-bind:refresh_vr_items='get_refresh_view_counter'>
 
@@ -117,7 +157,7 @@
                 
                     <a-entity   geometry="primitive: plane; width:.70;height: .70; opacity: 1; " 
                                 material="color: green;"
-                                v-bind:position='"0 0 .2"'
+                                v-bind:position='0.75 * 0 + " 0 .2"'
                                 mixin="RobotoFont"
                                 v-bind:view='"queryId: "  + get_viewed_query_id() + ";"' 
                                 v-bind:text='"color: white; align: center; value: View; width: 3;"'
@@ -126,28 +166,8 @@
 												to="0 0 3" dur="80" direction="alternate"  repeat="3"></a-animation>
                     </a-entity>
                     <a-entity   geometry="primitive: plane; width:.70;height: .70; opacity: 1; " 
-                                material="color: blue;"
-                                v-bind:position='"0.75 0 .2"'
-                                mixin="RobotoFont"
-                                v-bind:show_related='"queryId: "  + get_viewed_query_id() + ";"' 
-                                v-bind:text='"color: white; align: center; value: Fun; width: 3;"'
-                                >
-									<a-animation begin="mouseenter" attribute="rotation"
-												to="0 0 3" dur="80" direction="alternate"  repeat="3"></a-animation>
-                    </a-entity>
-                    <a-entity   geometry="primitive: plane; width:.70;height: .70; opacity: 1; " 
-                                material="color: black;"
-                                v-bind:position='"1.5 0 .2"'
-                                mixin="RobotoFont"
-                                v-bind:close_item_menu='"queryId: "  + get_viewed_query_id() + ";"' 
-                                v-bind:text='"color: white; align: center; value: Close; width: 3;"'
-                                >
-									<a-animation begin="mouseenter" attribute="rotation"
-												to="0 0 3" dur="80" direction="alternate"  repeat="3"></a-animation>
-                    </a-entity>
-                    <a-entity   geometry="primitive: plane; width:.70;height: .70; opacity: 1; " 
                                 material="color: gray;"
-                                v-bind:position='"2.25 0 .2"'
+                                v-bind:position='0.75 * 1 + " 0 .2"'
                                 mixin="RobotoFont"
                                 v-bind:open_file='get_viewed_query_file()?("" + get_viewed_query_file()):false '
                                 v-bind:text='"color: white; align: center; value: Open; width: 3;"'
@@ -157,7 +177,7 @@
                     </a-entity>
                     <a-entity   geometry="primitive: plane; width:.70;height: .70; opacity: 1; " 
                                 material="color: brown;"
-                                v-bind:position='"3 0 .2"'
+                                v-bind:position='0.75 * 2 + " 0 .2"'
                                 mixin="RobotoFont"
                                 v-bind:related_files='get_viewed_query_id()?("" + get_viewed_query_id()):false ' 
                                 v-bind:text='"color: white; align: center; value: Related; width: 3;"'
@@ -167,8 +187,39 @@
                     </a-entity>
 
 
+                    <a-entity   geometry="primitive: plane; width:.70;height: .70; opacity: 1; " 
+                                material="color: gray;"
+                                v-bind:position='0.75 * 3 + " 0 .2"'
+                                mixin="RobotoFont"
+                                v-bind:show_query_info='"queryId: "  + get_viewed_query_id() + ";"' 
+                                v-bind:text='"color: white; align: center; value: Info; width: 3;"'
+                                >
+									<a-animation begin="mouseenter" attribute="rotation"
+												to="0 0 3" dur="80" direction="alternate"  repeat="3"></a-animation>
+                    </a-entity>
 
+                    
+                    <a-entity   geometry="primitive: plane; width:.70;height: .70; opacity: 1; " 
+                                material="color: blue;"
+                                v-bind:position='0.75 * 4 + " 0 .2"'
+                                mixin="RobotoFont"
+                                v-bind:show_related='"queryId: "  + get_viewed_query_id() + ";"' 
+                                v-bind:text='"color: white; align: center; value: Fun; width: 3;"'
+                                >
+									<a-animation begin="mouseenter" attribute="rotation"
+												to="0 0 3" dur="80" direction="alternate"  repeat="3"></a-animation>
+                    </a-entity>
 
+                    <a-entity   geometry="primitive: plane; width:.70;height: .70; opacity: 1; " 
+                                material="color: black;"
+                                v-bind:position='0.75 * 5 + " 0 .2"'
+                                mixin="RobotoFont"
+                                v-bind:close_item_menu='"queryId: "  + get_viewed_query_id() + ";"' 
+                                v-bind:text='"color: white; align: center; value: Close; width: 3;"'
+                                >
+									<a-animation begin="mouseenter" attribute="rotation"
+												to="0 0 3" dur="80" direction="alternate"  repeat="3"></a-animation>
+                    </a-entity>
 
 
 
@@ -377,6 +428,18 @@ name: 'VR-items'
                 if (rt.id == id) {
                     //console.log("rt.fileName: " + rt.fileName)
                     return rt.driver; 
+                }
+            }
+            //console.log("rt.fileName  not found: ")
+            return "";
+        },
+        get_query_property: function (id, prop) {
+            var qq = this.$store.getters.list_of_queries;
+            for (var i =0 ; i < qq.length; i++) {
+                var rt = qq[i];
+                if (rt.id == id) {
+                    //console.log("rt.fileName: " + rt.fileName)
+                    return rt[prop]; 
                 }
             }
             //console.log("rt.fileName  not found: ")

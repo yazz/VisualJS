@@ -564,6 +564,37 @@ function setupVRVuePane() {
             }
 		});
 
+
+
+
+
+
+
+        AFRAME.registerComponent('show_query_info', {
+            schema: { 
+                        queryId: {type: 'string'}
+                    },
+                    
+            init: function () {
+                var self = this;
+                var stringToLog = this.data;
+                
+                this.el.addEventListener('click', function (evt) {
+                    if (inMove) {
+                        return;
+                    };
+                    inMove = true;
+                    
+
+                    gotoFunction({
+                        goto_name:  "query_info",
+                        distance:   6,
+                        duration:   "500"
+                    });
+                    inMove = false;
+                });
+            }
+		});
         
         
         
