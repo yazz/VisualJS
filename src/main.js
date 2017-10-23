@@ -494,7 +494,8 @@ function setupVRVuePane() {
                         return;
                     };
                     inMove = true;
-                    store.dispatch('hide_full_doc');
+                   store.dispatch('set_error_message', "")
+                   store.dispatch('hide_full_doc');
                     get_query_result(
                         self.data.queryId, 
                         (function() {

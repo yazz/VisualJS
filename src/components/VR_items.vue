@@ -138,13 +138,13 @@
                 <a-entity
                     id='query_menu'
                     geometry="primitive: plane; width:35;height: 35; " 
-                    material="color: lightgray; opacity: .95;"
+                    material="color: lightgray; opacity: .98;"
                     v-bind:close_item_menu2='"queryId: "  + get_viewed_query_id() + ";"' 
-                    v-bind:position='((is_visible(get_viewed_query_id()) && is_query_selected())?-4.5:-100) + " 2.5 -.1"'
+                    v-bind:position='((is_visible(get_viewed_query_id()) && is_query_selected())?-4.5:-100) + " 2.4 -.01"'
                 >
-                	   <a-entity    position='.3 -1.1 .2'
+                	   <a-entity    position='.3 -1.07 .2'
                                     v-bind:id='"selected_item"'
-									geometry="primitive: plane; width:1.3;height: 1.3;"
+									geometry="primitive: plane; width:1.2;height: 1.2;"
                                     v-bind:material='"src: driver_icons/" + get_driver_name(get_viewed_query_id()) + ".jpg;"'
                                 >
 						</a-entity>
@@ -225,22 +225,22 @@
 
                     <a-entity position="3.6 -2.985 .2" id='doc_details'>
 
-                        <a-entity v-if='can_show_full_doc()' geometry="primitive: plane; height: 5; width: 8;" material="color: white" position='0 2.5 -1' >
+                        <a-entity   geometry="primitive: plane; height: 5; width: 8;" 
+                                    material="color: white" 
+                                    v-bind:position='(can_show_full_doc()?0:-100) + " 2.5 -1"' >
 
 
 
-                        <a-entity v-if='can_show_full_doc()' v-for="(field_name,index)  in  list_of_fields"
-                                  v-bind:position='(index + 1.8) + " -1.15 2.5"'
+                        <a-entity v-for="(field_name,index)  in  list_of_fields"
+                                  v-bind:position='(can_show_full_doc()?(index + 1.8):-100) + " -1.15 2.5"'
                                   geometry="primitive: plane; width: auto; height: auto"
                                   material="color: white"
                                   rotation='0 0 0'>
 
-                                <a-entity position='-1.5 0 0.6' 
-                                          v-if='!is_document(get_viewed_query_id())'
+                                <a-entity v-bind:position='(is_spreadsheet(get_viewed_query_id())?-1.5:-100) + " 0 0.6"' 
                                           geometry="primitive: plane; width: 2; height: 0.2" 
                                           material="color: gray; opacity: 1;">
-                                    <a-entity position='0.1 0 0' 
-                                              v-if='!is_document(get_viewed_query_id())'
+                                    <a-entity position='(is_spreadsheet(get_viewed_query_id())?0.1:-100) + " 0 0"' 
                                               geometry="primitive: plane; width: 2; height: 0.2" 
                                               mixin="AileronFont"
                                               material="color: gray; opacity: 1;"
@@ -248,8 +248,8 @@
                                     </a-entity>
                                 </a-entity>
 
-                                <a-entity v-for="(a_record,rindex)  in  list_of_records" v-if='!is_document(get_viewed_query_id())'
-                                          v-bind:position='"-1.5 " + (-.2 - (rindex * 0.2)) + " 0.6"'
+                                <a-entity v-for="(a_record,rindex)  in  list_of_records" 
+                                          v-bind:position='((is_spreadsheet(get_viewed_query_id()))?-1.5:-100) + " " + (-.2 - (rindex * 0.2)) + " 0.6"'
                                           geometry="primitive: plane; width: 2; height: 0.2" 
                                           material="color: white"
                                           rotation='0 0 0'>
@@ -267,8 +267,9 @@
                                 
                                 
                                 
-                                <a-entity v-for="(a_record,rindex)  in  list_of_records" v-if='is_document(get_viewed_query_id())'
-                                          v-bind:position='".5 " + (-0.01 - (rindex * 0.2)) + " 0.6"'
+                                <a-entity v-for="(a_record,rindex)  in  list_of_records"
+                                          id='show_all_vr_records'
+                                          v-bind:position='(is_document(get_viewed_query_id())?.5:-100) + " " + (-0.01 - (rindex * 0.2)) + " 0.6"'
                                           geometry="primitive: plane; width: 6; height: 0.2" 
                                           material="color: white; opacity: 1;"
                                           mixin="SourceCodeProFont"
@@ -279,8 +280,8 @@
 
 
                                 
-                                <a-entity   v-if='is_3d(get_viewed_query_id())'
-                                            position="-1 -.2 0" >
+                                <a-entity   
+                                            v-bind:position='(is_3d(get_viewed_query_id())?-1:-100) + " .3 0"' >
                                 
                                     <a-entity 
                                         v-bind:gltf-model='"/docs/gsd_" + get_viewed_query_file()'
@@ -292,6 +293,8 @@
                                             attribute="rotation"
                                             to="0 360 20" dur="10000" direction="alternate"  repeat="3"></a-animation></a-entity>
                                     <a-entity 
+                                        geometry="primitive: plane; width: 0; height: 0; opacity: 0;"
+                                        material='color: white;'                                        
                                         v-bind:text='"color: black; align: left; value: " + get_error_message() + "; width: 4; opacity: 1;"'
                                         position="0 0 0" >
                                     </a-entity>
@@ -435,6 +438,22 @@ name: 'VR-items'
             if (rt.id == id) {
                 //console.log("rt.driver: " + rt.type)
                 if (rt.type.indexOf("DOCUMENT") != -1) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        }
+        //console.log("rt.fileName  not found: ")
+        return false;
+    },
+    is_spreadsheet: function (id) {
+        var qq = this.$store.getters.list_of_queries;
+        for (var i =0 ; i < qq.length; i++) {
+            var rt = qq[i];
+            if (rt.id == id) {
+                //console.log("rt.driver: " + rt.type)
+                if ((rt.type.indexOf("SPREADHSEET") != -1) ||(rt.type.indexOf("CSV") != -1)) {
                     return true;
                 } else {
                     return false;
