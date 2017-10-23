@@ -111,6 +111,10 @@ module.exports = {
         target: 'http://' + hostaddress,
         secure: false
       },
+      '/docs2': {
+        target: 'http://' + hostaddress,
+        secure: false
+      },
       '/docs': {
         target: 'http://' + hostaddress,
         secure: false

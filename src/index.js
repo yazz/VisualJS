@@ -852,7 +852,34 @@ app.use(cors())
         return false;
 	};
         
+	//------------------------------------------------------------------------------
+	// test_firewall
+	//------------------------------------------------------------------------------
+	app.get('/docs2/*', function (req, res) {
+        var fname = req.url.substr(req.url.lastIndexOf('/') + 1)
+        //var stmt = dbsearch.all("select contents from files where name = 'gsd_6965b41bfc3e7372484591a0dc740b7c7cfd7026.csv'", function(err, rows) {
+        var stmt = dbsearch.all("select contents from files where name = '" + fname + "'", function(err, rows) {
+            if (!err) {
+                if (rows.length > 0) {
+                    //res.writeHead(200, {'Content-Type': 'text/plain'});
+                    //res.writeHead(200, {'Content-Type': 'application/pdf'});
+                    //res.type('pdf');
+                    //res.writeHead(200, {'Content-Type': 'binary'});
+                     res.writeHead(200, {
+                        'Content-Type': 'application/pdf',
+                        'Content-disposition': 'attachment;filename=' + fname ,
+                        'Content-Length': rows[0].contents.length
+                    });
+                    
+                    
+                    res.end(new Buffer(rows[0].contents, 'binary'));
+                    //request(req.url).pipe(res);
+                };
+            };
+        });
+	});
 
+    
 	//------------------------------------------------------------------------------
 	// test_firewall
 	//------------------------------------------------------------------------------

@@ -692,7 +692,7 @@ function setupVRVuePane() {
                     var queryFile = "gsd_" + self.data;
                     this.el.addEventListener('click', function (evt) {
                         //alert(queryFile);
-                        window.open("http://"+window.location.hostname + ":" + window.location.port +  '/docs/' + queryFile, '_blank');
+                        window.open("http://"+window.location.hostname + ":" + window.location.port +  '/docs2/' + queryFile, '_blank');
                     });
                 }
         });

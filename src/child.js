@@ -202,7 +202,7 @@ console.log("child 4")
                             };
                             var copyfrom = fileName;
                             //console.log('Copy from : ' + copyfrom + ' to : ' + saveTo);
-                            copyFileSync(copyfrom, saveTo);
+                            //copyFileSync(copyfrom, saveTo);
                             var stmt = dbsearch.all(
                                 "select id from files where name = '" + saveName + "'",
                                 function(err, results) 
@@ -215,7 +215,7 @@ console.log("child 4")
                                                 stmtInsertIntoFiles.run(
                                                     newId, 
                                                     saveName, 
-                                                    "zzz",
+                                                    fs.readFileSync(copyfrom),
                                                     
                                                     function(err) {
                                                         console.log('added file to sqlite');
