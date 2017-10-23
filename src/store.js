@@ -42,6 +42,8 @@ export default new Vuex.Store({
         ,
         add_query_visible: false
         ,
+        error_message: ""
+        ,
         add_driver_visible: false
         ,
         connection_map: new Object()
@@ -262,6 +264,10 @@ export default new Vuex.Store({
       HIDE_ADD_DRIVER: function (state) {
         state.add_driver_visible = false
       },
+      SET_ERROR_MESSAGE: function (state,y) {
+        state.error_message = y
+      },
+      
       SET_LOCKED: function (state, val) {
         state.locked = val;
       },
@@ -535,6 +541,11 @@ export default new Vuex.Store({
         //
         hide_add_driver: function(a){
             a.commit('HIDE_ADD_DRIVER')
+        },
+        
+        
+        set_error_message: function(a,b){
+            a.commit('SET_ERROR_MESSAGE',b)
         },
 
 

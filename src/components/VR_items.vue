@@ -46,17 +46,6 @@
 
                     <a-box   width=10 height=4 depth=1 color=gray position="0.1 .7 -4"></a-box>
                     
-                    <a-entity gltf-model="http://gosharedata.com/truck.glb" scale=".5 .5 .5" position="2 -2 0" >
-                                                    <a-animation begin="mouseenter" attribute="rotation"
-                                                    to="0 360 20" dur="10000" direction="alternate"  repeat="3"></a-animation></a-entity>
-                    
-                    <a-entity gltf-model="http://gosharedata.com/man.glb" scale="1 1 1" position="2 0 1" >
-                                                    <a-animation begin="mouseenter" attribute="rotation"
-                                                    to="0 360 20" dur="10000" direction="alternate"  repeat="3"></a-animation></a-entity>
-
-                    <a-entity gltf-model="http://gosharedata.com/monster.glb" scale=".05 .05 .05" position="-2 0 0" >
-                                                    <a-animation begin="mouseenter" attribute="rotation"
-                                                    to="0 360 200" dur="10000" direction="alternate"  repeat="3"></a-animation></a-entity>
                     
                 </a-entity>
 
@@ -86,6 +75,8 @@
                                     v-bind:text='"wrapPixels: 2000; color: black; align: left; value: Hash: " + get_query_property(get_viewed_query_id(),"hash") +" ; width: 8; "'></a-entity>
                         <a-entity   position="-.5 -.2 0" mixin="RobotoFont"
                                     v-bind:text='"wrapPixels: 2000; color: black; align: left; value: doc: " + get_viewed_query_file() +" ; width: 8; "'></a-entity>
+                        <a-entity   position="-.5 -.6 0" mixin="RobotoFont"
+                                    v-bind:text='"wrapPixels: 2000; color: black; align: left; value: Type: " + get_query_property(get_viewed_query_id(),"type") +" ; width: 8; "'></a-entity>
                         
                         <a-entity  	material='color: gray;opacity: .5;'  
                                     geometry='primitive: box; width: 2.5; height: .5; depth: .1.8;'
@@ -147,7 +138,7 @@
                 <a-entity
                     id='query_menu'
                     geometry="primitive: plane; width:35;height: 35; " 
-                    material="color: lightgray; opacity: .92;"
+                    material="color: lightgray; opacity: .95;"
                     v-bind:close_item_menu2='"queryId: "  + get_viewed_query_id() + ";"' 
                     v-bind:position='((is_visible(get_viewed_query_id()) && is_query_selected())?-4.5:-100) + " 2.5 -.1"'
                 >
@@ -288,14 +279,24 @@
 
 
                                 
-                                <a-entity v-if='is_3d(get_viewed_query_id())'
-                                    v-bind:gltf-model='"/docs/gsd_" + get_viewed_query_file()'
-                                    scale=".2 .2 .2" 
-                                    position="-1 -1.5 0" >
-                                    <a-animation 
-                                        begin="mouseenter" 
-                                        attribute="rotation"
-                                        to="0 360 20" dur="10000" direction="alternate"  repeat="3"></a-animation></a-entity>
+                                <a-entity   v-if='is_3d(get_viewed_query_id())'
+                                            position="-1 -.2 0" >
+                                
+                                    <a-entity 
+                                        v-bind:gltf-model='"/docs/gsd_" + get_viewed_query_file()'
+                                        scale=".2 .2 .2" 
+                                        position="0 -1 0" 
+                                        preview_gltf=''>
+                                        <a-animation 
+                                            begin="mouseenter" 
+                                            attribute="rotation"
+                                            to="0 360 20" dur="10000" direction="alternate"  repeat="3"></a-animation></a-entity>
+                                    <a-entity 
+                                        v-bind:text='"color: black; align: left; value: " + get_error_message() + "; width: 4; opacity: 1;"'
+                                        position="0 0 0" >
+                                    </a-entity>
+                                </a-entity>
+
 
                             </a-entity>
                         </a-entity>
@@ -390,24 +391,29 @@ name: 'VR-items'
 
 	},
 	methods: {
-	get_viewed_query_id: function() {
-	    return this.$store.state.viewed_query_id;
-	},
-    is_query_selected: function() {
-	    if ( this.$store.state.viewed_query_id == null) { return false; };
-	    if ( this.$store.state.viewed_query_id.length == 0) { return false; };
-        return true
-	},
-	get_viewed_query_file: function() {
-	    return this.$store.state.viewed_query_file;
-	},
-    can_show_full_doc: function() {
-		return this.$store.state.show_full_doc;
-	},
+        get_viewed_query_id: function() {
+            return this.$store.state.viewed_query_id;
+        },
+        
+        is_query_selected: function() {
+            if ( this.$store.state.viewed_query_id == null) { return false; };
+            if ( this.$store.state.viewed_query_id.length == 0) { return false; };
+            return true
+        },
+        
+        get_viewed_query_file: function() {
+            return this.$store.state.viewed_query_file;
+        },
+        
+        can_show_full_doc: function() {
+            return this.$store.state.show_full_doc;
+        },
+        
 		get_x_position: function(index, total) {
-		var cols = (Math.ceil(Math.sqrt(total)));
-		return index % cols;
-	},
+            var cols = (Math.ceil(Math.sqrt(total)));
+            return index % cols;
+        },
+        
 	truncate: function(txt) {
 	    return (txt?txt.toString().substring(0,10):'');
 	},
@@ -502,6 +508,9 @@ name: 'VR-items'
         }
         //return false;
         return this.$store.state.query_map[id].index;
+    },
+    get_error_message() {
+        return this.$store.state.error_message;
     }
 
   },

@@ -657,6 +657,29 @@ function setupVRVuePane() {
             
             
             
+            
+        AFRAME.registerComponent(
+            'preview_gltf', {
+                schema: {
+                },
+                init: function () {
+                    var self = this;
+                    
+                    this.el.addEventListener('model-loaded', function (evt) {
+                        //alert(queryFile);
+                        //alert('model loaded');
+                        store.dispatch('set_error_message', "Loaded GLTF model")
+                    });
+                    
+                    this.el.addEventListener('model-error', function (evt) {
+                        //alert(queryFile);
+                        //alert('model error');
+                        store.dispatch('set_error_message', "Error loading GLTF model")
+                    });
+                }
+        });
+            
+            
         AFRAME.registerComponent(
             'open_file', {
                 schema: {
