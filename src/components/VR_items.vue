@@ -240,7 +240,7 @@
                                 <a-entity v-bind:position='(is_spreadsheet(get_viewed_query_id())?-1.5:-100) + " 0 0.6"' 
                                           geometry="primitive: plane; width: 2; height: 0.2" 
                                           material="color: gray; opacity: 1;">
-                                    <a-entity position='(is_spreadsheet(get_viewed_query_id())?0.1:-100) + " 0 0"' 
+                                    <a-entity position="0.1 0 0" 
                                               geometry="primitive: plane; width: 2; height: 0.2" 
                                               mixin="AileronFont"
                                               material="color: gray; opacity: 1;"
@@ -249,7 +249,7 @@
                                 </a-entity>
 
                                 <a-entity v-for="(a_record,rindex)  in  list_of_records" 
-                                          v-bind:position='((is_spreadsheet(get_viewed_query_id()))?-1.5:-100) + " " + (-.2 - (rindex * 0.2)) + " 0.6"'
+                                          v-bind:position='(is_spreadsheet(get_viewed_query_id())?-1.5:-100) + " " + (-.2 - (rindex * 0.2)) + " 0.6"'
                                           geometry="primitive: plane; width: 2; height: 0.2" 
                                           material="color: white"
                                           rotation='0 0 0'>
@@ -453,7 +453,7 @@ name: 'VR-items'
             var rt = qq[i];
             if (rt.id == id) {
                 //console.log("rt.driver: " + rt.type)
-                if ((rt.type.indexOf("SPREADHSEET") != -1) ||(rt.type.indexOf("CSV") != -1)) {
+                if ((rt.type.indexOf("SPREADSHEET") != -1) || (rt.type.indexOf("CSV") != -1)) {
                     return true;
                 } else {
                     return false;
