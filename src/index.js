@@ -201,9 +201,17 @@ console.log("... still loading");
         } finally {
         }
 
-                
 console.log("...");
 console.log("... ");
+            
+        try {
+            sqliteSync.run("CREATE TABLE IF NOT EXISTS files (id TEXT, name TEXT, contents BLOB);");
+        } catch(err) {
+            console.log(err);
+        } finally {
+        }
+
+        
 console.log("... ");
   
                 

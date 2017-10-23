@@ -125,6 +125,10 @@ setInterval(() => {
 
 
 
+var stmtInsertIntoFiles = dbsearch.prepare(" insert into files " + 
+                            "    ( id, name, contents ) " +
+                            " values " + 
+                            "    (?,  ?,?);");
 
 var stmtInsertIntoConnections = dbsearch.prepare(" insert into connections " + 
                             "    ( id, name, driver, size, hash, type, fileName ) " +
@@ -190,14 +194,36 @@ console.log("child 3")
 console.log("child 4")                             
         
                             var saveTo;
+                            var saveName = "gsd_" + sha1sum.toString() + path.extname(fileName);
                             if (isWin) {
-                                saveTo = process.cwd() + "\\public\\docs\\" + "gsd_" + sha1sum.toString() + path.extname(fileName);
+                                saveTo = process.cwd() + "\\public\\docs\\" + saveName;
                             } else {
-                                saveTo = process.cwd() + "/public/docs/" + "gsd_" + sha1sum.toString() + path.extname(fileName);
+                                saveTo = process.cwd() + "/public/docs/" + saveName;
                             };
                             var copyfrom = fileName;
                             //console.log('Copy from : ' + copyfrom + ' to : ' + saveTo);
                             copyFileSync(copyfrom, saveTo);
+                            var stmt = dbsearch.all(
+                                "select id from files where name = '" + saveName + "'",
+                                function(err, results) 
+                                {
+                                    if (!err) 
+                                    {
+                                        if (results.length == 0) {
+                                            dbsearch.serialize(function() {
+                                                var newId = uuidv1();
+                                                stmtInsertIntoFiles.run(
+                                                    newId, 
+                                                    saveName, 
+                                                    "zzz",
+                                                    
+                                                    function(err) {
+                                                        console.log('added file to sqlite');
+                                                        });
+                                            });
+                                        };
+                                    };
+                                });
                               
                               
                             dbsearch.serialize(function() {
