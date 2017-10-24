@@ -153,7 +153,8 @@
                 
                 
                 
-                    <a-entity   geometry="primitive: plane; width:.70;height: .70; opacity: 1; " 
+                    <a-entity   id="view_doc"
+                                geometry="primitive: plane; width:.70;height: .70; opacity: 1; " 
                                 material="color: green;"
                                 v-bind:position='0.75 * 0 + " 0 .2"'
                                 mixin="RobotoFont"
@@ -163,7 +164,8 @@
 									<a-animation begin="mouseenter" attribute="rotation"
 												to="0 0 3" dur="80" direction="alternate"  repeat="3"></a-animation>
                     </a-entity>
-                    <a-entity   geometry="primitive: plane; width:.70;height: .70; opacity: 1; " 
+                    <a-entity   id="open_doc"
+                                geometry="primitive: plane; width:.70;height: .70; opacity: 1; " 
                                 material="color: gray;"
                                 v-bind:position='0.75 * 1 + " 0 .2"'
                                 mixin="RobotoFont"
@@ -175,7 +177,8 @@
                     </a-entity>
 
 
-                    <a-entity   v-if='false'
+                    <a-entity   id="open_doc_old"
+                                v-if='false'
                                 geometry="primitive: plane; width:.70;height: .70; opacity: 1; " 
                                 material="color: gray;"
                                 v-bind:position='0.75 * 2 + " 0 .2"'
@@ -192,7 +195,8 @@
 
 
 
-                    <a-entity   geometry="primitive: plane; width:.70;height: .70; opacity: 1; " 
+                    <a-entity   id="view_related_docs"
+                                geometry="primitive: plane; width:.70;height: .70; opacity: 1; " 
                                 material="color: brown;"
                                 v-bind:position='0.75 * 2 + " 0 .2"'
                                 mixin="RobotoFont"
@@ -204,7 +208,8 @@
                     </a-entity>
 
 
-                    <a-entity   geometry="primitive: plane; width:.70;height: .70; opacity: 1; " 
+                    <a-entity   id="view_doc_info"
+                                geometry="primitive: plane; width:.70;height: .70; opacity: 1; " 
                                 material="color: gray;"
                                 v-bind:position='0.75 * 3 + " 0 .2"'
                                 mixin="RobotoFont"
@@ -216,7 +221,8 @@
                     </a-entity>
 
                     
-                    <a-entity   geometry="primitive: plane; width:.70;height: .70; opacity: 1; " 
+                    <a-entity   id="view_doc_fun"
+                                geometry="primitive: plane; width:.70;height: .70; opacity: 1; " 
                                 material="color: blue;"
                                 v-bind:position='0.75 * 4 + " 0 .2"'
                                 mixin="RobotoFont"
@@ -227,7 +233,8 @@
 												to="0 0 3" dur="80" direction="alternate"  repeat="3"></a-animation>
                     </a-entity>
 
-                    <a-entity   geometry="primitive: plane; width:.70;height: .70; opacity: 1; " 
+                    <a-entity   id="close_doc"
+                                geometry="primitive: plane; width:.70;height: .70; opacity: 1; " 
                                 material="color: black;"
                                 v-bind:position='0.75 * 5 + " 0 .2"'
                                 mixin="RobotoFont"
