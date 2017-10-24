@@ -117,15 +117,18 @@
                                     ";  query_saved_as: " + (a_query.hash?(a_query.hash + (a_query.fileName?"." + a_query.fileName.split(".").pop():"")):"") +                                   
 					    			";  query_display: " + "" + a_query.fileName + 
                                     ";  query_size: " + a_query.size + "; " '
-								v-bind:material='(a_query.driver != null?"src: driver_icons/" + a_query.driver + ".jpg;":"")'
-								v-bind:material2='"color: gray;"'
+								v-bind:material='(a_query.driver != null?"src: driver_icons/" + a_query.driver + ".jpg;":false)'
 								v-bind:color="(get_index(a_query.id) % 2 == 0)?'blue':'green'"
-								v-bind:log='"queryFile: " + a_query.hash + (a_query.fileName?"." +a_query.fileName.split(".").pop():"") + 
-                                ";queryId: "  + a_query.id + ";"' 
+								v-bind:log='a_query?("queryFile: " + a_query.hash + (a_query.fileName?"." +a_query.fileName.split(".").pop():"") + 
+                                ";queryId: "  + a_query.id + ";"):false' 
                                 >
-								<a-animation begin="mouseenter" attribute="rotation"
-                                    v-bind:id='a_query.id + "_anim"'
-												to="0 0 5" dur="90" direction="alternate"  repeat="3"></a-animation>
+								<a-animation    begin="mouseenter" 
+                                                attribute="rotation"
+                                                v-bind:id='a_query.id + "_anim"'
+                                                to="0 0 5" 
+                                                dur="90" 
+                                                direction="alternate"  
+                                                repeat="3"></a-animation>
 						</a-entity>
                         
                 </a-entity>
@@ -178,18 +181,7 @@
                     </a-entity>
 
 
-                    <a-entity   id="open_doc_old"
-                                v-if='false'
-                                geometry="primitive: plane; width:.70;height: .70; opacity: 1; " 
-                                material="color: gray;"
-                                v-bind:position='0.75 * 2 + " 0 .2"'
-                                mixin="RobotoFont"
-                                v-bind:open_file_old='get_viewed_query_file()?("" + get_viewed_query_file()):false '
-                                v-bind:text='"color: white; align: center; value: Open (old); width: 3;"'
-                                >
-									<a-animation begin="mouseenter" attribute="rotation"
-												to="0 0 3" dur="80" direction="alternate"  repeat="3"></a-animation>
-                    </a-entity>
+
 
 
 
@@ -294,15 +286,18 @@
                                 
                                 
                                 
-                                <a-entity v-for="(a_record,rindex)  in  list_of_records"
-                                          id='show_all_vr_records'
-                                          v-bind:position='(is_document(get_viewed_query_id())?.5:-100) + " " + (-0.01 - (rindex * 0.2)) + " 0.6"'
-                                          geometry="primitive: plane; width: 6; height: 0.2" 
-                                          material="color: white; opacity: 1;"
-                                          mixin="SourceCodeProFont"
-                                          v-bind:text='"color: black; align: left; value: " + truncate2(a_record[field_name]) + "; width: 6; opacity: 1; wrapPixels: 2000; "'
-                                          rotation='0 0 0'>
+                                <a-entity   id='show_all_vr_records'
+                                            v-bind:position='(is_document(get_viewed_query_id())?0:-100) + " 0 0"'
+                                >
+                                    <a-entity v-for="(a_record,rindex)  in  list_of_records"  
+                                              v-bind:position='".5 " + (-0.01 - (rindex * 0.2)) + " 0.6"'
+                                              geometry="primitive: plane; width: 6; height: 0.2" 
+                                              material="color: white; opacity: 1;"
+                                              mixin="SourceCodeProFont"
+                                              v-bind:text='"color: black; align: left; value: " + truncate2(a_record[field_name]) + "; width: 6; opacity: 1; wrapPixels: 2000; "'
+                                              rotation='0 0 0'>
 
+                                    </a-entity>
                                 </a-entity>
 
 
@@ -312,10 +307,9 @@
                                 
                                     <a-entity 
                                         id='gltf_preview'
-                                        v-bind:v-if='(get_viewed_query_file()!=null)'
-                                        v-bind:gltf-model='(!((get_viewed_query_file()==null) || (get_viewed_query_file().indexOf(".glb") == -1)))?"/docs2/gsd_" + get_viewed_query_file():false'
+                                        v-bind:gltf-model='(get_viewed_query_file().indexOf(".glb") != -1)?"/docs2/gsd_" + get_viewed_query_file():false'
                                         scale=".2 .2 .2" 
-                                        position="0 -1 0" 
+                                        v-bind:position='((get_viewed_query_file().indexOf(".glb") != -1)?"0":"-100") + "  -1 0" '
                                         preview_gltf=''>
                                         <a-animation 
                                             begin="mouseenter" 
@@ -434,6 +428,9 @@ name: 'VR-items'
         },
         
         get_viewed_query_file: function() {
+            if (this.$store.state.viewed_query_file == null) {
+                return "";
+            }
             return this.$store.state.viewed_query_file;
         },
         
