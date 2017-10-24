@@ -857,23 +857,27 @@ app.use(cors())
 	//------------------------------------------------------------------------------
 	app.get('/docs2/*', function (req, res) {
         var fname = req.url.substr(req.url.lastIndexOf('/') + 1)
-        //var stmt = dbsearch.all("select contents from files where name = 'gsd_6965b41bfc3e7372484591a0dc740b7c7cfd7026.csv'", function(err, rows) {
+        
+        var extension = fname.substr(fname.lastIndexOf('.') + 1).toLowerCase()
+        console.log("getting file: " + fname);
+        console.log("   extension: " + extension);
+        var contentType = 'text/plain';
+        if (extension == 'pdf') {contentType = 'application/pdf'}
+        else if (extension == 'glb') {contentType = 'model/gltf-binary'}
+        
+        
+        
         var stmt = dbsearch.all("select contents from files where name = '" + fname + "'", function(err, rows) {
             if (!err) {
                 if (rows.length > 0) {
-                    //res.writeHead(200, {'Content-Type': 'text/plain'});
-                    //res.writeHead(200, {'Content-Type': 'application/pdf'});
-                    //res.type('pdf');
-                    //res.writeHead(200, {'Content-Type': 'binary'});
                      res.writeHead(200, {
-                        'Content-Type': 'application/pdf',
+                        'Content-Type': contentType,
                         'Content-disposition': 'attachment;filename=' + fname ,
                         'Content-Length': rows[0].contents.length
                     });
                     
                     
                     res.end(new Buffer(rows[0].contents, 'binary'));
-                    //request(req.url).pipe(res);
                 };
             };
         });
@@ -2166,7 +2170,6 @@ forked.on('message', (msg) => {
                                     
         });
         
-        //zzz
         queries[msg.query_id].similar_count = eval("(" + msg.results + ")").length
         sendOverWebSockets({
                                 type: "update_query_item", 

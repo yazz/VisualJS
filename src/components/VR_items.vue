@@ -173,6 +173,25 @@
 									<a-animation begin="mouseenter" attribute="rotation"
 												to="0 0 3" dur="80" direction="alternate"  repeat="3"></a-animation>
                     </a-entity>
+
+
+                    <a-entity   v-if='false'
+                                geometry="primitive: plane; width:.70;height: .70; opacity: 1; " 
+                                material="color: gray;"
+                                v-bind:position='0.75 * 2 + " 0 .2"'
+                                mixin="RobotoFont"
+                                v-bind:open_file_old='get_viewed_query_file()?("" + get_viewed_query_file()):false '
+                                v-bind:text='"color: white; align: center; value: Open (old); width: 3;"'
+                                >
+									<a-animation begin="mouseenter" attribute="rotation"
+												to="0 0 3" dur="80" direction="alternate"  repeat="3"></a-animation>
+                    </a-entity>
+
+
+
+
+
+
                     <a-entity   geometry="primitive: plane; width:.70;height: .70; opacity: 1; " 
                                 material="color: brown;"
                                 v-bind:position='0.75 * 2 + " 0 .2"'
@@ -284,7 +303,7 @@
                                             v-bind:position='(is_3d(get_viewed_query_id())?-1:-100) + " .3 0"' >
                                 
                                     <a-entity 
-                                        v-bind:gltf-model='"/docs/gsd_" + get_viewed_query_file()'
+                                        v-bind:gltf-model='"/docs2/gsd_" + get_viewed_query_file()'
                                         scale=".2 .2 .2" 
                                         position="0 -1 0" 
                                         preview_gltf=''>
