@@ -11,6 +11,7 @@
     "test": "cross-env NODE_ENV=production webpack-dev-server"
   },
   "dependencies": {
+    "async": "^2.5.0",
     "babel-polyfill": "^6.23.0",
     "body-parser": "^1.17.2",
     "browserify": "^14.1.0",

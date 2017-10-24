@@ -149,6 +149,7 @@ app.use(compression())
 var crypto = require('crypto');
 var PDFParser = require2("pdf2json");
 
+var async   = require('async');
 
 
 var sqlite3   = require2('sqlite3');
@@ -171,31 +172,54 @@ console.log(" ");
 
 
 var sqliteSync = require('sqlite-sync');
+var dbsearch = new sqlite3.Database('gosharedatasearch.sqlite3');
+//dbsearch.run("PRAGMA journal_mode=WAL;")
+dbsearch.run("PRAGMA synchronous=OFF;")
+dbsearch.run("PRAGMA count_changes=OFF;")
+dbsearch.run("PRAGMA journal_mode=MEMORY;")
+dbsearch.run("PRAGMA temp_store=MEMORY;")
 
 console.log("... ");
         
-sqliteSync.connect('gosharedatasearch.sqlite3'); 
-                
-        try {
-            console.log("... ");
-            console.log("... ");
-            sqliteSync.run("CREATE TABLE IF NOT EXISTS search_rows_hierarchy (document_binary_hash TEXT, parent_hash TEXT, child_hash TEXT);");
-            sqliteSync.run("CREATE INDEX search_rows_hierarchy_document_binary_hash_idx ON search_rows_hierarchy (document_binary_hash);");
-            sqliteSync.run("CREATE INDEX search_rows_hierarchy_parent_hash_idx ON search_rows_hierarchy (parent_hash);");
-            sqliteSync.run("CREATE INDEX search_rows_hierarchy_child_hash_idx ON search_rows_hierarchy (child_hash);");
+//sqliteSync.connect('gosharedatasearch.sqlite3'); 
+async.map([
+        "CREATE TABLE IF NOT EXISTS search_rows_hierarchy (document_binary_hash TEXT, parent_hash TEXT, child_hash TEXT);",
+        "CREATE INDEX IF NOT EXISTS search_rows_hierarchy_document_binary_hash_idx ON search_rows_hierarchy (document_binary_hash);",
+        "CREATE INDEX IF NOT EXISTS search_rows_hierarchy_parent_hash_idx ON search_rows_hierarchy (parent_hash);",
+        "CREATE INDEX IF NOT EXISTS search_rows_hierarchy_child_hash_idx ON search_rows_hierarchy (child_hash);",
+        
+        "CREATE TABLE IF NOT EXISTS drivers (id TEXT, name TEXT, type TEXT, code TEXT);",
+            
+        "CREATE TABLE IF NOT EXISTS files (id TEXT, name TEXT, contents BLOB);",
+        
+        "CREATE TABLE IF NOT EXISTS connections (id TEXT, name TEXT, driver TEXT, database TEXT, host TEXT, port TEXT ,connectString TEXT, user TEXT, password TEXT, fileName TEXT, size INTEGER, type TEXT, preview TEXT, hash TEXT, status TEXT);",
 
-            console.log("... ");
+        "CREATE TABLE IF NOT EXISTS queries (id TEXT, name TEXT, connection INTEGER, driver TEXT, size INTEGER, hash TEXT, type TEXT, fileName TEXT, definition TEXT, preview TEXT, status TEXT, index_status TEXT, similar_count INTEGER);",
+
+        "CREATE TABLE IF NOT EXISTS intranet_client_connects (id TEXT, internal_host TEXT, internal_port INTEGER, public_ip TEXT, via TEXT, public_host TEXT, user_name TEXT, client_user_name TEXT, when_connected INTEGER);"
+
+            ], function(a,b){
+        try {
+            dbsearch.serialize(function() 
+            {
+                dbsearch.run(a);
+            });
+            return b(null,a);
         } catch(err) {
             console.log(err);                    
-        } finally {
-            console.log("... ");
-            console.log("... ");
-        }
+            return b(null,a);
+        } 
+    }, function(err, results){
+//async.map(['file1','file2','file3'], fs.stat, function(err, results){
+    console.log("async test ");
+    console.log("    err= " + JSON.stringify(err,null,2));
+    console.log("    res= " + JSON.stringify(results,null,2));
+});
+                
 console.log("... still loading");
   
             
         try {
-            sqliteSync.run("CREATE TABLE IF NOT EXISTS drivers (id TEXT, name TEXT, type TEXT, code TEXT);");
         } catch(err) {
             console.log(err);
         } finally {
@@ -205,7 +229,6 @@ console.log("...");
 console.log("... ");
             
         try {
-            sqliteSync.run("CREATE TABLE IF NOT EXISTS files (id TEXT, name TEXT, contents BLOB);");
         } catch(err) {
             console.log(err);
         } finally {
@@ -218,7 +241,6 @@ console.log("... ");
                 
                 
         try {
-            sqliteSync.run("CREATE TABLE IF NOT EXISTS connections (id TEXT, name TEXT, driver TEXT, database TEXT, host TEXT, port TEXT ,connectString TEXT, user TEXT, password TEXT, fileName TEXT, size INTEGER, type TEXT, preview TEXT, hash TEXT, status TEXT);");
         } catch(err) {
             console.log(err);
         } finally {
@@ -230,7 +252,6 @@ console.log("... nearly there");
 
               
         try {
-            sqliteSync.run("CREATE TABLE IF NOT EXISTS queries (id TEXT, name TEXT, connection INTEGER, driver TEXT, size INTEGER, hash TEXT, type TEXT, fileName TEXT, definition TEXT, preview TEXT, status TEXT, index_status TEXT, similar_count INTEGER);");
         } catch(err) {
             console.log(err);
         } finally {
@@ -242,7 +263,6 @@ console.log("...");
                 
         try {
             console.log("...");
-            sqliteSync.run("CREATE TABLE IF NOT EXISTS intranet_client_connects (id TEXT, internal_host TEXT, internal_port INTEGER, public_ip TEXT, via TEXT, public_host TEXT, user_name TEXT, client_user_name TEXT, when_connected INTEGER);");
             console.log("...");
         } catch(err) {
             console.log(err);
@@ -250,18 +270,12 @@ console.log("...");
         }
 console.log("...");
 
-//sqliteSync.close();
+////sqliteSync.close();
         
         
 console.log("...");
 
 
-var dbsearch = new sqlite3.Database('gosharedatasearch.sqlite3');
-//dbsearch.run("PRAGMA journal_mode=WAL;")
-dbsearch.run("PRAGMA synchronous=OFF;")
-dbsearch.run("PRAGMA count_changes=OFF;")
-dbsearch.run("PRAGMA journal_mode=MEMORY;")
-dbsearch.run("PRAGMA temp_store=MEMORY;")
 
         try
         {
@@ -864,6 +878,11 @@ app.use(cors())
         var contentType = 'text/plain';
         if (extension == 'pdf') {contentType = 'application/pdf'}
         else if (extension == 'glb') {contentType = 'model/gltf-binary'}
+        else if (extension == 'doc') {contentType = 'application/msword'}
+        else if (extension == 'docx') {contentType = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'}
+        else if (extension == 'xls') {contentType = 'application/vnd.ms-excel'}
+        else if (extension == 'xlsx') {contentType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}
+        else if (extension == 'csv') {contentType = 'text/csv'}
         
         
         
@@ -1197,7 +1216,7 @@ var upload = multer( { dest: 'uploads/' } );
             }
 			var stmt = dbsearch.all(mysql, function(err, rows) {
                 if (!err) {
-                    //sqliteSync.connect('gosharedatasearch.sqlite3'); 
+                    ////sqliteSync.connect('gosharedatasearch.sqlite3'); 
                     //console.log('rows: ' + JSON.stringify(rows.length));
                     var newres = [];
                     for  (var i=0; i < rows.length;i++) {
@@ -1228,7 +1247,7 @@ var upload = multer( { dest: 'uploads/' } );
                                         });
                         }
                     }
-                    //sqliteSync.close();
+                    ////sqliteSync.close();
                     var timeEnd = new Date().getTime();
                     var timing = timeEnd - timeStart;
                     res.writeHead(200, {'Content-Type': 'text/plain'});
@@ -1259,7 +1278,7 @@ var upload = multer( { dest: 'uploads/' } );
             
 			var stmt = dbsearch.all(mysql, function(err, rows) {
                 if (!err) {
-                    //sqliteSync.connect('gosharedatasearch.sqlite3'); 
+                    sqliteSync.connect('gosharedatasearch.sqlite3'); 
                     console.log('rows: ' + JSON.stringify(rows.length));
                     var newres = [];
                     for  (var i=0; i < rows.length;i++) {
@@ -1300,7 +1319,7 @@ var upload = multer( { dest: 'uploads/' } );
                             
                         }
                     }
-                    //sqliteSync.close();
+                    sqliteSync.close();
                     var timeEnd = new Date().getTime();
                     var timing = timeEnd - timeStart;
                     res.writeHead(200, {'Content-Type': 'text/plain'});
@@ -2201,7 +2220,7 @@ forked.send({ message_type: "greeting", hello: 'world' });
 
 
 var diff = require('deep-diff').diff
-console.log("Deep: " + diff)
+//console.log("Deep: " + diff)
 
 
 var lhs = [
@@ -2224,7 +2243,7 @@ var rhs = [
 ];
  
 var differences = diff(lhs, rhs);
-console.log("")
+/*console.log("")
 console.log("")
 console.log("")
 console.log("----------------------------------------------------------------------------------------------")
@@ -2233,3 +2252,4 @@ console.log("-------------------------------------------------------------------
 console.log("")
 console.log("")
 console.log("")
+*/
