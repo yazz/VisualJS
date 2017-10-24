@@ -171,7 +171,6 @@ console.log(" ");
                 
 
 
-var sqliteSync = require('sqlite-sync');
 var dbsearch = new sqlite3.Database('gosharedatasearch.sqlite3');
 //dbsearch.run("PRAGMA journal_mode=WAL;")
 dbsearch.run("PRAGMA synchronous=OFF;")
@@ -181,7 +180,6 @@ dbsearch.run("PRAGMA temp_store=MEMORY;")
 
 console.log("... ");
         
-//sqliteSync.connect('gosharedatasearch.sqlite3'); 
 async.map([
         "CREATE TABLE IF NOT EXISTS search_rows_hierarchy (document_binary_hash TEXT, parent_hash TEXT, child_hash TEXT);",
         "CREATE INDEX IF NOT EXISTS search_rows_hierarchy_document_binary_hash_idx ON search_rows_hierarchy (document_binary_hash);",
@@ -210,69 +208,18 @@ async.map([
             return b(null,a);
         } 
     }, function(err, results){
-//async.map(['file1','file2','file3'], fs.stat, function(err, results){
     console.log("async test ");
     console.log("    err= " + JSON.stringify(err,null,2));
     console.log("    res= " + JSON.stringify(results,null,2));
 });
                 
 console.log("... still loading");
-  
-            
-        try {
-        } catch(err) {
-            console.log(err);
-        } finally {
-        }
-
 console.log("...");
 console.log("... ");
-            
-        try {
-        } catch(err) {
-            console.log(err);
-        } finally {
-        }
-
-        
 console.log("... ");
-  
-                
-                
-                
-        try {
-        } catch(err) {
-            console.log(err);
-        } finally {
-        }
-              
-
 console.log("... nearly there");
-
-
-              
-        try {
-        } catch(err) {
-            console.log(err);
-        } finally {
-        }
-
 console.log("...");
- 
-        
-                
-        try {
-            console.log("...");
-            console.log("...");
-        } catch(err) {
-            console.log(err);
-        } finally {
-        }
 console.log("...");
-
-////sqliteSync.close();
-        
-        
 console.log("...");
 
 
@@ -1186,7 +1133,7 @@ var upload = multer( { dest: 'uploads/' } );
                                      queries:    [], 
                                      message:    "Search text must be at least 1 characters: " + searchTerm,
                                      duration:    timing    }  ));
-        } else if (2 == (1 + 1)){
+        } else {
         
 		dbsearch.serialize(function() {
             var mysql = "  select distinct(queries.id), the1.document_binary_hash, the1.num_occ  , the1.child_hash , zfts_search_rows_hashed.data " +
@@ -1216,7 +1163,6 @@ var upload = multer( { dest: 'uploads/' } );
             }
 			var stmt = dbsearch.all(mysql, function(err, rows) {
                 if (!err) {
-                    ////sqliteSync.connect('gosharedatasearch.sqlite3'); 
                     //console.log('rows: ' + JSON.stringify(rows.length));
                     var newres = [];
                     for  (var i=0; i < rows.length;i++) {
@@ -1247,7 +1193,6 @@ var upload = multer( { dest: 'uploads/' } );
                                         });
                         }
                     }
-                    ////sqliteSync.close();
                     var timeEnd = new Date().getTime();
                     var timing = timeEnd - timeStart;
                     res.writeHead(200, {'Content-Type': 'text/plain'});
@@ -1262,78 +1207,6 @@ var upload = multer( { dest: 'uploads/' } );
                                              queries:    [], 
                                              duration:    timing,
                                              error: "Error searching for: " + searchTerm }  ));
-                }
-            });
-        
-        })
-        } else {//this is the old way of searching but was too slow
-        
-		dbsearch.serialize(function() {
-            var mysql = " select  " + 
-                        "      distinct(row_hash)  " + 
-                        " from  " + 
-                        "      zfts_search_rows_hashed  " + 
-                        " where  " + 
-                        "      zfts_search_rows_hashed match '"  + searchTerm + "*'  "; 
-            
-			var stmt = dbsearch.all(mysql, function(err, rows) {
-                if (!err) {
-                    sqliteSync.connect('gosharedatasearch.sqlite3'); 
-                    console.log('rows: ' + JSON.stringify(rows.length));
-                    var newres = [];
-                    for  (var i=0; i < rows.length;i++) {
-                        var rowHash = rows[i]["row_hash"];
-                        //console.log('rowHash: ' + JSON.stringify(rowHash));
-                        if (rowHash) {
-                            var getQueryIdsSql =     " select " + 
-                                                        "     id  " + 
-                                                        " from  " + 
-                                                        "     queries " + 
-                                                        " where  " + 
-                                                        "     hash in  " + 
-                                                        "         (select  " + 
-                                                        "              distinct(document_binary_hash)  " + 
-                                                        "          from  " + 
-                                                        "              search_rows_hierarchy " + 
-                                                        "          where  " + 
-                                                        "              child_hash = '" + rowHash + "' " + 
-                                                        "                  )" + 
-                                                        " GROUP BY id";
-                                                    
-                            //console.log('getQueryIdsSql: ' + JSON.stringify(getQueryIdsSql));
-                            var resultSet = sqliteSync.run(getQueryIdsSql);
-                            //console.log('               : ' + JSON.stringify(resultSet,null,2));
-                                    
-                            if (resultSet && (resultSet.length > 0)) {
-                                if (resultSet[0].values) {
-                                    var queryIds = resultSet[0].values;
-
-                                    for (var x = 0; x < queryIds.length; x++) {
-                                        newres.push({
-                                                            id:     queryIds[x][0]
-                                                    });
-                                    }
-                                }
-                            }
-
-                            
-                        }
-                    }
-                    sqliteSync.close();
-                    var timeEnd = new Date().getTime();
-                    var timing = timeEnd - timeStart;
-                    res.writeHead(200, {'Content-Type': 'text/plain'});
-                    res.end( JSON.stringify({   search:  searchTerm, 
-                                                queries: newres, 
-                                                duration: timing}));
-                } else {
-                    var timeEnd = new Date().getTime();
-                    var timing = timeEnd - timeStart;
-                    res.writeHead(200, {'Content-Type': 'text/plain'});
-                    res.end( JSON.stringify({search:      searchTerm, 
-                                             queries:    [], 
-                                             duration:    timing,
-                                             error: "Error searching for: " + searchTerm   }  ));
                 }
             });
         
