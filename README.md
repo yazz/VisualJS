@@ -12,7 +12,7 @@
 
 
 <p align="center">
-    <img src='http://gosharedata.com/gosharedata/images/screen%20shot%202017-07-07%20at%20073249.jpg' />
+    <img src='http://gosharedata.com/gosharedata/desktop.png' />
     </p>
 </div>
 Go Share Data is a desktop search program. The data types supported are:
