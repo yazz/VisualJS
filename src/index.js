@@ -819,34 +819,39 @@ app.use(cors())
 	app.get('/docs2/*', function (req, res) {
         var fname = req.url.substr(req.url.lastIndexOf('/') + 1)
         
-        var extension = fname.substr(fname.lastIndexOf('.') + 1).toLowerCase()
-        console.log("getting file: " + fname);
-        console.log("   extension: " + extension);
-        var contentType = 'text/plain';
-        if (extension == 'pdf') {contentType = 'application/pdf'}
-        else if (extension == 'glb') {contentType = 'model/gltf-binary'}
-        else if (extension == 'doc') {contentType = 'application/msword'}
-        else if (extension == 'docx') {contentType = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'}
-        else if (extension == 'xls') {contentType = 'application/vnd.ms-excel'}
-        else if (extension == 'xlsx') {contentType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}
-        else if (extension == 'csv') {contentType = 'text/csv'}
-        
-        
-        
-        var stmt = dbsearch.all("select contents from files where name = '" + fname + "'", function(err, rows) {
-            if (!err) {
-                if (rows.length > 0) {
-                     res.writeHead(200, {
-                        'Content-Type': contentType,
-                        'Content-disposition': 'attachment;filename=' + fname ,
-                        'Content-Length': rows[0].contents.length
-                    });
-                    
-                    
-                    res.end(new Buffer(rows[0].contents, 'binary'));
+        if (fname && (fname.length > 0)) {        
+            var extension = fname.substr(fname.lastIndexOf('.') + 1).toLowerCase()
+            console.log("getting file: " + fname);
+            console.log("   extension: " + extension);
+            var contentType = 'text/plain';
+            if (extension == 'pdf') {contentType = 'application/pdf'}
+            else if (extension == 'glb') {contentType = 'model/gltf-binary'}
+            else if (extension == 'doc') {contentType = 'application/msword'}
+            else if (extension == 'docx') {contentType = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'}
+            else if (extension == 'xls') {contentType = 'application/vnd.ms-excel'}
+            else if (extension == 'xlsx') {contentType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}
+            else if (extension == 'csv') {contentType = 'text/csv'}
+            
+            
+            
+            var stmt = dbsearch.all("select contents from files where name = '" + fname + "'", function(err, rows) {
+                if (!err) {
+                    if (rows.length > 0) {
+                         res.writeHead(200, {
+                            'Content-Type': contentType,
+                            'Content-disposition': 'attachment;filename=' + fname ,
+                            'Content-Length': rows[0].contents.length
+                        });
+                        
+                        
+                        res.end(new Buffer(rows[0].contents, 'binary'));
+                    };
                 };
-            };
-        });
+            });
+        } else {
+            res.writeHead(200, {'Content-Type': 'text/plain'});
+            res.end(JSON.stringify({  error: "No file selected"}));
+        }
 	});
 
     

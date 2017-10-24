@@ -689,11 +689,13 @@ function setupVRVuePane() {
                 init: function () {
                     var self = this;
                     
-                    var queryFile = "gsd_" + self.data;
-                    this.el.addEventListener('click', function (evt) {
-                        //alert(queryFile);
-                        window.open("http://"+window.location.hostname + ":" + window.location.port +  '/docs2/' + queryFile, '_blank');
-                    });
+                    if (self.data && (self.data.length > 0)) {        
+                        var queryFile = "gsd_" + self.data;
+                        this.el.addEventListener('click', function (evt) {
+                            //alert(queryFile);
+                            window.open("http://"+window.location.hostname + ":" + window.location.port +  '/docs2/' + queryFile, '_blank');
+                        });
+                    };
                 }
         });
 
@@ -705,11 +707,13 @@ function setupVRVuePane() {
                 init: function () {
                     var self = this;
                     
-                    var queryFile = "gsd_" + self.data;
-                    this.el.addEventListener('click', function (evt) {
-                        //alert(queryFile);
-                        window.open("http://"+window.location.hostname + ":" + window.location.port +  '/docs/' + queryFile, '_blank');
-                    });
+                    if (self.data && (self.data.length > 0)) {        
+                        var queryFile = "gsd_" + self.data;
+                        this.el.addEventListener('click', function (evt) {
+                            //alert(queryFile);
+                            window.open("http://"+window.location.hostname + ":" + window.location.port +  '/docs/' + queryFile, '_blank');
+                        });
+                    };
                 }
         });
 

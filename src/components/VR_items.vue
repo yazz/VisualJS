@@ -310,6 +310,7 @@
                                             v-bind:position='(is_3d(get_viewed_query_id())?-1:-100) + " .3 0"' >
                                 
                                     <a-entity 
+                                        v-bind:v-if='(get_viewed_query_file()!=null)'
                                         v-bind:gltf-model='"/docs2/gsd_" + get_viewed_query_file()'
                                         scale=".2 .2 .2" 
                                         position="0 -1 0" 
