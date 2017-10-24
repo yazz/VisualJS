@@ -149,7 +149,7 @@
                 	   <a-entity    position='.3 -1.07 .2'
                                     v-bind:id='"selected_item"'
 									geometry="primitive: plane; width:1.2;height: 1.2;"
-                                    v-bind:material='"src: driver_icons/" + get_driver_name(get_viewed_query_id()) + ".jpg;"'
+                                    v-bind:material='get_viewed_query_id()?"src: driver_icons/" + get_driver_name(get_viewed_query_id()) + ".jpg;":false'
                                 >
 						</a-entity>
                 
