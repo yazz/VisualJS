@@ -101,29 +101,30 @@
 
 <a-entity id='scrollable_grid' v-bind:refresh_vr_items='get_refresh_view_counter'>
 
-				<a-entity   v-for="(a_driver,index)  in  list_of_queries"
-                            v-bind:id='a_driver.id + "_upper"'
-                            v-bind:position="((is_visible(a_driver.id)?-0.8:100) + (get_x_position(get_index(a_driver.id),list_of_queries.length)*0.5))+ ' ' + (1.5 - (get_y_position(get_index(a_driver.id),list_of_queries.length)*0.6)) + ' -.1'"
-                            v-bind:color="(get_index(a_driver.id) % 2 == 0)?'blue':'green'"
+				<a-entity   v-for="(a_query,index)  in  list_of_queries"
+                            v-bind:id='a_query.id + "_upper"'
+                            v-bind:position="((is_visible(a_query.id)?-0.8:100) + (get_x_position(get_index(a_query.id),list_of_queries.length)*0.5))+ ' ' + (1.5 - (get_y_position(get_index(a_query.id),list_of_queries.length)*0.6)) + ' -.1'"
+                            v-bind:color="(get_index(a_query.id) % 2 == 0)?'blue':'green'"
                             mixin="RobotoFont"
-                            v-bind:text="'color: black; align: left; value: ' + a_driver.name.substr(a_driver.name.length - 10) + ' ; width: 2; '">
+                            v-bind:text="'color: black; align: left; value: ' + a_query.name.substr(a_query.name.length - 10) + ' ; width: 2; '">
+                            
 					   <a-entity    position='-0.8 .3 0'
-                                    v-bind:id='a_driver.id + "_mid"'
+                                    v-bind:id='a_query.id + "_mid"'
 									geometry="primitive: plane; width:.35;height: 0.35;"
 							        v-bind:griditem='"" +
-								    "   query_name: " + a_driver.name +
-								    ";  query_id: " + a_driver.id +
-                                    ";  query_saved_as: " + (a_driver.hash?(a_driver.hash + (a_driver.fileName?"." + a_driver.fileName.split(".").pop():"")):"") +                                   
-					    			";  query_display: " + "" + a_driver.fileName + 
-                                    ";  query_size: " + a_driver.size + "; " '
-								v-bind:material='"src: driver_icons/" + a_driver.driver + ".jpg;"'
+								    "   query_name: " + a_query.name +
+								    ";  query_id: " + a_query.id +
+                                    ";  query_saved_as: " + (a_query.hash?(a_query.hash + (a_query.fileName?"." + a_query.fileName.split(".").pop():"")):"") +                                   
+					    			";  query_display: " + "" + a_query.fileName + 
+                                    ";  query_size: " + a_query.size + "; " '
+								v-bind:material='(a_query.driver != null?"src: driver_icons/" + a_query.driver + ".jpg;":"")'
 								v-bind:material2='"color: gray;"'
-								v-bind:color="(get_index(a_driver.id) % 2 == 0)?'blue':'green'"
-								v-bind:log='"queryFile: " + a_driver.hash + (a_driver.fileName?"." +a_driver.fileName.split(".").pop():"") + 
-                                ";queryId: "  + a_driver.id + ";"' 
+								v-bind:color="(get_index(a_query.id) % 2 == 0)?'blue':'green'"
+								v-bind:log='"queryFile: " + a_query.hash + (a_query.fileName?"." +a_query.fileName.split(".").pop():"") + 
+                                ";queryId: "  + a_query.id + ";"' 
                                 >
 								<a-animation begin="mouseenter" attribute="rotation"
-                                    v-bind:id='a_driver.id + "_anim"'
+                                    v-bind:id='a_query.id + "_anim"'
 												to="0 0 5" dur="90" direction="alternate"  repeat="3"></a-animation>
 						</a-entity>
                         
@@ -310,8 +311,9 @@
                                             v-bind:position='(is_3d(get_viewed_query_id())?-1:-100) + " .3 0"' >
                                 
                                     <a-entity 
+                                        id='gltf_preview'
                                         v-bind:v-if='(get_viewed_query_file()!=null)'
-                                        v-bind:gltf-model='"/docs2/gsd_" + get_viewed_query_file()'
+                                        v-bind:gltf-model='(!((get_viewed_query_file()==null) || (get_viewed_query_file().indexOf(".glb") == -1)))?"/docs2/gsd_" + get_viewed_query_file():false'
                                         scale=".2 .2 .2" 
                                         position="0 -1 0" 
                                         preview_gltf=''>
