@@ -15,7 +15,7 @@
     <img src='http://gosharedata.com/gosharedata/images/screen%20shot%202017-07-07%20at%20073249.jpg' />
     </p>
 </div>
-Go Share Data lets you search data on your intranet but creating nodes running on desktop PCs to form a network of data. The data types supported are:
+Go Share Data is a desktop search program. The data types supported are:
 
 * MySQL
 * Oracle
@@ -24,6 +24,8 @@ Go Share Data lets you search data on your intranet but creating nodes running o
 * Excel
 * CSV
 * SqLite
+* PDF
+* GTLF 3d 
 	
 	
 <br>
