@@ -699,23 +699,6 @@ function setupVRVuePane() {
                 }
         });
 
-        AFRAME.registerComponent(
-            'open_file_old', {
-                schema: {
-                    type: 'string'
-                },
-                init: function () {
-                    var self = this;
-                    
-                    if (self.data && (self.data.length > 0)) {        
-                        var queryFile = "gsd_" + self.data;
-                        this.el.addEventListener('click', function (evt) {
-                            //alert(queryFile);
-                            window.open("http://"+window.location.hostname + ":" + window.location.port +  '/docs/' + queryFile, '_blank');
-                        });
-                    };
-                }
-        });
 
 
         AFRAME.registerComponent(

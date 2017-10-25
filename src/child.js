@@ -193,16 +193,8 @@ console.log("child 3")
                             });
 console.log("child 4")                             
         
-                            var saveTo;
-                            var saveName = "gsd_" + sha1sum.toString() + path.extname(fileName);
-                            if (isWin) {
-                                saveTo = process.cwd() + "\\public\\docs\\" + saveName;
-                            } else {
-                                saveTo = process.cwd() + "/public/docs/" + saveName;
-                            };
                             var copyfrom = fileName;
-                            //console.log('Copy from : ' + copyfrom + ' to : ' + saveTo);
-                            //copyFileSync(copyfrom, saveTo);
+                            var saveName = "gsd_" + sha1sum.toString() + path.extname(fileName);
                             var stmt = dbsearch.all(
                                 "select id from files where name = '" + saveName + "'",
                                 function(err, results) 

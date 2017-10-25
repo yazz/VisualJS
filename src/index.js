@@ -62,11 +62,6 @@ const mkdirSync = function (dirPath) {
     //if (err.code !== 'EEXIST') throw err
   }
 }
-    if (isWin) {
-        mkdirp.sync("public\\docs");
-    } else {
-        mkdirp.sync("public/docs");
-    };
 mkdirp.sync("uploads");
 
 
@@ -782,8 +777,6 @@ var cors = require('cors')
 app.use(cors())
             
     
-    //console.log('::::::::::: ' +process.cwd() + '/docs')
-    app.use("/docs", express.static('public/docs'));
     app.use("/public/aframe_fonts", express.static(path.join(__dirname, '../public/aframe_fonts')));
 	app.use(express.static(path.join(__dirname, '../public/')))
 	var bodyParser = require('body-parser');
