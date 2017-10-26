@@ -2,7 +2,6 @@
 
 
 var numberOfSecondsAliveCheck = 60; 
-var numberOfSecondsIndexFilesInterval = 5; 
 var isPi = require('detect-rpi');
 var username = "Unknown user";
 
@@ -121,7 +120,7 @@ program
   console.log('Local hostname: ' + ip.address() + ' ')
 
   
-  var drivers      = new Object();
+var drivers      = new Object();
 var connections  = new Object();
 var queries      = new Object();
 var express      = require('express')
@@ -1537,68 +1536,10 @@ var upload = multer( { dest: 'uploads/' } );
                 };
         aliveCheckFn();
         
-        
-        
-        var indexFilesFn = function() {
-            //console.log("Index files");
-            //console.log("    inScan: " + inScan);
-           if (inScan) {
-             return;
-           };
-           
-           try {
-            var stmt = dbsearch.all(
-                "SELECT * FROM queries WHERE index_status IS NULL LIMIT 1 " ,
-                function(err, results) 
-                {
-                    if (!err) 
-                    {
-                        if( results.length != 0) 
-                        {
-                            console.log("          : " + JSON.stringify(results[0],null,2));
 
-                            
-                                    getResult(  results[0].id, 
-                                                results[0].connection, 
-                                                results[0].driver, 
-                                                {}, 
-                                                function(result)
-                                                {
-                                                    
-                                                    if (!result.error) {
-                                                        console.log("File added v2: " + JSON.stringify(results[0].fileName,null,2));
-                                                        sendOverWebSockets({
-                                                                                type:   "server_scan_status",  
-                                                                                value:  "File indexed: " + results[0].fileName
-                                                                                });
-                                                    }
-                                                });
-                        } else {
-                            //console.log("          else: ");
-                        }                        
-                    } else {
-                        console.log("          Error: " );
-                   } 
-                })
-           }catch (err) {
-                        console.log("          Error: " + err);
-           }
-
-        }
         
 		if (typeOfSystem == 'client') {
             setInterval(aliveCheckFn ,numberOfSecondsAliveCheck * 1000);
-            
-            console.log("Set Index files timer");
-            setInterval(indexFilesFn ,numberOfSecondsIndexFilesInterval * 1000);
-
-
-
-				
-				
-				
-				
-
 		}
 
 
@@ -1615,54 +1556,53 @@ when_queries_changes(null);
 
 
 
-
 		//console.log("******************************ADDING DRIVERS*********************************")
 		//console.log("******************************ADDING DRIVERS*********************************")
 
 
 
 		var pgeval = '(' + fs.readFileSync(path.join(__dirname, './glb.js')).toString() + ')';
-		drivers['glb'] = eval( pgeval )
+        setSharedGlobalVar("drivers", 'glb', eval( pgeval ));
 		addOrUpdateDriver('glb', pgeval, drivers['glb'])
 
 		var pgeval = '(' + fs.readFileSync(path.join(__dirname, './csv.js')).toString() + ')';
-		drivers['csv'] = eval( pgeval )
+        setSharedGlobalVar("drivers", 'csv', eval( pgeval ));
 		addOrUpdateDriver('csv', pgeval, drivers['csv'])
 
 
 		var pgeval = '(' + fs.readFileSync(path.join(__dirname, './excel.js')).toString() + ')';
-		drivers['excel'] = eval( pgeval )
+        setSharedGlobalVar("drivers", 'excel', eval( pgeval ));
 		addOrUpdateDriver('excel', pgeval, drivers['excel'])
 
 		var pgeval = '(' + fs.readFileSync(path.join(__dirname, './word.js')).toString() + ')';
-		drivers['word'] = eval( pgeval )
+        setSharedGlobalVar("drivers", 'word', eval( pgeval ));
 		addOrUpdateDriver('word', pgeval, drivers['word'])
 
 		var pgeval = '(' + fs.readFileSync(path.join(__dirname, './pdf.js')).toString() + ')';
-		drivers['pdf'] = eval( pgeval )
+        setSharedGlobalVar("drivers", 'pdf', eval( pgeval ));
 		addOrUpdateDriver('pdf', pgeval, drivers['pdf'])
 
 
 		var pgeval = '(' + fs.readFileSync(path.join(__dirname, './postgres.js')).toString() + ')';
-		drivers['postgres'] = eval( pgeval )
+        setSharedGlobalVar("drivers", 'postgres', eval( pgeval ));
 		addOrUpdateDriver('postgres', pgeval, drivers['postgres'])
 
         
         
 		var sqliteeval = '(' + fs.readFileSync(path.join(__dirname, './sqlite.js')).toString() + ')';
-		drivers['sqlite'] = eval( sqliteeval )
+        setSharedGlobalVar("drivers", 'sqlite', eval( sqliteeval ));
 		addOrUpdateDriver('sqlite', sqliteeval, drivers['sqlite'])
 
 
 
 		var pgeval = '(' + fs.readFileSync(path.join(__dirname, './mysql.js')).toString() + ')';
-		drivers['mysql'] = eval( pgeval )
+        setSharedGlobalVar("drivers", 'mysql', eval( pgeval ));
 		addOrUpdateDriver('mysql', pgeval, drivers['mysql'])
 
 
 
 		toeval =  '(' + fs.readFileSync(path.join(__dirname, './oracle.js')).toString() + ')';
-		drivers['oracle']   = eval( toeval )
+        setSharedGlobalVar("drivers", 'oracle', eval( toeval ));
 		addOrUpdateDriver('oracle',   toeval, drivers['oracle'])
 		process.env['PATH'] = process.cwd() + '\\oracle_driver\\instantclient32' + ';' + process.env['PATH'];
 		if (drivers['oracle'].loadOnCondition()) {
@@ -1672,7 +1612,7 @@ when_queries_changes(null);
 
 
 		var tdeval = '(' + fs.readFileSync(path.join(__dirname, './testdriver.js')).toString() + ')';
-		drivers['testdriver'] = eval(tdeval)
+        setSharedGlobalVar("drivers", 'testdriver', eval( tdeval ));
 		addOrUpdateDriver('testdriver', tdeval, drivers['testdriver'])
 
 
@@ -1864,7 +1804,7 @@ function when_connections_changes() {
                         ////console.log('                      :  ' + conn.name);
                         if (!connections[conn.id]) {
                           ////console.log(a);
-                          connections[conn.id] = conn;
+                          setSharedGlobalVar("connections", conn.id, conn);
                         }
                     }
                 }
@@ -1960,7 +1900,7 @@ function when_queries_changes(callback) {
                 for (var i = 0 ; i < results.length ; i ++) {
                     var query = results[i];
                     if (!queries[query.id]) {
-                        queries[query.id] = query;
+                        setSharedGlobalVar("queries", query.id, query);
                         var oout = [{a: 'no EXCEL'}];
                         try {
                             ////console.log('get preview for query id : ' + query._id);
@@ -2124,3 +2064,24 @@ console.log("")
 console.log("")
 console.log("")
 */
+
+
+
+function setSharedGlobalVar(nameOfVar, index, value) {
+    console.log(setSharedGlobalVar);
+    eval(nameOfVar)[index] = value;
+    try {
+        forked.send({ 
+                        message_type:       'childSetSharedGlobalVar',
+                        nameOfVar:          nameOfVar,
+                        index:              index, 
+                        value:              value
+                        });
+
+    } catch(err) {
+        console.log("Error with " + err );     
+        return err; 
+    } finally {
+        
+    }
+}
