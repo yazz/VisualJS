@@ -63,7 +63,7 @@ process.on('message', (msg) => {
                 
                 
   } else if (msg.message_type == 'childSetSharedGlobalVar') {
-        eval(msg.nameOfVar)[msg.index] = msg.value;
+        (eval(msg.nameOfVar))[msg.index] = msg.value;
         console.log("got message childSetSharedGlobalVar" );
   
 
