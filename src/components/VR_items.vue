@@ -163,7 +163,7 @@
                                 v-bind:position='0.75 * 0 + " 0 .2"'
                                 mixin="RobotoFont"
                                 v-bind:view='"queryId: "  + get_viewed_query_id() + ";"' 
-                                v-bind:text='"color: white; align: center; value: View; width: 3;"'
+                                v-bind:text='get_viewed_query_id()?"color: white; align: center; value: View; width: 3;":false'
                                 >
 									<a-animation begin="mouseenter" attribute="rotation"
 												to="0 0 3" dur="80" direction="alternate"  repeat="3"></a-animation>
@@ -174,7 +174,7 @@
                                 v-bind:position='0.75 * 1 + " 0 .2"'
                                 mixin="RobotoFont"
                                 v-bind:open_file='get_viewed_query_file()?("" + get_viewed_query_file()):false '
-                                v-bind:text='"color: white; align: center; value: Open; width: 3;"'
+                                v-bind:text='get_viewed_query_id()?"color: white; align: center; value: Open; width: 3;":false'
                                 >
 									<a-animation begin="mouseenter" attribute="rotation"
 												to="0 0 3" dur="80" direction="alternate"  repeat="3"></a-animation>
