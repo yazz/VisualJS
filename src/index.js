@@ -1540,6 +1540,10 @@ var upload = multer( { dest: 'uploads/' } );
         
 		if (typeOfSystem == 'client') {
             setInterval(aliveCheckFn ,numberOfSecondsAliveCheck * 1000);
+            
+            forkedIndexer.send({ message_type: "childRunIndexer" });
+
+            
 		}
 
 
@@ -1945,10 +1949,13 @@ username = os.userInfo().username
 
 
 var forked;
+var forkedIndexer;
 if (isWin) {
     forked = fork.fork(path.join(__dirname, '../src/child.js'));
+    forkedIndexer = fork.fork(path.join(__dirname, '../src/child.js'));
 } else {
         forked = fork.fork(path.join(__dirname, '../src/child.js'));
+        forkedIndexer = fork.fork(path.join(__dirname, '../src/child.js'));
 };
 
 forked.on('message', (msg) => {
@@ -2071,13 +2078,14 @@ function setSharedGlobalVar(nameOfVar, index, value) {
     console.log(setSharedGlobalVar);
     eval(nameOfVar)[index] = value;
     try {
-        forked.send({ 
-                        message_type:       'childSetSharedGlobalVar',
-                        nameOfVar:          nameOfVar,
-                        index:              index, 
-                        value:              value
-                        });
-
+        var sharemessage = { 
+                            message_type:       'childSetSharedGlobalVar',
+                            nameOfVar:          nameOfVar,
+                            index:              index, 
+                            value:              value
+                        };
+        forked.send(sharemessage);
+        forkedIndexer.send(sharemessage);
     } catch(err) {
         console.log("Error with " + err );     
         return err; 

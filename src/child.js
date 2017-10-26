@@ -65,9 +65,13 @@ process.on('message', (msg) => {
   } else if (msg.message_type == 'childSetSharedGlobalVar') {
         eval(msg.nameOfVar)[msg.index] = msg.value;
         console.log("got message childSetSharedGlobalVar" );
+  
+
+  } else if (msg.message_type == 'childRunIndexer') {
+       console.log("Set Index files timer");
+       setInterval(indexFilesFn ,numberOfSecondsIndexFilesInterval * 1000);
   }
-
-
+	
 });
 
 
@@ -420,9 +424,7 @@ function getRelatedDocuments(id, callback) {
         
         
         //if (typeOfSystem == 'client') {
-            console.log("Set Index files timer");
-            setInterval(indexFilesFn ,numberOfSecondsIndexFilesInterval * 1000);
-		//}
+     	//}
 
 
         
