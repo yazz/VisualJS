@@ -2075,7 +2075,7 @@ console.log("")
 
 
 function setSharedGlobalVar(nameOfVar, index, value) {
-    console.log(setSharedGlobalVar);
+    //console.log(setSharedGlobalVar);
     eval(nameOfVar)[index] = value;
     try {
         var sharemessage = { 

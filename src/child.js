@@ -37,7 +37,7 @@ var dbsearch = new sqlite3.Database('gosharedatasearch.sqlite3');
 
 
 process.on('message', (msg) => {
-  console.log('Message from parent:', msg);
+  //console.log('Message from parent:', msg);
   
   if (msg.message_type == 'saveConnectionAndQueryForFile') {
       saveConnectionAndQueryForFile(
@@ -53,7 +53,7 @@ process.on('message', (msg) => {
                                 
                                 
   } else if (msg.message_type == 'getRelatedDocuments') {
-        console.log("got message getRelatedDocuments" );
+        //console.log("got message getRelatedDocuments" );
                 getRelatedDocuments(msg.id, function(results) {
                     
                     console.log("**getRelatedDocuments returned: " + results.length);
@@ -64,7 +64,7 @@ process.on('message', (msg) => {
                 
   } else if (msg.message_type == 'childSetSharedGlobalVar') {
         (eval(msg.nameOfVar))[msg.index] = msg.value;
-        console.log("got message childSetSharedGlobalVar" );
+        //console.log("got message childSetSharedGlobalVar" );
   
 
   } else if (msg.message_type == 'childRunIndexer') {
