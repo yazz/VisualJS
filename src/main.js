@@ -1345,8 +1345,9 @@ function setupWebSocket(host, port)
         window.ws.onopen = function()
         {
             //alert("open")
-            //window.ws.send(JSON.stringify({a: "z"}));
+            //window.ws.send(JSON.stringify({type: "query"}));
             //
+            window.when_queries_changes("*")
         };
 
         window.ws.onmessage = function (evt) 
@@ -1355,7 +1356,7 @@ function setupWebSocket(host, port)
           //alert("Message is received..." + received_msg);
           var data = eval("(" + received_msg + ")") ; 
           if (data.type == "query") {
-                //
+                alert("query received");
           }
           if (data.type == "uploaded") {
                 //alert("File uploaded: " + data.id);
@@ -1364,6 +1365,15 @@ function setupWebSocket(host, port)
               //alert("server_scan_status called on client" );
             store.dispatch('set_scanning_status', data.value);
           }
+          
+          
+          else if (data.message_type == "client_get_all_queries") {
+              console.log("Browser received from server socket: " + JSON.stringify(data,null,2));
+          }
+          
+          
+          
+          
           else if (data.type == "test_fork") {
               if (document.getElementById("mainid")) {
                     document.getElementById("mainid").innerHTML = data.value
@@ -1402,7 +1412,16 @@ function setupWebSocket(host, port)
                             cp: data.query
                     });
               
-          }          
+          }
+
+
+          else if (data.type == "setSharedGlobalVar") {
+               console.log('got setSharedGlobalVar')
+               eval(data.nameOfVar)[data.index] = data.value;
+              
+          }
+
+          
           
         };
 
@@ -1739,10 +1758,21 @@ function  setvuexitemssearch( results2 ) {
     }
 }
 
+function sendToServerViaWebSocket(msg) {
+    window.ws.send(JSON.stringify(msg));
+}
+
 window.when_queries_changes = function(fields) {
     if (!in_when_queries_changes) {
         in_when_queries_changes = true;
     store.dispatch('clear_queries');
+    if (window.ws)  {
+
+        sendToServerViaWebSocket({
+                message_type: "server_get_all_queries",
+                count: 7
+                });
+    }
     $.ajax({
                 type: "GET",
                 url: '/get_all_table',
@@ -1752,6 +1782,7 @@ window.when_queries_changes = function(fields) {
                             , fields: fields
                         },
             success: function(results2) {
+                //return
                 var results = eval("(" + results2 + ")") ;
 
             //store.dispatch('clear_queries');

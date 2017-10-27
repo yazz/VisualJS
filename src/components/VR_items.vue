@@ -543,7 +543,7 @@ name: 'VR-items'
             return false;
         }
         //return false;
-        console.log(" this.$store.state.query_map[id].visible = " + this.$store.state.query_map[id].visible);
+        //console.log(" this.$store.state.query_map[id].visible = " + this.$store.state.query_map[id].visible);
         return this.$store.state.query_map[id].visible;
     },
     get_index: function(id) {

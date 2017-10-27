@@ -889,11 +889,25 @@ app.use(cors())
         }});
 	});
 
+    
+function sendToBrowserViaWebSocket(aws, msg) {
+            aws.send(JSON.stringify(msg,null,2));
+    
+}
 app.ws('/websocket', function(ws, req) {
     serverwebsockets.push(ws);
     //console.log('Socket connected : ' + serverwebsockets.length);
     ws.on('message', function(msg) {
-        ws.send(msg);
+        var receivedMessage = eval("(" + msg + ")");
+        console.log("Server recieved message: " + JSON.stringify(receivedMessage));
+        
+        if (receivedMessage.message_type == "server_get_all_queries") {
+            console.log("     Server recieved message server_get_all_queries");
+            sendToBrowserViaWebSocket(ws, {
+                                                message_type: "client_get_all_queries",
+                                                count: receivedMessage.count + 10
+                                                });
+        }
     });
 });
 
@@ -2086,6 +2100,12 @@ function setSharedGlobalVar(nameOfVar, index, value) {
                         };
         forked.send(sharemessage);
         forkedIndexer.send(sharemessage);
+        sendOverWebSockets({
+                                type:               "setSharedGlobalVar",  
+                                nameOfVar:          nameOfVar,
+                                index:              index, 
+                                value:              value
+                                });
     } catch(err) {
         console.log("Error with " + err );     
         return err; 

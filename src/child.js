@@ -68,7 +68,7 @@ process.on('message', (msg) => {
   
 
   } else if (msg.message_type == 'childRunIndexer') {
-       console.log("Set Index files timer");
+       //console.log("Set Index files timer");
        setInterval(indexFilesFn ,numberOfSecondsIndexFilesInterval * 1000);
   }
 	
@@ -373,7 +373,7 @@ function getRelatedDocuments(id, callback) {
         
         
         var indexFilesFn = function() {
-            console.log("Index files");
+            //console.log("Index files");
             //console.log("    inScan: " + inScan);
            if (inScan) {
              return;
