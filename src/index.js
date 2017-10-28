@@ -435,6 +435,7 @@ function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileTyp
 
 path.join(__dirname, '../public/jquery-1.9.1.min.js')
 path.join(__dirname, '../public/jquery.zoomooz.js')
+path.join(__dirname, '../public/alasql.min.js')
 path.join(__dirname, '../public/polyfill.min.js')
 path.join(__dirname, '../src/oracle.js')
 path.join(__dirname, '../src/postgres.js')
@@ -908,8 +909,7 @@ app.ws('/websocket', function(ws, req) {
             //return
             console.log("     Server recieved message server_get_all_queries");
             sendToBrowserViaWebSocket(ws, {
-                                                message_type: "client_get_all_queries",
-                                                count: receivedMessage.count + 10
+                                                message_type: "client_get_all_queries"
                                                 });
             //zzz
             var stmt = dbsearch.all("select * from queries",
