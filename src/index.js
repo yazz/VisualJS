@@ -890,6 +890,9 @@ app.use(cors())
 	});
 
     
+// ============================================================
+// This sends a message to a specific websocket
+// ============================================================
 function sendToBrowserViaWebSocket(aws, msg) {
             aws.send(JSON.stringify(msg,null,2));
     
@@ -902,11 +905,26 @@ app.ws('/websocket', function(ws, req) {
         console.log("Server recieved message: " + JSON.stringify(receivedMessage));
         
         if (receivedMessage.message_type == "server_get_all_queries") {
+            //return
             console.log("     Server recieved message server_get_all_queries");
             sendToBrowserViaWebSocket(ws, {
                                                 message_type: "client_get_all_queries",
                                                 count: receivedMessage.count + 10
                                                 });
+            //zzz
+            var stmt = dbsearch.all("select * from queries",
+                function(err, results) {
+                    for (var i=0; i < results.length;i ++){
+                        var query = results[i]; 
+                        sendToBrowserViaWebSocket( ws, 
+                            {
+                                type: "update_query_item", 
+                                query: query
+                            });
+                    }
+                }
+                );
+
         }
     });
 });
@@ -2100,12 +2118,12 @@ function setSharedGlobalVar(nameOfVar, index, value) {
                         };
         forked.send(sharemessage);
         forkedIndexer.send(sharemessage);
-        sendOverWebSockets({
+        /*sendOverWebSockets({
                                 type:               "setSharedGlobalVar",  
                                 nameOfVar:          nameOfVar,
                                 index:              index, 
                                 value:              value
-                                });
+                                });*/
     } catch(err) {
         console.log("Error with " + err );     
         return err; 

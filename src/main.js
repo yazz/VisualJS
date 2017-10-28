@@ -1355,6 +1355,8 @@ function setupWebSocket(host, port)
           var received_msg = evt.data;
           //alert("Message is received..." + received_msg);
           var data = eval("(" + received_msg + ")") ; 
+          
+          
           if (data.type == "query") {
                 alert("query received");
           }
@@ -1405,7 +1407,11 @@ function setupWebSocket(host, port)
           }
           
           
-          else if (data.type == "update_query_item") {
+        // ============================================================
+        // This sends a message to a specific websocket
+        // ============================================================
+        else if (data.type == "update_query_item") {
+             console.log('update_query_item: ' + data.query.id)
                 store.dispatch('add_query',
                     {
                             id: data.query.id,
@@ -1787,6 +1793,7 @@ window.when_queries_changes = function(fields) {
 
             //store.dispatch('clear_queries');
             //console.log('********* CALLED REALTIME DBCONN len:' + JSON.stringify(results.length , null, 2));
+            return
             for (var i = 0 ; i < results.length ; i ++) {
                 var query = results[i]
                 //console.log('********* CALLED REALTIME DBCONN*************:' + JSON.stringify(conn , null, 2));

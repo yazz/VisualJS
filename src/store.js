@@ -196,14 +196,25 @@ export default new Vuex.Store({
         state.list_of_connections.push(connection.cp);
         state.connection_map[connection.cp.id] = true;
       },
-      ADD_QUERY: function (state, query) {
-        if (!state.query_map[query.cp.id]) {
-            state.list_of_queries.push(query.cp );
-            state.query_map[query.cp.id] = {visible: true, index: state.list_of_queries.length - 1, details: query.cp};
-        } else {
-            state.query_map[query.cp.id] = {visible: true, index: state.query_map[query.cp.id].index, details: query.cp};
-        }
-      },
+      
+
+
+      
+        // ============================================================
+        // This sends a message to a specific websocket
+        // ============================================================
+        ADD_QUERY: function (state, query) {
+            if (!state.query_map[query.cp.id]) {
+                state.list_of_queries.push(query.cp);
+                state.query_map[query.cp.id] = {visible: true, index: state.list_of_queries.length - 1, details: query.cp};
+            } else {
+                state.query_map[query.cp.id] = {visible: true, index: state.query_map[query.cp.id].index, details: query.cp};
+            }
+        },
+        
+        
+        
+        
       SET_QUERY_MAP: function (state, details) {
           if (details.visible != null) {
               state.query_map[details.id].visible = details.visible;
