@@ -1331,7 +1331,38 @@ function initClientsConnectedVuePane() {
 
 
 
+alasql('CREATE TABLE IF NOT EXISTS queued_queries_in (id string, name string, connection string, driver string, size INT, hash string, type string, fileName string, definition string, preview string, status string, index_status string, similar_count INT)');
 
+alasql('CREATE TABLE IF NOT EXISTS queries (id string, name string, connection string, driver string, size INT, hash string, type string, fileName string, definition string, preview string, status string, index_status string, similar_count INT)');
+
+var insertIntoQueriesQueue = alasql.compile('INSERT INTO queued_queries_in (id, name, connection, driver, size, hash, type, fileName, definition, preview, status, index_status, similar_count) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)');
+
+var insertIntoQueries = alasql.compile('INSERT INTO queries (id, name, connection, driver, size, hash, type, fileName, definition, preview, status, index_status, similar_count) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)');
+
+var readFrom = alasql.compile("select * from queued_queries_in limit 1");
+
+var deleteFromQueriesQueue = alasql.compile("delete from queued_queries_in where id = ?");
+
+
+var qqq = 0;
+setInterval(function() {
+    console.log("reading queue:" + qqq++);
+    var rows = readFrom();
+    console.log(JSON.stringify(alasql1("select count(*) from queued_queries_in")));
+    for (var i = 0; i < rows.length; i++) {
+        var row = rows[i];
+        //insertIntoQueries
+        //Do something
+        //console.log(JSON.stringify(row));
+        insertIntoQueries([row.id, row.name, row.connection, row.driver, row.size, row.hash, row.type, row.fileName, row.definition, row.preview, row.status, row.index_status, row.similar_count]);
+        deleteFromQueriesQueue([row.id]);
+        store.dispatch('add_query',
+            {
+                    id: row.id,
+                    cp: row
+            });
+    }
+},1000)
 
 
 function setupWebSocket(host, port)
@@ -1411,12 +1442,23 @@ function setupWebSocket(host, port)
         // This sends a message to a specific websocket
         // ============================================================
         else if (data.type == "update_query_item") {
-             console.log('update_query_item: ' + data.query.id)
-                store.dispatch('add_query',
-                    {
-                            id: data.query.id,
-                            cp: data.query
-                    });
+            console.log('update_query_item: ' + Object.keys(data.query))
+            
+                insertIntoQueriesQueue( 
+                            [data.query.id,
+                            data.query.name,
+                            data.query.connection,
+                            data.query.driver,
+                            data.query.size,
+                            data.query.hash,
+                            data.query.type,
+                            data.query.fileName,
+                            data.query.definition,
+                            data.query.preview,
+                            data.query.status,
+                            data.query.index_status,
+                            data.query.similar_count]
+                        );
               
           }
 

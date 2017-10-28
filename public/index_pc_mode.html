@@ -44,6 +44,7 @@
     <script type="text/javascript" src="tether.min.js"></script>
     <script type="text/javascript" src="bootstrap.min.js"></script>
 	<script type="text/javascript" src="dropzone.js"></script>
+	<script type="text/javascript" src="alasql.min.js"></script>
     
     <link rel="stylesheet" type="text/css" href="bootstrap.min.css"></link>
     <link rel="stylesheet" type="text/css" href="dropzone.css"></link>
@@ -615,6 +616,13 @@
             });
           }
         };
+            function alasql1(args) {
+                var ret = alasql(args);
+                if (ret.length == 0) {
+                    return null;
+                }
+                return ret[0];
+            };
     </script>
 
     <script type="text/javascript" src="gosharedata_setup.js"></script>
