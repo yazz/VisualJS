@@ -1340,6 +1340,8 @@ window.insertIntoQueriesUi = alasql.compile('INSERT INTO queries_ui (id, visible
 window.updateVisibleInQueriesUi = alasql.compile('update queries_ui set visible = ? where id = ?');
 window.updateScreenIndexInQueriesUi = alasql.compile('update queries_ui set screen_index = ? where id = ?');
 
+window.sqlGetAllQueries = alasql.compile('select * from queries');
+
 var sqlGetQueryByIdCompile = alasql.compile('select * from queries where id = ?');
 window.sqlGetQueryById = function(id) {
     var rows = sqlGetQueryByIdCompile([id]);
@@ -1390,9 +1392,6 @@ function setupWebSocket(host, port)
           }
           
           
-          else if (data.message_type == "client_get_all_queries") {
-              console.log("Browser received from server socket: " + JSON.stringify(data,null,2));
-          }
           
           
           
@@ -1431,6 +1430,9 @@ function setupWebSocket(host, port)
         // ============================================================
         // This sends a message to a specific websocket
         // ============================================================
+        else if (data.message_type == "client_get_all_queries") {
+              console.log("Browser received from server socket: " + JSON.stringify(data,null,2));
+        }
         else if (data.type == "update_query_item") {
             console.log('update_query_item: ' + data.query.id)
             
@@ -1454,8 +1456,13 @@ function setupWebSocket(host, port)
                         id: data.query.id,
                         cp: data.query
                 });
-              
+             //store.dispatch('refresh_vr_items')
+         
           }
+        else if (data.message_type == "client_get_all_queries_done") {
+             console.log("Browser received from server socket: " + JSON.stringify(data,null,2));
+             store.dispatch('refresh_vr_items')
+        }
 
 
           else if (data.type == "setSharedGlobalVar") {

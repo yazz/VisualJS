@@ -908,9 +908,7 @@ app.ws('/websocket', function(ws, req) {
         if (receivedMessage.message_type == "server_get_all_queries") {
             //return
             console.log("     Server recieved message server_get_all_queries");
-            sendToBrowserViaWebSocket(ws, {
-                                                message_type: "client_get_all_queries"
-                                                });
+            sendToBrowserViaWebSocket(ws, {   message_type: "client_get_all_queries"  });
             //zzz
             var stmt = dbsearch.all("select * from queries",
                 function(err, results) {
@@ -920,10 +918,10 @@ app.ws('/websocket', function(ws, req) {
                             {
                                 type: "update_query_item", 
                                 query: query
-                            });
-                    }
-                }
-                );
+                            });}
+                            sendToBrowserViaWebSocket(ws, {   message_type: "client_get_all_queries_done"  });
+                        });
+
 
         }
     });

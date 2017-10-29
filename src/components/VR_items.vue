@@ -101,9 +101,9 @@
 
 <a-entity id='scrollable_grid' v-bind:refresh_vr_items='get_refresh_view_counter'>
 
-				<a-entity   v-for="(a_query,index)  in  list_of_queries"
+				<a-entity   v-for="(a_query,index)  in  list_of_queries2()"
                             v-bind:id='a_query.id + "_upper"'
-                            v-bind:position="((is_visible(a_query.id)?-0.8:100) + (get_x_position(get_index(a_query.id),list_of_queries.length)*0.5))+ ' ' + (1.5 - (get_y_position(get_index(a_query.id),list_of_queries.length)*0.6)) + ' -.1'"
+                            v-bind:position="((is_visible(a_query.id)?-0.8:100) + (get_x_position(get_index(a_query.id),list_of_queries2().length)*0.5))+ ' ' + (1.5 - (get_y_position(get_index(a_query.id),list_of_queries2().length)*0.6)) + ' -.1'"
                             v-bind:color="(get_index(a_query.id) % 2 == 0)?'blue':'green'"
                             mixin="RobotoFont"
                             v-bind:text="'color: black; align: left; value: ' + a_query.name.substr(a_query.name.length - 10) + ' ; width: 2; '">
@@ -395,9 +395,6 @@ name: 'VR-items'
     get_vr_type_move: function () {
       return this.vr_type == 'move';
     },
-    list_of_queries: function () {
-      return this.$store.getters.list_of_queries
-    },
     list_of_drivers: function () {
       return this.$store.getters.list_of_drivers
     },
@@ -417,6 +414,10 @@ name: 'VR-items'
 
 	},
 	methods: {
+    list_of_queries2: function () {
+        return window.sqlGetAllQueries()
+        //return this.$store.getters.list_of_queries
+    },
         get_viewed_query_id: function() {
             return this.$store.state.viewed_query_id;
         },
@@ -458,7 +459,7 @@ name: 'VR-items'
 		return quotient ;
 	},
     is_document: function (id) {
-        var qq = this.$store.getters.list_of_queries;
+        var qq = window.sqlGetAllQueries()
         for (var i =0 ; i < qq.length; i++) {
             var rt = qq[i];
             if (rt.id == id) {
@@ -474,7 +475,7 @@ name: 'VR-items'
         return false;
     },
     is_spreadsheet: function (id) {
-        var qq = this.$store.getters.list_of_queries;
+        var qq = window.sqlGetAllQueries()
         for (var i =0 ; i < qq.length; i++) {
             var rt = qq[i];
             if (rt.id == id) {
@@ -490,7 +491,7 @@ name: 'VR-items'
         return false;
     },
     is_3d: function (id) {
-        var qq = this.$store.getters.list_of_queries;
+        var qq = window.sqlGetAllQueries()
         for (var i =0 ; i < qq.length; i++) {
             var rt = qq[i];
             if (rt.id == id) {
@@ -508,7 +509,7 @@ name: 'VR-items'
         return false;
     },
         get_driver_name: function (id) {
-            var qq = this.$store.getters.list_of_queries;
+            var qq = window.sqlGetAllQueries()
             for (var i =0 ; i < qq.length; i++) {
                 var rt = qq[i];
                 if (rt.id == id) {
@@ -520,7 +521,7 @@ name: 'VR-items'
             return "";
         },
         get_query_property: function (id, prop) {
-            var qq = this.$store.getters.list_of_queries;
+            var qq = window.sqlGetAllQueries()
             for (var i =0 ; i < qq.length; i++) {
                 var rt = qq[i];
                 if (rt.id == id) {

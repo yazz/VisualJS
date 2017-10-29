@@ -3,7 +3,7 @@
   <!--
                     the main container
         -->
-  <div class='container-fluid'>
+  <div class='container-fluid'v-bind:refresh_vr_items='get_refresh_view_counter'>
     <div class='row'>
 
 
@@ -27,7 +27,7 @@
       <!--
                   show the list of queries
          -->
-      {{list_of_queries.length}} queries
+      {{list_of_queries2().length}} queries
 
       <div style="position:relative; overflow: auto;height:400px;">
         <table class="table  table-striped  table-bordered " style="position:absolute;width: 100%; height: 100%;">
@@ -39,7 +39,7 @@
               <th></th>
             </tr>
           </thead>
-          <tbody v-for="a_query in list_of_queries">
+          <tbody v-for="a_query in list_of_queries2()">
             <tr scope="row" >
               <td v-on:click="set_viewed_query(a_query)">{{a_query.name.substr(a_query.name.length - 25)}}</td>
               <td v-on:click="set_viewed_query(a_query)">{{a_query.connection.substring(0,10)}}</td>
@@ -73,7 +73,7 @@
 
 
 
-        <div v-for='query in this.$store.state.list_of_queries' >
+        <div v-for='query in list_of_queries2()' >
 		     <component v-if="viewed_query_id == query.id" v-bind:is="query.driver + '-view-query'" :query_name=viewed_query_id></component>
         </div>
 
@@ -106,10 +106,9 @@ export default {
   name: 'queries-table',
 
   computed: {
-    list_of_queries: function () {
-      return this.$store.getters.list_of_queries
-    },
-
+  get_refresh_view_counter: function () {
+      return this.$store.state.refresh_view_counter;
+  },
     add_query_visible: function () {
       return this.$store.state.add_query_visible
     },
@@ -141,6 +140,10 @@ export default {
 
 
   methods: {
+    list_of_queries2: function () {
+        return window.sqlGetAllQueries()
+        //return this.$store.getters.list_of_queries
+    },
     add_new_query: function() {
       this.$store.dispatch('show_add_query')
       this.$store.dispatch('set_viewed_query', null);
