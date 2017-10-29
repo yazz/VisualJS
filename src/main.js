@@ -101,13 +101,16 @@ function setupSqlVuePane() {
           ,
           template: `
                 <select id=select_query>
-                  <option v-for="option in options" v-bind:value="option.id">
+                  <option v-for="option in options()" value="option.id">
                       {{ option.name }}
                   </option>
                 </select>
         `
-          ,
-          computed: {
+        ,
+        methods: {
+            options: function () {
+              return window.sqlGetAllQueries();
+            }
           }
         });
     }
@@ -1332,13 +1335,15 @@ alasql('CREATE TABLE IF NOT EXISTS queries (id string, name string, connection s
 
 alasql('CREATE TABLE IF NOT EXISTS queries_ui (id string, screen_index INT, visible BOOL)');
 
-var insertIntoQueries = alasql.compile('INSERT INTO queries (id, name, connection, driver, size, hash, type, fileName, definition, preview, status, index_status, similar_count) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)');
+window.insertIntoQueries = alasql.compile('INSERT INTO queries (id, name, connection, driver, size, hash, type, fileName, definition, preview, status, index_status, similar_count) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)');
 
 window.insertIntoQueriesUi = alasql.compile('INSERT INTO queries_ui (id, visible, screen_index) VALUES (?,?,?)');
 window.updateVisibleInQueriesUi = alasql.compile('update queries_ui set visible = ? where id = ?');
 window.updateScreenIndexInQueriesUi = alasql.compile('update queries_ui set screen_index = ? where id = ?');
 
 window.sqlGetAllQueries = alasql.compile('select * from queries');
+window.sqlDeleteAllQueries = alasql.compile('delete from queries');
+window.sqlDeleteAllQuerieUis = alasql.compile('delete from queries_ui');
 
 var sqlGetQueryByIdCompile = alasql.compile('select * from queries where id = ?');
 window.sqlGetQueryById = function(id) {
@@ -1434,21 +1439,6 @@ function setupWebSocket(host, port)
         else if (data.type == "update_query_item") {
             console.log('update_query_item: ' + data.query.id)
             
-                insertIntoQueries( 
-                            [data.query.id,
-                            data.query.name,
-                            data.query.connection,
-                            data.query.driver,
-                            data.query.size,
-                            data.query.hash,
-                            data.query.type,
-                            data.query.fileName,
-                            data.query.definition,
-                            data.query.preview,
-                            data.query.status,
-                            data.query.index_status,
-                            data.query.similar_count]
-                        );
                 store.dispatch('add_query',
                 {
                         id: data.query.id,

@@ -50,8 +50,6 @@ export default new Vuex.Store({
         ,
         list_of_connections: []
         ,
-        list_of_queries: []
-        ,
         list_of_drivers: []
         ,
         list_of_output_fields: []
@@ -121,8 +119,6 @@ export default new Vuex.Store({
     list_of_connections: state => state.list_of_connections
     ,
     connection_map: state => state.connection_map
-    ,
-    list_of_queries: state => state.list_of_queries
     ,
     list_of_drivers: state => state.list_of_drivers
     ,
@@ -201,8 +197,23 @@ export default new Vuex.Store({
         // ============================================================
         ADD_QUERY: function (state, query) {
             if (!window.sqlGetQueryUiById(query.cp.id)) {
-                state.list_of_queries.push(query.cp);
-                window.insertIntoQueriesUi([query.cp.id, true, state.list_of_queries.length - 1]);
+                window.insertIntoQueries( 
+                            [query.cp.id,
+                             query.cp.name,
+                             query.cp.connection,
+                             query.cp.driver,
+                             query.cp.size,
+                             query.cp.hash,
+                             query.cp.type,
+                             query.cp.fileName,
+                             query.cp.definition,
+                             query.cp.preview,
+                             query.cp.status,
+                             query.cp.index_status,
+                             query.cp.similar_count]
+                        );
+
+                window.insertIntoQueriesUi([query.cp.id, true, window.sqlGetAllQueries().length - 1]);
             } else {
                 window.updateVisibleInQueriesUi([true, query.cp.id])
             }
@@ -228,7 +239,8 @@ export default new Vuex.Store({
         state.connection_map = new Object();
       },
       CLEAR_QUERIES: function (state) {
-        state.list_of_queries = [];
+        window.sqlDeleteAllQueries();
+        //window.sqlDeleteAllQuerieUis();
       },
       CLEAR_DRIVERS: function (state) {
         state.list_of_drivers = [];
