@@ -386,37 +386,43 @@ name: 'VR-items'
 		return [];
 	};
     },
-    get_vr_type: function () {
-      return this.vr_type;
-    },
-    get_vr_type_mouse: function () {
-      return this.vr_type == 'mouse';
-    },
-    get_vr_type_move: function () {
-      return this.vr_type == 'move';
-    },
-    list_of_drivers: function () {
-      return this.$store.getters.list_of_drivers
-    },
+        get_vr_type: function () {
+          return this.vr_type;
+        },
+        
+        get_vr_type_mouse: function () {
+            return this.vr_type == 'mouse';
+        },
+        
+        get_vr_type_move: function () {
+            return this.vr_type == 'move';
+        },
+        
+        list_of_drivers: function () {
+            return this.$store.getters.list_of_drivers
+        },
 
-    add_driver_visible: function () {
-      return this.$store.state.add_driver_visible
-    },
+        add_driver_visible: function () {
+            return this.$store.state.add_driver_visible
+        },
 
-    viewed_driver_id: function () {
-      return this.$store.state.viewed_driver_id
-    },
+        viewed_driver_id: function () {
+            return this.$store.state.viewed_driver_id
+        },
+        
+    
 	    list_of_fields: function () {
-      return this.$store.state.list_of_output_fields
-    }
-
-
-
+            return this.$store.state.list_of_output_fields
+        }
 	},
+    
+    
+    
 	methods: {
-    list_of_queries2: function () {
-        return window.sqlGetAllQueries()
-    },
+        list_of_queries2: function () {
+            return window.sqlGetAllQueries()
+        },
+        
         get_viewed_query_id: function() {
             return this.$store.state.viewed_query_id;
         },
@@ -443,52 +449,62 @@ name: 'VR-items'
             return index % cols;
         },
         
-	truncate: function(txt) {
-	    return (txt?txt.toString().substring(0,10):'');
-	},
-	truncate2: function(txt) {
-	    return (txt?txt.toString().substring(0,100):'');
-	},
-	get_y_position: function(index, total) {
-		var cols = (Math.ceil(Math.sqrt(total)));
-		var rawQuotient = index / cols;
-		var remainder = rawQuotient % 1;
-		var quotient = rawQuotient - remainder;
-		//console.log('get_y_position( ' + index + ', ' + total + ') = ' + quotient);
-		return quotient ;
-	},
-    is_document: function (id) {
-        var qq = window.sqlGetAllQueries()
-        for (var i =0 ; i < qq.length; i++) {
-            var rt = qq[i];
-            if (rt.id == id) {
-                //console.log("rt.driver: " + rt.type)
-                if (rt.type.indexOf("DOCUMENT") != -1) {
-                    return true;
+        truncate: function(txt) {
+            return (txt?txt.toString().substring(0,10):'');
+        },
+        
+        truncate2: function(txt) {
+            return (txt?txt.toString().substring(0,100):'');
+        },
+        
+        get_y_position: function(index, total) {
+            var cols = (Math.ceil(Math.sqrt(total)));
+            var rawQuotient = index / cols;
+            var remainder = rawQuotient % 1;
+            var quotient = rawQuotient - remainder;
+            //console.log('get_y_position( ' + index + ', ' + total + ') = ' + quotient);
+            return quotient ;
+        },
+        
+    
+        is_document: function (id) {
+            if (id == null) {
+                return false;
+            }
+            var qq = window.sqlGetQueryById(id);
+            if (qq != null) {
+                if (qq.type != null) {
+                    if ((qq.type.indexOf("DOCUMENT") != -1) ||(qq.type.indexOf("DOC") != -1) || (qq.type.indexOf("DOCX") != -1)|| (qq.type.indexOf("PDF") != -1)) {
+                        return true;
+                    } else {
+                        return false;
+                    }
                 } else {
                     return false;
                 }
+            };
+            return false;
+        },
+    
+    
+        is_spreadsheet: function (id) {
+            if (id == null) {
+                return false;
             }
-        }
-        //console.log("rt.fileName  not found: ")
-        return false;
-    },
-    is_spreadsheet: function (id) {
-        var qq = window.sqlGetAllQueries()
-        for (var i =0 ; i < qq.length; i++) {
-            var rt = qq[i];
-            if (rt.id == id) {
-                //console.log("rt.driver: " + rt.type)
-                if ((rt.type.indexOf("SPREADSHEET") != -1) || (rt.type.indexOf("CSV") != -1)) {
-                    return true;
+            var qq = window.sqlGetQueryById(id);
+            if (qq != null) {
+                if (qq.type != null) {
+                    if ((qq.type.indexOf("SPREADSHEET") != -1) || (qq.type.indexOf("CSV") != -1)) {
+                        return true;
+                    } else {
+                        return false;
+                    }
                 } else {
                     return false;
                 }
-            }
-        }
-        //console.log("rt.fileName  not found: ")
-        return false;
-    },
+            };
+            return false;
+        },
         is_3d: function (id) {
             if (id == null) {
                 return false;
