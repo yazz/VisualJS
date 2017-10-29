@@ -50,8 +50,6 @@ export default new Vuex.Store({
         ,
         list_of_connections: []
         ,
-        query_map: new Object()
-        ,
         list_of_queries: []
         ,
         list_of_drivers: []
@@ -125,8 +123,6 @@ export default new Vuex.Store({
     connection_map: state => state.connection_map
     ,
     list_of_queries: state => state.list_of_queries
-    ,
-    query_map: state => state.query_map
     ,
     list_of_drivers: state => state.list_of_drivers
     ,
@@ -207,9 +203,7 @@ export default new Vuex.Store({
             if (!window.sqlGetQueryUiById(query.cp.id)) {
                 state.list_of_queries.push(query.cp);
                 window.insertIntoQueriesUi([query.cp.id, true, state.list_of_queries.length - 1]);
-                state.query_map[query.cp.id] = {visible: true, index: state.list_of_queries.length - 1, details: query.cp};
             } else {
-                state.query_map[query.cp.id] = {visible: true, index: state.query_map[query.cp.id].index, details: query.cp};
                 window.updateVisibleInQueriesUi([true, query.cp.id])
             }
         },
@@ -219,12 +213,10 @@ export default new Vuex.Store({
         
         SET_QUERY_MAP: function (state, details) {
             if (details.visible != null) {
-                state.query_map[details.id].visible = details.visible;
                 window.updateVisibleInQueriesUi([details.visible, details.id])
             }
             //console.log("details.index: " + details.index)
             if (details.index != null) {
-                state.query_map[details.id].index = details.index;
                 window.updateScreenIndexInQueriesUi([details.index, details.id])
             }
         },
@@ -237,7 +229,6 @@ export default new Vuex.Store({
       },
       CLEAR_QUERIES: function (state) {
         state.list_of_queries = [];
-        state.query_map = new Object();
       },
       CLEAR_DRIVERS: function (state) {
         state.list_of_drivers = [];

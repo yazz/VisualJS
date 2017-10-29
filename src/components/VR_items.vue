@@ -538,21 +538,19 @@ name: 'VR-items'
         if (id.length == 0) {
             return false;
         }
-        var qm = this.$store.state.query_map[id];
+        var qm = window.sqlGetQueryUiById(id);
         if (!qm) {
             return false;
         }
-        //return false;
-        //console.log(" this.$store.state.query_map[id].visible = " + this.$store.state.query_map[id].visible);
-        return this.$store.state.query_map[id].visible;
+        return qm.visible;
     },
     get_index: function(id) {
-        var qm = this.$store.state.query_map[id];
+        var qm = window.sqlGetQueryUiById(id);
         if (!qm) {
             return -1;
         }
         //return false;
-        return this.$store.state.query_map[id].index;
+        return qm.screen_index;
     },
     get_error_message() {
         return this.$store.state.error_message;

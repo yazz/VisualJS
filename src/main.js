@@ -286,12 +286,12 @@ function setupVRVuePane() {
 
         
     window.get_query_property = function(id, property_name) {
-        var qm = store.state.query_map[id];
-        if ((!qm) || (typeof qm == 'undefined') || (typeof store.state.query_map[id].details[property_name] == 'undefined')) {
+        var qm = window.sqlGetQueryById(id);
+        if ((!qm) || (typeof qm == 'undefined') || (typeof window.sqlGetQueryById(id)[property_name] == 'undefined')) {
             return "";
         }
         //return false;
-        return JSON.stringify(store.state.query_map[id].details[property_name],null,2);
+        return JSON.stringify(qm[property_name],null,2);
     }
         
         
@@ -1715,7 +1715,7 @@ window.recalcVuexQueries = function() {
         var query = allQueries[results[i]];
         //alert(JSON.stringify(query , null, 2));
         //console.log('                      query *********:' + JSON.stringify(query , null, 2));
-        var exists = store.getters.query_map[query.id]?true:false;
+        var exists = window.sqlGetQueryById(query.id)?true:false;
 
         if (!exists) {
         
