@@ -489,45 +489,43 @@ name: 'VR-items'
         //console.log("rt.fileName  not found: ")
         return false;
     },
-    is_3d: function (id) {
-        var qq = window.sqlGetAllQueries()
-        for (var i =0 ; i < qq.length; i++) {
-            var rt = qq[i];
-            if (rt.id == id) {
-                //console.log("rt.driver: " + rt.type)
-                if (rt.type != null) {
-                    if (rt.type.indexOf("GLB") != -1) {
+        is_3d: function (id) {
+            if (id == null) {
+                return false;
+            }
+            var qq = window.sqlGetQueryById(id);
+            if (qq != null) {
+                if (qq.type != null) {
+                    if (qq.type.indexOf("GLB") != -1) {
                         return true;
                     } else {
                         return false;
                     }
+                } else {
+                    return false;
                 }
-            }
-        }
-        //console.log("rt.fileName  not found: ")
-        return false;
-    },
+            };
+            return false;
+        },
         get_driver_name: function (id) {
-            var qq = window.sqlGetAllQueries()
-            for (var i =0 ; i < qq.length; i++) {
-                var rt = qq[i];
-                if (rt.id == id) {
-                    //console.log("rt.fileName: " + rt.fileName)
-                    return rt.driver; 
-                }
+            if (id == null) {
+                return "";
             }
-            //console.log("rt.fileName  not found: ")
+            var qq = window.sqlGetQueryById(id);
+            if (qq != null) {
+                return qq.driver; 
+            };
+            //console.log("rt.driver  not found: ")
             return "";
         },
         get_query_property: function (id, prop) {
-            var qq = window.sqlGetAllQueries()
-            for (var i =0 ; i < qq.length; i++) {
-                var rt = qq[i];
-                if (rt.id == id) {
-                    //console.log("rt.fileName: " + rt.fileName)
-                    return rt[prop]; 
-                }
+            if (id == null) {
+                return "";
             }
+            var qq = window.sqlGetQueryById(id);
+            if (qq != null) {
+                return qq[prop]; 
+            };
             //console.log("rt.fileName  not found: ")
             return "";
         },
