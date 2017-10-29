@@ -250,7 +250,7 @@ getIsPeopleZoomed2: function() {
       return this.vr_type == 'move';
     },
     list_of_queries: function () {
-      return this.$store.getters.list_of_queries
+      return window.sqlGetAllQueries()
     },
     list_of_drivers: function () {
       return this.$store.getters.list_of_drivers

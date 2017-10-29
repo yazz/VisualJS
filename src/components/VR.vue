@@ -300,7 +300,7 @@ name: 'VR'
             return this.$store.getters.get_current_location
         },
         get_hash: function (id) {
-            var qq = this.$store.getters.list_of_queries;
+            var qq = window.sqlGetAllQueries()
             for (var i =0 ; i < qq.length; i++) {
                 var rt = qq[i];
                 if (rt.id == id) {
@@ -312,7 +312,7 @@ name: 'VR'
             return "";
         },
         get_file_name: function (id) {
-            var qq = this.$store.getters.list_of_queries;
+            var qq = window.sqlGetAllQueries()
             for (var i =0 ; i < qq.length; i++) {
                 var rt = qq[i];
                 if (rt.id == id) {

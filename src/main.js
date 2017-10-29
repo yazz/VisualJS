@@ -108,9 +108,6 @@ function setupSqlVuePane() {
         `
           ,
           computed: {
-            options: function () {
-              return this.$store.state.list_of_queries;
-            }
           }
         });
     }
@@ -177,9 +174,10 @@ function setupVRVuePane() {
 				   if (inMove) {
 					   return;
 				   };
-			        var lll = store.state.list_of_queries.length;
+			        var lll = window.sqlGetAllQueries().length;
+                    var llx = window.sqlGetAllQueries();
 				    for (var i = 0 ; i < lll ; i ++) {
-						var query = store.state.list_of_queries[i];
+						var query = llx[i];
 					    if (query.id == self.data.id) {
 						    if (query.preview) {
 							    setOutputData(query.preview);

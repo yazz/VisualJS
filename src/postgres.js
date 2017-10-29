@@ -225,13 +225,12 @@
 			,
 			methods: {
 				get_query_property: function (cn, prop_name) {
-				  var cc;
-				  for (cc in this.$store.state.list_of_queries) {
-					if (this.$store.state.list_of_queries[cc].id == cn) {
-					  return this.$store.state.list_of_queries[cc][prop_name];
-					};
-				  };
-				  return 'Unknown ' + cn + ":" + prop_name;
+                    var query = window.sqlGetQueryById(cn);
+                    
+                    if (query != null) {
+                        return query[prop_name];
+                    }
+				    return 'Unknown ' + cn + ":" + prop_name;
 				},
 				OK: function() {
 				  this.$store.dispatch('hide_view_query')

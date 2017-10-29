@@ -416,7 +416,6 @@ name: 'VR-items'
 	methods: {
     list_of_queries2: function () {
         return window.sqlGetAllQueries()
-        //return this.$store.getters.list_of_queries
     },
         get_viewed_query_id: function() {
             return this.$store.state.viewed_query_id;

@@ -39,13 +39,6 @@ export default {
 
   components: {},
 
-  computed: {
-    options: function () {
-      return this.$store.state.list_of_queries;
-    }
-  },
-
-
   methods: {
     OK: function() {
 	alert('store');
