@@ -3,7 +3,7 @@
   <!--
                     the main container
         -->
-  <div class='container-fluid'v-bind:refresh_vr_items='get_refresh_view_counter'>
+  <div class='container-fluid' v-bind:refresh_vr_items='get_refresh_view_counter'>
     <div class='row'>
 
 
@@ -142,7 +142,6 @@ export default {
   methods: {
     list_of_queries2: function () {
         return window.sqlGetAllQueries()
-        //return this.$store.getters.list_of_queries
     },
     add_new_query: function() {
       this.$store.dispatch('show_add_query')

@@ -100,8 +100,8 @@ function setupSqlVuePane() {
           store: store
           ,
           template: `
-                <select id=select_query>
-                  <option v-for="option in options()" value="option.id">
+                <select id=select_query v-bind:refresh_vr_items='get_refresh_view_counter'>
+                  <option v-for="option in options()" v-bind:value="option.id" >
                       {{ option.name }}
                   </option>
                 </select>
@@ -111,7 +111,12 @@ function setupSqlVuePane() {
             options: function () {
               return window.sqlGetAllQueries();
             }
-          }
+          },
+        computed: {
+            get_refresh_view_counter: function () {
+              return this.$store.state.refresh_view_counter;
+            }
+        }
         });
     }
 
