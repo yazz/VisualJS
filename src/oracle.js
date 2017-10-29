@@ -215,7 +215,7 @@
 						'        <tbody>'+
 						'          <tr scope="row"><td>ID</td><td>{{get_query_property(query_name,"id")}}</td></tr>'+
 						'          <tr scope="row"><td>Driver</td><td>oracle</td></tr>'+
-						'          <tr scope="row"><td>SQL</td><td>{{get_query_property(query_name,"definition").sql}}</td></tr>'+
+						'          <tr scope="row"><td>SQL</td><td>{{get_query_property(query_name,"definition")}}</td></tr>'+
 						'        </tbody>'+
 						'      </table>'+
 						'</div>'
