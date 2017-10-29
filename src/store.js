@@ -204,26 +204,30 @@ export default new Vuex.Store({
         // This sends a message to a specific websocket
         // ============================================================
         ADD_QUERY: function (state, query) {
-            if (!state.query_map[query.cp.id]) {
+            if (!window.sqlGetQueryUiById(query.cp.id)) {
                 state.list_of_queries.push(query.cp);
+                window.insertIntoQueriesUi([query.cp.id, true, state.list_of_queries.length - 1]);
                 state.query_map[query.cp.id] = {visible: true, index: state.list_of_queries.length - 1, details: query.cp};
             } else {
                 state.query_map[query.cp.id] = {visible: true, index: state.query_map[query.cp.id].index, details: query.cp};
+                window.updateVisibleInQueriesUi([true, query.cp.id])
             }
         },
         
         
         
         
-      SET_QUERY_MAP: function (state, details) {
-          if (details.visible != null) {
-              state.query_map[details.id].visible = details.visible;
-          }
-          //console.log("details.index: " + details.index)
-          if (details.index != null) {
-              state.query_map[details.id].index = details.index;
-          }
-      },
+        SET_QUERY_MAP: function (state, details) {
+            if (details.visible != null) {
+                state.query_map[details.id].visible = details.visible;
+                window.updateVisibleInQueriesUi([details.visible, details.id])
+            }
+            //console.log("details.index: " + details.index)
+            if (details.index != null) {
+                state.query_map[details.id].index = details.index;
+                window.updateScreenIndexInQueriesUi([details.index, details.id])
+            }
+        },
       ADD_DRIVER: function (state, driver) {
         state.list_of_drivers.push(driver.cp);
       },

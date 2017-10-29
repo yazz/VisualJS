@@ -1332,7 +1332,13 @@ function initClientsConnectedVuePane() {
 
 alasql('CREATE TABLE IF NOT EXISTS queries (id string, name string, connection string, driver string, size INT, hash string, type string, fileName string, definition string, preview string, status string, index_status string, similar_count INT)');
 
+alasql('CREATE TABLE IF NOT EXISTS queries_ui (id string, screen_index INT, visible BOOL)');
+
 var insertIntoQueries = alasql.compile('INSERT INTO queries (id, name, connection, driver, size, hash, type, fileName, definition, preview, status, index_status, similar_count) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)');
+
+window.insertIntoQueriesUi = alasql.compile('INSERT INTO queries_ui (id, visible, screen_index) VALUES (?,?,?)');
+window.updateVisibleInQueriesUi = alasql.compile('update queries_ui set visible = ? where id = ?');
+window.updateScreenIndexInQueriesUi = alasql.compile('update queries_ui set screen_index = ? where id = ?');
 
 var sqlGetQueryByIdCompile = alasql.compile('select * from queries where id = ?');
 window.sqlGetQueryById = function(id) {
@@ -1341,6 +1347,12 @@ window.sqlGetQueryById = function(id) {
     return rows[0];
 }
 
+var sqlGetQueryUiByIdCompile = alasql.compile('select * from queries_ui where id = ?');
+window.sqlGetQueryUiById = function(id) {
+    var rows = sqlGetQueryUiByIdCompile([id]);
+    if (rows.length == 0 ) {return null};
+    return rows[0];
+}
 
 
 function setupWebSocket(host, port)
