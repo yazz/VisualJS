@@ -1334,7 +1334,7 @@ alasql('CREATE TABLE IF NOT EXISTS queries (id string, name string, connection s
 
 var insertIntoQueries = alasql.compile('INSERT INTO queries (id, name, connection, driver, size, hash, type, fileName, definition, preview, status, index_status, similar_count) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)');
 
-var.sqlGetQueryByIdCompile = alasql.compile('select * from queries where id = ?');
+var sqlGetQueryByIdCompile = alasql.compile('select * from queries where id = ?');
 window.sqlGetQueryById = function(id) {
     var rows = sqlGetQueryByIdCompile([id]);
     if (rows.length == 0 ) {return null};
