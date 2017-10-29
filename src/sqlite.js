@@ -173,7 +173,7 @@
 				return {
 				  query_name:                "sqlite query",
 				  database:                  "gosharedatasearch.sqlite3",
-				  sql:                       "select distinct(query_id) from search where search match '*'"
+				  sql:                       "select distinct(id) from queries"
 				};
 			  }
 	}
@@ -185,7 +185,7 @@
 						'        <tbody>'+
 						'          <tr scope="row"><td>ID</td><td>{{get_query_property(query_name,"id")}}</td></tr>'+
 						'          <tr scope="row"><td>Driver</td><td>sqlite</td></tr>'+
-						'          <tr scope="row"><td>SQL</td><td>{{get_query_property(query_name,"definition").sql}}</td></tr>'+
+						'          <tr scope="row"><td>SQL</td><td>{{get_query_property(query_name,"definition")}}</td></tr>'+
 						'        </tbody>'+
 						'      </table>'+
 						'</div>'
