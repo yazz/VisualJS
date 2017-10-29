@@ -1330,12 +1330,16 @@ function initClientsConnectedVuePane() {
 
 
 
-
 alasql('CREATE TABLE IF NOT EXISTS queries (id string, name string, connection string, driver string, size INT, hash string, type string, fileName string, definition string, preview string, status string, index_status string, similar_count INT)');
 
 var insertIntoQueries = alasql.compile('INSERT INTO queries (id, name, connection, driver, size, hash, type, fileName, definition, preview, status, index_status, similar_count) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)');
 
-
+var.sqlGetQueryByIdCompile = alasql.compile('select * from queries where id = ?');
+window.sqlGetQueryById = function(id) {
+    var rows = sqlGetQueryByIdCompile([id]);
+    if (rows.length == 0 ) {return null};
+    return rows[0];
+}
 
 
 
@@ -1416,7 +1420,7 @@ function setupWebSocket(host, port)
         // This sends a message to a specific websocket
         // ============================================================
         else if (data.type == "update_query_item") {
-            console.log('update_query_item: ' + Object.keys(data.query))
+            console.log('update_query_item: ' + data.query.id)
             
                 insertIntoQueries( 
                             [data.query.id,
