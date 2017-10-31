@@ -167,7 +167,8 @@ export default new Vuex.Store({
   mutations: {
       
       REFRESH_VR_ITEMS: function (state) {
-        state.refresh_view_counter ++;
+         window.sqlGetAllQueriesAndUiCached = window.sqlGetAllQueriesAndUi();
+         state.refresh_view_counter ++;
       },
       CLEAR_SEARCH_RESULTS: function (state) {
         state.search_results.local.results  = [];

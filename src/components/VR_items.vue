@@ -420,7 +420,8 @@ name: 'VR-items'
     
 	methods: {
         list_of_queries2: function () {
-            return window.sqlGetAllQueriesAndUi()
+            console.log("***********88 list_of_queries2: " + window.xcd++)
+            return window.sqlGetAllQueriesAndUiCached
         },
         
         get_viewed_query_id: function() {

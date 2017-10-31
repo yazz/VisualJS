@@ -1334,7 +1334,7 @@ function initClientsConnectedVuePane() {
     }
 }
 
-
+window.xcd = 0
 
 alasql('CREATE TABLE IF NOT EXISTS queries (id string, name string, connection string, driver string, size INT, hash string, type string, fileName string, definition string, preview string, status string, index_status string, similar_count INT)');
 
@@ -1348,6 +1348,8 @@ window.updateScreenIndexInQueriesUi = alasql.compile('update queries_ui set scre
 
 window.sqlGetAllQueries = alasql.compile('select * from queries');
 window.sqlGetAllQueriesAndUi = alasql.compile('select * from queries, queries_ui where queries.id = queries_ui.id');
+window.sqlGetAllQueriesAndUiCached = []
+
 window.sqlDeleteAllQueries = alasql.compile('delete from queries');
 window.sqlDeleteAllQuerieUis = alasql.compile('delete from queries_ui');
 
@@ -1456,6 +1458,8 @@ function setupWebSocket(host, port)
         else if (data.message_type == "client_get_all_queries_done") {
              console.log("Browser received from server socket: " + JSON.stringify(data,null,2));
              store.dispatch('refresh_vr_items')
+             window.sqlGetAllQueriesAndUiCached = window.sqlGetAllQueriesAndUi();
+
         }
 
 
