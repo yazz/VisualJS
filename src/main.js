@@ -1347,6 +1347,7 @@ window.updateVisibleInQueriesUi = alasql.compile('update queries_ui set visible 
 window.updateScreenIndexInQueriesUi = alasql.compile('update queries_ui set screen_index = ? where id = ?');
 
 window.sqlGetAllQueries = alasql.compile('select * from queries');
+window.sqlGetAllQueriesAndUi = alasql.compile('select * from queries, queries_ui where queries.id = queries_ui.id');
 window.sqlDeleteAllQueries = alasql.compile('delete from queries');
 window.sqlDeleteAllQuerieUis = alasql.compile('delete from queries_ui');
 

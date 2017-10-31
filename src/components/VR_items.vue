@@ -103,8 +103,8 @@
 
 				<a-entity   v-for="(a_query,index)  in  list_of_queries2()"
                             v-bind:id='a_query.id + "_upper"'
-                            v-bind:position="((is_visible(a_query.id)?-0.8:100) + (get_x_position(get_index(a_query.id),list_of_queries2().length)*0.5))+ ' ' + (1.5 - (get_y_position(get_index(a_query.id),list_of_queries2().length)*0.6)) + ' -.1'"
-                            v-bind:color="(get_index(a_query.id) % 2 == 0)?'blue':'green'"
+                            v-bind:position="((a_query.visible?-0.8:100) + (get_x_position(a_query.screen_index,list_of_queries2().length)*0.5))+ ' ' + (1.5 - (get_y_position(a_query.screen_index,list_of_queries2().length)*0.6)) + ' -.1'"
+                            v-bind:color="(a_query.screen_index % 2 == 0)?'blue':'green'"
                             mixin="RobotoFont"
                             v-bind:text="'color: black; align: left; value: ' + a_query.name.substr(a_query.name.length - 10) + ' ; width: 2; '">
                             
@@ -118,7 +118,7 @@
 					    			";  query_display: " + "" + a_query.fileName + 
                                     ";  query_size: " + a_query.size + "; " '
 								v-bind:material='(a_query.driver != null?"src: driver_icons/" + a_query.driver + ".jpg;":false)'
-								v-bind:color="(get_index(a_query.id) % 2 == 0)?'blue':'green'"
+								v-bind:color="(a_query.screen_index % 2 == 0)?'blue':'green'"
 								v-bind:log='a_query?("queryFile: " + a_query.hash + (a_query.fileName?"." +a_query.fileName.split(".").pop():"") + 
                                 ";queryId: "  + a_query.id + ";"):false' 
                                 >
@@ -420,7 +420,7 @@ name: 'VR-items'
     
 	methods: {
         list_of_queries2: function () {
-            return window.sqlGetAllQueries()
+            return window.sqlGetAllQueriesAndUi()
         },
         
         get_viewed_query_id: function() {
@@ -557,14 +557,6 @@ name: 'VR-items'
             return false;
         }
         return qm.visible;
-    },
-    get_index: function(id) {
-        var qm = window.sqlGetQueryUiById(id);
-        if (!qm) {
-            return -1;
-        }
-        //return false;
-        return qm.screen_index;
     },
     get_error_message() {
         return this.$store.state.error_message;
