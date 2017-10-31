@@ -1345,9 +1345,10 @@ window.insertIntoQueries = alasql.compile('INSERT INTO queries (id, name, connec
 window.insertIntoQueriesUi = alasql.compile('INSERT INTO queries_ui (id, visible, screen_index) VALUES (?,?,?)');
 window.updateVisibleInQueriesUi = alasql.compile('update queries_ui set visible = ? where id = ?');
 window.updateScreenIndexInQueriesUi = alasql.compile('update queries_ui set screen_index = ? where id = ?');
+window.updateQueriesUiHideAll = alasql.compile('update queries_ui set screen_index = -1, visible = false');
 
 window.sqlGetAllQueries = alasql.compile('select * from queries');
-window.sqlGetAllQueriesAndUi = alasql.compile('select * from queries, queries_ui where queries.id = queries_ui.id');
+window.sqlGetAllQueriesAndUi = alasql.compile('select * from queries, queries_ui where queries.id = queries_ui.id order by id asc');
 window.sqlGetAllQueriesAndUiCached = []
 
 window.sqlDeleteAllQueries = alasql.compile('delete from queries');
@@ -1458,7 +1459,6 @@ function setupWebSocket(host, port)
         else if (data.message_type == "client_get_all_queries_done") {
              console.log("Browser received from server socket: " + JSON.stringify(data,null,2));
              store.dispatch('refresh_vr_items')
-             window.sqlGetAllQueriesAndUiCached = window.sqlGetAllQueriesAndUi();
 
         }
 
@@ -1715,7 +1715,7 @@ var callQueriesAgain = false;
 window.recalcVuexQueries = function() {
     var results = Object.keys(allQueries);
 
-    store.dispatch('clear_queries');
+    //store.dispatch('clear_queries');
     for (var i = 0 ; i < results.length ; i ++) {
         var query = allQueries[results[i]];
         //alert(JSON.stringify(query , null, 2));
@@ -1757,51 +1757,16 @@ function  setvuexitemssearch( results2 ) {
         inupdatesearch = true;
         
         if (results2 == null) {
-            window.recalcVuexQueries();
-            alert('all')
+            return;
         }
-            
-        //console.log('                          results2 *********:' + JSON.stringify(results2 , null, 2));
-        var tt= new Object();
+
+
+        window.updateQueriesUiHideAll();
         for (var i = 0 ; i < results2.length ; i ++) {
-            var qid = results2[i].id;
-            if (!tt.hasOwnProperty(qid)) {
-                tt[qid] = new Object();
-                tt[qid].id = qid;
-            //console.log('                           *********:' + results2[i].id);
-            }
-        }
-        //console.log('                          tt *********:' + JSON.stringify(tt , null, 2));
-        //console.log('                          Object.keys(tt) *********:' + JSON.stringify(Object.keys(tt) , null, 2));
-
-        var results = Object.keys(tt);
-
-        //console.log('                      results *********:' + JSON.stringify( results , null, 2));
-
-
-        //console.log(JSON.stringify(Object.keys(allQueries) , null, 2))
-        var kkeys = Object.keys(allQueries)
-        for (var i = 0; i < kkeys.length ; i ++ ) {
-            var queryId = kkeys[i];
-            //console.log({id: queryId, visible: false, index: -1})
-            store.dispatch('set_query_map', {id: queryId, visible: false, index: -1})
-        }
-        //store.dispatch('clear_queries');
-        for (var i = 0 ; i < results.length ; i ++) {
-            //alert(JSON.stringify(query , null, 2));
-            //console.log('                          queries *********:' + JSON.stringify(allQueries , null, 2));
-            var query = allQueries[results[i]];
-            if (query) {
-                //console.log('                          query *********:' + JSON.stringify(query , null, 2));
-                
-                
-                
-                store.dispatch('set_query_map', {id: query.id, visible: true, index: i})
-                
-            };
+            var query = results2[i]
+            store.dispatch('set_query_map', {id: query.id, visible: true, index: i})
         };
         store.dispatch('refresh_vr_items')
-        //alert(results.length)
         inupdatesearch = false;
     }
 }
@@ -1813,7 +1778,7 @@ function sendToServerViaWebSocket(msg) {
 window.when_queries_changes = function(fields) {
     if (!in_when_queries_changes) {
         in_when_queries_changes = true;
-    store.dispatch('clear_queries');
+    //store.dispatch('clear_queries');
     if (window.ws)  {
 
         sendToServerViaWebSocket({
