@@ -1134,11 +1134,9 @@ function setupSqlResultPane() {
 function setupDB() {
     if (window.screenMode == "VR") 
     {
-        window.when_queries_changes("id, name, driver, size, hash, type, fileName, similar_count")
     } else {
         window.when_drivers_changes("*")
         window.when_connections_changes("*")
-        window.when_queries_changes("*")
     }
 }
 
@@ -1776,71 +1774,12 @@ function sendToServerViaWebSocket(msg) {
 }
 
 window.when_queries_changes = function(fields) {
-    if (!in_when_queries_changes) {
-        in_when_queries_changes = true;
-    //store.dispatch('clear_queries');
+    console.log("**** window.when_queries_changes = function(fields) { called")
     if (window.ws)  {
 
         sendToServerViaWebSocket({
-                message_type: "server_get_all_queries",
-                count: 7
+                message_type: "server_get_all_queries"
                 });
-    }
-    $.ajax({
-                type: "GET",
-                url: '/get_all_table',
-                data:   {
-                            tableName: "queries"
-                            ,timestamp: new Date().getTime()
-                            , fields: fields
-                        },
-            success: function(results2) {
-                //return
-                var results = eval("(" + results2 + ")") ;
-
-            //store.dispatch('clear_queries');
-            //console.log('********* CALLED REALTIME DBCONN len:' + JSON.stringify(results.length , null, 2));
-            return
-            for (var i = 0 ; i < results.length ; i ++) {
-                var query = results[i]
-                //console.log('********* CALLED REALTIME DBCONN*************:' + JSON.stringify(conn , null, 2));
-                var exists = !(!allQueries[query.id]);
-
-                if (!exists) {
-                
-                    allQueries[query.id] =  {     id:      query.id
-                                                        ,
-                                                        name: query.name
-                                                        ,
-                                                        driver: query.driver
-                                                        ,
-                                                        size: query.size
-                                                        ,
-                                                        fileName: query.fileName
-                                                        ,
-                                                        hash: query.hash
-                                                        ,
-                                                        type: query.type
-                                                        ,
-                                                        status: ''
-                                                        ,
-                                                        connection: query.connection
-                                                        ,
-                                                        definition: query.definition
-                                                        ,
-                                                        similar_count: query.similar_count
-                                                       };
-                };
-            };
-            window.recalcVuexQueries();
-    }});
-        in_when_queries_changes = false;
-        if (callQueriesAgain) {
-            callQueriesAgain = false;
-            window.when_queries_changes("*");
-        }
-    } else {
-        callQueriesAgain = true;
     }
 };
 
