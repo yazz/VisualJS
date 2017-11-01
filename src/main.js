@@ -1350,6 +1350,7 @@ window.sqlGetAllQueriesAndUi = alasql.compile('select * from queries, queries_ui
 window.sqlGetVisibleQueriesLength = alasql.compile('select count(queries.id) as count2 from queries, queries_ui where queries.id = queries_ui.id and visible = true');
 window.sqlGetAllQueriesAndUiCached = []
 window.sqlGetQueriesLengthCached=0
+window.queryGridWidth=0;
 
 window.sqlDeleteAllQueries = alasql.compile('delete from queries');
 window.sqlDeleteAllQuerieUis = alasql.compile('delete from queries_ui');
@@ -1446,7 +1447,7 @@ function setupWebSocket(host, port)
               console.log("Browser received from server socket: " + JSON.stringify(data,null,2));
         }
         else if (data.type == "update_query_item") {
-            console.log('update_query_item: ' + data.query.id)
+            //console.log('update_query_item: ' + data.query.id)
             
                 store.dispatch('add_query',
                 {

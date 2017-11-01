@@ -169,6 +169,7 @@ export default new Vuex.Store({
       REFRESH_VR_ITEMS: function (state) {
          window.sqlGetAllQueriesAndUiCached = window.sqlGetAllQueriesAndUi();
          window.sqlGetQueriesLengthCached= window.sqlGetVisibleQueriesLength()[0].count2;
+         window.queryGridWidthCached = (Math.ceil(Math.sqrt(window.sqlGetQueriesLengthCached)));
          state.refresh_view_counter ++;
       },
       CLEAR_SEARCH_RESULTS: function (state) {
