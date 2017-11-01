@@ -1347,7 +1347,9 @@ window.updateQueriesUiHideAll = alasql.compile('update queries_ui set screen_ind
 
 window.sqlGetAllQueries = alasql.compile('select * from queries');
 window.sqlGetAllQueriesAndUi = alasql.compile('select * from queries, queries_ui where queries.id = queries_ui.id order by id asc');
+window.sqlGetVisibleQueriesLength = alasql.compile('select count(queries.id) as count2 from queries, queries_ui where queries.id = queries_ui.id and visible = true');
 window.sqlGetAllQueriesAndUiCached = []
+window.sqlGetQueriesLengthCached=0
 
 window.sqlDeleteAllQueries = alasql.compile('delete from queries');
 window.sqlDeleteAllQuerieUis = alasql.compile('delete from queries_ui');

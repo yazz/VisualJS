@@ -103,7 +103,7 @@
 
 				<a-entity   v-for="(a_query,index)  in  list_of_queries2()"
                             v-bind:id='a_query.id + "_upper"'
-                            v-bind:position="((a_query.visible?-0.8:100) + (get_x_position(a_query.screen_index,list_of_queries2().length)*0.5))+ ' ' + (1.5 - (get_y_position(a_query.screen_index,list_of_queries2().length)*0.6)) + ' -.1'"
+                            v-bind:position="((a_query.visible?-0.8:100) + (get_x_position(a_query.screen_index,list_of_queries_length())*0.5))+ ' ' + (1.5 - (get_y_position(a_query.screen_index,list_of_queries_length())*0.6)) + ' -.1'"
                             v-bind:color="(a_query.screen_index % 2 == 0)?'blue':'green'"
                             mixin="RobotoFont"
                             v-bind:text="'color: black; align: left; value: ' + a_query.name.substr(a_query.name.length - 10) + ' ; width: 2; '">
@@ -422,6 +422,11 @@ name: 'VR-items'
         list_of_queries2: function () {
             //console.log("*********** list_of_queries2: " + window.xcd++)
             return window.sqlGetAllQueriesAndUiCached
+        },
+        list_of_queries_length: function () {
+            //console.log("*********** list_of_queries2: " + window.xcd++)
+            //window.sqlGetQueriesLengthCached=100
+            return window.sqlGetQueriesLengthCached
         },
         
         get_viewed_query_id: function() {
