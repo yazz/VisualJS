@@ -365,27 +365,49 @@ import output_table             from './output_table.vue'
 
 
 export default {
-name: 'VR-items'
-		,
-			props: ['vr_type'],
+    name: 'VR-items'
+    ,
+  
+  
+    init: function () {
+        // Set up the tick throttling.
+        this.tick = AFRAME.utils.throttleTick(this.tick, 100, this);
+    }
+    ,
+    
+    
+    
+    /**
+    * Tick function that will be wrapped to be throttled.
+    */
+    tick: function (t, dt) {}
+    ,
+  
+  
+  
+    props: ['vr_type']
+    ,
 
-  computed: {
-  get_refresh_view_counter: function () {
-      return this.$store.state.refresh_view_counter;
-  },
+    
+    computed: {
+        get_refresh_view_counter: function () {
+            return this.$store.state.refresh_view_counter;
+    }
+    ,
     list_of_records: function () {
-	if (this.$store.state.list_of_output_records) {
-		var newl=new Object();
-		for (var i=0; i<10;i++){
-			if (this.$store.state.list_of_output_records[i]){
-			     newl[i]=this.$store.state.list_of_output_records[i];
-				 };
-		}
-		return newl;
-		} else {
-		return [];
-	};
-    },
+        if (this.$store.state.list_of_output_records) {
+            var newl=new Object();
+            for (var i=0; i<10;i++){
+                if (this.$store.state.list_of_output_records[i]){
+                     newl[i]=this.$store.state.list_of_output_records[i];
+                     };
+            }
+            return newl;
+            } else {
+            return [];
+        };
+    }
+    ,
         get_vr_type: function () {
           return this.vr_type;
         },
