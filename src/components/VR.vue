@@ -5,7 +5,7 @@
         <a-scene  	platform='all' id='vr_scene' renderer="clearColor: #222"
 					v-bind:vr-mode-ui='"enabled: " + (vr_type=="move")'
                     keyboard-shortcuts="enterVR: false"
-                    v-bind:cursor='(vr_type=="mouse"?"rayOrigin: mouse":false)' >
+                    v-bind:cursor='(vr_type=="mouse"?"rayOrigin: mouse":false)'>
 			<a-assets>
             
                 <a-mixin id="RobotoFont" text="font: /public/aframe_fonts/Roboto-msdf.json"></a-mixin>
@@ -55,7 +55,7 @@
                                     material="color: blue; opacity: 0.9;">
                             <a-entity   position="1.6 0.0 0"
                                         mixin="RobotoFont"                            
-                                        v-bind:text='"color: black;align: left; value: " + zzz + " ; width: 6; "'>
+                                        v-bind:text='"color: black;align: left; value: " + getCurrentSearch + " ; width: 6; "'>
                             </a-entity>
                             <a-entity   position="0 -.5 0" 
                                         mixin="RobotoFont"
@@ -219,116 +219,154 @@
 <script>
 import output_table         from './output_table.vue'
 import VR_items             from './VR_items.vue'
-import VR_Home             from './VR_Home.vue'
+import VR_Home              from './VR_Home.vue'
 
 
 export default {
-name: 'VR'
-		,
-			props: ['vr_type'],
+    name: 'VR'
+	,
+    
+    
+    
+	props: ['vr_type']
+    ,
 
+    
+    
+    
     computed: {
         getSearchResults: function() {
             return this.$store.state.search_results.local.results;
-        },
+        }
+        ,
+        
+        
+        
+        
         getSearchSubtext: function() {
             return this.$store.state.search_subtext;
-        },
+        }
+        ,
+        
+        
+        
 
-        zzz: function() {
+        getCurrentSearch: function() {
             return this.$store.state.current_search
-        },
+        }
+        ,
+        
+        
+        
+        
         getUserName: function() {
             return this.$store.state.user_name
-        },
-        getIsLocalMachine: function() {
-            return this.$store.state.is_local_machine
-        },
-        list_of_records: function () {
-            if (this.$store.state.list_of_output_records) {
-                return this.$store.state.list_of_output_records;
-            } else {
-                return [];
-            };
-        },
-        locked: function () {
-            return this.$store.state.locked;
-        },
-        list_of_connections: function () {
-            return this.$store.getters.list_of_connections
-        },
+        }
+        ,
+        
+        
+        
+        
+        
+
+
         can_see_search_results: function () {
-            console.log("*** At: " + this.$store.getters.get_current_location )
-//             return (this.$store.getters.get_current_location != 'doc_details') 
             return this.$store.getters.get_current_location === 'scrollable_grid'
-            //return this.$store.getters.get_current_location != 'doc_details'
-        },
+        }
+        ,
+        
+        
+        
+        
         get_vr_type: function () {
             return this.vr_type
-        },
+        }
+        ,
+        
+        
+        
+        
         list_of_drivers: function () {
             return this.$store.getters.list_of_drivers
-        },
-
-        add_driver_visible: function () {
-          return this.$store.state.add_driver_visible
-        },
-
-        viewed_driver_id: function () {
-          return this.$store.state.viewed_driver_id
-        },
-            list_of_fields: function () {
-          return this.$store.state.list_of_output_fields
         }
+        ,
 
+        
+        
+        
+        add_driver_visible: function () {
+            return this.$store.state.add_driver_visible
+        }
+        ,
 
-
+        
+        
+        
+        viewed_driver_id: function () {
+            return this.$store.state.viewed_driver_id
+        }
+        ,
+        
+        
+        
+        
+        list_of_fields: function () {
+            return this.$store.state.list_of_output_fields
+        }
 	},
+    
+    
+    
 	methods: {
-		get_x_position: function(index, total) {
-		var cols = (Math.ceil(Math.sqrt(total)));
-		return index % cols;
-	},
 		get_scanning_status: function() {
             return this.$store.state.scanning_status;
-	},
+        }
+        ,
+        
+        
+        
+        
 		get_show_related: function() {
             return this.$store.state.show_related;
-	},
+        },
+        
+        
+        
 
-    where_am_i: function () {
-            return this.$store.getters.get_current_location
-        },
         get_hash: function (id) {
-            var qq = window.sqlGetAllQueries()
-            for (var i =0 ; i < qq.length; i++) {
-                var rt = qq[i];
-                if (rt.id == id) {
-                    //console.log("rt.hash: " + rt.hash)
-                    return rt.hash; 
-                }
+            if (id == null) {
+                return "";
             }
-            //console.log("rt.hash  not found: ")
+            var qq = window.sqlGetQueryById(id);
+            if (qq != null) {
+                return qq.hash; 
+            };
             return "";
         },
+        
+        
+        
+        
+        
         get_file_name: function (id) {
-            var qq = window.sqlGetAllQueries()
-            for (var i =0 ; i < qq.length; i++) {
-                var rt = qq[i];
-                if (rt.id == id) {
-                    //console.log("rt.fileName: " + rt.fileName)
-                    return rt.fileName; 
-                }
+            if (id == null) {
+                return "";
             }
-            //console.log("rt.fileName  not found: ")
+            var qq = window.sqlGetQueryById(id);
+            if (qq != null) {
+                return qq.fileName; 
+            };
             return "";
         },
 	},
-  components: {
-  'output-table': output_table,
-	'VR-Home': VR_Home,
-	'VR-items': VR_items
-  }
+    
+    
+    
+    components: {
+        'output-table': output_table,
+        'VR-Home': VR_Home,
+        'VR-items': VR_items
+    }
 
 
 }
