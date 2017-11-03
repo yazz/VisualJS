@@ -143,7 +143,6 @@
                     id='query_menu'
                     geometry="primitive: plane; width:35;height: 35; " 
                     material="color: lightgray; opacity: .98;"
-                    v-bind:close_item_menu2='"queryId: "  + get_viewed_query_id() + ";"' 
                     v-bind:position='((is_visible(get_viewed_query_id()) && is_query_selected())?-4.5:-100) + " 2.4 -.01"'
                 >
                 	   <a-entity    position='.3 -1.07 .2'
@@ -392,45 +391,80 @@ export default {
     computed: {
         get_refresh_view_counter: function () {
             return this.$store.state.refresh_view_counter;
-    }
-    ,
-    list_of_records: function () {
-        if (this.$store.state.list_of_output_records) {
-            var newl=new Object();
-            for (var i=0; i<10;i++){
-                if (this.$store.state.list_of_output_records[i]){
-                     newl[i]=this.$store.state.list_of_output_records[i];
-                     };
-            }
-            return newl;
-            } else {
-            return [];
-        };
-    }
-    ,
+        }
+        ,
+    
+    
+    
+    
+        list_of_records: function () {
+            if (this.$store.state.list_of_output_records) {
+                var newl=new Object();
+                for (var i=0; i<10;i++){
+                    if (this.$store.state.list_of_output_records[i]){
+                         newl[i]=this.$store.state.list_of_output_records[i];
+                         };
+                }
+                return newl;
+                } else {
+                return [];
+            };
+        }
+        ,
+    
+    
+    
+    
+    
         get_vr_type: function () {
           return this.vr_type;
-        },
+        }
+        ,
+
+
+
         
         get_vr_type_mouse: function () {
             return this.vr_type == 'mouse';
-        },
+        }
+        ,
+        
+        
+        
+        
         
         get_vr_type_move: function () {
             return this.vr_type == 'move';
-        },
+        }
+        ,
+        
+        
+        
         
         list_of_drivers: function () {
             return this.$store.getters.list_of_drivers
-        },
+        }
+        ,
 
+        
+        
+        
+        
         add_driver_visible: function () {
             return this.$store.state.add_driver_visible
-        },
+        }
+        ,
 
+        
+        
+        
+        
         viewed_driver_id: function () {
             return this.$store.state.viewed_driver_id
-        },
+        }
+        ,
+        
+        
         
     
 	    list_of_fields: function () {
@@ -442,57 +476,92 @@ export default {
     
 	methods: {
         list_of_queries2: function () {
-            //console.log("*********** list_of_queries2: " + window.xcd++)
+            console.log("*********** list_of_queries2: ")
             return window.sqlGetAllQueriesAndUiCached
-        },
+        }
+        ,
+        
+        
+        
+        
         list_of_queries_length: function () {
-            //console.log("*********** list_of_queries_length: " + window.xcd++)
-            //window.sqlGetQueriesLengthCached=100
+            console.log("*********** list_of_queries_length: ")
             return window.sqlGetQueriesLengthCached
-        },
+        }
+        ,
+        
+        
+        
         
         get_viewed_query_id: function() {
+            console.log("*********** get_viewed_query_id: ")
             return this.$store.state.viewed_query_id;
-        },
+        }
+        ,
+        
+        
+        
+        
         
         is_query_selected: function() {
+            console.log("*********** is_query_selected: ")
             if ( this.$store.state.viewed_query_id == null) { return false; };
             if ( this.$store.state.viewed_query_id.length == 0) { return false; };
             return true
-        },
+        }
+        ,
+        
+        
+        
+        
         
         get_viewed_query_file: function() {
+            console.log("*********** get_viewed_query_file: ")
             if (this.$store.state.viewed_query_file == null) {
                 return "";
             }
             return this.$store.state.viewed_query_file;
-        },
+        }
+        ,
+        
+        
+        
+        
         
         can_show_full_doc: function() {
+            console.log("*********** can_show_full_doc: ")
             return this.$store.state.show_full_doc;
-        },
+        }
+        ,
         
-		get_x_position: function(index) {
-            return index % window.queryGridWidthCached;
-        },
+        
+        
+        
+        
+        
+        
+        
         
         truncate: function(txt) {
+            console.log("*********** truncate: ")
             return (txt?txt.toString().substring(0,10):'');
-        },
+        }
+        ,
+        
+        
+        
         
         truncate2: function(txt) {
+            console.log("*********** truncate2: ")
             return (txt?txt.toString().substring(0,100):'');
-        },
+        }
+        ,
         
-        get_y_position: function(index) {
-            var rawQuotient = index / window.queryGridWidthCached;
-            var remainder = rawQuotient % 1;
-            var quotient = rawQuotient - remainder;
-            return quotient ;
-        },
+        
         
     
         is_document: function (id) {
+            console.log("*********** is_document: ")
             if (id == null) {
                 return false;
             }
@@ -509,10 +578,14 @@ export default {
                 }
             };
             return false;
-        },
+        }
+        ,
+    
+    
     
     
         is_spreadsheet: function (id) {
+            console.log("*********** is_spreadsheet: ")
             if (id == null) {
                 return false;
             }
@@ -530,7 +603,13 @@ export default {
             };
             return false;
         },
+        
+        
+        
+        
+        
         is_3d: function (id) {
+            console.log("*********** is_3d: ")
             if (id == null) {
                 return false;
             }
@@ -547,8 +626,16 @@ export default {
                 }
             };
             return false;
-        },
+        }
+        ,
+        
+        
+        
+        
+        
+        
         get_driver_name: function (id) {
+            console.log("*********** get_driver_name: ")
             if (id == null) {
                 return "";
             }
@@ -558,8 +645,15 @@ export default {
             };
             //console.log("rt.driver  not found: ")
             return "";
-        },
+        }
+        ,
+        
+        
+        
+        
+        
         get_query_property: function (id, prop) {
+            console.log("*********** get_query_property: ")
             if (id == null) {
                 return "";
             }
@@ -569,35 +663,63 @@ export default {
             };
             //console.log("rt.fileName  not found: ")
             return "";
-        },
-    is_visible: function(id) {
-        if (id == null) {
-            return false;
         }
-        if (id.length == 0) {
-            return false;
+        ,
+        
+        
+        
+        
+        
+        is_visible: function(id) {
+            console.log("*********** is_visible: ")
+            if (id == null) {
+                return false;
+            }
+            if (id.length == 0) {
+                return false;
+            }
+            var qm = window.sqlGetQueryUiById(id);
+            if (!qm) {
+                return false;
+            }
+            return qm.visible;
         }
-        var qm = window.sqlGetQueryUiById(id);
-        if (!qm) {
-            return false;
+        ,
+        
+        
+		get_x_position: function(index) {
+            console.log("*********** get_x_position: ")
+            return index % window.queryGridWidthCached;
         }
-        return qm.visible;
-    },
-    get_error_message() {
-        return this.$store.state.error_message;
+        ,
+        
+        
+        get_y_position: function(index) {
+            console.log("*********** get_y_position: ")
+            var rawQuotient = index / window.queryGridWidthCached;
+            var remainder = rawQuotient % 1;
+            var quotient = rawQuotient - remainder;
+            return quotient ;
+        }
+        ,
+        
+        
+        get_error_message() {
+            console.log("*********** get_error_message: ")
+            return this.$store.state.error_message;
+        }
     }
-
-  },
-  components: {
-	  'output-table': output_table
+    ,
+    
+    
+    
+    
+    
+    components: {
+        'output-table': output_table
 	}
-
 }
+
 </script>
-
-
-
-
-
 <style>
 </style>

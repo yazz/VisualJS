@@ -997,7 +997,7 @@ window.showSearchResults = function() {
                         } else if (lor && lor.queries) {
                             store.dispatch('set_search_subtext', "For: '" + lor.search + "', found " +
                                         lor.queries.length + " values,  took " + (lor.duration / 1000) + ' seconds' );
-                        setvuexitemssearch(lor.queries);
+                            setvuexitemssearch(lor.queries);
 //                            console.log(JSON.stringify(lor.queries))
                     }
             }
@@ -1331,8 +1331,6 @@ function initClientsConnectedVuePane() {
         });
     }
 }
-
-window.xcd = 0
 
 alasql('CREATE TABLE IF NOT EXISTS queries (id string, name string, connection string, driver string, size INT, hash string, type string, fileName string, definition string, preview string, status string, index_status string, similar_count INT)');
 
