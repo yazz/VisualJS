@@ -266,7 +266,7 @@
                                     </a-entity>
                                 </a-entity>
 
-                                <a-entity v-for="(a_record,rindex)  in  list_of_records" 
+                                <a-entity v-for="(a_record,rindex)  in  list_of_records()" 
                                           v-bind:position='(is_spreadsheet(get_viewed_query_id())?-1.5:-100) + " " + (-.2 - (rindex * 0.2)) + " 0.6"'
                                           geometry="primitive: plane; width: 2; height: 0.2" 
                                           material="color: white"
@@ -288,7 +288,7 @@
                                 <a-entity   id='show_all_vr_records'
                                             v-bind:position='(is_document(get_viewed_query_id())?0:-100) + " 0 0"'
                                 >
-                                    <a-entity v-for="(a_record,rindex)  in  list_of_records"  
+                                    <a-entity v-for="(a_record,rindex)  in  list_of_records()"  
                                               v-bind:position='".5 " + (-0.01 - (rindex * 0.2)) + " 0.6"'
                                               geometry="primitive: plane; width: 6; height: 0.2" 
                                               material="color: white; opacity: 1;"
@@ -397,22 +397,6 @@ export default {
     
     
     
-        list_of_records: function () {
-            if (this.$store.state.list_of_output_records) {
-                var newl=new Object();
-                for (var i=0; i<10;i++){
-                    if (this.$store.state.list_of_output_records[i]){
-                         newl[i]=this.$store.state.list_of_output_records[i];
-                         };
-                }
-                return newl;
-                } else {
-                return [];
-            };
-        }
-        ,
-    
-    
     
     
     
@@ -475,6 +459,24 @@ export default {
     
     
 	methods: {
+    
+        list_of_records: function () {
+            if (this.$store.state.list_of_output_records) {
+                var newl=new Object();
+                for (var i=0; i<10;i++){
+                    if (this.$store.state.list_of_output_records[i]){
+                         newl[i]=this.$store.state.list_of_output_records[i];
+                         };
+                }
+                return newl;
+                } else {
+                return [];
+            };
+        }
+        ,
+    
+
+
         list_of_queries2: function () {
             console.log("*********** list_of_queries2: ")
             return window.sqlGetAllQueriesAndUiCached

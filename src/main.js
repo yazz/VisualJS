@@ -456,6 +456,7 @@ function setupVRVuePane() {
                 var stringToLog = this.data;
                 
                 this.el.addEventListener('click', function (evt) {
+                    //alert('clicked')
                     if (inMove) {
                         return;
                     };

@@ -204,10 +204,36 @@ import output_table             from './output_table.vue'
 import VR_items             from './VR_items.vue'
 
 export default {
-name: 'VR-Home'
-		,
-			props: ['vr_type'],
+    name: 'VR-Home'
+	,
+    
+    
+    
+    
+	props: ['vr_type']
+    ,
 
+    
+    
+    
+    
+    init: function () {
+        // Set up the tick throttling.
+        this.tick = AFRAME.utils.throttleTick(this.tick, 100, this);
+    }
+    ,
+    
+    
+    
+    /**
+    * Tick function that will be wrapped to be throttled.
+    */
+    tick: function (t, dt) {}
+    ,
+
+    
+    
+    
   computed: {
 getIsPeopleZoomed: function() {
 //console.log('return this.$store.state.zoom_people := ' + this.$store.state.zoom_people)

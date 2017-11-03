@@ -232,6 +232,19 @@ export default {
     ,
 
     
+    init: function () {
+        // Set up the tick throttling.
+        this.tick = AFRAME.utils.throttleTick(this.tick, 100, this);
+    }
+    ,
+    
+    
+    
+    /**
+    * Tick function that will be wrapped to be throttled.
+    */
+    tick: function (t, dt) {}
+    ,
     
     
     computed: {
