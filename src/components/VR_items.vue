@@ -120,13 +120,6 @@
 								v-bind:log='a_query?("queryFile: " + a_query.hash + (a_query.fileName?"." +a_query.fileName.split(".").pop():"") + 
                                 ";queryId: "  + a_query.id + ";"):false' 
                                 >
-								<a-animation    begin="mouseenter" 
-                                                attribute="rotation"
-                                                v-bind:id='a_query.id + "_anim"'
-                                                to="0 0 5" 
-                                                dur="90" 
-                                                direction="alternate"  
-                                                repeat="3"></a-animation>
 						</a-entity>
                         
                 </a-entity>
