@@ -1345,7 +1345,26 @@ window.updateScreenIndexInQueriesUi = alasql.compile('update queries_ui set scre
 window.updateQueriesUiHideAll = alasql.compile('update queries_ui set screen_index = -1, visible = false');
 
 window.sqlGetAllQueries = alasql.compile('select * from queries');
-window.sqlGetAllQueriesAndUi = alasql.compile('select * from queries, queries_ui where queries.id = queries_ui.id order by id asc');
+
+//alasql.fn.get_x = function(screen_index,visible) {return ((visible?-0.8:100) + ((screen_index % window.queryGridWidthCached) * 0.5))};
+//var nn=20;
+alasql.fn.getX = function(screen_index,visible) {
+    return  ((screen_index % window.queryGridWidthCached) * 0.5) + (visible?-0.8:100);
+    //return  ((screen_index % nn) * 0.5) -.8;
+};
+alasql.fn.getY = function(screen_index,visible) {
+            var rawQuotient = screen_index / window.queryGridWidthCached;
+            var remainder = rawQuotient % 1;
+            var quotient = rawQuotient - remainder;
+            return 1.5 - (quotient * 0.6);
+
+    return  ((screen_index % window.queryGridWidthCached) * 0.5) + (visible?-0.8:100);
+    //return  ((screen_index % nn) * 0.5) -.8;
+};
+
+window.sqlGetAllQueriesAndUi = alasql.compile('select *, getX(screen_index, visible) as x_pos, getY(screen_index, visible) as y_pos from queries, queries_ui where queries.id = queries_ui.id order by id asc');
+
+
 window.sqlGetVisibleQueriesLength = alasql.compile('select count(queries.id) as count2 from queries, queries_ui where queries.id = queries_ui.id and visible = true');
 window.sqlGetAllQueriesAndUiCached = []
 window.sqlGetQueriesLengthCached=0

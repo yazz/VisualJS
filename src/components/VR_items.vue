@@ -103,7 +103,7 @@
 
 				<a-entity   v-for="(a_query,index)  in  list_of_queries2()"
                             v-bind:id='a_query.id + "_upper"'
-                            v-bind:position="((a_query.visible?-0.8:100) + (get_x_position(a_query.screen_index)*0.5))+ ' ' + (1.5 - (get_y_position(a_query.screen_index)*0.6)) + ' -.1'"
+                            v-bind:position="a_query.x_pos + ' ' + a_query.y_pos + ' -.1'"
                             >
                             
 					   <a-entity    position='-0.8 .3 0'
@@ -680,21 +680,6 @@ export default {
         ,
         
         
-		get_x_position: function(index) {
-            console.log("*********** get_x_position: ")
-            return index % window.queryGridWidthCached;
-        }
-        ,
-        
-        
-        get_y_position: function(index) {
-            console.log("*********** get_y_position: ")
-            var rawQuotient = index / window.queryGridWidthCached;
-            var remainder = rawQuotient % 1;
-            var quotient = rawQuotient - remainder;
-            return quotient ;
-        }
-        ,
         
         
         get_error_message() {
