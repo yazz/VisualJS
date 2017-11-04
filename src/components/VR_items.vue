@@ -102,14 +102,12 @@
 <a-entity id='scrollable_grid' v-bind:refresh_vr_items='get_refresh_view_counter'>
 
 				<a-entity   v-for="(a_query,index)  in  list_of_queries2()"
-                            v-bind:id='a_query.id + "_upper"'
                             v-bind:position="a_query.x_pos + ' ' + a_query.y_pos + ' -.1'"
                             
                             v-bind:text="'color: black; align: left; value: ' + a_query.display_name + ' ; width: 2; '"
                             >
                             
 					   <a-entity    position='-0.8 .3 0'
-                                    v-bind:id='a_query.id + "_mid"'
 									geometry="primitive: plane; width:.35;height: 0.35;"
 							        v-bind:griditem='"" +
 								    "   query_name: " + a_query.name +
