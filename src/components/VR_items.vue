@@ -469,7 +469,7 @@ export default {
 
 
         list_of_queries2: function () {
-            console.log("*********** list_of_queries2: ")
+            //console.loglog("*********** list_of_queries2: ")
             return window.sqlGetAllQueriesAndUiCached
         }
         ,
@@ -478,7 +478,7 @@ export default {
         
         
         list_of_queries_length: function () {
-            console.log("*********** list_of_queries_length: ")
+            //console.loglog("*********** list_of_queries_length: ")
             return window.sqlGetQueriesLengthCached
         }
         ,
@@ -487,7 +487,7 @@ export default {
         
         
         get_viewed_query_id: function() {
-            console.log("*********** get_viewed_query_id: ")
+            //console.loglog("*********** get_viewed_query_id: ")
             return this.$store.state.viewed_query_id;
         }
         ,
@@ -497,7 +497,7 @@ export default {
         
         
         is_query_selected: function() {
-            console.log("*********** is_query_selected: ")
+            //console.loglog("*********** is_query_selected: ")
             if ( this.$store.state.viewed_query_id == null) { return false; };
             if ( this.$store.state.viewed_query_id.length == 0) { return false; };
             return true
@@ -509,7 +509,7 @@ export default {
         
         
         get_viewed_query_file: function() {
-            console.log("*********** get_viewed_query_file: ")
+            //console.loglog("*********** get_viewed_query_file: ")
             if (this.$store.state.viewed_query_file == null) {
                 return "";
             }
@@ -522,7 +522,7 @@ export default {
         
         
         can_show_full_doc: function() {
-            console.log("*********** can_show_full_doc: ")
+            //console.loglog("*********** can_show_full_doc: ")
             return this.$store.state.show_full_doc;
         }
         ,
@@ -536,7 +536,7 @@ export default {
         
         
         truncate: function(txt) {
-            console.log("*********** truncate: ")
+            //console.loglog("*********** truncate: ")
             return (txt?txt.toString().substring(0,10):'');
         }
         ,
@@ -545,7 +545,7 @@ export default {
         
         
         truncate2: function(txt) {
-            console.log("*********** truncate2: ")
+            //console.loglog("*********** truncate2: ")
             return (txt?txt.toString().substring(0,100):'');
         }
         ,
@@ -554,7 +554,7 @@ export default {
         
     
         is_document: function (id) {
-            console.log("*********** is_document: ")
+            //console.loglog("*********** is_document: ")
             if (id == null) {
                 return false;
             }
@@ -578,7 +578,7 @@ export default {
     
     
         is_spreadsheet: function (id) {
-            console.log("*********** is_spreadsheet: ")
+            //console.loglog("*********** is_spreadsheet: ")
             if (id == null) {
                 return false;
             }
@@ -602,7 +602,7 @@ export default {
         
         
         is_3d: function (id) {
-            console.log("*********** is_3d: ")
+            //console.loglog("*********** is_3d: ")
             if (id == null) {
                 return false;
             }
@@ -628,7 +628,7 @@ export default {
         
         
         get_driver_name: function (id) {
-            console.log("*********** get_driver_name: ")
+            //console.loglog("*********** get_driver_name: ")
             if (id == null) {
                 return "";
             }
@@ -636,7 +636,7 @@ export default {
             if (qq != null) {
                 return qq.driver; 
             };
-            //console.log("rt.driver  not found: ")
+            ////console.loglog("rt.driver  not found: ")
             return "";
         }
         ,
@@ -646,7 +646,7 @@ export default {
         
         
         get_query_property: function (id, prop) {
-            console.log("*********** get_query_property: ")
+            //console.loglog("*********** get_query_property: ")
             if (id == null) {
                 return "";
             }
@@ -654,7 +654,7 @@ export default {
             if (qq != null) {
                 return qq[prop]; 
             };
-            //console.log("rt.fileName  not found: ")
+            ////console.loglog("rt.fileName  not found: ")
             return "";
         }
         ,
@@ -664,7 +664,7 @@ export default {
         
         
         is_visible: function(id) {
-            console.log("*********** is_visible: ")
+            //console.loglog("*********** is_visible: ")
             if (id == null) {
                 return false;
             }
@@ -683,7 +683,7 @@ export default {
         
         
         get_error_message() {
-            console.log("*********** get_error_message: ")
+            //console.loglog("*********** get_error_message: ")
             return this.$store.state.error_message;
         }
     }
