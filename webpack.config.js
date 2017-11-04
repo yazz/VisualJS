@@ -12,8 +12,6 @@ module.exports = {
         './public/jquery-1.9.1.min.js',
         'babel-polyfill', 
         './src/main.js', 
-        './public/aframe.min.js', 
-        './public/es6-shim.js',
         './public/gosharedata_setup.js'
     ],
   output: {
