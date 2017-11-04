@@ -199,50 +199,7 @@ function setupVRVuePane() {
 		});
 
         
-        //-----------------------------------------------------------------
-        //
-        // this is the component handler for query items on the grid
-        //
-        //-----------------------------------------------------------------
-		AFRAME.registerComponent('griditem', {
-            schema: {   query_id:       {type: 'string', default: ''},
-                        query_name:     {type: 'string', default: ''},
-                        query_saved_as: {type: 'string', default: ''},
-                        query_display:  {type: 'string', default: ''},
-                        query_size:     {type: 'string', default: ''}
-					},
-            init: function () {
-                var self = this;
                 
-                this.el.addEventListener('mouseleave', function (evt) {
-                    document.querySelector('#vr_file_name_2').setAttribute('text','color: black; align: left; value: ;width: 4; ');
-                    document.querySelector('#vr_file_size_2').setAttribute('text','color: black; align: left; value:  ;width: 4; ');
-                    document.querySelector('#vr_file_saved_as').setAttribute('text','color: black; align: left; value: ;width: 4;  ');
-                });
-
-
-
-                
-                this.el.addEventListener('mouseenter', function (evt) {
-                    var similarCount = window.get_query_property(self.data.query_id, "similar_count");
-                    var similarText = ''
-                    if (similarCount.length > 0 ) {
-                        similarText = ' (' + similarCount + ')';
-                    }
-                    document.querySelector('#vr_file_name_2').setAttribute(
-                        'text',
-                        'color: black; align: left; value: ' + self.data.query_name + similarText + ' ;width: 4; ');
-                    
-                    document.querySelector('#vr_file_size_2').setAttribute(
-                        'text',
-                        'color: black; align: left; value: ' + self.data.query_size + ' bytes ;width: 4; ');
-                    
-                    document.querySelector('#vr_file_saved_as').setAttribute(
-                        'text',
-                        'color: black; align: left; value: ' + self.data.query_display + '  ;width: 4;  ');
-			});
-		  }
-		});
 
 
 
@@ -480,6 +437,43 @@ function setupVRVuePane() {
                     
                     inMove = false;
                 });
+                
+                
+                this.el.addEventListener('mouseleave', function (evt) {
+                    document.querySelector('#vr_file_name_2').setAttribute('text','color: black; align: left; value: ;width: 4; ');
+                    document.querySelector('#vr_file_size_2').setAttribute('text','color: black; align: left; value:  ;width: 4; ');
+                    document.querySelector('#vr_file_saved_as').setAttribute('text','color: black; align: left; value: ;width: 4;  ');
+                });
+
+
+
+                
+                this.el.addEventListener('mouseenter', function (evt) {
+                    
+                    var qq = window.sqlGetQueryById(self.data.queryId);
+                    if (qq) {
+                        var similarCount = qq.similar_count;
+                        var similarText = ''
+                        if (similarCount.length > 0 ) {
+                            similarText = ' (' + similarCount + ')';
+                        }
+                        document.querySelector('#vr_file_name_2').setAttribute(
+                            'text',
+                            'color: black; align: left; value: ' +qq.name + similarText + ' ;width: 4; ');
+                        
+                        document.querySelector('#vr_file_size_2').setAttribute(
+                            'text',
+                            'color: black; align: left; value: ' + qq.size + ' bytes ;width: 4; ');
+                        
+                        document.querySelector('#vr_file_saved_as').setAttribute(
+                            'text',
+                            'color: black; align: left; value: ' + qq.fileName + '  ;width: 4;  ');
+                    }
+			});
+
+                
+                
+                
             }
 		});
 

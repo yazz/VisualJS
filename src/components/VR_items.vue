@@ -109,15 +109,9 @@
                             
 					   <a-entity    position='-0.8 .3 0'
 									geometry="primitive: plane; width:.35;height: 0.35;"
-							        v-bind:griditem='"" +
-								    "   query_name: " + a_query.name +
-								    ";  query_id: " + a_query.id +
-                                    ";  query_saved_as: " + (a_query.hash?(a_query.hash + (a_query.fileName?"." + a_query.fileName.split(".").pop():"")):"") +                                   
-					    			";  query_display: " + "" + a_query.fileName + 
-                                    ";  query_size: " + a_query.size + "; " '
-								v-bind:material='(a_query.driver != null?"src: driver_icons/" + a_query.driver + ".jpg;":false)'
-								v-bind:color="(a_query.screen_index % 2 == 0)?'blue':'green'"
-								v-bind:log='a_query?("queryFile: " + a_query.hash + (a_query.fileName?"." +a_query.fileName.split(".").pop():"") + 
+                                    v-bind:material='(a_query.driver != null?"src: driver_icons/" + a_query.driver + ".jpg;":false)'
+                                    v-bind:color="(a_query.screen_index % 2 == 0)?'blue':'green'"
+                                    v-bind:log='a_query?("queryFile: " + a_query.hash + (a_query.fileName?"." +a_query.fileName.split(".").pop():"") + 
                                 ";queryId: "  + a_query.id + ";"):false' 
                                 >
 						</a-entity>
