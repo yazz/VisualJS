@@ -404,8 +404,7 @@ function setupVRVuePane() {
         
 		AFRAME.registerComponent('log', {
             schema: { 
-                        queryId: {type: 'string'},
-                        queryFile: {type: 'string'},
+                        queryId: {type: 'string'}
                     },
                     
             init: function () {
@@ -413,14 +412,14 @@ function setupVRVuePane() {
                 var stringToLog = this.data;
                 
                 this.el.addEventListener('click', function (evt) {
-                    //alert('clicked')
+                    var a_query = window.sqlGetQueryById(self.data.queryId);
                     if (inMove) {
                         return;
                     };
                     inMove = true;
                 
                     store.dispatch('set_viewed_query_id', self.data.queryId);
-                    store.dispatch('set_viewed_query_file', self.data.queryFile);
+                    store.dispatch('set_viewed_query_file', a_query.hash + (a_query.fileName?"." +a_query.fileName.split(".").pop():""));
 
                     /*gotoFunction({
                         goto_name:  self.data.queryId + "_upper",

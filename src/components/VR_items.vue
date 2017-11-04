@@ -110,9 +110,7 @@
 					   <a-entity    position='-0.8 .3 0'
 									geometry="primitive: plane; width:.35;height: 0.35;"
                                     v-bind:material='(a_query.driver != null?"src: driver_icons/" + a_query.driver + ".jpg;":false)'
-                                    v-bind:color="(a_query.screen_index % 2 == 0)?'blue':'green'"
-                                    v-bind:log='a_query?("queryFile: " + a_query.hash + (a_query.fileName?"." +a_query.fileName.split(".").pop():"") + 
-                                ";queryId: "  + a_query.id + ";"):false' 
+                                    v-bind:log='a_query?("queryId: "  + a_query.id + ";"):false' 
                                 >
 						</a-entity>
                         
