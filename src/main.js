@@ -1475,11 +1475,7 @@ function setupWebSocket(host, port)
         else if (data.type == "update_query_item") {
             //console.log('update_query_item: ' + data.query.id)
             
-                store.dispatch('add_query',
-                {
-                        id: data.query.id,
-                        cp: data.query
-                });
+                store.dispatch('add_query', data.query);
              //store.dispatch('refresh_vr_items')
          
           }
@@ -1657,17 +1653,17 @@ window.add_query = function(query) {
                 type: "POST",
                 url: '/add_new_query',
                 data:   {
-                          name:         query.cp.name
+                          name:         query.name
                           ,
-                          connection:   query.cp.connection
+                          connection:   query.connection
                           ,
-                          driver:       query.cp.driver
+                          driver:       query.driver
                           ,
-                          similar_count:       query.cp.similar_count
+                          similar_count:   query.similar_count
                           ,
-                          definition:   query.cp.definition
+                          definition:   query.definition
                           ,
-                          status:       query.cp.status
+                          status:       query.status
                         },
             success: function(results2) {
                    // alert("success: " + results2);
@@ -1751,30 +1747,28 @@ window.recalcVuexQueries = function() {
 
         if (!exists) {
         
-            store.dispatch( 'add_query' , {cn:       query.id,
-
-                                    cp: {     id:      query.id
-                                                ,
-                                                name: query.name
-                                                ,
-                                                driver: query.driver
-                                                ,
-                                                size: query.size
-                                                ,
-                                                fileName: query.fileName
-                                                ,
-                                                hash: query.hash
-                                                ,
-                                                type: query.type
-                                                ,
-                                                status: ''
-                                                ,
-                                                connection: query.connection
-                                                ,
-                                                similar_count: query.similar_count
-                                                ,
-                                                definition: eval('(' + query.definition + ')')
-                                               }});
+            store.dispatch( 'add_query' , {id:      query.id
+                                            ,
+                                            name: query.name
+                                            ,
+                                            driver: query.driver
+                                            ,
+                                            size: query.size
+                                            ,
+                                            fileName: query.fileName
+                                            ,
+                                            hash: query.hash
+                                            ,
+                                            type: query.type
+                                            ,
+                                            status: ''
+                                            ,
+                                            connection: query.connection
+                                            ,
+                                            similar_count: query.similar_count
+                                            ,
+                                            definition: eval('(' + query.definition + ')')
+                                         });
         };
 }}
 

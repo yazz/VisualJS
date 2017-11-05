@@ -195,32 +195,6 @@ export default new Vuex.Store({
 
 
       
-        // ============================================================
-        // This sends a message to a specific websocket
-        // ============================================================
-        ADD_QUERY: function (state, query) {
-            if (!window.sqlGetQueryUiById(query.cp.id)) {
-                window.insertIntoQueries( 
-                            [query.cp.id,
-                             query.cp.name,
-                             query.cp.connection,
-                             query.cp.driver,
-                             query.cp.size,
-                             query.cp.hash,
-                             query.cp.type,
-                             query.cp.fileName,
-                             query.cp.definition,
-                             query.cp.preview,
-                             query.cp.status,
-                             query.cp.index_status,
-                             query.cp.similar_count]
-                        );
-
-                window.insertIntoQueriesUi([query.cp.id, true, window.sqlGetAllQueries().length - 1]);
-            } else {
-                window.updateVisibleInQueriesUi([true, query.cp.id])
-            }
-        },
         
         
         
@@ -396,7 +370,27 @@ export default new Vuex.Store({
 		// add_query
 		//
 		add_query: function(a, query){
-		  a.commit('ADD_QUERY', query)
+            if (!window.sqlGetQueryUiById(query.id)) {
+                window.insertIntoQueries( 
+                            [query.id,
+                             query.name,
+                             query.connection,
+                             query.driver,
+                             query.size,
+                             query.hash,
+                             query.type,
+                             query.fileName,
+                             query.definition,
+                             query.preview,
+                             query.status,
+                             query.index_status,
+                             query.similar_count]
+                        );
+
+                window.insertIntoQueriesUi([query.id, true, window.sqlGetAllQueries().length - 1]);
+            } else {
+                window.updateVisibleInQueriesUi([true, query.id])
+            }
 		},
 
 
