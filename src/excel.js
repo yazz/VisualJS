@@ -147,16 +147,14 @@
 				},
 				OK: function() {
 				  this.$store.dispatch('add_new_query',
-				  {
-					  cn: this.query_name,
-					  cp: {
+					  {
 						  name:             this.query_name,
 						  connection:     this.query_connection,
 						  driver:        'excel',
 						  type:          '|SPREADSHEET|',
 						  definition:    JSON.stringify({} , null, 2),
 					  }
-				  });
+				  );
 				  this.$store.dispatch('hide_add_query');
 				}
 				,

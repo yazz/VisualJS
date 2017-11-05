@@ -182,16 +182,14 @@
 				OK: function() {
 					//alert(JSON.stringify({sql: this.sql} , null, 2));
 				  this.$store.dispatch('add_new_query',
-				  {
-					  cn: this.query_name,
-					  cp: {
+					  {
 						  name:             this.query_name,
 						  connection:     this.query_connection,
 						  driver:        'oracle',
 						  type:          '|DATABASE|',
 						  definition:    JSON.stringify({sql: this.sql} , null, 2),
 					  }
-				  });
+				  );
 				  this.$store.dispatch('hide_add_query');
 				}
 				,
