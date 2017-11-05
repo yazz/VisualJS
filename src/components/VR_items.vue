@@ -136,8 +136,8 @@
                                 material="color: green;"
                                 v-bind:position='0.75 * 0 + " 0 .2"'
                                 mixin="RobotoFont"
-                                v-bind:view='"queryId: "  + get_viewed_query_id() + ";"' 
-                                v-bind:text='get_viewed_query_id()?"color: white; align: center; value: View; width: 3;":false'
+                                view='' 
+                                v-bind:text='get_viewed_query_id()?"color: white; align: center; value: Refresh; width: 3;":false'
                                 >
 									<a-animation begin="mouseenter" attribute="rotation"
 												to="0 0 3" dur="80" direction="alternate"  repeat="3"></a-animation>

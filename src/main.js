@@ -209,11 +209,7 @@ function setupVRVuePane() {
 				var self = this;
 				var stringToLog = this.data;
 				this.el.addEventListener('click', function (evt) {
-					//alert('open: ' + stringToLog);
-					//alert(stringToLog);
 					open_query_in_native_app(stringToLog);
-					//alert(stringToLog + ' was clicked at: ', evt.detail.intersection.point);
-					//alert(stringToLog + ' was clicked with: ' + document.getElementById("sqlinput"));
 				});
         this.el.addEventListener('mouseenter', function (evt) {
 					var node = document.getElementById("animopenclick");
@@ -375,28 +371,26 @@ function setupVRVuePane() {
 
 
 		AFRAME.registerComponent('jump_to_query', {
-		  schema: { queryId: {type: 'string'},
-                    queryFile: {type: 'string'}},
-		  init: function () {
-        var self = this;
+            schema: {   queryId: {type: 'string'},
+                        queryFile: {type: 'string'}},
+            init: function () {
+                var self = this;
 
-			var stringToLog = this.data;
-		   this.el.addEventListener('click', function (evt) {
-                if (inMove) {
-				   return;
-                };
-                inMove = true;
-                
-				store.dispatch('set_viewed_query_file', self.data.queryFile);
+                this.el.addEventListener('click', function (evt) {
+                    if (inMove) {
+                       return;
+                    };
+                    inMove = true;
+                    
+                    store.dispatch('set_viewed_query_file', self.data.queryFile);
 
-                store.dispatch('hide_full_doc');
-				get_query_result(self.data.queryId, function() {
-                    store.dispatch('set_viewed_query_id', self.data.queryId);
-                    store.dispatch('show_full_doc');
-                });
+                    store.dispatch('hide_full_doc');
+                    get_query_result(self.data.queryId, function() {
+                        store.dispatch('set_viewed_query_id', self.data.queryId);
+                        store.dispatch('show_full_doc');
+                    });
 
-			    inMove = false;
-
+                    inMove = false;
 			});
 		  }
 		});
@@ -409,23 +403,13 @@ function setupVRVuePane() {
                     
             init: function () {
                 var self = this;
-                var stringToLog = this.data;
                 
                 this.el.addEventListener('click', function (evt) {
                     var a_query = window.sqlGetQueryById(self.data.queryId);
-                    if (inMove) {
-                        return;
-                    };
-                    inMove = true;
                 
                     store.dispatch('set_viewed_query_id', self.data.queryId);
                     store.dispatch('set_viewed_query_file', a_query.hash + (a_query.fileName?"." +a_query.fileName.split(".").pop():""));
 
-                    /*gotoFunction({
-                        goto_name:  self.data.queryId + "_upper",
-                        distance:   6,
-                        duration:   "500"
-                    });*/
                     store.dispatch('hide_full_doc');
                     get_query_result(
                         self.data.queryId, 
@@ -433,8 +417,6 @@ function setupVRVuePane() {
                             store.dispatch('show_full_doc');
                         })
                     );
-                    
-                    inMove = false;
                 });
                 
                 
@@ -481,30 +463,25 @@ function setupVRVuePane() {
 
         
 		AFRAME.registerComponent('view', {
-            schema: { 
-                        queryId: {type: 'string'}
-                    },
-                    
             init: function () {
                 var self = this;
-                var stringToLog = this.data;
                 
                 this.el.addEventListener('click', function (evt) {
-                    if (inMove) {
+                    var qf = store.state.viewed_query_id;
+                    if (qf == null) {
                         return;
-                    };
-                    inMove = true;
-                   store.dispatch('set_error_message', "")
-                   store.dispatch('hide_full_doc');
-                    get_query_result(
-                        self.data.queryId, 
-                        (function() {
-                            store.dispatch('show_full_doc');
-                        })
-                    );
-                    
-
-                    inMove = false;
+                    }
+                
+                    if (qf) {        
+                        store.dispatch('set_error_message', "")
+                        store.dispatch('hide_full_doc');
+                        get_query_result(
+                            qf, 
+                            (function() {
+                                store.dispatch('show_full_doc');
+                            })
+                        );
+                    }
                 });
             }
 		});
@@ -520,19 +497,11 @@ function setupVRVuePane() {
                     
             init: function () {
                 var self = this;
-                var stringToLog = this.data;
                 
                 this.el.addEventListener('click', function (evt) {
-                    if (inMove) {
-                        return;
-                    };
-                    inMove = true;
-                    
                     store.dispatch('set_viewed_query_id', null);
                     store.dispatch('set_viewed_query_file', null);
                     store.dispatch('hide_full_doc');
-
-                    inMove = false;
                 });
             }
 		});
@@ -546,21 +515,13 @@ function setupVRVuePane() {
                     
             init: function () {
                 var self = this;
-                var stringToLog = this.data;
                 
                 this.el.addEventListener('click', function (evt) {
-                    if (inMove) {
-                        return;
-                    };
-                    inMove = true;
-                    
-
                     gotoFunction({
                         goto_name:  "related_items",
                         distance:   6,
                         duration:   "500"
                     });
-                    inMove = false;
                 });
             }
 		});
@@ -578,21 +539,13 @@ function setupVRVuePane() {
                     
             init: function () {
                 var self = this;
-                var stringToLog = this.data;
                 
                 this.el.addEventListener('click', function (evt) {
-                    if (inMove) {
-                        return;
-                    };
-                    inMove = true;
-                    
-
                     gotoFunction({
                         goto_name:  "query_info",
                         distance:   6,
                         duration:   "500"
                     });
-                    inMove = false;
                 });
             }
 		});
@@ -604,7 +557,7 @@ function setupVRVuePane() {
         
 
         AFRAME.registerComponent(
-            'close_related', {//zzz
+            'close_related', {
                 init: function () {
                     var self = this;
                     this.el.addEventListener('click', function (evt) {

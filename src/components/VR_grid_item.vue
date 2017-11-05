@@ -1,6 +1,7 @@
 <template>
     <a-entity
             v-bind:position="a_query.x_pos + ' ' + a_query.y_pos + ' -.1'"
+            v-bind:id='a_query.id + "_upper"'
             
             v-bind:text="'color: black; align: left; value: ' + a_query.display_name + ' ; width: 2; '"
             >
