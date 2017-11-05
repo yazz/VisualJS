@@ -167,8 +167,8 @@
                                 material="color: brown;"
                                 v-bind:position='0.75 * 2 + " 0 .2"'
                                 mixin="RobotoFont"
-                                v-bind:related_files='get_viewed_query_id()?("" + get_viewed_query_id()):false ' 
-                                v-bind:text='"color: white; align: center; value: Related; width: 3;"'
+                                related_files='' 
+                                text='color: white; align: center; value: Related; width: 3;'
                                 >
 									<a-animation begin="mouseenter" attribute="rotation"
 												to="0 0 3" dur="80" direction="alternate"  repeat="3"></a-animation>

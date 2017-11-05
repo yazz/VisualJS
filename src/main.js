@@ -621,38 +621,42 @@ function setupVRVuePane() {
                 
         AFRAME.registerComponent(
             'related_files', {
-                schema: {
-                    type: 'string'
-                },
                 init: function () {
                     var self = this;
                     this.el.addEventListener('click', function (evt) {
-                        store.dispatch('set_viewed_query_id', null);
-                        store.dispatch('set_viewed_query_file', null);
-                        store.dispatch('hide_full_doc');
-                        store.dispatch('set_show_related', true);
-                        searchtext = "";
-                        searchPos = 0;
-                        showText();
-                        
-                        
-                        
-                        $.ajax({
-                            url: '/get_related_documents',
-                            data: {id: self.data},
-                            success: function(data) {
-                                
-                                    gotoFunction({
-                                        goto_name:  "scrollable_grid",
-                                        distance:    4,
-                                        duration:   "500",
-                                        animEnd:     function() {store.dispatch('hide_full_doc');}
-                                    });
-                            },
-                            error: function(jqXHR, textStatus, errorThrown) {
-                              alert('error ' + textStatus + ' : ' +  errorThrown);
-                            }
-                          });
+                        var qf = store.state.viewed_query_id;
+                        if (qf == null) {
+                            return;
+                        }
+                    
+                        if (qf) {        
+                            store.dispatch('set_viewed_query_id', null);
+                            store.dispatch('set_viewed_query_file', null);
+                            store.dispatch('hide_full_doc');
+                            store.dispatch('set_show_related', true);
+                            searchtext = "";
+                            searchPos = 0;
+                            showText();
+                            
+                            
+                            
+                            $.ajax({
+                                url: '/get_related_documents',
+                                data: {id: qf},
+                                success: function(data) {
+                                    
+                                        gotoFunction({
+                                            goto_name:  "scrollable_grid",
+                                            distance:    4,
+                                            duration:   "500",
+                                            animEnd:     function() {store.dispatch('hide_full_doc');}
+                                        });
+                                },
+                                error: function(jqXHR, textStatus, errorThrown) {
+                                  alert('error ' + textStatus + ' : ' +  errorThrown);
+                                }
+                              });
+                        }
                 })}})
             
             
