@@ -14,6 +14,9 @@
         
     </a-entity>
 </template>
+
+
+
 <script>
 export default {
     name: 'VR-grid-item'
@@ -22,7 +25,7 @@ export default {
   
     init: function () {
         // Set up the tick throttling.
-        this.tick = AFRAME.utils.throttleTick(this.tick, 100, this);
+        this.tick = AFRAME.utils.throttleTick(this.tick, 300, this);
     }
     ,
     

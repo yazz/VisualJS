@@ -146,7 +146,7 @@
                                 material="color: gray;"
                                 v-bind:position='0.75 * 1 + " 0 .2"'
                                 mixin="RobotoFont"
-                                v-bind:open_file='get_viewed_query_file()?("" + get_viewed_query_file()):false '
+                                v-bind:open_file="get_viewed_query_id()?true:false"
                                 v-bind:text='get_viewed_query_id()?"color: white; align: center; value: Open; width: 3;":false'
                                 >
 									<a-animation begin="mouseenter" attribute="rotation"
