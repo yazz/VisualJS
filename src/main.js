@@ -951,7 +951,7 @@ window.showSearchResults = function() {
         store.dispatch('set_search_subtext', "");
         store.dispatch('clear_search_results');
         setTimeout(function(){
-            store.dispatch('refresh_vr_items');+
+            store.dispatch('refresh_vr_items');
             //alert(1)
                 },100)//zzz
     }
