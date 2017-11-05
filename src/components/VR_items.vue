@@ -108,6 +108,7 @@
                 </a-entity>
                 
                 
+</a-entity>
                 
                 
                 
@@ -144,10 +145,10 @@
                     <a-entity   id="open_doc"
                                 geometry="primitive: plane; width:.70;height: .70;  " 
                                 material="color: gray;"
-                                v-bind:position='0.75 * 1 + " 0 .2"'
+                                position='0.75 0 .2'
                                 mixin="RobotoFont"
-                                v-bind:open_file="get_viewed_query_id()?true:false"
-                                v-bind:text='get_viewed_query_id()?"color: white; align: center; value: Open; width: 3;":false'
+                                open_file=''
+                                text='color: white; align: center; value: Open; width: 3;'
                                 >
 									<a-animation begin="mouseenter" attribute="rotation"
 												to="0 0 3" dur="80" direction="alternate"  repeat="3"></a-animation>
@@ -301,21 +302,6 @@
                         </a-entity>
                     </a-entity>
 
-
-
-
-
-
-
-
-
-
-
-                    </a-entity>
-                
-                
-                
-                
                 
                 
 </a-entity >
