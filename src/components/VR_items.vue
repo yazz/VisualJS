@@ -553,7 +553,7 @@ export default {
             var qq = window.sqlGetQueryById(id);
             if (qq != null) {
                 if (qq.type != null) {
-                    if ((qq.type.indexOf("SPREADSHEET") != -1) || (qq.type.indexOf("CSV") != -1)) {
+                    if ((qq.type.indexOf("SPREADSHEET") != -1) || (qq.type.indexOf("CSV") != -1)  || (qq.type.indexOf("DATABASE") != -1)) {
                         return true;
                     } else {
                         return false;

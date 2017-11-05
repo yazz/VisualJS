@@ -502,6 +502,7 @@ var getResult = function(source, connection, driver, definition, callback) {
                 dbsearch.run("begin transaction");
                 setIn.run("PROCESSING" ,source);
                 dbsearch.run("commit");
+                console.log('**** drivers[driver] = ' + driver)
                 drivers[driver]['get_v2'](connections[connection],definition,function(ordata) {
                     console.log("23");
                     if (ordata.error) {
@@ -1890,9 +1891,9 @@ function addNewQuery( params ) {
         //console.log("------------------function addNewQuery( params ) { -------------------");
         dbsearch.serialize(function() {
             var stmt = dbsearch.prepare(" insert into queries " + 
-                                        "    ( id, name, connection, driver, definition, status ) " +
+                                        "    ( id, name, connection, driver, definition, status, type ) " +
                                         " values " + 
-                                        "    (?,    ?, ?, ?, ?, ?);");
+                                        "    (?,    ?, ?, ?, ?, ?, ?);");
                      
             var newQueryId = uuidv1();
             stmt.run(newQueryId,
@@ -1900,7 +1901,8 @@ function addNewQuery( params ) {
                      params.connection, 
                      params.driver, 
                      params.definition,
-                     params.status
+                     params.status,
+                     params.type
                      );
                      
             stmt.finalize();

@@ -188,7 +188,7 @@ function setupVRVuePane() {
 						var query = llx[i];
 					    if (query.id == self.data.id) {
 						    if (query.preview) {
-							    setOutputData(query.preview);
+							    //setOutputData(query.preview);
 								//alert(JSON.stringify(query.preview , null, 2));
 							};
 							return;
@@ -1611,6 +1611,8 @@ window.add_query = function(query) {
                           connection:   query.connection
                           ,
                           driver:       query.driver
+                          ,
+                          type:         query.type
                           ,
                           similar_count:   query.similar_count
                           ,
