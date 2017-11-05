@@ -604,9 +604,7 @@ function setupVRVuePane() {
         
 
         AFRAME.registerComponent(
-            'close_related', {
-                schema: {
-                },
+            'close_related', {//zzz
                 init: function () {
                     var self = this;
                     this.el.addEventListener('click', function (evt) {
@@ -952,6 +950,10 @@ window.showSearchResults = function() {
     if (searchtext.length == 0) {
         store.dispatch('set_search_subtext', "");
         store.dispatch('clear_search_results');
+        setTimeout(function(){
+            store.dispatch('refresh_vr_items');+
+            //alert(1)
+                },100)//zzz
     }
     
     //if ((searchtext.length > 0) && (inSearch == false)) {
@@ -1435,28 +1437,33 @@ function setupWebSocket(host, port)
           }
           
           
-          else if (data.type == "similar_documents") {
-              var recs =  eval("(" + data.results + ")")
-                        store.dispatch('clear_search_results');
-                            
-                store.dispatch('clear_search_results');
-              for (var i = 0 ; i< recs.length; i++) {
-                  var rec  =recs[i]
-                  console.log(JSON.stringify(rec))
-                store.dispatch('add_search_result', 
-                              {
-                                id:          recs[i].id,
-                                data:        recs[i].cc + " lines matched : " + recs[i].name,
-                                });
+        //-------------------------------------------------------
+        // get the  similar document results from the server
+        //-------------------------------------------------------
+        else if (data.type == "similar_documents") {
+            var recs =  eval("(" + data.results + ")") //get the similar documents from the sub process
+            store.dispatch('clear_search_results');
 
-              }
-                store.dispatch('set_search_subtext', "Found " +  recs.length + " similar");
-                
-                //window.recalcVuexQueries()
-                
-                setvuexitemssearch(recs);
-                setTimeout(function(){store.dispatch('refresh_vr_items');},100)
-          }
+            store.dispatch('clear_search_results');
+            for (var i = 0 ; i< recs.length; i++) {
+            var rec  =recs[i]
+            console.log(JSON.stringify(rec))
+            store.dispatch('add_search_result', 
+            {
+                id:          recs[i].id,
+                data:        recs[i].cc + " lines matched : " + recs[i].name,
+            });
+
+            }
+            store.dispatch('set_search_subtext', "Found " +  recs.length + " similar");
+
+            //window.recalcVuexQueries()
+
+            setvuexitemssearch(recs);
+            setTimeout(function(){
+                store.dispatch('refresh_vr_items');
+                },100)
+        }
           
           
         // ============================================================

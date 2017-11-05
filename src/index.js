@@ -2030,7 +2030,8 @@ forked.on('message', (msg) => {
                                     }});
     
     
-    
+    // this needs to be fixed so that it only sends the similar documents
+    // to the client that requested them
     } else if (msg.message_type == "return_similar_documents") {
         sendOverWebSockets({
                                 type: "similar_documents", 

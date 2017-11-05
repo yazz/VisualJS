@@ -67,7 +67,7 @@
                                         geometry="primitive: plane; width: 1.5; height: .3; ;"  
                                         material="color: gray; opacity: 0.9;"
                                         close_related=''
-                                        v-bind:text='"color: blue;align: center; value: Cancel filter ; width: 5; "'>
+                                        text="color: blue;align: center; value: Cancel filter ; width: 5; ">
                             </a-entity>
                         
 
