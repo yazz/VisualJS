@@ -1941,7 +1941,7 @@ function when_queries_changes(callback) {
                 for (var i = 0 ; i < results.length ; i ++) {
                     var query = results[i];
                     if (!queries[query.id]) {
-                        setSharedGlobalVar("queries", query.id, JSON.stringify(query));
+                        setSharedGlobalVar("queries", query.id, JSON.stringify(query,null,2));
                         var oout = [{a: 'no EXCEL'}];
                         try {
                             ////console.log('get preview for query id : ' + query._id);
@@ -2110,10 +2110,12 @@ console.log("")
 
 
 function setSharedGlobalVar(nameOfVar, index, value) {
-    console.log(setSharedGlobalVar);
-    //console.log("sent " + nameOfVar + "[" + index + "] = " + Object.keys(value)  + "...");
+    //console.log(setSharedGlobalVar);
+    //console.log("sent " + nameOfVar + "[" + index + "] = "   + "...");
     //console.log("sent " + nameOfVar + "[" + index + "] = " + eval(value).get_v2  + "...");
-    eval(nameOfVar + "." + index + " = " + value );
+    var tosend = nameOfVar + "['" + index + "'] = " + value ;
+    //console.log(tosend);
+    eval(tosend);
     try {
         var sharemessage = { 
                             message_type:       'childSetSharedGlobalVar',

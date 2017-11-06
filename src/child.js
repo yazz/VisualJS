@@ -11,6 +11,11 @@ var inScan = false;
 var drivers      = new Object();
 var connections  = new Object();
 var queries      = new Object();
+var XLSX = require('xlsx');
+var csv = require('fast-csv');
+var mammoth = require("mammoth");
+var postgresdb   = require('pg');
+var mysql      = require('mysql');
 
 
 function require2(moduleName) {
@@ -69,9 +74,12 @@ process.on('message', (msg) => {
                 
   } else if (msg.message_type == 'childSetSharedGlobalVar') {
         //console.log("  ... received, " + msg.nameOfVar + "[" + msg.index + "] = " + Object.keys(eval( "(" + msg.value + ")" )));
-        console.log("  ... received, " + msg.nameOfVar + "[" + msg.index + "] = "  );
-        var ccc = "(" + msg.nameOfVar + "." + msg.index + " = " + msg.value + ")";
+        //console.log("  ... received, " + msg.nameOfVar + "[" + msg.index + "] = " +eval( "(" + msg.value + ")" ).get_v2  );
+        var ccc =  msg.nameOfVar + "['" + msg.index + "'] = (" + msg.value + ")";
         
+        if (msg.nameOfVar == 'connections') {
+            console.log(ccc);
+        }
         eval(ccc );
   
 
@@ -482,7 +490,7 @@ var getResult = function(source, connection, driver, definition, callback) {
                 setIn.run("PROCESSING" ,source);
                 dbsearch.run("commit");
                 console.log('**** drivers[driver] = ' + driver)
-                console.log('**** drivers.len = ' + Object.keys(drivers[driver]))
+                console.log('**** drivers.len = ' + drivers[driver].get_v2)
                 drivers[driver]['get_v2'](connections[connection],definition,function(ordata) {
                     console.log("23");
                     if (ordata.error) {
