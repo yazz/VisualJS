@@ -37,22 +37,7 @@ export default {
 					query_connection: 			null
 			}},
 
-  components: {},
-
-  methods: {
-    OK: function() {
-	alert('store');
-      this.$store.dispatch('add_query', {	cn: this.query_name, 
-											cp: {
-												name: 		this.query_name, 
-												connection: this.query_connection, 
-												driver: 	this.query_connection_driver}})
-      this.$store.dispatch('hide_add_query')
-    },
-    Cancel: function() {
-      this.$store.dispatch('hide_add_query')
-    }
-  }
+  components: {}
 }
 
 </script>
