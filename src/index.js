@@ -2003,17 +2003,22 @@ forked.on('message', (msg) => {
                                 
                                 
     } else if (msg.message_type == "return_set_connection") {
-        connections[msg.id] = {  id:         msg.id, 
-                                name:       msg.name, 
-                                driver:     msg.driver, 
-                                size:       msg.size, 
-                                hash:       msg.hash, 
-                                type:       msg.type, 
-                                fileName:   msg.fileName };
+        setSharedGlobalVar( "connections", 
+                            msg.id, 
+                            JSON.stringify({    id:         msg.id, 
+                                                name:       msg.name, 
+                                                driver:     msg.driver, 
+                                                size:       msg.size, 
+                                                hash:       msg.hash, 
+                                                type:       msg.type, 
+                                                fileName:   msg.fileName },null,2));
                                 
                                 
     } else if (msg.message_type == "return_set_query") {
-        queries[msg.id] =     {  id:            msg.id,
+        setSharedGlobalVar( "queries", 
+                            msg.id,
+                            JSON.stringify(
+                              {  id:            msg.id,
                                  name:          msg.name,
                                  connection:    msg.connection,
                                  driver:        msg.driver, 
@@ -2023,7 +2028,7 @@ forked.on('message', (msg) => {
                                  type:          msg.type,
                                  definition:    msg.definition, 
                                  preview:       msg.preview
-                              }
+                              }));
             sendOverWebSockets({
                                     type: "uploaded",  
                                     id:    msg.id,
