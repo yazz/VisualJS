@@ -416,10 +416,10 @@ function getRelatedDocuments(id, callback) {
                                                     
                                                     if (!result.error) {
                                                         console.log("File added v2: " + JSON.stringify(results[0].fileName,null,2));
-                                                        sendOverWebSockets({
+                                                        /*sendOverWebSockets({
                                                                                 type:   "server_scan_status",  
                                                                                 value:  "File indexed: " + results[0].fileName
-                                                                                });
+                                                                                });*/
                                                     }
                                                 });
                         } else {
