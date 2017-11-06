@@ -26,7 +26,8 @@ function require2(moduleName) {
 
 var sqlite3   = require2('sqlite3');
 var os= require('os')
-var username = os.userInfo().username.toLowerCase();
+var username = "Unknown user";
+username = os.userInfo().username.toLowerCase();
 //console.log(username);
 
 
