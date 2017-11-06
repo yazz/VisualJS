@@ -1601,47 +1601,47 @@ when_queries_changes(null);
 
 
 		var pgeval = '(' + fs.readFileSync(path.join(__dirname, './glb.js')).toString() + ')';
-        setSharedGlobalVar("drivers", 'glb', eval( pgeval ));
+        setSharedGlobalVar("drivers", 'glb', pgeval );
 		addOrUpdateDriver('glb', pgeval, drivers['glb'])
 
 		var pgeval = '(' + fs.readFileSync(path.join(__dirname, './csv.js')).toString() + ')';
-        setSharedGlobalVar("drivers", 'csv', eval( pgeval ));
+        setSharedGlobalVar("drivers", 'csv', pgeval );
 		addOrUpdateDriver('csv', pgeval, drivers['csv'])
 
 
 		var pgeval = '(' + fs.readFileSync(path.join(__dirname, './excel.js')).toString() + ')';
-        setSharedGlobalVar("drivers", 'excel', eval( pgeval ));
+        setSharedGlobalVar("drivers", 'excel', pgeval );
 		addOrUpdateDriver('excel', pgeval, drivers['excel'])
 
 		var pgeval = '(' + fs.readFileSync(path.join(__dirname, './word.js')).toString() + ')';
-        setSharedGlobalVar("drivers", 'word', eval( pgeval ));
+        setSharedGlobalVar("drivers", 'word', pgeval );
 		addOrUpdateDriver('word', pgeval, drivers['word'])
 
 		var pgeval = '(' + fs.readFileSync(path.join(__dirname, './pdf.js')).toString() + ')';
-        setSharedGlobalVar("drivers", 'pdf', eval( pgeval ));
+        setSharedGlobalVar("drivers", 'pdf', pgeval );
 		addOrUpdateDriver('pdf', pgeval, drivers['pdf'])
 
 
 		var pgeval = '(' + fs.readFileSync(path.join(__dirname, './postgres.js')).toString() + ')';
-        setSharedGlobalVar("drivers", 'postgres', eval( pgeval ));
+        setSharedGlobalVar("drivers", 'postgres', pgeval );
 		addOrUpdateDriver('postgres', pgeval, drivers['postgres'])
 
         
         
 		var sqliteeval = '(' + fs.readFileSync(path.join(__dirname, './sqlite.js')).toString() + ')';
-        setSharedGlobalVar("drivers", 'sqlite', eval( sqliteeval ));
+        setSharedGlobalVar("drivers", 'sqlite', sqliteeval );
 		addOrUpdateDriver('sqlite', sqliteeval, drivers['sqlite'])
 
 
 
 		var pgeval = '(' + fs.readFileSync(path.join(__dirname, './mysql.js')).toString() + ')';
-        setSharedGlobalVar("drivers", 'mysql', eval( pgeval ));
+        setSharedGlobalVar("drivers", 'mysql', pgeval );
 		addOrUpdateDriver('mysql', pgeval, drivers['mysql'])
 
 
 
 		toeval =  '(' + fs.readFileSync(path.join(__dirname, './oracle.js')).toString() + ')';
-        setSharedGlobalVar("drivers", 'oracle', eval( toeval ));
+        setSharedGlobalVar("drivers", 'oracle', toeval );
 		addOrUpdateDriver('oracle',   toeval, drivers['oracle'])
 		process.env['PATH'] = process.cwd() + '\\oracle_driver\\instantclient32' + ';' + process.env['PATH'];
 		if (drivers['oracle'].loadOnCondition()) {
@@ -1651,7 +1651,7 @@ when_queries_changes(null);
 
 
 		var tdeval = '(' + fs.readFileSync(path.join(__dirname, './testdriver.js')).toString() + ')';
-        setSharedGlobalVar("drivers", 'testdriver', eval( tdeval ));
+        setSharedGlobalVar("drivers", 'testdriver', tdeval );
 		addOrUpdateDriver('testdriver', tdeval, drivers['testdriver'])
 
 
@@ -1669,7 +1669,8 @@ when_queries_changes(null);
 		
 		
 
-	function addOrUpdateDriver(name, code, theObject) {
+	function addOrUpdateDriver(name, code2, theObject) {
+        var code = eval(code2);
 		var driverType = theObject.type;
 		//console.log('addOrUpdateDriver: ' + name);
         
@@ -1685,7 +1686,7 @@ when_queries_changes(null);
                                                             "    (id,  name, type, code ) " +
                                                             " values " + 
                                                             "    (?, ?,?,?);");
-                            stmt.run(uuidv1(),  name,  driverType,  code);
+                            stmt.run(uuidv1(),  name,  driverType,  code2);
                             stmt.finalize();
                             });
                         } catch(err) {
@@ -1697,12 +1698,12 @@ when_queries_changes(null);
                     } else {
                         //console.log('   *** Checking DRIVER ' + name);
                         var existingDriver = rows[0];
-                        if (!(code == existingDriver.code)) {
+                        if (!(code2 == existingDriver.code)) {
                             try 
                             {
                                 dbsearch.serialize(function() {
                                     var stmt = dbsearch.prepare(" update   drivers   set code = ? where id = ?");
-                                    stmt.run( code , rows[0].id );
+                                    stmt.run( code2 , rows[0].id );
                                     stmt.finalize();
                                 });
                             } catch(err) {
@@ -1843,7 +1844,7 @@ function when_connections_changes() {
                         ////console.log('                      :  ' + conn.name);
                         if (!connections[conn.id]) {
                           ////console.log(a);
-                          setSharedGlobalVar("connections", conn.id, conn);
+                          setSharedGlobalVar("connections", conn.id, JSON.stringify(conn,null,2));
                         }
                     }
                 }
@@ -1940,7 +1941,7 @@ function when_queries_changes(callback) {
                 for (var i = 0 ; i < results.length ; i ++) {
                     var query = results[i];
                     if (!queries[query.id]) {
-                        setSharedGlobalVar("queries", query.id, query);
+                        setSharedGlobalVar("queries", query.id, JSON.stringify(query));
                         var oout = [{a: 'no EXCEL'}];
                         try {
                             ////console.log('get preview for query id : ' + query._id);
@@ -2109,13 +2110,16 @@ console.log("")
 
 
 function setSharedGlobalVar(nameOfVar, index, value) {
-    //console.log(setSharedGlobalVar);
-    eval(nameOfVar)[index] = value;
+    console.log(setSharedGlobalVar);
+    //console.log("sent " + nameOfVar + "[" + index + "] = " + Object.keys(value)  + "...");
+    //console.log("sent " + nameOfVar + "[" + index + "] = " + eval(value).get_v2  + "...");
+    eval(nameOfVar + "." + index + " = " + value );
     try {
         var sharemessage = { 
                             message_type:       'childSetSharedGlobalVar',
                             nameOfVar:          nameOfVar,
                             index:              index, 
+                            //value:              JSON.stringify(value,null,2)
                             value:              value
                         };
         forked.send(sharemessage);

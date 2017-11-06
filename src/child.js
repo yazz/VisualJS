@@ -68,8 +68,11 @@ process.on('message', (msg) => {
                 
                 
   } else if (msg.message_type == 'childSetSharedGlobalVar') {
-        (eval(msg.nameOfVar))[msg.index] = msg.value;
-        //console.log("got message childSetSharedGlobalVar" );
+        //console.log("  ... received, " + msg.nameOfVar + "[" + msg.index + "] = " + Object.keys(eval( "(" + msg.value + ")" )));
+        console.log("  ... received, " + msg.nameOfVar + "[" + msg.index + "] = "  );
+        var ccc = "(" + msg.nameOfVar + "." + msg.index + " = " + msg.value + ")";
+        
+        eval(ccc );
   
 
   } else if (msg.message_type == 'childRunIndexer') {
@@ -478,6 +481,8 @@ var getResult = function(source, connection, driver, definition, callback) {
                 dbsearch.run("begin transaction");
                 setIn.run("PROCESSING" ,source);
                 dbsearch.run("commit");
+                console.log('**** drivers[driver] = ' + driver)
+                console.log('**** drivers.len = ' + Object.keys(drivers[driver]))
                 drivers[driver]['get_v2'](connections[connection],definition,function(ordata) {
                     console.log("23");
                     if (ordata.error) {
@@ -591,7 +596,7 @@ var getResult = function(source, connection, driver, definition, callback) {
         }
         catch(err){
             console.log("03");
-            console.log("****************** err 1" + err);
+            console.log("****************** err 1: " + err);
             callback.call(this,{error: true});
         }
     } else {
