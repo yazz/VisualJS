@@ -1428,7 +1428,27 @@ function setupWebSocket(host, port)
         else if (data.type == "update_query_item") {
             //console.log('update_query_item: ' + data.query.id)
             
-                store.dispatch('add_query', data.query);
+            if (!window.sqlGetQueryUiById(data.query.id)) {
+                window.insertIntoQueries( 
+                            [data.query.id,
+                             data.query.name,
+                             data.query.connection,
+                             data.query.driver,
+                             data.query.size,
+                             data.query.hash,
+                             data.query.type,
+                             data.query.fileName,
+                             eval('(' + data.query.definition + ')'),
+                             data.query.preview,
+                             '',
+                             data.query.index_status,
+                             data.query.similar_count]
+                        );
+
+                window.insertIntoQueriesUi([data.query.id, true, window.sqlGetAllQueries().length - 1]);
+            } else {
+                window.updateVisibleInQueriesUi([true, data.query.id])
+            }
              //store.dispatch('refresh_vr_items')
          
           }
@@ -1701,29 +1721,27 @@ window.recalcVuexQueries = function() {
         var exists = window.sqlGetQueryById(query.id)?true:false;
 
         if (!exists) {
-        
-            store.dispatch( 'add_query' , {id:      query.id
-                                            ,
-                                            name: query.name
-                                            ,
-                                            driver: query.driver
-                                            ,
-                                            size: query.size
-                                            ,
-                                            fileName: query.fileName
-                                            ,
-                                            hash: query.hash
-                                            ,
-                                            type: query.type
-                                            ,
-                                            status: ''
-                                            ,
-                                            connection: query.connection
-                                            ,
-                                            similar_count: query.similar_count
-                                            ,
-                                            definition: eval('(' + query.definition + ')')
-                                         });
+            if (!window.sqlGetQueryUiById(query.id)) {
+                window.insertIntoQueries( 
+                            [query.id,
+                             query.name,
+                             query.connection,
+                             query.driver,
+                             query.size,
+                             query.hash,
+                             query.type,
+                             query.fileName,
+                             eval('(' + query.definition + ')'),
+                             query.preview,
+                             '',
+                             query.index_status,
+                             query.similar_count]
+                        );
+
+                window.insertIntoQueriesUi([query.id, true, window.sqlGetAllQueries().length - 1]);
+            } else {
+                window.updateVisibleInQueriesUi([true, query.id])
+            }
         };
 }}
 

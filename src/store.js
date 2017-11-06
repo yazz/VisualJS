@@ -366,32 +366,6 @@ export default new Vuex.Store({
 
 
 
-		//
-		// add_query
-		//
-		add_query: function(a, query){
-            if (!window.sqlGetQueryUiById(query.id)) {
-                window.insertIntoQueries( 
-                            [query.id,
-                             query.name,
-                             query.connection,
-                             query.driver,
-                             query.size,
-                             query.hash,
-                             query.type,
-                             query.fileName,
-                             query.definition,
-                             query.preview,
-                             query.status,
-                             query.index_status,
-                             query.similar_count]
-                        );
-
-                window.insertIntoQueriesUi([query.id, true, window.sqlGetAllQueries().length - 1]);
-            } else {
-                window.updateVisibleInQueriesUi([true, query.id])
-            }
-		},
 
 
 		set_query_map: function(a, value){
