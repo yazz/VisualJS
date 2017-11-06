@@ -163,9 +163,12 @@ console.log(" ");
             
                 
                 
+var os= require('os')
+username = os.userInfo().username.toLowerCase();
+//console.log(username);
 
 
-var dbsearch = new sqlite3.Database('gosharedatasearch.sqlite3');
+var dbsearch = new sqlite3.Database(username + '.gsd');
 //dbsearch.run("PRAGMA journal_mode=WAL;")
 dbsearch.run("PRAGMA synchronous=OFF;")
 dbsearch.run("PRAGMA count_changes=OFF;")
@@ -1971,9 +1974,6 @@ function when_queries_changes(callback) {
 //console.log("-------------------------------------------------------------------");
 //console.log("-------------------------------------------------------------------");
 
-var os= require('os')
-username = os.userInfo().username
-//console.log(username);
 
 
 

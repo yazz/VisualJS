@@ -106,7 +106,7 @@
 				return {
 				  connection_name:           "sqlite",
 				  connection_connect_string: null,
-				  database:                  "gosharedatasearch.sqlite3"
+				  database:                  "enter_database_name_here.sqlite3"
 				};
 			  }
 	}
@@ -170,7 +170,7 @@
 			  data: function() {
 				return {
 				  query_name:                "sqlite query",
-				  database:                  "gosharedatasearch.sqlite3",
+				  database:                  "enter_database_name_here.sqlite3",
 				  sql:                       "select distinct(id) from queries"
 				};
 			  }
