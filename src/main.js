@@ -563,7 +563,8 @@ function setupVRVuePane() {
                         store.dispatch('set_show_related', false);
                         store.dispatch('set_search_subtext', "");
                         store.dispatch('clear_search_results');
-                        window.recalcVuexQueries()
+                        window.resetVuexQueries()
+                        store.dispatch('refresh_vr_items');
                     })
                 }
             } ) ;
