@@ -78,7 +78,7 @@ process.on('message', (msg) => {
         var ccc =  msg.nameOfVar + "['" + msg.index + "'] = (" + msg.value + ")";
         
         if (msg.nameOfVar == 'connections') {
-            console.log(ccc);
+            //console.log(ccc);
         }
         eval(ccc );
   

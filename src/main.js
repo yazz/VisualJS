@@ -133,7 +133,6 @@ var useY = 0;
 
 var inMove = false;
 
-var allQueries = new Object();
 
 function setupVRVuePane() {
 
@@ -903,10 +902,8 @@ window.showSearchResults = function() {
     if (searchtext.length == 0) {
         store.dispatch('set_search_subtext', "");
         store.dispatch('clear_search_results');
-        setTimeout(function(){
-            store.dispatch('refresh_vr_items');
-            //alert(1)
-                },100)//zzz
+        window.resetVuexQueries();
+        store.dispatch('refresh_vr_items');
     }
     
     //if ((searchtext.length > 0) && (inSearch == false)) {
@@ -1710,15 +1707,29 @@ window.when_drivers_changes = function(fields) {
 
 var in_when_queries_changes = false;
 var callQueriesAgain = false;
-window.recalcVuexQueries = function() {
-    var results = Object.keys(allQueries);
+window.resetVuexQueries = function() {
+    var results = window.sqlGetAllQueries();
 
     //store.dispatch('clear_queries');
     for (var i = 0 ; i < results.length ; i ++) {
-        var query = allQueries[results[i]];
+        var query = results[i];
+
+        window.updateScreenIndexInQueriesUi([i, query.id]);
+        window.updateVisibleInQueriesUi([true, query.id])
+        };
+};
+
+
+
+window.recalcVuexQueries = function() {
+    var results = window.sqlGetAllQueries();
+
+    //store.dispatch('clear_queries');
+    for (var i = 0 ; i < results.length ; i ++) {
+        var query = results[i];
         //alert(JSON.stringify(query , null, 2));
         //console.log('                      query *********:' + JSON.stringify(query , null, 2));
-        var exists = window.sqlGetQueryById(query.id)?true:false;
+        var exists = query?true:false;
 
         if (!exists) {
             if (!window.sqlGetQueryUiById(query.id)) {
