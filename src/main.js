@@ -529,7 +529,26 @@ function setupVRVuePane() {
 
 
 
+        AFRAME.registerComponent('show_history_info', {
+            schema: { 
+                        queryId: {type: 'string'}
+                    },
+                    
+            init: function () {
+                var self = this;
+                
+                this.el.addEventListener('click', function (evt) {
+                    gotoFunction({
+                        goto_name:  "history_info",
+                        distance:   6,
+                        duration:   "500"
+                    });
+                });
+            }
+		});
 
+        
+        
 
         AFRAME.registerComponent('show_query_info', {
             schema: { 
