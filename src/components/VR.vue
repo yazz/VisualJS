@@ -50,12 +50,18 @@
                         <a-entity   position="1 3 0" 
                                     mixin="RobotoFont"
                                     v-bind:text='"color: black; align: left; value: Search ; width: 5; "'></a-entity>
-                        <a-entity   geometry="primitive: plane; width: 3; height: .5;"  
-                                    position="0 2.6 0" 
-                                    material="color: blue; opacity: 0.9;">
-                            <a-entity   position="1.6 0.0 0"
-                                        mixin="RobotoFont"                            
-                                        v-bind:text='"color: black;align: left; value: " + getCurrentSearch + " ; width: 6; "'>
+                        <a-entity
+                                        position="0 2.6 0" 
+                        >   
+                            <a-entity   geometry="primitive: plane; width: 3; height: .5;"  
+                                        position="0 0 0.01" 
+                                        material="color: lightgray; opacity: 0.9;">
+                                <a-entity   position="1.6 0.0 0"
+                                            mixin="RobotoFont"                            
+                                            v-bind:text='"color: black;align: left; value: " + getCurrentSearch + " ; width: 6; "'>
+                                </a-entity>
+                                <a-animation begin="mouseenter" attribute="rotation"
+                                            to="0 0 1" dur="50" direction="alternate"  repeat="3"></a-animation>
                             </a-entity>
                             <a-entity   position="0 -.5 0" 
                                         mixin="RobotoFont"
@@ -68,6 +74,8 @@
                                         material="color: gray; opacity: 0.9;"
                                         close_related=''
                                         text="color: blue;align: center; value: Cancel filter ; width: 5; ">
+                                    <a-animation begin="mouseenter" attribute="rotation"
+                                                to="0 0 2" dur="20" direction="alternate"  repeat="3"></a-animation>
                             </a-entity>
                         
 
