@@ -2,8 +2,8 @@
 
 
 
-## GoShareData Enterprise Search - For demo click here http://139.162.228.5/
-    Fast, secure search across all the tools you use at work, including Excel, Oracle, SharePoint and more.
+## Click here for demo http://139.162.228.5/
+    See how all your documents are related
 
 
 
@@ -12,10 +12,10 @@
 
 
 <p align="center">
-    <img src='http://gosharedata.com/desktop.PNG' />
+    <img src='http://visifiles.com/desktop.PNG' />
     </p>
 </div>
-Go Share Data is a desktop search program. The data types supported are:
+VisiFiles is a desktop program that scans your documents and shows all the relationships . The document supported are:
 
 * MySQL
 * Oracle
