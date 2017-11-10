@@ -90,8 +90,12 @@ process.on('message', (msg) => {
   } else if (msg.message_type == 'childRunIndexer') {
        //console.log("Set Index files timer");
        setInterval(indexFilesFn ,numberOfSecondsIndexFilesInterval * 1000);
+       setInterval(indexFileRelationshipsFn ,numberOfSecondsIndexFilesInterval * 1000);
   }
-	
+
+
+
+  
 });
 
 
@@ -366,6 +370,58 @@ function getRelatedDocuments(id, callback) {
 
 
 
+function getRelatedDocumentHashes(id, callback) {
+        console.log("In getRelatedDocuments" );
+    var sql = "select  " +
+                "    distinct(id), cc, name, driver, size from ( " +
+                "            select document_binary_hash,  count(child_hash) as cc from  " +
+                "            search_rows_hierarchy where child_hash in ( " +
+                "            select  " +
+                "                child_hash " +
+                "            from  " +
+                "                search_rows_hierarchy " +
+                "            where  " +
+                "                document_binary_hash = ( " +
+                "                    select   " +
+                "                        hash from queries where id = '" + id+ "' " +
+                "                 )) group by document_binary_hash ) as ttt,  " +
+                "            queries " +
+                "where hash = document_binary_hash " +
+                "group by id " +
+                "order by cc desc "
+                     
+     
+    try
+    {
+        var stmt = dbsearch.all(
+            sql,
+            function(err, results) 
+            {
+                if (!err) 
+                {
+                    dbsearch.serialize(function() {
+                            stmtUpdateRelatedDocumentCount.run(results.length, id);
+                    })                                    
+                     
+        console.log("OK")
+                    if (callback) {
+                        callback(results);
+                    }
+                    process.send({  message_type:       "return_similar_documents",
+                                    query_id:            id,
+                                    results: JSON.stringify(results,null,2)  });
+                }
+            })
+    } catch(err) {
+        console.log(err)
+                        process.send({  message_type:       "return_similar_documents",
+                                        sqlite: "Err: " + err  });
+        
+    }
+     
+     
+     
+}
 
 
 
@@ -378,6 +434,43 @@ function getRelatedDocuments(id, callback) {
 
 
 
+        var indexFileRelationshipsFn = function() {
+           
+           try {
+            var stmt = dbsearch.all(
+                "SELECT * FROM queries WHERE related_status IS NULL LIMIT 1 " ,
+                function(err, results) 
+                {
+                    if (!err) 
+                    {
+                        if( results.length != 0) 
+                        {
+                            console.log("          : " + JSON.stringify(results[0],null,2));
+
+                            getRelatedDocumentHashes(results[0].hash, function(results) {
+                    
+                                console.log("**getRelatedDocumentHashes returned: " + results.length);
+                                ///zzz
+                                
+                            });
+                        } else {
+                            //console.log("          else: ");
+                        }                        
+                    } else {
+                        console.log("          Error: " );
+                   } 
+                })
+           }catch (err) {
+                        console.log("          Error: " + err);
+           }
+
+        }
+        
+        
+        
+        
+        
+        
 
 
 
@@ -437,19 +530,6 @@ function getRelatedDocuments(id, callback) {
            }
 
         }
-        
-        
-        
-        
-        
-        //if (typeOfSystem == 'client') {
-     	//}
-
-
-        
-        
-        
-        
         
         
         
