@@ -407,10 +407,14 @@ function getRelatedDocumentHashes(  doc_hash,  callback  ) {
                 if (!err) 
                 {
                     dbsearch.serialize(function() {
+                        dbsearch.run("begin transaction");
                         stmtUpdateRelationships.run('INDEXED', doc_hash);
                         for (var i =0 ; i < results.length; i++) {
+                            var newId = uuidv1();
+                            stmtInsertIntoRelationships.run(newId,  doc_hash, results[i].hash,  0);
                             
                         }
+                        dbsearch.run("commit");
                     })                                    
                      
                     console.log("       OK")
