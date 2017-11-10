@@ -37,6 +37,10 @@ username = os.userInfo().username.toLowerCase();
 
 
 var dbsearch = new sqlite3.Database(username + '.gsd');
+dbsearch.run("PRAGMA synchronous=OFF;")
+dbsearch.run("PRAGMA count_changes=OFF;")
+dbsearch.run("PRAGMA journal_mode=MEMORY;")
+dbsearch.run("PRAGMA temp_store=MEMORY;")
 
 
 
@@ -99,34 +103,33 @@ process.on('message', (msg) => {
 let counter = 0;
 
 setInterval(() => {
-    var countSqlite = 99;
-    //dbsearch.run("PRAGMA journal_mode=WAL;")
-    dbsearch.run("PRAGMA synchronous=OFF;")
-    dbsearch.run("PRAGMA count_changes=OFF;")
-    dbsearch.run("PRAGMA journal_mode=MEMORY;")
-    dbsearch.run("PRAGMA temp_store=MEMORY;")
-
-            try
+    try
+    {
+        var stmt = dbsearch.all(
+            "SELECT count(*) FROM queries;",
+            function(err, results) 
             {
-                var stmt = dbsearch.all(
-                    "SELECT count(*) FROM queries;",
-                    function(err, results) 
-                    {
-                        if (!err) 
-                        {
-                            if( results.length > 0)  {
+                if (!err) 
+                {
+                    if( results.length > 0)  {
 
-                                process.send({  message_type:       "return_test_fork",
-                                                counter:    counter++, sqlite: JSON.stringify(results[0],null,2)  });
-                            }
-                        }
-                    })
-            } catch(err) {
-                                process.send({  message_type:       "return_test_fork",
-                                                counter:    counter++, sqlite: "Err: " + err  });
-                
-            }
+                        process.send({  message_type:       "return_test_fork",
+                                        counter:    counter ++, sqlite: JSON.stringify(results[0],null,2)  });
+                    }
+                }
+            })
+    } catch(err) {
+                        process.send({  message_type:       "return_test_fork",
+                                        counter:    counter ++, sqlite: "Err: " + err  });
+        
+    }
 }, 1000);
+
+
+
+
+
+
 
 
 
