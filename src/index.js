@@ -757,6 +757,13 @@ function isNumber(n) {
 				  res.end();
 				  return;
 			  };
+			  if (req.headers.host.toLowerCase() == 'visifiles.com') {
+				res.writeHead(301,
+					{Location: 'http://gosharedata.com/gosharedata/index.html?time=' + new Date().getTime()}
+				  );
+				  res.end();
+				  return;
+			  };
 		  };
 
 		  if (!init_drivers) {
