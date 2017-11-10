@@ -150,7 +150,7 @@ var sqlite3   = require2('sqlite3');
 
 console.log(" ");
 console.log("-----------------------------------------------------------------------");
-console.log("                         Starting GoShareData ");
+console.log("                         Starting VisiFiles ");
 console.log("-----------------------------------------------------------------------");
 
 console.log(" ");
@@ -816,7 +816,7 @@ app.use(cors())
             return true;
         };
         res.writeHead(200, {'Content-Type': 'text/plain'});
-        res.end("Sorry but access to " + username + "'s data is not allowed. Please ask " + username + " to unlocked their GoShareData account");
+        res.end("Sorry but access to " + username + "'s data is not allowed. Please ask " + username + " to unlocked their VisiFiles account");
         return false;
 	};
         

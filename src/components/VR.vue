@@ -45,7 +45,7 @@
 								rotation='0 0 0' >
                         <a-entity   position="0 4 0" 
                                     mixin="RobotoFont"
-                                    v-bind:text='"color: black; align: center; value: GoShareData " + "" +" ; width: 6; "'></a-entity>
+                                    v-bind:text='"color: black; align: center; value: VisiFiles " + "" +" ; width: 6; "'></a-entity>
                         
                         <a-entity   position="1 3 0" 
                                     mixin="RobotoFont"
