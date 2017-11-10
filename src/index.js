@@ -107,7 +107,7 @@ program
   .version('0.0.1')
   .option('-t, --type [type]', 'Add the specified type of app (client/server) [type]', 'client')
   .option('-p, --port [port]', 'Which port should I listen on? (default 80) [port]', parseInt)
-  .option('-h, --host [host]', 'Server address of the central host (default gosharedata.com) [host]', 'gosharedata.com')
+  .option('-h, --host [host]', 'Server address of the central host (default visifiles.com) [host]', 'visifiles.com')
   .option('-l, --locked [locked]', 'Allow server to be locked/unlocked on start up (default true) [locked]', 'true')
   .option('-s, --hostport [hostport]', 'Server port of the central host (default 80) [hostport]', parseInt)
   .parse(process.argv);
@@ -752,14 +752,14 @@ function isNumber(n) {
 			  };
 			  if (req.headers.host.toLowerCase() == 'gosharedata.com') {
 				res.writeHead(301,
-					{Location: 'http://gosharedata.com/gosharedata/index.html?time=' + new Date().getTime()}
+					{Location: 'http://visifiles.com/gosharedata/index.html?time=' + new Date().getTime()}
 				  );
 				  res.end();
 				  return;
 			  };
 			  if (req.headers.host.toLowerCase() == 'visifiles.com') {
 				res.writeHead(301,
-					{Location: 'http://gosharedata.com/gosharedata/index.html?time=' + new Date().getTime()}
+					{Location: 'http://visifiles.com/gosharedata/index.html?time=' + new Date().getTime()}
 				  );
 				  res.end();
 				  return;
