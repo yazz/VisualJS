@@ -153,6 +153,10 @@ setInterval(() => {
 
 
 
+var stmtInsertIntoRelationships = dbsearch.prepare( " insert into relationships " + 
+                                                    "    ( id, source_query_hash, target_query_hash, similar_row_count ) " +
+                                                    " values " + 
+                                                    "    (?,  ?,?,  ?);");
 
 
 
@@ -175,6 +179,10 @@ var stmtUpdateRelatedDocumentCount = dbsearch.prepare(" update queries " +
                             " where  " + 
                             "    id = ? ;");
 
+var stmtUpdateRelationships = dbsearch.prepare(" update queries " + 
+                            "    set  related_status = ?  " +
+                            " where  " + 
+                            "    hash = ? ;");
 
 
                                                 
@@ -370,25 +378,24 @@ function getRelatedDocuments(id, callback) {
 
 
 
-function getRelatedDocumentHashes(id, callback) {
+function getRelatedDocumentHashes(  doc_hash,  callback  ) {
         console.log("In getRelatedDocuments" );
-    var sql = "select  " +
-                "    distinct(id), cc, name, driver, size from ( " +
-                "            select document_binary_hash,  count(child_hash) as cc from  " +
-                "            search_rows_hierarchy where child_hash in ( " +
-                "            select  " +
-                "                child_hash " +
-                "            from  " +
-                "                search_rows_hierarchy " +
-                "            where  " +
-                "                document_binary_hash = ( " +
-                "                    select   " +
-                "                        hash from queries where id = '" + id+ "' " +
-                "                 )) group by document_binary_hash ) as ttt,  " +
-                "            queries " +
-                "where hash = document_binary_hash " +
-                "group by id " +
-                "order by cc desc "
+    var sql = 
+                "select                                                                       " +
+                "    distinct(hash), cc, driver, size from (                                  " +
+                "        select document_binary_hash,  count(child_hash) as cc from           " +
+                "            search_rows_hierarchy where child_hash in (                      " +
+                "                select                                                       " +
+                "                   child_hash                                                " +
+                "                from                                                         " +
+                "                        search_rows_hierarchy                                " +
+                "                where                                                        " +
+                "                       document_binary_hash = '" + doc_hash + "')            " +
+                "                group by document_binary_hash ) as ttt,                      " +
+                "                queries                                                      " +
+                "             where hash = document_binary_hash                               " +
+                "               group by id                                                   " +
+                "                order by cc desc                                             " ;
                      
      
     try
@@ -400,21 +407,24 @@ function getRelatedDocumentHashes(id, callback) {
                 if (!err) 
                 {
                     dbsearch.serialize(function() {
-                            stmtUpdateRelatedDocumentCount.run(results.length, id);
+                        stmtUpdateRelationships.run('INDEXED', doc_hash);
+                        for (var i =0 ; i < results.length; i++) {
+                            
+                        }
                     })                                    
                      
-        console.log("OK")
+                    console.log("       OK")
                     if (callback) {
                         callback(results);
                     }
-                    process.send({  message_type:       "return_similar_documents",
-                                    query_id:            id,
+                    process.send({  message_type:       "return_similar_hashes",
+                                    document_hash:       doc_hash,
                                     results: JSON.stringify(results,null,2)  });
                 }
             })
     } catch(err) {
         console.log(err)
-                        process.send({  message_type:       "return_similar_documents",
+                        process.send({  message_type:       "return_similar_hashes",
                                         sqlite: "Err: " + err  });
         
     }
