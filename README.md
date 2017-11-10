@@ -1,4 +1,4 @@
-<img src='http://gosharedata.com/gosharedata/visifiles_logo.PNG' />
+<img src='http://visifiles.com/gosharedata/visifiles_logo.PNG' />
 
 
 
