@@ -411,7 +411,7 @@ function getRelatedDocumentHashes(  doc_hash,  callback  ) {
                         stmtUpdateRelationships.run('INDEXED', doc_hash);
                         for (var i =0 ; i < results.length; i++) {
                             var newId = uuidv1();
-                            stmtInsertIntoRelationships.run(newId,  doc_hash, results[i].hash,  0);
+                            stmtInsertIntoRelationships.run(newId,  doc_hash, results[i].hash,  results[i].size);
                             
                         }
                         dbsearch.run("commit");
