@@ -2110,16 +2110,20 @@ var rhs = [
 ];
  
 var differences = diff(lhs, rhs);
-/*console.log("")
+console.log("")
 console.log("")
 console.log("")
 console.log("----------------------------------------------------------------------------------------------")
-console.log(JSON.stringify(differences,null,2))
+//console.log(JSON.stringify(differences,null,2))
+console.log("N: "  + JSON.stringify(differences.filter(function (el) {return el.kind == 'N'}),null,2))
+console.log("D: "  + JSON.stringify(differences.filter(function (el) {return el.kind == 'D'}),null,2))
+console.log("E: "  + JSON.stringify(differences.filter(function (el) {return el.kind == 'E'}),null,2))
+console.log("A: "  + JSON.stringify(differences.filter(function (el) {return el.kind == 'A'}),null,2))
 console.log("----------------------------------------------------------------------------------------------")
 console.log("")
 console.log("")
 console.log("")
-*/
+
 
 
 
