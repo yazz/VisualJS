@@ -66,22 +66,26 @@
                         </a-entity>
 
                                     
-                        <a-entity   position="-.5 1.4 0" mixin="RobotoFont"
-                                    v-bind:text='"wrapPixels: 2000; color: black; align: left; value: Name: " + get_query_property(get_viewed_query_id(),"name") +"  ; width: 8; "'></a-entity>
-                        <a-entity   position="-.5 1 0" mixin="RobotoFont"
-                                    v-bind:text='"wrapPixels: 2000; color: black; align: left; value: Size: " + get_query_property(get_viewed_query_id(),"size") +" bytes ; width: 8; "'></a-entity>
-                        <a-entity   position="-.5 .6 0" mixin="RobotoFont"
-                                    v-bind:text='"wrapPixels: 2000; color: black; align: left; value: Location: " + get_query_property(get_viewed_query_id(),"fileName") +"  ; width: 8; "'></a-entity>                                
-                        <a-entity   position="-.5 .2 0" mixin="RobotoFont"
-                                    v-bind:text='"wrapPixels: 2000; color: black; align: left; value: Hash: " + get_query_property(get_viewed_query_id(),"hash") +" ; width: 8; "'></a-entity>
-                        <a-entity   position="-.5 -.2 0" mixin="RobotoFont"
-                                    v-bind:text='"wrapPixels: 2000; color: black; align: left; value: doc: " + get_viewed_query_file() +" ; width: 8; "'></a-entity>
-                        <a-entity   position="-.5 -.6 0" mixin="RobotoFont"
-                                    v-bind:text='"wrapPixels: 2000; color: black; align: left; value: Type: " + get_query_property(get_viewed_query_id(),"type") +" ; width: 8; "'></a-entity>
-                        
+                    <a-box   width=.4 height=0.4 depth=.4 color=blue position="-.5 1.4 0">
+                                        <a-animation begin="mouseenter" attribute="rotation"
+                                                    to="0 0 4" dur="100" direction="alternate"  repeat="3"></a-animation>
+                    </a-box>
+
+                    <a-box   width=.4 height=0.4 depth=.4 color=green position="-1.1 .7 0">
+                                        <a-animation begin="mouseenter" attribute="rotation"
+                                                    to="0 0 4" dur="100" direction="alternate"  repeat="3"></a-animation>
+                    </a-box>
+                    
+                    
+                    <a-box   width=.4 height=0.4 depth=.4 color=green position="0.1 .7 0">
+                                        <a-animation begin="mouseenter" attribute="rotation"
+                                                    to="0 0 4" dur="100" direction="alternate"  repeat="3"></a-animation>
+                    </a-box>
+
+
                         <a-entity  	material='color: gray;opacity: .5;'  
                                     geometry='primitive: box; width: 2.5; height: .5; depth: .1.8;'
-                                    position="1 -.8 0"
+                                    position="3 -2.8 0"
                                     mixin="RobotoFont"
                                     text='color: black; align: center; value: Close; width: 4; '
                                     goto='name: scrollable_grid;  distance: 4; duration: 300;' 
@@ -90,7 +94,6 @@
                                                     to="0 0 4" dur="100" direction="alternate"  repeat="3"></a-animation>
                                                
                         </a-entity >
-
                     </a-entity>
                 </a-entity>
 
