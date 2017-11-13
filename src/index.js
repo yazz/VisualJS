@@ -508,7 +508,7 @@ var getResult = function(source, connection, driver, definition, callback) {
                 dbsearch.run("begin transaction");
                 setIn.run("PROCESSING" ,source);
                 dbsearch.run("commit");
-                console.log('**** drivers[driver] = ' + driver)
+                //console.log('**** drivers[driver] = ' + driver)
                 drivers[driver]['get_v2'](connections[connection],definition,function(ordata) {
                     console.log("23");
                     if (ordata.error) {

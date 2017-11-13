@@ -220,12 +220,12 @@
 
 
     get_v2: function( connection , parameters , callfn ) {
-        console.log('********************************');
-        console.log('********************************');
-        console.log('****     LOADING CSV   *********');
-        console.log('****     LOADING CSV   *********' + connection.fileName);
-        console.log('********************************');
-        console.log('********************************');
+        //console.log('********************************');
+        //console.log('********************************');
+        //console.log('****     LOADING CSV   *********');
+        //console.log('****     LOADING CSV   *********' + connection.fileName);
+        //console.log('********************************');
+        //console.log('********************************');
         if (
             (connection.status == 'disconnected')
             ||
@@ -241,8 +241,8 @@
         var ret = new Object();
 
         var content = fs.readFileSync(connection.fileName, "utf8");
-          //console.log('var content = fs.readFileSync(connection.fileName);');
-         //console.log(content);
+        //console.log('var content = fs.readFileSync(connection.fileName);');
+        //console.log(content);
         var delim = ',';
         var numCommas = ((content.match(new RegExp(",", "g")) || []).length);
 	    //console.log('numCommas = ' + numCommas);

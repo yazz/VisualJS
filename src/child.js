@@ -29,6 +29,63 @@ function require2(moduleName) {
 	return reac;
 };
 
+
+
+
+
+var diff = require('deep-diff').diff
+//console.log("Deep: " + diff)
+
+
+var lhs = [
+{line: 2, value: "The cat sat on the mat"}
+,
+{line: 1, value: "The cat sat on the mat2"}
+,
+{line: 3, value: "The cat sat on the mat2"}
+    ]
+;
+ 
+var rhs = [
+
+{line: 1, value: "The cat sat on the mat2"}
+,
+{line: 2, value: "The cat sat on the mat"}
+,
+{line: 3, value: "The cat sat on the mat2"}
+,
+{line: 4, value: "The cat sat on the mat2"}
+
+];
+ 
+var diffFn = function(lhs2, rhs2) {
+    var differences = diff(lhs2, rhs2);
+    return {
+            new:     differences.filter(function (el) {return el.kind == 'N'}).length,
+            deleted: differences.filter(function (el) {return el.kind == 'D'}).length,
+            edited:  differences.filter(function (el) {return el.kind == 'E'}).length,
+            array:   differences.filter(function (el) {return el.kind == 'A'}).length
+    };
+
+};
+console.log("")
+console.log("")
+console.log("")
+console.log("----------------------------------------------------------------------------------------------")
+//console.log(JSON.stringify(differences,null,2))
+var xdiff = diffFn(lhs, rhs);
+console.log("N: "  + JSON.stringify(xdiff.new,null,2))
+console.log("D: "  + JSON.stringify(xdiff.deleted,null,2))
+console.log("E: "  + JSON.stringify(xdiff.edited,null,2))
+console.log("A: "  + JSON.stringify(xdiff.array,null,2))
+console.log("----------------------------------------------------------------------------------------------")
+console.log("")
+console.log("")
+console.log("")
+
+
+
+
 var sqlite3   = require2('sqlite3');
 var os= require('os')
 var username = "Unknown user";
@@ -344,6 +401,9 @@ function getRelatedDocuments(id, callback) {
      
     try
     {
+        console.log("**** : **********************")
+        console.log("**** : **********************")
+        console.log("**** : **********************")
         var stmt = dbsearch.all(
             sql,
             function(err, results) 
@@ -353,8 +413,15 @@ function getRelatedDocuments(id, callback) {
                     dbsearch.serialize(function() {
                             stmtUpdateRelatedDocumentCount.run(results.length, id);
                     })                                    
+                    
+                    for (var i = 0; i < results.length; i ++) {
+                        console.log("**** : " + JSON.stringify(results[i],null,2));
+                        //var dxz = diffFn();
+                    }
+                    
+                    
                      
-        console.log("OK")
+                    console.log("OK")
                     if (callback) {
                         callback(results);
                     }
@@ -525,7 +592,7 @@ function getRelatedDocumentHashes(  doc_hash,  callback  ) {
                                                 {
                                                     
                                                     if (!result.error) {
-                                                        console.log("File added v2: " + JSON.stringify(results[0].fileName,null,2));
+                                                        //console.log("File added v2: " + JSON.stringify(results[0].fileName,null,2));
                                                         /*sendOverWebSockets({
                                                                                 type:   "server_scan_status",  
                                                                                 value:  "File indexed: " + results[0].fileName
@@ -586,8 +653,8 @@ var getResult = function(source, connection, driver, definition, callback) {
                 dbsearch.run("begin transaction");
                 setIn.run("PROCESSING" ,source);
                 dbsearch.run("commit");
-                console.log('**** drivers[driver] = ' + driver)
-                console.log('**** drivers.len = ' + drivers[driver].get_v2)
+                //console.log('**** drivers[driver] = ' + driver)
+                //console.log('**** drivers.len = ' + drivers[driver].get_v2)
                 drivers[driver]['get_v2'](connections[connection],definition,function(ordata) {
                     console.log("23");
                     if (ordata.error) {
