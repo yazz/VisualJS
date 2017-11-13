@@ -2107,19 +2107,31 @@ var rhs = [
 {line: 2, value: "The cat sat on the mat"}
 ,
 {line: 3, value: "The cat sat on the mat2"}
+,
+{line: 4, value: "The cat sat on the mat2"}
 
 ];
  
-var differences = diff(lhs, rhs);
+var diffFn = function(lhs2, rhs2) {
+    var differences = diff(lhs2, rhs2);
+    return {
+            new:     differences.filter(function (el) {return el.kind == 'N'}).length,
+            deleted: differences.filter(function (el) {return el.kind == 'D'}).length,
+            edited:  differences.filter(function (el) {return el.kind == 'E'}).length,
+            array:   differences.filter(function (el) {return el.kind == 'A'}).length
+    };
+
+};
 console.log("")
 console.log("")
 console.log("")
 console.log("----------------------------------------------------------------------------------------------")
 //console.log(JSON.stringify(differences,null,2))
-console.log("N: "  + JSON.stringify(differences.filter(function (el) {return el.kind == 'N'}),null,2))
-console.log("D: "  + JSON.stringify(differences.filter(function (el) {return el.kind == 'D'}),null,2))
-console.log("E: "  + JSON.stringify(differences.filter(function (el) {return el.kind == 'E'}),null,2))
-console.log("A: "  + JSON.stringify(differences.filter(function (el) {return el.kind == 'A'}),null,2))
+var xdiff = diffFn(lhs, rhs);
+console.log("N: "  + JSON.stringify(xdiff.new,null,2))
+console.log("D: "  + JSON.stringify(xdiff.deleted,null,2))
+console.log("E: "  + JSON.stringify(xdiff.edited,null,2))
+console.log("A: "  + JSON.stringify(xdiff.array,null,2))
 console.log("----------------------------------------------------------------------------------------------")
 console.log("")
 console.log("")
