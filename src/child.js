@@ -541,15 +541,17 @@ function getRelatedDocumentHashes(  doc_hash,  callback  ) {
                                   
                                 if (relatedResults.length > 0) {
                                     getResult(  
-                                        relatedResults[0].id, 
-                                        relatedResults[0].connection, 
-                                        relatedResults[0].driver, 
+                                        queryToIndex.id, 
+                                        queryToIndex.connection, 
+                                        queryToIndex.driver, 
                                         {}, 
                                         function(queryResult)
                                         {
                                             
                                             if (!queryResult.error) {
-                                                console.log("     source result length : " + " = " + queryResult.length);
+                                                console.log("     source result length : " + " = " + queryResult.values.length);
+                                            } else {
+                                                console.log("     error : " + " = " + queryResult.error);
                                             }
                                         });
                                     
@@ -559,7 +561,7 @@ function getRelatedDocumentHashes(  doc_hash,  callback  ) {
                                     //console.log("**getRelatedDocumentHashes returned: " + results.length);
                                     //zzz
                                     for (var i = 0; i < relatedResults.length; i ++) {
-                                        //console.log("**** : " + JSON.stringify(results[i],null,2));
+                                        console.log("         **** : " + JSON.stringify(relatedResults[i],null,2));
                                         //var dxz = diffFn();
                                     }
                                 
