@@ -31,6 +31,10 @@ function require2(moduleName) {
 
 
 
+function outputToConsole(text) {
+    var c = console;
+    c.log(text);
+}
 
 
 var diff = require('deep-diff').diff
@@ -68,20 +72,20 @@ var diffFn = function(lhs2, rhs2) {
     };
 
 };
-console.log("")
-console.log("")
-console.log("")
-console.log("----------------------------------------------------------------------------------------------")
+//console.log("")
+//console.log("")
+//console.log("")
+//console.log("----------------------------------------------------------------------------------------------")
 //console.log(JSON.stringify(differences,null,2))
 var xdiff = diffFn(lhs, rhs);
-console.log("N: "  + JSON.stringify(xdiff.new,null,2))
-console.log("D: "  + JSON.stringify(xdiff.deleted,null,2))
-console.log("E: "  + JSON.stringify(xdiff.edited,null,2))
-console.log("A: "  + JSON.stringify(xdiff.array,null,2))
-console.log("----------------------------------------------------------------------------------------------")
-console.log("")
-console.log("")
-console.log("")
+//console.log("N: "  + JSON.stringify(xdiff.new,null,2))
+//console.log("D: "  + JSON.stringify(xdiff.deleted,null,2))
+//console.log("E: "  + JSON.stringify(xdiff.edited,null,2))
+//console.log("A: "  + JSON.stringify(xdiff.array,null,2))
+//console.log("----------------------------------------------------------------------------------------------")
+//console.log("")
+//console.log("")
+//console.log("")
 
 
 
@@ -127,7 +131,7 @@ process.on('message', (msg) => {
         //console.log("got message getRelatedDocuments" );
                 getRelatedDocuments(msg.id, function(results) {
                     
-                    console.log("**getRelatedDocuments returned: " + results.length);
+                    //console.log("**getRelatedDocuments returned: " + results.length);
                 });
                 
                 
@@ -244,7 +248,7 @@ var stmtUpdateRelationships = dbsearch.prepare(" update queries " +
 
                                                 
 function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileType2) {
-    console.log("... in saveConnectionAndQueryForFile:::: " + fileId)
+    //console.log("... in saveConnectionAndQueryForFile:::: " + fileId)
     if (!fileName) {
         return;
     };
@@ -262,9 +266,9 @@ function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileTyp
         hash.end();
         var sha1sum = hash.read();
                              
-console.log("child 1")                             
+//console.log("child 1")                             
         dbsearch.serialize(function() {
-console.log("child 2")                             
+//console.log("child 2")                             
             var newid = uuidv1();
             stmtInsertIntoConnections.run(
                      newid,
@@ -274,7 +278,7 @@ console.log("child 2")
                      sha1sum,
                      fileType2,
                      fileName, function(err) {
-console.log("child 3")                             
+//console.log("child 3")                             
      
                             //connections[newid] = {id: newid, name: fileId, driver: fileType, size: size, hash: sha1sum, type: fileType2, fileName: fileName };
                             process.send({ 
@@ -287,7 +291,7 @@ console.log("child 3")
                                             type:       fileType2, 
                                             fileName:   fileName
                             });
-console.log("child 4")                             
+//console.log("child 4")                             
         
                             var copyfrom = fileName;
                             var saveName = "gsd_" + sha1sum.toString() + path.extname(fileName);
@@ -306,7 +310,7 @@ console.log("child 4")
                                                     fs.readFileSync(copyfrom),
                                                     
                                                     function(err) {
-                                                        console.log('added file to sqlite');
+                                                        //console.log('added file to sqlite');
                                                         });
                                             });
                                         };
@@ -315,7 +319,7 @@ console.log("child 4")
                               
                               
                             dbsearch.serialize(function() {
-                                    console.log(":      saving query ..." + fileId);                        
+                                    //console.log(":      saving query ..." + fileId);                        
                                     var newqueryid = uuidv1();
                                     stmtInsertInsertIntoQueries.run(newqueryid,
                                              fileId, 
@@ -329,11 +333,11 @@ console.log("child 4")
                                              JSON.stringify([{message: 'No preview available'}] , null, 2),
                                              function(err) {
                                                  if (err) {
-                                                    console.log('   err : ' + err);
+                                                    //console.log('   err : ' + err);
                                                  }
-                                                console.log('   save result set fileid 1 : ' + fileId );
+                                                //console.log('   save result set fileid 1 : ' + fileId );
                                                 var fileId2 = fileId;
-                                                console.log('   save result set fileid 2 : ' + fileId2 );
+                                                //console.log('   save result set fileid 2 : ' + fileId2 );
                                                 var newqueryid2 = newqueryid;
                                                 var fileType2 = fileType;
                                                 var newid2 = newid;
@@ -352,18 +356,18 @@ console.log("child 4")
                                                                 definition:         JSON.stringify({} , null, 2), 
                                                                 preview:            JSON.stringify([{message: 'No preview available'}] , null, 2)});
 
-                                                        console.log('    ...  entering getresult v2:  '  + fileId2);
+                                                        //console.log('    ...  entering getresult v2:  '  + fileId2);
                                                          
                                                     }
                                                 );
                             });
-                            console.log("... query saved: " + fileId);
+                            //console.log("... query saved: " + fileId);
                             
                          
                      });                     
         });
     } catch(err) {
-        console.log("Error " + err + " with file: " + fileName);     
+        //console.log("Error " + err + " with file: " + fileName);     
         return err; 
     } finally {
         
@@ -379,7 +383,7 @@ console.log("child 4")
 
 
 function getRelatedDocuments(id, callback) {
-        console.log("In getRelatedDocuments" );
+        //console.log("In getRelatedDocuments" );
     var sql = "select  " +
                 "    distinct(id), cc, name, driver, size from ( " +
                 "            select document_binary_hash,  count(child_hash) as cc from  " +
@@ -401,9 +405,9 @@ function getRelatedDocuments(id, callback) {
      
     try
     {
-        console.log("**** : **********************")
-        console.log("**** : **********************")
-        console.log("**** : **********************")
+        //console.log("**** : **********************")
+        //console.log("**** : **********************")
+        //console.log("**** : **********************")
         var stmt = dbsearch.all(
             sql,
             function(err, results) 
@@ -415,13 +419,13 @@ function getRelatedDocuments(id, callback) {
                     })                                    
                     
                     for (var i = 0; i < results.length; i ++) {
-                        console.log("**** : " + JSON.stringify(results[i],null,2));
+                        //console.log("**** : " + JSON.stringify(results[i],null,2));
                         //var dxz = diffFn();
                     }
                     
                     
                      
-                    console.log("OK")
+                    //console.log("OK")
                     if (callback) {
                         callback(results);
                     }
@@ -431,7 +435,7 @@ function getRelatedDocuments(id, callback) {
                 }
             })
     } catch(err) {
-        console.log(err)
+        //console.log(err)
                         process.send({  message_type:       "return_similar_documents",
                                         sqlite: "Err: " + err  });
         
@@ -446,7 +450,7 @@ function getRelatedDocuments(id, callback) {
 
 
 function getRelatedDocumentHashes(  doc_hash,  callback  ) {
-        console.log("In getRelatedDocuments" );
+        //console.log("In getRelatedDocuments" );
     var sql = 
                 "select                                                                       " +
                 "    distinct(hash), cc, driver, size from (                                  " +
@@ -484,7 +488,7 @@ function getRelatedDocumentHashes(  doc_hash,  callback  ) {
                         dbsearch.run("commit");
                     })                                    
                      
-                    console.log("       OK")
+                    //console.log("       OK")
                     if (callback) {
                         callback(results);
                     }
@@ -494,7 +498,7 @@ function getRelatedDocumentHashes(  doc_hash,  callback  ) {
                 }
             })
     } catch(err) {
-        console.log(err)
+        //console.log(err)
                         process.send({  message_type:       "return_similar_hashes",
                                         sqlite: "Err: " + err  });
         
@@ -526,23 +530,74 @@ function getRelatedDocumentHashes(  doc_hash,  callback  ) {
                     {
                         if( results.length != 0) 
                         {
-                            console.log("          : " + JSON.stringify(results[0],null,2));
+                            //console.log("          : " + JSON.stringify(results[0],null,2));
 
                             getRelatedDocumentHashes(results[0].hash, function(results) {
                     
-                                console.log("**getRelatedDocumentHashes returned: " + results.length);
-                                ///zzz
+                            getResult(  results[0].id, 
+                                results[0].connection, 
+                                results[0].driver, 
+                                {}, 
+                                function(result)
+                                {
+                                    
+                                    if (!result.error) {
+                                        //console.log("results of : " + results[0].id + " = " + result.length);
+                                    }
+                                });
+                                
+                                
+                                
+                                
+                                //console.log("**getRelatedDocumentHashes returned: " + results.length);
+                                //zzz
+                                for (var i = 0; i < results.length; i ++) {
+                                    //console.log("**** : " + JSON.stringify(results[i],null,2));
+                                    //var dxz = diffFn();
+                                }
+                                
+                                
+                                
+                                
+                                
+                                            /*getResult(  results[0].id, 
+                                                results[0].connection, 
+                                                results[0].driver, 
+                                                {}, 
+                                                function(result)
+                                                {
+                                                    
+                                                    if (!result.error) {
+                                                        //console.log("File added v2: " + JSON.stringify(results[0].fileName,null,2));
+                                                    }
+                                                });*/
+
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
                                 
                             });
                         } else {
                             //console.log("          else: ");
                         }                        
                     } else {
-                        console.log("          Error: " );
+                        //console.log("          Error: " );
                    } 
                 })
            }catch (err) {
-                        console.log("          Error: " + err);
+                        //console.log("          Error: " + err);
            }
 
         }
@@ -581,7 +636,7 @@ function getRelatedDocumentHashes(  doc_hash,  callback  ) {
                     {
                         if( results.length != 0) 
                         {
-                            console.log("          : " + JSON.stringify(results[0],null,2));
+                            //console.log("          : " + JSON.stringify(results[0],null,2));
 
                             
                                     getResult(  results[0].id, 
@@ -603,11 +658,11 @@ function getRelatedDocumentHashes(  doc_hash,  callback  ) {
                             //console.log("          else: ");
                         }                        
                     } else {
-                        console.log("          Error: " );
+                        //console.log("          Error: " );
                    } 
                 })
            }catch (err) {
-                        console.log("          Error: " + err);
+                        //console.log("          Error: " + err);
            }
 
         }
@@ -631,7 +686,7 @@ var setIn = null;
         
         
 var getResult = function(source, connection, driver, definition, callback) {
-    console.log("var getResult = function(" + source + ", " + connection + ", " + driver + ", " + JSON.stringify(definition));
+    //console.log("var getResult = function(" + source + ", " + connection + ", " + driver + ", " + JSON.stringify(definition));
     if (stmt2 == null) {
         stmt2 = dbsearch.prepare("INSERT INTO zfts_search_rows_hashed (row_hash, data) VALUES (?, ?)");
     }
@@ -641,14 +696,14 @@ var getResult = function(source, connection, driver, definition, callback) {
     if (setIn == null) {
         setIn =  dbsearch.prepare("UPDATE queries SET index_status = ? WHERE id = ?");
     }
-    console.log("01");
+    //console.log("01");
                         
 
     var error = new Object();
     if (connections[connection]) {
-        console.log("02");
+        //console.log("02");
         try {
-            console.log("22");
+            //console.log("22");
             dbsearch.serialize(function() {
                 dbsearch.run("begin transaction");
                 setIn.run("PROCESSING" ,source);
@@ -656,12 +711,12 @@ var getResult = function(source, connection, driver, definition, callback) {
                 //console.log('**** drivers[driver] = ' + driver)
                 //console.log('**** drivers.len = ' + drivers[driver].get_v2)
                 drivers[driver]['get_v2'](connections[connection],definition,function(ordata) {
-                    console.log("23");
+                    //console.log("23");
                     if (ordata.error) {
-                        console.log("24");
-                        console.log("****************** err 4:" + ordata.error);
+                        //console.log("24");
+                        //console.log("****************** err 4:" + ordata.error);
                         dbsearch.serialize(function() {
-                            console.log("25");
+                            //console.log("25");
                             dbsearch.run("begin transaction");
                             setIn.run("ERROR: " + ordata.error,source);
                             dbsearch.run("commit");
@@ -669,26 +724,26 @@ var getResult = function(source, connection, driver, definition, callback) {
                         });
 
                     } else {
-                        console.log("26");
+                        //console.log("26");
                         var rrows = [];
                         if( Object.prototype.toString.call( ordata ) === '[object Array]' ) {
                             rrows = ordata;
                         } else {
                             rrows = ordata.values;
                         }
-                        console.log("27");
+                        //console.log("27");
                         //console.log( "   ordata: " + JSON.stringify(ordata));
                         var findHashSql = "select  hash from queries where id = '" + source + "'";
-                        console.log("FindHashSql : " + findHashSql );
-                        console.log("1");
+                        //console.log("FindHashSql : " + findHashSql );
+                        //console.log("1");
                         var stmt4 = dbsearch.all(findHashSql,
                             function(err, results2) {
-                                console.log("2");
+                                //console.log("2");
                                 if( err) {
-                                    console.log("Error: " + JSON.stringify(error) + "'");
+                                    //console.log("Error: " + JSON.stringify(error) + "'");
                                 }
                                 if( results2.length == 0) {
-                                    console.log("No sresults for hash" + source + "'");
+                                    //console.log("No sresults for hash" + source + "'");
                                 }
                                 var binHash = results2[0].hash;
                                 var stmt = dbsearch.all("select  " + 
@@ -698,20 +753,20 @@ var getResult = function(source, connection, driver, definition, callback) {
                                                     "where  " +
                                                     "    document_binary_hash = '" + binHash + "'",
                                 function(err, results) {
-                                    console.log("3");
+                                    //console.log("3");
                                     if (!err) {
-                                        console.log("4");
+                                        //console.log("4");
                                         if( results.length == 0) {
-                                            console.log("5");
+                                            //console.log("5");
                                             dbsearch.serialize(function() {
                                     
                                                 callback.call(this,ordata);
-                                                console.log("Inserting rows");
+                                                //console.log("Inserting rows");
                                                 
                                                 if (rrows && rrows.length) {
                             
                                                     dbsearch.run("begin transaction");
-                                                    console.log("Committing... " + rrows.length)
+                                                    //console.log("Committing... " + rrows.length)
                                                     for (var i =0 ; i < rrows.length; i++) {
                                                         var rowhash = crypto.createHash('sha1');
                                                         var row = JSON.stringify(rrows[i]);
@@ -726,14 +781,14 @@ var getResult = function(source, connection, driver, definition, callback) {
                                                     //console.log("Committed: " + rrows.length)
                                                     //stmt2.finalize();
                                                     //stmt3.finalize();
-                                                    console.log('                 : ' + JSON.stringify(rrows.length));
+                                                    //console.log('                 : ' + JSON.stringify(rrows.length));
                                                     
-                                                    console.log('                 source: ' + JSON.stringify(source));
+                                                    //console.log('                 source: ' + JSON.stringify(source));
                                                     setIn.run("INDEXED",source);
                                                     dbsearch.run("commit");
                                                     
                                                 } else {
-                                                    console.log("****************** err 2");
+                                                    //console.log("****************** err 2");
                                                     callback.call(this,{error: true});
                                                     dbsearch.run("begin transaction");
                                                     setIn.run("INDEXED: Other error",source);
@@ -741,7 +796,7 @@ var getResult = function(source, connection, driver, definition, callback) {
                                                 }
                                             });
                                         } else {
-                                            console.log("****************** err 5: no rows");
+                                            //console.log("****************** err 5: no rows");
                                             callback.call(this,ordata);
                                             dbsearch.serialize(function() {
                                                 dbsearch.run("begin transaction");
@@ -750,7 +805,7 @@ var getResult = function(source, connection, driver, definition, callback) {
                                             });
                                         }
                                     } else {
-                                        console.log("****************** err 3" + err);
+                                        //console.log("****************** err 3" + err);
                                         dbsearch.serialize(function() {
                                             dbsearch.run("begin transaction");
                                             setIn.run("ERROR: " + err, source);
@@ -767,20 +822,20 @@ var getResult = function(source, connection, driver, definition, callback) {
         
         }
         catch(err){
-            console.log("03");
-            console.log("****************** err 1: " + err);
+            //console.log("03");
+            //console.log("****************** err 1: " + err);
             callback.call(this,{error: true});
         }
     } else {
-        console.log("04");
-        console.log("****************** err 7 child for connection: " +connection );
+        //console.log("04");
+        //console.log("****************** err 7 child for connection: " +connection );
         dbsearch.serialize(function() {
-            console.log("05");
+            //console.log("05");
             dbsearch.run("begin transaction");
             setIn.run("ERROR: no connection for " + source , source);
             dbsearch.run("commit");
             callback.call(this,{error: true});
         });
     }
-        console.log("****************** err 10 child for connection: " +connection );
+        //console.log("****************** err 10 child for connection: " +connection );
     }
