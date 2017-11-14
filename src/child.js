@@ -549,7 +549,11 @@ function getRelatedDocumentHashes(  doc_hash,  callback  ) {
                                         {
                                             
                                             if (!queryResult.error) {
-                                                console.log("     source result length : " + " = " + queryResult.values.length);
+                                                if (queryResult.values) {
+                                                    console.log("     source result length : " + " = " + queryResult.values.length);
+                                                } else {
+                                                    console.log("     source result length : " + " = " + queryResult.length);
+                                                }
                                             } else {
                                                 console.log("     error : " + " = " + queryResult.error);
                                             }
@@ -562,6 +566,18 @@ function getRelatedDocumentHashes(  doc_hash,  callback  ) {
                                     //zzz
                                     for (var i = 0; i < relatedResults.length; i ++) {
                                         console.log("         **** : " + JSON.stringify(relatedResults[i],null,2));
+                                        var stmt = dbsearch.all(
+                                            "SELECT * FROM queries WHERE hash = '" + relatedResults[i].hash + "'" ,
+                                            function(err, results) 
+                                            {
+                                                if (!err) 
+                                                {
+                                                    if( results.length != 0) 
+                                                    {
+                                                        console.log("         ITEM : " + JSON.stringify(results[0],null,2));
+                                                    }
+                                                }
+                                            });
                                         //var dxz = diffFn();
                                     }
                                 

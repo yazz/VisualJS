@@ -248,11 +248,11 @@
                         var many = text.split("\n")
                         
                         var countc = many.length;
-                        console.log("Doc word count: " + countc );
+                        //console.log("Doc word count: " + countc );
                         for (var f = 0 ; f < countc; f ++ ) {
                             var textline  = many[f];
                             if (textline && (textline.length > 10)) {
-                                console.log("Word text length " + f + ": " + textline.length);
+                                //console.log("Word text length " + f + ": " + textline.length);
                                 rows.push({value: textline});
                             }
                         }
