@@ -97,7 +97,7 @@ username = os.userInfo().username.toLowerCase();
 //console.log(username);
 
 
-var dbsearch = new sqlite3.Database(username + '.gsd');
+var dbsearch = new sqlite3.Database(username + '.vis');
 dbsearch.run("PRAGMA synchronous=OFF;")
 dbsearch.run("PRAGMA count_changes=OFF;")
 dbsearch.run("PRAGMA journal_mode=MEMORY;")
@@ -530,31 +530,38 @@ function getRelatedDocumentHashes(  doc_hash,  callback  ) {
                     {
                         if( results.length != 0) 
                         {
-                            //console.log("          : " + JSON.stringify(results[0],null,2));
+                            console.log("" );
+                            console.log("" );
+                            console.log("In indexFileRelationshipsFn  " );
+                            console.log("      query to index: " + JSON.stringify(results[0].name,null,2));
+                            var queryToIndex = results[0];
 
-                            getRelatedDocumentHashes(results[0].hash, function(results) {
-                    
-                            getResult(  results[0].id, 
-                                results[0].connection, 
-                                results[0].driver, 
-                                {}, 
-                                function(result)
-                                {
+                            getRelatedDocumentHashes(queryToIndex.hash, function(relatedResults) {
+                                console.log("      Related hashes: " + JSON.stringify(relatedResults.length,null,2));
+                                  
+                                if (relatedResults.length > 0) {
+                                    getResult(  
+                                        relatedResults[0].id, 
+                                        relatedResults[0].connection, 
+                                        relatedResults[0].driver, 
+                                        {}, 
+                                        function(queryResult)
+                                        {
+                                            
+                                            if (!queryResult.error) {
+                                                console.log("     source result length : " + " = " + queryResult.length);
+                                            }
+                                        });
                                     
-                                    if (!result.error) {
-                                        //console.log("results of : " + results[0].id + " = " + result.length);
+                                    
+                                    
+                                    
+                                    //console.log("**getRelatedDocumentHashes returned: " + results.length);
+                                    //zzz
+                                    for (var i = 0; i < relatedResults.length; i ++) {
+                                        //console.log("**** : " + JSON.stringify(results[i],null,2));
+                                        //var dxz = diffFn();
                                     }
-                                });
-                                
-                                
-                                
-                                
-                                //console.log("**getRelatedDocumentHashes returned: " + results.length);
-                                //zzz
-                                for (var i = 0; i < results.length; i ++) {
-                                    //console.log("**** : " + JSON.stringify(results[i],null,2));
-                                    //var dxz = diffFn();
-                                }
                                 
                                 
                                 
@@ -572,7 +579,7 @@ function getRelatedDocumentHashes(  doc_hash,  callback  ) {
                                                     }
                                                 });*/
 
-                                
+                            }
                                 
                                 
                                 
