@@ -29,6 +29,110 @@ var path         = require('path');
 var mkdirp       = require('mkdirp')
 const uuidv1 = require('uuid/v1');
 var fork  = require('child_process');
+var drivers      = new Object();
+var connections  = new Object();
+var queries      = new Object();
+var express      = require('express')
+var app          = express()
+var expressWs    = require('express-ws')(app);
+var timeout      = 0;
+var init_drivers = false;
+var port;
+var hostaddress;
+var typeOfSystem;
+var centralHostAddress;
+var centralHostPort;
+var request      = require("request");
+var toeval;
+var open         = require('open');
+var dbhelper     = require('../public/dbhelper');
+var Excel = require('exceljs');
+var compression = require('compression')
+app.use(compression())
+var crypto = require('crypto');
+var PDFParser = require2("pdf2json");
+
+var async   = require('async');
+var sqlite3   = require2('sqlite3');
+
+var dns          = require('dns');
+var url          = require('url');
+var net          = require('net');
+var unzip        = require('unzip');
+var postgresdb   = require('pg');
+var ip           = require("ip");
+var program      = require('commander');                
+var os= require('os')
+var bodyParser = require('body-parser');
+var multer = require('multer');
+var upload = multer( { dest: 'uploads/' } );
+var diff = require('deep-diff').diff
+
+
+
+var stmt2 = null;
+var stmt3 = null;
+var setIn = null;
+                                        
+//console.log("...  ");
+//console.log("");
+                
+                
+var stopScan = false;
+var inScan = false;
+var XLSX = require('xlsx');
+var csv = require('fast-csv');
+var mammoth = require("mammoth");
+
+var mysql      = require('mysql');
+var cors = require('cors')
+
+
+path.join(__dirname, '../public/jquery-1.9.1.min.js')
+path.join(__dirname, '../public/jquery.zoomooz.js')
+path.join(__dirname, '../public/alasql.min.js')
+path.join(__dirname, '../public/polyfill.min.js')
+path.join(__dirname, '../src/oracle.js')
+path.join(__dirname, '../src/postgres.js')
+path.join(__dirname, '../src/excel.js')
+path.join(__dirname, '../src/child.js')
+path.join(__dirname, '../public/gosharedata_setup.js')
+path.join(__dirname, '../public/intranet.js')
+path.join(__dirname, '../public/tether.min.js')
+path.join(__dirname, '../public/bootstrap.min.js')
+path.join(__dirname, '../public/bootstrap.min.css')
+path.join(__dirname, '../public/aframe.min.js')
+path.join(__dirname, '../public/es6-shim.js')
+path.join(__dirname, '../public/vue_app.css')
+path.join(__dirname, '../public/dist/build.js')
+//path.join(__dirname, '../oracle_driver.zip')
+path.join(__dirname, '../public/gosharedata_logo.PNG')
+path.join(__dirname, '../public/favicon.ico')
+path.join(__dirname, '../public/driver_icons/excel.jpg')
+path.join(__dirname, '../public/driver_icons/csv.jpg')
+path.join(__dirname, '../public/driver_icons/oracle.jpg')
+path.join(__dirname, '../public/driver_icons/postgres.jpg')
+path.join(__dirname, '../public/driver_icons/mysql.jpg')
+path.join(__dirname, '../public/driver_icons/sqlite.jpg')
+path.join(__dirname, '../public/driver_icons/word.jpg')
+path.join(__dirname, '../public/driver_icons/pdf.jpg')
+path.join(__dirname, '../public/driver_icons/glb.jpg')
+path.join(__dirname, '../public/index_pc_mode.html')
+path.join(__dirname, '../public/dropzone.js')
+path.join(__dirname, '../public/dropzone.css')
+path.join(__dirname, '../public/locked.png')
+path.join(__dirname, '../public/unlocked.png')
+path.join(__dirname, '../public/gosharedata/list_intranet_servers.html')
+path.join(__dirname, '../public/list_intranet_servers.html')
+path.join(__dirname, '../public/\aframe_fonts/Roboto-msdf.json')
+path.join(__dirname, '../public/\aframe_fonts/Roboto-msdf.png')
+path.join(__dirname, '../public/\aframe_fonts/Aileron-Semibold.fnt')
+path.join(__dirname, '../public/\aframe_fonts/Aileron-Semibold.png')
+path.join(__dirname, '../public/\aframe_fonts/SourceCodePro.fnt')
+path.join(__dirname, '../public/\aframe_fonts/SourceCodePro.png')
+
+
+
 
 if (!fs.existsSync(process.cwd() + "/node_modules") ) {
     copyFolderRecursiveSync(path.join(__dirname, "../node_modules")  , process.cwd() ); }
@@ -102,13 +206,6 @@ if (isWin) {
 }
 
 
-var dns          = require('dns');
-var url          = require('url');
-var net          = require('net');
-var unzip        = require('unzip');
-var postgresdb   = require('pg');
-var ip           = require("ip");
-var program      = require('commander');
 program
   .version('0.0.1')
   .option('-t, --type [type]', 'Add the specified type of app (client/server) [type]', 'client')
@@ -126,33 +223,6 @@ program
   outputToConsole('Visifiles node local hostname: ' + ip.address() + ' ')
 
   
-var drivers      = new Object();
-var connections  = new Object();
-var queries      = new Object();
-var express      = require('express')
-var app          = express()
-var expressWs    = require('express-ws')(app);
-var timeout      = 0;
-var init_drivers = false;
-var port;
-var hostaddress;
-var typeOfSystem;
-var centralHostAddress;
-var centralHostPort;
-var request      = require("request");
-var toeval;
-var open         = require('open');
-var dbhelper     = require('../public/dbhelper');
-var Excel = require('exceljs');
-var compression = require('compression')
-app.use(compression())
-var crypto = require('crypto');
-var PDFParser = require2("pdf2json");
-
-var async   = require('async');
-
-
-var sqlite3   = require2('sqlite3');
 
 //console.log(" ");
 //console.log("-----------------------------------------------------------------------");
@@ -168,8 +238,6 @@ var sqlite3   = require2('sqlite3');
 //console.log(" ");
             
                 
-                
-var os= require('os')
 username = os.userInfo().username.toLowerCase();
 //console.log(username);
 
@@ -252,21 +320,6 @@ async.map([
         } finally {
         }
 
-var stmt2 = null;
-var stmt3 = null;
-var setIn = null;
-                                        
-//console.log("...  ");
-//console.log("");
-                
-                
-var stopScan = false;
-var inScan = false;
-var XLSX = require('xlsx');
-var csv = require('fast-csv');
-var mammoth = require("mammoth");
-
-var mysql      = require('mysql');
 
  function isExcelFile(fname) {
 	 if (!fname) {
@@ -444,49 +497,6 @@ function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileTyp
 };
 
 
-
-path.join(__dirname, '../public/jquery-1.9.1.min.js')
-path.join(__dirname, '../public/jquery.zoomooz.js')
-path.join(__dirname, '../public/alasql.min.js')
-path.join(__dirname, '../public/polyfill.min.js')
-path.join(__dirname, '../src/oracle.js')
-path.join(__dirname, '../src/postgres.js')
-path.join(__dirname, '../src/excel.js')
-path.join(__dirname, '../src/child.js')
-path.join(__dirname, '../public/gosharedata_setup.js')
-path.join(__dirname, '../public/intranet.js')
-path.join(__dirname, '../public/tether.min.js')
-path.join(__dirname, '../public/bootstrap.min.js')
-path.join(__dirname, '../public/bootstrap.min.css')
-path.join(__dirname, '../public/aframe.min.js')
-path.join(__dirname, '../public/es6-shim.js')
-path.join(__dirname, '../public/vue_app.css')
-path.join(__dirname, '../public/dist/build.js')
-//path.join(__dirname, '../oracle_driver.zip')
-path.join(__dirname, '../public/gosharedata_logo.PNG')
-path.join(__dirname, '../public/favicon.ico')
-path.join(__dirname, '../public/driver_icons/excel.jpg')
-path.join(__dirname, '../public/driver_icons/csv.jpg')
-path.join(__dirname, '../public/driver_icons/oracle.jpg')
-path.join(__dirname, '../public/driver_icons/postgres.jpg')
-path.join(__dirname, '../public/driver_icons/mysql.jpg')
-path.join(__dirname, '../public/driver_icons/sqlite.jpg')
-path.join(__dirname, '../public/driver_icons/word.jpg')
-path.join(__dirname, '../public/driver_icons/pdf.jpg')
-path.join(__dirname, '../public/driver_icons/glb.jpg')
-path.join(__dirname, '../public/index_pc_mode.html')
-path.join(__dirname, '../public/dropzone.js')
-path.join(__dirname, '../public/dropzone.css')
-path.join(__dirname, '../public/locked.png')
-path.join(__dirname, '../public/unlocked.png')
-path.join(__dirname, '../public/gosharedata/list_intranet_servers.html')
-path.join(__dirname, '../public/list_intranet_servers.html')
-path.join(__dirname, '../public/\aframe_fonts/Roboto-msdf.json')
-path.join(__dirname, '../public/\aframe_fonts/Roboto-msdf.png')
-path.join(__dirname, '../public/\aframe_fonts/Aileron-Semibold.fnt')
-path.join(__dirname, '../public/\aframe_fonts/Aileron-Semibold.png')
-path.join(__dirname, '../public/\aframe_fonts/SourceCodePro.fnt')
-path.join(__dirname, '../public/\aframe_fonts/SourceCodePro.png')
 
 
 
@@ -793,14 +803,12 @@ function isNumber(n) {
 	  })
 
       
-var cors = require('cors')
 
 app.use(cors())
             
     
     app.use("/public/aframe_fonts", express.static(path.join(__dirname, '../public/aframe_fonts')));
 	app.use(express.static(path.join(__dirname, '../public/')))
-	var bodyParser = require('body-parser');
 	app.use(bodyParser.json()); // support json encoded bodies
 	app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
@@ -983,8 +991,6 @@ app.ws('/websocket', function(ws, req) {
     
     
     
-var multer = require('multer');
-var upload = multer( { dest: 'uploads/' } );
 
 
     app.post('/file_upload', upload.array( 'file' ), function (req, res, next) {
@@ -2093,7 +2099,6 @@ forked.send({ message_type: "greeting", hello: 'world' });
 
 
 
-var diff = require('deep-diff').diff
 //console.log("Deep: " + diff)
 
 
