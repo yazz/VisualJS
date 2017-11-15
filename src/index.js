@@ -760,28 +760,28 @@ function isNumber(n) {
 		  console.log("Host: " + req.headers.host + ", " + hostcount);
 		  //console.log("URL: " + req.originalUrl);
 		  if (req.headers.host) {
-			  if (req.headers.host.toLowerCase() == 'canlabs.com') {
+			  if (req.headers.host.toLowerCase().endsWith('canlabs.com')) {
 				res.writeHead(301,
 					{Location: 'http://canlabs.com/canlabs'}
 				  );
 				  res.end();
 				  return;
 			  };
-				if (req.headers.host.toLowerCase() == 'thebank.digital') {
+				if (req.headers.host.toLowerCase().endsWith('thebank.digital')) {
 				res.writeHead(301,
 					{Location: 'http://thebank.digital/thebankdigital'}
 				  );
 				  res.end();
 				  return;
 			  };
-			  if (req.headers.host.toLowerCase() == 'gosharedata.com') {
+			  if (req.headers.host.toLowerCase().endsWith('gosharedata.com')) {
 				res.writeHead(301,
 					{Location: 'http://visifiles.com/gosharedata/index.html?time=' + new Date().getTime()}
 				  );
 				  res.end();
 				  return;
 			  };
-			  if (req.headers.host.toLowerCase() == 'visifiles.com') {
+			  if (req.headers.host.toLowerCase().endsWith('visifiles.com')) {
 				res.writeHead(301,
 					{Location: 'http://visifiles.com/gosharedata/index.html?time=' + new Date().getTime()}
 				  );
