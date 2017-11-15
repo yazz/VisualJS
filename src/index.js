@@ -757,7 +757,7 @@ function isNumber(n) {
 	  //------------------------------------------------------------------------------
 		app.get('/', function (req, res) {
 			hostcount++;
-		  //console.log("Host: " + req.headers.host + ", " + hostcount);
+		  console.log("Host: " + req.headers.host + ", " + hostcount);
 		  //console.log("URL: " + req.originalUrl);
 		  if (req.headers.host) {
 			  if (req.headers.host.toLowerCase() == 'canlabs.com') {
