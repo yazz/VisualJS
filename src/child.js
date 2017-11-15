@@ -16,6 +16,9 @@ var csv = require('fast-csv');
 var mammoth = require("mammoth");
 var postgresdb   = require('pg');
 var mysql      = require('mysql');
+var stmt2 = null;
+var stmt3 = null;
+var setIn = null;
 
 
 function require2(moduleName) {
@@ -62,24 +65,6 @@ var rhs = [
 
 ];
  
-function diffFn(lhs2, rhs2) {
-    var differences = diff(lhs2, rhs2);
-    if ((typeof differences !== 'undefined')) {
-        return {
-                new:     differences.filter(function (el) {return el.kind == 'N'}).length,
-                deleted: differences.filter(function (el) {return el.kind == 'D'}).length,
-                edited:  differences.filter(function (el) {return el.kind == 'E'}).length,
-                array:   differences.filter(function (el) {return el.kind == 'A'}).length
-        };
-    }
-    return {
-                new:     -1,
-                deleted: -1,
-                edited:  -1,
-                array:   -1
-    }
-
-};
 //console.log("")
 //console.log("")
 //console.log("")
@@ -744,72 +729,69 @@ function getRelatedDocumentHashes(  doc_hash,  callback  ) {
 
         
         
-        var indexFilesFn = function() {
-            //console.log("Index files");
-            //console.log("    inScan: " + inScan);
-           if (inScan) {
-             return;
-           };
-           
-           try {
-            var stmt = dbsearch.all(
-                "SELECT * FROM queries WHERE index_status IS NULL LIMIT 1 " ,
-                function(err, results) 
+function indexFilesFn() {
+    //console.log("Index files");
+    //console.log("    inScan: " + inScan);
+   if (inScan) {
+     return;
+   };
+   
+   try {
+    var stmt = dbsearch.all(
+        "SELECT * FROM queries WHERE index_status IS NULL LIMIT 1 " ,
+        function(err, results) 
+        {
+            if (!err) 
+            {
+                if( results.length != 0) 
                 {
-                    if (!err) 
-                    {
-                        if( results.length != 0) 
-                        {
-                            //console.log("          : " + JSON.stringify(results[0],null,2));
+                    //console.log("          : " + JSON.stringify(results[0],null,2));
 
-                            
-                                    getResult(  results[0].id, 
-                                                results[0].connection, 
-                                                results[0].driver, 
-                                                {}, 
-                                                function(result)
-                                                {
-                                                    
-                                                    if (!result.error) {
-                                                        //console.log("File added v2: " + JSON.stringify(results[0].fileName,null,2));
-                                                        /*sendOverWebSockets({
-                                                                                type:   "server_scan_status",  
-                                                                                value:  "File indexed: " + results[0].fileName
-                                                                                });*/
-                                                    }
-                                                });
-                        } else {
-                            //console.log("          else: ");
-                        }                        
-                    } else {
-                        //console.log("          Error: " );
-                   } 
-                })
-           }catch (err) {
-                        //console.log("          Error: " + err);
-           }
+                    
+                            getResult(  results[0].id, 
+                                        results[0].connection, 
+                                        results[0].driver, 
+                                        {}, 
+                                        function(result)
+                                        {
+                                            
+                                            if (!result.error) {
+                                                //console.log("File added v2: " + JSON.stringify(results[0].fileName,null,2));
+                                                /*sendOverWebSockets({
+                                                                        type:   "server_scan_status",  
+                                                                        value:  "File indexed: " + results[0].fileName
+                                                                        });*/
+                                            }
+                                        });
+                } else {
+                    //console.log("          else: ");
+                }                        
+            } else {
+                //console.log("          Error: " );
+           } 
+        })
+   }catch (err) {
+                //console.log("          Error: " + err);
+   }
 
-        }
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-var stmt2 = null;
-var stmt3 = null;
-var setIn = null;
+}
+
 
         
         
         
-var getResult = function(source, connection, driver, definition, callback) {
+        
+        
+        
+        
+        
+        
+        
+
+        
+        
+        
+function getResult(source, connection, driver, definition, callback) {
     //console.log("var getResult = function(" + source + ", " + connection + ", " + driver + ", " + JSON.stringify(definition));
     if (stmt2 == null) {
         stmt2 = dbsearch.prepare("INSERT INTO zfts_search_rows_hashed (row_hash, data) VALUES (?, ?)");
@@ -961,5 +943,30 @@ var getResult = function(source, connection, driver, definition, callback) {
             callback.call(this,{error: true});
         });
     }
-        //console.log("****************** err 10 child for connection: " +connection );
+    //console.log("****************** err 10 child for connection: " +connection );
+}
+    
+    
+    
+    
+    
+    
+    
+function diffFn(lhs2, rhs2) {
+    var differences = diff(lhs2, rhs2);
+    if ((typeof differences !== 'undefined')) {
+        return {
+                new:     differences.filter(function (el) {return el.kind == 'N'}).length,
+                deleted: differences.filter(function (el) {return el.kind == 'D'}).length,
+                edited:  differences.filter(function (el) {return el.kind == 'E'}).length,
+                array:   differences.filter(function (el) {return el.kind == 'A'}).length
+        };
     }
+    return {
+                new:     -1,
+                deleted: -1,
+                edited:  -1,
+                array:   -1
+    }
+
+};
