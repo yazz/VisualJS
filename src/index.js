@@ -1,7 +1,7 @@
 'use strict';
 
 
-var numberOfSecondsAliveCheck = 60; 
+var numberOfSecondsAliveCheck = 60;
 var isPi = require('detect-rpi');
 var username = "Unknown user";
 
@@ -16,10 +16,10 @@ function require2(moduleName) {
 	} else {
 	    pat = "require(process.cwd() + " + "'/node_modules/" + moduleName + "');";
 	}
-	
+
 	//console.log('PATH: ' + pat);
 	//console.log('    MODULE PATH: ' + process.cwd() + '/node_modules/' + moduleName);
-    var reac = eval(pat);	
+    var reac = eval(pat);
 	return reac;
 };
 
@@ -61,7 +61,7 @@ var net          = require('net');
 var unzip        = require('unzip');
 var postgresdb   = require('pg');
 var ip           = require("ip");
-var program      = require('commander');                
+var program      = require('commander');
 var os= require('os')
 var bodyParser = require('body-parser');
 var multer = require('multer');
@@ -73,11 +73,11 @@ var diff = require('deep-diff').diff
 var stmt2 = null;
 var stmt3 = null;
 var setIn = null;
-                                        
+
 //console.log("...  ");
 //console.log("");
-                
-                
+
+
 var stopScan = false;
 var inScan = false;
 var XLSX = require('xlsx');
@@ -189,16 +189,16 @@ if (isWin) {
     //console.log('******* WINDOWS *******');
 	// copy WIndows 32 node native files
 	copyNodeNativeAdapter( "win32", "sqlite3", 		"lib/binding/node-v48-win32-ia32" , "node_sqlite3.node")
-    
-    
-    
+
+
+
 } else if (isRaspberryPi) {
     //console.log('******* PI *******');
 	// copy Raspberry PI ARM node native files
 	copyNodeNativeAdapter( "pi", "sqlite3", 	"lib/binding/node-v48-linux-arm" , "node_sqlite3.node")
-    
-    
-    
+
+
+
 } else { //means Mac OS
     //console.log('******* MAC *******');
 	// copy Mac OS 64 node native files
@@ -222,7 +222,7 @@ program
   var portrange = 3000
   outputToConsole('Visifiles node local hostname: ' + ip.address() + ' ')
 
-  
+
 
 //console.log(" ");
 //console.log("-----------------------------------------------------------------------");
@@ -236,8 +236,8 @@ program
 //console.log("                 This takes about 2 minutes the first time");
 //console.log("-----------------------------------------------------------------------");
 //console.log(" ");
-            
-                
+
+
 username = os.userInfo().username.toLowerCase();
 //console.log(username);
 
@@ -250,20 +250,20 @@ dbsearch.run("PRAGMA journal_mode=MEMORY;")
 dbsearch.run("PRAGMA temp_store=MEMORY;")
 
 //console.log("... ");
-        
+
 async.map([
         "CREATE TABLE IF NOT EXISTS search_rows_hierarchy (document_binary_hash TEXT, parent_hash TEXT, child_hash TEXT);",
         "CREATE INDEX IF NOT EXISTS search_rows_hierarchy_document_binary_hash_idx ON search_rows_hierarchy (document_binary_hash);",
         "CREATE INDEX IF NOT EXISTS search_rows_hierarchy_parent_hash_idx ON search_rows_hierarchy (parent_hash);",
         "CREATE INDEX IF NOT EXISTS search_rows_hierarchy_child_hash_idx ON search_rows_hierarchy (child_hash);",
-        
+
         "CREATE TABLE IF NOT EXISTS drivers (id TEXT, name TEXT, type TEXT, code TEXT);",
-            
+
         "CREATE TABLE IF NOT EXISTS files (id TEXT, name TEXT, contents BLOB);",
-        
+
         "CREATE TABLE IF NOT EXISTS connections (id TEXT, name TEXT, driver TEXT, database TEXT, host TEXT, port TEXT ,connectString TEXT, user TEXT, password TEXT, fileName TEXT, size INTEGER, type TEXT, preview TEXT, hash TEXT, status TEXT);",
 
-        "CREATE TABLE IF NOT EXISTS relationships (id TEXT, source_query_hash TEXT, target_query_hash TEXT, " + 
+        "CREATE TABLE IF NOT EXISTS relationships (id TEXT, source_query_hash TEXT, target_query_hash TEXT, " +
             "similar_row_count INTEGER, new_source INTEGER, new_target INTEGER, edited_source INTEGER, edited_target INTEGER, deleted_source INTEGER, deleted_target INTEGER, array_source INTEGER, array_target INTEGER);",
 
         "CREATE TABLE IF NOT EXISTS queries (id TEXT, name TEXT, connection INTEGER, driver TEXT, size INTEGER, hash TEXT, type TEXT, fileName TEXT, definition TEXT, preview TEXT, status TEXT, index_status TEXT, similar_count INTEGER, related_status TEXT);",
@@ -272,21 +272,21 @@ async.map([
 
             ], function(a,b){
         try {
-            dbsearch.serialize(function() 
+            dbsearch.serialize(function()
             {
                 dbsearch.run(a);
             });
             return b(null,a);
         } catch(err) {
-            //console.log(err);                    
+            //console.log(err);
             return b(null,a);
-        } 
+        }
     }, function(err, results){
     //console.log("async test ");
     //console.log("    err= " + JSON.stringify(err,null,2));
     //console.log("    res= " + JSON.stringify(results,null,2));
 });
-                
+
 //console.log("... still loading");
 //console.log("...");
 //console.log("... ");
@@ -302,13 +302,13 @@ async.map([
         {
             var stmt = dbsearch.all(
                 "SELECT name FROM sqlite_master WHERE type='table' AND name='zfts_search_rows_hashed';",
-                function(err, results) 
+                function(err, results)
                 {
-                    if (!err) 
+                    if (!err)
                     {
-                        if( results.length == 0) 
+                        if( results.length == 0)
                         {
-                            dbsearch.serialize(function() 
+                            dbsearch.serialize(function()
                             {
                                 dbsearch.run("CREATE VIRTUAL TABLE zfts_search_rows_hashed USING fts5(row_hash, data);");
                             });
@@ -353,8 +353,8 @@ async.map([
 	 if (ext == "pdf") return true;
 	 return false;
  }
- 
- 
+
+
   function isCsvFile(fname) {
 	 if (!fname) {
 		return false;
@@ -365,7 +365,7 @@ async.map([
 	 return false;
  }
 
- 
+
   function isGlbFile(fname) {
 	 if (!fname) {
 		return false;
@@ -380,7 +380,7 @@ async.map([
 function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileType2) {
     //console.log("... in saveConnectionAndQueryForFile:::: " + fileId)
     sendOverWebSockets({
-                            type:   "server_scan_status",  
+                            type:   "server_scan_status",
                             value:  "Found file " + fileName
                             });
     if (!fileName) {
@@ -393,20 +393,20 @@ function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileTyp
         return;
     };
     try {
-        forked.send({ 
+        forked.send({
                         message_type:       'saveConnectionAndQueryForFile',
                         fileId:             fileId,
-                        fileType:           fileType, 
-                        size:               size, 
-                        fileName:           fileName, 
+                        fileType:           fileType,
+                        size:               size,
+                        fileName:           fileName,
                         fileType2:          fileType2
                         });
 
     } catch(err) {
-        //console.log("Error " + err + " with file: " + fileName);     
-        return err; 
+        //console.log("Error " + err + " with file: " + fileName);
+        return err;
     } finally {
-        
+
     }
 }
 
@@ -425,7 +425,7 @@ function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileTyp
       fs.stat(file, function(err, stat) {
         if (stat && stat.isDirectory()) {
             sendOverWebSockets({
-                                    type:   "server_scan_status",  
+                                    type:   "server_scan_status",
                                     value:  "Scanning directory " + file
                                     });
            setTimeout(function() {
@@ -443,7 +443,7 @@ function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileTyp
   							//console.log('   *size: ' + stat.size);
 
                             saveConnectionAndQueryForFile(fileId, 'excel', stat.size, excelFile, '|SPREADSHEET|');
-									  
+
 						}
 					}
 		  if (isGlbFile(file)) {
@@ -513,7 +513,7 @@ var getResult = function(source, connection, driver, definition, callback) {
         setIn =  dbsearch.prepare("UPDATE queries SET index_status = ? WHERE id = ?");
     }
     //console.log("01");
-                        
+
 
     var error = new Object();
     if (connections[connection]) {
@@ -561,9 +561,9 @@ var getResult = function(source, connection, driver, definition, callback) {
                                     //console.log("No sresults for hash" + source + "'");
                                 }
                                 var binHash = results2[0].hash;
-                                var stmt = dbsearch.all("select  " + 
-                                                    "    document_binary_hash  "  + 
-                                                    "from  " + 
+                                var stmt = dbsearch.all("select  " +
+                                                    "    document_binary_hash  "  +
+                                                    "from  " +
                                                     "    search_rows_hierarchy  " +
                                                     "where  " +
                                                     "    document_binary_hash = '" + binHash + "'",
@@ -574,12 +574,12 @@ var getResult = function(source, connection, driver, definition, callback) {
                                         if( results.length == 0) {
                                             //console.log("5");
                                             dbsearch.serialize(function() {
-                                    
+
                                                 callback.call(this,ordata);
                                                 //console.log("Inserting rows");
-                                                
+
                                                 if (rrows && rrows.length) {
-                            
+
                                                     dbsearch.run("begin transaction");
                                                     //console.log("Committing... " + rrows.length)
                                                     for (var i =0 ; i < rrows.length; i++) {
@@ -597,11 +597,11 @@ var getResult = function(source, connection, driver, definition, callback) {
                                                     //stmt2.finalize();
                                                     //stmt3.finalize();
                                                     //console.log('                 : ' + JSON.stringify(rrows.length));
-                                                    
+
                                                     //console.log('                 source: ' + JSON.stringify(source));
                                                     setIn.run("INDEXED",source);
                                                     dbsearch.run("commit");
-                                                    
+
                                                 } else {
                                                     //console.log("****************** err 2");
                                                     callback.call(this,{error: true});
@@ -634,7 +634,7 @@ var getResult = function(source, connection, driver, definition, callback) {
                 }})
             }
             )
-        
+
         }
         catch(err){
             //console.log("03");
@@ -654,9 +654,9 @@ var getResult = function(source, connection, driver, definition, callback) {
     }
         //console.log("****************** err 10" );
     }
-    
-    
-    
+
+
+
 function sendOverWebSockets(data) {
     var ll = serverwebsockets.length;
     //console.log('send to sockets Count: ' + JSON.stringify(serverwebsockets.length));
@@ -665,10 +665,10 @@ function sendOverWebSockets(data) {
         if (sock.readyState == 1) {
             sock.send(JSON.stringify(data));
         }
-        //console.log('                    sock ' + i + ': ' + JSON.stringify(sock.readyState)); 
+        //console.log('                    sock ' + i + ': ' + JSON.stringify(sock.readyState));
     }
 }
-    
+
 function isNumber(n) {
   return !isNaN(parseFloat(n)) && isFinite(n);
 }
@@ -680,7 +680,7 @@ function isNumber(n) {
 	function getPort (cb) {
 
 		var server = net.createServer()
-		
+
 		server.listen(port, ip.address(), function (err) {
 			//console.log('trying port: ' + port + ' ')
 			server.once('close', function () {
@@ -701,9 +701,9 @@ function isNumber(n) {
 				cb()
 		})
 	}
-  
-  
-  
+
+
+
   function mainProgram() {
 	typeOfSystem = program.type;
 	centralHostAddress = program.host;
@@ -767,6 +767,13 @@ function isNumber(n) {
 				  res.end();
 				  return;
 			  };
+				if (req.headers.host.toLowerCase() == 'thebank.digital') {
+				res.writeHead(301,
+					{Location: 'http://thebank.digital/thebankdigital'}
+				  );
+				  res.end();
+				  return;
+			  };
 			  if (req.headers.host.toLowerCase() == 'gosharedata.com') {
 				res.writeHead(301,
 					{Location: 'http://visifiles.com/gosharedata/index.html?time=' + new Date().getTime()}
@@ -802,17 +809,17 @@ function isNumber(n) {
 		  }
 	  })
 
-      
+
 
 app.use(cors())
-            
-    
+
+
     app.use("/public/aframe_fonts", express.static(path.join(__dirname, '../public/aframe_fonts')));
 	app.use(express.static(path.join(__dirname, '../public/')))
 	app.use(bodyParser.json()); // support json encoded bodies
 	app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
-    
+
     function isLocalMachine(req) {
         if ((req.ip == '127.0.0.1') || (hostaddress == req.ip)) {  // this is the correct line to use
         //if (req.ip == '127.0.0.1')  {      // this is used for debugging only so that we can deny access from the local machine
@@ -827,21 +834,21 @@ app.use(cors())
         if (!locked) {
             return true;
         };
-        if (isLocalMachine(req) ) {      
+        if (isLocalMachine(req) ) {
             return true;
         };
         res.writeHead(200, {'Content-Type': 'text/plain'});
         res.end("Sorry but access to " + username + "'s data is not allowed. Please ask " + username + " to unlocked their VisiFiles account");
         return false;
 	};
-        
+
 	//------------------------------------------------------------------------------
 	// test_firewall
 	//------------------------------------------------------------------------------
 	app.get('/docs2/*', function (req, res) {
         var fname = req.url.substr(req.url.lastIndexOf('/') + 1)
-        
-        if (fname && (fname.length > 0)) {        
+
+        if (fname && (fname.length > 0)) {
             var extension = fname.substr(fname.lastIndexOf('.') + 1).toLowerCase()
             //console.log("getting file: " + fname);
             //console.log("   extension: " + extension);
@@ -853,9 +860,9 @@ app.use(cors())
             else if (extension == 'xls') {contentType = 'application/vnd.ms-excel'}
             else if (extension == 'xlsx') {contentType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}
             else if (extension == 'csv') {contentType = 'text/csv'}
-            
-            
-            
+
+
+
             var stmt = dbsearch.all("select contents from files where name = '" + fname + "'", function(err, rows) {
                 if (!err) {
                     if (rows.length > 0) {
@@ -864,8 +871,8 @@ app.use(cors())
                             'Content-disposition': 'attachment;filename=' + fname ,
                             'Content-Length': rows[0].contents.length
                         });
-                        
-                        
+
+
                         res.end(new Buffer(rows[0].contents, 'binary'));
                     };
                 };
@@ -876,25 +883,25 @@ app.use(cors())
         }
 	});
 
-    
+
 	//------------------------------------------------------------------------------
 	// test_firewall
 	//------------------------------------------------------------------------------
 	app.get('/test_firewall', function (req, res) {
         var tracking_id =    url.parse(req.url, true).query.tracking_id;
         var server      =    url.parse(req.url, true).query.server;
-        
+
         //console.log(JSON.stringify(tracking_id,null,2));
-        
+
         res.writeHead(200, {'Content-Type': 'text/plain'});
-        res.end(JSON.stringify({    got_through_firewall:   tracking_id  ,  
+        res.end(JSON.stringify({    got_through_firewall:   tracking_id  ,
                                     server:                 server,
                                     username:               username,
                                     locked:                 locked
                                     }));
 	});
 
-    
+
 	//------------------------------------------------------------------------------
 	// get_intranet_servers
 	//------------------------------------------------------------------------------
@@ -902,12 +909,12 @@ app.use(cors())
 	app.get('/get_intranet_servers', function (req, res) {
         requestClientPublicIp = req.ip;
         var requestVia                       = findViafromString(req.headers.via);
-        
+
 		res.writeHead(200, {'Content-Type': 'text/plain'});
-        
+
         var mysql = "select *  from  intranet_client_connects  where " +
                     "    (when_connected > " + ( new Date().getTime() - (numberOfSecondsAliveCheck * 1000)) + ") " +
-                    " and " + 
+                    " and " +
                     "    (( public_ip = '" + requestClientPublicIp + "') or " +
                               "((via = '" + requestVia + "') and (length(via) > 0)))";
         //console.log("check IP: " + mysql);
@@ -919,13 +926,13 @@ app.use(cors())
         }});
 	});
 
-    
+
 // ============================================================
 // This sends a message to a specific websocket
 // ============================================================
 function sendToBrowserViaWebSocket(aws, msg) {
             aws.send(JSON.stringify(msg,null,2));
-    
+
 }
 app.ws('/websocket', function(ws, req) {
     serverwebsockets.push(ws);
@@ -933,7 +940,7 @@ app.ws('/websocket', function(ws, req) {
     ws.on('message', function(msg) {
         var receivedMessage = eval("(" + msg + ")");
         //console.log("Server recieved message: " + JSON.stringify(receivedMessage));
-        
+
         if (receivedMessage.message_type == "server_get_all_queries") {
             //return
             //console.log("     Server recieved message server_get_all_queries");
@@ -942,10 +949,10 @@ app.ws('/websocket', function(ws, req) {
             var stmt = dbsearch.all("select * from queries",
                 function(err, results) {
                     for (var i=0; i < results.length;i ++){
-                        var query = results[i]; 
-                        sendToBrowserViaWebSocket( ws, 
+                        var query = results[i];
+                        sendToBrowserViaWebSocket( ws,
                             {
-                                type: "update_query_item", 
+                                type: "update_query_item",
                                 query: query
                             });}
                             sendToBrowserViaWebSocket(ws, {   message_type: "client_get_all_queries_done"  });
@@ -967,7 +974,7 @@ app.ws('/websocket', function(ws, req) {
         inScan = true;
 		scanHardDisk();
         sendOverWebSockets({
-                                type:   "server_scan_status",  
+                                type:   "server_scan_status",
                                 value:  "Hard disk scan in progress"
                                 });
 	});
@@ -977,20 +984,20 @@ app.ws('/websocket', function(ws, req) {
 		res.end(JSON.stringify([]));
 		stopScan = true;
         sendOverWebSockets({
-                                type:   "server_scan_status",  
+                                type:   "server_scan_status",
                                 value:  "Hard disk scan stopped"
                                 });
 	});
 
 
-    
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
+
 
 
     app.post('/file_upload', upload.array( 'file' ), function (req, res, next) {
@@ -1003,7 +1010,7 @@ app.ws('/websocket', function(ws, req) {
         //console.log(JSON.stringify(req.files.length));
         //console.log("**FILES** " + JSON.stringify(req.files));
         //console.log(    "    next: " + JSON.stringify(next));
- 
+
 
         //console.log('......................................................................................');
         //console.log('......................................................................................');
@@ -1012,7 +1019,7 @@ app.ws('/websocket', function(ws, req) {
         //console.log('......................................................................................');
         res.status( 200 ).send( req.files );
 
-        
+
         var ll = req.files.length;
         for (var i = 0; i < ll ; i ++) {
             var ifile = req.files[i];
@@ -1030,7 +1037,7 @@ app.ws('/websocket', function(ws, req) {
             var localp = localp2 + '.' + ext;
             fs.renameSync(localp2, localp);
             //console.log('Local saved path: ' + localp);
-            
+
             fs.stat(localp, function(err, stat) {
               if (isExcelFile(ifile.originalname)) {
                     //console.log('ifile: ' + ifile.originalname);
@@ -1040,7 +1047,7 @@ app.ws('/websocket', function(ws, req) {
                             //console.log('Saving from upload   *file id: ' + ifile.originalname);
                             //console.log('   *size: ' + stat.size);
 
-                            saveConnectionAndQueryForFile(ifile.originalname, 'excel', stat.size, excelFile, '|SPREADSHEET|');                                
+                            saveConnectionAndQueryForFile(ifile.originalname, 'excel', stat.size, excelFile, '|SPREADSHEET|');
                 }
             } else if (isGlbFile(ifile.originalname)) {
                     //console.log('ifile: ' + ifile.originalname);
@@ -1086,10 +1093,10 @@ app.ws('/websocket', function(ws, req) {
         }
 
     });
-    
-    
-    
-    
+
+
+
+
 	app.post('/open_query_in_native_app', function (req, res) {
 
 		//console.log('in open_query_in_native_app');
@@ -1123,7 +1130,7 @@ app.ws('/websocket', function(ws, req) {
 		//console.log('in getresult');
 		var queryData = req.body;
 		//console.log('queryData.source: ' + queryData.source);
-        
+
 		////console.log('request received source: ' + Object.keys(req));
 		var error = new Object();
 		if (queryData) {
@@ -1134,7 +1141,7 @@ app.ws('/websocket', function(ws, req) {
 						try {
 							drivers[connections[queryData.source].driver]['get_v2'](connections[queryData.source],{sql: queryData.sql},function(ordata) {
 								res.writeHead(200, {'Content-Type': 'text/plain'});
-                                
+
                                 res.end(JSON.stringify(ordata));
 							});
 						}
@@ -1153,22 +1160,22 @@ app.ws('/websocket', function(ws, req) {
 		};
 	})
 
-    
+
     //------------------------------------------------------------------------------
 	// Get the result of a search
 	//------------------------------------------------------------------------------
 	app.get('/get_related_documents', function (req, res) {
         //console.log("called get_related_documents: " )
         var id = req.query.id;
-        forked.send({ 
-                                message_type:   "getRelatedDocuments",  
+        forked.send({
+                                message_type:   "getRelatedDocuments",
                                 id:  id
                                 });
             res.writeHead(200, {'Content-Type': 'text/plain'});
             res.end( JSON.stringify({}))
     })
 
-    
+
     //------------------------------------------------------------------------------
 	// Get the result of a search
 	//------------------------------------------------------------------------------
@@ -1176,19 +1183,19 @@ app.ws('/websocket', function(ws, req) {
         //console.log("called get_search_results: " )
         var searchTerm = req.query.search_text;
         var timeStart = new Date().getTime();
-        
+
         //console.log("searchTerm.length: " + searchTerm.length)
         //console.log("searchTerm: " + searchTerm)
         if (searchTerm.length < 1) {
             var timeEnd = new Date().getTime();
             var timing = timeEnd - timeStart;
             res.writeHead(200, {'Content-Type': 'text/plain'});
-            res.end( JSON.stringify({search:      searchTerm, 
-                                     queries:    [], 
+            res.end( JSON.stringify({search:      searchTerm,
+                                     queries:    [],
                                      message:    "Search text must be at least 1 characters: " + searchTerm,
                                      duration:    timing    }  ));
         } else {
-        
+
 		dbsearch.serialize(function() {
             var mysql = "  select distinct(queries.id), the1.document_binary_hash, the1.num_occ  , the1.child_hash , zfts_search_rows_hashed.data " +
                         " from (  select   " +
@@ -1210,7 +1217,7 @@ app.ws('/websocket', function(ws, req) {
             "             queries.hash = the1.document_binary_hash   " +
 " and " +
 "zfts_search_rows_hashed.row_hash = the1.child_hash ";
-                            
+
             var firstWord = searchTerm.split()[0];
             if (firstWord.length < 1) {
                 firstWord = "";
@@ -1227,7 +1234,7 @@ app.ws('/websocket', function(ws, req) {
                             if (i < 5) {
                                 var rowDataStartInit = rowData.toUpperCase().indexOf(firstWord.toUpperCase())
                                 //console.log('rowDataStartInit: ' + rowDataStartInit );
-                                
+
                                 //console.log('for: ' + firstWord + " = " + JSON.stringify(rowData));
 
                                 var rowDataStart = rowDataStartInit - 30;
@@ -1236,8 +1243,8 @@ app.ws('/websocket', function(ws, req) {
                                 }
                                 //console.log('rowDataEndInit: ' + rowDataEndInit );
                                 var rowDataEnd = rowDataStartInit + firstWord.length + 30
-                                
-                                rowDataToSend = rowData.substring(rowDataStart, rowDataStartInit) + firstWord.toUpperCase() + 
+
+                                rowDataToSend = rowData.substring(rowDataStart, rowDataStartInit) + firstWord.toUpperCase() +
                                     rowData.substring(rowDataStartInit + firstWord.length, rowDataEnd);
                             }
                             //console.log('rowDataToSend: ' + rowDataToSend );
@@ -1250,29 +1257,29 @@ app.ws('/websocket', function(ws, req) {
                     var timeEnd = new Date().getTime();
                     var timing = timeEnd - timeStart;
                     res.writeHead(200, {'Content-Type': 'text/plain'});
-                    res.end( JSON.stringify({   search:  searchTerm, 
-                                                queries: newres, 
+                    res.end( JSON.stringify({   search:  searchTerm,
+                                                queries: newres,
                                                 duration: timing}));
                 } else {
                     var timeEnd = new Date().getTime();
                     var timing = timeEnd - timeStart;
                     res.writeHead(200, {'Content-Type': 'text/plain'});
-                    res.end( JSON.stringify({search:      searchTerm, 
-                                             queries:    [], 
+                    res.end( JSON.stringify({search:      searchTerm,
+                                             queries:    [],
                                              duration:    timing,
                                              error: "Error searching for: " + searchTerm }  ));
                 }
             });
-        
+
         })
         };
     });
 
-    
-    
-    
-        
-    
+
+
+
+
+
 	app.post('/getqueryresult', function (req, res) {
 		var queryData2 = req.body;
 		//console.log('in getqueryresult: ' + JSON.stringify(queryData2));
@@ -1298,10 +1305,10 @@ app.ws('/websocket', function(ws, req) {
 						if (connections[queryData.source].driver) {
 							////console.log('query driver: ' + connections[queryData.source].driver);
                             var newres = res;
-                            getResult(  queryData2.source, 
-                                        queryData.source, 
-                                        connections[queryData.source].driver, 
-                                        queryData.definition, 
+                            getResult(  queryData2.source,
+                                        queryData.source,
+                                        connections[queryData.source].driver,
+                                        queryData.definition,
                                         function(result){
                                             //console.log("     In getresult callback:")
                                             //console.log("                          :" + JSON.stringify(result))
@@ -1331,10 +1338,10 @@ app.ws('/websocket', function(ws, req) {
 		////console.log('in send_client_details: ' + JSON.stringify(req,null,2));
         res.writeHead(200, {'Content-Type': 'text/plain'});
         res.end(JSON.stringify({
-                returned:           'some data ', 
+                returned:           'some data ',
                 server:             hostaddress,
                 port:               port,
-                username:           username, 
+                username:           username,
                 locked:             locked,
                 localIp:            req.ip,
                 isLocalMachine:     isLocalMachine(req) }));
@@ -1430,7 +1437,7 @@ app.ws('/websocket', function(ws, req) {
         if (inp == null) {
             return "";
         }
-        
+
         var ll = inp.split(' ');
         for (var i=0; i< ll.length ; i++){
             if (ll[i] != null) {
@@ -1441,8 +1448,8 @@ app.ws('/websocket', function(ws, req) {
         }
         return "";
     }
-    
-	app.get('/get_all_table', 
+
+	app.get('/get_all_table',
         function (req, res) {
 			var tableName = url.parse(req.url, true).query.tableName;
 			var fields = url.parse(req.url, true).query.fields;
@@ -1456,17 +1463,17 @@ app.ws('/websocket', function(ws, req) {
                     };
                 })
     });
-    
-	app.post('/add_new_connection', 
+
+	app.post('/add_new_connection',
         function (req, res) {
 			var params = req.body;
             addNewConnection( params );
             res.writeHead(200, {'Content-Type': 'text/plain'});
             res.end(JSON.stringify({done: "ok"}))});
-    
 
 
-	app.post('/add_new_query', 
+
+	app.post('/add_new_query',
         function (req, res) {
 			var params = req.body;
             addNewQuery( params );
@@ -1474,8 +1481,8 @@ app.ws('/websocket', function(ws, req) {
             res.end(JSON.stringify({done: "ok"}))});
 
 
-    
-    
+
+
 	//------------------------------------------------------------------------------
 	// run on the central server only
 	//
@@ -1500,18 +1507,18 @@ app.ws('/websocket', function(ws, req) {
 			//console.log('client public IP address:        ' + requestClientPublicIp)
 			//console.log('client public IP host name:      ' + requestClientPublicHostName)
 			//console.log('client VIA:                      ' + requestVia)
- 
+
             dbsearch.serialize(function() {
-                var stmt = dbsearch.prepare(" insert  into  intranet_client_connects " + 
+                var stmt = dbsearch.prepare(" insert  into  intranet_client_connects " +
                                         "    ( id, internal_host, internal_port, public_ip, via, public_host, user_name, client_user_name, when_connected) " +
-                                        " values " + 
+                                        " values " +
                                         "    (?,   ?,?,?,?,  ?,?,?,?);");
-                                        
+
                 var newid = uuidv1();
                 stmt.run(   newid,
-                            requestClientInternalHostAddress,  
-                            requestClientInternalPort, 
-                            requestClientPublicIp, 
+                            requestClientInternalHostAddress,
+                            requestClientInternalPort,
+                            requestClientPublicIp,
                             requestVia,
                             requestClientPublicHostName,
                             username,
@@ -1520,11 +1527,11 @@ app.ws('/websocket', function(ws, req) {
                     );
             });
             //console.log('***SAVED***');
-			
+
 			res.writeHead(200, {'Content-Type': 'text/plain'});
 			res.end(JSON.stringify(
                 {
-                    connected: true, 
+                    connected: true,
                 }));
 		}
 		catch (err) {
@@ -1592,28 +1599,28 @@ app.ws('/websocket', function(ws, req) {
                         });
                 };
         aliveCheckFn();
-        
 
-        
+
+
 		if (typeOfSystem == 'client') {
             setInterval(aliveCheckFn ,numberOfSecondsAliveCheck * 1000);
-            
+
             forkedIndexer.send({ message_type: "childRunIndexer" });
 
-            
+
 		}
 
 
 
-                  
-                  
+
+
 
 
 
 
 when_connections_changes();
 when_queries_changes(null);
-				
+
 
 
 
@@ -1648,8 +1655,8 @@ when_queries_changes(null);
         setSharedGlobalVar("drivers", 'postgres', pgeval );
 		addOrUpdateDriver('postgres', pgeval, drivers['postgres'])
 
-        
-        
+
+
 		var sqliteeval = '(' + fs.readFileSync(path.join(__dirname, './sqlite.js')).toString() + ')';
         setSharedGlobalVar("drivers", 'sqlite', sqliteeval );
 		addOrUpdateDriver('sqlite', sqliteeval, drivers['sqlite'])
@@ -1681,32 +1688,32 @@ when_queries_changes(null);
 
 
 
-    
 
 
 
 
 
 
-		
-		
+
+
+
 
 	function addOrUpdateDriver(name, code2, theObject) {
         var code = eval(code2);
 		var driverType = theObject.type;
 		//console.log('addOrUpdateDriver: ' + name);
-        
-        var stmt = dbsearch.all("select name from drivers where name = '" + name + "';", 
+
+        var stmt = dbsearch.all("select name from drivers where name = '" + name + "';",
             function(err, rows) {
                 if (!err) {
                     //console.log('             : ' + rows.length);
                     if (rows.length == 0) {
-                        try 
+                        try
                         {
                             dbsearch.serialize(function() {
-                                var stmt = dbsearch.prepare(" insert or replace into drivers " + 
+                                var stmt = dbsearch.prepare(" insert or replace into drivers " +
                                                             "    (id,  name, type, code ) " +
-                                                            " values " + 
+                                                            " values " +
                                                             "    (?, ?,?,?);");
                             stmt.run(uuidv1(),  name,  driverType,  code2);
                             stmt.finalize();
@@ -1714,14 +1721,14 @@ when_queries_changes(null);
                         } catch(err) {
                             //console.log('err             : ' + err);
                         } finally {
-                            
+
                         }
-                    
+
                     } else {
                         //console.log('   *** Checking DRIVER ' + name);
                         var existingDriver = rows[0];
                         if (!(code2 == existingDriver.code)) {
-                            try 
+                            try
                             {
                                 dbsearch.serialize(function() {
                                     var stmt = dbsearch.prepare(" update   drivers   set code = ? where id = ?");
@@ -1731,7 +1738,7 @@ when_queries_changes(null);
                             } catch(err) {
                                 //console.log('err             : ' + err);
                             } finally {
-                                
+
                             }
                         }
                     }
@@ -1739,7 +1746,7 @@ when_queries_changes(null);
             }
         );
     }
-    
+
 
 
 
@@ -1753,8 +1760,8 @@ when_queries_changes(null);
 	if (typeOfSystem == 'client') {
         var localClientUrl = 'http://' + hostaddress  + ":" + port;
         var remoteServerUrl = 'http://' + centralHostAddress  + ":" + centralHostPort + "/gosharedata/list_intranet_servers.html?time=" + new Date().getTime();
-        
-        
+
+
         request({
                   uri: remoteServerUrl,
                   method: "GET",
@@ -1806,8 +1813,8 @@ function scanHardDisk() {
 	  };
 };
 
-	  
-	  
+
+
 function copyFileSync( source, target ) {
 
     var targetFile = target;
@@ -1856,7 +1863,7 @@ function when_connections_changes() {
         //console.log('Called when_ CONNS _changes ');
         //console.log('------------------------------------');
         //console.log('------------------------------------');
-        
+
         var stmt = dbsearch.all("select * from connections",
             function(err, results) {
                 if (!err) {
@@ -1877,29 +1884,29 @@ function when_connections_changes() {
 }
 
 
-function addNewConnection( params ) { 
-    try 
+function addNewConnection( params ) {
+    try
     {
         //console.log("------------------function addNewConnection( params ) { -------------------");
         dbsearch.serialize(function() {
-            var stmt = dbsearch.prepare(" insert into connections " + 
+            var stmt = dbsearch.prepare(" insert into connections " +
                                         "    ( id, name, driver, database, host, port, connectString, user, password, fileName, size, preview ) " +
-                                        " values " + 
+                                        " values " +
                                         "    (?,  ?,?,?,?,?,?,?,?,?,?,?);");
-                                        
+
             stmt.run(uuidv1(),
-                     params.name, 
-                     params.driver, 
-                     params.database, 
-                     params.host, 
-                     params.port, 
-                     params.connectString, 
-                     params.user, 
-                     params.password, 
-                     params.fileName, 
-                     params.size, 
+                     params.name,
+                     params.driver,
+                     params.database,
+                     params.host,
+                     params.port,
+                     params.connectString,
+                     params.user,
+                     params.password,
+                     params.fileName,
+                     params.size,
                      params.preview);
-                     
+
             stmt.finalize();
             when_connections_changes();
         });
@@ -1911,26 +1918,26 @@ function addNewConnection( params ) {
 
 
 
-function addNewQuery( params ) { 
-    try 
+function addNewQuery( params ) {
+    try
     {
         //console.log("------------------function addNewQuery( params ) { -------------------");
         dbsearch.serialize(function() {
-            var stmt = dbsearch.prepare(" insert into queries " + 
+            var stmt = dbsearch.prepare(" insert into queries " +
                                         "    ( id, name, connection, driver, definition, status, type ) " +
-                                        " values " + 
+                                        " values " +
                                         "    (?,    ?, ?, ?, ?, ?, ?);");
-                     
+
             var newQueryId = uuidv1();
             stmt.run(newQueryId,
-                     params.name, 
-                     params.connection, 
-                     params.driver, 
+                     params.name,
+                     params.connection,
+                     params.driver,
                      params.definition,
                      params.status,
                      params.type
                      );
-                     
+
             stmt.finalize();
             when_queries_changes(null);
             getResult(newQueryId, params.connection, params.driver, eval("(" + params.definition + ")"), function(result){});
@@ -1957,8 +1964,8 @@ function when_queries_changes(callback) {
             function(err, results) {
                 if (!err) {
                 //console.log('    --------Found:  ' + results.length);
-                
-                
+
+
                 // find previews
                 for (var i = 0 ; i < results.length ; i ++) {
                     var query = results[i];
@@ -1990,7 +1997,7 @@ function when_queries_changes(callback) {
 };
 
 
- 
+
 //console.log("-------------------------------------------------------------------");
 //console.log("-------------------------------------------------------------------");
 //console.log("-------------------------------------------------------------------");
@@ -2019,75 +2026,75 @@ forked.on('message', (msg) => {
     if (msg.message_type == "return_test_fork") {
         //console.log('Message from child', msg);
         sendOverWebSockets({
-                                type:   "test_fork",  
+                                type:   "test_fork",
                                 value:  "Counter: " + msg.counter + ", count queries from sqlite: " + msg.sqlite
                                 });
-                                
-                                
+
+
     } else if (msg.message_type == "return_set_connection") {
-        setSharedGlobalVar( "connections", 
-                            msg.id, 
-                            JSON.stringify({    id:         msg.id, 
-                                                name:       msg.name, 
-                                                driver:     msg.driver, 
-                                                size:       msg.size, 
-                                                hash:       msg.hash, 
-                                                type:       msg.type, 
+        setSharedGlobalVar( "connections",
+                            msg.id,
+                            JSON.stringify({    id:         msg.id,
+                                                name:       msg.name,
+                                                driver:     msg.driver,
+                                                size:       msg.size,
+                                                hash:       msg.hash,
+                                                type:       msg.type,
                                                 fileName:   msg.fileName },null,2));
-                                
-                                
+
+
     } else if (msg.message_type == "return_set_query") {
-        setSharedGlobalVar( "queries", 
+        setSharedGlobalVar( "queries",
                             msg.id,
                             JSON.stringify(
                               {  id:            msg.id,
                                  name:          msg.name,
                                  connection:    msg.connection,
-                                 driver:        msg.driver, 
-                                 size:          msg.size, 
-                                 hash:          msg.hash, 
-                                 fileName:      msg.fileName, 
+                                 driver:        msg.driver,
+                                 size:          msg.size,
+                                 hash:          msg.hash,
+                                 fileName:      msg.fileName,
                                  type:          msg.type,
-                                 definition:    msg.definition, 
+                                 definition:    msg.definition,
                                  preview:       msg.preview
                               }));
             sendOverWebSockets({
-                                    type: "uploaded",  
+                                    type: "uploaded",
                                     id:    msg.id,
-                                    query: 
+                                    query:
                                     {
-                                        
+
                                     }});
-    
-    
+
+
     // this needs to be fixed so that it only sends the similar documents
     // to the client that requested them
     } else if (msg.message_type == "return_similar_documents") {
         sendOverWebSockets({
-                                type: "similar_documents", 
+                                type: "similar_documents",
                                 results: msg.results
-                                    
+
         });
-        
+
         queries[msg.query_id].similar_count = eval("(" + msg.results + ")").length
         sendOverWebSockets({
-                                type: "update_query_item", 
+                                type: "update_query_item",
                                 query: queries[msg.query_id]
-                                    
+
         });
     }
-    
-    
-    
-    
-    
 
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
+
+
+
+
 });
 
 forked.send({ message_type: "greeting", hello: 'world' });
@@ -2110,7 +2117,7 @@ var lhs = [
 {line: 3, value: "The cat sat on the mat2"}
     ]
 ;
- 
+
 var rhs = [
 
 {line: 1, value: "The cat sat on the mat2"}
@@ -2122,7 +2129,7 @@ var rhs = [
 {line: 4, value: "The cat sat on the mat2"}
 
 ];
- 
+
 var diffFn = function(lhs2, rhs2) {
     var differences = diff(lhs2, rhs2);
     return {
@@ -2159,25 +2166,25 @@ function setSharedGlobalVar(nameOfVar, index, value) {
     //console.log(tosend);
     eval(tosend);
     try {
-        var sharemessage = { 
+        var sharemessage = {
                             message_type:       'childSetSharedGlobalVar',
                             nameOfVar:          nameOfVar,
-                            index:              index, 
+                            index:              index,
                             //value:              JSON.stringify(value,null,2)
                             value:              value
                         };
         forked.send(sharemessage);
         forkedIndexer.send(sharemessage);
         /*sendOverWebSockets({
-                                type:               "setSharedGlobalVar",  
+                                type:               "setSharedGlobalVar",
                                 nameOfVar:          nameOfVar,
-                                index:              index, 
+                                index:              index,
                                 value:              value
                                 });*/
     } catch(err) {
-        //console.log("Error with " + err );     
-        return err; 
+        //console.log("Error with " + err );
+        return err;
     } finally {
-        
+
     }
 }
