@@ -62,14 +62,22 @@ var rhs = [
 
 ];
  
-var diffFn = function(lhs2, rhs2) {
+function diffFn(lhs2, rhs2) {
     var differences = diff(lhs2, rhs2);
+    if ((typeof differences !== 'undefined')) {
+        return {
+                new:     differences.filter(function (el) {return el.kind == 'N'}).length,
+                deleted: differences.filter(function (el) {return el.kind == 'D'}).length,
+                edited:  differences.filter(function (el) {return el.kind == 'E'}).length,
+                array:   differences.filter(function (el) {return el.kind == 'A'}).length
+        };
+    }
     return {
-            new:     differences.filter(function (el) {return el.kind == 'N'}).length,
-            deleted: differences.filter(function (el) {return el.kind == 'D'}).length,
-            edited:  differences.filter(function (el) {return el.kind == 'E'}).length,
-            array:   differences.filter(function (el) {return el.kind == 'A'}).length
-    };
+                new:     -1,
+                deleted: -1,
+                edited:  -1,
+                array:   -1
+    }
 
 };
 //console.log("")
@@ -219,6 +227,14 @@ var stmtInsertIntoRelationships = dbsearch.prepare( " insert into relationships 
                                                     " values " + 
                                                     "    (?,  ?,?,  ?);");
 
+var stmtUpdateRelationships2 = dbsearch.prepare( " update relationships " + 
+                                                     "    set " +
+                                                     "        new_source = ?, new_target = ?, " +
+                                                     "        edited_source = ?, edited_target = ?, " + 
+                                                     "        deleted_source = ?, deleted_target = ?, " + 
+                                                     "        array_source = ?, array_target = ? " +
+                                                     " where " + 
+                                                     "     source_query_hash = ?    and     target_query_hash = ? ");
 
 
 var stmtInsertIntoFiles = dbsearch.prepare(" insert into files " + 
@@ -479,12 +495,32 @@ function getRelatedDocumentHashes(  doc_hash,  callback  ) {
                 {
                     dbsearch.serialize(function() {
                         dbsearch.run("begin transaction");
-                        stmtUpdateRelationships.run('INDEXED', doc_hash);
                         for (var i =0 ; i < results.length; i++) {
-                            var newId = uuidv1();
-                            stmtInsertIntoRelationships.run(newId,  doc_hash, results[i].hash,  results[i].size);
+                            if (results[i]) {
+                                var target_hash = results[i].hash;
+                                
+                                if (target_hash) {
+                                    var similar_count = results[i].size;
+                                    dbsearch.all(
+                                        "select  id  from  relationships  where  " +
+                                        "    source_query_hash = '"  +  doc_hash  +  "' and target_query_hash = '"  +  target_hash + "'",
+                                        
+                                        function(err, existsResults) 
+                                        {
+                                            if (!err) 
+                                            {
+                                                if (existsResults.length == 0) {
+                                                    var newId = uuidv1();
+                                                    stmtInsertIntoRelationships.run(newId,  doc_hash, target_hash,  similar_count);
+                                                }
+                                            }
+                                        })
+                                }
+                            }
+                                    
                             
                         }
+                        stmtUpdateRelationships.run('INDEXED', doc_hash);
                         dbsearch.run("commit");
                     })                                    
                      
@@ -550,11 +586,12 @@ function getRelatedDocumentHashes(  doc_hash,  callback  ) {
                                         {
                                             
                                             if (!queryResult.error) {
-                                                if (queryResult.values) {
+                                                if (queryResult.values && (queryResult.values.constructor === Array)) {
                                                     returnValues1 = queryResult.values;
-                                                } else {
+                                                } else if (queryResult && (queryResult.constructor === Array)) {
                                                     returnValues1 = queryResult;
                                                 }
+                                                if (returnValues1.constructor === Array) {
                                                 console.log("     SOURCE ITEM COUNT : " + " = " + returnValues1.length);
                                                 
                                                 
@@ -580,23 +617,42 @@ function getRelatedDocumentHashes(  doc_hash,  callback  ) {
                                                                         {
                                                                             
                                                                             if (!queryResult2.error) {
-                                                                                var returnValues = [];
-                                                                                if (queryResult2.values) {
+                                                                                var returnValues;
+                                                                                if (queryResult2.values && (queryResult2.values.constructor === Array)) {
                                                                                     returnValues = queryResult2.values
-                                                                                } else {
+                                                                                } else if (queryResult2 && (queryResult2.constructor === Array)) {
                                                                                     returnValues = queryResult2
                                                                                 }
                                                                                 console.log("     RELATED ITEM COUNT : " + " = " + returnValues.length);
-                                                                                
-                                                                                console.log("          LHS : " + results[0].name + " = " + returnValues1.length);
-                                                                                console.log("          RHS : " + relatedQuery.name + " = " + returnValues.length);
-                                                                                if ((returnValues1.constructor === Array) && (returnValues.constructor === Array)) {
+                                                                                //JSON.stringify(
+                                                                                var x1 = returnValues1
+                                                                                var x2 = returnValues
+                                                                                console.log("          LHS : " + results[0].name + " = " + x1.length);
+                                                                                console.log("          RHS : " + relatedQuery.name + " = " + x2.length);
+                                                                                if ((x1.constructor === Array) && (x2.constructor === Array)) {
                                                                                     
                                                                                     var xdiff = diffFn(returnValues1, returnValues);
                                                                                     console.log("          N: "  + JSON.stringify(xdiff.new,null,2))
                                                                                     console.log("          D: "  + JSON.stringify(xdiff.deleted,null,2))
                                                                                     console.log("          E: "  + JSON.stringify(xdiff.edited,null,2))
                                                                                     console.log("          A: "  + JSON.stringify(xdiff.array,null,2))
+                                                                                    var newId = uuidv1();
+                                                                                    stmtUpdateRelationships2.run(
+                                                                                        xdiff.new,
+                                                                                        xdiff.new,
+                                                                                        
+                                                                                        xdiff.deleted,
+                                                                                        xdiff.deleted,
+                                                                                        
+                                                                                        xdiff.edited,
+                                                                                        xdiff.edited,
+                                                                                        
+                                                                                        xdiff.array,
+                                                                                        xdiff.array,
+                                                                                        
+                                                                                        queryToIndex.hash, 
+                                                                                        relatedQuery.hash
+                                                                                        );
                                                                                 }
                                                                             } else {
                                                                                 console.log("     error in related  : " + " = " + queryResult2.error);
@@ -606,6 +662,7 @@ function getRelatedDocumentHashes(  doc_hash,  callback  ) {
                                                                 }
                                                             }
                                                         });
+                                                }
                                                 }
                                                 
                                                 
