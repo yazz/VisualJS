@@ -533,11 +533,11 @@ function getRelatedDocumentHashes(  doc_hash,  callback  ) {
                             console.log("" );
                             console.log("" );
                             console.log("In indexFileRelationshipsFn  " );
-                            console.log("      query to index: " + JSON.stringify(results[0].name,null,2));
+                            console.log("      SOURCE ITEM : " + JSON.stringify(results[0].name,null,2));
                             var queryToIndex = results[0];
 
                             getRelatedDocumentHashes(queryToIndex.hash, function(relatedResults) {
-                                console.log("      Related hashes: " + JSON.stringify(relatedResults.length,null,2));
+                                //console.log("      Related hashes: " + JSON.stringify(relatedResults.length,null,2));
                                   
                                 if (relatedResults.length > 0) {
                                     getResult(  
@@ -550,9 +550,9 @@ function getRelatedDocumentHashes(  doc_hash,  callback  ) {
                                             
                                             if (!queryResult.error) {
                                                 if (queryResult.values) {
-                                                    console.log("     source result length : " + " = " + queryResult.values.length);
+                                                    console.log("     SOURCE ITEM COUNT : " + " = " + queryResult.values.length);
                                                 } else {
-                                                    console.log("     source result length : " + " = " + queryResult.length);
+                                                    console.log("     SOURCE ITEM COUNT : " + " = " + queryResult.length);
                                                 }
                                             } else {
                                                 console.log("     error : " + " = " + queryResult.error);
@@ -565,7 +565,7 @@ function getRelatedDocumentHashes(  doc_hash,  callback  ) {
                                     //console.log("**getRelatedDocumentHashes returned: " + results.length);
                                     //zzz
                                     for (var i = 0; i < relatedResults.length; i ++) {
-                                        console.log("         **** : " + JSON.stringify(relatedResults[i],null,2));
+                                        //console.log("         **** : " + JSON.stringify(relatedResults[i],null,2));
                                         var stmt = dbsearch.all(
                                             "SELECT * FROM queries WHERE hash = '" + relatedResults[i].hash + "'" ,
                                             function(err, results) 
@@ -574,7 +574,27 @@ function getRelatedDocumentHashes(  doc_hash,  callback  ) {
                                                 {
                                                     if( results.length != 0) 
                                                     {
-                                                        console.log("         ITEM : " + JSON.stringify(results[0],null,2));
+                                                        var relatedQuery = results[0];
+                                                        console.log("         RELATED ITEM : " + JSON.stringify(relatedQuery.name,null,2));
+                                                        getResult(  
+                                                            relatedQuery.id, 
+                                                            relatedQuery.connection, 
+                                                            relatedQuery.driver, 
+                                                            {}, 
+                                                            function(queryResult2)
+                                                            {
+                                                                
+                                                                if (!queryResult2.error) {
+                                                                    if (queryResult2.values) {
+                                                                        console.log("     RELATED ITEM COUNT : " + " = " + queryResult2.values.length);
+                                                                    } else {
+                                                                        console.log("     RELATED ITEM COUNT : " + " = " + queryResult2.length);
+                                                                    }
+                                                                } else {
+                                                                    console.log("     error in related  : " + " = " + queryResult2.error);
+                                                                }
+                                                            });
+                                                    
                                                     }
                                                 }
                                             });
