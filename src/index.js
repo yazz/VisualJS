@@ -170,7 +170,13 @@ var requestClientInternalHostAddress    = '';
 var requestClientInternalPort           = -1;
 var requestClientPublicIp               = '';
 var requestClientPublicHostName         = '';
-
+var locked;
+var requestClientPublicIp;
+var in_when_queries_changes             = false;
+var hostcount  												  = 0;
+var pgeval
+var sqliteeval
+var tdeval
 
 
 app.use(compression())
@@ -188,6 +194,7 @@ program
   .parse(process.argv);
 
 
+locked = (program.locked == 'true');
 port = program.port;
 if (!isNumber(port)) {
     port = 80;
@@ -330,74 +337,23 @@ function mainProgram() {
 
 
 
-	//------------------------------------------------------------
-	// wait three seconds for stuff to initialize
-	//------------------------------------------------------------
-	setTimeout(startServices, timeout);
-	//console.log('Creating timeout: ' + timeout);
-
-
 //------------------------------------------------------------
 // wait three seconds for stuff to initialize
 //------------------------------------------------------------
+setTimeout(startServices, timeout);
+//console.log('Creating timeout: ' + timeout);
+
+
+//------------------------------------------------------------
+// This starts all the system services
+//------------------------------------------------------------
 function startServices() {
 
-	var hostcount = 0;
 	  //------------------------------------------------------------------------------
 	  // Show the default page
 	  //------------------------------------------------------------------------------
 		app.get('/', function (req, res) {
-			hostcount++;
-		  console.log("Host: " + req.headers.host + ", " + hostcount);
-		  //console.log("URL: " + req.originalUrl);
-		  if (req.headers.host) {
-			  if (req.headers.host.toLowerCase().endsWith('canlabs.com')) {
-				res.writeHead(301,
-					{Location: 'http://canlabs.com/canlabs'}
-				  );
-				  res.end();
-				  return;
-			  };
-				if (req.headers.host.toLowerCase().endsWith('thebank.digital')) {
-				res.writeHead(301,
-					{Location: 'http://thebank.digital/thebankdigital'}
-				  );
-				  res.end();
-				  return;
-			  };
-			  if (req.headers.host.toLowerCase().endsWith('gosharedata.com')) {
-				res.writeHead(301,
-					{Location: 'http://visifiles.com/gosharedata/index.html?time=' + new Date().getTime()}
-				  );
-				  res.end();
-				  return;
-			  };
-			  if (req.headers.host.toLowerCase().endsWith('visifiles.com')) {
-				res.writeHead(301,
-					{Location: 'http://visifiles.com/gosharedata/index.html?time=' + new Date().getTime()}
-				  );
-				  res.end();
-				  return;
-			  };
-		  };
-
-		  if (!init_drivers) {
-			init_drivers = true;
-			eval(toeval);
-			if (drivers['oracle']['loadOnCondition']()) {
-				drivers['oracle']['loadDriver']();
-			};
-			eval(pgeval);
-
-		  };
-
-		  if (typeOfSystem == 'client') {
-              if (!canAccess(req,res)) {return;}
-			  res.end(fs.readFileSync(path.join(__dirname, '../public/index.html')));
-		  }
-		  if (typeOfSystem == 'server') {
-			  res.end(fs.readFileSync(path.join(__dirname, '../public/index_server.html')));
-		  }
+			return getRoot(req, res);
 	  })
 
 
@@ -475,7 +431,7 @@ app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 	//------------------------------------------------------------------------------
 	// get_intranet_servers
 	//------------------------------------------------------------------------------
-    var requestClientPublicIp;
+
 	app.get('/get_intranet_servers', function (req, res) {
         requestClientPublicIp = req.ip;
         var requestVia                       = findViafromString(req.headers.via);
@@ -895,7 +851,6 @@ app.ws('/websocket', function(ws, req) {
 		};
 	})
 
-    var locked = (program.locked == 'true');
 
 	app.get('/send_client_details', function (req, res) {
 		////console.log('in send_client_details: ' + JSON.stringify(req,null,2));
@@ -1079,38 +1034,7 @@ app.ws('/websocket', function(ws, req) {
 
 
 
-    var aliveCheckFn =                 function() {
-                    var urlToConnectTo = "http://" + centralHostAddress + ":" + centralHostPort + '/client_connect';
-                    //console.log('-------* urlToConnectTo: ' + urlToConnectTo);
-                    //console.log('trying to connect to central server...');
-                    request({
-                          uri: urlToConnectTo,
-                          method: "GET",
-                          timeout: 10000,
-                          agent: false,
-                          followRedirect: true,
-                          maxRedirects: 10,
-                          qs: {
-                              requestClientInternalHostAddress: hostaddress
-                              ,
-                              requestClientInternalPort:        port
-                              ,
-                              clientUsername:        username
-                          }
-                        },
-                        function(error, response, body) {
-                          //console.log('Error: ' + error);
-                          if (response) {
-                              if (response.statusCode == '403') {
-                                    //console.log('403 received, not allowed through firewall for ' + urlToConnectTo);
-                                    //open("http://" + centralHostAddress + ":" + centralHostPort);
-                              } else {
-                                    ////console.log('response: ' + JSON.stringify(response));
-                                    ////console.log(body);
-                              }
-                          }
-                        });
-                };
+
         aliveCheckFn();
 
 
@@ -1142,41 +1066,40 @@ when_queries_changes(null);
 
 
 
-		var pgeval = '(' + fs.readFileSync(path.join(__dirname, './glb.js')).toString() + ')';
+		pgeval = '(' + fs.readFileSync(path.join(__dirname, './glb.js')).toString() + ')';
         setSharedGlobalVar("drivers", 'glb', pgeval );
 		addOrUpdateDriver('glb', pgeval, drivers['glb'])
 
-		var pgeval = '(' + fs.readFileSync(path.join(__dirname, './csv.js')).toString() + ')';
+		pgeval = '(' + fs.readFileSync(path.join(__dirname, './csv.js')).toString() + ')';
         setSharedGlobalVar("drivers", 'csv', pgeval );
 		addOrUpdateDriver('csv', pgeval, drivers['csv'])
 
 
-		var pgeval = '(' + fs.readFileSync(path.join(__dirname, './excel.js')).toString() + ')';
+		pgeval = '(' + fs.readFileSync(path.join(__dirname, './excel.js')).toString() + ')';
         setSharedGlobalVar("drivers", 'excel', pgeval );
 		addOrUpdateDriver('excel', pgeval, drivers['excel'])
 
-		var pgeval = '(' + fs.readFileSync(path.join(__dirname, './word.js')).toString() + ')';
+		pgeval = '(' + fs.readFileSync(path.join(__dirname, './word.js')).toString() + ')';
         setSharedGlobalVar("drivers", 'word', pgeval );
 		addOrUpdateDriver('word', pgeval, drivers['word'])
 
-		var pgeval = '(' + fs.readFileSync(path.join(__dirname, './pdf.js')).toString() + ')';
+		pgeval = '(' + fs.readFileSync(path.join(__dirname, './pdf.js')).toString() + ')';
         setSharedGlobalVar("drivers", 'pdf', pgeval );
 		addOrUpdateDriver('pdf', pgeval, drivers['pdf'])
 
 
-		var pgeval = '(' + fs.readFileSync(path.join(__dirname, './postgres.js')).toString() + ')';
+		pgeval = '(' + fs.readFileSync(path.join(__dirname, './postgres.js')).toString() + ')';
         setSharedGlobalVar("drivers", 'postgres', pgeval );
 		addOrUpdateDriver('postgres', pgeval, drivers['postgres'])
 
 
 
-		var sqliteeval = '(' + fs.readFileSync(path.join(__dirname, './sqlite.js')).toString() + ')';
+		sqliteeval = '(' + fs.readFileSync(path.join(__dirname, './sqlite.js')).toString() + ')';
         setSharedGlobalVar("drivers", 'sqlite', sqliteeval );
 		addOrUpdateDriver('sqlite', sqliteeval, drivers['sqlite'])
 
 
-
-		var pgeval = '(' + fs.readFileSync(path.join(__dirname, './mysql.js')).toString() + ')';
+		pgeval = '(' + fs.readFileSync(path.join(__dirname, './mysql.js')).toString() + ')';
         setSharedGlobalVar("drivers", 'mysql', pgeval );
 		addOrUpdateDriver('mysql', pgeval, drivers['mysql'])
 
@@ -1192,7 +1115,7 @@ when_queries_changes(null);
 
 
 
-		var tdeval = '(' + fs.readFileSync(path.join(__dirname, './testdriver.js')).toString() + ')';
+		tdeval = '(' + fs.readFileSync(path.join(__dirname, './testdriver.js')).toString() + ')';
         setSharedGlobalVar("drivers", 'testdriver', tdeval );
 		addOrUpdateDriver('testdriver', tdeval, drivers['testdriver'])
 
@@ -1467,47 +1390,7 @@ function addNewQuery( params ) {
 
 
 
-var in_when_queries_changes = false;
-function when_queries_changes(callback) {
-    if (!in_when_queries_changes) {
-        in_when_queries_changes = true;
-        //console.log('Called when_queries_changes ');
-        ////console.log('    connection keys:  ' + JSON.stringify(Object.keys(connections),null,2));
-        var stmt = dbsearch.all("select * from queries",
-            function(err, results) {
-                if (!err) {
-                //console.log('    --------Found:  ' + results.length);
 
-
-                // find previews
-                for (var i = 0 ; i < results.length ; i ++) {
-                    var query = results[i];
-                    if (!queries[query.id]) {
-                        setSharedGlobalVar("queries", query.id, JSON.stringify(query,null,2));
-                        var oout = [{a: 'no EXCEL'}];
-                        try {
-                            ////console.log('get preview for query id : ' + query._id);
-                            ////console.log('          driver : ' + query.driver);
-                            var restrictRows = JSON.parse(query.definition);
-                            restrictRows.maxRows = 10;
-                            /*drivers[query.driver]['get_v2'](connections[query.connection],restrictRows,
-                                function(ordata) {
-                                    ////console.log('getting preview for query : ' + query.name);
-                                    query.preview = JSON.stringify(ordata, null, 2);
-                                    queries.put(query);
-                            });*/
-                                callback.call(this);
-                            if (callback) {
-                            }
-                        } catch (err) {};
-                    }
-                };
-            }
-            in_when_queries_changes = false;
-
-            });
-    }
-};
 
 
 
@@ -2249,4 +2132,159 @@ function findViafromString(inp) {
         }
     }
     return "";
+}
+
+
+
+
+
+
+
+
+function aliveCheckFn() {
+		var urlToConnectTo = "http://" + centralHostAddress + ":" + centralHostPort + '/client_connect';
+		//console.log('-------* urlToConnectTo: ' + urlToConnectTo);
+		//console.log('trying to connect to central server...');
+		request({
+					uri: urlToConnectTo,
+					method: "GET",
+					timeout: 10000,
+					agent: false,
+					followRedirect: true,
+					maxRedirects: 10,
+					qs: {
+							requestClientInternalHostAddress: hostaddress
+							,
+							requestClientInternalPort:        port
+							,
+							clientUsername:        username
+					}
+				},
+				function(error, response, body) {
+					//console.log('Error: ' + error);
+					if (response) {
+							if (response.statusCode == '403') {
+										//console.log('403 received, not allowed through firewall for ' + urlToConnectTo);
+										//open("http://" + centralHostAddress + ":" + centralHostPort);
+							} else {
+										////console.log('response: ' + JSON.stringify(response));
+										////console.log(body);
+							}
+					}
+				});
+};
+
+
+
+
+
+
+
+
+
+
+
+
+function when_queries_changes(callback) {
+    if (!in_when_queries_changes) {
+        in_when_queries_changes = true;
+        //console.log('Called when_queries_changes ');
+        ////console.log('    connection keys:  ' + JSON.stringify(Object.keys(connections),null,2));
+        var stmt = dbsearch.all("select * from queries",
+            function(err, results) {
+                if (!err) {
+                //console.log('    --------Found:  ' + results.length);
+
+
+                // find previews
+                for (var i = 0 ; i < results.length ; i ++) {
+                    var query = results[i];
+                    if (!queries[query.id]) {
+                        setSharedGlobalVar("queries", query.id, JSON.stringify(query,null,2));
+                        var oout = [{a: 'no EXCEL'}];
+                        try {
+                            ////console.log('get preview for query id : ' + query._id);
+                            ////console.log('          driver : ' + query.driver);
+                            var restrictRows = JSON.parse(query.definition);
+                            restrictRows.maxRows = 10;
+                            /*drivers[query.driver]['get_v2'](connections[query.connection],restrictRows,
+                                function(ordata) {
+                                    ////console.log('getting preview for query : ' + query.name);
+                                    query.preview = JSON.stringify(ordata, null, 2);
+                                    queries.put(query);
+                            });*/
+                                callback.call(this);
+                            if (callback) {
+                            }
+                        } catch (err) {};
+                    }
+                };
+            }
+            in_when_queries_changes = false;
+
+            });
+    }
+};
+
+
+
+
+
+
+
+
+
+
+function getRoot(req, res) {
+	hostcount++;
+	console.log("Host: " + req.headers.host + ", " + hostcount);
+	//console.log("URL: " + req.originalUrl);
+	if (req.headers.host) {
+		if (req.headers.host.toLowerCase().endsWith('canlabs.com')) {
+		res.writeHead(301,
+			{Location: 'http://canlabs.com/canlabs'}
+			);
+			res.end();
+			return;
+		};
+		if (req.headers.host.toLowerCase().endsWith('thebank.digital')) {
+		res.writeHead(301,
+			{Location: 'http://thebank.digital/thebankdigital'}
+			);
+			res.end();
+			return;
+		};
+		if (req.headers.host.toLowerCase().endsWith('gosharedata.com')) {
+		res.writeHead(301,
+			{Location: 'http://visifiles.com/gosharedata/index.html?time=' + new Date().getTime()}
+			);
+			res.end();
+			return;
+		};
+		if (req.headers.host.toLowerCase().endsWith('visifiles.com')) {
+		res.writeHead(301,
+			{Location: 'http://visifiles.com/gosharedata/index.html?time=' + new Date().getTime()}
+			);
+			res.end();
+			return;
+		};
+	};
+
+	if (!init_drivers) {
+	init_drivers = true;
+	eval(toeval);
+	if (drivers['oracle']['loadOnCondition']()) {
+		drivers['oracle']['loadDriver']();
+	};
+	eval(pgeval);
+
+	};
+
+	if (typeOfSystem == 'client') {
+					if (!canAccess(req,res)) {return;}
+		res.end(fs.readFileSync(path.join(__dirname, '../public/index.html')));
+	}
+	if (typeOfSystem == 'server') {
+		res.end(fs.readFileSync(path.join(__dirname, '../public/index_server.html')));
+	}
 }
