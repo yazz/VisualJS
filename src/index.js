@@ -177,6 +177,11 @@ var hostcount  												  = 0;
 var pgeval
 var sqliteeval
 var tdeval
+var in_when_connections_changes					= false;
+var forked;
+var forkedIndexer;
+
+
 
 
 app.use(compression())
@@ -348,66 +353,29 @@ setTimeout(startServices, timeout);
 // This starts all the system services
 //------------------------------------------------------------
 function startServices() {
+		app.use(cors())
 
-	  //------------------------------------------------------------------------------
-	  // Show the default page
+		app.use("/public/aframe_fonts", express.static(path.join(__dirname, '../public/aframe_fonts')));
+		app.use(express.static(path.join(__dirname, '../public/')))
+		app.use(bodyParser.json()); // support json encoded bodies
+		app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
+
+
+		//------------------------------------------------------------------------------
+	  // Show the default page for the different domains
 	  //------------------------------------------------------------------------------
 		app.get('/', function (req, res) {
-			return getRoot(req, res);
+			 	return getRoot(req, res);
 	  })
 
 
+		//------------------------------------------------------------------------------
+		// Download documents to the browser
+		//------------------------------------------------------------------------------
+		app.get('/docs2/*', function (req, res) {
+			 	return downloadDocuments(req,res);
+		});
 
-app.use(cors())
-
-
-app.use("/public/aframe_fonts", express.static(path.join(__dirname, '../public/aframe_fonts')));
-app.use(express.static(path.join(__dirname, '../public/')))
-app.use(bodyParser.json()); // support json encoded bodies
-app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
-
-
-
-	//------------------------------------------------------------------------------
-	// test_firewall
-	//------------------------------------------------------------------------------
-	app.get('/docs2/*', function (req, res) {
-        var fname = req.url.substr(req.url.lastIndexOf('/') + 1)
-
-        if (fname && (fname.length > 0)) {
-            var extension = fname.substr(fname.lastIndexOf('.') + 1).toLowerCase()
-            //console.log("getting file: " + fname);
-            //console.log("   extension: " + extension);
-            var contentType = 'text/plain';
-            if (extension == 'pdf') {contentType = 'application/pdf'}
-            else if (extension == 'glb') {contentType = 'model/gltf-binary'}
-            else if (extension == 'doc') {contentType = 'application/msword'}
-            else if (extension == 'docx') {contentType = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'}
-            else if (extension == 'xls') {contentType = 'application/vnd.ms-excel'}
-            else if (extension == 'xlsx') {contentType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}
-            else if (extension == 'csv') {contentType = 'text/csv'}
-
-
-
-            var stmt = dbsearch.all("select contents from files where name = '" + fname + "'", function(err, rows) {
-                if (!err) {
-                    if (rows.length > 0) {
-                         res.writeHead(200, {
-                            'Content-Type': contentType,
-                            'Content-disposition': 'attachment;filename=' + fname ,
-                            'Content-Length': rows[0].contents.length
-                        });
-
-
-                        res.end(new Buffer(rows[0].contents, 'binary'));
-                    };
-                };
-            });
-        } else {
-            res.writeHead(200, {'Content-Type': 'text/plain'});
-            res.end(JSON.stringify({  error: "No file selected"}));
-        }
-	});
 
 
 	//------------------------------------------------------------------------------
@@ -1134,55 +1102,6 @@ when_queries_changes(null);
 
 
 
-	function addOrUpdateDriver(name, code2, theObject) {
-        var code = eval(code2);
-		var driverType = theObject.type;
-		//console.log('addOrUpdateDriver: ' + name);
-
-        var stmt = dbsearch.all("select name from drivers where name = '" + name + "';",
-            function(err, rows) {
-                if (!err) {
-                    //console.log('             : ' + rows.length);
-                    if (rows.length == 0) {
-                        try
-                        {
-                            dbsearch.serialize(function() {
-                                var stmt = dbsearch.prepare(" insert or replace into drivers " +
-                                                            "    (id,  name, type, code ) " +
-                                                            " values " +
-                                                            "    (?, ?,?,?);");
-                            stmt.run(uuidv1(),  name,  driverType,  code2);
-                            stmt.finalize();
-                            });
-                        } catch(err) {
-                            //console.log('err             : ' + err);
-                        } finally {
-
-                        }
-
-                    } else {
-                        //console.log('   *** Checking DRIVER ' + name);
-                        var existingDriver = rows[0];
-                        if (!(code2 == existingDriver.code)) {
-                            try
-                            {
-                                dbsearch.serialize(function() {
-                                    var stmt = dbsearch.prepare(" update   drivers   set code = ? where id = ?");
-                                    stmt.run( code2 , rows[0].id );
-                                    stmt.finalize();
-                                });
-                            } catch(err) {
-                                //console.log('err             : ' + err);
-                            } finally {
-
-                            }
-                        }
-                    }
-                }
-            }
-        );
-    }
-
 
 
 
@@ -1234,158 +1153,6 @@ when_queries_changes(null);
 
 
 
-function scanHardDisk() {
-    inScan = true;
-	var useDrive = "C:\\";
-    if (!isWin) {
-        useDrive = '/';
-    }
-
-    if (!stopScan) {
-        walk(useDrive, function(error){
-            //console.log('*Error: ' + error);
-        });
-        inScan = false;
-	  };
-};
-
-
-
-function copyFileSync( source, target ) {
-
-    var targetFile = target;
-
-    //if target is a directory a new file with the same name will be created
-    if ( fs.existsSync( target ) ) {
-        if ( fs.lstatSync( target ).isDirectory() ) {
-            targetFile = path.join( target, path.basename( source ) );
-        }
-    }
-
-    fs.writeFileSync(targetFile, fs.readFileSync(source));
-}
-
-function copyFolderRecursiveSync( source, target ) {
-    //console.log('çopy from: '+ source + ' to ' + target);
-    var files = [];
-
-    //check if folder needs to be created or integrated
-    var targetFolder = path.join( target, path.basename( source ) );
-    if ( !fs.existsSync( targetFolder ) ) {
-        fs.mkdirSync( targetFolder );
-    }
-
-    //copy
-    if ( fs.lstatSync( source ).isDirectory() ) {
-        files = fs.readdirSync( source );
-        files.forEach( function ( file ) {
-            var curSource = path.join( source, file );
-            if ( fs.lstatSync( curSource ).isDirectory() ) {
-                copyFolderRecursiveSync( curSource, targetFolder );
-            } else {
-                copyFileSync( curSource, targetFolder );
-				//console.log('copying:  ' + targetFolder);
-            }
-        } );
-    }
-}
-
-
-var in_when_connections_changes=false;
-function when_connections_changes() {
-    if (!in_when_connections_changes) {
-        in_when_connections_changes=true;
-        //console.log('------------------------------------');
-        //console.log('Called when_ CONNS _changes ');
-        //console.log('------------------------------------');
-        //console.log('------------------------------------');
-
-        var stmt = dbsearch.all("select * from connections",
-            function(err, results) {
-                if (!err) {
-                    for (var i = 0 ; i < results.length ; i ++) {
-                        var conn = results[i]
-                        ////console.log('    --------Found conn:  ' + conn._id);
-                        ////console.log('                      :  ' + conn.name);
-                        if (!connections[conn.id]) {
-                          ////console.log(a);
-                          setSharedGlobalVar("connections", conn.id, JSON.stringify(conn,null,2));
-                        }
-                    }
-                }
-            in_when_connections_changes=false;
-            }
-        );
-    };
-}
-
-
-function addNewConnection( params ) {
-    try
-    {
-        //console.log("------------------function addNewConnection( params ) { -------------------");
-        dbsearch.serialize(function() {
-            var stmt = dbsearch.prepare(" insert into connections " +
-                                        "    ( id, name, driver, database, host, port, connectString, user, password, fileName, size, preview ) " +
-                                        " values " +
-                                        "    (?,  ?,?,?,?,?,?,?,?,?,?,?);");
-
-            stmt.run(uuidv1(),
-                     params.name,
-                     params.driver,
-                     params.database,
-                     params.host,
-                     params.port,
-                     params.connectString,
-                     params.user,
-                     params.password,
-                     params.fileName,
-                     params.size,
-                     params.preview);
-
-            stmt.finalize();
-            when_connections_changes();
-        });
-    } catch(err) {
-        //console.log("                          err: " + err);
-    } finally {
-    }
-}
-
-
-
-function addNewQuery( params ) {
-    try
-    {
-        //console.log("------------------function addNewQuery( params ) { -------------------");
-        dbsearch.serialize(function() {
-            var stmt = dbsearch.prepare(" insert into queries " +
-                                        "    ( id, name, connection, driver, definition, status, type ) " +
-                                        " values " +
-                                        "    (?,    ?, ?, ?, ?, ?, ?);");
-
-            var newQueryId = uuidv1();
-            stmt.run(newQueryId,
-                     params.name,
-                     params.connection,
-                     params.driver,
-                     params.definition,
-                     params.status,
-                     params.type
-                     );
-
-            stmt.finalize();
-            when_queries_changes(null);
-            getResult(newQueryId, params.connection, params.driver, eval("(" + params.definition + ")"), function(result){});
-        });
-    } catch(err) {
-        //console.log("                          err: " + err);
-    } finally {
-    }
-}
-
-
-
 
 
 
@@ -1407,8 +1174,7 @@ function addNewQuery( params ) {
 
 
 
-var forked;
-var forkedIndexer;
+
 if (isWin) {
     forked = fork.fork(path.join(__dirname, '../src/child.js'));
     forkedIndexer = fork.fork(path.join(__dirname, '../src/child.js'));
@@ -1795,6 +1561,127 @@ function walk(dir, done) {
     });
   });
 };
+
+
+
+
+
+
+
+
+
+function addOrUpdateDriver(name, code2, theObject) {
+      var code = eval(code2);
+	var driverType = theObject.type;
+	//console.log('addOrUpdateDriver: ' + name);
+
+      var stmt = dbsearch.all("select name from drivers where name = '" + name + "';",
+          function(err, rows) {
+              if (!err) {
+                  //console.log('             : ' + rows.length);
+                  if (rows.length == 0) {
+                      try
+                      {
+                          dbsearch.serialize(function() {
+                              var stmt = dbsearch.prepare(" insert or replace into drivers " +
+                                                          "    (id,  name, type, code ) " +
+                                                          " values " +
+                                                          "    (?, ?,?,?);");
+                          stmt.run(uuidv1(),  name,  driverType,  code2);
+                          stmt.finalize();
+                          });
+                      } catch(err) {
+                          //console.log('err             : ' + err);
+                      } finally {
+
+                      }
+
+                  } else {
+                      //console.log('   *** Checking DRIVER ' + name);
+                      var existingDriver = rows[0];
+                      if (!(code2 == existingDriver.code)) {
+                          try
+                          {
+                              dbsearch.serialize(function() {
+                                  var stmt = dbsearch.prepare(" update   drivers   set code = ? where id = ?");
+                                  stmt.run( code2 , rows[0].id );
+                                  stmt.finalize();
+                              });
+                          } catch(err) {
+                              //console.log('err             : ' + err);
+                          } finally {
+
+                          }
+                      }
+                  }
+              }
+          }
+      );
+  }
+
+
+
+
+
+function scanHardDisk() {
+    inScan = true;
+	var useDrive = "C:\\";
+    if (!isWin) {
+        useDrive = '/';
+    }
+
+    if (!stopScan) {
+        walk(useDrive, function(error){
+            //console.log('*Error: ' + error);
+        });
+        inScan = false;
+	  };
+};
+
+
+
+function copyFileSync( source, target ) {
+
+    var targetFile = target;
+
+    //if target is a directory a new file with the same name will be created
+    if ( fs.existsSync( target ) ) {
+        if ( fs.lstatSync( target ).isDirectory() ) {
+            targetFile = path.join( target, path.basename( source ) );
+        }
+    }
+
+    fs.writeFileSync(targetFile, fs.readFileSync(source));
+}
+
+function copyFolderRecursiveSync( source, target ) {
+    //console.log('çopy from: '+ source + ' to ' + target);
+    var files = [];
+
+    //check if folder needs to be created or integrated
+    var targetFolder = path.join( target, path.basename( source ) );
+    if ( !fs.existsSync( targetFolder ) ) {
+        fs.mkdirSync( targetFolder );
+    }
+
+    //copy
+    if ( fs.lstatSync( source ).isDirectory() ) {
+        files = fs.readdirSync( source );
+        files.forEach( function ( file ) {
+            var curSource = path.join( source, file );
+            if ( fs.lstatSync( curSource ).isDirectory() ) {
+                copyFolderRecursiveSync( curSource, targetFolder );
+            } else {
+                copyFileSync( curSource, targetFolder );
+				//console.log('copying:  ' + targetFolder);
+            }
+        } );
+    }
+}
+
+
+
+
 
 
 
@@ -2235,6 +2122,119 @@ function when_queries_changes(callback) {
 
 
 
+
+function addNewQuery( params ) {
+    try
+    {
+        //console.log("------------------function addNewQuery( params ) { -------------------");
+        dbsearch.serialize(function() {
+            var stmt = dbsearch.prepare(" insert into queries " +
+                                        "    ( id, name, connection, driver, definition, status, type ) " +
+                                        " values " +
+                                        "    (?,    ?, ?, ?, ?, ?, ?);");
+
+            var newQueryId = uuidv1();
+            stmt.run(newQueryId,
+                     params.name,
+                     params.connection,
+                     params.driver,
+                     params.definition,
+                     params.status,
+                     params.type
+                     );
+
+            stmt.finalize();
+            when_queries_changes(null);
+            getResult(newQueryId, params.connection, params.driver, eval("(" + params.definition + ")"), function(result){});
+        });
+    } catch(err) {
+        //console.log("                          err: " + err);
+    } finally {
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+function when_connections_changes() {
+    if (!in_when_connections_changes) {
+        in_when_connections_changes=true;
+        //console.log('------------------------------------');
+        //console.log('Called when_ CONNS _changes ');
+        //console.log('------------------------------------');
+        //console.log('------------------------------------');
+
+        var stmt = dbsearch.all("select * from connections",
+            function(err, results) {
+                if (!err) {
+                    for (var i = 0 ; i < results.length ; i ++) {
+                        var conn = results[i]
+                        ////console.log('    --------Found conn:  ' + conn._id);
+                        ////console.log('                      :  ' + conn.name);
+                        if (!connections[conn.id]) {
+                          ////console.log(a);
+                          setSharedGlobalVar("connections", conn.id, JSON.stringify(conn,null,2));
+                        }
+                    }
+                }
+            in_when_connections_changes=false;
+            }
+        );
+    };
+}
+
+
+function addNewConnection( params ) {
+    try
+    {
+        //console.log("------------------function addNewConnection( params ) { -------------------");
+        dbsearch.serialize(function() {
+            var stmt = dbsearch.prepare(" insert into connections " +
+                                        "    ( id, name, driver, database, host, port, connectString, user, password, fileName, size, preview ) " +
+                                        " values " +
+                                        "    (?,  ?,?,?,?,?,?,?,?,?,?,?);");
+
+            stmt.run(uuidv1(),
+                     params.name,
+                     params.driver,
+                     params.database,
+                     params.host,
+                     params.port,
+                     params.connectString,
+                     params.user,
+                     params.password,
+                     params.fileName,
+                     params.size,
+                     params.preview);
+
+            stmt.finalize();
+            when_connections_changes();
+        });
+    } catch(err) {
+        //console.log("                          err: " + err);
+    } finally {
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
 function getRoot(req, res) {
 	hostcount++;
 	console.log("Host: " + req.headers.host + ", " + hostcount);
@@ -2288,3 +2288,50 @@ function getRoot(req, res) {
 		res.end(fs.readFileSync(path.join(__dirname, '../public/index_server.html')));
 	}
 }
+
+
+
+
+
+
+
+
+
+
+function downloadDocuments(req, res) {
+		var fname = req.url.substr(req.url.lastIndexOf('/') + 1)
+
+		if (fname && (fname.length > 0)) {
+				var extension = fname.substr(fname.lastIndexOf('.') + 1).toLowerCase()
+				//console.log("getting file: " + fname);
+				//console.log("   extension: " + extension);
+				var contentType = 'text/plain';
+				if (extension == 'pdf') {contentType = 'application/pdf'}
+				else if (extension == 'glb') {contentType = 'model/gltf-binary'}
+				else if (extension == 'doc') {contentType = 'application/msword'}
+				else if (extension == 'docx') {contentType = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'}
+				else if (extension == 'xls') {contentType = 'application/vnd.ms-excel'}
+				else if (extension == 'xlsx') {contentType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}
+				else if (extension == 'csv') {contentType = 'text/csv'}
+
+
+
+				var stmt = dbsearch.all("select contents from files where name = '" + fname + "'", function(err, rows) {
+						if (!err) {
+								if (rows.length > 0) {
+										 res.writeHead(200, {
+												'Content-Type': contentType,
+												'Content-disposition': 'attachment;filename=' + fname ,
+												'Content-Length': rows[0].contents.length
+										});
+
+
+										res.end(new Buffer(rows[0].contents, 'binary'));
+								};
+						};
+				});
+		} else {
+				res.writeHead(200, {'Content-Type': 'text/plain'});
+				res.end(JSON.stringify({  error: "No file selected"}));
+		}
+};
