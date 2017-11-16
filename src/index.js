@@ -1,13 +1,8 @@
 'use strict';
 
-
-var numberOfSecondsAliveCheck = 60;
 var isPi = require('detect-rpi');
-var username = "Unknown user";
-
 var isWin = /^win/.test(process.platform);
 var isRaspberryPi = isPi();
-var serverwebsockets = [];
 
 function require2(moduleName) {
 	var pat;
@@ -23,70 +18,43 @@ function require2(moduleName) {
 	return reac;
 };
 
-
-var fs           = require('fs');
-var path         = require('path');
-var mkdirp       = require('mkdirp')
-const uuidv1 = require('uuid/v1');
-var fork  = require('child_process');
-var drivers      = new Object();
-var connections  = new Object();
-var queries      = new Object();
-var express      = require('express')
-var app          = express()
-var expressWs    = require('express-ws')(app);
-var timeout      = 0;
-var init_drivers = false;
-var port;
-var hostaddress;
-var typeOfSystem;
-var centralHostAddress;
-var centralHostPort;
-var request      = require("request");
-var toeval;
-var open         = require('open');
-var dbhelper     = require('../public/dbhelper');
-var Excel = require('exceljs');
-var compression = require('compression')
-app.use(compression())
-var crypto = require('crypto');
-var PDFParser = require2("pdf2json");
-
-var async   = require('async');
-var sqlite3   = require2('sqlite3');
-
-var dns          = require('dns');
-var url          = require('url');
-var net          = require('net');
-var unzip        = require('unzip');
-var postgresdb   = require('pg');
-var ip           = require("ip");
-var program      = require('commander');
-var os= require('os')
-var bodyParser = require('body-parser');
-var multer = require('multer');
-var upload = multer( { dest: 'uploads/' } );
-var diff = require('deep-diff').diff
-
-
-
-var stmt2 = null;
-var stmt3 = null;
-var setIn = null;
-
-//console.log("...  ");
-//console.log("");
-
-
-var stopScan = false;
-var inScan = false;
-var XLSX = require('xlsx');
-var csv = require('fast-csv');
-var mammoth = require("mammoth");
-
-var mysql      = require('mysql');
-var cors = require('cors')
-
+var fs              = require('fs');
+var path            = require('path');
+var mkdirp          = require('mkdirp')
+const uuidv1        = require('uuid/v1');
+var fork            = require('child_process');
+var drivers         = new Object();
+var connections     = new Object();
+var queries         = new Object();
+var express         = require('express')
+var app             = express()
+var expressWs       = require('express-ws')(app);
+var request         = require("request");
+var open            = require('open');
+var dbhelper        = require('../public/dbhelper');
+var Excel           = require('exceljs');
+var compression     = require('compression')
+var crypto          = require('crypto');
+var PDFParser       = require2("pdf2json");
+var async           = require('async');
+var sqlite3         = require2('sqlite3');
+var dns             = require('dns');
+var url             = require('url');
+var net             = require('net');
+var unzip           = require('unzip');
+var postgresdb      = require('pg');
+var ip              = require("ip");
+var program         = require('commander');
+var os              = require('os')
+var bodyParser      = require('body-parser');
+var multer          = require('multer');
+var upload          = multer( { dest: 'uploads/' } );
+var diff            = require('deep-diff').diff
+var XLSX            = require('xlsx');
+var csv             = require('fast-csv');
+var mysql           = require('mysql');
+var cors            = require('cors')
+var mammoth         = require("mammoth");
 
 path.join(__dirname, '../public/jquery-1.9.1.min.js')
 path.join(__dirname, '../public/jquery.zoomooz.js')
@@ -133,7 +101,6 @@ path.join(__dirname, '../public/\aframe_fonts/SourceCodePro.png')
 
 
 
-
 if (!fs.existsSync(process.cwd() + "/node_modules") ) {
     copyFolderRecursiveSync(path.join(__dirname, "../node_modules")  , process.cwd() ); }
 
@@ -158,32 +125,6 @@ if (!fs.existsSync(process.cwd() + "/node_pi") ) {
 
 
 
-const mkdirSync = function (dirPath) {
-  try {
-    mkdirp.sync(dirPath)
-  } catch (err) {
-    //if (err.code !== 'EEXIST') throw err
-  }
-}
-mkdirp.sync("uploads");
-
-
-function outputToConsole(text) {
-    var c = console;
-    c.log(text);
-}
-
-
-function copyNodeNativeAdapter( osName, moduleName, directoryToSaveTo , nativeFileName) {
-    //console.log('Copy started of : ' + osName + ', '+ moduleName + ','+ directoryToSaveTo + ','+ nativeFileName);
-	if (!fs.existsSync(process.cwd() + "/node_modules/" + moduleName + "/" + directoryToSaveTo + "/" + nativeFileName) ) {
-		//console.log('* Creating native driver for: ' + moduleName);
-		mkdirSync(process.cwd() + "/node_modules/" + moduleName +  "/" + directoryToSaveTo);
-		copyFileSync(	 process.cwd() + "/node_" + osName + "/" + nativeFileName + "rename",
-							process.cwd() + "/node_modules/" + moduleName + "/" + directoryToSaveTo + "/" + nativeFileName) ;
-	}
-	//console.log('Copy done');
-}
 
 if (isWin) {
     //console.log('******* WINDOWS *******');
@@ -206,6 +147,37 @@ if (isWin) {
 }
 
 
+
+var timeout                             = 0;
+var init_drivers                        = false;
+var port;
+var hostaddress;
+var typeOfSystem;
+var centralHostAddress;
+var centralHostPort;
+var toeval;
+var stmt2                               = null;
+var stmt3                               = null;
+var setIn                               = null;
+var stopScan                            = false;
+var inScan                              = false;
+var numberOfSecondsAliveCheck           = 60;
+var username                            = "Unknown user";
+var serverwebsockets                    = [];
+var portrange                           = 3000
+var dbsearch;
+var requestClientInternalHostAddress    = '';
+var requestClientInternalPort           = -1;
+var requestClientPublicIp               = '';
+var requestClientPublicHostName         = '';
+
+
+
+app.use(compression())
+mkdirp.sync("uploads");
+
+
+
 program
   .version('0.0.1')
   .option('-t, --type [type]', 'Add the specified type of app (client/server) [type]', 'client')
@@ -216,17 +188,18 @@ program
   .parse(process.argv);
 
 
-  port = program.port;
-  if (!isNumber(port)) {port = 80;};
+port = program.port;
+if (!isNumber(port)) {
+    port = 80;
+};
 
-  var portrange = 3000
-  outputToConsole('Visifiles node local hostname: ' + ip.address() + ' ')
+outputToConsole('VisiFile node local hostname: ' + ip.address() + ' ')
 
 
 
 //console.log(" ");
 //console.log("-----------------------------------------------------------------------");
-//console.log("                         Starting VisiFiles ");
+//console.log("                         Starting VisiFile ");
 //console.log("-----------------------------------------------------------------------");
 
 //console.log(" ");
@@ -239,10 +212,7 @@ program
 
 
 username = os.userInfo().username.toLowerCase();
-//console.log(username);
-
-
-var dbsearch = new sqlite3.Database(username + '.vis');
+dbsearch = new sqlite3.Database(username + '.vis');
 //dbsearch.run("PRAGMA journal_mode=WAL;")
 dbsearch.run("PRAGMA synchronous=OFF;")
 dbsearch.run("PRAGMA count_changes=OFF;")
@@ -287,424 +257,45 @@ async.map([
     //console.log("    res= " + JSON.stringify(results,null,2));
 });
 
-//console.log("... still loading");
-//console.log("...");
-//console.log("... ");
-//console.log("... ");
-//console.log("... nearly there");
-//console.log("...");
-//console.log("...");
-//console.log("...");
 
 
 
-        try
+try
+{
+    var stmt = dbsearch.all(
+        "SELECT name FROM sqlite_master WHERE type='table' AND name='zfts_search_rows_hashed';",
+        function(err, results)
         {
-            var stmt = dbsearch.all(
-                "SELECT name FROM sqlite_master WHERE type='table' AND name='zfts_search_rows_hashed';",
-                function(err, results)
+            if (!err)
+            {
+                if( results.length == 0)
                 {
-                    if (!err)
+                    dbsearch.serialize(function()
                     {
-                        if( results.length == 0)
-                        {
-                            dbsearch.serialize(function()
-                            {
-                                dbsearch.run("CREATE VIRTUAL TABLE zfts_search_rows_hashed USING fts5(row_hash, data);");
-                            });
-                        }
-                    }
-                });
-        } catch(err) {
-            //console.log(err);
-        } finally {
-        }
-
-
- function isExcelFile(fname) {
-	 if (!fname) {
-		return false;
-	 };
-	 var ext = fname.split('.').pop();
-	 ext = ext.toLowerCase();
-	 if (ext == "xls") return true;
-	 if (ext == "xlsx") return true;
-	 return false;
- }
-
-
-  function isWordFile(fname) {
-	 if (!fname) {
-		return false;
-	 };
-	 var ext = fname.split('.').pop();
-	 ext = ext.toLowerCase();
-	 if (ext == "doc") return true;
-	 if (ext == "docx") return true;
-	 return false;
- }
-
-  function isPdfFile(fname) {
-	 if (!fname) {
-		return false;
-	 };
-	 var ext = fname.split('.').pop();
-	 ext = ext.toLowerCase();
-	 if (ext == "pdf") return true;
-	 return false;
- }
-
-
-  function isCsvFile(fname) {
-	 if (!fname) {
-		return false;
-	 };
-	 var ext = fname.split('.').pop();
-	 ext = ext.toLowerCase();
-	 if (ext == "csv") return true;
-	 return false;
- }
-
-
-  function isGlbFile(fname) {
-	 if (!fname) {
-		return false;
-	 };
-	 var ext = fname.split('.').pop();
-	 ext = ext.toLowerCase();
-	 if (ext == "glb") return true;
-	 return false;
- }
-
-
-function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileType2) {
-    //console.log("... in saveConnectionAndQueryForFile:::: " + fileId)
-    sendOverWebSockets({
-                            type:   "server_scan_status",
-                            value:  "Found file " + fileName
-                            });
-    if (!fileName) {
-        return;
-    };
-    if (fileName.indexOf("$") != -1) {
-        return;
-    };
-    if (fileName.indexOf("gsd_") != -1) {
-        return;
-    };
-    try {
-        forked.send({
-                        message_type:       'saveConnectionAndQueryForFile',
-                        fileId:             fileId,
-                        fileType:           fileType,
-                        size:               size,
-                        fileName:           fileName,
-                        fileType2:          fileType2
-                        });
-
-    } catch(err) {
-        //console.log("Error " + err + " with file: " + fileName);
-        return err;
-    } finally {
-
-    }
-}
-
- var walk = function(dir, done) {
-   if (stopScan) {
-       inScan = false;
-         return;
-   };
-   ////console.log('dir: ' + dir);
-  fs.readdir(dir, function(err, list) {
-    if (err) return done(err);
-    var pending = list.length;
-    if (!pending) return done(null);
-    list.forEach(function(file) {
-      file = path.resolve(dir, file);
-      fs.stat(file, function(err, stat) {
-        if (stat && stat.isDirectory()) {
-            sendOverWebSockets({
-                                    type:   "server_scan_status",
-                                    value:  "Scanning directory " + file
-                                    });
-           setTimeout(function() {
-                              walk(file, function(err) {
-                            if (!--pending) done(null);
-                          });
-          }, 10 * 1000);
-        } else {
-		  if (isExcelFile(file)) {
-                //console.log('file: ' + file);
-  					var excelFile = file;
-  						if (typeof excelFile !== "undefined") {
-							var fileId = excelFile.replace(/[^\w\s]/gi,'');
-  							//console.log('Saving from walk   *file id: ' + fileId);
-  							//console.log('   *size: ' + stat.size);
-
-                            saveConnectionAndQueryForFile(fileId, 'excel', stat.size, excelFile, '|SPREADSHEET|');
-
-						}
-					}
-		  if (isGlbFile(file)) {
-                //console.log('GLB file: ' + file);
-  					var GLBFile = file;
-  						if (typeof GLBFile !== "undefined") {
-							var fileId = GLBFile.replace(/[^\w\s]/gi,'');
-  							//console.log('Saving from walk   *file id: ' + fileId);
-  							//console.log('   *size: ' + stat.size);
-
-                            saveConnectionAndQueryForFile(fileId, 'glb', stat.size, GLBFile, '|GLB|');
-						}
-					}
-		  if (isCsvFile(file)) {
-                //console.log('CSV file: ' + file);
-  					var CSVFile = file;
-  						if (typeof CSVFile !== "undefined") {
-							var fileId = CSVFile.replace(/[^\w\s]/gi,'');
-  							//console.log('Saving from walk   *file id: ' + fileId);
-  							//console.log('   *size: ' + stat.size);
-
-                            saveConnectionAndQueryForFile(fileId, 'csv', stat.size, CSVFile, '|CSV|');
-						}
-					}
-		  if (isWordFile(file)) {
-                //console.log('WORD file: ' + file);
-  					var WordFile = file;
-  						if (typeof WordFile !== "undefined") {
-							var fileId = WordFile.replace(/[^\w\s]/gi,'');
-  							//console.log('Saving from walk   *file id: ' + fileId);
-  							//console.log('   *size: ' + stat.size);
-
-                            saveConnectionAndQueryForFile(fileId, 'word', stat.size, WordFile, '|DOCUMENT|');
-						}
-					}
-		  if (isPdfFile(file)) {
-                //console.log('PDF file: ' + file);
-  					var PdfFile = file;
-  						if (typeof PdfFile !== "undefined") {
-							var fileId = PdfFile.replace(/[^\w\s]/gi,'');
-  							//console.log('Saving from walk   *file id: ' + fileId);
-  							//console.log('   *size: ' + stat.size);
-
-                            saveConnectionAndQueryForFile(fileId, 'pdf', stat.size, PdfFile, '|DOCUMENT|');
-						}
-					}          if (!--pending) done(null);
-        }
-      });
-    });
-  });
-};
-
-
-
-
-
-
-var getResult = function(source, connection, driver, definition, callback) {
-    //console.log("var getResult = function(" + source + ", " + connection + ", " + driver + ", " + JSON.stringify(definition));
-    if (stmt2 == null) {
-        stmt2 = dbsearch.prepare("INSERT INTO zfts_search_rows_hashed (row_hash, data) VALUES (?, ?)");
-    }
-    if (stmt3 == null) {
-        stmt3 = dbsearch.prepare("INSERT INTO search_rows_hierarchy (document_binary_hash, parent_hash, child_hash) VALUES (?,?,?)");
-    }
-    if (setIn == null) {
-        setIn =  dbsearch.prepare("UPDATE queries SET index_status = ? WHERE id = ?");
-    }
-    //console.log("01");
-
-
-    var error = new Object();
-    if (connections[connection]) {
-        //console.log("02");
-        try {
-            //console.log("22");
-            dbsearch.serialize(function() {
-                dbsearch.run("begin transaction");
-                setIn.run("PROCESSING" ,source);
-                dbsearch.run("commit");
-                //console.log('**** drivers[driver] = ' + driver)
-                drivers[driver]['get_v2'](connections[connection],definition,function(ordata) {
-                    //console.log("23");
-                    if (ordata.error) {
-                        //console.log("24");
-                        //console.log("****************** err 4:" + ordata.error);
-                        dbsearch.serialize(function() {
-                            //console.log("25");
-                            dbsearch.run("begin transaction");
-                            setIn.run("ERROR: " + ordata.error,source);
-                            dbsearch.run("commit");
-                            callback.call(this,{error: true});
-                        });
-
-                    } else {
-                        //console.log("26");
-                        var rrows = [];
-                        if( Object.prototype.toString.call( ordata ) === '[object Array]' ) {
-                            rrows = ordata;
-                        } else {
-                            rrows = ordata.values;
-                        }
-                        //console.log("27");
-                        //console.log( "   ordata: " + JSON.stringify(ordata));
-                        var findHashSql = "select  hash from queries where id = '" + source + "'";
-                        //console.log("FindHashSql : " + findHashSql );
-                        //console.log("1");
-                        var stmt4 = dbsearch.all(findHashSql,
-                            function(err, results2) {
-                                //console.log("2");
-                                if( err) {
-                                    //console.log("Error: " + JSON.stringify(error) + "'");
-                                }
-                                if( results2.length == 0) {
-                                    //console.log("No sresults for hash" + source + "'");
-                                }
-                                var binHash = results2[0].hash;
-                                var stmt = dbsearch.all("select  " +
-                                                    "    document_binary_hash  "  +
-                                                    "from  " +
-                                                    "    search_rows_hierarchy  " +
-                                                    "where  " +
-                                                    "    document_binary_hash = '" + binHash + "'",
-                                function(err, results) {
-                                    //console.log("3");
-                                    if (!err) {
-                                        //console.log("4");
-                                        if( results.length == 0) {
-                                            //console.log("5");
-                                            dbsearch.serialize(function() {
-
-                                                callback.call(this,ordata);
-                                                //console.log("Inserting rows");
-
-                                                if (rrows && rrows.length) {
-
-                                                    dbsearch.run("begin transaction");
-                                                    //console.log("Committing... " + rrows.length)
-                                                    for (var i =0 ; i < rrows.length; i++) {
-                                                        var rowhash = crypto.createHash('sha1');
-                                                        var row = JSON.stringify(rrows[i]);
-                                                        rowhash.setEncoding('hex');
-                                                        rowhash.write(row);
-                                                        rowhash.end();
-                                                        var sha1sum = rowhash.read();
-                                                        //console.log('                 : ' + JSON.stringify(rrows[i]));
-                                                        stmt2.run(sha1sum, row);
-                                                        stmt3.run(binHash, null, sha1sum);
-                                                    }
-                                                    //console.log("Committed: " + rrows.length)
-                                                    //stmt2.finalize();
-                                                    //stmt3.finalize();
-                                                    //console.log('                 : ' + JSON.stringify(rrows.length));
-
-                                                    //console.log('                 source: ' + JSON.stringify(source));
-                                                    setIn.run("INDEXED",source);
-                                                    dbsearch.run("commit");
-
-                                                } else {
-                                                    //console.log("****************** err 2");
-                                                    callback.call(this,{error: true});
-                                                    dbsearch.run("begin transaction");
-                                                    setIn.run("INDEXED: Other error",source);
-                                                    dbsearch.run("commit");
-                                                }
-                                            });
-                                        } else {
-                                            //console.log("****************** err 5: no rows");
-                                            callback.call(this,ordata);
-                                            dbsearch.serialize(function() {
-                                                dbsearch.run("begin transaction");
-                                                setIn.run("INDEXED: ",source);
-                                                dbsearch.run("commit");
-                                            });
-                                        }
-                                    } else {
-                                        //console.log("****************** err 3" + err);
-                                        dbsearch.serialize(function() {
-                                            dbsearch.run("begin transaction");
-                                            setIn.run("ERROR: " + err, source);
-                                            dbsearch.run("commit");
-                                            callback.call(this,{error: true});
-                                        });
-                                    }
-                                });
-                        })
-
-                }})
+                        dbsearch.run("CREATE VIRTUAL TABLE zfts_search_rows_hashed USING fts5(row_hash, data);");
+                    });
+                }
             }
-            )
-
-        }
-        catch(err){
-            //console.log("03");
-            //console.log("****************** err 1" + err);
-            callback.call(this,{error: true});
-        }
-    } else {
-        //console.log("04");
-        //console.log("****************** err 7" );
-        dbsearch.serialize(function() {
-            //console.log("05");
-            dbsearch.run("begin transaction");
-            setIn.run("ERROR: no connection for " + source , source);
-            dbsearch.run("commit");
-            callback.call(this,{error: true});
         });
-    }
-        //console.log("****************** err 10" );
-    }
-
-
-
-function sendOverWebSockets(data) {
-    var ll = serverwebsockets.length;
-    //console.log('send to sockets Count: ' + JSON.stringify(serverwebsockets.length));
-    for (var i =0 ; i < ll; i++ ) {
-        var sock = serverwebsockets[i];
-        if (sock.readyState == 1) {
-            sock.send(JSON.stringify(data));
-        }
-        //console.log('                    sock ' + i + ': ' + JSON.stringify(sock.readyState));
-    }
-}
-
-function isNumber(n) {
-  return !isNaN(parseFloat(n)) && isFinite(n);
+} catch(err) {
+    //console.log(err);
+} finally {
 }
 
 
 
-  getPort(mainProgram);
-
-	function getPort (cb) {
-
-		var server = net.createServer()
-
-		server.listen(port, ip.address(), function (err) {
-			//console.log('trying port: ' + port + ' ')
-			server.once('close', function () {
-			})
-			server.close()
-		})
-		server.on('error', function (err) {
-			//console.log('Couldnt connect on port ' + port + '...')
-			if (port < portrange) {
-				port = portrange
-				};
-			//console.log('... trying port ' + port)
-			portrange += 1
-			getPort(cb)
-		})
-		server.on('listening', function (err) {
-				//console.log('Can connect on port ' + port + ' :) ')
-				cb()
-		})
-	}
 
 
 
-  function mainProgram() {
+
+
+
+getPort(mainProgram);
+
+
+
+
+function mainProgram() {
 	typeOfSystem = program.type;
 	centralHostAddress = program.host;
 	centralHostPort = program.hostport;
@@ -712,7 +303,7 @@ function isNumber(n) {
 
 
 	if (!(typeOfSystem == 'client' || typeOfSystem == 'server')) {
-		//console.log('-------* Invalid system type: ' + typeOfSystem);
+		outputToConsole('-------* Invalid system type: ' + typeOfSystem);
 		process.exit();
 	};
 	//console.log('-------* System type: ' + typeOfSystem);
@@ -746,10 +337,10 @@ function isNumber(n) {
 	//console.log('Creating timeout: ' + timeout);
 
 
-	//------------------------------------------------------------
-	// wait three seconds for stuff to initialize
-	//------------------------------------------------------------
-	function startServices() {
+//------------------------------------------------------------
+// wait three seconds for stuff to initialize
+//------------------------------------------------------------
+function startServices() {
 
 	var hostcount = 0;
 	  //------------------------------------------------------------------------------
@@ -814,33 +405,12 @@ function isNumber(n) {
 app.use(cors())
 
 
-    app.use("/public/aframe_fonts", express.static(path.join(__dirname, '../public/aframe_fonts')));
-	app.use(express.static(path.join(__dirname, '../public/')))
-	app.use(bodyParser.json()); // support json encoded bodies
-	app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
+app.use("/public/aframe_fonts", express.static(path.join(__dirname, '../public/aframe_fonts')));
+app.use(express.static(path.join(__dirname, '../public/')))
+app.use(bodyParser.json()); // support json encoded bodies
+app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
 
-    function isLocalMachine(req) {
-        if ((req.ip == '127.0.0.1') || (hostaddress == req.ip)) {  // this is the correct line to use
-        //if (req.ip == '127.0.0.1')  {      // this is used for debugging only so that we can deny access from the local machine
-            return true;
-        };
-        return false;
-    }
-	//------------------------------------------------------------------------------
-	// test if allowed
-	//------------------------------------------------------------------------------
-	function canAccess(req,res) {
-        if (!locked) {
-            return true;
-        };
-        if (isLocalMachine(req) ) {
-            return true;
-        };
-        res.writeHead(200, {'Content-Type': 'text/plain'});
-        res.end("Sorry but access to " + username + "'s data is not allowed. Please ask " + username + " to unlocked their VisiFiles account");
-        return false;
-	};
 
 	//------------------------------------------------------------------------------
 	// test_firewall
@@ -927,13 +497,6 @@ app.use(cors())
 	});
 
 
-// ============================================================
-// This sends a message to a specific websocket
-// ============================================================
-function sendToBrowserViaWebSocket(aws, msg) {
-            aws.send(JSON.stringify(msg,null,2));
-
-}
 app.ws('/websocket', function(ws, req) {
     serverwebsockets.push(ws);
     //console.log('Socket connected : ' + serverwebsockets.length);
@@ -1372,10 +935,6 @@ app.ws('/websocket', function(ws, req) {
 
 
 
-	var requestClientInternalHostAddress = '';
-	var requestClientInternalPort        = -1;
-	var requestClientPublicIp            = '';
-	var requestClientPublicHostName      = '';
 
 
 	//------------------------------------------------------------------------------
@@ -1402,52 +961,6 @@ app.ws('/websocket', function(ws, req) {
 
 	//app.enable('trust proxy')
 
-    var extractHostname = function (url) {
-    var hostname;
-    //find & remove protocol (http, ftp, etc.) and get hostname
-
-    if (url.indexOf("://") > -1) {
-        hostname = url.split('/')[2];
-    }
-    else {
-        hostname = url.split('/')[0];
-    }
-
-    //find & remove port number
-    hostname = hostname.split(':')[0];
-    //find & remove "?"
-    hostname = hostname.split('?')[0];
-
-    return hostname;
-}
-
-    var extractRootDomain = function(url) {
-    var domain = extractHostname(url),
-        splitArr = domain.split('.'),
-        arrLen = splitArr.length;
-
-    //extracting the root domain here
-    if (arrLen > 2) {
-        domain = splitArr[arrLen - 2] + '.' + splitArr[arrLen - 1];
-    }
-    return domain;
-}
-
-    var findViafromString = function(inp) {
-        if (inp == null) {
-            return "";
-        }
-
-        var ll = inp.split(' ');
-        for (var i=0; i< ll.length ; i++){
-            if (ll[i] != null) {
-                if (ll[i].indexOf(":") != -1) {
-                    return extractRootDomain(ll[i]);
-                }
-            }
-        }
-        return "";
-    }
 
 	app.get('/get_all_table',
         function (req, res) {
@@ -2187,4 +1700,553 @@ function setSharedGlobalVar(nameOfVar, index, value) {
     } finally {
 
     }
+}
+
+
+
+
+function mkdirSync(dirPath) {
+    try {
+        mkdirp.sync(dirPath)
+    } catch (err) {
+        //if (err.code !== 'EEXIST') throw err
+    }
+}
+
+
+function outputToConsole(text) {
+    var c = console;
+    c.log(text);
+}
+
+
+function copyNodeNativeAdapter( osName, moduleName, directoryToSaveTo , nativeFileName) {
+    //console.log('Copy started of : ' + osName + ', '+ moduleName + ','+ directoryToSaveTo + ','+ nativeFileName);
+	if (!fs.existsSync(process.cwd() + "/node_modules/" + moduleName + "/" + directoryToSaveTo + "/" + nativeFileName) ) {
+		//console.log('* Creating native driver for: ' + moduleName);
+		mkdirSync(process.cwd() + "/node_modules/" + moduleName +  "/" + directoryToSaveTo);
+		copyFileSync(	process.cwd() + "/node_" + osName + "/" + nativeFileName + "rename",
+                        process.cwd() + "/node_modules/" + moduleName + "/" + directoryToSaveTo + "/" + nativeFileName) ;
+	}
+	//console.log('Copy done');
+}
+
+
+
+
+function isExcelFile(fname) {
+    if (!fname) {
+        return false;
+    };
+    var ext = fname.split('.').pop();
+    ext = ext.toLowerCase();
+    if (ext == "xls") return true;
+    if (ext == "xlsx") return true;
+    return false;
+}
+
+
+function isWordFile(fname) {
+    if (!fname) {
+        return false;
+    };
+    var ext = fname.split('.').pop();
+    ext = ext.toLowerCase();
+    if (ext == "doc") return true;
+    if (ext == "docx") return true;
+    return false;
+}
+
+function isPdfFile(fname) {
+    if (!fname) {
+        return false;
+    };
+    var ext = fname.split('.').pop();
+    ext = ext.toLowerCase();
+    if (ext == "pdf") return true;
+    return false;
+}
+
+
+function isCsvFile(fname) {
+	if (!fname) {
+	return false;
+	};
+	var ext = fname.split('.').pop();
+	ext = ext.toLowerCase();
+	if (ext == "csv") return true;
+	return false;
+}
+
+
+function isGlbFile(fname) {
+	if (!fname) {
+	return false;
+	};
+	var ext = fname.split('.').pop();
+	ext = ext.toLowerCase();
+	if (ext == "glb") return true;
+	return false;
+}
+
+
+function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileType2) {
+    //console.log("... in saveConnectionAndQueryForFile:::: " + fileId)
+    sendOverWebSockets({
+                            type:   "server_scan_status",
+                            value:  "Found file " + fileName
+                            });
+    if (!fileName) {
+        return;
+    };
+    if (fileName.indexOf("$") != -1) {
+        return;
+    };
+    if (fileName.indexOf("gsd_") != -1) {
+        return;
+    };
+    try {
+        forked.send({
+                        message_type:       'saveConnectionAndQueryForFile',
+                        fileId:             fileId,
+                        fileType:           fileType,
+                        size:               size,
+                        fileName:           fileName,
+                        fileType2:          fileType2
+                        });
+
+    } catch(err) {
+        //console.log("Error " + err + " with file: " + fileName);
+        return err;
+    } finally {
+
+    }
+}
+
+
+
+
+
+function walk(dir, done) {
+   if (stopScan) {
+       inScan = false;
+         return;
+   };
+   ////console.log('dir: ' + dir);
+  fs.readdir(dir, function(err, list) {
+    if (err) return done(err);
+    var pending = list.length;
+    if (!pending) return done(null);
+    list.forEach(function(file) {
+      file = path.resolve(dir, file);
+      fs.stat(file, function(err, stat) {
+        if (stat && stat.isDirectory()) {
+            sendOverWebSockets({
+                                    type:   "server_scan_status",
+                                    value:  "Scanning directory " + file
+                                    });
+           setTimeout(function() {
+                              walk(file, function(err) {
+                            if (!--pending) done(null);
+                          });
+          }, 10 * 1000);
+        } else {
+		  if (isExcelFile(file)) {
+                //console.log('file: ' + file);
+  					var excelFile = file;
+  						if (typeof excelFile !== "undefined") {
+							var fileId = excelFile.replace(/[^\w\s]/gi,'');
+  							//console.log('Saving from walk   *file id: ' + fileId);
+  							//console.log('   *size: ' + stat.size);
+
+                            saveConnectionAndQueryForFile(fileId, 'excel', stat.size, excelFile, '|SPREADSHEET|');
+
+						}
+					}
+		  if (isGlbFile(file)) {
+                //console.log('GLB file: ' + file);
+  					var GLBFile = file;
+  						if (typeof GLBFile !== "undefined") {
+							var fileId = GLBFile.replace(/[^\w\s]/gi,'');
+  							//console.log('Saving from walk   *file id: ' + fileId);
+  							//console.log('   *size: ' + stat.size);
+
+                            saveConnectionAndQueryForFile(fileId, 'glb', stat.size, GLBFile, '|GLB|');
+						}
+					}
+		  if (isCsvFile(file)) {
+                //console.log('CSV file: ' + file);
+  					var CSVFile = file;
+  						if (typeof CSVFile !== "undefined") {
+							var fileId = CSVFile.replace(/[^\w\s]/gi,'');
+  							//console.log('Saving from walk   *file id: ' + fileId);
+  							//console.log('   *size: ' + stat.size);
+
+                            saveConnectionAndQueryForFile(fileId, 'csv', stat.size, CSVFile, '|CSV|');
+						}
+					}
+		  if (isWordFile(file)) {
+                //console.log('WORD file: ' + file);
+  					var WordFile = file;
+  						if (typeof WordFile !== "undefined") {
+							var fileId = WordFile.replace(/[^\w\s]/gi,'');
+  							//console.log('Saving from walk   *file id: ' + fileId);
+  							//console.log('   *size: ' + stat.size);
+
+                            saveConnectionAndQueryForFile(fileId, 'word', stat.size, WordFile, '|DOCUMENT|');
+						}
+					}
+		  if (isPdfFile(file)) {
+                //console.log('PDF file: ' + file);
+  					var PdfFile = file;
+  						if (typeof PdfFile !== "undefined") {
+							var fileId = PdfFile.replace(/[^\w\s]/gi,'');
+  							//console.log('Saving from walk   *file id: ' + fileId);
+  							//console.log('   *size: ' + stat.size);
+
+                            saveConnectionAndQueryForFile(fileId, 'pdf', stat.size, PdfFile, '|DOCUMENT|');
+						}
+					}          if (!--pending) done(null);
+        }
+      });
+    });
+  });
+};
+
+
+
+
+
+
+
+function getResult(  source, connection, driver, definition, callback  ) {
+    //console.log("var getResult = function(" + source + ", " + connection + ", " + driver + ", " + JSON.stringify(definition));
+    if (stmt2 == null) {
+        stmt2 = dbsearch.prepare("INSERT INTO zfts_search_rows_hashed (row_hash, data) VALUES (?, ?)");
+    }
+    if (stmt3 == null) {
+        stmt3 = dbsearch.prepare("INSERT INTO search_rows_hierarchy (document_binary_hash, parent_hash, child_hash) VALUES (?,?,?)");
+    }
+    if (setIn == null) {
+        setIn =  dbsearch.prepare("UPDATE queries SET index_status = ? WHERE id = ?");
+    }
+    //console.log("01");
+
+
+    var error = new Object();
+    if (connections[connection]) {
+        //console.log("02");
+        try {
+            //console.log("22");
+            dbsearch.serialize(function() {
+                dbsearch.run("begin transaction");
+                setIn.run("PROCESSING" ,source);
+                dbsearch.run("commit");
+                //console.log('**** drivers[driver] = ' + driver)
+                drivers[driver]['get_v2'](connections[connection],definition,function(ordata) {
+                    //console.log("23");
+                    if (ordata.error) {
+                        //console.log("24");
+                        //console.log("****************** err 4:" + ordata.error);
+                        dbsearch.serialize(function() {
+                            //console.log("25");
+                            dbsearch.run("begin transaction");
+                            setIn.run("ERROR: " + ordata.error,source);
+                            dbsearch.run("commit");
+                            callback.call(this,{error: true});
+                        });
+
+                    } else {
+                        //console.log("26");
+                        var rrows = [];
+                        if( Object.prototype.toString.call( ordata ) === '[object Array]' ) {
+                            rrows = ordata;
+                        } else {
+                            rrows = ordata.values;
+                        }
+                        //console.log("27");
+                        //console.log( "   ordata: " + JSON.stringify(ordata));
+                        var findHashSql = "select  hash from queries where id = '" + source + "'";
+                        //console.log("FindHashSql : " + findHashSql );
+                        //console.log("1");
+                        var stmt4 = dbsearch.all(findHashSql,
+                            function(err, results2) {
+                                //console.log("2");
+                                if( err) {
+                                    //console.log("Error: " + JSON.stringify(error) + "'");
+                                }
+                                if( results2.length == 0) {
+                                    //console.log("No sresults for hash" + source + "'");
+                                }
+                                var binHash = results2[0].hash;
+                                var stmt = dbsearch.all("select  " +
+                                                    "    document_binary_hash  "  +
+                                                    "from  " +
+                                                    "    search_rows_hierarchy  " +
+                                                    "where  " +
+                                                    "    document_binary_hash = '" + binHash + "'",
+                                function(err, results) {
+                                    //console.log("3");
+                                    if (!err) {
+                                        //console.log("4");
+                                        if( results.length == 0) {
+                                            //console.log("5");
+                                            dbsearch.serialize(function() {
+
+                                                callback.call(this,ordata);
+                                                //console.log("Inserting rows");
+
+                                                if (rrows && rrows.length) {
+
+                                                    dbsearch.run("begin transaction");
+                                                    //console.log("Committing... " + rrows.length)
+                                                    for (var i =0 ; i < rrows.length; i++) {
+                                                        var rowhash = crypto.createHash('sha1');
+                                                        var row = JSON.stringify(rrows[i]);
+                                                        rowhash.setEncoding('hex');
+                                                        rowhash.write(row);
+                                                        rowhash.end();
+                                                        var sha1sum = rowhash.read();
+                                                        //console.log('                 : ' + JSON.stringify(rrows[i]));
+                                                        stmt2.run(sha1sum, row);
+                                                        stmt3.run(binHash, null, sha1sum);
+                                                    }
+                                                    //console.log("Committed: " + rrows.length)
+                                                    //stmt2.finalize();
+                                                    //stmt3.finalize();
+                                                    //console.log('                 : ' + JSON.stringify(rrows.length));
+
+                                                    //console.log('                 source: ' + JSON.stringify(source));
+                                                    setIn.run("INDEXED",source);
+                                                    dbsearch.run("commit");
+
+                                                } else {
+                                                    //console.log("****************** err 2");
+                                                    callback.call(this,{error: true});
+                                                    dbsearch.run("begin transaction");
+                                                    setIn.run("INDEXED: Other error",source);
+                                                    dbsearch.run("commit");
+                                                }
+                                            });
+                                        } else {
+                                            //console.log("****************** err 5: no rows");
+                                            callback.call(this,ordata);
+                                            dbsearch.serialize(function() {
+                                                dbsearch.run("begin transaction");
+                                                setIn.run("INDEXED: ",source);
+                                                dbsearch.run("commit");
+                                            });
+                                        }
+                                    } else {
+                                        //console.log("****************** err 3" + err);
+                                        dbsearch.serialize(function() {
+                                            dbsearch.run("begin transaction");
+                                            setIn.run("ERROR: " + err, source);
+                                            dbsearch.run("commit");
+                                            callback.call(this,{error: true});
+                                        });
+                                    }
+                                });
+                        })
+
+                }})
+            }
+            )
+
+        }
+        catch(err){
+            //console.log("03");
+            //console.log("****************** err 1" + err);
+            callback.call(this,{error: true});
+        }
+    } else {
+        //console.log("04");
+        //console.log("****************** err 7" );
+        dbsearch.serialize(function() {
+            //console.log("05");
+            dbsearch.run("begin transaction");
+            setIn.run("ERROR: no connection for " + source , source);
+            dbsearch.run("commit");
+            callback.call(this,{error: true});
+        });
+    }
+    //console.log("****************** err 10" );
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function sendOverWebSockets(data) {
+    var ll = serverwebsockets.length;
+    //console.log('send to sockets Count: ' + JSON.stringify(serverwebsockets.length));
+    for (var i =0 ; i < ll; i++ ) {
+        var sock = serverwebsockets[i];
+        if (sock.readyState == 1) {
+            sock.send(JSON.stringify(data));
+        }
+        //console.log('                    sock ' + i + ': ' + JSON.stringify(sock.readyState));
+    }
+}
+
+
+
+
+
+function isNumber(n) {
+    return !isNaN(parseFloat(n)) && isFinite(n);
+}
+
+
+
+
+
+
+// ============================================================
+// This sends a message to a specific websocket
+// ============================================================
+function sendToBrowserViaWebSocket(aws, msg) {
+    aws.send(JSON.stringify(msg,null,2));
+}
+
+
+
+
+
+
+
+
+
+function isLocalMachine(req) {
+    if ((req.ip == '127.0.0.1') || (hostaddress == req.ip)) {  // this is the correct line to use
+    //if (req.ip == '127.0.0.1')  {      // this is used for debugging only so that we can deny access from the local machine
+        return true;
+    };
+    return false;
+}
+
+
+
+
+
+//------------------------------------------------------------------------------
+// test if allowed
+//------------------------------------------------------------------------------
+function canAccess(req,res) {
+    if (!locked) {
+        return true;
+    };
+    if (isLocalMachine(req) ) {
+        return true;
+    };
+    res.writeHead(200, {'Content-Type': 'text/plain'});
+    res.end("Sorry but access to " + username + "'s data is not allowed. Please ask " + username + " to unlocked their VisiFiles account");
+    return false;
+};
+
+
+
+
+
+
+
+function getPort (cb) {
+
+    var server = net.createServer()
+
+    server.listen(port, ip.address(), function (err) {
+        //console.log('trying port: ' + port + ' ')
+        server.once('close', function () {
+        })
+        server.close()
+    })
+    server.on('error', function (err) {
+        //console.log('Couldnt connect on port ' + port + '...')
+        if (port < portrange) {
+            port = portrange
+            };
+        //console.log('... trying port ' + port)
+        portrange += 1
+        getPort(cb)
+    })
+    server.on('listening', function (err) {
+            //console.log('Can connect on port ' + port + ' :) ')
+            cb()
+    })
+}
+
+
+
+
+
+
+
+
+
+
+
+
+function extractHostname(url) {
+    var hostname;
+    //find & remove protocol (http, ftp, etc.) and get hostname
+
+    if (url.indexOf("://") > -1) {
+        hostname = url.split('/')[2];
+    }
+    else {
+        hostname = url.split('/')[0];
+    }
+
+    //find & remove port number
+    hostname = hostname.split(':')[0];
+    //find & remove "?"
+    hostname = hostname.split('?')[0];
+
+    return hostname;
+}
+
+
+
+
+function extractRootDomain(url) {
+    var domain = extractHostname(url),
+        splitArr = domain.split('.'),
+        arrLen = splitArr.length;
+
+    //extracting the root domain here
+    if (arrLen > 2) {
+        domain = splitArr[arrLen - 2] + '.' + splitArr[arrLen - 1];
+    }
+    return domain;
+}
+
+
+
+
+
+function findViafromString(inp) {
+    if (inp == null) {
+        return "";
+    }
+
+    var ll = inp.split(' ');
+    for (var i=0; i< ll.length ; i++){
+        if (ll[i] != null) {
+            if (ll[i].indexOf(":") != -1) {
+                return extractRootDomain(ll[i]);
+            }
+        }
+    }
+    return "";
 }
