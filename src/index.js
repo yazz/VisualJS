@@ -308,45 +308,42 @@ getPort(mainProgram);
 
 
 function mainProgram() {
-	typeOfSystem = program.type;
-	centralHostAddress = program.host;
-	centralHostPort = program.hostport;
-	if (!isNumber(centralHostPort)) {centralHostPort = 80;};
+    typeOfSystem = program.type;
+    centralHostAddress = program.host;
+    centralHostPort = program.hostport;
+    if (!isNumber(centralHostPort)) {centralHostPort = 80;};
 
 
-	if (!(typeOfSystem == 'client' || typeOfSystem == 'server')) {
-		outputToConsole('-------* Invalid system type: ' + typeOfSystem);
-		process.exit();
-	};
-	//console.log('-------* System type: ' + typeOfSystem);
-	//console.log('-------* Port: ' + port);
-	//console.log('-------* Central host: ' + centralHostAddress);
-	//console.log('-------* Central host port: ' + centralHostPort);
+    if (!(typeOfSystem == 'client' || typeOfSystem == 'server')) {
+        outputToConsole('-------* Invalid system type: ' + typeOfSystem);
+        process.exit();
+    };
+    //console.log('-------* System type: ' + typeOfSystem);
+    //console.log('-------* Port: ' + port);
+    //console.log('-------* Central host: ' + centralHostAddress);
+    //console.log('-------* Central host port: ' + centralHostPort);
 
 
-	var storageFileName = 'data.json';
-		if (typeOfSystem == 'client') {
-			storageFileName = 'data.json';
-		} else if (typeOfSystem == 'server') {
-			storageFileName = 'server.json';
-		}
-		console.dir ( ip.address() );
+    var storageFileName = 'data.json';
+	if (typeOfSystem == 'client') {
+		storageFileName = 'data.json';
+	} else if (typeOfSystem == 'server') {
+		storageFileName = 'server.json';
+	}
+	console.dir ( ip.address() );
 
-		//console.log('addr: '+ ip.address());
-		hostaddress = ip.address();
-
-
-
+	//console.log('addr: '+ ip.address());
+	hostaddress = ip.address();
 
 
 
 
 
-//------------------------------------------------------------
-// wait three seconds for stuff to initialize
-//------------------------------------------------------------
-setTimeout(startServices, timeout);
-//console.log('Creating timeout: ' + timeout);
+    //------------------------------------------------------------
+    // wait three seconds for stuff to initialize
+    //------------------------------------------------------------
+    setTimeout(startServices, timeout);
+    //console.log('Creating timeout: ' + timeout);
 
 
 //------------------------------------------------------------
