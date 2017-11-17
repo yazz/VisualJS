@@ -382,43 +382,17 @@ function startServices() {
 	// test_firewall
 	//------------------------------------------------------------------------------
 	app.get('/test_firewall', function (req, res) {
-        var tracking_id =    url.parse(req.url, true).query.tracking_id;
-        var server      =    url.parse(req.url, true).query.server;
-
-        //console.log(JSON.stringify(tracking_id,null,2));
-
-        res.writeHead(200, {'Content-Type': 'text/plain'});
-        res.end(JSON.stringify({    got_through_firewall:   tracking_id  ,
-                                    server:                 server,
-                                    username:               username,
-                                    locked:                 locked
-                                    }));
+        return testFirewall(req,res);
 	});
 
 
 	//------------------------------------------------------------------------------
 	// get_intranet_servers
 	//------------------------------------------------------------------------------
-
 	app.get('/get_intranet_servers', function (req, res) {
-        requestClientPublicIp = req.ip;
-        var requestVia                       = findViafromString(req.headers.via);
-
-		res.writeHead(200, {'Content-Type': 'text/plain'});
-
-        var mysql = "select *  from  intranet_client_connects  where " +
-                    "    (when_connected > " + ( new Date().getTime() - (numberOfSecondsAliveCheck * 1000)) + ") " +
-                    " and " +
-                    "    (( public_ip = '" + requestClientPublicIp + "') or " +
-                              "((via = '" + requestVia + "') and (length(via) > 0)))";
-        //console.log("check IP: " + mysql);
-        var stmt = dbsearch.all(mysql, function(err, rows) {
-            if (!err) {
-                //console.log( "           " + JSON.stringify(rows));
-                res.end(JSON.stringify({  allServers:       rows,
-                                          intranetPublicIp: requestClientPublicIp}));
-        }});
+        return getIntranetServers(req, res);
 	});
+
 
 
 app.ws('/websocket', function(ws, req) {
@@ -925,59 +899,9 @@ app.ws('/websocket', function(ws, req) {
 	// This is where the client sends its details to the central server
 	//------------------------------------------------------------------------------
 	app.get('/client_connect', function (req, res) {
-		try
-		{
-			var queryData = url.parse(req.url, true).query;
-
-			var requestClientInternalHostAddress = req.query.requestClientInternalHostAddress;
-			var requestClientInternalPort        = req.query.requestClientInternalPort;
-			var requestVia                       = findViafromString(req.headers.via);
-			var requestClientPublicIp            = req.ip;
-            var clientUsername                   = req.query.clientUsername;
-			//requestClientPublicHostName      = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-			var requestClientPublicHostName      = "req keys::" + Object.keys(req) + ", VIA::" + req.headers.via + ", raw::" + JSON.stringify(req.rawHeaders);
-
-			//console.log('Client attempting to connect from:');
-			//console.log('client internal host address:    ' + requestClientInternalHostAddress)
-			//console.log('client internal port:            ' + requestClientInternalPort)
-			//console.log('client public IP address:        ' + requestClientPublicIp)
-			//console.log('client public IP host name:      ' + requestClientPublicHostName)
-			//console.log('client VIA:                      ' + requestVia)
-
-            dbsearch.serialize(function() {
-                var stmt = dbsearch.prepare(" insert  into  intranet_client_connects " +
-                                        "    ( id, internal_host, internal_port, public_ip, via, public_host, user_name, client_user_name, when_connected) " +
-                                        " values " +
-                                        "    (?,   ?,?,?,?,  ?,?,?,?);");
-
-                var newid = uuidv1();
-                stmt.run(   newid,
-                            requestClientInternalHostAddress,
-                            requestClientInternalPort,
-                            requestClientPublicIp,
-                            requestVia,
-                            requestClientPublicHostName,
-                            username,
-                            clientUsername,
-                            new Date().getTime()
-                    );
-            });
-            //console.log('***SAVED***');
-
-			res.writeHead(200, {'Content-Type': 'text/plain'});
-			res.end(JSON.stringify(
-                {
-                    connected: true,
-                }));
-		}
-		catch (err) {
-			//console.log('Warning: Central server not available:');
-		}
+		  return clientConnect(req,res);
 
 	})
-
-
-
 
 
 
@@ -2335,3 +2259,115 @@ function downloadDocuments(req, res) {
 				res.end(JSON.stringify({  error: "No file selected"}));
 		}
 };
+
+
+
+
+
+
+
+
+
+
+
+function testFirewall(req, res) {
+			var tracking_id =    url.parse(req.url, true).query.tracking_id;
+			var server      =    url.parse(req.url, true).query.server;
+
+			//console.log(JSON.stringify(tracking_id,null,2));
+
+			res.writeHead(200, {'Content-Type': 'text/plain'});
+			res.end(JSON.stringify({    got_through_firewall:   tracking_id  ,
+																	server:                 server,
+																	username:               username,
+																	locked:                 locked
+																	}));
+};
+
+
+
+
+
+
+
+function getIntranetServers(req, res) {
+    requestClientPublicIp = req.ip;
+    var requestVia                       = findViafromString(req.headers.via);
+
+    res.writeHead(200, {'Content-Type': 'text/plain'});
+
+		var mysql = "select *  from  intranet_client_connects  where " +
+									"    (when_connected > " + ( new Date().getTime() - (numberOfSecondsAliveCheck * 1000)) + ") " +
+									" and " +
+									"    (( public_ip = '" + requestClientPublicIp + "') or " +
+														"((via = '" + requestVia + "') and (length(via) > 0)))";
+			//console.log("check IP: " + mysql);
+			var stmt = dbsearch.all(mysql, function(err, rows) {
+					if (!err) {
+							//console.log( "           " + JSON.stringify(rows));
+							res.end(JSON.stringify({  allServers:       rows,
+																				intranetPublicIp: requestClientPublicIp}));
+			}});
+};
+
+
+
+
+
+
+
+
+
+
+
+	function clientConnect(req, res) {
+		try
+		{
+			var queryData = url.parse(req.url, true).query;
+
+			var requestClientInternalHostAddress = req.query.requestClientInternalHostAddress;
+			var requestClientInternalPort        = req.query.requestClientInternalPort;
+			var requestVia                       = findViafromString(req.headers.via);
+			var requestClientPublicIp            = req.ip;
+            var clientUsername                   = req.query.clientUsername;
+			//requestClientPublicHostName      = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+			var requestClientPublicHostName      = "req keys::" + Object.keys(req) + ", VIA::" + req.headers.via + ", raw::" + JSON.stringify(req.rawHeaders);
+
+			//console.log('Client attempting to connect from:');
+			//console.log('client internal host address:    ' + requestClientInternalHostAddress)
+			//console.log('client internal port:            ' + requestClientInternalPort)
+			//console.log('client public IP address:        ' + requestClientPublicIp)
+			//console.log('client public IP host name:      ' + requestClientPublicHostName)
+			//console.log('client VIA:                      ' + requestVia)
+
+            dbsearch.serialize(function() {
+                var stmt = dbsearch.prepare(" insert  into  intranet_client_connects " +
+                                        "    ( id, internal_host, internal_port, public_ip, via, public_host, user_name, client_user_name, when_connected) " +
+                                        " values " +
+                                        "    (?,   ?,?,?,?,  ?,?,?,?);");
+
+                var newid = uuidv1();
+                stmt.run(   newid,
+                            requestClientInternalHostAddress,
+                            requestClientInternalPort,
+                            requestClientPublicIp,
+                            requestVia,
+                            requestClientPublicHostName,
+                            username,
+                            clientUsername,
+                            new Date().getTime()
+                    );
+            });
+            //console.log('***SAVED***');
+
+			res.writeHead(200, {'Content-Type': 'text/plain'});
+			res.end(JSON.stringify(
+                {
+                    connected: true,
+                }));
+		}
+		catch (err) {
+			//console.log('Warning: Central server not available:');
+		}
+
+	}
