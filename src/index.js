@@ -378,77 +378,41 @@ function startServices() {
 
 
 
-	//------------------------------------------------------------------------------
-	// test_firewall
-	//------------------------------------------------------------------------------
-	app.get('/test_firewall', function (req, res) {
-        return testFirewall(req,res);
-	});
+		//------------------------------------------------------------------------------
+		// test_firewall
+		//------------------------------------------------------------------------------
+		app.get('/test_firewall', function (req, res) {
+	        return testFirewall(req,res);
+		});
 
 
-	//------------------------------------------------------------------------------
-	// get_intranet_servers
-	//------------------------------------------------------------------------------
-	app.get('/get_intranet_servers', function (req, res) {
-        return getIntranetServers(req, res);
-	});
+		//------------------------------------------------------------------------------
+		// get_intranet_servers
+		//------------------------------------------------------------------------------
+		app.get('/get_intranet_servers', function (req, res) {
+	        return getIntranetServers(req, res);
+		});
 
 
 
-app.ws('/websocket', function(ws, req) {
-    serverwebsockets.push(ws);
-    //console.log('Socket connected : ' + serverwebsockets.length);
-    ws.on('message', function(msg) {
-        var receivedMessage = eval("(" + msg + ")");
-        //console.log("Server recieved message: " + JSON.stringify(receivedMessage));
-
-        if (receivedMessage.message_type == "server_get_all_queries") {
-            //return
-            //console.log("     Server recieved message server_get_all_queries");
-            sendToBrowserViaWebSocket(ws, {   message_type: "client_get_all_queries"  });
-            //zzz
-            var stmt = dbsearch.all("select * from queries",
-                function(err, results) {
-                    for (var i=0; i < results.length;i ++){
-                        var query = results[i];
-                        sendToBrowserViaWebSocket( ws,
-                            {
-                                type: "update_query_item",
-                                query: query
-                            });}
-                            sendToBrowserViaWebSocket(ws, {   message_type: "client_get_all_queries_done"  });
-                        });
+		app.ws('/websocket', function(ws, req) {
+		    return websocketFn(ws, req)
+		});
 
 
-        }
-    });
-});
+		//------------------------------------------------------------------------------
+		// Scan the hard disk for documents to Index
+		//------------------------------------------------------------------------------
+		app.get('/scanharddisk', function (req, res) {
+				return scanharddiskFn(req, res)
+		});
 
 
-	//------------------------------------------------------------------------------
-	// Get the result of a SQL query
-	//------------------------------------------------------------------------------
-	app.get('/scanharddisk', function (req, res) {
-		res.writeHead(200, {'Content-Type': 'text/plain'});
-		res.end(JSON.stringify([]));
-		stopScan = false;
-        inScan = true;
-		scanHardDisk();
-        sendOverWebSockets({
-                                type:   "server_scan_status",
-                                value:  "Hard disk scan in progress"
-                                });
-	});
 
-	app.get('/stopscanharddisk', function (req, res) {
-		res.writeHead(200, {'Content-Type': 'text/plain'});
-		res.end(JSON.stringify([]));
-		stopScan = true;
-        sendOverWebSockets({
-                                type:   "server_scan_status",
-                                value:  "Hard disk scan stopped"
-                                });
-	});
+
+		app.get('/stopscanharddisk', function (req, res) {
+				return stopscanharddiskFn(req, res)
+		});
 
 
 
@@ -2320,54 +2284,125 @@ function getIntranetServers(req, res) {
 
 
 
-	function clientConnect(req, res) {
-		try
-		{
-			var queryData = url.parse(req.url, true).query;
+function clientConnect(req, res) {
+	try
+	{
+		var queryData = url.parse(req.url, true).query;
 
-			var requestClientInternalHostAddress = req.query.requestClientInternalHostAddress;
-			var requestClientInternalPort        = req.query.requestClientInternalPort;
-			var requestVia                       = findViafromString(req.headers.via);
-			var requestClientPublicIp            = req.ip;
-            var clientUsername                   = req.query.clientUsername;
-			//requestClientPublicHostName      = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-			var requestClientPublicHostName      = "req keys::" + Object.keys(req) + ", VIA::" + req.headers.via + ", raw::" + JSON.stringify(req.rawHeaders);
+		var requestClientInternalHostAddress = req.query.requestClientInternalHostAddress;
+		var requestClientInternalPort        = req.query.requestClientInternalPort;
+		var requestVia                       = findViafromString(req.headers.via);
+		var requestClientPublicIp            = req.ip;
+          var clientUsername                   = req.query.clientUsername;
+		//requestClientPublicHostName      = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+		var requestClientPublicHostName      = "req keys::" + Object.keys(req) + ", VIA::" + req.headers.via + ", raw::" + JSON.stringify(req.rawHeaders);
 
-			//console.log('Client attempting to connect from:');
-			//console.log('client internal host address:    ' + requestClientInternalHostAddress)
-			//console.log('client internal port:            ' + requestClientInternalPort)
-			//console.log('client public IP address:        ' + requestClientPublicIp)
-			//console.log('client public IP host name:      ' + requestClientPublicHostName)
-			//console.log('client VIA:                      ' + requestVia)
+		//console.log('Client attempting to connect from:');
+		//console.log('client internal host address:    ' + requestClientInternalHostAddress)
+		//console.log('client internal port:            ' + requestClientInternalPort)
+		//console.log('client public IP address:        ' + requestClientPublicIp)
+		//console.log('client public IP host name:      ' + requestClientPublicHostName)
+		//console.log('client VIA:                      ' + requestVia)
 
-            dbsearch.serialize(function() {
-                var stmt = dbsearch.prepare(" insert  into  intranet_client_connects " +
-                                        "    ( id, internal_host, internal_port, public_ip, via, public_host, user_name, client_user_name, when_connected) " +
-                                        " values " +
-                                        "    (?,   ?,?,?,?,  ?,?,?,?);");
+          dbsearch.serialize(function() {
+              var stmt = dbsearch.prepare(" insert  into  intranet_client_connects " +
+                                      "    ( id, internal_host, internal_port, public_ip, via, public_host, user_name, client_user_name, when_connected) " +
+                                      " values " +
+                                      "    (?,   ?,?,?,?,  ?,?,?,?);");
 
-                var newid = uuidv1();
-                stmt.run(   newid,
-                            requestClientInternalHostAddress,
-                            requestClientInternalPort,
-                            requestClientPublicIp,
-                            requestVia,
-                            requestClientPublicHostName,
-                            username,
-                            clientUsername,
-                            new Date().getTime()
-                    );
-            });
-            //console.log('***SAVED***');
+              var newid = uuidv1();
+              stmt.run(   newid,
+                          requestClientInternalHostAddress,
+                          requestClientInternalPort,
+                          requestClientPublicIp,
+                          requestVia,
+                          requestClientPublicHostName,
+                          username,
+                          clientUsername,
+                          new Date().getTime()
+                  );
+          });
+          //console.log('***SAVED***');
 
-			res.writeHead(200, {'Content-Type': 'text/plain'});
-			res.end(JSON.stringify(
-                {
-                    connected: true,
-                }));
-		}
-		catch (err) {
-			//console.log('Warning: Central server not available:');
-		}
-
+		res.writeHead(200, {'Content-Type': 'text/plain'});
+		res.end(JSON.stringify(
+              {
+                  connected: true,
+              }));
 	}
+	catch (err) {
+		//console.log('Warning: Central server not available:');
+	}
+
+}
+
+
+
+
+
+
+
+function websocketFn(ws, req) {
+    serverwebsockets.push(ws);
+    //console.log('Socket connected : ' + serverwebsockets.length);
+    ws.on('message', function(msg) {
+        var receivedMessage = eval("(" + msg + ")");
+        //console.log("Server recieved message: " + JSON.stringify(receivedMessage));
+
+        if (receivedMessage.message_type == "server_get_all_queries") {
+            //return
+            //console.log("     Server recieved message server_get_all_queries");
+            sendToBrowserViaWebSocket(ws, {   message_type: "client_get_all_queries"  });
+            //zzz
+            var stmt = dbsearch.all("select * from queries",
+                function(err, results) {
+                    for (var i=0; i < results.length;i ++){
+                        var query = results[i];
+                        sendToBrowserViaWebSocket( ws,
+                            {
+                                type: "update_query_item",
+                                query: query
+                            });}
+                            sendToBrowserViaWebSocket(ws, {   message_type: "client_get_all_queries_done"  });
+                        });
+
+
+        }
+    });
+};
+
+
+
+
+
+
+
+
+//------------------------------------------------------------------------------
+// Get the result of a SQL query
+//------------------------------------------------------------------------------
+function scanharddiskFn(req, res) {
+		res.writeHead(200, {'Content-Type': 'text/plain'});
+		res.end(JSON.stringify([]));
+		stopScan = false;
+	      inScan = true;
+		scanHardDisk();
+	      sendOverWebSockets({
+	                              type:   "server_scan_status",
+	                              value:  "Hard disk scan in progress"
+	                              });
+};
+
+
+
+
+
+function stopscanharddiskFn(req, res) {
+		res.writeHead(200, {'Content-Type': 'text/plain'});
+		res.end(JSON.stringify([]));
+		stopScan = true;
+	      sendOverWebSockets({
+	                              type:   "server_scan_status",
+	                              value:  "Hard disk scan stopped"
+	                              });
+};
