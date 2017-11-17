@@ -458,42 +458,18 @@ function startServices() {
 
 
 	app.get('/send_client_details', function (req, res) {
-		////console.log('in send_client_details: ' + JSON.stringify(req,null,2));
-        res.writeHead(200, {'Content-Type': 'text/plain'});
-        res.end(JSON.stringify({
-                returned:           'some data ',
-                server:             hostaddress,
-                port:               port,
-                username:           username,
-                locked:             locked,
-                localIp:            req.ip,
-                isLocalMachine:     isLocalMachine(req) }));
+		return send_client_detailsFn(req, res);
 	})
 
 
 	app.get('/lock', function (req, res) {
-        if ((req.query.locked == "TRUE") || (req.query.locked == "true")) {
-            locked = true;
-        } else {
-            locked = false;
-        }
-
-            ////console.log('in lock: ' + JSON.stringify(req,null,2));
-        res.writeHead(200, {'Content-Type': 'text/plain'});
-        res.end(JSON.stringify({locked: locked}));
+        return lockFn(req, res);
 	})
 
 
 	process.on('uncaughtException', function (err) {
-	  //console.log(err);
+	  console.log(err);
 	})
-
-
-
-
-
-
-
 
 
 
@@ -502,56 +478,25 @@ function startServices() {
 	// client that connected tp the central server
 	//------------------------------------------------------------------------------
 	app.get('/get_connect', function (req, res) {
-		res.writeHead(200, {'Content-Type': 'text/plain'});
-		res.end(
-				JSON.stringify(
-					{
-						requestClientInternalHostAddress: requestClientInternalHostAddress
-						,
-						requestClientInternalPort:        requestClientInternalPort
-						,
-						requestClientPublicIp:            requestClientPublicIp
-						,
-						requestClientPublicHostName:      requestClientPublicHostName
-						,
-						version:      31
-					}
-			  ));
+		return get_connectFn(req, res);
 	})
 
 	//app.enable('trust proxy')
 
 
-	app.get('/get_all_table',
-        function (req, res) {
-			var tableName = url.parse(req.url, true).query.tableName;
-			var fields = url.parse(req.url, true).query.fields;
-            var stmt = dbsearch.all("select " + fields + " from " + tableName,
-                function(err, rows) {
-                    if (!err) {
-                        res.writeHead(200, {'Content-Type': 'text/plain'});
-                        res.end(JSON.stringify(
-                            rows));
-                        //console.log("Sent: " + JSON.stringify(rows.length));
-                    };
-                })
+	app.get('/get_all_table', function (req, res) {
+			return get_all_tableFn(req, res);
     });
 
-	app.post('/add_new_connection',
-        function (req, res) {
-			var params = req.body;
-            addNewConnection( params );
-            res.writeHead(200, {'Content-Type': 'text/plain'});
-            res.end(JSON.stringify({done: "ok"}))});
+	app.post('/add_new_connection', function (req, res) {
+			return add_new_connectionFn(req, res)
+    });
 
 
 
-	app.post('/add_new_query',
-        function (req, res) {
-			var params = req.body;
-            addNewQuery( params );
-            res.writeHead(200, {'Content-Type': 'text/plain'});
-            res.end(JSON.stringify({done: "ok"}))});
+	app.post('/add_new_query',function (req, res) {
+        return add_new_queryFn(req, res)
+    });
 
 
 
@@ -562,7 +507,7 @@ function startServices() {
 	// This is where the client sends its details to the central server
 	//------------------------------------------------------------------------------
 	app.get('/client_connect', function (req, res) {
-		  return clientConnect(req,res);
+		  return clientConnectFn(req,res);
 
 	})
 
@@ -1983,7 +1928,7 @@ function getIntranetServers(req, res) {
 
 
 
-function clientConnect(req, res) {
+function clientConnectFn(req, res) {
 	try
 	{
 		var queryData = url.parse(req.url, true).query;
@@ -2473,3 +2418,103 @@ function getqueryresultFn(req, res) {
 
 	};
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function send_client_detailsFn(req, res) {
+    ////console.log('in send_client_details: ' + JSON.stringify(req,null,2));
+    res.writeHead(200, {'Content-Type': 'text/plain'});
+    res.end(JSON.stringify({
+            returned:           'some data ',
+            server:             hostaddress,
+            port:               port,
+            username:           username,
+            locked:             locked,
+            localIp:            req.ip,
+            isLocalMachine:     isLocalMachine(req) }));
+}
+
+
+function lockFn(req, res) {
+    if ((req.query.locked == "TRUE") || (req.query.locked == "true")) {
+        locked = true;
+    } else {
+        locked = false;
+    }
+
+        ////console.log('in lock: ' + JSON.stringify(req,null,2));
+    res.writeHead(200, {'Content-Type': 'text/plain'});
+    res.end(JSON.stringify({locked: locked}));
+}
+
+
+
+
+//------------------------------------------------------------------------------
+// This is called by the central server to get the details of the last
+// client that connected tp the central server
+//------------------------------------------------------------------------------
+function get_connectFn(req, res) {
+    res.writeHead(200, {'Content-Type': 'text/plain'});
+    res.end(
+            JSON.stringify(
+                {
+                    requestClientInternalHostAddress: requestClientInternalHostAddress
+                    ,
+                    requestClientInternalPort:        requestClientInternalPort
+                    ,
+                    requestClientPublicIp:            requestClientPublicIp
+                    ,
+                    requestClientPublicHostName:      requestClientPublicHostName
+                    ,
+                    version:      31
+                }
+          ));
+}
+
+
+
+
+function get_all_tableFn(req, res) {
+    var tableName = url.parse(req.url, true).query.tableName;
+    var fields = url.parse(req.url, true).query.fields;
+    var stmt = dbsearch.all("select " + fields + " from " + tableName,
+        function(err, rows) {
+            if (!err) {
+                res.writeHead(200, {'Content-Type': 'text/plain'});
+                res.end(JSON.stringify(
+                    rows));
+                //console.log("Sent: " + JSON.stringify(rows.length));
+            };
+        })
+};
+
+
+
+function add_new_connectionFn(req, res) {
+    var params = req.body;
+    addNewConnection( params );
+    res.writeHead(200, {'Content-Type': 'text/plain'});
+    res.end(JSON.stringify({done: "ok"}))};
+
+
+
+function add_new_queryFn(req, res) {
+    var params = req.body;
+    addNewQuery( params );
+    res.writeHead(200, {'Content-Type': 'text/plain'});
+    res.end(JSON.stringify({done: "ok"}))};
+
+    
+    
