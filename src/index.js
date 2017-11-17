@@ -415,175 +415,24 @@ function startServices() {
 		});
 
 
-
-
-
-
-
-
-
-
-
-
     app.post('/file_upload', upload.array( 'file' ), function (req, res, next) {
-        //console.log('-------------------------------------------------------------------------------------');
-        //console.log('-------------------------------------------------------------------------------------');
-        //console.log('-------------------------------------------------------------------------------------');
-        //console.log('-------------------------------------------------------------------------------------');
-        //console.log('-------------------------------------------------------------------------------------');
-
-        //console.log(JSON.stringify(req.files.length));
-        //console.log("**FILES** " + JSON.stringify(req.files));
-        //console.log(    "    next: " + JSON.stringify(next));
-
-
-        //console.log('......................................................................................');
-        //console.log('......................................................................................');
-        //console.log('......................................................................................');
-        //console.log('......................................................................................');
-        //console.log('......................................................................................');
-        res.status( 200 ).send( req.files );
-
-
-        var ll = req.files.length;
-        for (var i = 0; i < ll ; i ++) {
-            var ifile = req.files[i];
-            //console.log("        " + JSON.stringify(ifile));
-            var ext = ifile.originalname.split('.').pop();
-            ext = ext.toLowerCase();
-            //console.log('Ext: ' + ext);
-
-            var localp2;
-            if (isWin) {
-            localp2 = process.cwd() + '\\uploads\\' + ifile.filename;
-        } else{
-            localp2 = process.cwd() + '/uploads/' + ifile.filename;
-        };
-            var localp = localp2 + '.' + ext;
-            fs.renameSync(localp2, localp);
-            //console.log('Local saved path: ' + localp);
-
-            fs.stat(localp, function(err, stat) {
-              if (isExcelFile(ifile.originalname)) {
-                    //console.log('ifile: ' + ifile.originalname);
-                    var excelFile = localp;
-                        if (typeof excelFile !== "undefined") {
-                            var fileId = excelFile.replace(/[^\w\s]/gi,'');
-                            //console.log('Saving from upload   *file id: ' + ifile.originalname);
-                            //console.log('   *size: ' + stat.size);
-
-                            saveConnectionAndQueryForFile(ifile.originalname, 'excel', stat.size, excelFile, '|SPREADSHEET|');
-                }
-            } else if (isGlbFile(ifile.originalname)) {
-                    //console.log('ifile: ' + ifile.originalname);
-                        var glbFile = localp;
-                        if (typeof glbFile !== "undefined") {
-                            var fileId = glbFile.replace(/[^\w\s]/gi,'');
-                            //console.log('Saving from upload   *file id: ' + ifile.originalname);
-                            //console.log('   *size: ' + stat.size);
-
-                            saveConnectionAndQueryForFile(ifile.originalname, 'glb', stat.size, glbFile, '|GLB|');
-                };
-            } else if (isCsvFile(ifile.originalname)) {
-                    //console.log('ifile: ' + ifile.originalname);
-                        var csvFile = localp;
-                        if (typeof csvFile !== "undefined") {
-                            var fileId = csvFile.replace(/[^\w\s]/gi,'');
-                            //console.log('Saving from upload   *file id: ' + ifile.originalname);
-                            //console.log('   *size: ' + stat.size);
-
-                            saveConnectionAndQueryForFile(ifile.originalname, 'csv', stat.size, csvFile, '|CSV|');
-                };
-            } else if (isWordFile(ifile.originalname)) {
-                    //console.log('ifile: ' + ifile.originalname);
-                        var wordFile = localp;
-                        if (typeof wordFile !== "undefined") {
-                            var fileId = wordFile.replace(/[^\w\s]/gi,'');
-                            //console.log('Saving from upload   *file id: ' + ifile.originalname);
-                            //console.log('   *size: ' + stat.size);
-
-                            saveConnectionAndQueryForFile(ifile.originalname, 'word', stat.size, wordFile, '|DOCUMENT|');
-                }
-            } else if (isPdfFile(ifile.originalname)) {
-                    //console.log('ifile: ' + ifile.originalname);
-                        var pdfFile = localp;
-                        if (typeof pdfFile !== "undefined") {
-                            var fileId = pdfFile.replace(/[^\w\s]/gi,'');
-                            //console.log('Saving from upload   *file id: ' + ifile.originalname);
-                            //console.log('   *size: ' + stat.size);
-
-                            saveConnectionAndQueryForFile(ifile.originalname, 'pdf', stat.size, pdfFile, '|DOCUMENT|');
-                }};
-            });
-        }
-
+        return file_uploadFn(req, res, next);
     });
 
 
 
 
-	app.post('/open_query_in_native_app', function (req, res) {
-
-		//console.log('in open_query_in_native_app');
-		var queryData = req.body;
-		//console.log('queryData.source: ' + queryData.source);
-		//console.log('queries[queryData.source]: ' + queries[queryData.source]);
-		//console.log('connections[queries[queryData.source].connection]: ' + connections[queries[queryData.source].connection]);
-		//console.log('connections[queries[queryData.source].connection].fileName: ' + connections[queries[queryData.source].connection].fileName);
-		var error = new Object();
-		////console.log('query driver: ' + connections[queryData.source].driver);
-		try {
-			//drivers[connections[queryData.source].driver]['get_v2'](connections[queryData.source],{sql: queryData.sql},function(ordata) {
-			   open(connections[queries[queryData.source].connection].fileName);
-
-			   res.writeHead(200, {'Content-Type': 'text/plain'});
-				res.end(JSON.stringify(ordata));
-		}
-
-		catch(err) {
-			res.writeHead(200, {'Content-Type': 'text/plain'});
-
-			res.end(JSON.stringify({error: 'Error: ' + JSON.stringify(err)}));
-		};
-	})
+		app.post('/open_query_in_native_app', function (req, res) {
+				return open_query_in_native_appFn(req, res);
+		})
 
 
-	//------------------------------------------------------------------------------
-	// Get the result of a SQL query
-	//------------------------------------------------------------------------------
-	app.post('/getresult', function (req, res) {
-		//console.log('in getresult');
-		var queryData = req.body;
-		//console.log('queryData.source: ' + queryData.source);
-
-		////console.log('request received source: ' + Object.keys(req));
-		var error = new Object();
-		if (queryData) {
-			if (connections[queryData.source]) {
-				if (queryData.source) {
-					if (connections[queryData.source].driver) {
-						//console.log('query driver: ' + connections[queryData.source].driver);
-						try {
-							drivers[connections[queryData.source].driver]['get_v2'](connections[queryData.source],{sql: queryData.sql},function(ordata) {
-								res.writeHead(200, {'Content-Type': 'text/plain'});
-
-                                res.end(JSON.stringify(ordata));
-							});
-						}
-						catch(err) {
-							res.writeHead(200, {'Content-Type': 'text/plain'});
-
-							res.end(JSON.stringify({error: 'Error: ' + JSON.stringify(err)}));
-						};
-					} else {
-						//console.log('query driver not found: ' + connections[queryData.source]);
-							res.writeHead(200, {'Content-Type': 'text/plain'});
-							res.end(JSON.stringify({message: 'query driver not found'}));
-					};
-				};
-			};
-		};
-	})
+		//------------------------------------------------------------------------------
+		// Get the result of a SQL query
+		//------------------------------------------------------------------------------
+		app.post('/getresult', function (req, res) {
+			  return getresultFn(req, res);
+		})
 
 
     //------------------------------------------------------------------------------
@@ -2379,7 +2228,7 @@ function websocketFn(ws, req) {
 
 
 //------------------------------------------------------------------------------
-// Get the result of a SQL query
+// scan the hard disk for documents for indexing
 //------------------------------------------------------------------------------
 function scanharddiskFn(req, res) {
 		res.writeHead(200, {'Content-Type': 'text/plain'});
@@ -2406,3 +2255,184 @@ function stopscanharddiskFn(req, res) {
 	                              value:  "Hard disk scan stopped"
 	                              });
 };
+
+
+
+
+
+
+
+
+
+function file_uploadFn(req, res, next) {
+      //console.log('-------------------------------------------------------------------------------------');
+      //console.log('-------------------------------------------------------------------------------------');
+      //console.log('-------------------------------------------------------------------------------------');
+      //console.log('-------------------------------------------------------------------------------------');
+      //console.log('-------------------------------------------------------------------------------------');
+
+      //console.log(JSON.stringify(req.files.length));
+      //console.log("**FILES** " + JSON.stringify(req.files));
+      //console.log(    "    next: " + JSON.stringify(next));
+
+
+      //console.log('......................................................................................');
+      //console.log('......................................................................................');
+      //console.log('......................................................................................');
+      //console.log('......................................................................................');
+      //console.log('......................................................................................');
+      res.status( 200 ).send( req.files );
+
+
+      var ll = req.files.length;
+      for (var i = 0; i < ll ; i ++) {
+          var ifile = req.files[i];
+          //console.log("        " + JSON.stringify(ifile));
+          var ext = ifile.originalname.split('.').pop();
+          ext = ext.toLowerCase();
+          //console.log('Ext: ' + ext);
+
+          var localp2;
+          if (isWin) {
+          localp2 = process.cwd() + '\\uploads\\' + ifile.filename;
+      } else{
+          localp2 = process.cwd() + '/uploads/' + ifile.filename;
+      };
+          var localp = localp2 + '.' + ext;
+          fs.renameSync(localp2, localp);
+          //console.log('Local saved path: ' + localp);
+
+          fs.stat(localp, function(err, stat) {
+            if (isExcelFile(ifile.originalname)) {
+                  //console.log('ifile: ' + ifile.originalname);
+                  var excelFile = localp;
+                      if (typeof excelFile !== "undefined") {
+                          var fileId = excelFile.replace(/[^\w\s]/gi,'');
+                          //console.log('Saving from upload   *file id: ' + ifile.originalname);
+                          //console.log('   *size: ' + stat.size);
+
+                          saveConnectionAndQueryForFile(ifile.originalname, 'excel', stat.size, excelFile, '|SPREADSHEET|');
+              }
+          } else if (isGlbFile(ifile.originalname)) {
+                  //console.log('ifile: ' + ifile.originalname);
+                      var glbFile = localp;
+                      if (typeof glbFile !== "undefined") {
+                          var fileId = glbFile.replace(/[^\w\s]/gi,'');
+                          //console.log('Saving from upload   *file id: ' + ifile.originalname);
+                          //console.log('   *size: ' + stat.size);
+
+                          saveConnectionAndQueryForFile(ifile.originalname, 'glb', stat.size, glbFile, '|GLB|');
+              };
+          } else if (isCsvFile(ifile.originalname)) {
+                  //console.log('ifile: ' + ifile.originalname);
+                      var csvFile = localp;
+                      if (typeof csvFile !== "undefined") {
+                          var fileId = csvFile.replace(/[^\w\s]/gi,'');
+                          //console.log('Saving from upload   *file id: ' + ifile.originalname);
+                          //console.log('   *size: ' + stat.size);
+
+                          saveConnectionAndQueryForFile(ifile.originalname, 'csv', stat.size, csvFile, '|CSV|');
+              };
+          } else if (isWordFile(ifile.originalname)) {
+                  //console.log('ifile: ' + ifile.originalname);
+                      var wordFile = localp;
+                      if (typeof wordFile !== "undefined") {
+                          var fileId = wordFile.replace(/[^\w\s]/gi,'');
+                          //console.log('Saving from upload   *file id: ' + ifile.originalname);
+                          //console.log('   *size: ' + stat.size);
+
+                          saveConnectionAndQueryForFile(ifile.originalname, 'word', stat.size, wordFile, '|DOCUMENT|');
+              }
+          } else if (isPdfFile(ifile.originalname)) {
+                  //console.log('ifile: ' + ifile.originalname);
+                      var pdfFile = localp;
+                      if (typeof pdfFile !== "undefined") {
+                          var fileId = pdfFile.replace(/[^\w\s]/gi,'');
+                          //console.log('Saving from upload   *file id: ' + ifile.originalname);
+                          //console.log('   *size: ' + stat.size);
+
+                          saveConnectionAndQueryForFile(ifile.originalname, 'pdf', stat.size, pdfFile, '|DOCUMENT|');
+              }};
+          });
+      }
+
+};
+
+
+
+
+
+
+
+
+
+
+
+function open_query_in_native_appFn(req, res) {
+
+	//console.log('in open_query_in_native_app');
+	var queryData = req.body;
+	//console.log('queryData.source: ' + queryData.source);
+	//console.log('queries[queryData.source]: ' + queries[queryData.source]);
+	//console.log('connections[queries[queryData.source].connection]: ' + connections[queries[queryData.source].connection]);
+	//console.log('connections[queries[queryData.source].connection].fileName: ' + connections[queries[queryData.source].connection].fileName);
+	var error = new Object();
+	////console.log('query driver: ' + connections[queryData.source].driver);
+	try {
+		//drivers[connections[queryData.source].driver]['get_v2'](connections[queryData.source],{sql: queryData.sql},function(ordata) {
+		   open(connections[queries[queryData.source].connection].fileName);
+
+		   res.writeHead(200, {'Content-Type': 'text/plain'});
+			res.end(JSON.stringify(ordata));
+	}
+
+	catch(err) {
+		res.writeHead(200, {'Content-Type': 'text/plain'});
+
+		res.end(JSON.stringify({error: 'Error: ' + JSON.stringify(err)}));
+	};
+}
+
+
+
+
+
+
+
+
+//------------------------------------------------------------------------------
+// Get the result of a SQL query
+//------------------------------------------------------------------------------
+function getresultFn(req, res) {
+		//console.log('in getresult');
+		var queryData = req.body;
+		//console.log('queryData.source: ' + queryData.source);
+
+		////console.log('request received source: ' + Object.keys(req));
+		var error = new Object();
+		if (queryData) {
+			if (connections[queryData.source]) {
+				if (queryData.source) {
+					if (connections[queryData.source].driver) {
+						//console.log('query driver: ' + connections[queryData.source].driver);
+						try {
+							drivers[connections[queryData.source].driver]['get_v2'](connections[queryData.source],{sql: queryData.sql},function(ordata) {
+								res.writeHead(200, {'Content-Type': 'text/plain'});
+
+																res.end(JSON.stringify(ordata));
+							});
+						}
+						catch(err) {
+							res.writeHead(200, {'Content-Type': 'text/plain'});
+
+							res.end(JSON.stringify({error: 'Error: ' + JSON.stringify(err)}));
+						};
+					} else {
+						//console.log('query driver not found: ' + connections[queryData.source]);
+							res.writeHead(200, {'Content-Type': 'text/plain'});
+							res.end(JSON.stringify({message: 'query driver not found'}));
+					};
+				};
+			};
+		};
+}
