@@ -358,12 +358,12 @@ function startServices() {
 		app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
 
-		//------------------------------------------------------------------------------
-	  // Show the default page for the different domains
-	  //------------------------------------------------------------------------------
-		app.get('/', function (req, res) {
-			 	return getRoot(req, res);
-	  })
+        //------------------------------------------------------------------------------
+        // Show the default page for the different domains
+        //------------------------------------------------------------------------------
+        app.get('/', function (req, res) {
+        	 	return getRoot(req, res);
+        })
 
 
 		//------------------------------------------------------------------------------
@@ -412,9 +412,9 @@ function startServices() {
 		});
 
 
-    app.post('/file_upload', upload.array( 'file' ), function (req, res, next) {
-        return file_uploadFn(req, res, next);
-    });
+        app.post('/file_upload', upload.array( 'file' ), function (req, res, next) {
+            return file_uploadFn(req, res, next);
+        });
 
 
 
@@ -432,119 +432,20 @@ function startServices() {
 		})
 
 
-    //------------------------------------------------------------------------------
-	// Get the result of a search
-	//------------------------------------------------------------------------------
-	app.get('/get_related_documents', function (req, res) {
-        //console.log("called get_related_documents: " )
-        var id = req.query.id;
-        forked.send({
-                                message_type:   "getRelatedDocuments",
-                                id:  id
-                                });
-            res.writeHead(200, {'Content-Type': 'text/plain'});
-            res.end( JSON.stringify({}))
-    })
-
-
-    //------------------------------------------------------------------------------
-	// Get the result of a search
-	//------------------------------------------------------------------------------
-	app.get('/get_search_results', function (req, res) {
-        //console.log("called get_search_results: " )
-        var searchTerm = req.query.search_text;
-        var timeStart = new Date().getTime();
-
-        //console.log("searchTerm.length: " + searchTerm.length)
-        //console.log("searchTerm: " + searchTerm)
-        if (searchTerm.length < 1) {
-            var timeEnd = new Date().getTime();
-            var timing = timeEnd - timeStart;
-            res.writeHead(200, {'Content-Type': 'text/plain'});
-            res.end( JSON.stringify({search:      searchTerm,
-                                     queries:    [],
-                                     message:    "Search text must be at least 1 characters: " + searchTerm,
-                                     duration:    timing    }  ));
-        } else {
-
-		dbsearch.serialize(function() {
-            var mysql = "  select distinct(queries.id), the1.document_binary_hash, the1.num_occ  , the1.child_hash , zfts_search_rows_hashed.data " +
-                        " from (  select   " +
-                       "  distinct(document_binary_hash), count(document_binary_hash)  as num_occ  , child_hash  " +
-                     "    from    " +
-                     "    search_rows_hierarchy   " +
-                     "    where    " +
-                     "    child_hash in (select     " +
-                      " distinct(row_hash)    " +
-                        "  from     " +
-    "                          zfts_search_rows_hashed    " +
-     "                    where    " +
-      "                         zfts_search_rows_hashed match '"  + searchTerm + "*'  )   " +
-       "                  group by   " +
-        "                    document_binary_hash) as the1,   " +
-         "                     queries  , " +
-          "                    zfts_search_rows_hashed  " +
-           "              where    " +
-            "             queries.hash = the1.document_binary_hash   " +
-" and " +
-"zfts_search_rows_hashed.row_hash = the1.child_hash ";
-
-            var firstWord = searchTerm.split()[0];
-            if (firstWord.length < 1) {
-                firstWord = "";
-            }
-			var stmt = dbsearch.all(mysql, function(err, rows) {
-                if (!err) {
-                    //console.log('rows: ' + JSON.stringify(rows.length));
-                    var newres = [];
-                    for  (var i=0; i < rows.length;i++) {
-                        var rowId = rows[i]["id"];
-                        var rowData =  rows[i]["data"];
-                        if (rowData.length > 0) {
-                            var rowDataToSend = ""
-                            if (i < 5) {
-                                var rowDataStartInit = rowData.toUpperCase().indexOf(firstWord.toUpperCase())
-                                //console.log('rowDataStartInit: ' + rowDataStartInit );
-
-                                //console.log('for: ' + firstWord + " = " + JSON.stringify(rowData));
-
-                                var rowDataStart = rowDataStartInit - 30;
-                                if (rowDataStart < 0) {
-                                    rowDataStart = 0
-                                }
-                                //console.log('rowDataEndInit: ' + rowDataEndInit );
-                                var rowDataEnd = rowDataStartInit + firstWord.length + 30
-
-                                rowDataToSend = rowData.substring(rowDataStart, rowDataStartInit) + firstWord.toUpperCase() +
-                                    rowData.substring(rowDataStartInit + firstWord.length, rowDataEnd);
-                            }
-                            //console.log('rowDataToSend: ' + rowDataToSend );
-                            newres.push({
-                                                id:     rowId,
-                                                data:   rowDataToSend
-                                        });
-                        }
-                    }
-                    var timeEnd = new Date().getTime();
-                    var timing = timeEnd - timeStart;
-                    res.writeHead(200, {'Content-Type': 'text/plain'});
-                    res.end( JSON.stringify({   search:  searchTerm,
-                                                queries: newres,
-                                                duration: timing}));
-                } else {
-                    var timeEnd = new Date().getTime();
-                    var timing = timeEnd - timeStart;
-                    res.writeHead(200, {'Content-Type': 'text/plain'});
-                    res.end( JSON.stringify({search:      searchTerm,
-                                             queries:    [],
-                                             duration:    timing,
-                                             error: "Error searching for: " + searchTerm }  ));
-                }
-            });
-
+        //------------------------------------------------------------------------------
+        // Get the related documents
+        //------------------------------------------------------------------------------
+        app.get('/get_related_documents', function (req, res) {
+            return get_related_documentsFn(req, res);
         })
-        };
-    });
+
+
+        //------------------------------------------------------------------------------
+    	// Get the result of a search
+    	//------------------------------------------------------------------------------
+    	app.get('/get_search_results', function (req, res) {
+            return get_search_resultsFn(req, res);
+        });
 
 
 
@@ -552,55 +453,7 @@ function startServices() {
 
 
 	app.post('/getqueryresult', function (req, res) {
-		var queryData2 = req.body;
-		//console.log('in getqueryresult: ' + JSON.stringify(queryData2));
-		//console.log('           source: ' + JSON.stringify(queryData2.source));
-		////console.log('request received source: ' + Object.keys(req));
-		////console.log('request received SQL: ' + queryData.sql);
-		var query = queries[queryData2.source];
-
-		//console.log('           query: ' + JSON.stringify(query));
-		if (query) {
-			var queryData 			= new Object();
-			queryData.source 		= query.connection;
-			queryData.definition 	= eval('(' + query.definition + ')' );
-
-			//console.log('   query.definition.sql: ' + JSON.stringify(query.definition.sql));
-			//console.log('           ***queryData: ' + JSON.stringify(queryData));
-
-
-			var error = new Object();
-			if (queryData) {
-				if (connections[queryData.source]) {
-					if (queryData.source) {
-						if (connections[queryData.source].driver) {
-							////console.log('query driver: ' + connections[queryData.source].driver);
-                            var newres = res;
-                            getResult(  queryData2.source,
-                                        queryData.source,
-                                        connections[queryData.source].driver,
-                                        queryData.definition,
-                                        function(result){
-                                            //console.log("     In getresult callback:")
-                                            //console.log("                          :" + JSON.stringify(result))
-                                            newres.writeHead(200, {'Content-Type': 'text/plain'});
-                                            newres.end(JSON.stringify(result));
-                                        }
-                                     );
-						} else {
-							//console.log('query driver not found: ' + connections[queryData.source]);
-								res.writeHead(200, {'Content-Type': 'text/plain'});
-								res.end(JSON.stringify({error: 'query driver not found'}));
-						};
-					};
-				};
-			};
-		} else {
-			//console.log('query not found: ' + queryData2.source);
-			res.writeHead(200, {'Content-Type': 'text/plain'});
-			res.end(JSON.stringify({error: 'query ' + queryData2.source + ' not found'}));
-
-		};
+		return getqueryresultFn(req, res);
 	})
 
 
@@ -2432,4 +2285,191 @@ function getresultFn(req, res) {
 				};
 			};
 		};
+}
+
+
+
+
+
+
+//------------------------------------------------------------------------------
+// Get the result of a search
+//------------------------------------------------------------------------------
+function get_related_documentsFn(req, res) {
+    //console.log("called get_related_documents: " )
+    var id = req.query.id;
+    forked.send({
+                            message_type:   "getRelatedDocuments",
+                            id:  id
+                            });
+        res.writeHead(200, {'Content-Type': 'text/plain'});
+        res.end( JSON.stringify({}))
+}
+
+
+
+
+
+
+
+
+
+
+
+function get_search_resultsFn(req, res) {
+    //console.log("called get_search_results: " )
+    var searchTerm = req.query.search_text;
+    var timeStart = new Date().getTime();
+
+    //console.log("searchTerm.length: " + searchTerm.length)
+    //console.log("searchTerm: " + searchTerm)
+    if (searchTerm.length < 1) {
+        var timeEnd = new Date().getTime();
+        var timing = timeEnd - timeStart;
+        res.writeHead(200, {'Content-Type': 'text/plain'});
+        res.end( JSON.stringify({search:      searchTerm,
+                                 queries:    [],
+                                 message:    "Search text must be at least 1 characters: " + searchTerm,
+                                 duration:    timing    }  ));
+    } else {
+
+    dbsearch.serialize(function() {
+        var mysql = "  select distinct(queries.id), the1.document_binary_hash, the1.num_occ  , the1.child_hash , zfts_search_rows_hashed.data " +
+                    " from (  select   " +
+                   "  distinct(document_binary_hash), count(document_binary_hash)  as num_occ  , child_hash  " +
+                 "    from    " +
+                 "    search_rows_hierarchy   " +
+                 "    where    " +
+                 "    child_hash in (select     " +
+                  " distinct(row_hash)    " +
+                    "  from     " +
+"                          zfts_search_rows_hashed    " +
+ "                    where    " +
+  "                         zfts_search_rows_hashed match '"  + searchTerm + "*'  )   " +
+   "                  group by   " +
+    "                    document_binary_hash) as the1,   " +
+     "                     queries  , " +
+      "                    zfts_search_rows_hashed  " +
+       "              where    " +
+        "             queries.hash = the1.document_binary_hash   " +
+" and " +
+"zfts_search_rows_hashed.row_hash = the1.child_hash ";
+
+        var firstWord = searchTerm.split()[0];
+        if (firstWord.length < 1) {
+            firstWord = "";
+        }
+        var stmt = dbsearch.all(mysql, function(err, rows) {
+            if (!err) {
+                //console.log('rows: ' + JSON.stringify(rows.length));
+                var newres = [];
+                for  (var i=0; i < rows.length;i++) {
+                    var rowId = rows[i]["id"];
+                    var rowData =  rows[i]["data"];
+                    if (rowData.length > 0) {
+                        var rowDataToSend = ""
+                        if (i < 5) {
+                            var rowDataStartInit = rowData.toUpperCase().indexOf(firstWord.toUpperCase())
+                            //console.log('rowDataStartInit: ' + rowDataStartInit );
+
+                            //console.log('for: ' + firstWord + " = " + JSON.stringify(rowData));
+
+                            var rowDataStart = rowDataStartInit - 30;
+                            if (rowDataStart < 0) {
+                                rowDataStart = 0
+                            }
+                            //console.log('rowDataEndInit: ' + rowDataEndInit );
+                            var rowDataEnd = rowDataStartInit + firstWord.length + 30
+
+                            rowDataToSend = rowData.substring(rowDataStart, rowDataStartInit) + firstWord.toUpperCase() +
+                                rowData.substring(rowDataStartInit + firstWord.length, rowDataEnd);
+                        }
+                        //console.log('rowDataToSend: ' + rowDataToSend );
+                        newres.push({
+                                            id:     rowId,
+                                            data:   rowDataToSend
+                                    });
+                    }
+                }
+                var timeEnd = new Date().getTime();
+                var timing = timeEnd - timeStart;
+                res.writeHead(200, {'Content-Type': 'text/plain'});
+                res.end( JSON.stringify({   search:  searchTerm,
+                                            queries: newres,
+                                            duration: timing}));
+            } else {
+                var timeEnd = new Date().getTime();
+                var timing = timeEnd - timeStart;
+                res.writeHead(200, {'Content-Type': 'text/plain'});
+                res.end( JSON.stringify({search:      searchTerm,
+                                         queries:    [],
+                                         duration:    timing,
+                                         error: "Error searching for: " + searchTerm }  ));
+            }
+        });
+
+    })
+    };
+};
+
+
+
+
+
+
+
+
+
+
+
+function getqueryresultFn(req, res) {
+	var queryData2 = req.body;
+	//console.log('in getqueryresult: ' + JSON.stringify(queryData2));
+	//console.log('           source: ' + JSON.stringify(queryData2.source));
+	////console.log('request received source: ' + Object.keys(req));
+	////console.log('request received SQL: ' + queryData.sql);
+	var query = queries[queryData2.source];
+
+	//console.log('           query: ' + JSON.stringify(query));
+	if (query) {
+		var queryData 			= new Object();
+		queryData.source 		= query.connection;
+		queryData.definition 	= eval('(' + query.definition + ')' );
+
+		//console.log('   query.definition.sql: ' + JSON.stringify(query.definition.sql));
+		//console.log('           ***queryData: ' + JSON.stringify(queryData));
+
+
+		var error = new Object();
+		if (queryData) {
+			if (connections[queryData.source]) {
+				if (queryData.source) {
+					if (connections[queryData.source].driver) {
+						////console.log('query driver: ' + connections[queryData.source].driver);
+                        var newres = res;
+                        getResult(  queryData2.source,
+                                    queryData.source,
+                                    connections[queryData.source].driver,
+                                    queryData.definition,
+                                    function(result){
+                                        //console.log("     In getresult callback:")
+                                        //console.log("                          :" + JSON.stringify(result))
+                                        newres.writeHead(200, {'Content-Type': 'text/plain'});
+                                        newres.end(JSON.stringify(result));
+                                    }
+                                 );
+					} else {
+						//console.log('query driver not found: ' + connections[queryData.source]);
+							res.writeHead(200, {'Content-Type': 'text/plain'});
+							res.end(JSON.stringify({error: 'query driver not found'}));
+					};
+				};
+			};
+		};
+	} else {
+		//console.log('query not found: ' + queryData2.source);
+		res.writeHead(200, {'Content-Type': 'text/plain'});
+		res.end(JSON.stringify({error: 'query ' + queryData2.source + ' not found'}));
+
+	};
 }
