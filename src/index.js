@@ -346,260 +346,6 @@ function mainProgram() {
     //console.log('Creating timeout: ' + timeout);
 
 
-//------------------------------------------------------------
-// This starts all the system services
-//------------------------------------------------------------
-function startServices() {
-    app.use(cors())
-
-    app.use("/public/aframe_fonts", express.static(path.join(__dirname, '../public/aframe_fonts')));
-    app.use(express.static(path.join(__dirname, '../public/')))
-    app.use(bodyParser.json()); // support json encoded bodies
-    app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
-
-
-    //------------------------------------------------------------------------------
-    // Show the default page for the different domains
-    //------------------------------------------------------------------------------
-    app.get('/', function (req, res) {
-    	 	return getRoot(req, res);
-    })
-
-
-    //------------------------------------------------------------------------------
-    // Download documents to the browser
-    //------------------------------------------------------------------------------
-    app.get('/docs2/*', function (req, res) {
-    	 	return downloadDocuments(req,res);
-    });
-
-
-
-    //------------------------------------------------------------------------------
-    // test_firewall
-    //------------------------------------------------------------------------------
-    app.get('/test_firewall', function (req, res) {
-        return testFirewall(req,res);
-    });
-
-
-    //------------------------------------------------------------------------------
-    // get_intranet_servers
-    //------------------------------------------------------------------------------
-    app.get('/get_intranet_servers', function (req, res) {
-        return getIntranetServers(req, res);
-    });
-
-
-
-    app.ws('/websocket', function(ws, req) {
-        return websocketFn(ws, req)
-    });
-
-
-    //------------------------------------------------------------------------------
-    // Scan the hard disk for documents to Index
-    //------------------------------------------------------------------------------
-    app.get('/scanharddisk', function (req, res) {
-    		return scanharddiskFn(req, res)
-    });
-
-
-
-
-    app.get('/stopscanharddisk', function (req, res) {
-    		return stopscanharddiskFn(req, res)
-    });
-
-
-    app.post('/file_upload', upload.array( 'file' ), function (req, res, next) {
-        return file_uploadFn(req, res, next);
-    });
-
-
-
-
-    app.post('/open_query_in_native_app', function (req, res) {
-    		return open_query_in_native_appFn(req, res);
-    })
-
-
-    //------------------------------------------------------------------------------
-    // Get the result of a SQL query
-    //------------------------------------------------------------------------------
-    app.post('/getresult', function (req, res) {
-    	  return getresultFn(req, res);
-    })
-
-
-    //------------------------------------------------------------------------------
-    // Get the related documents
-    //------------------------------------------------------------------------------
-    app.get('/get_related_documents', function (req, res) {
-        return get_related_documentsFn(req, res);
-    })
-
-
-    //------------------------------------------------------------------------------
-    // Get the result of a search
-    //------------------------------------------------------------------------------
-    app.get('/get_search_results', function (req, res) {
-        return get_search_resultsFn(req, res);
-    });
-
-
-    app.post('/getqueryresult', function (req, res) {
-    	return getqueryresultFn(req, res);
-    })
-
-
-    app.get('/send_client_details', function (req, res) {
-    	return send_client_detailsFn(req, res);
-    })
-
-
-    app.get('/lock', function (req, res) {
-        return lockFn(req, res);
-    })
-
-
-    process.on('uncaughtException', function (err) {
-      console.log(err);
-    })
-
-
-
-    //------------------------------------------------------------------------------
-    // This is called by the central server to get the details of the last
-    // client that connected tp the central server
-    //------------------------------------------------------------------------------
-    app.get('/get_connect', function (req, res) {
-    	return get_connectFn(req, res);
-    })
-
-    //app.enable('trust proxy')
-
-
-    app.get('/get_all_table', function (req, res) {
-    		return get_all_tableFn(req, res);
-    });
-
-    app.post('/add_new_connection', function (req, res) {
-    		return add_new_connectionFn(req, res)
-    });
-
-
-
-    app.post('/add_new_query',function (req, res) {
-        return add_new_queryFn(req, res)
-    });
-
-
-
-
-    //------------------------------------------------------------------------------
-    // run on the central server only
-    //
-    // This is where the client sends its details to the central server
-    //------------------------------------------------------------------------------
-    app.get('/client_connect', function (req, res) {
-    	  return clientConnectFn(req,res);
-
-    })
-
-
-
-
-    //------------------------------------------------------------------------------
-    // start the web server
-    //------------------------------------------------------------------------------
-    app.listen(port, hostaddress, function () {
-    	//console.log(typeOfSystem + ' started on port ' + port );
-    })
-
-
-
-
-      //console.log('addr: '+ hostaddress + ":" + port);
-
-
-
-
-
-
-    aliveCheckFn();
-
-
-
-    if (typeOfSystem == 'client') {
-        setInterval(aliveCheckFn ,numberOfSecondsAliveCheck * 1000);
-
-        forkedIndexer.send({ message_type: "childRunIndexer" });
-
-
-    }
-
-
-
-
-    when_connections_changes();
-    when_queries_changes(null);
-
-
-
-
-	//console.log("******************************ADDING DRIVERS*********************************")
-	//console.log("******************************ADDING DRIVERS*********************************")
-
-
-    setUpDbDrivers();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	////console.log("postgres.get = " + JSON.stringify(eval(pgeval) , null, 2))
-	////console.log("postgres.get = " + eval(pgeval).get)
-	//--------------------------------------------------------
-	// open the app in a web browser
-	//--------------------------------------------------------
-
-
-	if (typeOfSystem == 'client') {
-        var localClientUrl = 'http://' + hostaddress  + ":" + port;
-        var remoteServerUrl = 'http://' + centralHostAddress  + ":" + centralHostPort + "/gosharedata/list_intranet_servers.html?time=" + new Date().getTime();
-
-
-        request({
-                  uri: remoteServerUrl,
-                  method: "GET",
-                  timeout: 10000,
-                  agent: false,
-                  followRedirect: true,
-                  maxRedirects: 10
-            },
-            function(error, response, body) {
-              if (error) {
-                  //console.log("Error opening central server: " + error);
-                  open(localClientUrl);
-              } else {
-                open(remoteServerUrl);
-              }
-            });
-	} else if (typeOfSystem == 'server') {
-	  open('http://' + hostaddress  + ":" + port + "/gosharedata/list_intranet_servers.html?time=" +  + new Date().getTime());
-	}
-
-	}
 	}
 
 
@@ -2501,4 +2247,268 @@ function setUpDbDrivers() {
 	tdeval = '(' + fs.readFileSync(path.join(__dirname, './testdriver.js')).toString() + ')';
     setSharedGlobalVar("drivers", 'testdriver', tdeval );
 	addOrUpdateDriver('testdriver', tdeval, drivers['testdriver'])
+}
+
+
+
+
+
+
+
+
+
+
+//------------------------------------------------------------
+// This starts all the system services
+//------------------------------------------------------------
+function startServices() {
+    app.use(cors())
+
+    app.use("/public/aframe_fonts", express.static(path.join(__dirname, '../public/aframe_fonts')));
+    app.use(express.static(path.join(__dirname, '../public/')))
+    app.use(bodyParser.json()); // support json encoded bodies
+    app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
+
+
+    //------------------------------------------------------------------------------
+    // Show the default page for the different domains
+    //------------------------------------------------------------------------------
+    app.get('/', function (req, res) {
+    	 	return getRoot(req, res);
+    })
+
+
+    //------------------------------------------------------------------------------
+    // Download documents to the browser
+    //------------------------------------------------------------------------------
+    app.get('/docs2/*', function (req, res) {
+    	 	return downloadDocuments(req,res);
+    });
+
+
+
+    //------------------------------------------------------------------------------
+    // test_firewall
+    //------------------------------------------------------------------------------
+    app.get('/test_firewall', function (req, res) {
+        return testFirewall(req,res);
+    });
+
+
+    //------------------------------------------------------------------------------
+    // get_intranet_servers
+    //------------------------------------------------------------------------------
+    app.get('/get_intranet_servers', function (req, res) {
+        return getIntranetServers(req, res);
+    });
+
+
+
+    app.ws('/websocket', function(ws, req) {
+        return websocketFn(ws, req)
+    });
+
+
+    //------------------------------------------------------------------------------
+    // Scan the hard disk for documents to Index
+    //------------------------------------------------------------------------------
+    app.get('/scanharddisk', function (req, res) {
+    		return scanharddiskFn(req, res)
+    });
+
+
+
+
+    app.get('/stopscanharddisk', function (req, res) {
+    		return stopscanharddiskFn(req, res)
+    });
+
+
+    app.post('/file_upload', upload.array( 'file' ), function (req, res, next) {
+        return file_uploadFn(req, res, next);
+    });
+
+
+
+
+    app.post('/open_query_in_native_app', function (req, res) {
+    		return open_query_in_native_appFn(req, res);
+    })
+
+
+    //------------------------------------------------------------------------------
+    // Get the result of a SQL query
+    //------------------------------------------------------------------------------
+    app.post('/getresult', function (req, res) {
+    	  return getresultFn(req, res);
+    })
+
+
+    //------------------------------------------------------------------------------
+    // Get the related documents
+    //------------------------------------------------------------------------------
+    app.get('/get_related_documents', function (req, res) {
+        return get_related_documentsFn(req, res);
+    })
+
+
+    //------------------------------------------------------------------------------
+    // Get the result of a search
+    //------------------------------------------------------------------------------
+    app.get('/get_search_results', function (req, res) {
+        return get_search_resultsFn(req, res);
+    });
+
+
+    app.post('/getqueryresult', function (req, res) {
+    	return getqueryresultFn(req, res);
+    })
+
+
+    app.get('/send_client_details', function (req, res) {
+    	return send_client_detailsFn(req, res);
+    })
+
+
+    app.get('/lock', function (req, res) {
+        return lockFn(req, res);
+    })
+
+
+    process.on('uncaughtException', function (err) {
+      console.log(err);
+    })
+
+
+
+    //------------------------------------------------------------------------------
+    // This is called by the central server to get the details of the last
+    // client that connected tp the central server
+    //------------------------------------------------------------------------------
+    app.get('/get_connect', function (req, res) {
+    	return get_connectFn(req, res);
+    })
+
+    //app.enable('trust proxy')
+
+
+    app.get('/get_all_table', function (req, res) {
+    		return get_all_tableFn(req, res);
+    });
+
+    app.post('/add_new_connection', function (req, res) {
+    		return add_new_connectionFn(req, res)
+    });
+
+
+
+    app.post('/add_new_query',function (req, res) {
+        return add_new_queryFn(req, res)
+    });
+
+
+
+
+    //------------------------------------------------------------------------------
+    // run on the central server only
+    //
+    // This is where the client sends its details to the central server
+    //------------------------------------------------------------------------------
+    app.get('/client_connect', function (req, res) {
+    	  return clientConnectFn(req,res);
+
+    })
+
+
+
+
+    //------------------------------------------------------------------------------
+    // start the web server
+    //------------------------------------------------------------------------------
+    app.listen(port, hostaddress, function () {
+    	//console.log(typeOfSystem + ' started on port ' + port );
+    })
+
+
+
+
+      //console.log('addr: '+ hostaddress + ":" + port);
+
+
+
+
+
+
+    aliveCheckFn();
+
+
+
+    if (typeOfSystem == 'client') {
+        setInterval(aliveCheckFn ,numberOfSecondsAliveCheck * 1000);
+
+        forkedIndexer.send({ message_type: "childRunIndexer" });
+
+
+    }
+
+
+
+
+    when_connections_changes();
+    when_queries_changes(null);
+
+
+
+
+	//console.log("******************************ADDING DRIVERS*********************************")
+	//console.log("******************************ADDING DRIVERS*********************************")
+
+
+    setUpDbDrivers();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	////console.log("postgres.get = " + JSON.stringify(eval(pgeval) , null, 2))
+	////console.log("postgres.get = " + eval(pgeval).get)
+	//--------------------------------------------------------
+	// open the app in a web browser
+	//--------------------------------------------------------
+
+
+	if (typeOfSystem == 'client') {
+        var localClientUrl = 'http://' + hostaddress  + ":" + port;
+        var remoteServerUrl = 'http://' + centralHostAddress  + ":" + centralHostPort + "/gosharedata/list_intranet_servers.html?time=" + new Date().getTime();
+
+
+        request({
+                  uri: remoteServerUrl,
+                  method: "GET",
+                  timeout: 10000,
+                  agent: false,
+                  followRedirect: true,
+                  maxRedirects: 10
+            },
+            function(error, response, body) {
+              if (error) {
+                  //console.log("Error opening central server: " + error);
+                  open(localClientUrl);
+              } else {
+                open(remoteServerUrl);
+              }
+            });
+	} else if (typeOfSystem == 'server') {
+	  open('http://' + hostaddress  + ":" + port + "/gosharedata/list_intranet_servers.html?time=" +  + new Date().getTime());
+	}
+
 }
