@@ -15,7 +15,7 @@
     <img src='http://visifiles.com/desktop.PNG' />
     </p>
 </div>
-VisiFiles is a desktop program that scans your documents and shows all the relationships . The document supported are:
+VisiFile is a desktop program that scans your documents and shows all the relationships . The document supported are:
 
 * MySQL
 * Oracle
