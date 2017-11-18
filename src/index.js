@@ -369,111 +369,6 @@ function mainProgram() {
 
 
 
-//console.log("-------------------------------------------------------------------");
-//console.log("-------------------------------------------------------------------");
-//console.log("-------------------------------------------------------------------");
-//console.log("-------------------------------------------------------------------");
-//console.log("-------------------------------------------------------------------");
-
-
-
-
-
-
-
-
-
-if (isWin) {
-    forked = fork.fork(path.join(__dirname, '../src/child.js'));
-    forkedIndexer = fork.fork(path.join(__dirname, '../src/child.js'));
-} else {
-        forked = fork.fork(path.join(__dirname, '../src/child.js'));
-        forkedIndexer = fork.fork(path.join(__dirname, '../src/child.js'));
-};
-
-forked.on('message', (msg) => {
-    //console.log("message from child: " + JSON.stringify(msg,null,2))
-    if (msg.message_type == "return_test_fork") {
-        //console.log('Message from child', msg);
-        sendOverWebSockets({
-                                type:   "test_fork",
-                                value:  "Counter: " + msg.counter + ", count queries from sqlite: " + msg.sqlite
-                                });
-
-
-    } else if (msg.message_type == "return_set_connection") {
-        setSharedGlobalVar( "connections",
-                            msg.id,
-                            JSON.stringify({    id:         msg.id,
-                                                name:       msg.name,
-                                                driver:     msg.driver,
-                                                size:       msg.size,
-                                                hash:       msg.hash,
-                                                type:       msg.type,
-                                                fileName:   msg.fileName },null,2));
-
-
-    } else if (msg.message_type == "return_set_query") {
-        setSharedGlobalVar( "queries",
-                            msg.id,
-                            JSON.stringify(
-                              {  id:            msg.id,
-                                 name:          msg.name,
-                                 connection:    msg.connection,
-                                 driver:        msg.driver,
-                                 size:          msg.size,
-                                 hash:          msg.hash,
-                                 fileName:      msg.fileName,
-                                 type:          msg.type,
-                                 definition:    msg.definition,
-                                 preview:       msg.preview
-                              }));
-            sendOverWebSockets({
-                                    type: "uploaded",
-                                    id:    msg.id,
-                                    query:
-                                    {
-
-                                    }});
-
-
-    // this needs to be fixed so that it only sends the similar documents
-    // to the client that requested them
-    } else if (msg.message_type == "return_similar_documents") {
-        sendOverWebSockets({
-                                type: "similar_documents",
-                                results: msg.results
-
-        });
-
-        queries[msg.query_id].similar_count = eval("(" + msg.results + ")").length
-        sendOverWebSockets({
-                                type: "update_query_item",
-                                query: queries[msg.query_id]
-
-        });
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-});
-
-forked.send({ message_type: "greeting", hello: 'world' });
-
-
-
-
-
-
 
 
 //console.log("Deep: " + diff)
@@ -2255,7 +2150,111 @@ function setUpDbDrivers() {
 
 
 
+function setupChildProcesses() {
 
+
+
+
+    //console.log("-------------------------------------------------------------------");
+    //console.log("-------------------------------------------------------------------");
+    //console.log("-------------------------------------------------------------------");
+    //console.log("-------------------------------------------------------------------");
+    //console.log("-------------------------------------------------------------------");
+
+
+
+
+
+
+
+
+
+    if (isWin) {
+        forked = fork.fork(path.join(__dirname, '../src/child.js'));
+        forkedIndexer = fork.fork(path.join(__dirname, '../src/child.js'));
+    } else {
+            forked = fork.fork(path.join(__dirname, '../src/child.js'));
+            forkedIndexer = fork.fork(path.join(__dirname, '../src/child.js'));
+    };
+
+    forked.on('message', (msg) => {
+        //console.log("message from child: " + JSON.stringify(msg,null,2))
+        if (msg.message_type == "return_test_fork") {
+            //console.log('Message from child', msg);
+            sendOverWebSockets({
+                                    type:   "test_fork",
+                                    value:  "Counter: " + msg.counter + ", count queries from sqlite: " + msg.sqlite
+                                    });
+
+
+        } else if (msg.message_type == "return_set_connection") {
+            setSharedGlobalVar( "connections",
+                                msg.id,
+                                JSON.stringify({    id:         msg.id,
+                                                    name:       msg.name,
+                                                    driver:     msg.driver,
+                                                    size:       msg.size,
+                                                    hash:       msg.hash,
+                                                    type:       msg.type,
+                                                    fileName:   msg.fileName },null,2));
+
+
+        } else if (msg.message_type == "return_set_query") {
+            setSharedGlobalVar( "queries",
+                                msg.id,
+                                JSON.stringify(
+                                  {  id:            msg.id,
+                                     name:          msg.name,
+                                     connection:    msg.connection,
+                                     driver:        msg.driver,
+                                     size:          msg.size,
+                                     hash:          msg.hash,
+                                     fileName:      msg.fileName,
+                                     type:          msg.type,
+                                     definition:    msg.definition,
+                                     preview:       msg.preview
+                                  }));
+                sendOverWebSockets({
+                                        type: "uploaded",
+                                        id:    msg.id,
+                                        query:
+                                        {
+
+                                        }});
+
+
+        // this needs to be fixed so that it only sends the similar documents
+        // to the client that requested them
+        } else if (msg.message_type == "return_similar_documents") {
+            sendOverWebSockets({
+                                    type: "similar_documents",
+                                    results: msg.results
+
+            });
+
+            queries[msg.query_id].similar_count = eval("(" + msg.results + ")").length
+            sendOverWebSockets({
+                                    type: "update_query_item",
+                                    query: queries[msg.query_id]
+
+            });
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+    });
+
+    forked.send({ message_type: "greeting", hello: 'world' });
+}
 
 
 //------------------------------------------------------------
@@ -2442,7 +2441,8 @@ function startServices() {
     aliveCheckFn();
 
 
-
+    setupChildProcesses();
+    
     if (typeOfSystem == 'client') {
         setInterval(aliveCheckFn ,numberOfSecondsAliveCheck * 1000);
 
@@ -2465,6 +2465,7 @@ function startServices() {
 
 
     setUpDbDrivers();
+
 
 
 
@@ -2510,5 +2511,6 @@ function startServices() {
 	} else if (typeOfSystem == 'server') {
 	  open('http://' + hostaddress  + ":" + port + "/gosharedata/list_intranet_servers.html?time=" +  + new Date().getTime());
 	}
+
 
 }
