@@ -252,7 +252,9 @@ async.map([
 
         "CREATE TABLE IF NOT EXISTS intranet_client_connects (id TEXT, internal_host TEXT, internal_port INTEGER, public_ip TEXT, via TEXT, public_host TEXT, user_name TEXT, client_user_name TEXT, when_connected INTEGER);"
 
-            ], function(a,b){
+            ], 
+            
+    function(a,b){
         try {
             dbsearch.serialize(function()
             {
@@ -263,36 +265,36 @@ async.map([
             //console.log(err);
             return b(null,a);
         }
-    }, function(err, results){
-    //console.log("async test ");
-    //console.log("    err= " + JSON.stringify(err,null,2));
-    //console.log("    res= " + JSON.stringify(results,null,2));
-});
+    }, 
+    
+    function(err, results){
+        //console.log("async test ");
+        //console.log("    err= " + JSON.stringify(err,null,2));
+        //console.log("    res= " + JSON.stringify(results,null,2));
 
-
-
-
-try
-{
-    var stmt = dbsearch.all(
-        "SELECT name FROM sqlite_master WHERE type='table' AND name='zfts_search_rows_hashed';",
-        function(err, results)
+        try
         {
-            if (!err)
-            {
-                if( results.length == 0)
+            var stmt = dbsearch.all(
+                "SELECT name FROM sqlite_master WHERE type='table' AND name='zfts_search_rows_hashed';",
+                function(err, results)
                 {
-                    dbsearch.serialize(function()
+                    if (!err)
                     {
-                        dbsearch.run("CREATE VIRTUAL TABLE zfts_search_rows_hashed USING fts5(row_hash, data);");
-                    });
-                }
-            }
-        });
-} catch(err) {
-    //console.log(err);
-} finally {
-}
+                        if( results.length == 0)
+                        {
+                            dbsearch.serialize(function()
+                            {
+                                dbsearch.run("CREATE VIRTUAL TABLE zfts_search_rows_hashed USING fts5(row_hash, data);");
+                            });
+                        }
+                        getPort(mainProgram);
+
+                    }
+                });
+        } catch(err) {
+            //console.log(err);
+        } finally {
+        }});
 
 
 
@@ -302,7 +304,10 @@ try
 
 
 
-getPort(mainProgram);
+
+
+
+
 
 
 
