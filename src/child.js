@@ -71,7 +71,7 @@ function require2(moduleName) {
 
 setUpSql()
 
-sendTestheartbeat();
+sendTestHeartBeat();
 
 processMessagesFromMainProcess();
 
@@ -95,8 +95,9 @@ testDiffFn();
 
 //-----------------------------------------------------------------------------------------//
 //                                                                                         //
+//                                        setUpSql                                         //
 //                                                                                         //
-//                                                                                         //
+//   This sets up the SqlLite prepared statements                                          //
 //                                                                                         //
 //                                                                                         //
 //                                                                                         //
@@ -153,6 +154,7 @@ function setUpSql() {
                                                 
 //-----------------------------------------------------------------------------------------//
 //                                                                                         //
+//                               saveConnectionAndQueryForFile                             //
 //                                                                                         //
 //                                                                                         //
 //                                                                                         //
@@ -162,7 +164,7 @@ function setUpSql() {
 //                                                                                         //
 //                                                                                         //
 //-----------------------------------------------------------------------------------------//
-function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileType2) {
+function saveConnectionAndQueryForFile(  fileId,  fileType,  size,  fileName,  fileType2  ) {
     //console.log("... in saveConnectionAndQueryForFile:::: " + fileId)
     if (!fileName) {
         return;
@@ -299,7 +301,7 @@ function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileTyp
 
 //-----------------------------------------------------------------------------------------//
 //                                                                                         //
-//                                                                                         //
+//                                    getRelatedDocuments                                  //
 //                                                                                         //
 //                                                                                         //
 //                                                                                         //
@@ -308,7 +310,7 @@ function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileTyp
 //                                                                                         //
 //                                                                                         //
 //-----------------------------------------------------------------------------------------//
-function getRelatedDocuments(id, callback) {
+function getRelatedDocuments(  id,  callback  ) {
         //console.log("In getRelatedDocuments" );
     var sql = "select  " +
                 "    distinct(id), cc, name, driver, size from ( " +
@@ -376,7 +378,7 @@ function getRelatedDocuments(id, callback) {
 
 //-----------------------------------------------------------------------------------------//
 //                                                                                         //
-//                                                                                         //
+//                                 getRelatedDocumentHashes                                //
 //                                                                                         //
 //                                                                                         //
 //                                                                                         //
@@ -487,7 +489,8 @@ function getRelatedDocumentHashes(  doc_hash,  callback  ) {
 
 
 //-----------------------------------------------------------------------------------------//
-//                                    indexFilesFn                                         //
+//                                                                                         //
+//                                      indexFilesFn                                       //
 //                                                                                         //
 // This indexes the queries for full text search                                           //
 //                                                                                         //
@@ -560,7 +563,7 @@ function indexFilesFn() {
         
 //-----------------------------------------------------------------------------------------//
 //                                                                                         //
-//                                                                                         //
+//                                         getResult                                       //
 //                                                                                         //
 //                                                                                         //
 //                                                                                         //
@@ -569,7 +572,7 @@ function indexFilesFn() {
 //                                                                                         //
 //                                                                                         //
 //-----------------------------------------------------------------------------------------//
-function getResult(source, connection, driver, definition, callback) {
+function getResult(  source,  connection,  driver,  definition,  callback  ) {
     //console.log("var getResult = function(" + source + ", " + connection + ", " + driver + ", " + JSON.stringify(definition));
     if (stmt2 == null) {
         stmt2 = dbsearch.prepare("INSERT INTO zfts_search_rows_hashed (row_hash, data) VALUES (?, ?)");
@@ -732,7 +735,7 @@ function getResult(source, connection, driver, definition, callback) {
     
 //-----------------------------------------------------------------------------------------//
 //                                                                                         //
-//                                                                                         //
+//                                           diffFn                                        //
 //                                                                                         //
 //                                                                                         //
 //                                                                                         //
@@ -741,7 +744,7 @@ function getResult(source, connection, driver, definition, callback) {
 //                                                                                         //
 //                                                                                         //
 //-----------------------------------------------------------------------------------------//
-function diffFn(lhs2, rhs2) {
+function diffFn( lhs2,  rhs2 ) {
     var differences = diff(lhs2, rhs2);
     if ((typeof differences !== 'undefined')) {
         return {
@@ -910,14 +913,6 @@ function indexFileRelationshipsFn() {
                                     }
                                 });
                             
-                            
-                            
-                            
-
-                        
-                        
-                        
-                        
                         
                                     /*getResult(  results[0].id, 
                                         results[0].connection, 
@@ -932,18 +927,6 @@ function indexFileRelationshipsFn() {
                                         });*/
 
                     }
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
                         
                         
                         
@@ -973,7 +956,7 @@ function indexFileRelationshipsFn() {
 
 //-----------------------------------------------------------------------------------------//
 //                                                                                         //
-//                                                                                         //
+//                                       outputToConsole                                   //
 //                                                                                         //
 //                                                                                         //
 //                                                                                         //
@@ -998,7 +981,18 @@ function outputToConsole(text) {
 
 
 
-function sendTestheartbeat() {
+//-----------------------------------------------------------------------------------------//
+//                                                                                         //
+//                                     sendTestHeartBeat                                   //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//-----------------------------------------------------------------------------------------//
+function sendTestHeartBeat() {
     let counter = 0;
 
     setInterval(() => {
@@ -1038,6 +1032,7 @@ function sendTestheartbeat() {
 
 //-----------------------------------------------------------------------------------------//
 //                                                                                         //
+//                               processMessagesFromMainProcess                            //
 //                                                                                         //
 //                                                                                         //
 //                                                                                         //
@@ -1113,7 +1108,7 @@ function processMessagesFromMainProcess() {
 
 //-----------------------------------------------------------------------------------------//
 //                                                                                         //
-//                                                                                         //
+//                                       testDiffFn                                        //
 //                                                                                         //
 //                                                                                         //
 //                                                                                         //
