@@ -424,23 +424,11 @@ function getRelatedDocumentHashes(  doc_hash,  callback  ) {
                         for (var i =0 ; i < results.length; i++) {
                             if (results[i]) {
                                 var target_hash = results[i].hash;
-                                
+                                console.log("    " + doc_hash + " : " + target_hash );
+                                                                
                                 if (target_hash) {
                                     var similar_count = results[i].size;
-                                    dbsearch.all(
-                                        "select  id  from  relationships  where  " +
-                                        "    source_query_hash = '"  +  doc_hash  +  "' and target_query_hash = '"  +  target_hash + "'",
-                                        
-                                        function(err, existsResults) 
-                                        {
-                                            if (!err) 
-                                            {
-                                                if (existsResults.length == 0) {
-                                                    var newId = uuidv1();
-                                                    stmtInsertIntoRelationships.run(newId,  doc_hash, target_hash,  similar_count);
-                                                }
-                                            }
-                                        })
+                                    createRelationship(doc_hash, target_hash, similar_count);
                                 }
                             }
                                     
@@ -795,151 +783,140 @@ function indexFileRelationshipsFn() {
         return;
     }
     inIndexFileRelationshipsFn = true;
+    
+    
     try {
-    var stmt = dbsearch.all(
-        "SELECT * FROM queries WHERE related_status IS NULL LIMIT 1 " ,
-        function(err, results) 
-        {
-            if (!err) 
+        var stmt = dbsearch.all(
+            "SELECT * FROM queries WHERE related_status IS NULL LIMIT 1 " 
+            ,
+            
+            function(err, results) 
             {
-                // if there is a query where nothing has been done then index it
-                if( results.length != 0) 
+                if (!err) 
                 {
-                    console.log("" );
-                    console.log("" );
-                    console.log("In indexFileRelationshipsFn  " );
-                    console.log("      SOURCE ITEM : " + JSON.stringify(results[0].name,null,2));
-                    var queryToIndex = results[0];
+                    //
+                    // if there is a query where nothing has been done then index it
+                    //
+                    if( results.length != 0) 
+                    {
+                        console.log("" );
+                        console.log("" );
+                        console.log("In indexFileRelationshipsFn  " );
+                        console.log("      SOURCE ITEM : " + JSON.stringify(results[0].name,null,2));
+                        var queryToIndex = results[0];
 
-                    getRelatedDocumentHashes(queryToIndex.hash, function(relatedResults) {
-                        //console.log("      Related hashes: " + JSON.stringify(relatedResults.length,null,2));
-                          
-                        if (relatedResults.length > 0) {
-                            var returnValues1;
-                            getResult(  
-                                queryToIndex.id, 
-                                queryToIndex.connection, 
-                                queryToIndex.driver, 
-                                {}, 
-                                function(queryResult)
-                                {
-                                    
-                                    if (!queryResult.error) {
-                                        if (queryResult.values && (queryResult.values.constructor === Array)) {
-                                            returnValues1 = queryResult.values;
-                                        } else if (queryResult && (queryResult.constructor === Array)) {
-                                            returnValues1 = queryResult;
-                                        }
-                                        if (returnValues1.constructor === Array) {
-                                        console.log("     SOURCE ITEM COUNT : " + " = " + returnValues1.length);
+                        getRelatedDocumentHashes(queryToIndex.hash, function(relatedResults) {
+                            //console.log("      Related hashes: " + JSON.stringify(relatedResults.length,null,2));
+                              
+                            if (relatedResults.length > 0) {
+                                var returnValues1;
+                                getResult(  
+                                    queryToIndex.id, 
+                                    queryToIndex.connection, 
+                                    queryToIndex.driver, 
+                                    {}, 
+                                    function(queryResult)
+                                    {
                                         
-                                        
-                                        //console.log("**getRelatedDocumentHashes returned: " + results.length);
-                                        for (var i = 0; i < relatedResults.length; i ++) {
-                                            //console.log("         **** : " + JSON.stringify(relatedResults[i],null,2));
-                                            var stmt = dbsearch.all(
-                                                "SELECT * FROM queries WHERE hash = '" + relatedResults[i].hash + "'" ,
-                                                function(err, results) 
-                                                {
-                                                    if (!err) 
-                                                    {
-                                                        if( results.length != 0) 
-                                                        {
-                                                            var relatedQuery = results[0];
-                                                            console.log("         RELATED ITEM : " + JSON.stringify(relatedQuery.name,null,2));
-                                                            getResult(  
-                                                                relatedQuery.id, 
-                                                                relatedQuery.connection, 
-                                                                relatedQuery.driver, 
-                                                                {}, 
-                                                                function(queryResult2)
-                                                                {
-                                                                    
-                                                                    if (!queryResult2.error) {
-                                                                        var returnValues;
-                                                                        if (queryResult2.values && (queryResult2.values.constructor === Array)) {
-                                                                            returnValues = queryResult2.values
-                                                                        } else if (queryResult2 && (queryResult2.constructor === Array)) {
-                                                                            returnValues = queryResult2
-                                                                        }
-                                                                        console.log("     RELATED ITEM COUNT : " + " = " + returnValues.length);
-                                                                        //JSON.stringify(
-                                                                        var x1 = returnValues1
-                                                                        var x2 = returnValues
-                                                                        console.log("          LHS : " + results[0].name + " = " + x1.length);
-                                                                        console.log("          RHS : " + relatedQuery.name + " = " + x2.length);
-                                                                        if ((x1.constructor === Array) && (x2.constructor === Array)) {
-                                                                            
-                                                                            var xdiff = diffFn(returnValues1, returnValues);
-                                                                            console.log("          N: "  + JSON.stringify(xdiff.new,null,2))
-                                                                            console.log("          D: "  + JSON.stringify(xdiff.deleted,null,2))
-                                                                            console.log("          E: "  + JSON.stringify(xdiff.edited,null,2))
-                                                                            console.log("          A: "  + JSON.stringify(xdiff.array,null,2))
-                                                                            var newId = uuidv1();
-                                                                            stmtUpdateRelationships2.run(
-                                                                                xdiff.new,
-                                                                                xdiff.new,
-                                                                                
-                                                                                xdiff.deleted,
-                                                                                xdiff.deleted,
-                                                                                
-                                                                                xdiff.edited,
-                                                                                xdiff.edited,
-                                                                                
-                                                                                xdiff.array,
-                                                                                xdiff.array,
-                                                                                
-                                                                                queryToIndex.hash, 
-                                                                                relatedQuery.hash
-                                                                                );
-                                                                        }
-                                                                    } else {
-                                                                        console.log("     error in related  : " + " = " + queryResult2.error);
-                                                                    }
-                                                                });
-                                                        
-                                                        }
-                                                    }
-                                                });
-                                        }
-                                        }
-                                        
-                                        
-                                        
-                                        
-                                        
-                                    } else {
-                                        console.log("     error : " + " = " + queryResult.error);
-                                    }
-                                });
-                            
-                        
-                                    /*getResult(  results[0].id, 
-                                        results[0].connection, 
-                                        results[0].driver, 
-                                        {}, 
-                                        function(result)
-                                        {
-                                            
-                                            if (!result.error) {
-                                                //console.log("File added v2: " + JSON.stringify(results[0].fileName,null,2));
+                                        if (!queryResult.error) {
+                                            if (queryResult.values && (queryResult.values.constructor === Array)) {
+                                                returnValues1 = queryResult.values;
+                                            } else if (queryResult && (queryResult.constructor === Array)) {
+                                                returnValues1 = queryResult;
                                             }
-                                        });*/
-
-                    }
-                        
-                        
-                        
+                                            if (returnValues1.constructor === Array) {
+                                            console.log("     SOURCE ITEM COUNT : " + " = " + returnValues1.length);
+                                            
+                                            
+                                            //console.log("**getRelatedDocumentHashes returned: " + results.length);
+                                            for (var i = 0; i < relatedResults.length; i ++) {
+                                                //console.log("         **** : " + JSON.stringify(relatedResults[i],null,2));
+                                                var stmt = dbsearch.all(
+                                                    "SELECT * FROM queries WHERE hash = '" + relatedResults[i].hash + "'" ,
+                                                    function(err, results) 
+                                                    {
+                                                        if (!err) 
+                                                        {
+                                                            if( results.length != 0) 
+                                                            {
+                                                                var relatedQuery = results[0];
+                                                                console.log("         RELATED ITEM : " + JSON.stringify(relatedQuery.name,null,2));
+                                                                getResult(  
+                                                                    relatedQuery.id, 
+                                                                    relatedQuery.connection, 
+                                                                    relatedQuery.driver, 
+                                                                    {}, 
+                                                                    function(queryResult2)
+                                                                    {
+                                                                        
+                                                                        if (!queryResult2.error) {
+                                                                            var returnValues;
+                                                                            if (queryResult2.values && (queryResult2.values.constructor === Array)) {
+                                                                                returnValues = queryResult2.values
+                                                                            } else if (queryResult2 && (queryResult2.constructor === Array)) {
+                                                                                returnValues = queryResult2
+                                                                            }
+                                                                            console.log("     RELATED ITEM COUNT : " + " = " + returnValues.length);
+                                                                            //JSON.stringify(
+                                                                            var x1 = returnValues1
+                                                                            var x2 = returnValues
+                                                                            console.log("          LHS : " + results[0].name + " = " + x1.length);
+                                                                            console.log("          RHS : " + relatedQuery.name + " = " + x2.length);
+                                                                            if ((x1.constructor === Array) && (x2.constructor === Array)) {
+                                                                                
+                                                                                var xdiff = diffFn(returnValues1, returnValues);
+                                                                                console.log("          N: "  + JSON.stringify(xdiff.new,null,2))
+                                                                                console.log("          D: "  + JSON.stringify(xdiff.deleted,null,2))
+                                                                                console.log("          E: "  + JSON.stringify(xdiff.edited,null,2))
+                                                                                console.log("          A: "  + JSON.stringify(xdiff.array,null,2))
+                                                                                var newId = uuidv1();
+                                                                                stmtUpdateRelationships2.run(
+                                                                                    xdiff.new,
+                                                                                    xdiff.new,
+                                                                                    
+                                                                                    xdiff.deleted,
+                                                                                    xdiff.deleted,
+                                                                                    
+                                                                                    xdiff.edited,
+                                                                                    xdiff.edited,
+                                                                                    
+                                                                                    xdiff.array,
+                                                                                    xdiff.array,
+                                                                                    
+                                                                                    queryToIndex.hash, 
+                                                                                    relatedQuery.hash
+                                                                                    );
+                                                                            }
+                                                                        } else {
+                                                                            console.log("     error in related  : " + " = " + queryResult2.error);
+                                                                        }
+                                                                    });
+                                                            
+                                                            }
+                                                        }
+                                                    });
+                                            }
+                                            }
+                                            
+                                            
+                                            
+                                            
+                                            
+                                        } else {
+                                            console.log("     error : " + " = " + queryResult.error);
+                                        }
+                                    });
+                        }
                     });
                 } else {
                     //console.log("          else: ");
                 }                        
             } else {
-                //console.log("          Error: " );
+                console.log("          Error: " );
            } 
         })
     }catch (err) {
-        //console.log("          Error: " + err);
+        console.log("          Error: " + err);
     }
     inIndexFileRelationshipsFn = false;
 }
@@ -1154,4 +1131,39 @@ function testDiffFn() {
     //console.log("")
     //console.log("")
     //console.log("")
+}
+
+
+
+
+
+//-----------------------------------------------------------------------------------------//
+//                                                                                         //
+//                                    createRelationship                                   //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//-----------------------------------------------------------------------------------------//
+function createRelationship(  doc_hash,  target_hash,  similar_count ) {
+    dbsearch.all(
+        "select  id  from  relationships  where  " +
+        "    source_query_hash = '"  +  doc_hash  +  "' and target_query_hash = '"  +  target_hash + "'"
+        ,
+        
+        function(err, existsResults) 
+        {
+            if (!err) 
+            {
+                console.log("    " + doc_hash + " : " + target_hash + "... existsResults.length = " +  existsResults.length);
+                if (existsResults.length == 0) {
+                    var newId = uuidv1();
+                    stmtInsertIntoRelationships.run(newId,  doc_hash, target_hash,  similar_count);
+                }
+            }
+        }
+    )
 }
