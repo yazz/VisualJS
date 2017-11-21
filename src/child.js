@@ -44,6 +44,11 @@ var stmtUpdateRelationships;
 username = os.userInfo().username.toLowerCase();
 //console.log(username);
 dbsearch = new sqlite3.Database(username + '.vis');
+//dbsearch.run("PRAGMA journal_mode=WAL;")
+dbsearch.run("PRAGMA synchronous=OFF;")
+dbsearch.run("PRAGMA count_changes=OFF;")
+dbsearch.run("PRAGMA journal_mode=MEMORY;")
+dbsearch.run("PRAGMA temp_store=MEMORY;")
 
 
 function require2(moduleName) {
@@ -59,212 +64,104 @@ function require2(moduleName) {
 
 
 
-function outputToConsole(text) {
-    var c = console;
-    c.log(text);
+
+
+
+
+
+setUpSql()
+
+sendTestheartbeat();
+
+processMessagesFromMainProcess();
+
+testDiffFn();
+
+
+
+
+
+                        
+                        
+                        
+
+
+
+
+
+
+
+
+
+//-----------------------------------------------------------------------------------------//
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//-----------------------------------------------------------------------------------------//
+function setUpSql() {
+    stmtInsertIntoRelationships = dbsearch.prepare( " insert into relationships " + 
+                                                        "    ( id, source_query_hash, target_query_hash, similar_row_count ) " +
+                                                        " values " + 
+                                                        "    (?,  ?,?,  ?);");
+
+    stmtUpdateRelationships2 = dbsearch.prepare( " update relationships " + 
+                                                         "    set " +
+                                                         "        new_source = ?, new_target = ?, " +
+                                                         "        edited_source = ?, edited_target = ?, " + 
+                                                         "        deleted_source = ?, deleted_target = ?, " + 
+                                                         "        array_source = ?, array_target = ? " +
+                                                         " where " + 
+                                                         "     source_query_hash = ?    and     target_query_hash = ? ");
+
+
+    stmtInsertIntoFiles = dbsearch.prepare(" insert into files " + 
+                                "    ( id, name, contents ) " +
+                                " values " + 
+                                "    (?,  ?,?);");
+
+    stmtInsertIntoConnections = dbsearch.prepare(" insert into connections " + 
+                                "    ( id, name, driver, size, hash, type, fileName ) " +
+                                " values " + 
+                                "    (?,  ?,?,?,  ?,?,?);");
+    stmtInsertInsertIntoQueries = dbsearch.prepare(" insert into queries " + 
+                                "    ( id, name, connection, driver, size, hash, fileName, type, definition, preview, similar_count ) " +
+                                " values " + 
+                                "    (?,  ?,?,?,  ?,?,?, ?,?,?, 1);");
+
+    stmtUpdateRelatedDocumentCount = dbsearch.prepare(" update queries " + 
+                                "    set  similar_count = ?  " +
+                                " where  " + 
+                                "    id = ? ;");
+
+    stmtUpdateRelationships = dbsearch.prepare(" update queries " + 
+                                "    set  related_status = ?  " +
+                                " where  " + 
+                                "    hash = ? ;");
 }
 
-
-//console.log("Deep: " + diff)
-
-
-lhs = [
-{line: 2, value: "The cat sat on the mat"}
-,
-{line: 1, value: "The cat sat on the mat2"}
-,
-{line: 3, value: "The cat sat on the mat2"}
-    ]
-;
- 
-rhs = [
-
-{line: 1, value: "The cat sat on the mat2"}
-,
-{line: 2, value: "The cat sat on the mat"}
-,
-{line: 3, value: "The cat sat on the mat2"}
-,
-{line: 4, value: "The cat sat on the mat2"}
-
-];
- 
-//console.log("")
-//console.log("")
-//console.log("")
-//console.log("----------------------------------------------------------------------------------------------")
-//console.log(JSON.stringify(differences,null,2))
-xdiff = diffFn(lhs, rhs);
-//console.log("N: "  + JSON.stringify(xdiff.new,null,2))
-//console.log("D: "  + JSON.stringify(xdiff.deleted,null,2))
-//console.log("E: "  + JSON.stringify(xdiff.edited,null,2))
-//console.log("A: "  + JSON.stringify(xdiff.array,null,2))
-//console.log("----------------------------------------------------------------------------------------------")
-//console.log("")
-//console.log("")
-//console.log("")
-
-
-
-
-//dbsearch.run("PRAGMA journal_mode=WAL;")
-dbsearch.run("PRAGMA synchronous=OFF;")
-dbsearch.run("PRAGMA count_changes=OFF;")
-dbsearch.run("PRAGMA journal_mode=MEMORY;")
-dbsearch.run("PRAGMA temp_store=MEMORY;")
-
-
-
-
-
-
-
-
-
-process.on('message', (msg) => {
-  //console.log('Message from parent:', msg);
-  
-  if (msg.message_type == 'saveConnectionAndQueryForFile') {
-      saveConnectionAndQueryForFile(
-                                msg.fileId, 
-                                msg.fileType, 
-                                msg.size, 
-                                msg.fileName, 
-                                msg.fileType2);
-                                
-                                
-                                
-                                
-                                
-                                
-  } else if (msg.message_type == 'getRelatedDocuments') {
-        //console.log("got message getRelatedDocuments" );
-                getRelatedDocuments(msg.id, function(results) {
-                    
-                    //console.log("**getRelatedDocuments returned: " + results.length);
-                });
-                
-                
-                
-                
-  } else if (msg.message_type == 'childSetSharedGlobalVar') {
-        //console.log("  ... received, " + msg.nameOfVar + "[" + msg.index + "] = " + Object.keys(eval( "(" + msg.value + ")" )));
-        //console.log("  ... received, " + msg.nameOfVar + "[" + msg.index + "] = " +eval( "(" + msg.value + ")" ).get_v2  );
-        var ccc =  msg.nameOfVar + "['" + msg.index + "'] = (" + msg.value + ")";
-        
-        if (msg.nameOfVar == 'connections') {
-            //console.log(ccc);
-        }
-        eval(ccc );
-  
-
-  } else if (msg.message_type == 'childRunIndexer') {
-       //console.log("Set Index files timer");
-       setInterval(indexFilesFn ,numberOfSecondsIndexFilesInterval * 1000);
-       setInterval(indexFileRelationshipsFn ,numberOfSecondsIndexFilesInterval * 1000);
-  }
-
-
-
-  
-});
-
-
-                        
-                        
-                        
-
-
-let counter = 0;
-
-setInterval(() => {
-    try
-    {
-        var stmt = dbsearch.all(
-            "SELECT count(*) FROM queries;",
-            function(err, results) 
-            {
-                if (!err) 
-                {
-                    if( results.length > 0)  {
-
-                        process.send({  message_type:       "return_test_fork",
-                                        counter:    counter ++, sqlite: JSON.stringify(results[0],null,2)  });
-                    }
-                }
-            })
-    } catch(err) {
-                        process.send({  message_type:       "return_test_fork",
-                                        counter:    counter ++, sqlite: "Err: " + err  });
-        
-    }
-}, 1000);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-stmtInsertIntoRelationships = dbsearch.prepare( " insert into relationships " + 
-                                                    "    ( id, source_query_hash, target_query_hash, similar_row_count ) " +
-                                                    " values " + 
-                                                    "    (?,  ?,?,  ?);");
-
-stmtUpdateRelationships2 = dbsearch.prepare( " update relationships " + 
-                                                     "    set " +
-                                                     "        new_source = ?, new_target = ?, " +
-                                                     "        edited_source = ?, edited_target = ?, " + 
-                                                     "        deleted_source = ?, deleted_target = ?, " + 
-                                                     "        array_source = ?, array_target = ? " +
-                                                     " where " + 
-                                                     "     source_query_hash = ?    and     target_query_hash = ? ");
-
-
-stmtInsertIntoFiles = dbsearch.prepare(" insert into files " + 
-                            "    ( id, name, contents ) " +
-                            " values " + 
-                            "    (?,  ?,?);");
-
-stmtInsertIntoConnections = dbsearch.prepare(" insert into connections " + 
-                            "    ( id, name, driver, size, hash, type, fileName ) " +
-                            " values " + 
-                            "    (?,  ?,?,?,  ?,?,?);");
-stmtInsertInsertIntoQueries = dbsearch.prepare(" insert into queries " + 
-                            "    ( id, name, connection, driver, size, hash, fileName, type, definition, preview, similar_count ) " +
-                            " values " + 
-                            "    (?,  ?,?,?,  ?,?,?, ?,?,?, 1);");
-
-stmtUpdateRelatedDocumentCount = dbsearch.prepare(" update queries " + 
-                            "    set  similar_count = ?  " +
-                            " where  " + 
-                            "    id = ? ;");
-
-stmtUpdateRelationships = dbsearch.prepare(" update queries " + 
-                            "    set  related_status = ?  " +
-                            " where  " + 
-                            "    hash = ? ;");
-
-
+                            
+                            
+                            
+                            
+                            
                                                 
+//-----------------------------------------------------------------------------------------//
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//-----------------------------------------------------------------------------------------//
 function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileType2) {
     //console.log("... in saveConnectionAndQueryForFile:::: " + fileId)
     if (!fileName) {
@@ -400,6 +297,17 @@ function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileTyp
 
 
 
+//-----------------------------------------------------------------------------------------//
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//-----------------------------------------------------------------------------------------//
 function getRelatedDocuments(id, callback) {
         //console.log("In getRelatedDocuments" );
     var sql = "select  " +
@@ -458,14 +366,25 @@ function getRelatedDocuments(id, callback) {
                                         sqlite: "Err: " + err  });
         
     }
-     
-     
-     
 }
 
 
 
 
+
+
+
+//-----------------------------------------------------------------------------------------//
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//-----------------------------------------------------------------------------------------//
 function getRelatedDocumentHashes(  doc_hash,  callback  ) {
     if (inGetRelatedDocumentHashes) {
         return;
@@ -567,9 +486,17 @@ function getRelatedDocumentHashes(  doc_hash,  callback  ) {
 
 
 
-//
-// this indexes the queries for full text search
-//
+//-----------------------------------------------------------------------------------------//
+//                                    indexFilesFn                                         //
+//                                                                                         //
+// This indexes the queries for full text search                                           //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//-----------------------------------------------------------------------------------------//
 function indexFilesFn() {
     //console.log("Index files");
     //console.log("    inScan: " + inScan);
@@ -631,6 +558,17 @@ function indexFilesFn() {
         
         
         
+//-----------------------------------------------------------------------------------------//
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//-----------------------------------------------------------------------------------------//
 function getResult(source, connection, driver, definition, callback) {
     //console.log("var getResult = function(" + source + ", " + connection + ", " + driver + ", " + JSON.stringify(definition));
     if (stmt2 == null) {
@@ -792,6 +730,17 @@ function getResult(source, connection, driver, definition, callback) {
     
     
     
+//-----------------------------------------------------------------------------------------//
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//-----------------------------------------------------------------------------------------//
 function diffFn(lhs2, rhs2) {
     var differences = diff(lhs2, rhs2);
     if ((typeof differences !== 'undefined')) {
@@ -1015,3 +964,199 @@ function indexFileRelationshipsFn() {
 
 
 
+
+
+
+
+
+
+
+//-----------------------------------------------------------------------------------------//
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//-----------------------------------------------------------------------------------------//
+function outputToConsole(text) {
+    var c = console;
+    c.log(text);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+function sendTestheartbeat() {
+    let counter = 0;
+
+    setInterval(() => {
+        try
+        {
+            var stmt = dbsearch.all(
+                "SELECT count(*) FROM queries;",
+                function(err, results) 
+                {
+                    if (!err) 
+                    {
+                        if( results.length > 0)  {
+
+                            process.send({  message_type:       "return_test_fork",
+                                            counter:    counter ++, sqlite: JSON.stringify(results[0],null,2)  });
+                        }
+                    }
+                })
+        } catch(err) {
+                            process.send({  message_type:       "return_test_fork",
+                                            counter:    counter ++, sqlite: "Err: " + err  });
+            
+        }
+    }, 1000);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+//-----------------------------------------------------------------------------------------//
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//-----------------------------------------------------------------------------------------//
+function processMessagesFromMainProcess() {
+    process.on('message', (msg) => {
+      //console.log('Message from parent:', msg);
+      
+      if (msg.message_type == 'saveConnectionAndQueryForFile') {
+          saveConnectionAndQueryForFile(
+                                    msg.fileId, 
+                                    msg.fileType, 
+                                    msg.size, 
+                                    msg.fileName, 
+                                    msg.fileType2);
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+      } else if (msg.message_type == 'getRelatedDocuments') {
+            //console.log("got message getRelatedDocuments" );
+                    getRelatedDocuments(msg.id, function(results) {
+                        
+                        //console.log("**getRelatedDocuments returned: " + results.length);
+                    });
+                    
+                    
+                    
+                    
+      } else if (msg.message_type == 'childSetSharedGlobalVar') {
+            //console.log("  ... received, " + msg.nameOfVar + "[" + msg.index + "] = " + Object.keys(eval( "(" + msg.value + ")" )));
+            //console.log("  ... received, " + msg.nameOfVar + "[" + msg.index + "] = " +eval( "(" + msg.value + ")" ).get_v2  );
+            var ccc =  msg.nameOfVar + "['" + msg.index + "'] = (" + msg.value + ")";
+            
+            if (msg.nameOfVar == 'connections') {
+                //console.log(ccc);
+            }
+            eval(ccc );
+      
+
+      } else if (msg.message_type == 'childRunIndexer') {
+           //console.log("Set Index files timer");
+           setInterval(indexFilesFn ,numberOfSecondsIndexFilesInterval * 1000);
+           setInterval(indexFileRelationshipsFn ,numberOfSecondsIndexFilesInterval * 1000);
+      }
+    });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//-----------------------------------------------------------------------------------------//
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//-----------------------------------------------------------------------------------------//
+function testDiffFn() {
+    //console.log("Deep: " + diff)
+    lhs = [
+    {line: 2, value: "The cat sat on the mat"}
+    ,
+    {line: 1, value: "The cat sat on the mat2"}
+    ,
+    {line: 3, value: "The cat sat on the mat2"}
+        ]
+    ;
+     
+    rhs = [
+
+    {line: 1, value: "The cat sat on the mat2"}
+    ,
+    {line: 2, value: "The cat sat on the mat"}
+    ,
+    {line: 3, value: "The cat sat on the mat2"}
+    ,
+    {line: 4, value: "The cat sat on the mat2"}
+
+    ];
+     
+    //console.log("")
+    //console.log("")
+    //console.log("")
+    //console.log("----------------------------------------------------------------------------------------------")
+    //console.log(JSON.stringify(differences,null,2))
+    xdiff = diffFn(lhs, rhs);
+    //console.log("N: "  + JSON.stringify(xdiff.new,null,2))
+    //console.log("D: "  + JSON.stringify(xdiff.deleted,null,2))
+    //console.log("E: "  + JSON.stringify(xdiff.edited,null,2))
+    //console.log("A: "  + JSON.stringify(xdiff.array,null,2))
+    //console.log("----------------------------------------------------------------------------------------------")
+    //console.log("")
+    //console.log("")
+    //console.log("")
+}
