@@ -1,6 +1,6 @@
 <template>
   <div id="app2">
-      <img src='gosharedata_logo.PNG'></img>
+      <img src='visifile_logo.PNG'></img>
   </div>
 </template>
 

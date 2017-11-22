@@ -193,7 +193,7 @@ program
   .version('0.0.1')
   .option('-t, --type [type]', 'Add the specified type of app (client/server) [type]', 'client')
   .option('-p, --port [port]', 'Which port should I listen on? (default 80) [port]', parseInt)
-  .option('-h, --host [host]', 'Server address of the central host (default visifiles.com) [host]', 'visifiles.com')
+  .option('-h, --host [host]', 'Server address of the central host (default visifile.com) [host]', 'visifile.com')
   .option('-l, --locked [locked]', 'Allow server to be locked/unlocked on start up (default true) [locked]', 'true')
   .option('-s, --hostport [hostport]', 'Server port of the central host (default 80) [hostport]', parseInt)
   .parse(process.argv);
@@ -1029,7 +1029,7 @@ function canAccess(req,res) {
         return true;
     };
     res.writeHead(200, {'Content-Type': 'text/plain'});
-    res.end("Sorry but access to " + username + "'s data is not allowed. Please ask " + username + " to unlocked their VisiFiles account");
+    res.end("Sorry but access to " + username + "'s data is not allowed. Please ask " + username + " to unlocked their VisiFile account");
     return false;
 };
 
@@ -1364,14 +1364,14 @@ function getRoot(req, res) {
 		};
 		if (req.headers.host.toLowerCase().endsWith('gosharedata.com')) {
 		res.writeHead(301,
-			{Location: 'http://visifiles.com/gosharedata/index.html?time=' + new Date().getTime()}
+			{Location: 'http://visifile.com/gosharedata/index.html?time=' + new Date().getTime()}
 			);
 			res.end();
 			return;
 		};
-		if (req.headers.host.toLowerCase().endsWith('visifiles.com')) {
+		if (req.headers.host.toLowerCase().endsWith('visifile.com')) {
 		res.writeHead(301,
-			{Location: 'http://visifiles.com/gosharedata/index.html?time=' + new Date().getTime()}
+			{Location: 'http://visifile.com/gosharedata/index.html?time=' + new Date().getTime()}
 			);
 			res.end();
 			return;
