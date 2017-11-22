@@ -318,18 +318,12 @@ function setupVisifileParams() {
         outputToConsole('-------* Invalid system type: ' + typeOfSystem);
         process.exit();
     };
-    //console.log('-------* System type: ' + typeOfSystem);
-    //console.log('-------* Port: ' + port);
-    //console.log('-------* Central host: ' + centralHostAddress);
-    //console.log('-------* Central host port: ' + centralHostPort);
+    console.log('-------* System type: ' + typeOfSystem);
+    console.log('-------* Port: ' + port);
+    console.log('-------* Central host: ' + centralHostAddress);
+    console.log('-------* Central host port: ' + centralHostPort);
 
 
-    var storageFileName = 'data.json';
-	if (typeOfSystem == 'client') {
-		storageFileName = 'data.json';
-	} else if (typeOfSystem == 'server') {
-		storageFileName = 'server.json';
-	}
 	console.dir ( ip.address() );
 
 	//console.log('addr: '+ ip.address());
