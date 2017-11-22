@@ -2267,12 +2267,6 @@ function setupChildProcesses() {
 function startServices() {
     app.use(cors())
 
-    app.use("/public/aframe_fonts", express.static(path.join(__dirname, '../public/aframe_fonts')));
-    app.use(express.static(path.join(__dirname, '../public/')))
-    app.use(bodyParser.json()); // support json encoded bodies
-    app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
-
-
     //------------------------------------------------------------------------------
     // Show the default page for the different domains
     //------------------------------------------------------------------------------
@@ -2280,6 +2274,14 @@ function startServices() {
         console.log("app.get('/'");
     	return getRoot(req, res);
     })
+
+    app.use("/public/aframe_fonts", express.static(path.join(__dirname, '../public/aframe_fonts')));
+    app.use(express.static(path.join(__dirname, '../public/')))
+    app.use(bodyParser.json()); // support json encoded bodies
+    app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
+
+
+
 
 
     //------------------------------------------------------------------------------
