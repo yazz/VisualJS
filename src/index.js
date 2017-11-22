@@ -35,9 +35,7 @@ var dbhelper        = require('../public/dbhelper');
 var Excel           = require('exceljs');
 var compression     = require('compression')
 var crypto          = require('crypto');
-var PDFParser       = require2("pdf2json");
 var async           = require('async');
-var sqlite3         = require2('sqlite3');
 var dns             = require('dns');
 var url             = require('url');
 var net             = require('net');
@@ -222,6 +220,9 @@ outputToConsole('VisiFile node local hostname: ' + ip.address() + ' ')
 //console.log("-----------------------------------------------------------------------");
 //console.log(" ");
 
+
+var PDFParser       = require2("pdf2json");
+var sqlite3         = require2('sqlite3');
 
 username = os.userInfo().username.toLowerCase();
 dbsearch = new sqlite3.Database(username + '.vis');
