@@ -346,8 +346,8 @@ function mainProgram() {
     //------------------------------------------------------------
     // wait three seconds for stuff to initialize
     //------------------------------------------------------------
-    setTimeout(startServices, timeout);
-    //console.log('Creating timeout: ' + timeout);
+    startServices()
+    console.log('CstartServices()' );
 
 
 	}
@@ -1039,26 +1039,26 @@ function canAccess(req,res) {
 
 
 function getPort (cb) {
-
+    console.log('function getPort()')
     var server = net.createServer()
 
     server.listen(port, ip.address(), function (err) {
-        //console.log('trying port: ' + port + ' ')
+        console.log('trying port: ' + port + ' ')
         server.once('close', function () {
         })
         server.close()
     })
     server.on('error', function (err) {
-        //console.log('Couldnt connect on port ' + port + '...')
+        console.log('Couldnt connect on port ' + port + '...')
         if (port < portrange) {
             port = portrange
             };
-        //console.log('... trying port ' + port)
+        console.log('... trying port ' + port)
         portrange += 1
         getPort(cb)
     })
     server.on('listening', function (err) {
-            //console.log('Can connect on port ' + port + ' :) ')
+            console.log('Can connect on port ' + port + ' :) ')
             cb()
     })
 }
