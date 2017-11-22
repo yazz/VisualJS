@@ -205,7 +205,7 @@ if (!isNumber(port)) {
 
 outputToConsole('VisiFile node local hostname: ' + ip.address() + ' ')
 
-
+setupVisifileParams();
 
 //console.log(" ");
 //console.log("-----------------------------------------------------------------------");
@@ -253,8 +253,8 @@ async.map([
 
         "CREATE TABLE IF NOT EXISTS intranet_client_connects (id TEXT, internal_host TEXT, internal_port INTEGER, public_ip TEXT, via TEXT, public_host TEXT, user_name TEXT, client_user_name TEXT, when_connected INTEGER);"
 
-            ], 
-            
+            ],
+
     function(a,b){
         try {
             dbsearch.serialize(function()
@@ -266,8 +266,8 @@ async.map([
             //console.log(err);
             return b(null,a);
         }
-    }, 
-    
+    },
+
     function(err, results){
         //console.log("async test ");
         //console.log("    err= " + JSON.stringify(err,null,2));
@@ -307,13 +307,7 @@ async.map([
 
 
 
-
-
-
-
-
-
-function mainProgram() {
+function setupVisifileParams() {
     typeOfSystem = program.type;
     centralHostAddress = program.host;
     centralHostPort = program.hostport;
@@ -341,8 +335,18 @@ function mainProgram() {
 	//console.log('addr: '+ ip.address());
 	hostaddress = ip.address();
 
+	}
 
 
+
+
+
+
+
+
+
+
+function mainProgram() {
 
 
     //------------------------------------------------------------
@@ -2448,7 +2452,7 @@ function startServices() {
 
 
     setupChildProcesses();
-    
+
     if (typeOfSystem == 'client') {
         setInterval(aliveCheckFn ,numberOfSecondsAliveCheck * 1000);
 
