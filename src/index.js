@@ -2309,6 +2309,7 @@ function startServices() {
 
 
     app.ws('/websocket', function(ws, req) {
+        console.log("app.get('/websocket'");
         return websocketFn(ws, req)
     });
 
