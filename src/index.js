@@ -1400,8 +1400,24 @@ function getRoot(req, res) {
 
 
 function downloadWebDocument(req, res) {
-    res.writeHead(200, {'Content-Type': 'text/plain'});
-    res.end(JSON.stringify({  result: "<div>No file selected</div>"}));
+    //mammoth.convertToHtml({path: "C:\\projects\\gosharedata\\readme.doc"})
+    //mammoth.convertToHtml({path: "Security in Office 365 Whitepaper.docx"})
+    var stmt = dbsearch.all("select contents from files where name = '" + req.query.id + "'", function(err, rows) {
+        if (!err) {
+                if (rows.length > 0) {
+                        mammoth.convertToHtml({buffer: new Buffer(rows[0].contents, 'binary')})
+                        .then(function(result){
+                            var html = result.value; // The generated HTML
+                            var messages = result.messages; // Any messages, such as warnings during conversion
+                            
+                            res.writeHead(200, {'Content-Type': 'text/plain'});
+                            res.end(JSON.stringify({  result: html}));
+                        })
+                        .done();
+                };
+        };
+    });
+
 }
 
 
