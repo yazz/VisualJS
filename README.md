@@ -1,9 +1,6 @@
 <img src='http://visifile.com/visifile_logo.PNG' />
 
-### Explore the History of your documents in Real Time
-
-
-## Click here for demo http://139.162.228.5/
+### Explore the History of your documents in Real Time. Demo here: http://139.162.228.5/
 
 
 
@@ -15,7 +12,7 @@
     <img src='http://visifiles.com/desktop.PNG' />
     </p>
 </div>
-VisiFile is a desktop program that scans your documents and shows all the relationships . The document supported are:
+VisiFile is a desktop program that scans your documents and shows the history of all your documents . The document supported are:
 
 * MySQL
 * Oracle
@@ -38,7 +35,6 @@ VisiFile is a desktop program that scans your documents and shows all the relati
     <img src='http://gosharedata.com/gosharedata/images/img_1514.jpg' />
     </p>
 </div>
-There is a commercial version baed on the Raspberry PI which you can buy at http://gosharedata.com/gosharedata. However, if you prefer to build it yourself then you can create (and sell!) your own Raspberry PI version. It uses an MIT license so there are no restrictions
 
 
 
