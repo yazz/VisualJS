@@ -82,7 +82,7 @@ var inCheck = 0;
                             generated = true;
                         }
                         if (returned.allServers.length == 0) {
-                            $("#local_machine_in_intranet").html(   '<div style=" font-family: helvetica;">No GoShareData servers on your intranet</div>');
+                            $("#local_machine_in_intranet").html(   '<div style=" font-family: helvetica;">No VisiFile servers on your intranet</div>');
                         } else {
                             $("#local_machine_in_intranet").html('');
                         };
