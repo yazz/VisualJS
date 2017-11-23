@@ -13,7 +13,7 @@
     </p>
 </div>
 VisiFile is a desktop program that scans your documents and shows the history of all your documents in real time. The document supported are:
-<br>
+<br><br>
 
 * MySQL
 * Oracle
