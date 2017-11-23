@@ -1399,6 +1399,10 @@ function getRoot(req, res) {
 
 
 
+function downloadWebDocument(req, res) {
+    res.writeHead(200, {'Content-Type': 'text/plain'});
+    res.end(JSON.stringify({  result: "<div>No file selected</div>"}));
+}
 
 
 
@@ -2292,6 +2296,13 @@ function startServices() {
     });
 
 
+    //------------------------------------------------------------------------------
+    // Download web documents to the browser
+    //------------------------------------------------------------------------------
+    app.get('/get_web_document', function (req, res) {
+    	 	return downloadWebDocument(req,res);
+    });
+    
 
     //------------------------------------------------------------------------------
     // test_firewall
@@ -2311,7 +2322,7 @@ function startServices() {
 
 
     app.ws('/websocket', function(ws, req) {
-        console.log("app.get('/websocket'");
+        //console.log("app.get('/websocket'");
         return websocketFn(ws, req)
     });
 

@@ -62,6 +62,10 @@ module.exports = {
         target: 'http://' + hostaddress,
         secure: false
       },
+      '/get_web_document': {
+        target: 'http://' + hostaddress,
+        secure: false
+      },
       '/get_related_documents': {
         target: 'http://' + hostaddress,
         secure: false

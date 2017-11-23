@@ -669,7 +669,19 @@ function setupVRVuePane() {
                             var queryFile = "gsd_" + qf;
                                 //alert(queryFile);
                                 //window.open("http://"+window.location.hostname + ":" + window.location.port +  '/docs2/' + queryFile , '_blank');
-                                document.getElementById("popup").style.zIndex = '10000';
+                                $.ajax({
+                                    url: '/get_web_document',
+                                    data: {id: queryFile},
+                                    success: function(data) {
+                                        var ret = eval("(" + data + ")")
+                                        document.getElementById("popup").style.zIndex = '10000';
+                                        document.getElementById("popup").innerHTML = ret.result;
+                                        //alert(JSON.stringify(ret.result,null,2))
+                                    },
+                                    error: function(jqXHR, textStatus, errorThrown) {
+                                      alert('error ' + textStatus + ' : ' +  errorThrown);
+                                    }
+                                });
                             };
                     });
                 }
