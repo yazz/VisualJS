@@ -193,13 +193,24 @@
 									<a-animation begin="mouseenter" attribute="rotation"
 												to="0 0 3" dur="80" direction="alternate"  repeat="3"></a-animation>
                     </a-entity>
+                    <a-entity   id="open_web"
+                                geometry="primitive: plane; width:.70;height: .70;  " 
+                                material="color: darkblue;"
+                                position='0.75 0 .2'
+                                mixin="RobotoFont"
+                                open_web=''
+                                text='color: white; align: center; value: Open web; width: 3;'
+                                >
+									<a-animation begin="mouseenter" attribute="rotation"
+												to="0 0 3" dur="80" direction="alternate"  repeat="3"></a-animation>
+                    </a-entity>
                     <a-entity   id="open_doc"
                                 geometry="primitive: plane; width:.70;height: .70;  " 
                                 material="color: gray;"
-                                position='0.75 0 .2'
+                                position='1.5 0 .2'
                                 mixin="RobotoFont"
                                 open_file=''
-                                text='color: white; align: center; value: Open; width: 3;'
+                                text='color: white; align: center; value: Open file; width: 3;'
                                 >
 									<a-animation begin="mouseenter" attribute="rotation"
 												to="0 0 3" dur="80" direction="alternate"  repeat="3"></a-animation>
@@ -216,7 +227,7 @@
                     <a-entity   id="view_related_docs"
                                 geometry="primitive: plane; width:.70;height: .70;  " 
                                 material="color: brown;"
-                                v-bind:position='0.75 * 2 + " 0 .2"'
+                                v-bind:position='0.75 * 3 + " 0 .2"'
                                 mixin="RobotoFont"
                                 related_files='' 
                                 text='color: white; align: center; value: Related; width: 3;'
@@ -229,7 +240,7 @@
                     <a-entity   id="view_doc_related_graph"
                                 geometry="primitive: plane; width:.70;height: .70;  " 
                                 material="color: green;"
-                                v-bind:position='0.75 * 3 + " 0 .2"'
+                                v-bind:position='0.75 * 4 + " 0 .2"'
                                 mixin="RobotoFont"
                                 v-bind:show_history_info='"queryId: "  + get_viewed_query_id() + ";"' 
                                 v-bind:text='"color: white; align: center; value: History; width: 3;"'
@@ -241,7 +252,7 @@
                     <a-entity   id="view_doc_info"
                                 geometry="primitive: plane; width:.70;height: .70;  " 
                                 material="color: gray;"
-                                v-bind:position='0.75 * 4 + " 0 .2"'
+                                v-bind:position='0.75 * 5 + " 0 .2"'
                                 mixin="RobotoFont"
                                 v-bind:show_query_info='"queryId: "  + get_viewed_query_id() + ";"' 
                                 v-bind:text='"color: white; align: center; value: Info; width: 3;"'
@@ -254,7 +265,7 @@
                     <a-entity   id="view_doc_fun"
                                 geometry="primitive: plane; width:.70;height: .70;  " 
                                 material="color: blue;"
-                                v-bind:position='0.75 * 5 + " 0 .2"'
+                                v-bind:position='0.75 * 6 + " 0 .2"'
                                 mixin="RobotoFont"
                                 v-bind:show_related='"queryId: "  + get_viewed_query_id() + ";"' 
                                 v-bind:text='"color: white; align: center; value: Fun; width: 3;"'
@@ -266,7 +277,7 @@
                     <a-entity   id="close_doc"
                                 geometry="primitive: plane; width:.70;height: .70;  " 
                                 material="color: black;"
-                                v-bind:position='0.75 * 6 + " 0 .2"'
+                                v-bind:position='0.75 * 7 + " 0 .2"'
                                 mixin="RobotoFont"
                                 v-bind:close_item_menu='"queryId: "  + get_viewed_query_id() + ";"' 
                                 v-bind:text='"color: white; align: center; value: Close; width: 3;"'

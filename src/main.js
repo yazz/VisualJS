@@ -656,6 +656,26 @@ function setupVRVuePane() {
             
             
         AFRAME.registerComponent(
+            'open_web', {
+                init: function () {
+                    var self = this;
+                    this.el.addEventListener('click', function (evt) {
+                        var qf = store.state.viewed_query_file;
+                        if (qf == null) {
+                            return;
+                        }
+                    
+                        if (qf && (qf.length > 0)) {        
+                            var queryFile = "gsd_" + qf;
+                                //alert(queryFile);
+                                //window.open("http://"+window.location.hostname + ":" + window.location.port +  '/docs2/' + queryFile , '_blank');
+                                document.getElementById("popup").style.zIndex = '10000';
+                            };
+                    });
+                }
+        });
+
+        AFRAME.registerComponent(
             'open_file', {
                 init: function () {
                     var self = this;
@@ -673,7 +693,6 @@ function setupVRVuePane() {
                     });
                 }
         });
-
 
 
         AFRAME.registerComponent(
