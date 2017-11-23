@@ -1,4 +1,4 @@
-<img src='http://visifile.com/visifiles_logo.PNG' />
+<img src='http://visifile.com/visifile_logo.PNG' />
 
 
 ## Click here for demo http://139.162.228.5/
