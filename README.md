@@ -1,4 +1,4 @@
-<img src='http://visifiles.com/public/visifiles_log.PNG' />
+<img src='http://visifile.com/public/visifiles_logo.PNG' />
 
 
 
