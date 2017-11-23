@@ -12,16 +12,16 @@
     <img src='http://visifiles.com/desktop.PNG' />
     </p>
 </div>
-VisiFile is a desktop program that scans your documents and shows the history of all your documents in real time. The document supported are:
+VisiFile is a desktop program that scans your documents and shows the history of all your documents in real time. It supports:
 <br><br>
 
+* Excel
+* Word
+* CSV
 * MySQL
 * Oracle
 * Postgres
 * MariaDB
-* Excel
-* Word
-* CSV
 * SqLite
 * PDF
 * GTLF 3d 
