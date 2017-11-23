@@ -1,9 +1,9 @@
-<img src='http://visifiles.com/visifiles_logo.PNG' />
+<img src='http://visifiles.com/public/visifiles_log.PNG' />
 
 
 
 ## Click here for demo http://139.162.228.5/
-    See how all your documents are related
+    Explore the History of your documents in Real Time
 
 
 
