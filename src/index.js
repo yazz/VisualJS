@@ -1397,16 +1397,15 @@ function getRoot(req, res) {
 }
 
 
-
-
 function downloadWebDocument(req, res) {
-    //mammoth.convertToHtml({path: "C:\\projects\\gosharedata\\readme.doc"})
     //mammoth.convertToHtml({path: "Security in Office 365 Whitepaper.docx"})
     var stmt = dbsearch.all("select contents from files where name = '" + req.query.id + "'", function(err, rows) {
         if (!err) {
                 if (rows.length > 0) {
                     if (req.query.id.toLowerCase().endsWith(".docx")) {
-                        mammoth.convertToHtml({buffer: new Buffer(rows[0].contents, 'binary')})
+                        var buffer = new Buffer(rows[0].contents, 'binary');
+                        
+                        mammoth.convertToHtml({buffer: buffer})
                         .then(function(result){
                             var html = result.value; // The generated HTML
                             var messages = result.messages; // Any messages, such as warnings during conversion
@@ -1415,6 +1414,21 @@ function downloadWebDocument(req, res) {
                             res.end(JSON.stringify({  result: html}));
                         })
                         .done();
+                    } else if (req.query.id.toLowerCase().endsWith(".xlsx")) {
+                        try {
+                            var buffer = new Buffer(rows[0].contents, 'binary');
+                            var workbook = XLSX.read(buffer, {type:"buffer"})
+                            var sheetname = Object.keys(workbook['Sheets'])[0]
+                            var html =  XLSX.utils.sheet_to_html(workbook['Sheets'][sheetname])
+                            html = html.replace("<html><body>","").replace("</body></html>","");
+                            
+                                                
+                            res.writeHead(200, {'Content-Type': 'text/plain'});
+                            res.end(JSON.stringify({  result: html}));
+                        } catch(error) {
+                            res.writeHead(200, {'Content-Type': 'text/plain'});
+                            res.end(JSON.stringify({  result: "<div>Error: " + error + "</div>"}));
+                        }
                     } else {
                             res.writeHead(200, {'Content-Type': 'text/plain'});
                             res.end(JSON.stringify({  result: "<div>Unknown file type</div>"}));
@@ -2554,3 +2568,5 @@ function startServices() {
 
 
 }
+
+
