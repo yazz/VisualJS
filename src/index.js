@@ -1405,6 +1405,7 @@ function downloadWebDocument(req, res) {
     var stmt = dbsearch.all("select contents from files where name = '" + req.query.id + "'", function(err, rows) {
         if (!err) {
                 if (rows.length > 0) {
+                    if (req.query.id.toLowerCase().endsWith(".docx")) {
                         mammoth.convertToHtml({buffer: new Buffer(rows[0].contents, 'binary')})
                         .then(function(result){
                             var html = result.value; // The generated HTML
@@ -1414,6 +1415,10 @@ function downloadWebDocument(req, res) {
                             res.end(JSON.stringify({  result: html}));
                         })
                         .done();
+                    } else {
+                            res.writeHead(200, {'Content-Type': 'text/plain'});
+                            res.end(JSON.stringify({  result: "<div>Unknown file type</div>"}));
+                    }
                 };
         };
     });
