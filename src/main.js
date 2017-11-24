@@ -675,7 +675,7 @@ function setupVRVuePane() {
                                     success: function(data) {
                                         var ret = eval("(" + data + ")")
                                         document.getElementById("popup").style.zIndex = '10000';
-                                        document.getElementById("popup").innerHTML = ret.result;
+                                        document.getElementById("popup_content").innerHTML = ret.result;
                                         //alert(JSON.stringify(ret.result,null,2))
                                     },
                                     error: function(jqXHR, textStatus, errorThrown) {

@@ -99,12 +99,18 @@
         
         
     <div    id='popup'
-            style='position: absolute; margin:0px; padding: 5%;  border: 0px;  width: 50%;  height:80%;  left: 25%; top: 0%; z-index: -10000; background-color: white;color: black;overflow-y: scroll; ' 
-            onclick='document.getElementById("popup").style.zIndex = "-1";'
-            >
-        
+            style='position: absolute; margin:0px; padding: 0%;  border: 0px;  width: 100%;  height:100%;  left: 0%; top: 0%; z-index: -10000;' 
+            onclick='document.getElementById("popup").style.zIndex = "-1";'>
+                
+                <div    id='popup_content'
+                        style='position: absolute; margin:0px; padding: 5%;  border: 0px;  width: 50%;  height:80%;  left: 25%; top: 0%; ; background-color: white;color: black;overflow-y: scroll; z-index: 1000;' 
+                         onclick="dontBubble(event, this);">
+                </div>
     </div>
 
+    
+    
+    
     <form   action="/file_upload"
             class="dropzone"
             id="my-awesome-dropzone" 
@@ -119,6 +125,14 @@
       
       
     <script type="text/javascript" >
+    function dontBubble(event, element) {
+      // Don't propogate the event to the document
+      if (event.stopPropagation) {
+          event.stopPropagation();   // W3C model
+      } else {
+          event.cancelBubble = true; // IE model
+      }
+    }
     // --------------------------------------------------------------------
     // get the query  result
     // --------------------------------------------------------------------
