@@ -12,7 +12,7 @@
     <img src='http://visifiles.com/desktop.PNG' />
     </p>
 </div>
-VisiFile is a desktop program that scans your documents and shows the history of all your documents in real time. It supports:
+VisiFile is a desktop program that scans your PC and shows a map of all your documents. It supports:
 <br><br>
 
 * Excel
