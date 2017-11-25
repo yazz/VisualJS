@@ -1,6 +1,6 @@
 <img src='http://visifile.com/visifile_logo.PNG' />
 
-### Explore your Document History in Real Time. Demo here: http://139.162.228.5/
+### X-Ray Vision for your Documents! Demo here: http://139.162.228.5/
 
 
 
