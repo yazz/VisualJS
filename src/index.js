@@ -1375,6 +1375,13 @@ function getRoot(req, res) {
 			res.end();
 			return;
 		};
+		if (req.headers.host.toLowerCase().endsWith('visifiles.com')) {
+		res.writeHead(301,
+			{Location: 'http://visifile.com/gosharedata/index.html?time=' + new Date().getTime()}
+			);
+			res.end();
+			return;
+		};
 	};
 
 	if (!init_drivers) {
