@@ -1397,6 +1397,8 @@ function getRoot(req, res) {
 }
 
 
+
+
 function downloadWebDocument(req, res) {
     //mammoth.convertToHtml({path: "Security in Office 365 Whitepaper.docx"})
     var stmt = dbsearch.all("select contents from files where name = '" + req.query.id + "'", function(err, rows) {
@@ -1429,6 +1431,57 @@ function downloadWebDocument(req, res) {
                             res.writeHead(200, {'Content-Type': 'text/plain'});
                             res.end(JSON.stringify({  result: "<div>Error: " + error + "</div>"}));
                         }
+                    } else if (req.query.id.toLowerCase().endsWith(".csv")) {
+                        try {
+                            console.log('1')
+                            html = "<table>";
+                            console.log('2')
+                            console.log('3')
+                                var contents = rows[0].contents.toString()
+                                var delim = ',';
+                                var numCommas = ((contents.match(new RegExp(",", "g")) || []).length);
+                                var numSemi = ((contents.match(new RegExp(";", "g")) || []).length);
+                                var numColons = ((contents.match(new RegExp(":", "g")) || []).length);
+                                var numPipes = ((contents.match(new RegExp("[|]", "g")) || []).length);
+                                    
+                                var maxDelim = numCommas;
+                                if (numSemi > maxDelim) {
+                                    delim = ';';
+                                    maxDelim = numSemi;
+                                    };
+                                if (numColons > maxDelim) {
+                                    delim = ':';
+                                    maxDelim = numColons;
+                                    };
+                                if (numPipes > maxDelim) {
+                                    delim = '|';
+                                    maxDelim = numPipes;
+                                    };
+                                csv
+                                 .fromString(contents, { headers: false, delimiter: delim })
+                                 .on("data", function(data){
+                                    html += "<tr>";
+                                    for (var yy= 0; yy < data.length; yy++) {
+                                        html += "<td>" + data[yy] + "</td>";
+                                    }
+                                    html += "</tr>";
+
+                                }).on("end", function(){
+                                    html += "</table>";
+                                    res.writeHead(200, {'Content-Type': 'text/plain'});
+                                    res.end(JSON.stringify({  result: html}));
+                                    })
+                                .on('error', function(error) {
+                                    res.writeHead(200, {'Content-Type': 'text/plain'});
+                                    res.end(JSON.stringify({  result: "<div>Error: " + error + "</div>"}));
+                                });
+                            
+                        }
+                        catch(err) {
+                            res.writeHead(200, {'Content-Type': 'text/plain'});
+                            res.end(JSON.stringify({  result: "<div>Big Error: " + err + "</div>"}));
+                        }                            
+                                                
                     } else {
                             res.writeHead(200, {'Content-Type': 'text/plain'});
                             res.end(JSON.stringify({  result: "<div>Unknown file type</div>"}));
@@ -1438,7 +1491,6 @@ function downloadWebDocument(req, res) {
     });
 
 }
-
 
 
 
