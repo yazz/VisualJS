@@ -1672,7 +1672,7 @@ function websocketFn(ws, req) {
             //return
             //console.log("     Server recieved message server_get_all_queries");
             sendToBrowserViaWebSocket(ws, {   message_type: "client_get_all_queries"  });
-            //zzz
+            
             var stmt = dbsearch.all("select * from queries",
                 function(err, results) {
                     for (var i=0; i < results.length;i ++){
@@ -2375,7 +2375,8 @@ function startServices() {
     	return getRoot(req, res);
     })
 
-    app.use("/public/files", express.static(process.cwd() + '\\'));
+    app.use("/files", express.static(process.cwd() + '/files/'));
+    
     app.use("/public/aframe_fonts", express.static(path.join(__dirname, '../public/aframe_fonts')));
     app.use('/viewer', express.static(process.cwd() + '/node-viewerjs/release'));
     app.use(express.static(path.join(__dirname, '../public/')))
