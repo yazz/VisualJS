@@ -98,6 +98,8 @@ path.join(__dirname, '../public/\aframe_fonts/SourceCodePro.fnt')
 path.join(__dirname, '../public/\aframe_fonts/SourceCodePro.png')
 
 
+if (!fs.existsSync(process.cwd() + "/node-viewerjs") ) {
+    copyFolderRecursiveSync(path.join(__dirname, "../node-viewerjs")  , process.cwd() ); }
 
 if (!fs.existsSync(process.cwd() + "/node_modules") ) {
     copyFolderRecursiveSync(path.join(__dirname, "../node_modules")  , process.cwd() ); }
@@ -2373,7 +2375,9 @@ function startServices() {
     	return getRoot(req, res);
     })
 
+    app.use("/public/files", express.static(process.cwd() + '\\'));
     app.use("/public/aframe_fonts", express.static(path.join(__dirname, '../public/aframe_fonts')));
+    app.use('/viewer', express.static(process.cwd() + '/node-viewerjs/release'));
     app.use(express.static(path.join(__dirname, '../public/')))
     app.use(bodyParser.json()); // support json encoded bodies
     app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies

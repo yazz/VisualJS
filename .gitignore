@@ -39,6 +39,15 @@
 
 
 
+!/node-viewerjs/
+!/node-viewerjs/*
+!/node-viewerjs/*/*
+!/node-viewerjs/*/*/*
+!/node-viewerjs/*/*/*/*
+!/node-viewerjs/*/*/*/*/*
+
+
+
 !/node_pi/
 !/node_pi/*
 

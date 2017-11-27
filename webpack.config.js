@@ -74,6 +74,10 @@ module.exports = {
         target: 'http://' + hostaddress,
         secure: false
       },
+      '/viewer': {
+        target: 'http://' + hostaddress,
+        secure: false
+      },
       '/getqueryresult': {
         target: 'http://' + hostaddress,
         secure: false
