@@ -667,6 +667,14 @@ function setupVRVuePane() {
                     
                         if (qf && (qf.length > 0)) {        
                             var queryFile = "gsd_" + qf;
+                            if (qf.toLowerCase().endsWith(".pdf")) {
+                                document.getElementById("popup").style.zIndex = '10000';
+                                var ourl =  "<iframe width='100%' height='100%' " + 
+                                            " src='http://" + window.location.hostname + ":" + window.location.port +  "/viewer/#http://" + 
+                                            window.location.hostname + ":" + window.location.port +  "/files/a.pdf'><iframe>"
+                                document.getElementById("popup_content").innerHTML = ourl;
+                                //alert(ourl);
+                            } else {
                                 //alert(queryFile);
                                 //window.open("http://"+window.location.hostname + ":" + window.location.port +  '/docs2/' + queryFile , '_blank');
                                 $.ajax({
@@ -683,6 +691,7 @@ function setupVRVuePane() {
                                     }
                                 });
                             };
+                        }
                     });
                 }
         });

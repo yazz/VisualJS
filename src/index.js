@@ -186,6 +186,7 @@ var forkedIndexer;
 
 app.use(compression())
 mkdirp.sync("uploads");
+mkdirp.sync("files");
 
 
 
@@ -2078,6 +2079,26 @@ function getqueryresultFn(req, res) {
                                         newres.end(JSON.stringify(result));
                                     }
                                  );
+                                 
+                                 
+                        console.log('trying to save pdf: ');
+                        var stmt = dbsearch.all("select contents from files,queries where files.name = ('gsd_' || queries.hash || '.pdf' ) and queries.id = '" + queryData2.source + "'", function(err, rows) {
+                            console.log('trying to save pdf 2: ' + queryData2.source);
+                                if (!err) {
+                                    console.log('trying to save pdf 3: ');
+                                    if (rows.length > 0) {
+                                        console.log('trying to save pdf 4: ');
+                                        console.log('trying to save pdf 5: ');
+                                        var buffer = new Buffer(rows[0].contents, 'binary');
+                                        
+                                        fs.writeFile(process.cwd() + "/files/a.pdf", buffer,  "binary",
+                                            function(err) { 
+                                                console.log('trying to save pdf 6: ');
+                                            
+                                            });
+                                    }
+                                }
+                        })
 					} else {
 						//console.log('query driver not found: ' + connections[queryData.source]);
 							res.writeHead(200, {'Content-Type': 'text/plain'});
