@@ -1393,12 +1393,27 @@ window.sqlGetQueryById = function(id) {
     return rows[0];
 }
 
+
+
 var sqlGetQueryUiByIdCompile = alasql.compile('select * from queries_ui where id = ?');
 window.sqlGetQueryUiById = function(id) {
     var rows = sqlGetQueryUiByIdCompile([id]);
     if (rows.length == 0 ) {return null};
     return rows[0];
 }
+
+
+var sqlGetFullQueryUiByIdCompile = alasql.compile(' select  ' + 
+                                                  '     *, ' + 
+                                                  '     getX(screen_index, visible) as x_pos, getY(screen_index, visible) as y_pos  ' + 
+                                                  ' from  ' + 
+                                                  '     queries_ui where id = ?');
+window.sqlGetFullQueryUiById = function(id) {
+    var rows = sqlGetFullQueryUiByIdCompile([id]);
+    if (rows.length == 0 ) {return null};
+    return rows[0];
+}
+
 
 
 function setupWebSocket(host, port)

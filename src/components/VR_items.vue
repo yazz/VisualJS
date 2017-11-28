@@ -164,12 +164,95 @@
                 
                 
                 
+                <a-entity
+                    id='query_menu2'
+                    geometry="primitive: plane; width:35;height: 35; " 
+                    material="color: lightgray; opacity: .5;"
+                    v-bind:position='(((is_visible(get_viewed_query_id()) && is_query_selected())?get_full_query_ui_property(get_viewed_query_id(),"x_pos")-6:-100) + 4.64) + " " + (get_full_query_ui_property(get_viewed_query_id(),"y_pos")  + 0.85) + " -.01"'
+                >
+                	   <a-entity    position='.73 -.75 .02'
+                                    v-bind:id='"selected_item"'
+									geometry="primitive: plane; width:.7;height: .7;"
+                                    v-bind:material='get_viewed_query_id()?"src: driver_icons/" + get_driver_name(get_viewed_query_id()) + ".jpg;":false'
+                                >
+						</a-entity>
+                    
+
+                    
+                    
+                    
+                    
+                    <a-entity   id="open_web"
+                                geometry="primitive: plane; width:.70;height: .70;  " 
+                                material="color: darkblue;"
+                                position='0.75 0 .02'
+                                mixin="RobotoFont"
+                                open_web=''
+                                text='color: white; align: center; value: Open web; width: 3;'
+                                ><a-animation begin="mouseenter" attribute="rotation"
+												to="0 0 3" dur="80" direction="alternate"  repeat="3"></a-animation></a-entity>
+
+                                                
+                                                
+                    <a-entity   id="view_related_docs"
+                                geometry="primitive: plane; width:.70;height: .70;  " 
+                                material="color: brown;"
+                                v-bind:position='0.75 * 2 + " 0 .02"'
+                                mixin="RobotoFont"
+                                related_files='' 
+                                text='color: white; align: center; value: Related; width: 3;'
+                                ><a-animation begin="mouseenter" attribute="rotation"
+												to="0 0 3" dur="80" direction="alternate"  repeat="3"></a-animation></a-entity>
+                                                
+                                                
+                                                
+                    <a-entity   id="view_doc_info"
+                                geometry="primitive: plane; width:.70;height: .70;  " 
+                                material="color: gray;"
+                                v-bind:position='0.75 * 3 + " 0 .02"'
+                                mixin="RobotoFont"
+                                v-bind:show_query_info='"queryId: "  + get_viewed_query_id() + ";"' 
+                                v-bind:text='"color: white; align: center; value: Info; width: 3;"'
+                                ><a-animation begin="mouseenter" attribute="rotation"
+												to="0 0 3" dur="80" direction="alternate"  repeat="3"></a-animation></a-entity>
+
+                    <a-entity   id="open_doc"
+                                geometry="primitive: plane; width:.70;height: .70;  " 
+                                material="color: gray;"
+                                v-bind:position='0.75 * 4 + " 0 .02"'
+                                mixin="RobotoFont"
+                                open_file=''
+                                text='color: white; align: center; value: Open file; width: 3;'
+                                ><a-animation begin="mouseenter" attribute="rotation"
+												to="0 0 3" dur="80" direction="alternate"  repeat="3"></a-animation></a-entity>
+                                                
+                                                
+                                                
+
+                    <a-entity   id="close_doc2"
+                                geometry="primitive: plane; width:.70;height: .70;  " 
+                                material="color: black;"
+                                v-bind:position='0.75 * 5 + " 0 .02"'
+                                mixin="RobotoFont"
+                                v-bind:close_item_menu='"queryId: "  + get_viewed_query_id() + ";"' 
+                                v-bind:text='"color: white; align: center; value: Close; width: 3;"'
+                                ><a-animation begin="mouseenter" attribute="rotation"
+												to="0 0 3" dur="80" direction="alternate"  repeat="3"></a-animation></a-entity>
+
+
+                </a-entity>
+                
+                
+                
+                
+                
+                
                 
                 <a-entity
                     id='query_menu'
                     geometry="primitive: plane; width:35;height: 35; " 
                     material="color: lightgray; opacity: .98;"
-                    v-bind:position='((is_visible(get_viewed_query_id()) && is_query_selected())?-4.5:-100) + " 2.4 -.01"'
+                    v-bind:position='((is_visible(get_viewed_query_id()) && is_query_selected())?-100:-100) + " 2.4 -.01"'
                 >
                 	   <a-entity    position='.3 -1.07 .2'
                                     v-bind:id='"selected_item"'
@@ -179,31 +262,6 @@
 						</a-entity>
                 
                 
-                
-                
-                
-                    <a-entity   id="view_doc"
-                                geometry="primitive: plane; width:.70;height: .70; " 
-                                material="color: green;"
-                                v-bind:position='0.75 * 0 + " 0 .2"'
-                                mixin="RobotoFont"
-                                view='' 
-                                v-bind:text='get_viewed_query_id()?"color: white; align: center; value: Refresh; width: 3;":false'
-                                >
-									<a-animation begin="mouseenter" attribute="rotation"
-												to="0 0 3" dur="80" direction="alternate"  repeat="3"></a-animation>
-                    </a-entity>
-                    <a-entity   id="open_web"
-                                geometry="primitive: plane; width:.70;height: .70;  " 
-                                material="color: darkblue;"
-                                position='0.75 0 .2'
-                                mixin="RobotoFont"
-                                open_web=''
-                                text='color: white; align: center; value: Open web; width: 3;'
-                                >
-									<a-animation begin="mouseenter" attribute="rotation"
-												to="0 0 3" dur="80" direction="alternate"  repeat="3"></a-animation>
-                    </a-entity>
                     <a-entity   id="open_doc"
                                 geometry="primitive: plane; width:.70;height: .70;  " 
                                 material="color: gray;"
@@ -211,26 +269,6 @@
                                 mixin="RobotoFont"
                                 open_file=''
                                 text='color: white; align: center; value: Open file; width: 3;'
-                                >
-									<a-animation begin="mouseenter" attribute="rotation"
-												to="0 0 3" dur="80" direction="alternate"  repeat="3"></a-animation>
-                    </a-entity>
-
-
-
-
-
-
-
-
-
-                    <a-entity   id="view_related_docs"
-                                geometry="primitive: plane; width:.70;height: .70;  " 
-                                material="color: brown;"
-                                v-bind:position='0.75 * 3 + " 0 .2"'
-                                mixin="RobotoFont"
-                                related_files='' 
-                                text='color: white; align: center; value: Related; width: 3;'
                                 >
 									<a-animation begin="mouseenter" attribute="rotation"
 												to="0 0 3" dur="80" direction="alternate"  repeat="3"></a-animation>
@@ -249,17 +287,6 @@
 												to="0 0 3" dur="80" direction="alternate"  repeat="3"></a-animation>
                     </a-entity>
 
-                    <a-entity   id="view_doc_info"
-                                geometry="primitive: plane; width:.70;height: .70;  " 
-                                material="color: gray;"
-                                v-bind:position='0.75 * 5 + " 0 .2"'
-                                mixin="RobotoFont"
-                                v-bind:show_query_info='"queryId: "  + get_viewed_query_id() + ";"' 
-                                v-bind:text='"color: white; align: center; value: Info; width: 3;"'
-                                >
-									<a-animation begin="mouseenter" attribute="rotation"
-												to="0 0 3" dur="80" direction="alternate"  repeat="3"></a-animation>
-                    </a-entity>
 
                     
                     <a-entity   id="view_doc_fun"
@@ -701,6 +728,20 @@ export default {
         }
         ,
         
+        
+        get_full_query_ui_property: function (id, prop) {
+            //console.loglog("*********** get_query_ui_property: ")
+            if (id == null) {
+                return "";
+            }
+            var qq = window.sqlGetFullQueryUiById(id);
+            //alert(Object.keys(qq))
+            if (qq != null) {
+                return qq[prop]; 
+            };
+            return "";
+        }
+        ,
         
         
         
