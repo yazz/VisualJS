@@ -1364,6 +1364,13 @@ function getRoot(req, res) {
 			res.end();
 			return;
 		};
+		if (req.headers.host.toLowerCase().endsWith('coinsafe.dk')) {
+		res.writeHead(301,
+			{Location: 'http://thebank.digital/thebankdigital'}
+			);
+			res.end();
+			return;
+		};
 		if (req.headers.host.toLowerCase().endsWith('gosharedata.com')) {
 		res.writeHead(301,
 			{Location: 'http://visifile.com/gosharedata/index.html?time=' + new Date().getTime()}
