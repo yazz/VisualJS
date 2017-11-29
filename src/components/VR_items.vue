@@ -188,16 +188,27 @@
                                 position='0.75 0 .02'
                                 mixin="RobotoFont"
                                 open_web=''
-                                text='color: white; align: center; value: Open web; width: 3;'
+                                text='color: white; align: center; value: Quickview; width: 3;'
                                 ><a-animation begin="mouseenter" attribute="rotation"
 												to="0 0 3" dur="80" direction="alternate"  repeat="3"></a-animation></a-entity>
 
                                                 
+
+                    <a-entity   id="open_doc"
+                                geometry="primitive: plane; width:.70;height: .70;  " 
+                                material="color: gray;"
+                                v-bind:position='0.75 * 2 + " 0 .02"'
+                                mixin="RobotoFont"
+                                open_file=''
+                                text='color: white; align: center; value: Open; width: 3;'
+                                ><a-animation begin="mouseenter" attribute="rotation"
+												to="0 0 3" dur="80" direction="alternate"  repeat="3"></a-animation></a-entity>
+
                                                 
                     <a-entity   id="view_related_docs"
                                 geometry="primitive: plane; width:.70;height: .70;  " 
                                 material="color: brown;"
-                                v-bind:position='0.75 * 2 + " 0 .02"'
+                                v-bind:position='0.75 * 3 + " 0 .02"'
                                 mixin="RobotoFont"
                                 related_files='' 
                                 text='color: white; align: center; value: Related; width: 3;'
@@ -209,20 +220,10 @@
                     <a-entity   id="view_doc_info"
                                 geometry="primitive: plane; width:.70;height: .70;  " 
                                 material="color: gray;"
-                                v-bind:position='0.75 * 3 + " 0 .02"'
+                                v-bind:position='0.75 * 4 + " 0 .02"'
                                 mixin="RobotoFont"
                                 v-bind:show_query_info='"queryId: "  + get_viewed_query_id() + ";"' 
                                 v-bind:text='"color: white; align: center; value: Info; width: 3;"'
-                                ><a-animation begin="mouseenter" attribute="rotation"
-												to="0 0 3" dur="80" direction="alternate"  repeat="3"></a-animation></a-entity>
-
-                    <a-entity   id="open_doc"
-                                geometry="primitive: plane; width:.70;height: .70;  " 
-                                material="color: gray;"
-                                v-bind:position='0.75 * 4 + " 0 .02"'
-                                mixin="RobotoFont"
-                                open_file=''
-                                text='color: white; align: center; value: Open file; width: 3;'
                                 ><a-animation begin="mouseenter" attribute="rotation"
 												to="0 0 3" dur="80" direction="alternate"  repeat="3"></a-animation></a-entity>
                                                 
