@@ -34,6 +34,8 @@ export default new Vuex.Store({
         ,
         user_name: ""
         ,
+        show_quickview: false
+        ,
         is_local_machine: false
         ,
         add_connection_visible: false
@@ -251,6 +253,9 @@ export default new Vuex.Store({
       },
       SET_IS_LOCAL_MACHINE: function (state,y) {
         state.is_local_machine = y
+      },
+      SET_SET_SHOW_QUICKVIEW: function (state,y) {
+        state.show_quickview = y
       },
       
       HIDE_ADD_QUERY: function (state) {
@@ -502,6 +507,13 @@ export default new Vuex.Store({
 
 		set_is_local_machine: function(a,b){
             a.commit('SET_IS_LOCAL_MACHINE',b)
+		},
+
+        
+        
+        
+		set_show_quickview: function(a,b){
+            a.commit('SET_SET_SHOW_QUICKVIEW',b)
 		},
 
         

@@ -654,12 +654,21 @@ function setupVRVuePane() {
                 }
         });
             
+
+        AFRAME.registerComponent(
+            'close_quickview', {
+                init: function () {
+                    this.el.addEventListener('click', function (evt) {
+                        store.dispatch('set_show_quickview', false);
+            })}});
+            
             
         AFRAME.registerComponent(
             'open_web', {
                 init: function () {
                     var self = this;
                     this.el.addEventListener('click', function (evt) {
+                        store.dispatch('set_show_quickview', true);
                         var qf = store.state.viewed_query_file;
                         if (qf == null) {
                             return;
@@ -674,9 +683,19 @@ function setupVRVuePane() {
                                             window.location.hostname + ":" + window.location.port +  "/files/a.pdf'><iframe>"
                                 document.getElementById("popup_content").innerHTML = ourl;
                                 //alert(ourl);
+                            } else if (qf.toLowerCase().endsWith(".glb")) {
+                                
+                                //zzz
+                                    //alert(store.state.show_quickview);
+                                    store.dispatch('hide_full_doc');
+                                    get_query_result(
+                                        store.state.viewed_query_id, 
+                                        (function() {
+                                            
+                                            store.dispatch('show_full_doc');
+                                        })
+                                    );
                             } else {
-                                //alert(queryFile);
-                                //window.open("http://"+window.location.hostname + ":" + window.location.port +  '/docs2/' + queryFile , '_blank');
                                 $.ajax({
                                     url: '/get_web_document',
                                     data: {id: queryFile},
@@ -1794,7 +1813,10 @@ window.resetVuexQueries = function() {
         };
 };
 
-
+window.closeQuickview = function() {
+    //zzz
+    store.dispatch('set_show_quickview', false);
+};
 
 window.recalcVuexQueries = function() {
     var results = window.sqlGetAllQueries();

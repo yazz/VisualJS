@@ -168,7 +168,7 @@
                     id='query_menu2'
                     geometry="primitive: plane; width:35;height: 35; " 
                     material="color: lightgray; opacity: .5;"
-                    v-bind:position='(((is_visible(get_viewed_query_id()) && is_query_selected())?get_full_query_ui_property(get_viewed_query_id(),"x_pos")-6:-100) + 4.64) + " " + (get_full_query_ui_property(get_viewed_query_id(),"y_pos")  + 0.85) + " -.01"'
+                    v-bind:position='((( !in_show_quickview() && is_visible(get_viewed_query_id()) && is_query_selected())?get_full_query_ui_property(get_viewed_query_id(),"x_pos")-6:-100) + 4.64) + " " + (get_full_query_ui_property(get_viewed_query_id(),"y_pos")  + 0.85) + " -.01"'
                 >
                 	   <a-entity    position='.73 -.75 .02'
                                     v-bind:id='"selected_item"'
@@ -240,9 +240,44 @@
                                 ><a-animation begin="mouseenter" attribute="rotation"
 												to="0 0 3" dur="80" direction="alternate"  repeat="3"></a-animation></a-entity>
 
-
                 </a-entity>
                 
+
+
+
+
+                    <a-entity   
+                                v-bind:position='((in_show_quickview() && is_3d(get_viewed_query_id()))?0:-100) + " 2.3 0"' >
+                    
+                        <a-entity 
+                            geometry="primitive: plane; width: 10; height: 10; "
+                            material='color: white;  opacity: .9'
+                            close_quickview=''
+                            v-bind:text='"color: black; align: left; value: " + get_error_message() + "; width: 4;;"'
+                            position="0 0 0" ></a-entity>
+                        
+                        
+                        <a-entity 
+                            id='gltf_preview2'
+                            v-bind:gltf-model='(get_viewed_query_file().indexOf(".glb") != -1)?"/docs2/gsd_" + get_viewed_query_file():false'
+                            scale=".2 .2 .2" 
+                            v-bind:position='((get_viewed_query_file().indexOf(".glb") != -1)?"0":"-100") + "  -1 0" '
+                            preview_gltf=''>
+                            <a-animation 
+                                begin="mouseenter" 
+                                attribute="rotation"
+                                to="0 360 20" dur="10000" direction="alternate"  repeat="3"></a-animation></a-entity>
+                                
+                                
+                                
+                                
+                        <a-entity 
+                            geometry="primitive: plane; width: 0; height: 0; "
+                            material='color: white;'                                        
+                            v-bind:text='"color: black; align: left; value: " + get_error_message() + "; width: 4; opacity: 1;"'
+                            position="0 0 0" >
+                        </a-entity>
+                    </a-entity>
                 
                 
                 
@@ -668,6 +703,10 @@ export default {
         },
         
         
+        in_show_quickview: function (id) {
+            return  this.$store.state.show_quickview;
+        }
+        ,
         
         
         
