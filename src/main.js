@@ -434,7 +434,7 @@ function setupVRVuePane() {
                     if (qq) {
                         var similarCount = qq.similar_count;
                         var similarText = ''
-                        if (similarCount.length > 0 ) {
+                        if (similarCount > 0 ) {
                             similarText = ' (' + similarCount + ')';
                         }
                         document.querySelector('#vr_file_name_2').setAttribute(
@@ -1938,7 +1938,7 @@ var inCheckForServers = 0;
         }
         $.ajax({
             type: "GET",
-            url: 'http://gosharedata.com/get_intranet_servers',
+            url: 'http://visifile.com/get_intranet_servers',
             success: function(data1) {
                 var returned= eval( "(" + data1 + ")");
                 store.dispatch('clear_network', tt);  

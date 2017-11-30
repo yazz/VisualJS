@@ -244,6 +244,102 @@
                 
 
 
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                    <a-entity position="2.3 0" id='doc_details'>
+
+                        <a-entity   geometry="primitive: plane; height: 5; width: 18;" 
+                                    material="color: white" 
+                                    v-bind:position='(in_show_quickview() && can_show_full_doc()?-7:-100) + " 2.3  -1"' >
+
+                        <a-entity 
+                            geometry="primitive: plane; width: 10; height: 10; "
+                            material='color: white;  opacity: .9'
+                            close_quickview=''
+                            v-bind:text='"color: black; align: left; value: " + get_error_message() + "; width: 4;;"'
+                            position="0 0 0" ></a-entity>
+
+
+                        <a-entity v-for="(field_name,index)  in  list_of_fields"
+                                  v-bind:position='(can_show_full_doc()?(index + 6.0):-100) + " -1.15 2.5"'
+                                  geometry="primitive: plane; width: auto; height: auto"
+                                  material="color: white"
+                                  rotation='0 0 0'>
+
+                                <a-entity v-bind:position='(is_spreadsheet(get_viewed_query_id())?-1.5:-100) + " 0 0.6"' 
+                                          geometry="primitive: plane; width: 2; height: 0.2" 
+                                          material="color: gray; opacity: 1;">
+                                    <a-entity position="0.1 0 0" 
+                                              geometry="primitive: plane; width: 2; height: 0.2" 
+                                              mixin="AileronFont"
+                                              material="color: gray; opacity: 1;"
+                                              v-bind:text='"color: white; align: left; value: " + field_name + "; width: 2; "'>
+                                    </a-entity>
+                                </a-entity>
+
+                                <a-entity v-for="(a_record,rindex)  in  list_of_records()" 
+                                          v-bind:position='(is_spreadsheet(get_viewed_query_id())?-1.5:-100) + " " + (-.2 - (rindex * 0.2)) + " 0.6"'
+                                          geometry="primitive: plane; width: 2; height: 0.2" 
+                                          material="color: white"
+                                          rotation='0 0 0'>
+                                    <a-entity v-bind:position='".1 0 0"'
+                                              geometry="primitive: plane; width: 2; height: 0.2" 
+                                              material="color: white"
+                                              mixin="SourceCodeProFont"
+                                              v-bind:text='"color: black; align: left; value: " + truncate(a_record[field_name]) + "; width: 2; opacity: 1;"'
+                                              rotation='0 0 0'>
+
+                                    </a-entity>
+
+                                </a-entity>
+                                
+                                
+                                
+                                
+                                <a-entity   id='show_all_vr_records'  v-bind:position='(is_document(get_viewed_query_id())?0:-100) + " 0 0"'>
+                                    <a-entity v-for="(a_record,rindex)  in  list_of_records()"  
+                                              v-bind:position='".5 " + (-0.01 - (rindex * 0.2)) + " 0.6"'
+                                              geometry="primitive: plane; width: 6; height: 0.2" 
+                                              material="color: white; opacity: 1;"
+                                              mixin="SourceCodeProFont"
+                                              v-bind:text='"color: black; align: left; value: " + truncate2(a_record[field_name]) + "; width: 6; opacity: 1; wrapPixels: 2000; "'
+                                              rotation='0 0 0'>
+
+                                    </a-entity>
+                                </a-entity>
+
+
+                                
+
+                            </a-entity>
+                        </a-entity>
+                    </a-entity>
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
 
 
                     <a-entity   
@@ -280,6 +376,27 @@
                     </a-entity>
                 
                 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 
                 
                 
@@ -297,20 +414,6 @@
                                 >
 						</a-entity>
                 
-                
-                    <a-entity   id="open_doc"
-                                geometry="primitive: plane; width:.70;height: .70;  " 
-                                material="color: gray;"
-                                position='1.5 0 .2'
-                                mixin="RobotoFont"
-                                open_file=''
-                                text='color: white; align: center; value: Open file; width: 3;'
-                                >
-									<a-animation begin="mouseenter" attribute="rotation"
-												to="0 0 3" dur="80" direction="alternate"  repeat="3"></a-animation>
-                    </a-entity>
-
-
                     <a-entity   id="view_doc_related_graph"
                                 geometry="primitive: plane; width:.70;height: .70;  " 
                                 material="color: green;"
@@ -353,91 +456,6 @@
 
 
 
-                    <a-entity position="3.6 -2.985 .2" id='doc_details'>
-
-                        <a-entity   geometry="primitive: plane; height: 5; width: 8;" 
-                                    material="color: white" 
-                                    v-bind:position='(can_show_full_doc()?0:-100) + " 2.5 -1"' >
-
-
-
-                        <a-entity v-for="(field_name,index)  in  list_of_fields"
-                                  v-bind:position='(can_show_full_doc()?(index + 1.8):-100) + " -1.15 2.5"'
-                                  geometry="primitive: plane; width: auto; height: auto"
-                                  material="color: white"
-                                  rotation='0 0 0'>
-
-                                <a-entity v-bind:position='(is_spreadsheet(get_viewed_query_id())?-1.5:-100) + " 0 0.6"' 
-                                          geometry="primitive: plane; width: 2; height: 0.2" 
-                                          material="color: gray; opacity: 1;">
-                                    <a-entity position="0.1 0 0" 
-                                              geometry="primitive: plane; width: 2; height: 0.2" 
-                                              mixin="AileronFont"
-                                              material="color: gray; opacity: 1;"
-                                              v-bind:text='"color: white; align: left; value: " + field_name + "; width: 2; "'>
-                                    </a-entity>
-                                </a-entity>
-
-                                <a-entity v-for="(a_record,rindex)  in  list_of_records()" 
-                                          v-bind:position='(is_spreadsheet(get_viewed_query_id())?-1.5:-100) + " " + (-.2 - (rindex * 0.2)) + " 0.6"'
-                                          geometry="primitive: plane; width: 2; height: 0.2" 
-                                          material="color: white"
-                                          rotation='0 0 0'>
-                                    <a-entity v-bind:position='".1 0 0"'
-                                              geometry="primitive: plane; width: 2; height: 0.2" 
-                                              material="color: white"
-                                              mixin="SourceCodeProFont"
-                                              v-bind:text='"color: black; align: left; value: " + truncate(a_record[field_name]) + "; width: 2; opacity: 1;"'
-                                              rotation='0 0 0'>
-
-                                    </a-entity>
-
-                                </a-entity>
-                                
-                                
-                                
-                                
-                                <a-entity   id='show_all_vr_records'
-                                            v-bind:position='(is_document(get_viewed_query_id())?0:-100) + " 0 0"'
-                                >
-                                    <a-entity v-for="(a_record,rindex)  in  list_of_records()"  
-                                              v-bind:position='".5 " + (-0.01 - (rindex * 0.2)) + " 0.6"'
-                                              geometry="primitive: plane; width: 6; height: 0.2" 
-                                              material="color: white; opacity: 1;"
-                                              mixin="SourceCodeProFont"
-                                              v-bind:text='"color: black; align: left; value: " + truncate2(a_record[field_name]) + "; width: 6; opacity: 1; wrapPixels: 2000; "'
-                                              rotation='0 0 0'>
-
-                                    </a-entity>
-                                </a-entity>
-
-
-                                
-                                <a-entity   
-                                            v-bind:position='(is_3d(get_viewed_query_id())?-1:-100) + " .3 0"' >
-                                
-                                    <a-entity 
-                                        id='gltf_preview'
-                                        v-bind:gltf-model='(get_viewed_query_file().indexOf(".glb") != -1)?"/docs2/gsd_" + get_viewed_query_file():false'
-                                        scale=".2 .2 .2" 
-                                        v-bind:position='((get_viewed_query_file().indexOf(".glb") != -1)?"0":"-100") + "  -1 0" '
-                                        preview_gltf=''>
-                                        <a-animation 
-                                            begin="mouseenter" 
-                                            attribute="rotation"
-                                            to="0 360 20" dur="10000" direction="alternate"  repeat="3"></a-animation></a-entity>
-                                    <a-entity 
-                                        geometry="primitive: plane; width: 0; height: 0; "
-                                        material='color: white;'                                        
-                                        v-bind:text='"color: black; align: left; value: " + get_error_message() + "; width: 4; opacity: 1;"'
-                                        position="0 0 0" >
-                                    </a-entity>
-                                </a-entity>
-
-
-                            </a-entity>
-                        </a-entity>
-                    </a-entity>
 
                 
                 
@@ -582,14 +600,6 @@ export default {
         
         
         
-        list_of_queries_length: function () {
-            //console.loglog("*********** list_of_queries_length: ")
-            return window.sqlGetQueriesLengthCached
-        }
-        ,
-        
-        
-        
         
         get_viewed_query_id: function() {
             //console.loglog("*********** get_viewed_query_id: ")
@@ -604,7 +614,6 @@ export default {
         is_query_selected: function() {
             //console.loglog("*********** is_query_selected: ")
             if ( this.$store.state.viewed_query_id == null) { return false; };
-            if ( this.$store.state.viewed_query_id.length == 0) { return false; };
             return true
         }
         ,
@@ -789,9 +798,6 @@ export default {
         is_visible: function(id) {
             //console.loglog("*********** is_visible: ")
             if (id == null) {
-                return false;
-            }
-            if (id.length == 0) {
                 return false;
             }
             var qm = window.sqlGetQueryUiById(id);
