@@ -1421,27 +1421,28 @@ function downloadWebDocument(req, res) {
     var stmt = dbsearch.all("select contents from files where name = '" + req.query.id + "'", function(err, rows) {
         if (!err) {
                 if (rows.length > 0) {
-                    if (req.query.id.toLowerCase().endsWith(".docx")) {
+                    if (req.query.id.toLowerCase().endsWith(".docx") ) {
                         var buffer = new Buffer(rows[0].contents, 'binary');
-                        
+
                         mammoth.convertToHtml({buffer: buffer})
                         .then(function(result){
                             var html = result.value; // The generated HTML
                             var messages = result.messages; // Any messages, such as warnings during conversion
-                            
+
                             res.writeHead(200, {'Content-Type': 'text/plain'});
                             res.end(JSON.stringify({  result: html}));
                         })
                         .done();
-                    } else if (req.query.id.toLowerCase().endsWith(".xlsx")) {
+                    } else if ( req.query.id.toLowerCase().endsWith(".xlsx") ||
+                                req.query.id.toLowerCase().endsWith(".xls")) {
                         try {
                             var buffer = new Buffer(rows[0].contents, 'binary');
                             var workbook = XLSX.read(buffer, {type:"buffer"})
                             var sheetname = Object.keys(workbook['Sheets'])[0]
                             var html =  XLSX.utils.sheet_to_html(workbook['Sheets'][sheetname])
                             html = html.replace("<html><body>","").replace("</body></html>","");
-                            
-                                                
+
+
                             res.writeHead(200, {'Content-Type': 'text/plain'});
                             res.end(JSON.stringify({  result: html}));
                         } catch(error) {
@@ -1460,7 +1461,7 @@ function downloadWebDocument(req, res) {
                                 var numSemi = ((contents.match(new RegExp(";", "g")) || []).length);
                                 var numColons = ((contents.match(new RegExp(":", "g")) || []).length);
                                 var numPipes = ((contents.match(new RegExp("[|]", "g")) || []).length);
-                                    
+
                                 var maxDelim = numCommas;
                                 if (numSemi > maxDelim) {
                                     delim = ';';
@@ -1492,13 +1493,13 @@ function downloadWebDocument(req, res) {
                                     res.writeHead(200, {'Content-Type': 'text/plain'});
                                     res.end(JSON.stringify({  result: "<div>Error: " + error + "</div>"}));
                                 });
-                            
+
                         }
                         catch(err) {
                             res.writeHead(200, {'Content-Type': 'text/plain'});
                             res.end(JSON.stringify({  result: "<div>Big Error: " + err + "</div>"}));
-                        }                            
-                                                
+                        }
+
                     } else {
                             res.writeHead(200, {'Content-Type': 'text/plain'});
                             res.end(JSON.stringify({  result: "<div>Unknown file type</div>"}));
@@ -1680,7 +1681,7 @@ function websocketFn(ws, req) {
             //return
             //console.log("     Server recieved message server_get_all_queries");
             sendToBrowserViaWebSocket(ws, {   message_type: "client_get_all_queries"  });
-            
+
             var stmt = dbsearch.all("select * from queries",
                 function(err, results) {
                     for (var i=0; i < results.length;i ++){
@@ -2086,8 +2087,8 @@ function getqueryresultFn(req, res) {
                                         newres.end(JSON.stringify(result));
                                     }
                                  );
-                                 
-                                 
+
+
                         console.log('trying to save pdf: ');
                         var stmt = dbsearch.all("select contents from files,queries where files.name = ('gsd_' || queries.hash || '.pdf' ) and queries.id = '" + queryData2.source + "'", function(err, rows) {
                             console.log('trying to save pdf 2: ' + queryData2.source);
@@ -2097,11 +2098,11 @@ function getqueryresultFn(req, res) {
                                         console.log('trying to save pdf 4: ');
                                         console.log('trying to save pdf 5: ');
                                         var buffer = new Buffer(rows[0].contents, 'binary');
-                                        
+
                                         fs.writeFile(process.cwd() + "/files/a.pdf", buffer,  "binary",
-                                            function(err) { 
+                                            function(err) {
                                                 console.log('trying to save pdf 6: ');
-                                            
+
                                             });
                                     }
                                 }
@@ -2404,7 +2405,7 @@ function startServices() {
     })
 
     app.use("/files", express.static(process.cwd() + '/files/'));
-    
+
     app.use("/public/aframe_fonts", express.static(path.join(__dirname, '../public/aframe_fonts')));
     app.use('/viewer', express.static(process.cwd() + '/node-viewerjs/release'));
     app.use(express.static(path.join(__dirname, '../public/')))
@@ -2429,7 +2430,7 @@ function startServices() {
     app.get('/get_web_document', function (req, res) {
     	 	return downloadWebDocument(req,res);
     });
-    
+
 
     //------------------------------------------------------------------------------
     // test_firewall
@@ -2660,5 +2661,3 @@ function startServices() {
 
 
 }
-
-
