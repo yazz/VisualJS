@@ -77,7 +77,7 @@
       "node-viewerjs/**/**/**/**/*",
       "node_modules/nan/**/**/**/**/*",
       "node_modules/sqlite3/**/**/**/**/**/*",
-      "node_modules/pdf2json/**/**/**/**/**/*"      
+      "node_modules/pdf2json/**/**/**/**/**/*"
     ]
   }
 }
