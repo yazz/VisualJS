@@ -129,7 +129,7 @@ if (!fs.existsSync(process.cwd() + "/node_pi") ) {
 if (isWin) {
     //console.log('******* WINDOWS *******');
 	// copy WIndows 32 node native files
-	copyNodeNativeAdapter( "win32", "sqlite3", 		"lib/binding/node-v48-win32-ia32" , "node_sqlite3.node")
+	copyNodeNativeAdapter( "win32", "sqlite3", 		"lib/binding/node-v57-win32-ia32" , "node_sqlite3.node")
 
 
 
