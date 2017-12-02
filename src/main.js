@@ -655,11 +655,17 @@ function setupVRVuePane() {
         });
             
 
+        window.closeQuickview = function() {
+            store.dispatch('set_show_quickview', false);
+            store.dispatch('set_viewed_query_id', null);
+            store.dispatch('set_viewed_query_file', null);
+            store.dispatch('hide_full_doc');
+        }
         AFRAME.registerComponent(
             'close_quickview', {
                 init: function () {
                     this.el.addEventListener('click', function (evt) {
-                        store.dispatch('set_show_quickview', false);
+                        window.closeQuickview();
             })}});
             
             
@@ -1813,10 +1819,6 @@ window.resetVuexQueries = function() {
         };
 };
 
-window.closeQuickview = function() {
-    //zzz
-    store.dispatch('set_show_quickview', false);
-};
 
 window.recalcVuexQueries = function() {
     var results = window.sqlGetAllQueries();
