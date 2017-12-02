@@ -10,7 +10,10 @@
     </div>
 
 
-    <transition v-for='connection in this.$store.state.list_of_connections' name="fast-fade">
+    <transition v-for='connection in this.$store.state.list_of_connections' 
+                :key="connection.id"
+                name="fast-fade">
+                
 			 <component v-bind:is="connection.driver + '-add-query'" v-if='query_connection == connection.id' v-bind:query_connection='connection.id'>
 			 </component>
     </transition>

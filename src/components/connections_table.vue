@@ -40,7 +40,7 @@
               <th></th>
             </tr>
           </thead>
-          <tbody v-for="a_connection in list_of_connections">
+          <tbody v-for="a_connection in list_of_connections" :key="a_connection.id">
             <tr scope="row" >
               <td v-on:click="set_viewed_connection(a_connection)">{{a_connection.name.substr(a_connection.name.length - 25)}}</td>
               <td v-on:click="set_viewed_connection(a_connection)">{{a_connection.driver}}</td>
@@ -72,7 +72,7 @@
 
 
 
-        <div v-for='driver in this.$store.state.list_of_drivers' >
+        <div v-for='driver in this.$store.state.list_of_drivers' :key="driver.id">
 		     <component v-if="viewed_connection_driver == driver.id" v-bind:is="driver.id + '-view-connection'" :connection_name=viewed_connection_id></component>
         </div>
 

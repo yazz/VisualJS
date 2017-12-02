@@ -4,12 +4,16 @@
 
     <div class="form-group">
        <select id=select_source v-model='connection_driver' class="col-xs-10  custom-select">
-            <option v-for='driver in this.$store.state.list_of_drivers' v-bind:value="driver.id">{{driver.id}}</option>
+            <option v-for='driver in this.$store.state.list_of_drivers' 
+                    :key="driver.id"
+                    v-bind:value="driver.id">{{driver.id}}</option>
        </select>
     </div>
 
 
-    <transition v-for='driver in this.$store.state.list_of_drivers' name="fast-fade">
+    <transition v-for='driver in this.$store.state.list_of_drivers' 
+                :key="driver.id"
+                name="fast-fade">
 			 <component v-bind:is="driver.id + '-add-connection'" v-if='connection_driver == driver.id'>
 			 </component>
     </transition>

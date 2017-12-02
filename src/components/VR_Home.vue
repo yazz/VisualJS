@@ -44,10 +44,9 @@
 									<a-animation begin="mouseenter" attribute="rotation"
 												to="0 0 1" dur="100" direction="alternate"  repeat="3"></a-animation>
                                         <a-entity  	id=locked
-                                                    material='color: blue;opacity: 1;'  
                                                     geometry='primitive: plane; height: .3 ; width: .256'
                                                     position='0 .2 0.1' 
-                                                    v-bind:material='"src: " + (locked?"":"un") + "locked.png; alphaTest: 0.5;"'
+                                                    v-bind:material='"src: " + (locked?"":"un") + "locked.png; alphaTest: 0.5;color: blue;opacity: 1;"'
                                                     lock_icon=''
                                                     v-if='getIsLocalMachine'
                                                     > 
@@ -85,6 +84,7 @@
                                                 v-bind:text='"color: black; align: center; value: People; width: 10; "'>
                                     </a-entity>
                                 <a-entity  v-for="(item,index)  in  getNetwork"
+                                :key="item.username"
                                 v-bind:position='"0 " + (index - 1) + "  .5"'
                                 geometry="primitive: plane; width: .1; height: .1"
                                 material="color: white"

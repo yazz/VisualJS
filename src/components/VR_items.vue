@@ -152,7 +152,7 @@
 
 <a-entity id='scrollable_grid' v-bind:refresh_vr_items='get_refresh_view_counter'>
 
-				<a-entity   v-for="(a_query,index)  in  list_of_queries2()">
+				<a-entity   v-for="(a_query,index)  in  list_of_queries2()" :key="a_query.id">
                     <VR-grid-item v-bind:a_query='a_query'>
 
                     </VR-grid-item>
@@ -267,7 +267,8 @@
                             position="0 0 0" ></a-entity>
 
 
-                        <a-entity v-for="(field_name,index)  in  list_of_fields"
+                        <a-entity v-for="(field_name,index)  in  list_of_fields" 
+                                  :key="field_name"
                                   v-bind:position='(can_show_full_doc()?(index + 6.0):-100) + " -1.15 2.5"'
                                   geometry="primitive: plane; width: auto; height: auto"
                                   material="color: white"
@@ -284,7 +285,8 @@
                                     </a-entity>
                                 </a-entity>
 
-                                <a-entity v-for="(a_record,rindex)  in  list_of_records()"
+                                <a-entity v-for="(a_record,rindex)  in  list_of_records()" 
+                                          :key="a_record.id"
                                           v-bind:position='(is_spreadsheet(get_viewed_query_id())?-1.5:-100) + " " + (-.2 - (rindex * 0.2)) + " 0.6"'
                                           geometry="primitive: plane; width: 2; height: 0.2"
                                           material="color: white"
@@ -305,6 +307,7 @@
 
                                 <a-entity   id='show_all_vr_records'  v-bind:position='(is_document(get_viewed_query_id())?0:-100) + " 0 0"'>
                                     <a-entity v-for="(a_record,rindex)  in  list_of_records()"
+                                              :key="a_record.id"
                                               v-bind:position='".5 " + (-0.01 - (rindex * 0.2)) + " 0.6"'
                                               geometry="primitive: plane; width: 6; height: 0.2"
                                               material="color: white; opacity: 1;"
