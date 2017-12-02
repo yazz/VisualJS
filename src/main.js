@@ -660,6 +660,7 @@ function setupVRVuePane() {
             store.dispatch('set_viewed_query_id', null);
             store.dispatch('set_viewed_query_file', null);
             store.dispatch('hide_full_doc');
+            store.dispatch('set_error_message', "")
         }
         AFRAME.registerComponent(
             'close_quickview', {

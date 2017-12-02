@@ -260,7 +260,7 @@
                                     v-bind:position='(in_show_quickview() && can_show_full_doc() && is_database(get_viewed_query_id())?-7:-100) + " 2.3  -1"' >
 
                         <a-entity
-                            geometry="primitive: plane; width: 10; height: 10; "
+                            geometry="primitive: plane; width: 40; height: 10; "
                             material='color: white;  opacity: .9'
                             close_quickview=''
                             v-bind:text='"color: black; align: left; value: " + get_error_message() + "; width: 4;;"'
