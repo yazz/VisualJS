@@ -24,7 +24,7 @@
 						 <a-entity position="0 2.8 0"
 									geometry="primitive: plane; width: 1.8; height: 1.8;" material="color: green"
                                     mixin="RobotoFont"
-									v-bind:text='"color: white; align: center; value: View data ; width: 6; "'
+									v-bind:text='"color: white; align: center; value: View ; width: 6; "'
 									rotation='0 0 0' goto='name: scrollable_grid; distance: 4; duration: 500;'>
 									<a-animation begin="mouseenter" attribute="rotation"
 												to="0 0 1" dur="100" direction="alternate"  repeat="3"></a-animation>
