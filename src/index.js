@@ -53,6 +53,7 @@ var csv             = require('fast-csv');
 var mysql           = require('mysql');
 var cors            = require('cors')
 var mammoth         = require("mammoth");
+var isBinaryFile    = require("isbinaryfile");
 
 path.join(__dirname, '../public/jquery-1.9.1.min.js')
 path.join(__dirname, '../public/jquery.zoomooz.js')
@@ -525,6 +526,8 @@ function isPdfFile(fname) {
     if (ext == "pdf") return true;
     return false;
 }
+
+
 
 
 function isCsvFile(fname) {
@@ -1831,9 +1834,20 @@ function file_uploadFn(req, res, next) {
                           //console.log('   *size: ' + stat.size);
 
                           saveConnectionAndQueryForFile(ifile.originalname, 'pdf', stat.size, pdfFile, '|DOCUMENT|');
-              }};
-          });
-      }
+              }
+          } else if (!isBinaryFile.sync(ifile.originalname)) {
+                //console.log('ifile: ' + ifile.originalname);
+                var txtFile = localp;
+                if (typeof txtFile !== "undefined") {
+                    var fileId = txtFile.replace(/[^\w\s]/gi,'');
+                    //console.log('Saving from upload   *file id: ' + ifile.originalname);
+                    //console.log('   *size: ' + stat.size);
+
+                    saveConnectionAndQueryForFile(ifile.originalname, 'txt', stat.size, txtFile, '|TXT|');
+                }
+            };
+        });
+    }
 
 };
 

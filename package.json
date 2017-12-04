@@ -31,6 +31,7 @@
     "has-flag": "^2.0.0",
     "http": "0.0.0",
     "ip": "^1.1.4",
+    "isbinaryfile": "^3.0.2",
     "mammoth": "^1.4.2",
     "mkdirp": "^0.5.1",
     "multer": "^1.3.0",
