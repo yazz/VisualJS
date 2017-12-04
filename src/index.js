@@ -143,7 +143,7 @@ if (isWin) {
 } else { //means Mac OS
     //console.log('******* MAC *******');
 	// copy Mac OS 64 node native files
-	copyNodeNativeAdapter( "macos64", "sqlite3", 	"lib/binding/node-v48-darwin-x64" , "node_sqlite3.node")
+	copyNodeNativeAdapter( "macos64", "sqlite3", 	"lib/binding/node-v57-darwin-x64" , "node_sqlite3.node")
 }
 
 
