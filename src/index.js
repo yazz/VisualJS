@@ -77,6 +77,7 @@ path.join(__dirname, '../public/visifile_logo.PNG')
 path.join(__dirname, '../public/favicon.ico')
 path.join(__dirname, '../public/driver_icons/excel.jpg')
 path.join(__dirname, '../public/driver_icons/csv.jpg')
+path.join(__dirname, '../public/driver_icons/txt.jpg')
 path.join(__dirname, '../public/driver_icons/oracle.jpg')
 path.join(__dirname, '../public/driver_icons/postgres.jpg')
 path.join(__dirname, '../public/driver_icons/mysql.jpg')
@@ -1503,6 +1504,33 @@ function downloadWebDocument(req, res) {
                             res.end(JSON.stringify({  result: "<div>Big Error: " + err + "</div>"}));
                         }
 
+                        
+                        
+                        
+                        
+                        
+                        
+                    } else if (req.query.id.toLowerCase().endsWith(".txt")) {
+                        try {
+                            console.log('1')
+                            html = "<pre>";
+                            var contents = rows[0].contents.toString()
+                            html += contents;
+                            html += "</pre>";
+                            res.writeHead(200, {'Content-Type': 'text/plain'});
+                            res.end(JSON.stringify({  result: html}));
+
+                        }
+                        catch(err) {
+                            res.writeHead(200, {'Content-Type': 'text/plain'});
+                            res.end(JSON.stringify({  result: "<div>Big Error: " + err + "</div>"}));
+                        }
+                        
+                        
+                        
+                        
+                        
+                        
                     } else {
                             res.writeHead(200, {'Content-Type': 'text/plain'});
                             res.end(JSON.stringify({  result: "<div>Unknown file type</div>"}));
@@ -2244,6 +2272,10 @@ function setUpDbDrivers() {
 	pgeval = '(' + fs.readFileSync(path.join(__dirname, './csv.js')).toString() + ')';
     setSharedGlobalVar("drivers", 'csv', pgeval );
 	addOrUpdateDriver('csv', pgeval, drivers['csv'])
+
+	pgeval = '(' + fs.readFileSync(path.join(__dirname, './txt.js')).toString() + ')';
+    setSharedGlobalVar("drivers", 'txt', pgeval );
+	addOrUpdateDriver('txt', pgeval, drivers['txt'])
 
 
 	pgeval = '(' + fs.readFileSync(path.join(__dirname, './excel.js')).toString() + ')';
