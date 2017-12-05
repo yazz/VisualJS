@@ -543,13 +543,14 @@ function isCsvFile(fname) {
 
 
 function isGlbFile(fname) {
-	if (!fname) {
-	return false;
-	};
-	var ext = fname.split('.').pop();
-	ext = ext.toLowerCase();
-	if (ext == "glb") return true;
-	return false;
+		if (!fname) {
+				return false;
+		};
+		var ext = fname.split('.').pop();
+		ext = ext.toLowerCase();
+		if (ext == "glb")
+				return true;
+		return false;
 }
 
 
@@ -1808,15 +1809,17 @@ function file_uploadFn(req, res, next) {
 
           var localp2;
           if (isWin) {
-          localp2 = process.cwd() + '\\uploads\\' + ifile.filename;
-      } else{
-          localp2 = process.cwd() + '/uploads/' + ifile.filename;
-      };
+          		localp2 = process.cwd() + '\\uploads\\' + ifile.filename;
+      		} else {
+          		localp2 = process.cwd() + '/uploads/' + ifile.filename;
+      		};
           var localp = localp2 + '.' + ext;
           fs.renameSync(localp2, localp);
           //console.log('Local saved path: ' + localp);
 
           fs.stat(localp, function(err, stat) {
+						console.log('ifile: ' + ifile.originalname);
+
             if (isExcelFile(ifile.originalname)) {
                   //console.log('ifile: ' + ifile.originalname);
                   var excelFile = localp;
@@ -1867,8 +1870,7 @@ function file_uploadFn(req, res, next) {
 
                           saveConnectionAndQueryForFile(ifile.originalname, 'pdf', stat.size, pdfFile, '|DOCUMENT|');
               }
-          } else if (!isBinaryFile.sync(ifile.originalname)) {
-                //console.log('ifile: ' + ifile.originalname);
+          } else if (!isBinaryFile.sync(localp)) {
                 var txtFile = localp;
                 if (typeof txtFile !== "undefined") {
                     var fileId = txtFile.replace(/[^\w\s]/gi,'');
