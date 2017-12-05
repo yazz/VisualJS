@@ -1504,13 +1504,17 @@ function downloadWebDocument(req, res) {
                             res.end(JSON.stringify({  result: "<div>Big Error: " + err + "</div>"}));
                         }
 
-                        
-                        
-                        
-                        
-                        
-                        
-                    } else if (req.query.id.toLowerCase().endsWith(".txt")) {
+
+
+
+
+
+
+												//} else if (req.query.id.toLowerCase().endsWith(".txt")) {
+												} else if (
+													    !isBinaryFile.sync(
+																    rows[0].contents,
+																		rows[0].contents.toString().length  )) {
                         try {
                             console.log('1')
                             html = "<pre>";
@@ -1525,12 +1529,12 @@ function downloadWebDocument(req, res) {
                             res.writeHead(200, {'Content-Type': 'text/plain'});
                             res.end(JSON.stringify({  result: "<div>Big Error: " + err + "</div>"}));
                         }
-                        
-                        
-                        
-                        
-                        
-                        
+
+
+
+
+
+
                     } else {
                             res.writeHead(200, {'Content-Type': 'text/plain'});
                             res.end(JSON.stringify({  result: "<div>Unknown file type</div>"}));
