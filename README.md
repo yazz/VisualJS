@@ -1,4 +1,4 @@
-<img src='http://visifile.com/VisiFileColor.png' />
+<img src='http://visifile.com/gosharedata/VisiFileColor.png' />
 
 ### X-Ray Vision for your Documents! Demo here: http://139.162.228.5/
 
