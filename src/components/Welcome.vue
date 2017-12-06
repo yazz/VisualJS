@@ -1,6 +1,6 @@
 <template>
   <div id="app2">
-      <img src='visifile_logo.PNG'></img>
+      <img src='VisiFileColor.png'></img>
   </div>
 </template>
 
