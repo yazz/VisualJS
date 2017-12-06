@@ -139,15 +139,15 @@
                     </a-entity>
 
                     <a-entity  	material='color: gray;opacity: .95;'  
-								geometry='primitive: box; width: 2.5; height: .2; depth: .1.8;'
+								geometry='primitive: plane; width: 2.5; height: .2; '
                                 rotation='0 0 0'
                                 id='mouse_click_home'
 								position='0.01 .9 1'
                                 set_zoom='people: false;'
 								goto='name: vr_home; duration: 300;' > 
-									<a-animation begin="mouseenter" attribute="position"
-												from="0.01 .9 1" to="0.01 .9 .98" dur="400" direction="alternate"  repeat="1"></a-animation>
-                                 <a-entity position="0 0.2 0.3" 
+									<a-animation begin="mouseenter" attribute="rotation"
+														to="0 0 .5" dur="70" direction="alternate"  repeat="3"></a-animation>
+                                <a-entity  position="0 0.2 0.3" 
                                            rotation="0 0 0" 
                                            mixin="RobotoFont"
                                            text='color: black; align: center; value: Go back; width: 2; '>
