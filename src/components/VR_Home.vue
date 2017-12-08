@@ -101,6 +101,38 @@
                                                     to="0 0 10" dur="100" direction="alternate"  repeat="3"></a-animation>
                                     </a-entity>
 
+
+
+
+									<a-entity   geometry="primitive: plane; width: 1.5; height: 3; "
+												position='3.7 3.5 0'
+												rotation='0 -40 0'
+                                                material="color: blue; opacity: .8;"
+                                                >
+		                                        <a-animation begin="mouseenter" attribute="rotation"
+		                                                    to="0 0 10" dur="1000" direction="alternate"
+															repeat="1"></a-animation></a-entity>
+
+									<a-entity   geometry="primitive: plane; width: 1.5; height: 3"
+												position='4.7 3.5 0'
+												rotation='0 -40 0'
+                                                material="color: gray;opacity: 1;"
+                                                >
+		                                        <a-animation begin="mouseenter" attribute="rotation"
+		                                                    to="0 0 10" dur="1000" direction="alternate"
+															repeat="1"></a-animation></a-entity>
+
+
+									<a-entity   geometry="primitive: plane; width: 1.5; height: 3"
+												position='5.7 3.5 0'
+												rotation='0 -40 0'
+                                                material="color: darkgray; opacity: .9;"
+                                                >
+		                                        <a-animation begin="mouseenter" attribute="rotation"
+		                                                    to="0 0 10" dur="1000" direction="alternate"
+															repeat="1"></a-animation></a-entity>
+
+
                                     <a-entity   geometry="primitive: plane; width: 2; height: .7" position='7 0 0'
                                                 v-bind:material='"color: " + (item.accessable?"green":"blue")'
                                                 mixin="RobotoFont"
