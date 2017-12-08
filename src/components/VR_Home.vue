@@ -24,7 +24,7 @@
 						 <a-entity position="0 2.3 0"
 									geometry="primitive: plane; width: 1.8; height: .8;" material="color: green"
                                     mixin="RobotoFont"
-									v-bind:text='"color: white; align: center; value: View ; width: 6; "'
+									v-bind:text='"color: white; align: center; value: View ; width: 4; "'
 									rotation='0 0 0' goto='name: scrollable_grid; distance: 4; duration: 500;'>
 									<a-animation begin="mouseenter" attribute="rotation"
 												to="0 0 1" dur="100" direction="alternate"  repeat="3"></a-animation>
@@ -39,13 +39,13 @@
 						 <a-entity position="2 2.3 0"
 									geometry="primitive: plane; width: 1.8; height: .8;" material="color: lightgray"
                                     mixin="RobotoFont"
-									v-bind:text='"color: white; align: center; value: ; width: 6; "'
+									v-bind:text='"color: white; align: center; value: ; width: 4; "'
 									rotation='0 0 0' >
 									<a-animation begin="mouseenter" attribute="rotation"
 												to="0 0 1" dur="100" direction="alternate"  repeat="3"></a-animation>
                                         <a-entity  	id=locked
                                                     geometry='primitive: plane; height: .3 ; width: .256'
-                                                    position='0 .2 0.1'
+                                                    position='0 .1 0.1'
                                                     v-bind:material='"src: " + (locked?"":"un") + "locked.png; alphaTest: 0.5;color: blue;opacity: 1;"'
                                                     lock_icon=''
                                                     v-if='getIsLocalMachine'
@@ -63,7 +63,7 @@
 									geometry="primitive: plane; width: 8.4; height: 3.4;"
                                     v-bind:material='"color: gray; opacity: 1;"'
                                     mixin="RobotoFont"
-									v-bind:text='"color: white; align: center; value: People ; width: 24; "'
+									v-bind:text='"color: white; align: center; value: People ; width: 18; "'
                                     goto='name: people_num; distance: 8; duration: 1500;'
                                     set_zoom='people: true;'
 									rotation='0 0 0' >
@@ -123,7 +123,7 @@
 						<a-entity  v-if='vr_type=="mouse"' position="0 .9 0"
 								 geometry="primitive: plane; width: 1.8; height: .8;" material="color: yellow"
                                  mixin="RobotoFont"
-								 v-bind:text='"color: black; align: center; value: Settings ; width: 6; "'
+								 v-bind:text='"color: black; align: center; value: Settings ; width: 4; "'
 								 rotation='0 0 0' goto_settings=''>
 								<a-animation begin="mouseenter" attribute="rotation"
 												to="0 0 1" dur="100" direction="alternate"  repeat="3"></a-animation>
@@ -132,7 +132,7 @@
 						<a-entity  v-if='vr_type=="move"' position="0 .9 0"
 								 geometry="primitive: plane; width: 1.8; height: .8;" material="color: yellow"
                                  mixin="RobotoFont"
-								 v-bind:text='"color: black; align: center; value:  ; width: 6; "'
+								 v-bind:text='"color: black; align: center; value:  ; width: 4; "'
 								 rotation='0 0 0'>
 								<a-animation begin="mouseenter" attribute="rotation"
 												to="0 0 1" dur="100" direction="alternate"  repeat="3"></a-animation>
@@ -144,7 +144,7 @@
                         <a-entity v-if='vr_type=="mouse"' position="-2 2.3 0"
 									geometry="primitive: plane; width: 1.8; height: .8;" material="color: red"
                                     mixin="RobotoFont"
-									v-bind:text='"color: white; align: center; value: drag and drop \nWord, Excel, PDF\n and text files here ; width: 4; "'
+									v-bind:text='"color: white; align: center; value: Drag and drop \nWord, Excel, PDF\n and text files here ; width: 4; "'
 									rotation='0 0 0' id='red_home' add_data=''
                                     >
 									<a-animation begin="mouseenter" attribute="rotation"
@@ -156,7 +156,7 @@
                         <a-entity v-if='vr_type=="move"' position="-2 2.3 0"
 									geometry="primitive: plane; width: 1.8; height: .8;" material="color: red"
                                     mixin="RobotoFont"
-									v-bind:text='"color: white; align: center; value:  ; width: 6; "'
+									v-bind:text='"color: white; align: center; value:  ; width: 4; "'
 									rotation='0 0 0' id='red_home' >
 									<a-animation begin="mouseenter" attribute="rotation"
 														to="0 0 1" dur="100" direction="alternate"  repeat="3"></a-animation>
@@ -171,7 +171,7 @@
 						<a-entity v-if='vr_type=="mouse"' position="-2 .9 0"
 								 geometry="primitive: plane; width: 1.8; height: .8;" material="color: blue"
                                  mixin="RobotoFont"
-								 v-bind:text='"color: white; align: center; value: VR  ; width: 6; "'
+								 v-bind:text='"color: white; align: center; value: VR  ; width: 4; "'
 								 rotation='0 0 0' goto_vr=''>
 								 <a-animation begin="mouseenter" attribute="rotation"
 													 to="0 0 1" dur="100" direction="alternate"  repeat="3"></a-animation>
@@ -182,7 +182,7 @@
 						<a-entity v-if='vr_type=="move"' position="-2 .9 0"
 								 geometry="primitive: plane; width: 1.8; height: .8;" material="color: blue"
                                  mixin="RobotoFont"
-								 v-bind:text='"color: white; align: center; value: Exit VR  ; width: 6; "'
+								 v-bind:text='"color: white; align: center; value: Exit VR  ; width: 4; "'
 								 rotation='0 0 0' exit_vr=''>
 								 <a-animation begin="mouseenter" attribute="rotation"
 													 to="0 0 1" dur="100" direction="alternate"  repeat="3"></a-animation>
