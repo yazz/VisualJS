@@ -1,19 +1,19 @@
 <template>
 			  <a-entity position='5 -10 -20' id='vr_items'>
 
-                        <a-entity position="0 4 -1.9" id='vr_file_name_2'
+                        <a-entity position="5 3 -1.9" id='vr_file_name_2'
                                     scale="1 1 1"
 									geometry="primitive: plane; width: 3.9; height: 1.9;" material="color: white;opacity: 1;"
                                     mixin="RobotoFont"
 									v-bind:text='"color: black; align: left; value:  ; width: 4; "'>
 						</a-entity>
-						 <a-entity position="0 3.6 -1.9" id='vr_file_size_2'
+						 <a-entity position="5 2.6 -1.9" id='vr_file_size_2'
                                     scale="1 1 1"
 									geometry="primitive: plane; width: 3.9; height: 1.9;" material="color: white;opacity: 1;"
                                     mixin="RobotoFont"
 									v-bind:text='"color: black; align: left; value:  ; width: 4; "'>
 						</a-entity>
-						 <a-entity position="0 3.2 -1.9" id='vr_file_saved_as'
+						 <a-entity position="5 2.2 -1.9" id='vr_file_saved_as'
                                     scale="1 1 1"
 									geometry="primitive: plane; width: 3.9; height: 1.9;" material="color: white;opacity: 1;"
                                     mixin="RobotoFont"
@@ -23,12 +23,6 @@
 
 
 
-				<a-entity position="-1.4 4.7 .6" id=vr_file_name
-						  geometry="primitive: plane; width: auto; height: auto" material="color: white"
-                          mixin="RobotoFont"
-						  text='color: black; align: left; value: ; width: 4;  '
-						  rotation='0 0 0'>
-				</a-entity>
 
 
 
@@ -267,7 +261,7 @@
                             position="0 0 0" ></a-entity>
 
 
-                        <a-entity v-for="(field_name,index)  in  list_of_fields" 
+                        <a-entity v-for="(field_name,index)  in  list_of_fields"
                                   :key="field_name"
                                   v-bind:position='(can_show_full_doc()?(index + 6.0):-100) + " -1.15 2.5"'
                                   geometry="primitive: plane; width: auto; height: auto"
@@ -285,7 +279,7 @@
                                     </a-entity>
                                 </a-entity>
 
-                                <a-entity v-for="(a_record,rindex)  in  list_of_records()" 
+                                <a-entity v-for="(a_record,rindex)  in  list_of_records()"
                                           :key="a_record.id"
                                           v-bind:position='(is_spreadsheet(get_viewed_query_id())?-1.5:-100) + " " + (-.2 - (rindex * 0.2)) + " 0.6"'
                                           geometry="primitive: plane; width: 2; height: 0.2"
