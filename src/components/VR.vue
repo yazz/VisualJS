@@ -73,10 +73,10 @@
                                         v-bind:text='"color: gray;align: left; value: " + getSearchSubtext + " ; width: 5; "'>
                             </a-entity>
 
-                            <a-entity   v-bind:position='(get_show_related()?.75:-100) + " -.5 0"'
+                            <a-entity   v-bind:position='(get_show_related()?1.2:-100) + " -.9 0.5"'
                                         mixin="RobotoFont"
                                         geometry="primitive: plane; width: 1.5; height: .3; ;"
-                                        material="color: gray; opacity: 0.9;"
+                                        material="color: gray; opacity: 1;"
                                         close_related=''
                                         text="color: blue;align: center; value: Cancel filter ; width: 5; ">
                                     <a-animation begin="mouseenter" attribute="rotation"
