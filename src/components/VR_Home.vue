@@ -21,8 +21,8 @@
 
 					 <a-entity position="1 -1.6 2">
 
-						 <a-entity position="0 2.8 0"
-									geometry="primitive: plane; width: 1.8; height: 1.8;" material="color: green"
+						 <a-entity position="0 2.3 0"
+									geometry="primitive: plane; width: 1.8; height: .8;" material="color: green"
                                     mixin="RobotoFont"
 									v-bind:text='"color: white; align: center; value: View ; width: 6; "'
 									rotation='0 0 0' goto='name: scrollable_grid; distance: 4; duration: 500;'>
@@ -36,8 +36,8 @@
 
 
 
-						 <a-entity position="2 2.8 0"
-									geometry="primitive: plane; width: 1.8; height: 1.8;" material="color: lightgray"
+						 <a-entity position="2 2.3 0"
+									geometry="primitive: plane; width: 1.8; height: .8;" material="color: lightgray"
                                     mixin="RobotoFont"
 									v-bind:text='"color: white; align: center; value: ; width: 6; "'
 									rotation='0 0 0' >
@@ -60,7 +60,7 @@
 						</a-entity>
 
 						 <a-entity v-bind:position='"13 -1.7 -11"' id="people"
-									geometry="primitive: plane; width: 8.4; height: 8.4;"
+									geometry="primitive: plane; width: 8.4; height: 3.4;"
                                     v-bind:material='"color: gray; opacity: 1;"'
                                     mixin="RobotoFont"
 									v-bind:text='"color: white; align: center; value: People ; width: 24; "'
@@ -121,7 +121,7 @@
 
 
 						<a-entity  v-if='vr_type=="mouse"' position="0 .9 0"
-								 geometry="primitive: plane; width: 1.8; height: 1.8;" material="color: yellow"
+								 geometry="primitive: plane; width: 1.8; height: .8;" material="color: yellow"
                                  mixin="RobotoFont"
 								 v-bind:text='"color: black; align: center; value: Settings ; width: 6; "'
 								 rotation='0 0 0' goto_settings=''>
@@ -130,7 +130,7 @@
 						</a-entity>
 
 						<a-entity  v-if='vr_type=="move"' position="0 .9 0"
-								 geometry="primitive: plane; width: 1.8; height: 1.8;" material="color: yellow"
+								 geometry="primitive: plane; width: 1.8; height: .8;" material="color: yellow"
                                  mixin="RobotoFont"
 								 v-bind:text='"color: black; align: center; value:  ; width: 6; "'
 								 rotation='0 0 0'>
@@ -141,8 +141,8 @@
 
 
 
-                        <a-entity v-if='vr_type=="mouse"' position="-2 2.8 0"
-									geometry="primitive: plane; width: 1.8; height: 1.8;" material="color: red"
+                        <a-entity v-if='vr_type=="mouse"' position="-2 2.3 0"
+									geometry="primitive: plane; width: 1.8; height: .8;" material="color: red"
                                     mixin="RobotoFont"
 									v-bind:text='"color: white; align: center; value: drag and drop \nWord, Excel, PDF\n and text files here ; width: 4; "'
 									rotation='0 0 0' id='red_home' add_data=''
@@ -153,8 +153,8 @@
 
 
 
-                        <a-entity v-if='vr_type=="move"' position="-2 2.8 0"
-									geometry="primitive: plane; width: 1.8; height: 1.8;" material="color: red"
+                        <a-entity v-if='vr_type=="move"' position="-2 2.3 0"
+									geometry="primitive: plane; width: 1.8; height: .8;" material="color: red"
                                     mixin="RobotoFont"
 									v-bind:text='"color: white; align: center; value:  ; width: 6; "'
 									rotation='0 0 0' id='red_home' >
@@ -169,7 +169,7 @@
 
 
 						<a-entity v-if='vr_type=="mouse"' position="-2 .9 0"
-								 geometry="primitive: plane; width: 1.8; height: 1.8;" material="color: blue"
+								 geometry="primitive: plane; width: 1.8; height: .8;" material="color: blue"
                                  mixin="RobotoFont"
 								 v-bind:text='"color: white; align: center; value: VR  ; width: 6; "'
 								 rotation='0 0 0' goto_vr=''>
@@ -180,7 +180,7 @@
 
 
 						<a-entity v-if='vr_type=="move"' position="-2 .9 0"
-								 geometry="primitive: plane; width: 1.8; height: 1.8;" material="color: blue"
+								 geometry="primitive: plane; width: 1.8; height: .8;" material="color: blue"
                                  mixin="RobotoFont"
 								 v-bind:text='"color: white; align: center; value: Exit VR  ; width: 6; "'
 								 rotation='0 0 0' exit_vr=''>

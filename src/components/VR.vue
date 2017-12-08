@@ -23,10 +23,10 @@
 					geometry='primitive: plane; width: 10; height: 1; '
 					position='0 -1.6 -2' >
 
-                    <a-entity position="1.4 3.15 0"
+                    <a-entity position="2.5 3 0"
 						  geometry="primitive: plane; width: auto; height: auto" material="color: white"
                           mixin="RobotoFont"
-						  v-bind:text='"    ; color: black; align: left; value: Data for user: " + getUserName + "; width: 4; "'
+						  v-bind:text='"    ; color: black; align: left; value: User: " + getUserName + "; width: 2; "'
 						  rotation='0 0 0'>
                     </a-entity>
                     <a-entity position="4 3.15 0"
@@ -39,7 +39,7 @@
 
 
 
-					<a-entity   position="-6 2 -4"
+					<a-entity   position="-3.5 1.5 -3"
 								geometry="primitive: plane; width: 5.9; height: 8.9;"
 								material="color: white; opacity: .9;"
 								rotation='0 0 0' >
@@ -47,17 +47,17 @@
 
 						<a-entity  	id=visifile_new_logo
 									geometry='primitive: plane; height: 1 ; width: 1'
-									position='1 3 1'
+									position='2 3 1'
 									v-bind:material='"src: VisiFileColor.png;color: white;"'
 									></a-entity>
 
 
-                        <a-entity   position="1 3 0"
+                        <a-entity   position="5 4.1 0"
                                     mixin="RobotoFont"
                                     v-bind:text='"color: black; align: left; value: Search ; width: 5; "'></a-entity>
-                        <a-entity
-                                        position="0 2.6 0"
-                        >
+
+                        <a-entity  position="4 3.6 0">
+
                             <a-entity   geometry="primitive: plane; width: 3; height: .5;"
                                         position="0 0 0.01"
                                         material="color: lightgray; opacity: 0.9;">
@@ -68,7 +68,7 @@
                                 <a-animation begin="mouseenter" attribute="rotation"
                                             to="0 0 1" dur="50" direction="alternate"  repeat="3"></a-animation>
                             </a-entity>
-                            <a-entity   position="0 -.5 0"
+                            <a-entity   position="1 -.6 0"
                                         mixin="RobotoFont"
                                         v-bind:text='"color: gray;align: left; value: " + getSearchSubtext + " ; width: 5; "'>
                             </a-entity>
@@ -83,62 +83,6 @@
                                                 to="0 0 2" dur="20" direction="alternate"  repeat="3"></a-animation>
                             </a-entity>
 
-
-    <a-entity   v-bind:position='(can_see_search_results?0:-100) + " -.7 0"'>
-
-
-
-
-            <a-entity   position="-1 -1 1"
-                        geometry="primitive: plane; width: 9; height: 1; ;"
-                        v-bind:jump_to_query='(getSearchResults[0]?"queryId: " + getSearchResults[0].id + "; queryFile: " +  get_hash(getSearchResults[0].id) + ( get_file_name(getSearchResults[0].id)?"." + get_file_name(getSearchResults[0].id).split(".").pop():""):false)'
-                        material="color: white; opacity: 1">
-                        <a-entity   position="2 0 0.01"
-                                    mixin="RobotoFont"
-                                    v-bind:text='"color: black;align: left; value: " + (getSearchResults[0]?getSearchResults[0].data:"") + "; width: 5; "'>
-                        </a-entity>
-                        <a-animation begin="mouseenter" attribute="position"
-                                        to="-.5 -1 1.3" dur="300" direction="alternate"  repeat="1"></a-animation>
-            </a-entity>
-
-            <a-entity   position="-1 -2 1"
-                        geometry="primitive: plane; width: 9; height: 1; "
-                        v-bind:jump_to_query='(getSearchResults[1]?"queryId: " + getSearchResults[1].id + "; queryFile: " +  get_hash(getSearchResults[1].id) + ( get_file_name(getSearchResults[1].id)?"." + get_file_name(getSearchResults[1].id).split(".").pop():""):false)'
-                        material="color: white; opacity: 1;">
-                        <a-entity   position="2 0 0.01"
-                                    mixin="RobotoFont"
-                                    v-bind:text='"color: black;align: left; value: " + (getSearchResults[1]?getSearchResults[1].data:"") + "; width: 5; "'>
-                        </a-entity>
-                        <a-animation begin="mouseenter" attribute="position"
-                                        to="-.5 -2 1.3" dur="300" direction="alternate"  repeat="1"></a-animation>
-            </a-entity>
-
-            <a-entity   position="-1 -3 1"
-                        geometry="primitive: plane; width: 9; height: 1; "
-                        v-bind:jump_to_query='(getSearchResults[2]?"queryId: " + getSearchResults[2].id + "; queryFile: " +  get_hash(getSearchResults[2].id) + ( get_file_name(getSearchResults[2].id)?"." + get_file_name(getSearchResults[2].id).split(".").pop():""):false)'
-                        material="color: white; opacity: 1;">
-                        <a-entity   position="2 0 0.01"
-                                    mixin="RobotoFont"
-                                    v-bind:text='"color: black;align: left; value: " + (getSearchResults[2]?getSearchResults[2].data:"") + "; width: 5; "'>
-                        </a-entity>
-                        <a-animation begin="mouseenter" attribute="position"
-                                        to="-.5 -3 1.3" dur="300" direction="alternate"  repeat="1"></a-animation>
-            </a-entity>
-
-            <a-entity   position="-1 -4 1"
-                        geometry="primitive: plane; width: 9; height: 1; "
-                        v-bind:jump_to_query='(getSearchResults[3]?"queryId: " + getSearchResults[3].id + "; queryFile: " +  get_hash(getSearchResults[3].id) + ( get_file_name(getSearchResults[3].id)?"." + get_file_name(getSearchResults[3].id).split(".").pop():""):false)'
-                        material="color: white; opacity: 1;">
-                        <a-entity   position="2 0 0.01"
-                                    mixin="RobotoFont"
-                                    v-bind:text='"color: black;align: left; value: " + (getSearchResults[3]?getSearchResults[3].data:"") + "; width: 5; "'>
-                        </a-entity>
-                        <a-animation begin="mouseenter" attribute="position"
-                                        to="-.5 -4 1.3" dur="300" direction="alternate"  repeat="1"></a-animation>
-            </a-entity>
-
-
-    </a-entity>
 
                         </a-entity>
                     </a-entity>
@@ -193,7 +137,7 @@
                     <a-entity position="2.5 7.8 1.5"
 						  geometry="primitive: plane; width: auto; height: auto" material="color: white"
                           mixin="RobotoFont"
-						  v-bind:text='"color: black; align: left; value: Data for user: " + getUserName + "; width: 8; "'
+						  v-bind:text='"color: black; align: left; value: User: " + getUserName + "; width: 4; "'
 						  rotation='0 0 0'>
                     </a-entity>
                     <a-entity  	material='color: gray;opacity: .95;'
