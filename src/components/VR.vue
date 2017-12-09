@@ -23,16 +23,15 @@
 					geometry='primitive: plane; width: 10; height: 1; '
 					position='0 -1.6 -2' >
 
-                    <a-entity position="2.5 3 0"
+                    <a-entity position="2.3 2.9 0"
 						  geometry="primitive: plane; width: auto; height: auto" material="color: white"
                           mixin="RobotoFont"
 						  v-bind:text='"    ; color: black; align: left; value: User: " + getUserName + "; width: 2; "'
 						  rotation='0 0 0'>
                     </a-entity>
-                    <a-entity position="4 3.15 0"
-						  geometry="primitive: plane; width: 6; height: auto" material="color: white"
+                    <a-entity position="2.3 3.0 0"
                           mixin="RobotoFont"
-						  v-bind:text='"; color: black; align: left; value:  "  + get_scanning_status()+"; width: 5;wrapPixels: 5000; "'
+						  v-bind:text='"; color: black; align: left; value:  "  + get_scanning_status()+"; width: 2;"'
 						  rotation='0 0 0'>
                     </a-entity>
 
@@ -52,33 +51,37 @@
 									></a-entity>
 
 
-                        <a-entity   position="5 4.1 0"
+                        <a-entity   position="5.3 4 0"
                                     mixin="RobotoFont"
-                                    v-bind:text='"color: black; align: left; value: Search ; width: 5; "'></a-entity>
+                                    v-bind:text='"color: black; align: left; value: Search ; width: 6; "'></a-entity>
 
-                        <a-entity  position="4 3.6 0">
+                        <a-entity  position="5 4 0">
 
                             <a-entity   geometry="primitive: plane; width: 3; height: .5;"
                                         position="0 0 0.01"
                                         material="color: lightgray; opacity: 0.9;">
-                                <a-entity   position="1.6 0.0 0"
+
+                                <a-entity   position="1.6 0 0"
                                             mixin="RobotoFont"
                                             v-bind:text='"color: black;align: left; value: " + getCurrentSearch + " ; width: 6; "'>
                                 </a-entity>
+
                                 <a-animation begin="mouseenter" attribute="rotation"
                                             to="0 0 1" dur="50" direction="alternate"  repeat="3"></a-animation>
                             </a-entity>
-                            <a-entity   position="1 -.6 0"
+
+
+                            <a-entity   position="4.25 -.1 0"
                                         mixin="RobotoFont"
                                         v-bind:text='"color: gray;align: left; value: " + getSearchSubtext + " ; width: 5; "'>
                             </a-entity>
 
-                            <a-entity   v-bind:position='(get_show_related()?1.2:-100) + " -.9 0.5"'
+                            <a-entity   v-bind:position='(get_show_related()?-.75:-100) + " -.9 0.5"'
                                         mixin="RobotoFont"
                                         geometry="primitive: plane; width: 1.5; height: .3; ;"
                                         material="color: gray; opacity: 1;"
                                         close_related=''
-                                        text="color: blue;align: center; value: Cancel filter ; width: 5; ">
+                                        text="color: white;align: center; value: Cancel filter ; width: 5; ">
                                     <a-animation begin="mouseenter" attribute="rotation"
                                                 to="0 0 2" dur="20" direction="alternate"  repeat="3"></a-animation>
                             </a-entity>
