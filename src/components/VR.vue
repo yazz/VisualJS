@@ -28,9 +28,9 @@
 						  v-bind:text='"    ; color: black; align: left; value: User: " + getUserName + "; width: 4; "'
 						  rotation='0 0 0'>
                     </a-entity>
-                    <a-entity position="2.3 3.0 0"
+                    <a-entity position=".792 1.915 1.55"
                           mixin="RobotoFont"
-						  v-bind:text='"; color: black; align: left; value:  "  + get_scanning_status()+"; width: 2;"'
+						  v-bind:text='"; color: black; align: left; value:  "  + get_scanning_status()+";  wrapPixels: 2000;"'
 						  rotation='0 0 0'>
                     </a-entity>
 
