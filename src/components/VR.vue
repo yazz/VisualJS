@@ -89,8 +89,8 @@
                         </a-entity>
                     </a-entity>
 
-                    <a-entity  	material='color: gray;opacity: .95;'
-								geometry='primitive: plane; width: 2.5; height: .2; '
+                    <a-entity  	material='color: blue;opacity: 1;'
+								geometry='primitive: plane; width: 4.5; height: .28; '
                                 rotation='0 0 0'
                                 id='mouse_click_home'
 								position='0.01 .9 1'
@@ -101,7 +101,7 @@
                                 <a-entity  position="0 0.2 0.3"
                                            rotation="0 0 0"
                                            mixin="RobotoFont"
-                                           text='color: black; align: center; value: Go back; width: 2; '>
+                                           text='color: white; align: center; value: Go back; width: 2; '>
                                 </a-entity>
 					</a-entity >
 
