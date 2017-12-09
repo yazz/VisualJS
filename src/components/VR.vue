@@ -23,10 +23,9 @@
 					geometry='primitive: plane; width: 10; height: 1; '
 					position='0 -1.6 -2' >
 
-                    <a-entity position="2.3 2.9 0"
-						  geometry="primitive: plane; width: auto; height: auto" material="color: white"
+                    <a-entity position="4.6 4.16 -2"
                           mixin="RobotoFont"
-						  v-bind:text='"    ; color: black; align: left; value: User: " + getUserName + "; width: 2; "'
+						  v-bind:text='"    ; color: black; align: left; value: User: " + getUserName + "; width: 4; "'
 						  rotation='0 0 0'>
                     </a-entity>
                     <a-entity position="2.3 3.0 0"
