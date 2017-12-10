@@ -22,18 +22,19 @@
 					 <a-entity position="1 -1.6 2">
 
 
-						 <a-entity v-bind:position='"3.5 11.15 -11"' id="people"
+						 <a-entity  position="1.7 11.4 -11"
+                                    id="people"
 									geometry="primitive: plane; width: 3; height: 1;"
-                                    v-bind:material='"color: gray; opacity: 1;"'
+                                    material="opacity: 0;"
                                     mixin="RobotoFont"
-									v-bind:text='"color: white; align: center; value: People ; width: 12; "'
+									v-bind:text='"color: blue; align: center; value: People ; width: 9; "'
                                     goto='name: people_num; distance: 8; duration: 1500;'
                                     set_zoom='people: true;'
 									rotation='0 0 0' >
 									<a-animation begin="mouseenter" attribute="rotation"
 												to="0 0 1" dur="100" direction="alternate"  repeat="3"></a-animation>
 									<a-animation begin="click" attribute="rotation"
-												to="0 0 20" dur="2000" direction="alternate"  repeat="1"></a-animation>
+												to="0 0 2" dur="2000" direction="alternate"  repeat="1"></a-animation>
 						</a-entity>
 
 						 <a-entity v-bind:position='"27 -1.7 -30"' id="people_num">
@@ -115,10 +116,11 @@
 
 
 
-						<a-entity  v-if='vr_type=="mouse"' position="-.7 3.65 0"
-								 geometry="primitive: plane; width: .6; height: .2;" material="color: yellow"
+						<a-entity  v-if='vr_type=="mouse"' position="-.8 3.7 0"
+								 geometry="primitive: plane; width: .6; height: .2;"
+                                 material="opacity: 0;"
                                  mixin="RobotoFont"
-								 v-bind:text='"color: black; align: center; value: Settings ; width: 3; "'
+								 v-bind:text='"color: blue; align: center; value: Settings ; width: 2; "'
 								 rotation='0 0 0' goto_settings=''>
 								<a-animation begin="mouseenter" attribute="rotation"
 												to="0 0 1" dur="100" direction="alternate"  repeat="3"></a-animation>
