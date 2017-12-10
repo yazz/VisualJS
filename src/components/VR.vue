@@ -23,7 +23,7 @@
 					geometry='primitive: plane; width: 10; height: 1; '
 					position='0 -1.6 -2' >
 
-                    <a-entity position="4.6 4.16 -2"
+                    <a-entity position="4.6 4.68 -2"
                           mixin="RobotoFont"
 						  v-bind:text='"    ; color: black; align: left; value: User: " + getUserName + "; width: 4; "'
 						  rotation='0 0 0'>
@@ -106,7 +106,7 @@
                             </a-entity>
 
 
-                            <a-entity   position="4.25 -.1 0"
+                            <a-entity   position="4.25 -0.7 0"
                                         mixin="RobotoFont"
                                         v-bind:text='"color: gray;align: left; value: " + getSearchSubtext + " ; width: 5; "'>
                             </a-entity>
