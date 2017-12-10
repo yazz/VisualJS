@@ -21,22 +21,6 @@
 
 					 <a-entity position="1 -1.6 2">
 
-						 <a-entity position="0 2.3 0"
-									geometry="primitive: plane; width: 1.8; height: .8;" material="color: green"
-                                    mixin="RobotoFont"
-									v-bind:text='"color: white; align: center; value: View ; width: 4; "'
-									rotation='0 0 0' goto='name: scrollable_grid; distance: 4; duration: 500;'>
-									<a-animation begin="mouseenter" attribute="rotation"
-												to="0 0 1" dur="100" direction="alternate"  repeat="3"></a-animation>
-													</a-entity>
-
-
-
-
-
-
-
-
 
 						 <a-entity v-bind:position='"13 -1.7 -11"' id="people"
 									geometry="primitive: plane; width: 8.4; height: 3.4;"
@@ -151,16 +135,6 @@
 
 
 
-
-                        <a-entity v-if='vr_type=="mouse"' position="-2 2.3 0"
-									geometry="primitive: plane; width: 1.8; height: .8;" material="color: red"
-                                    mixin="RobotoFont"
-									v-bind:text='"color: white; align: center; value: Drag and drop \nWord, Excel, PDF\n and text files here ; width: 4; "'
-									rotation='0 0 0' id='red_home' add_data=''
-                                    >
-									<a-animation begin="mouseenter" attribute="rotation"
-														to="0 0 1" dur="100" direction="alternate"  repeat="3"></a-animation>
-						</a-entity>
 
 
 
