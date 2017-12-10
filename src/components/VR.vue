@@ -50,6 +50,42 @@
 									></a-entity>
 
 
+
+
+
+
+									<a-entity position="3.35 1.05 3"
+		   									geometry="primitive: plane;width: 0; height: 0;"
+		                                       mixin="RobotoFont">
+		   									<a-animation begin="mouseenter" attribute="rotation"
+		   												to="0 0 1" dur="100" direction="alternate"  repeat="3"></a-animation>
+		                                           <a-entity  	id=locked
+		                                                       geometry='primitive: plane; height: .15 ; width: .128'
+		                                                       position='-.7 .1 0.1'
+		                                                       v-bind:material='"src: " + (locked?"":"un") + "locked.png; alphaTest: 0.5;color: blue;opacity: 1;"'
+		                                                       lock_icon=''
+		                                                       v-if='getIsLocalMachine'
+		                                                       >
+		                                                           <a-animation begin="mouseenter" attribute="rotation"
+		                                                                       to="0 0 4" dur="100" direction="alternate"  repeat="3"></a-animation>
+		                                           </a-entity>
+		                                           <a-entity   position="-.38 -.095 .4" rotation="0 0 0"
+		                                                       mixin="RobotoFont"
+		                                                       v-bind:text='"color: black; align: center; value: " + (locked?"Locked":"Shared") + " ; width: 1.8; "'>
+		                                           </a-entity></a-entity>
+
+
+
+
+
+
+
+
+
+
+
+
+
                         <a-entity   position="5.3 4 0"
                                     mixin="RobotoFont"
                                     v-bind:text='"color: black; align: left; value: Search ; width: 6; "'></a-entity>
@@ -212,7 +248,13 @@ export default {
         }
         ,
 
+		getIsLocalMachine: function() {
+	       return this.$store.state.is_local_machine
+	     },
 
+		locked: function () {
+		 return this.$store.state.locked;
+	    },
 
 
         getSearchSubtext: function() {

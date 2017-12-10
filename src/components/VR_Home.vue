@@ -36,28 +36,7 @@
 
 
 
-						 <a-entity position="2 2.3 0"
-									geometry="primitive: plane; width: 1.8; height: .8;" material="color: lightgray"
-                                    mixin="RobotoFont"
-									v-bind:text='"color: white; align: center; value: ; width: 4; "'
-									rotation='0 0 0' >
-									<a-animation begin="mouseenter" attribute="rotation"
-												to="0 0 1" dur="100" direction="alternate"  repeat="3"></a-animation>
-                                        <a-entity  	id=locked
-                                                    geometry='primitive: plane; height: .3 ; width: .256'
-                                                    position='0 .1 0.1'
-                                                    v-bind:material='"src: " + (locked?"":"un") + "locked.png; alphaTest: 0.5;color: blue;opacity: 1;"'
-                                                    lock_icon=''
-                                                    v-if='getIsLocalMachine'
-                                                    >
-                                                        <a-animation begin="mouseenter" attribute="rotation"
-                                                                    to="0 0 4" dur="100" direction="alternate"  repeat="3"></a-animation>
-                                        </a-entity>
-                                        <a-entity   position="-.4 -.2 .4" rotation="0 0 0"
-                                                    mixin="RobotoFont"
-                                                    v-bind:text='"color: black; align: center; value: " + (locked?"ONLY YOU can see your data":"Others can see your SHARED data") + " ; width: 2; "'>
-                                        </a-entity>
-						</a-entity>
+
 
 						 <a-entity v-bind:position='"13 -1.7 -11"' id="people"
 									geometry="primitive: plane; width: 8.4; height: 3.4;"
