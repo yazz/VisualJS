@@ -62,7 +62,7 @@
 		   												to="0 0 1" dur="100" direction="alternate"  repeat="3"></a-animation>
 		                                           <a-entity  	id=locked
 		                                                       geometry='primitive: plane; height: .3 ; width: .256'
-		                                                       position='-.7 .1 0.1'
+		                                                       position='0 .1 0.1'
 		                                                       v-bind:material='"src: " + (locked?"":"un") + "locked.png; alphaTest: 0.5;color: blue;opacity: 1;"'
 		                                                       lock_icon=''
 		                                                       v-if='getIsLocalMachine'
@@ -70,9 +70,9 @@
 		                                                           <a-animation begin="mouseenter" attribute="rotation"
 		                                                                       to="0 0 4" dur="100" direction="alternate"  repeat="3"></a-animation>
 		                                           </a-entity>
-		                                           <a-entity   position="-.25 -.14 .4" rotation="0 0 0"
+		                                           <a-entity   position="-.79 -.07 .4" rotation="0 0 0"
 		                                                       mixin="RobotoFont"
-		                                                       v-bind:text='"color: black; align: center; value: " + (locked?"Locked":"Shared") + " ; width: 3; "'>
+		                                                       v-bind:text='"color: black; align: center; value: " + (locked?"Locked":"Shared") + " ; width: 3.5; "'>
 		                                           </a-entity></a-entity>
 
 
