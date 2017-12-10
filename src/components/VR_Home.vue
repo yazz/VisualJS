@@ -22,9 +22,9 @@
 					 <a-entity position="1 -1.6 2">
 
 
-						 <a-entity  position="1.7 11.4 -11"
+						 <a-entity  position="0 10 -11"
                                     id="people"
-									geometry="primitive: plane; width: 3; height: 1;"
+									geometry="primitive: plane; "
                                     material="opacity: 0;"
                                     mixin="RobotoFont"
 									v-bind:text='"color: blue; align: center; value: People ; width: 9; "'
@@ -116,8 +116,8 @@
 
 
 
-						<a-entity  v-if='vr_type=="mouse"' position="-.8 3.7 0"
-								 geometry="primitive: plane; width: .6; height: .2;"
+						<a-entity  v-if='vr_type=="mouse"' position="-1.4 3.4 0"
+								 geometry="primitive: plane; "
                                  material="opacity: 0;"
                                  mixin="RobotoFont"
 								 v-bind:text='"color: blue; align: center; value: Settings ; width: 2; "'

@@ -38,16 +38,16 @@
 
 
 
-					<a-entity   position="-3.5 1.5 -3"
+					<a-entity   position="-2.5 1.7 -3"
 								geometry="primitive: plane; width: 5.9; height: 8.9;"
 								material="color: white; opacity: .9;"
 								rotation='0 0 0' >
 
 
 						<a-entity  	id=visifile_new_logo
-									geometry='primitive: plane; height: 1 ; width: 1'
-									position='2 3 1'
-									v-bind:material='"src: VisiFileColor.png;color: white;"'
+									geometry='primitive: plane; height: .4 ; width: 1'
+									position='2.5 3.05 1'
+									v-bind:material='"src: VisiFileColorHoriz.png;color: white;"'
 									></a-entity>
 
 
@@ -55,7 +55,7 @@
 
 
 
-									<a-entity position="2.5 2.2 1"
+									<a-entity position="6 2 1"
 		   									geometry="primitive: plane;width: 0; height: 0;"
 		                                       mixin="RobotoFont">
 		   									<a-animation begin="mouseenter" attribute="rotation"
@@ -87,11 +87,11 @@
 
 
 
-                        <a-entity   position="5.3 4 0"
+                        <a-entity   position="3.3 3.3 0"
                                     mixin="RobotoFont"
                                     v-bind:text='"color: black; align: left; value: Search ; width: 6; "'></a-entity>
 
-                        <a-entity  position="5 4 0">
+                        <a-entity  position="3 3.3 0">
 
                             <a-entity   geometry="primitive: plane; width: 3; height: .5;"
                                         position="0 0 0.01"
