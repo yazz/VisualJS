@@ -22,11 +22,11 @@
 					 <a-entity position="1 -1.6 2">
 
 
-						 <a-entity v-bind:position='"13 -1.7 -11"' id="people"
-									geometry="primitive: plane; width: 8.4; height: 3.4;"
+						 <a-entity v-bind:position='"3.5 11.15 -11"' id="people"
+									geometry="primitive: plane; width: 3; height: 1;"
                                     v-bind:material='"color: gray; opacity: 1;"'
                                     mixin="RobotoFont"
-									v-bind:text='"color: white; align: center; value: People ; width: 18; "'
+									v-bind:text='"color: white; align: center; value: People ; width: 12; "'
                                     goto='name: people_num; distance: 8; duration: 1500;'
                                     set_zoom='people: true;'
 									rotation='0 0 0' >
@@ -115,10 +115,10 @@
 
 
 
-						<a-entity  v-if='vr_type=="mouse"' position="0 .9 0"
-								 geometry="primitive: plane; width: 1.8; height: .8;" material="color: yellow"
+						<a-entity  v-if='vr_type=="mouse"' position="-.7 3.65 0"
+								 geometry="primitive: plane; width: .6; height: .2;" material="color: yellow"
                                  mixin="RobotoFont"
-								 v-bind:text='"color: black; align: center; value: Settings ; width: 4; "'
+								 v-bind:text='"color: black; align: center; value: Settings ; width: 3; "'
 								 rotation='0 0 0' goto_settings=''>
 								<a-animation begin="mouseenter" attribute="rotation"
 												to="0 0 1" dur="100" direction="alternate"  repeat="3"></a-animation>
@@ -153,10 +153,10 @@
 
 
 
-						<a-entity v-if='vr_type=="mouse"' position="-2 .9 0"
-								 geometry="primitive: plane; width: 1.8; height: .8;" material="color: blue"
+						<a-entity v-if='vr_type=="mouse"' position="-1000.5   3.65   0"
+								 geometry="primitive: plane; width: .5; height: .2;" material="color: blue"
                                  mixin="RobotoFont"
-								 v-bind:text='"color: white; align: center; value: VR  ; width: 4; "'
+								 v-bind:text='"color: white; align: center; value: VR  ; width: 3; "'
 								 rotation='0 0 0' goto_vr=''>
 								 <a-animation begin="mouseenter" attribute="rotation"
 													 to="0 0 1" dur="100" direction="alternate"  repeat="3"></a-animation>
