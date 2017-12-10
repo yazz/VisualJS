@@ -1,21 +1,21 @@
 <template>
-			  <a-entity position='1 0 -1' id='vr_items'>
+			  <a-entity position='0.4 -0.7 2' id='vr_items'>
 
-                        <a-entity position="5.85 3 -1.9" id='vr_file_name_2'
+                        <a-entity position="4.85 3 -1.9" id='vr_file_name_2'
                                     scale="1 1 1"
-									geometry="primitive: plane; width: 3.9; height: 1.9;" material="color: white;opacity: 1;"
+									geometry="primitive: plane; " material="color: white;opacity: 1;"
                                     mixin="RobotoFont"
 									v-bind:text='"color: black; align: left; value:  ; width: 4; "'>
 						</a-entity>
-						 <a-entity position="5.85 2.6 -1.9" id='vr_file_size_2'
+						 <a-entity position="4.85 2.6 -1.9" id='vr_file_size_2'
                                     scale="1 1 1"
-									geometry="primitive: plane; width: 3.9; height: 1.9;" material="color: white;opacity: 1;"
+									geometry="primitive: plane; " material="color: white;opacity: 1;"
                                     mixin="RobotoFont"
 									v-bind:text='"color: black; align: left; value:  ; width: 4; "'>
 						</a-entity>
-						 <a-entity position="5.85 2.2 -1.9" id='vr_file_saved_as'
+						 <a-entity position="4.85 2.2 -1.9" id='vr_file_saved_as'
                                     scale="1 1 1"
-									geometry="primitive: plane; width: 3.9; height: 1.9;" material="color: white;opacity: 1;"
+									geometry="primitive: plane; " material="color: white;opacity: 1;"
                                     mixin="RobotoFont"
 									v-bind:text='"color: black; align: left; value: ; width: 4; "'>
 						</a-entity>
@@ -82,7 +82,7 @@
                                     position="3 -2.8 0"
                                     mixin="RobotoFont"
                                     text='color: black; align: center; value: Close; width: 4; '
-                                    goto='name: scrollable_grid;  distance: 4; duration: 300;'
+                                    goto='name: vr_home;  distance: 4; duration: 300;'
                                     >
                                         <a-animation begin="mouseenter" attribute="rotation"
                                                     to="0 0 4" dur="100" direction="alternate"  repeat="3"></a-animation>
@@ -128,7 +128,7 @@
                                     position="1 -.8 0"
                                     mixin="RobotoFont"
                                     text='color: black; align: center; value: Close; width: 4; '
-                                    goto='name: scrollable_grid;  distance: 4; duration: 300;'
+                                    goto='name: vr_home;  distance: 4; duration: 300;'
                                     >
                                         <a-animation begin="mouseenter" attribute="rotation"
                                                     to="0 0 4" dur="100" direction="alternate"  repeat="3"></a-animation>

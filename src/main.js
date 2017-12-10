@@ -48,9 +48,9 @@ function sendClientDetails() {
         data: {},
         success: function(data) {
             var ret = eval("(" + data + ")");
-            store.dispatch('set_user_name', ret.username); 
+            store.dispatch('set_user_name', ret.username);
             store.dispatch('set_is_local_machine', ret.isLocalMachine);
-            store.dispatch('set_locked', ret.locked);          
+            store.dispatch('set_locked', ret.locked);
             //alert(JSON.stringify(ret,null,2));
             setupWebSocket(ret.server, ret.port);
         },
@@ -138,7 +138,7 @@ function setupVRVuePane() {
 
     if (document.getElementById('vr_element')) {
         var vrParam = 'mouse';
-        if (location.search) { 
+        if (location.search) {
             vrParam = location.search.split('type=')[1];
         }
 		 //alert(vrParam);
@@ -164,13 +164,13 @@ function setupVRVuePane() {
           ,
           components: {'VR': VR}
         });
-		
 
-        
-        
-        
-        
-        
+
+
+
+
+
+
 
 		AFRAME.registerComponent('preview', {
 		    schema: {	id: {type: 'string', default: ''}}
@@ -197,8 +197,8 @@ function setupVRVuePane() {
 		    }
 		});
 
-        
-                
+
+
 
 
 
@@ -242,7 +242,7 @@ function setupVRVuePane() {
 		});
 
 
-        
+
     window.get_query_property = function(id, property_name) {
         var qm = window.sqlGetQueryById(id);
         if ((!qm) || (typeof qm == 'undefined') || (typeof window.sqlGetQueryById(id)[property_name] == 'undefined')) {
@@ -251,23 +251,23 @@ function setupVRVuePane() {
         //return false;
         return JSON.stringify(qm[property_name],null,2);
     }
-        
-        
-        
-        
-        
-        
+
+
+
+
+
+
         window.gotoFunction = function(options) {
-                
+
             var goto_name = options.goto_name;
             if (store.getters.get_current_location == goto_name) {
                 return;
             }
-                
+
             var distance = options.distance;
             var duration = options.duration;
             var animEnd  = options.animEnd;
-            
+
             var worldPos = new THREE.Vector3();
             var goto_item = document.getElementById(goto_name);
             worldPos.setFromMatrixPosition(goto_item.object3D.matrixWorld);
@@ -290,7 +290,7 @@ function setupVRVuePane() {
                 animation.setAttribute('to', '' + (worldPos.x)  + ' ' + (worldPos.y) + ' ' + ((worldPos.z + distance)));
                 document.querySelector("#camera_id").appendChild(animation);
             }
-            
+
             // only in VR mode move the console
             if (document.querySelector("#movevr")){
                 animation.setAttribute('to', '' + (worldPos.x)  + ' ' + (worldPos.y ) + ' ' + ((worldPos.z + distance)));
@@ -325,14 +325,14 @@ function setupVRVuePane() {
                     if (self.data.people) {
                         //alert('Zoom to people: ' + JSON.stringify(self.data.people,null,2));
                         store.dispatch('set_zoom_people', (self.data.people == 'true')?true:false);
-                        
+
                     }
                 });
               }
         });
 
-        
-        
+
+
         AFRAME.registerComponent('goto', {
     		schema: {
                         name:     {type: 'string', default: ''},
@@ -353,7 +353,7 @@ function setupVRVuePane() {
                     var distance = self.data.distance;
                     var duration = self.data.duration;
                     //alert(goto_name);
-                    
+
                     gotoFunction({
                         goto_name:  goto_name,
                         distance:   distance,
@@ -380,7 +380,7 @@ function setupVRVuePane() {
                        return;
                     };
                     inMove = true;
-                    
+
                     store.dispatch('set_viewed_query_file', self.data.queryFile);
 
                     store.dispatch('hide_full_doc');
@@ -394,31 +394,31 @@ function setupVRVuePane() {
 		  }
 		});
 
-        
+
 		AFRAME.registerComponent('log', {
-            schema: { 
+            schema: {
                         queryId: {type: 'string'}
                     },
-                    
+
             init: function () {
                 var self = this;
-                
+
                 this.el.addEventListener('click', function (evt) {
                     var a_query = window.sqlGetQueryById(self.data.queryId);
-                
+
                     store.dispatch('set_viewed_query_id', self.data.queryId);
                     store.dispatch('set_viewed_query_file', a_query.hash + (a_query.fileName?"." +a_query.fileName.split(".").pop():""));
 
                     store.dispatch('hide_full_doc');
                     get_query_result(
-                        self.data.queryId, 
+                        self.data.queryId,
                         (function() {
                             store.dispatch('show_full_doc');
                         })
                     );
                 });
-                
-                
+
+
                 this.el.addEventListener('mouseleave', function (evt) {
                     document.querySelector('#vr_file_name_2').setAttribute('text','color: black; align: left; value: ;width: 4; ');
                     document.querySelector('#vr_file_size_2').setAttribute('text','color: black; align: left; value:  ;width: 4; ');
@@ -427,9 +427,9 @@ function setupVRVuePane() {
 
 
 
-                
+
                 this.el.addEventListener('mouseenter', function (evt) {
-                    
+
                     var qq = window.sqlGetQueryById(self.data.queryId);
                     if (qq) {
                         var similarCount = qq.similar_count;
@@ -440,42 +440,42 @@ function setupVRVuePane() {
                         document.querySelector('#vr_file_name_2').setAttribute(
                             'text',
                             'color: black; align: left; value: ' +qq.name + similarText + ' ;width: 4; ');
-                        
+
                         document.querySelector('#vr_file_size_2').setAttribute(
                             'text',
                             'color: black; align: left; value: ' + qq.size + ' bytes ;width: 4; ');
-                        
+
                         document.querySelector('#vr_file_saved_as').setAttribute(
                             'text',
                             'color: black; align: left; value: ' + qq.fileName + '  ;width: 4;  ');
                     }
 			});
 
-                
-                
-                
+
+
+
             }
 		});
 
 
 
 
-        
+
 		AFRAME.registerComponent('view', {
             init: function () {
                 var self = this;
-                
+
                 this.el.addEventListener('click', function (evt) {
                     var qf = store.state.viewed_query_id;
                     if (qf == null) {
                         return;
                     }
-                
-                    if (qf) {        
+
+                    if (qf) {
                         store.dispatch('set_error_message', "")
                         store.dispatch('hide_full_doc');
                         get_query_result(
-                            qf, 
+                            qf,
                             (function() {
                                 store.dispatch('show_full_doc');
                             })
@@ -486,17 +486,17 @@ function setupVRVuePane() {
 		});
 
 
-        
-        
-        
+
+
+
         AFRAME.registerComponent('close_item_menu', {
-            schema: { 
+            schema: {
                         queryId: {type: 'string'}
                     },
-                    
+
             init: function () {
                 var self = this;
-                
+
                 this.el.addEventListener('click', function (evt) {
                     store.dispatch('set_viewed_query_id', null);
                     store.dispatch('set_viewed_query_file', null);
@@ -504,17 +504,17 @@ function setupVRVuePane() {
                 });
             }
 		});
-        
-        
-        
+
+
+
         AFRAME.registerComponent('show_related', {
-            schema: { 
+            schema: {
                         queryId: {type: 'string'}
                     },
-                    
+
             init: function () {
                 var self = this;
-                
+
                 this.el.addEventListener('click', function (evt) {
                     gotoFunction({
                         goto_name:  "related_items",
@@ -530,13 +530,13 @@ function setupVRVuePane() {
 
 
         AFRAME.registerComponent('show_history_info', {
-            schema: { 
+            schema: {
                         queryId: {type: 'string'}
                     },
-                    
+
             init: function () {
                 var self = this;
-                
+
                 this.el.addEventListener('click', function (evt) {
                     gotoFunction({
                         goto_name:  "history_info",
@@ -547,17 +547,17 @@ function setupVRVuePane() {
             }
 		});
 
-        
-        
+
+
 
         AFRAME.registerComponent('show_query_info', {
-            schema: { 
+            schema: {
                         queryId: {type: 'string'}
                     },
-                    
+
             init: function () {
                 var self = this;
-                
+
                 this.el.addEventListener('click', function (evt) {
                     gotoFunction({
                         goto_name:  "query_info",
@@ -567,12 +567,12 @@ function setupVRVuePane() {
                 });
             }
 		});
-        
-        
-        
-        
-        
-        
+
+
+
+
+
+
 
         AFRAME.registerComponent(
             'close_related', {
@@ -587,8 +587,8 @@ function setupVRVuePane() {
                     })
                 }
             } ) ;
-        
-                
+
+
         AFRAME.registerComponent(
             'related_files', {
                 init: function () {
@@ -598,8 +598,8 @@ function setupVRVuePane() {
                         if (qf == null) {
                             return;
                         }
-                    
-                        if (qf) {        
+
+                        if (qf) {
                             store.dispatch('set_viewed_query_id', null);
                             store.dispatch('set_viewed_query_file', null);
                             store.dispatch('hide_full_doc');
@@ -607,16 +607,16 @@ function setupVRVuePane() {
                             searchtext = "";
                             searchPos = 0;
                             showText();
-                            
-                            
-                            
+
+
+
                             $.ajax({
                                 url: '/get_related_documents',
                                 data: {id: qf},
                                 success: function(data) {
-                                    
+
                                         gotoFunction({
-                                            goto_name:  "scrollable_grid",
+                                            goto_name:  "vr_home",
                                             distance:    4,
                                             duration:   "500",
                                             animEnd:     function() {store.dispatch('hide_full_doc');}
@@ -628,24 +628,24 @@ function setupVRVuePane() {
                               });
                         }
                 })}})
-            
-            
-            
-            
-            
+
+
+
+
+
         AFRAME.registerComponent(
             'preview_gltf', {
                 schema: {
                 },
                 init: function () {
                     var self = this;
-                    
+
                     this.el.addEventListener('model-loaded', function (evt) {
                         //alert(queryFile);
                         //alert('model loaded');
                         store.dispatch('set_error_message', "Loaded GLTF model")
                     });
-                    
+
                     this.el.addEventListener('model-error', function (evt) {
                         //alert(queryFile);
                         //alert('model error');
@@ -653,7 +653,7 @@ function setupVRVuePane() {
                     });
                 }
         });
-            
+
 
         window.closeQuickview = function() {
             store.dispatch('set_show_quickview', false);
@@ -668,8 +668,8 @@ function setupVRVuePane() {
                     this.el.addEventListener('click', function (evt) {
                         window.closeQuickview();
             })}});
-            
-            
+
+
         AFRAME.registerComponent(
             'open_web', {
                 init: function () {
@@ -680,25 +680,25 @@ function setupVRVuePane() {
                         if (qf == null) {
                             return;
                         }
-                    
-                        if (qf && (qf.length > 0)) {        
+
+                        if (qf && (qf.length > 0)) {
                             var queryFile = "gsd_" + qf;
                             if (qf.toLowerCase().endsWith(".pdf")) {
                                 document.getElementById("popup").style.zIndex = '10000';
-                                var ourl =  "<iframe width='100%' height='100%' " + 
-                                            " src='http://" + window.location.hostname + ":" + window.location.port +  "/viewer/#http://" + 
+                                var ourl =  "<iframe width='100%' height='100%' " +
+                                            " src='http://" + window.location.hostname + ":" + window.location.port +  "/viewer/#http://" +
                                             window.location.hostname + ":" + window.location.port +  "/files/a.pdf'><iframe>"
                                 document.getElementById("popup_content").innerHTML = ourl;
                                 //alert(ourl);
                             } else if (qf.toLowerCase().endsWith(".glb")) {
-                                
+
                                 //zzz
                                     //alert(store.state.show_quickview);
                                     store.dispatch('hide_full_doc');
                                     get_query_result(
-                                        store.state.viewed_query_id, 
+                                        store.state.viewed_query_id,
                                         (function() {
-                                            
+
                                             store.dispatch('show_full_doc');
                                         })
                                     );
@@ -731,8 +731,8 @@ function setupVRVuePane() {
                         if (qf == null) {
                             return;
                         }
-                    
-                        if (qf && (qf.length > 0)) {        
+
+                        if (qf && (qf.length > 0)) {
                             var queryFile = "gsd_" + qf;
                                 //alert(queryFile);
                                 window.open("http://"+window.location.hostname + ":" + window.location.port +  '/docs2/' + queryFile , '_blank');
@@ -749,14 +749,14 @@ function setupVRVuePane() {
                 },
                 init: function () {
                     var self = this;
-                    
+
                     this.el.addEventListener('click', function (evt) {
                         //alert(queryFile);
                         window.location.href = 'index_pc_mode.html';
                     });
                 }
         });
-        
+
         AFRAME.registerComponent(
             'add_data', {
                 schema: {
@@ -764,7 +764,7 @@ function setupVRVuePane() {
                 },
                 init: function () {
                     var self = this;
-                    
+
                     this.el.addEventListener('click', function (evt) {
                         //alert(queryFile);
                         //window.location.href = 'index_add_files.html';
@@ -774,7 +774,7 @@ function setupVRVuePane() {
         });
 
 
-        
+
         AFRAME.registerComponent(
             'jump_to', {
                 schema: {
@@ -783,15 +783,15 @@ function setupVRVuePane() {
                 },
                 init: function () {
                     var self = this;
-                    
+
                     this.el.addEventListener('click', function (evt) {
                         //alert(queryFile);
                         window.location.href = 'http://' + self.data.host + ':' + self.data.port;
                     });
                 }
         });
-        
-        
+
+
 
         AFRAME.registerComponent(
             'lock_icon', {
@@ -801,7 +801,7 @@ function setupVRVuePane() {
                 init: function () {
                     var self = document.getElementById("locked");
                     //alert('init')
-                    
+
                     this.el.addEventListener('click', function (evt) {
                     //alert('clicked')
 
@@ -814,7 +814,7 @@ function setupVRVuePane() {
                             data: {locked: store.getters.get_locked},
                             success: function(data) {
                                 //var ret = eval("(" + data + ")");
-                              //store.dispatch('set_user_name', ret.username);  
+                              //store.dispatch('set_user_name', ret.username);
                               //alert(JSON.stringify(ret,null,2));
                             },
                             error: function(jqXHR, textStatus, errorThrown) {
@@ -835,14 +835,14 @@ function setupVRVuePane() {
                 },
                 init: function () {
                     var self = this;
-                    
+
                     this.el.addEventListener('click', function (evt) {
                         //alert(queryFile);
                         window.location.href = 'index.html?type=move';
                     });
                 }
         });
-        
+
 
 
 
@@ -855,23 +855,23 @@ function setupVRVuePane() {
                 },
                 init: function () {
                     var self = this;
-                    
+
                     this.el.addEventListener('click', function (evt) {
                         //alert(queryFile);
                         window.location.href = 'index.html?type=mouse';
                     });
                 }
         });
-        
+
 
 		AFRAME.registerComponent('users_tab', {
             init: function () {
                 var self = this;
-                
+
                 this.el.addEventListener('click', function (evt) {
                     //alert('')
 					var pullout = document.getElementById("pullout_right");
-                    
+
 					var node = document.getElementById("anim_pullout_right");
 					if (node) {
 					  node.parentNode.removeChild(node);
@@ -891,11 +891,11 @@ function setupVRVuePane() {
 		AFRAME.registerComponent('users_tab2', {
             init: function () {
                 var self = this;
-                
+
                 this.el.addEventListener('click', function (evt) {
                     //alert('')
 					var pullout = document.getElementById("pullout_right");
-                    
+
 					var node = document.getElementById("anim_pullout_right");
 					if (node) {
 					  node.parentNode.removeChild(node);
@@ -911,8 +911,8 @@ function setupVRVuePane() {
 				});
             }
         });
-		
-		
+
+
 		AFRAME.registerComponent('closedoc', {
             init: function () {
                 var self = this;
@@ -931,7 +931,7 @@ function setupVRVuePane() {
 					animation.setAttribute('direction', "alternate");
 					self.el.appendChild(animation);
 				});
-                
+
             this.el.addEventListener('mouseleave', function (evt) {
                 var node = document.getElementById("animscrollclose");
                 if (node) {
@@ -946,29 +946,29 @@ function setupVRVuePane() {
                 animation.setAttribute('direction', "alternate");
                 self.el.appendChild(animation);
             });
-           
+
             this.el.addEventListener('click', function (evt) {
-                
+
 
                 gotoFunction({
-                    goto_name:  "scrollable_grid",
+                    goto_name:  "vr_home",
                     distance:    4,
                     duration:   "500",
                     animEnd:     function() {store.dispatch('hide_full_doc');}
                 });
 
-                
+
             });
 		}
     });
-    
-    
+
+
     function myKeyPress(e){
     var keynum;
 
-    if(window.event) { // IE                    
+    if(window.event) { // IE
       keynum = e.keyCode;
-    } else if(e.which){ // Netscape/Firefox/Opera                   
+    } else if(e.which){ // Netscape/Firefox/Opera
       keynum = e.which;
     }
 
@@ -978,7 +978,7 @@ function setupVRVuePane() {
 window.showSearchResults = function() {
 
     gotoFunction({
-        goto_name:  "scrollable_grid",
+        goto_name:  "vr_home",
         distance:    4,
         duration:   "500",
         animEnd:     function() {store.dispatch('hide_full_doc');}
@@ -991,7 +991,7 @@ window.showSearchResults = function() {
         window.resetVuexQueries();
         store.dispatch('refresh_vr_items');
     }
-    
+
     //if ((searchtext.length > 0) && (inSearch == false)) {
     if (searchtext.length > 0) {
         inSearch = true;
@@ -1003,13 +1003,13 @@ window.showSearchResults = function() {
             },
             success: function(data) {
                 //console.log(' Searching for ' + searchtext + '=:' + data);
-                
+
                 var lor = eval('(' + data + ')');
                     if (searchtext.toUpperCase() == lor.search.toUpperCase()) {
                         console.log('   length:' + lor.queries.length);
 
                         store.dispatch('clear_search_results');
-                        
+
                         for (var i = 0; i < lor.queries.length ; i++) {
                             var showInAframe = "";
                             if (i < 5) {
@@ -1020,8 +1020,8 @@ window.showSearchResults = function() {
                                     showInAframe = showInAframe.substring(0, showInAframe.length - 2)
                                 }
                             }
-                            
-                            store.dispatch('add_search_result', 
+
+                            store.dispatch('add_search_result',
                                           {
                                             id:          lor.queries[i].id,
                                             data:        showInAframe,
@@ -1030,7 +1030,7 @@ window.showSearchResults = function() {
                         if (lor.queries && (lor.queries.length == 0)) {
                             store.dispatch('set_search_subtext', "No results for " + lor.search);
                             setvuexitemssearch(lor.queries);
-                        
+
                         } else if (lor && lor.queries) {
                             store.dispatch('set_search_subtext', "For: '" + lor.search + "', found " +
                                         lor.queries.length + " values,  took " + (lor.duration / 1000) + ' seconds' );
@@ -1046,11 +1046,11 @@ window.showSearchResults = function() {
                     store.dispatch('set_search_subtext', '');
                 inSearch = false;
             }
-             
+
         });
     } else if ((searchtext.length == 0) ) {
         window.recalcVuexQueries()
-    };        
+    };
 }
 
 var LEFT_ARROW_KEY_CODE = 37;
@@ -1060,7 +1060,7 @@ var DELETE_KEY_CODE = 8;
 var inSearch = false;
     window.addEventListener('keydown', function (evt) {
         var keynum = evt.keyCode ;
-        
+
         store.dispatch('set_show_related', false);
 
         if (keynum == LEFT_ARROW_KEY_CODE) {
@@ -1078,7 +1078,7 @@ var inSearch = false;
                 searchPos --;
                 showText();
                 setTimeout(function(){window.showSearchResults();},100);
-            }                    
+            }
         }
 
     });
@@ -1086,19 +1086,19 @@ var inSearch = false;
     var cursorShow = true;
     setInterval(showText,600);
     setInterval(showText2,600);
-    
-    
+
+
     function showText() {
         var showtext =   searchtext.substring(0,searchPos) + (cursorShow?'|':' ') + searchtext.substring(searchPos);
-        
+
         store.dispatch('set_current_search', showtext );
     }
     function showText2() {
         cursorShow = !cursorShow;
     }
-  
+
     window.addEventListener('keypress', function (evt) {
-        
+
         var keynum = myKeyPress(evt);
         var cc = String.fromCharCode(keynum);
         searchtext = searchtext.substring(0,searchPos) + cc + searchtext.substring(searchPos);;
@@ -1169,7 +1169,7 @@ function setupSqlResultPane() {
 //
 //-----------------------------------------------------------------
 function setupDB() {
-    if (window.screenMode == "VR") 
+    if (window.screenMode == "VR")
     {
     } else {
         window.when_drivers_changes("*")
@@ -1429,10 +1429,10 @@ window.sqlGetQueryUiById = function(id) {
 }
 
 
-var sqlGetFullQueryUiByIdCompile = alasql.compile(' select  ' + 
-                                                  '     *, ' + 
-                                                  '     getX(screen_index, visible) as x_pos, getY(screen_index, visible) as y_pos  ' + 
-                                                  ' from  ' + 
+var sqlGetFullQueryUiByIdCompile = alasql.compile(' select  ' +
+                                                  '     *, ' +
+                                                  '     getX(screen_index, visible) as x_pos, getY(screen_index, visible) as y_pos  ' +
+                                                  ' from  ' +
                                                   '     queries_ui where id = ?');
 window.sqlGetFullQueryUiById = function(id) {
     var rows = sqlGetFullQueryUiByIdCompile([id]);
@@ -1449,7 +1449,7 @@ function setupWebSocket(host, port)
         var wsaddr = "ws://" + host + ":" + port + "/websocket";
         //alert(wsaddr);
         window.ws = new WebSocket(wsaddr);
-        
+
         window.ws.onopen = function()
         {
             //alert("open")
@@ -1458,13 +1458,13 @@ function setupWebSocket(host, port)
             window.when_queries_changes("*")
         };
 
-        window.ws.onmessage = function (evt) 
-        { 
+        window.ws.onmessage = function (evt)
+        {
           var received_msg = evt.data;
           //alert("Message is received..." + received_msg);
-          var data = eval("(" + received_msg + ")") ; 
-          
-          
+          var data = eval("(" + received_msg + ")") ;
+
+
           if (data.type == "query") {
                 alert("query received");
           }
@@ -1475,19 +1475,19 @@ function setupWebSocket(host, port)
               //alert("server_scan_status called on client" );
             store.dispatch('set_scanning_status', data.value);
           }
-          
-          
-          
-          
-          
-          
+
+
+
+
+
+
           else if (data.type == "test_fork") {
               if (document.getElementById("mainid")) {
                     document.getElementById("mainid").innerHTML = data.value
               }
           }
-          
-          
+
+
         //-------------------------------------------------------
         // get the  similar document results from the server
         //-------------------------------------------------------
@@ -1499,7 +1499,7 @@ function setupWebSocket(host, port)
             for (var i = 0 ; i< recs.length; i++) {
             var rec  =recs[i]
             console.log(JSON.stringify(rec))
-            store.dispatch('add_search_result', 
+            store.dispatch('add_search_result',
             {
                 id:          recs[i].id,
                 data:        recs[i].cc + " lines matched : " + recs[i].name,
@@ -1515,8 +1515,8 @@ function setupWebSocket(host, port)
                 store.dispatch('refresh_vr_items');
                 },100)
         }
-          
-          
+
+
         // ============================================================
         // This sends a message to a specific websocket
         // ============================================================
@@ -1525,9 +1525,9 @@ function setupWebSocket(host, port)
         }
         else if (data.type == "update_query_item") {
             //console.log('update_query_item: ' + data.query.id)
-            
+
             if (!window.sqlGetQueryUiById(data.query.id)) {
-                window.insertIntoQueries( 
+                window.insertIntoQueries(
                             [data.query.id,
                              data.query.name,
                              data.query.connection,
@@ -1548,7 +1548,7 @@ function setupWebSocket(host, port)
                 window.updateVisibleInQueriesUi([true, data.query.id])
             }
              //store.dispatch('refresh_vr_items')
-         
+
           }
         else if (data.message_type == "client_get_all_queries_done") {
              console.log("Browser received from server socket: " + JSON.stringify(data,null,2));
@@ -1560,27 +1560,27 @@ function setupWebSocket(host, port)
           else if (data.type == "setSharedGlobalVar") {
                console.log('got setSharedGlobalVar')
                eval(data.nameOfVar)[data.index] = data.value;
-              
+
           }
 
-          
-          
+
+
         };
 
         window.ws.onclose = function()
-        { 
-          //alert("Connection is closed..."); 
+        {
+          //alert("Connection is closed...");
         };
-    
+
         window.ws.onbeforeunload = function(event) {
           //socket.close();
         };
     }
 
-    
-    
-    
-    
+
+
+
+
     else
     {
         alert("WebSocket NOT supported by your Browser!");
@@ -1612,7 +1612,7 @@ $( document ).ready(function() {
     initClientsConnectedVuePane();
     setupSqlResultPane();
     sendClientDetails();
-    
+
   } else if (window.system_type == 'server') {
     setupDB();
   };
@@ -1648,7 +1648,7 @@ window.when_connections_changes = function(fields) {
                         },
             success: function(results2) {
                 var results = eval("(" + results2 + ")") ;
-    
+
                 for (var i = 0 ; i < results.length ; i ++) {
                     var conn = results[i]
                     //console.log('********* CALLED REALTIME DBCONN*************:' + JSON.stringify(conn , null, 2));
@@ -1715,7 +1715,7 @@ window.add_connection = function(connection) {
                    // alert("success: " + results2);
                    window.when_connections_changes("*");
     }});
-}   
+}
 
 
 
@@ -1743,7 +1743,7 @@ window.add_query = function(query) {
                    window.when_queries_changes("*");
                    window.recalcVuexQueries();
     }});
-}   
+}
 
 
 window.when_drivers_changes = function(fields) {
@@ -1758,13 +1758,13 @@ window.when_drivers_changes = function(fields) {
                         },
             success: function(results2) {
                 var results = eval("(" + results2 + ")") ;
-    
+
                 //alert(JSON.stringify(results.length, null, 2) );
                //store.dispatch('clear_connections');
                 for (var i = 0 ; i < results.length ; i ++) {
                     var driver  = results[i];
                     var evalede = eval(driver.code);
- 
+
                     store.dispatch(
                         'add_driver'
                         ,
@@ -1833,7 +1833,7 @@ window.recalcVuexQueries = function() {
 
         if (!exists) {
             if (!window.sqlGetQueryUiById(query.id)) {
-                window.insertIntoQueries( 
+                window.insertIntoQueries(
                             [query.id,
                              query.name,
                              query.connection,
@@ -1860,7 +1860,7 @@ var inupdatesearch = false;
 function  setvuexitemssearch( results2 ) {
     if (!inupdatesearch) {
         inupdatesearch = true;
-        
+
         if (results2 == null) {
             return;
         }
@@ -1924,7 +1924,7 @@ var inCheckForServers = 0;
                 if (intranetGoShareDataHost.length > 0) {
                     //var newid = intranetGoShareDataHost.replace(":",".").replaceAll(".","_");
                     //console.log("newid: " + JSON.stringify(newid,null,2) + " = " + newHtml);
-                    
+
                     inCheckForServers --;
                     tt.locked = true;
                     tt.accessable = false;
@@ -1934,7 +1934,7 @@ var inCheckForServers = 0;
         });
     }
 
-    
+
     var checkServersFromClient = function() {
         if (inCheckForServers > 0) {
             return;
@@ -1944,7 +1944,7 @@ var inCheckForServers = 0;
             url: 'http://visifile.com/get_intranet_servers',
             success: function(data1) {
                 var returned= eval( "(" + data1 + ")");
-                store.dispatch('clear_network', tt);  
+                store.dispatch('clear_network', tt);
                 for (var i = 0 ; i < returned.allServers.length; i++) {
                     //console.log('got server ' + i)
                     //console.log(JSON.stringify(returned.allServers[i],null,2))
@@ -1955,15 +1955,15 @@ var inCheckForServers = 0;
                     tt.via           = returned.allServers[i].via;
                     //alert(tt.username)
 
-                    var intranetGoShareDataHost = returned.allServers[i].internal_host + ":" + returned.allServers[i].internal_port;                    
+                    var intranetGoShareDataHost = returned.allServers[i].internal_host + ":" + returned.allServers[i].internal_port;
                     checkHostForServer(intranetGoShareDataHost, tt);
                 };
-                
+
             },
             error: function(jqXHR, textStatus, errorThrown) {
                     console.log('error getting servers: ' + errorThrown)
             }
         });
         };
-    
+
     setInterval(checkServersFromClient,5000);
