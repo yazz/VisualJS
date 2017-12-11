@@ -1,19 +1,19 @@
 <template>
-			  <a-entity position='0.4 -0.7 2' id='vr_items'>
+			  <a-entity position='0.2 -0.7 2' id='vr_items'>
 
-                        <a-entity position="4.85 3 -1.9" id='vr_file_name_2'
+                        <a-entity position="5.13 3 -1.9" id='vr_file_name_2'
                                     scale="1 1 1"
 									geometry="primitive: plane; " material="color: white;opacity: 1;"
                                     mixin="RobotoFont"
 									v-bind:text='"color: black; align: left; value:  ; width: 4; "'>
 						</a-entity>
-						 <a-entity position="4.85 2.6 -1.9" id='vr_file_size_2'
+						 <a-entity position="5.13 2.6 -1.9" id='vr_file_size_2'
                                     scale="1 1 1"
 									geometry="primitive: plane; " material="color: white;opacity: 1;"
                                     mixin="RobotoFont"
 									v-bind:text='"color: black; align: left; value:  ; width: 4; "'>
 						</a-entity>
-						 <a-entity position="4.85 2.2 -1.9" id='vr_file_saved_as'
+						 <a-entity position="5.13 2.2 -1.9" id='vr_file_saved_as'
                                     scale="1 1 1"
 									geometry="primitive: plane; " material="color: white;opacity: 1;"
                                     mixin="RobotoFont"

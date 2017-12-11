@@ -112,7 +112,7 @@
                                         v-bind:text='"color: gray;align: left; value: " + getSearchSubtext + " ; width: 5; "'>
                             </a-entity>
 
-                            <a-entity   v-bind:position='(get_show_related()?.55:-100) + " -0.78 0.5"'
+                            <a-entity   v-bind:position='(get_show_related()?.55:-100) + " -0.73 0.5"'
                                         mixin="RobotoFont"
                                         geometry="primitive: plane; width: 1.5; height: .3; ;"
                                         material="color: gray; opacity: 1;"

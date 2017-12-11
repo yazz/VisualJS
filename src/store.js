@@ -174,10 +174,10 @@ export default new Vuex.Store({
 
       REFRESH_VR_ITEMS: function (state) {
          window.sqlGetQueriesLengthCached= window.sqlGetVisibleQueriesLength()[0].count2;
-         window.queryGridWidthCached = (Math.ceil(Math.sqrt(window.sqlGetQueriesLengthCached)));
-         if (window.queryGridWidthCached > 6) {
-             window.queryGridWidthCached = 6;
-         }
+         //window.queryGridWidthCached = (Math.ceil(Math.sqrt(window.sqlGetQueriesLengthCached)));
+         //if (window.queryGridWidthCached > 6) {
+             window.queryGridWidthCached = 7;
+         //}
          window.sqlGetAllQueriesAndUiCached = window.sqlGetAllQueriesAndUi();
          state.refresh_view_counter ++;
       },
