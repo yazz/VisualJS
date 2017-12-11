@@ -116,11 +116,11 @@
 
 
 
-						<a-entity  v-if='vr_type=="mouse"' position="-1.4 3.3 0"
-								 geometry="primitive: plane; width: 0.3; height: 02;"
+						<a-entity  v-if='vr_type=="mouse"' position="-1.4 3.305 0"
+								 geometry="primitive: plane;width: 0.5; height: 0.2"
                                  material="opacity: 0;"
                                  mixin="RobotoFont"
-								 v-bind:text='"color: blue; align: center; value: Settings ; width: 2; "'
+								 v-bind:text='"color: blue; align: center; value: Settings ; width: 2 ; "'
 								 rotation='0 0 0' goto_settings=''>
 								<a-animation begin="mouseenter" attribute="rotation"
 												to="0 0 1" dur="100" direction="alternate"  repeat="3"></a-animation>
