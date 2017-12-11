@@ -68,6 +68,8 @@ export default new Vuex.Store({
         ,
         viewed_query_id: null
         ,
+        highlighted_query_id: null
+        ,
         viewed_query_file: null
         ,
         viewed_query_connection_driver: null
@@ -131,6 +133,8 @@ export default new Vuex.Store({
     viewed_connection_id: state => state.viewed_connection_id
     ,
     viewed_query_id: state => state.viewed_query_id
+    ,
+    highlighted_query_id: state => state.highlighted_query_id
     ,
     viewed_query_file: state => state.viewed_query_file
     ,
@@ -283,6 +287,10 @@ export default new Vuex.Store({
         state.viewed_connection_driver = null;
       }
     },
+    SET_HIGHLIGHTED_QUERY_ID: function (state, query_id) {
+          state.highlighted_query_id                = query_id;
+  },
+
     SET_VIEWED_QUERY: function (state, query) {
       if (query) {
         state.viewed_query_id                = query.id;
@@ -595,7 +603,12 @@ export default new Vuex.Store({
         },
 
 
-
+        //
+        // set highlighted query
+        //
+        set_highlighted_query_id: function(a, b){
+            a.commit('SET_HIGHLIGHTED_QUERY_ID', b)
+        },
 
         //
         // set viewed query

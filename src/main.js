@@ -432,6 +432,8 @@ function setupVRVuePane() {
 
                     var qq = window.sqlGetQueryById(self.data.queryId);
                     if (qq) {
+                        store.dispatch('set_highlighted_query_id', self.data.queryId);
+
                         var similarCount = qq.similar_count;
                         var similarText = ''
                         if (similarCount > 0 ) {
