@@ -93,7 +93,7 @@ export default new Vuex.Store({
 
 
   getters: {
-      
+
     search_results: state => state.search_results
     ,
     refresh_view_counter: state => state.refresh_view_counter
@@ -167,10 +167,13 @@ export default new Vuex.Store({
   //
   //-------------------------------------------------------------------
   mutations: {
-      
+
       REFRESH_VR_ITEMS: function (state) {
          window.sqlGetQueriesLengthCached= window.sqlGetVisibleQueriesLength()[0].count2;
          window.queryGridWidthCached = (Math.ceil(Math.sqrt(window.sqlGetQueriesLengthCached)));
+         if (window.queryGridWidthCached > 6) {
+             window.queryGridWidthCached = 6;
+         }
          window.sqlGetAllQueriesAndUiCached = window.sqlGetAllQueriesAndUi();
          state.refresh_view_counter ++;
       },
@@ -193,14 +196,14 @@ export default new Vuex.Store({
         state.list_of_connections.push(connection.cp);
         state.connection_map[connection.cp.id] = true;
       },
-      
 
 
-      
-        
-        
-        
-        
+
+
+
+
+
+
         SET_QUERY_MAP: function (state, details) {
             if (details.visible != null) {
                 window.updateVisibleInQueriesUi([details.visible, details.id])
@@ -257,7 +260,7 @@ export default new Vuex.Store({
       SET_SET_SHOW_QUICKVIEW: function (state,y) {
         state.show_quickview = y
       },
-      
+
       HIDE_ADD_QUERY: function (state) {
         state.add_query_visible = false
       },
@@ -267,7 +270,7 @@ export default new Vuex.Store({
       SET_ERROR_MESSAGE: function (state,y) {
         state.error_message = y
       },
-      
+
       SET_LOCKED: function (state, val) {
         state.locked = val;
       },
@@ -349,7 +352,7 @@ export default new Vuex.Store({
 		add_search_result: function(a,b){
 		  a.commit('ADD_SEARCH_RESULT', b)
 		},
-        
+
 		set_zoom_people: function(a, zp){
 		  a.commit('SET_ZOOM_PEOPLE', zp)
 		},
@@ -360,8 +363,8 @@ export default new Vuex.Store({
 		clear_network: function(a){
 		  a.commit('CLEAR_NETWORK')
 		},
-        
-        
+
+
 		//
 		// add_connection
 		//
@@ -395,8 +398,8 @@ export default new Vuex.Store({
             window.add_connection(connection);
 		},
 
-	
-	
+
+
 		//
 		// add new query
 		//
@@ -405,7 +408,7 @@ export default new Vuex.Store({
             window.add_query(query);
     },
 
-	
+
 
 		//
 		// clear_connections
@@ -453,7 +456,7 @@ export default new Vuex.Store({
             //connections.get(connection.id,function(err,doc) {
             //    connections.remove(doc);
             //});
-            
+
 		},
 
 
@@ -503,21 +506,21 @@ export default new Vuex.Store({
             a.commit('SET_USER_NAME',b)
 		},
 
-        
+
 
 		set_is_local_machine: function(a,b){
             a.commit('SET_IS_LOCAL_MACHINE',b)
 		},
 
-        
-        
-        
+
+
+
 		set_show_quickview: function(a,b){
             a.commit('SET_SET_SHOW_QUICKVIEW',b)
 		},
 
-        
-        
+
+
         //
         // hide add query
         //
@@ -543,8 +546,8 @@ export default new Vuex.Store({
         hide_add_driver: function(a){
             a.commit('HIDE_ADD_DRIVER')
         },
-        
-        
+
+
         set_error_message: function(a,b){
             a.commit('SET_ERROR_MESSAGE',b)
         },
@@ -558,7 +561,7 @@ export default new Vuex.Store({
             a.commit('SET_OUTPUT_FIELDS', fields)
         },
 
-        
+
 
         //
         // set_output_fields
@@ -567,7 +570,7 @@ export default new Vuex.Store({
             a.commit('SET_LOCKED', fields)
         },
 
-        
+
         //
         // set_output_records
         //
