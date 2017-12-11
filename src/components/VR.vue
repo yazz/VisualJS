@@ -23,13 +23,13 @@
 					geometry='primitive: plane; width: 10; height: 1; '
 					position='0 -1.6 -2' >
 
-                    <a-entity position="4.72 4.8 -2"
+                    <a-entity position="4.72 4.68 -2"
                           mixin="RobotoFont"
 						  v-bind:text='"    ; color: black; align: left; value: User: " + getUserName + "; width: 4; "'
 						  rotation='0 0 0'>
                     </a-entity>
 
-                    <a-entity position=".805 1.93 1.55"
+                    <a-entity position=".805 1.915 1.55"
                           mixin="RobotoFont"
 						  v-bind:text='"; color: black; align: left; value:  "  + get_scanning_status()+";  wrapPixels: 2000;"'
 						  rotation='0 0 0'>
@@ -45,8 +45,8 @@
 
 
 						<a-entity  	id=visifile_new_logo
-									geometry='primitive: plane; height: .4 ; width: 1'
-									position='2.5 3.05 1'
+									geometry='primitive: plane; height: .7 ; width: 2'
+									position='3.1  3.7  0'
 									v-bind:material='"src: VisiFileColorHoriz.png;color: white;"'
 									></a-entity>
 
@@ -70,7 +70,7 @@
 		                                                           <a-animation begin="mouseenter" attribute="rotation"
 		                                                                       to="0 0 4" dur="100" direction="alternate"  repeat="3"></a-animation>
 		                                           </a-entity>
-		                                           <a-entity   position="-.79 -.07 .4" rotation="0 0 0"
+		                                           <a-entity   position="-.79 -.16 .4" rotation="0 0 0"
 		                                                       mixin="RobotoFont"
 		                                                       v-bind:text='"color: black; align: center; value: " + (locked?"Locked":"Shared") + " ; width: 3.5; "'>
 		                                           </a-entity></a-entity>
@@ -87,11 +87,11 @@
 
 
 
-                        <a-entity   position="3.3 3.3 0"
+                        <a-entity   position="3.3  3.1  0"
                                     mixin="RobotoFont"
                                     v-bind:text='"color: black; align: left; value: Search ; width: 6; "'></a-entity>
 
-                        <a-entity  position="3 3.3 0">
+                        <a-entity  position="3  3.1  0">
 
                             <a-entity   geometry="primitive: plane; width: 3; height: .5;"
                                         position="0 0 0.01"
