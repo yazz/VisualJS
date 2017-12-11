@@ -420,6 +420,7 @@ function setupVRVuePane() {
 
 
                 this.el.addEventListener('mouseleave', function (evt) {
+                    store.dispatch('set_highlighted_query_id', null);
                     document.querySelector('#vr_file_name_2').setAttribute('text','color: black; align: left; value: ;width: 4; ');
                     document.querySelector('#vr_file_size_2').setAttribute('text','color: black; align: left; value:  ;width: 4; ');
                     document.querySelector('#vr_file_saved_as').setAttribute('text','color: black; align: left; value: ;width: 4;  ');
