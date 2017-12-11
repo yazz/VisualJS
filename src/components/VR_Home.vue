@@ -289,21 +289,9 @@ getIsPeopleZoomed2: function() {
     can_show_full_doc: function() {
 		return this.$store.state.show_full_doc;
 	},
-		get_x_position: function(index, total) {
-		var cols = (Math.ceil(Math.sqrt(total)));
-		return index % cols;
-	},
 	truncate: function(txt) {
 	    return (txt?txt.toString().substring(0,10):'');
 	},
-	get_y_position: function(index, total) {
-		var cols = (Math.ceil(Math.sqrt(total)));
-		var rawQuotient = index / cols;
-		var remainder = rawQuotient % 1;
-		var quotient = rawQuotient - remainder;
-		//console.log('get_y_position( ' + index + ', ' + total + ') = ' + quotient);
-		return quotient ;
-	}
 	},
   components: {
   'output-table': output_table,
