@@ -1,5 +1,5 @@
 <template>
-			  <a-entity position='0.2 -0.7 2' id='vr_items'>
+			  <a-entity position='0.5   -.5   2' id='vr_items'>
 
                         <a-entity position="5.13 3 -1.9" id='vr_file_name_2'
                                     scale="1 1 1"
@@ -13,7 +13,7 @@
                                     mixin="RobotoFont"
 									v-bind:text='"color: black; align: left; value:  ; width: 4; "'>
 						</a-entity>
-						 <a-entity position="5.13 2.2 -1.9" id='vr_file_saved_as'
+						 <a-entity  position="5.13 2.2 -1.9" id='vr_file_saved_as'
                                     scale="1 1 1"
 									geometry="primitive: plane; " material="color: white;opacity: 1;"
                                     mixin="RobotoFont"
@@ -146,7 +146,7 @@
 
 <a-entity
     id='scrollable_grid' v-bind:refresh_vr_items='get_refresh_view_counter'
-    rotation='-45 0 0'
+    rotation='-15 0 0'
           >
 
 				<a-entity   v-for="(a_query,index)  in  list_of_queries2()" :key="a_query.id">

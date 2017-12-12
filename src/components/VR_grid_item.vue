@@ -3,7 +3,7 @@
             v-bind:position="a_query.x_pos + ' ' + a_query.y_pos + ' -.1'"
             v-bind:id='a_query.id + "_upper"'
             mixin="RobotoFont"
-            v-bind:text="'color: black; align: left; value: ' + a_query.display_name + ' ; width: 2; '"
+            v-bind:text="'color: black; align: left; value: ' + a_query.display_name + ' ; width: 2; opacity:1;'"
             >
 
        <a-entity    position='-0.8 .3 0'
@@ -16,7 +16,7 @@
         <a-entity
                 v-bind:position='"-0.8 "+ ((a_query.id == get_highlighted_query_id())?0.3:100) + " -.002"'
                 geometry="primitive: plane; width:.4;height: 0.4;"
-                material="color: gray;"
+                material="color: black;"
                 v-bind:id='a_query.id + "_lower"'
                 >
         </a-entity>
@@ -28,10 +28,10 @@
                 >
         </a-entity>
         <a-entity
-                v-bind:position='"-0.8  0.29  " + (-.001 - (0.05 * getVersionCount(a_query.similar_count)))'
-                v-bind:geometry='"primitive: box; width:.38;height: 0.38; depth: " + (-.1 * getVersionCount(a_query.similar_count)) + ";"''
-                material="color: lightgray;"
-                v-bind:id='a_query.id + "_lower2"'
+                v-bind:position='"-0.8  0.29  " + (-.002 - (0.05 * getVersionCount(a_query.similar_count)))'
+                v-bind:geometry='"primitive: box; width:.38; height: 0.38; depth: " + (-.1 * getVersionCount(a_query.similar_count)) + ";"''
+                material="color: gray; opacity:.9;"
+                v-bind:id='a_query.id + "_versions"'
                 >
         </a-entity>
 
