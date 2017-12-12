@@ -27,6 +27,13 @@
                 v-bind:id='a_query.id + "_lower2"'
                 >
         </a-entity>
+        <a-entity
+                v-bind:position='"-0.8  0.29  " + (-.001 - (0.05 * getVersionCount(a_query.similar_count)))'
+                v-bind:geometry='"primitive: box; width:.38;height: 0.38; depth: " + (-.1 * getVersionCount(a_query.similar_count)) + ";"''
+                material="color: lightgray;"
+                v-bind:id='a_query.id + "_lower2"'
+                >
+        </a-entity>
 
     </a-entity>
 </template>
@@ -61,6 +68,14 @@ export default {
         get_highlighted_query_id: function() {
             //console.loglog("*********** get_highlighted_query_id: ")
             return this.$store.state.highlighted_query_id;
+        },
+
+
+        getVersionCount: function(cc) {
+            if (!cc) {
+                return 1;
+            }
+            return cc;
         }
 
 

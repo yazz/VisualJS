@@ -144,7 +144,10 @@
 
 
 
-<a-entity id='scrollable_grid' v-bind:refresh_vr_items='get_refresh_view_counter'>
+<a-entity
+    id='scrollable_grid' v-bind:refresh_vr_items='get_refresh_view_counter'
+    rotation='-45 0 0'
+          >
 
 				<a-entity   v-for="(a_query,index)  in  list_of_queries2()" :key="a_query.id">
                     <VR-grid-item v-bind:a_query='a_query'>
