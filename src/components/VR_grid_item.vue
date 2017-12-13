@@ -31,10 +31,11 @@
                 >
         </a-entity>
         <a-entity
-                v-bind:position='"-0.8  0.29  " + (-.002 - (0.05 * getVersionCount(a_query.similar_count)))'
-                v-bind:geometry='"primitive: box; width:.38; height: 0.38; depth: " + (-.1 * getVersionCount(a_query.similar_count)) + ";"''
-                material="color: lightgray; opacity:1;shader: flat; "
-                v-bind:id='a_query.id + "_versions"'
+                v-for="n in getVersionCount(a_query.similar_count)"  :key="n"
+                v-bind:position='"-0.8  0.29  " + (-.002 - (0.04 * n))'
+                v-bind:geometry='"primitive: plane; width:.38; height: 0.38; "'
+                v-bind:material='"opacity: .5; color: " + ((n % 2 === 0)?"gray":"white") + "; opacity:.4; shader: flat; "'
+                v-bind:id='a_query.id + "_versions_{n}"'
                 >
         </a-entity>
 
