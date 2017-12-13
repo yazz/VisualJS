@@ -1,5 +1,5 @@
 <template>
-			  <a-entity position='0.5   -.2   2' id='vr_items'>
+			  <a-entity position='0.5   -.3   2' id='vr_items'>
 
                         <a-entity position="5.13   2.4   -1.9" id='vr_file_name_2'
                                     scale="1 1 1"

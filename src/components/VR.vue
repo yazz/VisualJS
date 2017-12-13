@@ -47,7 +47,7 @@
 						<a-entity  	id=visifile_new_logo
 									geometry='primitive: plane; height: .7 ; width: 2'
 									position='3.1  3.7  0'
-									v-bind:material='"src: VisiFileColorHoriz.png;color: white;"'
+									v-bind:material='"src: VisiFileColorHoriz.png;color: white; shader: flat;"'
 									></a-entity>
 
 
@@ -95,7 +95,7 @@
 
                             <a-entity   geometry="primitive: plane; width: 3; height: .5;"
                                         position="0 0 0.01"
-                                        material="color: lightgray; opacity: 0.9;">
+                                        material="color: lightgray; opacity: 1; shader: flat; ">
 
                                 <a-entity   position="1.6 0 0"
                                             mixin="RobotoFont"
