@@ -163,13 +163,14 @@
 
                 <a-entity
                     id='query_menu2'
-                    geometry="primitive: plane; width:35;height: 35; "
-                    material="color: lightgray; opacity: .5;"
-                    v-bind:position='((( !in_show_quickview() && is_visible(get_viewed_query_id()) && is_query_selected())?get_full_query_ui_property(get_viewed_query_id(),"x_pos")-6:-100) + 4.64) + " " + (get_full_query_ui_property(get_viewed_query_id(),"y_pos")  + 0.85) + " -.01"'
+                    geometry="primitive: plane; width:55;height: 55; "
+                    material="color: lightgray; opacity: .8;"
+                    v-bind:position='((( !in_show_quickview() && is_visible(get_viewed_query_id()) && is_query_selected())?-7.2:-100) + 4.64) + " 1.85 .1"'
                 >
-                	   <a-entity    position='.73 -.75 .02'
+                	   <a-entity    
+                                    position='1.10 -.3 .02'
                                     v-bind:id='"selected_item"'
-									geometry="primitive: plane; width:.7;height: .7;"
+									geometry="primitive: plane; width:.4;height: .4;"
                                     v-bind:material='get_viewed_query_id()?"src: driver_icons/" + get_driver_name(get_viewed_query_id()) + ".jpg;":false'
                                 >
 						</a-entity>
@@ -180,47 +181,47 @@
 
 
                     <a-entity   id="open_web"
-                                geometry="primitive: plane; width:.70;height: .70;  "
+                                geometry="primitive: plane; width:.40;height: .40;  "
                                 material="color: darkblue;"
-                                position='0.75 0 .02'
+                                position='1.10 .2 .02'
                                 mixin="RobotoFont"
                                 open_web=''
-                                text='color: white; align: center; value: Quickview; width: 3;'
+                                text='color: white; align: center; value: Quickview; width: 1.8;'
                                 ><a-animation begin="mouseenter" attribute="rotation"
 												to="0 0 3" dur="80" direction="alternate"  repeat="3"></a-animation></a-entity>
 
 
 
                     <a-entity   id="open_doc"
-                                geometry="primitive: plane; width:.70;height: .70;  "
+                                geometry="primitive: plane; width:.40;height: .40;  "
                                 material="color: gray;"
-                                v-bind:position='0.75 * 2 + " 0 .02"'
+                                position='1.55 .2 .02'
                                 mixin="RobotoFont"
                                 open_file=''
-                                text='color: white; align: center; value: Open; width: 3;'
+                                text='color: white; align: center; value: Open; width: 1.8;'
                                 ><a-animation begin="mouseenter" attribute="rotation"
 												to="0 0 3" dur="80" direction="alternate"  repeat="3"></a-animation></a-entity>
 
 
                     <a-entity   id="view_related_docs"
-                                geometry="primitive: plane; width:.70;height: .70;  "
+                                geometry="primitive: plane; width:.40;height: .40;  "
                                 material="color: brown;"
-                                v-bind:position='0.75 * 3 + " 0 .02"'
+                                position='2.00 .2 .02'
                                 mixin="RobotoFont"
                                 related_files=''
-                                text='color: white; align: center; value: Related; width: 3;'
+                                text='color: white; align: center; value: Related; width: 1.8;'
                                 ><a-animation begin="mouseenter" attribute="rotation"
 												to="0 0 3" dur="80" direction="alternate"  repeat="3"></a-animation></a-entity>
 
 
 
                     <a-entity   id="view_doc_info"
-                                geometry="primitive: plane; width:.70;height: .70;  "
+                                geometry="primitive: plane; width:.40;height: .40;  "
                                 material="color: gray;"
-                                v-bind:position='0.75 * 4 + " 0 .02"'
+                                position='2.45 .2 .02'
                                 mixin="RobotoFont"
                                 v-bind:show_query_info='"queryId: "  + get_viewed_query_id() + ";"'
-                                v-bind:text='"color: white; align: center; value: Info; width: 3;"'
+                                v-bind:text='"color: white; align: center; value: Info; width: 1.8;"'
                                 ><a-animation begin="mouseenter" attribute="rotation"
 												to="0 0 3" dur="80" direction="alternate"  repeat="3"></a-animation></a-entity>
 
@@ -228,12 +229,12 @@
 
 
                     <a-entity   id="close_doc2"
-                                geometry="primitive: plane; width:.70;height: .70;  "
+                                geometry="primitive: plane; width:.40;height: .40;  "
                                 material="color: black;"
-                                v-bind:position='0.75 * 5 + " 0 .02"'
+                                position='2.90 .2 .02'
                                 mixin="RobotoFont"
                                 v-bind:close_item_menu='"queryId: "  + get_viewed_query_id() + ";"'
-                                v-bind:text='"color: white; align: center; value: Close; width: 3;"'
+                                v-bind:text='"color: white; align: center; value: Close; width: 1.8;"'
                                 ><a-animation begin="mouseenter" attribute="rotation"
 												to="0 0 3" dur="80" direction="alternate"  repeat="3"></a-animation></a-entity>
 

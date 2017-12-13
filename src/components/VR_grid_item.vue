@@ -2,7 +2,7 @@
 <a-entity>
     <a-animation begin="mouseenter"
                  attribute="position"
-                 to="0  0  -.05"
+                 to="0  0  -.02"
                  dur="300"
                  direction="alternate"
                  repeat="1"></a-animation>
@@ -24,7 +24,7 @@
         </a-entity>
 
         <a-entity
-                v-bind:position='"-0.8 "+ ((a_query.id == get_highlighted_query_id())?0.3:100) + " -.002"'
+                v-bind:position='"-0.8 "+ ((a_query.id == get_selected_query_id())?0.3:100) + " -.002"'
                 geometry="primitive: plane; width:.4;height: 0.4;"
                 material="color: black;"
                 v-bind:id='a_query.id + "_lower"'
@@ -77,6 +77,12 @@ export default {
     props: ['a_query'],
 
     methods: {
+        get_selected_query_id: function() {
+            //console.loglog("*********** get_selected_query_id: ")
+            return this.$store.state.viewed_query_id;
+        },
+        
+        
         get_highlighted_query_id: function() {
             //console.loglog("*********** get_highlighted_query_id: ")
             return this.$store.state.highlighted_query_id;
