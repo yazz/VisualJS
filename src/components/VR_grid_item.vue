@@ -1,13 +1,20 @@
 <template>
+<a-entity>
+    <a-animation begin="mouseenter"
+                 attribute="position"
+                 to="0  0  -.05"
+                 dur="300"
+                 direction="alternate"
+                 repeat="1"></a-animation>
+
+
+
     <a-entity
             v-bind:position="a_query.x_pos + ' ' + a_query.y_pos + ' -.1'"
             v-bind:id='a_query.id + "_upper"'
             mixin="RobotoFont"
             v-bind:text="'color: black; align: left; value: ' + a_query.display_name + ' ; width: 2; opacity:1;'"
             >
-            <a-animation begin="mouseenter" attribute="position"
-                            v-bind:to="a_query.x_pos + ' ' + a_query.y_pos + ' -.13'"
-                            dur="300" direction="alternate"  repeat="1"></a-animation>
 
        <a-entity    position='-0.8 .3 0'
                     geometry="primitive: plane; width:.35;height: 0.35;"
@@ -39,7 +46,8 @@
                 >
         </a-entity>
 
-    </a-entity>
+        </a-entity>
+</a-entity>
 </template>
 
 
