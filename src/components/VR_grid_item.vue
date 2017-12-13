@@ -5,6 +5,9 @@
             mixin="RobotoFont"
             v-bind:text="'color: black; align: left; value: ' + a_query.display_name + ' ; width: 2; opacity:1;'"
             >
+            <a-animation begin="mouseenter" attribute="position"
+                            v-bind:to="a_query.x_pos + ' ' + a_query.y_pos + ' -.13'"
+                            dur="300" direction="alternate"  repeat="1"></a-animation>
 
        <a-entity    position='-0.8 .3 0'
                     geometry="primitive: plane; width:.35;height: 0.35;"
@@ -30,7 +33,7 @@
         <a-entity
                 v-bind:position='"-0.8  0.29  " + (-.002 - (0.05 * getVersionCount(a_query.similar_count)))'
                 v-bind:geometry='"primitive: box; width:.38; height: 0.38; depth: " + (-.1 * getVersionCount(a_query.similar_count)) + ";"''
-                material="color: gray; opacity:.9;"
+                material="color: lightgray; opacity:1;shader: flat; "
                 v-bind:id='a_query.id + "_versions"'
                 >
         </a-entity>

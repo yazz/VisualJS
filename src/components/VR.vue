@@ -29,9 +29,9 @@
 						  rotation='0 0 0'>
                     </a-entity>
 
-                    <a-entity position=".805 1.915 1.55"
+                    <a-entity position="4.72 4.4 -2"
                           mixin="RobotoFont"
-						  v-bind:text='"; color: black; align: left; value:  "  + get_scanning_status()+";  wrapPixels: 2000;"'
+						  v-bind:text='"; color: black; align: left; value:  "  + get_scanning_status()+";  width: 4;"'
 						  rotation='0 0 0'>
                     </a-entity>
 
@@ -151,7 +151,6 @@
 
     		<a-entity v-if='vr_type=="move"' position="0 0 0" material="color: white" >
 				<a-entity camera='near: 0.005;' look-controls material="color: white" id='movevr'>
-
 						<a-entity material='color: white;' >
 								<a-entity 	position="0 0 -3"
 														geometry="primitive: ring; radiusOuter: 0.030; radiusInner: 0.006; color:white;"
