@@ -29,7 +29,7 @@
 						  rotation='0 0 0'>
                     </a-entity>
 
-                    <a-entity position="4.72 4.4 -2"
+                    <a-entity position="4.72 3.9 -2"
                           mixin="RobotoFont"
 						  v-bind:text='"; color: black; align: left; value:  "  + get_scanning_status()+";  width: 4;"'
 						  rotation='0 0 0'>
@@ -55,7 +55,7 @@
 
 
 
-									<a-entity position="6 2.35 1"
+									<a-entity position="6 2.6 1"
 		   									geometry="primitive: plane;width: 0; height: 0;"
 		                                       mixin="RobotoFont">
 		   									<a-animation begin="mouseenter" attribute="rotation"
