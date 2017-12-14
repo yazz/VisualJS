@@ -22,12 +22,12 @@
 					 <a-entity position="1 -1.6 2">
 
 
-						 <a-entity  position="-1 9.55 -11"
+						 <a-entity  position="-.6 9.56 -11"
                                     id="people"
 									geometry="primitive: plane; "
                                     material="opacity: 0;"
                                     mixin="RobotoFont"
-									v-bind:text='"color: blue; align: center; value: People ; width: 10; "'
+									v-bind:text='"color: blue; align: center; value: People ; width: 9.4; "'
                                     goto='name: people_num; distance: 8; duration: 1500;'
                                     set_zoom='people: true;'
 									rotation='0 0 0' >
@@ -116,7 +116,7 @@
 
 
 
-						<a-entity  v-if='vr_type=="mouse"' position="-1.4 3.305 0"
+						<a-entity  v-if='vr_type=="mouse"' position="-1.308 3.305 0"
 								 geometry="primitive: plane;width: 0.5; height: 0.2"
                                  material="opacity: 0;"
                                  mixin="RobotoFont"
