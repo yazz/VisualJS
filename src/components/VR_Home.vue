@@ -19,15 +19,15 @@
 
 
 
-					 <a-entity position="1 -1.6 2">
+					 <a-entity position="1 -2 2">
 
 
-						 <a-entity  position="-.6 9.56 -11"
+						 <a-entity  position="-.6 9.94 -11"
                                     id="people"
 									geometry="primitive: plane; "
                                     material="opacity: 0;"
                                     mixin="RobotoFont"
-									v-bind:text='"color: blue; align: center; value: People ; width: 9.4; "'
+									v-bind:text='"color: blue; align: center; value: People ; width: 9.8; "'
                                     goto='name: people_num; distance: 8; duration: 1500;'
                                     set_zoom='people: true;'
 									rotation='0 0 0' >
@@ -43,13 +43,13 @@
 									geometry="primitive: plane; width: 8.4; height: 8.4;"
                                     v-bind:material='"color: white; opacity: 1  ;"'
 									rotation='0 0 0' >
-                                    <a-entity   position="-2 2 .4" rotation="0 0 0"
+                                    <a-entity   position="-3 3.6 .4" rotation="0 0 0"
                                                 mixin="RobotoFont"
-                                                v-bind:text='"color: black; align: center; value: People; width: 10; "'>
+                                                v-bind:text='"color: black; align: center; value: People; width: 20; "'>
                                     </a-entity>
                                 <a-entity  v-for="(item,index)  in  getNetwork"
                                 :key="item.username"
-                                v-bind:position='"0 " + (index - 1) + "  .5"'
+                                v-bind:position='"-3 " + (index - 1) + "  .5"'
                                 geometry="primitive: plane; width: .1; height: .1"
                                 material="color: white"
                                 mixin="RobotoFont"
@@ -68,8 +68,23 @@
 
 
 
+
+                                    <a-entity   geometry="primitive: plane; width: 7; height: .7" position='10 0 0'
+                                                v-bind:material='"color: " + (item.accessable?"green":"blue")'
+                                                mixin="RobotoFont"
+                                                v-bind:text='"color: white; align: center; value: " + (item.accessable?"All ok":"Can not access , firewall in place?") + "; width: 8; "'
+                                                >
+                                        <a-animation begin="mouseenter" attribute="rotation"
+                                                    to="0 0 10" dur="100" direction="alternate"  repeat="3"></a-animation>
+                                    </a-entity>
+                            </a-entity>
+
+
+
+
+
 									<a-entity   geometry="primitive: plane; width: 1.5; height: 3; "
-												position='3.7 3.5 0'
+												position='.7 2 1'
 												rotation='0 -40 0'
                                                 material="color: blue; opacity: .8;"
                                                 >
@@ -78,7 +93,7 @@
 															repeat="1"></a-animation></a-entity>
 
 									<a-entity   geometry="primitive: plane; width: 1.5; height: 3"
-												position='4.7 3.5 0'
+												position='1.7 2 1'
 												rotation='0 -40 0'
                                                 material="color: gray;opacity: 1;"
                                                 >
@@ -88,24 +103,13 @@
 
 
 									<a-entity   geometry="primitive: plane; width: 1.5; height: 3"
-												position='5.7 3.5 0'
+												position='2.7 2 1'
 												rotation='0 -40 0'
                                                 material="color: darkgray; opacity: .9;"
                                                 >
 		                                        <a-animation begin="mouseenter" attribute="rotation"
 		                                                    to="0 0 10" dur="1000" direction="alternate"
 															repeat="1"></a-animation></a-entity>
-
-
-                                    <a-entity   geometry="primitive: plane; width: 2; height: .7" position='7 0 0'
-                                                v-bind:material='"color: " + (item.accessable?"green":"blue")'
-                                                mixin="RobotoFont"
-                                                v-bind:text='"color: black; align: center; value: " + (item.accessable?"All ok":"Can not access , firewall in place?") + "; width: 8; "'
-                                                >
-                                        <a-animation begin="mouseenter" attribute="rotation"
-                                                    to="0 0 10" dur="100" direction="alternate"  repeat="3"></a-animation>
-                                    </a-entity>
-                            </a-entity>
 
                             </a-entity>
 						</a-entity>
@@ -116,7 +120,7 @@
 
 
 
-						<a-entity  v-if='vr_type=="mouse"' position="-1.308 3.305 0"
+						<a-entity  v-if='vr_type=="mouse"' position="-1.308 3.7 0"
 								 geometry="primitive: plane;width: 0.5; height: 0.2"
                                  material="opacity: 0;"
                                  mixin="RobotoFont"

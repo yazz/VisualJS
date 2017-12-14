@@ -135,7 +135,7 @@
 								goto='name: vr_home; duration: 300;' >
 									<a-animation begin="mouseenter" attribute="rotation"
 														to="0 0 .5" dur="70" direction="alternate"  repeat="3"></a-animation>
-                                <a-entity  position="0 0.2 0.3"
+                                <a-entity  position="-.2 0.2 0.3"
                                            rotation="0 0 0"
                                            mixin="RobotoFont"
                                            text='color: white; align: center; value: Go back; width: 2; '>
