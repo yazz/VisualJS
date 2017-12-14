@@ -1,6 +1,7 @@
 <template>
 			  <a-entity position='0.5   -.4   2' id='vr_items'>
 
+              <a-entity   v-bind:position='(can_see_search_results?-100:0) + "  0   0"'>
                         <a-entity position="5.13   2.4   -1.9" id='vr_file_name_2'
                                     scale="1 1 1"
 									geometry="primitive: plane; " material="color: white;opacity: 1;"
@@ -18,7 +19,8 @@
 									geometry="primitive: plane; " material="color: white;opacity: 1;"
                                     mixin="RobotoFont"
 									v-bind:text='"color: black; align: left; value: ; width: 4; "'>
-						</a-entity>
+                                    </a-entity>
+                </a-entity>
 
 
 
@@ -512,6 +514,14 @@ export default {
 
 
 
+
+
+
+                can_see_search_results: function () {
+                    return this.$store.state.show_related
+                    //return true
+                }
+                ,
 
 
 

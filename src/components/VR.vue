@@ -364,8 +364,8 @@ export default {
 
 
         can_see_search_results: function () {
-            //return this.$store.getters.get_current_location === 'scrollable_grid'
-            return true
+            return this.$store.state.show_related
+            //return true
         }
         ,
 
