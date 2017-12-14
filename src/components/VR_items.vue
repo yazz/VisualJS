@@ -82,7 +82,7 @@
                                     position="3 -2.8 0"
                                     mixin="RobotoFont"
                                     text='color: black; align: center; value: Close; width: 4; '
-                                    goto='name: vr_home;  distance: 4; duration: 300;'
+                                    goto='name: vr_home;  distance: 5; duration: 300;'
                                     >
                                         <a-animation begin="mouseenter" attribute="rotation"
                                                     to="0 0 4" dur="100" direction="alternate"  repeat="3"></a-animation>
@@ -128,7 +128,7 @@
                                     position="1 -.8 0"
                                     mixin="RobotoFont"
                                     text='color: black; align: center; value: Close; width: 4; '
-                                    goto='name: vr_home;  distance: 4; duration: 300;'
+                                    goto='name: vr_home;  distance: 5; duration: 300;'
                                     >
                                         <a-animation begin="mouseenter" attribute="rotation"
                                                     to="0 0 4" dur="100" direction="alternate"  repeat="3"></a-animation>
@@ -167,7 +167,7 @@
                     material="color: lightgray; opacity: .8;"
                     v-bind:position='((( !in_show_quickview() && is_visible(get_viewed_query_id()) && is_query_selected())?-7.2:-100) + 4.64) + " 1.85 .1"'
                 >
-                	   <a-entity    
+                	   <a-entity
                                     position='1.10 -.3 .02'
                                     v-bind:id='"selected_item"'
 									geometry="primitive: plane; width:.4;height: .4;"

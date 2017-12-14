@@ -620,7 +620,7 @@ function setupVRVuePane() {
 
                                         gotoFunction({
                                             goto_name:  "vr_home",
-                                            distance:    4,
+                                            distance:    5,
                                             duration:   "500",
                                             animEnd:     function() {store.dispatch('hide_full_doc');}
                                         });
@@ -955,7 +955,7 @@ function setupVRVuePane() {
 
                 gotoFunction({
                     goto_name:  "vr_home",
-                    distance:    4,
+                    distance:    5,
                     duration:   "500",
                     animEnd:     function() {store.dispatch('hide_full_doc');}
                 });
@@ -982,7 +982,7 @@ window.showSearchResults = function() {
 
     gotoFunction({
         goto_name:  "vr_home",
-        distance:    4,
+        distance:    5,
         duration:   "500",
         animEnd:     function() {store.dispatch('hide_full_doc');}
     });
