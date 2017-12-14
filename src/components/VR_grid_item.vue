@@ -33,7 +33,7 @@
         <a-entity
                 v-bind:position='"-0.8 "+ ((a_query.id == get_highlighted_query_id())?0.3:100) + " -.002"'
                 geometry="primitive: plane; width:.38;height: 0.38;"
-                material="color: white;"
+                material="color: black;"
                 v-bind:id='a_query.id + "_lower2"'
                 >
         </a-entity>

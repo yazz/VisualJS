@@ -92,6 +92,7 @@
                                <a-entity   position="-1 -1 1"
                                            geometry="primitive: plane; width: 3; height: 1; ;"
                                            v-bind:jump_to_query='(getSearchResults[0]?"queryId: " + getSearchResults[0].id + "; queryFile: " +  get_hash(getSearchResults[0].id) + ( get_file_name(getSearchResults[0].id)?"." + get_file_name(getSearchResults[0].id).split(".").pop():""):false)'
+                                           v-bind:highlight_query='(getSearchResults[0]?"queryId: " + getSearchResults[0].id + ";" :false)'
                                            material="color: white; opacity: 1">
 
                                            <a-entity   position="2 0 0.01"
@@ -112,6 +113,7 @@
                                <a-entity   position="-1 -2 1"
                                            geometry="primitive: plane; width: 3; height: 1; "
                                            v-bind:jump_to_query='(getSearchResults[1]?"queryId: " + getSearchResults[1].id + "; queryFile: " +  get_hash(getSearchResults[1].id) + ( get_file_name(getSearchResults[1].id)?"." + get_file_name(getSearchResults[1].id).split(".").pop():""):false)'
+                                           v-bind:highlight_query='(getSearchResults[1]?"queryId: " + getSearchResults[1].id + ";" :false)'
                                            material="color: white; opacity: 1;">
                                            <a-entity   position="2 0 0.01"
                                                        mixin="RobotoFont"
@@ -127,6 +129,7 @@
                                <a-entity   position="-1 -3 1"
                                            geometry="primitive: plane; width: 3; height: 1; "
                                            v-bind:jump_to_query='(getSearchResults[2]?"queryId: " + getSearchResults[2].id + "; queryFile: " +  get_hash(getSearchResults[2].id) + ( get_file_name(getSearchResults[2].id)?"." + get_file_name(getSearchResults[2].id).split(".").pop():""):false)'
+                                           v-bind:highlight_query='(getSearchResults[2]?"queryId: " + getSearchResults[2].id + ";" :false)'
                                            material="color: white; opacity: 1;">
                                            <a-entity   position="2 0 0.01"
                                                        mixin="RobotoFont"
@@ -142,6 +145,7 @@
                                <a-entity   position="-1 -4 1"
                                            geometry="primitive: plane; width: 3; height: 1; "
                                            v-bind:jump_to_query='(getSearchResults[3]?"queryId: " + getSearchResults[3].id + "; queryFile: " +  get_hash(getSearchResults[3].id) + ( get_file_name(getSearchResults[3].id)?"." + get_file_name(getSearchResults[3].id).split(".").pop():""):false)'
+                                           v-bind:highlight_query='(getSearchResults[3]?"queryId: " + getSearchResults[3].id + ";" :false)'
                                            material="color: white; opacity: 1;">
                                            <a-entity   position="2 0 0.01"
                                                        mixin="RobotoFont"

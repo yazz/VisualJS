@@ -546,6 +546,24 @@ function setupVRVuePane() {
 
 
 
+
+                AFRAME.registerComponent('highlight_query', {
+                    schema: {
+                                queryId: {type: 'string'}
+                            },
+
+                    init: function () {
+                        var self = this;
+
+                        this.el.addEventListener('mouseenter', function (evt) {
+                            //alert(self.data.queryId)
+                            store.dispatch('set_highlighted_query_id', self.data.queryId);
+                        });
+                    }
+        		});
+
+
+
         AFRAME.registerComponent('show_history_info', {
             schema: {
                         queryId: {type: 'string'}
