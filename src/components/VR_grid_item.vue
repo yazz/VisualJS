@@ -39,10 +39,11 @@
         </a-entity>
         <a-entity
                 v-for="n in getVersionCount(a_query.similar_count)"  :key="n"
-                v-bind:position='"-0.8  0.29  " + (-.002 - (0.04 * n))'
+                v-bind:position='"-0.8  " + ((a_query.id == get_viewed_history_query_id())?100:0.29)  + " " + (-.002 - (0.04 * n))'
                 v-bind:geometry='"primitive: plane; width:.38; height: 0.38; "'
                 v-bind:material='"opacity: .5; color: " + ((n % 2 === 0)?"gray":"white") + "; opacity:.4; shader: flat; "'
                 v-bind:id='a_query.id + "_versions_{n}"'
+                v-bind:show_history='a_query?("queryId: "  + a_query.id + ";"):false'
                 >
         </a-entity>
 
@@ -81,12 +82,22 @@ export default {
             //console.loglog("*********** get_selected_query_id: ")
             return this.$store.state.viewed_query_id;
         },
-        
-        
+
+
         get_highlighted_query_id: function() {
             //console.loglog("*********** get_highlighted_query_id: ")
             return this.$store.state.highlighted_query_id;
         },
+
+
+
+
+        get_viewed_history_query_id: function() {
+            //console.loglog("*********** get_viewed_history_query_id: ")
+            return this.$store.state.viewed_history_query_id;
+        },
+
+
 
 
         getVersionCount: function(cc) {

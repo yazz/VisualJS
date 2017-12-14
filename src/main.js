@@ -530,6 +530,20 @@ function setupVRVuePane() {
 
 
 
+                AFRAME.registerComponent('show_history', {
+                    schema: {
+                                queryId: {type: 'string'}
+                            },
+
+                    init: function () {
+                        var self = this;
+
+                        this.el.addEventListener('click', function (evt) {
+                            store.dispatch('set_viewed_history_query_id', self.data.queryId);
+                        });
+                    }
+        		});
+
 
 
         AFRAME.registerComponent('show_history_info', {
