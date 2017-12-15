@@ -165,14 +165,13 @@
 
                 <a-entity
                     id='query_menu2'
-                    geometry="primitive: plane; width:55;height: 55; "
                     material="color: lightgray; opacity: .8;"
-                    v-bind:position='((( !in_show_quickview() && is_visible(get_viewed_query_id()) && is_query_selected())?-7.2:-100) + 4.64) + " 1.85 .1"'
+                    v-bind:position='((( !in_show_quickview() && is_visible(get_viewed_query_id()) && is_query_selected())?-3.88:-100) + 4.64) + " .4 .1"'
                 >
                 	   <a-entity
-                                    position='1.10 -.3 .02'
+                                    position='2.74 -.55 .02'
                                     v-bind:id='"selected_item"'
-									geometry="primitive: plane; width:.4;height: .4;"
+									geometry="primitive: plane; width:1;height: 1;"
                                     v-bind:material='get_viewed_query_id()?"src: driver_icons/" + get_driver_name(get_viewed_query_id()) + ".jpg;":false'
                                 >
 						</a-entity>
