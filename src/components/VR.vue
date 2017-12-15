@@ -84,7 +84,7 @@
 
 
 
-                       <a-entity   v-bind:position='(can_see_search_results?6.7:-100) + " 2.5 0"'>
+                       <a-entity   v-bind:position='((can_see_search_results && !( !in_show_quickview() && is_visible(get_viewed_query_id()) && is_query_selected())) ?6.7:-100) + " 2.5 0"'>
 
 
 
@@ -418,7 +418,10 @@ export default {
         ,
 
 
-
+        in_show_quickview: function (id) {
+            return  this.$store.state.show_quickview;
+        }
+        ,
 
 		get_show_related: function() {
             return this.$store.state.show_related;
@@ -437,6 +440,38 @@ export default {
             };
             return "";
         },
+
+
+        is_visible: function(id) {
+            //console.loglog("*********** is_visible: ")
+            if (id == null) {
+                return false;
+            }
+            var qm = window.sqlGetQueryUiById(id);
+            if (!qm) {
+                return false;
+            }
+            return qm.visible;
+        }
+        ,
+
+
+
+                get_viewed_query_id: function() {
+                    //console.loglog("*********** get_viewed_query_id: ")
+                    return this.$store.state.viewed_query_id;
+                }
+                ,
+
+
+
+
+                        is_query_selected: function() {
+                            //console.loglog("*********** is_query_selected: ")
+                            if ( this.$store.state.viewed_query_id == null) { return false; };
+                            return true
+                        }
+                        ,
 
 
 
