@@ -92,7 +92,7 @@ path.join(__dirname, '../public/dropzone.js')
 path.join(__dirname, '../public/dropzone.css')
 path.join(__dirname, '../public/locked.png')
 path.join(__dirname, '../public/unlocked.png')
-path.join(__dirname, '../public/gosharedata/list_intranet_servers.html')
+path.join(__dirname, '../public/visifile/list_intranet_servers.html')
 path.join(__dirname, '../public/list_intranet_servers.html')
 path.join(__dirname, '../public/\aframe_fonts/Roboto-msdf.json')
 path.join(__dirname, '../public/\aframe_fonts/Roboto-msdf.png')
@@ -1380,21 +1380,21 @@ function getRoot(req, res) {
 		};
 		if (req.headers.host.toLowerCase().endsWith('gosharedata.com')) {
 		res.writeHead(301,
-			{Location: 'http://visifile.com/gosharedata/index.html?time=' + new Date().getTime()}
+			{Location: 'http://visifile.com/visifile/index.html?time=' + new Date().getTime()}
 			);
 			res.end();
 			return;
 		};
 		if (req.headers.host.toLowerCase().endsWith('visifile.com')) {
 		res.writeHead(301,
-			{Location: 'http://visifile.com/gosharedata/index.html?time=' + new Date().getTime()}
+			{Location: 'http://visifile.com/visifile/index.html?time=' + new Date().getTime()}
 			);
 			res.end();
 			return;
 		};
 		if (req.headers.host.toLowerCase().endsWith('visifiles.com')) {
 		res.writeHead(301,
-			{Location: 'http://visifile.com/gosharedata/index.html?time=' + new Date().getTime()}
+			{Location: 'http://visifile.com/visifile/index.html?time=' + new Date().getTime()}
 			);
 			res.end();
 			return;
@@ -2690,7 +2690,7 @@ function startServices() {
 
 	if (typeOfSystem == 'client') {
         var localClientUrl = 'http://' + hostaddress  + ":" + port;
-        var remoteServerUrl = 'http://' + centralHostAddress  + ":" + centralHostPort + "/gosharedata/list_intranet_servers.html?time=" + new Date().getTime();
+        var remoteServerUrl = 'http://' + centralHostAddress  + ":" + centralHostPort + "/visifile/list_intranet_servers.html?time=" + new Date().getTime();
 
 
         request({
@@ -2710,7 +2710,7 @@ function startServices() {
               }
             });
 	} else if (typeOfSystem == 'server') {
-	  open('http://' + hostaddress  + ":" + port + "/gosharedata/list_intranet_servers.html?time=" +  + new Date().getTime());
+	  open('http://' + hostaddress  + ":" + port + "/visifile/list_intranet_servers.html?time=" +  + new Date().getTime());
 	}
 
 
