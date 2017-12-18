@@ -2,19 +2,19 @@
 			  <a-entity position='0.5   -.4   2' id='vr_items'>
 
               <a-entity   v-bind:position='(can_see_search_results?-100:0) + "  0   0"'>
-                        <a-entity position="5.13   2.4   -1.9" id='vr_file_name_2'
+                        <a-entity position="5.13   .2   -1.9" id='vr_file_name_2'
                                     scale="1 1 1"
 									geometry="primitive: plane; " material="color: white;opacity: 1;"
                                     mixin="RobotoFont"
 									v-bind:text='"color: black; align: left; value:  ; width: 4; "'>
 						</a-entity>
-						 <a-entity position="5.13 2.0 -1.9" id='vr_file_size_2'
+						 <a-entity position="5.13 -.2 -1.9" id='vr_file_size_2'
                                     scale="1 1 1"
 									geometry="primitive: plane; " material="color: white;opacity: 1;"
                                     mixin="RobotoFont"
 									v-bind:text='"color: black; align: left; value:  ; width: 4; "'>
 						</a-entity>
-						 <a-entity  position="5.13 1.6 -1.9" id='vr_file_saved_as'
+						 <a-entity  position="5.13 -.8 -1.9" id='vr_file_saved_as'
                                     scale="1 1 1"
 									geometry="primitive: plane; " material="color: white;opacity: 1;"
                                     mixin="RobotoFont"
@@ -166,7 +166,7 @@
                 <a-entity
                     id='query_menu2'
                     material="color: lightgray; opacity: .8;"
-                    v-bind:position='((( !in_show_quickview() && is_visible(get_viewed_query_id()) && is_query_selected())?-3.88:-100) + 4.64) + " .4 .1"'
+                    v-bind:position='((( !in_show_quickview() && is_visible(get_viewed_query_id()) && is_query_selected())?-3.88:-100) + 4.64) + " 1.4 .1"'
                 >
                 	   <a-entity
                                     position='2.74 -.55 .02'
