@@ -356,7 +356,7 @@ function mainProgram() {
     startServices()
     console.log('CstartServices()' );
 
-
+    scanHardDisk();
 	}
 
 
