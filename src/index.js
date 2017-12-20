@@ -741,6 +741,7 @@ function addOrUpdateDriver(name, code2, theObject) {
 
 
 function scanHardDisk() {
+    stopScan = false;
     inScan = true;
 	var useDrive = "C:\\";
     if (!isWin) {
@@ -753,6 +754,10 @@ function scanHardDisk() {
         });
         inScan = false;
 	  };
+      sendOverWebSockets({
+                              type:   "server_scan_status",
+                              value:  "Hard disk scan in progress"
+                              });
 };
 
 
@@ -1750,13 +1755,7 @@ function websocketFn(ws, req) {
 function scanharddiskFn(req, res) {
 		res.writeHead(200, {'Content-Type': 'text/plain'});
 		res.end(JSON.stringify([]));
-		stopScan = false;
-	      inScan = true;
 		scanHardDisk();
-	      sendOverWebSockets({
-	                              type:   "server_scan_status",
-	                              value:  "Hard disk scan in progress"
-	                              });
 };
 
 
