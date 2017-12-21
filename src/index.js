@@ -349,15 +349,13 @@ function setupVisifileParams() {
 
 function mainProgram() {
 
-
-    //------------------------------------------------------------
-    // wait three seconds for stuff to initialize
-    //------------------------------------------------------------
     startServices()
-    console.log('CstartServices()' );
+    console.log('Start Services' );
+
 
     scanHardDisk();
-	}
+    console.log('Start Hard Disk Scan' );
+}
 
 
 
@@ -1727,15 +1725,17 @@ function websocketFn(ws, req) {
 
             var stmt = dbsearch.all("select * from queries",
                 function(err, results) {
-                    for (var i=0; i < results.length;i ++){
+                    for (var i=0; i < results.length;i ++) {
                         var query = results[i];
-                        sendToBrowserViaWebSocket( ws,
+                        sendToBrowserViaWebSocket(
+                            ws,
                             {
                                 type: "update_query_item",
                                 query: query
-                            });}
-                            sendToBrowserViaWebSocket(ws, {   message_type: "client_get_all_queries_done"  });
-                        });
+                            });
+                    }
+                    sendToBrowserViaWebSocket(ws, {   message_type: "client_get_all_queries_done"  });
+                });
 
 
         }
@@ -2400,13 +2400,20 @@ function setupChildProcesses() {
                                      definition:    msg.definition,
                                      preview:       msg.preview
                                   }));
-                sendOverWebSockets({
-                                        type: "uploaded",
-                                        id:    msg.id,
-                                        query:
-                                        {
+            sendOverWebSockets({
+                                    type: "uploaded",
+                                    id:    msg.id,
+                                    query:
+                                    {
+                                    }});
 
-                                        }});
+            sendOverWebSockets({
+                                    type: "update_query_item",
+                                    query: queries[msg.id]
+            });
+
+
+            sendOverWebSockets({   type: "client_get_all_queries_done"  });
 
 
         // this needs to be fixed so that it only sends the similar documents
