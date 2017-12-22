@@ -5,7 +5,6 @@
 <img src='http://visifile.com/visifile_features_3.png' />
 <img src='http://visifile.com/visifile_common_use_cases.png' />
 
-### Monitor Your Intranet for Senstive Data Changes.
 
 Demo here: http://139.162.228.5/
 
@@ -19,7 +18,7 @@ Demo here: http://139.162.228.5/
     <img src='http://visifiles.com/desktop.PNG' />
     </p>
 </div>
-VisiFile is a desktop program that scans your PC and shows a map of all your documents. It supports:
+VisiFile is a desktop program that scans one or multiple PC on your network and allows you to search and monitor changes in deocuments. It works with:
 <br><br>
 
 * Excel
