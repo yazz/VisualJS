@@ -13,11 +13,6 @@ Demo here: http://139.162.228.5/
 
 
 
-
-<p align="center">
-    <img src='http://visifiles.com/desktop.PNG' />
-    </p>
-</div>
 VisiFile is a desktop program that scans one or multiple PC on your network and allows you to search and monitor changes in deocuments. It works with:
 <br><br>
 
@@ -43,22 +38,6 @@ VisiFile is a desktop program that scans one or multiple PC on your network and 
     <img src='http://gosharedata.com/gosharedata/images/img_1514.jpg' />
     </p>
 </div>
-
-
-
-
-
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<p align="center">
-    <img src='http://gosharedata.com/gosharedata/images/pasted%20image%20575x575.jpg' />
-    </p>
-</div>
-GoShareData DOES NOT work over the cloud. It can ONLY share data over a local network, so it is secure by design. Even if I turned into an evil overlord I still would not be able to access your data
 
 
 
