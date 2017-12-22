@@ -28,32 +28,10 @@ VisiFile is a desktop program that scans one or multiple PC on your network and 
 * GTLF 3d 
 	
 	
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<p align="center">
-    <img src='http://gosharedata.com/gosharedata/images/img_1514.jpg' />
-    </p>
-</div>
 
 
 
 
-
-
-
-
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
 <br>
 <br>
 <br>
