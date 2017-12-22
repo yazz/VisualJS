@@ -1,3 +1,4 @@
+<img src='http://visifile.com/visifile_top.png' />
 <img src='http://visifile.com/visifile_screenshot.png' />
 
 ### Monitor Your Intranet for Senstive Data Changes.
