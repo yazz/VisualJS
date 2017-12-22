@@ -352,7 +352,6 @@ function mainProgram() {
     startServices()
     console.log('Start Services' );
 
-
     scanHardDisk();
     console.log('Start Hard Disk Scan' );
 }
@@ -1734,7 +1733,7 @@ function websocketFn(ws, req) {
                                 query: query
                             });
                     }
-                    sendToBrowserViaWebSocket(ws, {   message_type: "client_get_all_queries_done"  });
+                    sendToBrowserViaWebSocket(ws, {   type: "client_get_all_queries_done"  });
                 });
 
 

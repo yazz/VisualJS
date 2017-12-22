@@ -1585,7 +1585,7 @@ function setupWebSocket(host, port)
              //store.dispatch('refresh_vr_items')
 
           }
-        else if (data.message_type == "client_get_all_queries_done") {
+        else if (data.type == "client_get_all_queries_done") {
              console.log("Browser received from server socket: " + JSON.stringify(data,null,2));
              store.dispatch('refresh_vr_items')
 
