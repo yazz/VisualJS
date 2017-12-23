@@ -352,7 +352,7 @@ function mainProgram() {
     startServices()
     console.log('Start Services' );
 
-    scanHardDisk();
+    //scanHardDisk();
     console.log('Start Hard Disk Scan' );
 }
 
@@ -2720,3 +2720,21 @@ function startServices() {
 
 
 }
+
+
+
+
+
+var osu 	= require('os-utils');
+
+setInterval(
+        function() {
+
+            var loads = os.loadavg();
+                console.log("loadavg: "+loads);
+            console.log("totalmem: "+os.totalmem());
+            console.log("freemem: "+os.freemem())
+
+            console.log( 'cpucount2 (%): ' + osu.cpuCount() );
+            console.log( 'loadvag2 (%): ' + osu.loadavg(1) );
+        },1000)
