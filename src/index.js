@@ -2738,3 +2738,18 @@ setInterval(
             console.log( 'cpucount2 (%): ' + osu.cpuCount() );
             console.log( 'loadvag2 (%): ' + osu.loadavg(1) );
         },1000)
+
+
+
+
+
+        var cpu = require('windows-cpu');
+
+        // Get total load on server for each CPU
+        cpu.totalLoad(function(error, results) {
+        	if(error) {
+        	return console.log(error);
+        	}
+
+        	console.log('Total Windows  Load: ' + results.load);
+        });
