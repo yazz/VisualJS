@@ -2809,6 +2809,7 @@ function getDiskPerSecond() {
             //console.log(JSON.stringify(result,null,2) + " data received bytes / sec");
             var used1 = result.used;
             var diffUsed = Math.abs(used1 - lastused);
+            console.log(used1 + " disk usage bytes ");
             console.log(JSON.stringify(diffUsed , null, 2) + " disk transferred bytes / sec");
             lastused = used1;
         });
