@@ -23,6 +23,7 @@
     "debug": "^3.1.0",
     "deep-diff": "^0.3.8",
     "detect-rpi": "^1.2.0",
+    "diskspace": "^2.0.0",
     "exceljs": "^0.7.1",
     "express": "^4.14.0",
     "express-ws": "^3.0.0",

@@ -2750,6 +2750,7 @@ function cpuAverage() {
 //Grab first CPU Measure
 var startMeasure = cpuAverage();
 const si = require('systeminformation');
+var diskspace = require('diskspace');
 
 
 //Set delay for second Measure
@@ -2768,20 +2769,54 @@ setInterval(function() {
   //Output result to console
   console.log(percentageCPU + "% CPU Usage.");
 
-  si.networkStats().then(data => {
-      console.log(data.rx_sec + " network received bytes / sec");
-      console.log(data.tx_sec + " network transferred bytes / sec");
-  })
+  
+  
+  
+	//if (isWin) {
+	if (1 == 1) {
+        getDiskPerSecond();
+        
+        
+        
+    } else {
+        si.networkStats().then(data => {
+          console.log(data.rx_sec + " network received bytes / sec");
+          console.log(data.tx_sec + " network transferred bytes / sec");
+        })
 
-  si.fsStats().then(data => {
-      console.log(data.rx_sec + " fs received bytes / sec");
-      console.log(data.tx_sec + " fs transferred bytes / sec");
-  })
+        si.fsStats().then(data => {
+          console.log(data.rx_sec + " fs received bytes / sec");
+          console.log(data.tx_sec + " fs transferred bytes / sec");
+        })
 
 
-    si.disksIO().then(data => {
-        console.log(data.rIO_sec + " mounted disks received bytes / sec");
-        console.log(data.wIO_sec + " mounted disks transferred bytes / sec");
-    })
+        si.disksIO().then(data => {
+            console.log(data.rIO_sec + " mounted disks received bytes / sec");
+            console.log(data.wIO_sec + " mounted disks transferred bytes / sec");
+        })
+    }
+
+    
+    
 
 }, 1000);
+
+function getDiskPerSecond() {
+        diskspace.check('C', function (err, result)
+        {
+            //console.log(JSON.stringify(result,null,2) + " data received bytes / sec");
+            var used1 = result.used;
+            setTimeout(
+                function(){
+                    diskspace.check('C', function (err, result)
+                    {
+                        var used2 = result.used;
+                        var diffUsed = Math.abs(used1 - used2);
+                        console.log(JSON.stringify(diffUsed , null, 2) + " disk transferred bytes / sec");
+                    })
+                }
+                ,1000)
+            
+        });
+    
+}
