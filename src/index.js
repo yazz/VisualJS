@@ -2750,7 +2750,7 @@ function cpuAverage() {
 //Grab first CPU Measure
 var startMeasure = cpuAverage();
 const si = require('systeminformation');
-var diskspace = require('diskspace');
+var diskspace = require('fd-diskspace');
 
 
 //Set delay for second Measure
@@ -2804,12 +2804,12 @@ setInterval(function() {
 
 var lastused = 0;
 function getDiskPerSecond() {
-        diskspace.check('C', function (err, result)
+        diskspace.diskSpace(function (err, result)
         {
             //console.log(JSON.stringify(result,null,2) + " data received bytes / sec");
-            var used1 = result.used;
+            var used1 = result.total.used;
             var diffUsed = Math.abs(used1 - lastused);
-            console.log(used1 + " disk usage bytes ");
+            //console.log(used1 + " disk usage bytes ");
             console.log(JSON.stringify(diffUsed , null, 2) + " disk transferred bytes / sec");
             lastused = used1;
         });
