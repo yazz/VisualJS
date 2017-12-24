@@ -2801,22 +2801,16 @@ setInterval(function() {
 
 }, 1000);
 
+
+var lastused = 0;
 function getDiskPerSecond() {
         diskspace.check('C', function (err, result)
         {
             //console.log(JSON.stringify(result,null,2) + " data received bytes / sec");
             var used1 = result.used;
-            setTimeout(
-                function(){
-                    diskspace.check('C', function (err, result)
-                    {
-                        var used2 = result.used;
-                        var diffUsed = Math.abs(used1 - used2);
-                        console.log(JSON.stringify(diffUsed , null, 2) + " disk transferred bytes / sec");
-                    })
-                }
-                ,1000)
-            
+            var diffUsed = Math.abs(used1 - lastused);
+            console.log(JSON.stringify(diffUsed , null, 2) + " disk transferred bytes / sec");
+            lastused = used1;
         });
     
 }
