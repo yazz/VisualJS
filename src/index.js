@@ -2737,7 +2737,7 @@ function cpuAverage() {
     //Total up the time in the cores tick
     for(var type in cpu.times) {
       totalTick += cpu.times[type];
-   }     
+   }
 
     //Total up the idle time of the core
     totalIdle += cpu.times.idle;
@@ -2749,12 +2749,14 @@ function cpuAverage() {
 
 //Grab first CPU Measure
 var startMeasure = cpuAverage();
+const si = require('systeminformation');
+
 
 //Set delay for second Measure
-setInterval(function() { 
+setInterval(function() {
 
   //Grab second Measure
-  var endMeasure = cpuAverage(); 
+  var endMeasure = cpuAverage();
 
   //Calculate the difference in idle and total time between the measures
   var idleDifference = endMeasure.idle - startMeasure.idle;
@@ -2765,5 +2767,21 @@ setInterval(function() {
 
   //Output result to console
   console.log(percentageCPU + "% CPU Usage.");
+
+  si.networkStats().then(data => {
+      console.log(data.rx_sec + " network received bytes / sec");
+      console.log(data.tx_sec + " network transferred bytes / sec");
+  })
+
+  si.fsStats().then(data => {
+      console.log(data.rx_sec + " fs received bytes / sec");
+      console.log(data.tx_sec + " fs transferred bytes / sec");
+  })
+
+
+    si.disksIO().then(data => {
+        console.log(data.rIO_sec + " mounted disks received bytes / sec");
+        console.log(data.wIO_sec + " mounted disks transferred bytes / sec");
+    })
 
 }, 1000);
