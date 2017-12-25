@@ -2723,81 +2723,14 @@ function startServices() {
 }
 
 
-function cpuAverage() {
 
-  //Initialise sum of idle and time of cores and fetch CPU info
-  var totalIdle = 0, totalTick = 0;
-  var cpus = os.cpus();
 
-  //Loop through CPU cores
-  for(var i = 0, len = cpus.length; i < len; i++) {
 
-    //Select CPU core
-    var cpu = cpus[i];
 
-    //Total up the time in the cores tick
-    for(var type in cpu.times) {
-      totalTick += cpu.times[type];
-   }
-
-    //Total up the idle time of the core
-    totalIdle += cpu.times.idle;
-  }
-
-  //Return the average Idle and Tick times
-  return {idle: totalIdle / cpus.length,  total: totalTick / cpus.length};
-}
-
-//Grab first CPU Measure
-var startMeasure = cpuAverage();
-const si = require('systeminformation');
-var diskspace = require('fd-diskspace');
 
 
 //Set delay for second Measure
 setInterval(function() {
-
-  //Grab second Measure
-  var endMeasure = cpuAverage();
-
-  //Calculate the difference in idle and total time between the measures
-  var idleDifference = endMeasure.idle - startMeasure.idle;
-  var totalDifference = endMeasure.total - startMeasure.total;
-
-  //Calculate the average percentage CPU usage
-  var percentageCPU = 100 - ~~(100 * idleDifference / totalDifference);
-
-  //Output result to console
-  console.log(percentageCPU + "% CPU Usage.");
-
-
-
-
-	//if (isWin) {
-	if (1 == 1) {
-        perf.getDiskPerSecond();
-
-
-
-    } else {
-        si.networkStats().then(data => {
-          console.log(data.rx_sec + " network received bytes / sec");
-          console.log(data.tx_sec + " network transferred bytes / sec");
-        })
-
-        si.fsStats().then(data => {
-          console.log(data.rx_sec + " fs received bytes / sec");
-          console.log(data.tx_sec + " fs transferred bytes / sec");
-        })
-
-
-        si.disksIO().then(data => {
-            console.log(data.rIO_sec + " mounted disks received bytes / sec");
-            console.log(data.wIO_sec + " mounted disks transferred bytes / sec");
-        })
-    }
-
-
-
-
+  //console.log(perf.getPercentageCPU() + "% Child CPU Usage.");
+  //perf.getDiskPerSecond(function(val) {console.log( val + "Child Disk usage.");});
 }, 1000);

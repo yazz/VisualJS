@@ -13,6 +13,7 @@ var crypto                      = require('crypto');
 var diff                        = require('deep-diff').diff
 var sqlite3                     = require2('sqlite3');
 var os                          = require('os')
+var perf                        = require('./perf')
 
 
 
@@ -1167,3 +1168,11 @@ function createRelationship(  doc_hash,  target_hash,  similar_count ) {
         }
     )
 }
+
+
+
+//Set delay for second Measure
+setInterval(function() {
+  console.log(perf.getPercentageCPU() + "% Child CPU Usage.");
+  perf.getDiskPerSecond(function(val) {console.log( val + "Child Disk usage.");});
+}, 1000);
