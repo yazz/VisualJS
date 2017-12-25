@@ -54,6 +54,7 @@ var mysql           = require('mysql');
 var cors            = require('cors')
 var mammoth         = require("mammoth");
 var isBinaryFile    = require("isbinaryfile");
+var perf            = require('./perf')
 
 path.join(__dirname, '../public/jquery-1.9.1.min.js')
 path.join(__dirname, '../public/jquery.zoomooz.js')
@@ -2769,15 +2770,15 @@ setInterval(function() {
   //Output result to console
   console.log(percentageCPU + "% CPU Usage.");
 
-  
-  
-  
+
+
+
 	//if (isWin) {
 	if (1 == 1) {
-        getDiskPerSecond();
-        
-        
-        
+        perf.getDiskPerSecond();
+
+
+
     } else {
         si.networkStats().then(data => {
           console.log(data.rx_sec + " network received bytes / sec");
@@ -2796,22 +2797,7 @@ setInterval(function() {
         })
     }
 
-    
-    
+
+
 
 }, 1000);
-
-
-var lastused = 0;
-function getDiskPerSecond() {
-        diskspace.diskSpace(function (err, result)
-        {
-            //console.log(JSON.stringify(result,null,2) + " data received bytes / sec");
-            var used1 = result.total.used;
-            var diffUsed = Math.abs(used1 - lastused);
-            //console.log(used1 + " disk usage bytes ");
-            console.log(JSON.stringify(diffUsed , null, 2) + " disk transferred bytes / sec");
-            lastused = used1;
-        });
-    
-}
