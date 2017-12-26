@@ -3,7 +3,7 @@ var os        = require('os')
 
 var lastused        = 0;
 var startMeasure    = cpuAverage();
-
+var showDebug       = true;
 
 
 module.exports = {
@@ -18,17 +18,17 @@ module.exports = {
             var diffUsed = Math.abs(used1 - lastused);
             //console.log(used1 + " disk usage bytes ");
             lastused = used1;
-            cb.call(this,diffUsed);;
+            cb.call(this,diffUsed);
         });
 
     }
-    
-    
+
+
     ,
-    
-    
-    
-    
+
+
+
+
     getPercentageCPU: function() {
         //Grab second Measure
         var endMeasure = cpuAverage();
@@ -40,7 +40,30 @@ module.exports = {
         //Calculate the average percentage CPU usage
         var percentageCPU = 100 - ~~(100 * idleDifference / totalDifference);
 
-        return percentageCPU;        
+        return percentageCPU;
+    }
+
+
+    ,
+
+
+
+    isDoingStuff: function(cb) {
+        var percentageCPU = this.getPercentageCPU();
+        this.getDiskPerSecond(function(diskPerSec) {
+            if (showDebug) {
+                console.log( diskPerSec + " Disk usage, " + percentageCPU + "% Child CPU Usage.");
+                var doingStuff = false;
+                if (diskPerSec > 0) {
+                    doingStuff = true;
+                }
+                if (percentageCPU > 20) {
+                    doingStuff = true;
+                }
+                cb.call(this,doingStuff);
+            }
+
+        })
     }
 };
 
@@ -73,6 +96,3 @@ function cpuAverage() {
     //Return the average Idle and Tick times
     return {idle: totalIdle / cpus.length,  total: totalTick / cpus.length};
 }
-
-
-

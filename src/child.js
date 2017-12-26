@@ -18,7 +18,7 @@ var perf                        = require('./perf')
 
 
 var isWin                               = /^win/.test(process.platform);
-var numberOfSecondsIndexFilesInterval   = 5; 
+var numberOfSecondsIndexFilesInterval   = 5;
 var inScan                              = false;
 var drivers                             = new Object();
 var connections                         = new Object();
@@ -59,7 +59,7 @@ function require2(moduleName) {
 	} else {
 	    pat = "require(process.cwd() + " + "'/node_modules/" + moduleName + "');";
 	}
-    var reac = eval(pat);	
+    var reac = eval(pat);
 	return reac;
 };
 
@@ -82,9 +82,9 @@ testDiffFn();
 
 
 
-                        
-                        
-                        
+
+
+
 
 
 
@@ -107,52 +107,52 @@ testDiffFn();
 //                                                                                         //
 //-----------------------------------------------------------------------------------------//
 function setUpSql() {
-    stmtInsertIntoRelationships = dbsearch.prepare( " insert into relationships " + 
+    stmtInsertIntoRelationships = dbsearch.prepare( " insert into relationships " +
                                                         "    ( id, source_query_hash, target_query_hash, similar_row_count ) " +
-                                                        " values " + 
+                                                        " values " +
                                                         "    (?,  ?,?,  ?);");
 
-    stmtUpdateRelationships2 = dbsearch.prepare( " update relationships " + 
+    stmtUpdateRelationships2 = dbsearch.prepare( " update relationships " +
                                                          "    set " +
                                                          "        new_source = ?, new_target = ?, " +
-                                                         "        edited_source = ?, edited_target = ?, " + 
-                                                         "        deleted_source = ?, deleted_target = ?, " + 
+                                                         "        edited_source = ?, edited_target = ?, " +
+                                                         "        deleted_source = ?, deleted_target = ?, " +
                                                          "        array_source = ?, array_target = ? " +
-                                                         " where " + 
+                                                         " where " +
                                                          "     source_query_hash = ?    and     target_query_hash = ? ");
 
 
-    stmtInsertIntoFiles = dbsearch.prepare(" insert into files " + 
+    stmtInsertIntoFiles = dbsearch.prepare(" insert into files " +
                                 "    ( id, name, contents ) " +
-                                " values " + 
+                                " values " +
                                 "    (?,  ?,?);");
 
-    stmtInsertIntoConnections = dbsearch.prepare(" insert into connections " + 
+    stmtInsertIntoConnections = dbsearch.prepare(" insert into connections " +
                                 "    ( id, name, driver, size, hash, type, fileName ) " +
-                                " values " + 
+                                " values " +
                                 "    (?,  ?,?,?,  ?,?,?);");
-    stmtInsertInsertIntoQueries = dbsearch.prepare(" insert into queries " + 
+    stmtInsertInsertIntoQueries = dbsearch.prepare(" insert into queries " +
                                 "    ( id, name, connection, driver, size, hash, fileName, type, definition, preview, similar_count ) " +
-                                " values " + 
+                                " values " +
                                 "    (?,  ?,?,?,  ?,?,?, ?,?,?, 1);");
 
-    stmtUpdateRelatedDocumentCount = dbsearch.prepare(" update queries " + 
+    stmtUpdateRelatedDocumentCount = dbsearch.prepare(" update queries " +
                                 "    set  similar_count = ?  " +
-                                " where  " + 
+                                " where  " +
                                 "    id = ? ;");
 
-    stmtUpdateRelationships = dbsearch.prepare(" update queries " + 
+    stmtUpdateRelationships = dbsearch.prepare(" update queries " +
                                 "    set  related_status = ?  " +
-                                " where  " + 
+                                " where  " +
                                 "    hash = ? ;");
 }
 
-                            
-                            
-                            
-                            
-                            
-                                                
+
+
+
+
+
+
 //-----------------------------------------------------------------------------------------//
 //                                                                                         //
 //                               saveConnectionAndQueryForFile                             //
@@ -183,50 +183,50 @@ function saveConnectionAndQueryForFile(  fileId,  fileType,  size,  fileName,  f
         hash.write(contents);
         hash.end();
         var sha1sum = hash.read();
-                             
-//console.log("child 1")                             
+
+//console.log("child 1")
         dbsearch.serialize(function() {
-//console.log("child 2")                             
+//console.log("child 2")
             var newid = uuidv1();
             stmtInsertIntoConnections.run(
                      newid,
-                     fileId, 
+                     fileId,
                      fileType,
                      size,
                      sha1sum,
                      fileType2,
                      fileName, function(err) {
-//console.log("child 3")                             
-     
+//console.log("child 3")
+
                             //connections[newid] = {id: newid, name: fileId, driver: fileType, size: size, hash: sha1sum, type: fileType2, fileName: fileName };
-                            process.send({ 
+                            process.send({
                                             message_type:       "return_set_connection",
-                                            id:         newid, 
-                                            name:       fileId, 
-                                            driver:     fileType, 
-                                            size:       size, 
-                                            hash:       sha1sum, 
-                                            type:       fileType2, 
+                                            id:         newid,
+                                            name:       fileId,
+                                            driver:     fileType,
+                                            size:       size,
+                                            hash:       sha1sum,
+                                            type:       fileType2,
                                             fileName:   fileName
                             });
-//console.log("child 4")                             
-        
+//console.log("child 4")
+
                             var copyfrom = fileName;
                             var saveName = "gsd_" + sha1sum.toString() + path.extname(fileName);
                             var stmt = dbsearch.all(
                                 "select id from files where name = '" + saveName + "'",
-                                function(err, results) 
+                                function(err, results)
                                 {
-                                    if (!err) 
+                                    if (!err)
                                     {
                                         if (results.length == 0) {
                                             dbsearch.serialize(function() {
                                                 var newId = uuidv1();
                                                 stmtInsertIntoFiles.run(
-                                                    newId, 
-                                                    saveName, 
+                                                    newId,
+                                                    saveName,
                                                     fs.readFileSync(copyfrom),
-                                                    
+
                                                     function(err) {
                                                         //console.log('added file to sqlite');
                                                         });
@@ -234,13 +234,13 @@ function saveConnectionAndQueryForFile(  fileId,  fileType,  size,  fileName,  f
                                         };
                                     };
                                 });
-                              
-                              
+
+
                             dbsearch.serialize(function() {
-                                    //console.log(":      saving query ..." + fileId);                        
+                                    //console.log(":      saving query ..." + fileId);
                                     var newqueryid = uuidv1();
                                     stmtInsertInsertIntoQueries.run(newqueryid,
-                                             fileId, 
+                                             fileId,
                                              newid,
                                              fileType,
                                              size,
@@ -259,36 +259,36 @@ function saveConnectionAndQueryForFile(  fileId,  fileType,  size,  fileName,  f
                                                 var newqueryid2 = newqueryid;
                                                 var fileType2 = fileType;
                                                 var newid2 = newid;
-                                                
-                                                
-                                                process.send({ 
+
+
+                                                process.send({
                                                                 message_type:       "return_set_query",
                                                                 id:                 newqueryid,
                                                                 name:               fileId,
                                                                 connection:         newid,
-                                                                driver:             fileType, 
-                                                                size:               size, 
-                                                                hash:               sha1sum, 
-                                                                fileName:           fileName, 
+                                                                driver:             fileType,
+                                                                size:               size,
+                                                                hash:               sha1sum,
+                                                                fileName:           fileName,
                                                                 type:               fileType2,
-                                                                definition:         JSON.stringify({} , null, 2), 
+                                                                definition:         JSON.stringify({} , null, 2),
                                                                 preview:            JSON.stringify([{message: 'No preview available'}] , null, 2)});
 
                                                         //console.log('    ...  entering getresult v2:  '  + fileId2);
-                                                         
+
                                                     }
                                                 );
                             });
                             //console.log("... query saved: " + fileId);
-                            
-                         
-                     });                     
+
+
+                     });
         });
     } catch(err) {
-        //console.log("Error " + err + " with file: " + fileName);     
-        return err; 
+        //console.log("Error " + err + " with file: " + fileName);
+        return err;
     } finally {
-        
+
     }
 }
 
@@ -330,8 +330,8 @@ function getRelatedDocuments(  id,  callback  ) {
                 "where hash = document_binary_hash " +
                 "group by id " +
                 "order by cc desc "
-                     
-     
+
+
     try
     {
         //console.log("**** : **********************")
@@ -339,21 +339,21 @@ function getRelatedDocuments(  id,  callback  ) {
         //console.log("**** : **********************")
         var stmt = dbsearch.all(
             sql,
-            function(err, results) 
+            function(err, results)
             {
-                if (!err) 
+                if (!err)
                 {
                     dbsearch.serialize(function() {
                             stmtUpdateRelatedDocumentCount.run(results.length, id);
-                    })                                    
-                    
+                    })
+
                     for (var i = 0; i < results.length; i ++) {
                         //console.log("**** : " + JSON.stringify(results[i],null,2));
                         //var dxz = diffFn();
                     }
-                    
-                    
-                     
+
+
+
                     //console.log("OK")
                     if (callback) {
                         callback(results);
@@ -367,7 +367,7 @@ function getRelatedDocuments(  id,  callback  ) {
         //console.log(err)
                         process.send({  message_type:       "return_similar_documents",
                                         sqlite: "Err: " + err  });
-        
+
     }
 }
 
@@ -394,7 +394,7 @@ function getRelatedDocumentHashes(  doc_hash,  callback  ) {
     }
     inGetRelatedDocumentHashes = true;
     //console.log("In getRelatedDocuments" );
-    var sql = 
+    var sql =
                 "select                                                                       " +
                 "    distinct(hash), cc, driver, size from (                                  " +
                 "        select document_binary_hash,  count(child_hash) as cc from           " +
@@ -410,15 +410,15 @@ function getRelatedDocumentHashes(  doc_hash,  callback  ) {
                 "             where hash = document_binary_hash                               " +
                 "               group by id                                                   " +
                 "                order by cc desc                                             " ;
-                     
-     
+
+
     try
     {
         var stmt = dbsearch.all(
             sql,
-            function(err, results) 
+            function(err, results)
             {
-                if (!err) 
+                if (!err)
                 {
                     dbsearch.serialize(function() {
                         dbsearch.run("begin transaction");
@@ -426,19 +426,19 @@ function getRelatedDocumentHashes(  doc_hash,  callback  ) {
                             if (results[i]) {
                                 var target_hash = results[i].hash;
                                 console.log("    " + doc_hash + " : " + target_hash );
-                                                                
+
                                 if (target_hash) {
                                     var similar_count = results[i].size;
                                     createRelationship(doc_hash, target_hash, similar_count);
                                 }
                             }
-                                    
-                            
+
+
                         }
                         stmtUpdateRelationships.run('INDEXED', doc_hash);
                         dbsearch.run("commit");
-                    })                                    
-                     
+                    })
+
                     //console.log("       OK")
                     if (callback) {
                         callback(results);
@@ -452,7 +452,7 @@ function getRelatedDocumentHashes(  doc_hash,  callback  ) {
         //console.log(err)
                         process.send({  message_type:       "return_similar_hashes",
                                         sqlite: "Err: " + err  });
-        
+
     }
     inGetRelatedDocumentHashes = false;
 }
@@ -465,7 +465,7 @@ function getRelatedDocumentHashes(  doc_hash,  callback  ) {
 
 
 
-        
+
 
 
 
@@ -495,40 +495,40 @@ function indexFilesFn() {
    if (inScan) {
      return;
    };
-   
+
    try {
     var stmt = dbsearch.all(
         "SELECT * FROM queries WHERE index_status IS NULL LIMIT 1 " ,
-        function(err, results) 
+        function(err, results)
         {
-            if (!err) 
+            if (!err)
             {
-                if( results.length != 0) 
+                if( results.length != 0)
                 {
                     //console.log("          : " + JSON.stringify(results[0],null,2));
 
-                    
-                            getResult(  results[0].id, 
-                                        results[0].connection, 
-                                        results[0].driver, 
-                                        {}, 
+
+                            getResult(  results[0].id,
+                                        results[0].connection,
+                                        results[0].driver,
+                                        {},
                                         function(result)
                                         {
-                                            
+
                                             if (!result.error) {
                                                 //console.log("File added v2: " + JSON.stringify(results[0].fileName,null,2));
                                                 /*sendOverWebSockets({
-                                                                        type:   "server_scan_status",  
+                                                                        type:   "server_scan_status",
                                                                         value:  "File indexed: " + results[0].fileName
                                                                         });*/
                                             }
                                         });
                 } else {
                     //console.log("          else: ");
-                }                        
+                }
             } else {
                 //console.log("          Error: " );
-           } 
+           }
         })
    }catch (err) {
                 //console.log("          Error: " + err);
@@ -536,20 +536,20 @@ function indexFilesFn() {
 }
 
 
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
 
-        
-        
-        
+
+
+
+
+
+
+
+
+
+
+
+
+
 //-----------------------------------------------------------------------------------------//
 //                                                                                         //
 //                                         getResult                                       //
@@ -573,7 +573,7 @@ function getResult(  source,  connection,  driver,  definition,  callback  ) {
         setIn =  dbsearch.prepare("UPDATE queries SET index_status = ? WHERE id = ?");
     }
     //console.log("01");
-                        
+
 
     var error = new Object();
     if (connections[connection]) {
@@ -622,9 +622,9 @@ function getResult(  source,  connection,  driver,  definition,  callback  ) {
                                     //console.log("No sresults for hash" + source + "'");
                                 }
                                 var binHash = results2[0].hash;
-                                var stmt = dbsearch.all("select  " + 
-                                                    "    document_binary_hash  "  + 
-                                                    "from  " + 
+                                var stmt = dbsearch.all("select  " +
+                                                    "    document_binary_hash  "  +
+                                                    "from  " +
                                                     "    search_rows_hierarchy  " +
                                                     "where  " +
                                                     "    document_binary_hash = '" + binHash + "'",
@@ -635,12 +635,12 @@ function getResult(  source,  connection,  driver,  definition,  callback  ) {
                                         if( results.length == 0) {
                                             //console.log("5");
                                             dbsearch.serialize(function() {
-                                    
+
                                                 callback.call(this,ordata);
                                                 //console.log("Inserting rows");
-                                                
+
                                                 if (rrows && rrows.length) {
-                            
+
                                                     dbsearch.run("begin transaction");
                                                     //console.log("Committing... " + rrows.length)
                                                     for (var i =0 ; i < rrows.length; i++) {
@@ -658,11 +658,11 @@ function getResult(  source,  connection,  driver,  definition,  callback  ) {
                                                     //stmt2.finalize();
                                                     //stmt3.finalize();
                                                     //console.log('                 : ' + JSON.stringify(rrows.length));
-                                                    
+
                                                     //console.log('                 source: ' + JSON.stringify(source));
                                                     setIn.run("INDEXED",source);
                                                     dbsearch.run("commit");
-                                                    
+
                                                 } else {
                                                     //console.log("****************** err 2");
                                                     callback.call(this,{error: true});
@@ -695,7 +695,7 @@ function getResult(  source,  connection,  driver,  definition,  callback  ) {
                 }})
             }
             )
-        
+
         }
         catch(err){
             //console.log("03");
@@ -715,13 +715,13 @@ function getResult(  source,  connection,  driver,  definition,  callback  ) {
     }
     //console.log("****************** err 10 child for connection: " +connection );
 }
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
 //-----------------------------------------------------------------------------------------//
 //                                                                                         //
 //                                           diffFn                                        //
@@ -784,21 +784,21 @@ function indexFileRelationshipsFn() {
         return;
     }
     inIndexFileRelationshipsFn = true;
-    
-    
+
+
     try {
         var stmt = dbsearch.all(
-            "SELECT * FROM queries WHERE related_status IS NULL LIMIT 1 " 
+            "SELECT * FROM queries WHERE related_status IS NULL LIMIT 1 "
             ,
-            
-            function(err, results) 
+
+            function(err, results)
             {
-                if (!err) 
+                if (!err)
                 {
                     //
                     // if there is a query where nothing has been done then index it
                     //
-                    if( results.length != 0) 
+                    if( results.length != 0)
                     {
                         console.log("" );
                         console.log("" );
@@ -808,17 +808,17 @@ function indexFileRelationshipsFn() {
 
                         getRelatedDocumentHashes(queryToIndex.hash, function(relatedResults) {
                             //console.log("      Related hashes: " + JSON.stringify(relatedResults.length,null,2));
-                              
+
                             if (relatedResults.length > 0) {
                                 var returnValues1;
-                                getResult(  
-                                    queryToIndex.id, 
-                                    queryToIndex.connection, 
-                                    queryToIndex.driver, 
-                                    {}, 
+                                getResult(
+                                    queryToIndex.id,
+                                    queryToIndex.connection,
+                                    queryToIndex.driver,
+                                    {},
                                     function(queryResult)
                                     {
-                                        
+
                                         if (!queryResult.error) {
                                             if (queryResult.values && (queryResult.values.constructor === Array)) {
                                                 returnValues1 = queryResult.values;
@@ -827,29 +827,29 @@ function indexFileRelationshipsFn() {
                                             }
                                             if (returnValues1.constructor === Array) {
                                             console.log("     SOURCE ITEM COUNT : " + " = " + returnValues1.length);
-                                            
-                                            
+
+
                                             //console.log("**getRelatedDocumentHashes returned: " + results.length);
                                             for (var i = 0; i < relatedResults.length; i ++) {
                                                 //console.log("         **** : " + JSON.stringify(relatedResults[i],null,2));
                                                 var stmt = dbsearch.all(
                                                     "SELECT * FROM queries WHERE hash = '" + relatedResults[i].hash + "'" ,
-                                                    function(err, results) 
+                                                    function(err, results)
                                                     {
-                                                        if (!err) 
+                                                        if (!err)
                                                         {
-                                                            if( results.length != 0) 
+                                                            if( results.length != 0)
                                                             {
                                                                 var relatedQuery = results[0];
                                                                 console.log("         RELATED ITEM : " + JSON.stringify(relatedQuery.name,null,2));
-                                                                getResult(  
-                                                                    relatedQuery.id, 
-                                                                    relatedQuery.connection, 
-                                                                    relatedQuery.driver, 
-                                                                    {}, 
+                                                                getResult(
+                                                                    relatedQuery.id,
+                                                                    relatedQuery.connection,
+                                                                    relatedQuery.driver,
+                                                                    {},
                                                                     function(queryResult2)
                                                                     {
-                                                                        
+
                                                                         if (!queryResult2.error) {
                                                                             var returnValues;
                                                                             if (queryResult2.values && (queryResult2.values.constructor === Array)) {
@@ -864,7 +864,7 @@ function indexFileRelationshipsFn() {
                                                                             console.log("          LHS : " + results[0].name + " = " + x1.length);
                                                                             console.log("          RHS : " + relatedQuery.name + " = " + x2.length);
                                                                             if ((x1.constructor === Array) && (x2.constructor === Array)) {
-                                                                                
+
                                                                                 var xdiff = diffFn(returnValues1, returnValues);
                                                                                 console.log("          N: "  + JSON.stringify(xdiff.new,null,2))
                                                                                 console.log("          D: "  + JSON.stringify(xdiff.deleted,null,2))
@@ -874,17 +874,17 @@ function indexFileRelationshipsFn() {
                                                                                 stmtUpdateRelationships2.run(
                                                                                     xdiff.new,
                                                                                     xdiff.new,
-                                                                                    
+
                                                                                     xdiff.deleted,
                                                                                     xdiff.deleted,
-                                                                                    
+
                                                                                     xdiff.edited,
                                                                                     xdiff.edited,
-                                                                                    
+
                                                                                     xdiff.array,
                                                                                     xdiff.array,
-                                                                                    
-                                                                                    queryToIndex.hash, 
+
+                                                                                    queryToIndex.hash,
                                                                                     relatedQuery.hash
                                                                                     );
                                                                             }
@@ -892,17 +892,17 @@ function indexFileRelationshipsFn() {
                                                                             console.log("     error in related  : " + " = " + queryResult2.error);
                                                                         }
                                                                     });
-                                                            
+
                                                             }
                                                         }
                                                     });
                                             }
                                             }
-                                            
-                                            
-                                            
-                                            
-                                            
+
+
+
+
+
                                         } else {
                                             console.log("     error : " + " = " + queryResult.error);
                                         }
@@ -911,10 +911,10 @@ function indexFileRelationshipsFn() {
                     });
                 } else {
                     //console.log("          else: ");
-                }                        
+                }
             } else {
                 console.log("          Error: " );
-           } 
+           }
         })
     }catch (err) {
         console.log("          Error: " + err);
@@ -978,9 +978,9 @@ function sendTestHeartBeat() {
         {
             var stmt = dbsearch.all(
                 "SELECT count(*) FROM queries;",
-                function(err, results) 
+                function(err, results)
                 {
-                    if (!err) 
+                    if (!err)
                     {
                         if( results.length > 0)  {
 
@@ -992,7 +992,7 @@ function sendTestHeartBeat() {
         } catch(err) {
                             process.send({  message_type:       "return_test_fork",
                                             counter:    counter ++, sqlite: "Err: " + err  });
-            
+
         }
     }, 1000);
 }
@@ -1023,40 +1023,40 @@ function sendTestHeartBeat() {
 function processMessagesFromMainProcess() {
     process.on('message', (msg) => {
       //console.log('Message from parent:', msg);
-      
+
       if (msg.message_type == 'saveConnectionAndQueryForFile') {
           saveConnectionAndQueryForFile(
-                                    msg.fileId, 
-                                    msg.fileType, 
-                                    msg.size, 
-                                    msg.fileName, 
+                                    msg.fileId,
+                                    msg.fileType,
+                                    msg.size,
+                                    msg.fileName,
                                     msg.fileType2);
-                                    
-                                    
-                                    
-                                    
-                                    
-                                    
+
+
+
+
+
+
       } else if (msg.message_type == 'getRelatedDocuments') {
             //console.log("got message getRelatedDocuments" );
                     getRelatedDocuments(msg.id, function(results) {
-                        
+
                         //console.log("**getRelatedDocuments returned: " + results.length);
                     });
-                    
-                    
-                    
-                    
+
+
+
+
       } else if (msg.message_type == 'childSetSharedGlobalVar') {
             //console.log("  ... received, " + msg.nameOfVar + "[" + msg.index + "] = " + Object.keys(eval( "(" + msg.value + ")" )));
             //console.log("  ... received, " + msg.nameOfVar + "[" + msg.index + "] = " +eval( "(" + msg.value + ")" ).get_v2  );
             var ccc =  msg.nameOfVar + "['" + msg.index + "'] = (" + msg.value + ")";
-            
+
             if (msg.nameOfVar == 'connections') {
                 //console.log(ccc);
             }
             eval(ccc );
-      
+
 
       } else if (msg.message_type == 'childRunIndexer') {
            //console.log("Set Index files timer");
@@ -1105,7 +1105,7 @@ function testDiffFn() {
     {line: 3, value: "The cat sat on the mat2"}
         ]
     ;
-     
+
     rhs = [
 
     {line: 1, value: "The cat sat on the mat2"}
@@ -1117,7 +1117,7 @@ function testDiffFn() {
     {line: 4, value: "The cat sat on the mat2"}
 
     ];
-     
+
     //console.log("")
     //console.log("")
     //console.log("")
@@ -1154,10 +1154,10 @@ function createRelationship(  doc_hash,  target_hash,  similar_count ) {
         "select  id  from  relationships  where  " +
         "    source_query_hash = '"  +  doc_hash  +  "' and target_query_hash = '"  +  target_hash + "'"
         ,
-        
-        function(err, existsResults) 
+
+        function(err, existsResults)
         {
-            if (!err) 
+            if (!err)
             {
                 console.log("    " + doc_hash + " : " + target_hash + "... existsResults.length = " +  existsResults.length);
                 if (existsResults.length == 0) {
@@ -1170,9 +1170,11 @@ function createRelationship(  doc_hash,  target_hash,  similar_count ) {
 }
 
 
-
+var isPcDoingStuff = true;
 //Set delay for second Measure
 setInterval(function() {
-  console.log(perf.getPercentageCPU() + "% Child CPU Usage.");
-  perf.getDiskPerSecond(function(val) {console.log( val + "Child Disk usage.");});
+    perf.isDoingStuff(function(retVal){
+        isPcDoingStuff = retVal;
+        console.log("    isPcDoingStuff = " + isPcDoingStuff);
+    });
 }, 1000);
