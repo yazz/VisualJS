@@ -496,6 +496,10 @@ function indexFilesFn() {
      return;
    };
 
+   if (isPcDoingStuff) {
+       return;
+   };
+
    try {
     var stmt = dbsearch.all(
         "SELECT * FROM queries WHERE index_status IS NULL LIMIT 1 " ,
@@ -780,10 +784,15 @@ function diffFn( lhs2,  rhs2 ) {
 //                                                                               //
 //-------------------------------------------------------------------------------//
 function indexFileRelationshipsFn() {
+    if (isPcDoingStuff) {
+        return;
+    };
+
     if (inIndexFileRelationshipsFn) {
         return;
     }
     inIndexFileRelationshipsFn = true;
+
 
 
     try {
@@ -974,26 +983,28 @@ function sendTestHeartBeat() {
     let counter = 0;
 
     setInterval(() => {
-        try
-        {
-            var stmt = dbsearch.all(
-                "SELECT count(*) FROM queries;",
-                function(err, results)
-                {
-                    if (!err)
+        if (!isPcDoingStuff) {
+            try
+            {
+                var stmt = dbsearch.all(
+                    "SELECT count(*) FROM queries;",
+                    function(err, results)
                     {
-                        if( results.length > 0)  {
+                        if (!err)
+                        {
+                            if( results.length > 0)  {
 
-                            process.send({  message_type:       "return_test_fork",
-                                            counter:    counter ++, sqlite: JSON.stringify(results[0],null,2)  });
+                                process.send({  message_type:       "return_test_fork",
+                                                counter:    counter ++, sqlite: JSON.stringify(results[0],null,2)  });
+                            }
                         }
-                    }
-                })
-        } catch(err) {
-                            process.send({  message_type:       "return_test_fork",
-                                            counter:    counter ++, sqlite: "Err: " + err  });
+                    })
+            } catch(err) {
+                                process.send({  message_type:       "return_test_fork",
+                                                counter:    counter ++, sqlite: "Err: " + err  });
 
-        }
+            }
+    }
     }, 1000);
 }
 

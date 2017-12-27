@@ -353,7 +353,7 @@ function mainProgram() {
     startServices()
     console.log('Start Services' );
 
-    //scanHardDisk();
+    scanHardDisk();
     console.log('Start Hard Disk Scan' );
 }
 
@@ -2729,8 +2729,12 @@ function startServices() {
 
 
 
+
+var isPcDoingStuff = true;
 //Set delay for second Measure
 setInterval(function() {
-  //console.log(perf.getPercentageCPU() + "% Child CPU Usage.");
-  //perf.getDiskPerSecond(function(val) {console.log( val + "Child Disk usage.");});
+    perf.isDoingStuff(function(retVal){
+        isPcDoingStuff = retVal;
+        console.log("    isPcDoingStuff = " + isPcDoingStuff);
+    });
 }, 1000);
