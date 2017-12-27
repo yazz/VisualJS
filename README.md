@@ -18,17 +18,14 @@ VisiFile is a nodejs program that scans your PC and indexes the contents of your
 
 <br>
 
-I work in Big Pharma, and have to search through a lot of documents every day. This is a problem I have had in every company that I have worked in. Some people seem to know where everything is, by my mind just doesn't work that way, and I am disorganised by default.
-
-<br>
-So I started to look for something that solved my problem, and found a few possible solutions, including:
+I work in Big Pharma, and have to search through a lot of documents every day. This is a problem I have had in every company that I have worked in. Some people seem to know where everything is, by my mind just doesn't work that way, and I am disorganised by default. So I started to look for something that solved my problem, and found a few possible solutions, including:
 
 - X1.com
 - Agent Ransack
 
-Then in October 2016 I started building VisiFile as an Open Source Project to solve the problem of navigating through all this 
+I didn't find anything that would just let me browse the documents, so in October 2016 I started building VisiFile as an Open Source Project to solve the problem of navigating through all this 
 
-VisiFile product is built with:
+VisiFile is built with:
 
 - VueJS 2 and Vuex
 - AFrame 3d from Mozilla
@@ -40,20 +37,13 @@ VisiFile product is built with:
 
 
 
-Future roadmap
+Features
 
 - See changes to all my own documents
 - See what data your colleagues are working on
 - Ability to see other users in my organisation
 - Ability to browse data sources
 - Ability to query between Excel, Word, and relational databases
-
-
-Current thinking about monetization:
-
-- Free for up to 5 users in an organisation and then $10 per user per month
-- Free for personal use. $200 per year for commercial use per user
-
 
 
 
@@ -76,16 +66,12 @@ Command line options:
 
 
 
-
-
-
-
 ### Developer quick start for Windows
 <img height='350px' src='http://vignette4.wikia.nocookie.net/uncyclopedia/images/b/bb/Xplogo.jpg/revision/latest?cb=20140331164120' />
 
 
 #####1) Install GIT from https://git-scm.com/downloads
-#####2) Install Node.js 6.9.1 32 bit installer from https://nodejs.org/en/blog/release/v6.9.1/
+#####2) Install Node.js 8.9 32 bit installer from https://nodejs.org/en/blog/release/v6.9.1/
 #####3) git clone https://github.com/zubairq/visifile.git
 #####4) cd visifile
 #####5) npm install
@@ -180,15 +166,11 @@ I did however have a new itch to scratch, and that was that I also needed to sha
 
 
 
-### What is GoShareData's killer feature?
+### What is VisiFile's killer feature?
 <img height='350px' src='http://blog.wiserspread.com/wp-content/uploads/2014/07/Killer.jpg' />
 
 
-GoShareData's killer feature is being able to share snippets of your data with your colleagues. So for example, you may have some SQL to show you a total of monthly sales. this can be shared as a data snippet, instead of cutting and pasting SQL results and emailing them to colleagues.
-
-
-
-
+GoShareData's killer feature is being able to share your last days document changes with your colleagues, which saves a lot of time.
 
 
 
