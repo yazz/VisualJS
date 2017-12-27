@@ -8,45 +8,34 @@ Demo here: http://139.162.228.5/
 
 
 VisiFile is a nodejs program that scans your PC and indexes the contents of your common document formats, including:
-<br><br>
+<br>
 
 * Excel
 * Word
 * CSV
 * PDF
 
-<br>
-<br>
-<br>
-<br>
-<p align="center">
-    <img src='http://gosharedata.com/gosharedata/images/pasted%20image%202844x1458.jpg' />
-    </p>
-</div>
-I work in Big Pharma, trying to cure Diabetes, so I care about things working in Windows Networks. Therefore I also care about cross platform compatiblity which means IE 11 and Windows. Since I always seem to take things to extremes this means I also made sure that GoShare Data works in VR and also on the Raspberry PI!
-
-
-
-
-
-
 
 <br>
-<br>
-<br>
-<br>
-<br>
-<br>
-As a hobby, in October 2016 I started building GoShareData as an Open Source Project to solve a problem that I have faced at every large company, which is "How do I access and share frequently used data on my computer"?
 
-The product is built with:
+I work in Big Pharma, and have to search through a lot of documents every day. This is a problem I have had in every company that I have worked in. Some people seem to know where everything is, by my mind just doesn't work that way, and I am disorganised by default.
+
+<br>
+So I started to look for something that solved my problem, and found a few possible solutions, including:
+
+- X1.com
+- Agent Ransack
+
+Then in October 2016 I started building VisiFile as an Open Source Project to solve the problem of navigating through all this 
+
+VisiFile product is built with:
 
 - VueJS 2 and Vuex
 - AFrame 3d from Mozilla
 - Sqlite
 - AlaSQL
 - Javascript
-- NodeJS
+- NodeJS 8.9
 - Express
 
 
