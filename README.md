@@ -1,4 +1,6 @@
-<img src='http://visifile.com/visifile_top.png' />
+# VisiFile
+Effortless search for intranet documents
+
 <img src='http://visifile.com/visifile_screenshot.png' />
 <img src='http://visifile.com/visifile_features_1.png' />
 <img src='http://visifile.com/visifile_features_2.png' />
