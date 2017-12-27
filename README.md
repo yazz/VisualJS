@@ -7,7 +7,7 @@ Demo here: http://139.162.228.5/
 
 
 
-VisiFile is a nodejs program that scans your PC and indexes the contents of your documents, including:
+VisiFile is a nodejs program that scans your PC and indexes the contents of your common document formats, including:
 <br><br>
 
 * Excel
