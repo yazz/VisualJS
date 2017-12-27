@@ -7,27 +7,13 @@ Demo here: http://139.162.228.5/
 
 
 
-
-
-
-VisiFile is a desktop program that scans one or multiple PC on your network and allows you to search and monitor changes in deocuments. It works with:
+VisiFile is a nodejs program that scans your PC and indexes the contents of your documents, including:
 <br><br>
 
 * Excel
 * Word
 * CSV
-* MySQL
-* Oracle
-* Postgres
-* MariaDB
-* SqLite
 * PDF
-* GTLF 3d 
-	
-	
-
-
-
 
 <br>
 <br>
