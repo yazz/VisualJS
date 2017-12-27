@@ -590,15 +590,37 @@ function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileTyp
 
 
 
+//-----------------------------------------------------------------------------------------//
+//                                                                                         //
+//                                      walk                                               //
+//                                                                                         //
+// This walks the filesyste to find files to add to the search index                       //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//-----------------------------------------------------------------------------------------//
+function walk( dir,  done ) {
 
-function walk(dir, done) {
-   if (stopScan) {
-       inScan = false;
-         return;
-   };
-   ////console.log('dir: ' + dir);
-  fs.readdir(dir, function(err, list) {
-    if (err) return done(err);
+    // if the end user has explicitly asked to stop scanning then exist
+    if (stopScan) {
+        inScan = false;
+        return;
+     };
+
+     if (isPcDoingStuff) {
+         setTimeout(
+             function() {
+                 walk( dir,  done );
+             }
+             ,1000)
+     }
+
+    ////console.log('dir: ' + dir);
+    fs.readdir(dir, function(err, list) {
+        if (err) return done(err);
     var pending = list.length;
     if (!pending) return done(null);
     list.forEach(function(file) {
@@ -2730,10 +2752,17 @@ function startServices() {
 
 
 
-var isPcDoingStuff = true;
+var isPcDoingStuff = false;
 //Set delay for second Measure
 setInterval(function() {
     perf.isDoingStuff(function(retVal){
+        if ((retVal == false) &&  (isPcDoingStuff)){
+            sendOverWebSockets({
+                                    type:   "server_scan_status",
+                                    value:  "VisiFile Server busy - scanning paused "
+                                    });
+        }
+
         isPcDoingStuff = retVal;
         console.log("    isPcDoingStuff = " + isPcDoingStuff);
     });

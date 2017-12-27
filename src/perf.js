@@ -57,7 +57,7 @@ module.exports = {
                 if (diskPerSec > 0) {
                     doingStuff = true;
                 }
-                if (percentageCPU > 20) {
+                if (percentageCPU > 50) {
                     doingStuff = true;
                 }
                 cb.call(this,doingStuff);
