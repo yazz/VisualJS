@@ -1,7 +1,7 @@
 # VisiFile
 Effortless search for intranet documents
 
-<img src='http://visifile.com/visifile_screenshot.png' />
+<img src='http://visifile.com/visifile_screenshot2.png' />
 
 Demo here: http://139.162.228.5/
 
