@@ -1,8 +1,10 @@
 'use strict';
 
-var isPi = require('detect-rpi');
-var isWin = /^win/.test(process.platform);
-var isRaspberryPi = isPi();
+var isPiModule = require('detect-rpi');
+
+var isWin         = /^win/.test(process.platform);
+var isRaspberryPi = isPiModule();
+
 
 function require2(moduleName) {
 	var pat;
@@ -604,7 +606,7 @@ function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileTyp
 //-----------------------------------------------------------------------------------------//
 function walk( dir,  done ) {
 
-    // if the end user has explicitly asked to stop scanning then exist
+    // if the end user has explicitly asked to stop scanning then exit
     if (stopScan) {
         inScan = false;
         return;
@@ -615,7 +617,7 @@ function walk( dir,  done ) {
              function() {
                  walk( dir,  done );
              }
-             ,1000)
+             ,10000)
      }
 
     ////console.log('dir: ' + dir);
