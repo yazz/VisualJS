@@ -355,7 +355,8 @@ function mainProgram() {
     startServices()
     console.log('Start Services' );
 
-    scanHardDisk();
+    //scanHardDisk();
+    scanHardDiskFromChild();
     console.log('Start Hard Disk Scan' );
 }
 
@@ -760,6 +761,11 @@ function addOrUpdateDriver(name, code2, theObject) {
 
 
 
+
+
+function scanHardDiskFromChild() {
+  forkedIndexer.send({ message_type: "childRunFindFolders" });
+}
 
 
 function scanHardDisk() {

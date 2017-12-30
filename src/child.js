@@ -473,6 +473,26 @@ function getRelatedDocumentHashes(  doc_hash,  callback  ) {
 
 
 
+//-----------------------------------------------------------------------------------------//
+//                                                                                         //
+//                                      findFoldersFn                                      //
+//                                                                                         //
+// This indexes the queries for full text search                                           //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//-----------------------------------------------------------------------------------------//
+function findFoldersFn() {
+    console.log("**  called findFoldersFn");
+}
+
+
+
+
+
 
 
 
@@ -1073,7 +1093,15 @@ function processMessagesFromMainProcess() {
            //console.log("Set Index files timer");
            setInterval(indexFilesFn ,numberOfSecondsIndexFilesInterval * 1000);
            setInterval(indexFileRelationshipsFn ,numberOfSecondsIndexFilesInterval * 1000);
+
+
+      } else if (msg.message_type == 'childRunFindFolders') {
+           //console.log("Set Index files timer");
+           setTimeout(findFoldersFn ,5 * 1000);
       }
+
+
+
     });
 }
 
