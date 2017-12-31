@@ -36,6 +36,7 @@ var rhs;
 var stmtInsertIntoRelationships;
 var stmtUpdateRelationships2;
 var stmtInsertIntoFiles;
+var stmtInsertIntoFolders;
 var stmtInsertIntoConnections;
 var stmtInsertInsertIntoQueries;
 var stmtUpdateRelatedDocumentCount;
@@ -126,6 +127,14 @@ function setUpSql() {
                                 "    ( id, name, contents ) " +
                                 " values " +
                                 "    (?,  ?,?);");
+
+    stmtInsertIntoFolders = dbsearch.prepare(   " insert into folders " +
+                                                "    ( id, name, path ) " +
+                                                " values " +
+                                                "    (?,  ?,?);");
+
+
+
 
     stmtInsertIntoConnections = dbsearch.prepare(" insert into connections " +
                                 "    ( id, name, driver, size, hash, type, fileName ) " +
@@ -486,7 +495,22 @@ function getRelatedDocumentHashes(  doc_hash,  callback  ) {
 //                                                                                         //
 //-----------------------------------------------------------------------------------------//
 function findFoldersFn() {
+    //zzz
     console.log("**  called findFoldersFn");
+
+	var useDrive = "C:\\";
+    if (!isWin) {
+        useDrive = '/';
+    }
+
+    remoteWalk(useDrive, function(error){
+        //console.log('*Error: ' + error);
+    });
+
+    //    sendOverWebSockets({
+    //                            type:   "server_scan_status",
+    //                            value:  "Hard disk scan in progress"
+    //                            });
 }
 
 
@@ -1097,7 +1121,7 @@ function processMessagesFromMainProcess() {
 
       } else if (msg.message_type == 'childRunFindFolders') {
            //console.log("Set Index files timer");
-           setTimeout(findFoldersFn ,5 * 1000);
+           setTimeout(findFoldersFn ,1 * 1000);
       }
 
 
@@ -1217,3 +1241,134 @@ setInterval(function() {
         console.log("    isPcDoingStuff = " + isPcDoingStuff);
     });
 }, 1000);
+
+
+
+
+
+
+
+
+
+
+
+function isExcelFile(fname) {
+    if (!fname) {
+        return false;
+    };
+    var ext = fname.split('.').pop();
+    ext = ext.toLowerCase();
+    if (ext == "xls") return true;
+    if (ext == "xlsx") return true;
+    return false;
+}
+
+
+function isWordFile(fname) {
+    if (!fname) {
+        return false;
+    };
+    var ext = fname.split('.').pop();
+    ext = ext.toLowerCase();
+    if (ext == "doc") return true;
+    if (ext == "docx") return true;
+    return false;
+}
+
+function isPdfFile(fname) {
+    if (!fname) {
+        return false;
+    };
+    var ext = fname.split('.').pop();
+    ext = ext.toLowerCase();
+    if (ext == "pdf") return true;
+    return false;
+}
+
+
+
+
+function isCsvFile(fname) {
+	if (!fname) {
+	return false;
+	};
+	var ext = fname.split('.').pop();
+	ext = ext.toLowerCase();
+	if (ext == "csv") return true;
+	return false;
+}
+
+
+function isGlbFile(fname) {
+		if (!fname) {
+				return false;
+		};
+		var ext = fname.split('.').pop();
+		ext = ext.toLowerCase();
+		if (ext == "glb")
+				return true;
+		return false;
+}
+
+
+
+
+//-----------------------------------------------------------------------------------------//
+//                                                                                         //
+//                                   remoteWalk                                            //
+//                                                                                         //
+// This walks the filesyste to find files to add to the search index                       //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//-----------------------------------------------------------------------------------------//
+var i =0;
+function remoteWalk( dir,  done ) {
+
+    fs.readdir(
+        dir,
+        function(err, list) {
+            if (err) {
+                return done(err);
+            }
+            var pending = list.length;
+            if (!pending) {
+                return done(null);
+            }
+            list.forEach(
+                function(file) {
+                    file = path.resolve(dir, file);
+                    fs.stat(file, function(err, stat) {
+                        if (stat && stat.isDirectory()) {
+                            var parentDir = dir
+                            if (parentDir === '/') {
+                                parentDir = ''
+                            }
+                            var folderName = parentDir + file
+                            console.log("Folder: " + folderName)
+                            var newId = uuidv1();
+                            stmtInsertIntoFolders.run(
+                                newId,
+                                file,
+                                folderName);
+
+                            setTimeout(function() {
+                                remoteWalk(
+                                    file,
+                                    function(err) {
+                                        if (!--pending) {
+                                            done(null);
+                                        }
+                                    });
+                            }
+                            ,
+
+                            1 * 1000);
+        }
+      });
+    });
+  });
+};
