@@ -129,9 +129,9 @@ function setUpSql() {
                                 "    (?,  ?,?);");
 
     stmtInsertIntoFolders = dbsearch.prepare(   " insert into folders " +
-                                                "    ( id, name, path ) " +
+                                                "    ( id, name, path, changed_count ) " +
                                                 " values " +
-                                                "    (?,  ?,?);");
+                                                "    (?, ?, ?, 0);");
 
 
 
