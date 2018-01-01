@@ -495,7 +495,6 @@ function getRelatedDocumentHashes(  doc_hash,  callback  ) {
 //                                                                                         //
 //-----------------------------------------------------------------------------------------//
 function findFoldersFn() {
-    //zzz
     console.log("**  called findFoldersFn");
 
 	var useDrive = "C:\\";
@@ -1349,11 +1348,21 @@ function remoteWalk( dir,  done ) {
                             }
                             var folderName = parentDir + file
                             console.log("Folder: " + folderName)
-                            var newId = uuidv1();
-                            stmtInsertIntoFolders.run(
-                                newId,
-                                file,
-                                folderName);
+                            var stmt = dbsearch.all(
+                                "select id from folders where path = '" + folderName + "'",
+                                function(err, results)
+                                {
+                                    if (!err)
+                                    {
+                                        if (results.length == 0) {
+                                            var newId = uuidv1();
+                                            stmtInsertIntoFolders.run(
+                                                newId,
+                                                file,
+                                                folderName);
+                                            }
+                                    }
+                                });
 
                             setTimeout(function() {
                                 remoteWalk(
