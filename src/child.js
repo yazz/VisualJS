@@ -28,6 +28,7 @@ var stmt3                               = null;
 var setIn                               = null;
 var inGetRelatedDocumentHashes          = false;
 var inIndexFileRelationshipsFn          = false;
+var finishedFindingFolders              = false;
 var username                            = "Unknown user";
 var dbsearch;
 var xdiff;
@@ -506,6 +507,8 @@ function findFoldersFn() {
         //console.log('*Error: ' + error);
     });
 
+    finishedFindingFolders = true;
+
     //    sendOverWebSockets({
     //                            type:   "server_scan_status",
     //                            value:  "Hard disk scan in progress"
@@ -814,7 +817,51 @@ function diffFn( lhs2,  rhs2 ) {
 
 
 
+//-------------------------------------------------------------------------------//
+//                                                                               //
+//                              findFilesInFoldersFn                             //
+//                                                                               //
+//        This is called at intervals to find the files in a folder              //
+//                                                                               //
+//-------------------------------------------------------------------------------//
+function findFilesInFoldersFn() {
+    if (isPcDoingStuff) {
+        return;
+    };
 
+    //if (finishedFindingFolders == false) {
+    //    return;
+    //}
+
+
+
+    try {
+        var stmt = dbsearch.all(
+            "SELECT * FROM folders WHERE status IS NULL LIMIT 1 "
+            ,
+
+            function(err, results)
+            {
+                if (!err)
+                {
+                    //
+                    // if there is a query where nothing has been done then index it
+                    //
+                    if( results.length != 0)
+                    {
+                        console.log("" );
+                        console.log("" );
+                        console.log("In findFilesInFoldersFn  " );
+                        console.log("      SOURCE ITEM : " + JSON.stringify(results[0].name,null,2));
+                    };
+                } else {
+                    //console.log("          else: ");
+                }
+           })
+    }catch (err) {
+        console.log("          Error: " + err);
+    }
+}
 
 
 
@@ -1120,7 +1167,8 @@ function processMessagesFromMainProcess() {
 
       } else if (msg.message_type == 'childRunFindFolders') {
            //console.log("Set Index files timer");
-           setTimeout(findFoldersFn ,1 * 1000);
+           //setTimeout(findFoldersFn ,1 * 1000);
+           setInterval(findFilesInFoldersFn ,numberOfSecondsIndexFilesInterval * 1000);
       }
 
 
@@ -1347,7 +1395,7 @@ function remoteWalk( dir,  done ) {
                                 parentDir = ''
                             }
                             var folderName = parentDir + file
-                            console.log("Folder: " + folderName)
+                            //console.log("Folder: " + folderName)
                             var stmt = dbsearch.all(
                                 "select id from folders where path = '" + folderName + "'",
                                 function(err, results)
