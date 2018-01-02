@@ -36,6 +36,7 @@ var lhs;
 var rhs;
 var stmtInsertIntoRelationships;
 var stmtUpdateRelationships2;
+var stmtUpdateFolder;
 var stmtInsertIntoFiles;
 var stmtInsertIntoFolders;
 var stmtInsertIntoConnections;
@@ -109,6 +110,11 @@ testDiffFn();
 //                                                                                         //
 //-----------------------------------------------------------------------------------------//
 function setUpSql() {
+    stmtUpdateFolder = dbsearch.prepare( " update folders " +
+                                                         "    set " +
+                                                         "        status = ? " +
+                                                         " where " +
+                                                         "     id = ?");
     stmtInsertIntoRelationships = dbsearch.prepare( " insert into relationships " +
                                                         "    ( id, source_query_hash, target_query_hash, similar_row_count ) " +
                                                         " values " +
@@ -852,7 +858,14 @@ function findFilesInFoldersFn() {
                         console.log("" );
                         console.log("" );
                         console.log("In findFilesInFoldersFn  " );
-                        console.log("      SOURCE ITEM : " + JSON.stringify(results[0].name,null,2));
+                        console.log("      SOURCE ITEM : " + JSON.stringify(results[0].path,null,2));
+                        fs.readdir(results[0].path, function(err, list) {
+                            if (err) return done(err);
+                            list.forEach(function(file) {
+                              console.log(" - " + file)
+                          })
+                      })
+                      stmtUpdateFolder.run("INDEXED", results[0].id)
                     };
                 } else {
                     //console.log("          else: ");
