@@ -856,10 +856,10 @@ function findFilesInFoldersFn() {
                     //
                     if( results.length != 0)
                     {
-                        console.log("" );
-                        console.log("" );
-                        console.log("In findFilesInFoldersFn  " );
-                        console.log("      SOURCE ITEM : " + JSON.stringify(results[0].path,null,2));
+                        //console.log("" );
+                        //console.log("" );
+                        //console.log("In findFilesInFoldersFn  " );
+                        //console.log("      SOURCE ITEM : " + JSON.stringify(results[0].path,null,2));
                         fs.readdir(results[0].path, function(err, list) {
                             if (err)
                             {
@@ -867,11 +867,14 @@ function findFilesInFoldersFn() {
                                 return ;
                             }
                             list.forEach(function(file) {
-                              console.log(" - " + file)
-                              fs.stat(file, function(err, stat) {
+                                var fullPath = results[0].path + '/' +  file
+                              console.log(" - " + fullPath)
+                              var stat = fs.statSync(fullPath)
+                              console.log('stat: ' + stat);
+                              console.log('size: ' + stat.size);
                                 if (stat && !stat.isDirectory()) {
                               if (isExcelFile(file)) {
-                                      //console.log('file: ' + file);
+                                      console.log('file: ' + file);
                                             var excelFile = file;
                                                 if (typeof excelFile !== "undefined") {
                                                 var fileId = excelFile.replace(/[^\w\s]/gi,'');
@@ -883,7 +886,7 @@ function findFilesInFoldersFn() {
                                             }
                                         }
                                         if (isGlbFile(file)) {
-                                              //console.log('GLB file: ' + file);
+                                              console.log('GLB file: ' + file);
                                 					var GLBFile = file;
                                 						if (typeof GLBFile !== "undefined") {
                               							var fileId = GLBFile.replace(/[^\w\s]/gi,'');
@@ -894,7 +897,7 @@ function findFilesInFoldersFn() {
                               						}
                               					}
                               		  if (isCsvFile(file)) {
-                                              //console.log('CSV file: ' + file);
+                                              console.log('CSV file: ' + file);
                                 					var CSVFile = file;
                                 						if (typeof CSVFile !== "undefined") {
                               							var fileId = CSVFile.replace(/[^\w\s]/gi,'');
@@ -905,7 +908,7 @@ function findFilesInFoldersFn() {
                               						}
                               					}
                               		  if (isWordFile(file)) {
-                                              //console.log('WORD file: ' + file);
+                                              console.log('WORD file: ' + file);
                                 					var WordFile = file;
                                 						if (typeof WordFile !== "undefined") {
                               							var fileId = WordFile.replace(/[^\w\s]/gi,'');
@@ -916,7 +919,7 @@ function findFilesInFoldersFn() {
                               						}
                               					}
                               		  if (isPdfFile(file)) {
-                                              //console.log('PDF file: ' + file);
+                                              console.log('PDF file: ' + file);
                                 					var PdfFile = file;
                                 						if (typeof PdfFile !== "undefined") {
                               							var fileId = PdfFile.replace(/[^\w\s]/gi,'');
@@ -926,7 +929,7 @@ function findFilesInFoldersFn() {
                                                           saveConnectionAndQueryForFile(fileId, 'pdf', stat.size, PdfFile, '|DOCUMENT|');
                               						}
                               					}
-                                            }})
+                                            }
 
 
                                             })
