@@ -52,7 +52,7 @@ module.exports = {
         var percentageCPU = this.getPercentageCPU();
         this.getDiskPerSecond(function(diskPerSec) {
             if (showDebug) {
-                console.log( diskPerSec + " Disk usage, " + percentageCPU + "% Child CPU Usage.");
+                //console.log( diskPerSec + " Disk usage, " + percentageCPU + "% Child CPU Usage.");
                 var doingStuff = false;
                 if (diskPerSec > 0) {
                     doingStuff = true;

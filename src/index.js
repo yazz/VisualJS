@@ -2709,6 +2709,6 @@ setInterval(function() {
         }
 
         isPcDoingStuff = retVal;
-        console.log("    isPcDoingStuff = " + isPcDoingStuff);
+        //console.log("    isPcDoingStuff = " + isPcDoingStuff);
     });
 }, 1000);

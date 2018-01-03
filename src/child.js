@@ -513,6 +513,7 @@ function findFoldersFn() {
         //console.log('*Error: ' + error);
     });
 
+    console.log('******************* Finished finding folders');
     finishedFindingFolders = true;
 
     //    sendOverWebSockets({
@@ -831,13 +832,13 @@ function diffFn( lhs2,  rhs2 ) {
 //                                                                               //
 //-------------------------------------------------------------------------------//
 function findFilesInFoldersFn() {
-    if (isPcDoingStuff) {
-        return;
-    };
+    //if (isPcDoingStuff) {
+    //    return;
+    //};
 
-    if (finishedFindingFolders == false) {
-        return;
-    }
+    //if (finishedFindingFolders == false) {
+    //    return;
+    //}
 
 
 
@@ -867,6 +868,8 @@ function findFilesInFoldersFn() {
                             }
                             list.forEach(function(file) {
                               console.log(" - " + file)
+                              fs.stat(file, function(err, stat) {
+                                if (stat && !stat.isDirectory()) {
                               if (isExcelFile(file)) {
                                       //console.log('file: ' + file);
                                             var excelFile = file;
@@ -923,6 +926,9 @@ function findFilesInFoldersFn() {
                                                           saveConnectionAndQueryForFile(fileId, 'pdf', stat.size, PdfFile, '|DOCUMENT|');
                               						}
                               					}
+                                            }})
+
+
                                             })
                       })
                       stmtUpdateFolder.run("INDEXED", results[0].id)
@@ -1358,7 +1364,7 @@ var isPcDoingStuff = true;
 setInterval(function() {
     perf.isDoingStuff(function(retVal){
         isPcDoingStuff = retVal;
-        console.log("    isPcDoingStuff = " + isPcDoingStuff);
+        //console.log("    isPcDoingStuff = " + isPcDoingStuff);
     });
 }, 1000);
 
