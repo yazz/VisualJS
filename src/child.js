@@ -835,9 +835,9 @@ function findFilesInFoldersFn() {
         return;
     };
 
-    //if (finishedFindingFolders == false) {
-    //    return;
-    //}
+    if (finishedFindingFolders == false) {
+        return;
+    }
 
 
 
@@ -860,10 +860,70 @@ function findFilesInFoldersFn() {
                         console.log("In findFilesInFoldersFn  " );
                         console.log("      SOURCE ITEM : " + JSON.stringify(results[0].path,null,2));
                         fs.readdir(results[0].path, function(err, list) {
-                            if (err) return done(err);
+                            if (err)
+                            {
+                                console.log(err)
+                                return ;
+                            }
                             list.forEach(function(file) {
                               console.log(" - " + file)
-                          })
+                              if (isExcelFile(file)) {
+                                      //console.log('file: ' + file);
+                                            var excelFile = file;
+                                                if (typeof excelFile !== "undefined") {
+                                                var fileId = excelFile.replace(/[^\w\s]/gi,'');
+                                                    //console.log('Saving from walk   *file id: ' + fileId);
+                                                    //console.log('   *size: ' + stat.size);
+
+                                                  saveConnectionAndQueryForFile(fileId, 'excel', stat.size, excelFile, '|SPREADSHEET|');
+
+                                            }
+                                        }
+                                        if (isGlbFile(file)) {
+                                              //console.log('GLB file: ' + file);
+                                					var GLBFile = file;
+                                						if (typeof GLBFile !== "undefined") {
+                              							var fileId = GLBFile.replace(/[^\w\s]/gi,'');
+                                							//console.log('Saving from walk   *file id: ' + fileId);
+                                							//console.log('   *size: ' + stat.size);
+
+                                                          saveConnectionAndQueryForFile(fileId, 'glb', stat.size, GLBFile, '|GLB|');
+                              						}
+                              					}
+                              		  if (isCsvFile(file)) {
+                                              //console.log('CSV file: ' + file);
+                                					var CSVFile = file;
+                                						if (typeof CSVFile !== "undefined") {
+                              							var fileId = CSVFile.replace(/[^\w\s]/gi,'');
+                                							//console.log('Saving from walk   *file id: ' + fileId);
+                                							//console.log('   *size: ' + stat.size);
+
+                                                          saveConnectionAndQueryForFile(fileId, 'csv', stat.size, CSVFile, '|CSV|');
+                              						}
+                              					}
+                              		  if (isWordFile(file)) {
+                                              //console.log('WORD file: ' + file);
+                                					var WordFile = file;
+                                						if (typeof WordFile !== "undefined") {
+                              							var fileId = WordFile.replace(/[^\w\s]/gi,'');
+                                							//console.log('Saving from walk   *file id: ' + fileId);
+                                							//console.log('   *size: ' + stat.size);
+
+                                                          saveConnectionAndQueryForFile(fileId, 'word', stat.size, WordFile, '|DOCUMENT|');
+                              						}
+                              					}
+                              		  if (isPdfFile(file)) {
+                                              //console.log('PDF file: ' + file);
+                                					var PdfFile = file;
+                                						if (typeof PdfFile !== "undefined") {
+                              							var fileId = PdfFile.replace(/[^\w\s]/gi,'');
+                                							//console.log('Saving from walk   *file id: ' + fileId);
+                                							//console.log('   *size: ' + stat.size);
+
+                                                          saveConnectionAndQueryForFile(fileId, 'pdf', stat.size, PdfFile, '|DOCUMENT|');
+                              						}
+                              					}
+                                            })
                       })
                       stmtUpdateFolder.run("INDEXED", results[0].id)
                     };
@@ -1180,7 +1240,7 @@ function processMessagesFromMainProcess() {
 
       } else if (msg.message_type == 'childRunFindFolders') {
            //console.log("Set Index files timer");
-           //setTimeout(findFoldersFn ,1 * 1000);
+           setTimeout(findFoldersFn ,1 * 1000);
            setInterval(findFilesInFoldersFn ,numberOfSecondsIndexFilesInterval * 1000);
       }
 
@@ -1407,7 +1467,8 @@ function remoteWalk( dir,  done ) {
                             if (parentDir === '/') {
                                 parentDir = ''
                             }
-                            var folderName = parentDir + file
+                            //var folderName = parentDir +file
+                            var folderName = file
                             //console.log("Folder: " + folderName)
                             var stmt = dbsearch.all(
                                 "select id from folders where path = '" + folderName + "'",
