@@ -23,6 +23,7 @@ function require2(moduleName) {
 var fs              = require('fs');
 var path            = require('path');
 var mkdirp          = require('mkdirp')
+var rmdir           = require('rmdir-sync');
 const uuidv1        = require('uuid/v1');
 var fork            = require('child_process');
 var drivers         = new Object();
@@ -191,6 +192,7 @@ var forkedIndexer;
 
 
 app.use(compression())
+rmdir("uploads");
 mkdirp.sync("uploads");
 mkdirp.sync("files");
 

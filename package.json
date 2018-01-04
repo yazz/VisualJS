@@ -46,6 +46,7 @@
     "pdf2json": "^1.1.7",
     "pg": "^7.4.0",
     "request": "^2.79.0",
+    "rmdir-sync": "^1.0.1",
     "sqldown": "^2.1.0",
     "sqlite3": "^3.1.8",
     "tesseract.js": "^1.0.10",
