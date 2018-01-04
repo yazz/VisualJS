@@ -1472,7 +1472,8 @@ function remoteWalk( dir,  done ) {
                             var folderName = file
                             console.log("Folder: " + folderName)
                             var stmt = dbsearch.all(
-                                "select id from folders where path = '" + folderName + "'",
+                                "select id from folders where path = ?",
+                                [folderName],
                                 function(err, results)
                                 {
                                     if (!err)
