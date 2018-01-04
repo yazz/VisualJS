@@ -865,8 +865,11 @@ function findFilesInFoldersFn() {
                                 return ;
                             }
                             list.forEach(function(file) {
-                                var fullPath = results[0].path + '/' +  file
+                                var delim = '/'
+                                if (isWin) {delim = '\\'}
+                                var fullPath = results[0].path + delim +  file
                               console.log(" - " + fullPath)
+                              try {
                               var stat = fs.statSync(fullPath)
                               console.log('stat: ' + stat);
                               console.log('size: ' + stat.size);
@@ -927,7 +930,13 @@ function findFilesInFoldersFn() {
                                                           saveConnectionAndQueryForFile(fileId, 'pdf', stat.size, PdfFile, '|DOCUMENT|');
                               						}
                               					}
+                                                
+                                                
+                                                
                                             }
+                                } catch (err) {
+                                    console.log("          err: " + err);
+                                }
 
 
                                             })
