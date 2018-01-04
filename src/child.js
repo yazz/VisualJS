@@ -509,9 +509,7 @@ function findFoldersFn() {
         useDrive = '/';
     }
 
-    remoteWalk(useDrive, function(error){
-        //console.log('*Error: ' + error);
-    });
+    remoteWalk(useDrive);
 
     console.log('******************* Finished finding folders');
     finishedFindingFolders = true;
@@ -1455,7 +1453,7 @@ function isGlbFile(fname) {
 //                                                                                         //
 //-----------------------------------------------------------------------------------------//
 var i =0;
-function remoteWalk( dir,  done ) {
+function remoteWalk( dir ) {
 
     var list = fs.readdirSync (dir)
             list.forEach(
@@ -1483,19 +1481,21 @@ function remoteWalk( dir,  done ) {
                                             stmtInsertIntoFolders.run(
                                                 newId,
                                                 file,
-                                                folderName);
+                                                folderName
+                                                ,
+                                                function() {
+                                                    console.log("     File: " + file)
+                                                    try {
+                                                        remoteWalk(file);
+                                                    } catch(err3) {
+                                                        console.log(err3)
+                                                    }
+                                                });
                                             }
                                     }
                                 });
 
-                                remoteWalk(
-                                    file,
-                                    function(err) {
-                                        if (!--pending) {
-                                            done(null);
-                                        }
-                                    });
-        }
+                    }
                 } catch(err) {
                     console.log(err)
                 }
