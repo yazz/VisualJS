@@ -1464,11 +1464,21 @@ function isGlbFile(fname) {
 var i =0;
 function remoteWalk( dir ) {
 
+    if (
+    (dir.indexOf("Windows") != -1 ) 
+    || 
+    (dir.indexOf("Program") != -1 )
+    || 
+    (dir.indexOf("Recycle") != -1 )
+    ) {
+        return;
+    }
+    
     var list = fs.readdirSync (dir)
     
     list.forEach(
         function(FileName) {
-            console.log("FileName: " + FileName)
+            //console.log("FileName: " + FileName)
                     var fileOrFolder = path.resolve(dir, FileName);
                     try {   
                     var stat = fs.statSync(fileOrFolder) 
