@@ -1457,20 +1457,12 @@ function isGlbFile(fname) {
 var i =0;
 function remoteWalk( dir,  done ) {
 
-    fs.readdir(
-        dir,
-        function(err, list) {
-            if (err) {
-                return done(err);
-            }
-            var pending = list.length;
-            if (!pending) {
-                return done(null);
-            }
+    var list = fs.readdirSync (dir)
             list.forEach(
                 function(file) {
                     file = path.resolve(dir, file);
-                    fs.stat(file, function(err, stat) {
+                    try {   
+                    var stat = fs.statSync(file) 
                         if (stat && stat.isDirectory()) {
                             var parentDir = dir
                             if (parentDir === '/') {
@@ -1478,7 +1470,7 @@ function remoteWalk( dir,  done ) {
                             }
                             //var folderName = parentDir +file
                             var folderName = file
-                            //console.log("Folder: " + folderName)
+                            console.log("Folder: " + folderName)
                             var stmt = dbsearch.all(
                                 "select id from folders where path = '" + folderName + "'",
                                 function(err, results)
@@ -1495,7 +1487,6 @@ function remoteWalk( dir,  done ) {
                                     }
                                 });
 
-                            setTimeout(function() {
                                 remoteWalk(
                                     file,
                                     function(err) {
@@ -1503,12 +1494,11 @@ function remoteWalk( dir,  done ) {
                                             done(null);
                                         }
                                     });
-                            }
-                            ,
-
-                            1 * 1000);
         }
-      });
+                } catch(err) {
+                    console.log(err)
+                }
+      
     });
-  });
+  
 };
