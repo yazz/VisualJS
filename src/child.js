@@ -1465,18 +1465,20 @@ var i =0;
 function remoteWalk( dir ) {
 
     var list = fs.readdirSync (dir)
-            list.forEach(
-                function(file) {
-                    file = path.resolve(dir, file);
+    
+    list.forEach(
+        function(FileName) {
+            console.log("FileName: " + FileName)
+                    var fileOrFolder = path.resolve(dir, FileName);
                     try {   
-                    var stat = fs.statSync(file) 
+                    var stat = fs.statSync(fileOrFolder) 
                         if (stat && stat.isDirectory()) {
                             var parentDir = dir
                             if (parentDir === '/') {
                                 parentDir = ''
                             }
-                            //var folderName = parentDir +file
-                            var folderName = file
+                            //var folderName = parentDir +fileOrFolder
+                            var folderName = fileOrFolder
                             console.log("Folder: " + folderName)
                             var stmt = dbsearch.all(
                                 "select id from folders where path = ?",
@@ -1489,17 +1491,25 @@ function remoteWalk( dir ) {
                                             var newId = uuidv1();
                                             stmtInsertIntoFolders.run(
                                                 newId,
-                                                file,
+                                                fileOrFolder,
                                                 folderName
                                                 ,
                                                 function() {
-                                                    console.log("     File: " + file)
+                                                    console.log("     fileOrFolder: " + fileOrFolder)
                                                     try {
-                                                        remoteWalk(file);
+                                                        remoteWalk(fileOrFolder);
                                                     } catch(err3) {
                                                         console.log(err3)
                                                     }
                                                 });
+                                            }
+                                            else {
+                                                    try {
+                                                        remoteWalk(fileOrFolder);
+                                                    } catch(err3) {
+                                                        console.log(err3)
+                                                    }
+                                                
                                             }
                                     }
                                 });
