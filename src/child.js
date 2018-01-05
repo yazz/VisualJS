@@ -1558,10 +1558,26 @@ function addFolderForIndexingIfNotExist(folderName) {
 }
 
 function directSearchFolders(drive) {
-    fromDir(drive,/\xlsx$|csv$/,function(filename){
+    fromDir(drive,/\xlsx$|csv$|docx$|pdf$|glb$/,function(filename){
         var dirname = path.dirname(filename)
-        console.log('-- found in folder: ',dirname);
-        addFolderForIndexingIfNotExist(dirname)
+
+
+        if (
+        (dirname.indexOf("Windows") != -1 )
+        ||
+        (dirname.indexOf("Program") != -1 )
+        ||
+        (dirname.indexOf("Recycle") != -1 )
+        ||
+        (dirname.indexOf("Library") != -1 )
+        ||
+        (dirname.indexOf("Applications") != -1 )
+        ) {
+            // do nothing
+        } else {
+            console.log('-- found in folder: ',dirname);
+            addFolderForIndexingIfNotExist(dirname)
+        }
     });
 }
 function fromDir(startPath,filter,callback){
@@ -1587,20 +1603,3 @@ function fromDir(startPath,filter,callback){
         }
     };
 };
-
-  console.log('______________________________________________________________________________')
-  console.log('______________________________________________________________________________')
-  console.log('______________________________________________________________________________')
-  console.log('______________________________________________________________________________')
-  console.log('______________________________________________________________________________')
-
-
-
-
-
-
-  console.log('______________________________________________________________________________')
-  console.log('______________________________________________________________________________')
-  console.log('______________________________________________________________________________')
-  console.log('______________________________________________________________________________')
-  console.log('______________________________________________________________________________')
