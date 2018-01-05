@@ -509,7 +509,8 @@ function findFoldersFn() {
         useDrive = '/';
     }
 
-    remoteWalk(useDrive);
+    //remoteWalk(useDrive);
+    directSearchFolders(useDrive);
 
     console.log('******************* Finished finding folders');
     finishedFindingFolders = true;
@@ -930,9 +931,9 @@ function findFilesInFoldersFn() {
                                                           saveConnectionAndQueryForFile(fileId, 'pdf', stat.size, PdfFile, '|DOCUMENT|');
                               						}
                               					}
-                                                
-                                                
-                                                
+
+
+
                                             }
                                 } catch (err) {
                                     console.log("          err: " + err);
@@ -1465,23 +1466,23 @@ var i =0;
 function remoteWalk( dir ) {
 
     if (
-    (dir.indexOf("Windows") != -1 ) 
-    || 
+    (dir.indexOf("Windows") != -1 )
+    ||
     (dir.indexOf("Program") != -1 )
-    || 
+    ||
     (dir.indexOf("Recycle") != -1 )
     ) {
         return;
     }
-    
+
     var list = fs.readdirSync (dir)
-    
+
     list.forEach(
         function(FileName) {
             //console.log("FileName: " + FileName)
                     var fileOrFolder = path.resolve(dir, FileName);
-                    try {   
-                    var stat = fs.statSync(fileOrFolder) 
+                    try {
+                    var stat = fs.statSync(fileOrFolder)
                         if (stat && stat.isDirectory()) {
                             var parentDir = dir
                             if (parentDir === '/') {
@@ -1519,7 +1520,7 @@ function remoteWalk( dir ) {
                                                     } catch(err3) {
                                                         console.log(err3)
                                                     }
-                                                
+
                                             }
                                     }
                                 });
@@ -1528,7 +1529,78 @@ function remoteWalk( dir ) {
                 } catch(err) {
                     console.log(err)
                 }
-      
+
     });
-  
+
 };
+
+
+
+function addFolderForIndexingIfNotExist(folderName) {
+    var stmt = dbsearch.all(
+        "select id from folders where path = ?",
+        [folderName],
+        function(err, results)
+        {
+            if (!err)
+            {
+                if (results.length == 0) {
+                    var newId = uuidv1();
+                    stmtInsertIntoFolders.run(
+                        newId,
+                        folderName,
+                        folderName);
+                    }
+            } else {
+                console.log(err)
+            }
+        });
+}
+
+function directSearchFolders(drive) {
+    fromDir(drive,/\xlsx$|csv$/,function(filename){
+        var dirname = path.dirname(filename)
+        console.log('-- found in folder: ',dirname);
+        addFolderForIndexingIfNotExist(dirname)
+    });
+}
+function fromDir(startPath,filter,callback){
+
+    //console.log('Starting from dir '+startPath+'/');
+
+    if (!fs.existsSync(startPath)){
+        console.log("no dir ",startPath);
+        return;
+    }
+
+    var files=fs.readdirSync(startPath);
+    for(var i=0;i<files.length;i++){
+        var filename=path.join(startPath,files[i]);
+        try {
+            var stat = fs.lstatSync(filename);
+            if (stat.isDirectory()){
+                fromDir(filename,filter,callback); //recurse
+            }
+            else if (filter.test(filename)) callback(filename);
+        } catch(err) {
+            //console.log(err)
+        }
+    };
+};
+
+  console.log('______________________________________________________________________________')
+  console.log('______________________________________________________________________________')
+  console.log('______________________________________________________________________________')
+  console.log('______________________________________________________________________________')
+  console.log('______________________________________________________________________________')
+
+
+
+
+
+
+  console.log('______________________________________________________________________________')
+  console.log('______________________________________________________________________________')
+  console.log('______________________________________________________________________________')
+  console.log('______________________________________________________________________________')
+  console.log('______________________________________________________________________________')
