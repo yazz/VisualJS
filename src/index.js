@@ -2302,38 +2302,9 @@ function setUpDbDrivers() {
 
 
 
-
-
-
-function setupChildProcesses() {
-
-
-
-
-    //console.log("-------------------------------------------------------------------");
-    //console.log("-------------------------------------------------------------------");
-    //console.log("-------------------------------------------------------------------");
-    //console.log("-------------------------------------------------------------------");
-    //console.log("-------------------------------------------------------------------");
-
-
-
-
-
-
-
-
-
-    if (isWin) {
-        forked = fork.fork(path.join(__dirname, '../src/child.js'));
-        forkedIndexer = fork.fork(path.join(__dirname, '../src/child.js'));
-    } else {
-            forked = fork.fork(path.join(__dirname, '../src/child.js'));
-            forkedIndexer = fork.fork(path.join(__dirname, '../src/child.js'));
-    };
-
-    forked.on('message', (msg) => {
-        //console.log("message from child: " + JSON.stringify(msg,null,2))
+function setUpChildListeners(forkedProcess) {
+    forkedProcess.on('message', (msg) => {
+        console.log("message from child: " + JSON.stringify(msg,null,2))
         if (msg.message_type == "return_test_fork") {
             //console.log('Message from child', msg);
             sendOverWebSockets({
@@ -2343,6 +2314,7 @@ function setupChildProcesses() {
 
 
         } else if (msg.message_type == "return_set_connection") {
+            console.log(".. Main process received a 'return_set_connection' message")
             setSharedGlobalVar( "connections",
                                 msg.id,
                                 JSON.stringify({    id:         msg.id,
@@ -2355,6 +2327,9 @@ function setupChildProcesses() {
 
 
         } else if (msg.message_type == "return_set_query") {
+            
+            console.log(".. Main process received a 'return_set_query' message")
+            
             setSharedGlobalVar( "queries",
                                 msg.id,
                                 JSON.stringify(
@@ -2388,6 +2363,7 @@ function setupChildProcesses() {
         // this needs to be fixed so that it only sends the similar documents
         // to the client that requested them
         } else if (msg.message_type == "return_similar_documents") {
+            console.log(".. Main process received a 'return_similar_documents' message")
             sendOverWebSockets({
                                     type: "similar_documents",
                                     results: msg.results
@@ -2414,6 +2390,39 @@ function setupChildProcesses() {
 
 
     });
+}
+
+
+function setupChildProcesses() {
+
+
+
+
+    //console.log("-------------------------------------------------------------------");
+    //console.log("-------------------------------------------------------------------");
+    //console.log("-------------------------------------------------------------------");
+    //console.log("-------------------------------------------------------------------");
+    //console.log("-------------------------------------------------------------------");
+
+
+
+
+
+
+
+
+
+    if (isWin) {
+        forked = fork.fork(path.join(__dirname, '../src/child.js'));
+        forkedIndexer = fork.fork(path.join(__dirname, '../src/child.js'));
+    } else {
+            forked = fork.fork(path.join(__dirname, '../src/child.js'));
+            forkedIndexer = fork.fork(path.join(__dirname, '../src/child.js'));
+    };
+
+    setUpChildListeners(forked);
+    setUpChildListeners(forkedIndexer);
+    
 
     forked.send({ message_type: "greeting", hello: 'world' });
 }
