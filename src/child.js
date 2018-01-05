@@ -182,7 +182,12 @@ function setUpSql() {
 //                                                                                         //
 //-----------------------------------------------------------------------------------------//
 function saveConnectionAndQueryForFile(  fileId,  fileType,  size,  fileName,  fileType2  ) {
-    //console.log("... in saveConnectionAndQueryForFile:::: " + fileId)
+    console.log("... in saveConnectionAndQueryForFile:::: ")
+    console.log("                                        " + fileId)
+    console.log("                                        " + fileType)
+    console.log("                                        " + size)
+    console.log("                                        " + fileName)
+    console.log("                                        " + fileType2)
     if (!fileName) {
         return;
     };
@@ -869,18 +874,18 @@ function findFilesInFoldersFn() {
                                 var delim = '/'
                                 if (isWin) {delim = '\\'}
                                 var fullPath = results[0].path + delim +  file
-                              console.log(" - " + fullPath)
+                                //console.log(" - " + fullPath)
                               try {
                               var stat = fs.statSync(fullPath)
-                              console.log('stat: ' + stat);
-                              console.log('size: ' + stat.size);
                                 if (stat && !stat.isDirectory()) {
+                                    //console.log('stat: ' + stat);
+                                    //console.log('size: ' + stat.size);
                               if (isExcelFile(file)) {
                                       console.log('file: ' + file);
-                                            var excelFile = file;
+                                            var excelFile = fullPath;
                                                 if (typeof excelFile !== "undefined") {
                                                 var fileId = excelFile.replace(/[^\w\s]/gi,'');
-                                                    //console.log('Saving from walk   *file id: ' + fileId);
+                                                    console.log('Saving from walk   *file id: ' + fileId);
                                                     //console.log('   *size: ' + stat.size);
 
                                                   saveConnectionAndQueryForFile(fileId, 'excel', stat.size, excelFile, '|SPREADSHEET|');
@@ -889,10 +894,10 @@ function findFilesInFoldersFn() {
                                         }
                                         if (isGlbFile(file)) {
                                               console.log('GLB file: ' + file);
-                                					var GLBFile = file;
+                                					var GLBFile = fullPath;
                                 						if (typeof GLBFile !== "undefined") {
                               							var fileId = GLBFile.replace(/[^\w\s]/gi,'');
-                                							//console.log('Saving from walk   *file id: ' + fileId);
+                                							console.log('Saving from walk   *file id: ' + fileId);
                                 							//console.log('   *size: ' + stat.size);
 
                                                           saveConnectionAndQueryForFile(fileId, 'glb', stat.size, GLBFile, '|GLB|');
@@ -900,10 +905,10 @@ function findFilesInFoldersFn() {
                               					}
                               		  if (isCsvFile(file)) {
                                               console.log('CSV file: ' + file);
-                                					var CSVFile = file;
+                                					var CSVFile = fullPath;
                                 						if (typeof CSVFile !== "undefined") {
                               							var fileId = CSVFile.replace(/[^\w\s]/gi,'');
-                                							//console.log('Saving from walk   *file id: ' + fileId);
+                                							console.log('Saving from walk   *file id: ' + fileId);
                                 							//console.log('   *size: ' + stat.size);
 
                                                           saveConnectionAndQueryForFile(fileId, 'csv', stat.size, CSVFile, '|CSV|');
@@ -911,10 +916,10 @@ function findFilesInFoldersFn() {
                               					}
                               		  if (isWordFile(file)) {
                                               console.log('WORD file: ' + file);
-                                					var WordFile = file;
+                                					var WordFile = fullPath;
                                 						if (typeof WordFile !== "undefined") {
                               							var fileId = WordFile.replace(/[^\w\s]/gi,'');
-                                							//console.log('Saving from walk   *file id: ' + fileId);
+                                							console.log('Saving from walk   *file id: ' + fileId);
                                 							//console.log('   *size: ' + stat.size);
 
                                                           saveConnectionAndQueryForFile(fileId, 'word', stat.size, WordFile, '|DOCUMENT|');
@@ -922,10 +927,10 @@ function findFilesInFoldersFn() {
                               					}
                               		  if (isPdfFile(file)) {
                                               console.log('PDF file: ' + file);
-                                					var PdfFile = file;
+                                					var PdfFile = fullPath;
                                 						if (typeof PdfFile !== "undefined") {
                               							var fileId = PdfFile.replace(/[^\w\s]/gi,'');
-                                							//console.log('Saving from walk   *file id: ' + fileId);
+                                							console.log('Saving from walk   *file id: ' + fileId);
                                 							//console.log('   *size: ' + stat.size);
 
                                                           saveConnectionAndQueryForFile(fileId, 'pdf', stat.size, PdfFile, '|DOCUMENT|');
