@@ -294,8 +294,7 @@ function mainProgram() {
     startServices()
     console.log('Start Services' );
 
-    //scanHardDisk();
-    scanHardDiskFromChild();
+    scanHardDisk();
     console.log('Start Hard Disk Scan' );
 }
 
@@ -532,119 +531,6 @@ function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileTyp
 
 
 
-//-----------------------------------------------------------------------------------------//
-//                                                                                         //
-//                                      walk                                               //
-//                                                                                         //
-// This walks the filesyste to find files to add to the search index                       //
-//                                                                                         //
-//                                                                                         //
-//                                                                                         //
-//                                                                                         //
-//                                                                                         //
-//                                                                                         //
-//-----------------------------------------------------------------------------------------//
-function walk( dir,  done ) {
-
-    // if the end user has explicitly asked to stop scanning then exit
-    if (stopScan) {
-        inScan = false;
-        return;
-     };
-
-     if (isPcDoingStuff) {
-         setTimeout(
-             function() {
-                 walk( dir,  done );
-             }
-             ,10000)
-     }
-
-    ////console.log('dir: ' + dir);
-    fs.readdir(dir, function(err, list) {
-        if (err) return done(err);
-    var pending = list.length;
-    if (!pending) return done(null);
-    list.forEach(function(file) {
-      file = path.resolve(dir, file);
-      fs.stat(file, function(err, stat) {
-        if (stat && stat.isDirectory()) {
-            sendOverWebSockets({
-                                    type:   "server_scan_status",
-                                    value:  "Scanning directory " + file
-                                    });
-           setTimeout(function() {
-                              walk(file, function(err) {
-                            if (!--pending) done(null);
-                          });
-          }, 10 * 1000);
-        } else {
-		  if (isExcelFile(file)) {
-                //console.log('file: ' + file);
-  					var excelFile = file;
-  						if (typeof excelFile !== "undefined") {
-							var fileId = excelFile.replace(/[^\w\s]/gi,'');
-  							//console.log('Saving from walk   *file id: ' + fileId);
-  							//console.log('   *size: ' + stat.size);
-
-                            saveConnectionAndQueryForFile(fileId, 'excel', stat.size, excelFile, '|SPREADSHEET|');
-
-						}
-					}
-		  if (isGlbFile(file)) {
-                //console.log('GLB file: ' + file);
-  					var GLBFile = file;
-  						if (typeof GLBFile !== "undefined") {
-							var fileId = GLBFile.replace(/[^\w\s]/gi,'');
-  							//console.log('Saving from walk   *file id: ' + fileId);
-  							//console.log('   *size: ' + stat.size);
-
-                            saveConnectionAndQueryForFile(fileId, 'glb', stat.size, GLBFile, '|GLB|');
-						}
-					}
-		  if (isCsvFile(file)) {
-                //console.log('CSV file: ' + file);
-  					var CSVFile = file;
-  						if (typeof CSVFile !== "undefined") {
-							var fileId = CSVFile.replace(/[^\w\s]/gi,'');
-  							//console.log('Saving from walk   *file id: ' + fileId);
-  							//console.log('   *size: ' + stat.size);
-
-                            saveConnectionAndQueryForFile(fileId, 'csv', stat.size, CSVFile, '|CSV|');
-						}
-					}
-		  if (isWordFile(file)) {
-                //console.log('WORD file: ' + file);
-  					var WordFile = file;
-  						if (typeof WordFile !== "undefined") {
-							var fileId = WordFile.replace(/[^\w\s]/gi,'');
-  							//console.log('Saving from walk   *file id: ' + fileId);
-  							//console.log('   *size: ' + stat.size);
-
-                            saveConnectionAndQueryForFile(fileId, 'word', stat.size, WordFile, '|DOCUMENT|');
-						}
-					}
-		  if (isPdfFile(file)) {
-                //console.log('PDF file: ' + file);
-  					var PdfFile = file;
-  						if (typeof PdfFile !== "undefined") {
-							var fileId = PdfFile.replace(/[^\w\s]/gi,'');
-  							//console.log('Saving from walk   *file id: ' + fileId);
-  							//console.log('   *size: ' + stat.size);
-
-                            saveConnectionAndQueryForFile(fileId, 'pdf', stat.size, PdfFile, '|DOCUMENT|');
-						}
-					}          if (!--pending) done(null);
-        }
-      });
-    });
-  });
-};
-
-
-
-
-
 
 
 
@@ -708,23 +594,11 @@ function scanHardDiskFromChild() {
 
 
 function scanHardDisk() {
-    stopScan = false;
-    inScan = true;
-	var useDrive = "C:\\";
-    if (!isWin) {
-        useDrive = '/';
-    }
-
-    if (!stopScan) {
-        walk(useDrive, function(error){
-            //console.log('*Error: ' + error);
-        });
-        inScan = false;
-	  };
-      sendOverWebSockets({
-                              type:   "server_scan_status",
-                              value:  "Hard disk scan in progress"
-                              });
+    scanHardDiskFromChild();
+    sendOverWebSockets({
+                          type:   "server_scan_status",
+                          value:  "Hard disk scan in progress"
+                          });
 };
 
 
@@ -2327,9 +2201,9 @@ function setUpChildListeners(forkedProcess) {
 
 
         } else if (msg.message_type == "return_set_query") {
-            
+
             console.log(".. Main process received a 'return_set_query' message")
-            
+
             setSharedGlobalVar( "queries",
                                 msg.id,
                                 JSON.stringify(
@@ -2422,7 +2296,7 @@ function setupChildProcesses() {
 
     setUpChildListeners(forked);
     setUpChildListeners(forkedIndexer);
-    
+
 
     forked.send({ message_type: "greeting", hello: 'world' });
 }
