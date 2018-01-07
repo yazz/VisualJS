@@ -1268,14 +1268,21 @@ function getRoot(req, res) {
 
 
 
+//files
+//    id TEXT, name TEXT, fk_contents_id TEXT, contents_hash TEXT, size INTEGER);"
+
+//contents
+//    id TEXT, contents BLOB, contents_hash TEXT);",
+
 
 function downloadWebDocument(req, res) {
     //mammoth.convertToHtml({path: "Security in Office 365 Whitepaper.docx"})
-    var stmt = dbsearch.all("select contents from files where name = '" + req.query.id + "'", function(err, rows) {
+    var stmt = dbsearch.all("select contents.content from files,contents where name = '" + req.query.id + "' " +
+                            "    and contents.id = files.fk_contents_id", function(err, rows) {
         if (!err) {
                 if (rows.length > 0) {
                     if (req.query.id.toLowerCase().endsWith(".docx") ) {
-                        var buffer = new Buffer(rows[0].contents, 'binary');
+                        var buffer = new Buffer(rows[0].content, 'binary');
 
                         mammoth.convertToHtml({buffer: buffer})
                         .then(function(result){
@@ -1289,7 +1296,7 @@ function downloadWebDocument(req, res) {
                     } else if ( req.query.id.toLowerCase().endsWith(".xlsx") ||
                                 req.query.id.toLowerCase().endsWith(".xls")) {
                         try {
-                            var buffer = new Buffer(rows[0].contents, 'binary');
+                            var buffer = new Buffer(rows[0].content, 'binary');
                             var workbook = XLSX.read(buffer, {type:"buffer"})
                             var sheetname = Object.keys(workbook['Sheets'])[0]
                             var html =  XLSX.utils.sheet_to_html(workbook['Sheets'][sheetname])
@@ -1308,7 +1315,7 @@ function downloadWebDocument(req, res) {
                             html = "<table>";
                             console.log('2')
                             console.log('3')
-                                var contents = rows[0].contents.toString()
+                                var contents = rows[0].content.toString()
                                 var delim = ',';
                                 var numCommas = ((contents.match(new RegExp(",", "g")) || []).length);
                                 var numSemi = ((contents.match(new RegExp(";", "g")) || []).length);
@@ -1362,12 +1369,12 @@ function downloadWebDocument(req, res) {
 												//} else if (req.query.id.toLowerCase().endsWith(".txt")) {
 												} else if (
 													    !isBinaryFile.sync(
-																    rows[0].contents,
-																		rows[0].contents.toString().length  )) {
+																    rows[0].content,
+																		rows[0].content.toString().length  )) {
                         try {
                             console.log('1')
                             html = "<pre>";
-                            var contents = rows[0].contents.toString()
+                            var contents = rows[0].content.toString()
                             html += contents;
                             html += "</pre>";
                             res.writeHead(200, {'Content-Type': 'text/plain'});
@@ -1397,6 +1404,11 @@ function downloadWebDocument(req, res) {
 
 
 
+//files
+//    id TEXT, name TEXT, fk_contents_id TEXT, contents_hash TEXT, size INTEGER);"
+
+//contents
+//    id TEXT, contents BLOB, contents_hash TEXT);",
 
 function downloadDocuments(req, res) {
 		var fname = req.url.substr(req.url.lastIndexOf('/') + 1)
@@ -1416,17 +1428,18 @@ function downloadDocuments(req, res) {
 
 
 
-				var stmt = dbsearch.all("select contents from files where name = '" + fname + "'", function(err, rows) {
+				var stmt = dbsearch.all("select contents.content from files where name = '" + fname + "' " +
+                                        "    and files.fk_contents_id = contents.id", function(err, rows) {
 						if (!err) {
 								if (rows.length > 0) {
 										 res.writeHead(200, {
 												'Content-Type': contentType,
 												'Content-disposition': 'attachment;filename=' + fname ,
-												'Content-Length': rows[0].contents.length
+												'Content-Length': rows[0].content.length
 										});
 
 
-										res.end(new Buffer(rows[0].contents, 'binary'));
+										res.end(new Buffer(rows[0].content, 'binary'));
 								};
 						};
 				});
@@ -1982,14 +1995,15 @@ function getqueryresultFn(req, res) {
 
 
                         console.log('trying to save pdf: ');
-                        var stmt = dbsearch.all("select contents from files,queries where files.name = ('gsd_' || queries.hash || '.pdf' ) and queries.id = '" + queryData2.source + "'", function(err, rows) {
+                        var stmt = dbsearch.all("select contents.content from files,queries where files.name = ('gsd_' || queries.hash || '.pdf' ) and queries.id = '" + queryData2.source + "' " +
+                                                "    and files.fk_contents_id = contents.id", function(err, rows) {
                             console.log('trying to save pdf 2: ' + queryData2.source);
                                 if (!err) {
                                     console.log('trying to save pdf 3: ');
                                     if (rows.length > 0) {
                                         console.log('trying to save pdf 4: ');
                                         console.log('trying to save pdf 5: ');
-                                        var buffer = new Buffer(rows[0].contents, 'binary');
+                                        var buffer = new Buffer(rows[0].content, 'binary');
 
                                         fs.writeFile(process.cwd() + "/files/a.pdf", buffer,  "binary",
                                             function(err) {
@@ -2178,7 +2192,7 @@ function setUpDbDrivers() {
 
 function setUpChildListeners(forkedProcess) {
     forkedProcess.on('message', (msg) => {
-        console.log("message from child: " + JSON.stringify(msg,null,2))
+        //console.log("message from child: " + JSON.stringify(msg,null,2))
         if (msg.message_type == "return_test_fork") {
             //console.log('Message from child', msg);
             sendOverWebSockets({

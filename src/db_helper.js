@@ -12,7 +12,9 @@ module.exports = {
 
             "CREATE TABLE IF NOT EXISTS drivers (id TEXT, name TEXT, type TEXT, code TEXT);",
 
-            "CREATE TABLE IF NOT EXISTS files (id TEXT, name TEXT, contents BLOB);",
+            "CREATE TABLE IF NOT EXISTS files (id TEXT, name TEXT, fk_contents_id TEXT, contents_hash TEXT, size INTEGER);",
+
+            "CREATE TABLE IF NOT EXISTS contents (id TEXT, content BLOB, contents_hash TEXT);",
 
             "CREATE TABLE IF NOT EXISTS folders (id TEXT, name TEXT, path TEXT, parent_id TEXT, status TEXT, changed_count INTEGER, UNIQUE (path) ON CONFLICT IGNORE);",
 

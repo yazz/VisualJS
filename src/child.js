@@ -38,6 +38,7 @@ var stmtInsertIntoRelationships;
 var stmtUpdateRelationships2;
 var stmtUpdateFolder;
 var stmtInsertIntoFiles;
+var stmtInsertIntoContents;
 var stmtInsertIntoFolders;
 var stmtInsertIntoConnections;
 var stmtInsertInsertIntoQueries;
@@ -130,10 +131,16 @@ function setUpSql() {
                                                          "     source_query_hash = ?    and     target_query_hash = ? ");
 
 
-    stmtInsertIntoFiles = dbsearch.prepare(" insert into files " +
-                                "    ( id, name, contents ) " +
-                                " values " +
-                                "    (?,  ?,?);");
+     stmtInsertIntoContents = dbsearch.prepare(" insert into contents " +
+                                 "    ( id, contents_hash, content ) " +
+                                 " values " +
+                                 "    (?,  ?,  ?);");
+
+
+     stmtInsertIntoFiles = dbsearch.prepare(" insert into files " +
+                                 "    ( id, name, fk_contents_id ) " +
+                                 " values " +
+                                 "    (?,  ?,?);");
 
     stmtInsertIntoFolders = dbsearch.prepare(   " insert into folders " +
                                                 "    ( id, name, path, changed_count ) " +
@@ -242,11 +249,22 @@ function saveConnectionAndQueryForFile(  fileId,  fileType,  size,  fileName,  f
                                     {
                                         if (results.length == 0) {
                                             dbsearch.serialize(function() {
-                                                var newId = uuidv1();
-                                                stmtInsertIntoFiles.run(
-                                                    newId,
-                                                    saveName,
+                                                var newContentId = uuidv1();
+                                                var newFileId = uuidv1();
+
+                                                stmtInsertIntoContents.run(
+                                                    newContentId,
+                                                    'HASH',
                                                     fs.readFileSync(copyfrom),
+
+                                                    function(err) {
+                                                        //console.log('added file to sqlite');
+                                                        });
+
+                                                stmtInsertIntoFiles.run(
+                                                    newFileId,
+                                                    saveName,
+                                                    newContentId,
 
                                                     function(err) {
                                                         //console.log('added file to sqlite');
@@ -1589,7 +1607,7 @@ function directSearchFolders(drive) {
         ) {
             // do nothing
         } else {
-            console.log('-- found in folder: ',dirname);
+            //console.log('-- found in folder: ',dirname);
             addFolderForIndexingIfNotExist(dirname)
         }
     });
