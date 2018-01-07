@@ -1428,7 +1428,7 @@ function downloadDocuments(req, res) {
 
 
 
-				var stmt = dbsearch.all("select contents.content from files where name = '" + fname + "' " +
+				var stmt = dbsearch.all("select contents.content from files,contents where name = '" + fname + "' " +
                                         "    and files.fk_contents_id = contents.id", function(err, rows) {
 						if (!err) {
 								if (rows.length > 0) {
@@ -1995,7 +1995,7 @@ function getqueryresultFn(req, res) {
 
 
                         console.log('trying to save pdf: ');
-                        var stmt = dbsearch.all("select contents.content from files,queries where files.name = ('gsd_' || queries.hash || '.pdf' ) and queries.id = '" + queryData2.source + "' " +
+                        var stmt = dbsearch.all("select contents.content from files,queries,contents where files.name = ('gsd_' || queries.hash || '.pdf' ) and queries.id = '" + queryData2.source + "' " +
                                                 "    and files.fk_contents_id = contents.id", function(err, rows) {
                             console.log('trying to save pdf 2: ' + queryData2.source);
                                 if (!err) {
