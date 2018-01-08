@@ -138,9 +138,9 @@ function setUpSql() {
 
 
      stmtInsertIntoFiles = dbsearch.prepare(" insert into files " +
-                                 "    ( id,  name,  fk_contents_id ,  contents_hash ,  size) " +
+                                 "    ( id,  name,  fk_contents_id ,  contents_hash ,  size,  path,  orig_name,    extension) " +
                                  " values " +
-                                 "    (?,  ?,  ?,  ?,  ?);");
+                                 "    (?,  ?,  ?,  ?,  ?,   ?,   ?,  ?);");
 
     stmtInsertIntoFolders = dbsearch.prepare(   " insert into folders " +
                                                 "    ( id, name, path, changed_count ) " +
@@ -267,6 +267,9 @@ function saveConnectionAndQueryForFile(  fileId,  fileType,  size,  fileName,  f
                                                     newContentId,
                                                     sha1sum,
                                                     size,
+                                                    path.dirname(fileName),
+                                                    path.basename(fileName),
+                                                    path.extname(fileName),
 
                                                     function(err) {
                                                         //console.log('added file to sqlite');
