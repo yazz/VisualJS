@@ -212,9 +212,9 @@ function saveConnectionAndQueryForFile(  fileId,  fileType,  size,  fileName,  f
         hash.end();
         var sha1sum = hash.read();
 
-//console.log("child 1")
+console.log("child 1")
         dbsearch.serialize(function() {
-//console.log("child 2")
+console.log("child 2")
             var newid = uuidv1();
             stmtInsertIntoConnections.run(
                      newid,
@@ -224,7 +224,7 @@ function saveConnectionAndQueryForFile(  fileId,  fileType,  size,  fileName,  f
                      sha1sum,
                      fileType2,
                      fileName, function(err) {
-//console.log("child 3")
+console.log("child 3")
 
                             //connections[newid] = {id: newid, name: fileId, driver: fileType, size: size, hash: sha1sum, type: fileType2, fileName: fileName };
                             process.send({
@@ -237,12 +237,12 @@ function saveConnectionAndQueryForFile(  fileId,  fileType,  size,  fileName,  f
                                             type:       fileType2,
                                             fileName:   fileName
                             });
-//console.log("child 4")
+console.log("child 4")
 
                             var copyfrom = fileName;
                             var saveName = "gsd_" + sha1sum.toString() + path.extname(fileName);
                             var stmt = dbsearch.all(
-                                "select id from files where name = '" + saveName + "'",
+                                "select id from files where path = '" + fileName + "'",
                                 function(err, results)
                                 {
                                     if (!err)
@@ -323,13 +323,13 @@ function saveConnectionAndQueryForFile(  fileId,  fileType,  size,  fileName,  f
                                                     }
                                                 );
                             });
-                            //console.log("... query saved: " + fileId);
+                            console.log("... query saved: " + fileId);
 
 
                      });
         });
     } catch(err) {
-        //console.log("Error " + err + " with file: " + fileName);
+        console.log("Error " + err + " with file: " + fileName);
         return err;
     } finally {
 
@@ -964,6 +964,7 @@ function findFilesInFoldersFn() {
                         //console.log("In findFilesInFoldersFn  " );
                         //console.log("      SOURCE ITEM : " + JSON.stringify(results[0].path,null,2));
                         fs.readdir(results[0].path, function(err, list) {
+                            console.log("      FILE : " + JSON.stringify(results[0].path,null,2));
                             if (err)
                             {
                                 console.log(err)
