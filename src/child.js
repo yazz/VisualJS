@@ -215,8 +215,19 @@ function saveFileAndContent(fileName, sha1sum, path, size) {
             
             
 
-
-
+function getSha1(fileName) {
+    try {
+        var contents = fs.readFileSync(fileName, "utf8");
+        var hash = crypto.createHash('sha1');
+        hash.setEncoding('hex');
+        hash.write(contents);
+        hash.end();
+        var sha1sum = hash.read();
+        return sha1sum;
+    } catch (err) {
+        return null;
+    }
+}
 
 
 //-----------------------------------------------------------------------------------------//
@@ -259,87 +270,84 @@ function saveConnectionAndQueryForFile(  fileId,  fileType,  size,  fileName,  f
                 {
                     if (results.length == 0) {
                         try {
-                            var contents = fs.readFileSync(fileName, "utf8");
-                            var hash = crypto.createHash('sha1');
-                            hash.setEncoding('hex');
-                            hash.write(contents);
-                            hash.end();
-                            var sha1sum = hash.read();
+                            var sha1sum = getSha1(fileName)
+                            
+                            if (sha1sum) {
 
-                            console.log("child 2")
-                            var newid = uuidv1();
-                            stmtInsertIntoConnections.run(
-                                    newid,
-                                    fileId,
-                                    fileType,
-                                    size,
-                                    sha1sum,
-                                    fileType2,
-                                    fileName, 
-                                    function(err) {
-                                        console.log("child 3")
+                                console.log("child 2")
+                                var newid = uuidv1();
+                                stmtInsertIntoConnections.run(
+                                        newid,
+                                        fileId,
+                                        fileType,
+                                        size,
+                                        sha1sum,
+                                        fileType2,
+                                        fileName, 
+                                        function(err) {
+                                            console.log("child 3")
 
-                                        //connections[newid] = {id: newid, name: fileId, driver: fileType, size: size, hash: sha1sum, type: fileType2, fileName: fileName };
-                                        process.send({
-                                                    message_type:       "return_set_connection",
-                                                    id:         newid,
-                                                    name:       fileId,
-                                                    driver:     fileType,
-                                                    size:       size,
-                                                    hash:       sha1sum,
-                                                    type:       fileType2,
-                                                    fileName:   fileName
+                                            //connections[newid] = {id: newid, name: fileId, driver: fileType, size: size, hash: sha1sum, type: fileType2, fileName: fileName };
+                                            process.send({
+                                                        message_type:       "return_set_connection",
+                                                        id:         newid,
+                                                        name:       fileId,
+                                                        driver:     fileType,
+                                                        size:       size,
+                                                        hash:       sha1sum,
+                                                        type:       fileType2,
+                                                        fileName:   fileName
+                                            });
+                                            console.log("child 4")
+                                            saveFileAndContent(fileName, sha1sum, path, size);
+
+                                            dbsearch.serialize(function() {
+                                                //console.log(":      saving query ..." + fileId);
+                                                var newqueryid = uuidv1();
+                                                stmtInsertInsertIntoQueries.run(newqueryid,
+                                                         fileId,
+                                                         newid,
+                                                         fileType,
+                                                         size,
+                                                         sha1sum,
+                                                         fileName,
+                                                         fileType2,
+                                                         JSON.stringify({} , null, 2),
+                                                         JSON.stringify([{message: 'No preview available'}] , null, 2),
+                                                         function(err) {
+                                                             if (err) {
+                                                                //console.log('   err : ' + err);
+                                                             }
+                                                            //console.log('   save result set fileid 1 : ' + fileId );
+                                                            var fileId2 = fileId;
+                                                            //console.log('   save result set fileid 2 : ' + fileId2 );
+                                                            var newqueryid2 = newqueryid;
+                                                            var fileType2 = fileType;
+                                                            var newid2 = newid;
+
+
+                                                            process.send({
+                                                                            message_type:       "return_set_query",
+                                                                            id:                 newqueryid,
+                                                                            name:               fileId,
+                                                                            connection:         newid,
+                                                                            driver:             fileType,
+                                                                            size:               size,
+                                                                            hash:               sha1sum,
+                                                                            fileName:           fileName,
+                                                                            type:               fileType2,
+                                                                            definition:         JSON.stringify({} , null, 2),
+                                                                            preview:            JSON.stringify([{message: 'No preview available'}] , null, 2)});
+
+                                                                    //console.log('    ...  entering getresult v2:  '  + fileId2);
+
+                                                                }
+                                                            );
                                         });
-                                        console.log("child 4")
-                                        saveFileAndContent(fileName, sha1sum, path, size);
+                                        console.log("... query saved: " + fileId);
 
-                                        dbsearch.serialize(function() {
-                                            //console.log(":      saving query ..." + fileId);
-                                            var newqueryid = uuidv1();
-                                            stmtInsertInsertIntoQueries.run(newqueryid,
-                                                     fileId,
-                                                     newid,
-                                                     fileType,
-                                                     size,
-                                                     sha1sum,
-                                                     fileName,
-                                                     fileType2,
-                                                     JSON.stringify({} , null, 2),
-                                                     JSON.stringify([{message: 'No preview available'}] , null, 2),
-                                                     function(err) {
-                                                         if (err) {
-                                                            //console.log('   err : ' + err);
-                                                         }
-                                                        //console.log('   save result set fileid 1 : ' + fileId );
-                                                        var fileId2 = fileId;
-                                                        //console.log('   save result set fileid 2 : ' + fileId2 );
-                                                        var newqueryid2 = newqueryid;
-                                                        var fileType2 = fileType;
-                                                        var newid2 = newid;
-
-
-                                                        process.send({
-                                                                        message_type:       "return_set_query",
-                                                                        id:                 newqueryid,
-                                                                        name:               fileId,
-                                                                        connection:         newid,
-                                                                        driver:             fileType,
-                                                                        size:               size,
-                                                                        hash:               sha1sum,
-                                                                        fileName:           fileName,
-                                                                        type:               fileType2,
-                                                                        definition:         JSON.stringify({} , null, 2),
-                                                                        preview:            JSON.stringify([{message: 'No preview available'}] , null, 2)});
-
-                                                                //console.log('    ...  entering getresult v2:  '  + fileId2);
-
-                                                            }
-                                                        );
-                                    });
-                                    console.log("... query saved: " + fileId);
-
-
-                             });
+                                });
+                            }
                         } catch (err) {
                             console.log("Error " + err + " with file: " + fileName);
                         }
