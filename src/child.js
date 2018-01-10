@@ -178,6 +178,47 @@ function setUpSql() {
 
 
 
+
+function saveFileAndContent(fileName, sha1sum, path, size) {
+
+            var copyfrom = fileName;
+            var saveName = "gsd_" + sha1sum.toString() + path.extname(fileName);
+            dbsearch.serialize(function() {
+                var newContentId = uuidv1();
+                var newFileId = uuidv1();
+
+                stmtInsertIntoContents.run(
+                    newContentId,
+                    sha1sum,
+                    fs.readFileSync(copyfrom),
+
+                    function(err) {
+                        //console.log('added file to sqlite');
+                        });
+
+                stmtInsertIntoFiles.run(
+                    newFileId,
+                    saveName,
+                    newContentId,
+                    sha1sum,
+                    size,
+                    path.dirname(fileName),
+                    path.basename(fileName),
+                    path.extname(fileName),
+
+                    function(err) {
+                        //console.log('added file to sqlite');
+                        });
+            });
+}
+            
+            
+            
+
+
+
+
+
 //-----------------------------------------------------------------------------------------//
 //                                                                                         //
 //                               saveConnectionAndQueryForFile                             //
@@ -214,7 +255,7 @@ function saveConnectionAndQueryForFile(  fileId,  fileType,  size,  fileName,  f
         hash.end();
         var sha1sum = hash.read();
 
-console.log("child 1")
+        console.log("child 1")
         dbsearch.serialize(function() {
         var stmt = dbsearch.all(
             "select id from files where path = '" + fileName + "'",
@@ -223,20 +264,21 @@ console.log("child 1")
                 if (!err)
                 {
                     if (results.length == 0) {
-    console.log("child 2")
-                var newid = uuidv1();
-                stmtInsertIntoConnections.run(
-                         newid,
-                         fileId,
-                         fileType,
-                         size,
-                         sha1sum,
-                         fileType2,
-                         fileName, function(err) {
-    console.log("child 3")
+                        console.log("child 2")
+                        var newid = uuidv1();
+                        stmtInsertIntoConnections.run(
+                                newid,
+                                fileId,
+                                fileType,
+                                size,
+                                sha1sum,
+                                fileType2,
+                                fileName, 
+                                function(err) {
+                                    console.log("child 3")
 
-                                //connections[newid] = {id: newid, name: fileId, driver: fileType, size: size, hash: sha1sum, type: fileType2, fileName: fileName };
-                                process.send({
+                                    //connections[newid] = {id: newid, name: fileId, driver: fileType, size: size, hash: sha1sum, type: fileType2, fileName: fileName };
+                                    process.send({
                                                 message_type:       "return_set_connection",
                                                 id:         newid,
                                                 name:       fileId,
@@ -245,41 +287,11 @@ console.log("child 1")
                                                 hash:       sha1sum,
                                                 type:       fileType2,
                                                 fileName:   fileName
-                                });
+                                    });
     console.log("child 4")
+                                    saveFileAndContent(fileName, sha1sum, path, size);
 
-                                                var copyfrom = fileName;
-                                                var saveName = "gsd_" + sha1sum.toString() + path.extname(fileName);
-                                                dbsearch.serialize(function() {
-                                                    var newContentId = uuidv1();
-                                                    var newFileId = uuidv1();
-
-                                                    stmtInsertIntoContents.run(
-                                                        newContentId,
-                                                        sha1sum,
-                                                        fs.readFileSync(copyfrom),
-
-                                                        function(err) {
-                                                            //console.log('added file to sqlite');
-                                                            });
-
-                                                    stmtInsertIntoFiles.run(
-                                                        newFileId,
-                                                        saveName,
-                                                        newContentId,
-                                                        sha1sum,
-                                                        size,
-                                                        path.dirname(fileName),
-                                                        path.basename(fileName),
-                                                        path.extname(fileName),
-
-                                                        function(err) {
-                                                            //console.log('added file to sqlite');
-                                                            });
-                                                });
-
-
-                                dbsearch.serialize(function() {
+                                    dbsearch.serialize(function() {
                                         //console.log(":      saving query ..." + fileId);
                                         var newqueryid = uuidv1();
                                         stmtInsertInsertIntoQueries.run(newqueryid,
