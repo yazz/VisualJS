@@ -1,5 +1,5 @@
 # VisiFile
-Effortless search for intranet documents
+Document Monitoring Made Simple
 
 <img src='http://visifile.com/visifile_screenshot2.png' />
 
