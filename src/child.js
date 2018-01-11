@@ -157,9 +157,9 @@ function setUpSql() {
                                 " values " +
                                 "    (?,  ?,?,?,  ?,?,?);");
     stmtInsertInsertIntoQueries = dbsearch.prepare(" insert into queries " +
-                                "    ( id, name, connection, driver, size, hash, fileName, type, definition, preview, similar_count ) " +
+                                "    ( id, name, connection, driver, size, hash, fileName, type, definition, preview, similar_count , when_timestamp) " +
                                 " values " +
-                                "    (?,  ?,?,?,  ?,?,?, ?,?,?, 1);");
+                                "    (?,  ?,?,?,  ?,?,?, ?,?,?, 1,  ?);");
 
     stmtUpdateRelatedDocumentCount = dbsearch.prepare(" update queries " +
                                 "    set  similar_count = ?  " +
@@ -229,6 +229,9 @@ function getSha1(fileName) {
     }
 }
 
+function timestampInSeconds() {
+    return Math.floor(Date.now() / 1000)
+}
 
 //-----------------------------------------------------------------------------------------//
 //                                                                                         //
@@ -314,6 +317,7 @@ function saveConnectionAndQueryForFile(  fileId,  fileType,  size,  fileName,  f
                                                          fileType2,
                                                          JSON.stringify({} , null, 2),
                                                          JSON.stringify([{message: 'No preview available'}] , null, 2),
+                                                         timestampInSeconds(),
                                                          function(err) {
                                                              if (err) {
                                                                 //console.log('   err : ' + err);
