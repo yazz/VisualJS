@@ -182,36 +182,38 @@ function setUpSql() {
 function saveFileAndContent( fileName, sha1sum, path, size,
                              fileId, newid, fileType, fileType2) {
 
-            var copyfrom = fileName;
+    var copyfrom = fileName;
+            
+    dbsearch.serialize(function() {
+                
+        var newContentId    = uuidv1();
+        var newFileId       = uuidv1();
+
+        stmtInsertIntoContents.run(
+        
+            newContentId,
+            sha1sum,
+            fs.readFileSync(copyfrom),
+
+            function(err) {
+                //console.log('added file to sqlite');
+                });
+                        
             var saveName = "gsd_" + sha1sum.toString() + path.extname(fileName);
-            dbsearch.serialize(function() {
-                
-                var newContentId = uuidv1();
-                var newFileId = uuidv1();
+            stmtInsertIntoFiles.run(
+            
+                newFileId,
+                saveName,
+                newContentId,
+                sha1sum,
+                size,
+                path.dirname(fileName),
+                path.basename(fileName),
+                path.extname(fileName),
 
-                stmtInsertIntoContents.run(
-                    newContentId,
-                    sha1sum,
-                    fs.readFileSync(copyfrom),
-
-                    function(err) {
-                        //console.log('added file to sqlite');
-                        });
-
-                stmtInsertIntoFiles.run(
-                
-                    newFileId,
-                    saveName,
-                    newContentId,
-                    sha1sum,
-                    size,
-                    path.dirname(fileName),
-                    path.basename(fileName),
-                    path.extname(fileName),
-
-                    function(err) {
-                        //console.log('added file to sqlite');
-                        });
+                function(err) {
+                    //console.log('added file to sqlite');
+                    });
                         
                         
             dbsearch.serialize(function() {
@@ -304,6 +306,10 @@ function saveConnectionAndQueryForFile(  fileId,  fileType,  size,  fileName,  f
     console.log("                                        " + size)
     console.log("                                        " + fileName)
     console.log("                                        " + fileType2)
+    
+    //
+    // don't process invalid files
+    //
     if (!fileName) {
         return;
     };
@@ -314,11 +320,16 @@ function saveConnectionAndQueryForFile(  fileId,  fileType,  size,  fileName,  f
         return;
     };
     try {
-
+        
+        
+        //
+        // if the file does not exist at all then create it
+        //
         console.log("child 1")
         dbsearch.serialize(function() {
         var stmt = dbsearch.all(
-            "select id from files where path = '" + fileName + "'",
+            "select id from files where   path = ?   and   orig_name = ?",
+            [path.dirname(fileName), path.basename(fileName)],
             function(err, results)
             {
                 if (!err)
