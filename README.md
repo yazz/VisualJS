@@ -1,5 +1,5 @@
 # VisiFile
-Document Monitoring Made Simple
+Open Source Document Monitoring
 
 <img src='http://visifile.com/visifile_screenshot2.png' />
 
