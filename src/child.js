@@ -186,77 +186,93 @@ function saveFileAndContent(fullFileNamePath,
                             existingConnectionId, 
                             driverName, 
                             documentType) {
-
-    var copyfrom = fullFileNamePath;
+        var stmt = dbsearch.all(
+            "select * from contents where   contents_hash = ? ",
             
-    dbsearch.serialize(function() {
-                
-        var newContentId    = uuidv1();
-        var newFileId       = uuidv1();
-
-        stmtInsertIntoContents.run(
-        
-            newContentId,
-            sha1ofFileContents,
-            fs.readFileSync(copyfrom),
-
-            function(err) {
-                //console.log('added file to sqlite');
-                });
-                        
-            var saveName = "gsd_" + sha1ofFileContents.toString() + path.extname(fullFileNamePath);
-            stmtInsertIntoFiles.run(
+            [sha1ofFileContents],
             
-                newFileId,
-                saveName,
-                newContentId,
-                sha1ofFileContents,
-                fileContentsSize,
-                path.dirname(fullFileNamePath),
-                path.basename(fullFileNamePath),
-                path.extname(fullFileNamePath),
+            function(err, results)
+            {
+                if (!err)
+                {
+                    if (results.length == 0) {
+                        try {
+                            dbsearch.serialize(function() {
+                                        
+                                var newContentId    = uuidv1();
 
-                function(err) {
-                    //console.log('added file to sqlite');
-                    });
-                        
-                        
-            dbsearch.serialize(function() {
-                var newqueryid = uuidv1();
-                stmtInsertInsertIntoQueries.run(
-                
-                        newqueryid,
-                        fileScreenName,
-                        existingConnectionId,
-                        driverName,
-                        fileContentsSize,
-                        sha1ofFileContents,
-                        fullFileNamePath,
-                        documentType,
-                        JSON.stringify({} , null, 2),
-                        JSON.stringify([{message: 'No preview available'}] , null, 2),
-                        timestampInSeconds(),
-                        
-                        function(err) {
-                            if (err) {
-                                //console.log('   err : ' + err);
-                            }
-                            process.send({
-                                            message_type:       "return_set_query",
-                                            id:                 newqueryid,
-                                            name:               fileScreenName,
-                                            connection:         existingConnectionId,
-                                            driver:             driverName,
-                                            size:               fileContentsSize,
-                                            hash:               sha1ofFileContents,
-                                            fileName:           fullFileNamePath,
-                                            type:               driverName,
-                                            definition:         JSON.stringify({} , null, 2),
-                                            preview:            JSON.stringify([{message: 'No preview available'}] , null, 2)});
-                            }
-                );
-            });
-        });
+                                stmtInsertIntoContents.run(
+                                
+                                    newContentId,
+                                    sha1ofFileContents,
+                                    fs.readFileSync(fullFileNamePath),
+
+                                    function(err) {
+                                        //console.log('added file to sqlite');
+                                        });
+                                                
+                                                
+                                    var saveName    = "gsd_" + sha1ofFileContents.toString() + path.extname(fullFileNamePath);
+                                    var newFileId   = uuidv1();
+                                    
+                                    stmtInsertIntoFiles.run(
+                                    
+                                        newFileId,
+                                        saveName,
+                                        newContentId,
+                                        sha1ofFileContents,
+                                        fileContentsSize,
+                                        path.dirname(fullFileNamePath),
+                                        path.basename(fullFileNamePath),
+                                        path.extname(fullFileNamePath),
+
+                                        function(err) {
+                                            //console.log('added file to sqlite');
+                                            });
+                                                
+                                                
+                                    dbsearch.serialize(function() {
+                                        var newqueryid = uuidv1();
+                                        stmtInsertInsertIntoQueries.run(
+                                        
+                                                newqueryid,
+                                                fileScreenName,
+                                                existingConnectionId,
+                                                driverName,
+                                                fileContentsSize,
+                                                sha1ofFileContents,
+                                                fullFileNamePath,
+                                                documentType,
+                                                JSON.stringify({} , null, 2),
+                                                JSON.stringify([{message: 'No preview available'}] , null, 2),
+                                                timestampInSeconds(),
+                                                
+                                                function(err) {
+                                                    if (err) {
+                                                        //console.log('   err : ' + err);
+                                                    }
+                                                    process.send({
+                                                                    message_type:       "return_set_query",
+                                                                    id:                 newqueryid,
+                                                                    name:               fileScreenName,
+                                                                    connection:         existingConnectionId,
+                                                                    driver:             driverName,
+                                                                    size:               fileContentsSize,
+                                                                    hash:               sha1ofFileContents,
+                                                                    fileName:           fullFileNamePath,
+                                                                    type:               driverName,
+                                                                    definition:         JSON.stringify({} , null, 2),
+                                                                    preview:            JSON.stringify([{message: 'No preview available'}] , null, 2)});
+                                                    }
+                                        );
+                                    });
+                                });
+                        } catch (err) {
+                            console.log(err);
+                        }
+                    }
+                }
+            })
 }
             
             
@@ -581,9 +597,6 @@ function findFoldersFn() {
     }
     
     stmtResetFolders.run();
-    //zzz
-
-
 
     //remoteWalk(useDrive);
     directSearchFolders(useDrive);
