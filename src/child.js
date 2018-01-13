@@ -176,16 +176,8 @@ function setUpSql() {
 
 
 
-
-
-
-function saveFileAndContent(fullFileNamePath,
-                            sha1ofFileContents,
-                            fileContentsSize,
-                            fileScreenName,
-                            existingConnectionId,
-                            driverName,
-                            documentType) {
+function createContent(     fullFileNamePath,
+                            sha1ofFileContents) {
 
 
         //
@@ -219,11 +211,21 @@ function saveFileAndContent(fullFileNamePath,
                    }
                }
        })
+}
 
 
 
 
 
+
+
+function saveFileAndContent(    fullFileNamePath,
+                                sha1ofFileContents,
+                                fileContentsSize,
+                                fileScreenName,
+                                existingConnectionId,
+                                driverName,
+                                documentType) {
         var saveName    = "gsd_" + sha1ofFileContents.toString() + path.extname(fullFileNamePath);
         var newFileId   = uuidv1();
 
@@ -378,6 +380,9 @@ function saveConnectionAndQueryForFile(  fileId,  fileType,  size,  fileName,  f
                                                         fileName:   fileName
                                             });
                                             console.log("child 4")
+
+                                            createContent(fileName, sha1sum);
+
                                             saveFileAndContent(fileName, sha1sum, size, fileId, newid, fileType, fileType2);
 
                                         console.log("... query saved: " + fileId);
