@@ -112,7 +112,7 @@ testDiffFn();
 //                                                                                         //
 //-----------------------------------------------------------------------------------------//
 function setUpSql() {
-    stmtResetFolders = dbsearch.prepare( " update   folders   set status = NULL "); 
+    stmtResetFolders = dbsearch.prepare( " update   folders   set status = NULL ");
     stmtUpdateFolder = dbsearch.prepare( " update folders " +
                                                          "    set " +
                                                          "        status = ? " +
@@ -134,15 +134,15 @@ function setUpSql() {
 
 
      stmtInsertIntoContents = dbsearch.prepare(" insert into contents " +
-                                 "    ( id, contents_hash, content ) " +
+                                 "    ( id, content ) " +
                                  " values " +
-                                 "    (?,  ?,  ?);");
+                                 "    ( ?,  ? );");
 
 
      stmtInsertIntoFiles = dbsearch.prepare(" insert into files " +
-                                 "    ( id,  name,  fk_contents_id ,  contents_hash ,  size,  path,  orig_name,    extension) " +
+                                 "    ( id,  name ,  contents_hash ,  size,  path,  orig_name,    extension) " +
                                  " values " +
-                                 "    (?,  ?,  ?,  ?,  ?,   ?,   ?,  ?);");
+                                 "    ( ?,  ?,  ?,  ?,  ?,   ?,   ? );");
 
     stmtInsertIntoFolders = dbsearch.prepare(   " insert into folders " +
                                                 "    ( id, name, path, changed_count ) " +
@@ -179,18 +179,18 @@ function setUpSql() {
 
 
 
-function saveFileAndContent(fullFileNamePath, 
-                            sha1ofFileContents, 
+function saveFileAndContent(fullFileNamePath,
+                            sha1ofFileContents,
                             fileContentsSize,
-                            fileScreenName, 
-                            existingConnectionId, 
-                            driverName, 
+                            fileScreenName,
+                            existingConnectionId,
+                            driverName,
                             documentType) {
         var stmt = dbsearch.all(
-            "select * from contents where   contents_hash = ? ",
-            
+            "select * from contents where   id = ? ",
+
             [sha1ofFileContents],
-            
+
             function(err, results)
             {
                 if (!err)
@@ -198,28 +198,24 @@ function saveFileAndContent(fullFileNamePath,
                     if (results.length == 0) {
                         try {
                             dbsearch.serialize(function() {
-                                        
-                                var newContentId    = uuidv1();
 
                                 stmtInsertIntoContents.run(
-                                
-                                    newContentId,
+
                                     sha1ofFileContents,
                                     fs.readFileSync(fullFileNamePath),
 
                                     function(err) {
                                         //console.log('added file to sqlite');
                                         });
-                                                
-                                                
+
+
                                     var saveName    = "gsd_" + sha1ofFileContents.toString() + path.extname(fullFileNamePath);
                                     var newFileId   = uuidv1();
-                                    
+
                                     stmtInsertIntoFiles.run(
-                                    
+
                                         newFileId,
                                         saveName,
-                                        newContentId,
                                         sha1ofFileContents,
                                         fileContentsSize,
                                         path.dirname(fullFileNamePath),
@@ -229,12 +225,12 @@ function saveFileAndContent(fullFileNamePath,
                                         function(err) {
                                             //console.log('added file to sqlite');
                                             });
-                                                
-                                                
+
+
                                     dbsearch.serialize(function() {
                                         var newqueryid = uuidv1();
                                         stmtInsertInsertIntoQueries.run(
-                                        
+
                                                 newqueryid,
                                                 fileScreenName,
                                                 existingConnectionId,
@@ -246,7 +242,7 @@ function saveFileAndContent(fullFileNamePath,
                                                 JSON.stringify({} , null, 2),
                                                 JSON.stringify([{message: 'No preview available'}] , null, 2),
                                                 timestampInSeconds(),
-                                                
+
                                                 function(err) {
                                                     if (err) {
                                                         //console.log('   err : ' + err);
@@ -274,9 +270,9 @@ function saveFileAndContent(fullFileNamePath,
                 }
             })
 }
-            
-            
-            
+
+
+
 
 function getSha1(fileName) {
     try {
@@ -315,7 +311,7 @@ function saveConnectionAndQueryForFile(  fileId,  fileType,  size,  fileName,  f
     console.log("                                        " + size)
     console.log("                                        " + fileName)
     console.log("                                        " + fileType2)
-    
+
     //
     // don't process invalid files
     //
@@ -329,8 +325,8 @@ function saveConnectionAndQueryForFile(  fileId,  fileType,  size,  fileName,  f
         return;
     };
     try {
-        
-        
+
+
         //
         // if the file does not exist at all then create it
         //
@@ -346,7 +342,7 @@ function saveConnectionAndQueryForFile(  fileId,  fileType,  size,  fileName,  f
                     if (results.length == 0) {
                         try {
                             var sha1sum = getSha1(fileName)
-                            
+
                             if (sha1sum) {
 
                                 console.log("child 2")
@@ -358,7 +354,7 @@ function saveConnectionAndQueryForFile(  fileId,  fileType,  size,  fileName,  f
                                         size,
                                         sha1sum,
                                         fileType2,
-                                        fileName, 
+                                        fileName,
                                         function(err) {
                                             console.log("child 3")
 
@@ -595,7 +591,7 @@ function findFoldersFn() {
     if (!isWin) {
         useDrive = '/';
     }
-    
+
     stmtResetFolders.run();
 
     //remoteWalk(useDrive);

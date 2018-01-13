@@ -1268,17 +1268,11 @@ function getRoot(req, res) {
 
 
 
-//files
-//    id TEXT, name TEXT, fk_contents_id TEXT, contents_hash TEXT, size INTEGER);"
-
-//contents
-//    id TEXT, contents BLOB, contents_hash TEXT);",
-
 
 function downloadWebDocument(req, res) {
     //mammoth.convertToHtml({path: "Security in Office 365 Whitepaper.docx"})
     var stmt = dbsearch.all("select contents.content from files,contents where name = '" + req.query.id + "' " +
-                            "    and contents.id = files.fk_contents_id", function(err, rows) {
+                            "    and contents.id = files.contents_hash", function(err, rows) {
         if (!err) {
                 if (rows.length > 0) {
                     if (req.query.id.toLowerCase().endsWith(".docx") ) {
@@ -1404,12 +1398,6 @@ function downloadWebDocument(req, res) {
 
 
 
-//files
-//    id TEXT, name TEXT, fk_contents_id TEXT, contents_hash TEXT, size INTEGER);"
-
-//contents
-//    id TEXT, contents BLOB, contents_hash TEXT);",
-
 function downloadDocuments(req, res) {
 		var fname = req.url.substr(req.url.lastIndexOf('/') + 1)
 
@@ -1429,7 +1417,7 @@ function downloadDocuments(req, res) {
 
 
 				var stmt = dbsearch.all("select contents.content from files,contents where name = '" + fname + "' " +
-                                        "    and files.fk_contents_id = contents.id", function(err, rows) {
+                                        "    and files.contents_hash = contents.id", function(err, rows) {
 						if (!err) {
 								if (rows.length > 0) {
 										 res.writeHead(200, {
@@ -1996,7 +1984,7 @@ function getqueryresultFn(req, res) {
 
                         console.log('trying to save pdf: ');
                         var stmt = dbsearch.all("select contents.content from files,queries,contents where files.name = ('gsd_' || queries.hash || '.pdf' ) and queries.id = '" + queryData2.source + "' " +
-                                                "    and files.fk_contents_id = contents.id", function(err, rows) {
+                                                "    and files.contents_hash = contents.id", function(err, rows) {
                             console.log('trying to save pdf 2: ' + queryData2.source);
                                 if (!err) {
                                     console.log('trying to save pdf 3: ');
