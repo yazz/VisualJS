@@ -1,5 +1,5 @@
 # VisiFile
-Open Source Document Auditing
+Document Search. Reinvented!
 
 <img src='http://visifile.com/visifile_screenshot2.png' />
 
