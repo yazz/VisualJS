@@ -153,9 +153,9 @@ function setUpSql() {
 
 
     stmtInsertIntoConnections = dbsearch.prepare(" insert into connections " +
-                                "    ( id, name, driver, size, hash, type, fileName ) " +
+                                "    ( id, name, driver, type, fileName ) " +
                                 " values " +
-                                "    (?,  ?,?,?,  ?,?,?);");
+                                "    (?,  ?,  ?,?,?);");
     stmtInsertInsertIntoQueries = dbsearch.prepare(" insert into queries " +
                                 "    ( id, name, connection, driver, size, hash, fileName, type, definition, preview, similar_count , when_timestamp) " +
                                 " values " +
@@ -219,13 +219,14 @@ function createContent(     fullFileNamePath,
 
 
 
-function saveFileAndContent(    fullFileNamePath,
-                                sha1ofFileContents,
-                                fileContentsSize,
-                                fileScreenName,
-                                existingConnectionId,
-                                driverName,
-                                documentType) {
+function foundFile(     fullFileNamePath,
+                        sha1ofFileContents,
+                        fileContentsSize,
+                        fileScreenName,
+                        existingConnectionId,
+                        driverName,
+                        documentType) {
+
         var saveName    = "gsd_" + sha1ofFileContents.toString() + path.extname(fullFileNamePath);
         var newFileId   = uuidv1();
 
@@ -361,8 +362,6 @@ function saveConnectionAndQueryForFile(  fileId,  fileType,  size,  fileName,  f
                                         newid,
                                         fileId,
                                         fileType,
-                                        size,
-                                        sha1sum,
                                         fileType2,
                                         fileName,
                                         function(err) {
@@ -374,8 +373,6 @@ function saveConnectionAndQueryForFile(  fileId,  fileType,  size,  fileName,  f
                                                         id:         newid,
                                                         name:       fileId,
                                                         driver:     fileType,
-                                                        size:       size,
-                                                        hash:       sha1sum,
                                                         type:       fileType2,
                                                         fileName:   fileName
                                             });
@@ -383,7 +380,7 @@ function saveConnectionAndQueryForFile(  fileId,  fileType,  size,  fileName,  f
 
                                             createContent(fileName, sha1sum);
 
-                                            saveFileAndContent(fileName, sha1sum, size, fileId, newid, fileType, fileType2);
+                                            foundFile(fileName, sha1sum, size, fileId, newid, fileType, fileType2);
 
                                         console.log("... query saved: " + fileId);
 

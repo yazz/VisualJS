@@ -20,7 +20,7 @@ module.exports = {
             "CREATE TABLE IF NOT EXISTS drivers (id TEXT, name TEXT, type TEXT, code TEXT);",
 
 
-            "CREATE TABLE IF NOT EXISTS files (id TEXT, name TEXT, contents_hash TEXT, size INTEGER, path TEXT, orig_name TEXT, extension TEXT);",
+            "CREATE TABLE IF NOT EXISTS files (id TEXT, name TEXT, contents_hash TEXT, size INTEGER, path TEXT, orig_name TEXT, extension TEXT, status TEXT);",
 
 
             "CREATE TABLE IF NOT EXISTS contents (id TEXT, content BLOB, UNIQUE (id) ON CONFLICT IGNORE);",
@@ -29,7 +29,7 @@ module.exports = {
             "CREATE TABLE IF NOT EXISTS folders (id TEXT, name TEXT, path TEXT, parent_id TEXT, status TEXT, changed_count INTEGER, UNIQUE (path) ON CONFLICT IGNORE);",
 
 
-            "CREATE TABLE IF NOT EXISTS connections (id TEXT, name TEXT, driver TEXT, database TEXT, host TEXT, port TEXT ,connectString TEXT, user TEXT, password TEXT, fileName TEXT, size INTEGER, type TEXT, preview TEXT, hash TEXT, status TEXT);",
+            "CREATE TABLE IF NOT EXISTS connections (id TEXT, name TEXT, driver TEXT, database TEXT, host TEXT, port TEXT ,connectString TEXT, user TEXT, password TEXT, fileName TEXT, type TEXT, preview TEXT, status TEXT);",
 
 
             "CREATE TABLE IF NOT EXISTS relationships (id TEXT, source_query_hash TEXT, target_query_hash TEXT, " +

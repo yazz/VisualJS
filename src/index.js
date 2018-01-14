@@ -1162,9 +1162,9 @@ function addNewConnection( params ) {
         //console.log("------------------function addNewConnection( params ) { -------------------");
         dbsearch.serialize(function() {
             var stmt = dbsearch.prepare(" insert into connections " +
-                                        "    ( id, name, driver, database, host, port, connectString, user, password, fileName, size, preview ) " +
+                                        "    ( id, name, driver, database, host, port, connectString, user, password, fileName, preview ) " +
                                         " values " +
-                                        "    (?,  ?,?,?,?,?,?,?,?,?,?,?);");
+                                        "    (?,  ?,?,?,?,?,?,?,?,?,?);");
 
             stmt.run(uuidv1(),
                      params.name,
