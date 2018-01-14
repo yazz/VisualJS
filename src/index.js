@@ -2189,7 +2189,7 @@ function setUpChildListeners(forkedProcess) {
 
 
         } else if (msg.message_type == "return_set_connection") {
-            console.log(".. Main process received a 'return_set_connection' message")
+            //console.log(".. Main process received a 'return_set_connection' message")
             setSharedGlobalVar( "connections",
                                 msg.id,
                                 JSON.stringify({    id:         msg.id,
@@ -2203,7 +2203,7 @@ function setUpChildListeners(forkedProcess) {
 
         } else if (msg.message_type == "return_set_query") {
 
-            console.log(".. Main process received a 'return_set_query' message")
+            //console.log(".. Main process received a 'return_set_query' message")
 
             setSharedGlobalVar( "queries",
                                 msg.id,
@@ -2238,7 +2238,7 @@ function setUpChildListeners(forkedProcess) {
         // this needs to be fixed so that it only sends the similar documents
         // to the client that requested them
         } else if (msg.message_type == "return_similar_documents") {
-            console.log(".. Main process received a 'return_similar_documents' message")
+            //console.log(".. Main process received a 'return_similar_documents' message")
             sendOverWebSockets({
                                     type: "similar_documents",
                                     results: msg.results

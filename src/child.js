@@ -246,41 +246,6 @@ function foundFile(     fullFileNamePath,
                 });
 
 
-        dbsearch.serialize(function() {
-            var newqueryid = uuidv1();
-            stmtInsertInsertIntoQueries.run(
-
-                    newqueryid,
-                    fileScreenName,
-                    existingConnectionId,
-                    driverName,
-                    fileContentsSize,
-                    sha1ofFileContents,
-                    fullFileNamePath,
-                    documentType,
-                    JSON.stringify({} , null, 2),
-                    JSON.stringify([{message: 'No preview available'}] , null, 2),
-                    timestampInSeconds(),
-
-                    function(err) {
-                        if (err) {
-                            //console.log('   err : ' + err);
-                        }
-                        process.send({
-                                        message_type:       "return_set_query",
-                                        id:                 newqueryid,
-                                        name:               fileScreenName,
-                                        connection:         existingConnectionId,
-                                        driver:             driverName,
-                                        size:               fileContentsSize,
-                                        hash:               sha1ofFileContents,
-                                        fileName:           fullFileNamePath,
-                                        type:               driverName,
-                                        definition:         JSON.stringify({} , null, 2),
-                                        preview:            JSON.stringify([{message: 'No preview available'}] , null, 2)});
-                        }
-            );
-        });
 }
 
 
@@ -317,12 +282,12 @@ function timestampInSeconds() {
 //                                                                                         //
 //-----------------------------------------------------------------------------------------//
 function saveConnectionAndQueryForFile(  screenName,  driverName,  size,  fullFilePath,  documentType  ) {
-    console.log("... in saveConnectionAndQueryForFile:::: ")
-    console.log("                                        " + screenName)
-    console.log("                                        " + driverName)
-    console.log("                                        " + size)
-    console.log("                                        " + fullFilePath)
-    console.log("                                        " + documentType)
+    //console.log("... in saveConnectionAndQueryForFile:::: ")
+    //console.log("                                        " + screenName)
+    //console.log("                                        " + driverName)
+    //console.log("                                        " + size)
+    //console.log("                                        " + fullFilePath)
+    //console.log("                                        " + documentType)
 
     //
     // don't process invalid files
@@ -342,7 +307,7 @@ function saveConnectionAndQueryForFile(  screenName,  driverName,  size,  fullFi
         //
         // if the file does not exist at all then create it
         //
-        console.log("child 1")
+        //console.log("child 1")
         dbsearch.serialize(function() {
         var stmt = dbsearch.all(
             "select id from files where   path = ?   and   orig_name = ?",
@@ -357,7 +322,7 @@ function saveConnectionAndQueryForFile(  screenName,  driverName,  size,  fullFi
 
                             if (sha1sum) {
 
-                                console.log("child 2")
+                                //console.log("child 2")
                                 var newid = uuidv1();
                                 stmtInsertIntoConnections.run(
                                         newid,
@@ -366,7 +331,7 @@ function saveConnectionAndQueryForFile(  screenName,  driverName,  size,  fullFi
                                         documentType,
                                         fullFilePath,
                                         function(err) {
-                                            console.log("child 3")
+                                            //console.log("child 3")
 
                                             //connections[newid] = {id: newid, name: screenName, driver: driverName, size: size, hash: sha1sum, type: documentType, fullFilePath: fullFilePath };
                                             process.send({
@@ -377,13 +342,13 @@ function saveConnectionAndQueryForFile(  screenName,  driverName,  size,  fullFi
                                                         type:       documentType,
                                                         fileName:   fullFilePath
                                             });
-                                            console.log("child 4")
+                                            //console.log("child 4")
 
                                             createContent(fullFilePath, sha1sum);
 
                                             foundFile(fullFilePath, sha1sum, size, screenName, newid, driverName, documentType);
 
-                                        console.log("... query saved: " + screenName);
+                                        //console.log("... query saved: " + screenName);
 
                                 });
                             }
@@ -925,11 +890,11 @@ function saveFullPath(fullPath) {
             //console.log('stat: ' + stat);
             //console.log('size: ' + stat.size);
             if (isExcelFile(file)) {
-                console.log('file: ' + file);
+                //console.log('file: ' + file);
                 var excelFile = fullPath;
                 if (typeof excelFile !== "undefined") {
                       var fileId = excelFile.replace(/[^\w\s]/gi,'');
-                          console.log('Saving from walk   *file id: ' + fileId);
+                          //console.log('Saving from walk   *file id: ' + fileId);
                           //console.log('   *size: ' + stat.size);
 
                         saveConnectionAndQueryForFile(fileId, 'excel', stat.size, excelFile, '|SPREADSHEET|');
@@ -937,44 +902,44 @@ function saveFullPath(fullPath) {
                   }
               }
               if (isGlbFile(file)) {
-                    console.log('GLB file: ' + file);
+                    //console.log('GLB file: ' + file);
                           var GLBFile = fullPath;
                               if (typeof GLBFile !== "undefined") {
                               var fileId = GLBFile.replace(/[^\w\s]/gi,'');
-                                  console.log('Saving from walk   *file id: ' + fileId);
+                                  //console.log('Saving from walk   *file id: ' + fileId);
                                   //console.log('   *size: ' + stat.size);
 
                                 saveConnectionAndQueryForFile(fileId, 'glb', stat.size, GLBFile, '|GLB|');
                           }
                       }
             if (isCsvFile(file)) {
-                    console.log('CSV file: ' + file);
+                    //console.log('CSV file: ' + file);
                           var CSVFile = fullPath;
                               if (typeof CSVFile !== "undefined") {
                               var fileId = CSVFile.replace(/[^\w\s]/gi,'');
-                                  console.log('Saving from walk   *file id: ' + fileId);
+                                  //console.log('Saving from walk   *file id: ' + fileId);
                                   //console.log('   *size: ' + stat.size);
 
                                 saveConnectionAndQueryForFile(fileId, 'csv', stat.size, CSVFile, '|CSV|');
                           }
                       }
             if (isWordFile(file)) {
-                    console.log('WORD file: ' + file);
+                    //console.log('WORD file: ' + file);
                           var WordFile = fullPath;
                               if (typeof WordFile !== "undefined") {
                               var fileId = WordFile.replace(/[^\w\s]/gi,'');
-                                  console.log('Saving from walk   *file id: ' + fileId);
+                                  //console.log('Saving from walk   *file id: ' + fileId);
                                   //console.log('   *size: ' + stat.size);
 
                                 saveConnectionAndQueryForFile(fileId, 'word', stat.size, WordFile, '|DOCUMENT|');
                           }
                       }
             if (isPdfFile(file)) {
-                    console.log('PDF file: ' + file);
+                    //console.log('PDF file: ' + file);
                           var PdfFile = fullPath;
                               if (typeof PdfFile !== "undefined") {
                               var fileId = PdfFile.replace(/[^\w\s]/gi,'');
-                                  console.log('Saving from walk   *file id: ' + fileId);
+                                  //console.log('Saving from walk   *file id: ' + fileId);
                                   //console.log('   *size: ' + stat.size);
 
                                 saveConnectionAndQueryForFile(fileId, 'pdf', stat.size, PdfFile, '|DOCUMENT|');
@@ -1001,6 +966,7 @@ function saveFullPath(fullPath) {
 //                                                                               //
 //-------------------------------------------------------------------------------//
 function processFilesFn() {
+    console.log("processFilesFn")
     //if (isPcDoingStuff) {
     //    return;
     //};
@@ -1009,13 +975,29 @@ function processFilesFn() {
     //    return;
     //}
 
+
     try {
         var stmt = dbsearch.all(
-            "SELECT * FROM files WHERE status IS NULL LIMIT 1 "
+            "SELECT  " +
+
+            "    files.name                 as name, " +
+            "    files.fk_connection_id     as fk_connection_id," +
+            "    connections.driver         as driver," +
+            "    files.size                 as fileSize," +
+            "    files.contents_hash        as sha1ofFileContents," +
+            "    files.path                 as path," +
+            "    files.orig_name            as orig_name," +
+            "    connections.type           as type " +
+
+            "FROM " +
+            "    files, connections WHERE files.status IS NULL " +
+            "and files.fk_connection_id = connections.id and files.fk_connection_id not null LIMIT 1 "
             ,
 
             function(err, results)
             {
+                console.log("    .... " + err)
+                console.log("    .... " + results.length)
                 if (!err)
                 {
                     //
@@ -1023,7 +1005,58 @@ function processFilesFn() {
                     //
                     if( results.length != 0)
                     {
+                        var returnedRecord = results[0];
+                        var fileScreenName = returnedRecord.name
+                        var existingConnectionId = returnedRecord.fk_connection_id
+                        var driverName = returnedRecord.driver
+                        var fileContentsSize = returnedRecord.fileSize
+                        var sha1ofFileContents = returnedRecord.sha1ofFileContents
+                        var fullFileNamePath = path.join(returnedRecord.path , returnedRecord.orig_name)
+                        var documentType = returnedRecord.type
 
+                        console.log("fileScreenName: " + fileScreenName)
+                        console.log("existingConnectionId: " + existingConnectionId)
+                        console.log("driver: " + driverName)
+                        console.log("fileContentsSize: " + fileContentsSize)
+                        console.log("sha1ofFileContents: " + sha1ofFileContents)
+                        console.log("fullFileNamePath: " + fullFileNamePath)
+                        console.log("documentType: " + documentType)
+
+                        dbsearch.serialize(function() {
+                            var newqueryid = uuidv1();
+                            stmtInsertInsertIntoQueries.run(
+
+                                    newqueryid,
+                                    fileScreenName,
+                                    existingConnectionId,
+                                    driverName,
+                                    fileContentsSize,
+                                    sha1ofFileContents,
+                                    fullFileNamePath,
+                                    documentType,
+                                    JSON.stringify({} , null, 2),
+                                    JSON.stringify([{message: 'No preview available'}] , null, 2),
+                                    timestampInSeconds(),
+
+                                    function(err) {
+                                        if (err) {
+                                            //console.log('   err : ' + err);
+                                        }
+                                        process.send({
+                                                        message_type:       "return_set_query",
+                                                        id:                 newqueryid,
+                                                        name:               fileScreenName,
+                                                        connection:         existingConnectionId,
+                                                        driver:             driverName,
+                                                        size:               fileContentsSize,
+                                                        hash:               sha1ofFileContents,
+                                                        fileName:           fullFileNamePath,
+                                                        type:               driverName,
+                                                        definition:         JSON.stringify({} , null, 2),
+                                                        preview:            JSON.stringify([{message: 'No preview available'}] , null, 2)});
+                                        }
+                            );
+                        });
                     }
                 }
             })
@@ -1400,10 +1433,10 @@ function processMessagesFromMainProcess() {
 
 
       } else if (msg.message_type == 'childRunFindFolders') {
-           //console.log("Set Index files timer");
+           console.log("**** childRunFindFolders");
+           setInterval(processFilesFn ,numberOfSecondsIndexFilesInterval * 1000);
            setTimeout(findFoldersFn ,1 * 1000);
            setInterval(findFilesInFoldersFn ,numberOfSecondsIndexFilesInterval * 1000);
-           setInterval(processFilesFn ,numberOfSecondsIndexFilesInterval * 1000);
       }
 
 
