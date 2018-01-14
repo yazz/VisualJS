@@ -992,7 +992,45 @@ function saveFullPath(fullPath) {
 
 
 
+//-------------------------------------------------------------------------------//
+//                                                                               //
+//                                  processFilesFn                               //
+//                                                                               //
+//        This is called at intervals to process the files                       //
+//                                                                               //
+//-------------------------------------------------------------------------------//
+function processFilesFn() {
+    //if (isPcDoingStuff) {
+    //    return;
+    //};
 
+    //if (finishedFindingFolders == false) {
+    //    return;
+    //}
+
+    try {
+        var stmt = dbsearch.all(
+            "SELECT * FROM files WHERE status IS NULL LIMIT 1 "
+            ,
+
+            function(err, results)
+            {
+                if (!err)
+                {
+                    //
+                    // if there is a query where nothing has been done then index it
+                    //
+                    if( results.length != 0)
+                    {
+
+                    }
+                }
+            })
+
+    } catch (err) {
+        console.log("          Error: " + err);
+    }
+}
 
 //-------------------------------------------------------------------------------//
 //                                                                               //
@@ -1053,7 +1091,7 @@ function findFilesInFoldersFn() {
                     //console.log("          else: ");
                 }
            })
-    }catch (err) {
+    } catch (err) {
         console.log("          Error: " + err);
     }
 }
@@ -1364,6 +1402,7 @@ function processMessagesFromMainProcess() {
            //console.log("Set Index files timer");
            setTimeout(findFoldersFn ,1 * 1000);
            setInterval(findFilesInFoldersFn ,numberOfSecondsIndexFilesInterval * 1000);
+           setInterval(processFilesFn ,numberOfSecondsIndexFilesInterval * 1000);
       }
 
 

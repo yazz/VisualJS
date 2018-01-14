@@ -1176,7 +1176,6 @@ function addNewConnection( params ) {
                      params.user,
                      params.password,
                      params.fileName,
-                     params.size,
                      params.preview);
 
             stmt.finalize();
