@@ -315,24 +315,24 @@ function timestampInSeconds() {
 //                                                                                         //
 //                                                                                         //
 //-----------------------------------------------------------------------------------------//
-function saveConnectionAndQueryForFile(  fileId,  fileType,  size,  fileName,  fileType2  ) {
+function saveConnectionAndQueryForFile(  screenName,  driverName,  size,  fullFilePath,  documentType  ) {
     console.log("... in saveConnectionAndQueryForFile:::: ")
-    console.log("                                        " + fileId)
-    console.log("                                        " + fileType)
+    console.log("                                        " + screenName)
+    console.log("                                        " + driverName)
     console.log("                                        " + size)
-    console.log("                                        " + fileName)
-    console.log("                                        " + fileType2)
+    console.log("                                        " + fullFilePath)
+    console.log("                                        " + documentType)
 
     //
     // don't process invalid files
     //
-    if (!fileName) {
+    if (!fullFilePath) {
         return;
     };
-    if (fileName.indexOf("$") != -1) {
+    if (fullFilePath.indexOf("$") != -1) {
         return;
     };
-    if (fileName.indexOf("gsd_") != -1) {
+    if (fullFilePath.indexOf("gsd_") != -1) {
         return;
     };
     try {
@@ -345,14 +345,14 @@ function saveConnectionAndQueryForFile(  fileId,  fileType,  size,  fileName,  f
         dbsearch.serialize(function() {
         var stmt = dbsearch.all(
             "select id from files where   path = ?   and   orig_name = ?",
-            [path.dirname(fileName), path.basename(fileName)],
+            [path.dirname(fullFilePath), path.basename(fullFilePath)],
             function(err, results)
             {
                 if (!err)
                 {
                     if (results.length == 0) {
                         try {
-                            var sha1sum = getSha1(fileName)
+                            var sha1sum = getSha1(fullFilePath)
 
                             if (sha1sum) {
 
@@ -360,41 +360,41 @@ function saveConnectionAndQueryForFile(  fileId,  fileType,  size,  fileName,  f
                                 var newid = uuidv1();
                                 stmtInsertIntoConnections.run(
                                         newid,
-                                        fileId,
-                                        fileType,
-                                        fileType2,
-                                        fileName,
+                                        screenName,
+                                        driverName,
+                                        documentType,
+                                        fullFilePath,
                                         function(err) {
                                             console.log("child 3")
 
-                                            //connections[newid] = {id: newid, name: fileId, driver: fileType, size: size, hash: sha1sum, type: fileType2, fileName: fileName };
+                                            //connections[newid] = {id: newid, name: screenName, driver: driverName, size: size, hash: sha1sum, type: documentType, fullFilePath: fullFilePath };
                                             process.send({
                                                         message_type:       "return_set_connection",
                                                         id:         newid,
-                                                        name:       fileId,
-                                                        driver:     fileType,
-                                                        type:       fileType2,
-                                                        fileName:   fileName
+                                                        name:       screenName,
+                                                        driver:     driverName,
+                                                        type:       documentType,
+                                                        fileName:   fullFilePath
                                             });
                                             console.log("child 4")
 
-                                            createContent(fileName, sha1sum);
+                                            createContent(fullFilePath, sha1sum);
 
-                                            foundFile(fileName, sha1sum, size, fileId, newid, fileType, fileType2);
+                                            foundFile(fullFilePath, sha1sum, size, screenName, newid, driverName, documentType);
 
-                                        console.log("... query saved: " + fileId);
+                                        console.log("... query saved: " + screenName);
 
                                 });
                             }
                         } catch (err) {
-                            console.log("Error " + err + " with file: " + fileName);
+                            console.log("Error " + err + " with file: " + fullFilePath);
                         }
                     };
                 };
             });
         });
     } catch(err) {
-        console.log("Error " + err + " with file: " + fileName);
+        console.log("Error " + err + " with file: " + fullFilePath);
         return err;
     } finally {
 
