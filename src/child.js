@@ -42,8 +42,8 @@ var stmtResetFolders;
 
 var stmtResetFiles;
 var stmtInsertIntoFiles;
-var stmtFileStatus;
-var stmtFileProperties;
+var stmtUpdateFileStatus;
+var stmtUpdateFileProperties;
 
 var stmtInsertIntoContents;
 var stmtInsertIntoFolders;
@@ -142,27 +142,33 @@ function setUpSql() {
                                                          "     source_query_hash = ?    and     target_query_hash = ? ");
 
 
-     stmtInsertIntoContents = dbsearch.prepare(" insert into contents " +
-                                 "    ( id, content ) " +
-                                 " values " +
-                                 "    ( ?,  ? );");
+     stmtInsertIntoContents = dbsearch.prepare(  " insert into contents " +
+                                                 "      ( id, content ) " +
+                                                 " values " +
+                                                 "      ( ?,  ? );");
 
 
-    stmtInsertIntoFiles = dbsearch.prepare(" insert into files " +
-                                 "    ( id,  name ,  contents_hash ,  size,  path,  orig_name,    extension, fk_connection_id) " +
-                                 " values " +
-                                 "    ( ?,  ?,  ?,  ?,  ?,   ?,   ? ,?);");
+    stmtInsertIntoFiles = dbsearch.prepare( " insert into files " +
+                                            "     ( id,  name ,  contents_hash ,  size,  path,  orig_name,    extension, fk_connection_id) " +
+                                            " values " +
+                                            "     ( ?,  ?,  ?,  ?,  ?,   ?,   ? ,?);");
                                  
-    stmtFileStatus        = dbsearch.prepare(   " update files " +
-                                                "    set status = ? " +
-                                                " where " +
-                                                "    id = ? ");
                                  
-    stmtFileProperties    = dbsearch.prepare(   " update files " +
-                                                "    set contents_hash = ?,  size = ? " +
-                                                " where " +
-                                                "    id = ? ");
+                                 
+    stmtUpdateFileStatus        = dbsearch.prepare(     " update files " +
+                                                        "     set status = ? " +
+                                                        " where " +
+                                                        "     id = ? ;");
+                                 
+                                 
+                                 
+    stmtUpdateFileProperties    = dbsearch.prepare( " update files " +
+                                                    "    set contents_hash = ?,  size = ? " +
+                                                    " where " +
+                                                    "    id = ? ;");
 
+                                                    
+                                                
     stmtInsertIntoFolders = dbsearch.prepare(   " insert into folders " +
                                                 "    ( id, name, path, changed_count ) " +
                                                 " values " +
@@ -1001,6 +1007,7 @@ function processFilesFn() {
         var stmt = dbsearch.all(
             "SELECT  " +
 
+            "    files.id                   as id, " +
             "    files.name                 as name, " +
             "    files.fk_connection_id     as fk_connection_id," +
             "    connections.driver         as driver," +
@@ -1042,42 +1049,55 @@ function processFilesFn() {
                         console.log("sha1ofFileContents: " + sha1ofFileContents)
                         console.log("fullFileNamePath: " + fullFileNamePath)
                         console.log("documentType: " + documentType)
+                        
+                    
 
                         dbsearch.serialize(function() {
-                            var newqueryid = uuidv1();
-                            stmtInsertInsertIntoQueries.run(
+                            stmtUpdateFileStatus.run( "INDEXED", returnedRecord.id,
+                            function(err) {
+                                if (err) {
+                                    console.log('   err : ' + err);
+                                } else {
+                                
+                                    var newqueryid = uuidv1();
+                                        stmtInsertInsertIntoQueries.run(
 
-                                    newqueryid,
-                                    fileScreenName,
-                                    existingConnectionId,
-                                    driverName,
-                                    fileContentsSize,
-                                    sha1ofFileContents,
-                                    fullFileNamePath,
-                                    documentType,
-                                    JSON.stringify({} , null, 2),
-                                    JSON.stringify([{message: 'No preview available'}] , null, 2),
-                                    timestampInSeconds(),
+                                                newqueryid,
+                                                fileScreenName,
+                                                existingConnectionId,
+                                                driverName,
+                                                fileContentsSize,
+                                                sha1ofFileContents,
+                                                fullFileNamePath,
+                                                documentType,
+                                                JSON.stringify({} , null, 2),
+                                                JSON.stringify([{message: 'No preview available'}] , null, 2),
+                                                timestampInSeconds(),
 
-                                    function(err) {
-                                        if (err) {
-                                            //console.log('   err : ' + err);
-                                        }
-                                        process.send({
-                                                        message_type:       "return_set_query",
-                                                        id:                 newqueryid,
-                                                        name:               fileScreenName,
-                                                        connection:         existingConnectionId,
-                                                        driver:             driverName,
-                                                        size:               fileContentsSize,
-                                                        hash:               sha1ofFileContents,
-                                                        fileName:           fullFileNamePath,
-                                                        type:               driverName,
-                                                        definition:         JSON.stringify({} , null, 2),
-                                                        preview:            JSON.stringify([{message: 'No preview available'}] , null, 2)});
-                                        }
-                            );
-                        });
+                                                function(err2) {
+                                                    if (err2) {
+                                                        console.log('   err2 : ' + err2);
+                                                    }
+                                                    process.send({
+                                                                    message_type:       "return_set_query",
+                                                                    id:                 newqueryid,
+                                                                    name:               fileScreenName,
+                                                                    connection:         existingConnectionId,
+                                                                    driver:             driverName,
+                                                                    size:               fileContentsSize,
+                                                                    hash:               sha1ofFileContents,
+                                                                    fileName:           fullFileNamePath,
+                                                                    type:               driverName,
+                                                                    definition:         JSON.stringify({} , null, 2),
+                                                                    preview:            JSON.stringify([{message: 'No preview available'}] , null, 2)});
+                                                    }
+                                        );
+                                }
+                            })
+
+
+                            });
+                        
                     }
                 }
             })
