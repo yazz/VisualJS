@@ -42,6 +42,7 @@ var stmtResetFolders;
 
 var stmtResetFiles;
 var stmtInsertIntoFiles;
+var stmtInsertIntoFiles2;
 var stmtUpdateFileStatus;
 var stmtUpdateFileProperties;
 
@@ -153,6 +154,10 @@ function setUpSql() {
                                             " values " +
                                             "     ( ?,  ?,  ?,  ?,  ?,   ?,   ? ,?);");
                                  
+    stmtInsertIntoFiles2 = dbsearch.prepare( " insert into files " +
+                                            "     ( id,  path,  orig_name ) " +
+                                            " values " +
+                                            "     ( ?,  ?,  ?);");
                                  
                                  
     stmtUpdateFileStatus        = dbsearch.prepare(     " update files " +
@@ -394,6 +399,66 @@ function saveConnectionAndQueryForFile(  screenName,  driverName,  size,  fullFi
 }
 
 
+
+//-----------------------------------------------------------------------------------------//
+//                                                                                         //
+//                               saveConnectionAndQueryForFile2                            //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//-----------------------------------------------------------------------------------------//
+function saveConnectionAndQueryForFile2(  fullFilePath ) {
+    if (!fullFilePath) {
+        return;
+    };
+    if (fullFilePath.indexOf("$") != -1) {
+        return;
+    };
+    if (fullFilePath.indexOf("gsd_") != -1) {
+        return;
+    };
+    try {
+        dbsearch.serialize(function() {
+            var stmt = dbsearch.all(
+                "select id from files where   path = ?   and   orig_name = ?",
+                [path.dirname(fullFilePath), path.basename(fullFilePath)],
+                function(err, results)
+                {
+                    if (!err)
+                    {
+                        if (results.length == 0) {
+                            try {
+                                var newFileId   = uuidv1();
+                                stmtInsertIntoFiles2.run(
+
+                                    newFileId,
+                                    path.dirname(fullFilePath),
+                                    path.basename(fullFilePath),
+
+                                    function(err) {
+                                        //console.log('added file to sqlite');
+                                        });
+                                
+                            } catch (err) {
+                                console.log("Error " + err + " with file: " + fullFilePath);
+                            }
+                        };
+                    };
+                }
+            )
+        })
+    } catch(err) {
+        console.log("Error " + err + " with file: " + fullFilePath);
+        return err;
+    } finally {
+
+    }
+}
 
 
 
@@ -906,7 +971,19 @@ function getFileName(str) {
     return str.split('\\').pop().split('/').pop();
 }
 
-function saveFullPath(fullPath) {
+function saveFullPath( fullPath ) {
+    if (!fullPath) {
+        return
+    }
+
+    try {
+        saveConnectionAndQueryForFile2( fullPath )
+    } catch (err) {
+          console.log("          err: " + err);
+    }
+}
+
+function saveFullPath2(fullPath) {
     if (!fullPath) {
         return
     }
