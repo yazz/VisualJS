@@ -284,6 +284,7 @@ function getSha1(fileName) {
         hash.write(contents);
         hash.end();
         var sha1sum = hash.read();
+        createContent(fileName, sha1sum);
         return sha1sum;
     } catch (err) {
         return null;
@@ -369,7 +370,7 @@ function saveConnectionAndQueryForFile(  screenName,  driverName,  size,  fullFi
                                             });
                                             //console.log("child 4")
 
-                                            createContent(fullFilePath, sha1sum);
+                                            
 
                                             foundFile(fullFilePath, sha1sum, size, screenName, newid, driverName, documentType);
 
