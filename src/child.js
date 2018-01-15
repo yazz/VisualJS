@@ -1135,36 +1135,21 @@ function findFilesInFoldersFn() {
             {
                 if (!err)
                 {
-                    //
-                    // if there is a query where nothing has been done then index it
-                    //
                     if( results.length != 0)
                     {
-                        //console.log("" );
-                        //console.log("" );
-                        //console.log("In findFilesInFoldersFn  " );
-                        //console.log("      SOURCE ITEM : " + JSON.stringify(results[0].path,null,2));
-                        fs.readdir(results[0].path, function(err, list) {
-                            console.log("      FILE : " + JSON.stringify(results[0].path,null,2));
-                            if (err)
-                            {
+                        var folderRecord = results[0]
+                        fs.readdir(folderRecord.path, function(err, list) {
+                            if (err) {
                                 console.log(err)
-                                return ;
+                            } else {
+                                list.forEach(function(file) {
+                                    var fullPath = path.join(folderRecord.path , file)
+                                    saveFullPath(fullPath)
+                                })
                             }
-                            list.forEach(function(file) {
-                                var delim = '/'
-                                if (isWin) {delim = '\\'}
-                                var fullPath = results[0].path + delim +  file
-                                //console.log(" - " + fullPath)
-                                saveFullPath(fullPath)
-
-
-                                            })
                       })
-                      stmtUpdateFolder.run("INDEXED", results[0].id)
+                      stmtUpdateFolder.run("INDEXED", folderRecord.id)
                     };
-                } else {
-                    //console.log("          else: ");
                 }
            })
     } catch (err) {
