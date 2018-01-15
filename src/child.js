@@ -36,9 +36,15 @@ var lhs;
 var rhs;
 var stmtInsertIntoRelationships;
 var stmtUpdateRelationships2;
+
 var stmtUpdateFolder;
 var stmtResetFolders;
+
+var stmtResetFiles;
 var stmtInsertIntoFiles;
+var stmtFileStatus;
+var stmtFileProperties;
+
 var stmtInsertIntoContents;
 var stmtInsertIntoFolders;
 var stmtInsertIntoConnections;
@@ -113,6 +119,9 @@ testDiffFn();
 //-----------------------------------------------------------------------------------------//
 function setUpSql() {
     stmtResetFolders = dbsearch.prepare( " update   folders   set status = NULL ");
+    
+    stmtResetFiles   = dbsearch.prepare( " update   files   set status = NULL ");
+    
     stmtUpdateFolder = dbsearch.prepare( " update folders " +
                                                          "    set " +
                                                          "        status = ? " +
@@ -139,10 +148,20 @@ function setUpSql() {
                                  "    ( ?,  ? );");
 
 
-     stmtInsertIntoFiles = dbsearch.prepare(" insert into files " +
+    stmtInsertIntoFiles = dbsearch.prepare(" insert into files " +
                                  "    ( id,  name ,  contents_hash ,  size,  path,  orig_name,    extension, fk_connection_id) " +
                                  " values " +
                                  "    ( ?,  ?,  ?,  ?,  ?,   ?,   ? ,?);");
+                                 
+    stmtFileStatus        = dbsearch.prepare(   " update files " +
+                                                "    set status = ? " +
+                                                " where " +
+                                                "    id = ? ");
+                                 
+    stmtFileProperties    = dbsearch.prepare(   " update files " +
+                                                "    set contents_hash = ?,  size = ? " +
+                                                " where " +
+                                                "    id = ? ");
 
     stmtInsertIntoFolders = dbsearch.prepare(   " insert into folders " +
                                                 "    ( id, name, path, changed_count ) " +
@@ -569,6 +588,8 @@ function findFoldersFn() {
     }
 
     stmtResetFolders.run();
+    
+    stmtResetFiles.run();
 
     //remoteWalk(useDrive);
     directSearchFolders(useDrive);
@@ -975,7 +996,7 @@ function processFilesFn() {
     //    return;
     //}
 
-
+//zzz
     try {
         var stmt = dbsearch.all(
             "SELECT  " +
