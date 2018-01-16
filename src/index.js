@@ -1398,30 +1398,30 @@ function downloadWebDocument(req, res) {
 
 
 function downloadDocuments(req, res) {
-		var fname = req.url.substr(req.url.lastIndexOf('/') + 1)
+        var fileId = req.url.substr(req.url.lastIndexOf('/') + 1)
 
-		if (fname && (fname.length > 0)) {
-				var extension = fname.substr(fname.lastIndexOf('.') + 1).toLowerCase()
-				//console.log("getting file: " + fname);
-				//console.log("   extension: " + extension);
+		if (fileId && (fileId.length > 0)) {
+				console.log("getting file: " + fileId);
 				var contentType = 'text/plain';
-				if (extension == 'pdf') {contentType = 'application/pdf'}
-				else if (extension == 'glb') {contentType = 'model/gltf-binary'}
-				else if (extension == 'doc') {contentType = 'application/msword'}
-				else if (extension == 'docx') {contentType = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'}
-				else if (extension == 'xls') {contentType = 'application/vnd.ms-excel'}
-				else if (extension == 'xlsx') {contentType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}
-				else if (extension == 'csv') {contentType = 'text/csv'}
 
-
-
-				var stmt = dbsearch.all("select contents.content from files,contents where name = '" + fname + "' " +
-                                        "    and files.contents_hash = contents.id", function(err, rows) {
+				var stmt = dbsearch.all("select content from contents where id = ? " 
+                                        [fileId], function(err, rows) {
 						if (!err) {
 								if (rows.length > 0) {
+                                    var fname = rows[0].orig_name
+                                    var extension = fname.substr(fname.lastIndexOf('.') + 1).toLowerCase()
+                                    if (extension == 'pdf') {contentType = 'application/pdf'}
+                                    else if (extension == 'glb') {contentType = 'model/gltf-binary'}
+                                    else if (extension == 'doc') {contentType = 'application/msword'}
+                                    else if (extension == 'docx') {contentType = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'}
+                                    else if (extension == 'xls') {contentType = 'application/vnd.ms-excel'}
+                                    else if (extension == 'xlsx') {contentType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}
+                                    else if (extension == 'csv') {contentType = 'text/csv'}
+                                    console.log("   extension: " + extension);
+                                    
 										 res.writeHead(200, {
 												'Content-Type': contentType,
-												'Content-disposition': 'attachment;filename=' + fname ,
+												'Content-disposition': 'attachment;filename=' + fileId ,
 												'Content-Length': rows[0].content.length
 										});
 

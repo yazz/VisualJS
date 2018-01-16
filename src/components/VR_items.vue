@@ -357,7 +357,7 @@
 
                         <a-entity
                             id='gltf_preview2'
-                            v-bind:gltf-model='(get_viewed_query_file().indexOf(".glb") != -1)?"/docs2/gsd_" + get_viewed_query_file():false'
+                            v-bind:gltf-model='(get_viewed_query_file().indexOf(".glb") != -1)?"/docs2/" + get_viewed_query_id():false'
                             scale=".2 .2 .2"
                             v-bind:position='((get_viewed_query_file().indexOf(".glb") != -1)?"0":"-100") + "  -1 0" '
                             preview_gltf=''>
