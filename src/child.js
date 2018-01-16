@@ -44,6 +44,7 @@ var stmtResetFiles;
 var stmtInsertIntoFiles;
 var stmtInsertIntoFiles2;
 var stmtUpdateFileStatus;
+var stmtUpdateFileSizeAndShaAndConnectionId;
 var stmtUpdateFileProperties;
 
 var stmtInsertIntoContents;
@@ -150,9 +151,9 @@ function setUpSql() {
 
 
     stmtInsertIntoFiles = dbsearch.prepare( " insert into files " +
-                                            "     ( id,  name ,  contents_hash ,  size,  path,  orig_name,    extension, fk_connection_id) " +
+                                            "     ( id,  contents_hash ,  size,  path,  orig_name,    fk_connection_id) " +
                                             " values " +
-                                            "     ( ?,  ?,  ?,  ?,  ?,   ?,   ? ,?);");
+                                            "     ( ?,  ?,  ?,  ?,  ?,   ? );");
                                  
     stmtInsertIntoFiles2 = dbsearch.prepare( " insert into files " +
                                             "     ( id,  path,  orig_name ) " +
@@ -165,7 +166,11 @@ function setUpSql() {
                                                         " where " +
                                                         "     id = ? ;");
                                  
-                                 
+                                
+    stmtUpdateFileSizeAndShaAndConnectionId    = dbsearch.prepare(     " update files " +
+                                                        "     set contents_hash = ? , size = ? , fk_connection_id = ? " +
+                                                        " where " +
+                                                        "     id = ? ;");
                                  
     stmtUpdateFileProperties    = dbsearch.prepare( " update files " +
                                                     "    set contents_hash = ?,  size = ? " +
@@ -186,6 +191,9 @@ function setUpSql() {
                                 "    ( id, name, driver, type, fileName ) " +
                                 " values " +
                                 "    (?,  ?,  ?,?,?);");
+                                
+                                
+                                
     stmtInsertInsertIntoQueries = dbsearch.prepare(" insert into queries " +
                                 "    ( id, name, connection, driver, size, hash, fileName, type, definition, preview, similar_count , when_timestamp) " +
                                 " values " +
@@ -257,18 +265,15 @@ function foundFile(     fullFileNamePath,
                         driverName,
                         documentType) {
 
-        var saveName    = "gsd_" + sha1ofFileContents.toString() + path.extname(fullFileNamePath);
         var newFileId   = uuidv1();
 
         stmtInsertIntoFiles.run(
 
             newFileId,
-            saveName,
             sha1ofFileContents,
             fileContentsSize,
             path.dirname(fullFileNamePath),
             path.basename(fullFileNamePath),
-            path.extname(fullFileNamePath),
             existingConnectionId,
 
             function(err) {
@@ -1086,7 +1091,6 @@ function processFilesFn() {
             "SELECT  " +
 
             "    files.id                   as id, " +
-            "    files.name                 as name, " +
             "    files.fk_connection_id     as fk_connection_id," +
             "    connections.driver         as driver," +
             "    files.size                 as fileSize," +
@@ -1096,7 +1100,7 @@ function processFilesFn() {
             "    connections.type           as type " +
 
             "FROM " +
-            "    files, connections WHERE files.status IS NULL " +
+            "    files, connections WHERE files.status = 'CREATED' " +
             "and files.fk_connection_id = connections.id and files.fk_connection_id not null LIMIT 1 "
             ,
 
@@ -1112,15 +1116,14 @@ function processFilesFn() {
                     if( results.length != 0)
                     {
                         var returnedRecord = results[0];
-                        var fileScreenName = returnedRecord.name
                         var existingConnectionId = returnedRecord.fk_connection_id
                         var driverName = returnedRecord.driver
                         var fileContentsSize = returnedRecord.fileSize
                         var sha1ofFileContents = returnedRecord.sha1ofFileContents
                         var fullFileNamePath = path.join(returnedRecord.path , returnedRecord.orig_name)
                         var documentType = returnedRecord.type
+                        var fileScreenName = returnedRecord.orig_name
 
-                        console.log("fileScreenName: " + fileScreenName)
                         console.log("existingConnectionId: " + existingConnectionId)
                         console.log("driver: " + driverName)
                         console.log("fileContentsSize: " + fileContentsSize)
@@ -1183,6 +1186,161 @@ function processFilesFn() {
     } catch (err) {
         console.log("          Error: " + err);
     }
+
+    try {
+        var stmt = dbsearch.all(
+            " SELECT  " +
+
+            "     files.id                   as id, " +
+            "     files.path                 as path," +
+            "     files.orig_name            as orig_name" +
+ 
+            " FROM " +
+            "     files WHERE files.status IS NULL " +
+            " LIMIT 1 "
+            ,
+
+            function(err, results)
+            {
+                console.log("    .... " + err)
+                console.log("    .... " + results.length)
+                
+                if (!err)
+                {
+                    //
+                    // if there is a query where nothing has been done then index it
+                    //
+                    if( results.length != 0)
+                    {
+                        var returnedRecord = results[0];
+                        
+                        var fullFileNamePath = path.join(returnedRecord.path , returnedRecord.orig_name)
+
+                        console.log("fullFileNamePath: " + fullFileNamePath)
+                        
+
+                        var stat = fs.statSync(fullFileNamePath)
+                        if (stat && !stat.isDirectory()) {
+                        var fileName = getFileName(fullFileNamePath)
+                        var driverName = null
+                        var documentType = null
+                        if (isExcelFile(fullFileNamePath)) {
+                            documentType    = '|SPREADSHEET|'
+                            driverName      = 'excel'
+                        }
+                        if (isGlbFile(fullFileNamePath)) {
+                            documentType    = '|GLB|'
+                            driverName      = 'glb'
+                        }
+                        if (isCsvFile(fullFileNamePath)) {
+                            documentType    = '|CSV|'
+                            driverName      = 'csv'
+                        }
+                        if (isTextFile(fullFileNamePath)) {
+                            documentType    = '|DOCUMENT|'
+                            driverName      = 'txt'
+                        }
+                        if (isWordFile(fullFileNamePath)) {
+                            documentType    = '|DOCUMENT|'
+                            driverName      = 'word'
+                        }
+                        if (isPdfFile(fullFileNamePath)) {
+                            documentType    = '|DOCUMENT|'
+                            driverName      = 'pdf'
+                        }
+//zzz
+                        if (documentType) {
+                        var screenName = fileName.replace(/[^\w\s]/gi,'');
+                        var newConnectionId = uuidv1();
+                        stmtInsertIntoConnections.run(
+                                newConnectionId,
+                                screenName,
+                                driverName,
+                                documentType,
+                                fullFileNamePath,
+                                
+                                function(err) {
+                                    
+                                    //console.log("child 3")
+
+                                    //connections[newid] = {id: newid, name: screenName, driver: driverName, size: size, hash: sha1sum, type: documentType, fullFilePath: fullFilePath };
+                                    process.send({
+                                                message_type:       "return_set_connection",
+                                                id:         newConnectionId,
+                                                name:       screenName,
+                                                driver:     driverName,
+                                                type:       documentType,
+                                                fileName:   fullFileNamePath
+                                    });
+                                    
+                                    var sha1ofFileContents = getSha1(fullFileNamePath)
+                                    var stat = fs.statSync(fullFileNamePath)
+                                    var fileContentsSize = stat.size
+                                    
+
+                                    
+                                    var newqueryid = uuidv1();
+                                    stmtInsertInsertIntoQueries.run(
+
+                                        newqueryid,
+                                        screenName,
+                                        newConnectionId,
+                                        driverName,
+                                        fileContentsSize,
+                                        sha1ofFileContents,
+                                        fullFileNamePath,
+                                        documentType,
+                                        JSON.stringify({} , null, 2),
+                                        JSON.stringify([{message: 'No preview available'}] , null, 2),
+                                        timestampInSeconds(),
+
+                                        function(err2) {
+                                            if (err2) {
+                                                console.log('   err2 : ' + err2);
+                                            }
+                                            process.send({
+                                                            message_type:       "return_set_query",
+                                                            id:                 newqueryid,
+                                                            name:               screenName,
+                                                            connection:         newConnectionId,
+                                                            driver:             driverName,
+                                                            size:               fileContentsSize,
+                                                            hash:               sha1ofFileContents,
+                                                            fileName:           fullFileNamePath,
+                                                            type:               driverName,
+                                                            definition:         JSON.stringify({} , null, 2),
+                                                            preview:            JSON.stringify([{message: 'No preview available'}] , null, 2)});
+                                            
+                                            stmtUpdateFileSizeAndShaAndConnectionId.run(
+                                                sha1ofFileContents, 
+                                                fileContentsSize, 
+                                                newConnectionId, 
+                                                returnedRecord.id, 
+                                                function(err) {
+                                                    console.log('   CRETAED : ' + returnedRecord.id);
+                                                    if (err3) {
+                                                        console.log('   err3 : ' + err3);
+                                                    }
+                                                    stmtUpdateFileStatus.run( "CREATED", returnedRecord.id,function(err4){
+                                                        console.log('   CRETAED2 : ' + returnedRecord.id);
+                                                        if (err4) {
+                                                            console.log('   err3 : ' + err3);
+                                                        }
+                                                    })
+                                            })
+                                        })
+                                    }
+                                );
+                        }
+                    }                        
+                        
+                }
+            }
+        })
+
+    } catch (err) {
+        console.log("          Error: " + err);
+    }    
 }
 
 //-------------------------------------------------------------------------------//
@@ -1706,6 +1864,15 @@ function isPdfFile(fname) {
 
 
 
+function isTextFile(fname) {
+	if (!fname) {
+	return false;
+	};
+	var ext = fname.split('.').pop();
+	ext = ext.toLowerCase();
+	if (ext == "txt") return true;
+	return false;
+}
 
 function isCsvFile(fname) {
 	if (!fname) {
@@ -1840,7 +2007,7 @@ function addFolderForIndexingIfNotExist(folderName) {
 }
 
 function directSearchFolders(drive) {
-    fromDir(drive,/\xlsx$|csv$|docx$|pdf$|glb$/,function(filename){
+    fromDir(drive,/\xlsx$|csv$|docx$|pdf$|glb|txt$/,function(filename){
         var dirname = path.dirname(filename)
 
 
