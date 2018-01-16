@@ -1316,7 +1316,7 @@ function processFilesFn() {
                                                 fileContentsSize, 
                                                 newConnectionId, 
                                                 returnedRecord.id, 
-                                                function(err) {
+                                                function(err3) {
                                                     console.log('   CRETAED : ' + returnedRecord.id);
                                                     if (err3) {
                                                         console.log('   err3 : ' + err3);
@@ -1379,7 +1379,9 @@ function findFilesInFoldersFn() {
                             } else {
                                 list.forEach(function(file) {
                                     var fullPath = path.join(folderRecord.path , file)
-                                    saveFullPath(fullPath)
+                                    if (fileFilter.test(file)) {
+                                        saveFullPath(fullPath)
+                                    }
                                 })
                             }
                       })
@@ -1954,7 +1956,7 @@ function remoteWalk( dir ) {
                                                 fileOrFolder,
                                                 folderName
                                                 ,
-                                                function() {
+                                                function(err3) {
                                                     console.log("     fileOrFolder: " + fileOrFolder)
                                                     try {
                                                         remoteWalk(fileOrFolder);
@@ -1966,8 +1968,8 @@ function remoteWalk( dir ) {
                                             else {
                                                     try {
                                                         remoteWalk(fileOrFolder);
-                                                    } catch(err3) {
-                                                        console.log(err3)
+                                                    } catch(err4) {
+                                                        console.log(err4)
                                                     }
 
                                             }
@@ -2005,9 +2007,9 @@ function addFolderForIndexingIfNotExist(folderName) {
             }
         });
 }
-
+var fileFilter = /\xlsx$|csv$|docx$|pdf$|glb|txt$/
 function directSearchFolders(drive) {
-    fromDir(drive,/\xlsx$|csv$|docx$|pdf$|glb|txt$/,function(filename){
+    fromDir(drive,fileFilter,function(filename){
         var dirname = path.dirname(filename)
 
 
