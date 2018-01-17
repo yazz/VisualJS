@@ -23,7 +23,7 @@ module.exports = {
             "CREATE TABLE IF NOT EXISTS files (id TEXT, contents_hash TEXT, size INTEGER, path TEXT, orig_name TEXT, fk_connection_id TEXT, status TEXT);",
 
 
-            "CREATE TABLE IF NOT EXISTS contents (id TEXT, content BLOB, UNIQUE (id) ON CONFLICT IGNORE);",
+            "CREATE TABLE IF NOT EXISTS contents (id TEXT, content BLOB, content_type TEXT, UNIQUE (id) ON CONFLICT IGNORE);",
 
 
             "CREATE TABLE IF NOT EXISTS folders (id TEXT, name TEXT, path TEXT, parent_id TEXT, status TEXT, changed_count INTEGER, UNIQUE (path) ON CONFLICT IGNORE);",
