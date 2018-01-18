@@ -1268,13 +1268,21 @@ function getRoot(req, res) {
 
 
 
+
 function downloadWebDocument(req, res) {
     //mammoth.convertToHtml({path: "Security in Office 365 Whitepaper.docx"})
-    var stmt = dbsearch.all("select contents.content from files,contents where name = '" + req.query.id + "' " +
-                            "    and contents.id = files.contents_hash", function(err, rows) {
+    //zzz
+    var stmt = dbsearch.all(" select   " + 
+                            "     contents.content, queries.driver   from  contents, queries   " + 
+                            " where " +
+                            "     queries.id = ? " +
+                            "  and contents.id = queries.hash  limit 1", 
+                            [req.query.id],
+                            function(err, rows) {
         if (!err) {
                 if (rows.length > 0) {
-                    if (req.query.id.toLowerCase().endsWith(".docx") ) {
+                    var contentRow = rows[0];
+                    if (contentRow.driver.toLowerCase().endsWith("word") ) {
                         var buffer = new Buffer(rows[0].content, 'binary');
 
                         mammoth.convertToHtml({buffer: buffer})
@@ -1286,8 +1294,7 @@ function downloadWebDocument(req, res) {
                             res.end(JSON.stringify({  result: html}));
                         })
                         .done();
-                    } else if ( req.query.id.toLowerCase().endsWith(".xlsx") ||
-                                req.query.id.toLowerCase().endsWith(".xls")) {
+                    } else if (contentRow.driver.toLowerCase().endsWith("excel") ) {
                         try {
                             var buffer = new Buffer(rows[0].content, 'binary');
                             var workbook = XLSX.read(buffer, {type:"buffer"})
@@ -1302,7 +1309,7 @@ function downloadWebDocument(req, res) {
                             res.writeHead(200, {'Content-Type': 'text/plain'});
                             res.end(JSON.stringify({  result: "<div>Error: " + error + "</div>"}));
                         }
-                    } else if (req.query.id.toLowerCase().endsWith(".csv")) {
+                    } else if (contentRow.driver.toLowerCase().endsWith("csv") ) {
                         try {
                             console.log('1')
                             html = "<table>";
@@ -1974,7 +1981,6 @@ function getqueryresultFn(req, res) {
 
 
                         console.log('trying to save document: ');
-                        //zzz
 
                         var stmt = dbsearch.all("select   contents.content   from   queries, contents   where   queries.id = ? and queries.driver = 'pdf'" +
                                                 "    and contents.id = queries.hash  limit 1", 
