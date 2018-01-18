@@ -711,21 +711,22 @@ function setupVRVuePane() {
                     var self = this;
                     this.el.addEventListener('click', function (evt) {
                         store.dispatch('set_show_quickview', true);
-                        var qf = store.state.viewed_query_file;
+                        var qf = store.state.viewed_query_id;
+                        var qn = store.state.viewed_query_file;
                         if (qf == null) {
                             return;
                         }
 
                         if (qf && (qf.length > 0)) {
-                            var queryFile = "gsd_" + qf;
-                            if (qf.toLowerCase().endsWith(".pdf")) {
+                            var queryFile = qf;
+                            if (qn.toLowerCase().endsWith(".pdf")) {
                                 document.getElementById("popup").style.zIndex = '10000';
                                 var ourl =  "<iframe width='100%' height='100%' " +
                                             " src='http://" + window.location.hostname + ":" + window.location.port +  "/viewer/#http://" +
                                             window.location.hostname + ":" + window.location.port +  "/files/a.pdf'><iframe>"
                                 document.getElementById("popup_content").innerHTML = ourl;
                                 //alert(ourl);
-                            } else if (qf.toLowerCase().endsWith(".glb")) {
+                            } else if (qn.toLowerCase().endsWith(".glb")) {
 
                                 //zzz
                                     //alert(store.state.show_quickview);

@@ -1973,10 +1973,21 @@ function getqueryresultFn(req, res) {
                                  );
 
 
-                        console.log('trying to save pdf: ');
-                        var stmt = dbsearch.all("select contents.content from files,queries,contents where files.name = ('gsd_' || queries.hash || '.pdf' ) and queries.id = '" + queryData2.source + "' " +
-                                                "    and files.contents_hash = contents.id", function(err, rows) {
-                            console.log('trying to save pdf 2: ' + queryData2.source);
+                        console.log('trying to save document: ');
+                        //zzz
+
+                        var stmt = dbsearch.all("select   contents.content   from   queries, contents   where   queries.id = ? and queries.driver = 'pdf'" +
+                                                "    and contents.id = queries.hash  limit 1", 
+                                                
+                                                
+                                                
+                                                [queryData2.source],
+                                                function(err, rows) {
+                            console.log('err: ' + err);
+                            if (rows) {
+                                console.log('rows: ' + rows);
+                            }
+                            console.log('trying to save document: ' + queryData2.source);
                                 if (!err) {
                                     console.log('trying to save pdf 3: ');
                                     if (rows.length > 0) {
