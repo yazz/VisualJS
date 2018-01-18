@@ -1402,7 +1402,7 @@ function downloadDocuments(req, res) {
 
 		if (fileId && (fileId.length > 0)) {
 				console.log("getting file: " + fileId);
-				var stmt = dbsearch.all(" select   contents.id as id,  content, content_type   from   contents, queries   " +
+				var stmt = dbsearch.all(" select   queries.driver as driver, contents.id as id,  content, content_type   from   contents, queries   " +
                                         " where queries.id = ? and  contents.id = queries.hash  limit 1" ,
                                         [fileId], function(err, rows) {
 						if (!err) {
@@ -1410,7 +1410,7 @@ function downloadDocuments(req, res) {
                                     var contentRecord = rows[0]
                                     res.writeHead(200, {
                                         'Content-Type': contentRecord.content_type,
-                                        'Content-disposition': 'attachment;filename=' + contentRecord.id ,
+                                        'Content-disposition': 'attachment;filename=' + contentRecord.id  + "." + getFileExtension(contentRecord.driver),
                                         'Content-Length': contentRecord.content.length
                                     });
 
@@ -1426,12 +1426,15 @@ function downloadDocuments(req, res) {
 };
 
 
-
-
-
-
-
-
+function getFileExtension(driver) {
+    if (driver == "excel") { return "xlsx"}
+    if (driver == "pdf") { return "pdf"}
+    if (driver == "word") { return "doc"}
+    if (driver == "csv") { return "csv"}
+    if (driver == "glb") { return "glb"}
+    if (driver == "txt") { return "txt"}
+    return ""
+}
 
 
 
