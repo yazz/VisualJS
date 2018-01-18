@@ -1402,31 +1402,20 @@ function downloadDocuments(req, res) {
 
 		if (fileId && (fileId.length > 0)) {
 				console.log("getting file: " + fileId);
-				var contentType = 'text/plain';
-
-				var stmt = dbsearch.all("select content from contents where id = ? " 
+				var stmt = dbsearch.all(" select   contents.id as id,  content, content_type   from   contents, queries   " +
+                                        " where queries.id = ? and  contents.id = queries.hash  limit 1" ,
                                         [fileId], function(err, rows) {
 						if (!err) {
 								if (rows.length > 0) {
-                                    var fname = rows[0].orig_name
-                                    var extension = fname.substr(fname.lastIndexOf('.') + 1).toLowerCase()
-                                    if (extension == 'pdf') {contentType = 'application/pdf'}
-                                    else if (extension == 'glb') {contentType = 'model/gltf-binary'}
-                                    else if (extension == 'doc') {contentType = 'application/msword'}
-                                    else if (extension == 'docx') {contentType = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'}
-                                    else if (extension == 'xls') {contentType = 'application/vnd.ms-excel'}
-                                    else if (extension == 'xlsx') {contentType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}
-                                    else if (extension == 'csv') {contentType = 'text/csv'}
-                                    console.log("   extension: " + extension);
-                                    
-										 res.writeHead(200, {
-												'Content-Type': contentType,
-												'Content-disposition': 'attachment;filename=' + fileId ,
-												'Content-Length': rows[0].content.length
-										});
+                                    var contentRecord = rows[0]
+                                    res.writeHead(200, {
+                                        'Content-Type': contentRecord.content_type,
+                                        'Content-disposition': 'attachment;filename=' + contentRecord.id ,
+                                        'Content-Length': contentRecord.content.length
+                                    });
 
 
-										res.end(new Buffer(rows[0].content, 'binary'));
+                                    res.end(new Buffer(  contentRecord.content, 'binary'  ));
 								};
 						};
 				});
