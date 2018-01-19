@@ -495,7 +495,7 @@ function isGlbFile(fname) {
 }
 
 
-function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileType2) {
+function saveConnectionAndQueryForFile(fileName) {
     //console.log("... in saveConnectionAndQueryForFile:::: " + fileId)
     sendOverWebSockets({
                             type:   "server_scan_status",
@@ -513,11 +513,7 @@ function saveConnectionAndQueryForFile(fileId, fileType, size, fileName, fileTyp
     try {
         forked.send({
                         message_type:       'saveConnectionAndQueryForFile',
-                        fileId:             fileId,
-                        fileType:           fileType,
-                        size:               size,
-                        fileName:           fileName,
-                        fileType2:          fileType2
+                        fileId:             fileName
                         });
 
     } catch(err) {
@@ -1661,69 +1657,10 @@ function file_uploadFn(req, res, next) {
           //console.log('Local saved path: ' + localp);
 
           fs.stat(localp, function(err, stat) {
-						console.log('ifile: ' + ifile.originalname);
+                console.log('ifile: ' + ifile.originalname);
 
-            if (isExcelFile(ifile.originalname)) {
-                  //console.log('ifile: ' + ifile.originalname);
-                  var excelFile = localp;
-                      if (typeof excelFile !== "undefined") {
-                          var fileId = excelFile.replace(/[^\w\s]/gi,'');
-                          //console.log('Saving from upload   *file id: ' + ifile.originalname);
-                          //console.log('   *size: ' + stat.size);
-
-                          saveConnectionAndQueryForFile(ifile.originalname, 'excel', stat.size, excelFile, '|SPREADSHEET|');
-              }
-          } else if (isGlbFile(ifile.originalname)) {
-                  //console.log('ifile: ' + ifile.originalname);
-                      var glbFile = localp;
-                      if (typeof glbFile !== "undefined") {
-                          var fileId = glbFile.replace(/[^\w\s]/gi,'');
-                          //console.log('Saving from upload   *file id: ' + ifile.originalname);
-                          //console.log('   *size: ' + stat.size);
-
-                          saveConnectionAndQueryForFile(ifile.originalname, 'glb', stat.size, glbFile, '|GLB|');
-              };
-          } else if (isCsvFile(ifile.originalname)) {
-                  //console.log('ifile: ' + ifile.originalname);
-                      var csvFile = localp;
-                      if (typeof csvFile !== "undefined") {
-                          var fileId = csvFile.replace(/[^\w\s]/gi,'');
-                          //console.log('Saving from upload   *file id: ' + ifile.originalname);
-                          //console.log('   *size: ' + stat.size);
-
-                          saveConnectionAndQueryForFile(ifile.originalname, 'csv', stat.size, csvFile, '|CSV|');
-              };
-          } else if (isWordFile(ifile.originalname)) {
-                  //console.log('ifile: ' + ifile.originalname);
-                      var wordFile = localp;
-                      if (typeof wordFile !== "undefined") {
-                          var fileId = wordFile.replace(/[^\w\s]/gi,'');
-                          //console.log('Saving from upload   *file id: ' + ifile.originalname);
-                          //console.log('   *size: ' + stat.size);
-
-                          saveConnectionAndQueryForFile(ifile.originalname, 'word', stat.size, wordFile, '|DOCUMENT|');
-              }
-          } else if (isPdfFile(ifile.originalname)) {
-                  //console.log('ifile: ' + ifile.originalname);
-                      var pdfFile = localp;
-                      if (typeof pdfFile !== "undefined") {
-                          var fileId = pdfFile.replace(/[^\w\s]/gi,'');
-                          //console.log('Saving from upload   *file id: ' + ifile.originalname);
-                          //console.log('   *size: ' + stat.size);
-
-                          saveConnectionAndQueryForFile(ifile.originalname, 'pdf', stat.size, pdfFile, '|DOCUMENT|');
-              }
-          } else if (!isBinaryFile.sync(localp)) {
-                var txtFile = localp;
-                if (typeof txtFile !== "undefined") {
-                    var fileId = txtFile.replace(/[^\w\s]/gi,'');
-                    //console.log('Saving from upload   *file id: ' + ifile.originalname);
-                    //console.log('   *size: ' + stat.size);
-
-                    saveConnectionAndQueryForFile(ifile.originalname, 'txt', stat.size, txtFile, '|TXT|');
-                }
-            };
-        });
+                saveConnectionAndQueryForFile(localp2);
+          });
     }
 
 };

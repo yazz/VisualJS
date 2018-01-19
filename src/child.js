@@ -1001,83 +1001,6 @@ function saveFullPath( fullPath ) {
     }
 }
 
-function saveFullPath2(fullPath) {
-    if (!fullPath) {
-        return
-    }
-
-    try {
-        var stat = fs.statSync(fullPath)
-        if (stat && !stat.isDirectory()) {
-            var file = getFileName(fullPath)
-            //console.log('stat: ' + stat);
-            //console.log('size: ' + stat.size);
-            if (isExcelFile(file)) {
-                //console.log('file: ' + file);
-                var excelFile = fullPath;
-                if (typeof excelFile !== "undefined") {
-                      var fileId = excelFile.replace(/[^\w\s]/gi,'');
-                          //console.log('Saving from walk   *file id: ' + fileId);
-                          //console.log('   *size: ' + stat.size);
-
-                        saveConnectionAndQueryForFile(fileId, 'excel', stat.size, excelFile, '|SPREADSHEET|');
-
-                  }
-              }
-              if (isGlbFile(file)) {
-                    //console.log('GLB file: ' + file);
-                          var GLBFile = fullPath;
-                              if (typeof GLBFile !== "undefined") {
-                              var fileId = GLBFile.replace(/[^\w\s]/gi,'');
-                                  //console.log('Saving from walk   *file id: ' + fileId);
-                                  //console.log('   *size: ' + stat.size);
-
-                                saveConnectionAndQueryForFile(fileId, 'glb', stat.size, GLBFile, '|GLB|');
-                          }
-                      }
-            if (isCsvFile(file)) {
-                    //console.log('CSV file: ' + file);
-                          var CSVFile = fullPath;
-                              if (typeof CSVFile !== "undefined") {
-                              var fileId = CSVFile.replace(/[^\w\s]/gi,'');
-                                  //console.log('Saving from walk   *file id: ' + fileId);
-                                  //console.log('   *size: ' + stat.size);
-
-                                saveConnectionAndQueryForFile(fileId, 'csv', stat.size, CSVFile, '|CSV|');
-                          }
-                      }
-            if (isWordFile(file)) {
-                    //console.log('WORD file: ' + file);
-                          var WordFile = fullPath;
-                              if (typeof WordFile !== "undefined") {
-                              var fileId = WordFile.replace(/[^\w\s]/gi,'');
-                                  //console.log('Saving from walk   *file id: ' + fileId);
-                                  //console.log('   *size: ' + stat.size);
-
-                                saveConnectionAndQueryForFile(fileId, 'word', stat.size, WordFile, '|DOCUMENT|');
-                          }
-                      }
-            if (isPdfFile(file)) {
-                    //console.log('PDF file: ' + file);
-                          var PdfFile = fullPath;
-                              if (typeof PdfFile !== "undefined") {
-                              var fileId = PdfFile.replace(/[^\w\s]/gi,'');
-                                  //console.log('Saving from walk   *file id: ' + fileId);
-                                  //console.log('   *size: ' + stat.size);
-
-                                saveConnectionAndQueryForFile(fileId, 'pdf', stat.size, PdfFile, '|DOCUMENT|');
-                          }
-                      }
-
-
-
-                  }
-      } catch (err) {
-          console.log("          err: " + err);
-      }
-}
-
-
 
 
 //-------------------------------------------------------------------------------//
@@ -1695,12 +1618,7 @@ function processMessagesFromMainProcess() {
       //console.log('Message from parent:', msg);
 
       if (msg.message_type == 'saveConnectionAndQueryForFile') {
-          saveConnectionAndQueryForFile(
-                                    msg.fileId,
-                                    msg.fileType,
-                                    msg.size,
-                                    msg.fileName,
-                                    msg.fileType2);
+          saveConnectionAndQueryForFile2(msg.fileId);
 
 
 
