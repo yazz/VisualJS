@@ -243,8 +243,8 @@
             try {
 
 
-
-var pdfParser = new PDFParser(this,1);
+var PDFParserClass       = require2("pdf2json");
+var pdfParser = new PDFParserClass(this,1);
 
     pdfParser.on("pdfParser_dataError", function(errData) {
         console.error(errData.parserError) ;
