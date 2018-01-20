@@ -1268,11 +1268,11 @@ function getRoot(req, res) {
 function downloadWebDocument(req, res) {
     //mammoth.convertToHtml({path: "Security in Office 365 Whitepaper.docx"})
     //zzz
-    var stmt = dbsearch.all(" select   " + 
-                            "     contents.content, queries.driver   from  contents, queries   " + 
+    var stmt = dbsearch.all(" select   " +
+                            "     contents.content, queries.driver   from  contents, queries   " +
                             " where " +
                             "     queries.id = ? " +
-                            "  and contents.id = queries.hash  limit 1", 
+                            "  and contents.id = queries.hash  limit 1",
                             [req.query.id],
                             function(err, rows) {
         if (!err) {
@@ -1659,7 +1659,7 @@ function file_uploadFn(req, res, next) {
           fs.stat(localp, function(err, stat) {
                 console.log('ifile: ' + ifile.originalname);
 
-                saveConnectionAndQueryForFile(localp2);
+                saveConnectionAndQueryForFile(localp);
           });
     }
 
@@ -1920,10 +1920,10 @@ function getqueryresultFn(req, res) {
                         console.log('trying to save document: ');
 
                         var stmt = dbsearch.all("select   contents.content   from   queries, contents   where   queries.id = ? and queries.driver = 'pdf'" +
-                                                "    and contents.id = queries.hash  limit 1", 
-                                                
-                                                
-                                                
+                                                "    and contents.id = queries.hash  limit 1",
+
+
+
                                                 [queryData2.source],
                                                 function(err, rows) {
                             console.log('err: ' + err);
