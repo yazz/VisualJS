@@ -122,9 +122,9 @@ testDiffFn();
 //-----------------------------------------------------------------------------------------//
 function setUpSql() {
     stmtResetFolders = dbsearch.prepare( " update   folders   set status = NULL ");
-    
+
     stmtResetFiles   = dbsearch.prepare( " update   files   set status = NULL ");
-    
+
     stmtUpdateFolder = dbsearch.prepare( " update folders " +
                                                          "    set " +
                                                          "        status = ? " +
@@ -155,31 +155,31 @@ function setUpSql() {
                                             "     ( id,  contents_hash ,  size,  path,  orig_name,    fk_connection_id) " +
                                             " values " +
                                             "     ( ?,  ?,  ?,  ?,  ?,   ? );");
-                                 
+
     stmtInsertIntoFiles2 = dbsearch.prepare( " insert into files " +
                                             "     ( id,  path,  orig_name ) " +
                                             " values " +
                                             "     ( ?,  ?,  ?);");
-                                 
-                                 
+
+
     stmtUpdateFileStatus        = dbsearch.prepare(     " update files " +
                                                         "     set status = ? " +
                                                         " where " +
                                                         "     id = ? ;");
-                                 
-                                
+
+
     stmtUpdateFileSizeAndShaAndConnectionId    = dbsearch.prepare(     " update files " +
                                                         "     set contents_hash = ? , size = ? , fk_connection_id = ? " +
                                                         " where " +
                                                         "     id = ? ;");
-                                 
+
     stmtUpdateFileProperties    = dbsearch.prepare( " update files " +
                                                     "    set contents_hash = ?,  size = ? " +
                                                     " where " +
                                                     "    id = ? ;");
 
-                                                    
-                                                
+
+
     stmtInsertIntoFolders = dbsearch.prepare(   " insert into folders " +
                                                 "    ( id, name, path, changed_count ) " +
                                                 " values " +
@@ -192,9 +192,9 @@ function setUpSql() {
                                 "    ( id, name, driver, type, fileName ) " +
                                 " values " +
                                 "    (?,  ?,  ?,?,?);");
-                                
-                                
-                                
+
+
+
     stmtInsertInsertIntoQueries = dbsearch.prepare(" insert into queries " +
                                 "    ( id, name, connection, driver, size, hash, fileName, type, definition, preview, similar_count , when_timestamp) " +
                                 " values " +
@@ -222,7 +222,7 @@ function getContentType(fullFileNamePath) {
     else if (extension == 'xls') {contentType = 'application/vnd.ms-excel'}
     else if (extension == 'xlsx') {contentType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}
     else if (extension == 'csv') {contentType = 'text/csv'}
-    return contentType;                 
+    return contentType;
 }
 
 function createContent(     fullFileNamePath,
@@ -318,105 +318,6 @@ function timestampInSeconds() {
     return Math.floor(Date.now() / 1000)
 }
 
-//-----------------------------------------------------------------------------------------//
-//                                                                                         //
-//                               saveConnectionAndQueryForFile                             //
-//                                                                                         //
-//                                                                                         //
-//                                                                                         //
-//                                                                                         //
-//                                                                                         //
-//                                                                                         //
-//                                                                                         //
-//                                                                                         //
-//-----------------------------------------------------------------------------------------//
-function saveConnectionAndQueryForFile(  screenName,  driverName,  size,  fullFilePath,  documentType  ) {
-    //console.log("... in saveConnectionAndQueryForFile:::: ")
-    //console.log("                                        " + screenName)
-    //console.log("                                        " + driverName)
-    //console.log("                                        " + size)
-    //console.log("                                        " + fullFilePath)
-    //console.log("                                        " + documentType)
-
-    //
-    // don't process invalid files
-    //
-    if (!fullFilePath) {
-        return;
-    };
-    if (fullFilePath.indexOf("$") != -1) {
-        return;
-    };
-    if (fullFilePath.indexOf("gsd_") != -1) {
-        return;
-    };
-    try {
-
-
-        //
-        // if the file does not exist at all then create it
-        //
-        //console.log("child 1")
-        dbsearch.serialize(function() {
-        var stmt = dbsearch.all(
-            "select id from files where   path = ?   and   orig_name = ?",
-            [path.dirname(fullFilePath), path.basename(fullFilePath)],
-            function(err, results)
-            {
-                if (!err)
-                {
-                    if (results.length == 0) {
-                        try {
-                            var sha1sum = getSha1(fullFilePath)
-
-                            if (sha1sum) {
-
-                                //console.log("child 2")
-                                var newid = uuidv1();
-                                stmtInsertIntoConnections.run(
-                                        newid,
-                                        screenName,
-                                        driverName,
-                                        documentType,
-                                        fullFilePath,
-                                        function(err) {
-                                            //console.log("child 3")
-
-                                            //connections[newid] = {id: newid, name: screenName, driver: driverName, size: size, hash: sha1sum, type: documentType, fullFilePath: fullFilePath };
-                                            process.send({
-                                                        message_type:       "return_set_connection",
-                                                        id:         newid,
-                                                        name:       screenName,
-                                                        driver:     driverName,
-                                                        type:       documentType,
-                                                        fileName:   fullFilePath
-                                            });
-                                            //console.log("child 4")
-
-                                            
-
-                                            foundFile(fullFilePath, sha1sum, size, screenName, newid, driverName, documentType);
-
-                                        //console.log("... query saved: " + screenName);
-
-                                });
-                            }
-                        } catch (err) {
-                            console.log("Error " + err + " with file: " + fullFilePath);
-                        }
-                    };
-                };
-            });
-        });
-    } catch(err) {
-        console.log("Error " + err + " with file: " + fullFilePath);
-        return err;
-    } finally {
-
-    }
-}
-
-
 
 //-----------------------------------------------------------------------------------------//
 //                                                                                         //
@@ -461,7 +362,7 @@ function saveConnectionAndQueryForFile2(  fullFilePath ) {
                                     function(err) {
                                         //console.log('added file to sqlite');
                                         });
-                                
+
                             } catch (err) {
                                 console.log("Error " + err + " with file: " + fullFilePath);
                             }
@@ -678,7 +579,7 @@ function findFoldersFn() {
     }
 
     stmtResetFolders.run();
-    
+
     stmtResetFiles.run();
 
     //remoteWalk(useDrive);
@@ -1012,7 +913,7 @@ function saveFullPath( fullPath ) {
 //-------------------------------------------------------------------------------//
 function processFilesFn() {
     console.log("processFilesFn")
-    
+
     //if (isPcDoingStuff) {
     //    return;
     //};
@@ -1020,7 +921,7 @@ function processFilesFn() {
     if (inProcessFilesFn) {
         return;
     }
-    
+
     inProcessFilesFn = true
 //zzz
     try {
@@ -1067,8 +968,8 @@ function processFilesFn() {
                         console.log("sha1ofFileContents: " + sha1ofFileContents)
                         console.log("fullFileNamePath: " + fullFileNamePath)
                         console.log("documentType: " + documentType)
-                        
-                    
+
+
 
                         dbsearch.serialize(function() {
                             console.log("    2")
@@ -1079,7 +980,7 @@ function processFilesFn() {
                                     console.log('   err 1 : ' + err);
                                     stmtUpdateFileStatus.run( "ERROR", returnedRecord.id, function(err) {})
                                 } else {
-                                
+
                                     console.log("    4")
                                     var newqueryid = uuidv1();
                                     stmtInsertInsertIntoQueries.run(
@@ -1113,17 +1014,17 @@ function processFilesFn() {
                                                             type:               driverName,
                                                             definition:         JSON.stringify({} , null, 2),
                                                             preview:            JSON.stringify([{message: 'No preview available'}] , null, 2)});
-                                                            
+
                                             inProcessFilesFn = false
                                             }
-                                                
+
                                     );
                                 }
                             })
 
 
                             });
-                        
+
                     } else {
                         inProcessFilesFn = false
                     }
@@ -1142,7 +1043,7 @@ function processFilesFn() {
             "     files.id                   as id, " +
             "     files.path                 as path," +
             "     files.orig_name            as orig_name" +
- 
+
             " FROM " +
             "     files WHERE files.status IS NULL " +
             " LIMIT 1 "
@@ -1153,7 +1054,7 @@ function processFilesFn() {
                 console.log("    .... " + err)
                 console.log("    .... " + results.length)
                 console.log("    11")
-                
+
                 if (!err)
                 {
                     //
@@ -1163,11 +1064,11 @@ function processFilesFn() {
                     {
                         console.log("    12")
                         var returnedRecord = results[0];
-                        
+
                         var fullFileNamePath = path.join(returnedRecord.path , returnedRecord.orig_name)
 
                         console.log("fullFileNamePath: " + fullFileNamePath)
-                        
+
 
                         var stat = fs.statSync(fullFileNamePath)
                         if (stat && !stat.isDirectory()) {
@@ -1210,9 +1111,9 @@ function processFilesFn() {
                                     driverName,
                                     documentType,
                                     fullFileNamePath,
-                                    
+
                                     function(err) {
-                                        
+
                                         console.log("14")
 
                                         //connections[newid] = {id: newid, name: screenName, driver: driverName, size: size, hash: sha1sum, type: documentType, fullFilePath: fullFilePath };
@@ -1224,13 +1125,13 @@ function processFilesFn() {
                                                     type:       documentType,
                                                     fileName:   fullFileNamePath
                                         });
-                                        
+
                                         var sha1ofFileContents = getSha1(fullFileNamePath)
                                         var stat = fs.statSync(fullFileNamePath)
                                         var fileContentsSize = stat.size
-                                        
 
-                                        
+
+
                                         var newqueryid = uuidv1();
                                         stmtInsertInsertIntoQueries.run(
 
@@ -1262,12 +1163,12 @@ function processFilesFn() {
                                                                 type:               driverName,
                                                                 definition:         JSON.stringify({} , null, 2),
                                                                 preview:            JSON.stringify([{message: 'No preview available'}] , null, 2)});
-                                                
+
                                                 stmtUpdateFileSizeAndShaAndConnectionId.run(
-                                                    sha1ofFileContents, 
-                                                    fileContentsSize, 
-                                                    newConnectionId, 
-                                                    returnedRecord.id, 
+                                                    sha1ofFileContents,
+                                                    fileContentsSize,
+                                                    newConnectionId,
+                                                    returnedRecord.id,
                                                     function(err3) {
                                                         console.log('   CRETAED : ' + returnedRecord.id);
                                                         if (err3) {
@@ -1289,19 +1190,19 @@ function processFilesFn() {
                         } else {
                             stmtUpdateFileStatus.run( "ERROR", returnedRecord.id,function(err4){})
                         }
-                    }                        
-                        
+                    }
+
                 } else {
                     inProcessFilesFn = false
                 }
-                
+
             }
         })
 
     } catch (err) {
         console.log("          Error: " + err);
         inProcessFilesFn = false
-    }    
+    }
 }
 
 //-------------------------------------------------------------------------------//
