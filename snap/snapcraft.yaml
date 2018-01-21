@@ -10,8 +10,7 @@
   apps:
     visifile:
       command: visifile
-      plugs:
-        - network
+      plugs: [network]
     
   parts:
     visifile:
