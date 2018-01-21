@@ -9,7 +9,7 @@
 
   apps:
     visifile:
-    command: visifile
+      command: visifile
     
   parts:
     visifile:
