@@ -187,6 +187,7 @@ var tdeval
 var in_when_connections_changes					= false;
 var forked;
 var forkedIndexer;
+var forkedFileScanner;
 
 
 
@@ -390,6 +391,7 @@ function setSharedGlobalVar(nameOfVar, index, value) {
                         };
         forked.send(sharemessage);
         forkedIndexer.send(sharemessage);
+        forkedFileScanner.send(sharemessage);
         /*sendOverWebSockets({
                                 type:               "setSharedGlobalVar",
                                 nameOfVar:          nameOfVar,
@@ -585,7 +587,8 @@ function addOrUpdateDriver(name, code2, theObject) {
 
 
 function scanHardDiskFromChild() {
-  forkedIndexer.send({ message_type: "childRunFindFolders" });
+    forkedIndexer.send({ message_type: "childRunFindFolders" });
+    forkedFileScanner.send({ message_type: "childScanFiles" });
 }
 
 
@@ -2236,13 +2239,16 @@ function setupChildProcesses() {
     if (isWin) {
         forked = fork.fork(path.join(__dirname, '../src/child.js'));
         forkedIndexer = fork.fork(path.join(__dirname, '../src/child.js'));
+        forkedFileScanner = fork.fork(path.join(__dirname, '../src/child.js'));
     } else {
             forked = fork.fork(path.join(__dirname, '../src/child.js'));
             forkedIndexer = fork.fork(path.join(__dirname, '../src/child.js'));
+            forkedFileScanner = fork.fork(path.join(__dirname, '../src/child.js'));
     };
 
     setUpChildListeners(forked);
     setUpChildListeners(forkedIndexer);
+    setUpChildListeners(forkedFileScanner);
 
 
     forked.send({ message_type: "greeting", hello: 'world' });
