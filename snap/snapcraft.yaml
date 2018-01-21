@@ -1,5 +1,5 @@
   name: visifile
-  version: '0.1' 
+  version: git
   summary: Desktop search,. Reinvented
   description: |
     This is Visifile.
@@ -10,6 +10,7 @@
   apps:
     visifile:
     command: visifile
+    
   parts:
     visifile:
       plugin: nodejs
