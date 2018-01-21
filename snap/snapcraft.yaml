@@ -5,11 +5,13 @@
     This is Visifile.
 
   grade: devel 
-  confinement: devmode
+  confinement: classic
 
   apps:
     visifile:
       command: visifile
+      plugs:
+        - network
     
   parts:
     visifile:
