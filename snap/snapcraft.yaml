@@ -8,7 +8,7 @@
   confinement: devmode
 
   apps:
-    wethr:
+    visifile:
     command: visifile
   parts:
     visifile:
