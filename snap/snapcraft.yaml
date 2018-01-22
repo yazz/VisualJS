@@ -16,5 +16,4 @@
     visifile:
       plugin: nodejs
       source: .
-      install: |
-        npm run build
+      npm-run: build
