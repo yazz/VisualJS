@@ -321,7 +321,7 @@ function timestampInSeconds() {
 
 //-----------------------------------------------------------------------------------------//
 //                                                                                         //
-//                               saveConnectionAndQueryForFile2                            //
+//                                   markFileForProcessing                                 //
 //                                                                                         //
 //                                                                                         //
 //                                                                                         //
@@ -331,7 +331,7 @@ function timestampInSeconds() {
 //                                                                                         //
 //                                                                                         //
 //-----------------------------------------------------------------------------------------//
-function saveConnectionAndQueryForFile2(  fullFilePath ) {
+function markFileForProcessing(  fullFilePath ) {
     if (!fullFilePath) {
         return;
     };
@@ -896,7 +896,7 @@ function saveFullPath( fullPath ) {
     }
 
     try {
-        saveConnectionAndQueryForFile2( fullPath )
+        markFileForProcessing( fullPath )
     } catch (err) {
           console.log("          err: " + err);
     }
@@ -1519,7 +1519,7 @@ function processMessagesFromMainProcess() {
       //console.log('Message from parent:', msg);
 
       if (msg.message_type == 'saveConnectionAndQueryForFile') {
-          saveConnectionAndQueryForFile2(msg.fileId);
+          markFileForProcessing(msg.fileId);
 
 
 
