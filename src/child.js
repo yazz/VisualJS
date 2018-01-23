@@ -123,7 +123,7 @@ testDiffFn();
 function setUpSql() {
     stmtResetFolders = dbsearch.prepare( " update   folders   set status = NULL ");
 
-    stmtResetFiles   = dbsearch.prepare( " update   files   set status = NULL ");
+    stmtResetFiles   = dbsearch.prepare( " update   files   set status = 'INDEXED' where status = 'REINDEXED' ");
 
     stmtUpdateFolder = dbsearch.prepare( " update folders " +
                                                          "    set " +
