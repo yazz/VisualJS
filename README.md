@@ -5,7 +5,9 @@ Document Search. Reinvented!
 
 Demo here: http://139.162.228.5/
 
-Install on linux as a Snap package: sudo snap install visifile --edge --devmode
+Install on linux as a Snap package: 
+
+    sudo snap install visifile --edge --devmode
 
 
 
