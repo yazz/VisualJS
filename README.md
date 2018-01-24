@@ -5,6 +5,8 @@ Document Search. Reinvented!
 
 Demo here: http://139.162.228.5/
 
+Install on linux as a Snap package: sudo snap install visifile --edge --devmode
+
 
 
 VisiFile is a nodejs program that scans your PC and indexes the contents of your common document formats, including:
