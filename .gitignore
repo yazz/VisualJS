@@ -13,7 +13,9 @@
 !/start32.bat
 !/webpack.config.js
 
-
+!/snap/
+!/snap/*
+!/snap/snapcraft.yaml
 
 
 
