@@ -107,6 +107,9 @@ path.join(__dirname, '../public/\aframe_fonts/SourceCodePro.fnt')
 path.join(__dirname, '../public/\aframe_fonts/SourceCodePro.png')
 
 
+if (!fs.existsSync(process.cwd() + "/public") ) {
+    copyFolderRecursiveSync(path.join(__dirname, "../public")  , process.cwd() ); }
+
 if (!fs.existsSync(process.cwd() + "/node-viewerjs") ) {
     copyFolderRecursiveSync(path.join(__dirname, "../node-viewerjs")  , process.cwd() ); }
 
