@@ -18,14 +18,14 @@
                 the "Add connection" button
          -->
         <div>{{this.$store.state.scanning_status}}</div>
-         
+
          <button class="btn btn-primary"
                 v-if="!add_connection_visible"
                 @click="add_new_connection">Add new connection</button>
 
 
-                
-                
+
+
       <!--
                   show the list of connections
          -->
