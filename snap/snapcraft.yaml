@@ -16,3 +16,7 @@
     visifile:
       plugin: nodejs
       source: .
+
+    copyFiles:
+      plugin: dump
+      source: public
