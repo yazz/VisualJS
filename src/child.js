@@ -123,7 +123,7 @@ testDiffFn();
 function setUpSql() {
     stmtResetFolders = dbsearch.prepare( " update   folders   set status = NULL ");
 
-    stmtResetFiles   = dbsearch.prepare( " update   files   set status = NULL ");
+    stmtResetFiles   = dbsearch.prepare( " update   files   set status = 'INDEXED' where status = 'REINDEXED' ");
 
     stmtUpdateFolder = dbsearch.prepare( " update folders " +
                                                          "    set " +
@@ -321,7 +321,7 @@ function timestampInSeconds() {
 
 //-----------------------------------------------------------------------------------------//
 //                                                                                         //
-//                               saveConnectionAndQueryForFile2                            //
+//                                   markFileForProcessing                                 //
 //                                                                                         //
 //                                                                                         //
 //                                                                                         //
@@ -331,7 +331,7 @@ function timestampInSeconds() {
 //                                                                                         //
 //                                                                                         //
 //-----------------------------------------------------------------------------------------//
-function saveConnectionAndQueryForFile2(  fullFilePath ) {
+function markFileForProcessing(  fullFilePath ) {
     if (!fullFilePath) {
         return;
     };
@@ -896,7 +896,7 @@ function saveFullPath( fullPath ) {
     }
 
     try {
-        saveConnectionAndQueryForFile2( fullPath )
+        markFileForProcessing( fullPath )
     } catch (err) {
           console.log("          err: " + err);
     }
@@ -923,7 +923,17 @@ function processFilesFn() {
     }
 
     inProcessFilesFn = true
-//zzz
+
+
+
+
+
+    // ---------------------------------------------------------------------------
+    //
+    // if we are reindexing a file
+    //
+    // ---------------------------------------------------------------------------
+    
     try {
         var stmt = dbsearch.all(
             "SELECT  " +
@@ -932,13 +942,12 @@ function processFilesFn() {
             "    files.fk_connection_id     as fk_connection_id," +
             "    connections.driver         as driver," +
             "    files.size                 as fileSize," +
-            "    files.contents_hash        as sha1ofFileContents," +
             "    files.path                 as path," +
             "    files.orig_name            as orig_name," +
             "    connections.type           as type " +
 
             "FROM " +
-            "    files, connections WHERE files.status = 'CREATED2' " +
+            "    files, connections WHERE files.status = 'INDEXED' " +
             "and files.fk_connection_id = connections.id and files.fk_connection_id not null LIMIT 1 "
             ,
 
@@ -961,20 +970,25 @@ function processFilesFn() {
                         var fullFileNamePath = path.join(returnedRecord.path , returnedRecord.orig_name)
                         var documentType = returnedRecord.type
                         var fileScreenName = returnedRecord.orig_name
+                        
+                        stmtUpdateFileStatus.run( "REINDEXED", returnedRecord.id,
+                        function(err) {
+                        
+                        var stat = fs.statSync(fullFileNamePath)
+                        var onDiskFileContentsSize = stat.size
+                        if (onDiskFileContentsSize != fileContentsSize) {
 
-                        console.log("existingConnectionId: " + existingConnectionId)
-                        console.log("driver: " + driverName)
-                        console.log("fileContentsSize: " + fileContentsSize)
-                        console.log("sha1ofFileContents: " + sha1ofFileContents)
-                        console.log("fullFileNamePath: " + fullFileNamePath)
-                        console.log("documentType: " + documentType)
+                            console.log("existingConnectionId: " + existingConnectionId)
+                            console.log("driver: " + driverName)
+                            console.log("fileContentsSize: " + fileContentsSize)
+                            console.log("sha1ofFileContents: " + sha1ofFileContents)
+                            console.log("fullFileNamePath: " + fullFileNamePath)
+                            console.log("documentType: " + documentType)
 
 
 
-                        dbsearch.serialize(function() {
-                            console.log("    2")
-                            stmtUpdateFileStatus.run( "INDEXED", returnedRecord.id,
-                            function(err) {
+                            dbsearch.serialize(function() {
+                                console.log("    2")
                                 console.log("    3")
                                 if (err) {
                                     console.log('   err 1 : ' + err);
@@ -1020,10 +1034,12 @@ function processFilesFn() {
 
                                     );
                                 }
-                            })
+                            
 
 
                             });
+                        }
+                        })
 
                     } else {
                         inProcessFilesFn = false
@@ -1036,6 +1052,16 @@ function processFilesFn() {
         inProcessFilesFn = false
     }
 
+
+
+    
+    
+    // ---------------------------------------------------------------------------
+    //
+    // if it is the first time that we are creating a file
+    //
+    // ---------------------------------------------------------------------------
+    
     try {
         var stmt = dbsearch.all(
             " SELECT  " +
@@ -1100,7 +1126,7 @@ function processFilesFn() {
                                 documentType    = '|DOCUMENT|'
                                 driverName      = 'pdf'
                             }
-    //zzz
+    
                             console.log("Document type: " + documentType)
                             if (documentType) {
                                 var screenName = fileName.replace(/[^\w\s]/gi,'');
@@ -1519,7 +1545,7 @@ function processMessagesFromMainProcess() {
       //console.log('Message from parent:', msg);
 
       if (msg.message_type == 'saveConnectionAndQueryForFile') {
-          saveConnectionAndQueryForFile2(msg.fileId);
+          markFileForProcessing(msg.fileId);
 
 
 

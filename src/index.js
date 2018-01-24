@@ -107,6 +107,9 @@ path.join(__dirname, '../public/\aframe_fonts/SourceCodePro.fnt')
 path.join(__dirname, '../public/\aframe_fonts/SourceCodePro.png')
 
 
+if (!fs.existsSync(process.cwd() + "/public") ) {
+    copyFolderRecursiveSync(path.join(__dirname, "../public")  , process.cwd() ); }
+
 if (!fs.existsSync(process.cwd() + "/node-viewerjs") ) {
     copyFolderRecursiveSync(path.join(__dirname, "../node-viewerjs")  , process.cwd() ); }
 
@@ -2275,7 +2278,7 @@ function startServices() {
 
     app.use("/public/aframe_fonts", express.static(path.join(__dirname, '../public/aframe_fonts')));
     app.use('/viewer', express.static(process.cwd() + '/node-viewerjs/release'));
-    app.use(express.static(path.join(__dirname, '../public/')))
+    app.use(express.static(path.join(process.cwd(), '/public/')))
     app.use(bodyParser.json()); // support json encoded bodies
     app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
@@ -2439,7 +2442,7 @@ function startServices() {
     // start the web server
     //------------------------------------------------------------------------------
     app.listen(port, hostaddress, function () {
-    	//console.log(typeOfSystem + ' started on port ' + port );
+    	console.log(typeOfSystem + ' started on port ' + port + ' with local folder at ' + process.cwd() + ' and __dirname = ' + __dirname);
     })
 
 

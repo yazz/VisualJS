@@ -10,10 +10,10 @@
   apps:
     visifile:
       command: visifile
-      plugs: [network]
+      plugs: [network, network-bind]
     
   parts:
     visifile:
       plugin: nodejs
       source: .
-      npm-run: [build]
+
