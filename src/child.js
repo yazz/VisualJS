@@ -42,6 +42,7 @@ var stmtUpdateFolder;
 var stmtResetFolders;
 
 var stmtResetFiles;
+var stmtFileChanged;
 var stmtInsertIntoFiles;
 var stmtInsertIntoFiles2;
 var stmtUpdateFileStatus;
@@ -150,6 +151,11 @@ function setUpSql() {
                                                  " values " +
                                                  "      ( ?,  ?, ? );");
 
+
+    stmtFileChanged = dbsearch.prepare( " update files " +
+                                            "   set  contents_hash = ?,  size = ? " +
+                                            " where  " +
+                                            "     id = ? ;");
 
     stmtInsertIntoFiles = dbsearch.prepare( " insert into files " +
                                             "     ( id,  contents_hash ,  size,  path,  orig_name,    fk_connection_id) " +
@@ -984,6 +990,8 @@ function processFilesFn() {
                             console.log("sha1ofFileContents: " + sha1ofFileContents)
                             console.log("fullFileNamePath: " + fullFileNamePath)
                             console.log("documentType: " + documentType)
+                            
+                            var newSha1ofFileContents = getSha1(fullFileNamePath)
 
 
 
@@ -1004,8 +1012,8 @@ function processFilesFn() {
                                         fileScreenName,
                                         existingConnectionId,
                                         driverName,
-                                        fileContentsSize,
-                                        sha1ofFileContents,
+                                        onDiskFileContentsSize,
+                                        newSha1ofFileContents,
                                         fullFileNamePath,
                                         documentType,
                                         JSON.stringify({} , null, 2),
@@ -1013,22 +1021,38 @@ function processFilesFn() {
                                         timestampInSeconds(),
 
                                         function(err2) {
-                                            console.log("    5")
                                             if (err2) {
                                                 console.log('   err2 : ' + err2);
+                                                stmtUpdateFileStatus.run( "ERROR", returnedRecord.id, function(err) {})
                                             } else {
-                                                process.send({
-                                                                message_type:       "return_set_query",
-                                                                id:                 newqueryid,
-                                                                name:               fileScreenName,
-                                                                connection:         existingConnectionId,
-                                                                driver:             driverName,
-                                                                size:               fileContentsSize,
-                                                                hash:               sha1ofFileContents,
-                                                                fileName:           fullFileNamePath,
-                                                                type:               driverName,
-                                                                definition:         JSON.stringify({} , null, 2),
-                                                                preview:            JSON.stringify([{message: 'No preview available'}] , null, 2)});
+                                                stmtFileChanged.run(
+                                                    newSha1ofFileContents,
+                                                    onDiskFileContentsSize,
+                                                    returnedRecord.id,
+                                                    function(err9) {
+                                                        if (err9) {
+                                                            inProcessFilesFn = false
+                                                            stmtUpdateFileStatus.run( "ERROR", returnedRecord.id, function(err) {})
+                                                        }
+                                                        else {
+                                                            process.send({
+                                                                            message_type:       "return_set_query",
+                                                                            id:                 newqueryid,
+                                                                            name:               fileScreenName,
+                                                                            connection:         existingConnectionId,
+                                                                            driver:             driverName,
+                                                                            size:               fileContentsSize,
+                                                                            hash:               sha1ofFileContents,
+                                                                            fileName:           fullFileNamePath,
+                                                                            type:               driverName,
+                                                                            definition:         JSON.stringify({} , null, 2),
+                                                                            preview:            JSON.stringify([{message: 'No preview available'}] , null, 2)});
+                                                            
+                                                        }
+                                                        inProcessFilesFn = false
+                                                    }
+                                            )
+                                            console.log("    5")
                                             }
                                             inProcessFilesFn = false
                                             }
