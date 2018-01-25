@@ -1915,7 +1915,7 @@ function addFolderForIndexingIfNotExist(folderName) {
             }
         });
 }
-var fileFilter = /\xlsx$|csv$|docx$|pdf$|glb$/
+var fileFilter = /\xlsx$|csv$|doc$|docx$|pdf$|glb$/
 function directSearchFolders(drive) {
     fromDir(drive,fileFilter,function(filename){
         var dirname = path.dirname(filename)
