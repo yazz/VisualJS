@@ -993,6 +993,7 @@ function processFilesFn() {
                                 if (err) {
                                     console.log('   err 1 : ' + err);
                                     stmtUpdateFileStatus.run( "ERROR", returnedRecord.id, function(err) {})
+                                    inProcessFilesFn = false
                                 } else {
 
                                     console.log("    4")
@@ -1015,20 +1016,20 @@ function processFilesFn() {
                                             console.log("    5")
                                             if (err2) {
                                                 console.log('   err2 : ' + err2);
+                                            } else {
+                                                process.send({
+                                                                message_type:       "return_set_query",
+                                                                id:                 newqueryid,
+                                                                name:               fileScreenName,
+                                                                connection:         existingConnectionId,
+                                                                driver:             driverName,
+                                                                size:               fileContentsSize,
+                                                                hash:               sha1ofFileContents,
+                                                                fileName:           fullFileNamePath,
+                                                                type:               driverName,
+                                                                definition:         JSON.stringify({} , null, 2),
+                                                                preview:            JSON.stringify([{message: 'No preview available'}] , null, 2)});
                                             }
-                                            process.send({
-                                                            message_type:       "return_set_query",
-                                                            id:                 newqueryid,
-                                                            name:               fileScreenName,
-                                                            connection:         existingConnectionId,
-                                                            driver:             driverName,
-                                                            size:               fileContentsSize,
-                                                            hash:               sha1ofFileContents,
-                                                            fileName:           fullFileNamePath,
-                                                            type:               driverName,
-                                                            definition:         JSON.stringify({} , null, 2),
-                                                            preview:            JSON.stringify([{message: 'No preview available'}] , null, 2)});
-
                                             inProcessFilesFn = false
                                             }
 
@@ -1177,44 +1178,40 @@ function processFilesFn() {
                                             function(err2) {
                                                 if (err2) {
                                                     console.log('   err2 : ' + err2);
-                                                }
-                                                process.send({
-                                                                message_type:       "return_set_query",
-                                                                id:                 newqueryid,
-                                                                name:               screenName,
-                                                                connection:         newConnectionId,
-                                                                driver:             driverName,
-                                                                size:               fileContentsSize,
-                                                                hash:               sha1ofFileContents,
-                                                                fileName:           fullFileNamePath,
-                                                                type:               driverName,
-                                                                definition:         JSON.stringify({} , null, 2),
-                                                                preview:            JSON.stringify([{message: 'No preview available'}] , null, 2)});
+                                                } else {
+                                                    process.send({
+                                                                    message_type:       "return_set_query",
+                                                                    id:                 newqueryid,
+                                                                    name:               screenName,
+                                                                    connection:         newConnectionId,
+                                                                    driver:             driverName,
+                                                                    size:               fileContentsSize,
+                                                                    hash:               sha1ofFileContents,
+                                                                    fileName:           fullFileNamePath,
+                                                                    type:               driverName,
+                                                                    definition:         JSON.stringify({} , null, 2),
+                                                                    preview:            JSON.stringify([{message: 'No preview available'}] , null, 2)});
 
-                                                stmtUpdateFileSizeAndShaAndConnectionId.run(
-                                                    sha1ofFileContents,
-                                                    fileContentsSize,
-                                                    newConnectionId,
-                                                    returnedRecord.id,
-                                                    function(err3) {
-                                                        console.log('   CRETAED : ' + returnedRecord.id);
-                                                        if (err3) {
-                                                            console.log('   err3 : ' + err3);
-                                                        }
-                                                        stmtUpdateFileStatus.run( "CREATED", returnedRecord.id,function(err4){
-                                                            console.log('   CRETAED2 : ' + returnedRecord.id);
-                                                            if (err4) {
+                                                    stmtUpdateFileSizeAndShaAndConnectionId.run(
+                                                        sha1ofFileContents,
+                                                        fileContentsSize,
+                                                        newConnectionId,
+                                                        returnedRecord.id,
+                                                        function(err3) {
+                                                            console.log('   CRETAED : ' + returnedRecord.id);
+                                                            if (err3) {
                                                                 console.log('   err3 : ' + err3);
                                                                 stmtUpdateFileStatus.run( "ERROR", returnedRecord.id,function(err4){})
                                                             }
                                                             inProcessFilesFn = false
-                                                        })
-                                            })
+                                                    })
+                                                }
                                         })
                                     }
                                 );
                         } else {
                             stmtUpdateFileStatus.run( "ERROR", returnedRecord.id,function(err4){})
+                            inProcessFilesFn = false
                         }
                     }
 
