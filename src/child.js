@@ -1084,12 +1084,13 @@ function processFilesFn() {
                 if (!err)
                 {
                     //
-                    // if there is a query where nothing has been done then index it
+                    // if there is a file listed, where nothing has been done then index it
                     //
                     if( results.length != 0)
                     {
                         console.log("    12")
                         var returnedRecord = results[0];
+                        stmtUpdateFileStatus.run( "INDEXED", returnedRecord.id,function(err4){})
 
                         var fullFileNamePath = path.join(returnedRecord.path , returnedRecord.orig_name)
 
@@ -1206,7 +1207,6 @@ function processFilesFn() {
                                                                 console.log('   err3 : ' + err3);
                                                                 stmtUpdateFileStatus.run( "ERROR", returnedRecord.id,function(err4){})
                                                             }
-                                                            stmtUpdateFileStatus.run( "INDEXED", returnedRecord.id,function(err4){})
                                                             inProcessFilesFn = false
                                                         })
                                             })
