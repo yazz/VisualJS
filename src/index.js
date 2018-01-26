@@ -251,8 +251,7 @@ dbsearch.run("PRAGMA temp_store=MEMORY;")
 
 //console.log("... ");
 
-var db_helper = require("./db_helper")
-db_helper.createTables(dbsearch,  getPort);
+setupChildProcesses2();
 
 
 
@@ -1275,7 +1274,7 @@ function getRoot(req, res) {
 
 function downloadWebDocument(req, res) {
     //mammoth.convertToHtml({path: "Security in Office 365 Whitepaper.docx"})
-    //zzz
+    
     var stmt = dbsearch.all(" select   " +
                             "     contents.content, queries.driver   from  contents, queries   " +
                             " where " +
@@ -2205,12 +2204,18 @@ function setUpChildListeners(forkedProcess) {
                                     query: queries[msg.query_id]
 
             });
+
+
+
+        } else if (msg.message_type == "createdTablesInChild") {
+            forked.send({ message_type: "init" });
+            getPort()
         }
 
 
 
-
-
+//
+//zzz
 
 
 
@@ -2221,6 +2226,39 @@ function setUpChildListeners(forkedProcess) {
     });
 }
 
+function setupChildProcesses2() {
+
+
+
+
+    //console.log("-------------------------------------------------------------------");
+    //console.log("-------------------------------------------------------------------");
+    //console.log("-------------------------------------------------------------------");
+    //console.log("-------------------------------------------------------------------");
+    //console.log("-------------------------------------------------------------------");
+
+
+
+
+
+
+
+
+
+    if (isWin) {
+        forked = fork.fork(path.join(__dirname, '../src/child.js'));
+    } else {
+            forked = fork.fork(path.join(__dirname, '../src/child.js'));
+    };
+
+    setUpChildListeners(forked);
+
+
+    forked.send({ message_type: "createTables" });
+    forked.send({ message_type: "greeting", hello: 'world' });
+    
+//createdTablesInChild    
+}
 
 function setupChildProcesses() {
 
@@ -2242,21 +2280,17 @@ function setupChildProcesses() {
 
 
     if (isWin) {
-        forked = fork.fork(path.join(__dirname, '../src/child.js'));
         forkedIndexer = fork.fork(path.join(__dirname, '../src/child.js'));
         forkedFileScanner = fork.fork(path.join(__dirname, '../src/child.js'));
     } else {
-            forked = fork.fork(path.join(__dirname, '../src/child.js'));
             forkedIndexer = fork.fork(path.join(__dirname, '../src/child.js'));
             forkedFileScanner = fork.fork(path.join(__dirname, '../src/child.js'));
     };
 
-    setUpChildListeners(forked);
     setUpChildListeners(forkedIndexer);
     setUpChildListeners(forkedFileScanner);
-
-
-    forked.send({ message_type: "greeting", hello: 'world' });
+    forkedIndexer.send({ message_type: "init" });
+    forkedFileScanner.send({ message_type: "init" });
 }
 
 

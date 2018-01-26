@@ -14,6 +14,7 @@ var diff                        = require('deep-diff').diff
 var sqlite3                     = require2('sqlite3');
 var os                          = require('os')
 var perf                        = require('./perf')
+var db_helper                   = require("./db_helper")
 
 
 
@@ -85,7 +86,7 @@ function require2(moduleName) {
 
 
 
-setUpSql()
+
 
 sendTestHeartBeat();
 
@@ -1629,8 +1630,26 @@ function processMessagesFromMainProcess() {
     } else if (msg.message_type == 'childScanFiles') {
         console.log("**** childScanFiles");
         setInterval(processFilesFn ,numberOfSecondsIndexFilesInterval * 1000);
+
+
+    } else if (msg.message_type == 'greeting') {
+        console.log("**** greeting");
+
+
+    } else if (msg.message_type == 'init') {
+        setUpSql();
+    
+    } else if (msg.message_type == 'createTables') {
+        console.log("**** createTables");
+        db_helper.createTables(dbsearch,  
+            function() {
+                console.log("**** createTables returned");
+                process.send({  message_type:       "createdTablesInChild"  });
+                
+            });
     }
 
+    
 
 
     });

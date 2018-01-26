@@ -4,6 +4,7 @@ var async           = require('async');
 
 module.exports = {
     createTables: function(dbsearch, callbackFn) {
+    console.log("--------------- createTables: function(dbsearch, callbackFn) {");
     async.map([
             "CREATE TABLE IF NOT EXISTS search_rows_hierarchy (document_binary_hash TEXT, parent_hash TEXT, child_hash TEXT);",
 
