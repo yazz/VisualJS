@@ -979,7 +979,10 @@ function processFilesFn() {
                         
                         stmtUpdateFileStatus.run( "REINDEXED", returnedRecord.id,
                         function(err) {
-                        
+
+                        try {
+                            
+                        if (fs.existsSync(fullFileNamePath)) {
                         var stat = fs.statSync(fullFileNamePath)
                         var onDiskFileContentsSize = stat.size
                         if (onDiskFileContentsSize != fileContentsSize) {
@@ -1064,7 +1067,19 @@ function processFilesFn() {
 
                             });
                         }
-                        })
+                        } else {
+                            stmtUpdateFileStatus.run( "DELETED", returnedRecord.id, function(err) {})
+                            inProcessFilesFn = false
+                            console.log("          Error eee: " + eee);
+                        }
+                    } catch (eee) {
+                        stmtUpdateFileStatus.run( "ERROR", returnedRecord.id, function(err) {})
+                        inProcessFilesFn = false
+                        console.log("          Error eee: " + eee);
+                        
+                    }
+                        }
+                        )
 
                     } else {
                         inProcessFilesFn = false
@@ -1122,6 +1137,7 @@ function processFilesFn() {
                         console.log("fullFileNamePath: " + fullFileNamePath)
 
 
+                        if (fs.existsSync(fullFileNamePath)) {
                         var stat = fs.statSync(fullFileNamePath)
                         if (stat && !stat.isDirectory()) {
                             console.log("    13")
@@ -1233,11 +1249,15 @@ function processFilesFn() {
                                         })
                                     }
                                 );
+                            } else {
+                                stmtUpdateFileStatus.run( "ERROR", returnedRecord.id,function(err4){})
+                                inProcessFilesFn = false
+                            }
+                        }
                         } else {
-                            stmtUpdateFileStatus.run( "ERROR", returnedRecord.id,function(err4){})
+                            stmtUpdateFileStatus.run( "DELETED", returnedRecord.id,function(err4){})
                             inProcessFilesFn = false
                         }
-                    }
 
                 } else {
                     inProcessFilesFn = false
