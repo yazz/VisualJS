@@ -185,9 +185,6 @@ var locked;
 var requestClientPublicIp;
 var in_when_queries_changes             = false;
 var hostcount  												  = 0;
-var sqliteeval
-var tdeval
-var toeval;
 var in_when_connections_changes					= false;
 var forked;
 var forkedIndexer;
