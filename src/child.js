@@ -1658,8 +1658,17 @@ function processMessagesFromMainProcess() {
     } else if (msg.message_type == 'setUpDbDrivers') {
         console.log("**** setUpDbDrivers");
         setUpDbDrivers();
-    }
 
+
+
+
+
+
+
+    } else if (msg.message_type == 'addNewQuery') {
+        console.log("**** addNewQuery");
+        addNewQuery(msg.params);
+    }
 
 
     });
@@ -2157,4 +2166,36 @@ function addOrUpdateDriver(name, code2, theObject) {
               }
           }
       );
+  }
+
+
+
+  function addNewQuery( params ) {
+      try
+      {
+          //console.log("------------------function addNewQuery( params ) { -------------------");
+          dbsearch.serialize(function() {
+              var stmt = dbsearch.prepare(" insert into queries " +
+                                          "    ( id, name, connection, driver, definition, status, type ) " +
+                                          " values " +
+                                          "    (?,    ?, ?, ?, ?, ?, ?);");
+
+              var newQueryId = uuidv1();
+              stmt.run(newQueryId,
+                       params.name,
+                       params.connection,
+                       params.driver,
+                       params.definition,
+                       params.status,
+                       params.type
+                       );
+
+              stmt.finalize();
+              when_queries_changes(null);
+              getResult(newQueryId, params.connection, params.driver, eval("(" + params.definition + ")"), function(result){});
+          });
+      } catch(err) {
+          //console.log("                          err: " + err);
+      } finally {
+      }
   }

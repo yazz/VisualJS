@@ -1033,37 +1033,6 @@ function when_queries_changes(callback) {
 
 
 
-function addNewQuery( params ) {
-    try
-    {
-        //console.log("------------------function addNewQuery( params ) { -------------------");
-        dbsearch.serialize(function() {
-            var stmt = dbsearch.prepare(" insert into queries " +
-                                        "    ( id, name, connection, driver, definition, status, type ) " +
-                                        " values " +
-                                        "    (?,    ?, ?, ?, ?, ?, ?);");
-
-            var newQueryId = uuidv1();
-            stmt.run(newQueryId,
-                     params.name,
-                     params.connection,
-                     params.driver,
-                     params.definition,
-                     params.status,
-                     params.type
-                     );
-
-            stmt.finalize();
-            when_queries_changes(null);
-            getResult(newQueryId, params.connection, params.driver, eval("(" + params.definition + ")"), function(result){});
-        });
-    } catch(err) {
-        //console.log("                          err: " + err);
-    } finally {
-    }
-}
-
-
 
 
 
@@ -1998,7 +1967,7 @@ function add_new_connectionFn(req, res) {
 
 function add_new_queryFn(req, res) {
     var params = req.body;
-    addNewQuery( params );
+    forked.send({ message_type: "addNewQuery" , params: params});
     res.writeHead(200, {'Content-Type': 'text/plain'});
     res.end(JSON.stringify({done: "ok"}))};
 
