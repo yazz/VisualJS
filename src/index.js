@@ -161,13 +161,12 @@ if (isWin) {
 
 
 var timeout                             = 0;
-var init_drivers                        = false;
 var port;
 var hostaddress;
 var typeOfSystem;
 var centralHostAddress;
 var centralHostPort;
-var toeval;
+
 var stmt2                               = null;
 var stmt3                               = null;
 var setIn                               = null;
@@ -186,9 +185,9 @@ var locked;
 var requestClientPublicIp;
 var in_when_queries_changes             = false;
 var hostcount  												  = 0;
-var pgeval
 var sqliteeval
 var tdeval
+var toeval;
 var in_when_connections_changes					= false;
 var forked;
 var forkedIndexer;
@@ -533,58 +532,6 @@ function saveConnectionAndQueryForFile(fileName) {
 
 
 
-
-
-
-
-function addOrUpdateDriver(name, code2, theObject) {
-      var code = eval(code2);
-	var driverType = theObject.type;
-	//console.log('addOrUpdateDriver: ' + name);
-
-      var stmt = dbsearch.all("select name from drivers where name = '" + name + "';",
-          function(err, rows) {
-              if (!err) {
-                  //console.log('             : ' + rows.length);
-                  if (rows.length == 0) {
-                      try
-                      {
-                          dbsearch.serialize(function() {
-                              var stmt = dbsearch.prepare(" insert or replace into drivers " +
-                                                          "    (id,  name, type, code ) " +
-                                                          " values " +
-                                                          "    (?, ?,?,?);");
-                          stmt.run(uuidv1(),  name,  driverType,  code2);
-                          stmt.finalize();
-                          });
-                      } catch(err) {
-                          //console.log('err             : ' + err);
-                      } finally {
-
-                      }
-
-                  } else {
-                      //console.log('   *** Checking DRIVER ' + name);
-                      var existingDriver = rows[0];
-                      if (!(code2 == existingDriver.code)) {
-                          try
-                          {
-                              dbsearch.serialize(function() {
-                                  var stmt = dbsearch.prepare(" update   drivers   set code = ? where id = ?");
-                                  stmt.run( code2 , rows[0].id );
-                                  stmt.finalize();
-                              });
-                          } catch(err) {
-                              //console.log('err             : ' + err);
-                          } finally {
-
-                          }
-                      }
-                  }
-              }
-          }
-      );
-  }
 
 
 
@@ -1249,19 +1196,11 @@ function getRoot(req, res) {
 		};
 	};
 
-	if (!init_drivers) {
-	init_drivers = true;
-	eval(toeval);
-	if (drivers['oracle']['loadOnCondition']()) {
-		drivers['oracle']['loadDriver']();
-	};
-	eval(pgeval);
-
-	};
-
 	if (typeOfSystem == 'client') {
-					if (!canAccess(req,res)) {return;}
-		res.end(fs.readFileSync(path.join(__dirname, '../public/index.html')));
+        if (!canAccess(req,res)) {
+            return;
+        }
+        res.end(fs.readFileSync(path.join(__dirname, '../public/index.html')));
 	}
 	if (typeOfSystem == 'server') {
 		res.end(fs.readFileSync(path.join(__dirname, '../public/index_server.html')));
@@ -1274,7 +1213,7 @@ function getRoot(req, res) {
 
 function downloadWebDocument(req, res) {
     //mammoth.convertToHtml({path: "Security in Office 365 Whitepaper.docx"})
-    
+
     var stmt = dbsearch.all(" select   " +
                             "     contents.content, queries.driver   from  contents, queries   " +
                             " where " +
@@ -2068,65 +2007,6 @@ function add_new_queryFn(req, res) {
 
 
 
-function setUpDbDrivers() {
-	pgeval = '(' + fs.readFileSync(path.join(__dirname, './glb.js')).toString() + ')';
-    setSharedGlobalVar("drivers", 'glb', pgeval );
-	addOrUpdateDriver('glb', pgeval, drivers['glb'])
-
-	pgeval = '(' + fs.readFileSync(path.join(__dirname, './csv.js')).toString() + ')';
-    setSharedGlobalVar("drivers", 'csv', pgeval );
-	addOrUpdateDriver('csv', pgeval, drivers['csv'])
-
-	pgeval = '(' + fs.readFileSync(path.join(__dirname, './txt.js')).toString() + ')';
-    setSharedGlobalVar("drivers", 'txt', pgeval );
-	addOrUpdateDriver('txt', pgeval, drivers['txt'])
-
-
-	pgeval = '(' + fs.readFileSync(path.join(__dirname, './excel.js')).toString() + ')';
-    setSharedGlobalVar("drivers", 'excel', pgeval );
-	addOrUpdateDriver('excel', pgeval, drivers['excel'])
-
-	pgeval = '(' + fs.readFileSync(path.join(__dirname, './word.js')).toString() + ')';
-    setSharedGlobalVar("drivers", 'word', pgeval );
-	addOrUpdateDriver('word', pgeval, drivers['word'])
-
-	pgeval = '(' + fs.readFileSync(path.join(__dirname, './pdf.js')).toString() + ')';
-    setSharedGlobalVar("drivers", 'pdf', pgeval );
-	addOrUpdateDriver('pdf', pgeval, drivers['pdf'])
-
-
-	pgeval = '(' + fs.readFileSync(path.join(__dirname, './postgres.js')).toString() + ')';
-    setSharedGlobalVar("drivers", 'postgres', pgeval );
-	addOrUpdateDriver('postgres', pgeval, drivers['postgres'])
-
-
-
-	sqliteeval = '(' + fs.readFileSync(path.join(__dirname, './sqlite.js')).toString() + ')';
-    setSharedGlobalVar("drivers", 'sqlite', sqliteeval );
-	addOrUpdateDriver('sqlite', sqliteeval, drivers['sqlite'])
-
-
-	pgeval = '(' + fs.readFileSync(path.join(__dirname, './mysql.js')).toString() + ')';
-    setSharedGlobalVar("drivers", 'mysql', pgeval );
-	addOrUpdateDriver('mysql', pgeval, drivers['mysql'])
-
-
-
-	toeval =  '(' + fs.readFileSync(path.join(__dirname, './oracle.js')).toString() + ')';
-    setSharedGlobalVar("drivers", 'oracle', toeval );
-	addOrUpdateDriver('oracle',   toeval, drivers['oracle'])
-	process.env['PATH'] = process.cwd() + '\\oracle_driver\\instantclient32' + ';' + process.env['PATH'];
-	if (drivers['oracle'].loadOnCondition()) {
-		drivers['oracle'].loadDriver()
-	}
-
-
-
-	tdeval = '(' + fs.readFileSync(path.join(__dirname, './testdriver.js')).toString() + ')';
-    setSharedGlobalVar("drivers", 'testdriver', tdeval );
-	addOrUpdateDriver('testdriver', tdeval, drivers['testdriver'])
-}
-
 
 
 
@@ -2210,12 +2090,17 @@ function setUpChildListeners(forkedProcess) {
         } else if (msg.message_type == "createdTablesInChild") {
             forked.send({ message_type: "init" });
             getPort()
+
+
+        } else if (msg.message_type == "parentSetSharedGlobalVar") {
+            setSharedGlobalVar(msg.nameOfVar, msg.index, msg.value)
         }
 
 
 
+
 //
-//zzz
+//
 
 
 
@@ -2256,8 +2141,8 @@ function setupChildProcesses2() {
 
     forked.send({ message_type: "createTables" });
     forked.send({ message_type: "greeting", hello: 'world' });
-    
-//createdTablesInChild    
+
+//createdTablesInChild
 }
 
 function setupChildProcesses() {
@@ -2515,7 +2400,9 @@ function startServices() {
 	//console.log("******************************ADDING DRIVERS*********************************")
 
 
-    setUpDbDrivers();
+    forked.send({
+                    message_type:       'setUpDbDrivers'
+                    });
 
 
 
@@ -2530,9 +2417,6 @@ function startServices() {
 
 
 
-
-	////console.log("postgres.get = " + JSON.stringify(eval(pgeval) , null, 2))
-	////console.log("postgres.get = " + eval(pgeval).get)
 	//--------------------------------------------------------
 	// open the app in a web browser
 	//--------------------------------------------------------

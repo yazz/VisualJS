@@ -15,7 +15,10 @@ var sqlite3                     = require2('sqlite3');
 var os                          = require('os')
 var perf                        = require('./perf')
 var db_helper                   = require("./db_helper")
-
+var pgeval
+var sqliteeval
+var tdeval
+var toeval;
 
 
 var inProcessFilesFn                    = false;
@@ -940,7 +943,7 @@ function processFilesFn() {
     // if we are reindexing a file
     //
     // ---------------------------------------------------------------------------
-    
+
     try {
         var stmt = dbsearch.all(
             "SELECT  " +
@@ -977,12 +980,12 @@ function processFilesFn() {
                         var fullFileNamePath = path.join(returnedRecord.path , returnedRecord.orig_name)
                         var documentType = returnedRecord.type
                         var fileScreenName = returnedRecord.orig_name
-                        
+
                         stmtUpdateFileStatus.run( "REINDEXED", returnedRecord.id,
                         function(err) {
 
                         try {
-                            
+
                         if (fs.existsSync(fullFileNamePath)) {
                         var stat = fs.statSync(fullFileNamePath)
                         var onDiskFileContentsSize = stat.size
@@ -994,7 +997,7 @@ function processFilesFn() {
                             console.log("sha1ofFileContents: " + sha1ofFileContents)
                             console.log("fullFileNamePath: " + fullFileNamePath)
                             console.log("documentType: " + documentType)
-                            
+
                             var newSha1ofFileContents = getSha1(fullFileNamePath)
 
 
@@ -1051,7 +1054,7 @@ function processFilesFn() {
                                                                             type:               driverName,
                                                                             definition:         JSON.stringify({} , null, 2),
                                                                             preview:            JSON.stringify([{message: 'No preview available'}] , null, 2)});
-                                                            
+
                                                         }
                                                         inProcessFilesFn = false
                                                     }
@@ -1063,7 +1066,7 @@ function processFilesFn() {
 
                                     );
                                 }
-                            
+
 
 
                             });
@@ -1077,7 +1080,7 @@ function processFilesFn() {
                         stmtUpdateFileStatus.run( "ERROR", returnedRecord.id, function(err) {})
                         inProcessFilesFn = false
                         console.log("          Error eee: " + eee);
-                        
+
                     }
                         }
                         )
@@ -1095,14 +1098,14 @@ function processFilesFn() {
 
 
 
-    
-    
+
+
     // ---------------------------------------------------------------------------
     //
     // if it is the first time that we are creating a file
     //
     // ---------------------------------------------------------------------------
-    
+
     try {
         var stmt = dbsearch.all(
             " SELECT  " +
@@ -1169,7 +1172,7 @@ function processFilesFn() {
                                 documentType    = '|DOCUMENT|'
                                 driverName      = 'pdf'
                             }
-    
+
                             console.log("Document type: " + documentType)
                             if (documentType) {
                                 var screenName = fileName.replace(/[^\w\s]/gi,'');
@@ -1605,7 +1608,9 @@ function processMessagesFromMainProcess() {
 
 
       } else if (msg.message_type == 'childSetSharedGlobalVar') {
-            //console.log("  ... received, " + msg.nameOfVar + "[" + msg.index + "] = " + Object.keys(eval( "(" + msg.value + ")" )));
+
+
+                      //console.log("  ... received, " + msg.nameOfVar + "[" + msg.index + "] = " + Object.keys(eval( "(" + msg.value + ")" )));
             //console.log("  ... received, " + msg.nameOfVar + "[" + msg.index + "] = " +eval( "(" + msg.value + ")" ).get_v2  );
             var ccc =  msg.nameOfVar + "['" + msg.index + "'] = (" + msg.value + ")";
 
@@ -1625,7 +1630,7 @@ function processMessagesFromMainProcess() {
            console.log("**** childRunFindFolders");
            setTimeout(findFoldersFn ,1 * 1000);
            setInterval(findFilesInFoldersFn ,numberOfSecondsIndexFilesInterval * 1000);
-      
+
 
     } else if (msg.message_type == 'childScanFiles') {
         console.log("**** childScanFiles");
@@ -1638,18 +1643,23 @@ function processMessagesFromMainProcess() {
 
     } else if (msg.message_type == 'init') {
         setUpSql();
-    
+
     } else if (msg.message_type == 'createTables') {
         console.log("**** createTables");
-        db_helper.createTables(dbsearch,  
+        db_helper.createTables(dbsearch,
             function() {
                 console.log("**** createTables returned");
                 process.send({  message_type:       "createdTablesInChild"  });
-                
+
             });
+
+
+
+    } else if (msg.message_type == 'setUpDbDrivers') {
+        console.log("**** setUpDbDrivers");
+        setUpDbDrivers();
     }
 
-    
 
 
     });
@@ -2001,3 +2011,150 @@ function fromDir(startPath,filter,callback){
         }
     };
 };
+
+
+
+
+
+function setSharedGlobalVar(nameOfVar, index, value) {
+    //console.log(setSharedGlobalVar);
+    //console.log("sent " + nameOfVar + "[" + index + "] = "   + "...");
+    //console.log("sent " + nameOfVar + "[" + index + "] = " + eval(value).get_v2  + "...");
+    try {
+        var tosend = nameOfVar + "['" + index + "'] = " + value ;
+        //console.log(tosend);
+        eval(tosend);
+
+
+                var sharemessage = {
+                            message_type:       'parentSetSharedGlobalVar',
+                            nameOfVar:          nameOfVar,
+                            index:              index,
+                            //value:              JSON.stringify(value,null,2)
+                            value:              value
+                        };
+         process.send(sharemessage);
+    } catch(err) {
+        //console.log("Error with " + err );
+        return err;
+    } finally {
+
+    }
+}
+
+
+
+function setUpDbDrivers() {
+	pgeval = '(' + fs.readFileSync(path.join(__dirname, './glb.js')).toString() + ')';
+    setSharedGlobalVar("drivers", 'glb', pgeval );
+	addOrUpdateDriver('glb', pgeval, drivers['glb'])
+
+	pgeval = '(' + fs.readFileSync(path.join(__dirname, './csv.js')).toString() + ')';
+    setSharedGlobalVar("drivers", 'csv', pgeval );
+	addOrUpdateDriver('csv', pgeval, drivers['csv'])
+
+	pgeval = '(' + fs.readFileSync(path.join(__dirname, './txt.js')).toString() + ')';
+    setSharedGlobalVar("drivers", 'txt', pgeval );
+	addOrUpdateDriver('txt', pgeval, drivers['txt'])
+
+
+	pgeval = '(' + fs.readFileSync(path.join(__dirname, './excel.js')).toString() + ')';
+    setSharedGlobalVar("drivers", 'excel', pgeval );
+	addOrUpdateDriver('excel', pgeval, drivers['excel'])
+
+	pgeval = '(' + fs.readFileSync(path.join(__dirname, './word.js')).toString() + ')';
+    setSharedGlobalVar("drivers", 'word', pgeval );
+	addOrUpdateDriver('word', pgeval, drivers['word'])
+
+	pgeval = '(' + fs.readFileSync(path.join(__dirname, './pdf.js')).toString() + ')';
+    setSharedGlobalVar("drivers", 'pdf', pgeval );
+	addOrUpdateDriver('pdf', pgeval, drivers['pdf'])
+
+
+	pgeval = '(' + fs.readFileSync(path.join(__dirname, './postgres.js')).toString() + ')';
+    setSharedGlobalVar("drivers", 'postgres', pgeval );
+	addOrUpdateDriver('postgres', pgeval, drivers['postgres'])
+
+
+
+	sqliteeval = '(' + fs.readFileSync(path.join(__dirname, './sqlite.js')).toString() + ')';
+    setSharedGlobalVar("drivers", 'sqlite', sqliteeval );
+	addOrUpdateDriver('sqlite', sqliteeval, drivers['sqlite'])
+
+
+	pgeval = '(' + fs.readFileSync(path.join(__dirname, './mysql.js')).toString() + ')';
+    setSharedGlobalVar("drivers", 'mysql', pgeval );
+	addOrUpdateDriver('mysql', pgeval, drivers['mysql'])
+
+
+
+	toeval =  '(' + fs.readFileSync(path.join(__dirname, './oracle.js')).toString() + ')';
+    setSharedGlobalVar("drivers", 'oracle', toeval );
+	addOrUpdateDriver('oracle',   toeval, drivers['oracle'])
+	process.env['PATH'] = process.cwd() + '\\oracle_driver\\instantclient32' + ';' + process.env['PATH'];
+	if (drivers['oracle'].loadOnCondition()) {
+		drivers['oracle'].loadDriver()
+	}
+
+
+
+	tdeval = '(' + fs.readFileSync(path.join(__dirname, './testdriver.js')).toString() + ')';
+    setSharedGlobalVar("drivers", 'testdriver', tdeval );
+	addOrUpdateDriver('testdriver', tdeval, drivers['testdriver'])
+}
+
+
+
+
+
+
+
+
+function addOrUpdateDriver(name, code2, theObject) {
+      var code = eval(code2);
+	var driverType = theObject.type;
+	//console.log('addOrUpdateDriver: ' + name);
+
+      var stmt = dbsearch.all("select name from drivers where name = '" + name + "';",
+          function(err, rows) {
+              if (!err) {
+                  //console.log('             : ' + rows.length);
+                  if (rows.length == 0) {
+                      try
+                      {
+                          dbsearch.serialize(function() {
+                              var stmt = dbsearch.prepare(" insert or replace into drivers " +
+                                                          "    (id,  name, type, code ) " +
+                                                          " values " +
+                                                          "    (?, ?,?,?);");
+                          stmt.run(uuidv1(),  name,  driverType,  code2);
+                          stmt.finalize();
+                          });
+                      } catch(err) {
+                          //console.log('err             : ' + err);
+                      } finally {
+
+                      }
+
+                  } else {
+                      //console.log('   *** Checking DRIVER ' + name);
+                      var existingDriver = rows[0];
+                      if (!(code2 == existingDriver.code)) {
+                          try
+                          {
+                              dbsearch.serialize(function() {
+                                  var stmt = dbsearch.prepare(" update   drivers   set code = ? where id = ?");
+                                  stmt.run( code2 , rows[0].id );
+                                  stmt.finalize();
+                              });
+                          } catch(err) {
+                              //console.log('err             : ' + err);
+                          } finally {
+
+                          }
+                      }
+                  }
+              }
+          }
+      );
+  }
