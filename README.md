@@ -1,5 +1,9 @@
 # VisiFile
-Document Search. Reinvented!
+It's like X-Ray Vision for your documents!
+
+ - See document changes in real time for your whole team
+ - Find documents in seconds
+ - No servers needed, installs to your PC
 
 <img src='http://visifile.com/visifile_screenshot2.png' />
 
