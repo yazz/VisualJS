@@ -225,7 +225,7 @@
         {
 
 			var sql = parameters.sql;
-            console.log('******************************** in sqlite get');
+            //console.log('******************************** in sqlite get');
             if (
                 (connection.status == 'disconnected')
                 ||
@@ -240,10 +240,10 @@
                  };
             }
 
-            console.log('drivers[sqlite][get]');
+            //console.log('drivers[sqlite][get]');
             // execute a query on our database
             connection.connection = new sqlite3.Database(connection.database);
-            console.log('    Loaded DB');
+            //console.log('    Loaded DB');
 
             connection.connection.serialize(function() {
                 connection.connection.all(sql, function(err, rows) {

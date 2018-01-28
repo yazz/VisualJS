@@ -1666,7 +1666,7 @@ function processMessagesFromMainProcess() {
 
 
     } else if (msg.message_type == 'addNewQuery') {
-        console.log("**** addNewQuery");
+        //console.log("**** addNewQuery");
         addNewQuery(msg.params);
     }
 

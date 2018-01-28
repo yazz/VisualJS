@@ -1829,7 +1829,7 @@ function getqueryresultFn(req, res) {
                                  );
 
 
-                        console.log('trying to save document: ');
+                        //console.log('trying to save document: ');
 
                         var stmt = dbsearch.all("select   contents.content   from   queries, contents   where   queries.id = ? and queries.driver = 'pdf'" +
                                                 "    and contents.id = queries.hash  limit 1",
@@ -1838,21 +1838,21 @@ function getqueryresultFn(req, res) {
 
                                                 [queryData2.source],
                                                 function(err, rows) {
-                            console.log('err: ' + err);
+                            //console.log('err: ' + err);
                             if (rows) {
-                                console.log('rows: ' + rows);
+                                //console.log('rows: ' + rows);
                             }
-                            console.log('trying to save document: ' + queryData2.source);
+                            //console.log('trying to save document: ' + queryData2.source);
                                 if (!err) {
-                                    console.log('trying to save pdf 3: ');
+                                    //console.log('trying to save pdf 3: ');
                                     if (rows.length > 0) {
-                                        console.log('trying to save pdf 4: ');
-                                        console.log('trying to save pdf 5: ');
+                                        //console.log('trying to save pdf 4: ');
+                                        //console.log('trying to save pdf 5: ');
                                         var buffer = new Buffer(rows[0].content, 'binary');
 
                                         fs.writeFile(process.cwd() + "/files/a.pdf", buffer,  "binary",
                                             function(err) {
-                                                console.log('trying to save pdf 6: ');
+                                                //console.log('trying to save pdf 6: ');
 
                                             });
                                     }
