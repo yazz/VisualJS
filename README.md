@@ -67,9 +67,9 @@ Command line options:
 ##### 6) npm run build
 ##### 7) node src\index.js
 
-###If you wish to live edit the UI of visifile in realtime on Windows then you need the following additional steps
+### If you wish to live edit the UI of VisiFile in realtime then you need the following additional steps
 
-##### 8) Open a new command line prompt in Windows which should opoen to the "visifile" folder 
+##### 8) Open a new command line prompt in Windows or Linux/Mac shell which should opoen to the "visifile" folder 
 
 ##### 9) Type into the command line:
     npm run dev
