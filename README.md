@@ -59,28 +59,28 @@ Command line options:
 <img height='350px' src='http://vignette4.wikia.nocookie.net/uncyclopedia/images/b/bb/Xplogo.jpg/revision/latest?cb=20140331164120' />
 
 
-#####1) Install GIT from https://git-scm.com/downloads
-#####2) Install Node.js 8.9 32 bit installer from https://nodejs.org/en/blog/release/v6.9.1/
-#####3) git clone https://github.com/zubairq/visifile.git
-#####4) cd visifile
-#####5) npm install
-#####6) npm run build
-#####7) node src\index.js
+##### 1) Install GIT from https://git-scm.com/downloads
+##### 2) Install Node.js 8.9 32 bit installer from https://nodejs.org/en/blog/release/v6.9.1/
+##### 3) git clone https://github.com/zubairq/visifile.git
+##### 4) cd visifile
+##### 5) npm install
+##### 6) npm run build
+##### 7) node src\index.js
 
 ###If you wish to live edit the UI of visifile in realtime on Windows then you need the following additional steps
 
-#####8) Open a new command line prompt in Windows which should opoen to the "visifile" folder 
+##### 8) Open a new command line prompt in Windows which should opoen to the "visifile" folder 
 
-#####9) Type into the command line:
+##### 9) Type into the command line:
     npm run dev
 
-#####10) Open http://localhost:8080/public/
+##### 10) Open http://localhost:8080/public/
 
-#####11) Go to visifile\src\components\App.vue
+##### 11) Go to visifile\src\components\App.vue
 
-#####12) Change the text "Browse Data" to "Live Editing"
+##### 12) Change the text "Browse Data" to "Live Editing"
 
-#####13) When you save the file then your changes should be updated in real time in the browser
+##### 13) When you save the file then your changes should be updated in real time in the browser
 
 
 
@@ -93,28 +93,28 @@ Command line options:
 ### Quick start Mac
 <img height='350px' src='http://www.alessioatzeni.com/mac-osx-lion-css3/res/img/MacOSX.png' />
 
-#####1) Install GIT from https://git-scm.com/downloads
-#####2) Install Node.js 6.9.1 for Mac OS X from https://nodejs.org/en/blog/release/v6.9.1/
-#####3) git clone https://github.com/zubairq/GoShareData.git
-#####4) cd visifile
-#####5) npm install
-#####6) npm run build
-#####7) sudo node src/index.js
+##### 1) Install GIT from https://git-scm.com/downloads
+##### 2) Install Node.js 6.9.1 for Mac OS X from https://nodejs.org/en/blog/release/v6.9.1/
+##### 3) git clone https://github.com/zubairq/GoShareData.git
+##### 4) cd visifile
+##### 5) npm install
+##### 6) npm run build
+##### 7) sudo node src/index.js
 
 ###If you wish to edit visifile in realtime on OS X then you need the following additional steps
 
-#####8) Open a new shell.
+##### 8) Open a new shell.
 
-#####9) sudo npm run dev
+##### 9) sudo npm run dev
 
-#####10) Open http://localhost:8080/public/
+##### 10) Open http://localhost:8080/public/
 
-#####11) Go to visifile/src/components/App.vue
+##### 11) Go to visifile/src/components/App.vue
 
-#####12) Change the text "Browse Data" to "Live Editing"
+##### 12) Change the text "Browse Data" to "Live Editing"
 
 
-#####13) when you save the file then your changes should be updated in real time in the browser
+##### 13) when you save the file then your changes should be updated in real time in the browser
 
 
 
