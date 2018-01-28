@@ -26,13 +26,6 @@ VisiFile is a nodejs program that scans your PC and indexes the contents of your
 
 <br>
 
-I work in Big Pharma, and have to search through a lot of documents every day. This is a problem I have had in every company that I have worked in. Some people seem to know where everything is, by my mind just doesn't work that way, and I am disorganised by default. So I started to look for something that solved my problem, and found a few possible solutions, including:
-
-- X1.com
-- Agent Ransack
-
-I didn't find anything that would just let me browse the documents, so in October 2016 I started building VisiFile as an Open Source Project to solve the problem of navigating through all this 
-
 VisiFile is built with:
 
 - VueJS 2 and Vuex
@@ -42,18 +35,6 @@ VisiFile is built with:
 - Javascript
 - NodeJS 8.9
 - Express
-
-
-
-Features
-
-- See changes to all my own documents
-- See what data your colleagues are working on
-- Ability to see other users in my organisation
-- Ability to browse data sources
-- Ability to query between Excel, Word, and relational databases
-
-
 
 
 VisiFile currently is:
