@@ -184,11 +184,13 @@ var requestClientPublicHostName         = '';
 var locked;
 var requestClientPublicIp;
 var in_when_queries_changes             = false;
-var hostcount  												  = 0;
-var in_when_connections_changes					= false;
+var hostcount  							= 0;
+var in_when_connections_changes			= false;
 var forked;
 var forkedIndexer;
 var forkedFileScanner;
+var queuedResponses                     = new Object();
+var queuedResponseSeqNum                = 0;
 
 
 
@@ -598,160 +600,6 @@ function copyFolderRecursiveSync( source, target ) {
 
 
 
-
-function getResult(  source, connection, driver, definition, callback  ) {
-    //console.log("var getResult = function(" + source + ", " + connection + ", " + driver + ", " + JSON.stringify(definition));
-    if (stmt2 == null) {
-        stmt2 = dbsearch.prepare("INSERT INTO zfts_search_rows_hashed (row_hash, data) VALUES (?, ?)");
-    }
-    if (stmt3 == null) {
-        stmt3 = dbsearch.prepare("INSERT INTO search_rows_hierarchy (document_binary_hash, parent_hash, child_hash) VALUES (?,?,?)");
-    }
-    if (setIn == null) {
-        setIn =  dbsearch.prepare("UPDATE queries SET index_status = ? WHERE id = ?");
-    }
-    //console.log("01");
-
-
-    var error = new Object();
-    if (connections[connection]) {
-        //console.log("02");
-        try {
-            //console.log("22");
-            dbsearch.serialize(function() {
-                dbsearch.run("begin transaction");
-                setIn.run("PROCESSING" ,source);
-                dbsearch.run("commit");
-                //console.log('**** drivers[driver] = ' + driver)
-                drivers[driver]['get_v2'](connections[connection],definition,function(ordata) {
-                    //console.log("23");
-                    if (ordata.error) {
-                        //console.log("24");
-                        //console.log("****************** err 4:" + ordata.error);
-                        dbsearch.serialize(function() {
-                            //console.log("25");
-                            dbsearch.run("begin transaction");
-                            setIn.run("ERROR: " + ordata.error,source);
-                            dbsearch.run("commit");
-                            callback.call(this,{error: true});
-                        });
-
-                    } else {
-                        //console.log("26");
-                        var rrows = [];
-                        if( Object.prototype.toString.call( ordata ) === '[object Array]' ) {
-                            rrows = ordata;
-                        } else {
-                            rrows = ordata.values;
-                        }
-                        //console.log("27");
-                        //console.log( "   ordata: " + JSON.stringify(ordata));
-                        var findHashSql = "select  hash from queries where id = '" + source + "'";
-                        //console.log("FindHashSql : " + findHashSql );
-                        //console.log("1");
-                        var stmt4 = dbsearch.all(findHashSql,
-                            function(err, results2) {
-                                //console.log("2");
-                                if( err) {
-                                    //console.log("Error: " + JSON.stringify(error) + "'");
-                                }
-                                if( results2.length == 0) {
-                                    //console.log("No sresults for hash" + source + "'");
-                                }
-                                var binHash = results2[0].hash;
-                                var stmt = dbsearch.all("select  " +
-                                                    "    document_binary_hash  "  +
-                                                    "from  " +
-                                                    "    search_rows_hierarchy  " +
-                                                    "where  " +
-                                                    "    document_binary_hash = '" + binHash + "'",
-                                function(err, results) {
-                                    //console.log("3");
-                                    if (!err) {
-                                        //console.log("4");
-                                        if( results.length == 0) {
-                                            //console.log("5");
-                                            dbsearch.serialize(function() {
-
-                                                callback.call(this,ordata);
-                                                //console.log("Inserting rows");
-
-                                                if (rrows && rrows.length) {
-
-                                                    dbsearch.run("begin transaction");
-                                                    //console.log("Committing... " + rrows.length)
-                                                    for (var i =0 ; i < rrows.length; i++) {
-                                                        var rowhash = crypto.createHash('sha1');
-                                                        var row = JSON.stringify(rrows[i]);
-                                                        rowhash.setEncoding('hex');
-                                                        rowhash.write(row);
-                                                        rowhash.end();
-                                                        var sha1sum = rowhash.read();
-                                                        //console.log('                 : ' + JSON.stringify(rrows[i]));
-                                                        stmt2.run(sha1sum, row);
-                                                        stmt3.run(binHash, null, sha1sum);
-                                                    }
-                                                    //console.log("Committed: " + rrows.length)
-                                                    //stmt2.finalize();
-                                                    //stmt3.finalize();
-                                                    //console.log('                 : ' + JSON.stringify(rrows.length));
-
-                                                    //console.log('                 source: ' + JSON.stringify(source));
-                                                    setIn.run("INDEXED",source);
-                                                    dbsearch.run("commit");
-
-                                                } else {
-                                                    //console.log("****************** err 2");
-                                                    callback.call(this,{error: true});
-                                                    dbsearch.run("begin transaction");
-                                                    setIn.run("INDEXED: Other error",source);
-                                                    dbsearch.run("commit");
-                                                }
-                                            });
-                                        } else {
-                                            //console.log("****************** err 5: no rows");
-                                            callback.call(this,ordata);
-                                            dbsearch.serialize(function() {
-                                                dbsearch.run("begin transaction");
-                                                setIn.run("INDEXED: ",source);
-                                                dbsearch.run("commit");
-                                            });
-                                        }
-                                    } else {
-                                        //console.log("****************** err 3" + err);
-                                        dbsearch.serialize(function() {
-                                            dbsearch.run("begin transaction");
-                                            setIn.run("ERROR: " + err, source);
-                                            dbsearch.run("commit");
-                                            callback.call(this,{error: true});
-                                        });
-                                    }
-                                });
-                        })
-
-                }})
-            }
-            )
-
-        }
-        catch(err){
-            //console.log("03");
-            //console.log("****************** err 1" + err);
-            callback.call(this,{error: true});
-        }
-    } else {
-        //console.log("04");
-        //console.log("****************** err 7" );
-        dbsearch.serialize(function() {
-            //console.log("05");
-            dbsearch.run("begin transaction");
-            setIn.run("ERROR: no connection for " + source , source);
-            dbsearch.run("commit");
-            callback.call(this,{error: true});
-        });
-    }
-    //console.log("****************** err 10" );
-}
 
 
 
@@ -1623,7 +1471,6 @@ function open_query_in_native_appFn(req, res) {
 // Get the result of a SQL query
 //------------------------------------------------------------------------------
 function getresultFn(req, res) {
-		//console.log('in getresult');
 		var queryData = req.body;
 		//console.log('queryData.source: ' + queryData.source);
 
@@ -1816,17 +1663,17 @@ function getqueryresultFn(req, res) {
 					if (connections[queryData.source].driver) {
 						////console.log('query driver: ' + connections[queryData.source].driver);
                         var newres = res;
-                        getResult(  queryData2.source,
-                                    queryData.source,
-                                    connections[queryData.source].driver,
-                                    queryData.definition,
-                                    function(result){
-                                        //console.log("     In getresult callback:")
-                                        //console.log("                          :" + JSON.stringify(result))
-                                        newres.writeHead(200, {'Content-Type': 'text/plain'});
-                                        newres.end(JSON.stringify(result));
-                                    }
-                                 );
+                        //zzz
+                        var seqNum = queuedResponseSeqNum;
+                        queuedResponseSeqNum ++;
+                        queuedResponses[seqNum] = res;
+                        forked.send({ message_type: "getResult" ,
+                                      seqNum:        seqNum,
+                                      source:        queryData2.source,
+                                      connection:    queryData.source,
+                                      driver:        connections[queryData.source].driver,
+                                      definition:    queryData.definition});
+
 
 
                         //console.log('trying to save document: ');
@@ -2060,6 +1907,16 @@ function setUpChildListeners(forkedProcess) {
 
         } else if (msg.message_type == "parentSetSharedGlobalVar") {
             setSharedGlobalVar(msg.nameOfVar, msg.index, msg.value)
+
+
+
+
+        } else if (msg.message_type == "getResultReturned") {
+            //zzz
+            var newres = queuedResponses[msg.seqNum]
+            newres.writeHead(200, {'Content-Type': 'text/plain'});
+            newres.end(JSON.stringify(msg.result));
+            newres = null;
         }
 
 

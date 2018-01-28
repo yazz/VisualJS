@@ -1668,6 +1668,25 @@ function processMessagesFromMainProcess() {
     } else if (msg.message_type == 'addNewQuery') {
         //console.log("**** addNewQuery");
         addNewQuery(msg.params);
+
+
+
+
+    } else if (msg.message_type == 'getResult') {
+        //console.log("**** addNewQuery");
+        //getResult(msg.params);//zzz
+        getResult(  msg.source,
+                    msg.connection,
+                    msg.driver,
+                    msg.definition,
+                    function(result) {
+                        var sharemessage = {
+                                    message_type:       'getResultReturned',
+                                    seqNum:              msg.seqNum,
+                                    result:              result
+                                };
+                        process.send(sharemessage);
+                    }  )
     }
 
 
