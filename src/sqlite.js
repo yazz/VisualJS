@@ -106,7 +106,7 @@
 				return {
 				  connection_name:           "sqlite",
 				  connection_connect_string: null,
-				  database:                  "enter_database_name_here.sqlite3"
+				  database:                  "root.vis"
 				};
 			  }
 	}
@@ -130,7 +130,7 @@
 						'            </span>' +
 						'        </div>' +
 						'    </div>' +
-						'</div>' 
+						'</div>'
 
 
 			,
@@ -170,12 +170,12 @@
 			  data: function() {
 				return {
 				  query_name:                "sqlite query",
-				  database:                  "enter_database_name_here.sqlite3",
+				  database:                  "root.vis",
 				  sql:                       "select distinct(id) from queries"
 				};
 			  }
 	}
-            
+
     ,
     vue_view_query: {
             template:   '<div>'+
@@ -193,7 +193,7 @@
 			methods: {
 				get_query_property: function (cn, prop_name) {
                     var query = window.sqlGetQueryById(cn);
-                    
+
                     if (query != null) {
                         return query[prop_name];
                     }
@@ -223,7 +223,7 @@
 
     get_v2: function( connection , parameters , callfn )
         {
-           
+
 			var sql = parameters.sql;
             console.log('******************************** in sqlite get');
             if (
