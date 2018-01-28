@@ -59,6 +59,7 @@ var stmtInsertIntoConnections;
 var stmtInsertInsertIntoQueries;
 var stmtUpdateRelatedDocumentCount;
 var stmtUpdateRelationships;
+var in_when_queries_changes             = false;
 
 
 username = os.userInfo().username.toLowerCase();
@@ -1687,8 +1688,15 @@ function processMessagesFromMainProcess() {
                                 };
                         process.send(sharemessage);
                     }  )
-    }
+    
 
+
+
+
+
+        } else if (msg.message_type == 'when_queries_changes') {
+            when_queries_changes(null);
+        }
 
     });
 }
@@ -2218,3 +2226,48 @@ function addOrUpdateDriver(name, code2, theObject) {
       } finally {
       }
   }
+
+
+
+
+
+  function when_queries_changes(callback) {
+      if (!in_when_queries_changes) {
+          in_when_queries_changes = true;
+          //console.log('Called when_queries_changes ');
+          ////console.log('    connection keys:  ' + JSON.stringify(Object.keys(connections),null,2));
+          var stmt = dbsearch.all("select * from queries",
+              function(err, results) {
+                  if (!err) {
+                  //console.log('    --------Found:  ' + results.length);
+
+
+                  // find previews
+                  for (var i = 0 ; i < results.length ; i ++) {
+                      var query = results[i];
+                      if (!queries[query.id]) {
+                          setSharedGlobalVar("queries", query.id, JSON.stringify(query,null,2));
+                          var oout = [{a: 'no EXCEL'}];
+                          try {
+                              ////console.log('get preview for query id : ' + query._id);
+                              ////console.log('          driver : ' + query.driver);
+                              var restrictRows = JSON.parse(query.definition);
+                              restrictRows.maxRows = 10;
+                              /*drivers[query.driver]['get_v2'](connections[query.connection],restrictRows,
+                                  function(ordata) {
+                                      ////console.log('getting preview for query : ' + query.name);
+                                      query.preview = JSON.stringify(ordata, null, 2);
+                                      queries.put(query);
+                              });*/
+                                  callback.call(this);
+                              if (callback) {
+                              }
+                          } catch (err) {};
+                      }
+                  };
+              }
+              in_when_queries_changes = false;
+
+              });
+      }
+  };
