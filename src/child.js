@@ -922,7 +922,7 @@ function saveFullPath( fullPath ) {
 //                                                                               //
 //-------------------------------------------------------------------------------//
 function processFilesFn() {
-    console.log("processFilesFn")
+    //console.log("processFilesFn")
 
     //if (isPcDoingStuff) {
     //    return;
@@ -963,8 +963,8 @@ function processFilesFn() {
 
             function(err, results)
             {
-                console.log("    .... " + err)
-                console.log("    .... " + results.length)
+                //console.log("    .... " + err)
+                //console.log("    .... " + results.length)
                 if (!err)
                 {
                     //
@@ -991,27 +991,27 @@ function processFilesFn() {
                         var onDiskFileContentsSize = stat.size
                         if (onDiskFileContentsSize != fileContentsSize) {
 
-                            console.log("existingConnectionId: " + existingConnectionId)
-                            console.log("driver: " + driverName)
-                            console.log("fileContentsSize: " + fileContentsSize)
-                            console.log("sha1ofFileContents: " + sha1ofFileContents)
-                            console.log("fullFileNamePath: " + fullFileNamePath)
-                            console.log("documentType: " + documentType)
+                            //console.log("existingConnectionId: " + existingConnectionId)
+                            //console.log("driver: " + driverName)
+                            //console.log("fileContentsSize: " + fileContentsSize)
+                            //console.log("sha1ofFileContents: " + sha1ofFileContents)
+                            //console.log("fullFileNamePath: " + fullFileNamePath)
+                            //console.log("documentType: " + documentType)
 
                             var newSha1ofFileContents = getSha1(fullFileNamePath)
 
 
 
                             dbsearch.serialize(function() {
-                                console.log("    2")
-                                console.log("    3")
+                                //console.log("    2")
+                                //console.log("    3")
                                 if (err) {
                                     console.log('   err 1 : ' + err);
                                     stmtUpdateFileStatus.run( "ERROR", returnedRecord.id, function(err) {})
                                     inProcessFilesFn = false
                                 } else {
 
-                                    console.log("    4")
+                                    //console.log("    4")
                                     var newqueryid = uuidv1();
                                     stmtInsertInsertIntoQueries.run(
 
@@ -1059,7 +1059,7 @@ function processFilesFn() {
                                                         inProcessFilesFn = false
                                                     }
                                             )
-                                            console.log("    5")
+                                            //console.log("    5")
                                             }
                                             inProcessFilesFn = false
                                             }
@@ -1074,7 +1074,7 @@ function processFilesFn() {
                         } else {
                             stmtUpdateFileStatus.run( "DELETED", returnedRecord.id, function(err) {})
                             inProcessFilesFn = false
-                            console.log("          Error eee: " + eee);
+                            //console.log("          Error eee: " + eee);
                         }
                     } catch (eee) {
                         stmtUpdateFileStatus.run( "ERROR", returnedRecord.id, function(err) {})
@@ -1121,9 +1121,9 @@ function processFilesFn() {
 
             function(err, results)
             {
-                console.log("    .... " + err)
-                console.log("    .... " + results.length)
-                console.log("    11")
+                //console.log("    .... " + err)
+                //console.log("    .... " + results.length)
+                //console.log("    11")
 
                 if (!err)
                 {
@@ -1132,19 +1132,19 @@ function processFilesFn() {
                     //
                     if( results.length != 0)
                     {
-                        console.log("    12")
+                        //console.log("    12")
                         var returnedRecord = results[0];
                         stmtUpdateFileStatus.run( "INDEXED", returnedRecord.id,function(err4){})
 
                         var fullFileNamePath = path.join(returnedRecord.path , returnedRecord.orig_name)
 
-                        console.log("fullFileNamePath: " + fullFileNamePath)
+                        //console.log("fullFileNamePath: " + fullFileNamePath)
 
 
                         if (fs.existsSync(fullFileNamePath)) {
                         var stat = fs.statSync(fullFileNamePath)
                         if (stat && !stat.isDirectory()) {
-                            console.log("    13")
+                            //console.log("    13")
                             var fileName = getFileName(fullFileNamePath)
                             var driverName = null
                             var documentType = null
@@ -1173,7 +1173,7 @@ function processFilesFn() {
                                 driverName      = 'pdf'
                             }
 
-                            console.log("Document type: " + documentType)
+                            //console.log("Document type: " + documentType)
                             if (documentType) {
                                 var screenName = fileName.replace(/[^\w\s]/gi,'');
                                 var newConnectionId = uuidv1();
@@ -1186,7 +1186,7 @@ function processFilesFn() {
 
                                     function(err) {
 
-                                        console.log("14")
+                                        //console.log("14")
 
                                         //connections[newid] = {id: newid, name: screenName, driver: driverName, size: size, hash: sha1sum, type: documentType, fullFilePath: fullFilePath };
                                         process.send({
@@ -1242,7 +1242,7 @@ function processFilesFn() {
                                                         newConnectionId,
                                                         returnedRecord.id,
                                                         function(err3) {
-                                                            console.log('   CRETAED : ' + returnedRecord.id);
+                                                            //console.log('   CRETAED : ' + returnedRecord.id);
                                                             if (err3) {
                                                                 console.log('   err3 : ' + err3);
                                                                 stmtUpdateFileStatus.run( "ERROR", returnedRecord.id,function(err4){})
