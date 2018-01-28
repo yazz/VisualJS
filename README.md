@@ -61,26 +61,30 @@ Command line options:
 
 ##### 1) Install GIT from https://git-scm.com/downloads
 ##### 2) Install Node.js 8.9 32 bit installer from https://nodejs.org/en/download/
-##### 3) git clone https://github.com/zubairq/visifile.git
-##### 4) cd visifile
-##### 5) npm install
-##### 6) npm run build
-##### 7) node src\index.js
+##### 3) From the command line get the Git repository
+    git clone https://github.com/zubairq/visifile.git
+##### 4) Go to the VisiFile directory
+    cd visifile
+##### 5) Install the NodeJS modules
+    npm install
+##### 6) Build the VisiFile UI
+    npm run build
+##### 7) Run the VisiFile NodeJS application
+    node src\index.js
 
 ### If you wish to live edit the UI of VisiFile in realtime then you need the following additional steps
 
-##### 8) Open a new command line prompt in Windows or Linux/Mac shell which should opoen to the "visifile" folder 
-
-##### 9) Type into the command line:
+##### 8) Type into the command line:
     npm run dev
 
-##### 10) Open http://localhost:8080/public/
+##### 9) From a web browser open 
+    http://localhost:8080/public/
 
-##### 11) Go to visifile\src\components\App.vue
+##### 10) Go to the file visifile\src\components\App.vue
 
-##### 12) Change the text "Browse Data" to "Live Editing"
+##### 11) Change the text "Browse Data" to "Live Editing"
 
-##### 13) When you save the file then your changes should be updated in real time in the browser
+##### 12) When you save the file then your changes should be updated in real time in the browser
 
 
 
