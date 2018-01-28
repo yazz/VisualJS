@@ -1,28 +1,19 @@
 # VisiFile
-It's like X-Ray Vision for your documents!
-
- - See document changes in real time for your whole team
- - Find documents in seconds
- - No servers needed, installs to your PC
+VisiFile is a program that automatically monitors changes in your PC documents and shows you a list of changes. There is demo here: http://139.162.228.5/
 
 <img src='http://visifile.com/visifile_screenshot2.png' />
 
-Demo here: http://139.162.228.5/
-
-Install on linux as a Snap package: 
+You can install VisiFIle on any Linux system that supports the Ubuntu Snap package manager with: 
 
     sudo snap install visifile --edge --devmode
 
-
-
-VisiFile is a nodejs program that scans your PC and indexes the contents of your common document formats, including:
+VisiFile support the following common document formats, including:
 <br>
 
 * Excel
 * Word
 * CSV
 * PDF
-
 
 <br>
 
@@ -35,11 +26,6 @@ VisiFile is built with:
 - Javascript
 - NodeJS 8.9
 - Express
-
-
-VisiFile currently is:
-
-- a download for Windows that scans your hard disk and indexes the documents (Down here http://VisiFile.com)
 
 Command line options:
 
