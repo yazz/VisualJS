@@ -921,34 +921,6 @@ function getRoot(req, res) {
 
 
 
-function downloadDocuments(req, res) {
-        var fileId = req.url.substr(req.url.lastIndexOf('/') + 1)
-
-		if (fileId && (fileId.length > 0)) {
-				console.log("getting file: " + fileId);
-				var stmt = dbsearch.all(" select   queries.driver as driver, contents.id as id,  content, content_type   from   contents, queries   " +
-                                        " where queries.id = ? and  contents.id = queries.hash  limit 1" ,
-                                        [fileId], function(err, rows) {
-						if (!err) {
-								if (rows.length > 0) {
-                                    var contentRecord = rows[0]
-                                    res.writeHead(200, {
-                                        'Content-Type': contentRecord.content_type,
-                                        'Content-disposition': 'attachment;filename=' + contentRecord.id  + "." + getFileExtension(contentRecord.driver),
-                                        'Content-Length': contentRecord.content.length
-                                    });
-
-
-                                    res.end(new Buffer(  contentRecord.content, 'binary'  ));
-								};
-						};
-				});
-		} else {
-				res.writeHead(200, {'Content-Type': 'text/plain'});
-				res.end(JSON.stringify({  error: "No file selected"}));
-		}
-};
-
 
 function getFileExtension(driver) {
     if (driver == "excel") { return "xlsx"}
@@ -1424,7 +1396,7 @@ function getqueryresultFn(req, res) {
 					if (connections[queryData.source].driver) {
 						////console.log('query driver: ' + connections[queryData.source].driver);
                         var newres = res;
-                        //zzz
+                        
                         var seqNum = queuedResponseSeqNum;
                         queuedResponseSeqNum ++;
                         queuedResponses[seqNum] = res;
@@ -1682,20 +1654,63 @@ function setUpChildListeners(forkedProcess) {
         
         
         } else if (msg.message_type == "returnDownloadWebDocument") {
-            //zzz
-            console.log("6: " + msg)
             var rett = eval("(" + msg.returned + ")");
-            console.log("7: " + rett)
-            console.log("8: " + rett.result)
             var newres = queuedResponses[ msg.seq_num ]
             
             newres.writeHead(200, {'Content-Type': 'text/plain'});
             newres.end(JSON.stringify({  result: rett.result}));
             
             newres = null;
+
+            
+            
+            
+            
+            
+            
+        } else if (msg.message_type == "returnDownloadDocuments") {
+            //zzz
+            console.log("6: " + msg)
+            console.log("7: " + msg.returned.error)
+            console.log("8: " + Object.keys(msg.returned))
+            var newres = queuedResponses[ msg.seq_num ]
+            
+            if (msg.returned.error) {
+                newres.end(JSON.stringify({  error: msg.returned.error}));
+                
+                
+                
+            } else if (msg.returned.result) {
+                var contentRecord = msg.returned.result
+                var content = Buffer.from(JSON.parse(msg.content).data);
+                
+                console.log("9: " + contentRecord.content_type);
+                console.log("10: " + contentRecord.id);
+                console.log("11: " + contentRecord.driver);
+                console.log("12: " + content.length);
+                console.log("13: " + content);
+                console.log("14: " + Object.keys(contentRecord));
+                newres.writeHead(  
+                
+                                200, 
+                
+                                {
+                                    'Content-Type': contentRecord.content_type,
+                                    'Content-disposition': 'attachment;filename=' + contentRecord.id  + "." + getFileExtension(contentRecord.driver),
+                                    'Content-Length': content.length
+                                });
+
+
+                newres.end(new Buffer(  content, 'binary'  ));
+                
+                
+                
+            } else {
+                newres.end(JSON.stringify({  error: "No results"}));
+            }
+            
+            newres = null;
         }
-
-
 
 //
 //
@@ -1807,7 +1822,16 @@ function startServices() {
     // Download documents to the browser
     //------------------------------------------------------------------------------
     app.get('/docs2/*', function (req, res) {
-    	 	return downloadDocuments(req,res);
+        console.log("1")
+        var fileId = req.url.substr(req.url.lastIndexOf('/') + 1)
+        
+        var seqNum = queuedResponseSeqNum;
+        queuedResponseSeqNum ++;
+        queuedResponses[seqNum] = res;
+        forked.send({   message_type:   "downloadDocuments", 
+                        seq_num:         seqNum, 
+                        file_id:         fileId });
+        console.log("2")
     });
 
 
@@ -1816,14 +1840,12 @@ function startServices() {
     // Download web documents to the browser
     //------------------------------------------------------------------------------
     app.get('/get_web_document', function (req, res) {
-        console.log("1")
         var seqNum = queuedResponseSeqNum;
         queuedResponseSeqNum ++;
         queuedResponses[seqNum] = res;
         forked.send({   message_type:   "downloadWebDocument", 
                         seq_num:         seqNum, 
                         query_id:        req.query.id });
-        console.log("2")
     });
 
 

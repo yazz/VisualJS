@@ -1696,9 +1696,7 @@ function processMessagesFromMainProcess() {
 
 
 
-//zzz
     } else if (msg.message_type == 'downloadWebDocument') {
-        console.log("3: " + msg.seq_num )
         downloadWebDocument(msg.query_id, 
                             function(result) {
                                 console.log("5")
@@ -1712,6 +1710,21 @@ function processMessagesFromMainProcess() {
     
 
                     
+//zzz
+    } else if (msg.message_type == 'downloadDocuments') {
+        console.log("3: " + msg.seq_num )
+        downloadDocuments(  msg.file_id, 
+                            function(result) {
+                                console.log("5")
+                                var returnDownloadDocumentsMsg = {
+                                    message_type:       'returnDownloadDocuments',
+                                    seq_num:             msg.seq_num,
+                                    returned:            result,
+                                    content:             result.content
+                                };
+                                process.send( returnDownloadDocumentsMsg );
+                    }  )
+    
 
 
 
@@ -2512,3 +2525,41 @@ function downloadWebDocument(queryId, callbackFn) {
     });
 
 }
+
+
+
+
+
+
+
+
+
+                       
+     
+
+//zzz
+function downloadDocuments( fileId, callbackFn ) {
+		if (fileId && (fileId.length > 0)) {
+				console.log("getting file: " + fileId);
+				var stmt = dbsearch.all(" select   queries.driver as driver, contents.id as id,  content, content_type   from   contents, queries   " +
+                                        " where queries.id = ? and  contents.id = queries.hash  limit 1" ,
+                                        [fileId], function(err, rows) {
+						if (!err) {
+								if (rows.length > 0) {
+                                    var contentRecord = rows[0]
+                                    console.log("**12: " + contentRecord.content.length);
+                                    callbackFn({result:     contentRecord,
+                                                content:    JSON.stringify(contentRecord.content)})
+								};
+						} else {
+                            callbackFn({error: err})
+                        };
+				});
+		} else {
+            callbackFn({error: "No file selected"})
+		}
+};
+
+
+
+
