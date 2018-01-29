@@ -2343,10 +2343,13 @@ function addNewConnection( params ) {
                      params.user,
                      params.password,
                      params.fileName,
-                     params.preview);
+                     params.preview,
+                     function(result) {
+                         when_connections_change();
+                     });
 
             stmt.finalize();
-            when_connections_changes();
+            
         });
     } catch(err) {
         //console.log("                          err: " + err);
