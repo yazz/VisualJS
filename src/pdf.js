@@ -222,12 +222,12 @@
 
     get_v2: function( connection , parameters , callfn )
         {
-            console.log('********************************');
-            console.log('********************************');
-            console.log('****     LOADING PDF   *********');
-            console.log('****     LOADING PDF   *********' + connection.fileName);
-            console.log('********************************');
-            console.log('********************************');
+            //console.log('********************************');
+            //console.log('********************************');
+            //console.log('****     LOADING PDF   *********');
+            //console.log('****     LOADING PDF   *********' + connection.fileName);
+            //console.log('********************************');
+            //console.log('********************************');
             if (
                 (connection.status == 'disconnected')
                 ||
@@ -254,16 +254,16 @@ var pdfParser = new PDFParserClass(this,1);
     });
     pdfParser.on("pdfParser_dataReady", function(pdfData) {
 //        console.log(JSON.stringify(pdfData));
-            console.log("pdfParser.getRawTextContent()");
+            //console.log("pdfParser.getRawTextContent()");
             var cc = pdfParser.getRawTextContent();
                 //console.log('content:', cc );
             var lines = cc.split("\n");
-                console.log('');
-                console.log('');
-                console.log('');
-                console.log('');
+                //console.log('');
+                //console.log('');
+                //console.log('');
+                //console.log('');
                 //console.log('lines:', lines);
-            console.log('***PDF line count lines:', cc.length);
+            //console.log('***PDF line count lines:', cc.length);
             for (var rr=0; rr<cc.length; rr++){
                 var line = lines[rr];
                 if ((line != null) && (line.length > 0)) {

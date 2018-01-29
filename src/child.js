@@ -1680,8 +1680,6 @@ function processMessagesFromMainProcess() {
         
 
     } else if (msg.message_type == 'getResult') {
-        //console.log("**** getResult");
-        //getResult(msg.params);//zzz
         getResult(  msg.source,
                     msg.connection,
                     msg.driver,
@@ -1694,7 +1692,26 @@ function processMessagesFromMainProcess() {
                                 };
                         process.send(sharemessage);
                     }  )
+
+
+
+
+//zzz
+    } else if (msg.message_type == 'downloadWebDocument') {
+        console.log("3: " + msg.seq_num )
+        downloadWebDocument(msg.query_id, 
+                            function(result) {
+                                console.log("5")
+                                var returnDownloadDocToParentMsg = {
+                                    message_type:       'returnDownloadWebDocument',
+                                    seq_num:             msg.seq_num,
+                                    returned:            JSON.stringify(result,null,2)
+                                };
+                                process.send( returnDownloadDocToParentMsg );
+                    }  )
     
+
+                    
 
 
 
@@ -2358,3 +2375,140 @@ function addNewConnection( params ) {
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//zzz
+function downloadWebDocument(queryId, callbackFn) {
+    console.log("4")
+
+    var stmt = dbsearch.all(" select   " +
+                            "     contents.content, queries.driver   from  contents, queries   " +
+                            " where " +
+                            "     queries.id = ? " +
+                            "  and contents.id = queries.hash  limit 1",
+                            [queryId],
+                            function(err, rows) {
+        if (!err) {
+                if (rows.length > 0) {
+                    var contentRow = rows[0];
+                    if (contentRow.driver.toLowerCase().endsWith("word") ) {
+                        var buffer = new Buffer(rows[0].content, 'binary');
+
+                        mammoth.convertToHtml({buffer: buffer})
+                        .then(function(result){
+                            var html = result.value; // The generated HTML
+                            var messages = result.messages; // Any messages, such as warnings during conversion
+
+                            callbackFn({result: html})
+                        })
+                        .done();
+                    } else if (contentRow.driver.toLowerCase().endsWith("excel") ) {
+                        try {
+                            var buffer = new Buffer(rows[0].content, 'binary');
+                            var workbook = XLSX.read(buffer, {type:"buffer"})
+                            var sheetname = Object.keys(workbook['Sheets'])[0]
+                            var html =  XLSX.utils.sheet_to_html(workbook['Sheets'][sheetname])
+                            html = html.replace("<html><body>","").replace("</body></html>","");
+
+
+                            callbackFn({result: html})
+                        } catch(error) {
+                            callbackFn({result: "<div>Error: " + error + "</div>"})
+                        }
+                    } else if (contentRow.driver.toLowerCase().endsWith("csv") ) {
+                        try {
+                            html = "<table>";
+                            var contents = rows[0].content.toString()
+                            var delim = ',';
+                            var numCommas = ((contents.match(new RegExp(",", "g")) || []).length);
+                            var numSemi = ((contents.match(new RegExp(";", "g")) || []).length);
+                            var numColons = ((contents.match(new RegExp(":", "g")) || []).length);
+                            var numPipes = ((contents.match(new RegExp("[|]", "g")) || []).length);
+
+                            var maxDelim = numCommas;
+                            if (numSemi > maxDelim) {
+                                delim = ';';
+                                maxDelim = numSemi;
+                                };
+                            if (numColons > maxDelim) {
+                                delim = ':';
+                                maxDelim = numColons;
+                                };
+                            if (numPipes > maxDelim) {
+                                delim = '|';
+                                maxDelim = numPipes;
+                                };
+                            csv
+                             .fromString(contents, { headers: false, delimiter: delim })
+                             .on("data", function(data){
+                                html += "<tr>";
+                                for (var yy= 0; yy < data.length; yy++) {
+                                    html += "<td>" + data[yy] + "</td>";
+                                }
+                                html += "</tr>";
+
+                            }).on("end", function(){
+                                html += "</table>";
+                                callbackFn({result: html})
+                                })
+                            .on('error', function(error) {
+                                callbackFn({result: "<div>Error: " + error + "</div>" })
+                            });
+
+                        }
+                        catch(err) {
+                            callbackFn({result: "<div>Big Error: " + err + "</div>"})
+                        }
+
+
+
+
+
+
+
+                    } else if (
+                            !isBinaryFile.sync(
+                                        rows[0].content,
+                                            rows[0].content.toString().length  )) {
+                        try {
+                            console.log('1')
+                            html = "<pre>";
+                            var contents = rows[0].content.toString()
+                            html += contents;
+                            html += "</pre>";
+                            callbackFn({result: html})
+
+                        }
+                        catch(err) {
+                            callbackFn({result: "<div>Big Error: " + err + "</div>"})
+                        }
+
+
+
+
+
+
+                    } else {
+                        callbackFn({result: "<div>Unknown file type</div>"})
+                    }
+                };
+        };
+    });
+
+}

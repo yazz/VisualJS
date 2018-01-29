@@ -919,139 +919,6 @@ function getRoot(req, res) {
 
 
 
-function downloadWebDocument(req, res) {
-    //mammoth.convertToHtml({path: "Security in Office 365 Whitepaper.docx"})
-
-    var stmt = dbsearch.all(" select   " +
-                            "     contents.content, queries.driver   from  contents, queries   " +
-                            " where " +
-                            "     queries.id = ? " +
-                            "  and contents.id = queries.hash  limit 1",
-                            [req.query.id],
-                            function(err, rows) {
-        if (!err) {
-                if (rows.length > 0) {
-                    var contentRow = rows[0];
-                    if (contentRow.driver.toLowerCase().endsWith("word") ) {
-                        var buffer = new Buffer(rows[0].content, 'binary');
-
-                        mammoth.convertToHtml({buffer: buffer})
-                        .then(function(result){
-                            var html = result.value; // The generated HTML
-                            var messages = result.messages; // Any messages, such as warnings during conversion
-
-                            res.writeHead(200, {'Content-Type': 'text/plain'});
-                            res.end(JSON.stringify({  result: html}));
-                        })
-                        .done();
-                    } else if (contentRow.driver.toLowerCase().endsWith("excel") ) {
-                        try {
-                            var buffer = new Buffer(rows[0].content, 'binary');
-                            var workbook = XLSX.read(buffer, {type:"buffer"})
-                            var sheetname = Object.keys(workbook['Sheets'])[0]
-                            var html =  XLSX.utils.sheet_to_html(workbook['Sheets'][sheetname])
-                            html = html.replace("<html><body>","").replace("</body></html>","");
-
-
-                            res.writeHead(200, {'Content-Type': 'text/plain'});
-                            res.end(JSON.stringify({  result: html}));
-                        } catch(error) {
-                            res.writeHead(200, {'Content-Type': 'text/plain'});
-                            res.end(JSON.stringify({  result: "<div>Error: " + error + "</div>"}));
-                        }
-                    } else if (contentRow.driver.toLowerCase().endsWith("csv") ) {
-                        try {
-                            console.log('1')
-                            html = "<table>";
-                            console.log('2')
-                            console.log('3')
-                                var contents = rows[0].content.toString()
-                                var delim = ',';
-                                var numCommas = ((contents.match(new RegExp(",", "g")) || []).length);
-                                var numSemi = ((contents.match(new RegExp(";", "g")) || []).length);
-                                var numColons = ((contents.match(new RegExp(":", "g")) || []).length);
-                                var numPipes = ((contents.match(new RegExp("[|]", "g")) || []).length);
-
-                                var maxDelim = numCommas;
-                                if (numSemi > maxDelim) {
-                                    delim = ';';
-                                    maxDelim = numSemi;
-                                    };
-                                if (numColons > maxDelim) {
-                                    delim = ':';
-                                    maxDelim = numColons;
-                                    };
-                                if (numPipes > maxDelim) {
-                                    delim = '|';
-                                    maxDelim = numPipes;
-                                    };
-                                csv
-                                 .fromString(contents, { headers: false, delimiter: delim })
-                                 .on("data", function(data){
-                                    html += "<tr>";
-                                    for (var yy= 0; yy < data.length; yy++) {
-                                        html += "<td>" + data[yy] + "</td>";
-                                    }
-                                    html += "</tr>";
-
-                                }).on("end", function(){
-                                    html += "</table>";
-                                    res.writeHead(200, {'Content-Type': 'text/plain'});
-                                    res.end(JSON.stringify({  result: html}));
-                                    })
-                                .on('error', function(error) {
-                                    res.writeHead(200, {'Content-Type': 'text/plain'});
-                                    res.end(JSON.stringify({  result: "<div>Error: " + error + "</div>"}));
-                                });
-
-                        }
-                        catch(err) {
-                            res.writeHead(200, {'Content-Type': 'text/plain'});
-                            res.end(JSON.stringify({  result: "<div>Big Error: " + err + "</div>"}));
-                        }
-
-
-
-
-
-
-
-												//} else if (req.query.id.toLowerCase().endsWith(".txt")) {
-												} else if (
-													    !isBinaryFile.sync(
-																    rows[0].content,
-																		rows[0].content.toString().length  )) {
-                        try {
-                            console.log('1')
-                            html = "<pre>";
-                            var contents = rows[0].content.toString()
-                            html += contents;
-                            html += "</pre>";
-                            res.writeHead(200, {'Content-Type': 'text/plain'});
-                            res.end(JSON.stringify({  result: html}));
-
-                        }
-                        catch(err) {
-                            res.writeHead(200, {'Content-Type': 'text/plain'});
-                            res.end(JSON.stringify({  result: "<div>Big Error: " + err + "</div>"}));
-                        }
-
-
-
-
-
-
-                    } else {
-                            res.writeHead(200, {'Content-Type': 'text/plain'});
-                            res.end(JSON.stringify({  result: "<div>Unknown file type</div>"}));
-                    }
-                };
-        };
-    });
-
-}
-
-
 
 
 function downloadDocuments(req, res) {
@@ -1806,13 +1673,27 @@ function setUpChildListeners(forkedProcess) {
 
 
         } else if (msg.message_type == "getResultReturned") {
-            //zzz
-            var newres = queuedResponses[msg.seqNum]
+            var newres = queuedResponses[ msg.seqNum ]
             newres.writeHead(200, {'Content-Type': 'text/plain'});
             newres.end(JSON.stringify(msg.result));
             newres = null;
-        }
+        
 
+        
+        
+        } else if (msg.message_type == "returnDownloadWebDocument") {
+            //zzz
+            console.log("6: " + msg)
+            var rett = eval("(" + msg.returned + ")");
+            console.log("7: " + rett)
+            console.log("8: " + rett.result)
+            var newres = queuedResponses[ msg.seq_num ]
+            
+            newres.writeHead(200, {'Content-Type': 'text/plain'});
+            newres.end(JSON.stringify({  result: rett.result}));
+            
+            newres = null;
+        }
 
 
 
@@ -1930,11 +1811,19 @@ function startServices() {
     });
 
 
+    //zzz
     //------------------------------------------------------------------------------
     // Download web documents to the browser
     //------------------------------------------------------------------------------
     app.get('/get_web_document', function (req, res) {
-    	 	return downloadWebDocument(req,res);
+        console.log("1")
+        var seqNum = queuedResponseSeqNum;
+        queuedResponseSeqNum ++;
+        queuedResponses[seqNum] = res;
+        forked.send({   message_type:   "downloadWebDocument", 
+                        seq_num:         seqNum, 
+                        query_id:        req.query.id });
+        console.log("2")
     });
 
 
