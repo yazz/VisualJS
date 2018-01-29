@@ -60,6 +60,7 @@ var stmtInsertInsertIntoQueries;
 var stmtUpdateRelatedDocumentCount;
 var stmtUpdateRelationships;
 var in_when_queries_changes             = false;
+var in_when_connections_change          = false;
 
 
 username = os.userInfo().username.toLowerCase();
@@ -1671,10 +1672,15 @@ function processMessagesFromMainProcess() {
         addNewQuery(msg.params);
 
 
+    } else if (msg.message_type == 'addNewConnection') {
+        //console.log("**** addNewConnection");
+        addNewConnection(msg.params);
 
+        
+        
 
     } else if (msg.message_type == 'getResult') {
-        //console.log("**** addNewQuery");
+        //console.log("**** getResult");
         //getResult(msg.params);//zzz
         getResult(  msg.source,
                     msg.connection,
@@ -1696,6 +1702,12 @@ function processMessagesFromMainProcess() {
 
         } else if (msg.message_type == 'when_queries_changes') {
             when_queries_changes(null);
+            
+            
+            
+            
+        } else if (msg.message_type == 'when_connections_changes') {
+            when_connections_change();
         }
 
     });
@@ -2271,3 +2283,75 @@ function addOrUpdateDriver(name, code2, theObject) {
               });
       }
   };
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+
+function when_connections_change() {
+    if (!in_when_connections_change) {
+        in_when_connections_change=true;
+        
+        var stmt = dbsearch.all("select * from connections",
+            function(err, results) {
+                if (!err) {
+                    for (var i = 0 ; i < results.length ; i ++) {
+                        var conn = results[i]
+                        if (!connections[conn.id]) {
+                          setSharedGlobalVar("connections", conn.id, JSON.stringify(conn,null,2));
+                        }
+                    }
+                }
+                in_when_connections_change=false;
+            }
+        );
+    };
+}
+
+
+function addNewConnection( params ) {
+    try
+    {
+        //console.log("------------------function addNewConnection( params ) { -------------------");
+        dbsearch.serialize(function() {
+            var stmt = dbsearch.prepare(" insert into connections " +
+                                        "    ( id, name, driver, database, host, port, connectString, user, password, fileName, preview ) " +
+                                        " values " +
+                                        "    (?,  ?,?,?,?,?,?,?,?,?,?);");
+
+            stmt.run(uuidv1(),
+                     params.name,
+                     params.driver,
+                     params.database,
+                     params.host,
+                     params.port,
+                     params.connectString,
+                     params.user,
+                     params.password,
+                     params.fileName,
+                     params.preview);
+
+            stmt.finalize();
+            when_connections_changes();
+        });
+    } catch(err) {
+        //console.log("                          err: " + err);
+    } finally {
+    }
+}
+
+

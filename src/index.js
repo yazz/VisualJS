@@ -184,7 +184,6 @@ var requestClientPublicHostName         = '';
 var locked;
 var requestClientPublicIp;
 var hostcount  							= 0;
-var in_when_connections_changes			= false;
 var forked;
 var forkedIndexer;
 var forkedFileScanner;
@@ -845,69 +844,6 @@ function aliveCheckFn() {
 
 
 
-
-
-
-
-
-function when_connections_changes() {
-    if (!in_when_connections_changes) {
-        in_when_connections_changes=true;
-        //console.log('------------------------------------');
-        //console.log('Called when_ CONNS _changes ');
-        //console.log('------------------------------------');
-        //console.log('------------------------------------');
-
-        var stmt = dbsearch.all("select * from connections",
-            function(err, results) {
-                if (!err) {
-                    for (var i = 0 ; i < results.length ; i ++) {
-                        var conn = results[i]
-                        ////console.log('    --------Found conn:  ' + conn._id);
-                        ////console.log('                      :  ' + conn.name);
-                        if (!connections[conn.id]) {
-                          ////console.log(a);
-                          setSharedGlobalVar("connections", conn.id, JSON.stringify(conn,null,2));
-                        }
-                    }
-                }
-            in_when_connections_changes=false;
-            }
-        );
-    };
-}
-
-
-function addNewConnection( params ) {
-    try
-    {
-        //console.log("------------------function addNewConnection( params ) { -------------------");
-        dbsearch.serialize(function() {
-            var stmt = dbsearch.prepare(" insert into connections " +
-                                        "    ( id, name, driver, database, host, port, connectString, user, password, fileName, preview ) " +
-                                        " values " +
-                                        "    (?,  ?,?,?,?,?,?,?,?,?,?);");
-
-            stmt.run(uuidv1(),
-                     params.name,
-                     params.driver,
-                     params.database,
-                     params.host,
-                     params.port,
-                     params.connectString,
-                     params.user,
-                     params.password,
-                     params.fileName,
-                     params.preview);
-
-            stmt.finalize();
-            when_connections_changes();
-        });
-    } catch(err) {
-        //console.log("                          err: " + err);
-    } finally {
-    }
-}
 
 
 
@@ -1764,7 +1700,7 @@ function get_all_tableFn(req, res) {
 
 function add_new_connectionFn(req, res) {
     var params = req.body;
-    addNewConnection( params );
+    forked.send({ message_type: "addNewConnection" , params: params});
     res.writeHead(200, {'Content-Type': 'text/plain'});
     res.end(JSON.stringify({done: "ok"}))};
 
@@ -2171,7 +2107,7 @@ function startServices() {
 
 
 
-    when_connections_changes();
+    forked.send({ message_type: "when_connections_changes" });
     forked.send({ message_type: "when_queries_changes" });
 
 
