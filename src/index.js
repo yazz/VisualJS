@@ -36,7 +36,8 @@ var app             = express()
 var expressWs       = require('express-ws')(app);
 var request         = require("request");
 var open            = require('open');
-var dbhelper        = require('../public/dbhelper');
+var db_helper       = require("./db_helper")
+var perf            = require('./perf')
 var Excel           = require('exceljs');
 var compression     = require('compression')
 var crypto          = require('crypto');
@@ -58,7 +59,6 @@ var mysql           = require('mysql');
 var cors            = require('cors')
 var mammoth         = require("mammoth");
 var isBinaryFile    = require("isbinaryfile");
-var perf            = require('./perf')
 
 path.join(__dirname, '../public/jquery-1.9.1.min.js')
 path.join(__dirname, '../public/jquery.zoomooz.js')
@@ -67,6 +67,9 @@ path.join(__dirname, '../public/polyfill.min.js')
 path.join(__dirname, '../src/oracle.js')
 path.join(__dirname, '../src/postgres.js')
 path.join(__dirname, '../src/excel.js')
+path.join(__dirname, '../src/csv.js')
+path.join(__dirname, '../src/txt.js')
+path.join(__dirname, '../src/glb.js')
 path.join(__dirname, '../src/child.js')
 path.join(__dirname, '../public/gosharedata_setup.js')
 path.join(__dirname, '../public/intranet.js')
