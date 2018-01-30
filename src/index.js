@@ -543,8 +543,10 @@ function saveConnectionAndQueryForFile(fileName) {
 
 
 function scanHardDiskFromChild() {
-    forkedIndexer.send({ message_type: "childRunFindFolders" });
-    forkedFileScanner.send({ message_type: "childScanFiles" });
+    if (typeOfSystem == 'client') {
+        forkedIndexer.send({ message_type: "childRunFindFolders" });
+        forkedFileScanner.send({ message_type: "childScanFiles" });
+    }
 }
 
 
@@ -962,27 +964,6 @@ function testFirewall(req, res) {
 
 
 
-function getIntranetServers(req, res) {
-    requestClientPublicIp = req.ip;
-    var requestVia                       = findViafromString(req.headers.via);
-
-    res.writeHead(200, {'Content-Type': 'text/plain'});
-
-		var mysql = "select *  from  intranet_client_connects  where " +
-									"    (when_connected > " + ( new Date().getTime() - (numberOfSecondsAliveCheck * 1000)) + ") " +
-									" and " +
-									"    (( public_ip = '" + requestClientPublicIp + "') or " +
-														"((via = '" + requestVia + "') and (length(via) > 0)))";
-			//console.log("check IP: " + mysql);
-			var stmt = dbsearch.all(mysql, function(err, rows) {
-					if (!err) {
-							//console.log( "           " + JSON.stringify(rows));
-							res.end(JSON.stringify({  allServers:       rows,
-																				intranetPublicIp: requestClientPublicIp}));
-			}});
-};
-
-
 
 
 
@@ -1104,11 +1085,13 @@ function scanharddiskFn(req, res) {
 function stopscanharddiskFn(req, res) {
 		res.writeHead(200, {'Content-Type': 'text/plain'});
 		res.end(JSON.stringify([]));
-		stopScan = true;
-	      sendOverWebSockets({
+        if (typeOfSystem == 'client') {
+            stopScan = true;
+            sendOverWebSockets({
 	                              type:   "server_scan_status",
 	                              value:  "Hard disk scan stopped"
 	                              });
+        }
 };
 
 
@@ -1567,6 +1550,7 @@ function add_new_queryFn(req, res) {
 function setUpChildListeners(forkedProcess) {
     forkedProcess.on('message', (msg) => {
         //console.log("message from child: " + JSON.stringify(msg,null,2))
+        //console.log("message type from child: " + JSON.stringify(msg.message_type,null,2))
         if (msg.message_type == "return_test_fork") {
             //console.log('Message from child', msg);
             sendOverWebSockets({
@@ -1677,16 +1661,10 @@ function setUpChildListeners(forkedProcess) {
             
             
         } else if (msg.message_type == "returnDownloadDocuments") {
-            //zzz
-            console.log("6: " + msg)
-            console.log("7: " + msg.returned.error)
-            console.log("8: " + Object.keys(msg.returned))
             var newres = queuedResponses[ msg.seq_num ]
             
             if (msg.returned.error) {
                 newres.end(JSON.stringify({  error: msg.returned.error}));
-                
-                
                 
             } else if (msg.returned.result) {
                 var contentRecord = msg.returned.result
@@ -1710,14 +1688,34 @@ function setUpChildListeners(forkedProcess) {
 
 
                 newres.end(new Buffer(  content, 'binary'  ));
-                
-                
-                
             } else {
                 newres.end(JSON.stringify({  error: "No results"}));
             }
             
             newres = null;
+
+
+        } else if (msg.message_type == "returnIntranetServers") {
+            //zzz                    
+            console.log("6: returnIntranetServers")
+            console.log("6.1: " + msg)
+            console.log("7: " + msg.returned)
+            var newres = queuedResponses[ msg.seq_num ]
+            
+            newres.writeHead(200, {'Content-Type': 'text/plain'});
+
+            
+            if (msg.returned) {
+                newres.end( JSON.stringify( {  allServers:         msg.returned,
+                                               intranetPublicIp:   msg.requestClientPublicIp}) );
+            } else {
+                console.log( "8: " + msg.error );
+                newres.end(JSON.stringify( {  allServers:        [],
+                                              intranetPublicIp:  msg.requestClientPublicIp}) );
+            }
+            newres = null;
+                
+                
         }
 
 //
@@ -1830,7 +1828,6 @@ function startServices() {
     // Download documents to the browser
     //------------------------------------------------------------------------------
     app.get('/docs2/*', function (req, res) {
-        console.log("1")
         var fileId = req.url.substr(req.url.lastIndexOf('/') + 1)
         
         var seqNum = queuedResponseSeqNum;
@@ -1839,11 +1836,9 @@ function startServices() {
         forked.send({   message_type:   "downloadDocuments", 
                         seq_num:         seqNum, 
                         file_id:         fileId });
-        console.log("2")
     });
 
 
-    //zzz
     //------------------------------------------------------------------------------
     // Download web documents to the browser
     //------------------------------------------------------------------------------
@@ -1865,11 +1860,27 @@ function startServices() {
     });
 
 
+    
+    //zzz
     //------------------------------------------------------------------------------
     // get_intranet_servers
     //------------------------------------------------------------------------------
     app.get('/get_intranet_servers', function (req, res) {
-        return getIntranetServers(req, res);
+        console.log("1 - get_intranet_servers: " + req.ip)
+        console.log("1.1 - get_intranet_servers: " + Object.keys(req.headers))
+        
+        var seqNum = queuedResponseSeqNum;
+        queuedResponseSeqNum ++;
+        queuedResponses[seqNum] = res;
+        console.log("2")
+        forked.send({   message_type:               "get_intranet_servers", 
+                        seq_num:                    seqNum, 
+                        requestClientPublicIp:      req.ip ,
+                        numberOfSecondsAliveCheck:  numberOfSecondsAliveCheck,
+                        requestVia:                 findViafromString(req.headers.via)
+                        });
+
+
     });
 
 
@@ -2010,7 +2021,9 @@ function startServices() {
 
 
 
-    aliveCheckFn();
+    if (typeOfSystem == 'client') {
+        aliveCheckFn();
+    }
 
 
     setupChildProcesses();

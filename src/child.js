@@ -583,7 +583,7 @@ function getRelatedDocumentHashes(  doc_hash,  callback  ) {
 //                                                                                         //
 //-----------------------------------------------------------------------------------------//
 function findFoldersFn() {
-    console.log("**  called findFoldersFn");
+    //console.log("**  called findFoldersFn");
 
 	var useDrive = "C:\\";
     if (!isWin) {
@@ -1710,9 +1710,8 @@ function processMessagesFromMainProcess() {
     
 
                     
-//zzz
+
     } else if (msg.message_type == 'downloadDocuments') {
-        console.log("3: " + msg.seq_num )
         downloadDocuments(  msg.file_id, 
                             function(result) {
                                 console.log("5")
@@ -1724,7 +1723,31 @@ function processMessagesFromMainProcess() {
                                 };
                                 process.send( returnDownloadDocumentsMsg );
                     }  )
-    
+
+
+
+
+    } else if (msg.message_type == 'get_intranet_servers') {
+        console.log("3: " + msg.seq_num )
+        getIntranetServers( msg.requestClientPublicIp, 
+                            msg.requestVia,
+                            msg.numberOfSecondsAliveCheck,
+                            
+                            function(result) {
+                                //console.log("5: " + JSON.stringify(result))
+                                var returnIntranetServersMsg = {
+                                    message_type:           'returnIntranetServers',
+                                    requestClientPublicIp:  msg.requestClientPublicIp,
+                                    requestVia:             msg.requestVia,
+                                    seq_num:                msg.seq_num,
+                                    returned:               result.rows,
+                                    error:                  result.error
+                                };
+                                //console.log("5.1: " + JSON.stringify(returnIntranetServersMsg))
+                                console.log("5.2: " + Object.keys(returnIntranetServersMsg))
+                                process.send( returnIntranetServersMsg );
+                                console.log("5.3: ")
+                    }  )                    
 
 
 
@@ -2408,7 +2431,7 @@ function addNewConnection( params ) {
 
 //zzz
 function downloadWebDocument(queryId, callbackFn) {
-    console.log("4")
+    //console.log("4")
 
     var stmt = dbsearch.all(" select   " +
                             "     contents.content, queries.driver   from  contents, queries   " +
@@ -2540,14 +2563,14 @@ function downloadWebDocument(queryId, callbackFn) {
 //zzz
 function downloadDocuments( fileId, callbackFn ) {
 		if (fileId && (fileId.length > 0)) {
-				console.log("getting file: " + fileId);
+				//console.log("getting file: " + fileId);
 				var stmt = dbsearch.all(" select   queries.driver as driver, contents.id as id,  content, content_type   from   contents, queries   " +
                                         " where queries.id = ? and  contents.id = queries.hash  limit 1" ,
                                         [fileId], function(err, rows) {
 						if (!err) {
 								if (rows.length > 0) {
                                     var contentRecord = rows[0]
-                                    console.log("**12: " + contentRecord.content.length);
+                                    //console.log("**12: " + contentRecord.content.length);
                                     callbackFn({result:     contentRecord,
                                                 content:    JSON.stringify(contentRecord.content)})
 								};
@@ -2562,4 +2585,32 @@ function downloadDocuments( fileId, callbackFn ) {
 
 
 
+
+
+
+
+
+
+//zzz
+function getIntranetServers(  requestClientPublicIp,  requestVia,  numberOfSecondsAliveCheck,  callbackFn) {
+    console.log("4 - requestClientPublicIp:     " + requestClientPublicIp)
+    console.log("4 - requestVia:                " + requestVia)
+    console.log("4 - numberOfSecondsAliveCheck  " + numberOfSecondsAliveCheck)
+    var mysql = "select *  from  intranet_client_connects  where " +
+                                "    (when_connected > " + ( new Date().getTime() - (numberOfSecondsAliveCheck * 1000)) + ") " +
+                                " and " +
+                                "    (( public_ip = '" + requestClientPublicIp + "') or " +
+                                                    "((via = '" + requestVia + "') and (length(via) > 0)))";
+        //console.log("check IP: " + mysql);
+        var stmt = dbsearch.all(
+            mysql, 
+            function(err, rows) {
+                if (!err) {
+                    //console.log( "           " + JSON.stringify(rows));
+                    callbackFn({rows: rows})
+                } else {
+                    callbackFn({error: err})                    
+                }
+        });
+};
 
