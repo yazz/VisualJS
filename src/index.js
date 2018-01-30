@@ -1696,7 +1696,7 @@ function setUpChildListeners(forkedProcess) {
                 console.log("10: " + contentRecord.id);
                 console.log("11: " + contentRecord.driver);
                 console.log("12: " + content.length);
-                console.log("13: " + content);
+                //console.log("13: " + content);
                 console.log("14: " + Object.keys(contentRecord));
                 newres.writeHead(  
                 
