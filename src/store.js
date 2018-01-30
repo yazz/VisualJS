@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import db                       from '../public/dbhelper.js'
 
 Vue.use(Vuex)
 
