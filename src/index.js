@@ -2021,9 +2021,7 @@ function startServices() {
 
 
 
-    if (typeOfSystem == 'client') {
-        aliveCheckFn();
-    }
+    aliveCheckFn();
 
 
     setupChildProcesses();
