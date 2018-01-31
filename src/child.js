@@ -1728,7 +1728,7 @@ function processMessagesFromMainProcess() {
 
 
     } else if (msg.message_type == 'get_intranet_servers') {
-        console.log("3: " + msg.seq_num )
+        //console.log("3: " + msg.seq_num )
         getIntranetServers( msg.requestClientPublicIp, 
                             msg.requestVia,
                             msg.numberOfSecondsAliveCheck,
@@ -1744,11 +1744,47 @@ function processMessagesFromMainProcess() {
                                     error:                  result.error
                                 };
                                 //console.log("5.1: " + JSON.stringify(returnIntranetServersMsg))
-                                console.log("5.2: " + Object.keys(returnIntranetServersMsg))
+                                //console.log("5.2: " + Object.keys(returnIntranetServersMsg))
                                 process.send( returnIntranetServersMsg );
-                                console.log("5.3: ")
+                                //console.log("5.3: ")
                     }  )                    
 
+                    
+                    
+                    
+
+
+
+
+//zzz
+    } else if (msg.message_type == 'client_connect') {
+        console.log("3 client_connect: " + msg.seq_num )
+        clientConnectFn( msg.queryData,  
+                         msg.requestClientInternalHostAddress, 
+                         msg.requestClientInternalPort,
+                         msg.requestVia,
+                         msg.requestClientPublicIp,
+                         msg.clientUsername,
+                         msg.requestClientPublicHostName,
+                            
+                            function(result) {
+                                console.log("5: " + JSON.stringify(result))
+                                var returnclientConnectMsg = {
+                                    message_type:           'returnClientConnect',
+                                    seq_num:                msg.seq_num,
+                                    returned:               result.connected,
+                                    error:                  result.error
+                                };
+                                //console.log("5.1: " + JSON.stringify(returnIntranetServersMsg))
+                                console.log("5.2: " + Object.keys(returnclientConnectMsg))
+                                process.send( returnclientConnectMsg );
+                                console.log("5.3: ")
+                    }  )                    
+                    
+                    
+                    
+                    
+                    
 
 
 
@@ -2429,7 +2465,7 @@ function addNewConnection( params ) {
 
 
 
-//zzz
+
 function downloadWebDocument(queryId, callbackFn) {
     //console.log("4")
 
@@ -2560,7 +2596,7 @@ function downloadWebDocument(queryId, callbackFn) {
                        
      
 
-//zzz
+
 function downloadDocuments( fileId, callbackFn ) {
 		if (fileId && (fileId.length > 0)) {
 				//console.log("getting file: " + fileId);
@@ -2591,11 +2627,7 @@ function downloadDocuments( fileId, callbackFn ) {
 
 
 
-//zzz
 function getIntranetServers(  requestClientPublicIp,  requestVia,  numberOfSecondsAliveCheck,  callbackFn) {
-    console.log("4 - requestClientPublicIp:     " + requestClientPublicIp)
-    console.log("4 - requestVia:                " + requestVia)
-    console.log("4 - numberOfSecondsAliveCheck  " + numberOfSecondsAliveCheck)
     var mysql = "select *  from  intranet_client_connects  where " +
                                 "    (when_connected > " + ( new Date().getTime() - (numberOfSecondsAliveCheck * 1000)) + ") " +
                                 " and " +
@@ -2613,4 +2645,72 @@ function getIntranetServers(  requestClientPublicIp,  requestVia,  numberOfSecon
                 }
         });
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//zzz
+function clientConnectFn(  
+                            queryData,  
+                            requestClientInternalHostAddress, 
+                            requestClientInternalPort,
+                            requestVia,
+                            requestClientPublicIp,
+                            clientUsername,
+                            requestClientPublicHostName,
+                            callbackFn
+        ) {
+	try
+	{
+        console.log('clientConnectFn');
+        
+		//console.log('Client attempting to connect from:');
+		//console.log('client internal host address:    ' + requestClientInternalHostAddress)
+		//console.log('client internal port:            ' + requestClientInternalPort)
+		//console.log('client public IP address:        ' + requestClientPublicIp)
+		//console.log('client public IP host name:      ' + requestClientPublicHostName)
+		//console.log('client VIA:                      ' + requestVia)
+
+          dbsearch.serialize(function() {
+              var stmt = dbsearch.prepare(" insert  into  intranet_client_connects " +
+                                      "    ( id, internal_host, internal_port, public_ip, via, public_host, user_name, client_user_name, when_connected) " +
+                                      " values " +
+                                      "    (?,   ?,?,?,?,  ?,?,?,?);");
+
+              var newid = uuidv1();
+              stmt.run(   newid,
+                          requestClientInternalHostAddress,
+                          requestClientInternalPort,
+                          requestClientPublicIp,
+                          requestVia,
+                          requestClientPublicHostName,
+                          username,
+                          clientUsername,
+                          new Date().getTime()
+                  );
+          });
+          //console.log('***SAVED***');
+
+        callbackFn({connected: true})
+	}
+	catch (err) {
+		//console.log('Warning: Central server not available:');
+	}
+
+}
 

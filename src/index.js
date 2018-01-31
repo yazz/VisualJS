@@ -973,59 +973,6 @@ function testFirewall(req, res) {
 
 
 
-function clientConnectFn(req, res) {
-	try
-	{
-		var queryData = url.parse(req.url, true).query;
-
-		var requestClientInternalHostAddress = req.query.requestClientInternalHostAddress;
-		var requestClientInternalPort        = req.query.requestClientInternalPort;
-		var requestVia                       = findViafromString(req.headers.via);
-		var requestClientPublicIp            = req.ip;
-          var clientUsername                   = req.query.clientUsername;
-		//requestClientPublicHostName      = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-		var requestClientPublicHostName      = "req keys::" + Object.keys(req) + ", VIA::" + req.headers.via + ", raw::" + JSON.stringify(req.rawHeaders);
-
-		//console.log('Client attempting to connect from:');
-		//console.log('client internal host address:    ' + requestClientInternalHostAddress)
-		//console.log('client internal port:            ' + requestClientInternalPort)
-		//console.log('client public IP address:        ' + requestClientPublicIp)
-		//console.log('client public IP host name:      ' + requestClientPublicHostName)
-		//console.log('client VIA:                      ' + requestVia)
-
-          dbsearch.serialize(function() {
-              var stmt = dbsearch.prepare(" insert  into  intranet_client_connects " +
-                                      "    ( id, internal_host, internal_port, public_ip, via, public_host, user_name, client_user_name, when_connected) " +
-                                      " values " +
-                                      "    (?,   ?,?,?,?,  ?,?,?,?);");
-
-              var newid = uuidv1();
-              stmt.run(   newid,
-                          requestClientInternalHostAddress,
-                          requestClientInternalPort,
-                          requestClientPublicIp,
-                          requestVia,
-                          requestClientPublicHostName,
-                          username,
-                          clientUsername,
-                          new Date().getTime()
-                  );
-          });
-          //console.log('***SAVED***');
-
-		res.writeHead(200, {'Content-Type': 'text/plain'});
-		res.end(JSON.stringify(
-              {
-                  connected: true,
-              }));
-	}
-	catch (err) {
-		//console.log('Warning: Central server not available:');
-	}
-
-}
-
-
 
 
 
@@ -1696,10 +1643,6 @@ function setUpChildListeners(forkedProcess) {
 
 
         } else if (msg.message_type == "returnIntranetServers") {
-            //zzz                    
-            console.log("6: returnIntranetServers")
-            console.log("6.1: " + msg)
-            console.log("7: " + msg.returned)
             var newres = queuedResponses[ msg.seq_num ]
             
             newres.writeHead(200, {'Content-Type': 'text/plain'});
@@ -1714,10 +1657,35 @@ function setUpChildListeners(forkedProcess) {
                                               intranetPublicIp:  msg.requestClientPublicIp}) );
             }
             newres = null;
-                
-                
-        }
+        
 
+
+
+
+
+
+        //zzz                    
+        } else if (msg.message_type == "returnClientConnect") {
+            console.log("6: returnClientConnect")
+            console.log("6.1: " + msg)
+            console.log("7: " + msg.returned)
+            var newres = queuedResponses[ msg.seq_num ]
+            
+
+            
+            if (msg.returned) {
+                newres.writeHead(200, {'Content-Type': 'text/plain'});
+                newres.end( JSON.stringify( JSON.stringify({  connected:         msg.returned })) );
+            } 
+            newres = null;
+        }
+        
+                                    
+                                    
+        
+        
+        
+        
 //
 //
 
@@ -1861,13 +1829,12 @@ function startServices() {
 
 
     
-    //zzz
     //------------------------------------------------------------------------------
     // get_intranet_servers
     //------------------------------------------------------------------------------
     app.get('/get_intranet_servers', function (req, res) {
-        console.log("1 - get_intranet_servers: " + req.ip)
-        console.log("1.1 - get_intranet_servers: " + Object.keys(req.headers))
+        //console.log("1 - get_intranet_servers: " + req.ip)
+        //console.log("1.1 - get_intranet_servers: " + Object.keys(req.headers))
         
         var seqNum = queuedResponseSeqNum;
         queuedResponseSeqNum ++;
@@ -1991,13 +1958,53 @@ function startServices() {
 
 
 
+    //zzz
     //------------------------------------------------------------------------------
     // run on the central server only
     //
     // This is where the client sends its details to the central server
     //------------------------------------------------------------------------------
     app.get('/client_connect', function (req, res) {
-    	  return clientConnectFn(req,res);
+        
+        console.log("1 - client_connect: ")
+        var queryData = url.parse(req.url, true).query;
+
+		var requestClientInternalHostAddress = req.query.requestClientInternalHostAddress;
+        console.log("    requestClientInternalHostAddress: "  + requestClientInternalHostAddress)
+
+		var requestClientInternalPort        = req.query.requestClientInternalPort;
+        console.log("    requestClientInternalPort: "  + requestClientInternalPort)
+        
+		var requestVia                       = findViafromString(req.headers.via);
+        console.log("    requestVia: "  + requestVia)
+                
+		var requestClientPublicIp            = req.ip;
+        console.log("    requestClientPublicIp: "  + requestClientPublicIp)
+        
+        var clientUsername                   = req.query.clientUsername;
+        console.log("    clientUsername: "  + clientUsername)
+        
+		//requestClientPublicHostName      = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+		var requestClientPublicHostName      = "req keys::" + Object.keys(req) + ", VIA::" + req.headers.via + ", raw::" + JSON.stringify(req.rawHeaders);
+        console.log("    requestClientPublicHostName: "  + requestClientPublicHostName)
+
+        
+        
+        
+        
+        var seqNum = queuedResponseSeqNum;
+        queuedResponseSeqNum ++;
+        queuedResponses[seqNum] = res;
+        console.log("2")
+        forked.send({   message_type:                       "client_connect", 
+                        seq_num:                            seqNum,
+                        requestClientInternalHostAddress:   requestClientInternalHostAddress,
+                        requestClientInternalPort:          requestClientInternalPort,
+                        requestVia:                         requestVia,
+                        requestClientPublicIp:              requestClientPublicIp,
+                        clientUsername:                     clientUsername,
+                        requestClientPublicHostName:        requestClientPublicHostName
+                        });
 
     })
 
