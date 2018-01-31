@@ -42,7 +42,6 @@ Command line options:
 
 
 ### Developer quick start
-<img height='350px' src='https://associatesmind.com/wp-content/uploads/2014/05/quickstart.png' />
 
 
 ##### 1) Install GIT from https://git-scm.com/downloads
@@ -75,11 +74,8 @@ Command line options:
 
 
 ### What is VisiFile's killer feature?
-<img height='350px' src='http://blog.wiserspread.com/wp-content/uploads/2014/07/Killer.jpg' />
-
 
 VisisFile's killer feature is being able to see a list of all your document changes in time order
-
 
 
 
