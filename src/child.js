@@ -1758,7 +1758,7 @@ function processMessagesFromMainProcess() {
 
 //zzz
     } else if (msg.message_type == 'client_connect') {
-        console.log("3 client_connect: " + msg.seq_num )
+        //console.log("3 client_connect: " + msg.seq_num )
         clientConnectFn( msg.queryData,  
                          msg.requestClientInternalHostAddress, 
                          msg.requestClientInternalPort,
@@ -1768,7 +1768,7 @@ function processMessagesFromMainProcess() {
                          msg.requestClientPublicHostName,
                             
                             function(result) {
-                                console.log("5: " + JSON.stringify(result))
+                                //console.log("5: " + JSON.stringify(result))
                                 var returnclientConnectMsg = {
                                     message_type:           'returnClientConnect',
                                     seq_num:                msg.seq_num,
@@ -1776,9 +1776,9 @@ function processMessagesFromMainProcess() {
                                     error:                  result.error
                                 };
                                 //console.log("5.1: " + JSON.stringify(returnIntranetServersMsg))
-                                console.log("5.2: " + Object.keys(returnclientConnectMsg))
+                                //console.log("5.2: " + Object.keys(returnclientConnectMsg))
                                 process.send( returnclientConnectMsg );
-                                console.log("5.3: ")
+                                //console.log("5.3: ")
                     }  )                    
                     
                     
@@ -1786,6 +1786,30 @@ function processMessagesFromMainProcess() {
                     
                     
 
+//zzz
+    } else if (msg.message_type == 'get_all_queries') {
+        console.log("3 - get_all_queries: " + msg.seq_num )
+        get_all_queries( 
+                            function(result) {
+                                //console.log("5: " + JSON.stringify(result))
+                                var returnQueryItemMsg = {
+                                    message_type:           'return_query_item',
+                                    seq_num:                msg.seq_num,
+                                    returned:               result.query
+                                }
+                                process.send( returnQueryItemMsg );
+                            },
+
+                            
+                            function() {
+                                var returnQueryItemsEndedMsg = {
+                                    message_type:           'return_query_items_ended',
+                                    seq_num:                msg.seq_num
+                                };
+                                process.send( returnQueryItemsEndedMsg );
+                                console.log("6: Query ended ")
+                            }  
+                        )                    
 
 
 
@@ -2664,7 +2688,7 @@ function getIntranetServers(  requestClientPublicIp,  requestVia,  numberOfSecon
 
 
 
-//zzz
+
 function clientConnectFn(  
                             queryData,  
                             requestClientInternalHostAddress, 
@@ -2714,3 +2738,31 @@ function clientConnectFn(
 
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//zzz
+function get_all_queries(callbackFn, callbackEndFn) {
+    console.log('4:');
+    var stmt = dbsearch.all("select * from queries",
+        function(err, results) {
+            //console.log('4.5: results length = ' + results.length);
+            for (var i=0; i < results.length;i ++) {
+                var query = results[i];
+                callbackFn({query: query})
+            }
+            callbackEndFn()
+        });
+};

@@ -970,44 +970,28 @@ function testFirewall(req, res) {
 
 
 
-
-
-
-
-
-
-
-
+//zzz
 function websocketFn(ws, req) {
     serverwebsockets.push(ws);
     //console.log('Socket connected : ' + serverwebsockets.length);
+    
     ws.on('message', function(msg) {
         var receivedMessage = eval("(" + msg + ")");
-        //console.log("Server recieved message: " + JSON.stringify(receivedMessage));
+        console.log(" 1- Server recieved message: " + JSON.stringify(receivedMessage));
 
+        // if we get the message "server_get_all_queries" from the web browser
         if (receivedMessage.message_type == "server_get_all_queries") {
-            //return
-            //console.log("     Server recieved message server_get_all_queries");
-            sendToBrowserViaWebSocket(ws, {   message_type: "client_get_all_queries"  });
-
-            var stmt = dbsearch.all("select * from queries",
-                function(err, results) {
-                    for (var i=0; i < results.length;i ++) {
-                        var query = results[i];
-                        sendToBrowserViaWebSocket(
-                            ws,
-                            {
-                                type: "update_query_item",
-                                query: query
-                            });
-                    }
-                    sendToBrowserViaWebSocket(ws, {   type: "client_get_all_queries_done"  });
-                });
-
-
-        }
-    });
-};
+            
+            var seqNum = queuedResponseSeqNum;
+            queuedResponseSeqNum ++;
+            queuedResponses[seqNum] = ws;
+            
+            console.log(" 2 ");
+            forked.send({
+                            message_type:   "get_all_queries",
+                            seq_num:          seqNum
+                        });
+}});};
 
 
 
@@ -1364,8 +1348,6 @@ function getqueryresultFn(req, res) {
                                 if (!err) {
                                     //console.log('trying to save pdf 3: ');
                                     if (rows.length > 0) {
-                                        //console.log('trying to save pdf 4: ');
-                                        //console.log('trying to save pdf 5: ');
                                         var buffer = new Buffer(rows[0].content, 'binary');
 
                                         fs.writeFile(process.cwd() + "/files/a.pdf", buffer,  "binary",
@@ -1664,11 +1646,10 @@ function setUpChildListeners(forkedProcess) {
 
 
 
-        //zzz                    
         } else if (msg.message_type == "returnClientConnect") {
-            console.log("6: returnClientConnect")
-            console.log("6.1: " + msg)
-            console.log("7: " + msg.returned)
+            //console.log("6: returnClientConnect")
+            //console.log("6.1: " + msg)
+            //console.log("7: " + msg.returned)
             var newres = queuedResponses[ msg.seq_num ]
             
 
@@ -1678,12 +1659,42 @@ function setUpChildListeners(forkedProcess) {
                 newres.end( JSON.stringify( JSON.stringify({  connected:         msg.returned })) );
             } 
             newres = null;
+        
+                                    
+                                    
+        
+        
+//zzz
+        } else if (msg.message_type == "return_query_item") {
+            //console.log("6: return_query_item")
+            //console.log("6.1: " + msg)
+            console.log("7: " + msg.returned)
+            var new_ws = queuedResponses[ msg.seq_num ]
+            
+            if (msg.returned) {
+                sendToBrowserViaWebSocket(
+                new_ws,
+                {
+                    type: "update_query_item",
+                    query: msg.returned
+                });
+            } 
+
+
+
+
+
+
+
+        } else if (msg.message_type == "return_query_items_ended") {
+            console.log("6: return_query_items_ended")
+            console.log("6.1: " + msg)
+            var new_ws = queuedResponses[ msg.seq_num ]
+            
+            sendToBrowserViaWebSocket(      new_ws, 
+                                        {   type: "client_get_all_queries_done"  });
+            //new_ws = null;
         }
-        
-                                    
-                                    
-        
-        
         
         
 //
@@ -1958,7 +1969,7 @@ function startServices() {
 
 
 
-    //zzz
+    
     //------------------------------------------------------------------------------
     // run on the central server only
     //
@@ -1966,27 +1977,27 @@ function startServices() {
     //------------------------------------------------------------------------------
     app.get('/client_connect', function (req, res) {
         
-        console.log("1 - client_connect: ")
+        //console.log("1 - client_connect: ")
         var queryData = url.parse(req.url, true).query;
 
 		var requestClientInternalHostAddress = req.query.requestClientInternalHostAddress;
-        console.log("    requestClientInternalHostAddress: "  + requestClientInternalHostAddress)
+        //console.log("    requestClientInternalHostAddress: "  + requestClientInternalHostAddress)
 
 		var requestClientInternalPort        = req.query.requestClientInternalPort;
-        console.log("    requestClientInternalPort: "  + requestClientInternalPort)
+        //console.log("    requestClientInternalPort: "  + requestClientInternalPort)
         
 		var requestVia                       = findViafromString(req.headers.via);
-        console.log("    requestVia: "  + requestVia)
+        //console.log("    requestVia: "  + requestVia)
                 
 		var requestClientPublicIp            = req.ip;
-        console.log("    requestClientPublicIp: "  + requestClientPublicIp)
+        //console.log("    requestClientPublicIp: "  + requestClientPublicIp)
         
         var clientUsername                   = req.query.clientUsername;
-        console.log("    clientUsername: "  + clientUsername)
+        //console.log("    clientUsername: "  + clientUsername)
         
 		//requestClientPublicHostName      = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 		var requestClientPublicHostName      = "req keys::" + Object.keys(req) + ", VIA::" + req.headers.via + ", raw::" + JSON.stringify(req.rawHeaders);
-        console.log("    requestClientPublicHostName: "  + requestClientPublicHostName)
+        //console.log("    requestClientPublicHostName: "  + requestClientPublicHostName)
 
         
         
@@ -1995,7 +2006,7 @@ function startServices() {
         var seqNum = queuedResponseSeqNum;
         queuedResponseSeqNum ++;
         queuedResponses[seqNum] = res;
-        console.log("2")
+        //console.log("2")
         forked.send({   message_type:                       "client_connect", 
                         seq_num:                            seqNum,
                         requestClientInternalHostAddress:   requestClientInternalHostAddress,
