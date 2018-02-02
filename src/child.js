@@ -1756,7 +1756,6 @@ function processMessagesFromMainProcess() {
 
 
 
-//zzz
     } else if (msg.message_type == 'client_connect') {
         //console.log("3 client_connect: " + msg.seq_num )
         clientConnectFn( msg.queryData,  
@@ -1781,12 +1780,38 @@ function processMessagesFromMainProcess() {
                                 //console.log("5.3: ")
                     }  )                    
                     
-                    
-                    
-                    
-                    
 
+
+
+
+
+                    
 //zzz
+    } else if (msg.message_type == 'get_search_results') {
+        console.log("3 - get_search_results: " + msg.seq_num )
+        get_search_resultsFn(   msg.searchTerm, 
+                                msg.timeStart, 
+                            
+                                function(result) {
+                                    console.log("5 - get_search_results: " + JSON.stringify(result))
+                                    var return_get_search_resultsMsg = {
+                                        message_type:           'return_get_search_results',
+                                        seq_num:                msg.seq_num,
+                                        returned:               JSON.stringify(result)
+                                    };
+                                    console.log("5.1: " + JSON.stringify(return_get_search_resultsMsg))
+                                    process.send( return_get_search_resultsMsg );
+                                    console.log("5.3: ")
+                    }  )                    
+                    
+                    
+     
+
+
+
+
+     
+
     } else if (msg.message_type == 'get_all_queries') {
         console.log("3 - get_all_queries: " + msg.seq_num )
         get_all_queries( 
@@ -2765,4 +2790,114 @@ function get_all_queries(callbackFn, callbackEndFn) {
             }
             callbackEndFn()
         });
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function get_search_resultsFn(  searchTerm,  timeStart , callbackFn  ) {
+    //console.log("called get_search_results: " )
+
+    //console.log("searchTerm.length: " + searchTerm.length)
+    //console.log("searchTerm: " + searchTerm)
+    if (searchTerm.length < 1) {
+        var timeEnd = new Date().getTime();
+        var timing = timeEnd - timeStart;
+        callbackFn(  {  search:      searchTerm,
+                        queries:    [],
+                        message:    "Search text must be at least 1 characters: " + searchTerm,
+                        duration:    timing    }  );
+    } else {
+
+    dbsearch.serialize(function() {
+        var mysql = "  select distinct(queries.id), the1.document_binary_hash, the1.num_occ  , the1.child_hash , zfts_search_rows_hashed.data " +
+                    " from (  select   " +
+                   "  distinct(document_binary_hash), count(document_binary_hash)  as num_occ  , child_hash  " +
+                 "    from    " +
+                 "    search_rows_hierarchy   " +
+                 "    where    " +
+                 "    child_hash in (select     " +
+                  " distinct(row_hash)    " +
+                    "  from     " +
+"                          zfts_search_rows_hashed    " +
+ "                    where    " +
+  "                         zfts_search_rows_hashed match '"  + searchTerm + "*'  )   " +
+   "                  group by   " +
+    "                    document_binary_hash) as the1,   " +
+     "                     queries  , " +
+      "                    zfts_search_rows_hashed  " +
+       "              where    " +
+        "             queries.hash = the1.document_binary_hash   " +
+" and " +
+"zfts_search_rows_hashed.row_hash = the1.child_hash ";
+
+        var firstWord = searchTerm.split()[0];
+        if (firstWord.length < 1) {
+            firstWord = "";
+        }
+        var stmt = dbsearch.all(mysql, function(err, rows) {
+            if (!err) {
+                //console.log('rows: ' + JSON.stringify(rows.length));
+                var newres = [];
+                for  (var i=0; i < rows.length;i++) {
+                    var rowId = rows[i]["id"];
+                    var rowData =  rows[i]["data"];
+                    if (rowData.length > 0) {
+                        var rowDataToSend = ""
+                        if (i < 5) {
+                            var rowDataStartInit = rowData.toUpperCase().indexOf(firstWord.toUpperCase())
+                            //console.log('rowDataStartInit: ' + rowDataStartInit );
+
+                            //console.log('for: ' + firstWord + " = " + JSON.stringify(rowData));
+
+                            var rowDataStart = rowDataStartInit - 30;
+                            if (rowDataStart < 0) {
+                                rowDataStart = 0
+                            }
+                            //console.log('rowDataEndInit: ' + rowDataEndInit );
+                            var rowDataEnd = rowDataStartInit + firstWord.length + 30
+
+                            rowDataToSend = rowData.substring(rowDataStart, rowDataStartInit) + firstWord.toUpperCase() +
+                                rowData.substring(rowDataStartInit + firstWord.length, rowDataEnd);
+                        }
+                        //console.log('rowDataToSend: ' + rowDataToSend );
+                        newres.push({
+                                            id:     rowId,
+                                            data:   rowDataToSend
+                                    });
+                    }
+                }
+                var timeEnd = new Date().getTime();
+                var timing = timeEnd - timeStart;
+                callbackFn( {   search:  searchTerm,
+                                            queries: newres,
+                                            duration: timing});
+            } else {
+                var timeEnd = new Date().getTime();
+                var timing = timeEnd - timeStart;
+                callbackFn( {search:      searchTerm,
+                             queries:    [],
+                             duration:    timing,
+                             error: "Error searching for: " + searchTerm }  );
+            }
+        });
+
+    })
+    };
 };

@@ -970,14 +970,13 @@ function testFirewall(req, res) {
 
 
 
-//zzz
 function websocketFn(ws, req) {
     serverwebsockets.push(ws);
     //console.log('Socket connected : ' + serverwebsockets.length);
     
     ws.on('message', function(msg) {
         var receivedMessage = eval("(" + msg + ")");
-        console.log(" 1- Server recieved message: " + JSON.stringify(receivedMessage));
+        //console.log(" 1- Server recieved message: " + JSON.stringify(receivedMessage));
 
         // if we get the message "server_get_all_queries" from the web browser
         if (receivedMessage.message_type == "server_get_all_queries") {
@@ -986,7 +985,7 @@ function websocketFn(ws, req) {
             queuedResponseSeqNum ++;
             queuedResponses[seqNum] = ws;
             
-            console.log(" 2 ");
+            //console.log(" 2 ");
             forked.send({
                             message_type:   "get_all_queries",
                             seq_num:          seqNum
@@ -1187,101 +1186,6 @@ function get_related_documentsFn(req, res) {
 
 
 
-function get_search_resultsFn(req, res) {
-    //console.log("called get_search_results: " )
-    var searchTerm = req.query.search_text;
-    var timeStart = new Date().getTime();
-
-    //console.log("searchTerm.length: " + searchTerm.length)
-    //console.log("searchTerm: " + searchTerm)
-    if (searchTerm.length < 1) {
-        var timeEnd = new Date().getTime();
-        var timing = timeEnd - timeStart;
-        res.writeHead(200, {'Content-Type': 'text/plain'});
-        res.end( JSON.stringify({search:      searchTerm,
-                                 queries:    [],
-                                 message:    "Search text must be at least 1 characters: " + searchTerm,
-                                 duration:    timing    }  ));
-    } else {
-
-    dbsearch.serialize(function() {
-        var mysql = "  select distinct(queries.id), the1.document_binary_hash, the1.num_occ  , the1.child_hash , zfts_search_rows_hashed.data " +
-                    " from (  select   " +
-                   "  distinct(document_binary_hash), count(document_binary_hash)  as num_occ  , child_hash  " +
-                 "    from    " +
-                 "    search_rows_hierarchy   " +
-                 "    where    " +
-                 "    child_hash in (select     " +
-                  " distinct(row_hash)    " +
-                    "  from     " +
-"                          zfts_search_rows_hashed    " +
- "                    where    " +
-  "                         zfts_search_rows_hashed match '"  + searchTerm + "*'  )   " +
-   "                  group by   " +
-    "                    document_binary_hash) as the1,   " +
-     "                     queries  , " +
-      "                    zfts_search_rows_hashed  " +
-       "              where    " +
-        "             queries.hash = the1.document_binary_hash   " +
-" and " +
-"zfts_search_rows_hashed.row_hash = the1.child_hash ";
-
-        var firstWord = searchTerm.split()[0];
-        if (firstWord.length < 1) {
-            firstWord = "";
-        }
-        var stmt = dbsearch.all(mysql, function(err, rows) {
-            if (!err) {
-                //console.log('rows: ' + JSON.stringify(rows.length));
-                var newres = [];
-                for  (var i=0; i < rows.length;i++) {
-                    var rowId = rows[i]["id"];
-                    var rowData =  rows[i]["data"];
-                    if (rowData.length > 0) {
-                        var rowDataToSend = ""
-                        if (i < 5) {
-                            var rowDataStartInit = rowData.toUpperCase().indexOf(firstWord.toUpperCase())
-                            //console.log('rowDataStartInit: ' + rowDataStartInit );
-
-                            //console.log('for: ' + firstWord + " = " + JSON.stringify(rowData));
-
-                            var rowDataStart = rowDataStartInit - 30;
-                            if (rowDataStart < 0) {
-                                rowDataStart = 0
-                            }
-                            //console.log('rowDataEndInit: ' + rowDataEndInit );
-                            var rowDataEnd = rowDataStartInit + firstWord.length + 30
-
-                            rowDataToSend = rowData.substring(rowDataStart, rowDataStartInit) + firstWord.toUpperCase() +
-                                rowData.substring(rowDataStartInit + firstWord.length, rowDataEnd);
-                        }
-                        //console.log('rowDataToSend: ' + rowDataToSend );
-                        newres.push({
-                                            id:     rowId,
-                                            data:   rowDataToSend
-                                    });
-                    }
-                }
-                var timeEnd = new Date().getTime();
-                var timing = timeEnd - timeStart;
-                res.writeHead(200, {'Content-Type': 'text/plain'});
-                res.end( JSON.stringify({   search:  searchTerm,
-                                            queries: newres,
-                                            duration: timing}));
-            } else {
-                var timeEnd = new Date().getTime();
-                var timing = timeEnd - timeStart;
-                res.writeHead(200, {'Content-Type': 'text/plain'});
-                res.end( JSON.stringify({search:      searchTerm,
-                                         queries:    [],
-                                         duration:    timing,
-                                         error: "Error searching for: " + searchTerm }  ));
-            }
-        });
-
-    })
-    };
-};
 
 
 
@@ -1586,6 +1490,20 @@ function setUpChildListeners(forkedProcess) {
             
             
             
+        //zzz
+        } else if (msg.message_type == "return_get_search_results") {
+            console.log("6 - return_get_search_results: " + msg.returned);
+            var rett = eval("(" + msg.returned + ")");
+            var newres = queuedResponses[ msg.seq_num ]
+            
+            newres.writeHead(200, {'Content-Type': 'text/plain'});
+            newres.end(msg.returned);
+            
+            newres = null;
+            
+            
+            
+            
             
             
             
@@ -1664,11 +1582,10 @@ function setUpChildListeners(forkedProcess) {
                                     
         
         
-//zzz
         } else if (msg.message_type == "return_query_item") {
             //console.log("6: return_query_item")
             //console.log("6.1: " + msg)
-            console.log("7: " + msg.returned)
+            //console.log("7: " + msg.returned)
             var new_ws = queuedResponses[ msg.seq_num ]
             
             if (msg.returned) {
@@ -1687,8 +1604,8 @@ function setUpChildListeners(forkedProcess) {
 
 
         } else if (msg.message_type == "return_query_items_ended") {
-            console.log("6: return_query_items_ended")
-            console.log("6.1: " + msg)
+            //console.log("6: return_query_items_ended")
+            //console.log("6.1: " + msg)
             var new_ws = queuedResponses[ msg.seq_num ]
             
             sendToBrowserViaWebSocket(      new_ws, 
@@ -1912,11 +1829,24 @@ function startServices() {
     })
 
 
+    //zzz
     //------------------------------------------------------------------------------
     // Get the result of a search
     //------------------------------------------------------------------------------
     app.get('/get_search_results', function (req, res) {
-        return get_search_resultsFn(req, res);
+        console.log("1 - get_search_results ,req.query.search_text: " + req.query.search_text)
+        console.log("    get_search_results ,req.query.search_text: " + new Date().getTime())
+        
+        var seqNum = queuedResponseSeqNum;
+        queuedResponseSeqNum ++;
+        queuedResponses[seqNum] = res;
+        console.log("2 - get_search_results")
+        forked.send({   message_type:               "get_search_results", 
+                        seq_num:                    seqNum, 
+                        searchTerm:                 req.query.search_text, 
+                        timeStart:                  new Date().getTime()
+                        });
+        
     });
 
 
