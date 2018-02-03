@@ -1676,8 +1676,8 @@ function processMessagesFromMainProcess() {
         //console.log("**** addNewConnection");
         addNewConnection(msg.params);
 
-        
-        
+
+
 
     } else if (msg.message_type == 'getResult') {
         getResult(  msg.source,
@@ -1697,7 +1697,7 @@ function processMessagesFromMainProcess() {
 
 
     } else if (msg.message_type == 'downloadWebDocument') {
-        downloadWebDocument(msg.query_id, 
+        downloadWebDocument(msg.query_id,
                             function(result) {
                                 console.log("5")
                                 var returnDownloadDocToParentMsg = {
@@ -1707,12 +1707,12 @@ function processMessagesFromMainProcess() {
                                 };
                                 process.send( returnDownloadDocToParentMsg );
                     }  )
-    
 
-                    
+
+
 
     } else if (msg.message_type == 'downloadDocuments') {
-        downloadDocuments(  msg.file_id, 
+        downloadDocuments(  msg.file_id,
                             function(result) {
                                 console.log("5")
                                 var returnDownloadDocumentsMsg = {
@@ -1729,10 +1729,10 @@ function processMessagesFromMainProcess() {
 
     } else if (msg.message_type == 'get_intranet_servers') {
         //console.log("3: " + msg.seq_num )
-        getIntranetServers( msg.requestClientPublicIp, 
+        getIntranetServers( msg.requestClientPublicIp,
                             msg.requestVia,
                             msg.numberOfSecondsAliveCheck,
-                            
+
                             function(result) {
                                 //console.log("5: " + JSON.stringify(result))
                                 var returnIntranetServersMsg = {
@@ -1747,25 +1747,25 @@ function processMessagesFromMainProcess() {
                                 //console.log("5.2: " + Object.keys(returnIntranetServersMsg))
                                 process.send( returnIntranetServersMsg );
                                 //console.log("5.3: ")
-                    }  )                    
+                    }  )
 
-                    
-                    
-                    
+
+
+
 
 
 
 
     } else if (msg.message_type == 'client_connect') {
         //console.log("3 client_connect: " + msg.seq_num )
-        clientConnectFn( msg.queryData,  
-                         msg.requestClientInternalHostAddress, 
+        clientConnectFn( msg.queryData,
+                         msg.requestClientInternalHostAddress,
                          msg.requestClientInternalPort,
                          msg.requestVia,
                          msg.requestClientPublicIp,
                          msg.clientUsername,
                          msg.requestClientPublicHostName,
-                            
+
                             function(result) {
                                 //console.log("5: " + JSON.stringify(result))
                                 var returnclientConnectMsg = {
@@ -1778,20 +1778,20 @@ function processMessagesFromMainProcess() {
                                 //console.log("5.2: " + Object.keys(returnclientConnectMsg))
                                 process.send( returnclientConnectMsg );
                                 //console.log("5.3: ")
-                    }  )                    
-                    
+                    }  )
 
 
 
 
 
-                    
+
+
 //zzz
     } else if (msg.message_type == 'get_search_results') {
         console.log("3 - get_search_results: " + msg.seq_num )
-        get_search_resultsFn(   msg.searchTerm, 
-                                msg.timeStart, 
-                            
+        get_search_resultsFn(   msg.searchTerm,
+                                msg.timeStart,
+
                                 function(result) {
                                     console.log("5 - get_search_results: " + JSON.stringify(result))
                                     var return_get_search_resultsMsg = {
@@ -1802,19 +1802,19 @@ function processMessagesFromMainProcess() {
                                     console.log("5.1: " + JSON.stringify(return_get_search_resultsMsg))
                                     process.send( return_get_search_resultsMsg );
                                     console.log("5.3: ")
-                    }  )                    
-                    
-                    
-     
+                    }  )
 
 
 
 
-     
+
+
+
+
 
     } else if (msg.message_type == 'get_all_queries') {
         console.log("3 - get_all_queries: " + msg.seq_num )
-        get_all_queries( 
+        get_all_queries(
                             function(result) {
                                 //console.log("5: " + JSON.stringify(result))
                                 var returnQueryItemMsg = {
@@ -1825,7 +1825,7 @@ function processMessagesFromMainProcess() {
                                 process.send( returnQueryItemMsg );
                             },
 
-                            
+
                             function() {
                                 var returnQueryItemsEndedMsg = {
                                     message_type:           'return_query_items_ended',
@@ -1833,17 +1833,17 @@ function processMessagesFromMainProcess() {
                                 };
                                 process.send( returnQueryItemsEndedMsg );
                                 console.log("6: Query ended ")
-                            }  
-                        )                    
+                            }
+                        )
 
 
 
         } else if (msg.message_type == 'when_queries_changes') {
             when_queries_changes(null);
-            
-            
-            
-            
+
+
+
+
         } else if (msg.message_type == 'when_connections_changes') {
             when_connections_change();
         }
@@ -2422,28 +2422,28 @@ function addOrUpdateDriver(name, code2, theObject) {
       }
   };
 
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 function when_connections_change() {
     if (!in_when_connections_change) {
         in_when_connections_change=true;
-        
+
         var stmt = dbsearch.all("select * from connections",
             function(err, results) {
                 if (!err) {
@@ -2487,7 +2487,7 @@ function addNewConnection( params ) {
                      });
 
             stmt.finalize();
-            
+
         });
     } catch(err) {
         //console.log("                          err: " + err);
@@ -2642,8 +2642,8 @@ function downloadWebDocument(queryId, callbackFn) {
 
 
 
-                       
-     
+
+
 
 
 function downloadDocuments( fileId, callbackFn ) {
@@ -2684,13 +2684,13 @@ function getIntranetServers(  requestClientPublicIp,  requestVia,  numberOfSecon
                                                     "((via = '" + requestVia + "') and (length(via) > 0)))";
         //console.log("check IP: " + mysql);
         var stmt = dbsearch.all(
-            mysql, 
+            mysql,
             function(err, rows) {
                 if (!err) {
                     //console.log( "           " + JSON.stringify(rows));
                     callbackFn({rows: rows})
                 } else {
-                    callbackFn({error: err})                    
+                    callbackFn({error: err})
                 }
         });
 };
@@ -2714,9 +2714,9 @@ function getIntranetServers(  requestClientPublicIp,  requestVia,  numberOfSecon
 
 
 
-function clientConnectFn(  
-                            queryData,  
-                            requestClientInternalHostAddress, 
+function clientConnectFn(
+                            queryData,
+                            requestClientInternalHostAddress,
                             requestClientInternalPort,
                             requestVia,
                             requestClientPublicIp,
@@ -2727,7 +2727,7 @@ function clientConnectFn(
 	try
 	{
         console.log('clientConnectFn');
-        
+
 		//console.log('Client attempting to connect from:');
 		//console.log('client internal host address:    ' + requestClientInternalHostAddress)
 		//console.log('client internal port:            ' + requestClientInternalPort)

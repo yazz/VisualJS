@@ -973,18 +973,18 @@ function testFirewall(req, res) {
 function websocketFn(ws, req) {
     serverwebsockets.push(ws);
     //console.log('Socket connected : ' + serverwebsockets.length);
-    
+
     ws.on('message', function(msg) {
         var receivedMessage = eval("(" + msg + ")");
         //console.log(" 1- Server recieved message: " + JSON.stringify(receivedMessage));
 
         // if we get the message "server_get_all_queries" from the web browser
         if (receivedMessage.message_type == "server_get_all_queries") {
-            
+
             var seqNum = queuedResponseSeqNum;
             queuedResponseSeqNum ++;
             queuedResponses[seqNum] = ws;
-            
+
             //console.log(" 2 ");
             forked.send({
                             message_type:   "get_all_queries",
@@ -1222,7 +1222,7 @@ function getqueryresultFn(req, res) {
 					if (connections[queryData.source].driver) {
 						////console.log('query driver: ' + connections[queryData.source].driver);
                         var newres = res;
-                        
+
                         var seqNum = queuedResponseSeqNum;
                         queuedResponseSeqNum ++;
                         queuedResponses[seqNum] = res;
@@ -1474,59 +1474,59 @@ function setUpChildListeners(forkedProcess) {
             newres.writeHead(200, {'Content-Type': 'text/plain'});
             newres.end(JSON.stringify(msg.result));
             newres = null;
-        
 
-        
-        
+
+
+
         } else if (msg.message_type == "returnDownloadWebDocument") {
             var rett = eval("(" + msg.returned + ")");
             var newres = queuedResponses[ msg.seq_num ]
-            
+
             newres.writeHead(200, {'Content-Type': 'text/plain'});
             newres.end(JSON.stringify({  result: rett.result}));
-            
+
             newres = null;
 
-            
-            
-            
+
+
+
         //zzz
         } else if (msg.message_type == "return_get_search_results") {
             console.log("6 - return_get_search_results: " + msg.returned);
             var rett = eval("(" + msg.returned + ")");
             var newres = queuedResponses[ msg.seq_num ]
-            
+
             newres.writeHead(200, {'Content-Type': 'text/plain'});
             newres.end(msg.returned);
-            
+
             newres = null;
-            
-            
-            
-            
-            
-            
-            
+
+
+
+
+
+
+
         } else if (msg.message_type == "returnDownloadDocuments") {
             var newres = queuedResponses[ msg.seq_num ]
-            
+
             if (msg.returned.error) {
                 newres.end(JSON.stringify({  error: msg.returned.error}));
-                
+
             } else if (msg.returned.result) {
                 var contentRecord = msg.returned.result
                 var content = Buffer.from(JSON.parse(msg.content).data);
-                
+
                 console.log("9: " + contentRecord.content_type);
                 console.log("10: " + contentRecord.id);
                 console.log("11: " + contentRecord.driver);
                 console.log("12: " + content.length);
                 //console.log("13: " + content);
                 console.log("14: " + Object.keys(contentRecord));
-                newres.writeHead(  
-                
-                                200, 
-                
+                newres.writeHead(
+
+                                200,
+
                                 {
                                     'Content-Type': contentRecord.content_type,
                                     'Content-disposition': 'attachment;filename=' + contentRecord.id  + "." + getFileExtension(contentRecord.driver),
@@ -1538,16 +1538,16 @@ function setUpChildListeners(forkedProcess) {
             } else {
                 newres.end(JSON.stringify({  error: "No results"}));
             }
-            
+
             newres = null;
 
 
         } else if (msg.message_type == "returnIntranetServers") {
             var newres = queuedResponses[ msg.seq_num ]
-            
+
             newres.writeHead(200, {'Content-Type': 'text/plain'});
 
-            
+
             if (msg.returned) {
                 newres.end( JSON.stringify( {  allServers:         msg.returned,
                                                intranetPublicIp:   msg.requestClientPublicIp}) );
@@ -1557,7 +1557,7 @@ function setUpChildListeners(forkedProcess) {
                                               intranetPublicIp:  msg.requestClientPublicIp}) );
             }
             newres = null;
-        
+
 
 
 
@@ -1569,25 +1569,25 @@ function setUpChildListeners(forkedProcess) {
             //console.log("6.1: " + msg)
             //console.log("7: " + msg.returned)
             var newres = queuedResponses[ msg.seq_num ]
-            
 
-            
+
+
             if (msg.returned) {
                 newres.writeHead(200, {'Content-Type': 'text/plain'});
                 newres.end( JSON.stringify( JSON.stringify({  connected:         msg.returned })) );
-            } 
+            }
             newres = null;
-        
-                                    
-                                    
-        
-        
+
+
+
+
+
         } else if (msg.message_type == "return_query_item") {
             //console.log("6: return_query_item")
             //console.log("6.1: " + msg)
             //console.log("7: " + msg.returned)
             var new_ws = queuedResponses[ msg.seq_num ]
-            
+
             if (msg.returned) {
                 sendToBrowserViaWebSocket(
                 new_ws,
@@ -1595,7 +1595,7 @@ function setUpChildListeners(forkedProcess) {
                     type: "update_query_item",
                     query: msg.returned
                 });
-            } 
+            }
 
 
 
@@ -1607,13 +1607,13 @@ function setUpChildListeners(forkedProcess) {
             //console.log("6: return_query_items_ended")
             //console.log("6.1: " + msg)
             var new_ws = queuedResponses[ msg.seq_num ]
-            
-            sendToBrowserViaWebSocket(      new_ws, 
+
+            sendToBrowserViaWebSocket(      new_ws,
                                         {   type: "client_get_all_queries_done"  });
             //new_ws = null;
         }
-        
-        
+
+
 //
 //
 
@@ -1725,12 +1725,12 @@ function startServices() {
     //------------------------------------------------------------------------------
     app.get('/docs2/*', function (req, res) {
         var fileId = req.url.substr(req.url.lastIndexOf('/') + 1)
-        
+
         var seqNum = queuedResponseSeqNum;
         queuedResponseSeqNum ++;
         queuedResponses[seqNum] = res;
-        forked.send({   message_type:   "downloadDocuments", 
-                        seq_num:         seqNum, 
+        forked.send({   message_type:   "downloadDocuments",
+                        seq_num:         seqNum,
                         file_id:         fileId });
     });
 
@@ -1742,8 +1742,8 @@ function startServices() {
         var seqNum = queuedResponseSeqNum;
         queuedResponseSeqNum ++;
         queuedResponses[seqNum] = res;
-        forked.send({   message_type:   "downloadWebDocument", 
-                        seq_num:         seqNum, 
+        forked.send({   message_type:   "downloadWebDocument",
+                        seq_num:         seqNum,
                         query_id:        req.query.id });
     });
 
@@ -1756,20 +1756,20 @@ function startServices() {
     });
 
 
-    
+
     //------------------------------------------------------------------------------
     // get_intranet_servers
     //------------------------------------------------------------------------------
     app.get('/get_intranet_servers', function (req, res) {
         //console.log("1 - get_intranet_servers: " + req.ip)
         //console.log("1.1 - get_intranet_servers: " + Object.keys(req.headers))
-        
+
         var seqNum = queuedResponseSeqNum;
         queuedResponseSeqNum ++;
         queuedResponses[seqNum] = res;
         console.log("2")
-        forked.send({   message_type:               "get_intranet_servers", 
-                        seq_num:                    seqNum, 
+        forked.send({   message_type:               "get_intranet_servers",
+                        seq_num:                    seqNum,
                         requestClientPublicIp:      req.ip ,
                         numberOfSecondsAliveCheck:  numberOfSecondsAliveCheck,
                         requestVia:                 findViafromString(req.headers.via)
@@ -1836,17 +1836,17 @@ function startServices() {
     app.get('/get_search_results', function (req, res) {
         console.log("1 - get_search_results ,req.query.search_text: " + req.query.search_text)
         console.log("    get_search_results ,req.query.search_text: " + new Date().getTime())
-        
+
         var seqNum = queuedResponseSeqNum;
         queuedResponseSeqNum ++;
         queuedResponses[seqNum] = res;
         console.log("2 - get_search_results")
-        forked.send({   message_type:               "get_search_results", 
-                        seq_num:                    seqNum, 
-                        searchTerm:                 req.query.search_text, 
+        forked.send({   message_type:               "get_search_results",
+                        seq_num:                    seqNum,
+                        searchTerm:                 req.query.search_text,
                         timeStart:                  new Date().getTime()
                         });
-        
+
     });
 
 
@@ -1899,14 +1899,14 @@ function startServices() {
 
 
 
-    
+
     //------------------------------------------------------------------------------
     // run on the central server only
     //
     // This is where the client sends its details to the central server
     //------------------------------------------------------------------------------
     app.get('/client_connect', function (req, res) {
-        
+
         //console.log("1 - client_connect: ")
         var queryData = url.parse(req.url, true).query;
 
@@ -1915,29 +1915,29 @@ function startServices() {
 
 		var requestClientInternalPort        = req.query.requestClientInternalPort;
         //console.log("    requestClientInternalPort: "  + requestClientInternalPort)
-        
+
 		var requestVia                       = findViafromString(req.headers.via);
         //console.log("    requestVia: "  + requestVia)
-                
+
 		var requestClientPublicIp            = req.ip;
         //console.log("    requestClientPublicIp: "  + requestClientPublicIp)
-        
+
         var clientUsername                   = req.query.clientUsername;
         //console.log("    clientUsername: "  + clientUsername)
-        
+
 		//requestClientPublicHostName      = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 		var requestClientPublicHostName      = "req keys::" + Object.keys(req) + ", VIA::" + req.headers.via + ", raw::" + JSON.stringify(req.rawHeaders);
         //console.log("    requestClientPublicHostName: "  + requestClientPublicHostName)
 
-        
-        
-        
-        
+
+
+
+
         var seqNum = queuedResponseSeqNum;
         queuedResponseSeqNum ++;
         queuedResponses[seqNum] = res;
         //console.log("2")
-        forked.send({   message_type:                       "client_connect", 
+        forked.send({   message_type:                       "client_connect",
                         seq_num:                            seqNum,
                         requestClientInternalHostAddress:   requestClientInternalHostAddress,
                         requestClientInternalPort:          requestClientInternalPort,
