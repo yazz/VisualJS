@@ -1805,19 +1805,19 @@ function processMessagesFromMainProcess() {
 
 
 
-//zzz
+
     } else if (msg.message_type == 'get_query_result') {
-        console.log("3 - get_query_result:     " + msg.seq_num )
-        console.log("           connection_id: " + msg.connection_id )
-        console.log("           query_id:      " + msg.query_id )
-        console.log("           definition:    " + msg.definition )
+        //console.log("3 - get_query_result:     " + msg.seq_num )
+        //console.log("           connection_id: " + msg.connection_id )
+        //console.log("           query_id:      " + msg.query_id )
+        //console.log("           definition:    " + msg.definition )
 
         getqueryresultFn(       msg.connection_id,
                                 msg.query_id,
                                 msg.definition,
 
                                 function(result) {
-                                    console.log("5 - get_query_result: " + JSON.stringify(result.length))
+                                    //console.log("5 - get_query_result: " + JSON.stringify(result.length))
                                     var return_get_query_result_msg = {
                                         message_type:        'return_get_query_results',
                                         seq_num:              msg.seq_num,
@@ -1825,10 +1825,33 @@ function processMessagesFromMainProcess() {
                                     };
                                     //console.log("5.1: " + JSON.stringify(return_get_query_result_msg))
                                     process.send( return_get_query_result_msg );
-                                    console.log("5.3: ")
+                                    //console.log("5.3: ")
                     }  )
 
 
+
+
+
+    //zzz
+        } else if (msg.message_type == 'get_all_tables') {
+            console.log("3 - get_all_tables:     " + msg.seq_num )
+            console.log("           table_name:  " + msg.table_name )
+            console.log("           fields:      " + msg.fields )
+
+            get_all_tableFn(   msg.table_name,
+                               msg.fields,
+
+                                    function(result) {
+                                        console.log("5 - get_all_tables: " + JSON.stringify(result.length))
+                                        var return_get_all_table_result_msg = {
+                                            message_type:        'return_get_all_table',
+                                            seq_num:              msg.seq_num,
+                                            result:               result
+                                        };
+                                        //console.log("5.1: " + JSON.stringify(return_get_all_table_result_msg))
+                                        process.send( return_get_all_table_result_msg );
+                                        console.log("5.3: ")
+                        }  )
 
 
 
@@ -1836,7 +1859,7 @@ function processMessagesFromMainProcess() {
 
 
     } else if (msg.message_type == 'get_all_queries') {
-        console.log("3 - get_all_queries: " + msg.seq_num )
+        //console.log("3 - get_all_queries: " + msg.seq_num )
         get_all_queries(
                             function(result) {
                                 //console.log("5: " + JSON.stringify(result))
@@ -1855,7 +1878,7 @@ function processMessagesFromMainProcess() {
                                     seq_num:                msg.seq_num
                                 };
                                 process.send( returnQueryItemsEndedMsg );
-                                console.log("6: Query ended ")
+                                //console.log("6: Query ended ")
                             }
                         )
 
@@ -2937,12 +2960,12 @@ function get_search_resultsFn(  searchTerm,  timeStart , callbackFn  ) {
 
 
 
-//zzz
+
 function getqueryresultFn(  connectionId, queryId, definition, callbackFn) {
-    console.log(' 3 - getqueryresultFn definition.sql: ' + JSON.stringify(definition.sql));
-    console.log('                      definition:     ' + JSON.stringify(definition));
-    console.log('                      connectionId:   ' + JSON.stringify(connectionId));
-    console.log('                      queryId:        ' + JSON.stringify(queryId));
+    //console.log(' 3 - getqueryresultFn definition.sql: ' + JSON.stringify(definition.sql));
+    //console.log('                      definition:     ' + JSON.stringify(definition));
+    //console.log('                      connectionId:   ' + JSON.stringify(connectionId));
+    //console.log('                      queryId:        ' + JSON.stringify(queryId));
 
 
 	var error = new Object();
@@ -2988,3 +3011,21 @@ function getqueryresultFn(  connectionId, queryId, definition, callbackFn) {
 		};
 	};
 }
+
+
+
+
+
+//zzz
+function get_all_tableFn(  tableName, fields, callbackFn  ) {
+    console.log("5 - get_all_tableFn, tableName: = " + tableName);
+    var stmt = dbsearch.all("select " + fields + " from " + tableName,
+        function(err, rows) {
+            if (!err) {
+                callbackFn(  JSON.stringify(rows)  );
+                console.log("Sent: " + JSON.stringify(rows.length) + " " + tableName);
+            } else {
+                console.log("Error: " + err);
+            };
+        })
+};

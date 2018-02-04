@@ -1264,21 +1264,6 @@ function get_connectFn(req, res) {
 
 
 
-function get_all_tableFn(req, res) {
-    var tableName = url.parse(req.url, true).query.tableName;
-    var fields = url.parse(req.url, true).query.fields;
-    var stmt = dbsearch.all("select " + fields + " from " + tableName,
-        function(err, rows) {
-            if (!err) {
-                res.writeHead(200, {'Content-Type': 'text/plain'});
-                res.end(JSON.stringify(
-                    rows));
-                //console.log("Sent: " + JSON.stringify(rows.length));
-            };
-        })
-};
-
-
 
 function add_new_connectionFn(req, res) {
     var params = req.body;
@@ -1421,9 +1406,9 @@ function setUpChildListeners(forkedProcess) {
             newres = null;
 
 
-//zzz
+
         } else if (msg.message_type == "return_get_query_results") {
-                console.log("6 - return_get_query_results: " + msg.result);
+                //console.log("6 - return_get_query_results: " + msg.result);
                 var rett = eval("(" + msg.result + ")");
                 var newres = queuedResponses[ msg.seq_num ]
 
@@ -1432,6 +1417,17 @@ function setUpChildListeners(forkedProcess) {
 
                 newres = null;
 
+
+
+//zzz
+        } else if (msg.message_type == "return_get_all_table") {
+                console.log("6 - return_get_all_table: " );
+                var newres = queuedResponses[ msg.seq_num ]
+
+                newres.writeHead(200, {'Content-Type': 'text/plain'});
+                newres.end(msg.result);
+
+                newres = null;
 
 
 
@@ -1777,7 +1773,7 @@ function startServices() {
     });
 
 
-    //zzz
+
     app.post('/getqueryresult', function (req, res) {
         console.log("1 - getqueryresult ,req.query.search_text: " )
 
@@ -1839,10 +1835,23 @@ function startServices() {
 
     //app.enable('trust proxy')
 
-
+    //zzz
     app.get('/get_all_table', function (req, res) {
-    		return get_all_tableFn(req, res);
-    });
+        var tableName = url.parse(req.url, true).query.tableName;
+        var fields = url.parse(req.url, true).query.fields;
+
+        console.log("1 - get_all_table ,tableName: " + tableName)
+        console.log("    get_all_table ,fields: "    + fields)
+
+        var seqNum = queuedResponseSeqNum;
+        queuedResponseSeqNum ++;
+        queuedResponses[seqNum] = res;
+        //console.log("2 - get_search_results")
+        forked.send({   message_type:               "get_all_tables",
+                        seq_num:                    seqNum,
+                        table_name:                 tableName,
+                        fields:                     fields
+                        });    });
 
     app.post('/add_new_connection', function (req, res) {
     		return add_new_connectionFn(req, res)
