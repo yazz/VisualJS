@@ -184,7 +184,6 @@ var numberOfSecondsAliveCheck           = 60;
 var username                            = "Unknown user";
 var serverwebsockets                    = [];
 var portrange                           = 3000
-var dbsearch;
 var requestClientInternalHostAddress    = '';
 var requestClientInternalPort           = -1;
 var requestClientPublicIp               = '';
@@ -246,12 +245,6 @@ var PDFParser       = require2("pdf2json");
 var sqlite3         = require2('sqlite3');
 
 username = os.userInfo().username.toLowerCase();
-dbsearch = new sqlite3.Database(username + '.vis');
-//dbsearch.run("PRAGMA journal_mode=WAL;")
-dbsearch.run("PRAGMA synchronous=OFF;")
-dbsearch.run("PRAGMA count_changes=OFF;")
-dbsearch.run("PRAGMA journal_mode=MEMORY;")
-dbsearch.run("PRAGMA temp_store=MEMORY;")
 
 //console.log("... ");
 
