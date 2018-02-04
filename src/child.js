@@ -1786,24 +1786,47 @@ function processMessagesFromMainProcess() {
 
 
 
-//zzz
     } else if (msg.message_type == 'get_search_results') {
-        console.log("3 - get_search_results: " + msg.seq_num )
+        //console.log("3 - get_search_results: " + msg.seq_num )
         get_search_resultsFn(   msg.searchTerm,
                                 msg.timeStart,
 
                                 function(result) {
-                                    console.log("5 - get_search_results: " + JSON.stringify(result))
+                                    //console.log("5 - get_search_results: " + JSON.stringify(result))
                                     var return_get_search_resultsMsg = {
                                         message_type:           'return_get_search_results',
                                         seq_num:                msg.seq_num,
                                         returned:               JSON.stringify(result)
                                     };
-                                    console.log("5.1: " + JSON.stringify(return_get_search_resultsMsg))
+                                    //console.log("5.1: " + JSON.stringify(return_get_search_resultsMsg))
                                     process.send( return_get_search_resultsMsg );
-                                    console.log("5.3: ")
+                                    //console.log("5.3: ")
                     }  )
 
+
+
+//zzz
+    } else if (msg.message_type == 'get_query_result') {
+        console.log("3 - get_query_result:     " + msg.seq_num )
+        console.log("           connection_id: " + msg.connection_id )
+        console.log("           query_id:      " + msg.query_id )
+        console.log("           definition:    " + msg.definition )
+
+        getqueryresultFn(       msg.connection_id,
+                                msg.query_id,
+                                msg.definition,
+
+                                function(result) {
+                                    console.log("5 - get_query_result: " + JSON.stringify(result.length))
+                                    var return_get_query_result_msg = {
+                                        message_type:        'return_get_query_results',
+                                        seq_num:              msg.seq_num,
+                                        result:               JSON.stringify(result)
+                                    };
+                                    //console.log("5.1: " + JSON.stringify(return_get_query_result_msg))
+                                    process.send( return_get_query_result_msg );
+                                    console.log("5.3: ")
+                    }  )
 
 
 
@@ -2778,9 +2801,9 @@ function clientConnectFn(
 
 
 
-//zzz
+
 function get_all_queries(callbackFn, callbackEndFn) {
-    console.log('4:');
+    //console.log('4:');
     var stmt = dbsearch.all("select * from queries",
         function(err, results) {
             //console.log('4.5: results length = ' + results.length);
@@ -2901,3 +2924,67 @@ function get_search_resultsFn(  searchTerm,  timeStart , callbackFn  ) {
     })
     };
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+//zzz
+function getqueryresultFn(  connectionId, queryId, definition, callbackFn) {
+    console.log(' 3 - getqueryresultFn definition.sql: ' + JSON.stringify(definition.sql));
+    console.log('                      definition:     ' + JSON.stringify(definition));
+    console.log('                      connectionId:   ' + JSON.stringify(connectionId));
+    console.log('                      queryId:        ' + JSON.stringify(queryId));
+
+
+	var error = new Object();
+    if (connectionId) {
+	    if (connections[connectionId]) {
+            if (connections[connectionId].driver) {
+                getResult(  queryId,
+                            connectionId,
+                            connections[connectionId].driver,
+                            definition,
+                            callbackFn  )
+
+
+                //console.log('trying to save document: ');
+
+                var stmt = dbsearch.all("select   contents.content   from   queries, contents   where   queries.id = ? and queries.driver = 'pdf'" +
+                                        "    and contents.id = queries.hash  limit 1",
+
+                                        [queryId],
+                                        function(err, rows) {
+                //console.log('err: ' + err);
+                if (rows) {
+                    //console.log('rows: ' + rows);
+                }
+                //console.log('trying to save document: ' + queryData2.connectionId);
+                if (!err) {
+                    //console.log('trying to save pdf 3: ');
+                    if (rows.length > 0) {
+                        var buffer = new Buffer(rows[0].content, 'binary');
+
+                        fs.writeFile(process.cwd() + "/files/a.pdf", buffer,  "binary",
+                            function(err) {
+                                //console.log('trying to save pdf 6: ');
+
+                            });
+                    }
+                }
+            })
+			} else {
+				//console.log('query driver not found: ' + connections[queryData.connectionId]);
+                callbackFn(JSON.stringify({error: 'query driver not found'}));
+			};
+		};
+	};
+}

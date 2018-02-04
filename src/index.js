@@ -1197,87 +1197,6 @@ function get_related_documentsFn(req, res) {
 
 
 
-function getqueryresultFn(req, res) {
-	var queryData2 = req.body;
-	//console.log('in getqueryresult: ' + JSON.stringify(queryData2));
-	//console.log('           source: ' + JSON.stringify(queryData2.source));
-	////console.log('request received source: ' + Object.keys(req));
-	////console.log('request received SQL: ' + queryData.sql);
-	var query = queries[queryData2.source];
-
-	//console.log('           query: ' + JSON.stringify(query));
-	if (query) {
-		var queryData 			= new Object();
-		queryData.source 		= query.connection;
-		queryData.definition 	= eval('(' + query.definition + ')' );
-
-		//console.log('   query.definition.sql: ' + JSON.stringify(query.definition.sql));
-		//console.log('           ***queryData: ' + JSON.stringify(queryData));
-
-
-		var error = new Object();
-		if (queryData) {
-			if (connections[queryData.source]) {
-				if (queryData.source) {
-					if (connections[queryData.source].driver) {
-						////console.log('query driver: ' + connections[queryData.source].driver);
-                        var newres = res;
-
-                        var seqNum = queuedResponseSeqNum;
-                        queuedResponseSeqNum ++;
-                        queuedResponses[seqNum] = res;
-                        forked.send({ message_type: "getResult" ,
-                                      seqNum:        seqNum,
-                                      source:        queryData2.source,
-                                      connection:    queryData.source,
-                                      driver:        connections[queryData.source].driver,
-                                      definition:    queryData.definition});
-
-
-
-                        //console.log('trying to save document: ');
-
-                        var stmt = dbsearch.all("select   contents.content   from   queries, contents   where   queries.id = ? and queries.driver = 'pdf'" +
-                                                "    and contents.id = queries.hash  limit 1",
-
-
-
-                                                [queryData2.source],
-                                                function(err, rows) {
-                            //console.log('err: ' + err);
-                            if (rows) {
-                                //console.log('rows: ' + rows);
-                            }
-                            //console.log('trying to save document: ' + queryData2.source);
-                                if (!err) {
-                                    //console.log('trying to save pdf 3: ');
-                                    if (rows.length > 0) {
-                                        var buffer = new Buffer(rows[0].content, 'binary');
-
-                                        fs.writeFile(process.cwd() + "/files/a.pdf", buffer,  "binary",
-                                            function(err) {
-                                                //console.log('trying to save pdf 6: ');
-
-                                            });
-                                    }
-                                }
-                        })
-					} else {
-						//console.log('query driver not found: ' + connections[queryData.source]);
-							res.writeHead(200, {'Content-Type': 'text/plain'});
-							res.end(JSON.stringify({error: 'query driver not found'}));
-					};
-				};
-			};
-		};
-	} else {
-		//console.log('query not found: ' + queryData2.source);
-		res.writeHead(200, {'Content-Type': 'text/plain'});
-		res.end(JSON.stringify({error: 'query ' + queryData2.source + ' not found'}));
-
-	};
-}
-
 
 
 
@@ -1490,9 +1409,9 @@ function setUpChildListeners(forkedProcess) {
 
 
 
-        //zzz
+
         } else if (msg.message_type == "return_get_search_results") {
-            console.log("6 - return_get_search_results: " + msg.returned);
+            //console.log("6 - return_get_search_results: " + msg.returned);
             var rett = eval("(" + msg.returned + ")");
             var newres = queuedResponses[ msg.seq_num ]
 
@@ -1502,7 +1421,16 @@ function setUpChildListeners(forkedProcess) {
             newres = null;
 
 
+//zzz
+        } else if (msg.message_type == "return_get_query_results") {
+                console.log("6 - return_get_query_results: " + msg.result);
+                var rett = eval("(" + msg.result + ")");
+                var newres = queuedResponses[ msg.seq_num ]
 
+                newres.writeHead(200, {'Content-Type': 'text/plain'});
+                newres.end(msg.result);
+
+                newres = null;
 
 
 
@@ -1829,18 +1757,17 @@ function startServices() {
     })
 
 
-    //zzz
     //------------------------------------------------------------------------------
     // Get the result of a search
     //------------------------------------------------------------------------------
     app.get('/get_search_results', function (req, res) {
-        console.log("1 - get_search_results ,req.query.search_text: " + req.query.search_text)
-        console.log("    get_search_results ,req.query.search_text: " + new Date().getTime())
+        //console.log("1 - get_search_results ,req.query.search_text: " + req.query.search_text)
+        //console.log("    get_search_results ,req.query.search_text: " + new Date().getTime())
 
         var seqNum = queuedResponseSeqNum;
         queuedResponseSeqNum ++;
         queuedResponses[seqNum] = res;
-        console.log("2 - get_search_results")
+        //console.log("2 - get_search_results")
         forked.send({   message_type:               "get_search_results",
                         seq_num:                    seqNum,
                         searchTerm:                 req.query.search_text,
@@ -1850,9 +1777,40 @@ function startServices() {
     });
 
 
+    //zzz
     app.post('/getqueryresult', function (req, res) {
-    	return getqueryresultFn(req, res);
-    })
+        console.log("1 - getqueryresult ,req.query.search_text: " )
+
+        var queryData2 = req.body;
+    	//console.log('in getqueryresult: ' + JSON.stringify(queryData2));
+    	//console.log('           source: ' + JSON.stringify(queryData2.source));
+    	////console.log('request received source: ' + Object.keys(req));
+    	////console.log('request received SQL: ' + queryData.sql);
+    	var query = queries[queryData2.source];
+
+    	//console.log('           query: ' + JSON.stringify(query));
+    	if (query) {
+    		var queryData 			= new Object();
+    		queryData.source 		= query.connection;
+    		queryData.definition 	= eval('(' + query.definition + ')' );
+            console.log("                                 source =  " + queryData.source )
+            console.log("                                 definition =  " + queryData.definition )
+
+            var seqNum = queuedResponseSeqNum;
+            queuedResponseSeqNum ++;
+            queuedResponses[seqNum] = res;
+
+            console.log("2 - getqueryresult")
+            forked.send({   message_type:               "get_query_result",
+                            seq_num:                    seqNum,
+                            connection_id:              queryData.source,
+                            query_id:                   queryData2.source,
+                            definition:                 queryData.definition
+                            });
+    } else {
+		console.log('query not found: ' + queryData2.source);
+	};
+})
 
 
     app.get('/send_client_details', function (req, res) {
