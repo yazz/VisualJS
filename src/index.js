@@ -167,7 +167,7 @@ if (isWin) {
 }
 
 
-
+var forkedProcesses = new Object();
 var timeout                             = 0;
 var port;
 var hostaddress;
@@ -191,9 +191,6 @@ var requestClientPublicHostName         = '';
 var locked;
 var requestClientPublicIp;
 var hostcount  							= 0;
-var forked;
-var forkedIndexer;
-var forkedFileScanner;
 var queuedResponses                     = new Object();
 var queuedResponseSeqNum                = 0;
 
@@ -390,9 +387,9 @@ function setSharedGlobalVar(nameOfVar, index, value) {
                             //value:              JSON.stringify(value,null,2)
                             value:              value
                         };
-        forked.send(sharemessage);
-        forkedIndexer.send(sharemessage);
-        forkedFileScanner.send(sharemessage);
+        forkedProcesses["forked"].send(sharemessage);
+        forkedProcesses["forkedIndexer"].send(sharemessage);
+        forkedProcesses["forkedFileScanner"].send(sharemessage);
         /*sendOverWebSockets({
                                 type:               "setSharedGlobalVar",
                                 nameOfVar:          nameOfVar,
@@ -514,7 +511,7 @@ function saveConnectionAndQueryForFile(fileName) {
         return;
     };
     try {
-        forked.send({
+        forkedProcesses["forked"].send({
                         message_type:       'saveConnectionAndQueryForFile',
                         fileId:             fileName
                         });
@@ -537,8 +534,8 @@ function saveConnectionAndQueryForFile(fileName) {
 
 function scanHardDiskFromChild() {
     if (typeOfSystem == 'client') {
-        forkedIndexer.send({ message_type: "childRunFindFolders" });
-        forkedFileScanner.send({ message_type: "childScanFiles" });
+        forkedProcesses["forkedIndexer"].send({ message_type: "childRunFindFolders" });
+        forkedProcesses["forkedFileScanner"].send({ message_type: "childScanFiles" });
     }
 }
 
@@ -979,7 +976,7 @@ function websocketFn(ws, req) {
             queuedResponses[seqNum] = ws;
 
             //console.log(" 2 ");
-            forked.send({
+            forkedProcesses["forked"].send({
                             message_type:   "get_all_queries",
                             seq_num:          seqNum
                         });
@@ -1161,7 +1158,7 @@ function getresultFn(req, res) {
 function get_related_documentsFn(req, res) {
     //console.log("called get_related_documents: " )
     var id = req.query.id;
-    forked.send({
+    forkedProcesses["forked"].send({
                             message_type:   "getRelatedDocuments",
                             id:  id
                             });
@@ -1260,7 +1257,7 @@ function get_connectFn(req, res) {
 
 function add_new_connectionFn(req, res) {
     var params = req.body;
-    forked.send({ message_type: "addNewConnection" , params: params});
+    forkedProcesses["forked"].send({ message_type: "addNewConnection" , params: params});
     res.writeHead(200, {'Content-Type': 'text/plain'});
     res.end(JSON.stringify({done: "ok"}))};
 
@@ -1268,7 +1265,7 @@ function add_new_connectionFn(req, res) {
 
 function add_new_queryFn(req, res) {
     var params = req.body;
-    forked.send({ message_type: "addNewQuery" , params: params});
+    forkedProcesses["forked"].send({ message_type: "addNewQuery" , params: params});
     res.writeHead(200, {'Content-Type': 'text/plain'});
     res.end(JSON.stringify({done: "ok"}))};
 
@@ -1277,8 +1274,16 @@ function add_new_queryFn(req, res) {
 
 
 
-function setUpChildListeners(forkedProcess) {
-    forkedProcess.on('message', (msg) => {
+function setUpChildListeners(processName) {
+
+    //zzz
+    forkedProcesses[processName].on('close', function() {
+        console.log("Child process " + processName + " exited.. restarting... ")
+        setupForkedProcess(processName)
+    });
+
+
+    forkedProcesses[processName].on('message', (msg) => {
         //console.log("message from child: " + JSON.stringify(msg,null,2))
         //console.log("message type from child: " + JSON.stringify(msg.message_type,null,2))
         if (msg.message_type == "return_test_fork") {
@@ -1356,7 +1361,7 @@ function setUpChildListeners(forkedProcess) {
 
 
         } else if (msg.message_type == "createdTablesInChild") {
-            forked.send({ message_type: "init" });
+            forkedProcesses["forked"].send({ message_type: "init" });
             getPort()
 
 
@@ -1543,71 +1548,57 @@ function setUpChildListeners(forkedProcess) {
     });
 }
 
+
+
+
+
+
 function setupChildProcesses2() {
-
-
-
-
     //console.log("-------------------------------------------------------------------");
     //console.log("-------------------------------------------------------------------");
     //console.log("-------------------------------------------------------------------");
     //console.log("-------------------------------------------------------------------");
     //console.log("-------------------------------------------------------------------");
 
+    setupForkedProcess("forked")
 
-
-
-
-
-
-
-
-    if (isWin) {
-        forked = fork.fork(path.join(__dirname, '../src/child.js'));
-    } else {
-            forked = fork.fork(path.join(__dirname, '../src/child.js'));
-    };
-
-    setUpChildListeners(forked);
-
-
-    forked.send({ message_type: "createTables" });
-    forked.send({ message_type: "greeting", hello: 'world' });
+    forkedProcesses["forked"].send({ message_type: "createTables" });
+    forkedProcesses["forked"].send({ message_type: "greeting", hello: 'world' });
 
 //createdTablesInChild
 }
 
-function setupChildProcesses() {
-
-
-
-
-    //console.log("-------------------------------------------------------------------");
-    //console.log("-------------------------------------------------------------------");
-    //console.log("-------------------------------------------------------------------");
-    //console.log("-------------------------------------------------------------------");
-    //console.log("-------------------------------------------------------------------");
 
 
 
 
 
-
-
-
-
+function setupForkedProcess(processName) {
     if (isWin) {
-        forkedIndexer = fork.fork(path.join(__dirname, '../src/child.js'));
-        forkedFileScanner = fork.fork(path.join(__dirname, '../src/child.js'));
+        forkedProcesses[  processName  ] = fork.fork(path.join(__dirname, '../src/child.js'));
     } else {
-            forkedIndexer = fork.fork(path.join(__dirname, '../src/child.js'));
-            forkedFileScanner = fork.fork(path.join(__dirname, '../src/child.js'));
-    };
+        forkedProcesses[  processName  ] = fork.fork(path.join(__dirname, '../src/child.js'));
+    }
+    setUpChildListeners(processName);
+}
 
-    setUpChildListeners(forkedIndexer);
-    setUpChildListeners(forkedFileScanner);
-    forkedIndexer.send({ message_type: "init" });
-    forkedFileScanner.send({ message_type: "init" });
+
+
+
+
+
+function setupChildProcesses() {
+    //console.log("-------------------------------------------------------------------");
+    //console.log("-------------------------------------------------------------------");
+    //console.log("-------------------------------------------------------------------");
+    //console.log("-------------------------------------------------------------------");
+    //console.log("-------------------------------------------------------------------");
+
+    setupForkedProcess("forkedIndexer")
+    setupForkedProcess("forkedFileScanner")
+
+    forkedProcesses["forkedIndexer"].send({ message_type: "init" });
+    forkedProcesses["forkedFileScanner"].send({ message_type: "init" });
 }
 
 
@@ -1646,7 +1637,7 @@ function startServices() {
         var seqNum = queuedResponseSeqNum;
         queuedResponseSeqNum ++;
         queuedResponses[seqNum] = res;
-        forked.send({   message_type:   "downloadDocuments",
+        forkedProcesses["forked"].send({   message_type:   "downloadDocuments",
                         seq_num:         seqNum,
                         file_id:         fileId });
     });
@@ -1659,7 +1650,7 @@ function startServices() {
         var seqNum = queuedResponseSeqNum;
         queuedResponseSeqNum ++;
         queuedResponses[seqNum] = res;
-        forked.send({   message_type:   "downloadWebDocument",
+        forkedProcesses["forked"].send({   message_type:   "downloadWebDocument",
                         seq_num:         seqNum,
                         query_id:        req.query.id });
     });
@@ -1685,7 +1676,7 @@ function startServices() {
         queuedResponseSeqNum ++;
         queuedResponses[seqNum] = res;
         console.log("2")
-        forked.send({   message_type:               "get_intranet_servers",
+        forkedProcesses["forked"].send({   message_type:               "get_intranet_servers",
                         seq_num:                    seqNum,
                         requestClientPublicIp:      req.ip ,
                         numberOfSecondsAliveCheck:  numberOfSecondsAliveCheck,
@@ -1757,7 +1748,7 @@ function startServices() {
         queuedResponseSeqNum ++;
         queuedResponses[seqNum] = res;
         //console.log("2 - get_search_results")
-        forked.send({   message_type:               "get_search_results",
+        forkedProcesses["forked"].send({   message_type:               "get_search_results",
                         seq_num:                    seqNum,
                         searchTerm:                 req.query.search_text,
                         timeStart:                  new Date().getTime()
@@ -1790,7 +1781,7 @@ function startServices() {
             queuedResponses[seqNum] = res;
 
             console.log("2 - getqueryresult")
-            forked.send({   message_type:               "get_query_result",
+            forkedProcesses["forked"].send({   message_type:               "get_query_result",
                             seq_num:                    seqNum,
                             connection_id:              queryData.source,
                             query_id:                   queryData2.source,
@@ -1840,7 +1831,7 @@ function startServices() {
         queuedResponseSeqNum ++;
         queuedResponses[seqNum] = res;
         //console.log("2 - get_search_results")
-        forked.send({   message_type:               "get_all_tables",
+        forkedProcesses["forked"].send({   message_type:               "get_all_tables",
                         seq_num:                    seqNum,
                         table_name:                 tableName,
                         fields:                     fields
@@ -1897,7 +1888,7 @@ function startServices() {
         queuedResponseSeqNum ++;
         queuedResponses[seqNum] = res;
         //console.log("2")
-        forked.send({   message_type:                       "client_connect",
+        forkedProcesses["forked"].send({   message_type:                       "client_connect",
                         seq_num:                            seqNum,
                         requestClientInternalHostAddress:   requestClientInternalHostAddress,
                         requestClientInternalPort:          requestClientInternalPort,
@@ -1937,7 +1928,7 @@ function startServices() {
     if (typeOfSystem == 'client') {
         setInterval(aliveCheckFn ,numberOfSecondsAliveCheck * 1000);
 
-        forkedIndexer.send({ message_type: "childRunIndexer" });
+        forkedProcesses["forkedIndexer"].send({ message_type: "childRunIndexer" });
 
 
     }
@@ -1945,8 +1936,8 @@ function startServices() {
 
 
 
-    forked.send({ message_type: "when_connections_changes" });
-    forked.send({ message_type: "when_queries_changes" });
+    forkedProcesses["forked"].send({ message_type: "when_connections_changes" });
+    forkedProcesses["forked"].send({ message_type: "when_queries_changes" });
 
 
 
@@ -1955,7 +1946,7 @@ function startServices() {
 	//console.log("******************************ADDING DRIVERS*********************************")
 
 
-    forked.send({
+    forkedProcesses["forked"].send({
                     message_type:       'setUpDbDrivers'
                     });
 
