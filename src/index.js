@@ -1412,9 +1412,9 @@ function setUpChildListeners(forkedProcess) {
 
 
 
-//zzz
+
         } else if (msg.message_type == "return_get_all_table") {
-                console.log("6 - return_get_all_table: " );
+                //console.log("6 - return_get_all_table: " );
                 var newres = queuedResponses[ msg.seq_num ]
 
                 newres.writeHead(200, {'Content-Type': 'text/plain'});
@@ -1434,12 +1434,12 @@ function setUpChildListeners(forkedProcess) {
                 var contentRecord = msg.returned.result
                 var content = Buffer.from(JSON.parse(msg.content).data);
 
-                console.log("9: " + contentRecord.content_type);
-                console.log("10: " + contentRecord.id);
-                console.log("11: " + contentRecord.driver);
-                console.log("12: " + content.length);
+                //console.log("9: " + contentRecord.content_type);
+                //console.log("10: " + contentRecord.id);
+                //console.log("11: " + contentRecord.driver);
+                //console.log("12: " + content.length);
                 //console.log("13: " + content);
-                console.log("14: " + Object.keys(contentRecord));
+                //console.log("14: " + Object.keys(contentRecord));
                 newres.writeHead(
 
                                 200,
@@ -1469,7 +1469,7 @@ function setUpChildListeners(forkedProcess) {
                 newres.end( JSON.stringify( {  allServers:         msg.returned,
                                                intranetPublicIp:   msg.requestClientPublicIp}) );
             } else {
-                console.log( "8: " + msg.error );
+                //console.log( "8: " + msg.error );
                 newres.end(JSON.stringify( {  allServers:        [],
                                               intranetPublicIp:  msg.requestClientPublicIp}) );
             }
@@ -1621,7 +1621,7 @@ function startServices() {
     // Show the default page for the different domains
     //------------------------------------------------------------------------------
     app.get('/', function (req, res) {
-        console.log("app.get('/'");
+        //console.log("app.get('/'");
     	return getRoot(req, res);
     })
 
@@ -1828,13 +1828,13 @@ function startServices() {
 
     //app.enable('trust proxy')
 
-    //zzz
+
     app.get('/get_all_table', function (req, res) {
         var tableName = url.parse(req.url, true).query.tableName;
         var fields = url.parse(req.url, true).query.fields;
 
-        console.log("1 - get_all_table ,tableName: " + tableName)
-        console.log("    get_all_table ,fields: "    + fields)
+        //console.log("1 - get_all_table ,tableName: " + tableName)
+        //console.log("    get_all_table ,fields: "    + fields)
 
         var seqNum = queuedResponseSeqNum;
         queuedResponseSeqNum ++;

@@ -1365,10 +1365,10 @@ function indexFileRelationshipsFn() {
                     //
                     if( results.length != 0)
                     {
-                        console.log("" );
-                        console.log("" );
-                        console.log("In indexFileRelationshipsFn  " );
-                        console.log("      SOURCE ITEM : " + JSON.stringify(results[0].name,null,2));
+                        //console.log("" );
+                        //console.log("" );
+                        //console.log("In indexFileRelationshipsFn  " );
+                        //console.log("      SOURCE ITEM : " + JSON.stringify(results[0].name,null,2));
                         var queryToIndex = results[0];
 
                         getRelatedDocumentHashes(queryToIndex.hash, function(relatedResults) {
@@ -1391,7 +1391,7 @@ function indexFileRelationshipsFn() {
                                                 returnValues1 = queryResult;
                                             }
                                             if (returnValues1.constructor === Array) {
-                                            console.log("     SOURCE ITEM COUNT : " + " = " + returnValues1.length);
+                                            //console.log("     SOURCE ITEM COUNT : " + " = " + returnValues1.length);
 
 
                                             //console.log("**getRelatedDocumentHashes returned: " + results.length);
@@ -1406,7 +1406,7 @@ function indexFileRelationshipsFn() {
                                                             if( results.length != 0)
                                                             {
                                                                 var relatedQuery = results[0];
-                                                                console.log("         RELATED ITEM : " + JSON.stringify(relatedQuery.name,null,2));
+                                                                //console.log("         RELATED ITEM : " + JSON.stringify(relatedQuery.name,null,2));
                                                                 getResult(
                                                                     relatedQuery.id,
                                                                     relatedQuery.connection,
@@ -1422,19 +1422,19 @@ function indexFileRelationshipsFn() {
                                                                             } else if (queryResult2 && (queryResult2.constructor === Array)) {
                                                                                 returnValues = queryResult2
                                                                             }
-                                                                            console.log("     RELATED ITEM COUNT : " + " = " + returnValues.length);
+                                                                            //console.log("     RELATED ITEM COUNT : " + " = " + returnValues.length);
                                                                             //JSON.stringify(
                                                                             var x1 = returnValues1
                                                                             var x2 = returnValues
-                                                                            console.log("          LHS : " + results[0].name + " = " + x1.length);
-                                                                            console.log("          RHS : " + relatedQuery.name + " = " + x2.length);
+                                                                            //console.log("          LHS : " + results[0].name + " = " + x1.length);
+                                                                            //console.log("          RHS : " + relatedQuery.name + " = " + x2.length);
                                                                             if ((x1.constructor === Array) && (x2.constructor === Array)) {
 
                                                                                 var xdiff = diffFn(returnValues1, returnValues);
-                                                                                console.log("          N: "  + JSON.stringify(xdiff.new,null,2))
-                                                                                console.log("          D: "  + JSON.stringify(xdiff.deleted,null,2))
-                                                                                console.log("          E: "  + JSON.stringify(xdiff.edited,null,2))
-                                                                                console.log("          A: "  + JSON.stringify(xdiff.array,null,2))
+                                                                                //console.log("          N: "  + JSON.stringify(xdiff.new,null,2))
+                                                                                //console.log("          D: "  + JSON.stringify(xdiff.deleted,null,2))
+                                                                                //console.log("          E: "  + JSON.stringify(xdiff.edited,null,2))
+                                                                                //console.log("          A: "  + JSON.stringify(xdiff.array,null,2))
                                                                                 var newId = uuidv1();
                                                                                 stmtUpdateRelationships2.run(
                                                                                     xdiff.new,
@@ -1832,17 +1832,17 @@ function processMessagesFromMainProcess() {
 
 
 
-    //zzz
+
         } else if (msg.message_type == 'get_all_tables') {
-            console.log("3 - get_all_tables:     " + msg.seq_num )
-            console.log("           table_name:  " + msg.table_name )
-            console.log("           fields:      " + msg.fields )
+            //console.log("3 - get_all_tables:     " + msg.seq_num )
+            //console.log("           table_name:  " + msg.table_name )
+            //console.log("           fields:      " + msg.fields )
 
             get_all_tableFn(   msg.table_name,
                                msg.fields,
 
                                     function(result) {
-                                        console.log("5 - get_all_tables: " + JSON.stringify(result.length))
+                                        //console.log("5 - get_all_tables: " + JSON.stringify(result.length))
                                         var return_get_all_table_result_msg = {
                                             message_type:        'return_get_all_table',
                                             seq_num:              msg.seq_num,
@@ -1850,7 +1850,7 @@ function processMessagesFromMainProcess() {
                                         };
                                         //console.log("5.1: " + JSON.stringify(return_get_all_table_result_msg))
                                         process.send( return_get_all_table_result_msg );
-                                        console.log("5.3: ")
+                                        //console.log("5.3: ")
                         }  )
 
 
@@ -3016,16 +3016,16 @@ function getqueryresultFn(  connectionId, queryId, definition, callbackFn) {
 
 
 
-//zzz
+
 function get_all_tableFn(  tableName, fields, callbackFn  ) {
-    console.log("5 - get_all_tableFn, tableName: = " + tableName);
+    //console.log("5 - get_all_tableFn, tableName: = " + tableName);
     var stmt = dbsearch.all("select " + fields + " from " + tableName,
         function(err, rows) {
             if (!err) {
                 callbackFn(  JSON.stringify(rows)  );
-                console.log("Sent: " + JSON.stringify(rows.length) + " " + tableName);
+                //console.log("Sent: " + JSON.stringify(rows.length) + " " + tableName);
             } else {
-                console.log("Error: " + err);
+                //console.log("Error: " + err);
             };
         })
 };
