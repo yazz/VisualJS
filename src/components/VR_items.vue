@@ -685,7 +685,7 @@ export default {
             var qq = window.sqlGetQueryById(id);
             if (qq != null) {
                 if (qq.type != null) {
-                    if ((qq.type.indexOf("DOCUMENT") != -1) ||(qq.type.indexOf("DOC") != -1) || (qq.type.indexOf("DOCX") != -1)|| (qq.type.indexOf("PDF") != -1)) {
+                    if ((qq.type.indexOf("DOCUMENT") != -1) || (qq.type.indexOf("DOCX") != -1)|| (qq.type.indexOf("PDF") != -1)) {
                         return true;
                     } else {
                         return false;

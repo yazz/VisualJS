@@ -2,7 +2,7 @@
     name: 'word'
     ,
     vue: {
-            template:   
+            template:
 '<div>'+
 '     <table class="table table-striped table-bordered " style="width: 100%;">'+
 '        <tbody>'+
@@ -103,7 +103,7 @@
 				}
 			  }
 			  ,
-			  
+
 			  data: function() {
 				return {
 				  connection_name:           "Word connection",
@@ -111,7 +111,7 @@
 				};
 			  }
 	}
-            
+
     ,
     vue_add_query: {
             template:   '' +
@@ -128,7 +128,7 @@
 						'            </span>' +
 						'        </div>' +
 						'    </div>' +
-						'</div>' 
+						'</div>'
 
 
 			,
@@ -169,10 +169,10 @@
 				};
 			  }
 	}
-            
+
     ,
     vue_view_query: {
-            template:   
+            template:
 '<div>'+
 '     <table class="table table-striped table-bordered " style="width: 100%;">'+
 '        <tbody>'+
@@ -191,7 +191,7 @@
 			methods: {
 				get_query_property: function (cn, prop_name) {
                     var query = window.sqlGetQueryById(cn);
-                    
+
                     if (query != null) {
                         return query[prop_name];
                     }
@@ -236,8 +236,8 @@
              {
                 drivers['word']['setup'](connection);
             }
-			
-			
+
+
 			var rows=[];
 
             try {
@@ -246,9 +246,9 @@
                         var text = result.value; // The raw text
                         var messages = result.messages;
                         var many = text.split("\n")
-                        
+
                         var countc = many.length;
-                        //console.log("Doc word count: " + countc );
+                        //console.log("DocX word count: " + countc );
                         for (var f = 0 ; f < countc; f ++ ) {
                             var textline  = many[f];
                             if (textline && (textline.length > 10)) {

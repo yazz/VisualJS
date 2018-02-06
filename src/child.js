@@ -229,7 +229,6 @@ function getContentType(fullFileNamePath) {
     var extension = fullFileNamePath.substr(fullFileNamePath.lastIndexOf('.') + 1).toLowerCase()
     if (extension == 'pdf') {contentType = 'application/pdf'}
     else if (extension == 'glb') {contentType = 'model/gltf-binary'}
-    else if (extension == 'doc') {contentType = 'application/msword'}
     else if (extension == 'docx') {contentType = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'}
     else if (extension == 'xls') {contentType = 'application/vnd.ms-excel'}
     else if (extension == 'xlsx') {contentType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}
@@ -2038,7 +2037,6 @@ function isWordFile(fname) {
     };
     var ext = fname.split('.').pop();
     ext = ext.toLowerCase();
-    if (ext == "doc") return true;
     if (ext == "docx") return true;
     return false;
 }
@@ -2196,7 +2194,7 @@ function addFolderForIndexingIfNotExist(folderName) {
             }
         });
 }
-var fileFilter = /\xlsx$|csv$|doc$|docx$|pdf$|glb$/
+var fileFilter = /\xlsx$|csv$|docx$|pdf$|glb$/
 function directSearchFolders(drive) {
     fromDir(drive,fileFilter,function(filename){
         var dirname = path.dirname(filename)

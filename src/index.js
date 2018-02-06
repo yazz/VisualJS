@@ -454,7 +454,6 @@ function isWordFile(fname) {
     };
     var ext = fname.split('.').pop();
     ext = ext.toLowerCase();
-    if (ext == "doc") return true;
     if (ext == "docx") return true;
     return false;
 }
@@ -925,7 +924,7 @@ function getRoot(req, res) {
 function getFileExtension(driver) {
     if (driver == "excel") { return "xlsx"}
     if (driver == "pdf") { return "pdf"}
-    if (driver == "word") { return "doc"}
+    if (driver == "word") { return "docx"}
     if (driver == "csv") { return "csv"}
     if (driver == "glb") { return "glb"}
     if (driver == "txt") { return "txt"}
