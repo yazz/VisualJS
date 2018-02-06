@@ -1560,11 +1560,6 @@ function setupChildProcesses2() {
     //console.log("-------------------------------------------------------------------");
 
     setupForkedProcess("forked")
-
-    forkedProcesses["forked"].send({ message_type: "createTables" });
-    forkedProcesses["forked"].send({ message_type: "greeting", hello: 'world' });
-
-//createdTablesInChild
 }
 
 
@@ -1579,6 +1574,22 @@ function setupForkedProcess(processName) {
         forkedProcesses[  processName  ] = fork.fork(path.join(__dirname, '../src/child.js'));
     }
     setUpChildListeners(processName);
+
+
+    if (processName == "forked") {
+        forkedProcesses["forked"].send({ message_type: "createTables" });
+        forkedProcesses["forked"].send({ message_type: "greeting", hello: 'world' });
+    }
+
+    if (processName == "forkedIndexer") {
+        forkedProcesses["forkedIndexer"].send({ message_type: "init" });
+    }
+
+
+
+    if (processName == "forkedFileScanner") {
+        forkedProcesses["forkedFileScanner"].send({ message_type: "init" });
+    }
 }
 
 
@@ -1595,9 +1606,6 @@ function setupChildProcesses() {
 
     setupForkedProcess("forkedIndexer")
     setupForkedProcess("forkedFileScanner")
-
-    forkedProcesses["forkedIndexer"].send({ message_type: "init" });
-    forkedProcesses["forkedFileScanner"].send({ message_type: "init" });
 }
 
 
