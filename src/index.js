@@ -1590,6 +1590,8 @@ function setupForkedProcess(processName) {
     if (processName == "forkedFileScanner") {
         forkedProcesses["forkedFileScanner"].send({ message_type: "init" });
     }
+
+    console.log("restarted subprocess '" + processName + "' ")
 }
 
 

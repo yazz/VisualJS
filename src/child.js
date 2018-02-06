@@ -667,11 +667,11 @@ function indexFilesFn() {
                     //console.log("          else: ");
                 }
             } else {
-                //console.log("          Error: " );
+                console.log("          670 Error: " );
            }
         })
    }catch (err) {
-                //console.log("          Error: " + err);
+                console.log("          674 Error: " + err);
    }
 }
 
@@ -1030,7 +1030,7 @@ function processFilesFn() {
 
                                         function(err2) {
                                             if (err2) {
-                                                console.log('   err2 : ' + err2);
+                                                console.log('   1033 err2 : ' + err2);
                                                 stmtUpdateFileStatus.run( "ERROR", returnedRecord.id, function(err) {})
                                             } else {
                                                 stmtFileChanged.run(
@@ -1222,7 +1222,7 @@ function processFilesFn() {
 
                                             function(err2) {
                                                 if (err2) {
-                                                    console.log('   err2 : ' + err2);
+                                                    console.log('   1225: err in stmtInsertInsertIntoQueries.run( : ' + err2);
                                                 } else {
                                                     process.send({
                                                                     message_type:       "return_set_query",
@@ -1272,7 +1272,7 @@ function processFilesFn() {
         })
 
     } catch (err) {
-        console.log("          Error: " + err);
+        console.log("          1275 Error: " + err);
         inProcessFilesFn = false
     }
 }
@@ -1324,7 +1324,7 @@ function findFilesInFoldersFn() {
                 }
            })
     } catch (err) {
-        console.log("          Error: " + err);
+        console.log("          1327 Error: " + err);
     }
 }
 
@@ -1477,11 +1477,11 @@ function indexFileRelationshipsFn() {
                     //console.log("          else: ");
                 }
             } else {
-                console.log("          Error: " );
+                console.log("          1480 Error: " );
            }
         })
     }catch (err) {
-        console.log("          Error: " + err);
+        console.log("          1484 Error: " + err);
     }
     inIndexFileRelationshipsFn = false;
 }
