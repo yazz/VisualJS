@@ -37,6 +37,24 @@
 												to="0 0 2" dur="2000" direction="alternate"  repeat="1"></a-animation>
 						</a-entity>
 
+                        <a-entity  position="1.3 9.94 -11"
+                                   id="changes"
+                                   geometry="primitive: plane; "
+                                   material="opacity: 0;"
+                                   mixin="RobotoFont"
+                                   v-bind:text='"color: blue; align: center; value: Changes ; width: 9.8; "'
+                                   goto='name: people_num; distance: 8; duration: 1500;'
+                                   set_zoom='people: true;'
+                                   rotation='0 0 0' >
+                                   <a-animation begin="mouseenter" attribute="rotation"
+                                               to="0 0 1" dur="100" direction="alternate"  repeat="3"></a-animation>
+                                   <a-animation begin="click" attribute="rotation"
+                                               to="0 0 2" dur="2000" direction="alternate"  repeat="1"></a-animation>
+                       </a-entity>
+
+
+
+
 						 <a-entity v-bind:position='"27 -1.7 -30"' id="people_num">
                             <a-entity
                                         v-if='getIsPeopleZoomed'
