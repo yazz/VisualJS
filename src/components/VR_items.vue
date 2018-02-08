@@ -141,6 +141,19 @@
                 </a-entity>
 
 
+                <a-entity
+                    id='changes_grid' v-bind:refresh_vr_items='get_refresh_view_counter'
+                    rotation='-15  0  0' position='-25 6 -20'
+                          >
+
+                				<a-entity   v-for="(a_query,index)  in  list_of_queries2()" :key="a_query.id">
+                                    <VR-grid-item v-bind:a_query='a_query'>
+
+                                    </VR-grid-item>
+                                </a-entity>
+
+
+                </a-entity>
 
 
 
