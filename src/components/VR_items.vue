@@ -141,22 +141,50 @@
                 </a-entity>
 
 
-                <a-entity
-                    id='changes_grid' v-bind:refresh_vr_items='get_refresh_view_counter'
-                    rotation='-15  0  0' position='-25 6 -20'
-                          >
 
-                				<a-entity   v-for="(a_query,index)  in  list_of_queries2()" :key="a_query.id">
-                                    <VR-grid-item v-bind:a_query='a_query'>
+<a-entity
+    id='changes_grid' v-bind:refresh_vr_items='get_refresh_view_counter'
+    rotation='-15  0  0'
+    position='-25 6 -15'
+          >
+          <a-animation begin="click" attribute="rotation"
+                      to="360 0 0" dur="2000" direction="normal"  repeat="0"></a-animation>
 
-                                    </VR-grid-item>
-                                </a-entity>
+          <a-entity rotation='-180 0 0' geometry="primitive: plane; width:6;height: 3;" material="color: gray; opacity: 0;">
+              <a-entity position='0 -3 0.1' geometry="primitive: box; width:6;height: 3.5;depth: .01" material="color: black; opacity: 1;">
+              </a-entity>
+          </a-entity>
+          <a-entity rotation='-135 0 0' geometry="primitive: plane; width:6;height: 3;" material="color: gray; opacity: 0;">
+              <a-entity position='0 -3 0.1' geometry="primitive: box; width:6;height: 3.5;depth: .01" material="color: blue; opacity: 1;">
+              </a-entity>
+          </a-entity>
+          <a-entity rotation='-90 0 0' geometry="primitive: plane; width:6;height: 3;" material="color: gray; opacity: 0;">
+              <a-entity position='0 -3 0.1' geometry="primitive: box; width:6;height: 3.5;depth: .01" material="color: green; opacity: 1;">
+              </a-entity>
+          </a-entity>
+          <a-entity rotation='-45 0 0' geometry="primitive: plane; width:6;height: 3;" material="color: gray; opacity: 0;">
+              <a-entity position='0 -3 0.1' geometry="primitive: box; width:6;height: 3.5;depth: .01" material="color: purple; opacity: 1;">
+              </a-entity>
+          </a-entity>
+          <a-entity rotation='0 0 0' geometry="primitive: plane; width:6;height: 3;" material="color: gray; opacity: 0;">
+              <a-entity position='0 -3 0.1' geometry="primitive: box; width:6;height: 3.5;depth: .01" material="color: yellow; opacity: 1;">
+              </a-entity>
+          </a-entity>
+          <a-entity rotation='45 0 0' geometry="primitive: plane; width:6;height: 3;" material="color: gray; opacity: 0;">
+              <a-entity position='0 -3 0.1' geometry="primitive: box; width:6;height: 3.5;depth: .01" material="color: gray; opacity: 1;">
+              </a-entity>
+          </a-entity>
+          <a-entity rotation='90 0 0' geometry="primitive: plane; width:6;height: 3;" material="color: gray; opacity: 0;">
+              <a-entity position='0 -3 0.1' geometry="primitive: box; width:6;height: 3.5;depth: .01" material="color: blue; opacity: 1;">
+              </a-entity>
+          </a-entity>
+          <a-entity rotation='135 0 0' geometry="primitive: plane; width:6;height: 3;" material="color: gray; opacity: 0;">
+              <a-entity position='0 -3 0.1' geometry="primitive: box; width:6;height: 3.5;depth: .01" material="color: black; opacity: 1;">
+              </a-entity>
+          </a-entity>
 
 
-                </a-entity>
-
-
-
+</a-entity>
 
 
 <a-entity
