@@ -145,7 +145,7 @@
 <a-entity
     id='changes_grid' v-bind:refresh_vr_items='get_refresh_view_counter'
     rotation='-15  0  0'
-    position='-20 6 -15'
+    position='-140 6 -55'
           >
           <a-animation begin="click" attribute="rotation"
                       to="360 0 0" dur="2000" direction="normal"  repeat="0"></a-animation>
