@@ -145,37 +145,39 @@
 <a-entity
     id='changes_grid' v-bind:refresh_vr_items='get_refresh_view_counter'
     rotation='-15  0  0'
-    position='-140 6 -55'
+    position='-100 6 -10'
           >
+          <a-entity rotation='0 0 0'
+          position='0 -2 0 '>
           <a-animation begin="click" attribute="rotation"
-                      to="360 0 0" dur="2000" direction="normal"  repeat="0"></a-animation>
+                      to="20 0 0" dur="1000" direction="normal"  repeat="0"></a-animation>
 
 	      <a-entity   v-for="(a_query,index)  in  list_of_cards()" :key="index">
 
               <a-entity
-                  v-bind:rotation='" " + (180 - (index * 20)) + " 0 0"'
-                   geometry="primitive: plane; width:6;height: 3;" material="color: gray; opacity: 0;">
-                  <a-entity position='0 -3 0.1' geometry="primitive: box; width:6;height: 3.5;depth: .4"
-                  v-bind:material='"color: " + (index%2?"white":"yellow") + "; opacity: 1;"'>
-                      <a-entity
-                          mixin="RobotoFont"
-                          position='-0.25 -1.8 -0.05'
-                          rotation='90 0 0'
-                          v-bind:text="'color: black; align: left; value: Hello document ; width: 5; opacity:1;'"
-                          >
-                      </a-entity>
-                      <a-entity
-                          mixin="RobotoFont"
-                          position='0.25 -1.5 -0.2'
-                          rotation='180 0 0'
-                          v-bind:text="'color: black; align: left; value: Hello document content; width: 5; opacity:1;'"
-                          >
-                      </a-entity>
+                  v-bind:rotation='" " + (300 - (index * 5)) + " 0 0"'
+                   geometry="primitive: plane; width:1;height: 6;" material="color: gray; opacity: 0;">
+
+                   <a-entity rotation='0 0 0'
+                   position='0 -3 0.1'>
+                          <a-entity rotation='-70 0 0'
+                          geometry="primitive: box; width:1;height: 1.5;depth: .01"
+                          v-bind:material='"color: " + (index%2?"pink":"yellow") + "; opacity: 1;"'>
+
+                              <a-entity
+                                  mixin="RobotoFont"
+                                  position='0.4 -.7 -0.02'
+                                  rotation='180 0 0'
+                                  v-bind:text="'color: black; align: left; value: Hello document content; width: 1.5; opacity:1;'"
+                                  >
+                              </a-entity>
+                          </a-entity>
                   </a-entity>
 
               </a-entity>
 
-          </a-entity>
+              </a-entity>
+              </a-entity>
 
 </a-entity>
 
