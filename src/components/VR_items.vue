@@ -164,6 +164,13 @@
                           v-bind:text="'color: black; align: left; value: Hello document ; width: 5; opacity:1;'"
                           >
                       </a-entity>
+                      <a-entity
+                          mixin="RobotoFont"
+                          position='0.25 -1.5 -0.2'
+                          rotation='180 0 0'
+                          v-bind:text="'color: black; align: left; value: Hello document content; width: 5; opacity:1;'"
+                          >
+                      </a-entity>
                   </a-entity>
 
               </a-entity>
