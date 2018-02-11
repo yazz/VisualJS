@@ -144,31 +144,32 @@
 
 <a-entity
     id='changes_grid' v-bind:refresh_vr_items='get_refresh_view_counter'
-    rotation='-15  0  0'
-    position='-100 6 -10'
+    rotation='0  0  0'
+    position='-10 6 -10'
           >
           <a-entity rotation='0 0 0'
-          position='0 -2 0 '>
-          <a-animation begin="click" attribute="rotation"
-                      to="20 0 0" dur="1000" direction="normal"  repeat="0"></a-animation>
+          position='.15 1 0 '>
+          <a-animation begin="click" attribute="position"
+                      to=".15 2 0" dur="1000" direction="normal"  repeat="0"></a-animation>
 
 	      <a-entity   v-for="(a_query,index)  in  list_of_cards()" :key="index">
 
               <a-entity
-                  v-bind:rotation='" " + (300 - (index * 5)) + " 0 0"'
+                  v-bind:position='" 0 " + (0 - (index * .4)) + " 0"'
+                  rotation='30 0 0'
                    geometry="primitive: plane; width:1;height: 6;" material="color: gray; opacity: 0;">
 
                    <a-entity rotation='0 0 0'
-                   position='0 -3 0.1'>
-                          <a-entity rotation='-70 0 0'
+                   position='0 0 0.1'>
+                          <a-entity rotation='0 0 0'
                           geometry="primitive: box; width:1;height: 1.5;depth: .01"
-                          v-bind:material='"color: " + (index%2?"pink":"yellow") + "; opacity: 1;"'>
+                          v-bind:material='"color: " + (index%2?"white":"white") + "; opacity: 1;"'>
 
                               <a-entity
                                   mixin="RobotoFont"
-                                  position='0.4 -.7 -0.02'
-                                  rotation='180 0 0'
-                                  v-bind:text="'color: black; align: left; value: Hello document content; width: 1.5; opacity:1;'"
+                                  position='.1 1.0 0'
+                                  rotation='0 0 0'
+                                  v-bind:text="'color: black; align: left; value: Hello document content; width: 1; opacity:1;'"
                                   >
                               </a-entity>
                           </a-entity>

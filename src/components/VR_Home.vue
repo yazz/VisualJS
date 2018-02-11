@@ -43,7 +43,7 @@
                                    material="opacity: 0;"
                                    mixin="RobotoFont"
                                    v-bind:text='"color: blue; align: center; value: Changes (Experimental) ; width: 9.8; "'
-                                   goto='name: changes_grid; distance: 4; duration: 1500;'
+                                   goto='name: changes_grid; distance: 2; duration: 1500;'
                                    set_zoom='people: true;'
                                    rotation='0 0 0' >
                                    <a-animation begin="mouseenter" attribute="rotation"
