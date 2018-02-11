@@ -254,6 +254,11 @@ function setupVRVuePane() {
 
 
 
+    window.mouse_wheel = function(x,y) {
+        console.log("Mouse moved (" + x + "," + y + ")")
+    }
+
+
 
 
         window.gotoFunction = function(options) {

@@ -19,7 +19,7 @@
 
     <script type="text/javascript" >
             window.system_type = 'client';
-            
+
             window.screenMode = "VR";
 
 			(function () {
@@ -39,11 +39,13 @@
                 })();
 
 
-                
+
               function init_all() {
+                document.getElementById("body").addEventListener("wheel", wheelCallback);
+
                 //Bind back button to prevent escaping the page with backspace
                 $(document).unbind('keydown').bind('keydown', function (event) {
-                    if (event.keyCode === 8) 
+                    if (event.keyCode === 8)
                     {
                      var doPrevent = true;
                      //Chrome, FF, Safari
@@ -93,38 +95,48 @@
 
 
 
-<body   id=body 
-        style='margin:0px; padding: 0px;  border: 0px;  width: 100%;  height:100%;  left: 0px; ' 
-        onload="init_all();" >
-        
-        
+<body   id=body
+        style='margin:0px; padding: 0px;  border: 0px;  width: 100%;  height:100%;  left: 0px; '
+        onload="init_all();"
+        >
+
+
     <div    id='popup'
-            style='position: absolute; margin:0px; padding: 0%;  border: 0px;  width: 100%;  height:100%;  left: 0%; top: 0%; z-index: -10000;' 
+            style='position: absolute; margin:0px; padding: 0%;  border: 0px;  width: 100%;  height:100%;  left: 0%; top: 0%; z-index: -10000;'
             onclick='document.getElementById("popup").style.zIndex = "-1";window.closeQuickview();'>
-                
+
                 <div    id='popup_content'
-                        style='position: absolute; margin:0px; padding: 5%;  border: 0px;  width: 50%;  height:80%;  left: 25%; top: 0%; ; background-color: white;color: black;overflow-y: scroll; z-index: 1000;' 
+                        style='position: absolute; margin:0px; padding: 5%;  border: 0px;  width: 50%;  height:80%;  left: 25%; top: 0%; ; background-color: white;color: black;overflow-y: scroll; z-index: 1000;'
                          onclick="dontBubble(event, this);">
                 </div>
     </div>
 
-    
-    
-    
+
+
+
     <form   action="/file_upload"
             class="dropzone"
-            id="my-awesome-dropzone" 
+            id="my-awesome-dropzone"
+
             style='position: absolute; margin:0px; padding: 0px;  border: 0px;  width: 100%;  height:100%;  left: 0px; top: 0px; color: white;'>
-        
-                <div    style='width: 100%; height: 100%;  margin:0 auto; padding: 0px; border: 0px; overflow: false' 
+
+                <div    style='width: 100%; height: 100%;  margin:0 auto; padding: 0px; border: 0px; overflow: false'
                         id=vr_element>
                 </div>
-            
+
+
     </form>
 
-      
-      
+
+
     <script type="text/javascript" >
+
+
+    function wheelCallback(e) {
+        //alert(e.wheelDeltaX + "," + e.wheelDeltaY)
+        window.mouse_wheel(  e.wheelDeltaX,  e.wheelDeltaY  );
+    }
+
     function dontBubble(event, element) {
       // Don't propogate the event to the document
       if (event.stopPropagation) {
@@ -183,9 +195,9 @@
         var dropzone    = document.getElementById('my-awesome-dropzone');
         var body        = document.getElementById('body');
         var vr          = document.getElementById('vr_element');
-        
+
         body.appendChild(vr);
-        
+
         body.removeChild(dropzone);
     } else {
         Dropzone.options.myAwesomeDropzone = {
@@ -213,7 +225,7 @@
           }
         };
     };
-        
+
     </script>
 
     <script type="text/javascript" src="dist/build.js?1601"></script>
