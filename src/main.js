@@ -12,7 +12,8 @@ import store                    from './store.js'
 
 window.store = store;
 Vue.component('FileBrowser',FileBrowser);
-
+var cardIndex = 0;
+var cardViewY = 0;
 
 window.vue = Vue;
 
@@ -253,9 +254,29 @@ function setupVRVuePane() {
 
 
 
-
+//zzz
     window.mouse_wheel = function(x,y) {
         console.log("Mouse moved (" + x + "," + y + ")")
+        var node = document.getElementById("all_cards_anim");
+        if (node) {
+          node.parentNode.removeChild(node);
+        };
+
+        if (y > 0) {
+            cardViewY --;
+        } else if (y < 0) {
+            cardViewY ++;
+        }
+
+        var nodeP = document.getElementById("all_cards");
+        var animation = document.createElement('a-animation');
+        animation.setAttribute('id', "all_cards_anim");
+        animation.setAttribute('attribute', "position");
+        animation.setAttribute('to', "0  " +  (0.03 * cardViewY) + "  0");
+        animation.setAttribute('dur', "500");
+        animation.setAttribute('repeat', "0");
+        animation.setAttribute('direction', "alternate");
+        nodeP.appendChild(animation);
     }
 
 

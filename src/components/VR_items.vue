@@ -152,6 +152,8 @@
           <a-animation begin="click" attribute="position"
                       to=".15 2 0" dur="1000" direction="normal"  repeat="0"></a-animation>
 
+                       <a-entity id='all_cards'>
+
 	      <a-entity   v-for="(a_query,index)  in  list_of_cards()" :key="index">
 
               <a-entity
@@ -169,7 +171,7 @@
                                   mixin="RobotoFont"
                                   position='.1 1.0 0'
                                   rotation='0 0 0'
-                                  v-bind:text="'color: black; align: left; value: Hello document content; width: 1; opacity:1;'"
+                                  v-bind:text="'color: black; align: left; value: Hello document content ' + index + '; width: 1; opacity:1;'"
                                   >
                               </a-entity>
                           </a-entity>
@@ -177,6 +179,7 @@
 
               </a-entity>
 
+              </a-entity>
               </a-entity>
               </a-entity>
 
