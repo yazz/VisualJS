@@ -24,8 +24,8 @@
 
 						 <a-entity  position="-.6 9.94 -11"
                                     id="people"
-									geometry="primitive: plane; width: .01; "
-                                    material="opacity: 0;"
+									geometry="primitive: plane; width: 2.1; "
+                                    material="opacity: 0;color: blue;"
                                     mixin="RobotoFont"
 									v-bind:text='"color: blue; align: center; value: People ; width: 9.8; "'
                                     goto='name: people_num; distance: 8; duration: 1500;'
@@ -39,8 +39,8 @@
 
                         <a-entity  position="2.9 9.94 -11"
                                    id="changes"
-                                   geometry="primitive: plane; "
-                                   material="opacity: 0;"
+                                   geometry="primitive: plane; width: 4.4;height:1;"
+                                   material="opacity: 0;color:gray;"
                                    mixin="RobotoFont"
                                    v-bind:text='"color: blue; align: center; value: Changes (Experimental) ; width: 9.8; "'
                                    goto='name: changes_grid; distance: 2; duration: 1500;'
@@ -139,7 +139,7 @@
 
 						<a-entity  v-if='vr_type=="mouse"' position="-1.308 3.7 0"
 								 geometry="primitive: plane;width: 0.3; height: 0.2"
-                                 material="opacity: 0;"
+                                 material="opacity: 0;color: blue;"
                                  mixin="RobotoFont"
 								 v-bind:text='"color: blue; align: center; value: Settings ; width: 2 ; "'
 								 rotation='0 0 0' goto_settings=''>
