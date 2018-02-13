@@ -253,9 +253,18 @@ function setupVRVuePane() {
     }
 
 
-
+var inScroll = false;
+var scrollStarted = false;
 //zzz
     window.mouse_wheel = function(x,y) {
+
+        if (!inScroll) {
+            inScroll = true;
+        } else {
+            return
+        }
+
+        //alert("wheel")
         console.log("Mouse moved (" + x + "," + y + ")")
         var node = document.getElementById("all_cards_anim");
         if (node) {
@@ -272,11 +281,19 @@ function setupVRVuePane() {
         var animation = document.createElement('a-animation');
         animation.setAttribute('id', "all_cards_anim");
         animation.setAttribute('attribute', "position");
-        animation.setAttribute('to', "0  " +  (0.03 * cardViewY) + "  0");
+        animation.setAttribute('to', "0  " +  (0.3 * cardViewY) + "  0");
         animation.setAttribute('dur', "500");
         animation.setAttribute('repeat', "0");
         animation.setAttribute('direction', "alternate");
+        animation.addEventListener('animationstart', function () {
+            scrollStarted = true;
+        });
+        animation.addEventListener('animationend', function () {
+            inScroll = false;
+            scrollStarted = false;
+        });
         nodeP.appendChild(animation);
+
     }
 
 
