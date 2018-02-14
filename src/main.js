@@ -270,7 +270,7 @@ function setupVRVuePane() {
                 animation.setAttribute('id', "all_cards_anim");
                 animation.setAttribute('attribute', "position");
                 animation.setAttribute('to', "0  " +  (0.3 * newCardViewY) + "  0");
-                animation.setAttribute('dur', "150");
+                animation.setAttribute('dur', "530");
                 animation.setAttribute('repeat', "0");
                 animation.setAttribute('direction', "normal");
                 animation.addEventListener('animationstart', function () {
@@ -310,10 +310,13 @@ something()
         //alert("wheel")
         console.log("Mouse moved (" + x + "," + y + ")")
 
+        if (y > 5) {y = 5}
+        if (y < -5) {y = -5}
+
         if (y > 0) {
-            newCardViewY = oldCardViewY -1;
+            newCardViewY = oldCardViewY - y;
         } else if (y < 0) {
-            newCardViewY = oldCardViewY +1;
+            newCardViewY = oldCardViewY - y;
         }
 
 
