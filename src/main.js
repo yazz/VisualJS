@@ -12,8 +12,8 @@ import store                    from './store.js'
 
 window.store = store;
 Vue.component('FileBrowser',FileBrowser);
-var cardIndex = 0;
 var cardViewY = 0;
+var newCardViewY = 0;
 
 window.vue = Vue;
 
@@ -254,45 +254,58 @@ function setupVRVuePane() {
 
 
 var inScroll = false;
-var scrollStarted = false;
 //zzz
+    setInterval(
+            function() {
+                console.log("Checking " + newCardViewY)
+                if (cardViewY != newCardViewY) {
+                    cardViewY = newCardViewY
+
+
+                    var node = document.getElementById("all_cards_anim");
+                    if (node) {
+                      node.parentNode.removeChild(node);
+                    };
+
+
+                    var nodeP = document.getElementById("all_cards");
+                    var animation = document.createElement('a-animation');
+                    animation.setAttribute('id', "all_cards_anim");
+                    animation.setAttribute('attribute', "position");
+                    animation.setAttribute('to', "0  " +  (0.3 * cardViewY) + "  0");
+                    animation.setAttribute('dur', "50");
+                    animation.setAttribute('repeat', "0");
+                    animation.setAttribute('direction', "normal");
+                    animation.addEventListener('animationstart', function () {
+                        cardViewY = newCardViewY
+                    });
+                    animation.addEventListener('animationend', function () {
+                        cardViewY = newCardViewY
+                        inScroll = false;
+                    });
+                    nodeP.appendChild(animation);
+                }
+            }, 200
+
+    )
+
     window.mouse_wheel = function(x,y) {
 
         if (!inScroll) {
             inScroll = true;
         } else {
-            return
+            return true
         }
 
         //alert("wheel")
         console.log("Mouse moved (" + x + "," + y + ")")
-        var node = document.getElementById("all_cards_anim");
-        if (node) {
-          node.parentNode.removeChild(node);
-        };
 
         if (y > 0) {
-            cardViewY --;
+            newCardViewY --;
         } else if (y < 0) {
-            cardViewY ++;
+            newCardViewY ++;
         }
 
-        var nodeP = document.getElementById("all_cards");
-        var animation = document.createElement('a-animation');
-        animation.setAttribute('id', "all_cards_anim");
-        animation.setAttribute('attribute', "position");
-        animation.setAttribute('to', "0  " +  (0.3 * cardViewY) + "  0");
-        animation.setAttribute('dur', "500");
-        animation.setAttribute('repeat', "0");
-        animation.setAttribute('direction', "alternate");
-        animation.addEventListener('animationstart', function () {
-            scrollStarted = true;
-        });
-        animation.addEventListener('animationend', function () {
-            inScroll = false;
-            scrollStarted = false;
-        });
-        nodeP.appendChild(animation);
 
     }
 
