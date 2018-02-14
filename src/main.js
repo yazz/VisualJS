@@ -12,7 +12,7 @@ import store                    from './store.js'
 
 window.store = store;
 Vue.component('FileBrowser',FileBrowser);
-var cardViewY = 0;
+var oldCardViewY = 0;
 var newCardViewY = 0;
 
 window.vue = Vue;
@@ -252,38 +252,53 @@ function setupVRVuePane() {
         return JSON.stringify(qm[property_name],null,2);
     }
 
+    var something = (function() {
+        var executed = false;
 
-var inScroll = false;
+        return function() {
+
+            if (!executed) {
+                executed = true;
+                var node = document.getElementById("all_cards_anim");
+                if (node) {
+                  node.parentNode.removeChild(node);
+                };
+
+
+                var nodeP = document.getElementById("all_cards");
+                var animation = document.createElement('a-animation');
+                animation.setAttribute('id', "all_cards_anim");
+                animation.setAttribute('attribute', "position");
+                animation.setAttribute('to', "0  " +  (0.3 * newCardViewY) + "  0");
+                animation.setAttribute('dur', "150");
+                animation.setAttribute('repeat', "0");
+                animation.setAttribute('direction', "normal");
+                animation.addEventListener('animationstart', function () {
+                    oldCardViewY = newCardViewY
+                });
+                animation.addEventListener('animationend', function () {
+                    setTimeout(
+                            function() {
+                                console.log("executed = false;")
+                                newCardViewY = oldCardViewY
+                                executed = false;
+                            },1000)
+
+                });
+                nodeP.appendChild(animation);
+            }
+        };
+    })();
+
+
 //zzz
     setInterval(
             function() {
                 console.log("Checking " + newCardViewY)
-                if (cardViewY != newCardViewY) {
-                    cardViewY = newCardViewY
+                if (oldCardViewY != newCardViewY) {
 
 
-                    var node = document.getElementById("all_cards_anim");
-                    if (node) {
-                      node.parentNode.removeChild(node);
-                    };
-
-
-                    var nodeP = document.getElementById("all_cards");
-                    var animation = document.createElement('a-animation');
-                    animation.setAttribute('id', "all_cards_anim");
-                    animation.setAttribute('attribute', "position");
-                    animation.setAttribute('to', "0  " +  (0.3 * cardViewY) + "  0");
-                    animation.setAttribute('dur', "50");
-                    animation.setAttribute('repeat', "0");
-                    animation.setAttribute('direction', "normal");
-                    animation.addEventListener('animationstart', function () {
-                        cardViewY = newCardViewY
-                    });
-                    animation.addEventListener('animationend', function () {
-                        cardViewY = newCardViewY
-                        inScroll = false;
-                    });
-                    nodeP.appendChild(animation);
+something()
                 }
             }, 200
 
@@ -291,19 +306,14 @@ var inScroll = false;
 
     window.mouse_wheel = function(x,y) {
 
-        if (!inScroll) {
-            inScroll = true;
-        } else {
-            return true
-        }
 
         //alert("wheel")
         console.log("Mouse moved (" + x + "," + y + ")")
 
         if (y > 0) {
-            newCardViewY --;
+            newCardViewY = oldCardViewY -1;
         } else if (y < 0) {
-            newCardViewY ++;
+            newCardViewY = oldCardViewY +1;
         }
 
 
