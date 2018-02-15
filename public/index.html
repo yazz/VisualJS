@@ -44,6 +44,36 @@
                 //document.getElementById("body").addEventListener("wheel", wheelCallback);
                 addWheelListener(  document.getElementById("body")  ,  wheelCallback);
 
+function touchHandler(event) {
+    var touches = event.changedTouches;
+
+    for(var i=0; i < event.changedTouches.length; i++) {
+        var touchId = event.changedTouches[i].identifier;
+        var x       = event.changedTouches[i].pageX;
+        var y       = event.changedTouches[i].pageY;
+    }
+
+}
+
+                
+                document.getElementById("body").addEventListener("touchstart", 
+                function(e){
+                    alert("touch start: " + Object.keys(e) )
+                },false);
+
+                document.getElementById("body").addEventListener("touchmove", 
+                function(e){
+                    alert("touch start: " + Object.keys(e) )
+                },false);
+
+                document.getElementById("body").addEventListener("touchend", 
+                function(e){
+                    alert("touch start: " + Object.keys(e) )
+                },false);
+                
+                
+                
+                
                 //Bind back button to prevent escaping the page with backspace
                 $(document).unbind('keydown').bind('keydown', function (event) {
                     if (event.keyCode === 8)
