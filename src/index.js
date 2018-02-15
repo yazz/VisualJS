@@ -63,6 +63,7 @@ var isBinaryFile    = require("isbinaryfile");
 path.join(__dirname, '../public/jquery-1.9.1.min.js')
 path.join(__dirname, '../public/jquery.zoomooz.js')
 path.join(__dirname, '../public/alasql.min.js')
+path.join(__dirname, '../public/hammer.min.js')
 path.join(__dirname, '../public/polyfill.min.js')
 path.join(__dirname, '../src/oracle.js')
 path.join(__dirname, '../src/sqlite.js')
