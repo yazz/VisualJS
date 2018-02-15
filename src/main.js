@@ -294,7 +294,7 @@ function setupVRVuePane() {
 //zzz
     setInterval(
             function() {
-                console.log("Checking " + newCardViewY)
+                //console.log("Checking " + newCardViewY)
                 if (oldCardViewY != newCardViewY) {
 
 
