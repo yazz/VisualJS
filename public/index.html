@@ -11,7 +11,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
 	<script type="text/javascript" src="es6-shim.js"></script>
-	<script type="text/javascript" src="aframe.min.js"></script>
+    <script type="text/javascript" src="aframe.min.js"></script>
+    <script type="text/javascript" src="hammer.min.js"></script>
 
 	<script type="text/javascript" src="dropzone.js"></script>
 	<script type="text/javascript" src="alasql.min.js"></script>
@@ -44,36 +45,24 @@
                 //document.getElementById("body").addEventListener("wheel", wheelCallback);
                 addWheelListener(  document.getElementById("body")  ,  wheelCallback);
 
-function touchHandler(event) {
-    var touches = event.changedTouches;
 
-    for(var i=0; i < event.changedTouches.length; i++) {
-        var touchId = event.changedTouches[i].identifier;
-        var x       = event.changedTouches[i].pageX;
-        var y       = event.changedTouches[i].pageY;
-    }
+var blue      = document.getElementById("body")
+var hammer    = new Hammer.Manager(blue);
+var swipe     = new Hammer.Swipe();
 
-}
+hammer.add(swipe);
 
-                
-                document.getElementById("body").addEventListener("touchstart", 
-                function(e){
-                    //alert("touch start: " + Object.keys(e) )
-                },false);
+hammer.on('swipeup', function(){
+   console.log("Swipe up")
+   window.mouse_wheel(  0,  -3  );
+});
 
-                document.getElementById("body").addEventListener("touchmove", 
-                function(e){
-                    alert("touch move: " + Object.keys(e) )
-                },false);
+hammer.on('swipedown', function(){
+    console.log("Swipe down")
+    window.mouse_wheel(  0,  3  );
+});
 
-                document.getElementById("body").addEventListener("touchend", 
-                function(e){
-                    //alert("touch end: " + Object.keys(e) )
-                },false);
-                
-                
-                
-                
+
                 //Bind back button to prevent escaping the page with backspace
                 $(document).unbind('keydown').bind('keydown', function (event) {
                     if (event.keyCode === 8)
@@ -130,7 +119,6 @@ function touchHandler(event) {
         style='margin:0px; padding: 0px;  border: 0px;  width: 100%;  height:100%;  left: 0px; '
         onload="init_all();"
         >
-
 
     <div    id='popup'
             style='position: absolute; margin:0px; padding: 0%;  border: 0px;  width: 100%;  height:100%;  left: 0%; top: 0%; z-index: -10000;'
@@ -209,7 +197,7 @@ function touchHandler(event) {
                         originalEvent.returnValue = false;
                 }
             };
-            
+
             // calculate deltaY (and deltaX) according to the event
             if ( support == "mousewheel" ) {
                 event.deltaY = - 1/40 * originalEvent.wheelDelta;
@@ -324,5 +312,6 @@ function touchHandler(event) {
     </script>
 
     <script type="text/javascript" src="dist/build.js?1601"></script>
+
 </body>
 </html>

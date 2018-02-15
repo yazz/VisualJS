@@ -282,7 +282,7 @@ function setupVRVuePane() {
                                 console.log("executed = false;")
                                 newCardViewY = oldCardViewY
                                 executed = false;
-                            },1000)
+                            },500)
 
                 });
                 nodeP.appendChild(animation);
