@@ -862,6 +862,21 @@ something()
         });
 
         AFRAME.registerComponent(
+            'goto_ar', {
+                schema: {
+                    type: 'string'
+                },
+                init: function () {
+                    var self = this;
+
+                    this.el.addEventListener('click', function (evt) {
+                        //alert(queryFile);
+                        window.location.href = 'index_ar.html';
+                    });
+                }
+        });
+
+        AFRAME.registerComponent(
             'add_data', {
                 schema: {
                     type: 'string'
