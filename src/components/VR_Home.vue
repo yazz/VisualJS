@@ -43,7 +43,7 @@
                                    material="opacity: 0;color:gray;"
                                    mixin="RobotoFont"
                                    v-bind:text='"color: blue; align: center; value: Changes ; width: 9.8; "'
-                                   goto='name: changes_grid; distance: 2; duration: 1500;'
+                                   goto='name: changes_grid; distance: 2; duration: 3500;'
                                    rotation='0 0 0' >
                                    <a-animation begin="mouseenter" attribute="rotation"
                                                to="0 0 1" dur="100" direction="alternate"  repeat="3"></a-animation>
@@ -52,6 +52,20 @@
                        </a-entity>
 
 
+
+                       <a-entity  position="3.3 9.94 -11"
+                                  id="changes_ar"
+                                  geometry="primitive: plane; width: 2.2;height:1;"
+                                  material="opacity: 0;color:gray;"
+                                  mixin="RobotoFont"
+                                  v-bind:text='"color: blue; align: center; value: AR View ; width: 9.8; "'
+                                  goto_ar=''
+                                  rotation='0 0 0' >
+                                  <a-animation begin="mouseenter" attribute="rotation"
+                                              to="0 0 1" dur="100" direction="alternate"  repeat="3"></a-animation>
+                                  <a-animation begin="click" attribute="rotation"
+                                              to="0 0 2" dur="2000" direction="alternate"  repeat="1"></a-animation>
+                      </a-entity>
 
 
 						 <a-entity v-bind:position='"27 -1.7 -30"' id="people_num">
@@ -142,7 +156,8 @@
                                  material="opacity: 0;color: blue;"
                                  mixin="RobotoFont"
 								 v-bind:text='"color: blue; align: center; value: Settings ; width: 2 ; "'
-								 rotation='0 0 0' goto_settings=''>
+								 rotation='0 0 0'
+                                 goto_settings=''>
 								<a-animation begin="mouseenter" attribute="rotation"
 												to="0 0 1" dur="100" direction="alternate"  repeat="3"></a-animation>
 						</a-entity>
