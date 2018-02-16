@@ -37,12 +37,12 @@
 												to="0 0 2" dur="2000" direction="alternate"  repeat="1"></a-animation>
 						</a-entity>
 
-                        <a-entity  position="2.9 9.94 -11"
+                        <a-entity  position="1.3 9.94 -11"
                                    id="changes"
-                                   geometry="primitive: plane; width: 4.4;height:1;"
+                                   geometry="primitive: plane; width: 2.2;height:1;"
                                    material="opacity: 0;color:gray;"
                                    mixin="RobotoFont"
-                                   v-bind:text='"color: blue; align: center; value: Changes (Experimental) ; width: 9.8; "'
+                                   v-bind:text='"color: blue; align: center; value: Changes ; width: 9.8; "'
                                    goto='name: changes_grid; distance: 2; duration: 1500;'
                                    rotation='0 0 0' >
                                    <a-animation begin="mouseenter" attribute="rotation"
