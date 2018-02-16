@@ -140,6 +140,9 @@ if (!fs.existsSync(process.cwd() + "/node_macos64") ) {
 if (!fs.existsSync(process.cwd() + "/node_win32") ) {
     copyFolderRecursiveSync(path.join(__dirname, "../node_win32")  , process.cwd() ); }
 
+if (!fs.existsSync(process.cwd() + "/node_win64") ) {
+    copyFolderRecursiveSync(path.join(__dirname, "../node_win64")  , process.cwd() ); }
+
 
 if (!fs.existsSync(process.cwd() + "/node_pi") ) {
     copyFolderRecursiveSync(path.join(__dirname, "../node_pi")  , process.cwd() ); }
@@ -151,7 +154,7 @@ if (isWin) {
     //console.log('******* WINDOWS *******');
 	// copy WIndows 32 node native files
 	copyNodeNativeAdapter( "win32", "sqlite3", 		"lib/binding/node-v57-win32-ia32" , "node_sqlite3.node")
-
+	copyNodeNativeAdapter( "win64", "sqlite3", 		"lib/binding/node-v57-win32-x64" , "node_sqlite3.node")
 
 
 } else if (isRaspberryPi) {

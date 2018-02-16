@@ -78,6 +78,7 @@
     "assets": [
       "src/child.js",
       "node_win32/*",
+      "node_win64/*",
       "node_pi/*",
       "node_macos64/*",
       "node-viewerjs/**/**/**/**/*",
