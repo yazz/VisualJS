@@ -149,36 +149,9 @@
           >
           <a-entity rotation='0 0 0'
           position='.15 1 0 '>
+                  <VR-changes >
 
-                       <a-entity id='all_cards'>
-
-	      <a-entity   v-for="(a_query,index)  in  list_of_cards()" :key="index">
-
-              <a-entity
-                  v-bind:position='" 0 " + (0 - (index * .4)) + " 0"'
-                  rotation='30 0 0'
-                   geometry="primitive: plane; width:1;height: 6;" material="color: gray; opacity: 0;">
-
-                   <a-entity rotation='0 0 0'
-                   position='0 0 0.1'>
-                          <a-entity rotation='0 0 0'
-                          geometry="primitive: box; width:1;height: 1.5;depth: .01"
-                          v-bind:material='"color: " + (index%2?"white":"white") + "; opacity: 1;"'>
-
-                              <a-entity
-                                  mixin="RobotoFont"
-                                  position='.1  0.7  0.1'
-                                  rotation='0 0 0'
-                                  v-bind:text="'color: black; align: left; value: Hello document content ' + index + '; width: 1; opacity:1;'"
-                                  >
-                              </a-entity>
-                          </a-entity>
-                  </a-entity>
-
-              </a-entity>
-
-              </a-entity>
-              </a-entity>
+                  </VR-changes>
               </a-entity>
 
 </a-entity>
@@ -518,6 +491,8 @@
 
 <script>
 import VR_grid_item             from './VR_grid_item.vue'
+
+import VR_changes             from './VR_changes.vue'
 
 export default {
     name: 'VR-items'
@@ -902,7 +877,9 @@ export default {
 
 
     components: {
-        'VR-grid-item': VR_grid_item
+    'VR-grid-item': VR_grid_item
+    ,
+    'VR-changes': VR_changes
 	}
 }
 
