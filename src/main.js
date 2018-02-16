@@ -2,6 +2,7 @@ import Vue                      from 'vue'
 import Welcome                  from './components/Welcome.vue'
 import FileBrowser              from './components/FileBrowser.vue'
 import VR                       from './components/VR.vue'
+import AR                       from './components/AR.vue'
 import ConnectedClients         from './components/central_server/connected_clients.vue'
 import yazz_new_connection      from './components/yazz_new_connection.vue'
 import connections_table        from './components/connections_table.vue'
@@ -141,17 +142,21 @@ function setupVRVuePane() {
         if (location.search) {
             vrParam = location.search.split('type=')[1];
         }
-		 //alert(vrParam);
+		//alert(vrParam);
 
         new Vue({
           el: '#vr_element'
           ,
           store: store
           ,
-          template: `
-                <VR :vr_type=vrType>
-                </VR>
-        `
+          template:
+          ((vrParam=='ar')?`
+                <AR :vr_type=vrType>
+                </AR>
+        `:`
+              <VR :vr_type=vrType>
+              </VR>
+      `)
           ,
           computed: {
             options: function () {
@@ -162,7 +167,8 @@ function setupVRVuePane() {
 			}
           }
           ,
-          components: {'VR': VR}
+          components: { 'VR': VR,
+                        'AR': AR}
         });
 
 
@@ -871,7 +877,7 @@ something()
 
                     this.el.addEventListener('click', function (evt) {
                         //alert(queryFile);
-                        window.location.href = 'index_ar.html';
+                        window.location.href = 'index_ar.html?type=ar';
                     });
                 }
         });

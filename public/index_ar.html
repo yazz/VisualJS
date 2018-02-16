@@ -115,38 +115,15 @@ hammer.on('swipedown', function(){
 
 
 
-
 <body   id=body
-        style='margin:0px; padding: 0px;  border: 0px;  width: 100%;  height:100%;  left: 0px; '
+        style='margin:0px; padding: 0px;  border: 0px;  width: 100%;  height:100%;  left: 0px; overflow: hidden;'
         onload="init_all();"
         >
 
-    <div    id='popup'
-            style='position: absolute; margin:0px; padding: 0%;  border: 0px;  width: 100%;  height:100%;  left: 0%; top: 0%; z-index: -10000;'
-            onclick='document.getElementById("popup").style.zIndex = "-1";window.closeQuickview();'>
-
-                <div    id='popup_content'
-                        style='position: absolute; margin:0px; padding: 5%;  border: 0px;  width: 50%;  height:80%;  left: 25%; top: 0%; ; background-color: white;color: black;overflow-y: scroll; z-index: 1000;'
-                         onclick="dontBubble(event, this);">
-                </div>
-    </div>
-
-
-
-
-    <form   action="/file_upload"
-            class="dropzone"
-            id="my-awesome-dropzone"
-
-            style='position: absolute; margin:0px; padding: 0px;  border: 0px;  width: 100%;  height:100%;  left: 0px; top: 0px; color: white;'>
 
                 <div    style='width: 100%; height: 100%;  margin:0 auto; padding: 0px; border: 0px; overflow: false'
                         id=vr_element>
                 </div>
-
-
-    </form>
-
 
 
     <script type="text/javascript" >
