@@ -1980,7 +1980,7 @@ function startServices() {
 	// open the app in a web browser
 	//--------------------------------------------------------
 
-
+var alreadyOpen = false;
 	if (typeOfSystem == 'client') {
         var localClientUrl = 'http://' + hostaddress  + ":" + port;
         var remoteServerUrl = 'http://' + centralHostAddress  + ":" + centralHostPort + "/visifile/list_intranet_servers.html?time=" + new Date().getTime();
@@ -1997,13 +1997,22 @@ function startServices() {
             function(error, response, body) {
               if (error) {
                   //console.log("Error opening central server: " + error);
-                  open(localClientUrl);
+                  if (!alreadyOpen) {
+                    open(localClientUrl);
+                    alreadyOpen = true;
+                  }
               } else {
-                open(remoteServerUrl);
+                if (!alreadyOpen) {
+                  open(remoteServerUrl);
+                  alreadyOpen = true;
+                }
               }
             });
 	} else if (typeOfSystem == 'server') {
-	  open('http://' + hostaddress  + ":" + port + "/visifile/list_intranet_servers.html?time=" +  + new Date().getTime());
+        if (!alreadyOpen) {
+           open('http://' + hostaddress  + ":" + port + "/visifile/list_intranet_servers.html?time=" +  + new Date().getTime());
+           alreadyOpen = true;
+        }
 	}
 
 
