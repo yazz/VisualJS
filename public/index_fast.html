@@ -44,7 +44,7 @@ var store = new Monx({
     count: 1
   },
   actions: {
-    increment: (state, payload) => {
+    increment: function(state, payload) {
       state.count += payload;
     }
   }
