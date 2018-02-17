@@ -37,10 +37,9 @@
 
 /* Optional eye candy below: */
 li {
-    width: 100px;
-    background-color: gray;
-  padding: 10px;
-  list-style-type: none;
+    width: 100%;
+    background-color: white;
+    padding: 10px;
 }
 
 </style>
@@ -113,7 +112,7 @@ listElm.addEventListener('scroll', function(event)
     var element = event.target;
     if (element.scrollHeight - element.scrollTop === element.clientHeight)
     {
-        console.log('scrolled');
+        //console.log('scrolled');
         loadMore();
         //alert("load")
     }
