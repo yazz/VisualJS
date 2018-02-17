@@ -1998,20 +1998,20 @@ var alreadyOpen = false;
               if (error) {
                   //console.log("Error opening central server: " + error);
                   if (!alreadyOpen) {
-                    open(localClientUrl);
-                    alreadyOpen = true;
+                      alreadyOpen = true;
+                      open(localClientUrl);
                   }
               } else {
                 if (!alreadyOpen) {
-                  open(remoteServerUrl);
-                  alreadyOpen = true;
+                    alreadyOpen = true;
+                    open(remoteServerUrl);
                 }
               }
             });
 	} else if (typeOfSystem == 'server') {
         if (!alreadyOpen) {
-           open('http://' + hostaddress  + ":" + port + "/visifile/list_intranet_servers.html?time=" +  + new Date().getTime());
-           alreadyOpen = true;
+            alreadyOpen = true;
+            open('http://' + hostaddress  + ":" + port + "/visifile/list_intranet_servers.html?time=" + new Date().getTime());
         }
 	}
 
