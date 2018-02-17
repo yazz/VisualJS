@@ -20,6 +20,29 @@
  */
 !function(t,n){"object"==typeof module&&module.exports?module.exports=n():t.Monx=n()}(this,function(){function t(t){this.state={},o(this,"_state",t.state,{}),o(this,"actions",t.actions,{}),this.instances=[],this.map={},e(this)}var n=null,i=null,s={},e=function(t){var n=null,s=t.instances,e=t.map,o=t.state,r=t._state;for(var a in r)!function(t){Object.defineProperty(o,t,{get:function(){return null!==i&&(void 0===e[i]&&(e[i]={}),e[i][t]=!0),r[t]},set:function(i){r[t]=i;for(var o=0;o<s.length;o++)!0===e[(n=s[o]).$name][t]&&n.build()}})}(a)},o=function(t,n,i,s){t[n]=void 0===i?s:i};return t.prototype.dispatch=function(t,n){this.actions[t](this.state,n)},t.prototype.install=function(t){var i=this;t.destroy=function(){var t=i.instances;t.splice(t.indexOf(this),1),n.apply(this,arguments)},this.instances.push(t)},t.init=function(t){var e=t.prototype.render;n=t.prototype.destroy,t.prototype.render=function(){var t=null,n=null,o=null;return void 0!==(o=this.$options.store)?(this.$data.store=o,o.install(this),!0!==s[t=this.$name]?(s[t]=!0,i=t,n=e.apply(this,arguments),i=null):n=e.apply(this,arguments)):n=e.apply(this,arguments),this.render=e,n}},t});
 </script>
+
+<style>
+#infinite-list {
+  /* We need to limit the height and show a scrollbar */
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+
+  /* Optional, only to check that it works with margin/padding */
+  margin: 0px;
+  padding: 0px;
+  border: 0px solid black;
+}
+
+/* Optional eye candy below: */
+li {
+  padding: 10px;
+  list-style-type: none;
+}
+li:hover {
+  background: #ccc;
+}
+</style>
 </head>
 
 
@@ -27,15 +50,16 @@
 
 <body>
 
-
+<div  id='infinite-list'>
 <div id="app">
     <h1>{{msg}}</h1>
     <h1>{{store.state.count}}</h1>
     <button m-on:click="increment">Increment</button>
 </div>
 
-
-
+<ul >
+</ul>
+</div>
 
 <script>
 Moon.use(Monx);
@@ -64,6 +88,35 @@ methods: {
   },
   store: store
 });
+
+
+
+
+
+
+
+
+var listElm = document.querySelector('#infinite-list');
+
+// Add 20 items.
+var nextItem = 1;
+var loadMore = function() {
+  for (var i = 0; i < 20; i++) {
+    var item = document.createElement('li');
+    item.innerText = 'Item ' + nextItem++;
+    listElm.appendChild(item);
+  }
+}
+
+// Detect when scrolled to bottom.
+listElm.addEventListener('scroll', function() {
+  if (listElm.scrollTop + listElm.clientHeight >= listElm.scrollHeight) {
+    loadMore();
+  }
+});
+
+// Initially load some items.
+loadMore();
 </script>
 </body>
 </html>
