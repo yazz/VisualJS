@@ -53,12 +53,12 @@
 
 
 
-                       <a-entity  position="3.3 9.94 -11"
+                       <a-entity  position="2.8 9.94 -11"
                                   id="changes_ar"
-                                  geometry="primitive: plane; width: 2.2;height:1;"
+                                  geometry="primitive: plane; width: 1.2;height:1;"
                                   material="opacity: 0;color:gray;"
                                   mixin="RobotoFont"
-                                  v-bind:text='"color: blue; align: center; value: AR View ; width: 9.8; "'
+                                  v-bind:text='"color: blue; align: center; value: AR ; width: 9.8; "'
                                   goto_ar=''
                                   rotation='0 0 0' >
                                   <a-animation begin="mouseenter" attribute="rotation"
@@ -66,6 +66,20 @@
                                   <a-animation begin="click" attribute="rotation"
                                               to="0 0 2" dur="2000" direction="alternate"  repeat="1"></a-animation>
                       </a-entity>
+
+                      <a-entity  position="4.2 9.94 -11"
+                                 id="fast_view"
+                                 geometry="primitive: plane; width: 1.6;height:1;"
+                                 material="opacity: 0;color:gray;"
+                                 mixin="RobotoFont"
+                                 v-bind:text='"color: blue; align: center; value: Instant ; width: 9.8; "'
+                                 goto_fast=''
+                                 rotation='0 0 0' >
+                                 <a-animation begin="mouseenter" attribute="rotation"
+                                             to="0 0 1" dur="100" direction="alternate"  repeat="3"></a-animation>
+                                 <a-animation begin="click" attribute="rotation"
+                                             to="0 0 2" dur="2000" direction="alternate"  repeat="1"></a-animation>
+                     </a-entity>
 
 
 						 <a-entity v-bind:position='"27 -1.7 -30"' id="people_num">
