@@ -1,5 +1,6 @@
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
 <script>
 
 /**
@@ -95,7 +96,6 @@ methods: {
 
 
 
-
 var listElm = document.querySelector('#infinite-list');
 
 // Add 20 items.
@@ -108,13 +108,17 @@ var loadMore = function() {
   }
 }
 
-// Detect when scrolled to bottom.
-listElm.addEventListener('scroll', function() {
-  if ((listElm.scrollTop + listElm.clientHeight >= (listElm.scrollHeight - 20)) ||
-   ($(window).scrollTop() + $(window).height() > $('body').height() - 200)) {
-    loadMore();
-  }
+listElm.addEventListener('scroll', function(event)
+{
+    var element = event.target;
+    if (element.scrollHeight - element.scrollTop === element.clientHeight)
+    {
+        console.log('scrolled');
+        loadMore();
+    }
 });
+
+
 
 // Initially load some items.
 loadMore();
