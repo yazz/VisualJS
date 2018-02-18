@@ -22,6 +22,11 @@
 !function(t,n){"object"==typeof module&&module.exports?module.exports=n():t.Monx=n()}(this,function(){function t(t){this.state={},o(this,"_state",t.state,{}),o(this,"actions",t.actions,{}),this.instances=[],this.map={},e(this)}var n=null,i=null,s={},e=function(t){var n=null,s=t.instances,e=t.map,o=t.state,r=t._state;for(var a in r)!function(t){Object.defineProperty(o,t,{get:function(){return null!==i&&(void 0===e[i]&&(e[i]={}),e[i][t]=!0),r[t]},set:function(i){r[t]=i;for(var o=0;o<s.length;o++)!0===e[(n=s[o]).$name][t]&&n.build()}})}(a)},o=function(t,n,i,s){t[n]=void 0===i?s:i};return t.prototype.dispatch=function(t,n){this.actions[t](this.state,n)},t.prototype.install=function(t){var i=this;t.destroy=function(){var t=i.instances;t.splice(t.indexOf(this),1),n.apply(this,arguments)},this.instances.push(t)},t.init=function(t){var e=t.prototype.render;n=t.prototype.destroy,t.prototype.render=function(){var t=null,n=null,o=null;return void 0!==(o=this.$options.store)?(this.$data.store=o,o.install(this),!0!==s[t=this.$name]?(s[t]=!0,i=t,n=e.apply(this,arguments),i=null):n=e.apply(this,arguments)):n=e.apply(this,arguments),this.render=e,n}},t});
 </script>
 
+
+
+
+
+
 <style>
 #infinite-list {
   /* We need to limit the height and show a scrollbar */
@@ -42,6 +47,54 @@ li {
     padding: 10px;
 }
 
+
+
+
+
+body {
+    margin: 30px;
+    
+    -webkit-perspective: 1200px;
+    -moz-perspective: 1200px;
+    -o-perspective: 1200px;
+    perspective: 1200px;
+    
+    
+}
+
+div.polaroid {
+    width: 70%;
+    padding: 100px 10px 20px 10px;
+    border: 1px solid #BFBFBF;
+    background-color: white;
+    box-shadow: 10px 10px 5px #aaaaaa;
+    margin-bottom: -180px;
+    margin-left: 10%;
+      
+  }
+
+div.rotate_right {
+    float: left;
+    -ms-transform: rotate(7deg); /* IE 9 */
+    -webkit-transform: rotate(7deg); /* Safari */
+    transform: rotate(7deg);
+}
+
+div.rotate_left {
+    float: left;
+    -ms-transform: rotate(-8deg); /* IE 9 */
+    -webkit-transform: rotate(-8deg); /* Safari */
+    transform: rotate(-8deg);
+}
+
+div.tilt {
+    -o-transform: rotateX( -85deg ); 
+    -moz-transform: rotateX( -85deg ); 
+    -webkit-transform: rotateX( -85deg );
+    transform: rotateX( -55deg ); 
+}
+
+
 </style>
 </head>
 
@@ -50,6 +103,12 @@ li {
 
 <body>
 
+
+
+
+
+
+
 <div  id='infinite-list'>
 <div id="app">
     <h1>{{msg}}</h1>
@@ -57,8 +116,6 @@ li {
     <button m-on:click="increment">Increment</button>
 </div>
 
-<ul >
-</ul>
 </div>
 
 <script>
@@ -101,8 +158,12 @@ var listElm = document.querySelector('#infinite-list');
 var nextItem = 1;
 var loadMore = function() {
   for (var i = 0; i < 20; i++) {
-    var item = document.createElement('li');
-    item.innerText = 'Item ' + nextItem++;
+    var item = document.createElement('div');
+    item.innerHTML = '<div class="polaroid tilt">' +
+                     ' <h1 class="caption">Monterosso al Mare. One of the five villages in Cinque Terre.' + nextItem + ' </h1>' + 
+                     '<img src="VisiFileColor.png" alt="Monterosso al Mare" width="284" height="213">' +
+                     '</div> ' ;
+                     nextItem++;
     listElm.appendChild(item);
   }
 }
