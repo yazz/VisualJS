@@ -54,12 +54,15 @@ li {
 body {
     margin: 30px;
     
+    
+    
+}
+
+.perspective {
     -webkit-perspective: 1200px;
     -moz-perspective: 1200px;
     -o-perspective: 1200px;
     perspective: 1200px;
-    
-    
 }
 
 div.polaroid {
@@ -88,9 +91,9 @@ div.rotate_left {
 }
 
 div.tilt {
-    -o-transform: rotateX( -85deg ); 
-    -moz-transform: rotateX( -85deg ); 
-    -webkit-transform: rotateX( -85deg );
+    -o-transform: rotateX( -55deg ); 
+    -moz-transform: rotateX( -55deg ); 
+    -webkit-transform: rotateX( -55deg );
     transform: rotateX( -55deg ); 
 }
 
@@ -101,20 +104,23 @@ div.tilt {
 
 
 
-<body>
+<body class='perspective'>
 
 
+                     
 
 
+<div  id='infinite-list'  class='perspective'>
 
-
-
-<div  id='infinite-list'>
+                     
 <div id="app">
     <h1>{{msg}}</h1>
     <h1>{{store.state.count}}</h1>
     <button m-on:click="increment">Increment</button>
 </div>
+
+
+
 
 </div>
 
@@ -159,10 +165,9 @@ var nextItem = 1;
 var loadMore = function() {
   for (var i = 0; i < 20; i++) {
     var item = document.createElement('div');
-    item.innerHTML = '<div class="polaroid tilt">' +
-                     ' <h1 class="caption">Monterosso al Mare. One of the five villages in Cinque Terre.' + nextItem + ' </h1>' + 
-                     '<img src="VisiFileColor.png" alt="Monterosso al Mare" width="284" height="213">' +
-                     '</div> ' ;
+    item.className = 'polaroid tilt'
+    item.innerHTML = '<h1 class="caption">Monterosso al Mare. One of the five villages in Cinque Terre.' + nextItem + ' </h1>' + 
+                     '<img src="VisiFileColor.png" alt="Monterosso al Mare" width="284" height="213">';
                      nextItem++;
     listElm.appendChild(item);
   }
