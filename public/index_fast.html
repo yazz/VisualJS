@@ -110,7 +110,7 @@ div.tilt {
 
 
 
-<div  id='infinite-list'  class='perspective'>
+<div  id='infinite-list'  >
 
 
 
@@ -125,7 +125,7 @@ div.tilt {
 
 
 
-    <div m-for="item  in  store.state.cards">
+    <div m-for="item  in  store.state.cards" class='perspective'>
         <div class='polaroid tilt'>
             <h1 class="caption">{{item.id}}</h1>
             <img src="VisiFileColor.png" width="10%" top=0px left=0px ></img>
@@ -188,8 +188,7 @@ var listElm = document.querySelector('#infinite-list');
 // Add 20 items.
 var nextItem = 1;
 var loadMore = function() {
-  for (var i = 0; i < 20; i++) {
-    var item = document.createElement('div');
+  for (var i = 0; i < 1; i++) {
     store.dispatch("add_card", {id: nextItem++, name: "c"});
     store.dispatch("refresh");
 
@@ -210,7 +209,9 @@ listElm.addEventListener('scroll', function(event)
 
 
 // Initially load some items.
-loadMore();
+for (var i=0; i < 20; i++) {
+    loadMore();
+}
 </script>
 </body>
 </html>
