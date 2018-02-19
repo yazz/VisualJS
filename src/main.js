@@ -891,7 +891,7 @@ something()
 
                             this.el.addEventListener('click', function (evt) {
                                 //alert(queryFile);
-                                window.location.href = 'index_fast.html';
+                                window.location.href = 'go.html';
                             });
                         }
                 });
