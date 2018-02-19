@@ -53,9 +53,9 @@ li {
 
 body {
     margin: 30px;
-    
-    
-    
+
+
+
 }
 
 .perspective {
@@ -71,9 +71,9 @@ div.polaroid {
     border: 1px solid #BFBFBF;
     background-color: white;
     box-shadow: 10px 10px 5px #aaaaaa;
-    margin-bottom: -180px;
+    margin-bottom: -120px;
     margin-left: 10%;
-      
+
   }
 
 div.rotate_right {
@@ -91,10 +91,10 @@ div.rotate_left {
 }
 
 div.tilt {
-    -o-transform: rotateX( -55deg ); 
-    -moz-transform: rotateX( -55deg ); 
+    -o-transform: rotateX( -55deg );
+    -moz-transform: rotateX( -55deg );
     -webkit-transform: rotateX( -55deg );
-    transform: rotateX( -55deg ); 
+    transform: rotateX( -55deg );
 }
 
 
@@ -107,17 +107,32 @@ div.tilt {
 <body>
 
 
-                     
+
 
 
 <div  id='infinite-list'  class='perspective'>
 
-                     
-<div id="app">
-    <h1>{{msg}}</h1>
-    <h1>{{store.state.count}}</h1>
-    <button m-on:click="increment">Increment</button>
-</div>
+
+
+
+
+    <div id="app">
+        <h1>{{msg}}</h1>
+        <h1>{{store.state.count}}</h1>
+        <button m-on:click="increment">Increment</button>
+    </div>
+
+
+
+
+    <div m-for="item  in  store.state.cards">
+        <div class='polaroid tilt'>
+            <h1 class="caption">{{item.id}}</h1>
+            <img src="VisiFileColor.png" width="10%" top=0px left=0px ></img>
+        </div>
+    </div>
+
+
 
 
 
@@ -129,17 +144,27 @@ Moon.use(Monx);
 var store = new Monx({
   state: {
     count: 1
+    ,
+    cards: []
   },
   actions: {
     increment: function(state, payload) {
       state.count += payload;
+    }
+    ,
+    add_card: function(state, payload) {
+      state.cards.push(payload);
+    }
+    ,
+    refresh: function(state) {
+      state.count += 1;
     }
   }
 });
 
 
 new Moon({
-  el: "#app"
+  el: "#infinite-list"
   ,
   data: {
     msg: "VisiFile"
@@ -165,11 +190,9 @@ var nextItem = 1;
 var loadMore = function() {
   for (var i = 0; i < 20; i++) {
     var item = document.createElement('div');
-    item.className = 'polaroid tilt'
-    item.innerHTML = '<h1 class="caption">Monterosso al Mare. One of the five villages in Cinque Terre.' + nextItem + ' </h1>' + 
-                     '<img src="VisiFileColor.png" width="10%" >';
-                     nextItem++;
-    listElm.appendChild(item);
+    store.dispatch("add_card", {id: nextItem++, name: "c"});
+    store.dispatch("refresh");
+
   }
 }
 
