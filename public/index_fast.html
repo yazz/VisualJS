@@ -176,7 +176,7 @@ var loadMore = function() {
 listElm.addEventListener('scroll', function(event)
 {
     var element = event.target;
-    if (element.scrollHeight - element.scrollTop === element.clientHeight)
+    if (element.scrollHeight - element.scrollTop <= (element.clientHeight + 10))
     {
         //console.log('scrolled');
         loadMore();
