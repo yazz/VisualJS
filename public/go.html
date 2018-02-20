@@ -174,11 +174,21 @@ div.tilt {
 </div>
 
 <script>
-var cssSelector = anime({
-  targets: '#app',
-  translateX: 50
-});
 
+var specificPropertyParameters = anime({
+  targets: '#app',
+  scale: {
+    value: 1.1,
+    duration: 1600,
+    delay: 800,
+    easing: 'easeInOutQuart'
+  },
+    translateX: {
+    value: 150,
+    duration: 2800
+  },
+  delay: 250 // All properties except 'scale' inherit 250ms delay
+});
 
 
 Moon.use(Monx);
