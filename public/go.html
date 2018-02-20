@@ -141,7 +141,9 @@ div.tilt {
 <body>
 
 
-
+<div id="svgAttributes" style='color: blue;'> <svg width="128" height="128" viewBox="0 0 128 128">
+  <polygon points="64 112.14788455488045 8.574 97.06820184940159 23.227592970090967 41.52836049666216 64 1.068201849401587 104.77240702990903 41.52836049666216 119.426 97.06820184940159 " fill="currentColor"></polygon>
+</svg> </div>
 
 
 <div  id='infinite-list'  >
@@ -151,9 +153,9 @@ div.tilt {
 
 
     <div id="app">
-        <h1>{{msg}}</h1>
-        <h1>{{store.state.count}}</h1>
-        <button m-on:click="increment">Increment</button>
+        <h1 class=title>{{msg}}</h1>
+        <h1 class=title>{{store.state.count}}</h1>
+        <button  class=title m-on:click="increment">Increment</button>
     </div>
 
 
@@ -174,17 +176,20 @@ div.tilt {
 </div>
 
 <script>
+var svgAttributes = anime({
+  targets: '#svgAttributes polygon',
+  points: '64 128 8.574 96 8.574 32 64 0 119.426 32 119.426 96',
+  easing: 'easeInOutExpo',
+  duration: 2000,
+});
 
 var specificPropertyParameters = anime({
-  targets: '#app',
-  scale: {
-    value: 1.1,
-    duration: 1600,
-    delay: 800,
-    easing: 'easeInOutQuart'
-  },
+  targets: '.title',
     translateX: {
     value: 150,
+    delay: function(el, i, l) {
+      return i * 100;
+    },
     duration: 2800
   },
   delay: 250 // All properties except 'scale' inherit 250ms delay
