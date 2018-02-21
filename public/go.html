@@ -141,11 +141,6 @@ div.tilt {
 <body>
 
 
-<div id="svgAttributes" style='color: blue;'> <svg width="128" height="128" viewBox="0 0 128 128">
-  <polygon points="64 112.14788455488045 8.574 97.06820184940159 23.227592970090967 41.52836049666216 64 1.068201849401587 104.77240702990903 41.52836049666216 119.426 97.06820184940159 " fill="currentColor"></polygon>
-</svg> </div>
-
-
 <div  id='infinite-list'  >
 
 
@@ -162,7 +157,7 @@ div.tilt {
 
 
     <div m-for="item  in  store.state.cards" class='perspective'>
-        <div class='polaroid tilt'>
+        <div class='polaroid tilt' id='card_{{item.id}}' m-on:click="click_card(item.id)">
             <h1 class="caption">{{item.id}}</h1>
             <img src="VisiFileColor.png" width="10%" top=0px left=0px ></img>
         </div>
@@ -176,12 +171,7 @@ div.tilt {
 </div>
 
 <script>
-var svgAttributes = anime({
-  targets: '#svgAttributes polygon',
-  points: '64 128 8.574 96 8.574 32 64 0 119.426 32 119.426 96',
-  easing: 'easeInOutExpo',
-  duration: 2000,
-});
+
 
 var specificPropertyParameters = anime({
   targets: '.title',
@@ -228,7 +218,21 @@ new Moon({
 methods: {
     increment: function() {
       store.dispatch("increment", 1);
-    }
+  },
+  click_card: function(id) {
+      var specificPropertyParameters = anime({
+        targets: '#card_' + id,
+        translateX: {
+        value: 0,
+        duration: 2800
+      },
+      translateZ: {
+      value: 200,
+      duration: 2800
+    },
+        delay: 250 // All properties except 'scale' inherit 250ms delay
+      });
+  }
   },
   store: store
 });
