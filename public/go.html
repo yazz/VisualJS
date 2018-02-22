@@ -94,14 +94,28 @@ div.tilt {
     transform: rotateX( -55deg );
 }
 
+@keyframes move_previous_card {
+    from {transform: margin-bottom: -120px;}
+    to {transform: margin-bottom: 0px;}
+}
 
-
+@keyframes move_card {
+    from {transform: rotateX( -55deg ) ; margin-bottom: -120px;}
+    to {transform: rotateX( 0deg ) ;margin-bottom: 0px;}
+}
+@keyframes move_card_back {
+    from {transform: rotateX( 0deg ) ;margin-bottom: 0px;}
+    to {transform: rotateX( -55deg ) ; margin-bottom: -120px;}
+}
 .expand {
-    -o-transform: rotateX( 50deg );
-    -moz-transform: rotateX( 50deg );
-    -webkit-transform: rotateX( 50deg );
-    transform: rotateX( 50deg );
-    height: 0px;
+    animation: move_card 2s; 
+    animation-fill-mode: forwards;
+
+}
+.contract {
+    animation: move_card_back 2s; 
+    animation-fill-mode: forwards;
+
 }
 </style>
 </head>
@@ -130,7 +144,7 @@ div.tilt {
     <div m-for="item  in  store.state.cards" class='perspective'>
         <div class='polaroid tilt' id='card_{{item.id}}' m-on:click="click_card(item.id)">
             <h1 class="caption">{{item.id}}</h1>
-            <img src="VisiFileColor.png" width="10%" top=0px left=0px ></img>
+            <img src="VisiFileColor.png" width="10%" top="0px" left="0px" ></img>
         </div>
     </div>
 
@@ -150,6 +164,8 @@ Moon.use(Monx);
 var store = new Monx({
   state: {
     count: 1
+    ,
+    selected_card: -1
     ,
     cards: []
   },
@@ -173,17 +189,24 @@ new Moon({
   el: "#infinite-list"
   ,
   data: {
-    msg: "VisiFile"
+    msg: ""
 },
 methods: {
     increment: function() {
-      store.dispatch("increment", 1);
-  },
-  click_card: function(id) {
-document.querySelector('#card_' + id).className +=' expand';
-//alert(document.querySelector('#card_' + id))
-  }
-  },
+        store.dispatch("increment", 1);
+    },
+    click_card: function(id) {
+        if (store.state.selected_card != -1) {
+            document.querySelector('#card_' + store.state.selected_card).classList.remove("expand");
+            document.querySelector('#card_' + store.state.selected_card).classList.add('contract');
+            store.state.selected_card = -1;
+            //alert(document.querySelector('#card_' + id))
+        }
+        document.querySelector('#card_' + id).classList.add('expand');
+
+        store.state.selected_card = id;
+    }
+},
   store: store
 });
 
