@@ -202,6 +202,7 @@ methods: {
             store.state.selected_card = -1;
             //alert(document.querySelector('#card_' + id))
         }
+        document.querySelector('#card_' + id).classList.remove('contract');
         document.querySelector('#card_' + id).classList.add('expand');
 
         store.state.selected_card = id;
