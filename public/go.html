@@ -95,6 +95,14 @@ div.tilt {
 }
 
 
+
+.expand {
+    -o-transform: rotateX( 50deg );
+    -moz-transform: rotateX( 50deg );
+    -webkit-transform: rotateX( 50deg );
+    transform: rotateX( 50deg );
+    height: 0px;
+}
 </style>
 </head>
 
@@ -172,7 +180,8 @@ methods: {
       store.dispatch("increment", 1);
   },
   click_card: function(id) {
-
+document.querySelector('#card_' + id).className +=' expand';
+//alert(document.querySelector('#card_' + id))
   }
   },
   store: store
