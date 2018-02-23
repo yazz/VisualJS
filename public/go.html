@@ -206,7 +206,8 @@ function select_card(id) {
 
     var elmnt = document.querySelector('#card_' + id);
     if (elmnt) {
-        elmnt.scrollIntoView({alignToTop: true});
+        elmnt.scrollIntoView({  alignToTop: 'true',
+                                bahaviour: 'smooth'});
 
         document.querySelector('#card_' + id).classList.remove('contract');
         document.querySelector('#card_' + id).classList.add('expand');
