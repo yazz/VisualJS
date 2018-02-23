@@ -25,7 +25,6 @@
 
 
 
-
 <style>
 
 #wrapper {
@@ -199,22 +198,44 @@ var store = new Monx({
     }
   }
 });
+function getPosition(el) {
+  var xPos = 0;
+  var yPos = 0;
 
+  while (el) {
+    if (el.tagName == "BODY") {
+      // deal with browser quirks with body/window/document and page scroll
+      var xScroll = el.scrollLeft || document.documentElement.scrollLeft;
+      var yScroll = el.scrollTop || document.documentElement.scrollTop;
+
+      xPos += (el.offsetLeft - xScroll + el.clientLeft);
+      yPos += (el.offsetTop - yScroll + el.clientTop);
+    } else {
+      // for all other non-BODY elements
+      xPos += (el.offsetLeft - el.scrollLeft + el.clientLeft);
+      yPos += (el.offsetTop - el.scrollTop + el.clientTop);
+    }
+
+    el = el.offsetParent;
+  }
+  return {
+    x: xPos,
+    y: yPos
+  };
+}
 function select_card(id) {
     if (store.state.selected_card != -1) {
         document.querySelector('#card_' + store.state.selected_card).classList.remove("expand");
         document.querySelector('#card_' + store.state.selected_card).classList.add('contract');
-        store.state.selected_card = -1;
-
 
         //alert(document.querySelector('#card_' + id))
     }
 
     var elmnt = document.querySelector('#card_' + id);
     if (elmnt) {
-        elmnt.scrollIntoView({  alignToTop: 'true',
-                                bahaviour: 'smooth'});
-
+        //elmnt.scrollIntoView({  alignToTop: 'true',
+        //                        bahaviour: 'smooth'});
+document.getElementById("wrapper").scrollTop = getPosition(document.querySelector('#card_' + id)).y - 200
         document.querySelector('#card_' + id).classList.remove('contract');
         document.querySelector('#card_' + id).classList.add('expand');
 
