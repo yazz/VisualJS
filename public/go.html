@@ -242,7 +242,7 @@ function select_card(id) {
         //                        bahaviour: 'smooth'});
         //document.getElementById("wrapper").scrollTop = getPosition(document.querySelector('#card_' + id)).y - 200
         if (myScroller) {
-            myScroller.toY(getPosition(document.querySelector('#card_' + id)).y - 200,10)
+            myScroller.toY(getPosition(document.querySelector('#card_' + id)).y - 200,777)
             document.querySelector('#card_' + id).classList.remove('contract');
             document.querySelector('#card_' + id).classList.add('expand');
 
@@ -319,7 +319,7 @@ setInterval(function() {
 
      function init() {
          myScroller = zenscroll.createScroller(
-             document.getElementById("wrapper"), 2000, 0);
+             document.getElementById("wrapper"), 777, 0);
 
          select_card(autoId++)
      }
