@@ -205,14 +205,14 @@ function select_card(id) {
     }
 
     var elmnt = document.querySelector('#card_' + id);
-    elmnt.scrollIntoView();
+    if (elmnt) {
+        elmnt.scrollIntoView({alignToTop: true});
 
+        document.querySelector('#card_' + id).classList.remove('contract');
+        document.querySelector('#card_' + id).classList.add('expand');
 
-    document.querySelector('#card_' + id).classList.remove('contract');
-    document.querySelector('#card_' + id).classList.add('expand');
-
-    store.state.selected_card = id;
-
+        store.state.selected_card = id;
+    }
 
 }
 
