@@ -103,17 +103,27 @@ div.tilt {
     from {transform: rotateX( -55deg ) ; margin-bottom: -120px;}
     to {transform: rotateX( 0deg ) ;margin-bottom: 0px;}
 }
+@-webkit-keyframes move_card {
+    from {transform: rotateX( -55deg ) ; margin-bottom: -120px;}
+    to {transform: rotateX( 0deg ) ;margin-bottom: 0px;}
+}
 @keyframes move_card_back {
     from {transform: rotateX( 0deg ) ;margin-bottom: 0px;}
     to {transform: rotateX( -55deg ) ; margin-bottom: -120px;}
 }
+@-webkit-keyframes move_card_back {
+    from {transform: rotateX( 0deg ) ;margin-bottom: 0px;}
+    to {transform: rotateX( -55deg ) ; margin-bottom: -120px;}
+}
 .expand {
-    animation: move_card 2s; 
+    animation: move_card 2s;
+    -webkit-animation: move_card 2s;
     animation-fill-mode: forwards;
 
 }
 .contract {
-    animation: move_card_back 2s; 
+    animation: move_card_back 2s;
+    -webkit-animation: move_card_back 2s;
     animation-fill-mode: forwards;
 
 }
