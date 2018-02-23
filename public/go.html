@@ -152,7 +152,7 @@ div.tilt {
 
 
     <div m-for="item  in  store.state.cards" class='perspective'>
-        <div class='polaroid tilt' id='card_{{item.id}}' m-on:click="click_card(item.id)">
+        <div class='polaroid tilt' id='card_{{item.id}}' m-on:click="select_card(item.id)">
             <h1 class="caption">{{item.id}}</h1>
             <img src="VisiFileColor.png" width="10%" top="0px" left="0px" ></img>
         </div>
@@ -194,8 +194,21 @@ var store = new Monx({
   }
 });
 
+function select_card(id) {
+    if (store.state.selected_card != -1) {
+        document.querySelector('#card_' + store.state.selected_card).classList.remove("expand");
+        document.querySelector('#card_' + store.state.selected_card).classList.add('contract');
+        store.state.selected_card = -1;
+        //alert(document.querySelector('#card_' + id))
+    }
+    document.querySelector('#card_' + id).classList.remove('contract');
+    document.querySelector('#card_' + id).classList.add('expand');
 
-new Moon({
+    store.state.selected_card = id;
+}
+
+
+var app = new Moon({
   el: "#infinite-list"
   ,
   data: {
@@ -205,17 +218,8 @@ methods: {
     increment: function() {
         store.dispatch("increment", 1);
     },
-    click_card: function(id) {
-        if (store.state.selected_card != -1) {
-            document.querySelector('#card_' + store.state.selected_card).classList.remove("expand");
-            document.querySelector('#card_' + store.state.selected_card).classList.add('contract');
-            store.state.selected_card = -1;
-            //alert(document.querySelector('#card_' + id))
-        }
-        document.querySelector('#card_' + id).classList.remove('contract');
-        document.querySelector('#card_' + id).classList.add('expand');
-
-        store.state.selected_card = id;
+    select_card: function(id) {
+        select_card(id)
     }
 },
   store: store
