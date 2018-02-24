@@ -151,18 +151,16 @@ div.tilt {
 
 
 
-    <div id="app">
-        <h1 class=title>{{msg}}</h1>
-        <h1 class=title>{{store.state.count}}</h1>
-        <button  class=title m-on:click="increment">Increment</button>
-    </div>
+        <div refresh_count={{store.state.count}}></div>
+
+
 
 
 
 
     <div m-for="item  in  store.state.cards" class='perspective'>
         <div class='polaroid tilt' id='card_{{item.id}}' m-on:click="click_card(item.id)">
-            <h1 class="caption">{{item.id}}</h1>
+            <h1 class="caption">{{item.id}} - {{item.name}}</h1>
             <img src="VisiFileColor.png" width="10%" top="0px" left="0px" ></img>
         </div>
     </div>
@@ -273,7 +271,31 @@ methods: {
 
 
 
-
+var defaultCards = [
+    {
+        name: 'Welcome to VisiFile'
+    }
+    ,
+    {
+        name: 'What is Visifile?'
+    }
+    ,
+    {
+        name: 'Visifile lets you see all your data in one place'
+    }
+    ,
+    {
+        name: 'It lets you see your Email, word, excel, and twitter feeds all in one place'
+    }
+    ,
+    {
+        name: 'Who is it useful for?'
+    }
+    ,
+    {
+        name: 'People who spend alot of time "catching up" with changes and status updates at work'
+    }
+];
 
 
 
@@ -283,8 +305,11 @@ var listElm = document.querySelector('#wrapper');
 var nextItem = 1;
 var loadMore = function() {
   for (var i = 0; i < 1; i++) {
-    store.dispatch("add_card", {id: nextItem++, name: "c"});
-    store.dispatch("refresh");
+      var nextIndex = nextItem - 1;
+    if (nextItem <= defaultCards.length) {
+        store.dispatch("add_card", {id: nextItem++, name: defaultCards[nextIndex].name});
+        store.dispatch("refresh");
+    }
 
   }
 }
@@ -310,18 +335,26 @@ for (var i=0; i < 20; i++) {
 var autoScroll = true;
 var autoId = 1;
 
-setInterval(function() {
-    if (autoScroll) {
-        select_card(autoId++)
-    }
-},4000)
+
  var myScroller = null;
 
      function init() {
          myScroller = zenscroll.createScroller(
              document.getElementById("wrapper"), 1200, 0);
 
-         select_card(autoId++)
+         select_card(autoId)
+
+         setInterval(function() {
+             if (autoScroll) {
+                 if (autoId < store.state.cards.length) {
+                     autoId++
+                 } else {
+                     autoId = 1;
+                 }
+                 select_card(autoId);
+
+             }
+         },2500)
      }
 </script>
 </body>
