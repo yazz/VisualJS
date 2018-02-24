@@ -41,7 +41,7 @@
   margin: 0px;
   padding: 0px;
   border: 0px solid black;
-  scroll-behavior: smooth;
+  scroll-behavior2: smooth;
 }
 #infinite-list {
 }
@@ -242,7 +242,7 @@ function select_card(id) {
         //                        bahaviour: 'smooth'});
         //document.getElementById("wrapper").scrollTop = getPosition(document.querySelector('#card_' + id)).y - 200
         if (myScroller) {
-            myScroller.toY(getPosition(document.querySelector('#card_' + id)).y - 200,777)
+            myScroller.toY(getPosition(document.querySelector('#card_' + id)).y - 200,1200)
             document.querySelector('#card_' + id).classList.remove('contract');
             document.querySelector('#card_' + id).classList.add('expand');
 
@@ -314,12 +314,12 @@ setInterval(function() {
     if (autoScroll) {
         select_card(autoId++)
     }
-},2000)
+},4000)
  var myScroller = null;
 
      function init() {
          myScroller = zenscroll.createScroller(
-             document.getElementById("wrapper"), 777, 0);
+             document.getElementById("wrapper"), 1200, 0);
 
          select_card(autoId++)
      }
