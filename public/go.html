@@ -296,6 +296,11 @@ var defaultCards = [
     {
         name: 'People who spend alot of time "catching up" with changes and status updates at work'
     }
+    ,
+    {
+        name: 'See our experimental VR interface (if you have VR glasses)',
+        link: 'http://139.162.228.5/index.html'
+    }
 ];
 
 
@@ -343,6 +348,12 @@ var autoId = 1;
          setTimeout(function(){
              myScroller = zenscroll.createScroller(
                  document.getElementById("wrapper"), 1200, 0);
+
+             document.getElementById("wrapper").addEventListener("wheel",
+                 function() {
+                     autoScroll = false;
+                 }
+             );
 
              select_card(autoId)
 
