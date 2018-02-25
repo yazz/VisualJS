@@ -77,7 +77,8 @@ div.polaroid {
     border: 1px solid #BFBFBF;
     background-color: white;
     box-shadow: 10px 10px 5px #aaaaaa;
-    margin-bottom: -120px;
+    margin-top: 0px;
+    margin-bottom: -100px;
     margin-left: 10%;
 
   }
@@ -104,25 +105,25 @@ div.tilt {
 }
 
 @keyframes move_previous_card {
-    from {transform: margin-bottom: -120px;}
+    from {transform: margin-bottom: -40px;}
     to {transform: margin-bottom: 0px;}
 }
 
 @keyframes move_card {
-    from {transform: rotateX( -55deg ) ; margin-bottom: -120px;}
+    from {transform: rotateX( -55deg ) ; margin-bottom: -40px;}
     to {transform: rotateX( 0deg ) ;margin-bottom: 0px;}
 }
 @-webkit-keyframes move_card {
-    from {-webkit-transform: rotateX( -55deg ) ; margin-bottom: -120px;}
+    from {-webkit-transform: rotateX( -55deg ) ; margin-bottom: -40px;}
     to {-webkit-transform: rotateX( 0deg ) ;margin-bottom: 0px;}
 }
 @keyframes move_card_back {
     from {transform: rotateX( 0deg ) ;margin-bottom: 0px;}
-    to {transform: rotateX( -55deg ) ; margin-bottom: -120px;}
+    to {transform: rotateX( -55deg ) ; margin-bottom: -40px;}
 }
 @-webkit-keyframes move_card_back {
     from {-webkit-transform: rotateX( 0deg ) ;margin-bottom: 0px;}
-    to {-webkit-transform: rotateX( -55deg ) ; margin-bottom: -120px;}
+    to {-webkit-transform: rotateX( -55deg ) ; margin-bottom: -40px;}
 }
 .expand {
     animation: move_card .5s;
@@ -248,7 +249,7 @@ function select_card(id) {
         //                        bahaviour: 'smooth'});
         //document.getElementById("wrapper").scrollTop = getPosition(document.querySelector('#card_' + id)).y - 200
         if (myScroller) {
-            myScroller.toY(getPosition(document.querySelector('#card_' + id)).y - 200,1200)
+            myScroller.toY(getPosition(document.querySelector('#card_' + id)).y - 100,1200)
             document.querySelector('#card_' + id).classList.remove('contract');
             document.querySelector('#card_' + id).classList.add('expand');
 
