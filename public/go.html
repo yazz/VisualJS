@@ -162,9 +162,9 @@ div.tilt {
     <div m-for="item  in  store.state.cards" class='perspective'>
         <div class='polaroid tilt' id='card_{{item.id}}' m-on:click="click_card(item.id)">
             <h1 class="caption">{{item.id}} - {{item.card.name}}</h1>
-            <a style='font-size: 2em;' href='{{item.card.link}}' m-if="item.card.link">{{item.card.link}}</a>
+            <a style='font-size: 2em;' href='{{item.card.link}}' m-if="item.card.link">{{item.card.link_name}}</a>
 
-            <div></div>
+            <div style='height: 2em;'></div>
 
             <img src="VisiFileColor.png" width="10%" top="0px" left="0px" ></img>
         </div>
@@ -305,8 +305,9 @@ var defaultCards = [
     }
     ,
     {
-        name: 'See our experimental VR interface (if you have VR glasses)',
-        link: 'http://139.162.228.5/index.html'
+        name: 'See our experimental interface',
+        link: 'http://139.162.228.5/index.html',
+        link_name: 'Click here'
     }
 ];
 
@@ -356,11 +357,16 @@ var autoId = 1;
              myScroller = zenscroll.createScroller(
                  document.getElementById("wrapper"), 1200, 0);
 
-             document.getElementById("wrapper").addEventListener("wheel",
-                 function() {
-                     autoScroll = false;
-                 }
-             );
+                 document.getElementById("wrapper").addEventListener("wheel",
+                     function() {
+                         autoScroll = false;
+                     }
+                 );
+                 document.getElementById("wrapper").addEventListener("touchmove",
+                     function() {
+                         autoScroll = false;
+                     }
+                 );
 
              select_card(autoId)
 
