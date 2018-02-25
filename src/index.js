@@ -911,7 +911,7 @@ function getRoot(req, res) {
         if (!canAccess(req,res)) {
             return;
         }
-        res.end(fs.readFileSync(path.join(__dirname, '../public/index.html')));
+        res.end(fs.readFileSync(path.join(__dirname, '../public/go.html')));
 	}
 	if (typeOfSystem == 'server') {
 		res.end(fs.readFileSync(path.join(__dirname, '../public/index_server.html')));
