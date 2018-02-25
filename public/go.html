@@ -340,6 +340,30 @@ listElm.addEventListener('scroll', function(event)
     }
 });
 
+function setupWebSocket(host, port)
+{
+    if ("WebSocket" in window)
+    {
+        console.log('opening web socket')
+        var wsaddr = "ws://" + host + ":" + port + "/websocket";
+        //alert(wsaddr);
+        window.ws = new WebSocket(wsaddr);
+
+        window.ws.onopen = function()
+        {
+            console.log('opened websocket')
+            alert('opened websocket')
+            //window.ws.send(JSON.stringify({type: "query"}));
+            //
+            //window.when_queries_changes("*")
+        };
+    }
+
+    else
+    {
+        alert("WebSocket NOT supported by your Browser!");
+    }
+}
 
 
 // Initially load some items.
@@ -368,6 +392,9 @@ var autoId = 1;
                          autoScroll = false;
                      }
                  );
+
+                 setupWebSocket(location.hostname,  location.port);
+
 
              select_card(autoId)
 
