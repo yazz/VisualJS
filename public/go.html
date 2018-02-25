@@ -232,6 +232,9 @@ function getPosition(el) {
   };
 }
 function select_card(id) {
+    if (store.state.selected_card == id) {
+        return;
+    }
     if (store.state.selected_card != -1) {
         document.querySelector('#card_' + store.state.selected_card).classList.remove("expand");
         document.querySelector('#card_' + store.state.selected_card).classList.add('contract');
