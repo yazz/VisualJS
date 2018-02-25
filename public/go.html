@@ -161,7 +161,11 @@ div.tilt {
 
     <div m-for="item  in  store.state.cards" class='perspective'>
         <div class='polaroid tilt' id='card_{{item.id}}' m-on:click="click_card(item.id)">
-            <h1 class="caption">{{item.id}} - {{item.name}}</h1>
+            <h1 class="caption">{{item.id}} - {{item.card.name}}</h1>
+            <a style='font-size: 2em;' href='{{item.card.link}}' m-if="item.card.link">{{item.card.link}}</a>
+
+            <div></div>
+
             <img src="VisiFileColor.png" width="10%" top="0px" left="0px" ></img>
         </div>
     </div>
@@ -313,7 +317,7 @@ var loadMore = function() {
   for (var i = 0; i < 1; i++) {
       var nextIndex = nextItem - 1;
     if (nextItem <= defaultCards.length) {
-        store.dispatch("add_card", {id: nextItem++, name: defaultCards[nextIndex].name});
+        store.dispatch("add_card", {id: nextItem++, card: defaultCards[nextIndex]});
         store.dispatch("refresh");
     }
 
