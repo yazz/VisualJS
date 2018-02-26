@@ -45,7 +45,6 @@ var compression     = require('compression')
 var crypto          = require('crypto');
 var dns             = require('dns');
 var url             = require('url');
-var net             = require('net');
 var unzip           = require('unzip');
 var postgresdb      = require('pg');
 var ip              = require("ip");
@@ -116,7 +115,7 @@ path.join(__dirname, '../public/\aframe_fonts/Aileron-Semibold.fnt')
 path.join(__dirname, '../public/\aframe_fonts/Aileron-Semibold.png')
 path.join(__dirname, '../public/\aframe_fonts/SourceCodePro.fnt')
 path.join(__dirname, '../public/\aframe_fonts/SourceCodePro.png')
-
+path.join(__dirname, '../public/index.html')
 
 if (!fs.existsSync(process.cwd() + "/public") ) {
     copyFolderRecursiveSync(path.join(__dirname, "../public")  , process.cwd() ); }
@@ -695,7 +694,7 @@ function canAccess(req,res) {
 
 function getPort () {
     console.log('function getPort()')
-    var server = net.createServer()
+    var server = http.createServer()
     //zzz
 
     server.listen(port, ip.address(), function (err) {
