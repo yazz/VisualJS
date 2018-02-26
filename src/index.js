@@ -35,7 +35,7 @@ var express         = require('express')
 var http            = require('http')
 var app             = express()
 var expressWs       = require('express-ws')(app);
-var socketio        = require('socket.io');
+var socket          = require('socket.io');
 var request         = require("request");
 var open            = require('open');
 var db_helper       = require("./db_helper")
@@ -691,35 +691,25 @@ function canAccess(req,res) {
 
 
 
-
+var httpServer = null;
 function getPort () {
     console.log('function getPort()')
-    var server = http.createServer()
+    httpServer = http.createServer(app)
     //zzz
-
-    server.listen(port, ip.address(), function (err) {
+    
+    
+    httpServer.listen(port, ip.address(), function (err) {
         console.log('trying port: ' + port + ' ')
-        server.once('close', function () {
+        console.log('opened socketio')
+        
+        httpServer.once('close', function () {
         })
-        server.close()
+        httpServer.close()
     })
-    console.log('opened socketio')
-    io = new socketio(server);
-    console.log('    1')
-    io.on('connection', function (socket) {
-        console.log('    2')
-        socket.emit('news', { hello: 'world' });
-        console.log('    3')
-        socket.on('my other event', function (data) {
-            console.log(data);
-            console.log('    4')
-        });
-    });
-    console.log('    5')
     
     
     
-    server.on('error', function (err) {
+    httpServer.on('error', function (err) {
         console.log('Couldnt connect on port ' + port + '...')
         if (port < portrange) {
             port = portrange
@@ -728,7 +718,7 @@ function getPort () {
         portrange += 1
         getPort()
     })
-    server.on('listening', function (err) {
+    httpServer.on('listening', function (err) {
             console.log('Can connect on port ' + port + ' :) ')
             mainProgram()
     })
@@ -1932,12 +1922,25 @@ function startServices() {
 
 
 
+    
+
 
     //------------------------------------------------------------------------------
     // start the web server
     //------------------------------------------------------------------------------
     app.listen(port, hostaddress, function () {
     	console.log(typeOfSystem + ' started on port ' + port + ' with local folder at ' + process.cwd() + ' and __dirname = ' + __dirname);
+        
+        //zzz
+        console.log('    1..')
+        io = socket.listen(httpServer);
+        console.log('    5')
+
+        io.on('connection', function (sck) {
+            console.log('    2')
+        });
+        console.log('    6')
+
     })
 
 
