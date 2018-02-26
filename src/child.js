@@ -66,8 +66,8 @@ var in_when_connections_change          = false;
 username = os.userInfo().username.toLowerCase();
 //console.log(username);
 dbsearch = new sqlite3.Database(username + '.vis');
-//dbsearch.run("PRAGMA journal_mode=WAL;")
-//dbsearch.run("PRAGMA synchronous=OFF;")
+dbsearch.run("PRAGMA journal_mode=WAL;")
+dbsearch.run("PRAGMA synchronous=OFF;")
 //dbsearch.run("PRAGMA count_changes=OFF;")
 //dbsearch.run("PRAGMA journal_mode=MEMORY;")
 //dbsearch.run("PRAGMA temp_store=MEMORY;")

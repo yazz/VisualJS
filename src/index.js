@@ -32,8 +32,10 @@ var drivers         = new Object();
 var connections     = new Object();
 var queries         = new Object();
 var express         = require('express')
+var http            = require('http')
 var app             = express()
 var expressWs       = require('express-ws')(app);
+var socketio        = require('socket.io');
 var request         = require("request");
 var open            = require('open');
 var db_helper       = require("./db_helper")
@@ -171,6 +173,7 @@ if (isWin) {
 }
 
 
+var io = null;
 var forkedProcesses = new Object();
 var timeout                             = 0;
 var port;
@@ -693,6 +696,7 @@ function canAccess(req,res) {
 function getPort () {
     console.log('function getPort()')
     var server = net.createServer()
+    //zzz
 
     server.listen(port, ip.address(), function (err) {
         console.log('trying port: ' + port + ' ')
@@ -700,6 +704,22 @@ function getPort () {
         })
         server.close()
     })
+    console.log('opened socketio')
+    io = new socketio(server);
+    console.log('    1')
+    io.on('connection', function (socket) {
+        console.log('    2')
+        socket.emit('news', { hello: 'world' });
+        console.log('    3')
+        socket.on('my other event', function (data) {
+            console.log(data);
+            console.log('    4')
+        });
+    });
+    console.log('    5')
+    
+    
+    
     server.on('error', function (err) {
         console.log('Couldnt connect on port ' + port + '...')
         if (port < portrange) {
@@ -984,7 +1004,6 @@ function websocketFn(ws, req) {
                             seq_num:          seqNum
                         });
 }});};
-
 
 
 
@@ -1279,7 +1298,6 @@ function add_new_queryFn(req, res) {
 
 function setUpChildListeners(processName) {
 
-    //zzz
     forkedProcesses[processName].on('close', function() {
         console.log("Child process " + processName + " exited.. restarting... ")
         setupForkedProcess(processName)
