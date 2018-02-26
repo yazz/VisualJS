@@ -350,10 +350,12 @@ listElm.addEventListener('scroll', function(event)
 function setupWebSocket(host, port)
 {
 
-    console.log('opening web socketio')
+    console.log('opening web socketio');
     var socket = io('http://' + host + ":" + port);
-    console.log('opening web socketio')
-
+    console.log('opening web socketio');
+    socket.on('hello',function(data){
+        alert("Hello: " + data.text);
+    });
 }
 
 

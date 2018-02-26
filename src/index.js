@@ -1939,7 +1939,8 @@ function startServices() {
         console.log('    5')
 
         io.on('connection', function (sck) {
-            console.log('    2')
+            console.log('    2');
+            sck.emit('hello',{text: 'From server world'});
         });
         console.log('    6')
 
