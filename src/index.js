@@ -22,6 +22,7 @@ function require2(moduleName) {
 	return reac;
 };
 
+var socket          = require('socket.io');
 var fs              = require('fs');
 var path            = require('path');
 var mkdirp          = require('mkdirp')
@@ -35,7 +36,6 @@ var express         = require('express')
 var http            = require('http')
 var app             = express()
 var expressWs       = require('express-ws')(app);
-var socket          = require('socket.io');
 var request         = require("request");
 var open            = require('open');
 var db_helper       = require("./db_helper")
@@ -705,6 +705,7 @@ function getPort () {
         httpServer.once('close', function () {
         })
         httpServer.close()
+        httpServer = null;
     })
     
     
@@ -1636,11 +1637,11 @@ function startServices() {
     	return getRoot(req, res);
     })
 
-    app.use("/files", express.static(process.cwd() + '/files/'));
+    //app.use("/files", express.static(process.cwd() + '/files/'));
 
-    app.use("/public/aframe_fonts", express.static(path.join(__dirname, '../public/aframe_fonts')));
-    app.use('/viewer', express.static(process.cwd() + '/node-viewerjs/release'));
-    app.use(express.static(path.join(process.cwd(), '/public/')))
+    //app.use("/public/aframe_fonts", express.static(path.join(__dirname, '../public/aframe_fonts')));
+    //app.use('/viewer', express.static(process.cwd() + '/node-viewerjs/release'));
+    //app.use(express.static(path.join(process.cwd(), '/public/')))
     app.use(bodyParser.json()); // support json encoded bodies
     app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
@@ -1928,7 +1929,8 @@ function startServices() {
     //------------------------------------------------------------------------------
     // start the web server
     //------------------------------------------------------------------------------
-    app.listen(port, hostaddress, function () {
+    httpServer = http.createServer(app)
+    httpServer.listen(port, hostaddress, function () {
     	console.log(typeOfSystem + ' started on port ' + port + ' with local folder at ' + process.cwd() + ' and __dirname = ' + __dirname);
         
         //zzz
