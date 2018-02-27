@@ -648,7 +648,8 @@ function isNumber(n) {
 // This sends a message to a specific websocket
 // ============================================================
 function sendToBrowserViaWebSocket(aws, msg) {
-    aws.send(JSON.stringify(msg,null,2));
+    //zzz
+    aws.emit(msg.type,msg);
 }
 
 
@@ -972,8 +973,11 @@ function testFirewall(req, res) {
 
 
 
-function websocketFn(ws, req) {
+function websocketFn(ws) {
     serverwebsockets.push(ws);
+    //zzz
+    sendToBrowserViaWebSocket(ws, {type: "socket_connected"});
+
     //console.log('Socket connected : ' + serverwebsockets.length);
 
     ws.on('message', function(msg) {
@@ -1708,11 +1712,6 @@ function startServices() {
 
 
 
-    app.ws('/websocket', function(ws, req) {
-        //console.log("app.get('/websocket'");
-        return websocketFn(ws, req)
-    });
-
 
     //------------------------------------------------------------------------------
     // Scan the hard disk for documents to Index
@@ -1940,9 +1939,9 @@ function startServices() {
         io.on('connection', function (sck) {
             console.log('    2');
             var connt = JSON.stringify(sck.conn.transport,null,2);
+            websocketFn(sck)
             console.log('    3: ' + connt);
 
-            sck.emit('hello',{text: connt});
         });
         console.log('    6')
 

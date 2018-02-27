@@ -10,6 +10,7 @@ import queries_table            from './components/queries_table.vue'
 import output_table             from './components/output_table.vue'
 import drivers_table            from './components/drivers_table.vue'
 import store                    from './store.js'
+import ioClient                 from 'socket.io-client'
 
 window.store = store;
 Vue.component('FileBrowser',FileBrowser);
@@ -1583,19 +1584,18 @@ window.sqlGetFullQueryUiById = function(id) {
 
 function setupWebSocket(host, port)
 {
-    if ("WebSocket" in window)
-    {
-        var wsaddr = "ws://" + host + ":" + port + "/websocket";
-        //alert(wsaddr);
-        window.ws = new WebSocket(wsaddr);
+    var wsaddr = "http://" + host + ":" + port;
+    //alert(wsaddr);
+    window.ws = ioClient(wsaddr)
+    //alert("open")
 
-        window.ws.onopen = function()
-        {
-            //alert("open")
-            //window.ws.send(JSON.stringify({type: "query"}));
-            //
-            window.when_queries_changes("*")
-        };
+    window.ws.onopen = function()
+    {
+        //alert("open")
+        //window.ws.send(JSON.stringify({type: "query"}));
+        //
+        window.when_queries_changes("*")
+    };
 
         window.ws.onmessage = function (evt)
         {
@@ -1714,16 +1714,8 @@ function setupWebSocket(host, port)
         window.ws.onbeforeunload = function(event) {
           //socket.close();
         };
-    }
 
 
-
-
-
-    else
-    {
-        alert("WebSocket NOT supported by your Browser!");
-    }
 }
 
 
