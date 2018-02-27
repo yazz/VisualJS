@@ -1589,13 +1589,10 @@ function setupWebSocket(host, port)
     window.ws = ioClient(wsaddr)
     //alert("open")
 
-    window.ws.onopen = function()
-    {
-        //alert("open")
-        //window.ws.send(JSON.stringify({type: "query"}));
-        //
+    window.ws.on('socket_connected',function(data){
+        alert("Connected: " + JSON.stringify(data,null,2));
         window.when_queries_changes("*")
-    };
+    });
 
         window.ws.onmessage = function (evt)
         {
