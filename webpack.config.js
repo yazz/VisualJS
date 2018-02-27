@@ -10,8 +10,8 @@ var hostaddress = ip.address();
 module.exports = {
   entry: [
         './public/jquery-1.9.1.min.js',
-        'babel-polyfill', 
-        './src/main.js', 
+        'babel-polyfill',
+        './src/main.js',
         './public/gosharedata_setup.js'
     ],
   output: {
@@ -58,10 +58,14 @@ module.exports = {
     historyApiFallback: true,
     noInfo: false,
     proxy: {
-      '/open_query_in_native_app': {
-        target: 'http://' + hostaddress,
-        secure: false
-      },
+        '/socket.io': {
+          target: 'http://' + hostaddress,
+          secure: false
+        },
+        '/open_query_in_native_app': {
+          target: 'http://' + hostaddress,
+          secure: false
+        },
       '/get_web_document': {
         target: 'http://' + hostaddress,
         secure: false
@@ -100,7 +104,7 @@ module.exports = {
         target: 'http://' + hostaddress,
         secure: false
       },
-      
+
       '/get_search_results': {
         target: 'http://' + hostaddress,
         secure: false
@@ -125,7 +129,7 @@ module.exports = {
         target: 'http://' + hostaddress,
         secure: false
       },
-      
+
       '/stopscanharddisk': {
         target: 'http://' + hostaddress,
         secure: false
@@ -155,10 +159,9 @@ if (process.env.NODE_ENV === 'production') {
       minimize: true
     })
   ])
-  
-  
-  
+
+
+
 } else if (process.env.NODE_ENV === 'dev') {
     module.exports.devtool = '#source-map'
 }
-
