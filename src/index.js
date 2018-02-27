@@ -696,20 +696,19 @@ function getPort () {
     console.log('function getPort()')
     httpServer = http.createServer(app)
     //zzz
-    
-    
+
+
     httpServer.listen(port, ip.address(), function (err) {
         console.log('trying port: ' + port + ' ')
-        console.log('opened socketio')
-        
+
         httpServer.once('close', function () {
         })
         httpServer.close()
         httpServer = null;
     })
-    
-    
-    
+
+
+
     httpServer.on('error', function (err) {
         console.log('Couldnt connect on port ' + port + '...')
         if (port < portrange) {
@@ -1923,7 +1922,7 @@ function startServices() {
 
 
 
-    
+
 
 
     //------------------------------------------------------------------------------
@@ -1932,7 +1931,7 @@ function startServices() {
     httpServer = http.createServer(app)
     httpServer.listen(port, hostaddress, function () {
     	console.log(typeOfSystem + ' started on port ' + port + ' with local folder at ' + process.cwd() + ' and __dirname = ' + __dirname);
-        
+
         //zzz
         console.log('    1..')
         io = socket.listen(httpServer);
@@ -1940,7 +1939,10 @@ function startServices() {
 
         io.on('connection', function (sck) {
             console.log('    2');
-            sck.emit('hello',{text: 'From server world'});
+            var connt = JSON.stringify(sck.conn.transport,null,2);
+            console.log('    3: ' + connt);
+
+            sck.emit('hello',{text: connt});
         });
         console.log('    6')
 
