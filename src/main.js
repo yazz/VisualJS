@@ -1589,130 +1589,121 @@ function setupWebSocket(host, port)
     window.ws = ioClient(wsaddr)
     //alert("open")
 
+
+
     window.ws.on('socket_connected',function(data){
-        alert("Connected: " + JSON.stringify(data,null,2));
-        window.when_queries_changes("*")
+        //alert("Connected: " + JSON.stringify(data,null,2));
+        window.when_queries_changes("*");
     });
 
-        window.ws.onmessage = function (evt)
+
+
+    window.ws.on('query',function(data) {
+        alert("query received");
+    });
+
+
+
+    window.ws.on('uploaded',function(data) {
+        //alert("File uploaded: " + data.id);
+    });
+
+
+
+    window.ws.on('server_scan_status',function(data) {
+        //alert("server_scan_status called on client" );
+        store.dispatch('set_scanning_status', data.value);
+    });
+
+
+    window.ws.on('test_fork',function(data) {
+        if (document.getElementById("mainid")) {
+            document.getElementById("mainid").innerHTML = data.value;
+        }
+    });
+
+
+
+    //-------------------------------------------------------
+    // get the  similar document results from the server
+    //-------------------------------------------------------
+    window.ws.on('similar_documents',function(data){
+        var recs =  eval("(" + data.results + ")") //get the similar documents from the sub process
+        store.dispatch('clear_search_results');
+
+        store.dispatch('clear_search_results');
+        for (var i = 0 ; i< recs.length; i++) {
+        var rec  =recs[i]
+        console.log(JSON.stringify(rec))
+        store.dispatch('add_search_result',
         {
-          var received_msg = evt.data;
-          //alert("Message is received..." + received_msg);
-          var data = eval("(" + received_msg + ")") ;
-
-
-          if (data.type == "query") {
-                alert("query received");
-          }
-          if (data.type == "uploaded") {
-                //alert("File uploaded: " + data.id);
-          }
-          else if (data.type == "server_scan_status") {
-              //alert("server_scan_status called on client" );
-            store.dispatch('set_scanning_status', data.value);
-          }
-
-
-
-
-
-
-          else if (data.type == "test_fork") {
-              if (document.getElementById("mainid")) {
-                    document.getElementById("mainid").innerHTML = data.value
-              }
-          }
-
-
-        //-------------------------------------------------------
-        // get the  similar document results from the server
-        //-------------------------------------------------------
-        else if (data.type == "similar_documents") {
-            var recs =  eval("(" + data.results + ")") //get the similar documents from the sub process
-            store.dispatch('clear_search_results');
-
-            store.dispatch('clear_search_results');
-            for (var i = 0 ; i< recs.length; i++) {
-            var rec  =recs[i]
-            console.log(JSON.stringify(rec))
-            store.dispatch('add_search_result',
-            {
-                id:          recs[i].id,
-                data:        recs[i].cc + " lines matched : " + recs[i].name,
-            });
-
-            }
-            store.dispatch('set_search_subtext', "Found " +  recs.length + " similar");
-
-            //window.recalcVuexQueries()
-
-            setvuexitemssearch(recs);
-            setTimeout(function(){
-                store.dispatch('refresh_vr_items');
-                },100)
-        }
-
-
-        // ============================================================
-        // This sends a message to a specific websocket
-        // ============================================================
-        else if (data.message_type == "client_get_all_queries") {
-              console.log("Browser received from server socket: " + JSON.stringify(data,null,2));
-        }
-        else if (data.type == "update_query_item") {
-            //console.log('update_query_item: ' + data.query.id)
-
-            if (!window.sqlGetQueryUiById(data.query.id)) {
-                window.insertIntoQueries(
-                            [data.query.id,
-                             data.query.name,
-                             data.query.connection,
-                             data.query.driver,
-                             data.query.size,
-                             data.query.hash,
-                             data.query.type,
-                             data.query.fileName,
-                             eval('(' + data.query.definition + ')'),
-                             data.query.preview,
-                             '',
-                             data.query.index_status,
-                             data.query.similar_count]
-                        );
-
-                window.insertIntoQueriesUi([data.query.id, true, window.sqlGetAllQueries().length - 1]);
-            } else {
-                window.updateVisibleInQueriesUi([true, data.query.id])
-            }
-             //store.dispatch('refresh_vr_items')
-
-          }
-        else if (data.type == "client_get_all_queries_done") {
-             console.log("Browser received from server socket: " + JSON.stringify(data,null,2));
-             store.dispatch('refresh_vr_items')
+            id:          recs[i].id,
+            data:        recs[i].cc + " lines matched : " + recs[i].name,
+        });
 
         }
+        store.dispatch('set_search_subtext', "Found " +  recs.length + " similar");
+
+        //window.recalcVuexQueries()
+
+        setvuexitemssearch(recs);
+        setTimeout(function(){
+            store.dispatch('refresh_vr_items');
+            },100)
+    });
 
 
-          else if (data.type == "setSharedGlobalVar") {
-               console.log('got setSharedGlobalVar')
-               eval(data.nameOfVar)[data.index] = data.value;
 
-          }
-
-
-
-        };
-
-        window.ws.onclose = function()
-        {
-          //alert("Connection is closed...");
-        };
-
-        window.ws.onbeforeunload = function(event) {
-          //socket.close();
-        };
+    // ============================================================
+    // This sends a message to a specific websocket
+    // ============================================================
+    window.ws.on('client_get_all_queries',function(data) {
+        console.log("Browser received from server socket: " + JSON.stringify(data,null,2));
+    });
 
 
+
+    window.ws.on('update_query_item',function(data) {
+
+        //console.log('update_query_item: ' + data.query.id)
+
+        if (!window.sqlGetQueryUiById(data.query.id)) {
+            window.insertIntoQueries(
+                        [data.query.id,
+                         data.query.name,
+                         data.query.connection,
+                         data.query.driver,
+                         data.query.size,
+                         data.query.hash,
+                         data.query.type,
+                         data.query.fileName,
+                         eval('(' + data.query.definition + ')'),
+                         data.query.preview,
+                         '',
+                         data.query.index_status,
+                         data.query.similar_count]
+                    );
+
+            window.insertIntoQueriesUi([data.query.id, true, window.sqlGetAllQueries().length - 1]);
+        } else {
+            window.updateVisibleInQueriesUi([true, data.query.id])
+        }
+         //store.dispatch('refresh_vr_items')
+
+      });
+
+
+
+    window.ws.on('client_get_all_queries_done',function(data){
+        console.log("Browser received from server socket: " + JSON.stringify(data,null,2));
+        store.dispatch('refresh_vr_items')
+    });
+
+
+    window.ws.on('setSharedGlobalVar',function(data){
+        console.log('got setSharedGlobalVar')
+        eval(data.nameOfVar)[data.index] = data.value;
+    });
 }
 
 
