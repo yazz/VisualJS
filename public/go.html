@@ -347,14 +347,39 @@ listElm.addEventListener('scroll', function(event)
     }
 });
 
+var socket=null;
+function sendToServerViaWebSocket(msg) {
+    socket.send(JSON.stringify(msg));
+    console.log("Sent over socket: " + JSON.stringify(msg,null,2));
+}
+
 function setupWebSocket(host, port)
 {
 
     console.log('opening web socketio');
-    var socket = io('http://' + host + ":" + port);
+    socket = io('http://' + host + ":" + port);
     console.log('opening web socketio');
     socket.on('socket_connected',function(data){
         console.log("Connected: " + JSON.stringify(data,null,2));
+        sendToServerViaWebSocket({
+                message_type: "server_get_all_queries"
+                });
+    });
+
+
+    socket.on('client_get_all_queries',function(data) {
+        console.log("Browser received from server socket: " + JSON.stringify(data,null,2));
+    });
+
+    socket.on('update_query_item',function(data) {
+        console.log("Update query item: " + JSON.stringify(data,null,2));
+        var nid = nextItem++;
+        store.dispatch("add_card", {id: nid, card: {
+                                                        id:     nid ,
+                                                        name:   data.query.name
+                                                    }});
+        store.dispatch("refresh");
+        //zzz
     });
 }
 
