@@ -289,11 +289,7 @@ methods: {
 
 var defaultCards = [
     {
-        name: 'Welcome to VisiFile'
-    }
-    ,
-    {
-        name: 'What is Visifile?'
+        name: 'Sooo... what is Visifile?'
     }
     ,
     {
@@ -313,7 +309,7 @@ var defaultCards = [
     }
     ,
     {
-        name: 'See our experimental interface',
+        name: 'See our previous interface',
         link: 'http://139.162.228.5/index.html',
         link_name: 'Click here'
     }
@@ -361,11 +357,13 @@ function setupWebSocket(host, port)
     console.log('opening web socketio');
     socket.on('socket_connected',function(data){
         console.log("Connected: " + JSON.stringify(data,null,2));
+
+    setTimeout(function(){
         sendToServerViaWebSocket({
                 message_type: "server_get_all_queries"
                 });
+            },3000);
     });
-
 
     socket.on('client_get_all_queries',function(data) {
         console.log("Browser received from server socket: " + JSON.stringify(data,null,2));
