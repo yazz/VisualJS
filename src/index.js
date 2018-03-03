@@ -2065,3 +2065,40 @@ setInterval(function() {
         //console.log("    isPcDoingStuff = " + isPcDoingStuff);
     });
 }, 1000);
+
+
+
+
+
+
+
+
+
+
+
+
+
+const shell = require('node-powershell');
+ 
+let ps = new shell({
+  executionPolicy: 'Bypass',
+  noExit: true,
+  noProfile: true
+});
+ 
+ps.addCommand('echo node-powershell;')
+//ps.addCommand('$excel = New-Object -ComObject "Excel.Application"')
+//ps.addCommand('$excel.Visible = $true;')
+
+ps.addCommand('$outlook = New-Object -ComObject "Outlook.Application";')
+ps.addCommand('$outlook.GetNamespace("MAPI");')
+
+
+ps.invoke()
+.then(output => {
+  console.log(output);
+})
+.catch(err => {
+  console.log(err);
+  //ps.dispose();
+});
