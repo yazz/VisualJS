@@ -24,8 +24,6 @@
     "deep-diff": "^0.3.8",
     "detect-rpi": "^1.2.0",
     "diskspace": "^2.0.0",
-    "edge": "^7.10.1",
-    "edge-ps": "0.1.0-pre",
     "exceljs": "^0.7.1",
     "express": "^4.14.0",
     "express-ws": "^3.0.0",

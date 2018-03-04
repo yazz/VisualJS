@@ -223,6 +223,10 @@ function setUpSql() {
                                 "    hash = ? ;");
 }
 
+var standard = fs.readFileSync('common.ps1')
+standard = standard.toString().replace(/\r?\n|\r/g, ' ');
+//console.log(standard)
+
 
 function getContentType(fullFileNamePath) {
     var contentType = 'text/plain'
@@ -3035,32 +3039,45 @@ function get_all_tableFn(  tableName, fields, callbackFn  ) {
 
 
 function call_powershell( ) {
+          console.log("******************8 call_powershell" );
     const shell = require('node-powershell');
+
 
      try {
         let ps = new shell({
           executionPolicy: 'Bypass',
-          noExit: true,
           noProfile: true
         });
 
-        ps.addCommand('echo node-powershell;')
+        /*ps.addCommand('echo node-powershell;')
         //ps.addCommand('$excel = New-Object -ComObject "Excel.Application"')
         //ps.addCommand('$excel.Visible = $true;')
 
+        
         ps.addCommand('$outlook = New-Object -ComObject "Outlook.Application";')
-        ps.addCommand('$outlook.GetNamespace("MAPI");')
+        ps.addCommand('$namespace = $outlook.GetNamespace("MAPI");')
+        
+        ps.addCommand('Add-Type -assembly "Microsoft.Office.Interop.Outlook"')
+        ps.addCommand('$inbox = $namespace.GetDefaultFolder([Microsoft.Office.Interop.Outlook.OlDefaultFolders]::olFolderInbox)')
 
-
+        ps.addCommand('$folder = $namespace.Folders.Item("email@address.com").Folders.Item("INBOX")')
+        ps.addCommand('$rules = $namespace.DefaultStore.GetRules()')*/
+        
+        ps.addCommand( standard );
+        ps.addCommand( "$excel = New-Object -ComObject 'Excel.Application';$excel.Visible = $true;");
+        ps.addCommand("@{x = 1; y =2} | ConvertTo-CSV;");
         ps.invoke()
         .then(output => {
-          console.log(output);
+          console.log("******************ooo " + output);
         })
         .catch(err => {
-          console.log(err);
+          console.log("******************eee " + err);
           //ps.dispose();
         });
     } catch (err) {
-        console.log(err);
+        console.log("******************eee " + err);
     }
 }
+
+
+
