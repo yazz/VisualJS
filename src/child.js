@@ -1895,8 +1895,9 @@ function processMessagesFromMainProcess() {
 
             get_inbox_count(function(inbox){
                 console.log("Inbox count: " + inbox);
-                for (var i =0; i< inbox; i++) {
-                    getMessage(i, function(msg){
+                //for (var i =0; i< inbox; i++) {
+                for (var i =0; i< 10; i++) {
+                    get_message(i, function(msg){
                         console.log("Msg: " + msg);
                     });
                         
@@ -3066,13 +3067,14 @@ function call_powershell( cb , commands ) {
     try {
         var ps = new shell({
           executionPolicy: 'Bypass',
+          debug: false,
           noProfile: true
         });
         ps.addCommand('$outlook = New-Object -ComObject "Outlook.Application";')
         ps.addCommand('$mapi = $outlook.GetNamespace("MAPI");')
         
         ps.addCommand('Add-Type -assembly "Microsoft.Office.Interop.Outlook"')
-        ps.addCommand( standard );
+        ps.addCommand( standard);
         
         for ( var i = 0 ; i < commands.length ; i ++ ) {
             ps.addCommand( commands[i]);
@@ -3083,7 +3085,7 @@ function call_powershell( cb , commands ) {
             //console.log("******************ps poutput" + output );
             
             var s = parseXml(output);
-            console.log("******************ps poutput" + JSON.stringify(s,null,2) );
+            //console.log("******************ps poutput" + JSON.stringify(s,null,2) );
             cb(s);
 
 
@@ -3135,12 +3137,14 @@ function get_inbox_count(cb) {
 function get_message(i,cb) {
     
     var commands =[
-        "$inbox = $mapi.GetDefaultFolder([Microsoft.Office.Interop.Outlook.OlDefaultFolders]::olFolderInbox);",
-        "echo $inbox.items.count | convertTo-XML -As String;"];
-        
+        "$inbox = $mapi.GetDefaultFolder([Microsoft.Office.Interop.Outlook.OlDefaultFolders]::olFolderInbox)",
+        "$mail = $inbox.Items | select Subject | Select-Nth " + (i + 1),
+        "echo $mail | convertTo-XML -As String"
+        ];
+
     call_powershell(
         function(ret){
-//            cb( parseInt(ret.children[0].children[1].children[0].text) )
+            cb( ret.children[0].children[1].children[1].children[0].text )
         }
         ,
         commands);
