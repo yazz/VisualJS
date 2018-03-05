@@ -1891,6 +1891,13 @@ function processMessagesFromMainProcess() {
             when_queries_changes(null);
 
         } else if (msg.message_type == 'call_powershell') {
+
+
+            get_inbox_count(function(unread){
+                console.log("Inbox count: " + unread);
+            });
+            
+            
             get_unread_message_count(function(unread){
                 console.log("Unread email count: " + unread);
             });
@@ -3055,7 +3062,7 @@ function call_powershell( cb , commands ) {
           noProfile: true
         });
         ps.addCommand('$outlook = New-Object -ComObject "Outlook.Application";')
-        ps.addCommand('$namespace = $outlook.GetNamespace("MAPI");')
+        ps.addCommand('$mapi = $outlook.GetNamespace("MAPI");')
         
         ps.addCommand('Add-Type -assembly "Microsoft.Office.Interop.Outlook"')
         ps.addCommand( standard );
@@ -3069,7 +3076,7 @@ function call_powershell( cb , commands ) {
             //console.log("******************ps poutput" + output );
             
             var s = parseXml(output);
-            //console.log("******************ps poutput" + JSON.stringify(s.children[0].children[1].children[0].text,null,2) );
+            //console.log("******************ps poutput" + JSON.stringify(s,null,2) );
             cb(s);
 
 
@@ -3090,12 +3097,28 @@ function call_powershell( cb , commands ) {
 function get_unread_message_count(cb) {
     
     var commands =[
-        "$inbox = $namespace.GetDefaultFolder([Microsoft.Office.Interop.Outlook.OlDefaultFolders]::olFolderInbox);",
+        "$inbox = $mapi.GetDefaultFolder([Microsoft.Office.Interop.Outlook.OlDefaultFolders]::olFolderInbox);",
         "echo $inbox.UnReadItemCount | convertTo-XML -As String;"];
         
     call_powershell(
         function(ret){
-            cb( ret.children[0].children[1].children[0].text )
+            cb( parseInt(ret.children[0].children[1].children[0].text) )
+        }
+        ,
+        commands);
+        
+}
+
+
+function get_inbox_count(cb) {
+    
+    var commands =[
+        "$inbox = $mapi.GetDefaultFolder([Microsoft.Office.Interop.Outlook.OlDefaultFolders]::olFolderInbox);",
+        "echo $inbox.items.count | convertTo-XML -As String;"];
+        
+    call_powershell(
+        function(ret){
+            cb( parseInt(ret.children[0].children[1].children[0].text) )
         }
         ,
         commands);
