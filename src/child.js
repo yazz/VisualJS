@@ -223,7 +223,7 @@ function setUpSql() {
                                 "    hash = ? ;");
 }
 
-var standard = fs.readFileSync('common.ps1')
+var standard = fs.readFileSync(path.join(__dirname, './common.ps1'));//zzz
 standard = standard.toString().replace(/\r?\n|\r/g, ' ');
 //console.log(standard)
 
@@ -1893,13 +1893,20 @@ function processMessagesFromMainProcess() {
         } else if (msg.message_type == 'call_powershell') {
 
 
-            get_inbox_count(function(unread){
-                console.log("Inbox count: " + unread);
+            get_inbox_count(function(inbox){
+                console.log("Inbox count: " + inbox);
+                for (var i =0; i< inbox; i++) {
+                    getMessage(i, function(msg){
+                        console.log("Msg: " + msg);
+                    });
+                        
+                }
             });
             
             
             get_unread_message_count(function(unread){
                 console.log("Unread email count: " + unread);
+                
             });
 
 
@@ -3076,7 +3083,7 @@ function call_powershell( cb , commands ) {
             //console.log("******************ps poutput" + output );
             
             var s = parseXml(output);
-            //console.log("******************ps poutput" + JSON.stringify(s,null,2) );
+            console.log("******************ps poutput" + JSON.stringify(s,null,2) );
             cb(s);
 
 
@@ -3119,6 +3126,21 @@ function get_inbox_count(cb) {
     call_powershell(
         function(ret){
             cb( parseInt(ret.children[0].children[1].children[0].text) )
+        }
+        ,
+        commands);
+        
+}
+
+function get_message(i,cb) {
+    
+    var commands =[
+        "$inbox = $mapi.GetDefaultFolder([Microsoft.Office.Interop.Outlook.OlDefaultFolders]::olFolderInbox);",
+        "echo $inbox.items.count | convertTo-XML -As String;"];
+        
+    call_powershell(
+        function(ret){
+//            cb( parseInt(ret.children[0].children[1].children[0].text) )
         }
         ,
         commands);
