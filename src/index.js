@@ -60,6 +60,7 @@ var mysql           = require('mysql');
 var cors            = require('cors')
 var mammoth         = require("mammoth");
 var isBinaryFile    = require("isbinaryfile");
+var csvToJson       = require('csvtojson')
 
 path.join(__dirname, '../public/jquery-1.9.1.min.js')
 path.join(__dirname, '../public/jquery.zoomooz.js')

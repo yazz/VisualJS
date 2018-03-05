@@ -3036,18 +3036,21 @@ function get_all_tableFn(  tableName, fields, callbackFn  ) {
 
 
 
+var csvToJson = require('csvtojson')
+var shell = require('node-powershell');
 
+var ps = new shell({
+  executionPolicy: 'Bypass',
+  noProfile: true
+});
 
-function call_powershell( ) {
+        function call_powershell( ) {
           console.log("******************8 call_powershell" );
-    const shell = require('node-powershell');
+    
 
 
      try {
-        let ps = new shell({
-          executionPolicy: 'Bypass',
-          noProfile: true
-        });
+
 
         /*ps.addCommand('echo node-powershell;')
         //ps.addCommand('$excel = New-Object -ComObject "Excel.Application"')
@@ -3063,12 +3066,13 @@ function call_powershell( ) {
         ps.addCommand('$folder = $namespace.Folders.Item("email@address.com").Folders.Item("INBOX")')
         ps.addCommand('$rules = $namespace.DefaultStore.GetRules()')*/
         
-        ps.addCommand( standard );
-        ps.addCommand( "$excel = New-Object -ComObject 'Excel.Application';$excel.Visible = $true;");
-        ps.addCommand("@{x = 1; y =2} | ConvertTo-CSV;");
+        //ps.addCommand( standard );
+        //ps.addCommand( "$excel = New-Object -ComObject 'Excel.Application';$excel.Visible = $true;");
+        ps.addCommand("@{x = 1; y =2} | ConvertTo-XML -As String;");
         ps.invoke()
         .then(output => {
-          console.log("******************ooo " + output);
+            console.log("******************ps poutput" + output );
+
         })
         .catch(err => {
           console.log("******************eee " + err);
@@ -3078,6 +3082,7 @@ function call_powershell( ) {
         console.log("******************eee " + err);
     }
 }
+
 
 
 
