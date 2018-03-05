@@ -1891,8 +1891,9 @@ function processMessagesFromMainProcess() {
             when_queries_changes(null);
 
         } else if (msg.message_type == 'call_powershell') {
-            call_powershell();
-
+            get_unread_message_count(function(unread){
+                console.log("Unread email count: " + unread);
+            });
 
 
         } else if (msg.message_type == 'when_connections_changes') {
@@ -3038,40 +3039,39 @@ function get_all_tableFn(  tableName, fields, callbackFn  ) {
 
 var csvToJson = require('csvtojson')
 var shell = require('node-powershell');
-
-var ps = new shell({
-  executionPolicy: 'Bypass',
-  noProfile: true
-});
-
-        function call_powershell( ) {
-          console.log("******************8 call_powershell" );
-    
+const parseXml = require('@rgrove/parse-xml');
 
 
-     try {
 
 
-        /*ps.addCommand('echo node-powershell;')
-        //ps.addCommand('$excel = New-Object -ComObject "Excel.Application"')
-        //ps.addCommand('$excel.Visible = $true;')
 
-        
+
+function call_powershell( cb , commands ) {
+    console.log("******************8 call_powershell" );
+
+    try {
+        var ps = new shell({
+          executionPolicy: 'Bypass',
+          noProfile: true
+        });
         ps.addCommand('$outlook = New-Object -ComObject "Outlook.Application";')
         ps.addCommand('$namespace = $outlook.GetNamespace("MAPI");')
         
         ps.addCommand('Add-Type -assembly "Microsoft.Office.Interop.Outlook"')
-        ps.addCommand('$inbox = $namespace.GetDefaultFolder([Microsoft.Office.Interop.Outlook.OlDefaultFolders]::olFolderInbox)')
-
-        ps.addCommand('$folder = $namespace.Folders.Item("email@address.com").Folders.Item("INBOX")')
-        ps.addCommand('$rules = $namespace.DefaultStore.GetRules()')*/
+        ps.addCommand( standard );
         
-        //ps.addCommand( standard );
-        //ps.addCommand( "$excel = New-Object -ComObject 'Excel.Application';$excel.Visible = $true;");
-        ps.addCommand("@{x = 1; y =2} | ConvertTo-XML -As String;");
+        for ( var i = 0 ; i < commands.length ; i ++ ) {
+            ps.addCommand( commands[i]);
+            console.log("Added command" + commands[i])
+        }
         ps.invoke()
         .then(output => {
-            console.log("******************ps poutput" + output );
+            //console.log("******************ps poutput" + output );
+            
+            var s = parseXml(output);
+            //console.log("******************ps poutput" + JSON.stringify(s.children[0].children[1].children[0].text,null,2) );
+            cb(s);
+
 
         })
         .catch(err => {
@@ -3085,4 +3085,20 @@ var ps = new shell({
 
 
 
+
+
+function get_unread_message_count(cb) {
+    
+    var commands =[
+        "$inbox = $namespace.GetDefaultFolder([Microsoft.Office.Interop.Outlook.OlDefaultFolders]::olFolderInbox);",
+        "echo $inbox.UnReadItemCount | convertTo-XML -As String;"];
+        
+    call_powershell(
+        function(ret){
+            cb( ret.children[0].children[1].children[0].text )
+        }
+        ,
+        commands);
+        
+}
 
