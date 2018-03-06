@@ -1897,7 +1897,7 @@ function processMessagesFromMainProcess() {
                 console.log("Inbox count: " + inbox);
                 //for (var i =0; i< inbox; i++) {
                 for (var i =0; i< 10; i++) {
-                    get_message(i, function(msg){
+                    get_message((inbox - i) - 1, function(msg){
                         console.log("Msg: " + msg);
                     });
                         
