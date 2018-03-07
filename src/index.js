@@ -1610,6 +1610,7 @@ function setupForkedProcess(processName) {
     }
 
     if (processName == "forkedPowershell") {
+        forkedProcesses["forkedPowershell"].send({ message_type: "init" });
         forkedProcesses["forkedPowershell"].send({ message_type: "call_powershell" });
     }
 

@@ -23,6 +23,9 @@ module.exports = {
 
             "CREATE TABLE IF NOT EXISTS files (id TEXT, contents_hash TEXT, size INTEGER, path TEXT, orig_name TEXT, fk_connection_id TEXT, status TEXT);",
 
+            
+            "CREATE TABLE IF NOT EXISTS messages (id TEXT, source_id TEXT, contents_hash TEXT, size INTEGER, path TEXT, source TEXT, fk_connection_id TEXT, status TEXT);",
+
 
             "CREATE TABLE IF NOT EXISTS contents (id TEXT, content BLOB, content_type TEXT, UNIQUE (id) ON CONFLICT IGNORE);",
 

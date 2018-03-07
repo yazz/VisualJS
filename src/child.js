@@ -47,6 +47,7 @@ var stmtResetFolders;
 
 var stmtResetFiles;
 var stmtFileChanged;
+var stmtInsertIntoMessages;
 var stmtInsertIntoFiles;
 var stmtInsertIntoFiles2;
 var stmtUpdateFileStatus;
@@ -168,6 +169,12 @@ function setUpSql() {
                                             " values " +
                                             "     ( ?,  ?,  ?,  ?,  ?,   ? );");
 
+    stmtInsertIntoMessages = dbsearch.prepare(  " insert into messages " +
+                                                "     ( id,  source_id , path, source, status) " +
+                                                " values " +
+                                                "     ( ?,  ?,  ?,  ? , ? );");
+    
+                                            
     stmtInsertIntoFiles2 = dbsearch.prepare( " insert into files " +
                                             "     ( id,  path,  orig_name ) " +
                                             " values " +
@@ -223,7 +230,7 @@ function setUpSql() {
                                 "    hash = ? ;");
 }
 
-var standard = fs.readFileSync(path.join(__dirname, './common.ps1'));//zzz
+var standard = fs.readFileSync(path.join(__dirname, './common.ps1'));
 standard = standard.toString().replace(/\r?\n|\r/g, ' ');
 //console.log(standard)
 
@@ -1900,7 +1907,49 @@ function processMessagesFromMainProcess() {
                     
                     get_all_inbox_message_ids(function(ids){
                         console.log("IDs: " + JSON.stringify(ids));
-                        
+                        var fg = ids.length;
+                        for (var i = 0; i < fg; i++) {
+                            var sourceMessageId = ids[i];
+                            //zzz
+                            try {
+                                dbsearch.serialize(function() {
+                                    var stmt = dbsearch.all(
+                                        "select id from messages where   source_id = ?",
+                                        [sourceMessageId],
+                                        function(err, results)
+                                        {
+                                            if (!err)
+                                            {
+                                                if (results.length == 0) {
+                                                    try {
+                                                        var newMessageId   = uuidv1();
+                                                        stmtInsertIntoMessages.run(
+
+                                                            newMessageId,
+                                                            sourceMessageId,
+                                                            "INBOX",
+                                                            "OUTLOOK",
+                                                            "ADDED",
+
+                                                            function(err) {
+                                                                //console.log('added message to sqlite');
+                                                                });
+
+                                                    } catch (err) {
+                                                        console.log("Error " + err + " with file: " + sourceMessageId);
+                                                    }
+                                                };
+                                            };
+                                        }
+                                    )
+                                })
+                            } catch(err) {
+                                console.log("Error " + err + " with file: " + sourceMessageId);
+                            } finally {
+
+                            }
+                        }
+
                     });
                 });
             });
