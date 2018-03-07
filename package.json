@@ -8,7 +8,8 @@
     "start": "babel-node --presets es2015,stage-2 src/index.js ",
     "dev": "cross-env NODE_ENV=development webpack-dev-server --inline --hot  --host localhost",
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
-    "test": "cross-env NODE_ENV=production webpack-dev-server"
+    "test": "cross-env NODE_ENV=production webpack-dev-server",
+    "postinstall": "opencollective postinstall"
   },
   "dependencies": {
     "@rgrove/parse-xml": "^1.1.1",
@@ -45,6 +46,7 @@
     "node-powershell": "^3.3.1",
     "node-tesseract": "^0.2.7",
     "open": "0.0.5",
+    "opencollective": "^1.0.3",
     "path": "^0.12.7",
     "pdf2json": "^1.1.7",
     "pg": "^7.4.0",
@@ -90,5 +92,9 @@
       "node_modules/sqlite3/**/**/**/**/**/*",
       "node_modules/pdf2json/**/**/**/**/**/*"
     ]
+  },
+  "collective": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/visifile"
   }
 }
