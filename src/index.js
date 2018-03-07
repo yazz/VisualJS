@@ -1292,11 +1292,11 @@ function add_new_queryFn(req, res) {
 
 
 
-function setUpChildListeners(processName) {
+function setUpChildListeners(processName, fileName) {
 
     forkedProcesses[processName].on('close', function() {
         console.log("Child process " + processName + " exited.. restarting... ")
-        setupForkedProcess(processName)
+        setupForkedProcess(processName, fileName)
     });
 
 
@@ -1577,7 +1577,7 @@ function setupChildProcesses2() {
     //console.log("-------------------------------------------------------------------");
     //console.log("-------------------------------------------------------------------");
 
-    setupForkedProcess("forked")
+    setupForkedProcess("forked", "child.js")
 }
 
 
@@ -1585,13 +1585,13 @@ function setupChildProcesses2() {
 
 
 
-function setupForkedProcess(processName) {
+function setupForkedProcess(processName,fileName) {
     if (isWin) {
-        forkedProcesses[  processName  ] = fork.fork(path.join(__dirname, '../src/child.js'));
+        forkedProcesses[  processName  ] = fork.fork(path.join(__dirname, '../src/' + fileName));
     } else {
-        forkedProcesses[  processName  ] = fork.fork(path.join(__dirname, '../src/child.js'));
+        forkedProcesses[  processName  ] = fork.fork(path.join(__dirname, '../src/' + fileName));
     }
-    setUpChildListeners(processName);
+    setUpChildListeners(processName, fileName);
 
 
     if (processName == "forked") {
@@ -1631,9 +1631,9 @@ function setupChildProcesses() {
     //console.log("-------------------------------------------------------------------");
     //console.log("-------------------------------------------------------------------");
 
-    setupForkedProcess("forkedIndexer")
-    setupForkedProcess("forkedFileScanner")
-    setupForkedProcess("forkedPowershell")
+    setupForkedProcess("forkedIndexer","child.js")
+    setupForkedProcess("forkedFileScanner","child.js")
+    setupForkedProcess("forkedPowershell","powershell.js")
 }
 
 
