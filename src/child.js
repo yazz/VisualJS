@@ -1895,20 +1895,17 @@ function processMessagesFromMainProcess() {
 
             get_inbox_count(function(inbox){
                 console.log("Inbox count: " + inbox);
-                //for (var i =0; i< inbox; i++) {
-                for (var i =0; i< 10; i++) {
-                    get_message((inbox - i) - 1, function(msg){
-                        console.log("Msg: " + msg);
-                    });
+                get_unread_message_count(function(unread){
+                    console.log("Unread email count: " + unread);
+                    
+                    get_all_inbox_message_ids(function(ids){
+                        console.log("IDs: " + JSON.stringify(ids));
                         
-                }
+                    });
+                });
             });
             
             
-            get_unread_message_count(function(unread){
-                console.log("Unread email count: " + unread);
-                
-            });
 
 
         } else if (msg.message_type == 'when_connections_changes') {
@@ -3151,3 +3148,30 @@ function get_message(i,cb) {
         
 }
 
+
+function get_all_inbox_message_ids(cb) {
+    
+    var commands =[
+        "$inbox = $mapi.GetDefaultFolder([Microsoft.Office.Interop.Outlook.OlDefaultFolders]::olFolderInbox)",
+        "$mail = $inbox.Items | select EntryID ",
+        "echo $mail | convertTo-XML -As String"
+        ];
+
+    call_powershell(
+        function(ret){
+            var lene = []
+            var fg = ret.children[0].children.length;
+            console.log("XML length: " + fg)
+            for (var i = 0; i < fg; i++) {
+                //console.log(i)
+                var dj = ret.children[0].children[i]
+                if (dj.type == 'element') {
+                    lene.push(dj.children[1].children[0].text)
+                }
+            }
+            cb( lene )
+        }
+        ,
+        commands);
+        
+}
