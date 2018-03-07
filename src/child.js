@@ -67,9 +67,9 @@ var in_when_connections_change          = false;
 username = os.userInfo().username.toLowerCase();
 //console.log(username);
 dbsearch = new sqlite3.Database(username + '.vis');
-dbsearch.run("PRAGMA journal_mode=WAL;")
-dbsearch.run("PRAGMA synchronous=OFF;")
-dbsearch.run("PRAGMA count_changes=OFF;")
+//dbsearch.run("PRAGMA journal_mode=WAL;")
+//dbsearch.run("PRAGMA synchronous=OFF;")
+//dbsearch.run("PRAGMA count_changes=OFF;")
 //dbsearch.run("PRAGMA journal_mode=MEMORY;")
 //dbsearch.run("PRAGMA temp_store=MEMORY;")
 
@@ -173,8 +173,8 @@ function setUpSql() {
                                                 "     ( id,  source_id , path, source, status) " +
                                                 " values " +
                                                 "     ( ?,  ?,  ?,  ? , ? );");
-    
-                                            
+
+
     stmtInsertIntoFiles2 = dbsearch.prepare( " insert into files " +
                                             "     ( id,  path,  orig_name ) " +
                                             " values " +
@@ -3036,5 +3036,3 @@ function get_all_tableFn(  tableName, fields, callbackFn  ) {
             };
         })
 };
-
-

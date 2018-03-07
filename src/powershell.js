@@ -67,9 +67,9 @@ var in_when_connections_change          = false;
 username = os.userInfo().username.toLowerCase();
 //console.log(username);
 dbsearch = new sqlite3.Database(username + '.vis');
-dbsearch.run("PRAGMA journal_mode=WAL;")
-dbsearch.run("PRAGMA synchronous=OFF;")
-dbsearch.run("PRAGMA count_changes=OFF;")
+//dbsearch.run("PRAGMA journal_mode=WAL;")
+//dbsearch.run("PRAGMA synchronous=OFF;")
+//dbsearch.run("PRAGMA count_changes=OFF;")
 //dbsearch.run("PRAGMA journal_mode=MEMORY;")
 //dbsearch.run("PRAGMA temp_store=MEMORY;")
 
@@ -115,7 +115,7 @@ function processMessagesFromMainProcess() {
                 console.log("Inbox count: " + inbox);
                 get_unread_message_count(function(unread){
                     console.log("Unread email count: " + unread);
-                    
+
                     get_all_inbox_message_ids(function(ids){
                         console.log("IDs: " + JSON.stringify(ids));
                         var fg = ids.length;
@@ -164,8 +164,8 @@ function processMessagesFromMainProcess() {
                     });
                 });
             });
-            
-            
+
+
 
         }
 
@@ -251,8 +251,8 @@ function setUpSql() {
                                                 "     ( id,  source_id , path, source, status) " +
                                                 " values " +
                                                 "     ( ?,  ?,  ?,  ? , ? );");
-    
-                                            
+
+
     stmtInsertIntoFiles2 = dbsearch.prepare( " insert into files " +
                                             "     ( id,  path,  orig_name ) " +
                                             " values " +
@@ -334,10 +334,10 @@ function call_powershell( cb , commands ) {
         });
         ps.addCommand('$outlook = New-Object -ComObject "Outlook.Application";')
         ps.addCommand('$mapi = $outlook.GetNamespace("MAPI");')
-        
+
         ps.addCommand('Add-Type -assembly "Microsoft.Office.Interop.Outlook"')
         ps.addCommand( standard);
-        
+
         for ( var i = 0 ; i < commands.length ; i ++ ) {
             ps.addCommand( commands[i]);
             console.log("Added command" + commands[i])
@@ -345,7 +345,7 @@ function call_powershell( cb , commands ) {
         ps.invoke()
         .then(output => {
             //console.log("******************ps poutput" + output );
-            
+
             var s = parseXml(output);
             //console.log("******************ps poutput" + JSON.stringify(s,null,2) );
             cb(s);
@@ -366,38 +366,38 @@ function call_powershell( cb , commands ) {
 
 
 function get_unread_message_count(cb) {
-    
+
     var commands =[
         "$inbox = $mapi.GetDefaultFolder([Microsoft.Office.Interop.Outlook.OlDefaultFolders]::olFolderInbox);",
         "echo $inbox.UnReadItemCount | convertTo-XML -As String;"];
-        
+
     call_powershell(
         function(ret){
             cb( parseInt(ret.children[0].children[1].children[0].text) )
         }
         ,
         commands);
-        
+
 }
 
 
 function get_inbox_count(cb) {
-    
+
     var commands =[
         "$inbox = $mapi.GetDefaultFolder([Microsoft.Office.Interop.Outlook.OlDefaultFolders]::olFolderInbox);",
         "echo $inbox.items.count | convertTo-XML -As String;"];
-        
+
     call_powershell(
         function(ret){
             cb( parseInt(ret.children[0].children[1].children[0].text) )
         }
         ,
         commands);
-        
+
 }
 
 function get_message(i,cb) {
-    
+
     var commands =[
         "$inbox = $mapi.GetDefaultFolder([Microsoft.Office.Interop.Outlook.OlDefaultFolders]::olFolderInbox)",
         "$mail = $inbox.Items | select Subject | Select-Nth " + (i + 1),
@@ -410,12 +410,12 @@ function get_message(i,cb) {
         }
         ,
         commands);
-        
+
 }
 
 
 function get_all_inbox_message_ids(cb) {
-    
+
     var commands =[
         "$inbox = $mapi.GetDefaultFolder([Microsoft.Office.Interop.Outlook.OlDefaultFolders]::olFolderInbox)",
         "$mail = $inbox.Items | select EntryID ",
@@ -438,5 +438,5 @@ function get_all_inbox_message_ids(cb) {
         }
         ,
         commands);
-        
+
 }

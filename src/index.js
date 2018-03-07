@@ -1634,7 +1634,10 @@ function setupChildProcesses() {
 
     setupForkedProcess("forkedIndexer","child.js")
     setupForkedProcess("forkedFileScanner","child.js")
-    setupForkedProcess("forkedPowershell","powershell.js")
+
+    if (isWin) {
+        setupForkedProcess("forkedPowershell","powershell.js")
+    }
 }
 
 
