@@ -628,9 +628,7 @@ function sendOverWebSockets(data) {
     //console.log('send to sockets Count: ' + JSON.stringify(serverwebsockets.length));
     for (var i =0 ; i < ll; i++ ) {
         var sock = serverwebsockets[i];
-        if (sock.readyState == 1) {
-            sock.send(JSON.stringify(data));
-        }
+        sock.emit(data.type,data);
         //console.log('                    sock ' + i + ': ' + JSON.stringify(sock.readyState));
     }
 }
