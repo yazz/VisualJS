@@ -87,7 +87,7 @@ function require2(moduleName) {
 
 
 
-
+var numberOfSecondsIndexMessagesInterval = 8;
 
 
 //-----------------------------------------------------------------------------------------//
@@ -107,6 +107,9 @@ function processMessagesFromMainProcess() {
 
         if (msg.message_type == 'init') {
             setUpSql();
+            
+           setInterval(indexMessagesFn ,numberOfSecondsIndexMessagesInterval * 1000);
+
 
         } else if (msg.message_type == 'call_powershell') {
 
@@ -117,11 +120,11 @@ function processMessagesFromMainProcess() {
                     console.log("Unread email count: " + unread);
 
                     get_all_inbox_message_ids(function(ids){
-                        console.log("IDs: " + JSON.stringify(ids));
+                        //console.log("IDs: " + JSON.stringify(ids));
                         var fg = ids.length;
                         for (var i = 0; i < fg; i++) {
                             var sourceMessageId = ids[i];
-                            //zzz
+                            
                             try {
                                 dbsearch.serialize(function() {
                                     var stmt = dbsearch.all(
@@ -340,7 +343,7 @@ function call_powershell( cb , commands ) {
 
         for ( var i = 0 ; i < commands.length ; i ++ ) {
             ps.addCommand( commands[i]);
-            console.log("Added command" + commands[i])
+            //console.log("Added command" + commands[i])
         }
         ps.invoke()
         .then(output => {
@@ -396,17 +399,21 @@ function get_inbox_count(cb) {
 
 }
 
-function get_message(i,cb) {
+function get_message_by_entry_id(i,cb) {
+console.log("get_message_by_entry_id:  '" + i + "'")
+var itemStr = "$mail = $inbox.Items | select EntryID,Subject  | Where-Object {$_.EntryId -eq '" + i.toString() + "'}"
+console.log("            itemStr:  '" + itemStr + "'")
 
     var commands =[
         "$inbox = $mapi.GetDefaultFolder([Microsoft.Office.Interop.Outlook.OlDefaultFolders]::olFolderInbox)",
-        "$mail = $inbox.Items | select Subject | Select-Nth " + (i + 1),
+        itemStr,
         "echo $mail | convertTo-XML -As String"
         ];
 
     call_powershell(
         function(ret){
-            cb( ret.children[0].children[1].children[1].children[0].text )
+            //console.log("                    :  " + ret)
+            cb( ret )
         }
         ,
         commands);
@@ -422,16 +429,19 @@ function get_all_inbox_message_ids(cb) {
         "echo $mail | convertTo-XML -As String"
         ];
 
-    call_powershell(
+        call_powershell(
         function(ret){
             var lene = []
             var fg = ret.children[0].children.length;
             console.log("XML length: " + fg)
             for (var i = 0; i < fg; i++) {
-                //console.log(i)
+                //console.log("read message ID: " + i)
                 var dj = ret.children[0].children[i]
                 if (dj.type == 'element') {
-                    lene.push(dj.children[1].children[0].text)
+                    //hack city : ParseXMl adds erroneious newlines :( so we get rid of them manually here
+                    var fgh = dj.children[1].children[0].text.replace(/(\r\n\t|\n|\r\t)/gm,"");
+                    //console.log("read message ID: " + fgh)
+                    lene.push(fgh)
                 }
             }
             cb( lene )
@@ -440,3 +450,64 @@ function get_all_inbox_message_ids(cb) {
         commands);
 
 }
+
+
+
+
+
+
+
+
+//-----------------------------------------------------------------------------------------//
+//                                                                                         //
+//                                      indexMessagesFn                                    //
+//                                                                                         //
+// This indexes the messages for full text search                                          //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//                                                                                         //
+//-----------------------------------------------------------------------------------------//
+var inIndexMessagesFn = false;
+var hjgj=0;
+function indexMessagesFn() {
+    if (inIndexMessagesFn) {
+        return;
+    }
+    inIndexMessagesFn = true;
+    console.log("  indexMessagesFn: " + (hjgj++));
+   try {
+    var stmt = dbsearch.all(
+        "SELECT * FROM messages WHERE status = 'ADDED' LIMIT 1 " ,
+        function(err, results)
+        {
+            if (!err)
+            {
+                if( results.length != 0)
+                {
+                    var msg = results[0]
+                    //console.log("Message ID: " + msg.source_id)
+                    get_message_by_entry_id( msg.source_id , function(eee) {
+                        console.log("    eee: " + JSON.stringify(eee,null,2))
+                    })
+                    //zzz
+                } else {
+                    console.log("          else: ");
+                }
+                //inIndexMessagesFn = false;
+            } else {
+                console.log("          670 Error: " );
+                //inIndexMessagesFn = false;
+           }
+        })
+   }catch (err) {
+                console.log("          674 Error: " + err);
+                //inIndexMessagesFn = false;
+   }
+}
+
+
+
+
