@@ -1291,11 +1291,11 @@ function add_new_queryFn(req, res) {
 
 
 
-function setUpChildListeners(processName, fileName) {
+function setUpChildListeners(processName, fileName, debugPort) {
 
     forkedProcesses[processName].on('close', function() {
         console.log("Child process " + processName + " exited.. restarting... ")
-        setupForkedProcess(processName, fileName)
+        setupForkedProcess(processName, fileName, debugPort)
     });
 
 
@@ -1576,7 +1576,7 @@ function setupChildProcesses2() {
     //console.log("-------------------------------------------------------------------");
     //console.log("-------------------------------------------------------------------");
 
-    setupForkedProcess("forked", "child.js")
+    setupForkedProcess("forked", "child.js", 40003)
 }
 
 
@@ -1584,13 +1584,13 @@ function setupChildProcesses2() {
 
 
 
-function setupForkedProcess(processName,fileName) {
+function setupForkedProcess(processName,fileName,debugPort) {
     if (isWin) {
-        forkedProcesses[  processName  ] = fork.fork(path.join(__dirname, '../src/' + fileName));
+        forkedProcesses[  processName  ] = fork.fork(path.join(__dirname, '../src/' + fileName), [], {execArgv: ['--debug=' + debugPort]});
     } else {
-        forkedProcesses[  processName  ] = fork.fork(path.join(__dirname, '../src/' + fileName));
+        forkedProcesses[  processName  ] = fork.fork(path.join(__dirname, '../src/' + fileName), [], {execArgv: ['--debug=' + debugPort]});
     }
-    setUpChildListeners(processName, fileName);
+    setUpChildListeners(processName, fileName, debugPort);
 
 
     if (processName == "forked") {
@@ -1630,11 +1630,11 @@ function setupChildProcesses() {
     //console.log("-------------------------------------------------------------------");
     //console.log("-------------------------------------------------------------------");
 
-    setupForkedProcess("forkedIndexer","child.js")
-    setupForkedProcess("forkedFileScanner","child.js")
+    setupForkedProcess("forkedIndexer","child.js", 40000)
+    setupForkedProcess("forkedFileScanner","child.js", 40001)
 
     if (isWin) {
-        setupForkedProcess("forkedPowershell","powershell.js")
+        setupForkedProcess("forkedPowershell","powershell.js", 40002)
     }
 }
 
