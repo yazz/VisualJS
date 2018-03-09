@@ -1586,7 +1586,7 @@ function setupChildProcesses2() {
 
 function setupForkedProcess(processName,fileName,debugPort) {
     if (isWin) {
-        forkedProcesses[  processName  ] = fork.fork(path.join(__dirname, '../src/' + fileName), [], {execArgv: ['--debug=' + debugPort]});
+        forkedProcesses[  processName  ] = fork.fork(path.join(__dirname, '../src/' + fileName), [], {execArgv: ['--inspect=' + debugPort]});
     } else {
         forkedProcesses[  processName  ] = fork.fork(path.join(__dirname, '../src/' + fileName), [], {execArgv: ['--debug=' + debugPort]});
     }
