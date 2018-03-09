@@ -153,7 +153,7 @@ div.tilt {
 <body onload='initFn()'>
 
 
-    <div  id='wrapper'  >
+    <div  id='wrapper'  onscroll='onscrolled()' onmousedown='onemousedown()'  onmouseup='onemouseup()'>
         <div  id='infinite-list'  >
 
 
@@ -370,7 +370,7 @@ function setupWebSocket(host, port)
     });
 
     socket.on('update_query_item',function(data) {
-        console.log("Update query item: " + JSON.stringify(data,null,2));
+        //console.log("Update query item: " + JSON.stringify(data,null,2));
         var nid = nextItem++;
         store.dispatch("add_card", {id: nid, card: {
                                                         id:     nid ,
@@ -391,42 +391,63 @@ var autoScroll = true;
 var autoId = 1;
 
 
- var myScroller = null;
+var myScroller = null;
 
-     function initFn() {
-         setTimeout(function(){
-             myScroller = zenscroll.createScroller(
-                 document.getElementById("wrapper"), 1200, 0);
+    function initFn() {
+        setTimeout(function(){
+            myScroller = zenscroll.createScroller(
+                document.getElementById("wrapper"), 1200, 0);
 
-                 document.getElementById("wrapper").addEventListener("wheel",
-                     function() {
-                         autoScroll = false;
-                     }
-                 );
-                 document.getElementById("wrapper").addEventListener("touchmove",
-                     function() {
-                         autoScroll = false;
-                     }
-                 );
+            document.getElementById("wrapper").addEventListener("wheel",
+                function() {
+                    autoScroll = false;
+                    console.log("wheel")
+                }
+            );
+            document.getElementById("wrapper").addEventListener("touchmove",
+                function() {
+                    autoScroll = false;
+                    console.log("touchmove")
+                }
+            );
 
-                 setupWebSocket(location.hostname,  location.port);
+            setupWebSocket(location.hostname,  location.port);
 
 
-             select_card(autoId)
+            select_card(autoId)
 
-             setInterval(function() {
-                 if (autoScroll) {
-                     if (autoId < store.state.cards.length) {
-                         autoId++
-                     } else {
-                         autoId = 1;
-                     }
-                     select_card(autoId);
+            setInterval(function() {
+                if (autoScroll) {
+                    if (autoId < store.state.cards.length) {
+                        autoId++
+                    } else {
+                        autoId = 1;
+                    }
+                    select_card(autoId);
 
-                 }
-             },2500)
-         },100)
-     }
+                }
+            },2500)
+        },100)
+    };
+
+
+    
+function onscrolled() {
+    if (mousedown) {
+        autoScroll = false;
+        console.log("onscroll")
+    }
+};
+var mousedown=false;
+function onemousedown() {
+    console.log("onmousedown")
+    mousedown = true
+};
+function onemouseup() {
+    console.log("onmouseup")
+    mousedown = false
+};
+
 </script>
 </body>
 </html>
