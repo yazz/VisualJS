@@ -401,7 +401,7 @@ function get_inbox_count(cb) {
 
 function get_message_by_entry_id(i,cb) {
 console.log("get_message_by_entry_id:  '" + i + "'")
-var itemStr = "$mail = $inbox.Items | select EntryID,Subject  | Where-Object {$_.EntryId -eq '" + i.toString() + "'}"
+var itemStr = "$mail = $inbox.Items | select EntryID,Subject,ReceivedByName,ReceivedTime,Recipients,SenderName,Sent,SentOn,SentOnBehalfOfName,To,BodyFormat,SendUsingAccount,TaskSubject,Sender,CC,BCC,UnRead,Size,Sensitivity,Outlookversion,OutlookInternalVersion  | Where-Object {$_.EntryId -eq '" + i.toString() + "'}"
 console.log("            itemStr:  '" + itemStr + "'")
 
     var commands =[
@@ -413,7 +413,14 @@ console.log("            itemStr:  '" + itemStr + "'")
     call_powershell(
         function(ret){
             //console.log("                    :  " + ret)
-            cb( ret )
+            var base = ret.children[0].children[1].children
+            cb( 
+                {
+                    entry_id:        base[1].children[0].text
+                    ,
+                    entry_subject:   base[3].children[0].text
+                }
+            )
         }
         ,
         commands);
