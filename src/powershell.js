@@ -48,6 +48,7 @@ var stmtResetFolders;
 var stmtResetFiles;
 var stmtFileChanged;
 var stmtInsertIntoMessages;
+var stmtSetMessageToError;
 var stmtInsertIntoFiles;
 var stmtInsertIntoFiles2;
 var stmtUpdateFileStatus;
@@ -249,12 +250,16 @@ function setUpSql() {
                                             "     ( id,  contents_hash ,  size,  path,  orig_name,    fk_connection_id) " +
                                             " values " +
                                             "     ( ?,  ?,  ?,  ?,  ?,   ? );");
-
+//zzz
     stmtInsertIntoMessages = dbsearch.prepare(  " insert into messages " +
                                                 "     ( id,  source_id , path, source, status) " +
                                                 " values " +
                                                 "     ( ?,  ?,  ?,  ? , ? );");
 
+    stmtSetMessageToError = dbsearch.prepare(   " update messages " +
+                                                "     set status = 'ERROR' " +
+                                                " where " +
+                                                "     source_id = ?;");
 
     stmtInsertIntoFiles2 = dbsearch.prepare( " insert into files " +
                                             "     ( id,  path,  orig_name ) " +
@@ -413,14 +418,18 @@ console.log("            itemStr:  '" + itemStr + "'")
     call_powershell(
         function(ret){
             //console.log("                    :  " + ret)
-            var base = ret.children[0].children[1].children
-            cb( 
-                {
-                    entry_id:        base[1].children[0].text
-                    ,
-                    entry_subject:   base[3].children[0].text
-                }
-            )
+            if (ret.children[0].children[1]) {
+                var base = ret.children[0].children[1].children
+                cb( 
+                    {
+                        entry_id:        base[1].children[0].text
+                        ,
+                        entry_subject:   base[3].children[0].text
+                    }
+                )
+            } else {
+                cb(null)
+            }
         }
         ,
         commands);
@@ -498,20 +507,28 @@ function indexMessagesFn() {
                     //console.log("Message ID: " + msg.source_id)
                     get_message_by_entry_id( msg.source_id , function(eee) {
                         console.log("    eee: " + JSON.stringify(eee,null,2))
+                        if (eee) {
+//zzz
+                        } else {
+//zzz
+                            stmtSetMessageToError.run(msg.source_id,
+                                function(err) {
+                                    console.log('set message to error');
+                                    })
+                        }
                     })
-                    //zzz
                 } else {
                     console.log("          else: ");
                 }
-                //inIndexMessagesFn = false;
+                inIndexMessagesFn = false;
             } else {
                 console.log("          670 Error: " );
-                //inIndexMessagesFn = false;
+                inIndexMessagesFn = false;
            }
         })
    }catch (err) {
                 console.log("          674 Error: " + err);
-                //inIndexMessagesFn = false;
+                inIndexMessagesFn = false;
    }
 }
 
