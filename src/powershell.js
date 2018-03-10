@@ -352,6 +352,7 @@ function call_powershell( cb , commands ) {
         }
         ps.invoke()
         .then(output => {
+            output = output.replace(/(\r\n\t|\n|\r\t)/gm,"")
             //console.log("******************ps poutput" + output );
 
             var s = parseXml(output);
@@ -361,14 +362,14 @@ function call_powershell( cb , commands ) {
 
         })
         .catch(err => {
-          console.log("******************eee " + err);
-          //ps.dispose();
+            console.log("******************Error parsing XML " + err);
+            //ps.dispose();
         });
     } catch (err) {
         console.log("******************eee " + err);
     }
 }
-
+//zzz
 
 
 
@@ -405,9 +406,9 @@ function get_inbox_count(cb) {
 }
 
 function get_message_by_entry_id(i,cb) {
-console.log("get_message_by_entry_id:  '" + i + "'")
-var itemStr = "$mail = $inbox.Items | select EntryID,Subject,ReceivedByName,ReceivedTime,Recipients,SenderName,Sent,SentOn,SentOnBehalfOfName,To,BodyFormat,SendUsingAccount,TaskSubject,Sender,CC,BCC,UnRead,Size,Sensitivity,Outlookversion,OutlookInternalVersion  | Where-Object {$_.EntryId -eq '" + i.toString() + "'}"
-console.log("            itemStr:  '" + itemStr + "'")
+    console.log("get_message_by_entry_id:  '" + i + "'")
+    var itemStr = "$mail = $inbox.Items | select EntryID,Subject,ReceivedByName,ReceivedTime,Recipients,SenderName,Sent,SentOn,SentOnBehalfOfName,To,BodyFormat,SendUsingAccount,TaskSubject,Sender,CC,BCC,UnRead,Size,Sensitivity,Outlookversion,OutlookInternalVersion  | Where-Object {$_.EntryId -eq '" + i.toString() + "'}"
+    console.log("            itemStr:  '" + itemStr + "'")
 
     var commands =[
         "$inbox = $mapi.GetDefaultFolder([Microsoft.Office.Interop.Outlook.OlDefaultFolders]::olFolderInbox)",
@@ -455,7 +456,7 @@ function get_all_inbox_message_ids(cb) {
                 var dj = ret.children[0].children[i]
                 if (dj.type == 'element') {
                     //hack city : ParseXMl adds erroneious newlines :( so we get rid of them manually here
-                    var fgh = dj.children[1].children[0].text.replace(/(\r\n\t|\n|\r\t)/gm,"");
+                    var fgh = dj.children[1].children[0].text;
                     //console.log("read message ID: " + fgh)
                     lene.push(fgh)
                 }
@@ -486,50 +487,63 @@ function get_all_inbox_message_ids(cb) {
 //                                                                                         //
 //                                                                                         //
 //-----------------------------------------------------------------------------------------//
-var inIndexMessagesFn = false;
-var hjgj=0;
+var inIndexMessagesFn                = false;
+var numberTimesIndexMessagesFnCalled = 0;
+
 function indexMessagesFn() {
+
+    //
+    //  only allow this to be called once at a time
+    //
     if (inIndexMessagesFn) {
         return;
     }
     inIndexMessagesFn = true;
-    console.log("  indexMessagesFn: " + (hjgj++));
-   try {
-    var stmt = dbsearch.all(
-        "SELECT * FROM messages WHERE status = 'ADDED' LIMIT 1 " ,
-        function(err, results)
-        {
-            if (!err)
+    console.log("  indexMessagesFn: " + (numberTimesIndexMessagesFnCalled++));
+
+
+    //
+    // Process any messages which have been added to the system. We know these as 
+    // the status is set to ADDED
+    //
+    try {
+        var stmt = dbsearch.all(
+            "SELECT * FROM messages WHERE status = 'ADDED' LIMIT 1 " 
+            ,
+            function(err, results)
             {
-                if( results.length != 0)
+                if (!err)
                 {
+                    if( results.length != 0)
+                    {
                     var msg = results[0]
                     //console.log("Message ID: " + msg.source_id)
                     get_message_by_entry_id( msg.source_id , function(eee) {
                         console.log("    eee: " + JSON.stringify(eee,null,2))
                         if (eee) {
-//zzz
+                            //zzz
                         } else {
-//zzz
+                            //zzz
                             stmtSetMessageToError.run(msg.source_id,
                                 function(err) {
                                     console.log('set message to error');
-                                    })
+                                    inIndexMessagesFn = false;
+                                })
                         }
                     })
                 } else {
                     console.log("          else: ");
+                    inIndexMessagesFn = false;
                 }
-                inIndexMessagesFn = false;
             } else {
                 console.log("          670 Error: " );
                 inIndexMessagesFn = false;
            }
         })
-   }catch (err) {
-                console.log("          674 Error: " + err);
-                inIndexMessagesFn = false;
-   }
+    }catch (err) {
+        console.log("          674 Error: " + err);
+        inIndexMessagesFn = false;
+}
 }
 
 
