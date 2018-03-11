@@ -147,7 +147,7 @@ function processMessagesFromMainProcess() {
                                                             "ADDED",
 
                                                             function(err) {
-                                                                //console.log('added message to sqlite');
+                                                                console.log('added message to sqlite with err: ' + err);
                                                                 });
 
                                                     } catch (err) {
@@ -352,12 +352,12 @@ function call_powershell( cb , commands ) {
         }
         ps.invoke()
         .then(output => {
-            output = output.replace(/(\r\n\t|\n|\r\t)/gm,"")
-            //console.log("******************ps poutput" + output );
+            var output2 = output.replace(/\r?\n|\r/g,"")
+            
+            //console.log("******************ps poutput" + output2 );
 
-            var s = parseXml(output);
             //console.log("******************ps poutput" + JSON.stringify(s,null,2) );
-            cb(s);
+            cb(output2);
 
 
         })
@@ -382,7 +382,10 @@ function get_unread_message_count(cb) {
 
     call_powershell(
         function(ret){
-            cb( parseInt(ret.children[0].children[1].children[0].text) )
+
+            var s = parseXml(ret);
+ 
+            cb( parseInt(s.children[0].children[1].children[0].text) )
         }
         ,
         commands);
@@ -398,7 +401,8 @@ function get_inbox_count(cb) {
 
     call_powershell(
         function(ret){
-            cb( parseInt(ret.children[0].children[1].children[0].text) )
+            var s = parseXml(ret);
+            cb( parseInt(s.children[0].children[1].children[0].text) )
         }
         ,
         commands);
@@ -419,13 +423,16 @@ function get_message_by_entry_id(i,cb) {
     call_powershell(
         function(ret){
             //console.log("                    :  " + ret)
-            if (ret.children[0].children[1]) {
-                var base = ret.children[0].children[1].children
+                var s = parseXml(ret);
+                if (s.children[0].children[1]) {
+                var base = s.children[0].children[1].children
                 cb( 
                     {
                         entry_id:        base[1].children[0].text
                         ,
                         entry_subject:   base[3].children[0].text
+                        ,
+                        received_by_name:   base[5].children[0].text
                     }
                 )
             } else {
@@ -448,16 +455,17 @@ function get_all_inbox_message_ids(cb) {
 
         call_powershell(
         function(ret){
+            var s = parseXml(ret);
             var lene = []
-            var fg = ret.children[0].children.length;
+            var fg = s.children[0].children.length;
             console.log("XML length: " + fg)
             for (var i = 0; i < fg; i++) {
                 //console.log("read message ID: " + i)
-                var dj = ret.children[0].children[i]
+                var dj = s.children[0].children[i]
                 if (dj.type == 'element') {
                     //hack city : ParseXMl adds erroneious newlines :( so we get rid of them manually here
                     var fgh = dj.children[1].children[0].text;
-                    //console.log("read message ID: " + fgh)
+                    console.log("read message ID: " + fgh)
                     lene.push(fgh)
                 }
             }
@@ -522,6 +530,7 @@ function indexMessagesFn() {
                         console.log("    eee: " + JSON.stringify(eee,null,2))
                         if (eee) {
                             //zzz
+                            inIndexMessagesFn = false;
                         } else {
                             //zzz
                             stmtSetMessageToError.run(msg.source_id,
