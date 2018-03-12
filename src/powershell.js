@@ -88,7 +88,46 @@ function require2(moduleName) {
 };
 
 
+function insertNewMessage(  sourceMessageId, folder,messageClient  ) {
+    try {
+        dbsearch.serialize(function() {
+            var stmt = dbsearch.all(
+                "select id from messages where   source_id = ?",
+                [sourceMessageId],
+                function(err, results)
+                {
+                    if (!err)
+                    {
+                        if (results.length == 0) {
+                            try {
+                                var newMessageId   = uuidv1();
+                                stmtInsertIntoMessages.run(
 
+                                    newMessageId,
+                                    sourceMessageId,
+                                    folder,
+                                    messageClient,
+                                    "ADDED",
+
+                                    function(err) {
+                                        console.log('added message to sqlite with err: ' + err);
+                                        console.log('                      source id: ' + sourceMessageId);
+                                        });
+
+                            } catch (err) {
+                                console.log("Error " + err + " with file: " + sourceMessageId);
+                            }
+                        };
+                    };
+                }
+            )
+        })
+    } catch(err) {
+        console.log("Error " + err + " with file: " + sourceMessageId);
+    } finally {
+
+    }
+}
 var numberOfSecondsIndexMessagesInterval = 8;
 
 
@@ -122,48 +161,12 @@ function processMessagesFromMainProcess() {
                     console.log("Unread email count: " + unread);
 
                     get_all_inbox_message_ids(function(ids){
-                        //console.log("IDs: " + JSON.stringify(ids));
                         var fg = ids.length;
                         for (var i = 0; i < fg; i++) {
                             var sourceMessageId = ids[i];
+                            console.log("ID " + i + ": " + sourceMessageId);
+                            insertNewMessage(  sourceMessageId, "INBOX","OUTLOOK"  )
                             
-                            try {
-                                dbsearch.serialize(function() {
-                                    var stmt = dbsearch.all(
-                                        "select id from messages where   source_id = ?",
-                                        [sourceMessageId],
-                                        function(err, results)
-                                        {
-                                            if (!err)
-                                            {
-                                                if (results.length == 0) {
-                                                    try {
-                                                        var newMessageId   = uuidv1();
-                                                        stmtInsertIntoMessages.run(
-
-                                                            newMessageId,
-                                                            sourceMessageId,
-                                                            "INBOX",
-                                                            "OUTLOOK",
-                                                            "ADDED",
-
-                                                            function(err) {
-                                                                console.log('added message to sqlite with err: ' + err);
-                                                                });
-
-                                                    } catch (err) {
-                                                        console.log("Error " + err + " with file: " + sourceMessageId);
-                                                    }
-                                                };
-                                            };
-                                        }
-                                    )
-                                })
-                            } catch(err) {
-                                console.log("Error " + err + " with file: " + sourceMessageId);
-                            } finally {
-
-                            }
                         }
 
                     });
@@ -368,7 +371,7 @@ function call_powershell( cb , commands ) {
         .then(output => {
             var output2 = output.replace(/\r?\n|\r/g,"")
             
-            //console.log("******************ps poutput" + output2 );
+            console.log("******************ps poutput" + output2 );
 
             //console.log("******************ps poutput" + JSON.stringify(s,null,2) );
             cb(output2);
@@ -377,10 +380,14 @@ function call_powershell( cb , commands ) {
         })
         .catch(err => {
             console.log("******************Error parsing XML " + err);
-            //ps.dispose();
+            for ( var i = 0 ; i < commands.length ; i ++ ) {
+                console.log("       " + commands[i])
+            }
+            cb(null);
         });
     } catch (err) {
         console.log("******************eee " + err);
+        cb(null);
     }
 }
 
@@ -437,18 +444,22 @@ function get_message_by_entry_id(i,cb) {
     call_powershell(
         function(ret){
             //console.log("                    :  " + ret)
-                var s = parseXml(ret);
-                if (s.children[0].children[1]) {
-                var base = s.children[0].children[1].children
-                cb( 
-                    {
-                        entry_id:        base[1].children[0].text
-                        ,
-                        entry_subject:   base[3].children[0].text
-                        ,
-                        received_by_name:   base[5].children[0].text
-                    }
-                )
+                if (ret ) {
+                    var s = parseXml(ret);
+                    if (s.children[0].children[1]) {
+                    var base = s.children[0].children[1].children
+                    cb( 
+                        {
+                            entry_id:        base[1].children[0].text
+                            ,
+                            entry_subject:   base[3].children[0].text
+                            ,
+                            received_by_name:   base[5].children[0].text
+                        }
+                    )
+                } else {
+                    cb(null)
+                }
             } else {
                 cb(null)
             }
@@ -537,26 +548,25 @@ function indexMessagesFn() {
                 {
                     if( results.length != 0)
                     {
-                    var msg = results[0]
-                    //console.log("Message ID: " + msg.source_id)
-                    get_message_by_entry_id( msg.source_id , function(messageViaPowershell) {
-                        console.log("    eee: " + JSON.stringify(messageViaPowershell,null,2))
-                        if (messageViaPowershell) {
-                            //zzz
-                            stmtUpdateMessageDetails.run(
-                                messageViaPowershell.entry_subject,
-                                msg.source_id,
-                                function(err) {
-                                    console.log('Updated message: ' + messageViaPowershell.entry_subject);
-                                    inIndexMessagesFn = false;
-                                })
-                            inIndexMessagesFn = false;
-                        } else {
-                            stmtSetMessageToError.run(msg.source_id,
-                                function(err) {
-                                    console.log('set message to error');
-                                    inIndexMessagesFn = false;
-                                })
+                        var msg = results[0]
+                        //console.log("Message ID: " + msg.source_id)
+                        get_message_by_entry_id( msg.source_id , function(messageViaPowershell) {
+                            console.log("    eee: " + JSON.stringify(messageViaPowershell,null,2))
+                            if (messageViaPowershell) {
+                                //zzz
+                                stmtUpdateMessageDetails.run(
+                                    messageViaPowershell.entry_subject,
+                                    msg.source_id,
+                                    function(err) {
+                                        console.log('Updated message: ' + messageViaPowershell.entry_subject);
+                                        inIndexMessagesFn = false;
+                                    })
+                            } else {
+                                stmtSetMessageToError.run(msg.source_id,
+                                    function(err) {
+                                        console.log('set message to error');
+                                        inIndexMessagesFn = false;
+                                    })
                         }
                     })
                 } else {
