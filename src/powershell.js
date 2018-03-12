@@ -49,6 +49,7 @@ var stmtResetFiles;
 var stmtFileChanged;
 var stmtInsertIntoMessages;
 var stmtSetMessageToError;
+var stmtUpdateMessageDetails;
 var stmtInsertIntoFiles;
 var stmtInsertIntoFiles2;
 var stmtUpdateFileStatus;
@@ -250,7 +251,6 @@ function setUpSql() {
                                             "     ( id,  contents_hash ,  size,  path,  orig_name,    fk_connection_id) " +
                                             " values " +
                                             "     ( ?,  ?,  ?,  ?,  ?,   ? );");
-//zzz
     stmtInsertIntoMessages = dbsearch.prepare(  " insert into messages " +
                                                 "     ( id,  source_id , path, source, status) " +
                                                 " values " +
@@ -260,6 +260,21 @@ function setUpSql() {
                                                 "     set status = 'ERROR' " +
                                                 " where " +
                                                 "     source_id = ?;");
+
+
+
+
+
+//zzz
+
+    stmtUpdateMessageDetails = dbsearch.prepare(    " update messages " +
+                                                    "     set  " +
+                                                    "         subject = ?, " +
+                                                    "         status  = 'UPDATED' " +
+                                                    " where " +
+                                                    "     source_id = ?;");
+
+                                                
 
     stmtInsertIntoFiles2 = dbsearch.prepare( " insert into files " +
                                             "     ( id,  path,  orig_name ) " +
@@ -282,7 +297,6 @@ function setUpSql() {
                                                     "    set contents_hash = ?,  size = ? " +
                                                     " where " +
                                                     "    id = ? ;");
-
 
 
     stmtInsertIntoFolders = dbsearch.prepare(   " insert into folders " +
@@ -369,7 +383,7 @@ function call_powershell( cb , commands ) {
         console.log("******************eee " + err);
     }
 }
-//zzz
+
 
 
 
@@ -463,7 +477,6 @@ function get_all_inbox_message_ids(cb) {
                 //console.log("read message ID: " + i)
                 var dj = s.children[0].children[i]
                 if (dj.type == 'element') {
-                    //hack city : ParseXMl adds erroneious newlines :( so we get rid of them manually here
                     var fgh = dj.children[1].children[0].text;
                     console.log("read message ID: " + fgh)
                     lene.push(fgh)
@@ -526,13 +539,19 @@ function indexMessagesFn() {
                     {
                     var msg = results[0]
                     //console.log("Message ID: " + msg.source_id)
-                    get_message_by_entry_id( msg.source_id , function(eee) {
-                        console.log("    eee: " + JSON.stringify(eee,null,2))
-                        if (eee) {
+                    get_message_by_entry_id( msg.source_id , function(messageViaPowershell) {
+                        console.log("    eee: " + JSON.stringify(messageViaPowershell,null,2))
+                        if (messageViaPowershell) {
                             //zzz
+                            stmtUpdateMessageDetails.run(
+                                messageViaPowershell.entry_subject,
+                                msg.source_id,
+                                function(err) {
+                                    console.log('Updated message: ' + messageViaPowershell.entry_subject);
+                                    inIndexMessagesFn = false;
+                                })
                             inIndexMessagesFn = false;
                         } else {
-                            //zzz
                             stmtSetMessageToError.run(msg.source_id,
                                 function(err) {
                                     console.log('set message to error');
