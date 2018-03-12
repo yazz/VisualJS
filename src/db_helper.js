@@ -23,8 +23,11 @@ module.exports = {
 
             "CREATE TABLE IF NOT EXISTS files (id TEXT, contents_hash TEXT, size INTEGER, path TEXT, orig_name TEXT, fk_connection_id TEXT, status TEXT);",
 
-            
-            "CREATE TABLE IF NOT EXISTS messages (id TEXT, source_id TEXT, contents_hash TEXT, size INTEGER, path TEXT, source TEXT, fk_connection_id TEXT, status TEXT);",
+            "CREATE TABLE IF NOT EXISTS messages (id TEXT, source_id TEXT, contents_hash TEXT, size INTEGER, path TEXT, source TEXT, " + 
+            "subject TEXT, received_by_name TEXT, received_time INTEGER, recipients TEXT, sender_name TEXT, sent TEXT, sent_on TEXT, sent_on_behalf_of_name TEXT," +
+            "to_email TEXT, body_format TEXT, send_using_account TEXT, task_subject TEXT, sender TEXT, cc TEXT, bcc TEXT, unread TEXT, sensitivity TEXT," +
+            "outlook_version TEXT, outlook_internal_version TEXT," +  
+            "fk_connection_id TEXT, status TEXT);",
 
 
             "CREATE TABLE IF NOT EXISTS contents (id TEXT, content BLOB, content_type TEXT, UNIQUE (id) ON CONFLICT IGNORE);",
