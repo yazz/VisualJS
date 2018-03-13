@@ -121,6 +121,8 @@ path.join(__dirname, '../public/\aframe_fonts/SourceCodePro.fnt')
 path.join(__dirname, '../public/\aframe_fonts/SourceCodePro.png')
 path.join(__dirname, '../public/index.html')
 
+
+
 if (!fs.existsSync(process.cwd() + "/public") ) {
     copyFolderRecursiveSync(path.join(__dirname, "../public")  , process.cwd() ); }
 
@@ -220,8 +222,23 @@ program
   .option('-p, --port [port]', 'Which port should I listen on? (default 80) [port]', parseInt)
   .option('-h, --host [host]', 'Server address of the central host (default visifile.com) [host]', 'visifile.com')
   .option('-l, --locked [locked]', 'Allow server to be locked/unlocked on start up (default true) [locked]', 'true')
+  .option('-d, --debug [debug]', 'Allow to run in debug mode (default false) [debug]', 'false')
   .option('-s, --hostport [hostport]', 'Server port of the central host (default 80) [hostport]', parseInt)
   .parse(process.argv);
+
+var semver = require('semver')
+  
+var debug = false;
+console.log("NodeJS version: " + process.versions.node);
+if (semver.gt(process.versions.node, '6.9.0')) {
+    console.log("NodeJS version > 6.9 " );
+}
+if (program.debug == 'true') {
+    debug = true;
+    console.log("       debug: true" );
+} else {
+    console.log("       debug: false" );
+};
 
 
 locked = (program.locked == 'true');
@@ -1582,10 +1599,18 @@ function setupChildProcesses2() {
 
 
 function setupForkedProcess(processName,fileName,debugPort) {
+    var debugArgs =[];
+    if (debug) {
+        if (semver.gte(process.versions.node, '6.9.0')) {
+            debugArgs = ['--inspect=' + debugPort];
+        } else {
+            debugArgs = ['--debug=' + debugPort];
+        };
+    };
     if (isWin) {
-        forkedProcesses[  processName  ] = fork.fork(path.join(__dirname, '../src/' + fileName), [], {execArgv: ['--inspect=' + debugPort]});
+        forkedProcesses[  processName  ] = fork.fork(path.join(__dirname, '../src/' + fileName), [], {execArgv: debugArgs});
     } else {
-        forkedProcesses[  processName  ] = fork.fork(path.join(__dirname, '../src/' + fileName), [], {execArgv: ['--debug=' + debugPort]});
+        forkedProcesses[  processName  ] = fork.fork(path.join(__dirname, '../src/' + fileName), [], {execArgv: debugArgs});
     }
     setUpChildListeners(processName, fileName, debugPort);
 

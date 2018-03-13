@@ -110,8 +110,8 @@ function insertNewMessage(  sourceMessageId, folder,messageClient  ) {
                                     "ADDED",
 
                                     function(err) {
-                                        console.log('added message to sqlite with err: ' + err);
-                                        console.log('                      source id: ' + sourceMessageId);
+                                        //console.log('added message to sqlite with err: ' + err);
+                                        //console.log('                      source id: ' + sourceMessageId);
                                         });
 
                             } catch (err) {
@@ -164,7 +164,7 @@ function processMessagesFromMainProcess() {
                         var fg = ids.length;
                         for (var i = 0; i < fg; i++) {
                             var sourceMessageId = ids[i];
-                            console.log("ID " + i + ": " + sourceMessageId);
+                            //console.log("ID " + i + ": " + sourceMessageId);
                             insertNewMessage(  sourceMessageId, "INBOX","OUTLOOK"  )
                             
                         }
@@ -367,7 +367,7 @@ const parseXml = require('@rgrove/parse-xml');
 
 
 function call_powershell( cb , commands ) {
-    console.log("******************8 call_powershell" );
+    //console.log("******************8 call_powershell" );
 
     try {
         var ps = new shell({
@@ -389,7 +389,7 @@ function call_powershell( cb , commands ) {
         .then(output => {
             var output2 = output.replace(/\r?\n|\r/g,"")
             
-            console.log("******************ps poutput" + output2 );
+            //console.log("******************ps poutput" + output2 );
 
             //console.log("******************ps poutput" + JSON.stringify(s,null,2) );
             cb(output2);
@@ -449,9 +449,9 @@ function get_inbox_count(cb) {
 }
 
 function get_message_by_entry_id(i,cb) {
-    console.log("get_message_by_entry_id:  '" + i + "'")
+    //console.log("get_message_by_entry_id:  '" + i + "'")
     var itemStr = "$mail = $inbox.Items | select EntryID,Subject,ReceivedByName,ReceivedTime,Recipients,SenderName,Sent,SentOn,SentOnBehalfOfName,To,BodyFormat,SendUsingAccount,TaskSubject,Sender,CC,BCC,UnRead,Size,Sensitivity,Outlookversion,OutlookInternalVersion  | Where-Object {$_.EntryId -eq '" + i.toString() + "'}"
-    console.log("            itemStr:  '" + itemStr + "'")
+    //console.log("            itemStr:  '" + itemStr + "'")
 
     var commands =[
         "$inbox = $mapi.GetDefaultFolder([Microsoft.Office.Interop.Outlook.OlDefaultFolders]::olFolderInbox)",
@@ -517,13 +517,13 @@ function get_all_inbox_message_ids(cb) {
             var s = parseXml(ret);
             var lene = []
             var fg = s.children[0].children.length;
-            console.log("XML length: " + fg)
+            //console.log("XML length: " + fg)
             for (var i = 0; i < fg; i++) {
                 //console.log("read message ID: " + i)
                 var dj = s.children[0].children[i]
                 if (dj.type == 'element') {
                     var fgh = dj.children[1].children[0].text;
-                    console.log("read message ID: " + fgh)
+                    //console.log("read message ID: " + fgh)
                     lene.push(fgh)
                 }
             }
@@ -565,7 +565,7 @@ function indexMessagesFn() {
         return;
     }
     inIndexMessagesFn = true;
-    console.log("  indexMessagesFn: " + (numberTimesIndexMessagesFnCalled++));
+    //console.log("  indexMessagesFn: " + (numberTimesIndexMessagesFnCalled++));
 
 
     //
@@ -585,7 +585,7 @@ function indexMessagesFn() {
                         var msg = results[0]
                         //console.log("Message ID: " + msg.source_id)
                         get_message_by_entry_id( msg.source_id , function(messageViaPowershell) {
-                            console.log("    eee: " + JSON.stringify(messageViaPowershell,null,2))
+                            //console.log("    eee: " + JSON.stringify(messageViaPowershell,null,2))
                             if (messageViaPowershell) {
                           
                                 stmtUpdateMessageDetails.run(
@@ -611,7 +611,7 @@ function indexMessagesFn() {
                                     ///zzz
                                     msg.source_id,
                                     function(err) {
-                                        console.log('Updated message: ' + messageViaPowershell.entry_subject);
+                                        //console.log('Updated message: ' + messageViaPowershell.entry_subject);
                                         inIndexMessagesFn = false;
                                     })
                             } else {
