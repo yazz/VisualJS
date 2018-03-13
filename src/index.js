@@ -697,7 +697,6 @@ var httpServer = null;
 function getPort () {
     console.log('function getPort()')
     httpServer = http.createServer(app)
-    //zzz
 
 
     httpServer.listen(port, ip.address(), function (err) {
@@ -1942,19 +1941,12 @@ function startServices() {
     httpServer.listen(port, hostaddress, function () {
     	console.log(typeOfSystem + ' started on port ' + port + ' with local folder at ' + process.cwd() + ' and __dirname = ' + __dirname);
 
-        //zzz
-        console.log('    1..')
         io = socket.listen(httpServer);
-        console.log('    5')
 
         io.on('connection', function (sck) {
-            console.log('    2');
             var connt = JSON.stringify(sck.conn.transport,null,2);
             websocketFn(sck)
-            console.log('    3: ' + connt);
-
         });
-        console.log('    6')
 
     })
 
