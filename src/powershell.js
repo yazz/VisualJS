@@ -278,8 +278,13 @@ function setUpSql() {
                                                     "         sender_name = ?, " +
                                                     "         sent = ?, " +
                                                     "         sent_on = ?, " +
+                                                    "         sent_on_behalf_of_name = ?, " +
+                                                    "         to_email = ?, " +
+                                                    "         body_format = ?, " +
+                                                    "         send_using_account = ?, " +
+                                                    "         task_subject = ?, " +
 //zzz
-//,SentOnBehalfOfName,To,BodyFormat,SendUsingAccount,TaskSubject,Sender,CC,BCC,UnRead,Size,Sensitivity,Outlookversion,OutlookInternalVersion  | Where-Object {$_.EntryId -eq '" + i.toString() + "'}"
+//,,Sender,CC,BCC,UnRead,Size,Sensitivity,Outlookversion,OutlookInternalVersion  | Where-Object {$_.EntryId -eq '" + i.toString() + "'}"
 
                                                     "         status  = 'UPDATED' " +
                                                     " where " +
@@ -458,16 +463,21 @@ function get_message_by_entry_id(i,cb) {
                     var base = s.children[0].children[1].children
                     cb( 
                         {
-                            entry_id:           base[1].children[0].text,
-                            entry_subject:      base[3].children[0].text,
-                            received_by_name:   base[5].children[0].text,
-                            received_by_time:   base[7].children[0].text,
-                            recipients:         base[9].children[0].text,
-                            sender_name:        base[11].children[0].text,
-                            sent:               base[13].children[0].text,
-                            sent_on:            base[15].children[0].text
+                            entry_id:                   base[1].children[0].text,
+                            entry_subject:              base[3].children[0].text,
+                            received_by_name:           base[5].children[0].text,
+                            received_by_time:           base[7].children[0].text,
+                            recipients:                 base[9].children[0].text,
+                            sender_name:                base[11].children[0].text,
+                            sent:                       base[13].children[0].text,
+                            sent_on:                    base[15].children[0].text,
+                            sent_on_behalf_of_name:     base[17].children[0].text,
+                            to:                         base[19].children[0].text,
+                            body_format:                base[21].children[0].text,
+                            send_using_account:         base[23].children[0].text,
+                            task_subject:               base[25].children[0].text
                         }
-                        //SentOnBehalfOfName,To,BodyFormat,SendUsingAccount,TaskSubject,Sender,CC,BCC,UnRead,Size,Sensitivity,Outlookversion,OutlookInternalVersion  | Where-Object {$_.EntryId -eq '" + i.toString() + "'}"
+                        //Sender,CC,BCC,UnRead,Size,Sensitivity,Outlookversion,OutlookInternalVersion  | Where-Object {$_.EntryId -eq '" + i.toString() + "'}"
                         //zzz
                     )
                 } else {
@@ -566,7 +576,7 @@ function indexMessagesFn() {
                         get_message_by_entry_id( msg.source_id , function(messageViaPowershell) {
                             console.log("    eee: " + JSON.stringify(messageViaPowershell,null,2))
                             if (messageViaPowershell) {
-      //ReceivedTime,Recipients,SenderName,Sent,SentOn,SentOnBehalfOfName,To,BodyFormat,SendUsingAccount,TaskSubject,Sender,CC,BCC,UnRead,Size,Sensitivity,Outlookversion,OutlookInternalVersion  | Where-Object {$_.EntryId -eq '" + i.toString() + "'}"
+      //,,,,,Sender,CC,BCC,UnRead,Size,Sensitivity,Outlookversion,OutlookInternalVersion  | Where-Object {$_.EntryId -eq '" + i.toString() + "'}"
                           
                                 stmtUpdateMessageDetails.run(
                                     messageViaPowershell.entry_subject,
@@ -576,6 +586,11 @@ function indexMessagesFn() {
                                     messageViaPowershell.sender_name,
                                     messageViaPowershell.sent,
                                     messageViaPowershell.sent_on,
+                                    messageViaPowershell.sent_on_behalf_of_name,
+                                    messageViaPowershell.to,
+                                    messageViaPowershell.body_bormat,
+                                    messageViaPowershell.send_using_account,
+                                    messageViaPowershell.task_subject,
                                     ///zzz
                                     msg.source_id,
                                     function(err) {
