@@ -268,11 +268,12 @@ function setUpSql() {
 
 
 
-//zzz
 
     stmtUpdateMessageDetails = dbsearch.prepare(    " update messages " +
                                                     "     set  " +
                                                     "         subject = ?, " +
+                                                    "         received_by_name = ?, " +
+//zzz
                                                     "         status  = 'UPDATED' " +
                                                     " where " +
                                                     "     source_id = ?;");
@@ -432,6 +433,7 @@ function get_inbox_count(cb) {
 
 function get_message_by_entry_id(i,cb) {
     console.log("get_message_by_entry_id:  '" + i + "'")
+    //zzz
     var itemStr = "$mail = $inbox.Items | select EntryID,Subject,ReceivedByName,ReceivedTime,Recipients,SenderName,Sent,SentOn,SentOnBehalfOfName,To,BodyFormat,SendUsingAccount,TaskSubject,Sender,CC,BCC,UnRead,Size,Sensitivity,Outlookversion,OutlookInternalVersion  | Where-Object {$_.EntryId -eq '" + i.toString() + "'}"
     console.log("            itemStr:  '" + itemStr + "'")
 
@@ -456,6 +458,7 @@ function get_message_by_entry_id(i,cb) {
                             ,
                             received_by_name:   base[5].children[0].text
                         }
+                        //zzz
                     )
                 } else {
                     cb(null)
@@ -553,9 +556,11 @@ function indexMessagesFn() {
                         get_message_by_entry_id( msg.source_id , function(messageViaPowershell) {
                             console.log("    eee: " + JSON.stringify(messageViaPowershell,null,2))
                             if (messageViaPowershell) {
-                                //zzz
+                                
                                 stmtUpdateMessageDetails.run(
                                     messageViaPowershell.entry_subject,
+                                    messageViaPowershell.received_by_name,
+                                    ///zzz
                                     msg.source_id,
                                     function(err) {
                                         console.log('Updated message: ' + messageViaPowershell.entry_subject);
