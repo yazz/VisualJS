@@ -283,9 +283,14 @@ function setUpSql() {
                                                     "         body_format = ?, " +
                                                     "         send_using_account = ?, " +
                                                     "         task_subject = ?, " +
+                                                    "         sender = ?, " +
+                                                    "         cc = ?, " +
+                                                    "         bcc = ?, " +
+                                                    "         unread = ?, " +
+                                                    "         sensitivity = ?, " +
+                                                    "         outlook_version = ?, " +
+                                                    "         outlook_internal_version = ?, " +
 //zzz
-//,,Sender,CC,BCC,UnRead,Size,Sensitivity,Outlookversion,OutlookInternalVersion  | Where-Object {$_.EntryId -eq '" + i.toString() + "'}"
-
                                                     "         status  = 'UPDATED' " +
                                                     " where " +
                                                     "     source_id = ?;");
@@ -475,9 +480,15 @@ function get_message_by_entry_id(i,cb) {
                             to:                         base[19].children[0].text,
                             body_format:                base[21].children[0].text,
                             send_using_account:         base[23].children[0].text,
-                            task_subject:               base[25].children[0].text
+                            task_subject:               base[25].children[0].text,
+                            sender:                     base[27].children[0].text,
+                            cc:                         "",//base[29].children[0].text,
+                            bcc:                        "",//base[31].children[0].text,
+                            unread:                     base[33].children[0].text,
+                            sensitivity:                base[35].children[0].text,
+                            outlook_version:            base[37].children[0].text,
+                            outlook_internal_version:   ""//base[39].children[0].text
                         }
-                        //Sender,CC,BCC,UnRead,Size,Sensitivity,Outlookversion,OutlookInternalVersion  | Where-Object {$_.EntryId -eq '" + i.toString() + "'}"
                         //zzz
                     )
                 } else {
@@ -576,7 +587,6 @@ function indexMessagesFn() {
                         get_message_by_entry_id( msg.source_id , function(messageViaPowershell) {
                             console.log("    eee: " + JSON.stringify(messageViaPowershell,null,2))
                             if (messageViaPowershell) {
-      //,,,,,Sender,CC,BCC,UnRead,Size,Sensitivity,Outlookversion,OutlookInternalVersion  | Where-Object {$_.EntryId -eq '" + i.toString() + "'}"
                           
                                 stmtUpdateMessageDetails.run(
                                     messageViaPowershell.entry_subject,
@@ -591,6 +601,13 @@ function indexMessagesFn() {
                                     messageViaPowershell.body_bormat,
                                     messageViaPowershell.send_using_account,
                                     messageViaPowershell.task_subject,
+                                    messageViaPowershell.sender,
+                                    messageViaPowershell.cc,
+                                    messageViaPowershell.bcc,
+                                    messageViaPowershell.unread,
+                                    messageViaPowershell.sensitivity,
+                                    messageViaPowershell.outlook_version,
+                                    messageViaPowershell.outlook_internal_version,
                                     ///zzz
                                     msg.source_id,
                                     function(err) {
