@@ -49,6 +49,8 @@ var stmtResetFiles;
 var stmtFileChanged;
 var stmtInsertIntoMessages;
 var stmtSetMessageToError;
+var stmtSetMessageToBodyError;
+var stmtSetMessageToBodyRead;
 var stmtUpdateMessageDetails;
 var stmtInsertIntoFiles;
 var stmtInsertIntoFiles2;
@@ -149,7 +151,8 @@ function processMessagesFromMainProcess() {
         if (msg.message_type == 'init') {
             setUpSql();
             
-           setInterval(indexMessagesFn ,numberOfSecondsIndexMessagesInterval * 1000);
+            setInterval(indexMessagesFn ,numberOfSecondsIndexMessagesInterval * 1000);
+            setInterval(indexMessagesBodyFn ,numberOfSecondsIndexMessagesInterval * 1000);
 
 
         } else if (msg.message_type == 'call_powershell') {
@@ -264,6 +267,15 @@ function setUpSql() {
                                                 " where " +
                                                 "     source_id = ?;");
 
+    stmtSetMessageToBodyError = dbsearch.prepare(   " update messages " +
+    "     set status = 'BODY_ERROR' " +
+    " where " +
+    "     source_id = ?;");
+
+    stmtSetMessageToBodyRead = dbsearch.prepare(   " update messages " +
+    "     set status = 'BODY_READ' " +
+    " where " +
+    "     source_id = ?;");
 
 
 
@@ -504,6 +516,37 @@ function get_message_by_entry_id(i,cb) {
 }
 
 
+function get_message_body_by_entry_id(i,cb) {
+    //console.log("get_message_body_by_entry_id:  '" + i + "'")
+    
+    
+    var commands =[
+        "$inbox = $mapi.GetDefaultFolder([Microsoft.Office.Interop.Outlook.OlDefaultFolders]::olFolderInbox)",
+        "$mail = $inbox.Items | select EntryId, Body  | Where-Object {$_.EntryId -eq '" + i.toString() + "'}",
+        "echo $mail | Format-Table -Wrap -HideTableHeaders"
+        ];
+
+    call_powershell(
+        function(ret) {
+            //console.log("                    :  " + ret)
+                if (ret ) {
+                    cb( 
+                        {
+                            body:                   ret
+                        }
+                        //zzz
+                    );
+                } else {
+                    cb(null);
+                };
+            }
+        ,
+        commands);
+
+}
+
+
+
 function get_all_inbox_message_ids(cb) {
 
     var commands =[
@@ -637,6 +680,75 @@ function indexMessagesFn() {
 }
 }
 
+
+
+
+
+
+var inIndexMessagesBodyFn                = false;
+var numberTimesIndexMessagesBodyFnCalled = 0;
+
+function indexMessagesBodyFn() {
+
+    //
+    //  only allow this to be called once at a time
+    //
+    if (inIndexMessagesBodyFn) {
+        return;
+    }
+    inIndexMessagesBodyFn = true;
+    //console.log("  indexMessagesFn: " + (numberTimesIndexMessagesFnCalled++));
+
+
+    //
+    // Process any messages which have been added to the system. We know these as 
+    // the status is set to ADDED
+    //
+    try {
+        var stmt = dbsearch.all(
+            "SELECT * FROM messages WHERE status = 'UPDATED' LIMIT 1 " 
+            ,
+            function(err, results)
+            {
+                if (!err)
+                {
+                    if( results.length != 0)
+                    {
+                        var msg = results[0]
+                        //console.log("Message ID: " + msg.source_id)
+                        get_message_body_by_entry_id( msg.source_id , function(messageViaPowershell) {
+                            //console.log("    eee: " + JSON.stringify(messageViaPowershell,null,2))
+                            if (messageViaPowershell) {
+                          
+                                console.log("message body: " + messageViaPowershell.body);
+                                stmtSetMessageToBodyRead.run(msg.source_id,
+                                    function(err) {
+                                        console.log('set message to body read');
+                                        inIndexMessagesBodyFn = false;
+                                    })
+                                    ///zzz
+                            } else {
+                                stmtSetMessageToBodyError.run(msg.source_id,
+                                    function(err) {
+                                        console.log('set message to error');
+                                        inIndexMessagesBodyFn = false;
+                                    })
+                        }
+                    })
+                } else {
+                    console.log("          else: ");
+                    inIndexMessagesBodyFn = false;
+                }
+            } else {
+                console.log("          670 Error: " );
+                inIndexMessagesBodyFn = false;
+           }
+        })
+    }catch (err) {
+        console.log("          674 Error: " + err);
+        inIndexMessagesBodyFn = false;
+}
+}
 
 
 
