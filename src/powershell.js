@@ -685,6 +685,59 @@ function indexMessagesFn() {
 
 
 
+function getSha1(contents) {
+    try {
+        var hash = crypto.createHash('sha1');
+        hash.setEncoding('hex');
+        hash.write(contents);
+        hash.end();
+        var sha1sum = hash.read();
+        createContent(contents, sha1sum);
+        return sha1sum;
+    } catch (err) {
+        return null;
+    }
+}
+
+
+
+
+function createContent( contents,  sha1ofFileContents ) {
+    //
+    // create the content if it doesn't exist
+    //
+    var stmt = dbsearch.all(
+        "select  *  from  contents  where   id = ? ",
+
+        [sha1ofFileContents],
+
+        function(err, results)
+        {
+            if (!err)
+            {
+            if (results.length == 0) {
+            try {
+                var contentType = "EMAIL"
+                    dbsearch.serialize(function() {
+
+                    stmtInsertIntoContents.run(
+
+                        sha1ofFileContents,
+                        contents,
+                        contentType,
+
+                        function(err) {
+                            //console.log('added file to sqlite');
+                            });
+            })
+            } catch (err) {
+            console.log(err);
+            }
+            }
+            }
+        })
+}
+
 
 
 
@@ -724,6 +777,8 @@ function indexMessagesBodyFn() {
                             if (messageViaPowershell) {
                           
                                 console.log("message body: " + messageViaPowershell.body);
+                                var newSha1ofFileContents = getSha1(messageViaPowershell.body)
+
                                 stmtSetMessageToBodyRead.run(msg.source_id,
                                     function(err) {
                                         console.log('set message to body read');
@@ -744,7 +799,7 @@ function indexMessagesBodyFn() {
                                                     newConnectionId,
                                                     "outlook2012",
                                                     1,//onDiskFileContentsSize,
-                                                    "newSha1ofFileContents",
+                                                    newSha1ofFileContents,
                                                     "INBOX",//fullFileNamePath,
                                                     "EMAIL",//documentType,
                                                     JSON.stringify({} , null, 2),
