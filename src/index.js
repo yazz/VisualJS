@@ -960,6 +960,7 @@ function getFileExtension(driver) {
     if (driver == "csv") { return "csv"}
     if (driver == "glb") { return "glb"}
     if (driver == "txt") { return "txt"}
+    if (driver == "outlook2012") { return "txt"}
     return ""
 }
 

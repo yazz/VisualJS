@@ -785,23 +785,23 @@ function indexMessagesBodyFn() {
                                         var newConnectionId = uuidv1();
                                         stmtInsertIntoConnections.run(
                                             newConnectionId,
-                                            "Email screenName",
+                                            msg.subject,
                                             "outlook2010",
                                             "email",
-                                            "|EMAIL|",
+                                            "|EMAIL|DOCUMENT|",
         
                                             function(err) {
                                                 var newqueryid = uuidv1();
                                                 stmtInsertInsertIntoQueries.run(
             
                                                     newqueryid,
-                                                    "fileScreenName",
+                                                    msg.subject,
                                                     newConnectionId,
                                                     "outlook2012",
                                                     1,//onDiskFileContentsSize,
                                                     newSha1ofFileContents,
-                                                    "INBOX",//fullFileNamePath,
-                                                    "EMAIL",//documentType,
+                                                    "email.txt",//fullFileNamePath,
+                                                    "|DOCUMENT|",//documentType,
                                                     JSON.stringify({} , null, 2),
                                                     JSON.stringify([{message: 'No preview available'}] , null, 2),
                                                     timestampInSeconds(),
