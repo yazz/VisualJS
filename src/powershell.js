@@ -131,6 +131,9 @@ function insertNewMessage(  sourceMessageId, folder,messageClient  ) {
     }
 }
 var numberOfSecondsIndexMessagesInterval = 8;
+function timestampInSeconds() {
+    return Math.floor(Date.now() / 1000)
+}
 
 
 //-----------------------------------------------------------------------------------------//
@@ -724,7 +727,39 @@ function indexMessagesBodyFn() {
                                 stmtSetMessageToBodyRead.run(msg.source_id,
                                     function(err) {
                                         console.log('set message to body read');
-                                        inIndexMessagesBodyFn = false;
+                                        var newConnectionId = uuidv1();
+                                        stmtInsertIntoConnections.run(
+                                            newConnectionId,
+                                            "Email screenName",
+                                            "outlook2010",
+                                            "email",
+                                            "|EMAIL|",
+        
+                                            function(err) {
+                                                var newqueryid = uuidv1();
+                                                stmtInsertInsertIntoQueries.run(
+            
+                                                    newqueryid,
+                                                    "fileScreenName",
+                                                    newConnectionId,
+                                                    "outlook2012",
+                                                    1,//onDiskFileContentsSize,
+                                                    "newSha1ofFileContents",
+                                                    "INBOX",//fullFileNamePath,
+                                                    "EMAIL",//documentType,
+                                                    JSON.stringify({} , null, 2),
+                                                    JSON.stringify([{message: 'No preview available'}] , null, 2),
+                                                    timestampInSeconds(),
+            
+                                                    function(err2) {
+                                                        if (err2) {
+                                                            console.log('   1033 err2 : ' + err2);
+                                                            stmtUpdateFileStatus.run( "ERROR", returnedRecord.id, function(err) {})
+                                                        } else {
+                                                            inIndexMessagesBodyFn = false;
+                                                        }
+                                                    })
+                                            })
                                     })
                                     ///zzz
                             } else {
