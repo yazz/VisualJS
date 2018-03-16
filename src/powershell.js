@@ -525,7 +525,7 @@ function get_message_body_by_entry_id(i,cb) {
     
     var commands =[
         "$inbox = $mapi.GetDefaultFolder([Microsoft.Office.Interop.Outlook.OlDefaultFolders]::olFolderInbox)",
-        "$mail = $inbox.Items | select EntryId, Body  | Where-Object {$_.EntryId -eq '" + i.toString() + "'}",
+        "$mail = $inbox.Items | select EntryId, Body  | Where-Object {$_.EntryId -eq '" + i.toString() + "'} | select Body",
         "echo $mail | Format-Table -Wrap -HideTableHeaders"
         ];
 
