@@ -2593,6 +2593,27 @@ function downloadWebDocument(queryId, callbackFn) {
                             callbackFn({result: html})
                         })
                         .done();
+
+
+
+
+
+                    } else if (contentRow.driver.toLowerCase().endsWith("outlook2012") ) {
+                        try {
+                            console.log('1')
+                            html = "<pre>";
+                            var contents = rows[0].content.toString()
+                            html += contents;
+                            html += "</pre>";
+                            callbackFn({result: html})
+
+                        }
+                        catch(err) {
+                            callbackFn({result: "<div>Big Error: " + err + "</div>"})
+                        }
+
+
+
                     } else if (contentRow.driver.toLowerCase().endsWith("excel") ) {
                         try {
                             var buffer = new Buffer(rows[0].content, 'binary');
@@ -2606,6 +2627,10 @@ function downloadWebDocument(queryId, callbackFn) {
                         } catch(error) {
                             callbackFn({result: "<div>Error: " + error + "</div>"})
                         }
+
+
+
+
                     } else if (contentRow.driver.toLowerCase().endsWith("csv") ) {
                         try {
                             html = "<table>";
