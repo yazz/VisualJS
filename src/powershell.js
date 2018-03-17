@@ -838,7 +838,20 @@ function indexMessagesBodyFn() {
                                                                 })
                                                             } else {
                                                                 inIndexMessagesBodyFn = false;
-                                                            }
+
+                                                                process.send({
+                                                                    message_type:       "return_set_query",
+                                                                    id:                 newqueryid,
+                                                                    name:               msg.subject,
+                                                                    connection:         newConnectionId,
+                                                                    driver:             "outlook2012",
+                                                                    size:               0,
+                                                                    hash:               newSha1ofFileContents,
+                                                                    fileName:           "email.txt",
+                                                                    type:               "outlook2012",
+                                                                    definition:         JSON.stringify({} , null, 2),
+                                                                    preview:            JSON.stringify([{message: 'No preview available'}] , null, 2)});
+                                                    }
                                                         })
                                                         
                                                 })
