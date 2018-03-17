@@ -116,9 +116,9 @@ function insertNewMessage(  sourceMessageId, folder,messageClient  ) {
                                         function(err) {
                                             //console.log('added message to sqlite with err: ' + err);
                                             //console.log('                      source id: ' + sourceMessageId);
-                                            });
+                                            dbsearch.run("commit");
+                                        });
 
-                                    dbsearch.run("commit");
                                 })
                             } catch (err) {
                                 console.log("Error " + err + " with file: " + sourceMessageId);
@@ -664,18 +664,18 @@ function indexMessagesFn() {
                                         msg.source_id,
                                         function(err) {
                                             //console.log('Updated message: ' + messageViaPowershell.entry_subject);
+                                            dbsearch.run("commit");
                                             inIndexMessagesFn = false;
                                         })
-                                        dbsearch.run("commit");
                                     })
                                 } else {
-                                stmtSetMessageToError.run(msg.source_id,
-                                    function(err) {
-                                        dbsearch.serialize(function() {
-                                            dbsearch.run("begin exclusive transaction");
-                                            console.log('set message to error');
-                                            inIndexMessagesFn = false;
-                                            dbsearch.run("commit");
+                                    dbsearch.serialize(function() {
+                                        dbsearch.run("begin exclusive transaction");
+                                        stmtSetMessageToError.run(msg.source_id,
+                                            function(err) {
+                                                console.log('set message to error');
+                                                inIndexMessagesFn = false;
+                                                dbsearch.run("commit");
                                         })
                                     })
                                 }
@@ -741,8 +741,8 @@ function createContent( contents,  sha1ofFileContents ) {
 
                         function(err) {
                             //console.log('added file to sqlite');
-                            });
-                    dbsearch.run("commit");
+                            dbsearch.run("commit");
+                        });
                 })
             } catch (err) {
             console.log(err);
@@ -808,6 +808,7 @@ function indexMessagesBodyFn() {
                                             "|EMAIL|DOCUMENT|",
         
                                             function(err) {
+                                                dbsearch.run("commit");
                                                 dbsearch.serialize(function() {
                                                     dbsearch.run("begin exclusive transaction");
                                                     var newqueryid = uuidv1();
@@ -826,22 +827,24 @@ function indexMessagesBodyFn() {
                                                         timestampInSeconds(),
                 
                                                         function(err2) {
+                                                            dbsearch.run("commit");
                                                             if (err2) {
                                                                 console.log('   1033 err2 : ' + err2);
                                                                 dbsearch.serialize(function() {
                                                                     dbsearch.run("begin exclusive transaction");                                                                
-                                                                    stmtUpdateFileStatus.run( "ERROR", returnedRecord.id, function(err) {})
-                                                                    dbsearch.run("commit");                                                                
+                                                                    stmtUpdateFileStatus.run( "ERROR", returnedRecord.id, function(err) {
+                                                                        dbsearch.run("commit");
+                                                                    })
                                                                 })
                                                             } else {
                                                                 inIndexMessagesBodyFn = false;
                                                             }
                                                         })
-                                                        dbsearch.run("commit");
+                                                        
                                                 })
                                             })
                                         })
-                                        dbsearch.run("commit");
+                                        
                                     })
                                     ///zzz
                             } else {
@@ -850,10 +853,11 @@ function indexMessagesBodyFn() {
 
                                     stmtSetMessageToBodyError.run(msg.source_id,
                                             function(err) {
+                                                dbsearch.run("commit");
                                                 console.log('set message to error');
                                                 inIndexMessagesBodyFn = false;
                                     })
-                                    dbsearch.run("commit");
+                                    
                                 })
                                     }
                     })
