@@ -529,7 +529,7 @@ function getRelatedDocumentHashes(  doc_hash,  callback  ) {
                 if (!err)
                 {
                     dbsearch.serialize(function() {
-                        dbsearch.run("begin transaction");
+                        dbsearch.run("begin exclusive transaction");
                         for (var i =0 ; i < results.length; i++) {
                             if (results[i]) {
                                 var target_hash = results[i].hash;
@@ -733,7 +733,7 @@ function getResult(  source,  connection,  driver,  definition,  callback  ) {
         try {
             //console.log("22");
             dbsearch.serialize(function() {
-                dbsearch.run("begin transaction");
+                dbsearch.run("begin exclusive transaction");
                 setIn.run("PROCESSING" ,source);
                 dbsearch.run("commit");
                 //console.log('**** drivers[driver] = ' + driver)
@@ -745,7 +745,7 @@ function getResult(  source,  connection,  driver,  definition,  callback  ) {
                         //console.log("****************** err 4:" + ordata.error);
                         dbsearch.serialize(function() {
                             //console.log("25");
-                            dbsearch.run("begin transaction");
+                            dbsearch.run("begin exclusive transaction");
                             setIn.run("ERROR: " + ordata.error,source);
                             dbsearch.run("commit");
                             callback.call(this,{error: true});
@@ -793,7 +793,7 @@ function getResult(  source,  connection,  driver,  definition,  callback  ) {
 
                                                 if (rrows && rrows.length) {
 
-                                                    dbsearch.run("begin transaction");
+                                                    dbsearch.run("begin exclusive transaction");
                                                     //console.log("Committing... " + rrows.length)
                                                     for (var i =0 ; i < rrows.length; i++) {
                                                         var rowhash = crypto.createHash('sha1');
@@ -818,7 +818,7 @@ function getResult(  source,  connection,  driver,  definition,  callback  ) {
                                                 } else {
                                                     //console.log("****************** err 2");
                                                     callback.call(this,{error: true});
-                                                    dbsearch.run("begin transaction");
+                                                    dbsearch.run("begin exclusive transaction");
                                                     setIn.run("INDEXED: Other error",source);
                                                     dbsearch.run("commit");
                                                 }
@@ -827,7 +827,7 @@ function getResult(  source,  connection,  driver,  definition,  callback  ) {
                                             //console.log("****************** err 5: no rows");
                                             callback.call(this,ordata);
                                             dbsearch.serialize(function() {
-                                                dbsearch.run("begin transaction");
+                                                dbsearch.run("begin exclusive transaction");
                                                 setIn.run("INDEXED: ",source);
                                                 dbsearch.run("commit");
                                             });
@@ -835,7 +835,7 @@ function getResult(  source,  connection,  driver,  definition,  callback  ) {
                                     } else {
                                         //console.log("****************** err 3" + err);
                                         dbsearch.serialize(function() {
-                                            dbsearch.run("begin transaction");
+                                            dbsearch.run("begin exclusive transaction");
                                             setIn.run("ERROR: " + err, source);
                                             dbsearch.run("commit");
                                             callback.call(this,{error: true});
@@ -859,7 +859,7 @@ function getResult(  source,  connection,  driver,  definition,  callback  ) {
         //console.log("****************** err 7 child for connection: " +connection );
         dbsearch.serialize(function() {
             //console.log("05");
-            dbsearch.run("begin transaction");
+            dbsearch.run("begin exclusive transaction");
             setIn.run("ERROR: no connection for " + source , source);
             dbsearch.run("commit");
             callback.call(this,{error: true});
