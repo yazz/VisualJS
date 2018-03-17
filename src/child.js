@@ -2601,10 +2601,10 @@ function downloadWebDocument(queryId, callbackFn) {
                     } else if (contentRow.driver.toLowerCase().endsWith("outlook2012") ) {
                         try {
                             console.log('1')
-                            html = "<code>";
+                            html = "<pre>";
                             var contents = rows[0].content.toString()
                             html += contents;
-                            html += "</code>";
+                            html += "</pre>";
                             callbackFn({result: html})
 
                         }

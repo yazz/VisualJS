@@ -775,9 +775,10 @@ function indexMessagesBodyFn() {
                         get_message_body_by_entry_id( msg.source_id , function(messageViaPowershell) {
                             //console.log("    eee: " + JSON.stringify(messageViaPowershell,null,2))
                             if (messageViaPowershell) {
+                              var emailBody = messageViaPowershell.body.replace(/[\n\r|�]/g, '\n');
                           
                                 console.log("message body: " + messageViaPowershell.body);
-                                var newSha1ofFileContents = getSha1(messageViaPowershell.body)
+                                var newSha1ofFileContents = getSha1(emailBody)
 
                                 stmtSetMessageToBodyRead.run(msg.source_id,
                                     function(err) {
