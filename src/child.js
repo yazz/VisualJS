@@ -543,8 +543,9 @@ function getRelatedDocumentHashes(  doc_hash,  callback  ) {
 
 
                         }
-                        stmtUpdateRelationships.run('INDEXED', doc_hash);
-                        dbsearch.run("commit");
+                        stmtUpdateRelationships.run('INDEXED', doc_hash, function(err) {
+                            dbsearch.run("commit");
+                        });
                     })
 
                     //console.log("       OK")
@@ -734,7 +735,7 @@ function getResult(  source,  connection,  driver,  definition,  callback  ) {
             //console.log("22");
             dbsearch.serialize(function() {
                 dbsearch.run("begin exclusive transaction");
-                setIn.run("PROCESSING" ,source, function(){
+                setIn.run("PROCESSING" ,source, function(err){
                     dbsearch.run("commit");
                     //console.log('**** drivers[driver] = ' + driver)
                     //console.log('**** drivers.len = ' + drivers[driver].get_v2)
@@ -746,8 +747,12 @@ function getResult(  source,  connection,  driver,  definition,  callback  ) {
                             dbsearch.serialize(function() {
                                 //console.log("25");
                                 dbsearch.run("begin exclusive transaction");
-                                setIn.run("ERROR: " + ordata.error,source);
-                                dbsearch.run("commit");
+                                setIn.run("ERROR: " + ordata.error,
+                                    source,
+                                    function(err) {
+                                        dbsearch.run("commit");
+                                    });
+                                
                                 callback.call(this,{error: true});
                             });
 
@@ -812,8 +817,10 @@ function getResult(  source,  connection,  driver,  definition,  callback  ) {
                                                         //console.log('                 : ' + JSON.stringify(rrows.length));
 
                                                         //console.log('                 source: ' + JSON.stringify(source));
-                                                        setIn.run("INDEXED",source);
-                                                        dbsearch.run("commit");
+                                                        setIn.run("INDEXED",source, function(err) {
+                                                            dbsearch.run("commit");
+                                                        });
+                                                        
 
                                                     } else {
                                                         //console.log("****************** err 2");
@@ -836,8 +843,10 @@ function getResult(  source,  connection,  driver,  definition,  callback  ) {
                                             //console.log("****************** err 3" + err);
                                             dbsearch.serialize(function() {
                                                 dbsearch.run("begin exclusive transaction");
-                                                setIn.run("ERROR: " + err, source);
-                                                dbsearch.run("commit");
+                                                setIn.run("ERROR: " + err, source, function(err) {
+                                                    dbsearch.run("commit");
+                                                });
+                                                
                                                 callback.call(this,{error: true});
                                             });
                                         }
@@ -862,8 +871,10 @@ function getResult(  source,  connection,  driver,  definition,  callback  ) {
         dbsearch.serialize(function() {
             //console.log("05");
             dbsearch.run("begin exclusive transaction");
-            setIn.run("ERROR: no connection for " + source , source);
-            dbsearch.run("commit");
+            setIn.run("ERROR: no connection for " + source , source, function(err){
+                dbsearch.run("commit");
+            });
+            
             callback.call(this,{error: true});
         });
     }
