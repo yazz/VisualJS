@@ -2330,6 +2330,10 @@ function setUpDbDrivers() {
 
 
 
+	pgeval = '(' + fs.readFileSync(path.join(__dirname, './outlook2010.js')).toString() + ')';
+    setSharedGlobalVar("drivers", 'outlook2010', pgeval );
+	addOrUpdateDriver('outlook2010', pgeval, drivers['outlook2010'])
+
 	toeval =  '(' + fs.readFileSync(path.join(__dirname, './oracle.js')).toString() + ')';
     setSharedGlobalVar("drivers", 'oracle', toeval );
 	addOrUpdateDriver('oracle',   toeval, drivers['oracle'])
