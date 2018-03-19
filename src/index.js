@@ -1304,7 +1304,7 @@ function add_new_queryFn(req, res) {
     res.end(JSON.stringify({done: "ok"}))};
 
 
-
+var mainNodeProcessStarted = false;
 
 
 
@@ -1395,7 +1395,10 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
         } else if (msg.message_type == "createdTablesInChild") {
             forkedProcesses["forked"].send({ message_type: "init" });
-            getPort()
+            if (!mainNodeProcessStarted) {
+                mainNodeProcessStarted = true
+                getPort()
+            }
 
 
         } else if (msg.message_type == "parentSetSharedGlobalVar") {
