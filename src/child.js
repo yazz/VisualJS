@@ -2329,7 +2329,7 @@ function setUpDbDrivers() {
 	addOrUpdateDriver('mysql', pgeval, drivers['mysql'])
 
 
-
+console.log("----------------------- trying to load Outlook driver")
 	pgeval = '(' + fs.readFileSync(path.join(__dirname, './outlook2010.js')).toString() + ')';
     setSharedGlobalVar("drivers", 'outlook2010', pgeval );
 	addOrUpdateDriver('outlook2010', pgeval, drivers['outlook2010'])
@@ -3068,3 +3068,10 @@ function get_all_tableFn(  tableName, fields, callbackFn  ) {
             };
         })
 };
+
+
+
+setInterval(function() {
+    var d2=drivers
+    console.log('Do something: ' + Object.keys(drivers))
+}, 5000)
