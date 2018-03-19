@@ -797,10 +797,10 @@ function indexMessagesBodyFn() {
                                 dbsearch.serialize(function() {
                                     dbsearch.run("begin exclusive transaction");
                                     stmtSetMessageToBodyRead.run(msg.source_id,
-                                    function(err) {
-                                        console.log('set message to body read');
-                                        var newConnectionId = uuidv1();
-                                        stmtInsertIntoConnections.run(
+                                        function(err) {
+                                            console.log('set message to body read');
+                                            var newConnectionId = uuidv1();
+                                            stmtInsertIntoConnections.run(
                                             newConnectionId,
                                             msg.subject,
                                             "outlook2010",
@@ -827,7 +827,6 @@ function indexMessagesBodyFn() {
                                                         timestampInSeconds(),
                 
                                                         function(err2) {
-                                                            dbsearch.run("commit");
                                                             if (err2) {
                                                                 console.log('   1033 err2 : ' + err2);
                                                                 dbsearch.serialize(function() {
@@ -837,6 +836,7 @@ function indexMessagesBodyFn() {
                                                                     })
                                                                 })
                                                             } else {
+                                                                dbsearch.run("commit");
                                                                 inIndexMessagesBodyFn = false;
 
                                                                 process.send({
@@ -872,7 +872,7 @@ function indexMessagesBodyFn() {
                                     })
                                     
                                 })
-                                    }
+                            }
                     })
                 } else {
                     console.log("          else: ");
