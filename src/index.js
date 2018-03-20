@@ -229,7 +229,7 @@ program
   .parse(process.argv);
 
 var semver = require('semver')
-  
+
 var debug = false;
 console.log("NodeJS version: " + process.versions.node);
 if (semver.gt(process.versions.node, '6.9.0')) {
@@ -1727,9 +1727,9 @@ function startServices() {
     //------------------------------------------------------------------------------
     // test get JSON
     //------------------------------------------------------------------------------
-    app.get('/zubair', function (req, res) {
-        res.writeHead(200, {'Content-Type': 'text/plain'});
-        res.end(JSON.stringify({    a: 1      }));
+    app.get('/test', function (req, res) {
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify({    OK: true      }));
     });
 
 
