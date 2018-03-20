@@ -1733,6 +1733,13 @@ function startServices() {
     });
 
 
+    //------------------------------------------------------------------------------
+    // test get JSON
+    //------------------------------------------------------------------------------
+    app.get('/ls', function (req, res) {
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify({    list: 'Get all folders'      }));
+    });
 
 
 
