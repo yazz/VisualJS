@@ -752,7 +752,7 @@ function getResult(  source,  connection,  driver,  definition,  callback  ) {
                                     function(err) {
                                         dbsearch.run("commit");
                                     });
-                                
+
                                 callback.call(this,{error: true});
                             });
 
@@ -820,7 +820,7 @@ function getResult(  source,  connection,  driver,  definition,  callback  ) {
                                                         setIn.run("INDEXED",source, function(err) {
                                                             dbsearch.run("commit");
                                                         });
-                                                        
+
 
                                                     } else {
                                                         //console.log("****************** err 2");
@@ -846,14 +846,14 @@ function getResult(  source,  connection,  driver,  definition,  callback  ) {
                                                 setIn.run("ERROR: " + err, source, function(err) {
                                                     dbsearch.run("commit");
                                                 });
-                                                
+
                                                 callback.call(this,{error: true});
                                             });
                                         }
                                     });
                             })
 
-                    }})                    
+                    }})
                 });
 
             }
@@ -874,7 +874,7 @@ function getResult(  source,  connection,  driver,  definition,  callback  ) {
             setIn.run("ERROR: no connection for " + source , source, function(err){
                 dbsearch.run("commit");
             });
-            
+
             callback.call(this,{error: true});
         });
     }
@@ -3084,5 +3084,5 @@ function get_all_tableFn(  tableName, fields, callbackFn  ) {
 
 setInterval(function() {
     var d2=drivers
-    console.log('Do something: ' + Object.keys(drivers))
+    //console.log('Do something: ' + Object.keys(drivers))
 }, 5000)
