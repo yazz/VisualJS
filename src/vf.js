@@ -21,7 +21,7 @@ if (firstArg == '--host') {
     usePort = process.argv.shift()
     firstArg =  process.argv.shift()
 }
-console.log("Connecting to: " + useHost + ":" + usePort);
+//console.log("Connecting to: " + useHost + ":" + usePort);
 
 
 //console.log (process.argv)
