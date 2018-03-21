@@ -26,48 +26,27 @@ console.log("Connecting to: " + useHost + ":" + usePort);
 var options = {
   host: useHost,
   port: usePort,
-  path: '/test',
+  path: '/vf',
   method: 'GET'
 };
 
 //console.log (process.argv)
 if (!firstArg) {
-    console.log('Welcome to VF')
+    console.log(`
+        Welcome to VisiFile
+
+        Command available are:
+
+        - test.
+        - ls.
+        `)
 
 
 
-} else if (firstArg == 'test') {
+} else {
+    process.argv.unshift(firstArg)
+    options.qs = process.argv
 
-    var req = http.request(options, function(res) {
-      res.setEncoding('utf8');
-      res.on('data', function (chunk) {
-        console.log(chunk);
-      });
-    });
-
-    req.on('error', function(e) {
-      console.log('problem with request: ' + e.message);
-    });
-
-
-    req.end();
-} else if (firstArg == 'ls') {
-    options.path = '/ls'
-    var req = http.request(options, function(res) {
-      res.setEncoding('utf8');
-      res.on('data', function (chunk) {
-        console.log(chunk);
-      });
-    });
-
-    req.on('error', function(e) {
-      console.log('problem with request: ' + e.message);
-    });
-
-
-    req.end();
-} else if (firstArg == 'zubair') {
-    options.path = '/zubair'
     var req = http.request(options, function(res) {
       res.setEncoding('utf8');
       res.on('data', function (chunk) {
