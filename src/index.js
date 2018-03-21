@@ -1743,6 +1743,14 @@ function startServices() {
             for (var i =0 ; i< driverNames.length; i ++) {
                 result += driverNames[i] + "\n"
             }
+
+
+        } else if ((countArgs == 1) && (verb == 'test')) {
+            result += "Test successful. Connected to " + hostaddress + ":" + port
+
+
+        } else {
+            result += "Unknown command: '" + verb + "'"
         }
 
         res.writeHead(200, {'Content-Type': 'application/json'});
