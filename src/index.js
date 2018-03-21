@@ -1731,8 +1731,9 @@ function startServices() {
     // test get JSON
     //------------------------------------------------------------------------------
     app.get('/vf', function (req, res) {
+        console.log("Received: " + JSON.stringify(url.parse(req.url, true).query))
+
         res.writeHead(200, {'Content-Type': 'application/json'});
-        console.log("Received: " + req.query.a)
         res.end(JSON.stringify({    OK: true      }));
     });
 

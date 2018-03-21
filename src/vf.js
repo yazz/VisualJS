@@ -26,8 +26,9 @@ console.log("Connecting to: " + useHost + ":" + usePort);
 var options = {
   host: useHost,
   port: usePort,
-  path: '/vf',
-  method: 'GET'
+  path: '/vf?a=12',
+  method: 'GET',
+  qs: {a: 1}
 };
 
 //console.log (process.argv)
@@ -45,7 +46,7 @@ if (!firstArg) {
 
 } else {
     process.argv.unshift(firstArg)
-    options.qs = process.argv
+    //options.query.a = process.argv
 
     var req = http.request(options, function(res) {
       res.setEncoding('utf8');
