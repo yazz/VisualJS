@@ -19,6 +19,12 @@
 !/snap/snapcraft.yaml
 
 
+!/.vscode/
+!/.vscode/*
+!/.vscode/*/*
+!/.vscode/*/*/*
+!/.vscode/*/*/*/*
+
 
 /instantclient32/
 /instantclient32/*

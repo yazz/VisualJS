@@ -1,0 +1,51 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Program",
+            "protocol": "inspector",
+            "args": ["--debug", "true", "--nogui", "true"],
+            "program": "${workspaceFolder}\\src\\index.js",
+            "autoAttachChildProcesses": true
+        }
+        ,
+        {
+            "type": "node",
+            "request": "attach",
+            "name": "Launch PowerShell",
+            "protocol": "inspector",
+            "port": 40000
+        }
+        ,
+        {
+            "type": "node",
+            "request": "attach",
+            "name": "Launch Child 0",
+            "protocol": "inspector",
+            "port": 40001
+        }
+        
+        ,
+        {
+            "type": "node",
+            "request": "attach",
+            "name": "Launch Child 3",
+            "protocol": "inspector",
+            "port": 40002
+        }
+        
+        ,
+        {
+            "type": "node",
+            "request": "attach",
+            "name": "Launch Child 3",
+            "protocol": "inspector",
+            "port": 40003
+        }
+    ]
+}
