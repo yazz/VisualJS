@@ -224,6 +224,7 @@ program
   .option('-p, --port [port]', 'Which port should I listen on? (default 80) [port]', parseInt)
   .option('-h, --host [host]', 'Server address of the central host (default visifile.com) [host]', 'visifile.com')
   .option('-l, --locked [locked]', 'Allow server to be locked/unlocked on start up (default true) [locked]', 'true')
+  .option('-l, --nogui [nogui]', 'Allow server to be run in headless mode (default false) [nogui]', 'false')
   .option('-d, --debug [debug]', 'Allow to run in debug mode (default false) [debug]', 'false')
   .option('-s, --hostport [hostport]', 'Server port of the central host (default 80) [hostport]', parseInt)
   .parse(process.argv);
@@ -244,6 +245,7 @@ if (program.debug == 'true') {
 
 
 locked = (program.locked == 'true');
+var nogui = (program.nogui == 'true');
 port = program.port;
 if (!isNumber(port)) {
     port = 80;
@@ -1125,8 +1127,9 @@ function open_query_in_native_appFn(req, res) {
 	////console.log('query driver: ' + connections[queryData.source].driver);
 	try {
 		//drivers[connections[queryData.source].driver]['get_v2'](connections[queryData.source],{sql: queryData.sql},function(ordata) {
-		   open(connections[queries[queryData.source].connection].fileName);
-
+            if(!nogui) {
+		       open(connections[queries[queryData.source].connection].fileName);
+            }
 		   res.writeHead(200, {'Content-Type': 'text/plain'});
 			res.end(JSON.stringify(ordata));
 	}
@@ -1727,19 +1730,12 @@ function startServices() {
     //------------------------------------------------------------------------------
     // test get JSON
     //------------------------------------------------------------------------------
-    app.get('/test', function (req, res) {
+    app.get('/vf', function (req, res) {
         res.writeHead(200, {'Content-Type': 'application/json'});
+        console.log("Received: " + req.query.a)
         res.end(JSON.stringify({    OK: true      }));
     });
 
-
-    //------------------------------------------------------------------------------
-    // test get JSON
-    //------------------------------------------------------------------------------
-    app.get('/ls', function (req, res) {
-        res.writeHead(200, {'Content-Type': 'application/json'});
-        res.end(JSON.stringify({    list: 'Get all folders'      }));
-    });
 
 
 
@@ -2064,8 +2060,9 @@ var alreadyOpen = false;
 	if (typeOfSystem == 'client') {
         var localClientUrl = 'http://' + hostaddress  + ":" + port;
         var remoteServerUrl = 'http://' + centralHostAddress  + ":" + centralHostPort + "/visifile/list_intranet_servers.html?time=" + new Date().getTime();
-        open(localClientUrl);
-
+        if(!nogui) {
+            open(localClientUrl);
+        }
 
         request({
                   uri: remoteServerUrl,
