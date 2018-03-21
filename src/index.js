@@ -1731,10 +1731,12 @@ function startServices() {
     // test get JSON
     //------------------------------------------------------------------------------
     app.get('/vf', function (req, res) {
-        console.log("Received: " + JSON.stringify(url.parse(req.url, true).query))
+        //console.log("Received: " + JSON.parse(url.parse(req.url, true).query.a))
+        var result = url.parse(req.url, true).query.a;
+        console.log("Received: " + result)
 
         res.writeHead(200, {'Content-Type': 'application/json'});
-        res.end(JSON.stringify({    OK: true      }));
+        res.end(JSON.stringify({    OK: result      }));
     });
 
 

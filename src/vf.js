@@ -23,13 +23,6 @@ if (firstArg == '--host') {
 }
 console.log("Connecting to: " + useHost + ":" + usePort);
 
-var options = {
-  host: useHost,
-  port: usePort,
-  path: '/vf?a=12',
-  method: 'GET',
-  qs: {a: 1}
-};
 
 //console.log (process.argv)
 if (!firstArg) {
@@ -47,6 +40,14 @@ if (!firstArg) {
 } else {
     process.argv.unshift(firstArg)
     //options.query.a = process.argv
+    
+    var options = {
+      host: useHost,
+      port: usePort,
+      path: '/vf?' + serialize({a: process.argv}),
+      method: 'GET'
+    };
+
 
     var req = http.request(options, function(res) {
       res.setEncoding('utf8');
@@ -62,3 +63,16 @@ if (!firstArg) {
 
     req.end();
 }
+
+
+
+
+function serialize(obj) {
+  var str = [];
+  for (var p in obj)
+    if (obj.hasOwnProperty(p)) {
+      str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+    }
+  return str.join("&");
+}
+console.log(serialize({a: [1, 2, 4]}))
