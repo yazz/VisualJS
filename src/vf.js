@@ -43,10 +43,10 @@ if (!firstArg) {
     
     var args = process.argv
 
-    console.log("Args JSON: " + JSON.stringify(args,null,2))
+    //console.log("Args JSON: " + JSON.stringify(args,null,2))
 
     var args2 = encodeURI(JSON.stringify(args))
-    console.log("Args seralized: " + args2)
+    //console.log("Args seralized: " + args2)
 
     var options = {
       host: useHost,

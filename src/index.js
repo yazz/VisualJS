@@ -1739,9 +1739,9 @@ function startServices() {
         var countArgs = args.length
         var verb = args[0]
         if ((countArgs == 1) && (verb == 'ls')) {
-            var driverKeys = Object.keys(drivers)
-            for (var i =0 ; i< driverKeys.length; i ++) {
-                result += drivers[driverKeys[i]].name + "\n"
+            var driverNames = lsFn()
+            for (var i =0 ; i< driverNames.length; i ++) {
+                result += driverNames[i] + "\n"
             }
         }
 
@@ -1750,6 +1750,20 @@ function startServices() {
     });
 
 
+    //zzz
+    //------------------------------------------------------------------------------
+    // ls
+    //------------------------------------------------------------------------------
+    app.get('/ls', function (req, res) {
+        var result = []
+        var driverNames = lsFn()
+        for (var i =0 ; i< driverNames.length; i ++) {
+            result.push(driverNames[i] )
+        }
+
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify({    OK: result      }));
+    });
 
 
     //------------------------------------------------------------------------------
@@ -2145,3 +2159,13 @@ setInterval(function() {
 
 
 const shell = require('node-powershell');
+
+//zzz
+function lsFn() {
+    var result = []
+    var driverKeys = Object.keys(drivers)
+    for (var i =0 ; i< driverKeys.length; i ++) {
+        result.push(drivers[driverKeys[i]].name) 
+    }
+    return result;
+}
