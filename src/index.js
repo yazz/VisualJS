@@ -1731,9 +1731,19 @@ function startServices() {
     // test get JSON
     //------------------------------------------------------------------------------
     app.get('/vf', function (req, res) {
-        //console.log("Received: " + JSON.parse(url.parse(req.url, true).query.a))
-        var result = url.parse(req.url, true).query.a;
+        var args2 = decodeURI(url.parse(req.url, true).query.a);
+        var args  = JSON.parse(args2);
         console.log("Received: " + result)
+        
+        var result = ""
+        var countArgs = args.length
+        var verb = args[0]
+        if ((countArgs == 1) && (verb == 'ls')) {
+            var driverKeys = Object.keys(drivers)
+            for (var i =0 ; i< driverKeys.length; i ++) {
+                result += drivers[driverKeys[i]].name + "\n"
+            }
+        }
 
         res.writeHead(200, {'Content-Type': 'application/json'});
         res.end(JSON.stringify({    OK: result      }));

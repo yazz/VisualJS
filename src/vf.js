@@ -41,10 +41,17 @@ if (!firstArg) {
     process.argv.unshift(firstArg)
     //options.query.a = process.argv
     
+    var args = process.argv
+
+    console.log("Args JSON: " + JSON.stringify(args,null,2))
+
+    var args2 = encodeURI(JSON.stringify(args))
+    console.log("Args seralized: " + args2)
+
     var options = {
       host: useHost,
       port: usePort,
-      path: '/vf?' + serialize({a: process.argv}),
+      path: '/vf?a=' + args2,
       method: 'GET'
     };
 
@@ -52,7 +59,8 @@ if (!firstArg) {
     var req = http.request(options, function(res) {
       res.setEncoding('utf8');
       res.on('data', function (chunk) {
-        console.log(chunk);
+          var result = JSON.parse(chunk)
+        console.log(result.OK);
       });
     });
 
@@ -75,4 +83,3 @@ function serialize(obj) {
     }
   return str.join("&");
 }
-console.log(serialize({a: [1, 2, 4]}))
