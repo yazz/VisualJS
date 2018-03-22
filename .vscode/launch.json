@@ -9,8 +9,8 @@
             "request": "launch",
             "name": "Launch Program",
             "protocol": "inspector",
-            "args": ["--debug", "true", "--nogui", "true"],
-            "program": "${workspaceFolder}\\src\\index.js",
+            "args": ["--debug", "false", "--nogui", "true"],
+            "program": "${workspaceFolder}/src/index.js",
             "autoAttachChildProcesses": true
         }
         ,
