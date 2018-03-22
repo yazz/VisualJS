@@ -1739,27 +1739,36 @@ function startServices() {
         var countArgs = args.length
         var verb = args[0]
         if ((countArgs == 1) && (verb == 'ls')) {
-            var serverNames = lsFn()
-            for (var i =0 ; i< serverNames.length; i ++) {
-                result += serverNames[i] + "\n"
-            }
+            var serverNames = lsFn(function(servers){
+                for (var i =0 ; i< servers.length; i ++) {
+                    var addr = servers[i].internal_host + ":" + servers[i].internal_port
+                    result += addr + "\n"
+                }
+                res.writeHead(200, {'Content-Type': 'application/json'});
+                res.end(JSON.stringify({    OK: result      }));
+                return
+        })
         } else if ((countArgs == 1) && (verb == 'drivers')) {
             var driverNames = driversFn()
             for (var i =0 ; i< driverNames.length; i ++) {
                 result += driverNames[i] + "\n"
             }
+            res.writeHead(200, {'Content-Type': 'application/json'});
+            res.end(JSON.stringify({    OK: result      }));
 
 
         } else if ((countArgs == 1) && (verb == 'test')) {
             result += "Test successful. Connected to " + hostaddress + ":" + port
-
+            res.writeHead(200, {'Content-Type': 'application/json'});
+            res.end(JSON.stringify({    OK: result      }));
+    
 
         } else {
             result += "Unknown command: '" + verb + "'"
-        }
+            res.writeHead(200, {'Content-Type': 'application/json'});
+            res.end(JSON.stringify({    OK: result      }));
+            }
 
-        res.writeHead(200, {'Content-Type': 'application/json'});
-        res.end(JSON.stringify({    OK: result      }));
     });
 
 
@@ -1776,12 +1785,12 @@ function startServices() {
         var serverNames = lsFn(function(servers) {
             result.links.servers = {}
             for (var i =0 ; i< servers.length; i ++) {
-                var addr = servers[i].internal_host + ":" + servers[i].internal_port 
+                var addr = servers[i].internal_host + ":" + servers[i].internal_port
                 result.list.push( addr )
                 result.links.servers[addr] =
                     {"href": "http://" +  addr + "/ls" }
             }
-            
+
             res.writeHead(200, {'Content-Type': 'application/json'});
             res.end(JSON.stringify(result));        })
 
@@ -2209,7 +2218,7 @@ const shell = require('node-powershell');
 
 //zzz
 function lsFn(callbackFn) {
-    var remoteServerUrl = 'http://' + centralHostAddress  + ":" + 
+    var remoteServerUrl = 'http://' + centralHostAddress  + ":" +
         centralHostPort + "/get_intranet_servers?time=" + new Date().getTime();
 
     request({
