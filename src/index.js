@@ -1739,7 +1739,12 @@ function startServices() {
         var countArgs = args.length
         var verb = args[0]
         if ((countArgs == 1) && (verb == 'ls')) {
-            var driverNames = lsFn()
+            var serverNames = lsFn()
+            for (var i =0 ; i< serverNames.length; i ++) {
+                result += serverNames[i] + "\n"
+            }
+        } else if ((countArgs == 1) && (verb == 'drivers')) {
+            var driverNames = driversFn()
             for (var i =0 ; i< driverNames.length; i ++) {
                 result += driverNames[i] + "\n"
             }
@@ -1764,23 +1769,44 @@ function startServices() {
     //------------------------------------------------------------------------------
     app.get('/ls', function (req, res) {
         var result = {
-                        values: [],
-                        _links: {"self": { "href": "/ls" }}
+                        list:  [],
+                        links: {"self": { "href": "/ls" }},
+                        error: false
                     }
-        var driverNames = lsFn()
-        for (var i =0 ; i< driverNames.length; i ++) {
-            result.values.push(
-                {
-                    name: driverNames[i]
-                    ,
-                    _links: {
-                        self: { "href": "/ls/" +  driverNames[i]}}
-            })
+        var serverNames = lsFn()
+        result.links.servers = {}
+        for (var i =0 ; i< serverNames.length; i ++) {
+            result.list.push( serverNames[i] )
+            result.links.servers[serverNames[i]] =
+                {"href": "/ls/" +  serverNames[i]}
         }
 
 
         res.writeHead(200, {'Content-Type': 'application/json'});
-        res.end(JSON.stringify({    OK: result      }));
+        res.end(JSON.stringify(result));
+    });
+
+
+    //------------------------------------------------------------------------------
+    // ls
+    //------------------------------------------------------------------------------
+    app.get('/drivers', function (req, res) {
+        var result = {
+                        list:  [],
+                        links: {"self": { "href": "/drivers" }},
+                        error: false
+                    }
+        var driverNames = driversFn()
+        result.links.drivers = {}
+        for (var i =0 ; i< driverNames.length; i ++) {
+            result.list.push( driverNames[i] )
+            result.links.drivers[driverNames[i]] =
+                {"href": "/drivers/" +  driverNames[i]}
+        }
+
+
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify(result));
     });
 
 
@@ -2180,6 +2206,17 @@ const shell = require('node-powershell');
 
 //zzz
 function lsFn() {
+    var result = []
+    var serverKeys = [hostaddress + ":" + port]
+    for (var i =0 ; i< serverKeys.length; i ++) {
+        result.push(serverKeys[i])
+    }
+    return result;
+}
+
+
+
+function driversFn() {
     var result = []
     var driverKeys = Object.keys(drivers)
     for (var i =0 ; i< driverKeys.length; i ++) {
