@@ -1773,17 +1773,20 @@ function startServices() {
                         links: {"self": { "href": "/ls" }},
                         error: false
                     }
-        var serverNames = lsFn()
-        result.links.servers = {}
-        for (var i =0 ; i< serverNames.length; i ++) {
-            result.list.push( serverNames[i] )
-            result.links.servers[serverNames[i]] =
-                {"href": "http://" +  serverNames[i] + "/ls" }
-        }
+        var serverNames = lsFn(function(servers) {
+            result.links.servers = {}
+            for (var i =0 ; i< servers.length; i ++) {
+                var addr = servers[i].internal_host + ":" + servers[i].internal_port 
+                result.list.push( addr )
+                result.links.servers[addr] =
+                    {"href": "http://" +  addr + "/ls" }
+            }
+            
+            res.writeHead(200, {'Content-Type': 'application/json'});
+            res.end(JSON.stringify(result));        })
 
 
-        res.writeHead(200, {'Content-Type': 'application/json'});
-        res.end(JSON.stringify(result));
+
     });
 
 
@@ -2205,13 +2208,39 @@ setInterval(function() {
 const shell = require('node-powershell');
 
 //zzz
-function lsFn() {
-    var result = []
-    var serverKeys = [hostaddress + ":" + port]
-    for (var i =0 ; i< serverKeys.length; i ++) {
-        result.push(serverKeys[i])
+function lsFn(callbackFn) {
+    var remoteServerUrl = 'http://' + centralHostAddress  + ":" + 
+        centralHostPort + "/get_intranet_servers?time=" + new Date().getTime();
+
+    request({
+        uri: remoteServerUrl,
+        method: "GET",
+        timeout: 10000,
+        agent: false,
+        followRedirect: true,
+        maxRedirects: 10
+  },
+  function(error, response, body) {
+    if (error) {
+        console.log("Error opening central server: " + error);
+    } else {
+        console.log("back: " );
+        var servers = []
+        var returned= eval( "(" + body + ")");
+        for (var i = 0 ; i < returned.allServers.length; i++) {
+            //console.log('got server ' + i)
+            //console.log(JSON.stringify(returned.allServers[i],null,2))
+            var tt = new Object();
+            tt.username = returned.allServers[i].client_user_name;
+            tt.internal_host = returned.allServers[i].internal_host;
+            tt.internal_port = returned.allServers[i].internal_port;
+            tt.via           = returned.allServers[i].via;
+            servers.push(tt)
+        };
+        callbackFn(servers)
+
     }
-    return result;
+  });
 }
 
 
