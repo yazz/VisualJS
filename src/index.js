@@ -1778,7 +1778,7 @@ function startServices() {
         for (var i =0 ; i< serverNames.length; i ++) {
             result.list.push( serverNames[i] )
             result.links.servers[serverNames[i]] =
-                {"href": "/ls/" +  serverNames[i]}
+                {"href": "http://" +  serverNames[i] + "/ls" }
         }
 
 
