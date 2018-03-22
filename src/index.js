@@ -1734,7 +1734,7 @@ function startServices() {
         var args2 = decodeURI(url.parse(req.url, true).query.a);
         var args  = JSON.parse(args2);
         console.log("Received: " + result)
-        
+
         var result = ""
         var countArgs = args.length
         var verb = args[0]
@@ -1763,11 +1763,21 @@ function startServices() {
     // ls
     //------------------------------------------------------------------------------
     app.get('/ls', function (req, res) {
-        var result = []
+        var result = {
+                        values: [],
+                        _links: {"self": { "href": "/ls" }}
+                    }
         var driverNames = lsFn()
         for (var i =0 ; i< driverNames.length; i ++) {
-            result.push(driverNames[i] )
+            result.values.push(
+                {
+                    name: driverNames[i]
+                    ,
+                    _links: {
+                        self: { "href": "/ls/" +  driverNames[i]}}
+            })
         }
+
 
         res.writeHead(200, {'Content-Type': 'application/json'});
         res.end(JSON.stringify({    OK: result      }));
@@ -2173,7 +2183,7 @@ function lsFn() {
     var result = []
     var driverKeys = Object.keys(drivers)
     for (var i =0 ; i< driverKeys.length; i ++) {
-        result.push(drivers[driverKeys[i]].name) 
+        result.push(drivers[driverKeys[i]].name)
     }
     return result;
 }
