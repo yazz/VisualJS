@@ -45,7 +45,13 @@ if (!firstArg) {
                        ]
 
     lsFn(serversToTry, 0, function(serversReturned) {
-        console.log(JSON.stringify(serversReturned,null,2))
+        if (serversReturned.length == 0) {
+            console.log("No VisiFile Servers started on your Intranet")
+        } else {
+            for (var x = 0; x < serversReturned.length ; x++) {
+                console.log("User: "+serversReturned[x].username + ", " + serversReturned[x].internal_host + ":"+serversReturned[x].internal_port)
+            }
+        }
     })
 
 } else {
@@ -103,7 +109,7 @@ function serialize(obj) {
 
 
 function lsFn(servers, index, callbackFn) {
-    console.log("Trying lookup server: " + servers[index])
+    //console.log("Trying lookup server: " + servers[index])
 
     var remoteServerUrl =   'http://' + servers[index]  +
                             "/get_intranet_servers?time=" + new Date().getTime();
