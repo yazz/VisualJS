@@ -1747,7 +1747,17 @@ function startServices() {
         var verb = args[0]
         var noun = args[1]
         if ((countArgs == 1) && (verb == 'home')) {
-            result = "Details of this server:"
+            //zzz
+            result += "Details of this server:\n\n"
+            result += "Address:        " + hostaddress + ":" + port + "\n"
+            result += "User:           " + username + "\n"
+            result += "NodeJS version: " + process.versions.node + "\n"
+            result += "Debug mode:     " + debug + "\n"
+            result += "OS:             "
+            if (isWin) {result += "Windows"}
+            else if (isRaspberryPi) {result += "Raspberry PI/Linux"}
+            else {result += "Mac"}
+
             res.writeHead(200, {'Content-Type': 'application/json'});
             res.end(JSON.stringify({    OK: result      }));
             return
