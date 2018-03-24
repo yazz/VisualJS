@@ -224,9 +224,10 @@ program
   .option('-p, --port [port]', 'Which port should I listen on? (default 80) [port]', parseInt)
   .option('-h, --host [host]', 'Server address of the central host (default visifile.com) [host]', 'visifile.com')
   .option('-l, --locked [locked]', 'Allow server to be locked/unlocked on start up (default true) [locked]', 'true')
-  .option('-l, --nogui [nogui]', 'Allow server to be run in headless mode (default false) [nogui]', 'false')
+  .option('-n, --nogui [nogui]', 'Allow server to be run in headless mode (default false) [nogui]', 'false')
   .option('-d, --debug [debug]', 'Allow to run in debug mode (default false) [debug]', 'false')
   .option('-s, --hostport [hostport]', 'Server port of the central host (default 80) [hostport]', parseInt)
+  .option('-r, --runservices [runservices]', 'Run the services (default true) [runservices]', true)
   .parse(process.argv);
 
 var semver = require('semver')
@@ -243,6 +244,7 @@ if (program.debug == 'true') {
     console.log("       debug: false" );
 };
 
+var runServices = (program.runServices == 'true');
 
 locked = (program.locked == 'true');
 var nogui = (program.nogui == 'true');
@@ -564,8 +566,10 @@ function saveConnectionAndQueryForFile(fileName) {
 
 function scanHardDiskFromChild() {
     if (typeOfSystem == 'client') {
-        forkedProcesses["forkedIndexer"].send({ message_type: "childRunFindFolders" });
-        forkedProcesses["forkedFileScanner"].send({ message_type: "childScanFiles" });
+        if (runServices) {
+            forkedProcesses["forkedIndexer"].send({ message_type: "childRunFindFolders" });
+            forkedProcesses["forkedFileScanner"].send({ message_type: "childScanFiles" });
+        }
     }
 }
 
@@ -1636,12 +1640,16 @@ function setupForkedProcess(processName,fileName,debugPort) {
 
 
     if (processName == "forkedFileScanner") {
-        forkedProcesses["forkedFileScanner"].send({ message_type: "init" });
+        if (runServices) {
+            forkedProcesses["forkedFileScanner"].send({ message_type: "init" });
+        }
     }
 
     if (processName == "forkedPowershell") {
         forkedProcesses["forkedPowershell"].send({ message_type: "init" });
-        forkedProcesses["forkedPowershell"].send({ message_type: "call_powershell" });
+        if (runServices) {
+            forkedProcesses["forkedPowershell"].send({ message_type: "call_powershell" });
+        }
     }
 
 
