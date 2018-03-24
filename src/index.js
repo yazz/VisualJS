@@ -1726,7 +1726,6 @@ function startServices() {
 
 
 
-//zzz
     //------------------------------------------------------------------------------
     // test get JSON
     //------------------------------------------------------------------------------
@@ -1738,6 +1737,7 @@ function startServices() {
         var result = ""
         var countArgs = args.length
         var verb = args[0]
+        var noun = args[1]
         if ((countArgs == 1) && (verb == 'home')) {
             result = "Details of this server:"
             res.writeHead(200, {'Content-Type': 'application/json'});
@@ -1750,6 +1750,32 @@ function startServices() {
             }
             res.writeHead(200, {'Content-Type': 'application/json'});
             res.end(JSON.stringify({    OK: result      }));
+
+//zzz
+        } else if (verb == 'add') {
+            if (noun == 'driver') {
+                request({
+                    uri: "http://192.168.0.101/visifile_drivers/outlook2010.json",
+                    method: "GET",
+                    timeout: 10000,
+                    agent: false,
+                    followRedirect: true,
+                    maxRedirects: 10
+                },
+                function(error, response, body) {
+                    if (error) {
+                        result += "Driver error " + error + "\n"
+                    } else {
+                        result += "Driver added" + JSON.stringify(response,null,2) + "\n"
+                    }
+                    res.writeHead(200, {'Content-Type': 'application/json'});
+                    res.end(JSON.stringify({    OK: result      }));
+                })
+            }
+
+
+
+
 
 
         } else if ((countArgs == 1) && (verb == 'test')) {
@@ -1767,7 +1793,6 @@ function startServices() {
     });
 
 
-    //zzz
     //------------------------------------------------------------------------------
     // ls
     //------------------------------------------------------------------------------
@@ -2211,7 +2236,6 @@ setInterval(function() {
 
 const shell = require('node-powershell');
 
-//zzz
 function lsFn(callbackFn) {
     var remoteServerUrl = 'http://' + centralHostAddress  + ":" +
         centralHostPort + "/get_intranet_servers?time=" + new Date().getTime();
