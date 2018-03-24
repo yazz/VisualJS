@@ -1738,16 +1738,11 @@ function startServices() {
         var result = ""
         var countArgs = args.length
         var verb = args[0]
-        if ((countArgs == 1) && (verb == 'ls')) {
-            var serverNames = lsFn(function(servers){
-                for (var i =0 ; i< servers.length; i ++) {
-                    var addr = servers[i].internal_host + ":" + servers[i].internal_port
-                    result += addr + "\n"
-                }
-                res.writeHead(200, {'Content-Type': 'application/json'});
-                res.end(JSON.stringify({    OK: result      }));
-                return
-        })
+        if ((countArgs == 1) && (verb == 'main')) {
+            result = "Details of this server:"
+            res.writeHead(200, {'Content-Type': 'application/json'});
+            res.end(JSON.stringify({    OK: result      }));
+            return
         } else if ((countArgs == 1) && (verb == 'drivers')) {
             var driverNames = driversFn()
             for (var i =0 ; i< driverNames.length; i ++) {
@@ -1761,7 +1756,7 @@ function startServices() {
             result += "Test successful. Connected to " + hostaddress + ":" + port
             res.writeHead(200, {'Content-Type': 'application/json'});
             res.end(JSON.stringify({    OK: result      }));
-    
+
 
         } else {
             result += "Unknown command: '" + verb + "'"
