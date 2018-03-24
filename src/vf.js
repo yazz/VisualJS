@@ -18,7 +18,6 @@ var useHost = hostaddress
 var usePort = 80
 if (firstArg == '--host') {
     useHost = process.argv.shift()
-    usePort = process.argv.shift()
     firstArg =  process.argv.shift()
 }
 //console.log("Connecting to: " + useHost + ":" + usePort);
@@ -27,13 +26,38 @@ if (firstArg == '--host') {
 //console.log (process.argv)
 if (!firstArg) {
     console.log(`
-        Welcome to VisiFile
+VisiFile commands:
 
-        Command available are:
+> vf
+This command. Enter this to see this menu. If you are a developer
+then you may have enter "vf" as "node src/vf.js"
 
-        - test.
-        - ls.
-        `)
+
+> vf test
+See if VisiFile is installed on your local computer on port 80
+
+
+> vf ls
+See which computers have VisiFile installed on them. Example
+output may be:
+User: root, 192.168.0.101:80
+: in which case you can:
+1) enter "vf --host 192.168.0.101:80 main" at the command prompt
+2) enter 192.168.0.101:80 into a web Browser to view VisiFile
+3) enter 192.168.0.101:80/main into a Rest API client such as Postman
+
+
+> vf drivers
+Show the available drivers
+
+
+> vf --host 192.168.0.101:80 drivers
+Show the drivers on the machine located at 192.168.0.101:80
+
+
+> vf main
+Show the main details of the running VisiFile
+`)
 
 
 } else if (firstArg == 'ls') {
@@ -66,8 +90,8 @@ if (!firstArg) {
     //console.log("Args seralized: " + args2)
 
     var options = {
-      host: useHost,
-      port: usePort,
+      host: extractHostname(useHost),
+      port: getPort(useHost),
       path: '/vf?a=' + args2,
       method: 'GET'
     };
@@ -149,4 +173,39 @@ function lsFn(servers, index, callbackFn) {
   });
 
 
+}
+
+
+function extractHostname(url) {
+    var hostname;
+    //find & remove protocol (http, ftp, etc.) and get hostname
+
+    if (url.indexOf("://") > -1) {
+        hostname = url.split('/')[2];
+    }
+    else {
+        hostname = url.split('/')[0];
+    }
+
+    //find & remove port number
+    hostname = hostname.split(':')[0];
+    //find & remove "?"
+    hostname = hostname.split('?')[0];
+
+    return hostname;
+}
+
+
+function getPort(url) {
+    url = url.match(/^(([a-z]+:)?(\/\/)?[^\/]+).*$/)[1] || url;
+    var parts = url.split(':'),
+        port = parseInt(parts[parts.length - 1], 10);
+    if(parts[0] === 'http' && (isNaN(port) || parts.length < 3)) {
+        return 80;
+    }
+    if(parts[0] === 'https' && (isNaN(port) || parts.length < 3)) {
+        return 443;
+    }
+    if(parts.length === 1 || isNaN(port)) return 80;
+    return port;
 }
