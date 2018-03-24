@@ -157,13 +157,13 @@ function processMessagesFromMainProcess() {
 
         if (msg.message_type == 'init') {
             setUpSql();
-            
-            setInterval(indexMessagesFn ,numberOfSecondsIndexMessagesInterval * 1000);
-            setInterval(indexMessagesBodyFn ,numberOfSecondsIndexMessagesInterval * 1000);
+
 
 
         } else if (msg.message_type == 'call_powershell') {
 
+            setInterval(indexMessagesFn ,numberOfSecondsIndexMessagesInterval * 1000);
+            setInterval(indexMessagesBodyFn ,numberOfSecondsIndexMessagesInterval * 1000);
 
             get_inbox_count(function(inbox){
                 console.log("Inbox count: " + inbox);
@@ -176,7 +176,7 @@ function processMessagesFromMainProcess() {
                             var sourceMessageId = ids[i];
                             //console.log("ID " + i + ": " + sourceMessageId);
                             insertNewMessage(  sourceMessageId, "INBOX","OUTLOOK"  )
-                            
+
                         }
 
                     });
@@ -314,7 +314,7 @@ function setUpSql() {
                                                     " where " +
                                                     "     source_id = ?;");
 
-                                                
+
 
     stmtInsertIntoFiles2 = dbsearch.prepare( " insert into files " +
                                             "     ( id,  path,  orig_name ) " +
@@ -407,7 +407,7 @@ function call_powershell( cb , commands ) {
         ps.invoke()
         .then(output => {
             var output2 = output.replace(/\r?\n|\r/g,"")
-            
+
             //console.log("******************ps poutput" + output2 );
 
             //console.log("******************ps poutput" + JSON.stringify(s,null,2) );
@@ -442,7 +442,7 @@ function get_unread_message_count(cb) {
         function(ret){
 
             var s = parseXml(ret);
- 
+
             cb( parseInt(s.children[0].children[1].children[0].text) )
         }
         ,
@@ -485,7 +485,7 @@ function get_message_by_entry_id(i,cb) {
                     var s = parseXml(ret);
                     if (s.children[0].children[1]) {
                     var base = s.children[0].children[1].children
-                    cb( 
+                    cb(
                         {
                             entry_id:                   base[1].children[0].text,
                             entry_subject:              base[3].children[0].text,
@@ -525,8 +525,8 @@ function get_message_by_entry_id(i,cb) {
 
 function get_message_body_by_entry_id(i,cb) {
     //console.log("get_message_body_by_entry_id:  '" + i + "'")
-    
-    
+
+
     var commands =[
         "$inbox = $mapi.GetDefaultFolder([Microsoft.Office.Interop.Outlook.OlDefaultFolders]::olFolderInbox)",
         "$mail = $inbox.Items | select EntryId, Body  | Where-Object {$_.EntryId -eq '" + i.toString() + "'} | select Body",
@@ -537,7 +537,7 @@ function get_message_body_by_entry_id(i,cb) {
         function(ret) {
             //console.log("                    :  " + ret)
                 if (ret ) {
-                    cb( 
+                    cb(
                         {
                             body:                   ret
                         }
@@ -619,12 +619,12 @@ function indexMessagesFn() {
 
 
     //
-    // Process any messages which have been added to the system. We know these as 
+    // Process any messages which have been added to the system. We know these as
     // the status is set to ADDED
     //
     try {
         var stmt = dbsearch.all(
-            "SELECT * FROM messages WHERE status = 'ADDED' LIMIT 1 " 
+            "SELECT * FROM messages WHERE status = 'ADDED' LIMIT 1 "
             ,
             function(err, results)
             {
@@ -637,7 +637,7 @@ function indexMessagesFn() {
                         get_message_by_entry_id( msg.source_id , function(messageViaPowershell) {
                             //console.log("    eee: " + JSON.stringify(messageViaPowershell,null,2))
                             if (messageViaPowershell) {
-                          
+
                                 dbsearch.serialize(function() {
                                     dbsearch.run("begin exclusive transaction");
                                     stmtUpdateMessageDetails.run(
@@ -771,12 +771,12 @@ function indexMessagesBodyFn() {
 
 
     //
-    // Process any messages which have been added to the system. We know these as 
+    // Process any messages which have been added to the system. We know these as
     // the status is set to ADDED
     //
     try {
         var stmt = dbsearch.all(
-            "SELECT * FROM messages WHERE status = 'UPDATED' LIMIT 1 " 
+            "SELECT * FROM messages WHERE status = 'UPDATED' LIMIT 1 "
             ,
             function(err, results)
             {
@@ -790,7 +790,7 @@ function indexMessagesBodyFn() {
                             //console.log("    eee: " + JSON.stringify(messageViaPowershell,null,2))
                             if (messageViaPowershell) {
                               var emailBody = messageViaPowershell.body.replace(/[\n\r|�]/g, '\n');
-                          
+
                                 console.log("message body: " + messageViaPowershell.body);
                                 var newSha1ofFileContents = getSha1(emailBody)
 
@@ -806,14 +806,14 @@ function indexMessagesBodyFn() {
                                             "outlook2010",
                                             "email",
                                             "|EMAIL|DOCUMENT|",
-        
+
                                             function(err) {
                                                 dbsearch.run("commit");
                                                 dbsearch.serialize(function() {
                                                     dbsearch.run("begin exclusive transaction");
                                                     var newqueryid = uuidv1();
                                                     stmtInsertInsertIntoQueries.run(
-                
+
                                                         newqueryid,
                                                         msg.subject,
                                                         newConnectionId,
@@ -825,12 +825,12 @@ function indexMessagesBodyFn() {
                                                         JSON.stringify({} , null, 2),
                                                         JSON.stringify([{message: 'No preview available'}] , null, 2),
                                                         timestampInSeconds(),
-                
+
                                                         function(err2) {
                                                             if (err2) {
                                                                 console.log('   1033 err2 : ' + err2);
                                                                 dbsearch.serialize(function() {
-                                                                    dbsearch.run("begin exclusive transaction");                                                                
+                                                                    dbsearch.run("begin exclusive transaction");
                                                                     stmtUpdateFileStatus.run( "ERROR", returnedRecord.id, function(err) {
                                                                         dbsearch.run("commit");
                                                                     })
@@ -853,11 +853,11 @@ function indexMessagesBodyFn() {
                                                                     preview:            JSON.stringify([{message: 'No preview available'}] , null, 2)});
                                                     }
                                                         })
-                                                        
+
                                                 })
                                             })
                                         })
-                                        
+
                                     })
                                     ///zzz
                             } else {
@@ -870,7 +870,7 @@ function indexMessagesBodyFn() {
                                                 console.log('set message to error');
                                                 inIndexMessagesBodyFn = false;
                                     })
-                                    
+
                                 })
                             }
                     })
@@ -888,6 +888,3 @@ function indexMessagesBodyFn() {
         inIndexMessagesBodyFn = false;
 }
 }
-
-
-
