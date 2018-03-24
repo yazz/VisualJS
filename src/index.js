@@ -1640,8 +1640,8 @@ function setupForkedProcess(processName,fileName,debugPort) {
     }
 
     if (processName == "forkedPowershell") {
-        forkedProcesses["forkedPowershell"].send({ message_type: "init" });
-        forkedProcesses["forkedPowershell"].send({ message_type: "call_powershell" });
+        //forkedProcesses["forkedPowershell"].send({ message_type: "init" });
+        //forkedProcesses["forkedPowershell"].send({ message_type: "call_powershell" });
     }
 
 
@@ -1665,7 +1665,7 @@ function setupChildProcesses() {
     setupForkedProcess("forkedFileScanner","child.js", 40001)
 
     if (isWin) {
-        setupForkedProcess("forkedPowershell","powershell.js", 40002)
+        //setupForkedProcess("forkedPowershell","powershell.js", 40002)
     }
 }
 
