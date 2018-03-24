@@ -1811,14 +1811,69 @@ function startServices() {
     });
 
 
+
+    //------------------------------------------------------------------------------
+    // Main home page for the entire REST interface
+    //------------------------------------------------------------------------------
+    app.get('/home', function (req, res) {
+        var result = {
+                        list:  [],
+                        links: {
+                            "self": { "href": "/home" },
+                            "admin/1": { "href": "/admin/1/home" },
+                            "client/1": { "href": "/client/1/home" },
+                        }
+                    }
+
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify(result));
+    })
+
+
+
+
     //------------------------------------------------------------------------------
     // ls
     //------------------------------------------------------------------------------
-    app.get('/ls', function (req, res) {
+    app.get('/admin/1/home', function (req, res) {
         var result = {
                         list:  [],
-                        links: {"self": { "href": "/ls" }},
-                        error: false
+                        links: {
+                            "self": { "href": "/admin/1/home" },
+                            "up": { "href": "/home" },
+                            "ls": { "href": "/admin/1/ls" },
+                            "drivers": { "href": "/admin/1/drivers" }
+                        }
+                    }
+
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify(result));
+    })
+
+    //------------------------------------------------------------------------------
+    // ls
+    //------------------------------------------------------------------------------
+    app.get('/client/1/home', function (req, res) {
+        var result = {
+                        list:  [],
+                        links: {
+                            "self": { "href": "/client/1/home" },
+                            "up": { "href": "/home" },
+                            "search": { "href": "/client/1/search" }
+                        }
+                    }
+
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify(result));
+    })
+
+    //------------------------------------------------------------------------------
+    // ls
+    //------------------------------------------------------------------------------
+    app.get('/admin/1/ls', function (req, res) {
+        var result = {
+                        list:  [],
+                        links: {"self": { "href": "/ls" }}
                     }
         var serverNames = lsFn(function(servers) {
             result.links.servers = {}
@@ -1826,7 +1881,7 @@ function startServices() {
                 var addr = servers[i].internal_host + ":" + servers[i].internal_port
                 result.list.push( addr )
                 result.links.servers[addr] =
-                    {"href": "http://" +  addr + "/ls" }
+                    {"href": "http://" +  addr + "/admin/1/ls" }
             }
 
             res.writeHead(200, {'Content-Type': 'application/json'});
@@ -1840,11 +1895,10 @@ function startServices() {
     //------------------------------------------------------------------------------
     // ls
     //------------------------------------------------------------------------------
-    app.get('/drivers', function (req, res) {
+    app.get('/admin/1/drivers', function (req, res) {
         var result = {
                         list:  [],
-                        links: {"self": { "href": "/drivers" }},
-                        error: false
+                        links: {"self": { "href": "/admin/1/drivers" }}
                     }
         var driverNames = driversFn()
         result.links.drivers = {}
@@ -1858,6 +1912,24 @@ function startServices() {
         res.writeHead(200, {'Content-Type': 'application/json'});
         res.end(JSON.stringify(result));
     });
+
+
+
+    //------------------------------------------------------------------------------
+    // search
+    //------------------------------------------------------------------------------
+    app.get('/client/1/search', function (req, res) {
+        var result = {
+                        message:  "Search not implemented yet",
+                        links: {"self": { "href": "/client/1/search" }}
+                    }
+
+
+
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify(result));
+    });
+
 
 
     //------------------------------------------------------------------------------
