@@ -1738,7 +1738,7 @@ function startServices() {
         var result = ""
         var countArgs = args.length
         var verb = args[0]
-        if ((countArgs == 1) && (verb == 'main')) {
+        if ((countArgs == 1) && (verb == 'home')) {
             result = "Details of this server:"
             res.writeHead(200, {'Content-Type': 'application/json'});
             res.end(JSON.stringify({    OK: result      }));

@@ -55,7 +55,7 @@ Show the available drivers
 Show the drivers on the machine located at 192.168.0.101:80
 
 
-> vf main
+> vf home
 Show the main details of the running VisiFile
 `)
 
