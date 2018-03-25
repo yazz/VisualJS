@@ -1021,7 +1021,12 @@ function websocketFn(ws) {
                             message_type:   "get_all_queries",
                             seq_num:          seqNum
                         });
-}});};
+       } else if (receivedMessage.message_type == "vf") {
+           sendToBrowserViaWebSocket(      ws,
+                                       {   type: "vf_reply"  });
+       }
+
+});};
 
 
 

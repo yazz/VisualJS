@@ -346,17 +346,17 @@ listElm.addEventListener('scroll', function(event)
 var socket=null;
 function sendToServerViaWebSocket(msg) {
     socket.send(JSON.stringify(msg));
-    console.log("Sent over socket: " + JSON.stringify(msg,null,2));
+    //console.log("Sent over socket: " + JSON.stringify(msg,null,2));
 }
 
 function setupWebSocket(host, port)
 {
 
-    console.log('opening web socketio');
+    //console.log('opening web socketio');
     socket = io('http://' + host + ":" + port);
-    console.log('opening web socketio');
+    //console.log('opening web socketio');
     socket.on('socket_connected',function(data){
-        console.log("Connected: " + JSON.stringify(data,null,2));
+        //console.log("Connected: " + JSON.stringify(data,null,2));
 
     setTimeout(function(){
         sendToServerViaWebSocket({
@@ -378,6 +378,10 @@ function setupWebSocket(host, port)
                                                     }});
         store.dispatch("refresh");
         //zzz
+    });
+
+    socket.on('vf_reply',function(data) {
+        console.log(JSON.stringify(data,null,2));
     });
 }
 
@@ -431,7 +435,7 @@ var myScroller = null;
     };
 
 
-    
+
 function onscrolled() {
     if (mousedown) {
         autoScroll = false;
@@ -447,6 +451,12 @@ function onemouseup() {
     console.log("onmouseup")
     mousedown = false
 };
+
+function vf() {
+    sendToServerViaWebSocket({
+            message_type: "vf"
+            });
+}
 
 </script>
 </body>
