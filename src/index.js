@@ -1022,8 +1022,14 @@ function websocketFn(ws) {
                             seq_num:          seqNum
                         });
        } else if (receivedMessage.message_type == "vf") {
-           sendToBrowserViaWebSocket(      ws,
-                                       {   type: "vf_reply"  });
+           parseVfCliCommand(receivedMessage.args, function(result) {
+               sendToBrowserViaWebSocket(      ws,
+                                           {
+                                               type:   "vf_reply",
+                                               result:  result
+                                           });
+           })
+
        }
 
 });};
@@ -1745,7 +1751,7 @@ function startServices() {
     app.get('/vf', function (req, res) {
         var args2 = decodeURI(url.parse(req.url, true).query.a);
         var args  = JSON.parse(args2);
-//zzz
+
         parseVfCliCommand(args, function(result) {
             res.writeHead(200, {'Content-Type': 'application/json'});
             res.end(JSON.stringify({    OK: result      }));

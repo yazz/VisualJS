@@ -377,11 +377,10 @@ function setupWebSocket(host, port)
                                                         name:   data.query.name
                                                     }});
         store.dispatch("refresh");
-        //zzz
     });
 
     socket.on('vf_reply',function(data) {
-        console.log(JSON.stringify(data,null,2));
+        console.log(data.result);
     });
 }
 
@@ -452,9 +451,11 @@ function onemouseup() {
     mousedown = false
 };
 
-function vf() {
+function vf(stringArgs) {
+    var args = stringArgs.split(" ");
     sendToServerViaWebSocket({
-            message_type: "vf"
+            message_type: "vf",
+            args: args
             });
 }
 
