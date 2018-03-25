@@ -2341,11 +2341,10 @@ function parseVfCliCommand(args, callbackFn) {
         result += "User:           " + username + "\n"
         result += "NodeJS version: " + process.versions.node + "\n"
         result += "Debug mode:     " + debug + "\n"
-        result += "OS:             "
-        if (isWin) {result += "Windows"}
-        else if (isRaspberryPi) {result += "Raspberry PI/Linux"}
-        else {result += "Mac"}
-
+        result += "OS Type:        " + os.type() + "\n"
+        result += "OS Version:     " + os.release() + "\n"
+        result += "OS Platform:    " + os.platform() + "\n"
+        
         callbackFn(result)
 
 
