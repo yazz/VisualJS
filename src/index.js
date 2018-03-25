@@ -1745,73 +1745,12 @@ function startServices() {
     app.get('/vf', function (req, res) {
         var args2 = decodeURI(url.parse(req.url, true).query.a);
         var args  = JSON.parse(args2);
-        console.log("Received: " + result)
-
-        var result = ""
-        var countArgs = args.length
-        var verb = args[0]
-        var noun = args[1]
-        if ((countArgs == 1) && (verb == 'home')) {
-            //zzz
-            result += "Details of this server:\n\n"
-            result += "Address:        " + hostaddress + ":" + port + "\n"
-            result += "User:           " + username + "\n"
-            result += "NodeJS version: " + process.versions.node + "\n"
-            result += "Debug mode:     " + debug + "\n"
-            result += "OS:             "
-            if (isWin) {result += "Windows"}
-            else if (isRaspberryPi) {result += "Raspberry PI/Linux"}
-            else {result += "Mac"}
-
-            res.writeHead(200, {'Content-Type': 'application/json'});
-            res.end(JSON.stringify({    OK: result      }));
-            return
-        } else if ((countArgs == 1) && (verb == 'drivers')) {
-            var driverNames = driversFn()
-            for (var i =0 ; i< driverNames.length; i ++) {
-                result += driverNames[i] + "\n"
-            }
-            res.writeHead(200, {'Content-Type': 'application/json'});
-            res.end(JSON.stringify({    OK: result      }));
-
 //zzz
-        } else if (verb == 'add') {
-            if (noun == 'driver') {
-                request({
-                    uri: "http://192.168.0.101/visifile_drivers/outlook2010.json",
-                    method: "GET",
-                    timeout: 10000,
-                    agent: false,
-                    followRedirect: true,
-                    maxRedirects: 10
-                },
-                function(error, response, body) {
-                    if (error) {
-                        result += "Driver error " + error + "\n"
-                    } else {
-                        result += "Driver added" + JSON.stringify(response,null,2) + "\n"
-                    }
-                    res.writeHead(200, {'Content-Type': 'application/json'});
-                    res.end(JSON.stringify({    OK: result      }));
-                })
-            }
-
-
-
-
-
-
-        } else if ((countArgs == 1) && (verb == 'test')) {
-            result += "Test successful. Connected to " + hostaddress + ":" + port
+        parseVfCliCommand(args, function(result) {
             res.writeHead(200, {'Content-Type': 'application/json'});
             res.end(JSON.stringify({    OK: result      }));
+        })
 
-
-        } else {
-            result += "Unknown command: '" + verb + "'"
-            res.writeHead(200, {'Content-Type': 'application/json'});
-            res.end(JSON.stringify({    OK: result      }));
-            }
 
     });
 
@@ -2378,4 +2317,75 @@ function driversFn() {
         result.push(drivers[driverKeys[i]].name)
     }
     return result;
+}
+
+
+
+
+//zzz
+function parseVfCliCommand(args, callbackFn) {
+    var result = ""
+    var countArgs = args.length
+    var verb = args[0]
+    var noun = args[1]
+    if ((countArgs == 1) && (verb == 'home')) {
+
+        result += "Details of this server:\n\n"
+        result += "Address:        " + hostaddress + ":" + port + "\n"
+        result += "User:           " + username + "\n"
+        result += "NodeJS version: " + process.versions.node + "\n"
+        result += "Debug mode:     " + debug + "\n"
+        result += "OS:             "
+        if (isWin) {result += "Windows"}
+        else if (isRaspberryPi) {result += "Raspberry PI/Linux"}
+        else {result += "Mac"}
+
+        callbackFn(result)
+
+
+    } else if ((countArgs == 1) && (verb == 'drivers')) {
+        var driverNames = driversFn()
+        for (var i =0 ; i< driverNames.length; i ++) {
+            result += driverNames[i] + "\n"
+        }
+        callbackFn(result)
+
+
+    } else if (verb == 'add') {
+        if (noun == 'driver') {
+            request({
+                uri: "http://192.168.0.101/visifile_drivers/outlook2010.json",
+                method: "GET",
+                timeout: 10000,
+                agent: false,
+                followRedirect: true,
+                maxRedirects: 10
+            },
+            function(error, response, body) {
+                if (error) {
+                    result += "Driver error " + error + "\n"
+                } else {
+                    result += "Driver added" + JSON.stringify(response,null,2) + "\n"
+                }
+                callbackFn(result)
+                return
+           })
+        }
+
+
+
+
+
+
+    } else if ((countArgs == 1) && (verb == 'test')) {
+        result += "Test successful. Connected to " + hostaddress + ":" + port
+        callbackFn(result)
+        return
+
+
+    } else {
+        result += "Unknown command: '" + verb + "'"
+        callbackFn(result)
+        return
+        }
 }
