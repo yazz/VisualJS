@@ -2354,7 +2354,7 @@ function parseVfCliCommand(args, callbackFn) {
     } else if (verb == 'add') {
         if (noun == 'driver') {
             request({
-                uri: "http://192.168.0.101/visifile_drivers/outlook2010.json",
+                uri: "http://" + hostaddress + ":" + port + "/visifile_drivers/outlook2010.json",
                 method: "GET",
                 timeout: 10000,
                 agent: false,
