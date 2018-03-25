@@ -2187,6 +2187,9 @@ function startServices() {
     httpServer = http.createServer(app)
     httpServer.listen(port, hostaddress, function () {
     	console.log(typeOfSystem + ' started on port ' + port + ' with local folder at ' + process.cwd() + ' and __dirname = ' + __dirname);
+        console.log("");
+        console.log("Started on:");
+        console.log("http://" + hostaddress + ':' + port);
 
         io = socket.listen(httpServer);
 
