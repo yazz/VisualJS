@@ -1540,7 +1540,9 @@ function setUpChildListeners(processName, fileName, debugPort) {
                 result.error            = false
                 result.count            = msg.returned.length
                 if (msg.returned.length > 0) {
-                    result.main             = msg.returned[0].internal_host + ":" + msg.returned[0].internal_port
+                    result.main         = msg.returned[0].internal_host + ":" + msg.returned[0].internal_port
+                    result.main_url     = "http://" +  msg.returned[0].internal_host + ":" +
+                                            msg.returned[0].internal_port + "/home"
                 }
                 for (var i =0 ; i< msg.returned.length; i ++) {
                     var addr = msg.returned[i].internal_host + ":" + msg.returned[i].internal_port
