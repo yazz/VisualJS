@@ -42,9 +42,10 @@ See which computers have VisiFile installed on them. Example
 output may be:
 User: root, 192.168.0.101:80
 : in which case you can:
-1) enter "vf --host 192.168.0.101:80 main" at the command prompt
+1) enter "vf start" at the command prompt to find the main server
 2) enter 192.168.0.101:80 into a web Browser to view VisiFile
 3) enter 192.168.0.101:80/main into a Rest API client such as Postman
+4) enter "vf --host 192.168.0.101:80 drivers" to connect direct to a server
 
 
 > vf drivers
@@ -74,7 +75,7 @@ Show the main details of the running VisiFile
 
 
 
-} else if (firstArg == 'main') {
+} else if (firstArg == 'start') {
     findMainServer(function(ret) {
         if (ret.status == 'error') {
             console.log("No main VisiFile Server as none running on your Intranet")
