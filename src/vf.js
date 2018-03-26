@@ -79,7 +79,7 @@ Show the main details of the running VisiFile
         if (ret.status == 'error') {
             console.log("No main VisiFile Server as none running on your Intranet")
         } else {
-            console.log(ret.name.username + "- " + ret.name.internal_host + ":" + ret.name.internal_port)
+            console.log(ret.name.username + " - " + ret.name.internal_host + ":" + ret.name.internal_port)
         }
     })
 
@@ -105,7 +105,7 @@ Show the main details of the running VisiFile
             if (ret.status == 'error') {
                 console.log("No main VisiFile Servers found on your Intranet. Use --host option to manually specify a host")
             } else {
-                console.log(ret.name.username + "- " + ret.name.internal_host + ":" + ret.name.internal_port)
+                console.log(ret.name.username + " - " + ret.name.internal_host + ":" + ret.name.internal_port)
                 callVf(ret.name.internal_host, ret.name.internal_port)
             }
         })
