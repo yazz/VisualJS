@@ -1552,7 +1552,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
                 result.links.servers    = {}
                 result.intranetPublicIp = msg.requestClientPublicIp
                 for (var i =0 ; i< msg.returned.length; i ++) {
-                    var addr = servers[i].internal_host + ":" + servers[i].internal_port
+                    var addr = msg.returned[i].internal_host + ":" + msg.returned[i].internal_port
                     result.list.push( addr )
                     result.links.servers[addr] =
                         {"href": "http://" +  addr + "/home" }
