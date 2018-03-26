@@ -1536,6 +1536,36 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
 
 
+//zzz
+        } else if (msg.message_type == "returnIntranetServers_json") {
+            var newres = queuedResponses[ msg.seq_num ]
+
+            newres.writeHead(200, {'Content-Type': 'application/json'});
+
+            var result = {
+                            list:               [],
+                            links:              {"self": { "href": "/start" }},
+                        }
+
+
+            if (msg.returned) {
+                result.links.servers    = {}
+                result.intranetPublicIp = msg.requestClientPublicIp
+                for (var i =0 ; i< msg.returned.length; i ++) {
+                    var addr = servers[i].internal_host + ":" + servers[i].internal_port
+                    result.list.push( addr )
+                    result.links.servers[addr] =
+                        {"href": "http://" +  addr + "/home" }
+                    }
+
+                    newres.end(JSON.stringify(result));
+            } else {
+                newres.end(JSON.stringify( {  allServers:        [],
+                                              error:              true}) );
+            }
+            newres = null;
+
+
 
 
 
@@ -1841,8 +1871,30 @@ function startServices() {
 
     });
 
-
+//zzz
     //------------------------------------------------------------------------------
+    // get_intranet_servers
+    //------------------------------------------------------------------------------
+    app.get('/start', function (req, res) {
+        //console.log("1 - get_intranet_servers: " + req.ip)
+        //console.log("1.1 - get_intranet_servers: " + Object.keys(req.headers))
+
+        var seqNum = queuedResponseSeqNum;
+        queuedResponseSeqNum ++;
+        queuedResponses[seqNum] = res;
+        console.log("2")
+        forkedProcesses["forked"].send(
+                    {   message_type: "get_intranet_servers_json",
+                        seq_num:                    seqNum,
+                        requestClientPublicIp:      req.ip ,
+                        numberOfSecondsAliveCheck:  numberOfSecondsAliveCheck,
+                        requestVia:                 findViafromString(req.headers.via)
+                        });
+
+
+    });
+
+        //------------------------------------------------------------------------------
     // ls
     //------------------------------------------------------------------------------
     app.get('/admin/1/drivers', function (req, res) {
@@ -2328,7 +2380,7 @@ function driversFn() {
 
 
 
-//zzz
+
 function parseVfCliCommand(args, callbackFn) {
     var result = ""
     var countArgs = args.length
@@ -2344,7 +2396,7 @@ function parseVfCliCommand(args, callbackFn) {
         result += "OS Type:        " + os.type() + "\n"
         result += "OS Version:     " + os.release() + "\n"
         result += "OS Platform:    " + os.platform() + "\n"
-        
+
         callbackFn(result)
 
 

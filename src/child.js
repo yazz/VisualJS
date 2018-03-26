@@ -1775,6 +1775,27 @@ function processMessagesFromMainProcess() {
 
 
 
+            } else if (msg.message_type == 'get_intranet_servers_json') {
+                //console.log("3: " + msg.seq_num )
+                getIntranetServers( msg.requestClientPublicIp,
+                                    msg.requestVia,
+                                    msg.numberOfSecondsAliveCheck,
+
+                                    function(result) {
+                                        //console.log("5: " + JSON.stringify(result))
+                                        var returnIntranetServersMsg = {
+                                            message_type:           'returnIntranetServers_json',
+                                            requestClientPublicIp:  msg.requestClientPublicIp,
+                                            requestVia:             msg.requestVia,
+                                            seq_num:                msg.seq_num,
+                                            returned:               result.rows,
+                                            error:                  result.error
+                                        };
+                                        //console.log("5.1: " + JSON.stringify(returnIntranetServersMsg))
+                                        //console.log("5.2: " + Object.keys(returnIntranetServersMsg))
+                                        process.send( returnIntranetServersMsg );
+                                        //console.log("5.3: ")
+                            }  )
 
 
 
