@@ -217,7 +217,7 @@ function findMainServer(callbackFn) {
 
     getListOfHosts(function(serversReturned) {
         if (serversReturned.length == 0) {
-            callbackFn("No VisiFile Servers started on your Intranet")
+            callbackFn("No main VisiFile Server as none running on your Intranet")
         } else {
             var mainServer = serversReturned[0].username + ", " + serversReturned[0].internal_host + ":"+serversReturned[0].internal_port
 
