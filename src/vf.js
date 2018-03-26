@@ -14,7 +14,7 @@ process.argv.shift()
 process.argv.shift()
 var firstArg =  process.argv.shift()
 
-var useHost = hostaddress
+var useHost = null;
 var usePort = 80
 if (firstArg == '--host') {
     useHost = process.argv.shift()
@@ -75,8 +75,12 @@ Show the main details of the running VisiFile
 
 
 } else if (firstArg == 'main') {
-    findMainServer(function(serverName) {
-        console.log(serverName)
+    findMainServer(function(ret) {
+        if (ret.status == 'error') {
+            console.log("No main VisiFile Server as none running on your Intranet")
+        } else {
+            console.log(ret.name.username + "- " + ret.name.internal_host + ":" + ret.name.internal_port)
+        }
     })
 
 
@@ -91,13 +95,34 @@ Show the main details of the running VisiFile
     var args2 = encodeURI(JSON.stringify(args))
     //console.log("Args seralized: " + args2)
 
+//zzz
+    if (useHost) {
+        callVf(extractHostname(serverAddress), getPort(useHost))
+
+
+    } else {
+        findMainServer(function(ret) {
+            if (ret.status == 'error') {
+                console.log("No main VisiFile Servers found on your Intranet. Use --host option to manually specify a host")
+            } else {
+                console.log(ret.name.username + "- " + ret.name.internal_host + ":" + ret.name.internal_port)
+                callVf(ret.name.internal_host, ret.name.internal_port)
+            }
+        })
+    }
+
+
+}
+
+
+
+function callVf(serverAddress, serverPort) {
     var options = {
-      host: extractHostname(useHost),
-      port: getPort(useHost),
+      host: serverAddress,
+      port: serverPort,
       path: '/vf?a=' + args2,
       method: 'GET'
     };
-
 
     var req = http.request(options, function(res) {
       res.setEncoding('utf8');
@@ -114,6 +139,9 @@ Show the main details of the running VisiFile
 
     req.end();
 }
+
+
+
 
 
 
@@ -217,16 +245,16 @@ function findMainServer(callbackFn) {
 
     getListOfHosts(function(serversReturned) {
         if (serversReturned.length == 0) {
-            callbackFn("No main VisiFile Server as none running on your Intranet")
+            callbackFn({status: "error"})
         } else {
-            var mainServer = serversReturned[0].username + ", " + serversReturned[0].internal_host + ":"+serversReturned[0].internal_port
+            var mainServer = serversReturned[0]
 
             for (var x = 1; x < serversReturned.length ; x++) {
                 if (serversReturned[x].internal_host == hostaddress) {
-                     mainServer = serversReturned[x].username + ", " + serversReturned[x].internal_host + ":"+serversReturned[x].internal_port
+                     mainServer = serversReturned[x]
                 }
             }
-            callbackFn(mainServer)
+            callbackFn({status: "OK", name: mainServer})
 
         }
     })
