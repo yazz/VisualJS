@@ -61,14 +61,8 @@ Show the main details of the running VisiFile
 
 
 } else if (firstArg == 'ls') {
-    var serversToTry = [
-                           "visifile.com"  ,
-                           ip.address() + ":" +  80,
-                           ip.address() + ":" +  3000,
-                           "127.0.0.1:80"
-                       ]
 
-    lsFn(serversToTry, 0, function(serversReturned) {
+    getListOfHosts(function(serversReturned) {
         if (serversReturned.length == 0) {
             console.log("No VisiFile Servers started on your Intranet")
         } else {
@@ -77,6 +71,14 @@ Show the main details of the running VisiFile
             }
         }
     })
+
+
+
+} else if (firstArg == 'main') {
+    findMainServer(function(serverName) {
+        console.log(serverName)
+    })
+
 
 } else {
     process.argv.unshift(firstArg)
@@ -208,4 +210,38 @@ function getPort(url) {
     }
     if(parts.length === 1 || isNaN(port)) return 80;
     return port;
+}
+
+
+function findMainServer(callbackFn) {
+
+    getListOfHosts(function(serversReturned) {
+        if (serversReturned.length == 0) {
+            callbackFn("No VisiFile Servers started on your Intranet")
+        } else {
+            var mainServer = serversReturned[0].username + ", " + serversReturned[0].internal_host + ":"+serversReturned[0].internal_port
+
+            for (var x = 1; x < serversReturned.length ; x++) {
+                if (serversReturned[x].internal_host == hostaddress) {
+                     mainServer = serversReturned[x].username + ", " + serversReturned[x].internal_host + ":"+serversReturned[x].internal_port
+                }
+            }
+            callbackFn(mainServer)
+
+        }
+    })
+}
+
+
+function getListOfHosts(callbackFn) {
+    var serversToTry = [
+                           "visifile.com"  ,
+                           ip.address() + ":" +  80,
+                           ip.address() + ":" +  3000,
+                           "127.0.0.1:80"
+                       ]
+
+    lsFn(serversToTry, 0, function(serversReturned) {
+        callbackFn(serversReturned)
+    })
 }
