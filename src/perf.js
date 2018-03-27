@@ -14,11 +14,15 @@ module.exports = {
         diskspace.diskSpace(function (err, result)
         {
             //console.log(JSON.stringify(result,null,2) + " data received bytes / sec");
-            var used1 = result.total.used;
-            var diffUsed = Math.abs(used1 - lastused);
-            //console.log(used1 + " disk usage bytes ");
-            lastused = used1;
-            cb.call(this,diffUsed);
+            if (result) {
+                var used1 = result.total.used;
+                var diffUsed = Math.abs(used1 - lastused);
+                //console.log(used1 + " disk usage bytes ");
+                lastused = used1;
+                cb.call(this,diffUsed);
+            } else {
+                console.log("Cannot run diskSpace");
+            }
         });
 
     }
