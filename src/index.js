@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+﻿#!/usr/bin/env node
 
 'use strict';
 
@@ -37,7 +37,7 @@ var http            = require('http')
 var app             = express()
 var expressWs       = require('express-ws')(app);
 var request         = require("request");
-var open            = require('open');
+var open            = require('opn');
 var db_helper       = require("./db_helper")
 var perf            = require('./perf')
 var Excel           = require('exceljs');
