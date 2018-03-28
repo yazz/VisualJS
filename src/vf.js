@@ -12,6 +12,8 @@ var hostaddress = ip.address();
 
 process.argv.shift()
 process.argv.shift()
+
+var cmdString = process.argv.join(' ')
 var firstArg =  process.argv.shift()
 
 var useHost = null;
@@ -104,9 +106,12 @@ Show the main details of the running VisiFile
     } else {
         findMainServer(function(ret) {
             if (ret.status == 'error') {
+                console.log("")
                 console.log("No main VisiFile Servers found on your Intranet. Use --host option to manually specify a host")
             } else {
-                console.log(ret.name.username + " - " + ret.name.internal_host + ":" + ret.name.internal_port)
+                console.log("")
+                console.log("Runnning command '" + cmdString + "' on: " + ret.name.username + " - " + ret.name.internal_host + ":" + ret.name.internal_port)
+                console.log("")
                 callVf(ret.name.internal_host, ret.name.internal_port)
             }
         })

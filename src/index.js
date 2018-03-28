@@ -2377,6 +2377,12 @@ function driversFn() {
 function parseVfCliCommand(args, callbackFn) {
     var result = ""
     var countArgs = args.length
+    var addedVf = false;
+
+    if (args[0] == 'vf') {
+        args.shift()
+        addedVf = true
+    }
     var verb = args[0]
     var noun = args[1]
     if ((countArgs == 1) && (verb == 'home')) {
@@ -2434,7 +2440,12 @@ function parseVfCliCommand(args, callbackFn) {
 
 
     } else {
-        result += "Unknown command: '" + verb + "'"
+        if (addedVf && (countArgs == 0)) {
+            result += "You must enter a command. eg: vf drivers'"
+        }
+        else {
+            result += "Unknown command: '" + verb + "'"
+        }
         callbackFn(result)
         return
         }
