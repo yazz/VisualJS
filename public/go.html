@@ -451,7 +451,7 @@ function onemouseup() {
     mousedown = false
 };
 
-function vf(stringArgs) {
+function cmd(stringArgs) {
     var args = stringArgs.split(" ");
     sendToServerViaWebSocket({
             message_type: "vf",
