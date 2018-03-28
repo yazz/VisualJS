@@ -244,7 +244,7 @@ if (program.debug == 'true') {
     console.log("       debug: false" );
 };
 
-var runServices = (program.runServices == 'true');
+var runServices = (program.runservices == true);
 
 locked = (program.locked == 'true');
 var nogui = (program.nogui == 'true');
