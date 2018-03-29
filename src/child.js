@@ -265,7 +265,6 @@ function createContent(     fullFileNamePath,
         //
         dbsearch.serialize(
             function() {
-                dbsearch.run("begin exclusive transaction");
                 var stmt = dbsearch.all(
                     "select * from contents where   id = ? ",
 
@@ -319,18 +318,24 @@ function foundFile(     fullFileNamePath,
 
         var newFileId   = uuidv1();
 
-        stmtInsertIntoFiles.run(
+        dbsearch.serialize(
+            function() {
+                dbsearch.run("begin exclusive transaction");
+                stmtInsertIntoFiles.run(
 
-            newFileId,
-            sha1ofFileContents,
-            fileContentsSize,
-            path.dirname(fullFileNamePath),
-            path.basename(fullFileNamePath),
-            existingConnectionId,
+                    newFileId,
+                    sha1ofFileContents,
+                    fileContentsSize,
+                    path.dirname(fullFileNamePath),
+                    path.basename(fullFileNamePath),
+                    existingConnectionId,
 
-            function(err) {
-                //console.log('added file to sqlite');
-                });
+                    function(err) {
+                        //console.log('added file to sqlite');
+                        dbsearch.run("commit");
+                    });
+                }
+            )
 
 
 }
@@ -392,15 +397,20 @@ function markFileForProcessing(  fullFilePath ) {
                         if (results.length == 0) {
                             try {
                                 var newFileId   = uuidv1();
-                                stmtInsertIntoFiles2.run(
+                                dbsearch.serialize(
+                                    function() {
+                                        dbsearch.run("begin exclusive transaction");
+                                        stmtInsertIntoFiles2.run(
 
-                                    newFileId,
-                                    path.dirname(fullFilePath),
-                                    path.basename(fullFilePath),
+                                            newFileId,
+                                            path.dirname(fullFilePath),
+                                            path.basename(fullFilePath),
 
-                                    function(err) {
-                                        //console.log('added file to sqlite');
-                                        });
+                                            function(err) {
+                                                //console.log('added file to sqlite');
+                                                dbsearch.run("commit");
+                                                });
+                                        })
 
                             } catch (err) {
                                 console.log("Error " + err + " with file: " + fullFilePath);
@@ -468,7 +478,10 @@ function getRelatedDocuments(  id,  callback  ) {
                 if (!err)
                 {
                     dbsearch.serialize(function() {
-                            stmtUpdateRelatedDocumentCount.run(results.length, id);
+                        dbsearch.run("begin exclusive transaction");
+                        stmtUpdateRelatedDocumentCount.run(results.length, id, function(){
+                            dbsearch.run("commit");
+                        });
                     })
 
                     for (var i = 0; i < results.length; i ++) {
