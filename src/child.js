@@ -255,7 +255,7 @@ function getContentType(fullFileNamePath) {
 
 
 
-//zzz
+
 function createContent(     fullFileNamePath,
                             sha1ofFileContents) {
 
@@ -1253,7 +1253,14 @@ function processFilesFn() {
                     {
                         //console.log("    12")
                         var returnedRecord = results[0];
-                        stmtUpdateFileStatus.run( "INDEXED", returnedRecord.id,function(err4){})
+
+                        dbsearch.serialize(
+                            function() {
+                                dbsearch.run("begin exclusive transaction");
+                                stmtUpdateFileStatus.run( "INDEXED", returnedRecord.id,function(err4){
+                                    dbsearch.run("commit");
+                                })
+                            })
 
                         var fullFileNamePath = path.join(returnedRecord.path , returnedRecord.orig_name)
 
@@ -1296,20 +1303,24 @@ function processFilesFn() {
                             if (documentType) {
                                 var screenName = fileName.replace(/[^\w\s]/gi,'');
                                 var newConnectionId = uuidv1();
-                                stmtInsertIntoConnections.run(
-                                    newConnectionId,
-                                    screenName,
-                                    driverName,
-                                    documentType,
-                                    fullFileNamePath,
+                                //zzz
+                                dbsearch.serialize(
+                                    function() {
+                                        dbsearch.run("begin exclusive transaction");
+                                        stmtInsertIntoConnections.run(
+                                            newConnectionId,
+                                            screenName,
+                                            driverName,
+                                            documentType,
+                                            fullFileNamePath,
 
-                                    function(err) {
+                                            function(err) {
+                                                dbsearch.run("commit");
+                                                //console.log("14")
 
-                                        //console.log("14")
-
-                                        //connections[newid] = {id: newid, name: screenName, driver: driverName, size: size, hash: sha1sum, type: documentType, fullFilePath: fullFilePath };
-                                        process.send({
-                                                    message_type:       "return_set_connection",
+                                                //connections[newid] = {id: newid, name: screenName, driver: driverName, size: size, hash: sha1sum, type: documentType, fullFilePath: fullFilePath };
+                                                process.send({
+                                                            message_type:       "return_set_connection",
                                                     id:         newConnectionId,
                                                     name:       screenName,
                                                     driver:     driverName,
@@ -1372,6 +1383,8 @@ function processFilesFn() {
                                         })
                                     }
                                 );
+                            })
+
                             } else {
                                 stmtUpdateFileStatus.run( "ERROR", returnedRecord.id,function(err4){})
                                 inProcessFilesFn = false
