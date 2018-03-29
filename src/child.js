@@ -1178,14 +1178,27 @@ function processFilesFn() {
                                         });
                                     }
                                     } else {
-                                        stmtUpdateFileStatus.run( "DELETED", returnedRecord.id, function(err) {})
-                                        inProcessFilesFn = false
-                                        //console.log("          Error eee: " + eee);
+                                        dbsearch.serialize(
+                                            function() {
+                                                dbsearch.run("begin exclusive transaction");
+                                                stmtUpdateFileStatus.run( "DELETED", returnedRecord.id, function(err) {
+                                                    dbsearch.run("commit");
+                                                    inProcessFilesFn = false
+                                                    //console.log("          Error eee: " + eee);
+                                            })
+                                        })
                                     }
                                 } catch (eee) {
-                                    stmtUpdateFileStatus.run( "ERROR", returnedRecord.id, function(err) {})
-                                    inProcessFilesFn = false
-                                    console.log("          Error eee: " + eee);
+                                    dbsearch.serialize(
+                                        function() {
+                                            dbsearch.run("begin exclusive transaction");
+                                            stmtUpdateFileStatus.run( "ERROR", returnedRecord.id, function(err) {
+                                                dbsearch.run("commit");
+                                                inProcessFilesFn = false
+                                                console.log("          Error eee: " + eee);
+
+                                            })
+                                        })
 
                                 }
                                     })
