@@ -926,9 +926,9 @@ function getResult(  source,  connection,  driver,  definition,  callback  ) {
             dbsearch.run("begin exclusive transaction");
             setIn.run("ERROR: no connection for " + source , source, function(err){
                 dbsearch.run("commit");
+                callback.call(this,{error: true});
             });
 
-            callback.call(this,{error: true});
         });
     }
     //console.log("****************** err 10 child for connection: " +connection );
@@ -1060,109 +1060,111 @@ function processFilesFn() {
                         var documentType = returnedRecord.type
                         var fileScreenName = returnedRecord.orig_name
 
-                        stmtUpdateFileStatus.run( "REINDEXED", returnedRecord.id,
-                        function(err) {
+                        dbsearch.serialize(
+                            function() {
+                                stmtUpdateFileStatus.run( "REINDEXED", returnedRecord.id,
+                                    function(err) {
 
-                        try {
+                                    try {
 
-                        if (fs.existsSync(fullFileNamePath)) {
-                        var stat = fs.statSync(fullFileNamePath)
-                        var onDiskFileContentsSize = stat.size
-                        if (onDiskFileContentsSize != fileContentsSize) {
+                                    if (fs.existsSync(fullFileNamePath)) {
+                                    var stat = fs.statSync(fullFileNamePath)
+                                    var onDiskFileContentsSize = stat.size
+                                    if (onDiskFileContentsSize != fileContentsSize) {
 
-                            //console.log("existingConnectionId: " + existingConnectionId)
-                            //console.log("driver: " + driverName)
-                            //console.log("fileContentsSize: " + fileContentsSize)
-                            //console.log("sha1ofFileContents: " + sha1ofFileContents)
-                            //console.log("fullFileNamePath: " + fullFileNamePath)
-                            //console.log("documentType: " + documentType)
+                                        //console.log("existingConnectionId: " + existingConnectionId)
+                                        //console.log("driver: " + driverName)
+                                        //console.log("fileContentsSize: " + fileContentsSize)
+                                        //console.log("sha1ofFileContents: " + sha1ofFileContents)
+                                        //console.log("fullFileNamePath: " + fullFileNamePath)
+                                        //console.log("documentType: " + documentType)
 
-                            var newSha1ofFileContents = getSha1(fullFileNamePath)
+                                        var newSha1ofFileContents = getSha1(fullFileNamePath)
 
 
 
-                            dbsearch.serialize(function() {
-                                //console.log("    2")
-                                //console.log("    3")
-                                if (err) {
-                                    console.log('   err 1 : ' + err);
-                                    stmtUpdateFileStatus.run( "ERROR", returnedRecord.id, function(err) {})
-                                    inProcessFilesFn = false
-                                } else {
-
-                                    //console.log("    4")
-                                    var newqueryid = uuidv1();
-                                    stmtInsertInsertIntoQueries.run(
-
-                                        newqueryid,
-                                        fileScreenName,
-                                        existingConnectionId,
-                                        driverName,
-                                        onDiskFileContentsSize,
-                                        newSha1ofFileContents,
-                                        fullFileNamePath,
-                                        documentType,
-                                        JSON.stringify({} , null, 2),
-                                        JSON.stringify([{message: 'No preview available'}] , null, 2),
-                                        timestampInSeconds(),
-
-                                        function(err2) {
-                                            if (err2) {
-                                                console.log('   1033 err2 : ' + err2);
+                                        dbsearch.serialize(function() {
+                                            //console.log("    2")
+                                            //console.log("    3")
+                                            if (err) {
+                                                console.log('   err 1 : ' + err);
                                                 stmtUpdateFileStatus.run( "ERROR", returnedRecord.id, function(err) {})
+                                                inProcessFilesFn = false
                                             } else {
-                                                stmtFileChanged.run(
-                                                    newSha1ofFileContents,
-                                                    onDiskFileContentsSize,
-                                                    returnedRecord.id,
-                                                    function(err9) {
-                                                        if (err9) {
-                                                            inProcessFilesFn = false
-                                                            stmtUpdateFileStatus.run( "ERROR", returnedRecord.id, function(err) {})
-                                                        }
-                                                        else {
-                                                            process.send({
-                                                                            message_type:       "return_set_query",
-                                                                            id:                 newqueryid,
-                                                                            name:               fileScreenName,
-                                                                            connection:         existingConnectionId,
-                                                                            driver:             driverName,
-                                                                            size:               fileContentsSize,
-                                                                            hash:               sha1ofFileContents,
-                                                                            fileName:           fullFileNamePath,
-                                                                            type:               driverName,
-                                                                            definition:         JSON.stringify({} , null, 2),
-                                                                            preview:            JSON.stringify([{message: 'No preview available'}] , null, 2)});
 
+                                                //console.log("    4")
+                                                var newqueryid = uuidv1();
+                                                stmtInsertInsertIntoQueries.run(
+
+                                                    newqueryid,
+                                                    fileScreenName,
+                                                    existingConnectionId,
+                                                    driverName,
+                                                    onDiskFileContentsSize,
+                                                    newSha1ofFileContents,
+                                                    fullFileNamePath,
+                                                    documentType,
+                                                    JSON.stringify({} , null, 2),
+                                                    JSON.stringify([{message: 'No preview available'}] , null, 2),
+                                                    timestampInSeconds(),
+
+                                                    function(err2) {
+                                                        if (err2) {
+                                                            console.log('   1033 err2 : ' + err2);
+                                                            stmtUpdateFileStatus.run( "ERROR", returnedRecord.id, function(err) {})
+                                                        } else {
+                                                            stmtFileChanged.run(
+                                                                newSha1ofFileContents,
+                                                                onDiskFileContentsSize,
+                                                                returnedRecord.id,
+                                                                function(err9) {
+                                                                    if (err9) {
+                                                                        inProcessFilesFn = false
+                                                                        stmtUpdateFileStatus.run( "ERROR", returnedRecord.id, function(err) {})
+                                                                    }
+                                                                    else {
+                                                                        process.send({
+                                                                                        message_type:       "return_set_query",
+                                                                                        id:                 newqueryid,
+                                                                                        name:               fileScreenName,
+                                                                                        connection:         existingConnectionId,
+                                                                                        driver:             driverName,
+                                                                                        size:               fileContentsSize,
+                                                                                        hash:               sha1ofFileContents,
+                                                                                        fileName:           fullFileNamePath,
+                                                                                        type:               driverName,
+                                                                                        definition:         JSON.stringify({} , null, 2),
+                                                                                        preview:            JSON.stringify([{message: 'No preview available'}] , null, 2)});
+
+                                                                    }
+                                                                    inProcessFilesFn = false
+                                                                }
+                                                        )
+                                                        //console.log("    5")
                                                         }
                                                         inProcessFilesFn = false
-                                                    }
-                                            )
-                                            //console.log("    5")
-                                            }
-                                            inProcessFilesFn = false
+                                                        }
+
+                                                );
                                             }
 
-                                    );
+
+
+                                        });
+                                    }
+                                    } else {
+                                        stmtUpdateFileStatus.run( "DELETED", returnedRecord.id, function(err) {})
+                                        inProcessFilesFn = false
+                                        //console.log("          Error eee: " + eee);
+                                    }
+                                } catch (eee) {
+                                    stmtUpdateFileStatus.run( "ERROR", returnedRecord.id, function(err) {})
+                                    inProcessFilesFn = false
+                                    console.log("          Error eee: " + eee);
+
                                 }
-
-
-
-                            });
-                        }
-                        } else {
-                            stmtUpdateFileStatus.run( "DELETED", returnedRecord.id, function(err) {})
-                            inProcessFilesFn = false
-                            //console.log("          Error eee: " + eee);
-                        }
-                    } catch (eee) {
-                        stmtUpdateFileStatus.run( "ERROR", returnedRecord.id, function(err) {})
-                        inProcessFilesFn = false
-                        console.log("          Error eee: " + eee);
-
-                    }
-                        }
-                        )
+                                    })
+                                })
 
                     } else {
                         inProcessFilesFn = false
