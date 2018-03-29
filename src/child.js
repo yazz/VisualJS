@@ -229,6 +229,11 @@ function setUpSql() {
                                 "    set  related_status = ?  " +
                                 " where  " +
                                 "    hash = ? ;");
+    stmt2 = dbsearch.prepare("INSERT INTO zfts_search_rows_hashed (row_hash, data) VALUES (?, ?)");
+
+    stmt3 = dbsearch.prepare("INSERT INTO search_rows_hierarchy (document_binary_hash, parent_hash, child_hash) VALUES (?,?,?)");
+
+    setIn =  dbsearch.prepare("UPDATE queries SET index_status = ? WHERE id = ?");
 }
 
 var standard = fs.readFileSync(path.join(__dirname, './common.ps1'));
@@ -258,40 +263,44 @@ function createContent(     fullFileNamePath,
         //
         // create the content if it doesn't exist
         //
-        var stmt = dbsearch.all(
-            "select * from contents where   id = ? ",
+        dbsearch.serialize(
+            function() {
+                dbsearch.run("begin exclusive transaction");
+                var stmt = dbsearch.all(
+                    "select * from contents where   id = ? ",
 
-            [sha1ofFileContents],
+                    [sha1ofFileContents],
 
-            function(err, results)
-            {
-                if (!err)
-                {
-                    if (results.length == 0) {
-                        dbsearch.serialize(function() {
-                            try {
-                                var contentType = getContentType(fullFileNamePath)
-                                dbsearch.run("begin exclusive transaction");
+                    function(err, results)
+                    {
+                        if (!err)
+                        {
+                            if (results.length == 0) {
                                 dbsearch.serialize(function() {
+                                    try {
+                                        var contentType = getContentType(fullFileNamePath)
+                                        dbsearch.run("begin exclusive transaction");
 
-                                    stmtInsertIntoContents.run(
+                                        stmtInsertIntoContents.run(
 
-                                        sha1ofFileContents,
-                                        fs.readFileSync(fullFileNamePath),
-                                        contentType,
+                                            sha1ofFileContents,
+                                            fs.readFileSync(fullFileNamePath),
+                                            contentType,
 
-                                        function(err) {
-                                            dbsearch.run("commit");
-                                            //console.log('added file to sqlite');
-                                            });
+                                            function(err) {
+                                                dbsearch.run("commit");
+                                                //console.log('added file to sqlite');
+                                                });
+
+                                   } catch (err) {
+                                       dbsearch.run("rollback");
+                                       console.log(err);
+                                   }
                                })
-                           } catch (err) {
-                               console.log(err);
                            }
-                       })
-                   }
-               }
-       })
+                       }
+                   })
+               }, sqlite3.OPEN_READONLY)
 }
 
 
@@ -535,24 +544,23 @@ function getRelatedDocumentHashes(  doc_hash,  callback  ) {
             {
                 if (!err)
                 {
-                    dbsearch.serialize(function() {
-                        dbsearch.run("begin exclusive transaction");
-                        for (var i =0 ; i < results.length; i++) {
-                            if (results[i]) {
-                                var target_hash = results[i].hash;
-                                console.log("    " + doc_hash + " : " + target_hash );
+                    for (var i = 0 ; i < results.length; i++) {
+                        if (results[i]) {
+                            var target_hash = results[i].hash;
+                            console.log("    " + doc_hash + " : " + target_hash );
 
-                                if (target_hash) {
-                                    var similar_count = results[i].size;
-                                    createRelationship(doc_hash, target_hash, similar_count);
-                                }
+                            if (target_hash) {
+                                var similar_count = results[i].size;
+                                createRelationship(doc_hash, target_hash, similar_count);
                             }
-
-
                         }
-                        stmtUpdateRelationships.run('INDEXED', doc_hash, function(err) {
-                            dbsearch.run("commit");
-                        });
+                    }
+                    dbsearch.serialize(
+                        function() {
+                            dbsearch.run("begin exclusive transaction");
+                            stmtUpdateRelationships.run('INDEXED', doc_hash, function(err) {
+                                dbsearch.run("commit");
+                            });
                     })
 
                     //console.log("       OK")
@@ -723,16 +731,7 @@ function indexFilesFn() {
 //-----------------------------------------------------------------------------------------//
 function getResult(  source,  connection,  driver,  definition,  callback  ) {
     //console.log("var getResult = function(" + source + ", " + connection + ", " + driver + ", " + JSON.stringify(definition));
-    if (stmt2 == null) {
-        stmt2 = dbsearch.prepare("INSERT INTO zfts_search_rows_hashed (row_hash, data) VALUES (?, ?)");
-    }
-    if (stmt3 == null) {
-        stmt3 = dbsearch.prepare("INSERT INTO search_rows_hierarchy (document_binary_hash, parent_hash, child_hash) VALUES (?,?,?)");
-    }
-    if (setIn == null) {
-        setIn =  dbsearch.prepare("UPDATE queries SET index_status = ? WHERE id = ?");
-    }
-    //console.log("01");
+
 
 
     var error = new Object();
@@ -831,16 +830,18 @@ function getResult(  source,  connection,  driver,  definition,  callback  ) {
                                                     //console.log("****************** err 2");
                                                     callback.call(this,{error: true});
                                                     dbsearch.run("begin exclusive transaction");
-                                                    setIn.run("INDEXED: Other error",source);
-                                                    dbsearch.run("commit");
+                                                    setIn.run("INDEXED: Other error",source, function() {
+                                                        dbsearch.run("commit");
+                                                    });
                                                 }
                                             } else {
                                                 //console.log("****************** err 5: no rows");
                                                 callback.call(this,ordata);
                                                 dbsearch.serialize(function() {
                                                     dbsearch.run("begin exclusive transaction");
-                                                    setIn.run("INDEXED: ",source);
-                                                    dbsearch.run("commit");
+                                                    setIn.run("INDEXED: ",source, function() {
+                                                        dbsearch.run("commit");
+                                                    });
                                                 });
                                             }
                                         } else {
@@ -2038,7 +2039,13 @@ function createRelationship(  doc_hash,  target_hash,  similar_count ) {
                 console.log("    " + doc_hash + " : " + target_hash + "... existsResults.length = " +  existsResults.length);
                 if (existsResults.length == 0) {
                     var newId = uuidv1();
-                    stmtInsertIntoRelationships.run(newId,  doc_hash, target_hash,  similar_count);
+                    dbsearch.serialize(function() {
+                        dbsearch.run("begin exclusive transaction");
+                        stmtInsertIntoRelationships.run(newId,  doc_hash, target_hash,  similar_count,
+                            function() {
+                                dbsearch.run("commit")
+                            });
+                    })
                 }
             }
         }
