@@ -248,6 +248,9 @@ function getContentType(fullFileNamePath) {
     return contentType;
 }
 
+
+
+//zzz
 function createContent(     fullFileNamePath,
                             sha1ofFileContents) {
 
@@ -265,23 +268,27 @@ function createContent(     fullFileNamePath,
                 if (!err)
                 {
                     if (results.length == 0) {
-                        try {
-                            var contentType = getContentType(fullFileNamePath)
-                            dbsearch.serialize(function() {
+                        dbsearch.serialize(function() {
+                            try {
+                                var contentType = getContentType(fullFileNamePath)
+                                dbsearch.run("begin exclusive transaction");
+                                dbsearch.serialize(function() {
 
-                                stmtInsertIntoContents.run(
+                                    stmtInsertIntoContents.run(
 
-                                    sha1ofFileContents,
-                                    fs.readFileSync(fullFileNamePath),
-                                    contentType,
+                                        sha1ofFileContents,
+                                        fs.readFileSync(fullFileNamePath),
+                                        contentType,
 
-                                    function(err) {
-                                        //console.log('added file to sqlite');
-                                        });
-                           })
-                       } catch (err) {
-                           console.log(err);
-                       }
+                                        function(err) {
+                                            dbsearch.run("commit");
+                                            //console.log('added file to sqlite');
+                                            });
+                               })
+                           } catch (err) {
+                               console.log(err);
+                           }
+                       })
                    }
                }
        })
@@ -737,24 +744,22 @@ function getResult(  source,  connection,  driver,  definition,  callback  ) {
                 dbsearch.run("begin exclusive transaction");
                 setIn.run("PROCESSING" ,source, function(err){
                     dbsearch.run("commit");
-                    //console.log('**** drivers[driver] = ' + driver)
-                    //console.log('**** drivers.len = ' + drivers[driver].get_v2)
+                    console.log('**** drivers[driver] = ' + driver)
+                    console.log('**** drivers.len = ' + drivers[driver].get_v2)
                     drivers[driver]['get_v2'](connections[connection],definition,function(ordata) {
                         //console.log("23");
                         if (ordata.error) {
                             //console.log("24");
                             //console.log("****************** err 4:" + ordata.error);
-                            dbsearch.serialize(function() {
-                                //console.log("25");
-                                dbsearch.run("begin exclusive transaction");
-                                setIn.run("ERROR: " + ordata.error,
-                                    source,
-                                    function(err) {
-                                        dbsearch.run("commit");
-                                    });
+                            //console.log("25");
+                            dbsearch.run("begin exclusive transaction");
+                            setIn.run("ERROR: " + ordata.error,
+                                source,
+                                function(err) {
+                                    dbsearch.run("commit");
+                                });
 
-                                callback.call(this,{error: true});
-                            });
+                            callback.call(this,{error: true});
 
                         } else {
                             //console.log("26");
@@ -791,45 +796,44 @@ function getResult(  source,  connection,  driver,  definition,  callback  ) {
                                             //console.log("4");
                                             if( results.length == 0) {
                                                 //console.log("5");
-                                                dbsearch.serialize(function() {
 
-                                                    callback.call(this,ordata);
-                                                    //console.log("Inserting rows");
+                                                callback.call(this,ordata);
+                                                //console.log("Inserting rows");
 
-                                                    if (rrows && rrows.length) {
+                                                if (rrows && rrows.length) {
 
-                                                        dbsearch.run("begin exclusive transaction");
-                                                        //console.log("Committing... " + rrows.length)
-                                                        for (var i =0 ; i < rrows.length; i++) {
-                                                            var rowhash = crypto.createHash('sha1');
-                                                            var row = JSON.stringify(rrows[i]);
-                                                            rowhash.setEncoding('hex');
-                                                            rowhash.write(row);
-                                                            rowhash.end();
-                                                            var sha1sum = rowhash.read();
-                                                            //console.log('                 : ' + JSON.stringify(rrows[i]));
-                                                            stmt2.run(sha1sum, row);
-                                                            stmt3.run(binHash, null, sha1sum);
-                                                        }
-                                                        //console.log("Committed: " + rrows.length)
-                                                        //stmt2.finalize();
-                                                        //stmt3.finalize();
-                                                        //console.log('                 : ' + JSON.stringify(rrows.length));
+                                                    dbsearch.run("begin exclusive transaction");
+                                                    //console.log("Committing... " + rrows.length)
+                                                    for (var i =0 ; i < rrows.length; i++) {
 
-                                                        //console.log('                 source: ' + JSON.stringify(source));
-                                                        setIn.run("INDEXED",source, function(err) {
-                                                            dbsearch.run("commit");
-                                                        });
-
-
-                                                    } else {
-                                                        //console.log("****************** err 2");
-                                                        callback.call(this,{error: true});
-                                                        dbsearch.run("begin exclusive transaction");
-                                                        setIn.run("INDEXED: Other error",source);
-                                                        dbsearch.run("commit");
+                                                        var rowhash = crypto.createHash('sha1');
+                                                        var row = JSON.stringify(rrows[i]);
+                                                        rowhash.setEncoding('hex');
+                                                        rowhash.write(row);
+                                                        rowhash.end();
+                                                        var sha1sum = rowhash.read();
+                                                        //console.log('                 : ' + JSON.stringify(rrows[i]));
+                                                        stmt2.run(sha1sum, row);
+                                                        stmt3.run(binHash, null, sha1sum);
                                                     }
-                                                });
+                                                    //console.log("Committed: " + rrows.length)
+                                                    //stmt2.finalize();
+                                                    //stmt3.finalize();
+                                                    //console.log('                 : ' + JSON.stringify(rrows.length));
+
+                                                    //console.log('                 source: ' + JSON.stringify(source));
+                                                    setIn.run("INDEXED",source, function(err) {
+                                                        dbsearch.run("commit");
+                                                    });
+
+
+                                                } else {
+                                                    //console.log("****************** err 2");
+                                                    callback.call(this,{error: true});
+                                                    dbsearch.run("begin exclusive transaction");
+                                                    setIn.run("INDEXED: Other error",source);
+                                                    dbsearch.run("commit");
+                                                }
                                             } else {
                                                 //console.log("****************** err 5: no rows");
                                                 callback.call(this,ordata);
@@ -841,14 +845,12 @@ function getResult(  source,  connection,  driver,  definition,  callback  ) {
                                             }
                                         } else {
                                             //console.log("****************** err 3" + err);
-                                            dbsearch.serialize(function() {
-                                                dbsearch.run("begin exclusive transaction");
-                                                setIn.run("ERROR: " + err, source, function(err) {
-                                                    dbsearch.run("commit");
-                                                });
-
-                                                callback.call(this,{error: true});
+                                            dbsearch.run("begin exclusive transaction");
+                                            setIn.run("ERROR: " + err, source, function(err) {
+                                                dbsearch.run("commit");
                                             });
+
+                                            callback.call(this,{error: true});
                                         }
                                     });
                             })
