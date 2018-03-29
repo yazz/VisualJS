@@ -630,9 +630,21 @@ function findFoldersFn() {
         useDrive = '/';
     }
 
-    stmtResetFolders.run();
+    dbsearch.serialize(
+        function() {
+            dbsearch.run("begin exclusive transaction");
+            stmtResetFolders.run(function(err) {
+                dbsearch.run("commit");
+            });
+        })
 
-    stmtResetFiles.run();
+    dbsearch.serialize(
+        function() {
+            dbsearch.run("begin exclusive transaction");
+            stmtResetFiles.run(function(err) {
+                dbsearch.run("commit");
+            });
+        })
 
     //remoteWalk(useDrive);
     directSearchFolders(useDrive);
