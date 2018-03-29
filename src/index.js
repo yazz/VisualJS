@@ -1522,7 +1522,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
 
 
-//zzz
+
         } else if (msg.message_type == "returnIntranetServers_json") {
             var newres = queuedResponses[ msg.seq_num ]
 
@@ -1871,7 +1871,7 @@ function startServices() {
 
     });
 
-//zzz
+
     //------------------------------------------------------------------------------
     // get_intranet_servers
     //------------------------------------------------------------------------------
@@ -1917,10 +1917,30 @@ function startServices() {
 
 
 
+//zzz
     //------------------------------------------------------------------------------
     // search
     //------------------------------------------------------------------------------
     app.get('/client/1/search', function (req, res) {
+        //console.log("1 - get_search_results ,req.query.search_text: " + req.query.search_text)
+        //console.log("    get_search_results ,req.query.search_text: " + new Date().getTime())
+
+        //var args2 = decodeURI(url.parse(req.url, true).query.a);
+        //var args  = JSON.parse(args2);
+
+        var seqNum = queuedResponseSeqNum;
+        queuedResponseSeqNum ++;
+        queuedResponses[seqNum] = res;
+        //console.log("2 - get_search_results")
+        forkedProcesses["forked"].send({   message_type: "get_search_results",
+                        seq_num:                    seqNum,
+                        searchTerm:                 "a",
+                        timeStart:                  new Date().getTime()
+                        });
+
+
+
+
         var result = {
                         message:  "Search not implemented yet",
                         links: {"self": { "href": "/client/1/search" }}
