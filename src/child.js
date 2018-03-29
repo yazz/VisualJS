@@ -1062,24 +1062,25 @@ function processFilesFn() {
 
                         dbsearch.serialize(
                             function() {
+                                dbsearch.run("begin exclusive transaction");
                                 stmtUpdateFileStatus.run( "REINDEXED", returnedRecord.id,
                                     function(err) {
+                                        dbsearch.run("commit");
+                                        try {
 
-                                    try {
+                                            if (fs.existsSync(fullFileNamePath)) {
+                                                var stat = fs.statSync(fullFileNamePath)
+                                                var onDiskFileContentsSize = stat.size
+                                                if (onDiskFileContentsSize != fileContentsSize) {
 
-                                    if (fs.existsSync(fullFileNamePath)) {
-                                    var stat = fs.statSync(fullFileNamePath)
-                                    var onDiskFileContentsSize = stat.size
-                                    if (onDiskFileContentsSize != fileContentsSize) {
+                                                    //console.log("existingConnectionId: " + existingConnectionId)
+                                                    //console.log("driver: " + driverName)
+                                                    //console.log("fileContentsSize: " + fileContentsSize)
+                                                    //console.log("sha1ofFileContents: " + sha1ofFileContents)
+                                                    //console.log("fullFileNamePath: " + fullFileNamePath)
+                                                    //console.log("documentType: " + documentType)
 
-                                        //console.log("existingConnectionId: " + existingConnectionId)
-                                        //console.log("driver: " + driverName)
-                                        //console.log("fileContentsSize: " + fileContentsSize)
-                                        //console.log("sha1ofFileContents: " + sha1ofFileContents)
-                                        //console.log("fullFileNamePath: " + fullFileNamePath)
-                                        //console.log("documentType: " + documentType)
-
-                                        var newSha1ofFileContents = getSha1(fullFileNamePath)
+                                                    var newSha1ofFileContents = getSha1(fullFileNamePath)
 
 
 
@@ -1088,12 +1089,17 @@ function processFilesFn() {
                                             //console.log("    3")
                                             if (err) {
                                                 console.log('   err 1 : ' + err);
-                                                stmtUpdateFileStatus.run( "ERROR", returnedRecord.id, function(err) {})
+                                                dbsearch.run("begin exclusive transaction");
+                                                stmtUpdateFileStatus.run( "ERROR", returnedRecord.id,
+                                                    function(err) {
+                                                        dbsearch.run("commit");
+                                                    })
                                                 inProcessFilesFn = false
                                             } else {
 
                                                 //console.log("    4")
                                                 var newqueryid = uuidv1();
+                                                dbsearch.run("begin exclusive transaction");
                                                 stmtInsertInsertIntoQueries.run(
 
                                                     newqueryid,
@@ -1109,37 +1115,56 @@ function processFilesFn() {
                                                     timestampInSeconds(),
 
                                                     function(err2) {
+                                                        dbsearch.run("commit");
                                                         if (err2) {
                                                             console.log('   1033 err2 : ' + err2);
-                                                            stmtUpdateFileStatus.run( "ERROR", returnedRecord.id, function(err) {})
+                                                            dbsearch.serialize(
+                                                                function() {
+                                                                    dbsearch.run("begin exclusive transaction");
+                                                                    stmtUpdateFileStatus.run( "ERROR", returnedRecord.id,
+                                                                    function(err) {
+                                                                        dbsearch.run("commit");
+                                                                    })
+                                                                })
                                                         } else {
-                                                            stmtFileChanged.run(
-                                                                newSha1ofFileContents,
-                                                                onDiskFileContentsSize,
-                                                                returnedRecord.id,
-                                                                function(err9) {
-                                                                    if (err9) {
-                                                                        inProcessFilesFn = false
-                                                                        stmtUpdateFileStatus.run( "ERROR", returnedRecord.id, function(err) {})
-                                                                    }
-                                                                    else {
-                                                                        process.send({
-                                                                                        message_type:       "return_set_query",
-                                                                                        id:                 newqueryid,
-                                                                                        name:               fileScreenName,
-                                                                                        connection:         existingConnectionId,
-                                                                                        driver:             driverName,
-                                                                                        size:               fileContentsSize,
-                                                                                        hash:               sha1ofFileContents,
-                                                                                        fileName:           fullFileNamePath,
-                                                                                        type:               driverName,
-                                                                                        definition:         JSON.stringify({} , null, 2),
-                                                                                        preview:            JSON.stringify([{message: 'No preview available'}] , null, 2)});
+                                                            dbsearch.serialize(
+                                                                function() {
+                                                                    dbsearch.run("begin exclusive transaction");
+                                                                    stmtFileChanged.run(
+                                                                        newSha1ofFileContents,
+                                                                        onDiskFileContentsSize,
+                                                                        returnedRecord.id,
+                                                                        function(err9) {
+                                                                            dbsearch.run("commit");
+                                                                            if (err9) {
+                                                                                inProcessFilesFn = false
+                                                                                dbsearch.serialize(
+                                                                                    function() {
+                                                                                        dbsearch.run("begin exclusive transaction");
+                                                                                        stmtUpdateFileStatus.run( "ERROR", returnedRecord.id, function(err) {
+                                                                                            dbsearch.run("commit");
+                                                                                        })
+                                                                                    })
+                                                                            }
+                                                                            else {
+                                                                                process.send({
+                                                                                                message_type:       "return_set_query",
+                                                                                                id:                 newqueryid,
+                                                                                                name:               fileScreenName,
+                                                                                                connection:         existingConnectionId,
+                                                                                                driver:             driverName,
+                                                                                                size:               fileContentsSize,
+                                                                                                hash:               sha1ofFileContents,
+                                                                                                fileName:           fullFileNamePath,
+                                                                                                type:               driverName,
+                                                                                                definition:         JSON.stringify({} , null, 2),
+                                                                                                preview:            JSON.stringify([{message: 'No preview available'}] , null, 2)});
 
-                                                                    }
-                                                                    inProcessFilesFn = false
-                                                                }
-                                                        )
+                                                                            }
+                                                                            inProcessFilesFn = false
+                                                                        }
+                                                                )
+                                                            })
                                                         //console.log("    5")
                                                         }
                                                         inProcessFilesFn = false
