@@ -3089,15 +3089,18 @@ function clientConnectFn(
 
 function get_all_queries(callbackFn, callbackEndFn) {
     //console.log('4:');
-    var stmt = dbsearch.all("select * from queries",
-        function(err, results) {
-            //console.log('4.5: results length = ' + results.length);
-            for (var i=0; i < results.length;i ++) {
-                var query = results[i];
-                callbackFn({query: query})
-            }
-            callbackEndFn()
-        });
+    dbsearch.serialize(
+        function() {
+            var stmt = dbsearch.all("select * from queries",
+                function(err, results) {
+                    //console.log('4.5: results length = ' + results.length);
+                    for (var i=0; i < results.length;i ++) {
+                        var query = results[i];
+                        callbackFn({query: query})
+                    }
+                    callbackEndFn()
+                });
+            }, sqlite3.OPEN_READONLY)
 };
 
 
