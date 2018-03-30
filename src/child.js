@@ -1101,7 +1101,7 @@ function processFilesFn() {
                         var documentType = returnedRecord.type
                         var fileScreenName = returnedRecord.orig_name
 
-//zzz
+
                         dbsearch.serialize(
                             function() {
                                 dbsearch.run("begin exclusive transaction");
@@ -1252,7 +1252,7 @@ function processFilesFn() {
                 }
             })
         }, sqlite3.OPEN_READONLY)
-        //zzz
+
 
 
     } catch (err) {
@@ -2427,7 +2427,7 @@ function remoteWalk( dir ) {
                                     }
                                 });
                                 }, sqlite3.OPEN_READONLY)
-                                
+
 
                     }
                 } catch(err) {
@@ -2441,6 +2441,9 @@ function remoteWalk( dir ) {
 
 
 function addFolderForIndexingIfNotExist(folderName) {
+    dbsearch.serialize(
+        function() {
+
     var stmt = dbsearch.all(
         "select id from folders where path = ?",
         [folderName],
@@ -2459,6 +2462,7 @@ function addFolderForIndexingIfNotExist(folderName) {
                 console.log(err)
             }
         });
+    }, sqlite3.OPEN_READONLY)
 }
 var fileFilter = /\xlsx$|csv$|docx$|pdf$|glb$/
 function directSearchFolders(drive) {
@@ -2705,6 +2709,10 @@ function addOrUpdateDriver(name, code2, theObject) {
           in_when_queries_changes = true;
           //console.log('Called when_queries_changes ');
           ////console.log('    connection keys:  ' + JSON.stringify(Object.keys(connections),null,2));
+          dbsearch.serialize(
+              function() {
+
+
           var stmt = dbsearch.all("select * from queries",
               function(err, results) {
                   if (!err) {
@@ -2738,6 +2746,7 @@ function addOrUpdateDriver(name, code2, theObject) {
               in_when_queries_changes = false;
 
               });
+          }, sqlite3.OPEN_READONLY)
       }
   };
 
@@ -2763,19 +2772,22 @@ function when_connections_change() {
     if (!in_when_connections_change) {
         in_when_connections_change=true;
 
-        var stmt = dbsearch.all("select * from connections",
-            function(err, results) {
-                if (!err) {
-                    for (var i = 0 ; i < results.length ; i ++) {
-                        var conn = results[i]
-                        if (!connections[conn.id]) {
-                          setSharedGlobalVar("connections", conn.id, JSON.stringify(conn,null,2));
+        dbsearch.serialize(
+            function() {
+                var stmt = dbsearch.all("select * from connections",
+                    function(err, results) {
+                        if (!err) {
+                            for (var i = 0 ; i < results.length ; i ++) {
+                                var conn = results[i]
+                                if (!connections[conn.id]) {
+                                  setSharedGlobalVar("connections", conn.id, JSON.stringify(conn,null,2));
+                                }
+                            }
                         }
+                        in_when_connections_change=false;
                     }
-                }
-                in_when_connections_change=false;
-            }
-        );
+                );
+        }, sqlite3.OPEN_READONLY)
     };
 }
 
@@ -2832,6 +2844,9 @@ function addNewConnection( params ) {
 
 function downloadWebDocument(queryId, callbackFn) {
     //console.log("4")
+
+    dbsearch.serialize(
+        function() {
 
     var stmt = dbsearch.all(" select   " +
                             "     contents.content, queries.driver   from  contents, queries   " +
@@ -2971,7 +2986,7 @@ function downloadWebDocument(queryId, callbackFn) {
                 };
         };
     });
-
+}, sqlite3.OPEN_READONLY)
 }
 
 
