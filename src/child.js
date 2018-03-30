@@ -1502,6 +1502,8 @@ function findFilesInFoldersFn() {
 
 
     try {
+        dbsearch.serialize(
+            function() {
 
         var stmt = dbsearch.all(
             "SELECT * FROM folders WHERE status IS NULL LIMIT 1 "
@@ -1536,6 +1538,8 @@ function findFilesInFoldersFn() {
                     };
                 }
            })
+
+       }, sqlite3.OPEN_READONLY)
     } catch (err) {
         console.log("          1327 Error: " + err);
     }
@@ -1564,6 +1568,9 @@ function indexFileRelationshipsFn() {
 
 
     try {
+        dbsearch.serialize(
+            function() {
+
         var stmt = dbsearch.all(
             "SELECT * FROM queries WHERE related_status IS NULL LIMIT 1 "
             ,
@@ -1704,6 +1711,8 @@ function indexFileRelationshipsFn() {
                 console.log("          1480 Error: " );
            }
         })
+
+        }, sqlite3.OPEN_READONLY)
     }catch (err) {
         console.log("          1484 Error: " + err);
     }
@@ -3004,6 +3013,10 @@ function downloadWebDocument(queryId, callbackFn) {
 function downloadDocuments( fileId, callbackFn ) {
 		if (fileId && (fileId.length > 0)) {
 				//console.log("getting file: " + fileId);
+            dbsearch.serialize(
+                function() {
+
+
 				var stmt = dbsearch.all(" select   queries.driver as driver, contents.id as id,  content, content_type   from   contents, queries   " +
                                         " where queries.id = ? and  contents.id = queries.hash  limit 1" ,
                                         [fileId], function(err, rows) {
@@ -3018,6 +3031,7 @@ function downloadDocuments( fileId, callbackFn ) {
                             callbackFn({error: err})
                         };
 				});
+            }, sqlite3.OPEN_READONLY)
 		} else {
             callbackFn({error: "No file selected"})
 		}
@@ -3038,6 +3052,9 @@ function getIntranetServers(  requestClientPublicIp,  requestVia,  numberOfSecon
                                 "    (( public_ip = '" + requestClientPublicIp + "') or " +
                                                     "((via = '" + requestVia + "') and (length(via) > 0)))";
         //console.log("check IP: " + mysql);
+    dbsearch.serialize(
+        function() {
+
         var stmt = dbsearch.all(
             mysql,
             function(err, rows) {
@@ -3048,6 +3065,7 @@ function getIntranetServers(  requestClientPublicIp,  requestVia,  numberOfSecon
                     callbackFn({error: err})
                 }
         });
+    }, sqlite3.OPEN_READONLY)
 };
 
 
