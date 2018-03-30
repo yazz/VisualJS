@@ -448,7 +448,7 @@ function markFileForProcessing(  fullFilePath ) {
                     };
                 }
             )
-        })
+        }, sqlite3.OPEN_READONLY)
     } catch(err) {
         console.log("Error " + err + " with file: " + fullFilePath);
         return err;
@@ -500,6 +500,7 @@ function getRelatedDocuments(  id,  callback  ) {
         //console.log("**** : **********************")
         //console.log("**** : **********************")
         //console.log("**** : **********************")
+         dbsearch.serialize(function() {
         var stmt = dbsearch.all(
             sql,
             function(err, results)
@@ -529,6 +530,7 @@ function getRelatedDocuments(  id,  callback  ) {
                                     results: JSON.stringify(results,null,2)  });
                 }
             })
+        }, sqlite3.OPEN_READONLY)
     } catch(err) {
         //console.log(err)
                         process.send({  message_type:       "return_similar_documents",
@@ -3289,6 +3291,7 @@ dbsearch.serialize(function() {
 
 
 function get_all_tableFn(  tableName, fields, callbackFn  ) {
+    dbsearch.serialize(function() {
     //console.log("5 - get_all_tableFn, tableName: = " + tableName);
     var stmt = dbsearch.all("select " + fields + " from " + tableName,
         function(err, rows) {
@@ -3299,6 +3302,7 @@ function get_all_tableFn(  tableName, fields, callbackFn  ) {
                 //console.log("Error: " + err);
             };
         })
+    }, sqlite3.OPEN_READONLY)
 };
 
 
