@@ -724,6 +724,7 @@ function indexFilesFn() {
    };
 
    try {
+       dbsearch.serialize(function() {
     var stmt = dbsearch.all(
         "SELECT * FROM queries WHERE index_status IS NULL LIMIT 1 " ,
         function(err, results)
@@ -757,6 +758,7 @@ function indexFilesFn() {
                 console.log("          670 Error: " );
            }
         })
+    }, sqlite3.OPEN_READONLY)
    }catch (err) {
                 console.log("          674 Error: " + err);
    }
