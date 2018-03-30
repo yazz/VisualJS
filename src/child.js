@@ -1101,6 +1101,7 @@ function processFilesFn() {
                         var documentType = returnedRecord.type
                         var fileScreenName = returnedRecord.orig_name
 
+//zzz
                         dbsearch.serialize(
                             function() {
                                 dbsearch.run("begin exclusive transaction");
@@ -1251,7 +1252,7 @@ function processFilesFn() {
                 }
             })
         }, sqlite3.OPEN_READONLY)
-        //zzz
+
 
     } catch (err) {
         console.log("          Error: " + err);
@@ -1763,19 +1764,22 @@ function sendTestHeartBeat() {
         if (!isPcDoingStuff) {
             try
             {
-                var stmt = dbsearch.all(
-                    "SELECT count(*) FROM queries;",
-                    function(err, results)
-                    {
-                        if (!err)
-                        {
-                            if( results.length > 0)  {
+                dbsearch.serialize(
+                    function() {
+                        var stmt = dbsearch.all(
+                            "SELECT count(*) FROM queries;",
+                            function(err, results)
+                            {
+                                if (!err)
+                                {
+                                    if( results.length > 0)  {
 
-                                process.send({  message_type:       "return_test_fork",
-                                                counter:    counter ++, sqlite: JSON.stringify(results[0],null,2)  });
-                            }
-                        }
-                    })
+                                        process.send({  message_type:       "return_test_fork",
+                                                        counter:    counter ++, sqlite: JSON.stringify(results[0],null,2)  });
+                                    }
+                                }
+                            })
+                }, sqlite3.OPEN_READONLY)
             } catch(err) {
                                 process.send({  message_type:       "return_test_fork",
                                                 counter:    counter ++, sqlite: "Err: " + err  });
