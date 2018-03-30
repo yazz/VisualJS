@@ -3042,7 +3042,7 @@ function clientConnectFn(
 		//console.log('client VIA:                      ' + requestVia)
 
           dbsearch.serialize(function() {
-              //zzz
+
 
               var newid = uuidv1();
               dbsearch.run("begin exclusive transaction");
@@ -3162,6 +3162,9 @@ function get_search_resultsFn(  searchTerm,  timeStart , callbackFn  ) {
         if (firstWord.length < 1) {
             firstWord = "";
         }
+        //zzz
+        dbsearch.serialize(
+            function() {
         var stmt = dbsearch.all(mysql, function(err, rows) {
             if (!err) {
                 //console.log('rows: ' + JSON.stringify(rows.length));
@@ -3208,6 +3211,7 @@ function get_search_resultsFn(  searchTerm,  timeStart , callbackFn  ) {
                              error: "Error searching for: " + searchTerm }  );
             }
         });
+    }, sqlite3.OPEN_READONLY)
 
     })
     };
