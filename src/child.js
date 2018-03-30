@@ -1064,6 +1064,7 @@ function processFilesFn() {
     // ---------------------------------------------------------------------------
 
     try {
+        dbsearch.serialize(function() {
         var stmt = dbsearch.all(
             "SELECT  " +
 
@@ -1249,6 +1250,8 @@ function processFilesFn() {
                     }
                 }
             })
+        }, sqlite3.OPEN_READONLY)
+        //zzz
 
     } catch (err) {
         console.log("          Error: " + err);
@@ -1266,6 +1269,7 @@ function processFilesFn() {
     // ---------------------------------------------------------------------------
 
     try {
+        dbsearch.serialize(function() {
         var stmt = dbsearch.all(
             " SELECT  " +
 
@@ -1469,6 +1473,7 @@ function processFilesFn() {
 
             }
         })
+    }, sqlite3.OPEN_READONLY)
 
     } catch (err) {
         console.log("          1275 Error: " + err);
@@ -1495,6 +1500,7 @@ function findFilesInFoldersFn() {
 
 
     try {
+
         var stmt = dbsearch.all(
             "SELECT * FROM folders WHERE status IS NULL LIMIT 1 "
             ,
