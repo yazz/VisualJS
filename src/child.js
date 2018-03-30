@@ -45,6 +45,8 @@ var stmtUpdateRelationships2;
 
 var stmtUpdateFolder;
 var stmtResetFolders;
+var stmtInsertDriver;
+var stmtUpdateDriver;
 
 var stmtResetFiles;
 var stmtFileChanged;
@@ -130,6 +132,13 @@ testDiffFn();
 //                                                                                         //
 //-----------------------------------------------------------------------------------------//
 function setUpSql() {
+    stmtInsertDriver = dbsearch.prepare(" insert or replace into drivers " +
+                                "    (id,  name, type, code ) " +
+                                " values " +
+                                "    (?, ?,?,?);");
+
+    stmtUpdateDriver = dbsearch.prepare(" update   drivers   set code = ? where id = ?");
+
     stmtResetFolders = dbsearch.prepare( " update   folders   set status = NULL ");
 
     stmtResetFiles   = dbsearch.prepare( " update   files   set status = 'INDEXED' where status = 'REINDEXED' ");
@@ -1303,7 +1312,7 @@ function processFilesFn() {
                             if (documentType) {
                                 var screenName = fileName.replace(/[^\w\s]/gi,'');
                                 var newConnectionId = uuidv1();
-                                //zzz
+
                                 dbsearch.serialize(
                                     function() {
                                         dbsearch.run("begin exclusive transaction");
@@ -2552,6 +2561,8 @@ function addOrUpdateDriver(name, code2, theObject) {
 	var driverType = theObject.type;
 	//console.log('addOrUpdateDriver: ' + name);
 
+    dbsearch.serialize(
+        function() {
       var stmt = dbsearch.all("select name from drivers where name = '" + name + "';",
           function(err, rows) {
               if (!err) {
@@ -2559,16 +2570,16 @@ function addOrUpdateDriver(name, code2, theObject) {
                   if (rows.length == 0) {
                       try
                       {
-                          dbsearch.serialize(function() {
-                              var stmt = dbsearch.prepare(" insert or replace into drivers " +
-                                                          "    (id,  name, type, code ) " +
-                                                          " values " +
-                                                          "    (?, ?,?,?);");
-                          stmt.run(uuidv1(),  name,  driverType,  code2);
-                          stmt.finalize();
-                          });
+                          dbsearch.serialize(
+                              function() {
+                                  dbsearch.run("begin exclusive transaction");
+                                  stmtInsertDriver.run(uuidv1(),  name,  driverType,  code2,
+                                    function() {
+                                          dbsearch.run("commit");
+                                      });
+                                  })
                       } catch(err) {
-                          //console.log('err             : ' + err);
+                          console.log('err             : ' + err);
                       } finally {
 
                       }
@@ -2580,12 +2591,15 @@ function addOrUpdateDriver(name, code2, theObject) {
                           try
                           {
                               dbsearch.serialize(function() {
-                                  var stmt = dbsearch.prepare(" update   drivers   set code = ? where id = ?");
-                                  stmt.run( code2 , rows[0].id );
-                                  stmt.finalize();
+                                  dbsearch.run("begin exclusive transaction");
+                                  stmtUpdateDriver.run( code2 , rows[0].id ,
+                                    function() {
+                                        dbsearch.run("commit");
+                                    }
+                                );
                               });
                           } catch(err) {
-                              //console.log('err             : ' + err);
+                              console.log('err             : ' + err);
                           } finally {
 
                           }
@@ -2594,6 +2608,7 @@ function addOrUpdateDriver(name, code2, theObject) {
               }
           }
       );
+  }, sqlite3.OPEN_READONLY)
   }
 
 
