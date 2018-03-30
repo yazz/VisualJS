@@ -1402,13 +1402,25 @@ function processFilesFn() {
                             })
 
                             } else {
-                                stmtUpdateFileStatus.run( "ERROR", returnedRecord.id,function(err4){})
+                                dbsearch.serialize(
+                                    function() {
+                                        dbsearch.run("begin exclusive transaction");
+                                stmtUpdateFileStatus.run( "ERROR", returnedRecord.id,function(err4){
+                                    dbsearch.run("commit");
+                                })
                                 inProcessFilesFn = false
+                            })
                             }
                         }
                         } else {
-                            stmtUpdateFileStatus.run( "DELETED", returnedRecord.id,function(err4){})
+                            dbsearch.serialize(
+                                function() {
+                                    dbsearch.run("begin exclusive transaction");
+                            stmtUpdateFileStatus.run( "DELETED", returnedRecord.id,function(err4){
+                                dbsearch.run("commit");
+                            })
                             inProcessFilesFn = false
+                        })
                         }
 
                 } else {
@@ -1466,7 +1478,13 @@ function findFilesInFoldersFn() {
                                 })
                             }
                       })
-                      stmtUpdateFolder.run("INDEXED", folderRecord.id)
+                      dbsearch.serialize(
+                          function() {
+                              dbsearch.run("begin exclusive transaction");
+                              stmtUpdateFolder.run("INDEXED", folderRecord.id, function() {
+                                  dbsearch.run("commit");
+                              })
+                          })
                     };
                 }
            })
@@ -1582,22 +1600,30 @@ function indexFileRelationshipsFn() {
                                                                                 //console.log("          E: "  + JSON.stringify(xdiff.edited,null,2))
                                                                                 //console.log("          A: "  + JSON.stringify(xdiff.array,null,2))
                                                                                 var newId = uuidv1();
-                                                                                stmtUpdateRelationships2.run(
-                                                                                    xdiff.new,
-                                                                                    xdiff.new,
+                                                                                dbsearch.serialize(
+                                                                                    function() {
+                                                                                        dbsearch.run("begin exclusive transaction");
+                                                                                        stmtUpdateRelationships2.run(
+                                                                                            xdiff.new,
+                                                                                            xdiff.new,
 
-                                                                                    xdiff.deleted,
-                                                                                    xdiff.deleted,
+                                                                                            xdiff.deleted,
+                                                                                            xdiff.deleted,
 
-                                                                                    xdiff.edited,
-                                                                                    xdiff.edited,
+                                                                                            xdiff.edited,
+                                                                                            xdiff.edited,
 
-                                                                                    xdiff.array,
-                                                                                    xdiff.array,
+                                                                                            xdiff.array,
+                                                                                            xdiff.array,
 
-                                                                                    queryToIndex.hash,
-                                                                                    relatedQuery.hash
-                                                                                    );
+                                                                                            queryToIndex.hash,
+                                                                                            relatedQuery.hash
+                                                                                            ,
+                                                                                            function() {
+                                                                                                dbsearch.run("commit");
+                                                                                            }
+                                                                                            );
+                                                                                        })
                                                                             }
                                                                         } else {
                                                                             console.log("     error in related  : " + " = " + queryResult2.error);
