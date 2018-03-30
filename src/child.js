@@ -3162,7 +3162,7 @@ function get_search_resultsFn(  searchTerm,  timeStart , callbackFn  ) {
         if (firstWord.length < 1) {
             firstWord = "";
         }
-        //zzz
+
         dbsearch.serialize(
             function() {
         var stmt = dbsearch.all(mysql, function(err, rows) {
@@ -3250,6 +3250,7 @@ function getqueryresultFn(  connectionId, queryId, definition, callbackFn) {
 
                 //console.log('trying to save document: ');
 
+dbsearch.serialize(function() {
                 var stmt = dbsearch.all("select   contents.content   from   queries, contents   where   queries.id = ? and queries.driver = 'pdf'" +
                                         "    and contents.id = queries.hash  limit 1",
 
@@ -3273,6 +3274,7 @@ function getqueryresultFn(  connectionId, queryId, definition, callbackFn) {
                     }
                 }
             })
+        }, sqlite3.OPEN_READONLY)
 			} else {
 				//console.log('query driver not found: ' + connections[queryData.connectionId]);
                 callbackFn(JSON.stringify({error: 'query driver not found'}));
