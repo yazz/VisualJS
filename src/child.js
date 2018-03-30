@@ -1370,6 +1370,9 @@ function processFilesFn() {
                                                                     definition:         JSON.stringify({} , null, 2),
                                                                     preview:            JSON.stringify([{message: 'No preview available'}] , null, 2)});
 
+                                                                    dbsearch.serialize(
+                                                                        function() {
+                                                                            dbsearch.run("begin exclusive transaction");
                                                     stmtUpdateFileSizeAndShaAndConnectionId.run(
                                                         sha1ofFileContents,
                                                         fileContentsSize,
@@ -1377,12 +1380,20 @@ function processFilesFn() {
                                                         returnedRecord.id,
                                                         function(err3) {
                                                             //console.log('   CRETAED : ' + returnedRecord.id);
+                                                            dbsearch.run("commit");
                                                             if (err3) {
                                                                 console.log('   err3 : ' + err3);
-                                                                stmtUpdateFileStatus.run( "ERROR", returnedRecord.id,function(err4){})
+                                                                dbsearch.serialize(
+                                                                    function() {
+                                                                        dbsearch.run("begin exclusive transaction");
+                                                                        stmtUpdateFileStatus.run( "ERROR", returnedRecord.id,function(err4){
+                                                                            dbsearch.run("commit");
+                                                                        })
+                                                                    })
                                                             }
                                                             inProcessFilesFn = false
                                                     })
+                                                })
                                                 }
                                         })
                                     })
