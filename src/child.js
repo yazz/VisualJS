@@ -847,6 +847,7 @@ function getResult(  source,  connection,  driver,  definition,  callback  ) {
                                         //console.log("No sresults for hash" + source + "'");
                                     }
                                     var binHash = results2[0].hash;
+                                    dbsearch.serialize(function() {
                                     var stmt = dbsearch.all("select  " +
                                                         "    document_binary_hash  "  +
                                                         "from  " +
@@ -941,6 +942,7 @@ function getResult(  source,  connection,  driver,  definition,  callback  ) {
                                             })
                                         }
                                     });
+                                }, sqlite3.OPEN_READONLY)
                             })
                         }, sqlite3.OPEN_READONLY)
 
