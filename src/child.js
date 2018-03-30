@@ -2462,10 +2462,17 @@ function addFolderForIndexingIfNotExist(folderName) {
             {
                 if (results.length == 0) {
                     var newId = uuidv1();
-                    stmtInsertIntoFolders.run(
-                        newId,
-                        folderName,
-                        folderName);
+                    
+                    dbsearch.serialize(
+                        function() {
+                            dbsearch.run("begin exclusive transaction");
+                            stmtInsertIntoFolders.run(
+                                newId,
+                                folderName,
+                                folderName, function() {
+                                    dbsearch.run("commit");
+                                });
+                            })
                     }
             } else {
                 console.log(err)
