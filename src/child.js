@@ -2336,19 +2336,24 @@ function remoteWalk( dir ) {
                                     {
                                         if (results.length == 0) {
                                             var newId = uuidv1();
-                                            stmtInsertIntoFolders.run(
-                                                newId,
-                                                fileOrFolder,
-                                                folderName
-                                                ,
-                                                function(err3) {
-                                                    console.log("     fileOrFolder: " + fileOrFolder)
-                                                    try {
-                                                        remoteWalk(fileOrFolder);
-                                                    } catch(err3) {
-                                                        console.log(err3)
-                                                    }
-                                                });
+                                            dbsearch.serialize(
+                                                function() {
+                                                    dbsearch.run("begin exclusive transaction");
+                                                    stmtInsertIntoFolders.run(
+                                                        newId,
+                                                        fileOrFolder,
+                                                        folderName
+                                                        ,
+                                                        function(err3) {
+                                                            dbsearch.run("commit");
+                                                            console.log("     fileOrFolder: " + fileOrFolder)
+                                                            try {
+                                                                remoteWalk(fileOrFolder);
+                                                            } catch(err3) {
+                                                                console.log(err3)
+                                                            }
+                                                        });
+                                                    })
                                             }
                                             else {
                                                     try {
