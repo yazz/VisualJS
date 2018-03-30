@@ -1252,6 +1252,7 @@ function processFilesFn() {
                 }
             })
         }, sqlite3.OPEN_READONLY)
+        //zzz
 
 
     } catch (err) {
@@ -2225,6 +2226,9 @@ function testDiffFn() {
 //                                                                                         //
 //-----------------------------------------------------------------------------------------//
 function createRelationship(  doc_hash,  target_hash,  similar_count ) {
+
+    dbsearch.serialize(
+        function() {
     dbsearch.all(
         "select  id  from  relationships  where  " +
         "    source_query_hash = '"  +  doc_hash  +  "' and target_query_hash = '"  +  target_hash + "'"
@@ -2248,6 +2252,7 @@ function createRelationship(  doc_hash,  target_hash,  similar_count ) {
             }
         }
     )
+    }, sqlite3.OPEN_READONLY)
 }
 
 
@@ -2380,6 +2385,9 @@ function remoteWalk( dir ) {
                             //var folderName = parentDir +fileOrFolder
                             var folderName = fileOrFolder
                             console.log("Folder: " + folderName)
+
+                            dbsearch.serialize(
+                                function() {
                             var stmt = dbsearch.all(
                                 "select id from folders where path = ?",
                                 [folderName],
@@ -2418,6 +2426,8 @@ function remoteWalk( dir ) {
                                             }
                                     }
                                 });
+                                }, sqlite3.OPEN_READONLY)
+                                
 
                     }
                 } catch(err) {
