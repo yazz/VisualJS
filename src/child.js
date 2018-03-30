@@ -582,6 +582,8 @@ function getRelatedDocumentHashes(  doc_hash,  callback  ) {
 
     try
     {
+        dbsearch.serialize(
+            function() {
         var stmt = dbsearch.all(
             sql,
             function(err, results)
@@ -616,6 +618,7 @@ function getRelatedDocumentHashes(  doc_hash,  callback  ) {
                                     results: JSON.stringify(results,null,2)  });
                 }
             })
+        }, sqlite3.OPEN_READONLY)
     } catch(err) {
         //console.log(err)
                         process.send({  message_type:       "return_similar_hashes",
