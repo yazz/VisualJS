@@ -1335,6 +1335,9 @@ function processFilesFn() {
 
 
                                         var newqueryid = uuidv1();
+                                        dbsearch.serialize(
+                                            function() {
+                                                dbsearch.run("begin exclusive transaction");
                                         stmtInsertInsertIntoQueries.run(
 
                                             newqueryid,
@@ -1350,6 +1353,7 @@ function processFilesFn() {
                                             timestampInSeconds(),
 
                                             function(err2) {
+                                                dbsearch.run("commit");
                                                 if (err2) {
                                                     console.log('   1225: err in stmtInsertInsertIntoQueries.run( : ' + err2);
                                                 } else {
@@ -1381,6 +1385,7 @@ function processFilesFn() {
                                                     })
                                                 }
                                         })
+                                    })
                                     }
                                 );
                             })
