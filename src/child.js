@@ -61,6 +61,10 @@ var stmtUpdateFileProperties;
 var stmtInsertIntoContents;
 var stmtInsertIntoFolders;
 var stmtInsertIntoConnections;
+var stmtInsertIntoConnections2;
+
+var stmtInsertIntoIntranetClientConnects;
+
 var stmtInsertInsertIntoQueries;
 var stmtUpdateRelatedDocumentCount;
 var stmtUpdateRelationships;
@@ -133,6 +137,16 @@ testDiffFn();
 //                                                                                         //
 //-----------------------------------------------------------------------------------------//
 function setUpSql() {
+    stmtInsertIntoIntranetClientConnects = dbsearch.prepare(" insert  into  intranet_client_connects " +
+                            "    ( id, internal_host, internal_port, public_ip, via, public_host, user_name, client_user_name, when_connected) " +
+                            " values " +
+                            "    (?,   ?,?,?,?,  ?,?,?,?);");
+
+    stmtInsertIntoConnections2 = dbsearch.prepare(" insert into connections " +
+                                "    ( id, name, driver, database, host, port, connectString, user, password, fileName, preview ) " +
+                                " values " +
+                                "    (?,  ?,?,?,?,?,?,?,?,?,?);");
+
     stmtInsertIntoQueries = dbsearch.prepare(" insert into queries " +
                                 "    ( id, name, connection, driver, definition, status, type ) " +
                                 " values " +
@@ -2624,7 +2638,7 @@ function addOrUpdateDriver(name, code2, theObject) {
       {
           //console.log("------------------function addNewQuery( params ) { -------------------");
           dbsearch.serialize(function() {
-              //zzz
+
               var newQueryId = uuidv1();
               dbsearch.run("begin exclusive transaction");
               stmtInsertIntoQueries.run(newQueryId,
@@ -2737,12 +2751,9 @@ function addNewConnection( params ) {
     {
         //console.log("------------------function addNewConnection( params ) { -------------------");
         dbsearch.serialize(function() {
-            var stmt = dbsearch.prepare(" insert into connections " +
-                                        "    ( id, name, driver, database, host, port, connectString, user, password, fileName, preview ) " +
-                                        " values " +
-                                        "    (?,  ?,?,?,?,?,?,?,?,?,?);");
 
-            stmt.run(uuidv1(),
+            dbsearch.run("begin exclusive transaction");
+            stmtInsertIntoConnections2.run(uuidv1(),
                      params.name,
                      params.driver,
                      params.database,
@@ -2754,10 +2765,9 @@ function addNewConnection( params ) {
                      params.fileName,
                      params.preview,
                      function(result) {
+                         dbsearch.run("commit");
                          when_connections_change();
                      });
-
-            stmt.finalize();
 
         });
     } catch(err) {
@@ -3032,13 +3042,11 @@ function clientConnectFn(
 		//console.log('client VIA:                      ' + requestVia)
 
           dbsearch.serialize(function() {
-              var stmt = dbsearch.prepare(" insert  into  intranet_client_connects " +
-                                      "    ( id, internal_host, internal_port, public_ip, via, public_host, user_name, client_user_name, when_connected) " +
-                                      " values " +
-                                      "    (?,   ?,?,?,?,  ?,?,?,?);");
+              //zzz
 
               var newid = uuidv1();
-              stmt.run(   newid,
+              dbsearch.run("begin exclusive transaction");
+              stmtInsertIntoIntranetClientConnects.run(   newid,
                           requestClientInternalHostAddress,
                           requestClientInternalPort,
                           requestClientPublicIp,
@@ -3047,6 +3055,10 @@ function clientConnectFn(
                           username,
                           clientUsername,
                           new Date().getTime()
+                          ,
+                          function() {
+                              dbsearch.run("commit");
+                          }
                   );
           });
           //console.log('***SAVED***');
