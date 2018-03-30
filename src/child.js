@@ -836,6 +836,7 @@ function getResult(  source,  connection,  driver,  definition,  callback  ) {
                             var findHashSql = "select  hash from queries where id = '" + source + "'";
                             //console.log("FindHashSql : " + findHashSql );
                             //console.log("1");
+                             dbsearch.serialize(function() {
                             var stmt4 = dbsearch.all(findHashSql,
                                 function(err, results2) {
                                     //console.log("2");
@@ -941,6 +942,7 @@ function getResult(  source,  connection,  driver,  definition,  callback  ) {
                                         }
                                     });
                             })
+                        }, sqlite3.OPEN_READONLY)
 
                     }})
                 });
