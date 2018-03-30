@@ -321,7 +321,6 @@ function createContent(     fullFileNamePath,
                                                 });
 
                                    } catch (err) {
-                                       dbsearch.run("rollback");
                                        console.log(err);
                                    }
                                })
@@ -2462,7 +2461,7 @@ function addFolderForIndexingIfNotExist(folderName) {
             {
                 if (results.length == 0) {
                     var newId = uuidv1();
-                    
+
                     dbsearch.serialize(
                         function() {
                             dbsearch.run("begin exclusive transaction");
