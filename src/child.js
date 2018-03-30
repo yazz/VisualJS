@@ -1607,6 +1607,8 @@ function indexFileRelationshipsFn() {
                                             //console.log("**getRelatedDocumentHashes returned: " + results.length);
                                             for (var i = 0; i < relatedResults.length; i ++) {
                                                 //console.log("         **** : " + JSON.stringify(relatedResults[i],null,2));
+                                                dbsearch.serialize(
+                                                    function() {
                                                 var stmt = dbsearch.all(
                                                     "SELECT * FROM queries WHERE hash = '" + relatedResults[i].hash + "'" ,
                                                     function(err, results)
@@ -1679,6 +1681,7 @@ function indexFileRelationshipsFn() {
                                                             }
                                                         }
                                                     });
+                                                }, sqlite3,OPEN_READONLY)
                                             }
                                             }
 
