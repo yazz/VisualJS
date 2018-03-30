@@ -47,6 +47,7 @@ var stmtUpdateFolder;
 var stmtResetFolders;
 var stmtInsertDriver;
 var stmtUpdateDriver;
+var stmtInsertIntoQueries;
 
 var stmtResetFiles;
 var stmtFileChanged;
@@ -132,6 +133,11 @@ testDiffFn();
 //                                                                                         //
 //-----------------------------------------------------------------------------------------//
 function setUpSql() {
+    stmtInsertIntoQueries = dbsearch.prepare(" insert into queries " +
+                                "    ( id, name, connection, driver, definition, status, type ) " +
+                                " values " +
+                                "    (?,    ?, ?, ?, ?, ?, ?);");
+
     stmtInsertDriver = dbsearch.prepare(" insert or replace into drivers " +
                                 "    (id,  name, type, code ) " +
                                 " values " +
@@ -2618,22 +2624,21 @@ function addOrUpdateDriver(name, code2, theObject) {
       {
           //console.log("------------------function addNewQuery( params ) { -------------------");
           dbsearch.serialize(function() {
-              var stmt = dbsearch.prepare(" insert into queries " +
-                                          "    ( id, name, connection, driver, definition, status, type ) " +
-                                          " values " +
-                                          "    (?,    ?, ?, ?, ?, ?, ?);");
-
+              //zzz
               var newQueryId = uuidv1();
-              stmt.run(newQueryId,
+              dbsearch.run("begin exclusive transaction");
+              stmtInsertIntoQueries.run(newQueryId,
                        params.name,
                        params.connection,
                        params.driver,
                        params.definition,
                        params.status,
                        params.type
-                       );
+                       ,
+                       function(err) {
+                           dbsearch.run("commit");
+                       });
 
-              stmt.finalize();
               when_queries_changes(null);
               getResult(newQueryId, params.connection, params.driver, eval("(" + params.definition + ")"), function(result){});
           });
