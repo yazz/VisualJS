@@ -1304,9 +1304,8 @@ function processFilesFn() {
                         dbsearch.serialize(
                             function() {
                                 dbsearch.run("begin exclusive transaction");
-                                stmtUpdateFileStatus.run( "INDEXED", returnedRecord.id,function(err4){
-                                    dbsearch.run("commit");
-                                })
+                                stmtUpdateFileStatus.run( "INDEXED", returnedRecord.id)
+                                dbsearch.run("commit");
                             })
 
                         var fullFileNamePath = path.join(returnedRecord.path , returnedRecord.orig_name)
@@ -1359,10 +1358,10 @@ function processFilesFn() {
                                             screenName,
                                             driverName,
                                             documentType,
-                                            fullFileNamePath,
+                                            fullFileNamePath)
 
+                                        dbsearch.run("commit",
                                             function(err) {
-                                                dbsearch.run("commit");
                                                 //console.log("14")
 
                                                 //connections[newid] = {id: newid, name: screenName, driver: driverName, size: size, hash: sha1sum, type: documentType, fullFilePath: fullFilePath };
@@ -1397,10 +1396,10 @@ function processFilesFn() {
                                             documentType,
                                             JSON.stringify({} , null, 2),
                                             JSON.stringify([{message: 'No preview available'}] , null, 2),
-                                            timestampInSeconds(),
+                                            timestampInSeconds())
 
+                                        dbsearch.run("commit",
                                             function(err2) {
-                                                dbsearch.run("commit");
                                                 if (err2) {
                                                     console.log('   1225: err in stmtInsertInsertIntoQueries.run( : ' + err2);
                                                 } else {
@@ -1424,18 +1423,18 @@ function processFilesFn() {
                                                         sha1ofFileContents,
                                                         fileContentsSize,
                                                         newConnectionId,
-                                                        returnedRecord.id,
+                                                        returnedRecord.id)
+
+                                                    dbsearch.run("commit",
                                                         function(err3) {
                                                             //console.log('   CRETAED : ' + returnedRecord.id);
-                                                            dbsearch.run("commit");
                                                             if (err3) {
                                                                 console.log('   err3 : ' + err3);
                                                                 dbsearch.serialize(
                                                                     function() {
                                                                         dbsearch.run("begin exclusive transaction");
-                                                                        stmtUpdateFileStatus.run( "ERROR", returnedRecord.id,function(err4){
-                                                                            dbsearch.run("commit");
-                                                                        })
+                                                                        stmtUpdateFileStatus.run( "ERROR", returnedRecord.id)
+                                                                        dbsearch.run("commit");
                                                                     })
                                                             }
                                                             inProcessFilesFn = false
@@ -1452,9 +1451,8 @@ function processFilesFn() {
                                 dbsearch.serialize(
                                     function() {
                                         dbsearch.run("begin exclusive transaction");
-                                stmtUpdateFileStatus.run( "ERROR", returnedRecord.id,function(err4){
-                                    dbsearch.run("commit");
-                                })
+                                stmtUpdateFileStatus.run( "ERROR", returnedRecord.id)
+                                dbsearch.run("commit");
                                 inProcessFilesFn = false
                             })
                             }
@@ -1463,9 +1461,8 @@ function processFilesFn() {
                             dbsearch.serialize(
                                 function() {
                                     dbsearch.run("begin exclusive transaction");
-                            stmtUpdateFileStatus.run( "DELETED", returnedRecord.id,function(err4){
-                                dbsearch.run("commit");
-                            })
+                            stmtUpdateFileStatus.run( "DELETED", returnedRecord.id)
+                            dbsearch.run("commit");
                             inProcessFilesFn = false
                         })
                         }
@@ -1532,9 +1529,8 @@ function findFilesInFoldersFn() {
                       dbsearch.serialize(
                           function() {
                               dbsearch.run("begin exclusive transaction");
-                              stmtUpdateFolder.run("INDEXED", folderRecord.id, function() {
-                                  dbsearch.run("commit");
-                              })
+                              stmtUpdateFolder.run("INDEXED", folderRecord.id)
+                              dbsearch.run("commit");
                           })
                     };
                 }
@@ -1675,12 +1671,8 @@ function indexFileRelationshipsFn() {
                                                                                             xdiff.array,
 
                                                                                             queryToIndex.hash,
-                                                                                            relatedQuery.hash
-                                                                                            ,
-                                                                                            function() {
-                                                                                                dbsearch.run("commit");
-                                                                                            }
-                                                                                            );
+                                                                                            relatedQuery.hash)
+                                                                                        dbsearch.run("commit");
                                                                                         })
                                                                             }
                                                                         } else {
