@@ -319,6 +319,8 @@ function createContent(     fullFileNamePath,
 
                                    } catch (err) {
                                        console.log(err);
+                                       var stack = new Error().stack
+                                       console.log( stack )
                                    }
                            }
                        }
@@ -371,6 +373,9 @@ function getSha1(fileName) {
         createContent(fileName, sha1sum);
         return sha1sum;
     } catch (err) {
+        console.log(err);
+        var stack = new Error().stack
+        console.log( stack )
         return null;
     }
 }
@@ -426,6 +431,8 @@ function markFileForProcessing(  fullFilePath ) {
 
                             } catch (err) {
                                 console.log("Error " + err + " with file: " + fullFilePath);
+                                var stack = new Error().stack
+                                console.log( stack )
                             }
                         };
                     };
@@ -434,6 +441,8 @@ function markFileForProcessing(  fullFilePath ) {
         }, sqlite3.OPEN_READONLY)
     } catch(err) {
         console.log("Error " + err + " with file: " + fullFilePath);
+        var stack = new Error().stack
+        console.log( stack )
         return err;
     } finally {
 
@@ -517,9 +526,12 @@ function getRelatedDocuments(  id,  callback  ) {
             })
         }, sqlite3.OPEN_READONLY)
     } catch(err) {
-        //console.log(err)
-                        process.send({  message_type:       "return_similar_documents",
-                                        sqlite: "Err: " + err  });
+        console.log(err);
+        var stack = new Error().stack
+        console.log( stack )
+
+        process.send({  message_type:       "return_similar_documents",
+        sqlite: "Err: " + err  });
 
     }
 }
@@ -606,7 +618,10 @@ function getRelatedDocumentHashes(  doc_hash,  callback  ) {
             })
         }, sqlite3.OPEN_READONLY)
     } catch(err) {
-        //console.log(err)
+        console.log(err);
+        var stack = new Error().stack
+        console.log( stack )
+
                         process.send({  message_type:       "return_similar_hashes",
                                         sqlite: "Err: " + err  });
 
@@ -749,9 +764,12 @@ function indexFilesFn() {
            }
         })
     }, sqlite3.OPEN_READONLY)
-   }catch (err) {
-                console.log("          674 Error: " + err);
-   }
+   } catch (err) {
+       console.log(err);
+       var stack = new Error().stack
+       console.log( stack )
+
+      }
 }
 
 
@@ -795,8 +813,8 @@ function getResult(  source,  connection,  driver,  definition,  callback  ) {
                     source)
                 dbsearch.run("commit",
                     function(err){
-                        console.log('**** drivers[driver] = ' + driver)
-                        console.log('**** drivers.len = ' + drivers[driver].get_v2)
+                        //console.log('**** drivers[driver] = ' + driver)
+                        //console.log('**** drivers.len = ' + drivers[driver].get_v2)
                         drivers[driver]['get_v2'](
                             connections[connection],
                             definition
@@ -839,10 +857,10 @@ function getResult(  source,  connection,  driver,  definition,  callback  ) {
                                 function(err, results2) {
                                     //console.log("2");
                                     if( err) {
-                                        //console.log("Error: " + JSON.stringify(error) + "'");
+                                        console.log("Error: " + JSON.stringify(error) + "'");
                                     }
                                     if( results2.length == 0) {
-                                        //console.log("No sresults for hash" + source + "'");
+                                        console.log("No sresults for hash" + source + "'");
                                     }
                                     var binHash = results2[0].hash;
                                     dbsearch.serialize(
@@ -954,6 +972,10 @@ function getResult(  source,  connection,  driver,  definition,  callback  ) {
 
         }
         catch(err){
+            console.log(err);
+            var stack = new Error().stack
+            console.log( stack )
+
             //console.log("03");
             //console.log("****************** err 1: " + err);
             callback.call(this,{error: true});
@@ -1028,7 +1050,9 @@ function saveFullPath( fullPath ) {
     try {
         markFileForProcessing( fullPath )
     } catch (err) {
-          console.log("          err: " + err);
+        console.log(err);
+        var stack = new Error().stack
+        console.log( stack )
     }
 }
 
@@ -1229,6 +1253,10 @@ function processFilesFn() {
                                         })
                                     }
                                 } catch (eee) {
+                                    console.log(eee);
+                                    var stack = new Error().stack
+                                    console.log( stack )
+
                                     dbsearch.serialize(
                                         function() {
                                             dbsearch.run("begin exclusive transaction");
@@ -1253,7 +1281,9 @@ function processFilesFn() {
 
 
     } catch (err) {
-        console.log("          Error: " + err);
+        console.log(err);
+        var stack = new Error().stack
+        console.log( stack )
         inProcessFilesFn = false
     }
 
@@ -1472,7 +1502,9 @@ function processFilesFn() {
     }, sqlite3.OPEN_READONLY)
 
     } catch (err) {
-        console.log("          1275 Error: " + err);
+        console.log(err);
+        var stack = new Error().stack
+        console.log( stack )
         inProcessFilesFn = false
     }
 }
@@ -1534,7 +1566,9 @@ function findFilesInFoldersFn() {
 
        }, sqlite3.OPEN_READONLY)
     } catch (err) {
-        console.log("          1327 Error: " + err);
+        console.log(err);
+        var stack = new Error().stack
+        console.log( stack )
     }
 }
 
@@ -1702,8 +1736,10 @@ function indexFileRelationshipsFn() {
         })
 
         }, sqlite3.OPEN_READONLY)
-    }catch (err) {
-        console.log("          1484 Error: " + err);
+    } catch (err) {
+        console.log(err);
+        var stack = new Error().stack
+        console.log( stack )
     }
     inIndexFileRelationshipsFn = false;
 }
@@ -1780,6 +1816,9 @@ function sendTestHeartBeat() {
                             })
                 }, sqlite3.OPEN_READONLY)
             } catch(err) {
+                console.log(err);
+                var stack = new Error().stack
+                console.log( stack )
                                 process.send({  message_type:       "return_test_fork",
                                                 counter:    counter ++, sqlite: "Err: " + err  });
 
@@ -2406,7 +2445,9 @@ function remoteWalk( dir ) {
                                                                 try {
                                                                     remoteWalk(fileOrFolder);
                                                                 } catch(err3) {
-                                                                    console.log(err3)
+                                                                    console.log(err3);
+                                                                    var stack = new Error().stack
+                                                                    console.log( stack )
                                                                 }
                                                             });
                                                     })
@@ -2415,7 +2456,9 @@ function remoteWalk( dir ) {
                                                     try {
                                                         remoteWalk(fileOrFolder);
                                                     } catch(err4) {
-                                                        console.log(err4)
+                                                        console.log(err4);
+                                                        var stack = new Error().stack
+                                                        console.log( stack )
                                                     }
 
                                             }
@@ -2426,7 +2469,9 @@ function remoteWalk( dir ) {
 
                     }
                 } catch(err) {
-                    console.log(err)
+                    console.log(err);
+                    var stack = new Error().stack
+                    console.log( stack )
                 }
 
     });
@@ -2508,7 +2553,9 @@ function fromDir(startPath,filter,callback){
             }
             else if (filter.test(filename)) callback(filename);
         } catch(err) {
-            //console.log(err)
+            console.log(err);
+            var stack = new Error().stack
+            console.log( stack )
         }
     };
 };
@@ -2536,7 +2583,9 @@ function setSharedGlobalVar(nameOfVar, index, value) {
                         };
          process.send(sharemessage);
     } catch(err) {
-        //console.log("Error with " + err );
+        console.log(err);
+        var stack = new Error().stack
+        console.log( stack )
         return err;
     } finally {
 
@@ -2636,7 +2685,9 @@ function addOrUpdateDriver(name, code2, theObject) {
                                   dbsearch.run("commit");
                                   })
                       } catch(err) {
-                          console.log('err             : ' + err);
+                          console.log(err);
+                          var stack = new Error().stack
+                          console.log( stack )
                       } finally {
 
                       }
@@ -2654,7 +2705,9 @@ function addOrUpdateDriver(name, code2, theObject) {
 
                               });
                           } catch(err) {
-                              console.log('err             : ' + err);
+                              console.log(err);
+                              var stack = new Error().stack
+                              console.log( stack )
                           } finally {
 
                           }
@@ -2689,7 +2742,9 @@ function addOrUpdateDriver(name, code2, theObject) {
               getResult(newQueryId, params.connection, params.driver, eval("(" + params.definition + ")"), function(result){});
           });
       } catch(err) {
-          //console.log("                          err: " + err);
+          console.log(err);
+          var stack = new Error().stack
+          console.log( stack )
       } finally {
       }
   }
@@ -2733,7 +2788,11 @@ function addOrUpdateDriver(name, code2, theObject) {
                                   callback.call(this);
                               if (callback) {
                               }
-                          } catch (err) {};
+                          } catch (err) {
+                              console.log(err);
+                              var stack = new Error().stack
+                              console.log( stack )
+                          };
                       }
                   };
               }
@@ -2811,6 +2870,9 @@ function addNewConnection( params ) {
 
         });
     } catch(err) {
+        console.log(err);
+        var stack = new Error().stack
+        console.log( stack )
         //console.log("                          err: " + err);
     } finally {
     }
@@ -2879,6 +2941,9 @@ function downloadWebDocument(queryId, callbackFn) {
 
                         }
                         catch(err) {
+                            console.log(err);
+                            var stack = new Error().stack
+                            console.log( stack )
                             callbackFn({result: "<div>Big Error: " + err + "</div>"})
                         }
 
@@ -2895,6 +2960,9 @@ function downloadWebDocument(queryId, callbackFn) {
 
                             callbackFn({result: html})
                         } catch(error) {
+                            console.log(error);
+                            var stack = new Error().stack
+                            console.log( stack )
                             callbackFn({result: "<div>Error: " + error + "</div>"})
                         }
 
@@ -2943,6 +3011,9 @@ function downloadWebDocument(queryId, callbackFn) {
 
                         }
                         catch(err) {
+                            console.log(err);
+                            var stack = new Error().stack
+                            console.log( stack )
                             callbackFn({result: "<div>Big Error: " + err + "</div>"})
                         }
 
@@ -2966,6 +3037,9 @@ function downloadWebDocument(queryId, callbackFn) {
 
                         }
                         catch(err) {
+                            console.log(err);
+                            var stack = new Error().stack
+                            console.log( stack )
                             callbackFn({result: "<div>Big Error: " + err + "</div>"})
                         }
 
@@ -3108,13 +3182,16 @@ function clientConnectFn(
                           clientUsername,
                           new Date().getTime())
               dbsearch.run("commit");
-                  
+
           });
           //console.log('***SAVED***');
 
         callbackFn({connected: true})
 	}
 	catch (err) {
+        console.log(err);
+        var stack = new Error().stack
+        console.log( stack )
 		//console.log('Warning: Central server not available:');
 	}
 
