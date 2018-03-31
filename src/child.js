@@ -657,21 +657,22 @@ function findFoldersFn() {
     dbsearch.serialize(
         function() {
             dbsearch.run("begin exclusive transaction");
-            stmtResetFolders.run(
+            stmtResetFolders.run()
+            dbsearch.run("commit",
                 function(err) {
-                    dbsearch.run("commit");
                     dbsearch.serialize(
                         function() {
                             dbsearch.run("begin exclusive transaction");
-                            stmtResetFiles.run(function(err) {
-                                dbsearch.run("commit");
+                            stmtResetFiles.run()
+                            dbsearch.run("commit",
+                                function(err) {
                                     directSearchFolders(useDrive);
                                     console.log('******************* Finished finding folders');
                                     finishedFindingFolders = true;
-                                });
-                            })
-                        });
-                    })
+                            });
+                        })
+                    });
+                })
 
 
 
