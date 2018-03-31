@@ -668,22 +668,24 @@ function findFoldersFn() {
             dbsearch.run("begin exclusive transaction");
             stmtResetFolders.run(function(err) {
                 dbsearch.run("commit");
+                dbsearch.serialize(
+                    function() {
+                        dbsearch.run("begin exclusive transaction");
+                        stmtResetFiles.run(function(err) {
+                            dbsearch.run("commit");
+                            directSearchFolders(useDrive);
+                            console.log('******************* Finished finding folders');
+                            finishedFindingFolders = true;
+                        });
+                    })
             });
         })
 
-    dbsearch.serialize(
-        function() {
-            dbsearch.run("begin exclusive transaction");
-            stmtResetFiles.run(function(err) {
-                dbsearch.run("commit");
-            });
-        })
+
 
     //remoteWalk(useDrive);
-    directSearchFolders(useDrive);
 
-    console.log('******************* Finished finding folders');
-    finishedFindingFolders = true;
+
 
     //    sendOverWebSockets({
     //                            type:   "server_scan_status",
