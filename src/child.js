@@ -1110,9 +1110,9 @@ function processFilesFn() {
                         dbsearch.serialize(
                             function() {
                                 dbsearch.run("begin exclusive transaction");
-                                stmtUpdateFileStatus.run( "REINDEXED", returnedRecord.id,
+                                stmtUpdateFileStatus.run( "REINDEXED", returnedRecord.id)
+                                dbsearch.run("commit",
                                     function(err) {
-                                        dbsearch.run("commit");
                                         try {
 
                                             if (fs.existsSync(fullFileNamePath)) {
@@ -1137,10 +1137,8 @@ function processFilesFn() {
                                             if (err) {
                                                 console.log('   err 1 : ' + err);
                                                 dbsearch.run("begin exclusive transaction");
-                                                stmtUpdateFileStatus.run( "ERROR", returnedRecord.id,
-                                                    function(err) {
-                                                        dbsearch.run("commit");
-                                                    })
+                                                stmtUpdateFileStatus.run( "ERROR", returnedRecord.id)
+                                                dbsearch.run("commit");
                                                 inProcessFilesFn = false
                                             } else {
 
@@ -1159,19 +1157,18 @@ function processFilesFn() {
                                                     documentType,
                                                     JSON.stringify({} , null, 2),
                                                     JSON.stringify([{message: 'No preview available'}] , null, 2),
-                                                    timestampInSeconds(),
+                                                    timestampInSeconds()
+                                                )
+                                                dbsearch.run("commit",
 
                                                     function(err2) {
-                                                        dbsearch.run("commit");
                                                         if (err2) {
                                                             console.log('   1033 err2 : ' + err2);
                                                             dbsearch.serialize(
                                                                 function() {
                                                                     dbsearch.run("begin exclusive transaction");
-                                                                    stmtUpdateFileStatus.run( "ERROR", returnedRecord.id,
-                                                                    function(err) {
-                                                                        dbsearch.run("commit");
-                                                                    })
+                                                                    stmtUpdateFileStatus.run( "ERROR", returnedRecord.id)
+                                                                    dbsearch.run("commit");
                                                                 })
                                                         } else {
                                                             dbsearch.serialize(
@@ -1180,17 +1177,16 @@ function processFilesFn() {
                                                                     stmtFileChanged.run(
                                                                         newSha1ofFileContents,
                                                                         onDiskFileContentsSize,
-                                                                        returnedRecord.id,
+                                                                        returnedRecord.id)
+                                                                        dbsearch.run("commit",
                                                                         function(err9) {
-                                                                            dbsearch.run("commit");
                                                                             if (err9) {
                                                                                 inProcessFilesFn = false
                                                                                 dbsearch.serialize(
                                                                                     function() {
                                                                                         dbsearch.run("begin exclusive transaction");
-                                                                                        stmtUpdateFileStatus.run( "ERROR", returnedRecord.id, function(err) {
-                                                                                            dbsearch.run("commit");
-                                                                                        })
+                                                                                        stmtUpdateFileStatus.run( "ERROR", returnedRecord.id)
+                                                                                        dbsearch.run("commit");
                                                                                     })
                                                                             }
                                                                             else {
@@ -1228,8 +1224,9 @@ function processFilesFn() {
                                         dbsearch.serialize(
                                             function() {
                                                 dbsearch.run("begin exclusive transaction");
-                                                stmtUpdateFileStatus.run( "DELETED", returnedRecord.id, function(err) {
-                                                    dbsearch.run("commit");
+                                                stmtUpdateFileStatus.run( "DELETED", returnedRecord.id)
+                                                dbsearch.run("commit",
+                                                    function(err) {
                                                     inProcessFilesFn = false
                                                     //console.log("          Error eee: " + eee);
                                             })
@@ -1239,17 +1236,16 @@ function processFilesFn() {
                                     dbsearch.serialize(
                                         function() {
                                             dbsearch.run("begin exclusive transaction");
-                                            stmtUpdateFileStatus.run( "ERROR", returnedRecord.id, function(err) {
-                                                dbsearch.run("commit");
-                                                inProcessFilesFn = false
-                                                console.log("          Error eee: " + eee);
-
+                                            stmtUpdateFileStatus.run( "ERROR", returnedRecord.id)
+                                            dbsearch.run("commit",
+                                                function(err) {
+                                                    inProcessFilesFn = false
+                                                    console.log("          Error eee: " + eee);
                                             })
                                         })
-
-                                }
-                                    })
+                                    }
                                 })
+                            })
 
                     } else {
                         inProcessFilesFn = false
