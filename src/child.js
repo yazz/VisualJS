@@ -350,22 +350,15 @@ function foundFile(     fullFileNamePath,
             function() {
                 dbsearch.run("begin exclusive transaction");
                 stmtInsertIntoFiles.run(
-
                     newFileId,
                     sha1ofFileContents,
                     fileContentsSize,
                     path.dirname(fullFileNamePath),
                     path.basename(fullFileNamePath),
-                    existingConnectionId,
+                    existingConnectionId)
 
-                    function(err) {
-                        //console.log('added file to sqlite');
-                        dbsearch.run("commit");
-                    });
-                }
-            )
-
-
+                dbsearch.run("commit");
+            })
 }
 
 
@@ -429,16 +422,11 @@ function markFileForProcessing(  fullFilePath ) {
                                     function() {
                                         dbsearch.run("begin exclusive transaction");
                                         stmtInsertIntoFiles2.run(
-
                                             newFileId,
                                             path.dirname(fullFilePath),
-                                            path.basename(fullFilePath),
-
-                                            function(err) {
-                                                //console.log('added file to sqlite');
-                                                dbsearch.run("commit");
-                                                });
-                                        })
+                                            path.basename(fullFilePath)),
+                                        dbsearch.run("commit");
+                                      })
 
                             } catch (err) {
                                 console.log("Error " + err + " with file: " + fullFilePath);
@@ -510,11 +498,9 @@ function getRelatedDocuments(  id,  callback  ) {
                         dbsearch.run("begin exclusive transaction");
                         stmtUpdateRelatedDocumentCount.run(
                             results.length,
-                            id
-                            ,
-                            function() {
-                                dbsearch.run("commit");
-                            });
+                            id)
+
+                        dbsearch.run("commit");
                         })
 
                     for (var i = 0; i < results.length; i ++) {
@@ -609,11 +595,8 @@ function getRelatedDocumentHashes(  doc_hash,  callback  ) {
                             dbsearch.run("begin exclusive transaction");
                             stmtUpdateRelationships.run(
                                 'INDEXED',
-                                doc_hash
-                                ,
-                                function(err) {
-                                    dbsearch.run("commit");
-                                });
+                                doc_hash)
+                            dbsearch.run("commit");
                             })
 
                     //console.log("       OK")
