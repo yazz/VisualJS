@@ -796,10 +796,9 @@ function getResult(  source,  connection,  driver,  definition,  callback  ) {
                 dbsearch.run("begin exclusive transaction");
                 setIn.run(
                     "PROCESSING",
-                    source
-                    ,
+                    source)
+                dbsearch.run("commit",
                     function(err){
-                        dbsearch.run("commit");
                         console.log('**** drivers[driver] = ' + driver)
                         console.log('**** drivers.len = ' + drivers[driver].get_v2)
                         drivers[driver]['get_v2'](
@@ -817,9 +816,9 @@ function getResult(  source,  connection,  driver,  definition,  callback  ) {
                                         dbsearch.run("begin exclusive transaction");
                                         setIn.run(
                                             "ERROR: " + ordata.error,
-                                            source,
+                                            source)
+                                        dbsearch.run("commit",
                                             function(err) {
-                                                dbsearch.run("commit");
                                                 callback.call(this,{error: true});
                                             });
 
@@ -887,14 +886,14 @@ function getResult(  source,  connection,  driver,  definition,  callback  ) {
                                                                 dbsearch.serialize(
                                                                     function() {
                                                                         dbsearch.run("begin exclusive transaction");
-                                                                        stmt2.run(sha1sum, row, function() {
-                                                                            dbsearch.run("commit");
+                                                                        stmt2.run(sha1sum, row)
+                                                                        dbsearch.run("commit",
+                                                                            function() {
                                                                             dbsearch.serialize(
                                                                                 function() {
                                                                                     dbsearch.run("begin exclusive transaction");
-                                                                                    stmt3.run(binHash, null, sha1sum, function() {
-                                                                                        dbsearch.run("commit");
-                                                                                    });
+                                                                                    stmt3.run(binHash, null, sha1sum)
+                                                                                    dbsearch.run("commit");
                                                                                 })
                                                                         });
                                                                     })
@@ -910,9 +909,9 @@ function getResult(  source,  connection,  driver,  definition,  callback  ) {
                                                             dbsearch.serialize(
                                                                 function() {
                                                                     dbsearch.run("begin exclusive transaction");
-                                                                    setIn.run("INDEXED",source, function(err) {
-                                                                        dbsearch.run("commit");
-                                                                    });
+                                                                    setIn.run("INDEXED",source)
+                                                                    dbsearch.run("commit");
+                                                                    
                                                                 })
                                                     })
 
