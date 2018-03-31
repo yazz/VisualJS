@@ -313,12 +313,8 @@ function createContent(     fullFileNamePath,
 
                                             sha1ofFileContents,
                                             fileContent,
-                                            contentType,
-
-                                            function(err) {
-                                                dbsearch.run("commit");
-                                                //console.log('added file to sqlite');
-                                                });
+                                            contentType)
+                                        dbsearch.run("commit");
                                             })
 
                                    } catch (err) {
@@ -2245,10 +2241,8 @@ function createRelationship(  doc_hash,  target_hash,  similar_count ) {
                     var newId = uuidv1();
                     dbsearch.serialize(function() {
                         dbsearch.run("begin exclusive transaction");
-                        stmtInsertIntoRelationships.run(newId,  doc_hash, target_hash,  similar_count,
-                            function() {
-                                dbsearch.run("commit")
-                            });
+                        stmtInsertIntoRelationships.run(newId,  doc_hash, target_hash,  similar_count)
+                        dbsearch.run("commit")
                     })
                 }
             }
@@ -2405,17 +2399,16 @@ function remoteWalk( dir ) {
                                                     stmtInsertIntoFolders.run(
                                                         newId,
                                                         fileOrFolder,
-                                                        folderName
-                                                        ,
-                                                        function(err3) {
-                                                            dbsearch.run("commit");
-                                                            console.log("     fileOrFolder: " + fileOrFolder)
-                                                            try {
-                                                                remoteWalk(fileOrFolder);
-                                                            } catch(err3) {
-                                                                console.log(err3)
-                                                            }
-                                                        });
+                                                        folderName)
+                                                        dbsearch.run("commit",
+                                                            function(err3) {
+                                                                console.log("     fileOrFolder: " + fileOrFolder)
+                                                                try {
+                                                                    remoteWalk(fileOrFolder);
+                                                                } catch(err3) {
+                                                                    console.log(err3)
+                                                                }
+                                                            });
                                                     })
                                             }
                                             else {
@@ -2462,10 +2455,9 @@ function addFolderForIndexingIfNotExist(folderName) {
                             stmtInsertIntoFolders.run(
                                 newId,
                                 folderName,
-                                folderName, function() {
-                                    dbsearch.run("commit");
-                                });
-                            })
+                                folderName)
+                            dbsearch.run("commit")
+                        })
                     }
             } else {
                 console.log(err)
@@ -2640,10 +2632,8 @@ function addOrUpdateDriver(name, code2, theObject) {
                           dbsearch.serialize(
                               function() {
                                   dbsearch.run("begin exclusive transaction");
-                                  stmtInsertDriver.run(uuidv1(),  name,  driverType,  code2,
-                                    function() {
-                                          dbsearch.run("commit");
-                                      });
+                                  stmtInsertDriver.run(uuidv1(),  name,  driverType,  code2)
+                                  dbsearch.run("commit");
                                   })
                       } catch(err) {
                           console.log('err             : ' + err);
@@ -2659,11 +2649,9 @@ function addOrUpdateDriver(name, code2, theObject) {
                           {
                               dbsearch.serialize(function() {
                                   dbsearch.run("begin exclusive transaction");
-                                  stmtUpdateDriver.run( code2 , rows[0].id ,
-                                    function() {
-                                        dbsearch.run("commit");
-                                    }
-                                );
+                                  stmtUpdateDriver.run( code2 , rows[0].id)
+                                  dbsearch.run("commit");
+
                               });
                           } catch(err) {
                               console.log('err             : ' + err);
@@ -2694,11 +2682,8 @@ function addOrUpdateDriver(name, code2, theObject) {
                        params.driver,
                        params.definition,
                        params.status,
-                       params.type
-                       ,
-                       function(err) {
-                           dbsearch.run("commit");
-                       });
+                       params.type)
+               dbsearch.run("commit");
 
               when_queries_changes(null);
               getResult(newQueryId, params.connection, params.driver, eval("(" + params.definition + ")"), function(result){});
@@ -2818,9 +2803,9 @@ function addNewConnection( params ) {
                      params.user,
                      params.password,
                      params.fileName,
-                     params.preview,
+                     params.preview)
+             dbsearch.run("commit",
                      function(result) {
-                         dbsearch.run("commit");
                          when_connections_change();
                      });
 
@@ -3121,12 +3106,9 @@ function clientConnectFn(
                           requestClientPublicHostName,
                           username,
                           clientUsername,
-                          new Date().getTime()
-                          ,
-                          function() {
-                              dbsearch.run("commit");
-                          }
-                  );
+                          new Date().getTime())
+              dbsearch.run("commit");
+                  
           });
           //console.log('***SAVED***');
 
