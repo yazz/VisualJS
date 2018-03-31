@@ -911,7 +911,7 @@ function getResult(  source,  connection,  driver,  definition,  callback  ) {
                                                                     dbsearch.run("begin exclusive transaction");
                                                                     setIn.run("INDEXED",source)
                                                                     dbsearch.run("commit");
-                                                                    
+
                                                                 })
                                                     })
 
@@ -921,9 +921,8 @@ function getResult(  source,  connection,  driver,  definition,  callback  ) {
                                                     dbsearch.serialize(
                                                         function() {
                                                             dbsearch.run("begin exclusive transaction");
-                                                            setIn.run("INDEXED: Other error",source, function() {
-                                                                dbsearch.run("commit");
-                                                            });
+                                                            setIn.run("INDEXED: Other error",source)
+                                                            dbsearch.run("commit");
                                                         })
                                                 }
                                             } else {
@@ -931,18 +930,17 @@ function getResult(  source,  connection,  driver,  definition,  callback  ) {
                                                 callback.call(this,ordata);
                                                 dbsearch.serialize(function() {
                                                     dbsearch.run("begin exclusive transaction");
-                                                    setIn.run("INDEXED: ",source, function() {
-                                                        dbsearch.run("commit");
-                                                    });
+                                                    setIn.run("INDEXED: ",source)
+                                                    dbsearch.run("commit");
                                                 });
                                             }
                                         } else {
                                             //console.log("****************** err 3" + err);
                                             dbsearch.serialize(function() {
                                                 dbsearch.run("begin exclusive transaction");
-                                                setIn.run("ERROR: " + err, source, function(err) {
-                                                    dbsearch.run("commit");
-                                                });
+                                                setIn.run("ERROR: " + err, source)
+                                                dbsearch.run("commit");
+
 
                                                 callback.call(this,{error: true});
                                             })
@@ -970,9 +968,10 @@ function getResult(  source,  connection,  driver,  definition,  callback  ) {
         dbsearch.serialize(function() {
             //console.log("05");
             dbsearch.run("begin exclusive transaction");
-            setIn.run("ERROR: no connection for " + source , source, function(err){
-                dbsearch.run("commit");
-                callback.call(this,{error: true});
+            setIn.run("ERROR: no connection for " + source , source)
+            dbsearch.run("commit",
+                function(err){
+                    callback.call(this,{error: true});
             });
 
         });
