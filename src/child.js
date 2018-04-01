@@ -2553,7 +2553,7 @@ function fromDir(startPath,filter,callback){
             }
             else if (filter.test(filename)) callback(filename);
         } catch(err) {
-            console.log(err);
+            console.log(filename + ": " + err);
             var stack = new Error().stack
             console.log( stack )
         }
