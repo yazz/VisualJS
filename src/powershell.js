@@ -661,21 +661,21 @@ function indexMessagesFn() {
                                         messageViaPowershell.outlook_version,
                                         messageViaPowershell.outlook_internal_version,
                                         ///zzz
-                                        msg.source_id,
-                                        function(err) {
-                                            //console.log('Updated message: ' + messageViaPowershell.entry_subject);
-                                            dbsearch.run("commit");
-                                            inIndexMessagesFn = false;
-                                        })
+                                        msg.source_id)
+                                        dbsearch.run("commit",
+                                            function(err) {
+                                                //console.log('Updated message: ' + messageViaPowershell.entry_subject);
+                                                inIndexMessagesFn = false;
+                                            })
                                     })
                                 } else {
                                     dbsearch.serialize(function() {
                                         dbsearch.run("begin exclusive transaction");
-                                        stmtSetMessageToError.run(msg.source_id,
+                                        stmtSetMessageToError.run(msg.source_id)
+                                        dbsearch.run("commit",
                                             function(err) {
                                                 console.log('set message to error');
                                                 inIndexMessagesFn = false;
-                                                dbsearch.run("commit");
                                         })
                                     })
                                 }
@@ -737,12 +737,9 @@ function createContent( contents,  sha1ofFileContents ) {
 
                         sha1ofFileContents,
                         contents,
-                        contentType,
+                        contentType)
+                    dbsearch.run("commit");
 
-                        function(err) {
-                            //console.log('added file to sqlite');
-                            dbsearch.run("commit");
-                        });
                 })
             } catch (err) {
             console.log(err);
@@ -805,26 +802,23 @@ function indexMessagesBodyFn() {
                                             msg.subject,
                                             "outlook2010",
                                             "email",
-                                            "|EMAIL|DOCUMENT|",
+                                            "|EMAIL|DOCUMENT|")
 
-                                            function(err) {
-                                                dbsearch.run("commit");
-                                                dbsearch.serialize(function() {
-                                                    dbsearch.run("begin exclusive transaction");
-                                                    var newqueryid = uuidv1();
-                                                    stmtInsertInsertIntoQueries.run(
 
-                                                        newqueryid,
-                                                        msg.subject,
-                                                        newConnectionId,
-                                                        "outlook2012",
-                                                        1,//onDiskFileContentsSize,
-                                                        newSha1ofFileContents,
-                                                        "email.txt",//fullFileNamePath,
-                                                        "|DOCUMENT|",//documentType,
-                                                        JSON.stringify({} , null, 2),
-                                                        JSON.stringify([{message: 'No preview available'}] , null, 2),
-                                                        timestampInSeconds(),
+                                            var newqueryid = uuidv1();
+                                            stmtInsertInsertIntoQueries.run(
+
+                                                newqueryid,
+                                                msg.subject,
+                                                newConnectionId,
+                                                "outlook2012",
+                                                1,//onDiskFileContentsSize,
+                                                newSha1ofFileContents,
+                                                "email.txt",//fullFileNamePath,
+                                                "|DOCUMENT|",//documentType,
+                                                JSON.stringify({} , null, 2),
+                                                JSON.stringify([{message: 'No preview available'}] , null, 2),
+                                                timestampInSeconds(),
 
                                                         function(err2) {
                                                             if (err2) {
@@ -852,10 +846,8 @@ function indexMessagesBodyFn() {
                                                                     definition:         JSON.stringify({} , null, 2),
                                                                     preview:            JSON.stringify([{message: 'No preview available'}] , null, 2)});
                                                     }
-                                                        })
-
                                                 })
-                                            })
+
                                         })
 
                                     })
@@ -864,9 +856,9 @@ function indexMessagesBodyFn() {
                                 dbsearch.serialize(function() {
                                     dbsearch.run("begin exclusive transaction");
 
-                                    stmtSetMessageToBodyError.run(msg.source_id,
-                                            function(err) {
-                                                dbsearch.run("commit");
+                                    stmtSetMessageToBodyError.run(msg.source_id)
+                                    dbsearch.run("commit",
+                                        function(err) {
                                                 console.log('set message to error');
                                                 inIndexMessagesBodyFn = false;
                                     })
