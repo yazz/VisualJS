@@ -669,19 +669,12 @@ function findFoldersFn() {
         function() {
             dbsearch.run("begin exclusive transaction");
             stmtResetFolders.run()
+            stmtResetFiles.run()
             dbsearch.run("commit",
                 function(err) {
-                    dbsearch.serialize(
-                        function() {
-                            dbsearch.run("begin exclusive transaction");
-                            stmtResetFiles.run()
-                            dbsearch.run("commit",
-                                function(err) {
-                                    directSearchFolders(useDrive);
-                                    console.log('******************* Finished finding folders');
-                                    finishedFindingFolders = true;
-                            });
-                        })
+                    directSearchFolders(useDrive);
+                    console.log('******************* Finished finding folders');
+                    finishedFindingFolders = true;
                     });
                 })
 
