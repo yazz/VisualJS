@@ -890,36 +890,17 @@ function getResult(  source,  connection,  driver,  definition,  callback  ) {
                                                                 rowhash.end();
                                                                 var sha1sum = rowhash.read();
                                                                 //console.log('                 : ' + JSON.stringify(rrows[i]));
-                                                                dbsearch.serialize(
-                                                                    function() {
-                                                                        dbsearch.run("begin exclusive transaction");
-                                                                        stmt2.run(sha1sum, row)
-                                                                        dbsearch.run("commit",
-                                                                            function() {
-                                                                            dbsearch.serialize(
-                                                                                function() {
-                                                                                    dbsearch.run("begin exclusive transaction");
-                                                                                    stmt3.run(binHash, null, sha1sum)
-                                                                                    dbsearch.run("commit");
-                                                                                })
-                                                                        });
-                                                                    })
+                                                                stmt2.run(sha1sum, row)
+                                                                stmt3.run(binHash, null, sha1sum)
 
 
-                                                                }
+                                                            }
                                                             //console.log("Committed: " + rrows.length)
-                                                            //stmt2.finalize();
-                                                            //stmt3.finalize();
                                                             //console.log('                 : ' + JSON.stringify(rrows.length));
-
                                                             //console.log('                 source: ' + JSON.stringify(source));
-                                                            dbsearch.serialize(
-                                                                function() {
-                                                                    dbsearch.run("begin exclusive transaction");
-                                                                    setIn.run("INDEXED",source)
-                                                                    dbsearch.run("commit");
+                                                            setIn.run("INDEXED",source)
+                                                            dbsearch.run("commit");
 
-                                                                })
                                                     })
 
                                                 } else {
