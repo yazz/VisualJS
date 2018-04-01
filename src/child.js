@@ -2785,8 +2785,8 @@ function addOrUpdateDriver(name, code2, theObject) {
                                       query.preview = JSON.stringify(ordata, null, 2);
                                       queries.put(query);
                               });*/
-                                  callback.call(this);
                               if (callback) {
+                                  callback.call(this);
                               }
                           } catch (err) {
                               console.log(err);
