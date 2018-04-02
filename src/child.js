@@ -2249,7 +2249,7 @@ function createRelationship(  doc_hash,  target_hash,  similar_count ) {
         {
             if (!err)
             {
-                console.log("    " + doc_hash + " : " + target_hash + "... existsResults.length = " +  existsResults.length);
+                //console.log("    " + doc_hash + " : " + target_hash + "... existsResults.length = " +  existsResults.length);
                 if (existsResults.length == 0) {
                     var newId = uuidv1();
                     dbsearch.serialize(function() {

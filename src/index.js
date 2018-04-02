@@ -1695,7 +1695,7 @@ function setupForkedProcess(processName,fileName,debugPort) {
 
 
 
-    console.log("restarted subprocess '" + processName + "' ")
+    console.log("Started subprocess '" + processName + "' ")
 }
 
 
@@ -1882,7 +1882,7 @@ function startServices() {
         var seqNum = queuedResponseSeqNum;
         queuedResponseSeqNum ++;
         queuedResponses[seqNum] = res;
-        console.log("2")
+        //console.log("2")
         forkedProcesses["forked"].send(
                     {   message_type: "get_intranet_servers_json",
                         seq_num:                    seqNum,
@@ -1973,7 +1973,7 @@ function startServices() {
         var seqNum = queuedResponseSeqNum;
         queuedResponseSeqNum ++;
         queuedResponses[seqNum] = res;
-        console.log("2")
+        //console.log("2")
         forkedProcesses["forked"].send({   message_type:               "get_intranet_servers",
                         seq_num:                    seqNum,
                         requestClientPublicIp:      req.ip ,
@@ -2052,7 +2052,7 @@ function startServices() {
 
 
     app.post('/getqueryresult', function (req, res) {
-        console.log("1 - getqueryresult ,req.query.search_text: " )
+        //console.log("1 - getqueryresult ,req.query.search_text: " )
 
         var queryData2 = req.body;
     	//console.log('in getqueryresult: ' + JSON.stringify(queryData2));
