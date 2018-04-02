@@ -474,7 +474,7 @@ function get_inbox_count(cb) {
 }
 
 function get_message_by_entry_id(i,cb) {
-    //console.log("get_message_by_entry_id:  '" + i + "'")
+    console.log("get_message_by_entry_id:  '" + i + "'")
     var itemStr = "$mail = $inbox.Items | select EntryID,Subject,ReceivedByName,ReceivedTime,Recipients,SenderName,Sent,SentOn,SentOnBehalfOfName,To,BodyFormat,SendUsingAccount,TaskSubject,Sender,CC,BCC,UnRead,Size,Sensitivity,Outlookversion,OutlookInternalVersion  | Where-Object {$_.EntryId -eq '" + i.toString() + "'}"
     //console.log("            itemStr:  '" + itemStr + "'")
 
@@ -486,7 +486,7 @@ function get_message_by_entry_id(i,cb) {
 
     call_powershell(
         function(ret){
-            //console.log("                    :  " + ret)
+            console.log("                    :  " + ret)
                 if (ret ) {
                     var s = parseXml(ret);
                     if (s.children[0].children[1]) {
