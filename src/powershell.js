@@ -799,7 +799,7 @@ function indexMessagesBodyFn() {
                             {
                                 var msg = results[0]
                                 try {
-                                //console.log("Message ID: " + msg.source_id)
+                                console.log("Indexing Email Message ID: " + msg.source_id)
                                 get_message_body_by_entry_id( msg.source_id , function(messageViaPowershell) {
                                     //console.log("    eee: " + JSON.stringify(messageViaPowershell,null,2))
                                     if (messageViaPowershell) {
