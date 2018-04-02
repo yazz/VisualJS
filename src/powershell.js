@@ -475,7 +475,7 @@ function get_inbox_count(cb) {
 
 function get_message_by_entry_id(i,cb) {
     console.log("get_message_by_entry_id:  '" + i + "'")
-    var itemStr = "$mail = $inbox.Items | select EntryID,Subject,ReceivedByName,ReceivedTime,Recipients,SenderName,Sent,SentOn,SentOnBehalfOfName,To,BodyFormat,SendUsingAccount,TaskSubject,Sender,CC,BCC,UnRead,Size,Sensitivity,Outlookversion,OutlookInternalVersion  | Where-Object {$_.EntryId -eq '" + i.toString() + "'}"
+    var itemStr = "$mail = $inbox.Items  | Where-Object {$_.EntryId -eq '" + i.toString() + "'} | select EntryID,Subject,ReceivedByName,ReceivedTime,Recipients,SenderName,Sent,SentOn,SentOnBehalfOfName,To,BodyFormat,SendUsingAccount,TaskSubject,Sender,CC,BCC,UnRead,Size,Sensitivity,Outlookversion,OutlookInternalVersion "
     //console.log("            itemStr:  '" + itemStr + "'")
 
     var commands =[
