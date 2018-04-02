@@ -801,8 +801,8 @@ function indexMessagesBodyFn() {
                                             newConnectionId,
                                             msg.subject,
                                             "outlook2010",
-                                            "email",
-                                            "|EMAIL|DOCUMENT|")
+                                            "|EMAIL|DOCUMENT|",
+                                            msg.source_id )
 
 
                                             var newqueryid = uuidv1();
@@ -814,7 +814,7 @@ function indexMessagesBodyFn() {
                                                 "outlook2012",
                                                 1,//onDiskFileContentsSize,
                                                 newSha1ofFileContents,
-                                                "email.txt",//fullFileNamePath,
+                                                msg.source_id,//fullFileNamePath,
                                                 "|DOCUMENT|",//documentType,
                                                 JSON.stringify({} , null, 2),
                                                 JSON.stringify([{message: 'No preview available'}] , null, 2),
