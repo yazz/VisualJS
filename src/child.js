@@ -590,7 +590,7 @@ function getRelatedDocumentHashes(  doc_hash,  callback  ) {
                     for (var i = 0 ; i < results.length; i++) {
                         if (results[i]) {
                             var target_hash = results[i].hash;
-                            console.log("    " + doc_hash + " : " + target_hash );
+                            //console.log("    " + doc_hash + " : " + target_hash );
 
                             if (target_hash) {
                                 var similar_count = results[i].size;
@@ -2504,7 +2504,7 @@ function directSearchFolders(drive) {
         ) {
             // do nothing
         } else {
-            console.log('DIRNAME: ',dirname.toUpperCase());
+            //console.log('DIRNAME: ',dirname.toUpperCase());
             //console.log('-- found in folder: ',dirname);
             addFolderForIndexingIfNotExist(dirname)
         }
