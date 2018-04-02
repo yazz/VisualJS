@@ -35,6 +35,8 @@ var inGetRelatedDocumentHashes          = false;
 var inIndexFileRelationshipsFn          = false;
 var finishedFindingFolders              = false;
 var username                            = "Unknown user";
+var numberOfSecondsIndexMessagesInterval = 8;
+
 var dbsearch;
 var xdiff;
 var lhs;
@@ -89,8 +91,14 @@ function require2(moduleName) {
 	return reac;
 };
 
+function timestampInSeconds() {
+    return Math.floor(Date.now() / 1000)
+}
 
-function insertNewMessage(  sourceMessageId, folder,messageClient  ) {
+
+
+
+function insertNewMessage(  sourceMessageId, folder, messageClient  ) {
     try {
         dbsearch.serialize(
             function() {
@@ -112,17 +120,13 @@ function insertNewMessage(  sourceMessageId, folder,messageClient  ) {
                                         sourceMessageId,
                                         folder,
                                         messageClient,
-                                        "ADDED",
+                                        "ADDED")
 
-                                        function(err) {
-                                            //console.log('added message to sqlite with err: ' + err);
-                                            //console.log('                      source id: ' + sourceMessageId);
-                                            dbsearch.run("commit");
-                                        });
+                                    dbsearch.run("commit");
 
                                 })
                             } catch (err) {
-                                console.log("Error " + err + " with file: " + sourceMessageId);
+                                console.log("Error " + err + " with message ID: " + sourceMessageId);
                             }
                         };
                     };
@@ -130,15 +134,16 @@ function insertNewMessage(  sourceMessageId, folder,messageClient  ) {
             )
         }, sqlite3.OPEN_READONLY)
     } catch(err) {
-        console.log("Error " + err + " with file: " + sourceMessageId);
+        console.log("Error " + err + " with message ID: " + sourceMessageId);
     } finally {
 
     }
 }
-var numberOfSecondsIndexMessagesInterval = 8;
-function timestampInSeconds() {
-    return Math.floor(Date.now() / 1000)
-}
+
+
+
+
+
 
 
 //-----------------------------------------------------------------------------------------//
@@ -665,11 +670,11 @@ function indexMessagesFn() {
                                         messageViaPowershell.outlook_internal_version,
                                         ///zzz
                                         msg.source_id)
-                                        dbsearch.run("commit",
-                                            function(err) {
-                                                //console.log('Updated message: ' + messageViaPowershell.entry_subject);
-                                                inIndexMessagesFn = false;
-                                            })
+                                    dbsearch.run("commit",
+                                        function(err) {
+                                            //console.log('Updated message: ' + messageViaPowershell.entry_subject);
+                                            inIndexMessagesFn = false;
+                                        })
                                     })
                                 } else {
                                     dbsearch.serialize(function() {
@@ -829,19 +834,19 @@ function indexMessagesBodyFn() {
                                                         "|DOCUMENT|",//documentType,
                                                         JSON.stringify({} , null, 2),
                                                         JSON.stringify([{message: 'No preview available'}] , null, 2),
-                                                        timestampInSeconds(),
+                                                        timestampInSeconds()
+                                                    )
 
+                                                    dbsearch.run("commit",
                                                                 function(err2) {
                                                                     if (err2) {
                                                                         console.log('   1033 err2 : ' + err2);
                                                                         dbsearch.serialize(function() {
                                                                             dbsearch.run("begin exclusive transaction");
-                                                                            stmtUpdateFileStatus.run( "ERROR", returnedRecord.id, function(err) {
-                                                                                dbsearch.run("commit");
-                                                                            })
+                                                                            stmtUpdateFileStatus.run( "ERROR", returnedRecord.id)
+                                                                            dbsearch.run("commit");
                                                                         })
                                                                     } else {
-                                                                        dbsearch.run("commit");
                                                                         inIndexMessagesBodyFn = false;
 
                                                                         process.send({
