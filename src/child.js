@@ -2530,6 +2530,7 @@ function fromDir(startPath,filter,callback){
             console.log(filename + ": " + err);
             var stack = new Error().stack
             console.log( stack )
+            break;
         }
     };
 };
