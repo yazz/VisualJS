@@ -621,7 +621,7 @@ function indexMessagesFn() {
         return;
     }
     inIndexMessagesFn = true;
-    //console.log("  indexMessagesFn: " + (numberTimesIndexMessagesFnCalled++));
+    console.log("  indexMessagesFn: " + (numberTimesIndexMessagesFnCalled++));
 
 
     //
@@ -641,9 +641,9 @@ function indexMessagesFn() {
                     if( results.length != 0)
                     {
                         var msg = results[0]
-                        //console.log("Message ID: " + msg.source_id)
+                        console.log("Message ID: " + msg.source_id)
                         get_message_by_entry_id( msg.source_id , function(messageViaPowershell) {
-                            //console.log("    eee: " + JSON.stringify(messageViaPowershell,null,2))
+                            console.log("    eee: " + JSON.stringify(messageViaPowershell,null,2))
                             if (messageViaPowershell) {
 
                                 dbsearch.serialize(function() {
@@ -689,7 +689,7 @@ function indexMessagesFn() {
                                 }
                     })
                 } else {
-                    console.log("          else: ");
+                    console.log("          else: 1 ");
                     inIndexMessagesFn = false;
                 }
             } else {
@@ -699,10 +699,10 @@ function indexMessagesFn() {
        })
    }, sqlite3.OPEN_READONLY)
 
-    }catch (err) {
+    } catch (err) {
         console.log("          674 Error: " + err);
         inIndexMessagesFn = false;
-}
+    }
 }
 
 
@@ -890,7 +890,7 @@ function indexMessagesBodyFn() {
                                 })
                             }
                         } else {
-                            console.log("          else: ");
+                            console.log("          else: 2");
                             inIndexMessagesBodyFn = false;
                         }
                     } else {
