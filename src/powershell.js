@@ -798,6 +798,7 @@ function indexMessagesBodyFn() {
                             if( results.length != 0)
                             {
                                 var msg = results[0]
+                                try {
                                 //console.log("Message ID: " + msg.source_id)
                                 get_message_body_by_entry_id( msg.source_id , function(messageViaPowershell) {
                                     //console.log("    eee: " + JSON.stringify(messageViaPowershell,null,2))
@@ -814,11 +815,11 @@ function indexMessagesBodyFn() {
                                                     console.log('set message to body read');
                                                     var newConnectionId = uuidv1();
                                                     stmtInsertIntoConnections.run(
-                                                    newConnectionId,
-                                                    msg.subject,
-                                                    "outlook2010",
-                                                    "|EMAIL|DOCUMENT|",
-                                                    msg.source_id )
+                                                        newConnectionId,
+                                                        msg.subject,
+                                                        "outlook2010",
+                                                        "|EMAIL|DOCUMENT|",
+                                                        msg.source_id )
 
 
                                                     var newqueryid = uuidv1();
@@ -839,14 +840,7 @@ function indexMessagesBodyFn() {
 
                                                     dbsearch.run("commit",
                                                                 function(err2) {
-                                                                    if (err2) {
-                                                                        console.log('   1033 err2 : ' + err2);
-                                                                        dbsearch.serialize(function() {
-                                                                            dbsearch.run("begin exclusive transaction");
-                                                                            stmtUpdateFileStatus.run( "ERROR", returnedRecord.id)
-                                                                            dbsearch.run("commit");
-                                                                        })
-                                                                    } else {
+
                                                                         inIndexMessagesBodyFn = false;
 
                                                                         process.send({
@@ -861,7 +855,7 @@ function indexMessagesBodyFn() {
                                                                             type:               "outlook2012",
                                                                             definition:         JSON.stringify({} , null, 2),
                                                                             preview:            JSON.stringify([{message: 'No preview available'}] , null, 2)});
-                                                            }
+
                                                         })
 
                                                 })
@@ -882,6 +876,19 @@ function indexMessagesBodyFn() {
                                         })
                                     }
                             })
+                            } catch (err) {
+                                dbsearch.serialize(function() {
+                                    dbsearch.run("begin exclusive transaction");
+
+                                    stmtSetMessageToBodyError.run(msg.source_id)
+                                    dbsearch.run("commit",
+                                        function(err) {
+                                                console.log('set message to error');
+                                                inIndexMessagesBodyFn = false;
+                                    })
+
+                                })
+                            }
                         } else {
                             console.log("          else: ");
                             inIndexMessagesBodyFn = false;
