@@ -2369,14 +2369,15 @@ var i =0;
 function remoteWalk( dir ) {
 
     if (
-    (dir.indexOf("Windows") != -1 )
+    (dir.toUpperCase().indexOf("WINDOWS") != -1 )
     ||
-    (dir.indexOf("Program") != -1 )
+    (dir.toUpperCase().indexOf("PROGRAM") != -1 )
     ||
-    (dir.indexOf("Recycle") != -1 )
+    (dir.toUpperCase().indexOf("RECYCLE") != -1 )
     ) {
         return;
     }
+    console.log("remoteWalk: " + dir)
 
     var list = fs.readdirSync (dir)
 
@@ -2413,17 +2414,17 @@ function remoteWalk( dir ) {
                                                         newId,
                                                         fileOrFolder,
                                                         folderName)
-                                                        dbsearch.run("commit",
-                                                            function(err3) {
-                                                                console.log("     fileOrFolder: " + fileOrFolder)
-                                                                try {
-                                                                    remoteWalk(fileOrFolder);
-                                                                } catch(err3) {
-                                                                    console.log(err3);
-                                                                    var stack = new Error().stack
-                                                                    console.log( stack )
-                                                                }
-                                                            });
+                                                    dbsearch.run("commit",
+                                                        function(err3) {
+                                                            console.log("     fileOrFolder: " + fileOrFolder)
+                                                            try {
+                                                                remoteWalk(fileOrFolder);
+                                                            } catch(err3) {
+                                                                console.log(err3);
+                                                                var stack = new Error().stack
+                                                                console.log( stack )
+                                                            }
+                                                        });
                                                     })
                                             }
                                             else {
@@ -2503,6 +2504,7 @@ function directSearchFolders(drive) {
         ) {
             // do nothing
         } else {
+            console.log('DIRNAME: ',dirname.toUpperCase());
             //console.log('-- found in folder: ',dirname);
             addFolderForIndexingIfNotExist(dirname)
         }
@@ -2527,7 +2529,7 @@ function fromDir(startPath,filter,callback){
             }
             else if (filter.test(filename)) callback(filename);
         } catch(err) {
-            console.log(filename + " COULD NOT BE READ: " + err + " ");
+            //console.log(filename + " COULD NOT BE READ: " + err + " ");
             //var stack = new Error().stack
             //console.log( stack )
         }
