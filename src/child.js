@@ -2491,15 +2491,15 @@ function directSearchFolders(drive) {
 
 
         if (
-        (dirname.indexOf("Windows") != -1 )
+        (dirname.toUpperCase().indexOf("WINDOWS") != -1 )
         ||
-        (dirname.indexOf("Program") != -1 )
+        (dirname.toUpperCase().indexOf("PROGRAM") != -1 )
         ||
-        (dirname.indexOf("Recycle") != -1 )
+        (dirname.toUpperCase().indexOf("RECYCLE") != -1 )
         ||
-        (dirname.indexOf("Library") != -1 )
+        (dirname.toUpperCase().indexOf("LIBRARY") != -1 )
         ||
-        (dirname.indexOf("Applications") != -1 )
+        (dirname.toUpperCase().indexOf("APPLICATIONS") != -1 )
         ) {
             // do nothing
         } else {
@@ -2527,10 +2527,9 @@ function fromDir(startPath,filter,callback){
             }
             else if (filter.test(filename)) callback(filename);
         } catch(err) {
-            console.log(filename + ": " + err);
-            var stack = new Error().stack
-            console.log( stack )
-            break;
+            console.log(filename + " COULD NOT BE READ: " + err + " ");
+            //var stack = new Error().stack
+            //console.log( stack )
         }
     };
 };
