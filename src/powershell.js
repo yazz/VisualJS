@@ -575,11 +575,11 @@ function get_all_inbox_message_ids(cb) {
             var fg = s.children[0].children.length;
             //console.log("XML length: " + fg)
             for (var i = 0; i < fg; i++) {
-                //console.log("read message ID: " + i)
+                console.log("read message ID: " + i)
                 var dj = s.children[0].children[i]
                 if (dj.type == 'element') {
                     var fgh = dj.children[1].children[0].text;
-                    //console.log("read message ID: " + fgh)
+                    console.log("     read message ID: " + fgh)
                     lene.push(fgh)
                 }
             }
