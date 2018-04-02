@@ -778,7 +778,7 @@ function indexMessagesBodyFn() {
         return;
     }
     inIndexMessagesBodyFn = true;
-    //console.log("  indexMessagesFn: " + (numberTimesIndexMessagesFnCalled++));
+    console.log("  indexMessagesFn: " + (numberTimesIndexMessagesFnCalled++));
 
 
     //
@@ -822,6 +822,7 @@ function indexMessagesBodyFn() {
                                                         msg.source_id )
 
 
+                                                    console.log('set message to body read 2');
                                                     var newqueryid = uuidv1();
                                                     stmtInsertInsertIntoQueries.run(
 
@@ -838,8 +839,10 @@ function indexMessagesBodyFn() {
                                                         timestampInSeconds()
                                                     )
 
+                                                    console.log('set message to body read 3');
                                                     dbsearch.run("commit",
                                                                 function(err2) {
+                                                                    console.log('set message to body read 4');
 
                                                                         inIndexMessagesBodyFn = false;
 
