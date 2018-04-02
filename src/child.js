@@ -1687,7 +1687,7 @@ function indexFileRelationshipsFn() {
                                                             }
                                                         }
                                                     });
-                                                }, sqlite3,OPEN_READONLY)
+                                                }, sqlite3.OPEN_READONLY)
                                             }
                                             }
 
