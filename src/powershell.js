@@ -609,7 +609,7 @@ function get_all_inbox_message_ids(cb) {
 //                                                                                         //
 //                                                                                         //
 //-----------------------------------------------------------------------------------------//
-var inIndexMessagesFn                = false;
+var inPowershellFn                = false;
 var numberTimesIndexMessagesFnCalled = 0;
 
 function indexMessagesFn() {
@@ -617,10 +617,10 @@ function indexMessagesFn() {
     //
     //  only allow this to be called once at a time
     //
-    if (inIndexMessagesFn) {
+    if (inPowershellFn) {
         return;
     }
-    inIndexMessagesFn = true;
+    inPowershellFn = true;
     console.log("  indexMessagesFn: " + (numberTimesIndexMessagesFnCalled++));
 
 
@@ -673,7 +673,7 @@ function indexMessagesFn() {
                                     dbsearch.run("commit",
                                         function(err) {
                                             //console.log('Updated message: ' + messageViaPowershell.entry_subject);
-                                            inIndexMessagesFn = false;
+                                            inPowershellFn = false;
                                         })
                                     })
                                 } else {
@@ -683,25 +683,25 @@ function indexMessagesFn() {
                                         dbsearch.run("commit",
                                             function(err) {
                                                 console.log('set message to error');
-                                                inIndexMessagesFn = false;
+                                                inPowershellFn = false;
                                         })
                                     })
                                 }
                     })
                 } else {
                     console.log("          else: 1 ");
-                    inIndexMessagesFn = false;
+                    inPowershellFn = false;
                 }
             } else {
                 console.log("          670 Error: " );
-                inIndexMessagesFn = false;
+                inPowershellFn = false;
            }
        })
    }, sqlite3.OPEN_READONLY)
 
     } catch (err) {
         console.log("          674 Error: " + err);
-        inIndexMessagesFn = false;
+        inPowershellFn = false;
     }
 }
 
@@ -766,7 +766,7 @@ function createContent( contents,  sha1ofFileContents ) {
 
 
 
-var inIndexMessagesBodyFn                = false;
+var inPowershellFn                = false;
 var numberTimesIndexMessagesBodyFnCalled = 0;
 
 function indexMessagesBodyFn() {
@@ -774,10 +774,10 @@ function indexMessagesBodyFn() {
     //
     //  only allow this to be called once at a time
     //
-    if (inIndexMessagesBodyFn) {
+    if (inPowershellFn) {
         return;
     }
-    inIndexMessagesBodyFn = true;
+    inPowershellFn = true;
     console.log("  indexMessagesBodyFn: " + (numberTimesIndexMessagesBodyFnCalled++));
 
 
@@ -844,7 +844,7 @@ function indexMessagesBodyFn() {
                                                                 function(err2) {
                                                                     console.log('set message to body read 4');
 
-                                                                        inIndexMessagesBodyFn = false;
+                                                                        inPowershellFn = false;
 
                                                                         process.send({
                                                                             message_type:       "return_set_query",
@@ -873,7 +873,7 @@ function indexMessagesBodyFn() {
                                             dbsearch.run("commit",
                                                 function(err) {
                                                         console.log('set message to error');
-                                                        inIndexMessagesBodyFn = false;
+                                                        inPowershellFn = false;
                                             })
 
                                         })
@@ -887,23 +887,23 @@ function indexMessagesBodyFn() {
                                     dbsearch.run("commit",
                                         function(err) {
                                                 console.log('set message to error');
-                                                inIndexMessagesBodyFn = false;
+                                                inPowershellFn = false;
                                     })
 
                                 })
                             }
                         } else {
                             console.log("          else: 2");
-                            inIndexMessagesBodyFn = false;
+                            inPowershellFn = false;
                         }
                     } else {
                         console.log("          670 Error: " );
-                        inIndexMessagesBodyFn = false;
+                        inPowershellFn = false;
                    }
                })
            }, sqlite3.OPEN_READONLY)
     } catch (err) {
         console.log("          674 Error: " + err);
-        inIndexMessagesBodyFn = false;
+        inPowershellFn = false;
 }
 }
