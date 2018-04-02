@@ -1154,7 +1154,7 @@ function open_query_in_native_appFn(req, res) {
 //------------------------------------------------------------------------------
 function getresultFn(req, res) {
 		var queryData = req.body;
-		//console.log('queryData.source: ' + queryData.source);
+		console.log('queryData.source: ' + queryData.source);
 
 		////console.log('request received source: ' + Object.keys(req));
 		var error = new Object();

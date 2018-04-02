@@ -126,7 +126,7 @@ function insertNewMessage(  sourceMessageId, folder, messageClient  ) {
 
                                 })
                             } catch (err) {
-                                console.log("Error " + err + " with message ID: " + sourceMessageId);
+                                //console.log("Error " + err + " with message ID: " + sourceMessageId);
                             }
                         };
                     };
@@ -134,7 +134,7 @@ function insertNewMessage(  sourceMessageId, folder, messageClient  ) {
             )
         }, sqlite3.OPEN_READONLY)
     } catch(err) {
-        console.log("Error " + err + " with message ID: " + sourceMessageId);
+        //console.log("Error " + err + " with message ID: " + sourceMessageId);
     } finally {
 
     }
@@ -180,7 +180,7 @@ function processMessagesFromMainProcess() {
                         var fg = ids.length;
                         for (var i = 0; i < fg; i++) {
                             var sourceMessageId = ids[i];
-                            console.log("ID " + i + ": " + sourceMessageId);
+                            //console.log("ID " + i + ": " + sourceMessageId);
                             insertNewMessage(  sourceMessageId, "INBOX","OUTLOOK"  )
 
                         }
@@ -422,7 +422,7 @@ function call_powershell( cb , commands ) {
 
         })
         .catch(err => {
-            console.log("******************Error parsing XML " + err);
+            //console.log("******************Error parsing XML " + err);
             for ( var i = 0 ; i < commands.length ; i ++ ) {
                 console.log("       " + commands[i])
             }
@@ -474,7 +474,7 @@ function get_inbox_count(cb) {
 }
 
 function get_message_by_entry_id(i,cb) {
-    console.log("get_message_by_entry_id:  '" + i + "'")
+    //console.log("get_message_by_entry_id:  '" + i + "'")
     var itemStr = "$mail = $inbox.Items  | Where-Object {$_.EntryId -eq '" + i.toString() + "'} | select EntryID,Subject,ReceivedByName,ReceivedTime,Recipients,SenderName,Sent,SentOn,SentOnBehalfOfName,To,BodyFormat,SendUsingAccount,TaskSubject,Sender,CC,BCC,UnRead,Size,Sensitivity,Outlookversion,OutlookInternalVersion "
     //console.log("            itemStr:  '" + itemStr + "'")
 
@@ -486,7 +486,7 @@ function get_message_by_entry_id(i,cb) {
 
     call_powershell(
         function(ret){
-            console.log("                    :  " + ret)
+            //console.log("                    :  " + ret)
                 if (ret ) {
                     var s = parseXml(ret);
                     if (s.children[0].children[1]) {
@@ -575,11 +575,11 @@ function get_all_inbox_message_ids(cb) {
             var fg = s.children[0].children.length;
             //console.log("XML length: " + fg)
             for (var i = 0; i < fg; i++) {
-                console.log("read message ID: " + i)
+                //console.log("read message ID: " + i)
                 var dj = s.children[0].children[i]
                 if (dj.type == 'element') {
                     var fgh = dj.children[1].children[0].text;
-                    console.log("     read message ID: " + fgh)
+                    //console.log("     read message ID: " + fgh)
                     lene.push(fgh)
                 }
             }
@@ -621,7 +621,7 @@ function indexMessagesFn() {
         return;
     }
     inIndexMessagesFn = true;
-    console.log("  indexMessagesFn: " + (numberTimesIndexMessagesFnCalled++));
+    //console.log("  indexMessagesFn: " + (numberTimesIndexMessagesFnCalled++));
 
 
     //
@@ -641,9 +641,9 @@ function indexMessagesFn() {
                     if( results.length != 0)
                     {
                         var msg = results[0]
-                        console.log("Message ID: " + msg.source_id)
+                        //console.log("Message ID: " + msg.source_id)
                         get_message_by_entry_id( msg.source_id , function(messageViaPowershell) {
-                            console.log("    eee: " + JSON.stringify(messageViaPowershell,null,2))
+                            //console.log("    eee: " + JSON.stringify(messageViaPowershell,null,2))
                             if (messageViaPowershell) {
 
                                 dbsearch.serialize(function() {
@@ -682,25 +682,25 @@ function indexMessagesFn() {
                                         stmtSetMessageToError.run(msg.source_id)
                                         dbsearch.run("commit",
                                             function(err) {
-                                                console.log('set message to error');
+                                                //console.log('set message to error');
                                                 inIndexMessagesFn = false;
                                         })
                                     })
                                 }
                     })
                 } else {
-                    console.log("          else: 1 ");
+                    //console.log("          else: 1 ");
                     inIndexMessagesFn = false;
                 }
             } else {
-                console.log("          670 Error: " );
+                //console.log("          670 Error: " );
                 inIndexMessagesFn = false;
            }
        })
    }, sqlite3.OPEN_READONLY)
 
     } catch (err) {
-        console.log("          674 Error: " + err);
+        //console.log("          674 Error: " + err);
         inIndexMessagesFn = false;
     }
 }
@@ -755,7 +755,7 @@ function createContent( contents,  sha1ofFileContents ) {
 
                 })
             } catch (err) {
-            console.log(err);
+            //console.log(err);
             }
             }
             }
@@ -778,7 +778,7 @@ function indexMessagesBodyFn() {
         return;
     }
     inIndexMessagesBodyFn = true;
-    console.log("  indexMessagesBodyFn: " + (numberTimesIndexMessagesBodyFnCalled++));
+    //console.log("  indexMessagesBodyFn: " + (numberTimesIndexMessagesBodyFnCalled++));
 
 
     //
@@ -799,20 +799,20 @@ function indexMessagesBodyFn() {
                             {
                                 var msg = results[0]
                                 try {
-                                console.log("Indexing Email Message ID: " + msg.source_id)
+                                //console.log("Indexing Email Message ID: " + msg.source_id)
                                 get_message_body_by_entry_id( msg.source_id , function(messageViaPowershell) {
                                     //console.log("    eee: " + JSON.stringify(messageViaPowershell,null,2))
                                     if (messageViaPowershell) {
                                       var emailBody = messageViaPowershell.body.replace(/[\n\r|�]/g, '\n');
 
-                                        console.log("message body: " + messageViaPowershell.body);
+                                        //console.log("message body: " + messageViaPowershell.body);
                                         var newSha1ofFileContents = getSha1(emailBody)
 
                                         dbsearch.serialize(function() {
                                             dbsearch.run("begin exclusive transaction");
                                             stmtSetMessageToBodyRead.run(msg.source_id,
                                                 function(err) {
-                                                    console.log('set message to body read');
+                                                    //console.log('set message to body read');
                                                     var newConnectionId = uuidv1();
                                                     stmtInsertIntoConnections.run(
                                                         newConnectionId,
@@ -822,7 +822,7 @@ function indexMessagesBodyFn() {
                                                         msg.source_id )
 
 
-                                                    console.log('set message to body read 2');
+                                                    //console.log('set message to body read 2');
                                                     var newqueryid = uuidv1();
                                                     stmtInsertInsertIntoQueries.run(
 
@@ -839,10 +839,10 @@ function indexMessagesBodyFn() {
                                                         timestampInSeconds()
                                                     )
 
-                                                    console.log('set message to body read 3');
+                                                    //console.log('set message to body read 3');
                                                     dbsearch.run("commit",
                                                                 function(err2) {
-                                                                    console.log('set message to body read 4');
+                                                                    //console.log('set message to body read 4');
 
                                                                         inIndexMessagesBodyFn = false;
 
@@ -872,7 +872,7 @@ function indexMessagesBodyFn() {
                                             stmtSetMessageToBodyError.run(msg.source_id)
                                             dbsearch.run("commit",
                                                 function(err) {
-                                                        console.log('set message to error');
+                                                        //console.log('set message to error');
                                                         inIndexMessagesBodyFn = false;
                                             })
 
@@ -886,24 +886,24 @@ function indexMessagesBodyFn() {
                                     stmtSetMessageToBodyError.run(msg.source_id)
                                     dbsearch.run("commit",
                                         function(err) {
-                                                console.log('set message to error');
+                                                //console.log('set message to error');
                                                 inIndexMessagesBodyFn = false;
                                     })
 
                                 })
                             }
                         } else {
-                            console.log("          else: 2");
+                            //console.log("          else: 2");
                             inIndexMessagesBodyFn = false;
                         }
                     } else {
-                        console.log("          670 Error: " );
+                        //console.log("          670 Error: " );
                         inIndexMessagesBodyFn = false;
                    }
                })
            }, sqlite3.OPEN_READONLY)
     } catch (err) {
-        console.log("          674 Error: " + err);
+        //console.log("          674 Error: " + err);
         inIndexMessagesBodyFn = false;
 }
 }
