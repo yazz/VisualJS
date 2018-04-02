@@ -180,7 +180,7 @@ function processMessagesFromMainProcess() {
                         var fg = ids.length;
                         for (var i = 0; i < fg; i++) {
                             var sourceMessageId = ids[i];
-                            //console.log("ID " + i + ": " + sourceMessageId);
+                            console.log("ID " + i + ": " + sourceMessageId);
                             insertNewMessage(  sourceMessageId, "INBOX","OUTLOOK"  )
 
                         }
