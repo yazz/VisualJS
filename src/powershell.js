@@ -778,7 +778,7 @@ function indexMessagesBodyFn() {
         return;
     }
     inIndexMessagesBodyFn = true;
-    console.log("  indexMessagesFn: " + (numberTimesIndexMessagesFnCalled++));
+    console.log("  indexMessagesBodyFn: " + (numberTimesIndexMessagesBodyFnCalled++));
 
 
     //
