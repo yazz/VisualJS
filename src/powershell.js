@@ -92,7 +92,8 @@ function require2(moduleName) {
 
 function insertNewMessage(  sourceMessageId, folder,messageClient  ) {
     try {
-        dbsearch.serialize(function() {
+        dbsearch.serialize(
+            function() {
             var stmt = dbsearch.all(
                 "select id from messages where   source_id = ?",
                 [sourceMessageId],
@@ -127,7 +128,7 @@ function insertNewMessage(  sourceMessageId, folder,messageClient  ) {
                     };
                 }
             )
-        })
+        }, sqlite3.OPEN_READONLY)
     } catch(err) {
         console.log("Error " + err + " with file: " + sourceMessageId);
     } finally {
@@ -623,8 +624,10 @@ function indexMessagesFn() {
     // the status is set to ADDED
     //
     try {
-        var stmt = dbsearch.all(
-            "SELECT * FROM messages WHERE status = 'ADDED' LIMIT 1 "
+        dbsearch.serialize(
+            function() {
+                var stmt = dbsearch.all(
+                        "SELECT * FROM messages WHERE status = 'ADDED' LIMIT 1 "
             ,
             function(err, results)
             {
@@ -688,7 +691,9 @@ function indexMessagesFn() {
                 console.log("          670 Error: " );
                 inIndexMessagesFn = false;
            }
-        })
+       })
+   }, sqlite3.OPEN_READONLY)
+
     }catch (err) {
         console.log("          674 Error: " + err);
         inIndexMessagesFn = false;
@@ -718,7 +723,10 @@ function createContent( contents,  sha1ofFileContents ) {
     //
     // create the content if it doesn't exist
     //
-    var stmt = dbsearch.all(
+    dbsearch.serialize(
+        function() {
+
+            var stmt = dbsearch.all(
         "select  *  from  contents  where   id = ? ",
 
         [sha1ofFileContents],
@@ -747,6 +755,7 @@ function createContent( contents,  sha1ofFileContents ) {
             }
             }
         })
+    },sqlite3.OPEN_READONLY)
 }
 
 
@@ -772,110 +781,113 @@ function indexMessagesBodyFn() {
     // the status is set to ADDED
     //
     try {
-        var stmt = dbsearch.all(
-            "SELECT * FROM messages WHERE status = 'UPDATED' LIMIT 1 "
-            ,
-            function(err, results)
-            {
-                if (!err)
-                {
-                    if( results.length != 0)
+        dbsearch.serialize(
+            function() {
+                var stmt = dbsearch.all(
+                    "SELECT * FROM messages WHERE status = 'UPDATED' LIMIT 1 "
+                    ,
+                    function(err, results)
                     {
-                        var msg = results[0]
-                        //console.log("Message ID: " + msg.source_id)
-                        get_message_body_by_entry_id( msg.source_id , function(messageViaPowershell) {
-                            //console.log("    eee: " + JSON.stringify(messageViaPowershell,null,2))
-                            if (messageViaPowershell) {
-                              var emailBody = messageViaPowershell.body.replace(/[\n\r|�]/g, '\n');
+                        if (!err)
+                        {
+                            if( results.length != 0)
+                            {
+                                var msg = results[0]
+                                //console.log("Message ID: " + msg.source_id)
+                                get_message_body_by_entry_id( msg.source_id , function(messageViaPowershell) {
+                                    //console.log("    eee: " + JSON.stringify(messageViaPowershell,null,2))
+                                    if (messageViaPowershell) {
+                                      var emailBody = messageViaPowershell.body.replace(/[\n\r|�]/g, '\n');
 
-                                console.log("message body: " + messageViaPowershell.body);
-                                var newSha1ofFileContents = getSha1(emailBody)
+                                        console.log("message body: " + messageViaPowershell.body);
+                                        var newSha1ofFileContents = getSha1(emailBody)
 
-                                dbsearch.serialize(function() {
-                                    dbsearch.run("begin exclusive transaction");
-                                    stmtSetMessageToBodyRead.run(msg.source_id,
-                                        function(err) {
-                                            console.log('set message to body read');
-                                            var newConnectionId = uuidv1();
-                                            stmtInsertIntoConnections.run(
-                                            newConnectionId,
-                                            msg.subject,
-                                            "outlook2010",
-                                            "|EMAIL|DOCUMENT|",
-                                            msg.source_id )
+                                        dbsearch.serialize(function() {
+                                            dbsearch.run("begin exclusive transaction");
+                                            stmtSetMessageToBodyRead.run(msg.source_id,
+                                                function(err) {
+                                                    console.log('set message to body read');
+                                                    var newConnectionId = uuidv1();
+                                                    stmtInsertIntoConnections.run(
+                                                    newConnectionId,
+                                                    msg.subject,
+                                                    "outlook2010",
+                                                    "|EMAIL|DOCUMENT|",
+                                                    msg.source_id )
 
 
-                                            var newqueryid = uuidv1();
-                                            stmtInsertInsertIntoQueries.run(
+                                                    var newqueryid = uuidv1();
+                                                    stmtInsertInsertIntoQueries.run(
 
-                                                newqueryid,
-                                                msg.subject,
-                                                newConnectionId,
-                                                "outlook2012",
-                                                1,//onDiskFileContentsSize,
-                                                newSha1ofFileContents,
-                                                msg.source_id,//fullFileNamePath,
-                                                "|DOCUMENT|",//documentType,
-                                                JSON.stringify({} , null, 2),
-                                                JSON.stringify([{message: 'No preview available'}] , null, 2),
-                                                timestampInSeconds(),
+                                                        newqueryid,
+                                                        msg.subject,
+                                                        newConnectionId,
+                                                        "outlook2012",
+                                                        1,//onDiskFileContentsSize,
+                                                        newSha1ofFileContents,
+                                                        msg.source_id,//fullFileNamePath,
+                                                        "|DOCUMENT|",//documentType,
+                                                        JSON.stringify({} , null, 2),
+                                                        JSON.stringify([{message: 'No preview available'}] , null, 2),
+                                                        timestampInSeconds(),
 
-                                                        function(err2) {
-                                                            if (err2) {
-                                                                console.log('   1033 err2 : ' + err2);
-                                                                dbsearch.serialize(function() {
-                                                                    dbsearch.run("begin exclusive transaction");
-                                                                    stmtUpdateFileStatus.run( "ERROR", returnedRecord.id, function(err) {
+                                                                function(err2) {
+                                                                    if (err2) {
+                                                                        console.log('   1033 err2 : ' + err2);
+                                                                        dbsearch.serialize(function() {
+                                                                            dbsearch.run("begin exclusive transaction");
+                                                                            stmtUpdateFileStatus.run( "ERROR", returnedRecord.id, function(err) {
+                                                                                dbsearch.run("commit");
+                                                                            })
+                                                                        })
+                                                                    } else {
                                                                         dbsearch.run("commit");
-                                                                    })
-                                                                })
-                                                            } else {
-                                                                dbsearch.run("commit");
-                                                                inIndexMessagesBodyFn = false;
+                                                                        inIndexMessagesBodyFn = false;
 
-                                                                process.send({
-                                                                    message_type:       "return_set_query",
-                                                                    id:                 newqueryid,
-                                                                    name:               msg.subject,
-                                                                    connection:         newConnectionId,
-                                                                    driver:             "outlook2012",
-                                                                    size:               0,
-                                                                    hash:               newSha1ofFileContents,
-                                                                    fileName:           "email.txt",
-                                                                    type:               "outlook2012",
-                                                                    definition:         JSON.stringify({} , null, 2),
-                                                                    preview:            JSON.stringify([{message: 'No preview available'}] , null, 2)});
-                                                    }
+                                                                        process.send({
+                                                                            message_type:       "return_set_query",
+                                                                            id:                 newqueryid,
+                                                                            name:               msg.subject,
+                                                                            connection:         newConnectionId,
+                                                                            driver:             "outlook2012",
+                                                                            size:               0,
+                                                                            hash:               newSha1ofFileContents,
+                                                                            fileName:           "email.txt",
+                                                                            type:               "outlook2012",
+                                                                            definition:         JSON.stringify({} , null, 2),
+                                                                            preview:            JSON.stringify([{message: 'No preview available'}] , null, 2)});
+                                                            }
+                                                        })
+
                                                 })
 
+                                            })
+                                            ///zzz
+                                    } else {
+                                        dbsearch.serialize(function() {
+                                            dbsearch.run("begin exclusive transaction");
+
+                                            stmtSetMessageToBodyError.run(msg.source_id)
+                                            dbsearch.run("commit",
+                                                function(err) {
+                                                        console.log('set message to error');
+                                                        inIndexMessagesBodyFn = false;
+                                            })
+
                                         })
-
-                                    })
-                                    ///zzz
-                            } else {
-                                dbsearch.serialize(function() {
-                                    dbsearch.run("begin exclusive transaction");
-
-                                    stmtSetMessageToBodyError.run(msg.source_id)
-                                    dbsearch.run("commit",
-                                        function(err) {
-                                                console.log('set message to error');
-                                                inIndexMessagesBodyFn = false;
-                                    })
-
-                                })
-                            }
-                    })
-                } else {
-                    console.log("          else: ");
-                    inIndexMessagesBodyFn = false;
-                }
-            } else {
-                console.log("          670 Error: " );
-                inIndexMessagesBodyFn = false;
-           }
-        })
-    }catch (err) {
+                                    }
+                            })
+                        } else {
+                            console.log("          else: ");
+                            inIndexMessagesBodyFn = false;
+                        }
+                    } else {
+                        console.log("          670 Error: " );
+                        inIndexMessagesBodyFn = false;
+                   }
+               })
+           }, sqlite3.OPEN_READONLY)
+    } catch (err) {
         console.log("          674 Error: " + err);
         inIndexMessagesBodyFn = false;
 }
