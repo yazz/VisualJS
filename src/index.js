@@ -29,7 +29,7 @@ var mkdirp          = require('mkdirp')
 var rmdir           = require('rmdir-sync');
 var uuidv1          = require('uuid/v1');
 var fork            = require('child_process');
-var drivers         = new Object();
+var drivers     = new Object();
 var connections     = new Object();
 var queries         = new Object();
 var express         = require('express')
@@ -208,6 +208,7 @@ var hostcount  							= 0;
 var queuedResponses                     = new Object();
 var queuedResponseSeqNum                = 0;
 
+var sqlite3                     = require2('sqlite3');
 
 
 
@@ -275,6 +276,7 @@ var PDFParser       = require2("pdf2json");
 var sqlite3         = require2('sqlite3');
 
 username = os.userInfo().username.toLowerCase();
+var dbsearch = new sqlite3.Database(username + '.visi');
 
 //console.log("... ");
 
@@ -1127,7 +1129,6 @@ function open_query_in_native_appFn(req, res) {
 	var error = new Object();
 	////console.log('query driver: ' + connections[queryData.source].driver);
 	try {
-		//drivers[connections[queryData.source].driver]['get_v2'](connections[queryData.source],{sql: queryData.sql},function(ordata) {
             if(!nogui) {
 		       open(connections[queries[queryData.source].connection].fileName);
             }
@@ -1146,7 +1147,30 @@ function open_query_in_native_appFn(req, res) {
 
 
 
+function getDriver(id, callbackFn) {
+    try {
+        dbsearch.serialize(
+            function() {
+        var stmt = dbsearch.all(
+            "SELECT * FROM drivers WHERE id = ? ",
+            [id]
+            ,
 
+            function(err, results)
+            {
+                if (err)
+                {
+                    console.log("getDriver error: " + err)
+                    callbackFn(null)
+                    return
+                }
+                callbackFn(results[0])
+            })
+        })
+    } catch(err) {
+        callbackFn(null)
+    }
+}
 
 
 //------------------------------------------------------------------------------
@@ -1164,11 +1188,16 @@ function getresultFn(req, res) {
 					if (connections[queryData.source].driver) {
 						//console.log('query driver: ' + connections[queryData.source].driver);
 						try {
-							drivers[connections[queryData.source].driver]['get_v2'](connections[queryData.source],{sql: queryData.sql},function(ordata) {
-								res.writeHead(200, {'Content-Type': 'text/plain'});
+                            getDriver(connections[queryData.source].driver, function(driver) {
+                                if (driver) {
+                                    driver(connections[queryData.source],{sql: queryData.sql},function(ordata) {
+        								res.writeHead(200, {'Content-Type': 'text/plain'});
 
-																res.end(JSON.stringify(ordata));
-							});
+        								res.end(JSON.stringify(ordata));
+        							});
+                                }
+                            })
+
 						}
 						catch(err) {
 							res.writeHead(200, {'Content-Type': 'text/plain'});
@@ -1713,7 +1742,7 @@ function setupChildProcesses() {
     setupForkedProcess("forkedIndexer","child.js", 40000)
     setupForkedProcess("forkedFileScanner","child.js", 40001)
 
-    if (!isWin) {
+    if (isWin) {
         setupForkedProcess("forkedPowershell","powershell.js", 40002)
     }
 }
@@ -2251,9 +2280,6 @@ function startServices() {
 
 
 
-
-	//console.log("******************************ADDING DRIVERS*********************************")
-	//console.log("******************************ADDING DRIVERS*********************************")
 
 
     forkedProcesses["forked"].send({message_type:       'setUpDbDrivers'});
