@@ -1942,13 +1942,14 @@ function startServices() {
                         list:  [],
                         links: {"self": { "href": "/admin/1/drivers" }}
                     }
-        var driverNames = driversFn()
-        result.links.drivers = {}
-        for (var i =0 ; i< driverNames.length; i ++) {
-            result.list.push( driverNames[i] )
-            result.links.drivers[driverNames[i]] =
-                {"href": "/drivers/" +  driverNames[i]}
-        }
+        driversFn(function(driverNames) {
+            result.links.drivers = {}
+            for (var i =0 ; i< driverNames.length; i ++) {
+                result.list.push( driverNames[i] )
+                result.links.drivers[driverNames[i]] =
+                    {"href": "/drivers/" +  driverNames[i]}
+            }
+        })
 
 
         res.writeHead(200, {'Content-Type': 'application/json'});
@@ -1957,7 +1958,7 @@ function startServices() {
 
 
 
-//zzz
+
     //------------------------------------------------------------------------------
     // search
     //------------------------------------------------------------------------------
@@ -2426,13 +2427,21 @@ function lsFn(callbackFn) {
 
 
 
-function driversFn() {
-    var result = []
-    var driverKeys = Object.keys(drivers)
-    for (var i =0 ; i< driverKeys.length; i ++) {
-        result.push(drivers[driverKeys[i]].name)
-    }
-    return result;
+function driversFn(callbackFn) {
+    dbsearch.serialize(
+        function() {
+            var result = []
+            var stmt = dbsearch.all(
+                "SELECT * FROM drivers",
+
+                function(err, results)
+                {
+                    for (var i =0 ; i< results.length; i ++) {
+                        result.push(results[i].name)
+                    }
+                    callbackFn( result);
+                })
+    }, sqlite3.OPEN_READONLY)
 }
 
 
@@ -2465,11 +2474,12 @@ function parseVfCliCommand(args, callbackFn) {
 
 
     } else if ((countArgs == 1) && (verb == 'drivers')) {
-        var driverNames = driversFn()
-        for (var i =0 ; i< driverNames.length; i ++) {
-            result += driverNames[i] + "\n"
-        }
-        callbackFn(result)
+        driversFn(function(driverNames) {
+            for (var i =0 ; i< driverNames.length; i ++) {
+                result += driverNames[i] + "\n"
+            }
+            callbackFn(result)
+        })
 
 
     } else if (verb == 'add') {
