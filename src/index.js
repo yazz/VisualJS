@@ -208,7 +208,6 @@ var queuedResponseSeqNum                = 0;
 var sqlite3                     = require2('sqlite3');
 
 
-
 app.use(compression())
 rmdir("uploads");
 mkdirp.sync("uploads");
@@ -274,6 +273,11 @@ var sqlite3         = require2('sqlite3');
 
 username = os.userInfo().username.toLowerCase();
 var dbsearch = new sqlite3.Database(username + '.visi');
+dbsearch.run("PRAGMA journal_mode=WAL;")
+//dbsearch.run("PRAGMA synchronous=OFF;")
+//dbsearch.run("PRAGMA count_changes=OFF;")
+//dbsearch.run("PRAGMA journal_mode=MEMORY;")
+//dbsearch.run("PRAGMA temp_store=MEMORY;")
 
 //console.log("... ");
 
