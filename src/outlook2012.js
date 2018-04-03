@@ -252,7 +252,9 @@
 
 
 			var rows = []
-            rows.push({value: "Email subject"});
+            rows.push({value: "Email subject" });
+			rows.push({value: JSON.stringify(connection,null,2) });
+			rows.push({value: JSON.stringify(parameters,null,2) });
 			callfn(rows);
 
           }
