@@ -251,7 +251,7 @@
         {
 
 
-			var rows = new Object()
+			var rows = []
             rows.push({value: "Email subject"});
 			callfn(rows);
 
