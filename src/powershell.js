@@ -817,7 +817,7 @@ function indexMessagesBodyFn() {
                                                     stmtInsertIntoConnections.run(
                                                         newConnectionId,
                                                         msg.subject,
-                                                        "outlook2010",
+                                                        "outlook2012",
                                                         "|EMAIL|DOCUMENT|",
                                                         msg.source_id )
 
