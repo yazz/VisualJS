@@ -1162,6 +1162,11 @@ function getDriver(id, callbackFn) {
                     callbackFn(null)
                     return
                 }
+                if (results.length == 0) {
+                    console.log("getDriver returned no results: " + err)
+                    callbackFn(null)
+                    return
+                }
                 callbackFn(results[0])
             })
         }, sqlite3.OPEN_READONLY)
@@ -1172,7 +1177,7 @@ function getDriver(id, callbackFn) {
 
 
 //------------------------------------------------------------------------------
-// Get the result of a SQL query
+// Get the result of a query
 //------------------------------------------------------------------------------
 function getresultFn(req, res) {
 		var queryData = req.body;
@@ -1188,11 +1193,18 @@ function getresultFn(req, res) {
 						try {
                             getDriver(connections[queryData.source].driver, function(driver) {
                                 if (driver) {
-                                    eval(driver.code)['get_v2'](connections[queryData.source],{sql: queryData.sql},function(ordata) {
-        								res.writeHead(200, {'Content-Type': 'text/plain'});
+                                    console.log(eval(driver.code)['get_v2'])
+                                    console.log(    "conn: " + connections[queryData.source])
+                                    eval(driver.code)['get_v2'](
+                                                            connections[queryData.source],
+                                                            {sql: queryData.sql},
+                                                            function(ordata) {
+                                    								res.writeHead(200, {'Content-Type': 'text/plain'});
 
-        								res.end(JSON.stringify(ordata));
-        							});
+                                    								res.end(JSON.stringify(ordata));
+                                    							});
+                                } else {
+                                    console.log("No driver found for: " + connections[queryData.source].driver)
                                 }
                             })
 

@@ -791,7 +791,7 @@ function indexFilesFn() {
 //                                                                                         //
 //                                                                                         //
 //-----------------------------------------------------------------------------------------//
-function getResult(  source,  connection,  driver,  definition,  callback  ) {
+function getResult(  source,  connection,  driverName,  definition,  callback  ) {
     console.log("var getResult = function(" + source + ", " + connection + ", " + driver + ", " + JSON.stringify(definition));
 
     var error = new Object();
@@ -809,7 +809,7 @@ function getResult(  source,  connection,  driver,  definition,  callback  ) {
                         //console.log('**** drivers[driver] = ' + driver)
                         //console.log('**** drivers.len = ' + drivers[driver].get_v2)
 
-                        getDriver(connections[queryData.source].driver, function(driver) {
+                        getDriver(driverName, function(driver) {
                             if (driver) {
                                 eval(driver.code)['get_v2'](
                             connections[connection],
@@ -2576,49 +2576,39 @@ function setSharedGlobalVar(nameOfVar, index, value) {
 
 function setUpDbDrivers() {
 	pgeval = '(' + fs.readFileSync(path.join(__dirname, './glb.js')).toString() + ')';
-    setSharedGlobalVar("drivers", 'glb', pgeval );
-	addOrUpdateDriver('glb', pgeval, drivers['glb'])
+	addOrUpdateDriver('glb', pgeval, pgeval)
 
 	pgeval = '(' + fs.readFileSync(path.join(__dirname, './csv.js')).toString() + ')';
-    setSharedGlobalVar("drivers", 'csv', pgeval );
-	addOrUpdateDriver('csv', pgeval, drivers['csv'])
+	addOrUpdateDriver('csv', pgeval, pgeval)
 
 	pgeval = '(' + fs.readFileSync(path.join(__dirname, './txt.js')).toString() + ')';
-    setSharedGlobalVar("drivers", 'txt', pgeval );
-	addOrUpdateDriver('txt', pgeval, drivers['txt'])
+	addOrUpdateDriver('txt', pgeval, pgeval)
 
 
 	pgeval = '(' + fs.readFileSync(path.join(__dirname, './excel.js')).toString() + ')';
-    setSharedGlobalVar("drivers", 'excel', pgeval );
-	addOrUpdateDriver('excel', pgeval, drivers['excel'])
+	addOrUpdateDriver('excel', pgeval, pgeval)
 
 	pgeval = '(' + fs.readFileSync(path.join(__dirname, './word.js')).toString() + ')';
-    setSharedGlobalVar("drivers", 'word', pgeval );
-	addOrUpdateDriver('word', pgeval, drivers['word'])
+	addOrUpdateDriver('word', pgeval, pgeval)
 
 	pgeval = '(' + fs.readFileSync(path.join(__dirname, './pdf.js')).toString() + ')';
-    setSharedGlobalVar("drivers", 'pdf', pgeval );
-	addOrUpdateDriver('pdf', pgeval, drivers['pdf'])
+	addOrUpdateDriver('pdf', pgeval, pgeval)
 
 
 	pgeval = '(' + fs.readFileSync(path.join(__dirname, './postgres.js')).toString() + ')';
-    setSharedGlobalVar("drivers", 'postgres', pgeval );
-	addOrUpdateDriver('postgres', pgeval, drivers['postgres'])
+	addOrUpdateDriver('postgres', pgeval, pgeval)
 
 	pgeval = '(' + fs.readFileSync(path.join(__dirname, './outlook2012.js')).toString() + ')';
-    setSharedGlobalVar("drivers", 'outlook2012', pgeval );
-	addOrUpdateDriver('outlook2012', pgeval, drivers['outlook2012'])
+	addOrUpdateDriver('outlook2012', pgeval, pgeval)
 
 
 
 	sqliteeval = '(' + fs.readFileSync(path.join(__dirname, './sqlite.js')).toString() + ')';
-    setSharedGlobalVar("drivers", 'sqlite', sqliteeval );
-	addOrUpdateDriver('sqlite', sqliteeval, drivers['sqlite'])
+	addOrUpdateDriver('sqlite', sqliteeval, sqliteeval)
 
 
 	pgeval = '(' + fs.readFileSync(path.join(__dirname, './mysql.js')).toString() + ')';
-    setSharedGlobalVar("drivers", 'mysql', pgeval );
-	addOrUpdateDriver('mysql', pgeval, drivers['mysql'])
+	addOrUpdateDriver('mysql', pgeval, pgeval)
 
 
 //console.log("----------------------- trying to load Outlook driver")
@@ -2627,18 +2617,13 @@ function setUpDbDrivers() {
 //	addOrUpdateDriver('outlook2010', pgeval, drivers['outlook2010'])
 
 	toeval =  '(' + fs.readFileSync(path.join(__dirname, './oracle.js')).toString() + ')';
-    setSharedGlobalVar("drivers", 'oracle', toeval );
-	addOrUpdateDriver('oracle',   toeval, drivers['oracle'])
+	addOrUpdateDriver('oracle',   toeval, toeval)
 	process.env['PATH'] = process.cwd() + '\\oracle_driver\\instantclient32' + ';' + process.env['PATH'];
-	if (drivers['oracle'].loadOnCondition()) {
-		drivers['oracle'].loadDriver()
-	}
 
 
 
 	tdeval = '(' + fs.readFileSync(path.join(__dirname, './testdriver.js')).toString() + ')';
-    setSharedGlobalVar("drivers", 'testdriver', tdeval );
-	addOrUpdateDriver('testdriver', tdeval, drivers['testdriver'])
+	addOrUpdateDriver('testdriver', tdeval, tdeval)
 }
 
 
