@@ -1145,15 +1145,13 @@ function open_query_in_native_appFn(req, res) {
 
 
 
-
-
 function getDriver(id, callbackFn) {
     try {
         dbsearch.serialize(
             function() {
         var stmt = dbsearch.all(
-            "SELECT * FROM drivers WHERE id = ? ",
-            [id]
+            "SELECT * FROM drivers WHERE name = ? ",
+            id
             ,
 
             function(err, results)
@@ -1166,7 +1164,7 @@ function getDriver(id, callbackFn) {
                 }
                 callbackFn(results[0])
             })
-        })
+        }, sqlite3.OPEN_READONLY)
     } catch(err) {
         callbackFn(null)
     }
@@ -1190,7 +1188,7 @@ function getresultFn(req, res) {
 						try {
                             getDriver(connections[queryData.source].driver, function(driver) {
                                 if (driver) {
-                                    driver(connections[queryData.source],{sql: queryData.sql},function(ordata) {
+                                    eval(driver.code)['get_v2'](connections[queryData.source],{sql: queryData.sql},function(ordata) {
         								res.writeHead(200, {'Content-Type': 'text/plain'});
 
         								res.end(JSON.stringify(ordata));
@@ -1725,6 +1723,8 @@ function setupForkedProcess(processName,fileName,debugPort) {
 
 
     console.log("Started subprocess '" + processName + "' ")
+
+
 }
 
 
