@@ -1713,7 +1713,7 @@ function setupChildProcesses() {
     setupForkedProcess("forkedIndexer","child.js", 40000)
     setupForkedProcess("forkedFileScanner","child.js", 40001)
 
-    if (isWin) {
+    if (!isWin) {
         setupForkedProcess("forkedPowershell","powershell.js", 40002)
     }
 }
@@ -2236,9 +2236,9 @@ function startServices() {
         setInterval(aliveCheckFn ,numberOfSecondsAliveCheck * 1000);
 
         forkedProcesses["forkedIndexer"].send({ message_type: "childRunIndexer" });
-		forkedProcesses["forkedIndexer"].send({ message_type: "when_connections_changes" });
-		forkedProcesses["forkedIndexer"].send({ message_type: "when_queries_changes" });
-		forkedProcesses["forkedIndexer"].send({message_type:  'setUpDbDrivers'});
+		//forkedProcesses["forkedIndexer"].send({ message_type: "when_connections_changes" });
+		//forkedProcesses["forkedIndexer"].send({ message_type: "when_queries_changes" });
+		//forkedProcesses["forkedIndexer"].send({message_type:  'setUpDbDrivers'});
 
 
     }
