@@ -808,7 +808,10 @@ function getResult(  source,  connection,  driver,  definition,  callback  ) {
                     function(err){
                         //console.log('**** drivers[driver] = ' + driver)
                         //console.log('**** drivers.len = ' + drivers[driver].get_v2)
-                        drivers[driver]['get_v2'](
+
+                        getDriver(connections[queryData.source].driver, function(driver) {
+                            if (driver) {
+                                eval(driver.code)['get_v2'](
                             connections[connection],
                             definition
                             ,
@@ -939,6 +942,7 @@ function getResult(  source,  connection,  driver,  definition,  callback  ) {
                         }, sqlite3.OPEN_READONLY)
 
                     }})
+                }})
                 });
 
             }
@@ -3415,3 +3419,31 @@ setInterval(function() {
     var d2=drivers
     //console.log('Do something: ' + Object.keys(drivers))
 }, 5000)
+
+
+
+
+function getDriver(id, callbackFn) {
+    try {
+        dbsearch.serialize(
+            function() {
+        var stmt = dbsearch.all(
+            "SELECT * FROM drivers WHERE name = ? ",
+            id
+            ,
+
+            function(err, results)
+            {
+                if (err)
+                {
+                    console.log("getDriver error: " + err)
+                    callbackFn(null)
+                    return
+                }
+                callbackFn(results[0])
+            })
+        }, sqlite3.OPEN_READONLY)
+    } catch(err) {
+        callbackFn(null)
+    }
+}
