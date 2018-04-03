@@ -26,7 +26,6 @@ var inProcessFilesFn                    = false;
 var isWin                               = /^win/.test(process.platform);
 var numberOfSecondsIndexFilesInterval   = 5;
 var inScan                              = false;
-var connections                         = new Object();
 var queries                             = new Object();
 var stmt2                               = null;
 var stmt3                               = null;

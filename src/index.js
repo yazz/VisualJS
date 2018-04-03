@@ -29,7 +29,6 @@ var mkdirp          = require('mkdirp')
 var rmdir           = require('rmdir-sync');
 var uuidv1          = require('uuid/v1');
 var fork            = require('child_process');
-var connections     = new Object();
 var queries         = new Object();
 var express         = require('express')
 var http            = require('http')
@@ -1406,16 +1405,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
 
         } else if (msg.message_type == "return_set_connection") {
-            //console.log(".. Main process received a 'return_set_connection' message")
-            setSharedGlobalVar( "connections",
-                                msg.id,
-                                JSON.stringify({    id:         msg.id,
-                                                    name:       msg.name,
-                                                    driver:     msg.driver,
-                                                    size:       msg.size,
-                                                    hash:       msg.hash,
-                                                    type:       msg.type,
-                                                    fileName:   msg.fileName },null,2));
+
 
 
         } else if (msg.message_type == "return_set_query") {
