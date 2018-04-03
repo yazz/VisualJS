@@ -1367,7 +1367,6 @@ function processFilesFn() {
                                             function(err) {
                                                 //console.log("14")
 
-                                                //connections[newid] = {id: newid, name: screenName, driver: driverName, size: size, hash: sha1sum, type: documentType, fullFilePath: fullFilePath };
                                                 process.send({
                                                             message_type:       "return_set_connection",
                                                     id:         newConnectionId,
@@ -2150,7 +2149,7 @@ function processMessagesFromMainProcess() {
 
 
         } else if (msg.message_type == 'when_connections_changes') {
-            when_connections_change();
+            //when_connections_change();
         }
 
     });
@@ -2780,28 +2779,6 @@ function addOrUpdateDriver(name, code2, theObject) {
 
 
 
-function when_connections_change() {
-    if (!in_when_connections_change) {
-        in_when_connections_change=true;
-
-        dbsearch.serialize(
-            function() {
-                var stmt = dbsearch.all("select * from connections",
-                    function(err, results) {
-                        if (!err) {
-                            for (var i = 0 ; i < results.length ; i ++) {
-                                var conn = results[i]
-                                if (!connections[conn.id]) {
-                                  setSharedGlobalVar("connections", conn.id, JSON.stringify(conn,null,2));
-                                }
-                            }
-                        }
-                        in_when_connections_change=false;
-                    }
-                );
-        }, sqlite3.OPEN_READONLY)
-    };
-}
 
 
 function addNewConnection( params ) {
@@ -2822,10 +2799,7 @@ function addNewConnection( params ) {
                      params.password,
                      params.fileName,
                      params.preview)
-             dbsearch.run("commit",
-                     function(result) {
-                         when_connections_change();
-                     });
+             dbsearch.run("commit")
 
         });
     } catch(err) {
@@ -3324,47 +3298,49 @@ function getqueryresultFn(  connectionId, queryId, definition, callbackFn) {
 
 	var error = new Object();
     if (connectionId) {
-	    if (connections[connectionId]) {
-            if (connections[connectionId].driver) {
-                getResult(  queryId,
-                            connectionId,
-                            connections[connectionId].driver,
-                            definition,
-                            callbackFn  )
+        getConnection(  connectionId, function(connection) {
+    	    if (connection) {
+                if (connection.driver) {
+                    getResult(  queryId,
+                                connectionId,
+                                connection.driver,
+                                definition,
+                                callbackFn  )
 
 
-                //console.log('trying to save document: ');
+                    //console.log('trying to save document: ');
 
-dbsearch.serialize(function() {
-                var stmt = dbsearch.all("select   contents.content   from   queries, contents   where   queries.id = ? and queries.driver = 'pdf'" +
-                                        "    and contents.id = queries.hash  limit 1",
+    dbsearch.serialize(function() {
+                    var stmt = dbsearch.all("select   contents.content   from   queries, contents   where   queries.id = ? and queries.driver = 'pdf'" +
+                                            "    and contents.id = queries.hash  limit 1",
 
-                                        [queryId],
-                                        function(err, rows) {
-                //console.log('err: ' + err);
-                if (rows) {
-                    //console.log('rows: ' + rows);
-                }
-                //console.log('trying to save document: ' + queryData2.connectionId);
-                if (!err) {
-                    //console.log('trying to save pdf 3: ');
-                    if (rows.length > 0) {
-                        var buffer = new Buffer(rows[0].content, 'binary');
-
-                        fs.writeFile(process.cwd() + "/files/a.pdf", buffer,  "binary",
-                            function(err) {
-                                //console.log('trying to save pdf 6: ');
-
-                            });
+                                            [queryId],
+                                            function(err, rows) {
+                    //console.log('err: ' + err);
+                    if (rows) {
+                        //console.log('rows: ' + rows);
                     }
-                }
-            })
-        }, sqlite3.OPEN_READONLY)
-			} else {
-				//console.log('query driver not found: ' + connections[queryData.connectionId]);
-                callbackFn(JSON.stringify({error: 'query driver not found'}));
-			};
-		};
+                    //console.log('trying to save document: ' + queryData2.connectionId);
+                    if (!err) {
+                        //console.log('trying to save pdf 3: ');
+                        if (rows.length > 0) {
+                            var buffer = new Buffer(rows[0].content, 'binary');
+
+                            fs.writeFile(process.cwd() + "/files/a.pdf", buffer,  "binary",
+                                function(err) {
+                                    //console.log('trying to save pdf 6: ');
+
+                                });
+                        }
+                    }
+                })
+            }, sqlite3.OPEN_READONLY)
+    			} else {
+    				//console.log('query driver not found: ' + connectionId);
+                    callbackFn(JSON.stringify({error: 'query driver not found'}));
+    			};
+    		};
+        })
 	};
 }
 
