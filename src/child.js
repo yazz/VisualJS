@@ -715,8 +715,9 @@ function indexFilesFn() {
    };
 
    if (isPcDoingStuff) {
-       return;
+       //return;
    };
+   console.log("      Indexing");
 
    try {
        dbsearch.serialize(function() {
@@ -728,7 +729,7 @@ function indexFilesFn() {
             {
                 if( results.length != 0)
                 {
-                    //console.log("          : " + JSON.stringify(results[0],null,2));
+                    console.log("          : " + JSON.stringify(results[0].driver,null,2));
 
 
                             getResult(  results[0].id,
