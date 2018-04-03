@@ -2735,13 +2735,7 @@ function addOrUpdateDriver(name, code2, theObject) {
                       var query = results[i];
                       if (!queries[query.id]) {
                           setSharedGlobalVar("queries", query.id, JSON.stringify(query,null,2));
-                          var oout = [{a: 'no EXCEL'}];
                           try {
-                              ////console.log('get preview for query id : ' + query._id);
-                              ////console.log('          driver : ' + query.driver);
-                              var restrictRows = JSON.parse(query.definition);
-                              restrictRows.maxRows = 10;
-
                               if (callback) {
                                   callback.call(this);
                               }

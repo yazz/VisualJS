@@ -1121,12 +1121,13 @@ function open_query_in_native_appFn(req, res) {
 	//console.log('in open_query_in_native_app');
 	var queryData = req.body;
 	//console.log('queryData.source: ' + queryData.source);
-	//console.log('queries[queryData.source]: ' + queries[queryData.source]);
 	var error = new Object();
 	try {
             if(!nogui) {
-                getConnection(queries[queryData.source].connection, function(connection) {
-                    open(connection.fileName);
+                getQuery(   queryData.source,  function(query) {
+                    getConnection(query.connection, function(connection) {
+                        open(connection.fileName);
+                    })
                 })
 
             }
@@ -1140,6 +1141,40 @@ function open_query_in_native_appFn(req, res) {
 		res.end(JSON.stringify({error: 'Error: ' + JSON.stringify(err)}));
 	};
 }
+
+
+
+function getQuery(id, callbackFn) {
+    try {
+        dbsearch.serialize(
+            function() {
+        var stmt = dbsearch.all(
+            "SELECT * FROM queries WHERE id = ? ",
+            id
+            ,
+
+            function(err, results)
+            {
+                if (err)
+                {
+                    console.log("getQuery error: " + err)
+                    callbackFn(null)
+                    return
+                }
+                if (results.length == 0) {
+                    console.log("getQuery returned no results: " + err)
+                    callbackFn(null)
+                    return
+                }
+                callbackFn(results[0])
+            })
+        }, sqlite3.OPEN_READONLY)
+    } catch(err) {
+        callbackFn(null)
+    }
+}
+
+
 
 
 
@@ -1173,6 +1208,8 @@ function getConnection(id, callbackFn) {
         callbackFn(null)
     }
 }
+
+
 
 
 
@@ -1411,21 +1448,21 @@ function setUpChildListeners(processName, fileName, debugPort) {
         } else if (msg.message_type == "return_set_query") {
 
             //console.log(".. Main process received a 'return_set_query' message")
-
+            var query = JSON.stringify(
+                          {  id:            msg.id,
+                             name:          msg.name,
+                             connection:    msg.connection,
+                             driver:        msg.driver,
+                             size:          msg.size,
+                             hash:          msg.hash,
+                             fileName:      msg.fileName,
+                             type:          msg.type,
+                             definition:    msg.definition,
+                             preview:       msg.preview
+                         })
             setSharedGlobalVar( "queries",
                                 msg.id,
-                                JSON.stringify(
-                                  {  id:            msg.id,
-                                     name:          msg.name,
-                                     connection:    msg.connection,
-                                     driver:        msg.driver,
-                                     size:          msg.size,
-                                     hash:          msg.hash,
-                                     fileName:      msg.fileName,
-                                     type:          msg.type,
-                                     definition:    msg.definition,
-                                     preview:       msg.preview
-                                  }));
+                                query);
             sendOverWebSockets({
                                     type: "uploaded",
                                     id:    msg.id,
@@ -1435,7 +1472,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
             sendOverWebSockets({
                                     type: "update_query_item",
-                                    query: queries[msg.id]
+                                    query: query
             });
 
 
@@ -1445,19 +1482,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
         // this needs to be fixed so that it only sends the similar documents
         // to the client that requested them
         } else if (msg.message_type == "return_similar_documents") {
-            //console.log(".. Main process received a 'return_similar_documents' message")
-            sendOverWebSockets({
-                                    type: "similar_documents",
-                                    results: msg.results
 
-            });
-
-            queries[msg.query_id].similar_count = eval("(" + msg.results + ")").length
-            sendOverWebSockets({
-                                    type: "update_query_item",
-                                    query: queries[msg.query_id]
-
-            });
 
 
 
@@ -2126,30 +2151,32 @@ function startServices() {
     	//console.log('           source: ' + JSON.stringify(queryData2.source));
     	////console.log('request received source: ' + Object.keys(req));
     	////console.log('request received SQL: ' + queryData.sql);
-    	var query = queries[queryData2.source];
+
 
     	//console.log('           query: ' + JSON.stringify(query));
-    	if (query) {
-    		var queryData 			= new Object();
-    		queryData.source 		= query.connection;
-    		queryData.definition 	= eval('(' + query.definition + ')' );
-            console.log("                                 source =  " + queryData.source )
-            console.log("                                 definition =  " + queryData.definition )
+        getQuery(queryData2.source,function(query){
+        	if (query) {
+        		var queryData 			= new Object();
+        		queryData.source 		= query.connection;
+        		queryData.definition 	= eval('(' + query.definition + ')' );
+                console.log("                                 source =  " + queryData.source )
+                console.log("                                 definition =  " + queryData.definition )
 
-            var seqNum = queuedResponseSeqNum;
-            queuedResponseSeqNum ++;
-            queuedResponses[seqNum] = res;
+                var seqNum = queuedResponseSeqNum;
+                queuedResponseSeqNum ++;
+                queuedResponses[seqNum] = res;
 
-            console.log("2 - getqueryresult")
-            forkedProcesses["forked"].send({   message_type:               "get_query_result",
-                            seq_num:                    seqNum,
-                            connection_id:              queryData.source,
-                            query_id:                   queryData2.source,
-                            definition:                 queryData.definition
-                            });
-    } else {
-		console.log('query not found: ' + queryData2.source);
-	};
+                console.log("2 - getqueryresult")
+                forkedProcesses["forked"].send({   message_type:               "get_query_result",
+                                seq_num:                    seqNum,
+                                connection_id:              queryData.source,
+                                query_id:                   queryData2.source,
+                                definition:                 queryData.definition
+                                });
+        } else {
+    		console.log('query not found: ' + queryData2.source);
+    	};
+    })
 })
 
 
