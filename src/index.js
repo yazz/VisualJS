@@ -1123,10 +1123,7 @@ function open_query_in_native_appFn(req, res) {
 	var queryData = req.body;
 	//console.log('queryData.source: ' + queryData.source);
 	//console.log('queries[queryData.source]: ' + queries[queryData.source]);
-	//console.log('connections[queries[queryData.source].connection]: ' + connections[queries[queryData.source].connection]);
-	//console.log('connections[queries[queryData.source].connection].fileName: ' + connections[queries[queryData.source].connection].fileName);
 	var error = new Object();
-	////console.log('query driver: ' + connections[queryData.source].driver);
 	try {
             if(!nogui) {
 		       open(connections[queries[queryData.source].connection].fileName);
@@ -1144,13 +1141,47 @@ function open_query_in_native_appFn(req, res) {
 
 
 
-function getDriver(id, callbackFn) {
+
+function getConnection(id, callbackFn) {
+    try {
+        dbsearch.serialize(
+            function() {
+        var stmt = dbsearch.all(
+            "SELECT * FROM connections WHERE id = ? ",
+            id
+            ,
+
+            function(err, results)
+            {
+                if (err)
+                {
+                    console.log("getConnection error: " + err)
+                    callbackFn(null)
+                    return
+                }
+                if (results.length == 0) {
+                    console.log("getConnection returned no results: " + err)
+                    callbackFn(null)
+                    return
+                }
+                callbackFn(results[0])
+            })
+        }, sqlite3.OPEN_READONLY)
+    } catch(err) {
+        callbackFn(null)
+    }
+}
+
+
+
+
+function getDriver(driverName, callbackFn) {
     try {
         dbsearch.serialize(
             function() {
         var stmt = dbsearch.all(
             "SELECT * FROM drivers WHERE name = ? ",
-            id
+            driverName
             ,
 
             function(err, results)
@@ -1184,6 +1215,7 @@ function getresultFn(req, res) {
 
 		////console.log('request received source: ' + Object.keys(req));
 		var error = new Object();
+        getConnection( queryData.source, function(connection) {
 		if (queryData) {
 			if (connections[queryData.source]) {
 				if (queryData.source) {
@@ -1221,6 +1253,7 @@ function getresultFn(req, res) {
 				};
 			};
 		};
+    })
 }
 
 
