@@ -2,7 +2,7 @@
     name: 'glb'
     ,
     vue: {
-            template:   
+            template:
 '<div>'+
 '     <table class="table table-striped table-bordered " style="width: 100%;">'+
 '        <tbody>'+
@@ -110,10 +110,10 @@
 				};
 			  }
 	}
-            
+
     ,
     vue_add_query: {
-            template:   
+            template:
 '' +
 '<div>' +
 '    <div class="input-group">' +
@@ -128,7 +128,7 @@
 '            </span>' +
 '        </div>' +
 '    </div>' +
-'</div>' 
+'</div>'
 
 
 			,
@@ -169,7 +169,7 @@
 				};
 			  }
 	}
-            
+
     ,
     vue_view_query: {
             template:   '<div>'+
@@ -190,7 +190,7 @@
 			methods: {
 				get_query_property: function (cn, prop_name) {
                     var query = window.sqlGetQueryById(cn);
-                    
+
                     if (query != null) {
                         return query[prop_name];
                     }
@@ -221,15 +221,9 @@
         console.log('****     LOADING GLB   *********' + connection.fileName);
         console.log('********************************');
         console.log('********************************');
-        if (
-            (connection.status == 'disconnected')
-            ||
-            (connection.status == null))
-        {
-            drivers['glb']['setup'](connection);
-        }
-			
-            
+
+
+
         try {
             callfn([{value: "GLTF 3d model: " + connection.fileName}]);
         }
@@ -237,7 +231,7 @@
             //console.log('GLB error: ' + err);
             callfn({error: 'GLB error: ' + err});
         }
-    
+
 
     }
 }

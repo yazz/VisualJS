@@ -2,7 +2,7 @@
     name: 'csv'
     ,
     vue: {
-            template:   
+            template:
 '<div>'+
 '     <table class="table table-striped table-bordered " style="width: 100%;">'+
 '        <tbody>'+
@@ -110,10 +110,10 @@
 				};
 			  }
 	}
-            
+
     ,
     vue_add_query: {
-            template:   
+            template:
 '' +
 '<div>' +
 '    <div class="input-group">' +
@@ -128,7 +128,7 @@
 '            </span>' +
 '        </div>' +
 '    </div>' +
-'</div>' 
+'</div>'
 
 
 			,
@@ -169,7 +169,7 @@
 				};
 			  }
 	}
-            
+
     ,
     vue_view_query: {
             template:   '<div>'+
@@ -190,7 +190,7 @@
 			methods: {
 				get_query_property: function (cn, prop_name) {
                     var query = window.sqlGetQueryById(cn);
-                    
+
                     if (query != null) {
                         return query[prop_name];
                     }
@@ -226,15 +226,9 @@
         //console.log('****     LOADING CSV   *********' + connection.fileName);
         //console.log('********************************');
         //console.log('********************************');
-        if (
-            (connection.status == 'disconnected')
-            ||
-            (connection.status == null))
-        {
-            drivers['csv']['setup'](connection);
-        }
-			
-            
+
+
+
         var rows=[];
 
         var firstRow = false;
@@ -252,7 +246,7 @@
         //console.log('numColons = ' + numColons);
         var numPipes = ((content.match(new RegExp("[|]", "g")) || []).length);
         //console.log('numPipes = ' + numPipes);
-            
+
         var maxDelim = numCommas;
         if (numSemi > maxDelim) {
             delim = ';';
@@ -267,14 +261,14 @@
             maxDelim = numPipes;
             };
           //console.log('delim = ' + delim);
-                        
-                        
+
+
         try {
 			csv
 			 .fromString(content, { headers: false, delimiter: delim })
 			 .on("data", function(data){
 				 //console.log(data);
-				
+
 			if (!firstRow) {
 				firstRow = true;
 				ret["fields"] = data;
@@ -294,24 +288,24 @@
                                 maxLength = rows[i].length;
                             };
                         };
-                        
+
                         var fields = [];
                         for(var i = 0; i < maxLength; i++){
                             fields.push('' + i);
                         };
             */
-                        
+
 			//console.log("ret  = " + JSON.stringify(ret));
 
             //console.error('drivers[csv][get]');
             // execute a query on our database
-			
+
 			}).on("end", function(){
                  //console.log("done");
 
                         ret["values"] = rows;
                         callfn(ret);
-               
+
                 })
             .on('error', function(error) {
                 callfn({error: 'Invalid CSV file: ' + error});
@@ -321,7 +315,7 @@
             //console.log('CSV error: ' + err);
             callfn({error: 'CSV error: ' + err});
         }
-    
+
 
     }
 }

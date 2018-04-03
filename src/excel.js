@@ -2,7 +2,7 @@
     name: 'excel'
     ,
     vue: {
-            template:   
+            template:
 '<div>'+
 '     <table class="table table-striped table-bordered " style="width: 100%;">'+
 '        <tbody>'+
@@ -103,7 +103,7 @@
 				}
 			  }
 			  ,
-			  
+
 			  data: function() {
 				return {
 				  connection_name:           "Excel connection",
@@ -111,7 +111,7 @@
 				};
 			  }
 	}
-            
+
     ,
     vue_add_query: {
             template:   '' +
@@ -128,7 +128,7 @@
 						'            </span>' +
 						'        </div>' +
 						'    </div>' +
-						'</div>' 
+						'</div>'
 
 
 			,
@@ -169,10 +169,10 @@
 				};
 			  }
 	}
-            
+
     ,
     vue_view_query: {
-            template:   
+            template:
 '<div>'+
 '     <table class="table table-striped table-bordered " style="width: 100%;">'+
 '        <tbody>'+
@@ -191,7 +191,7 @@
 			methods: {
 				get_query_property: function (cn, prop_name) {
                     var query = window.sqlGetQueryById(cn);
-                    
+
                     if (query != null) {
                         return query[prop_name];
                     }
@@ -227,17 +227,10 @@
             //console.log('****    LOADING EXCEL  *********');
             //console.log('****    LOADING EXCEL  *********' + connection.fileName);
             //console.log('********************************');
-            //console.log('********************************');     
-            if (
-                (connection.status == 'disconnected')
-                ||
-                (connection.status == null)
-              )
-             {
-                drivers['excel']['setup'](connection);
-            }
-			
-			
+            //console.log('********************************');
+
+
+
 			var rows=[];
 
 
@@ -256,20 +249,20 @@
 
 
 			var maxLength = 0;
-			
+
 			for (var i =0; i < rows.length; i++) {
 				if (rows[i].length > maxLength ) {
 					maxLength = rows[i].length;
 				};
 			};
-			
+
 			var fields = [];
 			for(var i = 0; i < maxLength; i++){
 				fields.push('' + i);
 			};
 
-			
-			
+
+
 
 			var ret = new Object();
 			ret["fields"] = fields;
@@ -283,11 +276,11 @@
 			callfn(ret);
 			//console.log("ret  = " + JSON.stringify(ret));
 
-			
-			
-			
-		
-		
+
+
+
+
+
           //console.error('drivers[excel][get]');
           // execute a query on our database
 			}
