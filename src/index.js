@@ -2237,6 +2237,8 @@ function startServices() {
 
         forkedProcesses["forkedIndexer"].send({ message_type: "childRunIndexer" });
 		forkedProcesses["forkedIndexer"].send({ message_type: "when_connections_changes" });
+		forkedProcesses["forkedIndexer"].send({ message_type: "when_queries_changes" });
+		forkedProcesses["forkedIndexer"].send({message_type:  'setUpDbDrivers'});
 
 
     }
@@ -2254,9 +2256,7 @@ function startServices() {
 	//console.log("******************************ADDING DRIVERS*********************************")
 
 
-    forkedProcesses["forked"].send({
-                    message_type:       'setUpDbDrivers'
-                    });
+    forkedProcesses["forked"].send({message_type:       'setUpDbDrivers'});
 
 
 
