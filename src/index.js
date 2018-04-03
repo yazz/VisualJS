@@ -1126,7 +1126,10 @@ function open_query_in_native_appFn(req, res) {
 	var error = new Object();
 	try {
             if(!nogui) {
-		       open(connections[queries[queryData.source].connection].fileName);
+                getConnection(queries[queryData.source].connection, function(connection) {
+                    open(connection.fileName);
+                })
+
             }
 		   res.writeHead(200, {'Content-Type': 'text/plain'});
 			res.end(JSON.stringify(ordata));
@@ -1217,17 +1220,17 @@ function getresultFn(req, res) {
 		var error = new Object();
         getConnection( queryData.source, function(connection) {
 		if (queryData) {
-			if (connections[queryData.source]) {
+			if (connection) {
 				if (queryData.source) {
-					if (connections[queryData.source].driver) {
-						//console.log('query driver: ' + connections[queryData.source].driver);
+					if (connection.driver) {
+						//console.log('query driver: ' + connection.driver);
 						try {
-                            getDriver(connections[queryData.source].driver, function(driver) {
+                            getDriver(connection.driver, function(driver) {
                                 if (driver) {
                                     console.log(eval(driver.code)['get_v2'])
-                                    console.log(    "conn: " + connections[queryData.source])
+                                    console.log(    "conn: " + connection)
                                     eval(driver.code)['get_v2'](
-                                                            connections[queryData.source],
+                                                            connection,
                                                             {sql: queryData.sql},
                                                             function(ordata) {
                                     								res.writeHead(200, {'Content-Type': 'text/plain'});
@@ -1235,7 +1238,7 @@ function getresultFn(req, res) {
                                     								res.end(JSON.stringify(ordata));
                                     							});
                                 } else {
-                                    console.log("No driver found for: " + connections[queryData.source].driver)
+                                    console.log("No driver found for: " + connection.driver)
                                 }
                             })
 
@@ -1246,7 +1249,7 @@ function getresultFn(req, res) {
 							res.end(JSON.stringify({error: 'Error: ' + JSON.stringify(err)}));
 						};
 					} else {
-						//console.log('query driver not found: ' + connections[queryData.source]);
+						//console.log('query driver not found: ' + connection);
 							res.writeHead(200, {'Content-Type': 'text/plain'});
 							res.end(JSON.stringify({message: 'query driver not found'}));
 					};
