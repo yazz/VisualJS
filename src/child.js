@@ -26,7 +26,6 @@ var inProcessFilesFn                    = false;
 var isWin                               = /^win/.test(process.platform);
 var numberOfSecondsIndexFilesInterval   = 5;
 var inScan                              = false;
-var drivers                             = new Object();
 var connections                         = new Object();
 var queries                             = new Object();
 var stmt2                               = null;
@@ -792,7 +791,7 @@ function indexFilesFn() {
 //                                                                                         //
 //-----------------------------------------------------------------------------------------//
 function getResult(  source,  connection,  driverName,  definition,  callback  ) {
-    console.log("var getResult = function(" + source + ", " + connection + ", " + driver + ", " + JSON.stringify(definition));
+    console.log("var getResult = function(" + source + ", " + connection + ", " + driverName );
 
     var error = new Object();
     if (connections[connection]) {
@@ -806,8 +805,6 @@ function getResult(  source,  connection,  driverName,  definition,  callback  )
                     source)
                 dbsearch.run("commit",
                     function(err){
-                        //console.log('**** drivers[driver] = ' + driver)
-                        //console.log('**** drivers.len = ' + drivers[driver].get_v2)
 
                         getDriver(driverName, function(driver) {
                             if (driver) {
@@ -2611,10 +2608,6 @@ function setUpDbDrivers() {
 	addOrUpdateDriver('mysql', pgeval, pgeval)
 
 
-//console.log("----------------------- trying to load Outlook driver")
-//	pgeval = '(' + fs.readFileSync(path.join(__dirname, './outlook2010.js')).toString() + ')';
-//    setSharedGlobalVar("drivers", 'outlook2010', pgeval );
-//	addOrUpdateDriver('outlook2010', pgeval, drivers['outlook2010'])
 
 	toeval =  '(' + fs.readFileSync(path.join(__dirname, './oracle.js')).toString() + ')';
 	addOrUpdateDriver('oracle',   toeval, toeval)
@@ -2748,12 +2741,7 @@ function addOrUpdateDriver(name, code2, theObject) {
                               ////console.log('          driver : ' + query.driver);
                               var restrictRows = JSON.parse(query.definition);
                               restrictRows.maxRows = 10;
-                              /*drivers[query.driver]['get_v2'](connections[query.connection],restrictRows,
-                                  function(ordata) {
-                                      ////console.log('getting preview for query : ' + query.name);
-                                      query.preview = JSON.stringify(ordata, null, 2);
-                                      queries.put(query);
-                              });*/
+
                               if (callback) {
                                   callback.call(this);
                               }
@@ -3397,13 +3385,6 @@ function get_all_tableFn(  tableName, fields, callbackFn  ) {
         })
     }, sqlite3.OPEN_READONLY)
 };
-
-
-
-setInterval(function() {
-    var d2=drivers
-    //console.log('Do something: ' + Object.keys(drivers))
-}, 5000)
 
 
 

@@ -29,7 +29,6 @@ var mkdirp          = require('mkdirp')
 var rmdir           = require('rmdir-sync');
 var uuidv1          = require('uuid/v1');
 var fork            = require('child_process');
-var drivers     = new Object();
 var connections     = new Object();
 var queries         = new Object();
 var express         = require('express')
