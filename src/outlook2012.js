@@ -251,9 +251,9 @@
         {
 
 
-			result = new Object()
-			result.rows=[{value: "Email subject"}]
-			callfn(result.rows);
+			var rows = new Object()
+            rows.push({value: "Email subject"});
+			callfn(rows);
 
           }
 }
