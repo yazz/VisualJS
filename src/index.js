@@ -2236,6 +2236,7 @@ function startServices() {
         setInterval(aliveCheckFn ,numberOfSecondsAliveCheck * 1000);
 
         forkedProcesses["forkedIndexer"].send({ message_type: "childRunIndexer" });
+		forkedProcesses["forkedIndexer"].send({ message_type: "when_connections_changes" });
 
 
     }

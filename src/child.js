@@ -792,11 +792,11 @@ function indexFilesFn() {
 //                                                                                         //
 //-----------------------------------------------------------------------------------------//
 function getResult(  source,  connection,  driver,  definition,  callback  ) {
-    //console.log("var getResult = function(" + source + ", " + connection + ", " + driver + ", " + JSON.stringify(definition));
+    console.log("var getResult = function(" + source + ", " + connection + ", " + driver + ", " + JSON.stringify(definition));
 
     var error = new Object();
     if (connections[connection]) {
-        //console.log("02");
+        console.log("     02");
         try {
             //console.log("22");
             dbsearch.serialize(function() {
@@ -2600,6 +2600,10 @@ function setUpDbDrivers() {
 	pgeval = '(' + fs.readFileSync(path.join(__dirname, './postgres.js')).toString() + ')';
     setSharedGlobalVar("drivers", 'postgres', pgeval );
 	addOrUpdateDriver('postgres', pgeval, drivers['postgres'])
+
+	pgeval = '(' + fs.readFileSync(path.join(__dirname, './outlook2012.js')).toString() + ')';
+    setSharedGlobalVar("drivers", 'outlook2012', pgeval );
+	addOrUpdateDriver('outlook2012', pgeval, drivers['outlook2012'])
 
 
 
