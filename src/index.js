@@ -1735,6 +1735,7 @@ function setupForkedProcess(processName,fileName,debugPort) {
 
     if (processName == "forkedIndexer") {
         forkedProcesses["forkedIndexer"].send({ message_type: "init" });
+		forkedProcesses["forkedIndexer"].send({ message_type: "childRunIndexer" });
     }
 
 
@@ -2298,13 +2299,6 @@ function startServices() {
 
     if (typeOfSystem == 'client') {
         setInterval(aliveCheckFn ,numberOfSecondsAliveCheck * 1000);
-
-        forkedProcesses["forkedIndexer"].send({ message_type: "childRunIndexer" });
-		//forkedProcesses["forkedIndexer"].send({ message_type: "when_connections_changes" });
-		//forkedProcesses["forkedIndexer"].send({ message_type: "when_queries_changes" });
-		//forkedProcesses["forkedIndexer"].send({message_type:  'setUpDbDrivers'});
-
-
     }
 
 

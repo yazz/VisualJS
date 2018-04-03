@@ -708,7 +708,7 @@ function findFoldersFn() {
 //                                                                                         //
 //-----------------------------------------------------------------------------------------//
 function indexFilesFn() {
-    //console.log("Index files");
+    console.log("indexFilesFn called...");
     //console.log("    inScan: " + inScan);
    if (inScan) {
      return;
@@ -1852,7 +1852,7 @@ function processMessagesFromMainProcess() {
 
 
       } else if (msg.message_type == 'childRunIndexer') {
-           //console.log("Set Index files timer");
+           console.log("Started indexer");
            setInterval(indexFilesFn ,numberOfSecondsIndexFilesInterval * 1000);
            setInterval(indexFileRelationshipsFn ,numberOfSecondsIndexFilesInterval * 1000);
 
