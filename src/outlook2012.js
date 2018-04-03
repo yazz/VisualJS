@@ -163,7 +163,7 @@
 						'            </span>' +
 						'        </div>' +
 						'    </div>' +
-						'</div>' 
+						'</div>'
 
 
 			,
@@ -206,7 +206,7 @@
 				};
 			  }
 	}
-            
+
     ,
     vue_view_query: {
             template:   '<div>'+
@@ -224,7 +224,7 @@
 			methods: {
 				get_query_property: function (cn, prop_name) {
                     var query = window.sqlGetQueryById(cn);
-                    
+
                     if (query != null) {
                         return query[prop_name];
                     }
@@ -239,7 +239,7 @@
 			  }
 			}
     ,
-    type: 'db_driver'
+    type: 'document_driver'
     ,
     setup: function(connection, callfn) {
 
@@ -250,22 +250,9 @@
     get_v2: function( connection , parameters , callfn )
         {
 
-            if (
-                (connection.status == 'disconnected')
-                ||
-                (connection.status == null)
-              )
-             {
-                 try {
-                    drivers['outlook2012']['setup'](connection, callfn);
-                 } catch (error) {
-                     console.log('outlook2012 connection error: ' + error.toString());
-                     return;
-                 };
-            }
 
 			result = new Object()
-			result.rows=[{a: 1, b: 2}]
+			result.rows=[{value: "Email subject"}]
 			callfn(result.rows);
 
           }
