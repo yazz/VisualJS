@@ -228,14 +228,7 @@
             //console.log('****     LOADING WORD  *********' + connection.fileName);
             //console.log('********************************');
             //console.log('********************************');
-            if (
-                (connection.status == 'disconnected')
-                ||
-                (connection.status == null)
-              )
-             {
-                drivers['word']['setup'](connection);
-            }
+
 
 
 			var rows=[];

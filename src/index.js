@@ -29,7 +29,6 @@ var mkdirp          = require('mkdirp')
 var rmdir           = require('rmdir-sync');
 var uuidv1          = require('uuid/v1');
 var fork            = require('child_process');
-var queries         = new Object();
 var express         = require('express')
 var http            = require('http')
 var app             = express()
@@ -405,37 +404,6 @@ var xdiff = diffFn(lhs, rhs);
 
 
 
-function setSharedGlobalVar(nameOfVar, index, value) {
-    //console.log(setSharedGlobalVar);
-    //console.log("sent " + nameOfVar + "[" + index + "] = "   + "...");
-    //console.log("sent " + nameOfVar + "[" + index + "] = " + eval(value).get_v2  + "...");
-    var tosend = nameOfVar + "['" + index + "'] = " + value ;
-    //console.log(tosend);
-    eval(tosend);
-    try {
-        var sharemessage = {
-                            message_type:       'childSetSharedGlobalVar',
-                            nameOfVar:          nameOfVar,
-                            index:              index,
-                            //value:              JSON.stringify(value,null,2)
-                            value:              value
-                        };
-        forkedProcesses["forked"].send(sharemessage);
-        forkedProcesses["forkedIndexer"].send(sharemessage);
-        forkedProcesses["forkedFileScanner"].send(sharemessage);
-        /*sendOverWebSockets({
-                                type:               "setSharedGlobalVar",
-                                nameOfVar:          nameOfVar,
-                                index:              index,
-                                value:              value
-                                });*/
-    } catch(err) {
-        //console.log("Error with " + err );
-        return err;
-    } finally {
-
-    }
-}
 
 
 
@@ -1460,9 +1428,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
                              definition:    msg.definition,
                              preview:       msg.preview
                          })
-            setSharedGlobalVar( "queries",
-                                msg.id,
-                                query);
+
             sendOverWebSockets({
                                     type: "uploaded",
                                     id:    msg.id,
@@ -1495,7 +1461,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
 
         } else if (msg.message_type == "parentSetSharedGlobalVar") {
-            setSharedGlobalVar(msg.nameOfVar, msg.index, msg.value)
+
 
 
 

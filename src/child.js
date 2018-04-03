@@ -26,7 +26,6 @@ var inProcessFilesFn                    = false;
 var isWin                               = /^win/.test(process.platform);
 var numberOfSecondsIndexFilesInterval   = 5;
 var inScan                              = false;
-var queries                             = new Object();
 var stmt2                               = null;
 var stmt3                               = null;
 var setIn                               = null;
@@ -1850,14 +1849,6 @@ function processMessagesFromMainProcess() {
       } else if (msg.message_type == 'childSetSharedGlobalVar') {
 
 
-                      //console.log("  ... received, " + msg.nameOfVar + "[" + msg.index + "] = " + Object.keys(eval( "(" + msg.value + ")" )));
-            //console.log("  ... received, " + msg.nameOfVar + "[" + msg.index + "] = " +eval( "(" + msg.value + ")" ).get_v2  );
-            var ccc =  msg.nameOfVar + "['" + msg.index + "'] = (" + msg.value + ")";
-
-            if (msg.nameOfVar == 'connections') {
-                //console.log(ccc);
-            }
-            eval(ccc );
 
 
       } else if (msg.message_type == 'childRunIndexer') {
@@ -2144,7 +2135,7 @@ function processMessagesFromMainProcess() {
 
 
         } else if (msg.message_type == 'when_queries_changes') {
-            when_queries_changes(null);
+            //when_queries_changes(null);
 
 
         } else if (msg.message_type == 'when_connections_changes') {
@@ -2541,35 +2532,6 @@ function fromDir(startPath,filter,callback){
 
 
 
-function setSharedGlobalVar(nameOfVar, index, value) {
-    //console.log(setSharedGlobalVar);
-    //console.log("sent " + nameOfVar + "[" + index + "] = "   + "...");
-    //console.log("sent " + nameOfVar + "[" + index + "] = " + eval(value).get_v2  + "...");
-    try {
-        var tosend = nameOfVar + "['" + index + "'] = " + value ;
-        //console.log(tosend);
-        eval(tosend);
-
-
-                var sharemessage = {
-                            message_type:       'parentSetSharedGlobalVar',
-                            nameOfVar:          nameOfVar,
-                            index:              index,
-                            //value:              JSON.stringify(value,null,2)
-                            value:              value
-                        };
-         process.send(sharemessage);
-    } catch(err) {
-        console.log(err);
-        var stack = new Error().stack
-        console.log( stack )
-        return err;
-    } finally {
-
-    }
-}
-
-
 
 function setUpDbDrivers() {
 	pgeval = '(' + fs.readFileSync(path.join(__dirname, './glb.js')).toString() + ')';
@@ -2700,7 +2662,6 @@ function addOrUpdateDriver(name, code2, theObject) {
                        params.type)
                dbsearch.run("commit");
 
-              when_queries_changes(null);
               getResult(newQueryId, params.connection, params.driver, eval("(" + params.definition + ")"), function(result){});
           });
       } catch(err) {
@@ -2713,46 +2674,6 @@ function addOrUpdateDriver(name, code2, theObject) {
 
 
 
-
-
-  function when_queries_changes(callback) {
-      if (!in_when_queries_changes) {
-          in_when_queries_changes = true;
-          //console.log('Called when_queries_changes ');
-          ////console.log('    connection keys:  ' + JSON.stringify(Object.keys(connections),null,2));
-          dbsearch.serialize(
-              function() {
-
-
-          var stmt = dbsearch.all("select * from queries",
-              function(err, results) {
-                  if (!err) {
-                  //console.log('    --------Found:  ' + results.length);
-
-
-                  // find previews
-                  for (var i = 0 ; i < results.length ; i ++) {
-                      var query = results[i];
-                      if (!queries[query.id]) {
-                          setSharedGlobalVar("queries", query.id, JSON.stringify(query,null,2));
-                          try {
-                              if (callback) {
-                                  callback.call(this);
-                              }
-                          } catch (err) {
-                              console.log(err);
-                              var stack = new Error().stack
-                              console.log( stack )
-                          };
-                      }
-                  };
-              }
-              in_when_queries_changes = false;
-
-              });
-          }, sqlite3.OPEN_READONLY)
-      }
-  };
 
 
 
@@ -3407,6 +3328,40 @@ function getConnection(id, callbackFn) {
                 }
                 if (results.length == 0) {
                     console.log("getConnection returned no results: " + err)
+                    callbackFn(null)
+                    return
+                }
+                callbackFn(results[0])
+            })
+        }, sqlite3.OPEN_READONLY)
+    } catch(err) {
+        callbackFn(null)
+    }
+}
+
+
+
+
+
+function getQuery(id, callbackFn) {
+    try {
+        dbsearch.serialize(
+            function() {
+        var stmt = dbsearch.all(
+            "SELECT * FROM queries WHERE id = ? ",
+            id
+            ,
+
+            function(err, results)
+            {
+                if (err)
+                {
+                    console.log("getQuery error: " + err)
+                    callbackFn(null)
+                    return
+                }
+                if (results.length == 0) {
+                    console.log("getQuery returned no results: " + err)
                     callbackFn(null)
                     return
                 }
