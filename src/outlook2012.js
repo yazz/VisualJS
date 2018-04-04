@@ -248,14 +248,37 @@
 
 
     get_v2: function( connection , parameters , callfn )
-        {
+    {
 
 
-			var rows = []
-            rows.push({value: "Email subject" });
-			rows.push({value: JSON.stringify(connection,null,2) });
-			rows.push({value: JSON.stringify(parameters,null,2) });
-			callfn(rows);
+			dbsearch.serialize(
+				function() {
+					var stmt = dbsearch.all(
+						"SELECT  distinct contents.content  FROM queries, connections, contents where queries.connection = " +
+						"? and contents.id = queries.hash" ,
+						connection.id
+						,
+						function(err, results)
+						{
+							if (!err)
+							{
+								if( results.length != 0)
+								{
+									var rows = []
+									rows.push({value: "Email subject" });
+									rows.push({value: JSON.stringify(connection,null,2) });
+									rows.push({value: JSON.stringify(parameters,null,2) });
+									rows.push({value: JSON.stringify(results[0],null,2)})
+									callfn(rows);
+								} else {
+									callfn([{value: "no sql" }]);
+								}
+							} else {
+								callfn([{value: "Error: " + err }]);
+						   }
+						})
+		}, sqlite3.OPEN_READONLY)
 
-          }
+
+    }
 }
