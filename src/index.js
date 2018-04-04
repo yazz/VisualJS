@@ -69,7 +69,7 @@ path.join(__dirname, '../src/sqlite.js')
 path.join(__dirname, '../src/mysql.js')
 path.join(__dirname, '../src/testdriver.js')
 path.join(__dirname, '../src/postgres.js')
-path.join(__dirname, '../src/outlook2010.js')
+path.join(__dirname, '../src/outlook2012.js')
 path.join(__dirname, '../src/word.js')
 path.join(__dirname, '../src/pdf.js')
 path.join(__dirname, '../src/excel.js')
@@ -1507,14 +1507,27 @@ function setUpChildListeners(processName, fileName, debugPort) {
     } else if (msg.message_type == "return_get_search_results_json") {
         console.log("3 - /client/1/search: return_get_search_results_json")
 
-            //console.log("6 - return_get_query_results: " + msg.result);
-            var rett = eval("(" + msg.result + ")");
+            //console.log("6 - return_get_query_results: " + JSON.stringify(msg,null,2));
+            var rett = eval("(" + msg.returned + ")");
             var newres = queuedResponses[ msg.seq_num ]
 
             var result = {
-                            message:  "Search results for '" + msg.search_term + "'",
-                            links: {"self": { "href": "/client/1/search" }}
+                            message:          "Search results for: '" + msg.search_term + "'",
+                            results_count:    rett.queries.length,
+                            links:           {"self": { "href": "/client/1/search" }},
+                            results:         []
                         }
+
+            for (var i = 0; i < rett.queries.length; i++) {
+                var resitem = rett.queries[i];
+                if (resitem && (resitem.data.length > 0)) {
+                    result.results.push({
+                        query_id: resitem.id,
+                        val:      resitem.data
+                    })
+                }
+
+            }
 //msg.result
 
 
@@ -2009,8 +2022,9 @@ function startServices() {
     //------------------------------------------------------------------------------
     // search
     //------------------------------------------------------------------------------
-    app.get('/client/1/search', function (req, res) {
+    app.get('/client/1/search/*', function (req, res) {
         console.log("1 - /client/1/search")
+        var searchTerm = req.url.substr(req.url.lastIndexOf('/') + 1)
         //console.log("1 - get_search_results ,req.query.search_text: " + req.query.search_text)
         //console.log("    get_search_results ,req.query.search_text: " + new Date().getTime())
 
@@ -2023,7 +2037,7 @@ function startServices() {
         //console.log("2 - get_search_results")
         forkedProcesses["forked"].send({   message_type: "get_search_results_json",
                         seq_num:                    seqNum,
-                        searchTerm:                 "a",
+                        searchTerm:                 searchTerm,
                         timeStart:                  new Date().getTime()
                         });
 
