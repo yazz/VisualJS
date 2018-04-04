@@ -1503,6 +1503,29 @@ function setUpChildListeners(processName, fileName, debugPort) {
             newres = null;
 
 
+            //zzz
+    } else if (msg.message_type == "return_get_search_results_json") {
+        console.log("3 - /client/1/search: return_get_search_results_json")
+
+            //console.log("6 - return_get_query_results: " + msg.result);
+            var rett = eval("(" + msg.result + ")");
+            var newres = queuedResponses[ msg.seq_num ]
+
+            var result = {
+                            message:  "Search results for '" + msg.search_term + "'",
+                            links: {"self": { "href": "/client/1/search" }}
+                        }
+//msg.result
+
+
+            newres.writeHead(200, {'Content-Type': 'application/json'});
+            newres.end(JSON.stringify(result));
+
+            newres = null;
+
+
+
+
 
         } else if (msg.message_type == "return_get_query_results") {
                 //console.log("6 - return_get_query_results: " + msg.result);
@@ -1513,6 +1536,8 @@ function setUpChildListeners(processName, fileName, debugPort) {
                 newres.end(msg.result);
 
                 newres = null;
+
+
 
 
 
@@ -1980,11 +2005,12 @@ function startServices() {
 
 
 
-
+//zzz
     //------------------------------------------------------------------------------
     // search
     //------------------------------------------------------------------------------
     app.get('/client/1/search', function (req, res) {
+        console.log("1 - /client/1/search")
         //console.log("1 - get_search_results ,req.query.search_text: " + req.query.search_text)
         //console.log("    get_search_results ,req.query.search_text: " + new Date().getTime())
 
@@ -1995,7 +2021,7 @@ function startServices() {
         queuedResponseSeqNum ++;
         queuedResponses[seqNum] = res;
         //console.log("2 - get_search_results")
-        forkedProcesses["forked"].send({   message_type: "get_search_results",
+        forkedProcesses["forked"].send({   message_type: "get_search_results_json",
                         seq_num:                    seqNum,
                         searchTerm:                 "a",
                         timeStart:                  new Date().getTime()
@@ -2004,15 +2030,7 @@ function startServices() {
 
 
 
-        var result = {
-                        message:  "Search not implemented yet",
-                        links: {"self": { "href": "/client/1/search" }}
-                    }
 
-
-
-        res.writeHead(200, {'Content-Type': 'application/json'});
-        res.end(JSON.stringify(result));
     });
 
 

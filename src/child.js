@@ -2037,6 +2037,8 @@ function processMessagesFromMainProcess() {
 
 
 
+
+
     } else if (msg.message_type == 'get_search_results') {
         //console.log("3 - get_search_results: " + msg.seq_num )
         get_search_resultsFn(   msg.searchTerm,
@@ -2046,6 +2048,33 @@ function processMessagesFromMainProcess() {
                                     //console.log("5 - get_search_results: " + JSON.stringify(result))
                                     var return_get_search_resultsMsg = {
                                         message_type:           'return_get_search_results',
+                                        seq_num:                msg.seq_num,
+                                        returned:               JSON.stringify(result)
+                                    };
+                                    //console.log("5.1: " + JSON.stringify(return_get_search_resultsMsg))
+                                    process.send( return_get_search_resultsMsg );
+                                    //console.log("5.3: ")
+                    }  )
+
+
+
+
+
+
+
+
+
+//zzz
+    } else if (msg.message_type == 'get_search_results_json') {
+        console.log("2 - /client/1/search: get_search_results_json")
+        get_search_resultsFn(   msg.searchTerm,
+                                msg.timeStart,
+
+                                function(result) {
+                                    //console.log("5 - get_search_results: " + JSON.stringify(result))
+                                    var return_get_search_resultsMsg = {
+                                        message_type:           'return_get_search_results_json',
+                                        search_term:            msg.searchTerm,
                                         seq_num:                msg.seq_num,
                                         returned:               JSON.stringify(result)
                                     };
