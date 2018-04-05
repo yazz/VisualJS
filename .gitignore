@@ -13,6 +13,7 @@
 !/*.ps1
 !/start32.bat
 !/webpack.config.js
+!/loading.html
 
 !/snap/
 !/snap/*

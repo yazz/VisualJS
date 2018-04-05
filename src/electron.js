@@ -7,6 +7,8 @@ const app = electron.app
 const BrowserWindow = electron.BrowserWindow
 
 const path = require("path");
+const url = require('url');
+var fs = require('fs');
 
 
 app.on('ready', function() {
@@ -20,7 +22,13 @@ app.on('ready', function() {
                                 icon:'public/VisiFileColor.png'
                             })
 
-    //xx.webContents.toggleDevTools();
+    visifile.loadURL(url.format({
+        pathname: path.join(__dirname, '../loading.html'),
+        protocol: 'file:',
+        slashes: true
+      }))
+
+    //visifile.webContents.toggleDevTools();
 
     setTimeout(function() {
             visifile.loadURL('http://192.168.0.103')
