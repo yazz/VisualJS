@@ -1526,6 +1526,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
                         query_id:      resitem.id,
                         computer_name: username + "@" + hostaddress + ":" + port,
                         file_name:          resitem.file_name,
+						name:               resitem.name,
                         type:               resitem.type,
                         size:               resitem.size,
                         driver:             resitem.driver,
