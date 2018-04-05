@@ -1525,7 +1525,11 @@ function setUpChildListeners(processName, fileName, debugPort) {
                     result.results.push({
                         query_id:      resitem.id,
                         computer_name: username + "@" + hostaddress + ":" + port,
-                        val:           resitem.data
+                        file_name:          resitem.file_name,
+                        type:               resitem.type,
+                        size:               resitem.size,
+                        driver:             resitem.driver,
+                        when_timestamp:     resitem.when_timestamp
                     })
                     realCount ++
                 }

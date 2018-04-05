@@ -3141,6 +3141,7 @@ function get_search_resultsFn(  searchTerm,  timeStart , callbackFn  ) {
 
     dbsearch.serialize(function() {
         var mysql = "  select distinct(queries.id), the1.document_binary_hash, the1.num_occ  , the1.child_hash , zfts_search_rows_hashed.data " +
+                    ",         queries.size, queries.fileName, queries.name, queries.type,queries.driver, queries.when_timestamp " +
                     " from (  select   " +
                    "  distinct(document_binary_hash), count(document_binary_hash)  as num_occ  , child_hash  " +
                  "    from    " +
@@ -3195,8 +3196,14 @@ function get_search_resultsFn(  searchTerm,  timeStart , callbackFn  ) {
                         }
                         //console.log('rowDataToSend: ' + rowDataToSend );
                         newres.push({
-                                            id:     rowId,
-                                            data:   rowDataToSend
+                                            id:             rowId,
+                                            data:           rowDataToSend,
+                                            file_name:      rows[i].fileName,
+                                            name:           rows[i].name,
+                                            size:           rows[i].size,
+                                            type:           rows[i].type,
+                                            driver:         rows[i].driver,
+                                            when_timestamp: rows[i].when_timestamp
                                     });
                     }
                 }
