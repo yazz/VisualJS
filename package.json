@@ -10,6 +10,7 @@
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
     "test": "cross-env NODE_ENV=production webpack-dev-server"
   },
+  "main": "src/electron.js",
   "dependencies": {
     "@rgrove/parse-xml": "^1.1.1",
     "async": "^2.5.0",
@@ -26,6 +27,7 @@
     "deep-diff": "^0.3.8",
     "detect-rpi": "^1.2.0",
     "diskspace": "^2.0.0",
+    "electron": "^1.8.4",
     "exceljs": "^0.7.1",
     "express": "^4.14.0",
     "express-ws": "^3.0.0",
