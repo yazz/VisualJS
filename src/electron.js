@@ -9,6 +9,13 @@ const BrowserWindow = electron.BrowserWindow
 const path = require("path");
 const url = require('url');
 var fs = require('fs');
+var ip = require('ip');
+
+var port;
+var hostaddress;
+
+hostaddress = ip.address();
+port = 80
 
 
 app.on('ready', function() {
@@ -28,11 +35,17 @@ app.on('ready', function() {
         slashes: true
       }))
 
-    //visifile.webContents.toggleDevTools();
+    visifile.webContents.toggleDevTools();
 
     setTimeout(function() {
-            visifile.loadURL('http://192.168.0.103')
+		var add = 'http://' + hostaddress + ":" + port
+		console.log(add)
+        visifile.loadURL(add)
     }, 5000)
+	
+	var nodeConsole = require('console');
+	var myConsole = new nodeConsole.Console(process.stdout, process.stderr);
+	myConsole.log('Hello World!');
 
 
     console.log("New electron app")
@@ -41,9 +54,9 @@ app.on('ready', function() {
 
 
     var exec = require('child_process').exec;
-    exec('sudo node src/index.js --nogui true',
-        function callback(error, stdout, stderr){
-            console.log("Loaded Server")
-    });
+    var ls    = exec('sudo node src/index.js --nogui true')
+	ls.stdout.on('data', function (data) {
+	  console.log('stdout: ' + data.toString());
+	});
 
 })
