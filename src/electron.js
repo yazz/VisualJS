@@ -16,12 +16,16 @@ app.on('ready', function() {
                                 webPreferences: {
                                     nodeIntegration: false
 
-                                }
+                                },
+                                icon:'public/VisiFileColor.png'
                             })
 
     //xx.webContents.toggleDevTools();
 
-    visifile.loadURL('http://192.168.0.103')
+    setTimeout(function() {
+            visifile.loadURL('http://192.168.0.103')
+    }, 5000)
+
 
     console.log("New electron app")
 
@@ -31,7 +35,7 @@ app.on('ready', function() {
     var exec = require('child_process').exec;
     exec('sudo node src/index.js --nogui true',
         function callback(error, stdout, stderr){
-            console.log("pwd")
+            console.log("Loaded Server")
     });
 
 })
