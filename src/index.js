@@ -1513,21 +1513,24 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
             var result = {
                             message:          "Search results for: '" + msg.search_term + "'",
-                            results_count:    rett.queries.length,
+                            results_count:    -1,
                             links:           {"self": { "href": "/client/1/search" }},
                             results:         []
                         }
 
+            var realCount = 0
             for (var i = 0; i < rett.queries.length; i++) {
                 var resitem = rett.queries[i];
                 if (resitem && (resitem.data.length > 0)) {
                     result.results.push({
-                        query_id: resitem.id,
-                        val:      resitem.data
+                        query_id:      resitem.id,
+                        computer_name: username + "@" + hostaddress + ":" + port,
+                        val:           resitem.data
                     })
+                    realCount ++
                 }
-
             }
+            result.results_count = realCount
 //msg.result
 
 
