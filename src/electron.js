@@ -16,10 +16,12 @@ var hostaddress;
 
 hostaddress = ip.address();
 port = 80
+var f = 0
+var started = false
 
-
+var visifile
 app.on('ready', function() {
-    var visifile = new BrowserWindow({
+    visifile = new BrowserWindow({
                                 width: 800,
                                 height: 600,
                                 webPreferences: {
@@ -36,13 +38,7 @@ app.on('ready', function() {
       }))
 
     //visifile.webContents.toggleDevTools();
-    var f = false
-    setTimeout(function() {
-		var add = 'http://' + hostaddress + ":" + port
-		console.log(add)
-        visifile.loadURL(add)
-        f = true
-    }, 5000)
+
 
 	var nodeConsole = require('console');
 	var myConsole = new nodeConsole.Console(process.stdout, process.stderr);
@@ -57,14 +53,40 @@ app.on('ready', function() {
     var exec = require('child_process').exec;
     var ls    = exec('sudo node src/index.js --nogui true')
 
+    var readhost = ''
+    var readport = ''
 	ls.stdout.on('data', function (data) {
-        if (!f) {
-            var line = data.toString().replace(/\'|\"|\n|\r"/g , "").toString()
-            var jsc = "document.write('<br>" + f + ": " + line + " ')"
-            console.log('stdout: ' + jsc);
-            visifile.webContents.executeJavaScript(jsc);
+        var ds = data.toString()
+        if (!started ) {
+            outputToBrowser(ds)
         }
+
+        if (ds.indexOf("****HOST") != -1) {
+            readhost = ds.substring(ds.indexOf("****HOST") + 9, ds.indexOf("HOST****")).replace(/\'|\"|\n|\r"/g , "")
+            //console.log("readhost=" + readhost)
+        }
+
+
+        if (ds.indexOf("****PORT") != -1) {
+               readport = ds.substring(ds.indexOf("****PORT") + 9, ds.indexOf("PORT****")).replace(/\'|\"|\n|\r"/g , "")
+               //console.log("readport=" + readport)
+        		var addrt = 'http://' + readhost + ':' + readport;
+                outputToBrowser("****Started address:= " + addrt)
+
+                visifile.loadURL(addrt)
+                started = true
+            }
 
 	});
 
 })
+
+
+function outputToBrowser(txt) {
+    f++
+
+    var line = txt.toString().replace(/\'|\"|\n|\r"/g , "").toString()
+    var jsc = "document.write('<br><br>" + f + ": " + line + " ')"
+    //console.log(line);
+    visifile.webContents.executeJavaScript(jsc);
+}
