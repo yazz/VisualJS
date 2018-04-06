@@ -3,7 +3,7 @@
 !/.gitignore
 
 !/loading.html
-!/electron.js
+
 
 !/LICENSE
 !/visifile/LICENSE
@@ -36,6 +36,8 @@
 !/.vscode/*/*/*
 !/.vscode/*/*/*/*
 
+!/src/
+!/src/electron.js
 
 /visifile/instantclient32/
 /visifile/instantclient32/*

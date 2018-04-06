@@ -4,36 +4,21 @@
   "version": "1.0.1",
   "author": "Zubair Quraishi",
   "private": true,
-  "scripts": {
-    "start": "babel-node --presets es2015,stage-2 src/index.js ",
-    "dev": "cross-env NODE_ENV=development webpack-dev-server --inline --hot  --host localhost",
-    "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
-    "test": "cross-env NODE_ENV=production webpack-dev-server"
-  },
-  "main": "electron.js",
+  "scripts": {},
+  
+  "main": "src/electron.js",
+  
   "dependencies": {
-    "async": "^2.5.0",
-    "babel-polyfill": "^6.23.0",
     "child_process": "^1.0.2",
-    "csvtojson": "^1.1.9",
     "debug": "^3.1.0",
-    "deep-diff": "^0.3.8",
-    "detect-rpi": "^1.2.0",
-    "diskspace": "^2.0.0",
     "electron": "^1.8.4",
     "electron-packager": "^12.0.0",
-    "fast-csv": "^2.4.1",
-    "fd-diskspace": "^1.0.0",
-    "glob": "^7.1.2",
-    "has-flag": "^2.0.0",
     "http": "0.0.0",
     "ip": "^1.1.4",
     "natives": "^1.1.0",
     "net": "^1.0.2",
-    "opn": "^5.3.0",
     "path": "^0.12.7",
     "request": "^2.79.0",
-    "rmdir-sync": "^1.0.1",
     "semver": "^5.5.0"
   },
   "devDependencies": {
@@ -45,13 +30,23 @@
     "babel-preset-stage-2": "^6.24.1",
     "cross-env": "^5.1.1",
     "css-loader": "^0.28.7",
+    "electron-prebuilt-compile": "1.8.4",
     "file-loader": "^1.1.5",
     "vue-loader": "^13.5.0",
     "vue-template-compiler": "^2.5.2",
     "webpack": "^3.9.1",
     "webpack-dev-server": "^2.1.0-beta.9"
   },
-  "bin": {
-    "visifile": "src/index.js"
+  "config": {
+    "forge": {
+      "make_targets": {
+        "win32": [
+          "squirrel"
+        ]
+      },
+      "electronPackagerConfig": {},
+      "electronRebuildConfig": {},
+      "electronWinstallerConfig": {}
+    }
   }
 }
