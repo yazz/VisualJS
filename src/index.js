@@ -6,7 +6,7 @@ var isPiModule = require('detect-rpi');
 
 var isWin         = /^win/.test(process.platform);
 var isRaspberryPi = isPiModule();
-
+console.log('...');
 
 function require2(moduleName) {
 	var pat;
@@ -119,6 +119,7 @@ path.join(__dirname, '../public/\aframe_fonts/Aileron-Semibold.png')
 path.join(__dirname, '../public/\aframe_fonts/SourceCodePro.fnt')
 path.join(__dirname, '../public/\aframe_fonts/SourceCodePro.png')
 path.join(__dirname, '../public/index.html')
+console.log('Loaded paths');
 
 
 
@@ -207,6 +208,7 @@ var queuedResponseSeqNum                = 0;
 
 var sqlite3                     = require2('sqlite3');
 
+console.log('Starting services');
 
 app.use(compression())
 rmdir("uploads");

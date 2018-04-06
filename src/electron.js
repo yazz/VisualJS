@@ -10,6 +10,7 @@ const path = require("path");
 const url = require('url');
 var fs = require('fs');
 var ip = require('ip');
+var isWin         = /^win/.test(process.platform);
 
 var port;
 var hostaddress;
@@ -51,8 +52,13 @@ app.on('ready', function() {
 
 
     var exec = require('child_process').exec;
-    var ls    = exec('sudo node src/index.js --nogui true')
-
+    var ls
+	if (isWin) {	
+		ls    = exec('node .\\src\\index.js --nogui true')
+	} else {
+			ls = exec('node src/index.js --nogui true')
+	}
+	
     var readhost = ''
     var readport = ''
 	ls.stdout.on('data', function (data) {
@@ -86,7 +92,7 @@ function outputToBrowser(txt) {
     f++
 
     var line = txt.toString().replace(/\'|\"|\n|\r"/g , "").toString()
-    var jsc = "document.write('<br><br>" + f + ": " + line + " ')"
+    var jsc = "document.write('<br>" + ": " + line + " ')"
     //console.log(line);
     visifile.webContents.executeJavaScript(jsc);
 }
