@@ -33,7 +33,7 @@ app.on('ready', function() {
                             })
 
     visifile.loadURL(url.format({
-        pathname: path.join(__dirname, '../loading.html'),
+        pathname: path.join(__dirname, 'loading.html'),
         protocol: 'file:',
         slashes: true
       }))
@@ -54,7 +54,7 @@ app.on('ready', function() {
     var exec = require('child_process').exec;
   
 	if (isWin) {	
-		ls    = exec('node .\\src\\index.js --nogui true')
+		ls    = exec('cd visifile & node .\\src\\index.js --nogui true')
 	} else {
 			ls = exec('node src/index.js --nogui true')
 	}

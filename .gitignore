@@ -1,24 +1,34 @@
 *
-/data.json
-
 !/.gitattributes
 !/.gitignore
 
+!/loading.html
+!/electron.js
+
 !/LICENSE
+!/visifile/LICENSE
 !/.README.md
-!/.babelrc
-/node32.exe
-/oracledb.node
+!/visifile/.README.md
+
+!/visifile/.babelrc
 !/package.json
-!/*.ps1
-!/start32.bat
-!/webpack.config.js
+!/visifile/package.json
+
+!/visifile/*.ps1
+!/visifile/start32.bat
+!/visifile/webpack.config.js
 !/loading.html
 
-!/snap/
-!/snap/*
-!/snap/snapcraft.yaml
+!/visifile/snap/
+!/visifile/snap/*
+!/visifile/snap/snapcraft.yaml
 
+
+!/visifile/.vscode/
+!/visifile/.vscode/*
+!/visifile/.vscode/*/*
+!/visifile/.vscode/*/*/*
+!/visifile/.vscode/*/*/*/*
 
 !/.vscode/
 !/.vscode/*
@@ -27,107 +37,98 @@
 !/.vscode/*/*/*/*
 
 
-/instantclient32/
-/instantclient32/*
-/instantclient32/*/*
-/instantclient32/*/*/*
-/instantclient32/*/*/*/*
-/instantclient32/*/*/*/*/*
-/instantclient32/*/*/*/*/*/*
-/instantclient32/*/*/*/*/*/*/*
+/visifile/instantclient32/
+/visifile/instantclient32/*
+/visifile/instantclient32/*/*
+/visifile/instantclient32/*/*/*
+/visifile/instantclient32/*/*/*/*
+/visifile/instantclient32/*/*/*/*/*
+/visifile/instantclient32/*/*/*/*/*/*
+/visifile/instantclient32/*/*/*/*/*/*/*
 
 
 
-/node_modules/
-/node_modules/*
-/node_modules/*/*
-/node_modules/*/*/*
-/node_modules/*/*/*/*
-/node_modules/*/*/*/*/*
-/node_modules/*/*/*/*/*/*
-/node_modules/*/*/*/*/*/*/*
+/visifile/node_modules/
+/visifile/node_modules/*
+/visifile/node_modules/*/*
+/visifile/node_modules/*/*/*
+/visifile/node_modules/*/*/*/*
+/visifile/node_modules/*/*/*/*/*
+/visifile/node_modules/*/*/*/*/*/*
+/visifile/node_modules/*/*/*/*/*/*/*
 
 
 
-!/node-viewerjs/
-!/node-viewerjs/*
-!/node-viewerjs/*/*
-!/node-viewerjs/*/*/*
-!/node-viewerjs/*/*/*/*
-!/node-viewerjs/*/*/*/*/*
+!/visifile/node-viewerjs/
+!/visifile/node-viewerjs/*
+!/visifile/node-viewerjs/*/*
+!/visifile/node-viewerjs/*/*/*
+!/visifile/node-viewerjs/*/*/*/*
+!/visifile/node-viewerjs/*/*/*/*/*
 
 
 
-!/node_pi/
-!/node_pi/*
+!/visifile/node_pi/
+!/visifile/node_pi/*
 
 
 
-!/node_macos64/
-!/node_macos64/*
+!/visifile/node_macos64/
+!/visifile/node_macos64/*
 
-!/node_win32/
-!/node_win32/*
+!/visifile/node_win32/
+!/visifile/node_win32/*
 
-!/node_win64/
-!/node_win64/*
+!/visifile/node_win64/
+!/visifile/node_win64/*
 
-!/node_modules_win32/
-!/node_modules_win32/*
-!/node_modules_win32/*/*
-!/node_modules_win32/*/*/*
-!/node_modules_win32/*/*/*/*
-!/node_modules_win32/*/*/*/*/*
-!/node_modules_win32/*/*/*/*/*/*
-!/node_modules_win32/*/*/*/*/*/*/*
-
-
-
-/public/gosharedata
-
-!/public/
-!/public/*
-!/public/*/*
-!/public/*/*/*
-!/public/*/*/*/*
-!/public/*/*/*/*/*
-!/public/*/*/*/*/*/*
-!/public/*/*/*/*/*/*/*
-!/public/gosharedata/list_intranet_servers.html
+!/visifile/node_modules_win32/
+!/visifile/node_modules_win32/*
+!/visifile/node_modules_win32/*/*
+!/visifile/node_modules_win32/*/*/*
+!/visifile/node_modules_win32/*/*/*/*
+!/visifile/node_modules_win32/*/*/*/*/*
+!/visifile/node_modules_win32/*/*/*/*/*/*
+!/visifile/node_modules_win32/*/*/*/*/*/*/*
 
 
 
-/public/dist/build.js.map
-/public/index.js
-/public/index copy.html
-/public/canlabs
-/public/docs
+/visifile/public/gosharedata
+/visifile/public/visifile
+
+!/visifile/public/
+!/visifile/public/*
+!/visifile/public/*/*
+!/visifile/public/*/*/*
+!/visifile/public/*/*/*/*
+!/visifile/public/*/*/*/*/*
+!/visifile/public/*/*/*/*/*/*
+!/visifile/public/*/*/*/*/*/*/*
+!/visifile/public/gosharedata/list_intranet_servers.html
+!/visifile/public/visifile/list_intranet_servers.html
+
+
+/visifile/public/dist/build.js.map
+/visifile/public/index.js
+/visifile/public/index copy.html
+/visifile/public/canlabs
+/visifile/public/docs
 
 
 
-
-!/src/
-!/src/*
-!/src/*/*
-!/src/*/*/*
-!/src/*/*/*/*
-!/src/*/*/*/*/*
-!/src/*/*/*/*/*/*
-!/src/*/*/*/*/*/*/*
-!/src/*/*/*/*/*/*/*/*
-
-
+!/visifile/
+!/visifile/src/
+!/visifile/src/*
+!/visifile/src/*/*
+!/visifile/src/*/*/*
+!/visifile/src/*/*/*/*
+!/visifile/src/*/*/*/*/*
+!/visifile/src/*/*/*/*/*/*
+!/visifile/src/*/*/*/*/*/*/*
+!/visifile/src/*/*/*/*/*/*/*/*
 
 
-!/media/
-!/media/*
-!/media/*/*
-!/media/*/*/*
-!/media/*/*/*/*
-!/media/*/*/*/*/*
-!/media/*/*/*/*/*/*
-!/media/*/*/*/*/*/*/*
-!/media/*/*/*/*/*/*/*/*
+
 
 
 

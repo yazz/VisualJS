@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html>
+  <!--
+
+               set up the web page to work with desktop, mobile, and IE 9+
+
+      -->
+  <head>
+    <meta name="viewport" Content-Type="text/javascript; charset=utf-8" content="initial-scale=1.0, width=device-width, height=device-height, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!--
+
+                                          Include all the libraries
+
+        -->
+
+
+            <script type="text/javascript" >
+            window.system_type = 'client';
+
+			(function () {
+
+  if ( typeof window.CustomEvent === "function" ) return false;
+
+  function CustomEvent ( event, params ) {
+    params = params || { bubbles: false, cancelable: false, detail: undefined };
+    var evt = document.createEvent( 'CustomEvent' );
+    evt.initCustomEvent( event, params.bubbles, params.cancelable, params.detail );
+    return evt;
+   }
+
+  CustomEvent.prototype = window.Event.prototype;
+
+  window.CustomEvent = CustomEvent;
+})();
+
+</script>
+
+    <script type="text/javascript" src="es6-shim.js"></script>
+    <script type="text/javascript" src="jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="jquery.zoomooz.js"></script>
+    <script type="text/javascript" src="tether.min.js"></script>
+    <script type="text/javascript" src="bootstrap.min.js"></script>
+	<script type="text/javascript" src="dropzone.js"></script>
+	<script type="text/javascript" src="alasql.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="bootstrap.min.css"></link>
+    <link rel="stylesheet" type="text/css" href="dropzone.css"></link>
+    <link rel="stylesheet" type="text/css" href="vue_app.css"></link>
+
+</head>
+
+
+
+
+
+<body id=body style='margin:0px; padding: 0px;  border: 0px;  width: 100%;  height:100%;  left: 0px; ' >
+
+
+
+
+
+
+
+
+
+
+  <!--
+
+                            The zoomable part of the screen containing 4 zoom areas
+
+    -->
+  <div  class='zoomViewport noScroll' id=other style=' width: 100%;height: 90%;position: absolute; bottom: 10%; left: 0px;display: block '>
+    <div data-duration="600" id=zoommain class='zoomTarget zoomContainer'  style='height: 100%; width: 100%;'>
+      <div data-duration="600" id=zzz class='zoomTarget' style='height: 100%; width: 100%; '>
+
+
+
+
+
+
+
+
+
+
+
+      <!--
+
+                                                x.
+                                                .. - Welcome
+
+
+       -->
+      <div  id=mainsources class="zoomTarget" data-targetsize="1"
+           style='position: absolute; left: 0%; top: 0%; height: 100%; width: 100%; display: inline-block; -webkit-transform: translatez(0); transform:   scale(0.5, 0.5);border: 0px ;overflow: false'>
+        <div id=welcome>
+        </div>
+        <div style='text-align: center;'>
+    		Release date: 24 Jan 2018   14:08, Seattle, USA
+        </div>
+      </div>
+
+
+
+
+
+  <!--
+
+                                                .x
+                                                .. - My data window
+
+
+       -->
+      <div id=ttt2 class="zoomTarget"  data-targetsize="1"
+           style='position: absolute; left: 50%; top: 0%; height: 90%; width: 90%;
+                  display: inline-block; -webkit-transform: translatez(0); transform:   scale(0.5, 0.5);border: 5px solid blue;
+                  overflow: auto'>
+      <h3>
+        Get Data
+      </h3>
+
+			<div   id=mysql class="zoomTarget" data-targetsize="1"
+		    	   style='padding: 5px;position: absolute; left: 0%; top: 6%; height: 85%; width: 90%; margin: 5px; display: inline-block;
+          				  -webkit-transform: translatez(0);        transform:   scale(0.5, 0.5);border: 5px solid blue;overflow: auto'; >
+			<h3>
+          Direct from connections
+        </h3>
+
+
+		Keep all my data Private <input type=checkbox checked></input>
+        <div id="outputcode" style='margin: 5px '>
+
+
+
+      <textarea rows="6" cols="80" type=input id=sqlinput >SELECT * FROM ojobs_users limit 2</textarea>
+
+        <div id=select_source_parent>
+        </div>
+        <input type=button value='get result'
+               onClick='getresult(document.getElementById("select_source").value,  document.getElementById("sqlinput").value);'></input>
+        <div id=result></div>
+        <div id=vue_db_result></div>
+        </div>
+
+		</div>
+
+
+
+		  <div id=ttt32 class="zoomTarget"  data-targetsize="1"
+			   style='position: absolute; left: 50%; top: 50%; height: 90%; width: 90%;
+					  display: inline-block; -webkit-transform: translatez(0); transform:   scale(0.5, 0.5);border: 5px solid blue;
+					  overflow: auto'>
+			<h3>
+			  Run queries
+			</h3>
+
+		Keep all my data Private <input type=checkbox checked></input>
+        <div id="outputcode2" style='margin: 5px '>
+
+
+
+
+        <div id=select_query_source>
+        </div>
+        <input type=button value='get result'
+               onClick='get_query_result(document.getElementById("select_query").value);'>
+        <div id=queryresult></div>
+        <div id=vue_db_query_result></div>
+        </div>
+
+		</div>
+
+
+		</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <!--
+
+                                                ..
+                                                x. - Drop files
+
+
+       -->
+      <div  id=mainsources class="zoomTarget" data-targetsize="1"
+               style='padding: 5px;position: absolute; left: 0%; top: 50%; height: 90%; width: 90%; display: inline-block; -webkit-transform: translatez(0); transform:   scale(0.5, 0.5);border: 5px solid blue;overflow: false'; >
+
+
+
+               <form    action="/file_upload"
+                        class="dropzone"
+                        id="my-awesome-dropzone"
+                        style='width:50%; height: 50%; margin-left: 20%; margin-top: 20%; ' >
+                      </form>
+
+        </div>
+
+
+
+
+
+
+
+
+      <!--
+
+                                                ..
+                                                .x - Settings
+
+
+       -->
+    <div  id=mainviews class="zoomTarget" data-targetsize="1"
+         style='padding: 5px;position: absolute; left: 50%; top: 50%; height: 90%; width: 90%; display: inline-block; -webkit-transform: translatez(0); transform:   scale(0.5, 0.5);border: 5px solid blue;;overflow: auto'>
+      <h3>
+        Settings
+      </h3>
+
+
+
+
+			<div   id=mainsources class="zoomTarget" data-targetsize="1"
+		    	   style='padding: 5px;position: absolute; left: 0%; top: 6%; height: 85%; width: 90%; margin: 5px; display: inline-block;
+          				  -webkit-transform: translatez(0);        transform:   scale(0.5, 0.5);border: 5px solid blue;overflow: none'; >
+	    		<h1>
+			        Connections
+			    </h1>
+          <input type=button value='Scan Harddisk'
+  					   onClick='scanHardDisk();'>
+               <input type=button value='Stop scan'
+       					   onClick='stopScanHardDisk();'>
+		    	<div id="connections_window" style='height: 85%; width: 85%;' >
+			        <div class='container'>
+				        <div class="row">
+				            <div class="col-xs-12">
+					            <connections-table></connections-table>
+				            </div>
+				        </div>
+			        </div>
+			    </div>
+			</div>
+
+
+
+
+
+		<div   id=queries class="zoomTarget" data-targetsize="1"
+		    	   style='padding: 5px;position: absolute; left: 50%; top: 6%; height: 85%; width: 90%; display: inline-block;
+          				  -webkit-transform: translatez(0);        transform:   scale(0.5, 0.5);border: 5px solid blue;overflow: none'; >
+	    		<h1>
+			        Queries
+			    </h1>
+		    	<div id="queries_window" style='height: 85%; width: 85%;' >
+			        <div class='container'>
+				        <div class="row">
+				            <div class="col-xs-12">
+					            <queries-table></queries-table>
+				            </div>
+				        </div>
+			        </div>
+			    </div>
+			</div>
+
+
+
+
+		  <div id=ttt322 class="zoomTarget"  data-targetsize="1"
+			   style='position: absolute; left: 0%; top: 50%; height: 90%; width: 90%;
+					  display: inline-block; -webkit-transform: translatez(0); transform:   scale(0.5, 0.5);margin: 5px;border: 5px solid blue;
+					  overflow: none'>
+			<h3>
+			  Drivers
+			</h3>
+				<div id="drivers_window" style='height: 85%; width: 85%;' >
+				<div class='container'>
+				  <div class="row">
+				  <div class="col-xs-12">
+					   <drivers-table></drivers-table>
+					</div>
+					</div>
+				</div>
+				</div>
+				</div>
+
+
+
+		  <div id=ttt32 class="zoomTarget"  data-targetsize="1"
+			   style='position: absolute; left: 50%; top: 50%; height: 90%; width: 90%;
+					  display: inline-block; -webkit-transform: translatez(0); transform:   scale(0.5, 0.5);border: 5px solid blue;
+					  overflow: auto'>
+			<h3>
+			  System test
+			</h3>
+			<div id="outputcode22">
+			  <input type=button value='Host?' onClick='alert("clicked " + location.host );'>
+			  </input><br>
+
+			  Network test<input id=maininput
+					 onkeyup="updateNetworkTest()">
+			  </input><br>
+			  <div id=mainid></div>
+
+
+
+
+			</div>
+		<button class="btn btn-secondary" type="button" v-on:click='OK'>OK</button>
+		</div>
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+      <!--
+
+                                                ..
+                                                .. - Overview Dashboard - not used yet
+
+
+       -->
+      <div  id=maindashboard class="zoomTarget" data-targetsize="1"
+           style='position: absolute; left: 60%; top: 0%; height: 90%; width: 90%; display: inline-block; -webkit-transform: translatez(0); transform:   scale(0.3, 0.3);border: 5px solid blue;;overflow: auto; display: none;'>
+        <h3>
+          Dashboard
+        </h3>
+      </div>
+
+
+
+
+
+
+
+
+
+      <!--
+
+                                                ..
+                                                .. - Main output window - not used yet
+
+
+       -->
+      <div id=ttt class="zoomTarget"  data-targetsize="1"
+           style='position: absolute; left: 0%; top: 30%; height: 90%; width: 90%; display: inline-block; -webkit-transform: translatez(0); transform:   scale(0.3, 0.3);border: 5px solid red;;overflow: auto;display: none;'>
+        <h3>
+          Output
+        </h3>
+        <div id="main_output_window" style='height: 85%; width: 100%;'>
+          <div>
+            <rows-table  v-bind:rows="rows"></rows-table>
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <!--
+
+                                                ..
+                                                .. - People - not used yet
+
+
+       -->
+      <div  id=mainpeople class="zoomTarget" data-targetsize="1"
+           style='position: absolute; left: 60%; top: 30%; height: 90%; width: 90%; display: inline-block; -webkit-transform: translatez(0); transform:   scale(0.3, 0.3);border: 5px solid blue;;overflow: auto;display: none;'>
+        <h3>
+          people
+        </h3>
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+      <!--
+
+                                                ..
+                                                .. - Directory of apps - not used yet
+
+
+       -->
+    <div  id=maindirectory class="zoomTarget" data-targetsize="1"
+         style='position: absolute; left: 30%; top: 60%; height: 90%; width: 90%; display: inline-block; -webkit-transform: translatez(0); transform:   scale(0.3, 0.3);border: 5px solid blue; overflow: auto;display: none;'>
+      <h3>
+        Directory
+      </h3>
+      <div>
+        Enterprise data search engine
+      </div>
+      <div>
+        Enterprise data made easy
+      </div>
+      <div>
+        Share files securely with your colleagues
+      </div>
+      <div>
+        Share Excel, Oracle, SQL Server securely with your colleagues
+      </div>
+      <div>
+        Share Excel and RDBMS data securely with your colleagues
+      </div>
+      <div>
+        Share speadsheets and databases securely with your colleagues
+      </div>
+      <div>
+        Share speadsheets and SQL data securely with your colleagues
+      </div>
+      <div>
+        Collaborate securely on speadsheets and databases  with your team
+      </div>
+      <div>
+        Share Excel and databases securely with your colleagues
+      </div>
+      <div>
+        Securely share data with your colleagues
+      </div>
+      <div>
+        Share spreadsheets and databases in the enterprise
+      </div>
+      <div>
+        Share data securely with your colleagues
+      </div>
+      <div>
+        Big data made easy
+      </div>
+    </div>
+
+
+
+
+
+
+
+
+    </div>
+  </div>
+</div>
+
+
+
+      <!--
+
+                                                ...
+                                                ...
+                                                ...
+                                                xxx   -  the BACK button at the bottom of the screen
+
+       -->
+<div  id=bottom_bar style=' position: absolute; bottom: 0px; width: 100%; height: 10%;'>
+  <div   style='color: black; padding-top: 20px; text-align: center; font-size: 2em;  background-color: lightgray; width: 100%; height: 100%; display: inline-block;'
+       onclick='resetzoom();'>
+  <b>Go back</b>
+  </div>
+</div>
+
+
+    <script type="text/javascript" >
+		localStorage.clear();
+      var gun;
+      var data_connections_list = [];
+      rows                      = [];
+      tbrows                    = new Object();
+      connectionrows            = new Object();
+      code                      = '';
+      var workspace;
+      var main_output_window;
+      var connections_window;
+      var queries_window;
+
+
+
+
+    // --------------------------------------------------------------------
+    // get the SQL result
+    // --------------------------------------------------------------------
+    function scanHardDisk() {
+      $.ajax({
+
+        type: "GET",
+        url: '/scanharddisk',
+        success: function(data) {
+          //$("#result").text(data);
+		    //alert('Hard disk scan started!');
+			},
+        error: function(jqXHR, textStatus, errorThrown) {
+          alert('error ' + textStatus + " " + errorThrown);
+        }
+      });
+    };
+
+    function stopScanHardDisk() {
+      $.ajax({
+
+        type: "GET",
+        url: '/stopscanharddisk',
+        success: function(data) {
+          //$("#result").text(data);
+		  //alert('Hard disk scan stopped!');
+                    window.when_connections_changes("*");
+                    window.when_queries_changes("*");
+                    window.recalcVuexQueries();
+			},
+        error: function(jqXHR, textStatus, errorThrown) {
+          alert('error ' + textStatus + " " + errorThrown);
+        }
+      });
+    };
+
+
+
+    // --------------------------------------------------------------------
+    // get the SQL result
+    // --------------------------------------------------------------------
+    function getresult(source, sql) {
+      $.ajax({
+
+        type: "POST",
+        url: '/getresult',
+        data: {source: source, sql: sql},
+        success: function(data) {
+          //$("#result").text(data);
+		  //alert(eval('(' + data + ')'));
+		    setOutputData(eval('(' + data + ')'));
+			},
+        error: function(jqXHR, textStatus, errorThrown) {
+          alert('error ' + textStatus + " " + errorThrown);
+        }
+      });
+    };
+
+    // --------------------------------------------------------------------
+    // get the query  result
+    // --------------------------------------------------------------------
+    function get_query_result(source) {
+      $.ajax({
+
+        type: "POST",
+        url: '/getqueryresult',
+        data: {source: source},
+        success: function(data) {
+          //$("#result").text(data);
+		  //alert(eval('(' + data + ')'));
+		    setOutputData(eval('(' + data + ')'));
+			},
+        error: function(jqXHR, textStatus, errorThrown) {
+          alert('error ' + textStatus + " " + errorThrown);
+        }
+      });
+    };
+
+    function updateNetworkTest() {
+            sql("update globals set value = '" +
+            document.getElementById('maininput').value
+            + "' where id = 'network_test'");
+    }
+    function updateNetworkTest2() {
+        gun.get('network_data2').not(function() {
+            gun.put({value: document.getElementById('maininput2').value }).key('network_data2')
+        })
+
+            gun.get('network_data2').put({value: document.getElementById('maininput2').value })
+
+    }
+
+        Dropzone.options.myAwesomeDropzone = {
+          dictDefaultMessage: "Drag and drop any Excel or CSV files into here"
+        };
+        Dropzone.options.myAwesomeDropzone = {
+          init: function() {
+            this.on("queuecomplete", function() {
+                setTimeout(function() {
+                    window.when_connections_changes("*");
+                    window.when_queries_changes("*");
+                    window.recalcVuexQueries();
+                    },200);
+            });
+          }
+        };
+            function alasql1(args) {
+                var ret = alasql(args);
+                if (ret.length == 0) {
+                    return null;
+                }
+                return ret[0];
+            };
+    </script>
+
+    <script type="text/javascript" src="gosharedata_setup.js"></script>
+    <script type="text/javascript" src="dist/build.js?1501"></script>
+</body>
+</html>
