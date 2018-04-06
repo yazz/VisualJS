@@ -52,13 +52,13 @@ app.on('ready', function() {
 
 
     var exec = require('child_process').exec;
-  
-	if (isWin) {	
+
+	if (isWin) {
 		ls    = exec('cd visifile & node .\\src\\index.js --nogui true')
 	} else {
-			ls = exec('node src/index.js --nogui true')
+			ls = exec('cd visifile && node src/index.js --nogui true')
 	}
-	
+
     var readhost = ''
     var readport = ''
 	ls.stdout.on('data', function (data) {
