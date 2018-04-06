@@ -14,7 +14,7 @@ var isWin         = /^win/.test(process.platform);
 
 var port;
 var hostaddress;
-
+  var ls = null
 hostaddress = ip.address();
 port = 80
 var f = 0
@@ -52,7 +52,7 @@ app.on('ready', function() {
 
 
     var exec = require('child_process').exec;
-    var ls
+  
 	if (isWin) {	
 		ls    = exec('node .\\src\\index.js --nogui true')
 	} else {
@@ -86,6 +86,13 @@ app.on('ready', function() {
 	});
 
 })
+process.on('exit', function() {
+	if (ls) {
+		console.log("Killed Process VisiFile")
+		ls.kill();
+	}
+  });
+
 
 
 function outputToBrowser(txt) {
