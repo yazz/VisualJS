@@ -17,20 +17,24 @@
     "ip": "^1.1.4",
     "net": "^1.0.2",
     "path": "^0.12.7",
-    "semver": "^5.5.0",
-	"electron-prebuilt-compile": "1.8.4"
+    "semver": "^5.5.0"
   },
   "devDependencies": {
-    
+	"electron-prebuilt-compile": "1.8.4"
   },
   "config": {
     "forge": {
       "make_targets": {
         "win32": [
-          "squirrel"
-        ]
-      },
-      "electronPackagerConfig": {},
+			"squirrel"
+			],
+		},
+	  
+		"electronPackagerConfig": {
+			"asar": true
+		},
+		
+      
       "electronRebuildConfig": {},
       "electronWinstallerConfig": {}
     }
