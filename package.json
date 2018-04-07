@@ -27,14 +27,11 @@
       "make_targets": {
         "win32": [
 			"squirrel"
-			],
+			]
 		},
-	  
 		"electronPackagerConfig": {
 			"asar": true
 		},
-		
-      
       "electronRebuildConfig": {},
       "electronWinstallerConfig": {}
     }
