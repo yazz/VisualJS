@@ -29,7 +29,8 @@
         ]
       },
       "electronPackagerConfig": {
-        "asar": false
+        "packageManager": "npm",
+        "extraResources": ["src/","visifile/"]
       },
       "electronRebuildConfig": {},
       "electronWinstallerConfig": {}

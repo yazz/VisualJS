@@ -2,7 +2,7 @@
 !/.gitattributes
 !/.gitignore
 
-!/loading.html
+
 
 
 !/LICENSE
@@ -17,7 +17,7 @@
 !/visifile/*.ps1
 !/visifile/start32.bat
 !/visifile/webpack.config.js
-!/loading.html
+!/src/loading.html
 
 !/visifile/snap/
 !/visifile/snap/*
