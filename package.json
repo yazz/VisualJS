@@ -1,17 +1,16 @@
 {
-  "name": "Visifile_Installer",
+  "name": "Visifile",
   "description": "Installer for VisiFile",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "author": "Zubair Quraishi",
   "private": true,
   "scripts": {},
-  
   "main": "src/electron.js",
-  
   "dependencies": {
     "child_process": "^1.0.2",
     "debug": "^3.1.0",
     "electron": "^1.8.4",
+    "electron-compile": "^6.4.2",
     "electron-packager": "^12.0.0",
     "http": "0.0.0",
     "ip": "^1.1.4",
@@ -20,18 +19,18 @@
     "semver": "^5.5.0"
   },
   "devDependencies": {
-	"electron-prebuilt-compile": "1.8.4"
+    "electron-prebuilt-compile": "1.8.4"
   },
   "config": {
     "forge": {
       "make_targets": {
         "win32": [
-			"squirrel"
-			]
-		},
-		"electronPackagerConfig": {
-			"asar": true
-		},
+          "squirrel"
+        ]
+      },
+      "electronPackagerConfig": {
+        "asar": false
+      },
       "electronRebuildConfig": {},
       "electronWinstallerConfig": {}
     }
