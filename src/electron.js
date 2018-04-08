@@ -99,7 +99,8 @@ process.on('exit', function() {
 function outputToBrowser(txt) {
     f++
 
-    var line = txt.toString().replace(/\'|\"|\n|\r"/g , "").toString()
+    //var line = txt.toString().replace(/\'|\"|\n|\r"/g , "").toString()
+    var line = txt.toString().replace(/\'/g , "").toString()
     var jsc = "document.write('<br>" + ": " + line + " ')"
     //console.log(line);
     visifile.webContents.executeJavaScript(jsc);
