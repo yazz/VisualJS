@@ -57,7 +57,7 @@ app.on('ready', function() {
 	if (isWin) {
 		ls    = exec('cd ' + path.join(__dirname, '..') + ' & pwd & ls & cd visifile & .\\node .\\src\\index.js --nogui true')
 	} else {
-			ls = exec('cd ' + path.join(__dirname, '..') + ' && pwd && ls && cd visifile && sudo ./node src/index.js --nogui true')
+			ls = exec('cd ' + path.join(__dirname, '..') + ' && pwd && ls && cd visifile && ./node src/index.js --nogui true')
 	}
 
     var readhost = ''
