@@ -30,7 +30,8 @@
       },
       "electronPackagerConfig": {
         "packageManager": "npm",
-        "extraResources": ["src/","visifile/"]
+        "extraResources": ["src/","visifile/"],
+        "icon": "src/VisiFile.icns"
       },
       "electronRebuildConfig": {},
       "electronWinstallerConfig": {}
