@@ -18,5 +18,7 @@ module.exports = {
     ,
     "electronRebuildConfig": {}
     ,
-    "electronWinstallerConfig": {}
+    "electronWinstallerConfig": {
+        "setupIcon": path.resolve(__dirname,"src/visifilecolor_win.ico")
+    }
 }

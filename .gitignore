@@ -20,6 +20,7 @@
 !/visifile/webpack.config.js
 !/src/loading.html
 !/src/VisiFile.icns
+!/src/visifilecolor_win.ico
 
 !/visifile/snap/
 !/visifile/snap/*
