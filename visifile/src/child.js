@@ -2586,7 +2586,7 @@ function fromDir(startPath,filter,callback){
 function evalLocalSystemDriver(driverName) {
 	var evalDriver = '(' + fs.readFileSync(path.join(__dirname, '../public/visifile_drivers/' +
                                                                     driverName + '.json')).toString() + ')';
-	addOrUpdateDriver(driverName, evalDriver, evalDriver)
+	addOrUpdateDriver(driverName, evalDriver)
 }
 
 
@@ -2614,22 +2614,24 @@ function setUpDbDrivers() {
 
 
 
-function addOrUpdateDriver(name, code2, theObject) {
+function addOrUpdateDriver(name, codeString) {
     //console.log('addOrUpdateDriver: ' + name);
 
-    var code            = eval(code2);
-    var driverType      = theObject.type;
+    var code            = eval(codeString);
+    var driverType      = code.type;
 
 
     dbsearch.serialize(
         function() {
             dbsearch.all(
                 " select  " +
-                "     name, code " +
+                "     name, code, id " +
                 " from " +
                 "     drivers " +
                 " where " +
-                "     name = '" + name + "';"
+                "     name = ?;"
+                ,
+                name
                 ,
                 function(err, rows) {
                     if (!err) {
@@ -2640,7 +2642,7 @@ function addOrUpdateDriver(name, code2, theObject) {
                                 dbsearch.serialize(
                                     function() {
                                         dbsearch.run("begin exclusive transaction");
-                                        stmtInsertDriver.run(uuidv1(),  name,  driverType,  code2)
+                                        stmtInsertDriver.run(uuidv1(),  name,  driverType,  codeString)
                                         dbsearch.run("commit");
                                     })
 
@@ -2655,16 +2657,17 @@ function addOrUpdateDriver(name, code2, theObject) {
 
                   } else {
                       var existingDriver = rows[0];
-                      if (code2 != existingDriver.code) {
+                      if (codeString != existingDriver.code) {
                           try
                           {
                               console.log('        Updating DRIVER ' + name);
-                              dbsearch.serialize(function() {
-                                  dbsearch.run("begin exclusive transaction");
-                                  stmtUpdateDriver.run( code2 , existingDriver.id)
-                                  dbsearch.run("commit");
+                              dbsearch.serialize(
+                                  function() {
+                                      dbsearch.run("begin exclusive transaction");
+                                      stmtUpdateDriver.run( codeString , existingDriver.id)
+                                      dbsearch.run("commit");
 
-                              });
+                                  });
                           } catch(err) {
                               console.log(err);
                               var stack = new Error().stack
