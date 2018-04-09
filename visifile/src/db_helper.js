@@ -23,10 +23,10 @@ module.exports = {
 
             "CREATE TABLE IF NOT EXISTS files (id TEXT, contents_hash TEXT, size INTEGER, path TEXT, orig_name TEXT, fk_connection_id TEXT, status TEXT);",
 
-            "CREATE TABLE IF NOT EXISTS messages (id TEXT, source_id TEXT, contents_hash TEXT, size INTEGER, path TEXT, source TEXT, " + 
+            "CREATE TABLE IF NOT EXISTS messages (id TEXT, source_id TEXT, contents_hash TEXT, size INTEGER, path TEXT, source TEXT, " +
             "subject TEXT, received_by_name TEXT, received_time INTEGER, recipients TEXT, sender_name TEXT, sent TEXT, sent_on TEXT, sent_on_behalf_of_name TEXT," +
             "to_email TEXT, body_format TEXT, send_using_account TEXT, task_subject TEXT, sender TEXT, cc TEXT, bcc TEXT, unread TEXT, sensitivity TEXT," +
-            "outlook_version TEXT, outlook_internal_version TEXT," +  
+            "outlook_version TEXT, outlook_internal_version TEXT," +
             "fk_connection_id TEXT, status TEXT);",
 
 
@@ -43,7 +43,7 @@ module.exports = {
                 "similar_row_count INTEGER, new_source INTEGER, new_target INTEGER, edited_source INTEGER, edited_target INTEGER, deleted_source INTEGER, deleted_target INTEGER, array_source INTEGER, array_target INTEGER);",
 
 
-            "CREATE TABLE IF NOT EXISTS queries (id TEXT, name TEXT, connection TEXT, driver TEXT, size INTEGER, hash TEXT, type TEXT, fileName TEXT, definition TEXT, preview TEXT, status TEXT, index_status TEXT, similar_count INTEGER, related_status TEXT, when_timestamp INTEGER);",
+            "CREATE TABLE IF NOT EXISTS data_states (id TEXT, name TEXT, connection TEXT, driver TEXT, size INTEGER, hash TEXT, type TEXT, fileName TEXT, definition TEXT, preview TEXT, status TEXT, index_status TEXT, similar_count INTEGER, related_status TEXT, when_timestamp INTEGER);",
 
 
             "CREATE TABLE IF NOT EXISTS intranet_client_connects (id TEXT, internal_host TEXT, internal_port INTEGER, public_ip TEXT, via TEXT, public_host TEXT, user_name TEXT, client_user_name TEXT, when_connected INTEGER);"

@@ -25,9 +25,9 @@
       
       
       <!--
-                  show the list of queries
+                  show the list of data_states
          -->
-      {{list_of_queries2().length}} queries
+      {{list_of_queries2().length}} data_states
 
       <div style="position:relative; overflow: auto;height:400px;">
         <table class="table  table-striped  table-bordered " style="position:absolute;width: 100%; height: 100%;">
@@ -103,7 +103,7 @@
 import yazz_new_query       from './yazz_new_query.vue'
 
 export default {
-    name: 'queries-table',
+    name: 'data_states-table',
 
     computed: {
         get_refresh_view_counter: function () {

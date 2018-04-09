@@ -89,7 +89,7 @@ function setupSqlVuePane() {
           ,
           components: {
 							'connections-table': connections_table,
-							'queries-table': queries_table
+							'data_states-table': queries_table
 							}
         });
     }
@@ -1146,14 +1146,14 @@ window.showSearchResults = function() {
 
                 var lor = eval('(' + data + ')');
                     if (searchtext.toUpperCase() == lor.search.toUpperCase()) {
-                        console.log('   length:' + lor.queries.length);
+                        console.log('   length:' + lor.data_states.length);
 
                         store.dispatch('clear_search_results');
 
-                        for (var i = 0; i < lor.queries.length ; i++) {
+                        for (var i = 0; i < lor.data_states.length ; i++) {
                             var showInAframe = "";
                             if (i < 5) {
-                                showInAframe = lor.queries[i].data;
+                                showInAframe = lor.data_states[i].data;
                                 showInAframe = showInAframe.replace(/['"]+/g, '')
                                 showInAframe = showInAframe.replace(/[;]+/g, '')
                                 while ((showInAframe.endsWith("}")) || (showInAframe.endsWith('"'))){
@@ -1163,19 +1163,19 @@ window.showSearchResults = function() {
 
                             store.dispatch('add_search_result',
                                           {
-                                            id:          lor.queries[i].id,
+                                            id:          lor.data_states[i].id,
                                             data:        showInAframe,
                                             });
                         };
-                        if (lor.queries && (lor.queries.length == 0)) {
+                        if (lor.data_states && (lor.data_states.length == 0)) {
                             store.dispatch('set_search_subtext', "No results for " + lor.search);
-                            setvuexitemssearch(lor.queries);
+                            setvuexitemssearch(lor.data_states);
 
-                        } else if (lor && lor.queries) {
+                        } else if (lor && lor.data_states) {
                             store.dispatch('set_search_subtext', "For: '" + lor.search + "', found " +
-                                        lor.queries.length + " values,  took " + (lor.duration / 1000) + ' seconds' );
-                            setvuexitemssearch(lor.queries);
-//                            console.log(JSON.stringify(lor.queries))
+                                        lor.data_states.length + " values,  took " + (lor.duration / 1000) + ' seconds' );
+                            setvuexitemssearch(lor.data_states);
+//                            console.log(JSON.stringify(lor.data_states))
                     }
             }
             inSearch = false;
@@ -1422,7 +1422,7 @@ function initConnectionsListVuePane() {
 //-----------------------------------------------------------------
 // initQueriesListVuePane
 //
-// Show the list of queries
+// Show the list of data_states
 //
 //-----------------------------------------------------------------
 function initQueriesListVuePane() {
@@ -1444,7 +1444,7 @@ function initQueriesListVuePane() {
                 store: store
                 ,
                 components: {
-                             'queries-table':      queries_table}
+                             'data_states-table':      queries_table}
                 });
                 }
 }
@@ -1509,18 +1509,18 @@ function initClientsConnectedVuePane() {
     }
 }
 
-alasql('CREATE TABLE IF NOT EXISTS queries (id string, name string, connection string, driver string, size INT, hash string, type string, fileName string, definition string, preview string, status string, index_status string, similar_count INT)');
+alasql('CREATE TABLE IF NOT EXISTS data_states (id string, name string, connection string, driver string, size INT, hash string, type string, fileName string, definition string, preview string, status string, index_status string, similar_count INT)');
 
 alasql('CREATE TABLE IF NOT EXISTS queries_ui (id string, screen_index INT, visible BOOL)');
 
-window.insertIntoQueries = alasql.compile('INSERT INTO queries (id, name, connection, driver, size, hash, type, fileName, definition, preview, status, index_status, similar_count) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)');
+window.insertIntoQueries = alasql.compile('INSERT INTO data_states (id, name, connection, driver, size, hash, type, fileName, definition, preview, status, index_status, similar_count) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)');
 
 window.insertIntoQueriesUi = alasql.compile('INSERT INTO queries_ui (id, visible, screen_index) VALUES (?,?,?)');
 window.updateVisibleInQueriesUi = alasql.compile('update queries_ui set visible = ? where id = ?');
 window.updateScreenIndexInQueriesUi = alasql.compile('update queries_ui set screen_index = ? where id = ?');
 window.updateQueriesUiHideAll = alasql.compile('update queries_ui set screen_index = -1, visible = false');
 
-window.sqlGetAllQueries = alasql.compile('select * from queries');
+window.sqlGetAllQueries = alasql.compile('select * from data_states');
 
 alasql.fn.getX = function(screen_index,visible) {
     return  ((screen_index % window.queryGridWidthCached) * 0.5) + (visible?-0.8:100);
@@ -1541,18 +1541,18 @@ alasql.fn.getDisplayName = function(name) {
 
 
 
-window.sqlGetAllQueriesAndUi = alasql.compile('select getDisplayName(name) as display_name, *, getX(screen_index, visible) as x_pos, getY(screen_index, visible) as y_pos from queries, queries_ui where queries.id = queries_ui.id order by id asc');
+window.sqlGetAllQueriesAndUi = alasql.compile('select getDisplayName(name) as display_name, *, getX(screen_index, visible) as x_pos, getY(screen_index, visible) as y_pos from data_states, queries_ui where data_states.id = queries_ui.id order by id asc');
 
 
-window.sqlGetVisibleQueriesLength = alasql.compile('select count(queries.id) as count2 from queries, queries_ui where queries.id = queries_ui.id and visible = true');
+window.sqlGetVisibleQueriesLength = alasql.compile('select count(data_states.id) as count2 from data_states, queries_ui where data_states.id = queries_ui.id and visible = true');
 window.sqlGetAllQueriesAndUiCached = []
 window.sqlGetQueriesLengthCached=0
 window.queryGridWidth=0;
 
-window.sqlDeleteAllQueries = alasql.compile('delete from queries');
+window.sqlDeleteAllQueries = alasql.compile('delete from data_states');
 window.sqlDeleteAllQuerieUis = alasql.compile('delete from queries_ui');
 
-var sqlGetQueryByIdCompile = alasql.compile('select * from queries where id = ?');
+var sqlGetQueryByIdCompile = alasql.compile('select * from data_states where id = ?');
 window.sqlGetQueryById = function(id) {
     var rows = sqlGetQueryByIdCompile([id]);
     if (rows.length == 0 ) {return null};

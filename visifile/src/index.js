@@ -1123,7 +1123,7 @@ function getQuery(id, callbackFn) {
         dbsearch.serialize(
             function() {
         var stmt = dbsearch.all(
-            "SELECT * FROM queries WHERE id = ? ",
+            "SELECT * FROM data_states WHERE id = ? ",
             id
             ,
 
@@ -1411,7 +1411,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
             //console.log('Message from child', msg);
             sendOverWebSockets({
                                     type:   "test_fork",
-                                    value:  "Counter: " + msg.counter + ", count queries from sqlite: " + msg.sqlite
+                                    value:  "Counter: " + msg.counter + ", count data_states from sqlite: " + msg.sqlite
                                     });
 
 
@@ -1521,8 +1521,8 @@ function setUpChildListeners(processName, fileName, debugPort) {
                         }
 
             var realCount = 0
-            for (var i = 0; i < rett.queries.length; i++) {
-                var resitem = rett.queries[i];
+            for (var i = 0; i < rett.data_states.length; i++) {
+                var resitem = rett.data_states[i];
                 if (resitem && (resitem.data.length > 0)) {
                     result.results.push({
                         query_id:      resitem.id,

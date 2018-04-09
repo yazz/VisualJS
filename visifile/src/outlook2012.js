@@ -254,8 +254,8 @@
 			dbsearch.serialize(
 				function() {
 					var stmt = dbsearch.all(
-						"SELECT  distinct contents.content  FROM queries, connections, contents where queries.connection = " +
-						"? and contents.id = queries.hash" ,
+						"SELECT  distinct contents.content  FROM data_states, connections, contents where data_states.connection = " +
+						"? and contents.id = data_states.hash" ,
 						connection.id
 						,
 						function(err, results)

@@ -144,7 +144,7 @@ function setUpSql() {
                                 " values " +
                                 "    (?,  ?,?,?,?,?,?,?,?,?,?);");
 
-    stmtInsertIntoQueries = dbsearch.prepare(" insert into queries " +
+    stmtInsertIntoQueries = dbsearch.prepare(" insert into data_states " +
                                 "    ( id, name, connection, driver, definition, status, type ) " +
                                 " values " +
                                 "    (?,    ?, ?, ?, ?, ?, ?);");
@@ -241,17 +241,17 @@ function setUpSql() {
 
 
 
-    stmtInsertInsertIntoQueries = dbsearch.prepare(" insert into queries " +
+    stmtInsertInsertIntoQueries = dbsearch.prepare(" insert into data_states " +
                                 "    ( id, name, connection, driver, size, hash, fileName, type, definition, preview, similar_count , when_timestamp) " +
                                 " values " +
                                 "    (?,  ?,?,?,  ?,?,?, ?,?,?, 1,  ?);");
 
-    stmtUpdateRelatedDocumentCount = dbsearch.prepare(" update queries " +
+    stmtUpdateRelatedDocumentCount = dbsearch.prepare(" update data_states " +
                                 "    set  similar_count = ?  " +
                                 " where  " +
                                 "    id = ? ;");
 
-    stmtUpdateRelationships = dbsearch.prepare(" update queries " +
+    stmtUpdateRelationships = dbsearch.prepare(" update data_states " +
                                 "    set  related_status = ?  " +
                                 " where  " +
                                 "    hash = ? ;");
@@ -259,7 +259,7 @@ function setUpSql() {
 
     stmt3 = dbsearch.prepare("INSERT INTO search_rows_hierarchy (document_binary_hash, parent_hash, child_hash) VALUES (?,?,?)");
 
-    setIn =  dbsearch.prepare("UPDATE queries SET index_status = ? WHERE id = ?");
+    setIn =  dbsearch.prepare("UPDATE data_states SET index_status = ? WHERE id = ?");
 }
 
 var standard = fs.readFileSync(path.join(__dirname, './common.ps1'));
@@ -476,9 +476,9 @@ function getRelatedDocuments(  id,  callback  ) {
                 "            where  " +
                 "                document_binary_hash = ( " +
                 "                    select   " +
-                "                        hash from queries where id = '" + id+ "' " +
+                "                        hash from data_states where id = '" + id+ "' " +
                 "                 )) group by document_binary_hash ) as ttt,  " +
-                "            queries " +
+                "            data_states " +
                 "where hash = document_binary_hash " +
                 "group by id " +
                 "order by cc desc "
@@ -568,7 +568,7 @@ function getRelatedDocumentHashes(  doc_hash,  callback  ) {
                 "                where                                                        " +
                 "                       document_binary_hash = '" + doc_hash + "')            " +
                 "                group by document_binary_hash ) as ttt,                      " +
-                "                queries                                                      " +
+                "                data_states                                                      " +
                 "             where hash = document_binary_hash                               " +
                 "               group by id                                                   " +
                 "                order by cc desc                                             " ;
@@ -646,7 +646,7 @@ function getRelatedDocumentHashes(  doc_hash,  callback  ) {
 //                                                                                         //
 //                                      findFoldersFn                                      //
 //                                                                                         //
-// This indexes the queries for full text search                                           //
+// This indexes the data_states for full text search                                           //
 //                                                                                         //
 //                                                                                         //
 //                                                                                         //
@@ -699,7 +699,7 @@ function findFoldersFn() {
 //                                                                                         //
 //                                      indexFilesFn                                       //
 //                                                                                         //
-// This indexes the queries for full text search                                           //
+// This indexes the data_states for full text search                                           //
 //                                                                                         //
 //                                                                                         //
 //                                                                                         //
@@ -722,7 +722,7 @@ function indexFilesFn() {
    try {
        dbsearch.serialize(function() {
     var stmt = dbsearch.all(
-        "SELECT * FROM queries WHERE index_status IS NULL LIMIT 1 " ,
+        "SELECT * FROM data_states WHERE index_status IS NULL LIMIT 1 " ,
         function(err, results)
         {
             if (!err)
@@ -840,7 +840,7 @@ function getResult(  source,  connectionName,  driverName,  definition,  callbac
                                 }
                                 //console.log("27");
                                 //console.log( "   ordata: " + JSON.stringify(ordata));
-                                var findHashSql = "select  hash from queries where id = '" + source + "'";
+                                var findHashSql = "select  hash from data_states where id = '" + source + "'";
                                 //console.log("FindHashSql : " + findHashSql );
                                 //console.log("1");
                                 dbsearch.serialize(function() {
@@ -1574,7 +1574,7 @@ function indexFileRelationshipsFn() {
             function() {
 
         var stmt = dbsearch.all(
-            "SELECT * FROM queries WHERE related_status IS NULL LIMIT 1 "
+            "SELECT * FROM data_states WHERE related_status IS NULL LIMIT 1 "
             ,
 
             function(err, results)
@@ -1621,7 +1621,7 @@ function indexFileRelationshipsFn() {
                                                 dbsearch.serialize(
                                                     function() {
                                                 var stmt = dbsearch.all(
-                                                    "SELECT * FROM queries WHERE hash = '" + relatedResults[i].hash + "'" ,
+                                                    "SELECT * FROM data_states WHERE hash = '" + relatedResults[i].hash + "'" ,
                                                     function(err, results)
                                                     {
                                                         if (!err)
@@ -1777,7 +1777,7 @@ function sendTestHeartBeat() {
                 dbsearch.serialize(
                     function() {
                         var stmt = dbsearch.all(
-                            "SELECT count(*) FROM queries;",
+                            "SELECT count(*) FROM data_states;",
                             function(err, results)
                             {
                                 if (!err)
@@ -2782,10 +2782,10 @@ function downloadWebDocument(queryId, callbackFn) {
         function() {
 
     var stmt = dbsearch.all(" select   " +
-                            "     contents.content, queries.driver   from  contents, queries   " +
+                            "     contents.content, data_states.driver   from  contents, data_states   " +
                             " where " +
-                            "     queries.id = ? " +
-                            "  and contents.id = queries.hash  limit 1",
+                            "     data_states.id = ? " +
+                            "  and contents.id = data_states.hash  limit 1",
                             [queryId],
                             function(err, rows) {
         if (!err) {
@@ -2953,8 +2953,8 @@ function downloadDocuments( fileId, callbackFn ) {
                 function() {
 
 
-				var stmt = dbsearch.all(" select   queries.driver as driver, contents.id as id,  content, content_type   from   contents, queries   " +
-                                        " where queries.id = ? and  contents.id = queries.hash  limit 1" ,
+				var stmt = dbsearch.all(" select   data_states.driver as driver, contents.id as id,  content, content_type   from   contents, data_states   " +
+                                        " where data_states.id = ? and  contents.id = data_states.hash  limit 1" ,
                                         [fileId], function(err, rows) {
 						if (!err) {
 								if (rows.length > 0) {
@@ -3094,7 +3094,7 @@ function get_all_queries(callbackFn, callbackEndFn) {
     //console.log('4:');
     dbsearch.serialize(
         function() {
-            var stmt = dbsearch.all("select * from queries",
+            var stmt = dbsearch.all("select * from data_states",
                 function(err, results) {
                     //console.log('4.5: results length = ' + results.length);
                     for (var i=0; i < results.length;i ++) {
@@ -3134,14 +3134,14 @@ function get_search_resultsFn(  searchTerm,  timeStart , callbackFn  ) {
         var timeEnd = new Date().getTime();
         var timing = timeEnd - timeStart;
         callbackFn(  {  search:      searchTerm,
-                        queries:    [],
+                        data_states:    [],
                         message:    "Search text must be at least 1 characters: " + searchTerm,
                         duration:    timing    }  );
     } else {
 
     dbsearch.serialize(function() {
-        var mysql = "  select distinct(queries.id), the1.document_binary_hash, the1.num_occ  , the1.child_hash , zfts_search_rows_hashed.data " +
-                    ",         queries.size, queries.fileName, queries.name, queries.type,queries.driver, queries.when_timestamp " +
+        var mysql = "  select distinct(data_states.id), the1.document_binary_hash, the1.num_occ  , the1.child_hash , zfts_search_rows_hashed.data " +
+                    ",         data_states.size, data_states.fileName, data_states.name, data_states.type,data_states.driver, data_states.when_timestamp " +
                     " from (  select   " +
                    "  distinct(document_binary_hash), count(document_binary_hash)  as num_occ  , child_hash  " +
                  "    from    " +
@@ -3155,10 +3155,10 @@ function get_search_resultsFn(  searchTerm,  timeStart , callbackFn  ) {
   "                         zfts_search_rows_hashed match '"  + searchTerm + "*'  )   " +
    "                  group by   " +
     "                    document_binary_hash) as the1,   " +
-     "                     queries  , " +
+     "                     data_states  , " +
       "                    zfts_search_rows_hashed  " +
        "              where    " +
-        "             queries.hash = the1.document_binary_hash   " +
+        "             data_states.hash = the1.document_binary_hash   " +
 " and " +
 "zfts_search_rows_hashed.row_hash = the1.child_hash ";
 
@@ -3210,13 +3210,13 @@ function get_search_resultsFn(  searchTerm,  timeStart , callbackFn  ) {
                 var timeEnd = new Date().getTime();
                 var timing = timeEnd - timeStart;
                 callbackFn( {   search:  searchTerm,
-                                            queries: newres,
+                                            data_states: newres,
                                             duration: timing});
             } else {
                 var timeEnd = new Date().getTime();
                 var timing = timeEnd - timeStart;
                 callbackFn( {search:      searchTerm,
-                             queries:    [],
+                             data_states:    [],
                              duration:    timing,
                              error: "Error searching for: " + searchTerm }  );
             }
@@ -3262,8 +3262,8 @@ function getqueryresultFn(  connectionId, queryId, definition, callbackFn) {
                     //console.log('trying to save document: ');
 
     dbsearch.serialize(function() {
-                    var stmt = dbsearch.all("select   contents.content   from   queries, contents   where   queries.id = ? and queries.driver = 'pdf'" +
-                                            "    and contents.id = queries.hash  limit 1",
+                    var stmt = dbsearch.all("select   contents.content   from   data_states, contents   where   data_states.id = ? and data_states.driver = 'pdf'" +
+                                            "    and contents.id = data_states.hash  limit 1",
 
                                             [queryId],
                                             function(err, rows) {
@@ -3385,7 +3385,7 @@ function getQuery(id, callbackFn) {
         dbsearch.serialize(
             function() {
         var stmt = dbsearch.all(
-            "SELECT * FROM queries WHERE id = ? ",
+            "SELECT * FROM data_states WHERE id = ? ",
             id
             ,
 

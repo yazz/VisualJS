@@ -27,7 +27,7 @@ var numberOfSecondsIndexFilesInterval   = 5;
 var inScan                              = false;
 var drivers                             = new Object();
 var connections                         = new Object();
-var queries                             = new Object();
+var data_states                             = new Object();
 var stmt2                               = null;
 var stmt3                               = null;
 var setIn                               = null;
@@ -360,17 +360,17 @@ function setUpSql() {
 
 
 
-    stmtInsertInsertIntoQueries = dbsearch.prepare(" insert into queries " +
+    stmtInsertInsertIntoQueries = dbsearch.prepare(" insert into data_states " +
                                 "    ( id, name, connection, driver, size, hash, fileName, type, definition, preview, similar_count , when_timestamp) " +
                                 " values " +
                                 "    (?,  ?,?,?,  ?,?,?, ?,?,?, 1,  ?);");
 
-    stmtUpdateRelatedDocumentCount = dbsearch.prepare(" update queries " +
+    stmtUpdateRelatedDocumentCount = dbsearch.prepare(" update data_states " +
                                 "    set  similar_count = ?  " +
                                 " where  " +
                                 "    id = ? ;");
 
-    stmtUpdateRelationships = dbsearch.prepare(" update queries " +
+    stmtUpdateRelationships = dbsearch.prepare(" update data_states " +
                                 "    set  related_status = ?  " +
                                 " where  " +
                                 "    hash = ? ;");

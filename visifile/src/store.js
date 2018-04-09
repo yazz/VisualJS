@@ -481,8 +481,8 @@ export default new Vuex.Store({
     //
     delete_query: function(a, query){
             //alert(JSON.stringify(query));
-            //queries.get(query.id,function(err,doc) {
-            //    queries.remove(doc);
+            //data_states.get(query.id,function(err,doc) {
+            //    data_states.remove(doc);
             //});
     },
 

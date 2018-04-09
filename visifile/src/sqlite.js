@@ -171,7 +171,7 @@
 				return {
 				  query_name:                "sqlite query",
 				  database:                  "root.vis",
-				  sql:                       "select distinct(id) from queries"
+				  sql:                       "select distinct(id) from data_states"
 				};
 			  }
 	}
