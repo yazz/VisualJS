@@ -2615,42 +2615,53 @@ function setUpDbDrivers() {
 
 
 function addOrUpdateDriver(name, code2, theObject) {
-      var code = eval(code2);
-	var driverType = theObject.type;
-	//console.log('addOrUpdateDriver: ' + name);
+    //console.log('addOrUpdateDriver: ' + name);
+
+    var code            = eval(code2);
+    var driverType      = theObject.type;
+
 
     dbsearch.serialize(
         function() {
-      var stmt = dbsearch.all("select name from drivers where name = '" + name + "';",
-          function(err, rows) {
-              if (!err) {
-                  //console.log('             : ' + rows.length);
-                  if (rows.length == 0) {
-                      try
-                      {
-                          dbsearch.serialize(
-                              function() {
-                                  dbsearch.run("begin exclusive transaction");
-                                  stmtInsertDriver.run(uuidv1(),  name,  driverType,  code2)
-                                  dbsearch.run("commit");
-                                  })
-                      } catch(err) {
-                          console.log(err);
-                          var stack = new Error().stack
-                          console.log( stack )
-                      } finally {
+            dbsearch.all(
+                " select  " +
+                "     name, code " +
+                " from " +
+                "     drivers " +
+                " where " +
+                "     name = '" + name + "';"
+                ,
+                function(err, rows) {
+                    if (!err) {
+                        if (rows.length == 0) {
+                            try
+                            {
+                                console.log('   *** Adding DRIVER ' + name);
+                                dbsearch.serialize(
+                                    function() {
+                                        dbsearch.run("begin exclusive transaction");
+                                        stmtInsertDriver.run(uuidv1(),  name,  driverType,  code2)
+                                        dbsearch.run("commit");
+                                    })
 
-                      }
+                            } catch( err ) {
+
+                                console.log(err);
+                                var stack = new Error().stack
+                                console.log( stack )
+
+                            } finally {
+                            }
 
                   } else {
-                      //console.log('   *** Checking DRIVER ' + name);
                       var existingDriver = rows[0];
-                      if (!(code2 == existingDriver.code)) {
+                      if (code2 != existingDriver.code) {
                           try
                           {
+                              console.log('        Updating DRIVER ' + name);
                               dbsearch.serialize(function() {
                                   dbsearch.run("begin exclusive transaction");
-                                  stmtUpdateDriver.run( code2 , rows[0].id)
+                                  stmtUpdateDriver.run( code2 , existingDriver.id)
                                   dbsearch.run("commit");
 
                               });
