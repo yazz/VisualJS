@@ -2033,6 +2033,29 @@ function processMessagesFromMainProcess() {
 
 
 
+//zzz
+    } else if (msg.message_type == 'add_local_driver') {
+        //console.log("3 - get_search_results: " + msg.seq_num )
+        var return_add_local_driver_results_msg = {
+            message_type:           'return_add_local_driver_results_msg',
+            seq_num:                msg.seq_num
+        };
+
+        try {
+            evalLocalSystemDriver( msg.driver_name )
+            return_add_local_driver_results_msg.success = true
+            return_add_local_driver_results_msg.error = false
+
+        } catch(err) {
+            return_add_local_driver_results_msg.success = false
+            return_add_local_driver_results_msg.error = true
+            return_add_local_driver_results_msg.error_message = err
+
+        }
+        process.send( return_add_local_driver_results_msg );
+
+
+
 
 
 
@@ -2577,7 +2600,7 @@ function setUpDbDrivers() {
     evalLocalSystemDriver('pdf')
     evalLocalSystemDriver('postgres')
     evalLocalSystemDriver('outlook2012')
-    evalLocalSystemDriver('outlook2010')
+    //evalLocalSystemDriver('outlook2010')
     evalLocalSystemDriver('sqlite')
     evalLocalSystemDriver('mysql')
     evalLocalSystemDriver('oracle')

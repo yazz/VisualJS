@@ -1492,6 +1492,21 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
 
 
+        } else if (msg.message_type == "return_add_local_driver_results_msg") {
+            //console.log("6 - return_get_search_results: " + msg.returned);
+            var rett = eval("(" + msg.success + ")");
+            var newCallbackFn = queuedResponses[ msg.seq_num ]
+
+            if (msg.success) {
+                newCallbackFn("Driver added")
+            } else {
+                newCallbackFn("Driver not added: " + msg.error_message)
+            }
+
+
+            newres = null;
+
+
 
 
         } else if (msg.message_type == "return_get_search_results") {
@@ -2231,7 +2246,8 @@ function startServices() {
         queuedResponseSeqNum ++;
         queuedResponses[seqNum] = res;
         //console.log("2 - get_search_results")
-        forkedProcesses["forked"].send({   message_type:               "get_all_tables",
+        forkedProcesses["forked"].send({
+                        message_type:               "get_all_tables",
                         seq_num:                    seqNum,
                         table_name:                 tableName,
                         fields:                     fields
@@ -2523,6 +2539,7 @@ function parseVfCliCommand(args, callbackFn) {
     var countArgs = args.length
     var verb = args[0]
     var noun = args[1]
+    var object1 = args[2]
     if ((countArgs == 1) && (verb == 'home')) {
 
         result += "Details of this server:\n\n"
@@ -2566,6 +2583,23 @@ function parseVfCliCommand(args, callbackFn) {
                 return
            })
         }
+
+
+//zzz
+        if (noun == 'localdriver') {
+            var driverName = object1
+
+            var seqNum = queuedResponseSeqNum;
+            queuedResponseSeqNum ++;
+            queuedResponses[seqNum] = callbackFn;
+            //console.log("2 - get_search_results")
+            forkedProcesses["forked"].send({
+                            message_type:               "add_local_driver",
+                            seq_num:                    seqNum,
+                            driver_name:                driverName
+                            });    }
+
+
 
 
 
