@@ -27,22 +27,6 @@
     "electron-prebuilt-compile": "1.8.4"
   },
   "config": {
-    "forge": {
-      "make_targets": {
-        "win32": [
-          "squirrel"
-        ]
-      },
-      "electronPackagerConfig": {
-        "packageManager": "npm",
-        "extraResources": [
-          "src/",
-          "visifile/"
-        ],
-        "icon": "src/VisiFile.icns"
-      },
-      "electronRebuildConfig": {},
-      "electronWinstallerConfig": {}
-    }
+    "forge": "./forge.config.js"
   }
 }

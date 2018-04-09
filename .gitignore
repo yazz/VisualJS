@@ -12,6 +12,7 @@
 
 !/visifile/.babelrc
 !/package.json
+!/forge.config.js
 !/visifile/package.json
 
 !/visifile/*.ps1
