@@ -2064,7 +2064,7 @@ function processMessagesFromMainProcess() {
 
 
 
-//zzz
+
     } else if (msg.message_type == 'get_search_results_json') {
         console.log("2 - /client/1/search: get_search_results_json")
         get_search_resultsFn(   msg.searchTerm,
@@ -2562,52 +2562,52 @@ function fromDir(startPath,filter,callback){
 
 
 
-
+//zzz
 function setUpDbDrivers() {
-	pgeval = '(' + fs.readFileSync(path.join(__dirname, './glb.js')).toString() + ')';
+	pgeval = '(' + fs.readFileSync(path.join(__dirname, '../public/visifile_drivers/glb.json')).toString() + ')';
 	addOrUpdateDriver('glb', pgeval, pgeval)
 
-	pgeval = '(' + fs.readFileSync(path.join(__dirname, './csv.js')).toString() + ')';
+	pgeval = '(' + fs.readFileSync(path.join(__dirname, '../public/visifile_drivers/csv.json')).toString() + ')';
 	addOrUpdateDriver('csv', pgeval, pgeval)
 
-	pgeval = '(' + fs.readFileSync(path.join(__dirname, './txt.js')).toString() + ')';
+	pgeval = '(' + fs.readFileSync(path.join(__dirname, '../public/visifile_drivers/txt.json')).toString() + ')';
 	addOrUpdateDriver('txt', pgeval, pgeval)
 
 
-	pgeval = '(' + fs.readFileSync(path.join(__dirname, './excel.js')).toString() + ')';
+	pgeval = '(' + fs.readFileSync(path.join(__dirname, '../public/visifile_drivers/excel.json')).toString() + ')';
 	addOrUpdateDriver('excel', pgeval, pgeval)
 
-	pgeval = '(' + fs.readFileSync(path.join(__dirname, './word.js')).toString() + ')';
+	pgeval = '(' + fs.readFileSync(path.join(__dirname, '../public/visifile_drivers/word.json')).toString() + ')';
 	addOrUpdateDriver('word', pgeval, pgeval)
 
-	pgeval = '(' + fs.readFileSync(path.join(__dirname, './pdf.js')).toString() + ')';
+	pgeval = '(' + fs.readFileSync(path.join(__dirname, '../public/visifile_drivers/pdf.json')).toString() + ')';
 	addOrUpdateDriver('pdf', pgeval, pgeval)
 
 
-	pgeval = '(' + fs.readFileSync(path.join(__dirname, './postgres.js')).toString() + ')';
+	pgeval = '(' + fs.readFileSync(path.join(__dirname, '../public/visifile_drivers/postgres.json')).toString() + ')';
 	addOrUpdateDriver('postgres', pgeval, pgeval)
 
-	pgeval = '(' + fs.readFileSync(path.join(__dirname, './outlook2012.js')).toString() + ')';
+	pgeval = '(' + fs.readFileSync(path.join(__dirname, '../public/visifile_drivers/outlook2012.json')).toString() + ')';
 	addOrUpdateDriver('outlook2012', pgeval, pgeval)
 
 
 
-	sqliteeval = '(' + fs.readFileSync(path.join(__dirname, './sqlite.js')).toString() + ')';
+	sqliteeval = '(' + fs.readFileSync(path.join(__dirname, '../public/visifile_drivers/sqlite.json')).toString() + ')';
 	addOrUpdateDriver('sqlite', sqliteeval, sqliteeval)
 
 
-	pgeval = '(' + fs.readFileSync(path.join(__dirname, './mysql.js')).toString() + ')';
+	pgeval = '(' + fs.readFileSync(path.join(__dirname, '../public/visifile_drivers/mysql.json')).toString() + ')';
 	addOrUpdateDriver('mysql', pgeval, pgeval)
 
 
 
-	toeval =  '(' + fs.readFileSync(path.join(__dirname, './oracle.js')).toString() + ')';
+	toeval =  '(' + fs.readFileSync(path.join(__dirname, '../public/visifile_drivers/oracle.json')).toString() + ')';
 	addOrUpdateDriver('oracle',   toeval, toeval)
 	process.env['PATH'] = process.cwd() + '\\oracle_driver\\instantclient32' + ';' + process.env['PATH'];
 
 
 
-	tdeval = '(' + fs.readFileSync(path.join(__dirname, './testdriver.js')).toString() + ')';
+	tdeval = '(' + fs.readFileSync(path.join(__dirname, '../public/visifile_drivers/testdriver.json')).toString() + ')';
 	addOrUpdateDriver('testdriver', tdeval, tdeval)
 }
 

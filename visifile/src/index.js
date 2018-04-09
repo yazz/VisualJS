@@ -64,21 +64,21 @@ path.join(__dirname, '../public/jquery.zoomooz.js')
 path.join(__dirname, '../public/alasql.min.js')
 path.join(__dirname, '../public/hammer.min.js')
 path.join(__dirname, '../public/polyfill.min.js')
-path.join(__dirname, '../src/oracle.js')
-path.join(__dirname, '../src/sqlite.js')
-path.join(__dirname, '../src/mysql.js')
-path.join(__dirname, '../src/testdriver.js')
-path.join(__dirname, '../src/postgres.js')
-path.join(__dirname, '../src/outlook2012.js')
-path.join(__dirname, '../src/word.js')
-path.join(__dirname, '../src/pdf.js')
-path.join(__dirname, '../src/excel.js')
-path.join(__dirname, '../src/csv.js')
-path.join(__dirname, '../src/txt.js')
-path.join(__dirname, '../src/glb.js')
+path.join(__dirname, '../public/visifile_drivers/oracle.json')
+path.join(__dirname, '../public/visifile_drivers/sqlite.json')
+path.join(__dirname, '../public/visifile_drivers/mysql.json')
+path.join(__dirname, '../public/visifile_drivers/testdriver.json')
+path.join(__dirname, '../public/visifile_drivers/postgres.json')/
+path.join(__dirname, '../public/visifile_drivers/outlook2010.json')
+path.join(__dirname, '../public/visifile_drivers/outlook2012.json')
+path.join(__dirname, '../public/visifile_drivers/word.json')
+path.join(__dirname, '../public/visifile_drivers/pdf.json')
+path.join(__dirname, '../public/visifile_drivers/excel.json')
+path.join(__dirname, '.../public/visifile_drivers/csv.json')
+path.join(__dirname, '../public/visifile_drivers/txt.json')
+path.join(__dirname, '.../public/visifile_drivers/glb.json')
 path.join(__dirname, '../src/child.js')
 path.join(__dirname, '../src/powershell.js')
-path.join(__dirname, '../src/glb.js')
 path.join(__dirname, '../src/common.ps1')
 path.join(__dirname, '../public/gosharedata_setup.js')
 path.join(__dirname, '../public/intranet.js')
@@ -1505,7 +1505,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
             newres = null;
 
 
-            //zzz
+
     } else if (msg.message_type == "return_get_search_results_json") {
         console.log("3 - /client/1/search: return_get_search_results_json")
 
@@ -2028,7 +2028,7 @@ function startServices() {
 
 
 
-//zzz
+
     //------------------------------------------------------------------------------
     // search
     //------------------------------------------------------------------------------
