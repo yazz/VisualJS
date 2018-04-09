@@ -4,7 +4,9 @@
   "version": "3.0.2",
   "author": "Zubair Quraishi",
   "private": true,
-  "scripts": {},
+  "scripts": {
+    "postinstall": "install-app-deps"
+  },
   "main": "src/electron.js",
   "dependencies": {
     "child_process": "^1.0.2",
@@ -15,10 +17,13 @@
     "http": "0.0.0",
     "ip": "^1.1.4",
     "net": "^1.0.2",
+    "os": "^0.1.1",
     "path": "^0.12.7",
-    "semver": "^5.5.0"
+    "semver": "^5.5.0",
+    "sqlite3": "^4.0.0"
   },
   "devDependencies": {
+    "electron-builder": "^20.8.1",
     "electron-prebuilt-compile": "1.8.4"
   },
   "config": {
@@ -30,7 +35,10 @@
       },
       "electronPackagerConfig": {
         "packageManager": "npm",
-        "extraResources": ["src/","visifile/"],
+        "extraResources": [
+          "src/",
+          "visifile/"
+        ],
         "icon": "src/VisiFile.icns"
       },
       "electronRebuildConfig": {},

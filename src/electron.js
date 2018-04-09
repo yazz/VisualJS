@@ -11,7 +11,14 @@ const url = require('url');
 var fs = require('fs');
 var ip = require('ip');
 var isWin         = /^win/.test(process.platform);
+var sqlite3                     = require('sqlite3');
+var os              = require('os')
+var username = os.userInfo().username.toLowerCase();
 
+var dbPath = path.join(__dirname, '..') + '/visifile/' + username + '.visi'
+console.log("dbpath: " + dbPath)
+var dbsearch = new sqlite3.Database(dbPath);
+//zzz
 var port;
 var hostaddress;
   var ls = null
@@ -80,7 +87,25 @@ app.on('ready', function() {
         		var addrt = 'http://' + readhost + ':' + readport;
                 outputToBrowser("****Started address:= " + addrt)
 
-                visifile.loadURL(addrt)
+                dbsearch.serialize(
+                    function() {
+                        dbsearch.all(
+                            "SELECT * FROM drivers  "
+                            ,
+
+                            function(err, results)
+                            {
+                                for (var i = 0; i < results.length; i++) {
+                                    outputToBrowser(results[i].name)
+                                }
+                                setTimeout(function(){
+                                    visifile.loadURL(addrt)
+                                },1000)
+
+                            })
+                }, sqlite3.OPEN_READONLY)
+
+
                 started = true
             }
 
