@@ -1,9 +1,7 @@
 # VisiFile
 VisiFile is a program that automatically monitors changes in your PC documents and shows you a list of changes. There is demo here: http://139.162.228.5/
 
-<img src='http://visifile.com/visifile_screenshot2.png' />
-
-You can install VisiFIle on any Linux system that supports the Ubuntu Snap package manager with: 
+You can install VisiFile on any Linux system that supports the Ubuntu Snap package manager with:
 
     sudo snap install visifile --edge --devmode
 
@@ -49,7 +47,7 @@ Command line options:
 ##### 3) From the command line get the Git repository
     git clone https://github.com/zubairq/visifile.git
 ##### 4) Go to the VisiFile directory
-    cd visifile
+    cd visifile/visifile
 ##### 5) Install the NodeJS modules
     npm install
 ##### 6) Build the VisiFile UI
@@ -62,7 +60,7 @@ Command line options:
 ##### 8) Type into the command line:
     npm run dev
 
-##### 9) From a web browser open 
+##### 9) From a web browser open
     http://localhost:8080/public/
 
 ##### 10) Go to the file visifile\src\components\App.vue
@@ -81,7 +79,3 @@ VisisFile's killer feature is being able to see a list of all your document chan
 
 ### Is there commercial support for VisiFile?
 If you require commercial support then please go to http://visifile.com
-
-
-
-
