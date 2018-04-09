@@ -2577,7 +2577,7 @@ function setUpDbDrivers() {
     evalLocalSystemDriver('pdf')
     evalLocalSystemDriver('postgres')
     evalLocalSystemDriver('outlook2012')
-    //evalLocalSystemDriver('outlook2010')
+    evalLocalSystemDriver('outlook2010')
     evalLocalSystemDriver('sqlite')
     evalLocalSystemDriver('mysql')
     evalLocalSystemDriver('oracle')
