@@ -2559,56 +2559,29 @@ function fromDir(startPath,filter,callback){
 };
 
 
-
+//zzz
+function evalLocalSystemDriver(driverName) {
+	var evalDriver = '(' + fs.readFileSync(path.join(__dirname, '../public/visifile_drivers/' +
+                                                                    driverName + '.json')).toString() + ')';
+	addOrUpdateDriver(driverName, evalDriver, evalDriver)
+}
 
 
 //zzz
 function setUpDbDrivers() {
-	pgeval = '(' + fs.readFileSync(path.join(__dirname, '../public/visifile_drivers/glb.json')).toString() + ')';
-	addOrUpdateDriver('glb', pgeval, pgeval)
-
-	pgeval = '(' + fs.readFileSync(path.join(__dirname, '../public/visifile_drivers/csv.json')).toString() + ')';
-	addOrUpdateDriver('csv', pgeval, pgeval)
-
-	pgeval = '(' + fs.readFileSync(path.join(__dirname, '../public/visifile_drivers/txt.json')).toString() + ')';
-	addOrUpdateDriver('txt', pgeval, pgeval)
-
-
-	pgeval = '(' + fs.readFileSync(path.join(__dirname, '../public/visifile_drivers/excel.json')).toString() + ')';
-	addOrUpdateDriver('excel', pgeval, pgeval)
-
-	pgeval = '(' + fs.readFileSync(path.join(__dirname, '../public/visifile_drivers/word.json')).toString() + ')';
-	addOrUpdateDriver('word', pgeval, pgeval)
-
-	pgeval = '(' + fs.readFileSync(path.join(__dirname, '../public/visifile_drivers/pdf.json')).toString() + ')';
-	addOrUpdateDriver('pdf', pgeval, pgeval)
-
-
-	pgeval = '(' + fs.readFileSync(path.join(__dirname, '../public/visifile_drivers/postgres.json')).toString() + ')';
-	addOrUpdateDriver('postgres', pgeval, pgeval)
-
-	pgeval = '(' + fs.readFileSync(path.join(__dirname, '../public/visifile_drivers/outlook2012.json')).toString() + ')';
-	addOrUpdateDriver('outlook2012', pgeval, pgeval)
-
-
-
-	sqliteeval = '(' + fs.readFileSync(path.join(__dirname, '../public/visifile_drivers/sqlite.json')).toString() + ')';
-	addOrUpdateDriver('sqlite', sqliteeval, sqliteeval)
-
-
-	pgeval = '(' + fs.readFileSync(path.join(__dirname, '../public/visifile_drivers/mysql.json')).toString() + ')';
-	addOrUpdateDriver('mysql', pgeval, pgeval)
-
-
-
-	toeval =  '(' + fs.readFileSync(path.join(__dirname, '../public/visifile_drivers/oracle.json')).toString() + ')';
-	addOrUpdateDriver('oracle',   toeval, toeval)
-	process.env['PATH'] = process.cwd() + '\\oracle_driver\\instantclient32' + ';' + process.env['PATH'];
-
-
-
-	tdeval = '(' + fs.readFileSync(path.join(__dirname, '../public/visifile_drivers/testdriver.json')).toString() + ')';
-	addOrUpdateDriver('testdriver', tdeval, tdeval)
+    evalLocalSystemDriver('glb')
+    evalLocalSystemDriver('csv')
+    evalLocalSystemDriver('txt')
+    evalLocalSystemDriver('excel')
+    evalLocalSystemDriver('word')
+    evalLocalSystemDriver('pdf')
+    evalLocalSystemDriver('postgres')
+    evalLocalSystemDriver('outlook2012')
+    //evalLocalSystemDriver('outlook2010')
+    evalLocalSystemDriver('sqlite')
+    evalLocalSystemDriver('mysql')
+    evalLocalSystemDriver('oracle')
+    evalLocalSystemDriver('testdriver')
 }
 
 
