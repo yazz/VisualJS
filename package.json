@@ -1,7 +1,7 @@
 {
   "name": "Visifile",
-  "description": "Installer for VisiFile",
-  "version": "3.0.2",
+  "description": "VisiFile",
+  "version": "3.0.8",
   "author": "Zubair Quraishi",
   "private": true,
   "scripts": {

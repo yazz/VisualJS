@@ -90,7 +90,7 @@ app.on('ready', function() {
                 dbsearch.serialize(
                     function() {
                         dbsearch.all(
-                            "SELECT * FROM drivers  "
+                            "SELECT name FROM sqlite_master ;  "
                             ,
 
                             function(err, results)
