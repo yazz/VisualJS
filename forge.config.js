@@ -13,12 +13,12 @@ module.exports = {
           "src/",
           "visifile/"
         ],
-        "icon": path.resolve(__dirname,"src/visifilecolor_win.ico")
+        "icon": path.resolve(__dirname,"src/visifile.ico")
     }
     ,
     "electronRebuildConfig": {}
     ,
     "electronWinstallerConfig": {
-        "setupIcon": path.resolve(__dirname,"src/visifilecolor_win.ico")
+        "setupIcon": path.resolve(__dirname,"src/visifile.ico")
     }
 }
