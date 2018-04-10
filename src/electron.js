@@ -31,9 +31,16 @@ var started = false
 var visifile
 app.on('ready', function() {
 
-    userData = app.getPath('userData')
-    dbPath = path.join(userData, username + '.visi')
-
+	if (isWin) {
+		var localappdata  = process.env.LOCALAPPDATA
+		userData = path.join(localappdata, '/Visifile/')
+	} else {
+		userData = app.getPath('userData')
+	}
+	dbPath = path.join(userData, username + '.visi')
+	
+	
+	
     visifile = new BrowserWindow({
                                 width: 800,
                                 height: 600,
@@ -50,9 +57,13 @@ app.on('ready', function() {
         slashes: true
       }))
 
+	  outputToBrowser('process.env.LOCALAPPDATA: ' + JSON.stringify(localappdata ,null,2))
       outputToBrowser("appPath: " + app.getAppPath())
+	  outputToBrowser("userData: " + JSON.stringify(userData ,null,2))
       outputToBrowser("getPath(userData): " + app.getPath('userData'))
-      outputToBrowser("dbPath: " + dbPath)
+      outputToBrowser("process.env keys: " + Object.keys(process.env))
+
+      outputToBrowser("dbPath: " + JSON.stringify(dbPath ,null,2))
       outputToBrowser("LOCAL: " + path.join(__dirname, '/'))
     //visifile.webContents.toggleDevTools();
 
