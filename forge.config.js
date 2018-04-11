@@ -8,6 +8,7 @@ module.exports = {
     }
     ,
     "electronPackagerConfig": {
+        "asar": true,
         "packageManager": "npm",
         "extraResources": [
           "src/",
