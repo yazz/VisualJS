@@ -5,9 +5,10 @@ const electron = require('electron')
 const app = electron.app
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow
-var startNodeServer =true
+var startNodeServer = false
 const path = require("path");
 const url = require('url');
+var fork            = require('child_process');
 var fs = require('fs');
 var ip = require('ip');
 var isWin         = /^win/.test(process.platform);
@@ -38,9 +39,9 @@ app.on('ready', function() {
 		userData = app.getPath('userData')
 	}
 	dbPath = path.join(userData, username + '.visi')
-	
-	
-	
+
+
+
     visifile = new BrowserWindow({
                                 width: 800,
                                 height: 600,
@@ -83,6 +84,7 @@ app.on('ready', function() {
 
                 })
     }, sqlite3.OPEN_READONLY)
+
 
 
 
@@ -140,6 +142,25 @@ app.on('ready', function() {
 
     	});
     }
+
+
+
+
+    var forkedProcess = fork.fork(path.join(__dirname, '../src/child.js' ), [], {});
+    setTimeout(function() {
+        forkedProcess.on('message', (msg) => {
+            outputToBrowser("Forking processes 2")
+            //console.log("Recieved message from child:" + JSON.stringify(msg,null,2))
+            outputToBrowser("Recieved message from child:" )
+            outputToBrowser("----" + msg.send_from_child)
+        })
+        forkedProcess.send({ message_type: "createTables" });
+
+    },500)
+
+    outputToBrowser("Forking processes 1")
+
+
 })
 process.on('exit', function() {
 	if (ls) {

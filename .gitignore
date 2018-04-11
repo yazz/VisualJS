@@ -18,9 +18,18 @@
 !/visifile/*.ps1
 !/visifile/start32.bat
 !/visifile/webpack.config.js
-!/src/loading.html
-!/src/visifile.icns
-!/src/visifile.ico
+
+
+
+
+
+
+!/src/
+!/src/*
+!/src/*/*
+!/src/*/*/*
+!/src/*/*/*/*
+
 
 !/visifile/snap/
 !/visifile/snap/*
