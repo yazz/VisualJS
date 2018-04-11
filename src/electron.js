@@ -146,7 +146,16 @@ app.on('ready', function() {
 
 
 
-    var forkedProcess = fork.fork(path.join(__dirname, '../src/child.js' ), [], {});
+    var forkedProcessPath
+	
+	if (isWin) {
+		forkedProcessPath = path.join(__dirname, '..\\src\\child.js')
+	} else {
+		forkedProcessPath = path.join(__dirname, '../src/child.js')
+	}
+	console.log('forkedProcessPath: ' + forkedProcessPath)
+	var forkedProcess = fork.fork(forkedProcessPath, [], {});
+
     setTimeout(function() {
         forkedProcess.on('message', (msg) => {
             outputToBrowser("Forking processes 2")
@@ -156,7 +165,7 @@ app.on('ready', function() {
         })
         forkedProcess.send({ message_type: "createTables" });
 
-    },500)
+    },1500)
 
     outputToBrowser("Forking processes 1")
 
