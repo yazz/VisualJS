@@ -51,6 +51,10 @@ app.on('ready', function() {
                                 },
                                 icon:'public/VisiFileColor.png'
                             })
+    visifile.on('closed', function () {
+
+      visifile = null
+    })
 
     visifile.loadURL(url.format({
         pathname: path.join(__dirname, 'loading.html'),
@@ -171,15 +175,19 @@ app.on('ready', function() {
                     //mainNodeProcessStarted = true
                     //getPort()
                 //}
+                if (forkedProcess){
                     forkedProcess.send({ message_type: "setUpSql" });
+
+                }
                 }
             })
 
-        forkedProcess.send({ message_type: "init", user_data_path: userData });
-        forkedProcess.send({ message_type: "createTables" });
+            if (forkedProcess){
+                forkedProcess.send({ message_type: "init", user_data_path: userData });
+                forkedProcess.send({ message_type: "createTables" });
 
-        forkedProcess.send({ message_type: "parent_test" });
-
+                forkedProcess.send({ message_type: "parent_test" });
+            }
     },1500)
 
     outputToBrowser("Forking processes 1")
@@ -202,5 +210,10 @@ function outputToBrowser(txt) {
     var line = txt.toString().replace(/\'/g , "").toString()
     var jsc = "document.write('<br>" + ": " + line + " ')"
     //console.log(line);
-    visifile.webContents.executeJavaScript(jsc);
+    if (visifile) {
+        if (visifile.webContents) {
+            visifile.webContents.executeJavaScript(jsc);
+        }
+    }
+
 }
