@@ -164,7 +164,20 @@ app.on('ready', function() {
             //console.log("Recieved message from child:" + JSON.stringify(msg,null,2))
             outputToBrowser("Recieved message from child:" )
             outputToBrowser("----" + msg.send_from_child)
-        })
+
+            if (msg.message_type == "createdTablesInChild") {
+                //forkedProcess.send({ message_type: "init" });
+                //if (!mainNodeProcessStarted) {
+                    //mainNodeProcessStarted = true
+                    //getPort()
+                //}
+                    forkedProcess.send({ message_type: "setUpSql" });
+                }
+            })
+
+        forkedProcess.send({ message_type: "init", user_data_path: userData });
+        forkedProcess.send({ message_type: "createTables" });
+
         forkedProcess.send({ message_type: "parent_test" });
 
     },1500)

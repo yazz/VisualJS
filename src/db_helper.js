@@ -1,6 +1,6 @@
 'use strict';
 var async           = require('async');
-
+var sqlite3                     = require('sqlite3');
 
 module.exports = {
     createTables: function(dbsearch, callbackFn) {
@@ -54,6 +54,7 @@ module.exports = {
             try {
                 dbsearch.serialize(function()
                 {
+                    //console.log(a);
                     dbsearch.run(a);
                 });
                 return b(null,a);
@@ -70,23 +71,30 @@ module.exports = {
 
             try
             {
-                var stmt = dbsearch.all(
+                dbsearch.serialize(function() {
+                    var stmt = dbsearch.all(
                     "SELECT name FROM sqlite_master WHERE type='table' AND name='zfts_search_rows_hashed';",
                     function(err, results)
                     {
                         if (!err)
                         {
+                            console.log("Count zfts_search_rows_hashed: " + results);
                             if( results.length == 0)
                             {
+                                console.log("   ... creating");
                                 dbsearch.serialize(function()
                                 {
-                                    dbsearch.run("CREATE VIRTUAL TABLE zfts_search_rows_hashed USING fts5(row_hash, data);");
+                                    console.log("    Create   zfts_search_rows_hashed");
+                                    dbsearch.run("CREATE VIRTUAL TABLE zfts_search_rows_hashed USING fts5(row_hash, data);")
+
+                                    console.log("       ...done");
                                 });
                             }
                             callbackFn.call(this);
 
                         }
-                    });
+                    })
+                }, sqlite3.OPEN_READONLY);
             } catch(err) {
                 console.log(err);
             } finally {

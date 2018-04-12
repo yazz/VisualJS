@@ -20,6 +20,7 @@ var pgeval
 var sqliteeval
 var tdeval
 var toeval;
+var userData
 
 
 var inProcessFilesFn                    = false;
@@ -71,8 +72,7 @@ var in_when_connections_change          = false;
 
 username = os.userInfo().username.toLowerCase();
 //console.log(username);
-dbsearch = new sqlite3.Database(username + '.visi');
-dbsearch.run("PRAGMA journal_mode=WAL;")
+
 //dbsearch.run("PRAGMA synchronous=OFF;")
 //dbsearch.run("PRAGMA count_changes=OFF;")
 //dbsearch.run("PRAGMA journal_mode=MEMORY;")
@@ -99,9 +99,10 @@ function require2(moduleName) {
 
 
 
-sendTestHeartBeat();
+
 
 processMessagesFromMainProcess();
+
 
 testDiffFn();
 
@@ -1832,7 +1833,7 @@ function processMessagesFromMainProcess() {
 
       } else if (msg.message_type == 'parent_test') {
           //console.log('Message from parent:', msg);
-          process.send({send_from_child: "Received message from parent"})
+          process.send({send_from_child: "***** Received message from parent"})
 
 
 
@@ -1874,7 +1875,23 @@ function processMessagesFromMainProcess() {
 
 
     } else if (msg.message_type == 'init') {
+//zzz
+        userData = msg.user_data_path
+        console.log("Child recieved user data path: " + userData)
+        var dbPath = path.join(userData, username + '.visi')
+
+        console.log("DB path: " + dbPath)
+        dbsearch = new sqlite3.Database(dbPath);
+        dbsearch.run("PRAGMA journal_mode=WAL;")
+
+
+
+    } else if (msg.message_type == 'setUpSql') {
+//zzz
+
         setUpSql();
+
+        sendTestHeartBeat();
 
     } else if (msg.message_type == 'createTables') {
         console.log("**** createTables");
