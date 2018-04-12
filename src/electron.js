@@ -69,6 +69,8 @@ app.on('ready', function() {
     //visifile.webContents.toggleDevTools();
 
     dbsearch = new sqlite3.Database(dbPath);
+    dbsearch.run("PRAGMA journal_mode=WAL;")
+
     dbsearch.serialize(
         function() {
             dbsearch.all(
@@ -147,7 +149,7 @@ app.on('ready', function() {
 
 
     var forkedProcessPath
-	
+
 	if (isWin) {
 		forkedProcessPath = path.join(__dirname, '..\\src\\child.js')
 	} else {
