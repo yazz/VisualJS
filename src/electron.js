@@ -165,7 +165,7 @@ app.on('ready', function() {
             outputToBrowser("Recieved message from child:" )
             outputToBrowser("----" + msg.send_from_child)
         })
-        forkedProcess.send({ message_type: "createTables" });
+        forkedProcess.send({ message_type: "parent_test" });
 
     },1500)
 

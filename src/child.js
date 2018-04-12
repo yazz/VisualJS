@@ -1830,7 +1830,9 @@ function processMessagesFromMainProcess() {
       if (msg.message_type == 'saveConnectionAndQueryForFile') {
           markFileForProcessing(msg.fileId);
 
-
+      } else if (msg.message_type == 'parent_test') {
+          //console.log('Message from parent:', msg);
+          process.send({send_from_child: "Received message from parent"})
 
 
 
