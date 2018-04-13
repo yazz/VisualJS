@@ -13,6 +13,9 @@ var fs = require('fs');
 var ip = require('ip');
 var isWin         = /^win/.test(process.platform);
 var isPiModule = require('detect-rpi');
+var mainNodeProcessStarted = false;
+
+
 
 var isRaspberryPi = isPiModule();
 console.log('...');
@@ -62,7 +65,7 @@ var dbPath = null
 
 var dbsearch = null
 var userData = null
-//zzz
+
 var port;
 var hostaddress;
   var ls = null
@@ -156,6 +159,10 @@ setupVisifileParams();
 var PDFParser       = require("pdf2json");
 
 
+
+
+
+setupChildProcesses2();
 
 
 
@@ -544,17 +551,24 @@ function setupForkedProcess(processName,fileName,debugPort) {
             debugArgs = ['--debug=' + debugPort];
         };
     };
+    var forkedProcessPath
+
     if (isWin) {
-        forkedProcesses[  processName  ] = fork.fork(path.join(__dirname, '../src/' + fileName), [], {execArgv: debugArgs});
+        forkedProcessPath = path.join(__dirname, '..\\src\\' + fileName)
     } else {
-        forkedProcesses[  processName  ] = fork.fork(path.join(__dirname, '../src/' + fileName), [], {execArgv: debugArgs});
+        forkedProcessPath = path.join(__dirname, '../src/' + fileName)
     }
+    forkedProcesses[  processName  ] = fork.fork(forkedProcessPath, [], {execArgv: debugArgs});
+
     setUpChildListeners(processName, fileName, debugPort);
 
-
+//zzz
     if (processName == "forked") {
-        forkedProcesses["forked"].send({ message_type: "createTables" });
-        forkedProcesses["forked"].send({ message_type: "greeting", hello: 'world' });
+
+        forkedProcesses["forked"].send({         message_type: "init" , user_data_path: userData });
+        forkedProcesses["forked"].send({         message_type: "createTables" });
+        forkedProcesses["forked"].send({         message_type: "setUpSql" });
+        forkedProcesses["forked"].send({         message_type: "greeting" , hello: 'world' });
     }
 
     if (processName == "forkedIndexer") {
@@ -805,49 +819,6 @@ electronApp.on('ready', function() {
     }
 
 
-
-
-    var forkedProcessPath
-
-	if (isWin) {
-		forkedProcessPath = path.join(__dirname, '..\\src\\child.js')
-	} else {
-		forkedProcessPath = path.join(__dirname, '../src/child.js')
-	}
-	console.log('forkedProcessPath: ' + forkedProcessPath)
-	var forkedProcess = fork.fork(forkedProcessPath, [], {});
-
-    setTimeout(function() {
-        forkedProcess.on('message', (msg) => {
-            outputToBrowser("Forking processes 2")
-            //console.log("Recieved message from child:" + JSON.stringify(msg,null,2))
-            outputToBrowser("Recieved message from child:" )
-            outputToBrowser("----" + msg.send_from_child)
-
-            if (msg.message_type == "createdTablesInChild") {
-                //forkedProcess.send({ message_type: "init" });
-                //if (!mainNodeProcessStarted) {
-                    //mainNodeProcessStarted = true
-                    //getPort()
-                //}
-                if (forkedProcess){
-                    forkedProcess.send({ message_type: "setUpSql" });
-
-                }
-                }
-            })
-
-            if (forkedProcess){
-                forkedProcess.send({ message_type: "init", user_data_path: userData });
-                forkedProcess.send({ message_type: "createTables" });
-
-                forkedProcess.send({ message_type: "parent_test" });
-            }
-    },1500)
-
-    outputToBrowser("Forking processes 1")
-
-
 })
 process.on('exit', function() {
 	if (ls) {
@@ -871,4 +842,12 @@ function outputToBrowser(txt) {
         }
     }
 
+}
+
+
+
+
+
+function getPort() {
+    outputToBrowser('** called getPort')
 }
