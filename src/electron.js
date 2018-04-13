@@ -127,6 +127,11 @@ electronApp.on('ready', function() {
     upload          = multer( { dest: path.join(userData,  'uploads/')});
 
 
+    rmdir("uploads");
+    mkdirp.sync(path.join(userData,  'uploads'));
+    mkdirp.sync(path.join(userData,  'files'));
+
+
     visifile = new BrowserWindow({
                                 width: 800,
                                 height: 600,
