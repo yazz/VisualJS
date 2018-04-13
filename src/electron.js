@@ -72,6 +72,48 @@ var f = 0
 var started = false
 
 var visifile
+
+
+
+var io = null;
+var forkedProcesses = new Object();
+var timeout                             = 0;
+var port;
+var hostaddress;
+var typeOfSystem;
+var centralHostAddress;
+var centralHostPort;
+
+var stmt2                               = null;
+var stmt3                               = null;
+var setIn                               = null;
+var stopScan                            = false;
+var inScan                              = false;
+var numberOfSecondsAliveCheck           = 60;
+var username                            = "Unknown user";
+var serverwebsockets                    = [];
+var portrange                           = 3000
+var requestClientInternalHostAddress    = '';
+var requestClientInternalPort           = -1;
+var requestClientPublicIp               = '';
+var requestClientPublicHostName         = '';
+var locked;
+var requestClientPublicIp;
+var hostcount  							= 0;
+var queuedResponses                     = new Object();
+var queuedResponseSeqNum                = 0;
+
+
+console.log('Starting services');
+
+app.use(compression())
+
+
+
+
+
+
+
 electronApp.on('ready', function() {
 
 	if (isWin) {
