@@ -669,7 +669,7 @@ function setupVisifileParams() {
 
 
     if (!(typeOfSystem == 'client' || typeOfSystem == 'server')) {
-        outputToConsole('-------* Invalid system type: ' + typeOfSystem);
+        console.log('-------* Invalid system type: ' + typeOfSystem);
         process.exit();
     };
     console.log('-------* System type: ' + typeOfSystem);
