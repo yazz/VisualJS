@@ -2,7 +2,7 @@ const electron = require('electron')
 
 
 // Module to control application life.
-const app = electron.app
+const electronApp = electron.app
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow
 var startNodeServer = false
@@ -12,7 +12,49 @@ var fork            = require('child_process');
 var fs = require('fs');
 var ip = require('ip');
 var isWin         = /^win/.test(process.platform);
+var isPiModule = require('detect-rpi');
+
+var isRaspberryPi = isPiModule();
+console.log('...');
+
+var socket          = require('socket.io');
+var fs              = require('fs');
+var mkdirp          = require('mkdirp')
+var rmdir           = require('rmdir-sync');
+var uuidv1          = require('uuid/v1');
+var fork            = require('child_process');
+var express         = require('express')
+var http            = require('http')
+var app             = express()
+var expressWs       = require('express-ws')(app);
+var request         = require("request");
+var open            = require('opn');
+var db_helper       = require("./db_helper")
+var perf            = require('./perf')
+//var Excel           = require('exceljs');
+var compression     = require('compression')
+var crypto          = require('crypto');
+var dns             = require('dns');
+//var unzip           = require('unzip');
+var postgresdb      = require('pg');
+
+var program         = require('commander');
+var bodyParser      = require('body-parser');
+var multer          = require('multer');
+var upload          = multer( { dest: 'uploads/' } );
+var diff            = require('deep-diff').diff
+var XLSX            = require('xlsx');
+var csv             = require('fast-csv');
+var mysql           = require('mysql');
+var cors            = require('cors')
+var mammoth         = require("mammoth");
+var isBinaryFile    = require("isbinaryfile");
+var csvToJson       = require('csvtojson')
+
+
 var sqlite3                     = require('sqlite3');
+
+
 var os              = require('os')
 var username = os.userInfo().username.toLowerCase();
 
@@ -30,13 +72,13 @@ var f = 0
 var started = false
 
 var visifile
-app.on('ready', function() {
+electronApp.on('ready', function() {
 
 	if (isWin) {
 		var localappdata  = process.env.LOCALAPPDATA
 		userData = path.join(localappdata, '/Visifile/')
 	} else {
-		userData = app.getPath('userData')
+		userData = electronApp.getPath('userData')
 	}
 	dbPath = path.join(userData, username + '.visi')
 
@@ -63,9 +105,9 @@ app.on('ready', function() {
       }))
 
 	  outputToBrowser('process.env.LOCALAPPDATA: ' + JSON.stringify(localappdata ,null,2))
-      outputToBrowser("appPath: " + app.getAppPath())
+      outputToBrowser("appPath: " + electronApp.getAppPath())
 	  outputToBrowser("userData: " + JSON.stringify(userData ,null,2))
-      outputToBrowser("getPath(userData): " + app.getPath('userData'))
+      outputToBrowser("getPath(userData): " + electronApp.getPath('userData'))
       outputToBrowser("process.env keys: " + Object.keys(process.env))
 
       outputToBrowser("dbPath: " + JSON.stringify(dbPath ,null,2))
