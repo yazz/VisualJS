@@ -110,19 +110,20 @@ app.use(compression())
 
 
 
+if (process.argv.length > 1) {
 
-program
-  .version('0.0.1')
-  .option('-t, --type [type]', 'Add the specified type of app (client/server) [type]', 'client')
-  .option('-p, --port [port]', 'Which port should I listen on? (default 80) [port]', parseInt)
-  .option('-h, --host [host]', 'Server address of the central host (default visifile.com) [host]', 'visifile.com')
-  .option('-l, --locked [locked]', 'Allow server to be locked/unlocked on start up (default true) [locked]', 'true')
-  .option('-n, --nogui [nogui]', 'Allow server to be run in headless mode (default false) [nogui]', 'false')
-  .option('-d, --debug [debug]', 'Allow to run in debug mode (default false) [debug]', 'false')
-  .option('-s, --hostport [hostport]', 'Server port of the central host (default 80) [hostport]', parseInt)
-  .option('-r, --runservices [runservices]', 'Run the services (default true) [runservices]', true)
-  .parse(process.argv);
-
+    program
+      .version('0.0.1')
+      .option('-t, --type [type]', 'Add the specified type of app (client/server) [type]', 'client')
+      .option('-p, --port [port]', 'Which port should I listen on? (default 80) [port]', parseInt)
+      .option('-h, --host [host]', 'Server address of the central host (default visifile.com) [host]', 'visifile.com')
+      .option('-l, --locked [locked]', 'Allow server to be locked/unlocked on start up (default true) [locked]', 'true')
+      .option('-n, --nogui [nogui]', 'Allow server to be run in headless mode (default false) [nogui]', 'false')
+      .option('-d, --debug [debug]', 'Allow to run in debug mode (default false) [debug]', 'false')
+      .option('-s, --hostport [hostport]', 'Server port of the central host (default 80) [hostport]', parseInt)
+      .option('-r, --runservices [runservices]', 'Run the services (default true) [runservices]', true)
+      .parse(process.argv);
+}
 var semver = require('semver')
 
 var debug = false;
