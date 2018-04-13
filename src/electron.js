@@ -41,7 +41,6 @@ var postgresdb      = require('pg');
 var program         = require('commander');
 var bodyParser      = require('body-parser');
 var multer          = require('multer');
-var upload          = multer( { dest: 'uploads/' } );
 var diff            = require('deep-diff').diff
 var XLSX            = require('xlsx');
 var csv             = require('fast-csv');
@@ -57,6 +56,7 @@ var sqlite3                     = require('sqlite3');
 
 var os              = require('os')
 var username = os.userInfo().username.toLowerCase();
+var upload
 
 var dbPath = null
 
@@ -82,6 +82,7 @@ electronApp.on('ready', function() {
 	}
 	dbPath = path.join(userData, username + '.visi')
 
+    upload          = multer( { dest: path.join(userData,  'uploads/')});
 
 
     visifile = new BrowserWindow({
