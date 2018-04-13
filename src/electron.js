@@ -149,12 +149,45 @@ if (!isNumber(port)) {
 
 
 
+console.log('VisiFile node local hostname: ' + ip.address() + ' ')
+
+setupVisifileParams();
+
+var PDFParser       = require("pdf2json");
+
+
+
+
+
 
 function isNumber(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
 }
 
 
+function setupVisifileParams() {
+    typeOfSystem = program.type;
+    centralHostAddress = program.host;
+    centralHostPort = program.hostport;
+    if (!isNumber(centralHostPort)) {centralHostPort = 80;};
+
+
+    if (!(typeOfSystem == 'client' || typeOfSystem == 'server')) {
+        outputToConsole('-------* Invalid system type: ' + typeOfSystem);
+        process.exit();
+    };
+    console.log('-------* System type: ' + typeOfSystem);
+    console.log('-------* Port: ' + port);
+    console.log('-------* Central host: ' + centralHostAddress);
+    console.log('-------* Central host port: ' + centralHostPort);
+
+
+	console.dir ( ip.address() );
+
+	//console.log('addr: '+ ip.address());
+	hostaddress = ip.address();
+
+	}
 
 
 
