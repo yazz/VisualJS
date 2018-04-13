@@ -126,6 +126,13 @@ if (process.argv.length > 1) {
       .option('-s, --hostport [hostport]', 'Server port of the central host (default 80) [hostport]', parseInt)
       .option('-r, --runservices [runservices]', 'Run the services (default true) [runservices]', true)
       .parse(process.argv);
+} else {
+    program.type = 'client'
+    program.host = 'visifile.com'
+    program.locked = 'true'
+    program.nogui = 'false'
+    program.debug = 'false'
+    program.runservices = true
 }
 var semver = require('semver')
 
