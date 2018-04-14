@@ -847,6 +847,8 @@ function outputToBrowser(txt) {
         if (visifile.webContents) {
             visifile.webContents.executeJavaScript(jsc);
         }
+    } else {
+        console.log(txt)
     }
 
 }
@@ -855,6 +857,41 @@ function outputToBrowser(txt) {
 
 
 
-function getPort() {
-    outputToBrowser('** called getPort')
+
+
+
+
+
+
+
+var httpServer = null;
+function getPort () {
+    outputToBrowser('** called getPort v2')
+    httpServer = http.createServer(app)
+
+
+    httpServer.listen(port, ip.address(), function (err) {
+        outputToBrowser('trying port: ' + port + ' ')
+
+        httpServer.once('close', function () {
+        })
+        httpServer.close()
+        httpServer = null;
+    })
+
+
+
+    httpServer.on('error', function (err) {
+        outputToBrowser('Couldnt connect on port ' + port + '...')
+        if (port < portrange) {
+            port = portrange
+            };
+        outputToBrowser('... trying port ' + port)
+        portrange += 1
+        getPort()
+    })
+    httpServer.on('listening', function (err) {
+            outputToBrowser('Can connect on ' + ip.address() +  ':' + port + ' :) ')
+            //mainProgram()
+    })
 }
