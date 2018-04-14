@@ -169,9 +169,6 @@ var PDFParser       = require("pdf2json");
 
 
 
-setupChildProcesses2();
-
-
 
 
 
@@ -246,7 +243,8 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
 
         } else if (msg.message_type == "createdTablesInChild") {
-            //forkedProcesses["forked"].send({ message_type: "init" , user_data_path: userData});
+            forkedProcesses["forked"].send({         message_type: "setUpSql" });
+            forkedProcesses["forked"].send({         message_type: "greeting" , hello: 'world' });
             if (!mainNodeProcessStarted) {
                 mainNodeProcessStarted = true
                 getPort()
@@ -549,7 +547,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
 
 
-function setupForkedProcess(processName,fileName,debugPort) {
+function setupForkedProcess(  processName,  fileName,  debugPort  ) {
     var debugArgs =[];
     if (debug) {
         if (semver.gte(process.versions.node, '6.9.0')) {
@@ -569,13 +567,13 @@ function setupForkedProcess(processName,fileName,debugPort) {
 
     setUpChildListeners(processName, fileName, debugPort);
 
-//zzz
+
     if (processName == "forked") {
 
+        outputToBrowser("- sending user_data_path to child 'forked':  " + userData)
         forkedProcesses["forked"].send({         message_type: "init" , user_data_path: userData });
+        //zzz
         forkedProcesses["forked"].send({         message_type: "createTables" });
-        forkedProcesses["forked"].send({         message_type: "setUpSql" });
-        forkedProcesses["forked"].send({         message_type: "greeting" , hello: 'world' });
     }
 
     if (processName == "forkedIndexer") {
@@ -592,6 +590,7 @@ function setupForkedProcess(processName,fileName,debugPort) {
     }
 
     if (processName == "forkedPowershell") {
+        outputToBrowser("- sending user_data_path to child 'powershell':  " + userData)
         forkedProcesses["forkedPowershell"].send({ message_type: "init" , user_data_path: userData});
         if (runServices) {
             //forkedProcesses["forkedPowershell"].send({ message_type: "call_powershell" });
@@ -779,6 +778,9 @@ electronApp.on('ready', function() {
     console.log("New electron app")
 
     //var index = require(path.resolve('src/index.js'))
+
+
+    setupChildProcesses2();
 
 
 
