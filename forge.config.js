@@ -12,7 +12,7 @@ module.exports = {
         "packageManager": "npm",
         "extraResources": [
           "src/",
-          "visifile/"
+          "public/"
         ],
         "icon": path.resolve(__dirname,"src/visifile.ico")
     }

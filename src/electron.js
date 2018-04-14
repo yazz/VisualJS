@@ -1980,7 +1980,7 @@ function startServices() {
 
     app.use("/public/aframe_fonts", express.static(path.join(__dirname, '../public/aframe_fonts')));
     app.use('/viewer', express.static(process.cwd() + '/node-viewerjs/release'));
-    app.use(express.static(path.join(process.cwd(), '/public/')))
+    app.use(express.static(path.join(__dirname, '../public/')))
     app.use(bodyParser.json()); // support json encoded bodies
     app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
