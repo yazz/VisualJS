@@ -253,14 +253,25 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
         } else if (msg.message_type == "database_setup_in_child") {
             //zzz
+            console.log("Child set up DB complete: " + msg.child_process_name)
 
             if (msg.child_process_name == "forkedIndexer") {
                 forkedProcesses["forkedIndexer"].send({         message_type: "setUpSql" });
-                forkedProcesses["forkedIndexer"].send({ message_type: "childRunIndexer" });
+                if (typeOfSystem == 'client') {
+                    if (runServices) {
+                        forkedProcesses["forkedIndexer"].send({ message_type: "childRunFindFolders" });
+                        forkedProcesses["forkedIndexer"].send({ message_type: "childRunIndexer" });
+                    }
+                }
             }
 
-            if (msg.child_process_name == "forkedIndexer") {
-                forkedProcesses["forkedIndexer"].send({         message_type: "setUpSql" });
+            if (msg.child_process_name == "forkedFileScanner") {
+                if (typeOfSystem == 'client') {
+                    if (runServices) {
+                        forkedProcesses["forkedFileScanner"].send({         message_type: "setUpSql" });
+                        forkedProcesses["forkedFileScanner"].send({ message_type: "childScanFiles" });
+                    }
+                }
             }
 
             if (msg.child_process_name == "forkedPowershell") {
@@ -1132,8 +1143,8 @@ function saveConnectionAndQueryForFile(fileName) {
 function scanHardDiskFromChild() {
     if (typeOfSystem == 'client') {
         if (runServices) {
-            forkedProcesses["forkedIndexer"].send({ message_type: "childRunFindFolders" });
-            forkedProcesses["forkedFileScanner"].send({ message_type: "childScanFiles" });
+            //forkedProcesses["forkedIndexer"].send({ message_type: "childRunFindFolders" });
+            //forkedProcesses["forkedFileScanner"].send({ message_type: "childScanFiles" });
         }
     }
 }
