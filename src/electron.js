@@ -716,26 +716,28 @@ electronApp.on('ready', function() {
 
 
 
+    if (!nogui ) {
+        visifile = new BrowserWindow({
+                                    width: 800,
+                                    height: 600,
+                                    webPreferences: {
+                                        nodeIntegration: false
 
-    visifile = new BrowserWindow({
-                                width: 800,
-                                height: 600,
-                                webPreferences: {
-                                    nodeIntegration: false
+                                    },
+                                    icon:'public/VisiFileColor.png'
+                                })
+        visifile.on('closed', function () {
 
-                                },
-                                icon:'public/VisiFileColor.png'
-                            })
-    visifile.on('closed', function () {
+          visifile = null
+        })
 
-      visifile = null
-    })
+        visifile.loadURL(url.format({
+            pathname: path.join(__dirname, 'loading.html'),
+            protocol: 'file:',
+            slashes: true
+          }))        
+    }
 
-    visifile.loadURL(url.format({
-        pathname: path.join(__dirname, 'loading.html'),
-        protocol: 'file:',
-        slashes: true
-      }))
 
 	  outputToBrowser('process.env.LOCALAPPDATA: ' + JSON.stringify(localappdata ,null,2))
       outputToBrowser("appPath: " + electronApp.getAppPath())
@@ -894,6 +896,17 @@ function getPort () {
     })
     httpServer.on('listening', function (err) {
             outputToBrowser('Can connect on ' + ip.address() +  ':' + port + ' :) ')
-            //mainProgram()
+            mainProgram()
     })
+}
+
+
+
+function mainProgram() {
+
+    //startServices()
+    outputToBrowser('Start Services' );
+
+    //scanHardDisk();
+    outputToBrowser('Start Hard Disk Scan' );
 }
