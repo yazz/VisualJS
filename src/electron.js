@@ -251,6 +251,26 @@ function setUpChildListeners(processName, fileName, debugPort) {
             }
 
 
+        } else if (msg.message_type == "database_setup_in_child") {
+            //zzz
+
+            if (msg.child_process_name == "forkedIndexer") {
+                forkedProcesses["forkedIndexer"].send({         message_type: "setUpSql" });
+                forkedProcesses["forkedIndexer"].send({ message_type: "childRunIndexer" });
+            }
+
+            if (msg.child_process_name == "forkedIndexer") {
+                forkedProcesses["forkedIndexer"].send({         message_type: "setUpSql" });
+            }
+
+            if (msg.child_process_name == "forkedPowershell") {
+                if (runServices) {
+                    forkedProcesses["forkedPowershell"].send({ message_type: "setUpSql" });
+                    forkedProcesses["forkedPowershell"].send({ message_type: "call_powershell" });
+                }
+            }
+
+
         } else if (msg.message_type == "parentSetSharedGlobalVar") {
 
 
@@ -571,30 +591,42 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
     if (processName == "forked") {
 
         outputToBrowser("- sending user_data_path to child 'forked':  " + userData)
-        forkedProcesses["forked"].send({         message_type: "init" , user_data_path: userData });
+        forkedProcesses["forked"].send({         message_type: "init" ,
+                                                 user_data_path: userData,
+                                                 child_process_name: "forked"
+                                              });
 
         forkedProcesses["forked"].send({         message_type: "createTables" });
     }
 
+
+
+
     if (processName == "forkedIndexer") {
-        //forkedProcesses["forkedIndexer"].send({ message_type: "init" , user_data_path: userData});
-		//forkedProcesses["forkedIndexer"].send({ message_type: "childRunIndexer" });
-    }
+        forkedProcesses["forkedIndexer"].send({ message_type: "init" ,
+                                                user_data_path: userData,
+                                                child_process_name: "forkedIndexer"
+                                            });}
+
+
 
 
 
     if (processName == "forkedFileScanner") {
         if (runServices) {
-            //forkedProcesses["forkedFileScanner"].send({ message_type: "init" , user_data_path: userData});
+                forkedProcesses["forkedFileScanner"].send({ message_type: "init" ,
+                                                            user_data_path: userData,
+                                                            child_process_name: "forkedFileScanner"
+                                                            });
         }
     }
 
     if (processName == "forkedPowershell") {
         outputToBrowser("- sending user_data_path to child 'powershell':  " + userData)
-        forkedProcesses["forkedPowershell"].send({ message_type: "init" , user_data_path: userData});
-        if (runServices) {
-            //forkedProcesses["forkedPowershell"].send({ message_type: "call_powershell" });
-        }
+        forkedProcesses["forkedPowershell"].send({  message_type: "init" ,
+                                                    user_data_path: userData,
+                                                    child_process_name: "forkedPowershell"
+                                                });
     }
 
 
@@ -907,7 +939,7 @@ function mainProgram() {
     startServices()
     outputToBrowser('Start Services' );
 
-    //scanHardDisk();
+    scanHardDisk();
     outputToBrowser('Start Hard Disk Scan' );
 }
 

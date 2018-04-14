@@ -21,7 +21,7 @@ var sqliteeval
 var tdeval
 var toeval;
 var userData
-
+var childProcessName
 
 var inProcessFilesFn                    = false;
 var isWin                               = /^win/.test(process.platform);
@@ -1876,14 +1876,18 @@ function processMessagesFromMainProcess() {
 
     } else if (msg.message_type == 'init') {
 //zzz
-        userData = msg.user_data_path
+        userData            = msg.user_data_path
+        childProcessName    = msg.child_process_name
+
         console.log("Child recieved user data path: " + userData)
         var dbPath = path.join(userData, username + '.visi')
 
         console.log("DB path: " + dbPath)
         dbsearch = new sqlite3.Database(dbPath);
         dbsearch.run("PRAGMA journal_mode=WAL;")
-
+        process.send({  message_type:       "database_setup_in_child" ,
+                        child_process_name:  childProcessName
+                        });
 
 
     } else if (msg.message_type == 'setUpSql') {
