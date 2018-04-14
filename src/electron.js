@@ -58,7 +58,8 @@ var sqlite3                     = require('sqlite3');
 
 
 var os              = require('os')
-var username = os.userInfo().username.toLowerCase();
+var username                            = "Unknown user";
+username = os.userInfo().username.toLowerCase();
 var upload
 
 var dbPath = null
@@ -93,7 +94,6 @@ var setIn                               = null;
 var stopScan                            = false;
 var inScan                              = false;
 var numberOfSecondsAliveCheck           = 60;
-var username                            = "Unknown user";
 var serverwebsockets                    = [];
 var portrange                           = 3000
 var requestClientInternalHostAddress    = '';
@@ -246,7 +246,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
 
         } else if (msg.message_type == "createdTablesInChild") {
-            forkedProcesses["forked"].send({ message_type: "init" });
+            //forkedProcesses["forked"].send({ message_type: "init" , user_data_path: userData});
             if (!mainNodeProcessStarted) {
                 mainNodeProcessStarted = true
                 getPort()
@@ -579,22 +579,22 @@ function setupForkedProcess(processName,fileName,debugPort) {
     }
 
     if (processName == "forkedIndexer") {
-        forkedProcesses["forkedIndexer"].send({ message_type: "init" });
-		forkedProcesses["forkedIndexer"].send({ message_type: "childRunIndexer" });
+        //forkedProcesses["forkedIndexer"].send({ message_type: "init" , user_data_path: userData});
+		//forkedProcesses["forkedIndexer"].send({ message_type: "childRunIndexer" });
     }
 
 
 
     if (processName == "forkedFileScanner") {
         if (runServices) {
-            forkedProcesses["forkedFileScanner"].send({ message_type: "init" });
+            //forkedProcesses["forkedFileScanner"].send({ message_type: "init" , user_data_path: userData});
         }
     }
 
     if (processName == "forkedPowershell") {
-        forkedProcesses["forkedPowershell"].send({ message_type: "init" });
+        forkedProcesses["forkedPowershell"].send({ message_type: "init" , user_data_path: userData});
         if (runServices) {
-            forkedProcesses["forkedPowershell"].send({ message_type: "call_powershell" });
+            //forkedProcesses["forkedPowershell"].send({ message_type: "call_powershell" });
         }
     }
 
