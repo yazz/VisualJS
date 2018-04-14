@@ -969,3 +969,1732 @@ var diffFn = function(lhs2, rhs2) {
 //console.log("")
 //console.log("")
 //console.log("")
+
+
+
+
+
+
+
+function mkdirSync(dirPath) {
+    try {
+        mkdirp.sync(dirPath)
+    } catch (err) {
+        //if (err.code !== 'EEXIST') throw err
+    }
+}
+
+
+function outputToConsole(text) {
+    var c = console;
+    c.log(text);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+function isExcelFile(fname) {
+    if (!fname) {
+        return false;
+    };
+    var ext = fname.split('.').pop();
+    ext = ext.toLowerCase();
+    if (ext == "xls") return true;
+    if (ext == "xlsx") return true;
+    return false;
+}
+
+
+function isWordFile(fname) {
+    if (!fname) {
+        return false;
+    };
+    var ext = fname.split('.').pop();
+    ext = ext.toLowerCase();
+    if (ext == "docx") return true;
+    return false;
+}
+
+function isPdfFile(fname) {
+    if (!fname) {
+        return false;
+    };
+    var ext = fname.split('.').pop();
+    ext = ext.toLowerCase();
+    if (ext == "pdf") return true;
+    return false;
+}
+
+
+
+
+function isCsvFile(fname) {
+	if (!fname) {
+	return false;
+	};
+	var ext = fname.split('.').pop();
+	ext = ext.toLowerCase();
+	if (ext == "csv") return true;
+	return false;
+}
+
+
+function isGlbFile(fname) {
+		if (!fname) {
+				return false;
+		};
+		var ext = fname.split('.').pop();
+		ext = ext.toLowerCase();
+		if (ext == "glb")
+				return true;
+		return false;
+}
+
+
+function saveConnectionAndQueryForFile(fileName) {
+    //console.log("... in saveConnectionAndQueryForFile:::: " + fileId)
+    sendOverWebSockets({
+                            type:   "server_scan_status",
+                            value:  "Found file " + fileName
+                            });
+    if (!fileName) {
+        return;
+    };
+    if (fileName.indexOf("$") != -1) {
+        return;
+    };
+    if (fileName.indexOf("gsd_") != -1) {
+        return;
+    };
+    try {
+        forkedProcesses["forked"].send({
+                        message_type:       'saveConnectionAndQueryForFile',
+                        fileId:             fileName
+                        });
+
+    } catch(err) {
+        //console.log("Error " + err + " with file: " + fileName);
+        return err;
+    } finally {
+
+    }
+}
+
+
+
+
+
+
+
+
+
+function scanHardDiskFromChild() {
+    if (typeOfSystem == 'client') {
+        if (runServices) {
+            forkedProcesses["forkedIndexer"].send({ message_type: "childRunFindFolders" });
+            forkedProcesses["forkedFileScanner"].send({ message_type: "childScanFiles" });
+        }
+    }
+}
+
+
+function scanHardDisk() {
+    scanHardDiskFromChild();
+    sendOverWebSockets({
+                          type:   "server_scan_status",
+                          value:  "Hard disk scan in progress"
+                          });
+};
+
+
+
+function copyFileSync( source, target ) {
+
+    var targetFile = target;
+
+    //if target is a directory a new file with the same name will be created
+    if ( fs.existsSync( target ) ) {
+        if ( fs.lstatSync( target ).isDirectory() ) {
+            targetFile = path.join( target, path.basename( source ) );
+        }
+    }
+
+    fs.writeFileSync(targetFile, fs.readFileSync(source));
+}
+
+function copyFolderRecursiveSync( source, target ) {
+    //console.log('çopy from: '+ source + ' to ' + target);
+    var files = [];
+
+    //check if folder needs to be created or integrated
+    var targetFolder = path.join( target, path.basename( source ) );
+    if ( !fs.existsSync( targetFolder ) ) {
+        fs.mkdirSync( targetFolder );
+    }
+
+    //copy
+    if ( fs.lstatSync( source ).isDirectory() ) {
+        files = fs.readdirSync( source );
+        files.forEach( function ( file ) {
+            var curSource = path.join( source, file );
+            if ( fs.lstatSync( curSource ).isDirectory() ) {
+                copyFolderRecursiveSync( curSource, targetFolder );
+            } else {
+                copyFileSync( curSource, targetFolder );
+				//console.log('copying:  ' + targetFolder);
+            }
+        } );
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function sendOverWebSockets(data) {
+    var ll = serverwebsockets.length;
+    //console.log('send to sockets Count: ' + JSON.stringify(serverwebsockets.length));
+    for (var i =0 ; i < ll; i++ ) {
+        var sock = serverwebsockets[i];
+        sock.emit(data.type,data);
+        //console.log('                    sock ' + i + ': ' + JSON.stringify(sock.readyState));
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+// ============================================================
+// This sends a message to a specific websocket
+// ============================================================
+function sendToBrowserViaWebSocket(aws, msg) {
+    aws.emit(msg.type,msg);
+}
+
+
+
+
+
+
+
+
+
+function isLocalMachine(req) {
+    if ((req.ip == '127.0.0.1') || (hostaddress == req.ip)) {  // this is the correct line to use
+    //if (req.ip == '127.0.0.1')  {      // this is used for debugging only so that we can deny access from the local machine
+        return true;
+    };
+    return false;
+}
+
+
+
+
+
+//------------------------------------------------------------------------------
+// test if allowed
+//------------------------------------------------------------------------------
+function canAccess(req,res) {
+    if (!locked) {
+        return true;
+    };
+    if (isLocalMachine(req) ) {
+        return true;
+    };
+    res.writeHead(200, {'Content-Type': 'text/plain'});
+    res.end("Sorry but access to " + username + "'s data is not allowed. Please ask " + username + " to unlocked their VisiFile account");
+    return false;
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function extractHostname(url) {
+    var hostname;
+    //find & remove protocol (http, ftp, etc.) and get hostname
+
+    if (url.indexOf("://") > -1) {
+        hostname = url.split('/')[2];
+    }
+    else {
+        hostname = url.split('/')[0];
+    }
+
+    //find & remove port number
+    hostname = hostname.split(':')[0];
+    //find & remove "?"
+    hostname = hostname.split('?')[0];
+
+    return hostname;
+}
+
+
+
+
+function extractRootDomain(url) {
+    var domain = extractHostname(url),
+        splitArr = domain.split('.'),
+        arrLen = splitArr.length;
+
+    //extracting the root domain here
+    if (arrLen > 2) {
+        domain = splitArr[arrLen - 2] + '.' + splitArr[arrLen - 1];
+    }
+    return domain;
+}
+
+
+
+
+
+function findViafromString(inp) {
+    if (inp == null) {
+        return "";
+    }
+
+    var ll = inp.split(' ');
+    for (var i=0; i< ll.length ; i++){
+        if (ll[i] != null) {
+            if (ll[i].indexOf(":") != -1) {
+                return extractRootDomain(ll[i]);
+            }
+        }
+    }
+    return "";
+}
+
+
+
+
+
+
+
+
+function aliveCheckFn() {
+		var urlToConnectTo = "http://" + centralHostAddress + ":" + centralHostPort + '/client_connect';
+		//console.log('-------* urlToConnectTo: ' + urlToConnectTo);
+		//console.log('trying to connect to central server...');
+		request({
+					uri: urlToConnectTo,
+					method: "GET",
+					timeout: 10000,
+					agent: false,
+					followRedirect: true,
+					maxRedirects: 10,
+					qs: {
+							requestClientInternalHostAddress: hostaddress
+							,
+							requestClientInternalPort:        port
+							,
+							clientUsername:        username
+					}
+				},
+				function(error, response, body) {
+					//console.log('Error: ' + error);
+					if (response) {
+							if (response.statusCode == '403') {
+										//console.log('403 received, not allowed through firewall for ' + urlToConnectTo);
+										//open("http://" + centralHostAddress + ":" + centralHostPort);
+							} else {
+										////console.log('response: ' + JSON.stringify(response));
+										////console.log(body);
+							}
+					}
+				});
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function getRoot(req, res) {
+	hostcount++;
+	console.log("Host: " + req.headers.host + ", " + hostcount);
+	//console.log("URL: " + req.originalUrl);
+	if (req.headers.host) {
+		if (req.headers.host.toLowerCase().endsWith('canlabs.com')) {
+		res.writeHead(301,
+			{Location: 'http://canlabs.com/canlabs'}
+			);
+			res.end();
+			return;
+		};
+		if (req.headers.host.toLowerCase().endsWith('gosharedata.com')) {
+		res.writeHead(301,
+			{Location: 'http://visifile.com/visifile/index.html?time=' + new Date().getTime()}
+			);
+			res.end();
+			return;
+		};
+		if (req.headers.host.toLowerCase().endsWith('visifile.com')) {
+		res.writeHead(301,
+			{Location: 'http://visifile.com/visifile/index.html?time=' + new Date().getTime()}
+			);
+			res.end();
+			return;
+		};
+		if (req.headers.host.toLowerCase().endsWith('visifiles.com')) {
+		res.writeHead(301,
+			{Location: 'http://visifile.com/visifile/index.html?time=' + new Date().getTime()}
+			);
+			res.end();
+			return;
+		};
+	};
+
+	if (typeOfSystem == 'client') {
+        if (!canAccess(req,res)) {
+            return;
+        }
+        res.end(fs.readFileSync(path.join(__dirname, '../public/go.html')));
+	}
+	if (typeOfSystem == 'server') {
+		res.end(fs.readFileSync(path.join(__dirname, '../public/index_server.html')));
+	}
+}
+
+
+
+
+
+
+
+
+function getFileExtension(driver) {
+    if (driver == "excel") { return "xlsx"}
+    if (driver == "pdf") { return "pdf"}
+    if (driver == "word") { return "docx"}
+    if (driver == "csv") { return "csv"}
+    if (driver == "glb") { return "glb"}
+    if (driver == "txt") { return "txt"}
+    if (driver == "outlook2012") { return "txt"}
+    return ""
+}
+
+
+
+function testFirewall(req, res) {
+			var tracking_id =    url.parse(req.url, true).query.tracking_id;
+			var server      =    url.parse(req.url, true).query.server;
+
+			//console.log(JSON.stringify(tracking_id,null,2));
+
+			res.writeHead(200, {'Content-Type': 'text/plain'});
+			res.end(JSON.stringify({    got_through_firewall:   tracking_id  ,
+																	server:                 server,
+																	username:               username,
+																	locked:                 locked
+																	}));
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+function websocketFn(ws) {
+    serverwebsockets.push(ws);
+    sendToBrowserViaWebSocket(ws, {type: "socket_connected"});
+
+    //console.log('Socket connected : ' + serverwebsockets.length);
+
+    ws.on('message', function(msg) {
+        var receivedMessage = eval("(" + msg + ")");
+        //console.log(" 1- Server recieved message: " + JSON.stringify(receivedMessage));
+
+        // if we get the message "server_get_all_queries" from the web browser
+        if (receivedMessage.message_type == "server_get_all_queries") {
+
+            var seqNum = queuedResponseSeqNum;
+            queuedResponseSeqNum ++;
+            queuedResponses[seqNum] = ws;
+
+            //console.log(" 2 ");
+            forkedProcesses["forked"].send({
+                            message_type:   "get_all_queries",
+                            seq_num:          seqNum
+                        });
+       } else if (receivedMessage.message_type == "vf") {
+           parseVfCliCommand(receivedMessage.args, function(result) {
+               sendToBrowserViaWebSocket(      ws,
+                                           {
+                                               type:   "vf_reply",
+                                               result:  result
+                                           });
+           })
+
+       }
+
+});};
+
+
+
+
+
+
+
+//------------------------------------------------------------------------------
+// scan the hard disk for documents for indexing
+//------------------------------------------------------------------------------
+function scanharddiskFn(req, res) {
+		res.writeHead(200, {'Content-Type': 'text/plain'});
+		res.end(JSON.stringify([]));
+		scanHardDisk();
+};
+
+
+
+
+
+function stopscanharddiskFn(req, res) {
+		res.writeHead(200, {'Content-Type': 'text/plain'});
+		res.end(JSON.stringify([]));
+        if (typeOfSystem == 'client') {
+            stopScan = true;
+            sendOverWebSockets({
+	                              type:   "server_scan_status",
+	                              value:  "Hard disk scan stopped"
+	                              });
+        }
+};
+
+
+
+
+
+
+
+
+
+function file_uploadFn(req, res, next) {
+      //console.log('-------------------------------------------------------------------------------------');
+      //console.log('-------------------------------------------------------------------------------------');
+      //console.log('-------------------------------------------------------------------------------------');
+      //console.log('-------------------------------------------------------------------------------------');
+      //console.log('-------------------------------------------------------------------------------------');
+
+      //console.log(JSON.stringify(req.files.length));
+      //console.log("**FILES** " + JSON.stringify(req.files));
+      //console.log(    "    next: " + JSON.stringify(next));
+
+
+      //console.log('......................................................................................');
+      //console.log('......................................................................................');
+      //console.log('......................................................................................');
+      //console.log('......................................................................................');
+      //console.log('......................................................................................');
+      res.status( 200 ).send( req.files );
+
+
+      var ll = req.files.length;
+      for (var i = 0; i < ll ; i ++) {
+          var ifile = req.files[i];
+          //console.log("        " + JSON.stringify(ifile));
+          var ext = ifile.originalname.split('.').pop();
+          ext = ext.toLowerCase();
+          //console.log('Ext: ' + ext);
+
+          var localp2;
+          if (isWin) {
+          		localp2 = process.cwd() + '\\uploads\\' + ifile.filename;
+      		} else {
+          		localp2 = process.cwd() + '/uploads/' + ifile.filename;
+      		};
+          var localp = localp2 + '.' + ext;
+          fs.renameSync(localp2, localp);
+          //console.log('Local saved path: ' + localp);
+
+          fs.stat(localp, function(err, stat) {
+                console.log('ifile: ' + ifile.originalname);
+
+                saveConnectionAndQueryForFile(localp);
+          });
+    }
+
+};
+
+
+
+
+
+
+
+
+
+
+
+function open_query_in_native_appFn(req, res) {
+
+	//console.log('in open_query_in_native_app');
+	var queryData = req.body;
+	//console.log('queryData.source: ' + queryData.source);
+	var error = new Object();
+	try {
+            if(!nogui) {
+                getQuery(   queryData.source,  function(query) {
+                    getConnection(query.connection, function(connection) {
+                        open(connection.fileName);
+                    })
+                })
+
+            }
+		   res.writeHead(200, {'Content-Type': 'text/plain'});
+			res.end(JSON.stringify(ordata));
+	}
+
+	catch(err) {
+		res.writeHead(200, {'Content-Type': 'text/plain'});
+
+		res.end(JSON.stringify({error: 'Error: ' + JSON.stringify(err)}));
+	};
+}
+
+
+
+function getQuery(id, callbackFn) {
+    try {
+        dbsearch.serialize(
+            function() {
+        var stmt = dbsearch.all(
+            "SELECT * FROM data_states WHERE id = ? ",
+            id
+            ,
+
+            function(err, results)
+            {
+                if (err)
+                {
+                    console.log("getQuery error: " + err)
+                    callbackFn(null)
+                    return
+                }
+                if (results.length == 0) {
+                    console.log("getQuery returned no results: " + err)
+                    callbackFn(null)
+                    return
+                }
+                callbackFn(results[0])
+            })
+        }, sqlite3.OPEN_READONLY)
+    } catch(err) {
+        callbackFn(null)
+    }
+}
+
+
+
+
+
+
+function getConnection(id, callbackFn) {
+    try {
+        dbsearch.serialize(
+            function() {
+        var stmt = dbsearch.all(
+            "SELECT * FROM connections WHERE id = ? ",
+            id
+            ,
+
+            function(err, results)
+            {
+                if (err)
+                {
+                    console.log("getConnection error: " + err)
+                    callbackFn(null)
+                    return
+                }
+                if (results.length == 0) {
+                    console.log("getConnection returned no results: " + err)
+                    callbackFn(null)
+                    return
+                }
+                callbackFn(results[0])
+            })
+        }, sqlite3.OPEN_READONLY)
+    } catch(err) {
+        callbackFn(null)
+    }
+}
+
+
+
+
+
+
+function getDriver(driverName, callbackFn) {
+    try {
+        dbsearch.serialize(
+            function() {
+        var stmt = dbsearch.all(
+            "SELECT * FROM drivers WHERE name = ? ",
+            driverName
+            ,
+
+            function(err, results)
+            {
+                if (err)
+                {
+                    console.log("getDriver error: " + err)
+                    callbackFn(null)
+                    return
+                }
+                if (results.length == 0) {
+                    console.log("getDriver returned no results: " + err)
+                    callbackFn(null)
+                    return
+                }
+                callbackFn(results[0])
+            })
+        }, sqlite3.OPEN_READONLY)
+    } catch(err) {
+        callbackFn(null)
+    }
+}
+
+
+//------------------------------------------------------------------------------
+// Get the result of a query
+//------------------------------------------------------------------------------
+function getresultFn(req, res) {
+		var queryData = req.body;
+		console.log('queryData.source: ' + queryData.source);
+
+		////console.log('request received source: ' + Object.keys(req));
+		var error = new Object();
+        getConnection( queryData.source, function(connection) {
+		if (queryData) {
+			if (connection) {
+				if (queryData.source) {
+					if (connection.driver) {
+						//console.log('query driver: ' + connection.driver);
+						try {
+                            getDriver(connection.driver, function(driver) {
+                                if (driver) {
+                                    console.log(eval(driver.code)['get_v2'])
+                                    console.log(    "conn: " + connection)
+                                    eval(driver.code)['get_v2'](
+                                                            connection,
+                                                            {sql: queryData.sql},
+                                                            function(ordata) {
+                                    								res.writeHead(200, {'Content-Type': 'text/plain'});
+
+                                    								res.end(JSON.stringify(ordata));
+                                    							});
+                                } else {
+                                    console.log("No driver found for: " + connection.driver)
+                                }
+                            })
+
+						}
+						catch(err) {
+							res.writeHead(200, {'Content-Type': 'text/plain'});
+
+							res.end(JSON.stringify({error: 'Error: ' + JSON.stringify(err)}));
+						};
+					} else {
+						//console.log('query driver not found: ' + connection);
+							res.writeHead(200, {'Content-Type': 'text/plain'});
+							res.end(JSON.stringify({message: 'query driver not found'}));
+					};
+				};
+			};
+		};
+    })
+}
+
+
+
+
+
+
+//------------------------------------------------------------------------------
+// Get the result of a search
+//------------------------------------------------------------------------------
+function get_related_documentsFn(req, res) {
+    //console.log("called get_related_documents: " )
+    var id = req.query.id;
+    forkedProcesses["forked"].send({
+                            message_type:   "getRelatedDocuments",
+                            id:  id
+                            });
+        res.writeHead(200, {'Content-Type': 'text/plain'});
+        res.end( JSON.stringify({}))
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function send_client_detailsFn(req, res) {
+    ////console.log('in send_client_details: ' + JSON.stringify(req,null,2));
+    res.writeHead(200, {'Content-Type': 'text/plain'});
+    res.end(JSON.stringify({
+            returned:           'some data ',
+            server:             hostaddress,
+            port:               port,
+            username:           username,
+            locked:             locked,
+            localIp:            req.ip,
+            isLocalMachine:     isLocalMachine(req) }));
+}
+
+
+function lockFn(req, res) {
+    if ((req.query.locked == "TRUE") || (req.query.locked == "true")) {
+        locked = true;
+    } else {
+        locked = false;
+    }
+
+        ////console.log('in lock: ' + JSON.stringify(req,null,2));
+    res.writeHead(200, {'Content-Type': 'text/plain'});
+    res.end(JSON.stringify({locked: locked}));
+}
+
+
+
+
+//------------------------------------------------------------------------------
+// This is called by the central server to get the details of the last
+// client that connected tp the central server
+//------------------------------------------------------------------------------
+function get_connectFn(req, res) {
+    res.writeHead(200, {'Content-Type': 'text/plain'});
+    res.end(
+            JSON.stringify(
+                {
+                    requestClientInternalHostAddress: requestClientInternalHostAddress
+                    ,
+                    requestClientInternalPort:        requestClientInternalPort
+                    ,
+                    requestClientPublicIp:            requestClientPublicIp
+                    ,
+                    requestClientPublicHostName:      requestClientPublicHostName
+                    ,
+                    version:      31
+                }
+          ));
+}
+
+
+
+
+
+function add_new_connectionFn(req, res) {
+    var params = req.body;
+    forkedProcesses["forked"].send({ message_type: "addNewConnection" , params: params});
+    res.writeHead(200, {'Content-Type': 'text/plain'});
+    res.end(JSON.stringify({done: "ok"}))};
+
+
+
+function add_new_queryFn(req, res) {
+    var params = req.body;
+    forkedProcesses["forked"].send({ message_type: "addNewQuery" , params: params});
+    res.writeHead(200, {'Content-Type': 'text/plain'});
+    res.end(JSON.stringify({done: "ok"}))};
+
+
+
+
+
+
+
+//------------------------------------------------------------
+// This starts all the system services
+//------------------------------------------------------------
+function startServices() {
+    app.use(cors())
+
+    //------------------------------------------------------------------------------
+    // Show the default page for the different domains
+    //------------------------------------------------------------------------------
+    app.get('/', function (req, res) {
+        //console.log("app.get('/'");
+    	return getRoot(req, res);
+    })
+
+    app.use("/files", express.static(process.cwd() + '/files/'));
+
+    app.use("/public/aframe_fonts", express.static(path.join(__dirname, '../public/aframe_fonts')));
+    app.use('/viewer', express.static(process.cwd() + '/node-viewerjs/release'));
+    app.use(express.static(path.join(process.cwd(), '/public/')))
+    app.use(bodyParser.json()); // support json encoded bodies
+    app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
+
+
+
+
+
+    //------------------------------------------------------------------------------
+    // Download documents to the browser
+    //------------------------------------------------------------------------------
+    app.get('/docs2/*', function (req, res) {
+        var fileId = req.url.substr(req.url.lastIndexOf('/') + 1)
+
+        var seqNum = queuedResponseSeqNum;
+        queuedResponseSeqNum ++;
+        queuedResponses[seqNum] = res;
+        forkedProcesses["forked"].send({   message_type:   "downloadDocuments",
+                        seq_num:         seqNum,
+                        file_id:         fileId });
+    });
+
+
+    //------------------------------------------------------------------------------
+    // Download web documents to the browser
+    //------------------------------------------------------------------------------
+    app.get('/get_web_document', function (req, res) {
+        var seqNum = queuedResponseSeqNum;
+        queuedResponseSeqNum ++;
+        queuedResponses[seqNum] = res;
+        forkedProcesses["forked"].send({   message_type:   "downloadWebDocument",
+                        seq_num:         seqNum,
+                        query_id:        req.query.id });
+    });
+
+
+
+
+    //------------------------------------------------------------------------------
+    // test get JSON
+    //------------------------------------------------------------------------------
+    app.get('/vf', function (req, res) {
+        var args2 = decodeURI(url.parse(req.url, true).query.a);
+        var args  = JSON.parse(args2);
+
+        parseVfCliCommand(args, function(result) {
+            res.writeHead(200, {'Content-Type': 'application/json'});
+            res.end(JSON.stringify({    OK: result      }));
+        })
+
+
+    });
+
+
+
+    //------------------------------------------------------------------------------
+    // Main home page for the entire REST interface
+    //------------------------------------------------------------------------------
+    app.get('/home', function (req, res) {
+        var result = {
+                        list:  [],
+                        links: {
+                            "self": { "href": "/home" },
+                            "admin/1": { "href": "/admin/1/home" },
+                            "client/1": { "href": "/client/1/home" },
+                        }
+                    }
+
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify(result));
+    })
+
+
+
+
+    //------------------------------------------------------------------------------
+    // ls
+    //------------------------------------------------------------------------------
+    app.get('/admin/1/home', function (req, res) {
+        var result = {
+                        list:  [],
+                        links: {
+                            "self": { "href": "/admin/1/home" },
+                            "up": { "href": "/home" },
+                            "ls": { "href": "/admin/1/ls" },
+                            "drivers": { "href": "/admin/1/drivers" }
+                        }
+                    }
+
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify(result));
+    })
+
+    //------------------------------------------------------------------------------
+    // ls
+    //------------------------------------------------------------------------------
+    app.get('/client/1/home', function (req, res) {
+        var result = {
+                        list:  [],
+                        links: {
+                            "self": { "href": "/client/1/home" },
+                            "up": { "href": "/home" },
+                            "search": { "href": "/client/1/search" }
+                        }
+                    }
+
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify(result));
+    })
+
+    //------------------------------------------------------------------------------
+    // ls
+    //------------------------------------------------------------------------------
+    app.get('/admin/1/ls', function (req, res) {
+        var result = {
+                        list:  [],
+                        links: {"self": { "href": "/ls" }}
+                    }
+        var serverNames = lsFn(function(servers) {
+            result.links.servers = {}
+            for (var i =0 ; i< servers.length; i ++) {
+                var addr = servers[i].internal_host + ":" + servers[i].internal_port
+                result.list.push( addr )
+                result.links.servers[addr] =
+                    {"href": "http://" +  addr + "/admin/1/ls" }
+            }
+
+            res.writeHead(200, {'Content-Type': 'application/json'});
+            res.end(JSON.stringify(result));        })
+
+
+
+    });
+
+
+    //------------------------------------------------------------------------------
+    // get_intranet_servers
+    //------------------------------------------------------------------------------
+    app.get('/start', function (req, res) {
+        //console.log("1 - get_intranet_servers: " + req.ip)
+        //console.log("1.1 - get_intranet_servers: " + Object.keys(req.headers))
+
+        var seqNum = queuedResponseSeqNum;
+        queuedResponseSeqNum ++;
+        queuedResponses[seqNum] = res;
+        //console.log("2")
+        forkedProcesses["forked"].send(
+                    {   message_type: "get_intranet_servers_json",
+                        seq_num:                    seqNum,
+                        requestClientPublicIp:      req.ip ,
+                        numberOfSecondsAliveCheck:  numberOfSecondsAliveCheck,
+                        requestVia:                 findViafromString(req.headers.via)
+                        });
+
+
+    });
+
+        //------------------------------------------------------------------------------
+    // ls
+    //------------------------------------------------------------------------------
+    app.get('/admin/1/drivers', function (req, res) {
+        var result = {
+                        list:  [],
+                        links: {"self": { "href": "/admin/1/drivers" }}
+                    }
+        driversFn(function(driverNames) {
+            result.links.drivers = {}
+            for (var i =0 ; i< driverNames.length; i ++) {
+                result.list.push( driverNames[i] )
+                result.links.drivers[driverNames[i]] =
+                    {"href": "/drivers/" +  driverNames[i]}
+            }
+        })
+
+
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify(result));
+    });
+
+
+
+
+    //------------------------------------------------------------------------------
+    // search
+    //------------------------------------------------------------------------------
+    app.get('/client/1/search/*', function (req, res) {
+        console.log("1 - /client/1/search")
+        var searchTerm = req.url.substr(req.url.lastIndexOf('/') + 1)
+        //console.log("1 - get_search_results ,req.query.search_text: " + req.query.search_text)
+        //console.log("    get_search_results ,req.query.search_text: " + new Date().getTime())
+
+        //var args2 = decodeURI(url.parse(req.url, true).query.a);
+        //var args  = JSON.parse(args2);
+
+        var seqNum = queuedResponseSeqNum;
+        queuedResponseSeqNum ++;
+        queuedResponses[seqNum] = res;
+        //console.log("2 - get_search_results")
+        forkedProcesses["forked"].send({   message_type: "get_search_results_json",
+                        seq_num:                    seqNum,
+                        searchTerm:                 searchTerm,
+                        timeStart:                  new Date().getTime()
+                        });
+
+
+
+
+
+    });
+
+
+
+    //------------------------------------------------------------------------------
+    // test_firewall
+    //------------------------------------------------------------------------------
+    app.get('/test_firewall', function (req, res) {
+        return testFirewall(req,res);
+    });
+
+
+
+    //------------------------------------------------------------------------------
+    // get_intranet_servers
+    //------------------------------------------------------------------------------
+    app.get('/get_intranet_servers', function (req, res) {
+        //console.log("1 - get_intranet_servers: " + req.ip)
+        //console.log("1.1 - get_intranet_servers: " + Object.keys(req.headers))
+
+        var seqNum = queuedResponseSeqNum;
+        queuedResponseSeqNum ++;
+        queuedResponses[seqNum] = res;
+        //console.log("2")
+        forkedProcesses["forked"].send({   message_type:               "get_intranet_servers",
+                        seq_num:                    seqNum,
+                        requestClientPublicIp:      req.ip ,
+                        numberOfSecondsAliveCheck:  numberOfSecondsAliveCheck,
+                        requestVia:                 findViafromString(req.headers.via)
+                        });
+
+
+    });
+
+
+
+
+    //------------------------------------------------------------------------------
+    // Scan the hard disk for documents to Index
+    //------------------------------------------------------------------------------
+    app.get('/scanharddisk', function (req, res) {
+    		return scanharddiskFn(req, res)
+    });
+
+
+
+
+    app.get('/stopscanharddisk', function (req, res) {
+    		return stopscanharddiskFn(req, res)
+    });
+
+
+    app.post('/file_upload', upload.array( 'file' ), function (req, res, next) {
+        return file_uploadFn(req, res, next);
+    });
+
+
+
+
+    app.post('/open_query_in_native_app', function (req, res) {
+    		return open_query_in_native_appFn(req, res);
+    })
+
+
+    //------------------------------------------------------------------------------
+    // Get the result of a SQL query
+    //------------------------------------------------------------------------------
+    app.post('/getresult', function (req, res) {
+    	  return getresultFn(req, res);
+    })
+
+
+    //------------------------------------------------------------------------------
+    // Get the related documents
+    //------------------------------------------------------------------------------
+    app.get('/get_related_documents', function (req, res) {
+        return get_related_documentsFn(req, res);
+    })
+
+
+    //------------------------------------------------------------------------------
+    // Get the result of a search
+    //------------------------------------------------------------------------------
+    app.get('/get_search_results', function (req, res) {
+        //console.log("1 - get_search_results ,req.query.search_text: " + req.query.search_text)
+        //console.log("    get_search_results ,req.query.search_text: " + new Date().getTime())
+
+        var seqNum = queuedResponseSeqNum;
+        queuedResponseSeqNum ++;
+        queuedResponses[seqNum] = res;
+        //console.log("2 - get_search_results")
+        forkedProcesses["forked"].send({   message_type:               "get_search_results",
+                        seq_num:                    seqNum,
+                        searchTerm:                 req.query.search_text,
+                        timeStart:                  new Date().getTime()
+                        });
+
+    });
+
+
+
+    app.post('/getqueryresult', function (req, res) {
+        //console.log("1 - getqueryresult ,req.query.search_text: " )
+
+        var queryData2 = req.body;
+    	//console.log('in getqueryresult: ' + JSON.stringify(queryData2));
+    	//console.log('           source: ' + JSON.stringify(queryData2.source));
+    	////console.log('request received source: ' + Object.keys(req));
+    	////console.log('request received SQL: ' + queryData.sql);
+
+
+    	//console.log('           query: ' + JSON.stringify(query));
+        getQuery(queryData2.source,function(query){
+        	if (query) {
+        		var queryData 			= new Object();
+        		queryData.source 		= query.connection;
+        		queryData.definition 	= eval('(' + query.definition + ')' );
+                console.log("                                 source =  " + queryData.source )
+                console.log("                                 definition =  " + queryData.definition )
+
+                var seqNum = queuedResponseSeqNum;
+                queuedResponseSeqNum ++;
+                queuedResponses[seqNum] = res;
+
+                console.log("2 - getqueryresult")
+                forkedProcesses["forked"].send({   message_type:               "get_query_result",
+                                seq_num:                    seqNum,
+                                connection_id:              queryData.source,
+                                query_id:                   queryData2.source,
+                                definition:                 queryData.definition
+                                });
+        } else {
+    		console.log('query not found: ' + queryData2.source);
+    	};
+    })
+})
+
+
+    app.get('/send_client_details', function (req, res) {
+    	return send_client_detailsFn(req, res);
+    })
+
+
+    app.get('/lock', function (req, res) {
+        return lockFn(req, res);
+    })
+
+
+    process.on('uncaughtException', function (err) {
+      console.log(err);
+    })
+
+
+
+    //------------------------------------------------------------------------------
+    // This is called by the central server to get the details of the last
+    // client that connected tp the central server
+    //------------------------------------------------------------------------------
+    app.get('/get_connect', function (req, res) {
+    	return get_connectFn(req, res);
+    })
+
+    //app.enable('trust proxy')
+
+
+    app.get('/get_all_table', function (req, res) {
+        var tableName = url.parse(req.url, true).query.tableName;
+        var fields = url.parse(req.url, true).query.fields;
+
+        //console.log("1 - get_all_table ,tableName: " + tableName)
+        //console.log("    get_all_table ,fields: "    + fields)
+
+        var seqNum = queuedResponseSeqNum;
+        queuedResponseSeqNum ++;
+        queuedResponses[seqNum] = res;
+        //console.log("2 - get_search_results")
+        forkedProcesses["forked"].send({
+                        message_type:               "get_all_tables",
+                        seq_num:                    seqNum,
+                        table_name:                 tableName,
+                        fields:                     fields
+                        });    });
+
+    app.post('/add_new_connection', function (req, res) {
+    		return add_new_connectionFn(req, res)
+    });
+
+
+
+    app.post('/add_new_query',function (req, res) {
+        return add_new_queryFn(req, res)
+    });
+
+
+
+
+
+    //------------------------------------------------------------------------------
+    // run on the central server only
+    //
+    // This is where the client sends its details to the central server
+    //------------------------------------------------------------------------------
+    app.get('/client_connect', function (req, res) {
+
+        //console.log("1 - client_connect: ")
+        var queryData = url.parse(req.url, true).query;
+
+		var requestClientInternalHostAddress = req.query.requestClientInternalHostAddress;
+        //console.log("    requestClientInternalHostAddress: "  + requestClientInternalHostAddress)
+
+		var requestClientInternalPort        = req.query.requestClientInternalPort;
+        //console.log("    requestClientInternalPort: "  + requestClientInternalPort)
+
+		var requestVia                       = findViafromString(req.headers.via);
+        //console.log("    requestVia: "  + requestVia)
+
+		var requestClientPublicIp            = req.ip;
+        //console.log("    requestClientPublicIp: "  + requestClientPublicIp)
+
+        var clientUsername                   = req.query.clientUsername;
+        //console.log("    clientUsername: "  + clientUsername)
+
+		//requestClientPublicHostName      = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+		var requestClientPublicHostName      = "req keys::" + Object.keys(req) + ", VIA::" + req.headers.via + ", raw::" + JSON.stringify(req.rawHeaders);
+        //console.log("    requestClientPublicHostName: "  + requestClientPublicHostName)
+
+
+
+
+
+        var seqNum = queuedResponseSeqNum;
+        queuedResponseSeqNum ++;
+        queuedResponses[seqNum] = res;
+        //console.log("2")
+        forkedProcesses["forked"].send({   message_type:                       "client_connect",
+                        seq_num:                            seqNum,
+                        requestClientInternalHostAddress:   requestClientInternalHostAddress,
+                        requestClientInternalPort:          requestClientInternalPort,
+                        requestVia:                         requestVia,
+                        requestClientPublicIp:              requestClientPublicIp,
+                        clientUsername:                     clientUsername,
+                        requestClientPublicHostName:        requestClientPublicHostName
+                        });
+
+    })
+
+
+
+
+
+
+    //------------------------------------------------------------------------------
+    // start the web server
+    //------------------------------------------------------------------------------
+    httpServer = http.createServer(app)
+    httpServer.listen(port, hostaddress, function () {
+    	console.log(typeOfSystem + ' started on port ' + port + ' with local folder at ' + process.cwd() + ' and __dirname = ' + __dirname+ "\n");
+        console.log("****HOST=" + hostaddress + "HOST****\n");
+        console.log("****PORT=" + port+ "PORT****\n");
+        console.log(""+ "\n");
+        console.log("Started on:");
+        console.log("http://" + hostaddress + ':' + port);
+
+        io = socket.listen(httpServer);
+
+        io.on('connection', function (sck) {
+            var connt = JSON.stringify(sck.conn.transport,null,2);
+            websocketFn(sck)
+        });
+
+    })
+
+
+
+
+      //console.log('addr: '+ hostaddress + ":" + port);
+
+
+
+
+
+
+    aliveCheckFn();
+
+
+    setupChildProcesses();
+
+    if (typeOfSystem == 'client') {
+        setInterval(aliveCheckFn ,numberOfSecondsAliveCheck * 1000);
+    }
+
+
+
+
+    forkedProcesses["forked"].send({ message_type: "when_connections_changes" });
+    forkedProcesses["forked"].send({ message_type: "when_queries_changes" });
+
+
+
+
+
+    forkedProcesses["forked"].send({message_type:       'setUpDbDrivers'});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	//--------------------------------------------------------
+	// open the app in a web browser
+	//--------------------------------------------------------
+
+var alreadyOpen = false;
+	if (typeOfSystem == 'client') {
+        var localClientUrl = 'http://' + hostaddress  + ":" + port;
+        var remoteServerUrl = 'http://' + centralHostAddress  + ":" + centralHostPort + "/visifile/list_intranet_servers.html?time=" + new Date().getTime();
+        if(!nogui) {
+            open(localClientUrl);
+        }
+
+        request({
+                  uri: remoteServerUrl,
+                  method: "GET",
+                  timeout: 10000,
+                  agent: false,
+                  followRedirect: true,
+                  maxRedirects: 10
+            },
+            function(error, response, body) {
+              if (error) {
+                  //console.log("Error opening central server: " + error);
+                  if (!alreadyOpen) {
+                      alreadyOpen = true;
+                  }
+              } else {
+                if (!alreadyOpen) {
+                    alreadyOpen = true;
+                    //open(remoteServerUrl);
+                }
+              }
+            });
+	} else if (typeOfSystem == 'server') {
+        if (!alreadyOpen) {
+            alreadyOpen = true;
+            open('http://' + hostaddress  + ":" + port + "/visifile/list_intranet_servers.html?time=" + new Date().getTime());
+        }
+	}
+
+
+}
+
+
+
+
+
+
+
+
+
+var isPcDoingStuff = false;
+//Set delay for second Measure
+setInterval(function() {
+    perf.isDoingStuff(function(retVal){
+        if ((retVal == false) &&  (isPcDoingStuff)){
+            sendOverWebSockets({
+                                    type:   "server_scan_status",
+                                    value:  "VisiFile Server busy - scanning paused "
+                                    });
+        }
+
+        isPcDoingStuff = retVal;
+        //console.log("    isPcDoingStuff = " + isPcDoingStuff);
+    });
+}, 1000);
+
+
+
+
+
+
+
+
+
+
+
+
+
+const shell = require('node-powershell');
+
+function lsFn(callbackFn) {
+    var remoteServerUrl = 'http://' + centralHostAddress  + ":" +
+        centralHostPort + "/get_intranet_servers?time=" + new Date().getTime();
+
+    request({
+        uri: remoteServerUrl,
+        method: "GET",
+        timeout: 10000,
+        agent: false,
+        followRedirect: true,
+        maxRedirects: 10
+  },
+  function(error, response, body) {
+    if (error) {
+        console.log("Error opening central server: " + error);
+    } else {
+        console.log("back: " );
+        var servers = []
+        var returned= eval( "(" + body + ")");
+        for (var i = 0 ; i < returned.allServers.length; i++) {
+            //console.log('got server ' + i)
+            //console.log(JSON.stringify(returned.allServers[i],null,2))
+            var tt = new Object();
+            tt.username = returned.allServers[i].client_user_name;
+            tt.internal_host = returned.allServers[i].internal_host;
+            tt.internal_port = returned.allServers[i].internal_port;
+            tt.via           = returned.allServers[i].via;
+            servers.push(tt)
+        };
+        callbackFn(servers)
+
+    }
+  });
+}
+
+
+
+function driversFn(callbackFn) {
+    dbsearch.serialize(
+        function() {
+            var result = []
+            var stmt = dbsearch.all(
+                "SELECT * FROM drivers",
+
+                function(err, results)
+                {
+                    for (var i =0 ; i< results.length; i ++) {
+                        result.push(results[i].name)
+                    }
+                    callbackFn( result);
+                })
+    }, sqlite3.OPEN_READONLY)
+}
+
+
+
+
+
+function parseVfCliCommand(args, callbackFn) {
+    var result = ""
+    var addedVf = false;
+
+    //result += (args)+ "\n"+ "\n"
+
+    if (args[0] == 'vf') {
+        args.shift()
+        addedVf = true
+
+    }
+    var countArgs = args.length
+    var verb = args[0]
+    var noun = args[1]
+    var object1 = args[2]
+    if ((countArgs == 1) && (verb == 'home')) {
+
+        result += "Details of this server:\n\n"
+        result += "Address:        " + hostaddress + ":" + port + "\n"
+        result += "User:           " + username + "\n"
+        result += "NodeJS version: " + process.versions.node + "\n"
+        result += "Debug mode:     " + debug + "\n"
+        result += "OS Type:        " + os.type() + "\n"
+        result += "OS Version:     " + os.release() + "\n"
+        result += "OS Platform:    " + os.platform() + "\n"
+
+        callbackFn(result)
+
+
+    } else if ((countArgs == 1) && (verb == 'drivers')) {
+        driversFn(function(driverNames) {
+            for (var i =0 ; i< driverNames.length; i ++) {
+                result += driverNames[i] + "\n"
+            }
+            callbackFn(result)
+        })
+
+
+    } else if (verb == 'add') {
+        if (noun == 'driver') {
+            request({
+                uri: "http://" + hostaddress + ":" + port + "/visifile_drivers/outlook2010.json",
+                method: "GET",
+                timeout: 10000,
+                agent: false,
+                followRedirect: true,
+                maxRedirects: 10
+            },
+            function(error, response, body) {
+                if (error) {
+                    result += "Driver error " + error + "\n"
+                } else {
+                    result += "Driver added" + JSON.stringify(response,null,2) + "\n"
+                }
+                callbackFn(result)
+                return
+           })
+        }
+
+
+//zzz
+        if (noun == 'localdriver') {
+            var driverName = object1
+
+            var seqNum = queuedResponseSeqNum;
+            queuedResponseSeqNum ++;
+            queuedResponses[seqNum] = callbackFn;
+            //console.log("2 - get_search_results")
+            forkedProcesses["forked"].send({
+                            message_type:               "add_local_driver",
+                            seq_num:                    seqNum,
+                            driver_name:                driverName
+                            });    }
+
+
+
+
+
+
+
+
+    } else if ((countArgs == 1) && (verb == 'test')) {
+        result += "Test successful. Connected to " + hostaddress + ":" + port
+        callbackFn(result)
+        return
+
+
+    } else {
+        if (addedVf && (countArgs == 0)) {
+            result += "You must enter a command. eg: vf drivers'"
+        }
+        else {
+            result += "Unknown command: '" + verb + "'"
+        }
+        callbackFn(result)
+        return
+        }
+}
