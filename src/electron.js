@@ -572,7 +572,7 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
 
         outputToBrowser("- sending user_data_path to child 'forked':  " + userData)
         forkedProcesses["forked"].send({         message_type: "init" , user_data_path: userData });
-        //zzz
+
         forkedProcesses["forked"].send({         message_type: "createTables" });
     }
 
@@ -904,7 +904,7 @@ function getPort () {
 
 function mainProgram() {
 
-    //startServices()
+    startServices()
     outputToBrowser('Start Services' );
 
     //scanHardDisk();
@@ -2660,7 +2660,7 @@ function parseVfCliCommand(args, callbackFn) {
         }
 
 
-//zzz
+
         if (noun == 'localdriver') {
             var driverName = object1
 

@@ -1,6 +1,10 @@
 {
     name: 'outlook2010'
     ,
+
+    type: 'document_driver'
+    ,
+    
     functions: [
         {
             on: "startup",
@@ -11,4 +15,5 @@
             `
         }
     ]
+
 }
