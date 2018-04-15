@@ -73,12 +73,12 @@
 
 
 
-!/node-viewerjs/
-!/node-viewerjs/*
-!/node-viewerjs/*/*
-!/node-viewerjs/*/*/*
-!/node-viewerjs/*/*/*/*
-!/node-viewerjs/*/*/*/*/*
+!/node_viewerjs/
+!/node_viewerjs/*
+!/node_viewerjs/*/*
+!/node_viewerjs/*/*/*
+!/node_viewerjs/*/*/*/*
+!/node_viewerjs/*/*/*/*/*
 
 
 

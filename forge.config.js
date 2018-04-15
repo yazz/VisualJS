@@ -12,6 +12,7 @@ module.exports = {
         "packageManager": "npm",
         "extraResources": [
           "src/",
+          "node_viewerjs",
           "public/"
         ],
         "icon": path.resolve(__dirname,"src/visifile.ico")
