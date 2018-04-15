@@ -3308,7 +3308,7 @@ function getqueryresultFn(  connectionId, queryId, definition, callbackFn) {
                         if (rows.length > 0) {
                             var buffer = new Buffer(rows[0].content, 'binary');
 
-                            fs.writeFile(process.cwd() + "/files/a.pdf", buffer,  "binary",
+                            fs.writeFile(path.join(userData, "/files/a.pdf"), buffer,  "binary",
                                 function(err) {
                                     //console.log('trying to save pdf 6: ');
 
