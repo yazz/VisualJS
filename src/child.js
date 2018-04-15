@@ -2056,7 +2056,7 @@ function processMessagesFromMainProcess() {
 
 //zzz
     } else if (msg.message_type == 'add_local_driver') {
-        //console.log("3 - get_search_results: " + msg.seq_num )
+        //console.log("3 - add_local_driver: " + msg.seq_num )
         var return_add_local_driver_results_msg = {
             message_type:           'return_add_local_driver_results_msg',
             seq_num:                msg.seq_num
@@ -2084,7 +2084,7 @@ function processMessagesFromMainProcess() {
 
 
     } else if (msg.message_type == 'get_search_results') {
-        //console.log("3 - get_search_results: " + msg.seq_num )
+        console.log("3 - get_search_results: " + msg.seq_num )
         get_search_resultsFn(   msg.searchTerm,
                                 msg.timeStart,
 
@@ -2095,9 +2095,9 @@ function processMessagesFromMainProcess() {
                                         seq_num:                msg.seq_num,
                                         returned:               JSON.stringify(result)
                                     };
-                                    //console.log("5.1: " + JSON.stringify(return_get_search_resultsMsg))
+                                    console.log("5.1: " + JSON.stringify(return_get_search_resultsMsg))
                                     process.send( return_get_search_resultsMsg );
-                                    //console.log("5.3: ")
+                                    console.log("5.3: ")
                     }  )
 
 

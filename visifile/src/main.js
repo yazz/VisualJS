@@ -1145,6 +1145,7 @@ window.showSearchResults = function() {
                 //console.log(' Searching for ' + searchtext + '=:' + data);
 
                 var lor = eval('(' + data + ')');
+//                alert("return search: " + lor.data_states.length )
                     if (searchtext.toUpperCase() == lor.search.toUpperCase()) {
                         console.log('   length:' + lor.data_states.length);
 
