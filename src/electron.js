@@ -105,7 +105,7 @@ var requestClientPublicIp;
 var hostcount  							= 0;
 var queuedResponses                     = new Object();
 var queuedResponseSeqNum                = 0;
-
+var alreadyOpen = false;
 
 console.log('Starting services');
 
@@ -890,7 +890,7 @@ function outputToBrowser(txt) {
     var line = txt.toString().replace(/\'/g , "").toString()
     var jsc = "document.write('<br>" + ": " + line + " ')"
     //console.log(line);
-    if (visifile) {
+    if (visifile && (!alreadyOpen) ) {
         if (visifile.webContents) {
             visifile.webContents.executeJavaScript(jsc);
         }
@@ -2508,12 +2508,14 @@ function startServices() {
 	// open the app in a web browser
 	//--------------------------------------------------------
 
-var alreadyOpen = false;
+
 	if (typeOfSystem == 'client') {
         var localClientUrl = 'http://' + hostaddress  + ":" + port;
         var remoteServerUrl = 'http://' + centralHostAddress  + ":" + centralHostPort + "/visifile/list_intranet_servers.html?time=" + new Date().getTime();
         if(!nogui) {
-            open(localClientUrl);
+            //open(localClientUrl);
+            alreadyOpen = true
+            visifile.loadURL(localClientUrl)
         }
 
         request({
@@ -2540,7 +2542,9 @@ var alreadyOpen = false;
 	} else if (typeOfSystem == 'server') {
         if (!alreadyOpen) {
             alreadyOpen = true;
-            open('http://' + hostaddress  + ":" + port + "/visifile/list_intranet_servers.html?time=" + new Date().getTime());
+            //open('http://' + hostaddress  + ":" + port + "/visifile/list_intranet_servers.html?time=" + new Date().getTime());
+            visifile.loadURL('http://' + hostaddress  + ":" + port + "/visifile/list_intranet_servers.html?time=" + new Date().getTime())
+
         }
 	}
 
