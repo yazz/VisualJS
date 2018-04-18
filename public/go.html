@@ -163,7 +163,14 @@ div.tilt {
 
 
 
+                    <form    action="/file_upload"
+                             class="dropzone"
+                             id="my-awesome-dropzone"
+                             style='width:95%; height: 95%; margin-left: 0%; margin-top: 0%; border: 0px' >
+
     <div  id='wrapper'  onscroll='onscrolled()' onmousedown='onemousedown()'  onmouseup='onemouseup()'>
+
+
         <div  id='infinite-list'  >
 
 
@@ -171,9 +178,6 @@ div.tilt {
 
 
         <div refresh_count={{store.state.count}}></div>
-
-
-
 
 
 
@@ -187,7 +191,6 @@ div.tilt {
             <div m-if='item.card.dropzone'>
                 <form    action="/file_upload"
                          class="dropzone"
-                         id="my-awesome-dropzone"
                          style='width:50%; height: 50%; margin-left: 0%; margin-top: 0%; ' >
 
                      </form>
@@ -204,6 +207,7 @@ div.tilt {
 
             </div>
         </div>
+    </form>
 
 <script>
 
@@ -335,17 +339,17 @@ var defaultCards = [
     ,
     {
         name: 'Drag and drop public files here',
-        dropzone: 'Public files'
+        dropzone2: 'Public files'
     }
     ,
     {
         name: 'Drag and drop PRIVATE files here',
-        dropzone: 'Private files'
+        dropzone2: 'Private files'
     }
     ,
     {
         name: 'Drag and drop files for user VF here',
-        dropzone: 'VF'
+        dropzone2: 'VF'
     }
 ];
 
@@ -454,7 +458,7 @@ var myScroller = null;
             select_card(autoId)
 
 
-                /*Dropzone.options.myAwesomeDropzone = {
+                Dropzone.options.myAwesomeDropzone = {
                   dictDefaultMessage: "Drag and drop any Excel or CSV files into here"
                 };
                 Dropzone.options.myAwesomeDropzone = {
@@ -465,7 +469,7 @@ var myScroller = null;
                             },200);
                     });
                   }
-              };*/
+              };
 
             setInterval(function() {
                 if (autoScroll) {

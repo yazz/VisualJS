@@ -707,7 +707,7 @@ function findFoldersFn() {
 //                                                                                         //
 //-----------------------------------------------------------------------------------------//
 function indexFilesFn() {
-    console.log("indexFilesFn called...");
+    //console.log("indexFilesFn called...");
     //console.log("    inScan: " + inScan);
    if (inScan) {
      return;

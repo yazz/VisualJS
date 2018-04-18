@@ -251,7 +251,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
 
         } else if (msg.message_type == "database_setup_in_child") {
-            //zzz
+
             console.log("Child set up DB complete: " + msg.child_process_name)
 
             if (msg.child_process_name == "forkedIndexer") {
@@ -771,6 +771,11 @@ electronApp.on('ready', function() {
                                     },
                                     icon:'public/VisiFileColor.png'
                                 })
+
+
+
+
+
         visifile.on('closed', function () {
 
           visifile = null
@@ -834,7 +839,7 @@ electronApp.on('ready', function() {
 
 })
 process.on('exit', function() {
-    //zzz
+
 	if (forkedProcesses["forked"]) {
 		console.log("Killed Process forked")
 		forkedProcesses["forked"].kill();
@@ -2488,6 +2493,10 @@ function startServices() {
             //open(localClientUrl);
             alreadyOpen = true
             visifile.loadURL(localClientUrl)
+            if (visifile.webContents) {
+                visifile.webContents.executeJavaScript("document.addEventListener('dragover', event => event.preventDefault())");
+                visifile.webContents.executeJavaScript("document.addEventListener('drop', event => event.preventDefault())");
+            }
         }
 
         request({
