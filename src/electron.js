@@ -69,7 +69,6 @@ var userData = null
 
 var port;
 var hostaddress;
-  var ls = null
 hostaddress = ip.address();
 port = 80
 var f = 0
@@ -596,6 +595,9 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
     }
     forkedProcesses[  processName  ] = fork.fork(forkedProcessPath, [], {execArgv: debugArgs});
 
+
+
+
     setUpChildListeners(processName, fileName, debugPort);
 
 
@@ -829,55 +831,25 @@ electronApp.on('ready', function() {
 
 
 
-    if (startNodeServer) {
-        var exec = require('child_process').exec;
-
-    	if (isWin) {
-    		ls    = exec('cd ' + path.join(__dirname, '..') + ' & pwd & ls & cd visifile & .\\node .\\src\\index.js --nogui true')
-    	} else {
-    			ls = exec('cd ' + path.join(__dirname, '..') + ' && pwd && ls && cd visifile && ./node src/index.js --nogui true')
-    	}
-
-        var readhost = ''
-        var readport = ''
-    	ls.stdout.on('data', function (data) {
-            var ds = data.toString()
-            if (!started) {
-                outputToBrowser(ds)
-            }
-
-            if (ds.indexOf("****HOST") != -1) {
-                readhost = ds.substring(ds.indexOf("****HOST") + 9, ds.indexOf("HOST****")).replace(/\'|\"|\n|\r"/g , "")
-                //console.log("readhost=" + readhost)
-            }
-
-
-            if (ds.indexOf("****PORT") != -1) {
-                   readport = ds.substring(ds.indexOf("****PORT") + 9, ds.indexOf("PORT****")).replace(/\'|\"|\n|\r"/g , "")
-                   //console.log("readport=" + readport)
-            		var addrt = 'http://' + readhost + ':' + readport;
-                    outputToBrowser("****Started address:= " + addrt)
-                    setTimeout(function(){
-                        if (startNodeServer) {
-                            visifile.loadURL(addrt)
-                        }
-
-                    },1000)
-
-
-
-                    started = true
-                }
-
-    	});
-    }
-
 
 })
 process.on('exit', function() {
-	if (ls) {
-		console.log("Killed Process VisiFile")
-		ls.kill();
+    //zzz
+	if (forkedProcesses["forked"]) {
+		console.log("Killed Process forked")
+		forkedProcesses["forked"].kill();
+	}
+    if (forkedProcesses["forkedIndexer"]) {
+		console.log("Killed Process forkedIndexer")
+		forkedProcesses["forkedIndexer"].kill();
+	}
+    if (forkedProcesses["forkedPowershell"]) {
+		console.log("Killed Process forkedPowershell")
+		forkedProcesses["forkedPowershell"].kill();
+	}
+    if (forkedProcesses["forkedFileScanner"]) {
+		console.log("Killed Process forkedFileScanner")
+		forkedProcesses["forkedFileScanner"].kill();
 	}
   });
 
