@@ -789,12 +789,12 @@ function indexFilesFn() {
 //                                                                                         //
 //-----------------------------------------------------------------------------------------//
 function getResult(  source,  connectionName,  driverName,  definition,  callback  ) {
-    console.log("var getResult = function(" + source + ", " + connectionName + ", " + driverName );
+    //console.log("var getResult = function(" + source + ", " + connectionName + ", " + driverName );
 
     var error = new Object();
     getConnection(connectionName, function(connection) {
         if (connection) {
-            console.log("     02");
+            //console.log("     02");
             try {
                 //console.log("22");
                 dbsearch.serialize(function() {

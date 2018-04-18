@@ -325,7 +325,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
 
         } else if (msg.message_type == "return_get_search_results") {
-            console.log("6 - return_get_search_results: " + msg.returned);
+            //console.log("6 - return_get_search_results: " + msg.returned);
             var rett = eval("(" + msg.returned + ")");
             var newres = queuedResponses[ msg.seq_num ]
 
@@ -2244,8 +2244,8 @@ function startServices() {
     // Get the result of a search
     //------------------------------------------------------------------------------
     app.get('/get_search_results', function (req, res) {
-        console.log("1 - get_search_results ,req.query.search_text: " + req.query.search_text)
-        console.log("    get_search_results ,req.query.search_text: " + new Date().getTime())
+        //console.log("1 - get_search_results ,req.query.search_text: " + req.query.search_text)
+        //console.log("    get_search_results ,req.query.search_text: " + new Date().getTime())
 
         var seqNum = queuedResponseSeqNum;
         queuedResponseSeqNum ++;
@@ -2277,14 +2277,14 @@ function startServices() {
         		var queryData 			= new Object();
         		queryData.source 		= query.connection;
         		queryData.definition 	= eval('(' + query.definition + ')' );
-                console.log("                                 source =  " + queryData.source )
-                console.log("                                 definition =  " + queryData.definition )
+                //console.log("                                 source =  " + queryData.source )
+                //console.log("                                 definition =  " + queryData.definition )
 
                 var seqNum = queuedResponseSeqNum;
                 queuedResponseSeqNum ++;
                 queuedResponses[seqNum] = res;
 
-                console.log("2 - getqueryresult")
+                //console.log("2 - getqueryresult")
                 forkedProcesses["forked"].send({   message_type:               "get_query_result",
                                 seq_num:                    seqNum,
                                 connection_id:              queryData.source,
