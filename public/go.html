@@ -160,10 +160,6 @@ div.tilt {
 
 <body onload='initFn()'>
 
-    <form    action="/file_upload"
-             class="dropzone"
-             id="my-awesome-dropzone"
-             style='width:100%; height: 100%; margin-left: 0%; margin-top: 0%; ' >
 
 
 
@@ -188,6 +184,15 @@ div.tilt {
 
             <div style='height: 2em;'></div>
 
+            <div m-if='item.card.dropzone'>
+                <form    action="/file_upload"
+                         class="dropzone"
+                         id="my-awesome-dropzone"
+                         style='width:50%; height: 50%; margin-left: 0%; margin-top: 0%; ' >
+
+                     </form>
+            </div>
+
             <img src="VisiFileColor.png" width="10%" top="0px" left="0px" ></img>
         </div>
     </div>
@@ -199,7 +204,6 @@ div.tilt {
 
             </div>
         </div>
-    </form>
 
 <script>
 
@@ -330,9 +334,18 @@ var defaultCards = [
     }
     ,
     {
-        name: 'Drag and drop files here',
-        link: 'http://' +  location.hostname + ":" + location.port + '/index.html',
-        link_name: 'Click here'
+        name: 'Drag and drop public files here',
+        dropzone: 'Public files'
+    }
+    ,
+    {
+        name: 'Drag and drop PRIVATE files here',
+        dropzone: 'Private files'
+    }
+    ,
+    {
+        name: 'Drag and drop files for user VF here',
+        dropzone: 'VF'
     }
 ];
 
@@ -441,18 +454,18 @@ var myScroller = null;
             select_card(autoId)
 
 
-            Dropzone.options.myAwesomeDropzone = {
-              dictDefaultMessage: "Drag and drop any Excel or CSV files into here"
-            };
-            Dropzone.options.myAwesomeDropzone = {
-              init: function() {
-                this.on("queuecomplete", function() {
-                    setTimeout(function() {
-                        alert("Files added")
-                        },200);
-                });
-              }
-            };
+                /*Dropzone.options.myAwesomeDropzone = {
+                  dictDefaultMessage: "Drag and drop any Excel or CSV files into here"
+                };
+                Dropzone.options.myAwesomeDropzone = {
+                  init: function() {
+                    this.on("queuecomplete", function() {
+                        setTimeout(function() {
+                            alert("Files added")
+                            },200);
+                    });
+                  }
+              };*/
 
             setInterval(function() {
                 if (autoScroll) {
