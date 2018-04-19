@@ -2497,7 +2497,20 @@ function startServices() {
                 visifile.webContents.executeJavaScript("document.addEventListener('dragover', event => event.preventDefault())");
                 visifile.webContents.executeJavaScript("document.addEventListener('drop', event => event.preventDefault())");
             }
+
+//zzz
+            var myNotification = new electron.Notification('Title', {
+                body: 'Lorem Ipsum Dolor Sit Amet'
+              })
+
+              myNotification.show()
+
+              myNotification.onclick = () => {
+                console.log('Notification clicked')
+              }
         }
+
+
 
         request({
                   uri: remoteServerUrl,
