@@ -988,7 +988,7 @@ function shutDown() {
             visifile.removeAllListeners('close');
             visifile.close();
             if (visifile.globalShortcut) {
-                visifile.globalShortcut.unregisterAll();
+                //visifile.globalShortcut.unregisterAll();
 
             }
         }
