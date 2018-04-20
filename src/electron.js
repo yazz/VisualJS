@@ -182,8 +182,10 @@ var PDFParser       = require("pdf2json");
 function setUpChildListeners(processName, fileName, debugPort) {
 
     forkedProcesses[processName].on('close', function() {
-        console.log("Child process " + processName + " exited.. restarting... ")
-        setupForkedProcess(processName, fileName, debugPort)
+        if (!shuttingDown) {
+            console.log("Child process " + processName + " exited.. restarting... ")
+            setupForkedProcess(processName, fileName, debugPort)
+        }
     });
 
 
@@ -838,8 +840,9 @@ electronApp.on('ready', function() {
 
 
 })
+var shuttingDown = false;
 process.on('exit', function() {
-
+shuttingDown = true;
 	if (forkedProcesses["forked"]) {
 		console.log("Killed Process forked")
 		forkedProcesses["forked"].kill();
