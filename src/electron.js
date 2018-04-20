@@ -753,7 +753,7 @@ function setupVisifileParams() {
 	}
 
 
-//zzz
+
 if (electronApp) {
     electronApp.on('ready', function() {
 
@@ -819,7 +819,7 @@ if (electronApp) {
               electronApp.on('before-quit', () => {
                   shutDown();
               });
-//zzz
+
         }
 
 
@@ -992,7 +992,7 @@ function shutDown() {
 
             }
         }
-//zzz
+
 
 
 
@@ -2647,7 +2647,7 @@ function startServices() {
                 {
                   title: 'VisiFile Started',
                   message: 'Hello from VisiFile!',
-                  icon: path.join(__dirname, 'coulson.jpg'), // Absolute path (doesn't work on balloons)
+                  icon: path.join(__dirname, '../public/VisiFileColor.png'), // Absolute path (doesn't work on balloons)
                   sound: true, // Only Notification Center or Windows Toasters
                   wait: true // Wait with callback, until user action is taken against notification
                 },
