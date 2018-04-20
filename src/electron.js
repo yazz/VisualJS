@@ -2662,7 +2662,10 @@ function startServices() {
         if (!alreadyOpen) {
             alreadyOpen = true;
             //open('http://' + hostaddress  + ":" + port + "/visifile/list_intranet_servers.html?time=" + new Date().getTime());
-            visifile.loadURL('http://' + hostaddress  + ":" + port + "/visifile/list_intranet_servers.html?time=" + new Date().getTime())
+            if (!nogui) {
+                visifile.loadURL('http://' + hostaddress  + ":" + port + "/visifile/list_intranet_servers.html?time=" + new Date().getTime())
+            }
+
 
         }
 	}
