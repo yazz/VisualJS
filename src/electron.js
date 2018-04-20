@@ -867,7 +867,7 @@ else {
         		var localappdata  = process.env.LOCALAPPDATA
         		userData = path.join(localappdata, '/Visifile/')
         	} else {
-        		userData = '.'
+        		userData =  path.join(process.env.HOME, '/Visifile/')
         	}
         	dbPath = path.join(userData, username + '.visi')
 
@@ -885,7 +885,7 @@ else {
 
 
         	  outputToBrowser('process.env.LOCALAPPDATA: ' + JSON.stringify(localappdata ,null,2))
-              outputToBrowser("appPath: " + electronApp.getAppPath())
+              outputToBrowser("Local home data path: " + process.env.HOME)
         	  outputToBrowser("userData: " + JSON.stringify(userData ,null,2))
               outputToBrowser("process.env keys: " + Object.keys(process.env))
 
