@@ -803,6 +803,14 @@ if (electronApp) {
                 protocol: 'file:',
                 slashes: true
               }))
+
+
+              electronApp.on('window-all-closed', electronApp.quit);
+              electronApp.on('before-quit', () => {
+                  visifile.removeAllListeners('close');
+                  visifile.close();
+              });
+
         }
 
 
@@ -933,27 +941,37 @@ else {
 
 }
 
+
 var shuttingDown = false;
 process.on('exit', function() {
-shuttingDown = true;
-	if (forkedProcesses["forked"]) {
-		console.log("Killed Process forked")
-		forkedProcesses["forked"].kill();
-	}
-    if (forkedProcesses["forkedIndexer"]) {
-		console.log("Killed Process forkedIndexer")
-		forkedProcesses["forkedIndexer"].kill();
-	}
-    if (forkedProcesses["forkedPowershell"]) {
-		console.log("Killed Process forkedPowershell")
-		forkedProcesses["forkedPowershell"].kill();
-	}
-    if (forkedProcesses["forkedFileScanner"]) {
-		console.log("Killed Process forkedFileScanner")
-		forkedProcesses["forkedFileScanner"].kill();
-	}
+    shutDown();
   });
+process.on('quit', function() {
+  shutDown();
+});
 
+function shutDown() {
+    if (!shuttingDown) {
+        shuttingDown = true;
+        if (forkedProcesses["forked"]) {
+            console.log("Killed Process forked")
+            forkedProcesses["forked"].kill();
+        }
+        if (forkedProcesses["forkedIndexer"]) {
+            console.log("Killed Process forkedIndexer")
+            forkedProcesses["forkedIndexer"].kill();
+        }
+        if (forkedProcesses["forkedPowershell"]) {
+            console.log("Killed Process forkedPowershell")
+            forkedProcesses["forkedPowershell"].kill();
+        }
+        if (forkedProcesses["forkedFileScanner"]) {
+            console.log("Killed Process forkedFileScanner")
+            forkedProcesses["forkedFileScanner"].kill();
+        }
+    }
+
+}
 
 
 function outputToBrowser(txt) {
