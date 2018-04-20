@@ -753,7 +753,7 @@ function setupVisifileParams() {
 	}
 
 
-
+//zzz
 if (electronApp) {
     electronApp.on('ready', function() {
 
@@ -855,6 +855,82 @@ if (electronApp) {
 
 
     })
+}
+
+
+//
+// otherwise we are running as NodeJS
+//
+else {
+
+        	if (isWin) {
+        		var localappdata  = process.env.LOCALAPPDATA
+        		userData = path.join(localappdata, '/Visifile/')
+        	} else {
+        		userData = '.'
+        	}
+        	dbPath = path.join(userData, username + '.visi')
+
+            upload          = multer( { dest: path.join(userData,  'uploads/')});
+
+
+            rmdir("uploads");
+            mkdirp.sync(path.join(userData,  'uploads'));
+            mkdirp.sync(path.join(userData,  'files'));
+
+
+
+
+
+
+
+        	  outputToBrowser('process.env.LOCALAPPDATA: ' + JSON.stringify(localappdata ,null,2))
+              outputToBrowser("appPath: " + electronApp.getAppPath())
+        	  outputToBrowser("userData: " + JSON.stringify(userData ,null,2))
+              outputToBrowser("process.env keys: " + Object.keys(process.env))
+
+              outputToBrowser("dbPath: " + JSON.stringify(dbPath ,null,2))
+              outputToBrowser("LOCAL: " + path.join(__dirname, '/'))
+            //visifile.webContents.toggleDevTools();
+
+            dbsearch = new sqlite3.Database(dbPath);
+            dbsearch.run("PRAGMA journal_mode=WAL;")
+
+            dbsearch.serialize(
+                function() {
+                    dbsearch.all(
+                        "SELECT count(name) as cnt FROM sqlite_master ;  "
+                        ,
+
+                        function(err, results)
+                        {
+                            for (var i = 0; i < results.length; i++) {
+                                outputToBrowser("Sqlite: " + results[i].cnt)
+                            }
+
+
+                        })
+            }, sqlite3.OPEN_READONLY)
+
+
+
+
+        	var nodeConsole = require('console');
+        	var myConsole = new nodeConsole.Console(process.stdout, process.stderr);
+        	myConsole.log('Hello World!');
+
+
+
+            console.log("New NodeJS app")
+
+            //var index = require(path.resolve('src/index.js'))
+
+
+            setupChildProcesses2();
+
+
+
+
 }
 
 var shuttingDown = false;
