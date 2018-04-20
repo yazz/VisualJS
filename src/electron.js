@@ -794,8 +794,8 @@ if (electronApp) {
 
 
             visifile.on('closed', function () {
-
-              visifile = null
+                shutDown();
+                visifile = null
             })
 
             visifile.loadURL(url.format({
@@ -804,11 +804,11 @@ if (electronApp) {
                 slashes: true
               }))
 
-          app.on('will-quit', () => {
+          electronApp.on('will-quit', () => {
               shutDown();
               });
 
-          app.on('before-quit', () => {
+          electronApp.on('before-quit', () => {
               shutDown();
 
           });
