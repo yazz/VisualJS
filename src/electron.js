@@ -756,21 +756,48 @@ function setupVisifileParams() {
 
 
 if (electronApp) {
-    electronApp.on('open-file', function(ev2, path2) {
-        //zzz
+    const isSecondInstance = electronApp.makeSingleInstance((commandLine, workingDirectory) => {
+      // Someone tried to run a second instance, we should focus our window.
+      if (visifile) {
+        if (visifile.isMinimized()) visifile.restore()
+        visifile.focus()
+      }
+    })
 
-                      notifier.notify(
-                        {
-                          title: 'VisiFile file added',
-                          message: 'File added: ' + path2,
-                          icon: path.join(__dirname, '../public/VisiFileColor.png'), // Absolute path (doesn't work on balloons)
-                          sound: true, // Only Notification Center or Windows Toasters
-                          wait: true // Wait with callback, until user action is taken against notification
-                        },
-                        function(err, response) {
-                          // Response is response from notification
-                        }
-                      );
+    if (isSecondInstance) {
+        notifier.notify(
+          {
+            title: 'VisiFile warning',
+            message: 'VisiFile started twice',
+            icon: path.join(__dirname, '../public/VisiFileColor.png'), // Absolute path (doesn't work on balloons)
+            sound: true, // Only Notification Center or Windows Toasters
+            wait: true // Wait with callback, until user action is taken against notification
+          },
+          function(err, response) {
+            // Response is response from notification
+          }
+        );
+        electronApp.quit()
+    }
+
+
+    electronApp.on('will-finish-launching', function() {
+        electronApp.on('open-file', function(ev2, path2) {
+            //zzz
+
+                          notifier.notify(
+                            {
+                              title: 'VisiFile file added',
+                              message: 'File added: ' + path2,
+                              icon: path.join(__dirname, '../public/VisiFileColor.png'), // Absolute path (doesn't work on balloons)
+                              sound: true, // Only Notification Center or Windows Toasters
+                              wait: true // Wait with callback, until user action is taken against notification
+                            },
+                            function(err, response) {
+                              // Response is response from notification
+                            }
+                          );
+        })
     })
     electronApp.on('ready', function() {
 
