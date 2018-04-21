@@ -289,24 +289,7 @@ function select_card(id) {
 
 }
 
-
-var app = new Moon({
-  el: "#infinite-list"
-  ,
-  data: {
-    msg: ""
-},
-methods: {
-    increment: function() {
-        store.dispatch("increment", 1);
-    },
-    click_card: function(id) {
-        autoScroll = false;
-        select_card(id)
-    }
-},
-  store: store
-});
+var app = null
 
 
 
@@ -355,32 +338,6 @@ var defaultCards = [
 
 
 
-var listElm = document.querySelector('#wrapper');
-
-// Add 20 items.
-var nextItem = 1;
-var loadMore = function() {
-  for (var i = 0; i < 1; i++) {
-      var nextIndex = nextItem - 1;
-    if (nextItem <= defaultCards.length) {
-        store.dispatch("add_card", {id: nextItem++, card: defaultCards[nextIndex]});
-        store.dispatch("refresh");
-    }
-
-  }
-}
-
-listElm.addEventListener('scroll', function(event)
-{
-    var element = event.target;
-    if (element.scrollHeight - element.scrollTop <= (element.clientHeight + 10))
-    {
-        //console.log('scrolled');
-        loadMore();
-        //alert("load")
-    }
-});
-
 var socket=null;
 function sendToServerViaWebSocket(msg) {
     socket.send(JSON.stringify(msg));
@@ -422,11 +379,8 @@ function setupWebSocket(host, port)
     });
 }
 
+var listElm = null
 
-// Initially load some items.
-for (var i=0; i < 20; i++) {
-    loadMore();
-}
 
 var autoScroll = true;
 var autoId = 1;
@@ -436,6 +390,58 @@ var myScroller = null;
 
     function initFn() {
         setTimeout(function(){
+            app = new Moon({
+              el: "#infinite-list"
+              ,
+              data: {
+                msg: ""
+            },
+            methods: {
+                increment: function() {
+                    store.dispatch("increment", 1);
+                },
+                click_card: function(id) {
+                    autoScroll = false;
+                    select_card(id)
+                }
+            },
+              store: store
+            });
+
+            listElm = document.querySelector('#wrapper');
+
+            // Add 20 items.
+            var nextItem = 1;
+            var loadMore = function() {
+              for (var i = 0; i < 1; i++) {
+                  var nextIndex = nextItem - 1;
+                if (nextItem <= defaultCards.length) {
+                    store.dispatch("add_card", {id: nextItem++, card: defaultCards[nextIndex]});
+                    store.dispatch("refresh");
+                }
+
+              }
+            }
+
+            listElm.addEventListener('scroll', function(event)
+            {
+                var element = event.target;
+                if (element.scrollHeight - element.scrollTop <= (element.clientHeight + 10))
+                {
+                    //console.log('scrolled');
+                    loadMore();
+                    //alert("load")
+                }
+            });
+            // Initially load some items.
+            for (var i=0; i < 20; i++) {
+                loadMore();
+            }
+
+
+
+
+            
             myScroller = zenscroll.createScroller(
                 document.getElementById("wrapper"), 1200, 0);
 
