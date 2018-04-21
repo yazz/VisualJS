@@ -756,13 +756,13 @@ function setupVisifileParams() {
 
 
 if (electronApp) {
-    electronApp.on('open-file', function(ev, path) {
+    electronApp.on('open-file', function(ev2, path2) {
         //zzz
 
                       notifier.notify(
                         {
                           title: 'VisiFile file added',
-                          message: 'Hello from VisiFile!',
+                          message: 'File added: ' + path2,
                           icon: path.join(__dirname, '../public/VisiFileColor.png'), // Absolute path (doesn't work on balloons)
                           sound: true, // Only Notification Center or Windows Toasters
                           wait: true // Wait with callback, until user action is taken against notification
