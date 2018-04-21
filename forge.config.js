@@ -1,4 +1,5 @@
-const path=require('path')
+const path        = require('path')
+var isWin         = /^win/.test(process.platform);
 
 module.exports = {
     "make_targets": {
@@ -8,7 +9,8 @@ module.exports = {
     }
     ,
     "electronPackagerConfig": {
-        "asar": false,
+        "asar": (isWin?true:false),// Mac OS X does not work with ASAR files
+        "extendInfo": path.resolve(__dirname,"src/info.plist"),
         "packageManager": "npm",
         "extraResources": [
           "src/",

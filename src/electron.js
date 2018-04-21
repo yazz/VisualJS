@@ -14,6 +14,7 @@ var ip = require('ip');
 var isWin         = /^win/.test(process.platform);
 var isPiModule = require('detect-rpi');
 var mainNodeProcessStarted = false;
+const notifier = require('node-notifier');
 
 
 
@@ -755,6 +756,22 @@ function setupVisifileParams() {
 
 
 if (electronApp) {
+    electronApp.on('open-file', function(ev, path) {
+        //zzz
+
+                      notifier.notify(
+                        {
+                          title: 'VisiFile file added',
+                          message: 'Hello from VisiFile!',
+                          icon: path.join(__dirname, '../public/VisiFileColor.png'), // Absolute path (doesn't work on balloons)
+                          sound: true, // Only Notification Center or Windows Toasters
+                          wait: true // Wait with callback, until user action is taken against notification
+                        },
+                        function(err, response) {
+                          // Response is response from notification
+                        }
+                      );
+    })
     electronApp.on('ready', function() {
 
     	if (isWin) {
@@ -2641,7 +2658,6 @@ function startServices() {
 
 //zzz
 
-              const notifier = require('node-notifier');
 
               notifier.notify(
                 {
@@ -2656,13 +2672,7 @@ function startServices() {
                 }
               );
 
-              notifier.on('click', function(notifierObject, options) {
-                // Triggers if `wait: true` and user clicks notification
-              });
 
-              notifier.on('timeout', function(notifierObject, options) {
-                // Triggers if `wait: true` and notification closes
-              });
 
 
         }
