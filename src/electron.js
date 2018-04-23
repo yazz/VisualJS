@@ -788,7 +788,7 @@ if (electronApp) {
             var title = ""
             var message = ""
             var urlLink = "Unknown"
-            if (path2.indexOf('private') != -1 ) {
+            if (path2.indexOf('.webloc') != -1 ) {
                 isurl = true
                 tt = fs.readFileSync( path2)
                 fs.writeFileSync(path.join(userData, '/linkPath.txt'), path2);
@@ -796,36 +796,75 @@ if (electronApp) {
                 if (tt.indexOf("DTD PLIST") != -1) {
                     //urlLink = tt.toString().substring(tt.indexOf("<string>") )
                     urlLink = tt.toString().substring(tt.indexOf("<string>") + 8, tt.indexOf("</string>"))
+                    fs.writeFileSync(path.join(userData, '/link.txt'), urlLink);
                     //urlLink = "" + tt.indexOf("<string>") + "," + tt.indexOf("</string>")
                     //urlLink = "google chrome link: "
-                } else if (tt.indexOf("blist")) {
-                    urlLink = tt
-                }
-                fs.writeFileSync(path.join(userData, '/link.txt'), urlLink);
+                    title = 'URL added '
+                    message = 'URL added: ' + urlLink
+                    notifier.notify(
+                      {
+                        title: title,
+                        message: message,
+                        icon: path.join(__dirname, '../public/VisiFileColor.png'), // Absolute path (doesn't work on balloons)
+                        sound: true, // Only Notification Center or Windows Toasters
+                        wait: true // Wait with callback, until user action is taken against notification
+                      },
+                      function(err, response) {
+                        // Response is response from notification
+                      }
+                    );
+                } else if (tt.indexOf("bplist") != -1) {
+                    var bplist = require('bplist-parser');
 
-                title = 'URL added '
-                message = 'URL added: ' + urlLink
+                    bplist.parseFile(path2, function(err, obj) {
+                      if (err) throw err;
+
+                      //urlLink = JSON.stringify(obj)
+                      urlLink = obj[0].URL
+                      fs.writeFileSync(path.join(userData, '/link.txt'), urlLink);
+                      title = 'URL added '
+                      message = 'URL added: ' + urlLink
+                      notifier.notify(
+                        {
+                          title: title,
+                          message: message,
+                          icon: path.join(__dirname, '../public/VisiFileColor.png'), // Absolute path (doesn't work on balloons)
+                          sound: true, // Only Notification Center or Windows Toasters
+                          wait: true // Wait with callback, until user action is taken against notification
+                        },
+                        function(err, response) {
+                          // Response is response from notification
+                        }
+                      );
+                    });
+
+
+                }
+
+
+
             } else {
                 tt = path2
                 title = 'File added '
                 message = 'File added: ' +  path2
+                notifier.notify(
+                  {
+                    title: title,
+                    message: message,
+                    icon: path.join(__dirname, '../public/VisiFileColor.png'), // Absolute path (doesn't work on balloons)
+                    sound: true, // Only Notification Center or Windows Toasters
+                    wait: true // Wait with callback, until user action is taken against notification
+                  },
+                  function(err, response) {
+                    // Response is response from notification
+                  }
+                );
             }
             //zzz
 
 
 
-              notifier.notify(
-                {
-                  title: title,
-                  message: message,
-                  icon: path.join(__dirname, '../public/VisiFileColor.png'), // Absolute path (doesn't work on balloons)
-                  sound: true, // Only Notification Center or Windows Toasters
-                  wait: true // Wait with callback, until user action is taken against notification
-                },
-                function(err, response) {
-                  // Response is response from notification
-                }
-              );
+
         })
 
     })

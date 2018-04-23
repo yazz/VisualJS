@@ -13,6 +13,7 @@
     "async": "^2.6.0",
     "babel-polyfill": "^6.23.0",
     "body-parser": "^1.17.2",
+    "bplist-parser": "^0.1.1",
     "browserify": "^14.1.0",
     "child_process": "^1.0.2",
     "commander": "^2.9.0",
