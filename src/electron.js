@@ -761,11 +761,23 @@ if (electronApp) {
       if (visifile) {
         if (visifile.isMinimized()) visifile.restore()
         visifile.focus()
+        notifier.notify(
+          {
+            title: 'VisiFile file/URL added on Windows',
+            message: JSON.stringify(commandLine.slice(1),null,2),
+            icon: path.join(__dirname, '../public/VisiFileColor.png'), // Absolute path (doesn't work on balloons)
+            sound: true, // Only Notification Center or Windows Toasters
+            wait: true // Wait with callback, until user action is taken against notification
+          },
+          function(err, response) {
+            // Response is response from notification
+          }
+        );
       }
     })
 
     if (isSecondInstance) {
-        notifier.notify(
+        /*notifier.notify(
           {
             title: 'VisiFile warning',
             message: 'VisiFile started twice',
@@ -776,7 +788,7 @@ if (electronApp) {
           function(err, response) {
             // Response is response from notification
           }
-        );
+      );*/
         electronApp.quit()
     }
 
