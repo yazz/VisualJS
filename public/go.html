@@ -158,15 +158,11 @@ div.tilt {
 
 
 
-<body onload='initFn()'>
+<body onload='initFn()' id='mydropzone'>
 
 
 
 
-                    <form    action="/file_upload"
-                             class="dropzone"
-                             id="my-awesome-dropzone"
-                             style='width:95%; height: 95%; margin-left: 0%; margin-top: 0%; border: 0px' >
 
     <div  id='wrapper'  onscroll='onscrolled()' onmousedown='onemousedown()'  onmouseup='onemouseup()'>
 
@@ -188,13 +184,6 @@ div.tilt {
 
             <div style='height: 2em;'></div>
 
-            <div m-if='item.card.dropzone'>
-                <form    action="/file_upload"
-                         class="dropzone"
-                         style='width:50%; height: 50%; margin-left: 0%; margin-top: 0%; ' >
-
-                     </form>
-            </div>
 
             <img src="VisiFileColor.png" width="10%" top="0px" left="0px" ></img>
         </div>
@@ -207,7 +196,7 @@ div.tilt {
 
             </div>
         </div>
-    </form>
+
 
 <script>
 
@@ -441,7 +430,7 @@ var myScroller = null;
 
 
 
-            
+
             myScroller = zenscroll.createScroller(
                 document.getElementById("wrapper"), 1200, 0);
 
@@ -463,19 +452,17 @@ var myScroller = null;
 
             select_card(autoId)
 
+            Dropzone.autoDiscover = false;
+            var myDropzone = new Dropzone("body#mydropzone", { url: "/file_upload"});
 
-                Dropzone.options.myAwesomeDropzone = {
-                  dictDefaultMessage: "Drag and drop any Excel or CSV files into here"
-                };
-                Dropzone.options.myAwesomeDropzone = {
-                  init: function() {
-                    this.on("queuecomplete", function() {
-                        setTimeout(function() {
-                            alert("Files added")
-                            },200);
-                    });
-                  }
-              };
+
+            Dropzone.options.mydropzone = {
+                init: function() {
+                    this.on("addedfile", function(file) { alert("Added file."); });
+                }
+            };
+
+
 
             setInterval(function() {
                 if (autoScroll) {
