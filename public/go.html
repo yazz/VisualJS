@@ -460,7 +460,14 @@ var myScroller = null;
                     this.on("addedfile", function(file) { alert("Added file."); });
                 }
             };
-            var myDropzone = new Dropzone("body#mydropzone", { url: "/file_upload"});
+            var myDropzone = new Dropzone("body#mydropzone", {
+                url: "/file_upload"
+                ,
+                createImageThumbnails: false
+            });
+            myDropzone.on("complete", function(file) {
+              myDropzone.removeFile(file);
+            });
 
 
 
