@@ -453,7 +453,6 @@ var myScroller = null;
             select_card(autoId)
 
             Dropzone.autoDiscover = false;
-            var myDropzone = new Dropzone("body#mydropzone", { url: "/file_upload"});
 
 
             Dropzone.options.mydropzone = {
@@ -461,6 +460,7 @@ var myScroller = null;
                     this.on("addedfile", function(file) { alert("Added file."); });
                 }
             };
+            var myDropzone = new Dropzone("body#mydropzone", { url: "/file_upload"});
 
 
 

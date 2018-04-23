@@ -1870,11 +1870,7 @@ function file_uploadFn(req, res, next) {
           //console.log('Ext: ' + ext);
 
           var localp2;
-          if (isWin) {
-          		localp2 = process.cwd() + '\\uploads\\' + ifile.filename;
-      		} else {
-          		localp2 = process.cwd() + '/uploads/' + ifile.filename;
-      		};
+          localp2 =  path.join(userData,  'uploads/' + ifile.filename);
           var localp = localp2 + '.' + ext;
           fs.renameSync(localp2, localp);
           //console.log('Local saved path: ' + localp);
