@@ -783,42 +783,49 @@ if (electronApp) {
 
     electronApp.on('will-finish-launching', function() {
         electronApp.on('open-file', function(ev2, path2) {
-var  tt = ''
-var isurl = false
-var title
-var message
-var urlLink = "Unknownß"
-if (path2.indexOf('private') != -1 ) {
-    isurl = true
-    tt = fs.readFileSync( path2)
-    fs.writeFileSync(path.join(userData, '/linkFull.txt'), tt);
-    if (tt.indexOf("DTD PLIST")) {
-        urlLink = tt.substring(tt.indexOf("<string>") , tt.indexOf("</string>"))
-    } if (tt.indexOf("blist")) {
-        urlLink = tt
-    }
-    fs.writeFileSync(path.join(userData, '/link.txt'), urlLink);
+            var  tt = ''
+            var isurl = false
+            var title = ""
+            var message = ""
+            var urlLink = "Unknown"
+            if (path2.indexOf('private') != -1 ) {
+                isurl = true
+                tt = fs.readFileSync( path2)
+                fs.writeFileSync(path.join(userData, '/linkPath.txt'), path2);
+                fs.writeFileSync(path.join(userData, '/linkFull.txt'), tt);
+                if (tt.indexOf("DTD PLIST") != -1) {
+                    //urlLink = tt.toString().substring(tt.indexOf("<string>") )
+                    urlLink = tt.toString().substring(tt.indexOf("<string>") + 8, tt.indexOf("</string>"))
+                    //urlLink = "" + tt.indexOf("<string>") + "," + tt.indexOf("</string>")
+                    //urlLink = "google chrome link: "
+                } else if (tt.indexOf("blist")) {
+                    urlLink = tt
+                }
+                fs.writeFileSync(path.join(userData, '/link.txt'), urlLink);
 
-    title = 'URL added '
-    message = 'URL added: ' + urlLink
-} else {
-    tt = path2
-    title = 'File added '
-    message = 'File added: ' +  path2
-}
-//zzz
-                          notifier.notify(
-                            {
-                              title: title,
-                              message: message,
-                              icon: path.join(__dirname, '../public/VisiFileColor.png'), // Absolute path (doesn't work on balloons)
-                              sound: true, // Only Notification Center or Windows Toasters
-                              wait: true // Wait with callback, until user action is taken against notification
-                            },
-                            function(err, response) {
-                              // Response is response from notification
-                            }
-                          );
+                title = 'URL added '
+                message = 'URL added: ' + urlLink
+            } else {
+                tt = path2
+                title = 'File added '
+                message = 'File added: ' +  path2
+            }
+            //zzz
+
+
+
+              notifier.notify(
+                {
+                  title: title,
+                  message: message,
+                  icon: path.join(__dirname, '../public/VisiFileColor.png'), // Absolute path (doesn't work on balloons)
+                  sound: true, // Only Notification Center or Windows Toasters
+                  wait: true // Wait with callback, until user action is taken against notification
+                },
+                function(err, response) {
+                  // Response is response from notification
+                }
+              );
         })
 
     })
