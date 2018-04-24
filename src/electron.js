@@ -221,9 +221,8 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
         } else if (msg.message_type == "return_set_query") {
 
-            //console.log(".. Main process received a 'return_set_query' message")
-            var query = JSON.stringify(
-                          {  id:            msg.id,
+            console.log(".. Main process received a 'return_set_query' message: " + msg.name)
+            var queryRaw = {  id:            msg.id,
                              name:          msg.name,
                              connection:    msg.connection,
                              driver:        msg.driver,
@@ -233,7 +232,9 @@ function setUpChildListeners(processName, fileName, debugPort) {
                              type:          msg.type,
                              definition:    msg.definition,
                              preview:       msg.preview
-                         })
+                         }
+
+             var query = JSON.stringify(queryRaw)
 
             sendOverWebSockets({
                                     type: "uploaded",
@@ -244,7 +245,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
             sendOverWebSockets({
                                     type: "update_query_item",
-                                    query: query
+                                    query: queryRaw
             });
 
 
