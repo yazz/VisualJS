@@ -1,5 +1,5 @@
 # VisiFile
-VisiFile is a program that automatically monitors changes in your PC documents and shows you a list of changes. There is demo here: http://139.162.228.5/
+VisiFile is a desktop app that allows you to find and share local data with others on your intranet. There is demo here: http://139.162.228.5/
 
 You can install VisiFile on any Linux system that supports the Ubuntu Snap package manager with:
 
@@ -17,13 +17,13 @@ VisiFile support the following common document formats, including:
 
 VisiFile is built with:
 
-- VueJS 2 and Vuex
-- AFrame 3d from Mozilla
+- Electron
+- MoonJS
 - Sqlite
-- AlaSQL
 - Javascript
 - NodeJS 8.9
 - Express
+- SocketIO
 
 Command line options:
 
@@ -53,7 +53,7 @@ Command line options:
 ##### 6) Build the VisiFile UI
     npm run build
 ##### 7) Run the VisiFile NodeJS application
-    node src\index.js
+    node src\electron.js
 
 ### If you wish to live edit the UI of VisiFile in realtime then you need the following additional steps
 
@@ -73,7 +73,7 @@ Command line options:
 
 ### What is VisiFile's killer feature?
 
-VisisFile's killer feature is being able to see a list of all your document changes in time order
+VisisFile's killer feature is being able to see a many different data sources in one place
 
 
 
