@@ -716,7 +716,7 @@ function indexFilesFn() {
    if (isPcDoingStuff) {
        //return;
    };
-   console.log("      Indexing");
+   //console.log("      Indexing");
 
    try {
        dbsearch.serialize(function() {

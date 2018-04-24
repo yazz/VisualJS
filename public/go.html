@@ -458,7 +458,9 @@ var myScroller = null;
 
             Dropzone.options.mydropzone = {
                 init: function() {
-                    this.on("addedfile", function(file) { alert("Added file."); });
+                    this.on("addedfile", function(file) {
+                        //alert("Added file.");
+                     });
                 }
             };
             var myDropzone = new Dropzone("body#mydropzone", {
