@@ -872,7 +872,7 @@ if (electronApp) {
                   }
                 );
             }
-            //zzz
+
 
 
 
@@ -1118,6 +1118,10 @@ function shutDown() {
             }
         }
 
+//zzz
+        if (dbsearch) {
+            dbsearch.run("PRAGMA wal_checkpoint;")       
+        }
 
 
 
