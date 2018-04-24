@@ -2,7 +2,7 @@
     name: 'txt'
     ,
     vue: {
-            template:   
+            template:
 '<div>'+
 '     <table class="table table-striped table-bordered " style="width: 100%;">'+
 '        <tbody>'+
@@ -110,10 +110,10 @@
 				};
 			  }
 	}
-            
+
     ,
     vue_add_query: {
-            template:   
+            template:
 '' +
 '<div>' +
 '    <div class="input-group">' +
@@ -128,7 +128,7 @@
 '            </span>' +
 '        </div>' +
 '    </div>' +
-'</div>' 
+'</div>'
 
 
 			,
@@ -169,7 +169,7 @@
 				};
 			  }
 	}
-            
+
     ,
     vue_view_query: {
             template:   '<div>'+
@@ -190,7 +190,7 @@
 			methods: {
 				get_query_property: function (cn, prop_name) {
                     var query = window.sqlGetQueryById(cn);
-                    
+
                     if (query != null) {
                         return query[prop_name];
                     }
@@ -226,30 +226,24 @@
         //console.log('****     LOADING TXT   *********' + connection.fileName);
         //console.log('********************************');
         //console.log('********************************');
-        if (
-            (connection.status == 'disconnected')
-            ||
-            (connection.status == null))
-        {
-            drivers['txt']['setup'](connection);
-        }
-			
-            
+
+
+
         var rows=[];
 
         var firstRow = false;
         var ret = new Object();
 
         var content = fs.readFileSync(connection.fileName, "utf8");
-                        
-                        
+
+
         try {
             var lines = content.split('\n');
             for(var i = 0;i < lines.length;i++){
                 var line = lines[i];
                 rows.push({value: line});
             }
-			
+
             ret["values"] = rows;
             callfn(ret);
         }
@@ -257,7 +251,7 @@
             //console.log('TXT error: ' + err);
             callfn({error: 'TXT error: ' + err});
         }
-    
+
 
     }
 }
