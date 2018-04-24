@@ -859,6 +859,7 @@ if (electronApp) {
                 tt = path2
                 title = 'File added '
                 message = 'File added: ' +  path2
+                saveConnectionAndQueryForFile(path2);
                 notifier.notify(
                   {
                     title: title,
