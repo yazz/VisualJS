@@ -2613,18 +2613,18 @@ function evalLocalSystemDriver(driverName) {
 
 //zzz
 function setUpDbDrivers() {
-    //evalLocalSystemDriver('glb')
-    //evalLocalSystemDriver('csv')
+    evalLocalSystemDriver('glb')
+    evalLocalSystemDriver('csv')
     evalLocalSystemDriver('txt')
-    //evalLocalSystemDriver('excel')
-    //evalLocalSystemDriver('word')
-    //evalLocalSystemDriver('pdf')
-    //evalLocalSystemDriver('postgres')
-    //evalLocalSystemDriver('outlook2012')
+    evalLocalSystemDriver('excel')
+    evalLocalSystemDriver('word')
+    evalLocalSystemDriver('pdf')
+    evalLocalSystemDriver('postgres')
+    evalLocalSystemDriver('outlook2012')
     //evalLocalSystemDriver('outlook2010')
-    //evalLocalSystemDriver('sqlite')
-    //evalLocalSystemDriver('mysql')
-    //evalLocalSystemDriver('oracle')
+    evalLocalSystemDriver('sqlite')
+    evalLocalSystemDriver('mysql')
+    evalLocalSystemDriver('oracle')
     evalLocalSystemDriver('testdriver')
 }
 
