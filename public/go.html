@@ -355,6 +355,7 @@ function setupWebSocket(host, port)
 
     socket.on('update_query_item',function(data) {
         //console.log("Update query item: " + JSON.stringify(data,null,2));
+        //alert(data.query.name)
         var nid = nextItem++;
         store.dispatch("add_card", {id: nid, card: {
                                                         id:     nid ,
@@ -373,6 +374,7 @@ var listElm = null
 
 var autoScroll = true;
 var autoId = 1;
+var nextItem = 1;
 
 
 var myScroller = null;
@@ -400,7 +402,6 @@ var myScroller = null;
             listElm = document.querySelector('#wrapper');
 
             // Add 20 items.
-            var nextItem = 1;
             var loadMore = function() {
               for (var i = 0; i < 1; i++) {
                   var nextIndex = nextItem - 1;
