@@ -275,7 +275,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
                 forkedProcesses["forkedIndexer"].send({         message_type: "setUpSql" });
                 if (typeOfSystem == 'client') {
                     if (runServices) {
-                        forkedProcesses["forkedIndexer"].send({ message_type: "childRunFindFolders" });
+                        //forkedProcesses["forkedIndexer"].send({ message_type: "childRunFindFolders" });
                         forkedProcesses["forkedIndexer"].send({ message_type: "childRunIndexer" });
                     }
                 }
@@ -293,7 +293,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
             if (msg.child_process_name == "forkedPowershell") {
                 if (runServices) {
                     forkedProcesses["forkedPowershell"].send({ message_type: "setUpSql" });
-                    forkedProcesses["forkedPowershell"].send({ message_type: "call_powershell" });
+                    //forkedProcesses["forkedPowershell"].send({ message_type: "call_powershell" });
                 }
             }
 
@@ -1120,7 +1120,7 @@ function shutDown() {
 
 //zzz
         if (dbsearch) {
-            dbsearch.run("PRAGMA wal_checkpoint;")       
+            dbsearch.run("PRAGMA wal_checkpoint;")
         }
 
 
