@@ -633,6 +633,18 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
 
 
 
+    if (processName == "forkedChildV3") {
+
+        outputToBrowser("- sending user_data_path to child 'forkedChildV3':  " + userData)
+        forkedProcesses["forkedChildV3"].send({         message_type: "init" ,
+                                                 user_data_path: userData,
+                                                 child_process_name: "forked"
+                                              });
+    }
+
+
+
+
     if (processName == "forkedIndexer") {
         forkedProcesses["forkedIndexer"].send({ message_type: "init" ,
                                                 user_data_path: userData,
@@ -698,7 +710,8 @@ function setupChildProcesses2() {
     //console.log("-------------------------------------------------------------------");
     //console.log("-------------------------------------------------------------------");
 
-    setupForkedProcess("forked", "child.js", 40003)
+    setupForkedProcess("forked",        "child.js", 40003)
+    setupForkedProcess("forkedChildV3", "child_v3.js", 40004)
 }
 
 
@@ -1097,6 +1110,10 @@ function shutDown() {
         if (forkedProcesses["forked"]) {
             console.log("Killed Process forked")
             forkedProcesses["forked"].kill();
+        }
+        if (forkedProcesses["forkedChildV3"]) {
+            console.log("Killed Child V3 process")
+            forkedProcesses["forkedChildV3"].kill();
         }
         if (forkedProcesses["forkedIndexer"]) {
             console.log("Killed Process forkedIndexer")

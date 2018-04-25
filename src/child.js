@@ -79,18 +79,6 @@ username = os.userInfo().username.toLowerCase();
 //dbsearch.run("PRAGMA temp_store=MEMORY;")
 
 
-function require2(moduleName) {
-	var pat;
-	if (isWin) {
-		pat = "require(process.cwd() + " + "'\\\\node_modules\\\\" + moduleName + "');";
-	} else {
-	    pat = "require(process.cwd() + " + "'/node_modules/" + moduleName + "');";
-	}
-    var reac = eval(pat);
-	return reac;
-};
-
-
 
 
 
