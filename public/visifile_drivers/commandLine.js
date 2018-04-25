@@ -1,3 +1,7 @@
+
+
+
+
 {
     name: 'commandLine'
     ,
@@ -19,7 +23,11 @@
                 console.log("4)  Service called with args " + JSON.stringify(args,null,2))
                 if(callbackFn){
                     console.log("4.5 callbackFn exists")
-                    callbackFn([1, 2, 3 ,4])
+                    var exec = require('child_process').exec;
+                    exec('ls', function(error, stdout, stderr) {
+                         callbackFn(stdout)
+                    });
+
                 }
             }
         }
