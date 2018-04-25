@@ -113,13 +113,16 @@ function processMessagesFromMainProcess() {
                         });
         console.log(" ---  Setting up drivers v3! --- ")
         driversFn(function(xx) {
-            for (var i=0; i< xx.length; i++){
-            if (xx[i].initText) {
-                console.log(xx[i].name)
-                console.log("    " + xx[i].initText)
+            if (xx) {
+                for (var i=0; i< xx.length; i++){
+                    if (xx[i].initText) {
+                        console.log(xx[i].name)
+                        console.log("    " + xx[i].initText)
 
+                    }
+                }
             }
-            }
+
         })
 
 
@@ -140,7 +143,7 @@ function processMessagesFromMainProcess() {
                 //zzz
 
                      console.log(" --- Started driver services --- ")
-                     setInterval(processDrivers ,1 * 1000);
+                     processDrivers();
 
                 }
 
@@ -309,40 +312,67 @@ function driversFn(callbackFn) {
 
                 function(err, results)
                 {
-                    for (var i =0 ; i< results.length; i ++) {
-                        var obj = eval(results[i].code)
-                        result.push(obj)
+                    if (results) {
+                        for (var i =0 ; i< results.length; i ++) {
+                            var obj = eval(results[i].code)
+                            result.push(obj)
+                        }
+                        callbackFn( result);
+                    } else {
+                        callbackFn(null)
                     }
-                    callbackFn( result);
+
                 })
     }, sqlite3.OPEN_READONLY)
 }
 
 
-function processDrivers() {
-    console.log("tick")
-    driversFn(function(xx) {
-        for (var i=0; i< xx.length; i++){
-        if (xx[i].events) {
-            //console.log("    " + xx[i].events)
-            var fg =  Object.keys(xx[i].events)
-            if (fg.length > 0  ) {
-                console.log(xx[i].name)
-                console.log("    " + JSON.stringify(fg))
-                for (var e=0; e<fg.length; e++){
-                    var thisEvent = xx[i].events[fg[e]]
-                    console.log("    " + JSON.stringify(Object.keys(thisEvent,null,2)))
-                    thisEvent.do()
-                }
-            }
 
-        }
+
+
+
+function processDrivers() {
+    console.log("Process drivers")
+    driversFn(function(xx) {
+        if (xx) {
+            for (var i=0; i< xx.length; i++){
+            if (xx[i].events) {
+                //console.log("    " + xx[i].events)
+                var fg =  Object.keys(xx[i].events)
+                if (fg.length > 0  ) {
+                    //console.log(xx[i].name)
+                    //console.log("    " + JSON.stringify(fg))
+                    for (var e=0; e<fg.length; e++){
+                        var thisEvent = xx[i].events[fg[e]]
+                        //console.log("    " + JSON.stringify(Object.keys(thisEvent,null,2)))
+                        if (thisEvent.on == "init") {
+                            console.log("Created event " + xx[i].name + ":init")
+                            thisEvent.do()
+                        } else if (thisEvent.on == "call") {
+                            console.log("Created event " + xx[i].name + ":call")
+                            functions[xx[i].name] = thisEvent.do
+                        }
+
+                    }
+                }
+
+            }
+            }
         }
     })
 }
 
+var functions = new Object()
+
+
+
 
 function callService(sn, cv, callbackFn) {
-    console.log("called service '" + sn + "' with args: " + JSON.stringify(cv,null,2))
-    callbackFn()
+    console.log("2) called service '" + sn + "' with args: " + JSON.stringify(cv,null,2))
+    if (functions[sn]) {
+        functions[sn](cv, callbackFn)
+
+    } else {
+         console.log("3) '" + sn + "' is not defined as a service")
+    }
 }

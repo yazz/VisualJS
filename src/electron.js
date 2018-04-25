@@ -1110,23 +1110,23 @@ function shutDown() {
 
 
         if (forkedProcesses["forked"]) {
-            console.log("Killed Process forked")
+            //console.log("Killed Process forked")
             forkedProcesses["forked"].kill();
         }
         if (forkedProcesses["forkedChildV3"]) {
-            console.log("Killed Child V3 process")
+            //console.log("Killed Child V3 process")
             forkedProcesses["forkedChildV3"].kill();
         }
         if (forkedProcesses["forkedIndexer"]) {
-            console.log("Killed Process forkedIndexer")
+            //console.log("Killed Process forkedIndexer")
             forkedProcesses["forkedIndexer"].kill();
         }
         if (forkedProcesses["forkedPowershell"]) {
-            console.log("Killed Process forkedPowershell")
+            //console.log("Killed Process forkedPowershell")
             forkedProcesses["forkedPowershell"].kill();
         }
         if (forkedProcesses["forkedFileScanner"]) {
-            console.log("Killed Process forkedFileScanner")
+            //console.log("Killed Process forkedFileScanner")
             forkedProcesses["forkedFileScanner"].kill();
         }
 

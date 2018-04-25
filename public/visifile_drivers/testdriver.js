@@ -15,12 +15,16 @@
         {
             on: "init",
             do: function() {
-                console.log("Hello there")
-                callService("powershell", {
-                    command: "ls"
-                }, function(result) {
-                    console.log("returned result")
-                })
+                console.log("1) IN TESTDRIVER, calling commandLine service")
+                callService("commandLine"
+                            ,
+                            {
+                                command: "ls"
+                            }
+                            ,
+                            function(result) {
+                                console.log("5) returned result: " + JSON.stringify(result,null,2))
+                            })
             }
         }
 
