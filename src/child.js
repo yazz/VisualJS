@@ -2051,7 +2051,7 @@ function processMessagesFromMainProcess() {
         };
 
         try {
-            evalLocalSystemDriver( msg.driver_name )
+            evalLocalSystemDriver( msg.driver_name, path.join(__dirname, '../public/visifile_drivers/' + msg.driver_name + '.js') )
             return_add_local_driver_results_msg.success = true
             return_add_local_driver_results_msg.error = false
 
@@ -2592,31 +2592,31 @@ function fromDir(startPath,filter,callback){
 
 
 //zzz
-function evalLocalSystemDriver(driverName) {
-	var evalDriver = '(' + fs.readFileSync(path.join(__dirname, '../public/visifile_drivers/' +
-                                                                    driverName + '.js')).toString() + ')';
+function evalLocalSystemDriver(driverName, location) {
+	var evalDriver = '(' + fs.readFileSync(location) + ')';
 	addOrUpdateDriver(driverName, evalDriver)
 }
 
 
 //zzz
 function setUpDbDrivers() {
-    evalLocalSystemDriver('glb')
-    evalLocalSystemDriver('csv')
-    evalLocalSystemDriver('txt')
-    evalLocalSystemDriver('excel')
-    evalLocalSystemDriver('word')
-    evalLocalSystemDriver('pdf')
-    evalLocalSystemDriver('postgres')
-    evalLocalSystemDriver('powershell')
-    evalLocalSystemDriver('commandLine')
+    evalLocalSystemDriver('glb', path.join(__dirname, '../public/visifile_drivers/glb.js'))
+    evalLocalSystemDriver('csv',  path.join(__dirname, '../public/visifile_drivers/glb.js'))
+    evalLocalSystemDriver('txt', path.join(__dirname, '../public/visifile_drivers/glb.js'))
+    evalLocalSystemDriver('excel', path.join(__dirname, '../public/visifile_drivers/excel.js'))
+    evalLocalSystemDriver('word', path.join(__dirname, '../public/visifile_drivers/word.js'))
+    evalLocalSystemDriver('pdf', path.join(__dirname, '../public/visifile_drivers/pdf.js'))
+    evalLocalSystemDriver('postgres', path.join(__dirname, '../public/visifile_drivers/postgres.js'))
 
-    evalLocalSystemDriver('outlook2012')
+    evalLocalSystemDriver('outlook2012', path.join(__dirname, '../public/visifile_drivers/outlook2012.js'))
     //evalLocalSystemDriver('outlook2010')
-    evalLocalSystemDriver('sqlite')
-    evalLocalSystemDriver('mysql')
-    evalLocalSystemDriver('oracle')
-    evalLocalSystemDriver('testdriver')
+    evalLocalSystemDriver('sqlite', path.join(__dirname, '../public/visifile_drivers/sqlite.js'))
+    evalLocalSystemDriver('mysql', path.join(__dirname, '../public/visifile_drivers/mysql.js'))
+    evalLocalSystemDriver('oracle', path.join(__dirname, '../public/visifile_drivers/oracle.js'))
+    evalLocalSystemDriver('testdriver', path.join(__dirname, '../public/visifile_drivers/testdriver.js'))
+
+    evalLocalSystemDriver('powershell', path.join(__dirname, '../public/visifile_drivers/services/powershell.js'))
+    evalLocalSystemDriver('commandLine', path.join(__dirname, '../public/visifile_drivers/services/commandLine.js'))
 }
 
 
