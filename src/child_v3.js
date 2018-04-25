@@ -333,30 +333,34 @@ function driversFn(callbackFn) {
 
 function processDrivers() {
     console.log("Process drivers")
+    var initFunctions = []
     driversFn(function(xx) {
         if (xx) {
-            for (var i=0; i< xx.length; i++){
-            if (xx[i].events) {
-                //console.log("    " + xx[i].events)
-                var fg =  Object.keys(xx[i].events)
-                if (fg.length > 0  ) {
-                    //console.log(xx[i].name)
-                    //console.log("    " + JSON.stringify(fg))
-                    for (var e=0; e<fg.length; e++){
-                        var thisEvent = xx[i].events[fg[e]]
-                        //console.log("    " + JSON.stringify(Object.keys(thisEvent,null,2)))
-                        if (thisEvent.on == "init") {
-                            console.log("Created event " + xx[i].name + ":init")
-                            thisEvent.do()
-                        } else if (thisEvent.on == "call") {
-                            console.log("Created event " + xx[i].name + ":call")
-                            functions[xx[i].name] = thisEvent.do
+            for (var i=0; i< xx.length; i ++) {
+                if (xx[i].events) {
+                    //console.log("    " + xx[i].events)
+                    var fg =  Object.keys(xx[i].events)
+                    if (fg.length > 0  ) {
+                        //console.log(xx[i].name)
+                        //console.log("    " + JSON.stringify(fg))
+                        for (var e=0; e<fg.length; e++){
+                            var thisEvent = xx[i].events[fg[e]]
+                            //console.log("    " + JSON.stringify(Object.keys(thisEvent,null,2)))
+                            if (thisEvent.on == "init") {
+                                console.log("Created event " + xx[i].name + ":init")
+                                initFunctions.push(thisEvent.do)
+                            } else if (thisEvent.on == "call") {
+                                console.log("Created event " + xx[i].name + ":call")
+                                functions[xx[i].name] = thisEvent.do
+                            }
+
                         }
-
                     }
-                }
 
+                }
             }
+            for (var rr = 0; rr < initFunctions.length ; rr ++) {
+                initFunctions[rr]()
             }
         }
     })

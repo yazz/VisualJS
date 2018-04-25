@@ -2600,23 +2600,23 @@ function evalLocalSystemDriver(driverName, location) {
 
 //zzz
 function setUpDbDrivers() {
-    evalLocalSystemDriver('glb', path.join(__dirname, '../public/visifile_drivers/glb.js'))
-    evalLocalSystemDriver('csv',  path.join(__dirname, '../public/visifile_drivers/glb.js'))
-    evalLocalSystemDriver('txt', path.join(__dirname, '../public/visifile_drivers/glb.js'))
-    evalLocalSystemDriver('excel', path.join(__dirname, '../public/visifile_drivers/excel.js'))
-    evalLocalSystemDriver('word', path.join(__dirname, '../public/visifile_drivers/word.js'))
-    evalLocalSystemDriver('pdf', path.join(__dirname, '../public/visifile_drivers/pdf.js'))
-    evalLocalSystemDriver('postgres', path.join(__dirname, '../public/visifile_drivers/postgres.js'))
+    evalLocalSystemDriver('glb',            path.join(__dirname, '../public/visifile_drivers/glb.js'))
+    evalLocalSystemDriver('csv',            path.join(__dirname, '../public/visifile_drivers/glb.js'))
+    evalLocalSystemDriver('txt',            path.join(__dirname, '../public/visifile_drivers/glb.js'))
+    evalLocalSystemDriver('excel',          path.join(__dirname, '../public/visifile_drivers/excel.js'))
+    evalLocalSystemDriver('word',           path.join(__dirname, '../public/visifile_drivers/word.js'))
+    evalLocalSystemDriver('pdf',            path.join(__dirname, '../public/visifile_drivers/pdf.js'))
+    evalLocalSystemDriver('postgres',       path.join(__dirname, '../public/visifile_drivers/postgres.js'))
 
-    evalLocalSystemDriver('outlook2012', path.join(__dirname, '../public/visifile_drivers/outlook2012.js'))
+    evalLocalSystemDriver('outlook2012',    path.join(__dirname, '../public/visifile_drivers/outlook2012.js'))
     //evalLocalSystemDriver('outlook2010')
-    evalLocalSystemDriver('sqlite', path.join(__dirname, '../public/visifile_drivers/sqlite.js'))
-    evalLocalSystemDriver('mysql', path.join(__dirname, '../public/visifile_drivers/mysql.js'))
-    evalLocalSystemDriver('oracle', path.join(__dirname, '../public/visifile_drivers/oracle.js'))
-    evalLocalSystemDriver('testdriver', path.join(__dirname, '../public/visifile_drivers/testdriver.js'))
+    evalLocalSystemDriver('sqlite',         path.join(__dirname, '../public/visifile_drivers/sqlite.js'))
+    evalLocalSystemDriver('mysql',          path.join(__dirname, '../public/visifile_drivers/mysql.js'))
+    evalLocalSystemDriver('oracle',         path.join(__dirname, '../public/visifile_drivers/oracle.js'))
+    evalLocalSystemDriver('testdriver',     path.join(__dirname, '../public/visifile_drivers/testdriver.js'))
 
-    evalLocalSystemDriver('powershell', path.join(__dirname, '../public/visifile_drivers/services/powershell.js'))
-    evalLocalSystemDriver('commandLine', path.join(__dirname, '../public/visifile_drivers/services/commandLine.js'))
+    evalLocalSystemDriver('powershell',     path.join(__dirname, '../public/visifile_drivers/services/powershell.js'))
+    evalLocalSystemDriver('commandLine',    path.join(__dirname, '../public/visifile_drivers/services/commandLine.js'))
 }
 
 
