@@ -96,16 +96,16 @@ function processMessagesFromMainProcess() {
 
 
 
-        if  (msg.message_type == 'init') {
+    if  (msg.message_type == 'init') {
         //zzz
-        console.log('-- Init v3', msg);
+        console.log('-- Init v3');
         userData            = msg.user_data_path
         childProcessName    = msg.child_process_name
 
-        console.log("  Child recieved user data path: " + userData)
+        //console.log("  Child recieved user data path: " + userData)
         var dbPath = path.join(userData, username + '.visi')
 
-        console.log("  DB path: " + dbPath)
+        //console.log("  DB path: " + dbPath)
         dbsearch = new sqlite3.Database(dbPath);
         dbsearch.run("PRAGMA journal_mode=WAL;")
         process.send({  message_type:       "database_setup_in_child" ,

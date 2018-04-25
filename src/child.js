@@ -1867,10 +1867,10 @@ function processMessagesFromMainProcess() {
         userData            = msg.user_data_path
         childProcessName    = msg.child_process_name
 
-        console.log("Child recieved user data path: " + userData)
+        ////console.log("Child recieved user data path: " + userData)
         var dbPath = path.join(userData, username + '.visi')
 
-        console.log("DB path: " + dbPath)
+        //console.log("DB path: " + dbPath)
         dbsearch = new sqlite3.Database(dbPath);
         dbsearch.run("PRAGMA journal_mode=WAL;")
         process.send({  message_type:       "database_setup_in_child" ,
@@ -2647,7 +2647,7 @@ function addOrUpdateDriver(name, codeString) {
                         if (rows.length == 0) {
                             try
                             {
-                                console.log('   *** Adding DRIVER ' + name);
+                                //console.log('   *** Adding DRIVER ' + name);
                                 dbsearch.serialize(
                                     function() {
                                         dbsearch.run("begin exclusive transaction");
