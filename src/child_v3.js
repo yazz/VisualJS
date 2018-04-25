@@ -324,14 +324,16 @@ function processDrivers() {
     driversFn(function(xx) {
         for (var i=0; i< xx.length; i++){
         if (xx[i].events) {
-            console.log(xx[i].name)
             //console.log("    " + xx[i].events)
             var fg =  Object.keys(xx[i].events)
-            console.log("    " + JSON.stringify(fg))
-            for (var e=0; e<fg.length; e++){
-                var thisEvent = xx[i].events[fg[e]]
-                console.log("    " + JSON.stringify(Object.keys(thisEvent,null,2)))
-                thisEvent.do()
+            if (fg.length > 0  ) {
+                console.log(xx[i].name)
+                console.log("    " + JSON.stringify(fg))
+                for (var e=0; e<fg.length; e++){
+                    var thisEvent = xx[i].events[fg[e]]
+                    console.log("    " + JSON.stringify(Object.keys(thisEvent,null,2)))
+                    thisEvent.do()
+                }
             }
 
         }
@@ -340,6 +342,7 @@ function processDrivers() {
 }
 
 
-function callService(sn, cv) {
+function callService(sn, cv, callbackFn) {
     console.log("called service '" + sn + "' with args: " + JSON.stringify(cv,null,2))
+    callbackFn()
 }

@@ -18,6 +18,8 @@
                 console.log("Hello there")
                 callService("powershell", {
                     command: "ls"
+                }, function(result) {
+                    console.log("returned result")
                 })
             }
         }
