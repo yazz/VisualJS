@@ -127,13 +127,25 @@ function processMessagesFromMainProcess() {
 
 
 
-        } else if (msg.message_type == 'setUpSql') {
-        //zzz
+                } else if (msg.message_type == 'setUpSql') {
+                //zzz
 
-        setUpSql();
+                    setUpSql();
 
 
-        }
+
+
+
+                } else if (msg.message_type == 'startDriverServices') {
+                //zzz
+
+                     console.log(" --- Started driver services --- ")
+                     setInterval(processDrivers ,1 * 1000);
+
+                }
+
+
+
 
 
 
@@ -304,4 +316,30 @@ function driversFn(callbackFn) {
                     callbackFn( result);
                 })
     }, sqlite3.OPEN_READONLY)
+}
+
+
+function processDrivers() {
+    console.log("tick")
+    driversFn(function(xx) {
+        for (var i=0; i< xx.length; i++){
+        if (xx[i].events) {
+            console.log(xx[i].name)
+            //console.log("    " + xx[i].events)
+            var fg =  Object.keys(xx[i].events)
+            console.log("    " + JSON.stringify(fg))
+            for (var e=0; e<fg.length; e++){
+                var thisEvent = xx[i].events[fg[e]]
+                console.log("    " + JSON.stringify(Object.keys(thisEvent,null,2)))
+                thisEvent.do()
+            }
+
+        }
+        }
+    })
+}
+
+
+function callService(sn, cv) {
+    console.log("called service '" + sn + "' with args: " + JSON.stringify(cv,null,2))
 }

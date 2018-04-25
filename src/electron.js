@@ -636,10 +636,12 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
     if (processName == "forkedChildV3") {
 
         outputToBrowser("- sending user_data_path to child 'forkedChildV3':  " + userData)
-        forkedProcesses["forkedChildV3"].send({         message_type: "init" ,
+        forkedProcesses["forkedChildV3"].send({  message_type: "init" ,
                                                  user_data_path: userData,
                                                  child_process_name: "forked"
                                               });
+
+        forkedProcesses["forkedChildV3"].send({         message_type: "startDriverServices" });
     }
 
 
