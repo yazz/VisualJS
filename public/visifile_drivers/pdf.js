@@ -1,6 +1,8 @@
 {
     name: 'pdf'
     ,
+    version: 1
+    ,
     vue: {
             template:
 '<div>'+

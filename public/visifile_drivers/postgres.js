@@ -1,6 +1,8 @@
 {
     name: 'postgres'
     ,
+    version: 1
+    ,
     vue: {
             template:   '<div>'+
 						'     <table class="table table-striped table-bordered " style="width: 100%;">'+
@@ -163,7 +165,7 @@
 						'            </span>' +
 						'        </div>' +
 						'    </div>' +
-						'</div>' 
+						'</div>'
 
 
 			,
@@ -206,7 +208,7 @@
 				};
 			  }
 	}
-            
+
     ,
     vue_view_query: {
             template:   '<div>'+
@@ -224,7 +226,7 @@
 			methods: {
 				get_query_property: function (cn, prop_name) {
                     var query = window.sqlGetQueryById(cn);
-                    
+
                     if (query != null) {
                         return query[prop_name];
                     }

@@ -1,6 +1,8 @@
 {
     name: 'txt'
     ,
+    version: 1
+    ,
     vue: {
             template:
 '<div>'+

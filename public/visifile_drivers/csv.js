@@ -1,6 +1,8 @@
 {
     name: 'csv'
     ,
+    version: 1
+    ,
     vue: {
             template:
 '<div>'+

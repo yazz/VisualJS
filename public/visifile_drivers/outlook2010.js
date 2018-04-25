@@ -1,10 +1,12 @@
 {
     name: 'outlook2010'
     ,
+    version: 1
+    ,
 
     type: 'document_driver'
     ,
-    
+
     functions: [
         {
             on: "startup",

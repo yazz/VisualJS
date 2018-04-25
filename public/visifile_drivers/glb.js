@@ -1,6 +1,8 @@
 {
     name: 'glb'
     ,
+    version: 1
+    ,
     vue: {
             template:
 '<div>'+

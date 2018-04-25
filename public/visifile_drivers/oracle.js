@@ -1,6 +1,8 @@
 {
     name: 'oracle'
     ,
+    version: 1
+    ,
     type: 'db_driver'
     ,
     vue: {
@@ -162,7 +164,7 @@
 						'            </span>' +
 						'        </div>' +
 						'    </div>' +
-						'</div>' 
+						'</div>'
 
 
 			,
@@ -205,7 +207,7 @@
 				};
 			  }
 	}
-            
+
     ,
     vue_view_query: {
             template:   '<div>'+
@@ -223,7 +225,7 @@
 			methods: {
 				get_query_property: function (cn, prop_name) {
                     var query = window.sqlGetQueryById(cn);
-                    
+
                     if (query != null) {
                         return query[prop_name];
                     }
@@ -321,12 +323,12 @@
 				  return;
 			  }
 			  var field;
-		      for (var i = 0; i < result["metaData"].length; i++) { 
+		      for (var i = 0; i < result["metaData"].length; i++) {
 				  field = result["metaData"][i];
 				  fields.push(field["name"]);
 			  }
               console.log(fields); // [ { name: 'DEPARTMENT_ID' }, { name: 'DEPARTMENT_NAME' } ]
-			  
+
 			  var newarray = [];
 			  var thing;
 			  for(var y = 0; y < result.rows.length; y++){
@@ -336,7 +338,7 @@
 				}
 				newarray.push(thing);
 			}
-			  
+
               callfn(newarray);
               //doRelease(connection.connection);
           })}

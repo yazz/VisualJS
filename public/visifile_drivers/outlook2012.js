@@ -1,6 +1,8 @@
 {
     name: 'outlook2012'
     ,
+    version: 1
+    ,
     vue: {
             template:   '<div>'+
 						'     <table class="table table-striped table-bordered " style="width: 100%;">'+

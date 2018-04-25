@@ -90,22 +90,40 @@ processMessagesFromMainProcess();
 
 function processMessagesFromMainProcess() {
     process.on('message', (msg) => {
-      //console.log('Message from parent:', msg);
+
+
+
+
 
         if  (msg.message_type == 'init') {
         //zzz
+        console.log('-- Init v3', msg);
         userData            = msg.user_data_path
         childProcessName    = msg.child_process_name
 
-        console.log("Child recieved user data path: " + userData)
+        console.log("  Child recieved user data path: " + userData)
         var dbPath = path.join(userData, username + '.visi')
 
-        console.log("DB path: " + dbPath)
+        console.log("  DB path: " + dbPath)
         dbsearch = new sqlite3.Database(dbPath);
         dbsearch.run("PRAGMA journal_mode=WAL;")
         process.send({  message_type:       "database_setup_in_child" ,
                         child_process_name:  childProcessName
                         });
+        console.log(" ---  Setting up drivers v3! --- ")
+        driversFn(function(xx) {
+            for (var i=0; i< xx.length; i++){
+            if (xx[i].name) {
+                console.log(xx[i].name)
+                console.log("    " + xx[i].initText)
+
+            }
+            }
+        })
+
+
+
+
 
 
         } else if (msg.message_type == 'setUpSql') {
@@ -265,4 +283,24 @@ function setUpSql() {
     stmt3 = dbsearch.prepare("INSERT INTO search_rows_hierarchy (document_binary_hash, parent_hash, child_hash) VALUES (?,?,?)");
 
     setIn =  dbsearch.prepare("UPDATE data_states SET index_status = ? WHERE id = ?");
+}
+
+
+
+
+function driversFn(callbackFn) {
+    dbsearch.serialize(
+        function() {
+            var result = []
+            var stmt = dbsearch.all(
+                "SELECT * FROM drivers",
+
+                function(err, results)
+                {
+                    for (var i =0 ; i< results.length; i ++) {
+                        result.push(results[i])
+                    }
+                    callbackFn( result);
+                })
+    }, sqlite3.OPEN_READONLY)
 }
