@@ -2594,7 +2594,7 @@ function fromDir(startPath,filter,callback){
 //zzz
 function evalLocalSystemDriver(driverName) {
 	var evalDriver = '(' + fs.readFileSync(path.join(__dirname, '../public/visifile_drivers/' +
-                                                                    driverName + '.json')).toString() + ')';
+                                                                    driverName + '.js')).toString() + ')';
 	addOrUpdateDriver(driverName, evalDriver)
 }
 
