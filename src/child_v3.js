@@ -23,6 +23,7 @@ var toeval;
 var userData
 var childProcessName
 
+
 var inProcessFilesFn                    = false;
 var isWin                               = /^win/.test(process.platform);
 var numberOfSecondsIndexFilesInterval   = 5;
@@ -113,7 +114,7 @@ function processMessagesFromMainProcess() {
         console.log(" ---  Setting up drivers v3! --- ")
         driversFn(function(xx) {
             for (var i=0; i< xx.length; i++){
-            if (xx[i].name) {
+            if (xx[i].initText) {
                 console.log(xx[i].name)
                 console.log("    " + xx[i].initText)
 
@@ -287,7 +288,6 @@ function setUpSql() {
 
 
 
-
 function driversFn(callbackFn) {
     dbsearch.serialize(
         function() {
@@ -298,7 +298,8 @@ function driversFn(callbackFn) {
                 function(err, results)
                 {
                     for (var i =0 ; i< results.length; i ++) {
-                        result.push(results[i])
+                        var obj = eval(results[i].code)
+                        result.push(obj)
                     }
                     callbackFn( result);
                 })
