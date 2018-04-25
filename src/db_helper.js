@@ -46,8 +46,9 @@ module.exports = {
             "CREATE TABLE IF NOT EXISTS data_states (id TEXT, name TEXT, connection TEXT, driver TEXT, size INTEGER, hash TEXT, type TEXT, fileName TEXT, definition TEXT, preview TEXT, status TEXT, index_status TEXT, similar_count INTEGER, related_status TEXT, when_timestamp INTEGER);",
 
 
-            "CREATE TABLE IF NOT EXISTS intranet_client_connects (id TEXT, internal_host TEXT, internal_port INTEGER, public_ip TEXT, via TEXT, public_host TEXT, user_name TEXT, client_user_name TEXT, when_connected INTEGER);"
+            "CREATE TABLE IF NOT EXISTS intranet_client_connects (id TEXT, internal_host TEXT, internal_port INTEGER, public_ip TEXT, via TEXT, public_host TEXT, user_name TEXT, client_user_name TEXT, when_connected INTEGER);",
 
+            "CREATE TABLE IF NOT EXISTS data_atlas ( id	TEXT, type	TEXT,name	TEXT, parent	TEXT,parent_root	TEXT,properties	TEXT);"
                 ],
 
         function(a,b){
