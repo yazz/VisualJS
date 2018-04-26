@@ -333,6 +333,7 @@ function driversFn(callbackFn) {
                     if (results) {
                         for (var i =0 ; i< results.length; i ++) {
                             var obj = eval(results[i].code)
+                            obj.src = results[i].code
                             result.push(obj)
                         }
                         callbackFn( result);
@@ -356,21 +357,23 @@ function processDrivers() {
         if (listOfDrivers) {
             for (var i=0; i< listOfDrivers.length; i ++) {
                 if (listOfDrivers[i].events) {
-                    //console.log("    " + listOfDrivers[i].events)
-                    var fg =  Object.keys(listOfDrivers[i].events)
-                    if (fg.length > 0  ) {
-                        //console.log(listOfDrivers[i].name)
-                        //console.log("    " + JSON.stringify(fg))
-                        for (var e=0; e<fg.length; e++){
-                            var thisEvent = listOfDrivers[i].events[fg[e]]
+                    //console.log("    " + listOfDrivers[i].src)
+                    var thisDriverEvents =  Object.keys(listOfDrivers[i].events)
+                    if (thisDriverEvents.length > 0  ) {
+                        //console.log("    " + JSON.stringify(thisDriverEvents))
+                        for (var e=0; e< thisDriverEvents.length; e++){
+                            var thisEvent = listOfDrivers[i].events[thisDriverEvents[e]]
                             //console.log("    " + JSON.stringify(Object.keys(thisEvent,null,2)))
-                            if (thisEvent.on == "init") {
+                            //console.log("thisDriverEvents: " + JSON.stringify(thisDriverEvents,null,2))
+                            //console.log("i: " + JSON.stringify(e,null,2))
+                            addEventCode(thisDriverEvents[e], listOfDrivers[i].name, listOfDrivers[i].src, thisEvent)
+                            /*if (thisEvent.on == "init") {
                                 console.log("Created event " + listOfDrivers[i].name + ":init")
                                 initFunctions.push(thisEvent.do)
                             } else if (thisEvent.on == "call") {
                                 console.log("Created event " + listOfDrivers[i].name + ":call")
                                 functions[listOfDrivers[i].name] = thisEvent.do
-                            }
+                            }*/
 
                         }
                     }
@@ -383,6 +386,35 @@ function processDrivers() {
         }
     })
 }
+
+function addEventCode(eventName, driverName, code, driver) {
+    console.log("--- addEventCode ---")
+    console.log("     eventName: " + eventName)
+    console.log("    driverName: " + driverName)
+    //console.log("        driver: " + JSON.stringify(driver,null,2))
+    var startIndex = code.indexOf(eventName)
+    code = code.substring(startIndex)
+    var startIndex = code.indexOf("on:")
+    code = code.substring(startIndex + 3)
+    var startIndex = code.indexOf("do:")
+    var oncode = code.substring(0, startIndex )
+    var startIndex = oncode.lastIndexOf(",")
+    oncode = oncode.substring(0, startIndex )
+
+    //console.log("    startIndex: " + JSON.stringify(startIndex,null,2))
+    console.log("          on: " + JSON.stringify(oncode,null,2))
+
+
+    var startIndex = code.indexOf("do:")
+    code = code.substring(startIndex + 3)
+    var startIndex = code.indexOf("end:")
+    code = code.substring(0, startIndex )
+    var startIndex = code.lastIndexOf(",")
+    code = code.substring(0, startIndex )
+
+    console.log("          code: " + JSON.stringify(code,null,2))
+}
+
 
 var functions = new Object()
 
