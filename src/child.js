@@ -2615,7 +2615,9 @@ function setUpDbDrivers() {
     evalLocalSystemDriver('oracle',         path.join(__dirname, '../public/visifile_drivers/oracle.js'))
     evalLocalSystemDriver('testdriver',     path.join(__dirname, '../public/visifile_drivers/testdriver.js'))
 
-    evalLocalSystemDriver('powershell',     path.join(__dirname, '../public/visifile_drivers/services/powershell.js'))
+    if (isWin) {
+        evalLocalSystemDriver('powershell',     path.join(__dirname, '../public/visifile_drivers/services/powershell.js'))
+    }
     evalLocalSystemDriver('commandLine',    path.join(__dirname, '../public/visifile_drivers/services/commandLine.js'))
 }
 
