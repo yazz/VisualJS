@@ -105,8 +105,8 @@ var requestClientPublicIp;
 var hostcount  							= 0;
 var queuedResponses                     = new Object();
 var queuedResponseSeqNum                = 0;
-var alreadyOpen = false;
-
+var alreadyOpen                         = false;
+var executionProcessCount               = 4;
 
 
 
@@ -644,6 +644,21 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
         forkedProcesses["forkedChildV3"].send({         message_type: "startDriverServices" });
     }
 
+    for (var i=0;i<executionProcessCount; i++ ) {
+        var exeProcName = "exeProcess" + i
+        if (processName == exeProcName) {
+
+            outputToBrowser("- sending user_data_path to child '" + exeProcName + "':  " + userData)
+            forkedProcesses[exeProcName].send({  message_type: "init" ,
+                                                 user_data_path: userData,
+                                                 child_process_name: "forked"
+                                              });
+
+            forkedProcesses[exeProcName].send({         message_type: "startDriverServices" });
+        }
+
+    }
+
 
 
 
@@ -714,6 +729,11 @@ function setupChildProcesses2() {
 
     setupForkedProcess("forked",        "child.js", 40003)
     setupForkedProcess("forkedChildV3", "child_v3.js", 40004)
+    for (var i=0;i<executionProcessCount; i++ ) {
+        var exeProcName = "exeProcess" + i
+            setupForkedProcess(exeProcName, "exeProcess.js", 40100 + i)
+
+    }
 }
 
 
@@ -1110,26 +1130,30 @@ function shutDown() {
 
 
         if (forkedProcesses["forked"]) {
-            //console.log("Killed Process forked")
+            console.log("Killed Process forked")
             forkedProcesses["forked"].kill();
         }
         if (forkedProcesses["forkedChildV3"]) {
-            //console.log("Killed Child V3 process")
+            console.log("Killed Child V3 process")
             forkedProcesses["forkedChildV3"].kill();
         }
         if (forkedProcesses["forkedIndexer"]) {
-            //console.log("Killed Process forkedIndexer")
+            console.log("Killed Process forkedIndexer")
             forkedProcesses["forkedIndexer"].kill();
         }
         if (forkedProcesses["forkedPowershell"]) {
-            //console.log("Killed Process forkedPowershell")
+            console.log("Killed Process forkedPowershell")
             forkedProcesses["forkedPowershell"].kill();
         }
         if (forkedProcesses["forkedFileScanner"]) {
-            //console.log("Killed Process forkedFileScanner")
+            console.log("Killed Process forkedFileScanner")
             forkedProcesses["forkedFileScanner"].kill();
         }
-
+        for (var i=0;i<executionProcessCount; i++ ) {
+            var exeProcName = "exeProcess" + i
+            forkedProcesses[exeProcName].kill();
+            console.log("Killed Process " + exeProcName)
+        }
         if (visifile){
             visifile.removeAllListeners('close');
             //visifile.close();
