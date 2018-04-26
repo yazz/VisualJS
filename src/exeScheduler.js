@@ -26,6 +26,7 @@ var stmt2                               = null;
 var stmt3                               = null;
 var setIn                               = null;
 var updateProcessTable                  = null;
+var stmtInsertIntoCode                  = null;
 var inGetRelatedDocumentHashes          = false;
 var inIndexFileRelationshipsFn          = false;
 var finishedFindingFolders              = false;
@@ -89,7 +90,7 @@ function processMessagesFromMainProcess() {
 
 
     if  (msg.message_type == 'init') {
-        //zzz
+
         console.log('-- Init v3');
         userData            = msg.user_data_path
         childProcessName    = msg.child_process_name
@@ -124,7 +125,7 @@ function processMessagesFromMainProcess() {
 
 
         } else if (msg.message_type == 'setUpSql') {
-        //zzz
+
 
              console.log(" --- setUpSql --- ")
              setUpSql();
@@ -137,7 +138,7 @@ function processMessagesFromMainProcess() {
 
 
         } else if (msg.message_type == 'startNode') {
-        //zzz
+
 
              console.log(" --- Started Node --- ")
              console.log("     Node ID: " + msg.node_id)
@@ -316,7 +317,10 @@ function setUpSql() {
         "     (?,?,?,?)"
     )
 
-
+    stmtInsertIntoCode = dbsearch.prepare(  " insert into system_code " +
+                                                "      ( id, on_condition, driver, method, code ) " +
+                                                " values " +
+                                                "      ( ?,  ?, ? , ?, ?);");
 }
 
 
@@ -413,6 +417,38 @@ function addEventCode(eventName, driverName, code, driver) {
     code = code.substring(0, startIndex )
 
     console.log("          code: " + JSON.stringify(code,null,2))
+
+
+
+    dbsearch.serialize(
+        function() {
+            var result = []
+            var stmt = dbsearch.all(
+                "SELECT * FROM system_code where driver = ? and method = ?",
+                [driverName, eventName],
+
+                function(err, results)
+                {
+                    if (results.length == 0) {
+                        dbsearch.serialize(
+                            function() {
+                                dbsearch.run("begin exclusive transaction");
+                                stmtInsertIntoCode.run(
+                                    "",
+                                    oncode,
+                                    driver,
+                                    eventName,
+                                    code)
+                                dbsearch.run("commit");
+                            })
+
+
+                    } else {
+
+                    }
+
+                })
+    }, sqlite3.OPEN_READONLY)
 }
 
 
