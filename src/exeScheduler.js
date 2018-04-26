@@ -136,7 +136,7 @@ function processMessagesFromMainProcess() {
                      console.log(" --- Started driver services --- ")
                      processDrivers();
 
-                
+
 
 
 
@@ -148,7 +148,7 @@ function processMessagesFromMainProcess() {
                  console.log(" --- Started Node --- ")
                  console.log("     Node ID: " + msg.node_id)
                  console.log("     Process ID: " + msg.child_process_id)
-
+                 console.log("     Started: " + msg.started)
             }
 
 
