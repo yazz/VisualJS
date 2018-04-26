@@ -106,8 +106,8 @@ function processMessagesFromMainProcess() {
         console.log(" ---  Setting up drivers v3! --- ")
         driversFn(function(xx) {
             if (xx) {
-                for (var i=0; i< xx.length; i++){
-                    if (xx[i].initText) {
+                for ( var i = 0; i< xx.length; i++ ){
+                    if ( xx[i].initText ) {
                         console.log(xx[i].name)
                         console.log("    " + xx[i].initText)
 
@@ -123,39 +123,39 @@ function processMessagesFromMainProcess() {
 
 
 
-                        } else if (msg.message_type == 'setUpSql') {
-                        //zzz
+        } else if (msg.message_type == 'setUpSql') {
+        //zzz
 
-                             console.log(" --- setUpSql --- ")
-                             setUpSql();
-                             processDrivers();
-
-
+             console.log(" --- setUpSql --- ")
+             setUpSql();
+             processDrivers();
 
 
 
 
 
-            } else if (msg.message_type == 'startNode') {
-            //zzz
 
-                 console.log(" --- Started Node --- ")
-                 console.log("     Node ID: " + msg.node_id)
-                 console.log("     Process ID: " + msg.child_process_id)
-                 console.log("     Started: " + msg.started)
 
-                 dbsearch.serialize(
-                     function() {
-                         dbsearch.run("begin exclusive transaction");
-                         updateProcessTable.run(
-                             msg.node_id,
-                             msg.child_process_id,
-                             msg.started,
-                             0)
-                         dbsearch.run("commit");
-                     })
+        } else if (msg.message_type == 'startNode') {
+        //zzz
 
-            }
+             console.log(" --- Started Node --- ")
+             console.log("     Node ID: " + msg.node_id)
+             console.log("     Process ID: " + msg.child_process_id)
+             console.log("     Started: " + msg.started)
+
+             dbsearch.serialize(
+                 function() {
+                     dbsearch.run("begin exclusive transaction");
+                     updateProcessTable.run(
+                         msg.node_id,
+                         msg.child_process_id,
+                         msg.started,
+                         0)
+                     dbsearch.run("commit");
+                 })
+
+        }
 
 
 
