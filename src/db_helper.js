@@ -52,7 +52,9 @@ module.exports = {
 
             "CREATE TABLE IF NOT EXISTS system_process_info (process	TEXT PRIMARY KEY, process_id	TEXT, running_since	TEXT, job_count	INTEGER);",
 
-            "CREATE TABLE IF NOT EXISTS system_process_jobs (id	TEXT,	driver	TEXT,	method	TEXT,	status	TEXT,	args	TEXT,	return_value	TEXT,	creation_time	INTEGER,	execution_duration	INTEGER,process	TEXT);"
+            "CREATE TABLE IF NOT EXISTS system_process_jobs (id	TEXT,	driver	TEXT,	method	TEXT,	status	TEXT,	args	TEXT,	return_value	TEXT,	creation_time	INTEGER,	execution_duration	INTEGER,process	TEXT);",
+
+            "CREATE TABLE IF NOT EXISTS system_code (id TEXT,	driver TEXT,method TEXT, code TEXT);"
                 ],
 
         function(a,b){
