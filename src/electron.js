@@ -259,6 +259,11 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
 
 
+
+
+
+
+
         } else if (msg.message_type == "createdTablesInChild") {
             forkedProcesses["forked"].send({         message_type: "setUpSql" });
             forkedProcesses["forked"].send({         message_type: "greeting" , hello: 'world' });
@@ -266,6 +271,12 @@ function setUpChildListeners(processName, fileName, debugPort) {
                 mainNodeProcessStarted = true
                 getPort()
             }
+
+
+
+
+
+
 
 
         } else if (msg.message_type == "database_setup_in_child") {
@@ -285,7 +296,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
             if (msg.child_process_name == "forkedFileScanner") {
                 if (typeOfSystem == 'client') {
                     if (runServices) {
-                        forkedProcesses["forkedFileScanner"].send({         message_type: "setUpSql" });
+                        forkedProcesses["forkedFileScanner"].send({ message_type: "setUpSql" });
                         forkedProcesses["forkedFileScanner"].send({ message_type: "childScanFiles" });
                     }
                 }
@@ -297,6 +308,24 @@ function setUpChildListeners(processName, fileName, debugPort) {
                     //forkedProcesses["forkedPowershell"].send({ message_type: "call_powershell" });
                 }
             }
+
+
+
+            if (msg.child_process_name == "forkedExeScheduler") {
+                    forkedProcesses["forkedExeScheduler"].send({ message_type: "setUpSql" });
+                }
+
+            if (msg.child_process_name.startsWith("forkedExeProcess")) {
+
+                forkedProcesses[msg.child_process_name].send({ message_type: "setUpSql" });
+                forkedProcesses[msg.child_process_name].send({ message_type: "startDriverServices" });
+
+                forkedProcesses["forkedExeScheduler"].send({    message_type:    "startNode",
+                                                                node_id:          msg.child_process_name,
+                                                                child_process_id: forkedProcesses[msg.child_process_name].pid,
+                                                                started:          new Date()
+                                                  });
+                                              }
 
 
         } else if (msg.message_type == "parentSetSharedGlobalVar") {
@@ -654,13 +683,6 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
                                                  child_process_name: exeProcName
                                               });
 
-            forkedProcesses[exeProcName].send({         message_type: "startDriverServices" });
-
-            forkedProcesses["forkedExeScheduler"].send({  message_type:    "startNode",
-                                                          node_id:          exeProcName,
-                                                          child_process_id: forkedProcesses[exeProcName].pid,
-                                                          started:          new Date()
-                                                  });
       }
 
     }
