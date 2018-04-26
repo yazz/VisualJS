@@ -633,19 +633,19 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
 
 
 
-    if (processName == "forkedChildV3") {
+    if (processName == "forkedExeScheduler") {
 
-        outputToBrowser("- sending user_data_path to child 'forkedChildV3':  " + userData)
-        forkedProcesses["forkedChildV3"].send({  message_type: "init" ,
+        outputToBrowser("- sending user_data_path to child 'forkedExeScheduler':  " + userData)
+        forkedProcesses["forkedExeScheduler"].send({  message_type: "init" ,
                                                  user_data_path: userData,
                                                  child_process_name: "forked"
                                               });
 
-        forkedProcesses["forkedChildV3"].send({         message_type: "startDriverServices" });
+        forkedProcesses["forkedExeScheduler"].send({         message_type: "startDriverServices" });
     }
 
     for (var i=0;i<executionProcessCount; i++ ) {
-        var exeProcName = "exeProcess" + i
+        var exeProcName = "forkedExeProcess" + i
         if (processName == exeProcName) {
 
             outputToBrowser("- sending user_data_path to child '" + exeProcName + "':  " + userData)
@@ -728,9 +728,9 @@ function setupChildProcesses2() {
     //console.log("-------------------------------------------------------------------");
 
     setupForkedProcess("forked",        "child.js", 40003)
-    setupForkedProcess("forkedChildV3", "child_v3.js", 40004)
+    setupForkedProcess("forkedExeScheduler", "exeScheduler.js", 40004)
     for (var i=0;i<executionProcessCount; i++ ) {
-        var exeProcName = "exeProcess" + i
+        var exeProcName = "forkedExeProcess" + i
             setupForkedProcess(exeProcName, "exeProcess.js", 40100 + i)
 
     }
@@ -1133,9 +1133,9 @@ function shutDown() {
             console.log("Killed Process forked")
             forkedProcesses["forked"].kill();
         }
-        if (forkedProcesses["forkedChildV3"]) {
-            console.log("Killed Child V3 process")
-            forkedProcesses["forkedChildV3"].kill();
+        if (forkedProcesses["forkedExeScheduler"]) {
+            console.log("Killed Exe Scheduler process")
+            forkedProcesses["forkedExeScheduler"].kill();
         }
         if (forkedProcesses["forkedIndexer"]) {
             console.log("Killed Process forkedIndexer")
@@ -1150,7 +1150,7 @@ function shutDown() {
             forkedProcesses["forkedFileScanner"].kill();
         }
         for (var i=0;i<executionProcessCount; i++ ) {
-            var exeProcName = "exeProcess" + i
+            var exeProcName = "forkedExeProcess" + i
             forkedProcesses[exeProcName].kill();
             console.log("Killed Process " + exeProcName)
         }
