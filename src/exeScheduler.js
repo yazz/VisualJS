@@ -3,14 +3,8 @@
 var fs                          = require('fs');
 var path                        = require('path');
 var mkdirp                      = require('mkdirp')
-var XLSX                        = require('xlsx');
-var csv                         = require('fast-csv');
-var mammoth                     = require("mammoth");
-var postgresdb                  = require('pg');
-var mysql                       = require('mysql');
 const uuidv1                    = require('uuid/v1');
 var crypto                      = require('crypto');
-var diff                        = require('deep-diff').diff
 var sqlite3                     = require('sqlite3');
 var os                          = require('os')
 var perf                        = require('./perf')
@@ -91,9 +85,6 @@ processMessagesFromMainProcess();
 
 function processMessagesFromMainProcess() {
     process.on('message', (msg) => {
-
-
-
 
 
     if  (msg.message_type == 'init') {
