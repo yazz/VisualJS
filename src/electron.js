@@ -638,7 +638,7 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
         outputToBrowser("- sending user_data_path to child 'forkedExeScheduler':  " + userData)
         forkedProcesses["forkedExeScheduler"].send({  message_type: "init" ,
                                                       user_data_path: userData,
-                                                      child_process_name: "forked"
+                                                      child_process_name: "forkedExeScheduler"
                                               });
 
         forkedProcesses["forkedExeScheduler"].send({         message_type: "startDriverServices" });
@@ -651,7 +651,7 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
             outputToBrowser("- sending user_data_path to child '" + exeProcName + "':  " + userData)
             forkedProcesses[exeProcName].send({  message_type: "init" ,
                                                  user_data_path: userData,
-                                                 child_process_name: "forked"
+                                                 child_process_name: exeProcName
                                               });
 
             forkedProcesses[exeProcName].send({         message_type: "startDriverServices" });
