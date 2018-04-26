@@ -25,6 +25,7 @@ var inScan                              = false;
 var stmt2                               = null;
 var stmt3                               = null;
 var setIn                               = null;
+var updateProcessTable                  = null;
 var inGetRelatedDocumentHashes          = false;
 var inIndexFileRelationshipsFn          = false;
 var finishedFindingFolders              = false;
@@ -115,18 +116,18 @@ function processMessagesFromMainProcess() {
             }
 
         })
+        setUpSql()
 
 
 
 
 
 
-                } else if (msg.message_type == 'setUpSql') {
-                //zzz
+                        } else if (msg.message_type == 'setUpSql') {
+                        //zzz
 
-                    setUpSql();
-
-
+                             console.log(" --- setUpSql --- ")
+                             setUpSql();
 
 
 
@@ -149,6 +150,18 @@ function processMessagesFromMainProcess() {
                  console.log("     Node ID: " + msg.node_id)
                  console.log("     Process ID: " + msg.child_process_id)
                  console.log("     Started: " + msg.started)
+
+                 dbsearch.serialize(
+                     function() {
+                         dbsearch.run("begin exclusive transaction");
+                         updateProcessTable.run(
+                             msg.node_id,
+                             msg.child_process_id,
+                             msg.started,
+                             0)
+                         dbsearch.run("commit");
+                     })
+
             }
 
 
@@ -301,6 +314,16 @@ function setUpSql() {
     stmt3 = dbsearch.prepare("INSERT INTO search_rows_hierarchy (document_binary_hash, parent_hash, child_hash) VALUES (?,?,?)");
 
     setIn =  dbsearch.prepare("UPDATE data_states SET index_status = ? WHERE id = ?");
+
+
+    updateProcessTable = dbsearch.prepare(
+        " insert or replace into "+
+        "     system_process_info (process, process_id, running_since, job_count) " +
+        " values " +
+        "     (?,?,?,?)"
+    )
+
+
 }
 
 
