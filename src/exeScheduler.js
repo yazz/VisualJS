@@ -128,14 +128,7 @@ function processMessagesFromMainProcess() {
 
                              console.log(" --- setUpSql --- ")
                              setUpSql();
-
-
-
-                } else if (msg.message_type == 'startDriverServices') {
-                //zzz
-
-                     console.log(" --- Started driver services --- ")
-                     processDrivers();
+                             processDrivers();
 
 
 

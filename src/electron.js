@@ -318,7 +318,6 @@ function setUpChildListeners(processName, fileName, debugPort) {
             if (msg.child_process_name.startsWith("forkedExeProcess")) {
 
                 forkedProcesses[msg.child_process_name].send({ message_type: "setUpSql" });
-                forkedProcesses[msg.child_process_name].send({ message_type: "startDriverServices" });
 
                 forkedProcesses["forkedExeScheduler"].send({    message_type:    "startNode",
                                                                 node_id:          msg.child_process_name,
@@ -742,6 +741,13 @@ function setupChildProcesses() {
     if (isWin) {
         setupForkedProcess("forkedPowershell","powershell.js", 40002)
     }
+
+    setupForkedProcess("forkedExeScheduler", "exeScheduler.js", 40004)
+    for (var i=0;i<executionProcessCount; i++ ) {
+        var exeProcName = "forkedExeProcess" + i
+            setupForkedProcess(exeProcName, "exeProcess.js", 40100 + i)
+
+    }
 }
 
 
@@ -756,12 +762,7 @@ function setupChildProcesses2() {
     //console.log("-------------------------------------------------------------------");
 
     setupForkedProcess("forked",        "child.js", 40003)
-    setupForkedProcess("forkedExeScheduler", "exeScheduler.js", 40004)
-    for (var i=0;i<executionProcessCount; i++ ) {
-        var exeProcName = "forkedExeProcess" + i
-            setupForkedProcess(exeProcName, "exeProcess.js", 40100 + i)
 
-    }
 }
 
 
