@@ -657,7 +657,7 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
             forkedProcesses[exeProcName].send({         message_type: "startDriverServices" });
 
             forkedProcesses["forkedExeScheduler"].send({  message_type:    "startNode",
-                                                          node_id:          i,
+                                                          node_id:          exeProcName,
                                                           child_process_id: forkedProcesses[exeProcName].pid,
                                                           started:          new Date()
                                                   });
