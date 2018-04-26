@@ -48,7 +48,9 @@ module.exports = {
 
             "CREATE TABLE IF NOT EXISTS intranet_client_connects (id TEXT, internal_host TEXT, internal_port INTEGER, public_ip TEXT, via TEXT, public_host TEXT, user_name TEXT, client_user_name TEXT, when_connected INTEGER);",
 
-            "CREATE TABLE IF NOT EXISTS data_atlas ( id	TEXT, type	TEXT,name	TEXT, parent	TEXT,parent_root	TEXT,properties	TEXT);"
+            "CREATE TABLE IF NOT EXISTS data_atlas ( id	TEXT, type	TEXT,name	TEXT, parent	TEXT,parent_root	TEXT,properties	TEXT);",
+
+            "CREATE TABLE IF NOT EXISTS system_process_info (process	INTEGER, process_id	TEXT, running since	TEXT, job_count	INTEGER);"
                 ],
 
         function(a,b){
