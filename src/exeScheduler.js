@@ -136,7 +136,6 @@ function processMessagesFromMainProcess() {
 
 
 
-
         } else if (msg.message_type == 'startNode') {
 
 
@@ -154,6 +153,13 @@ function processMessagesFromMainProcess() {
                          msg.started,
                          0)
                      dbsearch.run("commit");
+
+//zzz
+                    process.send({  message_type:       "execute_code_in_exe_child_process" ,
+                                    child_process_name:  msg.node_id
+                                    });
+
+
                  })
 
         }
@@ -392,9 +398,9 @@ function processDrivers() {
 }
 
 function addEventCode(eventName, driverName, code, driver) {
-    console.log("--- addEventCode ---")
-    console.log("     eventName: " + eventName)
-    console.log("    driverName: " + driverName)
+    //console.log("--- addEventCode ---")
+    //console.log("     eventName: " + eventName)
+    //console.log("    driverName: " + driverName)
     //console.log("        driver: " + JSON.stringify(driver,null,2))
     var startIndex = code.indexOf(eventName)
     code = code.substring(startIndex)
@@ -406,7 +412,7 @@ function addEventCode(eventName, driverName, code, driver) {
     oncode = oncode.substring(0, startIndex )
 
     //console.log("    startIndex: " + JSON.stringify(startIndex,null,2))
-    console.log("          on: " + JSON.stringify(oncode,null,2))
+    //console.log("          on: " + JSON.stringify(oncode,null,2))
 
 
     var startIndex = code.indexOf("do:")
@@ -416,7 +422,7 @@ function addEventCode(eventName, driverName, code, driver) {
     var startIndex = code.lastIndexOf(",")
     code = code.substring(0, startIndex )
 
-    console.log("          code: " + JSON.stringify(code,null,2))
+    //console.log("          code: " + JSON.stringify(code,null,2))
 
 
 

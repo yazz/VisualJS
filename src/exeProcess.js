@@ -130,25 +130,27 @@ function processMessagesFromMainProcess() {
 
 
 
-                } else if (msg.message_type == 'setUpSql') {
-                //zzz
+    } else if (msg.message_type == 'setUpSql') {
+    //zzz
 
-                    setUpSql();
-
-
+        setUpSql();
 
 
 
-                } else if (msg.message_type == 'startDriverServices') {
-                //zzz
-
-                     console.log(" --- Started driver services --- ")
-                     processDrivers();
-
-                }
 
 
+    } else if (msg.message_type == 'startDriverServices') {
+    //zzz
 
+         console.log(" --- Started driver services --- ")
+         processDrivers();
+
+
+
+
+    } else if  (msg.message_type == 'execute_code') {
+        console.log(childProcessName + " is executing method ")
+    }
 
 
 

@@ -441,6 +441,16 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
 
 
+        } else if (msg.message_type == "execute_code_in_exe_child_process") {
+                //console.log("6 - return_get_all_table: " );
+                //zzz
+                forkedProcesses[msg.child_process_name].send({
+                                                        message_type: "execute_code"
+                                                      });
+
+
+
+
         } else if (msg.message_type == "return_get_all_table") {
                 //console.log("6 - return_get_all_table: " );
                 var newres = queuedResponses[ msg.seq_num ]
@@ -1192,7 +1202,7 @@ function shutDown() {
             }
         }
 
-//zzz
+
         if (dbsearch) {
             dbsearch.run("PRAGMA wal_checkpoint;")
         }
