@@ -156,7 +156,8 @@ function processMessagesFromMainProcess() {
 
 //zzz
                     process.send({  message_type:       "execute_code_in_exe_child_process" ,
-                                    child_process_name:  msg.node_id
+                                    child_process_name:  msg.node_id,
+                                    code:               `console.log("Sent from Scheduler")`
                                     });
 
 

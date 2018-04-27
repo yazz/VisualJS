@@ -111,19 +111,7 @@ function processMessagesFromMainProcess() {
         process.send({  message_type:       "database_setup_in_child" ,
                         child_process_name:  childProcessName
                         });
-        console.log(" ---  Setting up drivers v3! --- ")
-        driversFn(function(xx) {
-            if (xx) {
-                for (var i=0; i< xx.length; i++){
-                    if (xx[i].initText) {
-                        console.log(xx[i].name)
-                        console.log("    " + xx[i].initText)
 
-                    }
-                }
-            }
-
-        })
 
 
 
@@ -139,17 +127,14 @@ function processMessagesFromMainProcess() {
 
 
 
-    } else if (msg.message_type == 'startDriverServices') {
-    //zzz
-
-         console.log(" --- Started driver services --- ")
-         processDrivers();
-
 
 
 
     } else if  (msg.message_type == 'execute_code') {
         console.log(childProcessName + " is executing method ")
+        if (msg.code) {
+            eval(msg.code)
+        }
     }
 
 
@@ -175,157 +160,7 @@ function processMessagesFromMainProcess() {
 //                                                                                         //
 //-----------------------------------------------------------------------------------------//
 function setUpSql() {
-    stmtInsertIntoIntranetClientConnects = dbsearch.prepare(" insert  into  intranet_client_connects " +
-                            "    ( id, internal_host, internal_port, public_ip, via, public_host, user_name, client_user_name, when_connected) " +
-                            " values " +
-                            "    (?,   ?,?,?,?,  ?,?,?,?);");
 
-    stmtInsertIntoConnections2 = dbsearch.prepare(" insert into connections " +
-                                "    ( id, name, driver, database, host, port, connectString, user, password, fileName, preview ) " +
-                                " values " +
-                                "    (?,  ?,?,?,?,?,?,?,?,?,?);");
-
-    stmtInsertIntoQueries = dbsearch.prepare(" insert into data_states " +
-                                "    ( id, name, connection, driver, definition, status, type ) " +
-                                " values " +
-                                "    (?,    ?, ?, ?, ?, ?, ?);");
-
-    stmtInsertDriver = dbsearch.prepare(" insert or replace into drivers " +
-                                "    (id,  name, type, code ) " +
-                                " values " +
-                                "    (?, ?,?,?);");
-
-    stmtUpdateDriver = dbsearch.prepare(" update   drivers   set code = ? where id = ?");
-
-    stmtResetFolders = dbsearch.prepare( " update   folders   set status = NULL ");
-
-    stmtResetFiles   = dbsearch.prepare( " update   files   set status = 'INDEXED' where status = 'REINDEXED' ");
-
-    stmtUpdateFolder = dbsearch.prepare( " update folders " +
-                                                         "    set " +
-                                                         "        status = ? " +
-                                                         " where " +
-                                                         "     id = ?");
-    stmtInsertIntoRelationships = dbsearch.prepare( " insert into relationships " +
-                                                        "    ( id, source_query_hash, target_query_hash, similar_row_count ) " +
-                                                        " values " +
-                                                        "    (?,  ?,?,  ?);");
-
-    stmtUpdateRelationships2 = dbsearch.prepare( " update relationships " +
-                                                         "    set " +
-                                                         "        new_source = ?, new_target = ?, " +
-                                                         "        edited_source = ?, edited_target = ?, " +
-                                                         "        deleted_source = ?, deleted_target = ?, " +
-                                                         "        array_source = ?, array_target = ? " +
-                                                         " where " +
-                                                         "     source_query_hash = ?    and     target_query_hash = ? ");
-
-
-     stmtInsertIntoContents = dbsearch.prepare(  " insert into contents " +
-                                                 "      ( id, content, content_type ) " +
-                                                 " values " +
-                                                 "      ( ?,  ?, ? );");
-
-
-    stmtFileChanged = dbsearch.prepare( " update files " +
-                                            "   set  contents_hash = ?,  size = ? " +
-                                            " where  " +
-                                            "     id = ? ;");
-
-    stmtInsertIntoFiles = dbsearch.prepare( " insert into files " +
-                                            "     ( id,  contents_hash ,  size,  path,  orig_name,    fk_connection_id) " +
-                                            " values " +
-                                            "     ( ?,  ?,  ?,  ?,  ?,   ? );");
-
-    stmtInsertIntoMessages = dbsearch.prepare(  " insert into messages " +
-                                                "     ( id,  source_id , path, source, status) " +
-                                                " values " +
-                                                "     ( ?,  ?,  ?,  ? , ? );");
-
-
-    stmtInsertIntoFiles2 = dbsearch.prepare( " insert into files " +
-                                            "     ( id,  path,  orig_name ) " +
-                                            " values " +
-                                            "     ( ?,  ?,  ?);");
-
-
-    stmtUpdateFileStatus        = dbsearch.prepare(     " update files " +
-                                                        "     set status = ? " +
-                                                        " where " +
-                                                        "     id = ? ;");
-
-
-    stmtUpdateFileSizeAndShaAndConnectionId    = dbsearch.prepare(     " update files " +
-                                                        "     set contents_hash = ? , size = ? , fk_connection_id = ? " +
-                                                        " where " +
-                                                        "     id = ? ;");
-
-    stmtUpdateFileProperties    = dbsearch.prepare( " update files " +
-                                                    "    set contents_hash = ?,  size = ? " +
-                                                    " where " +
-                                                    "    id = ? ;");
-
-
-
-    stmtInsertIntoFolders = dbsearch.prepare(   " insert into folders " +
-                                                "    ( id, name, path, changed_count ) " +
-                                                " values " +
-                                                "    (?, ?, ?, 0);");
-
-
-
-
-    stmtInsertIntoConnections = dbsearch.prepare(" insert into connections " +
-                                "    ( id, name, driver, type, fileName ) " +
-                                " values " +
-                                "    (?,  ?,  ?,?,?);");
-
-
-
-    stmtInsertInsertIntoQueries = dbsearch.prepare(" insert into data_states " +
-                                "    ( id, name, connection, driver, size, hash, fileName, type, definition, preview, similar_count , when_timestamp) " +
-                                " values " +
-                                "    (?,  ?,?,?,  ?,?,?, ?,?,?, 1,  ?);");
-
-    stmtUpdateRelatedDocumentCount = dbsearch.prepare(" update data_states " +
-                                "    set  similar_count = ?  " +
-                                " where  " +
-                                "    id = ? ;");
-
-    stmtUpdateRelationships = dbsearch.prepare(" update data_states " +
-                                "    set  related_status = ?  " +
-                                " where  " +
-                                "    hash = ? ;");
-    stmt2 = dbsearch.prepare("INSERT INTO zfts_search_rows_hashed (row_hash, data) VALUES (?, ?)");
-
-    stmt3 = dbsearch.prepare("INSERT INTO search_rows_hierarchy (document_binary_hash, parent_hash, child_hash) VALUES (?,?,?)");
-
-    setIn =  dbsearch.prepare("UPDATE data_states SET index_status = ? WHERE id = ?");
-}
-
-
-
-function driversFn(callbackFn) {
-    dbsearch.serialize(
-        function() {
-            var result = []
-            var stmt = dbsearch.all(
-                "SELECT * FROM drivers",
-
-                function(err, results)
-                {
-                    if (results) {
-                        for (var i =0 ; i< results.length; i ++) {
-                            var obj = eval(results[i].code)
-                            result.push(obj)
-                        }
-                        callbackFn( result);
-                    } else {
-                        callbackFn(null)
-                    }
-
-                })
-    }, sqlite3.OPEN_READONLY)
 }
 
 
@@ -333,40 +168,11 @@ function driversFn(callbackFn) {
 
 
 
-function processDrivers() {
-    console.log("Process drivers")
-    var initFunctions = []
-    driversFn(function(xx) {
-        if (xx) {
-            for (var i=0; i< xx.length; i ++) {
-                if (xx[i].events) {
-                    //console.log("    " + xx[i].events)
-                    var fg =  Object.keys(xx[i].events)
-                    if (fg.length > 0  ) {
-                        //console.log(xx[i].name)
-                        //console.log("    " + JSON.stringify(fg))
-                        for (var e=0; e<fg.length; e++){
-                            var thisEvent = xx[i].events[fg[e]]
-                            //console.log("    " + JSON.stringify(Object.keys(thisEvent,null,2)))
-                            if (thisEvent.on == "init") {
-                                console.log("Created event " + xx[i].name + ":init")
-                                initFunctions.push(thisEvent.do)
-                            } else if (thisEvent.on == "call") {
-                                console.log("Created event " + xx[i].name + ":call")
-                                functions[xx[i].name] = thisEvent.do
-                            }
 
-                        }
-                    }
 
-                }
-            }
-            for (var rr = 0; rr < initFunctions.length ; rr ++) {
-                initFunctions[rr]()
-            }
-        }
-    })
-}
+
+
+
 
 var functions = new Object()
 

@@ -445,7 +445,8 @@ function setUpChildListeners(processName, fileName, debugPort) {
                 //console.log("6 - return_get_all_table: " );
                 //zzz
                 forkedProcesses[msg.child_process_name].send({
-                                                        message_type: "execute_code"
+                                                        message_type: "execute_code",
+                                                        code:          msg.code
                                                       });
 
 
@@ -678,8 +679,6 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
                                                       user_data_path: userData,
                                                       child_process_name: "forkedExeScheduler"
                                               });
-
-        forkedProcesses["forkedExeScheduler"].send({         message_type: "startDriverServices" });
     }
 
     for (var i=0;i<executionProcessCount; i++ ) {
