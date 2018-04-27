@@ -27,6 +27,7 @@ var stmt3                               = null;
 var setIn                               = null;
 var updateProcessTable                  = null;
 var stmtInsertIntoCode                  = null;
+var stmtUpdateCode                      = null;
 var inGetRelatedDocumentHashes          = false;
 var inIndexFileRelationshipsFn          = false;
 var finishedFindingFolders              = false;
@@ -154,7 +155,7 @@ function processMessagesFromMainProcess() {
                          0)
                      dbsearch.run("commit");
 
-//zzz
+
                     process.send({  message_type:       "execute_code_in_exe_child_process" ,
                                     child_process_name:  msg.node_id,
                                     code:               `console.log("Sent from Scheduler")`
@@ -328,6 +329,12 @@ function setUpSql() {
                                                 "      ( id, on_condition, driver, method, code ) " +
                                                 " values " +
                                                 "      ( ?,  ?, ? , ?, ?);");
+
+    stmtUpdateCode = dbsearch.prepare(  " update system_code " +
+                                                "      set on_condition = ?, "+
+                                                "          code         = ? " +
+                                                " where  " +
+                                                "      id = ?;");
 }
 
 
@@ -398,7 +405,7 @@ function processDrivers() {
     })
 }
 
-function addEventCode(eventName, driverName, code, driver) {
+function addEventCode(eventName, driverName, code, listOfEvents) {
     //console.log("--- addEventCode ---")
     //console.log("     eventName: " + eventName)
     //console.log("    driverName: " + driverName)
@@ -436,14 +443,16 @@ function addEventCode(eventName, driverName, code, driver) {
 
                 function(err, results)
                 {
+                    //zzz
                     if (results.length == 0) {
+                        var newId   = uuidv1();
                         dbsearch.serialize(
                             function() {
                                 dbsearch.run("begin exclusive transaction");
                                 stmtInsertIntoCode.run(
-                                    "",
+                                    newId,
                                     oncode,
-                                    driver,
+                                    driverName,
                                     eventName,
                                     code)
                                 dbsearch.run("commit");
@@ -451,6 +460,16 @@ function addEventCode(eventName, driverName, code, driver) {
 
 
                     } else {
+                        dbsearch.serialize(
+                            function() {
+                                dbsearch.run("begin exclusive transaction");
+                                stmtUpdateCode.run(
+                                    oncode,
+                                    code,
+                                    results[0].id
+                                )
+                                dbsearch.run("commit");
+                            })
 
                     }
 

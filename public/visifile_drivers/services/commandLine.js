@@ -26,7 +26,18 @@
 
                 }
             },
-            end: "init"
+            end: null
+
+        },
+
+
+
+        "This is just dummy code": {
+            on: "never",
+            do: function() {
+                // we don't do anyhting!
+                // but we can still be edited :)
+            }, end: null
         }
     }
 
