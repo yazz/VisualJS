@@ -152,6 +152,9 @@ function processMessagesFromMainProcess() {
         if (msg.code) {
             eval(msg.code)
         }
+        if (msg.code_id) {
+            executeCodeWithId(msg.code_id)
+        }
     }
 
 
@@ -193,6 +196,33 @@ function setUpSql() {
 
 var functions = new Object()
 
+
+
+function executeCodeWithId(id) {
+
+        dbsearch.serialize(
+            function() {
+                var stmt = dbsearch.all(
+                    "SELECT * FROM system_code where id  = ?; ",
+                    id,
+
+                    function(err, results)
+                    {
+                        if (results.length > 0) {
+
+                            var code = "(" + results[0].code + ")"
+                            //console.log(code)
+                            var fnfn = eval(code)
+
+                            fnfn()
+                            //callbackFn(results[0].id);
+                        } else {
+                            //callbackFn(null)
+                        }
+
+                    })
+        }, sqlite3.OPEN_READONLY)
+}
 
 
 
