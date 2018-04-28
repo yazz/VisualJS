@@ -142,9 +142,10 @@ function processMessagesFromMainProcess() {
 
 
 
+
+
      } else if (msg.message_type == "function_call_request") {
-             //console.log("6 - return_get_all_table: " );
-             //zzz
+
              dbsearch.serialize(
                  function() {
                      var stmt = dbsearch.all(
@@ -153,7 +154,10 @@ function processMessagesFromMainProcess() {
                          function(err, results)
                          {
                              if (results) {
-
+                                 //zzz
+console.log("3) ******")
+                                //executeJob(results[0].id, msg.child_process_name)
+                                executeJob(results[0].id, null)
                                  //callbackFn(results[0].id);
                              } else {
                                  //callbackFn(null)
@@ -531,7 +535,7 @@ function executeCode() {
     findNextJobToExecute(function(result) {
         console.log("    " + JSON.stringify(result,null,2))
         if (result) {
-            executeJob(result)
+            executeJob(result,null)
         }
 
         inExecuteCode = false
@@ -545,33 +549,39 @@ function executeCode() {
 
 
 //zzz
-function executeJob(id) {
-    fastSql("select * from system_process_info order by job_count asc", function(results) {
-        console.log(" select * from system_process_info    ")
-        //console.log("    " + JSON.stringify(results,null,2))
-        if (results.length > 0) {
-            var processToUse = results[0]
-            console.log("    " + JSON.stringify(processToUse,null,2))
-            console.log("    processToUse:" + processToUse.process + " : " + processToUse.job_count)
-            dbsearch.serialize(
-                function() {
-                    dbsearch.run("begin exclusive transaction");
-                    incrJobCount.run(
-                         processToUse.process)
-                    dbsearch.run("commit");
+function executeJob(id, fixedProcessToUse) {
+    if (fixedProcessToUse) {
+        sendJobIdToProcess(id, fixedProcessToUse)
+    } else {
+        fastSql("select * from system_process_info order by job_count asc", function(results) {
+            console.log(" select * from system_process_info    ")
+            //console.log("    " + JSON.stringify(results,null,2))
+            if (results.length > 0) {
+                var processToUse = results[0]
+                console.log("    " + JSON.stringify(processToUse,null,2))
+                console.log("    processToUse:" + processToUse.process + " : " + processToUse.job_count)
+                sendJobIdToProcess(id, processToUse.process)
+            }
+        })    }
 
-
-                   process.send({  message_type:       "execute_code_in_exe_child_process" ,
-                                   child_process_name:  processToUse.process,
-                                   code_id:             id
-                                   });
-
-
-                })
-        }
-    })
 }
 
+function sendJobIdToProcess(id, processName) {
+    dbsearch.serialize(
+        function() {
+            dbsearch.run("begin exclusive transaction");
+            incrJobCount.run(processName)
+            dbsearch.run("commit");
+
+
+           process.send({  message_type:       "execute_code_in_exe_child_process" ,
+                           child_process_name:  processName,
+                           code_id:             id
+                           });
+
+
+        })
+    }
 
 function findNextJobToExecute(callbackFn) {
 
