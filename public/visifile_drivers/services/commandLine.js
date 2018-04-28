@@ -14,7 +14,7 @@
 
         "This function is called as a service":
         {
-            on: "call",
+            on: "ls",
             do: function(args, callbackFn) {
                 console.log("4)  Service called with args " + JSON.stringify(args,null,2))
                 if(callbackFn){

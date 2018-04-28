@@ -549,7 +549,7 @@ function findNextJobToExecute(callbackFn) {
     dbsearch.serialize(
         function() {
             var stmt = dbsearch.all(
-                "SELECT * FROM system_code where driver = 'commandLine' and on_condition like '%never%'; ",
+                "SELECT * FROM system_code where driver = 'testdriver' and on_condition like '%init%'; ",
 
                 function(err, results)
                 {

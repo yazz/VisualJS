@@ -16,11 +16,9 @@
             on: "init",
             do: function() {
                 console.log("1) IN TESTDRIVER, calling commandLine service")
-                callService("commandLine"
-                            ,
-                            {
-                                command: "ls"
-                            }
+                callDriverMethod( "commandLine",
+                                  "ls"
+                                  ,{}
                             ,
                             function(result) {
                                 console.log("5) returned result: " + JSON.stringify(result,null,2))

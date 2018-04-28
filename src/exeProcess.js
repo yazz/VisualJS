@@ -97,7 +97,6 @@ function processMessagesFromMainProcess() {
 
 
     if  (msg.message_type == 'init') {
-        //zzz
         console.log('-- Init v3');
         userData            = msg.user_data_path
         childProcessName    = msg.child_process_name
@@ -119,8 +118,6 @@ function processMessagesFromMainProcess() {
 
 
     } else if (msg.message_type == 'setUpSql') {
-    //zzz
-
         setUpSql();
 
 
@@ -226,12 +223,9 @@ function executeCodeWithId(id) {
 
 
 
-function callService(sn, cv, callbackFn) {
-    console.log("2) called service '" + sn + "' with args: " + JSON.stringify(cv,null,2))
-    if (functions[sn]) {
-        functions[sn](cv, callbackFn)
-
-    } else {
-         console.log("3) '" + sn + "' is not defined as a service")
-    }
+function callDriverMethod(driverName, methodName, args, callbackFn) {
+    console.log("2) called '" + driverName + ":" + methodName + "' with args: " + JSON.stringify(args,null,2))
+    process.send({  message_type:       "request_driver_method_call" ,
+                    child_process_name:  childProcessName
+                    });
 }
