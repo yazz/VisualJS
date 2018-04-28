@@ -64,6 +64,12 @@ var stmtInsertIntoIntranetClientConnects;
 var stmtInsertInsertIntoQueries;
 var stmtUpdateRelatedDocumentCount;
 var stmtUpdateRelationships;
+
+var incrJobCount;
+
+var decrJobCount;
+
+
 var in_when_queries_changes             = false;
 var in_when_connections_change          = false;
 
@@ -156,10 +162,10 @@ function processMessagesFromMainProcess() {
                      dbsearch.run("commit");
 
 
-                    process.send({  message_type:       "execute_code_in_exe_child_process" ,
-                                    child_process_name:  msg.node_id,
-                                    old_code:               `console.log("Sent from Scheduler")`
-                                    });
+                    //process.send({  message_type:       "execute_code_in_exe_child_process" ,
+                    //                child_process_name:  msg.node_id,
+                    //                old_code:               `console.log("Sent from Scheduler")`
+                    //                });
 
 
                  })
@@ -316,6 +322,11 @@ function setUpSql() {
     stmt3 = dbsearch.prepare("INSERT INTO search_rows_hierarchy (document_binary_hash, parent_hash, child_hash) VALUES (?,?,?)");
 
     setIn =  dbsearch.prepare("UPDATE data_states SET index_status = ? WHERE id = ?");
+
+
+    incrJobCount = dbsearch.prepare("UPDATE system_process_info SET job_count = job_count + 1 WHERE process = ?");
+
+    decrJobCount = dbsearch.prepare("UPDATE system_process_info SET job_count = job_count - 1 WHERE process = ?");
 
 
     updateProcessTable = dbsearch.prepare(
@@ -495,13 +506,46 @@ function executeCode() {
     console.log("function(executeCode) {")
     findNextJobToExecute(function(result) {
         console.log("    " + JSON.stringify(result,null,2))
+        if (result) {
+            executeJob(result)
+        }
+
         inExecuteCode = false
     })
 
 }
 
+//zzz
+function executeJob(id) {
+    fastSql("select * from system_process_info order by job_count asc", function(results) {
+        console.log(" select * from system_process_info    ")
+        //console.log("    " + JSON.stringify(results,null,2))
+        if (results.length > 0) {
+            var processToUse = results[0]
+            console.log("    " + JSON.stringify(processToUse,null,2))
+            console.log("    processToUse:" + processToUse.process + " : " + processToUse.job_count)
+            dbsearch.serialize(
+                function() {
+                    dbsearch.run("begin exclusive transaction");
+                    incrJobCount.run(
+                         processToUse.process)
+                    dbsearch.run("commit");
+
+
+                   process.send({  message_type:       "execute_code_in_exe_child_process" ,
+                                   child_process_name:  processToUse.process,
+                                   code_id:             id
+                                   });
+
+
+                })
+        }
+    })
+}
+
+
 function findNextJobToExecute(callbackFn) {
-    //zzz
+
     dbsearch.serialize(
         function() {
             var stmt = dbsearch.all(
@@ -516,6 +560,22 @@ function findNextJobToExecute(callbackFn) {
                         callbackFn(null)
                     }
 
+                })
+    }, sqlite3.OPEN_READONLY)
+}
+
+
+
+
+function fastSql(sql,callbackFn) {
+    dbsearch.serialize(
+        function() {
+            var stmt = dbsearch.all(
+                sql,
+
+                function(err, results)
+                {
+                    callbackFn(results);
                 })
     }, sqlite3.OPEN_READONLY)
 }

@@ -144,7 +144,7 @@ function processMessagesFromMainProcess() {
     } else if  (msg.message_type == 'execute_code') {
         console.log(childProcessName + " is executing code ")
         console.log("     msg.code:  " + (msg.code?msg.code.length:-1) )
-        console.log("     msg.codeId:" + msg.codeId)
+        console.log("     msg.codeId:" + msg.code_id)
         console.log("     ")
         console.log("     ")
         console.log("     ")
