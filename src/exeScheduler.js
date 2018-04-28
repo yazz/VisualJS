@@ -158,7 +158,7 @@ function processMessagesFromMainProcess() {
 
                     process.send({  message_type:       "execute_code_in_exe_child_process" ,
                                     child_process_name:  msg.node_id,
-                                    ZZZcode:               `console.log("Sent from Scheduler")`
+                                    old_code:               `console.log("Sent from Scheduler")`
                                     });
 
 
@@ -430,7 +430,6 @@ function addEventCode(eventName, driverName, code, listOfEvents) {
 
                 function(err, results)
                 {
-                    //zzz
                     if (results.length == 0) {
                         var newId   = uuidv1();
                         dbsearch.serialize(
@@ -483,5 +482,40 @@ function callService(sn, cv, callbackFn) {
 
 var i3=0
 function callStuff() {
-    console.log("****** callStuff: " + (i3++))
+    setInterval( executeCode, 1000)
+}
+
+var inExecuteCode = false;
+function executeCode() {
+    if (inExecuteCode) {
+        return
+    }
+    inExecuteCode = true
+
+    console.log("function(executeCode) {")
+    findNextJobToExecute(function(result) {
+        console.log("    " + JSON.stringify(result,null,2))
+        inExecuteCode = false
+    })
+
+}
+
+function findNextJobToExecute(callbackFn) {
+    //zzz
+    dbsearch.serialize(
+        function() {
+            var stmt = dbsearch.all(
+                "SELECT * FROM system_code where driver = 'commandLine' and on_condition like '%never%'; ",
+
+                function(err, results)
+                {
+                    if (results) {
+
+                        callbackFn(results[0].id);
+                    } else {
+                        callbackFn(null)
+                    }
+
+                })
+    }, sqlite3.OPEN_READONLY)
 }

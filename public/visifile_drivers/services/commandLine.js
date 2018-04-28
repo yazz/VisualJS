@@ -37,6 +37,7 @@
             do: function() {
                 // we don't do anyhting!
                 // but we can still be edited :)
+                console.log("***** This is just dummy code ****")
             }, end: null
         }
     }
