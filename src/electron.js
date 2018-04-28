@@ -446,7 +446,8 @@ function setUpChildListeners(processName, fileName, debugPort) {
                 //zzz
                 forkedProcesses[msg.child_process_name].send({
                                                         message_type: "execute_code",
-                                                        code:          msg.code
+                                                        code:          msg.code,
+                                                        code_id:       msg.code_id
                                                       });
 
 

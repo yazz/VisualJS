@@ -130,7 +130,7 @@ function processMessagesFromMainProcess() {
 
              console.log(" --- setUpSql --- ")
              setUpSql();
-             processDrivers();
+             processDrivers(callStuff);
 
 
 
@@ -158,7 +158,7 @@ function processMessagesFromMainProcess() {
 
                     process.send({  message_type:       "execute_code_in_exe_child_process" ,
                                     child_process_name:  msg.node_id,
-                                    code:               `console.log("Sent from Scheduler")`
+                                    ZZZcode:               `console.log("Sent from Scheduler")`
                                     });
 
 
@@ -368,39 +368,26 @@ function driversFn(callbackFn) {
 
 
 
-function processDrivers() {
+function processDrivers(  callbackFn  ) {
     console.log("Process drivers")
-    var initFunctions = []
+
     driversFn(function(listOfDrivers) {
         if (listOfDrivers) {
             for (var i=0; i< listOfDrivers.length; i ++) {
                 if (listOfDrivers[i].events) {
-                    //console.log("    " + listOfDrivers[i].src)
                     var thisDriverEvents =  Object.keys(listOfDrivers[i].events)
                     if (thisDriverEvents.length > 0  ) {
-                        //console.log("    " + JSON.stringify(thisDriverEvents))
                         for (var e=0; e< thisDriverEvents.length; e++){
                             var thisEvent = listOfDrivers[i].events[thisDriverEvents[e]]
-                            //console.log("    " + JSON.stringify(Object.keys(thisEvent,null,2)))
-                            //console.log("thisDriverEvents: " + JSON.stringify(thisDriverEvents,null,2))
-                            //console.log("i: " + JSON.stringify(e,null,2))
                             addEventCode(thisDriverEvents[e], listOfDrivers[i].name, listOfDrivers[i].src, thisEvent)
-                            /*if (thisEvent.on == "init") {
-                                console.log("Created event " + listOfDrivers[i].name + ":init")
-                                initFunctions.push(thisEvent.do)
-                            } else if (thisEvent.on == "call") {
-                                console.log("Created event " + listOfDrivers[i].name + ":call")
-                                functions[listOfDrivers[i].name] = thisEvent.do
-                            }*/
 
                         }
                     }
 
                 }
             }
-            for (var rr = 0; rr < initFunctions.length ; rr ++) {
-                initFunctions[rr]()
-            }
+            callbackFn()
+
         }
     })
 }
@@ -491,4 +478,10 @@ function callService(sn, cv, callbackFn) {
     } else {
          console.log("3) '" + sn + "' is not defined as a service")
     }
+}
+
+
+var i3=0
+function callStuff() {
+    console.log("****** callStuff: " + (i3++))
 }
