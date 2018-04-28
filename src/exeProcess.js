@@ -221,11 +221,18 @@ function executeCodeWithId(id) {
         }, sqlite3.OPEN_READONLY)
 }
 
-
+var callbackIndex = 0;
+var callbackList = new Object()
 
 function callDriverMethod(driverName, methodName, args, callbackFn) {
     console.log("2) called '" + driverName + ":" + methodName + "' with args: " + JSON.stringify(args,null,2))
-    process.send({  message_type:       "request_driver_method_call" ,
-                    child_process_name:  childProcessName
+    var useCallbackIndex = callbackIndex ++
+    process.send({  message_type:       "function_call_request" ,
+                    child_process_name:  childProcessName,
+                    driver_name:         driverName,
+                    method_name:         methodName,
+                    args:                args,
+                    callbackIndex:       useCallbackIndex
                     });
+    callbackList[useCallbackIndex] = callbackFn
 }

@@ -142,6 +142,37 @@ function processMessagesFromMainProcess() {
 
 
 
+     } else if (msg.message_type == "function_call_request") {
+             //console.log("6 - return_get_all_table: " );
+             //zzz
+             dbsearch.serialize(
+                 function() {
+                     var stmt = dbsearch.all(
+                         "SELECT * FROM system_code where driver = 'commandLine' and on_condition like '%ls%'; ",
+
+                         function(err, results)
+                         {
+                             if (results) {
+
+                                 //callbackFn(results[0].id);
+                             } else {
+                                 //callbackFn(null)
+                             }
+
+                         })
+             }, sqlite3.OPEN_READONLY)
+             //
+             //child_process_name:    msg.child_process_name,
+             //driver_name:           msg.driver_name,
+             //method_name:           msg.method_name,
+             //args:                  msg.args,
+             //callback_index:        msg.callback_index
+
+
+
+
+
+
 
         } else if (msg.message_type == 'startNode') {
 
@@ -480,20 +511,13 @@ var functions = new Object()
 
 
 
-function callService(sn, cv, callbackFn) {
-    console.log("2) called service '" + sn + "' with args: " + JSON.stringify(cv,null,2))
-    if (functions[sn]) {
-        functions[sn](cv, callbackFn)
 
-    } else {
-         console.log("3) '" + sn + "' is not defined as a service")
-    }
-}
 
 
 var i3=0
 function callStuff() {
-    setInterval( executeCode, 1000)
+    //setInterval( executeCode, 1000)
+    executeCode()
 }
 
 var inExecuteCode = false;
@@ -514,6 +538,11 @@ function executeCode() {
     })
 
 }
+
+
+
+
+
 
 //zzz
 function executeJob(id) {
