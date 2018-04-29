@@ -492,6 +492,18 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
 
 
+
+      } else if (msg.message_type == "return_response_to_function_caller") {
+          console.log("*) Electron.js    got response for " + msg.child_process_name);
+          console.log("*) "+ msg.result)
+          //zzz
+          forkedProcesses[msg.child_process_name].send({
+                                                  message_type:         "return_response_to_function_caller",
+                                                  result:                msg.result
+                                                });
+
+
+
         } else if (msg.message_type == "return_get_all_table") {
                 //console.log("6 - return_get_all_table: " );
                 var newres = queuedResponses[ msg.seq_num ]

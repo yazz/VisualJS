@@ -149,14 +149,24 @@ function processMessagesFromMainProcess() {
         }
         if (msg.code_id) {
             executeCode(msg.call_id,  msg.code_id)
-            currentCallId = msg.code_id
+            currentCallId = msg.call_id
         }
+
+
+
+
+
+    } else if (msg.message_type == "return_response_to_function_caller") {
+        console.log("*) result received to caller " );
+        console.log("*)  " + msg.result );
+
     }
 
 
 
-    });
-}
+
+
+});}
 
 
 
