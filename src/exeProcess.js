@@ -140,13 +140,15 @@ function processMessagesFromMainProcess() {
     //-----------------------------------------------------------------------------------------//
     } else if  (msg.message_type == 'execute_code') {
         console.log(childProcessName + " is executing: " + msg.code_id)
-        //console.log("     msg.code:  " + (msg.code?msg.code.length:-1) )
+        //console.log("     msg.callId:" + msg.call_id)
         //console.log("     msg.codeId:" + msg.code_id)
+        //console.log("     msg.code:  " + (msg.code?msg.code.length:-1) )
+        call_id:       msg.call_id
         if (msg.code) {
             eval(msg.code)
         }
         if (msg.code_id) {
-            executeCodeWithId(msg.code_id)
+            executeCode(msg.call_id,  msg.code_id)
         }
     }
 
@@ -191,18 +193,20 @@ var functions = new Object()
 
 
 
-function executeCodeWithId(id) {
+function executeCode(callId, codeId) {
 
         dbsearch.serialize(
             function() {
                 var stmt = dbsearch.all(
                     "SELECT * FROM system_code where id  = ?; ",
-                    id,
+                    codeId,
 
                     function(err, results)
                     {
                         if (results.length > 0) {
-                            console.log(    "    " + results[0].driver + ":" + results[0].on_condition + ":" + results[0].method )
+                            console.log(    "    " + results[0].driver + ":" + results[0].on_condition + ":" +
+                                            results[0].method )
+
                             var code = "(" + results[0].code + ")"
                             //console.log(code)
                             var fnfn = eval(code)
@@ -214,7 +218,8 @@ function executeCodeWithId(id) {
                                                 child_process_name:  childProcessName,
                                                 driver_name:         results[0].driver,
                                                 method_name:         results[0].method,
-                                                result:              result
+                                                result:              result,
+                                                caller_call_id:      callId
                                                 });
                             })
                             //callbackFn(results[0].id);

@@ -154,7 +154,7 @@ function processMessagesFromMainProcess() {
                          {
                              if (results) {
                                 //executeJobWithCodeId(nextExeId, results[0].id, msg.child_process_name)
-                                executeJobWithCodeId(results[0].id, null, msg.parent_call_id)
+                                executeJobWithCodeId(results[0].id, null, msg.caller_call_id)
                                  //callbackFn(results[0].id);
                              } else {
                                  //callbackFn(null)
@@ -583,12 +583,18 @@ function sendJobToProcessName(id, processName, parentCallId) {
 
            process.send({  message_type:       "execute_code_in_exe_child_process" ,
                            child_process_name:  processName,
-                           code_id:             id
+                           code_id:             id,
+                           call_id:             newCallId
                            });
 
 
         })
     }
+
+
+
+
+
 
 function findNextJobToExecute(callbackFn) {
 

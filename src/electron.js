@@ -447,7 +447,8 @@ function setUpChildListeners(processName, fileName, debugPort) {
                 forkedProcesses[msg.child_process_name].send({
                                                         message_type: "execute_code",
                                                         code:          msg.code,
-                                                        code_id:       msg.code_id
+                                                        code_id:       msg.code_id,
+                                                        call_id:       msg.call_id
                                                       });
 
 
@@ -465,7 +466,8 @@ function setUpChildListeners(processName, fileName, debugPort) {
                                                       driver_name:           msg.driver_name,
                                                       method_name:           msg.method_name,
                                                       args:                  msg.args,
-                                                      callback_index:        msg.callback_index
+                                                      callback_index:        msg.callback_index,
+                                                      caller_call_id:        msg.caller_call_id
                                                     });
 
 
