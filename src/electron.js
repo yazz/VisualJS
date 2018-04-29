@@ -484,7 +484,8 @@ function setUpChildListeners(processName, fileName, debugPort) {
                                                   driver_name:           msg.driver_name,
                                                   method_name:           msg.method_name,
                                                   result:                msg.result,
-                                                  callback_index:        msg.callback_index
+                                                  callback_index:        msg.callback_index,
+                                                  called_call_id:        msg.called_call_id
                                                 });
 
 
