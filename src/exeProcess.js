@@ -149,6 +149,7 @@ function processMessagesFromMainProcess() {
         }
         if (msg.code_id) {
             executeCode(msg.call_id,  msg.code_id)
+            currentCallId = msg.code_id
         }
     }
 
@@ -192,7 +193,7 @@ function setUpSql() {
 var functions = new Object()
 
 
-
+var currentCallId = null
 function executeCode(callId, codeId) {
 
         dbsearch.serialize(
@@ -246,7 +247,8 @@ function callDriverMethod( driverName, methodName, args, callbackFn ) {
                     driver_name:         driverName,
                     method_name:         methodName,
                     args:                args,
-                    callbackIndex:       useCallbackIndex
+                    callbackIndex:       useCallbackIndex,
+                    caller_call_id:      currentCallId
                     });
     callbackList[ useCallbackIndex ] = callbackFn
 }

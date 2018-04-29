@@ -448,9 +448,11 @@ function scheduleJobWithCodeId(codeId, fixedProcessToUse,  parentCallId) {
 
 var callList = new Object
 function sendJobToProcessName(id, processName, parentCallId) {
-    var newCallId = nextCallId ++
+
+    var newCallId = nextCallId++
+
     callList[  newCallId  ] = {     process_name:       processName,
-                                    parent_call_id:     parentCallId            }
+                                    parent_call_id:     parentCallId        }
 
     dbsearch.serialize(
         function() {
