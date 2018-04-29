@@ -1854,7 +1854,7 @@ function processMessagesFromMainProcess() {
 
 
     } else if (msg.message_type == 'childScanFiles') {
-        console.log("**** childScanFiles");
+        //console.log("**** childScanFiles");
         setInterval(processFilesFn ,numberOfSecondsIndexFilesInterval * 1000);
 
 

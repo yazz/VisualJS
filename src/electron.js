@@ -281,7 +281,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
         } else if (msg.message_type == "database_setup_in_child") {
 
-            console.log("Child set up DB complete: " + msg.child_process_name)
+            //console.log("Child set up DB complete: " + msg.child_process_name)
 
             if (msg.child_process_name == "forkedIndexer") {
                 forkedProcesses["forkedIndexer"].send({         message_type: "setUpSql" });

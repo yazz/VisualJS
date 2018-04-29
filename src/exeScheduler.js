@@ -98,7 +98,7 @@ function processMessagesFromMainProcess() {
 
     if  (msg.message_type == 'init') {
 
-        console.log('-- Init v3');
+        //console.log('-- Init v3');
         userData            = msg.user_data_path
         childProcessName    = msg.child_process_name
 
@@ -111,19 +111,8 @@ function processMessagesFromMainProcess() {
         process.send({  message_type:       "database_setup_in_child" ,
                         child_process_name:  childProcessName
                         });
-        console.log(" ---  Setting up drivers v3! --- ")
-        driversFn(function(listOfDrivers) {
-            if (listOfDrivers) {
-                for ( var i = 0; i< listOfDrivers.length; i++ ){
-                    if ( listOfDrivers[i].initText ) {
-                        console.log(listOfDrivers[i].name)
-                        console.log("    " + listOfDrivers[i].initText)
 
-                    }
-                }
-            }
 
-        })
         setUpSql()
 
 
@@ -181,10 +170,10 @@ console.log("3) ******" + results[0].id)
         } else if (msg.message_type == 'startNode') {
 
 
-             console.log(" --- Started Node --- ")
-             console.log("     Node ID: " + msg.node_id)
-             console.log("     Process ID: " + msg.child_process_id)
-             console.log("     Started: " + msg.started)
+             //console.log(" --- Started Node --- ")
+             //console.log("     Node ID: " + msg.node_id)
+             //console.log("     Process ID: " + msg.child_process_id)
+             //console.log("     Started: " + msg.started)
 
              dbsearch.serialize(
                  function() {
@@ -446,7 +435,7 @@ function addEventCode(eventName, driverName, code, listOfEvents) {
     var startIndex = code.indexOf(eventName)
     code = code.substring(startIndex)
     var startIndex = code.indexOf("on:")
-    code = code.substring(startIndex + 3)
+    code = code.substring(startIndex + 3).trim()
     var startIndex = code.indexOf("do:")
     var oncode = code.substring(0, startIndex )
     var startIndex = oncode.lastIndexOf(",")
@@ -554,12 +543,12 @@ function executeJob(id, fixedProcessToUse) {
         sendJobIdToProcess(id, fixedProcessToUse)
     } else {
         fastSql("select * from system_process_info order by job_count asc", function(results) {
-            console.log(" select * from system_process_info    ")
+            //console.log(" select * from system_process_info    ")
             //console.log("    " + JSON.stringify(results,null,2))
             if (results.length > 0) {
                 var processToUse = results[0]
-                console.log("    " + JSON.stringify(processToUse,null,2))
-                console.log("    processToUse:" + processToUse.process + " : " + processToUse.job_count)
+                //console.log("    " + JSON.stringify(processToUse,null,2))
+                //console.log("    processToUse:" + processToUse.process + " : " + processToUse.job_count)
                 sendJobIdToProcess(id, processToUse.process)
             }
         })    }

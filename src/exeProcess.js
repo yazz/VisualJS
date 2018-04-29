@@ -97,7 +97,7 @@ function processMessagesFromMainProcess() {
 
 
     if  (msg.message_type == 'init') {
-        console.log('-- Init v3');
+        //console.log('-- Init v3');
         userData            = msg.user_data_path
         childProcessName    = msg.child_process_name
 
@@ -139,13 +139,9 @@ function processMessagesFromMainProcess() {
     //                                                                                         //
     //-----------------------------------------------------------------------------------------//
     } else if  (msg.message_type == 'execute_code') {
-        console.log(childProcessName + " is executing code ")
-        console.log("     msg.code:  " + (msg.code?msg.code.length:-1) )
-        console.log("     msg.codeId:" + msg.code_id)
-        console.log("     ")
-        console.log("     ")
-        console.log("     ")
-        console.log("     ")
+        console.log(childProcessName + " is executing: " + msg.code_id)
+        //console.log("     msg.code:  " + (msg.code?msg.code.length:-1) )
+        //console.log("     msg.codeId:" + msg.code_id)
         if (msg.code) {
             eval(msg.code)
         }
@@ -206,7 +202,7 @@ function executeCodeWithId(id) {
                     function(err, results)
                     {
                         if (results.length > 0) {
-
+                            console.log(    "    " + results[0].driver + ":" + results[0].on_condition + ":" + results[0].method )
                             var code = "(" + results[0].code + ")"
                             //console.log(code)
                             var fnfn = eval(code)
