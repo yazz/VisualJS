@@ -209,6 +209,13 @@ function executeCodeWithId(id) {
 
                             fnfn({}, function(result) {
                                 console.log("*) Result: " + result);
+                                //zzz
+                                process.send({  message_type:       "function_call_response" ,
+                                                child_process_name:  childProcessName,
+                                                driver_name:         results[0].driver,
+                                                method_name:         results[0].method,
+                                                result:              result
+                                                });
                             })
                             //callbackFn(results[0].id);
                         } else {

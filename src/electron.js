@@ -473,6 +473,21 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
 
 
+      } else if (msg.message_type == "function_call_response") {
+          //console.log("6 - return_get_all_table: " );
+          //zzz
+          forkedProcesses["forkedExeScheduler"].send({
+                                                  message_type:         "function_call_response",
+                                                  child_process_name:    msg.child_process_name,
+                                                  driver_name:           msg.driver_name,
+                                                  method_name:           msg.method_name,
+                                                  result:                msg.result,
+                                                  callback_index:        msg.callback_index
+                                                });
+
+
+
+
 
         } else if (msg.message_type == "return_get_all_table") {
                 //console.log("6 - return_get_all_table: " );

@@ -131,6 +131,16 @@ function processMessagesFromMainProcess() {
 
 
 
+     } else if (msg.message_type == "function_call_response") {
+
+
+
+
+
+
+
+
+
 
 
      } else if (msg.message_type == "function_call_request") {
