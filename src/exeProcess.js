@@ -207,7 +207,9 @@ function executeCodeWithId(id) {
                             //console.log(code)
                             var fnfn = eval(code)
 
-                            fnfn()
+                            fnfn({}, function(result) {
+                                console.log("*) Result: " + result);
+                            })
                             //callbackFn(results[0].id);
                         } else {
                             //callbackFn(null)
@@ -223,7 +225,7 @@ var callbackIndex = 0;
 var callbackList = new Object()
 
 function callDriverMethod(driverName, methodName, args, callbackFn) {
-    console.log("2) called '" + driverName + ":" + methodName + "' with args: " + JSON.stringify(args,null,2))
+    console.log("*) called '" + driverName + ":" + methodName + "' with args: " + JSON.stringify(args,null,2))
     var useCallbackIndex = callbackIndex ++
     process.send({  message_type:       "function_call_request" ,
                     child_process_name:  childProcessName,

@@ -21,7 +21,7 @@
                                   ,{}
                             ,
                             function(result) {
-                                console.log("5) returned result: " + JSON.stringify(result,null,2))
+                                console.log("3) returned result: " + JSON.stringify(result,null,2))
                             })
             },
             end: "init"

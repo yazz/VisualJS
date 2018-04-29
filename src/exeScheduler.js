@@ -144,7 +144,6 @@ function processMessagesFromMainProcess() {
                          {
                              if (results) {
                                  //zzz
-console.log("3) ******" + results[0].id)
                                 //executeJob(results[0].id, msg.child_process_name)
                                 executeJob(results[0].id, null)
                                  //callbackFn(results[0].id);
@@ -405,6 +404,10 @@ function driversFn(callbackFn) {
 
 function processDrivers(  callbackFn  ) {
     console.log("Process drivers")
+    console.log("")
+    console.log("")
+    console.log("")
+    console.log("")
 
     driversFn(function(listOfDrivers) {
         if (listOfDrivers) {

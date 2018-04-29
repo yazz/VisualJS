@@ -1842,13 +1842,13 @@ function processMessagesFromMainProcess() {
 
 
       } else if (msg.message_type == 'childRunIndexer') {
-           console.log("Started indexer");
+           //console.log("Started indexer");
            setInterval(indexFilesFn ,numberOfSecondsIndexFilesInterval * 1000);
            setInterval(indexFileRelationshipsFn ,numberOfSecondsIndexFilesInterval * 1000);
 
 
       } else if (msg.message_type == 'childRunFindFolders') {
-           console.log("**** childRunFindFolders");
+           //console.log("**** childRunFindFolders");
            setTimeout(findFoldersFn ,1 * 1000);
            setInterval(findFilesInFoldersFn ,numberOfSecondsIndexFilesInterval * 1000);
 
