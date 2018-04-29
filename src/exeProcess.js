@@ -206,6 +206,7 @@ function executeCode(callId, codeId) {
                         if (results.length > 0) {
                             console.log(    "    " + results[0].driver + ":" + results[0].on_condition + ":" +
                                             results[0].method )
+                            console.log(    "    callId:" + callId )
 
                             var code = "(" + results[0].code + ")"
                             //console.log(code)
@@ -236,7 +237,7 @@ function executeCode(callId, codeId) {
 var callbackIndex = 0;
 var callbackList = new Object()
 
-function callDriverMethod(driverName, methodName, args, callbackFn) {
+function callDriverMethod( driverName, methodName, args, callbackFn ) {
     console.log("*) called '" + driverName + ":" + methodName + "' with args: " + JSON.stringify(args,null,2))
     var useCallbackIndex = callbackIndex ++
     process.send({  message_type:       "function_call_request" ,
@@ -246,5 +247,5 @@ function callDriverMethod(driverName, methodName, args, callbackFn) {
                     args:                args,
                     callbackIndex:       useCallbackIndex
                     });
-    callbackList[useCallbackIndex] = callbackFn
+    callbackList[ useCallbackIndex ] = callbackFn
 }
