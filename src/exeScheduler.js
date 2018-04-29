@@ -16,7 +16,7 @@ var tdeval
 var toeval;
 var userData
 var childProcessName
-var executionId = 0
+var nextCallId = 0
 
 var inProcessFilesFn                    = false;
 var isWin                               = /^win/.test(process.platform);
@@ -153,9 +153,8 @@ function processMessagesFromMainProcess() {
                          function(err, results)
                          {
                              if (results) {
-                                 var nextExeId = executionId ++
                                 //executeJobWithCodeId(nextExeId, results[0].id, msg.child_process_name)
-                                executeJobWithCodeId(nextExeId, results[0].id, null)
+                                executeJobWithCodeId(results[0].id, null, msg.parent_call_id)
                                  //callbackFn(results[0].id);
                              } else {
                                  //callbackFn(null)
@@ -537,9 +536,8 @@ function executeCode() {
     findNextJobToExecute(function(code_id) {
         //console.log("*) " + JSON.stringify(result,null,2))
         if (code_id) {
-            var nextExeId = executionId ++
             console.log("*) INIT -  starting the first job")
-            executeJobWithCodeId(nextExeId, code_id,null)
+            executeJobWithCodeId(code_id,null,null)
         }
 
         inExecuteCode = false
@@ -553,9 +551,9 @@ function executeCode() {
 
 
 
-function executeJobWithCodeId(nextExeId,id, fixedProcessToUse) {
+function executeJobWithCodeId(id, fixedProcessToUse,  parentCallId) {
     if (fixedProcessToUse) {
-        sendJobIdToProcessName(id, fixedProcessToUse)
+        sendJobToProcessName(id, fixedProcessToUse, parentCallId)
     } else {
         fastSql("select * from system_process_info order by job_count asc", function(results) {
             //console.log(" select * from system_process_info    ")
@@ -564,13 +562,18 @@ function executeJobWithCodeId(nextExeId,id, fixedProcessToUse) {
                 var processToUse = results[0]
                 //console.log("    " + JSON.stringify(processToUse,null,2))
                 //console.log("    processToUse:" + processToUse.process + " : " + processToUse.job_count)
-                sendJobIdToProcessName(id, processToUse.process)
+                sendJobToProcessName(id, processToUse.process, parentCallId)
             }
         })    }
 
 }
 
-function sendJobIdToProcessName(id, processName) {
+var callList = new Object
+function sendJobToProcessName(id, processName, parentCallId) {
+    var newCallId = nextCallId ++
+    callList[  newCallId  ] = {     process_name:       processName,
+                                    parent_call_id:     parentCallId            }
+
     dbsearch.serialize(
         function() {
             dbsearch.run("begin exclusive transaction");
