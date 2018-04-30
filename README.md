@@ -1,5 +1,5 @@
 # VisiFile
-VisiFile is a desktop app that allows you to find and share local data with others on your intranet. There is demo here: http://139.162.228.5/
+VisiFile is a desktop app that allows you search many different systems from one place. There is demo here: http://139.162.228.5/
 
 You can install VisiFile on any Linux system that supports the Ubuntu Snap package manager with:
 
