@@ -125,7 +125,7 @@ function processMessagesFromMainProcess() {
 
              console.log(" --- setUpSql --- ")
              setUpSql();
-             processDrivers(callStuff);
+             processDrivers(init);
 
 
 
@@ -405,42 +405,40 @@ var functions = new Object()
 
 
 
-var i3=0
-function callStuff() {
-    //setInterval( executeCode, 1000)
-    executeCode()
 
-    setInterval( executeCode2, 1000)
+function init() {
+    parseEvents()
+
+    setInterval( findNextJobToRun, 1000)
 }
 
-var inScheduleCode = false;
-function executeCode() {
-    if (inScheduleCode) {
-        return
-    }
-    inScheduleCode = true
+
+
+
+
+
+
+function parseEvents() {
 
     //console.log("function(executeCode) {")
-    findNextJobToSchedule(function(code_id) {
-        //console.log("*) " + JSON.stringify(result,null,2))
-        if (code_id) {
-            console.log("*) INIT -  starting the first job")
-            scheduleJobWithCodeId(  code_id,  null,  null, null )
-        }
-
-        inScheduleCode = false
-    })
+    parseAllEvents()
 
 }
 
+
+
+
 var inScheduleCode2 = false;
-function executeCode2() {
+function findNextJobToRun() {
     if (inScheduleCode2) {
         return
     }
     inScheduleCode2 = true
 
-
+    //if (code_id) {
+    //    console.log("*) INIT -  starting the first job")
+    //    scheduleJobWithCodeId(  code_id,  null,  null, null )
+    //}
 
 }
 
@@ -499,7 +497,7 @@ function sendJobToProcessName(id, processName, parentCallId, callbackIndex) {
 
 
 
-function findNextJobToSchedule(callbackFn) {
+function parseAllEvents( ) {
 
     dbsearch.serialize(
         function() {
@@ -511,25 +509,43 @@ function findNextJobToSchedule(callbackFn) {
                     if (results) {
                         for (var tt = 0; tt < results.length; tt ++) {
 
-                            var cond = "(" + results[tt].on_condition + ")"
+                            var cond = results[tt].on_condition
 
                             console.log("")
                             console.log("*) " + cond)
 
-                            var evaledCond = eval(cond)
-                            console.log("*) type: " + (typeof evaledCond))
+                            var evaledCond = eval("(" +  cond + ")")
+                            saveEvent(evaledCond, results[tt].id)
                             console.log("")
-                            //callbackFn(results[0].id);
-                            callbackFn(null)
+
                         }
 
-                    } else {
-                        callbackFn(null)
                     }
 
                 })
     }, sqlite3.OPEN_READONLY)
 }
+
+
+
+
+
+
+function saveEvent(cond, id) {
+    var typeCond =  (typeof cond)
+
+    if (typeCond == "string") {
+        console.log("*) type: Named method")
+    } else if (typeCond == "object") {
+        console.log("*) type: MongoDB query")
+
+    }
+
+}
+
+
+
+
 
 
 
