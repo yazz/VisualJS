@@ -147,6 +147,7 @@ function processMessagesFromMainProcess() {
 
         process.send({  message_type:       "return_response_to_function_caller" ,
                         child_process_name:  parentCallDetails.process_name,
+                        callback_index:      msg.callback_index,
                         result:              msg.result
                         });
 
@@ -165,7 +166,8 @@ function processMessagesFromMainProcess() {
                          function(err, results)
                          {
                              if (results) {
-                                scheduleJobWithCodeId(  results[0].id,   null,   msg.caller_call_id  )
+                                scheduleJobWithCodeId(  results[0].id,         null,
+                                                        msg.caller_call_id ,   msg.callback_index)
                                  //callbackFn(results[0].id);
                              } else {
                                  //callbackFn(null)
@@ -421,7 +423,7 @@ function sxecuteCode() {
         //console.log("*) " + JSON.stringify(result,null,2))
         if (code_id) {
             console.log("*) INIT -  starting the first job")
-            scheduleJobWithCodeId(  code_id,  null,  null  )
+            scheduleJobWithCodeId(  code_id,  null,  null, null )
         }
 
         inScheduleCode = false
@@ -435,9 +437,9 @@ function sxecuteCode() {
 
 
 
-function scheduleJobWithCodeId(codeId, fixedProcessToUse,  parentCallId) {
+function scheduleJobWithCodeId(codeId, fixedProcessToUse,  parentCallId, callbackIndex) {
     if (fixedProcessToUse) {
-        sendJobToProcessName(codeId, fixedProcessToUse, parentCallId)
+        sendJobToProcessName(codeId, fixedProcessToUse, parentCallId, callbackIndex)
     } else {
         fastSql("select * from system_process_info order by job_count asc", function(results) {
             //console.log(" select * from system_process_info    ")
@@ -446,7 +448,7 @@ function scheduleJobWithCodeId(codeId, fixedProcessToUse,  parentCallId) {
                 var processToUse = results[0]
                 //console.log("    " + JSON.stringify(processToUse,null,2))
                 //console.log("    processToUse:" + processToUse.process + " : " + processToUse.job_count)
-                sendJobToProcessName(codeId, processToUse.process, parentCallId)
+                sendJobToProcessName(codeId, processToUse.process, parentCallId, callbackIndex)
             }
         })    }
 
@@ -457,7 +459,7 @@ function scheduleJobWithCodeId(codeId, fixedProcessToUse,  parentCallId) {
 
 
 var callList = new Object
-function sendJobToProcessName(id, processName, parentCallId) {
+function sendJobToProcessName(id, processName, parentCallId, callbackIndex) {
 
     var newCallId = nextCallId++
 
@@ -474,7 +476,8 @@ function sendJobToProcessName(id, processName, parentCallId) {
            process.send({  message_type:       "execute_code_in_exe_child_process" ,
                            child_process_name:  processName,
                            code_id:             id,
-                           call_id:             newCallId
+                           call_id:             newCallId,
+                           callback_index:      callbackIndex
                            });
 
 

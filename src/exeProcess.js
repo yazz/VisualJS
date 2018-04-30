@@ -69,7 +69,7 @@ var stmtUpdateRelatedDocumentCount;
 var stmtUpdateRelationships;
 var in_when_queries_changes             = false;
 var in_when_connections_change          = false;
-
+var inUse = false
 
 username = os.userInfo().username.toLowerCase();
 //console.log(username);
@@ -139,18 +139,25 @@ function processMessagesFromMainProcess() {
     //                                                                                         //
     //-----------------------------------------------------------------------------------------//
     } else if  (msg.message_type == 'execute_code') {
-        console.log(childProcessName + " is executing: " + msg.code_id)
-        //console.log("     msg.callId:" + msg.call_id)
-        //console.log("     msg.codeId:" + msg.code_id)
-        //console.log("     msg.code:  " + (msg.code?msg.code.length:-1) )
-        call_id:       msg.call_id
-        if (msg.code) {
-            eval(msg.code)
+        if (inUse) {
+            console.log("*) ERROR: " + childProcessName + " is already running method ")
+        } else {
+            inUse = true
+            console.log(childProcessName + " is executing: " + msg.code_id)
+            //console.log("     msg.callId:" + msg.call_id)
+            //console.log("     msg.codeId:" + msg.code_id)
+            //console.log("     msg.code:  " + (msg.code?msg.code.length:-1) )
+            call_id:       msg.call_id
+            if (msg.code) {
+                eval(msg.code)
+            }
+            if (msg.code_id) {
+                executeCode(msg.call_id,  msg.code_id)
+                currentCallId = msg.call_id
+            }
+            callbackIndex = msg.callback_index
         }
-        if (msg.code_id) {
-            executeCode(msg.call_id,  msg.code_id)
-            currentCallId = msg.call_id
-        }
+
 
 
 
@@ -158,7 +165,8 @@ function processMessagesFromMainProcess() {
 
     } else if (msg.message_type == "return_response_to_function_caller") {
         console.log("*) result received to caller " );
-        console.log("*)  " + msg.result );
+        console.log("*)  callback_index:" + msg.callback_index );
+        console.log("*)  result:        " + msg.result );
 
     }
 
@@ -225,11 +233,12 @@ function executeCode(callId, codeId) {
 
                             fnfn({}, function(result) {
                                 console.log("*) Result: " + result);
-                                //zzz
+
                                 process.send({  message_type:       "function_call_response" ,
                                                 child_process_name:  childProcessName,
                                                 driver_name:         results[0].driver,
                                                 method_name:         results[0].method,
+                                                callback_index:      callbackIndex,
                                                 result:              result,
                                                 called_call_id:      callId
                                                 });
@@ -243,7 +252,7 @@ function executeCode(callId, codeId) {
                     })
         }, sqlite3.OPEN_READONLY)
 }
-
+var callbackIndex = -1
 
 
 var callbackIndex = 0;
@@ -257,7 +266,7 @@ function callDriverMethod( driverName, methodName, args, callbackFn ) {
                     driver_name:         driverName,
                     method_name:         methodName,
                     args:                args,
-                    callbackIndex:       useCallbackIndex,
+                    callback_index:      useCallbackIndex,
                     caller_call_id:      currentCallId
                     });
     callbackList[ useCallbackIndex ] = callbackFn

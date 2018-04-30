@@ -445,10 +445,11 @@ function setUpChildListeners(processName, fileName, debugPort) {
                 //console.log("6 - return_get_all_table: " );
                 //zzz
                 forkedProcesses[msg.child_process_name].send({
-                                                        message_type: "execute_code",
-                                                        code:          msg.code,
-                                                        code_id:       msg.code_id,
-                                                        call_id:       msg.call_id
+                                                        message_type:   "execute_code",
+                                                        code:           msg.code,
+                                                        callback_index: msg.callback_index,
+                                                        code_id:        msg.code_id,
+                                                        call_id:        msg.call_id
                                                       });
 
 
@@ -499,6 +500,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
           //zzz
           forkedProcesses[msg.child_process_name].send({
                                                   message_type:         "return_response_to_function_caller",
+                                                  callback_index:        msg.callback_index,
                                                   result:                msg.result
                                                 });
 
