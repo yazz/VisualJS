@@ -407,18 +407,20 @@ var functions = new Object()
 
 var i3=0
 function callStuff() {
-    //setInterval( sxecuteCode, 1000)
-    sxecuteCode()
+    //setInterval( executeCode, 1000)
+    executeCode()
+
+    setInterval( executeCode2, 1000)
 }
 
 var inScheduleCode = false;
-function sxecuteCode() {
+function executeCode() {
     if (inScheduleCode) {
         return
     }
     inScheduleCode = true
 
-    //console.log("function(sxecuteCode) {")
+    //console.log("function(executeCode) {")
     findNextJobToSchedule(function(code_id) {
         //console.log("*) " + JSON.stringify(result,null,2))
         if (code_id) {
@@ -431,8 +433,16 @@ function sxecuteCode() {
 
 }
 
+var inScheduleCode2 = false;
+function executeCode2() {
+    if (inScheduleCode2) {
+        return
+    }
+    inScheduleCode2 = true
 
 
+
+}
 
 
 
@@ -494,13 +504,25 @@ function findNextJobToSchedule(callbackFn) {
     dbsearch.serialize(
         function() {
             var stmt = dbsearch.all(
-                "SELECT * FROM system_code where driver = 'testdriver' and on_condition like '%init%'; ",
+                "SELECT id, on_condition FROM system_code; ",
 
                 function(err, results)
                 {
                     if (results) {
+                        for (var tt = 0; tt < results.length; tt ++) {
 
-                        callbackFn(results[0].id);
+                            var cond = "(" + results[tt].on_condition + ")"
+
+                            console.log("")
+                            console.log("*) " + cond)
+
+                            var evaledCond = eval(cond)
+                            console.log("*) type: " + (typeof evaledCond))
+                            console.log("")
+                            //callbackFn(results[0].id);
+                            callbackFn(null)
+                        }
+
                     } else {
                         callbackFn(null)
                     }
