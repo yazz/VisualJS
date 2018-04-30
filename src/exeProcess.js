@@ -167,6 +167,7 @@ function processMessagesFromMainProcess() {
         console.log("*) result received to caller " );
         console.log("*)  callback_index:" + msg.callback_index );
         console.log("*)  result:        " + msg.result );
+        callbackList[msg.callback_index](msg.result)
 
     }
 
