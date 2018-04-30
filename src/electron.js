@@ -3072,7 +3072,20 @@ function parseVfCliCommand(args, callbackFn) {
     var verb = args[0]
     var noun = args[1]
     var object1 = args[2]
-    if ((countArgs == 1) && (verb == 'home')) {
+
+    if ((countArgs == 1) && (verb == 'help')) {
+
+        result += "Help:\n\n"
+        result += "home:        \n"
+        result += "drivers:        \n"
+        result += "add driver:        \n"
+        result += "add localdriver:        \n"
+        result += "test:        \n"
+
+        callbackFn(result)
+
+
+    } else if ((countArgs == 1) && (verb == 'home')) {
 
         result += "Details of this server:\n\n"
         result += "Address:        " + hostaddress + ":" + port + "\n"
@@ -3084,7 +3097,6 @@ function parseVfCliCommand(args, callbackFn) {
         result += "OS Platform:    " + os.platform() + "\n"
 
         callbackFn(result)
-
 
     } else if ((countArgs == 1) && (verb == 'drivers')) {
         driversFn(function(driverNames) {
