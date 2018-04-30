@@ -435,10 +435,12 @@ function findNextJobToRun() {
     }
     inScheduleCode2 = true
 
-    //if (code_id) {
-    //    console.log("*) INIT -  starting the first job")
-    //    scheduleJobWithCodeId(  code_id,  null,  null, null )
-    //}
+    var code_id = eventList[0].id
+    eventList = []
+    if (code_id) {
+        console.log("*) INIT -  starting the first job")
+        scheduleJobWithCodeId(  code_id,  null,  null, null )
+    }
 
 }
 
@@ -528,7 +530,7 @@ function parseAllEvents( ) {
 
 
 
-
+var eventList = []
 
 
 function saveEvent(cond, id) {
@@ -536,6 +538,9 @@ function saveEvent(cond, id) {
 
     if (typeCond == "string") {
         console.log("*) type: Named method")
+        if (cond == "init") {
+            eventList.push({condition: cond, id: id})
+        }
     } else if (typeCond == "object") {
         console.log("*) type: MongoDB query")
 
