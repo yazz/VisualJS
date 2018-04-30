@@ -435,8 +435,16 @@ function findNextJobToRun() {
     }
     inScheduleCode2 = true
 
-    var code_id = eventList[0].id
+    var code_id = null
+
+    for (var ff = 0; ff<eventList.length; ff++) {
+        var cond = eventList[ff]
+        if (cond.condType == "query") {
+            code_id = cond.id
+        }
+    }
     eventList = []
+
     if (code_id) {
         console.log("*) INIT -  starting the first job")
         scheduleJobWithCodeId(  code_id,  null,  null, null )
@@ -535,16 +543,20 @@ var eventList = []
 
 function saveEvent(cond, id) {
     var typeCond =  (typeof cond)
+    var saveType = null
 
     if (typeCond == "string") {
-        console.log("*) type: Named method")
-        if (cond == "init") {
-            eventList.push({condition: cond, id: id})
-        }
+        saveType = "method"
+
     } else if (typeCond == "object") {
-        console.log("*) type: MongoDB query")
+        saveType = "query"
 
     }
+    console.log("*) type: " + saveType)
+
+    eventList.push({condType:       saveType,
+                    condition:      cond,
+                    id:             id})
 
 }
 

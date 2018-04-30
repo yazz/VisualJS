@@ -35,7 +35,7 @@
                 }
             },
             do: function() {
-                console.log("1) IN TESTDRIVER, calling commandLine service")
+                console.log("1) IN TESTDRIVER, calling  a query")
             },
             end: null
         },
