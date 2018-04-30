@@ -24,8 +24,21 @@
                                 console.log("3) returned result: " + JSON.stringify(result,null,2))
                             })
             },
-            end: "init"
-        }
+            end: null
+        },
+
+        "This function is when the name ZOO is found":
+        {
+            on: {
+                selector: {
+                    name: {$eq: 'ZOO'}
+                }
+            },
+            do: function() {
+                console.log("1) IN TESTDRIVER, calling commandLine service")
+            },
+            end: null
+        },
 
     }
 
