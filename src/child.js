@@ -52,6 +52,7 @@ var stmtFileChanged;
 var stmtInsertIntoMessages;
 var stmtInsertIntoFiles;
 var stmtInsertIntoFiles2;
+var stmtAddFileForUpload;
 var stmtUpdateFileStatus;
 var stmtUpdateFileSizeAndShaAndConnectionId;
 var stmtUpdateFileProperties;
@@ -195,6 +196,12 @@ function setUpSql() {
                                             "     ( id,  path,  orig_name ) " +
                                             " values " +
                                             "     ( ?,  ?,  ?);");
+
+    stmtAddFileForUpload = dbsearch.prepare( " insert  into  all_data " +
+                                            "     ( id,  tags, properties ) " +
+                                            " values " +
+                                            "     ( ?, '||UPLOAD||' , ? );");
+
 
 
     stmtUpdateFileStatus        = dbsearch.prepare(     " update files " +
@@ -409,7 +416,7 @@ function markFileForProcessing(  fullFilePath ) {
                                         stmtInsertIntoFiles2.run(
                                             newFileId,
                                             path.dirname(fullFilePath),
-                                            path.basename(fullFilePath)),
+                                            path.basename(fullFilePath))
                                         dbsearch.run("commit");
                                       })
 
@@ -423,6 +430,19 @@ function markFileForProcessing(  fullFilePath ) {
                 }
             )
         }, sqlite3.OPEN_READONLY)
+
+
+        dbsearch.serialize(
+            function() {
+                dbsearch.run("begin exclusive transaction");
+                var newFileId   = uuidv1();
+                stmtAddFileForUpload.run(
+                    newFileId,
+                    '||path='+fullFilePath+'||')
+                dbsearch.run("commit");
+              })
+
+
     } catch(err) {
         console.log("Error " + err + " with file: " + fullFilePath);
         var stack = new Error().stack

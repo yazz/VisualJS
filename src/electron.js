@@ -2020,6 +2020,7 @@ function file_uploadFn(req, res, next) {
                 console.log('ifile: ' + ifile.originalname);
 
                 saveConnectionAndQueryForFile(localp);
+
           });
     }
 
