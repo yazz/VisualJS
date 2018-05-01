@@ -437,10 +437,13 @@ function findNextJobToRun() {
 
     var code_id = null
 
-    for (var ff = 0; ff<eventList.length; ff++) {
+    for (var ff = 0; ff< eventList.length; ff++) {
         var cond = eventList[ff]
         if (cond.condType == "query") {
-            code_id = cond.id
+            //code_id = cond.id
+            if (cond.condition.where) {
+                console.log("*) Executing SQlite: " + cond.condition.where)
+            }
         }
     }
     eventList = []

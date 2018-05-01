@@ -200,7 +200,7 @@ function setUpSql() {
     stmtAddFileForUpload = dbsearch.prepare( " insert  into  all_data " +
                                             "     ( id,  tags, properties ) " +
                                             " values " +
-                                            "     ( ?, '||UPLOAD||' , ? );");
+                                            "     ( ?, '||  UPLOAD  ||' , ? );");
 
 
 
@@ -438,7 +438,7 @@ function markFileForProcessing(  fullFilePath ) {
                 var newFileId   = uuidv1();
                 stmtAddFileForUpload.run(
                     newFileId,
-                    '||path='+fullFilePath+'||')
+                    '||  path='+fullFilePath+'  ||')
                 dbsearch.run("commit");
               })
 
@@ -2634,6 +2634,8 @@ function setUpDbDrivers() {
     evalLocalSystemDriver('mysql',          path.join(__dirname, '../public/visifile_drivers/mysql.js'))
     evalLocalSystemDriver('oracle',         path.join(__dirname, '../public/visifile_drivers/oracle.js'))
     evalLocalSystemDriver('testdriver',     path.join(__dirname, '../public/visifile_drivers/testdriver.js'))
+
+    evalLocalSystemDriver('fileuploader',     path.join(__dirname, '../public/visifile_drivers/file_uploader.js'))
 
     if (isWin) {
         evalLocalSystemDriver('powershell',     path.join(__dirname, '../public/visifile_drivers/services/powershell.js'))
