@@ -113,7 +113,7 @@ function processMessagesFromMainProcess() {
 
 
 
-
+        setInterval(announceFree, 1000)
 
 
 
@@ -142,6 +142,7 @@ function processMessagesFromMainProcess() {
         if (inUse) {
             console.log("*) ERROR: " + childProcessName + " is already running method ")
         } else {
+            inUseIndex ++
             inUse = true
             console.log(childProcessName + " is executing: " + msg.code_id)
             //console.log("     msg.callId:" + msg.call_id)
@@ -168,6 +169,7 @@ function processMessagesFromMainProcess() {
         console.log("*)  callback_index:" + msg.callback_index );
         console.log("*)  result:        " + msg.result );
         callbackList[ msg.callback_index ](msg.result)
+        inUseIndex --
 
     }
 
@@ -211,47 +213,62 @@ function setUpSql() {
 
 var functions = new Object()
 
+var inUseIndex = 0
+
+function announceFree() {
+    //console.log("@announceFree "+ childProcessName + " in use: " + inUse)
+    if ((inUseIndex == 0) && (inUse == true)) {
+        inUse = false
+        //zzz
+        console.log("@announceFree "+ childProcessName )
+        process.send({  message_type:       "processor free" ,
+                        child_process_name:  childProcessName
+                    })
+    }
+}
 
 var currentCallId = null
 function executeCode(callId, codeId, args) {
+    //console.log("@executeCode "+ childProcessName + " in use: " + inUse)
 
-        dbsearch.serialize(
-            function() {
-                var stmt = dbsearch.all(
-                    "SELECT * FROM system_code where id  = ?; ",
-                    codeId,
+    dbsearch.serialize(
+        function() {
+            var stmt = dbsearch.all(
+                "SELECT * FROM system_code where id  = ?; ",
+                codeId,
 
-                    function(err, results)
-                    {
-                        if (results.length > 0) {
-                            console.log(    "    " + results[0].driver + ":" + results[0].on_condition + ":" +
-                                            results[0].method )
-                            console.log(    "    callId:" + callId )
+                function(err, results)
+                {
+                    if (results.length > 0) {
+                        console.log(    "    " + results[0].driver + ":" + results[0].on_condition + ":" +
+                                        results[0].method )
+                        console.log(    "    callId:" + callId )
 
-                            var code = "(" + results[0].code + ")"
-                            //console.log(code)
-                            var fnfn = eval(code)
+                        var code = "(" + results[0].code + ")"
+                        //console.log(code)
+                        var fnfn = eval(code)
 
-                            fnfn(args, function(result) {
-                                console.log("*) Result: " + result);
+                        fnfn(args, function(result) {
+                            console.log("*) Result: " + result);
 
-                                process.send({  message_type:       "function_call_response" ,
-                                                child_process_name:  childProcessName,
-                                                driver_name:         results[0].driver,
-                                                method_name:         results[0].method,
-                                                callback_index:      callbackIndex,
-                                                result:              result,
-                                                called_call_id:      callId
-                                                });
-                                console.log("*) Result process call ID: " + callId);
-                            })
-                            //callbackFn(results[0].id);
-                        } else {
-                            //callbackFn(null)
-                        }
+                            process.send({  message_type:       "function_call_response" ,
+                                            child_process_name:  childProcessName,
+                                            driver_name:         results[0].driver,
+                                            method_name:         results[0].method,
+                                            callback_index:      callbackIndex,
+                                            result:              result,
+                                            called_call_id:      callId
+                                            });
+                            console.log("*) Result process call ID: " + callId);
+                            inUseIndex --
+                        })
+                        //callbackFn(results[0].id);
+                    } else {
+                        //callbackFn(null)
+                    }
 
-                    })
-        }, sqlite3.OPEN_READONLY)
+                })
+    }, sqlite3.OPEN_READONLY)
 }
 var callbackIndex = -1
 
@@ -260,6 +277,7 @@ var callbackIndex = 0;
 var callbackList = new Object()
 
 function callDriverMethod( driverName, methodName, args, callbackFn ) {
+    inUseIndex++
     console.log("*) called '" + driverName + ":" + methodName + "' with args: " + JSON.stringify(args,null,2))
     var useCallbackIndex = callbackIndex ++
     process.send({  message_type:       "function_call_request" ,

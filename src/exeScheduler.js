@@ -458,7 +458,7 @@ function findNextJobToRun() {
 
 function testQueryToExecute(cond, code_id) {
     if (cond.condition.where) {
-        console.log("*) Executing SQlite: " + cond.condition.where)
+        //console.log("*) Executing SQlite: " + cond.condition.where)
         dbsearch.serialize(
             function() {
                 var stmt = dbsearch.all(
