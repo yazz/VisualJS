@@ -143,7 +143,6 @@ function processMessagesFromMainProcess() {
          console.log("*) parent call details: " + JSON.stringify(parentCallDetails,null,2))
          console.log("*) Response: " + JSON.stringify(msg.result,null,2))
 
-//zzz
 
         process.send({  message_type:       "return_response_to_function_caller" ,
                         child_process_name:  parentCallDetails.process_name,
@@ -440,17 +439,31 @@ function findNextJobToRun() {
     for (var ff = 0; ff< eventList.length; ff++) {
         var cond = eventList[ff]
         if (cond.condType == "query") {
-            //code_id = cond.id
             if (cond.condition.where) {
                 console.log("*) Executing SQlite: " + cond.condition.where)
+                dbsearch.serialize(
+                    function() {
+                        var stmt = dbsearch.all(
+                            "SELECT id FROM all_data where " +  cond.condition.where + " LIMIT 1",
+
+                            function(err, results)
+                            {
+                                if (results) {
+                                    if (results.length > 0) {
+
+                                        code_id = cond.id
+                                        eventList = []
+
+                                        console.log("*) INIT -  starting the first job")
+                                        scheduleJobWithCodeId(  code_id,  null,  null, null )
+                                        return
+                                    }
+                                }
+                            })
+                }, sqlite3.OPEN_READONLY)
+
             }
         }
-    }
-    eventList = []
-
-    if (code_id) {
-        console.log("*) INIT -  starting the first job")
-        scheduleJobWithCodeId(  code_id,  null,  null, null )
     }
 
 }
