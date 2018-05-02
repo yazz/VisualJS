@@ -26,6 +26,7 @@ var stmt2                               = null;
 var stmt3                               = null;
 var setIn                               = null;
 var updateProcessTable                  = null;
+var lockData                            = null;
 var stmtInsertIntoCode                  = null;
 var stmtUpdateCode                      = null;
 var inGetRelatedDocumentHashes          = false;
@@ -256,6 +257,8 @@ function setUpSql() {
         "     (?,?,?,?)"
     )
 
+    lockData = dbsearch.prepare("UPDATE all_data SET status = 'LOCKED' WHERE id = ?");
+
     stmtInsertIntoCode = dbsearch.prepare(  " insert into system_code " +
                                                 "      ( id, on_condition, driver, method, code ) " +
                                                 " values " +
@@ -441,35 +444,60 @@ function findNextJobToRun() {
 
     for (var ff = 0; ff< eventList.length; ff++) {
         var cond = eventList[ff]
+        code_id = cond.id
         if (cond.condType == "query") {
-            if (cond.condition.where) {
-                console.log("*) Executing SQlite: " + cond.condition.where)
-                dbsearch.serialize(
-                    function() {
-                        var stmt = dbsearch.all(
-                            "SELECT id FROM all_data where " +  cond.condition.where + " LIMIT 1",
+            testQueryToExecute(cond, code_id)
 
-                            function(err, results)
-                            {
-                                if (results) {
-                                    if (results.length > 0) {
-
-                                        code_id = cond.id
-                                        eventList = []
-
-                                        console.log("*) INIT -  starting the first job")
-                                        scheduleJobWithCodeId(  code_id,  null, null,  null, null )
-                                        return
-                                    }
-                                }
-                            })
-                }, sqlite3.OPEN_READONLY)
-
-            }
         }
     }
+    inScheduleCode2 = false
 
 }
+
+
+
+function testQueryToExecute(cond, code_id) {
+    if (cond.condition.where) {
+        console.log("*) Executing SQlite: " + cond.condition.where)
+        dbsearch.serialize(
+            function() {
+                var stmt = dbsearch.all(
+                    "SELECT id FROM all_data where " +  cond.condition.where + " and status is NULL LIMIT 1",
+
+                    function(err, results)
+                    {
+                        if (results) {
+                            if (results.length > 0) {
+                                //zzz
+                                dbsearch.serialize(
+                                    function() {
+                                        dbsearch.run("begin exclusive transaction");
+                                        lockData.run(results[0].id)
+                                        dbsearch.run("commit",
+                                            function() {
+
+                                                console.log("*) INIT -  starting the first job")
+                                                scheduleJobWithCodeId(  code_id,  null, null,  null, null )
+                                                inScheduleCode2 = false
+                                                return
+                                            });
+                                        })
+
+
+
+                            }
+                        } else {
+                            inScheduleCode2 = false
+                        }
+                    })
+        }, sqlite3.OPEN_READONLY)
+
+    }
+}
+
+
+
+
 
 
 
