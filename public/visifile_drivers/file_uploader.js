@@ -20,7 +20,14 @@
             },
             do: function(record) {
                 console.log("1) In File Uploader, calling  a query")
-            },
+                callDriverMethod( "commandLine",
+                                  "ls"
+                                  ,{text: "From file uploader"}
+                            ,
+                            function(result) {
+                                console.log("3) returned result: " + JSON.stringify(result,null,2))
+                            })
+                        },
             end: null
         },
 

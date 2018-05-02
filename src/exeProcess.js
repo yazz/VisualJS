@@ -152,7 +152,7 @@ function processMessagesFromMainProcess() {
                 eval(msg.code)
             }
             if (msg.code_id) {
-                executeCode(msg.call_id,  msg.code_id)
+                executeCode(msg.call_id,  msg.code_id, msg.args)
                 currentCallId = msg.call_id
             }
             callbackIndex = msg.callback_index
@@ -213,7 +213,7 @@ var functions = new Object()
 
 
 var currentCallId = null
-function executeCode(callId, codeId) {
+function executeCode(callId, codeId, args) {
 
         dbsearch.serialize(
             function() {
@@ -232,7 +232,7 @@ function executeCode(callId, codeId) {
                             //console.log(code)
                             var fnfn = eval(code)
 
-                            fnfn({}, function(result) {
+                            fnfn(args, function(result) {
                                 console.log("*) Result: " + result);
 
                                 process.send({  message_type:       "function_call_response" ,

@@ -19,6 +19,7 @@
                 console.log("2)  Service called with args:  " + JSON.stringify(args,null,2))
                 if(callbackFn){
                     console.log("4.5 callbackFn exists")
+                    console.log("*) args passed = " + args.text)
                     var exec = require('child_process').exec;
                     exec('ls', function(error, stdout, stderr) {
                          callbackFn(stdout)

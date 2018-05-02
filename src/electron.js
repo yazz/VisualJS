@@ -449,6 +449,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
                                                         code:           msg.code,
                                                         callback_index: msg.callback_index,
                                                         code_id:        msg.code_id,
+                                                        args:           msg.args,
                                                         call_id:        msg.call_id
                                                       });
 
