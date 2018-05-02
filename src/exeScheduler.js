@@ -198,7 +198,7 @@ function processMessagesFromMainProcess() {
              //console.log("     Node ID: " + msg.node_id)
              //console.log("     Process ID: " + msg.child_process_id)
              //console.log("     Started: " + msg.started)
-
+             processesInUse[msg.node_id] = false
              dbsearch.serialize(
                  function() {
                      dbsearch.run("begin exclusive transaction");
@@ -501,21 +501,32 @@ function testQueryToExecute(cond, code_id) {
 
 
 
+var processesInUse = new Object()
 
 function scheduleJobWithCodeId(codeId, args, fixedProcessToUse,  parentCallId, callbackIndex) {
     if (fixedProcessToUse) {
         sendJobToProcessName(codeId, args, fixedProcessToUse, parentCallId, callbackIndex)
     } else {
-        fastSql("select * from system_process_info order by job_count asc", function(results) {
+        var processToUse = null
+        var processNames = Object.keys(processesInUse)
+        for(var processNameIndex = 0 ; processNameIndex < processNames.length; processNameIndex ++) {
+            var inUseName = processNames[processNameIndex]
+            var isInUse = processesInUse[inUseName]
             //console.log(" select * from system_process_info    ")
             //console.log("    " + JSON.stringify(results,null,2))
-            if (results.length > 0) {
-                var processToUse = results[0]
+            if (!isInUse) {
+                processToUse = inUseName
+                processesInUse[inUseName] = true
                 //console.log("    " + JSON.stringify(processToUse,null,2))
                 //console.log("    processToUse:" + processToUse.process + " : " + processToUse.job_count)
-                sendJobToProcessName(codeId, args, processToUse.process, parentCallId, callbackIndex)
+                sendJobToProcessName(codeId, args, inUseName, parentCallId, callbackIndex)
+                break
             }
-        })    }
+        }
+        if (!processToUse) {
+            console.log("Could not find a process to use :() ")
+        }
+    }
 
 }
 
