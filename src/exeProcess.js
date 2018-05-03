@@ -58,6 +58,7 @@ var stmtUpdateFileSizeAndShaAndConnectionId;
 var stmtUpdateFileProperties;
 
 var stmtInsertIntoContents;
+var stmtSetDataStatus;
 var stmtInsertIntoFolders;
 var stmtInsertIntoConnections;
 var stmtInsertIntoConnections2;
@@ -205,6 +206,13 @@ function setUpSql() {
                                                 "      ( id, content, content_type ) " +
                                                 " values " +
                                                 "      ( ?,  ?, ? );");
+
+    stmtSetDataStatus = dbsearch.prepare(   " update all_data " +
+                                            "      set status = ?" +
+                                            " where " +
+                                            "      id = ? ;");
+
+
 }
 
 
@@ -432,7 +440,7 @@ function createContent(     fullFileNamePath,
                                             fileContent,
                                             contentType)
                                         dbsearch.run("commit");
-                                            })
+                                    })
 
                                    } catch (err) {
                                        console.log(err);
@@ -465,4 +473,21 @@ function createHashedDocumentContent(fileName, contentType) {
         console.log( stack )
         return null;
     }
+}
+
+function getFirstRecord(records) {
+    return records[0];
+}
+
+
+function setStatus(record, value) {
+    dbsearch.serialize(function() {
+
+        dbsearch.run("begin exclusive transaction");
+        stmtSetDataStatus.run(
+            value,
+            record.id)
+
+        dbsearch.run("commit");
+    })
 }
