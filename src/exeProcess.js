@@ -201,6 +201,10 @@ function setUpSql() {
 
     stmtInsertRowHashes         = dbsearch.prepare("INSERT INTO search_rows_hierarchy_2 (document_binary_hash, parent_hash, child_hash) VALUES (?,?,?)");
 
+    stmtInsertIntoContents = dbsearch.prepare(  " insert into contents_2 " +
+                                                "      ( id, content, content_type ) " +
+                                                " values " +
+                                                "      ( ?,  ?, ? );");
 }
 
 
@@ -391,4 +395,72 @@ function saveDocumentContent(  documentHash,  resultData  ) {
                         });
     }, sqlite3.OPEN_READONLY)
 
+}
+
+
+
+
+function createContent(     fullFileNamePath,
+                            sha1ofFileContents,
+                            contentType) {
+
+
+        //
+        // create the content if it doesn't exist
+        //
+        dbsearch.serialize(
+            function() {
+                var stmt = dbsearch.all(
+                    "select  *  from  contents_2  where  id = ? ", [  sha1ofFileContents  ],
+
+                    function(err, results)
+                    {
+                        if (!err)
+                        {
+                            if (results.length == 0) {
+                                try {
+                                    var fileContent = fs.readFileSync(fullFileNamePath)
+
+                                    dbsearch.serialize(function() {
+
+                                        dbsearch.run("begin exclusive transaction");
+                                        stmtInsertIntoContents.run(
+
+                                            sha1ofFileContents,
+                                            fileContent,
+                                            contentType)
+                                        dbsearch.run("commit");
+                                            })
+
+                                   } catch (err) {
+                                       console.log(err);
+                                       var stack = new Error().stack
+                                       console.log( stack )
+                                   }
+                           }
+                       }
+                   })
+               }, sqlite3.OPEN_READONLY)
+}
+
+
+
+
+
+function createHashedDocumentContent(fileName, contentType) {
+    try {
+        var contents = fs.readFileSync(fileName, "utf8");
+        var hash = crypto.createHash('sha1');
+        hash.setEncoding('hex');
+        hash.write(contents);
+        hash.end();
+        var sha1sum = hash.read();
+        createContent(fileName, sha1sum, contentType);
+        return sha1sum;
+    } catch (err) {
+        console.log(err);
+        var stack = new Error().stack
+        console.log( stack )
+        return null;
+    }
 }
