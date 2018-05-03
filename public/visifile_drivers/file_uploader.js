@@ -18,7 +18,7 @@
             on: {
                 where: "tags like '%||  UPLOAD  ||%'"
             },
-            do: function(record) {
+            do: function(record, returnfn) {
                 console.log("1) In File Uploader, calling  a query")
                 callDriverMethod( "commandLine",
                                   "ls"
@@ -26,6 +26,7 @@
                             ,
                             function(result) {
                                 console.log("3) returned result: " + JSON.stringify(result,null,2))
+                                returnfn()
                             })
                         },
             end: null

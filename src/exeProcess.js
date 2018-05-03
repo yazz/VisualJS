@@ -249,17 +249,19 @@ function executeCode(callId, codeId, args) {
                         var fnfn = eval(code)
 
                         fnfn(args, function(result) {
-                            console.log("*) Result: " + result);
+                            if (result) {
+                                console.log("*) Result: " + result);
 
-                            process.send({  message_type:       "function_call_response" ,
-                                            child_process_name:  childProcessName,
-                                            driver_name:         results[0].driver,
-                                            method_name:         results[0].method,
-                                            callback_index:      callbackIndex,
-                                            result:              result,
-                                            called_call_id:      callId
-                                            });
-                            console.log("*) Result process call ID: " + callId);
+                                process.send({  message_type:       "function_call_response" ,
+                                                child_process_name:  childProcessName,
+                                                driver_name:         results[0].driver,
+                                                method_name:         results[0].method,
+                                                callback_index:      callbackIndex,
+                                                result:              result,
+                                                called_call_id:      callId
+                                                });
+                                console.log("*) Result process call ID: " + callId);
+                            }
                             inUseIndex --
                         })
                         //callbackFn(results[0].id);
@@ -277,7 +279,8 @@ var callbackIndex = 0;
 var callbackList = new Object()
 
 function callDriverMethod( driverName, methodName, args, callbackFn ) {
-    inUseIndex++
+
+    inUseIndex ++
     console.log("*) called '" + driverName + ":" + methodName + "' with args: " + JSON.stringify(args,null,2))
     var useCallbackIndex = callbackIndex ++
     process.send({  message_type:       "function_call_request" ,
