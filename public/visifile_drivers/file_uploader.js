@@ -18,16 +18,18 @@
             on: {
                 where: "tags like '%||  UPLOAD  ||%'"
             },
-            do: function(record, returnfn) {
+            do: function(args, returnfn) {
                 console.log("1) In File Uploader, calling  a query")
-                callDriverMethod( "commandLine",
+                console.log("2) " + JSON.stringify(args,null,2))
+                /*callDriverMethod( "commandLine",
                                   "ls"
                                   ,{text: "From file uploader"}
                             ,
                             function(result) {
                                 console.log("3) returned result: " + JSON.stringify(result,null,2))
                                 returnfn()
-                            })
+                            })*/
+                            returnfn()
                         },
             end: null
         },

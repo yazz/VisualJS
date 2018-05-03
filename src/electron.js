@@ -441,11 +441,15 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
 
         } else if (msg.message_type == "processor_free") {
-            
+
             forkedProcesses["forkedExeScheduler"].send({
                                                     message_type:         "processor_free",
                                                     child_process_name:    msg.child_process_name
                                                   });
+
+
+
+
 
         } else if (msg.message_type == "execute_code_in_exe_child_process") {
                 //console.log("6 - return_get_all_table: " );

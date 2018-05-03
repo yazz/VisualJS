@@ -27,6 +27,7 @@ var stmt3                               = null;
 var setIn                               = null;
 var updateProcessTable                  = null;
 var lockData                            = null;
+var unlockData                          = null;
 var stmtInsertIntoCode                  = null;
 var stmtUpdateCode                      = null;
 var inGetRelatedDocumentHashes          = false;
@@ -260,6 +261,8 @@ function setUpSql() {
     )
 
     lockData = dbsearch.prepare("UPDATE all_data SET status = 'LOCKED' WHERE id = ?");
+    
+    unlockData = dbsearch.prepare("UPDATE all_data SET status = NULL WHERE id = ?");
 
     stmtInsertIntoCode = dbsearch.prepare(  " insert into system_code " +
                                                 "      ( id, on_condition, driver, method, code ) " +
@@ -464,7 +467,7 @@ function testQueryToExecute(cond, code_id) {
         dbsearch.serialize(
             function() {
                 var stmt = dbsearch.all(
-                    "SELECT id FROM all_data where " +  cond.condition.where + " and status is NULL LIMIT 1",
+                    "SELECT * FROM all_data where " +  cond.condition.where + " and status is NULL LIMIT 1",
 
                     function(err, results)
                     {
@@ -479,7 +482,7 @@ function testQueryToExecute(cond, code_id) {
                                             function() {
 
                                                 console.log("*) INIT -  starting the first job")
-                                                scheduleJobWithCodeId(  code_id,  null, null,  null, null )
+                                                scheduleJobWithCodeId(  code_id,  results, null,  null, null )
                                                 inScheduleCode2 = false
                                                 return
                                             });
@@ -539,14 +542,14 @@ function scheduleJobWithCodeId(codeId, args, fixedProcessToUse,  parentCallId, c
 
 function sendToProcess(  id  ,  parentCallId  ,  callbackIndex, processName  ,  driver ,  on_condition  ,  args) {
 
-    var newCallId = nextCallId++
+    var newCallId = nextCallId ++
 
     callList[  newCallId  ] = {     process_name:       processName,
                                     parent_call_id:     parentCallId        }
     dbsearch.serialize(
         function() {
             dbsearch.run("begin exclusive transaction");
-            incrJobCount.run( driver, on_condition, processName)
+            incrJobCount.run( driver, on_condition, processName )
             dbsearch.run("commit");
 
 
