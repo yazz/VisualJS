@@ -34,6 +34,7 @@
                                     ,
                                     function(result) {
                                         console.log("3) returned result: " + JSON.stringify(result,null,2))
+                                        saveDocumentContent("someSha1",result)
                                         returnfn()
                                     })
 

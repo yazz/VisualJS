@@ -28,8 +28,8 @@ var inProcessFilesFn                    = false;
 var isWin                               = /^win/.test(process.platform);
 var numberOfSecondsIndexFilesInterval   = 5;
 var inScan                              = false;
-var stmt2                               = null;
-var stmt3                               = null;
+var stmtInsertRowFullTextSearch                               = null;
+var stmtInsertRowHashes                               = null;
 var setIn                               = null;
 var inGetRelatedDocumentHashes          = false;
 var inIndexFileRelationshipsFn          = false;
@@ -197,6 +197,9 @@ function processMessagesFromMainProcess() {
 //                                                                                         //
 //-----------------------------------------------------------------------------------------//
 function setUpSql() {
+    stmtInsertRowFullTextSearch = dbsearch.prepare("INSERT INTO zfts_search_rows_hashed_2 (row_hash, data) VALUES (?, ?)");
+
+    stmtInsertRowHashes         = dbsearch.prepare("INSERT INTO search_rows_hierarchy_2 (document_binary_hash, parent_hash, child_hash) VALUES (?,?,?)");
 
 }
 
@@ -328,4 +331,64 @@ function findDriverWithMethod(methodName, callbackFn) {
 
                 })
     }, sqlite3.OPEN_READONLY)
+}
+
+
+
+
+
+
+
+
+
+
+function saveDocumentContent(  documentHash,  resultData  ) {
+
+    //
+    // get the data, either passed in as an array or a set
+    //
+    var rrows = [];
+    if( Object.prototype.toString.call( resultData ) === '[object Array]' ) {
+        rrows = resultData;
+    } else {
+        rrows = resultData.values;
+    }
+    if ((rrows == null) || (rrows.length == 0)) {
+        returns}
+
+
+    //
+    // see if the document has already been saved. Only save it if not saved already
+    //
+    dbsearch.serialize(
+        function() {
+            var stmt = dbsearch.all(
+                        "select  " +
+                        "    document_binary_hash  "  +
+                        "from  " +
+                        "    search_rows_hierarchy_2  " +
+                        "where  " +
+                        "    document_binary_hash = '" + documentHash + "'"
+                        ,
+                        function(err, results) {
+                                dbsearch.serialize(
+                                    function() {
+                                        dbsearch.run("begin exclusive transaction");
+                                        for (var i = 0 ; i < rrows.length; i++) {
+
+                                            var rowhash = crypto.createHash('sha1');
+                                            var row = JSON.stringify(rrows[i]);
+                                            rowhash.setEncoding('hex');
+                                            rowhash.write(row);
+                                            rowhash.end();
+                                            var sha1sum = rowhash.read();
+                                            stmtInsertRowFullTextSearch.run(sha1sum, row)
+                                            stmtInsertRowHashes.run(documentHash, null, sha1sum)
+                                        }
+                                        dbsearch.run("commit");
+                                })
+
+                        });
+    }, sqlite3.OPEN_READONLY)
+
 }
