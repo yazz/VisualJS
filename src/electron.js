@@ -440,10 +440,16 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
 
 
+        } else if (msg.message_type == "processor_free") {
+            
+            forkedProcesses["forkedExeScheduler"].send({
+                                                    message_type:         "processor_free",
+                                                    child_process_name:    msg.child_process_name
+                                                  });
 
         } else if (msg.message_type == "execute_code_in_exe_child_process") {
                 //console.log("6 - return_get_all_table: " );
-                //zzz
+
                 forkedProcesses[msg.child_process_name].send({
                                                         message_type:   "execute_code",
                                                         code:           msg.code,
@@ -461,7 +467,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
       } else if (msg.message_type == "function_call_request") {
               //console.log("6 - return_get_all_table: " );
-              //zzz
+
               forkedProcesses["forkedExeScheduler"].send({
                                                       message_type:         "function_call_request",
                                                       child_process_name:    msg.child_process_name,
@@ -478,8 +484,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
 
       } else if (msg.message_type == "function_call_response") {
-          //console.log("6 - return_get_all_table: " );
-          //zzz
+
           forkedProcesses["forkedExeScheduler"].send({
                                                   message_type:         "function_call_response",
                                                   child_process_name:    msg.child_process_name,
@@ -498,7 +503,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
       } else if (msg.message_type == "return_response_to_function_caller") {
           console.log("*) Electron.js    got response for " + msg.child_process_name);
           console.log("*) "+ msg.result)
-          //zzz
+
           forkedProcesses[msg.child_process_name].send({
                                                   message_type:         "return_response_to_function_caller",
                                                   callback_index:        msg.callback_index,

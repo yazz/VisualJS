@@ -221,7 +221,7 @@ function announceFree() {
         inUse = false
         //zzz
         console.log("@announceFree "+ childProcessName )
-        process.send({  message_type:       "processor free" ,
+        process.send({  message_type:       "processor_free" ,
                         child_process_name:  childProcessName
                     })
     }

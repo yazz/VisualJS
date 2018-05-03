@@ -91,8 +91,6 @@ username = os.userInfo().username.toLowerCase();
 
 processMessagesFromMainProcess();
 
-
-
 function processMessagesFromMainProcess() {
     process.on('message', (msg) => {
 
@@ -153,6 +151,10 @@ function processMessagesFromMainProcess() {
 
 
 
+     } else if (msg.message_type == "processor_free") {
+
+        processesInUse[msg.child_process_name] = false
+        decrJobCount.run(msg.child_process_name)
 
 
 
@@ -245,7 +247,7 @@ function processMessagesFromMainProcess() {
 //-----------------------------------------------------------------------------------------//
 function setUpSql() {
 
-    incrJobCount = dbsearch.prepare("UPDATE system_process_info SET job_count = job_count + 1 WHERE process = ?");
+    incrJobCount = dbsearch.prepare("UPDATE system_process_info SET job_count = job_count + 1, last_driver = ?, last_event = ? WHERE process = ?");
 
     decrJobCount = dbsearch.prepare("UPDATE system_process_info SET job_count = job_count - 1 WHERE process = ?");
 
@@ -468,7 +470,7 @@ function testQueryToExecute(cond, code_id) {
                     {
                         if (results) {
                             if (results.length > 0) {
-                                //zzz
+
                                 dbsearch.serialize(
                                     function() {
                                         dbsearch.run("begin exclusive transaction");
@@ -534,18 +536,17 @@ function scheduleJobWithCodeId(codeId, args, fixedProcessToUse,  parentCallId, c
 
 
 
-var callList = new Object
-function sendJobToProcessName(id, args, processName, parentCallId, callbackIndex) {
+
+function sendToProcess(  id  ,  parentCallId  ,  callbackIndex, processName  ,  driver ,  on_condition  ,  args) {
 
     var newCallId = nextCallId++
 
     callList[  newCallId  ] = {     process_name:       processName,
                                     parent_call_id:     parentCallId        }
-
     dbsearch.serialize(
         function() {
             dbsearch.run("begin exclusive transaction");
-            incrJobCount.run(processName)
+            incrJobCount.run( driver, on_condition, processName)
             dbsearch.run("commit");
 
 
@@ -559,6 +560,39 @@ function sendJobToProcessName(id, args, processName, parentCallId, callbackIndex
 
 
         })
+}
+
+
+var callList = new Object
+function sendJobToProcessName(id, args, processName, parentCallId, callbackIndex) {
+
+    dbsearch.serialize(
+        function() {
+            var stmt = dbsearch.all(
+                "SELECT driver, on_condition FROM system_code where id = ? LIMIT 1",
+                id,
+
+                function(err, results)
+                {
+                    if (results) {
+                        if (results.length > 0) {
+
+
+                            sendToProcess(  id,
+                                            parentCallId,
+                                            callbackIndex,
+                                            processName,
+                                            results[0].driver,
+                                            results[0].on_condition,
+                                            args)
+
+
+
+                        }
+                    }
+                })
+    }, sqlite3.OPEN_READONLY)
+
     }
 
 
