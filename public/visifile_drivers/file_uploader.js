@@ -25,6 +25,16 @@
                 var property = getProperty(record,"path")
                 console.log("3) " + JSON.stringify(property,null,2))
                 console.log("4) getFileExtension=" + getFileExtension(property))
+                findDriverWithMethod("can_handle_" + property, function(driverName) {
+                    if (driverName) {
+                        console.log("5) Driver:" + driverName)
+
+                    } else {
+                        console.log("5) No driver can handle: " + getFileExtension(property))
+
+                    }
+                    returnfn()
+                })
 
                 /*callDriverMethod( "commandLine",
                                   "ls"
@@ -34,7 +44,7 @@
                                 console.log("3) returned result: " + JSON.stringify(result,null,2))
                                 returnfn()
                             })*/
-                            returnfn()
+                            //returnfn()
                         },
             end: null
         },

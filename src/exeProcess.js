@@ -310,3 +310,22 @@ function getFileExtension(fullFileNamePath) {
     var extension = fullFileNamePath.substr(fullFileNamePath.lastIndexOf('.') + 1).toLowerCase()
     return extension
 }
+
+
+function findDriverWithMethod(methodName, callbackFn) {
+    dbsearch.serialize(
+        function() {
+            var stmt = dbsearch.all(
+                "SELECT driver FROM system_code where on_condition like '%" + methodName + "%'; ",
+
+                function(err, results)
+                {
+                    if (results.length > 0) {
+                        callbackFn(results[0].driver)
+                    } else {
+                        callbackFn(null)
+                    }
+
+                })
+    }, sqlite3.OPEN_READONLY)
+}
