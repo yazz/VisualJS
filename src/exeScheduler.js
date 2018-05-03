@@ -164,7 +164,9 @@ function processMessagesFromMainProcess() {
              dbsearch.serialize(
                  function() {
                      var stmt = dbsearch.all(
-                         "SELECT * FROM system_code where driver = 'commandLine' and on_condition like '%ls%'; ",
+                       "SELECT * FROM system_code where driver = ? and on_condition like '%" + msg.method_name + "%'; ",
+//zzz
+                        msg.driver_name,
 
                          function(err, results)
                          {
@@ -261,7 +263,7 @@ function setUpSql() {
     )
 
     lockData = dbsearch.prepare("UPDATE all_data SET status = 'LOCKED' WHERE id = ?");
-    
+
     unlockData = dbsearch.prepare("UPDATE all_data SET status = NULL WHERE id = ?");
 
     stmtInsertIntoCode = dbsearch.prepare(  " insert into system_code " +
