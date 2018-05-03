@@ -6,6 +6,16 @@ module.exports = {
     createTables: function(dbsearch, callbackFn) {
     console.log("--------------- createTables: function(dbsearch, callbackFn) {");
     async.map([
+        "CREATE TABLE IF NOT EXISTS contents_2 (id TEXT, content BLOB, content_type TEXT, UNIQUE (id) ON CONFLICT IGNORE);",
+        "CREATE TABLE IF NOT EXISTS relationships_2 (id TEXT, source_query_hash TEXT, target_query_hash TEXT, " +
+            "similar_row_count INTEGER, new_source INTEGER, new_target INTEGER, edited_source INTEGER, edited_target INTEGER, deleted_source INTEGER, deleted_target INTEGER, array_source INTEGER, array_target INTEGER);",
+
+        "CREATE TABLE IF NOT EXISTS search_rows_hierarchy_2 (document_binary_hash TEXT, parent_hash TEXT, child_hash TEXT);",
+        "CREATE INDEX IF NOT EXISTS search_rows_hierarchy_document_binary_hash_idx2 ON search_rows_hierarchy_2 (document_binary_hash);",
+        "CREATE INDEX IF NOT EXISTS search_rows_hierarchy_parent_hash_idx2 ON search_rows_hierarchy_2 (parent_hash);",
+        "CREATE INDEX IF NOT EXISTS search_rows_hierarchy_child_hash_idx2 ON search_rows_hierarchy_2 (child_hash);",
+
+
             "CREATE TABLE IF NOT EXISTS search_rows_hierarchy (document_binary_hash TEXT, parent_hash TEXT, child_hash TEXT);",
 
 
@@ -91,6 +101,7 @@ module.exports = {
                                 {
                                     console.log("    Create   zfts_search_rows_hashed");
                                     dbsearch.run("CREATE VIRTUAL TABLE zfts_search_rows_hashed USING fts5(row_hash, data);")
+                                    dbsearch.run("CREATE VIRTUAL TABLE zfts_search_rows_hashed_2 USING fts5(row_hash, data);")
 
                                     console.log("       ...done");
                                 });
