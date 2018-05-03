@@ -25,7 +25,7 @@
                 var property = getProperty(record,"path")
                 console.log("3) " + JSON.stringify(property,null,2))
                 console.log("4) getFileExtension=" + getFileExtension(property))
-                findDriverWithMethod("can_handle_" + property, function(driverName) {
+                findDriverWithMethod("can_handle_" + getFileExtension(property), function(driverName) {
                     if (driverName) {
                         console.log("5) Driver:" + driverName)
 
