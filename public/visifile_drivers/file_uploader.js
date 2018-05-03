@@ -34,7 +34,7 @@
                                     ,
                                     function(result) {
                                         console.log("3) returned result: " + JSON.stringify(result,null,2))
-                                         var sha1ofFileContents = createHashedDocumentContent(property, "pdf")
+                                         var sha1ofFileContents = createHashedDocumentContent(property, getFileExtension(property))
                                         saveDocumentContent(sha1ofFileContents,result)
                                         returnfn()
                                     })

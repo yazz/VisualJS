@@ -375,6 +375,7 @@ function saveDocumentContent(  documentHash,  resultData  ) {
                         "    document_binary_hash = '" + documentHash + "'"
                         ,
                         function(err, results) {
+                            if (results.length == 0) {
                                 dbsearch.serialize(
                                     function() {
                                         dbsearch.run("begin exclusive transaction");
@@ -391,6 +392,7 @@ function saveDocumentContent(  documentHash,  resultData  ) {
                                         }
                                         dbsearch.run("commit");
                                 })
+                            }
 
                         });
     }, sqlite3.OPEN_READONLY)
