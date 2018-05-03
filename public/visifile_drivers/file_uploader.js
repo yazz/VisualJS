@@ -28,23 +28,23 @@
                 findDriverWithMethod("can_handle_" + getFileExtension(property), function(driverName) {
                     if (driverName) {
                         console.log("5) Driver:" + driverName)
+                        callDriverMethod( driverName,
+                                          "can_handle_" + getFileExtension(property),
+                                          {fileName: property}
+                                    ,
+                                    function(result) {
+                                        console.log("3) returned result: " + JSON.stringify(result,null,2))
+                                        returnfn()
+                                    })
 
                     } else {
                         console.log("5) No driver can handle: " + getFileExtension(property))
-
+                        returnfn()
                     }
-                    returnfn()
+
                 })
 
-                /*callDriverMethod( "commandLine",
-                                  "ls"
-                                  ,{text: "From file uploader"}
-                            ,
-                            function(result) {
-                                console.log("3) returned result: " + JSON.stringify(result,null,2))
-                                returnfn()
-                            })*/
-                            //returnfn()
+
                         },
             end: null
         },

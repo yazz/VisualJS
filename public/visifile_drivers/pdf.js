@@ -291,16 +291,9 @@ var pdfParser = new PDFParserClass(this,1);
           {
               on: "can_handle_pdf",
               do: function(args, callbackFn) {
-                  console.log("2)  Service called with args:  " + JSON.stringify(args,null,2))
+                  console.log("12)  PDF:  " + JSON.stringify(args,null,2))
                   if(callbackFn){
-                      console.log("4.5 callbackFn exists")
-                      if (args) {
-                          console.log("*) Args = " + args.text)
-                      }
-                      var exec = require('child_process').exec;
-                      exec('ls', function(error, stdout, stderr) {
-                           callbackFn(stdout)
-                      });
+                       callbackFn({})
 
                   }
               },
