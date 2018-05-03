@@ -305,3 +305,8 @@ function getProperty(record,propName) {
     var amiga = st.substring(0,xt)
     return amiga
 }
+
+function getFileExtension(fullFileNamePath) {
+    var extension = fullFileNamePath.substr(fullFileNamePath.lastIndexOf('.') + 1).toLowerCase()
+    return extension
+}

@@ -24,6 +24,7 @@
                 var record = records[0]
                 var property = getProperty(record,"path")
                 console.log("3) " + JSON.stringify(property,null,2))
+                console.log("4) getFileExtension=" + getFileExtension(property))
 
                 /*callDriverMethod( "commandLine",
                                   "ls"
