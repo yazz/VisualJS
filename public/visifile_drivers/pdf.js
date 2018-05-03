@@ -284,22 +284,53 @@ var pdfParser = new PDFParserClass(this,1);
 
 
 
-      ,
-      events: {
 
-          "ls function returns current files":
-          {
-              on: "can_handle_pdf",
-              do: function(args, callbackFn) {
-                  console.log("12)  PDF:  " + JSON.stringify(args,null,2))
-                  if(callbackFn){
-                       callbackFn({})
+  ,
+  events: {
 
-                  }
-              },
-              end: null
+        "ls function returns current files":
+        {
+            on: "can_handle_pdf",
+            do: function(args, callfn) {
 
-          }
-      }
+                  var fileName = args.fileName
+                  //console.log("12)  PDF:  " + JSON.stringify(fileName,null,2))
 
+                  var rows=[];
+
+                  try {
+                      var PDFParserClass       = require("pdf2json");
+                      var pdfParser = new PDFParserClass(this,1);
+
+                      pdfParser.on("pdfParser_dataError", function(errData) {
+                          console.error(errData.parserError) ;
+                          callfn({error: 'PDF error: ' + errData.parserError});
+                          return;
+
+                      });
+                      pdfParser.on("pdfParser_dataReady", function(pdfData) {
+                              var cc = pdfParser.getRawTextContent();
+                                  //console.log('content:', cc );
+                              var lines = cc.split("\n");
+                              for (var rr=0; rr<cc.length; rr++){
+                                  var line = lines[rr];
+                                  if ((line != null) && (line.length > 0)) {
+                                      //console.log('item:', line );
+                                      rows.push({value: line });
+                                  }
+                              }
+                              console.log(JSON.stringify(rows,null,2))
+                          callfn(rows);
+                      });
+
+                      pdfParser.loadPDF(fileName);
+
+      			}
+      			catch(err) {
+      				callfn({error: 'PDF error: ' + err});
+      			}
+            },
+            end: null
+        }
+    }
 }
