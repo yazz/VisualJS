@@ -21,15 +21,19 @@
             do: function(records, returnfn) {
                 console.log("1) In File Uploader, calling  a query")
                 console.log("2) " + JSON.stringify(records,null,2))
-                callDriverMethod( "commandLine",
+                var record = records[0]
+                var property = getProperty(record,"path")
+                console.log("3) " + JSON.stringify(property,null,2))
+
+                /*callDriverMethod( "commandLine",
                                   "ls"
                                   ,{text: "From file uploader"}
                             ,
                             function(result) {
                                 console.log("3) returned result: " + JSON.stringify(result,null,2))
                                 returnfn()
-                            })
-                            //returnfn()
+                            })*/
+                            returnfn()
                         },
             end: null
         },

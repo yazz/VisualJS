@@ -293,3 +293,15 @@ function callDriverMethod( driverName, methodName, args, callbackFn ) {
                     });
     callbackList[ useCallbackIndex ] = callbackFn
 }
+
+
+
+
+function getProperty(record,propName) {
+    var properties = record.properties
+    var rt = properties.indexOf("||  " + propName + "=") + 5 + propName.length
+    var st = properties.substring(rt)
+    var xt = st.indexOf("  ||")
+    var amiga = st.substring(0,xt)
+    return amiga
+}
