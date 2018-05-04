@@ -45,6 +45,8 @@
                                                                 addTag(record, "DOCUMENT")
                                                                 setProperty(record, "hash", sha1ofFileContents)
                                                                 setName(record, getFileName(fullFilePath))
+                                                                setAddedTimestamp(record, new Date().valueOf())
+                                                                setEstimatedModifiedTimestamp(record, new Date().valueOf())
 
                                                                 returnfn()
                                                             })

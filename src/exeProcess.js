@@ -60,6 +60,8 @@ var stmtUpdateFileProperties;
 var stmtInsertIntoContents;
 var stmtSetDataStatus;
 var stmtSetName;
+var stmtSetAddedTimestamp;
+var stmtSetEstimatedModifiedTimestamp;
 var stmtUpdateTags;
 var stmtUpdateProperties;
 var stmtInsertIntoFolders;
@@ -219,6 +221,17 @@ function setUpSql() {
                                         "      set name = ?" +
                                         " where " +
                                         "      id = ? ;");
+
+    stmtSetAddedTimestamp = dbsearch.prepare(   " update all_data " +
+                                                "      set timestamp_added = ?" +
+                                                " where " +
+                                                "      id = ? ;");
+
+    stmtSetEstimatedModifiedTimestamp = dbsearch.prepare(   " update all_data " +
+                                                            "      set estimated_modified_timestamp = ?" +
+                                                            " where " +
+                                                            "      id = ? ;");
+
 
 
     stmtUpdateTags = dbsearch.prepare(      " update all_data " +
@@ -515,6 +528,33 @@ function setStatus(record, value) {
         dbsearch.run("commit");
     })
 }
+
+function setAddedTimestamp(record, value) {
+    dbsearch.serialize(function() {
+
+        dbsearch.run("begin exclusive transaction");
+        stmtSetAddedTimestamp.run(
+            value,
+            record.id)
+
+        dbsearch.run("commit");
+    })
+}
+
+function setEstimatedModifiedTimestamp(record, value) {
+    dbsearch.serialize(function() {
+
+        dbsearch.run("begin exclusive transaction");
+        stmtSetEstimatedModifiedTimestamp.run(
+            value,
+            record.id)
+
+        dbsearch.run("commit");
+    })
+}
+
+
+
 
 
 function setName(record, value) {
