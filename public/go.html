@@ -475,6 +475,10 @@ var myScroller = null;
 
 
             setInterval(function() {
+                vf.drivers = new Object()
+                
+
+
                 if (autoScroll) {
                     if (autoId < store.state.cards.length) {
                         autoId++
@@ -505,7 +509,7 @@ function onemouseup() {
     console.log("onmouseup")
     mousedown = false
 };
-
+var vf = new Object()
 function cmd(stringArgs) {
     var args = stringArgs.split(" ");
     sendToServerViaWebSocket({

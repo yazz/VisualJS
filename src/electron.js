@@ -1095,7 +1095,10 @@ if (electronApp) {
 
           outputToBrowser("dbPath: " + JSON.stringify(dbPath ,null,2))
           outputToBrowser("LOCAL: " + path.join(__dirname, '/'))
-        //visifile.webContents.toggleDevTools();
+          //zzz
+          if (debug) {
+              visifile.webContents.toggleDevTools();
+          }
 
         dbsearch = new sqlite3.Database(dbPath);
         dbsearch.run("PRAGMA journal_mode=WAL;")
@@ -3169,7 +3172,7 @@ function parseVfCliCommand(args, callbackFn) {
 
     } else {
         if (addedVf && (countArgs == 0)) {
-            result += "You must enter a command. eg: vf drivers'"
+            result += "You must enter a command. eg: 'vf help'"
         }
         else {
             result += "Unknown command: '" + verb + "'"
