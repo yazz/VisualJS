@@ -1954,13 +1954,13 @@ function websocketFn(ws) {
 
        } else if (receivedMessage.message_type == "drivers") {
            //zzz
-           driversFn(function(driverNames) {
+           driversFullFn(function(drivers) {
                sendToBrowserViaWebSocket(
                                             ws
                                             ,
                                             {
                                                type:   "ws_to_browser_drivers",
-                                               result:  driverNames
+                                               result:  drivers
                                             });
            })
 
@@ -3073,6 +3073,23 @@ function driversFn(callbackFn) {
                 {
                     for (var i =0 ; i< results.length; i ++) {
                         result.push(results[i].name)
+                    }
+                    callbackFn( result);
+                })
+    }, sqlite3.OPEN_READONLY)
+}
+
+function driversFullFn(callbackFn) {
+    dbsearch.serialize(
+        function() {
+            var result = {}
+            var stmt = dbsearch.all(
+                "SELECT * FROM drivers",
+
+                function(err, results)
+                {
+                    for (var i =0 ; i< results.length; i ++) {
+                        result[results[i].name] = results[i]
                     }
                     callbackFn( result);
                 })
