@@ -24,31 +24,33 @@
                 //console.log("1) In File Uploader, calling  a query")
                 //console.log("2) " + JSON.stringify(records,null,2))
                 var record =   getFirstRecord(records)
-                var property = getProperty(record,"path")
-                //console.log("3) " + JSON.stringify(property,null,2))
-                //console.log("4) getFileExtension=" + getFileExtension(property))
-                findDriverWithMethod(   "can_handle_" + getFileExtension(property)
+                var fullFilePath = getProperty(record,"path")
+                //console.log("3) " + JSON.stringify(fullFilePath,null,2))
+                //console.log("4) getFileExtension=" + getFileExtension(fullFilePath))
+                findDriverWithMethod(   "can_handle_" + getFileExtension(fullFilePath)
                                         ,
                                         function(driverName) {
 
                                             if (driverName) {
                                                 //console.log("5) Driver:" + driverName)
                                                 callDriverMethod( driverName,
-                                                                  "can_handle_" + getFileExtension(property),
-                                                                  {fileName: property}
+                                                                  "can_handle_" + getFileExtension(fullFilePath),
+                                                                  {fileName: fullFilePath}
                                                             ,
                                                             function(result) {
                                                                 //console.log("3) returned result: " + JSON.stringify(result,null,2))
-                                                                 var sha1ofFileContents = createHashedDocumentContent(property, getFileExtension(property))
+                                                                 var sha1ofFileContents = createHashedDocumentContent(fullFilePath, getFileExtension(fullFilePath))
                                                                 saveDocumentContent(sha1ofFileContents,result)
                                                                 setStatus(record, "SAVED")
                                                                 addTag(record, "DOCUMENT")
                                                                 setProperty(record, "hash", sha1ofFileContents)
+                                                                setName(record, getFileName(fullFilePath))
+
                                                                 returnfn()
                                                             })
 
                                             } else {
-                                                console.log("5) No driver can handle: " + getFileExtension(property))
+                                                console.log("5) No driver can handle: " + getFileExtension(fullFilePath))
                                                 setStatus(record, "ERROR")
                                                 returnfn()
                                             }

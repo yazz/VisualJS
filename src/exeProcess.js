@@ -59,6 +59,7 @@ var stmtUpdateFileProperties;
 
 var stmtInsertIntoContents;
 var stmtSetDataStatus;
+var stmtSetName;
 var stmtUpdateTags;
 var stmtUpdateProperties;
 var stmtInsertIntoFolders;
@@ -214,6 +215,10 @@ function setUpSql() {
                                             " where " +
                                             "      id = ? ;");
 
+    stmtSetName = dbsearch.prepare(     " update all_data " +
+                                        "      set name = ?" +
+                                        " where " +
+                                        "      id = ? ;");
 
 
     stmtUpdateTags = dbsearch.prepare(      " update all_data " +
@@ -333,6 +338,11 @@ function getProperty(record,propName) {
     var xt = st.indexOf("  ||")
     var amiga = st.substring(0,xt)
     return amiga
+}
+
+function getFileName(fullFileNamePath) {
+    var fileName = path.basename( fullFileNamePath )
+    return fileName
 }
 
 function getFileExtension(fullFileNamePath) {
@@ -507,6 +517,17 @@ function setStatus(record, value) {
 }
 
 
+function setName(record, value) {
+    dbsearch.serialize(function() {
+
+        dbsearch.run("begin exclusive transaction");
+        stmtSetName.run(
+            value,
+            record.id)
+
+        dbsearch.run("commit");
+    })
+}
 
 
 
