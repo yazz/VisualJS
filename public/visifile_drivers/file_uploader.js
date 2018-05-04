@@ -43,6 +43,7 @@
                                                                 saveDocumentContent(sha1ofFileContents,result)
                                                                 setStatus(record, "SAVED")
                                                                 addTag(record, "DOCUMENT")
+                                                                setProperty(record, "hash", sha1ofFileContents)
                                                                 returnfn()
                                                             })
 

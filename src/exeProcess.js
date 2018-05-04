@@ -60,6 +60,7 @@ var stmtUpdateFileProperties;
 var stmtInsertIntoContents;
 var stmtSetDataStatus;
 var stmtUpdateTags;
+var stmtUpdateProperties;
 var stmtInsertIntoFolders;
 var stmtInsertIntoConnections;
 var stmtInsertIntoConnections2;
@@ -215,11 +216,15 @@ function setUpSql() {
 
 
 
-    stmtUpdateTags = dbsearch.prepare(   " update all_data " +
+    stmtUpdateTags = dbsearch.prepare(      " update all_data " +
                                             "      set tags = ?" +
                                             " where " +
                                             "      id = ? ;");
 
+    stmtUpdateProperties = dbsearch.prepare(    " update all_data " +
+                                                "      set properties = ?" +
+                                                " where " +
+                                                "      id = ? ;");
 
 
 }
@@ -513,6 +518,9 @@ function addTag(record, tag) {
     } else  if (record.tags.indexOf("||  " + tag + "  ||") != -1) {
         return
 
+    } else if (record.tags == "") {
+        record.tags = "||  " + tag + "  ||"
+
     } else {
         record.tags += "  " + tag + "  ||"
     }
@@ -523,6 +531,52 @@ function addTag(record, tag) {
         dbsearch.run("begin exclusive transaction");
         stmtUpdateTags.run(
             record.tags,
+            record.id)
+
+        dbsearch.run("commit");
+    })
+}
+
+
+
+
+
+
+
+
+function setProperty(record, propName, propValue) {
+    var valToInsert = ""
+    if (propValue != null) {
+        valToInsert = propValue
+    }
+    if (record.properties == null) {
+        record.properties = "||  " + propName + "=" + valToInsert + "  ||"
+
+
+    } else if (record.properties.indexOf("||  " + propName + "=") != -1) {
+        var startPropValIndex = record.properties.indexOf("||  " + propName + "=") + 5
+        var valOnwards = record.properties.substring(startPropValIndex)
+        var start = record.properties.substring(0,startPropValIndex)
+        var endPropValIndex = valOnwards.indexOf("  ||")
+
+        var end = valOnwards.substring(endPropValIndex)
+        record.properties = start + valToInsert + end
+
+
+    } else if (record.properties == "") {
+        record.properties = "||  " + propName + "=" + valToInsert + "  ||"
+
+
+    } else  {
+        record.properties += "  " + propName + "=" + valToInsert + "  ||"
+    }
+
+
+    dbsearch.serialize(function() {
+
+        dbsearch.run("begin exclusive transaction");
+        stmtUpdateProperties.run(
+            record.properties,
             record.id)
 
         dbsearch.run("commit");
