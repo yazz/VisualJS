@@ -1095,7 +1095,7 @@ if (electronApp) {
 
           outputToBrowser("dbPath: " + JSON.stringify(dbPath ,null,2))
           outputToBrowser("LOCAL: " + path.join(__dirname, '/'))
-          //zzz
+
           if (debug) {
               visifile.webContents.toggleDevTools();
           }
@@ -1950,6 +1950,18 @@ function websocketFn(ws) {
                                                type:   "vf_reply",
                                                result:  result
                                            });
+           })
+
+       } else if (receivedMessage.message_type == "drivers") {
+           //zzz
+           driversFn(function(driverNames) {
+               sendToBrowserViaWebSocket(
+                                            ws
+                                            ,
+                                            {
+                                               type:   "ws_to_browser_drivers",
+                                               result:  driverNames
+                                            });
            })
 
        }

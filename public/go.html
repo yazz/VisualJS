@@ -367,6 +367,15 @@ function setupWebSocket(host, port)
     socket.on('vf_reply',function(data) {
         console.log(data.result);
     });
+
+
+    console.log('1) ws_to_browser_drivers');
+    socket.on('ws_to_browser_drivers',function(data) {
+        console.log('2) ws_to_browser_drivers');
+        vf.drivers = data.result
+    });
+
+
 }
 
 var listElm = null
@@ -473,10 +482,12 @@ var myScroller = null;
             });
 
 
+            vf.drivers = new Object()
+            sendToServerViaWebSocket({
+                    message_type: "drivers"
+                    });
 
             setInterval(function() {
-                vf.drivers = new Object()
-                
 
 
                 if (autoScroll) {
