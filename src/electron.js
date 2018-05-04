@@ -663,7 +663,22 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
 
 
+        } else if (msg.message_type == "ipc_child_returning_find_results") {
+            //zzz
+            console.log(" .......3: " + msg.results);
+            //console.log("6: return_query_items_ended")
+            //console.log("6.1: " + msg)
+            var new_ws = queuedResponses[ msg.seq_num ]
 
+
+            sendToBrowserViaWebSocket(
+                                         new_ws
+                                         ,
+                                         {
+                                            type:   "ws_to_browser_find_results",
+                                            results:  msg.results
+                                         });
+            //new_ws = null;
 
 
 
@@ -1953,7 +1968,7 @@ function websocketFn(ws) {
            })
 
        } else if (receivedMessage.message_type == "drivers") {
-           //zzz
+
            driversFullFn(function(drivers) {
                sendToBrowserViaWebSocket(
                                             ws
@@ -1968,23 +1983,28 @@ function websocketFn(ws) {
 
        } else if (receivedMessage.message_type == "find") {
            //zzz
-           find(receivedMessage.term,function(results) {
-               sendToBrowserViaWebSocket(
-                                            ws
-                                            ,
-                                            {
-                                               type:   "ws_to_browser_find_results",
-                                               results:  results
-                                            });
-           })
+           var seqNum = queuedResponseSeqNum;
+           queuedResponseSeqNum ++;
+           queuedResponses[seqNum] = ws;
 
-       }
+           console.log(" .......1 ");
+           forkedProcesses["forked"].send({
+                           message_type:   "ipc_from_main_find",
+                           search_term:     receivedMessage.term,
+                           seq_num:         seqNum
+                       });
+
+
+
+        }
+
+
+
+
+
+
+
 });};
-
-
-function find(term,callbackFn) {
-    callbackFn([1,2,3,4,term])
-}
 
 
 

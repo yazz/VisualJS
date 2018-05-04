@@ -2135,6 +2135,20 @@ function processMessagesFromMainProcess() {
                                     //console.log("5.3: ")
                     }  )
 
+    } else if (msg.message_type == 'ipc_from_main_find') {
+        find(msg.search_term,
+            function(results) {
+                console.log(" .......2 ");
+                        var return_get_search_resultsMsg = {
+                            message_type:           'ipc_child_returning_find_results',
+                            search_term:             msg.search_term,
+                            seq_num:                 msg.seq_num,
+                            results:                  results
+                        };
+                        //console.log("5.1: " + JSON.stringify(return_get_search_resultsMsg))
+                        process.send( return_get_search_resultsMsg );
+                    })
+
 
 
 
@@ -3454,4 +3468,12 @@ function getQuery(id, callbackFn) {
     } catch(err) {
         callbackFn(null)
     }
+}
+
+
+
+
+
+function find(term,callbackFn) {
+    callbackFn([99,1,2,3,4,term])
 }
