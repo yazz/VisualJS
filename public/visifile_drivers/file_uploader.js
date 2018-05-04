@@ -1,4 +1,6 @@
 {
+    doc_type: 'visifile'
+    ,
     name: 'fileuploader'
     ,
     version: 1
@@ -40,6 +42,7 @@
                                                                  var sha1ofFileContents = createHashedDocumentContent(property, getFileExtension(property))
                                                                 saveDocumentContent(sha1ofFileContents,result)
                                                                 setStatus(record, "SAVED")
+                                                                addTag(record, "DOCUMENT")
                                                                 returnfn()
                                                             })
 

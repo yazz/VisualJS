@@ -59,6 +59,7 @@ var stmtUpdateFileProperties;
 
 var stmtInsertIntoContents;
 var stmtSetDataStatus;
+var stmtUpdateTags;
 var stmtInsertIntoFolders;
 var stmtInsertIntoConnections;
 var stmtInsertIntoConnections2;
@@ -211,6 +212,14 @@ function setUpSql() {
                                             "      set status = ?" +
                                             " where " +
                                             "      id = ? ;");
+
+
+
+    stmtUpdateTags = dbsearch.prepare(   " update all_data " +
+                                            "      set tags = ?" +
+                                            " where " +
+                                            "      id = ? ;");
+
 
 
 }
@@ -486,6 +495,34 @@ function setStatus(record, value) {
         dbsearch.run("begin exclusive transaction");
         stmtSetDataStatus.run(
             value,
+            record.id)
+
+        dbsearch.run("commit");
+    })
+}
+
+
+
+
+
+function addTag(record, tag) {
+    if (record.tags == null) {
+        record.tags = "||  " + tag + "  ||"
+
+
+    } else  if (record.tags.indexOf("||  " + tag + "  ||") != -1) {
+        return
+
+    } else {
+        record.tags += "  " + tag + "  ||"
+    }
+
+
+    dbsearch.serialize(function() {
+
+        dbsearch.run("begin exclusive transaction");
+        stmtUpdateTags.run(
+            record.tags,
             record.id)
 
         dbsearch.run("commit");
