@@ -376,6 +376,10 @@ function setupWebSocket(host, port)
     });
 
 
+    socket.on('ws_to_browser_find_results',function(data) {
+        console.log(data.results);
+    });
+
 }
 
 var listElm = null
@@ -521,6 +525,13 @@ function onemouseup() {
     mousedown = false
 };
 var vf = new Object()
+function find(term) {
+    sendToServerViaWebSocket({
+            message_type: "find",
+            term: term
+            });
+}
+
 function cmd(stringArgs) {
     var args = stringArgs.split(" ");
     sendToServerViaWebSocket({

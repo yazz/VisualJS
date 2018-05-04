@@ -1964,12 +1964,27 @@ function websocketFn(ws) {
                                             });
            })
 
-       }
 
+
+       } else if (receivedMessage.message_type == "find") {
+           //zzz
+           find(receivedMessage.term,function(results) {
+               sendToBrowserViaWebSocket(
+                                            ws
+                                            ,
+                                            {
+                                               type:   "ws_to_browser_find_results",
+                                               results:  results
+                                            });
+           })
+
+       }
 });};
 
 
-
+function find(term,callbackFn) {
+    callbackFn([1,2,3,4,term])
+}
 
 
 
