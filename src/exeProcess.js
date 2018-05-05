@@ -59,6 +59,7 @@ var stmtUpdateFileProperties;
 
 var stmtInsertIntoContents;
 var stmtSetDataStatus;
+var stmtSetDataHash;
 var stmtSetName;
 var stmtSetAddedTimestamp;
 var stmtSetEstimatedModifiedTimestamp;
@@ -214,6 +215,11 @@ function setUpSql() {
 
     stmtSetDataStatus = dbsearch.prepare(   " update all_data " +
                                             "      set status = ?" +
+                                            " where " +
+                                            "      id = ? ;");
+
+    stmtSetDataHash = dbsearch.prepare(     " update all_data " +
+                                            "      set hash = ?" +
                                             " where " +
                                             "      id = ? ;");
 
@@ -515,6 +521,23 @@ function createHashedDocumentContent(fileName, contentType) {
 function getFirstRecord(records) {
     return records[0];
 }
+
+
+
+
+
+function setHash(record, value) {
+    dbsearch.serialize(function() {
+
+        dbsearch.run("begin exclusive transaction");
+        stmtSetDataHash.run(
+            value,
+            record.id)
+
+        dbsearch.run("commit");
+    })
+}
+
 
 
 function setStatus(record, value) {

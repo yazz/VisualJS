@@ -44,6 +44,7 @@
                                                                 setStatus(record, "SAVED")
                                                                 addTag(record, "DOCUMENT")
                                                                 setProperty(record, "hash", sha1ofFileContents)
+                                                                setHash(record, sha1ofFileContents)
                                                                 setName(record, getFileName(fullFilePath))
                                                                 setAddedTimestamp(record, new Date().valueOf())
                                                                 setEstimatedModifiedTimestamp(record, new Date().valueOf())
