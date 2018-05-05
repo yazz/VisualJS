@@ -2138,6 +2138,7 @@ function processMessagesFromMainProcess() {
     } else if (msg.message_type == 'ipc_from_main_find') {
         //zzz
         get_search_results_2_Fn(    msg.search_term,
+                                    {hashes: true},
                                     new Date().getTime(),
             function(results) {
                 console.log(" .......2 ");
@@ -3182,7 +3183,7 @@ function get_all_queries(callbackFn, callbackEndFn) {
 
 
 
-function get_search_results_2_Fn(  searchTerm,  timeStart , callbackFn  ) {
+function get_search_results_2_Fn(  searchTerm,  options, timeStart , callbackFn  ) {
 
     if (searchTerm.length < 1) {
         var timeEnd = new Date().getTime();
@@ -3191,46 +3192,50 @@ function get_search_results_2_Fn(  searchTerm,  timeStart , callbackFn  ) {
                         data_states:    [],
                         message:    "Search text must be at least 1 characters: " + searchTerm,
                         duration:    timing    }  );
-    } else {
 
-        dbsearch.serialize(function() {
-            var mysql = " select "+
-                        "     the1.document_binary_hash, " +
-                        "     the1.num_occ  , " +
-                        "     the1.child_hash , " +
-                        "     zfts_search_rows_hashed_2.data " +
-                        " from " +
-                        "         zfts_search_rows_hashed_2 " +
-                        "         , " +
-                        "         (select " +
-                        "             distinct(document_binary_hash), count(document_binary_hash)  as num_occ  ,  " +
-                        "             child_hash " +
-                        "         from " +
-                        "             search_rows_hierarchy_2 " +
-                        "         where " +
-                        "             child_hash in ( select " +
-                        "                                 distinct(row_hash) " +
-                        "                              from " +
-                        "                                  zfts_search_rows_hashed_2 " +
-                        "                              where " +
-                        "                                  zfts_search_rows_hashed_2 match '" + searchTerm + "*'  ) " +
-                        "         group by " +
-                        "             document_binary_hash) " +
-                        "                 as the1 " +
-                        " where " +
-                        "     zfts_search_rows_hashed_2.row_hash = the1.child_hash ";
+    } else if (options.hashes) {
 
-            var stmt = dbsearch.all(mysql, function(err, rows) {
-                if (!err) {
-                    var timeEnd = new Date().getTime();
-                    var timing = timeEnd - timeStart;
-                    callbackFn(  {  search_term:         searchTerm,
-                                    data_states:         rows,
-                                    duration:            timing    }  );
-                }})
-        })
-    }
+                    dbsearch.serialize(function() {
+                        var mysql = " select "+
+                                    "     the1.document_binary_hash, " +
+                                    "     the1.num_occ  , " +
+                                    "     the1.child_hash , " +
+                                    "     zfts_search_rows_hashed_2.data " +
+                                    " from " +
+                                    "         zfts_search_rows_hashed_2 " +
+                                    "         , " +
+                                    "         (select " +
+                                    "             distinct(document_binary_hash), count(document_binary_hash)  as num_occ  ,  " +
+                                    "             child_hash " +
+                                    "         from " +
+                                    "             search_rows_hierarchy_2 " +
+                                    "         where " +
+                                    "             child_hash in ( select " +
+                                    "                                 distinct(row_hash) " +
+                                    "                              from " +
+                                    "                                  zfts_search_rows_hashed_2 " +
+                                    "                              where " +
+                                    "                                  zfts_search_rows_hashed_2 match '" + searchTerm + "*'  ) " +
+                                    "         group by " +
+                                    "             document_binary_hash) " +
+                                    "                 as the1 " +
+                                    " where " +
+                                    "     zfts_search_rows_hashed_2.row_hash = the1.child_hash ";
+
+                        var stmt = dbsearch.all(mysql, function(err, rows) {
+                            if (!err) {
+                                var timeEnd = new Date().getTime();
+                                var timing = timeEnd - timeStart;
+                                callbackFn(  {  search_term:         searchTerm,
+                                                data_states:         rows,
+                                                duration:            timing    }  );
+                            }})
+                    })
+
+        }
+
 }
+
 
 
 function get_search_resultsFn(  searchTerm,  timeStart , callbackFn  ) {
