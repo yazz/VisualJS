@@ -1883,7 +1883,7 @@ function processMessagesFromMainProcess() {
 
 
     } else if (msg.message_type == 'init') {
-//zzz
+
         userData            = msg.user_data_path
         childProcessName    = msg.child_process_name
 
@@ -1899,7 +1899,7 @@ function processMessagesFromMainProcess() {
 
 
     } else if (msg.message_type == 'setUpSql') {
-//zzz
+
 
         setUpSql();
 
@@ -2062,7 +2062,7 @@ function processMessagesFromMainProcess() {
 
 
 
-//zzz
+
     } else if (msg.message_type == 'add_local_driver') {
         //console.log("3 - add_local_driver: " + msg.seq_num )
         var return_add_local_driver_results_msg = {
@@ -2136,14 +2136,16 @@ function processMessagesFromMainProcess() {
                     }  )
 
     } else if (msg.message_type == 'ipc_from_main_find') {
-        find(msg.search_term,
+        //zzz
+        get_search_results_2_Fn(    msg.search_term,
+                                    new Date().getTime(),
             function(results) {
                 console.log(" .......2 ");
                         var return_get_search_resultsMsg = {
                             message_type:           'ipc_child_returning_find_results',
                             search_term:             msg.search_term,
                             seq_num:                 msg.seq_num,
-                            results:                  results
+                            results:                 results.data_states
                         };
                         //console.log("5.1: " + JSON.stringify(return_get_search_resultsMsg))
                         process.send( return_get_search_resultsMsg );
@@ -2625,14 +2627,14 @@ function fromDir(startPath,filter,callback){
 };
 
 
-//zzz
+
 function evalLocalSystemDriver(driverName, location) {
 	var evalDriver = '(' + fs.readFileSync(location) + ')';
 	addOrUpdateDriver(driverName, evalDriver)
 }
 
 
-//zzz
+
 function setUpDbDrivers() {
     evalLocalSystemDriver('glb',            path.join(__dirname, '../public/visifile_drivers/glb.js'))
     evalLocalSystemDriver('csv',            path.join(__dirname, '../public/visifile_drivers/glb.js'))
@@ -3180,9 +3182,55 @@ function get_all_queries(callbackFn, callbackEndFn) {
 
 
 
+function get_search_results_2_Fn(  searchTerm,  timeStart , callbackFn  ) {
 
+    if (searchTerm.length < 1) {
+        var timeEnd = new Date().getTime();
+        var timing = timeEnd - timeStart;
+        callbackFn(  {  search:      searchTerm,
+                        data_states:    [],
+                        message:    "Search text must be at least 1 characters: " + searchTerm,
+                        duration:    timing    }  );
+    } else {
 
+        dbsearch.serialize(function() {
+            var mysql = " select "+
+                        "     the1.document_binary_hash, " +
+                        "     the1.num_occ  , " +
+                        "     the1.child_hash , " +
+                        "     zfts_search_rows_hashed_2.data " +
+                        " from " +
+                        "         zfts_search_rows_hashed_2 " +
+                        "         , " +
+                        "         (select " +
+                        "             distinct(document_binary_hash), count(document_binary_hash)  as num_occ  ,  " +
+                        "             child_hash " +
+                        "         from " +
+                        "             search_rows_hierarchy_2 " +
+                        "         where " +
+                        "             child_hash in ( select " +
+                        "                                 distinct(row_hash) " +
+                        "                              from " +
+                        "                                  zfts_search_rows_hashed_2 " +
+                        "                              where " +
+                        "                                  zfts_search_rows_hashed_2 match '" + searchTerm + "*'  ) " +
+                        "         group by " +
+                        "             document_binary_hash) " +
+                        "                 as the1 " +
+                        " where " +
+                        "     zfts_search_rows_hashed_2.row_hash = the1.child_hash ";
 
+            var stmt = dbsearch.all(mysql, function(err, rows) {
+                if (!err) {
+                    var timeEnd = new Date().getTime();
+                    var timing = timeEnd - timeStart;
+                    callbackFn(  {  search_term:         searchTerm,
+                                    data_states:         rows,
+                                    duration:            timing    }  );
+                }})
+        })
+    }
+}
 
 
 function get_search_resultsFn(  searchTerm,  timeStart , callbackFn  ) {
@@ -3468,12 +3516,4 @@ function getQuery(id, callbackFn) {
     } catch(err) {
         callbackFn(null)
     }
-}
-
-
-
-
-
-function find(term,callbackFn) {
-    callbackFn([99,1,2,3,4,term])
 }
