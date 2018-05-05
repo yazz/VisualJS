@@ -2138,7 +2138,10 @@ function processMessagesFromMainProcess() {
     } else if (msg.message_type == 'ipc_from_main_find') {
         //zzz
         get_search_results_2_Fn(    msg.search_term,
-                                    {hashes: true},
+                                    {
+                                        hashes:     false,
+                                        data_items: true
+                                    },
                                     new Date().getTime(),
             function(results) {
                 console.log(" .......2 ");
@@ -3238,12 +3241,15 @@ function get_search_results_2_Fn(  searchTerm,  options, timeStart , callbackFn 
                     dbsearch.serialize(function() {
                         var mysql =
                         `select
+            				distinct(all_data.id) as data_id,
                              the1.document_binary_hash,
                              the1.num_occ  ,
                              the1.child_hash ,
                              zfts_search_rows_hashed_2.data
                          from
                                  zfts_search_rows_hashed_2
+            					 ,
+            					 all_data
                                  ,
                                  (select
                                      distinct(document_binary_hash), count(document_binary_hash)  as num_occ  ,
@@ -3261,9 +3267,11 @@ function get_search_results_2_Fn(  searchTerm,  options, timeStart , callbackFn 
                                      document_binary_hash)
                                          as the1
                          where
-                             zfts_search_rows_hashed_2.row_hash = the1.child_hash ;`
+            					all_data.hash = the1.document_binary_hash
+            			and
+            				 zfts_search_rows_hashed_2.row_hash = the1.child_hash ;`
 
-                             
+
                         var stmt = dbsearch.all(mysql, function(err, rows) {
                             if (!err) {
                                 var timeEnd = new Date().getTime();
