@@ -343,17 +343,26 @@ function setupWebSocket(host, port)
         //console.log("Connected: " + JSON.stringify(data,null,2));
 
     setTimeout(function(){
+        //
+        // Browser  --Send me your data-->  Server
+        //
         sendToServerViaWebSocket({
-                message_type: "server_get_all_queries_2"
+                message_type: "client_asks_server_for_data"
                 });
             },3000);
     });
 
-    socket.on('client_get_all_queries_2',function(data) {
+
+
+    socket.on('client_data_returned_from_server',function(data) {
         console.log("Browser received from server socket: " + JSON.stringify(data,null,2));
     });
 
-    socket.on('update_query_item_2',function(data) {
+
+    //
+    // Server  --DATA ITEM-->  Browser
+    //
+    socket.on('client_data_item_received_from_server',function(data) {
         //console.log("Update query item: " + JSON.stringify(data,null,2));
         //alert(data.query.name)
         var nid = nextItem++;

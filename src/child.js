@@ -2238,9 +2238,9 @@ function processMessagesFromMainProcess() {
 
 
 
-        } else if (msg.message_type == 'get_all_queries_2') {
+        } else if (msg.message_type == 'server_asks_subprocess_for_data') {
             //console.log("3 - get_all_queries: " + msg.seq_num )
-            get_all_queries_2(
+            get_data(
                                 function(result) {
                                     //console.log("5: " + JSON.stringify(result))
                                     var returnQueryItemMsg = {
@@ -3206,7 +3206,7 @@ function get_all_queries(callbackFn, callbackEndFn) {
 
 
 
-function get_all_queries_2(callbackFn, callbackEndFn) {
+function get_data(callbackFn, callbackEndFn) {
     //console.log('4:');
     dbsearch.serialize(
         function() {

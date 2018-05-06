@@ -656,7 +656,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
                 sendToBrowserViaWebSocket(
                 new_ws,
                 {
-                    type: "update_query_item_2",
+                    type: "client_data_item_received_from_server",
                     query: msg.returned
                 });
             }
@@ -1961,7 +1961,7 @@ function websocketFn(ws) {
 
 
 
-        } else if (receivedMessage.message_type == "server_get_all_queries_2") {
+        } else if (receivedMessage.message_type == "client_asks_server_for_data") {
 
             var seqNum = queuedResponseSeqNum;
             queuedResponseSeqNum ++;
@@ -1969,7 +1969,7 @@ function websocketFn(ws) {
 
             //console.log(" 2 ");
             forkedProcesses["forked"].send({
-                            message_type:   "get_all_queries_2",
+                            message_type:   "server_asks_subprocess_for_data",
                             seq_num:          seqNum
                         });
 
