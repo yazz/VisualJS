@@ -374,7 +374,9 @@ function setupWebSocket(host, port)
                                                         id:     nid ,
                                                         name:   data.query.name
                                                     }});
+        autoScroll = false
         store.dispatch("refresh");
+        select_card(nid)
     });
 
     socket.on('vf_reply',function(data) {
