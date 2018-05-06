@@ -646,7 +646,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
 
 
-        } else if (msg.message_type == "return_query_item") {
+        } else if (msg.message_type == "return_query_item_2") {
             //console.log("6: return_query_item")
             //console.log("6.1: " + msg)
             //console.log("7: " + msg.returned)
@@ -656,7 +656,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
                 sendToBrowserViaWebSocket(
                 new_ws,
                 {
-                    type: "update_query_item",
+                    type: "update_query_item_2",
                     query: msg.returned
                 });
             }
@@ -682,13 +682,13 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
 
 
-        } else if (msg.message_type == "return_query_items_ended") {
+        } else if (msg.message_type == "return_query_items_ended_2") {
             //console.log("6: return_query_items_ended")
             //console.log("6.1: " + msg)
             var new_ws = queuedResponses[ msg.seq_num ]
 
             sendToBrowserViaWebSocket(      new_ws,
-                                        {   type: "client_get_all_queries_done"  });
+                                        {   type: "client_get_all_queries_done_2"  });
             //new_ws = null;
         }
 
@@ -1958,6 +1958,23 @@ function websocketFn(ws) {
                             message_type:   "get_all_queries",
                             seq_num:          seqNum
                         });
+
+
+
+        } else if (receivedMessage.message_type == "server_get_all_queries_2") {
+
+            var seqNum = queuedResponseSeqNum;
+            queuedResponseSeqNum ++;
+            queuedResponses[seqNum] = ws;
+
+            //console.log(" 2 ");
+            forkedProcesses["forked"].send({
+                            message_type:   "get_all_queries_2",
+                            seq_num:          seqNum
+                        });
+
+
+
        } else if (receivedMessage.message_type == "vf") {
            parseVfCliCommand(receivedMessage.args, function(result) {
                sendToBrowserViaWebSocket(      ws,

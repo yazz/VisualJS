@@ -344,16 +344,16 @@ function setupWebSocket(host, port)
 
     setTimeout(function(){
         sendToServerViaWebSocket({
-                message_type: "server_get_all_queries"
+                message_type: "server_get_all_queries_2"
                 });
             },3000);
     });
 
-    socket.on('client_get_all_queries',function(data) {
+    socket.on('client_get_all_queries_2',function(data) {
         console.log("Browser received from server socket: " + JSON.stringify(data,null,2));
     });
 
-    socket.on('update_query_item',function(data) {
+    socket.on('update_query_item_2',function(data) {
         //console.log("Update query item: " + JSON.stringify(data,null,2));
         //alert(data.query.name)
         var nid = nextItem++;

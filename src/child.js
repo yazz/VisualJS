@@ -2236,6 +2236,36 @@ function processMessagesFromMainProcess() {
 
 
 
+
+
+        } else if (msg.message_type == 'get_all_queries_2') {
+            //console.log("3 - get_all_queries: " + msg.seq_num )
+            get_all_queries_2(
+                                function(result) {
+                                    //console.log("5: " + JSON.stringify(result))
+                                    var returnQueryItemMsg = {
+                                        message_type:           'return_query_item_2',
+                                        seq_num:                msg.seq_num,
+                                        returned:               result.query
+                                    }
+                                    process.send( returnQueryItemMsg );
+                                },
+
+
+                                function() {
+                                    var returnQueryItemsEndedMsg = {
+                                        message_type:           'return_query_items_ended_2',
+                                        seq_num:                msg.seq_num
+                                    };
+                                    process.send( returnQueryItemsEndedMsg );
+                                    //console.log("6: Query ended ")
+                                }
+                            )
+
+
+
+
+
         } else if (msg.message_type == 'when_queries_changes') {
             //when_queries_changes(null);
 
@@ -3175,6 +3205,22 @@ function get_all_queries(callbackFn, callbackEndFn) {
 
 
 
+
+function get_all_queries_2(callbackFn, callbackEndFn) {
+    //console.log('4:');
+    dbsearch.serialize(
+        function() {
+            var stmt = dbsearch.all("select * from data_states",
+                function(err, results) {
+                    //console.log('4.5: results length = ' + results.length);
+                    for (var i=0; i < results.length;i ++) {
+                        var query = results[i];
+                        callbackFn({query: query})
+                    }
+                    callbackEndFn()
+                });
+            }, sqlite3.OPEN_READONLY)
+};
 
 
 
