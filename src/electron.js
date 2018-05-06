@@ -2988,8 +2988,8 @@ function startServices() {
             alreadyOpen = true
             visifile.loadURL(localClientUrl)
             if (visifile.webContents) {
-                visifile.webContents.executeJavaScript("document.addEventListener('dragover', event => event.preventDefault())");
-                visifile.webContents.executeJavaScript("document.addEventListener('drop', event => event.preventDefault())");
+                //visifile.webContents.executeJavaScript("document.addEventListener('dragover', event => event.preventDefault())");
+                //visifile.webContents.executeJavaScript("document.addEventListener('drop', event => event.preventDefault())");
             }
 
 
