@@ -3217,7 +3217,7 @@ function get_data(callbackFn, callbackEndFn) {
     //console.log('4:');
     dbsearch.serialize(
         function() {
-            var stmt = dbsearch.all("select * from data_states",
+            var stmt = dbsearch.all("select * from all_data where hash is not null",
                 function(err, results) {
                     //console.log('4.5: results length = ' + results.length);
                     for (var i=0; i < results.length;i ++) {
