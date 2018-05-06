@@ -3241,7 +3241,8 @@ function get_search_results_2_Fn(  searchTerm,  options, timeStart , callbackFn 
                     dbsearch.serialize(function() {
                         var mysql =
                         `select
-            				distinct(all_data.id) as data_id,
+            				 distinct(all_data.id) as data_id,
+                             all_data.properties,
                              the1.document_binary_hash,
                              the1.num_occ  ,
                              the1.child_hash ,
