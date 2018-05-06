@@ -344,10 +344,12 @@ function setupWebSocket(host, port)
 
     setTimeout(function(){
         //
+        // _______
         // Browser  --Send me your data-->  Server
+        // _______
         //
         sendToServerViaWebSocket({
-                message_type: "client_asks_server_for_data"
+                message_type: "browser_asks_server_for_data"
                 });
             },3000);
     });

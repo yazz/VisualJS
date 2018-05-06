@@ -646,7 +646,11 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
 
 
-        } else if (msg.message_type == "return_query_item_2") {
+        //                               ______
+        // Subprocess  --1 data item-->  Server
+        //                               ______
+        //
+        } else if (msg.message_type == "subprocess_returns_data_item_to_server") {
             //console.log("6: return_query_item")
             //console.log("6.1: " + msg)
             //console.log("7: " + msg.returned)
@@ -1961,16 +1965,25 @@ function websocketFn(ws) {
 
 
 
-        } else if (receivedMessage.message_type == "client_asks_server_for_data") {
+
+
+        //                                  ______
+        // Browser  --Send me your data-->  Server
+        //                                  ______
+        //
+        } else if (receivedMessage.message_type == "browser_asks_server_for_data") {
 
             var seqNum = queuedResponseSeqNum;
             queuedResponseSeqNum ++;
             queuedResponses[seqNum] = ws;
 
-            //console.log(" 2 ");
+            // ______
+            // Server  --Send me your data-->  Subprocess
+            // ______
+            //
             forkedProcesses["forked"].send({
                             message_type:   "server_asks_subprocess_for_data",
-                            seq_num:          seqNum
+                            seq_num:         seqNum
                         });
 
 

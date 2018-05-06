@@ -2237,14 +2237,21 @@ function processMessagesFromMainProcess() {
 
 
 
-
+        //                                 __________
+        // Server  --Send me your data-->  Subprocess
+        //                                 __________
+        //
         } else if (msg.message_type == 'server_asks_subprocess_for_data') {
             //console.log("3 - get_all_queries: " + msg.seq_num )
             get_data(
                                 function(result) {
-                                    //console.log("5: " + JSON.stringify(result))
+
+                                    // __________
+                                    // Subprocess  --1 data item-->  Server
+                                    // __________
+                                    //
                                     var returnQueryItemMsg = {
-                                        message_type:           'return_query_item_2',
+                                        message_type:           'subprocess_returns_data_item_to_server',
                                         seq_num:                msg.seq_num,
                                         returned:               result.query
                                     }
