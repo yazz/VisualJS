@@ -2261,7 +2261,7 @@ function processMessagesFromMainProcess() {
 
                                 function() {
                                     var returnQueryItemsEndedMsg = {
-                                        message_type:           'return_query_items_ended_2',
+                                        message_type:           'subprocess_alerts_data_done_to_server',
                                         seq_num:                msg.seq_num
                                     };
                                     process.send( returnQueryItemsEndedMsg );

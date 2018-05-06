@@ -686,13 +686,13 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
 
 
-        } else if (msg.message_type == "return_query_items_ended_2") {
+        } else if (msg.message_type == "subprocess_alerts_data_done_to_server") {
             //console.log("6: return_query_items_ended")
             //console.log("6.1: " + msg)
             var new_ws = queuedResponses[ msg.seq_num ]
 
             sendToBrowserViaWebSocket(      new_ws,
-                                        {   type: "client_get_all_queries_done_2"  });
+                                        {   type: "server_alerts_data_done_to_browser"  });
             //new_ws = null;
         }
 
