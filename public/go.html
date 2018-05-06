@@ -348,10 +348,12 @@ function setupWebSocket(host, port)
         // Browser  --Send me your data-->  Server
         // _______
         //
-        sendToServerViaWebSocket({
-                message_type: "browser_asks_server_for_data"
-                });
-            },3000);
+        setInterval(function() {
+            sendToServerViaWebSocket({
+                    message_type: "browser_asks_server_for_data"
+                    });
+        }, 30000)
+    },3000);
     });
 
 

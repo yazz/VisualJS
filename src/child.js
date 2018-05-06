@@ -2243,7 +2243,10 @@ function processMessagesFromMainProcess() {
         //
         } else if (msg.message_type == 'server_asks_subprocess_for_data') {
             //console.log("3 - get_all_queries: " + msg.seq_num )
-            get_data(
+            get_data(           {
+
+                                }
+                                ,
                                 function(result) {
 
                                     // __________
@@ -3213,11 +3216,21 @@ function get_all_queries(callbackFn, callbackEndFn) {
 
 
 
-function get_data(callbackFn, callbackEndFn) {
+function get_data(options, callbackFn, callbackEndFn) {
     //console.log('4:');
     dbsearch.serialize(
         function() {
-            var stmt = dbsearch.all("select * from all_data where hash is not null",
+            var stmt = dbsearch.all(
+                `select
+                    *
+                from
+                    all_data
+                where
+                        hash is not null
+                    and
+                       estimated_modified_timestamp > ${new Date().getTime() - (1000 * 30)}
+                `
+                ,
                 function(err, results) {
                     //console.log('4.5: results length = ' + results.length);
                     for (var i=0; i < results.length;i ++) {
