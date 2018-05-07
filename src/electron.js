@@ -353,6 +353,38 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
 
 
+
+        //zzz
+        // __________
+        // Subprocess   -- Return document preview -->   Server
+        // __________
+        //
+        } else if (msg.message_type == "subprocess_returns_document_preview_to_server") {
+            console.log("**5) subprocess_returns_document_preview_to_server: " + msg.data_id)
+            //var rett = eval("(" + msg.returned + ")");
+
+            var new_ws = queuedResponses[ msg.seq_num ]
+
+            // ______
+            // Server   -- Document Preview -->   Browser
+            // ______
+            //
+            sendToBrowserViaWebSocket(
+                new_ws,
+                {
+                    type:      "server_returns_document_preview_to_browser",
+                    data_id:    msg.data_id,
+                    data_name:    msg.data_name
+                    //result:    JSON.stringify({  result: rett.result})
+                });
+
+            //new_ws = null;
+
+
+
+
+
+
         } else if (msg.message_type == "return_add_local_driver_results_msg") {
             //console.log("6 - return_get_search_results: " + msg.returned);
             var rett = eval("(" + msg.success + ")");
@@ -672,7 +704,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
 
         } else if (msg.message_type == "ipc_child_returning_find_results") {
-            //zzz
+
             console.log(" .......3: " + msg.results);
             //console.log("6: return_query_items_ended")
             //console.log("6.1: " + msg)
@@ -1992,6 +2024,34 @@ function websocketFn(ws) {
 
 
 
+
+
+        //                                         ______
+        // Browser  --Send me document preview-->  Server
+        //                                         ______
+        //
+        } else if (receivedMessage.message_type == "browser_asks_server_for_document_preview") {
+            console.log("**2) browser_asks_server_for_document_preview: " + receivedMessage.data_id)
+
+            var seqNum = queuedResponseSeqNum;
+            queuedResponseSeqNum ++;
+            queuedResponses[seqNum] = ws;
+
+            // ______
+            // Server  --Send me document preview-->  Subprocess
+            // ______
+            //
+            forkedProcesses["forked"].send({
+                            message_type:   "server_asks_subprocess_for_document_preview",
+                            seq_num:         seqNum,
+                            data_id:         receivedMessage.data_id,
+                            data_name:         receivedMessage.data_name
+                        });
+
+
+
+
+
        } else if (receivedMessage.message_type == "vf") {
            parseVfCliCommand(receivedMessage.args, function(result) {
                sendToBrowserViaWebSocket(      ws,
@@ -2016,7 +2076,7 @@ function websocketFn(ws) {
 
 
        } else if (receivedMessage.message_type == "find") {
-           //zzz
+
            var seqNum = queuedResponseSeqNum;
            queuedResponseSeqNum ++;
            queuedResponses[seqNum] = ws;
@@ -2489,6 +2549,9 @@ function startServices() {
                         seq_num:         seqNum,
                         query_id:        req.query.id });
     });
+
+
+
 
 
 

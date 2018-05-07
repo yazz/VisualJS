@@ -1970,6 +1970,51 @@ function processMessagesFromMainProcess() {
 
 
 
+    //zzz
+    //                                            __________
+    // Server   -- Send me document preview -->   Subprocess
+    //                                            __________
+    //
+    } else if (msg.message_type == 'server_asks_subprocess_for_document_preview') {
+        console.log("**3) server_asks_subprocess_for_document_preview: " + msg.data_id)
+
+        /*downloadWebDocument(msg.query_id,
+                            function(result) {
+                                console.log("5")
+                                var returnDownloadDocToParentMsg = {
+                                    message_type:       'returnDownloadWebDocument_2',
+                                    seq_num:             msg.seq_num,
+                                    returned:            JSON.stringify(result,null,2)
+                                };
+                                process.send( returnDownloadDocToParentMsg );
+                    }  )
+
+        if (rows.length > 0) {
+            var buffer = new Buffer(rows[0].content, 'binary');
+
+            fs.writeFile(path.join(userData, "/files/a.pdf"), buffer,  "binary",
+                function(err) {
+                    //console.log('trying to save pdf 6: ');
+
+                });
+        }*/
+        // __________
+        // Subprocess   -- Return document preview -->   Server
+        // __________
+        //
+        var returnDownloadDocToParentMsg = {
+            message_type:       'subprocess_returns_document_preview_to_server',
+            seq_num:             msg.seq_num,
+            data_id:             msg.data_id,
+            data_name:           msg.data_name,
+            returned:            JSON.stringify({},null,2)
+        };
+        process.send( returnDownloadDocToParentMsg );
+
+
+
+
+
     } else if (msg.message_type == 'downloadDocuments') {
         downloadDocuments(  msg.file_id,
                             function(result) {

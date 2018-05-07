@@ -212,34 +212,19 @@ div.tilt {
 
 <script>
 
-function loadContent(data_id, data_name) {
-
-
-
-    if (data_name.toLowerCase().endsWith(".pdf")) {
-        document.getElementById("popup").style.zIndex = '10000';
-        var ourl =  "<iframe width='100%' height='100%' " +
-                    " src='http://" + window.location.hostname + ":" + window.location.port +  "/viewer/#http://" +
-                    window.location.hostname + ":" + window.location.port +  "/files/a.pdf'><iframe>"
-        document.getElementById("popup_content").innerHTML = ourl;
-
-
-
-        } else {
-                $.ajax({
-                    url: '/get_web_document_2',
-                    data: {id: data_id},
-                    success: function(data) {
-                        var ret = eval("(" + data + ")")
-                        document.getElementById("popup").style.zIndex = '10000';
-                        document.getElementById("popup_content").innerHTML = ret.result;
-                        //alert(JSON.stringify(ret.result,null,2))
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                      alert('error ' + textStatus + ' : ' +  errorThrown);
-                    }
-                });
-            };
+function loadContent(  data_id,  data_name  ) {
+    //zzz
+    //
+    // _______
+    // Browser  --Send me a preview of a document-->  Server
+    // _______
+    //
+    console.log("**1) browser_asks_server_for_document_preview")
+    sendToServerViaWebSocket({
+        message_type:   "browser_asks_server_for_document_preview",
+        data_id:         data_id,
+        data_name:       data_name
+        });
 }
 
 
@@ -425,6 +410,33 @@ var dataIds = new Object()
             select_card(nid)
         }
     });
+
+
+    //zzz
+    //
+    // ______
+    // Server  --preview of a document-->  Browser
+    // ______
+    //
+    socket.on('server_returns_document_preview_to_browser',function(data) {
+        console.log("**6) server_returns_document_preview_to_browser: ")
+        console.log("    : " + JSON.stringify(data,null,2))
+        //var ret = eval("(" + data + ")")
+        document.getElementById("popup").style.zIndex = '10000';
+        //alert(JSON.stringify(ret.result,null,2))
+        if (data.data_name.toLowerCase().endsWith(".pdf")) {
+            var ourl =  "<iframe width='100%' height='100%' " +
+                        " src='http://" + window.location.hostname + ":" + window.location.port +  "/viewer/#http://" +
+                        window.location.hostname + ":" + window.location.port +  "/files/a.pdf'><iframe>"
+            document.getElementById("popup_content").innerHTML = ourl;
+        } else {
+            document.getElementById("popup_content").innerHTML = ret.result;
+
+        }
+    });
+
+
+
 
     socket.on('vf_reply',function(data) {
         console.log(data.result);
