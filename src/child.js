@@ -1820,7 +1820,6 @@ var callbackList = new Object()
 
 function callDriverMethod( driverName, methodName, args, callbackFn ) {
 
-    inUseIndex ++
     console.log("*) called '" + driverName + ":" + methodName + "' with args: " + JSON.stringify(args,null,2))
     var useCallbackIndex = callbackIndex ++
     process.send({  message_type:       "function_call_request" ,
@@ -1996,9 +1995,8 @@ function processMessagesFromMainProcess() {
         console.log("*)  callback_index:" + msg.callback_index );
         console.log("*)  result:        " + msg.result );
         callbackList[ msg.callback_index ](msg.result)
-        inUseIndex --
 
-    
+
 
 
 
@@ -2035,14 +2033,16 @@ function processMessagesFromMainProcess() {
         // Subprocess   -- Return document preview -->   Server
         // __________
         //
-        var returnDownloadDocToParentMsg = {
-            message_type:       'subprocess_returns_document_preview_to_server',
-            seq_num:             msg.seq_num,
-            data_id:             msg.data_id,
-            data_name:           msg.data_name,
-            returned:            JSON.stringify({},null,2)
-        };
-        process.send( returnDownloadDocToParentMsg );
+        callDriverMethod( "webPreview", "preview", {}, function(result) {
+            var returnDownloadDocToParentMsg = {
+                message_type:       'subprocess_returns_document_preview_to_server',
+                seq_num:             msg.seq_num,
+                data_id:             msg.data_id,
+                data_name:           msg.data_name,
+                returned:            JSON.stringify(result,null,2)
+            };
+            process.send( returnDownloadDocToParentMsg );
+        } )
 
 
 

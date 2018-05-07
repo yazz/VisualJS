@@ -139,13 +139,20 @@ function processMessagesFromMainProcess() {
          console.log("*) call details: " + JSON.stringify(callDetails,null,2))
          var parentCallId = callDetails.parent_call_id
          console.log("*) parent call ID: " + JSON.stringify(parentCallId,null,2))
-         var parentCallDetails = callList[parentCallId]
-         console.log("*) parent call details: " + JSON.stringify(parentCallDetails,null,2))
-         console.log("*) Response: " + JSON.stringify(msg.result,null,2))
+
+         var processName
+         if (parentCallId == -1) {
+             processName = "forked"
+         } else {
+             var parentCallDetails = callList[parentCallId]
+             console.log("*) parent call details: " + JSON.stringify(parentCallDetails,null,2))
+             console.log("*) Response: " + JSON.stringify(msg.result,null,2))
+             processName = parentCallDetails.process_name
+         }
 
 
         process.send({  message_type:       "return_response_to_function_caller" ,
-                        child_process_name:  parentCallDetails.process_name,
+                        child_process_name:  processName,
                         callback_index:      msg.callback_index,
                         result:              msg.result
                         });
