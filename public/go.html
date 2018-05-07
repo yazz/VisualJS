@@ -363,20 +363,24 @@ function setupWebSocket(host, port)
     });
 
 
+var dataIds = new Object()
     //
     // Server  --DATA ITEM-->  Browser
     //
     socket.on('client_data_item_received_from_server',function(data) {
         //console.log("Update query item: " + JSON.stringify(data,null,2));
         //alert(data.query.name)
-        var nid = nextItem++;
-        store.dispatch("add_card", {id: nid, card: {
-                                                        id:     nid ,
-                                                        name:   data.data_item.name
-                                                    }});
-        autoScroll = false
-        store.dispatch("refresh");
-        select_card(nid)
+        if (!dataIds[data.data_item.name]) {
+            var nid = nextItem++;
+            store.dispatch("add_card", {id: nid, card: {
+                                                            id:     nid ,
+                                                            name:   data.data_item.name
+                                                        }});
+            dataIds[data.data_item.name] = true
+            autoScroll = false
+            store.dispatch("refresh");
+            select_card(nid)
+        }
     });
 
     socket.on('vf_reply',function(data) {

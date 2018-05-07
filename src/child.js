@@ -3228,7 +3228,7 @@ function get_data(options, callbackFn, callbackEndFn) {
                 where
                         hash is not null
                     and
-                       estimated_modified_timestamp > ${new Date().getTime() - (1000 * 30)}
+                       estimated_modified_timestamp > ${new Date().getTime() - (1000 * 300)}
                 `
                 ,
                 function(err, results) {
