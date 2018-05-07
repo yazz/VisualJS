@@ -519,18 +519,21 @@ var processesInUse = new Object()
 function scheduleJobWithCodeId(codeId, args,  parentCallId, callbackIndex) {
     var processToUse = null
     var processNames = Object.keys(processesInUse)
-    for(var processNameIndex = 0 ; processNameIndex < processNames.length; processNameIndex ++) {
-        var inUseName = processNames[processNameIndex]
-        var isInUse = processesInUse[inUseName]
+
+    for( var processNameIndex = 0 ; processNameIndex < processNames.length; processNameIndex ++) {
+
+        var actualProcessName   = processNames[ processNameIndex ]
+        var isInUse             = processesInUse[ actualProcessName ]
+
         //console.log(" select * from system_process_info    ")
         //console.log("    " + JSON.stringify(results,null,2))
 
-        if (!isInUse) {
-            processToUse = inUseName
-            processesInUse[inUseName] = true
+        if ( !isInUse ) {
+            processToUse = actualProcessName
+            processesInUse[actualProcessName] = true
             //console.log("    " + JSON.stringify(processToUse,null,2))
             //console.log("    processToUse:" + processToUse.process + " : " + processToUse.job_count)
-            sendJobToProcessName(codeId, args, inUseName, parentCallId, callbackIndex)
+            sendJobToProcessName(codeId, args, actualProcessName, parentCallId, callbackIndex)
             break
         }
     }
