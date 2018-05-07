@@ -657,11 +657,15 @@ function setUpChildListeners(processName, fileName, debugPort) {
             var new_ws = queuedResponses[ msg.seq_num ]
 
             if (msg.returned) {
+                // ______
+                // Server  --1 data item-->  Browser
+                // ______
+                //
                 sendToBrowserViaWebSocket(
                 new_ws,
                 {
-                    type: "client_data_item_received_from_server",
-                    query: msg.returned
+                    type:      "client_data_item_received_from_server",
+                    data_item:  msg.returned
                 });
             }
 

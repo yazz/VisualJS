@@ -372,7 +372,7 @@ function setupWebSocket(host, port)
         var nid = nextItem++;
         store.dispatch("add_card", {id: nid, card: {
                                                         id:     nid ,
-                                                        name:   data.query.name
+                                                        name:   data.data_item.name
                                                     }});
         autoScroll = false
         store.dispatch("refresh");
