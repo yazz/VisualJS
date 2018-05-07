@@ -182,7 +182,7 @@ div.tilt {
             <h1 class="caption">{{item.id}} - {{item.card.name}}</h1>
             <a style='font-size: 2em;' href='{{item.card.link}}' m-if="item.card.link">{{item.card.link_name}}</a>
 
-            <a style='font-size: 2em;' href='{{item.card.load_content}}' m-if="item.card.load_content">{{item.card.load_content_name}}</a>
+            <div style='font-size: 2em;' onclick='loadContent("{{item.card.load_content_name}}");' m-if="item.card.load_content">{{item.card.load_content_name}}</div>
 
             <div style='height: 2em;'></div>
 
@@ -202,7 +202,9 @@ div.tilt {
 
 <script>
 
-
+function loadContent(item) {
+    alert(item)
+}
 
 
 Moon.use(Monx);
@@ -354,7 +356,7 @@ function setupWebSocket(host, port)
             sendToServerViaWebSocket({
                     message_type: "browser_asks_server_for_data"
                     });
-        }, 30000)
+        }, 5000)
     },3000);
     });
 
