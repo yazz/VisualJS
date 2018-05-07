@@ -160,6 +160,15 @@ div.tilt {
 
 <body onload='initFn()' id='mydropzone'>
 
+    <div    id='popup'
+            style='position: absolute; margin:0px; padding: 0%;  border: 0px;  width: 100%;  height:100%;  left: 0%; top: 0%; z-index: -10000;'
+            onclick='document.getElementById("popup").style.zIndex = "-1";document.getElementById("popup_content").innerHTML =""'>
+
+                <div    id='popup_content'
+                        style='position: absolute; margin:0px; padding: 5%;  border: 0px;  width: 50%;  height:80%;  left: 25%; top: 0%; ; background-color: white;color: black;overflow-y: scroll; z-index: 1000;'
+                         onclick="dontBubble(event, this);">
+                </div>
+    </div>
 
 
 
@@ -182,7 +191,8 @@ div.tilt {
             <h1 class="caption">{{item.id}} - {{item.card.name}}</h1>
             <a style='font-size: 2em;' href='{{item.card.link}}' m-if="item.card.link">{{item.card.link_name}}</a>
 
-            <div style='font-size: 2em;' onclick='loadContent("{{item.card.load_content_name}}");' m-if="item.card.load_content">{{item.card.load_content_name}}</div>
+            <div style='font-size: 2em;' onclick='loadContent("{{item.card.data_id}}");' m-if="item.card.load_content">Preview</div>
+            <div style='font-size: 2em;' onclick='openNativeContent("{{item.card.data_id}}");' m-if="item.card.load_content">Open</div>
 
             <div style='height: 2em;'></div>
 
@@ -203,7 +213,8 @@ div.tilt {
 <script>
 
 function loadContent(item) {
-    alert(item)
+    document.getElementById("popup").style.zIndex = '10000';
+    document.getElementById("popup_content").innerHTML = "<div>" + item + "</div>";
 }
 
 
@@ -377,10 +388,11 @@ var dataIds = new Object()
         if (!dataIds[data.data_item.name]) {
             var nid = nextItem++;
             store.dispatch("add_card", {id: nid, card: {
-                                                            id:     nid ,
-                                                            name:   data.data_item.name,
-                                                            load_content: data.data_item.name,
-                                                            load_content_name: data.data_item.name
+                                                            id:                 nid,
+                                                            data_id:            data.data_item.id,
+                                                            name:               data.data_item.name,
+                                                            load_content:       data.data_item.name,
+                                                            load_content_name:  data.data_item.name
                                                         }});
             dataIds[data.data_item.name] = true
             autoScroll = false
