@@ -106,7 +106,8 @@ var hostcount  							= 0;
 var queuedResponses                     = new Object();
 var queuedResponseSeqNum                = 0;
 var alreadyOpen                         = false;
-var executionProcessCount               = 4;
+var executionProcessCount                       = 6;
+var executionProcessUseForRealTimeCount         = 2;
 
 
 
@@ -319,9 +320,11 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
                 forkedProcesses[msg.child_process_name].send({ message_type: "setUpSql" });
 
+//zzz
                 forkedProcesses["forkedExeScheduler"].send({    message_type:    "startNode",
                                                                 node_id:          msg.child_process_name,
                                                                 child_process_id: forkedProcesses[msg.child_process_name].pid,
+                                                                is_real_time:     isRealTimeProcess[msg.child_process_name],
                                                                 started:          new Date()
                                                   });
                                               }
@@ -750,7 +753,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
 
 
-
+var isRealTimeProcess = new Object()
 
 
 function setupForkedProcess(  processName,  fileName,  debugPort  ) {
@@ -803,6 +806,7 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
     for (var i=0;i<executionProcessCount; i++ ) {
         var exeProcName = "forkedExeProcess" + i
         if (processName == exeProcName) {
+            isRealTimeProcess[exeProcName] = (i < executionProcessUseForRealTimeCount)
 
             outputToBrowser("- sending user_data_path to child '" + exeProcName + "':  " + userData)
             forkedProcesses[exeProcName].send({  message_type: "init" ,
@@ -1309,7 +1313,7 @@ function shutDown() {
             console.log("Killed Process forkedFileScanner")
             forkedProcesses["forkedFileScanner"].kill();
         }
-        for (var i=0;i<executionProcessCount; i++ ) {
+        for (var i = 0; i < executionProcessCount; i++ ) {
             var exeProcName = "forkedExeProcess" + i
             forkedProcesses[exeProcName].kill();
             console.log("Killed Process " + exeProcName)
