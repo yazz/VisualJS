@@ -177,7 +177,6 @@ function processMessagesFromMainProcess() {
                              if (results) {
                                 scheduleJobWithCodeId(  results[0].id,
                                                         msg.args,
-                                                        null,
                                                         msg.caller_call_id,
                                                         msg.callback_index)
                                  //callbackFn(results[0].id);
@@ -491,7 +490,7 @@ function testQueryToExecute(cond, code_id) {
                                             function() {
 
                                                 console.log("*) INIT -  starting the first job")
-                                                scheduleJobWithCodeId(  code_id,  results, null,  null, null )
+                                                scheduleJobWithCodeId(  code_id,  results,  null, null )
                                                 inScheduleCode2 = false
                                                 return
                                             });
@@ -517,32 +516,27 @@ function testQueryToExecute(cond, code_id) {
 
 var processesInUse = new Object()
 
-function scheduleJobWithCodeId(codeId, args, fixedProcessToUse,  parentCallId, callbackIndex) {
-    if (fixedProcessToUse) {
-        sendJobToProcessName(codeId, args, fixedProcessToUse, parentCallId, callbackIndex)
-    } else {
-        var processToUse = null
-        var processNames = Object.keys(processesInUse)
-        for(var processNameIndex = 0 ; processNameIndex < processNames.length; processNameIndex ++) {
-            var inUseName = processNames[processNameIndex]
-            var isInUse = processesInUse[inUseName]
-            //console.log(" select * from system_process_info    ")
-            //console.log("    " + JSON.stringify(results,null,2))
-            
-            if (!isInUse) {
-                processToUse = inUseName
-                processesInUse[inUseName] = true
-                //console.log("    " + JSON.stringify(processToUse,null,2))
-                //console.log("    processToUse:" + processToUse.process + " : " + processToUse.job_count)
-                sendJobToProcessName(codeId, args, inUseName, parentCallId, callbackIndex)
-                break
-            }
-        }
-        if (!processToUse) {
-            console.log("Could not find a process to use :() ")
+function scheduleJobWithCodeId(codeId, args,  parentCallId, callbackIndex) {
+    var processToUse = null
+    var processNames = Object.keys(processesInUse)
+    for(var processNameIndex = 0 ; processNameIndex < processNames.length; processNameIndex ++) {
+        var inUseName = processNames[processNameIndex]
+        var isInUse = processesInUse[inUseName]
+        //console.log(" select * from system_process_info    ")
+        //console.log("    " + JSON.stringify(results,null,2))
+
+        if (!isInUse) {
+            processToUse = inUseName
+            processesInUse[inUseName] = true
+            //console.log("    " + JSON.stringify(processToUse,null,2))
+            //console.log("    processToUse:" + processToUse.process + " : " + processToUse.job_count)
+            sendJobToProcessName(codeId, args, inUseName, parentCallId, callbackIndex)
+            break
         }
     }
-
+    if (!processToUse) {
+        console.log("Could not find a process to use :() ")
+    }
 }
 
 
