@@ -207,6 +207,7 @@ function processMessagesFromMainProcess() {
              //console.log("     Node ID: " + msg.node_id)
              //console.log("     Process ID: " + msg.child_process_id)
              //console.log("     Started: " + msg.started)
+             isRealTimeProcess[msg.node_id] = msg.is_real_time
              processesInUse[msg.node_id] = false
              dbsearch.serialize(
                  function() {
@@ -240,7 +241,7 @@ function processMessagesFromMainProcess() {
 
 
 
-
+var isRealTimeProcess = new Object()
 
 //-----------------------------------------------------------------------------------------//
 //                                                                                         //
@@ -527,6 +528,7 @@ function scheduleJobWithCodeId(codeId, args, fixedProcessToUse,  parentCallId, c
             var isInUse = processesInUse[inUseName]
             //console.log(" select * from system_process_info    ")
             //console.log("    " + JSON.stringify(results,null,2))
+            
             if (!isInUse) {
                 processToUse = inUseName
                 processesInUse[inUseName] = true
