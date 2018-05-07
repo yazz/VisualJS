@@ -1811,7 +1811,28 @@ function sendTestHeartBeat() {
 
 
 
+//zzz
+var callbackIndex = -1
 
+
+var callbackIndex = 0;
+var callbackList = new Object()
+
+function callDriverMethod( driverName, methodName, args, callbackFn ) {
+
+    inUseIndex ++
+    console.log("*) called '" + driverName + ":" + methodName + "' with args: " + JSON.stringify(args,null,2))
+    var useCallbackIndex = callbackIndex ++
+    process.send({  message_type:       "function_call_request" ,
+                    child_process_name:  "forked",
+                    driver_name:         driverName,
+                    method_name:         methodName,
+                    args:                args,
+                    callback_index:      useCallbackIndex,
+                    caller_call_id:      -1
+                    });
+    callbackList[ useCallbackIndex ] = callbackFn
+}
 
 
 
@@ -1966,6 +1987,18 @@ function processMessagesFromMainProcess() {
                                 };
                                 process.send( returnDownloadDocToParentMsg );
                     }  )
+
+
+
+    //zzz
+    } else if (msg.message_type == "return_response_to_function_caller") {
+        console.log("*) result received to caller " );
+        console.log("*)  callback_index:" + msg.callback_index );
+        console.log("*)  result:        " + msg.result );
+        callbackList[ msg.callback_index ](msg.result)
+        inUseIndex --
+
+    
 
 
 
