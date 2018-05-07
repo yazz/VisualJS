@@ -191,7 +191,7 @@ div.tilt {
             <h1 class="caption">{{item.id}} - {{item.card.name}}</h1>
             <a style='font-size: 2em;' href='{{item.card.link}}' m-if="item.card.link">{{item.card.link_name}}</a>
 
-            <div style='font-size: 2em;' onclick='loadContent("{{item.card.data_id}}");' m-if="item.card.load_content">Preview</div>
+            <div style='font-size: 2em;' onclick='loadContent("{{item.card.data_id}}","{{item.card.name}}");' m-if="item.card.load_content">Preview</div>
             <div style='font-size: 2em;' onclick='openNativeContent("{{item.card.data_id}}");' m-if="item.card.load_content">Open</div>
 
             <div style='height: 2em;'></div>
@@ -212,9 +212,34 @@ div.tilt {
 
 <script>
 
-function loadContent(item) {
-    document.getElementById("popup").style.zIndex = '10000';
-    document.getElementById("popup_content").innerHTML = "<div>" + item + "</div>";
+function loadContent(data_id, data_name) {
+
+
+
+    if (data_name.toLowerCase().endsWith(".pdf")) {
+        document.getElementById("popup").style.zIndex = '10000';
+        var ourl =  "<iframe width='100%' height='100%' " +
+                    " src='http://" + window.location.hostname + ":" + window.location.port +  "/viewer/#http://" +
+                    window.location.hostname + ":" + window.location.port +  "/files/a.pdf'><iframe>"
+        document.getElementById("popup_content").innerHTML = ourl;
+
+
+
+        } else {
+                $.ajax({
+                    url: '/get_web_document_2',
+                    data: {id: data_id},
+                    success: function(data) {
+                        var ret = eval("(" + data + ")")
+                        document.getElementById("popup").style.zIndex = '10000';
+                        document.getElementById("popup_content").innerHTML = ret.result;
+                        //alert(JSON.stringify(ret.result,null,2))
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                      alert('error ' + textStatus + ' : ' +  errorThrown);
+                    }
+                });
+            };
 }
 
 
