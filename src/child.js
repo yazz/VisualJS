@@ -2742,10 +2742,17 @@ function setUpDbDrivers() {
 
     evalLocalSystemDriver('fileuploader',     path.join(__dirname, '../public/visifile_drivers/file_uploader.js'))
 
+
+
+    //
+    // services
+    //
     if (isWin) {
         evalLocalSystemDriver('powershell',     path.join(__dirname, '../public/visifile_drivers/services/powershell.js'))
     }
     evalLocalSystemDriver('commandLine',    path.join(__dirname, '../public/visifile_drivers/services/commandLine.js'))
+    evalLocalSystemDriver('webPreview',       path.join(__dirname, '../public/visifile_drivers/services/web_preview.js'))
+
 }
 
 
