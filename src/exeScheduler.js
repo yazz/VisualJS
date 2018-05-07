@@ -159,6 +159,10 @@ function processMessagesFromMainProcess() {
 
 
 
+
+
+
+
      } else if (msg.message_type == "function_call_request") {
 
              dbsearch.serialize(
@@ -211,7 +215,9 @@ function processMessagesFromMainProcess() {
                          msg.node_id,
                          msg.child_process_id,
                          msg.started,
-                         0)
+                         0,
+                         msg.is_real_time
+                         )
                      dbsearch.run("commit");
 
 
@@ -257,9 +263,9 @@ function setUpSql() {
 
     updateProcessTable = dbsearch.prepare(
         " insert or replace into "+
-        "     system_process_info (process, process_id, running_since, job_count) " +
+        "     system_process_info (process, process_id, running_since, job_count, realtime) " +
         " values " +
-        "     (?,?,?,?)"
+        "     (?,?,?,?,?)"
     )
 
     lockData = dbsearch.prepare("UPDATE all_data SET status = 'LOCKED' WHERE id = ?");
@@ -449,7 +455,7 @@ function findNextJobToRun() {
 
     var code_id = null
 
-    for (var ff = 0; ff< eventList.length; ff++) {
+    for (var ff = 0; ff < eventList.length; ff++) {
         var cond = eventList[ff]
         code_id = cond.id
         if (cond.condType == "query") {

@@ -806,7 +806,7 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
     for (var i=0;i<executionProcessCount; i++ ) {
         var exeProcName = "forkedExeProcess" + i
         if (processName == exeProcName) {
-            isRealTimeProcess[exeProcName] = (i < executionProcessUseForRealTimeCount)
+            isRealTimeProcess[exeProcName] = (i < executionProcessUseForRealTimeCount)?"true":"false"
 
             outputToBrowser("- sending user_data_path to child '" + exeProcName + "':  " + userData)
             forkedProcesses[exeProcName].send({  message_type: "init" ,

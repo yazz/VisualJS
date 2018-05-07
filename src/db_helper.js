@@ -60,7 +60,7 @@ module.exports = {
 
             "CREATE TABLE IF NOT EXISTS all_data ( id	TEXT, status TEXT, tags	TEXT,name	TEXT, parent	TEXT,parent_root	TEXT,properties	TEXT, timestamp_added INTEGER, estimated_modified_timestamp INTEGER, hash TEXT);",
 
-            "CREATE TABLE IF NOT EXISTS system_process_info (process	TEXT PRIMARY KEY, process_id	TEXT, running_since	TEXT, job_count	INTEGER, last_driver TEXT, last_event TEXT);",
+            "CREATE TABLE IF NOT EXISTS system_process_info (process	TEXT PRIMARY KEY, process_id	TEXT, running_since	TEXT, job_count	INTEGER, last_driver TEXT, last_event TEXT, realtime TEXT);",
 
             "CREATE TABLE IF NOT EXISTS system_code (id TEXT, on_condition TEXT, driver TEXT,method TEXT, code TEXT);"
                 ],
