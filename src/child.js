@@ -1838,6 +1838,23 @@ function callDriverMethod( driverName, methodName, args, callbackFn ) {
 
 
 
+function getFileExtension(fullFileNamePath) {
+    var extension = fullFileNamePath.substr(fullFileNamePath.lastIndexOf('.') + 1).toLowerCase()
+    return extension
+}
+
+
+
+
+function getProperty(record,propName) {
+    var properties = record.properties
+    var rt = properties.indexOf("||  " + propName + "=") + 5 + propName.length
+    var st = properties.substring(rt)
+    var xt = st.indexOf("  ||")
+    var amiga = st.substring(0,xt)
+    return amiga
+}
+
 
 
 
@@ -1990,7 +2007,7 @@ function processMessagesFromMainProcess() {
 
 
 
-    //zzz
+
     } else if (msg.message_type == "return_response_to_function_caller") {
         console.log("*) result received to caller " );
         console.log("*)  callback_index:" + msg.callback_index );
@@ -2034,16 +2051,39 @@ function processMessagesFromMainProcess() {
         // Subprocess   -- Return document preview -->   Server
         // __________
         //
-        callDriverMethod( "webPreview", "preview", {extension: "pdf"}, function(result) {
-            var returnDownloadDocToParentMsg = {
-                message_type:       'subprocess_returns_document_preview_to_server',
-                seq_num:             msg.seq_num,
-                data_id:             msg.data_id,
-                data_name:           msg.data_name,
-                returned:            JSON.stringify(result,null,2)
-            };
-            process.send( returnDownloadDocToParentMsg );
-        } )
+
+            dbsearch.serialize(
+                function() {
+                    dbsearch.all(
+                        "select  *  from  all_data  where  " +
+                        "    id = ?"
+                        ,
+                        msg.data_id
+                        ,
+
+                        function(err, existsResults)
+                        {
+                            if (!err)
+                            {
+                                //console.log("    " + doc_hash + " : " + target_hash + "... existsResults.length = " +  existsResults.length);
+                                if (existsResults.length != 0) {
+                                    var record = existsResults[0]
+                                    callDriverMethod( "webPreview", "preview", {data_item: record}, function(result) {
+                                        var returnDownloadDocToParentMsg = {
+                                            message_type:       'subprocess_returns_document_preview_to_server',
+                                            seq_num:             msg.seq_num,
+                                            data_id:             msg.data_id,
+                                            data_name:           msg.data_name,
+                                            returned:            JSON.stringify(result,null,2)
+                                        };
+                                        process.send( returnDownloadDocToParentMsg );
+                                    } )                                }
+                            }
+                        }
+                    )
+            }, sqlite3.OPEN_READONLY)
+
+
 
 
 

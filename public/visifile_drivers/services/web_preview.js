@@ -14,7 +14,10 @@
         "This will return code used to show a preview of a document": {
             on: "preview",
             do: function(args, returnfn) {
-                var methodToSearchFor = "content_preview_for_" + args.extension
+                var data_item = args.data_item
+                var fullFilePath = getProperty(data_item,"path")
+                var extension = getFileExtension(fullFilePath)
+                var methodToSearchFor = "content_preview_for_" + extension
                 findDriverWithMethod(   methodToSearchFor
                                         ,
                                         function(driverName) {
