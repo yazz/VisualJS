@@ -332,5 +332,21 @@ var pdfParser = new PDFParserClass(this,1);
             },
             end: null
         }
+
+
+        ,
+
+
+
+
+        "Content preview": {
+            on: "content_preview_for_pdf"
+            ,
+            do: function(args, callfn) {
+                callfn({html: 'Found content preview for PDF'});
+            }
+            ,
+            end: null
+        }
     }
 }

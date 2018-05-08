@@ -26,7 +26,7 @@
                                                                   {}
                                                             ,
                                                             function(result) {
-                                                            })
+                                                                returnfn(result)                                                            })
                                             } else {
                                                 returnfn({
                                                     html: `

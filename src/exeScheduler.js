@@ -150,11 +150,11 @@ function processMessagesFromMainProcess() {
              processName = parentCallDetails.process_name
          }
 
-
-        process.send({  message_type:       "return_response_to_function_caller" ,
-                        child_process_name:  processName,
-                        callback_index:      msg.callback_index,
-                        result:              msg.result
+         console.log("msg.callback_index returned: " + msg.callback_index)
+         process.send({     message_type:       "return_response_to_function_caller" ,
+                            child_process_name:  processName,
+                            callback_index:      msg.callback_index,
+                            result:              msg.result
                         });
 
 

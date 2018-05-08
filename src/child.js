@@ -1822,6 +1822,8 @@ function callDriverMethod( driverName, methodName, args, callbackFn ) {
 
     console.log("*) called '" + driverName + ":" + methodName + "' with args: " + JSON.stringify(args,null,2))
     var useCallbackIndex = callbackIndex ++
+    callbackList[ useCallbackIndex ] = callbackFn
+    console.log("msg.callback_index sent for " + driverName + ":" + methodName + ": " + useCallbackIndex)
     process.send({  message_type:       "function_call_request" ,
                     child_process_name:  "forked",
                     driver_name:         driverName,
@@ -1830,7 +1832,6 @@ function callDriverMethod( driverName, methodName, args, callbackFn ) {
                     callback_index:      useCallbackIndex,
                     caller_call_id:      -1
                     });
-    callbackList[ useCallbackIndex ] = callbackFn
 }
 
 
