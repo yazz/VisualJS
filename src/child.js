@@ -2033,7 +2033,7 @@ function processMessagesFromMainProcess() {
         // Subprocess   -- Return document preview -->   Server
         // __________
         //
-        callDriverMethod( "webPreview", "preview", {}, function(result) {
+        callDriverMethod( "webPreview", "preview", {extension: "pdf"}, function(result) {
             var returnDownloadDocToParentMsg = {
                 message_type:       'subprocess_returns_document_preview_to_server',
                 seq_num:             msg.seq_num,
