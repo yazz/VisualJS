@@ -343,9 +343,31 @@ var pdfParser = new PDFParserClass(this,1);
             on: "content_preview_for_pdf"
             ,
             do: function(args, callfn) {
-                callfn({
-                    html_old: "<div>PDF Preview</div>",
-                    client_js: 'var ourl =  "<iframe width=100% height=100% src=\'http://" + window.location.hostname + ":" + window.location.port +  "/viewer/#http://" + window.location.hostname + ":" + window.location.port +  "/files/a.pdf\'><iframe>"; document.getElementById("popup_content").innerHTML = ourl;'});
+                dbsearch.serialize(function() {
+                    var hash = args.hash
+                    var stmt = dbsearch.all(
+                        "select   content   from   contents_2   where   id = ? limit 1"
+                        ,
+                        hash
+                        ,
+                        function(err, rows) {
+                            if (!err) {
+                                if (rows.length > 0) {
+                                    var buffer = new Buffer(rows[0].content, 'binary');
+
+                                    fs.writeFile(path.join(userData, "/files/a.pdf"), buffer,  "binary",
+                                        function(err) {
+                                            callfn({
+                                                html_old: "<div>PDF Preview</div>",
+                                                client_js: 'var ourl =  "<iframe width=100% height=100% src=\'http://" + window.location.hostname + ":" + window.location.port +  "/viewer/#http://" + window.location.hostname + ":" + window.location.port +  "/files/a.pdf\'><iframe>"; document.getElementById("popup_content").innerHTML = ourl;'}
+                                            );
+
+                                        });
+                                    }
+                                }
+                            })
+                        }, sqlite3.OPEN_READONLY)
+
             }
             ,
             end: null

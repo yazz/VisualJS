@@ -15,6 +15,7 @@
             on: "preview",
             do: function(args, returnfn) {
                 var data_item = args.data_item
+                var hash = data_item.hash
                 var fullFilePath = getProperty(data_item,"path")
                 var extension = getFileExtension(fullFilePath)
                 var methodToSearchFor = "content_preview_for_" + extension
@@ -26,7 +27,7 @@
                                                 //console.log("5) Driver:" + driverName)
                                                 callDriverMethod( driverName,
                                                                   methodToSearchFor,
-                                                                  {}
+                                                                  {hash: hash}
                                                             ,
                                                             function(result) {
                                                                 returnfn(result)                                                            })

@@ -419,22 +419,14 @@ var dataIds = new Object()
     // ______
     //
     socket.on('server_returns_document_preview_to_browser',function(data) {
-        console.log("**6) server_returns_document_preview_to_browser: ")
-        console.log("    : " + JSON.stringify(data,null,2))
-        //var ret = eval("(" + data + ")")
+        //console.log("**6) server_returns_document_preview_to_browser: ")
+        //console.log("    : " + JSON.stringify(data,null,2))
         document.getElementById("popup").style.zIndex = '10000';
-        //alert(JSON.stringify(ret.result,null,2))
-        //if (data.data_name.toLowerCase().endsWith(".pdf")) {
-        //    var ourl =  "<iframe width='100%' height='100%' " +
-        //                " src='http://" + window.location.hostname + ":" + window.location.port +  "/viewer/#http://" +
-        //                window.location.hostname + ":" + window.location.port +  "/files/a.pdf'><iframe>"
-        //    document.getElementById("popup_content").innerHTML = ourl;
-        //} else {
-        //client_js
+
         if (data.result.html) {
             document.getElementById("popup_content").innerHTML = data.result.html
         } else if (data.result.client_js) {
-            console.log("data.result.client_js: " + data.result.client_js)
+            //console.log("data.result.client_js: " + data.result.client_js)
             eval(""+ data.result.client_js + "")
         }
 
