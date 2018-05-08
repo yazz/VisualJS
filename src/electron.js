@@ -377,7 +377,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
                 {
                     type:      "server_returns_document_preview_to_browser",
                     data_id:    msg.data_id,
-                    returned:    msg.returned,
+                    result:     msg.result,
                     data_name:    msg.data_name
                     //result:    JSON.stringify({  result: rett.result})
                 });

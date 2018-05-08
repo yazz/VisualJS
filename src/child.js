@@ -2074,7 +2074,7 @@ function processMessagesFromMainProcess() {
                                             seq_num:             msg.seq_num,
                                             data_id:             msg.data_id,
                                             data_name:           msg.data_name,
-                                            returned:            JSON.stringify(result,null,2)
+                                            result:              result
                                         };
                                         process.send( returnDownloadDocToParentMsg );
                                     } )                                }
