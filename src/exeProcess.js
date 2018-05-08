@@ -149,6 +149,8 @@ function processMessagesFromMainProcess() {
         if (inUse) {
             console.log("*) ERROR: " + childProcessName + " is already running method ")
         } else {
+            currentCallbackIndex = msg.callback_index
+            console.log(childProcessName + " currentCallbackIndex: " + msg.callback_index)
             inUseIndex ++
             inUse = true
             console.log(childProcessName + " is executing: " + msg.code_id)
@@ -160,10 +162,9 @@ function processMessagesFromMainProcess() {
                 eval(msg.code)
             }
             if (msg.code_id) {
-                executeCode(msg.call_id,  msg.code_id, msg.args)
                 currentCallId = msg.call_id
+                executeCode(msg.call_id,  msg.code_id, msg.args)
             }
-            callbackIndex = msg.callback_index
         }
 
 
@@ -309,7 +310,7 @@ function executeCode(callId, codeId, args) {
                                                 child_process_name:  childProcessName,
                                                 driver_name:         results[0].driver,
                                                 method_name:         results[0].method,
-                                                callback_index:      callbackIndex,
+                                                callback_index:      currentCallbackIndex,
                                                 result:              result,
                                                 called_call_id:      callId
                                                 });
@@ -325,10 +326,10 @@ function executeCode(callId, codeId, args) {
                 })
     }, sqlite3.OPEN_READONLY)
 }
-var callbackIndex = -1
+var callbackIndex = 0
+var currentCallbackIndex = -1
 
 
-var callbackIndex = 0;
 var callbackList = new Object()
 
 function callDriverMethod( driverName, methodName, args, callbackFn ) {
