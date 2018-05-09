@@ -406,6 +406,27 @@
               },
               end: null
           }
+
+
+          ,
+
+          "Content preview for csv": {
+              on: "content_preview_for_csv"
+              ,
+              do: function(args, callfn) {
+                  callfn({
+                      html: "<div>CSV Preview</div>"
+                  });
+
+
+              }
+              ,
+              end: null
+          }
+
+          
+
+
       }
 
 
