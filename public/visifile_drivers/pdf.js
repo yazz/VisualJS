@@ -290,7 +290,7 @@ var pdfParser = new PDFParserClass(this,1);
   ,
   events: {
 
-        "ls function returns current files":
+        "Return PDF Data":
         {
             on: "can_handle_pdf",
             do: function(args, callfn) {

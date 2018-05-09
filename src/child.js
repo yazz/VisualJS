@@ -2815,7 +2815,7 @@ function evalLocalSystemDriver(driverName, location) {
 
 function setUpDbDrivers() {
     evalLocalSystemDriver('glb',            path.join(__dirname, '../public/visifile_drivers/glb.js'))
-    evalLocalSystemDriver('csv',            path.join(__dirname, '../public/visifile_drivers/glb.js'))
+    evalLocalSystemDriver('csv',            path.join(__dirname, '../public/visifile_drivers/csv.js'))
     evalLocalSystemDriver('txt',            path.join(__dirname, '../public/visifile_drivers/glb.js'))
     evalLocalSystemDriver('excel',          path.join(__dirname, '../public/visifile_drivers/excel.js'))
     evalLocalSystemDriver('word',           path.join(__dirname, '../public/visifile_drivers/word.js'))

@@ -217,12 +217,12 @@
 
 
     get_v2: function( connection , parameters , callfn ) {
-        console.log('********************************');
-        console.log('********************************');
-        console.log('****     LOADING GLB   *********');
-        console.log('****     LOADING GLB   *********' + connection.fileName);
-        console.log('********************************');
-        console.log('********************************');
+        //console.log('********************************');
+        //console.log('********************************');
+        //console.log('****     LOADING GLB   *********');
+        //console.log('****     LOADING GLB   *********' + connection.fileName);
+        //console.log('********************************');
+        //console.log('********************************');
 
 
 
