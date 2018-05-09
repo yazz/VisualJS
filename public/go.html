@@ -192,7 +192,8 @@ div.tilt {
             <a style='font-size: 2em;' href='{{item.card.link}}' m-if="item.card.link">{{item.card.link_name}}</a>
 
             <div style='font-size: 2em;' onclick='loadContent("{{item.card.data_id}}","{{item.card.name}}");' m-if="item.card.load_content">Preview</div>
-            <div style='font-size: 2em;' onclick='openNativeContent("{{item.card.data_id}}");' m-if="item.card.load_content">Open</div>
+
+            <div style='font-size: 2em;' onclick='openContent("{{item.card.data_id}}","{{item.card.name}}");' m-if="item.card.load_content">Open</div>
 
             <div style='height: 2em;'></div>
 
@@ -213,7 +214,6 @@ div.tilt {
 <script>
 
 function loadContent(  data_id,  data_name  ) {
-    //zzz
     //
     // _______
     // Browser  --Send me a preview of a document-->  Server
@@ -226,6 +226,22 @@ function loadContent(  data_id,  data_name  ) {
         data_name:       data_name
         });
 }
+
+
+
+function openContent(  data_id  ) {
+    //
+    // _______
+    // Browser  --Send me a preview of a document-->  Server
+    // _______
+    //
+    console.log("**1) browser_asks_server_to_open_document_natively")
+    sendToServerViaWebSocket({
+        message_type:   "browser_asks_server_to_open_document_natively",
+        data_id:         data_id
+        });
+}
+
 
 
 Moon.use(Monx);

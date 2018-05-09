@@ -320,7 +320,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
                 forkedProcesses[msg.child_process_name].send({ message_type: "setUpSql" });
 
-//zzz
+
                 forkedProcesses["forkedExeScheduler"].send({    message_type:    "startNode",
                                                                 node_id:          msg.child_process_name,
                                                                 child_process_id: forkedProcesses[msg.child_process_name].pid,
@@ -357,7 +357,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
 
 
-        //zzz
+
         // __________
         // Subprocess   -- Return document preview -->   Server
         // __________
@@ -2094,8 +2094,17 @@ function websocketFn(ws) {
                        });
 
 
-
-        }
+//zzz
+} else if (receivedMessage.message_type == "browser_asks_server_to_open_document_natively") {
+        // ______
+        // Server   -- Open document natively -->  Subprocess
+        // ______
+        //
+        forkedProcesses["forked"].send({
+            message_type:   "server_asks_subprocess_to_open_document_natively",
+            data_id:         receivedMessage.data_id
+        });
+    }
 
 
 

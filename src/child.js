@@ -18,6 +18,7 @@ var db_helper                   = require("./db_helper")
 var isBinaryFile                = require("isbinaryfile");
 var pgeval
 var sqliteeval
+var open            = require('opn');
 var tdeval
 var toeval;
 var userData
@@ -2020,33 +2021,47 @@ function processMessagesFromMainProcess() {
 
 
     //zzz
+    //                                          __________
+    // Server   -- Open document natively -->   Subprocess
+    //                                          __________
+    //
+    } else if (msg.message_type == 'server_asks_subprocess_to_open_document_natively') {
+        //console.log("**3) server_asks_subprocess_for_document_preview: " + msg.data_id)
+
+        dbsearch.serialize(
+            function() {
+                dbsearch.all(
+                    "select  *  from  all_data  where  " +
+                    "    id = ?"
+                    ,
+                    msg.data_id
+                    ,
+
+                    function(err, existsResults)
+                    {
+                        if (!err)
+                        {
+                            //console.log("    " + doc_hash + " : " + target_hash + "... existsResults.length = " +  existsResults.length);
+                            if (existsResults.length != 0) {
+                                var record = existsResults[0]
+                                var path = getProperty(record, "path")
+
+                                open(path);
+                             }
+                        }
+                    }
+                )
+        }, sqlite3.OPEN_READONLY)
+
+
+
     //                                            __________
     // Server   -- Send me document preview -->   Subprocess
     //                                            __________
     //
     } else if (msg.message_type == 'server_asks_subprocess_for_document_preview') {
-        console.log("**3) server_asks_subprocess_for_document_preview: " + msg.data_id)
+        //console.log("**3) server_asks_subprocess_for_document_preview: " + msg.data_id)
 
-        /*downloadWebDocument(msg.query_id,
-                            function(result) {
-                                console.log("5")
-                                var returnDownloadDocToParentMsg = {
-                                    message_type:       'returnDownloadWebDocument_2',
-                                    seq_num:             msg.seq_num,
-                                    returned:            JSON.stringify(result,null,2)
-                                };
-                                process.send( returnDownloadDocToParentMsg );
-                    }  )
-
-        if (rows.length > 0) {
-            var buffer = new Buffer(rows[0].content, 'binary');
-
-            fs.writeFile(path.join(userData, "/files/a.pdf"), buffer,  "binary",
-                function(err) {
-                    //console.log('trying to save pdf 6: ');
-
-                });
-        }*/
         // __________
         // Subprocess   -- Return document preview -->   Server
         // __________

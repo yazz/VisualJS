@@ -1,4 +1,6 @@
 {
+    doc_type: 'visifile'
+    ,
     name: 'pdf'
     ,
     version: 1
