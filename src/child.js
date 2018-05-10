@@ -2026,7 +2026,6 @@ function processMessagesFromMainProcess() {
     //                                          __________
     //
     } else if (msg.message_type == 'server_asks_subprocess_to_open_document_natively') {
-        //console.log("**3) server_asks_subprocess_for_document_preview: " + msg.data_id)
 
         dbsearch.serialize(
             function() {

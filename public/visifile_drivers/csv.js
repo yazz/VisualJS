@@ -415,7 +415,8 @@
               ,
               do: function(args, callfn) {
                   callfn({
-                      html: "<div>CSV Preview</div>"
+
+                      show_as: "spreadsheet"
                   });
 
 
@@ -424,7 +425,7 @@
               end: null
           }
 
-          
+
 
 
       }

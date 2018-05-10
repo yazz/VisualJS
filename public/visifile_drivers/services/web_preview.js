@@ -18,19 +18,47 @@
                 var hash = data_item.hash
                 var fullFilePath = getProperty(data_item,"path")
                 var extension = getFileExtension(fullFilePath)
-                var methodToSearchFor = "content_preview_for_" + extension
-                findDriverWithMethod(   methodToSearchFor
-                                        ,
+                var contentPreviewMethodForDriver = "content_preview_for_" + extension
+                findDriverWithMethod(
+                    contentPreviewMethodForDriver
+                    ,
                                         function(driverName) {
 
                                             if (driverName) {
                                                 //console.log("5) Driver:" + driverName)
                                                 callDriverMethod( driverName,
-                                                                  methodToSearchFor,
+                                                                  contentPreviewMethodForDriver,
                                                                   {hash: hash}
                                                             ,
                                                             function(result) {
-                                                                returnfn(result)                                                            })
+                                                                if (result.show_as) {
+                                                                    findDriverWithMethod(
+                                                                        "view_content_as" + result.show_as
+                                                                        ,
+                                                                        function(driverName) {
+
+                                                                            if (driverName) {
+                                                                                //console.log("5) Driver:" + driverName)
+                                                                                callDriverMethod( driverName,
+                                                                                                  "view_content_as" + result.show_as,
+                                                                                                  {hash: hash}
+                                                                                            ,
+                                                                                            function(result2) {
+                                                                                                    returnfn(result2)
+                                                                                                })
+                                                                            } else {
+                                                                                returnfn({
+                                                                                    html: "<div>No viewer for " + result.show_as + "</div>"
+                                                                                })
+
+                                                                            }
+                                                                        })
+                                                                } else {
+                                                                    returnfn(result)
+
+                                                                }
+                                                            })
+
                                             } else {
                                                 returnfn({
                                                     html: `
