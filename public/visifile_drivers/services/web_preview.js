@@ -33,14 +33,14 @@
                                                             function(result) {
                                                                 if (result.show_as) {
                                                                     findDriverWithMethod(
-                                                                        "view_content_as" + result.show_as
+                                                                        "view_content_as_" + result.show_as
                                                                         ,
                                                                         function(driverName) {
 
                                                                             if (driverName) {
                                                                                 //console.log("5) Driver:" + driverName)
                                                                                 callDriverMethod( driverName,
-                                                                                                  "view_content_as" + result.show_as,
+                                                                                                  "view_content_as_" + result.show_as,
                                                                                                   {hash: hash}
                                                                                             ,
                                                                                             function(result2) {

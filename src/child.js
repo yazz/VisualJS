@@ -2840,6 +2840,7 @@ function setUpDbDrivers() {
     }
     evalLocalSystemDriver('commandLine',    path.join(__dirname, '../public/visifile_drivers/services/commandLine.js'))
     evalLocalSystemDriver('webPreview',       path.join(__dirname, '../public/visifile_drivers/services/web_preview.js'))
+    evalLocalSystemDriver('spreahsheetPreview',       path.join(__dirname, '../public/visifile_drivers/services/spreadsheet_preview.js'))
 
 }
 
