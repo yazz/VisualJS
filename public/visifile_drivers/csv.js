@@ -413,10 +413,12 @@
           "Content preview for csv": {
               on: "content_preview_for_csv"
               ,
-              do: function(args, callfn) {
-                  callfn({
+              do: function(args, returnFn) {
+                  returnFn({
 
-                      show_as: "spreadsheet"
+                      show_as: "spreadsheet",
+                      args: args
+
                   });
 
 
