@@ -416,7 +416,7 @@
               do: function(args, returnFn) {
                   returnFn({
 
-                      show_as: "spreadsheet",
+                      show_as: "csv",
                       args: args
 
                   });
