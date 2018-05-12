@@ -2843,6 +2843,7 @@ function setUpDbDrivers() {
 
     evalLocalSystemDriver('spreahsheetPreview', path.join(__dirname, '../public/visifile_drivers/services/spreadsheet_preview.js'))
     evalLocalSystemDriver('csvPreview',         path.join(__dirname, '../public/visifile_drivers/services/csv_preview.js'))
+    evalLocalSystemDriver('docPreview',         path.join(__dirname, '../public/visifile_drivers/services/doc_preview.js'))
 
 }
 

@@ -278,16 +278,39 @@
                 {
                     on: "can_handle_docx",
                     do: function(args, callfn) {
-                        callfn(["Doc X Line"])
+                        var fileName = args.fileName
+            			var rows = [];
+
+                        try {
+                            mammoth.extractRawText({path: fileName})
+                                .then(function(result){
+                                    var text = result.value; // The raw text
+                                    var messages = result.messages;
+                                    var many = text.split("\n")
+
+                                    var countc = many.length;
+                                    //console.log("DocX word count: " + countc );
+                                    for (var f = 0 ; f < countc; f ++ ) {
+                                        var textline  = many[f];
+                                        if (textline && (textline.length > 10)) {
+                                            //console.log("Word text length " + f + ": " + textline.length);
+                                            rows.push({value: textline});
+                                        }
+                                    }
+                                    callfn(rows);
+                                }).catch(function(err) {
+                                    callfn({error: 'Word error: ' + err});
+                                })
+                                .done();
+
+            			}
+            			catch(err) {
+            				callfn({error: 'Word error: ' + err});
+            			}
+                      }
 
 
-
-
-
-
-
-
-                    },
+                      ,
                     end: null
                 }
 
@@ -300,7 +323,7 @@
                     do: function(args, returnFn) {
                         returnFn({
 
-                            show_as: "csv",
+                            show_as: "document",
                             args: args
 
                         });
