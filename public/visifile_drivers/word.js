@@ -262,4 +262,58 @@
 				callfn({error: 'Word error: ' + err});
 			}
           }
+
+
+
+
+
+
+
+
+          ,
+
+          events: {
+
+                "Return Word DocX Data":
+                {
+                    on: "can_handle_docx",
+                    do: function(args, callfn) {
+                        callfn(["Doc X Line"])
+
+
+
+
+
+
+
+
+                    },
+                    end: null
+                }
+
+
+                ,
+
+                "Content preview for docx": {
+                    on: "content_preview_for_docx"
+                    ,
+                    do: function(args, returnFn) {
+                        returnFn({
+
+                            show_as: "csv",
+                            args: args
+
+                        });
+
+
+                    }
+                    ,
+                    end: null
+                }
+
+
+
+
+            }
+
 }
