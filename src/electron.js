@@ -363,7 +363,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
         // __________
         //
         } else if (msg.message_type == "subprocess_returns_document_preview_to_server") {
-            console.log("**5) subprocess_returns_document_preview_to_server: " + msg.data_id)
+            //console.log("**5) subprocess_returns_document_preview_to_server: " + msg.data_id)
             //var rett = eval("(" + msg.returned + ")");
 
             var new_ws = queuedResponses[ msg.seq_num ]
@@ -2036,7 +2036,7 @@ function websocketFn(ws) {
         //                                         ______
         //
         } else if (receivedMessage.message_type == "browser_asks_server_for_document_preview") {
-            console.log("**2) browser_asks_server_for_document_preview: " + receivedMessage.data_id)
+            //console.log("**2) browser_asks_server_for_document_preview: " + receivedMessage.data_id)
 
             var seqNum = queuedResponseSeqNum;
             queuedResponseSeqNum ++;

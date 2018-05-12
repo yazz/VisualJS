@@ -17,7 +17,6 @@
             on: "view_content_as_spreadsheet",
             do: function(args, returnfn) {
                 var hash = args.hash
-                var returnHtml = "<div>"
                 dbsearch.serialize(
                     function() {
 
@@ -38,11 +37,22 @@
 
                             function(err, results)
                             {
+                                var returnHtml = "<div>"
+                                returnHtml += "<table>"
                                 for (var i = 0; i < results.length; i++) {
-                                    returnHtml += JSON.stringify(results[i],null,2)
+                                    returnHtml += "<tr>"
+                                    //returnHtml += JSON.stringify( results[i] ,null, 2)
+                                    var row = eval( "(" + results[i].data + ")")
+                                    for (var i2 = 0; i2 < row.length; i2 ++) {
+                                        returnHtml += "<td>"
+                                        returnHtml += row[i2]
+                                        returnHtml += "</td>"
+                                    }
+                                    returnHtml += "</tr>"
                                 }
+                                returnHtml += "</table>"
                                 returnHtml += "</div>"
-
+                                //console.log(returnHtml)
                                 returnfn({
                                     html: returnHtml
                                 })

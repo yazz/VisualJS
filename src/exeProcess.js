@@ -175,7 +175,7 @@ function processMessagesFromMainProcess() {
     } else if (msg.message_type == "return_response_to_function_caller") {
         console.log("*) result received to caller " );
         console.log("*)  callback_index:" + msg.callback_index );
-        console.log("*)  result:        " + msg.result );
+        //console.log("*)  result:        " + msg.result );
         callbackList[ msg.callback_index ](msg.result)
         inUseIndex --
 
@@ -294,9 +294,9 @@ function executeCode(callId, codeId, args) {
                 function(err, results)
                 {
                     if (results.length > 0) {
-                        console.log(    "    " + results[0].driver + ":" + results[0].on_condition + ":" +
-                                        results[0].method )
-                        console.log(    "    callId:" + callId )
+                        //console.log(    "    " + results[0].driver + ":" + results[0].on_condition + ":" +
+                        //                results[0].method )
+                        //console.log(    "    callId:" + callId )
 
                         var code = "(" + results[0].code + ")"
                         //console.log(code)
@@ -304,7 +304,7 @@ function executeCode(callId, codeId, args) {
 
                         fnfn(args, function(result) {
                             if (result) {
-                                console.log("*) Result: " + result);
+                                //console.log("*) Result: " + result);
 
                                 process.send({  message_type:       "function_call_response" ,
                                                 child_process_name:  childProcessName,
@@ -314,7 +314,7 @@ function executeCode(callId, codeId, args) {
                                                 result:              result,
                                                 called_call_id:      callId
                                                 });
-                                console.log("*) Result process call ID: " + callId);
+                                //console.log("*) Result process call ID: " + callId);
                             }
                             inUseIndex --
                         })
@@ -335,7 +335,7 @@ var callbackList = new Object()
 function callDriverMethod( driverName, methodName, args, callbackFn ) {
 
     inUseIndex ++
-    console.log("*) called '" + driverName + ":" + methodName + "' with args: " + JSON.stringify(args,null,2))
+    //console.log("*) called '" + driverName + ":" + methodName + "' with args: " + JSON.stringify(args,null,2))
     var useCallbackIndex = callbackIndex ++
     process.send({  message_type:       "function_call_request" ,
                     child_process_name:  childProcessName,
