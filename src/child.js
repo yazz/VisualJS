@@ -663,7 +663,10 @@ function getRelatedDocumentHashes(  doc_hash,  callback  ) {
 //                                                                                         //
 //-----------------------------------------------------------------------------------------//
 function findFoldersFn() {
-    //console.log("**  called findFoldersFn");
+    console.log("**  called findFoldersFn");
+    callDriverMethod( "fileScannerService", "scan_files", {}, function(result) {
+        console.log("    **** SCANNED THE FILE SYSTEM ***")
+    })
 
 	var useDrive = "C:\\";
     if (!isWin) {
@@ -693,6 +696,9 @@ function findFoldersFn() {
     //                            type:   "server_scan_status",
     //                            value:  "Hard disk scan in progress"
     //                            });
+
+//zzz
+
 }
 
 
@@ -1812,7 +1818,7 @@ function sendTestHeartBeat() {
 
 
 
-//zzz
+
 var callbackIndex = -1
 
 
@@ -2020,7 +2026,7 @@ function processMessagesFromMainProcess() {
 
 
 
-    //zzz
+
     //                                          __________
     // Server   -- Open document natively -->   Subprocess
     //                                          __________
@@ -2269,7 +2275,7 @@ function processMessagesFromMainProcess() {
                     }  )
 
     } else if (msg.message_type == 'ipc_from_main_find') {
-        //zzz
+
         get_search_results_2_Fn(    msg.search_term,
                                     {
                                         hashes:     false,

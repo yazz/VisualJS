@@ -16,8 +16,8 @@
         "This will scan the local drive": {
             on: "scan_files",
             do: function(args, returnfn) {
-
-
+                console.log("**** SCANNING FILE SYSTEM ****")
+                returnfn()
             }, end: null
         }
 

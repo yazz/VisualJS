@@ -220,6 +220,13 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
 
 
+
+
+
+
+
+
+
         } else if (msg.message_type == "return_set_query") {
 
             //console.log(".. Main process received a 'return_set_query' message: " + msg.name)
@@ -818,6 +825,9 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
       }
 
     }
+    setTimeout(function() {
+        forkedProcesses["forked"].send({         message_type: "childRunFindFolders" });
+    },5000)
 
 
 
