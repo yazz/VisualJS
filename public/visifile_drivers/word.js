@@ -321,13 +321,32 @@
                     on: "content_preview_for_docx"
                     ,
                     do: function(args, returnFn) {
-                        returnFn({
+                        var hash = args.hash
+                        var stmt = dbsearch.all(
+                            "select   content   from   contents_2   where   id = ? limit 1"
+                            ,
+                            hash
+                            ,
+                            function(err, rows) {
+                                if (!err) {
+                                    if (rows.length > 0) {
+                                        var contentRow = rows[0];
+                                        var buffer = new Buffer(rows[0].content, 'binary');
 
-                            show_as: "document",
-                            args: args
+                                        mammoth.convertToHtml({buffer: buffer})
+                                        .then(function(result){
+                                            var html = result.value; // The generated HTML
+                                            var messages = result.messages; // Any messages, such as warnings during conversion
 
-                        });
+                                            returnFn({
+                                                html:  html
 
+                                            });
+                                        })
+                                        .done();
+                                    }
+                                }
+                            })
 
                     }
                     ,
