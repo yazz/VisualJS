@@ -665,7 +665,7 @@ function getRelatedDocumentHashes(  doc_hash,  callback  ) {
 function findFoldersFn() {
     console.log("**  called findFoldersFn");
     callDriverMethod( "fileScannerService", "scan_files", {}, function(result) {
-        console.log("    **** SCANNED THE FILE SYSTEM ***")
+        console.log("    **** SCANNED THE FILE SYSTEM ***: " + result)
     })
 
 	var useDrive = "C:\\";
