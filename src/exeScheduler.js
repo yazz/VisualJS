@@ -545,7 +545,7 @@ function scheduleJobWithCodeId(codeId, args,  parentCallId, callbackIndex) {
         }
     }
     if (!processToUse) {
-        console.log("Could not find a process to use :() ")
+        console.log("Could not find a process to use for " + codeId)
     }
 }
 

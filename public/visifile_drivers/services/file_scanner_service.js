@@ -25,10 +25,10 @@
 
                 var stmtResetFiles   = dbsearch.prepare( " update   files   set status = 'INDEXED' where status = 'REINDEXED' ");
                 var fileFilter = /\xlsx$|csv$|docx$|pdf$|glb$/
-                var     stmtInsertIntoFolders = dbsearch.prepare(   " insert into folders " +
-                                                                "    ( id, name, path, changed_count ) " +
+                var     stmtInsertIntoFolders = dbsearch.prepare(   " insert into all_data " +
+                                                                "    ( id, name ) " +
                                                                 " values " +
-                                                                "    (?, ?, ?, 0);");
+                                                                "    (?, ?);");
 
 
                 var addFolderForIndexingIfNotExist = function (folderName) {
@@ -37,7 +37,7 @@
                         function() {
 
                     var stmt = dbsearch.all(
-                        "select id from folders where path = ?",
+                        "select id from all_data where name = ?",
                         [folderName],
                         function(err, results)
                         {
@@ -51,7 +51,6 @@
                                             dbsearch.run("begin exclusive transaction");
                                             stmtInsertIntoFolders.run(
                                                 newId,
-                                                folderName,
                                                 folderName)
                                             dbsearch.run("commit")
                                         })
@@ -82,6 +81,8 @@
                                 (filename.toUpperCase().indexOf("WINDOWS") != -1 )
                                 ||
                                 (filename.toUpperCase().indexOf("PROGRAM") != -1 )
+                                ||
+                                (filename.toUpperCase().indexOf(".TRASH") != -1 )
                                 ||
                                 (filename.toUpperCase().indexOf("RECYCLE") != -1 )
                                 ||
