@@ -221,7 +221,8 @@ function processMessagesFromMainProcess() {
                          msg.node_id,
                          msg.child_process_id,
                          msg.started,
-                         0
+                         0,
+                         null
                          )
                      dbsearch.run("commit");
 
@@ -267,7 +268,7 @@ function setUpSql() {
 
     updateProcessTable = dbsearch.prepare(
         " insert or replace into "+
-        "     system_process_info (process, process_id, running_since, job_count, realtime) " +
+        "     system_process_info (process, process_id, running_since, job_count, job_priority) " +
         " values " +
         "     (?,?,?,?,?)"
     )
