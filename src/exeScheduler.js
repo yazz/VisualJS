@@ -213,7 +213,6 @@ function processMessagesFromMainProcess() {
              //console.log("     Node ID: " + msg.node_id)
              //console.log("     Process ID: " + msg.child_process_id)
              //console.log("     Started: " + msg.started)
-             isRealTimeProcess[msg.node_id] = msg.is_real_time
              processesInUse[msg.node_id] = false
              dbsearch.serialize(
                  function() {
@@ -222,8 +221,7 @@ function processMessagesFromMainProcess() {
                          msg.node_id,
                          msg.child_process_id,
                          msg.started,
-                         0,
-                         msg.is_real_time
+                         0
                          )
                      dbsearch.run("commit");
 
@@ -247,7 +245,6 @@ function processMessagesFromMainProcess() {
 
 
 
-var isRealTimeProcess = new Object()
 
 //-----------------------------------------------------------------------------------------//
 //                                                                                         //
