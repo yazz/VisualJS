@@ -221,7 +221,7 @@ function processMessagesFromMainProcess() {
                          msg.node_id,
                          msg.child_process_id,
                          msg.started,
-                         0,
+                         "IDLE",
                          null
                          )
                      dbsearch.run("commit");
@@ -261,14 +261,14 @@ function processMessagesFromMainProcess() {
 //-----------------------------------------------------------------------------------------//
 function setUpSql() {
 
-    incrJobCount = dbsearch.prepare("UPDATE system_process_info SET job_count = job_count + 1, last_driver = ?, last_event = ? WHERE process = ?");
+    incrJobCount = dbsearch.prepare("UPDATE system_process_info SET status = 'RUNNING', last_driver = ?, last_event = ? WHERE process = ?");
 
-    decrJobCount = dbsearch.prepare("UPDATE system_process_info SET job_count = job_count - 1 WHERE process = ?");
+    decrJobCount = dbsearch.prepare("UPDATE system_process_info SET status = 'IDLE' WHERE process = ?");
 
 
     updateProcessTable = dbsearch.prepare(
         " insert or replace into "+
-        "     system_process_info (process, process_id, running_since, job_count, job_priority) " +
+        "     system_process_info (process, process_id, running_since, status, job_priority) " +
         " values " +
         "     (?,?,?,?,?)"
     )
@@ -537,7 +537,6 @@ function scheduleJobWithCodeId(codeId, args,  parentCallId, callbackIndex) {
             processToUse = actualProcessName
             processesInUse[actualProcessName] = true
             //console.log("    " + JSON.stringify(processToUse,null,2))
-            //console.log("    processToUse:" + processToUse.process + " : " + processToUse.job_count)
             sendJobToProcessName(codeId, args, actualProcessName, parentCallId, callbackIndex)
             break
         }
