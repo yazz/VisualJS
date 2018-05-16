@@ -664,8 +664,8 @@ function getRelatedDocumentHashes(  doc_hash,  callback  ) {
 //-----------------------------------------------------------------------------------------//
 function findFoldersFn() {
     console.log("**  called findFoldersFn");
-    callDriverMethod( "fileScannerService", "scan_files", {}, function(result) {
-        console.log("    **** SCANNED THE FILE SYSTEM ***: ")
+    callDriverMethod( "folderScannerService", "scan_folders", {}, function(result) {
+        console.log("    **** SCANNED THE FOLDERS ON LOCAL FILE SYSTEM ***: ")
     })
     return
 
@@ -2820,22 +2820,22 @@ function evalLocalSystemDriver(driverName, location) {
 
 
 function setUpDbDrivers() {
-    evalLocalSystemDriver('glb',                path.join(__dirname, '../public/visifile_drivers/glb.js'))
-    evalLocalSystemDriver('csv',                path.join(__dirname, '../public/visifile_drivers/csv.js'))
-    evalLocalSystemDriver('txt',                path.join(__dirname, '../public/visifile_drivers/glb.js'))
-    evalLocalSystemDriver('excel',              path.join(__dirname, '../public/visifile_drivers/excel.js'))
-    evalLocalSystemDriver('word',               path.join(__dirname, '../public/visifile_drivers/word.js'))
-    evalLocalSystemDriver('pdf',                path.join(__dirname, '../public/visifile_drivers/pdf.js'))
-    evalLocalSystemDriver('postgres',           path.join(__dirname, '../public/visifile_drivers/postgres.js'))
+    evalLocalSystemDriver('glb',                    path.join(__dirname, '../public/visifile_drivers/glb.js'))
+    evalLocalSystemDriver('csv',                    path.join(__dirname, '../public/visifile_drivers/csv.js'))
+    evalLocalSystemDriver('txt',                    path.join(__dirname, '../public/visifile_drivers/glb.js'))
+    evalLocalSystemDriver('excel',                  path.join(__dirname, '../public/visifile_drivers/excel.js'))
+    evalLocalSystemDriver('word',                   path.join(__dirname, '../public/visifile_drivers/word.js'))
+    evalLocalSystemDriver('pdf',                    path.join(__dirname, '../public/visifile_drivers/pdf.js'))
+    evalLocalSystemDriver('postgres',               path.join(__dirname, '../public/visifile_drivers/postgres.js'))
 
-    evalLocalSystemDriver('outlook2012',        path.join(__dirname, '../public/visifile_drivers/outlook2012.js'))
+    evalLocalSystemDriver('outlook2012',            path.join(__dirname, '../public/visifile_drivers/outlook2012.js'))
     //evalLocalSystemDriver('outlook2010')
-    evalLocalSystemDriver('sqlite',             path.join(__dirname, '../public/visifile_drivers/sqlite.js'))
-    evalLocalSystemDriver('mysql',              path.join(__dirname, '../public/visifile_drivers/mysql.js'))
-    evalLocalSystemDriver('oracle',             path.join(__dirname, '../public/visifile_drivers/oracle.js'))
-    evalLocalSystemDriver('testdriver',         path.join(__dirname, '../public/visifile_drivers/testdriver.js'))
+    evalLocalSystemDriver('sqlite',                 path.join(__dirname, '../public/visifile_drivers/sqlite.js'))
+    evalLocalSystemDriver('mysql',                  path.join(__dirname, '../public/visifile_drivers/mysql.js'))
+    evalLocalSystemDriver('oracle',                 path.join(__dirname, '../public/visifile_drivers/oracle.js'))
+    evalLocalSystemDriver('testdriver',             path.join(__dirname, '../public/visifile_drivers/testdriver.js'))
 
-    evalLocalSystemDriver('fileuploader',       path.join(__dirname, '../public/visifile_drivers/file_uploader.js'))
+    evalLocalSystemDriver('fileuploader',           path.join(__dirname, '../public/visifile_drivers/file_uploader.js'))
 
 
 
@@ -2843,15 +2843,16 @@ function setUpDbDrivers() {
     // services
     //
     if (isWin) {
-        evalLocalSystemDriver('powershell',     path.join(__dirname, '../public/visifile_drivers/services/powershell.js'))
+        evalLocalSystemDriver('powershell',         path.join(__dirname, '../public/visifile_drivers/services/powershell.js'))
     }
-    evalLocalSystemDriver('commandLine',        path.join(__dirname, '../public/visifile_drivers/services/commandLine.js'))
-    evalLocalSystemDriver('webPreview',         path.join(__dirname, '../public/visifile_drivers/services/web_preview.js'))
+    evalLocalSystemDriver('commandLine',            path.join(__dirname, '../public/visifile_drivers/services/commandLine.js'))
+    evalLocalSystemDriver('webPreview',             path.join(__dirname, '../public/visifile_drivers/services/web_preview.js'))
 
-    evalLocalSystemDriver('spreahsheetPreview', path.join(__dirname, '../public/visifile_drivers/services/spreadsheet_preview.js'))
-    evalLocalSystemDriver('csvPreview',         path.join(__dirname, '../public/visifile_drivers/services/csv_preview.js'))
-    evalLocalSystemDriver('docPreview',         path.join(__dirname, '../public/visifile_drivers/services/doc_preview.js'))
-    evalLocalSystemDriver('fileScannerService', path.join(__dirname, '../public/visifile_drivers/services/file_scanner_service.js'))
+    evalLocalSystemDriver('spreahsheetPreview',     path.join(__dirname, '../public/visifile_drivers/services/spreadsheet_preview.js'))
+    evalLocalSystemDriver('csvPreview',             path.join(__dirname, '../public/visifile_drivers/services/csv_preview.js'))
+    evalLocalSystemDriver('docPreview',             path.join(__dirname, '../public/visifile_drivers/services/doc_preview.js'))
+    evalLocalSystemDriver('fileScannerService',     path.join(__dirname, '../public/visifile_drivers/services/file_scanner_service.js'))
+    evalLocalSystemDriver('folderScannerService',   path.join(__dirname, '../public/visifile_drivers/services/folder_scanner_service.js'))
 
 }
 
