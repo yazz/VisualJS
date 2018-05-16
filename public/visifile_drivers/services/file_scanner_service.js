@@ -21,7 +21,7 @@
                 },
             do: function(folderRecords, returnfn) {
                 var folderRecord = folderRecords[0]
-                console.log("**** SCANNING FILE v2 **** " + JSON.stringify( folderRecord ,null,2))
+                //console.log("**** SCANNING FILE v2 **** " + JSON.stringify( folderRecord ,null,2))
 
 
                 try {

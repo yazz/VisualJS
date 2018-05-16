@@ -496,6 +496,8 @@ function testQueryToExecute(cond, code_id) {
                          system_process_info
                      where
                          system_code_id = ?
+                     and
+                         status = 'RUNNING'
                     `
                     ,
                     code_id
@@ -505,8 +507,11 @@ function testQueryToExecute(cond, code_id) {
                         if (err) {
                             console.log("err: " + err)
                         } else {
+                            console.log("")
+                            console.log(JSON.stringify(cond,null,2))
                             console.log("Process count    :" + JSON.stringify(results[0].cnt_max,null,2))
                             console.log("Process count max:" + JSON.stringify(cond.max_processes,null,2))
+                            console.log("")
                             if (cond.max_processes && (results[0].cnt_max >= cond.max_processes)) {
                             } else {
                                 //console.log("*) Executing SQlite: " + cond.condition.where)
