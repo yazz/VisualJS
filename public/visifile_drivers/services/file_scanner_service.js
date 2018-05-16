@@ -26,9 +26,9 @@
                 var stmtResetFiles   = dbsearch.prepare( " update   files   set status = 'INDEXED' where status = 'REINDEXED' ");
                 var fileFilter = /\xlsx$|csv$|docx$|pdf$|glb$/
                 var stmtInsertIntoFolders = dbsearch.prepare(   " insert into all_data " +
-                                                                "    ( id, name ) " +
+                                                                "    ( id, name , tags, properties) " +
                                                                 " values " +
-                                                                "    (?, ?);");
+                                                                "    (?, ?, ?, ?);");
 
 
                 var addFolderForIndexingIfNotExist = function (folderName) {
@@ -52,7 +52,10 @@
                                                     console.log("Adding folder: " + folderName)
                                                     stmtInsertIntoFolders.run(
                                                         newId,
-                                                        folderName)
+                                                        folderName,
+                                                        "||  FOLDER  ||",
+                                                        "||  name=" + folderName + "  ||"
+                                                    )
                                                     dbsearch.run("commit")
                                                 })
                                             }
