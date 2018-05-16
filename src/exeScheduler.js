@@ -491,7 +491,7 @@ function testQueryToExecute(cond, code_id) {
             function() {
                 var stmt = dbsearch.all(
                     `select
-                         count( process )
+                         count( process ) as cnt_max
                      from
                          system_process_info
                      where
@@ -505,45 +505,50 @@ function testQueryToExecute(cond, code_id) {
                         if (err) {
                             console.log("err: " + err)
                         } else {
-                            console.log("count( id ): " + results.length)
-                        }
-                    })
-        }, sqlite3.OPEN_READONLY)
-        console.log("testQueryToExecute: " + JSON.stringify(cond,null,2))
-
-        //console.log("*) Executing SQlite: " + cond.condition.where)
-        dbsearch.serialize(
-            function() {
-                var stmt = dbsearch.all(
-                    "SELECT * FROM all_data where " +  cond.condition.where + " and status is NULL LIMIT 1",
-
-                    function(err, results)
-                    {
-                        if (results) {
-                            if (results.length > 0) {
-
+                            console.log("Process count    :" + JSON.stringify(results[0].cnt_max,null,2))
+                            console.log("Process count max:" + JSON.stringify(cond.max_processes,null,2))
+                            if (cond.max_processes && (results[0].cnt_max >= cond.max_processes)) {
+                            } else {
+                                //console.log("*) Executing SQlite: " + cond.condition.where)
                                 dbsearch.serialize(
                                     function() {
-                                        dbsearch.run("begin exclusive transaction");
-                                        lockData.run(results[0].id)
-                                        dbsearch.run("commit",
-                                            function() {
+                                        var stmt = dbsearch.all(
+                                            "SELECT * FROM all_data where " +  cond.condition.where + " and status is NULL LIMIT 1",
 
-                                                //console.log("*) INIT -  starting the first job")
-                                                scheduleJobWithCodeId(  code_id,  results,  null, null )
-                                                inScheduleCode2 = false
-                                                return
-                                            });
-                                        })
+                                            function(err, results)
+                                            {
+                                                if (results) {
+                                                    if (results.length > 0) {
+
+                                                        dbsearch.serialize(
+                                                            function() {
+                                                                dbsearch.run("begin exclusive transaction");
+                                                                lockData.run(results[0].id)
+                                                                dbsearch.run("commit",
+                                                                    function() {
+
+                                                                        //console.log("*) INIT -  starting the first job")
+                                                                        scheduleJobWithCodeId(  code_id,  results,  null, null )
+                                                                        inScheduleCode2 = false
+                                                                        return
+                                                                    });
+                                                                })
 
 
 
+                                                    }
+                                                } else {
+                                                    inScheduleCode2 = false
+                                                }
+                                            })
+                                }, sqlite3.OPEN_READONLY)
                             }
-                        } else {
-                            inScheduleCode2 = false
                         }
                     })
         }, sqlite3.OPEN_READONLY)
+        //console.log("testQueryToExecute: " + JSON.stringify(cond,null,2))
+
+
 
     }
 }
