@@ -285,13 +285,14 @@ function setUpSql() {
     unlockData = dbsearch.prepare("UPDATE all_data SET status = NULL WHERE id = ?");
 
     stmtInsertIntoCode = dbsearch.prepare(  " insert into system_code " +
-                                                "      ( id, on_condition, driver, method, code ) " +
+                                                "      ( id, on_condition, driver, method, code, max_processes ) " +
                                                 " values " +
-                                                "      ( ?,  ?, ? , ?, ?);");
+                                                "      ( ?,  ?, ? , ?, ?, ?);");
 
     stmtUpdateCode = dbsearch.prepare(  " update system_code " +
-                                                "      set on_condition = ?, "+
-                                                "          code         = ? " +
+                                                "      set on_condition     = ?, "+
+                                                "          code             = ?, " +
+                                                "          max_processes    = ? " +
                                                 " where  " +
                                                 "      id = ?;");
 }
@@ -342,7 +343,7 @@ function processDrivers(  callbackFn  ) {
                     if (thisDriverEvents.length > 0  ) {
                         for (var e=0; e< thisDriverEvents.length; e++){
                             var thisEvent = listOfDrivers[i].events[thisDriverEvents[e]]
-                            addEventCode(thisDriverEvents[e], listOfDrivers[i].name, listOfDrivers[i].src, thisEvent)
+                            addEventCode(thisDriverEvents[e], listOfDrivers[i].name, listOfDrivers[i].src, thisEvent, listOfDrivers[i].max_processes)
 
                         }
                     }
@@ -355,7 +356,7 @@ function processDrivers(  callbackFn  ) {
     })
 }
 
-function addEventCode(eventName, driverName, code, listOfEvents) {
+function addEventCode(eventName, driverName, code, listOfEvents, maxProcesses) {
     //console.log("--- addEventCode ---")
     //console.log("     eventName: " + eventName)
     //console.log("    driverName: " + driverName)
@@ -380,6 +381,7 @@ function addEventCode(eventName, driverName, code, listOfEvents) {
     var startIndex = code.lastIndexOf(",")
     code = code.substring(0, startIndex )
 
+
     //console.log("          code: " + JSON.stringify(code,null,2))
 
 
@@ -403,7 +405,8 @@ function addEventCode(eventName, driverName, code, listOfEvents) {
                                     oncode,
                                     driverName,
                                     eventName,
-                                    code)
+                                    code,
+                                    maxProcesses)
                                 dbsearch.run("commit");
                             })
 
@@ -415,6 +418,7 @@ function addEventCode(eventName, driverName, code, listOfEvents) {
                                 stmtUpdateCode.run(
                                     oncode,
                                     code,
+                                    maxProcesses,
                                     results[0].id
                                 )
                                 dbsearch.run("commit");
@@ -505,7 +509,7 @@ function testQueryToExecute(cond, code_id) {
                         }
                     })
         }, sqlite3.OPEN_READONLY)
-        console.log("testQueryToExecute: " + testQueryToExecute)
+        console.log("testQueryToExecute: " + JSON.stringify(cond,null,2))
 
         //console.log("*) Executing SQlite: " + cond.condition.where)
         dbsearch.serialize(
@@ -651,7 +655,7 @@ function parseAllEvents( ) {
     dbsearch.serialize(
         function() {
             var stmt = dbsearch.all(
-                "SELECT id, on_condition FROM system_code; ",
+                "SELECT id, on_condition, max_processes FROM system_code; ",
 
                 function(err, results)
                 {
@@ -664,7 +668,7 @@ function parseAllEvents( ) {
                             //console.log("*) " + cond)
 
                             var evaledCond = eval("(" +  cond + ")")
-                            saveEvent(evaledCond, results[tt].id)
+                            saveEvent(evaledCond, results[tt].id, results[tt].max_processes)
                             //console.log("")
 
                         }
@@ -680,7 +684,7 @@ function parseAllEvents( ) {
 var eventList = []
 
 
-function saveEvent(cond, id) {
+function saveEvent(cond, id, maxP) {
     var typeCond =  (typeof cond)
     var saveType = null
 
@@ -695,6 +699,7 @@ function saveEvent(cond, id) {
 
     eventList.push({condType:       saveType,
                     condition:      cond,
+                    max_processes:  maxP,
                     id:             id})
 
 }

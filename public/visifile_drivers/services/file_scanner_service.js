@@ -3,7 +3,7 @@
     ,
     name: 'fileScannerService'
     ,
-    max_processes: 1
+    max_processes: 2
     ,
     version: 1
     ,
