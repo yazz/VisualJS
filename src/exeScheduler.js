@@ -162,7 +162,7 @@ function processMessagesFromMainProcess() {
      } else if (msg.message_type == "processor_free") {
 
         processesInUse[msg.child_process_name] = false
-        //zzz
+
         dbsearch.serialize(
             function() {
                 dbsearch.run("begin exclusive transaction");
@@ -268,7 +268,7 @@ function processMessagesFromMainProcess() {
 //-----------------------------------------------------------------------------------------//
 function setUpSql() {
 
-    incrJobCount = dbsearch.prepare("UPDATE system_process_info SET status = 'RUNNING', last_driver = ?, last_event = ? WHERE process = ?");
+    incrJobCount = dbsearch.prepare("UPDATE system_process_info SET status = 'RUNNING', last_driver = ?, last_event = ?, system_code_id = ? WHERE process = ?");
 
     decrJobCount = dbsearch.prepare("UPDATE system_process_info SET status = 'IDLE' WHERE process = ?");
 
@@ -483,6 +483,30 @@ function findNextJobToRun() {
 
 function testQueryToExecute(cond, code_id) {
     if (cond.condition.where) {
+        dbsearch.serialize(
+            function() {
+                var stmt = dbsearch.all(
+                    `select
+                         count( process )
+                     from
+                         system_process_info
+                     where
+                         system_code_id = ?
+                    `
+                    ,
+                    code_id
+                    ,
+                    function(err, results)
+                    {
+                        if (err) {
+                            console.log("err: " + err)
+                        } else {
+                            console.log("count( id ): " + results.length)
+                        }
+                    })
+        }, sqlite3.OPEN_READONLY)
+        console.log("testQueryToExecute: " + testQueryToExecute)
+
         //console.log("*) Executing SQlite: " + cond.condition.where)
         dbsearch.serialize(
             function() {
@@ -529,6 +553,7 @@ function testQueryToExecute(cond, code_id) {
 var processesInUse = new Object()
 
 function scheduleJobWithCodeId(codeId, args,  parentCallId, callbackIndex) {
+    //zzz
     var processToUse = null
     var processNames = Object.keys(processesInUse)
 
@@ -567,7 +592,7 @@ function sendToProcess(  id  ,  parentCallId  ,  callbackIndex, processName  ,  
     dbsearch.serialize(
         function() {
             dbsearch.run("begin exclusive transaction");
-            incrJobCount.run( driver, on_condition, processName )
+            incrJobCount.run( driver, on_condition, id, processName )
             dbsearch.run("commit");
 
 
