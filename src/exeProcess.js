@@ -410,7 +410,7 @@ function saveDocumentContent(  documentHash,  resultData  ) {
         rrows = resultData.values;
     }
     if ((rrows == null) || (rrows.length == 0)) {
-        returns}
+        return}
 
 
     //
