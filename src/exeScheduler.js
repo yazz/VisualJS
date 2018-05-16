@@ -162,7 +162,14 @@ function processMessagesFromMainProcess() {
      } else if (msg.message_type == "processor_free") {
 
         processesInUse[msg.child_process_name] = false
-        decrJobCount.run(msg.child_process_name)
+        //zzz
+        dbsearch.serialize(
+            function() {
+                dbsearch.run("begin exclusive transaction");
+                decrJobCount.run(msg.child_process_name)
+                dbsearch.run("commit");
+            })
+
 
 
 
@@ -176,7 +183,7 @@ function processMessagesFromMainProcess() {
                  function() {
                      var stmt = dbsearch.all(
                        "SELECT * FROM system_code where driver = ? and on_condition like '%" + msg.method_name + "%'; ",
-//zzz
+
                         msg.driver_name,
 
                          function(err, results)
