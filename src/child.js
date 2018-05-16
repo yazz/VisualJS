@@ -1916,12 +1916,12 @@ function processMessagesFromMainProcess() {
       } else if (msg.message_type == 'childRunFindFolders') {
            //console.log("**** childRunFindFolders");
            setTimeout(findFoldersFn ,1 * 1000);
-           setInterval(findFilesInFoldersFn ,numberOfSecondsIndexFilesInterval * 1000);
+           //setInterval(findFilesInFoldersFn ,numberOfSecondsIndexFilesInterval * 1000);
 
 
     } else if (msg.message_type == 'childScanFiles') {
         //console.log("**** childScanFiles");
-        setInterval(processFilesFn ,numberOfSecondsIndexFilesInterval * 1000);
+        //setInterval(processFilesFn ,numberOfSecondsIndexFilesInterval * 1000);
 
 
     } else if (msg.message_type == 'greeting') {

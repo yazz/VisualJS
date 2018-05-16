@@ -25,7 +25,7 @@
 
                 var stmtResetFiles   = dbsearch.prepare( " update   files   set status = 'INDEXED' where status = 'REINDEXED' ");
                 var fileFilter = /\xlsx$|csv$|docx$|pdf$|glb$/
-                var     stmtInsertIntoFolders = dbsearch.prepare(   " insert into all_data " +
+                var stmtInsertIntoFolders = dbsearch.prepare(   " insert into all_data " +
                                                                 "    ( id, name ) " +
                                                                 " values " +
                                                                 "    (?, ?);");
@@ -36,29 +36,30 @@
                     dbsearch.serialize(
                         function() {
 
-                    var stmt = dbsearch.all(
-                        "select id from all_data where name = ?",
-                        [folderName],
-                        function(err, results)
-                        {
-                            if (!err)
-                            {
-                                if (results.length == 0) {
-                                    var newId = uuidv1();
+                            var stmt = dbsearch.all(
+                                "select id from all_data where name = ?",
+                                [folderName],
+                                function(err, results)
+                                {
+                                    if (!err)
+                                    {
+                                        if (results.length == 0) {
+                                            var newId = uuidv1();
 
-                                    dbsearch.serialize(
-                                        function() {
-                                            dbsearch.run("begin exclusive transaction");
-                                            stmtInsertIntoFolders.run(
-                                                newId,
-                                                folderName)
-                                            dbsearch.run("commit")
-                                        })
+                                            dbsearch.serialize(
+                                                function() {
+                                                    dbsearch.run("begin exclusive transaction");
+                                                    console.log("Adding folder: " + folderName)
+                                                    stmtInsertIntoFolders.run(
+                                                        newId,
+                                                        folderName)
+                                                    dbsearch.run("commit")
+                                                })
+                                            }
+                                    } else {
+                                        console.log(err)
                                     }
-                            } else {
-                                console.log(err)
-                            }
-                        });
+                                });
                     }, sqlite3.OPEN_READONLY)
                 }
                 var fromDir = function (startPath,filter,callback){

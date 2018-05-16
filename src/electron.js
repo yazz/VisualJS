@@ -797,6 +797,10 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
                                               });
 
         forkedProcesses["forked"].send({         message_type: "createTables" });
+        setTimeout(function() {
+            console.log('forkedProcesses["forked"].send({         message_type: "childRunFindFolders" });')
+            forkedProcesses["forked"].send({         message_type: "childRunFindFolders" });
+        },5000)
     }
 
 
@@ -825,9 +829,7 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
       }
 
     }
-    setTimeout(function() {
-        forkedProcesses["forked"].send({         message_type: "childRunFindFolders" });
-    },5000)
+
 
 
 
