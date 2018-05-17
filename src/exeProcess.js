@@ -667,3 +667,15 @@ function setProperty(record, propName, propValue) {
         dbsearch.run("commit");
     })
 }
+
+
+process.on('exit', function() {
+    shutdownExeProcess();
+  });
+process.on('quit', function() {
+  shutdownExeProcess();
+});
+
+function shutdownExeProcess() {
+    console.log("This process was killed")
+}
