@@ -421,9 +421,10 @@ var dataIds = new Object()
                                                             load_content_name:  data.data_item.name
                                                         }});
             dataIds[data.data_item.name] = true
-            autoScroll = false
             store.dispatch("refresh");
-            select_card(nid)
+            if (autoScroll) {
+                select_card(nid)
+            }
         }
     });
 
