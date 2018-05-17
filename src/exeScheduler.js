@@ -540,7 +540,6 @@ function testQueryToExecute(cond, code_id) {
                                                                         //console.log("*) INIT -  starting the first job")
                                                                         scheduleJobWithCodeId(  code_id,  results,  null, null )
                                                                         inScheduleCode2 = false
-                                                                        return
                                                                     });
                                                                 })
 
