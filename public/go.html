@@ -345,25 +345,39 @@ var defaultCards = [
     }
     ,
     {
+        name: 'It scans your hard disk for any documents and spreadsheets',
+    }
+    ,
+    {
+        name: 'It can show your latest emails and calendar appointments too',
+    }
+    ,
+    {
+        name: 'You can add documents by just dragging and dropping them onto VisiFile',
+    }
+    ,
+    {
+        name: 'You can add external gmail, twitter and facebook feeds too',
+    }
+    ,
+    {
+        name: 'And since VisiFile is run on your local computer, it is totally private, and even we can not see your private login details',
+    }
+    ,
+    {
+        name: 'You can even add local relational databases',
+    }
+    ,
+    {
+        name: 'If that is not enough then you can use our easy plugin system to add your own data sources',
+    }
+    ,
+    {
         name: 'See our previous interface',
         link: 'http://' +  location.hostname + ":" + location.port + '/index.html',
         link_name: 'Click here'
     }
-    ,
-    {
-        name: 'Drag and drop public files here',
-        dropzone2: 'Public files'
-    }
-    ,
-    {
-        name: 'Drag and drop PRIVATE files here',
-        dropzone2: 'Private files'
-    }
-    ,
-    {
-        name: 'Drag and drop files for user VF here',
-        dropzone2: 'VF'
-    }
+
 ];
 
 
@@ -423,7 +437,7 @@ var dataIds = new Object()
             dataIds[data.data_item.name] = true
             store.dispatch("refresh");
             if (autoScroll) {
-                select_card(nid)
+                //select_card(nid)
             }
         }
     });
@@ -592,7 +606,7 @@ var myScroller = null;
                     select_card(autoId);
 
                 }
-            },2500)
+            },3500)
         },100)
     };
 
