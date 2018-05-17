@@ -285,7 +285,7 @@ function announceFree() {
     //console.log("@announceFree "+ childProcessName + " in use: " + inUse)
     if ((inUseIndex == 0) && (inUse == true)) {
         inUse = false
-        //zzz
+
         console.log("@announceFree "+ childProcessName )
         process.send({  message_type:       "processor_free" ,
                         child_process_name:  childProcessName
@@ -333,6 +333,23 @@ function executeCode(callId, codeId, args) {
                                 })
                             } catch (err) {
                                 console.log("** ERROR : " + err)
+                                //zzz
+                                dbsearch.serialize(function() {
+
+                                    dbsearch.run("begin exclusive transaction");
+                                    var newId = uuidv1()
+                                    stmtInsertProcessError.run(
+                                          newId,
+                                          new Date().getTime(),
+                                          childProcessName,
+                                          "ERROR",
+                                          "DRIVER",
+                                          "EVENT",
+                                          "system_code_id",
+                                          JSON.stringify({},null,2),
+                                          err )
+                                    dbsearch.run("commit");
+                                })
                             }
 
 
