@@ -201,6 +201,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
             console.log("Child process " + processName + " exited.. restarting... ")
 
 
+
             var stmtInsertProcessError = dbsearch.prepare(  ` insert into
                                                                   system_process_errors
                                                               (   id,
@@ -215,7 +216,6 @@ function setUpChildListeners(processName, fileName, debugPort) {
                                                               values
                                                                   ( ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ? );`)
             dbsearch.serialize(function() {
-
                 dbsearch.run("begin exclusive transaction");
                 var newId = uuidv1()
                 stmtInsertProcessError.run(
@@ -230,6 +230,8 @@ function setUpChildListeners(processName, fileName, debugPort) {
                       null )
                       //zzz
                 dbsearch.run("commit");
+                stmtInsertProcessError.finalize();
+
             })
             setupForkedProcess(processName, fileName, debugPort)
         }
