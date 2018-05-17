@@ -58,6 +58,7 @@ var stmtUpdateFileSizeAndShaAndConnectionId;
 var stmtUpdateFileProperties;
 
 var stmtInsertIntoContents;
+var stmtInsertProcessError;
 var stmtSetDataStatus;
 var stmtSetDataHash;
 var stmtSetName;
@@ -252,6 +253,19 @@ function setUpSql() {
                                                 "      id = ? ;");
 
 
+    stmtInsertProcessError = dbsearch.prepare(  ` insert into
+                                                      system_process_errors
+                                                  (   id,
+                                                      timestamp,
+                                                      process,
+                                                      status,
+                                                      driver,
+                                                      event,
+                                                      system_code_id,
+                                                      args,
+                                                      error )
+                                                  values
+                                                      ( ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ? );`)
 }
 
 
@@ -669,13 +683,21 @@ function setProperty(record, propName, propValue) {
 }
 
 
-process.on('exit', function() {
-    shutdownExeProcess();
+process.on('exit', function(err) {
+    shutdownExeProcess(err);
   });
-process.on('quit', function() {
-  shutdownExeProcess();
+process.on('quit', function(err) {
+  shutdownExeProcess(err);
 });
 
-function shutdownExeProcess() {
-    console.log("This process was killed")
+function shutdownExeProcess(err) {
+    console.log("** This process was killed: " + childProcessName)
+    if (err) {
+        console.log("    : " + err)
+    }
+
+
+    if (dbsearch) {
+        dbsearch.run("PRAGMA wal_checkpoint;")
+    }
 }

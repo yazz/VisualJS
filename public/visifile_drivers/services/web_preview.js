@@ -1,7 +1,11 @@
 {
+    doc_type: 'visifile'
+    ,
     name: 'webPreview'
     ,
     version: 1
+    ,
+    max_processes: 1
     ,
     type: 'service'
     ,
