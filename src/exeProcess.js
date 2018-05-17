@@ -261,7 +261,7 @@ function setUpSql() {
                                                       event,
                                                       system_code_id,
                                                       args,
-                                                      error )
+                                                      error_message )
                                                   values
                                                       ( ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ? );`)
 }
@@ -331,8 +331,8 @@ function executeCode(callId, codeId, args) {
                                 }
                                 inUseIndex --
                                 })
-                            } catch (err) {
-                                console.log("** ERROR : " + err)
+                            } catch (errM) {
+                                console.log("** ERROR : " + errM)
                                 //zzz
                                 dbsearch.serialize(function() {
 
@@ -347,7 +347,7 @@ function executeCode(callId, codeId, args) {
                                           "EVENT",
                                           "system_code_id",
                                           JSON.stringify({},null,2),
-                                          err )
+                                          errM.toString() )
                                     dbsearch.run("commit");
                                 })
                             }
