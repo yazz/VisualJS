@@ -199,6 +199,38 @@ function setUpChildListeners(processName, fileName, debugPort) {
     forkedProcesses[processName].on('close', function() {
         if (!shuttingDown) {
             console.log("Child process " + processName + " exited.. restarting... ")
+
+
+            var stmtInsertProcessError = dbsearch.prepare(  ` insert into
+                                                                  system_process_errors
+                                                              (   id,
+                                                                  timestamp,
+                                                                  process,
+                                                                  status,
+                                                                  driver,
+                                                                  event,
+                                                                  system_code_id,
+                                                                  args,
+                                                                  error_message )
+                                                              values
+                                                                  ( ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ? );`)
+            dbsearch.serialize(function() {
+
+                dbsearch.run("begin exclusive transaction");
+                var newId = uuidv1()
+                stmtInsertProcessError.run(
+                      newId,
+                      new Date().getTime(),
+                      processName,
+                      "KILLED",
+                      null,
+                      null,
+                      null,
+                      null,
+                      null )
+                      //zzz
+                dbsearch.run("commit");
+            })
             setupForkedProcess(processName, fileName, debugPort)
         }
     });
