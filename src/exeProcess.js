@@ -294,6 +294,11 @@ function announceFree() {
 }
 
 var currentCallId = null
+var currentDriver = null
+var currentEvent = null
+var currentCodeID = null
+var currentArgs = null
+
 function executeCode(callId, codeId, args) {
     //console.log("@executeCode "+ childProcessName + " in use: " + inUse)
 
@@ -311,6 +316,10 @@ function executeCode(callId, codeId, args) {
                         //console.log(    "    callId:" + callId )
 
                         var code = "(" + results[0].code + ")"
+                        currentDriver = results[0].driver
+                        currentEvent = results[0].on_condition
+                        currentCodeID = codeId
+                        currentArgs = args
                         //console.log(code)
                         try {
                             var fnfn = eval(code)
@@ -321,8 +330,8 @@ function executeCode(callId, codeId, args) {
 
                                     process.send({  message_type:       "function_call_response" ,
                                                     child_process_name:  childProcessName,
-                                                    driver_name:         results[0].driver,
-                                                    method_name:         results[0].method,
+                                                    driver_name:         currentDriver,
+                                                    method_name:         currentEvent,
                                                     callback_index:      currentCallbackIndex,
                                                     result:              result,
                                                     called_call_id:      callId
@@ -333,7 +342,7 @@ function executeCode(callId, codeId, args) {
                                 })
                             } catch (errM) {
                                 console.log("** ERROR : " + errM)
-                                //zzz
+
                                 dbsearch.serialize(function() {
 
                                     dbsearch.run("begin exclusive transaction");
@@ -343,11 +352,12 @@ function executeCode(callId, codeId, args) {
                                           new Date().getTime(),
                                           childProcessName,
                                           "ERROR",
-                                          "DRIVER",
-                                          "EVENT",
-                                          "system_code_id",
-                                          JSON.stringify({},null,2),
+                                          currentDriver,
+                                          currentEvent,
+                                          currentCodeID,
+                                          JSON.stringify(currentArgs,null,2),
                                           errM.toString() )
+                                          //zzz
                                     dbsearch.run("commit");
                                 })
                             }
