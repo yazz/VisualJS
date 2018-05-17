@@ -572,7 +572,7 @@ function testQueryToExecute(cond, code_id) {
 var processesInUse = new Object()
 
 function scheduleJobWithCodeId(codeId, args,  parentCallId, callbackIndex) {
-    
+
     var processToUse = null
     var processNames = Object.keys(processesInUse)
 
@@ -722,22 +722,6 @@ function saveEvent(cond, id, maxP) {
 
 
 
-
-
-
-
-function fastSql(sql,callbackFn) {
-    dbsearch.serialize(
-        function() {
-            var stmt = dbsearch.all(
-                sql,
-
-                function(err, results)
-                {
-                    callbackFn(results);
-                })
-    }, sqlite3.OPEN_READONLY)
-}
 
 
 
