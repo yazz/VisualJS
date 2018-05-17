@@ -3,6 +3,8 @@
     ,
     name: 'fileuploader'
     ,
+    max_processes: 1
+    ,
     version: 1
     ,
     type: 'basic'

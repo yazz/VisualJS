@@ -33,22 +33,30 @@
                             list.forEach(function(file) {
                                 var fullFilePath = path.join(folderRecord.name , file)
 
-                                console.log("Full path: " + fullFilePath)
-                                console.log("Extension: " + getFileExtension(fullFilePath))
-                                var stmtAddFileForUpload = dbsearch.prepare( " insert  into  all_data " +
-                                                                        "     ( id,  tags, properties ) " +
-                                                                        " values " +
-                                                                        "     ( ?, '||  UPLOAD  ||' , ? );");
-                                dbsearch.serialize(
-                                    function() {
-                                        dbsearch.run("begin exclusive transaction");
-                                        var newFileId   = uuidv1();
-                                        stmtAddFileForUpload.run(
-                                            newFileId,
-                                            '||  path='+fullFilePath+'  ||')
-                                        dbsearch.run("commit");
-                                 })
-                            })
+                                findDriverWithMethod(   "can_handle_" + getFileExtension(fullFilePath)
+                                                        ,
+                                                        function(driverName) {
+
+                                                            if (driverName) {
+
+                                                                console.log("Full path: " + fullFilePath)
+                                                                console.log("Extension: " + getFileExtension(fullFilePath))
+                                                                var stmtAddFileForUpload = dbsearch.prepare( " insert  into  all_data " +
+                                                                                                        "     ( id,  tags, properties ) " +
+                                                                                                        " values " +
+                                                                                                        "     ( ?, '||  UPLOAD  ||' , ? );");
+                                                                dbsearch.serialize(
+                                                                    function() {
+                                                                        dbsearch.run("begin exclusive transaction");
+                                                                        var newFileId   = uuidv1();
+                                                                        stmtAddFileForUpload.run(
+                                                                            newFileId,
+                                                                            '||  path='+fullFilePath+'  ||')
+                                                                        dbsearch.run("commit");
+                                                                 })
+                                                            }
+                                                        })
+                                                    })
                             dbsearch.serialize(
                                 function() {
                                     dbsearch.run("begin exclusive transaction");
