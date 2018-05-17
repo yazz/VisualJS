@@ -159,9 +159,7 @@ function processMessagesFromMainProcess() {
             //console.log("     msg.codeId:" + msg.code_id)
             //console.log("     msg.code:  " + (msg.code?msg.code.length:-1) )
             call_id:       msg.call_id
-            if (msg.code) {
-                eval(msg.code)
-            }
+
             if (msg.code_id) {
                 currentCallId = msg.call_id
                 executeCode(msg.call_id,  msg.code_id, msg.args)
@@ -314,28 +312,34 @@ function executeCode(callId, codeId, args) {
 
                         var code = "(" + results[0].code + ")"
                         //console.log(code)
-                        var fnfn = eval(code)
+                        try {
+                            var fnfn = eval(code)
 
-                        fnfn(args, function(result) {
-                            if (result) {
-                                //console.log("*) Result: " + result);
+                            fnfn(args, function(result) {
+                                if (result) {
+                                    //console.log("*) Result: " + result);
 
-                                process.send({  message_type:       "function_call_response" ,
-                                                child_process_name:  childProcessName,
-                                                driver_name:         results[0].driver,
-                                                method_name:         results[0].method,
-                                                callback_index:      currentCallbackIndex,
-                                                result:              result,
-                                                called_call_id:      callId
-                                                });
-                                //console.log("*) Result process call ID: " + callId);
+                                    process.send({  message_type:       "function_call_response" ,
+                                                    child_process_name:  childProcessName,
+                                                    driver_name:         results[0].driver,
+                                                    method_name:         results[0].method,
+                                                    callback_index:      currentCallbackIndex,
+                                                    result:              result,
+                                                    called_call_id:      callId
+                                                    });
+                                    //console.log("*) Result process call ID: " + callId);
+                                }
+                                inUseIndex --
+                                })
+                            } catch (err) {
+                                console.log("** ERROR : " + err)
                             }
-                            inUseIndex --
-                        })
+
+
                         //callbackFn(results[0].id);
-                    } else {
-                        //callbackFn(null)
-                    }
+                        } else {
+                            //callbackFn(null)
+                        }
 
                 })
     }, sqlite3.OPEN_READONLY)

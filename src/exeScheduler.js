@@ -738,3 +738,24 @@ function fastSql(sql,callbackFn) {
                 })
     }, sqlite3.OPEN_READONLY)
 }
+
+
+
+process.on('exit', function(err) {
+    shutdownExeProcess(err);
+  });
+process.on('quit', function(err) {
+  shutdownExeProcess(err);
+});
+
+function shutdownExeProcess(err) {
+    console.log("** Scheduler process was killed: " )
+    if (err) {
+        console.log("    : " + err)
+    }
+
+
+    if (dbsearch) {
+        dbsearch.run("PRAGMA wal_checkpoint;")
+    }
+}
