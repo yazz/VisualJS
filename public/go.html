@@ -152,6 +152,17 @@ div.tilt {
     animation-fill-mode: forwards;
     -webkit-animation-fill-mode: forwards;
 }
+
+.link {
+     cursor:pointer;
+     color:blue;
+     text-decoration:underline;
+}
+
+.link:hover {
+     text-decoration:none;
+     text-shadow: 1px 1px 1px #555;
+}
 </style>
 </head>
 
@@ -198,7 +209,10 @@ div.tilt {
             <div style='height: 2em;'></div>
 
 
-            <img src="VisiFileColor.png" width="10%" top="0px" left="0px" ></img>
+            <div>
+                <img src="VisiFileColor.png" width="10%" top="0px" left="0px" style='display:inline-block'></img>
+                <div class=link style='height: 2em;display:inline-block' onclick='newSearch()' >New Search</div>
+            </div>
         </div>
     </div>
 
@@ -325,11 +339,15 @@ var app = null
 
 var defaultCards = [
     {
+        name: 'Search'
+    }
+    ,
+    {
         name: 'Sooo... what is Visifile?'
     }
     ,
     {
-        name: 'Visifile lets you create mini presentations from the data stored in your local applications'
+        name: 'Visifile lets you discover, search, and share the data stored in your local applications'
     }
     ,
     {
@@ -349,7 +367,7 @@ var defaultCards = [
     }
     ,
     {
-        name: 'Then you can share a presentation as a PDF to others',
+        name: 'Then you can search either the whole catalog or just a subsection, just like you seach with Google',
     }
     ,
     {
@@ -429,7 +447,7 @@ var dataIds = new Object()
     });
 
 
-    //zzz
+
     //
     // ______
     // Server  --preview of a document-->  Browser
@@ -475,7 +493,7 @@ var listElm = null
 
 
 var autoScroll = true;
-var autoId = 1;
+var autoId = 2;
 var nextItem = 1;
 
 
@@ -620,6 +638,15 @@ function find(term) {
             term: term
             });
 }
+
+function newSearch() {
+    autoScroll = false
+    setTimeout(function(){
+        select_card(1)
+
+    },200)
+}
+
 
 function cmd(stringArgs) {
     var args = stringArgs.split(" ");
