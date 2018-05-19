@@ -166,7 +166,8 @@ div.tilt {
 </head>
 
 
-
+<!-- zzz -->
+<!-- hhh -->
 
 <body onload='initFn()' id='mydropzone'>
 
@@ -201,9 +202,14 @@ div.tilt {
             <h1 class="caption">{{item.id}} - {{item.card.name}}</h1>
             <a style='font-size: 2em;' href='{{item.card.link}}' m-if="item.card.link">{{item.card.link_name}}</a>
 
-            <div style='font-size: 2em;' onclick='loadContent("{{item.card.data_id}}","{{item.card.name}}");' m-if="item.card.load_content">Preview</div>
+            <div    style='font-size: 2em;' onclick='loadContent("{{item.card.data_id}}","{{item.card.name}}");'
+                    m-if="item.card.load_content">Preview</div>
 
-            <div style='font-size: 2em;' onclick='openContent("{{item.card.data_id}}","{{item.card.name}}");' m-if="item.card.load_content">Open</div>
+            <div    style='font-size: 2em;' onclick='openContent("{{item.card.data_id}}","{{item.card.name}}");'
+                    m-if="item.card.load_content">Open</div>
+
+            <div    style='font-size: 2em;' onclick='loadCard("{{item.id}}","search");'
+                    m-if="item.card.type == 'search'"><input></input></div>
 
             <div style='height: 2em;'></div>
 
@@ -212,6 +218,7 @@ div.tilt {
                 <img src="VisiFileColor.png" width="10%" top="0px" left="0px" style='display:inline-block'></img>
                 <div class=link style='height: 2em;display:inline-block' onclick='newSearch()' >New Search</div>
             </div>
+
         </div>
     </div>
 
@@ -225,6 +232,10 @@ div.tilt {
 
 
 <script>
+function loadCard(  data_id,  data_name  ) {
+    alert(data_id)
+}
+
 
 function loadContent(  data_id,  data_name  ) {
     //
@@ -335,7 +346,8 @@ function select_card(id) {
 var app = null
 
 
-
+//zzz
+//ccc
 var defaultCards = [
     {
         name: 'Search',
