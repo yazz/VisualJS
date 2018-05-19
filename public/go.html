@@ -208,7 +208,7 @@ div.tilt {
             <div    style='font-size: 2em;' onclick='openContent("{{item.card.data_id}}","{{item.card.name}}");'
                     m-if="item.card.load_content">Open</div>
 
-            <div    style='font-size: 2em;' onclick='loadCard("{{item.id}}","search");'
+            <div    style='font-size: 2em;' onclick='loadCard("card_{{item.id}}","search");'
                     m-if="item.card.type == 'search'"><input></input></div>
 
             <div style='height: 2em;'></div>
@@ -232,8 +232,11 @@ div.tilt {
 
 
 <script>
+//zzz
+//lll
 function loadCard(  data_id,  data_name  ) {
-    alert(data_id)
+    //alert(data_id)
+    document.getElementById(data_id).innerHTML = "<div>Search view</div>"
 }
 
 
