@@ -237,6 +237,18 @@ div.tilt {
 function loadCard(  data_id,  app_name  ) {
     //alert(app_name)
     document.getElementById(data_id).innerHTML = "<div id=current_app>APP WILL BE SHOWN HERE</div>"
+    var moonCardApp = new Moon({
+      el: "#current_app"
+      ,
+      template: "<div>Content</div>"
+      ,
+      data: {
+        msg: ""
+    },
+    methods: {
+    },
+      store: store
+    });
 }
 
 
@@ -355,6 +367,11 @@ var defaultCards = [
     {
         name: 'Search',
         app: 'search'
+    }
+    ,
+    {
+        name: 'Status',
+        app: 'status'
     }
     ,
     {
