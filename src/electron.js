@@ -2072,6 +2072,44 @@ function websocketFn(ws) {
 
 
 
+    } else if (receivedMessage.message_type == "browser_asks_server_for_data") {
+
+        var seqNum = queuedResponseSeqNum;
+        queuedResponseSeqNum ++;
+        queuedResponses[seqNum] = ws;
+
+        // ______
+        // Server  --Send me your data-->  Subprocess
+        // ______
+        //
+        forkedProcesses["forked"].send({
+                        message_type:   "server_asks_subprocess_for_data",
+                        seq_num:         seqNum
+                    });
+
+
+
+
+
+
+
+
+
+} else if (receivedMessage.message_type == "browser_asks_server_for_apps") {
+
+    console.log("******************* findDriversWithMethod *******************")
+    findDriversWithMethod("", function(results) {
+        console.log(JSON.stringify(results,null,2))
+    })
+
+
+
+
+
+
+
+
+
         //                                         ______
         // Browser  --Send me document preview-->  Server
         //                                         ______
@@ -3396,4 +3434,24 @@ function parseVfCliCommand(args, callbackFn) {
         callbackFn(result)
         return
         }
+}
+
+
+
+function findDriversWithMethod(methodName, callbackFn) {
+    dbsearch.serialize(
+        function() {
+            var stmt = dbsearch.all(
+                "SELECT driver FROM system_code where on_condition like '%" + methodName + "%'; ",
+
+                function(err, results)
+                {
+                    if (results.length > 0) {
+                        callbackFn(results)
+                    } else {
+                        callbackFn(null)
+                    }
+
+                })
+    }, sqlite3.OPEN_READONLY)
 }

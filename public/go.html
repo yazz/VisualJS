@@ -443,7 +443,9 @@ function setupWebSocket(host, port)
             sendToServerViaWebSocket({
                     message_type: "browser_asks_server_for_data"
                     });
-        }, 5000)
+            sendToServerViaWebSocket({
+                    message_type: "browser_asks_server_for_apps"
+                    });        }, 5000)
     },3000);
     });
 

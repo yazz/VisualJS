@@ -698,7 +698,7 @@ function findFoldersFn() {
     //                            value:  "Hard disk scan in progress"
     //                            });
 
-//zzz
+
 
 }
 
@@ -1840,6 +1840,25 @@ function callDriverMethod( driverName, methodName, args, callbackFn ) {
                     callback_index:      useCallbackIndex,
                     caller_call_id:      -1
                     });
+}
+
+//zzz
+function findDriversWithMethod(methodName, callbackFn) {
+    dbsearch.serialize(
+        function() {
+            var stmt = dbsearch.all(
+                "SELECT driver FROM system_code where on_condition like '%" + methodName + "%'; ",
+
+                function(err, results)
+                {
+                    if (results.length > 0) {
+                        callbackFn(results)
+                    } else {
+                        callbackFn(null)
+                    }
+
+                })
+    }, sqlite3.OPEN_READONLY)
 }
 
 
