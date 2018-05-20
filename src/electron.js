@@ -2098,7 +2098,7 @@ function websocketFn(ws) {
 } else if (receivedMessage.message_type == "browser_asks_server_for_apps") {
 
     console.log("******************* findDriversWithMethod *******************")
-    findDriversWithMethod("", function(results) {
+    findDriversWithMethod("app", function(results) {
         console.log(JSON.stringify(results,null,2))
     })
 

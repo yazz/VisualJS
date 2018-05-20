@@ -14,7 +14,7 @@
     ,
     events: {
         "This will return the search app": {
-            on: "moon_app",
+            on: "app",
             do: function(args, returnfn) {
                 returnfn({hello: "moon app"})
 
