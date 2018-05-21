@@ -2880,6 +2880,7 @@ function setUpDbDrivers() {
     // apps
     //
     evalLocalSystemDriver('search',   path.join(__dirname, '../public/visifile_drivers/apps/search.js'))
+    evalLocalSystemDriver('test',   path.join(__dirname, '../public/visifile_drivers/apps/test.js'))
 }
 
 

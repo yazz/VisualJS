@@ -462,12 +462,15 @@ function setupWebSocket(host, port)
 
     socket.on('vf_app_names',function(data) {
         //alert("Browser received apps from server socket: " + JSON.stringify(data.results,null,2));
-        var nid = nextItem++;
-        store.dispatch("add_card", {
-                                        id: nid, card: {
-                                        id:                 nid,
-                                        name:               data.results[0].driver,
-                                                    }});
+        for (var i = 0 ; i < data.results.length ; i ++ ) {
+            var nid = nextItem++;
+            store.dispatch("add_card", {
+                                            id: nid, card: {
+                                            id:                 nid,
+                                            name:               data.results[i].driver + " app",
+                                            type:               "app"
+                                                        }});
+        }
         store.dispatch("refresh");
     });
 
