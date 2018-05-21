@@ -426,6 +426,8 @@ function sendToServerViaWebSocket(msg) {
 
 function setupWebSocket(host, port)
 {
+    //zzz
+    //sss
 
     //console.log('opening web socketio');
     socket = io('http://' + host + ":" + port);
@@ -443,9 +445,10 @@ function setupWebSocket(host, port)
             sendToServerViaWebSocket({
                     message_type: "browser_asks_server_for_data"
                     });
-            sendToServerViaWebSocket({
-                    message_type: "browser_asks_server_for_apps"
-                    });        }, 5000)
+                }, 5000)
+        sendToServerViaWebSocket({
+                message_type: "browser_asks_server_for_apps"
+                });
     },3000);
     });
 
@@ -454,6 +457,14 @@ function setupWebSocket(host, port)
     socket.on('client_data_returned_from_server',function(data) {
         console.log("Browser received from server socket: " + JSON.stringify(data,null,2));
     });
+
+
+
+    socket.on('vf_app_names',function(data) {
+        alert("Browser received apps from server socket: " + JSON.stringify(data.results,null,2));
+    });
+
+
 
 
 var dataIds = new Object()

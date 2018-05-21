@@ -2100,7 +2100,13 @@ function websocketFn(ws) {
     console.log("******************* findDriversWithMethod *******************")
     findDriversWithMethod("app", function(results) {
         console.log(JSON.stringify(results,null,2))
-    })
+
+        sendToBrowserViaWebSocket(  ws,
+                                    {
+                                        type:     "vf_app_names",
+                                        results:  results
+                                    });
+        })
 
 
 
