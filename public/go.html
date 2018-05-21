@@ -210,7 +210,7 @@ div.tilt {
 
             <div    m-if="item.card.type == 'app'">
                     <div    class=link style='height: 2em;display:inline-block'
-                            onclick='loadApp("card_{{item.id}}","{{item.card.name}}");' >Load app</div>
+                            onclick='prepareApp("card_{{item.id}}","{{item.card.app}}");' >Load app</div>
                 </div>
 
 
@@ -237,15 +237,23 @@ div.tilt {
 <script>
 //zzz
 //lll
-function loadApp(  data_id,  app_name  ) {
+function prepareApp(  card_id,  app_name  ) {
     //alert(app_name)
     var html = "<div>Content</div>"
     if (app_name == 'test app' ) {
         html = "<div>Test</div>"
     }
     console.log("app_name: " + app_name)
+    sendToServerViaWebSocket({
+        message_type:   "browser_asks_server_for_app_code",
+        card_id:        card_id,
+        app_name:       app_name
+        });
+}
+function loadApp(  card_id,  app_name  , html) {
+    //alert(app_name)
 
-    document.getElementById(data_id).innerHTML = "<div id=current_app>APP WILL BE SHOWN HERE</div>"
+    document.getElementById(card_id).innerHTML = "<div id=current_app>APP WILL BE SHOWN HERE</div>"
     var moonCardApp = new Moon({
       el: "#current_app"
       ,
@@ -259,7 +267,6 @@ function loadApp(  data_id,  app_name  ) {
       store: store
     });
 }
-
 
 function loadContent(  data_id,  data_name  ) {
     //
@@ -477,12 +484,19 @@ function setupWebSocket(host, port)
                                             id: nid, card: {
                                             id:                 nid,
                                             name:               data.results[i].driver + " app",
+                                            app:                data.results[i].driver,
                                             type:               "app"
                                                         }});
         }
         store.dispatch("refresh");
     });
 
+
+
+
+    socket.on('server_returns_app_code_to_browser',function(data) {
+        console.log("Browser received from server socket: " + JSON.stringify(data,null,2));
+    });
 
 
 

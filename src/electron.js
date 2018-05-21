@@ -2111,6 +2111,19 @@ function websocketFn(ws) {
 
 
 
+        } else if (receivedMessage.message_type == "browser_asks_server_for_app_code") {
+
+            console.log("******************* browser_asks_server_for_app_code *******************")
+            getAppCode(msg.app_name, function(html) {
+                sendToBrowserViaWebSocket(  ws,
+                                            {
+                                                type:     "server_returns_app_code_to_browser",
+                                                code:      code,
+                                                app_name:  msg.app_name,
+                                                card_id:   msg.card_id
+                                            });
+                })
+
 
 
 
@@ -3454,6 +3467,28 @@ function findDriversWithMethod(methodName, callbackFn) {
                 {
                     if (results.length > 0) {
                         callbackFn(results)
+                    } else {
+                        callbackFn(null)
+                    }
+
+                })
+    }, sqlite3.OPEN_READONLY)
+}
+
+
+
+
+function getAppCode(appName, callbackFn) {
+    dbsearch.serialize(
+        function() {
+            var stmt = dbsearch.all(
+                "SELECT code FROM system_code where on_condition = 'app' and driver = ?; ",
+                appName,
+
+                function(err, results)
+                {
+                    if (results.length > 0) {
+                        callbackFn(results[0].code)
                     } else {
                         callbackFn(null)
                     }
