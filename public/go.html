@@ -210,7 +210,7 @@ div.tilt {
 
             <div    m-if="item.card.type == 'app'">
                     <div    class=link style='height: 2em;display:inline-block'
-                            onclick='loadApp("card_{{item.id}}","{{item.card.app}}");' >Load app</div>
+                            onclick='loadApp("card_{{item.id}}","{{item.card.name}}");' >Load app</div>
                 </div>
 
 
@@ -239,11 +239,17 @@ div.tilt {
 //lll
 function loadApp(  data_id,  app_name  ) {
     //alert(app_name)
+    var html = "<div>Content</div>"
+    if (app_name == 'test app' ) {
+        html = "<div>Test</div>"
+    }
+    console.log("app_name: " + app_name)
+
     document.getElementById(data_id).innerHTML = "<div id=current_app>APP WILL BE SHOWN HERE</div>"
     var moonCardApp = new Moon({
       el: "#current_app"
       ,
-      template: "<div>Content</div>"
+      template: html
       ,
       data: {
         msg: ""
