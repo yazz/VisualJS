@@ -208,8 +208,11 @@ div.tilt {
             <div    style='font-size: 2em;' onclick='openContent("{{item.card.data_id}}","{{item.card.name}}");'
                     m-if="item.card.load_content">Open</div>
 
-            <div    style='font-size: 2em;' onclick='loadCard("card_{{item.id}}","{{item.card.app}}");'
-                    m-if="item.card.app"><input></input></div>
+            <div    m-if="item.card.type == 'app'">
+                    <div    class=link style='height: 2em;display:inline-block'
+                            onclick='loadApp("card_{{item.id}}","{{item.card.app}}");' >Load app</div>
+                </div>
+
 
             <div style='height: 2em;'></div>
 
@@ -234,7 +237,7 @@ div.tilt {
 <script>
 //zzz
 //lll
-function loadCard(  data_id,  app_name  ) {
+function loadApp(  data_id,  app_name  ) {
     //alert(app_name)
     document.getElementById(data_id).innerHTML = "<div id=current_app>APP WILL BE SHOWN HERE</div>"
     var moonCardApp = new Moon({
