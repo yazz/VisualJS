@@ -2113,14 +2113,15 @@ function websocketFn(ws) {
 
         } else if (receivedMessage.message_type == "browser_asks_server_for_app_code") {
 
-            console.log("******************* browser_asks_server_for_app_code *******************")
-            getAppCode(msg.app_name, function(code) {
+            console.log("******************* browser_asks_server_for_app_code *******************: " + receivedMessage.app_name)
+            getAppCode(receivedMessage.app_name, function(code) {
+                console.log(code)
                 sendToBrowserViaWebSocket(  ws,
                                             {
                                                 type:     "server_returns_app_code_to_browser",
                                                 code:      code,
-                                                app_name:  msg.app_name,
-                                                card_id:   msg.card_id
+                                                app_name:  receivedMessage.app_name,
+                                                card_id:   receivedMessage.card_id
                                             });
                 })
 
@@ -3482,7 +3483,7 @@ function getAppCode(appName, callbackFn) {
     dbsearch.serialize(
         function() {
             var stmt = dbsearch.all(
-                "SELECT code FROM system_code where on_condition = 'app' and driver = ?; ",
+                "SELECT code FROM system_code where on_condition like '%app%' and driver = ?; ",
                 appName,
 
                 function(err, results)
