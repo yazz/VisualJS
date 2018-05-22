@@ -495,7 +495,11 @@ function setupWebSocket(host, port)
 
 
     socket.on('server_returns_app_code_to_browser',function(data) {
-        //console.log("Browser received from server socket: " + JSON.stringify(data,null,2));
+        console.log("Browser received from server socket: " + JSON.stringify(data.code,null,2));
+        var codeFn = eval(  "(" + data.code + ")" )
+        codeFn({},function(res) {
+            alert(JSON.stringify(res,null,2))
+        })
     });
 
 
