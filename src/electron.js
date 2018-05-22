@@ -2114,7 +2114,7 @@ function websocketFn(ws) {
         } else if (receivedMessage.message_type == "browser_asks_server_for_app_code") {
 
             console.log("******************* browser_asks_server_for_app_code *******************")
-            getAppCode(msg.app_name, function(html) {
+            getAppCode(msg.app_name, function(code) {
                 sendToBrowserViaWebSocket(  ws,
                                             {
                                                 type:     "server_returns_app_code_to_browser",

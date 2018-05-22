@@ -243,7 +243,7 @@ function prepareApp(  card_id,  app_name  ) {
     if (app_name == 'test app' ) {
         html = "<div>Test</div>"
     }
-    console.log("app_name: " + app_name)
+    console.log(" prepareApp app_name: " + app_name)
     sendToServerViaWebSocket({
         message_type:   "browser_asks_server_for_app_code",
         card_id:        card_id,
@@ -274,7 +274,7 @@ function loadContent(  data_id,  data_name  ) {
     // Browser  --Send me a preview of a document-->  Server
     // _______
     //
-    console.log("**1) browser_asks_server_for_document_preview")
+    //console.log("**1) browser_asks_server_for_document_preview")
     sendToServerViaWebSocket({
         message_type:   "browser_asks_server_for_document_preview",
         data_id:         data_id,
@@ -290,7 +290,7 @@ function openContent(  data_id  ) {
     // Browser  --Send me a preview of a document-->  Server
     // _______
     //
-    console.log("**1) browser_asks_server_to_open_document_natively")
+    //console.log("**1) browser_asks_server_to_open_document_natively")
     sendToServerViaWebSocket({
         message_type:   "browser_asks_server_to_open_document_natively",
         data_id:         data_id
@@ -471,7 +471,7 @@ function setupWebSocket(host, port)
 
 
     socket.on('client_data_returned_from_server',function(data) {
-        console.log("Browser received from server socket: " + JSON.stringify(data,null,2));
+        //console.log("Browser received from server socket: " + JSON.stringify(data,null,2));
     });
 
 
@@ -495,7 +495,7 @@ function setupWebSocket(host, port)
 
 
     socket.on('server_returns_app_code_to_browser',function(data) {
-        console.log("Browser received from server socket: " + JSON.stringify(data,null,2));
+        //console.log("Browser received from server socket: " + JSON.stringify(data,null,2));
     });
 
 
@@ -550,19 +550,19 @@ var dataIds = new Object()
 
 
     socket.on('vf_reply',function(data) {
-        console.log(data.result);
+        //console.log(data.result);
     });
 
 
-    console.log('1) ws_to_browser_drivers');
+    //console.log('1) ws_to_browser_drivers');
     socket.on('ws_to_browser_drivers',function(data) {
-        console.log('2) ws_to_browser_drivers');
+        //console.log('2) ws_to_browser_drivers');
         vf.drivers = data.result
     });
 
 
     socket.on('ws_to_browser_find_results',function(data) {
-        console.log(data.results);
+        //console.log(data.results);
     });
 
 }
@@ -636,13 +636,13 @@ var myScroller = null;
             document.getElementById("wrapper").addEventListener("wheel",
                 function() {
                     autoScroll = false;
-                    console.log("wheel")
+                    //console.log("wheel")
                 }
             );
             document.getElementById("wrapper").addEventListener("touchmove",
                 function() {
                     autoScroll = false;
-                    console.log("touchmove")
+                    //console.log("touchmove")
                 }
             );
 
@@ -697,16 +697,16 @@ var myScroller = null;
 function onscrolled() {
     if (mousedown) {
         autoScroll = false;
-        console.log("onscroll")
+        //console.log("onscroll")
     }
 };
 var mousedown=false;
 function onemousedown() {
-    console.log("onmousedown")
+    //console.log("onmousedown")
     mousedown = true
 };
 function onemouseup() {
-    console.log("onmouseup")
+    //console.log("onmouseup")
     mousedown = false
 };
 var vf = new Object()
