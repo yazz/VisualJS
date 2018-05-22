@@ -16,7 +16,20 @@
         "This will return the search app": {
             on: "app",
             do: function(args, returnfn) {
-                returnfn({hello: "moon app"})
+                returnfn(
+                    new Moon({
+                      el: "#current_app"
+                      ,
+                      template: "<div>this is the moon seach app</div>"
+                      ,
+                      data: {
+                        msg: ""
+                    },
+                    methods: {
+                    },
+                      store: store
+                    })
+                )
 
 
             }, end: null

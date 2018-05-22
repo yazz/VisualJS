@@ -254,7 +254,6 @@ function loadApp(  card_id,  app_name  , app_code) {
     //zzz
     //alert(app_name)
 
-    document.getElementById(card_id).innerHTML = "<div id=current_app>APP WILL BE SHOWN HERE</div>"
     var moonCardApp = app_code
 
 }
@@ -488,9 +487,10 @@ function setupWebSocket(host, port)
     socket.on('server_returns_app_code_to_browser',function(data) {
         console.log("Browser received from server socket: " + JSON.stringify(data,null,2));
         var codeFn = eval(  "(" + data.code + ")" )
+        document.getElementById(data.card_id).innerHTML = "<div id=current_app>APP WILL BE SHOWN HERE</div>"
         var moonApp = codeFn({},function(res) {
             //alert(JSON.stringify(res,null,2))
-            loadApp(  data.card_id,  data.app_name  , res)
+            //loadApp(  data.card_id,  data.app_name  , res)
         })
         //zzz
     });
