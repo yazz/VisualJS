@@ -18,9 +18,9 @@
             do: function(args, returnfn) {
                 returnfn(
                     new Moon({
-                      el: "#current_app",
-                      template: `
-                      <div id="app2">
+                      el: "#current_app"
+                      ,
+                      template: `<div id="app2">
                       saSs
                         <h1>{{msg}}</h1>
                         <input type="text" m-model="msg"/>

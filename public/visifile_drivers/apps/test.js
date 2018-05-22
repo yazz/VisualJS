@@ -20,10 +20,11 @@
                     new Moon({
                       el: "#current_app"
                       ,
-                      template: "<div>Okhay this is a test app</div>"
+                      template: `<div>Okhay this is a test app: {{msg}} 2</div>
+                       `
                       ,
                       data: {
-                        msg: ""
+                        msg: "some data"
                     },
                     methods: {
                     },
