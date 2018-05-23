@@ -732,6 +732,31 @@ function cmd(stringArgs) {
             });
 }
 
+
+
+var queuedResponses = new Object()
+var queuedBrowserResponseSeqNum = 0
+
+function callDriverMethod(driverName, methodName, args, callbackFn) {
+    var seqNum = queuedBrowserResponseSeqNum;
+    queuedBrowserResponseSeqNum ++;
+    queuedResponses[seqNum] = callbackFn;
+
+
+    sendToServerViaWebSocket({
+        message_type: "callDriverMethod",
+            driverName: driverName,
+            methodName: methodName,
+            args: args,
+            seqNum: seqNum
+            });
+
+     callbackFn({value: "true"})
+}
+
+
+
+
 </script>
 </body>
 </html>

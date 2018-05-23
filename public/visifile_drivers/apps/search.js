@@ -19,7 +19,7 @@
                 var mm = new Moon({
                   el: "#" + args.root_element
                   ,
-                  template: "<div m-on:click='search2'>this is the moon seach app {{msg}}</div>"
+                  template: "<div m-on:click='search'>this is the moon seach app {{msg}}</div>"
                   ,
                   data: {
                     msg: "..."
@@ -32,14 +32,9 @@
                                     ,
                                     function(result) {
                                         console.log("3) returned result: " + JSON.stringify(result,null,2))
+                                        mm.set("msg", result.value)
                                     })
-                    },
-                    search2: function() {
-                        setTimeout(function() {
-                            mm.set("msg", "zoo")
-                            alert("done")
-                        }
-                        ,1000)
+
                     }
                 },
                   store: store
