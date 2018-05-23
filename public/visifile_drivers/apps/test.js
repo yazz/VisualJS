@@ -18,7 +18,7 @@
             do: function(args, returnfn) {
                 returnfn(
                     new Moon({
-                      el: "#current_app"
+                      el: "#" + args.root_element
                       ,
                       template: `<div>Okhay this is a test app: {{msg}} 2</div>
                        `

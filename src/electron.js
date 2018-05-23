@@ -2118,10 +2118,11 @@ function websocketFn(ws) {
                 console.log(code)
                 sendToBrowserViaWebSocket(  ws,
                                             {
-                                                type:     "server_returns_app_code_to_browser",
-                                                code:      code,
-                                                app_name:  receivedMessage.app_name,
-                                                card_id:   receivedMessage.card_id
+                                                type:           "server_returns_app_code_to_browser",
+                                                code:           code,
+                                                app_name:       receivedMessage.app_name,
+                                                card_id:        receivedMessage.card_id,
+                                                root_element:   receivedMessage.root_element
                                             });
                 })
 

@@ -18,7 +18,7 @@
             do: function(args, returnfn) {
                 returnfn(
                     new Moon({
-                      el: "#current_app"
+                      el: "#" + args.root_element
                       ,
                       template: `<div id="app2">
                       saSs

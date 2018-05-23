@@ -210,7 +210,7 @@ div.tilt {
 
             <div    m-if="item.card.type == 'app'">
                     <div    class=link style='height: 2em;display:inline-block'
-                            onclick='prepareApp("card_{{item.id}}","{{item.card.app}}");' >Load app</div>
+                            onclick='prepareApp("card_{{item.id}}","{{item.card.app}}", "current_app");' >Load app</div>
                 </div>
 
 
@@ -237,7 +237,7 @@ div.tilt {
 <script>
 //zzz
 //lll
-function prepareApp(  card_id,  app_name  ) {
+function prepareApp(  card_id,  app_name , rootElement ) {
     //alert(app_name)
     var html = "<div>Content</div>"
     if (app_name == 'test app' ) {
@@ -247,7 +247,8 @@ function prepareApp(  card_id,  app_name  ) {
     sendToServerViaWebSocket({
         message_type:   "browser_asks_server_for_app_code",
         card_id:        card_id,
-        app_name:       app_name
+        app_name:       app_name,
+        root_element:   rootElement
         });
 }
 function loadApp(  card_id,  app_name  , app_code) {
@@ -488,7 +489,7 @@ function setupWebSocket(host, port)
         console.log("Browser received from server socket: " + JSON.stringify(data,null,2));
         var codeFn = eval(  "(" + data.code + ")" )
         document.getElementById(data.card_id).innerHTML = "<div id=current_app>APP WILL BE SHOWN HERE</div>"
-        var moonApp = codeFn({},function(res) {
+        var moonApp = codeFn({root_element: data.root_element},function(res) {
             //alert(JSON.stringify(res,null,2))
             //loadApp(  data.card_id,  data.app_name  , res)
         })
