@@ -2114,7 +2114,7 @@ function websocketFn(ws) {
         } else if (receivedMessage.message_type == "browser_asks_server_for_app_code") {
 
             console.log("******************* browser_asks_server_for_app_code *******************: " + receivedMessage.app_name)
-            getAppCode(receivedMessage.app_name, function(code) {
+            getAppCode(receivedMessage.app_name, function(code, libs) {
                 console.log(code)
                 sendToBrowserViaWebSocket(  ws,
                                             {
@@ -2122,7 +2122,8 @@ function websocketFn(ws) {
                                                 code:           code,
                                                 app_name:       receivedMessage.app_name,
                                                 card_id:        receivedMessage.card_id,
-                                                root_element:   receivedMessage.root_element
+                                                root_element:   receivedMessage.root_element,
+                                                uses_js_libs:   libs
                                             });
                 })
 
@@ -3483,16 +3484,24 @@ function findDriversWithMethod(methodName, callbackFn) {
 function getAppCode(appName, callbackFn) {
     dbsearch.serialize(
         function() {
-            var stmt = dbsearch.all(
+            dbsearch.all(
                 "SELECT code FROM system_code where on_condition like '%app%' and driver = ?; ",
                 appName,
 
                 function(err, results)
                 {
                     if (results.length > 0) {
-                        callbackFn(results[0].code)
+                        dbsearch.all(
+                            "SELECT dependency_name FROM app_dependencies where driver = ?; ",
+                            appName,
+
+                            function(err, results2)
+                            {
+                                callbackFn(results[0].code, results2)
+
+                            })
                     } else {
-                        callbackFn(null)
+                        callbackFn(null,null)
                     }
 
                 })
