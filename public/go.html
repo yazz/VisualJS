@@ -488,6 +488,8 @@ function setupWebSocket(host, port)
     socket.on('server_returns_app_code_to_browser',function(data) {
         console.log("Browser received from server socket: " + JSON.stringify(data,null,2));
         var codeFn = eval(  "(" + data.code + ")" )
+        alert(JSON.stringify(data.uses_js_libs,null,2))
+        //alert(<script src="https://aframe.io/releases/0.8.0/aframe.min.js/script>)
         document.getElementById(data.card_id).innerHTML = "<div id=current_app>APP WILL BE SHOWN HERE</div>"
         var moonApp = codeFn({root_element: data.root_element},function(res) {
             //alert(JSON.stringify(res,null,2))

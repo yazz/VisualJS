@@ -1,17 +1,11 @@
 {
-    doc_type: 'visifile'
+    doc_type: 'visifile',
+    name: 'game',version: 1,type: 'app',text: 'game app',
+    initText: 'game is ALIVE!!!!',
+    uses_javascript_librararies: ["aframe", "moonjs"]
     ,
-    name: 'game'
-    ,
-    version: 1
-    ,
-    type: 'app'
-    ,
-    text: 'game app'
 
-    ,
-    initText: 'game is ALIVE!!!!'
-    ,
+    
     events: {
         "This will return the game app": {
             on: "app",
@@ -21,7 +15,6 @@
                       el: "#" + args.root_element
                       ,
                       template: `<div id="app2">
-                          <script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script>
                           saSs
                             <h1>{{msg}}</h1>
                             <input type="text" m-model="msg"/>

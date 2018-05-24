@@ -45,7 +45,9 @@ var stmtUpdateRelationships2;
 var stmtUpdateFolder;
 var stmtResetFolders;
 var stmtInsertDriver;
+var stmtInsertDependency;
 var stmtUpdateDriver;
+var stmtDeleteDependencies;
 var stmtInsertIntoQueries;
 
 var stmtResetFiles;
@@ -144,6 +146,15 @@ function setUpSql() {
                                 "    (id,  name, type, code ) " +
                                 " values " +
                                 "    (?, ?,?,?);");
+
+
+    stmtInsertDependency = dbsearch.prepare(" insert or replace into app_dependencies " +
+                                "    (id,  driver, dependency_type, dependency_name, dependency_version ) " +
+                                " values " +
+                                "    (?, ?, ?, ?, ? );");
+
+
+    stmtDeleteDependencies = dbsearch.prepare(" delete from  app_dependencies   where   driver = ?");
 
     stmtUpdateDriver = dbsearch.prepare(" update   drivers   set code = ? where id = ?");
 
@@ -1842,7 +1853,7 @@ function callDriverMethod( driverName, methodName, args, callbackFn ) {
                     });
 }
 
-//zzz
+
 function findDriversWithMethod(methodName, callbackFn) {
     dbsearch.serialize(
         function() {
@@ -2920,6 +2931,20 @@ function addOrUpdateDriver(name, codeString) {
                                     function() {
                                         dbsearch.run("begin exclusive transaction");
                                         stmtInsertDriver.run(uuidv1(),  name,  driverType,  codeString)
+                                        stmtDeleteDependencies.run(name)
+
+                                        if (code.uses_javascript_librararies) {
+                                            console.log(JSON.stringify(code.uses_javascript_librararies,null,2))
+                                            for (var tt = 0; tt < code.uses_javascript_librararies.length ; tt++) {
+                                                stmtInsertDependency.run(
+                                                    uuidv1(),
+                                                    name,
+                                                    "js_browser_lib",
+                                                    code.uses_javascript_librararies[tt],
+                                                    "latest")
+
+                                            }
+                                        }
                                         dbsearch.run("commit");
                                     })
 
@@ -2942,6 +2967,21 @@ function addOrUpdateDriver(name, codeString) {
                                   function() {
                                       dbsearch.run("begin exclusive transaction");
                                       stmtUpdateDriver.run( codeString , existingDriver.id)
+                                      stmtDeleteDependencies.run(name)
+
+                                      if (code.uses_javascript_librararies) {
+                                          console.log(JSON.stringify(code.uses_javascript_librararies,null,2))
+                                          for (var tt = 0; tt < code.uses_javascript_librararies.length ; tt++) {
+                                              stmtInsertDependency.run(
+                                                  uuidv1(),
+                                                  name,
+                                                  "js_browser_lib",
+                                                  code.uses_javascript_librararies[tt],
+                                                  "latest")
+
+                                          }
+                                      }
+
                                       dbsearch.run("commit");
 
                                   });
