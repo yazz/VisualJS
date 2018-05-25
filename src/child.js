@@ -1930,7 +1930,7 @@ function processMessagesFromMainProcess() {
                       message_type: 'ipc_child_returning_callDriverMethod_response',
                       seq_num_browser: msg.seq_num_browser,
                       seq_num_parent: msg.seq_num_parent,
-                      result: "Child process sent response"
+                      result: result
                   })
           })
 
