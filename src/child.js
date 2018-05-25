@@ -1922,23 +1922,17 @@ function processMessagesFromMainProcess() {
 
 //zzz
       } else if (msg.message_type == 'callDriverMethod') {
-          process.send(
-              {
-                  message_type: 'ipc_child_returning_callDriverMethod_response',
-                  seq_num_browser: msg.seq_num_browser,
-                  seq_num_parent: msg.seq_num_parent,
-                  result: "Child process sent response"
-              })          //console.log('Message from parent:', msg);
-          /*callDriverMethod( msg.driver, msg.method, msg.args, function(result) {
+
+          callDriverMethod( msg.driver, msg.method, msg.args, function(result) {
               console.log("    **** SCANNED THE FOLDERS ON LOCAL FILE SYSTEM ***: ")
               process.send(
                   {
-                      message_type: 'callDriverMethod_response',
+                      message_type: 'ipc_child_returning_callDriverMethod_response',
                       seq_num_browser: msg.seq_num_browser,
-                      seq_num: msg.seq_num_parent,
-                      result: result
+                      seq_num_parent: msg.seq_num_parent,
+                      result: "Child process sent response"
                   })
-          })*/
+          })
 
 
 
@@ -2055,7 +2049,7 @@ function processMessagesFromMainProcess() {
     } else if (msg.message_type == 'downloadWebDocument') {
         downloadWebDocument(msg.query_id,
                             function(result) {
-                                console.log("5")
+                               // console.log("5")
                                 var returnDownloadDocToParentMsg = {
                                     message_type:       'returnDownloadWebDocument',
                                     seq_num:             msg.seq_num,
@@ -2068,9 +2062,9 @@ function processMessagesFromMainProcess() {
 
 
     } else if (msg.message_type == "return_response_to_function_caller") {
-        console.log("*) result received to caller " );
-        console.log("*)  callback_index:" + msg.callback_index );
-        console.log("*)  result:        " + msg.result );
+       // console.log("*) result received to caller " );
+       // console.log("*)  callback_index:" + msg.callback_index );
+       // console.log("*)  result:        " + msg.result );
         callbackList[ msg.callback_index ](msg.result)
 
 
@@ -2164,7 +2158,7 @@ function processMessagesFromMainProcess() {
     } else if (msg.message_type == 'downloadDocuments') {
         downloadDocuments(  msg.file_id,
                             function(result) {
-                                console.log("5")
+                               // console.log("5")
                                 var returnDownloadDocumentsMsg = {
                                     message_type:       'returnDownloadDocuments',
                                     seq_num:             msg.seq_num,
@@ -2283,7 +2277,7 @@ function processMessagesFromMainProcess() {
 
 
     } else if (msg.message_type == 'get_search_results') {
-        console.log("3 - get_search_results: " + msg.seq_num )
+       // console.log("3 - get_search_results: " + msg.seq_num )
         get_search_resultsFn(   msg.searchTerm,
                                 msg.timeStart,
 
@@ -2294,9 +2288,9 @@ function processMessagesFromMainProcess() {
                                         seq_num:                msg.seq_num,
                                         returned:               JSON.stringify(result)
                                     };
-                                    console.log("5.1: " + JSON.stringify(return_get_search_resultsMsg))
+                                   // console.log("5.1: " + JSON.stringify(return_get_search_resultsMsg))
                                     process.send( return_get_search_resultsMsg );
-                                    console.log("5.3: ")
+                                   // console.log("5.3: ")
                     }  )
 
 
@@ -2309,7 +2303,7 @@ function processMessagesFromMainProcess() {
 
 
     } else if (msg.message_type == 'get_search_results_json') {
-        console.log("2 - /client/1/search: get_search_results_json")
+       // console.log("2 - /client/1/search: get_search_results_json")
         get_search_resultsFn(   msg.searchTerm,
                                 msg.timeStart,
 
@@ -2335,7 +2329,7 @@ function processMessagesFromMainProcess() {
                                     },
                                     new Date().getTime(),
             function(results) {
-                console.log(" .......2 ");
+               // console.log(" .......2 ");
                         var return_get_search_resultsMsg = {
                             message_type:           'ipc_child_returning_find_results',
                             search_term:             msg.search_term,
@@ -2702,7 +2696,7 @@ function remoteWalk( dir ) {
     ) {
         return;
     }
-    console.log("remoteWalk: " + dir)
+   // console.log("remoteWalk: " + dir)
 
     var list = fs.readdirSync (dir)
 
@@ -2719,7 +2713,7 @@ function remoteWalk( dir ) {
                             }
                             //var folderName = parentDir +fileOrFolder
                             var folderName = fileOrFolder
-                            console.log("Folder: " + folderName)
+                           // console.log("Folder: " + folderName)
 
                             dbsearch.serialize(
                                 function() {
@@ -2741,7 +2735,7 @@ function remoteWalk( dir ) {
                                                         folderName)
                                                     dbsearch.run("commit",
                                                         function(err3) {
-                                                            console.log("     fileOrFolder: " + fileOrFolder)
+                                                           // console.log("     fileOrFolder: " + fileOrFolder)
                                                             try {
                                                                 remoteWalk(fileOrFolder);
                                                             } catch(err3) {

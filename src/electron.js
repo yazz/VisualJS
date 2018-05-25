@@ -458,7 +458,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
 
     } else if (msg.message_type == "return_get_search_results_json") {
-        console.log("3 - /client/1/search: return_get_search_results_json")
+       // console.log("3 - /client/1/search: return_get_search_results_json")
 
             //console.log("6 - return_get_query_results: " + JSON.stringify(msg,null,2));
             var rett = eval("(" + msg.returned + ")");
@@ -748,7 +748,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
         } else if (msg.message_type == "ipc_child_returning_find_results") {
 
-            console.log(" .......3: " + msg.results);
+           // console.log(" .......3: " + msg.results);
             //console.log("6: return_query_items_ended")
             //console.log("6.1: " + msg)
             var new_ws = queuedResponses[ msg.seq_num ]
@@ -2123,9 +2123,9 @@ function websocketFn(ws) {
 
 } else if (receivedMessage.message_type == "browser_asks_server_for_apps") {
 
-    console.log("******************* findDriversWithMethod *******************")
+   // console.log("******************* findDriversWithMethod *******************")
     findDriversWithMethod("app", function(results) {
-        console.log(JSON.stringify(results,null,2))
+       // console.log(JSON.stringify(results,null,2))
 
         sendToBrowserViaWebSocket(  ws,
                                     {
@@ -2139,9 +2139,9 @@ function websocketFn(ws) {
 
         } else if (receivedMessage.message_type == "browser_asks_server_for_app_code") {
 
-            console.log("******************* browser_asks_server_for_app_code *******************: " + receivedMessage.app_name)
+           // console.log("******************* browser_asks_server_for_app_code *******************: " + receivedMessage.app_name)
             getAppCode(receivedMessage.app_name, function(code, libs) {
-                console.log(code)
+               // console.log(code)
                 sendToBrowserViaWebSocket(  ws,
                                             {
                                                 type:           "server_returns_app_code_to_browser",
@@ -2213,7 +2213,7 @@ function websocketFn(ws) {
            queuedResponseSeqNum ++;
            queuedResponses[seqNum] = ws;
 
-           console.log(" .......1 ");
+          // console.log(" .......1 ");
            forkedProcesses["forked"].send({
                            message_type:   "ipc_from_main_find",
                            search_term:     receivedMessage.term,
@@ -2227,23 +2227,16 @@ function websocketFn(ws) {
             queuedResponseSeqNum ++;
             queuedResponses[seqNum] = ws;
 
-            console.log(" .......1 ");
+            console.log(" .......1 Electron callDriverMethod: " + JSON.stringify(receivedMessage,null,2));
             forkedProcesses["forked"].send({
                             message_type:          "callDriverMethod",
-                            search_term:            receivedMessage.term,
+                            driver:                 receivedMessage.driverName,
+                            method:                 receivedMessage.methodName,
+                            args:                   receivedMessage.args,
                             seq_num_parent:         seqNum,
                             seq_num_browser:        receivedMessage.seqNum
                         });
-        //sendToServerViaWebSocket({
-        //    message_type: "callDriverMethod",
-        //        driverName: driverName,
-        //        methodName: methodName,
-        //        args: args,
-        //        seqNum: seqNum
-        //        });
 
-        //callbackFn({value: "true"})
-//});
 
 
 
@@ -2337,7 +2330,7 @@ function file_uploadFn(req, res, next) {
           //console.log('Local saved path: ' + localp);
 
           fs.stat(localp, function(err, stat) {
-                console.log('ifile: ' + ifile.originalname);
+                //console.log('ifile: ' + ifile.originalname);
 
                 saveConnectionAndQueryForFile(localp);
 
@@ -2503,8 +2496,8 @@ function getresultFn(req, res) {
 						try {
                             getDriver(connection.driver, function(driver) {
                                 if (driver) {
-                                    console.log(eval(driver.code)['get_v2'])
-                                    console.log(    "conn: " + connection)
+                                   // console.log(eval(driver.code)['get_v2'])
+                                   // console.log(    "conn: " + connection)
                                     eval(driver.code)['get_v2'](
                                                             connection,
                                                             {sql: queryData.sql},
@@ -2870,7 +2863,7 @@ function startServices() {
     // search
     //------------------------------------------------------------------------------
     app.get('/client/1/search/*', function (req, res) {
-        console.log("1 - /client/1/search")
+       // console.log("1 - /client/1/search")
         var searchTerm = req.url.substr(req.url.lastIndexOf('/') + 1)
         //console.log("1 - get_search_results ,req.query.search_text: " + req.query.search_text)
         //console.log("    get_search_results ,req.query.search_text: " + new Date().getTime())
