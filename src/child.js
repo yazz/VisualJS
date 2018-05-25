@@ -1920,6 +1920,27 @@ function processMessagesFromMainProcess() {
           process.send({send_from_child: "***** Received message from parent"})
 
 
+//zzz
+      } else if (msg.message_type == 'callDriverMethod') {
+          process.send(
+              {
+                  message_type: 'ipc_child_returning_callDriverMethod_response',
+                  seq_num_browser: msg.seq_num_browser,
+                  seq_num_parent: msg.seq_num_parent,
+                  result: "Child process sent response"
+              })          //console.log('Message from parent:', msg);
+          /*callDriverMethod( msg.driver, msg.method, msg.args, function(result) {
+              console.log("    **** SCANNED THE FOLDERS ON LOCAL FILE SYSTEM ***: ")
+              process.send(
+                  {
+                      message_type: 'callDriverMethod_response',
+                      seq_num_browser: msg.seq_num_browser,
+                      seq_num: msg.seq_num_parent,
+                      result: result
+                  })
+          })*/
+
+
 
 
       } else if (msg.message_type == 'getRelatedDocuments') {

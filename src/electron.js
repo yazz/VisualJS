@@ -765,6 +765,32 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
 
 
+
+
+
+
+//zzz
+
+            } else if (msg.message_type == "ipc_child_returning_callDriverMethod_response") {
+
+                console.log(" .......3: " + msg.results);
+                //console.log("6: return_query_items_ended")
+                //console.log("6.1: " + msg)
+                var new_ws = queuedResponses[ msg.seq_num_parent ]
+
+                sendToBrowserViaWebSocket(
+                                             new_ws
+                                             ,
+                                             {
+                                                type:            "ws_to_browser_callDriverMethod_results",
+                                                value:            msg.result,
+                                                seq_num:          msg.seq_num_browser
+                                             });
+                //new_ws = null;
+
+
+
+
         } else if (msg.message_type == "subprocess_alerts_data_done_to_server") {
             //console.log("6: return_query_items_ended")
             //console.log("6.1: " + msg)
@@ -2197,18 +2223,17 @@ function websocketFn(ws) {
 
        } else if (receivedMessage.message_type == "callDriverMethod") {
 //zzz
-            sendToBrowserViaWebSocket(
-                                         ws
-                                         ,
-                                         {
-                                            type:       "ws_to_browser_callDriverMethod_results",
-                                            value:      "Called Electron",
-                                            seq_num:     receivedMessage.seqNum
-                                         });
-//socket.on(''
-//    ,
-//    function(data) {
-        //console.log(data.results);
+            var seqNum = queuedResponseSeqNum;
+            queuedResponseSeqNum ++;
+            queuedResponses[seqNum] = ws;
+
+            console.log(" .......1 ");
+            forkedProcesses["forked"].send({
+                            message_type:          "callDriverMethod",
+                            search_term:            receivedMessage.term,
+                            seq_num_parent:         seqNum,
+                            seq_num_browser:        receivedMessage.seqNum
+                        });
         //sendToServerViaWebSocket({
         //    message_type: "callDriverMethod",
         //        driverName: driverName,
