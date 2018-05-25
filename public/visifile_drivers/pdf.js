@@ -321,7 +321,7 @@ var pdfParser = new PDFParserClass(this,1);
                                       rows.push({value: line });
                                   }
                               }
-                              console.log(JSON.stringify(rows,null,2))
+                            //  console.log(JSON.stringify(rows,null,2))
                           callfn(rows);
                       });
 

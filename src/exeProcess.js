@@ -172,8 +172,8 @@ function processMessagesFromMainProcess() {
 
 
     } else if (msg.message_type == "return_response_to_function_caller") {
-        console.log("*) result received to caller " );
-        console.log("*)  callback_index:" + msg.callback_index );
+      //  console.log("*) result received to caller " );
+      //  console.log("*)  callback_index:" + msg.callback_index );
         //console.log("*)  result:        " + msg.result );
         callbackList[ msg.callback_index ](msg.result)
         inUseIndex --
