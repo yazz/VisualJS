@@ -176,7 +176,7 @@ div.tilt {
 </head>
 
 
-<!-- zzz -->
+
 <!-- hhh -->
 
 <body onload='initFn()' id='mydropzone'>
@@ -245,7 +245,7 @@ div.tilt {
 
 
 <script>
-//zzz
+
 //lll
 function prepareApp(  card_id,  app_name , rootElement ) {
     //alert(app_name)
@@ -262,7 +262,7 @@ function prepareApp(  card_id,  app_name , rootElement ) {
         });
 }
 function loadApp(  card_id,  app_name  , app_code) {
-    //zzz
+    //aaa
     //alert(app_name)
 
     var moonCardApp = app_code
@@ -378,7 +378,7 @@ function select_card(id) {
 var mainMoonApp = null
 
 
-//zzz
+
 //ccc
 var defaultCards = [
     {
@@ -437,7 +437,7 @@ function sendToServerViaWebSocket(msg) {
 
 function setupWebSocket(host, port)
 {
-    //zzz
+
     //sss
 
     //console.log('opening web socketio');
@@ -525,7 +525,7 @@ function setupWebSocket(host, port)
             })
         }
 
-        //zzz
+
     });
 
     function scriptTag(src, callback) {
@@ -612,6 +612,16 @@ var dataIds = new Object()
 
     socket.on('ws_to_browser_find_results',function(data) {
         //console.log(data.results);
+    });
+
+
+
+    socket.on('ws_to_browser_callDriverMethod_results',function(data) {
+        //console.log(data.results);
+        //zzz
+        var callbackFn = queuedResponses[data.seq_num]
+        callbackFn({value: data.value})
+        queuedResponses[data.seq_num] = null
     });
 
 }
@@ -789,11 +799,10 @@ var queuedResponses = new Object()
 var queuedBrowserResponseSeqNum = 0
 
 function callDriverMethod(driverName, methodName, args, callbackFn) {
-    var seqNum = queuedBrowserResponseSeqNum;
-    queuedBrowserResponseSeqNum ++;
+    var seqNum = queuedBrowserResponseSeqNum ++;
     queuedResponses[seqNum] = callbackFn;
 
-
+//zzz
     sendToServerViaWebSocket({
         message_type: "callDriverMethod",
             driverName: driverName,
@@ -801,8 +810,6 @@ function callDriverMethod(driverName, methodName, args, callbackFn) {
             args: args,
             seqNum: seqNum
             });
-
-     callbackFn({value: "true"})
 }
 
 

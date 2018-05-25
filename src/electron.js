@@ -228,7 +228,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
                       null,
                       null,
                       null )
-                      //zzz
+
                 dbsearch.run("commit");
                 stmtInsertProcessError.finalize();
 
@@ -2195,7 +2195,33 @@ function websocketFn(ws) {
                        });
 
 
+       } else if (receivedMessage.message_type == "callDriverMethod") {
 //zzz
+            sendToBrowserViaWebSocket(
+                                         ws
+                                         ,
+                                         {
+                                            type:       "ws_to_browser_callDriverMethod_results",
+                                            value:      "Called Electron",
+                                            seq_num:     receivedMessage.seqNum
+                                         });
+//socket.on(''
+//    ,
+//    function(data) {
+        //console.log(data.results);
+        //sendToServerViaWebSocket({
+        //    message_type: "callDriverMethod",
+        //        driverName: driverName,
+        //        methodName: methodName,
+        //        args: args,
+        //        seqNum: seqNum
+        //        });
+
+        //callbackFn({value: "true"})
+//});
+
+
+
 } else if (receivedMessage.message_type == "browser_asks_server_to_open_document_natively") {
         // ______
         // Server   -- Open document natively -->  Subprocess
