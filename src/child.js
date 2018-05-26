@@ -1854,7 +1854,7 @@ function callDriverMethod( driverName, methodName, args, callbackFn ) {
 }
 
 
-function findDriversWithMethod(methodName, callbackFn) {
+function findDriversWithMethodLike(methodName, callbackFn) {
     dbsearch.serialize(
         function() {
             var stmt = dbsearch.all(

@@ -2123,8 +2123,8 @@ function websocketFn(ws) {
 
 } else if (receivedMessage.message_type == "browser_asks_server_for_apps") {
 
-   // console.log("******************* findDriversWithMethod *******************")
-    findDriversWithMethod("app", function(results) {
+   // console.log("******************* browser_asks_server_for_apps *******************")
+    findDriversWithMethodLike("app", function(results) {
        // console.log(JSON.stringify(results,null,2))
 
         sendToBrowserViaWebSocket(  ws,
@@ -3504,7 +3504,7 @@ function parseVfCliCommand(args, callbackFn) {
 
 
 
-function findDriversWithMethod(methodName, callbackFn) {
+function findDriversWithMethodLike(methodName, callbackFn) {
     dbsearch.serialize(
         function() {
             var stmt = dbsearch.all(
