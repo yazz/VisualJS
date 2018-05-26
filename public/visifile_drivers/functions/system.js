@@ -12,7 +12,7 @@
                 dbsearch.serialize(
                     function() {
                         dbsearch.all(
-                            "SELECT driver FROM system_code where on_condition like '%app%' ; "
+                            "SELECT driver FROM system_code where on_condition = '\"app\"' ; "
                             ,
 
                             function(err, results)
