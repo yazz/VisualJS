@@ -19,10 +19,17 @@
                 var mm = new Moon({
                   el: "#" + args.root_element
                   ,
-                  template: "<div m-on:click='search'>this lists all the apps installed {{msg}}</div>"
+                  template: `<div m-on:click='search'>
+                                this lists all the apps installed
+                                <ul>
+                                        <li m-for="item in apps">{{item}}</li>
+                                </ul>
+                             </div>
+                  `
                   ,
                   data: {
-                    msg: "..."
+                    msg: "...",
+                    apps: []
                 },
                 methods: {
                     search: function() {
@@ -32,7 +39,7 @@
                                     ,
                                     function(result) {
                                       //  console.log("3) returned result: " + JSON.stringify(result,null,2))
-                                        mm.set("msg", result.value)
+                                        mm.set("apps", result.value)
                                     })
 
                     }
