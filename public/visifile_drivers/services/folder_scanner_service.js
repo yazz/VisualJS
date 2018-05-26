@@ -49,7 +49,7 @@
                                             dbsearch.serialize(
                                                 function() {
                                                     dbsearch.run("begin exclusive transaction");
-                                                    console.log("Adding folder: " + folderName)
+                                                 //   console.log("Adding folder: " + folderName)
                                                     stmtInsertIntoFolders.run(
                                                         newId,
                                                         folderName,
