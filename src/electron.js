@@ -2124,7 +2124,7 @@ function websocketFn(ws) {
 } else if (receivedMessage.message_type == "browser_asks_server_for_apps") {
 
    // console.log("******************* browser_asks_server_for_apps *******************")
-    findDriversWithMethodLike("app", function(results) {
+    findDriversWithMethod("app", function(results) {
        // console.log(JSON.stringify(results,null,2))
 
         sendToBrowserViaWebSocket(  ws,
@@ -3500,6 +3500,28 @@ function parseVfCliCommand(args, callbackFn) {
         callbackFn(result)
         return
         }
+}
+
+
+
+
+
+function findDriversWithMethod(methodName, callbackFn) {
+    dbsearch.serialize(
+        function() {
+            var stmt = dbsearch.all(
+                "SELECT driver FROM system_code where on_condition = '\"" + methodName + "\"'; ",
+
+                function(err, results)
+                {
+                    if (results.length > 0) {
+                        callbackFn(results)
+                    } else {
+                        callbackFn(null)
+                    }
+
+                })
+    }, sqlite3.OPEN_READONLY)
 }
 
 

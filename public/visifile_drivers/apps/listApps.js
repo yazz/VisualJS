@@ -27,7 +27,7 @@
                 methods: {
                     search: function() {
                         callDriverMethod( "systemFunctions",
-                                          "get_ap_list"
+                                          "get_apps_list"
                                           ,{}
                                     ,
                                     function(result) {

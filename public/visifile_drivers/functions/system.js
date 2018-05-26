@@ -7,7 +7,7 @@
 
     events: {
         "This will return the apps available": {
-            on: "get_ap_list",
+            on: "get_apps_list",
             do: function(args, returnfn) {
                 dbsearch.serialize(
                     function() {

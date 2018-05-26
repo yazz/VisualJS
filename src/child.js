@@ -1854,6 +1854,27 @@ function callDriverMethod( driverName, methodName, args, callbackFn ) {
 }
 
 
+function findDriversWithMethod(methodName, callbackFn) {
+    dbsearch.serialize(
+        function() {
+            var stmt = dbsearch.all(
+                "SELECT driver FROM system_code where on_condition = '\"" + methodName + "\"'; ",
+
+                function(err, results)
+                {
+                    if (results.length > 0) {
+                        callbackFn(results)
+                    } else {
+                        callbackFn(null)
+                    }
+
+                })
+    }, sqlite3.OPEN_READONLY)
+}
+
+
+
+
 function findDriversWithMethodLike(methodName, callbackFn) {
     dbsearch.serialize(
         function() {
