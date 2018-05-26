@@ -2908,6 +2908,14 @@ function setUpDbDrivers() {
     evalLocalSystemDriver('search',   path.join(__dirname, '../public/visifile_drivers/apps/search.js'))
     evalLocalSystemDriver('test',   path.join(__dirname, '../public/visifile_drivers/apps/test.js'))
     evalLocalSystemDriver('game',   path.join(__dirname, '../public/visifile_drivers/apps/game.js'))
+    evalLocalSystemDriver('game',   path.join(__dirname, '../public/visifile_drivers/apps/listApps.js'))
+
+
+
+    //
+    // functions
+    //
+    evalLocalSystemDriver('systemFunctions',   path.join(__dirname, '../public/visifile_drivers/functions/system.js'))
 }
 
 
