@@ -224,6 +224,13 @@ div.tilt {
                 </div>
 
 
+                <div    m-if="item.card.website">
+                    <iframe   src='{{item.card.website}}' width='80%'></iframe>
+
+                    </div>
+
+
+
             <div style='height: 2em;'></div>
 
 
@@ -398,19 +405,24 @@ var defaultCards = [
     }
     ,
     {
-        name: 'DataBox automatically scans your hard disk for any emails, documents and spreadsheets',
+        name: 'DataBox automatically scans your hard disk for any emails, documents and spreadsheets'
     }
     ,
     {
-        name: 'Or you can add documents by dropping them onto the DataBox application',
+        name: 'Or you can add documents by dropping them onto the DataBox application'
     }
     ,
     {
-        name: 'You can search either the whole catalog or just a subsection, just like you seach with Amazon',
+        name: 'You can search either the whole catalog or just a subsection, just like you seach with Amazon'
     }
     ,
     {
-        name: 'You can customize your system by amending or adding in the DataBox App Store',
+        name: 'You can customize your system by amending or adding in the DataBox App Store'
+    }
+    ,
+    {
+        name: 'See our website at VisiFile.com',
+        website: 'http://visifile.com'
     }
     ,
     {
