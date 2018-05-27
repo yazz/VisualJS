@@ -14,13 +14,13 @@
     ,
     events: {
         "This will return the test app": {
-            on: "app",
+            on: "component",
             do: function(args, returnfn) {
                 returnfn(
                     new Moon({
                       el: "#" + args.root_element
                       ,
-                      template: `<div>Okhay this is a test app: {{msg}} 2</div>
+                      template: `<div>Okhay this is a test component: {{msg}} 2</div>
                        `
                       ,
                       data: {
