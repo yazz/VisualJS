@@ -210,7 +210,10 @@ div.tilt {
 
             <div    v-if="item.card.type == 'app'">
                     <div    class=link style='height: 2em;display:inline-block'
-                            v-on:click='prepareApp("card_{{item.id}}","{{item.card.app}}", "current_app");' >Load app</div>
+                            v-on:click='prepareApp("card_" + item.id, item.card.app, "app_" + item.id)' >Load app
+                        </div>
+                    <div v-bind:id='"app_"+ item.id' >
+                    </div>
                 </div>
 
 
@@ -241,7 +244,7 @@ div.tilt {
 
 //lll
 function prepareApp(  card_id,  app_name , rootElement ) {
-    //alert(app_name)
+    //alert(rootElement)
     var html = "<div>Content</div>"
     if (app_name == 'test app' ) {
         html = "<div>Test</div>"
@@ -482,7 +485,7 @@ function setupWebSocket(host, port)
         console.log("Browser received from server socket: " + JSON.stringify(data,null,2));
         var loadedApp = false
         var codeFn = eval(  "(" + data.code + ")" )
-        document.getElementById(data.card_id).innerHTML = "<div id=current_app>APP WILL BE SHOWN HERE</div>"
+        //document.getElementById(data.card_id).innerHTML = "<div id=current_app>APP WILL BE SHOWN HERE</div>"
         if (data.uses_js_libs ) {
             //alert(JSON.stringify(data.uses_js_libs,null,2))
             for (var tt = 0; tt < data.uses_js_libs.length ; tt++) {
