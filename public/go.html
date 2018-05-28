@@ -610,7 +610,7 @@ var dataIds = new Object()
 
 
     socket.on('ws_to_browser_callDriverMethod_results',function(data) {
-        alert(JSON.stringify(data,null,2));
+        //console.log(data.results);
 
         var callbackFn = queuedResponses[data.seq_num]
         callbackFn({value: data.value})
