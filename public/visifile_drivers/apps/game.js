@@ -2,22 +2,22 @@
     doc_type: 'visifile',
     name: 'game',version: 1,type: 'app',text: 'game app',
     initText: 'game is ALIVE!!!!',
-    uses_javascript_librararies: ["aframe", "moonjs"]
+    uses_javascript_librararies: ["aframe"]
     ,
 
-    
+
     events: {
         "This will return the game app": {
             on: "app",
             do: function(args, returnfn) {
                 returnfn(
-                    new Moon({
+                    new Vue({
                       el: "#" + args.root_element
                       ,
                       template: `<div id="app2">
                           saSs
                             <h1>{{msg}}</h1>
-                            <input type="text" m-model="msg"/>
+                            <input type="text" v-model="msg"/>
 
 
                           <a-scene style='width: 80%; height: 80%;' embedded>

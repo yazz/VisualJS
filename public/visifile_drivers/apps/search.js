@@ -16,10 +16,10 @@
         "This will return the search app": {
             on: "app",
             do: function(args, returnfn) {
-                var mm = new Moon({
+                var mm = new Vue({
                   el: "#" + args.root_element
                   ,
-                  template: "<div m-on:click='search'>this is the moon seach app {{msg}}</div>"
+                  template: "<div v-on:click='search'>this is the Vue seach app {{msg}}</div>"
                   ,
                   data: {
                     msg: "..."
@@ -32,12 +32,11 @@
                                     ,
                                     function(result) {
                                       //  console.log("3) returned result: " + JSON.stringify(result,null,2))
-                                        mm.set("msg", result.value)
+                                        mm.msg =result.value
                                     })
 
                     }
-                },
-                  store: store
+                }
                 })
 
 

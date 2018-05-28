@@ -16,35 +16,34 @@
         "This will return the test app": {
             on: "app",
             do: function(args, returnfn) {
-                var mm = new Moon({
-                  el: "#" + args.root_element
-                  ,
-                  template: `<div m-on:click='search'>
-                                this lists all the apps installed
-                                <ul>
-                                        <li m-for="item in apps">{{item}}</li>
-                                </ul>
-                             </div>
-                  `
-                  ,
-                  data: {
-                    msg: "...",
-                    apps: []
-                },
-                methods: {
-                    search: function() {
-                        callDriverMethod( "systemFunctions",
-                                          "get_apps_list"
-                                          ,{}
-                                    ,
-                                    function(result) {
-                                      //  console.log("3) returned result: " + JSON.stringify(result,null,2))
-                                        mm.set("apps", result.value)
-                                    })
+                var mm = new Vue({
+                      el: "#" + args.root_element
+                      ,
+                      template: `<div v-on:click='search'>
+                                    this lists all the apps installed
+                                    <ul>
+                                            <li v-for="item in apps">{{item}}</li>
+                                    </ul>
+                                 </div>
+                      `
+                      ,
+                      data: {
+                        msg: "...",
+                        apps: []
+                    },
+                    methods: {
+                        search: function() {
+                            callDriverMethod( "systemFunctions",
+                                              "get_apps_list"
+                                              ,{}
+                                        ,
+                                        function(result) {
+                                          //  console.log("3) returned result: " + JSON.stringify(result,null,2))
+                                            mm.apps = result.value
+                                        })
 
+                        }
                     }
-                },
-                  store: store
                 })
 
 
