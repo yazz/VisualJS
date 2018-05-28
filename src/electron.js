@@ -563,7 +563,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
 
       } else if (msg.message_type == "function_call_response") {
-          //console.log("*** function_call_response: " + JSON.stringify(msg,null,2))
+          console.log("*** function_call_response: " + JSON.stringify(msg.code_result,null,2))
           forkedProcesses["forkedExeScheduler"].send({
                                                   message_type:         "function_call_response",
                                                   child_process_name:    msg.child_process_name,
