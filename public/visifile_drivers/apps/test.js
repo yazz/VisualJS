@@ -52,7 +52,7 @@
                                     ,
                                     function(result) {
                                       //  console.log("3) returned result: " + JSON.stringify(result,null,2))
-                                        this.component_name_2 = result.value
+                                        this.component_name_2 = result.name
                                     })
                     }
                 }
