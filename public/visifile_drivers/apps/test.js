@@ -17,13 +17,16 @@
             on: "app",
             do: function(args, returnfn) {
 
-                new Vue({
+                var  mm = new Vue({
                   el: "#" + args.root_element
                   ,
                   template: `<div>
                                 <div v-on:click='loadc'>Okhay this is a test app: {{msg}} 2
                                 </div>
+                                Included component
                                 <component v-bind:is="component_name" v-if="component_name" > ccc </component>
+                                <br>
+                                Dynamically loaded component
                                 <component v-bind:is="component_name_2" v-if="component_name_2" > ccc 2 </component>
                             </div>
                    `
@@ -43,7 +46,7 @@
                           },
                           template: '<button v-on:click="count++">You clicked me {{ count }} times.</button>'
                         })
-                        this.component_name = 'button-counter'
+                        mm.component_name = 'button-counter'
 
 
                         callDriverMethod( "comp",
@@ -51,8 +54,9 @@
                                           ,{}
                                     ,
                                     function(result) {
+                                        //alert(JSON.stringify(result,null,2))
                                       //  console.log("3) returned result: " + JSON.stringify(result,null,2))
-                                        this.component_name_2 = result.name
+                                        mm.component_name_2 = result.name
                                     })
                     }
                 }

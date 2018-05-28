@@ -323,13 +323,14 @@ function executeCode(callId, codeId, args) {
                         //console.log(code)
                         try {
                             if (isFrontEndOnlyCode( code )) {
-                                process.send({  message_type:       "function_call_response" ,
-                                                child_process_name:  childProcessName,
-                                                driver_name:         currentDriver,
-                                                method_name:         currentEvent,
-                                                callback_index:      currentCallbackIndex,
-                                                code_result:         code,
-                                                called_call_id:      callId
+                                process.send({  message_type:         "function_call_response" ,
+                                                result:              { code:            code,
+                                                                       is_code_result:  true   },
+                                                child_process_name:    childProcessName,
+                                                driver_name:           currentDriver,
+                                                method_name:           currentEvent,
+                                                callback_index:        currentCallbackIndex,
+                                                called_call_id:        callId
                                                 });
                                 //console.log("*) Result process call ID: " + callId);
                                 inUseIndex --

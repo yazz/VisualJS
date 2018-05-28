@@ -610,11 +610,20 @@ var dataIds = new Object()
 
 
     socket.on('ws_to_browser_callDriverMethod_results',function(data) {
-        //console.log(data.results);
 
-        var callbackFn = queuedResponses[data.seq_num]
-        callbackFn({value: data.value})
-        queuedResponses[data.seq_num] = null
+        if (data.value.is_code_result) {
+            //alert("code: " + JSON.stringify(data,null,2));
+            var callbackFn = queuedResponses[data.seq_num]
+            var fnfn = eval("(" + data.value.code + ")")
+            fnfn({}, function(fnfnRes) {
+                callbackFn(fnfnRes)
+                queuedResponses[data.seq_num] = null
+            })
+        } else {
+            var callbackFn = queuedResponses[data.seq_num]
+            callbackFn({value: data.value})
+            queuedResponses[data.seq_num] = null
+        }
     });
 
 }
