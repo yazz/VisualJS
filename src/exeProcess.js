@@ -322,24 +322,40 @@ function executeCode(callId, codeId, args) {
                         currentArgs = args
                         //console.log(code)
                         try {
-                            var fnfn = eval(code)
-
-                            fnfn(args, function(result) {
-                                if (result) {
-                                    //console.log("*) Result: " + result);
-
-                                    process.send({  message_type:       "function_call_response" ,
-                                                    child_process_name:  childProcessName,
-                                                    driver_name:         currentDriver,
-                                                    method_name:         currentEvent,
-                                                    callback_index:      currentCallbackIndex,
-                                                    result:              result,
-                                                    called_call_id:      callId
-                                                    });
-                                    //console.log("*) Result process call ID: " + callId);
-                                }
+                            if (isFrontEndOnlyCode( code )) {
+                                process.send({  message_type:       "function_call_response" ,
+                                                child_process_name:  childProcessName,
+                                                driver_name:         currentDriver,
+                                                method_name:         currentEvent,
+                                                callback_index:      currentCallbackIndex,
+                                                code_result:         code,
+                                                called_call_id:      callId
+                                                });
+                                //console.log("*) Result process call ID: " + callId);
                                 inUseIndex --
-                                })
+
+
+                            } else { // front and backend code
+                                var fnfn = eval(code)
+                                fnfn(args, function(result) {
+                                    if (result) {
+                                        //console.log("*) Result: " + result);
+
+                                        process.send({  message_type:       "function_call_response" ,
+                                                        child_process_name:  childProcessName,
+                                                        driver_name:         currentDriver,
+                                                        method_name:         currentEvent,
+                                                        callback_index:      currentCallbackIndex,
+                                                        result:              result,
+                                                        called_call_id:      callId
+                                                        });
+                                        //console.log("*) Result process call ID: " + callId);
+                                    }
+                                    inUseIndex --
+                                    })
+                                }
+
+
                             } catch (errM) {
                                 console.log("** ERROR : " + errM)
 
@@ -371,8 +387,18 @@ function executeCode(callId, codeId, args) {
                 })
     }, sqlite3.OPEN_READONLY)
 }
+
+function isFrontEndOnlyCode(code) {
+    if (code.indexOf("Vue.") != -1) { return true }
+    if (code.indexOf("only_run_in_user_interface") != -1) { return true }
+    return false
+}
+//pure_function
+
+
 var callbackIndex = 0
 var currentCallbackIndex = -1
+
 
 
 var callbackList = new Object()
