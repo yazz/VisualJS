@@ -16,20 +16,20 @@
         "This will return the test app": {
             on: "component",
             do: function(args, returnfn) {
-                returnfn(
-                    new Moon({
-                      el: "#" + args.root_element
-                      ,
-                      template: `<div>Okhay this is a test component: {{msg}} 2</div>
-                       `
-                      ,
-                      data: {
-                        msg: "some data"
-                    },
-                    methods: {
-                    },
-                      store: store
-                    })
+                Vue.component('z-counter', {
+                  data: function () {
+                    return {
+                      count: 0
+                    }
+                  },
+                  template: '<button v-on:click="count++">You clicked Z {{ count }} times.</button>'
+                })
+
+
+
+                returnfn({
+                    name: "z-counter"
+                }
                 )
 
 

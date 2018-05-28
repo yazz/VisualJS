@@ -24,12 +24,14 @@
                                 <div v-on:click='loadc'>Okhay this is a test app: {{msg}} 2
                                 </div>
                                 <component v-bind:is="component_name" v-if="component_name" > ccc </component>
+                                <component v-bind:is="component_name_2" v-if="component_name_2" > ccc 2 </component>
                             </div>
                    `
                   ,
                   data: {
                     msg: "some data",
-                    component_name: null
+                    component_name: null,
+                    component_name_2: null
                 },
                 methods: {
                     loadc: function() {
@@ -42,6 +44,16 @@
                           template: '<button v-on:click="count++">You clicked me {{ count }} times.</button>'
                         })
                         this.component_name = 'button-counter'
+
+
+                        callDriverMethod( "comp",
+                                          "component"
+                                          ,{}
+                                    ,
+                                    function(result) {
+                                      //  console.log("3) returned result: " + JSON.stringify(result,null,2))
+                                        this.component_name_2 = result.value
+                                    })
                     }
                 }
                 })
