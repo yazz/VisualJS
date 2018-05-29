@@ -1,18 +1,11 @@
 {
-    doc_type: 'visifile'
-    ,
-    name: 'webPreview'
-    ,
-    version: 1
-    ,
-    max_processes: 1
-    ,
-    type: 'service'
-    ,
-    text: 'Web Preview driver'
+    doc_type:       'visifile',
+    name:           'webPreview',version: 1,
+    max_processes:  1,
+    descrption:     'Web Preview driver makes a HTML preview of any document',
 
 
-    ,
+
     events: {
         "This will return code used to show a preview of a document": {
             on: "preview",

@@ -1,8 +1,8 @@
 {
-    doc_type: 'visifile',
-    name: 'game',version: 1,type: 'app',text: 'game app',
-    uses_javascript_librararies: ["aframe"]
-    ,
+    doc_type:                       'visifile',
+    name:                           'game',version: 1,
+    description:                    'game app',
+    uses_javascript_librararies:    ["aframe"],    
 
 
     events: {
