@@ -1,24 +1,10 @@
 # Databox
-Databox is an Intranet Enterprise App Store made by VisiFile. There is demo here: http://139.162.228.5/
-
-You can install Databox on any Linux system that supports the Ubuntu Snap package manager with:
-
-    sudo snap install visifile --edge --devmode
-
-Databox support the following common document formats, including:
-<br>
-
-* Excel
-* Word
-* CSV
-* PDF
-
-<br>
+Build Networked Javascript Apps on top of your existing Data. There is demo here: http://139.162.228.5/
 
 Databox is built with:
 
 - Electron
-- MoonJS
+- VueJS
 - AFrame
 - Sqlite
 - Javascript
