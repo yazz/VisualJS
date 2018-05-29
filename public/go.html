@@ -202,10 +202,10 @@ div.tilt {
             <h1 class="caption">{{item.id}} - {{item.card.name}}</h1>
             <a style='font-size: 2em;' href='{{item.card.link}}' v-if="item.card.link">{{item.card.link_name}}</a>
 
-            <div    style='font-size: 2em;' v-on:click='loadContent("{{item.card.data_id}}","{{item.card.name}}");'
+            <div    style='font-size: 2em;' v-on:click='loadContent(item.card.data_id,item.card.name)'
                     v-if="item.card.load_content">Preview</div>
 
-            <div    style='font-size: 2em;' v-on:click='openContent("{{item.card.data_id}}","{{item.card.name}}");'
+            <div    style='font-size: 2em;' v-on:click='openContent(item.card.data_id,item.card.name)'
                     v-if="item.card.load_content">Open</div>
 
             <div    v-if="item.card.type == 'app'">
