@@ -10,8 +10,6 @@
     text: 'CSV Preview driver'
 
     ,
-    initText: 'CSV Preview is ALIVE!!!!'
-    ,
     events: {
         "This will return ca preview of CSV data": {
             on: "view_content_as_csv",

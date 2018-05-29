@@ -12,8 +12,6 @@
     text: 'File Uploader'
 
     ,
-    initText: 'file uploader is ALIVE!!!!'
-    ,
     events: {
 
 

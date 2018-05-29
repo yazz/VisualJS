@@ -1,7 +1,6 @@
 {
     doc_type: 'visifile',
     name: 'game',version: 1,type: 'app',text: 'game app',
-    initText: 'game is ALIVE!!!!',
     uses_javascript_librararies: ["aframe"]
     ,
 

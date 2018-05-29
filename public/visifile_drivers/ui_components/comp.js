@@ -9,8 +9,7 @@
     ,
     text: 'Component'
 
-    ,
-    initText: 'Component is available!!!!'
+
     ,
     events: {
         "This will return the test app": {

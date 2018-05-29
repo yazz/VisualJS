@@ -8,9 +8,6 @@
     type: 'app'
     ,
     text: 'app editor'
-
-    ,
-    initText: 'App editor is ALIVE!!!!'
     ,
     events: {
         "This will return the editor app": {

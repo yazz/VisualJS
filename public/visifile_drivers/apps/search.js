@@ -9,8 +9,9 @@
     ,
     text: 'Search app'
 
-    ,
-    initText: 'Search is ALIVE!!!!'
+
+
+
     ,
     events: {
         "This will return the search app": {

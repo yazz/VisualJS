@@ -9,8 +9,7 @@
     ,
     text: 'Document Preview driver'
 
-    ,
-    initText: 'DOC Preview is ALIVE!!!!'
+
     ,
     events: {
         "This will return ca preview of Document data": {

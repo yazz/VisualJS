@@ -10,8 +10,6 @@
     text: 'Test app'
 
     ,
-    initText: 'Test is ALIVE!!!!'
-    ,
     events: {
         "This will return the test app": {
             on: "app",

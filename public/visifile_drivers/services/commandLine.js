@@ -8,8 +8,6 @@
     text: 'CommandLine driver'
 
     ,
-    initText: 'commandLine is ALIVE!!!!'
-    ,
     events: {
 
         "ls function returns current files":

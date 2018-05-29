@@ -11,8 +11,7 @@
     ,
     text: 'Web Preview driver'
 
-    ,
-    initText: 'Web Preview  is ALIVE!!!!'
+
     ,
     events: {
         "This will return code used to show a preview of a document": {

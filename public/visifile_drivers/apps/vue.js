@@ -9,8 +9,7 @@
     ,
     text: 'Vue test app'
 
-    ,
-    initText: 'Vue test is ALIVE!!!!'
+
     ,
     events: {
         "This will return the test app": {

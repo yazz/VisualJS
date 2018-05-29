@@ -1,7 +1,7 @@
 {
     doc_type: 'visifile',
     name: 'systemFunctions',  version: 1,  type: 'functions',  text: 'system functions',
-    initText: 'system functions are available!!!!',
+
 
 
 

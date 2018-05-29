@@ -9,8 +9,7 @@
     ,
     text: 'File Scanner Service'
 
-    ,
-    initText: 'Folder Scanner Service is ALIVE!!!!'
+
     ,
     events: {
         "This will scan the local driven for folders": {

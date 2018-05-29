@@ -7,8 +7,7 @@
     ,
     text: 'Powershell driver'
 
-    ,
-    initText: 'Powershell is ALIVE!!!!'
+
     ,
     events: {
         "This is just dummy code": {

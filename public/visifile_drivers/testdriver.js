@@ -7,8 +7,7 @@
     ,
     text: 'Hello driver'
 
-    ,
-    initText: 'testdriver is ALIVE!!!!'
+
     ,
     events: {
         "This function is called at application startup":

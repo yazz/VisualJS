@@ -12,8 +12,6 @@
     text: 'File Scanner Service'
 
     ,
-    initText: 'File Scanner Service is ALIVE!!!!'
-    ,
     events: {
         "This will scan the local drive": {
             on: {

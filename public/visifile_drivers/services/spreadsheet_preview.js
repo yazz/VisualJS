@@ -9,8 +9,8 @@
     ,
     text: 'Spreadsheet Preview driver'
 
-    ,
-    initText: 'Spreadsheet Preview is ALIVE!!!!'
+
+
     ,
     events: {
         "This will return ca preview of spreadsheet data": {
