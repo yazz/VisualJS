@@ -1,17 +1,13 @@
 {
-    doc_type: 'visifile'
-    ,
-    name: 'spreadsheetPreview'
-    ,
-    version: 1
-    ,
-    type: 'service'
-    ,
-    text: 'Spreadsheet Preview driver'
+    doc_type:    'visifile',
+    name:        'spreadsheetPreview', version: 1,
+    description: 'This is used to preview spreadhseets',
 
 
 
-    ,
+
+
+
     events: {
         "This will return ca preview of spreadsheet data": {
             on: "view_content_as_spreadsheet",

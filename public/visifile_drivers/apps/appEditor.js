@@ -1,14 +1,9 @@
 {
-    doc_type: 'visifile'
-    ,
-    name: 'appEditor'
-    ,
-    version: 1
-    ,
-    type: 'app'
-    ,
-    text: 'app editor'
-    ,
+    doc_type: 'visifile',
+    name: 'appEditor',version: 1,
+
+
+
     events: {
         "This will return the editor app": {
             on: "app",

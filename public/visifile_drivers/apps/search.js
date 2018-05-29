@@ -1,18 +1,9 @@
 {
-    doc_type: 'visifile'
-    ,
-    name: 'search'
-    ,
-    version: 1
-    ,
-    type: 'app'
-    ,
-    text: 'Search app'
+    doc_type: 'visifile',
+    name: 'search', version: 1,
+    description: 'Search app',
 
 
-
-
-    ,
     events: {
         "This will return the search app": {
             on: "app",

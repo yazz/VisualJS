@@ -1,6 +1,7 @@
 {
     doc_type: 'visifile',
-    name: 'systemFunctions',  version: 1,  type: 'functions',  text: 'system functions',
+    name: 'systemFunctions',  version: 1,
+    description: 'system functions',
 
 
 

@@ -1,18 +1,12 @@
 {
-    doc_type: 'visifile'
-    ,
-    name: 'docPreview'
-    ,
-    version: 1
-    ,
-    type: 'service'
-    ,
-    text: 'Document Preview driver'
+    doc_type:       'visifile',
+    name:           'docPreview', version: 1,
+    description:    'service for previewing document',
 
 
-    ,
+
     events: {
-        "This will return ca preview of Document data": {
+        "This will return a preview of Document data": {
             on: "view_content_as_document",
             do: function(args, returnfn) {
                 var hash = args.hash

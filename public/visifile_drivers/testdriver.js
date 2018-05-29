@@ -1,8 +1,5 @@
 {
-    name: 'testdriver'
-    ,
-    version: 1
-    ,
+    name: 'testdriver',  version: 1,
     type: 'basic'
     ,
     text: 'Hello driver'
