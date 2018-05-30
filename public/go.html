@@ -68,7 +68,19 @@ li {
     padding: 10px;
 }
 
+.loader {
+    border: 16px solid #f3f3f3; /* Light grey */
+    border-top: 16px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 240px;
+    height: 240px;
+    animation: spin 2s linear infinite;
+}
 
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
 
 
 
@@ -187,9 +199,9 @@ div.tilt {
     <div  id='wrapper'  onscroll='onscrolled()' onmousedown='onemousedown()'  onmouseup='onemouseup()'>
 
 
-        <div  id='infinite-list'  style='overflow-y: none;'>
+        <div  id='infinite-list'  style='overflow-y: none;' >
 
-
+<div v-if="show_loader" class="loader"></div>
 
 
 
@@ -472,6 +484,7 @@ function setupWebSocket(host, port)
                 if (data.results[i].driver == wait_and_select_app) {
                     var cardId = nid
                     //alert(wait_and_select_app + " : " + data.results[i].driver  )
+                    mainMoonApp.show_loader = false
                     setTimeout(function() {
                         select_card(cardId)
                     },200)
@@ -651,6 +664,8 @@ var myScroller = null;
                   selected_card: -1
                   ,
                   cards: []
+                  ,
+                  show_loader: false
             },
             methods: {
                 increment: function() {
@@ -724,6 +739,7 @@ var myScroller = null;
             if (params.goto) {
                 wait_and_select_app = params.goto
                 autoScroll = false;
+                mainMoonApp.show_loader = true
             } else {
                 select_card(autoId)
             }
