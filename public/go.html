@@ -474,6 +474,17 @@ function setupWebSocket(host, port)
                                                 app:                data.results[i].driver,
                                                 type:               "app"
                                             }});
+
+            if (wait_and_select_app) {
+                if (data.results[i].driver == wait_and_select_app) {
+                    var cardId = nid
+                    //alert(wait_and_select_app + " : " + data.results[i].driver  )
+                    setTimeout(function() {
+                        select_card(cardId)
+                    },200)
+                }
+            }
+
         }
         refresh();
     });
@@ -629,12 +640,12 @@ var dataIds = new Object()
 }
 
 var listElm = null
-
+var params = {}
 
 var autoScroll = true;
 var autoId = 1;
 var nextItem = 1;
-
+var wait_and_select_app = null
 
 var myScroller = null;
 
@@ -712,8 +723,19 @@ var myScroller = null;
 
             setupWebSocket(location.hostname,  location.port);
 
+            var regex = /[?&]([^=#]+)=([^&#]*)/g,
+                url = window.location.href,
+                match;
+            while(match = regex.exec(url)) {
+                params[match[1]] = match[2];
+            }
 
-            select_card(autoId)
+            if (params.goto) {
+                wait_and_select_app = params.goto
+                autoScroll = false;
+            } else {
+                select_card(autoId)
+            }
 
             Dropzone.autoDiscover = false;
 
