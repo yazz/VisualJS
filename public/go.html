@@ -257,13 +257,6 @@ function prepareApp(  card_id,  app_name , rootElement ) {
         root_element:   rootElement
         });
 }
-function loadApp(  card_id,  app_name  , app_code) {
-    //aaa
-    //alert(app_name)
-
-    var moonCardApp = app_code
-
-}
 
 function loadContent(  data_id,  data_name  ) {
     //
@@ -513,7 +506,6 @@ function setupWebSocket(host, port)
                             //alert()
                             var moonApp = codeFn({root_element: data.root_element},function(res) {
                                 //alert(JSON.stringify(res,null,2))
-                                //loadApp(  data.card_id,  data.app_name  , res)
                             })
                     })
                 }
@@ -524,7 +516,6 @@ function setupWebSocket(host, port)
             //alert()
             var moonApp = codeFn({root_element: data.root_element},function(res) {
                 //alert(JSON.stringify(res,null,2))
-                //loadApp(  data.card_id,  data.app_name  , res)
             })
         }
 
