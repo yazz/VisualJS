@@ -1989,6 +1989,13 @@ function getRoot(req, res) {
 			res.end();
 			return;
 		};
+        if (req.headers.host.toLowerCase().endsWith('appshare.co')) {
+		res.writeHead(301,
+			{Location: 'http://visifile.com/visifile/index.html?time=' + new Date().getTime()}
+			);
+			res.end();
+			return;
+		};
 	};
 
 	if (typeOfSystem == 'client') {
