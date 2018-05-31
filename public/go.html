@@ -211,7 +211,7 @@ div.tilt {
 
     <div v-for="item  in  cards" class='perspective'>
         <div class='polaroid tilt' v-bind:id='"card_"+ item.id' v-on:click="click_card(item.id)">
-            <h1 class="caption">{{item.id}} - {{item.card.name}}</h1>
+            <h1 class="caption">{{item.card.name}}</h1>
             <a style='font-size: 2em;' href='{{item.card.link}}' v-if="item.card.link">{{item.card.link_name}}</a>
 
             <div    style='font-size: 2em;' v-on:click='loadContent(item.card.data_id,item.card.name)'
@@ -374,39 +374,23 @@ var mainMoonApp = null
 //ccc
 var defaultCards = [
     {
-        name: 'Sooo... what is AppShare?'
+        name: 'Welcome to AppShare'
     }
     ,
     {
-        name: 'VisiFile AppShare reads your emails, documents, databases, and Sharepoint and lets you search, process, and share the data inside them'
+        name: 'Appshare lets you create apps on your local network'
     }
     ,
     {
-        name: 'You can add data from Excel, Word, Outlook, Postgres, MySql plus many more'
+        name: 'You write apps in a single Javascript file so it is very simple'
     }
     ,
     {
-        name: 'How does it work?'
+        name: 'You can also publish your app in the AppShare Store'
     }
     ,
     {
-        name: 'AppShare automatically scans your hard disk for any emails, documents and spreadsheets'
-    }
-    ,
-    {
-        name: 'Or you can add documents by dropping them onto the AppShare application'
-    }
-    ,
-    {
-        name: 'You can search either the whole catalog or just a subsection, just like you seach with Amazon'
-    }
-    ,
-    {
-        name: 'You can customize your system by amending or adding in the AppShare App Store'
-    }
-    ,
-    {
-        name: 'See our website at VisiFile.com'
+        name: 'See our website at AppShare.co'
     }
     ,
     {
@@ -648,7 +632,7 @@ var listElm = null
 var params = {}
 
 var autoScroll = true;
-var autoId = 1;
+var autoId = 0;
 var nextItem = 1;
 var wait_and_select_app = null
 
@@ -743,6 +727,7 @@ var myScroller = null;
                 mainMoonApp.show_loader = true
             } else {
                 select_card(autoId)
+                //alert(autoId)
             }
 
             Dropzone.autoDiscover = false;
