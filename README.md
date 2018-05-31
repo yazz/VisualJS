@@ -1,7 +1,7 @@
-# Databox
+# AppShare
 Build Networked Javascript Apps on top of your existing Data. There is demo here: http://139.162.228.5/
 
-Databox is built with:
+AppShare is built with:
 
 - Electron
 - VueJS
@@ -33,20 +33,20 @@ Command line options:
 ##### 2) Install Node.js 8.9 32 bit installer from https://nodejs.org/en/download/
 ##### 3) From the command line get the Git repository
     git clone https://github.com/zubairq/visifile.git
-##### 4) Go to the Databox directory
+##### 4) Go to the AppShare directory
     cd visifile/visifile
 ##### 5) Install the NodeJS modules
     npm install
-##### 7) Run the Databox Electron application
+##### 7) Run the AppShare Electron application
     electron .
 
 
 
-### What is Databox's killer feature?
+### What is AppShare's killer feature?
 
-Databox's killer feature is being able to see a many different data sources in one place
+AppShare's killer feature is being able to see a many different data sources in one place
 
 
 
-### Is there commercial support for Databox?
+### Is there commercial support for AppShare?
 If you require commercial support then please go to http://visifile.com

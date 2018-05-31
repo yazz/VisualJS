@@ -14,7 +14,7 @@
                   el: "#" + args.root_element
                   ,
                   template: `<div>
-                    Okhay this DataBox app editor
+                    Okhay this AppShare app editor
                         <component  is="editor_component" v-if="editor_loaded" > PLACEHOLDER </component>
                   </div>
                    `
