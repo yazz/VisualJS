@@ -236,8 +236,8 @@ div.tilt {
 
 
             <div>
-                <img src="VisiFileColor.png" width="10%" top="0px" left="0px" style='display:inline-block'></img>
-                <div class=link style='height: 2em;display:inline-block' onclick='newSearch()' >New Search</div>
+                <div class=link style='height: 2em;display:inline-block; padding-right: 30px;' onclick='editApp()' >Edit App</div>
+                <div class=link style='height: 2em;display:inline-block' onclick='copyApp()' >Copy App</div>
             </div>
 
         </div>
@@ -796,13 +796,23 @@ function find(term) {
             });
 }
 
-function newSearch() {
+function editApp() {
     autoScroll = false
     setTimeout(function(){
         select_card(1)
 
     },200)
 }
+
+
+function copyApp() {
+    autoScroll = false
+    setTimeout(function(){
+        select_card(1)
+
+    },200)
+}
+
 
 
 function cmd(stringArgs) {
