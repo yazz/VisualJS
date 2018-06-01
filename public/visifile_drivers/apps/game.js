@@ -2,13 +2,14 @@
     doc_type:                       'visifile',
     name:                           'game',version: 1,
     description:                    'game app',
-    uses_javascript_librararies:    ["aframe"],    
+    uses_javascript_librararies:    ["aframe"],
 
 
     events: {
         "This will return the game app": {
             on: "app",
             do: function(args, returnfn) {
+                is_app()
                 returnfn(
                     new Vue({
                       el: "#" + args.root_element

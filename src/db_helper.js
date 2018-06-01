@@ -66,7 +66,7 @@ module.exports = {
 
             "CREATE TABLE IF NOT EXISTS app_dependencies (id TEXT, driver	TEXT, dependency_type TEXT , dependency_name TEXT, dependency_version TEXT);",
 
-            "CREATE TABLE IF NOT EXISTS system_code (id TEXT, on_condition TEXT, driver TEXT,method TEXT, code TEXT, max_processes INTEGER);"
+            "CREATE TABLE IF NOT EXISTS system_code (id TEXT, on_condition TEXT, component_type TEXT, driver TEXT,method TEXT, code TEXT, max_processes INTEGER);"
                 ],
 
         function(a,b){

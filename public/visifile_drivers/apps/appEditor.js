@@ -8,7 +8,7 @@
         "This will return the editor app": {
             on: "app",
             do: function(args, returnfn) {
-
+                is_app()
 
                 var mm = new Vue({
                   el: "#" + args.root_element

@@ -8,6 +8,7 @@
         "This will return the search app": {
             on: "app",
             do: function(args, returnfn) {
+                is_app()
                 var mm = new Vue({
                   el: "#" + args.root_element
                   ,
