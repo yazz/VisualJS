@@ -221,12 +221,16 @@ div.tilt {
                     v-if="item.card.load_content">Open</div>
 
             <div    v-if="item.card.type == 'app'">
-                    <div    class=link style='height: 2em;display:inline-block'
-                            v-on:click='prepareApp("card_" + item.id, item.card.app, "app_" + item.id)' >Load app
-                        </div>
+                <div    v-bind:id='"app_container_"+ item.id'  >
                     <div v-bind:id='"app_"+ item.id' >
+                        <div    class=link style='height: 2em;display:inline-block'
+                                v-on:click='prepareApp("card_" + item.id, item.card.app, "app_" + item.id)' >Load app
+                            </div>
                     </div>
                 </div>
+                <div class=link style='height: 2em;display:inline-block; padding-right: 30px;padding-top: 30px;' v-on:click='prepareApp("card_" + item.id, "test", "app_" + item.id)' >Edit App</div>
+                <div class=link style='height: 2em;display:inline-block' v-on:click='copyApp()' >Copy App</div>
+            </div>
 
 
 
@@ -235,10 +239,6 @@ div.tilt {
             <div style='height: 2em;'></div>
 
 
-            <div v-if="item.card.type == 'app'">
-                <div class=link style='height: 2em;display:inline-block; padding-right: 30px;' v-on:click='prepareApp("card_" + item.id, "test", "app_" + item.id)' >Edit App</div>
-                <div class=link style='height: 2em;display:inline-block' v-on:click='copyApp()' >Copy App</div>
-            </div>
 
         </div>
     </div>
@@ -482,10 +482,10 @@ function setupWebSocket(host, port)
         console.log("Browser received from server socket: " + JSON.stringify(data,null,2));
         if (!document.getElementById(data.root_element)) {
             var newRootId = data.root_element.substring(4)
-            var newCardId = "card_" + newRootId
+            var newCardId = "app_container_" + newRootId
             var newAppId = "app_" + newRootId
-            document.getElementById(newCardId).innerHTML = ""
             //alert("Creating: " + newAppId + " under " + newCardId)
+            document.getElementById(newCardId).innerHTML = ""
             var animation = document.createElement('div');
             animation.setAttribute('id', newAppId);
             document.getElementById(newCardId).appendChild(animation);
