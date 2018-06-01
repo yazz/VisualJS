@@ -235,9 +235,9 @@ div.tilt {
             <div style='height: 2em;'></div>
 
 
-            <div>
-                <div class=link style='height: 2em;display:inline-block; padding-right: 30px;' onclick='editApp()' >Edit App</div>
-                <div class=link style='height: 2em;display:inline-block' onclick='copyApp()' >Copy App</div>
+            <div v-if="item.card.type == 'app'">
+                <div class=link style='height: 2em;display:inline-block; padding-right: 30px;' v-on:click='prepareApp("card_" + item.id, "test", "app_" + item.id)' >Edit App</div>
+                <div class=link style='height: 2em;display:inline-block' v-on:click='copyApp()' >Copy App</div>
             </div>
 
         </div>
@@ -257,10 +257,6 @@ div.tilt {
 //lll
 function prepareApp(  card_id,  app_name , rootElement ) {
     //alert(rootElement)
-    var html = "<div>Content</div>"
-    if (app_name == 'test app' ) {
-        html = "<div>Test</div>"
-    }
     console.log(" prepareApp app_name: " + app_name)
     sendToServerViaWebSocket({
         message_type:   "browser_asks_server_for_app_code",
@@ -484,6 +480,17 @@ function setupWebSocket(host, port)
 
     socket.on('server_returns_app_code_to_browser',function(data) {
         console.log("Browser received from server socket: " + JSON.stringify(data,null,2));
+        if (!document.getElementById(data.root_element)) {
+            var newRootId = data.root_element.substring(4)
+            var newCardId = "card_" + newRootId
+            var newAppId = "app_" + newRootId
+            document.getElementById(newCardId).innerHTML = ""
+            //alert("Creating: " + newAppId + " under " + newCardId)
+            var animation = document.createElement('div');
+            animation.setAttribute('id', newAppId);
+            document.getElementById(newCardId).appendChild(animation);
+
+        }
         var loadedApp = false
         var codeFn = eval(  "(" + data.code + ")" )
         //document.getElementById(data.card_id).innerHTML = "<div id=current_app>APP WILL BE SHOWN HERE</div>"
