@@ -224,11 +224,11 @@ div.tilt {
                 <div    v-bind:id='"app_container_"+ item.id'  >
                     <div v-bind:id='"app_"+ item.id' >
                         <div    class=link style='height: 2em;display:inline-block'
-                                v-on:click='prepareApp("card_" + item.id, item.card.app, "app_" + item.id)' >Load app
+                                v-on:click='prepareApp(item.id, item.card.app, {})' >Load app
                             </div>
                     </div>
                 </div>
-                <div class=link style='height: 2em;display:inline-block; padding-right: 30px;padding-top: 30px;' v-on:click='prepareApp("card_" + item.id, "test", "app_" + item.id)' >Edit App</div>
+                <div class=link style='height: 2em;display:inline-block; padding-right: 30px;padding-top: 30px;' v-on:click='prepareApp(item.id, "appEditor", {appid: item.id})' >Edit App</div>
                 <div class=link style='height: 2em;display:inline-block' v-on:click='copyApp()' >Copy App</div>
             </div>
 
@@ -255,13 +255,19 @@ div.tilt {
 <script>
 
 //lll
-function prepareApp(  card_id,  app_name , rootElement ) {
+var newAppArgs = []
+function prepareApp(  id,  app_name , args ) {
     //alert(rootElement)
     console.log(" prepareApp app_name: " + app_name)
+    var card_id = "card_" + id
+    var rootElement = "app_" + id
+    newAppArgs[id] = args
+    //alert(card_id)
     sendToServerViaWebSocket({
         message_type:   "browser_asks_server_for_app_code",
-        card_id:        card_id,
+        card_id:        id,
         app_name:       app_name,
+        args:           args,
         root_element:   rootElement
         });
 }
@@ -296,7 +302,7 @@ function openContent(  data_id  ) {
 }
 
 
-//zzz
+
 function increment(payload) {
   mainMoonApp.count += payload;
 }
@@ -480,6 +486,9 @@ function setupWebSocket(host, port)
 
     socket.on('server_returns_app_code_to_browser',function(data) {
         console.log("Browser received from server socket: " + JSON.stringify(data,null,2));
+//zzz
+var args = newAppArgs[data.card_id]
+        //alert(JSON.stringify(args,null,2)  )
         if (!document.getElementById(data.root_element)) {
             var newRootId = data.root_element.substring(4)
             var newCardId = "app_container_" + newRootId
@@ -493,6 +502,7 @@ function setupWebSocket(host, port)
         }
         var loadedApp = false
         var codeFn = eval(  "(" + data.code + ")" )
+        //var args = newAppArgs[card_id] = args
         //document.getElementById(data.card_id).innerHTML = "<div id=current_app>APP WILL BE SHOWN HERE</div>"
         if (data.uses_js_libs ) {
             //alert(JSON.stringify(data.uses_js_libs,null,2))
