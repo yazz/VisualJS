@@ -2155,7 +2155,7 @@ function websocketFn(ws) {
                                                 code:           code,
                                                 app_name:       receivedMessage.app_name,
                                                 card_id:        receivedMessage.card_id,
-                                                code_id:        receivedMessage.id,
+                                                code_id:        id,
                                                 root_element:   receivedMessage.root_element,
                                                 uses_js_libs:   libs
                                             });
