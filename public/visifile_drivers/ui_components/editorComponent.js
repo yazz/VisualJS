@@ -18,14 +18,13 @@
                 var mm = Vue.component('editor_component', {
                   data: function () {
                     return {
-                        text: args.text,
-                        text2: args.text
+                        text: args.text
                     }
                   },
-                  template: `<div>
+                  template: `<div >
                                 <textarea style="width: 100%; height: 50%;"> {{text}}
                                 </textarea>
-                                 <slot></slot>
+                                 <slot  slot-scope="bestSlotScope" :text="text"></slot>
                              </div>`
                 })
                 //alert(JSON.stringify(args,null,2))

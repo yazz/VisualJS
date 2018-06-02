@@ -19,8 +19,11 @@
                         <br>
                         <br>
 
-                        <component  is="editor_component" v-if="editor_loaded" >
-                            <button>Save</button>
+                        <component  is="editor_component" v-if="editor_loaded"
+                                    >
+                                    <template slot-scope="bestSlotScope" >
+                                        <button v-on:click='alert(bestSlotScope.text)'>Save</button>
+                                    </template>
                         </component>
                         </pre>
                   </div>
@@ -28,8 +31,10 @@
                    ,
                    data: {
                        editor_loaded: false,
-                       code_id: "..."
-                   }
+                       code_id: "...",
+                       text3: "nn"
+                   },
+
 
                 })
 
