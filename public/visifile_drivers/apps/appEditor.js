@@ -16,35 +16,49 @@
                   template: `<div>
                     Okhay this AppShare app editor
                         <component  is="editor_component" v-if="editor_loaded" > PLACEHOLDER </component>
+                        <br>
+                        <br>
                         Code ID: {{code_id}}
+
+                        <br>
+                        <br>
+                        <pre>
+                        Code: {{code}}
+                        </pre>
                   </div>
                    `
                    ,
                    data: {
                        editor_loaded: false,
-                       code_id: "..."
+                       code_id: "...",
+                       code: "..."
                    }
 
                 })
 
+
                 mm.code_id = args.code_id
-                //alert(JSON.stringify(args,null,2))
-
-                callDriverMethod( "editorComponent",
-                                  "component"
-                                  ,{}
-                            ,
-                            function(result) {
-                                //alert(JSON.stringify(result,null,2))
-                              //  console.log("3) returned result: " + JSON.stringify(result,null,2))
-                              //alert(result.name)
-                                mm.editor_loaded = true
-                            })
 
 
-                //alert("root: " + args.root_element +".")
-                returnfn(
-                )
+                callDriverMethod(
+                    "editorComponent",  "component",  {}
+                    ,
+                    function(result) {
+                        mm.editor_loaded = true })
+
+
+                callDriverMethod(
+                    "systemFunctions",  "sql",
+                    {
+                        sql: "select  code  from  system_code  where  id = '" + args.code_id +  "' "
+                    }
+                    ,
+                    function(results) {
+                        mm.code = results.value[0].code })
+
+
+
+                returnfn()
 
 
             }, end: null

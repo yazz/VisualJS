@@ -32,6 +32,31 @@
             }, end: null
         }
 
+
+        ,
+
+
+
+        "This will execute sql on the internal SQLite database": {
+            on: "sql",
+            do: function(args, returnfn) {
+                dbsearch.serialize(
+                    function() {
+                        dbsearch.all(
+                            args.sql
+                            ,
+
+                            function(err, results)
+                            {
+                                returnfn(results)
+                            })
+                }, sqlite3.OPEN_READONLY)
+
+
+            }, end: null
+        }
+
+
     }
 
 }
