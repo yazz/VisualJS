@@ -16,14 +16,19 @@
                   template: `<div>
                     Okhay this AppShare app editor
                         <component  is="editor_component" v-if="editor_loaded" > PLACEHOLDER </component>
+                        Code ID: {{code_id}}
                   </div>
                    `
                    ,
                    data: {
-                       editor_loaded: false
+                       editor_loaded: false,
+                       code_id: "..."
                    }
 
                 })
+
+                //mm.code_id = args.code_id
+                alert(JSON.stringify(args,null,2))
 
                 callDriverMethod( "editorComponent",
                                   "component"
