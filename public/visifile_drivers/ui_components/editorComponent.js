@@ -22,7 +22,11 @@
                         text2: args.text
                     }
                   },
-                  template: '<textarea style="width: 100%; height: 50%;"> {{text}} </textarea>'
+                  template: `<div>
+                                <textarea style="width: 100%; height: 50%;"> {{text}}
+                                </textarea>
+                                 <slot></slot>
+                             </div>`
                 })
                 //alert(JSON.stringify(args,null,2))
 

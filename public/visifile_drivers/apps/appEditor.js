@@ -18,8 +18,10 @@
                         Code ID: {{code_id}}
                         <br>
                         <br>
-                        <component  is="editor_component" v-if="editor_loaded" > PLACEHOLDER </component>
 
+                        <component  is="editor_component" v-if="editor_loaded" >
+                            <button>Save</button>
+                        </component>
                         </pre>
                   </div>
                    `
