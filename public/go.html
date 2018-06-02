@@ -228,7 +228,7 @@ div.tilt {
                             </div>
                     </div>
                 </div>
-                <div class=link style='height: 2em;display:inline-block; padding-right: 30px;padding-top: 30px;' v-on:click='prepareApp(item.id, "appEditor", {appid: item.id})' >Edit App</div>
+                <div class=link style='height: 2em;display:inline-block; padding-right: 30px;padding-top: 30px;' v-on:click='prepareApp(item.id, "appEditor", {code_id: cardAppIds[ item.id ] })' >Edit App</div>
                 <div class=link style='height: 2em;display:inline-block' v-on:click='copyApp()' >Copy App</div>
             </div>
 
@@ -256,6 +256,7 @@ div.tilt {
 
 //lll
 var newAppArgs = []
+var cardAppIds = []
 function prepareApp(  id,  app_name , args ) {
     //alert(rootElement)
     console.log(" prepareApp app_name: " + app_name)
@@ -485,9 +486,11 @@ function setupWebSocket(host, port)
 
 
     socket.on('server_returns_app_code_to_browser',function(data) {
+        //alert(data.code_id)
         console.log("Browser received from server socket: " + JSON.stringify(data,null,2));
 //zzz
 var args = newAppArgs[data.card_id]
+cardAppIds[ data.card_id ] = data.code_id
         //alert(JSON.stringify(args,null,2)  )
         if (!document.getElementById(data.root_element)) {
             var newRootId = data.root_element.substring(4)
@@ -518,7 +521,8 @@ var args = newAppArgs[data.card_id]
                         function() {
                             loadedApp = true
                             //alert()
-                            var moonApp = codeFn({root_element: data.root_element},function(res) {
+                            args.root_element = data.root_element
+                            var moonApp = codeFn(args,function(res) {
                                 //alert(JSON.stringify(res,null,2))
                             })
                     })
@@ -528,7 +532,8 @@ var args = newAppArgs[data.card_id]
 
         if (!loadedApp ){
             //alert()
-            var moonApp = codeFn({root_element: data.root_element},function(res) {
+            args.root_element = data.root_element
+            var moonApp = codeFn(args,function(res) {
                 //alert(JSON.stringify(res,null,2))
             })
         }
@@ -861,7 +866,7 @@ function callDriverMethod(driverName, methodName, args, callbackFn) {
 
 
 function is_app() {
-    
+
 }
 
 </script>

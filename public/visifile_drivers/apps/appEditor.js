@@ -27,8 +27,8 @@
 
                 })
 
-                //mm.code_id = args.code_id
-                alert(JSON.stringify(args,null,2))
+                mm.code_id = args.code_id
+                //alert(JSON.stringify(args,null,2))
 
                 callDriverMethod( "editorComponent",
                                   "component"
