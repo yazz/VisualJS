@@ -3553,6 +3553,17 @@ function findDriversWithMethodLike(methodName, callbackFn) {
 }
 
 
+function getAppCodePart2(appName, callbackFn, id, code) {
+    dbsearch.all(
+        "SELECT dependency_name FROM app_dependencies where driver = ?; ",
+        appName,
+
+        function(err, results2)
+        {
+            callbackFn(id, code, results2)
+
+        })
+}
 
 
 function getAppCode(appName, callbackFn) {
@@ -3565,15 +3576,7 @@ function getAppCode(appName, callbackFn) {
                 function(err, results)
                 {
                     if (results.length > 0) {
-                        dbsearch.all(
-                            "SELECT dependency_name FROM app_dependencies where driver = ?; ",
-                            appName,
-
-                            function(err, results2)
-                            {
-                                callbackFn(results[0].id, results[0].code, results2)
-
-                            })
+                        getAppCodePart2(appName, callbackFn, results[0].id, results[0].code) 
                     } else {
                         callbackFn(null,null,null)
                     }
