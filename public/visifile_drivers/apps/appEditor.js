@@ -15,23 +15,18 @@
                   ,
                   template: `<div>
                     Okhay this AppShare app editor
-                        <component  is="editor_component" v-if="editor_loaded" > PLACEHOLDER </component>
-                        <br>
-                        <br>
                         Code ID: {{code_id}}
+                        <br>
+                        <br>
+                        <component  is="editor_component" v-if="editor_loaded" > PLACEHOLDER </component>
 
-                        <br>
-                        <br>
-                        <pre>
-                        Code: {{code}}
                         </pre>
                   </div>
                    `
                    ,
                    data: {
                        editor_loaded: false,
-                       code_id: "...",
-                       code: "..."
+                       code_id: "..."
                    }
 
                 })
@@ -40,11 +35,6 @@
                 mm.code_id = args.code_id
 
 
-                callDriverMethod(
-                    "editorComponent",  "component",  {}
-                    ,
-                    function(result) {
-                        mm.editor_loaded = true })
 
 
                 callDriverMethod(
@@ -54,7 +44,16 @@
                     }
                     ,
                     function(results) {
-                        mm.code = results.value[0].code })
+                        var code = results.value[0].code
+                        mm.code = code
+                        //alert(code)
+                        callDriverMethod(
+                            "editorComponent",  "component",  {text: code}
+                            ,
+                            function(result) {
+                                mm.editor_loaded = true })
+
+                    })
 
 
 

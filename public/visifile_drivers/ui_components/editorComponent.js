@@ -15,15 +15,16 @@
         "This will return the test app": {
             on: "component",
             do: function(args, returnfn) {
-                Vue.component('editor_component', {
+                var mm = Vue.component('editor_component', {
                   data: function () {
                     return {
-                      count: 0
+                        text: args.text,
+                        text2: args.text
                     }
                   },
-                  template: '<button v-on:click="count++">You clicked Z {{ count }} times.</button>'
+                  template: '<textarea style="width: 100%; height: 50%;"> {{text}} </textarea>'
                 })
-
+                //alert(JSON.stringify(args,null,2))
 
 
                 returnfn({

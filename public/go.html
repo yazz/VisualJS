@@ -633,11 +633,14 @@ var dataIds = new Object()
 
     socket.on('ws_to_browser_callDriverMethod_results',function(data) {
 
+
         if (data.value.is_code_result) {
             //alert("code: " + JSON.stringify(data,null,2));
             var callbackFn = queuedResponses[data.seq_num]
+
             var fnfn = eval("(" + data.value.code + ")")
-            fnfn({}, function(fnfnRes) {
+            var args =     callDriverMethodArgs[data.seq_num]
+            fnfn(args, function(fnfnRes) {
                 callbackFn(fnfnRes)
                 queuedResponses[data.seq_num] = null
             })
@@ -849,11 +852,11 @@ function cmd(stringArgs) {
 
 var queuedResponses = new Object()
 var queuedBrowserResponseSeqNum = 0
-
+var callDriverMethodArgs = new Object()
 function callDriverMethod(driverName, methodName, args, callbackFn) {
     var seqNum = queuedBrowserResponseSeqNum ++;
     queuedResponses[seqNum] = callbackFn;
-
+    callDriverMethodArgs[seqNum] = args
 
     sendToServerViaWebSocket({
         message_type: "callDriverMethod",
