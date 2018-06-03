@@ -9,7 +9,7 @@
             on: "app",
             do: function(args, returnfn) {
                 is_app()
-                new Vue.component("app_editor",
+                Vue.component("app_editor",
                 {
                   template: `<div>
                     Okhay this AppShare app editor
@@ -53,7 +53,6 @@
                    },
 
                    mounted: function () {
-                       alert(12)
                        var mm = this
                        mm.code_id = args.code_id
                        callDriverMethod(

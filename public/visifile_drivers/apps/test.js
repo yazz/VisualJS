@@ -1,15 +1,10 @@
 {
-    doc_type: 'visifile'
-    ,
-    name: 'test'
-    ,
-    version: 1
-    ,
-    type: 'app'
-    ,
-    text: 'Test app'
+    doc_type:   'visifile',
+    name:       'test',version: 1,
+    description:'Test app',
 
-    ,
+
+    
     events: {
         "This will return the test app": {
             on: "app",
