@@ -9,10 +9,8 @@
             on: "app",
             do: function(args, returnfn) {
                 is_app()
-
-                var mm = new Vue({
-                  el: "#" + args.root_element
-                  ,
+                new Vue.component("app_editor",
+                {
                   template: `<div>
                     Okhay this AppShare app editor
                         Code ID: {{code_id}}
@@ -30,9 +28,11 @@
                   </div>
                    `
                    ,
-                   data: {
-                       editor_loaded: false,
-                       code_id: "..."
+                   data: function() {
+                       return {
+                           editor_loaded: false,
+                           code_id: "..."
+                       }
                    }
                    ,
                    methods: {
@@ -50,38 +50,36 @@
 
                                })
                        }
-                   }
+                   },
+
+                   mounted: function () {
+                       alert(12)
+                       var mm = this
+                       mm.code_id = args.code_id
+                       callDriverMethod(
+                           "systemFunctions",  "sql",
+                           {
+                               sql: "select  code  from  system_code  where  id = '" + args.code_id +  "' "
+                           }
+                           ,
+                           function(results) {
+                               var code = results.value[0].code
+                               mm.code = code
+                               //alert(code)
+                               callDriverMethod(
+                                   "editorComponent",  "component",  {text: code}
+                                   ,
+                                   function(result) {
+                                       mm.editor_loaded = true })
+
+                           })
+                      }
 
 
                 })
 
 
-                mm.code_id = args.code_id
-
-
-
-
-                callDriverMethod(
-                    "systemFunctions",  "sql",
-                    {
-                        sql: "select  code  from  system_code  where  id = '" + args.code_id +  "' "
-                    }
-                    ,
-                    function(results) {
-                        var code = results.value[0].code
-                        mm.code = code
-                        //alert(code)
-                        callDriverMethod(
-                            "editorComponent",  "component",  {text: code}
-                            ,
-                            function(result) {
-                                mm.editor_loaded = true })
-
-                    })
-
-
-
-                returnfn()
+                returnfn({name: "app_editor"})
 
 
             }, end: null
