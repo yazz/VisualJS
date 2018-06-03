@@ -16,16 +16,14 @@
             on: "app",
             do: function(args, returnfn) {
                 is_app()
-                new Vue({
-                  el: "#" + args.root_element
-                  ,
+                Vue.component("VueApp", {
                   template: `<div>Okhay this is a Vue test app: 2</div>
                    `
 
                 })
                 //alert("root: " + args.root_element +".")
-                returnfn(
-                )
+                returnfn({name: "VueApp"})
+                
 
 
             }, end: null
