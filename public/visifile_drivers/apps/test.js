@@ -16,7 +16,7 @@
             do: function(args, returnfn) {
                 is_app()
 
-                var mm = Vue.component('test_app', {
+                Vue.component('test_app', {
                   data: function () {
                     return {
                         msg:                "some data",
@@ -45,7 +45,10 @@
                           },
                           template: '<button v-on:click="count++">You clicked me {{ count }} times.</button>'
                         })
-                        mm.component_name = 'button-counter'
+                        this.component_name = 'button-counter'
+                        var mm = this
+                        //mm.component_name = 'button-counter'
+                        //Vue.set(mm, "component_name", 'button-counter')
 
 
                         callDriverMethod( "comp",
@@ -55,7 +58,9 @@
                                     function(result) {
                                         //alert(JSON.stringify(result,null,2))
                                       //  console.log("3) returned result: " + JSON.stringify(result,null,2))
+                                        //this.component_name_2 = result.name
                                         mm.component_name_2 = result.name
+                                        //Vue.set(mm, "component_name_2", result.name)
                                     })
                                 }
                     }
