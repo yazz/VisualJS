@@ -210,35 +210,8 @@ div.tilt {
 
 
     <div v-for="item  in  cards" class='perspective'>
-        <div class='polaroid tilt' v-bind:id='"card_"+ item.id' v-on:click="click_card(item.id)">
-            <h1 class="caption">{{item.card.name}}</h1>
-            <a style='font-size: 2em;' href='{{item.card.link}}' v-if="item.card.link">{{item.card.link_name}}</a>
-
-            <div    style='font-size: 2em;' v-on:click='loadContent(item.card.data_id,item.card.name)'
-                    v-if="item.card.load_content">Preview</div>
-
-            <div    style='font-size: 2em;' v-on:click='openContent(item.card.data_id,item.card.name)'
-                    v-if="item.card.load_content">Open</div>
-
-            <div    v-if="item.card.type == 'app'">
-                <div    v-bind:id='"app_container_"+ item.id'  >
-                    <div v-bind:id='"app_"+ item.id' >
-                    </div>
-                </div>
-                <div class=link style='height: 2em;display:inline-block; padding-right: 30px;padding-top: 30px;' v-on:click='prepareApp(item.id, "appEditor", {code_id: cardAppIds[ item.id ] })' >Edit App</div>
-                <div class=link style='height: 2em;display:inline-block; padding-right: 30px;padding-top: 30px;' v-on:click='prepareApp(item.id, item.card.app, {})' >RUN</div>
-                <div class=link style='height: 2em;display:inline-block' v-on:click='copyApp()' >Copy App</div>
-            </div>
-
-
-
-
-
-            <div style='height: 2em;'></div>
-
-
-
-        </div>
+        <card_component :item='item'>
+        </card_component>
     </div>
 
 
@@ -383,11 +356,13 @@ var defaultCards = [
     }
     ,
     {
-        name: 'You write apps in a single Javascript file so it is very simple'
+        name: 'You write apps in a single Javascript file so it is very simple',
+        left: true
     }
     ,
     {
-        name: 'You can also publish your app in the AppShare Store'
+        name: 'You can also publish your app in the AppShare Store',
+        right: true
     }
     ,
     {
@@ -485,8 +460,8 @@ function setupWebSocket(host, port)
 
     socket.on('server_returns_app_code_to_browser',function(data) {
         //alert(data.code_id)
-        console.log("Browser received from server socket: " + JSON.stringify(data,null,2));
-//zzz
+        //console.log("Browser received from server socket: " + JSON.stringify(data,null,2));
+
 var args = newAppArgs[data.card_id]
 cardAppIds[ data.card_id ] = data.code_id
         //alert(JSON.stringify(args,null,2)  )
@@ -663,6 +638,56 @@ var myScroller = null;
 
     function initFn() {
         setTimeout(function(){
+//zzz
+            Vue.component('card_component', {
+                props: ["item"],
+                methods: {
+                    increment: function() {
+                        increment(1);
+                    },
+                    click_card: function(id) {
+                        autoScroll = false;
+                        select_card(id)
+                    }
+                },
+              data: function () {
+                return {
+                }
+              }
+              ,
+              template: `<div>
+              <div class='polaroid tilt' v-bind:id='"card_"+ item.id' v-on:click="click_card(item.id)">
+                <h1 class="caption">{{item.card.name}}</h1>
+                <a style='font-size: 2em;' href='{{item.card.link}}' v-if="item.card.link">{{item.card.link_name}}</a>
+
+                <div    style='font-size: 2em;' v-on:click='loadContent(item.card.data_id,item.card.name)'
+                        v-if="item.card.load_content">Preview</div>
+
+                <div    style='font-size: 2em;' v-on:click='openContent(item.card.data_id,item.card.name)'
+                        v-if="item.card.load_content">Open</div>
+
+                <div    v-if="item.card.type == 'app'">
+                    <div    v-bind:id='"app_container_"+ item.id'  >
+                        <div v-bind:id='"app_"+ item.id' >
+                        </div>
+                    </div>
+                    <div class=link style='height: 2em;display:inline-block; padding-right: 30px;padding-top: 30px;' v-on:click='prepareApp(item.id, "appEditor", {code_id: cardAppIds[ item.id ] })' >Edit App</div>
+                    <div class=link style='height: 2em;display:inline-block; padding-right: 30px;padding-top: 30px;' v-on:click='prepareApp(item.id, item.card.app, {})' >RUN</div>
+                    <div class=link style='height: 2em;display:inline-block' v-on:click='copyApp()' >Copy App</div>
+                </div>
+
+
+
+
+
+                <div style='height: 2em;'></div>
+
+
+
+                </div>
+                </div>`})
+
+
             mainMoonApp = new Vue({
               el: "#infinite-list"
               ,
@@ -678,10 +703,6 @@ var myScroller = null;
             methods: {
                 increment: function() {
                     increment(1);
-                },
-                click_card: function(id) {
-                    autoScroll = false;
-                    select_card(id)
                 }
             }
             });
