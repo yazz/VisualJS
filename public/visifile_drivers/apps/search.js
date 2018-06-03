@@ -9,16 +9,17 @@
             on: "app",
             do: function(args, returnfn) {
                 is_app()
-                var mm = new Vue({
-                  el: "#" + args.root_element
-                  ,
+                Vue.component("search_app",{
                   template: "<div v-on:click='search'>this is the Vue seach app {{msg}}</div>"
                   ,
-                  data: {
-                    msg: "..."
-                },
+                  data: function() {
+                   return {
+                     msg: "..."
+                 }   
+                  },
                 methods: {
                     search: function() {
+                        var mm = this
                         callDriverMethod( "commandLine",
                                           "ls"
                                           ,{}
@@ -33,7 +34,7 @@
                 })
 
 
-                returnfn({})
+                returnfn({name: "search_app"})
 
 
             }, end: null
