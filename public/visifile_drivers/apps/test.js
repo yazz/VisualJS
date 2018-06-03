@@ -16,9 +16,14 @@
             do: function(args, returnfn) {
                 is_app()
 
-                var  mm = new Vue({
-                  el: "#" + args.root_element
-                  ,
+                var mm = Vue.component('test_app', {
+                  data: function () {
+                    return {
+                        msg:                "some data",
+                        component_name:      null,
+                        component_name_2:    null
+                    }
+                  },
                   template: `<div>
                                 <div v-on:click='loadc'>Okhay this is a test app: {{msg}} 2
                                 </div>
@@ -30,12 +35,7 @@
                             </div>
                    `
                   ,
-                  data: {
-                    msg: "some data",
-                    component_name: null,
-                    component_name_2: null
-                },
-                methods: {
+                  methods: {
                     loadc: function() {
                         Vue.component('button-counter', {
                           data: function () {
@@ -57,13 +57,14 @@
                                       //  console.log("3) returned result: " + JSON.stringify(result,null,2))
                                         mm.component_name_2 = result.name
                                     })
+                                }
                     }
-                }
                 })
 
 
 
                 returnfn(
+                    {name: "test_app"}
                 )
 
 
