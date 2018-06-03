@@ -15,9 +15,7 @@
             on: "app",
             do: function(args, returnfn) {
                 is_app()
-                var mm = new Vue({
-                      el: "#" + args.root_element
-                      ,
+                Vue.component('listApps',{
                       template: `<div v-on:click='search'>
                                     this lists all the apps installed
                                     <ul>
@@ -26,12 +24,15 @@
                                  </div>
                       `
                       ,
-                      data: {
-                        msg: "...",
-                        apps: []
-                    },
+                      data: function() {
+                          return {
+                                      msg: "...",
+                                      apps: []
+                                  }
+                      },
                     methods: {
                         search: function() {
+                            var mm = this
                             callDriverMethod( "systemFunctions",
                                               "get_apps_list"
                                               ,{}
@@ -46,7 +47,7 @@
                 })
 
 
-                returnfn({})
+                returnfn({name: "listApps"})
 
 
             }, end: null
