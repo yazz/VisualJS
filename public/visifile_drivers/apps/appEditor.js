@@ -21,8 +21,8 @@
 
                         <component  is="editor_component" v-if="editor_loaded">
                                         <button slot-scope="editor_component"
-                                                v-on:click='alert(editor_component.text)'>
-                                                
+                                                v-on:click='save(editor_component.text)'>
+
                                                     Save
                                        </button>
                         </component>
@@ -34,7 +34,13 @@
                        editor_loaded: false,
                        code_id: "...",
                        text3: "nn"
-                   },
+                   }
+                   ,
+                   methods: {
+                       save: function(text) {
+                           alert("Saving " + text)
+                       }
+                   }
 
 
                 })
