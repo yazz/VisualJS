@@ -223,12 +223,10 @@ div.tilt {
             <div    v-if="item.card.type == 'app'">
                 <div    v-bind:id='"app_container_"+ item.id'  >
                     <div v-bind:id='"app_"+ item.id' >
-                        <div    class=link style='height: 2em;display:inline-block'
-                                v-on:click='prepareApp(item.id, item.card.app, {})' >Load app
-                            </div>
                     </div>
                 </div>
                 <div class=link style='height: 2em;display:inline-block; padding-right: 30px;padding-top: 30px;' v-on:click='prepareApp(item.id, "appEditor", {code_id: cardAppIds[ item.id ] })' >Edit App</div>
+                <div class=link style='height: 2em;display:inline-block; padding-right: 30px;padding-top: 30px;' v-on:click='prepareApp(item.id, item.card.app, {})' >RUN</div>
                 <div class=link style='height: 2em;display:inline-block' v-on:click='copyApp()' >Copy App</div>
             </div>
 
@@ -821,13 +819,7 @@ function find(term) {
             });
 }
 
-function editApp() {
-    autoScroll = false
-    setTimeout(function(){
-        select_card(1)
 
-    },200)
-}
 
 
 function copyApp() {
