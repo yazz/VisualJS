@@ -24,7 +24,7 @@
                   template: `<div >
                                 <textarea style="width: 100%; height: 50%;"> {{text}}
                                 </textarea>
-                                 <slot  slot-scope="bestSlotScope" :text="text"></slot>
+                                 <slot  :text="text"></slot>
                              </div>`
                 })
                 //alert(JSON.stringify(args,null,2))

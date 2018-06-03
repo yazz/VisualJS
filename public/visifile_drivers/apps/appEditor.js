@@ -19,11 +19,12 @@
                         <br>
                         <br>
 
-                        <component  is="editor_component" v-if="editor_loaded"
-                                    >
-                                    <template slot-scope="bestSlotScope" >
-                                        <button v-on:click='alert(bestSlotScope.text)'>Save</button>
-                                    </template>
+                        <component  is="editor_component" v-if="editor_loaded">
+                                        <button slot-scope="editor_component"
+                                                v-on:click='alert(editor_component.text)'>
+                                                
+                                                    Save
+                                       </button>
                         </component>
                         </pre>
                   </div>
