@@ -209,10 +209,20 @@ div.tilt {
 
 
 
-    <div v-for="item  in  cards" class='perspective'>
-        <card_component :item='item'>
-        </card_component>
-    </div>
+    <template v-for="item  in  cards" >
+        <div v-if="(!item.card.left) && (!item.card.right)" style="width: 100%;" class='perspective'>
+                <card_component :item='item'>
+                </card_component>
+        </div>
+        <div v-if="item.card.left" style="width: 45%;display: inline-block;" class='perspective' >
+            <card_component :item='item'>
+            </card_component>
+        </div>
+        <div v-if="item.card.right" style="width: 45%;display: inline-block;" class='perspective'>
+            <card_component :item='item'>
+            </card_component>
+        </div>
+    </template>
 
 
 
@@ -275,9 +285,6 @@ function openContent(  data_id  ) {
 
 
 
-function increment(payload) {
-  mainMoonApp.count += payload;
-}
 
 function add_card(payload) {
   mainMoonApp.cards.push(payload);
@@ -642,9 +649,6 @@ var myScroller = null;
             Vue.component('card_component', {
                 props: ["item"],
                 methods: {
-                    increment: function() {
-                        increment(1);
-                    },
                     click_card: function(id) {
                         autoScroll = false;
                         select_card(id)
@@ -699,11 +703,6 @@ var myScroller = null;
                   cards: []
                   ,
                   show_loader: false
-            },
-            methods: {
-                increment: function() {
-                    increment(1);
-                }
             }
             });
 
