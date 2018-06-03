@@ -1307,21 +1307,6 @@ else {
             dbsearch = new sqlite3.Database(dbPath);
             dbsearch.run("PRAGMA journal_mode=WAL;")
 
-            dbsearch.serialize(
-                function() {
-                    dbsearch.all(
-                        "SELECT count(name) as cnt FROM sqlite_master ;  "
-                        ,
-
-                        function(err, results)
-                        {
-                            for (var i = 0; i < results.length; i++) {
-                                outputToBrowser("Sqlite: " + results[i].cnt)
-                            }
-
-
-                        })
-            }, sqlite3.OPEN_READONLY)
 
 
 
@@ -3576,7 +3561,7 @@ function getAppCode(appName, callbackFn) {
                 function(err, results)
                 {
                     if (results.length > 0) {
-                        getAppCodePart2(appName, callbackFn, results[0].id, results[0].code) 
+                        getAppCodePart2(appName, callbackFn, results[0].id, results[0].code)
                     } else {
                         callbackFn(null,null,null)
                     }
