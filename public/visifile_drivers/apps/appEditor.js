@@ -21,7 +21,7 @@
 
                         <component  is="editor_component" v-if="editor_loaded">
                                         <button slot-scope="editor_component"
-                                                v-on:click='save(editor_component.text)'>
+                                                v-on:click='save(code_id, editor_component.text)'>
 
                                                     Save
                                        </button>
@@ -32,13 +32,23 @@
                    ,
                    data: {
                        editor_loaded: false,
-                       code_id: "...",
-                       text3: "nn"
+                       code_id: "..."
                    }
                    ,
                    methods: {
-                       save: function(text) {
-                           alert("Saving " + text)
+                       save: function(code_id, text) {
+                           //alert("Saving " + code_id)
+                           callDriverMethod(
+                               "appEditor",  "saveCode",
+                               {
+                                   code: text,
+                                   code_id: code_id
+                               }
+                               ,
+                               function(results) {
+                                   alert("Code saved")
+
+                               })
                        }
                    }
 
@@ -75,6 +85,22 @@
 
 
             }, end: null
+        }
+
+        ,
+
+
+        "Save the editor code": {
+            on: "saveCode"
+            ,
+            do: function(args,returnfn) {
+                console.log("Saving in Sqlite: " + args.code_id)
+                console.log("Saving in Sqlite: " + args.code)
+                returnfn({})
+            }
+            ,
+            end: null
+
         }
 
     }

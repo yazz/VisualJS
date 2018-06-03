@@ -677,13 +677,14 @@ function parseAllEvents( ) {
                         for (var tt = 0; tt < results.length; tt ++) {
 
                             var cond = results[tt].on_condition
-
-                            //console.log("")
-                            //console.log("*) " + cond)
-
-                            var evaledCond = eval("(" +  cond + ")")
-                            saveEvent(evaledCond, results[tt].id, results[tt].max_processes)
-                            //console.log("")
+                            try {
+                                var evaledCond = eval("(" +  cond + ")")
+                                saveEvent(evaledCond, results[tt].id, results[tt].max_processes)
+                                //console.log("")
+                            } catch (err) {
+                                console.log("Error in: "+ cond)
+                                console.log(err)
+                            }
 
                         }
 
