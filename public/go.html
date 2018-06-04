@@ -66,37 +66,31 @@ function initFn() {
             }
           }
           ,
-          template: `<div style="font-family: 'Helvetica';">
-          <div class='polaroid tilt' v-bind:id='"card_"+ item.id' v-on:click="click_card(item.id)">
-            <h1 class="caption">{{item.card.name}}</h1>
-            <a style='font-size: 2em;' v-bind:href='item.card.link' v-if="item.card.link">{{item.card.link_name}}</a>
-
-            <div    style='font-size: 2em;' v-on:click='loadContent(item.card.data_id,item.card.name)'
-                    v-if="item.card.load_content">Preview</div>
-
-            <div    style='font-size: 2em;' v-on:click='openContent(item.card.data_id,item.card.name)'
-                    v-if="item.card.load_content">Open</div>
-
-            <div    v-if="item.card.type == 'app'">
-                <div    v-bind:id='"app_container_"+ item.id'  >
-                    <div v-bind:id='"app_"+ item.id' >
-                    </div>
-                </div>
-                <div class=link style='height: 2em;display:inline-block; padding-right: 30px;padding-top: 30px;' v-on:click='prepareApp(item.id, "appEditor", {code_id: cardAppIds[ item.id ] })' >Edit App</div>
-                <div class=link style='height: 2em;display:inline-block; padding-right: 30px;padding-top: 30px;' v-on:click='prepareApp(item.id, item.card.app, {})' >RUN</div>
-                <div class=link style='height: 2em;display:inline-block' v-on:click='copyApp()' >Copy App</div>
-            </div>
-
-
-
-
-
-            <div style='height: 2em;'></div>
-
-
-
-            </div>
-            </div>`})
+          template: "<div style='font-family: Helvetica;'>"+
+"          <div class='polaroid tilt' v-bind:id='\"card_\"+ item.id' v-on:click='click_card(item.id)'>"+
+"            <h1 class='caption'>{{item.card.name}}</h1>"+
+"            <a style='font-size: 2em;' v-bind:href='item.card.link' v-if='item.card.link'>{{item.card.link_name}}</a>"+
+""+
+"            <div    style='font-size: 2em;' v-on:click='loadContent(item.card.data_id,item.card.name)'"+
+"                    v-if='item.card.load_content'>Preview</div>"+
+""+
+"            <div    style='font-size: 2em;' v-on:click='openContent(item.card.data_id,item.card.name)'"+
+"                    v-if='item.card.load_content'>Open</div>"+
+""+
+"            <div    v-if='item.card.type == \"app\"'>"+
+"                <div    v-bind:id='\"app_container_\"+ item.id'  >"+
+"                    <div v-bind:id='\"app_\"+ item.id' >"+
+"                    </div>"+
+"                </div>"+
+"                <div class=link style='height: 2em;display:inline-block; padding-right: 30px;padding-top: 30px;' v-on:click='prepareApp(item.id, \"appEditor\", {code_id: cardAppIds[ item.id ] })' >Edit App</div>"+
+"                <div class=link style='height: 2em;display:inline-block; padding-right: 30px;padding-top: 30px;' v-on:click='prepareApp(item.id, item.card.app, {})' >RUN</div>"+
+"                <div class=link style='height: 2em;display:inline-block' v-on:click='copyApp()' >Copy App</div>"+
+"            </div>"+
+""+
+"            <div style='height: 2em;'></div>"+
+""+
+"            </div>"+
+"            </div>"})
 
 
         mainMoonApp = new Vue({
