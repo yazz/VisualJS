@@ -667,7 +667,7 @@ cardAppIds[ data.card_id ] = data.code_id
         var codeFn = null
         try {
             //alert(1)
-            codeFn = eval(  "(" + data.code + ")" )
+            codeFn = eval(   data.code  )
         } catch (err) {
             alert(err)
             return

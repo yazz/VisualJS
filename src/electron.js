@@ -185,11 +185,18 @@ var PDFParser       = require("pdf2json");
 
 
 
+/*
+var babel = require("babel-core")
+//zzz
+console.log("****************************")
+var fgt = fs.readFileSync("/Users/faroukzquraishi/visifile_installer/public/visifile_drivers/apps/test.js")
+console.log("fgt: " + fgt)
 
-
-
-
-
+var tr = babel.transform("(" + fgt + ")", {plugins: ["transform-es2015-template-literals"]})
+console.log("****************************")
+console.log(tr.code);
+console.log("****************************")
+*/
 
 
 
@@ -769,7 +776,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
 
 
-//zzz
+
 
             } else if (msg.message_type == "ipc_child_returning_callDriverMethod_response") {
 
@@ -2038,6 +2045,21 @@ function testFirewall(req, res) {
 
 
 
+var babel = require("babel-core")
+
+/*
+
+//zzz
+console.log("****************************")
+var fgt = fs.readFileSync("/Users/faroukzquraishi/visifile_installer/public/visifile_drivers/apps/test.js")
+console.log("fgt: " + fgt)
+
+var tr = babel.transform("(" + fgt + ")", {plugins: ["transform-es2015-template-literals"]})
+console.log("****************************")
+console.log(tr.code);
+console.log("****************************")
+*/
+
 
 
 function websocketFn(ws) {
@@ -2130,14 +2152,15 @@ function websocketFn(ws) {
 
 
         } else if (receivedMessage.message_type == "browser_asks_server_for_app_code") {
-
+//zzz
            // console.log("******************* browser_asks_server_for_app_code *******************: " + receivedMessage.app_name)
             getAppCode(receivedMessage.app_name, function(id,code, libs) {
                // console.log(code)
+               var tr = babel.transform("(" + code + ")", {plugins: ["transform-es2015-template-literals"]})
                 sendToBrowserViaWebSocket(  ws,
                                             {
                                                 type:           "server_returns_app_code_to_browser",
-                                                code:           code,
+                                                code:           tr.code,
                                                 app_name:       receivedMessage.app_name,
                                                 card_id:        receivedMessage.card_id,
                                                 code_id:        id,
@@ -2215,7 +2238,7 @@ function websocketFn(ws) {
 
 
        } else if (receivedMessage.message_type == "callDriverMethod") {
-//zzz
+
             var seqNum = queuedResponseSeqNum;
             queuedResponseSeqNum ++;
             queuedResponses[seqNum] = ws;

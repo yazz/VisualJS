@@ -11,6 +11,7 @@
   "dependencies": {
     "@rgrove/parse-xml": "^1.1.1",
     "async": "^2.6.0",
+    "babel-plugin-transform-es2015-template-literals": "^6.22.0",
     "babel-polyfill": "^6.23.0",
     "body-parser": "^1.17.2",
     "bplist-parser": "^0.1.1",
