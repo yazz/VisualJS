@@ -484,17 +484,21 @@ cardAppIds[ data.card_id ] = data.code_id
 
         }
         var loadedApp = false
-        var codeFn = eval(  "(" + data.code + ")" )
+        var codeFn = null
+        try {
+            //alert(1)
+            codeFn = eval(  "(" + data.code + ")" )
+        } catch (err) {
+            alert(err)
+            return
+        }
         //var args = newAppArgs[card_id] = args
         //document.getElementById(data.card_id).innerHTML = "<div id=current_app>APP WILL BE SHOWN HERE</div>"
         if (data.uses_js_libs ) {
             //alert(JSON.stringify(data.uses_js_libs,null,2))
             for (var tt = 0; tt < data.uses_js_libs.length ; tt++) {
                 if ( data.uses_js_libs[tt].dependency_name == "aframe" ) {
-//eee
 
-                    //requirejs(['app/main1']);
-                    //var codeFn = eval(  "http://' +  location.hostname + ":" + location.port + '/go.html'/aframe.min.js" )
                     scriptTag(
                         "http://" +  location.hostname + ":" + location.port + "/js_libs/aframe.min.js"
                         ,
@@ -502,14 +506,18 @@ cardAppIds[ data.card_id ] = data.code_id
                             loadedApp = true
                             //alert()
                             args.root_element = data.root_element
-                            var moonApp = codeFn(args,function(res) {
-                                //alert("App name: " + res.name)
-                                new Vue({
-                                    template: "<" + res.name + "></" + res.name + ">",
-                                    el: "#" + data.root_element
+                            try {
+                                var moonApp = codeFn(args,function(res) {
+                                    //alert("App name: " + res.name)
+                                    new Vue({
+                                        template: "<" + res.name + "></" + res.name + ">",
+                                        el: "#" + data.root_element
+                                    })
+                                    //alert(JSON.stringify(res,null,2))
                                 })
-                                //alert(JSON.stringify(res,null,2))
-                            })
+                            } catch (err) {
+                                alert(err)
+                            }
                     })
                 }
             }
@@ -518,15 +526,18 @@ cardAppIds[ data.card_id ] = data.code_id
         if (!loadedApp ){
             //alert()
             args.root_element = data.root_element
-            var moonApp = codeFn(args,function(res) {
-                //alert("App name: " + res.name)
-
-                new Vue({
-                    template: "<" + res.name + "></" + res.name + ">",
-                    el: "#" + data.root_element
+            try {
+                var moonApp = codeFn(args,function(res) {
+                    //alert("App name: " + res.name)
+                    new Vue({
+                        template: "<" + res.name + "></" + res.name + ">",
+                        el: "#" + data.root_element
+                    })
+                    //alert(JSON.stringify(res,null,2))
                 })
-                //alert(JSON.stringify(res,null,2))
-            })
+            } catch (err) {
+                alert(err)
+            }
         }
 
 
@@ -595,7 +606,12 @@ var dataIds = new Object()
             document.getElementById("popup_content").innerHTML = data.result.html
         } else if (data.result.client_js) {
             //console.log("data.result.client_js: " + data.result.client_js)
-            eval(""+ data.result.client_js + "")
+            try {
+                //alert(2)
+                eval(""+ data.result.client_js + "")
+            } catch(err) {
+                alert(err)
+            }
         }
 
         //}
@@ -629,12 +645,17 @@ var dataIds = new Object()
             //alert("code: " + JSON.stringify(data,null,2));
             var callbackFn = queuedResponses[data.seq_num]
 
-            var fnfn = eval("(" + data.value.code + ")")
-            var args =     callDriverMethodArgs[data.seq_num]
-            fnfn(args, function(fnfnRes) {
-                callbackFn(fnfnRes)
-                queuedResponses[data.seq_num] = null
-            })
+            try {
+                //alert(3)
+                var fnfn = eval("(" + data.value.code + ")")
+                var args =     callDriverMethodArgs[data.seq_num]
+                fnfn(args, function(fnfnRes) {
+                    callbackFn(fnfnRes)
+                    queuedResponses[data.seq_num] = null
+                })
+            } catch (err) {
+                alert(err)
+            }
         } else {
             var callbackFn = queuedResponses[data.seq_num]
             callbackFn({value: data.value})

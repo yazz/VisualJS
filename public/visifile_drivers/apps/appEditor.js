@@ -62,14 +62,16 @@
                            }
                            ,
                            function(results) {
-                               var code = results.value[0].code
-                               mm.code = code
-                               //alert(code)
-                               callDriverMethod(
-                                   "editorComponent",  "component",  {text: code}
-                                   ,
-                                   function(result) {
-                                       mm.editor_loaded = true })
+                               if (results) {
+                                   var code = results.value[0].code
+                                   mm.code = code
+                                   //alert(code)
+                                   callDriverMethod(
+                                       "editorComponent",  "component",  {text: code}
+                                       ,
+                                       function(result) {
+                                           mm.editor_loaded = true })
+                               }
 
                            })
                       }
