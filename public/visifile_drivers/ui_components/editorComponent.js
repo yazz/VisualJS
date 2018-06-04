@@ -22,7 +22,7 @@
                     }
                   },
                   template: `<div >
-                                <textarea style="width: 100%; height: 50%;" v-model="text"> {{text}}
+                                <textarea id=mytextarea style="width: 100%; height: 50%;" v-model="text"> {{text}}
                                 </textarea>
                                  <slot  :text="text"></slot>
                              </div>`
