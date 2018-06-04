@@ -53,7 +53,7 @@ var cors            = require('cors')
 var mammoth         = require("mammoth");
 var isBinaryFile    = require("isbinaryfile");
 var csvToJson       = require('csvtojson')
-
+var babel           = require("babel-core")
 
 var sqlite3                     = require('sqlite3');
 
@@ -785,6 +785,12 @@ function setUpChildListeners(processName, fileName, debugPort) {
                 //console.log("6.1: " + msg)
                 var new_ws = queuedResponses[ msg.seq_num_parent ]
 
+                if (msg.result) {
+                    if (msg.result.code) {
+                        var tr = babel.transform("(" + msg.result.code + ")", {plugins: ["transform-es2015-template-literals"]})
+                        msg.result.code = tr.code
+                    }
+                }
                 sendToBrowserViaWebSocket(
                                              new_ws
                                              ,
@@ -2045,7 +2051,6 @@ function testFirewall(req, res) {
 
 
 
-var babel = require("babel-core")
 
 /*
 

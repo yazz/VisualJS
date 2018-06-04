@@ -827,7 +827,7 @@ var dataIds = new Object()
 
             try {
                 //alert(3)
-                var fnfn = eval("(" + data.value.code + ")")
+                var fnfn = eval(data.value.code )
                 var args =     callDriverMethodArgs[data.seq_num]
                 fnfn(args, function(fnfnRes) {
                     callbackFn(fnfnRes)
