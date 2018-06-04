@@ -22,13 +22,23 @@
                     }
                   },
                   template: `<div >
-                                <textarea id=mytextarea style="width: 100%; height: 50%;" v-model="text"> {{text}}
-                                </textarea>
+                                <div id=mytextarea v-model="text">{{text}}</div>
                                  <slot  :text="text"></slot>
                              </div>`
-                })
-                //alert(JSON.stringify(args,null,2))
+                 ,
+                 mounted: function() {
+                     var editor = ace.edit(           "mytextarea", {
+                                                             mode:           "ace/mode/javascript",
+                                                             selectionStyle: "text"
+                                                         })
+                     document.getElementById("mytextarea").style.width="100%"
 
+                     document.getElementById("mytextarea").style.height="50%"
+                 }
+
+
+                })
+                //alert(JSON.stringify(args,null,2)),
 
                 returnfn({
                     name: "editor_component"
