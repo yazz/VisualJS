@@ -19,7 +19,8 @@
 
                         <component  is="editor_component" v-if="editor_loaded">
                                         <button slot-scope="editor_component"
-                                                v-on:click='save(code_id, editor_component.text)'>
+                                                v-on:click='save(code_id, editor_component.text)'
+                                                type="button" class="btn btn-primary">
 
                                                     Save
                                        </button>
