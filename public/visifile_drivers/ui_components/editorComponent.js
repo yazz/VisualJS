@@ -22,11 +22,12 @@
                     }
                   },
                   template: `<div >
-                                <div id=mytextarea v-model="text">{{text}}</div>
+                                <div id=mytextarea >{{text}}</div>
                                  <slot  :text="text"></slot>
                              </div>`
                  ,
                  mounted: function() {
+                     var mm = this
                      var editor = ace.edit(           "mytextarea", {
                                                              mode:           "ace/mode/javascript",
                                                              selectionStyle: "text"
@@ -34,6 +35,10 @@
                      document.getElementById("mytextarea").style.width="100%"
 
                      document.getElementById("mytextarea").style.height="50%"
+
+                     editor.getSession().on('change', function() {
+                        mm.text = editor.getSession().getValue();
+                        });
                  }
 
 
