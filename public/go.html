@@ -676,7 +676,7 @@ var myScroller = null;
               template: `<div style="font-family: 'Helvetica';">
               <div class='polaroid tilt' v-bind:id='"card_"+ item.id' v-on:click="click_card(item.id)">
                 <h1 class="caption">{{item.card.name}}</h1>
-                <a style='font-size: 2em;' href='{{item.card.link}}' v-if="item.card.link">{{item.card.link_name}}</a>
+                <a style='font-size: 2em;' v-bind:href='item.card.link' v-if="item.card.link">{{item.card.link_name}}</a>
 
                 <div    style='font-size: 2em;' v-on:click='loadContent(item.card.data_id,item.card.name)'
                         v-if="item.card.load_content">Preview</div>
