@@ -2057,7 +2057,7 @@ function testFirewall(req, res) {
 
 //zzz
 console.log("****************************")
-var fgt = fs.readFileSync("/Users/faroukzquraishi/visifile_installer/public/visifile_drivers/apps/test.js")
+var fgt = fs.readFileSync(path.join(__dirname, "../public/visifile_drivers/apps/test.js"))
 console.log("fgt: " + fgt)
 
 //var tr = babel.transform("(" + fgt + ")", {plugins: ["/Users/faroukzquraishi/visifile_installer/node_modules/babel-plugin-transform-es2015-template-literals"]})
