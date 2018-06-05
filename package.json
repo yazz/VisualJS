@@ -14,6 +14,7 @@
     "babel-core": "^6.26.3",
     "babel-plugin-transform-es2015-template-literals": "^6.22.0",
     "babel-polyfill": "^6.23.0",
+    "babel-preset-electron": "^1.4.15",
     "body-parser": "^1.17.2",
     "bplist-parser": "^0.1.1",
     "browserify": "^14.1.0",
@@ -69,6 +70,9 @@
     "vuex": "^3.0.1",
     "xlsx": "^0.11.6"
   },
+  "babel": {
+      "plugins": ["babel-plugin-transform-es2015-template-literals"]
+ },
   "devDependencies": {
     "electron-builder": "^20.8.1",
     "electron-prebuilt-compile": "1.8.4"

@@ -54,6 +54,7 @@ var mammoth         = require("mammoth");
 var isBinaryFile    = require("isbinaryfile");
 var csvToJson       = require('csvtojson')
 var babel           = require("babel-core")
+require("babel-plugin-transform-es2015-template-literals")
 
 var sqlite3                     = require('sqlite3');
 
