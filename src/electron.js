@@ -193,7 +193,7 @@ console.log("****************************")
 var fgt = fs.readFileSync("/Users/faroukzquraishi/visifile_installer/public/visifile_drivers/apps/test.js")
 console.log("fgt: " + fgt)
 
-var tr = babel.transform("(" + fgt + ")", {})
+var tr = babel.transform("(" + fgt + ")", {plugins: [path.join(__dirname, "../node_modules/babel-plugin-transform-es2015-template-literals")]})
 console.log("****************************")
 console.log(tr.code);
 console.log("****************************")
@@ -788,7 +788,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
                 if (msg.result) {
                     if (msg.result.code) {
-                        var tr = babel.transform("(" + msg.result.code + ")", {})
+                        var tr = babel.transform("(" + msg.result.code + ")", {plugins: [path.join(__dirname, "../node_modules/babel-plugin-transform-es2015-template-literals")]})
                         msg.result.code = tr.code
                     }
                 }
@@ -2053,18 +2053,20 @@ function testFirewall(req, res) {
 
 
 
-/*
+
 
 //zzz
 console.log("****************************")
 var fgt = fs.readFileSync("/Users/faroukzquraishi/visifile_installer/public/visifile_drivers/apps/test.js")
 console.log("fgt: " + fgt)
 
-var tr = babel.transform("(" + fgt + ")", {plugins: ["transform-es2015-template-literals"]})
+//var tr = babel.transform("(" + fgt + ")", {plugins: ["/Users/faroukzquraishi/visifile_installer/node_modules/babel-plugin-transform-es2015-template-literals"]})
+//var tr = babel.transform("(" + fgt + ")", {plugins: ["/Users/faroukzquraishi/visifile_installer/node_modules/babel-plugin-transform-es2015-template-literals"]})
+var tr = babel.transform("(" + fgt + ")", {plugins: [path.join(__dirname, "../node_modules/babel-plugin-transform-es2015-template-literals")]})
 console.log("****************************")
 console.log(tr.code);
 console.log("****************************")
-*/
+
 
 
 
@@ -2162,7 +2164,7 @@ function websocketFn(ws) {
            // console.log("******************* browser_asks_server_for_app_code *******************: " + receivedMessage.app_name)
             getAppCode(receivedMessage.app_name, function(id,code, libs) {
                // console.log(code)
-               var tr = babel.transform("(" + code + ")", {})
+               var tr = babel.transform("(" + code + ")", {plugins: [path.join(__dirname, "../node_modules/babel-plugin-transform-es2015-template-literals")]})
                 sendToBrowserViaWebSocket(  ws,
                                             {
                                                 type:           "server_returns_app_code_to_browser",
