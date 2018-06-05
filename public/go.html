@@ -52,7 +52,7 @@
 <script>
 function initFn() {
     setTimeout(function(){
-//zzz
+
         Vue.component('card_component', {
             props: ["item"],
             methods: {
@@ -64,10 +64,10 @@ function initFn() {
           data: function () {
             return {
             }
-          }
+          }//zzz
           ,
-          template: "<div style='font-family: Helvetica;'>"+
-"          <div class='polaroid tilt' v-bind:id='\"card_\"+ item.id' v-on:click='click_card(item.id)'>"+
+          template: "<div v-bind:id='\"card_\"+ item.id' v-on:click='click_card(item.id)' class='polaroid tilt' " + 
+		               " style='font-family: Helvetica;;margin-bottom: -40px; padding: 10px; left: 0; right: 0; ;width: 90vw;' >"+
 "            <h1 class='caption'>{{item.card.name}}</h1>"+
 "            <a style='font-size: 2em;' v-bind:href='item.card.link' v-if='item.card.link'>{{item.card.link_name}}</a>"+
 ""+
@@ -89,7 +89,6 @@ function initFn() {
 ""+
 "            <div style='height: 2em;'></div>"+
 ""+
-"            </div>"+
 "            </div>"})
 
 
@@ -287,29 +286,34 @@ div.polaroid {
   }
 
 div.tilt {
-    -o-transform: rotateX( -55deg );
-    -moz-transform: rotateX( -55deg );
-    -webkit-transform: rotateX( -55deg );
-    transform: rotateX( -55deg );
+    -o-transform: rotateX( -55deg ) scale(0.8);
+    -moz-transform: rotateX( -55deg ) scale(0.8);
+    -webkit-transform: rotateX( -55deg ) scale(0.8);
+    transform: rotateX( -55deg ) scale(0.8);
 }
 
 
 @keyframes move_card {
     from {transform: rotateX( -55deg ) ; margin-bottom: -40px;}
-    to {transform: rotateX( 0deg ) ;margin: 0px; padding: 10px; left: 0; right: 0; top: 0; bottom: 0; ;width: 90vw;}
-}
-@-webkit-keyframes move_card {
-    from {-webkit-transform: rotateX( -55deg ) ; margin-bottom: -40px;}
-    to {-webkit-transform: rotateX( 0deg ) ;margin: 0px;padding: 10px; left: 0; right: 0; top: 0; bottom: 0; ;width: 90vw;}
+    to {transform: rotateX( 0deg ) scale(1);;margin: 0px; padding: 10px; left: 0; right: 0; top: 0; bottom: 0; ;width: 90vw;}
 }
 @keyframes move_card_back {
-    from {transform: rotateX( 0deg ) ;;margin: 0px; padding: 10px; left: 0; right: 0; top: 0; bottom: 0; ;width: 90vw;}
-    to {transform: rotateX( -55deg ) ; margin-bottom: -40px;}
+    from {transform: rotateX( 0deg ) ;margin: 0px; padding: 10px; left: 0; right: 0; top: 0; bottom: 0; ;width: 90vw;}
+    to {transform: rotateX( -55deg ) scale(0.8);;  padding: 10px; left: 0; right: 0; ;width: 90vw;}
+}
+
+
+
+@-webkit-keyframes move_card {
+    from {-webkit-transform: rotateX( -55deg ) ; margin-bottom: -40px;}
+    to {-webkit-transform: rotateX( 0deg ) scale(1);;margin: 0px;padding: 10px; left: 0; right: 0; top: 0; bottom: 0; ;width: 90vw;}
 }
 @-webkit-keyframes move_card_back {
-    from {-webkit-transform: rotateX( 0deg ) ;;margin: 0px; padding: 10px; left: 0; right: 0; top: 0; bottom: 0; ;width: 90vw;}
-    to {-webkit-transform: rotateX( -55deg ) ; margin-bottom: -40px;}
+    from {-webkit-transform: rotateX( 0deg ) ;margin: 0px; padding: 10px; left: 0; right: 0; top: 0; bottom: 0; ;width: 90vw;}
+    to {-webkit-transform: rotateX( -55deg ) scale(0.8);;  padding: 10px; left: 0; right: 0; ;width: 90vw;}
 }
+
+
 .expand {
     animation: move_card .5s;
     -webkit-animation: move_card .5s;
