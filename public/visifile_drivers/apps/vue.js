@@ -1,13 +1,7 @@
 {
-    doc_type: 'visifile'
-    ,
-    name: 'vue'
-    ,
-    version: 1
-    ,
-    type: 'app'
-    ,
-    text: 'Vue test app'
+    doc_type: 'appshare', name: 'vue',
+    version: 1,
+    descroption: 'Vue test app'
 
 
     ,
@@ -23,7 +17,7 @@
                 })
                 //alert("root: " + args.root_element +".")
                 returnfn({name: "VueApp"})
-                
+
 
 
             }, end: null

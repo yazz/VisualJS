@@ -25,13 +25,17 @@
                                                     Save
                                        </button>
                         </component>
-                        </pre>
+
+                        <component  is="VueApp" v-if="app_loaded">
+                        </component>
+                    </pre>
                   </div>
                    `
                    ,
                    data: function() {
                        return {
                            editor_loaded: false,
+                           app_loaded: false,
                            code_id: "..."
                        }
                    }
@@ -75,6 +79,15 @@
                                }
 
                            })
+                           callDriverMethod(
+                               "vue",  "app",
+                               {
+                               }
+                               ,
+                               function(results) {
+                                alert("load")
+                                    mm.app_loaded = true
+                               })
                       }
 
 
