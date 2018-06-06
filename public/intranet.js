@@ -3,7 +3,7 @@
         window.location.href  = 'http://' + addr;
         return false;
     };
-    
+
     String.prototype.replaceAll = function(search, replacement) {
         var target = this;
         return target.split(search).join(replacement);
@@ -55,7 +55,7 @@ var inCheck = 0;
                             "<div> " + intranetGoShareDataHost + "</div> </div>";
                 var newid = intranetGoShareDataHost.replace(":",".").replaceAll(".","_");
                 //console.log("newid: " + JSON.stringify(newid,null,2) + " = " + newHtml);
-                
+
                 $("#" + newid).html(newHtml);
                 $("#" + newid + "_status").html("");
                 $("#" + newid + "_result").html(blocked);
@@ -63,9 +63,9 @@ var inCheck = 0;
             }
         });
     }
-    
+
     var generated = false;
-    
+
     var checkServers = function() {
         if (inCheck > 0) {
             return;
@@ -77,12 +77,12 @@ var inCheck = 0;
                         var returned= eval( "(" + data1 + ")");
                         var i = 0;
                         if (!generated) {
-                            //$("#local_machine_in_intranet").html(   '<div style="width: 300px">Your intranet public IP:' + returned.intranetPublicIp + 
+                            //$("#local_machine_in_intranet").html(   '<div style="width: 300px">Your intranet public IP:' + returned.intranetPublicIp +
                             //                                    '</div><br>Your local servers:<br><br>');
                             generated = true;
                         }
                         if (returned.allServers.length == 0) {
-                            $("#local_machine_in_intranet").html(   '<div style=" font-family: helvetica;">No VisiFile servers on your intranet</div>');
+                            $("#local_machine_in_intranet").html(   '<div style=" font-family: helvetica;">No AppShares running on your intranet</div>');
                         } else {
                             $("#local_machine_in_intranet").html('');
                         };
@@ -97,18 +97,18 @@ var inCheck = 0;
                                     $("#local_machine_in_intranet").append('<div style="font-family: helvetica; padding: 5px; display: inline-block;" id=' + elid + '>' + intranetGoShareDataHost + '</div>');
                                     $("#local_machine_in_intranet").append('<div style="font-family: helvetica; padding: 5px; display: inline-block;" id=' + elid + '_status> checking server...</div>' );
                                     $("#local_machine_in_intranet").append('<div style="font-family: helvetica; padding: 5px; display: inline-block;" id=' + elid + '_result></div><BR>' );
-                            }                            
+                            }
                             checkHost(intranetGoShareDataHost);
                         };
 
-                        
-                        
+
+
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
                         $("#local_machine_in_intranet").html("Error. No local servers available on your intranet right now" );
                     }
                 });
                 };
-    
+
     setTimeout(checkServers,800);
     setInterval(checkServers,4000);

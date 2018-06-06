@@ -1,5 +1,5 @@
 {
-    doc_type: 'visifile',
+    doc_type: 'appshare',
     name: 'appEditor',version: 1,
 
 
