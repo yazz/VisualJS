@@ -2926,13 +2926,13 @@ function setUpDbDrivers() {
     //
     // apps
     //
+    evalLocalSystemDriver('appEditorV2',   path.join(__dirname, '../public/visifile_drivers/apps/appEditorV2.js'))
     evalLocalSystemDriver('search',   path.join(__dirname, '../public/visifile_drivers/apps/search.js'))
     evalLocalSystemDriver('test',   path.join(__dirname, '../public/visifile_drivers/apps/test.js'))
     evalLocalSystemDriver('game',   path.join(__dirname, '../public/visifile_drivers/apps/game.js'))
     evalLocalSystemDriver('listApps',   path.join(__dirname, '../public/visifile_drivers/apps/listApps.js'))
     evalLocalSystemDriver('vue',   path.join(__dirname, '../public/visifile_drivers/apps/vue.js'))
-    evalLocalSystemDriver('appEditorV2',   path.join(__dirname, '../public/visifile_drivers/apps/appEditorV2.js'))
-    evalLocalSystemDriver('appEditor',   path.join(__dirname, '../public/visifile_drivers/apps/appEditor.js'))
+    //evalLocalSystemDriver('appEditor',   path.join(__dirname, '../public/visifile_drivers/apps/appEditor.js'))
 
 
 

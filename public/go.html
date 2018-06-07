@@ -82,7 +82,7 @@ function initFn() {
 "                    <div v-bind:id='\"app_\"+ item.id' >"+
 "                    </div>"+
 "                </div>"+
-"                <div class=link style='height: 2em;display:inline-block; padding-right: 30px;padding-top: 30px;' v-on:click='prepareApp(item.id, \"appEditor\", {code_id: cardAppIds[ item.id ] })' >Edit App</div>"+
+"                <div class=link style='height: 2em;display:inline-block; padding-right: 30px;padding-top: 30px;' v-on:click='prepareApp(item.id, \"appEditorV2\", {appName: cardAppIds[ item.id ] })' >Edit App</div>"+
 "                <div class=link style='height: 2em;display:inline-block; padding-right: 30px;padding-top: 30px;' v-on:click='prepareApp(item.id, item.card.app, {})' >RUN</div>"+
 "                <div class=link style='height: 2em;display:inline-block' v-on:click='copyApp()' >Copy App</div>"+
 "            </div>"+
@@ -657,7 +657,7 @@ function setupWebSocket(host, port)
         //console.log("Browser received from server socket: " + JSON.stringify(data,null,2));
 
 var args = newAppArgs[data.card_id]
-cardAppIds[ data.card_id ] = data.code_id
+cardAppIds[ data.card_id ] = data.app_name
         //alert(JSON.stringify(args,null,2)  )
         if (!document.getElementById(data.root_element)) {
             var newRootId = data.root_element.substring(4)
