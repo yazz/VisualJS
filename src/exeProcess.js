@@ -499,23 +499,25 @@ function saveDocumentContent(  documentHash,  resultData  ) {
                         "    document_binary_hash = '" + documentHash + "'"
                         ,
                         function(err, results) {
-                            if (results.length == 0) {
-                                dbsearch.serialize(
-                                    function() {
-                                        dbsearch.run("begin exclusive transaction");
-                                        for (var i = 0 ; i < rrows.length; i++) {
+                            if (results) {
+                                if (results.length == 0) {
+                                    dbsearch.serialize(
+                                        function() {
+                                            dbsearch.run("begin exclusive transaction");
+                                            for (var i = 0 ; i < rrows.length; i++) {
 
-                                            var rowhash = crypto.createHash('sha1');
-                                            var row = JSON.stringify(rrows[i]);
-                                            rowhash.setEncoding('hex');
-                                            rowhash.write(row);
-                                            rowhash.end();
-                                            var sha1sum = rowhash.read();
-                                            stmtInsertRowFullTextSearch.run(sha1sum, row)
-                                            stmtInsertRowHashes.run(documentHash, null, sha1sum)
-                                        }
-                                        dbsearch.run("commit");
-                                })
+                                                var rowhash = crypto.createHash('sha1');
+                                                var row = JSON.stringify(rrows[i]);
+                                                rowhash.setEncoding('hex');
+                                                rowhash.write(row);
+                                                rowhash.end();
+                                                var sha1sum = rowhash.read();
+                                                stmtInsertRowFullTextSearch.run(sha1sum, row)
+                                                stmtInsertRowHashes.run(documentHash, null, sha1sum)
+                                            }
+                                            dbsearch.run("commit");
+                                    })
+                                }
                             }
 
                         });
