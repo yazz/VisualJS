@@ -1,6 +1,6 @@
 {
     doc_type: 'appshare',
-    name: 'appEditor',version: 1,
+    name: 'appEditorV2',version: 1,
 
 
 
@@ -25,6 +25,9 @@
                                                     Save
                                        </button>
                         </component>
+
+                        <component  is="VueApp" v-if="app_loaded">
+                        </component>
                     </pre>
                   </div>
                    `
@@ -32,6 +35,7 @@
                    data: function() {
                        return {
                            editor_loaded: false,
+                           app_loaded: false,
                            code_id: "..."
                        }
                    }
@@ -75,7 +79,15 @@
                                }
 
                            })
-
+                           callDriverMethod(
+                               "vue",  "app",
+                               {
+                               }
+                               ,
+                               function(results) {
+                                alert("load")
+                                    mm.app_loaded = true
+                               })
                       }
 
 
