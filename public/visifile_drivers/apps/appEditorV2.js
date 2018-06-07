@@ -59,20 +59,31 @@
                             //alert(event.target.value)
                             this.load_app(event.target.value)
                        },
+
+
+
+
                        save: function(code_id, text) {
+                           var mm = this
                            //alert("Saving " + code_id)
+                           //alert("Saving " + text)
                            callDriverMethod(
-                               "appEditor",  "saveCode",
+                               "appEditorV2",  "saveCode",
                                {
                                    code: text,
                                    code_id: code_id
                                }
                                ,
                                function(results) {
-                                   alert("Code saved")
-
+                                //zzz
+                                   alert("Reloading: " + mm.app_name)
+                                   mm.load_app(mm.app_name)
                                })
                        },
+
+
+
+
 
                        load_app: function (appName) {
                            //alert("trying to load app: " + appName)
@@ -107,8 +118,10 @@
                                        //alert(results.value.length)
                                        if (results.value.length > 0) {
                                            var code = results.value[0].code
+                                           var codeId = results.value[0].id
                                            //alert(code)
                                            mm.code = code
+                                           mm.code_id = codeId
                                            //alert(code)
                                            callDriverMethod(
                                                "editorComponent",  "component",  {text: code}
