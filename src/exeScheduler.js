@@ -290,9 +290,9 @@ function setUpSql() {
     unlockData = dbsearch.prepare("UPDATE all_data SET status = NULL WHERE id = ?");
 
     stmtInsertIntoCode = dbsearch.prepare(  " insert into system_code " +
-                                                "      ( id, on_condition, driver, method, code, max_processes ) " +
+                                                "      ( id, on_condition, driver, method, code, max_processes, component_type ) " +
                                                 " values " +
-                                                "      ( ?,  ?, ? , ?, ?, ?);");
+                                                "      ( ?,  ?, ? , ?, ?, ?, ?);");
 
     stmtUpdateCode = dbsearch.prepare(  " update system_code " +
                                                 "      set on_condition     = ?, "+
@@ -386,6 +386,11 @@ function addEventCode(eventName, driverName, code, listOfEvents, maxProcesses) {
     var startIndex = code.lastIndexOf(",")
     code = code.substring(0, startIndex )
 
+    var componentType = ""
+    if (code.indexOf("is_app()") != -1) {
+        componentType = "app"
+    }
+
 
     //console.log("          code: " + JSON.stringify(code,null,2))
 
@@ -411,7 +416,8 @@ function addEventCode(eventName, driverName, code, listOfEvents, maxProcesses) {
                                     driverName,
                                     eventName,
                                     code,
-                                    maxProcesses)
+                                    maxProcesses,
+                                    componentType)
                                 dbsearch.run("commit");
                             })
 
