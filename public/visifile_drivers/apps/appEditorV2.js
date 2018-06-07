@@ -7,8 +7,11 @@
     events: {
         "This will return the editor app": {
             on: "app",
-            do: function(args, returnfn) {
+            do:  function(args, returnfn) {
                 is_app()
+
+                var argAppName = args.appName
+
                 Vue.component("app_editor",
                 {
                   template: `<div>
@@ -28,7 +31,12 @@
 
                         <component  is="VueApp" v-if="app_loaded">
                         </component>
-                    </pre>
+                        <div  v-if="!app_loaded">
+                            No app selected
+                            <ul>
+                                    <li v-for="item in apps">{{item}}</li>
+                            </ul>                    </pre>
+                        </div>
                   </div>
                    `
                    ,
@@ -36,6 +44,7 @@
                        return {
                            editor_loaded: false,
                            app_loaded: false,
+                           apps: [],
                            code_id: "..."
                        }
                    }
@@ -79,15 +88,25 @@
                                }
 
                            })
-                           callDriverMethod(
-                               "vue",  "app",
-                               {
-                               }
-                               ,
-                               function(results) {
-                                alert("load")
-                                    mm.app_loaded = true
-                               })
+                           if (argAppName) {
+                               callDriverMethod(
+                                   argAppName,  "app",
+                                   {
+                                   }
+                                   ,
+                                   function(results) {
+                                        mm.app_loaded = true
+                                   })
+                           } else {
+                               callDriverMethod( "systemFunctions",
+                                                 "get_apps_list"
+                                                 ,{}
+                                           ,
+                                           function(result) {
+                                             //  console.log("3) returned result: " + JSON.stringify(result,null,2))
+                                               mm.apps = result.value
+                                           })
+                           }
                       }
 
 
