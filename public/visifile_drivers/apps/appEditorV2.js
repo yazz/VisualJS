@@ -73,8 +73,23 @@
 
                    mounted: function () {
                        var mm = this
-                       mm.code_id = args.code_id
                        if (argAppName) {
+                            this.load_app()
+                        } else {
+                            callDriverMethod( "systemFunctions",
+                                              "get_apps_list"
+                                              ,{}
+                                        ,
+                                        function(result) {
+                                          //  console.log("3) returned result: " + JSON.stringify(result,null,2))
+                                            mm.apps = result.value
+                                        })
+                        }
+                   },
+
+                   load_app: function () {
+                       var mm = this
+                       mm.code_id = args.code_id
                        callDriverMethod(
                            "systemFunctions",  "sql",
                            {
@@ -91,10 +106,8 @@
                                        ,
                                        function(result) {
                                            mm.editor_loaded = true })
-                               }
 
-                           })
-                           
+
                                callDriverMethod(
                                    argAppName,  "app",
                                    {
@@ -103,23 +116,17 @@
                                    function(results) {
                                         mm.app_loaded = true
                                    })
-                           } else {
-                               callDriverMethod( "systemFunctions",
-                                                 "get_apps_list"
-                                                 ,{}
-                                           ,
-                                           function(result) {
-                                             //  console.log("3) returned result: " + JSON.stringify(result,null,2))
-                                               mm.apps = result.value
-                                           })
-                           }
-                      }
+
+                               }
+                           })
+                       }
+                   })
+                   returnfn({name: "app_editor"})
 
 
-                })
 
 
-                returnfn({name: "app_editor"})
+
 
 
             }, end: null
