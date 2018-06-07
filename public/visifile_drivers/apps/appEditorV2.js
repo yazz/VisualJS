@@ -7,7 +7,7 @@
     events: {
         "This will return the editor app": {
             on: "app",
-            do:  function(args, returnfn) {
+            do:    function(args, returnfn) {
                 is_app()
 
                 var argAppName = args.appName
@@ -35,7 +35,7 @@
                             No app selected. Select one:
                             <br>
                             <select @change="chooseApp">
-                                <option v-for="item in apps" value="{{item}}">{{item}}</option>
+                                <option v-for="item in apps" v-bind:value="item">{{item}}</option>
                             </select>
 
                         </div>
@@ -52,8 +52,8 @@
                    }
                    ,
                    methods: {
-                       chooseApp: function() {
-                        alert(1)
+                       chooseApp: function(event) {
+                        alert(event.target.value)
                        },
                        save: function(code_id, text) {
                            //alert("Saving " + code_id)
@@ -94,6 +94,7 @@
                                }
 
                            })
+                           
                                callDriverMethod(
                                    argAppName,  "app",
                                    {
