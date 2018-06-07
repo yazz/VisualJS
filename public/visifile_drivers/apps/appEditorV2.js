@@ -67,8 +67,8 @@
 
                        save: function(code_id, text) {
                            var mm = this
-                           //alert("Saving " + code_id)
-                           //alert("Saving " + text)
+                           alert("Saving " + code_id)
+                           alert("Saving " + text)
                            callDriverMethod(
                                "appEditorV2",  "saveCode",
                                {
@@ -78,7 +78,7 @@
                                ,
                                function(results) {
                                 //zzz
-                                   //alert("Reloading 2: " + mm.app_name)
+                                   alert("Reloading 2: " + mm.app_name)
                                    mm.load_app(mm.app_name)
                                })
                        },
