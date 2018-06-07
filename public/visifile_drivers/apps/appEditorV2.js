@@ -29,7 +29,7 @@
                                        </button>
                         </component>
 
-                        <component  v-bind:is="app_name" v-if="app_loaded">
+                        <component  v-bind:is="app_component_name" v-if="app_loaded">
                           APP HERE
                         </component>
 
@@ -49,8 +49,10 @@
                            editor_loaded: false,
                            app_loaded: false,
                            apps: [],
+                           app_component_name: null,
                            app_name: null,
-                           code_id: "..."
+                           code_id: "...",
+                           version: 0
                        }
                    }
                    ,
@@ -76,7 +78,7 @@
                                ,
                                function(results) {
                                 //zzz
-                                   alert("Reloading: " + mm.app_name)
+                                   //alert("Reloading 2: " + mm.app_name)
                                    mm.load_app(mm.app_name)
                                })
                        },
@@ -89,16 +91,23 @@
                            //alert("trying to load app: " + appName)
                            var mm = this
                            mm.code_id = args.code_id
-                           callDriverMethod(
-                               appName,  "app",
-                               {
-                               }
-                               ,
-                               function(results) {
-                                   mm.app_loaded = true
-                                   mm.app_name = results.name
-                                   //alert(results.name + " loaded")
-                               })
+                           mm.app_loaded = false
+                           mm.app_name = null
+                           mm.app_component_name = null
+                           setTimeout(function() {
+                               //alert("Reloading: " + appName)
+                               callDriverMethod(
+                                   appName,  "app",
+                                   {
+                                   }
+                                   ,
+                                   function(results) {
+                                       mm.app_loaded = true
+                                       mm.app_name = appName
+                                       mm.app_component_name = results.name
+                                       //alert(results.name + " loaded")
+                                   })
+                           },200)
 
 
 
