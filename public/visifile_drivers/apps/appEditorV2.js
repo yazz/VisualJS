@@ -32,10 +32,12 @@
                         <component  is="VueApp" v-if="app_loaded">
                         </component>
                         <div  v-if="!app_loaded">
-                            No app selected
-                            <ul>
-                                    <li v-for="item in apps">{{item}}</li>
-                            </ul>                    </pre>
+                            No app selected. Select one:
+                            <br>
+                            <select @change="chooseApp">
+                                <option v-for="item in apps" value="{{item}}">{{item}}</option>
+                            </select>
+
                         </div>
                   </div>
                    `
@@ -50,6 +52,9 @@
                    }
                    ,
                    methods: {
+                       chooseApp: function() {
+                        alert(1)
+                       },
                        save: function(code_id, text) {
                            //alert("Saving " + code_id)
                            callDriverMethod(
@@ -69,6 +74,7 @@
                    mounted: function () {
                        var mm = this
                        mm.code_id = args.code_id
+                       if (argAppName) {
                        callDriverMethod(
                            "systemFunctions",  "sql",
                            {
@@ -88,7 +94,6 @@
                                }
 
                            })
-                           if (argAppName) {
                                callDriverMethod(
                                    argAppName,  "app",
                                    {
