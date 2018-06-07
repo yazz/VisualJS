@@ -29,8 +29,10 @@
                                        </button>
                         </component>
 
-                        <component  is="VueApp" v-if="app_loaded">
+                        <component  v-bind:is="app_name" v-if="app_loaded">
+                          APP HERE
                         </component>
+
                         <div  v-if="!app_loaded">
                             No app selected. Select one:
                             <br>
@@ -47,13 +49,15 @@
                            editor_loaded: false,
                            app_loaded: false,
                            apps: [],
+                           app_name: null,
                            code_id: "..."
                        }
                    }
                    ,
                    methods: {
                        chooseApp: function(event) {
-                        alert(event.target.value)
+                            //alert(event.target.value)
+                            this.load_app(event.target.value)
                        },
                        save: function(code_id, text) {
                            //alert("Saving " + code_id)
@@ -68,13 +72,31 @@
                                    alert("Code saved")
 
                                })
-                       }
+                       },
+
+                       load_app: function (appName) {
+                           //alert("trying to load app: " + appName)
+                           var mm = this
+                           mm.code_id = args.code_id
+                           callDriverMethod(
+                               appName,  "app",
+                               {
+                               }
+                               ,
+                               function(results) {
+                                   mm.app_loaded = true
+                                   mm.app_name = results.name
+                                   //alert(results.name + " loaded")
+                               })
+
+                           }
+
                    },
 
                    mounted: function () {
                        var mm = this
                        if (argAppName) {
-                            this.load_app()
+                            this.load_app(argAppName)
                         } else {
                             callDriverMethod( "systemFunctions",
                                               "get_apps_list"
@@ -85,41 +107,7 @@
                                             mm.apps = result.value
                                         })
                         }
-                   },
-
-                   load_app: function () {
-                       var mm = this
-                       mm.code_id = args.code_id
-                       callDriverMethod(
-                           "systemFunctions",  "sql",
-                           {
-                               sql: "select  code  from  system_code  where  id = '" + args.code_id +  "' "
-                           }
-                           ,
-                           function(results) {
-                               if (results) {
-                                   var code = results.value[0].code
-                                   mm.code = code
-                                   //alert(code)
-                                   callDriverMethod(
-                                       "editorComponent",  "component",  {text: code}
-                                       ,
-                                       function(result) {
-                                           mm.editor_loaded = true })
-
-
-                               callDriverMethod(
-                                   argAppName,  "app",
-                                   {
-                                   }
-                                   ,
-                                   function(results) {
-                                        mm.app_loaded = true
-                                   })
-
-                               }
-                           })
-                       }
+                   }
                    })
                    returnfn({name: "app_editor"})
 
