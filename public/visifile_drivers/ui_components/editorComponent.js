@@ -39,7 +39,7 @@
 
                      editor.getSession().on('change', function() {
                         mm.text = editor.getSession().getValue();
-                        alert("changed text to : " + mm.text)
+                        //alert("changed text to : " + mm.text)
                         });
                  }
 
