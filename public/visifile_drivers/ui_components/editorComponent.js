@@ -37,6 +37,7 @@
                      document.getElementById("mytextarea").style.height="50%"
 
                      editor.getSession().on('change', function() {
+                     alert("changed")
                         mm.text = editor.getSession().getValue();
                         });
                  }
