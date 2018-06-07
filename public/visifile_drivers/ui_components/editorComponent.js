@@ -23,7 +23,7 @@
                   },
                   template: `<div >
                                 <div id=mytextarea >{{text}}</div>
-                                 <slot  :text="text"></slot>
+                                 <slot  :text2="text"></slot>
                              </div>`
                  ,
                  mounted: function() {
