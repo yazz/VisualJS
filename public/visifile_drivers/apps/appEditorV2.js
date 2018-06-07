@@ -89,6 +89,40 @@
                                    //alert(results.name + " loaded")
                                })
 
+
+
+                           var sql =    "select  id, code  from  system_code  where " +
+                                        "     on_condition like '%app%' and driver = '" + appName + "'"
+
+                           //alert( sql )
+
+                           callDriverMethod(
+                               "systemFunctions",  "sql",
+                               {
+                                   sql: sql
+                               }
+                               ,
+                               function(results) {
+                                   if (results) {
+                                       //alert(results.value.length)
+                                       if (results.value.length > 0) {
+                                           var code = results.value[0].code
+                                           //alert(code)
+                                           mm.code = code
+                                           //alert(code)
+                                           callDriverMethod(
+                                               "editorComponent",  "component",  {text: code}
+                                               ,
+                                               function(result) {
+                                                    mm.editor_loaded = true })
+                                       }
+                                   }
+                               })
+
+
+
+
+
                            }
 
                    },
