@@ -22,7 +22,7 @@
                     }
                   },
                   template: `<div >
-                                <div id=mytextarea >{{text}}</div>
+                                <div id=mytextarea ></div>
                                  <slot  :text2="text"></slot>
                              </div>`
                  ,
@@ -35,6 +35,7 @@
                      document.getElementById("mytextarea").style.width="100%"
 
                      document.getElementById("mytextarea").style.height="50%"
+                     editor.getSession().setValue(mm.text);
 
                      editor.getSession().on('change', function() {
                         mm.text = editor.getSession().getValue();
