@@ -65,6 +65,7 @@ function initFn() {
           ,
           template: "<div v-bind:id='\"card_\"+ item.id' v-on:click='click_card(item.id)' class='polaroid tilt' " +
 		               " v-bind:style=\"'font-family: Helvetica ; width: 90vw ;visibility: ' + (visible?'':'hidden') + ';' \">"+
+                       "                <div class=link style='height: 2em;display:inline-block' v-on:click='closeCard()' >Close</div>"+
 "            <h1 class='caption'>{{item.card.name}}</h1>"+
 "            <a style='font-size: 2em;' v-bind:href='item.card.link' v-if='item.card.link'>{{item.card.link_name}}</a>"+
 ""+
@@ -81,7 +82,6 @@ function initFn() {
 "                </div>"+
 "                <div class=link style='height: 2em;display:inline-block; padding-right: 30px;padding-top: 30px;' v-on:click='prepareApp(item.id, \"appEditorV2\", {appName: cardAppIds[ item.id ] })' >Edit App</div>"+
 "                <div class=link style='height: 2em;display:inline-block; padding-right: 30px;padding-top: 30px;' v-on:click='prepareApp(item.id, item.card.app, {})' >RUN</div>"+
-"                <div class=link style='height: 2em;display:inline-block' v-on:click='copyApp()' >Copy App</div>"+
 "            </div>"+
 ""+
 "            <div style='height: 2em;'></div>"+
@@ -271,18 +271,18 @@ body {
 }
 
 div.polaroid {
-    padding-top: 100;
+    padding-top: 10;
     padding-bottom: 100;
     padding-left: 10;
     padding-right: 10;
     border: 1px solid #BFBFBF;
     background-color: white;
     box-shadow: 10px 10px 5px #aaaaaa;
-    margin-top: 50;
+    margin-top: 10;
     margin-bottom: -100;
     margin-left: 0;
     margin-right: 0;
-
+    height:90%;
   }
 
 div.tilt {
@@ -295,7 +295,8 @@ div.tilt {
 
 @keyframes move_card {
     from {transform: rotateX( -55deg ) scale(0.7);}
-    to {transform: rotateX( 0deg ) scale(1);}
+    to {transform: rotateX( 0deg ) scale(1);
+    }
 }
 @keyframes move_card_back {
     from {transform: rotateX( 0deg ) scale(1);}
@@ -306,7 +307,8 @@ div.tilt {
 
 @-webkit-keyframes move_card {
     from {-webkit-transform: rotateX( -55deg ) scale(0.7);}
-    to {-webkit-transform: rotateX( 0deg ) scale(1);}
+    to {-webkit-transform: rotateX( 0deg ) scale(1);
+}
 }
 @-webkit-keyframes move_card_back {
     from {-webkit-transform: rotateX( 0deg ) scale(1);}
@@ -378,7 +380,8 @@ div.tilt {
 
 
 
-    <div  id='wrapper'  onscroll='onscrolled()' onmousedown='onemousedown()'  onmouseup='onemouseup()'>
+    <div  id='wrapper'  onscroll='onscrolled()' onmousedown='onemousedown()'  onmouseup='onemouseup()'
+                   >
 
 
         <div  id='infinite-list'  style='overflow-y: none;' >
@@ -395,14 +398,6 @@ div.tilt {
         <div v-if="(!item.card.left) && (!item.card.right)" style="width: 100%;" class='perspective'>
                 <card_component :item='item' :visible='((selected_card ==  -1) || (item.id == selected_card))'>
                 </card_component>
-        </div>
-        <div v-if="item.card.left" style="width: 45%;display: inline-block;" class='perspective' >
-            <card_component :item='item' >
-            </card_component>
-        </div>
-        <div v-if="item.card.right" style="width: 45%;display: inline-block;" class='perspective'>
-            <card_component :item='item'>
-            </card_component>
         </div>
     </template>
 
@@ -508,24 +503,29 @@ function select_card(id) {
         return;
     }
     if (mainMoonApp.selected_card != -1) {
+        if (id != -1) {
+            document.querySelector('#card_' + mainMoonApp.selected_card).classList.add('contract');
+        }
         document.querySelector('#card_' + mainMoonApp.selected_card).classList.remove("expand");
-        document.querySelector('#card_' + mainMoonApp.selected_card).classList.add('contract');
 
         //alert(document.querySelector('#card_' + id))
     }
 
-    var elmnt = document.querySelector('#card_' + id);
-    if (elmnt) {
-        //elmnt.scrollIntoView({  alignToTop: 'true',
-        //                        bahaviour: 'smooth'});
-        //document.getElementById("wrapper").scrollTop = getPosition(document.querySelector('#card_' + id)).y - 200
-        if (myScroller) {
-            myScroller.toY(getPosition(document.querySelector('#card_' + id)).y - 100,1200)
-            document.querySelector('#card_' + id).classList.remove('contract');
-            document.querySelector('#card_' + id).classList.add('expand');
-
-            mainMoonApp.selected_card = id;
+    if (id != -1) {
+        var elmnt = document.querySelector('#card_' + id);
+        if (elmnt) {
+            //elmnt.scrollIntoView({  alignToTop: 'true',
+            //                        bahaviour: 'smooth'});
+            //document.getElementById("wrapper").scrollTop = getPosition(document.querySelector('#card_' + id)).y - 200
+            if (myScroller) {
+                myScroller.toY(getPosition(document.querySelector('#card_' + id)).y - 40,1200)
+                document.querySelector('#card_' + id).classList.remove('contract');
+                document.querySelector('#card_' + id).classList.add('expand');
+                mainMoonApp.selected_card = id;
+            }
         }
+    } else {
+        mainMoonApp.selected_card = -1;
     }
 
 }
@@ -865,6 +865,7 @@ var myScroller = null;
 function onscrolled() {
     if (mousedown) {
         autoScroll = false;
+        select_card(-1)
         //console.log("onscroll")
     }
 };
@@ -888,10 +889,10 @@ function find(term) {
 
 
 
-function copyApp() {
+function closeCard() {
     autoScroll = false
     setTimeout(function(){
-        select_card(1)
+        select_card(-1)
 
     },200)
 }
