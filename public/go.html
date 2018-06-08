@@ -64,7 +64,7 @@ function initFn() {
           }//zzz
           ,
           template: "<div v-bind:id='\"card_\"+ item.id' v-on:click='click_card(item.id)' class='polaroid tilt' " +
-		               " style='font-family: Helvetica ; width: 90vw ;' >"+
+		               " v-bind:style=\"'font-family: Helvetica ; width: 90vw ;visibility: ' + '' + ';' \">"+
 "            <h1 class='caption'>{{item.card.name}}</h1>"+
 "            <a style='font-size: 2em;' v-bind:href='item.card.link' v-if='item.card.link'>{{item.card.link_name}}</a>"+
 ""+
