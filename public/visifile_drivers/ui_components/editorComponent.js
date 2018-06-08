@@ -16,26 +16,29 @@
             on: "component",
             do: function(args, returnfn) {
                 var uid = uuidv4()
+                var uid2 = uuidv4()
                 var mm = Vue.component(uid, {
                   data: function () {
                     return {
-                        text: args.text
+                        text: args.text,
+                        uid2: uid2
                     }
                   },
                   template: `<div >
-                                <div id=mytextarea ></div>
+                                <div v-bind:id='uid2' ></div>
                                  <slot  :text2="text"></slot>
                              </div>`
                  ,
+
                  mounted: function() {
                      var mm = this
-                     var editor = ace.edit(           "mytextarea", {
+                     var editor = ace.edit(           uid2, {
                                                              mode:           "ace/mode/javascript",
                                                              selectionStyle: "text"
                                                          })
-                     document.getElementById("mytextarea").style.width="100%"
+                     document.getElementById(uid2).style.width="100%"
 
-                     document.getElementById("mytextarea").style.height="50%"
+                     document.getElementById(uid2).style.height="50%"
                      editor.getSession().setValue(mm.text);
 
                      editor.getSession().on('change', function() {
