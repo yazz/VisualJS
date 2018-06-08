@@ -20,7 +20,7 @@
                         <br>
                         <br>
 
-                        <component  is="editor_component" v-if="editor_loaded">
+                        <component  v-bind:is="editor_component" v-if="editor_loaded">
                                         <button slot-scope="editor_component"
                                                 v-on:click='save(code_id, editor_component.text2)'
                                                 type="button" class="btn btn-primary">
@@ -47,6 +47,7 @@
                    data: function() {
                        return {
                            editor_loaded: false,
+                           editor_component: null,
                            app_loaded: false,
                            apps: [],
                            app_component_name: null,
@@ -136,7 +137,10 @@
                                                "editorComponent",  "component",  {text: code}
                                                ,
                                                function(result) {
-                                                    mm.editor_loaded = true })
+                                               //alert(JSON.stringify(result,null,2))
+                                                   mm.editor_loaded = true
+                                                   mm.editor_component = result.name
+                                                     })
                                        }
                                    }
                                })

@@ -15,7 +15,8 @@
         "This will return the test app": {
             on: "component",
             do: function(args, returnfn) {
-                var mm = Vue.component('editor_component', {
+                var uid = uuidv4()
+                var mm = Vue.component(uid, {
                   data: function () {
                     return {
                         text: args.text
@@ -48,7 +49,7 @@
                 //alert(JSON.stringify(args,null,2)),
 
                 returnfn({
-                    name: "editor_component"
+                    name: uid
                 }
                 )
 
