@@ -323,8 +323,8 @@ div.tilt {
     -webkit-animation-fill-mode: forwards;
 }
 .contract {
-    animation: move_card_back .5s;
-    -webkit-animation: move_card_back .5s;
+    animation: move_card_back 1s;
+    -webkit-animation: move_card_back 1s;
     animation-fill-mode: forwards;
     -webkit-animation-fill-mode: forwards;
 }
@@ -381,7 +381,7 @@ div.tilt {
 
 
     <div  id='wrapper'  onscroll='onscrolled()' onmousedown='onemousedown()'  onmouseup='onemouseup()'
-                   >
+                  onwheel='onemousedown()' >
 
 
         <div  id='infinite-list'  style='overflow-y: none;' >
