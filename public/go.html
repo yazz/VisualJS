@@ -51,7 +51,7 @@ function initFn() {
     setTimeout(function(){
 
         Vue.component('card_component', {
-            props: ["item"],
+            props: ["item","visible"],
             methods: {
                 click_card: function(id) {
                     autoScroll = false;
@@ -64,7 +64,7 @@ function initFn() {
           }//zzz
           ,
           template: "<div v-bind:id='\"card_\"+ item.id' v-on:click='click_card(item.id)' class='polaroid tilt' " +
-		               " v-bind:style=\"'font-family: Helvetica ; width: 90vw ;visibility: ' + '' + ';' \">"+
+		               " v-bind:style=\"'font-family: Helvetica ; width: 90vw ;visibility: ' + (visible?'':'hidden') + ';' \">"+
 "            <h1 class='caption'>{{item.card.name}}</h1>"+
 "            <a style='font-size: 2em;' v-bind:href='item.card.link' v-if='item.card.link'>{{item.card.link_name}}</a>"+
 ""+
@@ -393,11 +393,11 @@ div.tilt {
 
     <template v-for="item  in  cards" >
         <div v-if="(!item.card.left) && (!item.card.right)" style="width: 100%;" class='perspective'>
-                <card_component :item='item'>
+                <card_component :item='item' :visible='((selected_card ==  -1) || (item.id == selected_card))'>
                 </card_component>
         </div>
         <div v-if="item.card.left" style="width: 45%;display: inline-block;" class='perspective' >
-            <card_component :item='item'>
+            <card_component :item='item' >
             </card_component>
         </div>
         <div v-if="item.card.right" style="width: 45%;display: inline-block;" class='perspective'>
