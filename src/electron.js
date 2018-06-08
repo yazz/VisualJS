@@ -139,7 +139,7 @@ if (process.argv.length > 1) {
       .option('-n, --nogui [nogui]', 'Allow server to be run in headless mode (default false) [nogui]', 'false')
       .option('-d, --debug [debug]', 'Allow to run in debug mode (default false) [debug]', 'false')
       .option('-s, --hostport [hostport]', 'Server port of the central host (default 80) [hostport]', parseInt)
-      .option('-r, --runservices [runservices]', 'Run the services (default true) [runservices]', true)
+      .option('-r, --runservices [runservices]', 'Run the services (default true) [runservices]', false)
       .parse(process.argv);
 } else {
     program.type = 'client'
@@ -147,7 +147,7 @@ if (process.argv.length > 1) {
     program.locked = 'true'
     program.nogui = 'false'
     program.debug = 'false'
-    program.runservices = true
+    program.runservices = false
 }
 var semver = require('semver')
 
@@ -188,7 +188,7 @@ var PDFParser       = require("pdf2json");
 
 /*
 var babel = require("babel-core")
-//zzz
+
 console.log("****************************")
 var fgt = fs.readFileSync("/Users/faroukzquraishi/visifile_installer/public/visifile_drivers/apps/test.js")
 console.log("fgt: " + fgt)
@@ -868,10 +868,12 @@ function setupForkedProcess(  processName,  fileName,  debugPort  ) {
                                               });
 
         forkedProcesses["forked"].send({         message_type: "createTables" });
-        setTimeout(function() {
-            console.log('forkedProcesses["forked"].send({         message_type: "childRunFindFolders" });')
-            forkedProcesses["forked"].send({         message_type: "childRunFindFolders" });
-        },5000)
+        if (runServices) {
+            setTimeout(function() {
+                console.log('forkedProcesses["forked"].send({         message_type: "childRunFindFolders" });')
+                forkedProcesses["forked"].send({         message_type: "childRunFindFolders" });
+            },5000)
+        }
     }
 
 
@@ -2055,7 +2057,7 @@ function testFirewall(req, res) {
 
 
 
-//zzz
+
 console.log("****************************")
 var fgt = fs.readFileSync(path.join(__dirname, "../public/visifile_drivers/apps/test.js"))
 console.log("fgt: " + fgt)
@@ -2160,7 +2162,7 @@ function websocketFn(ws) {
 
 
         } else if (receivedMessage.message_type == "browser_asks_server_for_app_code") {
-//zzz
+
            // console.log("******************* browser_asks_server_for_app_code *******************: " + receivedMessage.app_name)
             getAppCode(receivedMessage.app_name, function(id,code, libs) {
                // console.log(code)
