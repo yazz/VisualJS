@@ -51,7 +51,7 @@ function initFn() {
     setTimeout(function(){
 
         Vue.component('card_component', {
-            props: ["item","visible","element_id"],
+            props: ["item","visible","element_id", "full_screen"],
             methods: {
                 click_card: function(id) {
                     autoScroll = false;
@@ -63,7 +63,7 @@ function initFn() {
             }
           }//zzz
           ,
-          template: "<div v-bind:id='element_id' v-on:click='click_card(item.id)' class='polaroid tilt' " +
+          template: "<div v-bind:id='element_id' v-on:click='click_card(item.id)' v-bind:class='full_screen?\"\":\"polaroid tilt\"' " +
 		               " v-bind:style=\"'font-family: Helvetica ; width: 90vw ;visibility: ' + (visible?'':'hidden') + ';' \">"+
                        "                <div class=link style='height: 2em;display:inline-block' v-on:click='closeCard()' >Close</div>"+
 "            <h1 class='caption'>{{item.card.name}}</h1>"+
@@ -75,7 +75,7 @@ function initFn() {
 "            <div    style='font-size: 2em;' v-on:click='openContent(item.card.data_id,item.card.name)'"+
 "                    v-if='item.card.load_content'>Open</div>"+
 ""+
-"            <div    v-if='item.card.type == \"app\"'>"+
+"            <div    v-if='full_screen && (item.card.type == \"app\")'>"+
 "                <div    v-bind:id='\"app_container_\"+ item.id'  >"+
 "                    <div v-bind:id='\"app_\"+ item.id' >"+
 "                    </div>"+
@@ -386,6 +386,17 @@ div.tilt {
 
         <div  id='infinite-list'  style='overflow-y: none;' >
 
+            <template v-for="item  in  cards" >
+                <div id=current_card v-if="item.id == selected_card"
+                        style="position: fixed; left:0px; top:0px; height:100vh; width: 100vw ;z-index: 200000;background-color: white;">
+
+                        <card_component :item='item' :visible='true' :element_id='"current_card"' :full_screen='true'>
+                        </card_component>
+                </div>
+            </template>
+
+
+
 <div v-if="show_loader" class="loader"></div>
 
 
@@ -396,7 +407,7 @@ div.tilt {
 
     <template v-for="item  in  cards" >
         <div v-if="(!item.card.left) && (!item.card.right)" style="width: 100%;" class='perspective'>
-                <card_component :item='item' :visible='true' :element_id='"card_" + item.id'>
+                <card_component :item='item' :visible='true' :element_id='"card_" + item.id'  :full_screen='false'>
                 </card_component>
         </div>
     </template>
@@ -520,7 +531,9 @@ function select_card(id) {
                 myScroller.toY(getPosition(document.querySelector('#card_' + id)).y - 40,1200)
                 document.querySelector('#card_' + id).classList.remove('contract');
                 document.querySelector('#card_' + id).classList.add('expand');
-                mainMoonApp.selected_card = id;
+                setTimeout(function() {
+                    mainMoonApp.selected_card = id;
+                    },500)
             }
         }
     } else {
