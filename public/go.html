@@ -63,8 +63,8 @@ function initFn() {
             }
           }//zzz
           ,
-          template: "<div v-bind:id='element_id' v-on:click='click_card(item.id)' v-bind:class='full_screen?\"\":\"polaroid tilt\"' " +
-		               " v-bind:style=\"'font-family: Helvetica ; width: 90vw ;visibility: ' + (visible?'':'hidden') + ';' \">"+
+          template: "<div v-bind:id='element_id' v-on:click='click_card(item.id)' v-bind:class='full_screen?\"polaroid\":\"polaroid tilt\"' " +
+		               " v-bind:style=\"'font-family: Helvetica ;  width: 90vw ;visibility: ' + (visible?'':'hidden') + ';' \">"+
                        "                <div class=link style='height: 2em;display:inline-block' v-on:click='closeCard()' >Close</div>"+
 "            <h1 class='caption'>{{item.card.name}}</h1>"+
 "            <a style='font-size: 2em;' v-bind:href='item.card.link' v-if='item.card.link'>{{item.card.link_name}}</a>"+
@@ -204,7 +204,10 @@ function initFn() {
                 } else {
                     autoId = 1;
                 }
-                select_card(autoId);
+                select_card(-1)
+                setTimeout(function(){
+                    select_card(autoId);
+                },500)
 
             }
         },3500)
@@ -363,7 +366,7 @@ div.tilt {
 
 <!-- hhh -->
 
-<body onload='initFn()' id='mydropzone' >
+<body onload='initFn()' id='mydropzone' style='border: 0px; margin: 0px;'>
 
 
 
@@ -380,8 +383,11 @@ div.tilt {
 
 
 
-    <div  id='wrapper'  onscroll='onscrolled()' onmousedown='onemousedown()'  onmouseup='onemouseup()'
-                  onwheel='onemousedown()' >
+    <div    id='wrapper'
+            onscroll='onscrolled()'
+            onmousedown='onemousedown()'
+            onmouseup='onemouseup()'
+            onwheel='onemousedown()'     >
 
 
         <div  id='infinite-list'  style='overflow-y: none;' >
@@ -400,8 +406,6 @@ div.tilt {
 <div v-if="show_loader" class="loader"></div>
 
 
-
-        <div refresh_count={{count}}></div>
 
 
 
@@ -528,12 +532,12 @@ function select_card(id) {
             //                        bahaviour: 'smooth'});
             //document.getElementById("wrapper").scrollTop = getPosition(document.querySelector('#card_' + id)).y - 200
             if (myScroller) {
-                myScroller.toY(getPosition(document.querySelector('#card_' + id)).y - 40,1200)
+                myScroller.toY(getPosition(document.querySelector('#card_' + id)).y  ,  1200)
                 document.querySelector('#card_' + id).classList.remove('contract');
                 document.querySelector('#card_' + id).classList.add('expand');
                 setTimeout(function() {
                     mainMoonApp.selected_card = id;
-                    },500)
+                    },600)
             }
         }
     } else {
@@ -905,7 +909,6 @@ function closeCard() {
     autoScroll = false
     setTimeout(function(){
         select_card(-1)
-
     },200)
 }
 
