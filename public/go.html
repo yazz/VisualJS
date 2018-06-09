@@ -366,7 +366,7 @@ div.tilt {
 
 <!-- hhh -->
 
-<body onload='initFn()' id='mydropzone' style='border: 0px; margin: 0px;'>
+<body onload='initFn()' id='mydropzone' style='border: 0px; margin: 0px;padding: 0px;'>
 
 
 
@@ -537,7 +537,7 @@ function select_card(id) {
                 document.querySelector('#card_' + id).classList.add('expand');
                 setTimeout(function() {
                     mainMoonApp.selected_card = id;
-                    },600)
+                    },1000)
             }
         }
     } else {
