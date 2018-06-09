@@ -51,7 +51,7 @@ function initFn() {
     setTimeout(function(){
 
         Vue.component('card_component', {
-            props: ["item","visible"],
+            props: ["item","visible","element_id"],
             methods: {
                 click_card: function(id) {
                     autoScroll = false;
@@ -63,7 +63,7 @@ function initFn() {
             }
           }//zzz
           ,
-          template: "<div v-bind:id='\"card_\"+ item.id' v-on:click='click_card(item.id)' class='polaroid tilt' " +
+          template: "<div v-bind:id='element_id' v-on:click='click_card(item.id)' class='polaroid tilt' " +
 		               " v-bind:style=\"'font-family: Helvetica ; width: 90vw ;visibility: ' + (visible?'':'hidden') + ';' \">"+
                        "                <div class=link style='height: 2em;display:inline-block' v-on:click='closeCard()' >Close</div>"+
 "            <h1 class='caption'>{{item.card.name}}</h1>"+
@@ -396,7 +396,7 @@ div.tilt {
 
     <template v-for="item  in  cards" >
         <div v-if="(!item.card.left) && (!item.card.right)" style="width: 100%;" class='perspective'>
-                <card_component :item='item' :visible='true'>
+                <card_component :item='item' :visible='true' :element_id='"card_" + item.id'>
                 </card_component>
         </div>
     </template>
@@ -418,10 +418,9 @@ var cardAppIds = []
 function prepareApp(  id,  app_name , args ) {
     //alert(rootElement)
     console.log(" prepareApp app_name: " + app_name)
-    var card_id = "card_" + id
     var rootElement = "app_" + id
     newAppArgs[id] = args
-    //alert(card_id)
+
     sendToServerViaWebSocket({
         message_type:   "browser_asks_server_for_app_code",
         card_id:        id,
