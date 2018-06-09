@@ -396,7 +396,7 @@ div.tilt {
 
     <template v-for="item  in  cards" >
         <div v-if="(!item.card.left) && (!item.card.right)" style="width: 100%;" class='perspective'>
-                <card_component :item='item' :visible='((selected_card ==  -1) || (item.id == selected_card))'>
+                <card_component :item='item' :visible='true'>
                 </card_component>
         </div>
     </template>
