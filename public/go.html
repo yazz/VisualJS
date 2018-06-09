@@ -503,8 +503,10 @@ function select_card(id) {
         return;
     }
     if (mainMoonApp.selected_card != -1) {
+        if (id != -1) {
+            document.querySelector('#card_' + mainMoonApp.selected_card).classList.remove("expand");
+        }
         document.querySelector('#card_' + mainMoonApp.selected_card).classList.add('contract');
-        document.querySelector('#card_' + mainMoonApp.selected_card).classList.remove("expand");
 
         //alert(document.querySelector('#card_' + id))
     }
