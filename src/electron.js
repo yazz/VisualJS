@@ -134,7 +134,7 @@ if (process.argv.length > 1) {
       .version('0.0.1')
       .option('-t, --type [type]', 'Add the specified type of app (client/server) [type]', 'client')
       .option('-p, --port [port]', 'Which port should I listen on? (default 80) [port]', parseInt)
-      .option('-h, --host [host]', 'Server address of the central host (default visifile.com) [host]', 'visifile.com')
+      .option('-h, --host [host]', 'Server address of the central host (default vappshare.co) [host]', 'appshare.co')
       .option('-l, --locked [locked]', 'Allow server to be locked/unlocked on start up (default true) [locked]', 'true')
       .option('-n, --nogui [nogui]', 'Allow server to be run in headless mode (default false) [nogui]', 'false')
       .option('-d, --debug [debug]', 'Allow to run in debug mode (default false) [debug]', 'false')
@@ -143,7 +143,7 @@ if (process.argv.length > 1) {
       .parse(process.argv);
 } else {
     program.type = 'client'
-    program.host = 'visifile.com'
+    program.host = 'appshare.co'
     program.locked = 'true'
     program.nogui = 'false'
     program.debug = 'false'
@@ -1971,28 +1971,28 @@ function getRoot(req, res) {
 		};
 		if (req.headers.host.toLowerCase().endsWith('gosharedata.com')) {
 		res.writeHead(301,
-			{Location: 'http://visifile.com/visifile/index.html?time=' + new Date().getTime()}
+			{Location: 'http://appshare.co/visifile/index.html?time=' + new Date().getTime()}
 			);
 			res.end();
 			return;
 		};
 		if (req.headers.host.toLowerCase().endsWith('visifile.com')) {
 		res.writeHead(301,
-			{Location: 'http://visifile.com/visifile/index.html?time=' + new Date().getTime()}
+			{Location: 'http://appshare.co/visifile/index.html?time=' + new Date().getTime()}
 			);
 			res.end();
 			return;
 		};
 		if (req.headers.host.toLowerCase().endsWith('visifiles.com')) {
 		res.writeHead(301,
-			{Location: 'http://visifile.com/visifile/index.html?time=' + new Date().getTime()}
+			{Location: 'http://appshare.co/visifile/index.html?time=' + new Date().getTime()}
 			);
 			res.end();
 			return;
 		};
         if (req.headers.host.toLowerCase().endsWith('appshare.co')) {
 		res.writeHead(301,
-			{Location: 'http://visifile.com/visifile/index.html?time=' + new Date().getTime()}
+			{Location: 'http://appshare.co/visifile/index.html?time=' + new Date().getTime()}
 			);
 			res.end();
 			return;
