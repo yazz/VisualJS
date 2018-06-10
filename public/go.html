@@ -711,13 +711,10 @@ cardAppIds[ data.card_id ] = data.app_name
                             //alert()
                             args.root_element = data.root_element
                             try {
-                                var moonApp = codeFn(args,function(res) {
-                                    //alert("App name: " + res.name)
-                                    new Vue({
-                                        template: "<" + res.name + "></" + res.name + ">",
-                                        el: "#" + data.root_element
-                                    })
-                                    //alert(JSON.stringify(res,null,2))
+                                var res = codeFn(args)
+                                new Vue({
+                                    template: "<" + res.name + "></" + res.name + ">",
+                                    el: "#" + data.root_element
                                 })
                             } catch (err) {
                                 alert(err)
@@ -731,13 +728,10 @@ cardAppIds[ data.card_id ] = data.app_name
             //alert()
             args.root_element = data.root_element
             try {
-                var moonApp = codeFn(args,function(res) {
-                    //alert("App name: " + res.name)
-                    new Vue({
-                        template: "<" + res.name + "></" + res.name + ">",
-                        el: "#" + data.root_element
-                    })
-                    //alert(JSON.stringify(res,null,2))
+                var res = codeFn(args)
+                new Vue({
+                    template: "<" + res.name + "></" + res.name + ">",
+                    el: "#" + data.root_element
                 })
             } catch (err) {
                 alert(err)

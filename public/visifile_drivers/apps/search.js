@@ -7,7 +7,7 @@
     events: {
         "This will return the search app": {
             on: "app",
-            do: function(args, returnfn) {
+            do: function(args) {
                 is_app()
                 Vue.component("search_app",{
                   template: "<div v-on:click='search'>this is the Vue seach app {{msg}}</div>"
@@ -15,7 +15,7 @@
                   data: function() {
                    return {
                      msg: "..."
-                 }   
+                 }
                   },
                 methods: {
                     search: function() {
@@ -34,7 +34,7 @@
                 })
 
 
-                returnfn({name: "search_app"})
+                return {name: "search_app"}
 
 
             }, end: null

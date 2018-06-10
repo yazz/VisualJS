@@ -4,11 +4,11 @@
     description:'Test app',
 
 
-    
+
     events: {
         "This will return the test app": {
             on: "app",
-            do: function(args, returnfn) {
+            do: function(args) {
                 is_app()
 
                 Vue.component('test_app', {
@@ -63,9 +63,8 @@
 
 
 
-                returnfn(
-                    {name: "test_app"}
-                )
+                return {name: "test_app"}
+
 
 
             }, end: null

@@ -13,7 +13,7 @@
     events: {
         "This will return the test app": {
             on: "app",
-            do: function(args, returnfn) {
+            do: function(args) {
                 is_app()
                 Vue.component('listApps',{
                       template: `<div v-on:click='search'>
@@ -47,7 +47,7 @@
                 })
 
 
-                returnfn({name: "listApps"})
+                return {name: "listApps"}
 
 
             }, end: null

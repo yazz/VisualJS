@@ -8,7 +8,7 @@
     events: {
         "This will return the game app": {
             on: "app",
-            do: function(args, returnfn) {
+            do: function(args) {
                 is_app()
                 Vue.component('game3d',{
                   template: `<div id="app2">
@@ -32,7 +32,7 @@
                       }
                   }
                 })
-                returnfn({name: 'game3d'})
+                return {name: 'game3d'}
 
 
             }, end: null

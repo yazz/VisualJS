@@ -7,7 +7,7 @@
     events: {
         "This will return the editor app": {
             on: "app",
-            do:    function(args, returnfn) {
+            do:    function(args) {
                 is_app()
 
                 var argAppName = args.appName
@@ -169,7 +169,7 @@
                         }
                    }
                    })
-                   returnfn({name: "app_editor"})
+                   return {name: "app_editor"}
 
 
 
