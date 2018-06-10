@@ -14,7 +14,7 @@
     events: {
         "This will return the test app": {
             on: "component",
-            do: function(args, returnfn) {
+            do: function(args) {
                 Vue.component('z-counter', {
                   data: function () {
                     return {
@@ -26,10 +26,10 @@
 
 
 
-                returnfn({
+                return {
                     name: "z-counter"
                 }
-                )
+                
 
 
             }, end: null

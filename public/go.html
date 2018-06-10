@@ -847,10 +847,11 @@ var dataIds = new Object()
                 //alert(3)
                 var fnfn = eval(data.value.code )
                 var args =     callDriverMethodArgs[data.seq_num]
-                fnfn(args, function(fnfnRes) {
-                    callbackFn(fnfnRes)
-                    queuedResponses[data.seq_num] = null
-                })
+                var fnfnRes = fnfn(args)
+                
+                callbackFn(fnfnRes)
+                queuedResponses[data.seq_num] = null
+
             } catch (err) {
                 alert(err)
             }

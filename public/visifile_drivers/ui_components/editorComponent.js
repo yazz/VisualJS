@@ -14,7 +14,7 @@
     events: {
         "This will return the test app": {
             on: "component",
-            do: function(args, returnfn) {
+            do: function(args) {
                 var uid = uuidv4()
                 var uid2 = uuidv4()
                 var mm = Vue.component(uid, {
@@ -51,10 +51,10 @@
                 })
                 //alert(JSON.stringify(args,null,2)),
 
-                returnfn({
+                return {
                     name: uid
                 }
-                )
+                
 
 
             }, end: null
