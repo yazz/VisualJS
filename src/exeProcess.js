@@ -315,14 +315,14 @@ function executeCode(callId, codeId, args) {
                         //                results[0].method )
                         //console.log(    "    callId:" + callId )
 
-                        var code = "(" + results[0].code + ")"
                         currentDriver = results[0].driver
                         currentEvent = results[0].on_condition
                         currentCodeID = codeId
                         currentArgs = args
                         //console.log(code)
                         try {
-                            if (isFrontEndOnlyCode( code )) {
+                            if (isFrontEndOnlyCode( results[0].code )) {
+                                var code = "( " + results[0].code + ")"
                                 process.send({  message_type:         "function_call_response" ,
                                                 result:              { code:            code,
                                                                        is_code_result:  true   },
@@ -337,6 +337,8 @@ function executeCode(callId, codeId, args) {
 
 
                             } else { // front and backend code
+                                var code = "(async " + results[0].code + ")"
+                                console.log(    "    code:" + code )
                                 var fnfn = eval(code)
                                 fnfn(args, function(result) {
                                     if (result) {

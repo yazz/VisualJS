@@ -1839,7 +1839,7 @@ var callbackList = new Object()
 
 function callDriverMethod( driverName, methodName, args, callbackFn ) {
 
-    console.log("*) called '" + driverName + ":" + methodName + "' with args: " + JSON.stringify(args,null,2))
+    //console.log("*) called '" + driverName + ":" + methodName + "' with args: " + JSON.stringify(args,null,2))
     var useCallbackIndex = callbackIndex ++
     callbackList[ useCallbackIndex ] = callbackFn
     console.log("msg.callback_index sent for " + driverName + ":" + methodName + ": " + useCallbackIndex)

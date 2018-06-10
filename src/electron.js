@@ -2253,7 +2253,7 @@ function websocketFn(ws) {
             queuedResponseSeqNum ++;
             queuedResponses[seqNum] = ws;
 
-            console.log(" .......1 Electron callDriverMethod: " + JSON.stringify(receivedMessage,null,2));
+            //console.log(" .......1 Electron callDriverMethod: " + JSON.stringify(receivedMessage,null,2));
             forkedProcesses["forked"].send({
                             message_type:          "callDriverMethod",
                             driver:                 receivedMessage.driverName,
