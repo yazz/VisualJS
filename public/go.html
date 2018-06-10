@@ -80,7 +80,7 @@ function initFn() {
 "                    <div v-bind:id='\"app_\"+ item.id' >"+
 "                    </div>"+
 "                </div>"+
-"                <div class=link style='height: 2em;display:inline-block; padding-right: 30px;padding-top: 30px;' v-on:click='prepareApp(item.id, \"appEditorV2\", {appName: cardAppIds[ item.id ] })' >Edit App</div>"+
+"                <div class=link style='height: 2em;display:inline-block; padding-right: 30px;padding-top: 30px;' v-on:click='prepareApp(item.id, \"appEditorV2\", {appName: item.card.name})' >Edit App</div>"+
 "                <div class=link style='height: 2em;display:inline-block; padding-right: 30px;padding-top: 30px;' v-on:click='prepareApp(item.id, item.card.app, {})' >RUN</div>"+
 "            </div>"+
 ""+
@@ -431,7 +431,9 @@ div.tilt {
 var newAppArgs = []
 var cardAppIds = []
 function prepareApp(  id,  app_name , args ) {
-    //alert(rootElement)
+    //alert(id)
+    //alert(app_name)
+    //alert(JSON.stringify(args,null,2))
     console.log(" prepareApp app_name: " + app_name)
     var rootElement = "app_" + id
     newAppArgs[id] = args
@@ -642,7 +644,7 @@ function setupWebSocket(host, port)
                                             id: nid,
                                             card: {
                                                 id:                 nid,
-                                                name:               data.results[i].driver + " app",
+                                                name:               data.results[i].driver,
                                                 app:                data.results[i].driver,
                                                 type:               "app"
                                             }});
