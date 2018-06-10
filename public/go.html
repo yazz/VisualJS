@@ -281,7 +281,7 @@ div.polaroid {
     border: 1px solid #BFBFBF;
     background-color: white;
     box-shadow: 10px 10px 5px #aaaaaa;
-    margin-top: 10;
+    margin-top: 0;
     margin-bottom: -100;
     margin-left: 0;
     margin-right: 0;
@@ -393,7 +393,7 @@ div.tilt {
         <div  id='infinite-list'  style='overflow-y: none;' >
 
             <template v-for="item  in  cards" >
-                <div id=current_card v-if="item.id == selected_card"
+                <div v-if="item.id == selected_card"
                         style="position: fixed; left:0px; top:0px; height:100vh; width: 100vw ;z-index: 200000;background-color: white;">
 
                         <card_component :item='item' :visible='true' :element_id='"current_card"' :full_screen='true'>
@@ -416,6 +416,8 @@ div.tilt {
         </div>
     </template>
 
+    <div style="height: 200px;">
+    </div>
 
 
 
