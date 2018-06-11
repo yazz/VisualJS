@@ -299,7 +299,7 @@
                                                 rows.push({value: textline});
                                             }
                                         }
-                                        console.log("Return Word DocX Data: 6 ")
+                                        console.log("Return Word DocX Data: 6 " + JSON.stringify(rows,null,2))
                                         success(rows);
                                     }).catch(function(err) {
                                         console.log("Return Word DocX Data: 5 " + err)

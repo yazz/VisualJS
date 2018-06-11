@@ -39,7 +39,7 @@
                                                                       {fileName: fullFilePath}
                                                                 ,
                                                                 function(result) {
-                                                                    //console.log("3) returned result: " + JSON.stringify(result,null,2))
+                                                                    console.log("File uploader 3) returned result: " + JSON.stringify(result,null,2))
                                                                      var sha1ofFileContents = createHashedDocumentContent(fullFilePath, getFileExtension(fullFilePath))
                                                                     saveDocumentContent(sha1ofFileContents,result)
                                                                     setStatus(record, "SAVED")
@@ -60,7 +60,9 @@
                                                 }
                                             })
                                         })
+                                        console.log("File uploader 1)" )
                                         var ret = await promise
+                                        console.log("File uploader 5) returned result: " + JSON.stringify(ret,null,2))
                                         return ret
 
 
