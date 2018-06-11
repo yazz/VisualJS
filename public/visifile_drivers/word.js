@@ -277,38 +277,41 @@
                 "Return Word DocX Data":
                 {
                     on: "can_handle_docx",
-                    do: function(args, callfn) {
-                        var fileName = args.fileName
-            			var rows = [];
+                    do: async function(args) {
+                        var promise = new Promise(success => {
+                            var fileName = args.fileName
+                			var rows = [];
 
-                        try {
-                            mammoth.extractRawText({path: fileName})
-                                .then(function(result){
-                                    var text = result.value; // The raw text
-                                    var messages = result.messages;
-                                    var many = text.split("\n")
+                            try {
+                                mammoth.extractRawText({path: fileName})
+                                    .then(function(result){
+                                        var text = result.value; // The raw text
+                                        var messages = result.messages;
+                                        var many = text.split("\n")
 
-                                    var countc = many.length;
-                                    //console.log("DocX word count: " + countc );
-                                    for (var f = 0 ; f < countc; f ++ ) {
-                                        var textline  = many[f];
-                                        if (textline && (textline.length > 10)) {
-                                            //console.log("Word text length " + f + ": " + textline.length);
-                                            rows.push({value: textline});
+                                        var countc = many.length;
+                                        //console.log("DocX word count: " + countc );
+                                        for (var f = 0 ; f < countc; f ++ ) {
+                                            var textline  = many[f];
+                                            if (textline && (textline.length > 10)) {
+                                                //console.log("Word text length " + f + ": " + textline.length);
+                                                rows.push({value: textline});
+                                            }
                                         }
-                                    }
-                                    callfn(rows);
-                                }).catch(function(err) {
-                                    callfn({error: 'Word error: ' + err});
-                                })
-                                .done();
+                                        success(rows);
+                                    }).catch(function(err) {
+                                        success({error: 'Word error: ' + err});
+                                    })
+                                    .done();
 
-            			}
-            			catch(err) {
-            				callfn({error: 'Word error: ' + err});
-            			}
+                			}
+                			catch(err) {
+                				success({error: 'Word error: ' + err});
+                			}
+                          })
+                          var ret  = await promise
+                          return ret
                       }
-
 
                       ,
                     end: null
