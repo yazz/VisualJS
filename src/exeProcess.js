@@ -337,12 +337,34 @@ function executeCode(callId, codeId, args) {
 
 
                             } else { // front and backend code
-                                var code = "(async " + results[0].code + ")"
-                                console.log(    "    code:" + code )
+                                var code = "(" + results[0].code + ")"
                                 var fnfn = eval(code)
-                                fnfn(args, function(result) {
+                                if (code.indexOf("async ") != -1) {
+                                    console.log(    "    async code:" )
+                                    var runAsync = async function() {
+                                        var result = await fnfn(args)
+                                        if (result) {
+                                            console.log("*) Result: in exeProcess" + JSON.stringify(result,null,2));
+
+                                            process.send({  message_type:       "function_call_response" ,
+                                                            child_process_name:  childProcessName,
+                                                            driver_name:         currentDriver,
+                                                            method_name:         currentEvent,
+                                                            callback_index:      currentCallbackIndex,
+                                                            result:              result,
+                                                            called_call_id:      callId
+                                                            });
+                                            //console.log("*) Result process call ID: " + callId);
+                                        }
+                                        inUseIndex --
+                                    }
+                                    runAsync()
+
+                                } else {
+                                    console.log(    "    code:" + code )
+                                    var result = fnfn(args)
                                     if (result) {
-                                        //console.log("*) Result: " + result);
+                                        console.log("*) Result: in exeProcess" + JSON.stringify(result,null,2));
 
                                         process.send({  message_type:       "function_call_response" ,
                                                         child_process_name:  childProcessName,
@@ -355,11 +377,13 @@ function executeCode(callId, codeId, args) {
                                         //console.log("*) Result process call ID: " + callId);
                                     }
                                     inUseIndex --
-                                    })
                                 }
+
+                            }
 
 
                             } catch (errM) {
+                                inUseIndex --
                                 console.log("** ERROR : " + errM)
 
                                 dbsearch.serialize(function() {
