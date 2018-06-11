@@ -340,7 +340,7 @@ function executeCode(callId, codeId, args) {
                                 var code = "(" + results[0].code + ")"
                                 var fnfn = eval(code)
                                 if (code.indexOf("async ") != -1) {
-                                    console.log(    "    async code:" )
+                                    console.log(    "    async code:" + code)
                                     var runAsync = async function() {
                                         var result = await fnfn(args)
                                         if (result) {
