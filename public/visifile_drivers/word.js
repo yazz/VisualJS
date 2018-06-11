@@ -278,6 +278,7 @@
                 {
                     on: "can_handle_docx",
                     do: async function(args) {
+                    console.log("Return Word DocX Data: 1 ")
                         var promise = new Promise(success => {
                             var fileName = args.fileName
                 			var rows = [];
@@ -298,18 +299,23 @@
                                                 rows.push({value: textline});
                                             }
                                         }
+                                        console.log("Return Word DocX Data: 6 ")
                                         success(rows);
                                     }).catch(function(err) {
+                                        console.log("Return Word DocX Data: 5 " + err)
                                         success({error: 'Word error: ' + err});
                                     })
                                     .done();
 
                 			}
                 			catch(err) {
+                                console.log("Return Word DocX Data: 4 " + err)
                 				success({error: 'Word error: ' + err});
                 			}
                           })
+                          console.log("Return Word DocX Data: 2 ")
                           var ret  = await promise
+                          console.log("Return Word DocX Data: 3 ")
                           return ret
                       }
 
