@@ -186,7 +186,7 @@
         "Save the editor code": {
             on: "saveCode"
             ,
-            do: function(args,returnfn) {
+            do: function(args) {
                 console.log("Saving in Sqlite: " + args.code_id)
                 console.log("Saving in Sqlite: " + args.code)
                 var stmtUpdateCode = dbsearch.prepare(" update   system_code   set code = ? where id = ?");
@@ -200,7 +200,7 @@
                     stmtUpdateCode.finalize();
 
                 })
-                returnfn({})
+                return {}
             }
             ,
             end: null
