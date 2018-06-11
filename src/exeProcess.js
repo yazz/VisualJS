@@ -343,27 +343,6 @@ function executeCode(callId, codeId, args) {
                                     console.log(    "    async code:" + code)
                                     var runAsync = async function() {
                                         var result = await fnfn(args)
-                                        if (result) {
-                                            console.log("*) Result: in exeProcess" + JSON.stringify(result,null,2));
-
-                                            process.send({  message_type:       "function_call_response" ,
-                                                            child_process_name:  childProcessName,
-                                                            driver_name:         currentDriver,
-                                                            method_name:         currentEvent,
-                                                            callback_index:      currentCallbackIndex,
-                                                            result:              result,
-                                                            called_call_id:      callId
-                                                            });
-                                            //console.log("*) Result process call ID: " + callId);
-                                        }
-                                        inUseIndex --
-                                    }
-                                    runAsync()
-
-                                } else {
-                                    console.log(    "    code:" + code )
-                                    var result = fnfn(args)
-                                    if (result) {
                                         console.log("*) Result: in exeProcess" + JSON.stringify(result,null,2));
 
                                         process.send({  message_type:       "function_call_response" ,
@@ -375,7 +354,24 @@ function executeCode(callId, codeId, args) {
                                                         called_call_id:      callId
                                                         });
                                         //console.log("*) Result process call ID: " + callId);
+                                        inUseIndex --
                                     }
+                                    runAsync()
+
+                                } else {
+                                    console.log(    "    code:" + code )
+                                    var result = fnfn(args)
+                                    console.log("*) Result: in exeProcess" + JSON.stringify(result,null,2));
+
+                                    process.send({  message_type:       "function_call_response" ,
+                                                    child_process_name:  childProcessName,
+                                                    driver_name:         currentDriver,
+                                                    method_name:         currentEvent,
+                                                    callback_index:      currentCallbackIndex,
+                                                    result:              result,
+                                                    called_call_id:      callId
+                                                    });
+                                    //console.log("*) Result process call ID: " + callId);
                                     inUseIndex --
                                 }
 

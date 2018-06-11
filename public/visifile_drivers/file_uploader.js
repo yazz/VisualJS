@@ -20,7 +20,7 @@
             on: {
                 where: "tags like '%||  UPLOAD  ||%'"
             },
-            do: function(records, returnfn) {
+            do: function(records) {
                 //console.log("1) In File Uploader, calling  a query")
                 //console.log("2) " + JSON.stringify(records,null,2))
                 var record =   getFirstRecord(records)
@@ -49,13 +49,13 @@
                                                                 setAddedTimestamp(record, new Date().valueOf())
                                                                 setEstimatedModifiedTimestamp(record, new Date().valueOf())
 
-                                                                returnfn()
+                                                                return
                                                             })
 
                                             } else {
                                                 console.log("5) No driver can handle: " + getFileExtension(fullFilePath))
                                                 setStatus(record, "ERROR")
-                                                returnfn()
+                                                return 
                                             }
 
                 })
