@@ -9,7 +9,8 @@
     events: {
         "This will return code used to show a preview of a document": {
             on: "preview",
-            do: function(args, returnfn) {
+            do: async function(args) {
+            var promise = new Promise( returnfn => {
                 var data_item = args.data_item
                 var hash = data_item.hash
                 var fullFilePath = getProperty(data_item,"path")
@@ -63,6 +64,9 @@
                                                 })
                                             }
                                         })
+                                })
+                                var ret = await promise
+                                return ret
             }, end: null
         }
 

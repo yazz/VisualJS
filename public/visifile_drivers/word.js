@@ -329,7 +329,8 @@
                 "Content preview for docx": {
                     on: "content_preview_for_docx"
                     ,
-                    do: function(args, returnFn) {
+                    do: async function(args) {
+                    var promise = new Promise(returnFn => {
                         var hash = args.hash
                         var stmt = dbsearch.all(
                             "select   content   from   contents_2   where   id = ? limit 1"
@@ -357,6 +358,9 @@
                                 }
                             })
 
+                    })
+                    var ret = await promise
+                    return ret
                     }
                     ,
                     end: null
