@@ -375,7 +375,7 @@ div.tilt {
             onclick='document.getElementById("popup").style.zIndex = "-1";document.getElementById("popup").style.display = "none";document.getElementById("popup_content").innerHTML =""'>
 
                 <div    id='popup_content'
-                        style='position: absolute; margin:0px; padding: 5%;  border: 0px;  width: 50%;  height:80%;  left: 25%; top: 0%; ; background-color: white;color: black;overflow-y: scroll; z-index: 1000;'
+                        style='position: absolute; margin:0px; padding: 5%;  border: 0px;  width: 50%;  height:80%;  left: 25%; top: 0%; ; background-color: white;color: black;overflow-y: scroll; z-index: 400000;'
                          onclick="dontBubble(event, this);">
                 </div>
     </div>
@@ -797,7 +797,7 @@ var dataIds = new Object()
     socket.on('server_returns_document_preview_to_browser',function(data) {
         //console.log("**6) server_returns_document_preview_to_browser: ")
         //console.log("    : " + JSON.stringify(data,null,2))
-        document.getElementById("popup").style.zIndex = '10000';
+        document.getElementById("popup").style.zIndex = '1000000';
         document.getElementById("popup").style.display = '';
 
         if (data.result.html) {
@@ -848,7 +848,7 @@ var dataIds = new Object()
                 var fnfn = eval(data.value.code )
                 var args =     callDriverMethodArgs[data.seq_num]
                 var fnfnRes = fnfn(args)
-                
+
                 callbackFn(fnfnRes)
                 queuedResponses[data.seq_num] = null
 
