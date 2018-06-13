@@ -26,6 +26,7 @@
                   },
                   template: `<div >
                                 <div v-bind:id='uid2' ></div>
+                                <hr />
                                  <slot  :text2="text"></slot>
                              </div>`
                  ,
@@ -54,7 +55,7 @@
                 return {
                     name: uid
                 }
-                
+
 
 
             }, end: null

@@ -15,20 +15,18 @@
                 Vue.component("app_editor",
                 {
                   template: `<div>
-                    Okhay this AppShare app editor
-                        Code ID: {{code_id}}
                         <div class="container">
                             <div class="row">
 
 
-                            
+
                               <div class="col-sm-6">
                                   <component  v-bind:is="editor_component" v-if="editor_loaded">
                                                   <button slot-scope="editor_component"
                                                           v-on:click='save(code_id, editor_component.text2)'
                                                           type="button" class="btn btn-primary">
 
-                                                              Save
+                                                              Update App
                                                  </button>
                                   </component>
                               </div>
@@ -41,7 +39,7 @@
                                     APP HERE
                                   </component>
 
-                                  <div  v-if="!app_loaded">
+                                  <div  v-if="!app_loaded && false">
                                       No app selected. Select one:
                                       <br>
                                       <select @change="chooseApp">
