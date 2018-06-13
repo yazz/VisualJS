@@ -343,7 +343,7 @@ function executeCode(callId, codeId, args) {
                                     console.log(    "    async code:" + code)
                                     var runAsync = async function() {
                                         var result = await fnfn(args)
-                                        console.log("*) Result: in exeProcess" + JSON.stringify(result,null,2));
+                                        //console.log("*) Result: in exeProcess" + JSON.stringify(result,null,2));
 
                                         process.send({  message_type:       "function_call_response" ,
                                                         child_process_name:  childProcessName,
@@ -361,7 +361,7 @@ function executeCode(callId, codeId, args) {
                                 } else {
                                     console.log(    "    code:" + code )
                                     var result = fnfn(args)
-                                    console.log("*) Result: in exeProcess" + JSON.stringify(result,null,2));
+                                    //console.log("*) Result: in exeProcess" + JSON.stringify(result,null,2));
 
                                     process.send({  message_type:       "function_call_response" ,
                                                     child_process_name:  childProcessName,
