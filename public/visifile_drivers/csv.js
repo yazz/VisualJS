@@ -329,7 +329,8 @@
           "Return CSV Data":
           {
               on: "can_handle_csv",
-              do: function(args, callfn) {
+              do: async function(args) {
+                var promise = new Promise(callfn => {
 
                     var fileName = args.fileName
                     //console.log("12)  PDF:  " + JSON.stringify(fileName,null,2))
@@ -397,6 +398,9 @@
                         //console.log('CSV error: ' + err);
                         callfn({error: 'CSV error: ' + err});
                     }
+                  })
+                  var ret = await promise
+                  return ret
 
 
 
@@ -413,13 +417,13 @@
           "Content preview for csv": {
               on: "content_preview_for_csv"
               ,
-              do: function(args, returnFn) {
-                  returnFn({
+              do: function(args) {
+                  return {
 
                       show_as: "csv",
                       args: args
 
-                  });
+                  } ;
 
 
               }

@@ -543,7 +543,7 @@ function saveDocumentContent(  documentHash,  resultData  ) {
                             }
 
                         });
-    }, sqlite3.OPEN_READONLY)
+    })
 
 }
 

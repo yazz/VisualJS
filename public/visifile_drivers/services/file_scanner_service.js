@@ -17,7 +17,8 @@
             on: {
                     where: "tags like '%||  FOLDER  ||%' and STATUS is NULL"
                 },
-            do: function(folderRecords, returnfn) {
+            do: async function(folderRecords) {
+              var promise = new Promise(returnfn => {
                 var folderRecord = folderRecords[0]
                 //console.log("**** SCANNING FILE v2 **** " + JSON.stringify( folderRecord ,null,2))
 
@@ -62,7 +63,7 @@
                                         "INDEXED",
                                         folderRecord.id)
                                     dbsearch.run("commit",function(){
-                                        returnfn()
+                                        returnfn({})
                                     });
                              })
                          }
@@ -74,6 +75,9 @@
                     var stack = new Error().stack
                     console.log( stack )
                 }
+                })
+                var ret = await promise
+                return ret
             }, end: null
         }
 

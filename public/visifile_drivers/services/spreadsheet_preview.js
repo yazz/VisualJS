@@ -11,7 +11,8 @@
     events: {
         "This will return ca preview of spreadsheet data": {
             on: "view_content_as_spreadsheet",
-            do: function(args, returnfn) {
+            do: async function(args) {
+              var promise = new Promise(returnfn => {
                 var hash = args.hash
                 dbsearch.serialize(
                     function() {
@@ -55,6 +56,9 @@
 
                             })
                 }, sqlite3.OPEN_READONLY)
+              })
+              var ret = await promise
+              return ret
 
 
 

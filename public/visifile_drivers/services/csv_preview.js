@@ -13,7 +13,8 @@
     events: {
         "This will return ca preview of CSV data": {
             on: "view_content_as_csv",
-            do: function(args, returnfn) {
+            do: async function(args) {
+              var promise = new Promise(returnfn => {
                 var hash = args.hash
                 dbsearch.serialize(
                     function() {
@@ -57,6 +58,10 @@
 
                             })
                 }, sqlite3.OPEN_READONLY)
+
+              })
+              var ret = await promise
+              return ret
 
 
 

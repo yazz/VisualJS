@@ -14,7 +14,8 @@
     events: {
         "This will scan the local driven for folders": {
             on: "scan_folders",
-            do: function(args, returnfn) {
+            do: async function(args) {
+              var promise = new Promise(returnfn => {
                 console.log("**** SCANNING FILE SYSTEM v2 ****")
                 var useDrive = "C:\\";
                 if (!isWin) {
@@ -149,6 +150,9 @@
                                 returnfn({done: true})
                                 });
                             })
+                })
+                var ret = await promise
+                return ret
             }, end: null
         }
 
