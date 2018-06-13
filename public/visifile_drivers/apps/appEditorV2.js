@@ -17,30 +17,46 @@
                   template: `<div>
                     Okhay this AppShare app editor
                         Code ID: {{code_id}}
-                        <br>
-                        <br>
+                        <div class="container">
+                            <div class="row">
 
-                        <component  v-bind:is="editor_component" v-if="editor_loaded">
-                                        <button slot-scope="editor_component"
-                                                v-on:click='save(code_id, editor_component.text2)'
-                                                type="button" class="btn btn-primary">
 
-                                                    Save
-                                       </button>
-                        </component>
+                            
+                              <div class="col-sm-6">
+                                  <component  v-bind:is="editor_component" v-if="editor_loaded">
+                                                  <button slot-scope="editor_component"
+                                                          v-on:click='save(code_id, editor_component.text2)'
+                                                          type="button" class="btn btn-primary">
 
-                        <component  v-bind:is="app_component_name" v-if="app_loaded">
-                          APP HERE
-                        </component>
+                                                              Save
+                                                 </button>
+                                  </component>
+                              </div>
 
-                        <div  v-if="!app_loaded">
-                            No app selected. Select one:
-                            <br>
-                            <select @change="chooseApp">
-                                <option v-for="item in apps" v-bind:value="item">{{item}}</option>
-                            </select>
 
-                        </div>
+
+
+                              <div class="col-sm-6">
+                                  <component  v-bind:is="app_component_name" v-if="app_loaded">
+                                    APP HERE
+                                  </component>
+
+                                  <div  v-if="!app_loaded">
+                                      No app selected. Select one:
+                                      <br>
+                                      <select @change="chooseApp">
+                                          <option v-for="item in apps" v-bind:value="item">{{item}}</option>
+                                      </select>
+
+                                  </div>
+                              </div>
+
+
+
+                            </div>
+                          </div>
+
+
                   </div>
                    `
                    ,
