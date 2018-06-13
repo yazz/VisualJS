@@ -20,7 +20,7 @@
 
 
 
-                              <div class="col-sm-6">
+                              <div class="col-xl-8">
                                   <component  v-bind:is="editor_component" v-if="editor_loaded">
                                                   <button slot-scope="editor_component"
                                                           v-on:click='save(code_id, editor_component.text2)'
@@ -34,7 +34,7 @@
 
 
 
-                              <div class="col-sm-6">
+                              <div class="col-xl-4">
                                   <component  v-bind:is="app_component_name" v-if="app_loaded">
                                     APP HERE
                                   </component>
