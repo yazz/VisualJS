@@ -307,23 +307,11 @@ function setUpSql() {
 function driversFn(callbackFn) {
     dbsearch.serialize(
         function() {
-            var result = []
             var stmt = dbsearch.all(
                 "SELECT * FROM drivers",
 
-                function(err, results)
-                {
-                    if (results) {
-                        for (var i =0 ; i< results.length; i ++) {
-                            var obj = eval(results[i].code)
-                            obj.src = results[i].code
-                            result.push(obj)
-                        }
-                        callbackFn( result);
-                    } else {
-                        callbackFn(null)
-                    }
-
+                function(err, results) {
+                    callbackFn( results );
                 })
     }, sqlite3.OPEN_READONLY)
 }
@@ -341,19 +329,11 @@ function processDrivers(  callbackFn  ) {
     //console.log("")
 
     driversFn(function(listOfDrivers) {
+    console.log("Process drivers: " + JSON.stringify(listOfDrivers,null,2))
         if (listOfDrivers) {
             for (var i=0; i< listOfDrivers.length; i ++) {
-                if (listOfDrivers[i].events) {
-                    var thisDriverEvents =  Object.keys(listOfDrivers[i].events)
-                    if (thisDriverEvents.length > 0  ) {
-                        for (var e=0; e< thisDriverEvents.length; e++){
-                            var thisEvent = listOfDrivers[i].events[thisDriverEvents[e]]
-                            addEventCode(thisDriverEvents[e], listOfDrivers[i].name, listOfDrivers[i].src, thisEvent, listOfDrivers[i].max_processes)
-
-                        }
-                    }
-
-                }
+                console.log("Process drivers: " + JSON.stringify(listOfDrivers[i],null,2))
+                addEventCode(listOfDrivers[i].name, listOfDrivers[i].code, 1)
             }
             callbackFn()
 
@@ -361,30 +341,14 @@ function processDrivers(  callbackFn  ) {
     })
 }
 
-function addEventCode(eventName, driverName, code, listOfEvents, maxProcesses) {
-    //console.log("--- addEventCode ---")
-    //console.log("     eventName: " + eventName)
-    //console.log("    driverName: " + driverName)
-    //console.log("        driver: " + JSON.stringify(driver,null,2))
-    var startIndex = code.indexOf(eventName)
-    code = code.substring(startIndex)
-    var startIndex = code.indexOf("on:")
-    code = code.substring(startIndex + 3).trim()
-    var startIndex = code.indexOf("do:")
-    var oncode = code.substring(0, startIndex )
-    var startIndex = oncode.lastIndexOf(",")
-    oncode = oncode.substring(0, startIndex )
+function addEventCode(driverName, code, maxProcesses) {
+    //oncode = oncode
+    var oncode = "\"app\""
+    var eventName = "app"
 
     //console.log("    startIndex: " + JSON.stringify(startIndex,null,2))
     //console.log("          on: " + JSON.stringify(oncode,null,2))
 
-
-    var startIndex = code.indexOf("do:")
-    code = code.substring(startIndex + 3)
-    var startIndex = code.indexOf("end:")
-    code = code.substring(0, startIndex )
-    var startIndex = code.lastIndexOf(",")
-    code = code.substring(0, startIndex )
 
     var componentType = ""
     if (code.indexOf("is_app()") != -1) {

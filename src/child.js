@@ -1941,7 +1941,6 @@ function processMessagesFromMainProcess() {
           process.send({send_from_child: "***** Received message from parent"})
 
 
-//zzz
       } else if (msg.message_type == 'callDriverMethod') {
 
           callDriverMethod( msg.driver, msg.method, msg.args, function(result) {
@@ -2886,22 +2885,22 @@ function evalLocalSystemDriver(driverName, location) {
 
 
 function setUpDbDrivers() {
-    evalLocalSystemDriver('glb',                    path.join(__dirname, '../public/visifile_drivers/glb.js'))
-    evalLocalSystemDriver('csv',                    path.join(__dirname, '../public/visifile_drivers/csv.js'))
-    evalLocalSystemDriver('txt',                    path.join(__dirname, '../public/visifile_drivers/glb.js'))
-    evalLocalSystemDriver('excel',                  path.join(__dirname, '../public/visifile_drivers/excel.js'))
-    evalLocalSystemDriver('word',                   path.join(__dirname, '../public/visifile_drivers/word.js'))
-    evalLocalSystemDriver('pdf',                    path.join(__dirname, '../public/visifile_drivers/pdf.js'))
-    evalLocalSystemDriver('postgres',               path.join(__dirname, '../public/visifile_drivers/postgres.js'))
+    //evalLocalSystemDriver('glb',                    path.join(__dirname, '../public/visifile_drivers/glb.js'))
+    //evalLocalSystemDriver('csv',                    path.join(__dirname, '../public/visifile_drivers/csv.js'))
+    //evalLocalSystemDriver('txt',                    path.join(__dirname, '../public/visifile_drivers/glb.js'))
+    //evalLocalSystemDriver('excel',                  path.join(__dirname, '../public/visifile_drivers/excel.js'))
+    //evalLocalSystemDriver('word',                   path.join(__dirname, '../public/visifile_drivers/word.js'))
+    //evalLocalSystemDriver('pdf',                    path.join(__dirname, '../public/visifile_drivers/pdf.js'))
+    //evalLocalSystemDriver('postgres',               path.join(__dirname, '../public/visifile_drivers/postgres.js'))
 
-    evalLocalSystemDriver('outlook2012',            path.join(__dirname, '../public/visifile_drivers/outlook2012.js'))
+    //evalLocalSystemDriver('outlook2012',            path.join(__dirname, '../public/visifile_drivers/outlook2012.js'))
     //evalLocalSystemDriver('outlook2010')
-    evalLocalSystemDriver('sqlite',                 path.join(__dirname, '../public/visifile_drivers/sqlite.js'))
-    evalLocalSystemDriver('mysql',                  path.join(__dirname, '../public/visifile_drivers/mysql.js'))
-    evalLocalSystemDriver('oracle',                 path.join(__dirname, '../public/visifile_drivers/oracle.js'))
-    evalLocalSystemDriver('testdriver',             path.join(__dirname, '../public/visifile_drivers/testdriver.js'))
+    //evalLocalSystemDriver('sqlite',                 path.join(__dirname, '../public/visifile_drivers/sqlite.js'))
+    //evalLocalSystemDriver('mysql',                  path.join(__dirname, '../public/visifile_drivers/mysql.js'))
+    //evalLocalSystemDriver('oracle',                 path.join(__dirname, '../public/visifile_drivers/oracle.js'))
+    //evalLocalSystemDriver('testdriver',             path.join(__dirname, '../public/visifile_drivers/testdriver.js'))
 
-    evalLocalSystemDriver('fileuploader',           path.join(__dirname, '../public/visifile_drivers/file_uploader.js'))
+    //evalLocalSystemDriver('fileuploader',           path.join(__dirname, '../public/visifile_drivers/file_uploader.js'))
 
 
 
@@ -2911,14 +2910,14 @@ function setUpDbDrivers() {
     if (isWin) {
         evalLocalSystemDriver('powershell',         path.join(__dirname, '../public/visifile_drivers/services/powershell.js'))
     }
-    evalLocalSystemDriver('commandLine',            path.join(__dirname, '../public/visifile_drivers/services/commandLine.js'))
-    evalLocalSystemDriver('webPreview',             path.join(__dirname, '../public/visifile_drivers/services/web_preview.js'))
+    //evalLocalSystemDriver('commandLine',            path.join(__dirname, '../public/visifile_drivers/services/commandLine.js'))
+    //evalLocalSystemDriver('webPreview',             path.join(__dirname, '../public/visifile_drivers/services/web_preview.js'))
 
-    evalLocalSystemDriver('spreahsheetPreview',     path.join(__dirname, '../public/visifile_drivers/services/spreadsheet_preview.js'))
-    evalLocalSystemDriver('csvPreview',             path.join(__dirname, '../public/visifile_drivers/services/csv_preview.js'))
-    evalLocalSystemDriver('docPreview',             path.join(__dirname, '../public/visifile_drivers/services/doc_preview.js'))
-    evalLocalSystemDriver('fileScannerService',     path.join(__dirname, '../public/visifile_drivers/services/file_scanner_service.js'))
-    evalLocalSystemDriver('folderScannerService',   path.join(__dirname, '../public/visifile_drivers/services/folder_scanner_service.js'))
+    //evalLocalSystemDriver('spreahsheetPreview',     path.join(__dirname, '../public/visifile_drivers/services/spreadsheet_preview.js'))
+    //evalLocalSystemDriver('csvPreview',             path.join(__dirname, '../public/visifile_drivers/services/csv_preview.js'))
+    //evalLocalSystemDriver('docPreview',             path.join(__dirname, '../public/visifile_drivers/services/doc_preview.js'))
+    //evalLocalSystemDriver('fileScannerService',     path.join(__dirname, '../public/visifile_drivers/services/file_scanner_service.js'))
+    //evalLocalSystemDriver('folderScannerService',   path.join(__dirname, '../public/visifile_drivers/services/folder_scanner_service.js'))
 
 
 
@@ -2926,26 +2925,26 @@ function setUpDbDrivers() {
     //
     // apps
     //
-    evalLocalSystemDriver('appEditorV2',   path.join(__dirname, '../public/visifile_drivers/apps/appEditorV2.js'))
-    evalLocalSystemDriver('search',   path.join(__dirname, '../public/visifile_drivers/apps/search.js'))
-    evalLocalSystemDriver('test',   path.join(__dirname, '../public/visifile_drivers/apps/test.js'))
-    evalLocalSystemDriver('game',   path.join(__dirname, '../public/visifile_drivers/apps/game.js'))
-    evalLocalSystemDriver('listApps',   path.join(__dirname, '../public/visifile_drivers/apps/listApps.js'))
+    //evalLocalSystemDriver('appEditorV2',   path.join(__dirname, '../public/visifile_drivers/apps/appEditorV2.js'))
+    //evalLocalSystemDriver('search',   path.join(__dirname, '../public/visifile_drivers/apps/search.js'))
+    //evalLocalSystemDriver('test',   path.join(__dirname, '../public/visifile_drivers/apps/test.js'))
+    //evalLocalSystemDriver('game',   path.join(__dirname, '../public/visifile_drivers/apps/game.js'))
+    //evalLocalSystemDriver('listApps',   path.join(__dirname, '../public/visifile_drivers/apps/listApps.js'))
     evalLocalSystemDriver('vue',   path.join(__dirname, '../public/visifile_drivers/apps/vue.js'))
-    evalLocalSystemDriver('bootstrap',   path.join(__dirname, '../public/visifile_drivers/apps/bootstrap.js'))
+    //evalLocalSystemDriver('bootstrap',   path.join(__dirname, '../public/visifile_drivers/apps/bootstrap.js'))
 
 
 
     //
     // functions
     //
-    evalLocalSystemDriver('systemFunctions',   path.join(__dirname, '../public/visifile_drivers/functions/system.js'))
+    //evalLocalSystemDriver('systemFunctions',   path.join(__dirname, '../public/visifile_drivers/functions/system.js'))
 
     //
     // UI components
     //
-    evalLocalSystemDriver('comp',   path.join(__dirname, '../public/visifile_drivers/ui_components/comp.js'))
-    evalLocalSystemDriver('editorComponent',   path.join(__dirname, '../public/visifile_drivers/ui_components/editorComponent.js'))
+    //evalLocalSystemDriver('comp',   path.join(__dirname, '../public/visifile_drivers/ui_components/comp.js'))
+    //evalLocalSystemDriver('editorComponent',   path.join(__dirname, '../public/visifile_drivers/ui_components/editorComponent.js'))
 }
 
 
@@ -2955,11 +2954,11 @@ function setUpDbDrivers() {
 
 
 
-function addOrUpdateDriver(name, codeString) {
+function addOrUpdateDriver(  name, codeString  ) {
     //console.log('addOrUpdateDriver: ' + name);
-
+//zzz
     var code            = eval(codeString);
-    var driverType      = code.type;
+    var driverType      = "app"                //code.type;
 
 
     dbsearch.serialize(
