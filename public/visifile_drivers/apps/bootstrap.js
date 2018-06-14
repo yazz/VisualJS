@@ -1,17 +1,10 @@
-{
-    doc_type: 'appshare', name: 'bootstrap',
-    version: 1,
-    descroption: 'Bootstrap'
+function(args) {
+    is_app()
+    description('Bootstrap')
+    Vue.component("BootstrapApp", {
+        template: 
 
-
-    ,
-    events: {
-        "This will return the Bootstrap CSS test app": {
-            on: "app",
-            do:  function(args) {
-                is_app()
-                Vue.component("BootstrapApp", {
-                  template: `
+`
 <div class="container">
     <div class="row">
       <div class="col-sm-6 bg-success">
@@ -23,16 +16,8 @@
       </div>
     </div>
   </div>
-                   `
+`
 
-                })
-                return {name: "BootstrapApp"}
-
-
-
-            }, end: null
-        }
-
-    }
-
+    })
+    return {name: "BootstrapApp"}
 }
