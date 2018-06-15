@@ -1,4 +1,4 @@
-function (args) {
+function component(args) {
     description('Component')
 
     Vue.component('z-counter', {
@@ -9,6 +9,7 @@ function (args) {
       },
       template: '<button v-on:click="count++">You clicked Z {{ count }} times.</button>'
     })
+
 
     return {
         name: "z-counter"

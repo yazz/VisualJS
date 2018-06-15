@@ -329,10 +329,10 @@ function processDrivers(  callbackFn  ) {
     //console.log("")
 
     driversFn(function(listOfDrivers) {
-    console.log("Process drivers: " + JSON.stringify(listOfDrivers,null,2))
+    //console.log("Process drivers: " + JSON.stringify(listOfDrivers,null,2))
         if (listOfDrivers) {
             for (var i=0; i< listOfDrivers.length; i ++) {
-                console.log("Process drivers: " + JSON.stringify(listOfDrivers[i],null,2))
+                //console.log("Process drivers: " + JSON.stringify(listOfDrivers[i],null,2))
                 addEventCode(listOfDrivers[i].name, listOfDrivers[i].code, 1)
             }
             callbackFn()
@@ -341,8 +341,23 @@ function processDrivers(  callbackFn  ) {
     })
 }
 
+
+var esprima = require('esprima');
+//zzz
 function addEventCode(driverName, code, maxProcesses) {
-    //oncode = oncode
+    //console.log(code)
+    var prjs = esprima.parse( "(" + code + ")");
+    if (prjs.body) {
+        if (prjs.body[0]) {
+            if (prjs.body[0].expression) {
+                if (prjs.body[0].expression.id) {
+                    console.log(driverName + ": " + JSON.stringify(prjs.body[0].expression.id.name,null,2))
+                }
+            }
+        }
+    }
+
+
     var oncode = "\"app\""
     var eventName = "app"
 
