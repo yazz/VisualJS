@@ -346,20 +346,23 @@ var esprima = require('esprima');
 //zzz
 function addEventCode(driverName, code, maxProcesses) {
     //console.log(code)
+    var oncode = "\"app\""
+    var eventName = "app"
+
     var prjs = esprima.parse( "(" + code + ")");
     if (prjs.body) {
         if (prjs.body[0]) {
             if (prjs.body[0].expression) {
                 if (prjs.body[0].expression.id) {
                     console.log(driverName + ": " + JSON.stringify(prjs.body[0].expression.id.name,null,2))
+                    var oncode = "\"" + prjs.body[0].expression.id.name + "\""
+                    var eventName = prjs.body[0].expression.id.name
                 }
             }
         }
     }
 
 
-    var oncode = "\"app\""
-    var eventName = "app"
 
     //console.log("    startIndex: " + JSON.stringify(startIndex,null,2))
     //console.log("          on: " + JSON.stringify(oncode,null,2))
