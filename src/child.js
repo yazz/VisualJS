@@ -2925,7 +2925,7 @@ function setUpDbDrivers() {
     //
     // apps
     //
-    //evalLocalSystemDriver('appEditorV2',   path.join(__dirname, '../public/visifile_drivers/apps/appEditorV2.js'))
+    evalLocalSystemDriver('appEditorV2',   path.join(__dirname, '../public/visifile_drivers/apps/appEditorV2.js'))
     //evalLocalSystemDriver('search',   path.join(__dirname, '../public/visifile_drivers/apps/search.js'))
     evalLocalSystemDriver('test',   path.join(__dirname, '../public/visifile_drivers/apps/test.js'))
     //evalLocalSystemDriver('game',   path.join(__dirname, '../public/visifile_drivers/apps/game.js'))
@@ -2940,12 +2940,13 @@ function setUpDbDrivers() {
     //
     evalLocalSystemDriver('systemFunctions',   path.join(__dirname, '../public/visifile_drivers/functions/system.js'))
     evalLocalSystemDriver('systemFunctions2',   path.join(__dirname, '../public/visifile_drivers/functions/system2.js'))
+    evalLocalSystemDriver('appEditorV2SaveCode',   path.join(__dirname, '../public/visifile_drivers/apps/appEditorV2SaveCode.js'))
 
     //
     // UI components
     //
     evalLocalSystemDriver('comp',   path.join(__dirname, '../public/visifile_drivers/ui_components/comp.js'))
-    //evalLocalSystemDriver('editorComponent',   path.join(__dirname, '../public/visifile_drivers/ui_components/editorComponent.js'))
+    evalLocalSystemDriver('editorComponent',   path.join(__dirname, '../public/visifile_drivers/ui_components/editorComponent.js'))
 }
 
 
