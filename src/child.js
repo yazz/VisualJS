@@ -2939,6 +2939,7 @@ function setUpDbDrivers() {
     // functions
     //
     evalLocalSystemDriver('systemFunctions',   path.join(__dirname, '../public/visifile_drivers/functions/system.js'))
+    evalLocalSystemDriver('systemFunctions2',   path.join(__dirname, '../public/visifile_drivers/functions/system2.js'))
 
     //
     // UI components
