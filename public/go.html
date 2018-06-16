@@ -690,7 +690,7 @@ cardAppIds[ data.card_id ] = data.app_name
         var loadedApp = false
         var codeFn = null
         try {
-            //alert(1)
+            //alert(data.code)
             codeFn = eval(   data.code  )
         } catch (err) {
             alert(err)
@@ -805,7 +805,7 @@ var dataIds = new Object()
         } else if (data.result.client_js) {
             //console.log("data.result.client_js: " + data.result.client_js)
             try {
-                //alert(2)
+                //alert(data.result.client_js)
                 eval(""+ data.result.client_js + "")
             } catch(err) {
                 alert(err)
@@ -844,8 +844,8 @@ var dataIds = new Object()
             var callbackFn = queuedResponses[data.seq_num]
 
             try {
-                //alert(3)
-                var fnfn = eval(data.value.code )
+                //alert(data.value.code)
+                var fnfn = eval( data.value.code )
                 var args =     callDriverMethodArgs[data.seq_num]
                 var fnfnRes = fnfn(args)
 

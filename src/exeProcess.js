@@ -16,10 +16,6 @@ var os                          = require('os')
 var perf                        = require('./perf')
 var db_helper                   = require("./db_helper")
 var isBinaryFile                = require("isbinaryfile");
-var pgeval
-var sqliteeval
-var tdeval
-var toeval;
 var userData
 var childProcessName
 
@@ -322,7 +318,7 @@ function executeCode(callId, codeId, args) {
                         //console.log(code)
                         try {
                             if (isFrontEndOnlyCode( results[0].code )) {
-                                var code = "( " + results[0].code + ")"
+                                var code = results[0].code
                                 process.send({  message_type:         "function_call_response" ,
                                                 result:              { code:            code,
                                                                        is_code_result:  true   },
@@ -337,8 +333,8 @@ function executeCode(callId, codeId, args) {
 
 
                             } else { // front and backend code
-                                var code = "(" + results[0].code + ")"
-                                var fnfn = eval(code)
+                                var code =  results[0].code
+                                var fnfn = eval("(" + code + ")")
                                 if (code.indexOf("async ") != -1) {
                                     console.log(    "    async code:" + code)
                                     var runAsync = async function() {

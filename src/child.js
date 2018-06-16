@@ -2878,7 +2878,7 @@ function fromDir(startPath,filter,callback){
 
 
 function evalLocalSystemDriver(driverName, location) {
-	var evalDriver = '(' + fs.readFileSync(location) + ')';
+	var evalDriver = fs.readFileSync(location);
 	addOrUpdateDriver(driverName, evalDriver)
 }
 
@@ -2900,7 +2900,7 @@ function setUpDbDrivers() {
     //evalLocalSystemDriver('oracle',                 path.join(__dirname, '../public/visifile_drivers/oracle.js'))
     //evalLocalSystemDriver('testdriver',             path.join(__dirname, '../public/visifile_drivers/testdriver.js'))
 
-    evalLocalSystemDriver('fileuploader',           path.join(__dirname, '../public/visifile_drivers/file_uploader.js'))
+    //evalLocalSystemDriver('fileuploader',           path.join(__dirname, '../public/visifile_drivers/file_uploader.js'))
 
 
 
@@ -2959,8 +2959,7 @@ function setUpDbDrivers() {
 
 function addOrUpdateDriver(  name, codeString  ) {
     //console.log('addOrUpdateDriver: ' + name);
-//zzz
-    var code            = eval(codeString);
+
     var driverType      = "app"                //code.type;
 
 
@@ -2988,7 +2987,7 @@ function addOrUpdateDriver(  name, codeString  ) {
                                         stmtInsertDriver.run(uuidv1(),  name,  driverType,  codeString)
                                         stmtDeleteDependencies.run(name)
 
-                                        if (code.uses_javascript_librararies) {
+                                        /*if (code.uses_javascript_librararies) {
                                             console.log(JSON.stringify(code.uses_javascript_librararies,null,2))
                                             for (var tt = 0; tt < code.uses_javascript_librararies.length ; tt++) {
                                                 stmtInsertDependency.run(
@@ -2999,7 +2998,7 @@ function addOrUpdateDriver(  name, codeString  ) {
                                                     "latest")
 
                                             }
-                                        }
+                                        }*/
                                         dbsearch.run("commit");
                                     })
 
@@ -3024,7 +3023,7 @@ function addOrUpdateDriver(  name, codeString  ) {
                                       stmtUpdateDriver.run( codeString , existingDriver.id)
                                       stmtDeleteDependencies.run(name)
 
-                                      if (code.uses_javascript_librararies) {
+                                      /*if (code.uses_javascript_librararies) {
                                           console.log(JSON.stringify(code.uses_javascript_librararies,null,2))
                                           for (var tt = 0; tt < code.uses_javascript_librararies.length ; tt++) {
                                               stmtInsertDependency.run(
@@ -3035,7 +3034,7 @@ function addOrUpdateDriver(  name, codeString  ) {
                                                   "latest")
 
                                           }
-                                      }
+                                      }*/
 
                                       dbsearch.run("commit");
 

@@ -139,7 +139,7 @@ function(args) {
                                //alert(code)
                                mm.code = code
                                mm.code_id = codeId
-                               //alert(code)
+                               alert(JSON.stringify(code,null,2))
                                callDriverMethod(
                                    "editorComponent",  "component",  {text: code}
                                    ,

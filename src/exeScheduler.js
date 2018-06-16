@@ -10,10 +10,6 @@ var os                          = require('os')
 var perf                        = require('./perf')
 var db_helper                   = require("./db_helper")
 var isBinaryFile                = require("isbinaryfile");
-var pgeval
-var sqliteeval
-var tdeval
-var toeval;
 var userData
 var childProcessName
 var nextCallId = 0

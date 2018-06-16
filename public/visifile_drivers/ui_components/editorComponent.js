@@ -1,4 +1,6 @@
-function component(args) {
+function component( args ) {
+
+    //alert(JSON.stringify(args,null,2))
     var uid = uuidv4()
     var uid2 = uuidv4()
     var mm = Vue.component(uid, {
@@ -34,7 +36,7 @@ function component(args) {
 
 
     })
-    //alert(JSON.stringify(args,null,2)),
+
 
     return {
         name: uid
