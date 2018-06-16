@@ -119,8 +119,8 @@ function(args) {
 
 
 
-               var sql =    "select  id, code  from  system_code  where " +
-                            "     on_condition like '%app%' and driver = '" + appName + "'"
+               var sql =    "select  id, cast(code as text) as code from  system_code  where " +
+                            "     component_type = 'app' and driver = '" + appName + "'"
 
                //alert( sql )
 
@@ -132,14 +132,14 @@ function(args) {
                    ,
                    function(results) {
                        if (results) {
-                           //alert(results.value.length)
+                           //alert(JSON.stringify(results,null,2))
                            if (results.value.length > 0) {
                                var code = results.value[0].code
                                var codeId = results.value[0].id
                                //alert(code)
                                mm.code = code
                                mm.code_id = codeId
-                               alert(JSON.stringify(code,null,2))
+                               //alert(JSON.stringify(code,null,2))
                                callDriverMethod(
                                    "editorComponent",  "component",  {text: code}
                                    ,

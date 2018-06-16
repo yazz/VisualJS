@@ -3591,13 +3591,13 @@ function getAppCode(appName, callbackFn) {
     dbsearch.serialize(
         function() {
             dbsearch.all(
-                "SELECT id,code FROM system_code where on_condition like '%app%' and driver = ?; ",
+                "SELECT id,code FROM system_code where component_type = 'app' and driver = ?; ",
                 appName,
 
                 function(err, results)
                 {
                     if (results.length > 0) {
-                        getAppCodePart2(appName, callbackFn, results[0].id, results[0].code)
+                        getAppCodePart2(appName, callbackFn, results[0].id, results[0].code.toString())
                     } else {
                         callbackFn(null,null,null)
                     }

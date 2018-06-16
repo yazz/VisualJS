@@ -316,9 +316,10 @@ function executeCode(callId, codeId, args) {
                         currentCodeID = codeId
                         currentArgs = args
                         //console.log(code)
+                        var code = results[0].code.toString()
                         try {
-                            if (isFrontEndOnlyCode( results[0].code )) {
-                                var code = results[0].code.toString()
+                            if (isFrontEndOnlyCode( code )) {
+
                                 process.send({  message_type:         "function_call_response" ,
                                                 result:              { code:            code,
                                                                        is_code_result:  true   },
@@ -333,13 +334,13 @@ function executeCode(callId, codeId, args) {
 
 
                             } else { // front and backend code
-                                var code =  results[0].code
+
                                 var fnfn = eval("(" + code + ")")
                                 if (code.indexOf("async ") != -1) {
                                     console.log(    "    async code:" + code)
                                     var runAsync = async function() {
                                         var result = await fnfn(args)
-                                        //console.log("*) Result: in exeProcess" + JSON.stringify(result,null,2));
+                                        console.log("*) Result: in exeProcess" + JSON.stringify(result,null,2));
 
                                         process.send({  message_type:       "function_call_response" ,
                                                         child_process_name:  childProcessName,
