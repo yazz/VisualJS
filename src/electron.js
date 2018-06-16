@@ -186,18 +186,18 @@ var PDFParser       = require("pdf2json");
 
 
 
-/*
+
 var babel = require("babel-core")
 
 console.log("****************************")
-var fgt = fs.readFileSync("/Users/faroukzquraishi/visifile_installer/public/visifile_drivers/apps/test.js")
-console.log("fgt: " + fgt)
+var fgt = fs.readFileSync("/Users/faroukzquraishi/visifile_installer/public/visifile_drivers/ui_components/comp.js")
+//console.log("fgt: " + fgt)
 
 var tr = babel.transform("(" + fgt + ")", {plugins: [path.join(__dirname, "../node_modules/babel-plugin-transform-es2015-template-literals")]})
 console.log("****************************")
 console.log(tr.code);
 console.log("****************************")
-*/
+
 
 
 
@@ -783,7 +783,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
             } else if (msg.message_type == "ipc_child_returning_callDriverMethod_response") {
 
-                console.log(" .......3: " + msg.results);
+                console.log(" .......3: " + JSON.stringify(msg,null,2));
                 //console.log("6: return_query_items_ended")
                 //console.log("6.1: " + msg)
                 var new_ws = queuedResponses[ msg.seq_num_parent ]
@@ -2059,10 +2059,10 @@ function testFirewall(req, res) {
 
 
 
-
+/*
 console.log("****************************")
 var fgt = fs.readFileSync(path.join(__dirname, "../public/visifile_drivers/apps/test.js"))
-console.log("fgt: " + fgt)
+//console.log("fgt: " + fgt)
 
 //var tr = babel.transform("(" + fgt + ")", {plugins: ["/Users/faroukzquraishi/visifile_installer/node_modules/babel-plugin-transform-es2015-template-literals"]})
 //var tr = babel.transform("(" + fgt + ")", {plugins: ["/Users/faroukzquraishi/visifile_installer/node_modules/babel-plugin-transform-es2015-template-literals"]})
@@ -2070,7 +2070,7 @@ var tr = babel.transform("(" + fgt + ")", {plugins: [path.join(__dirname, "../no
 console.log("****************************")
 console.log(tr.code);
 console.log("****************************")
-
+*/
 
 
 

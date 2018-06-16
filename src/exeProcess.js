@@ -318,7 +318,7 @@ function executeCode(callId, codeId, args) {
                         //console.log(code)
                         try {
                             if (isFrontEndOnlyCode( results[0].code )) {
-                                var code = results[0].code
+                                var code = results[0].code.toString()
                                 process.send({  message_type:         "function_call_response" ,
                                                 result:              { code:            code,
                                                                        is_code_result:  true   },
