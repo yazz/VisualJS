@@ -2910,7 +2910,8 @@ function setUpDbDrivers() {
     if (isWin) {
         evalLocalSystemDriver('powershell',         path.join(__dirname, '../public/visifile_drivers/services/powershell.js'))
     }
-    //evalLocalSystemDriver('commandLine',            path.join(__dirname, '../public/visifile_drivers/services/commandLine.js'))
+    evalLocalSystemDriver('commandLine',            path.join(__dirname, '../public/visifile_drivers/services/commandLine.js'))
+    evalLocalSystemDriver('commandLine2',            path.join(__dirname, '../public/visifile_drivers/services/commandLine2.js'))
     //evalLocalSystemDriver('webPreview',             path.join(__dirname, '../public/visifile_drivers/services/web_preview.js'))
 
     //evalLocalSystemDriver('spreahsheetPreview',     path.join(__dirname, '../public/visifile_drivers/services/spreadsheet_preview.js'))
@@ -2926,7 +2927,7 @@ function setUpDbDrivers() {
     // apps
     //
     evalLocalSystemDriver('appEditorV2',   path.join(__dirname, '../public/visifile_drivers/apps/appEditorV2.js'))
-    //evalLocalSystemDriver('search',   path.join(__dirname, '../public/visifile_drivers/apps/search.js'))
+    evalLocalSystemDriver('search',   path.join(__dirname, '../public/visifile_drivers/apps/search.js'))
     evalLocalSystemDriver('test',   path.join(__dirname, '../public/visifile_drivers/apps/test.js'))
     //evalLocalSystemDriver('game',   path.join(__dirname, '../public/visifile_drivers/apps/game.js'))
     evalLocalSystemDriver('listApps',   path.join(__dirname, '../public/visifile_drivers/apps/listApps.js'))

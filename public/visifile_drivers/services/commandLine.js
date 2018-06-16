@@ -1,72 +1,20 @@
-{
-    name: 'commandLine'
-    ,
-    version: 1
-    ,
-    type: 'service'
-    ,
-    text: 'CommandLine driver'
-
-    ,
-    events: {
-
-        "ls function returns current files":
-        {
-            on: "ls",
-            do: async function(args) {
-               // console.log("2)  Service called with args:  " + JSON.stringify(args,null,2))
-                console.log("4.5 callbackFn exists")
-                if (args) {
-                  //  console.log("*) Args = " + args.text)
-                }
-                var exec = require('child_process').exec;
-
-                var execPromise = new Promise(
-                                    done => {
-                                                exec('ls', function(error, stdout, stderr)
-                                                {
-                                                    done(stdout)
-                                                })
-                                            })
-
-                var val = await execPromise
-                return val
-            },
-            end: null
-
-        },
-
-
-        "pwd returns working directory":
-        {
-            on: "pwd",
-            do: function(args, callbackFn) {
-                //console.log("2)  Service called with args:  " + JSON.stringify(args,null,2))
-                if(callbackFn){
-                    console.log("4.5 callbackFn exists")
-                    if (args) {
-                        console.log("*) Args = " + args.text)
-                    }
-                    var exec = require('child_process').exec;
-                    exec('pwd', function(error, stdout, stderr) {
-                         callbackFn(stdout)
-                    });
-
-                }
-            },
-            end: null
-
-        },
-
-
-        "This is just dummy code": {
-            on: "never",
-            do: function() {
-                // we don't do anyhting!
-                // but we can still be edited :)
-                console.log("***** This is just dummy code ****")
-            }, end: null
-        }
+async function ls(args) {
+    description("ls function returns current files")
+   // console.log("2)  Service called with args:  " + JSON.stringify(args,null,2))
+    console.log("4.5 callbackFn exists")
+    if (args) {
+      //  console.log("*) Args = " + args.text)
     }
+    var exec = require('child_process').exec;
 
+    var execPromise = new Promise(
+                        done => {
+                                    exec('ls', function(error, stdout, stderr)
+                                    {
+                                        done(stdout)
+                                    })
+                                })
+
+    var val = await execPromise
+    return val
 }
