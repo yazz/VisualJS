@@ -4,7 +4,7 @@ function(args) {
     description("This will return the test app")
 
     Vue.component("VueApp", {
-      template: `<div>Okhay this is a Vue test app: 2</div>
+      template: `<div>Okhay this is a Vue test app: 2gfggddf</div>
        `
 
     })

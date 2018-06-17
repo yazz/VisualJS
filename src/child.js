@@ -2969,28 +2969,31 @@ function setUpDbDrivers() {
 function addOrUpdateDriver(  name, codeString  ) {
     //console.log('addOrUpdateDriver: ' + name);
 
-    var driverType      = "app"                //code.type;
-
 
     dbsearch.serialize(
         function() {
             dbsearch.all(
                 " select  " +
-                "     name, code, id " +
+                "     driver, code, id " +
                 " from " +
-                "     drivers " +
+                "     system_code " +
                 " where " +
-                "     name = ?;"
+                "     driver = ? and code_tag = 'LATEST';"
                 ,
                 name
                 ,
                 function(err, rows) {
                     if (!err) {
                         try {
-                            saveCodeV2(  null,    codeString  );
+                            var parentId = null
+                            if (rows.length > 0) {
+                                parentId = rows[0].id
+                            }
+
+                            saveCodeV2(  parentId,    codeString  );
 
 
-//                                      stmtDeleteDependencies.run(name)
+                                //   stmtDeleteDependencies.run(name)
 
                                       /*if (code.uses_javascript_librararies) {
                                           console.log(JSON.stringify(code.uses_javascript_librararies,null,2))
