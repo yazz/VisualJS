@@ -766,6 +766,10 @@ function description(d) {
 
 }
 
+function is_driver(d) {
+
+}
+
 function saveCodeV2(parentHash, code) {
     process.send({  message_type:       "save_code" ,
                     parent_hash:         parentHash,

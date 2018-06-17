@@ -121,7 +121,7 @@ function processMessagesFromMainProcess() {
 
              //console.log(" --- setUpSql --- ")
              setUpSql();
-             processDrivers(init);
+
 
 
 
@@ -317,108 +317,7 @@ function driversFn(callbackFn) {
 
 
 
-function processDrivers(  callbackFn  ) {
-    //console.log("Process drivers")
-    //console.log("")
-    //console.log("")
-    //console.log("")
-    //console.log("")
 
-    driversFn(function(listOfDrivers) {
-    //console.log("Process drivers: " + JSON.stringify(listOfDrivers,null,2))
-        if (listOfDrivers) {
-            for (var i=0; i< listOfDrivers.length; i ++) {
-                //console.log("Process drivers: " + JSON.stringify(listOfDrivers[i],null,2))
-                addEventCode(listOfDrivers[i].name, listOfDrivers[i].code)
-            }
-            callbackFn()
-
-        }
-    })
-}
-
-
-var esprima = require('esprima');
-//zzz
-function addEventCode(driverName, code) {
-    //console.log(code)
-    var oncode = "\"app\""
-    var eventName = "app"
-    var maxProcesses = 1
-
-    var prjs = esprima.parse( "(" + code + ")");
-    if (prjs.body) {
-        if (prjs.body[0]) {
-            if (prjs.body[0].expression) {
-                if (prjs.body[0].expression.id) {
-                    console.log(driverName + ": " + JSON.stringify(prjs.body[0].expression.id.name,null,2))
-                    var oncode = "\"" + prjs.body[0].expression.id.name + "\""
-                    var eventName = prjs.body[0].expression.id.name
-                }
-            }
-        }
-    }
-
-
-
-    //console.log("    startIndex: " + JSON.stringify(startIndex,null,2))
-    //console.log("          on: " + JSON.stringify(oncode,null,2))
-
-
-    var componentType = ""
-    if (code.indexOf("is_app()") != -1) {
-        componentType = "app"
-    }
-
-
-    //console.log("          code: " + JSON.stringify(code,null,2))
-
-
-
-    dbsearch.serialize(
-        function() {
-            var result = []
-            var stmt = dbsearch.all(
-                "SELECT * FROM system_code where driver = ? and method = ?",
-                [driverName, eventName],
-
-                function(err, results)
-                {
-                    if (results.length == 0) {
-                        var newId   = uuidv1();
-                        dbsearch.serialize(
-                            function() {
-                                dbsearch.run("begin exclusive transaction");
-                                stmtInsertIntoCode.run(
-                                    newId,
-                                    oncode,
-                                    driverName,
-                                    eventName,
-                                    code,
-                                    maxProcesses,
-                                    componentType)
-                                dbsearch.run("commit");
-                            })
-
-
-                    } else {
-                        dbsearch.serialize(
-                            function() {
-                                dbsearch.run("begin exclusive transaction");
-                                stmtUpdateCode.run(
-                                    oncode,
-                                    code,
-                                    maxProcesses,
-                                    results[0].id
-                                )
-                                dbsearch.run("commit");
-                            })
-
-                    }
-
-                })
-    }, sqlite3.OPEN_READONLY)
-}
 
 
 var functions = new Object()

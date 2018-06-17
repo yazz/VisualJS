@@ -2986,51 +2986,11 @@ function addOrUpdateDriver(  name, codeString  ) {
                 ,
                 function(err, rows) {
                     if (!err) {
-                        if (rows.length == 0) {
-                            try
-                            {
-                                //console.log('   *** Adding DRIVER ' + name);
-                                dbsearch.serialize(
-                                    function() {
-                                        dbsearch.run("begin exclusive transaction");
-                                        stmtInsertDriver.run(uuidv1(),  name,  driverType,  codeString)
-                                        stmtDeleteDependencies.run(name)
+                        try {
+                            saveCodeV2(  null,    codeString  );
 
-                                        /*if (code.uses_javascript_librararies) {
-                                            console.log(JSON.stringify(code.uses_javascript_librararies,null,2))
-                                            for (var tt = 0; tt < code.uses_javascript_librararies.length ; tt++) {
-                                                stmtInsertDependency.run(
-                                                    uuidv1(),
-                                                    name,
-                                                    "js_browser_lib",
-                                                    code.uses_javascript_librararies[tt],
-                                                    "latest")
 
-                                            }
-                                        }*/
-                                        dbsearch.run("commit");
-                                    })
-
-                            } catch( err ) {
-
-                                console.log(err);
-                                var stack = new Error().stack
-                                console.log( stack )
-
-                            } finally {
-                            }
-
-                  } else {
-                      var existingDriver = rows[0];
-                      if (codeString != existingDriver.code) {
-                          try
-                          {
-                              console.log('        Updating DRIVER ' + name);
-                              dbsearch.serialize(
-                                  function() {
-                                      dbsearch.run("begin exclusive transaction");
-                                      stmtUpdateDriver.run( codeString , existingDriver.id)
-                                      stmtDeleteDependencies.run(name)
+//                                      stmtDeleteDependencies.run(name)
 
                                       /*if (code.uses_javascript_librararies) {
                                           console.log(JSON.stringify(code.uses_javascript_librararies,null,2))
@@ -3044,10 +3004,6 @@ function addOrUpdateDriver(  name, codeString  ) {
 
                                           }
                                       }*/
-
-                                      dbsearch.run("commit");
-
-                                  });
                           } catch(err) {
                               console.log(err);
                               var stack = new Error().stack
@@ -3055,8 +3011,7 @@ function addOrUpdateDriver(  name, codeString  ) {
                           } finally {
 
                           }
-                      }
-                  }
+
               }
           }
       );
@@ -3948,6 +3903,8 @@ function shutdownExeProcess(err) {
 
 
 
+
+
 var esprima = require('esprima');
 function saveCodeV2( parentHash, code ) {
 
@@ -3979,6 +3936,7 @@ function saveCodeV2( parentHash, code ) {
                             var oncode = "\"app\""
                             var eventName = "app"
                             var maxProcesses = 1
+                            var driverName = "driver"
 
                             var prjs = esprima.parse( "(" + code + ")");
                             if (prjs.body) {
@@ -4003,11 +3961,15 @@ function saveCodeV2( parentHash, code ) {
                             if (code.indexOf("is_app()") != -1) {
                                 componentType = "app"
                             }
+                            if (code.indexOf("is_driver(") != -1) {
+                                var driverCode = code.toString().substring(code.indexOf("is_driver(") + 11)
+                                var driverName = driverCode.substring(0,driverCode.indexOf(")") - 1)
+                            }
 
                             console.log("Saving in Sqlite: " + parentHash)
                             console.log("Saving in Sqlite: " + code)
                             var stmtInsertNewCode = dbsearch.prepare(
-                                " insert into   system_code  (id, parent_id, code_tag, code,on_condition, driver, method, max_processes) values (?,?,?,?,?,?,?,?)");
+                                " insert into   system_code  (id, parent_id, code_tag, code,on_condition, driver, method, max_processes,component_type) values (?,?,?,?,?,?,?,?,?)");
                             var stmtDeprecateOldCode = dbsearch.prepare(
                                 " update system_code  set code_tag = NULL where id = ?");
 
@@ -4019,9 +3981,10 @@ function saveCodeV2( parentHash, code ) {
                                       "LATEST",
                                       code,
                                       oncode,
-                                      "driver",
+                                      driverName,
                                       eventName,
-                                      maxProcesses
+                                      maxProcesses,
+                                      componentType
                                       )
                                 stmtDeprecateOldCode.run(
                                     parentHash
