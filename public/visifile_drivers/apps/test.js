@@ -1,6 +1,7 @@
 function(args) {
     is_app()
     description('Test app')
+    is_driver("test")
 
     Vue.component('test_app', {
       data: function () {

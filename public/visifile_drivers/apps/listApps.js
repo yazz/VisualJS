@@ -1,6 +1,8 @@
 function(args) {
     is_app()
-    description('Test app')
+    description('App to list all the apps')
+    is_driver("listApps")
+
     Vue.component('listApps',{
           template: `<div v-on:click='search'>
                         this lists all the apps installed

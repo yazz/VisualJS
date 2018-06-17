@@ -1,8 +1,10 @@
 function(args) {
     is_app()
     description('Bootstrap')
+    is_driver("bootstrap")
+
     Vue.component("BootstrapApp", {
-        template: 
+        template:
 
 `
 <div class="container">

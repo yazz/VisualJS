@@ -1,4 +1,5 @@
 function component( args ) {
+    is_driver("editorComponent")
 
     //alert(JSON.stringify(args,null,2))
     var uid = uuidv4()
