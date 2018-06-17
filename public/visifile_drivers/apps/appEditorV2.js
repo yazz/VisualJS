@@ -121,7 +121,8 @@ function(args) {
 
 
                var sql =    "select  id, cast(code as text) as code from  system_code  where " +
-                            "     component_type = 'app' and driver = '" + appName + "'"
+                            "        component_type = 'app' and driver = '" + appName + "'" +
+                            "        and code_tag = 'LATEST' "
 
                //alert( sql )
 

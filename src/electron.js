@@ -2156,7 +2156,7 @@ function websocketFn(ws) {
 } else if (receivedMessage.message_type == "browser_asks_server_for_apps") {
 
    // console.log("******************* browser_asks_server_for_apps *******************")
-    findDriversWithType("app", function(results) {
+    findLatestVersionOfApps( function(results) {
        // console.log(JSON.stringify(results,null,2))
 
         sendToBrowserViaWebSocket(  ws,
@@ -3540,12 +3540,13 @@ function parseVfCliCommand(args, callbackFn) {
 
 
 
-function findDriversWithType(componentType, callbackFn) {
+function findLatestVersionOfApps( callbackFn) {
     dbsearch.serialize(
         function() {
             var stmt = dbsearch.all(
-                "SELECT driver FROM system_code where component_type = ?; ",
-                componentType,
+                "SELECT driver FROM system_code where component_type = ? and code_tag = ?; ",
+                "app",
+                "LATEST",
 
                 function(err, results)
                 {
@@ -3597,7 +3598,7 @@ function getAppCode(appName, callbackFn) {
     dbsearch.serialize(
         function() {
             dbsearch.all(
-                "SELECT id,code FROM system_code where component_type = 'app' and driver = ?; ",
+                "SELECT id,code FROM system_code where component_type = 'app' and driver = ? and code_tag = 'LATEST'; ",
                 appName,
 
                 function(err, results)
