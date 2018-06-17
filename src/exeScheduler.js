@@ -204,6 +204,12 @@ function processMessagesFromMainProcess() {
                         })
             }, sqlite3.OPEN_READONLY)
 
+        } else if (msg.find_component.code_id) {
+                       scheduleJobWithCodeId(  msg.find_component.code_id,
+                                               msg.args,
+                                               msg.caller_call_id,
+                                               msg.callback_index)
+
         }
 
 

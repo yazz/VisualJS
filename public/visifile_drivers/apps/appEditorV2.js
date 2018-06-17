@@ -102,28 +102,10 @@ function(args) {
            load_app: function (appName) {
                //alert("trying to load app: " + appName)
                var mm = this
-               mm.code_id = args.code_id
                mm.app_loaded = false
                mm.app_name = null
                mm.app_component_name = null
-               setTimeout(function() {
-                   //alert("Reloading: " + appName)
-                   callDriverMethod(
-                   {
-                        driver_name:    appName,
-                        method_name:    "app"
-                    }
-                        ,
-                       {
-                       }
-                       ,
-                       function(results) {
-                           mm.app_loaded = true
-                           mm.app_name = appName
-                           mm.app_component_name = results.name
-                           //alert(results.name + " loaded")
-                       })
-               },200)
+
 
 
 
@@ -152,7 +134,7 @@ function(args) {
                                //alert(code)
                                mm.code = code
                                mm.code_id = codeId
-                               //alert(JSON.stringify(code,null,2))
+                               //alert(JSON.stringify(codeId,null,2))
                                callDriverMethod(
                                    {
                                         driver_name:    "editorComponent",
@@ -167,6 +149,25 @@ function(args) {
                                        mm.editor_component = result.name
                                          })
                            }
+
+
+                           setTimeout(function() {
+                               //alert("Reloading: " + appName)
+                               callDriverMethod(
+                               {
+                                    code_id:    codeId,
+                                }
+                                    ,
+                                   {
+                                   }
+                                   ,
+                                   function(results) {
+                                       mm.app_loaded = true
+                                       mm.app_name = appName
+                                       mm.app_component_name = results.name
+                                       //alert(results.name + " loaded")
+                                   })
+                           },200)
                        }
                    })
 
@@ -183,8 +184,10 @@ function(args) {
            if (argAppName) {
                 this.load_app(argAppName)
             } else {
-                callDriverMethod( {driver_name: "systemFunctions",
-                                  method_name:  "get_apps_list"}
+                callDriverMethod( {
+                                        driver_name:  "systemFunctions",
+                                        method_name:  "get_apps_list"
+                                  }
                                   ,{}
                             ,
                             function(result) {
