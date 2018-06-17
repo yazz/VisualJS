@@ -1837,16 +1837,15 @@ var callbackIndex = -1
 var callbackIndex = 0;
 var callbackList = new Object()
 
-function callDriverMethod( driverName, methodName, args, callbackFn ) {
+function callDriverMethod( findComponentArgs, args, callbackFn ) {
 
     //console.log("*) called '" + driverName + ":" + methodName + "' with args: " + JSON.stringify(args,null,2))
     var useCallbackIndex = callbackIndex ++
     callbackList[ useCallbackIndex ] = callbackFn
-    console.log("msg.callback_index sent for " + driverName + ":" + methodName + ": " + useCallbackIndex)
+    //console.log("msg.callback_index sent for " + driverName + ":" + methodName + ": " + useCallbackIndex)
     process.send({  message_type:       "function_call_request" ,
                     child_process_name:  "forked",
-                    driver_name:         driverName,
-                    method_name:         methodName,
+                    find_component:      findComponentArgs,
                     args:                args,
                     callback_index:      useCallbackIndex,
                     caller_call_id:      -1
@@ -1943,7 +1942,7 @@ function processMessagesFromMainProcess() {
 
       } else if (msg.message_type == 'callDriverMethod') {
 
-          callDriverMethod( msg.driver, msg.method, msg.args, function(result) {
+          callDriverMethod( msg.find_component, msg.args, function(result) {
               console.log("    **** SCANNED THE FOLDERS ON LOCAL FILE SYSTEM ***: ")
               process.send(
                   {

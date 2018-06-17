@@ -564,8 +564,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
               forkedProcesses["forkedExeScheduler"].send({
                                                       message_type:         "function_call_request",
                                                       child_process_name:    msg.child_process_name,
-                                                      driver_name:           msg.driver_name,
-                                                      method_name:           msg.method_name,
+                                                      find_component:        msg.find_component,
                                                       args:                  msg.args,
                                                       callback_index:        msg.callback_index,
                                                       caller_call_id:        msg.caller_call_id
@@ -2264,8 +2263,7 @@ function websocketFn(ws) {
             //console.log(" .......1 Electron callDriverMethod: " + JSON.stringify(receivedMessage,null,2));
             forkedProcesses["forked"].send({
                             message_type:          "callDriverMethod",
-                            driver:                 receivedMessage.driverName,
-                            method:                 receivedMessage.methodName,
+                            find_component:         receivedMessage.find_component,
                             args:                   receivedMessage.args,
                             seq_num_parent:         seqNum,
                             seq_num_browser:        receivedMessage.seqNum

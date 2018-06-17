@@ -1,10 +1,10 @@
 function(args) {
     is_app()
     is_driver("vue")
-    description("This will return the test app")
+    description("This will return the Vue test app")
 
     Vue.component("VueApp", {
-      template: `<div>Okhay this is a Vue test app: 2gfggddf</div>
+      template: `<div>Vue test app:</div>
        `
 
     })

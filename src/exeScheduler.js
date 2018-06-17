@@ -180,33 +180,32 @@ function processMessagesFromMainProcess() {
 
      } else if (msg.message_type == "function_call_request") {
 
-             dbsearch.serialize(
-                 function() {
-                     var stmt = dbsearch.all(
-                       "SELECT * FROM system_code where driver = ? and on_condition like '%" + msg.method_name + "%'; ",
+        if (msg.find_component.driver_name && msg.find_component.method_name) {
+            dbsearch.serialize(
+                function() {
+                    var stmt = dbsearch.all(
+                      "SELECT * FROM system_code where driver = ? and on_condition like '%" +
+                        msg.find_component.method_name + "%'; ",
 
-                        msg.driver_name,
+                       msg.find_component.driver_name,
 
-                         function(err, results)
-                         {
-                             if (results) {
-                                scheduleJobWithCodeId(  results[0].id,
-                                                        msg.args,
-                                                        msg.caller_call_id,
-                                                        msg.callback_index)
-                                 //callbackFn(results[0].id);
-                             } else {
-                                 //callbackFn(null)
-                             }
+                        function(err, results)
+                        {
+                            if (results) {
+                               scheduleJobWithCodeId(  results[0].id,
+                                                       msg.args,
+                                                       msg.caller_call_id,
+                                                       msg.callback_index)
+                                //callbackFn(results[0].id);
+                            } else {
+                                //callbackFn(null)
+                            }
 
-                         })
-             }, sqlite3.OPEN_READONLY)
-             //
-             //child_process_name:    msg.child_process_name,
-             //driver_name:           msg.driver_name,
-             //method_name:           msg.method_name,
-             //args:                  msg.args,
-             //callback_index:        msg.callback_index
+                        })
+            }, sqlite3.OPEN_READONLY)
+
+        }
+
 
 
 

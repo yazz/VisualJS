@@ -926,15 +926,14 @@ function cmd(stringArgs) {
 var queuedResponses = new Object()
 var queuedBrowserResponseSeqNum = 0
 var callDriverMethodArgs = new Object()
-function callDriverMethod(driverName, methodName, args, callbackFn) {
+function callDriverMethod(findComponentArgs, args, callbackFn) {
     var seqNum = queuedBrowserResponseSeqNum ++;
     queuedResponses[seqNum] = callbackFn;
     callDriverMethodArgs[seqNum] = args
 
     sendToServerViaWebSocket({
         message_type: "callDriverMethod",
-            driverName: driverName,
-            methodName: methodName,
+            find_component: findComponentArgs,
             args: args,
             seqNum: seqNum
             });

@@ -79,7 +79,10 @@ function(args) {
                //alert("Saving " + code_id)
                //alert("Saving " + text)
                callDriverMethod(
-                   "appEditorV2SaveCode",  "saveCode",
+               {
+                   driver_name:     "appEditorV2SaveCode",
+                   method_name:     "saveCode"
+               },
                    {
                        code: text,
                        code_id: code_id
@@ -106,7 +109,11 @@ function(args) {
                setTimeout(function() {
                    //alert("Reloading: " + appName)
                    callDriverMethod(
-                       appName,  "app",
+                   {
+                        driver_name:    appName,
+                        method_name:    "app"
+                    }
+                        ,
                        {
                        }
                        ,
@@ -127,7 +134,11 @@ function(args) {
                //alert( sql )
 
                callDriverMethod(
-                   "systemFunctions2",  "sql",
+                   {
+                        driver_name:    "systemFunctions2",
+                        method_name:    "sql"
+                   }
+                   ,
                    {
                        sql: sql
                    }
@@ -143,7 +154,12 @@ function(args) {
                                mm.code_id = codeId
                                //alert(JSON.stringify(code,null,2))
                                callDriverMethod(
-                                   "editorComponent",  "component",  {text: code}
+                                   {
+                                        driver_name:    "editorComponent",
+                                        method_name:    "component"
+                                    }
+                                    ,
+                                      {text: code}
                                    ,
                                    function(result) {
                                    //alert(JSON.stringify(result,null,2))
@@ -167,8 +183,8 @@ function(args) {
            if (argAppName) {
                 this.load_app(argAppName)
             } else {
-                callDriverMethod( "systemFunctions",
-                                  "get_apps_list"
+                callDriverMethod( {driver_name: "systemFunctions",
+                                  method_name:  "get_apps_list"}
                                   ,{}
                             ,
                             function(result) {
