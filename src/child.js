@@ -1957,6 +1957,15 @@ function processMessagesFromMainProcess() {
 
 
 
+
+      } else if (msg.message_type == "save_code") {
+
+              saveCodeV2(  msg.parentHash  ,  msg.code  );
+
+
+
+
+
       } else if (msg.message_type == 'getRelatedDocuments') {
             //console.log("got message getRelatedDocuments" );
                     getRelatedDocuments(msg.id, function(results) {
@@ -3935,4 +3944,66 @@ function shutdownExeProcess(err) {
     if (dbsearch) {
         dbsearch.run("PRAGMA wal_checkpoint;")
     }
+}
+
+
+
+
+function saveCodeV2( parentHash, code ) {
+
+
+    var rowhash = crypto.createHash('sha1');
+    var row = code;
+    rowhash.setEncoding('hex');
+    rowhash.write(row);
+    rowhash.end();
+    var sha1sum = rowhash.read();
+
+    dbsearch.serialize(
+        function() {
+            dbsearch.all(
+                " select  " +
+                "     id " +
+                " from " +
+                "     system_code " +
+                " where " +
+                "     id = ?;"
+                ,
+                sha1sum
+                ,
+                function(err, rows) {
+                    if (!err) {
+                        if (rows.length == 0) {
+
+                            console.log("Saving in Sqlite: " + parentHash)
+                            console.log("Saving in Sqlite: " + code)
+                            var stmtInsertNewCode = dbsearch.prepare(
+                                " insert into   system_code  (id, parent_id, code_tag, code) values (?,?,?,?)");
+                            var stmtDeprecateOldCode = dbsearch.prepare(
+                                " update system_code  set code_tag = NULL where id = ?");
+
+                            dbsearch.serialize(function() {
+                                dbsearch.run("begin exclusive transaction");
+                                stmtInsertNewCode.run(
+                                      sha1sum,
+                                      parentHash,
+                                      "LATEST",
+                                      code
+                                      )
+                                stmtDeprecateOldCode.run(
+                                    parentHash
+                                    )
+
+                                dbsearch.run("commit");
+                                stmtInsertNewCode.finalize();
+                                stmtDeprecateOldCode.finalize();
+
+                            })
+                        }
+                    }
+
+
+                })
+    }, sqlite3.OPEN_READONLY)
+    return {}
 }

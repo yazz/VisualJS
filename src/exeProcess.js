@@ -766,7 +766,12 @@ function description(d) {
 
 }
 
-
+function saveCodeV2(parentHash, code) {
+    process.send({  message_type:       "save_code" ,
+                    parent_hash:         parentHash,
+                    code:                code
+                    });
+}
 
 process.on('exit', function(err) {
     shutdownExeProcess(err);

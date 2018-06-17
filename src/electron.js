@@ -260,8 +260,14 @@ function setUpChildListeners(processName, fileName, debugPort) {
         } else if (msg.message_type == "return_set_connection") {
 
 
+//zzz
+        } else if (msg.message_type == "save_code") {
 
-
+            forkedProcesses["forked"].send({
+                                                message_type:       "save_code",
+                                                parent_hash:         msg.parentHash,
+                                                code:                msg.code
+                                           });
 
 
 
