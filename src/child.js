@@ -1960,7 +1960,7 @@ function processMessagesFromMainProcess() {
 
       } else if (msg.message_type == "save_code") {
 
-              saveCodeV2(  msg.parentHash  ,  msg.code  );
+              saveCodeV2(  msg.parent_hash  ,  msg.code  );
 
 
 
