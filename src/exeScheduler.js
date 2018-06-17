@@ -329,7 +329,7 @@ function processDrivers(  callbackFn  ) {
         if (listOfDrivers) {
             for (var i=0; i< listOfDrivers.length; i ++) {
                 //console.log("Process drivers: " + JSON.stringify(listOfDrivers[i],null,2))
-                addEventCode(listOfDrivers[i].name, listOfDrivers[i].code, 1)
+                addEventCode(listOfDrivers[i].name, listOfDrivers[i].code)
             }
             callbackFn()
 
@@ -340,10 +340,11 @@ function processDrivers(  callbackFn  ) {
 
 var esprima = require('esprima');
 //zzz
-function addEventCode(driverName, code, maxProcesses) {
+function addEventCode(driverName, code) {
     //console.log(code)
     var oncode = "\"app\""
     var eventName = "app"
+    var maxProcesses = 1
 
     var prjs = esprima.parse( "(" + code + ")");
     if (prjs.body) {

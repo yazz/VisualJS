@@ -3948,7 +3948,7 @@ function shutdownExeProcess(err) {
 
 
 
-
+var esprima = require('esprima');
 function saveCodeV2( parentHash, code ) {
 
 
@@ -3975,10 +3975,39 @@ function saveCodeV2( parentHash, code ) {
                     if (!err) {
                         if (rows.length == 0) {
 
+                            //console.log(code)
+                            var oncode = "\"app\""
+                            var eventName = "app"
+                            var maxProcesses = 1
+
+                            var prjs = esprima.parse( "(" + code + ")");
+                            if (prjs.body) {
+                                if (prjs.body[0]) {
+                                    if (prjs.body[0].expression) {
+                                        if (prjs.body[0].expression.id) {
+                                            console.log(driverName + ": " + JSON.stringify(prjs.body[0].expression.id.name,null,2))
+                                            var oncode = "\"" + prjs.body[0].expression.id.name + "\""
+                                            var eventName = prjs.body[0].expression.id.name
+                                        }
+                                    }
+                                }
+                            }
+
+
+
+                            //console.log("    startIndex: " + JSON.stringify(startIndex,null,2))
+                            //console.log("          on: " + JSON.stringify(oncode,null,2))
+
+
+                            var componentType = ""
+                            if (code.indexOf("is_app()") != -1) {
+                                componentType = "app"
+                            }
+
                             console.log("Saving in Sqlite: " + parentHash)
                             console.log("Saving in Sqlite: " + code)
                             var stmtInsertNewCode = dbsearch.prepare(
-                                " insert into   system_code  (id, parent_id, code_tag, code) values (?,?,?,?)");
+                                " insert into   system_code  (id, parent_id, code_tag, code,on_condition, driver, method, max_processes) values (?,?,?,?,?,?,?,?)");
                             var stmtDeprecateOldCode = dbsearch.prepare(
                                 " update system_code  set code_tag = NULL where id = ?");
 
@@ -3988,7 +4017,11 @@ function saveCodeV2( parentHash, code ) {
                                       sha1sum,
                                       parentHash,
                                       "LATEST",
-                                      code
+                                      code,
+                                      oncode,
+                                      "driver",
+                                      eventName,
+                                      maxProcesses
                                       )
                                 stmtDeprecateOldCode.run(
                                     parentHash
