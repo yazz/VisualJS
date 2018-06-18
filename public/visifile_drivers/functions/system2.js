@@ -1,7 +1,7 @@
 async function sql( args ) {
 
     description("This will execute sql on the internal SQLite database")
-    is_driver("systemFunctions2")
+    component_name("systemFunctions2")
 
     var getSqlResults = new Promise(returnResult => {
         dbsearch.serialize(

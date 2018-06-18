@@ -1,6 +1,6 @@
 function component(args) {
     description('Component')
-    is_driver("comp")
+    component_name("comp")
 
     Vue.component('z-counter', {
       data: function () {

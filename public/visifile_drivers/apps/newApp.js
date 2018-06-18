@@ -1,6 +1,6 @@
 function(args) {
     is_app()
-    is_driver("new app")
+    component_name("new app")
     description("This is a new app")
 
     Vue.component("NewApp", {

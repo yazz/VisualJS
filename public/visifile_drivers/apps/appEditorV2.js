@@ -1,7 +1,7 @@
 function(args) {
 
     description("This will return the editor app")
-    is_driver("appEditorV2")
+    component_name("appEditorV2")
     is_app()
 
     var argAppName = args.appName

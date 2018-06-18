@@ -1,7 +1,7 @@
 function(args) {
     is_app()
     description("This will return the search app")
-    is_driver("search")
+    component_name("search")
     
     Vue.component("search_app",{
       template: "<div v-on:click='search'>this is the Vue seach app {{msg}}</div>"

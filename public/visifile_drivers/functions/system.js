@@ -1,7 +1,7 @@
 async function get_apps_list(args) {
 
     description("This will return the apps available")
-    is_driver("systemFunctions")
+    component_name("systemFunctions")
 
     var getAppsList = new Promise(function(resolve, reject) {
             dbsearch.serialize(

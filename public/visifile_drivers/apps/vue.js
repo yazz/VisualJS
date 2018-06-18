@@ -1,6 +1,6 @@
 function(args) {
     is_app()
-    is_driver("vue")
+    component_name("vue")
     description("This will return the Vue test app")
 
     Vue.component("VueApp", {
