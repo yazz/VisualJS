@@ -772,7 +772,9 @@ function is_driver(d) {
 function display_name(d) {
 
 }
+function created_timestamp(d) {
 
+}
 function saveCodeV2(parentHash, code) {
     process.send({  message_type:       "save_code" ,
                     parent_hash:         parentHash,

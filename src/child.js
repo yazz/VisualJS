@@ -3935,6 +3935,26 @@ function saveCodeV2( parentHash, code ) {
                     if (!err) {
                         if (rows.length == 0) {
 
+
+
+                            var creationTimestamp = new Date().getTime()
+                            if (code.indexOf("created_timestamp(") != -1) {
+                                var createdTimestampCodeStart = code.toString().indexOf("    created_timestamp(")
+                                var createdTimestampCodeEnd = createdTimestampCodeStart +
+                                                                code.substring(createdTimestampCodeStart).indexOf(")")
+
+                                code = code.substring(0,createdTimestampCodeStart) +
+                                                code.substring(createdTimestampCodeEnd + 1)
+
+                                console.log("AFTER STRU: (" + createdTimestampCodeStart + "," + createdTimestampCodeEnd + ")")
+                            }
+                            var lastIndexOfEnd = code.lastIndexOf("}")
+                            code = code.substring(0,lastIndexOfEnd) + "    created_timestamp(" + creationTimestamp + ")\n" +
+                                            code.substring(lastIndexOfEnd )
+
+                            console.log("AFTER STRU2: (" + lastIndexOfEnd + ")")
+                            console.log(code)
+
                             //console.log(code)
                             var oncode = "\"app\""
                             var eventName = "app"
@@ -3969,11 +3989,17 @@ function saveCodeV2( parentHash, code ) {
                                 var driverName = driverCode.substring(0,driverCode.indexOf(")") - 1)
                             }
 
-                            var creationTimestamp = new Date().getTime()
+
                             var displayName = null
                             if (code.indexOf("display_name(") != -1) {
                                 var displayNameCode = code.toString().substring(code.indexOf("display_name(") + 14)
                                 displayName = displayNameCode.substring(0,displayNameCode.indexOf(")") - 1)
+                            }
+
+
+
+                            function created_timestamp(d) {
+
                             }
 
                             console.log("Saving in Sqlite: " + parentHash)
