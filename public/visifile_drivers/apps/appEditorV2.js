@@ -1,8 +1,9 @@
 function(args) {
+    is_app()
+    display_name("Editor App")
 
     description("This will return the editor app")
     is_driver("appEditorV2")
-    is_app()
 
     var argAppName = args.appName
 

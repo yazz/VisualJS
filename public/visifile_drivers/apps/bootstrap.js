@@ -1,5 +1,7 @@
 function(args) {
     is_app()
+    display_name("Bootstrap app")
+
     description('Bootstrap')
     is_driver("bootstrap")
 

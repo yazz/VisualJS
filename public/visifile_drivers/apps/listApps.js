@@ -1,5 +1,7 @@
 function(args) {
     is_app()
+    display_name("App Store")
+
     description('App to list all the apps')
     is_driver("listApps")
 

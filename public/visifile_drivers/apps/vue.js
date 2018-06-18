@@ -1,5 +1,7 @@
 function(args) {
     is_app()
+    display_name("VueJS test App")
+
     is_driver("vue")
     description("This will return the Vue test app")
 

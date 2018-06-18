@@ -1,5 +1,7 @@
 function(args) {
     is_app()
+    display_name("Test app")
+
     description('Test app')
     is_driver("test")
 
