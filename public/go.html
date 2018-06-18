@@ -66,7 +66,7 @@ function initFn() {
           template: "<div v-bind:id='element_id' v-on:click='click_card(item.id)' v-bind:class='full_screen?\"polaroid\":\"polaroid tilt\"' " +
 		               " v-bind:style=\"'font-family: Helvetica ;  width: 90vw ;visibility: ' + (visible?'':'hidden') + ';' \">"+
                        "                <div class=link style='height: 2em;display:inline-block' v-on:click='closeCard()' >Close</div>"+
-"            <h1 class='caption'>{{item.card.name}}</h1>"+
+                       "            <h1 class='caption'>{{item.card.name}}</h1>"+
 "            <a style='font-size: 2em;' v-bind:href='item.card.link' v-if='item.card.link'>{{item.card.link_name}}</a>"+
 ""+
 "            <div    style='font-size: 2em;' v-on:click='loadContent(item.card.data_id,item.card.name)'"+
@@ -76,6 +76,8 @@ function initFn() {
 "                    v-if='item.card.load_content'>Open</div>"+
 ""+
 "            <div    v-if='full_screen && (item.card.type == \"app\")'>"+
+"            <h1 class='caption'>codeID: {{item.card.code_id}}</h1>"+
+"            <h1 class='caption'>Full Name: {{item.card.display_name}}</h1>"+
 "                <div    v-bind:id='\"app_container_\"+ item.id'  >"+
 "                    <div v-bind:id='\"app_\"+ item.id' >"+
 "                    </div>"+
@@ -665,6 +667,8 @@ function setupWebSocket(host, port)
                                                 id:                 nid,
                                                 name:               data.results[i].driver,
                                                 app:                data.results[i].driver,
+                                                code_id:            data.results[i].id,
+                                                display_name:       data.results[i].display_name,
                                                 type:               "app"
                                             }});
 

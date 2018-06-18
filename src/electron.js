@@ -3542,7 +3542,7 @@ function findLatestVersionOfApps( callbackFn) {
     dbsearch.serialize(
         function() {
             var stmt = dbsearch.all(
-                "SELECT driver FROM system_code where component_type = ? and code_tag = ?; ",
+                "SELECT id,driver,display_name FROM system_code where component_type = ? and code_tag = ?; ",
                 "app",
                 "LATEST",
 
