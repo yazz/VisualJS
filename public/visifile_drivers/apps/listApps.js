@@ -23,8 +23,8 @@ function(args) {
         methods: {
             search: function() {
                 var mm = this
-                callDriverMethod( "systemFunctions",
-                                  "get_apps_list"
+                callDriverMethod( {driver_name: "systemFunctions",
+                                  method_name:"get_apps_list"}
                                   ,{}
                             ,
                             function(result) {

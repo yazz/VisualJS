@@ -185,7 +185,7 @@ function processMessagesFromMainProcess() {
                 function() {
                     var stmt = dbsearch.all(
                       "SELECT * FROM system_code where driver = ? and on_condition like '%" +
-                        msg.find_component.method_name + "%'; ",
+                        msg.find_component.method_name + "%' and code_tag = 'LATEST'; ",
 
                        msg.find_component.driver_name,
 
