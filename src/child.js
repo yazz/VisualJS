@@ -3951,8 +3951,8 @@ function saveCodeV2( parentHash, code ) {
                             }
                             var lastIndexOfEnd = code.toString().indexOf("*/")
                             if (lastIndexOfEnd != -1) {
-                                code = code.toString().substring(0,lastIndexOfEnd - 1) +
-                                                "created_timestamp(" + creationTimestamp + ")\n    " +
+                                code = code.toString().substring(0,lastIndexOfEnd - 2) +
+                                                "created_timestamp(" + creationTimestamp + ")\n" +
                                                 code.toString().substring(lastIndexOfEnd )
                                 }
                             rowhash = crypto.createHash('sha1');
