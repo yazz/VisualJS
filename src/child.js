@@ -3969,10 +3969,17 @@ function saveCodeV2( parentHash, code ) {
                                 var driverName = driverCode.substring(0,driverCode.indexOf(")") - 1)
                             }
 
+                            var creationTimestamp = new Date().getTime()
+                            var displayName = null
+                            if (code.indexOf("display_name(") != -1) {
+                                var displayNameCode = code.toString().substring(code.indexOf("display_name(") + 14)
+                                displayName = displayNameCode.substring(0,displayNameCode.indexOf(")") - 1)
+                            }
+
                             console.log("Saving in Sqlite: " + parentHash)
                             console.log("Saving in Sqlite: " + code)
                             var stmtInsertNewCode = dbsearch.prepare(
-                                " insert into   system_code  (id, parent_id, code_tag, code,on_condition, driver, method, max_processes,component_type) values (?,?,?,?,?,?,?,?,?)");
+                                " insert into   system_code  (id, parent_id, code_tag, code,on_condition, driver, method, max_processes,component_type,display_name, creation_timestamp) values (?,?,?,?,?,?,?,?,?,?,?)");
                             var stmtDeprecateOldCode = dbsearch.prepare(
                                 " update system_code  set code_tag = NULL where id = ?");
 
@@ -3987,7 +3994,9 @@ function saveCodeV2( parentHash, code ) {
                                       driverName,
                                       eventName,
                                       maxProcesses,
-                                      componentType
+                                      componentType,
+                                      displayName,
+                                      creationTimestamp
                                       )
                                 stmtDeprecateOldCode.run(
                                     parentHash
