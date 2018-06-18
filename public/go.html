@@ -76,13 +76,11 @@ function initFn() {
 "                    v-if='item.card.load_content'>Open</div>"+
 ""+
 "            <div    v-if='full_screen && (item.card.type == \"app\")'>"+
-"            <h1 class='caption'>codeID: {{item.card.code_id}}</h1>"+
-"            <h1 class='caption'>Full Name: {{item.card.display_name}}</h1>"+
 "                <div    v-bind:id='\"app_container_\"+ item.id'  >"+
 "                    <div v-bind:id='\"app_\"+ item.id' >"+
 "                    </div>"+
 "                </div>"+
-"                <div class=link style='height: 2em;display:inline-block; padding-right: 30px;padding-top: 30px;' v-on:click='prepareApp(item.id, \"appEditorV2\", {appName: item.card.name})' >Edit App</div>"+
+"                <div class=link style='height: 2em;display:inline-block; padding-right: 30px;padding-top: 30px;' v-on:click='prepareApp(item.id, \"appEditorV2\", {appName: item.card.app})' >Edit App</div>"+
 "                <div class=link style='height: 2em;display:inline-block; padding-right: 30px;padding-top: 30px;' v-on:click='prepareApp(item.id, item.card.app, {})' >RUN</div>"+
 "                <div class=link style='height: 2em;display:inline-block; padding-right: 30px;padding-top: 30px;' v-on:click='copyApp(item.id, item.card.app)' >Copy app</div>"+
 "            </div>"+
@@ -665,7 +663,7 @@ function setupWebSocket(host, port)
                                             id: nid,
                                             card: {
                                                 id:                 nid,
-                                                name:               data.results[i].driver,
+                                                name:               data.results[i].display_name,
                                                 app:                data.results[i].driver,
                                                 code_id:            data.results[i].id,
                                                 display_name:       data.results[i].display_name,

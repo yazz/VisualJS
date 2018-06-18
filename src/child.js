@@ -3907,10 +3907,10 @@ function shutdownExeProcess(err) {
 
 
 
-
 var esprima = require('esprima');
 function saveCodeV2( parentHash, code ) {
 
+console.log(code.toString())
 
     var rowhash = crypto.createHash('sha1');
     var row = code;
@@ -3934,6 +3934,7 @@ function saveCodeV2( parentHash, code ) {
                 function(err, rows) {
                     if (!err) {
                         if (rows.length == 0) {
+                            try {
 
 
 
@@ -3950,13 +3951,12 @@ function saveCodeV2( parentHash, code ) {
                             }
                             var lastIndexOfEnd = code.toString().lastIndexOf("}")
                             if (lastIndexOfEnd != -1) {
-                                code = code.toString().substring(0,lastIndexOfEnd - 1) +
-                                                "    created_timestamp(" + creationTimestamp + ")\n" +
-                                                code.toString().substring(lastIndexOfEnd )
+                                //code = code.toString().substring(0,lastIndexOfEnd - 1) +
+                                //                "    created_timestamp(" + creationTimestamp + ")\n" +
+                                //                code.toString().substring(lastIndexOfEnd )
                             }
 
                             //console.log("AFTER STRU2: (" + lastIndexOfEnd + ")")
-                            //console.log(code)
 
                             //console.log(code)
                             var oncode = "\"app\""
@@ -4001,9 +4001,7 @@ function saveCodeV2( parentHash, code ) {
 
 
 
-                            function created_timestamp(d) {
 
-                            }
 
                             console.log("Saving in Sqlite: " + parentHash)
                             console.log("Saving in Sqlite: " + code)
@@ -4036,6 +4034,9 @@ function saveCodeV2( parentHash, code ) {
                                 stmtDeprecateOldCode.finalize();
 
                             })
+                            } catch(err) {
+                                console.log(err)
+                            }
                         }
                     }
 

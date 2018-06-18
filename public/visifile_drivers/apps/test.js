@@ -40,8 +40,8 @@ function(args) {
             //Vue.set(mm, "component_name", 'button-counter')
 
 
-            callDriverMethod( "comp",
-                              "component"
+            callDriverMethod( {driver_name: "comp",
+                               method_name: "component"}
                               ,{}
                         ,
                         function(result) {
