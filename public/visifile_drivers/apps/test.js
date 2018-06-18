@@ -1,7 +1,7 @@
 function(args) {
     is_app()
     description('Test app')
-    component_name("test")
+    is_driver("test")
 
     Vue.component('test_app', {
       data: function () {

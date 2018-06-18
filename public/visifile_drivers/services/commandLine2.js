@@ -1,6 +1,6 @@
 function pwd(args, callbackFn) {
     description("pwd returns working directory")
-    component_name("systemFunctions2")
+    is_driver("systemFunctions2")
 
     //console.log("2)  Service called with args:  " + JSON.stringify(args,null,2))
     if(callbackFn){

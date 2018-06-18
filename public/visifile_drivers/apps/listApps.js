@@ -1,7 +1,7 @@
 function(args) {
     is_app()
     description('App to list all the apps')
-    component_name("listApps")
+    is_driver("listApps")
 
     Vue.component('listApps',{
           template: `<div v-on:click='search'>

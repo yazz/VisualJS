@@ -1,7 +1,7 @@
 function(args) {
     is_app()
     description('Bootstrap')
-    component_name("bootstrap")
+    is_driver("bootstrap")
 
     Vue.component("BootstrapApp", {
         template:

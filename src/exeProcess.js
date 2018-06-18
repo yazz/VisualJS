@@ -766,7 +766,7 @@ function description(d) {
 
 }
 
-function component_name(d) {
+function is_driver(d) {
 
 }
 
