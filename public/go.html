@@ -61,7 +61,7 @@ function initFn() {
           data: function () {
             return {
             }
-          }//zzz
+          }
           ,
           template: "<div v-bind:id='element_id' v-on:click='click_card(item.id)' v-bind:class='full_screen?\"polaroid\":\"polaroid tilt\"' " +
 		               " v-bind:style=\"'font-family: Helvetica ;  width: 90vw ;visibility: ' + (visible?'':'hidden') + ';' \">"+
@@ -82,6 +82,7 @@ function initFn() {
 "                </div>"+
 "                <div class=link style='height: 2em;display:inline-block; padding-right: 30px;padding-top: 30px;' v-on:click='prepareApp(item.id, \"appEditorV2\", {appName: item.card.name})' >Edit App</div>"+
 "                <div class=link style='height: 2em;display:inline-block; padding-right: 30px;padding-top: 30px;' v-on:click='prepareApp(item.id, item.card.app, {})' >RUN</div>"+
+"                <div class=link style='height: 2em;display:inline-block; padding-right: 30px;padding-top: 30px;' v-on:click='copyApp(item.id, item.card.app)' >Copy app</div>"+
 "            </div>"+
 ""+
 "            <div style='height: 2em;'></div>"+
@@ -448,6 +449,22 @@ function prepareApp(  id,  app_name , args ) {
         root_element:   rootElement
         });
 }
+
+
+//zzz
+function copyApp(  id,  app_name ) {
+    //alert(id)
+    alert("Copying " + app_name)
+    //alert(JSON.stringify(args,null,2))
+    console.log(" copy app app_name: " + app_name)
+
+    sendToServerViaWebSocket({
+        message_type:   "browser_asks_server_to_copy_app",
+        app_name:       app_name
+        });
+}
+
+
 
 function loadContent(  data_id,  data_name  ) {
     //
