@@ -3938,22 +3938,25 @@ function saveCodeV2( parentHash, code ) {
 
 
                             var creationTimestamp = new Date().getTime()
-                            if (code.indexOf("created_timestamp(") != -1) {
+                            if (code.toString().indexOf("created_timestamp(") != -1) {
                                 var createdTimestampCodeStart = code.toString().indexOf("    created_timestamp(")
                                 var createdTimestampCodeEnd = createdTimestampCodeStart +
-                                                                code.substring(createdTimestampCodeStart).indexOf(")")
+                                                                code.toString().substring(createdTimestampCodeStart).indexOf(")")
 
-                                code = code.substring(0,createdTimestampCodeStart) +
-                                                code.substring(createdTimestampCodeEnd + 1)
+                                code = code.toString().substring(0,createdTimestampCodeStart) +
+                                                code.toString().substring(createdTimestampCodeEnd + 1)
 
-                                console.log("AFTER STRU: (" + createdTimestampCodeStart + "," + createdTimestampCodeEnd + ")")
+                                //console.log("AFTER STRU: (" + createdTimestampCodeStart + "," + createdTimestampCodeEnd + ")")
                             }
-                            var lastIndexOfEnd = code.lastIndexOf("}")
-                            code = code.substring(0,lastIndexOfEnd) + "    created_timestamp(" + creationTimestamp + ")\n" +
-                                            code.substring(lastIndexOfEnd )
+                            var lastIndexOfEnd = code.toString().lastIndexOf("}")
+                            if (lastIndexOfEnd != -1) {
+                                code = code.toString().substring(0,lastIndexOfEnd - 1) +
+                                                "    created_timestamp(" + creationTimestamp + ")\n" +
+                                                code.toString().substring(lastIndexOfEnd )
+                            }
 
-                            console.log("AFTER STRU2: (" + lastIndexOfEnd + ")")
-                            console.log(code)
+                            //console.log("AFTER STRU2: (" + lastIndexOfEnd + ")")
+                            //console.log(code)
 
                             //console.log(code)
                             var oncode = "\"app\""
