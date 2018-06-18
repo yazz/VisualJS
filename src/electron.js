@@ -788,7 +788,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
             } else if (msg.message_type == "ipc_child_returning_callDriverMethod_response") {
 
-                console.log(" .......3: " + JSON.stringify(msg,null,2));
+                //console.log(" .......3: " + JSON.stringify(msg,null,2));
                 //console.log("6: return_query_items_ended")
                 //console.log("6.1: " + msg)
                 var new_ws = queuedResponses[ msg.seq_num_parent ]

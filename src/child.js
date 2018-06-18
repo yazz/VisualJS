@@ -3910,10 +3910,10 @@ function shutdownExeProcess(err) {
 var esprima = require('esprima');
 function saveCodeV2( parentHash, code ) {
 
-console.log(code.toString())
+
 
     var rowhash = crypto.createHash('sha1');
-    var row = code;
+    var row = code.toString();
     rowhash.setEncoding('hex');
     rowhash.write(row);
     rowhash.end();
@@ -3940,7 +3940,7 @@ console.log(code.toString())
 
                             var creationTimestamp = new Date().getTime()
                             if (code.toString().indexOf("created_timestamp(") != -1) {
-                                var createdTimestampCodeStart = code.toString().indexOf("    created_timestamp(")
+                                var createdTimestampCodeStart = code.toString().indexOf("created_timestamp(")
                                 var createdTimestampCodeEnd = createdTimestampCodeStart +
                                                                 code.toString().substring(createdTimestampCodeStart).indexOf(")")
 
@@ -3949,12 +3949,18 @@ console.log(code.toString())
 
                                 //console.log("AFTER STRU: (" + createdTimestampCodeStart + "," + createdTimestampCodeEnd + ")")
                             }
-                            var lastIndexOfEnd = code.toString().lastIndexOf("}")
+                            var lastIndexOfEnd = code.toString().indexOf("*/")
                             if (lastIndexOfEnd != -1) {
-                                //code = code.toString().substring(0,lastIndexOfEnd - 1) +
-                                //                "    created_timestamp(" + creationTimestamp + ")\n" +
-                                //                code.toString().substring(lastIndexOfEnd )
-                            }
+                                code = code.toString().substring(0,lastIndexOfEnd - 1) +
+                                                "created_timestamp(" + creationTimestamp + ")\n    " +
+                                                code.toString().substring(lastIndexOfEnd )
+                                }
+                            rowhash = crypto.createHash('sha1');
+                            row = code.toString();
+                            rowhash.setEncoding('hex');
+                            rowhash.write(row);
+                            rowhash.end();
+                            sha1sum = rowhash.read();
 
                             //console.log("AFTER STRU2: (" + lastIndexOfEnd + ")")
 
@@ -3964,7 +3970,8 @@ console.log(code.toString())
                             var maxProcesses = 1
                             var driverName = "driver"
 
-                            var prjs = esprima.parse( "(" + code + ")");
+ console.log("saveCodeV2: "  + code.toString())
+                            var prjs = esprima.parse( "(" + code.toString() + ")");
                             if (prjs.body) {
                                 if (prjs.body[0]) {
                                     if (prjs.body[0].expression) {
