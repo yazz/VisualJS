@@ -82,7 +82,7 @@ function initFn() {
 "                </div>"+
 "                <div class=link style='height: 2em;display:inline-block; padding-right: 30px;padding-top: 30px;' v-on:click='prepareApp(item.id, \"appEditorV2\", {appName: item.card.app})' >Edit App</div>"+
 "                <div class=link style='height: 2em;display:inline-block; padding-right: 30px;padding-top: 30px;' v-on:click='prepareApp(item.id, item.card.app, {})' >RUN</div>"+
-"                <div class=link style='height: 2em;display:inline-block; padding-right: 30px;padding-top: 30px;' v-on:click='copyApp(item.id, item.card.app)' >Copy app</div>"+
+"                <div class=link style='height: 2em;display:inline-block; padding-right: 30px;padding-top: 30px;' v-on:click='copyApp(item.id, item.card.code_id)' >Copy app</div>"+
 "            </div>"+
 ""+
 "            <div style='height: 2em;'></div>"+
@@ -454,14 +454,30 @@ function prepareApp(  id,  app_name , args ) {
 //zzz
 function copyApp(  id,  app_name ) {
     //alert(id)
-    alert("Copying " + app_name)
+    //alert("Copying " + app_name)
     //alert(JSON.stringify(args,null,2))
     console.log(" copy app app_name: " + app_name)
 
-    sendToServerViaWebSocket({
-        message_type:   "browser_asks_server_to_copy_app",
-        app_name:       app_name
-        });
+    var nid = nextItem++;
+    add_card({
+                                    id: nid,
+                                    card: {
+                                        id:                 nid,
+                                        name:               "Copy of app",
+                                        app:                "fdgf",
+                                        code_id:            "fdfd",
+                                        display_name:       "Copy of app",
+                                        type:               "app"
+                                    }});
+
+
+
+    setTimeout(function(){
+        closeCard()
+        select_card(nid);
+    },1500)
+
+
 }
 
 
