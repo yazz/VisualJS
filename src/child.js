@@ -2920,6 +2920,7 @@ function setUpDbDrivers() {
     }
     evalLocalSystemDriver('commandLine',            path.join(__dirname, '../public/visifile_drivers/services/commandLine.js'))
     evalLocalSystemDriver('commandLine2',            path.join(__dirname, '../public/visifile_drivers/services/commandLine2.js'))
+    evalLocalSystemDriver('copyApp',            path.join(__dirname, '../public/visifile_drivers/services/copyApp.js'))
     //evalLocalSystemDriver('webPreview',             path.join(__dirname, '../public/visifile_drivers/services/web_preview.js'))
 
     //evalLocalSystemDriver('spreahsheetPreview',     path.join(__dirname, '../public/visifile_drivers/services/spreadsheet_preview.js'))

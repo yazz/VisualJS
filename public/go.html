@@ -458,6 +458,14 @@ function copyApp(  id,  app_name ) {
     //alert(JSON.stringify(args,null,2))
     console.log(" copy app app_name: " + app_name)
 
+    callDriverMethod( {driver_name: "copyApp",
+                       method_name: "copyAppshareApp"}
+                      ,{}
+                ,
+                function(result) {
+                    alert(JSON.stringify(result,null,2))
+                })
+
     var nid = nextItem++;
     add_card({
                                     id: nid,
