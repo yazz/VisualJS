@@ -1,6 +1,7 @@
 function(args) {
     is_app()
     display_name("Editor App")
+    //alert("trying to load app: " + JSON.stringify(args,null,2))
 
     description("This will return the editor app")
     is_driver("appEditorV2")
@@ -111,7 +112,7 @@ function(args) {
 
 
                var sql =    "select  id, cast(code as text) as code from  system_code  where " +
-                            "        component_type = 'app' and driver = '" + appName + "'" +
+                            "        component_type = 'app' and display_name = '" + appName + "'" +
                             "        and code_tag = 'LATEST' "
 
                //alert( sql )
