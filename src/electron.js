@@ -189,6 +189,7 @@ var PDFParser       = require("pdf2json");
 
 var babel = require("babel-core")
 
+/*
 console.log("****************************")
 var fgt = fs.readFileSync("/Users/faroukzquraishi/visifile_installer/public/visifile_drivers/ui_components/comp.js")
 //console.log("fgt: " + fgt)
@@ -197,7 +198,7 @@ var tr = babel.transform("(" + fgt + ")", {plugins: [path.join(__dirname, "../no
 console.log("****************************")
 console.log(tr.code);
 console.log("****************************")
-
+*/
 
 
 
