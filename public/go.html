@@ -469,29 +469,26 @@ function copyApp(  id,  code_id ) {
                       ,{code_id: code_id}
                 ,
                 function(result) {
-                    alert(JSON.stringify(result,null,2))
+                    //alert(JSON.stringify(result,null,2))
+                    var nid = nextItem++;
+                    add_card({
+                                                    id: nid,
+                                                    card: {
+                                                        id:                 nid,
+                                                        name:               result.value.new_display_name,
+                                                        app:                result.value.driver,
+                                                        code_id:            result.value.new_code_id,
+                                                        display_name:       result.value.new_display_name,
+                                                        type:               "app"
+                                                    }});
+
+
+
+                    setTimeout(function(){
+                        closeCard()
+                        select_card(nid);
+                    },1500)
                 })
-
-    var nid = nextItem++;
-    add_card({
-                                    id: nid,
-                                    card: {
-                                        id:                 nid,
-                                        name:               "Copy of app",
-                                        app:                "fdgf",
-                                        code_id:            "fdfd",
-                                        display_name:       "Copy of app",
-                                        type:               "app"
-                                    }});
-
-
-
-    setTimeout(function(){
-        closeCard()
-        select_card(nid);
-    },1500)
-
-
 }
 
 
