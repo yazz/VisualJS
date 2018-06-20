@@ -3596,7 +3596,7 @@ function getAppCode(appName, callbackFn) {
     dbsearch.serialize(
         function() {
             dbsearch.all(
-                "SELECT id,code FROM system_code where component_type = 'app' and driver = ? and code_tag = 'LATEST'; ",
+                "SELECT id,code FROM system_code where component_type = 'app' and display_name = ? and code_tag = 'LATEST'; ",
                 appName,
 
                 function(err, results)
