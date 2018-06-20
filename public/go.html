@@ -163,7 +163,7 @@ function initFn() {
         }
 
         if (params.goto) {
-            wait_and_select_app = params.goto
+            wait_and_select_app = params.goto.replaceAll("%20"," ").toLowerCase()
             autoScroll = false;
             mainMoonApp.show_loader = true
         } else {
@@ -213,6 +213,12 @@ function initFn() {
             }
         },3500)
     },100)
+};
+
+
+String.prototype.replaceAll = function(search, replacement) {
+    var target = this;
+    return target.replace(new RegExp(search, 'g'), replacement);
 };
 
 </script>
@@ -693,15 +699,17 @@ function setupWebSocket(host, port)
                                                 display_name:       data.results[i].display_name,
                                                 type:               "app"
                                             }});
-
             if (wait_and_select_app) {
-                if (data.results[i].driver == wait_and_select_app) {
-                    var cardId = nid
-                    //alert(wait_and_select_app + " : " + data.results[i].driver  )
-                    mainMoonApp.show_loader = false
-                    setTimeout(function() {
-                        select_card(cardId)
-                    },200)
+                if (data.results[i].display_name) {
+                    //alert(wait_and_select_app + ", " + data.results[i].display_name)
+                    if (data.results[i].display_name.toLowerCase() == wait_and_select_app) {
+                        var cardId = nid
+                        //alert(wait_and_select_app + " : " + data.results[i].driver  )
+                        mainMoonApp.show_loader = false
+                        setTimeout(function() {
+                            select_card(cardId)
+                        },200)
+                    }
                 }
             }
 
