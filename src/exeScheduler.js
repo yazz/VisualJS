@@ -24,8 +24,6 @@ var setIn                               = null;
 var updateProcessTable                  = null;
 var lockData                            = null;
 var unlockData                          = null;
-var stmtInsertIntoCode                  = null;
-var stmtUpdateCode                      = null;
 var inGetRelatedDocumentHashes          = false;
 var inIndexFileRelationshipsFn          = false;
 var finishedFindingFolders              = false;
@@ -290,17 +288,7 @@ function setUpSql() {
 
     unlockData = dbsearch.prepare("UPDATE all_data SET status = NULL WHERE id = ?");
 
-    stmtInsertIntoCode = dbsearch.prepare(  " insert into system_code " +
-                                                "      ( id, on_condition, driver, method, code, max_processes, component_type ) " +
-                                                " values " +
-                                                "      ( ?,  ?, ? , ?, ?, ?, ?);");
 
-    stmtUpdateCode = dbsearch.prepare(  " update system_code " +
-                                                "      set on_condition     = ?, "+
-                                                "          code             = ?, " +
-                                                "          max_processes    = ? " +
-                                                " where  " +
-                                                "      id = ?;");
 }
 
 

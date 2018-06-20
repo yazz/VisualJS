@@ -452,15 +452,15 @@ function prepareApp(  id,  app_name , args ) {
 
 
 //zzz
-function copyApp(  id,  app_name ) {
+function copyApp(  id,  code_id ) {
     //alert(id)
     //alert("Copying " + app_name)
     //alert(JSON.stringify(args,null,2))
-    console.log(" copy app app_name: " + app_name)
+    console.log(" copy app app_name: " + code_id)
 
     callDriverMethod( {driver_name: "copyApp",
                        method_name: "copyAppshareApp"}
-                      ,{}
+                      ,{code_id: code_id}
                 ,
                 function(result) {
                     alert(JSON.stringify(result,null,2))
