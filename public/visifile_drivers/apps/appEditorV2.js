@@ -7,6 +7,8 @@ function(args) {
     */
 
     var argAppName = args.appName
+    var argBaseComponentId = args.base_component_id
+    //alert(argBaseComponentId)
 
     Vue.component("app_editor",
     {
@@ -61,7 +63,7 @@ function(args) {
                app_loaded: false,
                apps: [],
                app_component_name: null,
-               app_name: null,
+               baseComponentId: null,
                code_id: "...",
                version: 0
            }
@@ -91,7 +93,7 @@ function(args) {
                    }
                    ,
                    function(results) {
-                    //zzz
+
                        //alert("Reloading 2: " + mm.app_name)
                        mm.load_app(mm.app_name)
                    })
@@ -101,18 +103,18 @@ function(args) {
 
 
 
-           load_app: function (appName) {
-               //alert("trying to load app: " + appName)
+           load_app: function (baseComponentId) {
+               //alert("trying to load app: " + baseComponentId)
                var mm = this
                mm.app_loaded = false
                mm.app_name = null
                mm.app_component_name = null
-
+//zzz
 
 
 
                var sql =    "select  id, cast(code as text) as code from  system_code  where " +
-                            "        component_type = 'app' and display_name = '" + appName + "'" +
+                            "        component_type = 'app' and base_component_id = '" + baseComponentId + "'" +
                             "        and code_tag = 'LATEST' "
 
                //alert( sql )
@@ -154,7 +156,7 @@ function(args) {
 
 
                            setTimeout(function() {
-                               //alert("Reloading: " + appName)
+                               //alert("Reloading: " + baseComponentId)
                                callDriverMethod(
                                {
                                     code_id:    codeId,
@@ -165,7 +167,7 @@ function(args) {
                                    ,
                                    function(results) {
                                        mm.app_loaded = true
-                                       mm.app_name = appName
+                                       mm.baseComponentId = baseComponentId
                                        mm.app_component_name = results.name
                                        //alert(results.name + " loaded")
                                    })
@@ -183,8 +185,8 @@ function(args) {
 
        mounted: function () {
            var mm = this
-           if (argAppName) {
-                this.load_app(argAppName)
+           if (argBaseComponentId) {
+                this.load_app(argBaseComponentId)
             } else {
                 callDriverMethod( {
                                         driver_name:  "systemFunctions",
