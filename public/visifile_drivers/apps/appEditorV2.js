@@ -7,7 +7,7 @@ function(args) {
     */
 
     var argAppName = args.appName
-    alert(args.base_component_id)
+    //alert(args.base_component_id)
     var argBaseComponentId = args.base_component_id
     //alert(argBaseComponentId)
 
@@ -83,7 +83,7 @@ function(args) {
                var mm = this
                //alert("Saving " + code_id)
                //alert("Saving " + text)
-               alert(base_component_id)
+               //alert(base_component_id)
                callDriverMethod(
                {
                    driver_name:     "appEditorV2SaveCode",

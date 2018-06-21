@@ -3908,6 +3908,11 @@ function shutdownExeProcess(err) {
 
 
 
+
+
+
+
+
 var esprima = require('esprima');
 function saveCodeV2( baseComponentId, parentHash, code ) {
 
@@ -3956,12 +3961,6 @@ function saveCodeV2( baseComponentId, parentHash, code ) {
                                                 "created_timestamp(" + creationTimestamp + ")\n" +
                                                 code.toString().substring(lastIndexOfEnd )
                                 }
-                            rowhash = crypto.createHash('sha1');
-                            row = code.toString();
-                            rowhash.setEncoding('hex');
-                            rowhash.write(row);
-                            rowhash.end();
-                            sha1sum = rowhash.read();
 
                             //console.log("AFTER STRU2: (" + lastIndexOfEnd + ")")
 
@@ -3972,7 +3971,7 @@ function saveCodeV2( baseComponentId, parentHash, code ) {
                             var maxProcesses = 1
                             var driverName = "base_component_id"
 
- console.log("saveCodeV2: "  + code.toString())
+ //console.log("saveCodeV2: "  + code.toString())
                             var prjs = esprima.parse( "(" + code.toString() + ")");
                             if (prjs.body) {
                                 if (prjs.body[0]) {
@@ -4011,6 +4010,15 @@ function saveCodeV2( baseComponentId, parentHash, code ) {
 
 
 
+
+
+
+                            rowhash = crypto.createHash('sha1');
+                            row = code.toString();
+                            rowhash.setEncoding('hex');
+                            rowhash.write(row);
+                            rowhash.end();
+                            sha1sum = rowhash.read();
 
                             console.log("Saving in Sqlite: " + parentHash)
                             console.log("Saving in Sqlite: " + code)
