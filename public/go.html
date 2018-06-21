@@ -80,8 +80,8 @@ function initFn() {
 "                    <div v-bind:id='\"app_\"+ item.id' >"+
 "                    </div>"+
 "                </div>"+
-"                <div class=link style='height: 2em;display:inline-block; padding-right: 30px;padding-top: 30px;' v-on:click='prepareApp(item.id, \"Editor App\", {appName: item.card.name})' >Edit App</div>"+
-"                <div class=link style='height: 2em;display:inline-block; padding-right: 30px;padding-top: 30px;' v-on:click='prepareApp(item.id, item.card.name, {})' >RUN</div>"+
+"                <div class=link style='height: 2em;display:inline-block; padding-right: 30px;padding-top: 30px;' v-on:click='prepareApp(item.id, \"Editor App\", {appName: item.card.base_component_id})' >Edit App</div>"+
+"                <div class=link style='height: 2em;display:inline-block; padding-right: 30px;padding-top: 30px;' v-on:click='prepareApp(item.id, item.card.base_component_id, {})' >RUN</div>"+
 "                <div class=link style='height: 2em;display:inline-block; padding-right: 30px;padding-top: 30px;' v-on:click='copyApp(item.id, item.card.code_id)' >Copy app</div>"+
 "            </div>"+
 ""+
@@ -441,20 +441,20 @@ div.tilt {
 //lll
 var newAppArgs = []
 var cardAppIds = []
-function prepareApp(  id,  app_name , args ) {
+function prepareApp(  id,  base_component_id , args ) {
     //alert(id)
-    //alert(app_name)
+    //alert(base_component_id)
     //alert(JSON.stringify(args,null,2))
-    console.log(" prepareApp app_name: " + app_name)
+    console.log(" prepareApp base_component_id: " + base_component_id)
     var rootElement = "app_" + id
     newAppArgs[id] = args
 
     sendToServerViaWebSocket({
-        message_type:   "browser_asks_server_for_app_code",
-        card_id:        id,
-        app_name:       app_name,
-        args:           args,
-        root_element:   rootElement
+        message_type:       "browser_asks_server_for_app_code",
+        card_id:             id,
+        base_component_id:   base_component_id,
+        args:                args,
+        root_element:        rootElement
         });
 }
 
@@ -478,7 +478,7 @@ function copyApp(  id,  code_id ) {
                                                     card: {
                                                         id:                 nid,
                                                         name:               result.value.new_display_name,
-                                                        app:                result.value.base_component_id,
+                                                        base_component_id:  result.value.base_component_id,
                                                         code_id:            result.value.new_code_id,
                                                         display_name:       result.value.new_display_name,
                                                         type:               "app"
@@ -693,7 +693,7 @@ function setupWebSocket(host, port)
                                             card: {
                                                 id:                 nid,
                                                 name:               data.results[i].display_name,
-                                                app:                data.results[i].base_component_id,
+                                                base_component_id:  data.results[i].base_component_id,
                                                 code_id:            data.results[i].id,
                                                 display_name:       data.results[i].display_name,
                                                 type:               "app"
@@ -720,12 +720,13 @@ function setupWebSocket(host, port)
 
 
     socket.on('server_returns_app_code_to_browser',function(data) {
+        //alert(JSON.stringify(data,null,2)  )
         //alert(data.code_id)
         //console.log("Browser received from server socket: " + JSON.stringify(data,null,2));
 
 var args = newAppArgs[data.card_id]
 cardAppIds[ data.card_id ] = data.app_name
-        //alert(JSON.stringify(args,null,2)  )
+
         if (!document.getElementById(data.root_element)) {
             var newRootId = data.root_element.substring(4)
             var newCardId = "app_container_" + newRootId

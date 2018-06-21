@@ -2173,19 +2173,22 @@ function websocketFn(ws) {
         } else if (receivedMessage.message_type == "browser_asks_server_for_app_code") {
 
            // console.log("******************* browser_asks_server_for_app_code *******************: " + receivedMessage.app_name)
-            getAppCode(receivedMessage.app_name, function(id,code, libs) {
-               // console.log(code)
-               var tr = babel.transform("(" + code + ")", {plugins: [path.join(__dirname, "../node_modules/babel-plugin-transform-es2015-template-literals")]})
-                sendToBrowserViaWebSocket(  ws,
-                                            {
-                                                type:           "server_returns_app_code_to_browser",
-                                                code:           tr.code,
-                                                app_name:       receivedMessage.app_name,
-                                                card_id:        receivedMessage.card_id,
-                                                code_id:        id,
-                                                root_element:   receivedMessage.root_element,
-                                                uses_js_libs:   libs
-                                            });
+            getAppCode(
+                receivedMessage.base_component_id,
+
+                function( id , code, libs) {
+                    // console.log(code)
+                    var tr = babel.transform("(" + code + ")", {plugins: [path.join(__dirname, "../node_modules/babel-plugin-transform-es2015-template-literals")]})
+                    sendToBrowserViaWebSocket(  ws,
+                                                {
+                                                    type:           "server_returns_app_code_to_browser",
+                                                    code:           tr.code,
+                                                    display_name:   receivedMessage.display_name,
+                                                    card_id:        receivedMessage.card_id,
+                                                    code_id:        id,
+                                                    root_element:   receivedMessage.root_element,
+                                                    uses_js_libs:   libs
+                                                });
                 })
 
 
@@ -3594,17 +3597,17 @@ function getAppCodePart2(appName, callbackFn, id, code) {
 }
 
 
-function getAppCode(appName, callbackFn) {
+function getAppCode(base_component_id, callbackFn) {
     dbsearch.serialize(
         function() {
             dbsearch.all(
-                "SELECT id,code FROM system_code where component_type = 'app' and display_name = ? and code_tag = 'LATEST'; ",
-                appName,
+                "SELECT id,code FROM system_code where component_type = 'app' and base_component_id = ? and code_tag = 'LATEST'; ",
+                base_component_id,
 
                 function(err, results)
                 {
                     if (results.length > 0) {
-                        getAppCodePart2(appName, callbackFn, results[0].id, results[0].code.toString())
+                        getAppCodePart2(base_component_id, callbackFn, results[0].id, results[0].code.toString())
                     } else {
                         callbackFn(null,null,null)
                     }
