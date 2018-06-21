@@ -7,6 +7,7 @@ function(args) {
     */
 
     var argAppName = args.appName
+    alert(args.base_component_id)
     var argBaseComponentId = args.base_component_id
     //alert(argBaseComponentId)
 
@@ -21,7 +22,7 @@ function(args) {
                   <div class="col-xl-8">
                       <component  v-bind:is="editor_component" v-if="editor_loaded">
                                       <button slot-scope="editor_component"
-                                              v-on:click='save(code_id, editor_component.text2)'
+                                              v-on:click='save(base_component_id, code_id, editor_component.text2)'
                                               type="button" class="btn btn-primary">
 
                                                   Update App
@@ -78,24 +79,26 @@ function(args) {
 
 
 
-           save: function(code_id, text) {
+           save: function(base_component_id, code_id, text) {
                var mm = this
                //alert("Saving " + code_id)
                //alert("Saving " + text)
+               alert(base_component_id)
                callDriverMethod(
                {
                    driver_name:     "appEditorV2SaveCode",
                    method_name:     "saveCode"
                },
                    {
-                       code: text,
-                       code_id: code_id
+                        base_component_id:      base_component_id,
+                        code_id:                code_id,
+                        code:                   text
                    }
                    ,
                    function(results) {
 
                        //alert("Reloading 2: " + mm.app_name)
-                       mm.load_app(mm.app_name)
+                       mm.load_app(mm.argBaseComponentId)
                    })
            },
 
@@ -103,11 +106,11 @@ function(args) {
 
 
 
-           load_app: function (baseComponentId) {
+           load_app: function ( baseComponentId ) {
                //alert("trying to load app: " + baseComponentId)
                var mm = this
                mm.app_loaded = false
-               mm.app_name = null
+               mm.base_component_id = baseComponentId
                mm.app_component_name = null
 //zzz
 
@@ -185,6 +188,7 @@ function(args) {
 
        mounted: function () {
            var mm = this
+           //alert(argBaseComponentId)
            if (argBaseComponentId) {
                 this.load_app(argBaseComponentId)
             } else {
