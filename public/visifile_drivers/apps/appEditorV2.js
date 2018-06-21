@@ -97,8 +97,9 @@ function(args) {
                    ,
                    function(results) {
 
-                       //alert("Reloading 2: " + mm.app_name)
-                       mm.load_app(mm.argBaseComponentId)
+                       //alert("Reloading 2: " + JSON.stringify(results,null,2))
+                       //alert("Reloading 2: " + JSON.stringify(mm.base_component_id,null,2))
+                       mm.load_app( mm.base_component_id )
                    })
            },
 
