@@ -3995,8 +3995,8 @@ function saveCodeV2( baseComponentId, parentHash, code ) {
                             if (code.indexOf("is_app()") != -1) {
                                 componentType = "app"
                             }
-                            if (code.indexOf("is_driver(") != -1) {
-                                var driverCode = code.toString().substring(code.indexOf("is_driver(") + 11)
+                            if (code.indexOf("base_component_id(") != -1) {
+                                var driverCode = code.toString().substring(code.indexOf("base_component_id(") + 19)
                                 var driverName = driverCode.substring(0,driverCode.indexOf(")") - 1)
                             }
 

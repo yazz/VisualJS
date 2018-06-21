@@ -1,6 +1,6 @@
 async function ls(args) {
     description("ls function returns current files")
-    is_driver("commandLine")
+    base_component_id("commandLine")
 
    // console.log("2)  Service called with args:  " + JSON.stringify(args,null,2))
     console.log("4.5 callbackFn exists")

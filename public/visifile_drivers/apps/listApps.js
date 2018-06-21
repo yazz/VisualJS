@@ -3,7 +3,7 @@ function(args) {
     display_name("App Store")
 
     description('App to list all the apps')
-    is_driver("listApps")
+    base_component_id("listApps")
 
     Vue.component('listApps',{
           template: `<div v-on:click='search'>

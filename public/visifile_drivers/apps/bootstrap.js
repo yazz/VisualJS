@@ -3,7 +3,7 @@ function(args) {
     display_name("Bootstrap app")
 
     description('Bootstrap')
-    is_driver("bootstrap")
+    base_component_id("bootstrap")
 
     Vue.component("BootstrapApp", {
         template:

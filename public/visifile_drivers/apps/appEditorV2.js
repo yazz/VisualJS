@@ -4,7 +4,7 @@ function(args) {
     //alert("trying to load app: " + JSON.stringify(args,null,2))
 
     description("This will return the editor app")
-    is_driver("appEditorV2")
+    base_component_id("appEditorV2")
 
     var argAppName = args.appName
 

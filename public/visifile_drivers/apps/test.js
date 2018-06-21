@@ -3,7 +3,7 @@ function(args) {
     display_name("Test app")
 
     description('Test app')
-    is_driver("test")
+    base_component_id("test")
 
     Vue.component('test_app', {
       data: function () {

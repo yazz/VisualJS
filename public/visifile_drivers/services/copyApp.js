@@ -1,6 +1,6 @@
 async function copyAppshareApp(args) {
     description("copyAppshareApp function")
-    is_driver("copyApp")
+    base_component_id("copyApp")
 
     var promise = new Promise(returnfn => {
 
