@@ -1,6 +1,6 @@
 function(args) {
     /*
-    is_app()
+    is_app(true)
     display_name("App Store")
     description('App to list all the apps')
     base_component_id("listApps")

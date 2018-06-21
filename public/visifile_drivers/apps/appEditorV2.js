@@ -1,6 +1,6 @@
 function(args) {
     /*
-    is_app()
+    is_app(true)
     display_name("Editor App")
     description("This will return the editor app")
     base_component_id("appEditorV2")

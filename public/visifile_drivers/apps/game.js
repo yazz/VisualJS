@@ -9,7 +9,7 @@
         "This will return the game app": {
             on: "app",
             do: function(args) {
-                is_app()
+                is_app(true)
                 Vue.component('game3d',{
                   template: `<div id="app2">
                       saSs

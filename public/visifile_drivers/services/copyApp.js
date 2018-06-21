@@ -18,25 +18,13 @@ async function copyAppshareApp(args) {
                     {
                         if (results.length > 0) {
                             var code = results[0].code
+                            if (code) {
+                                code = code.toString()
+                            }
                             var oldDisplayName = results[0].display_name
-                            var newId = uuidv1()
-                            var displayName = null
-                            if (code.indexOf("display_name(") != -1) {
-                                var displayNameCode = code.toString().substring(code.indexOf("display_name(") + 14)
-                                displayName = displayNameCode.substring(0,displayNameCode.indexOf(")") - 1)
-                            }
-                            var newDisplayName = null
-                            if (displayName) {
-                                newDisplayName = oldDisplayName + " " + newId
-                                var displayNameCodeStart = code.toString().indexOf("display_name(")
-                                var displayNameCodeEnd = displayNameCodeStart +
-                                                  code.toString().substring(displayNameCodeStart).indexOf(")")
-
-                                code = code.toString().substring(0,displayNameCodeStart + 14) + newDisplayName +
-                                                code.toString().substring(displayNameCodeEnd - 1)
-
-                            }
-
+                            var newDisplayName = "Copy of " + oldDisplayName
+                            code = code.deleteCodeString(code, "display_name")
+                            code = code.insertCodeString(code, "display_name", newDisplayName)
 
                             console.log("new code: " + code)
                             var new_hash = saveCodeV2( null, null, code )
@@ -44,7 +32,7 @@ async function copyAppshareApp(args) {
                             returnfn({
                                         new_code_id:        code_id,
                                         new_display_name:   newDisplayName,
-                                        base_component_id:             results[0].base_component_id
+                                        base_component_id:  results[0].base_component_id
                                         })
                         }
 

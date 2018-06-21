@@ -1,6 +1,6 @@
 function(args) {
     /*
-    is_app()
+    is_app(true)
     display_name("Bootstrap app")
     description('Bootstrap')
     base_component_id("bootstrap")

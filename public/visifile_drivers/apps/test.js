@@ -1,6 +1,6 @@
 function(args) {
     /*
-    is_app()
+    is_app(true)
     display_name("Test app")
     description('Test app')
     base_component_id("test")

@@ -3908,18 +3908,74 @@ function shutdownExeProcess(err) {
 
 
 
+function insertCodeString(code,st, vall ) {
+    var findd = st + "("
+    var startIndexOfComment = code.toString().indexOf("/*")
+    var startIndexOfFn = code.toString().indexOf("{")
+
+    if (startIndexOfFn != -1) {
+        if (startIndexOfComment == -1) {
+            code = code.toString().substring(0,startIndexOfFn + 1) + "\n    /*\n    */\n" +
+                code.toString().substring(startIndexOfFn + 1)
+            startIndexOfComment = code.toString().indexOf("/*")
+        }
+        code = code.toString().substring(0,startIndexOfComment + 3) +
+                        "" + st + "(" + JSON.stringify(vall,null,2) + ")\n" +
+                        code.toString().substring(startIndexOfComment + 3)
+
+    }
+
+    return code
+
+}
 
 
 
 
+
+
+function deleteCodeString(code,st ) {
+    var findd = st + "("
+    var codeStart = code.toString().indexOf(findd)
+    if (codeStart != -1) {
+        var codeEnd = codeStart + code.toString().substring(codeStart).indexOf(")")
+
+        code = code.toString().substring(0,codeStart) +
+                        code.toString().substring(codeEnd + 1)
+
+        return code
+    }
+    return code
+}
+
+
+
+function getValueOfCodeString(code, st) {
+    var toFind = st + "("
+    if (code.toString().indexOf(toFind) != -1) {
+        var codeStart = code.toString().indexOf(toFind) + toFind.length
+        var codeEnd = codeStart + code.toString().substring(codeStart).indexOf(")")
+
+        code = code.toString().substring(codeStart, codeEnd)
+        var val = eval(code.toString())
+        return val
+
+        }
+        return null
+}
 
 var esprima = require('esprima');
 function saveCodeV2( baseComponentId, parentHash, code ) {
-
-
-
+    var oncode = "\"app\""
+    var eventName = null
+    var componentType = null
+    var maxProcesses = 1
+    var driverName = "base_component_id"
     var rowhash = crypto.createHash('sha1');
     var row = code.toString();
+    var creationTimestamp = new Date().getTime()
+
+
     rowhash.setEncoding('hex');
     rowhash.write(row);
     rowhash.end();
@@ -3941,43 +3997,34 @@ function saveCodeV2( baseComponentId, parentHash, code ) {
                     if (!err) {
                         if (rows.length == 0) {
                             try {
+                            code = deleteCodeString(code, "created_timestamp")
+                            code = insertCodeString(code, "created_timestamp", creationTimestamp)
 
-
-
-                            var creationTimestamp = new Date().getTime()
-                            if (code.toString().indexOf("created_timestamp(") != -1) {
-                                var createdTimestampCodeStart = code.toString().indexOf("created_timestamp(")
-                                var createdTimestampCodeEnd = createdTimestampCodeStart +
-                                                                code.toString().substring(createdTimestampCodeStart).indexOf(")")
-
-                                code = code.toString().substring(0,createdTimestampCodeStart) +
-                                                code.toString().substring(createdTimestampCodeEnd + 1)
-
-                                //console.log("AFTER STRU: (" + createdTimestampCodeStart + "," + createdTimestampCodeEnd + ")")
+                            if (getValueOfCodeString(code,"is_app")) {
+                                componentType = "app"
                             }
-                            var lastIndexOfEnd = code.toString().indexOf("*/")
-                            if (lastIndexOfEnd != -1) {
-                                code = code.toString().substring(0,lastIndexOfEnd - 2) +
-                                                "created_timestamp(" + creationTimestamp + ")\n" +
-                                                code.toString().substring(lastIndexOfEnd )
-                                }
+                            if (getValueOfCodeString(code,"base_component_id")) {
+                                var driverCode = code.toString().substring(code.indexOf("base_component_id(") + 19)
+                                var driverName = driverCode.substring(0,driverCode.indexOf(")") - 1)
+                            }
 
-                            //console.log("AFTER STRU2: (" + lastIndexOfEnd + ")")
 
-                            //console.log(code)
-                            var oncode = "\"app\""
-                            var eventName = null
-                            var componentType = null
-                            var maxProcesses = 1
-                            var driverName = "base_component_id"
+                            var displayName = getValueOfCodeString(code,"display_name")
 
- //console.log("saveCodeV2: "  + code.toString())
+
+
+
+
+
+
+
+
                             var prjs = esprima.parse( "(" + code.toString() + ")");
                             if (prjs.body) {
                                 if (prjs.body[0]) {
                                     if (prjs.body[0].expression) {
                                         if (prjs.body[0].expression.id) {
-                                            console.log(driverName + ": " + JSON.stringify(prjs.body[0].expression.id.name,null,2))
+                                            //console.log(driverName + ": " + JSON.stringify(prjs.body[0].expression.id.name,null,2))
                                             oncode = "\"" + prjs.body[0].expression.id.name + "\""
                                             eventName = prjs.body[0].expression.id.name
                                             componentType = "method"
@@ -3986,33 +4033,6 @@ function saveCodeV2( baseComponentId, parentHash, code ) {
                                 }
                             }
 
-
-
-                            //console.log("    startIndex: " + JSON.stringify(startIndex,null,2))
-                            //console.log("          on: " + JSON.stringify(oncode,null,2))
-
-
-                            if (code.indexOf("is_app()") != -1) {
-                                componentType = "app"
-                            }
-                            if (code.indexOf("base_component_id(") != -1) {
-                                var driverCode = code.toString().substring(code.indexOf("base_component_id(") + 19)
-                                var driverName = driverCode.substring(0,driverCode.indexOf(")") - 1)
-                            }
-
-
-                            var displayName = null
-                            if (code.indexOf("display_name(") != -1) {
-                                var displayNameCode = code.toString().substring(code.indexOf("display_name(") + 14)
-                                displayName = displayNameCode.substring(0,displayNameCode.indexOf(")") - 1)
-                            }
-
-
-
-
-
-
-
                             rowhash = crypto.createHash('sha1');
                             row = code.toString();
                             rowhash.setEncoding('hex');
@@ -4020,8 +4040,8 @@ function saveCodeV2( baseComponentId, parentHash, code ) {
                             rowhash.end();
                             sha1sum = rowhash.read();
 
-                            console.log("Saving in Sqlite: " + parentHash)
-                            console.log("Saving in Sqlite: " + code)
+                            //console.log("Saving in Sqlite: " + parentHash)
+                            //console.log("Saving in Sqlite: " + code)
                             var stmtInsertNewCode = dbsearch.prepare(
                                 " insert into   system_code  (id, parent_id, code_tag, code,on_condition, base_component_id, method, max_processes,component_type,display_name, creation_timestamp) values (?,?,?,?,?,?,?,?,?,?,?)");
                             var stmtDeprecateOldCode = dbsearch.prepare(

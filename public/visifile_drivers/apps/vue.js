@@ -1,6 +1,6 @@
 function(args) {
     /*
-    is_app()
+    is_app(true)
     display_name("VueJS test App")
     base_component_id("vue")
     description("This will return the Vue test app")
