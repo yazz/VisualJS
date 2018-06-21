@@ -39,7 +39,7 @@ async function copyAppshareApp(args) {
 
 
                             console.log("new code: " + code)
-                            var new_hash = saveCodeV2( null, code )
+                            var new_hash = saveCodeV2( null, null, code )
 
                             returnfn({
                                         new_code_id:        code_id,

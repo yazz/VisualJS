@@ -266,6 +266,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
             forkedProcesses["forked"].send({
                                                 message_type:       "save_code",
+                                                base_component_id:   msg.base_component_id,
                                                 parent_hash:         msg.parent_hash,
                                                 code:                msg.code
                                            });

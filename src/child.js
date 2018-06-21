@@ -1959,7 +1959,7 @@ function processMessagesFromMainProcess() {
 
       } else if (msg.message_type == "save_code") {
 
-              saveCodeV2(  msg.parent_hash  ,  msg.code  );
+              saveCodeV2(  msg.base_component_id, msg.parent_hash  ,  msg.code  );
 
 
 
@@ -2991,7 +2991,7 @@ function addOrUpdateDriver(  name, codeString  ) {
                                 parentId = rows[0].id
                             }
 
-                            saveCodeV2(  parentId,    codeString  );
+                            saveCodeV2(  null, parentId,    codeString  );
 
 
                                 //   stmtDeleteDependencies.run(name)
@@ -3909,7 +3909,7 @@ function shutdownExeProcess(err) {
 
 
 var esprima = require('esprima');
-function saveCodeV2( parentHash, code ) {
+function saveCodeV2( baseComponentId, parentHash, code ) {
 
 
 
