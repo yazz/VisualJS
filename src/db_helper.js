@@ -46,14 +46,14 @@ module.exports = {
             "CREATE TABLE IF NOT EXISTS folders (id TEXT, name TEXT, path TEXT, parent_id TEXT, status TEXT, changed_count INTEGER, UNIQUE (path) ON CONFLICT IGNORE);",
 
 
-            "CREATE TABLE IF NOT EXISTS connections (id TEXT, name TEXT, driver TEXT, database TEXT, host TEXT, port TEXT ,connectString TEXT, user TEXT, password TEXT, fileName TEXT, type TEXT, preview TEXT, status TEXT);",
+            "CREATE TABLE IF NOT EXISTS connections (id TEXT, name TEXT, base_component_id TEXT, database TEXT, host TEXT, port TEXT ,connectString TEXT, user TEXT, password TEXT, fileName TEXT, type TEXT, preview TEXT, status TEXT);",
 
 
             "CREATE TABLE IF NOT EXISTS relationships (id TEXT, source_query_hash TEXT, target_query_hash TEXT, " +
                 "similar_row_count INTEGER, new_source INTEGER, new_target INTEGER, edited_source INTEGER, edited_target INTEGER, deleted_source INTEGER, deleted_target INTEGER, array_source INTEGER, array_target INTEGER);",
 
 
-            "CREATE TABLE IF NOT EXISTS data_states (id TEXT, name TEXT, connection TEXT, driver TEXT, size INTEGER, hash TEXT, type TEXT, fileName TEXT, definition TEXT, preview TEXT, status TEXT, index_status TEXT, similar_count INTEGER, related_status TEXT, when_timestamp INTEGER);",
+            "CREATE TABLE IF NOT EXISTS data_states (id TEXT, name TEXT, connection TEXT, base_component_id TEXT, size INTEGER, hash TEXT, type TEXT, fileName TEXT, definition TEXT, preview TEXT, status TEXT, index_status TEXT, similar_count INTEGER, related_status TEXT, when_timestamp INTEGER);",
 
 
             "CREATE TABLE IF NOT EXISTS intranet_client_connects (id TEXT, internal_host TEXT, internal_port INTEGER, public_ip TEXT, via TEXT, public_host TEXT, user_name TEXT, client_user_name TEXT, when_connected INTEGER);",
@@ -62,11 +62,11 @@ module.exports = {
 
             "CREATE TABLE IF NOT EXISTS system_process_info (process	TEXT PRIMARY KEY, process_id	TEXT, running_since	TEXT, status TEXT , last_driver TEXT, last_event TEXT, job_priority INTEGER, system_code_id TEXT);",
 
-            "CREATE TABLE IF NOT EXISTS system_process_errors (id TEXT, timestamp INTEGER, process	TEXT, status TEXT , driver TEXT, event TEXT, system_code_id TEXT, args TEXT, error_message TEXT);",
+            "CREATE TABLE IF NOT EXISTS system_process_errors (id TEXT, timestamp INTEGER, process	TEXT, status TEXT , base_component_id TEXT, event TEXT, system_code_id TEXT, args TEXT, error_message TEXT);",
 
-            "CREATE TABLE IF NOT EXISTS app_dependencies (id TEXT, driver	TEXT, dependency_type TEXT , dependency_name TEXT, dependency_version TEXT);",
+            "CREATE TABLE IF NOT EXISTS app_dependencies (id TEXT, base_component_id	TEXT, dependency_type TEXT , dependency_name TEXT, dependency_version TEXT);",
 
-            "CREATE TABLE IF NOT EXISTS system_code (id TEXT, on_condition TEXT, component_type TEXT, driver TEXT,method TEXT, code TEXT, max_processes INTEGER, code_tag TEXT, parent_id TEXT, creation_timestamp INTEGER, display_name TEXT);"
+            "CREATE TABLE IF NOT EXISTS system_code (id TEXT, on_condition TEXT, component_type TEXT, base_component_id TEXT,method TEXT, code TEXT, max_processes INTEGER, code_tag TEXT, parent_id TEXT, creation_timestamp INTEGER, display_name TEXT);"
                 ],
 
         function(a,b){

@@ -47,7 +47,7 @@
 				  return 'Unknown ' + cn + ":" + prop_name;
 				},
 				OK: function() {
-				  this.$store.dispatch('add_connection', {cn: this.connection_name, cp: {id: this.connection_name, driver: this.connection_driver}});
+				  this.$store.dispatch('add_connection', {cn: this.connection_name, cp: {id: this.connection_name, base_component_id: this.connection_driver}});
 				  this.$store.dispatch('hide_add_connection');
 				},
 				Cancel: function() {
@@ -121,7 +121,7 @@
 					  cn: this.connection_name,
 					  cp: {
 						  name:             this.connection_name,
-						  driver:         'oracle',
+						  base_component_id:         'oracle',
 						  connectString:  this.connectString,
 						  user:           this.connection_username,
 						  password:       this.connection_password
@@ -187,7 +187,7 @@
 					  {
 						  name:             this.query_name,
 						  connection:     this.query_connection,
-						  driver:        'oracle',
+						  base_component_id:        'oracle',
 						  type:          '|DATABASE|',
 						  definition:    JSON.stringify({sql: this.sql} , null, 2),
 					  }
@@ -214,7 +214,7 @@
 						'     <table class="table table-striped table-bordered " style="width: 100%;">'+
 						'        <tbody>'+
 						'          <tr scope="row"><td>ID</td><td>{{get_query_property(query_name,"id")}}</td></tr>'+
-						'          <tr scope="row"><td>Driver</td><td>oracle</td></tr>'+
+						'          <tr scope="row"><td>base_component_id</td><td>oracle</td></tr>'+
 						'          <tr scope="row"><td>SQL</td><td>{{get_query_property(query_name,"definition")}}</td></tr>'+
 						'        </tbody>'+
 						'      </table>'+

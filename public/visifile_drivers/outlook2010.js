@@ -12,7 +12,7 @@
             on: "startup",
             do: `
             function() {
-                console.log("outlook2010 driver")
+                console.log("outlook2010 base_component_id")
             }
             `
         }

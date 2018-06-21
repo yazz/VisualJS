@@ -478,7 +478,7 @@ function copyApp(  id,  code_id ) {
                                                     card: {
                                                         id:                 nid,
                                                         name:               result.value.new_display_name,
-                                                        app:                result.value.driver,
+                                                        app:                result.value.base_component_id,
                                                         code_id:            result.value.new_code_id,
                                                         display_name:       result.value.new_display_name,
                                                         type:               "app"
@@ -693,7 +693,7 @@ function setupWebSocket(host, port)
                                             card: {
                                                 id:                 nid,
                                                 name:               data.results[i].display_name,
-                                                app:                data.results[i].driver,
+                                                app:                data.results[i].base_component_id,
                                                 code_id:            data.results[i].id,
                                                 display_name:       data.results[i].display_name,
                                                 type:               "app"
@@ -703,7 +703,7 @@ function setupWebSocket(host, port)
                     //alert(wait_and_select_app + ", " + data.results[i].display_name)
                     if (data.results[i].display_name.toLowerCase() == wait_and_select_app) {
                         var cardId = nid
-                        //alert(wait_and_select_app + " : " + data.results[i].driver  )
+                        //alert(wait_and_select_app + " : " + data.results[i].base_component_id  )
                         mainMoonApp.show_loader = false
                         setTimeout(function() {
                             select_card(cardId)

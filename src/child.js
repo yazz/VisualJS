@@ -133,12 +133,12 @@ function setUpSql() {
                             "    (?,   ?,?,?,?,  ?,?,?,?);");
 
     stmtInsertIntoConnections2 = dbsearch.prepare(" insert into connections " +
-                                "    ( id, name, driver, database, host, port, connectString, user, password, fileName, preview ) " +
+                                "    ( id, name, base_component_id, database, host, port, connectString, user, password, fileName, preview ) " +
                                 " values " +
                                 "    (?,  ?,?,?,?,?,?,?,?,?,?);");
 
     stmtInsertIntoQueries = dbsearch.prepare(" insert into data_states " +
-                                "    ( id, name, connection, driver, definition, status, type ) " +
+                                "    ( id, name, connection, base_component_id, definition, status, type ) " +
                                 " values " +
                                 "    (?,    ?, ?, ?, ?, ?, ?);");
 
@@ -149,12 +149,12 @@ function setUpSql() {
 
 
     stmtInsertDependency = dbsearch.prepare(" insert or replace into app_dependencies " +
-                                "    (id,  driver, dependency_type, dependency_name, dependency_version ) " +
+                                "    (id,  base_component_id, dependency_type, dependency_name, dependency_version ) " +
                                 " values " +
                                 "    (?, ?, ?, ?, ? );");
 
 
-    stmtDeleteDependencies = dbsearch.prepare(" delete from  app_dependencies   where   driver = ?");
+    stmtDeleteDependencies = dbsearch.prepare(" delete from  app_dependencies   where   base_component_id = ?");
 
     stmtUpdateDriver = dbsearch.prepare(" update   drivers   set code = ? where id = ?");
 
@@ -243,14 +243,14 @@ function setUpSql() {
 
 
     stmtInsertIntoConnections = dbsearch.prepare(" insert into connections " +
-                                "    ( id, name, driver, type, fileName ) " +
+                                "    ( id, name, base_component_id, type, fileName ) " +
                                 " values " +
                                 "    (?,  ?,  ?,?,?);");
 
 
 
     stmtInsertInsertIntoQueries = dbsearch.prepare(" insert into data_states " +
-                                "    ( id, name, connection, driver, size, hash, fileName, type, definition, preview, similar_count , when_timestamp) " +
+                                "    ( id, name, connection, base_component_id, size, hash, fileName, type, definition, preview, similar_count , when_timestamp) " +
                                 " values " +
                                 "    (?,  ?,?,?,  ?,?,?, ?,?,?, 1,  ?);");
 
@@ -485,7 +485,7 @@ function markFileForProcessing(  fullFilePath ) {
 function getRelatedDocuments(  id,  callback  ) {
         //console.log("In getRelatedDocuments" );
     var sql = "select  " +
-                "    distinct(id), cc, name, driver, size from ( " +
+                "    distinct(id), cc, name, base_component_id, size from ( " +
                 "            select document_binary_hash,  count(child_hash) as cc from  " +
                 "            search_rows_hierarchy where child_hash in ( " +
                 "            select  " +
@@ -577,7 +577,7 @@ function getRelatedDocumentHashes(  doc_hash,  callback  ) {
     //console.log("In getRelatedDocuments" );
     var sql =
                 "select                                                                       " +
-                "    distinct(hash), cc, driver, size from (                                  " +
+                "    distinct(hash), cc, base_component_id, size from (                                  " +
                 "        select document_binary_hash,  count(child_hash) as cc from           " +
                 "            search_rows_hierarchy where child_hash in (                      " +
                 "                select                                                       " +
@@ -755,12 +755,12 @@ function indexFilesFn() {
             {
                 if( results.length != 0)
                 {
-                  //  console.log("          : " + JSON.stringify(results[0].driver,null,2));
+                  //  console.log("          : " + JSON.stringify(results[0].base_component_id,null,2));
 
 
                             getResult(  results[0].id,
                                         results[0].connection,
-                                        results[0].driver,
+                                        results[0].base_component_id,
                                         {},
                                         function(result)
                                         {
@@ -832,9 +832,9 @@ function getResult(  source,  connectionName,  driverName,  definition,  callbac
                     dbsearch.run("commit",
                         function(err){
 
-                            getDriver(driverName, function(driver) {
-                                if (driver) {
-                                    eval(driver.code)['get_v2'](
+                            getDriver(driverName, function(base_component_id) {
+                                if (base_component_id) {
+                                    eval(base_component_id.code)['get_v2'](
                                 connection,
                                 definition
                                 ,
@@ -1097,7 +1097,7 @@ function processFilesFn() {
 
             "    files.id                   as id, " +
             "    files.fk_connection_id     as fk_connection_id," +
-            "    connections.driver         as driver," +
+            "    connections.base_component_id         as base_component_id," +
             "    files.size                 as fileSize," +
             "    files.path                 as path," +
             "    files.orig_name            as orig_name," +
@@ -1121,7 +1121,7 @@ function processFilesFn() {
                     {
                         var returnedRecord = results[0];
                         var existingConnectionId = returnedRecord.fk_connection_id
-                        var driverName = returnedRecord.driver
+                        var driverName = returnedRecord.base_component_id
                         var fileContentsSize = returnedRecord.fileSize
                         var sha1ofFileContents = returnedRecord.sha1ofFileContents
                         var fullFileNamePath = path.join(returnedRecord.path , returnedRecord.orig_name)
@@ -1143,7 +1143,7 @@ function processFilesFn() {
                                                 if (onDiskFileContentsSize != fileContentsSize) {
 
                                                     //console.log("existingConnectionId: " + existingConnectionId)
-                                                    //console.log("driver: " + driverName)
+                                                    //console.log("base_component_id: " + driverName)
                                                     //console.log("fileContentsSize: " + fileContentsSize)
                                                     //console.log("sha1ofFileContents: " + sha1ofFileContents)
                                                     //console.log("fullFileNamePath: " + fullFileNamePath)
@@ -1217,7 +1217,7 @@ function processFilesFn() {
                                                                                                 id:                 newqueryid,
                                                                                                 name:               fileScreenName,
                                                                                                 connection:         existingConnectionId,
-                                                                                                driver:             driverName,
+                                                                                                base_component_id:             driverName,
                                                                                                 size:               fileContentsSize,
                                                                                                 hash:               sha1ofFileContents,
                                                                                                 fileName:           fullFileNamePath,
@@ -1396,7 +1396,7 @@ function processFilesFn() {
                                                             message_type:       "return_set_connection",
                                                     id:         newConnectionId,
                                                     name:       screenName,
-                                                    driver:     driverName,
+                                                    base_component_id:     driverName,
                                                     type:       documentType,
                                                     fileName:   fullFileNamePath
                                         });
@@ -1435,7 +1435,7 @@ function processFilesFn() {
                                                                     id:                 newqueryid,
                                                                     name:               screenName,
                                                                     connection:         newConnectionId,
-                                                                    driver:             driverName,
+                                                                    base_component_id:             driverName,
                                                                     size:               fileContentsSize,
                                                                     hash:               sha1ofFileContents,
                                                                     fileName:           fullFileNamePath,
@@ -1626,7 +1626,7 @@ function indexFileRelationshipsFn() {
                                 getResult(
                                     queryToIndex.id,
                                     queryToIndex.connection,
-                                    queryToIndex.driver,
+                                    queryToIndex.base_component_id,
                                     {},
                                     function(queryResult)
                                     {
@@ -1659,7 +1659,7 @@ function indexFileRelationshipsFn() {
                                                                 getResult(
                                                                     relatedQuery.id,
                                                                     relatedQuery.connection,
-                                                                    relatedQuery.driver,
+                                                                    relatedQuery.base_component_id,
                                                                     {},
                                                                     function(queryResult2)
                                                                     {
@@ -1857,7 +1857,7 @@ function findDriversWithMethod(methodName, callbackFn) {
     dbsearch.serialize(
         function() {
             var stmt = dbsearch.all(
-                "SELECT driver FROM system_code where on_condition = '\"" + methodName + "\"'; ",
+                "SELECT base_component_id FROM system_code where on_condition = '\"" + methodName + "\"'; ",
 
                 function(err, results)
                 {
@@ -1878,7 +1878,7 @@ function findDriversWithMethodLike(methodName, callbackFn) {
     dbsearch.serialize(
         function() {
             var stmt = dbsearch.all(
-                "SELECT driver FROM system_code where on_condition like '%" + methodName + "%'; ",
+                "SELECT base_component_id FROM system_code where on_condition like '%" + methodName + "%'; ",
 
                 function(err, results)
                 {
@@ -2060,7 +2060,7 @@ function processMessagesFromMainProcess() {
     } else if (msg.message_type == 'getResult') {
         getResult(  msg.source,
                     msg.connection,
-                    msg.driver,
+                    msg.base_component_id,
                     msg.definition,
                     function(result) {
                         var sharemessage = {
@@ -2975,11 +2975,11 @@ function addOrUpdateDriver(  name, codeString  ) {
         function() {
             dbsearch.all(
                 " select  " +
-                "     driver, code, id " +
+                "     base_component_id, code, id " +
                 " from " +
                 "     system_code " +
                 " where " +
-                "     driver = ? and code_tag = 'LATEST';"
+                "     base_component_id = ? and code_tag = 'LATEST';"
                 ,
                 name
                 ,
@@ -3035,13 +3035,13 @@ function addOrUpdateDriver(  name, codeString  ) {
               stmtInsertIntoQueries.run(newQueryId,
                        params.name,
                        params.connection,
-                       params.driver,
+                       params.base_component_id,
                        params.definition,
                        params.status,
                        params.type)
                dbsearch.run("commit");
 
-              getResult(newQueryId, params.connection, params.driver, eval("(" + params.definition + ")"), function(result){});
+              getResult(newQueryId, params.connection, params.base_component_id, eval("(" + params.definition + ")"), function(result){});
           });
       } catch(err) {
           console.log(err);
@@ -3083,7 +3083,7 @@ function addNewConnection( params ) {
             dbsearch.run("begin exclusive transaction");
             stmtInsertIntoConnections2.run(uuidv1(),
                      params.name,
-                     params.driver,
+                     params.base_component_id,
                      params.database,
                      params.host,
                      params.port,
@@ -3131,7 +3131,7 @@ function downloadWebDocument(queryId, callbackFn) {
         function() {
 
     var stmt = dbsearch.all(" select   " +
-                            "     contents.content, data_states.driver   from  contents, data_states   " +
+                            "     contents.content, data_states.base_component_id   from  contents, data_states   " +
                             " where " +
                             "     data_states.id = ? " +
                             "  and contents.id = data_states.hash  limit 1",
@@ -3140,7 +3140,7 @@ function downloadWebDocument(queryId, callbackFn) {
         if (!err) {
                 if (rows.length > 0) {
                     var contentRow = rows[0];
-                    if (contentRow.driver.toLowerCase().endsWith("word") ) {
+                    if (contentRow.base_component_id.toLowerCase().endsWith("word") ) {
                         var buffer = new Buffer(rows[0].content, 'binary');
 
                         mammoth.convertToHtml({buffer: buffer})
@@ -3156,7 +3156,7 @@ function downloadWebDocument(queryId, callbackFn) {
 
 
 
-                    } else if (contentRow.driver.toLowerCase().endsWith("outlook2012") ) {
+                    } else if (contentRow.base_component_id.toLowerCase().endsWith("outlook2012") ) {
                         try {
                             console.log('1')
                             html = "<pre>";
@@ -3175,7 +3175,7 @@ function downloadWebDocument(queryId, callbackFn) {
 
 
 
-                    } else if (contentRow.driver.toLowerCase().endsWith("excel") ) {
+                    } else if (contentRow.base_component_id.toLowerCase().endsWith("excel") ) {
                         try {
                             var buffer = new Buffer(rows[0].content, 'binary');
                             var workbook = XLSX.read(buffer, {type:"buffer"})
@@ -3195,7 +3195,7 @@ function downloadWebDocument(queryId, callbackFn) {
 
 
 
-                    } else if (contentRow.driver.toLowerCase().endsWith("csv") ) {
+                    } else if (contentRow.base_component_id.toLowerCase().endsWith("csv") ) {
                         try {
                             html = "<table>";
                             var contents = rows[0].content.toString()
@@ -3302,7 +3302,7 @@ function downloadDocuments( fileId, callbackFn ) {
                 function() {
 
 
-				var stmt = dbsearch.all(" select   data_states.driver as driver, contents.id as id,  content, content_type   from   contents, data_states   " +
+				var stmt = dbsearch.all(" select   data_states.base_component_id as base_component_id, contents.id as id,  content, content_type   from   contents, data_states   " +
                                         " where data_states.id = ? and  contents.id = data_states.hash  limit 1" ,
                                         [fileId], function(err, rows) {
 						if (!err) {
@@ -3615,7 +3615,7 @@ function get_search_resultsFn(  searchTerm,  timeStart , callbackFn  ) {
 
     dbsearch.serialize(function() {
         var mysql = "  select distinct(data_states.id), the1.document_binary_hash, the1.num_occ  , the1.child_hash , zfts_search_rows_hashed.data " +
-                    ",         data_states.size, data_states.fileName, data_states.name, data_states.type,data_states.driver, data_states.when_timestamp " +
+                    ",         data_states.size, data_states.fileName, data_states.name, data_states.type,data_states.base_component_id, data_states.when_timestamp " +
                     " from (  select   " +
                    "  distinct(document_binary_hash), count(document_binary_hash)  as num_occ  , child_hash  " +
                  "    from    " +
@@ -3676,7 +3676,7 @@ function get_search_resultsFn(  searchTerm,  timeStart , callbackFn  ) {
                                             name:           rows[i].name,
                                             size:           rows[i].size,
                                             type:           rows[i].type,
-                                            driver:         rows[i].driver,
+                                            base_component_id:         rows[i].base_component_id,
                                             when_timestamp: rows[i].when_timestamp
                                     });
                     }
@@ -3725,10 +3725,10 @@ function getqueryresultFn(  connectionId, queryId, definition, callbackFn) {
     if (connectionId) {
         getConnection(  connectionId, function(connection) {
     	    if (connection) {
-                if (connection.driver) {
+                if (connection.base_component_id) {
                     getResult(  queryId,
                                 connectionId,
-                                connection.driver,
+                                connection.base_component_id,
                                 definition,
                                 callbackFn  )
 
@@ -3736,7 +3736,7 @@ function getqueryresultFn(  connectionId, queryId, definition, callbackFn) {
                     //console.log('trying to save document: ');
 
     dbsearch.serialize(function() {
-                    var stmt = dbsearch.all("select   contents.content   from   data_states, contents   where   data_states.id = ? and data_states.driver = 'pdf'" +
+                    var stmt = dbsearch.all("select   contents.content   from   data_states, contents   where   data_states.id = ? and data_states.base_component_id = 'pdf'" +
                                             "    and contents.id = data_states.hash  limit 1",
 
                                             [queryId],
@@ -3761,8 +3761,8 @@ function getqueryresultFn(  connectionId, queryId, definition, callbackFn) {
                 })
             }, sqlite3.OPEN_READONLY)
     			} else {
-    				//console.log('query driver not found: ' + connectionId);
-                    callbackFn(JSON.stringify({error: 'query driver not found'}));
+    				//console.log('query base_component_id not found: ' + connectionId);
+                    callbackFn(JSON.stringify({error: 'query base_component_id not found'}));
     			};
     		};
         })
@@ -3969,7 +3969,7 @@ function saveCodeV2( parentHash, code ) {
                             var oncode = "\"app\""
                             var eventName = "app"
                             var maxProcesses = 1
-                            var driverName = "driver"
+                            var driverName = "base_component_id"
 
  console.log("saveCodeV2: "  + code.toString())
                             var prjs = esprima.parse( "(" + code.toString() + ")");
@@ -4014,7 +4014,7 @@ function saveCodeV2( parentHash, code ) {
                             console.log("Saving in Sqlite: " + parentHash)
                             console.log("Saving in Sqlite: " + code)
                             var stmtInsertNewCode = dbsearch.prepare(
-                                " insert into   system_code  (id, parent_id, code_tag, code,on_condition, driver, method, max_processes,component_type,display_name, creation_timestamp) values (?,?,?,?,?,?,?,?,?,?,?)");
+                                " insert into   system_code  (id, parent_id, code_tag, code,on_condition, base_component_id, method, max_processes,component_type,display_name, creation_timestamp) values (?,?,?,?,?,?,?,?,?,?,?)");
                             var stmtDeprecateOldCode = dbsearch.prepare(
                                 " update system_code  set code_tag = NULL where id = ?");
 

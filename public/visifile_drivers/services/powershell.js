@@ -1,7 +1,7 @@
 {
     doc_type:    'visifile',
     name:        'powershell', version: 1,
-    description: 'Powershell driver',
+    description: 'Powershell base_component_id',
 
 
 

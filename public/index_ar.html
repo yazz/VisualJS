@@ -278,7 +278,7 @@ hammer.on('swipedown', function(){
             this.on("queuecomplete", function() {
                 var x = this;
                 setTimeout(function() {
-                    window.when_queries_changes("id, name, driver, size, hash, type, fileName")
+                    window.when_queries_changes("id, name, base_component_id, size, hash, type, fileName")
                     window.recalcVuexQueries();
                     x.removeAllFiles();
                     },200);

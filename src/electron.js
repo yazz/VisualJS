@@ -217,7 +217,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
                                                                   timestamp,
                                                                   process,
                                                                   status,
-                                                                  driver,
+                                                                  base_component_id,
                                                                   event,
                                                                   system_code_id,
                                                                   args,
@@ -281,7 +281,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
             var queryRaw = {  id:            msg.id,
                              name:          msg.name,
                              connection:    msg.connection,
-                             driver:        msg.driver,
+                             base_component_id:        msg.base_component_id,
                              size:          msg.size,
                              hash:          msg.hash,
                              fileName:      msg.fileName,
@@ -449,9 +449,9 @@ function setUpChildListeners(processName, fileName, debugPort) {
             var newCallbackFn = queuedResponses[ msg.seq_num ]
 
             if (msg.success) {
-                newCallbackFn("Driver added")
+                newCallbackFn("base_component_id added")
             } else {
-                newCallbackFn("Driver not added: " + msg.error_message)
+                newCallbackFn("base_component_id not added: " + msg.error_message)
             }
 
 
@@ -497,7 +497,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
 						name:               resitem.name,
                         type:               resitem.type,
                         size:               resitem.size,
-                        driver:             resitem.driver,
+                        base_component_id:             resitem.base_component_id,
                         when_timestamp:     resitem.when_timestamp
                     })
                     realCount ++
@@ -630,7 +630,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
                 //console.log("9: " + contentRecord.content_type);
                 //console.log("10: " + contentRecord.id);
-                //console.log("11: " + contentRecord.driver);
+                //console.log("11: " + contentRecord.base_component_id);
                 //console.log("12: " + content.length);
                 //console.log("13: " + content);
                 //console.log("14: " + Object.keys(contentRecord));
@@ -640,7 +640,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
 
                                 {
                                     'Content-Type': contentRecord.content_type,
-                                    'Content-disposition': 'attachment;filename=' + contentRecord.id  + "." + getFileExtension(contentRecord.driver),
+                                    'Content-disposition': 'attachment;filename=' + contentRecord.id  + "." + getFileExtension(contentRecord.base_component_id),
                                     'Content-Length': content.length
                                 });
 
@@ -2025,14 +2025,14 @@ function getRoot(req, res) {
 
 
 
-function getFileExtension(driver) {
-    if (driver == "excel") { return "xlsx"}
-    if (driver == "pdf") { return "pdf"}
-    if (driver == "word") { return "docx"}
-    if (driver == "csv") { return "csv"}
-    if (driver == "glb") { return "glb"}
-    if (driver == "txt") { return "txt"}
-    if (driver == "outlook2012") { return "txt"}
+function getFileExtension(base_component_id) {
+    if (base_component_id == "excel") { return "xlsx"}
+    if (base_component_id == "pdf") { return "pdf"}
+    if (base_component_id == "word") { return "docx"}
+    if (base_component_id == "csv") { return "csv"}
+    if (base_component_id == "glb") { return "glb"}
+    if (base_component_id == "txt") { return "txt"}
+    if (base_component_id == "outlook2012") { return "txt"}
     return ""
 }
 
@@ -2524,14 +2524,14 @@ function getresultFn(req, res) {
 		if (queryData) {
 			if (connection) {
 				if (queryData.source) {
-					if (connection.driver) {
-						//console.log('query driver: ' + connection.driver);
+					if (connection.base_component_id) {
+						//console.log('query base_component_id: ' + connection.base_component_id);
 						try {
-                            getDriver(connection.driver, function(driver) {
-                                if (driver) {
-                                   // console.log(eval(driver.code)['get_v2'])
+                            getDriver(connection.base_component_id, function(base_component_id) {
+                                if (base_component_id) {
+                                   // console.log(eval(base_component_id.code)['get_v2'])
                                    // console.log(    "conn: " + connection)
-                                    eval(driver.code)['get_v2'](
+                                    eval(base_component_id.code)['get_v2'](
                                                             connection,
                                                             {sql: queryData.sql},
                                                             function(ordata) {
@@ -2540,7 +2540,7 @@ function getresultFn(req, res) {
                                     								res.end(JSON.stringify(ordata));
                                     							});
                                 } else {
-                                    console.log("No driver found for: " + connection.driver)
+                                    console.log("No base_component_id found for: " + connection.base_component_id)
                                 }
                             })
 
@@ -2551,9 +2551,9 @@ function getresultFn(req, res) {
 							res.end(JSON.stringify({error: 'Error: ' + JSON.stringify(err)}));
 						};
 					} else {
-						//console.log('query driver not found: ' + connection);
+						//console.log('query base_component_id not found: ' + connection);
 							res.writeHead(200, {'Content-Type': 'text/plain'});
-							res.end(JSON.stringify({message: 'query driver not found'}));
+							res.end(JSON.stringify({message: 'query base_component_id not found'}));
 					};
 				};
 			};
@@ -3445,7 +3445,7 @@ function parseVfCliCommand(args, callbackFn) {
         result += "Help:\n\n"
         result += "home:        \n"
         result += "drivers:        \n"
-        result += "add driver:        \n"
+        result += "add base_component_id:        \n"
         result += "add localdriver:        \n"
         result += "test:        \n"
 
@@ -3475,7 +3475,7 @@ function parseVfCliCommand(args, callbackFn) {
 
 
     } else if (verb == 'add') {
-        if (noun == 'driver') {
+        if (noun == 'base_component_id') {
             request({
                 uri: "http://" + hostaddress + ":" + port + "/visifile_drivers/outlook2010.json",
                 method: "GET",
@@ -3486,9 +3486,9 @@ function parseVfCliCommand(args, callbackFn) {
             },
             function(error, response, body) {
                 if (error) {
-                    result += "Driver error " + error + "\n"
+                    result += "base_component_id error " + error + "\n"
                 } else {
-                    result += "Driver added" + JSON.stringify(response,null,2) + "\n"
+                    result += "base_component_id added" + JSON.stringify(response,null,2) + "\n"
                 }
                 callbackFn(result)
                 return
@@ -3543,7 +3543,7 @@ function findLatestVersionOfApps( callbackFn) {
     dbsearch.serialize(
         function() {
             var stmt = dbsearch.all(
-                "SELECT id,driver,display_name FROM system_code where component_type = ? and code_tag = ?; ",
+                "SELECT id,base_component_id,display_name FROM system_code where component_type = ? and code_tag = ?; ",
                 "app",
                 "LATEST",
 
@@ -3565,7 +3565,7 @@ function findDriversWithMethodLike(methodName, callbackFn) {
     dbsearch.serialize(
         function() {
             var stmt = dbsearch.all(
-                "SELECT driver FROM system_code where on_condition like '%" + methodName + "%'; ",
+                "SELECT base_component_id FROM system_code where on_condition like '%" + methodName + "%'; ",
 
                 function(err, results)
                 {
@@ -3582,7 +3582,7 @@ function findDriversWithMethodLike(methodName, callbackFn) {
 
 function getAppCodePart2(appName, callbackFn, id, code) {
     dbsearch.all(
-        "SELECT dependency_name FROM app_dependencies where driver = ?; ",
+        "SELECT dependency_name FROM app_dependencies where base_component_id = ?; ",
         appName,
 
         function(err, results2)

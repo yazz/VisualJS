@@ -2,7 +2,7 @@
     name: 'testdriver',  version: 1,
     type: 'basic'
     ,
-    text: 'Hello driver'
+    text: 'Hello base_component_id'
 
 
     ,

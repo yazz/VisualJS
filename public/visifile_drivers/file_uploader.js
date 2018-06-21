@@ -16,7 +16,7 @@ async function(records) {
                         function(driverName) {
 
                             if (driverName) {
-                                //console.log("5) Driver:" + driverName)
+                                //console.log("5) base_component_id:" + driverName)
                                 callDriverMethod( driverName,
                                                   "can_handle_" + getFileExtension(fullFilePath),
                                                   {fileName: fullFilePath}
@@ -37,7 +37,7 @@ async function(records) {
                                             })
 
                             } else {
-                                console.log("5) No driver can handle: " + getFileExtension(fullFilePath))
+                                console.log("5) No base_component_id can handle: " + getFileExtension(fullFilePath))
                                 setStatus(record, "ERROR")
                                 success({})
                             }

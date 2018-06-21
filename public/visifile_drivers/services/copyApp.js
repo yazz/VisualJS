@@ -9,7 +9,7 @@ async function copyAppshareApp(args) {
         dbsearch.serialize(
             function() {
                 dbsearch.all(
-                    "SELECT code, display_name, driver FROM system_code where id = ? ;  "
+                    "SELECT code, display_name, base_component_id FROM system_code where id = ? ;  "
                     ,
                     code_id
                     ,
@@ -44,7 +44,7 @@ async function copyAppshareApp(args) {
                             returnfn({
                                         new_code_id:        code_id,
                                         new_display_name:   newDisplayName,
-                                        driver:             results[0].driver
+                                        base_component_id:             results[0].base_component_id
                                         })
                         }
 

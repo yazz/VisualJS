@@ -7,7 +7,7 @@
     ,
     type: 'service'
     ,
-    text: 'CSV Preview driver'
+    text: 'CSV Preview base_component_id'
 
     ,
     events: {

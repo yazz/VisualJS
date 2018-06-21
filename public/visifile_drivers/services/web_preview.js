@@ -2,7 +2,7 @@
     doc_type:       'visifile',
     name:           'webPreview',version: 1,
     max_processes:  1,
-    descrption:     'Web Preview driver makes a HTML preview of any document',
+    descrption:     'Web Preview base_component_id makes a HTML preview of any document',
 
 
 
@@ -22,7 +22,7 @@
                                         function(driverName) {
 
                                             if (driverName) {
-                                                //console.log("5) Driver:" + driverName)
+                                                //console.log("5) base_component_id:" + driverName)
                                                 callDriverMethod( driverName,
                                                                   contentPreviewMethodForDriver,
                                                                   {hash: hash}
@@ -35,7 +35,7 @@
                                                                         function(driverName) {
 
                                                                             if (driverName) {
-                                                                                //console.log("5) Driver:" + driverName)
+                                                                                //console.log("5) base_component_id:" + driverName)
                                                                                 callDriverMethod( driverName,
                                                                                                   "view_content_as_" + result.show_as,
                                                                                                   {hash: hash}

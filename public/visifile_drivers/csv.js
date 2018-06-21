@@ -33,7 +33,7 @@
 				  return 'Unknown ' + cn + ":" + prop_name;
 				},
 				OK: function() {
-				  this.$store.dispatch('add_connection', {cn: this.connection_name, cp: {id: this.connection_name, driver: this.connection_driver}})
+				  this.$store.dispatch('add_connection', {cn: this.connection_name, cp: {id: this.connection_name, base_component_id: this.connection_driver}})
 				  this.$store.dispatch('hide_add_connection')
 				},
 				Cancel: function() {
@@ -95,7 +95,7 @@
 					  cn: this.connection_name,
 					  cp: {
 						  name:      this.connection_name,
-						  driver:    'csv',
+						  base_component_id:    'csv',
 						  fileName:  this.file
 					  }
 				  });
@@ -154,7 +154,7 @@
 					  {
 						  name:           this.query_name,
 						  connection:     this.query_connection,
-						  driver:        'csv',
+						  base_component_id:        'csv',
 						  type:          '|CSV|',
 						  definition:    JSON.stringify({} , null, 2),
 					  }
@@ -181,7 +181,7 @@
 						'        <tbody>'+
 						'          <tr scope="row"><td>ID</td><td>{{get_query_property(query_name,"id")}}</td></tr>'+
 						'          <tr scope="row"><td>Name</td><td>{{get_query_property(query_name,"name")}}</td></tr>'+
-						'          <tr scope="row"><td>Driver</td><td>csv</td></tr>'+
+						'          <tr scope="row"><td>base_component_id</td><td>csv</td></tr>'+
                         '          <tr scope="row"><td>Size</td><td>{{get_query_property(query_name,"size")}}</td></tr>'+
                         '          <tr scope="row"><td>Hash</td><td>{{get_query_property(query_name,"hash")}}</td></tr>'+
 						'          <tr scope="row"><td>Preview</td><td>{{get_query_property(query_name,"preview")}}</td></tr>'+

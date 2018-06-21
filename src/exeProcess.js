@@ -253,7 +253,7 @@ function setUpSql() {
                                                       timestamp,
                                                       process,
                                                       status,
-                                                      driver,
+                                                      base_component_id,
                                                       event,
                                                       system_code_id,
                                                       args,
@@ -307,11 +307,11 @@ function executeCode(callId, codeId, args) {
                 function(err, results)
                 {
                     if (results.length > 0) {
-                        //console.log(    "    " + results[0].driver + ":" + results[0].on_condition + ":" +
+                        //console.log(    "    " + results[0].base_component_id + ":" + results[0].on_condition + ":" +
                         //                results[0].method )
                         //console.log(    "    callId:" + callId )
 
-                        currentDriver = results[0].driver
+                        currentDriver = results[0].base_component_id
                         currentEvent = results[0].on_condition
                         currentCodeID = codeId
                         currentArgs = args
@@ -466,12 +466,12 @@ function findDriverWithMethod(methodName, callbackFn) {
     dbsearch.serialize(
         function() {
             var stmt = dbsearch.all(
-                "SELECT driver FROM system_code where on_condition like '%" + methodName + "%'; ",
+                "SELECT base_component_id FROM system_code where on_condition like '%" + methodName + "%'; ",
 
                 function(err, results)
                 {
                     if (results.length > 0) {
-                        callbackFn(results[0].driver)
+                        callbackFn(results[0].base_component_id)
                     } else {
                         callbackFn(null)
                     }

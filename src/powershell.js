@@ -188,9 +188,9 @@ function processMessagesFromMainProcess() {
 
 
 
-        
-		
-		
+
+
+
     } else if (msg.message_type == 'init') {
 //zzz
         userData            = msg.user_data_path
@@ -368,14 +368,14 @@ function setUpSql() {
 
 
     stmtInsertIntoConnections = dbsearch.prepare(" insert into connections " +
-                                "    ( id, name, driver, type, fileName ) " +
+                                "    ( id, name, base_component_id, type, fileName ) " +
                                 " values " +
                                 "    (?,  ?,  ?,?,?);");
 
 
 
     stmtInsertInsertIntoQueries = dbsearch.prepare(" insert into data_states " +
-                                "    ( id, name, connection, driver, size, hash, fileName, type, definition, preview, similar_count , when_timestamp) " +
+                                "    ( id, name, connection, base_component_id, size, hash, fileName, type, definition, preview, similar_count , when_timestamp) " +
                                 " values " +
                                 "    (?,  ?,?,?,  ?,?,?, ?,?,?, 1,  ?);");
 
@@ -865,7 +865,7 @@ function indexMessagesBodyFn() {
                                                                             id:                 newqueryid,
                                                                             name:               msg.subject,
                                                                             connection:         newConnectionId,
-                                                                            driver:             "outlook2012",
+                                                                            base_component_id:             "outlook2012",
                                                                             size:               0,
                                                                             hash:               newSha1ofFileContents,
                                                                             fileName:           "email.txt",

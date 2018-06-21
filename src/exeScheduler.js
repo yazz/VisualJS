@@ -182,7 +182,7 @@ function processMessagesFromMainProcess() {
             dbsearch.serialize(
                 function() {
                     var stmt = dbsearch.all(
-                      "SELECT * FROM system_code where driver = ? and on_condition like '%" +
+                      "SELECT * FROM system_code where base_component_id = ? and on_condition like '%" +
                         msg.find_component.method_name + "%' and code_tag = 'LATEST'; ",
 
                        msg.find_component.driver_name,
@@ -478,7 +478,7 @@ function scheduleJobWithCodeId(codeId, args,  parentCallId, callbackIndex) {
 
 
 
-function sendToProcess(  id  ,  parentCallId  ,  callbackIndex, processName  ,  driver ,  on_condition  ,  args) {
+function sendToProcess(  id  ,  parentCallId  ,  callbackIndex, processName  ,  base_component_id ,  on_condition  ,  args) {
 
     var newCallId = nextCallId ++
 
@@ -487,7 +487,7 @@ function sendToProcess(  id  ,  parentCallId  ,  callbackIndex, processName  ,  
     dbsearch.serialize(
         function() {
             dbsearch.run("begin exclusive transaction");
-            incrJobCount.run( driver, on_condition, id, processName )
+            incrJobCount.run( base_component_id, on_condition, id, processName )
             dbsearch.run("commit");
 
 
@@ -510,7 +510,7 @@ function sendJobToProcessName(id, args, processName, parentCallId, callbackIndex
     dbsearch.serialize(
         function() {
             var stmt = dbsearch.all(
-                "SELECT driver, on_condition FROM system_code where id = ? LIMIT 1",
+                "SELECT base_component_id, on_condition FROM system_code where id = ? LIMIT 1",
                 id,
 
                 function(err, results)
@@ -523,7 +523,7 @@ function sendJobToProcessName(id, args, processName, parentCallId, callbackIndex
                                             parentCallId,
                                             callbackIndex,
                                             processName,
-                                            results[0].driver,
+                                            results[0].base_component_id,
                                             results[0].on_condition,
                                             args)
 
