@@ -23,16 +23,17 @@ async function copyAppshareApp(args) {
                             }
                             var oldDisplayName = results[0].display_name
                             var newDisplayName = "Copy of " + oldDisplayName
-                            code = code.deleteCodeString(code, "display_name")
-                            code = code.insertCodeString(code, "display_name", newDisplayName)
+                            code = deleteCodeString(code, "display_name")
+                            code = insertCodeString(code, "display_name", newDisplayName)
+
+                            var newBaseid = uuidv1()
 
                             console.log("new code: " + code)
-                            var new_hash = saveCodeV2( null, null, code )
+                            saveCodeV2( newBaseid, null, code )
 
                             returnfn({
-                                        new_code_id:        code_id,
                                         new_display_name:   newDisplayName,
-                                        base_component_id:  results[0].base_component_id
+                                        base_component_id:  newBaseid
                                         })
                         }
 
