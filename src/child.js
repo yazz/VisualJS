@@ -2991,7 +2991,7 @@ function addOrUpdateDriver(  name, codeString  ) {
                                 parentId = rows[0].id
                             }
 
-                            saveCodeV2(  null, parentId,    codeString  );
+                            saveCodeV2(  name, parentId,    codeString  );
 
 
                                 //   stmtDeleteDependencies.run(name)
@@ -3966,14 +3966,20 @@ function getValueOfCodeString(code, st) {
 
 var esprima = require('esprima');
 function saveCodeV2( baseComponentId, parentHash, code ) {
+    console.log("function saveCodeV2( baseComponentId, parentHash, code ) {")
+    if (!baseComponentId) {
+        baseComponentId = uuidv1()
+    }
+    console.log("    baseComponentId := " + baseComponentId)
+
     var oncode = "\"app\""
     var eventName = null
     var componentType = null
     var maxProcesses = 1
-    var driverName = "base_component_id"
     var rowhash = crypto.createHash('sha1');
     var row = code.toString();
     var creationTimestamp = new Date().getTime()
+
 
 
     rowhash.setEncoding('hex');
@@ -4003,10 +4009,9 @@ function saveCodeV2( baseComponentId, parentHash, code ) {
                             if (getValueOfCodeString(code,"is_app")) {
                                 componentType = "app"
                             }
-                            if (getValueOfCodeString(code,"base_component_id")) {
-                                var driverCode = code.toString().substring(code.indexOf("base_component_id(") + 19)
-                                var driverName = driverCode.substring(0,driverCode.indexOf(")") - 1)
-                            }
+
+                            code = deleteCodeString(code, "base_component_id")
+                            code = insertCodeString(code, "base_component_id", baseComponentId)
 
 
                             var displayName = getValueOfCodeString(code,"display_name")
@@ -4045,7 +4050,7 @@ function saveCodeV2( baseComponentId, parentHash, code ) {
                             var stmtInsertNewCode = dbsearch.prepare(
                                 " insert into   system_code  (id, parent_id, code_tag, code,on_condition, base_component_id, method, max_processes,component_type,display_name, creation_timestamp) values (?,?,?,?,?,?,?,?,?,?,?)");
                             var stmtDeprecateOldCode = dbsearch.prepare(
-                                " update system_code  set code_tag = NULL where id = ?");
+                                " update system_code  set code_tag = NULL where base_component_id = ? and id != ?");
 
                             dbsearch.serialize(function() {
                                 dbsearch.run("begin exclusive transaction");
@@ -4055,7 +4060,7 @@ function saveCodeV2( baseComponentId, parentHash, code ) {
                                       "LATEST",
                                       code,
                                       oncode,
-                                      driverName,
+                                      baseComponentId,
                                       eventName,
                                       maxProcesses,
                                       componentType,
@@ -4063,7 +4068,8 @@ function saveCodeV2( baseComponentId, parentHash, code ) {
                                       creationTimestamp
                                       )
                                 stmtDeprecateOldCode.run(
-                                    parentHash
+                                    baseComponentId,
+                                    sha1sum
                                     )
 
                                 dbsearch.run("commit");
