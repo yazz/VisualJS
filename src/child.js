@@ -3967,7 +3967,8 @@ function saveCodeV2( baseComponentId, parentHash, code ) {
 
                             //console.log(code)
                             var oncode = "\"app\""
-                            var eventName = "app"
+                            var eventName = null
+                            var componentType = null
                             var maxProcesses = 1
                             var driverName = "base_component_id"
 
@@ -3978,8 +3979,9 @@ function saveCodeV2( baseComponentId, parentHash, code ) {
                                     if (prjs.body[0].expression) {
                                         if (prjs.body[0].expression.id) {
                                             console.log(driverName + ": " + JSON.stringify(prjs.body[0].expression.id.name,null,2))
-                                            var oncode = "\"" + prjs.body[0].expression.id.name + "\""
-                                            var eventName = prjs.body[0].expression.id.name
+                                            oncode = "\"" + prjs.body[0].expression.id.name + "\""
+                                            eventName = prjs.body[0].expression.id.name
+                                            componentType = "method"
                                         }
                                     }
                                 }
@@ -3991,7 +3993,6 @@ function saveCodeV2( baseComponentId, parentHash, code ) {
                             //console.log("          on: " + JSON.stringify(oncode,null,2))
 
 
-                            var componentType = ""
                             if (code.indexOf("is_app()") != -1) {
                                 componentType = "app"
                             }
