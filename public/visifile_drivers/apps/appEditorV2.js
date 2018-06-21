@@ -1,10 +1,10 @@
 function(args) {
+    /*
     is_app()
     display_name("Editor App")
-    //alert("trying to load app: " + JSON.stringify(args,null,2))
-
     description("This will return the editor app")
     base_component_id("appEditorV2")
+    */
 
     var argAppName = args.appName
 

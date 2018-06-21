@@ -1,8 +1,9 @@
 function saveCode( args ) {
-
-    description("Save the editor code")
+    /*
     base_component_id("appEditorV2SaveCode")
-
+    description("Save the editor code")
+    */
+    
     console.log("in SaveCode::")
     console.log(JSON.stringify(args,null,2))
     if (args) {

@@ -1,9 +1,10 @@
 function(args) {
+    /*
     is_app()
     display_name("App Store")
-
     description('App to list all the apps')
     base_component_id("listApps")
+    */
 
     Vue.component('listApps',{
           template: `<div v-on:click='search'>
