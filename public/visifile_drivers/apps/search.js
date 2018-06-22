@@ -7,7 +7,7 @@ base_component_id("search")
 */
 
     Vue.component("search_app",{
-      template: "<div v-on:click='search'>this is the Vue seach app {{msg}}</div>"
+      template: "<div v-on:click='search'>Search app {{msg}}</div>"
       ,
       data: function() {
        return {
