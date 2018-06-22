@@ -3907,62 +3907,7 @@ function shutdownExeProcess(err) {
 
 
 
-
-function insertCodeString(code,st, vall ) {
-    var findd = st + "("
-    var startIndexOfComment = code.toString().indexOf("/*")
-    var startIndexOfFn = code.toString().indexOf("{")
-
-    if (startIndexOfFn != -1) {
-        if (startIndexOfComment == -1) {
-            code = code.toString().substring(0,startIndexOfFn + 1) + "\n    /*\n    */\n" +
-                code.toString().substring(startIndexOfFn + 1)
-            startIndexOfComment = code.toString().indexOf("/*")
-        }
-        code = code.toString().substring(0,startIndexOfComment + 3) +
-                        "" + st + "(" + JSON.stringify(vall,null,2) + ")\n" +
-                        code.toString().substring(startIndexOfComment + 3)
-
-    }
-
-    return code
-
-}
-
-
-
-
-
-
-function deleteCodeString(code,st ) {
-    var findd = st + "("
-    var codeStart = code.toString().indexOf(findd)
-    if (codeStart != -1) {
-        var codeEnd = codeStart + code.toString().substring(codeStart).indexOf(")")
-
-        code = code.toString().substring(0,codeStart) +
-                        code.toString().substring(codeEnd + 1)
-
-        return code
-    }
-    return code
-}
-
-
-
-function getValueOfCodeString(code, st) {
-    var toFind = st + "("
-    if (code.toString().indexOf(toFind) != -1) {
-        var codeStart = code.toString().indexOf(toFind) + toFind.length
-        var codeEnd = codeStart + code.toString().substring(codeStart).indexOf(")")
-
-        code = code.toString().substring(codeStart, codeEnd)
-        var val = eval(code.toString())
-        return val
-
-        }
-        return null
-}
+var saveHelper = require('./save_helpers')
 
 var esprima = require('esprima');
 function saveCodeV2( baseComponentId, parentHash, code ) {
@@ -4003,18 +3948,18 @@ function saveCodeV2( baseComponentId, parentHash, code ) {
                     if (!err) {
                         if (rows.length == 0) {
                             try {
-                            code = deleteCodeString(code, "created_timestamp")
-                            code = insertCodeString(code, "created_timestamp", creationTimestamp)
+                            code = saveHelper.deleteCodeString(code, "created_timestamp")
+                            code = saveHelper.insertCodeString(code, "created_timestamp", creationTimestamp)
 
-                            if (getValueOfCodeString(code,"is_app")) {
+                            if (saveHelper.getValueOfCodeString(code,"is_app")) {
                                 componentType = "app"
                             }
 
-                            code = deleteCodeString(code, "base_component_id")
-                            code = insertCodeString(code, "base_component_id", baseComponentId)
+                            code = saveHelper.deleteCodeString(code, "base_component_id")
+                            code = saveHelper.insertCodeString(code, "base_component_id", baseComponentId)
 
 
-                            var displayName = getValueOfCodeString(code,"display_name")
+                            var displayName = saveHelper.getValueOfCodeString(code,"display_name")
 
 
 
