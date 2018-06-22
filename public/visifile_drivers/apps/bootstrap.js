@@ -1,10 +1,10 @@
 function(args) {
-    /*
-    is_app(true)
-    display_name("Bootstrap app")
-    description('Bootstrap')
-    base_component_id("bootstrap")
-    */
+/*
+is_app(true)
+display_name("Bootstrap app")
+description('Bootstrap')
+base_component_id("bootstrap")
+*/
 
 
     Vue.component("BootstrapApp", {

@@ -9,7 +9,7 @@ module.exports = {
 
         if (startIndexOfFn != -1) {
             if (startIndexOfComment == -1) {
-                code = code.toString().substring(0,startIndexOfFn + 1) + "\n    /*\n    */\n" +
+                code = code.toString().substring(0,startIndexOfFn + 1) + "\n/*\n*/\n" +
                     code.toString().substring(startIndexOfFn + 1)
                 startIndexOfComment = code.toString().indexOf("/*")
             }
@@ -35,7 +35,7 @@ module.exports = {
             var codeEnd = codeStart + code.toString().substring(codeStart).indexOf(")")
 
             code = code.toString().substring(0,codeStart) +
-                            code.toString().substring(codeEnd + 1)
+                            code.toString().substring(codeEnd + 2)
 
             return code
         }

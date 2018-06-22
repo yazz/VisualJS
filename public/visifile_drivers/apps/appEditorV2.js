@@ -1,10 +1,10 @@
 function(args) {
-    /*
-    is_app(true)
-    display_name("Editor App")
-    description("This will return the editor app")
-    base_component_id("appEditorV2")
-    */
+/*
+is_app(true)
+display_name("Editor App")
+description("This will return the editor app")
+base_component_id("appEditorV2")
+*/
 
     var argBaseComponentId = args.base_component_id
 
