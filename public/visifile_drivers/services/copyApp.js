@@ -4,14 +4,14 @@ async function copyAppshareApp(args) {
 
     var promise = new Promise(returnfn => {
 
-        var code_id = args.code_id
-        //var parentHash = args.source_app_hash
+        var argsBaseComponentId = args.base_component_id
         dbsearch.serialize(
             function() {
                 dbsearch.all(
-                    "SELECT code, display_name, base_component_id FROM system_code where id = ? ;  "
+                    "SELECT    id, code, display_name    FROM    system_code    where    " +
+                        " base_component_id = ? and code_tag = 'LATEST';  "
                     ,
-                    code_id
+                    argsBaseComponentId
                     ,
 
                     function(err, results)
@@ -22,6 +22,7 @@ async function copyAppshareApp(args) {
                                 code = code.toString()
                             }
                             var oldDisplayName = results[0].display_name
+                            var parentHashId = results[0].id
                             var newDisplayName = "Copy of " + oldDisplayName
                             code = deleteCodeString(code, "display_name")
                             code = insertCodeString(code, "display_name", newDisplayName)
@@ -29,7 +30,7 @@ async function copyAppshareApp(args) {
                             var newBaseid = uuidv1()
 
                             console.log("new code: " + code)
-                            saveCodeV2( newBaseid, null, code )
+                            saveCodeV2( newBaseid, parentHashId, code )
 
                             returnfn({
                                         new_display_name:   newDisplayName,

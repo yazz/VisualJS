@@ -82,7 +82,7 @@ function initFn() {
 "                </div>"+
 "                <div class=link style='height: 2em;display:inline-block; padding-right: 30px;padding-top: 30px;' v-on:click='prepareApp(item.id, \"appEditorV2\", {base_component_id: item.card.base_component_id})' >Edit App</div>"+
 "                <div class=link style='height: 2em;display:inline-block; padding-right: 30px;padding-top: 30px;' v-on:click='prepareApp(item.id, item.card.base_component_id, {})' >RUN</div>"+
-"                <div class=link style='height: 2em;display:inline-block; padding-right: 30px;padding-top: 30px;' v-on:click='copyApp(item.id, item.card.code_id)' >Copy app</div>"+
+"                <div class=link style='height: 2em;display:inline-block; padding-right: 30px;padding-top: 30px;' v-on:click='copyApp(item.id, item.card.base_component_id)' >Copy app</div>"+
 "            </div>"+
 ""+
 "            <div style='height: 2em;'></div>"+
@@ -460,29 +460,27 @@ function prepareApp(  id,  base_component_id , args ) {
 
 
 //zzz
-function copyApp(  id,  code_id ) {
-    //alert(id)
-    //alert("Copying " + app_name)
-    //alert(JSON.stringify(args,null,2))
-    console.log(" copy app app_name: " + code_id)
+function copyApp(  id,  baseComponentId ) {
 
     callDriverMethod( {driver_name: "copyApp",
                        method_name: "copyAppshareApp"}
-                      ,{code_id: code_id}
+                      ,{
+                          base_component_id:    baseComponentId
+                       }
                 ,
                 function(result) {
                     //alert(JSON.stringify(result,null,2))
                     var nid = nextItem++;
                     add_card({
-                                                    id: nid,
-                                                    card: {
-                                                        id:                 nid,
-                                                        name:               result.value.new_display_name,
-                                                        base_component_id:  result.value.base_component_id,
-                                                        code_id:            result.value.new_code_id,
-                                                        display_name:       result.value.new_display_name,
-                                                        type:               "app"
-                                                    }});
+                                    id: nid,
+                                    card: {
+                                        id:                 nid,
+                                        name:               result.value.new_display_name,
+                                        base_component_id:  result.value.base_component_id,
+                                        code_id:            result.value.new_code_id,
+                                        display_name:       result.value.new_display_name,
+                                        type:               "app"
+                                    }});
 
 
 

@@ -6,10 +6,7 @@ function(args) {
     base_component_id("appEditorV2")
     */
 
-    var argAppName = args.appName
-    //alert(args.base_component_id)
     var argBaseComponentId = args.base_component_id
-    //alert(argBaseComponentId)
 
     Vue.component("app_editor",
     {
@@ -59,27 +56,37 @@ function(args) {
        ,
        data: function() {
            return {
-               editor_loaded: false,
-               editor_component: null,
-               app_loaded: false,
-               apps: [],
-               app_component_name: null,
-               baseComponentId: null,
-               code_id: "...",
+               editor_loaded:       false,
+               editor_component:    null,
+               app_loaded:          false,
+               apps:               [],
+               app_component_name:  null,
+               base_component_id:   null,
+               code_id:            "...",
                version: 0
            }
        }
        ,
        methods: {
-           chooseApp: function(event) {
-                //alert(event.target.value)
+            // ---------------------------------------------------------------
+            //                         chooseApp
+            //
+            // This is called when the end user selects an app from the drop
+            // down box
+            // ---------------------------------------------------------------
+            chooseApp: function(event) {
                 this.load_app(event.target.value)
            },
 
 
 
 
-           save: function(base_component_id, code_id, text) {
+           // ---------------------------------------------------------------
+           //                           save
+           //
+           // This is called to save the currently edited code
+           // ---------------------------------------------------------------
+           save: function( base_component_id, code_id, text ) {
                var mm = this
                //alert("Saving " + code_id)
                //alert("Saving " + text)
@@ -107,6 +114,12 @@ function(args) {
 
 
 
+           // ---------------------------------------------------------------
+           //                           load_app
+           //
+           // This loads the latest version of the code stream marked with
+           // 'baseComponentId'
+           // ---------------------------------------------------------------
            load_app: function ( baseComponentId ) {
                //alert("trying to load app: " + baseComponentId)
                var mm = this
