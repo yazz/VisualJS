@@ -3586,8 +3586,8 @@ function findDriversWithMethodLike(methodName, callbackFn) {
 
 function getAppCodePart2(appName, callbackFn, id, code) {
     dbsearch.all(
-        "SELECT dependency_name FROM app_dependencies where base_component_id = ?; ",
-        appName,
+        "SELECT dependency_name FROM app_dependencies where code_id = ?; ",
+        id,
 
         function(err, results2)
         {

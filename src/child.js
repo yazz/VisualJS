@@ -149,12 +149,12 @@ function setUpSql() {
 
 
     stmtInsertDependency = dbsearch.prepare(" insert or replace into app_dependencies " +
-                                "    (id,  base_component_id, dependency_type, dependency_name, dependency_version ) " +
+                                "    (id,  code_id, dependency_type, dependency_name, dependency_version ) " +
                                 " values " +
                                 "    (?, ?, ?, ?, ? );");
 
 
-    stmtDeleteDependencies = dbsearch.prepare(" delete from  app_dependencies   where   base_component_id = ?");
+    stmtDeleteDependencies = dbsearch.prepare(" delete from  app_dependencies   where   code_id = ?");
 
     stmtUpdateDriver = dbsearch.prepare(" update   drivers   set code = ? where id = ?");
 
@@ -2994,20 +2994,7 @@ function addOrUpdateDriver(  name, codeString  ) {
                             saveCodeV2(  name, parentId,    codeString  );
 
 
-                                //   stmtDeleteDependencies.run(name)
 
-                                      /*if (code.uses_javascript_librararies) {
-                                          console.log(JSON.stringify(code.uses_javascript_librararies,null,2))
-                                          for (var tt = 0; tt < code.uses_javascript_librararies.length ; tt++) {
-                                              stmtInsertDependency.run(
-                                                  uuidv1(),
-                                                  name,
-                                                  "js_browser_lib",
-                                                  code.uses_javascript_librararies[tt],
-                                                  "latest")
-
-                                          }
-                                      }*/
                           } catch(err) {
                               console.log(err);
                               var stack = new Error().stack
@@ -4016,6 +4003,23 @@ function saveCodeV2( baseComponentId, parentHash, code ) {
                                     baseComponentId,
                                     sha1sum
                                     )
+
+
+                                stmtDeleteDependencies.run(sha1sum)
+
+                                var jsLibs = saveHelper.getValueOfCodeString(code, "uses_javascript_librararies")
+                                if (jsLibs) {
+                                      console.log(JSON.stringify(jsLibs,null,2))
+                                      for (var tt = 0; tt < jsLibs.length ; tt++) {
+                                          stmtInsertDependency.run(
+                                              uuidv1(),
+                                              sha1sum,
+                                              "js_browser_lib",
+                                              jsLibs[tt],
+                                              "latest")
+
+                                      }
+                                 }
 
                                 dbsearch.run("commit");
                                 stmtInsertNewCode.finalize();

@@ -717,13 +717,12 @@ function setupWebSocket(host, port)
 
 
 
+    //--------------------------------------------------------------------------
+    // Server returns app code to the browser
+    //--------------------------------------------------------------------------
     socket.on('server_returns_app_code_to_browser',function(data) {
-        //alert(JSON.stringify(data,null,2)  )
-        //alert(data.code_id)
-        //console.log("Browser received from server socket: " + JSON.stringify(data,null,2));
-
-var args = newAppArgs[data.card_id]
-cardAppIds[ data.card_id ] = data.app_name
+        var args = newAppArgs[ data.card_id ]
+        cardAppIds[ data.card_id ] = data.app_name
 
         if (!document.getElementById(data.root_element)) {
             var newRootId = data.root_element.substring(4)
