@@ -65,7 +65,12 @@ function initFn() {
           ,
           template: "<div v-bind:id='element_id' v-on:click='click_card(item.id)' v-bind:class='full_screen?\"polaroid\":\"polaroid tilt\"' " +
 		               " v-bind:style=\"'font-family: Helvetica ;  width: 90vw ;visibility: ' + (visible?'':'hidden') + ';' \">"+
-                       "                <div class=link style='height: 2em;display:inline-block' v-on:click='closeCard()' >Close</div>"+
+                       "                <div class=link style='height: 2em;display:inline-block; padding-right: 30px;' v-on:click='closeCard()' >Close</div>"+
+                       "                <div    v-if='full_screen && (item.card.type == \"app\")' style='height: 2em;display:inline-block; '>"+
+                       "                    <div class=link style='height: 2em;display:inline-block; padding-right: 30px;padding-top: 30px;' v-on:click='prepareApp(item.id, \"appEditorV2\", {base_component_id: item.card.base_component_id})' >Edit App</div>"+
+                       "                    <div class=link style='height: 2em;display:inline-block; padding-right: 30px;padding-top: 30px;' v-on:click='copyApp(item.id, item.card.base_component_id)' >Copy app</div>"+
+                       "                    <div style='height: 2em;display:inline-block; padding-right: 30px;padding-top: 30px;font-weight: bold;' v-if='full_screen' class='caption'>{{item.card.name}}</div>"+
+                       "                </div>"+
                        "            <h1 v-if='!full_screen' class='caption'>{{item.card.name}}</h1>"+
 "            <a style='font-size: 2em;' v-bind:href='item.card.link' v-if='item.card.link'>{{item.card.link_name}}</a>"+
 ""+
@@ -76,12 +81,11 @@ function initFn() {
 "                    v-if='item.card.load_content'>Open</div>"+
 ""+
 "            <div    v-if='full_screen && (item.card.type == \"app\")'>"+
+
 "                <div    v-bind:id='\"app_container_\"+ item.id'  >"+
 "                    <div v-bind:id='\"app_\"+ item.id' >"+
 "                    </div>"+
 "                </div>"+
-"                <div class=link style='height: 2em;display:inline-block; padding-right: 30px;padding-top: 30px;' v-on:click='prepareApp(item.id, \"appEditorV2\", {base_component_id: item.card.base_component_id})' >Edit App</div>"+
-"                <div class=link style='height: 2em;display:inline-block; padding-right: 30px;padding-top: 30px;' v-on:click='copyApp(item.id, item.card.base_component_id)' >Copy app</div>"+
 "            </div>"+
 ""+
 "            <div style='height: 2em;'></div>"+
