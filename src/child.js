@@ -3898,11 +3898,11 @@ var saveHelper = require('./save_helpers')
 
 var esprima = require('esprima');
 function saveCodeV2( baseComponentId, parentHash, code ) {
-    console.log("function saveCodeV2( baseComponentId, parentHash, code ) {")
+    //console.log("function saveCodeV2( baseComponentId, parentHash, code ) {")
     if (!baseComponentId) {
         baseComponentId = uuidv1()
     }
-    console.log("    baseComponentId := " + baseComponentId)
+    //console.log("    baseComponentId := " + baseComponentId)
 
     var oncode = "\"app\""
     var eventName = null
