@@ -51,7 +51,7 @@ function initFn() {
     setTimeout(function(){
 
         Vue.component('card_component', {
-            props: ["item","visible","element_id", "full_screen"],
+            props: ["item","visible","element_id", "full_screen", "show_app_only"],
             methods: {
                 click_card: function(id) {
                     autoScroll = false;
@@ -65,6 +65,7 @@ function initFn() {
           ,
           template: "<div v-bind:id='element_id' v-on:click='click_card(item.id)' v-bind:class='full_screen?\"polaroid\":\"polaroid tilt\"' " +
 		               " v-bind:style=\"'font-family: Helvetica ;  width: 90vw ;visibility: ' + (visible?'':'hidden') + ';' \">"+
+                       "<div v-if='!show_app_only'>"+
                        "                <div class=link style='height: 2em;display:inline-block; padding-right: 30px;' v-on:click='closeCard()' >Close</div>"+
                        "                <div    v-if='full_screen && (item.card.type == \"app\")' style='height: 2em;display:inline-block; '>"+
                        "                    <div class=link style='height: 2em;display:inline-block; padding-right: 30px;padding-top: 30px;' v-on:click='prepareApp(item.id, \"appEditorV2\", {base_component_id: item.card.base_component_id})' >Edit App</div>"+
@@ -79,6 +80,7 @@ function initFn() {
 ""+
 "            <div    style='font-size: 2em;' v-on:click='openContent(item.card.data_id,item.card.name)'"+
 "                    v-if='item.card.load_content'>Open</div>"+
+"                    </div>"+
 ""+
 "            <div    v-if='full_screen && (item.card.type == \"app\")'>"+
 
@@ -104,6 +106,8 @@ function initFn() {
               cards: []
               ,
               show_loader: false
+              ,
+              show_app_only: false
         }
         });
 
@@ -169,6 +173,11 @@ function initFn() {
             wait_and_select_app = params.goto.replaceAll("%20"," ").toLowerCase()
             autoScroll = false;
             mainMoonApp.show_loader = true
+        } else if (params.embed) {
+            wait_and_select_app = params.embed.replaceAll("%20"," ").toLowerCase()
+            autoScroll = false;
+            mainMoonApp.show_loader = true
+            mainMoonApp.show_app_only = true
         } else {
             select_card(autoId)
             //alert(autoId)
@@ -408,7 +417,7 @@ div.tilt {
                 <div v-if="item.id == selected_card"
                         style="position: fixed; left:0px; top:0px; height:100vh; width: 100vw ;z-index: 200000;background-color: white;overflow:auto;">
 
-                        <card_component :item='item' :visible='true' :element_id='"current_card"' :full_screen='true'>
+                        <card_component :item='item' :visible='true' :element_id='"current_card"' :full_screen='true' :show_app_only='show_app_only'>
                         </card_component>
                 </div>
             </template>
