@@ -66,7 +66,7 @@ function initFn() {
           template: "<div v-bind:id='element_id' v-on:click='click_card(item.id)' v-bind:class='full_screen?\"polaroid\":\"polaroid tilt\"' " +
 		               " v-bind:style=\"'font-family: Helvetica ;  width: 90vw ;visibility: ' + (visible?'':'hidden') + ';' \">"+
                        "                <div class=link style='height: 2em;display:inline-block' v-on:click='closeCard()' >Close</div>"+
-                       "            <h1 class='caption'>{{item.card.name}}</h1>"+
+                       "            <h1 v-if='!full_screen' class='caption'>{{item.card.name}}</h1>"+
 "            <a style='font-size: 2em;' v-bind:href='item.card.link' v-if='item.card.link'>{{item.card.link_name}}</a>"+
 ""+
 "            <div    style='font-size: 2em;' v-on:click='loadContent(item.card.data_id,item.card.name)'"+
@@ -459,7 +459,7 @@ function prepareApp(  id,  base_component_id , args ) {
 }
 
 
-//zzz
+
 function copyApp(  id,  baseComponentId ) {
 
     callDriverMethod( {driver_name: "copyApp",
@@ -585,8 +585,20 @@ function select_card(id) {
                 document.querySelector('#card_' + id).classList.add('expand');
                 setTimeout(function() {
                     mainMoonApp.selected_card = id;
-                    },1000)
+                    setTimeout(function() {
+                        var thisApp = mainMoonApp.cards[id - 1]
+                        //alert("id: " + JSON.stringify(thisApp,null,2))
+                        //alert("thisApp: " + JSON.stringify(thisApp,null,2))
+                        //alert("thisApp.id: " + JSON.stringify(thisApp.id,null,2))
+                        //alert("thisApp.card.base_component_id: " + JSON.stringify(thisApp.card.base_component_id,null,2))
+                        if (thisApp.card.base_component_id) {
+                            prepareApp(  thisApp.id,   thisApp.card.base_component_id,   {}  )
+                        }
+                    },200)
+                },1000)
             }
+
+//zzz
         }
     } else {
         mainMoonApp.selected_card = -1;
