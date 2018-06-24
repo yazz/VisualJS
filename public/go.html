@@ -400,7 +400,6 @@ div.tilt {
 
 
 
-<!-- hhh -->
 
 <body onload='initFn()' id='mydropzone' style='border: 0px; margin: 0px;padding: 0px;'>
 
@@ -523,7 +522,7 @@ function copyApp(  id,  baseComponentId ) {
 function loadContent(  data_id,  data_name  ) {
     //
     // _______
-    // Browser  --Send me a preview of a document-->  Server
+    // Browser  --Send me a preview of a document--  Server
     // _______
     //
     //console.log("**1) browser_asks_server_for_document_preview")
@@ -539,7 +538,7 @@ function loadContent(  data_id,  data_name  ) {
 function openContent(  data_id  ) {
     //
     // _______
-    // Browser  --Send me a preview of a document-->  Server
+    // Browser  --Send me a preview of a document--  Server
     // _______
     //
     //console.log("**1) browser_asks_server_to_open_document_natively")
@@ -699,7 +698,7 @@ function setupWebSocket(host, port)
     setTimeout(function(){
         //
         // _______
-        // Browser  --Send me your data-->  Server
+        // Browser  --Send me your data--  Server
         // _______
         //
         setInterval(function() {
@@ -851,7 +850,7 @@ function setupWebSocket(host, port)
 
 var dataIds = new Object()
     //
-    // Server  --DATA ITEM-->  Browser
+    // Server  --DATA ITEM--  Browser
     //
     socket.on('client_data_item_received_from_server',function(data) {
         //console.log("Update query item: " + JSON.stringify(data,null,2));
@@ -878,7 +877,7 @@ var dataIds = new Object()
 
     //
     // ______
-    // Server  --preview of a document-->  Browser
+    // Server  --preview of a document--  Browser
     // ______
     //
     socket.on('server_returns_document_preview_to_browser',function(data) {
