@@ -63,15 +63,14 @@ function initFn() {
             }
           }
           ,
-          template: "<div v-bind:id='element_id' v-on:click='click_card(item.id)' v-bind:class='full_screen?\"polaroid\":\"polaroid tilt\"' " +
+
+          template: "<div v-bind:id='element_id' v-on:click='click_card(item.id)' v-bind:class='full_screen?\"polaroid container\":\"polaroid tilt container\"' " +
 		               " v-bind:style=\"'font-family: Helvetica ;  width: 90vw ;visibility: ' + (visible?'':'hidden') + ';' \">"+
-                       "<div v-if='!show_app_only'>"+
-                       "                <div class=link style='height: 2em;display:inline-block; padding-right: 30px;' v-on:click='closeCard()' >Close</div>"+
-                       "                <div    v-if='full_screen && (item.card.type == \"app\")' style='height: 2em;display:inline-block; '>"+
-                       "                    <div class=link style='height: 2em;display:inline-block; padding-right: 30px;padding-top: 30px;' v-on:click='prepareApp(item.id, \"appEditorV2\", {base_component_id: item.card.base_component_id})' >Edit App</div>"+
-                       "                    <div class=link style='height: 2em;display:inline-block; padding-right: 30px;padding-top: 30px;' v-on:click='copyApp(item.id, item.card.base_component_id)' >Copy app</div>"+
-                       "                    <div style='height: 2em;display:inline-block; padding-right: 30px;padding-top: 30px;font-weight: bold;' v-if='full_screen' class='caption'>{{item.card.name}}</div>"+
-                       "                </div>"+
+                       "<div v-if='!show_app_only' class='row'>"+
+                       "                <div class='col-xl-1 link' v-on:click='closeCard()' >Close</div>"+
+                   "                    <div v-if='full_screen && (item.card.type == \"app\")' class='col-xl-2 link'  v-on:click='prepareApp(item.id, \"appEditorV2\", {base_component_id: item.card.base_component_id})' >Edit App</div>"+
+                   "                    <div v-if='full_screen && (item.card.type == \"app\")' class='col-xl-2 link' v-on:click='copyApp(item.id, item.card.base_component_id)' >Copy app</div>"+
+                   "                    <div v-if='full_screen && (item.card.type == \"app\")' class='col-xl-2' style='font-weight: bold;'  class='caption'>{{item.card.name}}</div>"+
                        "            <h1 v-if='!full_screen' class='caption'>{{item.card.name}}</h1>"+
 "            <a style='font-size: 2em;' v-bind:href='item.card.link' v-if='item.card.link'>{{item.card.link_name}}</a>"+
 ""+
