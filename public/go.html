@@ -79,7 +79,7 @@ function initFn() {
           ,
 
           template: "<div v-bind:id='element_id' v-on:click='click_card(item.id)' v-bind:class='full_screen?\"polaroid container\":\"polaroid tilt container\"' " +
-		               " v-bind:style=\"'margin: auto; font-family: Helvetica ;  width: 90vw ;visibility: ' + (visible?'':'hidden') + ';' \">"+
+		               " v-bind:style=\"'margin: auto; padding:5vw; font-family: Helvetica ;  width: 90vw ;visibility: ' + (visible?'':'hidden') + ';' \">"+
                        "<div v-if='!show_app_only' class='row'>"+
                        "                <div class='col-xl-1 link' v-on:click='closeCard()' >Close</div>"+
                    "                    <div v-if='full_screen && (item.card.type == \"app\")' class='col-xl-2 link'  v-on:click='prepareApp(item.id, \"appEditorV2\", {base_component_id: item.card.base_component_id})' >Edit App</div>"+
