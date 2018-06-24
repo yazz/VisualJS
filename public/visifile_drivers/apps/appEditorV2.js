@@ -16,7 +16,7 @@ base_component_id("appEditorV2")
 
 
 
-                  <div class="col-xl-8">
+                  <div class="col-xl-8" style='height: 70vh;'>
                       <component  v-bind:is="editor_component" v-if="editor_loaded">
                                       <button slot-scope="editor_component"
                                               v-on:click='save(base_component_id, code_id, editor_component.text2)'
