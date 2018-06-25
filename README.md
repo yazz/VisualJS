@@ -31,13 +31,17 @@ Command line options :
 
 
 ##### 1) Install GIT from https://git-scm.com/downloads
-##### 2) Install Node.js 8.9 32 bit installer from https://nodejs.org/en/download/
+##### 2) Install Node.js 8.9 64 bit installer from https://nodejs.org/en/download/
 ##### 3) From the command line get the Git repository
     git clone https://github.com/zubairq/appshare.git
 ##### 4) Go to the AppShare directory
     cd appshare
 ##### 5) Install the NodeJS modules
     npm install
+##### 6) Install SQlite3 for Electron
+    sudo npm install --build-from-source (this step may not be needed on some platforms)
+##### 7) Run the NodeJS NPM fixer
+    sudo npm audit fix (this step may not be needed on some platforms)
 ##### 7) Run the AppShare Electron application
     electron .
 
