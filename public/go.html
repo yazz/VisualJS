@@ -805,13 +805,15 @@ function setupWebSocket(host, port)
                                         el: "#" + data.root_element
                                     })
                                 } else {
-                                    (async function() {
-                                        var res = codeFn(args)
+                                    //alert("run async code: " + data.code)
+                                    var runAsync = async function() {
+                                        var res = await codeFn(args)
                                         new Vue({
                                             template: "<" + res.name + "></" + res.name + ">",
                                             el: "#" + data.root_element
                                         })
-                                    })()
+                                    }
+                                    runAsync()
 
                                 }
                             } catch (err) {
@@ -823,25 +825,27 @@ function setupWebSocket(host, port)
         }
 
         if (!loadedApp ){
-            //alert()
             args.root_element = data.root_element
             try {
-                if (data.code.indexOf("async") == -1) {
+                if (data.code.indexOf("async ") == -1) {
                     var res = codeFn(args)
                     new Vue({
                         template: "<" + res.name + "></" + res.name + ">",
                         el: "#" + data.root_element
                     })
                 } else {
-                    (async function() {
-                        var res = codeFn(args)
+                    //alert("run async code: " + data.code)
+                    var runAsync = async function() {
+                        var res = await codeFn(args)
                         new Vue({
                             template: "<" + res.name + "></" + res.name + ">",
                             el: "#" + data.root_element
                         })
-                    })()
+                    }
+                    runAsync()
 
-                }            } catch (err) {
+                }
+            } catch (err) {
                 alert(err)
             }
         }
@@ -955,10 +959,23 @@ var dataIds = new Object()
                 //alert(data.value.code)
                 var fnfn = eval( data.value.code )
                 var args =     callDriverMethodArgs[data.seq_num]
-                var fnfnRes = fnfn(args)
 
-                callbackFn(fnfnRes)
-                queuedResponses[data.seq_num] = null
+                if (data.value.code.indexOf("async ")  == -1) {
+                    var fnfnRes = fnfn(args)
+                    callbackFn(fnfnRes)
+                    queuedResponses[data.seq_num] = null
+
+                } else {
+                    var runAsync = async function() {
+                        var fnfnRes = await fnfn(args)
+                        callbackFn(fnfnRes)
+                        queuedResponses[data.seq_num] = null
+                    }
+                    runAsync()
+                }
+
+
+
 
             } catch (err) {
                 alert(err)
