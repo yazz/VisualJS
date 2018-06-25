@@ -134,7 +134,7 @@ base_component_id("appEditorV2")
 
                //alert( sql )
 
-               callDriverMethod(
+               var results = await callApp(
                    {
                         driver_name:    "systemFunctions2",
                         method_name:    "sql"
@@ -142,14 +142,15 @@ base_component_id("appEditorV2")
                    ,
                    {
                        sql: sql
-                   }
-                   ,
-                   function(results) {
+                   })
+                   //alert( JSON.stringify(results,null,2) )
+
+
                        if (results) {
                            //alert(JSON.stringify(results,null,2))
-                           if (results.value.length > 0) {
-                               var code = results.value[0].code
-                               var codeId = results.value[0].id
+                           if (results.length > 0) {
+                               var code = results[0].code
+                               var codeId = results[0].id
                                //alert(code)
                                mm.code = code
                                mm.code_id = codeId
@@ -188,7 +189,7 @@ base_component_id("appEditorV2")
                                    })
                            },200)
                        }
-                   })
+
 
 
 
