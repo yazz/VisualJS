@@ -1,7 +1,7 @@
-function(args) {
+async function(args) {
 /*
 base_component_id("vue")
-created_timestamp(1529868094181)
+created_timestamp(1529939023323)
 is_app(true)
 display_name("VueJS test App")
 description("This will return the Vue test app")
