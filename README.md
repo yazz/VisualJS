@@ -39,7 +39,7 @@ Command line options :
 ##### 5) Install the NodeJS modules
     npm install
 ##### 6) Install SQlite3 for Electron
-    sudo npm install sqlite3 --build-from-source --sqlite_libname=sqlcipher --sqlite=`brew --prefix` --runtime=electron --target=1.8.4 --dist-url=https://atom.io/download/electron (this step may not be needed on some platforms)
+    sudo npm install sqlite3 --build-from-source --runtime=electron --target=1.8.4 --dist-url=https://atom.io/download/electron (this step may not be needed on some platforms)
 ##### 7) Run the NodeJS NPM fixer
     sudo npm audit fix (this step may not be needed on some platforms)
 ##### 8) Run the AppShare Electron application
