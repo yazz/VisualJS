@@ -134,7 +134,7 @@ base_component_id("appEditorV2")
 
                //alert( sql )
 
-               var results = callDriverMethod(
+               callDriverMethod(
                    {
                         driver_name:    "systemFunctions2",
                         method_name:    "sql"
