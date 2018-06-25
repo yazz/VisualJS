@@ -798,11 +798,22 @@ function setupWebSocket(host, port)
                             //alert()
                             args.root_element = data.root_element
                             try {
-                                var res = codeFn(args)
-                                new Vue({
-                                    template: "<" + res.name + "></" + res.name + ">",
-                                    el: "#" + data.root_element
-                                })
+                                if (data.code.indexOf("async") == -1) {
+                                    var res = codeFn(args)
+                                    new Vue({
+                                        template: "<" + res.name + "></" + res.name + ">",
+                                        el: "#" + data.root_element
+                                    })
+                                } else {
+                                    (async function() {
+                                        var res = codeFn(args)
+                                        new Vue({
+                                            template: "<" + res.name + "></" + res.name + ">",
+                                            el: "#" + data.root_element
+                                        })
+                                    })()
+
+                                }
                             } catch (err) {
                                 alert(err)
                             }
@@ -815,12 +826,22 @@ function setupWebSocket(host, port)
             //alert()
             args.root_element = data.root_element
             try {
-                var res = codeFn(args)
-                new Vue({
-                    template: "<" + res.name + "></" + res.name + ">",
-                    el: "#" + data.root_element
-                })
-            } catch (err) {
+                if (data.code.indexOf("async") == -1) {
+                    var res = codeFn(args)
+                    new Vue({
+                        template: "<" + res.name + "></" + res.name + ">",
+                        el: "#" + data.root_element
+                    })
+                } else {
+                    (async function() {
+                        var res = codeFn(args)
+                        new Vue({
+                            template: "<" + res.name + "></" + res.name + ">",
+                            el: "#" + data.root_element
+                        })
+                    })()
+
+                }            } catch (err) {
                 alert(err)
             }
         }
