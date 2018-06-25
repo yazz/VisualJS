@@ -22,16 +22,9 @@ base_component_id("listApps")
                       }
           },
         methods: {
-            search: function() {
-                var mm = this
-                callDriverMethod( {driver_name: "systemFunctions",
-                                  method_name:"get_apps_list"}
-                                  ,{}
-                            ,
-                            function(result) {
-                              //  console.log("3) returned result: " + JSON.stringify(result,null,2))
-                                mm.apps = result.value
-                            })
+            search: async function() {
+                 this.apps = await callApp({   driver_name: "systemFunctions",  method_name:"get_apps_list"}, { })
+
 
             }
         }

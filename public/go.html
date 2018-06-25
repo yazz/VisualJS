@@ -1027,6 +1027,20 @@ function callDriverMethod(findComponentArgs, args, callbackFn) {
 }
 
 
+
+async function callApp(findComponentArgs, args) {
+    var promise = new Promise(returnfn => {
+
+        callDriverMethod( findComponentArgs , args, function(result) {
+            returnfn(result.value) })
+    })
+
+    var ret = await promise
+    return ret
+}
+
+
+
 function is_app(t) {
 
 }
