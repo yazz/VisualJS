@@ -1,5 +1,5 @@
-# AppShare
-Build Networked Javascript Apps on top of your existing Data. There is demo here: http://139.162.228.5/
+# AppShare (formerly VisiFile)
+A simple App Store for the web. Build the apps with Javascript. There is demo here: http://139.162.228.5/
 
 AppShare is built with:
 
@@ -8,6 +8,7 @@ AppShare is built with:
 - AFrame
 - Sqlite
 - Javascript
+- Babel
 - NodeJS 8.9
 - Express
 - SocketIO
@@ -20,9 +21,7 @@ Command line options:
     -p, --port [port]          Which port should I listen on? [port]
     -h, --host [host]          Server address of the central host [host]
     -s, --hostport [hostport]  Server port of the central host [hostport]
-
-
-
+    
 
 
 
@@ -44,9 +43,8 @@ Command line options:
 
 ### What is AppShare's killer feature?
 
-AppShare's killer feature is being able to see a many different data sources in one place
-
+AppShare's killer feature is being able to test ideas fast.
 
 
 ### Is there commercial support for AppShare?
-If you require commercial support then please go to http://visifile.com
+If you require commercial support then please go to http://appshare.co
