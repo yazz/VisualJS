@@ -1,4 +1,4 @@
-function(args) {
+async function(args) {
 /*
 is_app(true)
 display_name("Editor App")
@@ -86,12 +86,12 @@ base_component_id("appEditorV2")
            //
            // This is called to save the currently edited code
            // ---------------------------------------------------------------
-           save: function( base_component_id, code_id, text ) {
+           save: async function( base_component_id, code_id, text ) {
                var mm = this
                //alert("Saving " + code_id)
                //alert("Saving " + text)
                //alert(base_component_id)
-               callDriverMethod(
+               var results = await callApp(
                {
                    driver_name:     "appEditorV2SaveCode",
                    method_name:     "saveCode"
@@ -100,14 +100,12 @@ base_component_id("appEditorV2")
                         base_component_id:      base_component_id,
                         code_id:                code_id,
                         code:                   text
-                   }
-                   ,
-                   function(results) {
-
-                       //alert("Reloading 2: " + JSON.stringify(results,null,2))
-                       //alert("Reloading 2: " + JSON.stringify(mm.base_component_id,null,2))
-                       mm.load_app( mm.base_component_id )
                    })
+
+
+               //alert("Reloading 2: " + JSON.stringify(results,null,2))
+               //alert("Reloading 2: " + JSON.stringify(mm.base_component_id,null,2))
+               mm.load_app( mm.base_component_id )
            },
 
 
@@ -136,7 +134,7 @@ base_component_id("appEditorV2")
 
                //alert( sql )
 
-               callDriverMethod(
+               var results = callDriverMethod(
                    {
                         driver_name:    "systemFunctions2",
                         method_name:    "sql"
