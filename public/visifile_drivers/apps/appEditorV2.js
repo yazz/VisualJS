@@ -118,7 +118,7 @@ base_component_id("appEditorV2")
            // This loads the latest version of the code stream marked with
            // 'baseComponentId'
            // ---------------------------------------------------------------
-           load_app: function ( baseComponentId ) {
+           load_app: async function ( baseComponentId ) {
                //alert("trying to load app: " + baseComponentId)
                var mm = this
                mm.app_loaded = false
