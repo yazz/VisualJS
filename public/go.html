@@ -1071,8 +1071,13 @@ async function callApp(findComponentArgs, args) {
 
         callDriverMethod( findComponentArgs , args, function(result) {
             var ret = null
+            //alert(JSON.stringify(result))
             if (result) {
-                ret = result.value
+                if (result.value) {
+                    ret = result.value
+                } else {
+                    ret = result
+                }
             }
             returnfn(ret) })
     })

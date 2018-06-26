@@ -154,20 +154,19 @@ base_component_id("appEditorV2")
                                //alert(code)
                                mm.code = code
                                mm.code_id = codeId
-                               //alert(JSON.stringify(codeId,null,2))
-                               callDriverMethod(
+                               //alert(JSON.stringify(1,null,2))
+                               var result = await callApp(
                                    {
                                         driver_name:    "editorComponent",
                                         method_name:    "component"
                                     }
                                     ,
-                                      {text: code}
-                                   ,
-                                   function(result) {
+                                      {text: code})
+
                                    //alert(JSON.stringify(result,null,2))
                                        mm.editor_loaded = true
                                        mm.editor_component = result.name
-                                         })
+
                            }
 
 
