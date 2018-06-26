@@ -170,22 +170,12 @@ base_component_id("appEditorV2")
                            }
 
 
-                           setTimeout(function() {
-                               //alert("Reloading: " + baseComponentId)
-                               callDriverMethod(
-                               {
-                                    code_id:    codeId,
-                                }
-                                    ,
-                                   {
-                                   }
-                                   ,
-                                   function(results) {
-                                       mm.app_loaded = true
-                                       mm.baseComponentId = baseComponentId
-                                       mm.app_component_name = results.name
-                                       //alert(results.name + " loaded")
-                                   })
+                           setTimeout(async function() {
+                               var results = await callApp( {code_id:    codeId },{})
+                               mm.app_loaded = true
+                               mm.baseComponentId = baseComponentId
+                               mm.app_component_name = results.name
+                               //alert(results.name + " loaded")
                            },200)
                        }
 
@@ -198,22 +188,17 @@ base_component_id("appEditorV2")
 
        },
 
-       mounted: function () {
+       mounted: async function () {
            var mm = this
            //alert(argBaseComponentId)
            if (argBaseComponentId) {
                 this.load_app(argBaseComponentId)
             } else {
-                callDriverMethod( {
+                var result = await callApp( {
                                         driver_name:  "systemFunctions",
-                                        method_name:  "get_apps_list"
-                                  }
-                                  ,{}
-                            ,
-                            function(result) {
-                              //  console.log("3) returned result: " + JSON.stringify(result,null,2))
-                                mm.apps = result.value
-                            })
+                                        method_name:  "get_apps_list"  } ,{})
+
+                mm.apps = result.value
             }
        }
        })
