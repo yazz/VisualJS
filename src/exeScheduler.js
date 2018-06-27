@@ -202,13 +202,40 @@ function processMessagesFromMainProcess() {
                         })
             }, sqlite3.OPEN_READONLY)
 
+
+
         } else if (msg.find_component.code_id) {
                        scheduleJobWithCodeId(  msg.find_component.code_id,
                                                msg.args,
                                                msg.caller_call_id,
                                                msg.callback_index)
 
-        }
+
+
+        } else if (msg.find_component.base_component_id) {
+                    dbsearch.serialize(
+                        function() {
+                            var stmt = dbsearch.all(
+                              "SELECT * FROM system_code where base_component_id = ? and code_tag = 'LATEST'; ",
+
+                               msg.find_component.base_component_id,
+
+                                function(err, results)
+                                {
+                                    if (results) {
+                                       scheduleJobWithCodeId(  results[0].id,
+                                                               msg.args,
+                                                               msg.caller_call_id,
+                                                               msg.callback_index)
+                                        //callbackFn(results[0].id);
+                                    } else {
+                                        //callbackFn(null)
+                                    }
+
+                                })
+                    }, sqlite3.OPEN_READONLY)
+                    }
+
 
 
 
