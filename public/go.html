@@ -468,7 +468,7 @@ div.tilt {
 //lll
 var newAppArgs = []
 var cardAppIds = []
-function prepareApp(  id,  base_component_id , args ) {
+function prepareApp(  id,  base_component_id,  args  ) {
     //alert(id)
     //alert(base_component_id)
     //alert(JSON.stringify(args,null,2))
@@ -476,13 +476,47 @@ function prepareApp(  id,  base_component_id , args ) {
     var rootElement = "app_" + id
     newAppArgs[id] = args
 
-    sendToServerViaWebSocket({
+    callDriverMethod(
+        {
+            base_component_id:    base_component_id
+        }
+        ,
+        args
+        ,
+        function(data) {
+
+            //alert(JSON.stringify(data,null,2))
+            var args = newAppArgs[ id ]
+            cardAppIds[ id ] = data.app_name
+
+            if (!document.getElementById(rootElement)) {
+                var newRootId = rootElement.substring(4)
+                var newCardId = "app_container_" + newRootId
+                var newAppId = "app_" + newRootId
+                //alert("Creating: " + newAppId + " under " + newCardId)
+                document.getElementById(newCardId).innerHTML = ""
+                var animation = document.createElement('div');
+                animation.setAttribute('id', newAppId);
+                document.getElementById(newCardId).appendChild(animation);
+
+            }
+            var loadedApp = false
+            new Vue({
+                template: "<" + data.name + "></" + data.name + ">",
+                el: "#" + rootElement
+            })
+            //zzz
+
+
+
+        })
+    /*sendToServerViaWebSocket({
         message_type:       "browser_asks_server_for_app_code",
         card_id:             id,
         base_component_id:   base_component_id,
         args:                args,
         root_element:        rootElement
-        });
+        });*/
 }
 
 
@@ -625,7 +659,7 @@ function select_card(id) {
                 },1000)
             }
 
-//zzz
+
         }
     } else {
         mainMoonApp.selected_card = -1;
@@ -760,6 +794,7 @@ function setupWebSocket(host, port)
     // Server returns app code to the browser
     //--------------------------------------------------------------------------
     socket.on('server_returns_app_code_to_browser',function(data) {
+        //zzz
         var args = newAppArgs[ data.card_id ]
         cardAppIds[ data.card_id ] = data.app_name
 
