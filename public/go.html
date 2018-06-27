@@ -510,13 +510,6 @@ function prepareApp(  id,  base_component_id,  args  ) {
 
 
         })
-    /*sendToServerViaWebSocket({
-        message_type:       "browser_asks_server_for_app_code",
-        card_id:             id,
-        base_component_id:   base_component_id,
-        args:                args,
-        root_element:        rootElement
-        });*/
 }
 
 
@@ -790,103 +783,6 @@ function setupWebSocket(host, port)
 
 
 
-    //--------------------------------------------------------------------------
-    // Server returns app code to the browser
-    //--------------------------------------------------------------------------
-    socket.on('server_returns_app_code_to_browser',function(data) {
-        //zzz
-        var args = newAppArgs[ data.card_id ]
-        cardAppIds[ data.card_id ] = data.app_name
-
-        if (!document.getElementById(data.root_element)) {
-            var newRootId = data.root_element.substring(4)
-            var newCardId = "app_container_" + newRootId
-            var newAppId = "app_" + newRootId
-            //alert("Creating: " + newAppId + " under " + newCardId)
-            document.getElementById(newCardId).innerHTML = ""
-            var animation = document.createElement('div');
-            animation.setAttribute('id', newAppId);
-            document.getElementById(newCardId).appendChild(animation);
-
-        }
-        var loadedApp = false
-        var codeFn = null
-        try {
-            //alert(data.code)
-            codeFn = eval(   data.code  )
-        } catch (err) {
-            alert(err)
-            return
-        }
-        //var args = newAppArgs[card_id] = args
-        //document.getElementById(data.card_id).innerHTML = "<div id=current_app>APP WILL BE SHOWN HERE</div>"
-        if (data.uses_js_libs ) {
-            //alert(JSON.stringify(data.uses_js_libs,null,2))
-            for (var tt = 0; tt < data.uses_js_libs.length ; tt++) {
-                if ( data.uses_js_libs[tt].dependency_name == "aframe" ) {
-
-                    scriptTag(
-                        "http://" +  location.hostname + ":" + location.port + "/js_libs/aframe.min.js"
-                        ,
-                        function() {
-                            loadedApp = true
-                            //alert()
-                            args.root_element = data.root_element
-                            try {
-                                if (data.code.indexOf("async") == -1) {
-                                    var res = codeFn(args)
-                                    new Vue({
-                                        template: "<" + res.name + "></" + res.name + ">",
-                                        el: "#" + data.root_element
-                                    })
-                                } else {
-                                    //alert("run async code: " + data.code)
-                                    var runAsync = async function() {
-                                        var res = await codeFn(args)
-                                        new Vue({
-                                            template: "<" + res.name + "></" + res.name + ">",
-                                            el: "#" + data.root_element
-                                        })
-                                    }
-                                    runAsync()
-
-                                }
-                            } catch (err) {
-                                alert(err)
-                            }
-                    })
-                }
-            }
-        }
-
-        if (!loadedApp ){
-            args.root_element = data.root_element
-            try {
-                if (data.code.indexOf("async ") == -1) {
-                    var res = codeFn(args)
-                    new Vue({
-                        template: "<" + res.name + "></" + res.name + ">",
-                        el: "#" + data.root_element
-                    })
-                } else {
-                    //alert("run async code: " + data.code)
-                    var runAsync = async function() {
-                        var res = await codeFn(args)
-                        new Vue({
-                            template: "<" + res.name + "></" + res.name + ">",
-                            el: "#" + data.root_element
-                        })
-                    }
-                    runAsync()
-
-                }
-            } catch (err) {
-                alert(err)
-            }
-        }
-
-
-    });
 
     function scriptTag(src, callback) {
 

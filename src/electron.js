@@ -2170,27 +2170,6 @@ function websocketFn(ws) {
 
 
 
-        } else if (receivedMessage.message_type == "browser_asks_server_for_app_code") {
-
-           // console.log("******************* browser_asks_server_for_app_code *******************: " + receivedMessage.app_name)
-            getAppCode(
-                receivedMessage.base_component_id,
-
-                function( id , code, libs) {
-                    // console.log(code)
-                    var tr = babel.transform("(" + code + ")", {plugins: [path.join(__dirname, "../node_modules/babel-plugin-transform-es2015-template-literals")]})
-                    sendToBrowserViaWebSocket(  ws,
-                                                {
-                                                    type:           "server_returns_app_code_to_browser",
-                                                    code:           tr.code,
-                                                    display_name:   receivedMessage.display_name,
-                                                    card_id:        receivedMessage.card_id,
-                                                    code_id:        id,
-                                                    root_element:   receivedMessage.root_element,
-                                                    uses_js_libs:   libs
-                                                });
-                })
-
 
 
 
@@ -3577,39 +3556,6 @@ function findDriversWithMethodLike(methodName, callbackFn) {
                         callbackFn(results)
                     } else {
                         callbackFn(null)
-                    }
-
-                })
-    }, sqlite3.OPEN_READONLY)
-}
-
-
-function getAppCodePart2(appName, callbackFn, id, code) {
-    dbsearch.all(
-        "SELECT dependency_name FROM app_dependencies where code_id = ?; ",
-        id,
-
-        function(err, results2)
-        {
-            callbackFn(id, code, results2)
-
-        })
-}
-
-
-function getAppCode(base_component_id, callbackFn) {
-    dbsearch.serialize(
-        function() {
-            dbsearch.all(
-                "SELECT id,code FROM system_code where component_type = 'app' and base_component_id = ? and code_tag = 'LATEST'; ",
-                base_component_id,
-
-                function(err, results)
-                {
-                    if (results.length > 0) {
-                        getAppCodePart2(base_component_id, callbackFn, results[0].id, results[0].code.toString())
-                    } else {
-                        callbackFn(null,null,null)
                     }
 
                 })
