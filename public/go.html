@@ -85,8 +85,10 @@ function initFn() {
 
                        "<div v-if='!show_app_only' class='row' style='margin-bottom: 20px;'>"+
                        "            <h1  class='caption'>{{item.card.name}}</h1>"+
-                   "                    <div v-if='full_screen && (item.card.type == \"app\")' class='col-xl-4 btn'  v-on:click='prepareApp(item.id, \"appEditorV2\", {base_component_id: item.card.base_component_id})' >Edit App</div>"+
-                   "                    <div v-if='full_screen && (item.card.type == \"app\")' class='col-xl-4 btn' v-on:click='copyApp(item.id, item.card.base_component_id)' >Copy app</div>"+
+                       "                    <div class='col-xl-2' ></div>"+
+                   "                    <button  type=button v-if='full_screen && (item.card.type == \"app\")' class='btn btn-primary btn-lg'  v-on:click='prepareApp(item.id, \"appEditorV2\", {base_component_id: item.card.base_component_id})' >Edit App</button>"+
+                   "                    <div class='col-xl-2' ></div>"+
+                   "                    <div v-if='full_screen && (item.card.type == \"app\")' class='btn btn-primary btn-lg' v-on:click='copyApp(item.id, item.card.base_component_id)' >Copy app</div>"+
                     "            <a class='col-xl-12' style='font-size: 2em;' v-bind:href='item.card.link' v-if='item.card.link'>{{item.card.link_name}}</a>"+
                     ""+
                     "            <div   class='col-xl-12' style='font-size: 2em;' v-on:click='loadContent(item.card.data_id,item.card.name)'"+
