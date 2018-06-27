@@ -79,7 +79,7 @@ function initFn() {
           ,
 
           template: "<div v-bind:id='element_id' style='margin-left: auto; margin-right: auto;' v-on:click='click_card(item.id)' v-bind:class='full_screen?\"polaroid container\":\"polaroid tilt container\"' >"+
-          "                <button  type=button  class='btn btn-primary btn-lg btn-block' v-on:click='closeCard()' >Close</button>"+
+          "                <button  v-if='!show_app_only' type=button  class='btn btn-primary btn-lg btn-block' v-on:click='closeCard()' >Close</button>"+
           "<div " +
 		               " v-bind:style=\"' padding-left:5vw; padding-right:5vw; padding-bottom:2vw;padding-top:2vw; font-family: Helvetica ;  width: 90vw ;visibility: ' + (visible?'':'hidden') + ';' \">"+
 
