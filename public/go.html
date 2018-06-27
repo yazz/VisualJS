@@ -505,7 +505,7 @@ function prepareApp(  id,  base_component_id,  args  ) {
                 template: "<" + data.name + "></" + data.name + ">",
                 el: "#" + rootElement
             })
-            //zzz
+
 
 
 
@@ -988,33 +988,24 @@ var dataIds = new Object()
 
         if (data.value.is_code_result) {
             //alert("code: " + JSON.stringify(data,null,2));
-            var callbackFn = queuedResponses[data.seq_num]
+            //zzz
+            if (data.value.libs && data.value.libs.length > 0 ) {
+                //alert(JSON.stringify(data.value.libs,null,2))
+                for (var tt = 0; tt < data.value.libs.length ; tt++) {
+                    if ( data.value.libs[tt].dependency_name == "aframe" ) {
 
-            try {
-                //alert(data.value.code)
-                var fnfn = eval( data.value.code )
-                var args =     callDriverMethodArgs[data.seq_num]
-
-                if (data.value.code.indexOf("async ")  == -1) {
-                    var fnfnRes = fnfn(args)
-                    callbackFn(fnfnRes)
-                    queuedResponses[data.seq_num] = null
-
-                } else {
-                    var runAsync = async function() {
-                        var fnfnRes = await fnfn(args)
-                        callbackFn(fnfnRes)
-                        queuedResponses[data.seq_num] = null
+                        scriptTag(
+                            "http://" +  location.hostname + ":" + location.port + "/js_libs/aframe.min.js"
+                            ,
+                            function() {
+                                callCode(data)
+                        })
                     }
-                    runAsync()
                 }
-
-
-
-
-            } catch (err) {
-                alert(err)
+            } else {
+                callCode(data)
             }
+
         } else {
             var callbackFn = queuedResponses[data.seq_num]
             callbackFn({value: data.value})
@@ -1023,7 +1014,35 @@ var dataIds = new Object()
     });
 
 }
+function callCode(data) {
+    var callbackFn = queuedResponses[data.seq_num]
 
+    try {
+        //alert(data.value.code)
+        var fnfn = eval( data.value.code )
+        var args =     callDriverMethodArgs[data.seq_num]
+
+        if (data.value.code.indexOf("async ")  == -1) {
+            var fnfnRes = fnfn(args)
+            callbackFn(fnfnRes)
+            queuedResponses[data.seq_num] = null
+
+        } else {
+            var runAsync = async function() {
+                var fnfnRes = await fnfn(args)
+                callbackFn(fnfnRes)
+                queuedResponses[data.seq_num] = null
+            }
+            runAsync()
+        }
+
+
+
+
+    } catch (err) {
+        alert(err)
+    }
+}
 var listElm = null
 var params = {}
 

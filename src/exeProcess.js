@@ -319,18 +319,28 @@ function executeCode(callId, codeId, args) {
                         var code = results[0].code.toString()
                         try {
                             if (isFrontEndOnlyCode( code )) {
+                                    dbsearch.all(
+                                        "SELECT dependency_name FROM app_dependencies where code_id = ?; ",
+                                        codeId,
 
-                                process.send({  message_type:         "function_call_response" ,
-                                                result:              { code:            code,
-                                                                       is_code_result:  true   },
-                                                child_process_name:    childProcessName,
-                                                driver_name:           currentDriver,
-                                                method_name:           currentEvent,
-                                                callback_index:        currentCallbackIndex,
-                                                called_call_id:        callId
-                                                });
-                                //console.log("*) Result process call ID: " + callId);
-                                inUseIndex --
+                                        function(err, results2)
+                                        {
+                                            process.send({  message_type:         "function_call_response" ,
+                                                            result:              { code:            code,
+                                                                                   is_code_result:  true,
+                                                                                   libs:            results2
+                                                                                      },
+                                                            child_process_name:    childProcessName,
+                                                            driver_name:           currentDriver,
+                                                            method_name:           currentEvent,
+                                                            callback_index:        currentCallbackIndex,
+                                                            called_call_id:        callId
+                                                            });
+                                            //console.log("*) Result process call ID: " + callId);
+                                            inUseIndex --
+
+                                        })
+
 
 
                             } else { // front and backend code
