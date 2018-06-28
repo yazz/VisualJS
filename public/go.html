@@ -83,12 +83,12 @@ function initFn() {
           "<div " +
 		               " v-bind:style=\"' padding-left:5vw; padding-right:5vw; padding-bottom:2vw;padding-top:2vw; font-family: Helvetica ;  width: 90vw ;visibility: ' + (visible?'':'hidden') + ';' \">"+
 
-                       "<div v-if='!show_app_only' class='row' style='margin-bottom: 20px;'>"+
-                       "            <h2  class='caption'>{{item.card.name}}</h2>"+
-                       "                    <div class='col-xl-4' ></div>"+
-                   "                    <button  type=button v-if='full_screen && (item.card.type == \"app\")' class='btn btn-primary'  v-on:click='prepareApp(item.id, \"appEditorV2\", {base_component_id: item.card.base_component_id})' >Edit App</button>"+
-                   "                    <div class='col-xl-1' ></div>"+
-                   "                    <button  type=button v-if='full_screen && (item.card.type == \"app\")' class='float-right btn btn-secondary' v-on:click='copyApp(item.id, item.card.base_component_id)' >Copy app</button>"+
+                   "<div v-if='!show_app_only' class='row' style='margin-bottom: 20px;'>"+
+                   "    <h2  class='caption col-xl-9'>{{item.card.name}}</h2>"+
+                   "    <div class='col btn-group float-right' style='margin-right: 0px;' role=group >" +
+                   "           <button  type=button v-if='full_screen && (item.card.type == \"app\")' class='btn btn-primary'  v-on:click='prepareApp(item.id, \"appEditorV2\", {base_component_id: item.card.base_component_id})' >Edit App</button>"+
+                   "           <button  type=button v-if='full_screen && (item.card.type == \"app\")' class=' btn btn-secondary' v-on:click='copyApp(item.id, item.card.base_component_id)' >Copy app</button>"+
+                   "    </div>"+
                    "</div>"+
                    "<div v-if='!show_app_only' class='row' style='margin-bottom: 0px;'>"+
                     "            <a class='col-xl-12' style='font-size: 2em;' v-bind:href='item.card.link' v-if='item.card.link'>{{item.card.link_name}}</a>"+
