@@ -1943,7 +1943,6 @@ function processMessagesFromMainProcess() {
       } else if (msg.message_type == 'callDriverMethod') {
 
           callDriverMethod( msg.find_component, msg.args, function(result) {
-              console.log("    **** SCANNED THE FOLDERS ON LOCAL FILE SYSTEM ***: ")
               process.send(
                   {
                       message_type: 'ipc_child_returning_callDriverMethod_response',
