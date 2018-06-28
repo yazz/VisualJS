@@ -328,7 +328,8 @@ function executeCode(callId, codeId, args) {
                                             process.send({  message_type:         "function_call_response" ,
                                                             result:              { code:            code,
                                                                                    is_code_result:  true,
-                                                                                   libs:            results2
+                                                                                   libs:            results2,
+                                                                                   code_id:         codeId
                                                                                       },
                                                             child_process_name:    childProcessName,
                                                             driver_name:           currentDriver,
