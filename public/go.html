@@ -700,7 +700,7 @@ var defaultCards = [
 ];
 
 
-
+var cachedCode = new Object()
 var socket=null;
 function sendToServerViaWebSocket(msg) {
     socket.send(JSON.stringify(msg));
@@ -833,6 +833,7 @@ var dataIds = new Object()
     // ______
     //
     socket.on('server_returns_document_preview_to_browser',function(data) {
+
         //console.log("**6) server_returns_document_preview_to_browser: ")
         //console.log("    : " + JSON.stringify(data,null,2))
         document.getElementById("popup").style.zIndex = '1000000';
@@ -880,24 +881,16 @@ var dataIds = new Object()
         if (data.value.is_code_result) {
             //alert("code: " + JSON.stringify(data,null,2));
             //alert("code2: " + JSON.stringify(queuedResponses[data.seq_num],null,2));
-
-            //zzz
-            if (data.value.libs && data.value.libs.length > 0 ) {
-                //alert(JSON.stringify(data.value.libs,null,2))
-                for (var tt = 0; tt < data.value.libs.length ; tt++) {
-                    if ( data.value.libs[tt].dependency_name == "aframe" ) {
-
-                        scriptTag(
-                            "http://" +  location.hostname + ":" + location.port + "/js_libs/aframe.min.js"
-                            ,
-                            function() {
-                                callCode(data)
-                        })
-                    }
+            if (data.value.code_id) {
+                if (cachedCode[data.value.code_id]) {
+                    //alert("code cached")
+                } else {
+                    cachedCode[data.value.code_id] = data
                 }
-            } else {
-                callCode(data)
+
             }
+            //zzz
+            checkLibs(data)
 
         } else {
             var callbackFn = queuedResponses[data.seq_num]
@@ -905,6 +898,25 @@ var dataIds = new Object()
             queuedResponses[data.seq_num] = null
         }
     });
+
+}
+function checkLibs(data){
+    if (data.value.libs && data.value.libs.length > 0 ) {
+        //alert(JSON.stringify(data.value.libs,null,2))
+        for (var tt = 0; tt < data.value.libs.length ; tt++) {
+            if ( data.value.libs[tt].dependency_name == "aframe" ) {
+
+                scriptTag(
+                    "http://" +  location.hostname + ":" + location.port + "/js_libs/aframe.min.js"
+                    ,
+                    function() {
+                        callCode(data)
+                })
+            }
+        }
+    } else {
+        callCode(data)
+    }
 
 }
 function callCode(data) {
