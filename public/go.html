@@ -701,6 +701,7 @@ var defaultCards = [
 
 
 var cachedCode = new Object()
+var finderToCachedCodeMapping = new Object()
 var socket=null;
 function sendToServerViaWebSocket(msg) {
     socket.send(JSON.stringify(msg));
@@ -860,16 +861,26 @@ var dataIds = new Object()
         if (data.value.is_code_result) {
             //alert("code: " + JSON.stringify(data,null,2));
             //alert("code2: " + JSON.stringify(queuedResponses[data.seq_num],null,2));
+            //zzz
             if (data.value.code_id) {
-                if (cachedCode[data.value.code_id]) {
-                    //alert("code cached")
+
+
+                if (data.value.base_component_id && finderToCachedCodeMapping[data.value.base_component_id]) {
+                    alert("Error: code cached, on_condition: " + data.value.on_condition +
+                            ", base_component_id: " + data.value.base_component_id)
+
+
                 } else {
-                    cachedCode[data.value.code_id] = data
+                    if (data.value.base_component_id) {
+                        alert(""  + data.value.base_component_id + " := " + data.value.code_id )
+                        finderToCachedCodeMapping[data.value.base_component_id] = data.value.code_id
+                        cachedCode[data.value.code_id] = data
+                    }
+                    checkLibs(data)
                 }
 
             }
             //zzz
-            checkLibs(data)
 
         } else {
             var callbackFn = queuedResponses[data.seq_num]
@@ -1010,7 +1021,7 @@ function cmd(stringArgs) {
 }
 
 
-
+var useCached = true
 var queuedResponses = new Object()
 var queuedBrowserResponseSeqNum = 0
 var callDriverMethodArgs = new Object()
@@ -1019,12 +1030,23 @@ function callDriverMethod(findComponentArgs, args, callbackFn) {
     queuedResponses[seqNum] = callbackFn;
     callDriverMethodArgs[seqNum] = args
 
-    sendToServerViaWebSocket({
-        message_type: "callDriverMethod",
-            find_component: findComponentArgs,
-            args: args,
-            seqNum: seqNum
-            });
+//zzz
+alert("looking for cached component: " + findComponentArgs.base_component_id)
+    if (finderToCachedCodeMapping[findComponentArgs.base_component_id]) {
+        alert("Reading app from cache: " + findComponentArgs.base_component_id)
+        var newDataCodeId = finderToCachedCodeMapping[findComponentArgs.base_component_id]
+        var newData       = cachedCode[newDataCodeId]
+        newData.seq_num = seqNum
+        checkLibs(newData)
+    } else {
+            sendToServerViaWebSocket({
+                message_type: "callDriverMethod",
+                    find_component: findComponentArgs,
+                    args: args,
+                    seqNum: seqNum
+                    });
+    }
+
 }
 
 

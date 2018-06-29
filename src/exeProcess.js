@@ -158,7 +158,7 @@ function processMessagesFromMainProcess() {
 
             if (msg.code_id) {
                 currentCallId = msg.call_id
-                executeCode(msg.call_id,  msg.code_id, msg.args)
+                executeCode(msg.call_id,  msg.code_id, msg.args,  msg.on_condition,  msg.base_component_id)
             }
         }
 
@@ -295,7 +295,7 @@ var currentEvent = null
 var currentCodeID = null
 var currentArgs = null
 
-function executeCode(callId, codeId, args) {
+function executeCode(callId, codeId, args, on_condition,  base_component_id) {
     //console.log("@executeCode "+ childProcessName + " in use: " + inUse)
 
     dbsearch.serialize(
@@ -326,10 +326,12 @@ function executeCode(callId, codeId, args) {
                                         function(err, results2)
                                         {
                                             process.send({  message_type:         "function_call_response" ,
-                                                            result:              { code:            code,
-                                                                                   is_code_result:  true,
-                                                                                   libs:            results2,
-                                                                                   code_id:         codeId
+                                                            result:              { code:                code,
+                                                                                   is_code_result:      true,
+                                                                                   libs:                results2,
+                                                                                   code_id:             codeId,
+                                                                                   on_condition:        on_condition,
+                                                                                   base_component_id:   base_component_id                                                                                   
                                                                                       },
                                                             child_process_name:    childProcessName,
                                                             driver_name:           currentDriver,

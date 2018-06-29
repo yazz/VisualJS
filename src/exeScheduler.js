@@ -263,14 +263,6 @@ function processMessagesFromMainProcess() {
                          null
                          )
                      dbsearch.run("commit");
-
-
-                    //process.send({  message_type:       "execute_code_in_exe_child_process" ,
-                    //                child_process_name:  msg.node_id,
-                    //                old_code:               `console.log("Sent from Scheduler")`
-                    //                });
-
-
                  })
 
         }
@@ -523,7 +515,9 @@ function sendToProcess(  id  ,  parentCallId  ,  callbackIndex, processName  ,  
                            code_id:             id,
                            args:                args,
                            call_id:             newCallId,
-                           callback_index:      callbackIndex
+                           callback_index:      callbackIndex,
+                           on_condition:        on_condition,
+                           base_component_id:   base_component_id
                            });
 
 
