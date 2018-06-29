@@ -126,14 +126,14 @@ function initFn() {
 
         // Add 20 items.
         var loadMore = function() {
-          for (var i = 0; i < 1; i++) {
-              var nextIndex = nextItem - 1;
-            if (nextItem <= defaultCards.length) {
-                add_card( {id: nextItem++, card: defaultCards[nextIndex]});
-                refresh();
-            }
+                for (var i = 0; i < 1; i++) {
+                    var nextIndex = nextItem - 1;
+                  if (nextItem <= defaultCards.length) {
+                      add_card( {id: nextItem++, card: defaultCards[nextIndex]});
+                      refresh();
+                  }
 
-          }
+                }
         }
 
         listElm.addEventListener('scroll', function(event)
@@ -170,6 +170,29 @@ function initFn() {
                 //console.log("touchmove")
             }
         );
+
+        //alert(0)
+        if (useCached) {
+            //alert(1)
+            var nid = nextItem++;
+            add_card({
+                        id: nid,
+                        card: {
+                            id:                 nid,
+                            name:               "Vue",
+                            base_component_id:  "vue",
+                            code_id:            "3dfb096695d5fab2b1d4362d636fbb860e744ab8",
+                            display_name:       "Vue",
+                            type:               "app"
+                        }});
+            mainMoonApp.show_loader = false
+            autoScroll = false
+            setTimeout(function() {
+                select_card(nid)
+            },200)
+            refresh();
+        }
+
 
         setupWebSocket(location.hostname,  location.port);
 
@@ -705,42 +728,18 @@ var finderToCachedCodeMapping = new Object()
 
 populateCache()
 function populateCache() {
-    cachedCode["3dfb096695d5fab2b1d4362d636fbb860e744ab8"] = `async function(args) {
-    /*
-    base_component_id("vue")
-    created_timestamp(1529939023323)
-    is_app(true)
-    display_name("VueJS test App")
-    description("This will return the Vue test app")
-    */
-    var promise = new Promise(result => {
-        setTimeout(function() {
-            //alert(1)
-            result( "Promise fulfilled...")
-
-               var ww = Vue.component("VueApp", {
-                 template: "<div>Vue test app:<div>{{value}}</div></div>",
-                  data: function() {
-                   return {
-                               value: "waiting for promise..."
-                   }},
-                   mounted: async function() {
-                       var ww =this
-
-
-                       ww.value = "DONE";
-                   }
-
-
-           })
-       },2500)
-    });
-       var ret = await promise;
-
-
-       return {name: "VueApp"}
-    }
-`
+    cachedCode["3dfb096695d5fab2b1d4362d636fbb860e744ab8"] = {
+  "type": "ws_to_browser_callDriverMethod_results",
+  "value": {
+    "code": "(async function (args) {\n    /*\n    base_component_id(\"vue\")\n    created_timestamp(1530299587939)\n    is_app(true)\n    display_name(\"VueJS test App\")\n    description(\"This will return the Vue test app\")\n    */\n    var promise = new Promise(result => {\n        setTimeout(function () {\n            //alert(1)\n            result(\"Promise fulfilled...\");\n\n            var ww = Vue.component(\"VueApp\", {\n                template: \"<div>Vue test app:\\n               <div>{{value}}</div>\\n             </div>\\n              \",\n                data: function () {\n                    return {\n                        value: \"waiting for promise...\"\n                    };\n                },\n                mounted: async function () {\n                    var ww = this;\n\n                    ww.value = \"DONE\";\n                }\n\n            });\n        }, 2500);\n    });\n    var ret = await promise;\n\n    return { name: \"VueApp\" };\n});",
+    "is_code_result": true,
+    "libs": [],
+    "code_id": "bb984f75c524aa36da7249899e141dfd47ac63b0",
+    "on_condition": "\"app\"",
+    "base_component_id": "vue"
+  },
+  "seq_num": 0
+}
     finderToCachedCodeMapping["vue"] = "3dfb096695d5fab2b1d4362d636fbb860e744ab8"
 }
 var socket=null;
@@ -751,8 +750,6 @@ function sendToServerViaWebSocket(msg) {
 
 function setupWebSocket(host, port)
 {
-
-    //sss
 
     //console.log('opening web socketio');
     socket = io('http://' + host + ":" + port);
@@ -766,14 +763,18 @@ function setupWebSocket(host, port)
         // Browser  --Send me your data--  Server
         // _______
         //
+
+        //zzz
         setInterval(function() {
             sendToServerViaWebSocket({
                     message_type: "browser_asks_server_for_data"
                     });
                 }, 5000)
-        sendToServerViaWebSocket({
-                message_type: "browser_asks_server_for_apps"
-                });
+        if (!useCached) {
+            sendToServerViaWebSocket({
+                    message_type: "browser_asks_server_for_apps"
+                    });
+        }
     },3000);
     });
 
@@ -902,7 +903,7 @@ var dataIds = new Object()
         if (data.value.is_code_result) {
             //alert("code: " + JSON.stringify(data,null,2));
             //alert("code2: " + JSON.stringify(queuedResponses[data.seq_num],null,2));
-            //zzz
+
             if (data.value.code_id) {
 
                 if (data.value.base_component_id && (!finderToCachedCodeMapping[data.value.base_component_id])) {
@@ -913,7 +914,7 @@ var dataIds = new Object()
 
                 checkLibs(data)
             }
-            //zzz
+
 
         } else {
             var callbackFn = queuedResponses[data.seq_num]
@@ -1054,7 +1055,7 @@ function cmd(stringArgs) {
 }
 
 
-var useCached = false
+var useCached = true
 var queuedResponses = new Object()
 var queuedBrowserResponseSeqNum = 0
 var callDriverMethodArgs = new Object()
@@ -1063,7 +1064,7 @@ function callDriverMethod(findComponentArgs, args, callbackFn) {
     queuedResponses[seqNum] = callbackFn;
     callDriverMethodArgs[seqNum] = args
 
-//zzz
+
     if (useCached && findComponentArgs.base_component_id && finderToCachedCodeMapping[findComponentArgs.base_component_id]) {
         //alert("Reading app from cache: " + findComponentArgs.base_component_id)
         var newDataCodeId = finderToCachedCodeMapping[findComponentArgs.base_component_id]
