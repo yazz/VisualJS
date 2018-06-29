@@ -11,12 +11,10 @@ base_component_id("appEditorV2")
     Vue.component("app_editor",
     {
       template: `<div>
-            <div class="container">
-                <div class="row">
 
 
 
-                  <div class="col-xl-8" style='height: 70vh;'>
+                  <div style='height: 100%; width: 63%; left: 0px;display: inline-block;'>
                       <component  v-bind:is="editor_component" v-if="editor_loaded">
                                       <button slot-scope="editor_component"
                                               v-on:click='save(base_component_id, code_id, editor_component.text2)'
@@ -30,7 +28,7 @@ base_component_id("appEditorV2")
 
 
 
-                  <div class="col-xl-4">
+                  <div style='height: 100%; width: 33%; right: 0px;display: inline-block;vertical-align: top;'>
                       <component  v-bind:is="app_component_name" v-if="app_loaded">
                         APP HERE
                       </component>
@@ -43,12 +41,8 @@ base_component_id("appEditorV2")
                           </select>
 
                       </div>
-                  </div>
-
-
-
                 </div>
-              </div>
+
 
 
       </div>

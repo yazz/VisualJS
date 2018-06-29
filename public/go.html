@@ -66,11 +66,11 @@ function initFn() {
           template: "<div v-bind:id='element_id' style='margin-left: auto; margin-right: auto;' v-on:click='click_card(item.id)' v-bind:class='full_screen?\"polaroid container\":\"polaroid tilt container\"' >"+
           "                <button  v-if='!show_app_only' type=button  class='btn btn-primary btn-lg btn-block' v-on:click='closeCard()' >Close</button>"+
           "<div " +
-		               " v-bind:style=\"' padding-left:5vw; padding-right:5vw; padding-bottom:2vw;padding-top:2vw; font-family: Helvetica ;  width: 90vw ;visibility: ' + (visible?'':'hidden') + ';' \">"+
+		               " v-bind:style=\"'; padding-bottom:2vw;padding-top:2vw; font-family: Helvetica ;  width: 100% ;visibility: ' + (visible?'':'hidden') + ';' \">"+
 
                    "<div v-if='!show_app_only' class='row' style='margin-bottom: 20px;'>"+
                    "    <h2  class='col caption float-xl-left' style=''>{{item.card.name}}</h2>"+
-                   "    <div class='col btn-group float-xl-right' style='margin-right:50px' role=group >" +
+                   "    <div class='col btn-group float-xl-right' style='margin-right:0px;' role=group >" +
                    "           <button  type=button v-if='full_screen && (item.card.type == \"app\")' class='btn btn-primary'  v-on:click='prepareApp(item.id, \"appEditorV2\", {base_component_id: item.card.base_component_id})' >Edit App</button>"+
                    "           <button  type=button v-if='full_screen && (item.card.type == \"app\")' class=' btn btn-secondary' v-on:click='copyApp(item.id, item.card.base_component_id)' >Copy app</button>"+
 
