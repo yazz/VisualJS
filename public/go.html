@@ -864,21 +864,13 @@ var dataIds = new Object()
             //zzz
             if (data.value.code_id) {
 
-
-                if (data.value.base_component_id && finderToCachedCodeMapping[data.value.base_component_id]) {
-                    alert("Error: code cached, on_condition: " + data.value.on_condition +
-                            ", base_component_id: " + data.value.base_component_id)
-
-
-                } else {
-                    if (data.value.base_component_id) {
-                        alert(""  + data.value.base_component_id + " := " + data.value.code_id )
-                        finderToCachedCodeMapping[data.value.base_component_id] = data.value.code_id
-                        cachedCode[data.value.code_id] = data
-                    }
-                    checkLibs(data)
+                if (data.value.base_component_id && (!finderToCachedCodeMapping[data.value.base_component_id])) {
+                    //alert(""  + data.value.base_component_id + " := " + data.value.code_id )
+                    finderToCachedCodeMapping[data.value.base_component_id] = data.value.code_id
+                    cachedCode[data.value.code_id] = data
                 }
 
+                checkLibs(data)
             }
             //zzz
 
@@ -1021,7 +1013,7 @@ function cmd(stringArgs) {
 }
 
 
-var useCached = true
+var useCached = false
 var queuedResponses = new Object()
 var queuedBrowserResponseSeqNum = 0
 var callDriverMethodArgs = new Object()
@@ -1031,9 +1023,8 @@ function callDriverMethod(findComponentArgs, args, callbackFn) {
     callDriverMethodArgs[seqNum] = args
 
 //zzz
-alert("looking for cached component: " + findComponentArgs.base_component_id)
-    if (finderToCachedCodeMapping[findComponentArgs.base_component_id]) {
-        alert("Reading app from cache: " + findComponentArgs.base_component_id)
+    if (useCached && findComponentArgs.base_component_id && finderToCachedCodeMapping[findComponentArgs.base_component_id]) {
+        //alert("Reading app from cache: " + findComponentArgs.base_component_id)
         var newDataCodeId = finderToCachedCodeMapping[findComponentArgs.base_component_id]
         var newData       = cachedCode[newDataCodeId]
         newData.seq_num = seqNum
