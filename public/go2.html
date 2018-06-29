@@ -702,6 +702,47 @@ var defaultCards = [
 
 var cachedCode = new Object()
 var finderToCachedCodeMapping = new Object()
+
+populateCache()
+function populateCache() {
+    cachedCode["3dfb096695d5fab2b1d4362d636fbb860e744ab8"] = `async function(args) {
+    /*
+    base_component_id("vue")
+    created_timestamp(1529939023323)
+    is_app(true)
+    display_name("VueJS test App")
+    description("This will return the Vue test app")
+    */
+    var promise = new Promise(result => {
+        setTimeout(function() {
+            //alert(1)
+            result( "Promise fulfilled...")
+
+               var ww = Vue.component("VueApp", {
+                 template: "<div>Vue test app:<div>{{value}}</div></div>",
+                  data: function() {
+                   return {
+                               value: "waiting for promise..."
+                   }},
+                   mounted: async function() {
+                       var ww =this
+
+
+                       ww.value = "DONE";
+                   }
+
+
+           })
+       },2500)
+    });
+       var ret = await promise;
+
+
+       return {name: "VueApp"}
+    }
+`
+    finderToCachedCodeMapping["vue"] = "3dfb096695d5fab2b1d4362d636fbb860e744ab8"
+}
 var socket=null;
 function sendToServerViaWebSocket(msg) {
     socket.send(JSON.stringify(msg));
