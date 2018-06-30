@@ -502,9 +502,20 @@ function prepareApp(  id,  base_component_id,  args  ) {
         ,
         function(appResult) {
             //zzz
-            loadAppIntoElement(appResult.name, rootElement)
+            if (mainMoonApp.cards[id - 1].card.base_component_id == base_component_id) {
+                loadAppIntoElement(appResult.name, rootElement)
+            } else {
+                //alert("load a different app")
+                sendToServerViaWebSocket({
+                        message_type:       "browser_asks_server_to_update_card_app",
+                        card_id:             id,
+                        base_component_id:   base_component_id,
+                        tag_name:            appResult.name
+                        });
+            }
         })
 }
+
 
 function loadAppIntoElement(tagName, rootElement) {
     if (!document.getElementById(rootElement)) {
@@ -592,6 +603,21 @@ function openContent(  data_id  ) {
 function add_card(payload) {
   mainMoonApp.cards.push(payload);
 }
+
+function update_card(payload) {
+    //console.log("update_card: " + JSON.stringify(payload,null,2))
+    for (var i = 0; i < mainMoonApp.cards.length; i++) {
+        if (mainMoonApp.cards[i].id == payload.id) {
+            mainMoonApp.cards[i].card.hide_header           = payload.card.hide_header
+            mainMoonApp.cards[i].card.name                  = payload.card.name
+            mainMoonApp.cards[i].card.base_component_id     = payload.card.base_component_id
+            mainMoonApp.cards[i].card.code_id               = payload.card.code_id
+            mainMoonApp.cards[i].card.display_name          = payload.card.display_name
+            mainMoonApp.cards[i].card.type                  = payload.card.type
+        }
+    }
+}
+
 
 function refresh() {
   mainMoonApp.count += 1;
@@ -777,6 +803,32 @@ function setupWebSocket(host, port)
     });
 
 
+    socket.on('vf_update_card_app',function(data) {
+        //alert("Browser received apps from server socket: " + JSON.stringify(data,null,2));
+        update_card({
+                                        id: data.card_id,
+                                        card: {
+                                            id:                 data.card_id,
+                                            name:               data.result.display_name,
+                                            base_component_id:  data.result.base_component_id,
+                                            code_id:            data.result.id,
+                                            display_name:       data.result.display_name,
+                                            type:               "app",
+                                            hide_header:        (data.result.component_options && data.result.component_options.indexOf("HIDE_HEADER" != -1))?true:false
+                                        }});
+
+
+            var rootElement = "app_" + data.card_id
+
+//alert("loadAppIntoElement( " + data.tag_name + "," + rootElement)
+            loadAppIntoElement( data.tag_name, rootElement)
+
+
+
+        refresh();
+    });
+
+
 
     socket.on('vf_app_names',function(data) {
         //alert("Browser received apps from server socket: " + JSON.stringify(data.results[0],null,2));
@@ -945,7 +997,7 @@ function scriptTag(src, callback) {
 }
 
 function checkLibs(data){
-    //zzz
+
 
     if (data.value.libs && data.value.libs.length > 0 ) {
         //alert(JSON.stringify(data.value.libs,null,2))
@@ -970,7 +1022,7 @@ function callCode(data) {
 
     try {
         //alert(data.value.code)
-        //zzz
+
         var fnfn = eval( data.value.code )
         var args =     callDriverMethodArgs[data.seq_num]
 
