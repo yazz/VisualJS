@@ -36,7 +36,7 @@ load_once_from_file(true)
                       </component>
 
                       <div  v-if="!app_loaded">
-                          No app selected
+                          
 
                       </div>
                 </div>

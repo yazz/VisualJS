@@ -501,11 +501,7 @@ function prepareApp(  id,  base_component_id,  args  ) {
         args
         ,
         function(appResult) {
-
             //zzz
-            //alert(JSON.stringify(data,null,2))
-            var args = newAppArgs[ id ]
-
             if (!document.getElementById(rootElement)) {
                 var newRootId = rootElement.substring(4)
                 var newCardId = "app_container_" + newRootId
@@ -517,7 +513,6 @@ function prepareApp(  id,  base_component_id,  args  ) {
                 document.getElementById(newCardId).appendChild(animation);
 
             }
-            var loadedApp = false
             new Vue({
                 template: "<" + appResult.name + "></" + appResult.name + ">",
                 el: "#" + rootElement
@@ -902,7 +897,7 @@ var dataIds = new Object()
 
         if (data.value.is_code_result) {
             if (data.value.component_options){
-                alert("code: " + JSON.stringify(data.value.component_options,null,2));
+                //alert("code: " + JSON.stringify(data.value.component_options,null,2));
             }
             //alert("code2: " + JSON.stringify(queuedResponses[data.seq_num],null,2));
             console.log("data: " + JSON.stringify(data,null,2));
