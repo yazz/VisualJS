@@ -3901,7 +3901,22 @@ function saveCodeV2( baseComponentId, parentHash, code ) {
     if (!baseComponentId) {
         baseComponentId = uuidv1()
     }
+    code = saveHelper.deleteCodeString(code, "base_component_id")
+    code = saveHelper.insertCodeString(code, "base_component_id", baseComponentId)
+
     //console.log("    baseComponentId := " + baseComponentId)
+
+
+    var creationTimestamp = new Date().getTime()
+    // if we don't want to reload this file then don't update the timestamp
+    if (saveHelper.getValueOfCodeString(code,"load_once_from_file")) {
+        creationTimestamp = -1
+    }
+    code = saveHelper.deleteCodeString(code, "created_timestamp")
+    code = saveHelper.insertCodeString(code, "created_timestamp", creationTimestamp)
+
+
+
 
     var oncode = "\"app\""
     var eventName = null
@@ -3910,14 +3925,13 @@ function saveCodeV2( baseComponentId, parentHash, code ) {
     var maxProcesses = 1
     var rowhash = crypto.createHash('sha1');
     var row = code.toString();
-    var creationTimestamp = new Date().getTime()
-
 
 
     rowhash.setEncoding('hex');
     rowhash.write(row);
     rowhash.end();
     var sha1sum = rowhash.read();
+    console.log("Save sha1 for :" + baseComponentId + ": " + sha1sum)
 
     dbsearch.serialize(
         function() {
@@ -3935,9 +3949,6 @@ function saveCodeV2( baseComponentId, parentHash, code ) {
                     if (!err) {
                         if (rows.length == 0) {
                             try {
-                            code = saveHelper.deleteCodeString(code, "created_timestamp")
-                            code = saveHelper.insertCodeString(code, "created_timestamp", creationTimestamp)
-
                             if (saveHelper.getValueOfCodeString(code,"is_app")) {
                                 componentType = "app"
                             }
@@ -3946,10 +3957,6 @@ function saveCodeV2( baseComponentId, parentHash, code ) {
                                 componentOptions = "HIDE_HEADER"
                             }
 
-                            componentOptions
-
-                            code = saveHelper.deleteCodeString(code, "base_component_id")
-                            code = saveHelper.insertCodeString(code, "base_component_id", baseComponentId)
 
 
                             var displayName = saveHelper.getValueOfCodeString(code,"display_name")
@@ -3976,12 +3983,6 @@ function saveCodeV2( baseComponentId, parentHash, code ) {
                                 }
                             }
 
-                            rowhash = crypto.createHash('sha1');
-                            row = code.toString();
-                            rowhash.setEncoding('hex');
-                            rowhash.write(row);
-                            rowhash.end();
-                            sha1sum = rowhash.read();
 
                             //console.log("Saving in Sqlite: " + parentHash)
                             //console.log("Saving in Sqlite: " + code)

@@ -4,6 +4,7 @@ is_app(true)
 display_name("Test app")
 description('Test app')
 base_component_id("test")
+load_once_from_file(true)
 */
 
     Vue.component('test_app', {

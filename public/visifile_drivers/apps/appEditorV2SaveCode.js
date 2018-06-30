@@ -2,6 +2,7 @@ function saveCode( args ) {
 /*
 base_component_id("appEditorV2SaveCode")
 description("Save the editor code")
+load_once_from_file(true)
 */
 
     console.log("in SaveCode::")

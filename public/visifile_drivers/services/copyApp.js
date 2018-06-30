@@ -1,6 +1,9 @@
 async function copyAppshareApp(args) {
-    description("copyAppshareApp function")
-    base_component_id("copyApp")
+/*
+description("copyAppshareApp function")
+base_component_id("copyApp")
+load_once_from_file(true)
+*/
 
     var promise = new Promise(returnfn => {
 

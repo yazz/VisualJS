@@ -1,5 +1,8 @@
 function component( args ) {
-    base_component_id("editorComponent")
+/*
+base_component_id("editorComponent")
+load_once_from_file(true)
+*/
 
     //alert(JSON.stringify(args,null,2))
     var uid = uuidv4()

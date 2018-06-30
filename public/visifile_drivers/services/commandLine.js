@@ -1,6 +1,9 @@
 async function ls(args) {
-    description("ls function returns current files")
-    base_component_id("commandLine")
+/*
+description("ls function returns current files")
+base_component_id("commandLine")
+load_once_from_file(true)
+*/
 
    // console.log("2)  Service called with args:  " + JSON.stringify(args,null,2))
     console.log("4.5 callbackFn exists")

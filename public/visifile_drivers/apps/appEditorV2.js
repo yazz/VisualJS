@@ -5,6 +5,7 @@ display_name("Editor App")
 description("This will return the editor app")
 base_component_id("appEditorV2")
 hide_header(true)
+load_once_from_file(true)
 */
 
     var argBaseComponentId = args.base_component_id

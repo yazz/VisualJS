@@ -4,6 +4,7 @@ is_app(true)
 display_name("Bootstrap app")
 description('Bootstrap')
 base_component_id("bootstrap")
+load_once_from_file(true)
 */
 
 

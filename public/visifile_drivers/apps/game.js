@@ -5,6 +5,7 @@ display_name("3d Game app")
 base_component_id('game')
 description('Game app, this will return the game app')
 uses_javascript_librararies(["aframe"])
+load_once_from_file(true)
 */
 
     Vue.component('game3d',{

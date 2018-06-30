@@ -1,6 +1,9 @@
 function pwd(args, callbackFn) {
-    description("pwd returns working directory")
-    base_component_id("systemFunctions2")
+/*
+description("pwd returns working directory")
+base_component_id("systemFunctions2")
+load_once_from_file(true)
+*/
 
     //console.log("2)  Service called with args:  " + JSON.stringify(args,null,2))
     if(callbackFn){

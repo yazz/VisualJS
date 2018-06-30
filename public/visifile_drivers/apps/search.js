@@ -4,6 +4,7 @@ is_app(true)
 display_name("Search app")
 description("This will return the search app")
 base_component_id("search")
+load_once_from_file(true)
 */
 
     Vue.component("search_app",{

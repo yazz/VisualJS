@@ -5,6 +5,7 @@ created_timestamp(1529939023323)
 is_app(true)
 display_name("VueJS test App")
 description("This will return the Vue test app")
+load_once_from_file(true)
 */
 var promise = new Promise(result => {
     setTimeout(function() {

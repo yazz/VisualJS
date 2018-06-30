@@ -1,8 +1,9 @@
 async function get_apps_list(args) {
-
-    description("This will return the apps available")
-    base_component_id("systemFunctions")
-
+/*
+description("This will return the apps available")
+base_component_id("systemFunctions")
+load_once_from_file(true)
+*/
     var getAppsList = new Promise(function(resolve, reject) {
             dbsearch.serialize(
                 function() {
