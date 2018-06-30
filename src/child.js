@@ -3906,6 +3906,7 @@ function saveCodeV2( baseComponentId, parentHash, code ) {
     var oncode = "\"app\""
     var eventName = null
     var componentType = null
+    var componentOptions = null
     var maxProcesses = 1
     var rowhash = crypto.createHash('sha1');
     var row = code.toString();
@@ -3940,6 +3941,12 @@ function saveCodeV2( baseComponentId, parentHash, code ) {
                             if (saveHelper.getValueOfCodeString(code,"is_app")) {
                                 componentType = "app"
                             }
+
+                            if (saveHelper.getValueOfCodeString(code,"hide_header")) {
+                                componentOptions = "HIDE_HEADER"
+                            }
+
+                            componentOptions
 
                             code = saveHelper.deleteCodeString(code, "base_component_id")
                             code = saveHelper.insertCodeString(code, "base_component_id", baseComponentId)
@@ -3979,7 +3986,7 @@ function saveCodeV2( baseComponentId, parentHash, code ) {
                             //console.log("Saving in Sqlite: " + parentHash)
                             //console.log("Saving in Sqlite: " + code)
                             var stmtInsertNewCode = dbsearch.prepare(
-                                " insert into   system_code  (id, parent_id, code_tag, code,on_condition, base_component_id, method, max_processes,component_type,display_name, creation_timestamp) values (?,?,?,?,?,?,?,?,?,?,?)");
+                                " insert into   system_code  (id, parent_id, code_tag, code,on_condition, base_component_id, method, max_processes,component_type,display_name, creation_timestamp,component_options) values (?,?,?,?,?,?,?,?,?,?,?,?)");
                             var stmtDeprecateOldCode = dbsearch.prepare(
                                 " update system_code  set code_tag = NULL where base_component_id = ? and id != ?");
 
@@ -3996,7 +4003,8 @@ function saveCodeV2( baseComponentId, parentHash, code ) {
                                       maxProcesses,
                                       componentType,
                                       displayName,
-                                      creationTimestamp
+                                      creationTimestamp,
+                                      componentOptions
                                       )
                                 stmtDeprecateOldCode.run(
                                     baseComponentId,
