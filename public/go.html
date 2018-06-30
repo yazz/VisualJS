@@ -502,29 +502,27 @@ function prepareApp(  id,  base_component_id,  args  ) {
         ,
         function(appResult) {
             //zzz
-            if (!document.getElementById(rootElement)) {
-                var newRootId = rootElement.substring(4)
-                var newCardId = "app_container_" + newRootId
-                var newAppId = "app_" + newRootId
-                //alert("Creating: " + newAppId + " under " + newCardId)
-                document.getElementById(newCardId).innerHTML = ""
-                var animation = document.createElement('div');
-                animation.setAttribute('id', newAppId);
-                document.getElementById(newCardId).appendChild(animation);
-
-            }
-            new Vue({
-                template: "<" + appResult.name + "></" + appResult.name + ">",
-                el: "#" + rootElement
-            })
-
-
-
-
+            loadAppIntoElement(appResult.name, rootElement)
         })
 }
 
+function loadAppIntoElement(tagName, rootElement) {
+    if (!document.getElementById(rootElement)) {
+        var newRootId = rootElement.substring(4)
+        var newCardId = "app_container_" + newRootId
+        var newAppId = "app_" + newRootId
+        //alert("Creating: " + newAppId + " under " + newCardId)
+        document.getElementById(newCardId).innerHTML = ""
+        var animation = document.createElement('div');
+        animation.setAttribute('id', newAppId);
+        document.getElementById(newCardId).appendChild(animation);
 
+    }
+    new Vue({
+        template: "<" + tagName + "></" + tagName + ">",
+        el: "#" + rootElement
+    })
+}
 
 function copyApp(  id,  baseComponentId ) {
 
