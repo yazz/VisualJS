@@ -799,7 +799,7 @@ function setupWebSocket(host, port)
                                                 code_id:            data.results[i].id,
                                                 display_name:       data.results[i].display_name,
                                                 type:               "app",
-                                                hide_header:        (data.results[i].component_options && data.results[i].component_options.indexOf("HIDE_HEADER" != -1))
+                                                hide_header:        (data.results[i].component_options && data.results[i].component_options.indexOf("HIDE_HEADER" != -1))?true:false
                                             }});
             if (wait_and_select_app) {
                 if (data.results[i].display_name) {
@@ -1078,12 +1078,12 @@ function callDriverMethod(findComponentArgs, args, callbackFn) {
         newData.seq_num = seqNum
         checkLibs(newData)
     } else {
-            sendToServerViaWebSocket({
-                message_type: "callDriverMethod",
-                    find_component: findComponentArgs,
-                    args: args,
-                    seqNum: seqNum
-                    });
+        sendToServerViaWebSocket({
+            message_type: "callDriverMethod",
+                find_component: findComponentArgs,
+                args: args,
+                seqNum: seqNum
+                });
     }
 
 }
