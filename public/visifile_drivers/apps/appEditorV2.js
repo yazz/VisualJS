@@ -35,12 +35,8 @@ load_once_from_file(true)
                         APP HERE
                       </component>
 
-                      <div  v-if="!app_loaded && false">
-                          No app selected. Select one:
-                          <br>
-                          <select @change="chooseApp">
-                              <option v-for="item in apps" v-bind:value="item">{{item}}</option>
-                          </select>
+                      <div  v-if="!app_loaded">
+                          No app selected
 
                       </div>
                 </div>
