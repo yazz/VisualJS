@@ -485,7 +485,6 @@ div.tilt {
 
 //lll
 var newAppArgs = []
-var cardAppIds = []
 function prepareApp(  id,  base_component_id,  args  ) {
     //alert(id)
     //alert(base_component_id)
@@ -501,12 +500,11 @@ function prepareApp(  id,  base_component_id,  args  ) {
         ,
         args
         ,
-        function(data) {
+        function(appResult) {
 
             //zzz
             //alert(JSON.stringify(data,null,2))
             var args = newAppArgs[ id ]
-            cardAppIds[ id ] = data.app_name
 
             if (!document.getElementById(rootElement)) {
                 var newRootId = rootElement.substring(4)
@@ -521,7 +519,7 @@ function prepareApp(  id,  base_component_id,  args  ) {
             }
             var loadedApp = false
             new Vue({
-                template: "<" + data.name + "></" + data.name + ">",
+                template: "<" + appResult.name + "></" + appResult.name + ">",
                 el: "#" + rootElement
             })
 
@@ -903,11 +901,11 @@ var dataIds = new Object()
 
 
         if (data.value.is_code_result) {
-            //if (data.value.component_options){
-            //    alert("code: " + JSON.stringify(data.value.component_options,null,2));
-            //}
+            if (data.value.component_options){
+                alert("code: " + JSON.stringify(data.value.component_options,null,2));
+            }
             //alert("code2: " + JSON.stringify(queuedResponses[data.seq_num],null,2));
-            //alert("data: " + JSON.stringify(data,null,2));
+            console.log("data: " + JSON.stringify(data,null,2));
 
             if (data.value.code_id) {
 
