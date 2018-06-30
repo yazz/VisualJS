@@ -68,7 +68,7 @@ function initFn() {
           "<div " +
 		               " v-bind:style=\"'; padding-bottom:2vw;padding-top:2vw; font-family: Helvetica ;  width: 100% ;visibility: ' + (visible?'':'hidden') + ';' \">"+
 
-                   "<div v-if='!show_app_only' class='row' style='margin-bottom: 20px;'>"+
+                   "<div v-if='(!show_app_only) && (!item.card.hide_header)' class='row' style='margin-bottom: 20px;'>"+
                    "    <h2  class='col caption float-xl-left' style=''>{{item.card.name}}</h2>"+
                    "    <div class='col btn-group float-xl-right' style='margin-right:0px;' role=group >" +
                    "           <button  type=button v-if='full_screen && (item.card.type == \"app\")' class='btn btn-primary'  v-on:click='prepareApp(item.id, \"appEditorV2\", {base_component_id: item.card.base_component_id})' >Edit App</button>"+
@@ -787,7 +787,7 @@ function setupWebSocket(host, port)
 
 
     socket.on('vf_app_names',function(data) {
-        //alert("Browser received apps from server socket: " + JSON.stringify(data.results,null,2));
+        //alert("Browser received apps from server socket: " + JSON.stringify(data.results[0],null,2));
         for (var i = 0 ; i < data.results.length ; i ++ ) {
             var nid = nextItem++;
             add_card({
@@ -798,7 +798,8 @@ function setupWebSocket(host, port)
                                                 base_component_id:  data.results[i].base_component_id,
                                                 code_id:            data.results[i].id,
                                                 display_name:       data.results[i].display_name,
-                                                type:               "app"
+                                                type:               "app",
+                                                hide_header:        (data.results[i].component_options && data.results[i].component_options.indexOf("HIDE_HEADER" != -1))
                                             }});
             if (wait_and_select_app) {
                 if (data.results[i].display_name) {
@@ -951,15 +952,8 @@ function scriptTag(src, callback) {
     (document.body || head).appendChild(s);
 }
 
-var showAppHeader = true
 function checkLibs(data){
     //zzz
-    showAppHeader = true
-    if (data.value.component_options)  {
-        if (data.value.component_options.indexOf("HIDE_HEADER")) {
-            showAppHeader = false
-        }
-    }
 
     if (data.value.libs && data.value.libs.length > 0 ) {
         //alert(JSON.stringify(data.value.libs,null,2))

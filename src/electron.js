@@ -3528,7 +3528,7 @@ function findLatestVersionOfApps( callbackFn) {
     dbsearch.serialize(
         function() {
             var stmt = dbsearch.all(
-                "SELECT id,base_component_id,display_name FROM system_code where component_type = ? and code_tag = ?; ",
+                "SELECT id,base_component_id,display_name, component_options FROM system_code where component_type = ? and code_tag = ?; ",
                 "app",
                 "LATEST",
 
