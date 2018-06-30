@@ -764,7 +764,7 @@ function setupWebSocket(host, port)
         // _______
         //
 
-        //zzz
+
         setInterval(function() {
             sendToServerViaWebSocket({
                     message_type: "browser_asks_server_for_data"
@@ -973,6 +973,7 @@ function callCode(data) {
 
     try {
         //alert(data.value.code)
+        //zzz
         var fnfn = eval( data.value.code )
         var args =     callDriverMethodArgs[data.seq_num]
 
