@@ -172,7 +172,7 @@ function initFn() {
         );
 
         //alert(0)
-        if (useCached) {
+        if (isStaticHtmlPageApp) {
             //alert(1)
             var nid = nextItem++;
             add_card({
@@ -770,7 +770,7 @@ function setupWebSocket(host, port)
                     message_type: "browser_asks_server_for_data"
                     });
                 }, 5000)
-        if (!useCached) {
+        if (!isStaticHtmlPageApp) {
             sendToServerViaWebSocket({
                     message_type: "browser_asks_server_for_apps"
                     });
@@ -1055,7 +1055,7 @@ function cmd(stringArgs) {
 }
 
 
-var useCached = true
+var isStaticHtmlPageApp = false
 var queuedResponses = new Object()
 var queuedBrowserResponseSeqNum = 0
 var callDriverMethodArgs = new Object()
@@ -1065,7 +1065,7 @@ function callDriverMethod(findComponentArgs, args, callbackFn) {
     callDriverMethodArgs[seqNum] = args
 
 
-    if (useCached && findComponentArgs.base_component_id && finderToCachedCodeMapping[findComponentArgs.base_component_id]) {
+    if (isStaticHtmlPageApp && findComponentArgs.base_component_id && finderToCachedCodeMapping[findComponentArgs.base_component_id]) {
         //alert("Reading app from cache: " + findComponentArgs.base_component_id)
         var newDataCodeId = finderToCachedCodeMapping[findComponentArgs.base_component_id]
         var newData       = cachedCode[newDataCodeId]
