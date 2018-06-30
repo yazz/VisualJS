@@ -312,6 +312,7 @@ function executeCode(callId, codeId, args, on_condition,  base_component_id) {
                         //console.log(    "    callId:" + callId )
 
                         currentDriver = results[0].base_component_id
+                        var componentOptions = results[0].component_options
                         currentEvent = results[0].on_condition
                         currentCodeID = codeId
                         currentArgs = args
@@ -328,10 +329,11 @@ function executeCode(callId, codeId, args, on_condition,  base_component_id) {
                                             process.send({  message_type:         "function_call_response" ,
                                                             result:              { code:                code,
                                                                                    is_code_result:      true,
+                                                                                   component_options:   componentOptions,       
                                                                                    libs:                results2,
                                                                                    code_id:             codeId,
                                                                                    on_condition:        on_condition,
-                                                                                   base_component_id:   base_component_id                                                                                   
+                                                                                   base_component_id:   base_component_id
                                                                                       },
                                                             child_process_name:    childProcessName,
                                                             driver_name:           currentDriver,

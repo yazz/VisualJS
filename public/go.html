@@ -901,8 +901,11 @@ var dataIds = new Object()
 
 
         if (data.value.is_code_result) {
-            //alert("code: " + JSON.stringify(data,null,2));
+            //if (data.value.component_options){
+            //    alert("code: " + JSON.stringify(data.value.component_options,null,2));
+            //}
             //alert("code2: " + JSON.stringify(queuedResponses[data.seq_num],null,2));
+            //alert("data: " + JSON.stringify(data,null,2));
 
             if (data.value.code_id) {
 
@@ -948,8 +951,16 @@ function scriptTag(src, callback) {
     (document.body || head).appendChild(s);
 }
 
-
+var showAppHeader = true
 function checkLibs(data){
+    //zzz
+    showAppHeader = true
+    if (data.value.component_options)  {
+        if (data.value.component_options.indexOf("HIDE_HEADER")) {
+            showAppHeader = false
+        }
+    }
+
     if (data.value.libs && data.value.libs.length > 0 ) {
         //alert(JSON.stringify(data.value.libs,null,2))
         for (var tt = 0; tt < data.value.libs.length ; tt++) {
