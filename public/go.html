@@ -490,15 +490,20 @@ function prepareApp(  id,  base_component_id,  args  ) {
     //alert(base_component_id)
     //alert(JSON.stringify(args,null,2))
     console.log(" prepareApp base_component_id: " + base_component_id)
+    //alert(JSON.stringify(args,null,2))
     var rootElement = "app_" + id
-    newAppArgs[id] = args
+    if ((mainMoonApp.cards[id - 1].card.base_component_id != base_component_id) ||
+            (!newAppArgs[id])) {
+        newAppArgs[id] = args
+    }
+    //alert(JSON.stringify(newAppArgs[id],null,2))
 
     callDriverMethod(
         {
             base_component_id:    base_component_id
         }
         ,
-        args
+        newAppArgs[id]
         ,
         function(appResult) {
             //zzz
