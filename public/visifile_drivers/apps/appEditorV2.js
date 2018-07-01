@@ -26,7 +26,7 @@ load_once_from_file(true)
 
                   <div id=editor_id v-bind:style="'height: 100%; width: ' + code_width + '; left: 0px;display: inline-block; visibility: ' + (code_shown?'':'hidden') + ';'">
                       <component  v-bind:is="editor_component" v-if="editor_loaded">
-                                      <button 
+                                      <button v-bind:style="'visibility: ' + ((app_shown && code_shown)?'':'hidden')"
                                               slot-scope="editor_component"
                                               v-on:click='save(base_component_id, code_id, editor_component.text2)'
                                               type="button" class="btn btn-primary">
