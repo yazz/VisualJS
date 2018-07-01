@@ -13,12 +13,21 @@ load_once_from_file(true)
     Vue.component("app_editor",
     {
       template: `<div>
+                    <div>
+                        <h2  class='caption' style='display: inline-block;'>Editing {{app_component_name}} </h2>
+                        <div class='btn-group' style='float: right;' role=group >
+                            <button  type=button class='btn btn-primary'      v-on:click='chooseApp()'  >App</button>
+                            <button  type=button class=' btn btn-secondary'   v-on:click='chooseCode()' >Code</button>
+                            <button  type=button class=' btn btn-info'        v-on:click='chooseBoth()' >Both</button>
+                        </div>
+                    </div>
 
 
 
-                  <div style='height: 100%; width: 63%; left: 0px;display: inline-block;'>
+                  <div id=editor_id v-bind:style="'height: 100%; width: ' + code_width + '; left: 0px;display: inline-block; visibility: ' + (code_shown?'':'hidden') + ';'">
                       <component  v-bind:is="editor_component" v-if="editor_loaded">
-                                      <button slot-scope="editor_component"
+                                      <button 
+                                              slot-scope="editor_component"
                                               v-on:click='save(base_component_id, code_id, editor_component.text2)'
                                               type="button" class="btn btn-primary">
 
@@ -30,13 +39,14 @@ load_once_from_file(true)
 
 
 
-                  <div style='height: 100%; width: 33%; right: 0px;display: inline-block;vertical-align: top;'>
+
+                  <div v-bind:style="'height: 100%; width: '+app_width+'; right: 0px;display: inline-block;visibility: ' + (app_shown?'':'hidden')+';vertical-align: top;'">
                       <component  v-bind:is="app_component_name" v-if="app_loaded">
                         APP HERE
                       </component>
 
                       <div  v-if="!app_loaded">
-                          
+
 
                       </div>
                 </div>
@@ -55,7 +65,11 @@ load_once_from_file(true)
                app_component_name:  null,
                base_component_id:   null,
                code_id:            "...",
-               version: 0
+               version: 0,
+               app_width:           "33%",
+               code_width:          "63%",
+               app_shown:           true,
+               code_shown:          true
            }
        }
        ,
@@ -63,12 +77,30 @@ load_once_from_file(true)
             // ---------------------------------------------------------------
             //                         chooseApp
             //
-            // This is called when the end user selects an app from the drop
-            // down box
+            // This is called when the end user selects an app from the menu
             // ---------------------------------------------------------------
-            chooseApp: function(event) {
-                this.load_app(event.target.value)
-           },
+            chooseApp: function() {
+                this.code_width = "0%"
+                this.code_shown = false
+
+                this.app_width = "95%"
+                this.app_shown = true
+            },
+
+            chooseCode: function() {
+                this.code_width = "95%"
+                this.code_shown = true
+
+                this.app_width = "0%"
+                this.app_shown = false
+            },
+            chooseBoth: function() {
+                this.code_width = "63%"
+                this.code_shown = true
+
+                this.app_width = "33%"
+                this.app_shown = true
+            },
 
 
 
