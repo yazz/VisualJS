@@ -14,7 +14,7 @@ load_once_from_file(true)
             uid2: uid2
         }
       },
-      template: `<div >
+      template: `<div>
                     <div v-bind:id='uid2' ></div>
                     <hr />
                      <slot  :text2="text"></slot>
@@ -36,6 +36,11 @@ load_once_from_file(true)
             mm.text = editor.getSession().getValue();
             //alert("changed text to : " + mm.text)
             });
+     },
+     methods: {
+        getText: function() {
+            return this.text
+        }
      }
 
 

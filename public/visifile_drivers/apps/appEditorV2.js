@@ -25,7 +25,7 @@ load_once_from_file(true)
 
 
                   <div id=editor_id v-bind:style="'height: 100%; width: ' + code_width + '; left: 0px;display: inline-block; visibility: ' + (code_shown?'':'hidden') + ';'">
-                      <component  v-bind:is="editor_component" v-if="editor_loaded">
+                      <component  v-bind:is="editor_component" v-if="editor_loaded" ref="editorComponentRef">
                                       <button v-bind:style="'visibility: ' + ((app_shown && code_shown)?'':'hidden')"
                                               slot-scope="editor_component"
                                               v-on:click='save(base_component_id, code_id, editor_component.text2)'
@@ -85,6 +85,17 @@ load_once_from_file(true)
 
                 this.app_width = "95%"
                 this.app_shown = true
+
+                //zzz
+                var text = this.$refs.editorComponentRef.getText()
+
+                //
+                // there may be a problem here - we have to make sure that we saved
+                // the correct code_id which is supposed to be the parent code id, so we
+                // have to make sure that we save it every time we save code
+                //
+                this.save( this.base_component_id, this.code_id, text )
+                //alert(1)
             },
 
             chooseCode: function() {
@@ -125,6 +136,7 @@ load_once_from_file(true)
                         code_id:                code_id,
                         code:                   text
                    })
+               //alert("Saved " + text)
 
 
                //alert("Reloading 2: " + JSON.stringify(results,null,2))
@@ -148,7 +160,6 @@ load_once_from_file(true)
                mm.app_loaded = false
                mm.base_component_id = baseComponentId
                mm.app_component_name = null
-//zzz
 
 
 
