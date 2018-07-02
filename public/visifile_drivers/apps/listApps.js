@@ -1,20 +1,26 @@
 function(args) {
 /*
+created_timestamp(-1)
+base_component_id("listApps")
 is_app(true)
 display_name("App Store")
 description('App to list all the apps')
-base_component_id("listApps")
 load_once_from_file(true)
 */
 
     Vue.component('listApps',{
 
 
-          template: `<div v-on:click='search'>
-                        Click here to see all the apps installed
-                        <ul>
-                                <li v-for="item in apps">{{item}}</li>
-                        </ul>
+          template: `<div >
+                       <div class="card-columns">
+                        <div class="card" style="width: 20rem;" v-for="item in apps">
+                          <div class="card-body">
+                            <h4 class="card-title">{{item}}</h4>
+                            <p class="card-text"></p>
+                            <a v-bind:href='"http://139.162.228.5/?goto=" + item' class="btn btn-primary">Run</a>
+                          </div>
+                        </div>
+                        </div>
                      </div>`,
 
 
@@ -23,6 +29,10 @@ load_once_from_file(true)
               return {
                           apps: []
                       }},
+
+          mounted: function() {
+              this.search()
+          },
 
 
 

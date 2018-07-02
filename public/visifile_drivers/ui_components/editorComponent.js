@@ -29,7 +29,7 @@ load_once_from_file(true)
                                              })
          document.getElementById(uid2).style.width="100%"
 
-         document.getElementById(uid2).style.height="50%"
+         document.getElementById(uid2).style.height="70vh"
          editor.getSession().setValue(mm.text);
 
          editor.getSession().on('change', function() {
