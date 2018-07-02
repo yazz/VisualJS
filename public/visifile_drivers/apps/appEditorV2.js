@@ -104,7 +104,13 @@ load_once_from_file(true)
 
                 this.app_width = "0%"
                 this.app_shown = false
+
+                mm.load_app( this.base_component_id )
             },
+
+
+
+
             chooseBoth: function() {
                 this.code_width = "63%"
                 this.code_shown = true
@@ -178,41 +184,42 @@ load_once_from_file(true)
                    {
                        sql: sql
                    })
-                   //alert( JSON.stringify(results,null,2) )
 
 
-                       if (results) {
-                           //alert(JSON.stringify(results,null,2))
-                           if (results.length > 0) {
-                               var code = results[0].code
-                               var codeId = results[0].id
-                               //alert(code)
-                               mm.code = code
-                               mm.code_id = codeId
-                               //alert(JSON.stringify(1,null,2))
-                               var result = await callApp(
-                                   {
-                                        driver_name:    "editorComponent",
-                                        method_name:    "component"
-                                    }
-                                    ,
-                                      {text: code})
+               if (results) {
+                   //alert(JSON.stringify(results,null,2))
+                   if (results.length > 0) {
+                       var code = results[0].code
+                       var codeId = results[0].id
+                       //alert(code)
+                       mm.code = code
+                       mm.code_id = codeId
+                       //alert(JSON.stringify(1,null,2))
 
-                                   //alert(JSON.stringify(result,null,2))
-                                       mm.editor_loaded = true
-                                       mm.editor_component = result.name
-
-                           }
-
-
-                           setTimeout(async function() {
-                               var results = await callApp( {code_id:    codeId },{})
-                               mm.app_loaded = true
-                               mm.baseComponentId = baseComponentId
-                               mm.app_component_name = results.name
-                               //alert(results.name + " loaded")
-                           },200)
+                       if (!mm.editor_loaded) {
+                           var result = await callApp(
+                               {
+                                    driver_name:    "editorComponent",
+                                    method_name:    "component"
+                                }
+                                ,
+                                  {text: code})
+                            mm.editor_loaded = true
+                            mm.editor_component = result.name
                        }
+
+
+                   }
+
+
+                   setTimeout(async function() {
+                       var results = await callApp( {code_id:    codeId },{})
+                       mm.app_loaded = true
+                       mm.baseComponentId = baseComponentId
+                       mm.app_component_name = results.name
+                       //alert(results.name + " loaded")
+                   },200)
+               }
 
 
 
