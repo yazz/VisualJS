@@ -11,7 +11,7 @@ load_once_from_file(true)
 
     Vue.component('intro_logo_3d',{
       template: `<div id="app2">
-          <a-scene style='width: 80%; height: 20%;' embedded>
+          <a-scene style='width: 80%; height: 20%;' embedded vr-mode-ui="enabled: false">
               <a-box position="0 1.6 -15" rotation="0 0 0" color="#4CC3D9">
                   <a-entity
                        position="2 0 .6"
