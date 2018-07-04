@@ -63,7 +63,7 @@ function initFn() {
           }
           ,
 
-          template: "<div v-bind:id='element_id' style='margin-left: auto; margin-right: auto;height:100%; overflow-y:scroll;' v-on:click='click_card(item.id)' v-bind:class='full_screen?\"polaroid container\":\"polaroid tilt container\"' >"+
+          template: "<div v-bind:id='element_id' style='margin-left: auto; margin-right: auto;height:90%; overflow-y:scroll;' v-on:click='click_card(item.id)' v-bind:class='full_screen?\"polaroid container\":\"polaroid tilt container\"' >"+
           "                <button  v-if='!show_app_only' type=button  class='btn btn-primary btn-lg btn-block' v-on:click='closeCard()' >Close</button>"+
           "<div " +
 		               " v-bind:style=\"'; padding-bottom:2vw;padding-top:2vw; font-family: Helvetica ;  width: 100% ;visibility: ' + (visible?'':'hidden') + ';' \">"+
@@ -445,6 +445,7 @@ div.tilt {
 
 
     <div    id='wrapper'
+            onscroll='onscrolled()'
             onmousedown='onemousedown()'
             onmouseup='onemouseup()'
             onwheel='onemousedown()'     >
