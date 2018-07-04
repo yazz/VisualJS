@@ -3949,9 +3949,6 @@ function saveCodeV2( baseComponentId, parentHash, code ) {
                     if (!err) {
                         if (rows.length == 0) {
                             try {
-                            if (saveHelper.getValueOfCodeString(code,"is_app")) {
-                                componentType = "app"
-                            }
 
                             if (saveHelper.getValueOfCodeString(code,"hide_header")) {
                                 componentOptions = "HIDE_HEADER"
@@ -3968,7 +3965,9 @@ function saveCodeV2( baseComponentId, parentHash, code ) {
 
 
 
-
+                            //
+                            // 1) call this first
+                            //
                             var prjs = esprima.parse( "(" + code.toString() + ")");
                             if (prjs.body) {
                                 if (prjs.body[0]) {
@@ -3981,6 +3980,13 @@ function saveCodeV2( baseComponentId, parentHash, code ) {
                                         }
                                     }
                                 }
+                            }
+
+                            //
+                            // 2) and then call this , as apps can also be methods
+                            //
+                            if (saveHelper.getValueOfCodeString(code,"is_app")) {
+                                componentType = "app"
                             }
 
 

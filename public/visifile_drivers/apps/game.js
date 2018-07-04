@@ -26,7 +26,7 @@ load_once_from_file(true)
       `,
       data: function() {
           return {
-              msg: "Hello Moon!"
+              msg: "Hello Appshare!"
           }
       }
     })
