@@ -508,7 +508,7 @@ function prepareApp(  id,  base_component_id,  args  ) {
         newAppArgs[id]
         ,
         function(appResult) {
-            //zzz
+
             if (mainMoonApp.cards[id - 1].card.base_component_id == base_component_id) {
                 loadAppIntoElement(appResult.name, rootElement)
             } else {
@@ -688,6 +688,11 @@ function select_card(id) {
                         //alert("thisApp: " + JSON.stringify(thisApp,null,2))
                         //alert("thisApp.id: " + JSON.stringify(thisApp.id,null,2))
                         //alert("thisApp.card.base_component_id: " + JSON.stringify(thisApp.card.base_component_id,null,2))
+                        console.log(JSON.stringify(mainMoonApp.cards[id - 1],null,2))
+                        if (mainMoonApp.cards[id - 1].card.fn) {
+                            mainMoonApp.cards[id - 1].card.fn()
+                            //alert(1)
+                        }
                         if (thisApp.card.base_component_id) {
                             prepareApp(  thisApp.id,   thisApp.card.base_component_id,   {}  )
                         }
@@ -711,7 +716,31 @@ var mainMoonApp = null
 var defaultCards = [
     {
         name: 'AppShare',
-        html: '<div>Build apps for your intranet</div>'
+        html:
+        `<div>
+            Bring Javascript apps into the workplace
+
+            <div style='margin-top: 30px;'>You write apps in a single Javascript file so it is very simple</div>
+            <div style='margin-top: 30px;'>Works with Javascript, VueJS, AFrame</div>
+            <div style='margin-top: 30px;' id=intro>
+                <game3d>
+
+                </game3d>
+            </div>
+        </div>`,
+        fn: async function() {
+            //zzz
+            callDriverMethod( {driver_name: "game",
+                               method_name: "game_app"}
+                              ,{}
+                        ,
+                        function(result) {
+                            new Vue({
+                              el: "#intro"
+                            })
+                                    })
+
+        }
     }
     ,
     {
