@@ -12,13 +12,13 @@ load_once_from_file(true)
     Vue.component('intro_logo_3d',{
       template: `<div id="app2">
           <a-scene style='width: 80%; height: 20%;' embedded vr-mode-ui="enabled: false">
-              <a-box position="0 1.6 -15" rotation="0 0 0" color="#4CC3D9">
+              <a-box position="1 1.6 -15" rotation="0 0 0" color="#4CC3D9">
                   <a-entity
                        position="2 0 .6"
                        text='color: black; align: left; value: AppShare ; width: 9; opacity:1;'>
                        </a-entity>
                        <a-animation attribute="position"
-												to="0 1.6 -1.5" dur="1000" direction="normal" ></a-animation>
+												to="1 1.6 -1.5" dur="1000" direction="normal" ></a-animation>
               </a-box>
               <a-sky color="#ECECEC"></a-sky>
             </a-scene>

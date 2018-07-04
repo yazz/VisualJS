@@ -445,7 +445,6 @@ div.tilt {
 
 
     <div    id='wrapper'
-            onscroll='onscrolled()'
             onmousedown='onemousedown()'
             onmouseup='onemouseup()'
             onwheel='onemousedown()'     >
@@ -1112,7 +1111,7 @@ var myScroller = null;
 function onscrolled() {
     if (mousedown) {
         autoScroll = false;
-        select_card(-1)
+        //select_card(-1)
         //console.log("onscroll")
     }
 };
