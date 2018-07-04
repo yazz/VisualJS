@@ -84,7 +84,7 @@ function initFn() {
                    "<div v-if='!show_app_only' class='row' style='margin-bottom: 0px;'>"+
                    "            <a class='col-xl-12' style='font-size: 2em;' v-bind:href='item.card.link' v-if='item.card.link'>{{item.card.link_name}}</a>"+
                    ""+
-                   "            <a class='col-xl-12' style='font-size: 2em;' v-bind:href='item.card.html' v-if='item.card.html' v-html='item.card.html'></a>"+
+                   "            <a class='col-xl-12' style='font-size: 2em;'  v-if='item.card.html' v-html='item.card.html'></a>"+
                     ""+
                     "            <div   class='col-xl-12' style='font-size: 2em;' v-on:click='loadContent(item.card.data_id,item.card.name)'"+
                     "                    v-if='item.card.load_content'>Preview</div>"+
@@ -710,11 +710,8 @@ var mainMoonApp = null
 //ccc
 var defaultCards = [
     {
-        name: 'Welcome to AppShare'
-    }
-    ,
-    {
-        name: 'Appshare lets you create apps on your local network'
+        name: 'AppShare',
+        html: '<div>Build apps for your intranet</div>'
     }
     ,
     {
@@ -731,12 +728,6 @@ var defaultCards = [
         name: 'See our website at: ',
         link: 'http://AppShare.co',
         link_name: 'AppShare.co'
-    }
-    ,
-    {
-        name: 'End',
-        link: 'http://' +  location.hostname + ":" + location.port + '/go.html',
-        link_name: 'Go to main menu'
     }
     ,
     {
