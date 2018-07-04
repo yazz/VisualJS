@@ -723,31 +723,27 @@ var defaultCards = [
             <div style='margin-top: 30px;'>You write apps in a single Javascript file so it is very simple</div>
             <div style='margin-top: 30px;'>Works with Javascript, VueJS, AFrame</div>
             <div style='margin-top: 30px;' id=intro>
-                <game3d>
-
-                </game3d>
+                <intro_logo_3d>
+                </intro_logo_3d>
             </div>
         </div>`,
         fn: async function() {
             //zzz
-            callDriverMethod( {driver_name: "game",
-                               method_name: "game_app"}
+            callDriverMethod( {driver_name: "intro_logo_3d",
+                               method_name: "intro_logo_3d"}
                               ,{}
                         ,
                         function(result) {
                             new Vue({
                               el: "#intro"
                             })
-                                    })
+                     })
 
         }
     }
     ,
-    {
-        name: 'You write apps in a single Javascript file so it is very simple',
-        left: false
-    }
-    ,
+
+
     {
         name: 'You can also publish your app in the AppShare store',
         right: false
