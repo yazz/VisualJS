@@ -244,10 +244,15 @@ function initFn() {
                 message_type: "drivers"
                 });
 
-        setInterval(function() {
+           setTimeout(function() {
+                    //setInterval(function() {
 
-
-            if (autoScroll) {
+            //zzz
+            if (!wait_and_select_app) {
+                autoScroll = false
+                select_card(1)
+            }
+            /*if (autoScroll) {
                 if (autoId < mainMoonApp.cards.length) {
                     autoId++
                 } else {
@@ -258,7 +263,7 @@ function initFn() {
                     select_card(autoId);
                 },500)
 
-            }
+            }*/
         },3500)
     },100)
 };
@@ -720,13 +725,36 @@ var defaultCards = [
         `<div>
             A simple way to write Javascript apps for the workplace and for fun.
 
-            <div style='margin-top: 30px;' id=intro>
+            <div style='margin-top: 30px; margin-bottom:70px;' id=intro>
                 <intro_logo_3d>
                 </intro_logo_3d>
             </div>
-        </div>`,
+
+
+
+            <!-- Begin MailChimp Signup Form -->
+            <link href="//cdn-images.mailchimp.com/embedcode/horizontal-slim-10_7.css" rel="stylesheet" type="text/css">
+            <style type="text/css">
+            #mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; width:100%;}
+            /* Add your own MailChimp form style overrides in your site stylesheet or in this style block.
+            We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
+            </style>
+            <div id="mc_embed_signup">
+            <form action="https://zubairquraishi.us7.list-manage.com/subscribe/post?u=46afb6bb668c1280c3e739c54&amp;id=72288e6dc0" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+            <div id="mc_embed_signup_scroll">
+            <label for="mce-EMAIL">Subscribe to our mailing list</label>
+            <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required>
+            <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+            <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_46afb6bb668c1280c3e739c54_72288e6dc0" tabindex="-1" value=""></div>
+            <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+            </div>
+            </form>
+            </div>
+
+            <!--End mc_embed_signup-->
+                    </div>`,
         fn: async function() {
-            //zzz
+
             callDriverMethod( {driver_name: "intro_logo_3d",
                                method_name: "intro_logo_3d"}
                               ,{}
@@ -743,8 +771,7 @@ var defaultCards = [
 
 
     {
-        name: 'You can also publish your app in the AppShare store',
-        right: false
+        name: 'You can also publish your app in the AppShare store'
     }
     ,
     {
@@ -752,36 +779,13 @@ var defaultCards = [
         link: 'http://AppShare.co',
         link_name: 'AppShare.co'
     }
+
     ,
     {
-        name: 'Sign up for more info on AppShare:',
-        html: `<!-- Begin MailChimp Signup Form -->
-<link href="//cdn-images.mailchimp.com/embedcode/horizontal-slim-10_7.css" rel="stylesheet" type="text/css">
-<style type="text/css">
-	#mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; width:100%;}
-	/* Add your own MailChimp form style overrides in your site stylesheet or in this style block.
-	   We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
-</style>
-<div id="mc_embed_signup">
-<form action="https://zubairquraishi.us7.list-manage.com/subscribe/post?u=46afb6bb668c1280c3e739c54&amp;id=72288e6dc0" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-    <div id="mc_embed_signup_scroll">
-	<label for="mce-EMAIL">Subscribe to our mailing list</label>
-	<input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required>
-    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
-    <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_46afb6bb668c1280c3e739c54_72288e6dc0" tabindex="-1" value=""></div>
-    <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
-    </div>
-</form>
-</div>
-
-<!--End mc_embed_signup-->`
+        name: 'Download Appshare for 64 bit Windows',
+        link: 'http://visifile.com/visifile/64/Visifile_Setup.exe',
+        link_name: 'Click here to download then run Visifile_Setup.exe'
     }
-    /*,
-    {
-        name: 'See our previous interface',
-        link: 'http://' +  location.hostname + ":" + location.port + '/index.html',
-        link_name: 'Click here'
-    }*/
 
 ];
 
