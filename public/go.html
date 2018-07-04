@@ -600,7 +600,12 @@ function openContent(  data_id  ) {
 
 
 function add_card(payload) {
-  mainMoonApp.cards.push(payload);
+    var ccy = document.getElementById('wrapper').scrollTop
+    mainMoonApp.cards.push(payload);
+    setTimeout(function() {
+        document.getElementById('wrapper').scrollTop = ccy
+    },100)
+
 }
 
 function update_card(payload) {
