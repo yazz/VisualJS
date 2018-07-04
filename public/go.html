@@ -160,18 +160,6 @@ function initFn() {
         myScroller = zenscroll.createScroller(
             document.getElementById("wrapper"), 1200, 0);
 
-        document.getElementById("wrapper").addEventListener("wheel",
-            function() {
-                autoScroll = false;
-                //console.log("wheel")
-            }
-        );
-        document.getElementById("wrapper").addEventListener("touchmove",
-            function() {
-                autoScroll = false;
-                //console.log("touchmove")
-            }
-        );
 
         //alert(0)
         if (isStaticHtmlPageApp) {
@@ -286,7 +274,7 @@ String.prototype.replaceAll = function(search, replacement) {
   /* We need to limit the height and show a scrollbar */
   width: 100%;
   height: 100%;
-  overflow: auto;
+  overflow-y: scroll;
 
   /* Optional, only to check that it works with margin/padding */
   margin: 0px;
@@ -571,7 +559,7 @@ function copyApp(  id,  baseComponentId ) {
 
 
 
-                    setTimeout(function(){
+                    setTimeout(function() {
                         closeCard()
                         select_card(nid);
                     },1500)
