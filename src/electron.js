@@ -261,7 +261,7 @@ function setUpChildListeners(processName, fileName, debugPort) {
         } else if (msg.message_type == "return_set_connection") {
 
 
-//zzz
+
         } else if (msg.message_type == "save_code") {
 
             forkedProcesses["forked"].send({
@@ -1971,8 +1971,19 @@ function aliveCheckFn() {
 function getRoot(req, res) {
 	hostcount++;
 	console.log("Host: " + req.headers.host + ", " + hostcount);
-	//console.log("URL: " + req.originalUrl);
+	//console.log("Full URL: " + req.protocol + '://' + req.get('host') + req.originalUrl);
+    //zzz
 	if (req.headers.host) {
+        if (req.query.goto) {
+            console.log("*** FOUND goto")
+            res.end(fs.readFileSync(path.join(__dirname, '../public/go.html')));
+            return
+        }
+        if (req.query.embed) {
+            console.log("*** FOUND embed")
+            res.end(fs.readFileSync(path.join(__dirname, '../public/go.html')));
+            return
+        }
 		if (req.headers.host.toLowerCase().endsWith('canlabs.com')) {
 		res.writeHead(301,
 			{Location: 'http://canlabs.com/canlabs'}
