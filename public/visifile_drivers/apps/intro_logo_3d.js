@@ -19,17 +19,20 @@ load_once_from_file(true)
                   <a-mixin id="AileronFont" text="font: /public/aframe_fonts/Aileron-Semibold.fnt"></a-mixin>
               </a-assets>
 
-  <a-entity geometry="primitive: plane; height: 0.2; width: 0.2" position="0 0 -1"
-            material="color: gray; opacity: 0.5"></a-entity>
-                    <a-box position="0 0 -1" rotation="0 0 0" color="#4CC3D9"  >
+<a-entity camera look-controls>
+    <a-entity geometry="primitive: plane; height: 0.2; width: 0.2" position="1 0 -1"
+            material="opacity: 0">
+                    <a-box position="2 10 -10" rotation="0 0 0" color="#4CC3D9"  >
                   <a-entity
                        mixin="RobotoFont"
-                       position="2 0 .6"
+                       position="1 0 .6"
                        text='color: black; align: left; value: AppShare ; width: 9; opacity:1;'>
                        </a-entity>
-                       <a-animation attribute="position"
-												to="1 1.6 -1.5" dur="1000" direction="normal" ></a-animation>
+                   <a-animation attribute="position"
+											to="2 0 -1.5" dur="2000" direction="normal" ></a-animation>
               </a-box>
+               </a-entity>
+               </a-entity>
               <a-sky color="#ECECEC"></a-sky>
             </a-scene>
        </div>
