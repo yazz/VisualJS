@@ -17,12 +17,12 @@ load_once_from_file(true)
                         <img    v-if='item.logo_url'
                                 v-bind:src='item.logo_url'
                                 style='width: 100%;'
-                                v-on:click='document.location="/?goto=" + item.display_name;return false;'
+                                v-on:click='document.location="/?goto=" + item.display_name + "&time=" + new Date().getTime();return false;'
                                 ></img>
                           <div class="card-body">
                             <h4 class="card-title">{{item.display_name}}</h4>
                             <p class="card-text"></p>
-                            <a v-bind:href='"/?goto=" + item.display_name' class="btn btn-primary">Run</a>
+                            <a v-bind:href='"/?goto=" + item.display_name + "&time=" + new Date().getTime()' class="btn btn-primary">Run</a>
                           </div>
                         </div>
                         </div>
