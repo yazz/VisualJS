@@ -8,7 +8,7 @@ load_once_from_file(true)
             dbsearch.serialize(
                 function() {
                     dbsearch.all(
-                        "SELECT display_name FROM system_code where component_type = 'app' and code_tag = 'LATEST' ; "
+                        "SELECT  display_name, logo_url  FROM system_code where component_type = 'app' and code_tag = 'LATEST' ; "
                         ,
 
                         function(err, results)
@@ -17,7 +17,7 @@ load_once_from_file(true)
                             var list = [
                             ]
                             for (var tt = 0; tt < results.length ; tt ++) {
-                                list.push(results[tt].display_name)
+                                list.push(results[tt])
                             }
                             //console.log("*) list: " + JSON.stringify(list,null,2));
                             resolve(list)

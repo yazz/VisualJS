@@ -14,10 +14,13 @@ load_once_from_file(true)
           template: `<div >
                        <div class="card-columns">
                         <div class="card" style="width: 20rem;" v-for="item in apps">
+                        <img    v-if='item.logo_url'
+                                v-bind:src='item.logo_url'
+                                style='width: 100%;'></img>
                           <div class="card-body">
-                            <h4 class="card-title">{{item}}</h4>
+                            <h4 class="card-title">{{item.display_name}}</h4>
                             <p class="card-text"></p>
-                            <a v-bind:href='"http://139.162.228.5/?goto=" + item' class="btn btn-primary">Run</a>
+                            <a v-bind:href='"http://139.162.228.5/?goto=" + item.display_name' class="btn btn-primary">Run</a>
                           </div>
                         </div>
                         </div>

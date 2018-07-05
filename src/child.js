@@ -3959,7 +3959,7 @@ function saveCodeV2( baseComponentId, parentHash, code ) {
 
                             var displayName = saveHelper.getValueOfCodeString(code,"display_name")
 
-
+                            var logoUrl = saveHelper.getValueOfCodeString(code,"logo_url")
 
 
 
@@ -3994,7 +3994,7 @@ function saveCodeV2( baseComponentId, parentHash, code ) {
                             //console.log("Saving in Sqlite: " + parentHash)
                             //console.log("Saving in Sqlite: " + code)
                             var stmtInsertNewCode = dbsearch.prepare(
-                                " insert into   system_code  (id, parent_id, code_tag, code,on_condition, base_component_id, method, max_processes,component_type,display_name, creation_timestamp,component_options) values (?,?,?,?,?,?,?,?,?,?,?,?)");
+                                " insert into   system_code  (id, parent_id, code_tag, code,on_condition, base_component_id, method, max_processes,component_type,display_name, creation_timestamp,component_options, logo_url ) values (?,?,?,?,?,?,?,?,?,?,?,?,?)");
                             var stmtDeprecateOldCode = dbsearch.prepare(
                                 " update system_code  set code_tag = NULL where base_component_id = ? and id != ?");
 
@@ -4012,7 +4012,8 @@ function saveCodeV2( baseComponentId, parentHash, code ) {
                                       componentType,
                                       displayName,
                                       creationTimestamp,
-                                      componentOptions
+                                      componentOptions,
+                                      logoUrl
                                       )
                                 stmtDeprecateOldCode.run(
                                     baseComponentId,
