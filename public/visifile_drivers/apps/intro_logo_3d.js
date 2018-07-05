@@ -1,7 +1,7 @@
 function intro_logo_3d(args) {
 /*
 created_timestamp(-1)
-base_component_id("into_logo_3d")
+base_component_id("intro_logo_3d")
 is_app(true)
 display_name("Intro Logo 3D")
 description('Intro logo app, this will return a spinning logo')
@@ -19,7 +19,9 @@ load_once_from_file(true)
                   <a-mixin id="AileronFont" text="font: /public/aframe_fonts/Aileron-Semibold.fnt"></a-mixin>
               </a-assets>
 
-                    <a-box position="1 1.6 -15" rotation="0 0 0" color="#4CC3D9">
+  <a-entity geometry="primitive: plane; height: 0.2; width: 0.2" position="0 0 -1"
+            material="color: gray; opacity: 0.5"></a-entity>
+                    <a-box position="0 0 -1" rotation="0 0 0" color="#4CC3D9"  >
                   <a-entity
                        mixin="RobotoFont"
                        position="2 0 .6"
