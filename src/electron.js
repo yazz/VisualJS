@@ -1982,28 +1982,28 @@ function getRoot(req, res) {
 		};
 		if (req.headers.host.toLowerCase().endsWith('gosharedata.com')) {
 		res.writeHead(301,
-			{Location: 'http://appshare.co/go.html?time=' + new Date().getTime()}
+			{Location: 'http://appshare.co/visifile/index.html?time=' + new Date().getTime()}
 			);
 			res.end();
 			return;
 		};
 		if (req.headers.host.toLowerCase().endsWith('visifile.com')) {
 		res.writeHead(301,
-			{Location: 'http://appshare.co/go.html?time=' + new Date().getTime()}
+			{Location: 'http://appshare.co/visifile/index.html?time=' + new Date().getTime()}
 			);
 			res.end();
 			return;
 		};
 		if (req.headers.host.toLowerCase().endsWith('visifiles.com')) {
 		res.writeHead(301,
-			{Location: 'http://appshare.co/go.html?time=' + new Date().getTime()}
+			{Location: 'http://appshare.co/visifile/index.html?time=' + new Date().getTime()}
 			);
 			res.end();
 			return;
 		};
         if (req.headers.host.toLowerCase().endsWith('appshare.co')) {
 		res.writeHead(301,
-			{Location: 'http://appshare.co/go.html?time=' + new Date().getTime()}
+			{Location: 'http://appshare.co/visifile/index.html?time=' + new Date().getTime()}
 			);
 			res.end();
 			return;
