@@ -12,8 +12,16 @@ load_once_from_file(true)
     Vue.component('intro_logo_3d',{
       template: `<div id="app2">
           <a-scene style='width: 80%; height: 20%;' embedded vr-mode-ui="enabled: false">
-              <a-box position="1 1.6 -15" rotation="0 0 0" color="#4CC3D9">
+
+              <a-assets>
+                  <a-mixin id="RobotoFont" text="font: /public/aframe_fonts/Roboto-msdf.json"></a-mixin>
+                  <a-mixin id="SourceCodeProFont" text="font: /public/aframe_fonts/SourceCodePro.fnt"></a-mixin>
+                  <a-mixin id="AileronFont" text="font: /public/aframe_fonts/Aileron-Semibold.fnt"></a-mixin>
+              </a-assets>
+
+                    <a-box position="1 1.6 -15" rotation="0 0 0" color="#4CC3D9">
                   <a-entity
+                       mixin="RobotoFont"
                        position="2 0 .6"
                        text='color: black; align: left; value: AppShare ; width: 9; opacity:1;'>
                        </a-entity>
