@@ -61,7 +61,7 @@ function initFn() {
           }
           ,
 
-          template: "<div v-bind:id='element_id' style='margin-left: auto; margin-right: auto;height:90%; overflow-y:scroll;' v-on:click='click_card(item.id)' v-bind:class='card_selected?\"polaroid container\":\"polaroid tilt container\"' >"+
+          template: "<div v-bind:id='element_id' style='position: relative; margin-left: auto; margin-right: auto;height:90%; overflow-y:scroll;' v-on:click='click_card(item.id)' v-bind:class='card_selected?\"polaroid container\":\"polaroid tilt container\"' >"+
           "                <button  v-if='!show_app_only' type=button  class='btn btn-primary btn-lg btn-block' v-on:click='closeCard()' >Close</button>"+
           "<div " +
 		               " v-bind:style=\"'; padding-bottom:2vw;padding-top:2vw; font-family: Helvetica ;  width: 100% ;visibility: ' + (visible?'':'hidden') + ';' \">"+
@@ -103,7 +103,11 @@ function initFn() {
 ""+
 "            <div style='height: 2em;'></div>"+
 ""+
-"            </div></div>"})
+
+
+"</div>"+
+"                <button  style='position: relative; bottom: 0%;' v-if='!show_app_only' type=button  class='btn btn-primary btn-lg btn-block' v-on:click='select_card(item.id + 1)' >Next</button>"+
+"            </div>"})
 
 
         mainMoonApp = new Vue({
@@ -201,7 +205,9 @@ function initFn() {
             mainMoonApp.show_loader = true
             mainMoonApp.show_app_only = true
         } else {
-            select_card(autoId)
+            setTimeout(function() {
+                    select_card(1)
+                },200)
             //alert(autoId)
         }
 
@@ -1167,6 +1173,7 @@ function closeCard() {
         select_card(-1)
     },200)
 }
+
 
 
 
