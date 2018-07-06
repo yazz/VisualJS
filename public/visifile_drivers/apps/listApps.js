@@ -1,4 +1,4 @@
-function(args) {
+function listApps(args) {
 /*
 created_timestamp(-1)
 base_component_id("listApps")
@@ -8,7 +8,7 @@ description('App to list all the apps')
 load_once_from_file(true)
 */
 
-    Vue.component('listApps',{
+    Vue.component('list_apps',{
 
 
           template: `<div >
@@ -48,5 +48,5 @@ load_once_from_file(true)
     })
 
 
-    return {name: "listApps"}
+    return {name: "list_apps"}
 }

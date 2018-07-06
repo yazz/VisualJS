@@ -713,10 +713,19 @@ var mainMoonApp = null
 //ccc
 var defaultCards = [
     {
-        name: 'AppShare',
         html:
         `<div>
-            EJS - Enterprise JavaScript lets you build powerful Enterprise applications easily
+        <h1><b>AppShare</b> - A simple App Store for the enterprise</h1>
+
+        <ul>
+            <li>Build apps on your enterprise data</li>
+            <li>Works on web or Windows</li>
+            <li>Uses industry standard Javascript</li>
+            <li>With help from Vue.js, A-Frame, Bootstrap 4</li>
+        </ul>
+
+
+
 
             <div style='margin-top: 30px; margin-bottom:70px;' id=intro>
                 <intro_logo_3d>
@@ -764,7 +773,30 @@ var defaultCards = [
 
 
     {
-        name: 'You can also publish your app in the AppShare store'
+        html:
+        `<div>
+        <h1>You can also publish your app in the AppShare store</h1>
+            <div style='margin-top: 30px; margin-bottom:70px;' id='app_store'>
+                <list_apps>
+                </list_apps>
+                <intro_logo_3d>
+                </intro_logo_3d>
+            </div>
+        </div>`
+        ,
+        fn: async function() {
+
+        callDriverMethod( {driver_name: "listApps",
+                           method_name: "listApps"}
+                          ,{}
+                    ,
+                    function(result) {
+                        new Vue({
+                          el: "#app_store"
+                        })
+                 })
+
+        }
     }
     ,
     {
