@@ -1,7 +1,7 @@
-# AppShare (formerly VisiFile)
-A simple App Store for the web. Build the apps with Javascript. There is demo here :
+# AppShare
+A simple App Store for the web and Windows. Build the apps with Javascript. There is demo here :
 
-http://139.162.228.5/
+http://appshare.co/go.html
 
 
 : Made with :
@@ -40,17 +40,14 @@ Command line options :
     npm install
 ##### 6) Install SQlite3 for Electron
     sudo npm install sqlite3 --build-from-source --runtime=electron --target=1.8.4 --dist-url=https://atom.io/download/electron (this step may not be needed on some platforms)
-##### 7) Run the NodeJS NPM fixer
-    sudo npm audit fix (this step may not be needed on some platforms)
-##### 8) Run the AppShare Electron application
+##### 7) Run the AppShare Electron application
     electron .
 
 
 
 ### What is AppShare's killer feature?
 
-AppShare's killer feature is being able to test ideas fast.
-
+AppShare's killer feature is being able to build simple internal apps fast.
 
 ### Is there commercial support for AppShare?
 If you require commercial support then please go to http://appshare.co
