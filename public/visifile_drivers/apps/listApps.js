@@ -2,7 +2,6 @@ function listApps(args) {
 /*
 created_timestamp(-1)
 base_component_id("listApps")
-is_app(true)
 display_name("App Store")
 description('App to list all the apps')
 load_once_from_file(true)
