@@ -757,51 +757,21 @@ var defaultCards = [
             <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
             </div>
             </form>
+            <h1>You can also publish your app in the AppShare store</h1>
+                <div style='margin-top: 30px; margin-bottom:70px;' id='app_store'>
+                    <list_apps>
+                    </list_apps>
+                </div>
             </div>
 
             <!--End mc_embed_signup-->
                     </div>`,
         fn: async function() {
 
-            callDriverMethod( {driver_name: "intro_logo_3d",
-                               method_name: "intro_logo_3d"}
-                              ,{}
-                        ,
-                        function(result) {
-                            new Vue({
-                              el: "#intro"
-                            })
-                     })
-
-        }
-    }
-    ,
-
-
-    {
-        html:
-        `<div>
-        <h1>You can also publish your app in the AppShare store</h1>
-            <div style='margin-top: 30px; margin-bottom:70px;' id='app_store'>
-                <list_apps>
-                </list_apps>
-                <intro_logo_3d>
-                </intro_logo_3d>
-            </div>
-        </div>`
-        ,
-        fn: async function() {
-
-        callDriverMethod( {driver_name: "listApps",
-                           method_name: "listApps"}
-                          ,{}
-                    ,
-                    function(result) {
-                        new Vue({
-                          el: "#app_store"
-                        })
-                 })
-
+            await callApp( { driver_name: "intro_logo_3d",  method_name: "intro_logo_3d"} ,{})
+            new Vue({el: "#intro"})
+            await callApp( {driver_name: "listApps", method_name: "listApps"},{})
+            new Vue({el: "#app_store"})
         }
     }
     ,
