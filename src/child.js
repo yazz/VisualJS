@@ -3894,6 +3894,7 @@ function shutdownExeProcess(err) {
 
 
 
+var babel = require("babel-core")
 var saveHelper = require('./save_helpers')
 
 var esprima = require('esprima');
@@ -4045,6 +4046,28 @@ function saveCodeV2( baseComponentId, parentHash, code ) {
                                     var newStaticFileContent = fs.readFileSync( origFilePath )
 
                                     newStaticFileContent = newStaticFileContent.toString().replace("var isStaticHtmlPageApp = false", "var isStaticHtmlPageApp = true")
+
+                                    var tr = babel.transform("(" + code + ")", {plugins: [path.join(__dirname, "../node_modules/babel-plugin-transform-es2015-template-literals")]})
+
+
+                                    var newCode =  `cachedCode["${sha1sum}"] = {
+                                      "type": "ws_to_browser_callDriverMethod_results",
+                                      "value": {
+                                        "code": \`${tr.code}\`,
+                                        "is_code_result": true,
+                                        "libs": [],
+                                        "code_id": "${sha1sum}",
+                                        "on_condition": "\\\"app\\\"",
+                                        "base_component_id": "${baseComponentId}"
+                                      },
+                                      "seq_num": 0
+                                    }
+
+                                        finderToCachedCodeMapping["${baseComponentId}"] = "${sha1sum}"`
+
+                                    newStaticFileContent = newStaticFileContent.toString().replace("//***ADD_STATIC_CODE", newCode)
+
+
 
                                     fs.writeFile( newStaticFilePath,  newStaticFileContent )
 
