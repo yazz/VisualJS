@@ -4044,6 +4044,8 @@ function saveCodeV2( baseComponentId, parentHash, code ) {
 
                                     var newStaticFileContent = fs.readFileSync( origFilePath )
 
+                                    newStaticFileContent = newStaticFileContent.toString().replace("var isStaticHtmlPageApp = false", "var isStaticHtmlPageApp = true")
+
                                     fs.writeFile( newStaticFilePath,  newStaticFileContent )
 
                                 });
