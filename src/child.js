@@ -4037,7 +4037,16 @@ function saveCodeV2( baseComponentId, parentHash, code ) {
                                       }
                                  }
 
-                                dbsearch.run("commit");
+                                dbsearch.run("commit", function() {
+                                    //zzz
+                                    var origFilePath = path.join(__dirname, '../public/go.html')
+                                    var newStaticFilePath = path.join( userData, 'apps/' + baseComponentId + '.html' )
+
+                                    var newStaticFileContent = fs.readFileSync( origFilePath )
+
+                                    fs.writeFile( newStaticFilePath,  newStaticFileContent )
+
+                                });
                                 stmtInsertNewCode.finalize();
                                 stmtDeprecateOldCode.finalize();
 
