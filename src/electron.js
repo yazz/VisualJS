@@ -1973,7 +1973,7 @@ function getRoot(req, res) {
 	hostcount++;
 	console.log("Host: " + req.headers.host + ", " + hostcount);
 	//console.log("Full URL: " + req.protocol + '://' + req.get('host') + req.originalUrl);
-    //zzz
+
 	if (req.headers.host) {
         if (req.query.goto) {
             console.log("*** FOUND goto")
@@ -2707,7 +2707,25 @@ function add_new_queryFn(req, res) {
 // This starts all the system services
 //------------------------------------------------------------
 function startServices() {
-    app.use(cors())
+    app.use(cors({ origin: '*' }));
+    app.use(function (req, res, next) {
+
+        // Website you wish to allow to connect
+        res.header('Access-Control-Allow-Origin', '*');
+
+        // Request methods you wish to allow
+        res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+        // Request headers you wish to allow
+        res.header('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+
+        // Set to true if you need the website to include cookies in the requests sent
+        // to the API (e.g. in case you use sessions)
+        res.setHeader('Access-Control-Allow-Credentials', false);
+
+        // Pass to next layer of middleware
+        next();
+    });
 
     //------------------------------------------------------------------------------
     // Show the default page for the different domains
@@ -3186,8 +3204,9 @@ function startServices() {
     //------------------------------------------------------------------------------
     // start the web server
     //------------------------------------------------------------------------------
+    //zzz
     httpServer = http.createServer(app)
-    socket = require('socket.io')(httpServer, { origins: '*:*'});
+    socket = require('socket.io')
     httpServer.listen(port, hostaddress, function () {
     	console.log(typeOfSystem + ' started on port ' + port + ' with local folder at ' + process.cwd() + ' and __dirname = ' + __dirname+ "\n");
         console.log("****HOST=" + hostaddress + "HOST****\n");
@@ -3196,7 +3215,12 @@ function startServices() {
         console.log("Started on:");
         console.log("http://" + hostaddress + ':' + port);
 
-        io = socket.listen(httpServer);
+        io = socket.listen(httpServer, {
+            log: false,
+            agent: false,
+            origins: '*:*',
+            transports: ['websocket', 'htmlfile', 'xhr-polling', 'jsonp-polling', 'polling']
+        });
 
         io.on('connection', function (sck) {
             var connt = JSON.stringify(sck.conn.transport,null,2);
