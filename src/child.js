@@ -4039,7 +4039,7 @@ function saveCodeV2( baseComponentId, parentHash, code ) {
                                  }
 
                                 dbsearch.run("commit", function() {
-                                    //zzz
+
                                     var origFilePath = path.join(__dirname, '../public/go.html')
                                     var newStaticFilePath = path.join( userData, 'apps/' + baseComponentId + '.html' )
 
@@ -4049,11 +4049,14 @@ function saveCodeV2( baseComponentId, parentHash, code ) {
 
                                     var tr = babel.transform("(" + code + ")", {plugins: [path.join(__dirname, "../node_modules/babel-plugin-transform-es2015-template-literals")]})
 
+                                    var newcode = "(" + code.toString().replace(/\`/g,"\\\`") + ")" 
+                                    //zzz
+
 
                                     var newCode =  `cachedCode["${sha1sum}"] = {
                                       "type": "ws_to_browser_callDriverMethod_results",
                                       "value": {
-                                        "code": \`${tr.code}\`,
+                                        "code": \`${newcode}\`,
                                         "is_code_result": true,
                                         "libs": [],
                                         "code_id": "${sha1sum}",
