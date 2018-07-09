@@ -21,7 +21,7 @@ const notifier = require('node-notifier');
 var isRaspberryPi = isPiModule();
 console.log('...');
 
-var socket          = require('socket.io');
+
 var fs              = require('fs');
 var mkdirp          = require('mkdirp')
 var rmdir           = require('rmdir-sync');
@@ -77,7 +77,7 @@ var f = 0
 var started = false
 
 var visifile
-
+var socket          = null
 
 
 var io = null;
@@ -3187,6 +3187,7 @@ function startServices() {
     // start the web server
     //------------------------------------------------------------------------------
     httpServer = http.createServer(app)
+    socket = require('socket.io')(httpServer, { origins: '*:*'});
     httpServer.listen(port, hostaddress, function () {
     	console.log(typeOfSystem + ' started on port ' + port + ' with local folder at ' + process.cwd() + ' and __dirname = ' + __dirname+ "\n");
         console.log("****HOST=" + hostaddress + "HOST****\n");
