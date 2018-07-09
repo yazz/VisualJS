@@ -171,10 +171,9 @@ function initFn() {
                         id: nid,
                         card: {
                             id:                 nid,
-                            name:               "Vue",
-                            base_component_id:  "vue",
-                            code_id:            "3dfb096695d5fab2b1d4362d636fbb860e744ab8",
-                            display_name:       "Vue",
+                            base_component_id:  "***STATIC_BASE_COMPONENT_ID***",
+                            code_id:            "***STATIC_BASE_COMPONENT_ID***",
+                            display_name:       "***STATIC_NAME***",
                             type:               "app"
                         }});
             mainMoonApp.show_loader = false
@@ -795,19 +794,6 @@ var finderToCachedCodeMapping = new Object()
 
 populateCache()
 function populateCache() {
-    cachedCode["3dfb096695d5fab2b1d4362d636fbb860e744ab8"] = {
-  "type": "ws_to_browser_callDriverMethod_results",
-  "value": {
-    "code": "(async function (args) {\n    /*\n    base_component_id(\"vue\")\n    created_timestamp(1530299587939)\n    is_app(true)\n    display_name(\"VueJS test App\")\n    description(\"This will return the Vue test app\")\n    */\n    var promise = new Promise(result => {\n        setTimeout(function () {\n            //alert(1)\n            result(\"Promise fulfilled...\");\n\n            var ww = Vue.component(\"VueApp\", {\n                template: \"<div>Vue test app:\\n               <div>{{value}}</div>\\n             </div>\\n              \",\n                data: function () {\n                    return {\n                        value: \"waiting for promise...\"\n                    };\n                },\n                mounted: async function () {\n                    var ww = this;\n\n                    ww.value = \"DONE\";\n                }\n\n            });\n        }, 200);\n    });\n    var ret = await promise;\n\n    return { name: \"VueApp\" };\n});",
-    "is_code_result": true,
-    "libs": [],
-    "code_id": "bb984f75c524aa36da7249899e141dfd47ac63b0",
-    "on_condition": "\"app\"",
-    "base_component_id": "vue"
-  },
-  "seq_num": 0
-}
-    finderToCachedCodeMapping["vue"] = "3dfb096695d5fab2b1d4362d636fbb860e744ab8"
 
 
 

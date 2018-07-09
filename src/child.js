@@ -4040,43 +4040,53 @@ function saveCodeV2( baseComponentId, parentHash, code ) {
 
                                 dbsearch.run("commit", function() {
 
-                                    var origFilePath = path.join(__dirname, '../public/go.html')
-                                    var newStaticFilePath = path.join( userData, 'apps/' + baseComponentId + '.html' )
-
-                                    var newStaticFileContent = fs.readFileSync( origFilePath )
-
-                                    newStaticFileContent = newStaticFileContent.toString().replace("var isStaticHtmlPageApp = false", "var isStaticHtmlPageApp = true")
-
-                                    var tr = babel.transform("(" + code + ")", {plugins: [path.join(__dirname, "../node_modules/babel-plugin-transform-es2015-template-literals")]})
-
-                                    var newcode = "(" + code.toString().replace(/\`/g,"\\\`") + ")" 
-                                    //zzz
-
-
-                                    var newCode =  `cachedCode["${sha1sum}"] = {
-                                      "type": "ws_to_browser_callDriverMethod_results",
-                                      "value": {
-                                        "code": \`${newcode}\`,
-                                        "is_code_result": true,
-                                        "libs": [],
-                                        "code_id": "${sha1sum}",
-                                        "on_condition": "\\\"app\\\"",
-                                        "base_component_id": "${baseComponentId}"
-                                      },
-                                      "seq_num": 0
-                                    }
-
-                                        finderToCachedCodeMapping["${baseComponentId}"] = "${sha1sum}"`
-
-                                    newStaticFileContent = newStaticFileContent.toString().replace("//***ADD_STATIC_CODE", newCode)
-
-
-
-                                    fs.writeFile( newStaticFilePath,  newStaticFileContent )
 
                                 });
                                 stmtInsertNewCode.finalize();
                                 stmtDeprecateOldCode.finalize();
+
+                                var origFilePath = path.join(__dirname, '../public/go.html')
+                                var newStaticFilePath = path.join( userData, 'apps/' + baseComponentId + '.html' )
+
+                                var newStaticFileContent = fs.readFileSync( origFilePath )
+
+                                newStaticFileContent = newStaticFileContent.toString().replace("var isStaticHtmlPageApp = false", "var isStaticHtmlPageApp = true")
+
+                                var tr = babel.transform("(" + code + ")", {plugins: [path.join(__dirname, "../node_modules/babel-plugin-transform-es2015-template-literals")]})
+
+                                var newcode = "(" + code.toString().replace(/\`/g,"\\\`") + ")"
+                                //zzz
+
+                                newStaticFileContent = newStaticFileContent.toString().replace("***STATIC_NAME***",displayName)
+                                newStaticFileContent = newStaticFileContent.toString().replace("***STATIC_NAME***",displayName)
+                                newStaticFileContent = newStaticFileContent.toString().replace("***STATIC_BASE_COMPONENT_ID***",baseComponentId)
+                                newStaticFileContent = newStaticFileContent.toString().replace("***STATIC_BASE_COMPONENT_ID***",baseComponentId)
+                                newStaticFileContent = newStaticFileContent.toString().replace("***STATIC_CODE_ID***",sha1sum)
+                                newStaticFileContent = newStaticFileContent.toString().replace("***STATIC_CODE_ID***",sha1sum)
+
+
+
+
+                                var newCode =  `cachedCode["${sha1sum}"] = {
+                                  "type": "ws_to_browser_callDriverMethod_results",
+                                  "value": {
+                                    "code": \`${newcode}\`,
+                                    "is_code_result": true,
+                                    "libs": [],
+                                    "code_id": "${sha1sum}",
+                                    "on_condition": "\\\"app\\\"",
+                                    "base_component_id": "${baseComponentId}"
+                                  },
+                                  "seq_num": 0
+                                }
+
+                                    finderToCachedCodeMapping["${baseComponentId}"] = "${sha1sum}"`
+
+                                newStaticFileContent = newStaticFileContent.toString().replace("//***ADD_STATIC_CODE", newCode)
+
+
+
+                                fs.writeFile( newStaticFilePath,  newStaticFileContent )
 
                             })
                             } catch(err) {
