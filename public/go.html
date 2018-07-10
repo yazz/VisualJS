@@ -42,8 +42,10 @@ key:"_addFormElementData",value:function(a){if("FORM"===this.element.tagName)for
 </script>
 
 
-
 <script>
+var useHostname = null
+var usePort = null
+
 function initFn() {
     setTimeout(function(){
 
@@ -185,8 +187,16 @@ function initFn() {
             refresh();
         }
 
-
-        setupWebSocket(location.hostname,  location.port);
+//zzz
+        if (isStaticHtmlPageApp) {
+            useHostname = "***location.hostname***"
+            usePort = -1
+        } else {
+            useHostname = location.hostname
+            usePort = location.port
+        }
+        setupWebSocket(useHostname,  usePort);
+        //alert(useHostname + ":" +  usePort)
 
         var regex = /[?&]([^=#]+)=([^&#]*)/g,
             url = window.location.href,
@@ -605,7 +615,7 @@ function openContent(  data_id  ) {
 
 
 function add_card(payload) {
-    //zzz
+
     var ccy = document.getElementById('wrapper').scrollTop
     mainMoonApp.cards.push(payload);
     setTimeout(function() {
@@ -1052,7 +1062,7 @@ function checkLibs(data){
             if ( data.value.libs[tt].dependency_name == "aframe" ) {
 
                 scriptTag(
-                    "http://" +  location.hostname + ":" + location.port + "/js_libs/aframe.min.js"
+                    "http://" +  useHostname + ":" + usePort + "/js_libs/aframe.min.js"
                     ,
                     function() {
                         callCode(data)

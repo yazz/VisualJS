@@ -1476,6 +1476,12 @@ function getPort () {
     })
     httpServer.on('listening', function (err) {
             outputToBrowser('Can connect on ' + ip.address() +  ':' + port + ' :) ')
+            forkedProcesses["forked"].send({         message_type: "host_and_port" ,
+                                                     child_process_name: "forked",
+                                                     ip: hostaddress,
+                                                     port: port
+                                                  });
+
             mainProgram()
     })
 }

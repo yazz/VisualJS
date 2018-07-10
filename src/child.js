@@ -1913,7 +1913,8 @@ function getProperty(record,propName) {
     return amiga
 }
 
-
+var hostaddress = null
+var port = null
 
 
 //-----------------------------------------------------------------------------------------//
@@ -1999,11 +2000,18 @@ function processMessagesFromMainProcess() {
     } else if (msg.message_type == 'greeting') {
         console.log("**** greeting");
 
+    } else if (msg.message_type == 'host_and_port') {
+
+        hostaddress         = msg.ip
+        port                = msg.port
+
+
 
     } else if (msg.message_type == 'init') {
 
         userData            = msg.user_data_path
         childProcessName    = msg.child_process_name
+
 
         ////console.log("Child recieved user data path: " + userData)
         var dbPath = path.join(userData, username + '.visi')
@@ -4055,7 +4063,7 @@ function saveCodeV2( baseComponentId, parentHash, code ) {
                                 var tr = babel.transform("(" + code + ")", {plugins: [path.join(__dirname, "../node_modules/babel-plugin-transform-es2015-template-literals")]})
 
                                 var newcode = "(" + code.toString().replace(/\`/g,"\\\`") + ")"
-                                //zzz
+
 
                                 newStaticFileContent = newStaticFileContent.toString().replace("***STATIC_NAME***",displayName)
                                 newStaticFileContent = newStaticFileContent.toString().replace("***STATIC_NAME***",displayName)
@@ -4083,6 +4091,9 @@ function saveCodeV2( baseComponentId, parentHash, code ) {
                                     finderToCachedCodeMapping["${baseComponentId}"] = "${sha1sum}"`
 
                                 newStaticFileContent = newStaticFileContent.toString().replace("//***ADD_STATIC_CODE", newCode)
+                                //zzz
+                                newStaticFileContent = newStaticFileContent.toString().replace("***location.hostname***", hostaddress )
+                                newStaticFileContent = newStaticFileContent.toString().replace("usePort = -1", "usePort = " + port)
 
 
 
