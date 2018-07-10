@@ -4032,6 +4032,7 @@ function saveCodeV2( baseComponentId, parentHash, code ) {
 
                                 stmtDeleteDependencies.run(sha1sum)
 
+                                var scriptCode = ""
                                 var jsLibs = saveHelper.getValueOfCodeString(code, "uses_javascript_librararies")
                                 if (jsLibs) {
                                       console.log(JSON.stringify(jsLibs,null,2))
@@ -4042,6 +4043,11 @@ function saveCodeV2( baseComponentId, parentHash, code ) {
                                               "js_browser_lib",
                                               jsLibs[tt],
                                               "latest")
+
+                                          if ( jsLibs[tt] == "aframe" ) {
+                                            scriptCode += fs.readFileSync( path.join(__dirname, '../public/js_libs/aframe.min.js') )
+                                          }
+
 
                                       }
                                  }
@@ -4095,7 +4101,7 @@ function saveCodeV2( baseComponentId, parentHash, code ) {
                                 newStaticFileContent = newStaticFileContent.toString().replace("***location.hostname***", hostaddress )
                                 newStaticFileContent = newStaticFileContent.toString().replace("usePort = -1", "usePort = " + port)
 
-
+                                newStaticFileContent = newStaticFileContent.toString().replace("//***ADD_SCRIPT", scriptCode)
 
                                 fs.writeFile( newStaticFilePath,  newStaticFileContent )
 
