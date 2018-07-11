@@ -1,9 +1,9 @@
 async function(args) {
 /*
 is_app(true)
-display_name("Editor App")
+display_name("Embed an app in your site")
 description("This will return the editor app")
-base_component_id("appEditorV2")
+base_component_id("appEmbed")
 hide_header(true)
 load_once_from_file(true)
 */
@@ -15,7 +15,7 @@ load_once_from_file(true)
       template: `<div>
                     <div>
                         <h2  class='caption' style='display: inline-block;'>Editing {{app_component_name}} </h2>
-                        <div v-if="app_loaded"  class='btn-group' style='float: right;' role=group >
+                        <div class='btn-group' style='float: right;' role=group >
                             <button  type=button class='btn btn-primary'      v-on:click='chooseApp()'  >App</button>
                             <button  type=button class=' btn btn-secondary'   v-on:click='chooseCode()' >Code</button>
                             <button  type=button class=' btn btn-info'        v-on:click='chooseBoth()' >Both</button>
@@ -24,7 +24,7 @@ load_once_from_file(true)
 
 
 
-                  <div v-if="app_loaded" id=editor_id v-bind:style="'height: 100%; width: ' + code_width + '; left: 0px; display: ' + (code_shown?'inline-block':'none') + ';'">
+                  <div id=editor_id v-bind:style="'height: 100%; width: ' + code_width + '; left: 0px; display: ' + (code_shown?'inline-block':'none') + ';'">
                       <component  v-bind:is="editor_component" v-if="editor_loaded" ref="editorComponentRef">
                                       <button v-bind:style="'visibility: ' + ((app_shown && code_shown)?'':'hidden')"
                                               slot-scope="editor_component"
@@ -45,8 +45,8 @@ load_once_from_file(true)
                         APP HERE
                       </component>
 
-                      <div  v-if="!base_component_id">
-                        Sorry, you can't view or edit the AppShare editor without an application to edit
+                      <div  v-if="!app_loaded">
+
 
                       </div>
                 </div>
