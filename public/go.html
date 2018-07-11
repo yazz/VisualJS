@@ -894,35 +894,40 @@ function setupWebSocket(host, port)
 
     socket.on('vf_app_names',function(data) {
         //alert("Browser received apps from server socket: " + JSON.stringify(data.results[0],null,2));
-        for (var i = 0 ; i < data.results.length ; i ++ ) {
-            var nid = nextItem++;
-            add_card({
-                                            id: nid,
-                                            card: {
-                                                id:                 nid,
-                                                name:               data.results[i].display_name,
-                                                base_component_id:  data.results[i].base_component_id,
-                                                code_id:            data.results[i].id,
-                                                display_name:       data.results[i].display_name,
-                                                type:               "app",
-                                                hide_header:        (data.results[i].component_options && data.results[i].component_options.indexOf("HIDE_HEADER" != -1))?true:false
-                                            }});
-            if (wait_and_select_app) {
-                if (data.results[i].display_name) {
-                    //alert(wait_and_select_app + ", " + data.results[i].display_name)
-                    if (data.results[i].display_name.toLowerCase() == wait_and_select_app) {
-                        var cardId = nid
-                        //alert(wait_and_select_app + " : " + data.results[i].base_component_id  )
-                        mainMoonApp.show_loader = false
-                        setTimeout(function() {
-                            select_card(cardId)
-                        },200)
+        if (data) {
+            if (data.results) {
+                for (var i = 0 ; i < data.results.length ; i ++ ) {
+                    var nid = nextItem++;
+                    add_card({
+                                                    id: nid,
+                                                    card: {
+                                                        id:                 nid,
+                                                        name:               data.results[i].display_name,
+                                                        base_component_id:  data.results[i].base_component_id,
+                                                        code_id:            data.results[i].id,
+                                                        display_name:       data.results[i].display_name,
+                                                        type:               "app",
+                                                        hide_header:        (data.results[i].component_options && data.results[i].component_options.indexOf("HIDE_HEADER" != -1))?true:false
+                                                    }});
+                    if (wait_and_select_app) {
+                        if (data.results[i].display_name) {
+                            //alert(wait_and_select_app + ", " + data.results[i].display_name)
+                            if (data.results[i].display_name.toLowerCase() == wait_and_select_app) {
+                                var cardId = nid
+                                //alert(wait_and_select_app + " : " + data.results[i].base_component_id  )
+                                mainMoonApp.show_loader = false
+                                setTimeout(function() {
+                                    select_card(cardId)
+                                },200)
+                            }
+                        }
                     }
-                }
-            }
 
+                }
+                refresh();
+            }
         }
-        refresh();
+
     });
 
 
