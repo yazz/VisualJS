@@ -2741,7 +2741,9 @@ function startServices() {
     	return getRoot(req, res);
     })
 
+    //zzz
     app.use("/files",   express.static(path.join(userData, '/files/')));
+    app.use("/app", express.static(path.join(userData, '/apps/')));
 
     app.use("/public/aframe_fonts", express.static(path.join(__dirname, '../public/aframe_fonts')));
     app.use('/viewer',  express.static(path.join(__dirname, '../node_viewerjs/release')));
@@ -3210,7 +3212,7 @@ function startServices() {
     //------------------------------------------------------------------------------
     // start the web server
     //------------------------------------------------------------------------------
-    //zzz
+
     httpServer = http.createServer(app)
     socket = require('socket.io')
     httpServer.listen(port, hostaddress, function () {
