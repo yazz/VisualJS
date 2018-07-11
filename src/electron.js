@@ -1316,6 +1316,7 @@ else {
             rmdir("uploads");
             mkdirp.sync(path.join(userData,  'uploads'));
             mkdirp.sync(path.join(userData,  'files'));
+            mkdirp.sync(path.join(userData,  'apps'));
 
 
 
