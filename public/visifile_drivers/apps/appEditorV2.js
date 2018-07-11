@@ -21,6 +21,7 @@ load_once_from_file(true)
                             <button  type=button class=' btn btn-info'        v-on:click='chooseBoth()' >Both</button>
                         </div>
                     </div>
+
                     
                     <div  v-if="!base_component_id">
                       Sorry, you can't view or edit the AppShare editor without an application to edit
