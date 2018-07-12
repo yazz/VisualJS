@@ -490,7 +490,8 @@ div.tilt {
     <template v-for="item  in  cards" >
         <div style="width: 100%;" class='perspective'>
                 <card_component :item='item' :visible='true' :element_id='"card_" + item.id'
-                                :full_screen='false' :card_selected='(item.id == selected_card)'>
+                                :full_screen='false'
+                                :is_static='is_static' :card_selected='(item.id == selected_card)'>
                 </card_component>
         </div>
     </template>
