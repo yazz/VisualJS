@@ -15,14 +15,14 @@ load_once_from_file(true)
       template: `<div>
                     <div>
                         <h2  class='caption' style='display: inline-block;'>Editing {{app_component_name}} </h2>
-                        <div class='btn-group' style='float: right;' role=group >
+                        <div class='btn-group' style='float: right; margin-right: 20px;' role=group >
                             <button  type=button class='btn btn-primary'      v-on:click='chooseApp()'  >App</button>
                             <button  type=button class=' btn btn-secondary'   v-on:click='chooseCode()' >Code</button>
                             <button  type=button class=' btn btn-info'        v-on:click='chooseBoth()' >Both</button>
                         </div>
                     </div>
 
-                    
+
                     <div  v-if="!base_component_id">
                       Sorry, you can't view or edit the AppShare editor without an application to edit
 
