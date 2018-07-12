@@ -142,14 +142,15 @@ function initFn() {
 
         // Add 20 items.
         var loadMore = function() {
+            if (!isStaticHtmlPageApp) {
                 for (var i = 0; i < 1; i++) {
                     var nextIndex = nextItem - 1;
                   if (nextItem <= defaultCards.length) {
                       add_card( {id: nextItem++, card: defaultCards[nextIndex]});
                       refresh();
                   }
-
                 }
+            }
         }
 
         listElm.addEventListener('scroll', function(event)
