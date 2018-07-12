@@ -42,9 +42,7 @@ load_once_from_file(true)
                         Or directly link to the app with:
 
                         <br><br>
-                        <code>
-                            {{embed_code}}
-                        </code>
+                        <a v-bind:href='embed_code'>{{embed_code}}</a>
 
                         <br><br>
 
