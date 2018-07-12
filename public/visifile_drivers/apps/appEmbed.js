@@ -20,34 +20,36 @@ load_once_from_file(true)
                         A component must be selected to embed
 
                     </div>
-                    Copy and paste the following code into your webpage to embed this widget:
 
-                    <br><br>
+                    <div v-if="base_component_id">
+                        Copy and paste the following code into your webpage to embed this widget:
 
-                    <code>
-                        &lt;iframe width="600"
-                                height="500"
-                                src="{{embed_code}}"
-                                scrolling="no"
-                                marginheight="0"
-                                marginwidth="0"&gt;&lt;/iframe&gt;
-                    </code>
+                        <br><br>
 
-                    <br><br>
-                    <br><br>
+                        <code>
+                            &lt;iframe width="600"
+                                    height="500"
+                                    src="{{embed_code}}"
+                                    scrolling="no"
+                                    marginheight="0"
+                                    marginwidth="0"&gt;&lt;/iframe&gt;
+                        </code>
+
+                        <br><br>
+                        <br><br>
 
 
-                    Or directly link to the app with:
+                        Or directly link to the app with:
 
-                    <br><br>
-                    <code>
-                        {{embed_code}}
-                    </code>
+                        <br><br>
+                        <code>
+                            {{embed_code}}
+                        </code>
 
-                    <br><br>
+                        <br><br>
 
-                    From this link you can select "Save As ..." and download and run the application on your PC
-
+                        From this link you can select "Save As ..." and download and run the application on your PC
+                    </div>
       </div>
        `
        ,

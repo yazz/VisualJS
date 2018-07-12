@@ -68,12 +68,12 @@ function initFn() {
           ,
 
           template: "<div v-bind:id='element_id' style='position: relative; margin-left: auto; margin-right: auto;height:90%; overflow-y:scroll;' v-on:click='click_card(item.id)' v-bind:class='card_selected?\"polaroid container\":\"polaroid tilt container\"' >"+
-          "                <button  v-if='!show_app_only' type=button  class='btn btn-primary btn-lg btn-block' v-on:click='closeCard()'              style='width: 49%; display: inline-block;margin: 0' >Close</button>"+
-          "                <button  v-if='!show_app_only' type=button  class='btn btn-primary btn-lg btn-block' v-on:click='select_card(item.id + 1)' style='width: 49%; display: inline-block;margin: 0'>Next</button>"+
+          "                <button  v-if='!show_app_only' type=button  class='btn btn-danger btn-lg btn-block' v-on:click='closeCard()'              style='width: 49%; display: inline-block;margin: 0' >Close</button>"+
+          "                <button  v-if='!show_app_only' type=button  class='btn btn-info btn-lg btn-block' v-on:click='select_card(item.id + 1)' style='width: 49%; display: inline-block;margin: 0'>Next</button>"+
           "<div " +
 		               " v-bind:style=\"'; padding-bottom:2vw;padding-top:2vw; font-family: Helvetica ;  width: 100% ;visibility: ' + (visible?'':'hidden') + ';' \">"+
 
-                   "<div v-if='(!show_app_only) && (!(item.card.hide_header && full_screen) )' style='margin-bottom: 20px; margin-right: 20px;'>"+
+                   "<div v-if='(!show_app_only) && (!(item.card.hide_header && full_screen) )' style='margin-bottom: 20px; margin-right: 2%;'>"+
                    "    <h2  class='caption' style='display: inline-block;'>{{item.card.name}}</h2>"+
                    "    <div class='btn-group' style='float: right;' role=group >" +
                    "           <button  type=button v-if='full_screen && (item.card.type == \"app\")' class='btn btn-primary'   style=\"right: 0px;text-align:right;\" v-on:click='prepareApp(item.id, \"appEditorV2\", {base_component_id: item.card.base_component_id})' >Edit App</button>"+
@@ -116,8 +116,8 @@ function initFn() {
 
 "</div>"+
     " <div style='position: relative; bottom: 0%;'>" +
-    "                <button  v-if='!show_app_only' type=button  class='btn btn-primary btn-lg btn-block' v-on:click='closeCard()'              style='width: 49%; display: inline-block;margin: 0' >Close</button>"+
-    "                <button  v-if='!show_app_only' type=button  class='btn btn-primary btn-lg btn-block' v-on:click='select_card(item.id + 1)' style='width: 49%; display: inline-block;margin: 0'>Next</button>"+
+    "                <button  v-if='!show_app_only' type=button  class='btn btn-danger btn-lg btn-block' v-on:click='closeCard()'              style='width: 49%; display: inline-block;margin: 0' >Close</button>"+
+    "                <button  v-if='!show_app_only' type=button  class='btn btn-info btn-lg btn-block' v-on:click='select_card(item.id + 1)' style='width: 49%; display: inline-block;margin: 0'>Next</button>"+
     "</div>"+
 "            </div>"})
 
