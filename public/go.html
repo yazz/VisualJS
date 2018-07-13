@@ -1266,7 +1266,7 @@ function created_timestamp(d) {
 
 }
 
-async function sql(sql) {
+async function sql(sqlcode) {
     var results = await callApp(
         {
              driver_name:    "systemFunctions2",
@@ -1274,11 +1274,20 @@ async function sql(sql) {
         }
         ,
         {
-            sql: sql
+            sql: sqlcode
         })
 
 
     return results
+}
+
+async function sql1(sqlcode) {
+    var x = await sql(sqlcode)
+    if (x && (x.length > 0)) {
+        return x[0]
+    } else {
+        return null
+    }
 }
 
 </script>
