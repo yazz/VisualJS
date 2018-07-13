@@ -7,7 +7,8 @@ load_once_from_file(true)
     //alert(JSON.stringify(args,null,2))
     var uid = uuidv4()
     var uid2 = uuidv4()
-    var mm = Vue.component(uid, {
+    var mm = null
+    Vue.component(uid, {
       data: function () {
         return {
             text: args.text,
@@ -22,7 +23,7 @@ load_once_from_file(true)
      ,
 
      mounted: function() {
-         var mm = this
+         mm = this
          var editor = ace.edit(           uid2, {
                                                  mode:           "ace/mode/javascript",
                                                  selectionStyle: "text"

@@ -10,6 +10,7 @@ load_once_from_file(true)
 
     var argBaseComponentId = args.base_component_id
 
+    var mm = null
     Vue.component("app_editor",
     {
       template: `<div>
@@ -131,7 +132,6 @@ load_once_from_file(true)
            // This is called to save the currently edited code
            // ---------------------------------------------------------------
            save: async function( base_component_id, code_id, text ) {
-               var mm = this
                //alert("Saving " + code_id)
                //alert("Saving " + text)
                //alert(base_component_id)
@@ -165,7 +165,6 @@ load_once_from_file(true)
            // ---------------------------------------------------------------
            load_app: async function ( baseComponentId ) {
                //alert("trying to load app: " + baseComponentId)
-               var mm = this
                mm.app_loaded = false
                mm.base_component_id = baseComponentId
                mm.app_component_name = null
@@ -234,7 +233,7 @@ load_once_from_file(true)
        },
 
        mounted: async function () {
-           var mm = this
+           mm = this
            //alert(argBaseComponentId)
            if (argBaseComponentId) {
                 this.load_app(argBaseComponentId)
