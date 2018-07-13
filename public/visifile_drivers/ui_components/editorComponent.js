@@ -31,6 +31,8 @@ load_once_from_file(true)
 
          document.getElementById(uid2).style.height="45vh"
          editor.getSession().setValue(mm.text);
+         editor.getSession().setUseWorker(false);
+
 
          editor.getSession().on('change', function() {
             mm.text = editor.getSession().getValue();
