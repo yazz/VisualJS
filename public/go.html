@@ -1290,6 +1290,32 @@ async function sql1(sqlcode) {
     }
 }
 
+
+
+async function sqlFirstCol(sqlcode) {
+    var x = await sql(sqlcode)
+    if (x && (x.length > 0)) {
+        var colName = Object.keys(x[0])[0]
+        var ff = []
+        for (var tt=0; tt < x.length; tt++) {
+            ff.push(x[tt][colName])
+        }
+        return ff
+    } else {
+        return []
+    }
+}
+
+async function sqlFirstCol1(sqlcode) {
+    var x = await sqlFirstCol(sqlcode)
+    if (x && (x.length > 0)) {
+        return x[0]
+    } else {
+        return null
+    }
+}
+
+
 </script>
 </body>
 </html>
