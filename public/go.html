@@ -1266,6 +1266,21 @@ function created_timestamp(d) {
 
 }
 
+async function sql(sql) {
+    var results = await callApp(
+        {
+             driver_name:    "systemFunctions2",
+             method_name:    "sql"
+        }
+        ,
+        {
+            sql: sql
+        })
+
+
+    return results
+}
+
 </script>
 </body>
 </html>
