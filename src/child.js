@@ -2952,6 +2952,7 @@ function setUpDbDrivers() {
     evalLocalSystemDriver('vue',   path.join(__dirname, '../public/visifile_drivers/apps/vue.js'))
     evalLocalSystemDriver('bootstrap',   path.join(__dirname, '../public/visifile_drivers/apps/bootstrap.js'))
     evalLocalSystemDriver('new',   path.join(__dirname, '../public/visifile_drivers/apps/newApp.js'))
+    evalLocalSystemDriver('todo',   path.join(__dirname, '../public/visifile_drivers/apps/todo.js'))
 
 
 
