@@ -77,7 +77,7 @@ function initFn() {
                    "    <h2  class='caption' style='display: inline-block;'>{{item.card.name}}</h2>"+
                    "    <div class='btn-group' style='float: right;' role=group >" +
                    "           <button  type=button v-if='full_screen && (item.card.type == \"app\")' class='btn btn-primary'   style=\"right: 0px;text-align:right;\" v-on:click='prepareApp(item.id, \"appEditorV2\", {base_component_id: item.card.base_component_id})' >Edit App</button>"+
-                   "           <button  type=button v-if='full_screen && (item.card.type == \"app\")' class=' btn btn-secondary'  style=\"right: 0px;text-align:right;\" v-on:click='copyApp(item.id, item.card.base_component_id)' >Copy app</button>"+
+                   "           <button  type=button v-if='full_screen && (item.card.type == \"app\")' class=' btn btn-secondary'  style=\"right: 0px;text-align:right;\" v-on:click='copyApp(item.card.base_component_id)' >Copy app</button>"+
                    "           <button  type=button v-if='full_screen && (item.card.type == \"app\")' class=' btn btn-info'  style=\"right: 0px;text-align:right;\" v-on:click='prepareApp(item.id, \"appEmbed\", {base_component_id: item.card.base_component_id})' >Embed app</button>"+
 
                    //"           <button  type=button v-if='full_screen && (item.card.type == \"app\")' class=' btn btn-link' v-on:click='showAppLink(item.id, item.card.base_component_id)' >Link</button>"+
@@ -566,7 +566,7 @@ function loadAppIntoElement(tagName, rootElement) {
     })
 }
 
-function copyApp(  id,  baseComponentId ) {
+function copyApp(  baseComponentId ) {
 
     callDriverMethod( {driver_name: "copyApp",
                        method_name: "copyAppshareApp"}
@@ -747,13 +747,13 @@ var defaultCards = [
     {
         html:
         `<div>
-        <h1><b>AppShare</b> - A simple App Store for the enterprise</h1>
+        <h1><b>AppShare</b> - A cross platform App Store</h1>
 
         <ul>
-            <li>Build apps on your enterprise data</li>
-            <li>Works on web or Windows</li>
+            <li>Supports web, Windows, and Mac</li>
             <li>Uses industry standard Javascript</li>
             <li>With help from Vue.js, A-Frame, Bootstrap 4</li>
+            <li><a href='javascript:copyApp("new");'>Create my app now!</a></li>
         </ul>
 
 
