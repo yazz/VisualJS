@@ -3909,214 +3909,223 @@ var babel = require("babel-core")
 var saveHelper = require('./save_helpers')
 
 var esprima = require('esprima');
-function saveCodeV2( baseComponentId, parentHash, code ) {
-    //console.log("function saveCodeV2( baseComponentId, parentHash, code ) {")
-    if (!baseComponentId) {
-        baseComponentId = uuidv1()
-    }
-    code = saveHelper.deleteCodeString(code, "base_component_id")
-    code = saveHelper.insertCodeString(code, "base_component_id", baseComponentId)
-
-    //console.log("    baseComponentId := " + baseComponentId)
-
-
-    var creationTimestamp = new Date().getTime()
-    // if we don't want to reload this file then don't update the timestamp
-    if (saveHelper.getValueOfCodeString(code,"load_once_from_file")) {
-        creationTimestamp = -1
-    }
-    code = saveHelper.deleteCodeString(code, "created_timestamp")
-    code = saveHelper.insertCodeString(code, "created_timestamp", creationTimestamp)
 
 
 
+async function saveCodeV2( baseComponentId, parentHash, code ) {
 
-    var oncode = "\"app\""
-    var eventName = null
-    var componentType = null
-    var componentOptions = null
-    var maxProcesses = 1
-    var rowhash = crypto.createHash('sha1');
-    var row = code.toString();
+    var promise = new Promise(returnFn => {
+        //console.log("function saveCodeV2( baseComponentId, parentHash, code ) {")
+        if (!baseComponentId) {
+            baseComponentId = uuidv1()
+        }
+        code = saveHelper.deleteCodeString(code, "base_component_id")
+        code = saveHelper.insertCodeString(code, "base_component_id", baseComponentId)
 
-
-    rowhash.setEncoding('hex');
-    rowhash.write(row);
-    rowhash.end();
-    var sha1sum = rowhash.read();
-    //console.log("Save sha1 for :" + baseComponentId + ": " + sha1sum)
-
-    dbsearch.serialize(
-        function() {
-            dbsearch.all(
-                " select  " +
-                "     id " +
-                " from " +
-                "     system_code " +
-                " where " +
-                "     id = ?;"
-                ,
-                sha1sum
-                ,
-                function(err, rows) {
-                    if (!err) {
-                        if (rows.length == 0) {
-                            try {
-
-                            if (saveHelper.getValueOfCodeString(code,"hide_header")) {
-                                componentOptions = "HIDE_HEADER"
-                            }
+        //console.log("    baseComponentId := " + baseComponentId)
 
 
-
-                            var displayName = saveHelper.getValueOfCodeString(code,"display_name")
-
-                            var logoUrl = saveHelper.getValueOfCodeString(code,"logo_url")
+        var creationTimestamp = new Date().getTime()
+        // if we don't want to reload this file then don't update the timestamp
+        if (saveHelper.getValueOfCodeString(code,"load_once_from_file")) {
+            creationTimestamp = -1
+        }
+        code = saveHelper.deleteCodeString(code, "created_timestamp")
+        code = saveHelper.insertCodeString(code, "created_timestamp", creationTimestamp)
 
 
 
 
+        var oncode = "\"app\""
+        var eventName = null
+        var componentType = null
+        var componentOptions = null
+        var maxProcesses = 1
+        var rowhash = crypto.createHash('sha1');
+        var row = code.toString();
 
 
-                            //
-                            // 1) call this first
-                            //
-                            var prjs = esprima.parse( "(" + code.toString() + ")");
-                            if (prjs.body) {
-                                if (prjs.body[0]) {
-                                    if (prjs.body[0].expression) {
-                                        if (prjs.body[0].expression.id) {
-                                            //console.log(driverName + ": " + JSON.stringify(prjs.body[0].expression.id.name,null,2))
-                                            oncode = "\"" + prjs.body[0].expression.id.name + "\""
-                                            eventName = prjs.body[0].expression.id.name
-                                            componentType = "method"
+        rowhash.setEncoding('hex');
+        rowhash.write(row);
+        rowhash.end();
+        var sha1sum = rowhash.read();
+        //console.log("Save sha1 for :" + baseComponentId + ": " + sha1sum)
+
+        dbsearch.serialize(
+            function() {
+                dbsearch.all(
+                    " select  " +
+                    "     id " +
+                    " from " +
+                    "     system_code " +
+                    " where " +
+                    "     id = ?;"
+                    ,
+                    sha1sum
+                    ,
+                    function(err, rows) {
+                        if (!err) {
+                            if (rows.length == 0) {
+                                try {
+
+                                if (saveHelper.getValueOfCodeString(code,"hide_header")) {
+                                    componentOptions = "HIDE_HEADER"
+                                }
+
+
+
+                                var displayName = saveHelper.getValueOfCodeString(code,"display_name")
+
+                                var logoUrl = saveHelper.getValueOfCodeString(code,"logo_url")
+
+
+
+
+
+
+                                //
+                                // 1) call this first
+                                //
+                                var prjs = esprima.parse( "(" + code.toString() + ")");
+                                if (prjs.body) {
+                                    if (prjs.body[0]) {
+                                        if (prjs.body[0].expression) {
+                                            if (prjs.body[0].expression.id) {
+                                                //console.log(driverName + ": " + JSON.stringify(prjs.body[0].expression.id.name,null,2))
+                                                oncode = "\"" + prjs.body[0].expression.id.name + "\""
+                                                eventName = prjs.body[0].expression.id.name
+                                                componentType = "method"
+                                            }
                                         }
                                     }
                                 }
-                            }
 
-                            //
-                            // 2) and then call this , as apps can also be methods
-                            //
-                            if (saveHelper.getValueOfCodeString(code,"is_app")) {
-                                componentType = "app"
-                            }
-
-
-                            //console.log("Saving in Sqlite: " + parentHash)
-                            //console.log("Saving in Sqlite: " + code)
-                            var stmtInsertNewCode = dbsearch.prepare(
-                                " insert into   system_code  (id, parent_id, code_tag, code,on_condition, base_component_id, method, max_processes,component_type,display_name, creation_timestamp,component_options, logo_url ) values (?,?,?,?,?,?,?,?,?,?,?,?,?)");
-                            var stmtDeprecateOldCode = dbsearch.prepare(
-                                " update system_code  set code_tag = NULL where base_component_id = ? and id != ?");
-
-                            dbsearch.serialize(function() {
-                                dbsearch.run("begin exclusive transaction");
-                                stmtInsertNewCode.run(
-                                      sha1sum,
-                                      parentHash,
-                                      "LATEST",
-                                      code,
-                                      oncode,
-                                      baseComponentId,
-                                      eventName,
-                                      maxProcesses,
-                                      componentType,
-                                      displayName,
-                                      creationTimestamp,
-                                      componentOptions,
-                                      logoUrl
-                                      )
-                                stmtDeprecateOldCode.run(
-                                    baseComponentId,
-                                    sha1sum
-                                    )
-
-
-                                stmtDeleteDependencies.run(sha1sum)
-
-                                var scriptCode = ""
-                                var jsLibs = saveHelper.getValueOfCodeString(code, "uses_javascript_librararies")
-                                if (jsLibs) {
-                                      console.log(JSON.stringify(jsLibs,null,2))
-                                      for (var tt = 0; tt < jsLibs.length ; tt++) {
-                                          stmtInsertDependency.run(
-                                              uuidv1(),
-                                              sha1sum,
-                                              "js_browser_lib",
-                                              jsLibs[tt],
-                                              "latest")
-
-                                          if ( jsLibs[tt] == "aframe" ) {
-                                            scriptCode += fs.readFileSync( path.join(__dirname, '../public/js_libs/aframe.min.js') )
-                                          }
-
-
-                                      }
-                                 }
-
-                                dbsearch.run("commit", function() {
-
-
-                                });
-                                stmtInsertNewCode.finalize();
-                                stmtDeprecateOldCode.finalize();
-
-                                var origFilePath = path.join(__dirname, '../public/go.html')
-                                var newStaticFilePath = path.join( userData, 'apps/' + baseComponentId + '.html' )
-
-                                var newStaticFileContent = fs.readFileSync( origFilePath )
-
-                                newStaticFileContent = newStaticFileContent.toString().replace("var isStaticHtmlPageApp = false", "var isStaticHtmlPageApp = true")
-
-                                var tr = babel.transform("(" + code + ")", {plugins: [path.join(__dirname, "../node_modules/babel-plugin-transform-es2015-template-literals")]})
-
-                                var newcode = "(" + code.toString().replace(/\`/g,"\\\`") + ")"
-
-
-                                newStaticFileContent = newStaticFileContent.toString().replace("***STATIC_NAME***",displayName)
-                                newStaticFileContent = newStaticFileContent.toString().replace("***STATIC_NAME***",displayName)
-                                newStaticFileContent = newStaticFileContent.toString().replace("***STATIC_BASE_COMPONENT_ID***",baseComponentId)
-                                newStaticFileContent = newStaticFileContent.toString().replace("***STATIC_BASE_COMPONENT_ID***",baseComponentId)
-                                newStaticFileContent = newStaticFileContent.toString().replace("***STATIC_CODE_ID***",sha1sum)
-                                newStaticFileContent = newStaticFileContent.toString().replace("***STATIC_CODE_ID***",sha1sum)
-
-
-
-
-                                var newCode =  `cachedCode["${sha1sum}"] = {
-                                  "type": "ws_to_browser_callDriverMethod_results",
-                                  "value": {
-                                    "code": \`${newcode}\`,
-                                    "is_code_result": true,
-                                    "libs": [],
-                                    "code_id": "${sha1sum}",
-                                    "on_condition": "\\\"app\\\"",
-                                    "base_component_id": "${baseComponentId}"
-                                  },
-                                  "seq_num": 0
+                                //
+                                // 2) and then call this , as apps can also be methods
+                                //
+                                if (saveHelper.getValueOfCodeString(code,"is_app")) {
+                                    componentType = "app"
                                 }
 
-                                    finderToCachedCodeMapping["${baseComponentId}"] = "${sha1sum}"`
 
-                                newStaticFileContent = newStaticFileContent.toString().replace("//***ADD_STATIC_CODE", newCode)
-                                //zzz
-                                newStaticFileContent = newStaticFileContent.toString().replace("***location.hostname***", hostaddress )
-                                newStaticFileContent = newStaticFileContent.toString().replace("usePort = -1", "usePort = " + port)
+                                //console.log("Saving in Sqlite: " + parentHash)
+                                //console.log("Saving in Sqlite: " + code)
+                                var stmtInsertNewCode = dbsearch.prepare(
+                                    " insert into   system_code  (id, parent_id, code_tag, code,on_condition, base_component_id, method, max_processes,component_type,display_name, creation_timestamp,component_options, logo_url ) values (?,?,?,?,?,?,?,?,?,?,?,?,?)");
+                                var stmtDeprecateOldCode = dbsearch.prepare(
+                                    " update system_code  set code_tag = NULL where base_component_id = ? and id != ?");
 
-                                newStaticFileContent = newStaticFileContent.toString().replace("//***ADD_SCRIPT", scriptCode)
+                                dbsearch.serialize(function() {
+                                    dbsearch.run("begin exclusive transaction");
+                                    stmtInsertNewCode.run(
+                                          sha1sum,
+                                          parentHash,
+                                          "LATEST",
+                                          code,
+                                          oncode,
+                                          baseComponentId,
+                                          eventName,
+                                          maxProcesses,
+                                          componentType,
+                                          displayName,
+                                          creationTimestamp,
+                                          componentOptions,
+                                          logoUrl
+                                          )
+                                    stmtDeprecateOldCode.run(
+                                        baseComponentId,
+                                        sha1sum
+                                        )
 
-                                fs.writeFile( newStaticFilePath,  newStaticFileContent )
 
-                            })
-                            } catch(err) {
-                                console.log(err)
+                                    stmtDeleteDependencies.run(sha1sum)
+
+                                    var scriptCode = ""
+                                    var jsLibs = saveHelper.getValueOfCodeString(code, "uses_javascript_librararies")
+                                    if (jsLibs) {
+                                          console.log(JSON.stringify(jsLibs,null,2))
+                                          for (var tt = 0; tt < jsLibs.length ; tt++) {
+                                              stmtInsertDependency.run(
+                                                  uuidv1(),
+                                                  sha1sum,
+                                                  "js_browser_lib",
+                                                  jsLibs[tt],
+                                                  "latest")
+
+                                              if ( jsLibs[tt] == "aframe" ) {
+                                                scriptCode += fs.readFileSync( path.join(__dirname, '../public/js_libs/aframe.min.js') )
+                                              }
+
+
+                                          }
+                                     }
+
+                                    dbsearch.run("commit", function() {
+
+
+                                    });
+                                    stmtInsertNewCode.finalize();
+                                    stmtDeprecateOldCode.finalize();
+
+                                    var origFilePath = path.join(__dirname, '../public/go.html')
+                                    var newStaticFilePath = path.join( userData, 'apps/' + baseComponentId + '.html' )
+
+                                    var newStaticFileContent = fs.readFileSync( origFilePath )
+
+                                    newStaticFileContent = newStaticFileContent.toString().replace("var isStaticHtmlPageApp = false", "var isStaticHtmlPageApp = true")
+
+                                    var tr = babel.transform("(" + code + ")", {plugins: [path.join(__dirname, "../node_modules/babel-plugin-transform-es2015-template-literals")]})
+
+                                    var newcode = "(" + code.toString().replace(/\`/g,"\\\`") + ")"
+
+
+                                    newStaticFileContent = newStaticFileContent.toString().replace("***STATIC_NAME***",displayName)
+                                    newStaticFileContent = newStaticFileContent.toString().replace("***STATIC_NAME***",displayName)
+                                    newStaticFileContent = newStaticFileContent.toString().replace("***STATIC_BASE_COMPONENT_ID***",baseComponentId)
+                                    newStaticFileContent = newStaticFileContent.toString().replace("***STATIC_BASE_COMPONENT_ID***",baseComponentId)
+                                    newStaticFileContent = newStaticFileContent.toString().replace("***STATIC_CODE_ID***",sha1sum)
+                                    newStaticFileContent = newStaticFileContent.toString().replace("***STATIC_CODE_ID***",sha1sum)
+
+
+
+
+                                    var newCode =  `cachedCode["${sha1sum}"] = {
+                                      "type": "ws_to_browser_callDriverMethod_results",
+                                      "value": {
+                                        "code": \`${newcode}\`,
+                                        "is_code_result": true,
+                                        "libs": [],
+                                        "code_id": "${sha1sum}",
+                                        "on_condition": "\\\"app\\\"",
+                                        "base_component_id": "${baseComponentId}"
+                                      },
+                                      "seq_num": 0
+                                    }
+
+                                        finderToCachedCodeMapping["${baseComponentId}"] = "${sha1sum}"`
+
+                                    newStaticFileContent = newStaticFileContent.toString().replace("//***ADD_STATIC_CODE", newCode)
+                                    //zzz
+                                    newStaticFileContent = newStaticFileContent.toString().replace("***location.hostname***", hostaddress )
+                                    newStaticFileContent = newStaticFileContent.toString().replace("usePort = -1", "usePort = " + port)
+
+                                    newStaticFileContent = newStaticFileContent.toString().replace("//***ADD_SCRIPT", scriptCode)
+
+                                    fs.writeFile( newStaticFilePath,  newStaticFileContent )
+                                    returnFn( {code: code.toString()})
+
+                                })
+                                } catch(err) {
+                                    console.log(err)
+                                }
                             }
                         }
-                    }
 
 
-                })
-    }, sqlite3.OPEN_READONLY)
-    return {}
+                    })
+        }, sqlite3.OPEN_READONLY)
+        })
+
+    var ret = await promise;
+    return ret
 }
