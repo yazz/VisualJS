@@ -3944,7 +3944,7 @@ function saveCodeV2( baseComponentId, parentHash, code ) {
     rowhash.write(row);
     rowhash.end();
     var sha1sum = rowhash.read();
-    console.log("Save sha1 for :" + baseComponentId + ": " + sha1sum)
+    //console.log("Save sha1 for :" + baseComponentId + ": " + sha1sum)
 
     dbsearch.serialize(
         function() {

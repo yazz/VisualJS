@@ -20,6 +20,7 @@ load_once_from_file(true)
                             <button  type=button class='btn btn-primary'      v-on:click='chooseApp()'  >App</button>
                             <button  type=button class=' btn btn-secondary'   v-on:click='chooseCode()' >Code</button>
                             <button  type=button class=' btn btn-info'        v-on:click='chooseBoth()' >Both</button>
+                            <button  type=button class=' btn btn-secondary'  v-on:click='copyAppMethod(base_component_id)' >Copy app</button>
                         </div>
                     </div>
                     <br />
@@ -123,6 +124,11 @@ load_once_from_file(true)
                 this.app_shown = true
             },
 
+
+            copyAppMethod: function(x) {
+                copyApp(x)
+            }
+            ,
 
 
 

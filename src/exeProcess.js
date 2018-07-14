@@ -329,7 +329,7 @@ function executeCode(callId, codeId, args, on_condition,  base_component_id) {
                                             process.send({  message_type:         "function_call_response" ,
                                                             result:              { code:                code,
                                                                                    is_code_result:      true,
-                                                                                   component_options:   componentOptions,       
+                                                                                   component_options:   componentOptions,
                                                                                    libs:                results2,
                                                                                    code_id:             codeId,
                                                                                    on_condition:        on_condition,
@@ -355,7 +355,7 @@ function executeCode(callId, codeId, args, on_condition,  base_component_id) {
                                     console.log(    "    async code:" + code)
                                     var runAsync = async function() {
                                         var result = await fnfn(args)
-                                        console.log("*) Result: in exeProcess" + JSON.stringify(result,null,2));
+                                        //console.log("*) Result: in exeProcess" + JSON.stringify(result,null,2));
 
                                         process.send({  message_type:       "function_call_response" ,
                                                         child_process_name:  childProcessName,
