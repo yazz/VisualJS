@@ -27,6 +27,7 @@ load_once_from_file(true)
                             var oldDisplayName = results[0].display_name
                             var parentHashId = results[0].id
                             var newDisplayName = "Copy of " + oldDisplayName
+                            code = saveHelper.deleteCodeString(code, "load_once_from_file")
                             code = saveHelper.deleteCodeString(code, "display_name")
                             code = saveHelper.insertCodeString(code, "display_name", newDisplayName)
 
