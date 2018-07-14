@@ -91,7 +91,7 @@ load_once_from_file(true)
                 this.app_width = "95%"
                 this.app_shown = true
 
-                //zzz
+
                 var text = this.$refs.editorComponentRef.getText()
 
                 //
@@ -156,9 +156,7 @@ load_once_from_file(true)
 
                //alert("Reloading 2: " + JSON.stringify(results,null,2))
                //alert("Reloading 2: " + JSON.stringify(mm.base_component_id,null,2))
-               setTimeout(function() {
-                    mm.load_app( mm.base_component_id )
-               },100)
+               mm.load_app( mm.base_component_id )
            },
 
 
@@ -202,6 +200,10 @@ load_once_from_file(true)
                        var code = results[0].code
                        var codeId = results[0].id
                        //alert(code)
+                       if (mm.editor_loaded && (mm.code != code)) {
+                            //alert("changed: " + code)
+                            this.$refs.editorComponentRef.setText(code)
+                       }
                        mm.code = code
                        mm.code_id = codeId
                        //alert(JSON.stringify(1,null,2))

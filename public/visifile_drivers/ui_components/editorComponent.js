@@ -8,6 +8,7 @@ load_once_from_file(true)
     var uid = uuidv4()
     var uid2 = uuidv4()
     var mm = null
+    var editor = null
     Vue.component(uid, {
       data: function () {
         return {
@@ -24,7 +25,7 @@ load_once_from_file(true)
 
      mounted: function() {
          mm = this
-         var editor = ace.edit(           uid2, {
+         editor = ace.edit(           uid2, {
                                                  mode:           "ace/mode/javascript",
                                                  selectionStyle: "text"
                                              })
@@ -43,7 +44,12 @@ load_once_from_file(true)
      methods: {
         getText: function() {
             return this.text
+        },
+        setText: function(textValue) {
+            this.text =  textValue
+            editor.getSession().setValue(textValue);
         }
+
      }
 
 
