@@ -156,7 +156,9 @@ load_once_from_file(true)
 
                //alert("Reloading 2: " + JSON.stringify(results,null,2))
                //alert("Reloading 2: " + JSON.stringify(mm.base_component_id,null,2))
-               mm.load_app( mm.base_component_id )
+               setTimeout(function() {
+                    mm.load_app( mm.base_component_id )
+               },100)
            },
 
 
