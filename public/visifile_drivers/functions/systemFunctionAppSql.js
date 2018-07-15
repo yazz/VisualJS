@@ -7,7 +7,7 @@ load_once_from_file(true)
 
 
     var getSqlResults = new Promise(returnResult => {
-        var dbPath = path.join(userData, args.base_component_id + '.visi.db')
+        var dbPath = path.join(userData, args.base_component_id + '.visi')
         console.log("dbPath: " + JSON.stringify(dbPath,null,2))
         var appDb = new sqlite3.Database(dbPath);
         appDb.run("PRAGMA journal_mode=WAL;")
