@@ -47,6 +47,11 @@ key:"_addFormElementData",value:function(a){if("FORM"===this.element.tagName)for
 
 
 <script>
+String.prototype.replaceAll = function(search, replacement) {
+    var target = this;
+    return target.replace(new RegExp(search, 'g'), replacement);
+};
+
 var useHostname = null
 var usePort = null
 
@@ -200,7 +205,7 @@ function initFn() {
             refresh();
         }
 
-//zzz
+
         if (isStaticHtmlPageApp) {
             useHostname = "***location.hostname***"
             usePort = -1
@@ -285,10 +290,7 @@ function initFn() {
 };
 
 
-String.prototype.replaceAll = function(search, replacement) {
-    var target = this;
-    return target.replace(new RegExp(search, 'g'), replacement);
-};
+
 
 </script>
 
@@ -1035,7 +1037,16 @@ var dataIds = new Object()
                 //alert("code: " + JSON.stringify(data.value.component_options,null,2));
             }
             //alert("code2: " + JSON.stringify(queuedResponses[data.seq_num],null,2));
-            //console.log("data: " + JSON.stringify(data,null,2));
+            //alert("data: " + JSON.stringify(data.value.code_id,null,2));
+            //alert("data: " + JSON.stringify(data.value.base_component_id,null,2));
+            var addP = "\"" + data.value.code_id + "\", \"" + data.value.base_component_id + "\", "
+            //alert("data: " + addP);
+            data.value.code = data.value.code.toString().replaceAll(" sql[(]"," rsql(" + addP)
+            data.value.code = data.value.code.toString().replaceAll(" sql1[(]"," rsql1(" + addP)
+            data.value.code = data.value.code.toString().replaceAll(" sqlFirstCol[(]"," rsqlFirstCol(" + addP)
+            data.value.code = data.value.code.toString().replaceAll(" sqlFirstCol1[(]"," rsqlFirstCol1(" + addP)
+            //alert("data: " + data.value.code);
+            //zzz
 
             if (data.value.code_id) {
 
@@ -1106,7 +1117,15 @@ function callCode(data) {
     var callbackFn = queuedResponses[data.seq_num]
 
     try {
-        //alert(data.value.code)
+        //alert(data.value.code_id)
+        //alert(data.value.base_component_id)
+        var addP = "\"" + data.value.code_id + "\", \"" + data.value.base_component_id + "\", "
+        //alert("data: " + addP);
+        data.value.code = data.value.code.toString().replaceAll(" sql[(]"," rsql(" + addP)
+        data.value.code = data.value.code.toString().replaceAll(" sql1[(]"," rsql1(" + addP)
+        data.value.code = data.value.code.toString().replaceAll(" sqlFirstCol[(]"," rsqlFirstCol(" + addP)
+        data.value.code = data.value.code.toString().replaceAll(" sqlFirstCol1[(]"," rsqlFirstCol1(" + addP)
+        //zzz
 
         var fnfn = eval( data.value.code )
         var args =     callDriverMethodArgs[data.seq_num]
@@ -1266,7 +1285,7 @@ function created_timestamp(d) {
 
 }
 
-async function sql(sqlcode) {
+async function rsql(code_id,base_component_id, sqlcode) {
     var results = await callApp(
         {
              driver_name:    "systemFunctions2",
@@ -1281,8 +1300,8 @@ async function sql(sqlcode) {
     return results
 }
 
-async function sql1(sqlcode) {
-    var x = await sql(sqlcode)
+async function rsql1(code_id,base_component_id,sqlcode) {
+    var x = await rsql(code_id,base_component_id,sqlcode)
     if (x && (x.length > 0)) {
         return x[0]
     } else {
@@ -1292,8 +1311,8 @@ async function sql1(sqlcode) {
 
 
 
-async function sqlFirstCol(sqlcode) {
-    var x = await sql(sqlcode)
+async function rsqlFirstCol(code_id,base_component_id,sqlcode) {
+    var x = await rsql(code_id,base_component_id,sqlcode)
     if (x && (x.length > 0)) {
         var colName = Object.keys(x[0])[0]
         var ff = []
@@ -1306,8 +1325,8 @@ async function sqlFirstCol(sqlcode) {
     }
 }
 
-async function sqlFirstCol1(sqlcode) {
-    var x = await sqlFirstCol(sqlcode)
+async function rsqlFirstCol1(code_id,base_component_id,sqlcode) {
+    var x = await rsqlFirstCol(code_id,base_component_id,sqlcode)
     if (x && (x.length > 0)) {
         return x[0]
     } else {
