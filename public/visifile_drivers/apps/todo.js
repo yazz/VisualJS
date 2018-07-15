@@ -10,20 +10,46 @@ logo_url("https://i.imgur.com/OvMZBs9.jpg")
 */
 Vue.component("TodoApp", {
    template: `<div>
-        Todo list is here
+        Todolist
          <li v-for='item in items'>
-             {{item}}
+             {{item.name}} <span v-on:click='delete_item(item.id)'>X</span>
          </li>
+         <input id=add v-model="new_item"></input>
+         <button v-on:click='add_item(new_item)'>Add</button>
    </div>
     `
     ,
     data: function() {
         return {
-            items: ["Get the milk", "buy newwspaper"]
+            items: [],
+            new_item: ""
         }
     }
+,
+    mounted: async function() {
+        this.items = await sql("select id,name from items")
+        //alert(JSON.stringify(this.items,null,2))
+    },
+    methods: {
+        add_item: async function(x) {
+             await sql("insert into items (id,name) values (" + new Date().getTime() + " ,'" + x + "')")
+             this.items = await sql("select id,name from items")
+             this.new_item = ""
+        }
+        ,
+        delete_item: async function(x) {
+             await sql("delete from items where id = " + x )
+             this.items = await sql("select id,name from items")
+        }
 
+    }
  })
 
  return {name: "TodoApp"}
+ /*
+ sqlite([
+[ 1531670223869, "CREATE TABLE items (id	TEXT, name	TEXT);"]
+])
+
+*/
 }
