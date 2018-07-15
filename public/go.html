@@ -1293,7 +1293,9 @@ async function rsql(code_id,base_component_id, sqlcode) {
         }
         ,
         {
-            sql: sqlcode
+            sql:                sqlcode,
+            code_id:            code_id,
+            base_component_id:  base_component_id
         })
 
 
