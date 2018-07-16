@@ -1190,6 +1190,7 @@ if (electronApp) {
         mkdirp.sync(path.join(userData,  'uploads'));
         mkdirp.sync(path.join(userData,  'files'));
         mkdirp.sync(path.join(userData,  'apps'));
+        mkdirp.sync(path.join(userData,  'app_dbs'));
 
 
 
@@ -1317,6 +1318,7 @@ else {
             mkdirp.sync(path.join(userData,  'uploads'));
             mkdirp.sync(path.join(userData,  'files'));
             mkdirp.sync(path.join(userData,  'apps'));
+            mkdirp.sync(path.join(userData,  'app_dbs'));
 
 
 
