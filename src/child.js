@@ -4132,18 +4132,17 @@ async function saveCodeV2( baseComponentId, parentHash, code ) {
                                                 appDb.run("begin exclusive transaction");
                                                 console.log("**************************************")
                                                 console.log("****       Creating App DB        ****")
-                                                /*appDb.all(
-                                                    args.sql
-                                                    ,
-
-                                                    function(err, results)
-                                                    {
-                                                    console.log("Results: " + JSON.stringify(results,null,2))
-                                                        appDb.run("commit");
-                                                        //'app_dbs/' + appDb.run("PRAGMA wal_checkpoint;")
-                                                        returnResult(results)
-                                                    })*/
-                                                    console.log("**************************************")
+                                                console.log(JSON.stringify(sqlite,null,2))
+                                                for (var i=0; i < sqlite.length; i++) {
+                                                    for (var j=1; j < sqlite[i].length; j++) {
+                                                        var sqlSt = sqlite[i][j]
+                                                        console.log(sqlSt)
+                                                        appDb.run(sqlSt);
+                                                    }
+                                                }
+                                                //'app_dbs/' + appDb.run("PRAGMA wal_checkpoint;")
+                                                appDb.run("commit");
+                                                console.log("**************************************")
                                          })
                                     }
                                     //
