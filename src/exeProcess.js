@@ -147,10 +147,10 @@ function processMessagesFromMainProcess() {
             console.log("*) ERROR: " + childProcessName + " is already running method ")
         } else {
             currentCallbackIndex = msg.callback_index
-            console.log(childProcessName + " currentCallbackIndex: " + msg.callback_index)
+            //console.log(childProcessName + " currentCallbackIndex: " + msg.callback_index)
             inUseIndex ++
             inUse = true
-            console.log(childProcessName + " is executing: " + msg.code_id)
+            //console.log(childProcessName + " is executing: " + msg.code_id)
             //console.log("     msg.callId:" + msg.call_id)
             //console.log("     msg.codeId:" + msg.code_id)
             //console.log("     msg.code:  " + (msg.code?msg.code.length:-1) )

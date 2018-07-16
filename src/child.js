@@ -4158,16 +4158,17 @@ async function saveCodeV2( baseComponentId, parentHash, code ) {
                                                             var newLatestRev = null
                                                             for (var i=0; i < sqlite.length; i+=2) {
                                                                 var sqlStKey = sqlite[i]
+                                                                console.log("sqlStKey: = " + sqlStKey)
                                                                 var readIn = false
-                                                                for (var j=0; j < sqlite[i + 1].length; j++) {
+                                                                for (var j = 0  ;  j < sqlite[i + 1].length  ;  j++ ) {
                                                                     if ((latestRevision == null) || readIn) {
                                                                         var sqlSt = sqlite[i + 1][j]
-                                                                        console.log(sqlSt)
+                                                                        console.log("sqlSt: = " + sqlSt)
                                                                         appDb.run(sqlSt);
                                                                         newLatestRev = sqlStKey
                                                                     }
                                                                     if (latestRevision == sqlStKey) {
-                                                                        readIn == true
+                                                                        readIn = true
                                                                     }
                                                                 }
                                                             }
