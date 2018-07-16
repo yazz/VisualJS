@@ -3923,6 +3923,72 @@ var saveHelper = require('./save_helpers')
 var esprima = require('esprima');
 
 
+function updateRevisions(sqlite, baseComponentId) {
+    dbsearch.serialize(
+    function() {
+        dbsearch.all(
+            "SELECT  latest_revision  from  app_db_latest_ddl_revisions  where  base_component_id = '" +
+                baseComponentId + "' ; ",
+
+            function(err, results)
+            {
+                console.log("**************************************")
+                console.log("****       Creating App DB        ****")
+                var latestRevision = null
+                if (results.length > 0) {
+                    latestRevision = results[0].latest_revision
+                }
+                console.log("latestRevision: " + JSON.stringify(latestRevision,null,2))
+                var dbPath = path.join(userData, 'app_dbs/' + baseComponentId + '.visi')
+                console.log("dbPath: " + JSON.stringify(dbPath,null,2))
+                var appDb = new sqlite3.Database(dbPath);
+                appDb.run("PRAGMA journal_mode=WAL;")
+
+                appDb.serialize(
+                    function() {
+                        appDb.run("begin exclusive transaction");
+                        console.log(JSON.stringify(sqlite,null,2))
+                        var newLatestRev = null
+                        var readIn = false
+                        for (var i=0; i < sqlite.length; i+=2) {
+                            var sqlStKey = sqlite[i]
+                            console.log("sqlStKey: = " + sqlStKey)
+                            for (var j = 0  ;  j < sqlite[i + 1].length  ;  j++ ) {
+                                if ((latestRevision == null) || readIn) {
+                                    var sqlSt = sqlite[i + 1][j]
+                                    console.log("sqlSt: = " + sqlSt)
+                                    appDb.run(sqlSt);
+                                    newLatestRev = sqlStKey
+                                }
+                                if (latestRevision == sqlStKey) {
+                                    console.log("testing: " + latestRevision + " == " + sqlStKey)
+                                    readIn = true
+                                }
+                            }
+                        }
+                        appDb.run("commit");
+                        appDb.run("PRAGMA wal_checkpoint;")
+                        console.log("**************************************")
+
+                        //zzz
+                        dbsearch.serialize(function() {
+
+                            dbsearch.run("begin exclusive transaction");
+                            if (results.length == 0) {
+                                stmtInsertAppDDLRevision.run(baseComponentId, newLatestRev)
+                            } else {
+                                stmtUpdateLatestAppDDLRevision.run(newLatestRev,baseComponentId)
+                            }})
+                            dbsearch.run("commit")
+
+                 })
+             })
+    }, sqlite3.OPEN_READONLY)
+
+}
+
+
+
 
 async function saveCodeV2( baseComponentId, parentHash, code ) {
 
@@ -4133,63 +4199,7 @@ async function saveCodeV2( baseComponentId, parentHash, code ) {
                                     //
                                     var sqlite = saveHelper.getValueOfCodeString(code, "sqlite",")//sqlite")
                                     if (sqlite) {
-                                        dbsearch.serialize(
-                                            function() {
-                                                dbsearch.all(
-                                                    "SELECT  latest_revision  from  app_db_latest_ddl_revisions  where  base_component_id = '" + baseComponentId + "' ; ",
-
-                                                    function(err, results)
-                                                    {
-                                                    var latestRevision = null
-                                                    if (results.length > 0) {
-                                                        latestRevision = results[0].latestRevision
-                                                    }
-                                                    var dbPath = path.join(userData, 'app_dbs/' + baseComponentId + '.visi')
-                                                    console.log("dbPath: " + JSON.stringify(dbPath,null,2))
-                                                    var appDb = new sqlite3.Database(dbPath);
-                                                    appDb.run("PRAGMA journal_mode=WAL;")
-
-                                                    appDb.serialize(
-                                                        function() {
-                                                            appDb.run("begin exclusive transaction");
-                                                            console.log("**************************************")
-                                                            console.log("****       Creating App DB        ****")
-                                                            console.log(JSON.stringify(sqlite,null,2))
-                                                            var newLatestRev = null
-                                                            for (var i=0; i < sqlite.length; i+=2) {
-                                                                var sqlStKey = sqlite[i]
-                                                                console.log("sqlStKey: = " + sqlStKey)
-                                                                var readIn = false
-                                                                for (var j = 0  ;  j < sqlite[i + 1].length  ;  j++ ) {
-                                                                    if ((latestRevision == null) || readIn) {
-                                                                        var sqlSt = sqlite[i + 1][j]
-                                                                        console.log("sqlSt: = " + sqlSt)
-                                                                        appDb.run(sqlSt);
-                                                                        newLatestRev = sqlStKey
-                                                                    }
-                                                                    if (latestRevision == sqlStKey) {
-                                                                        readIn = true
-                                                                    }
-                                                                }
-                                                            }
-                                                            appDb.run("commit");
-                                                            appDb.run("PRAGMA wal_checkpoint;")
-                                                            console.log("**************************************")
-
-                                                            //zzz
-                                                            dbsearch.serialize(function() {
-
-                                                                dbsearch.run("begin exclusive transaction");
-                                                                if (results.length == 0) {
-                                                                    stmtInsertAppDDLRevision.run(baseComponentId, newLatestRev)
-                                                                } else {
-                                                                    stmtUpdateLatestAppDDLRevision.run(newLatestRev,baseComponentId)
-                                                                }})
-                                                                dbsearch.run("commit")
-
-                                                     })
-                                                 })
-                                    }, sqlite3.OPEN_READONLY)
+                                        updateRevisions(sqlite, baseComponentId)
 
                                     }
                                     //

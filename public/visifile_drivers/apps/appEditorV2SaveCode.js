@@ -5,12 +5,12 @@ description("Save the editor code")
 load_once_from_file(true)
 */
     var promise = new Promise(returnFn => {
-        console.log("in SaveCode::")
-        console.log(JSON.stringify(args,null,2))
+        //console.log("in SaveCode::")
+        //console.log(JSON.stringify(args,null,2))
         if (args) {
             saveCodeV2(  args.base_component_id, args.code_id  ,  args.code)
         }
-        console.log("leaving SaveCode::")
+        //console.log("leaving SaveCode::")
         returnFn({})
     })
 

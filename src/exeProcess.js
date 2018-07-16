@@ -352,7 +352,7 @@ function executeCode(callId, codeId, args, on_condition,  base_component_id) {
 
                                 var fnfn = eval("(" + code + ")")
                                 if (code.indexOf("async ") != -1) {
-                                    console.log(    "    async code:" + code)
+                                    //console.log(    "    async code:" + code)
                                     var runAsync = async function() {
                                         var result = await fnfn(args)
                                         //console.log("*) Result: in exeProcess" + JSON.stringify(result,null,2));
