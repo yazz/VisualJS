@@ -61,8 +61,8 @@ var stmtUpdateFileSizeAndShaAndConnectionId;
 var stmtUpdateFileProperties;
 
 var stmtInsertIntoContents;
-var stmtInsertAppDDLTimestamp;
-var stmtUpdateLatestAppDDLTimestamp;
+var stmtInsertAppDDLRevision;
+var stmtUpdateLatestAppDDLRevision;
 var stmtInsertIntoFolders;
 var stmtInsertIntoConnections;
 var stmtInsertIntoConnections2;
@@ -189,13 +189,13 @@ function setUpSql() {
                                                  " values " +
                                                  "      ( ?,  ?, ? );");
 
-     stmtInsertAppDDLTimestamp = dbsearch.prepare(  " insert into app_db_latest_ddl_timestamp " +
-                                                  "      ( base_component_id,  latest_timestamp  ) " +
+     stmtInsertAppDDLRevision = dbsearch.prepare(  " insert into app_db_latest_ddl_revisions " +
+                                                  "      ( base_component_id,  latest_revision  ) " +
                                                   " values " +
                                                   "      ( ?,  ? );");
 
-     stmtUpdateLatestAppDDLTimestamp = dbsearch.prepare(  " update  app_db_latest_ddl_timestamp  " +
-                                                          "     set  latest_timestamp = ? " +
+     stmtUpdateLatestAppDDLRevision = dbsearch.prepare(  " update  app_db_latest_ddl_revisions  " +
+                                                          "     set  latest_revision = ? " +
                                                           " where " +
                                                           "     base_component_id =  ? ;");
 
