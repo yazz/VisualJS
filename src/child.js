@@ -4155,11 +4155,20 @@ async function saveCodeV2( baseComponentId, parentHash, code ) {
                                                             console.log("**************************************")
                                                             console.log("****       Creating App DB        ****")
                                                             console.log(JSON.stringify(sqlite,null,2))
-                                                            for (var i=0; i < sqlite.length; i++) {
-                                                                for (var j=1; j < sqlite[i].length; j++) {
-                                                                    var sqlSt = sqlite[i][j]
-                                                                    console.log(sqlSt)
-                                                                    appDb.run(sqlSt);
+                                                            var newLatestRev = null
+                                                            for (var i=0; i < sqlite.length; i+=2) {
+                                                                var sqlStKey = sqlite[i]
+                                                                var readIn = false
+                                                                for (var j=0; j < sqlite[i + 1].length; j++) {
+                                                                    if ((latestRevision == null) || readIn) {
+                                                                        var sqlSt = sqlite[i + 1][j]
+                                                                        console.log(sqlSt)
+                                                                        appDb.run(sqlSt);
+                                                                        newLatestRev = sqlStKey
+                                                                    }
+                                                                    if (latestRevision == sqlStKey) {
+                                                                        readIn == true
+                                                                    }
                                                                 }
                                                             }
                                                             appDb.run("commit");
@@ -4167,8 +4176,16 @@ async function saveCodeV2( baseComponentId, parentHash, code ) {
                                                             console.log("**************************************")
 
                                                             //zzz
-                                                            //stmtInsertAppDDLRevision
-                                                            //stmtUpdateLatestAppDDLRevision
+                                                            dbsearch.serialize(function() {
+
+                                                                dbsearch.run("begin exclusive transaction");
+                                                                if (results.length == 0) {
+                                                                    stmtInsertAppDDLRevision.run(baseComponentId, newLatestRev)
+                                                                } else {
+                                                                    stmtUpdateLatestAppDDLRevision(newLatestRev,baseComponentId)
+                                                                }})
+                                                                dbsearch.run("commit")
+
                                                      })
                                                  })
                                     }, sqlite3.OPEN_READONLY)
