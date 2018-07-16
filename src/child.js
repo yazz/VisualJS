@@ -4117,7 +4117,7 @@ async function saveCodeV2( baseComponentId, parentHash, code ) {
                                         finderToCachedCodeMapping["${baseComponentId}"] = "${sha1sum}"`
 
                                     newStaticFileContent = newStaticFileContent.toString().replace("//***ADD_STATIC_CODE", newCode)
-                                    //zzz
+
                                     newStaticFileContent = newStaticFileContent.toString().replace("***location.hostname***", hostaddress )
                                     newStaticFileContent = newStaticFileContent.toString().replace("usePort = -1", "usePort = " + port)
 
@@ -4133,28 +4133,46 @@ async function saveCodeV2( baseComponentId, parentHash, code ) {
                                     //
                                     var sqlite = saveHelper.getValueOfCodeString(code, "sqlite",")//sqlite")
                                     if (sqlite) {
-                                        var dbPath = path.join(userData, 'app_dbs/' + baseComponentId + '.visi')
-                                        console.log("dbPath: " + JSON.stringify(dbPath,null,2))
-                                        var appDb = new sqlite3.Database(dbPath);
-                                        appDb.run("PRAGMA journal_mode=WAL;")
-
-                                        appDb.serialize(
+                                        dbsearch.serialize(
                                             function() {
-                                                appDb.run("begin exclusive transaction");
-                                                console.log("**************************************")
-                                                console.log("****       Creating App DB        ****")
-                                                console.log(JSON.stringify(sqlite,null,2))
-                                                for (var i=0; i < sqlite.length; i++) {
-                                                    for (var j=1; j < sqlite[i].length; j++) {
-                                                        var sqlSt = sqlite[i][j]
-                                                        console.log(sqlSt)
-                                                        appDb.run(sqlSt);
+                                                dbsearch.all(
+                                                    "SELECT  latest_revision  from  app_db_latest_ddl_revisions  where  base_component_id = '" + baseComponentId + "' ; ",
+
+                                                    function(err, results)
+                                                    {
+                                                    var latestRevision = null
+                                                    if (results.length > 0) {
+                                                        latestRevision = results[0].latestRevision
                                                     }
-                                                }
-                                                appDb.run("commit");
-                                                appDb.run("PRAGMA wal_checkpoint;")
-                                                console.log("**************************************")
-                                         })
+                                                    var dbPath = path.join(userData, 'app_dbs/' + baseComponentId + '.visi')
+                                                    console.log("dbPath: " + JSON.stringify(dbPath,null,2))
+                                                    var appDb = new sqlite3.Database(dbPath);
+                                                    appDb.run("PRAGMA journal_mode=WAL;")
+
+                                                    appDb.serialize(
+                                                        function() {
+                                                            appDb.run("begin exclusive transaction");
+                                                            console.log("**************************************")
+                                                            console.log("****       Creating App DB        ****")
+                                                            console.log(JSON.stringify(sqlite,null,2))
+                                                            for (var i=0; i < sqlite.length; i++) {
+                                                                for (var j=1; j < sqlite[i].length; j++) {
+                                                                    var sqlSt = sqlite[i][j]
+                                                                    console.log(sqlSt)
+                                                                    appDb.run(sqlSt);
+                                                                }
+                                                            }
+                                                            appDb.run("commit");
+                                                            appDb.run("PRAGMA wal_checkpoint;")
+                                                            console.log("**************************************")
+
+                                                            //zzz
+                                                            //stmtInsertAppDDLRevision
+                                                            //stmtUpdateLatestAppDDLRevision
+                                                     })
+                                                 })
+                                    }, sqlite3.OPEN_READONLY)
+
                                     }
                                     //
                                     // END OF save app db
