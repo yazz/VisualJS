@@ -61,6 +61,8 @@ var stmtUpdateFileSizeAndShaAndConnectionId;
 var stmtUpdateFileProperties;
 
 var stmtInsertIntoContents;
+var stmtInsertAppDDLTimestamp;
+var stmtUpdateLatestAppDDLTimestamp;
 var stmtInsertIntoFolders;
 var stmtInsertIntoConnections;
 var stmtInsertIntoConnections2;
@@ -187,6 +189,15 @@ function setUpSql() {
                                                  " values " +
                                                  "      ( ?,  ?, ? );");
 
+     stmtInsertAppDDLTimestamp = dbsearch.prepare(  " insert into app_db_latest_ddl_timestamp " +
+                                                  "      ( base_component_id,  latest_timestamp  ) " +
+                                                  " values " +
+                                                  "      ( ?,  ? );");
+
+     stmtUpdateLatestAppDDLTimestamp = dbsearch.prepare(  " update  app_db_latest_ddl_timestamp  " +
+                                                          "     set  latest_timestamp = ? " +
+                                                          " where " +
+                                                          "     base_component_id =  ? ;");
 
     stmtFileChanged = dbsearch.prepare( " update files " +
                                             "   set  contents_hash = ?,  size = ? " +
