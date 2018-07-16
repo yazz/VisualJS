@@ -10,7 +10,7 @@ load_once_from_file(true)
         var dbPath = path.join(userData, 'app_dbs/' + args.base_component_id + '.visi')
         console.log("dbPath: " + JSON.stringify(dbPath,null,2))
         var appDb = new sqlite3.Database(dbPath);
-        //appDb.run("PRAGMA journal_mode=WAL;")
+        appDb.run("PRAGMA journal_mode=WAL;")
 
         appDb.serialize(
             function() {
@@ -23,7 +23,7 @@ load_once_from_file(true)
                     {
                     console.log("Results: " + JSON.stringify(results,null,2))
                         appDb.run("commit");
-                        //'app_dbs/' + appDb.run("PRAGMA wal_checkpoint;")
+                        appDb.run("PRAGMA wal_checkpoint;")
                         returnResult(results)
                     })
          })

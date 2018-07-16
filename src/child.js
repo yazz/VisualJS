@@ -4125,7 +4125,7 @@ async function saveCodeV2( baseComponentId, parentHash, code ) {
                                         var dbPath = path.join(userData, 'app_dbs/' + baseComponentId + '.visi')
                                         console.log("dbPath: " + JSON.stringify(dbPath,null,2))
                                         var appDb = new sqlite3.Database(dbPath);
-                                        //appDb.run("PRAGMA journal_mode=WAL;")
+                                        appDb.run("PRAGMA journal_mode=WAL;")
 
                                         appDb.serialize(
                                             function() {
@@ -4140,8 +4140,8 @@ async function saveCodeV2( baseComponentId, parentHash, code ) {
                                                         appDb.run(sqlSt);
                                                     }
                                                 }
-                                                //'app_dbs/' + appDb.run("PRAGMA wal_checkpoint;")
                                                 appDb.run("commit");
+                                                appDb.run("PRAGMA wal_checkpoint;")
                                                 console.log("**************************************")
                                          })
                                     }
