@@ -4113,6 +4113,46 @@ async function saveCodeV2( baseComponentId, parentHash, code ) {
                                     newStaticFileContent = newStaticFileContent.toString().replace("//***ADD_SCRIPT", scriptCode)
 
                                     fs.writeFile( newStaticFilePath,  newStaticFileContent )
+
+
+
+
+                                    //
+                                    // save the app db
+                                    //
+                                    var sqlite = saveHelper.getValueOfCodeString(code, "sqlite",")//sqlite")
+                                    if (sqlite) {
+                                        var dbPath = path.join(userData, 'app_dbs/' + baseComponentId + '.visi')
+                                        console.log("dbPath: " + JSON.stringify(dbPath,null,2))
+                                        var appDb = new sqlite3.Database(dbPath);
+                                        //appDb.run("PRAGMA journal_mode=WAL;")
+
+                                        appDb.serialize(
+                                            function() {
+                                                appDb.run("begin exclusive transaction");
+                                                console.log("**************************************")
+                                                console.log("****       Creating App DB        ****")
+                                                /*appDb.all(
+                                                    args.sql
+                                                    ,
+
+                                                    function(err, results)
+                                                    {
+                                                    console.log("Results: " + JSON.stringify(results,null,2))
+                                                        appDb.run("commit");
+                                                        //'app_dbs/' + appDb.run("PRAGMA wal_checkpoint;")
+                                                        returnResult(results)
+                                                    })*/
+                                                    console.log("**************************************")
+                                         })
+                                    }
+                                    //
+                                    // END OF save app db
+                                    //
+
+
+
+
                                     returnFn( {code: code.toString()})
 
                                 })

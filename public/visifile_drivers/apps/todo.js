@@ -48,8 +48,8 @@ Vue.component("TodoApp", {
  return {name: "TodoApp"}
  /*
  sqlite([
-[ 1531670223869, "CREATE TABLE items (id	TEXT, name	TEXT);"]
-])
+            [ 1531670223869, "CREATE TABLE items (id	TEXT, name	TEXT);"]
+        ])//sqlite
 
 */
 }

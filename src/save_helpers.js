@@ -2,7 +2,11 @@
 
 module.exports = {
 
-     insertCodeString: function(code,st, vall ) {
+     insertCodeString: function(code,st, vall ,optionalEnd) {
+         var endIndicator = ")"
+         if (optionalEnd) {
+             endIndicator = optionalEnd
+         }
         var findd = st + "("
         var startIndexOfComment = code.toString().indexOf("/*")
         var startIndexOfFn = code.toString().indexOf("{")
@@ -14,7 +18,7 @@ module.exports = {
                 startIndexOfComment = code.toString().indexOf("/*")
             }
             code = code.toString().substring(0,startIndexOfComment + 3) +
-                            "" + st + "(" + JSON.stringify(vall,null,2) + ")\n" +
+                            "" + st + "(" + JSON.stringify(vall,null,2) + endIndicator + "\n" +
                             code.toString().substring(startIndexOfComment + 3)
 
         }
@@ -28,14 +32,18 @@ module.exports = {
 
 
 
-     deleteCodeString: function(code,st ) {
+     deleteCodeString: function(code,st ,optionalEnd) {
+         var endIndicator = ")"
+         if (optionalEnd) {
+             endIndicator = optionalEnd
+         }
         var findd = st + "("
         var codeStart = code.toString().indexOf(findd)
         if (codeStart != -1) {
-            var codeEnd = codeStart + code.toString().substring(codeStart).indexOf(")")
+            var codeEnd = codeStart + code.toString().substring(codeStart).indexOf(endIndicator)
 
             code = code.toString().substring(0,codeStart) +
-                            code.toString().substring(codeEnd + 2)
+                            code.toString().substring(codeEnd + 1 + endIndicator.length)
 
             return code
         }
@@ -44,14 +52,18 @@ module.exports = {
 
 
 
-     getValueOfCodeString: function(code, st) {
+     getValueOfCodeString: function(code, st,optionalEnd) {
+        var endIndicator = ")"
+        if (optionalEnd) {
+            endIndicator = optionalEnd
+        }
         var toFind = st + "("
         if (code.toString().indexOf(toFind) != -1) {
             var codeStart = code.toString().indexOf(toFind) + toFind.length
-            var codeEnd = codeStart + code.toString().substring(codeStart).indexOf(")")
+            var codeEnd = codeStart + code.toString().substring(codeStart).indexOf(endIndicator)
 
             code = code.toString().substring(codeStart, codeEnd)
-            var val = eval(code.toString())
+            var val = eval( "(" + code.toString() + ")")
             return val
 
             }
