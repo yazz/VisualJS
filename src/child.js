@@ -4182,7 +4182,7 @@ async function saveCodeV2( baseComponentId, parentHash, code ) {
                                                                 if (results.length == 0) {
                                                                     stmtInsertAppDDLRevision.run(baseComponentId, newLatestRev)
                                                                 } else {
-                                                                    stmtUpdateLatestAppDDLRevision(newLatestRev,baseComponentId)
+                                                                    stmtUpdateLatestAppDDLRevision.run(newLatestRev,baseComponentId)
                                                                 }})
                                                                 dbsearch.run("commit")
 
