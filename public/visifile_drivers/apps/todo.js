@@ -10,9 +10,9 @@ logo_url("https://i.imgur.com/OvMZBs9.jpg")
 */
 Vue.component("TodoApp", {
     template: `<div>
-         Todolist<br>
+         Todo List<br>
           <li v-for='item in items'>
-              {{item.name}} <button v-on:click='delete_item(item.id)'>x</button>
+              <button v-on:click='delete_item(item.id)'>x</button> {{item.name}}
           </li>
           <input id=add v-model="new_item"></input>
           <button v-on:click='add_item(new_item)'>Add</button>
