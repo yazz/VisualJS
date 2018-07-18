@@ -81,13 +81,9 @@ function initFn() {
                    "<div v-if='(!show_app_only) && (!(item.card.hide_header && full_screen) ) && (!is_static)' style='margin-bottom: 20px; margin-right: 2%;'>"+
                    "    <h2  class='caption' style='display: inline-block;'>{{item.card.name}}</h2>"+
                    "    <div class='btn-group' style='float: right;' role=group >" +
-                   "           <button  type=button v-if='full_screen && (item.card.type == \"app\")' class='btn btn-primary'   style=\"right: 0px;text-align:right;\" v-on:click='prepareApp(item.id, \"appEditorV2\", {base_component_id: item.card.base_component_id})' >Edit App</button>"+
+                   "           <button  type=button v-if='full_screen && (item.card.type == \"app\")' class='btn btn-primary'   style=\"right: 0px;text-align:right;\" v-on:click='prepareApp(item.id, \"appEditorV2\", {card_id: item.id , base_component_id: item.card.base_component_id})' >Edit App</button>"+
                    "           <button  type=button v-if='full_screen && (item.card.type == \"app\")' class=' btn btn-secondary'  style=\"right: 0px;text-align:right;\" v-on:click='copyApp(item.card.base_component_id)' >Copy app</button>"+
                    "           <button  type=button v-if='full_screen && (item.card.type == \"app\")' class=' btn btn-info'  style=\"right: 0px;text-align:right;\" v-on:click='prepareApp(item.id, \"appEmbed\", {base_component_id: item.card.base_component_id})' >Embed app</button>"+
-
-                   //"           <button  type=button v-if='full_screen && (item.card.type == \"app\")' class=' btn btn-link' v-on:click='showAppLink(item.id, item.card.base_component_id)' >Link</button>"+
-                   //"           <button  type=button v-if='full_screen && (item.card.type == \"app\")' class=' btn btn-dark' v-on:click='downloadAsHtml(item.id, item.card.base_component_id)' >Download as HTML</button>"+
-                   //"           <button  type=button v-if='full_screen && (item.card.type == \"app\")' class=' btn btn-info' v-on:click='EmbedApp(item.id, item.card.base_component_id)' >Embed App</button>"+
                    "    </div>"+
                    "</div>"+
                    "<br />"+
@@ -517,6 +513,7 @@ function prepareApp(  id,  base_component_id,  args  ) {
     //alert(id)
     //alert(base_component_id)
     //alert(JSON.stringify(args,null,2))
+
     console.log(" prepareApp base_component_id: " + base_component_id)
     //alert(JSON.stringify(args,null,2))
     var rootElement = "app_" + id
