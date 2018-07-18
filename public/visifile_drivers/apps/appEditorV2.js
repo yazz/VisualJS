@@ -9,6 +9,7 @@ load_once_from_file(true)
 */
 
     var argBaseComponentId = args.base_component_id
+    var cardId = args.card_id
 
     var mm = null
     Vue.component("app_editor",
@@ -20,7 +21,8 @@ load_once_from_file(true)
                             <button  type=button class='btn btn-primary'      v-on:click='chooseApp()'  >App</button>
                             <button  type=button class=' btn btn-secondary'   v-on:click='chooseCode()' >Code</button>
                             <button  type=button class=' btn btn-info'        v-on:click='chooseBoth()' >Both</button>
-                            <button  type=button class=' btn btn-secondary'  v-on:click='copyAppMethod(base_component_id)' >Copy app</button>
+                            <button  type=button class=' btn btn-secondary'   v-on:click='copyAppMethod(base_component_id)' >Copy app</button>
+                            <button  type=button class=' btn btn-info'        v-on:click='prepareApp(card_id, \"appEmbed\", {base_component_id: base_component_id})' >Embed app</button>
                         </div>
                     </div>
                     <br />
@@ -71,6 +73,7 @@ load_once_from_file(true)
                base_component_id:   null,
                code_id:            "...",
                version: 0,
+               card_id: null,
                app_width:           "33%",
                code_width:          "63%",
                app_shown:           true,
@@ -174,6 +177,7 @@ load_once_from_file(true)
                mm.app_loaded = false
                mm.base_component_id = baseComponentId
                mm.app_component_name = null
+               mm.card_id = cardId
 
 
 
