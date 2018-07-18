@@ -749,14 +749,15 @@ var defaultCards = [
     {
         html:
         `<div>
-        <h2><b>AppShare - Create small SQL database webapps for your Intranet.</b></h2>
+        <h2><b>AppShare - Deliver useful webapps to your intranet users in minutes.</b></h2>
 
         <ul>
             <li>Get apps built in under 5 minutes</li>
-            <li>1 Javascript file = 1 app + SQL data storage</li>
-            <li>Open source for your peace of mind</li>
-            <li><a href='javascript:copyApp("todo");'>Create my app now!</a></li>
+            <li>All apps are 1 simple Javascript file</li>
+            <li>Every app has it's own SQL database</li>
         </ul>
+
+        <button class='btn btn-info btn-lg' onclick='javascript:copyApp("todo");'>Create my app now!</button>
 
 
 
@@ -785,6 +786,9 @@ var defaultCards = [
             <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
             </div>
             </form>
+            <br>
+
+
             <h1>Or change an existing app from the AppShare store</h1>
                 <div style='margin-top: 30px; margin-bottom:70px;' id='app_store'>
                     <list_apps>
@@ -799,7 +803,34 @@ var defaultCards = [
             <br />
             It's also open source on Github:
             <a href='https://github.com/zubairq/appshare'>https://github.com/zubairq/appshare</a>
-                    </div>`,
+                    </div>
+                    <br><br><br>
+
+            See our website at:<br>
+            <a href='http://AppShare.co'>AppShare.co</a>
+                    </div>
+                    <br><br><br>
+
+
+
+
+
+            Download 64 bit Windows - Once downloaded then run Appshare_Setup.exe:<br>
+            <a href='http://visifile.com/visifile/64/Appshare_Setup.exe'>Click here to download</a>
+                    </div>
+                    <br><br><br>
+
+            Download for 64 bit Mac - Once downloaded then then open
+            Appshare_Setup.dmg and copy Appshare.app to the Applications folder:<br>
+            <a href='http://visifile.com/visifile/64/Appshare_Setup.dmg'>Click here to download</a>
+                    </div>
+                    <br><br>
+
+
+                    `,
+
+
+
         fn: async function() {
 
             await callApp( { driver_name: "intro_logo_3d",  method_name: "intro_logo_3d"} ,{})
@@ -808,26 +839,6 @@ var defaultCards = [
             new Vue({el: "#app_store"})
         }
     }
-    ,
-    {
-        name: 'See our website at: ',
-        link: 'http://AppShare.co',
-        link_name: 'AppShare.co'
-    }
-
-    ,
-    {
-        name: 'Download 64 bit Windows - Once downloaded then run Appshare_Setup.exe',
-        link: 'http://visifile.com/visifile/64/Appshare_Setup.exe',
-        link_name: 'Click here to download'
-    }
-
-        ,
-        {
-            name: 'Download for 64 bit Mac - Once downloaded then then open Appshare_Setup.dmg and copy Appshare.app to the Applications folder',
-            link: 'http://visifile.com/visifile/64/Appshare_Setup.dmg',
-            link_name: 'Click here to download'
-        }
 
 ];
 
