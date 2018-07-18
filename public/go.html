@@ -691,7 +691,25 @@ function select_card(id) {
             //elmnt.scrollIntoView({  alignToTop: 'true',
             //                        bahaviour: 'smooth'});
             //document.getElementById("wrapper").scrollTop = getPosition(document.querySelector('#card_' + id)).y - 200
-            if (myScroller) {
+            if (isStaticHtmlPageApp) {
+                    mainMoonApp.selected_card = id;
+                    setTimeout(function() {
+                        var thisApp = mainMoonApp.cards[id - 1]
+                        //alert("id: " + JSON.stringify(thisApp,null,2))
+                        //alert("thisApp: " + JSON.stringify(thisApp,null,2))
+                        //alert("thisApp.id: " + JSON.stringify(thisApp.id,null,2))
+                        //alert("thisApp.card.base_component_id: " + JSON.stringify(thisApp.card.base_component_id,null,2))
+                        console.log(JSON.stringify(mainMoonApp.cards[id - 1],null,2))
+                        if (mainMoonApp.cards[id - 1].card.fn) {
+                            setTimeout( mainMoonApp.cards[id - 1].card.fn, 3000)
+                            //alert(1)
+                        }
+                        if (thisApp.card.base_component_id) {
+                            prepareApp(  thisApp.id,   thisApp.card.base_component_id,   {}  )
+                        }
+                    },200)
+
+            } else if (myScroller) {
                 myScroller.toY(getPosition(document.querySelector('#card_' + id)).y  ,  1200)
                 document.querySelector('#card_' + id).classList.remove('contract');
                 document.querySelector('#card_' + id).classList.add('expand');
