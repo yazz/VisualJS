@@ -1,5 +1,5 @@
 # AppShare
-A simple App Store for the web and Windows. Build the apps with Javascript. There is demo here :
+PC/Mac Software to create SQL webapps in minutes. There is demo here :
 
 http://appshare.co/go.html
 
@@ -8,13 +8,9 @@ http://appshare.co/go.html
 
 - Electron
 - VueJS
-- AFrame
 - Sqlite
 - Javascript
-- Babel
-- NodeJS 8.9
-- Express
-- SocketIO
+- NodeJS
 
 Command line options :
 
