@@ -197,7 +197,7 @@ function initFn() {
             autoScroll = false
             setTimeout(function() {
                 select_card(nid)
-            },200)
+            },20)
             refresh();
         }
 
@@ -262,25 +262,12 @@ function initFn() {
                 });
 
            setTimeout(function() {
-                    //setInterval(function() {
 
 
-            if (!wait_and_select_app) {
-                autoScroll = false
-                //select_card(1)
-            }
-            /*if (autoScroll) {
-                if (autoId < mainMoonApp.cards.length) {
-                    autoId++
-                } else {
-                    autoId = 1;
+                if (!wait_and_select_app) {
+                    autoScroll = false
                 }
-                select_card(-1)
-                setTimeout(function(){
-                    select_card(autoId);
-                },500)
 
-            }*/
         },3500)
     },100)
 };
@@ -745,7 +732,7 @@ var defaultCards = [
     {
         html:
         `<div>
-        <h2><b>AppShare - Deliver useful webapps to your intranet users in minutes.</b></h2>
+        <h2><b>AppShare - Create SQL webapps in minutes.</b></h2>
 
         <ul>
             <li>Get apps built in under 5 minutes</li>
