@@ -140,6 +140,7 @@ if (process.argv.length > 1) {
       .option('-d, --debug [debug]', 'Allow to run in debug mode (default false) [debug]', 'false')
       .option('-s, --hostport [hostport]', 'Server port of the central host (default 80) [hostport]', parseInt)
       .option('-r, --runservices [runservices]', 'Run the services (default true) [runservices]', false)
+      .option('-a, --runapp [runapp]', 'Run the app with ID as the homepage (default not set) [runapp]', null)
       .parse(process.argv);
 } else {
     program.type = 'client'
@@ -148,7 +149,8 @@ if (process.argv.length > 1) {
     program.nogui = 'false'
     program.debug = 'false'
     program.runservices = false
-}
+    program.runapp = null
+runapp}
 var semver = require('semver')
 
 var debug = false;
@@ -168,6 +170,7 @@ var runServices = (program.runservices == true);
 locked = (program.locked == 'true');
 var nogui = (program.nogui == 'true');
 port = program.port;
+var runapp = program.runapp;
 if (!isNumber(port)) {
     port = 80;
 };
