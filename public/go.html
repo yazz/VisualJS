@@ -73,7 +73,7 @@ function initFn() {
           ,
 
           template: "<div   v-bind:id='element_id'"+
-          "                  v-bind:style=\"'position: relative; margin-left: ' + (is_static?'0':'auto') + '; margin-right: ' + (is_static?'0':'auto') + ';height:90%; overflow-y:scroll;'\" "+
+          "                  v-bind:style=\"'position: relative; margin-left: ' + (is_static?'0':'auto') + '; margin-right: ' + (is_static?'0':'auto') + ';height:90%; overflow-y:' + (is_static?'':'scroll') + ';'\" "+
           "                  v-on:click='click_card(item.id)'"+
           "                  v-bind:class='card_selected?(is_static?\"container\":\"polaroid container\"):\"polaroid tilt container\"' >"+
           "                <button  v-if='(!show_app_only) && (!is_static)' type=button  class='btn btn-danger btn-lg btn-block' v-on:click='closeCard()'              style='width: 49%; display: inline-block;margin: 0' >Close</button>"+
