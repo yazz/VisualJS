@@ -1986,15 +1986,21 @@ function getRoot(req, res) {
 	console.log("Host: " + req.headers.host + ", " + hostcount);
 	//console.log("Full URL: " + req.protocol + '://' + req.get('host') + req.originalUrl);
 
+    var homepage = path.join(__dirname, '../public/go.html')
+    if (runapp) {
+        var newStaticFilePath = path.join( userData, 'apps/' + runapp + '.html' )
+        homepage = newStaticFilePath
+        //zzz
+    }
 	if (req.headers.host) {
         if (req.query.goto) {
             console.log("*** FOUND goto")
-            res.end(fs.readFileSync(path.join(__dirname, '../public/go.html')));
+            res.end(fs.readFileSync(homepage));
             return
         }
         if (req.query.embed) {
             console.log("*** FOUND embed")
-            res.end(fs.readFileSync(path.join(__dirname, '../public/go.html')));
+            res.end(fs.readFileSync(homepage));
             return
         }
 		if (req.headers.host.toLowerCase().endsWith('canlabs.com')) {
@@ -2038,7 +2044,7 @@ function getRoot(req, res) {
         if (!canAccess(req,res)) {
             return;
         }
-        res.end(fs.readFileSync(path.join(__dirname, '../public/go.html')));
+        res.end(fs.readFileSync(homepage));
 	}
 	if (typeOfSystem == 'server') {
 		res.end(fs.readFileSync(path.join(__dirname, '../public/index_server.html')));
@@ -2747,7 +2753,7 @@ function startServices() {
     	return getRoot(req, res);
     })
 
-    //zzz
+
     app.use("/files",   express.static(path.join(userData, '/files/')));
     app.use("/app", express.static(path.join(userData, '/apps/')));
 
