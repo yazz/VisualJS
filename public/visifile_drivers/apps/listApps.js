@@ -1,5 +1,6 @@
 function listApps(args) {
 /*
+is_app(true)
 created_timestamp(-1)
 base_component_id("listApps")
 display_name("App Store")
