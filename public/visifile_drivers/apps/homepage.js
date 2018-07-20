@@ -17,45 +17,116 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxASDxIPEBI
         }
       },
       template: `<div>
-                    <div v-on:click='loadc'>Okhay this is a test app: {{msg}} 2
-                    </div>
-                    Included component
-                    <component v-bind:is="component_name" v-if="component_name" > ccc </component>
-                    <br>
-                    Dynamically loaded component
-                    <component v-bind:is="component_name_2" v-if="component_name_2" > ccc 2 </component>
+
+
+      <h2><b>AppShare - Create embeddable SQL webapps in minutes.</b></h2>
+
+      <ul>
+          <li>Get apps built in under 5 minutes</li>
+          <li>All apps are 1 simple Javascript file</li>
+          <li>Every app has it's own SQL database</li>
+      </ul>
+
+      <button class='btn btn-info btn-lg' onclick='javascript:copyApp("todo");'>Create my app now!</button>
+
+
+
+
+
+      <div class="card-columns">
+       <div class="card" style="width: 20rem;" v-for="item in apps">
+       <img    v-if='item.logo_url'
+               v-bind:src='item.logo_url'
+               style='width: 100%;'
+               v-on:click='document.location="/?goto=" + item.display_name + "&time=" + new Date().getTime();return false;'
+               ></img>
+         <div class="card-body">
+           <h4 class="card-title">{{item.display_name}}</h4>
+           <p class="card-text"></p>
+           <a v-bind:href='"/?goto=" + item.display_name + "&time=" + new Date().getTime()' class="btn btn-primary">Run</a>
+         </div>
+       </div>
+       </div>
+
+
+
+                  <!-- Begin MailChimp Signup Form -->
+                  <link href="//cdn-images.mailchimp.com/embedcode/horizontal-slim-10_7.css" rel="stylesheet" type="text/css">
+                  <style type="text/css">
+                  #mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; width:100%;}
+                  /* Add your own MailChimp form style overrides in your site stylesheet or in this style block.
+                  We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
+                  </style>
+                  <div id="mc_embed_signup">
+                  <form action="https://zubairquraishi.us7.list-manage.com/subscribe/post?u=46afb6bb668c1280c3e739c54&amp;id=72288e6dc0" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+                  <div id="mc_embed_signup_scroll">
+                  <label for="mce-EMAIL">Subscribe to our mailing list</label>
+                  <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required>
+                  <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+                  <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_46afb6bb668c1280c3e739c54_72288e6dc0" tabindex="-1" value=""></div>
+                  <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+                  </div>
+                  </form>
+                  <br>
+
+
+                  <h1>Or change an existing app from the AppShare store</h1>
+                      <div style='margin-top: 30px; margin-bottom:70px;' id='app_store'>
+                          <list_apps>
+                          </list_apps>
+                      </div>
+                  </div>
+
+                  <!--End mc_embed_signup-->
+
+
+                  <br />
+                  <br />
+                  It's also open source on Github:
+                  <a href='https://github.com/zubairq/appshare'>https://github.com/zubairq/appshare</a>
+                          </div>
+                          <br><br><br>
+
+                  See our website at:<br>
+                  <a href='http://AppShare.co'>AppShare.co</a>
+                          </div>
+                          <br><br><br>
+
+
+
+
+
+                  Download 64 bit Windows - Once downloaded then run Appshare_Setup.exe:<br>
+                  <a href='http://visifile.com/visifile/64/Appshare_Setup.exe'>Click here to download</a>
+                          </div>
+                          <br><br><br>
+
+                  Download for 64 bit Mac - Once downloaded then then open
+                  Appshare_Setup.dmg and copy Appshare.app to the Applications folder:<br>
+                  <a href='http://visifile.com/visifile/64/Appshare_Setup.dmg'>Click here to download</a>
+                          </div>
+                          <br><br>
+
+
+
+
                 </div>
        `
       ,
+
+
+    data: function() {
+        return {
+                    apps: []
+                }},
+
+      mounted: function() {
+          this.search()
+      },
       methods: {
-        loadc: function() {
-            Vue.component('button-counter', {
-              data: function () {
-                return {
-                  count: 0
-                }
-              },
-              template: '<button v-on:click="count++">You clicked me {{ count }} times.</button>'
-            })
-            this.component_name = 'button-counter'
-            var mm = this
-            //mm.component_name = 'button-counter'
-            //Vue.set(mm, "component_name", 'button-counter')
-
-
-            callDriverMethod( {driver_name: "comp",
-                               method_name: "component"}
-                              ,{}
-                        ,
-                        function(result) {
-                            //alert(JSON.stringify(result,null,2))
-                          //  console.log("3) returned result: " + JSON.stringify(result,null,2))
-                            //this.component_name_2 = result.name
-                            mm.component_name_2 = result.name
-                            //Vue.set(mm, "component_name_2", result.name)
-                        })
-                    }
-        }
+          search: async function() {
+               this.apps = await callApp({   driver_name: "systemFunctions",  method_name:"get_apps_list"}, { }) }
+      }
     })
 
     return {name: "homepage_app"}
