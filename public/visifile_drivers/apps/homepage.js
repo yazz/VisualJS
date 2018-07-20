@@ -20,37 +20,37 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxASDxIPEBI
       template: `<div  class="container-fluid" style='padding:0;margin:0'>
 
                     <div class="row" style='background-color: black; color: white; padding-top: 20px;padding-bottom: 20px;'>
-                        <div class="col">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-5">
                             <h4><b>AppShare</b></h4>
                         </div>
-                        <div class="col text-right">
+                        <div class="col-md-5 text-right">
                             Contact@AppShare.co   +45 2859 5405
                         </div>
+                        <div class="col-md-1"></div>
                     </div>
 
 
 
                     <div class="row" style='background-color: black; color: white; padding-top: 20px;padding-bottom: 20px;'>
 
-                        <div class="col-md-6">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-5">
                             <h2><b>PC/Mac Software to create SQL webapps in minutes.</b></h2>
+                              <ul style='background-color: black; color: white;'>
+                                  <li style='background-color: black; color: white;'>Build apps in under 5 minutes</li>
+                                  <li style='background-color: black; color: white;'>All apps are 1 simple Javascript file</li>
+                                  <li style='background-color: black; color: white;'>Every app has it's own SQL database</li>
+                              </ul>
+                                <button class='btn btn-info btn-lg' onclick='javascript:copyApp("todo");'>Create my app now!</button>
                         </div>
                         <div class="col-md-5">
                             <img src='/homepage_shot.jpg'></img>
                         </div>
+                        <div class="col-md-1"></div>
 
 
 
-                        <div class="col" >
-                            Create embeddable SQL webapps in minutes.
-                          <ul style='background-color: black; color: white;'>
-                              <li style='background-color: black; color: white;'>Get apps built in under 5 minutes</li>
-                              <li style='background-color: black; color: white;'>All apps are 1 simple Javascript file</li>
-                              <li style='background-color: black; color: white;'>Every app has it's own SQL database</li>
-                          </ul>
-                            <button class='btn btn-info btn-lg' onclick='javascript:copyApp("todo");'>Create my app now!</button>
-
-                      </div>
 
 
 
