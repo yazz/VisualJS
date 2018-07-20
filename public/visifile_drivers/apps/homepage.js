@@ -17,7 +17,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxASDxIPEBI
             component_name_2:    null
         }
       },
-      template: `<div  class="container">
+      template: `<div  class="container-fluid">
                     <div class="row" style='background-color: black; color: white; padding-top: 20px;padding-bottom: 20px;'>
                         <div class="col">
                             <h2><b>AppShare</b></h2>
