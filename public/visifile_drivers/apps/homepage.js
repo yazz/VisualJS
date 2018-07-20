@@ -18,11 +18,27 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxASDxIPEBI
         }
       },
       template: `<div  class="container-fluid">
+
                     <div class="row" style='background-color: black; color: white; padding-top: 20px;padding-bottom: 20px;'>
                         <div class="col">
-                            <h2><b>AppShare</b></h2>
+                            <h4><b>AppShare</b></h4>
                         </div>
-                        <div class="w-100"></div>
+                        <div class="col text-right">
+                            Contact@AppShare.co   +45 2859 5405
+                        </div>
+                    </div>
+
+
+
+                    <div class="row" style='background-color: black; color: white; padding-top: 20px;padding-bottom: 20px;'>
+
+                        <div class="col-md-6">
+                            <h2><b>PC/Mac Software to create SQL webapps in minutes.</b></h2>
+                        </div>
+                        <div class="col-md-5">
+                            <img src='/homepage_shot.jpg'></img>
+                        </div>
+
 
 
                         <div class="col" >
