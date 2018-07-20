@@ -16,7 +16,7 @@ load_once_from_file(true)
     {
       template: `<div>
                     <div>
-                        <h2  class='caption' style='display: inline-block;'>Editing {{app_component_name}} </h2>
+                        <h2  class='caption' style='display: inline-block;'>{{app_component_name}} </h2>
                         <div class='btn-group' style='float: right; margin-right: 2%;' role=group >
                             <button  type=button class='btn btn-primary'      v-on:click='chooseApp()'  >App</button>
                             <button  type=button class=' btn btn-secondary'   v-on:click='chooseCode()' >Code</button>
