@@ -1987,7 +1987,7 @@ function getRoot(req, res) {
 	//console.log("Full URL: " + req.protocol + '://' + req.get('host') + req.originalUrl);
 
     var homepage = path.join(__dirname, '../public/go.html')
-    if (runapp) {
+    if (runapp && (!req.query.goto) && (!req.query.embed)) {
         var newStaticFilePath = path.join( userData, 'apps/' + runapp + '.html' )
         homepage = newStaticFilePath
         //zzz
