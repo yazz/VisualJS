@@ -24,7 +24,7 @@ load_once_from_file(true)
                           <div class="card-body">
                             <h4 class="card-title">{{item.display_name}}</h4>
                             <p class="card-text"></p>
-                            <a v-bind:href='"/?goto=" + item.display_name + "&time=" + new Date().getTime()' class="btn btn-primary">Run</a>
+                            <div v-on:click='copyApp(item.base_component_id);return false;' class="btn btn-primary">Copy</div>
                           </div>
                         </div>
                         </div>
