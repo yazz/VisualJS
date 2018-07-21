@@ -67,6 +67,26 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxASDxIPEBI
                             </div>
                             </form>
                             <!--End mc_embed_signup-->
+
+
+                            <div class="row" style='background-color: black; color: white; padding-top: 20px;padding-bottom: 20px;'>
+
+                                <div class="col-md-5 text-left">
+                                    <a href="http://visifile.com/visifile/64/Appshare_Setup.exe" type="button" class="btn btn-secondary">
+                                       <img src='/windows.png' style='height: 30px;'></img>
+                                       Download Appshare for Windows
+                                    </a>
+                                </div>
+                                <div class="col-md-2"></div>
+
+                                <div class="col-md-5 text-right">
+                                    <a href="http://visifile.com/visifile/64/Appshare_Setup.dmg" type="button" class="btn btn-primary">
+                                       <img src='/mac.png' style='height: 30px;'></img>
+                                       Download Appshare for Mac
+                                    </a>
+                                </div>
+
+                            </div>
                         </div>
                         <div class="col-md-1"></div>
                         </div>
@@ -125,19 +145,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxASDxIPEBI
 
 
 
-
-
-
-                  Download 64 bit Windows - Once downloaded then run Appshare_Setup.exe:<br>
-                  <a href='http://visifile.com/visifile/64/Appshare_Setup.exe'>Click here to download</a>
-                          </div>
-                          <br><br><br>
-
-                  Download for 64 bit Mac - Once downloaded then then open
-                  Appshare_Setup.dmg and copy Appshare.app to the Applications folder:<br>
-                  <a href='http://visifile.com/visifile/64/Appshare_Setup.dmg'>Click here to download</a>
-                          </div>
-                          <br><br>
 
 
 
