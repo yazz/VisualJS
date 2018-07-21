@@ -42,7 +42,9 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxASDxIPEBI
                                   <li style='background-color: black; color: white;'>All apps are 1 simple Javascript file</li>
                                   <li style='background-color: black; color: white;'>Every app has it's own SQL database</li>
                               </ul>
-                                <button class='btn btn-info btn-lg' onclick='javascript:copyApp("todo");'>Create my app now!</button>
+                                <button class='btn btn-info btn-lg'
+                                v-on:click='document.location="/?goto=Todo%20App&new&time=" + new Date().getTime();return false;'>
+                                Create my app now!</button>
                         </div>
                         <div class="col-md-5" style='background-color: white'>
                             <img src='/homepage_shot.jpg'></img>
