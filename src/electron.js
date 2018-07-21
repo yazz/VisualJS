@@ -1987,9 +1987,10 @@ function getRoot(req, res) {
 	//console.log("Full URL: " + req.protocol + '://' + req.get('host') + req.originalUrl);
 
     var homepage = path.join(__dirname, '../public/go.html')
+    var homepageUrl = 'http://appshare.co/go.html?time=' + new Date().getTime()
     if (runapp && (!req.query.goto) && (!req.query.embed)) {
-        var newStaticFilePath = path.join( userData, 'apps/' + runapp + '.html' )
-        homepage = newStaticFilePath
+        homepage = path.join( userData, 'apps/' + runapp + '.html' )
+        homepageUrl = 'http://appshare.co/app/' + runapp + '.html?time=' + new Date().getTime()
         //zzz
     }
 	if (req.headers.host) {
@@ -2012,28 +2013,28 @@ function getRoot(req, res) {
 		};
 		if (req.headers.host.toLowerCase().endsWith('gosharedata.com')) {
 		res.writeHead(301,
-			{Location: homepage + '?time=' + new Date().getTime() }
+			{Location: homepageUrl }
 			);
 			res.end();
 			return;
 		};
 		if (req.headers.host.toLowerCase().endsWith('visifile.com')) {
 		res.writeHead(301,
-			{Location: homepage + '?time=' + new Date().getTime() }
+			{Location: homepageUrl }
 			);
 			res.end();
 			return;
 		};
 		if (req.headers.host.toLowerCase().endsWith('visifiles.com')) {
 		res.writeHead(301,
-			{Location: homepage + '?time=' + new Date().getTime() }
+			{Location: homepageUrl}
 			);
 			res.end();
 			return;
 		};
         if (req.headers.host.toLowerCase().endsWith('appshare.co')) {
 		res.writeHead(301,
-			{Location: homepage + '?time=' + new Date().getTime() }
+			{Location: homepageUrl }
 			);
 			res.end();
 			return;
