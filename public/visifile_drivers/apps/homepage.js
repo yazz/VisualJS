@@ -36,7 +36,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxASDxIPEBI
 
                         <div class="col-md-1"></div>
                         <div class="col-md-5">
-                            <h2><b>PC/Mac Software to create SQL webapps in minutes.</b></h2>
+                            <h2><b>Create HTML5 webapps with a SQL backend in minutes.</b></h2>
                               <ul style='background-color: black; color: white;'>
                                   <li style='background-color: black; color: white;'>Build apps in under 5 minutes</li>
                                   <li style='background-color: black; color: white;'>All apps are 1 simple Javascript file</li>
@@ -44,82 +44,85 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxASDxIPEBI
                               </ul>
                                 <button class='btn btn-info btn-lg' onclick='javascript:copyApp("todo");'>Create my app now!</button>
                         </div>
-                        <div class="col-md-5">
+                        <div class="col-md-5" style='background-color: white'>
                             <img src='/homepage_shot.jpg'></img>
+
+                            <div class="row" style='background-color: black; height:20px;'></div>
+
+                            <!-- Begin MailChimp Signup Form -->
+                            <link href="//cdn-images.mailchimp.com/embedcode/horizontal-slim-10_7.css" rel="stylesheet" type="text/css">
+                            <style type="text/css">
+                            #mc_embed_signup{background:black; clear:left; font:14px Helvetica,Arial,sans-serif; width:100%;}
+                            /* Add your own MailChimp form style overrides in your site stylesheet or in this style block.
+                            We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
+                            </style>
+                            <div id="mc_embed_signup">
+                            <form action="https://zubairquraishi.us7.list-manage.com/subscribe/post?u=46afb6bb668c1280c3e739c54&amp;id=72288e6dc0" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+                            <div id="mc_embed_signup_scroll">
+                            <label for="mce-EMAIL">Subscribe to our mailing list</label>
+                            <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required>
+                            <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+                            <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_46afb6bb668c1280c3e739c54_72288e6dc0" tabindex="-1" value=""></div>
+                            <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+                            </div>
+                            </form>
+                            <!--End mc_embed_signup-->
                         </div>
                         <div class="col-md-1"></div>
+                        </div>
+                        </div>
 
 
 
+                    <div class="row" style='background-color: white; color: black; padding-top: 20px;padding-bottom: 20px;'>
+
+                        <div class="col-md-1">
+                        </div>
+                        <div class="col-md-10">
+                            <h1>Or change an existing app from the AppShare store</h1>
+
+
+                                <div style='background-color: white;' class="card-columns">
+                                 <div class="card" style="width: 20rem;" v-for="item in apps">
+                                 <img    v-if='item.logo_url'
+                                         v-bind:src='item.logo_url'
+                                         style='width: 100%;'
+                                         v-on:click='document.location="/?goto=" + item.display_name + "&time=" + new Date().getTime();return false;'
+                                         ></img>
+                                   <div class="card-body">
+                                     <h4 class="card-title">{{item.display_name}}</h4>
+                                     <p class="card-text"></p>
+                                     <a v-bind:href='"/?goto=" + item.display_name + "&time=" + new Date().getTime()' class="btn btn-primary">Run</a>
+                                   </div>
+                                 </div>
+                                 </div>
+
+                        </div>
+                        <div class="col-md-1"></div>
+                    </div>
 
 
 
+                    <div class="row" style='background-color: lightgray; color: white; padding-top: 20px;padding-bottom: 20px;'>
+                        <div class="col-md-1">
+                        </div>
+                        <div class="col-md-10">
+                            It's also open source on Github:
+                            <a href='https://github.com/zubairq/appshare'>https://github.com/zubairq/appshare</a>
+                                    <br><br><br>
 
+                            See our website at:<br>
+                            <a href='http://AppShare.co'>AppShare.co</a>
+                                    <br><br><br>
+                        </div>
+                        <div class="col-md-1"></div>
+                        </div>
 
                     </div>
 
 
 
 
-
-
-
-                  <h1>Or change an existing app from the AppShare store</h1>
-
-
-      <div class="card-columns">
-       <div class="card" style="width: 20rem;" v-for="item in apps">
-       <img    v-if='item.logo_url'
-               v-bind:src='item.logo_url'
-               style='width: 100%;'
-               v-on:click='document.location="/?goto=" + item.display_name + "&time=" + new Date().getTime();return false;'
-               ></img>
-         <div class="card-body">
-           <h4 class="card-title">{{item.display_name}}</h4>
-           <p class="card-text"></p>
-           <a v-bind:href='"/?goto=" + item.display_name + "&time=" + new Date().getTime()' class="btn btn-primary">Run</a>
-         </div>
-       </div>
-       </div>
-
-
-
-                  <!-- Begin MailChimp Signup Form -->
-                  <link href="//cdn-images.mailchimp.com/embedcode/horizontal-slim-10_7.css" rel="stylesheet" type="text/css">
-                  <style type="text/css">
-                  #mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; width:100%;}
-                  /* Add your own MailChimp form style overrides in your site stylesheet or in this style block.
-                  We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
-                  </style>
-                  <div id="mc_embed_signup">
-                  <form action="https://zubairquraishi.us7.list-manage.com/subscribe/post?u=46afb6bb668c1280c3e739c54&amp;id=72288e6dc0" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-                  <div id="mc_embed_signup_scroll">
-                  <label for="mce-EMAIL">Subscribe to our mailing list</label>
-                  <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required>
-                  <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
-                  <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_46afb6bb668c1280c3e739c54_72288e6dc0" tabindex="-1" value=""></div>
-                  <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
-                  </div>
-                  </form>
-                  <br>
-
-
-
-
-                  <!--End mc_embed_signup-->
-
-
-                  <br />
-                  <br />
-                  It's also open source on Github:
-                  <a href='https://github.com/zubairq/appshare'>https://github.com/zubairq/appshare</a>
-                          </div>
-                          <br><br><br>
-
-                  See our website at:<br>
-                  <a href='http://AppShare.co'>AppShare.co</a>
-                          </div>
-                          <br><br><br>
 
 
 
