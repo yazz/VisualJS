@@ -71,20 +71,21 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxASDxIPEBI
 
                             <div class="row" style='background-color: black; color: white; padding-top: 20px;padding-bottom: 20px;'>
 
-                                <div class="col-md-5 text-left">
-                                    <a href="http://visifile.com/visifile/64/Appshare_Setup.exe" type="button" class="btn btn-secondary">
+                                <div class="col-md-4 text-left">
+                                    <a href="http://visifile.com/visifile/64/Appshare_Setup.exe" class="btn btn-secondary">
                                        <img src='/windows.png' style='height: 30px;'></img>
-                                       Download Appshare for Windows
+                                       Download for Windows
                                     </a>
                                 </div>
                                 <div class="col-md-2"></div>
 
-                                <div class="col-md-5 text-right">
-                                    <a href="http://visifile.com/visifile/64/Appshare_Setup.dmg" type="button" class="btn btn-primary">
+                                <div class="col-md-4 text-right">
+                                    <a href="http://visifile.com/visifile/64/Appshare_Setup.dmg" class="btn btn-primary">
                                        <img src='/mac.png' style='height: 30px;'></img>
-                                       Download Appshare for Mac
+                                       Download for Mac
                                     </a>
                                 </div>
+                                <div class="col-md-2"></div>
 
                             </div>
                         </div>
