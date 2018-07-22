@@ -87,7 +87,7 @@ function initFn() {
                    "           <button  type=button v-if='full_screen && (item.card.type == \"app\")' class='btn btn-primary'   style=\"right: 0px;text-align:right;\" v-on:click='prepareApp(item.id, \"appEditorV2\", {card_id: item.id , base_component_id: item.card.base_component_id})' >Edit</button>"+
                    "    </div>"+
                    "</div>"+
-                   //"<br />"+ 
+                   //"<br />"+
 
 
                    "<div v-if='!show_app_only' class='row' style='margin-bottom: 0px;'>"+
@@ -1305,7 +1305,7 @@ function created_timestamp(d) {
 
 }
 
-async function rsql(code_id,base_component_id, sqlcode) {
+async function rsql(code_id,base_component_id, sqlcode, params) {
     var results = await callApp(
         {
              driver_name:    "systemFunctionAppSql",
@@ -1314,6 +1314,7 @@ async function rsql(code_id,base_component_id, sqlcode) {
         ,
         {
             sql:                sqlcode,
+            params:             params,
             code_id:            code_id,
             base_component_id:  base_component_id
         })
@@ -1322,8 +1323,8 @@ async function rsql(code_id,base_component_id, sqlcode) {
     return results
 }
 
-async function rsql1(code_id,base_component_id,sqlcode) {
-    var x = await rsql(code_id,base_component_id,sqlcode)
+async function rsql1(code_id,base_component_id,sqlcode, params) {
+    var x = await rsql(code_id,base_component_id,sqlcode, params)
     if (x && (x.length > 0)) {
         return x[0]
     } else {
@@ -1333,8 +1334,8 @@ async function rsql1(code_id,base_component_id,sqlcode) {
 
 
 
-async function rsqlFirstCol(code_id,base_component_id,sqlcode) {
-    var x = await rsql(code_id,base_component_id,sqlcode)
+async function rsqlFirstCol(code_id,base_component_id,sqlcode, params) {
+    var x = await rsql(code_id,base_component_id,sqlcode, params)
     if (x && (x.length > 0)) {
         var colName = Object.keys(x[0])[0]
         var ff = []
@@ -1347,8 +1348,8 @@ async function rsqlFirstCol(code_id,base_component_id,sqlcode) {
     }
 }
 
-async function rsqlFirstCol1(code_id,base_component_id,sqlcode) {
-    var x = await rsqlFirstCol(code_id,base_component_id,sqlcode)
+async function rsqlFirstCol1(code_id,base_component_id,sqlcode, params) {
+    var x = await rsqlFirstCol(code_id,base_component_id,sqlcode, params)
     if (x && (x.length > 0)) {
         return x[0]
     } else {
