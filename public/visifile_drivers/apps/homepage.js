@@ -102,7 +102,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxASDxIPEBI
                         <div class="col-md-1">
                         </div>
                         <div class="col-md-10">
-                            <h1>Or change an existing app from the AppShare store</h1>
+                            <h1>Or change an existing form in our collection</h1>
 
 
                                 <div style='background-color: white;' class="card-columns">
@@ -172,4 +172,15 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxASDxIPEBI
     })
 
     return {name: "homepage_app"}
+    /*
+    sqlite(
+    [
+        "Create the initial users table to store the email addresses",
+        [
+            "CREATE TABLE users (id	TEXT, email	TEXT, when_created INTEGER);"
+        ]
+
+    ])//sqlite
+
+   */
 }
