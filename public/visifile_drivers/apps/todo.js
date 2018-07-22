@@ -38,7 +38,7 @@ Vue.component("TodoApp", {
         }
         ,
         delete_item: async function(x) {
-             await sql("delete from items where id = " + x )
+             await sql("delete from items where id = ?",[x] )
              this.items = await sql("select id,name from items")
         }
 

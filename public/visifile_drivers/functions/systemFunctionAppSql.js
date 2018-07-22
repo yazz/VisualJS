@@ -18,6 +18,8 @@ load_once_from_file(true)
                 appDb.all(
                     args.sql
                     ,
+                    args.params
+                    ,
 
                     function(err, results)
                     {
