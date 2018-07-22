@@ -149,7 +149,8 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxASDxIPEBI
 
 
 
-
+                    <input id=add v-model="email_address"></input>
+                    <button v-on:click='insert_email(email_address)'>Add</button>
 
 
                 </div>
@@ -159,7 +160,8 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxASDxIPEBI
 
     data: function() {
         return {
-                    apps: []
+                    apps: [],
+                    email_address: ""
                 }},
 
       mounted: function() {
@@ -168,6 +170,12 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxASDxIPEBI
       methods: {
           search: async function() {
                this.apps = await callApp({   driver_name: "systemFunctions",  method_name:"get_apps_list"}, { }) }
+               ,
+           insert_email: async function(email) {
+                await sql( "insert into users (id, email, when_created) values (?,?,?)"
+                            ,
+                            [  uuidv4(),  email  ,  new Date().getTime() ])
+                            }
       }
     })
 
