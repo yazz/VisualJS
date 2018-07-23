@@ -50,25 +50,27 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxASDxIPEBI
                             <img src='/homepage_shot.jpg'></img>
 
                             <div class="row" style='background-color: black; height:20px;'></div>
-
-                            <!-- Begin MailChimp Signup Form -->
-                            <link href="//cdn-images.mailchimp.com/embedcode/horizontal-slim-10_7.css" rel="stylesheet" type="text/css">
-                            <style type="text/css">
-                            #mc_embed_signup{background:black; clear:left; font:14px Helvetica,Arial,sans-serif; width:100%;}
-                            /* Add your own MailChimp form style overrides in your site stylesheet or in this style block.
-                            We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
-                            </style>
-                            <div id="mc_embed_signup">
-                            <form action="https://zubairquraishi.us7.list-manage.com/subscribe/post?u=46afb6bb668c1280c3e739c54&amp;id=72288e6dc0" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-                            <div id="mc_embed_signup_scroll">
-                            <label style='color: black;' for="mce-EMAIL">Subscribe to the Appshare newsletter</label>
-                            <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required>
-                            <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
-                            <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_46afb6bb668c1280c3e739c54_72288e6dc0" tabindex="-1" value=""></div>
-                            <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+                            <div class="row" style='background-color: black; padding: 5px; color: white;'>
+                                <div class="col-md-12" style='background-color: black'>
+                                    <template v-if='!subscribed'>
+                                            <div class="form-group">
+                                                <div class='text-center' style='font-weight:bold;padding-bottom: 10px;'>Subscribe to the Appshare newsletter</div>
+                                                <input id=add placeholder="email address" type="email" class='form-control' v-model="email_address" style='margin-bottom: 10px;'></input>
+                                                <button class="btn btn-info btn-block" v-on:click='insert_email(email_address)'>Subscribe</button>
+                                            </div>
+                                    </template>
+                                    <template v-if='subscribed' >
+                                        <div class='text-center' style='font-weight:bold;padding-bottom: 10px;'>
+                                            Thanks for subscribing to the Appshare newsletter!
+                                        </div>
+                                    </template>
+                                </div>
                             </div>
-                            </form>
-                            <!--End mc_embed_signup-->
+
+                            <div class="row" style='background-color: black; height:20px;'></div>
+
+
+
 
 
                             <div class="row" style='background-color: black; color: white; padding-top: 20px;padding-bottom: 20px;'>
@@ -89,9 +91,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxASDxIPEBI
                                 </div>
                                 <div class="col-md-2"></div>
 
-                            </div>
                         </div>
-                        <div class="col-md-1"></div>
                         </div>
                         </div>
 
@@ -149,8 +149,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxASDxIPEBI
 
 
 
-                    <input id=add v-model="email_address"></input>
-                    <button v-on:click='insert_email(email_address)'>Add</button>
+
 
 
                 </div>
@@ -161,7 +160,8 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxASDxIPEBI
     data: function() {
         return {
                     apps: [],
-                    email_address: ""
+                    email_address: "",
+                    subscribed: false
                 }},
 
       mounted: function() {
@@ -175,7 +175,9 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxASDxIPEBI
                 await sql( "insert into users (id, email, when_created) values (?,?,?)"
                             ,
                             [  uuidv4(),  email  ,  new Date().getTime() ])
-                            }
+                this.subscribed = true
+
+            }
       }
     })
 
