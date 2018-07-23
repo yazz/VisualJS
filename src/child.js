@@ -2961,6 +2961,7 @@ function setUpDbDrivers() {
     evalLocalSystemDriver('game',   path.join(__dirname, '../public/visifile_drivers/apps/game.js'))
     evalLocalSystemDriver('intro_logo_3d',   path.join(__dirname, '../public/visifile_drivers/apps/intro_logo_3d.js'))
     evalLocalSystemDriver('listApps',   path.join(__dirname, '../public/visifile_drivers/apps/listApps.js'))
+    evalLocalSystemDriver('listPublicApps',   path.join(__dirname, '../public/visifile_drivers/apps/listPublicApps.js'))
     evalLocalSystemDriver('vue',   path.join(__dirname, '../public/visifile_drivers/apps/vue.js'))
     evalLocalSystemDriver('bootstrap',   path.join(__dirname, '../public/visifile_drivers/apps/bootstrap.js'))
     evalLocalSystemDriver('new',   path.join(__dirname, '../public/visifile_drivers/apps/newApp.js'))

@@ -1,14 +1,14 @@
-async function get_apps_list(args) {
+async function get_public_apps_list(args) {
 /*
 description("This will return the apps available")
-base_component_id("systemFunctions")
+base_component_id("systemFunctions3")
 load_once_from_file(true)
 */
     var getAppsList = new Promise(function(resolve, reject) {
             dbsearch.serialize(
                 function() {
                     dbsearch.all(
-                        "SELECT  base_component_id, display_name, logo_url  FROM system_code where component_type = 'app' and code_tag = 'LATEST'  ; "
+                        "SELECT  base_component_id, display_name, logo_url  FROM system_code where component_type = 'app' and code_tag = 'LATEST' and visibility = 'PUBLIC' ; "
                         ,
 
                         function(err, results)
