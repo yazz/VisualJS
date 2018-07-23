@@ -4023,6 +4023,8 @@ async function saveCodeV2( baseComponentId, parentHash, code ) {
         var maxProcesses = 1
         var rowhash = crypto.createHash('sha1');
         var row = code.toString();
+        var visibility = null
+        visibility = saveHelper.getValueOfCodeString(code,"visibility")
 
 
         rowhash.setEncoding('hex');
@@ -4091,7 +4093,7 @@ async function saveCodeV2( baseComponentId, parentHash, code ) {
                                 //console.log("Saving in Sqlite: " + parentHash)
                                 //console.log("Saving in Sqlite: " + code)
                                 var stmtInsertNewCode = dbsearch.prepare(
-                                    " insert into   system_code  (id, parent_id, code_tag, code,on_condition, base_component_id, method, max_processes,component_type,display_name, creation_timestamp,component_options, logo_url ) values (?,?,?,?,?,?,?,?,?,?,?,?,?)");
+                                    " insert into   system_code  (id, parent_id, code_tag, code,on_condition, base_component_id, method, max_processes,component_type,display_name, creation_timestamp,component_options, logo_url, visibility ) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
                                 var stmtDeprecateOldCode = dbsearch.prepare(
                                     " update system_code  set code_tag = NULL where base_component_id = ? and id != ?");
 
@@ -4110,7 +4112,8 @@ async function saveCodeV2( baseComponentId, parentHash, code ) {
                                           displayName,
                                           creationTimestamp,
                                           componentOptions,
-                                          logoUrl
+                                          logoUrl,
+                                          visibility
                                           )
                                     stmtDeprecateOldCode.run(
                                         baseComponentId,
