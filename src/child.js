@@ -4029,6 +4029,15 @@ async function saveCodeV2( baseComponentId, parentHash, code ) {
         var visibility = null
         visibility = saveHelper.getValueOfCodeString(code,"visibility")
 
+        var interfaces = ""
+        var interfaces2 = saveHelper.getValueOfCodeString(code,"interfaces")
+        if (interfaces2 && (interfaces2.length > 0)) {
+            for (var rr=0; rr < interfaces2.length; rr ++) {
+                interfaces += "|  " + interfaces2[ rr ]
+            }
+        }
+
+
 
         rowhash.setEncoding('hex');
         rowhash.write(row);
@@ -4096,7 +4105,7 @@ async function saveCodeV2( baseComponentId, parentHash, code ) {
                                 //console.log("Saving in Sqlite: " + parentHash)
                                 //console.log("Saving in Sqlite: " + code)
                                 var stmtInsertNewCode = dbsearch.prepare(
-                                    " insert into   system_code  (id, parent_id, code_tag, code,on_condition, base_component_id, method, max_processes,component_type,display_name, creation_timestamp,component_options, logo_url, visibility ) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+                                    " insert into   system_code  (id, parent_id, code_tag, code,on_condition, base_component_id, method, max_processes,component_type,display_name, creation_timestamp,component_options, logo_url, visibility, interfaces) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
                                 var stmtDeprecateOldCode = dbsearch.prepare(
                                     " update system_code  set code_tag = NULL where base_component_id = ? and id != ?");
 
@@ -4116,7 +4125,8 @@ async function saveCodeV2( baseComponentId, parentHash, code ) {
                                           creationTimestamp,
                                           componentOptions,
                                           logoUrl,
-                                          visibility
+                                          visibility,
+                                          interfaces
                                           )
                                     stmtDeprecateOldCode.run(
                                         baseComponentId,

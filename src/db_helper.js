@@ -1,6 +1,6 @@
 'use strict';
 var async           = require('async');
-var sqlite3                     = require('sqlite3');
+var sqlite3         = require('sqlite3');
 
 module.exports = {
     createTables: function(dbsearch, callbackFn) {
