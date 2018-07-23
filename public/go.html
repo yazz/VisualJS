@@ -751,44 +751,16 @@ var defaultCards = [
     {
         html:
         `<div>
-        <h2><b>AppShare - Create SQL webapps in minutes.</b></h2>
+            <h2><b>AppShare - Create amazing interactive forms for your website</b></h2>
 
-        <ul>
-            <li>Get apps built in under 5 minutes</li>
-            <li>All apps are 1 simple Javascript file</li>
-            <li>Every app has it's own SQL database</li>
-        </ul>
+            <ul>
+                <li>Build forms in under 5 minutes in Javascript</li>
+                <li>Embed forms easily into your website</li>
+                <li>Many templates available to get started easily</li>
+            </ul>
 
-        <button class='btn btn-info btn-lg' onclick='javascript:copyApp("todo");'>Create my app now!</button>
+            <button class='btn btn-info btn-lg' onclick='javascript:copyApp("todo");'>Create my form now!</button>
 
-
-
-
-            <div style='margin-top: 30px; margin-bottom:70px;' id=intro>
-                <intro_logo_3d>
-                </intro_logo_3d>
-            </div>
-
-
-
-            <!-- Begin MailChimp Signup Form -->
-            <link href="//cdn-images.mailchimp.com/embedcode/horizontal-slim-10_7.css" rel="stylesheet" type="text/css">
-            <style type="text/css">
-            #mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; width:100%;}
-            /* Add your own MailChimp form style overrides in your site stylesheet or in this style block.
-            We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
-            </style>
-            <div id="mc_embed_signup">
-            <form action="https://zubairquraishi.us7.list-manage.com/subscribe/post?u=46afb6bb668c1280c3e739c54&amp;id=72288e6dc0" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-            <div id="mc_embed_signup_scroll">
-            <label for="mce-EMAIL">Subscribe to our mailing list</label>
-            <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required>
-            <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
-            <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_46afb6bb668c1280c3e739c54_72288e6dc0" tabindex="-1" value=""></div>
-            <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
-            </div>
-            </form>
-            <br>
 
 
             <h1>Or change an existing app from the AppShare store</h1>
@@ -797,46 +769,13 @@ var defaultCards = [
                     </list_apps>
                 </div>
             </div>
-
-            <!--End mc_embed_signup-->
-
-
-            <br />
-            <br />
-            It's also open source on Github:
-            <a href='https://github.com/zubairq/appshare'>https://github.com/zubairq/appshare</a>
-                    </div>
-                    <br><br><br>
-
-            See our website at:<br>
-            <a href='http://AppShare.co'>AppShare.co</a>
-                    </div>
-                    <br><br><br>
-
-
-
-
-
-            Download 64 bit Windows - Once downloaded then run Appshare_Setup.exe:<br>
-            <a href='http://visifile.com/visifile/64/Appshare_Setup.exe'>Click here to download</a>
-                    </div>
-                    <br><br><br>
-
-            Download for 64 bit Mac - Once downloaded then then open
-            Appshare_Setup.dmg and copy Appshare.app to the Applications folder:<br>
-            <a href='http://visifile.com/visifile/64/Appshare_Setup.dmg'>Click here to download</a>
-                    </div>
-                    <br><br>
-
-
-                    `,
+        </div>
+        `,
 
 
 
         fn: async function() {
 
-            await callApp( { driver_name: "intro_logo_3d",  method_name: "intro_logo_3d"} ,{})
-            new Vue({el: "#intro"})
             await callApp( {driver_name: "listApps", method_name: "listApps"},{})
             new Vue({el: "#app_store"})
         }
