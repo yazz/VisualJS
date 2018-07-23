@@ -8,7 +8,7 @@ load_once_from_file(true)
             dbsearch.serialize(
                 function() {
                     dbsearch.all(
-                        "SELECT  base_component_id, display_name, logo_url  FROM system_code where component_type = 'app' and code_tag = 'LATEST' ; "
+                        "SELECT  base_component_id, display_name, logo_url  FROM system_code where component_type = 'app' and code_tag = 'LATEST' and visibility = 'PUBLIC' ; "
                         ,
 
                         function(err, results)
