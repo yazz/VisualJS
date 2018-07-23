@@ -48,6 +48,8 @@ Vue.component("TodoApp", {
 
  return {name: "TodoApp"}
  /*
+ allowAccessToAppBaseComponentIds([""])
+ allowAccessToAppTypes(["database_reader"])
  sqlite(
  [
      "Create the initial item table",
