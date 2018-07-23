@@ -175,7 +175,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxASDxIPEBI
       },
       methods: {
           search: async function() {
-               this.apps = await callApp({   driver_name: "systemFunctions",  method_name:"get_apps_list"}, { }) }
+               this.apps = await callApp({   driver_name: "systemFunctions3",  method_name:"get_public_apps_list"}, { }) }
                ,
            insert_email: async function(email) {
                 await sql( "insert into users (id, email, when_created) values (?,?,?)"
