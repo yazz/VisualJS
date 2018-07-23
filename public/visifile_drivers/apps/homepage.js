@@ -73,25 +73,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxASDxIPEBI
 
 
 
-                            <div class="row" style='background-color: black; color: white; padding-top: 20px;padding-bottom: 20px;'>
-
-                                <div class="col-md-4 text-left">
-                                    <a href="http://visifile.com/visifile/64/Appshare_Setup.exe" class="btn btn-secondary">
-                                       <img src='/windows.png' style='height: 30px;'></img>
-                                       Download for Windows
-                                    </a>
-                                </div>
-                                <div class="col-md-2"></div>
-
-                                <div class="col-md-4 text-right">
-                                    <a href="http://visifile.com/visifile/64/Appshare_Setup.dmg" class="btn btn-primary">
-                                       <img src='/mac.png' style='height: 30px;'></img>
-                                       Download for Mac
-                                    </a>
-                                </div>
-                                <div class="col-md-2"></div>
-
-                        </div>
                         </div>
                         </div>
 
@@ -126,10 +107,33 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxASDxIPEBI
 
 
 
+
+                    <div class="row" style='background-color: black; color: white; padding-top: 20px;padding-bottom: 20px;'>
+                        <div class="col-md-2"></div>
+                        <div class="col-md-3 text-left">
+                            <a href="http://visifile.com/visifile/64/Appshare_Setup.exe" class="btn btn-secondary">
+                               <img src='/windows.png' style='height: 30px;'></img>
+                               Download Appshare for Windows
+                            </a>
+                        </div>
+                        <div class="col-md-2"></div>
+
+                        <div class="col-md-3 text-right">
+                            <a href="http://visifile.com/visifile/64/Appshare_Setup.dmg" class="btn btn-primary">
+                               <img src='/mac.png' style='height: 30px;'></img>
+                               Download Appshare for Mac
+                            </a>
+                        </div>
+                        <div class="col-md-2"></div>
+                    </div>
+
+
+
+
                     <div class="row" style='background-color: lightgray; color: white; padding-top: 20px;padding-bottom: 20px;'>
                         <div class="col-md-1">
                         </div>
-                        <div class="col-md-10">
+                        <div class="col-md-10 text-center">
                             It's also open source on Github:
                             <a href='https://github.com/zubairq/appshare'>https://github.com/zubairq/appshare</a>
                                     <br><br><br>
@@ -142,6 +146,8 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxASDxIPEBI
                         </div>
 
                     </div>
+
+
 
 
 
