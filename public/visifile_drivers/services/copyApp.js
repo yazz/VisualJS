@@ -33,6 +33,16 @@ load_once_from_file(true)
 
                             var newBaseid = argsBaseComponentId + "_" + uuidv1().replace(/\-/g, '');
 
+                            //hack city - Vue and component strings are separated as otherwise they mark the
+                            // code as UI code
+                            var vueIndex = code.indexOf("Vue" + ".component")
+                            if (vueIndex != -1) {
+                                var vueIndexEnd = code.substring(vueIndex).indexOf(",")
+                                if (vueIndexEnd) {
+                                    code = code.substring(0,vueIndex + 14) + "'" + newBaseid + "'" + code.substring(vueIndex + vueIndexEnd ) 
+                                }
+                            }
+
                             console.log("new code: " + code)
                             saveCodeV2( newBaseid, parentHashId, code )
 
