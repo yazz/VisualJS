@@ -5,6 +5,7 @@ base_component_id("formSubscribeToAppshare")
 display_name("Form to subscribe to Appshare")
 is_app(true)
 load_once_from_file(true)
+visibility("PUBLIC")
 description('Form to subscribe to Appshare')
 logo_url("https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/yWLXB1Z/videoblocks-youtube-subscribe-button-subscribe-animations_bbfp0u_if_thumbnail-full05.png")
 */
