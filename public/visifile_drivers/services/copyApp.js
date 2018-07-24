@@ -31,7 +31,7 @@ load_once_from_file(true)
                             code = saveHelper.deleteCodeString(code, "display_name")
                             code = saveHelper.insertCodeString(code, "display_name", newDisplayName)
 
-                            var newBaseid = uuidv1()
+                            var newBaseid = argsBaseComponentId + "_" + uuidv1().replace(/\-/g, '');
 
                             console.log("new code: " + code)
                             saveCodeV2( newBaseid, parentHashId, code )
