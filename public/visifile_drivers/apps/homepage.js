@@ -10,13 +10,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxASDxIPEBI
 */
 
     Vue.component('homepage_app', {
-      data: function () {
-        return {
-            msg:                "some data",
-            component_name:      null,
-            component_name_2:    null
-        }
-      },
+    
       template: `<div  class="container-fluid" style='padding:0;margin:0'>
 
                     <div class="row" style='background-color: black; color: white; padding-top: 20px;padding-bottom: 20px;'>
