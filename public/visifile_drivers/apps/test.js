@@ -7,7 +7,7 @@ base_component_id("test")
 load_once_from_file(true)
 */
 
-    Vue.component('test_app', {
+    Vue.component('test', {
       data: function () {
         return {
             msg:                "some data",
@@ -57,5 +57,4 @@ load_once_from_file(true)
         }
     })
 
-    return {name: "test_app"}
 }

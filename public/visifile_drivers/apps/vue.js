@@ -12,7 +12,7 @@ var promise = new Promise(result => {
         //alert(1)
         result( "Promise fulfilled...")
 
-           var ww = Vue.component("VueApp", {
+           var ww = Vue.component("vue", {
              template: `<div>Vue test app:
                <div>{{value}}</div>
              </div>
@@ -34,6 +34,5 @@ var promise = new Promise(result => {
 });
    var ret = await promise;
 
-
-   return {name: "VueApp"}
+   return {}
 }

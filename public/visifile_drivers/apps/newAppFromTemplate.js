@@ -10,7 +10,7 @@ load_once_from_file(true)
 */
     await load("form_subscribe_to_appshare")
 
-    Vue.component('new_app_from_template',{
+    Vue.component('newAppFromTemplate',{
 
 
           template: `<div >
@@ -52,6 +52,4 @@ load_once_from_file(true)
         }
     })
 
-
-    return {name: "new_app_from_template"}
 }

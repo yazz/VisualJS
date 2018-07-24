@@ -3,7 +3,7 @@ function(args) {
 is_app(true)
 display_name("Database reader")
 description('Database reader')
-base_component_id("database reader")
+base_component_id("database_reader")
 load_once_from_file(true)
 interfaces(["database_reader"])
 
@@ -12,7 +12,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxISEhUQEBM
 */
 
 
-    Vue.component("database_reader_app", {
+    Vue.component("database_reader", {
         template:
 
 `
@@ -28,5 +28,5 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxISEhUQEBM
 `
 
     })
-    return {name: "database_reader_app"}
+
 }

@@ -9,7 +9,7 @@ description("This will create a demo todo app")
 load_once_from_file(true)
 logo_url("https://i.imgur.com/OvMZBs9.jpg")
 */
-Vue.component("TodoApp", {
+Vue.component("todo", {
     template: `<div>
          Todo List<br>
           <li v-for='item in items'>
@@ -46,7 +46,6 @@ Vue.component("TodoApp", {
     }
  })
 
- return {name: "TodoApp"}
  /*
  allowAccessToAppBaseComponentIds([""])
  allowAccessToAppTypes(["database_reader"])

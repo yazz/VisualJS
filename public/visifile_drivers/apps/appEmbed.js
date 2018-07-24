@@ -10,7 +10,7 @@ load_once_from_file(true)
 
     var argBaseComponentId = args.base_component_id
 
-    Vue.component("app_embed",
+    Vue.component("appEmbed",
     {
       template: `<div>
                     <div>
@@ -108,6 +108,4 @@ load_once_from_file(true)
             }
        }
    })
-   return {name: "app_embed"}
-
 }

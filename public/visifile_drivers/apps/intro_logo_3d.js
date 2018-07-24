@@ -38,5 +38,4 @@ load_once_from_file(true)
        </div>
       `
     })
-    return {name: 'intro_logo_3d'}
 }

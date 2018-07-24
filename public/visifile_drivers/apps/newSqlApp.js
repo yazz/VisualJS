@@ -8,7 +8,7 @@ description("This will create a new SQL app")
 load_once_from_file(true)
 logo_url("https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/SQLite370.svg/330px-SQLite370.svg.png")
 */
-Vue.component("SqlApp", {
+Vue.component("newSql", {
    template: `<div>
         SqlApp
          <li v-for='item in items'>
@@ -25,5 +25,4 @@ Vue.component("SqlApp", {
 
  })
 
- return {name: "SqlApp"}
 }

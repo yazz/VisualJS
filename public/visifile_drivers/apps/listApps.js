@@ -8,7 +8,7 @@ description('App to list all the apps')
 load_once_from_file(true)
 */
 
-    Vue.component('list_apps',{
+    Vue.component('listApps',{
 
 
           template: `<div >
@@ -47,6 +47,4 @@ load_once_from_file(true)
         }
     })
 
-
-    return {name: "list_apps"}
 }

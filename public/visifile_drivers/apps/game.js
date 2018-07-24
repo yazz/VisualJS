@@ -9,7 +9,7 @@ load_once_from_file(true)
 logo_url("https://yt3.ggpht.com/Ekz8dWfyjZl56kIa2teWnUgCl3JSqCk5ZLowTlxcsd31GUP0L0xNwvvM734RAAbwoXr65I5rDHKpFvmx2Vw=s900-mo-c-c0xffffffff-rj-k-no")
 */
 
-    Vue.component('game3d',{
+    Vue.component('game',{
       template: `<div id="app2">
           saSs
             <h1>{{msg}}</h1>
@@ -31,5 +31,4 @@ logo_url("https://yt3.ggpht.com/Ekz8dWfyjZl56kIa2teWnUgCl3JSqCk5ZLowTlxcsd31GUP0
           }
       }
     })
-    return {name: 'game3d'}
 }
