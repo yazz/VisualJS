@@ -3,7 +3,7 @@ async function(args) {
 is_app(true)
 display_name("Editor App")
 description("This will return the editor app")
-base_component_id("appEditorV2")
+base_component_id("app_editor")
 hide_header(true)
 load_once_from_file(true)
 */
@@ -232,7 +232,7 @@ load_once_from_file(true)
                        var results = await callApp( {code_id:    codeId },{})
                        mm.app_loaded = true
                        mm.baseComponentId = baseComponentId
-                       mm.app_component_name = results.name
+                       mm.app_component_name = baseComponentId
                        //alert(results.name + " loaded")
                    },200)
                }
