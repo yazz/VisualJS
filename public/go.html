@@ -770,17 +770,22 @@ var defaultCards = [
                 </div>
             </div>
 
-            <form_subscribe_to_appshare />
+            <div  id='subscribe'>
+                <form_subscribe_to_appshare></form_subscribe_to_appshare>
+            </div>
         </div>
         `,
 
 
 
         fn: async function() {
-            await callApp({driver_name:    "formSubscribeToAppshare",method_name:    "component"},{})
 
+            await load("form_subscribe_to_appshare")
             await callApp( {driver_name: "listApps", method_name: "listApps"},{})
             new Vue({el: "#app_store"})
+            new Vue({el: "#subscribe"})
+
+
         }
     }
 
@@ -1200,6 +1205,10 @@ function callDriverMethod(findComponentArgs, args, callbackFn) {
 }
 
 
+async function load(baseComponentId) {
+    var comp = await callApp({base_component_id: baseComponentId},{})
+    return comp
+}
 
 async function callApp(findComponentArgs, args) {
     var promise = new Promise(returnfn => {

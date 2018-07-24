@@ -2975,7 +2975,7 @@ function setUpDbDrivers() {
     //
     // forms
     //
-    evalLocalSystemDriver('formSubscribeToAppshare',   path.join(__dirname, '../public/visifile_drivers/apps/formSubscribeToAppshare.js'))
+    evalLocalSystemDriver('form_subscribe_to_appshare',   path.join(__dirname, '../public/visifile_drivers/apps/formSubscribeToAppshare.js'))
 
 
 

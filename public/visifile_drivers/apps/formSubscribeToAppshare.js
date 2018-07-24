@@ -1,7 +1,7 @@
-function component(args) {
+function(args) {
 /*
 created_timestamp(-1)
-base_component_id("formSubscribeToAppshare")
+base_component_id("form_subscribe_to_appshare")
 display_name("Form to subscribe to Appshare")
 is_app(true)
 load_once_from_file(true)
