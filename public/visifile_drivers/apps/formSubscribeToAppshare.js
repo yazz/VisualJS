@@ -48,8 +48,6 @@ logo_url("https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/yWLXB1Z/videoblo
             }
       }
     })
-
-    return {name: "form_subscribe_to_appshare"}
     /*
     sqlite(
     [
