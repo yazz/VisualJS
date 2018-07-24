@@ -1,4 +1,4 @@
-function(args) {
+function component(args) {
 /*
 created_timestamp(-1)
 base_component_id("formSubscribeToAppshare")
