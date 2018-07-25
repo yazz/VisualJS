@@ -21,7 +21,7 @@ logo_url("https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/yWLXB1Z/videoblo
                     </template>
                     <template v-if='subscribed' >
                         <div class='text-center' style='font-weight:bold;padding-bottom: 10px;'>
-                            Thanks for subscribing to the Appshare newsletter!
+                            Thanks for subscribing to the Appshare newsletter {{email_address}}!
                         </div>
                     </template>
                 </div>
