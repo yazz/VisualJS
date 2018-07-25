@@ -37,9 +37,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxASDxIPEBI
                                   <li style='background-color: black; color: white;'>Embed forms easily into your website</li>
                                   <li style='background-color: black; color: white;'>Many templates available to get started easily</li>
                               </ul>
-                                <button class='btn btn-info btn-lg'
-                                v-on:click='document.location="/?goto=Create%20New%20App%20From%20Template&time=" + new Date().getTime();return false;'>
-                                Create a form now</button>
                         </div>
                         <div class="col-md-5" style='background-color: white'>
                             <img src='/homepage_shot.jpg'></img>
@@ -68,7 +65,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxASDxIPEBI
                         <div class="col-md-1">
                         </div>
                         <div class="col-md-10">
-                            <h1>Or change an existing form in our collection</h1>
+                            <h1>Choose a template and create a form now</h1>
 
 
                                 <div style='background-color: white;' class="card-columns">
