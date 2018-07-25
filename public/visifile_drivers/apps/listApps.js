@@ -2,13 +2,13 @@ function listApps(args) {
 /*
 is_app(true)
 created_timestamp(-1)
-base_component_id("listApps")
+base_component_id("list_apps")
 display_name("App Store")
 description('App to list all the apps')
 load_once_from_file(true)
 */
 
-    Vue.component('listApps',{
+    Vue.component('list_apps',{
 
 
           template: `<div >

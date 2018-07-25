@@ -781,7 +781,7 @@ var defaultCards = [
         fn: async function() {
 
             await load("form_subscribe_to_appshare")
-            await callApp( {driver_name: "listApps", method_name: "listApps"},{})
+            await load("list_apps")
             new Vue({el: "#app_store"})
             new Vue({el: "#subscribe"})
 
