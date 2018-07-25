@@ -553,7 +553,6 @@ function loadAppIntoElement(tagName, rootElement) {
 }
 
 function copyApp(  baseComponentId ) {
-
     callDriverMethod( {driver_name: "copyApp",
                        method_name: "copyAppshareApp"}
                       ,{
@@ -561,25 +560,10 @@ function copyApp(  baseComponentId ) {
                        }
                 ,
                 function(result) {
-                    //alert(JSON.stringify(result,null,2))
-                    var nid = nextItem++;
-                    add_card({
-                                    id: nid,
-                                    card: {
-                                        id:                 nid,
-                                        name:               result.value.new_display_name,
-                                        base_component_id:  result.value.base_component_id,
-                                        code_id:            result.value.new_code_id,
-                                        display_name:       result.value.new_display_name,
-                                        type:               "app"
-                                    }});
+                    //zzz
+                    var copLoc = "http://" +  useHostname + ":" + usePort + "/?goto=" + result.value.new_display_name .replaceAll(" ","%20")
+                    window.location.href = copLoc
 
-
-
-                    setTimeout(function() {
-                        closeCard()
-                        select_card(nid);
-                    },1500)
                 })
 }
 
@@ -1013,7 +997,7 @@ var dataIds = new Object()
             data.value.code = data.value.code.toString().replaceAll(" sqlFirstCol[(]"," rsqlFirstCol(" + addP)
             data.value.code = data.value.code.toString().replaceAll(" sqlFirstCol1[(]"," rsqlFirstCol1(" + addP)
             //alert("data: " + data.value.code);
-            //zzz
+
 
             if (data.value.code_id) {
 
@@ -1092,7 +1076,7 @@ function callCode(data) {
         data.value.code = data.value.code.toString().replaceAll(" sql1[(]"," rsql1(" + addP)
         data.value.code = data.value.code.toString().replaceAll(" sqlFirstCol[(]"," rsqlFirstCol(" + addP)
         data.value.code = data.value.code.toString().replaceAll(" sqlFirstCol1[(]"," rsqlFirstCol1(" + addP)
-        //zzz
+
 
         var fnfn = eval( data.value.code )
         var args =     callDriverMethodArgs[data.seq_num]

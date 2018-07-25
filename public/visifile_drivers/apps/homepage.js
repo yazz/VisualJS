@@ -65,7 +65,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxASDxIPEBI
                         <div class="col-md-1">
                         </div>
                         <div class="col-md-10">
-                            <h1>Choose a template and create a form now</h1>
+                            <div class='display-3 text-center'>Choose a template and create a form now</div>
 
 
                                 <div style='background-color: white;' class="card-columns">
@@ -73,12 +73,12 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxASDxIPEBI
                                  <img    v-if='item.logo_url'
                                          v-bind:src='item.logo_url'
                                          style='width: 100%;'
-                                         v-on:click='document.location="/?goto=" + item.display_name + "&time=" + new Date().getTime();return false;'
+                                         v-on:click='copyApp(item.base_component_id)'
                                          ></img>
                                    <div class="card-body">
                                      <h4 class="card-title">{{item.display_name}}</h4>
                                      <p class="card-text"></p>
-                                     <a v-bind:href='"/?goto=" + item.display_name + "&time=" + new Date().getTime()' class="btn btn-primary">Run</a>
+                                     <div v-on:click='copyApp(item.base_component_id)' class="btn btn-primary">Copy</div>
                                    </div>
                                  </div>
                                  </div>
