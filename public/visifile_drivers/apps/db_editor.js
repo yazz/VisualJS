@@ -1,15 +1,14 @@
 async function(args) {
 /*
-base_component_id("todo")
-created_timestamp(1529939023323)
+base_component_id("db_editor")
+created_timestamp(-1)
 is_app(true)
-display_name("Todo App")
-visibility("PUBLIC")
-description("This will create a demo todo app")
+display_name("DB Editor")
+description("This will edit another application's database")
 load_once_from_file(true)
-logo_url("https://i.imgur.com/OvMZBs9.jpg")
+logo_url("https://tapoueh.org/img/old/sql-logo.png")
 */
-Vue.component("todo", {
+Vue.component("db_editor", {
     template: `<div>
          Todo List<br>
           <li v-for='item in items'>
@@ -45,20 +44,4 @@ Vue.component("todo", {
 
     }
  })
-
- /*
- allowAccessToAppBaseComponentIds([""])
- allowAccessToAppTypes(["database_reader"])
- sqlite(
- [
-     "Create the initial item table",
-     ["CREATE TABLE items (id	TEXT, name	TEXT);",
-      "alter TABLE items add column time INTEGER;"]
-      ,
-      "Add a column for the user name",
-     ["alter TABLE items add column user TEXT;"]
-
- ])//sqlite
-grant_full_db_access_to(["db_editor"])
-*/
 }
