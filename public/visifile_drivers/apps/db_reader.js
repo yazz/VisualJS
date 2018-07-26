@@ -1,14 +1,14 @@
 async function(args) {
 /*
-base_component_id("db_editor")
+base_component_id("db_reader")
 created_timestamp(-1)
 is_app(true)
-display_name("DB Editor")
-description("This will edit another application's database")
+display_name("DB Reader")
+description("This will read another application's database")
 load_once_from_file(true)
 logo_url("https://tapoueh.org/img/old/sql-logo.png")
 */
-Vue.component("db_editor", {
+Vue.component("db_reader", {
     template: `<div>
          Todo List<br>
           <li v-for='item in items'>
