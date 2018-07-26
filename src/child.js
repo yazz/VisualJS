@@ -2967,7 +2967,7 @@ function setUpDbDrivers() {
     evalLocalSystemDriver('database_reader',   path.join(__dirname, '../public/visifile_drivers/apps/databaseReader.js'))
     evalLocalSystemDriver('new_app',   path.join(__dirname, '../public/visifile_drivers/apps/newApp.js'))
     evalLocalSystemDriver('todo',   path.join(__dirname, '../public/visifile_drivers/apps/todo.js'))
-    evalLocalSystemDriver('db_reader',   path.join(__dirname, '../public/visifile_drivers/apps/db_reader.js'))
+    evalLocalSystemDriver('todo_app_reader',   path.join(__dirname, '../public/visifile_drivers/apps/todo_app_reader.js'))
     evalLocalSystemDriver('newSql',   path.join(__dirname, '../public/visifile_drivers/apps/newSqlApp.js'))
     evalLocalSystemDriver('newAppFromTemplate',   path.join(__dirname, '../public/visifile_drivers/apps/newAppFromTemplate.js'))
 

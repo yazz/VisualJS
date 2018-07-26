@@ -59,6 +59,6 @@ Vue.component("todo", {
      ["alter TABLE items add column user TEXT;"]
 
  ])//sqlite
-grant_full_db_access_to(["db_reader"])
+grant_full_db_access_to(["todo_app_reader"])
 */
 }
