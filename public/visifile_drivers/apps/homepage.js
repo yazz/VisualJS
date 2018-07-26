@@ -36,6 +36,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxASDxIPEBI
                                   <li style='background-color: black; color: white;'>Build forms in under 5 minutes in Javascript</li>
                                   <li style='background-color: black; color: white;'>Embed forms easily into your website</li>
                                   <li style='background-color: black; color: white;'>Many templates available to get started easily</li>
+                                  <li style='background-color: black; color: white;'>Use online or host it in your Enterprise</li>
                               </ul>
                         </div>
                         <div class="col-md-5" style='background-color: white'>
