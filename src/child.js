@@ -4079,6 +4079,7 @@ async function saveCodeV2( baseComponentId, parentHash, code ) {
                                 var displayName = saveHelper.getValueOfCodeString(code,"display_name")
 
                                 var logoUrl = saveHelper.getValueOfCodeString(code,"logo_url")
+                                var useDb = saveHelper.getValueOfCodeString(code,"use_db")
 
 
 
@@ -4113,7 +4114,7 @@ async function saveCodeV2( baseComponentId, parentHash, code ) {
                                 //console.log("Saving in Sqlite: " + parentHash)
                                 //console.log("Saving in Sqlite: " + code)
                                 var stmtInsertNewCode = dbsearch.prepare(
-                                    " insert into   system_code  (id, parent_id, code_tag, code,on_condition, base_component_id, method, max_processes,component_type,display_name, creation_timestamp,component_options, logo_url, visibility, interfaces) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+                                    " insert into   system_code  (id, parent_id, code_tag, code,on_condition, base_component_id, method, max_processes,component_type,display_name, creation_timestamp,component_options, logo_url, visibility, interfaces,use_db) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
                                 var stmtDeprecateOldCode = dbsearch.prepare(
                                     " update system_code  set code_tag = NULL where base_component_id = ? and id != ?");
 
@@ -4134,7 +4135,8 @@ async function saveCodeV2( baseComponentId, parentHash, code ) {
                                           componentOptions,
                                           logoUrl,
                                           visibility,
-                                          interfaces
+                                          interfaces,
+                                          useDb
                                           )
                                     stmtDeprecateOldCode.run(
                                         baseComponentId,
@@ -4198,6 +4200,7 @@ async function saveCodeV2( baseComponentId, parentHash, code ) {
                                       "value": {
                                         "code": \`${newcode}\`,
                                         "is_code_result": true,
+                                        "use_db": \`${useDb}\`,
                                         "libs": [],
                                         "code_id": "${sha1sum}",
                                         "on_condition": "\\\"app\\\"",
