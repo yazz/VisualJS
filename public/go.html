@@ -987,7 +987,7 @@ var dataIds = new Object()
             if (data.value.component_options){
                 //alert("code: " + JSON.stringify(data.value.component_options,null,2));
             }
-            //alert("code2: " + JSON.stringify(queuedResponses[data.seq_num],null,2));
+            //alert("code2: " + JSON.stringify(data.value.use_db,null,2));
             //alert("data: " + JSON.stringify(data.value.code_id,null,2));
             //alert("data: " + JSON.stringify(data.value.base_component_id,null,2));
             var useDb = data.value.base_component_id
@@ -1074,7 +1074,11 @@ function callCode(data) {
     try {
         //alert(data.value.code_id)
         //alert(data.value.base_component_id)
-        var addP = "\"" + data.value.code_id + "\", \"" + data.value.base_component_id + "\", "
+        var useDb = data.value.base_component_id
+        if (data.value.use_db) {
+            useDb = data.value.use_db
+        }
+        var addP = "\"" + data.value.code_id + "\", \"" + useDb + "\", "
         //alert("data: " + addP);
         data.value.code = data.value.code.toString().replaceAll(" sql[(]"," rsql(" + addP)
         data.value.code = data.value.code.toString().replaceAll(" sql1[(]"," rsql1(" + addP)

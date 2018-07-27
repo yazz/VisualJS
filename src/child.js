@@ -4200,7 +4200,7 @@ async function saveCodeV2( baseComponentId, parentHash, code ) {
                                       "value": {
                                         "code": \`${newcode}\`,
                                         "is_code_result": true,
-                                        "use_db": \`${useDb}\`,
+                                        "use_db": ${useDb?"\"" + useDb + "\"":null},
                                         "libs": [],
                                         "code_id": "${sha1sum}",
                                         "on_condition": "\\\"app\\\"",
