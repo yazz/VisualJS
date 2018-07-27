@@ -313,6 +313,7 @@ function executeCode(callId, codeId, args, on_condition,  base_component_id) {
 
                         currentDriver = results[0].base_component_id
                         var componentOptions = results[0].component_options
+                        var useDb = results[0].use_db
                         currentEvent = results[0].on_condition
                         currentCodeID = codeId
                         currentArgs = args
@@ -329,6 +330,7 @@ function executeCode(callId, codeId, args, on_condition,  base_component_id) {
                                             process.send({  message_type:         "function_call_response" ,
                                                             result:              { code:                code,
                                                                                    is_code_result:      true,
+                                                                                   use_db:              useDb,
                                                                                    component_options:   componentOptions,
                                                                                    libs:                results2,
                                                                                    code_id:             codeId,

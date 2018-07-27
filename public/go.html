@@ -990,7 +990,11 @@ var dataIds = new Object()
             //alert("code2: " + JSON.stringify(queuedResponses[data.seq_num],null,2));
             //alert("data: " + JSON.stringify(data.value.code_id,null,2));
             //alert("data: " + JSON.stringify(data.value.base_component_id,null,2));
-            var addP = "\"" + data.value.code_id + "\", \"" + data.value.base_component_id + "\", "
+            var useDb = data.value.base_component_id
+            if (data.value.use_db) {
+                useDb = data.value.use_db
+            }
+            var addP = "\"" + data.value.code_id + "\", \"" + useDb + "\", "
             //alert("data: " + addP);
             data.value.code = data.value.code.toString().replaceAll(" sql[(]"," rsql(" + addP)
             data.value.code = data.value.code.toString().replaceAll(" sql1[(]"," rsql1(" + addP)
