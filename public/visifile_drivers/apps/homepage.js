@@ -32,8 +32,8 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxASDxIPEBI
                                                   <a-box position="2 10 -10" rotation="0 0 0" color="#4CC3D9"  >
                                                 <a-entity
                                                      mixin="RobotoFont"
-                                                     position="1 0 .6"
-                                                     text='color: white; align: left; value: AppShare ; width: 9; opacity:1;'>
+                                                     position="3.5 0 .6"
+                                                     text='color: white; align: left; value: AppShare ; width: 15; opacity:1;'>
                                                      </a-entity>
                                                  <a-animation attribute="position"
                                                                           to="0 0 -1.5" dur="2000" direction="normal" ></a-animation>
