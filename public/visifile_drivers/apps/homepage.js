@@ -28,7 +28,8 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxASDxIPEBI
 
                                 <a-entity camera look-controls>
                                     <a-entity geometry="primitive: plane; height: 0.2; width: 0.2" position="1 0 -1"
-                                            material="opacity: 0">
+                                            material="opacity: 0"
+                                            spin="">
                                                     <a-box position="2 10 -10" rotation="0 0 0" color="#4CC3D9"  >
                                                   <a-entity
                                                        mixin="RobotoFont"
@@ -36,7 +37,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxASDxIPEBI
                                                        text='color: white; align: left; value: AppShare ; width: 9; opacity:1;'>
                                                        </a-entity>
                                                    <a-animation attribute="position"
-                                											to="2 0 -1.5" dur="2000" direction="normal" ></a-animation>
+                                											to="0 0 -1.5" dur="2000" direction="normal" ></a-animation>
                                               </a-box>
                                                </a-entity>
                                                </a-entity>
