@@ -137,6 +137,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxASDxIPEBI
 
 
 
+
                     <div class="row" style='background-color: lightgray; color: white; padding-top: 20px;padding-bottom: 20px;'>
                         <div class="col-md-1">
                         </div>
@@ -150,18 +151,22 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxASDxIPEBI
                                     <br><br><br>
                         </div>
                         <div class="col-md-1"></div>
-                        </div>
+                        
 
                     </div>
 
 
 
+                    <div class="row" style='background-color: white; color: black; padding-top: 20px;padding-bottom: 20px;'>
+                        <div class="col-md-1">
+                        </div>
+                        <div class="col-md-10 text-center display-3">
+                            This website was designed with Appshare
+                        </div>
+                        <div class="col-md-1"></div>
 
 
-
-
-
-
+                    </div>
 
 
 
