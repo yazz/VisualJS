@@ -115,7 +115,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxASDxIPEBI
 
 
 
-                    <div class="row" style='background-color: black; color: white; padding-top: 20px;padding-bottom: 20px;'>
+                    <div class="row" style='background-color: white; color: white; padding-top: 20px;padding-bottom: 20px;'>
                         <div class="col-md-2"></div>
                         <div class="col-md-3 text-left">
                             <a href="http://visifile.com/visifile/64/Appshare_Setup.exe" class="btn btn-secondary">
@@ -138,30 +138,32 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxASDxIPEBI
 
 
 
-                    <div class="row" style='background-color: lightgray; color: white; padding-top: 20px;padding-bottom: 20px;'>
+
+                    <div class="row" style='background-color: lightgray; color: black; padding-top: 20px;padding-bottom: 20px;'>
                         <div class="col-md-1">
                         </div>
-                        <div class="col-md-10 text-center">
-                            It's also open source on Github:
-                            <a href='https://github.com/zubairq/appshare'>https://github.com/zubairq/appshare</a>
-                                    <br><br><br>
-
-                            See our website at:<br>
-                            <a href='http://AppShare.co'>AppShare.co</a>
-                                    <br><br><br>
+                        <div class="col-md-10 text-center display-3">
+                            This website was designed with Appshare
                         </div>
                         <div class="col-md-1"></div>
-                        
+
 
                     </div>
 
 
 
-                    <div class="row" style='background-color: white; color: black; padding-top: 20px;padding-bottom: 20px;'>
+
+                    <div class="row" style='background-color: black; color: white; padding-top: 20px;padding-bottom: 20px;'>
                         <div class="col-md-1">
                         </div>
-                        <div class="col-md-10 text-center display-3">
-                            This website was designed with Appshare
+                        <div class="col-md-4 text-center">
+                            On Github:
+                            <a href='https://github.com/zubairq/appshare'>https://github.com/zubairq/appshare</a>
+                        </div>
+                        <div class="col-md-4 text-center">
+
+                            Website:
+                            <a href='http://AppShare.co'>AppShare.co</a>
                         </div>
                         <div class="col-md-1"></div>
 
