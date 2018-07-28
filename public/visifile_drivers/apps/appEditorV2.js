@@ -173,19 +173,21 @@ load_once_from_file(true)
            // 'baseComponentId'
            // ---------------------------------------------------------------
            load_app: async function ( baseComponentId ) {
-               //alert("trying to load app: " + baseComponentId)
-               mm.app_loaded = false
-               mm.base_component_id = baseComponentId
-               mm.app_component_name = null
-               mm.card_id = cardId
+               //
+               // set up vars
+               //
+               mm.app_loaded            = false
+               mm.base_component_id     = baseComponentId
+               mm.app_component_name    = null
+               mm.card_id               = cardId
 
 
-
-               var sql =    "select  id, cast(code as text) as code from  system_code  where " +
+               //
+               // read the code for the component that we are editing
+               //
+               var sql =    "select  id, cast(code as text)  as  code  from  system_code  where " +
                             "        component_type = 'app' and base_component_id = '" + baseComponentId + "'" +
                             "        and code_tag = 'LATEST' "
-
-               //alert( sql )
 
                var results = await callApp(
                    {
