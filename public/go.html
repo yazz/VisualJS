@@ -1197,8 +1197,8 @@ function callDriverMethod(findComponentArgs, args, callbackFn) {
 }
 
 
-async function load(baseComponentId) {
-    var comp = await callApp({base_component_id: baseComponentId},{})
+async function load(baseComponentId, args) {
+    var comp = await callApp({base_component_id: baseComponentId},args)
     return comp
 }
 

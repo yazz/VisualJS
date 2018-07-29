@@ -1,15 +1,14 @@
 function component( args ) {
 /*
-base_component_id("editorComponent")
+base_component_id("editor_component")
 load_once_from_file(true)
 */
 
     //alert(JSON.stringify(args,null,2))
-    var uid = uuidv4()
     var uid2 = uuidv4()
     var mm = null
     var editor = null
-    Vue.component(uid, {
+    Vue.component("editor_component", {
       data: function () {
         return {
             text: args.text,
@@ -55,8 +54,4 @@ load_once_from_file(true)
 
     })
 
-
-    return {
-        name: uid
-    }
 }

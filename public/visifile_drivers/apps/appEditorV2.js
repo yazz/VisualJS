@@ -219,15 +219,9 @@ load_once_from_file(true)
                        //alert(JSON.stringify(1,null,2))
 
                        if (!mm.editor_loaded) {
-                           var result = await callApp(
-                               {
-                                    driver_name:    "editorComponent",
-                                    method_name:    "component"
-                                }
-                                ,
-                                  {text: code})
+                           await load("editor_component",{text: code})
                             mm.editor_loaded = true
-                            mm.editor_component = result.name
+                            mm.editor_component = "editor_component"
                        }
 
 
