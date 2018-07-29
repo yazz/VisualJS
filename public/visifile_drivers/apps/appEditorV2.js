@@ -185,7 +185,7 @@ load_once_from_file(true)
                //
                // read the code for the component that we are editing
                //
-               var sql =    "select  id, cast(code as text)  as  code  from  system_code  where " +
+               var sql =    "select  id, cast(code as text)  as  code, editors  from  system_code  where " +
                             "        component_type = 'app' and base_component_id = '" + baseComponentId + "'" +
                             "        and code_tag = 'LATEST' "
 
@@ -203,6 +203,10 @@ load_once_from_file(true)
                if (results) {
                    //alert(JSON.stringify(results,null,2))
                    if (results.length > 0) {
+                       var editors2 = results[0].editors
+                       if (editors2) {
+                            //alert(editors2)
+                       }
                        var code = results[0].code
                        var codeId = results[0].id
                        //alert(code)

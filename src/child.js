@@ -4081,7 +4081,12 @@ async function saveCodeV2( baseComponentId, parentHash, code ) {
                                 var logoUrl = saveHelper.getValueOfCodeString(code,"logo_url")
                                 var useDb = saveHelper.getValueOfCodeString(code,"use_db")
                                 var editors2 = saveHelper.getValueOfCodeString(code,"editors")
-                                var editors = JSON.stringify(editors2,null,2)
+
+                                var editors = null
+                                if (editors2) {
+                                    editors = JSON.stringify(editors2,null,2)
+
+                                }
 
 
 
