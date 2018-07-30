@@ -15,7 +15,7 @@ load_once_from_file(true)
             uid2: uid2
         }
       },
-      template: `<div>
+      template: `<div>Form editor
                     <div v-bind:id='uid2' ></div>
                     <hr />
                      <slot  :text2="text"></slot>

@@ -204,8 +204,10 @@ load_once_from_file(true)
                    //alert(JSON.stringify(results,null,2))
                    if (results.length > 0) {
                        var editors2 = results[0].editors
+                       var newEditor = null
                        if (editors2) {
-                            //alert(editors2)
+                            var edd = eval("(" + editors2 + ")")
+                            newEditor = edd[0]
                        }
                        var code = results[0].code
                        var codeId = results[0].id
@@ -219,9 +221,14 @@ load_once_from_file(true)
                        //alert(JSON.stringify(1,null,2))
 
                        if (!mm.editor_loaded) {
-                           await load("editor_component",{text: code})
+                            var editorName = "editor_component"
+                            if (newEditor) {
+                                 editorName = newEditor
+                            }
+
+                            await load(editorName,{text: code})
                             mm.editor_loaded = true
-                            mm.editor_component = "editor_component"
+                            mm.editor_component = editorName
                        }
 
 
