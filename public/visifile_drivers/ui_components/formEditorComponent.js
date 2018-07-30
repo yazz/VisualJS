@@ -7,7 +7,6 @@ load_once_from_file(true)
     //alert(JSON.stringify(args,null,2))
     var uid2 = uuidv4()
     var mm = null
-    var editor = null
     var texti = args.text
     Vue.component("form_editor_component", {
       data: function () {
@@ -25,21 +24,16 @@ load_once_from_file(true)
 
      mounted: function() {
          mm = this
-         editor = ace.edit(           uid2, {
-                                                 mode:           "ace/mode/javascript",
-                                                 selectionStyle: "text"
-                                             })
          document.getElementById(uid2).style.width="100%"
 
          document.getElementById(uid2).style.height="45vh"
-         editor.getSession().setValue(mm.text);
-         editor.getSession().setUseWorker(false);
          var json2 = saveHelper.getValueOfCodeString(texti,"formEditor",")//formEditor")
          alert(JSON.stringify(json2))
+         //editor.getSession().setUseWorker(false);
 
 
          editor.getSession().on('change', function() {
-            mm.text = editor.getSession().getValue();
+            //mm.text = editor.getSession().getValue();
             //alert("changed text to : " + mm.text)
             });
      },
@@ -49,7 +43,7 @@ load_once_from_file(true)
         },
         setText: function(textValue) {
             this.text =  textValue
-            editor.getSession().setValue(textValue);
+            //editor.getSession().setValue(textValue);
             var json2 = saveHelper.getValueOfCodeString(textValue,"formEditor",")//formEditor")
             alert(JSON.stringify(json2))
         }
