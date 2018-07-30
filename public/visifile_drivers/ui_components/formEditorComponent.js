@@ -45,8 +45,11 @@ load_once_from_file(true)
             return this.text
         },
         setText: function(textValue) {
+        alert(1)
             this.text =  textValue
             editor.getSession().setValue(textValue);
+            var json2 = saveHelper.getValueOfCodeString(textValue,"formEditor",")//formEditor")
+            alert(json2)
         }
 
      }

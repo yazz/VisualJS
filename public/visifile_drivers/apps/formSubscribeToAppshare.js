@@ -59,6 +59,14 @@ logo_url("https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/yWLXB1Z/videoblo
         ]
 
     ])//sqlite
+    formEditor(
+    {
+        fields: [
+            {
+                name: "field1"
+            }
+        ]
+    })//formEditor
 
    */
 }
