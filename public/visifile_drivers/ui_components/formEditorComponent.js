@@ -8,10 +8,11 @@ load_once_from_file(true)
     var uid2 = uuidv4()
     var mm = null
     var editor = null
+    var texti = args.text
     Vue.component("form_editor_component", {
       data: function () {
         return {
-            text: args.text,
+            text: texti,
             uid2: uid2
         }
       },
@@ -33,6 +34,8 @@ load_once_from_file(true)
          document.getElementById(uid2).style.height="45vh"
          editor.getSession().setValue(mm.text);
          editor.getSession().setUseWorker(false);
+         var json2 = saveHelper.getValueOfCodeString(texti,"formEditor",")//formEditor")
+         alert(JSON.stringify(json2))
 
 
          editor.getSession().on('change', function() {
@@ -45,11 +48,10 @@ load_once_from_file(true)
             return this.text
         },
         setText: function(textValue) {
-        alert(1)
             this.text =  textValue
             editor.getSession().setValue(textValue);
             var json2 = saveHelper.getValueOfCodeString(textValue,"formEditor",")//formEditor")
-            alert(json2)
+            alert(JSON.stringify(json2))
         }
 
      }
