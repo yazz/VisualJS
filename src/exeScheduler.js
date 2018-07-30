@@ -466,6 +466,7 @@ function testQueryToExecute(cond, code_id) {
 
 var processesInUse = new Object()
 
+var tryAgain = true
 function scheduleJobWithCodeId(codeId, args,  parentCallId, callbackIndex) {
 
     var processToUse = null
@@ -489,6 +490,12 @@ function scheduleJobWithCodeId(codeId, args,  parentCallId, callbackIndex) {
     }
     if (!processToUse) {
         console.log("Could not find a process to use for " + codeId)
+        if (tryAgain) {
+            console.log("Retry in 2 seconds ..." )
+            setTimeout(function() {
+                scheduleJobWithCodeId(codeId, args,  parentCallId, callbackIndex)
+            },2000)
+        }
     }
 }
 
