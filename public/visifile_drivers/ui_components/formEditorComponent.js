@@ -12,12 +12,17 @@ load_once_from_file(true)
       data: function () {
         return {
             text: texti,
-            uid2: uid2
+            uid2: uid2,
+            model: {}
         }
       },
       template: `<div>Form editor
-                    <div v-bind:id='uid2' ></div>
+                    <div v-bind:id='uid2' >
+                        {{JSON.stringify(model,null,2)}}
+                    </div>
                     <hr />
+
+
                      <slot  :text2="text"></slot>
                  </div>`
      ,
@@ -28,7 +33,8 @@ load_once_from_file(true)
 
          document.getElementById(uid2).style.height="45vh"
          var json2 = saveHelper.getValueOfCodeString(texti,"formEditor",")//formEditor")
-         alert(JSON.stringify(json2))
+         //alert(JSON.stringify(json2))
+         mm.model = json2
          //editor.getSession().setUseWorker(false);
 
 
@@ -45,7 +51,8 @@ load_once_from_file(true)
             this.text =  textValue
             //editor.getSession().setValue(textValue);
             var json2 = saveHelper.getValueOfCodeString(textValue,"formEditor",")//formEditor")
-            alert(JSON.stringify(json2))
+            //alert(JSON.stringify(json2))
+            mm.model = json2
         }
 
      }
