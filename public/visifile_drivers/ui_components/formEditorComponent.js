@@ -13,12 +13,18 @@ load_once_from_file(true)
         return {
             text: texti,
             uid2: uid2,
-            model: {}
+            model: {
+                fields: [
+                ]
+            }
         }
       },
       template: `<div>Form editor
                     <div v-bind:id='uid2' >
-                        {{JSON.stringify(model,null,2)}}
+                        <div v-for='field in model.fields'>
+                            <div v-if='field.type=="text"'>{{field.text}}</div>
+                            <div v-if='field.type=="input"'>{{field.label}}<input></input></div>
+                        </div>
                     </div>
                     <hr />
 
