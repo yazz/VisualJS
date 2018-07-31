@@ -46,10 +46,10 @@ load_once_from_file(true)
 
 
 
-         editor.getSession().on('change', function() {
+         //editor.getSession().on('change', function() {
             //mm.text = editor.getSession().getValue();
             //alert("changed text to : " + mm.text)
-            });
+         //   });
      },
      methods: {
         getText: function() {
@@ -74,9 +74,30 @@ load_once_from_file(true)
             this.text = this.text.substring(0,startIndex) +
                 "//** gen_start **//\n" +
                 `Vue.component('form_subscribe_to_appshare', {
-                  template: \`<div>new form</div>\`
-                  })` +
-                this.text.substring(endIndex)
+                  template: \`<div>new form
+
+                  <div v-for='field in model.fields'>
+                      <div v-if='field.type=="text"'>{{field.text}}</div>
+                      <div v-if='field.type=="input"'>{{field.label}}<input></input></div>
+                  </div>
+                  </div>\`
+                  ,
+                    data: function() {
+                        return    {
+                            model: {
+                                fields: [
+                                        {type: "text",   text: "Subscribe to the Appshare newsletter" },
+
+                                        {type: "input",  label: "name" },
+                                        {type: "input",  label: "address" }
+                                    ]
+                            }
+                        }
+                    }
+                }
+              )\n` +
+              this.text.substring(endIndex)
+              console.log(this.text)
         }
 
      }

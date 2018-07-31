@@ -66,8 +66,8 @@ logo_url("https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/yWLXB1Z/videoblo
         fields: [
             {type: "text",   text: "Subscribe to the Appshare newsletter" },
 
-            {type: "input",  label: "name", },
-            {type: "input",  label: "address", }
+            {type: "input",  label: "name" },
+            {type: "input",  label: "address" }
         ]
     })//formEditor
 
