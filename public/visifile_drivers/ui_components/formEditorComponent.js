@@ -36,6 +36,7 @@ load_once_from_file(true)
          var json2 = this.getJsonModelFromCode(  texti  )
          mm.model = json2
          this.generateCodeFromModel(  json2  )
+         //alert(this.text)
 
 
 
@@ -62,7 +63,14 @@ load_once_from_file(true)
 
         ,
         generateCodeFromModel: function(  jsonModel  ) {
-
+            var startIndex = this.text.indexOf("//** gen_start **//")
+            var endIndex = this.text.indexOf("//** gen_end **//")
+            this.text = this.text.substring(0,startIndex) +
+                "//** gen_start **//\n" +
+                `Vue.component('form_subscribe_to_appshare', {
+                  template: \`<div>new form</div>\`
+                  })` +
+                this.text.substring(endIndex)
         }
 
      }
