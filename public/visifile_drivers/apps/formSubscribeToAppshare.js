@@ -11,6 +11,7 @@ editors(["form_editor_component"])
 logo_url("https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/yWLXB1Z/videoblocks-youtube-subscribe-button-subscribe-animations_bbfp0u_if_thumbnail-full05.png")
 */
 
+    //** gen_start **//
     Vue.component('form_subscribe_to_appshare', {
       template: `<div>
                     <template v-if='!subscribed'>
@@ -49,6 +50,7 @@ logo_url("https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/yWLXB1Z/videoblo
             }
       }
     })
+    //** gen_end **//
 
     /*
     sqlite(

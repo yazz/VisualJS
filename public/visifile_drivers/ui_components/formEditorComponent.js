@@ -32,10 +32,11 @@ load_once_from_file(true)
          document.getElementById(uid2).style.width="100%"
 
          document.getElementById(uid2).style.height="45vh"
-         var json2 = saveHelper.getValueOfCodeString(texti,"formEditor",")//formEditor")
-         //alert(JSON.stringify(json2))
+
+         var json2 = this.getJsonModelFromCode(  texti  )
          mm.model = json2
-         //editor.getSession().setUseWorker(false);
+         this.generateCodeFromModel(  json2  )
+
 
 
          editor.getSession().on('change', function() {
@@ -49,10 +50,19 @@ load_once_from_file(true)
         },
         setText: function(textValue) {
             this.text =  textValue
-            //editor.getSession().setValue(textValue);
-            var json2 = saveHelper.getValueOfCodeString(textValue,"formEditor",")//formEditor")
-            //alert(JSON.stringify(json2))
+            var json2 = this.getJsonModelFromCode(  textValue  )
             mm.model = json2
+            this.generateCodeFromModel(  json2  )
+        }
+        ,
+        getJsonModelFromCode: function(  codeV  ) {
+            var json2 = saveHelper.getValueOfCodeString(codeV,"formEditor",")//formEditor")
+            return json2
+        }
+
+        ,
+        generateCodeFromModel: function(  jsonModel  ) {
+
         }
 
      }
