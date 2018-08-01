@@ -1,4 +1,4 @@
-function component( args ) {
+async function component( args ) {
 /*
 base_component_id("form_editor_component")
 load_once_from_file(true)
@@ -9,8 +9,9 @@ load_once_from_file(true)
     var mm = null
     var texti = args.text
     var designMode = true
-    Vue.component("form_editor_component", {
+    Vue.component("form_editor_component",
     //*** COPY_START ***//
+    {
       data: function () {
         return {
             design_mode: designMode,
@@ -71,15 +72,33 @@ load_once_from_file(true)
         }
 
         ,
-        generateCodeFromModel: function(  jsonModel  ) {
+        generateCodeFromModel: async function(  jsonModel  ) {
             var startIndex = this.text.indexOf("//** gen_start **//")
             var endIndex = this.text.indexOf("//** gen_end **//")
+
+            //zzz
+            var sql =    "select  cast(code as text)  as  code  from  system_code  where " +
+                         "        base_component_id = 'form_editor_component'   and   code_tag = 'LATEST' "
+
+            var results = await callApp({ driver_name:    "systemFunctions2",method_name:    "sql"},
+                {   sql: sql  })
+
+            var editorCode = results[0].code
+            var stt = "//*** COPY_" + "START ***//"
+            var editorCodeToCopyStart = editorCode.indexOf(stt) + stt.length
+            var editorCodeToCopyEnd = editorCode.indexOf("//*** COPY_" + "END ***//")
+            var editorCodeToCopy = editorCode.substring(editorCodeToCopyStart, editorCodeToCopyEnd)
+            //console.log(editorCodeToCopy)
+
             this.text = this.text.substring(0,startIndex) +
                 "//** gen_start **//\n" +
+                "var uid2 = uuidv4()\n" +
+                "var mm = null\n" +
+                "var texti = args.text\n" +
                 "var designMode = false\n" +
-                "Vue.component('form_subscribe_to_appshare', {" +
+                "Vue.component('form_subscribe_to_appshare', " +
 
-                `  template: \`<div>new form
+                `{  template: \`<div>new form
 
                   <div v-for='field in model.fields'>
                       <div v-if='field.type=="text"'>{{field.text}}</div>
@@ -100,7 +119,8 @@ load_once_from_file(true)
                         }
                     }
                 }
-              )\n` +
+              ` +
+              ")\n" +
               this.text.substring(endIndex)
               console.log(this.text)
         }
@@ -108,7 +128,8 @@ load_once_from_file(true)
      }
 
 
-    })
+    }
     //*** COPY_END ***//
+    )
 
 }
