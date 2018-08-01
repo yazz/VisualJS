@@ -29,6 +29,7 @@ load_once_from_file(true)
                             <div v-if='field.type=="text"'>{{field.text}}</div>
                             <div v-if='field.type=="input"'>{{field.label}}<input></input></div>
                         </div>
+                        <button  v-if='design_mode' type=button class='btn btn-primary'      v-on:click='chooseApp()'  >+ field</button>
                     </div>
                     <hr />
 
