@@ -19,7 +19,11 @@ load_once_from_file(true)
             uid2: uid2,
             model: {
                 fields: [
-                ]
+                        {type: "text",   text: "Subscribe to the Appshare newsletter" },
+
+                        {type: "input",  label: "name" },
+                        {type: "input",  label: "address" }
+                    ]
             }
         }
       },
@@ -44,10 +48,12 @@ load_once_from_file(true)
 
          document.getElementById(uid2).style.height="45vh"
 
-         var json2 = this.getJsonModelFromCode(  texti  )
-         mm.model = json2
-         this.generateCodeFromModel(  json2  )
-         //alert(this.text)
+         if (texti) {
+             var json2 = this.getJsonModelFromCode(  texti  )
+             mm.model = json2
+             this.generateCodeFromModel(  json2  )
+             //alert(this.text)
+         }
 
 
 
@@ -99,28 +105,7 @@ load_once_from_file(true)
                 "var designMode = false\n" +
                 "Vue.component('form_subscribe_to_appshare', " +
 
-                `{  template: \`<div>new form
-
-                  <div v-for='field in model.fields'>
-                      <div v-if='field.type=="text"'>{{field.text}}</div>
-                      <div v-if='field.type=="input"'>{{field.label}}<input></input></div>
-                  </div>
-                  </div>\`
-                  ,
-                    data: function() {
-                        return    {
-                            model: {
-                                fields: [
-                                        {type: "text",   text: "Subscribe to the Appshare newsletter" },
-
-                                        {type: "input",  label: "name" },
-                                        {type: "input",  label: "address" }
-                                    ]
-                            }
-                        }
-                    }
-                }
-              ` +
+                editorCodeToCopy +
               ")\n" +
               this.text.substring(endIndex)
               console.log(this.text)
