@@ -9,8 +9,8 @@ load_once_from_file(true)
     var mm = null
     var texti = args.text
     var designMode = true
-    //*** COPY_START ***//
     Vue.component("form_editor_component", {
+    //*** COPY_START ***//
       data: function () {
         return {
             design_mode: designMode,
@@ -77,9 +77,9 @@ load_once_from_file(true)
             this.text = this.text.substring(0,startIndex) +
                 "//** gen_start **//\n" +
                 "var designMode = false\n" +
+                "Vue.component('form_subscribe_to_appshare', {" +
 
-                `Vue.component('form_subscribe_to_appshare', {
-                  template: \`<div>new form
+                `  template: \`<div>new form
 
                   <div v-for='field in model.fields'>
                       <div v-if='field.type=="text"'>{{field.text}}</div>
