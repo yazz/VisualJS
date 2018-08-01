@@ -8,9 +8,12 @@ load_once_from_file(true)
     var uid2 = uuidv4()
     var mm = null
     var texti = args.text
+    var designMode = true
+    //*** COPY_START ***//
     Vue.component("form_editor_component", {
       data: function () {
         return {
+            design_mode: designMode,
             text: texti,
             uid2: uid2,
             model: {
@@ -73,6 +76,8 @@ load_once_from_file(true)
             var endIndex = this.text.indexOf("//** gen_end **//")
             this.text = this.text.substring(0,startIndex) +
                 "//** gen_start **//\n" +
+                "var designMode = false\n" +
+
                 `Vue.component('form_subscribe_to_appshare', {
                   template: \`<div>new form
 
@@ -104,5 +109,6 @@ load_once_from_file(true)
 
 
     })
+    //*** COPY_END ***//
 
 }
