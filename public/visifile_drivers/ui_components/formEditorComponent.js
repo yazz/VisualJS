@@ -38,7 +38,7 @@ load_once_from_file(true)
                     <hr />
 
 
-                     <slot  :text2="text"></slot>
+                     <slot v-if='text' :text2="text"></slot>
                  </div>`
      ,
 
