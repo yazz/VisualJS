@@ -7,7 +7,10 @@ load_once_from_file(true)
     //alert(JSON.stringify(args,null,2))
     var uid2 = uuidv4()
     var mm = null
-    var texti = args.text
+    var texti = null
+    if (args) {
+        texti = args.text
+    }
     var designMode = true
     Vue.component("form_editor_component",
     //*** COPY_START ***//
