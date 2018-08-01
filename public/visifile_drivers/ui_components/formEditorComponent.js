@@ -30,7 +30,7 @@ load_once_from_file(true)
             }
         }
       },
-      template: `<div>Form editor
+      template: `<div><div v-if='design_mode'  class='display-4'>Form editor</div>
                     <div v-bind:id='uid2' >
                         <div v-for='field in model.fields'>
                             <div v-if='field.type=="text"'>{{field.text}}</div>
@@ -104,7 +104,7 @@ load_once_from_file(true)
                 "//** gen_start **//\n" +
                 "var uid2 = uuidv4()\n" +
                 "var mm = null\n" +
-                "var texti = args.text\n" +
+                "var texti = null\n" +
                 "var designMode = false\n" +
                 "Vue.component('form_subscribe_to_appshare', " +
 
