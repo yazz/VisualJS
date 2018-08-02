@@ -13,24 +13,12 @@ load_once_from_file(true)
     }
     var designMode = true
     Vue.component("form_editor_component",
-    //*** COPY_START ***//
     {
-      data: function () {
-        return {
-            design_mode: designMode,
-            text: texti,
-            uid2: uid2,
-            model: {
-                fields: [
-                        {type: "text",   text: "Subscribe to the Appshare newsletter" },
+    //*** COPY_START ***//
+      template: `<div>
+                    <div v-if='design_mode'  class='display-4'>Form editor</div>
+                    <div v-if='!design_mode'  class='display-4'>MY FORM</div>
 
-                        {type: "input",  label: "name" },
-                        {type: "input",  label: "address" }
-                    ]
-            }
-        }
-      },
-      template: `<div><div v-if='design_mode'  class='display-4'>Form editor</div>
                     <div v-bind:id='uid2' >
                         <div v-for='field in model.fields'>
                             <div v-if='field.type=="text"'>{{field.text}}</div>
@@ -43,17 +31,17 @@ load_once_from_file(true)
 
                      <slot v-if='text' :text2="text"></slot>
                  </div>`
-     ,
+        ,
 
-     mounted: function() {
-         mm = this
-         document.getElementById(uid2).style.width="100%"
+        mounted: function() {
+            mm = this
+            document.getElementById(uid2).style.width="100%"
 
-         document.getElementById(uid2).style.height="45vh"
+            document.getElementById(uid2).style.height="45vh"
 
-         if (texti) {
-             var json2 = this.getJsonModelFromCode(  texti  )
-             mm.model = json2
+            if (texti) {
+                var json2 = this.getJsonModelFromCode(  texti  )
+                mm.model = json2
              this.generateCodeFromModel(  json2  )
              //alert(this.text)
          }
@@ -106,19 +94,46 @@ load_once_from_file(true)
                 "var mm = null\n" +
                 "var texti = null\n" +
                 "var designMode = false\n" +
-                "Vue.component('form_subscribe_to_appshare', " +
+                "Vue.component('form_subscribe_to_appshare', {\n" +
 
                 editorCodeToCopy +
-              ")\n" +
+                ",\n" +
+                "data: function () {\n" +
+                "  return {\n" +
+                "      design_mode: designMode,\n" +
+                "      text: texti,\n" +
+                "      uid2: uid2,\n" +
+                "      model: {\n" +
+                "          fields: [\n" +
+                " {type: \"text\",   text: \"Subscribe to the Appshare newsletter\" },\n" +
+
+                "              ]\n" +
+                "      }\n" +
+                "  }\n" +
+                "}\n" +
+
+              "})\n" +
               this.text.substring(endIndex)
               console.log(this.text)
         }
 
      }
+     //*** COPY_END ***//
+     ,
+     data: function () {
+       return {
+           design_mode: designMode,
+           text: texti,
+           uid2: uid2,
+           model: {
+               fields: [
+                   ]
+           }
+       }
+     }
 
 
     }
-    //*** COPY_END ***//
     )
 
 }

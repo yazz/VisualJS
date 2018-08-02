@@ -38,7 +38,7 @@ logo_url("https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/yWLXB1Z/videoblo
                     subscribed: false
                 }},
 
-      mounted: function() {
+      mounted: async function() {
       },
       methods: {
            insert_email: async function(email) {
