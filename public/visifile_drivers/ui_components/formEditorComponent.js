@@ -42,7 +42,9 @@ load_once_from_file(true)
             if (texti) {
                 var json2 = this.getJsonModelFromCode(  texti  )
                 mm.model = json2
-             this.generateCodeFromModel(  json2  )
+                mm.edited_app_component_id = saveHelper.getValueOfCodeString(texti, "base_component_id")
+
+                this.generateCodeFromModel(  json2  )
              //alert(this.text)
          }
 
@@ -101,7 +103,7 @@ load_once_from_file(true)
                 var mm = null
                 var texti = null
                 var designMode = false
-                Vue.component('form_subscribe_to_appshare', {`
+                Vue.component('${this.edited_app_component_id}', {`
 
                 + editorCodeToCopy +
 
@@ -137,6 +139,7 @@ load_once_from_file(true)
      data: function () {
        return {
            design_mode: designMode,
+           edited_app_component_id: null,
            text:        texti,
            uid2:        uid2,
            model:       {
