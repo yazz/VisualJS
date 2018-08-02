@@ -56,6 +56,8 @@ load_once_from_file(true)
      methods: {
         addField() {
             mm.model.fields.push({type: "input",  label: "DOB" })
+            this.generateCodeFromModel(  mm.model  )
+            //alert("Added: " + JSON.stringify(mm.model,null,2))
         },
         getText: function() {
             return this.text
@@ -90,6 +92,7 @@ load_once_from_file(true)
             var editorCodeToCopyEnd = editorCode.indexOf("//*** COPY_" + "END ***//")
             var editorCodeToCopy = editorCode.substring(editorCodeToCopyStart, editorCodeToCopyEnd)
             console.log(editorCodeToCopy)
+            //alert(JSON.stringify(mm.model,null,2))
 
             this.text = this.text.substring(0,startIndex) +
                 "//** gen_start **//\n" +
@@ -114,6 +117,13 @@ load_once_from_file(true)
               "})\n" +
               this.text.substring(endIndex)
               //console.log(this.text)
+
+              this.text = saveHelper.deleteCodeString(  this.text, "formEditor", ")//form" + "Editor")
+
+              this.text = saveHelper.insertCodeString(  this.text,
+                                                        "formEditor",
+                                                        mm.model,
+                                                        ")//form" + "Editor")
         }
 
      }
