@@ -103,12 +103,7 @@ load_once_from_file(true)
                 "      design_mode: designMode,\n" +
                 "      text: texti,\n" +
                 "      uid2: uid2,\n" +
-                "      model: {\n" +
-                "          fields: [\n" +
-                " {type: \"text\",   text: \"Subscribe to the Appshare newsletter\" },\n" +
-
-                "              ]\n" +
-                "      }\n" +
+                "      model: " + JSON.stringify(mm.model,null,2) +
                 "  }\n" +
                 "}\n" +
 
