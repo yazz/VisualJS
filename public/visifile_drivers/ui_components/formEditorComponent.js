@@ -24,7 +24,7 @@ load_once_from_file(true)
                             <div v-if='field.type=="text"'>{{field.text}}</div>
                             <div v-if='field.type=="input"'>{{field.label}}<input></input></div>
                         </div>
-                        <button  v-if='design_mode' type=button class='btn btn-primary'      v-on:click='chooseApp()'  >+ field</button>
+                        <button  v-if='design_mode' type=button class='btn btn-primary'      v-on:click='addField()'  >+ field</button>
                     </div>
                     <hr />
 
@@ -54,6 +54,9 @@ load_once_from_file(true)
          //   });
      },
      methods: {
+        addField() {
+            mm.model.fields.push({type: "input",  label: "DOB" })
+        },
         getText: function() {
             return this.text
         },
@@ -71,8 +74,8 @@ load_once_from_file(true)
 
         ,
         generateCodeFromModel: async function(  jsonModel  ) {
-            var startIndex = this.text.indexOf("//** gen_start **//")
-            var endIndex = this.text.indexOf("//** gen_end **//")
+            var startIndex = this.text.indexOf("//** gen_" + "start **//")
+            var endIndex = this.text.indexOf("//** gen_" + "end **//")
 
             //zzz
             var sql =    "select  cast(code as text)  as  code  from  system_code  where " +
@@ -86,7 +89,7 @@ load_once_from_file(true)
             var editorCodeToCopyStart = editorCode.indexOf(stt) + stt.length
             var editorCodeToCopyEnd = editorCode.indexOf("//*** COPY_" + "END ***//")
             var editorCodeToCopy = editorCode.substring(editorCodeToCopyStart, editorCodeToCopyEnd)
-            //console.log(editorCodeToCopy)
+            console.log(editorCodeToCopy)
 
             this.text = this.text.substring(0,startIndex) +
                 "//** gen_start **//\n" +
@@ -97,6 +100,7 @@ load_once_from_file(true)
                 "Vue.component('form_subscribe_to_appshare', {\n" +
 
                 editorCodeToCopy +
+
                 ",\n" +
                 "data: function () {\n" +
                 "  return {\n" +
@@ -109,7 +113,7 @@ load_once_from_file(true)
 
               "})\n" +
               this.text.substring(endIndex)
-              console.log(this.text)
+              //console.log(this.text)
         }
 
      }
@@ -118,11 +122,11 @@ load_once_from_file(true)
      data: function () {
        return {
            design_mode: designMode,
-           text: texti,
-           uid2: uid2,
-           model: {
-               fields: [
-                   ]
+           text:        texti,
+           uid2:        uid2,
+           model:       {
+                            fields: [
+                                    ]
            }
        }
      }
