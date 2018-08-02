@@ -95,26 +95,31 @@ load_once_from_file(true)
             //alert(JSON.stringify(mm.model,null,2))
 
             this.text = this.text.substring(0,startIndex) +
-                "//** gen_start **//\n" +
-                "var uid2 = uuidv4()\n" +
-                "var mm = null\n" +
-                "var texti = null\n" +
-                "var designMode = false\n" +
-                "Vue.component('form_subscribe_to_appshare', {\n" +
 
-                editorCodeToCopy +
+                `//** gen_start **//
+                var uid2 = uuidv4()
+                var mm = null
+                var texti = null
+                var designMode = false
+                Vue.component('form_subscribe_to_appshare', {`
 
-                ",\n" +
-                "data: function () {\n" +
-                "  return {\n" +
-                "      design_mode: designMode,\n" +
-                "      text: texti,\n" +
-                "      uid2: uid2,\n" +
-                "      model: " + JSON.stringify(mm.model,null,2) +
-                "  }\n" +
-                "}\n" +
+                + editorCodeToCopy +
 
-              "})\n" +
+                `,
+                data: function () {
+                  return {
+                      design_mode: designMode,
+                      text: texti,
+                      uid2: uid2,
+                      model: `
+
+                      + JSON.stringify(mm.model,null,2) +
+
+                  `}
+                }
+              })`
+
+              +
               this.text.substring(endIndex)
               //console.log(this.text)
 
