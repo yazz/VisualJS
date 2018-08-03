@@ -3,7 +3,7 @@ async function(args) {
 is_app(true)
 display_name("Editor App V3")
 description("This will return the editor app V3")
-base_component_id("editor_app_3")
+base_component_id("app_editor_3")
 visibility("PUBLIC")
 logo_url("https://2.bp.blogspot.com/-6Hdixw3dFxk/WfSQOnB9lDI/AAAAAAAAFFc/84DRGgcwOpYBOgknkHQ-qmgxvFv1D-iHACLcBGAs/s1600/BracketsDarks.PNG")
 load_once_from_file(true)
@@ -13,7 +13,7 @@ load_once_from_file(true)
     var cardId = args.card_id
 
     var mm = null
-    Vue.component("editor_app_3",
+    Vue.component("app_editor_3",
     {
       template: `<div>
                     <div>
