@@ -143,6 +143,7 @@ load_once_from_file(true)
            text:        texti,
            uid2:        uid2,
            model:       {
+                            next_id: 1,
                             fields: [
                                     ]
            }
