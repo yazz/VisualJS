@@ -21,9 +21,14 @@ load_once_from_file(true)
 
                     <div v-bind:id='uid2' >
                         <div v-for='field in model.fields'>
-                            <div v-if='field.type=="text"'>{{field.text}}</div>
-                            <div v-if='field.type=="input"'>{{field.label}}<input></input></div>
-                        </div>
+                            <div class=container>
+                                <div class=row>
+                                    <div class='xs-6' v-if='field.type=="text"'>{{field.text}}</div>
+                                    <div class='xs-6' v-if='field.type=="input"'>{{field.label}}<input></input></div>
+                                    <button class='xs-6'  v-if='design_mode' type=button class='btn btn-primary'      v-on:click='deleteField(field.id)'  > - </button>
+                                    </div>
+                                </div>
+                            </div>
                         <button  v-if='design_mode' type=button class='btn btn-primary'      v-on:click='addField()'  >+ field</button>
                     </div>
                     <hr />
@@ -57,7 +62,26 @@ load_once_from_file(true)
      },
      methods: {
         addField() {
-            mm.model.fields.push({type: "input",  label: "DOB" })
+            mm.model.fields.push({   id: mm.model.next_id,   type: "input",   label: "DOB"   })
+            mm.model.next_id ++
+            this.generateCodeFromModel(  mm.model  )
+            //alert("Added: " + JSON.stringify(mm.model,null,2))
+        },
+        deleteField(   fieldId   ) {
+            var itemD = null
+            for (var tt=0; tt < mm.model.fields.length ; tt++) {
+                var ciurr = mm.model.fields[tt]
+                if (ciurr.id == fieldId) {
+                    itemD = ciurr
+                }
+            }
+            if (itemD) {
+                var index = mm.model.fields.indexOf(  itemD  );
+                if (index > -1) {
+                  mm.model.fields.splice(index, 1);
+                }
+            }
+
             this.generateCodeFromModel(  mm.model  )
             //alert("Added: " + JSON.stringify(mm.model,null,2))
         },
