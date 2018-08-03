@@ -32,10 +32,10 @@ load_once_from_file(true)
 
 
                     <div  v-if="!base_component_id">
-                      Sorry, you can't view or edit the AppShare editor without an application to edit
+                      Select an application to edit
 
                     <select class="custom-select" v-model="selected_app" v-bind:onchange='load_app(selected_app)'>
-                      <option selected>Open this select menu</option>
+                      <option value='' selected></option>
                       <option v-for='app in apps'
                               v-bind:value="app.base_component_id"
                               >{{app.display_name}}</option>
@@ -184,6 +184,9 @@ load_once_from_file(true)
            // 'baseComponentId'
            // ---------------------------------------------------------------
            load_app: async function ( baseComponentId ) {
+               if (baseComponentId == "") {
+                    return
+               }
                //
                // set up vars
                //
