@@ -4,7 +4,7 @@ is_app(true)
 display_name("Editor App V3")
 description("This will return the editor app V3")
 base_component_id("editor_app_3")
-hide_header(true)
+hide_header(false)
 logo_url("https://2.bp.blogspot.com/-6Hdixw3dFxk/WfSQOnB9lDI/AAAAAAAAFFc/84DRGgcwOpYBOgknkHQ-qmgxvFv1D-iHACLcBGAs/s1600/BracketsDarks.PNG")
 load_once_from_file(true)
 */
