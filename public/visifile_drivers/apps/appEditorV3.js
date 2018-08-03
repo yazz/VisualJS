@@ -34,9 +34,11 @@ load_once_from_file(true)
                     <div  v-if="!base_component_id">
                       Sorry, you can't view or edit the AppShare editor without an application to edit
 
-                    <select class="custom-select">
+                    <select class="custom-select" v-model="selected_app" v-bind:onchange='load_app(selected_app)'>
                       <option selected>Open this select menu</option>
-                      <option v-for='app in apps' v-bind:value="app.base_component_id">{{app.display_name}}</option>
+                      <option v-for='app in apps'
+                              v-bind:value="app.base_component_id"
+                              >{{app.display_name}}</option>
                     </select>
 
                     </div>
@@ -74,6 +76,7 @@ load_once_from_file(true)
        data: function() {
            return {
                editor_loaded:       false,
+               selected_app:        null,
                editor_component:    null,
                app_loaded:          false,
                apps:               [],
