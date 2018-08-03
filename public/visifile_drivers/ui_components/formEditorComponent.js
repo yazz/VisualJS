@@ -20,16 +20,17 @@ load_once_from_file(true)
                     <div v-if='!design_mode'  class='display-4'>MY FORM</div>
 
                     <div v-bind:id='uid2' >
-                        <div v-for='field in model.fields'>
-                            <div class=container>
-                                <div class=row>
-                                    <div class='xs-6' v-if='field.type=="text"'>{{field.text}}</div>
-                                    <div class='xs-6' v-if='field.type=="input"'>{{field.label}}<input></input></div>
-                                    <button class='xs-6'  v-if='design_mode' type=button class='btn btn-primary'      v-on:click='deleteField(field.id)'  > - </button>
+                        <div v-for='field in model.fields' style='padding: 5px;'>
+                            <div class='container'>
+                                <div class='row'>
+                                    <div class='col-md-6' v-if='field.type=="text"'>{{field.text}}</div>
+                                    <div class='col-md-6' v-if='field.type=="input"'>{{field.label}}<input></input></div>
+                                    <div class='col-md-2'></div>
+                                    <button class='xs-4'  v-if='design_mode' type=button class='btn btn-sm btn-info'      v-on:click='deleteField(field.id)'  > - </button>
                                     </div>
                                 </div>
                             </div>
-                        <button  v-if='design_mode' type=button class='btn btn-primary'      v-on:click='addField()'  >+ field</button>
+                        <button  v-if='design_mode' type=button class='btn btn-primary btn-lg'      v-on:click='addField()'  >+</button>
                     </div>
                     <hr />
 
