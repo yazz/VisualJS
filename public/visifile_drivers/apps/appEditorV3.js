@@ -1,9 +1,10 @@
 async function(args) {
 /*
+created_timestamp(-1)
+base_component_id("app_editor_3")
 is_app(true)
 display_name("Editor App V3")
 description("This will return the editor app V3")
-base_component_id("app_editor_3")
 visibility("PUBLIC")
 logo_url("https://2.bp.blogspot.com/-6Hdixw3dFxk/WfSQOnB9lDI/AAAAAAAAFFc/84DRGgcwOpYBOgknkHQ-qmgxvFv1D-iHACLcBGAs/s1600/BracketsDarks.PNG")
 load_once_from_file(true)
@@ -16,6 +17,7 @@ load_once_from_file(true)
     Vue.component("app_editor_3",
     {
       template: `<div>
+                    App Editor V3
                     <div>
                         <h2  class='caption' style='display: inline-block;'>{{app_component_name?app_component_name.substring(0,30):""}}{{(app_component_name && ((app_component_name.length > 30))?"...":"")}} </h2>
                         <div class='btn-group' style='float: right; margin-right: 2%;' role=group >
@@ -31,6 +33,11 @@ load_once_from_file(true)
 
                     <div  v-if="!base_component_id">
                       Sorry, you can't view or edit the AppShare editor without an application to edit
+
+                    <select class="custom-select">
+                      <option selected>Open this select menu</option>
+                      <option v-for='app in apps' v-bind:value="app.base_component_id">{{app.display_name}}</option>
+                    </select>
 
                     </div>
 
@@ -264,7 +271,7 @@ load_once_from_file(true)
                                         driver_name:  "systemFunctions",
                                         method_name:  "get_apps_list"  } ,{})
 
-                mm.apps = result.value
+                mm.apps = result
             }
        }
        })
