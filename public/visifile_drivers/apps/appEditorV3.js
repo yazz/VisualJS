@@ -21,7 +21,7 @@ load_once_from_file(true)
                     <div>
                         <h2  class='caption' style='display: inline-block;'>{{app_component_name?app_component_name.substring(0,30):""}}{{(app_component_name && ((app_component_name.length > 30))?"...":"")}} </h2>
                         <div class='btn-group' style='float: right; margin-right: 2%;' role=group >
-                            <select class="custom-select" v-model="selected_app" v-bind:onchange='load_app(selected_app)'>
+                            <select class="custom-select" v-model="selected_app" v-bind:onchange='load_new_app(selected_app)'>
                               <option value='' selected>Select an application to edit</option>
                               <option v-for='app in apps'
                                       v-bind:value="app.base_component_id"
@@ -168,6 +168,14 @@ load_once_from_file(true)
            },
 
 
+           load_new_app: async function ( baseComponentId ) {
+               if (baseComponentId == "") {
+                    return
+               }
+               this.editor_loaded = false
+               this.load_app(baseComponentId)
+           }
+           ,
 
 
 
@@ -178,10 +186,11 @@ load_once_from_file(true)
            // 'baseComponentId'
            // ---------------------------------------------------------------
            load_app: async function ( baseComponentId ) {
-                mm.selected_app = ""
                if (baseComponentId == "") {
                     return
                }
+                mm.selected_app = ""
+
                //
                // set up vars
                //
