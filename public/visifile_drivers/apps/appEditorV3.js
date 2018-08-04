@@ -17,7 +17,6 @@ load_once_from_file(true)
     Vue.component("app_editor_3",
     {
       template: `<div>
-                    App Editor V3
                     <div>
                         <h2  class='caption' style='display: inline-block;'>{{app_component_name?app_component_name.substring(0,30):""}}{{(app_component_name && ((app_component_name.length > 30))?"...":"")}} </h2>
                         <div class='btn-group' style='float: right; margin-right: 2%;' role=group >
@@ -34,36 +33,34 @@ load_once_from_file(true)
                             <button  type=button class=' btn btn-info'        v-on:click='prepareApp(card_id, \"appEmbed\", {base_component_id: base_component_id})' >Embed app</button>
                         </div>
                     </div>
-                    <br />
+
+
+                  <div>
+                      <div id=editor_id v-bind:style="'height: 100%; width: ' + code_width + '; left: 0px; display: ' + (code_shown?'inline-block':'none') + ';'">
+
+                          <component  v-bind:is="editor_component" v-if="editor_loaded" ref="editorComponentRef">
+                                          <button v-bind:style="'visibility: ' + ((app_shown && code_shown)?'':'hidden')"
+                                                  slot-scope="editor_component"
+                                                  v-on:click='save(base_component_id, code_id, editor_component.text2)'
+                                                  type="button" class="btn btn-primary">
+
+                                                      Update App
+                                         </button>
+                          </component>
+                      </div>
 
 
 
-                  <div id=editor_id v-bind:style="'height: 100%; width: ' + code_width + '; left: 0px; display: ' + (code_shown?'inline-block':'none') + ';'">
-
-                                        <component  v-bind:is="editor_component" v-if="editor_loaded" ref="editorComponentRef">
-                                      <button v-bind:style="'visibility: ' + ((app_shown && code_shown)?'':'hidden')"
-                                              slot-scope="editor_component"
-                                              v-on:click='save(base_component_id, code_id, editor_component.text2)'
-                                              type="button" class="btn btn-primary">
-
-                                                  Update App
-                                     </button>
-                      </component>
-                  </div>
 
 
+                      <div v-bind:style="'height: 100%; width: ' + app_width + '; right: 0px; display: ' + (app_shown?'inline-block':'none')+';vertical-align: top;'">
+                          <component  v-bind:is="app_component_name" v-if="app_loaded">
+                            APP HERE
+                          </component>
 
+                    </div>
 
-
-                  <div v-bind:style="'height: 100%; width: '+app_width+'; right: 0px;display: ' + (app_shown?'inline-block':'none')+';vertical-align: top;'">
-                      <component  v-bind:is="app_component_name" v-if="app_loaded">
-                        APP HERE
-                      </component>
-
-                </div>
-
-
-
+                <div>
       </div>
        `
        ,
