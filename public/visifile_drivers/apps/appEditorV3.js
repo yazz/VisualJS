@@ -18,7 +18,7 @@ load_once_from_file(true)
     {
       template: `<div>
                     <div>
-                        <h2  class='caption' style='display: inline-block;'>{{app_component_name?app_component_name.substring(0,30):""}}{{(app_component_name && ((app_component_name.length > 30))?"...":"")}} </h2>
+                        <h2  class='caption' style='display: inline-block;'>Appshare.co  {{app_component_name?" - " + app_component_name.substring(0,30):""}}{{(app_component_name && ((app_component_name.length > 30))?"...":"")}} </h2>
                         <div class='btn-group' style='float: right; margin-right: 2%;' role=group >
                             <select class="custom-select" v-model="selected_app" v-bind:onchange='load_new_app(selected_app)'>
                               <option value='' selected>Select an application to edit</option>
