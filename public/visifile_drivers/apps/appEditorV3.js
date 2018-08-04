@@ -21,6 +21,12 @@ load_once_from_file(true)
                     <div>
                         <h2  class='caption' style='display: inline-block;'>{{app_component_name?app_component_name.substring(0,30):""}}{{(app_component_name && ((app_component_name.length > 30))?"...":"")}} </h2>
                         <div class='btn-group' style='float: right; margin-right: 2%;' role=group >
+                            <select class="custom-select" v-model="selected_app" v-bind:onchange='load_app(selected_app)'>
+                              <option value='' selected>Select an application to edit</option>
+                              <option v-for='app in apps'
+                                      v-bind:value="app.base_component_id"
+                                      >{{app.display_name}}</option>
+                            </select>
                             <button  type=button class='btn btn-primary'      v-on:click='chooseApp()'  >App</button>
                             <button  type=button class=' btn btn-secondary'   v-on:click='chooseCode()' >Code</button>
                             <button  type=button class=' btn btn-info'        v-on:click='chooseBoth()' >Both</button>
@@ -31,22 +37,9 @@ load_once_from_file(true)
                     <br />
 
 
-                    <div  v-if="!base_component_id">
-                      Select an application to edit
-
-
-
-                    </div>
-
-
 
                   <div id=editor_id v-bind:style="'height: 100%; width: ' + code_width + '; left: 0px; display: ' + (code_shown?'inline-block':'none') + ';'">
-                      <select class="custom-select" v-model="selected_app" v-bind:onchange='load_app(selected_app)'>
-                        <option value='' selected></option>
-                        <option v-for='app in apps'
-                                v-bind:value="app.base_component_id"
-                                >{{app.display_name}}</option>
-                      </select>
+
                                         <component  v-bind:is="editor_component" v-if="editor_loaded" ref="editorComponentRef">
                                       <button v-bind:style="'visibility: ' + ((app_shown && code_shown)?'':'hidden')"
                                               slot-scope="editor_component"
