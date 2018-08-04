@@ -1,7 +1,7 @@
 async function(args) {
 /*
-base_component_id("todo_app_reader")
 created_timestamp(-1)
+base_component_id("todo_app_reader")
 is_app(true)
 display_name("Todo app Reader")
 description("This will read another application's database")
@@ -13,10 +13,9 @@ Vue.component("todo_app_reader", {
     template: `<div>
          Todo List<br>
           <li v-for='item in items'>
-              <button v-on:click='delete_item(item.id)'>x</button> {{item.name}}
+              {{item.name}}
           </li>
-          <input id=add v-model="new_item"></input>
-          <button v-on:click='add_item(new_item)'>Add</button>
+
     </div>
      `
     ,
