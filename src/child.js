@@ -376,7 +376,7 @@ function foundFile(     fullFileNamePath,
 
 
 
-function getSha1(fileName) {
+function getSha256(fileName) {
     try {
         var contents = fs.readFileSync(fileName, "utf8");
         var hash = crypto.createHash('sha256');
@@ -1160,7 +1160,7 @@ function processFilesFn() {
                                                     //console.log("fullFileNamePath: " + fullFileNamePath)
                                                     //console.log("documentType: " + documentType)
 
-                                                    var newSha1ofFileContents = getSha1(fullFileNamePath)
+                                                    var newSha1ofFileContents = getSha256(fullFileNamePath)
 
 
 
@@ -1412,7 +1412,7 @@ function processFilesFn() {
                                                     fileName:   fullFileNamePath
                                         });
 
-                                        var sha1ofFileContents = getSha1(fullFileNamePath)
+                                        var sha1ofFileContents = getSha256(fullFileNamePath)
                                         var stat = fs.statSync(fullFileNamePath)
                                         var fileContentsSize = stat.size
 

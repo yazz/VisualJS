@@ -721,7 +721,7 @@ function indexMessagesFn() {
 
 
 
-function getSha1(contents) {
+function getSha256(contents) {
     try {
         var hash = crypto.createHash('sha256');
         hash.setEncoding('hex');
@@ -820,7 +820,7 @@ function indexMessagesBodyFn() {
                                       var emailBody = messageViaPowershell.body.replace(/[\n\r|�]/g, '\n');
 
                                         //console.log("message body: " + messageViaPowershell.body);
-                                        var newSha1ofFileContents = getSha1(emailBody)
+                                        var newSha1ofFileContents = getSha256(emailBody)
 
                                         dbsearch.serialize(function() {
                                             dbsearch.run("begin exclusive transaction");
