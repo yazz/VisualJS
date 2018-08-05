@@ -13,9 +13,34 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxASDxIPEBI
     await load("form_subscribe_to_appshare")
     Vue.component('homepage', {
 
-      template: `<div  class="container-fluid" style='padding:0;margin:0'>
+      template: `<div  class="container-fluid" style2='padding:0;margin:0'>
 
-                    <div class="row" style='background-color: black; color: white; padding-top: 20px;padding-bottom: 20px;'>
+                    <div class="row" style='background-color: white; color: black; padding-top: 20px;padding-bottom: 20px;'>
+
+                        <div class="col-md-1">
+                        </div>
+                        <div class="col-md-10">
+
+                                <div style='background-color: white;' class="card-columns">
+                                 <div class="card" style="width: 20rem;" v-for="item in apps">
+                                 <img    v-if='item.logo_url'
+                                         v-bind:src='item.logo_url'
+                                         style='width: 100%;'
+                                         v-on:click='copyApp(item.base_component_id)'
+                                         ></img>
+                                   <div class="card-body">
+                                     <h4 class="card-title">{{item.display_name}}</h4>
+                                     <p class="card-text"></p>
+                                     <div v-on:click='copyApp(item.base_component_id)' class="btn btn-primary">Copy</div>
+                                   </div>
+                                 </div>
+                                 </div>
+
+                        </div>
+                        <div class="col-md-1"></div>
+                    </div>
+
+                    <div class="row" style='background-color: black; color: white; padding-top: 600px;padding-bottom: 20px;'>
                         <div class="col-md-5">
                         <a-scene style='width: 80%; height: 20%;' embedded vr-mode-ui="enabled: false">
 
@@ -181,7 +206,8 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxASDxIPEBI
 
     data: function() {
         return {
-                    apps: []
+                    apps: [],
+                    intro_apps: ['homepage_1']
                 }},
 
       mounted: function() {
