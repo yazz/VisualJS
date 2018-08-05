@@ -13,7 +13,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxASDxIPEBI
     await load("form_subscribe_to_appshare")
     Vue.component('homepage', {
 
-      template: `<div  class="container-fluid" style2='padding:0;margin:0'>
+      template: `<div  class="container-fluid" style='padding:0;margin:0'>
 
                     <div class="row" style='background-color: white; color: black; padding-top: 20px;padding-bottom: 20px;'>
 
