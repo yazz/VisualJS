@@ -379,7 +379,7 @@ function foundFile(     fullFileNamePath,
 function getSha1(fileName) {
     try {
         var contents = fs.readFileSync(fileName, "utf8");
-        var hash = crypto.createHash('sha1');
+        var hash = crypto.createHash('sha256');
         hash.setEncoding('hex');
         hash.write(contents);
         hash.end();
@@ -920,7 +920,7 @@ function getResult(  source,  connectionName,  driverName,  definition,  callbac
                                                                 //console.log("Committing... " + rrows.length)
                                                                 for (var i = 0 ; i < rrows.length; i++) {
 
-                                                                    var rowhash = crypto.createHash('sha1');
+                                                                    var rowhash = crypto.createHash('sha256');
                                                                     var row = JSON.stringify(rrows[i]);
                                                                     rowhash.setEncoding('hex');
                                                                     rowhash.write(row);
@@ -4037,7 +4037,7 @@ async function saveCodeV2( baseComponentId, parentHash, code ) {
         var componentType = null
         var componentOptions = null
         var maxProcesses = 1
-        var rowhash = crypto.createHash('sha1');
+        var rowhash = crypto.createHash('sha256');
         var row = code.toString();
         var visibility = null
         visibility = saveHelper.getValueOfCodeString(code,"visibility")

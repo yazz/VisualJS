@@ -542,7 +542,7 @@ function saveDocumentContent(  documentHash,  resultData  ) {
                                             dbsearch.run("begin exclusive transaction");
                                             for (var i = 0 ; i < rrows.length; i++) {
 
-                                                var rowhash = crypto.createHash('sha1');
+                                                var rowhash = crypto.createHash('sha256');
                                                 var row = JSON.stringify(rrows[i]);
                                                 rowhash.setEncoding('hex');
                                                 rowhash.write(row);
@@ -614,7 +614,7 @@ function createContent(     fullFileNamePath,
 function createHashedDocumentContent(fileName, contentType) {
     try {
         var contents = fs.readFileSync(fileName, "utf8");
-        var hash = crypto.createHash('sha1');
+        var hash = crypto.createHash('sha256');
         hash.setEncoding('hex');
         hash.write(contents);
         hash.end();

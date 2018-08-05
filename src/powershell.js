@@ -723,7 +723,7 @@ function indexMessagesFn() {
 
 function getSha1(contents) {
     try {
-        var hash = crypto.createHash('sha1');
+        var hash = crypto.createHash('sha256');
         hash.setEncoding('hex');
         hash.write(contents);
         hash.end();
