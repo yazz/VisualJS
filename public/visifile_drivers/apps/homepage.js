@@ -14,7 +14,12 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
 
     Vue.component('homepage', {
 
-      template: `<div  class="container-fluid" style='padding:0;margin:20; width: 95%;'>
+      template: `<div>
+                    <div    style="position: sticky; left:0px; top:0px; height:50px; width: 100vw ;z-index: 200000;background-color: white;padding:0;margin:0;">
+                    Appshare
+                    </div>
+
+      <div  class="container-fluid" style='position: relative; padding:20;margin:0; width: 95%;'>
 
 
 
@@ -176,7 +181,7 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
 
 
                 </div>
-       `
+       </div>`
       ,
 
 
