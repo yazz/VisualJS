@@ -8,11 +8,9 @@ description('Homepage app')
 load_once_from_file(true)
 logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Homepages--796x563.jpg")
 */
+    var introa = ['homepage_1','todo', 'test','vue','search']
 
-    var introa = ['homepage_1','todo', 'todo','test','vue','search']
-    for (var rt = 0; rt < introa.length; rt++) {
-        await load(introa[rt])
-    }
+    var mm = null
 
     Vue.component('homepage', {
 
@@ -20,7 +18,7 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
 
 
 
-                    <div class="row" style='background-color: white; color: black; padding-top: 20px;padding-bottom: 20px;'>
+                    <div v-bind:refresh='refresh' class="row" style='background-color: white; color: black; padding-top: 20px;padding-bottom: 20px;'>
 
                         <div class="col-md-1">
                         </div>
@@ -54,8 +52,11 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
 
 
                                 <div style='background-color: white;' class="card-columns">
-                                 <div class="card" style="width: 100%;" v-for="item in intro_apps">
-                                    <component :is='item'></component>
+                                 <div   v-if='loaded_app[item]'
+                                        class="card" style="width: 100%;"
+                                        v-for="item in intro_apps">
+                                    <component :is='item'
+                                        ></component>
 
                                    <div class="card-body">
                                      <h4 class="card-title">{{item.display_name}}</h4>
@@ -212,12 +213,19 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
     data: function() {
         return {
                     apps: [],
-                    intro_apps: introa
+                    intro_apps: introa,
+                    loaded_app: new Object(),
+                    refresh: 0
                 }},
 
       mounted: async function() {
+            mm = this
+            for (var rt = 0; rt < 2; rt++) {
+                await load(mm.intro_apps[rt])
+                mm.loaded_app[mm.intro_apps[rt]] = true
+            }
 
-          this.search()
+            mm.search()
       },
       methods: {
           search: async function() {
@@ -225,4 +233,12 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
 
       }
     })
+    setTimeout(async function() {
+        for (var rt2 = 2; rt2 < mm.intro_apps.length; rt2 ++) {
+            var appN = mm.intro_apps[rt2]
+            await load(appN)
+            mm.loaded_app[appN] = true
+            mm.refresh++
+        }
+    },3000)
 }
