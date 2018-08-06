@@ -25,10 +25,11 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
                         <div class="col-md-10">
 
 
-
+                                    </div>
                                 <div style='background-color: white;' class="card-columns">
                                  <div   v-if='loaded_app[item]'
-                                        class="card" style="width: 100%;"
+                                        class="card rounded"
+                                        style="width: 100%; border-radius: 20px;background-color:white;border-width: 2px;margin:10px;padding:20px;"
                                         v-for="item in intro_apps">
                                     <component :is='item'
                                         ></component>
