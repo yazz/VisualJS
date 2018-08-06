@@ -15,8 +15,8 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
     Vue.component('homepage', {
 
       template: `<div>
-                    <div    style="position: sticky; left:0px; top:0px; height:50px; width: 100vw ;z-index: 200000;background-color: white;padding:0;margin:0;">
-                    Appshare
+                    <div    style="position: sticky; left:0px; top:0px; height:70px; width: 100vw ;z-index: 200000;background-color: white;padding:0;margin:0;">
+                    <h3 style="border:solid 1px;border-color: lightgray; padding: 14px; margin: 0px;font-family: Helvetica;">Appshare</h3>
                     </div>
 
       <div  class="container-fluid" style='position: relative; padding:20;margin:0; width: 95%;'>
