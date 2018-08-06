@@ -14,18 +14,12 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
 
     Vue.component('homepage', {
 
-      template: `<div  class="container-fluid" style='padding:0;margin:0'>
+      template: `<div  class="container-fluid" style='padding:0;margin:20; width: 95%;'>
 
 
 
                     <div v-bind:refresh='refresh' class="row" style='background-color: white; color: black; padding-top: 20px;padding-bottom: 20px;'>
 
-                        <div class="col-md-1">
-                        </div>
-                        <div class="col-md-10">
-
-
-                                    </div>
                                 <div style='background-color: white;' class="card-columns">
                                  <div   v-if='loaded_app[item]'
                                         class="card rounded"
