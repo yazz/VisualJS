@@ -25,31 +25,6 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
                         <div class="col-md-10">
 
 
-<div class="container">
-  <div class="card-group row">
-        <div class="card col-md-6">
-          <div class="card-block">
-            <h4 class="card-title">Card 1</h4>
-            <p class="card-text">Text 1</p>
-          </div>
-        </div>
-         <div class="card col-md-3">
-          <div class="card-block">
-            <h4 class="card-title">Card 2</h4>
-            <p class="card-text">Text 2</p>
-            <p class="card-text">More text 2</p>
-            <p class="card-text">More text 2</p>
-          </div>
-        </div>
-        <div class="card col-md-3">
-          <div class="card-block">
-            <h4 class="card-title">Card 3</h4>
-            <p class="card-text">Text 3</p>
-          </div>
-        </div>
-      </div>
-  </div>
-
 
                                 <div style='background-color: white;' class="card-columns">
                                  <div   v-if='loaded_app[item]'
