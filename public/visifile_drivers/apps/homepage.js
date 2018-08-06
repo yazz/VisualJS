@@ -4,20 +4,19 @@ created_timestamp(-1)
 base_component_id("homepage")
 is_app(true)
 display_name("Homepage app")
-uses_javascript_librararies(["aframe"])
 description('Homepage app')
 load_once_from_file(true)
 logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Homepages--796x563.jpg")
 */
 
-    var introa = ['homepage_1','todo']
+    var introa = ['homepage_1','todo', 'todo','test','vue','search']
     for (var rt = 0; rt < introa.length; rt++) {
         await load(introa[rt])
     }
 
     Vue.component('homepage', {
 
-      template: `<div  class="container-fluid2" style='padding:0;margin:0'>
+      template: `<div  class="container-fluid" style='padding:0;margin:0'>
 
 
 
@@ -28,7 +27,30 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
                         <div class="col-md-10">
 
 
-
+<div class="container">
+  <div class="card-group row">
+        <div class="card col-md-6">
+          <div class="card-block">
+            <h4 class="card-title">Card 1</h4>
+            <p class="card-text">Text 1</p>
+          </div>
+        </div>
+         <div class="card col-md-3">
+          <div class="card-block">
+            <h4 class="card-title">Card 2</h4>
+            <p class="card-text">Text 2</p>
+            <p class="card-text">More text 2</p>
+            <p class="card-text">More text 2</p>
+          </div>
+        </div>
+        <div class="card col-md-3">
+          <div class="card-block">
+            <h4 class="card-title">Card 3</h4>
+            <p class="card-text">Text 3</p>
+          </div>
+        </div>
+      </div>
+  </div>
 
 
                                 <div style='background-color: white;' class="card-columns">
