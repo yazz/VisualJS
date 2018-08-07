@@ -26,17 +26,14 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
                     <div v-bind:refresh='refresh' class="row" style='background-color: white; color: black; padding-top: 20px;padding-bottom: 20px;'>
 
                         <div style='background-color: white;' class="card-columns">
-                            <div  v-for="item in intro_apps" v-if='loaded_app[item]'>
-                                <div
+                                <div    v-for="item in intro_apps" v-if='loaded_app[item]'
                                         class="card rounded"
-                                        style="width: 100%; border-radius: 40px;background-color:white;border-width: 2px;margin:10px;padding:20px;"
+                                        style="width: 100%; border-radius: 40px;background-color:white;border-width: 2px;margin:0px;padding:5px;margin-bottom: 40px;"
                                        >
-                                <kbd >{{item}}</kbd>
                                     <component :is='item'
                                         ></component>
-                                    <div v-on:click='copyApp(item)' class="">...</div>
+                                <div v-on:click='copyApp(item)' class="">...</div>
 
-                                </div>
                             </div>
 
                         </div>
@@ -69,7 +66,7 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
                               </ul>
                         </div>
                         <div class="col-md-5" style='background-color: white'>
-                            <img src='/homepage_shot.jpg'></img>
+
 
                             <div class="row" style='background-color: black; height:20px;'></div>
                             <div class="row" style='background-color: black; padding: 5px; color: white;'>

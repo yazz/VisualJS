@@ -36,7 +36,7 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
                             text='color: white; align: left; value: AppShare ; width: 15; opacity:1;'>
                             </a-entity>
                         <a-animation attribute="position"
-                              to="0 0 -1.5" dur="2000" direction="normal" ></a-animation>
+                              to="2 0 -1.5" dur="2000" direction="normal" ></a-animation>
                     </a-box>
                 </a-entity>
             </a-entity>
