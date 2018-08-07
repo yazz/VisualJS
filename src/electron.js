@@ -2004,11 +2004,6 @@ function getRoot(req, res) {
 
     var homepage = path.join(__dirname, '../public/go.html')
     var homepageUrl = 'http://appshare.co/go.html?time=' + new Date().getTime()
-    if (runapp && (!req.query.goto) && (!req.query.embed)) {
-        homepage = path.join( userData, 'apps/' + runapp + '.html' )
-        runOnPageExists(req,res,homepage)
-
-    }
 	if (req.headers.host) {
         if (req.query.goto) {
             console.log("*** FOUND goto")
@@ -2056,6 +2051,12 @@ function getRoot(req, res) {
 			return;
 		};
 	};
+
+    if (runapp && (!req.query.goto) && (!req.query.embed)) {
+        homepage = path.join( userData, 'apps/' + runapp + '.html' )
+        runOnPageExists(req,res,homepage)
+        return
+    }
 
 
 	if (typeOfSystem == 'server') {
