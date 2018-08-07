@@ -25,24 +25,21 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
 
                     <div v-bind:refresh='refresh' class="row" style='background-color: white; color: black; padding-top: 20px;padding-bottom: 20px;'>
 
-                                <div style='background-color: white;' class="card-columns">
-                                 <div   v-if='loaded_app[item]'
+                        <div style='background-color: white;' class="card-columns">
+                            <div  v-for="item in intro_apps" v-if='loaded_app[item]'>
+                                <div
                                         class="card rounded"
-                                        style="width: 100%; border-radius: 20px;background-color:white;border-width: 2px;margin:10px;padding:20px;"
-                                        v-for="item in intro_apps">
+                                        style="width: 100%; border-radius: 40px;background-color:white;border-width: 2px;margin:10px;padding:20px;"
+                                       >
+                                <kbd >{{item}}</kbd>
                                     <component :is='item'
                                         ></component>
+                                    <div v-on:click='copyApp(item)' class="">...</div>
 
-                                   <div class="card-body">
-                                     <h4 class="card-title">{{item.display_name}}</h4>
-                                     <p class="card-text"></p>
-                                     <div v-on:click='copyApp(item)' class="btn btn-primary">Copy</div>
-                                   </div>
-                                 </div>
-                                 </div>
+                                </div>
+                            </div>
 
                         </div>
-                        <div class="col-md-1"></div>
                     </div>
 
                     <div class="row" style='background-color: black; color: white; padding-top: 60px;padding-bottom: 20px;'>
