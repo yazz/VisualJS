@@ -45,7 +45,7 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
                         <div class="col-md-1"></div>
                     </div>
 
-                    <div class="row" style='background-color: black; color: white; padding-top: 600px;padding-bottom: 20px;'>
+                    <div class="row" style='background-color: black; color: white; padding-top: 60px;padding-bottom: 20px;'>
                         <div class="col-md-5">
 
                         </div>
