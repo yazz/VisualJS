@@ -23,16 +23,19 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
 
 
 
-                    <div v-bind:refresh='refresh' class="row" style='background-color: white; color: black; padding-top: 20px;padding-bottom: 20px;'>
+                    <div v-bind:refresh='refresh'
+                         class="row"
+                         style='background-color: white; color: black; padding-top: 20px;padding-bottom: 20px;'>
 
                         <div style='background-color: white;' class="card-columns">
                                 <div    v-for="item in intro_apps" v-if='loaded_app[item]'
                                         class="card rounded"
-                                        style="width: 100%; border-radius: 40px;background-color:white;border-width: 2px;margin:0px;padding:5px;margin-bottom: 40px;"
+                                        style="width: 100%; border-radius: 40px;background-color:white;border-width: 0px;margin:0px;padding:0px;margin-bottom: 40px;"
                                        >
-                                    <component :is='item'
-                                        ></component>
-                                <div v-on:click='copyApp(item)' class="">...</div>
+                                    <div style='border-radius: 25px;padding:20px; margin:0;border: 2px solid lightgray;'>
+                                        <component :is='item'></component>
+                                    </div>
+                                <div v-on:click='copyApp(item)' class="float-right">...</div>
 
                             </div>
 
