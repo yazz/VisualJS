@@ -1980,6 +1980,22 @@ function aliveCheckFn() {
 
 
 
+function runOnPageExists(req, res, homepage) {
+    if (fs.existsSync(homepage)) {
+        if (typeOfSystem == 'client') {
+            if (!canAccess(req,res)) {
+                return;
+            }
+            res.end(fs.readFileSync(homepage));
+        }
+    } else {
+        setTimeout(function() {
+            runOnPageExists(req, res, homepage)
+        },3000)
+    }
+
+
+}
 
 function getRoot(req, res) {
 	hostcount++;
@@ -1990,8 +2006,8 @@ function getRoot(req, res) {
     var homepageUrl = 'http://appshare.co/go.html?time=' + new Date().getTime()
     if (runapp && (!req.query.goto) && (!req.query.embed)) {
         homepage = path.join( userData, 'apps/' + runapp + '.html' )
-        homepageUrl = 'http://appshare.co/app/' + runapp + '.html?time=' + new Date().getTime()
-        //zzz
+        runOnPageExists(req,res,homepage)
+
     }
 	if (req.headers.host) {
         if (req.query.goto) {
@@ -2041,12 +2057,7 @@ function getRoot(req, res) {
 		};
 	};
 
-	if (typeOfSystem == 'client') {
-        if (!canAccess(req,res)) {
-            return;
-        }
-        res.end(fs.readFileSync(homepage));
-	}
+
 	if (typeOfSystem == 'server') {
 		res.end(fs.readFileSync(path.join(__dirname, '../public/index_server.html')));
 	}
