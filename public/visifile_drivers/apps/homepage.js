@@ -36,7 +36,16 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
                                        <kbd >{{item}}</kbd>
                                         <component :is='item'></component>
                                     </div>
-                                <div v-on:click='copyApp(item)' class="float-right">...</div>
+                                <div v-on:click='showMenu(item)' class="float-left">
+                                ...
+                                    <div v-bind:id='item + "_menu"' v-bind:style='"position:absolute; bottom:0px;width:250px;z-index:100;display: " + ((show_menu == item)?"":"none")  +  ";"'>
+                                        <div>menu item</div>
+                                        <div>menu item</div>
+                                        <div>menu item</div>
+                                        <div>menu item</div>
+                                        <div>menu item</div>
+                                    </div>
+                                </div>
 
                             </div>
 
@@ -150,6 +159,7 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
                     apps: [],
                     intro_apps: introa,
                     loaded_app: new Object(),
+                    show_menu: null,
                     refresh: 0
                 }},
 
@@ -163,6 +173,9 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
             mm.search()
       },
       methods: {
+          showMenu: async function(item) {
+            this.show_menu= item;
+          },
           search: async function() {
                this.apps = await callApp({   driver_name: "systemFunctions3",  method_name:"get_public_apps_list"}, { }) }
 
