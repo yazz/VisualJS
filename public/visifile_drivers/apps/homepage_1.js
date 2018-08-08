@@ -16,7 +16,7 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
       template:
 `<div  class="container" style=''>
 
-    <div class="row" style='background-color: black; color: white; padding-top: 20px;padding-bottom: 20px;'>
+    <div class="row" style='background-color: white; color: black; padding-top: 20px;padding-bottom: 20px;'>
         <div class="col-md-12">
             <a-scene style='width: 80%; height: 20%;' embedded vr-mode-ui="enabled: false">
 
@@ -33,14 +33,14 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
                         <a-entity
                             mixin="RobotoFont"
                             position="3.5 0 .6"
-                            text='color: white; align: left; value: AppShare ; width: 15; opacity:1;'>
+                            text='color: black; align: left; value: AppShare ; width: 15; opacity:1;'>
                             </a-entity>
                         <a-animation attribute="position"
                               to="1 0 -1.5" dur="2000" direction="normal" ></a-animation>
                     </a-box>
                 </a-entity>
             </a-entity>
-            <a-sky color="black"></a-sky>
+            <a-sky color="white"></a-sky>
         </a-scene>
     </div>
 </div>`
