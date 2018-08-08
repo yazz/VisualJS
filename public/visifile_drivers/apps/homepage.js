@@ -43,51 +43,13 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
                         </div>
                     </div>
 
-                    <div class="row" style='background-color: black; color: white; padding-top: 60px;padding-bottom: 20px;'>
-                        <div class="col-md-5">
-
-                        </div>
-                        <div class="col-md-1">
-                        </div>
-                        <div class="col-md-5 text-right">
-                            Contact@AppShare.co   +45 2859 5405
-                        </div>
-                        <div class="col-md-1"></div>
-                    </div>
 
 
 
-                    <div class="row" style='background-color: black; color: white; padding-top: 20px;padding-bottom: 20px;'>
 
-                        <div class="col-md-1"></div>
-                        <div class="col-md-5">
-                            <h2><b>Create amazing interactive forms for your website</b></h2>
-                              <ul style='background-color: black; color: white;'>
-                                  <li style='background-color: black; color: white;'>Build forms in under 5 minutes in Javascript</li>
-                                  <li style='background-color: black; color: white;'>Embed forms easily into your website</li>
-                                  <li style='background-color: black; color: white;'>Many templates available to get started easily</li>
-                                  <li style='background-color: black; color: white;'>Use online or host it in your Enterprise</li>
-                              </ul>
-                        </div>
-                        <div class="col-md-5" style='background-color: white'>
-
-
-                            <div class="row" style='background-color: black; height:20px;'></div>
-                            <div class="row" style='background-color: black; padding: 5px; color: white;'>
-                                <div class="col-md-12" style='background-color: black'>
 
                                     <form_subscribe_to_appshare/>
-                                </div>
-                            </div>
 
-                            <div class="row" style='background-color: black; height:20px;'></div>
-
-
-
-
-
-                        </div>
-                        </div>
 
 
 
