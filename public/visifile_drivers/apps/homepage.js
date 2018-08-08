@@ -8,7 +8,7 @@ description('Homepage app')
 load_once_from_file(true)
 logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Homepages--796x563.jpg")
 */
-    var introa = ['homepage_1','todo', 'test','vue','search']
+    var introa = ['homepage_1','homepage_2','homepage_3','homepage_4','homepage_5','homepage_6']
 
     var mm = null
 
@@ -33,6 +33,7 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
                                         style="width: 100%; border-radius: 40px;background-color:white;border-width: 0px;margin:0px;padding:0px;margin-bottom: 40px;"
                                        >
                                     <div style='border-radius: 25px;padding:20px; margin:0;border: 2px solid lightgray;'>
+                                       <kbd >{{item}}</kbd>
                                         <component :is='item'></component>
                                     </div>
                                 <div v-on:click='copyApp(item)' class="float-right">...</div>
