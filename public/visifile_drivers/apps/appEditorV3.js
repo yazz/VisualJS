@@ -10,8 +10,13 @@ logo_url("https://2.bp.blogspot.com/-6Hdixw3dFxk/WfSQOnB9lDI/AAAAAAAAFFc/84DRGgc
 load_once_from_file(true)
 */
 
-    var argBaseComponentId = args.base_component_id
-    var cardId = args.card_id
+    var argBaseComponentId = null
+    var cardId = null
+
+    if (args) {
+        argBaseComponentId = args.base_component_id
+        cardId = args.card_id
+    }
 
     var mm = null
     Vue.component("app_editor_3",

@@ -9,7 +9,7 @@ load_once_from_file(true)
 logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Homepages--796x563.jpg")
 */
     var introa = ['homepage_1','homepage_2','homepage_3','homepage_4','homepage_5','homepage_6']
-    //await load("app_editor_3")
+    await load("app_editor_3")
     var mm = null
 
     Vue.component('homepage', {
