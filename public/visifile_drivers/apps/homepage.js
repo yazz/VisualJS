@@ -35,7 +35,7 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
                                     <div style='border-radius: 25px;padding:20px; margin:0;border: 2px solid lightgray;'>
                                        <kbd >{{item}}</kbd>
                                        <component v-if='edit_app != item' :is='item'></component>
-                                       <component v-if='edit_app == item' :is='"app_editor_3"'></component>
+                                       <component v-if='edit_app == item' :is='"app_editor_3"' v-bind:app_id='item'></component>
                                     </div>
                                 <div v-on:click='showMenu(item)' class="float-left">
                                 ...

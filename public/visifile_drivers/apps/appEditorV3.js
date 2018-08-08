@@ -17,10 +17,10 @@ load_once_from_file(true)
         argBaseComponentId = args.base_component_id
         cardId = args.card_id
     }
-
     var mm = null
     Vue.component("app_editor_3",
     {
+      props: ['app_id'],
       template: `<div>
                     <div>
                         <h2  class='caption' style='display: inline-block;'>Appshare.co  {{app_component_name?" - " + app_component_name.substring(0,30):""}}{{(app_component_name && ((app_component_name.length > 30))?"...":"")}} </h2>
@@ -88,6 +88,7 @@ load_once_from_file(true)
            }
        }
        ,
+
        methods: {
             // ---------------------------------------------------------------
             //                         chooseApp
@@ -276,7 +277,13 @@ load_once_from_file(true)
        mounted: async function () {
            mm = this
            //alert(argBaseComponentId)
-           if (argBaseComponentId) {
+           //alert(this.app_id)
+            if (this.app_id) {
+                //alert(this.app_id)
+                //this.base_component_id = app_id
+                this.load_app(this.app_id)
+            }
+           else if (argBaseComponentId) {
                 this.load_app(argBaseComponentId)
             } else {
                 var result = await callApp( {
