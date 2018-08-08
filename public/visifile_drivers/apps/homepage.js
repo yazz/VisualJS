@@ -41,7 +41,8 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
                                     <div v-bind:id='item + "_menu"' v-bind:style='"background-color: white; border: solid 1px lightgray;position:absolute; bottom:0px;width:250px;z-index:100000;display: " + ((show_menu == item)?"":"none")  +  ";border-radius: 20px; padding: 20px;"'>
                                         <ul class="nav flex-column">
                                           <li class="nav-item" >
-                                            <a class="nav-link active" href="#">Active</a>
+                                            <a  v-on:click='editApp($event,item)'
+                                                class="nav-link active" href="#">Edit</a>
                                           </li>
                                           <li class="nav-item" >
                                             <a class="nav-link" href="#">Link</a>
@@ -169,7 +170,8 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
                     intro_apps: introa,
                     loaded_app: new Object(),
                     show_menu: null,
-                    refresh: 0
+                    refresh: 0,
+                    edit_app: null
                 }},
 
       mounted: async function() {
@@ -182,6 +184,11 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
             mm.search()
       },
       methods: {
+          editApp: async function(event,item) {
+              event.stopPropagation()
+              this.show_menu = null;
+              this.edit_app = item;
+          },
           showMenu: async function(item) {
             this.show_menu= item;
           },
