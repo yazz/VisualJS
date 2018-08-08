@@ -9,7 +9,7 @@ load_once_from_file(true)
 logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Homepages--796x563.jpg")
 */
     var introa = ['homepage_1','homepage_2','homepage_3','homepage_4','homepage_5','homepage_6']
-
+    //await load("app_editor_3")
     var mm = null
 
     Vue.component('homepage', {
@@ -34,7 +34,8 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
                                        >
                                     <div style='border-radius: 25px;padding:20px; margin:0;border: 2px solid lightgray;'>
                                        <kbd >{{item}}</kbd>
-                                        <component :is='item'></component>
+                                       <component v-if='edit_app != item' :is='item'></component>
+                                       <component v-if='edit_app == item' :is='"app_editor_3"'></component>
                                     </div>
                                 <div v-on:click='showMenu(item)' class="float-left">
                                 ...
@@ -43,15 +44,6 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
                                           <li class="nav-item" >
                                             <a  v-on:click='editApp($event,item)'
                                                 class="nav-link active" href="#">Edit</a>
-                                          </li>
-                                          <li class="nav-item" >
-                                            <a class="nav-link" href="#">Link</a>
-                                          </li>
-                                          <li class="nav-item" >
-                                            <a class="nav-link" href="#">Link</a>
-                                          </li>
-                                          <li class="nav-item" >
-                                            <a class="nav-link disabled" href="#">Disabled</a>
                                           </li>
                                         </ul>
                                     </div>
