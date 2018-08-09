@@ -112,60 +112,13 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
 
 
 
-                    <div class="row" style='background-color: white; color: white; padding-top: 20px;padding-bottom: 20px;'>
-                        <div class="col-md-2"></div>
-                        <div class="col-md-3 text-left">
-                            <a href="http://visifile.com/visifile/64/Appshare_Setup.exe" class="btn btn-secondary">
-                               <img src='/windows.png' style='height: 30px;'></img>
-                               Download Appshare for Windows
-                            </a>
-                        </div>
-                        <div class="col-md-2"></div>
-
-                        <div class="col-md-3 text-right">
-                            <a href="http://visifile.com/visifile/64/Appshare_Setup.dmg" class="btn btn-primary">
-                               <img src='/mac.png' style='height: 30px;'></img>
-                               Download Appshare for Mac
-                            </a>
-                        </div>
-                        <div class="col-md-2"></div>
-                    </div>
 
 
 
 
 
 
-                    <div class="row" style='background-color: lightgray; color: black; padding-top: 20px;padding-bottom: 20px;'>
-                        <div class="col-md-1">
-                        </div>
-                        <div class="col-md-10 text-center display-3">
-                            This website was designed with Appshare
-                        </div>
-                        <div class="col-md-1"></div>
 
-
-                    </div>
-
-
-
-
-                    <div class="row" style='background-color: black; color: white; padding-top: 20px;padding-bottom: 20px;'>
-                        <div class="col-md-1">
-                        </div>
-                        <div class="col-md-4 text-center">
-                            On Github:
-                            <a href='https://github.com/zubairq/appshare'>https://github.com/zubairq/appshare</a>
-                        </div>
-                        <div class="col-md-4 text-center">
-
-                            Website:
-                            <a href='http://AppShare.co'>AppShare.co</a>
-                        </div>
-                        <div class="col-md-1"></div>
-
-
-                    </div>
 
 
 
