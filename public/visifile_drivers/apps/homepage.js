@@ -27,15 +27,28 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
                          class="row"
                          style='background-color: white; color: black; padding-top: 20px;padding-bottom: 20px;'>
 
+
+
                         <div style='background-color: white;' class="card-columns">
                                 <div    v-for="item in intro_apps" v-if='loaded_app[item]'
                                         class="card rounded"
                                         style="width: 100%; border-radius: 40px;background-color:white;border-width: 0px;margin:0px;padding:0px;margin-bottom: 40px;"
                                        >
+
+
+
+                                       <div v-if="edit_app == item"
+                                               style="position: fixed; left:0px; top:0px; height:100%; width: 100vw ;z-index: 200000;background-color: white;overflow-y:scroll;">
+                                               <div v-on:click='editApp($event,null)' class="btn btn-primary">Close</div>
+                                               <component v-if='' :is='"app_editor_3"' v-bind:app_id='item'></component>
+                                       </div>
+
+
+
+
                                     <div style='border-radius: 25px;padding:20px; margin:0;border: 2px solid lightgray;'>
                                        <kbd >{{item}}</kbd>
                                        <component v-if='edit_app != item' :is='item'></component>
-                                       <component v-if='edit_app == item' :is='"app_editor_3"' v-bind:app_id='item'></component>
                                     </div>
                                 <div v-on:click='showMenu(item)' class="float-left">
                                 ...
