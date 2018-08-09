@@ -54,7 +54,12 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
                                 ...
                                     <div v-bind:id='item + "_menu"' v-bind:style='"background-color: white; border: solid 1px lightgray;position:absolute; bottom:0px;width:250px;z-index:100000;display: " + ((show_menu == item)?"":"none")  +  ";border-radius: 20px; padding: 20px;"'>
                                         <ul class="nav flex-column">
-                                          <li class="nav-item" >
+                                        <li class="nav-item" v-if='item == "homepage_1"'>
+                                          <a  v-on:click='editApp($event,item)'
+                                              class="nav-link active" href="#">View source</a>
+                                        </li>
+
+                                          <li class="nav-item" v-if='item != "homepage_1"'>
                                             <a  v-on:click='editApp($event,item)'
                                                 class="nav-link active" href="#">Edit</a>
                                           </li>
