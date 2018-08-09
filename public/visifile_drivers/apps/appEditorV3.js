@@ -44,7 +44,8 @@ load_once_from_file(true)
                       <div id=editor_id v-bind:style="'height: 100%; width: ' + code_width + '; left: 0px; display: ' + (code_shown?'inline-block':'none') + ';'">
 
                           <component  v-bind:is="editor_component" v-if="editor_loaded" ref="editorComponentRef">
-                                          <button v-bind:style="'visibility: ' + ((app_shown && code_shown)?'':'hidden')"
+                                          <button v-if='!read_only'
+                                                  v-bind:style="'visibility: ' + ((app_shown && code_shown)?'':'hidden')"
                                                   slot-scope="editor_component"
                                                   v-on:click='save(base_component_id, code_id, editor_component.text2)'
                                                   type="button" class="btn btn-primary">
@@ -84,7 +85,8 @@ load_once_from_file(true)
                app_width:           "33%",
                code_width:          "63%",
                app_shown:           true,
-               code_shown:          true
+               code_shown:          true,
+               read_only:           false,
            }
        }
        ,
@@ -251,6 +253,9 @@ load_once_from_file(true)
                             mm.editor_loaded = true
                             mm.editor_component = editorName
                        }
+
+                       this.read_only = saveHelper.getValueOfCodeString(code, "read_only")
+
 
 
                    }

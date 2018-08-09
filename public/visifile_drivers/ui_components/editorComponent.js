@@ -12,6 +12,7 @@ load_once_from_file(true)
       data: function () {
         return {
             text: args.text,
+            read_only: false,
             uid2: uid2
         }
       },
@@ -33,6 +34,10 @@ load_once_from_file(true)
          document.getElementById(uid2).style.height="45vh"
          editor.getSession().setValue(mm.text);
          editor.getSession().setUseWorker(false);
+         this.read_only = saveHelper.getValueOfCodeString(mm.text, "read_only")
+         if (this.read_only) {
+            editor.setReadOnly(true)
+         }
 
 
          editor.getSession().on('change', function() {
