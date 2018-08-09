@@ -38,8 +38,8 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
 
 
                                        <div v-if="edit_app == item"
-                                               style="position: fixed; left:0px; top:0px; height:100%; width: 100vw ;z-index: 200000;background-color: white;overflow-y:scroll;">
-                                               <div v-on:click='editApp($event,null)' class="btn btn-primary">Close</div>
+                                               style="position: fixed; left:0px; top:0px; height:100%; width: 100vw ;z-index: 200000;background-color: white;overflow-y:scroll; padding: 20px;">
+                                               <div v-on:click='editApp($event,null)' class="btn-lg btn-danger" style='margin-bottom: 20px;'>Close</div>
                                                <component v-if='' :is='"app_editor_3"' v-bind:app_id='item'></component>
                                        </div>
 
