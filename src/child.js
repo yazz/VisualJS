@@ -4097,6 +4097,11 @@ async function saveCodeV2( baseComponentId, parentHash, code ) {
                                     editors = JSON.stringify(editors2,null,2)
 
                                 }
+                                var readWriteStatus = null
+                                var readOnly = saveHelper.getValueOfCodeString(code,"read_only")
+                                if (readOnly) {
+                                    readWriteStatus = "READ"
+                                }
 
 
 
@@ -4130,7 +4135,7 @@ async function saveCodeV2( baseComponentId, parentHash, code ) {
                                 //console.log("Saving in Sqlite: " + parentHash)
                                 //console.log("Saving in Sqlite: " + code)
                                 var stmtInsertNewCode = dbsearch.prepare(
-                                    " insert into   system_code  (id, parent_id, code_tag, code,on_condition, base_component_id, method, max_processes,component_type,display_name, creation_timestamp,component_options, logo_url, visibility, interfaces,use_db, editors) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+                                    " insert into   system_code  (id, parent_id, code_tag, code,on_condition, base_component_id, method, max_processes,component_type,display_name, creation_timestamp,component_options, logo_url, visibility, interfaces,use_db, editors, read_write_status) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
                                 var stmtDeprecateOldCode = dbsearch.prepare(
                                     " update system_code  set code_tag = NULL where base_component_id = ? and id != ?");
 
@@ -4153,7 +4158,8 @@ async function saveCodeV2( baseComponentId, parentHash, code ) {
                                           visibility,
                                           interfaces,
                                           useDb,
-                                          editors
+                                          editors,
+                                          readWriteStatus
                                           )
                                     stmtDeprecateOldCode.run(
                                         baseComponentId,
