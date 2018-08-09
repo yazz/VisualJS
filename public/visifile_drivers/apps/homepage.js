@@ -88,9 +88,6 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
                         <div class="col-md-1">
                         </div>
                         <div class="col-md-10">
-                            <div class='display-3 text-center'>Choose a template and create a form now</div>
-
-
                                 <div style='background-color: white;' class="card-columns">
                                  <div class="card" style="width: 20rem;" v-for="item in apps">
                                  <img    v-if='item.logo_url'

@@ -51,6 +51,10 @@ load_once_from_file(true)
         },
         setText: function(textValue) {
             this.text =  textValue
+            this.read_only = saveHelper.getValueOfCodeString(mm.text, "read_only")
+            if (this.read_only) {
+               editor.setReadOnly(true)
+            }
             editor.getSession().setValue(textValue);
         }
 
