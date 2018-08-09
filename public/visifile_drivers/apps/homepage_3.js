@@ -7,6 +7,7 @@ display_name("Homepage 3")
 uses_javascript_librararies(["aframe"])
 description('Homepage 3')
 load_once_from_file(true)
+read_only(true)
 logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.png")
 */
 

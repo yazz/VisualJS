@@ -6,9 +6,10 @@ is_app(true)
 display_name("Homepage app")
 description('Homepage app')
 load_once_from_file(true)
+read_only(true)
 logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Homepages--796x563.jpg")
 */
-    var introa = ['homepage_1','homepage_2','homepage_3','homepage_4','homepage_5','homepage_6']
+    var introa = ['homepage_1','homepage_2','homepage_3','homepage_4','homepage_5','homepage_6',"todo"]
     await load("app_editor_3")
     var mm = null
 
@@ -54,12 +55,12 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
                                 ...
                                     <div v-bind:id='item + "_menu"' v-bind:style='"background-color: white; border: solid 1px lightgray;position:absolute; bottom:0px;width:250px;z-index:100000;display: " + ((show_menu == item)?"":"none")  +  ";border-radius: 20px; padding: 20px;"'>
                                         <ul class="nav flex-column">
-                                        <li class="nav-item" v-if='item == "homepage_1"'>
+                                        <li class="nav-item" v-if='(item != null) && (item.startsWith("homepage_"))'>
                                           <a  v-on:click='editApp($event,item)'
                                               class="nav-link active" href="#">View source</a>
                                         </li>
 
-                                          <li class="nav-item" v-if='item != "homepage_1"'>
+                                          <li class="nav-item" v-if='(item == null) || (!item.startsWith("homepage_"))'>
                                             <a  v-on:click='editApp($event,item)'
                                                 class="nav-link active" href="#">Edit</a>
                                           </li>
