@@ -11,7 +11,6 @@ read_only(true)
 logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.png")
 */
 
-    await load("form_subscribe_to_appshare")
     Vue.component('homepage_3', {
 
       template:
