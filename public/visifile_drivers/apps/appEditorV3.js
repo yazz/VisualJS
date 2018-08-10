@@ -174,7 +174,7 @@ load_once_from_file(true)
 
 
            load_new_app: async function ( baseComponentId ) {
-               if ((!baseComponentId) || (baseComponentId == "")) {
+           if ((!baseComponentId) || (baseComponentId == "") || (!mm)) {
                     return
                }
                this.editor_loaded = false
@@ -191,9 +191,9 @@ load_once_from_file(true)
            // 'baseComponentId'
            // ---------------------------------------------------------------
            load_app: async function ( baseComponentId ) {
-           if ((!baseComponentId) || (baseComponentId == "")) {
-                return
-           }
+               if ((!baseComponentId) || (baseComponentId == "") || (!mm)) {
+                    return
+               }
                 mm.selected_app = ""
 
                //

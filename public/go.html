@@ -1047,21 +1047,25 @@ function scriptTag(src, callback) {
     (document.body || head).appendChild(s);
 }
 
+var libLoaded = new Object()
 function checkLibs(data){
 
 
     if (data.value.libs && data.value.libs.length > 0 ) {
         //alert(JSON.stringify(data.value.libs,null,2))
         for (var tt = 0; tt < data.value.libs.length ; tt++) {
-            if ( data.value.libs[tt].dependency_name == "aframe" ) {
+            //if (!libLoaded[ data.value.libs[tt].dependency_name ]) {
+                libLoaded[ data.value.libs[tt].dependency_name ] = true
+                if ( data.value.libs[tt].dependency_name == "aframe" ) {
 
-                scriptTag(
-                    "http://" +  useHostname + ":" + usePort + "/js_libs/aframe.min.js"
-                    ,
-                    function() {
-                        callCode(data)
-                })
-            }
+                    scriptTag(
+                        "http:\/\/" +  useHostname + ":" + usePort + "/js_libs/aframe.min.js"
+                        ,
+                        function() {
+                            callCode(data)
+                    })
+                }
+            //}
         }
     } else {
         callCode(data)
