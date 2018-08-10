@@ -4,45 +4,46 @@ base_component_id("editor_component")
 load_once_from_file(true)
 */
 
-    //alert(JSON.stringify(args,null,2))
-    var uid2 = uuidv4()
-    var mm = null
-    var editor = null
+    var editorDomId     = uuidv4()
+    var thisVueInstance = null
+    var editor          = null
+
+
     Vue.component("editor_component", {
       data: function () {
         return {
             text: args.text,
             read_only: false,
-            uid2: uid2
+            editorDomId: editorDomId
         }
       },
       template: `<div>
-                    <div v-bind:id='uid2' ></div>
+                    <div v-bind:id='editorDomId' ></div>
                     <hr />
                      <slot  :text2="text"></slot>
                  </div>`
      ,
 
      mounted: function() {
-         mm = this
-         editor = ace.edit(           uid2, {
+         thisVueInstance = this
+         editor = ace.edit(           editorDomId, {
                                                  mode:           "ace/mode/javascript",
                                                  selectionStyle: "text"
                                              })
-         document.getElementById(uid2).style.width="100%"
+         document.getElementById(editorDomId).style.width="100%"
 
-         document.getElementById(uid2).style.height="45vh"
-         editor.getSession().setValue(mm.text);
+         document.getElementById(editorDomId).style.height="45vh"
+         editor.getSession().setValue(thisVueInstance.text);
          editor.getSession().setUseWorker(false);
-         this.read_only = saveHelper.getValueOfCodeString(mm.text, "read_only")
+         this.read_only = saveHelper.getValueOfCodeString(thisVueInstance.text, "read_only")
          if (this.read_only) {
             editor.setReadOnly(true)
          }
 
 
          editor.getSession().on('change', function() {
-            mm.text = editor.getSession().getValue();
-            //alert("changed text to : " + mm.text)
+            thisVueInstance.text = editor.getSession().getValue();
+            //alert("changed text to : " + thisVueInstance.text)
             });
      },
      methods: {
@@ -51,7 +52,7 @@ load_once_from_file(true)
         },
         setText: function(textValue) {
             this.text =  textValue
-            this.read_only = saveHelper.getValueOfCodeString(mm.text, "read_only")
+            this.read_only = saveHelper.getValueOfCodeString(thisVueInstance.text, "read_only")
             if (this.read_only) {
                editor.setReadOnly(true)
             }
