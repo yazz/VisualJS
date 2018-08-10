@@ -53,10 +53,12 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
                                     </div>
 
                                     <div v-if='isEditable(item)' style='border-radius: 25px;padding:20px; margin:0;border: 2px solid lightgray;'>
+                                        <kbd >{{item}}</kbd>
                                         <span class="badge badge-warning" >Editable</span>
 
                                         <img    src='https://i.imgur.com/OvMZBs9.jpg'
                                                 style='width: 100%;'
+                                                v-on:click='editApp($event,item)'
                                                 ></img>
                                     </div>
 
