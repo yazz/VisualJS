@@ -47,11 +47,20 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
 
 
 
-                                    <div style='border-radius: 25px;padding:20px; margin:0;border: 2px solid lightgray;'>
+                                    <div v-if='!isEditable(item)' style='border-radius: 25px;padding:20px; margin:0;border: 2px solid lightgray;'>
                                        <kbd >{{item}}</kbd>
-                                       <span class="badge badge-warning" v-if='isEditable(item)'>Editable</span>
                                        <component v-if='edit_app != item' :is='item'></component>
                                     </div>
+
+                                    <div v-if='isEditable(item)' style='border-radius: 25px;padding:20px; margin:0;border: 2px solid lightgray;'>
+                                        <span class="badge badge-warning" >Editable</span>
+
+                                        <img    src='https://i.imgur.com/OvMZBs9.jpg'
+                                                style='width: 100%;'
+                                                ></img>
+                                    </div>
+
+
                                 <div v-on:click='showMenu(item)' class="float-left">
                                 ...
                                     <div v-bind:id='item + "_menu"' v-bind:style='"background-color: white; border: solid 1px lightgray;position:absolute; bottom:0px;width:250px;z-index:100000;display: " + ((show_menu == item)?"":"none")  +  ";border-radius: 20px; padding: 20px;"'>
@@ -80,45 +89,6 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
 
                         </div>
                     </div>
-
-
-
-
-
-
-
-
-
-
-                    <div class="row" style='background-color: white; color: black; padding-top: 20px;padding-bottom: 20px;'>
-
-                        <div class="col-md-1">
-                        </div>
-                        <div class="col-md-10">
-                                <div style='background-color: white;' class="card-columns">
-                                 <div class="card" style="width: 20rem;" v-for="item in apps">
-                                 <img    v-if='item.logo_url'
-                                         v-bind:src='item.logo_url'
-                                         style='width: 100%;'
-                                         v-on:click='copyApp(item.base_component_id)'
-                                         ></img>
-                                   <div class="card-body">
-                                     <h4 class="card-title">{{item.display_name}}</h4>
-                                     <p class="card-text"></p>
-                                     <div v-on:click='copyApp(item.base_component_id)' class="btn btn-primary">Copy</div>
-                                   </div>
-                                 </div>
-                                 </div>
-
-                        </div>
-                        <div class="col-md-1"></div>
-                    </div>
-
-
-
-
-
-
 
 
 
@@ -157,7 +127,7 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
                     (
                         (baseComponentId.startsWith("homepage_"))
                         ||
-                        (baseComponentId = "form_subscribe_to_appshare")
+                        (baseComponentId == "form_subscribe_to_appshare")
                     )
                     ) {
                 return false
