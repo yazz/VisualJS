@@ -3994,15 +3994,19 @@ function updateRevisions(sqlite, baseComponentId) {
                         console.log("**************************************")
 
                         //zzz
-                        dbsearch.serialize(function() {
-
-                            dbsearch.run("begin exclusive transaction");
-                            if (results.length == 0) {
-                                stmtInsertAppDDLRevision.run(baseComponentId, newLatestRev)
-                            } else {
-                                stmtUpdateLatestAppDDLRevision.run(newLatestRev,baseComponentId)
-                            }})
-                            dbsearch.run("commit")
+                        try {
+                            dbsearch.serialize(function() {
+                                dbsearch.run("begin exclusive transaction");
+                                if (results.length == 0) {
+                                    stmtInsertAppDDLRevision.run(baseComponentId, newLatestRev)
+                                } else {
+                                    stmtUpdateLatestAppDDLRevision.run(newLatestRev,baseComponentId)
+                                }
+                                dbsearch.run("commit")
+                                })
+                            } catch(er) {
+                                console.log(er)
+                            }
 
                  })
              })
