@@ -3950,13 +3950,15 @@ function updateRevisions(sqlite, baseComponentId) {
     dbsearch.serialize(
     function() {
         dbsearch.all(
-            "SELECT  latest_revision  from  app_db_latest_ddl_revisions  where  base_component_id = '" +
-                baseComponentId + "' ; ",
+            "SELECT  *  from  app_db_latest_ddl_revisions  where  base_component_id = ? ; ",
+            baseComponentId,
 
             function(err, results)
             {
                 console.log("**************************************")
                 console.log("****       Creating App DB        ****")
+                console.log("baseComponentId: " + JSON.stringify(baseComponentId,null,2))
+                //console.log("results: " + JSON.stringify(results,null,2))
                 var latestRevision = null
                 if (results.length > 0) {
                     latestRevision = results[0].latest_revision
@@ -3999,9 +4001,13 @@ function updateRevisions(sqlite, baseComponentId) {
                             dbsearch.serialize(function() {
                                 dbsearch.run("begin exclusive transaction");
                                 if (results.length == 0) {
+                                    console.log("insert newLatestRev: " + baseComponentId + " == " + newLatestRev)
                                     stmtInsertAppDDLRevision.run(baseComponentId, newLatestRev)
                                 } else {
-                                    stmtUpdateLatestAppDDLRevision.run(newLatestRev,baseComponentId)
+                                    if (newLatestRev) {
+                                        console.log("update newLatestRev: " + baseComponentId + " == " + newLatestRev)
+                                        stmtUpdateLatestAppDDLRevision.run(newLatestRev,baseComponentId)
+                                    }
                                 }
                                 dbsearch.run("commit")
                                 })
