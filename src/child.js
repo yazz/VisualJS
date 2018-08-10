@@ -3969,6 +3969,7 @@ function updateRevisions(sqlite, baseComponentId) {
 
                 appDb.serialize(
                     function() {
+                      try {
                         appDb.run("begin exclusive transaction");
                         console.log(JSON.stringify(sqlite,null,2))
                         var newLatestRev = null
@@ -4007,6 +4008,10 @@ function updateRevisions(sqlite, baseComponentId) {
                             } catch(er) {
                                 console.log(er)
                             }
+
+                      } catch(ewq) {
+                            console.log(ewq)
+                      }
 
                  })
              })
