@@ -65,6 +65,13 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
                                             <a  v-on:click='editApp($event,item)'
                                                 class="nav-link active" href="#">Edit</a>
                                           </li>
+
+                                        <li class="nav-item" >
+                                          <a  v-on:click='editApp($event,null)'
+                                              class="nav-link active" href="#">Close</a>
+                                        </li>
+
+
                                         </ul>
                                     </div>
                                 </div>
