@@ -17,7 +17,6 @@ load_once_from_file(true)
         argBaseComponentId = args.base_component_id
         cardId = args.card_id
     }
-    var mm = null
     Vue.component("app_editor_3",
     {
       props: ['app_id'],
@@ -98,6 +97,7 @@ load_once_from_file(true)
             // This is called when the end user selects an app from the menu
             // ---------------------------------------------------------------
             chooseApp: function() {
+                var mm = this
                 this.code_width = "0%"
                 this.code_shown = false
 
@@ -117,6 +117,7 @@ load_once_from_file(true)
             },
 
             chooseCode: function() {
+                var mm = this
                 this.code_width = "95%"
                 this.code_shown = true
 
@@ -130,6 +131,7 @@ load_once_from_file(true)
 
 
             chooseBoth: function() {
+                var mm = this
                 this.code_width = "63%"
                 this.code_shown = true
 
@@ -139,6 +141,7 @@ load_once_from_file(true)
 
 
             copyAppMethod: function(x) {
+                var mm = this
                 copyApp(x)
             }
             ,
@@ -151,6 +154,7 @@ load_once_from_file(true)
            // This is called to save the currently edited code
            // ---------------------------------------------------------------
            save: async function( base_component_id, code_id, text ) {
+               var mm = this
                //alert("Saving " + code_id)
                //alert("Saving " + text)
                //alert(base_component_id)
@@ -174,7 +178,8 @@ load_once_from_file(true)
 
 
            load_new_app: async function ( baseComponentId ) {
-           if ((!baseComponentId) || (baseComponentId == "") || (!mm)) {
+               var mm = this
+               if ((!baseComponentId) || (baseComponentId == "") || (!mm)) {
                     return
                }
                this.editor_loaded = false
@@ -191,6 +196,7 @@ load_once_from_file(true)
            // 'baseComponentId'
            // ---------------------------------------------------------------
            load_app: async function ( baseComponentId ) {
+               var mm = this
                if ((!baseComponentId) || (baseComponentId == "") || (!mm)) {
                     return
                }
@@ -280,7 +286,7 @@ load_once_from_file(true)
        },
 
        mounted: async function () {
-           mm = this
+           var mm = this
            //alert(argBaseComponentId)
            //alert(this.app_id)
             if (this.app_id) {
