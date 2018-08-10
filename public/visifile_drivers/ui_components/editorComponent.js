@@ -5,7 +5,6 @@ load_once_from_file(true)
 */
 
     var editorDomId     = uuidv4()
-    var thisVueInstance = null
     var editor          = null
 
 
@@ -25,7 +24,7 @@ load_once_from_file(true)
      ,
 
      mounted: function() {
-         thisVueInstance = this
+         var thisVueInstance = this
          editor = ace.edit(           editorDomId, {
                                                  mode:           "ace/mode/javascript",
                                                  selectionStyle: "text"
