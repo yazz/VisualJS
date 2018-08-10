@@ -50,6 +50,7 @@ load_once_from_file(true)
             return this.text
         },
         setText: function(textValue) {
+            var thisVueInstance = this
             this.text =  textValue
             this.read_only = saveHelper.getValueOfCodeString(thisVueInstance.text, "read_only")
             if (this.read_only) {

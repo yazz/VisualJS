@@ -72,7 +72,7 @@ load_once_from_file(true)
        data: function() {
            return {
                editor_loaded:       false,
-               selected_app:        'welcome',
+               selected_app:        '',
                editor_component:    null,
                app_loaded:          false,
                apps:               [],
