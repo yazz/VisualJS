@@ -31,49 +31,49 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
 
 
                         <div style='background-color: white;' class="card-columns">
-                                <div    v-for="item in intro_apps" v-if='loaded_app[item]'
+                                <div    v-for="item in intro_apps" v-if='loaded_app[item.id]'
                                         class="card rounded"
                                         style="width: 100%; border-radius: 40px;background-color:white;border-width: 0px;margin:0px;padding:0px;margin-bottom: 40px;"
                                        >
 
 
 
-                                       <div v-if="edit_app == item"
+                                       <div v-if="edit_app == item.id"
                                                style="position: fixed; left:0px; top:0px; height:100%; width: 100vw ;z-index: 200000;background-color: white;overflow-y:scroll; padding: 20px;">
                                                <div v-on:click='editApp($event,null)' class="btn-lg btn-danger" style='margin-bottom: 20px;'>Close</div>
-                                               <component v-if='' :is='"app_editor_3"' v-bind:app_id='item'></component>
+                                               <component v-if='' :is='"app_editor_3"' v-bind:app_id='item.id'></component>
                                        </div>
 
 
 
 
-                                    <div v-if='!isEditable(item)' style='border-radius: 25px;padding:20px; margin:0;border: 2px solid lightgray;'>
-                                       <kbd >{{item}}</kbd>
-                                       <component v-if='edit_app != item' :is='item'></component>
+                                    <div v-if='!isEditable(item.id)' style='border-radius: 25px;padding:20px; margin:0;border: 2px solid lightgray;'>
+                                       <kbd >{{item.id}}</kbd>
+                                       <component v-if='edit_app != item.id' :is='item.id'></component>
                                     </div>
 
-                                    <div v-if='isEditable(item)' style='border-radius: 25px;padding:20px; margin:0;border: 2px solid lightgray;'>
-                                        <kbd >{{item}}</kbd>
+                                    <div v-if='isEditable(item.id)' style='border-radius: 25px;padding:20px; margin:0;border: 2px solid lightgray;'>
+                                        <kbd >{{item.id}}</kbd>
                                         <span class="badge badge-warning" >Editable</span>
 
                                         <img    src='https://i.imgur.com/OvMZBs9.jpg'
                                                 style='width: 100%;'
-                                                v-on:click='editApp($event,item)'
+                                                v-on:click='editApp($event,item.id)'
                                                 ></img>
                                     </div>
 
 
-                                <div v-on:click='showMenu(item)' class="float-left">
+                                <div v-on:click='showMenu(item.id)' class="float-left">
                                 ...
-                                    <div v-bind:id='item + "_menu"' v-bind:style='"background-color: white; border: solid 1px lightgray;position:absolute; bottom:0px;width:250px;z-index:100000;display: " + ((show_menu == item)?"":"none")  +  ";border-radius: 20px; padding: 20px;"'>
+                                    <div v-bind:id='item.id + "_menu"' v-bind:style='"background-color: white; border: solid 1px lightgray;position:absolute; bottom:0px;width:250px;z-index:100000;display: " + ((show_menu == item.id)?"":"none")  +  ";border-radius: 20px; padding: 20px;"'>
                                         <ul class="nav flex-column">
-                                        <li class="nav-item" v-if='!isEditable(item)'>
-                                          <a  v-on:click='editApp($event,item)'
+                                        <li class="nav-item" v-if='!isEditable(item.id)'>
+                                          <a  v-on:click='editApp($event,item.id)'
                                               class="nav-link active" href="#">View source</a>
                                         </li>
 
-                                          <li class="nav-item" v-if='isEditable(item)'>
-                                            <a  v-on:click='editApp($event,item)'
+                                          <li class="nav-item" v-if='isEditable(item.id)'>
+                                            <a  v-on:click='editApp($event,item.id)'
                                                 class="nav-link active" href="#">Edit</a>
                                           </li>
 
@@ -107,7 +107,7 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
     data: function() {
         return {
                     apps: [],
-                    intro_apps: introa,
+                    intro_apps: [],
                     loaded_app: new Object(),
                     show_menu: null,
                     refresh: 0,
@@ -116,10 +116,16 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
 
       mounted: async function() {
             mm = this
-            for (var rt = 0; rt < 2; rt++) {
-                await load(mm.intro_apps[rt])
-                mm.loaded_app[mm.intro_apps[rt]] = true
-            }
+
+           for (var rt=0; rt < 3; rt++) {
+               var appId = introa[rt]
+               mm.loaded_app[appId] = true
+               mm.intro_apps.push( {id: appId} )
+               await load(appId)
+           }
+
+
+
 
             mm.search()
       },
@@ -146,14 +152,16 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
           },
           search: async function() {
                this.apps = await callApp({   driver_name: "systemFunctions3",  method_name:"get_public_apps_list"}, { }) }
+          ,
 
       }
     })
     setTimeout(async function() {
-        for (var rt2 = 2; rt2 < mm.intro_apps.length; rt2 ++) {
-            var appN = mm.intro_apps[rt2]
-            await load(appN)
-            mm.loaded_app[appN] = true
+        for (var rt=2; rt < introa.length; rt++) {
+            var appId = introa[rt]
+            await load(appId)
+            mm.loaded_app[appId] = true
+            mm.intro_apps.push( {id: appId} )
             mm.refresh++
         }
     },3000)
