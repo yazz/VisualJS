@@ -32,50 +32,50 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
 
 
                         <div style='background-color: white;' class="card-columns">
-                                <div    v-for="item in intro_apps" v-if='loaded_app[item.id]'
+                                <div    v-for="item in intro_apps" v-if='loaded_app[item.data.id]'
                                         class="card rounded"
                                         style="width: 100%; border-radius: 40px;background-color:white;border-width: 0px;margin:0px;padding:0px;margin-bottom: 40px;"
                                        >
 
 
 
-                                       <div v-if="edit_app == item.id"
+                                       <div v-if="(edit_app == item.data.id) && (item.type == 'app')"
                                                style="position: fixed; left:0px; top:0px; height:100%; width: 100vw ;z-index: 200000;background-color: white;overflow-y:scroll; padding: 20px;">
                                                <div v-on:click='editApp($event,null)' class="btn-lg btn-danger" style='margin-bottom: 20px;'>Close</div>
-                                               <component v-if='' :is='"app_editor_3"' v-bind:app_id='item.id'></component>
+                                               <component v-if='' :is='"app_editor_3"' v-bind:app_id='item.data.id'></component>
                                        </div>
 
 
 
 
-                                    <div v-if='!isEditable(item.id)' style='border-radius: 25px;padding:20px; margin:0;border: 2px solid lightgray;'>
-                                       <kbd >{{item.id}}</kbd>
-                                       <component v-if='edit_app != item.id' :is='item.id'></component>
+                                    <div v-if='!isEditable(item.data.id)' style='border-radius: 25px;padding:20px; margin:0;border: 2px solid lightgray;'>
+                                       <kbd >{{item.data.id}}</kbd>
+                                       <component v-if='edit_app != item.data.id' :is='item.data.id'></component>
                                     </div>
 
-                                    <div v-if='isEditable(item.id)' style='border-radius: 25px;padding:20px; margin:0;border: 2px solid lightgray;'>
-                                        <kbd >{{item.id}}</kbd>
+                                    <div v-if='isEditable(item.data.id)' style='border-radius: 25px;padding:20px; margin:0;border: 2px solid lightgray;'>
+                                        <kbd >{{item.data.id}}</kbd>
                                         <span class="badge badge-warning" >Editable</span>
 
-                                        <img    v-bind:src='app_records[item.id].logo_url'
+                                        <img    v-bind:src='app_records[item.data.id].logo_url'
                                                 style='width: 100%;'
-                                                v-bind:alt='app_records[item.id].logo_url'
-                                                v-on:click='editApp($event,item.id)'
+                                                v-bind:alt='app_records[item.data.id].logo_url'
+                                                v-on:click='editApp($event,item.data.id)'
                                                 ></img>
                                     </div>
 
 
-                                <div v-on:click='showMenu(item.id)' class="float-left">
+                                <div v-on:click='showMenu(item.data.id)' class="float-left">
                                 ...
-                                    <div v-bind:id='item.id + "_menu"' v-bind:style='"background-color: white; border: solid 1px lightgray;position:absolute; bottom:0px;width:250px;z-index:100000;display: " + ((show_menu == item.id)?"":"none")  +  ";border-radius: 20px; padding: 20px;"'>
+                                    <div v-bind:id='item.data.id + "_menu"' v-bind:style='"background-color: white; border: solid 1px lightgray;position:absolute; bottom:0px;width:250px;z-index:100000;display: " + ((show_menu == item.data.id)?"":"none")  +  ";border-radius: 20px; padding: 20px;"'>
                                         <ul class="nav flex-column">
-                                        <li class="nav-item" v-if='!isEditable(item.id)'>
-                                          <a  v-on:click='editApp($event,item.id)'
+                                        <li class="nav-item" v-if='!isEditable(item.data.id)'>
+                                          <a  v-on:click='editApp($event,item.data.id)'
                                               class="nav-link active" href="#">View source</a>
                                         </li>
 
-                                          <li class="nav-item" v-if='isEditable(item.id)'>
-                                            <a  v-on:click='editApp($event,item.id)'
+                                          <li class="nav-item" v-if='isEditable(item.data.id)'>
+                                            <a  v-on:click='editApp($event,item.data.id)'
                                                 class="nav-link active" href="#">Edit</a>
                                           </li>
 
@@ -138,7 +138,13 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
       methods: {
           addApp: async function(baseComponentId) {
               if (baseComponentId) {
-                  mm.intro_apps.push( {id: baseComponentId} )
+                  mm.intro_apps.push( {
+                                        type: "app",
+                                        data:
+                                            {
+                                                id: baseComponentId
+                                            }
+                                      } )
                   mm.loaded_app[baseComponentId] = true
                   var vv = await load(baseComponentId)
                   if (vv) {
