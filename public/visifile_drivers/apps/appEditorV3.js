@@ -12,6 +12,7 @@ load_once_from_file(true)
 
     var argBaseComponentId = null
     var cardId = null
+    await load("appEmbed")
 
     if (args) {
         argBaseComponentId = args.base_component_id
@@ -34,10 +35,13 @@ load_once_from_file(true)
                             <button  type=button class=' btn btn-secondary'   v-on:click='chooseCode()' >Code</button>
                             <button  type=button class=' btn btn-info'        v-on:click='chooseBoth()' >Both</button>
                             <button  type=button class=' btn btn-secondary'   v-on:click='copyAppMethod(base_component_id)' >Copy app</button>
-                            <button  type=button class=' btn btn-info'        v-on:click='prepareApp(card_id, \"appEmbed\", {base_component_id: base_component_id})' >Embed app</button>
+                            <button  type=button class=' btn btn-info'        v-on:click='embedApp(base_component_id)' >Embed app</button>
                         </div>
                     </div>
 
+                  <div v-if='mode == "embed"'>
+                        <appEmbed></appEmbed>
+                  </div>
 
                   <div v-if='mode == "edit"'>
                       <div id=editor_id v-bind:style="'height: 100%; width: ' + code_width + '; left: 0px; display: ' + (code_shown?'inline-block':'none') + ';'">
@@ -140,6 +144,12 @@ load_once_from_file(true)
                 this.app_shown = true
             },
 
+
+            embedApp: function(x) {
+                var mm = this
+                this.mode = "embed"
+            }
+            ,
 
             copyAppMethod: function(x) {
                 var mm = this
