@@ -57,8 +57,9 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
                                         <kbd >{{item.id}}</kbd>
                                         <span class="badge badge-warning" >Editable</span>
 
-                                        <img    src='{{app_records[item.id].logo_url}}'
+                                        <img    v-bind:src='app_records[item.id].logo_url'
                                                 style='width: 100%;'
+                                                v-bind:alt='app_records[item.id].logo_url'
                                                 v-on:click='editApp($event,item.id)'
                                                 ></img>
                                     </div>
