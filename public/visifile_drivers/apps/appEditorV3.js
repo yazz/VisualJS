@@ -39,7 +39,7 @@ load_once_from_file(true)
                     </div>
 
 
-                  <div>
+                  <div v-if='mode == "edit"'>
                       <div id=editor_id v-bind:style="'height: 100%; width: ' + code_width + '; left: 0px; display: ' + (code_shown?'inline-block':'none') + ';'">
 
                           <component  v-bind:is="editor_component" v-if="editor_loaded" ref="editorComponentRef">
@@ -86,6 +86,7 @@ load_once_from_file(true)
                app_shown:           true,
                code_shown:          true,
                read_only:           false,
+               mode:                "edit"
            }
        }
        ,
