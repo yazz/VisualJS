@@ -111,7 +111,8 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
                     loaded_app: new Object(),
                     show_menu: null,
                     refresh: 0,
-                    edit_app: null
+                    edit_app: null,
+                    app_records: new Object()
                 }},
 
       mounted: async function() {
@@ -121,26 +122,39 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
                var appId = introa[rt]
                mm.loaded_app[appId] = true
                mm.intro_apps.push( {id: appId} )
-               await load(appId)
+               var vv = await load(appId)
+               if (vv) {
+                   //alert(JSON.stringify(vv.base_component_id,null,2))
+                   this.app_records[vv.base_component_id] = vv
+
+               }
            }
 
-
+           setTimeout(async function() {
+               for (var rt=3; rt < introa.length; rt++) {
+                   var appId = introa[rt]
+                   var vv = await load(appId)
+                   if (vv) {
+                       //alert(JSON.stringify(vv.base_component_id,null,2))
+                       mm.app_records[vv.base_component_id] = vv
+                       mm.loaded_app[appId] = true
+                       mm.intro_apps.push( {id: appId} )
+                       mm.refresh++
+                   }
+               }
+           },3000)
 
 
             mm.search()
       },
       methods: {
           isEditable(baseComponentId) {
-               if ((baseComponentId != null) &&
-                    (
-                        (baseComponentId.startsWith("homepage_"))
-                        ||
-                        (baseComponentId == "form_subscribe_to_appshare")
-                    )
-                    ) {
-                return false
+               if ((this.app_records[baseComponentId].read_write_status == null ) ||
+                    (this.app_records[baseComponentId].read_write_status.indexOf("READ") == -1 ))   {
+                    return true
                }
-               return true
+
+               return false
           },
           editApp: async function(event,item) {
               event.stopPropagation()
@@ -156,13 +170,5 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
 
       }
     })
-    setTimeout(async function() {
-        for (var rt=2; rt < introa.length; rt++) {
-            var appId = introa[rt]
-            await load(appId)
-            mm.loaded_app[appId] = true
-            mm.intro_apps.push( {id: appId} )
-            mm.refresh++
-        }
-    },3000)
+
 }
