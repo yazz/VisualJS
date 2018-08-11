@@ -5,6 +5,7 @@ display_name("Test app")
 description('Test app')
 base_component_id("test")
 load_once_from_file(true)
+logo_url("https://cdn.pixabay.com/photo/2014/06/03/19/38/road-sign-361514_960_720.png")
 */
 
     Vue.component('test', {

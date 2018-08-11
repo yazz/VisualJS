@@ -9,7 +9,8 @@ load_once_from_file(true)
 read_only(true)
 logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Homepages--796x563.jpg")
 */
-    var introa = ['homepage_1','homepage_2','homepage_3','homepage_4','homepage_5','homepage_6',"todo","form_subscribe_to_appshare"]
+    var introa = ['homepage_1','homepage_2','homepage_3','homepage_4',
+                    'homepage_5','homepage_6',"todo","form_subscribe_to_appshare","test"]
     await load("app_editor_3")
     var mm = null
 
@@ -56,7 +57,7 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
                                         <kbd >{{item.id}}</kbd>
                                         <span class="badge badge-warning" >Editable</span>
 
-                                        <img    src='https://i.imgur.com/OvMZBs9.jpg'
+                                        <img    src='{{app_records[item.id].logo_url}}'
                                                 style='width: 100%;'
                                                 v-on:click='editApp($event,item.id)'
                                                 ></img>
@@ -149,10 +150,13 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
       },
       methods: {
           isEditable(baseComponentId) {
-               if ((this.app_records[baseComponentId].read_write_status == null ) ||
-                    (this.app_records[baseComponentId].read_write_status.indexOf("READ") == -1 ))   {
-                    return true
-               }
+                if (this.app_records[baseComponentId]) {
+                    if ((this.app_records[baseComponentId].read_write_status == null ) ||
+                         (this.app_records[baseComponentId].read_write_status.indexOf("READ") == -1 ))   {
+                         return true
+                }
+
+                }
 
                return false
           },
