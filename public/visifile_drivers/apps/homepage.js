@@ -32,14 +32,19 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
 
 
                         <div style='background-color: white;' class="card-columns">
-                                <div    v-for="item in intro_apps" v-if='loaded_app[item.data.id]'
+                                <div    v-for="item in intro_apps"
                                         class="card rounded"
                                         style="width: 100%; border-radius: 40px;background-color:white;border-width: 0px;margin:0px;padding:0px;margin-bottom: 40px;"
                                        >
 
+                                       <div v-if="item.type == 'add'" >
+                                        <div  style='border-radius: 25px;padding:20px; margin:0;border: 2px solid lightgray;'>
+                                           +
+                                           </div>
+                                           </div>
 
-
-                                       <div v-if="(edit_app == item.data.id) && (item.type == 'app')"
+                                   <div v-if="item.type == 'app'" >
+                                       <div v-if="(edit_app == item.data.id)"
                                                style="position: fixed; left:0px; top:0px; height:100%; width: 100vw ;z-index: 200000;background-color: white;overflow-y:scroll; padding: 20px;">
                                                <div v-on:click='editApp($event,null)' class="btn-lg btn-danger" style='margin-bottom: 20px;'>Close</div>
                                                <component v-if='' :is='"app_editor_3"' v-bind:app_id='item.data.id'></component>
@@ -87,7 +92,15 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
 
                                         </ul>
                                     </div>
-                                </div>
+                                    </div>
+                                    </div>
+
+
+
+
+
+
+
 
                             </div>
 
@@ -120,6 +133,7 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
       mounted: async function() {
             mm = this
 
+           mm.addAdder()
            for (var rt=0; rt < 3; rt++) {
                var appId = introa[rt]
                mm.addApp(appId)
@@ -136,6 +150,12 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
             mm.search()
       },
       methods: {
+          addAdder: async function() {
+                  mm.intro_apps.push( {
+                                        type: "add",
+                                      } )
+                mm.refresh++
+              },
           addApp: async function(baseComponentId) {
               if (baseComponentId) {
                   mm.intro_apps.push( {
