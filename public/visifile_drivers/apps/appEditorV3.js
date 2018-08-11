@@ -40,7 +40,7 @@ load_once_from_file(true)
                     </div>
 
                   <div v-if='mode == "embed"'>
-                        <appEmbed></appEmbed>
+                        <appEmbed v-bind:base_component_id_arg='base_component_id'></appEmbed>
                   </div>
 
                   <div v-if='mode == "edit"'>

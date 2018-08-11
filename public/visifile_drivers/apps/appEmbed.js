@@ -16,6 +16,8 @@ load_once_from_file(true)
 
     Vue.component("appEmbed",
     {
+      props: ["base_component_id_arg"],
+
       template: `<div>
                     <div>
                         <h2  class='caption' style='display: inline-block;'>Embedding {{app_component_name}} </h2>
@@ -77,8 +79,12 @@ load_once_from_file(true)
 
        mounted: async function () {
            var mm = this
-           mm.base_component_id = argBaseComponentId
            if (argBaseComponentId) {
+                mm.base_component_id = argBaseComponentId
+           } else if (this.base_component_id_arg) {
+                mm.base_component_id = this.base_component_id_arg
+           }
+           if (mm.base_component_id) {
 
                   var sql =    "select  display_name as name from  system_code  where " +
                                "        component_type = 'app' and base_component_id = '" + mm.base_component_id + "'" +
