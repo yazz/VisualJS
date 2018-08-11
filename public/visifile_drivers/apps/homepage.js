@@ -122,27 +122,13 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
 
            for (var rt=0; rt < 3; rt++) {
                var appId = introa[rt]
-               mm.loaded_app[appId] = true
-               mm.intro_apps.push( {id: appId} )
-               var vv = await load(appId)
-               if (vv) {
-                   //alert(JSON.stringify(vv.base_component_id,null,2))
-                   this.app_records[vv.base_component_id] = vv
-
-               }
+               mm.addApp(appId)
            }
 
            setTimeout(async function() {
                for (var rt=3; rt < introa.length; rt++) {
                    var appId = introa[rt]
-                   var vv = await load(appId)
-                   if (vv) {
-                       //alert(JSON.stringify(vv.base_component_id,null,2))
-                       mm.app_records[vv.base_component_id] = vv
-                       mm.loaded_app[appId] = true
-                       mm.intro_apps.push( {id: appId} )
-                       mm.refresh++
-                   }
+                   mm.addApp(appId)
                }
            },3000)
 
@@ -150,7 +136,18 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
             mm.search()
       },
       methods: {
-          isEditable(baseComponentId) {
+          addApp: async function(baseComponentId) {
+              if (baseComponentId) {
+                  mm.intro_apps.push( {id: baseComponentId} )
+                  mm.loaded_app[baseComponentId] = true
+                  var vv = await load(baseComponentId)
+                  if (vv) {
+                      mm.app_records[vv.base_component_id] = vv
+                      mm.refresh++
+                  }
+              }
+          },
+          isEditable: function(baseComponentId) {
                 if (this.app_records[baseComponentId]) {
                     if ((this.app_records[baseComponentId].read_write_status == null ) ||
                          (this.app_records[baseComponentId].read_write_status.indexOf("READ") == -1 ))   {
