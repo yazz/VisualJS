@@ -560,7 +560,7 @@ function copyApp(  baseComponentId ) {
                        }
                 ,
                 function(result) {
-                    //zzz
+
                     var copLoc = "http://" +  useHostname + ":" + usePort + "/?goto=" + result.value.new_display_name .replaceAll(" ","%20")
                     window.location.href = copLoc
 
@@ -1203,7 +1203,14 @@ function callDriverMethod(findComponentArgs, args, callbackFn) {
 
 async function load(baseComponentId, args) {
     var comp = await callApp({base_component_id: baseComponentId},args)
-    return comp
+    //zzz
+    var msql = `select * from system_code where base_component_id = '${baseComponentId}'`
+    var results = await callApp({ driver_name:    "systemFunctions2",method_name:    "sql"},  {   sql: msql  })
+    //return comp
+    if (results.length > 0) {
+        return results[0]
+    }
+    return null
 }
 
 async function callApp(findComponentArgs, args) {
