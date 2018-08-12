@@ -148,13 +148,9 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
               });
 
            mm.addAdder()
-           for (var rt=0; rt < 3; rt++) {
-               var appId = introa[rt]
-               mm.addApp(appId,-1)
-           }
 
            setTimeout(async function() {
-               for (var rt=3; rt < introa.length; rt++) {
+               for (var rt=0; rt < introa.length; rt++) {
                    var appId = introa[rt]
                    mm.addApp(appId,-1)
                }
