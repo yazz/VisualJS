@@ -35,15 +35,16 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
 
 
                                 <div    v-for="item in intro_apps"
-                                        class="grid-item"
-                                        style="width: 30%;border-radius: 40px;background-color:white;border-width: 0px;margin:0px;padding:0px;margin-bottom: 40px;"
+                                        class="grid-item col-sm-4">
+                                        <div
+                                        style="border-radius: 30px;background-color:white;border-width: 0px;margin:0px;padding:10px;"
                                        >
 
                                        <div v-if="item.type == 'add'" >
-                                        <div    style='border-radius: 25px;padding:20px; margin:0;border: 2px solid lightgray;'
+                                        <div    style='border-radius: 5px;padding:20px; margin:0;border: 2px solid pink;'
                                                 v-on:click='copyApp("todo")'>
                                            <h4>
-                                            + Click this card to add a new app
+                                            + Click this to add a new app
                                            </h4>
                                            </div>
                                            </div>
@@ -58,7 +59,7 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
 
 
 
-                                    <div v-if='!isEditable(item.data.id)' style='border-radius: 25px;padding:20px; margin:0;border: 2px solid lightgray;'>
+                                    <div v-if='!isEditable(item.data.id)' style='border-radius: 5px;padding:20px; margin:0;border: 1px solid lightgray;'>
                                        <kbd >{{item.data.id}}</kbd>
                                        <component v-if='edit_app != item.data.id' :is='item.data.id'></component>
                                     </div>
@@ -96,6 +97,7 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
 
 
                                         </ul>
+                                    </div>
                                     </div>
                                     </div>
 
