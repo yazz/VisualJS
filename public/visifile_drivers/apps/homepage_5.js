@@ -15,7 +15,7 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
     Vue.component('homepage_5', {
 
       template:
-`<div  class="container" style=''>
+`<div  class="container" style='width:300px;height:100px;'>
 
 Appshare is OpenSource and on Github:
 <a href='https://github.com/zubairq/appshare'>https://github.com/zubairq/appshare</a>

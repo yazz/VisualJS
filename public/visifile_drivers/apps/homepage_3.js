@@ -14,7 +14,7 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
     Vue.component('homepage_3', {
 
       template:
-`<div  class="container" style=''>
+`<div  class="container" style='width:300px;'>
 Contact@AppShare.co   +45 2859 5405
 </div>`
     })

@@ -15,7 +15,7 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
     Vue.component('homepage_1', {
 
       template:
-`<div  class="container" style=''>
+`<div  class="container" style='width:300px;height:100px;'>
 
     <div class="row" style='background-color: white; color: black; padding-top: 20px;padding-bottom: 20px;'>
         <div class="col-md-12">

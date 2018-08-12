@@ -15,7 +15,7 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
     Vue.component('homepage_6', {
 
       template:
-`<div style='padding: 20px;' >
+`<div style='padding: 20px;width:400px' >
 <div style='height:20px; width: 10px;'></div>
                        <a href="http://visifile.com/visifile/64/Appshare_Setup.exe" class="btn btn-secondary">
                                <img src='/windows.png' style='height: 30px;'></img>
