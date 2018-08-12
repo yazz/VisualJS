@@ -36,7 +36,7 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
 
                                 <div    v-for="item in intro_apps"
                                         class="grid-item"
-                                        style="width2: 100%;border-radius: 40px;background-color:white;border-width: 0px;margin:0px;padding:0px;margin-bottom: 40px;"
+                                        style="width: 30%;border-radius: 40px;background-color:white;border-width: 0px;margin:0px;padding:0px;margin-bottom: 40px;"
                                        >
 
                                        <div v-if="item.type == 'add'" >
@@ -139,8 +139,7 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
             mm = this
 
             this.msnry = new Masonry( mm.$refs.maingrid, {
-              itemSelector: '.grid-item',
-              columnWidth: 300
+              itemSelector: '.grid-item'
             });
             Vue.nextTick(() => {
                   this.msnry.reloadItems();
