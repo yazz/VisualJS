@@ -38,10 +38,11 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
                                        >
 
                                        <div v-if="item.type == 'add'" >
-                                        <div  style='border-radius: 25px;padding:20px; margin:0;border: 2px solid lightgray;'>
-                                           <h5 v-on:click='copyApp("todo")'>
-                                            Click here to add a new app
-                                           </h5>
+                                        <div    style='border-radius: 25px;padding:20px; margin:0;border: 2px solid lightgray;'
+                                                v-on:click='copyApp("todo")'>
+                                           <h4>
+                                            + Click this card to add a new app
+                                           </h4>
                                            </div>
                                            </div>
 
@@ -174,6 +175,21 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
                       mm.refresh++
                   }
               }
+          },
+          copyApp: function(  baseComponentId ) {
+              callDriverMethod( {driver_name: "copyApp",
+                                 method_name: "copyAppshareApp"}
+                                ,{
+                                    base_component_id:    baseComponentId
+                                 }
+                          ,
+                          function(result) {
+                              //alert(JSON.stringify(result.value,null,2))
+                              //var copLoc = "http://" +  useHostname + ":" + usePort + "/?goto=" + result.value.new_display_name .replaceAll(" ","%20")
+                              //window.location.href = copLoc
+                              mm.addApp(result.value.base_component_id)
+
+                          })
           },
           isEditable: function(baseComponentId) {
                 if (this.app_records[baseComponentId]) {
