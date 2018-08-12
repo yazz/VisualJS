@@ -26,15 +26,17 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
 
 
                     <div v-bind:refresh='refresh'
-                         class="row"
+                         ref='maingrid'
+                         class="grid"
                          style='background-color: white; color: black; padding-top: 20px;padding-bottom: 20px;'>
 
 
 
-                        <div style='background-color: white;' class="card-columns">
+
+
                                 <div    v-for="item in intro_apps"
-                                        class="card rounded"
-                                        style="width: 100%; border-radius: 40px;background-color:white;border-width: 0px;margin:0px;padding:0px;margin-bottom: 40px;"
+                                        class="grid-item"
+                                        style="width2: 100%;border-radius: 40px;background-color:white;border-width: 0px;margin:0px;padding:0px;margin-bottom: 40px;"
                                        >
 
                                        <div v-if="item.type == 'add'" >
@@ -96,7 +98,6 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
                                         </ul>
                                     </div>
                                     </div>
-                                    </div>
 
 
 
@@ -130,11 +131,21 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
                     show_menu: null,
                     refresh: 0,
                     edit_app: null,
-                    app_records: new Object()
+                    app_records: new Object(),
+                    msnry: null
                 }},
 
       mounted: async function() {
             mm = this
+
+            this.msnry = new Masonry( mm.$refs.maingrid, {
+              itemSelector: '.grid-item',
+              columnWidth: 300
+            });
+            Vue.nextTick(() => {
+                  this.msnry.reloadItems();
+                  this.msnry.layout();
+              });
 
            mm.addAdder()
            for (var rt=0; rt < 3; rt++) {
@@ -180,6 +191,10 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
                       mm.app_records[vv.base_component_id] = vv
                       mm.refresh++
                   }
+                  setTimeout(function() {
+                      mm.msnry.reloadItems();
+                      mm.msnry.layout();
+                  },50)
               }
           },
           copyApp: function(  baseComponentId ) {
