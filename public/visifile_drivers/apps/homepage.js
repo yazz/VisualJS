@@ -39,7 +39,9 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
 
                                        <div v-if="item.type == 'add'" >
                                         <div  style='border-radius: 25px;padding:20px; margin:0;border: 2px solid lightgray;'>
-                                           +
+                                           <h5 v-on:click='copyApp("todo")'>
+                                            Click here to add a new app
+                                           </h5>
                                            </div>
                                            </div>
 
