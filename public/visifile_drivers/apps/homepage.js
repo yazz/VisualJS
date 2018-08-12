@@ -139,13 +139,13 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
            mm.addAdder()
            for (var rt=0; rt < 3; rt++) {
                var appId = introa[rt]
-               mm.addApp(appId)
+               mm.addApp(appId,-1)
            }
 
            setTimeout(async function() {
                for (var rt=3; rt < introa.length; rt++) {
                    var appId = introa[rt]
-                   mm.addApp(appId)
+                   mm.addApp(appId,-1)
                }
            },3000)
 
@@ -159,15 +159,21 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
                                       } )
                 mm.refresh++
               },
-          addApp: async function(baseComponentId) {
+          addApp: async function(baseComponentId, cardIndex) {
               if (baseComponentId) {
-                  mm.intro_apps.push( {
+                  var app = {
                                         type: "app",
                                         data:
                                             {
                                                 id: baseComponentId
                                             }
-                                      } )
+                                      }
+                  if (cardIndex != -1) {
+                    mm.intro_apps[cardIndex] =  app
+
+                  } else {
+                    mm.intro_apps.push( app  )
+                  }
                   mm.loaded_app[baseComponentId] = true
                   var vv = await load(baseComponentId)
                   if (vv) {
@@ -187,7 +193,7 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
                               //alert(JSON.stringify(result.value,null,2))
                               //var copLoc = "http://" +  useHostname + ":" + usePort + "/?goto=" + result.value.new_display_name .replaceAll(" ","%20")
                               //window.location.href = copLoc
-                              mm.addApp(result.value.base_component_id)
+                              mm.addApp(result.value.base_component_id, 0)
 
                           })
           },
