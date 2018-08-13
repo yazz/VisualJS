@@ -206,7 +206,8 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
                               //alert(JSON.stringify(result.value,null,2))
                               //var copLoc = "http://" +  useHostname + ":" + usePort + "/?goto=" + result.value.new_display_name .replaceAll(" ","%20")
                               //window.location.href = copLoc
-                              mm.addApp(result.value.base_component_id, 0)
+                              mm.intro_apps.splice(1, 0, {});
+                              mm.addApp(result.value.base_component_id, 1)
 
                           })
           },
