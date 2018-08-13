@@ -1218,7 +1218,7 @@ function callDriverMethod(findComponentArgs, args, callbackFn) {
 async function load(baseComponentId, args) {
     var comp = await callApp({base_component_id: baseComponentId},args)
     //zzz
-    var msql = `select * from system_code where base_component_id = '${baseComponentId}'`
+    var msql = `select * from system_code where base_component_id = '${baseComponentId}' and code_tag = 'LATEST'`
     var results = await callApp({ driver_name:    "systemFunctions2",method_name:    "sql"},  {   sql: msql  })
     //return comp
     if (results.length > 0) {
