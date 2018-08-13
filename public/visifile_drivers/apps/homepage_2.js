@@ -15,7 +15,7 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
     Vue.component('homepage_2', {
 
       template:
-`<div  style='background-color: white; color: black; padding: 10px; width: 400px'>
+`<div  style='background-color: white; color: black; padding: 10px;'>
     <h2><b>Create amazing interactive forms for your website</b></h2>
       <ul style='background-color: white; color: black;'>
           <li >Build forms in under 5 minutes in Javascript</li>
