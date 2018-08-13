@@ -42,7 +42,7 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
 
                                        <div v-if="item.type == 'add'" >
                                         <div    style='border-radius: 5px;padding:20px; margin:0;border: 2px solid pink;'
-                                                v-on:click='copyApp("todo")'>
+                                                v-on:click='copyApp("new_app")'>
                                            <h4>
                                             + Click this to add a new app
                                            </h4>
