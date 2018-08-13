@@ -42,10 +42,13 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
 
                                        <div v-if="item.type == 'add'" >
                                         <div    style='border-radius: 5px;padding:20px; margin:0;border: 2px solid pink;'
-                                                v-on:click='copyApp("new_app")'>
+                                                >
                                            <h4>
-                                            + Click this to add a new app
+                                            Add a new app
                                            </h4>
+                                           <button style='margin-bottom:10px;' class='btn btn-primary' v-on:click='copyApp("new_app")'>Add basic app</button>
+                                           <button style='margin-bottom:10px;'  class='btn btn-primary' v-on:click='copyApp("todo")'>Add database todo app</button>
+                                           <button style='margin-bottom:10px;'  class='btn btn-primary' v-on:click='copyApp("game")'>Add 3d AFrame app</button>
                                            </div>
                                            </div>
 
