@@ -20,7 +20,7 @@ load_once_from_file(true)
     }
     Vue.component("app_editor_3",
     {
-      props: ['app_id'],
+      props: ['app_id', 'card_index'],
       template: `<div>
                     <div>
                         <h2  class='caption' style='display: inline-block;'>Appshare.co  {{app_component_name?" - " + app_component_name.substring(0,30):""}}{{(app_component_name && ((app_component_name.length > 30))?"...":"")}} </h2>
@@ -153,6 +153,7 @@ load_once_from_file(true)
 
             copyAppMethod: function(x) {
                 var mm = this
+                //alert(this.card_index)
                 copyApp(x)
             }
             ,
