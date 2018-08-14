@@ -169,6 +169,7 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
                 mm.intro_apps.splice(text.card_index, 0, {});
                 mm.addApp(text.base_component_id, text.card_index)
                 mm.edit_app = text.base_component_id
+                mm.refresh++
             })
       },
       methods: {
