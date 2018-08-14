@@ -161,13 +161,11 @@ load_once_from_file(true)
                             ,
                             function(result) {
                                 mm.load_new_app( result.value.base_component_id )
-                                setTimeout(function() {
-                                    mm.$root.$emit('message', {
-                                                                    type:               "insert_app_at",
-                                                                    base_component_id:   result.value.base_component_id,
-                                                                    card_index:          mm.card_index
-                                                                })
-                                                                },400)
+                                mm.$root.$emit('message', {
+                                                                type:               "insert_app_at",
+                                                                base_component_id:   result.value.base_component_id,
+                                                                card_index:          mm.card_index
+                                                            })
 
                             })
             }
