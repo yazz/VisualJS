@@ -19,7 +19,7 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
 
     <div class="row" style='background-color: white; color: black; padding-top: 20px;padding-bottom: 20px;'>
         <div class="col-md-12">
-            <a-scene style='width: 80%; height: 20%;' embedded vr-mode-ui="enabled: false">
+            <a-scene style='width: 80%; height: 80%;' embedded vr-mode-ui="enabled: false">
 
             <a-assets>
                 <a-mixin id="RobotoFont" text="font: /public/aframe_fonts/Roboto-msdf.json"></a-mixin>
