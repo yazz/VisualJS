@@ -153,8 +153,20 @@ load_once_from_file(true)
 
             copyAppMethod: function(x) {
                 var mm = this
-                //alert(this.card_index)
-                copyApp(x)
+                callDriverMethod( {driver_name: "copyApp",
+                                   method_name: "copyAppshareApp"}
+                                  ,{
+                                      base_component_id:    this.base_component_id
+                                   }
+                            ,
+                            function(result) {
+                                mm.$root.$emit('message', {
+                                                                type:               "insert_app_at",
+                                                                base_component_id:   result.value.base_component_id,
+                                                                card_index:          mm.card_index
+                                                            })
+
+                            })
             }
             ,
 
