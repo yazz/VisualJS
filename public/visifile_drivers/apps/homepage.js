@@ -205,7 +205,7 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
                   },50)
               }
           },
-          copyApp: function(  baseComponentId ) {
+          copyApp: async function(  baseComponentId ) {
               callDriverMethod( {driver_name: "copyApp",
                                  method_name: "copyAppshareApp"}
                                 ,{
