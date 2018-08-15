@@ -166,10 +166,10 @@ load_once_from_file(true)
                 //zzz
                 this.base_component_id = nn
 
-                mm.$root.$emit('message', {
+                this.$root.$emit('message', {
                                                 type:               "insert_app_at",
                                                 base_component_id:   nn,
-                                                card_index:          mm.card_index
+                                                card_index:          this.card_index
                                             })
             },
 
