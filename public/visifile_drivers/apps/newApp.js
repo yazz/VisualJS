@@ -5,6 +5,8 @@ display_name("New app")
 base_component_id("new_app")
 description("This is a new app")
 load_once_from_file(true)
+visibility("PUBLIC")
+
 */
 
     Vue.component("new_app", {

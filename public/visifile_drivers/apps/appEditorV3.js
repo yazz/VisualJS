@@ -5,7 +5,6 @@ base_component_id("app_editor_3")
 is_app(true)
 display_name("Editor App V3")
 description("This will return the editor app V3")
-visibility("PUBLIC")
 logo_url("https://2.bp.blogspot.com/-6Hdixw3dFxk/WfSQOnB9lDI/AAAAAAAAFFc/84DRGgcwOpYBOgknkHQ-qmgxvFv1D-iHACLcBGAs/s1600/BracketsDarks.PNG")
 load_once_from_file(true)
 */
@@ -23,7 +22,7 @@ load_once_from_file(true)
       props: ['app_id', 'card_index'],
       template: `<div>
                     <div>
-                        <h2  class='caption' style='display: inline-block;'>{{app_component_name?" - " + app_component_name.substring(0,30):""}}{{(app_component_name && ((app_component_name.length > 30))?"...":"")}} </h2>
+                        <h2  class='caption' style='display: inline-block;'>{{app_component_name?"" + app_component_name.substring(0,30):""}}{{(app_component_name && ((app_component_name.length > 30))?"...":"")}} </h2>
                         <div class='btn-group' style='float: right; margin-right: 2%;' role=group >
                             <select v-if='false' class="custom-select" v-model="selected_app" v-bind:onchange='load_new_app(selected_app)'>
                               <option value='' selected>Select an application to edit</option>
