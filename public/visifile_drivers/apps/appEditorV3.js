@@ -22,7 +22,10 @@ load_once_from_file(true)
       props: ['app_id', 'card_index'],
       template: `<div>
                     <div>
-                        <h2  class='caption' style='display: inline-block;'>{{app_component_name?"" + app_component_name.substring(0,30):""}}{{(app_component_name && ((app_component_name.length > 30))?"...":"")}} </h2>
+                        <h2  class='caption' style='display: inline-block;' v-on:click='edit_name=true;show_name=false;' v-if='show_name'>{{app_component_name?"" + app_component_name.substring(0,30):""}}{{(app_component_name && ((app_component_name.length > 30))?"...":"")}} </h2>
+                        <input  class='caption' style='display: inline-block;' v-if='edit_name' v-model='new_name'></input>
+                        <button type=button class='btn btn-primary' style='margin-left: 10px' v-if='edit_name' v-on:click='rename(new_name)'>Save new name</button>
+
                         <div class='btn-group' style='float: right; margin-right: 2%;' role=group >
                             <select v-if='false' class="custom-select" v-model="selected_app" v-bind:onchange='load_new_app(selected_app)'>
                               <option value='' selected>Select an application to edit</option>
@@ -89,7 +92,10 @@ load_once_from_file(true)
                app_shown:           true,
                code_shown:          true,
                read_only:           false,
-               mode:                "edit"
+               mode:                "edit",
+               show_name:           true,
+               edit_name:           false,
+               new_name:            ""
            }
        }
        ,
@@ -141,6 +147,22 @@ load_once_from_file(true)
 
                 this.app_width = "33%"
                 this.app_shown = true
+            },
+
+            rename: function(nn) {
+            //zzz
+                var text = this.$refs.editorComponentRef.getText()
+                text = saveHelper.deleteCodeString(text, "base_component_id")
+                text = saveHelper.insertCodeString(text, "base_component_id", nn)
+
+                //
+                // there may be a problem here - we have to make sure that we saved
+                // the correct code_id which is supposed to be the parent code id, so we
+                // have to make sure that we save it every time we save code
+                //
+                this.save( nn, this.code_id, text )
+                this.edit_name = false
+                this.show_name = true
             },
 
 
