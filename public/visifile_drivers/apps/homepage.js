@@ -159,10 +159,11 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
                    var appId = introa[rt]
                    mm.addApp(appId,-1)
                }
+               mm.search()
            },3000)
 
 
-            mm.search()
+
 
             this.$root.$on('message', (text) => {
                 console.log(JSON.stringify(text,null,2));
@@ -244,13 +245,16 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
           search: async function() {
                mm.apps = await callApp({   driver_name: "systemFunctions3",  method_name:"get_public_apps_list"}, { })
                //alert(JSON.stringify(mm.apps,null,2))
+               var rte=[]
                for (var ff=0;ff< mm.apps.length;ff++) {
                     var nappid = mm.apps[ff].base_component_id
-                    //alert(JSON.stringify(nappid,null,2))
+
                     if (nappid && (!mm.loaded_app[  nappid  ])) {
+                        //rte.push(nappid)
                         mm.addApp(nappid,-1)
                     }
                }
+               //alert(JSON.stringify(rte,null,2))
            }
 
 
