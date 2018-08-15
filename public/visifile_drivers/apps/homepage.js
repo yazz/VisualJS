@@ -242,8 +242,17 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
             this.show_menu= item;
           },
           search: async function() {
-               this.apps = await callApp({   driver_name: "systemFunctions3",  method_name:"get_public_apps_list"}, { }) }
-          ,
+               mm.apps = await callApp({   driver_name: "systemFunctions3",  method_name:"get_public_apps_list"}, { })
+               //alert(JSON.stringify(mm.apps,null,2))
+               for (var ff=0;ff< mm.apps.length;ff++) {
+                    var nappid = mm.apps[ff].base_component_id
+                    //alert(JSON.stringify(nappid,null,2))
+                    if (nappid && (!mm.loaded_app[  nappid  ])) {
+                        mm.addApp(nappid,-1)
+                    }
+               }
+           }
+
 
       }
     })

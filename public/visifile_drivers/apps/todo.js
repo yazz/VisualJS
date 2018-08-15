@@ -1,7 +1,7 @@
 async function(args) {
 /*
 base_component_id("todo")
-created_timestamp(1529939023323)
+created_timestamp(-1)
 is_app(true)
 display_name("Todo App")
 visibility("PUBLIC")
