@@ -150,7 +150,7 @@ load_once_from_file(true)
             },
 
             rename: function(nn) {
-            //zzz
+
                 var text = this.$refs.editorComponentRef.getText()
                 text = saveHelper.deleteCodeString(text, "base_component_id")
                 text = saveHelper.insertCodeString(text, "base_component_id", nn)
@@ -163,6 +163,14 @@ load_once_from_file(true)
                 this.save( nn, this.code_id, text )
                 this.edit_name = false
                 this.show_name = true
+                //zzz
+                this.base_component_id = nn
+                
+                mm.$root.$emit('message', {
+                                                type:               "insert_app_at",
+                                                base_component_id:   nn,
+                                                card_index:          mm.card_index
+                                            })
             },
 
 
