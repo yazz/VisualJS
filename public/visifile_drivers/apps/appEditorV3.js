@@ -22,7 +22,7 @@ load_once_from_file(true)
       props: ['app_id', 'card_index'],
       template: `<div>
                     <div>
-                        <h2  class='caption' style='display: inline-block;' v-on:click='edit_name=true;show_name=false;' v-if='show_name'>{{app_component_name?"" + app_component_name.substring(0,30):""}}{{(app_component_name && ((app_component_name.length > 30))?"...":"")}} </h2>
+                        <h2  class='caption' style='display: inline-block;' v-on:click='if (!read_only) {edit_name=true;show_name=false;}' v-if='show_name'>{{app_component_name?"" + app_component_name.substring(0,30):""}}{{(app_component_name && ((app_component_name.length > 30))?"...":"")}} </h2>
                         <input  class='caption' style='display: inline-block;' v-if='edit_name' v-model='new_name'></input>
                         <button type=button class='btn btn-primary' style='margin-left: 10px' v-if='edit_name' v-on:click='rename(new_name)'>Save new name</button>
 
@@ -165,7 +165,7 @@ load_once_from_file(true)
                 this.show_name = true
                 //zzz
                 this.base_component_id = nn
-                
+
                 mm.$root.$emit('message', {
                                                 type:               "insert_app_at",
                                                 base_component_id:   nn,
