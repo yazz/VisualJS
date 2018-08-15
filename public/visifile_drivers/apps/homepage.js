@@ -63,12 +63,12 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
 
 
                                     <div v-if='!isEditable(item.data.id)' style='border-radius: 5px;padding:20px; margin:0;border: 1px solid lightgray;'>
-                                       <kbd >{{item.data.id}}</kbd>
+                                       <kbd v-on:click='editApp($event,item.data.id)'>{{item.data.id}}</kbd>
                                        <component v-if='edit_app != item.data.id' :is='item.data.id'></component>
                                     </div>
 
                                     <div v-if='isEditable(item.data.id)' style='border-radius: 25px;padding:20px; margin:0;border: 2px solid lightgray;'>
-                                        <kbd >{{item.data.id}}</kbd>
+                                        <kbd v-on:click='editApp($event,item.data.id)'>{{item.data.id}}</kbd>
                                         <span class="badge badge-warning" >Editable</span>
 
                                         <img    v-if='(app_records[item.data.id].logo_url && (app_records[item.data.id].logo_url != ""))'
