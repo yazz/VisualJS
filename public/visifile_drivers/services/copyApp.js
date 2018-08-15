@@ -28,6 +28,7 @@ load_once_from_file(true)
                             var parentHashId = results[0].id
                             var newDisplayName = "Copy of " + oldDisplayName
                             code = saveHelper.deleteCodeString(code, "load_once_from_file")
+                            code = saveHelper.deleteCodeString(code, "read_only")
                             code = saveHelper.deleteCodeString(code, "display_name")
                             code = saveHelper.insertCodeString(code, "display_name", newDisplayName)
 
@@ -39,7 +40,7 @@ load_once_from_file(true)
                             if (vueIndex != -1) {
                                 var vueIndexEnd = code.substring(vueIndex).indexOf(",")
                                 if (vueIndexEnd) {
-                                    code = code.substring(0,vueIndex + 14) + "'" + newBaseid + "'" + code.substring(vueIndex + vueIndexEnd ) 
+                                    code = code.substring(0,vueIndex + 14) + "'" + newBaseid + "'" + code.substring(vueIndex + vueIndexEnd )
                                 }
                             }
 
