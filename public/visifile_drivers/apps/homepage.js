@@ -177,7 +177,7 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
 
 
                    //zzz
-               //mm.search()
+               mm.search()
 
 
 
@@ -309,20 +309,38 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
           showMenu: async function(item) {
             this.show_menu= item;
           },
-          search: async function() {
-               mm.apps = await callApp({   driver_name: "systemFunctions3",  method_name:"get_public_apps_list"}, { })
-               //alert(JSON.stringify(mm.apps,null,2))
-               var rte=[]
-               for (var ff=0;ff< mm.apps.length;ff++) {
-                    var nappid = mm.apps[ff].base_component_id
 
-                    if (nappid && (!mm.loaded_app[  nappid  ])) {
-                        //rte.push(nappid)
-                        mm.addApp(nappid,-1)
-                    }
-               }
-               //alert(JSON.stringify(rte,null,2))
-           }
+
+
+
+
+
+
+
+          search: async function() {
+              var sql =    "SELECT  *  " +
+                           " FROM system_code where component_type = 'app' and code_tag = 'LATEST' and " +
+                           " visibility = 'PUBLIC' order by base_component_id asc; "
+
+              var results = await callApp(
+                  {
+                       driver_name:    "systemFunctions2",
+                       method_name:    "sql"
+                  }
+                  ,
+                  {
+                      sql: sql
+                  })
+              for (var rt=0; rt < results.length; rt++) {
+                  var appId = results[rt].base_component_id
+                  if (!mm.loaded_app[  appId  ]) {
+                        mm.addAppFast(appId,-1, results[rt])
+                  }
+              }
+              }
+
+
+
 
 
       }
