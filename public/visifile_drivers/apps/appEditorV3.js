@@ -153,7 +153,8 @@ load_once_from_file(true)
                 this.edit_name = false
                 this.show_name = true
                 //zzz
-                this.copyAppMethod( this.base_component_id , nn)            
+                nn = nn.replace(/[\W_]+/g,"_");
+                this.copyAppMethod( this.base_component_id , nn)
             },
 
 
