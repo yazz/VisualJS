@@ -5,12 +5,14 @@ base_component_id("homepage")
 is_app(true)
 display_name("Homepage app")
 description('Homepage app')
+uses_javascript_librararies(["aframe"])
+
 load_once_from_file(true)
 read_only(true)
 logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Homepages--796x563.jpg")
 */
-    var introa = ['homepage_1','homepage_2','homepage_3','homepage_4',
-                    'homepage_5','homepage_6',"todo","form_subscribe_to_appshare","test"]
+    var introa = []//['homepage_1','homepage_2','homepage_3','homepage_4',
+                   // 'homepage_5','homepage_6',"todo","form_subscribe_to_appshare","test"]
     await load("app_editor_3")
     var mm = null
 
@@ -155,13 +157,27 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
 
            mm.addAdder()
 
-           setTimeout(async function() {
-               for (var rt=0; rt < introa.length; rt++) {
-                   var appId = introa[rt]
-                   mm.addApp(appId,-1)
+           var sql =    "select  *  from  system_code  where " +
+                        "        component_type = 'app' and base_component_id like 'homepage_%'" +
+                        "        and code_tag = 'LATEST' order by base_component_id asc"
+
+           var results = await callApp(
+               {
+                    driver_name:    "systemFunctions2",
+                    method_name:    "sql"
                }
-               mm.search()
-           },3000)
+               ,
+               {
+                   sql: sql
+               })
+               for (var rt=0; rt < results.length; rt++) {
+                   var appId = results[rt].base_component_id
+                   mm.addAppFast(appId,-1, results[rt])
+               }
+
+
+                   //zzz
+               //mm.search()
 
 
 
@@ -181,7 +197,39 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
                                       } )
                 mm.refresh++
               },
-          addApp: async function(baseComponentId, cardIndex) {
+              addAppFast: async function(baseComponentId, cardIndex,vv) {
+                  if (baseComponentId) {
+
+                      var x = eval("(" + vv.code + ")")
+                      x.call()
+                      setTimeout(function() {
+                          var app = {
+                                                type: "app",
+                                                data:
+                                                    {
+                                                        id: baseComponentId
+                                                    }
+                                              }
+                          if (cardIndex != -1) {
+                            mm.intro_apps[cardIndex] =  app
+
+                          } else {
+                            mm.intro_apps.push( app  )
+                          }
+                          mm.loaded_app[baseComponentId] = true
+                          if (vv) {
+                              mm.app_records[vv.base_component_id] = vv
+                              mm.refresh++
+                          }
+                          setTimeout(function() {
+                              mm.msnry.reloadItems();
+                              mm.msnry.layout();
+                          },50)
+                      },100)
+
+                  }
+              },
+            addApp: async function(baseComponentId, cardIndex) {
               if (baseComponentId) {
                   var app = {
                                         type: "app",
