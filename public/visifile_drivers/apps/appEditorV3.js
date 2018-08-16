@@ -153,7 +153,7 @@ load_once_from_file(true)
                 this.edit_name = false
                 this.show_name = true
                 //zzz
-                copyAppMethod( this.base_component_id , nn)            
+                this.copyAppMethod( this.base_component_id , nn)            
             },
 
 

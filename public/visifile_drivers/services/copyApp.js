@@ -8,6 +8,8 @@ load_once_from_file(true)
     var promise = new Promise(returnfn => {
 
         var argsBaseComponentId = args.base_component_id
+        var argsNewAppId        = args.new_app_id
+
         dbsearch.serialize(
             function() {
                 dbsearch.all(
@@ -33,6 +35,9 @@ load_once_from_file(true)
                             code = saveHelper.insertCodeString(code, "display_name", newDisplayName)
 
                             var newBaseid = argsBaseComponentId + "_" + uuidv1().replace(/\-/g, '');
+                            if (argsNewAppId) {
+                                newBaseid = argsNewAppId
+                            }
 
                             //hack city - Vue and component strings are separated as otherwise they mark the
                             // code as UI code
