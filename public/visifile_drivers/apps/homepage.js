@@ -46,9 +46,9 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
                                            <h4>
                                             Add a new app
                                            </h4>
-                                           <button style='margin-bottom:10px;' class='btn btn-primary' v-on:click='copyApp("new_app")'>Add basic app</button>
-                                           <button style='margin-bottom:10px;'  class='btn btn-primary' v-on:click='copyApp("todo")'>Add database todo app</button>
-                                           <button style='margin-bottom:10px;'  class='btn btn-primary' v-on:click='copyApp("game")'>Add 3d AFrame app</button>
+                                           <button style='margin-bottom:10px;' class='btn btn-primary' v-on:click='copyAndEditApp($event,"new_app")'>Add basic app</button>
+                                           <button style='margin-bottom:10px;'  class='btn btn-primary' v-on:click='copyAndEditApp($event,"todo")'>Add database todo app</button>
+                                           <button style='margin-bottom:10px;'  class='btn btn-primary' v-on:click='copyAndEditApp($event,"game")'>Add 3d AFrame app</button>
                                            </div>
                                            </div>
 
@@ -210,16 +210,25 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
           copyApp: async function(  baseComponentId ) {
               callDriverMethod( {driver_name: "copyApp",
                                  method_name: "copyAppshareApp"}
-                                ,{
-                                    base_component_id:    baseComponentId
-                                 }
+                                ,{base_component_id:    baseComponentId}
                           ,
                           function(result) {
-                              //alert(JSON.stringify(result.value,null,2))
-                              //var copLoc = "http://" +  useHostname + ":" + usePort + "/?goto=" + result.value.new_display_name .replaceAll(" ","%20")
-                              //window.location.href = copLoc
                               mm.intro_apps.splice(1, 0, {});
                               mm.addApp(result.value.base_component_id, 1)
+
+                          })
+          },
+          copyAndEditApp: async function(event,  baseComponentId ) {
+              callDriverMethod( {driver_name: "copyApp",
+                                 method_name: "copyAppshareApp"}
+                                ,{base_component_id:    baseComponentId}
+                          ,
+                          function(result) {
+                              mm.intro_apps.splice(1, 0, {});
+                              mm.addApp(result.value.base_component_id, 1)
+                              setTimeout(function() {
+                                    mm.editApp(event, result.value.base_component_id)
+                              },50)
 
                           })
           },
