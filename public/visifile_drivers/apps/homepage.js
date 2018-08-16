@@ -62,12 +62,12 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
 
 
 
-                                    <div v-if='!isEditable(item.data.id)' style='border-radius: 5px;padding:20px; margin:0;border: 1px solid lightgray;'>
+                                    <div v-if='isInlineApp(item.data.id)' style='border-radius: 5px;padding:20px; margin:0;border: 1px solid lightgray;'>
                                        <kbd v-on:click='editApp($event,item.data.id)'>{{item.data.id?"" + item.data.id.substring(0,20):""}}{{(item.data.id && ((item.data.id.length > 20))?"...":"")}}</kbd>
                                        <component v-if='edit_app != item.data.id' :is='item.data.id'></component>
                                     </div>
 
-                                    <div v-if='isEditable(item.data.id)' style='border-radius: 25px;padding:20px; margin:0;border: 2px solid lightgray;'>
+                                    <div v-if='!isInlineApp(item.data.id)' style='border-radius: 25px;padding:20px; margin:0;border: 2px solid lightgray;'>
                                         <kbd v-on:click='editApp($event,item.data.id)'>{{item.data.id?"" + item.data.id.substring(0,20):""}}{{(item.data.id && ((item.data.id.length > 20))?"...":"")}}</kbd>
                                         <span class="badge badge-warning" >Editable</span>
 
@@ -239,6 +239,15 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
                          return true
                 }
 
+                }
+
+               return false
+          },
+          isInlineApp: function(baseComponentId) {
+                if (baseComponentId && (baseComponentId.length > 0)) {
+                    if ((!this.isEditable(baseComponentId)) && (baseComponentId.startsWith("homepage"))) {
+                        return true
+                    }
                 }
 
                return false
