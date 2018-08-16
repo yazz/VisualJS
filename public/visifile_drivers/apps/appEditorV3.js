@@ -36,7 +36,7 @@ load_once_from_file(true)
                             <button  type=button class='btn btn-primary'      v-on:click='chooseApp()'  >App</button>
                             <button  type=button class=' btn btn-secondary'   v-on:click='chooseCode()' >Code</button>
                             <button  type=button class=' btn btn-info'        v-on:click='chooseBoth()' >Both</button>
-                            <button  type=button class=' btn btn-secondary'   v-on:click='copyAppMethod(base_component_id)' >Copy app</button>
+                            <button  type=button class=' btn btn-secondary'   v-on:click='copyAppMethod(base_component_id,null)' >Copy app</button>
                             <button  type=button class=' btn btn-info'        v-on:click='embedApp(base_component_id)' >Embed app</button>
                         </div>
                     </div>
@@ -150,27 +150,10 @@ load_once_from_file(true)
             },
 
             rename: function(nn) {
-
-                var text = this.$refs.editorComponentRef.getText()
-                text = saveHelper.deleteCodeString(text, "base_component_id")
-                text = saveHelper.insertCodeString(text, "base_component_id", nn)
-
-                //
-                // there may be a problem here - we have to make sure that we saved
-                // the correct code_id which is supposed to be the parent code id, so we
-                // have to make sure that we save it every time we save code
-                //
-                this.save( nn, this.code_id, text )
                 this.edit_name = false
                 this.show_name = true
                 //zzz
-                this.base_component_id = nn
-
-                this.$root.$emit('message', {
-                                                type:               "insert_app_at",
-                                                base_component_id:   nn,
-                                                card_index:          this.card_index
-                                            })
+                copyAppMethod( this.base_component_id , nn)            
             },
 
 
@@ -180,12 +163,13 @@ load_once_from_file(true)
             }
             ,
 
-            copyAppMethod: async function( appId ) {
+            copyAppMethod: async function( appId , newAppId) {
                 var mm = this
                 callDriverMethod( {driver_name: "copyApp",
                                    method_name: "copyAppshareApp"}
                                   ,{
-                                      base_component_id:    appId
+                                      base_component_id:    appId,
+                                      new_app_id:           newAppId
                                    }
                             ,
                             function(result) {
