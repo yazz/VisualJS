@@ -194,6 +194,9 @@ load_once_from_file(true)
            // ---------------------------------------------------------------
            save: async function( base_component_id, code_id, text ) {
                var mm = this
+               if (mm.read_only) {
+                    return
+               }
                //alert("Saving " + code_id)
                //alert("Saving " + text)
                //alert(base_component_id)

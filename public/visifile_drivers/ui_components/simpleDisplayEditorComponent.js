@@ -51,6 +51,8 @@ load_once_from_file(true)
                 mm.edited_app_component_id = saveHelper.getValueOfCodeString(texti, "base_component_id")
 
                 this.generateCodeFromModel(  json2  )
+
+                this.read_only = saveHelper.getValueOfCodeString(texti, "read_only")
              //alert(this.text)
          }
 
@@ -167,6 +169,7 @@ load_once_from_file(true)
            edited_app_component_id: null,
            text:        texti,
            uid2:        uid2,
+           read_only:   false,
            model:       {
                             next_id: 1,
                             fields: [
