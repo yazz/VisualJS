@@ -150,7 +150,7 @@ if (process.argv.length > 1) {
     program.debug = 'false'
     program.runservices = false
     program.runapp = null
-runapp}
+}
 var semver = require('semver')
 
 var debug = false;
@@ -171,6 +171,9 @@ locked = (program.locked == 'true');
 var nogui = (program.nogui == 'true');
 port = program.port;
 var runapp = program.runapp;
+if ( electronApp ) {
+    runapp = "homepage"
+}
 if (!isNumber(port)) {
     port = 80;
 };
