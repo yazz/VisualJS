@@ -38,6 +38,8 @@ load_once_from_file(true)
                             <button  type=button class=' btn btn-info'        v-on:click='chooseBoth()' >Both</button>
                             <button  type=button class=' btn btn-secondary'   v-on:click='copyAppMethod(base_component_id,null)' >Copy app</button>
                             <button  type=button class=' btn btn-info'        v-on:click='embedApp(base_component_id)' >Embed app</button>
+                            <button  v-if='(editor_component != "editor_component") && (!read_only)' type=button class=' btn btn-secondary'   v-on:click='editAsText()' >Edit as text</button>
+
                         </div>
                     </div>
 
@@ -152,10 +154,25 @@ load_once_from_file(true)
             rename: function(nn) {
                 this.edit_name = false
                 this.show_name = true
-                //zzz
+
                 nn = nn.replace(/[\W_]+/g,"_");
                 this.copyAppMethod( this.base_component_id , nn)
             },
+
+
+
+            editAsText: function() {
+                var mm = this
+                var text = this.$refs.editorComponentRef.getText()
+
+
+                text = saveHelper.deleteCodeString(text, "editors")
+
+                mm.save(   this.base_component_id,   this.code_id,   text   )
+                //zzz
+                mm.load_new_app( this.base_component_id )
+            },
+
 
 
             embedApp: function(x) {
