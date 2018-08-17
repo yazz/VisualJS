@@ -37,7 +37,7 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
 
 
                                 <div    v-for="(item, index) in intro_apps"
-                                        class="grid-item col-sm-4">
+                                        class="grid-item col-lg-4">
                                         <div
                                         style="border-radius: 30px;background-color:white;border-width: 0px;margin:0px;padding:10px;"
                                        >
