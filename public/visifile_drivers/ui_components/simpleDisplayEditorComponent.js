@@ -12,12 +12,12 @@ load_once_from_file(true)
         texti = args.text
     }
     var designMode = true
+    var runtimeMode = false
     Vue.component("simple_display_editor_component",
     {
     //*** COPY_START ***//
       template: `<div>
                     <div v-if='design_mode'  class='display-4'>Form editor</div>
-                    <div v-if='!design_mode'  class='display-4'>MY FORM</div>
 
                     <div v-bind:id='uid2' >
                         <div v-for='field in model.fields' style='padding: 5px;'>
@@ -110,7 +110,7 @@ load_once_from_file(true)
 
             //zzz
             var sql =    "select  cast(code as text)  as  code  from  system_code  where " +
-                         "        base_component_id = 'form_editor_component'   and   code_tag = 'LATEST' "
+                         "        base_component_id = 'simple_display_editor_component'   and   code_tag = 'LATEST' "
 
             var results = await callApp({ driver_name:    "systemFunctions2",method_name:    "sql"},
                 {   sql: sql  })
@@ -130,6 +130,7 @@ load_once_from_file(true)
                 var mm = null
                 var texti = null
                 var designMode = false
+                var runtimeMode = true
                 Vue.component('${this.edited_app_component_id}', {`
 
                 + editorCodeToCopy +
@@ -138,6 +139,7 @@ load_once_from_file(true)
                 data: function () {
                   return {
                       design_mode: designMode,
+                      runtime_mode: runtimeMode,
                       text: texti,
                       uid2: uid2,
                       model: `
@@ -166,6 +168,7 @@ load_once_from_file(true)
      data: function () {
        return {
            design_mode: designMode,
+           runtime_mode: runtimeMode,
            edited_app_component_id: null,
            text:        texti,
            uid2:        uid2,
