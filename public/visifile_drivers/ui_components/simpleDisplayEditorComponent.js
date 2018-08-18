@@ -38,6 +38,10 @@ load_once_from_file(true)
                  </div>`
         ,
 
+
+
+
+
         mounted: function() {
             mm = this
             document.getElementById(uid2).style.width="100%"
@@ -53,18 +57,22 @@ load_once_from_file(true)
 
                 this.read_only = saveHelper.getValueOfCodeString(texti, "read_only")
              //alert(this.text)
-         }
+           }
 
 
 
-         //editor.getSession().on('change', function() {
-            //mm.text = editor.getSession().getValue();
-            //alert("changed text to : " + mm.text)
-         //   });
+           //editor.getSession().on('change', function() {
+           //mm.text = editor.getSession().getValue();
+           //alert("changed text to : " + mm.text)
+           //   });
      },
+
+
+
+
      methods: {
         addField() {
-            mm.model.fields.push({   id: mm.model.next_id,   type: "input",   label: "DOB"   })
+            mm.model.fields.push({   id: mm.model.next_id,   type: "text",   text: "Enter text here"   })
             mm.model.next_id ++
             this.generateCodeFromModel(  mm.model  )
             //alert("Added: " + JSON.stringify(mm.model,null,2))
