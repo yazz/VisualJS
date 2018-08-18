@@ -57,7 +57,7 @@ load_once_from_file(true)
                                                   v-on:click='save(base_component_id, code_id, editor_component.text2)'
                                                   type="button" class="btn btn-primary">
 
-                                                      Update App
+                                                      Save changes
                                          </button>
                           </component>
                       </div>
