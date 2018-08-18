@@ -24,7 +24,6 @@ load_once_from_file(true)
                             <div class='container'>
                                 <div class='row'>
                                     <div class='col-md-6' v-if='field.type=="text"'>{{field.text}}</div>
-                                    <div class='col-md-6' v-if='field.type=="input"'>{{field.label}}<input></input></div>
                                     <div class='col-md-2'></div>
                                     <button class='xs-4'  v-if='design_mode' type=button class='btn btn-sm btn-info'      v-on:click='deleteField(field.id)'  > - </button>
                                     </div>

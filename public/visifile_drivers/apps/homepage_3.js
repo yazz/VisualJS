@@ -15,11 +15,8 @@ formEditor(
     next_id: 5,
 
     fields: [
-        {id: 1, type: "text",   text: "Subscribe to the Appshare newsletter" },
+        {id: 1, type: "text",   text: "Contact@AppShare.co   +45 2859 5405" }
 
-        {id: 2, type: "input",  label: "name" },
-        {id: 3, type: "input",  label: "address" },
-        {id: 4, type: "input",  label: "DOB" }
     ]
 })//formEditor
 */
