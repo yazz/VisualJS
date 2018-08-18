@@ -165,8 +165,11 @@ load_once_from_file(true)
                 var mm = this
                 var text = this.$refs.editorComponentRef.getText()
 
-
-                text = saveHelper.deleteCodeString(text, "editors")
+                var eds = saveHelper.getValueOfCodeString(text, "editors")
+                if (eds) {
+                    text = saveHelper.deleteCodeString(text, "editors")
+                    text = saveHelper.insertCodeString(text, "editors_old",eds)
+                }
 
                 mm.save(   this.base_component_id,   this.code_id,   text   )
                 //zzz
