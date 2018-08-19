@@ -17,15 +17,17 @@ load_once_from_file(true)
     {
     //*** COPY_START ***//
       template: `<div>
-                    <div v-if='design_mode'  class='display-4'>Form editor</div>
+                    <div v-if='design_mode'  class='display-4'>Simple display editor</div>
 
                     <div v-bind:id='uid2' >
                         <div v-for='field in model.fields' style='padding: 5px;'>
                             <div class='container'>
-                                <div class='row'>
-                                    <div class='col-md-6' v-if='field.type=="text"'>{{field.text}}</div>
+                                <div class='row' v-on:click='current_edited_item = field.id'>
+                                    <div class='col-md-12' v-if='current_edited_item == field.id'>
+                                        <button class='xs-4'  v-if='design_mode' type=button class='btn btn-sm btn-info'      v-on:click='deleteField(field.id)'  > - </button>
+                                    </div>
+                                    <div class='col-md-6' v-if='field.type=="text"' v-bind:style='"border-radius: 25px; padding:20px; background: " + (current_edited_item == field.id?"whitesmoke":"")'>{{field.text}}</div>
                                     <div class='col-md-2'></div>
-                                    <button class='xs-4'  v-if='design_mode' type=button class='btn btn-sm btn-info'      v-on:click='deleteField(field.id)'  > - </button>
                                     </div>
                                 </div>
                             </div>
@@ -147,6 +149,7 @@ load_once_from_file(true)
                   return {
                       design_mode: designMode,
                       runtime_mode: runtimeMode,
+                      current_edited_item: null,
                       text: texti,
                       uid2: uid2,
                       model: `
@@ -174,17 +177,18 @@ load_once_from_file(true)
      ,
      data: function () {
        return {
-           design_mode: designMode,
-           runtime_mode: runtimeMode,
-           edited_app_component_id: null,
-           text:        texti,
-           uid2:        uid2,
-           read_only:   false,
-           model:       {
-                            next_id: 1,
-                            fields: [
-                                    ]
-           }
+           design_mode:                 designMode,
+           runtime_mode:                runtimeMode,
+           edited_app_component_id:     null,
+           current_edited_item:         null,
+           text:                        texti,
+           uid2:                        uid2,
+           read_only:                   false,
+           model:                      {
+                                            next_id: 1,
+                                            fields: [
+                                                    ]
+                                                            }
        }
      }
 
