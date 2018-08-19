@@ -26,7 +26,8 @@ load_once_from_file(true)
                                     <div class='col-md-12' v-if='current_edited_item == field.id'>
                                         <button class='xs-4'  v-if='design_mode' type=button class='btn btn-sm btn-info'      v-on:click='deleteField(field.id)'  > - </button>
                                     </div>
-                                    <div class='col-md-6' v-if='field.type=="text"' v-bind:style='"border-radius: 25px; padding:20px; background: " + (current_edited_item == field.id?"whitesmoke":"")'>{{field.text}}</div>
+                                    <div class='col-md-6' v-if='field.type=="text" && (current_edited_item != field.id)' v-bind:style='"border-radius: 25px; padding:20px; background: " + (current_edited_item == field.id?"whitesmoke":"")'>{{field.text}}</div>
+                                    <input class='col-md-6' v-if='field.type=="text" && (current_edited_item == field.id)' v-bind:style='"border-radius: 25px; padding:20px; background: " + (current_edited_item == field.id?"whitesmoke":"")' v-bind:value='field.text'></input>
                                     <div class='col-md-2'></div>
                                     </div>
                                 </div>
