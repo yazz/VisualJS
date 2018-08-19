@@ -19,10 +19,10 @@ load_once_from_file(true)
       template: `<div>
                     <div v-if='design_mode'  class='display-4'>Simple display editor</div>
 
-                    <div v-bind:id='uid2' >
+                    <div v-bind:id='uid2' v-on:click='$event.stopPropagation();current_edited_item = null'>
                         <div v-for='field in model.fields' style='padding: 5px;'>
                             <div class='container'>
-                                <div class='row' v-on:click='current_edited_item = field.id'>
+                                <div class='row' v-on:click='$event.stopPropagation();current_edited_item = field.id'>
                                     <div class='col-md-12' v-if='current_edited_item == field.id'>
                                         <button class='xs-4'  v-if='design_mode' type=button class='btn btn-sm btn-info'      v-on:click='deleteField(field.id)'  > - </button>
                                     </div>
