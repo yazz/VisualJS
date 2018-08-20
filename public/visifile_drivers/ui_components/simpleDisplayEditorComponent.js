@@ -20,7 +20,7 @@ load_once_from_file(true)
                     <div v-if='design_mode'  class='display-4'>Simple display editor</div>
 
                     <div v-bind:id='uid2' v-on:click='$event.stopPropagation();current_edited_item = null'>
-                        <div v-for='field in model.fields' style='padding: 5px;'>
+                        <div v-for='(field,index) in model.fields' style='padding: 5px;'>
                             <div class='container'>
                                 <div class='row' v-on:click='$event.stopPropagation();current_edited_item = field.id'>
                                     <div class='col-md-6' v-if='field.type=="text" && (current_edited_item != field.id)' v-bind:style='"border-radius: 25px; padding:20px; background: " + (current_edited_item == field.id?"whitesmoke":"")'>
@@ -35,6 +35,8 @@ load_once_from_file(true)
                                     </div>
                                     <div class='col-md-6' v-if='(current_edited_item == field.id) && design_mode' style='border-radius: 5px; padding:2px; background:beige'  >
                                         <button v-bind:class='getFieldCssStyle(field.id,"bold")?"active":""'  type=button class='btn btn-sm btn-info'      v-on:click='$event.stopPropagation();updateFieldCssStyle(field.id, "bold",getFieldCssStyle(field.id,"bold")?false:true)'  > B </button>
+                                        <button class='xs-4'  type=button class='btn btn-sm btn-info'  v-bind:disabled='index==0'    v-on:click='$event.stopPropagation();moveUp(field.id)'  > &uarr; </button>
+                                        <button class='xs-4'  type=button class='btn btn-sm btn-info'  v-bind:disabled='index==(model.fields.length - 1)'    v-on:click='$event.stopPropagation();moveDown(field.id)'  > &darr; </button>
                                         <button class='xs-4'  type=button class='btn btn-sm btn-info'      v-on:click='$event.stopPropagation();deleteField(field.id)'  > - </button>
                                     </div>
                                 </div>
@@ -139,6 +141,47 @@ load_once_from_file(true)
                 }
             }
             return ""
+        },
+
+
+        moveUp: function(   fieldId   ) {
+            var itemD = null
+            for (var tt=0; tt < mm.model.fields.length ; tt++) {
+                var ciurr = mm.model.fields[tt]
+                if (ciurr.id == fieldId) {
+                    itemD = ciurr
+                }
+            }
+            if (itemD) {
+                var index = mm.model.fields.indexOf(  itemD  );
+                if (index > -1) {
+                  mm.model.fields.splice(index, 1);
+                  mm.model.fields.splice(index - 1, 0, itemD);
+                }
+
+            }
+
+            this.generateCodeFromModel(  mm.model  )
+        },
+
+        moveDown: function(   fieldId   ) {
+            var itemD = null
+            for (var tt=0; tt < mm.model.fields.length ; tt++) {
+                var ciurr = mm.model.fields[tt]
+                if (ciurr.id == fieldId) {
+                    itemD = ciurr
+                }
+            }
+            if (itemD) {
+                var index = mm.model.fields.indexOf(  itemD  );
+                if (index > -1) {
+                  mm.model.fields.splice(index, 1);
+                  mm.model.fields.splice(index + 1, 0, itemD);
+                }
+
+            }
+
+            this.generateCodeFromModel(  mm.model  )
         },
 
         deleteField: function(   fieldId   ) {
