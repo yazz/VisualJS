@@ -16,10 +16,11 @@ load_once_from_file(true)
     Vue.component("simple_display_editor_component",
     {
     //*** COPY_START ***//
-      template: `<div>
+      template: `<div >
                     <div v-if='design_mode'  class='display-4'>Simple display editor</div>
 
-                    <div v-bind:id='uid2' v-on:click='$event.stopPropagation();current_edited_item = null'>
+                    <div v-bind:id='uid2' v-on:click='$event.stopPropagation();current_edited_item = null'
+                         style='width:95%; height: 45vh;overflow-y:scroll;'>
                         <div v-for='(field,index) in model.fields' style='padding: 5px;'>
                             <div class='container'>
                                 <div class='row' v-on:click='$event.stopPropagation();current_edited_item = field.id'>
