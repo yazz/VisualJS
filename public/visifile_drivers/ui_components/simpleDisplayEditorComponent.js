@@ -97,6 +97,7 @@ load_once_from_file(true)
         },
 
         getFieldCssStyle: function(   fieldId   , styleName) {
+            var mm = this
             var itemD = null
             for (var tt=0; tt < mm.model.fields.length ; tt++) {
                 var ciurr = mm.model.fields[tt]
@@ -112,6 +113,7 @@ load_once_from_file(true)
 
 
         fieldSize: function(fieldId) {
+            var mm = this
             if (!this.getFieldCssStyle(fieldId,"size")) {
                 return 14
             }
@@ -121,6 +123,7 @@ load_once_from_file(true)
 
         updateFieldCssStyle: function(   fieldId   , styleName, styleValue) {
             var itemD = null
+            var mm = this
             for (var tt=0; tt < mm.model.fields.length ; tt++) {
                 var ciurr = mm.model.fields[tt]
                 if (ciurr.id == fieldId) {
