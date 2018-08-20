@@ -34,7 +34,7 @@ load_once_from_file(true)
                                     <div class='col-md-2'></div>
                                     </div>
                                     <div class='col-md-6' v-if='(current_edited_item == field.id) && design_mode' style='border-radius: 5px; padding:2px; background:beige'  >
-                                        <button class='xs-4'  type=button class='btn btn-sm btn-info'      v-on:click='$event.stopPropagation();updateFieldCssStyle(field.id, "font-weight","bold")'  > B </button>
+                                        <button v-bind:class='getFieldCssStyle(field.id,"bold")?"active":""'  type=button class='btn btn-sm btn-info'      v-on:click='$event.stopPropagation();updateFieldCssStyle(field.id, "bold",getFieldCssStyle(field.id,"bold")?false:true)'  > B </button>
                                         <button class='xs-4'  type=button class='btn btn-sm btn-info'      v-on:click='$event.stopPropagation();deleteField(field.id)'  > - </button>
                                     </div>
                                 </div>
@@ -90,6 +90,21 @@ load_once_from_file(true)
             //alert("Added: " + JSON.stringify(mm.model,null,2))
         },
 
+        getFieldCssStyle: function(   fieldId   , styleName) {
+            var itemD = null
+            for (var tt=0; tt < mm.model.fields.length ; tt++) {
+                var ciurr = mm.model.fields[tt]
+                if (ciurr.id == fieldId) {
+                    if (!ciurr.style) {
+                        ciurr.style = {}
+                    }
+                    return ciurr.style[styleName]
+                }
+            }
+        },
+
+
+
         updateFieldCssStyle: function(   fieldId   , styleName, styleValue) {
             var itemD = null
             for (var tt=0; tt < mm.model.fields.length ; tt++) {
@@ -106,7 +121,6 @@ load_once_from_file(true)
 
 
         getStyle: function(fieldId) {
-        //return "font-weight: bold;"
             var mm = this
             var styleT = ""
             for (var tt = 0; tt < mm.model.fields.length ; tt++) {
@@ -116,10 +130,9 @@ load_once_from_file(true)
                         if (!ciurr.style) {
                             return ""
                         }
-                        var kk = Object.keys(ciurr.style)
-                        for ( var oo = 0; oo < kk.length; oo++ ) {
-                            var rte = kk[oo];
-                            styleT += "" + rte + ": " + ciurr.style[rte] + ";"
+                        var fg = ciurr.style
+                        if (fg.bold){
+                            styleT += "font-weight: bold;"
                         }
                         return styleT
                     }
