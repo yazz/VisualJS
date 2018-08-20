@@ -35,14 +35,16 @@ load_once_from_file(true)
                                     <div class='col-md-2'></div>
                                     </div>
                                     <div class='col-md-6' v-if='(current_edited_item == field.id) && design_mode' style='border-radius: 5px; padding:2px; background:beige'  >
+                                        <button v-bind:class='fieldSize(field.id)>5?"active":""'  type=button class='btn btn-sm btn-info'      v-on:click='$event.stopPropagation();updateFieldCssStyle(field.id, "size",fieldSize(field.id)-1) '  > - </button>
+                                        <button v-bind:class='fieldSize(field.id)<50?"active":""'  type=button class='btn btn-sm btn-info'      v-on:click='$event.stopPropagation();updateFieldCssStyle(field.id, "size",fieldSize(field.id)+1)'  > + </button>
                                         <button v-bind:class='getFieldCssStyle(field.id,"bold")?"active":""'  type=button class='btn btn-sm btn-info'      v-on:click='$event.stopPropagation();updateFieldCssStyle(field.id, "bold",getFieldCssStyle(field.id,"bold")?false:true)'  > B </button>
                                         <button class='xs-4'  type=button class='btn btn-sm btn-info'  v-bind:disabled='index==0'    v-on:click='$event.stopPropagation();moveUp(field.id)'  > &uarr; </button>
                                         <button class='xs-4'  type=button class='btn btn-sm btn-info'  v-bind:disabled='index==(model.fields.length - 1)'    v-on:click='$event.stopPropagation();moveDown(field.id)'  > &darr; </button>
-                                        <button class='xs-4'  type=button class='btn btn-sm btn-info'      v-on:click='$event.stopPropagation();deleteField(field.id)'  > - </button>
+                                        <button class='xs-4'  type=button class='btn btn-sm btn-info'  v-on:click='$event.stopPropagation();deleteField(field.id)'  > Delete </button>
                                     </div>
                                 </div>
                             </div>
-                        <button  v-if='design_mode' type=button class='btn btn-primary btn-lg'      v-on:click='addField()'  >+</button>
+                        <button  v-if='design_mode' type=button class='btn btn-info'      v-on:click='addField()'  >Add field</button>
                     </div>
                     <hr />
 
@@ -87,7 +89,8 @@ load_once_from_file(true)
 
 
         addField: function() {
-            mm.model.fields.push({   id: mm.model.next_id,   type: "text",   text: "Enter text here"   })
+            mm.model.fields.push({   id: mm.model.next_id,   type: "text",   text: "Enter text here",
+                                      style: {}})
             mm.model.next_id ++
             this.generateCodeFromModel(  mm.model  )
             //alert("Added: " + JSON.stringify(mm.model,null,2))
@@ -104,8 +107,16 @@ load_once_from_file(true)
                     return ciurr.style[styleName]
                 }
             }
+            return null
         },
 
+
+        fieldSize: function(fieldId) {
+            if (!this.getFieldCssStyle(fieldId,"size")) {
+                return 14
+            }
+            return this.getFieldCssStyle(fieldId,"size")
+        },
 
 
         updateFieldCssStyle: function(   fieldId   , styleName, styleValue) {
@@ -137,6 +148,7 @@ load_once_from_file(true)
                         if (fg.bold){
                             styleT += "font-weight: bold;"
                         }
+                        styleT += "font-size: " + this.fieldSize(fieldId) + "px;"
                         return styleT
                     }
                 }
