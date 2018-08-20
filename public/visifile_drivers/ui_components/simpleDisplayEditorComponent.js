@@ -23,12 +23,19 @@ load_once_from_file(true)
                         <div v-for='field in model.fields' style='padding: 5px;'>
                             <div class='container'>
                                 <div class='row' v-on:click='$event.stopPropagation();current_edited_item = field.id'>
-                                    <div class='col-md-6' v-if='field.type=="text" && (current_edited_item != field.id)' v-bind:style='"border-radius: 25px; padding:20px; background: " + (current_edited_item == field.id?"whitesmoke":"")'>{{field.text}}</div>
-                                    <input @change='generateCodeFromModel(model  )' class='col-md-6' v-if='field.type=="text" && (current_edited_item == field.id)' v-bind:style='"border-radius: 25px; padding:20px; background: " + (current_edited_item == field.id?"whitesmoke":"")' v-model='field.text'></input>
+                                    <div class='col-md-6' v-if='field.type=="text" && (current_edited_item != field.id)' v-bind:style='"border-radius: 25px; padding:20px; background: " + (current_edited_item == field.id?"whitesmoke":"")'>
+                                        <div v-bind:style='getStyle(field.id)'>
+                                            {{field.text}}
+                                        </div>
+                                        </div>
+                                    <textarea @change='generateCodeFromModel(model  )' class='col-md-6' v-if='field.type=="text" && (current_edited_item == field.id)'
+                                            v-bind:style='"border-radius: 25px; padding:20px; background: " + (current_edited_item == field.id?"whitesmoke":"") + ";" + getStyle(field.id)' v-model='field.text'>
+                                            </textarea>
                                     <div class='col-md-2'></div>
                                     </div>
-                                    <div class='col-md-6' v-if='current_edited_item == field.id' style='border-radius: 5px; padding:2px; background:beige'>
-                                        <button class='xs-4'  v-if='design_mode' type=button class='btn btn-sm btn-info'      v-on:click='deleteField(field.id)'  > - </button>
+                                    <div class='col-md-6' v-if='(current_edited_item == field.id) && design_mode' style='border-radius: 5px; padding:2px; background:beige'  >
+                                        <button class='xs-4'  type=button class='btn btn-sm btn-info'      v-on:click='$event.stopPropagation();updateFieldCssStyle(field.id, "font-weight","bold")'  > B </button>
+                                        <button class='xs-4'  type=button class='btn btn-sm btn-info'      v-on:click='$event.stopPropagation();deleteField(field.id)'  > - </button>
                                     </div>
                                 </div>
                             </div>
@@ -76,13 +83,52 @@ load_once_from_file(true)
      methods: {
 
 
-        addField() {
+        addField: function() {
             mm.model.fields.push({   id: mm.model.next_id,   type: "text",   text: "Enter text here"   })
             mm.model.next_id ++
             this.generateCodeFromModel(  mm.model  )
             //alert("Added: " + JSON.stringify(mm.model,null,2))
         },
-        deleteField(   fieldId   ) {
+
+        updateFieldCssStyle: function(   fieldId   , styleName, styleValue) {
+            var itemD = null
+            for (var tt=0; tt < mm.model.fields.length ; tt++) {
+                var ciurr = mm.model.fields[tt]
+                if (ciurr.id == fieldId) {
+                    if (!ciurr.style) {
+                        ciurr.style = {}
+                    }
+                    ciurr.style[styleName] = styleValue
+                }
+            }
+            this.generateCodeFromModel(  mm.model  )
+        },
+
+
+        getStyle: function(fieldId) {
+        //return "font-weight: bold;"
+            var mm = this
+            var styleT = ""
+            for (var tt = 0; tt < mm.model.fields.length ; tt++) {
+                var ciurr = mm.model.fields[tt]
+                if (ciurr ) {
+                    if (ciurr.id == fieldId) {
+                        if (!ciurr.style) {
+                            return ""
+                        }
+                        var kk = Object.keys(ciurr.style)
+                        for ( var oo = 0; oo < kk.length; oo++ ) {
+                            var rte = kk[oo];
+                            styleT += "" + rte + ": " + ciurr.style[rte] + ";"
+                        }
+                        return styleT
+                    }
+                }
+            }
+            return ""
+        },
+
+        deleteField: function(   fieldId   ) {
             var itemD = null
             for (var tt=0; tt < mm.model.fields.length ; tt++) {
                 var ciurr = mm.model.fields[tt]
