@@ -104,8 +104,12 @@ load_once_from_file(true)
                 if (ciurr.id == fieldId) {
                     if (!ciurr.style) {
                         ciurr.style = {}
+                        return null
                     }
-                    return ciurr.style[styleName]
+                    if (ciurr.style[styleName]) {
+                        return ciurr.style[styleName]
+                    }
+                    return null
                 }
             }
             return null
@@ -114,8 +118,8 @@ load_once_from_file(true)
 
         fieldSize: function(fieldId) {
             var mm = this
-            if (!this.getFieldCssStyle(fieldId,"size")) {
-                return 14
+            if (mm.getFieldCssStyle(fieldId,"size") == null) {
+                return 16
             }
             return this.getFieldCssStyle(fieldId,"size")
         },
@@ -151,7 +155,7 @@ load_once_from_file(true)
                         if (fg.bold){
                             styleT += "font-weight: bold;"
                         }
-                        styleT += "font-size: " + this.fieldSize(fieldId) + "px;"
+                        styleT += "font-size: " + mm.fieldSize(fieldId) + "px;"
                         return styleT
                     }
                 }
