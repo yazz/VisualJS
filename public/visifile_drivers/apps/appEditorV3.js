@@ -116,6 +116,8 @@ load_once_from_file(true)
                 this.app_width = "95%"
                 this.app_shown = true
 
+                this.mode      = "edit"
+
 
                 var text = this.$refs.editorComponentRef.getText()
 
@@ -136,6 +138,8 @@ load_once_from_file(true)
                 this.app_width = "0%"
                 this.app_shown = false
 
+                this.mode      = "edit"
+
                 mm.load_app( this.base_component_id )
             },
 
@@ -149,6 +153,8 @@ load_once_from_file(true)
 
                 this.app_width = "33%"
                 this.app_shown = true
+
+                this.mode      = "edit"
             },
 
             rename: function(nn) {
