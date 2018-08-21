@@ -17,7 +17,7 @@ load_once_from_file(true)
     {
     //*** COPY_START ***//
       template: `<div >
-                    <div v-if='design_mode'  class='display-4'>Simple display editor</div>
+                    <h4 v-if='design_mode'>Simple text app designer</h4>
 
                     <div v-bind:id='uid2' v-on:click='$event.stopPropagation();current_edited_item = null'
                          style='width:95%; height: 45vh;overflow-y:scroll;'>
