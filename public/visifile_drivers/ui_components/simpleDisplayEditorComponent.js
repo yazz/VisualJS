@@ -23,7 +23,7 @@ load_once_from_file(true)
                          style='width:95%; height: 45vh;overflow-y:scroll;'>
                         <div v-for='(field,index) in model.fields' style='padding: 5px;'>
                             <div class='container'>
-                                <div class='row' v-on:click='$event.stopPropagation();current_edited_item = field.id'>
+                                <div class='row' v-on:click='if (design_mode) {$event.stopPropagation();current_edited_item = field.id}'>
 
                                     <div class='col-md-12' v-if='field.type=="text" && (current_edited_item != field.id)' v-bind:style='"border-radius: 5px; padding:2px; background: " + (current_edited_item == field.id?"whitesmoke":"")'>
                                         <div v-bind:style='getStyle(field.id)'>

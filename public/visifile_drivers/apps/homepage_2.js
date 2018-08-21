@@ -1,7 +1,8 @@
 async function(args) {
 /*
-created_timestamp(-1)
+created_timestamp(1534877333570)
 base_component_id("homepage_2")
+read_only(true)
 editors([
   "simple_display_editor_component"
 ])
@@ -31,17 +32,16 @@ formEditor({
       "type": "text",
       "text": "And for more advanced apps you can use Javascript to build them",
       "style": {
-        "bullet": true
+        "bullet": true,
+        "size": 18
       }
     }
   ]
 })//formEditor
-is_app(true)
 display_name("Homepage 2")
+is_app(true)
 uses_javascript_librararies(["aframe"])
 description('Homepage 2')
-load_once_from_file(true)
-read_only(true)
 logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.png")
 */
 
@@ -59,7 +59,7 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
                          style='width:95%; height: 45vh;overflow-y:scroll;'>
                         <div v-for='(field,index) in model.fields' style='padding: 5px;'>
                             <div class='container'>
-                                <div class='row' v-on:click='$event.stopPropagation();current_edited_item = field.id'>
+                                <div class='row' v-on:click='if (design_mode) {$event.stopPropagation();current_edited_item = field.id}'>
 
                                     <div class='col-md-12' v-if='field.type=="text" && (current_edited_item != field.id)' v-bind:style='"border-radius: 5px; padding:2px; background: " + (current_edited_item == field.id?"whitesmoke":"")'>
                                         <div v-bind:style='getStyle(field.id)'>
@@ -370,7 +370,8 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
       "type": "text",
       "text": "And for more advanced apps you can use Javascript to build them",
       "style": {
-        "bullet": true
+        "bullet": true,
+        "size": 18
       }
     }
   ]
