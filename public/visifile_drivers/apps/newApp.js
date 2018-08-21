@@ -71,7 +71,7 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
                             <div class='container'>
                                 <div class='row' v-on:click='$event.stopPropagation();current_edited_item = field.id'>
 
-                                    <div class='col-md-6' v-if='field.type=="text" && (current_edited_item != field.id)' v-bind:style='"border-radius: 5px; padding:2px; background: " + (current_edited_item == field.id?"whitesmoke":"")'>
+                                    <div class='col-md-12' v-if='field.type=="text" && (current_edited_item != field.id)' v-bind:style='"border-radius: 5px; padding:2px; background: " + (current_edited_item == field.id?"whitesmoke":"")'>
                                         <div v-bind:style='getStyle(field.id)'>
                                             <span v-if='getFieldCssStyle(field.id,"bullet")'>&#9679; </span>{{field.text}}
                                         </div>
