@@ -46,9 +46,9 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
           <ul style='background-color: white; color: black;'>
               <li >Installs on Mac/PC</li>
               <li >Create apps in minutes</li>
-              <li >All apps back by a powerful SQL database</li>
-              <li >Share with colleagues by sending an internal link</li>
-              <li >Many templates available to get started easily</li>
+              <li >All apps backed by a powerful SQL database</li>
+              <li >Share an app with colleagues by sending an internal web link</li>
+              <li >Many templates available to get started easily with information apps, forms, database apps, and 3D interactive apps</li>
           </ul>
 
 
