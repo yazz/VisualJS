@@ -24,11 +24,12 @@ load_once_from_file(true)
                         <div v-for='(field,index) in model.fields' style='padding: 5px;'>
                             <div class='container'>
                                 <div class='row' v-on:click='$event.stopPropagation();current_edited_item = field.id'>
+
                                     <div class='col-md-6' v-if='field.type=="text" && (current_edited_item != field.id)' v-bind:style='"border-radius: 25px; padding:20px; background: " + (current_edited_item == field.id?"whitesmoke":"")'>
                                         <div v-bind:style='getStyle(field.id)'>
-                                            {{field.text}}
+                                            <span v-if='getFieldCssStyle(field.id,"bullet")'>&#9679; </span>{{field.text}}
                                         </div>
-                                        </div>
+                                    </div>
                                     <textarea @change='generateCodeFromModel(model  )' class='col-md-6' v-if='field.type=="text" && (current_edited_item == field.id)'
                                             v-bind:style='"border-radius: 25px; padding:20px; background: " + (current_edited_item == field.id?"whitesmoke":"") + ";" + getStyle(field.id)' v-model='field.text'>
                                             </textarea>
@@ -38,6 +39,7 @@ load_once_from_file(true)
                                         <button v-bind:class='fieldSize(field.id)>5?"active":""'  type=button class='btn btn-sm btn-info'      v-on:click='$event.stopPropagation();updateFieldCssStyle(field.id, "size",fieldSize(field.id)-1) '  > - </button>
                                         <button v-bind:class='fieldSize(field.id)<50?"active":""'  type=button class='btn btn-sm btn-info'      v-on:click='$event.stopPropagation();updateFieldCssStyle(field.id, "size",fieldSize(field.id)+1)'  > + </button>
                                         <button v-bind:class='getFieldCssStyle(field.id,"bold")?"active":""'  type=button class='btn btn-sm btn-info'      v-on:click='$event.stopPropagation();updateFieldCssStyle(field.id, "bold",getFieldCssStyle(field.id,"bold")?false:true)'  > B </button>
+                                        <button v-bind:class='getFieldCssStyle(field.id,"bold")?"active":""'  type=button class='btn btn-sm btn-info'      v-on:click='$event.stopPropagation();updateFieldCssStyle(field.id, "bullet",getFieldCssStyle(field.id,"bullet")?false:true)'  > &#9679;  </button>
                                         <button class='xs-4'  type=button class='btn btn-sm btn-info'  v-bind:disabled='index==0'    v-on:click='$event.stopPropagation();moveUp(field.id)'  > &uarr; </button>
                                         <button class='xs-4'  type=button class='btn btn-sm btn-info'  v-bind:disabled='index==(model.fields.length - 1)'    v-on:click='$event.stopPropagation();moveDown(field.id)'  > &darr; </button>
                                         <button class='xs-4'  type=button class='btn btn-sm btn-info'  v-on:click='$event.stopPropagation();deleteField(field.id)'  > Delete </button>
