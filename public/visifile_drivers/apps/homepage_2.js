@@ -15,13 +15,7 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
 
       template:
 `<div  style='background-color: white; color: black; padding: 10px;'>
-    <h2><b>Create amazing interactive forms for your website</b></h2>
-      <ul style='background-color: white; color: black;'>
-          <li >Build forms in under 5 minutes in Javascript</li>
-          <li >Embed forms easily into your website</li>
-          <li >Many templates available to get started easily</li>
-          <li >Use online or host it in your Enterprise</li>
-      </ul>
+
 </div>`
     })
 }

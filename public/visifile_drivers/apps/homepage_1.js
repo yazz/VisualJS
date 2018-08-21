@@ -14,11 +14,12 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
     Vue.component('homepage_1', {
 
       template:
-`<div  class="container" style='width:300px;height:100px;'>
+`<div  class="container" style=''>
 
     <div class="row" style='background-color: white; color: black; padding-top: 20px;padding-bottom: 20px;'>
         <div class="col-md-12">
-            <a-scene style='width: 80%; height: 80%;' embedded vr-mode-ui="enabled: false">
+        <h2><b>Create and share apps on your intranet</b></h2>
+            <a-scene style='width: 80%; height: 100px;' embedded vr-mode-ui="enabled: false">
 
             <a-assets>
                 <a-mixin id="RobotoFont" text="font: /public/aframe_fonts/Roboto-msdf.json"></a-mixin>
@@ -42,7 +43,79 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
             </a-entity>
             <a-sky color="white"></a-sky>
         </a-scene>
-    </div>
+          <ul style='background-color: white; color: black;'>
+              <li >Installs on Mac/PC</li>
+              <li >Create apps in minutes</li>
+              <li >All apps back by a powerful SQL database</li>
+              <li >Share with colleagues by sending an internal link</li>
+              <li >Many templates available to get started easily</li>
+          </ul>
+
+
+
+          <div style='height:20px; width: 10px;'></div>
+         <a href="http://visifile.com/visifile/64/Appshare_Setup.exe" class="btn btn-secondary">
+                 <img src='/windows.png' style='height: 30px;'></img>
+                 Download Appshare for Windows
+              </a>
+              <div style='height:20px; width: 10px;'></div>
+              <a href="http://visifile.com/visifile/64/Appshare_Setup.dmg" class="btn btn-primary">
+                 <img src='/mac.png' style='height: 30px;'></img>
+                 Download Appshare for Mac
+              </a>
+              <div style='height:20px; width: 10px;'></div>
+
+
+              <template v-if='!subscribed'>
+                      <div class="form-group">
+                          <div class='text-center' style='font-weight:bold;padding-bottom: 10px;'>Subscribe to the Appshare newsletter</div>
+                          <input id=add placeholder="email address" type="email" class='form-control' v-model="email_address" style='margin-bottom: 10px;'></input>
+                          <button class="btn btn-info btn-block" v-on:click='insert_email(email_address)'>Subscribe</button>
+                      </div>
+              </template>
+              <template v-if='subscribed' >
+                  <div class='text-center' style='font-weight:bold;padding-bottom: 10px;'>
+                      Thanks for subscribing to the Appshare newsletter {{email_address}}!
+                  </div>
+              </template>
+
+
+            </div>
 </div>`
+
+,
+
+
+
+
+methods: {
+     insert_email: async function(email) {
+          await sql( "insert into users (id, email, when_created) values (?,?,?)"
+                      ,
+                      [  uuidv4(),  email  ,  new Date().getTime() ])
+          this.subscribed = true
+
+      }
+}
+,
+    data: function() {
+        return {
+                    apps: [],
+                    email_address: "",
+                    subscribed: false
+                }}
+
+
     })
+    /*
+    sqlite(
+    [
+        "Create the initial users table to store the email addresses",
+        [
+            "CREATE TABLE users (id	TEXT, email	TEXT, when_created INTEGER);"
+        ]
+
+    ])//sqlite
+
+    */
 }
