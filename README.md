@@ -1,7 +1,7 @@
 # AppShare
 PC/Mac Software to create SQL webapps in minutes. There is demo here :
 
-http://appshare.co/go.html
+http://appshare.co
 
 
 : Made with :
