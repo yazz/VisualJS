@@ -13,8 +13,7 @@ read_only(true)
 */
 
     Vue.component('game',{
-      template: `<div id="app2">
-          saSs
+      template: `<div id="app2" style='padding: 20px;'>
             <h1>{{msg}}</h1>
             <input type="text" v-model="msg"/>
 
