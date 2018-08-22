@@ -25,9 +25,11 @@ load_once_from_file(true)
 
      mounted: function() {
          var thisVueInstance = this
+         ace.config.set('basePath', '/');
          editor = ace.edit(           editorDomId, {
                                                  selectionStyle: "text"
                                              })
+
          editor.session.setMode("ace/mode/javascript");
          document.getElementById(editorDomId).style.width="100%"
 
