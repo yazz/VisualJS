@@ -66,8 +66,8 @@ load_once_from_file(true)
 
 
 
-                      <div v-bind:style="'height: 100%; width: ' + app_width + '; right: 0px; display: ' + (app_shown?'inline-block':'none')+';vertical-align: top;border: 1px solid lightgray;border-radius: 5px;'">
-                          <div v-bind:style="'background-color: lightgray;padding: 5px;; border: 1px solid lightgray;'">
+                      <div v-bind:style="'height: 100%; width: ' + app_width + '; right: 0px; display: ' + (app_shown?'inline-block':'none')+';vertical-align: top;border: 1px solid lightgray;border-radius: 10px;'">
+                          <div v-bind:style="'background-color: rgb(242,242,242);padding: 5px;; border: 2px solid lightgray;'">
                                 browser
                           </div>
                           <component  v-bind:is="app_component_name" v-if="app_loaded">

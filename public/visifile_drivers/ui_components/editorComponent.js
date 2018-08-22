@@ -30,9 +30,13 @@ load_once_from_file(true)
                                                  selectionStyle: "text",
                                                  mode:           "ace/mode/javascript"
                                              })
+
+         //Bug fix: Need a delay when setting theme or view is corrupted
          setTimeout(function(){
             editor.setTheme("ace/theme/pastel_on_dark");
          },100)
+
+         
          document.getElementById(editorDomId).style.width="100%"
          document.getElementById(editorDomId).style.border="10px solid #2C2828"
 

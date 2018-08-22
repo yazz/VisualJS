@@ -11,7 +11,7 @@ logo_url("https://i.imgur.com/OvMZBs9.jpg")
 read_only(true)
 */
 Vue.component("todo", {
-    template: `<div style='width:200px;height:200px;'>
+    template: `<div style='width:200px;height:200px;padding:20px;'>
          Todo List<br>
           <li v-for='item in items'>
               <button v-on:click='delete_item(item.id)'>x</button> {{item.name}}
