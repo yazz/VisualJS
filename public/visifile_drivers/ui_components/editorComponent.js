@@ -27,11 +27,12 @@ load_once_from_file(true)
          var thisVueInstance = this
          ace.config.set('basePath', '/');
          editor = ace.edit(           editorDomId, {
-                                                 selectionStyle: "text"
+                                                 selectionStyle: "text",
+                                                 mode:           "ace/mode/javascript"
                                              })
-
-         editor.session.setMode("ace/mode/javascript");
-         editor.setTheme("ace/theme/pastel_on_dark");
+         setTimeout(function(){
+            editor.setTheme("ace/theme/pastel_on_dark");
+         },100)
          document.getElementById(editorDomId).style.width="100%"
          document.getElementById(editorDomId).style.border="10px solid #2C2828"
 
