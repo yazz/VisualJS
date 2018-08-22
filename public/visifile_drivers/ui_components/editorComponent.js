@@ -31,7 +31,9 @@ load_once_from_file(true)
                                              })
 
          editor.session.setMode("ace/mode/javascript");
+         editor.setTheme("ace/theme/pastel_on_dark");
          document.getElementById(editorDomId).style.width="100%"
+         document.getElementById(editorDomId).style.border="10px solid black"
 
          document.getElementById(editorDomId).style.height="45vh"
          editor.getSession().setValue(thisVueInstance.text);
