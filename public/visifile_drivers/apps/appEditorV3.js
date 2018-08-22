@@ -68,7 +68,8 @@ load_once_from_file(true)
 
                       <div v-bind:style="'height: 100%; width: ' + app_width + '; right: 0px; display: ' + (app_shown?'inline-block':'none')+';vertical-align: top;border: 1px solid lightgray;border-radius: 10px;'">
                           <div v-bind:style="'background-color: rgb(242,242,242);padding: 5px;; border: 2px solid lightgray;'">
-                                browser
+                                &larr; &rarr; <span class=reload>&#x21bb;</span>
+                                <input  size="45" style='font-size: 13px;' v-bind:value='"http://" + location.hostname + ":" + location.port + "/app/" + base_component_id + ".html"'></input>
                           </div>
                           <component  v-bind:is="app_component_name" v-if="app_loaded">
                             APP HERE
