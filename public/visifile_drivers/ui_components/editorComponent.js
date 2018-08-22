@@ -26,9 +26,9 @@ load_once_from_file(true)
      mounted: function() {
          var thisVueInstance = this
          editor = ace.edit(           editorDomId, {
-                                                 mode:           "ace/mode/javascript",
                                                  selectionStyle: "text"
                                              })
+         editor.session.setMode("ace/mode/javascript");
          document.getElementById(editorDomId).style.width="100%"
 
          document.getElementById(editorDomId).style.height="45vh"
