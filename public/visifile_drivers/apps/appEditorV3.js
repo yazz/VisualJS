@@ -69,8 +69,23 @@ load_once_from_file(true)
                       <div v-bind:style="'height: 100%; width: ' + app_width + '; right: 0px; display: ' + (app_shown?'inline-block':'none')+';vertical-align: top;border: 1px solid lightgray;border-radius: 10px;'">
                           <div v-bind:style="'background-color: rgb(242,242,242);padding: 5px;; border: 2px solid lightgray;'">
                                 &larr; &rarr; <span class=reload>&#x21bb;</span>
-                                <input  size="45" style='font-size: 13px;' v-bind:value='"http://" + location.hostname + ":" + location.port + "/app/" + base_component_id + ".html"'></input>
+                                <input  readonly size="45" style='font-size: 13px;' v-bind:value='"http://" + location.hostname + ":" + location.port + "/app/" + base_component_id + ".html"'></input>
+
+
+                                <a
+                                    v-bind:href='"http://" + location.hostname + ":" + location.port + "/app/" + base_component_id + ".html"'
+                                    target="_blank" rel="noopener noreferrer"
+                                    v-on:mouseover="show_new_tab_tooltip = true"
+                                    v-on:mouseleave="show_new_tab_tooltip = false"
+                                    class=reload>&#x274F;
+                                    </a>
                           </div>
+                          <span
+                                v-bind:style='"  padding: 10px;bottom: 0px;right:0px;background-color: darkgray;color: white;width: auto;" +
+                                "border-radius: 5px;opacity: 1;position:relative;visibility: " +
+                                (show_new_tab_tooltip?"visible":"hidden") + ";font-family: Helvetica;"'>
+                            Open page in new browser tab (shareable :)
+                            </span>
                           <component  v-bind:is="app_component_name" v-if="app_loaded">
                             APP HERE
                           </component>
@@ -101,7 +116,8 @@ load_once_from_file(true)
                mode:                "edit",
                show_name:           true,
                edit_name:           false,
-               new_name:            ""
+               new_name:            "",
+               show_new_tab_tooltip:false
            }
        }
        ,
