@@ -15,11 +15,6 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
       template:
 `<div  class="container" style='padding: 20px; font-size: 18'>
 
-Appshare is OpenSource on Github:
-<a href='https://github.com/zubairq/appshare'>https://github.com/zubairq/appshare</a>
-
-<br>
-<br>
 Appshare is built from the following technologies:
 <ul>
 <li>Electron</li>

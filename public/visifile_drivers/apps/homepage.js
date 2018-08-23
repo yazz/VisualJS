@@ -49,8 +49,8 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
                                             Create a new app
                                            </h4>
                                            <button style='margin-bottom:10px;'  class='btn btn-primary' v-on:click='copyAndEditApp($event,"todo")'>Add database app</button>
-                                           <button style='margin-bottom:10px;' class='btn btn-primary' v-on:click='copyAndEditApp($event,"new_app")'>Simple text app</button>
                                            <button style='margin-bottom:10px;'  class='btn btn-primary' v-on:click='copyAndEditApp($event,"game")'>Add 3d AFrame app</button>
+                                           <button style='margin-bottom:10px;' class='btn btn-primary' v-on:click='copyAndEditApp($event,"new_app")'>Text only</button>
                                            </div>
                                            </div>
 

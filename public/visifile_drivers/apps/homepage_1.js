@@ -18,7 +18,7 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
 
     <div class="row" style='background-color: white; color: black; padding-top: 20px;padding-bottom: 20px;'>
         <div class="col-md-12">
-        <h2><b>Create and share apps on your intranet</b></h2>
+        <h2><b>Create and share webapps by coding a single JS file</b></h2>
             <a-scene style='width: 80%; height: 100px;' embedded vr-mode-ui="enabled: false">
 
             <a-assets>
@@ -44,11 +44,12 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
             <a-sky color="white"></a-sky>
         </a-scene>
           <ul style='background-color: white; color: black;'>
-              <li >Installs on Mac/PC</li>
               <li >Create apps in minutes</li>
-              <li >All apps backed by a powerful SQL database</li>
-              <li >Share an app with colleagues by sending an internal web link</li>
-              <li >Many templates available to get started easily with information apps, forms, database apps, and 3D interactive apps</li>
+              <li >All apps backed by a SQLite database</li>
+              <li >Share an app by sending a URL link</li>
+              <li >Use templates to get started with information apps, forms, database apps, and 3D interactive apps</li>
+              <li >Open source (<a href='https://github.com/zubairq/appshare'>https://github.com/zubairq/appshare</a>)</li>
+              <li >Can be hosted locally on Mac/PC</li>
           </ul>
 
 
