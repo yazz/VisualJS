@@ -70,7 +70,7 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
                                        <component v-if='edit_app != item.data.id' :is='item.data.id'></component>
                                     </div>
 
-                                    <div v-if='!isInlineApp(item.data.id)' style='border-radius: 25px;padding:20px; margin:0;border: 2px solid lightgray;'>
+                                    <div v-if='!isInlineApp(item.data.id)' >
                                         <kbd v-on:click='editApp($event,item.data.id)'>{{item.data.id?"" + item.data.id.substring(0,20):""}}{{(item.data.id && ((item.data.id.length > 20))?"...":"")}}</kbd>
                                         <span v-if='isEditable(item.data.id)' class="badge badge-warning" >Editable</span>
                                         <span v-if='!isEditable(item.data.id)' class="badge badge-info" >Read only</span>
