@@ -64,7 +64,8 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
 
 
 
-                                    <div v-if='isInlineApp(item.data.id)' style='border-radius: 5px;padding:20px; margin:0;border: 1px solid lightgray;'>
+                                   <div style='border-radius: 25px;padding:20px; margin:0;border: 2px solid lightgray;'>
+                                    <div v-if='isInlineApp(item.data.id)' >
                                        <kbd v-on:click='editApp($event,item.data.id)'>{{item.data.id?"" + item.data.id.substring(0,20):""}}{{(item.data.id && ((item.data.id.length > 20))?"...":"")}}</kbd>
                                        <component v-if='edit_app != item.data.id' :is='item.data.id'></component>
                                     </div>
@@ -83,28 +84,24 @@ logo_url("https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2017/05/Best-Home
                                     </div>
 
 
-                                <div v-on:click='showMenu(item.data.id)' class="float-left">
-                                ...
-                                    <div v-bind:id='item.data.id + "_menu"' v-bind:style='"background-color: white; border: solid 1px lightgray;position:absolute; bottom:0px;width:250px;z-index:100000;display: " + ((show_menu == item.data.id)?"":"none")  +  ";border-radius: 20px; padding: 20px;"'>
-                                        <ul class="nav flex-column">
-                                        <li class="nav-item" v-if='!isEditable(item.data.id)'>
-                                          <a  v-on:click='editApp($event,item.data.id)'
-                                              class="nav-link active" href="#">View source</a>
-                                        </li>
+                                    <ul class="nav flex-column">
+                                    <li class="nav-item" v-if='!isEditable(item.data.id)'>
+                                      <a  v-on:click='editApp($event,item.data.id)'
+                                          class="nav-link active" href="#">View source</a>
+                                    </li>
 
-                                          <li class="nav-item" v-if='isEditable(item.data.id)'>
-                                            <a  v-on:click='editApp($event,item.data.id)'
-                                                class="nav-link active" href="#">Edit</a>
-                                          </li>
+                                      <li class="nav-item" v-if='isEditable(item.data.id)'>
+                                        <a  v-on:click='editApp($event,item.data.id)'
+                                            class="nav-link active" href="#">Edit</a>
+                                      </li>
+                                    </ul>
 
-                                        <li class="nav-item" >
-                                          <a  v-on:click='editApp($event,null)'
-                                              class="nav-link active" href="#">Close</a>
-                                        </li>
+                            </div>
 
 
-                                        </ul>
-                                    </div>
+
+
+
                                     </div>
                                     </div>
 
