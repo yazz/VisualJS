@@ -24,7 +24,10 @@ load_once_from_file(true)
                       <img src="https://www.w3schools.com/html/img_logo.gif" draggable="true" v-on:dragstart="drag($event)" id="drag1" width="88" height="31">
                     </div>
 
-                    <div id="div2" v-on:drop="drop($event)" v-on:ondragover="allowDrop($event)" style=' border: 1px solid black;width: 240px;height: 240px;'>
+                    <div id="div2"  v-on:drop="drop($event)"
+                                    v-on:ondragover="allowDrop($event)"
+                                    style=' border: 1px solid black;width: 240px;height: 240px;background: hsla(209, 100%, 47%, 0.1);
+                                            background-image: radial-gradient(hsla(209, 100%, 47%, 1.00) 5%, transparent 0);background-size: 15px 15px;'>
                          <div v-bind:refresh='refresh'
                               v-bind:style='"position: relative;top: " + topY + ";left:" + leftX + ";height:100px;width:100px;border: 1px solid black;"'></div>
                     </div>
