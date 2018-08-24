@@ -20,11 +20,11 @@ load_once_from_file(true)
                     <h4 v-if='design_mode'>VB app designer</h4>
 
 
-                    <div id="div1" v-on:drop="drop($event)" v-on:dragover="allowDrop($event)" style=' border: 1px solid black;width: 100px;height: 35px;'>
+                    <div v-on:drop="drop($event)" v-on:dragover="allowDrop($event)" style=' border: 1px solid black;width: 100px;height: 35px;'>
                       <img src="https://www.w3schools.com/html/img_logo.gif" draggable="true" v-on:dragstart="drag($event)" id="drag1" width="88" height="31">
                     </div>
 
-                    <div id="div2"  v-on:drop="drop($event)"
+                    <div   v-on:drop="drop($event)"
                                     v-on:ondragover="allowDrop($event)"
                                     style=' position: relative; border: 1px solid black;width: 240px;height: 240px;background: hsla(209, 100%, 47%, 0.1);
                                             background-image: radial-gradient(hsla(209, 100%, 47%, 1.00) 5%, transparent 0);background-size: 15px 15px;'>
@@ -118,8 +118,8 @@ load_once_from_file(true)
      //alert(21)
          var data = ev.dataTransfer.getData("text");
          var newItem = new Object()
-         newItem.leftX = event.clientX - parseInt(ev.target.offsetLeft);
-         newItem.topY = event.clientY - parseInt(ev.target.offsetTop);
+         newItem.leftX = event.clientX  - parseInt(ev.target.offsetLeft);;
+         newItem.topY = event.clientY  - parseInt(ev.target.offsetTop);;
          this.refresh++
          this.components.push(newItem)
          //+ ") =" + JSON.stringify(data,null,2));
