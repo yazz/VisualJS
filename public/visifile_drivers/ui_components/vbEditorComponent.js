@@ -1,59 +1,37 @@
-async function(args) {
+async function component( args ) {
 /*
-created_timestamp(1534877333570)
-base_component_id("homepage_5")
-read_only(true)
-editors([
-  "vb_editor_component"
-])
-formEditor({
-  "next_id": 7,
-  "fields": [
-    {
-      "id": 5,
-      "type": "text",
-      "text": "Apps can be built by beginners or IT experts:",
-      "style": {
-        "bold": true,
-        "size": 19
-      }
-    },
-    {
-      "id": 1,
-      "type": "text",
-      "text": "For simple text apps like this, there is a point and click builder",
-      "style": {
-        "bullet": true,
-        "size": 18
-      }
-    },
-    {
-      "id": 6,
-      "type": "text",
-      "text": "And for more advanced apps you can use Javascript to build them",
-      "style": {
-        "bullet": true,
-        "size": 18
-      }
-    }
-  ]
-})//formEditor
-display_name("Homepage 5")
-is_app(true)
-uses_javascript_librararies(["aframe"])
-description('Homepage 5')
-logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.png")
+base_component_id("vb_editor_component")
+load_once_from_file(true)
 */
 
-    //** gen_start **//
-                var uid2 = uuidv4()
-                var mm = null
-                var texti = null
-                var designMode = false
-                var runtimeMode = true
-                Vue.component('homepage_5', {
+    //alert(JSON.stringify(args,null,2))
+    var uid2 = uuidv4()
+    var mm = null
+    var texti = null
+    if (args) {
+        texti = args.text
+    }
+    var designMode = true
+    var runtimeMode = false
+    Vue.component("vb_editor_component",
+    {
+    //*** COPY_START ***//
       template: `<div >
-                    <h4 v-if='design_mode'>Simple text app designer</h4>
+                    <h4 v-if='design_mode'>VB app designer</h4>
+
+
+                    <h2>Drag and Drop</h2>
+                    <p>Drag the image back and forth between the two div elements.</p>
+
+                    <div id="div1" v-on:drop="drop($event)" v-on:dragover="allowDrop($event)" style=' border: 1px solid black;width: 100px;height: 35px;'>
+                      <img src="https://www.w3schools.com/html/img_logo.gif" draggable="true" v-on:dragstart="drag($event)" id="drag1" width="88" height="31">
+                    </div>
+
+                    <div id="div2" v-on:drop="drop($event)" v-on:ondragover="allowDrop($event)" style=' border: 1px solid black;width: 240px;height: 240px;'></div>
+
+
+
+
 
                     <div v-bind:id='uid2' v-on:click='$event.stopPropagation();current_edited_item = null'
                          style='width:95%; height: 45vh;overflow-y:scroll;'>
@@ -66,7 +44,7 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
                                             <span v-if='getFieldCssStyle(field.id,"bullet")'>&#9679; </span>{{field.text}}
                                         </div>
                                     </div>
-                                    <textarea @change='generateCodeFromModel(model  )' class='col-md-6' v-if='field.type=="text" && (current_edited_item == field.id)'
+                                    <textarea v-on:keyup='generateCodeFromModel(model  )' class='col-md-6' v-if='field.type=="text" && (current_edited_item == field.id)'
                                             v-bind:style='"border-radius: 25px; padding:20px; background: " + (current_edited_item == field.id?"whitesmoke":"") + ";" + getStyle(field.id)' v-model='field.text'>
                                             </textarea>
                                     <div class='col-md-2'></div>
@@ -124,6 +102,21 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
 
 
      methods: {
+     allowDrop: function(ev) {
+         ev.preventDefault();
+     },
+
+     drag: function(ev) {
+         //alert(JSON.stringify(ev,null,2))
+         ev.dataTransfer.setData("text", "zib");
+     },
+
+     drop: function (ev) {
+         var data = ev.dataTransfer.getData("text");
+         alert("(" + event.clientX + ","+ event.clientY + ") =" + JSON.stringify(data,null,2));
+         ev.preventDefault();
+
+     },
 
 
         addField: function() {
@@ -336,46 +329,27 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
         }
 
      }
+     //*** COPY_END ***//
      ,
-                data: function () {
-                  return {
-                      design_mode: designMode,
-                      runtime_mode: runtimeMode,
-                      current_edited_item: null,
-                      text: texti,
-                      uid2: uid2,
-                      model: {
-  "next_id": 7,
-  "fields": [
-    {
-      "id": 5,
-      "type": "text",
-      "text": "Apps can be built by beginners or IT experts:",
-      "style": {
-        "bold": true,
-        "size": 19
-      }
-    },
-    {
-      "id": 1,
-      "type": "text",
-      "text": "For simple text apps like this, there is a point and click builder",
-      "style": {
-        "bullet": true,
-        "size": 18
-      }
-    },
-    {
-      "id": 6,
-      "type": "text",
-      "text": "And for more advanced apps you can use Javascript to build them",
-      "style": {
-        "bullet": true,
-        "size": 18
-      }
+     data: function () {
+       return {
+           design_mode:                 designMode,
+           runtime_mode:                runtimeMode,
+           edited_app_component_id:     null,
+           current_edited_item:         null,
+           text:                        texti,
+           uid2:                        uid2,
+           read_only:                   false,
+           model:                      {
+                                            next_id: 1,
+                                            fields: [
+                                                    ]
+                                                            }
+       }
+     }
+
+
     }
-  ]
-}}
-                }
-              })//** gen_end **//
+    )
+
 }
