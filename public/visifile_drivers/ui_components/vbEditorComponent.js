@@ -21,14 +21,18 @@ load_once_from_file(true)
 
 
                     <div v-on:drop="drop($event)" v-on:dragover="allowDrop($event)" style=' border: 1px solid black;width: 100px;height: 35px;'>
-                      <img src="https://www.w3schools.com/html/img_logo.gif" draggable="true" v-on:dragstart="drag($event)" id="drag1" width="88" height="31">
+                        <span><img src="https://www.w3schools.com/html/img_logo.gif" draggable="true" v-on:dragstart='drag($event,"homepage_3")' id="drag1" width="31" style='display:inline-block;width:50px;' /></span>
+                        <span><img src="https://www.w3schools.com/html/img_logo.gif" draggable="true" v-on:dragstart='drag($event,"homepage_4")' id="drag2" width="31"  style='display:inline-block;width:50px;' /></span>
                     </div>
 
                     <div   v-on:drop="drop($event)"
                                     v-on:ondragover="allowDrop($event)"
                                     v-bind:style='" position: relative; border: 1px solid black;width: 240px;height: 240px;" + (design_mode?"background: hsla(209, 100%, 47%, 0.1);background-image: radial-gradient(hsla(209, 100%, 47%, 1.00) 5%, transparent 0);background-size: 15px 15px;":"" ) '>
+
                          <div v-bind:refresh='refresh' v-for='item in model.components'
-                              v-bind:style='"position: absolute;top: " + item.topY + ";left:" + item.leftX + ";height:100px;width:100px;border: 1px solid black; "'></div>
+                              v-bind:style='"position: absolute;top: " + item.topY + ";left:" + item.leftX + ";height:100px;width:100px;border: 1px solid black; background: white;"'>
+                                <component v-bind:is='item.base_component_id'></component>
+                              </div>
                     </div>
 
 
@@ -108,9 +112,9 @@ load_once_from_file(true)
          ev.preventDefault();
      },
 
-     drag: function(ev) {
+     drag: function(ev,name) {
          //alert(JSON.stringify(ev,null,2))
-         ev.dataTransfer.setData("text", "zib");
+         ev.dataTransfer.setData("text", name);
      },
 
      drop: function (ev) {
@@ -126,6 +130,7 @@ load_once_from_file(true)
 
          newItem.leftX = event.clientX  - rrr.left ;
          newItem.topY = event.clientY  - rrr.top;
+         newItem.base_component_id = data
          this.refresh++
          this.model.components.push(newItem)
          //+ ") =" + JSON.stringify(data,null,2));
