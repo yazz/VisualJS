@@ -26,7 +26,7 @@ load_once_from_file(true)
 
                     <div id="div2" v-on:drop="drop($event)" v-on:ondragover="allowDrop($event)" style=' border: 1px solid black;width: 240px;height: 240px;'>
                          <div v-bind:refresh='refresh'
-                              v-bind:style='"position: absolute;top: " + topY + ";left:" + leftX + ";height:100px;width:100px;border: 1px solid black;"'></div>
+                              v-bind:style='"position: relative;top: " + topY + ";left:" + leftX + ";height:100px;width:100px;border: 1px solid black;"'></div>
                     </div>
 
 
@@ -114,8 +114,8 @@ load_once_from_file(true)
      drop: function (ev) {
      //alert(21)
          var data = ev.dataTransfer.getData("text");
-         this.leftX = event.clientX
-         this.topY = event.clientY
+         this.leftX = event.clientX - parseInt(ev.target.offsetLeft);
+         this.topY = event.clientY - parseInt(ev.target.offsetTop);
          this.refresh++
          //+ ") =" + JSON.stringify(data,null,2));
          ev.preventDefault();

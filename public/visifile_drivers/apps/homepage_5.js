@@ -2,7 +2,7 @@ async function(args) {
 /*
 created_timestamp(1534877333570)
 base_component_id("homepage_5")
-read_only(true)
+read_only(false)
 editors([
   "vb_editor_component"
 ])
