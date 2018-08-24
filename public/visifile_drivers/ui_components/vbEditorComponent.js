@@ -26,9 +26,8 @@ load_once_from_file(true)
 
                     <div   v-on:drop="drop($event)"
                                     v-on:ondragover="allowDrop($event)"
-                                    style=' position: relative; border: 1px solid black;width: 240px;height: 240px;background: hsla(209, 100%, 47%, 0.1);
-                                            background-image: radial-gradient(hsla(209, 100%, 47%, 1.00) 5%, transparent 0);background-size: 15px 15px;'>
-                         <div v-bind:refresh='refresh' v-for='item in components'
+                                    v-bind:style='" position: relative; border: 1px solid black;width: 240px;height: 240px;" + (design_mode?"background: hsla(209, 100%, 47%, 0.1);background-image: radial-gradient(hsla(209, 100%, 47%, 1.00) 5%, transparent 0);background-size: 15px 15px;":"" ) '>
+                         <div v-bind:refresh='refresh' v-for='item in model.components'
                               v-bind:style='"position: absolute;top: " + item.topY + ";left:" + item.leftX + ";height:100px;width:100px;border: 1px solid black; "'></div>
                     </div>
 
@@ -118,12 +117,19 @@ load_once_from_file(true)
      //alert(21)
          var data = ev.dataTransfer.getData("text");
          var newItem = new Object()
-         newItem.leftX = event.clientX  - parseInt(ev.target.offsetLeft);;
-         newItem.topY = event.clientY  - parseInt(ev.target.offsetTop);;
+
+         var doc = document.documentElement;
+         var left = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
+         var top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
+
+
+         newItem.leftX = (event.clientX  - parseInt(ev.target.offsetLeft)) - left ;
+         newItem.topY = (event.clientY  - parseInt(ev.target.offsetTop)) - top;
          this.refresh++
-         this.components.push(newItem)
+         this.model.components.push(newItem)
          //+ ") =" + JSON.stringify(data,null,2));
          ev.preventDefault();
+         this.generateCodeFromModel(  mm.model  )
 
      },
 
@@ -316,10 +322,6 @@ load_once_from_file(true)
                       runtime_mode: runtimeMode,
                       current_edited_item: null,
                       text: texti,
-                      components:                  `
-                      + JSON.stringify(mm.components,null,2) +
-
-                  `,
                       uid2: uid2,
                       model: `
                       + JSON.stringify(mm.model,null,2) +
@@ -353,12 +355,18 @@ load_once_from_file(true)
            uid2:                        uid2,
            refresh:                     0,
            read_only:                   false,
-           components:                  [],
+
            model:                      {
                                             next_id: 1,
+
                                             fields: [
-                                                    ]
-                                                            }
+
+                                                    ],
+
+                                            components: [
+
+                                                        ],
+                                        }
        }
      }
 
