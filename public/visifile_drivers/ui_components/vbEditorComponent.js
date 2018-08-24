@@ -26,10 +26,10 @@ load_once_from_file(true)
 
                     <div id="div2"  v-on:drop="drop($event)"
                                     v-on:ondragover="allowDrop($event)"
-                                    style=' border: 1px solid black;width: 240px;height: 240px;background: hsla(209, 100%, 47%, 0.1);
+                                    style=' position: relative; border: 1px solid black;width: 240px;height: 240px;background: hsla(209, 100%, 47%, 0.1);
                                             background-image: radial-gradient(hsla(209, 100%, 47%, 1.00) 5%, transparent 0);background-size: 15px 15px;'>
-                         <div v-bind:refresh='refresh'
-                              v-bind:style='"position: relative;top: " + topY + ";left:" + leftX + ";height:100px;width:100px;border: 1px solid black;"'></div>
+                         <div v-bind:refresh='refresh' v-for='item in components'
+                              v-bind:style='"position: absolute;top: " + item.topY + ";left:" + item.leftX + ";height:100px;width:100px;border: 1px solid black; "'></div>
                     </div>
 
 
@@ -117,9 +117,11 @@ load_once_from_file(true)
      drop: function (ev) {
      //alert(21)
          var data = ev.dataTransfer.getData("text");
-         this.leftX = event.clientX - parseInt(ev.target.offsetLeft);
-         this.topY = event.clientY - parseInt(ev.target.offsetTop);
+         var newItem = new Object()
+         newItem.leftX = event.clientX - parseInt(ev.target.offsetLeft);
+         newItem.topY = event.clientY - parseInt(ev.target.offsetTop);
          this.refresh++
+         this.components.push(newItem)
          //+ ") =" + JSON.stringify(data,null,2));
          ev.preventDefault();
 
@@ -350,6 +352,7 @@ load_once_from_file(true)
            uid2:                        uid2,
            refresh:                     0,
            read_only:                   false,
+           components:                  [],
            model:                      {
                                             next_id: 1,
                                             fields: [
