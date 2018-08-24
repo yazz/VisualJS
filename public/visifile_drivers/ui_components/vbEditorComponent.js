@@ -284,7 +284,7 @@ load_once_from_file(true)
 
             //zzz
             var sql =    "select  cast(code as text)  as  code  from  system_code  where " +
-                         "        base_component_id = 'simple_display_editor_component'   and   code_tag = 'LATEST' "
+                         "        base_component_id = 'vb_editor_component'   and   code_tag = 'LATEST' "
 
             var results = await callApp({ driver_name:    "systemFunctions2",method_name:    "sql"},
                 {   sql: sql  })
@@ -316,9 +316,12 @@ load_once_from_file(true)
                       runtime_mode: runtimeMode,
                       current_edited_item: null,
                       text: texti,
+                      components:                  `
+                      + JSON.stringify(mm.components,null,2) +
+
+                  `,
                       uid2: uid2,
                       model: `
-
                       + JSON.stringify(mm.model,null,2) +
 
                   `}
@@ -343,8 +346,6 @@ load_once_from_file(true)
      data: function () {
        return {
            design_mode:                 designMode,
-           topY:                         10,
-           leftX:                        10,
            runtime_mode:                runtimeMode,
            edited_app_component_id:     null,
            current_edited_item:         null,
