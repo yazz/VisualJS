@@ -121,10 +121,11 @@ load_once_from_file(true)
          var doc = document.documentElement;
          var left = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
          var top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
+         var rrr = ev.target.getBoundingClientRect()
+         //alert(JSON.stringify(rrr,null,2))
 
-
-         newItem.leftX = (event.clientX  - parseInt(ev.target.offsetLeft)) - left ;
-         newItem.topY = (event.clientY  - parseInt(ev.target.offsetTop)) - top;
+         newItem.leftX = event.clientX  - rrr.left ;
+         newItem.topY = event.clientY  - rrr.top;
          this.refresh++
          this.model.components.push(newItem)
          //+ ") =" + JSON.stringify(data,null,2));
