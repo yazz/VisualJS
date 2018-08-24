@@ -20,14 +20,14 @@ load_once_from_file(true)
                     <h4 v-if='design_mode'>VB app designer</h4>
 
 
-                    <h2>Drag and Drop</h2>
-                    <p>Drag the image back and forth between the two div elements.</p>
-
                     <div id="div1" v-on:drop="drop($event)" v-on:dragover="allowDrop($event)" style=' border: 1px solid black;width: 100px;height: 35px;'>
                       <img src="https://www.w3schools.com/html/img_logo.gif" draggable="true" v-on:dragstart="drag($event)" id="drag1" width="88" height="31">
                     </div>
 
-                    <div id="div2" v-on:drop="drop($event)" v-on:ondragover="allowDrop($event)" style=' border: 1px solid black;width: 240px;height: 240px;'></div>
+                    <div id="div2" v-on:drop="drop($event)" v-on:ondragover="allowDrop($event)" style=' border: 1px solid black;width: 240px;height: 240px;'>
+                         <div v-bind:refresh='refresh'
+                              v-bind:style='"position: absolute;top: " + topY + ";left:" + leftX + ";height:100px;width:100px;border: 1px solid black;"'></div>
+                    </div>
 
 
 
@@ -112,8 +112,12 @@ load_once_from_file(true)
      },
 
      drop: function (ev) {
+     //alert(21)
          var data = ev.dataTransfer.getData("text");
-         alert("(" + event.clientX + ","+ event.clientY + ") =" + JSON.stringify(data,null,2));
+         this.leftX = event.clientX
+         this.topY = event.clientY
+         this.refresh++
+         //+ ") =" + JSON.stringify(data,null,2));
          ev.preventDefault();
 
      },
@@ -334,11 +338,14 @@ load_once_from_file(true)
      data: function () {
        return {
            design_mode:                 designMode,
+           topY:                         10,
+           leftX:                        10,
            runtime_mode:                runtimeMode,
            edited_app_component_id:     null,
            current_edited_item:         null,
            text:                        texti,
            uid2:                        uid2,
+           refresh:                     0,
            read_only:                   false,
            model:                      {
                                             next_id: 1,
