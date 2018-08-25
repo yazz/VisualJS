@@ -20,7 +20,7 @@ load_once_from_file(true)
                     <h4 v-if='design_mode'>VB app designer</h4>
 
 
-                    <div v-on:drop="drop($event)" v-on:dragover="allowDrop($event)" style=' border: 1px solid black;width: 100px;height: 35px;'>
+                    <div v-if='design_mode' v-on:drop="drop($event)" v-on:dragover="allowDrop($event)" style=' border: 1px solid black;width: 100px;height: 35px;'>
                         <span><img src="https://www.w3schools.com/html/img_logo.gif" draggable="true" v-on:dragstart='drag($event,"homepage_3")' id="drag1" width="31" style='display:inline-block;width:50px;' /></span>
                         <span><img src="https://www.w3schools.com/html/img_logo.gif" draggable="true" v-on:dragstart='drag($event,"homepage_4")' id="drag2" width="31"  style='display:inline-block;width:50px;' /></span>
                     </div>
@@ -31,7 +31,7 @@ load_once_from_file(true)
 
                          <div v-bind:refresh='refresh' v-for='item in model.components'
                               v-bind:style='"position: absolute;top: " + item.topY + ";left:" + item.leftX + ";height:100px;width:100px;border: 1px solid black; background: white;;overflow:auto;"'>
-                                <component v-bind:is='item.base_component_id'></component>
+                                <component  v-bind:refresh='refresh' v-bind:is='item.base_component_id'></component>
                               </div>
                     </div>
 
@@ -79,8 +79,9 @@ load_once_from_file(true)
 
 
 
-        mounted: function() {
+        mounted: async function() {
             mm = this
+
             document.getElementById(uid2).style.width="100%"
 
             document.getElementById(uid2).style.height="45vh"
@@ -90,12 +91,20 @@ load_once_from_file(true)
                 mm.model = json2
                 mm.edited_app_component_id = saveHelper.getValueOfCodeString(texti, "base_component_id")
 
-                this.generateCodeFromModel(  json2  )
+                //this.generateCodeFromModel(  json2  )
 
                 this.read_only = saveHelper.getValueOfCodeString(texti, "read_only")
              //alert(this.text)
            }
 
+           for (var rtw = 0; rtw < mm.model.components.length ; rtw++ )
+           {
+                var newItem = mm.model.components[rtw]
+                //alert(newItem.base_component_id)
+                await load(newItem.base_component_id)
+           }
+
+           mm.$forceUpdate();
 
 
            //editor.getSession().on('change', function() {
@@ -117,7 +126,7 @@ load_once_from_file(true)
          ev.dataTransfer.setData("text", name);
      },
 
-     drop: function (ev) {
+     drop: async function (ev) {
      //alert(21)
          var data = ev.dataTransfer.getData("text");
          var newItem = new Object()
@@ -132,6 +141,7 @@ load_once_from_file(true)
          newItem.topY = event.clientY  - rrr.top;
          newItem.base_component_id = data
          this.refresh++
+         await load(newItem.base_component_id)
          this.model.components.push(newItem)
          //+ ") =" + JSON.stringify(data,null,2));
          ev.preventDefault();
