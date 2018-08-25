@@ -30,7 +30,7 @@ load_once_from_file(true)
                                     v-bind:style='" position: relative; border: 1px solid black;width: 240px;height: 240px;" + (design_mode?"background: hsla(209, 100%, 47%, 0.1);background-image: radial-gradient(hsla(209, 100%, 47%, 1.00) 5%, transparent 0);background-size: 15px 15px;":"" ) '>
 
                          <div v-bind:refresh='refresh' v-for='item in model.components'
-                              v-bind:style='"position: absolute;top: " + item.topY + ";left:" + item.leftX + ";height:100px;width:100px;border: 1px solid black; background: white;"'>
+                              v-bind:style='"position: absolute;top: " + item.topY + ";left:" + item.leftX + ";height:100px;width:100px;border: 1px solid black; background: white;;overflow:auto;"'>
                                 <component v-bind:is='item.base_component_id'></component>
                               </div>
                     </div>
