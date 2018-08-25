@@ -21,8 +21,7 @@ load_once_from_file(true)
 
 
                     <div v-if='design_mode' v-on:drop="drop($event)" v-on:dragover="allowDrop($event)" style=' border: 1px solid black;width: 100px;height: 35px;'>
-                        <span><img src="https://www.w3schools.com/html/img_logo.gif" draggable="true" v-on:dragstart='drag($event,"homepage_3")' id="drag1" width="31" style='display:inline-block;width:50px;' /></span>
-                        <span><img src="https://www.w3schools.com/html/img_logo.gif" draggable="true" v-on:dragstart='drag($event,"homepage_4")' id="drag2" width="31"  style='display:inline-block;width:50px;' /></span>
+                        <span v-for='av in available_components' draggable="true" v-on:dragstart='drag($event,av.base_component_id)' style='display:inline-block;width:50px;' >{{av.base_component_id}}</span>
                     </div>
 
                     <div   v-on:drop="drop($event)"
@@ -104,13 +103,23 @@ load_once_from_file(true)
                 await load(newItem.base_component_id)
            }
 
-           mm.$forceUpdate();
 
 
            //editor.getSession().on('change', function() {
            //mm.text = editor.getSession().getValue();
            //alert("changed text to : " + mm.text)
            //   });
+
+           var sql =    "select  *  from  system_code  where " +
+                        "        code_tag = 'LATEST' "
+
+           var results = await callApp({ driver_name:    "systemFunctions2",method_name:    "sql"},
+               {   sql: sql  })
+
+           mm.available_components = results
+
+
+           mm.$forceUpdate();
      },
 
 
@@ -371,6 +380,7 @@ load_once_from_file(true)
            uid2:                        uid2,
            refresh:                     0,
            read_only:                   false,
+           available_components:        [],
 
            model:                      {
                                             next_id: 1,
@@ -381,7 +391,7 @@ load_once_from_file(true)
 
                                             components: [
 
-                                                        ],
+                                                        ]
                                         }
        }
      }
