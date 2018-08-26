@@ -50,7 +50,7 @@ load_once_from_file(true)
                                         <component  v-bind:refresh='refresh' v-bind:is='item.base_component_id'></component>
                                     </div>
                                     <div    v-if='design_mode'
-                                            v-bind:refresh='refresh' 
+                                            v-bind:refresh='refresh'
                                             style='position: absolute; top: 0px; left: 0px;z-index: 10000000;width: 100%;height: 100%;opacity: 0;'
                                                 draggable="true"
                                                 v-on:dragstart='drag($event,{
@@ -193,6 +193,8 @@ load_once_from_file(true)
                 //alert(this.model.components[data.index].base_component_id)
                 this.model.components[data.index].leftX = event.clientX  - rrr.left ;
                 this.model.components[data.index].topY = event.clientY  - rrr.top;
+                ev.preventDefault();
+                this.generateCodeFromModel(  mm.model  )
              }
 
          },
