@@ -19,19 +19,20 @@ load_once_from_file(true)
       template: `<div >
                     <h4 v-if='design_mode'>VB app designer</h4>
 
+                    <div>
+                        <div v-if='design_mode' v-on:drop="drop($event)" v-on:dragover="allowDrop($event)" style=' border: 1px solid black;width: 100px;height: 35px; display: inline-block;'>
+                            <span v-for='av in available_components' draggable="true" v-on:dragstart='drag($event,av.base_component_id)' style='display:inline-block;vertical-align: top;width:50px;' >{{av.base_component_id}}</span>
+                        </div>
 
-                    <div v-if='design_mode' v-on:drop="drop($event)" v-on:dragover="allowDrop($event)" style=' border: 1px solid black;width: 100px;height: 35px;'>
-                        <span v-for='av in available_components' draggable="true" v-on:dragstart='drag($event,av.base_component_id)' style='display:inline-block;width:50px;' >{{av.base_component_id}}</span>
-                    </div>
+                        <div   v-on:drop="drop($event)"
+                                        v-on:ondragover="allowDrop($event)"
+                                        v-bind:style='"display: inline-block; vertical-align: top; position: relative; border: 1px solid black;width: 240px;height: 240px;" + (design_mode?"background: hsla(209, 100%, 47%, 0.1);background-image: radial-gradient(hsla(209, 100%, 47%, 1.00) 5%, transparent 0);background-size: 15px 15px;":"" ) '>
 
-                    <div   v-on:drop="drop($event)"
-                                    v-on:ondragover="allowDrop($event)"
-                                    v-bind:style='" position: relative; border: 1px solid black;width: 240px;height: 240px;" + (design_mode?"background: hsla(209, 100%, 47%, 0.1);background-image: radial-gradient(hsla(209, 100%, 47%, 1.00) 5%, transparent 0);background-size: 15px 15px;":"" ) '>
-
-                         <div v-bind:refresh='refresh' v-for='item in model.components'
-                              v-bind:style='"position: absolute;top: " + item.topY + ";left:" + item.leftX + ";height:100px;width:100px;border: 1px solid black; background: white;;overflow:auto;"'>
-                                <component  v-bind:refresh='refresh' v-bind:is='item.base_component_id'></component>
-                              </div>
+                             <div v-bind:refresh='refresh' v-for='item in model.components'
+                                  v-bind:style='"position: absolute;top: " + item.topY + ";left:" + item.leftX + ";height:100px;width:100px;border: 1px solid black; background: white;;overflow:auto;"'>
+                                    <component  v-bind:refresh='refresh' v-bind:is='item.base_component_id'></component>
+                                  </div>
+                        </div>
                     </div>
 
 
