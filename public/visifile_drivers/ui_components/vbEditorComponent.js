@@ -18,21 +18,24 @@ load_once_from_file(true)
     //*** COPY_START ***//
       template: `<div >
                     <div>
-                        <h4 style='display: inline-block;' v-if='design_mode'>VB app designer</h4>
+                        <h4 style='display: inline-block; margin-right: 10px; ' v-if='design_mode' >VB app designer</h4>
                         <slot style='display: inline-block;' v-if='text' :text2="text"></slot>
                     </div>
 
                     <div>
-                        <div v-if='design_mode' v-on:drop="drop($event)" v-on:dragover="allowDrop($event)" style=' border: 1px solid black;width: 200px;height: 55vmin; display: inline-block;overflow-x: none;overflow-y: scroll;vertical-align: top;'>
-                            <div v-for='av in available_components' draggable="true" v-on:dragstart='drag($event,av.base_component_id)' style='width:50px;' >{{av.base_component_id}}</div>
+                        <div v-if='design_mode' v-on:drop="drop($event)" v-on:dragover="allowDrop($event)" v-bind:style='(design_mode?"border: 1px solid black;":"") + " width: 200px;height: 55vmin; display: inline-block;overflow-x: none;overflow-y: scroll;vertical-align: top; "'>
+                            <div v-for='av in available_components' draggable="true" v-on:dragstart='drag($event,av.base_component_id)'  style='height: 50px; border: 5px;'>
+                                <img v-bind:src='av.logo_url' style='width: 50px; height: auto; max-height: 50px;'></img>
+                                {{av.base_component_id}}
+                            </div>
                         </div>
 
                         <div   v-on:drop="drop($event)"
                                         v-on:ondragover="allowDrop($event)"
-                                        v-bind:style='"display: inline-block; vertical-align: top; position: relative; border: 1px solid black;width: 55vmin;height: 55vmin; ;" + (design_mode?"background: hsla(209, 100%, 47%, 0.1);background-image: radial-gradient(hsla(209, 100%, 47%, 1.00) 5%, transparent 0);background-size: 15px 15px;":"" ) '>
+                                        v-bind:style='"display: inline-block; vertical-align: top; position: relative; width: 55vmin;height: 55vmin; ;" + (design_mode?"background: hsla(209, 100%, 47%, 0.1);background-image: radial-gradient(hsla(209, 100%, 47%, 1.00) 5%, transparent 0);background-size: 15px 15px;border: 1px solid black;":"" ) '>
 
                              <div v-bind:refresh='refresh' v-for='item in model.components'
-                                  v-bind:style='"position: absolute;top: " + item.topY + ";left:" + item.leftX + ";height:100px;width:100px;border: 1px solid black; background: white;;overflow:auto;"'>
+                                  v-bind:style='(design_mode?"border: 1px solid black;":"") + "position: absolute;top: " + item.topY + ";left:" + item.leftX + ";height:100px;width:100px;background: white;;overflow:auto;"'>
                                     <component  v-bind:refresh='refresh' v-bind:is='item.base_component_id'></component>
                                   </div>
                         </div>
@@ -114,7 +117,7 @@ load_once_from_file(true)
            //   });
 
            var sql =    "select  *  from  system_code  where " +
-                        "        code_tag = 'LATEST' "
+                        "        code_tag = 'LATEST' and logo_url is not null"
 
            var results = await callApp({ driver_name:    "systemFunctions2",method_name:    "sql"},
                {   sql: sql  })

@@ -55,7 +55,7 @@ load_once_from_file(true)
                                                   v-bind:style="'visibility: ' + ((app_shown && code_shown)?'':'hidden')"
                                                   slot-scope="editor_component"
                                                   v-on:click='save(base_component_id, code_id, editor_component.text2)'
-                                                  type="button" class="btn btn-primary">
+                                                  type="button" class="btn btn-primary btn-sm">
 
                                                       Save changes
                                          </button>
