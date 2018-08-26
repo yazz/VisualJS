@@ -23,8 +23,14 @@ load_once_from_file(true)
                     </div>
 
                     <div>
-                        <div v-if='design_mode' v-on:drop="drop($event)" v-on:dragover="allowDrop($event)" v-bind:style='(design_mode?"border: 1px solid black;":"") + " width: 200px;height: 55vmin; display: inline-block;overflow-x: none;overflow-y: scroll;vertical-align: top; "'>
-                            <div v-for='av in available_components' draggable="true" v-on:dragstart='drag($event,av.base_component_id)'  style='height: 50px; border: 5px;'>
+                        <div    v-if='design_mode'
+                                v-bind:style='(design_mode?"border: 1px solid black;":"") + " width: 200px;height: 55vmin; display: inline-block;overflow-x: none;overflow-y: scroll;vertical-align: top; "'>
+
+                            <div    v-for='av in available_components'
+                                    draggable="true"
+                                    v-on:dragstart='drag($event,av.base_component_id)'
+                                    style='height: 50px; border: 5px;'>
+
                                 <img v-bind:src='av.logo_url' style='width: 50px; height: auto; max-height: 50px;'></img>
                                 {{av.base_component_id}}
                             </div>
@@ -138,37 +144,35 @@ load_once_from_file(true)
 
 
      methods: {
-     allowDrop: function(ev) {
-         ev.preventDefault();
-     },
+         allowDrop: function(ev) {
+             ev.preventDefault();
+         },
 
-     drag: function(ev,name) {
-         //alert(JSON.stringify(ev,null,2))
-         ev.dataTransfer.setData("text", name);
-     },
+         drag: function(ev,name) {
+             ev.dataTransfer.setData("text", name);
+         },
 
-     drop: async function (ev) {
-     //alert(21)
-         var data = ev.dataTransfer.getData("text");
-         var newItem = new Object()
+         drop: async function (ev) {
+             var data = ev.dataTransfer.getData("text");
+             var newItem = new Object()
 
-         var doc = document.documentElement;
-         var left = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
-         var top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
-         var rrr = ev.target.getBoundingClientRect()
-         //alert(JSON.stringify(rrr,null,2))
+             var doc = document.documentElement;
+             var left = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
+             var top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
+             var rrr = ev.target.getBoundingClientRect()
+             //alert(JSON.stringify(rrr,null,2))
 
-         newItem.leftX = event.clientX  - rrr.left ;
-         newItem.topY = event.clientY  - rrr.top;
-         newItem.base_component_id = data
-         this.refresh++
-         await load(newItem.base_component_id)
-         this.model.components.push(newItem)
-         //+ ") =" + JSON.stringify(data,null,2));
-         ev.preventDefault();
-         this.generateCodeFromModel(  mm.model  )
+             newItem.leftX = event.clientX  - rrr.left ;
+             newItem.topY = event.clientY  - rrr.top;
+             newItem.base_component_id = data
+             this.refresh++
+             await load(newItem.base_component_id)
+             this.model.components.push(newItem)
+             //+ ") =" + JSON.stringify(data,null,2));
+             ev.preventDefault();
+             this.generateCodeFromModel(  mm.model  )
 
-     },
+         },
 
 
         addField: function() {
