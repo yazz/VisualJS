@@ -149,11 +149,16 @@ load_once_from_file(true)
          },
 
          drag: function(ev,name) {
-             ev.dataTransfer.setData("text", name);
+             ev.dataTransfer.setData("message",
+             JSON.stringify({
+                type:   "add_component",
+                text:    name
+             },null,2));
          },
 
          drop: async function (ev) {
-             var data = ev.dataTransfer.getData("text");
+             var data2 = ev.dataTransfer.getData("message");
+             var data = eval("(" + data2 + ")")
              var newItem = new Object()
 
              var doc = document.documentElement;
@@ -164,11 +169,10 @@ load_once_from_file(true)
 
              newItem.leftX = event.clientX  - rrr.left ;
              newItem.topY = event.clientY  - rrr.top;
-             newItem.base_component_id = data
+             newItem.base_component_id = data.text
              this.refresh++
              await load(newItem.base_component_id)
              this.model.components.push(newItem)
-             //+ ") =" + JSON.stringify(data,null,2));
              ev.preventDefault();
              this.generateCodeFromModel(  mm.model  )
 
