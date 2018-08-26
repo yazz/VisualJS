@@ -28,7 +28,10 @@ load_once_from_file(true)
 
                             <div    v-for='av in available_components'
                                     draggable="true"
-                                    v-on:dragstart='drag($event,av.base_component_id)'
+                                    v-on:dragstart='drag($event,{
+                                       type:   "add_component",
+                                       text:    av.base_component_id
+                                    })'
                                     style='height: 50px; border: 5px;'>
 
                                 <img v-bind:src='av.logo_url' style='width: 50px; height: auto; max-height: 50px;'></img>
@@ -148,33 +151,33 @@ load_once_from_file(true)
              ev.preventDefault();
          },
 
-         drag: function(ev,name) {
+         drag: function(ev,message) {
              ev.dataTransfer.setData("message",
-             JSON.stringify({
-                type:   "add_component",
-                text:    name
-             },null,2));
+             JSON.stringify(message,null,2));
          },
 
          drop: async function (ev) {
              var data2 = ev.dataTransfer.getData("message");
              var data = eval("(" + data2 + ")")
-             var newItem = new Object()
 
-             var doc = document.documentElement;
-             var left = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
-             var top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
-             var rrr = ev.target.getBoundingClientRect()
-             //alert(JSON.stringify(rrr,null,2))
+             if (data.type == "add_component") {
+                 var newItem = new Object()
 
-             newItem.leftX = event.clientX  - rrr.left ;
-             newItem.topY = event.clientY  - rrr.top;
-             newItem.base_component_id = data.text
-             this.refresh++
-             await load(newItem.base_component_id)
-             this.model.components.push(newItem)
-             ev.preventDefault();
-             this.generateCodeFromModel(  mm.model  )
+                 var doc = document.documentElement;
+                 var left = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
+                 var top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
+                 var rrr = ev.target.getBoundingClientRect()
+                 //alert(JSON.stringify(rrr,null,2))
+
+                 newItem.leftX = event.clientX  - rrr.left ;
+                 newItem.topY = event.clientY  - rrr.top;
+                 newItem.base_component_id = data.text
+                 this.refresh++
+                 await load(newItem.base_component_id)
+                 this.model.components.push(newItem)
+                 ev.preventDefault();
+                 this.generateCodeFromModel(  mm.model  )
+             }
 
          },
 
