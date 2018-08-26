@@ -37,8 +37,13 @@ load_once_from_file(true)
 
                              <div v-bind:refresh='refresh' v-for='item in model.components'
                                   v-bind:style='(design_mode?"border: 1px solid black;":"") + "position: absolute;top: " + item.topY + ";left:" + item.leftX + ";height:100px;width:100px;background: white;;overflow:auto;"'>
-                                    <component  v-bind:refresh='refresh' v-bind:is='item.base_component_id'></component>
-                                  </div>
+                                    <div style='position: absolute; top: 0px; left: 0px;'>
+                                        <component  v-bind:refresh='refresh' v-bind:is='item.base_component_id'></component>
+                                    </div>
+                                    <div v-if='design_mode' style='position: absolute; top: 0px; left: 0px;z-index: 10000000;width: 100%;height: 100%;opacity: 0;'>
+                                       aa
+                                    </div>
+                              </div>
                         </div>
                     </div>
 
