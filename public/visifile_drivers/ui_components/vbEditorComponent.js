@@ -32,7 +32,8 @@ load_once_from_file(true)
 
                         <div   v-on:drop="drop($event)"
                                         v-on:ondragover="allowDrop($event)"
-                                        v-bind:style='"display: inline-block; vertical-align: top; position: relative; width: 55vmin;height: 55vmin; ;" + (design_mode?"background: hsla(209, 100%, 47%, 0.1);background-image: radial-gradient(hsla(209, 100%, 47%, 1.00) 5%, transparent 0);background-size: 15px 15px;border: 1px solid black;":"" ) '>
+                                        v-bind:class='(design_mode?"dotted":"" )'
+                                        v-bind:style='"display: inline-block; vertical-align: top; position: relative; width: 55vmin;height: 55vmin; ;" + (design_mode?"border: 1px solid black;":"" ) '>
 
                              <div v-bind:refresh='refresh' v-for='item in model.components'
                                   v-bind:style='(design_mode?"border: 1px solid black;":"") + "position: absolute;top: " + item.topY + ";left:" + item.leftX + ";height:100px;width:100px;background: white;;overflow:auto;"'>
