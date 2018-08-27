@@ -39,7 +39,8 @@ load_once_from_file(true)
                             </div>
                         </div>
 
-                        <div   v-on:drop="$event.stopPropagation();drop($event)"
+                        <div            id='vb_grid'
+                                        v-on:drop="$event.stopPropagation();drop($event)"
                                         v-on:ondragover="allowDrop($event)"
                                         v-bind:class='(design_mode?"dotted":"" )'
                                         v-bind:style='"display: inline-block; vertical-align: top; position: relative; width: 55vmin;height: 55vmin; ;" + (design_mode?"border: 1px solid black;":"" ) '>
@@ -205,7 +206,7 @@ load_once_from_file(true)
 
              if (data.type == "add_component") {
                  var newItem = new Object()
-                 var rrr = ev.target.getBoundingClientRect()
+                 var rrr = document.getElementById("vb_grid").getBoundingClientRect()
                  console.log("drop offset X,Y: ------------ " +  rrr.left + "," +  rrr.top)
 
 
@@ -223,7 +224,7 @@ load_once_from_file(true)
 
 
              } else if (data.type == "move_component") {
-                var rrr = ev.target.getBoundingClientRect()
+             var rrr = document.getElementById("vb_grid").getBoundingClientRect()
                 console.log("drop offset X,Y: ------------ " +  rrr.left + "," +  rrr.top)
                 //alert(this.model.components[data.index].base_component_id)
                 this.model.components[data.index].leftX = (ev.clientX  - rrr.left) - data.offsetX;
@@ -235,7 +236,7 @@ load_once_from_file(true)
 
 
              } else if (data.type == "resize_top_left") {
-                var rrr = ev.target.getBoundingClientRect()
+             var rrr = document.getElementById("vb_grid").getBoundingClientRect()
                 console.log("drop offset X,Y: ------------ " +  rrr.left + "," +  rrr.top)
                  var oldX = this.model.components[data.index].leftX
                  var oldY = this.model.components[data.index].topY
