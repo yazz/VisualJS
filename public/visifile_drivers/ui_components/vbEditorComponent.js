@@ -164,6 +164,12 @@ load_once_from_file(true)
          },
 
          drag: function(ev,message) {
+             var doc = document.documentElement;
+             var left = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
+             var top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
+             var rrr = ev.target.getBoundingClientRect()
+             message.offsetX = (ev.clientX- rrr.left )
+             message.offsetY = (ev.clientY - rrr.top )
              ev.dataTransfer.setData("message",
                                      JSON.stringify(message,null,2));
          },
@@ -182,8 +188,8 @@ load_once_from_file(true)
 
                  //alert(JSON.stringify(rrr,null,2))
 
-                 newItem.leftX = event.clientX  - rrr.left ;
-                 newItem.topY = event.clientY  - rrr.top;
+                 newItem.leftX = (event.clientX  - rrr.left)  - data.offsetX;
+                 newItem.topY = (event.clientY  - rrr.top)   - data.offsetY;
                  newItem.base_component_id = data.text
                  this.refresh++
                  await load(newItem.base_component_id)
@@ -194,8 +200,8 @@ load_once_from_file(true)
 
              } else if (data.type = "move_component") {
                 //alert(this.model.components[data.index].base_component_id)
-                this.model.components[data.index].leftX = event.clientX  - rrr.left ;
-                this.model.components[data.index].topY = event.clientY  - rrr.top;
+                this.model.components[data.index].leftX = event.clientX  - rrr.left - data.offsetX;
+                this.model.components[data.index].topY = event.clientY  - rrr.top - data.offsetY;
                 ev.preventDefault();
                 this.generateCodeFromModel(  mm.model  )
              }
