@@ -45,7 +45,7 @@ load_once_from_file(true)
                                         v-bind:style='"display: inline-block; vertical-align: top; position: relative; width: 55vmin;height: 55vmin; ;" + (design_mode?"border: 1px solid black;":"" ) '>
 
                              <div v-bind:refresh='refresh' v-for='(item,index) in model.components'
-                                  v-bind:style='(design_mode?"border: 1px solid black;":"") + "position: absolute;top: " + item.topY + ";left:" + item.leftX + ";height:100px;width:100px;background: white;;overflow:auto;"'>
+                                  v-bind:style='(design_mode?"border: 1px solid black;":"") + "position: absolute;top: " + item.topY + ";left:" + item.leftX + ";height:" + item.height + "px;width:" + item.width + "px;background: white;;overflow:auto;"'>
 
                                     <div style='position: absolute; top: 0px; left: 0px;'>
                                         <component  v-bind:refresh='refresh' v-bind:is='item.base_component_id'></component>
@@ -67,7 +67,7 @@ load_once_from_file(true)
                                     </div>
                                     <div    v-if='design_mode'
                                             v-bind:refresh='refresh'
-                                            style='opacity:0.5;position: absolute; top: 0px; left: 0px;z-index: 30000000;width: 20px;height: 20px;border: 1px solid black;background-color: blue;'
+                                            style='opacity:0.5;position: absolute; top: 0px; left: 0px;z-index: 30000000;width: 20px;height: 20px;border: 1px solid black;background-color: gray;'
                                             v-bind:draggable='true'
                                             v-on:dragstart='drag($event,{
                                                type:   "resize_top_left",
@@ -204,6 +204,8 @@ load_once_from_file(true)
                  newItem.leftX = (event.clientX  - rrr.left)  - data.offsetX;
                  newItem.topY = (event.clientY  - rrr.top)   - data.offsetY;
                  newItem.base_component_id = data.text
+                 newItem.width = 100
+                 newItem.height = 100
                  this.refresh++
                  await load(newItem.base_component_id)
                  this.model.components.push(newItem)
@@ -217,6 +219,21 @@ load_once_from_file(true)
                 this.model.components[data.index].topY = event.clientY  - rrr.top - data.offsetY;
                 ev.preventDefault();
                 this.generateCodeFromModel(  mm.model  )
+
+
+             } else if (data.type == "resize_top_left") {
+                 var oldX = this.model.components[data.index].leftX
+                 var oldY = this.model.components[data.index].topY
+                 this.model.components[data.index].leftX = event.clientX  - rrr.left - data.offsetX;
+                 this.model.components[data.index].topY = event.clientY  - rrr.top - data.offsetY;
+                 var diffX = this.model.components[data.index].leftX - oldX
+                 var diffY = this.model.components[data.index].topY - oldY
+                 this.model.components[data.index].width -= diffX
+                 this.model.components[data.index].height -= diffY
+
+
+                 ev.preventDefault();
+                 this.generateCodeFromModel(  mm.model  )
              }
 
          },
