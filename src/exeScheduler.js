@@ -144,7 +144,7 @@ function processMessagesFromMainProcess() {
              processName = "forked"
          } else {
              var parentCallDetails = callList[parentCallId]
-             console.log("*) parent call details: " + JSON.stringify(parentCallDetails,null,2))
+             //console.log("*) parent call details: " + JSON.stringify(parentCallDetails,null,2))
              //console.log("*) Response: " + JSON.stringify(msg.result,null,2))
              processName = parentCallDetails.process_name
          }

@@ -4005,11 +4005,11 @@ function updateRevisions(sqlite, baseComponentId) {
                             dbsearch.serialize(function() {
                                 dbsearch.run("begin exclusive transaction");
                                 if (results.length == 0) {
-                                    console.log("insert newLatestRev: " + baseComponentId + " == " + newLatestRev)
+                                    //console.log("insert newLatestRev: " + baseComponentId + " == " + newLatestRev)
                                     stmtInsertAppDDLRevision.run(baseComponentId, newLatestRev)
                                 } else {
                                     if (newLatestRev) {
-                                        console.log("update newLatestRev: " + baseComponentId + " == " + newLatestRev)
+                                        //console.log("update newLatestRev: " + baseComponentId + " == " + newLatestRev)
                                         stmtUpdateLatestAppDDLRevision.run(newLatestRev,baseComponentId)
                                     }
                                 }

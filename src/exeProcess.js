@@ -373,7 +373,7 @@ function executeCode(callId, codeId, args, on_condition,  base_component_id) {
                                     runAsync()
 
                                 } else {
-                                    console.log(    "    code:" + code )
+                                    //console.log(    "    code:" + code )
                                     var result = fnfn(args)
                                     //console.log("*) Result: in exeProcess" + JSON.stringify(result,null,2));
 

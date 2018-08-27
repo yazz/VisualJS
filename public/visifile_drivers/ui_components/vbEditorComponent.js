@@ -188,6 +188,8 @@ load_once_from_file(true)
          },
 
          drop: async function (ev) {
+         console.log("drop: " + event.clientX + "," + event.clientY)
+
              var data2 = ev.dataTransfer.getData("message");
              var data = eval("(" + data2 + ")")
 
@@ -199,7 +201,6 @@ load_once_from_file(true)
              if (data.type == "add_component") {
                  var newItem = new Object()
 
-                 //alert(JSON.stringify(rrr,null,2))
 
                  newItem.leftX = (event.clientX  - rrr.left)  - data.offsetX;
                  newItem.topY = (event.clientY  - rrr.top)   - data.offsetY;
