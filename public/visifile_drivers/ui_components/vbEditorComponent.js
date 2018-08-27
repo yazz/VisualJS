@@ -29,9 +29,9 @@ load_once_from_file(true)
                             <div    v-for='av in available_components'
                                     draggable="true"
                                     v-on:dragstart='drag($event,{
-                                       type:   "add_component",
-                                       text:    av.base_component_id
-                                    })'
+                                                           type:   "add_component",
+                                                           text:    av.base_component_id
+                                                        })'
                                     style='height: 50px; border: 5px;'>
 
                                 <img v-bind:src='av.logo_url' style='width: 50px; height: auto; max-height: 50px;'></img>
@@ -49,17 +49,20 @@ load_once_from_file(true)
                                     <div style='position: absolute; top: 0px; left: 0px;'>
                                         <component  v-bind:refresh='refresh' v-bind:is='item.base_component_id'></component>
                                     </div>
-                                    <div    v-if='design_mode'
-                                            v-bind:refresh='refresh'
-                                            style='position: absolute; top: 0px; left: 0px;z-index: 10000000;width: 100%;height: 100%;opacity: 0;'
-                                                draggable="true"
-                                                v-on:dragstart='drag($event,{
-                                                   type:   "move_component",
-                                                   index:   index
-                                                })'
+                                    <div    style='position: absolute; top: 0px; left: 0px;z-index: 10000000;width: 100%;height: 100%;border: 1px solid black;'
+                                            v-bind:draggable='design_mode'
+                                            v-on:dragstart='drag($event,{
+                                               type:   "move_component",
+                                               index:   index
+                                            })'
+                                    >
 
-                                            >
+                                            <div    v-if='design_mode'
+                                                    v-bind:refresh='refresh'
+                                                    style='position: absolute; top: 0px; left: 0px;z-index: 10000000;width: 100%;height: 100%;opacity: 0;border: 1px solid black;'
+                                                    >
 
+                                            </div>
                                     </div>
                               </div>
                         </div>
@@ -162,7 +165,7 @@ load_once_from_file(true)
 
          drag: function(ev,message) {
              ev.dataTransfer.setData("message",
-             JSON.stringify(message,null,2));
+                                     JSON.stringify(message,null,2));
          },
 
          drop: async function (ev) {
