@@ -46,6 +46,7 @@ load_once_from_file(true)
 
                              <div v-bind:refresh='refresh' v-for='(item,index) in model.components'
                                   v-bind:style='(design_mode?"border: 1px solid black;":"") + "position: absolute;top: " + item.topY + ";left:" + item.leftX + ";height:100px;width:100px;background: white;;overflow:auto;"'>
+
                                     <div style='position: absolute; top: 0px; left: 0px;'>
                                         <component  v-bind:refresh='refresh' v-bind:is='item.base_component_id'></component>
                                     </div>
@@ -64,6 +65,18 @@ load_once_from_file(true)
 
                                             </div>
                                     </div>
+                                    <div    v-if='design_mode'
+                                            v-bind:refresh='refresh'
+                                            style='opacity:0.5;position: absolute; top: 0px; left: 0px;z-index: 30000000;width: 20px;height: 20px;border: 1px solid black;background-color: blue;'
+                                            v-bind:draggable='true'
+                                            v-on:dragstart='drag($event,{
+                                               type:   "resize_top_left",
+                                               index:   index
+                                            })'
+                                    >
+
+                                    </div>
+
                               </div>
                         </div>
                     </div>
@@ -198,7 +211,7 @@ load_once_from_file(true)
                  this.generateCodeFromModel(  mm.model  )
 
 
-             } else if (data.type = "move_component") {
+             } else if (data.type == "move_component") {
                 //alert(this.model.components[data.index].base_component_id)
                 this.model.components[data.index].leftX = event.clientX  - rrr.left - data.offsetX;
                 this.model.components[data.index].topY = event.clientY  - rrr.top - data.offsetY;
