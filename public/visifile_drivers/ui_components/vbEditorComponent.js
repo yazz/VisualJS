@@ -39,19 +39,21 @@ load_once_from_file(true)
                             </div>
                         </div>
 
-                        <div   v-on:drop="drop($event)"
+                        <div   v-on:drop="$event.stopPropagation();drop($event)"
                                         v-on:ondragover="allowDrop($event)"
                                         v-bind:class='(design_mode?"dotted":"" )'
                                         v-bind:style='"display: inline-block; vertical-align: top; position: relative; width: 55vmin;height: 55vmin; ;" + (design_mode?"border: 1px solid black;":"" ) '>
 
                              <div v-bind:refresh='refresh' v-for='(item,index) in model.components'
-                                  v-bind:style='(design_mode?"border: 1px solid black;":"") + "position: absolute;top: " + item.topY + ";left:" + item.leftX + ";height:" + item.height + "px;width:" + item.width + "px;background: white;;overflow:auto;"'>
+                                  ondrop="return false;"
+                                  v-bind:style='(design_mode?"border: 1px solid black;":"") + "position: absolute;top: " + item.topY + ";left:" + item.leftX + ";height:" + item.height + "px;width:" + item.width + "px;background: white;;overflow:none;"'>
 
-                                    <div style='position: absolute; top: 0px; left: 0px;'>
+                                    <div ondrop="return false;" v-bind:style='"position: absolute; top: 0px; left: 0px;height:" + item.height + "px;width:" + item.width + "px;overflow:scroll;"'>
                                         <component  v-bind:refresh='refresh' v-bind:is='item.base_component_id'></component>
                                     </div>
                                     <div    style='position: absolute; top: 0px; left: 0px;z-index: 10000000;width: 100%;height: 100%;border: 1px solid black;'
                                             v-bind:draggable='design_mode'
+                                            ondrop="return false;"
                                             v-on:dragstart='drag($event,{
                                                type:   "move_component",
                                                index:   index
@@ -59,6 +61,7 @@ load_once_from_file(true)
                                     >
 
                                             <div    v-if='design_mode'
+                                                    ondrop="return false;"
                                                     v-bind:refresh='refresh'
                                                     style='position: absolute; top: 0px; left: 0px;z-index: 10000000;width: 100%;height: 100%;opacity: 0;border: 1px solid black;'
                                                     >
@@ -69,6 +72,7 @@ load_once_from_file(true)
                                             v-bind:refresh='refresh'
                                             style='opacity:0.5;position: absolute; top: 0px; left: 0px;z-index: 30000000;width: 20px;height: 20px;border: 1px solid black;background-color: gray;'
                                             v-bind:draggable='true'
+                                            ondrop="return false;"
                                             v-on:dragstart='drag($event,{
                                                type:   "resize_top_left",
                                                index:   index
@@ -181,14 +185,14 @@ load_once_from_file(true)
              var left = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
              var top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
              var rrr = ev.target.getBoundingClientRect()
-             message.offsetX = (ev.clientX- rrr.left )
+             message.offsetX = (ev.clientX - rrr.left )
              message.offsetY = (ev.clientY - rrr.top )
              ev.dataTransfer.setData("message",
                                      JSON.stringify(message,null,2));
          },
 
          drop: async function (ev) {
-         console.log("drop: " + event.clientX + "," + event.clientY)
+         console.log("drop client X,Y: " + ev.clientX + "," + ev.clientY)
 
              var data2 = ev.dataTransfer.getData("message");
              var data = eval("(" + data2 + ")")
@@ -196,14 +200,18 @@ load_once_from_file(true)
              var doc = document.documentElement;
              var left = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
              var top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
-             var rrr = ev.target.getBoundingClientRect()
+
+             console.log("drag offset X,Y: ----- " +  data.offsetX + "," +  data.offsetY)
 
              if (data.type == "add_component") {
                  var newItem = new Object()
+                 var rrr = ev.target.getBoundingClientRect()
+                 console.log("drop offset X,Y: ------------ " +  rrr.left + "," +  rrr.top)
 
 
-                 newItem.leftX = (event.clientX  - rrr.left)  - data.offsetX;
-                 newItem.topY = (event.clientY  - rrr.top)   - data.offsetY;
+                 newItem.leftX = (ev.clientX  - rrr.left)  - data.offsetX;
+                 newItem.topY = (ev.clientY  - rrr.top)   - data.offsetY;
+
                  newItem.base_component_id = data.text
                  newItem.width = 100
                  newItem.height = 100
@@ -215,18 +223,24 @@ load_once_from_file(true)
 
 
              } else if (data.type == "move_component") {
+                var rrr = ev.target.getBoundingClientRect()
+                console.log("drop offset X,Y: ------------ " +  rrr.left + "," +  rrr.top)
                 //alert(this.model.components[data.index].base_component_id)
-                this.model.components[data.index].leftX = event.clientX  - rrr.left - data.offsetX;
-                this.model.components[data.index].topY = event.clientY  - rrr.top - data.offsetY;
+                this.model.components[data.index].leftX = (ev.clientX  - rrr.left) - data.offsetX;
+                this.model.components[data.index].topY = (ev.clientY  - rrr.top) - data.offsetY;
+                console.log("drop newItem X,Y: ====================== " +  this.model.components[data.index].leftX  +
+                        "," +  this.model.components[data.index].topY)
                 ev.preventDefault();
                 this.generateCodeFromModel(  mm.model  )
 
 
              } else if (data.type == "resize_top_left") {
+                var rrr = ev.target.getBoundingClientRect()
+                console.log("drop offset X,Y: ------------ " +  rrr.left + "," +  rrr.top)
                  var oldX = this.model.components[data.index].leftX
                  var oldY = this.model.components[data.index].topY
-                 this.model.components[data.index].leftX = event.clientX  - rrr.left - data.offsetX;
-                 this.model.components[data.index].topY = event.clientY  - rrr.top - data.offsetY;
+                 this.model.components[data.index].leftX = ev.clientX  - rrr.left - data.offsetX;
+                 this.model.components[data.index].topY = ev.clientY  - rrr.top - data.offsetY;
                  var diffX = this.model.components[data.index].leftX - oldX
                  var diffY = this.model.components[data.index].topY - oldY
                  this.model.components[data.index].width -= diffX
@@ -406,7 +420,7 @@ load_once_from_file(true)
             var editorCodeToCopyStart = editorCode.indexOf(stt) + stt.length
             var editorCodeToCopyEnd = editorCode.indexOf("//*** COPY_" + "END ***//")
             var editorCodeToCopy = editorCode.substring(editorCodeToCopyStart, editorCodeToCopyEnd)
-            console.log(editorCodeToCopy)
+            //console.log(editorCodeToCopy)
             //alert(JSON.stringify(mm.model,null,2))
 
             this.text = this.text.substring(0,startIndex) +
