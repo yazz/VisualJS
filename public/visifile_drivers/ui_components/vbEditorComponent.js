@@ -72,15 +72,31 @@ load_once_from_file(true)
                                     </div>
                                     <div    v-if='design_mode'
                                             v-bind:refresh='refresh'
-                                            style='opacity:0.5;position: absolute; top: 0px; left: 0px;z-index: 30000000;width: 20px;height: 20px;border: 1px solid black;background-color: gray;'
+                                            style='opacity:0.5;position: absolute; top: 0px; left: 0px;z-index: 30000000;width: 20px;height: 20px;background-color: lightgray;'
                                             v-bind:draggable='true'
                                             ondrop="return false;"
                                             v-on:dragstart='drag($event,{
                                                type:   "resize_top_left",
                                                index:   index
                                             })'
-                                    >
+                                     >
+                                         <div    style='position: absolute; top: 0px; left: 0px;z-index: 30000000;width: 40px;height: 1px;background-color: black;'></div>
+                                         <div    style='position: absolute; top: 0px; left: 0px;z-index: 30000000;width: 1px;height: 40px;background-color: black;'></div>
+                                    </div>
 
+
+                                    <div    v-if='design_mode'
+                                            v-bind:refresh='refresh'
+                                            style='opacity:0.5;position: absolute; top: 0px; right: 0px;z-index: 30000000;width: 20px;height: 20px;background-color: lightgray;'
+                                            v-bind:draggable='true'
+                                            ondrop="return false;"
+                                            v-on:dragstart='drag($event,{
+                                               type:   "resize_top_right",
+                                               index:   index
+                                            })'
+                                     >
+                                         <div    style='position: absolute; top: 0px; right: 0px;z-index: 30000000;width: 40px;height: 1px;background-color: black;'></div>
+                                         <div    style='position: absolute; top: 0px; right: 0px;z-index: 30000000;width: 1px;height: 40px;background-color: black;'></div>
                                     </div>
 
                               </div>
@@ -194,7 +210,6 @@ load_once_from_file(true)
          },
 
          drop: async function (ev) {
-         console.log("drop client X,Y: " + ev.clientX + "," + ev.clientY)
 
              var data2 = ev.dataTransfer.getData("message");
              var data = eval("(" + data2 + ")")
@@ -203,12 +218,9 @@ load_once_from_file(true)
              var left = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
              var top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
 
-             console.log("drag offset X,Y: ----- " +  data.offsetX + "," +  data.offsetY)
-
              if (data.type == "add_component") {
                  var newItem = new Object()
                  var rrr = document.getElementById("vb_grid").getBoundingClientRect()
-                 console.log("drop offset X,Y: ------------ " +  rrr.left + "," +  rrr.top)
 
 
                  newItem.leftX = (ev.clientX  - rrr.left)  - data.offsetX;
@@ -226,27 +238,43 @@ load_once_from_file(true)
 
              } else if (data.type == "move_component") {
              var rrr = document.getElementById("vb_grid").getBoundingClientRect()
-                console.log("drop offset X,Y: ------------ " +  rrr.left + "," +  rrr.top)
                 //alert(this.model.components[data.index].base_component_id)
                 this.model.components[data.index].leftX = (ev.clientX  - rrr.left) - data.offsetX;
                 this.model.components[data.index].topY = (ev.clientY  - rrr.top) - data.offsetY;
-                console.log("drop newItem X,Y: ====================== " +  this.model.components[data.index].leftX  +
-                        "," +  this.model.components[data.index].topY)
                 ev.preventDefault();
                 this.generateCodeFromModel(  mm.model  )
 
 
              } else if (data.type == "resize_top_left") {
-             var rrr = document.getElementById("vb_grid").getBoundingClientRect()
-                console.log("drop offset X,Y: ------------ " +  rrr.left + "," +  rrr.top)
+                var rrr = document.getElementById("vb_grid").getBoundingClientRect()
                  var oldX = this.model.components[data.index].leftX
                  var oldY = this.model.components[data.index].topY
+
                  this.model.components[data.index].leftX = ev.clientX  - rrr.left - data.offsetX;
                  this.model.components[data.index].topY = ev.clientY  - rrr.top - data.offsetY;
                  var diffX = this.model.components[data.index].leftX - oldX
                  var diffY = this.model.components[data.index].topY - oldY
                  this.model.components[data.index].width -= diffX
                  this.model.components[data.index].height -= diffY
+
+
+                 ev.preventDefault();
+                 this.generateCodeFromModel(  mm.model  )
+
+
+
+             } else if (data.type == "resize_top_right") {
+                 var rrr = document.getElementById("vb_grid").getBoundingClientRect()
+                 var newX = ev.clientX  - rrr.left - data.offsetX;
+                 var newY = ev.clientY  - rrr.top - data.offsetY;
+
+                 console.log(" X,Y: ------------ " +  newX + "," +  newY)
+
+                 this.model.components[data.index].width = newX - this.model.components[data.index].leftX
+
+                 var newHeight = (this.model.components[data.index].topY + this.model.components[data.index].height) - newY
+                 this.model.components[data.index].topY = newY
+                 this.model.components[data.index].height = newHeight
 
 
                  ev.preventDefault();
