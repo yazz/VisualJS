@@ -89,15 +89,25 @@ load_once_from_file(true)
                                             v-bind:refresh='refresh'
                                             style='opacity:0.5;position: absolute; top: 0px; right: 0px;z-index: 30000000;width: 20px;height: 20px;background-color: lightgray;'
                                             v-bind:draggable='true'
-                                            ondrop="return false;"
                                             v-on:dragstart='drag($event,{
                                                type:   "resize_top_right",
                                                index:   index
-                                            })'
-                                     >
+                                            })'>
                                          <div    style='position: absolute; top: 0px; right: 0px;z-index: 30000000;width: 40px;height: 1px;background-color: black;'></div>
-                                         <div    style='position: absolute; top: 0px; right: 0px;z-index: 30000000;width: 1px;height: 40px;background-color: black;'></div>
-                                    </div>
+                                         <div    style='position: absolute; top: 0px; right: 0px;z-index: 30000000;width: 1px;height: 40px;background-color: black;'></div></div>
+
+
+
+                                     <div    v-if='design_mode'
+                                             v-bind:refresh='refresh'
+                                             style='opacity:0.5;position: absolute; bottom: 0px; left: 0px;z-index: 30000000;width: 20px;height: 20px;background-color: lightgray;'
+                                             v-bind:draggable='true'
+                                             v-on:dragstart='drag($event,{
+                                                type:   "resize_bottom_left",
+                                                index:   index
+                                             })'>
+                                          <div    style='position: absolute; bottom: 0px; left: 0px;z-index: 30000000;width: 40px;height: 1px;background-color: black;'></div>
+                                          <div    style='position: absolute; bottom: 0px; left: 0px;z-index: 30000000;width: 1px;height: 40px;background-color: black;'></div></div>
 
                               </div>
                         </div>
@@ -237,7 +247,7 @@ load_once_from_file(true)
 
 
              } else if (data.type == "move_component") {
-             var rrr = document.getElementById("vb_grid").getBoundingClientRect()
+                var rrr = document.getElementById("vb_grid").getBoundingClientRect()
                 //alert(this.model.components[data.index].base_component_id)
                 this.model.components[data.index].leftX = (ev.clientX  - rrr.left) - data.offsetX;
                 this.model.components[data.index].topY = (ev.clientY  - rrr.top) - data.offsetY;
@@ -246,7 +256,7 @@ load_once_from_file(true)
 
 
              } else if (data.type == "resize_top_left") {
-                var rrr = document.getElementById("vb_grid").getBoundingClientRect()
+                 var rrr = document.getElementById("vb_grid").getBoundingClientRect()
                  var oldX = this.model.components[data.index].leftX
                  var oldY = this.model.components[data.index].topY
 
@@ -279,7 +289,28 @@ load_once_from_file(true)
 
                  ev.preventDefault();
                  this.generateCodeFromModel(  mm.model  )
-             }
+
+                 } else if (data.type == "resize_bottom_left") {
+                     var rrr = document.getElementById("vb_grid").getBoundingClientRect()
+                     var newX = ev.clientX  - rrr.left - data.offsetX;
+                     var newY = ev.clientY  - rrr.top - data.offsetY;
+
+                     console.log(" X,Y: ------------ " +  newX + "," +  newY)
+
+                     var newWidth = (this.model.components[data.index].leftX + this.model.components[data.index].width) - newX
+                     this.model.components[data.index].leftX = newX
+                     this.model.components[data.index].width = newWidth
+
+
+                     this.model.components[data.index].height = newY - this.model.components[data.index].topY
+
+
+
+                     ev.preventDefault();
+                     this.generateCodeFromModel(  mm.model  )
+                 }
+
+
 
          },
 
