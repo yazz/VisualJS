@@ -8,7 +8,18 @@ editors([
 ])
 formEditor({
   "next_id": 7,
-  "components": [],
+  max_form: 1,
+  active_form: "Form 1",
+  forms: {
+      "Form 1": {
+          name: "Form 1",
+          components: [
+
+                      ]
+
+      }
+  },
+
   "fields": [
     {
       "id": 5,
@@ -347,7 +358,13 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
                       uid2: uid2,
                       model: {
   "next_id": 7,
-  "components": [],
+  "Form 1": {
+      name: "Form 1",
+      components: [
+
+                  ]
+
+  },
   "fields": [
     {
       "id": 5,

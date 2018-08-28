@@ -45,7 +45,7 @@ load_once_from_file(true)
                                         v-bind:class='(design_mode?"dotted":"" )'
                                         v-bind:style='"display: inline-block; vertical-align: top; position: relative; width: 55vmin;height: 55vmin; ;" + (design_mode?"border: 1px solid black;":"" ) '>
 
-                             <div v-bind:refresh='refresh' v-for='(item,index) in model.components'
+                             <div v-bind:refresh='refresh' v-for='(item,index) in getActiveFormComponents'
                                   ondrop="return false;"
                                   v-bind:style='(design_mode?"border: 1px solid black;":"") + "position: absolute;top: " + item.topY + ";left:" + item.leftX + ";height:" + item.height + "px;width:" + item.width + "px;background: white;;overflow:none;"'>
 
@@ -216,9 +216,9 @@ load_once_from_file(true)
              //alert(this.text)
            }
 
-           for (var rtw = 0; rtw < mm.model.components.length ; rtw++ )
+           for (var rtw = 0; rtw < mm.model.forms[mm.model.active_form].components.length ; rtw++ )
            {
-                var newItem = mm.model.components[rtw]
+                var newItem = mm.model.forms[mm.model.active_form].components[rtw]
                 //alert(newItem.base_component_id)
                 await load(newItem.base_component_id)
            }
@@ -242,7 +242,13 @@ load_once_from_file(true)
            mm.$forceUpdate();
      },
 
-
+     computed: {
+        getActiveFormComponents: function() {
+        console.log(JSON.stringify(this.model.active_form     ,null,2))
+        console.log(JSON.stringify(this.model,null,2))
+            return this.model.forms[this.model.active_form].components
+        }
+     },
 
 
      methods: {
@@ -283,31 +289,31 @@ load_once_from_file(true)
                  newItem.height = 100
                  this.refresh++
                  await load(newItem.base_component_id)
-                 this.model.components.push(newItem)
+                 this.model.forms[this.model.active_form].components.push(newItem)
                  ev.preventDefault();
                  this.generateCodeFromModel(  mm.model  )
 
 
              } else if (data.type == "move_component") {
                 var rrr = document.getElementById("vb_grid").getBoundingClientRect()
-                //alert(this.model.components[data.index].base_component_id)
-                this.model.components[data.index].leftX = (ev.clientX  - rrr.left) - data.offsetX;
-                this.model.components[data.index].topY = (ev.clientY  - rrr.top) - data.offsetY;
+                //alert(this.model.forms[this.model.active_form].components[data.index].base_component_id)
+                this.model.forms[this.model.active_form].components[data.index].leftX = (ev.clientX  - rrr.left) - data.offsetX;
+                this.model.forms[this.model.active_form].components[data.index].topY = (ev.clientY  - rrr.top) - data.offsetY;
                 ev.preventDefault();
                 this.generateCodeFromModel(  mm.model  )
 
 
              } else if (data.type == "resize_top_left") {
                  var rrr = document.getElementById("vb_grid").getBoundingClientRect()
-                 var oldX = this.model.components[data.index].leftX
-                 var oldY = this.model.components[data.index].topY
+                 var oldX = this.model.forms[this.model.active_form].components[data.index].leftX
+                 var oldY = this.model.forms[this.model.active_form].components[data.index].topY
 
-                 this.model.components[data.index].leftX = ev.clientX  - rrr.left - data.offsetX;
-                 this.model.components[data.index].topY = ev.clientY  - rrr.top - data.offsetY;
-                 var diffX = this.model.components[data.index].leftX - oldX
-                 var diffY = this.model.components[data.index].topY - oldY
-                 this.model.components[data.index].width -= diffX
-                 this.model.components[data.index].height -= diffY
+                 this.model.forms[this.model.active_form].components[data.index].leftX = ev.clientX  - rrr.left - data.offsetX;
+                 this.model.forms[this.model.active_form].components[data.index].topY = ev.clientY  - rrr.top - data.offsetY;
+                 var diffX = this.model.forms[this.model.active_form].components[data.index].leftX - oldX
+                 var diffY = this.model.forms[this.model.active_form].components[data.index].topY - oldY
+                 this.model.forms[this.model.active_form].components[data.index].width -= diffX
+                 this.model.forms[this.model.active_form].components[data.index].height -= diffY
 
 
                  ev.preventDefault();
@@ -322,11 +328,11 @@ load_once_from_file(true)
 
                  console.log(" X,Y: ------------ " +  newX + "," +  newY)
 
-                 this.model.components[data.index].width = newX - this.model.components[data.index].leftX
+                 this.model.forms[this.model.active_form].components[data.index].width = newX - this.model.forms[this.model.active_form].components[data.index].leftX
 
-                 var newHeight = (this.model.components[data.index].topY + this.model.components[data.index].height) - newY
-                 this.model.components[data.index].topY = newY
-                 this.model.components[data.index].height = newHeight
+                 var newHeight = (this.model.components[data.index].topY + this.model.forms[this.model.active_form].components[data.index].height) - newY
+                 this.model.forms[this.model.active_form].components[data.index].topY = newY
+                 this.model.forms[this.model.active_form].components[data.index].height = newHeight
 
 
                  ev.preventDefault();
@@ -339,11 +345,11 @@ load_once_from_file(true)
 
                  console.log(" X,Y: ------------ " +  newX + "," +  newY)
 
-                 var newWidth = (this.model.components[data.index].leftX + this.model.components[data.index].width) - newX
-                 this.model.components[data.index].leftX = newX
-                 this.model.components[data.index].width = newWidth
+                 var newWidth = (this.model.forms[this.model.active_form].components[data.index].leftX + this.model.forms[this.model.active_form].components[data.index].width) - newX
+                 this.model.forms[this.model.active_form].components[data.index].leftX = newX
+                 this.model.forms[this.model.active_form].components[data.index].width = newWidth
 
-                 this.model.components[data.index].height = newY - this.model.components[data.index].topY
+                 this.model.forms[this.model.active_form].components[data.index].height = newY - this.model.forms[this.model.active_form].components[data.index].topY
                  ev.preventDefault();
                  this.generateCodeFromModel(  mm.model  )
 
@@ -356,11 +362,11 @@ load_once_from_file(true)
 
                      console.log(" X,Y: ------------ " +  newX + "," +  newY)
 
-                     var newWidth = newX - this.model.components[data.index].leftX
-                     this.model.components[data.index].width = newWidth
+                     var newWidth = newX - this.model.forms[this.model.active_form].components[data.index].leftX
+                     this.model.forms[this.model.active_form].components[data.index].width = newWidth
 
-                     var newHeight = newY - this.model.components[data.index].topY
-                     this.model.components[data.index].height = newHeight
+                     var newHeight = newY - this.model.forms[this.model.active_form].components[data.index].topY
+                     this.model.forms[this.model.active_form].components[data.index].height = newHeight
 
                      ev.preventDefault();
                      this.generateCodeFromModel(  mm.model  )
@@ -375,7 +381,7 @@ load_once_from_file(true)
 
 
         addField: function() {
-            mm.model.fields.push({   id: mm.model.next_id,   type: "text",   text: "Enter text here",
+            mm.model.forms[mm.model.active_form].fields.push({   id: mm.model.next_id,   type: "text",   text: "Enter text here",
                                       style: {}})
             mm.model.next_id ++
             this.generateCodeFromModel(  mm.model  )
@@ -414,7 +420,7 @@ load_once_from_file(true)
         updateFieldCssStyle: function(   fieldId   , styleName, styleValue) {
             var itemD = null
             var mm = this
-            for (var tt=0; tt < mm.model.fields.length ; tt++) {
+            for (var tt=0; tt < mm.fields.length ; tt++) {
                 var ciurr = mm.model.fields[tt]
                 if (ciurr.id == fieldId) {
                     if (!ciurr.style) {
@@ -452,14 +458,14 @@ load_once_from_file(true)
 
         moveUp: function(   fieldId   ) {
             var itemD = null
-            for (var tt=0; tt < mm.model.fields.length ; tt++) {
-                var ciurr = mm.model.fields[tt]
+            for (var tt=0; tt < mm.model.forms[mm.model.active_form].fields.length ; tt++) {
+                var ciurr = mm.model.forms[mm.model.active_form].fields[tt]
                 if (ciurr.id == fieldId) {
                     itemD = ciurr
                 }
             }
             if (itemD) {
-                var index = mm.model.fields.indexOf(  itemD  );
+                var index = mm.model.forms[mm.model.active_form].fields.indexOf(  itemD  );
                 if (index > -1) {
                   mm.model.fields.splice(index, 1);
                   mm.model.fields.splice(index - 1, 0, itemD);
@@ -472,14 +478,14 @@ load_once_from_file(true)
 
         moveDown: function(   fieldId   ) {
             var itemD = null
-            for (var tt=0; tt < mm.model.fields.length ; tt++) {
-                var ciurr = mm.model.fields[tt]
+            for (var tt=0; tt < mm.model.forms[mm.model.active_form].fields.length ; tt++) {
+                var ciurr = mm.model.forms[mm.model.active_form].fields[tt]
                 if (ciurr.id == fieldId) {
                     itemD = ciurr
                 }
             }
             if (itemD) {
-                var index = mm.model.fields.indexOf(  itemD  );
+                var index = mm.model.forms[mm.model.active_form].fields.indexOf(  itemD  );
                 if (index > -1) {
                   mm.model.fields.splice(index, 1);
                   mm.model.fields.splice(index + 1, 0, itemD);
@@ -492,14 +498,14 @@ load_once_from_file(true)
 
         deleteField: function(   fieldId   ) {
             var itemD = null
-            for (var tt=0; tt < mm.model.fields.length ; tt++) {
-                var ciurr = mm.model.fields[tt]
+            for (var tt=0; tt < mm.model.forms[mm.model.active_form].fields.length ; tt++) {
+                var ciurr = mm.model.forms[mm.model.active_form].fields[tt]
                 if (ciurr.id == fieldId) {
                     itemD = ciurr
                 }
             }
             if (itemD) {
-                var index = mm.model.fields.indexOf(  itemD  );
+                var index = mm.model.forms[mm.model.active_form].fields.indexOf(  itemD  );
                 if (index > -1) {
                   mm.model.fields.splice(index, 1);
                 }
@@ -599,14 +605,22 @@ load_once_from_file(true)
 
            model:                      {
                                             next_id: 1,
+                                            max_form: 1,
+                                            active_form: "Form 1",
 
                                             fields: [
 
                                                     ],
 
-                                            components: [
+                                            forms: {
+                                                "Form 1": {
+                                                    name: "Form 1",
+                                                    components: [
 
-                                                        ]
+                                                                ]
+
+                                                }
+                                            }
                                         }
        }
      }
