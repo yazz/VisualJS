@@ -141,11 +141,16 @@ load_once_from_file(true)
                               v-bind:style='(design_mode?"border: 1px solid black;":"") + " width: 200px;height: 55vmin; display: inline-block;overflow-x: none;overflow-y: scroll;vertical-align: top; "'>
 
                           <div
-                                  style='height: 50px; border: 5px;'>
-                                  List of forms
+                                  style='height: 50%; border: 5px;'>
+                                  List of forms:
+
+                                  <div v-for='form in getForms'>
+                                    <br>
+                                    {{form.name}}
+                                  </div>
                           </div>
                           <div
-                                  style='height: 50px; border: 5px;'>
+                                  style='height: 50%; border: 5px;'>
                                   Properties
                           </div>
 
@@ -244,9 +249,16 @@ load_once_from_file(true)
 
      computed: {
         getActiveFormComponents: function() {
-        console.log(JSON.stringify(this.model.active_form     ,null,2))
-        console.log(JSON.stringify(this.model,null,2))
             return this.model.forms[this.model.active_form].components
+        }
+        ,
+        getForms: function() {
+            var forms = []
+            var llf = Object.keys(this.model.forms)
+            for (var ii = 0; ii < llf.length ; ii ++) {
+                forms.push(this.model.forms[llf[ii]])
+            }
+            return forms
         }
      },
 
