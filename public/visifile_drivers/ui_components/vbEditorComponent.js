@@ -109,6 +109,23 @@ load_once_from_file(true)
                                           <div    style='position: absolute; bottom: 0px; left: 0px;z-index: 30000000;width: 40px;height: 1px;background-color: black;'></div>
                                           <div    style='position: absolute; bottom: 0px; left: 0px;z-index: 30000000;width: 1px;height: 40px;background-color: black;'></div></div>
 
+
+
+                                          <div    v-if='design_mode'
+                                                  v-bind:refresh='refresh'
+                                                  style='opacity:0.5;position: absolute; bottom: 0px; right: 0px;z-index: 30000000;width: 20px;height: 20px;background-color: lightgray;'
+                                                  v-bind:draggable='true'
+                                                  v-on:dragstart='drag($event,{
+                                                     type:   "resize_bottom_right",
+                                                     index:   index
+                                                  })'>
+                                               <div    style='position: absolute; bottom: 0px; right: 0px;z-index: 30000000;width: 40px;height: 1px;background-color: black;'></div>
+                                               <div    style='position: absolute; bottom: 0px; right: 0px;z-index: 30000000;width: 1px;height: 40px;background-color: black;'></div></div>
+
+
+
+
+
                               </div>
                         </div>
                     </div>
@@ -290,7 +307,24 @@ load_once_from_file(true)
                  ev.preventDefault();
                  this.generateCodeFromModel(  mm.model  )
 
-                 } else if (data.type == "resize_bottom_left") {
+             } else if (data.type == "resize_bottom_left") {
+                 var rrr = document.getElementById("vb_grid").getBoundingClientRect()
+                 var newX = ev.clientX  - rrr.left - data.offsetX;
+                 var newY = ev.clientY  - rrr.top - data.offsetY;
+
+                 console.log(" X,Y: ------------ " +  newX + "," +  newY)
+
+                 var newWidth = (this.model.components[data.index].leftX + this.model.components[data.index].width) - newX
+                 this.model.components[data.index].leftX = newX
+                 this.model.components[data.index].width = newWidth
+
+                 this.model.components[data.index].height = newY - this.model.components[data.index].topY
+                 ev.preventDefault();
+                 this.generateCodeFromModel(  mm.model  )
+
+
+
+                 } else if (data.type == "resize_bottom_right") {
                      var rrr = document.getElementById("vb_grid").getBoundingClientRect()
                      var newX = ev.clientX  - rrr.left - data.offsetX;
                      var newY = ev.clientY  - rrr.top - data.offsetY;
@@ -298,17 +332,15 @@ load_once_from_file(true)
                      console.log(" X,Y: ------------ " +  newX + "," +  newY)
 
                      var newWidth = (this.model.components[data.index].leftX + this.model.components[data.index].width) - newX
-                     this.model.components[data.index].leftX = newX
                      this.model.components[data.index].width = newWidth
 
-
                      this.model.components[data.index].height = newY - this.model.components[data.index].topY
-
-
-
                      ev.preventDefault();
                      this.generateCodeFromModel(  mm.model  )
                  }
+
+
+
 
 
 
