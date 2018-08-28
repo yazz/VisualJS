@@ -292,8 +292,8 @@ load_once_from_file(true)
 
              } else if (data.type == "resize_top_right") {
                  var rrr = document.getElementById("vb_grid").getBoundingClientRect()
-                 var newX = ev.clientX  - rrr.left - data.offsetX;
-                 var newY = ev.clientY  - rrr.top - data.offsetY;
+                 var newX = (ev.clientX + 20) - rrr.left - data.offsetX;
+                 var newY = ev.clientY - rrr.top - data.offsetY;
 
                  console.log(" X,Y: ------------ " +  newX + "," +  newY)
 
@@ -310,7 +310,7 @@ load_once_from_file(true)
              } else if (data.type == "resize_bottom_left") {
                  var rrr = document.getElementById("vb_grid").getBoundingClientRect()
                  var newX = ev.clientX  - rrr.left - data.offsetX;
-                 var newY = ev.clientY  - rrr.top - data.offsetY;
+                 var newY = (ev.clientY + 20)  - rrr.top - data.offsetY;
 
                  console.log(" X,Y: ------------ " +  newX + "," +  newY)
 
@@ -326,15 +326,17 @@ load_once_from_file(true)
 
                  } else if (data.type == "resize_bottom_right") {
                      var rrr = document.getElementById("vb_grid").getBoundingClientRect()
-                     var newX = ev.clientX  - rrr.left - data.offsetX;
-                     var newY = ev.clientY  - rrr.top - data.offsetY;
+                     var newX = (ev.clientX + 20)  - rrr.left - data.offsetX;
+                     var newY = (ev.clientY + 20) - rrr.top - data.offsetY;
 
                      console.log(" X,Y: ------------ " +  newX + "," +  newY)
 
-                     var newWidth = (this.model.components[data.index].leftX + this.model.components[data.index].width) - newX
+                     var newWidth = newX - this.model.components[data.index].leftX 
                      this.model.components[data.index].width = newWidth
 
-                     this.model.components[data.index].height = newY - this.model.components[data.index].topY
+                     var newHeight = newY - this.model.components[data.index].topY
+                     this.model.components[data.index].height = newHeight
+
                      ev.preventDefault();
                      this.generateCodeFromModel(  mm.model  )
                  }
