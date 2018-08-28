@@ -127,7 +127,32 @@ load_once_from_file(true)
 
 
                               </div>
-                        </div>
+
+
+
+
+                      </div>
+
+
+
+
+
+                      <div    v-if='design_mode'
+                              v-bind:style='(design_mode?"border: 1px solid black;":"") + " width: 200px;height: 55vmin; display: inline-block;overflow-x: none;overflow-y: scroll;vertical-align: top; "'>
+
+                          <div
+                                  style='height: 50px; border: 5px;'>
+                                  List of forms
+                          </div>
+                          <div
+                                  style='height: 50px; border: 5px;'>
+                                  Properties
+                          </div>
+
+                      </div>
+
+
+
                     </div>
 
 
@@ -331,7 +356,7 @@ load_once_from_file(true)
 
                      console.log(" X,Y: ------------ " +  newX + "," +  newY)
 
-                     var newWidth = newX - this.model.components[data.index].leftX 
+                     var newWidth = newX - this.model.components[data.index].leftX
                      this.model.components[data.index].width = newWidth
 
                      var newHeight = newY - this.model.components[data.index].topY
