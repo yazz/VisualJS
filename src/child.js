@@ -2985,7 +2985,7 @@ function setUpDbDrivers() {
     //
     // controls
     //
-    evalLocalSystemDriver('label',   path.join(__dirname, '../public/visifile_drivers/controls/label.js'))
+    evalLocalSystemDriver('label_control',   path.join(__dirname, '../public/visifile_drivers/controls/label.js'))
 
 
     //
