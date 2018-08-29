@@ -142,7 +142,7 @@ load_once_from_file(true)
                               v-bind:refresh='refresh'>
 
                           <div    v-bind:refresh='refresh'
-                                  style='height: 50%; border: 5px;overflow:auto;'>
+                                  style='height: 50%; border: 5px;overflow:auto; padding:5px; border: 1px solid black;'>
                                   List of forms:
 
                                   <button  type=button class='btn btn-sm btn-info'  v-on:click='$event.stopPropagation();addForm()'  > Add form </button>
@@ -154,7 +154,7 @@ load_once_from_file(true)
                                   </div>
                           </div>
                           <div
-                                  style='height: 50%; border: 5px;overflow:auto;'>
+                                  style='height: 50%; border: 5px;overflow:auto;padding:5px; border: 1px solid black;'>
                                   Properties
                           </div>
 
