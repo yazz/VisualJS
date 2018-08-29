@@ -353,7 +353,7 @@ load_once_from_file(true)
 
                  this.model.forms[this.model.active_form].components[data.index].width = newX - this.model.forms[this.model.active_form].components[data.index].leftX
 
-                 var newHeight = (this.model.components[data.index].topY + this.model.forms[this.model.active_form].components[data.index].height) - newY
+                 var newHeight = (this.model.forms[this.model.active_form].components[data.index].topY + this.model.forms[this.model.active_form].components[data.index].height) - newY
                  this.model.forms[this.model.active_form].components[data.index].topY = newY
                  this.model.forms[this.model.active_form].components[data.index].height = newHeight
 
