@@ -142,17 +142,18 @@ load_once_from_file(true)
                               v-bind:refresh='refresh'>
 
                           <div    v-bind:refresh='refresh'
-                                  style='height: 50%; border: 5px;'>
+                                  style='height: 50%; border: 5px;overflow:auto;'>
                                   List of forms:
+
+                                  <button  type=button class='btn btn-sm btn-info'  v-on:click='$event.stopPropagation();addForm()'  > Add form </button>
 
                                   <div v-for='form in getForms()' v-bind:refresh='refresh'>
                                     <br>
                                     <div v-on:click='$event.stopPropagation();selectForm(form.name)'>{{form.name}}</div>
                                   </div>
-                                  <button  type=button class='btn btn-sm btn-info'  v-on:click='$event.stopPropagation();addForm()'  > Add form </button>
                           </div>
                           <div
-                                  style='height: 50%; border: 5px;'>
+                                  style='height: 50%; border: 5px;overflow:auto;'>
                                   Properties
                           </div>
 
