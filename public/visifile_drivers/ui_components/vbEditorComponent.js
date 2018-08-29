@@ -149,7 +149,8 @@ load_once_from_file(true)
 
                                   <div v-for='form in getForms()' v-bind:refresh='refresh'>
                                     <br>
-                                    <div v-on:click='$event.stopPropagation();selectForm(form.name)'>{{form.name}}</div>
+                                    <div    v-bind:style='(form.name == model.active_form?"background-color:lightgray;":"") + ""'
+                                            v-on:click='$event.stopPropagation();selectForm(form.name)'>{{form.name}}</div>
                                   </div>
                           </div>
                           <div
