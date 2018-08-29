@@ -2982,6 +2982,10 @@ function setUpDbDrivers() {
     evalLocalSystemDriver('newSql',   path.join(__dirname, '../public/visifile_drivers/apps/newSqlApp.js'))
     evalLocalSystemDriver('newAppFromTemplate',   path.join(__dirname, '../public/visifile_drivers/apps/newAppFromTemplate.js'))
 
+    //
+    // controls
+    //
+    evalLocalSystemDriver('label',   path.join(__dirname, '../public/visifile_drivers/controls/label.js'))
 
 
     //
