@@ -58,6 +58,7 @@ load_once_from_file(true)
                                             ondrop="return false;"
                                             v-on:dragstart='drag($event,{
                                                type:   "move_component",
+                                               text:    item.base_component_id,
                                                index:   index
                                             })'
                                     >
@@ -77,6 +78,7 @@ load_once_from_file(true)
                                             ondrop="return false;"
                                             v-on:dragstart='drag($event,{
                                                type:   "resize_top_left",
+                                               text:    item.base_component_id,
                                                index:   index
                                             })'
                                      >
@@ -91,6 +93,7 @@ load_once_from_file(true)
                                             v-bind:draggable='true'
                                             v-on:dragstart='drag($event,{
                                                type:   "resize_top_right",
+                                               text:    item.base_component_id,
                                                index:   index
                                             })'>
                                          <div    style='position: absolute; top: 0px; right: 0px;z-index: 30000000;width: 40px;height: 1px;background-color: black;'></div>
@@ -104,6 +107,7 @@ load_once_from_file(true)
                                              v-bind:draggable='true'
                                              v-on:dragstart='drag($event,{
                                                 type:   "resize_bottom_left",
+                                                text:    item.base_component_id,
                                                 index:   index
                                              })'>
                                           <div    style='position: absolute; bottom: 0px; left: 0px;z-index: 30000000;width: 40px;height: 1px;background-color: black;'></div>
@@ -117,6 +121,7 @@ load_once_from_file(true)
                                                   v-bind:draggable='true'
                                                   v-on:dragstart='drag($event,{
                                                      type:   "resize_bottom_right",
+                                                     text:    item.base_component_id,
                                                      index:   index
                                                   })'>
                                                <div    style='position: absolute; bottom: 0px; right: 0px;z-index: 30000000;width: 40px;height: 1px;background-color: black;'></div>
@@ -246,6 +251,11 @@ load_once_from_file(true)
                {   sql: sql  })
 
            mm.available_components = results
+           for (var iur = 0; iur < mm.available_components.length; iur++) {
+                var comp = mm.available_components[iur]
+                //alert(comp.base_component_id)
+                mm.component_lookup[comp.base_component_id] = comp
+           }
 
 
            mm.$forceUpdate();
@@ -395,7 +405,12 @@ load_once_from_file(true)
                      this.generateCodeFromModel(  mm.model  )
                  }
 
-
+                 //zzz
+                 //var comp = this.component_lookup[data.text]
+                 alert(data.text)
+                 //if (this.model.forms[this.model.active_form].components[newItem.base_component_id].properties) {
+                 //   alert()
+                 //}
 
 
 
@@ -571,7 +586,7 @@ load_once_from_file(true)
             var startIndex = this.text.indexOf("//** gen_" + "start **//")
             var endIndex = this.text.indexOf("//** gen_" + "end **//")
 
-            //zzz
+
             var sql =    "select  cast(code as text)  as  code  from  system_code  where " +
                          "        base_component_id = 'vb_editor_component'   and   code_tag = 'LATEST' "
 
@@ -603,6 +618,7 @@ load_once_from_file(true)
                   return {
                       design_mode: designMode,
                       runtime_mode: runtimeMode,
+                      component_lookup:            new Object(),
                       current_edited_item: null,
                       text: texti,
                       uid2: uid2,
@@ -639,6 +655,7 @@ load_once_from_file(true)
            refresh:                     0,
            read_only:                   false,
            available_components:        [],
+           component_lookup:            new Object(),
 
            model:                      {
                                             next_id: 1,
