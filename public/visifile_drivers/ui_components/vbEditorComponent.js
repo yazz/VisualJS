@@ -32,10 +32,10 @@ load_once_from_file(true)
                                                            type:   "add_component",
                                                            text:    av.base_component_id
                                                         })'
-                                    style='height: 50px; border: 5px;'>
+                                    style='width:100%;height: 55px; margin: 4px;border: 1px solid gray;overflow-x:auto;overflow-y:hidden'>
 
-                                <img v-bind:src='av.logo_url' style='width: 50px; height: auto; max-height: 50px;'></img>
-                                {{av.base_component_id}}
+                                <img v-bind:src='av.logo_url' style='display:inline-block;max-width: 50px; width: auto;height: auto; max-height: 50px;'></img>
+                                <div style='width:100%;display:inline-block;overflow: hidden;'>{{av.base_component_id}}</div>
                             </div>
                         </div>
 
