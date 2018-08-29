@@ -138,16 +138,18 @@ load_once_from_file(true)
 
 
                       <div    v-if='design_mode'
-                              v-bind:style='(design_mode?"border: 1px solid black;":"") + " width: 200px;height: 55vmin; display: inline-block;overflow-x: none;overflow-y: scroll;vertical-align: top; "'>
+                              v-bind:style='(design_mode?"border: 1px solid black;":"") + " width: 200px;height: 55vmin; display: inline-block;overflow-x: none;overflow-y: scroll;vertical-align: top; "'
+                              v-bind:refresh='refresh'>
 
-                          <div
+                          <div    v-bind:refresh='refresh'
                                   style='height: 50%; border: 5px;'>
                                   List of forms:
 
-                                  <div v-for='form in getForms'>
+                                  <div v-for='form in getForms()' v-bind:refresh='refresh'>
                                     <br>
-                                    {{form.name}}
+                                    <div v-on:click='$event.stopPropagation();selectForm(form.name)'>{{form.name}}</div>
                                   </div>
+                                  <button  type=button class='btn btn-sm btn-info'  v-on:click='$event.stopPropagation();addForm()'  > Add form </button>
                           </div>
                           <div
                                   style='height: 50%; border: 5px;'>
@@ -251,19 +253,26 @@ load_once_from_file(true)
         getActiveFormComponents: function() {
             return this.model.forms[this.model.active_form].components
         }
-        ,
-        getForms: function() {
-            var forms = []
-            var llf = Object.keys(this.model.forms)
-            for (var ii = 0; ii < llf.length ; ii ++) {
-                forms.push(this.model.forms[llf[ii]])
-            }
-            return forms
-        }
+
      },
 
 
      methods: {
+         getForms: function() {
+             var forms = []
+             var llf = Object.keys(this.model.forms)
+             for (var ii = 0; ii < llf.length ; ii ++) {
+                 forms.push(this.model.forms[llf[ii]])
+             }
+             return forms
+         },
+         selectForm: function(formId) {
+             mm.model.active_form = formId
+             mm.refresh ++
+         },
+
+
+
          allowDrop: function(ev) {
              ev.preventDefault();
          },
@@ -390,6 +399,20 @@ load_once_from_file(true)
 
 
          },
+
+         addForm: function() {
+            mm.model.max_form ++
+            var newFormName = "form_" + mm.model.max_form
+            mm.model.forms[newFormName] = {
+                name: newFormName,
+                components: []
+            }
+            mm.model.active_form = newFormName
+            mm.refresh ++
+            //alert(JSON.stringify(mm.model,null,2))
+            this.generateCodeFromModel(  mm.model  )
+         }
+         ,
 
 
         addField: function() {
