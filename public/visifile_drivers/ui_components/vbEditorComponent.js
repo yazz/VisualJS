@@ -161,6 +161,10 @@ load_once_from_file(true)
                           <div
                                   style='height: 50%; border: 5px;overflow:auto;padding:5px; border: 1px solid black;'>
                                   Properties
+                                  <div v-for='property in properties' v-bind:refresh='refresh'>
+                                    <br>
+                                    <div    >{{property.name}}</div>
+                                  </div>
                           </div>
 
                       </div>
@@ -406,12 +410,13 @@ load_once_from_file(true)
                  }
 
                  //zzz
-                 //var comp = this.component_lookup[data.text]
-                 alert(data.text)
-                 //if (this.model.forms[this.model.active_form].components[newItem.base_component_id].properties) {
-                 //   alert()
-                 //}
-
+                 var comp = this.component_lookup[data.text]
+                 //alert(comp.properties)
+                 this.properties = []
+                 if (comp.properties) {
+                    this.properties = eval("(" + comp.properties + ")")
+                 }
+                 this.refresh ++
 
 
 
@@ -653,6 +658,7 @@ load_once_from_file(true)
            text:                        texti,
            uid2:                        uid2,
            refresh:                     0,
+           properties:                  [],
            read_only:                   false,
            available_components:        [],
            component_lookup:            new Object(),
