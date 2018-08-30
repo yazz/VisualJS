@@ -401,6 +401,11 @@ load_once_from_file(true)
 
          select_component: function(index) {
             this.model.active_component_index = index
+            var comp = this.component_lookup[this.model.forms[this.model.active_form].components[index].base_component_id]
+            this.properties = []
+            if (comp.properties) {
+               this.properties = eval("(" + comp.properties + ")")
+            }
             this.refresh ++
          },
 
