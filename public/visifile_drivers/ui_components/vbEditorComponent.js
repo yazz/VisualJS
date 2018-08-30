@@ -16,7 +16,7 @@ load_once_from_file(true)
     Vue.component("vb_editor_component",
     {
     //*** COPY_START ***//
-      template: `<div >
+      template: `<div v-bind:id='uid2'>
                     <div>
                         <h4 style='display: inline-block; margin-right: 10px; ' v-if='design_mode' >VB app designer</h4>
                         <slot style='display: inline-block;' v-if='text' :text2="text"></slot>
@@ -171,18 +171,7 @@ load_once_from_file(true)
 
 
 
-                    </div>
-
-
-
-
-
-                    <div v-bind:id='uid2' v-on:click='$event.stopPropagation();current_edited_item = null'
-                         style='width:95%; height: 45vh;overflow-y:scroll;'>
-                    <hr />
-
-
-                 </div>`
+                    </div>`
         ,
 
 
@@ -258,6 +247,7 @@ load_once_from_file(true)
          selectForm: function(formId) {
              mm.model.active_form = formId
              mm.refresh ++
+             this.generateCodeFromModel(  mm.model  )
          },
 
 
@@ -597,7 +587,6 @@ load_once_from_file(true)
                       design_mode: designMode,
                       runtime_mode: runtimeMode,
                       component_lookup:            new Object(),
-                      current_edited_item: null,
                       text: texti,
                       uid2: uid2,
                       model: `
@@ -627,7 +616,6 @@ load_once_from_file(true)
            design_mode:                 designMode,
            runtime_mode:                runtimeMode,
            edited_app_component_id:     null,
-           current_edited_item:         null,
            text:                        texti,
            uid2:                        uid2,
            refresh:                     0,
