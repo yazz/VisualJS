@@ -179,15 +179,6 @@ load_once_from_file(true)
 
                     <div v-bind:id='uid2' v-on:click='$event.stopPropagation();current_edited_item = null'
                          style='width:95%; height: 45vh;overflow-y:scroll;'>
-                        <div v-for='(field,index) in model.fields' style='padding: 5px;'>
-                            <div class='container'>
-                                <div class='row' v-on:click='if (design_mode) {$event.stopPropagation();current_edited_item = field.id}'>
-
-
-                                </div>
-                            </div>
-                        <button  v-if='design_mode' type=button class='btn btn-info'      v-on:click='addField()'  >Add field</button>
-                    </div>
                     <hr />
 
 
