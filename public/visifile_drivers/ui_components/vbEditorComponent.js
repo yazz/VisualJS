@@ -48,6 +48,7 @@ load_once_from_file(true)
                              <div       v-bind:refresh='refresh'
                                         v-for='(item,index) in getActiveFormComponents'
                                         ondrop="return false;"
+                                        v-on:click='select_component(index)'
                                         v-bind:style='(design_mode?"border: " +
                                                         ((index == model.active_component_index)?"10px solid red;":"1px solid black;"):"") +
                                                         "position: absolute;top: " + item.topY + ";left:" + item.leftX + ";height:" + item.height + "px;width:" + item.width + "px;background: white;;overflow:none;"'>
@@ -394,6 +395,17 @@ load_once_from_file(true)
 
 
          },
+
+
+
+
+         select_component: function(index) {
+            this.model.active_component_index = index
+            this.refresh ++
+         },
+
+
+
 
          addForm: function() {
             mm.model.max_form ++
