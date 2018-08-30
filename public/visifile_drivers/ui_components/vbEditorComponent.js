@@ -45,9 +45,12 @@ load_once_from_file(true)
                                         v-bind:class='(design_mode?"dotted":"" )'
                                         v-bind:style='"display: inline-block; vertical-align: top; position: relative; width: 55vmin;height: 55vmin; ;" + (design_mode?"border: 1px solid black;":"" ) '>
 
-                             <div v-bind:refresh='refresh' v-for='(item,index) in getActiveFormComponents'
-                                  ondrop="return false;"
-                                  v-bind:style='(design_mode?"border: 1px solid black;":"") + "position: absolute;top: " + item.topY + ";left:" + item.leftX + ";height:" + item.height + "px;width:" + item.width + "px;background: white;;overflow:none;"'>
+                             <div       v-bind:refresh='refresh'
+                                        v-for='(item,index) in getActiveFormComponents'
+                                        ondrop="return false;"
+                                        v-bind:style='(design_mode?"border: " +
+                                                        ((index == model.active_component_index)?"10px solid red;":"1px solid black;"):"") +
+                                                        "position: absolute;top: " + item.topY + ";left:" + item.leftX + ";height:" + item.height + "px;width:" + item.width + "px;background: white;;overflow:none;"'>
 
                                     <div ondrop="return false;" v-bind:style='"position: absolute; top: 0px; left: 0px;height:" + item.height + "px;width:" + item.width + "px;overflow:auto;"'>
                                         <component  v-bind:refresh='refresh' v-bind:is='item.base_component_id'></component>
@@ -292,6 +295,8 @@ load_once_from_file(true)
                  this.model.forms[this.model.active_form].components.push(newItem)
                  ev.preventDefault();
                  this.generateCodeFromModel(  mm.model  )
+                 this.model.active_component_index = this.model.forms[this.model.active_form].components.length - 1
+                 //alert(this.active_component_index)
 
 
              } else if (data.type == "move_component") {
@@ -300,6 +305,7 @@ load_once_from_file(true)
                 this.model.forms[this.model.active_form].components[data.index].leftX = (ev.clientX  - rrr.left) - data.offsetX;
                 this.model.forms[this.model.active_form].components[data.index].topY = (ev.clientY  - rrr.top) - data.offsetY;
                 ev.preventDefault();
+                this.model.active_component_index = data.index
                 this.generateCodeFromModel(  mm.model  )
 
 
@@ -317,6 +323,7 @@ load_once_from_file(true)
 
 
                  ev.preventDefault();
+                 this.model.active_component_index = data.index
                  this.generateCodeFromModel(  mm.model  )
 
 
@@ -336,6 +343,7 @@ load_once_from_file(true)
 
 
                  ev.preventDefault();
+                 this.model.active_component_index = data.index
                  this.generateCodeFromModel(  mm.model  )
 
              } else if (data.type == "resize_bottom_left") {
@@ -351,35 +359,37 @@ load_once_from_file(true)
 
                  this.model.forms[this.model.active_form].components[data.index].height = newY - this.model.forms[this.model.active_form].components[data.index].topY
                  ev.preventDefault();
+                 this.model.active_component_index = data.index
                  this.generateCodeFromModel(  mm.model  )
 
 
 
-                 } else if (data.type == "resize_bottom_right") {
-                     var rrr = document.getElementById("vb_grid").getBoundingClientRect()
-                     var newX = (ev.clientX + 20)  - rrr.left - data.offsetX;
-                     var newY = (ev.clientY + 20) - rrr.top - data.offsetY;
+             } else if (data.type == "resize_bottom_right") {
+                 var rrr = document.getElementById("vb_grid").getBoundingClientRect()
+                 var newX = (ev.clientX + 20)  - rrr.left - data.offsetX;
+                 var newY = (ev.clientY + 20) - rrr.top - data.offsetY;
 
-                     console.log(" X,Y: ------------ " +  newX + "," +  newY)
+                 console.log(" X,Y: ------------ " +  newX + "," +  newY)
 
-                     var newWidth = newX - this.model.forms[this.model.active_form].components[data.index].leftX
-                     this.model.forms[this.model.active_form].components[data.index].width = newWidth
+                 var newWidth = newX - this.model.forms[this.model.active_form].components[data.index].leftX
+                 this.model.forms[this.model.active_form].components[data.index].width = newWidth
 
-                     var newHeight = newY - this.model.forms[this.model.active_form].components[data.index].topY
-                     this.model.forms[this.model.active_form].components[data.index].height = newHeight
+                 var newHeight = newY - this.model.forms[this.model.active_form].components[data.index].topY
+                 this.model.forms[this.model.active_form].components[data.index].height = newHeight
 
-                     ev.preventDefault();
-                     this.generateCodeFromModel(  mm.model  )
-                 }
+                 ev.preventDefault();
+                 this.model.active_component_index = data.index
+                 this.generateCodeFromModel(  mm.model  )
+             }
 
-                 //zzz
-                 var comp = this.component_lookup[data.text]
-                 //alert(comp.properties)
-                 this.properties = []
-                 if (comp.properties) {
-                    this.properties = eval("(" + comp.properties + ")")
-                 }
-                 this.refresh ++
+             //zzz
+             var comp = this.component_lookup[data.text]
+             //alert(comp.properties)
+             this.properties = []
+             if (comp.properties) {
+                this.properties = eval("(" + comp.properties + ")")
+             }
+             this.refresh ++
 
 
 
@@ -628,6 +638,7 @@ load_once_from_file(true)
                                             next_id: 1,
                                             max_form: 1,
                                             active_form: "Form 1",
+                                            active_component_index: null,
 
                                             fields: [
 
