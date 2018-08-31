@@ -50,7 +50,7 @@ load_once_from_file(true)
                                         ondrop="return false;"
                                         v-on:click='select_component(index)'
                                         v-bind:style='(design_mode?"border: " +
-                                                        ((index == model.active_component_index)?"10px solid red;":"1px solid black;"):"") +
+                                                        ((index == model.active_component_index)?"1px solid black;":"1px solid black;"):"") +
                                                         "position: absolute;top: " + item.topY + ";left:" + item.leftX + ";height:" + item.height + "px;width:" + item.width + "px;background: white;;overflow:none;"'>
 
                                     <div ondrop="return false;" v-bind:style='"position: absolute; top: 0px; left: 0px;height:" + item.height + "px;width:" + item.width + "px;overflow:auto;"'>
@@ -70,7 +70,8 @@ load_once_from_file(true)
                                             <div    v-if='design_mode'
                                                     ondrop="return false;"
                                                     v-bind:refresh='refresh'
-                                                    style='position: absolute; top: 0px; left: 0px;z-index: 10000000;width: 100%;height: 100%;opacity: 0;border: 1px solid black;'
+                                                    v-bind:style='"position: absolute; top: 0px; left: 0px;z-index: 10000000;width: 100%;height: 100%; background-color: lightgray;" +
+                                                                    ((index == model.active_component_index)?"opacity: 0;":"opacity: .6;") '
                                                     >
 
                                             </div>
