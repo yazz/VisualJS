@@ -18,7 +18,8 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASgAAACqCAMAAAAp1iJMAAAA
 */
 
     Vue.component("label_control",{
-      template: "<div style='height:100px;width:100px; border: 10px solid blue;'>Label app {{msg}}</div>"
+      props: ["properties"],
+      template: "<div style='height:100px;width:100px; border: 10px solid blue;'>{{properties.text}}</div>"
       ,
       data: function() {
        return {

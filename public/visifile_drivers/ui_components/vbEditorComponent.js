@@ -54,7 +54,7 @@ load_once_from_file(true)
                                                         "position: absolute;top: " + item.topY + ";left:" + item.leftX + ";height:" + item.height + "px;width:" + item.width + "px;background: white;;overflow:none;"'>
 
                                     <div ondrop="return false;" v-bind:style='"position: absolute; top: 0px; left: 0px;height:" + item.height + "px;width:" + item.width + "px;overflow:auto;"'>
-                                        <component  v-bind:refresh='refresh' v-bind:is='item.base_component_id'></component>
+                                        <component  v-bind:refresh='refresh' v-bind:is='item.base_component_id' v-bind:properties='model.forms[model.active_form].components[index]'></component>
                                     </div>
                                     <div    style='position: absolute; top: 0px; left: 0px;z-index: 10000000;width: 100%;height: 100%;border: 1px solid black;'
                                             v-bind:draggable='design_mode'
