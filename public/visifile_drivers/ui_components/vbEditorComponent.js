@@ -169,6 +169,7 @@ load_once_from_file(true)
                                   <div v-for='property in properties' v-bind:refresh='refresh'>
                                     <br>
                                     <div    >{{property.name}}</div>
+                                    <input @change='generateCodeFromModel(  model  )' v-model='model.forms[model.active_form].components[model.active_component_index][property.name]'></input>
                                   </div>
                           </div>
 
@@ -384,7 +385,7 @@ load_once_from_file(true)
                  this.generateCodeFromModel(  mm.model  )
              }
 
-             //zzz
+
              var comp = this.component_lookup[data.text]
              //alert(comp.properties)
              this.properties = []
