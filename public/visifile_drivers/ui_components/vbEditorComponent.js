@@ -251,6 +251,8 @@ load_once_from_file(true)
              return forms
          },
          selectForm: function(formId) {
+             mm.model.active_component_index = null
+             this.properties = []
              mm.model.active_form = formId
              mm.refresh ++
              this.generateCodeFromModel(  mm.model  )
@@ -403,8 +405,8 @@ load_once_from_file(true)
 
          select_component: function(index) {
             this.model.active_component_index = index
-            var comp = this.component_lookup[this.model.forms[this.model.active_form].components[index].base_component_id]
             this.properties = []
+            var comp = this.component_lookup[this.model.forms[this.model.active_form].components[index].base_component_id]
             if (comp.properties) {
                this.properties = eval("(" + comp.properties + ")")
             }
@@ -415,6 +417,8 @@ load_once_from_file(true)
 
 
          addForm: function() {
+            mm.model.active_component_index = null
+            mm.properties = []
             mm.model.max_form ++
             var newFormName = "form_" + mm.model.max_form
             mm.model.forms[newFormName] = {
