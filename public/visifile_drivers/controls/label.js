@@ -9,7 +9,12 @@ load_once_from_file(true)
 properties(
     [
         {
-            name: "text",
+            name: "Text",
+            type: "string"
+        }
+        ,
+        {
+            name: "Background color",
             type: "string"
         }
     ]
@@ -18,8 +23,13 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASgAAACqCAMAAAAp1iJMAAAA
 */
 
     Vue.component("label_control",{
-      props: ["properties"],
-      template: "<div style='height:100px;width:100px; border: 10px solid blue;'>{{properties.text}}</div>"
+      props: ["properties"]
+      ,
+      template: `<div v-bind:style='"height:100%;width:100%; border: 0px;" +
+                                    "background-color: "+    properties["Background color"]  +  ";"'>
+
+                                                {{properties.Text}}
+                 </div>`
       ,
       data: function() {
        return {
