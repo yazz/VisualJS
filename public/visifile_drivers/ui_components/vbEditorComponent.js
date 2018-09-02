@@ -22,7 +22,7 @@ load_once_from_file(true)
                         <slot style='display: inline-block;' v-if='text' :text2="text"></slot>
                     </div>
 
-                    <div>
+                    <div style='position:relative'>
                         <div    v-if='design_mode'
                                 v-bind:style='(design_mode?"border: 1px solid black;":"") + " width: 200px;height: 55vmin; display: inline-block;overflow-x: none;overflow-y: scroll;vertical-align: top; "'>
 
@@ -148,7 +148,7 @@ load_once_from_file(true)
 
 
                       <div    v-if='design_mode'
-                              v-bind:style='(design_mode?"border: 1px solid black;":"") + " width: 200px;height: 55vmin; display: inline-block;overflow-x: none;overflow-y: scroll;vertical-align: top; "'
+                              v-bind:style='(design_mode?"border: 1px solid black;":"") + " position:absolute;top:0px;right:0px;width: 200px;height: 55vmin; display: inline-block;overflow-x: none;overflow-y: scroll;vertical-align: top; "'
                               v-bind:refresh='refresh'>
 
                           <div    v-bind:refresh='refresh'
