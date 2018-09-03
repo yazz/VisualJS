@@ -43,12 +43,13 @@ load_once_from_file(true)
                                         v-on:drop="$event.stopPropagation();drop($event)"
                                         v-on:ondragover="allowDrop($event)"
                                         v-bind:class='(design_mode?"dotted":"" )'
+                                        v-on:click='if (design_mode) {$event.stopPropagation();selectForm(model.active_form)}'
                                         v-bind:style='"display: inline-block; vertical-align: top; position: relative; width: 55vmin;height: 55vmin; ;" + (design_mode?"border: 1px solid black;":"" ) '>
 
                              <div       v-bind:refresh='refresh'
                                         v-for='(item,index) in getActiveFormComponents'
                                         ondrop="return false;"
-                                        v-on:click='select_component(index)'
+                                        v-on:click='$event.stopPropagation();select_component(index)'
                                         v-bind:style='(design_mode?"border: " +
                                                         ((index == model.active_component_index)?"1px solid black;":"1px solid black;"):"") +
                                                         "position: absolute;top: " + item.topY + ";left:" + item.leftX + ";height:" + item.height + "px;width:" + item.width + "px;background: white;;overflow:none;"'>
@@ -408,10 +409,9 @@ load_once_from_file(true)
 
 
              var comp = this.component_lookup[data.text]
-             //alert(comp.properties)
              this.properties = []
              if (comp.properties) {
-                this.properties = eval("(" + comp.properties + ")")
+                this.properties.concat( eval("(" + comp.properties + ")") )
              }
              this.refresh ++
 
