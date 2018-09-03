@@ -44,7 +44,7 @@ load_once_from_file(true)
                                         v-on:ondragover="allowDrop($event)"
                                         v-bind:class='(design_mode?"dotted":"" )'
                                         v-on:click='if (design_mode) {$event.stopPropagation();selectForm(model.active_form)}'
-                                        v-bind:style='"display: inline-block; vertical-align: top; position: relative; width: 55vmin;height: 55vmin; ;" + (design_mode?"border: 1px solid black;":"" ) '>
+                                        v-bind:style='"display: inline-block; vertical-align: top; position: relative; width: " + model.forms[model.active_form].width +  ";height: " + model.forms[model.active_form].height +  " ;" + (design_mode?"border: 1px solid black;":"" ) '>
 
                              <div       v-bind:refresh='refresh'
                                         v-for='(item,index) in getActiveFormComponents'
@@ -301,7 +301,6 @@ load_once_from_file(true)
 
 
          deleteComponent: async function(index) {
-//zzz
             this.model.forms[this.model.active_form].components.splice(index, 1);
             this.selectForm(this.model.active_form)
          },
@@ -465,7 +464,9 @@ load_once_from_file(true)
             var newFormName = "form_" + mm.model.max_form
             mm.model.forms[newFormName] = {
                 name: newFormName,
-                components: []
+                components: [],
+                width: "300px",
+                height: "300px"
             }
             mm.model.active_form = newFormName
             mm.refresh ++

@@ -12,7 +12,9 @@ formEditor({
   active_form: "Form 1",
   forms: {
       "Form 1": {
-          name: "Form 1",
+          name:     "Form 1",
+          width:    "300px",
+          height:   "300px",
           components: [
                           {
                               name:                 "",
