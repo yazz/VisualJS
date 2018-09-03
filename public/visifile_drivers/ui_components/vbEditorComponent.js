@@ -148,7 +148,7 @@ load_once_from_file(true)
 
 
                       <div    v-if='design_mode'
-                              v-bind:style='(design_mode?"border: 1px solid black;":"") + " position:absolute;top:0px;right:0px;width: 200px;height: 55vmin; display: inline-block;overflow-x: none;overflow-y: scroll;vertical-align: top; "'
+                              v-bind:style='(design_mode?"border: 1px solid black;":"") + " position:absolute;top:0px;right:0px;width: 250px;height: 55vmin; display: inline-block;overflow-x: none;overflow-y: scroll;vertical-align: top; "'
                               v-bind:refresh='refresh'>
 
                           <div    v-bind:refresh='refresh'
@@ -163,14 +163,16 @@ load_once_from_file(true)
                                             v-on:click='$event.stopPropagation();selectForm(form.name)'>{{form.name}}</div>
                                   </div>
                           </div>
-                          <div
+                          <div  class='container'
                                   style='height: 50%; border: 5px;overflow:auto;padding:5px; border: 1px solid black;'>
                                   Properties
                                   <div v-for='property in properties' v-bind:refresh='refresh'>
                                     <br>
-                                    <div    >{{property.name}}</div>
-                                    <input @change='generateCodeFromModel(  model  )' v-model='model.forms[model.active_form].components[model.active_component_index][property.id]'></input>
-                                  </div>
+                                    <div class='row'>
+                                        <div  class='col-md-4 small'   >{{property.name}}</div>
+                                        <input class='col-md-8 small'  @change='generateCodeFromModel(  model  )' v-model='model.forms[model.active_form].components[model.active_component_index][property.id]'></input>
+                                        </div>
+                                    </div>
                           </div>
 
                       </div>
