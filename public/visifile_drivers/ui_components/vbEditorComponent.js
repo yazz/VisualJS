@@ -134,6 +134,11 @@ load_once_from_file(true)
                                                <div    style='position: absolute; bottom: 0px; right: 0px;z-index: 30000000;width: 1px;height: 40px;background-color: black;'></div></div>
 
 
+                                         <div    v-if='design_mode'
+                                                 v-bind:refresh='refresh'
+                                                 style='opacity:0.5;position: absolute; bottom: 0px; right: 20px;z-index: 30000000;width: 20px;height: 20px;background-color: red;'
+                                                 v-on:click='$event.stopPropagation();deleteComponent(index)'>  X  </div>
+
 
 
 
@@ -292,6 +297,17 @@ load_once_from_file(true)
              ev.dataTransfer.setData("message",
                                      JSON.stringify(message,null,2));
          },
+
+
+
+         deleteComponent: async function(index) {
+//zzz
+            this.model.forms[this.model.active_form].components.splice(index, 1);
+            this.selectForm(this.model.active_form)
+         },
+
+
+
 
          //-------------------------------------------------------------------
          drop: async function (ev) {
