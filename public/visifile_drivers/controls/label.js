@@ -9,13 +9,15 @@ load_once_from_file(true)
 properties(
     [
         {
-            name: "Text",
-            type: "string"
+            id:     "text",
+            name:   "Text",
+            type:   "String"
         }
         ,
         {
-            name: "Background color",
-            type: "string"
+            id:     "background_color",
+            name:   "Background color",
+            type:   "String"
         }
     ]
 )//properties
@@ -26,9 +28,9 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASgAAACqCAMAAAAp1iJMAAAA
       props: ["properties"]
       ,
       template: `<div v-bind:style='"height:100%;width:100%; border: 0px;" +
-                                    "background-color: "+    properties["Background color"]  +  ";"'>
+                                    "background-color: "+    properties["background_color"]  +  ";"'>
 
-                                                {{properties.Text}}
+                                                {{properties.text}}
                  </div>`
       ,
       data: function() {

@@ -15,13 +15,13 @@ formEditor({
           name: "Form 1",
           components: [
                           {
-                              name: "",
-                              base_component_id: "label_control",
-                              leftX: 100,
-                              leftY: 100,
-                              width: 100,
-                              height: 100,
-                              text: "Hello world"
+                              name:                 "",
+                              base_component_id:    "label_control",
+                              leftX:                 100,
+                              leftY:                 100,
+                              width:                 100,
+                              height:                100,
+                              text:                 "Hello world"
                           }
 
                       ]

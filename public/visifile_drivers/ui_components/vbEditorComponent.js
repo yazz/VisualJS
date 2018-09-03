@@ -169,7 +169,7 @@ load_once_from_file(true)
                                   <div v-for='property in properties' v-bind:refresh='refresh'>
                                     <br>
                                     <div    >{{property.name}}</div>
-                                    <input @change='generateCodeFromModel(  model  )' v-model='model.forms[model.active_form].components[model.active_component_index][property.name]'></input>
+                                    <input @change='generateCodeFromModel(  model  )' v-model='model.forms[model.active_form].components[model.active_component_index][property.id]'></input>
                                   </div>
                           </div>
 
@@ -242,7 +242,9 @@ load_once_from_file(true)
 
 
      methods: {
+         //-------------------------------------------------------------------
          getForms: function() {
+         //-------------------------------------------------------------------
              var forms = []
              var llf = Object.keys(this.model.forms)
              for (var ii = 0; ii < llf.length ; ii ++) {
@@ -250,7 +252,16 @@ load_once_from_file(true)
              }
              return forms
          },
+
+
+
+
+
+
+
+         //-------------------------------------------------------------------
          selectForm: function(formId) {
+         //-------------------------------------------------------------------
              mm.model.active_component_index = null
              this.properties = []
              mm.model.active_form = formId
@@ -260,11 +271,15 @@ load_once_from_file(true)
 
 
 
+         //-------------------------------------------------------------------
          allowDrop: function(ev) {
+         //-------------------------------------------------------------------
              ev.preventDefault();
          },
 
+         //-------------------------------------------------------------------
          drag: function(ev,message) {
+         //-------------------------------------------------------------------
              var doc = document.documentElement;
              var left = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
              var top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
@@ -275,7 +290,9 @@ load_once_from_file(true)
                                      JSON.stringify(message,null,2));
          },
 
+         //-------------------------------------------------------------------
          drop: async function (ev) {
+         //-------------------------------------------------------------------
 
              var data2 = ev.dataTransfer.getData("message");
              var data = eval("(" + data2 + ")")
@@ -403,7 +420,9 @@ load_once_from_file(true)
 
 
 
+         //-------------------------------------------------------------------
          select_component: function(index) {
+         //-------------------------------------------------------------------
             this.model.active_component_index = index
             this.properties = []
             var comp = this.component_lookup[this.model.forms[this.model.active_form].components[index].base_component_id]
@@ -416,7 +435,9 @@ load_once_from_file(true)
 
 
 
+         //-------------------------------------------------------------------
          addForm: function() {
+         //-------------------------------------------------------------------
             mm.model.active_component_index = null
             mm.properties = []
             mm.model.max_form ++
@@ -433,7 +454,9 @@ load_once_from_file(true)
          ,
 
 
+        //-------------------------------------------------------------------
         addField: function() {
+        //-------------------------------------------------------------------
             mm.model.forms[mm.model.active_form].fields.push({   id: mm.model.next_id,   type: "text",   text: "Enter text here",
                                       style: {}})
             mm.model.next_id ++
@@ -441,7 +464,9 @@ load_once_from_file(true)
             //alert("Added: " + JSON.stringify(mm.model,null,2))
         },
 
+        //-------------------------------------------------------------------
         getFieldCssStyle: function(   fieldId   , styleName) {
+        //-------------------------------------------------------------------
             var mm = this
             var itemD = null
             for (var tt=0; tt < mm.model.fields.length ; tt++) {
@@ -461,7 +486,9 @@ load_once_from_file(true)
         },
 
 
+        //-------------------------------------------------------------------
         fieldSize: function(fieldId) {
+        //-------------------------------------------------------------------
             var mm = this
             if (mm.getFieldCssStyle(fieldId,"size") == null) {
                 return 16
@@ -470,7 +497,9 @@ load_once_from_file(true)
         },
 
 
+        //-------------------------------------------------------------------
         updateFieldCssStyle: function(   fieldId   , styleName, styleValue) {
+        //-------------------------------------------------------------------
             var itemD = null
             var mm = this
             for (var tt=0; tt < mm.fields.length ; tt++) {
@@ -486,7 +515,9 @@ load_once_from_file(true)
         },
 
 
+        //-------------------------------------------------------------------
         getStyle: function(fieldId) {
+        //-------------------------------------------------------------------
             var mm = this
             var styleT = ""
             for (var tt = 0; tt < mm.model.fields.length ; tt++) {
@@ -509,7 +540,9 @@ load_once_from_file(true)
         },
 
 
+        //-------------------------------------------------------------------
         moveUp: function(   fieldId   ) {
+        //-------------------------------------------------------------------
             var itemD = null
             for (var tt=0; tt < mm.model.forms[mm.model.active_form].fields.length ; tt++) {
                 var ciurr = mm.model.forms[mm.model.active_form].fields[tt]
@@ -529,7 +562,9 @@ load_once_from_file(true)
             this.generateCodeFromModel(  mm.model  )
         },
 
+        //-------------------------------------------------------------------
         moveDown: function(   fieldId   ) {
+        //-------------------------------------------------------------------
             var itemD = null
             for (var tt=0; tt < mm.model.forms[mm.model.active_form].fields.length ; tt++) {
                 var ciurr = mm.model.forms[mm.model.active_form].fields[tt]
@@ -549,7 +584,9 @@ load_once_from_file(true)
             this.generateCodeFromModel(  mm.model  )
         },
 
+        //-------------------------------------------------------------------
         deleteField: function(   fieldId   ) {
+        //-------------------------------------------------------------------
             var itemD = null
             for (var tt=0; tt < mm.model.forms[mm.model.active_form].fields.length ; tt++) {
                 var ciurr = mm.model.forms[mm.model.active_form].fields[tt]
@@ -567,23 +604,31 @@ load_once_from_file(true)
             this.generateCodeFromModel(  mm.model  )
             //alert("Added: " + JSON.stringify(mm.model,null,2))
         },
+        //-------------------------------------------------------------------
         getText: function() {
+        //-------------------------------------------------------------------
             return this.text
         },
+        //-------------------------------------------------------------------
         setText: function(textValue) {
+        //-------------------------------------------------------------------
             this.text =  textValue
             var json2 = this.getJsonModelFromCode(  textValue  )
             mm.model = json2
             this.generateCodeFromModel(  json2  )
         }
         ,
+        //-------------------------------------------------------------------
         getJsonModelFromCode: function(  codeV  ) {
+        //-------------------------------------------------------------------
             var json2 = saveHelper.getValueOfCodeString(codeV,"formEditor",")//formEditor")
             return json2
         }
 
         ,
+        //-------------------------------------------------------------------
         generateCodeFromModel: async function(  jsonModel  ) {
+        //-------------------------------------------------------------------
             var startIndex = this.text.indexOf("//** gen_" + "start **//")
             var endIndex = this.text.indexOf("//** gen_" + "end **//")
 
