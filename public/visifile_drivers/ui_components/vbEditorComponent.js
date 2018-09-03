@@ -408,11 +408,7 @@ load_once_from_file(true)
              }
 
 
-             var comp = this.component_lookup[data.text]
-             this.properties = []
-             if (comp.properties) {
-                this.properties.concat( eval("(" + comp.properties + ")") )
-             }
+             this.select_component(this.model.active_component_index)
              this.refresh ++
 
 

@@ -18,7 +18,7 @@ formEditor({
                               name:                 "",
                               base_component_id:    "label_control",
                               leftX:                 100,
-                              leftY:                 100,
+                              topY:                  100,
                               width:                 100,
                               height:                100,
                               text:                 "Hello world"
