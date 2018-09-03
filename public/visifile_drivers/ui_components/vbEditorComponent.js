@@ -176,7 +176,8 @@ load_once_from_file(true)
                                     <br>
                                     <div class='row'>
                                         <div  class='col-md-4 small'   >{{property.name}}</div>
-                                        <input class='col-md-8 small'  @change='generateCodeFromModel(  model  )' v-model='model.forms[model.active_form].components[model.active_component_index][property.id]'></input>
+                                        <input v-if='model.active_component_index != null' class='col-md-8 small'  @change='generateCodeFromModel(  model  )' v-model='model.forms[model.active_form].components[model.active_component_index][property.id]'></input>
+                                        <input v-if='(model.active_component_index == null) && (model.active_form != null)' class='col-md-8 small'  @change='generateCodeFromModel(  model  )' v-model='model.forms[model.active_form][property.id]'></input>
                                         </div>
                                     </div>
                           </div>
@@ -272,6 +273,9 @@ load_once_from_file(true)
          //-------------------------------------------------------------------
              mm.model.active_component_index = null
              this.properties = []
+             this.properties.push({   id:     "name",   name:   "Name",   type:   "String"    })
+             this.properties.push({   id:     "width",   name:   "Width",   type:   "Number"    })
+             this.properties.push({   id:     "height",   name:   "Height",   type:   "Number"    })
              mm.model.active_form = formId
              mm.refresh ++
              this.generateCodeFromModel(  mm.model  )
@@ -460,6 +464,10 @@ load_once_from_file(true)
          //-------------------------------------------------------------------
             mm.model.active_component_index = null
             mm.properties = []
+            this.properties.push({   id:     "name",   name:   "Name",   type:   "String"    })
+            this.properties.push({   id:     "width",   name:   "Width",   type:   "Number"    })
+            this.properties.push({   id:     "height",   name:   "Height",   type:   "Number"    })
+
             mm.model.max_form ++
             var newFormName = "form_" + mm.model.max_form
             mm.model.forms[newFormName] = {
