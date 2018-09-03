@@ -427,9 +427,16 @@ load_once_from_file(true)
          //-------------------------------------------------------------------
             this.model.active_component_index = index
             this.properties = []
+            this.properties.push({   id:     "name",   name:   "Name",   type:   "String"    })
+            this.properties.push({   id:     "leftX",   name:   "X",   type:   "Number"    })
+            this.properties.push({   id:     "topY",   name:   "Y",   type:   "Number"    })
+            this.properties.push({   id:     "width",   name:   "Width",   type:   "Number"    })
+            this.properties.push({   id:     "height",   name:   "Height",   type:   "Number"    })
+
             var comp = this.component_lookup[this.model.forms[this.model.active_form].components[index].base_component_id]
             if (comp.properties) {
-               this.properties = eval("(" + comp.properties + ")")
+               var compEvaled = eval("(" + comp.properties + ")")
+               this.properties = this.properties.concat(compEvaled)
             }
             this.refresh ++
          },
