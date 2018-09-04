@@ -79,7 +79,7 @@ load_once_from_file(true)
                                     </div>
                                     <div    v-if='design_mode'
                                             v-bind:refresh='refresh'
-                                            style='opacity:0.5;position: absolute; top: 0px; left: 0px;z-index: 30000000;width: 20px;height: 20px;background-color: lightgray;'
+                                            style='opacity:0.5;position: absolute; top: 0px; left: 0px;z-index: 30000000;width: 20px;height: 20px;background-color: gray;'
                                             v-bind:draggable='true'
                                             ondrop="return false;"
                                             v-on:dragstart='drag($event,{
@@ -95,7 +95,7 @@ load_once_from_file(true)
 
                                     <div    v-if='design_mode'
                                             v-bind:refresh='refresh'
-                                            style='opacity:0.5;position: absolute; top: 0px; right: 0px;z-index: 30000000;width: 20px;height: 20px;background-color: lightgray;'
+                                            style='opacity:0.5;position: absolute; top: 0px; right: 0px;z-index: 30000000;width: 20px;height: 20px;background-color: gray;'
                                             v-bind:draggable='true'
                                             v-on:dragstart='drag($event,{
                                                type:   "resize_top_right",
@@ -109,7 +109,7 @@ load_once_from_file(true)
 
                                      <div    v-if='design_mode'
                                              v-bind:refresh='refresh'
-                                             style='opacity:0.5;position: absolute; bottom: 0px; left: 0px;z-index: 30000000;width: 20px;height: 20px;background-color: lightgray;'
+                                             style='opacity:0.5;position: absolute; bottom: 0px; left: 0px;z-index: 30000000;width: 20px;height: 20px;background-color: gray;'
                                              v-bind:draggable='true'
                                              v-on:dragstart='drag($event,{
                                                 type:   "resize_bottom_left",
@@ -123,7 +123,7 @@ load_once_from_file(true)
 
                                           <div    v-if='design_mode'
                                                   v-bind:refresh='refresh'
-                                                  style='opacity:0.5;position: absolute; bottom: 0px; right: 0px;z-index: 30000000;width: 20px;height: 20px;background-color: lightgray;'
+                                                  style='opacity:0.5;position: absolute; bottom: 0px; right: 0px;z-index: 30000000;width: 20px;height: 20px;background-color: gray;'
                                                   v-bind:draggable='true'
                                                   v-on:dragstart='drag($event,{
                                                      type:   "resize_bottom_right",
@@ -137,7 +137,9 @@ load_once_from_file(true)
                                          <div    v-if='design_mode'
                                                  v-bind:refresh='refresh'
                                                  style='opacity:0.5;position: absolute; bottom: 0px; right: 20px;z-index: 30000000;width: 20px;height: 20px;background-color: red;'
-                                                 v-on:click='$event.stopPropagation();deleteComponent(index)'>  X  </div>
+                                                 v-on:click='$event.stopPropagation();deleteComponent(index)'>
+                                                        <div style='text-align: center;vertical-align: middle;'>X</div>
+                                                 </div>
 
 
 
