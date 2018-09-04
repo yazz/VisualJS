@@ -22,6 +22,7 @@ load_once_from_file(true)
                         <slot style='display: inline-block;' v-if='text' :text2="text"></slot>
                     </div>
 
+
                     <div    id='vb_editor'
                             style='position:relative'
                             v-on:drop="dropEditor($event)"
@@ -29,7 +30,7 @@ load_once_from_file(true)
                     >
 
                         <div    v-if='design_mode'
-                                v-bind:style='(design_mode?"border: 1px solid black;":"") + " width: 200px;height: 55vmin; display: inline-block;overflow-x: none;overflow-y: scroll;vertical-align: top; "'>
+                                v-bind:style='(design_mode?"border: 1px solid black;":"") + " width: " + leftHandWidth + "px;height: 55vmin; display: inline-block;overflow-x: none;overflow-y: scroll;vertical-align: top; "'>
 
                             <div    v-for='av in available_components'
                                     draggable="true"
@@ -43,6 +44,7 @@ load_once_from_file(true)
                                 <div style='width:100%;display:inline-block;overflow: hidden;'>{{av.base_component_id}}</div>
                             </div>
                         </div>
+
 
                         <div            id='vb_grid'
                                         v-on:drop="drop($event)"
@@ -318,18 +320,19 @@ load_once_from_file(true)
               var data = eval("(" + data2 + ")")
 
               var doc = document.documentElement;
-              var left = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
+              var left = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0) ;
               var top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
               console.log(" ")
               console.log(" window left,window top: ------------ " +  left + "," +  top)
 
               if (data.type == "resize_form_bottom_right") {
+                //zzz
                 //alert(data.form_name)
 
                 var rrr = document.getElementById("vb_editor").getBoundingClientRect()
                 console.log(" editor left,editor top: ------------ " +  rrr.left + "," +  rrr.top)
 
-                var newWidth = (ev.clientX + 20)  - rrr.left - data.offsetX;
+                var newWidth = (ev.clientX + 20)  - rrr.left - data.offsetX - this.leftHandWidth;
                 var newHeight = (ev.clientY + 20) - rrr.top - data.offsetY;
                 console.log(" ev.clientX,ev.clientY: ------------ " +  ev.clientX + "," +  ev.clientY)
                 console.log(" newWidth,newHeight: ------------ " +  newWidth + "," +  newHeight)
@@ -469,11 +472,13 @@ load_once_from_file(true)
 
 
              } else if (data.type == "resize_bottom_right") {
+             //zzz
                  var rrr = document.getElementById("vb_grid").getBoundingClientRect()
                  var newX = (ev.clientX + 20)  - rrr.left - data.offsetX;
                  var newY = (ev.clientY + 20) - rrr.top - data.offsetY;
+                 console.log(" editor left,editor top: ------------ " +  rrr.left + "," +  rrr.top)
 
-                 console.log(" X,Y: ------------ " +  newX + "," +  newY)
+                 console.log(" newX,newY: ------------ " +  newX + "," +  newY)
 
                  var newWidth = newX - this.model.forms[this.model.active_form].components[data.index].leftX
                  this.model.forms[this.model.active_form].components[data.index].width = newWidth
@@ -788,6 +793,7 @@ load_once_from_file(true)
            runtime_mode:                runtimeMode,
            edited_app_component_id:     null,
            text:                        texti,
+           leftHandWidth:               200,
            uid2:                        uid2,
            refresh:                     0,
            properties:                  [],
