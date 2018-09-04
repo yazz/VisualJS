@@ -22,7 +22,8 @@ load_once_from_file(true)
                         <slot style='display: inline-block;' v-if='text' :text2="text"></slot>
                     </div>
 
-                    <div    style='position:relative'
+                    <div    id='vb_editor'
+                            style='position:relative'
                             v-on:drop="dropEditor($event)"
                             v-on:ondragover="allowDropEditor($event)"
                     >
@@ -311,6 +312,7 @@ load_once_from_file(true)
           //-------------------------------------------------------------------
           dropEditor: async function (ev) {
           //-------------------------------------------------------------------
+            ev.preventDefault();
 
               var data2 = ev.dataTransfer.getData("message");
               var data = eval("(" + data2 + ")")
@@ -318,9 +320,26 @@ load_once_from_file(true)
               var doc = document.documentElement;
               var left = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
               var top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
+              console.log(" ")
+              console.log(" window left,window top: ------------ " +  left + "," +  top)
 
               if (data.type == "resize_form_bottom_right") {
-                alert(data.form_name)
+                //alert(data.form_name)
+
+                var rrr = document.getElementById("vb_editor").getBoundingClientRect()
+                console.log(" editor left,editor top: ------------ " +  rrr.left + "," +  rrr.top)
+
+                var newWidth = (ev.clientX + 20)  - rrr.left - data.offsetX;
+                var newHeight = (ev.clientY + 20) - rrr.top - data.offsetY;
+                console.log(" ev.clientX,ev.clientY: ------------ " +  ev.clientX + "," +  ev.clientY)
+                console.log(" newWidth,newHeight: ------------ " +  newWidth + "," +  newHeight)
+
+
+                this.model.forms[this.model.active_form].width = newWidth
+                this.model.forms[this.model.active_form].height = newHeight
+
+                this.model.active_component_index = null
+                this.generateCodeFromModel(  mm.model  )
               }
           },
 
