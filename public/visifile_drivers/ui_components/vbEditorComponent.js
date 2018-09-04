@@ -22,7 +22,11 @@ load_once_from_file(true)
                         <slot style='display: inline-block;' v-if='text' :text2="text"></slot>
                     </div>
 
-                    <div style='position:relative'>
+                    <div    style='position:relative'
+                            v-on:drop="dropEditor($event)"
+                            v-on:ondragover="allowDropEditor($event)"
+                    >
+
                         <div    v-if='design_mode'
                                 v-bind:style='(design_mode?"border: 1px solid black;":"") + " width: 200px;height: 55vmin; display: inline-block;overflow-x: none;overflow-y: scroll;vertical-align: top; "'>
 
@@ -40,11 +44,24 @@ load_once_from_file(true)
                         </div>
 
                         <div            id='vb_grid'
-                                        v-on:drop="$event.stopPropagation();drop($event)"
+                                        v-on:drop="drop($event)"
                                         v-on:ondragover="allowDrop($event)"
                                         v-bind:class='(design_mode?"dotted":"" )'
                                         v-on:click='if (design_mode) {$event.stopPropagation();selectForm(model.active_form)}'
                                         v-bind:style='"display: inline-block; vertical-align: top; position: relative; width: " + model.forms[model.active_form].width +  ";height: " + model.forms[model.active_form].height +  " ;" + (design_mode?"border: 1px solid black;":"" ) '>
+
+
+
+                                        <div    v-if='design_mode'
+                                                v-bind:refresh='refresh'
+                                                style='opacity:0.5;position: absolute; bottom: 0px; right: 0px;z-index: 30000000;width: 20px;height: 20px;background-color: gray;'
+                                                v-bind:draggable='true'
+                                                v-on:dragstart='drag($event,{
+                                                   type:        "resize_form_bottom_right",
+                                                   form_name:    model.active_form
+                                                })'>
+                                             <div    style='position: absolute; bottom: 0px; right: 0px;z-index: 30000000;width: 40px;height: 1px;background-color: black;'></div>
+                                             <div    style='position: absolute; bottom: 0px; right: 0px;z-index: 30000000;width: 1px;height: 40px;background-color: black;'></div></div>
 
                              <div       v-bind:refresh='refresh'
                                         v-for='(item,index) in getActiveFormComponents'
@@ -284,11 +301,33 @@ load_once_from_file(true)
          },
 
 
+         //-------------------------------------------------------------------
+         allowDropEditor: function(ev) {
+         //-------------------------------------------------------------------
+             ev.preventDefault();
+         },
+
+
+          //-------------------------------------------------------------------
+          dropEditor: async function (ev) {
+          //-------------------------------------------------------------------
+
+              var data2 = ev.dataTransfer.getData("message");
+              var data = eval("(" + data2 + ")")
+
+              var doc = document.documentElement;
+              var left = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
+              var top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
+
+              if (data.type == "resize_form_bottom_right") {
+                alert(data.form_name)
+              }
+          },
 
          //-------------------------------------------------------------------
          allowDrop: function(ev) {
          //-------------------------------------------------------------------
-             ev.preventDefault();
+             //ev.preventDefault();
          },
 
          //-------------------------------------------------------------------
@@ -442,6 +481,9 @@ load_once_from_file(true)
          //-------------------------------------------------------------------
          select_component: function(index) {
          //-------------------------------------------------------------------
+            if (index == null) {
+                return
+            }
             this.model.active_component_index = index
             this.properties = []
             this.properties.push({   id:     "name",   name:   "Name",   type:   "String"    })
