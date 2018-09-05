@@ -303,7 +303,7 @@ load_once_from_file(true)
                // read the code for the component that we are editing
                //
                var sql =    "select  id, cast(code as text)  as  code, editors  from  system_code  where " +
-                            "        component_type = 'app' and base_component_id = '" + baseComponentId + "'" +
+                            "        base_component_id = '" + baseComponentId + "'" +
                             "        and code_tag = 'LATEST' "
 
                var results = await callApp(
