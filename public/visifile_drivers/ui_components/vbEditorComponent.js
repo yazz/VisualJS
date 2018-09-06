@@ -188,14 +188,14 @@ load_once_from_file(true)
                                   <div v-for='form in getForms()' v-bind:refresh='refresh'>
                                     <br>
                                     <div>
-                                        <div    v-bind:style='(form.name == model.active_form?"background-color:gray;":"") + ""'
+                                        <div    v-bind:style='(form.name == model.active_form?"background-color:gray;color:white;":"color:black;") + "padding:4px;"'
                                                 v-on:click='$event.stopPropagation();selectForm(form.name)'>
                                                         {{form.name}}
                                         </div>
                                             <div    v-if='form.name == model.active_form'
                                                     v-for='(av,index) in getActiveFormComponents'
                                                     v-on:click='$event.stopPropagation();select_component(index)'
-                                                    v-bind:style='(((index == model.active_component_index) && design_mode)?"background-color: lightgray;":"") + "margin-left:30px;"'
+                                                    v-bind:style='(((index == model.active_component_index) && design_mode)?"background-color: lightgray;":"") + "margin-left:30px; padding:2px;"'
                                                     >
                                                     <div style='width:100%;display:inline-block;overflow: hidden;'>{{av.base_component_id}}</div>
                                             </div>
