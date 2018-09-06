@@ -222,7 +222,8 @@ function processMessagesFromMainProcess() {
 
                                 function(err, results)
                                 {
-                                    if (results) {
+                                    if (results && (results.length > 0)) {
+                                        console.log("msg.find_component.base_component_id: " + msg.find_component.base_component_id  + " = " + results[0].id)
                                        scheduleJobWithCodeId(  results[0].id,
                                                                msg.args,
                                                                msg.caller_call_id,
