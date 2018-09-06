@@ -8,6 +8,14 @@ description("This will return the editor app V3")
 logo_url("https://2.bp.blogspot.com/-6Hdixw3dFxk/WfSQOnB9lDI/AAAAAAAAFFc/84DRGgcwOpYBOgknkHQ-qmgxvFv1D-iHACLcBGAs/s1600/BracketsDarks.PNG")
 load_once_from_file(true)
 */
+    //
+    // Hack city!!! Turn off the component cache so that we can enable hot reloading of components
+    //
+    isStaticHtmlPageApp = false
+    //
+    // 
+    //
+
 
     var argBaseComponentId = null
     var cardId = null
