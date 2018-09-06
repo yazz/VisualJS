@@ -193,8 +193,10 @@ load_once_from_file(true)
                                                         {{form.name}}
                                         </div>
                                             <div    v-if='form.name == model.active_form'
-                                                    v-for='(av,index) in getActiveFormComponents''
-                                                    style='margin-left:30px;'>
+                                                    v-for='(av,index) in getActiveFormComponents'
+                                                    v-on:click='$event.stopPropagation();select_component(index)'
+                                                    v-bind:style='(((index == model.active_component_index) && design_mode)?"background-color: lightgray;":"") + "margin-left:30px;"'
+                                                    >
                                                     <div style='width:100%;display:inline-block;overflow: hidden;'>{{av.base_component_id}}</div>
                                             </div>
                                         </div>
