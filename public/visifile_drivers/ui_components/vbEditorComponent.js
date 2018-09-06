@@ -337,7 +337,7 @@ load_once_from_file(true)
               console.log(" window left,window top: ------------ " +  left + "," +  top)
 
               if (data.type == "resize_form_bottom_right") {
-                //zzz
+
                 //alert(data.form_name)
 
                 var rrr = document.getElementById("vb_editor").getBoundingClientRect()
@@ -483,7 +483,7 @@ load_once_from_file(true)
 
 
              } else if (data.type == "resize_bottom_right") {
-             //zzz
+
                  var rrr = document.getElementById("vb_grid").getBoundingClientRect()
                  var newX = (ev.clientX + 20)  - rrr.left - data.offsetX;
                  var newY = (ev.clientY + 20) - rrr.top - data.offsetY;

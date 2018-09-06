@@ -1,7 +1,7 @@
 function pwd(args, callbackFn) {
 /*
 description("pwd returns working directory")
-base_component_id("systemFunctions2")
+base_component_id("commandLine2")
 load_once_from_file(true)
 */
 
