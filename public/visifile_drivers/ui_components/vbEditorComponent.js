@@ -225,8 +225,8 @@ load_once_from_file(true)
                                 <br>
                                 <div class='row'>
                                     <div  class='col-md-4 small'   >{{property.name}}</div>
-                                    <input v-if='model.active_component_index != null' class='col-md-8 small'  @change='generateCodeFromModel(  model  )' v-model='model.forms[model.active_form].components[model.active_component_index][property.id]'></input>
-                                    <input v-if='(model.active_component_index == null) && (model.active_form != null)' class='col-md-8 small'  @change='generateCodeFromModel(  model  )' v-model='model.forms[model.active_form][property.id]'></input>
+                                    <input v-if='model.active_component_index != null' class='col-md-7 small'  @change='generateCodeFromModel(  model  )' v-model='model.forms[model.active_form].components[model.active_component_index][property.id]'></input>
+                                    <input v-if='(model.active_component_index == null) && (model.active_form != null)' class='col-md-7 small'  @change='generateCodeFromModel(  model  )' v-model='model.forms[model.active_form][property.id]'></input>
                                 </div>
                       </div>
 
