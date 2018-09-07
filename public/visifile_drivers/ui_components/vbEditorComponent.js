@@ -829,6 +829,8 @@ load_once_from_file(true)
                                             max_form: 1,
                                             active_form: "Form 1",
                                             active_component_index: null,
+                                            app_selected: false,
+                                            app_properties: [],
 
                                             fields: [
 
