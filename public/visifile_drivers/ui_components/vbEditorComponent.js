@@ -225,8 +225,15 @@ load_once_from_file(true)
                                 <br>
                                 <div class='row'>
                                     <div  class='col-md-4 small'   >{{property.name}}</div>
-                                    <input v-if='model.active_component_index != null' class='col-md-7 small'  @change='generateCodeFromModel(  model  )' v-model='model.forms[model.active_form].components[model.active_component_index][property.id]'></input>
-                                    <input v-if='(model.active_component_index == null) && (model.active_form != null)' class='col-md-7 small'  @change='generateCodeFromModel(  model  )' v-model='model.forms[model.active_form][property.id]'></input>
+                                    <div v-if='!property.readonly'>
+                                        <input v-if='model.active_component_index != null' class='col-md-7 small'  @change='generateCodeFromModel(  model  )' v-model='model.forms[model.active_form].components[model.active_component_index][property.id]'></input>
+                                        <input v-if='(model.active_component_index == null) && (model.active_form != null)' class='col-md-7 small'  @change='generateCodeFromModel(  model  )' v-model='model.forms[model.active_form][property.id]'></input>
+                                    </div>
+                                    <div v-if='property.readonly'>
+                                        <div v-if='model.active_component_index != null' class='col-md-7 small'  @change='generateCodeFromModel(  model  )' v-model='model.forms[model.active_form].components[model.active_component_index][property.id]'></div>
+                                        <div v-if='(model.active_component_index == null) && (model.active_form != null) && (!model.app_selected)' class='col-md-7 small'  @change='generateCodeFromModel(  model  )' v-model='model.forms[model.active_form][property.id]'></div>
+                                        <div v-bind:refresh='refresh' v-if='model.app_selected' class='col-md-7 small'  >{{model[property.id]}}</div>
+                                    </div>
                                 </div>
                       </div>
 
@@ -528,8 +535,9 @@ load_once_from_file(true)
          //-------------------------------------------------------------------
 
             this.model.active_component_index = null
+            this.app_selected = true
             this.properties = []
-            this.properties.push({   id:     "id",   name:   "ID",   type:   "String"    })
+            this.properties.push({   id:     "id",   name:   "ID",   type:   "String" , readonly: true   })
 
             if (this.model.app_properties) {
                 //alert(JSON.stringify(this.model.app_properties,null,2))
@@ -541,9 +549,11 @@ load_once_from_file(true)
          //-------------------------------------------------------------------
          select_component: function(index) {
          //-------------------------------------------------------------------
+
             if (index == null) {
                 return
             }
+            this.app_selected = false
             this.model.active_component_index = index
             this.properties = []
             this.properties.push({   id:     "name",   name:   "Name",   type:   "String"    })
