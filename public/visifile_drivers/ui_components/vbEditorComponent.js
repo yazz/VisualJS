@@ -192,7 +192,7 @@ load_once_from_file(true)
                                           style='height:70%;overflow-y:scroll; padding:5px; '>
 
                                       <div    v-bind:style='"background-color:black;color:white;padding:4px;margin:0px;margin-top: 5px;"'
-                                              v-on:click='$event.stopPropagation();'>
+                                              v-on:click='$event.stopPropagation();select_app()'>
                                                       {{edited_app_component_id}}
                                       </div>
 
@@ -523,7 +523,20 @@ load_once_from_file(true)
          },
 
 
+         //-------------------------------------------------------------------
+         select_app: function(index) {
+         //-------------------------------------------------------------------
 
+            this.model.active_component_index = null
+            this.properties = []
+            this.properties.push({   id:     "id",   name:   "ID",   type:   "String"    })
+
+            if (this.model.app_properties) {
+                //alert(JSON.stringify(this.model.app_properties,null,2))
+                this.properties = this.properties.concat(this.model.app_properties)
+            }
+            this.refresh ++
+         },
 
          //-------------------------------------------------------------------
          select_component: function(index) {

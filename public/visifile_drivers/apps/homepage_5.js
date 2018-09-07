@@ -11,7 +11,21 @@ formEditor({
   max_form: 1,
   active_form: "Form 1",
   app_selected: false,
-  app_properties: [],
+  app_properties:
+  [
+          {
+              id:     "text",
+              name:   "Text",
+              type:   "String"
+          }
+          ,
+          {
+              id:     "background_color",
+              name:   "Background color",
+              type:   "String"
+          }
+      ]
+      ,
 
   forms: {
       "Form 1": {
@@ -373,7 +387,22 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
                       model: {
   "next_id": 7,
   app_selected: false,
-  app_properties: [],
+  app_properties:
+  [
+          {
+              id:     "text",
+              name:   "Text",
+              type:   "String"
+          }
+          ,
+          {
+              id:     "background_color",
+              name:   "Background color",
+              type:   "String"
+          }
+      ]
+      ,
+
 "Form 1": {
       name: "Form 1",
       components: [
