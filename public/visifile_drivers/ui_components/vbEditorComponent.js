@@ -180,43 +180,55 @@ load_once_from_file(true)
                               v-bind:refresh='refresh'>
 
                           <div    v-bind:refresh='refresh'
-                                  style='height: 50%; border: 5px;overflow:auto; padding:5px; border: 1px solid black;'>
-                                  List of forms:
+                                  style='height: 50%;  padding:5px; border: 1px solid black;'>
 
-                                  <button  type=button class='btn btn-sm btn-info'  v-on:click='$event.stopPropagation();addForm()'  > Add form </button>
 
-                                  <div v-for='form in getForms()' v-bind:refresh='refresh'>
-                                    <br>
-                                    <div>
-                                        <div    v-bind:style='(form.name == model.active_form?"background-color:gray;color:white;":"color:black;") + "padding:4px;"'
-                                                v-on:click='$event.stopPropagation();selectForm(form.name)'>
-                                                        {{form.name}}
-                                        </div>
-                                            <div    v-if='form.name == model.active_form'
-                                                    v-for='(av,index) in getActiveFormComponents'
-                                                    v-on:click='$event.stopPropagation();select_component(index)'
-                                                    v-bind:style='(((index == model.active_component_index) && design_mode)?"background-color: lightgray;":"") + "margin-left:30px; padding:2px;"'
-                                                    >
-                                                    <div style='width:100%;display:inline-block;overflow: hidden;'>{{av.base_component_id}}</div>
-                                            </div>
-                                        </div>
+                                  <div style='height:30%;'>
+                                        Project explorer
+                                        <button  type=button class='btn btn-sm btn-info'  v-on:click='$event.stopPropagation();addForm()'  > Add form </button>
                                   </div>
+
+                                  <div    v-bind:refresh='refresh'
+                                          style='height:70%;overflow-y:scroll; padding:5px; '>
+
+                                      <div    v-bind:style='"background-color:black;color:white;padding:4px;margin:0px;margin-top: 5px;"'
+                                              v-on:click='$event.stopPropagation();'>
+                                                      {{edited_app_component_id}}
+                                      </div>
+
+                                      <div v-for='form in getForms()' v-bind:refresh='refresh'>
+
+                                          <div>
+                                              <div    v-bind:style='(form.name == model.active_form?"background-color:gray;color:white;":"color:black;") + "padding:4px;margin:0px;margin-left:30px;"'
+                                                    v-on:click='$event.stopPropagation();selectForm(form.name)'>
+                                                            {{form.name}}
+                                              </div>
+
+                                              <div    v-if='form.name == model.active_form'
+                                                      v-for='(av,index) in getActiveFormComponents'
+                                                      v-on:click='$event.stopPropagation();select_component(index)'
+                                                      v-bind:style='(((index == model.active_component_index) && design_mode)?"background-color: lightgray;":"") + "margin-left:60px; padding:2px;"'
+                                                      >
+                                                      <div style='width:100%;display:inline-block;overflow: hidden;'>{{av.base_component_id}}</div>
+                                              </div>
+                                         </div>
+                                     </div>
                           </div>
-                          <div  class='container'
-                                  style='height: 50%; border: 5px;overflow:auto;padding:5px; border: 1px solid black;'>
-                                  Properties
-                                  <div v-for='property in properties' v-bind:refresh='refresh'>
-                                    <br>
-                                    <div class='row'>
-                                        <div  class='col-md-4 small'   >{{property.name}}</div>
-                                        <input v-if='model.active_component_index != null' class='col-md-8 small'  @change='generateCodeFromModel(  model  )' v-model='model.forms[model.active_form].components[model.active_component_index][property.id]'></input>
-                                        <input v-if='(model.active_component_index == null) && (model.active_form != null)' class='col-md-8 small'  @change='generateCodeFromModel(  model  )' v-model='model.forms[model.active_form][property.id]'></input>
-                                        </div>
-                                    </div>
-                          </div>
+
 
                       </div>
 
+                      <div  class='container'
+                              style='position:absolute;height: 50%; overflow-y:scroll;padding:5px; border: 1px solid black;bottom:0px;'>
+                              Properties
+                              <div v-for='property in properties' v-bind:refresh='refresh'>
+                                <br>
+                                <div class='row'>
+                                    <div  class='col-md-4 small'   >{{property.name}}</div>
+                                    <input v-if='model.active_component_index != null' class='col-md-8 small'  @change='generateCodeFromModel(  model  )' v-model='model.forms[model.active_form].components[model.active_component_index][property.id]'></input>
+                                    <input v-if='(model.active_component_index == null) && (model.active_form != null)' class='col-md-8 small'  @change='generateCodeFromModel(  model  )' v-model='model.forms[model.active_form][property.id]'></input>
+                                </div>
+                      </div>
 
 
                     </div>`
