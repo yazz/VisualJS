@@ -774,6 +774,8 @@ load_once_from_file(true)
         //-------------------------------------------------------------------
         generateCodeFromModel: async function(  jsonModel  ) {
         //-------------------------------------------------------------------
+            mm.model.edited_app_component_id = saveHelper.getValueOfCodeString(texti, "base_component_id")
+
             var startIndex = this.text.indexOf("//** gen_" + "start **//")
             var endIndex = this.text.indexOf("//** gen_" + "end **//")
 
