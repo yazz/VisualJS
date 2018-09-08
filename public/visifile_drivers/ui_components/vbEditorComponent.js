@@ -232,7 +232,9 @@ load_once_from_file(true)
                                     <div v-if='property.readonly'>
                                         <div v-if='model.active_component_index != null' class='col-md-7 small'  @change='generateCodeFromModel(  model  )' v-model='model.forms[model.active_form].components[model.active_component_index][property.id]'></div>
                                         <div v-if='(model.active_component_index == null) && (model.active_form != null) && (model.app_selected == false)' class='col-md-7 small'  @change='generateCodeFromModel(  model  )' v-model='model.forms[model.active_form][property.id]'></div>
-                                        <div v-bind:refresh='refresh' v-if='model.app_selected' class='col-md-7 small'  >{{model[property.id]}}</div>
+                                        <div v-bind:refresh='refresh' v-if='model.app_selected' class='col-md-7 small'  >
+                                            {{property.get_fn?property.get_fn():model[property.id]}}
+                                            </div>
                                     </div>
                                 </div>
                       </div>
@@ -538,7 +540,11 @@ load_once_from_file(true)
             this.model.active_component_index = null
             this.model.app_selected = true
             this.properties = []
-            this.properties.push({   id:     "id",   name:   "ID",   type:   "String" , readonly: true   })
+            this.properties.push({   id:     "id",   name:   "ID",   type:   "String" , readonly: true,
+                                     get_fn: function() {
+                                        return mm.edited_app_component_id
+                                     }
+                                     })
 
             if (this.model.app_properties) {
                 //alert(JSON.stringify(this.model.app_properties,null,2))
