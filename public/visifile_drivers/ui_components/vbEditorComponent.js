@@ -221,6 +221,7 @@ load_once_from_file(true)
                       <div  class='container'
                               style='position:absolute;height: 50%; overflow-y:scroll;padding:5px; border: 1px solid black;bottom:0px;'>
                               Properties
+                              <button  v-if='model.app_selected'  type=button class='btn btn-sm btn-info'  v-on:click='$event.stopPropagation();addProperty()'  > Add property </button>
                               <div v-for='property in properties' v-bind:refresh='refresh'>
                                 <br>
                                 <div class='row'>

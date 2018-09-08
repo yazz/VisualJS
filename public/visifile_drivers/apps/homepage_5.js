@@ -14,17 +14,6 @@ formEditor({
   id: "homepage_5",
   app_properties:
   [
-          {
-              id:     "text",
-              name:   "Text",
-              type:   "String"
-          }
-          ,
-          {
-              id:     "background_color",
-              name:   "Background color",
-              type:   "String"
-          }
       ]
       ,
 
@@ -391,17 +380,6 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
   id: "homepage_5",
   app_properties:
   [
-          {
-              id:     "text",
-              name:   "Text",
-              type:   "String"
-          }
-          ,
-          {
-              id:     "background_color",
-              name:   "Background color",
-              type:   "String"
-          }
       ]
       ,
 
