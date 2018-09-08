@@ -222,6 +222,12 @@ load_once_from_file(true)
                               style='position:absolute;height: 50%; overflow-y:scroll;padding:5px; border: 1px solid black;bottom:0px;'>
                               Properties
                               <button  v-if='model.app_selected'  type=button class='btn btn-sm btn-info'  v-on:click='$event.stopPropagation();addProperty()'  > Add property </button>
+                              <div v-if='(model.app_selected) && (add_property)'>
+                                Add a property
+                                <button  type=button class='btn btn-sm btn-info'  v-on:click='$event.stopPropagation();addPropertyDone()'  > Cancel </button>
+                                <button  type=button class='btn btn-sm btn-info'  v-on:click='$event.stopPropagation();addPropertyCancel()'  > Save </button>
+                              </div>
+
                               <div v-for='property in properties' v-bind:refresh='refresh'>
                                 <br>
                                 <div class='row'>
@@ -320,6 +326,27 @@ load_once_from_file(true)
 
 
 
+         //-------------------------------------------------------------------
+         addProperty: function() {
+         //-------------------------------------------------------------------
+            mm.add_property = true
+         }
+         ,
+
+         //-------------------------------------------------------------------
+         addPropertyDone: function() {
+         //-------------------------------------------------------------------
+            mm.add_property = false
+         }
+         ,
+
+
+          //-------------------------------------------------------------------
+          addPropertyCancel: function() {
+          //-------------------------------------------------------------------
+             mm.add_property = false
+          }
+          ,
 
 
 
@@ -848,6 +875,7 @@ load_once_from_file(true)
            edited_app_component_id:     null,
            text:                        texti,
            leftHandWidth:               200,
+           add_property:                false,
            uid2:                        uid2,
            refresh:                     0,
            properties:                  [],
