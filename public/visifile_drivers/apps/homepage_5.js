@@ -11,7 +11,7 @@ formEditor({
   max_form: 1,
   active_form: "Form 1",
   app_selected: false,
-  edited_app_component_id: "homepage_5",
+  id: "homepage_5",
   app_properties:
   [
           {
@@ -388,7 +388,7 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
                       model: {
   "next_id": 7,
   app_selected: false,
-  edited_app_component_id: "homepage_5",
+  id: "homepage_5",
   app_properties:
   [
           {

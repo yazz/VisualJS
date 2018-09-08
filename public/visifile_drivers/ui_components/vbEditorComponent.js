@@ -193,7 +193,7 @@ load_once_from_file(true)
 
                                       <div    v-bind:style='"background-color:black;color:white;padding:4px;margin:0px;margin-top: 5px;"'
                                               v-on:click='$event.stopPropagation();select_app()'>
-                                                      {{model.edited_app_component_id}}
+                                                      {{edited_app_component_id}}
                                       </div>
 
                                       <div v-for='form in getForms()' v-bind:refresh='refresh'>
@@ -255,7 +255,7 @@ load_once_from_file(true)
             if (texti) {
                 var json2 = this.getJsonModelFromCode(  texti  )
                 mm.model = json2
-                mm.model.edited_app_component_id = saveHelper.getValueOfCodeString(texti, "base_component_id")
+                mm.edited_app_component_id = saveHelper.getValueOfCodeString(texti, "base_component_id")
 
                 //this.generateCodeFromModel(  json2  )
 
@@ -538,7 +538,7 @@ load_once_from_file(true)
             this.model.active_component_index = null
             this.model.app_selected = true
             this.properties = []
-            this.properties.push({   id:     "edited_app_component_id",   name:   "ID",   type:   "String" , readonly: true   })
+            this.properties.push({   id:     "id",   name:   "ID",   type:   "String" , readonly: true   })
 
             if (this.model.app_properties) {
                 //alert(JSON.stringify(this.model.app_properties,null,2))
@@ -800,7 +800,7 @@ load_once_from_file(true)
                 var texti = null
                 var designMode = false
                 var runtimeMode = true
-                Vue.component('${this.model.edited_app_component_id}', {`
+                Vue.component('${this.edited_app_component_id}', {`
 
                 + editorCodeToCopy +
 
@@ -838,6 +838,7 @@ load_once_from_file(true)
        return {
            design_mode:                 designMode,
            runtime_mode:                runtimeMode,
+           edited_app_component_id:     null,
            text:                        texti,
            leftHandWidth:               200,
            uid2:                        uid2,
@@ -851,7 +852,6 @@ load_once_from_file(true)
                                             next_id: 1,
                                             max_form: 1,
                                             active_form: "Form 1",
-                                            edited_app_component_id:     null,
                                             active_component_index: null,
                                             app_selected: false,
                                             app_properties: [],
