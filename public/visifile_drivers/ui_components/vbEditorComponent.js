@@ -219,6 +219,7 @@ load_once_from_file(true)
                       </div>
 
                       <div  class='container'
+                                v-bind:refresh='refresh'
                               style='position:absolute;height: 50%; overflow-y:scroll;padding:5px; border: 1px solid black;bottom:0px;'>
                               Properties
                               <button  v-if='model.app_selected'  type=button class='btn btn-sm btn-info'  v-on:click='$event.stopPropagation();addProperty()'  > Add property </button>
@@ -236,7 +237,7 @@ load_once_from_file(true)
                                 <button  type=button class='btn btn-sm btn-info'  v-on:click='$event.stopPropagation();addPropertySave()'  > Save </button>
                               </div>
 
-                              <div v-for='property in properties' v-bind:refresh='refresh'>
+                              <div v-bind:refresh='refresh' v-for='property in properties' >
                                 <br>
                                 <div class='row'>
                                     <div  class='col-md-4 small'   >{{property.name}}</div>
@@ -354,8 +355,12 @@ load_once_from_file(true)
                                             type:   "String"
                                             })
 
-            mm.refresh ++
             mm.generateCodeFromModel(  mm.model  )
+            setTimeout(function() {
+                mm.refresh ++
+                mm.select_app()
+            }
+            ,100)
             //zzz
          }
          ,
@@ -582,7 +587,7 @@ load_once_from_file(true)
 
 
          //-------------------------------------------------------------------
-         select_app: function(index) {
+         select_app: function() {
          //-------------------------------------------------------------------
 
             this.model.active_component_index = null
