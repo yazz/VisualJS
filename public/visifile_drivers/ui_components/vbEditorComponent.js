@@ -224,8 +224,16 @@ load_once_from_file(true)
                               <button  v-if='model.app_selected'  type=button class='btn btn-sm btn-info'  v-on:click='$event.stopPropagation();addProperty()'  > Add property </button>
                               <div v-if='(model.app_selected) && (add_property)'>
                                 Add a property
-                                <button  type=button class='btn btn-sm btn-info'  v-on:click='$event.stopPropagation();addPropertyDone()'  > Cancel </button>
-                                <button  type=button class='btn btn-sm btn-info'  v-on:click='$event.stopPropagation();addPropertyCancel()'  > Save </button>
+                                <div class='row'>
+                                    <div class='col-md-4'>ID</div>
+                                    <input class='col-md-7 small'  v-model='new_property_id'> </input>
+                                </div>
+                                <div class='row'>
+                                    <div class='col-md-4'>Name</div>
+                                    <input class='col-md-7 small'  v-model='new_property_name'></input>
+                                </div>
+                                <button  type=button class='btn btn-sm btn-info'  v-on:click='$event.stopPropagation();addPropertyCancel()'  > Cancel </button>
+                                <button  type=button class='btn btn-sm btn-info'  v-on:click='$event.stopPropagation();addPropertySave()'  > Save </button>
                               </div>
 
                               <div v-for='property in properties' v-bind:refresh='refresh'>
@@ -233,12 +241,12 @@ load_once_from_file(true)
                                 <div class='row'>
                                     <div  class='col-md-4 small'   >{{property.name}}</div>
                                     <div v-if='!property.readonly'>
-                                        <input v-if='model.active_component_index != null' class='col-md-7 small'  @change='generateCodeFromModel(  model  )' v-model='model.forms[model.active_form].components[model.active_component_index][property.id]'></input>
-                                        <input v-if='(model.active_component_index == null) && (model.active_form != null)' class='col-md-7 small'  @change='generateCodeFromModel(  model  )' v-model='model.forms[model.active_form][property.id]'></input>
+                                        <input v-bind:refresh='refresh' v-if='model.active_component_index != null' class='col-md-7 small'  @change='generateCodeFromModel(  model  )' v-model='model.forms[model.active_form].components[model.active_component_index][property.id]'></input>
+                                        <input v-bind:refresh='refresh' v-if='(model.active_component_index == null) && (model.active_form != null)' class='col-md-7 small'  @change='generateCodeFromModel(  model  )' v-model='model.forms[model.active_form][property.id]'></input>
                                     </div>
                                     <div v-if='property.readonly'>
-                                        <div v-if='model.active_component_index != null' class='col-md-7 small'  @change='generateCodeFromModel(  model  )' v-model='model.forms[model.active_form].components[model.active_component_index][property.id]'></div>
-                                        <div v-if='(model.active_component_index == null) && (model.active_form != null) && (model.app_selected == false)' class='col-md-7 small'  @change='generateCodeFromModel(  model  )' v-model='model.forms[model.active_form][property.id]'></div>
+                                        <div v-bind:refresh='refresh' v-if='model.active_component_index != null' class='col-md-7 small'  @change='generateCodeFromModel(  model  )' v-model='model.forms[model.active_form].components[model.active_component_index][property.id]'></div>
+                                        <div v-bind:refresh='refresh' v-if='(model.active_component_index == null) && (model.active_form != null) && (model.app_selected == false)' class='col-md-7 small'  @change='generateCodeFromModel(  model  )' v-model='model.forms[model.active_form][property.id]'></div>
                                         <div v-bind:refresh='refresh' v-if='model.app_selected' class='col-md-7 small'  >
                                             {{property.get_fn?property.get_fn():model[property.id]}}
                                             </div>
@@ -330,13 +338,25 @@ load_once_from_file(true)
          addProperty: function() {
          //-------------------------------------------------------------------
             mm.add_property = true
+            mm.new_property_id = ""
+            mm.new_property_name = ""
          }
          ,
 
          //-------------------------------------------------------------------
-         addPropertyDone: function() {
+         addPropertySave: function() {
          //-------------------------------------------------------------------
             mm.add_property = false
+
+            mm.model.app_properties.push({
+                                            id:     mm.new_property_id,
+                                            name:   mm.new_property_name,
+                                            type:   "String"
+                                            })
+
+            mm.refresh ++
+            mm.generateCodeFromModel(  mm.model  )
+            //zzz
          }
          ,
 
@@ -876,6 +896,8 @@ load_once_from_file(true)
            text:                        texti,
            leftHandWidth:               200,
            add_property:                false,
+           new_property_name: "",
+           new_property_id: "",
            uid2:                        uid2,
            refresh:                     0,
            properties:                  [],
