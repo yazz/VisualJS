@@ -231,7 +231,7 @@ load_once_from_file(true)
                                     </div>
                                     <div v-if='property.readonly'>
                                         <div v-if='model.active_component_index != null' class='col-md-7 small'  @change='generateCodeFromModel(  model  )' v-model='model.forms[model.active_form].components[model.active_component_index][property.id]'></div>
-                                        <div v-if='(model.active_component_index == null) && (model.active_form != null) && (!model.app_selected)' class='col-md-7 small'  @change='generateCodeFromModel(  model  )' v-model='model.forms[model.active_form][property.id]'></div>
+                                        <div v-if='(model.active_component_index == null) && (model.active_form != null) && (model.app_selected == false)' class='col-md-7 small'  @change='generateCodeFromModel(  model  )' v-model='model.forms[model.active_form][property.id]'></div>
                                         <div v-bind:refresh='refresh' v-if='model.app_selected' class='col-md-7 small'  >{{model[property.id]}}</div>
                                     </div>
                                 </div>
@@ -324,6 +324,7 @@ load_once_from_file(true)
          selectForm: function(formId) {
          //-------------------------------------------------------------------
              mm.model.active_component_index = null
+             mm.model.app_selected = false
              this.properties = []
              this.properties.push({   id:     "name",   name:   "Name",   type:   "String"    })
              this.properties.push({   id:     "width",   name:   "Width",   type:   "Number"    })
@@ -535,7 +536,7 @@ load_once_from_file(true)
          //-------------------------------------------------------------------
 
             this.model.active_component_index = null
-            this.app_selected = true
+            this.model.app_selected = true
             this.properties = []
             this.properties.push({   id:     "id",   name:   "ID",   type:   "String" , readonly: true   })
 
@@ -553,7 +554,7 @@ load_once_from_file(true)
             if (index == null) {
                 return
             }
-            this.app_selected = false
+            this.model.app_selected = false
             this.model.active_component_index = index
             this.properties = []
             this.properties.push({   id:     "name",   name:   "Name",   type:   "String"    })
