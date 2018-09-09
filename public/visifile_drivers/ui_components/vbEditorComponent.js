@@ -387,6 +387,11 @@ load_once_from_file(true)
              mm.model.active_form = formId
              mm.refresh ++
              this.generateCodeFromModel(  mm.model  )
+
+             if (mm.model.forms[formId].form_activate) {
+                var ffff = eval("(" + mm.model.forms[formId].form_activate + ")")
+                ffff()
+             }
          },
 
 

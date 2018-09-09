@@ -33,7 +33,12 @@ formEditor({
                               text:                 "Hello world"
                           }
 
-                      ]
+                      ],
+          form_activate:
+            `function() {
+                alert("Form activated")
+            }`
+
 
       }
   },
