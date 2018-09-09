@@ -183,23 +183,35 @@ load_once_from_file(true)
                                   style='height: 50%;  padding:5px; border: 1px solid black;'>
 
 
+
+
+
                                   <div style='height:30%;'>
+
                                         Project explorer
-                                        <button  type=button class='btn btn-sm btn-info'  v-on:click='$event.stopPropagation();addForm()'  > Add form </button>
+
+                                        <button type=button class='btn btn-sm btn-info'
+                                                v-on:click='$event.stopPropagation();addForm()'  >
+
+                                                    Add form
+                                        </button>
                                   </div>
+
+
+
+
 
                                   <div    v-bind:refresh='refresh'
                                           style='height:70%;overflow-y:scroll; padding:5px; '>
 
-                                      <div    v-bind:style='"background-color:black;color:white;padding:4px;margin:0px;margin-top: 5px;"'
+                                      <div    v-bind:style='"background-color:black;color:white;padding:4px;margin:0px;margin-top: 5px;" + (model.app_selected?"border: 3px solid red":"")'
                                               v-on:click='$event.stopPropagation();select_app()'>
                                                       {{edited_app_component_id}}
                                       </div>
 
                                       <div v-for='form in getForms()' v-bind:refresh='refresh'>
-
                                           <div>
-                                              <div    v-bind:style='(form.name == model.active_form?"background-color:gray;color:white;":"color:black;") + "padding:4px;margin:0px;margin-left:30px;"'
+                                              <div  v-bind:style='(((form.name == model.active_form) && (model.active_component_index == null) && (!model.app_selected)) ?"border: 3px solid red;background-color:gray;color:white;":"color:black;") + "padding:4px;margin:0px;margin-left:30px;"'
                                                     v-on:click='$event.stopPropagation();selectForm(form.name)'>
                                                             {{form.name}}
                                               </div>
@@ -207,7 +219,7 @@ load_once_from_file(true)
                                               <div    v-if='form.name == model.active_form'
                                                       v-for='(av,index) in getActiveFormComponents'
                                                       v-on:click='$event.stopPropagation();select_component(index)'
-                                                      v-bind:style='(((index == model.active_component_index) && design_mode)?"background-color: lightgray;":"") + "margin-left:60px; padding:2px;"'
+                                                      v-bind:style='(((index == model.active_component_index) && design_mode)?"border: 3px solid red;background-color: lightgray;":"") + "margin-left:60px; padding:2px;"'
                                                       >
                                                       <div style='width:100%;display:inline-block;overflow: hidden;'>{{av.base_component_id}}</div>
                                               </div>
@@ -372,7 +384,7 @@ load_once_from_file(true)
                 mm.select_app()
             }
             ,100)
-            //zzz
+
          }
          ,
 
