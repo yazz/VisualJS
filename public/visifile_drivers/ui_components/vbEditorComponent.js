@@ -888,6 +888,16 @@ load_once_from_file(true)
                                                         "formEditor",
                                                         mm.model,
                                                         ")//form" + "Editor")
+
+
+               this.text = saveHelper.deleteCodeString(  this.text, "properties", ")//prope" + "rties")
+
+               this.text = saveHelper.insertCodeString(  this.text,
+                                                          "properties",
+                                                          mm.model.app_properties,
+                                                          ")//prope" + "rties")
+
+
         }
 
      }
