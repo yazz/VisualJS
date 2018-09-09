@@ -241,13 +241,19 @@ load_once_from_file(true)
                                 <br>
                                 <div class='row'>
                                     <div  class='col-md-4 small'   >{{property.name}}</div>
-                                    <div v-if='!property.readonly'>
-                                        <div v-if="(property.type  == 'String')  || (property.type  == 'Number')">
-                                            <input v-bind:refresh='refresh' v-if='model.active_component_index != null' class='col-md-7 small'  @change='generateCodeFromModel(  model  )' v-model='model.forms[model.active_form].components[model.active_component_index][property.id]'></input>
-                                            <input v-bind:refresh='refresh' v-if='(model.active_component_index == null) && (model.active_form != null)' class='col-md-7 small'  @change='generateCodeFromModel(  model  )' v-model='model.forms[model.active_form][property.id]'></input>
-                                        </div>
-                                        <div v-if="(property.type  == 'Event')  ">
-                                            <textarea v-bind:refresh='refresh' v-if='(model.active_component_index == null) && (model.active_form != null)' class='col-md-7 small'  @change='generateCodeFromModel(  model  )' v-model='model.forms[model.active_form][property.id]'></textarea>
+                                    <div class='col-md-7 small' >
+                                        <div v-if='!property.readonly'>
+                                            <div v-if="(property.type  == 'String')  || (property.type  == 'Number')">
+                                                <input v-bind:refresh='refresh' v-if='model.active_component_index != null' class='col-md-7 small'  @change='generateCodeFromModel(  model  )' v-model='model.forms[model.active_form].components[model.active_component_index][property.id]'></input>
+                                                <input v-bind:refresh='refresh' v-if='(model.active_component_index == null) && (model.active_form != null)'  @change='generateCodeFromModel(  model  )' v-model='model.forms[model.active_form][property.id]'></input>
+                                            </div>
+                                            <div v-if="(property.type  == 'Event')  ">
+                                                <textarea   class="form-control" v-bind:refresh='refresh'
+                                                            v-if='(model.active_component_index == null) && (model.active_form != null)'
+                                                            @change='generateCodeFromModel(  model  )'
+                                                            rows=10
+                                                            v-model='model.forms[model.active_form][property.id]'></textarea>
+                                            </div>
                                         </div>
                                     </div>
                                     <div v-if='property.readonly'>
