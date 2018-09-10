@@ -1198,7 +1198,12 @@ function cmd(stringArgs) {
             });
 }
 
-
+function isValidObject(variable){
+    if ((typeof variable !== 'undefined') && (variable != null)) {
+        return true
+    }
+    return false
+}
 var isStaticHtmlPageApp = false
 var queuedResponses = new Object()
 var queuedBrowserResponseSeqNum = 0
