@@ -36,9 +36,8 @@ formEditor({
 
                       ],
           form_activate:
-            `function() {
-                alert("Form activated")
-            }`
+            "function() {  alert('Form activated v3') }"
+
 
 
       },
@@ -57,11 +56,7 @@ formEditor({
                               text:                 "Hello world"
                           }
 
-                      ],
-          form_activate:
-            `function() {
-                alert("Form activated")
-            }`
+                      ]
 
 
       }

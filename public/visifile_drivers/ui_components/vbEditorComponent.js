@@ -417,7 +417,11 @@ load_once_from_file(true)
 
              if (mm.model.forms[formId].form_activate) {
                 var app = this.model
-                var ffff = eval("(" + mm.model.forms[formId].form_activate + ")")
+                var crt = mm.model.forms[formId].form_activate
+                crt = crt.replaceAll("\\n","")
+                crt = crt.replaceAll("\n","")
+                alert(crt)
+                var ffff = eval("(" + crt + ")")
                 ffff()
              }
          },
@@ -868,6 +872,9 @@ load_once_from_file(true)
         //-------------------------------------------------------------------
         generateCodeFromModel: async function(  jsonModel  ) {
         //-------------------------------------------------------------------
+        if (!this.design_mode) {
+            return
+        }
             var startIndex = this.text.indexOf("//** gen_" + "start **//")
             var endIndex = this.text.indexOf("//** gen_" + "end **//")
 
