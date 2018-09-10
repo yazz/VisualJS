@@ -631,6 +631,8 @@ load_once_from_file(true)
                                         return mm.edited_app_component_id
                                      }
                                      })
+                                     
+            this.properties.push({   id:     "default_form",   name:   "Load form on startup",   type:   "String"})
 
             if (this.model.app_properties) {
                 //alert(JSON.stringify(this.model.app_properties,null,2))
