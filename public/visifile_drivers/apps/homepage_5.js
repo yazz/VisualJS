@@ -10,7 +10,7 @@ formEditor({
   "next_id": 7,
   max_form: 1,
   active_form: "Form 1",
-  default_form: "Form 2",
+  default_form: "Form 1",
   app_selected: false,
   id: "homepage_5",
   app_properties:

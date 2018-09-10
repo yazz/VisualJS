@@ -333,7 +333,7 @@ load_once_from_file(true)
                 //alert(comp.base_component_id)
                 mm.component_lookup[comp.base_component_id] = comp
            }
-
+           this.selectForm(mm.model.default_form)
 
            mm.$forceUpdate();
      },
@@ -631,7 +631,7 @@ load_once_from_file(true)
                                         return mm.edited_app_component_id
                                      }
                                      })
-                                     
+
             this.properties.push({   id:     "default_form",   name:   "Load form on startup",   type:   "String"})
 
             if (this.model.app_properties) {
