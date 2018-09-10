@@ -257,7 +257,8 @@ load_once_from_file(true)
                                         <div v-if='!property.readonly'>
                                             <div v-if="(property.type  == 'String')  || (property.type  == 'Number')">
                                                 <input v-bind:refresh='refresh' v-if='model.active_component_index != null' class='col-md-7 small'  @change='generateCodeFromModel(  model  )' v-model='model.forms[model.active_form].components[model.active_component_index][property.id]'></input>
-                                                <input v-bind:refresh='refresh' v-if='(model.active_component_index == null) && (model.active_form != null)'  @change='generateCodeFromModel(  model  )' v-model='model.forms[model.active_form][property.id]'></input>
+                                                <input v-bind:refresh='refresh' v-if='(model.active_component_index == null) && (model.active_form != null) && (!model.app_selected)'  @change='generateCodeFromModel(  model  )' v-model='model.forms[model.active_form][property.id]'></input>
+                                                <input v-bind:refresh='refresh' v-if='model.app_selected'  @change='generateCodeFromModel(  model  )' v-model='model[property.id]'></input>
                                             </div>
                                             <div v-if="(property.type  == 'Event')  ">
                                                 <textarea   class="form-control" v-bind:refresh='refresh'
@@ -413,6 +414,7 @@ load_once_from_file(true)
              this.generateCodeFromModel(  mm.model  )
 
              if (mm.model.forms[formId].form_activate) {
+                var app = this.model
                 var ffff = eval("(" + mm.model.forms[formId].form_activate + ")")
                 ffff()
              }
