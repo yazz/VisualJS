@@ -305,6 +305,8 @@ load_once_from_file(true)
              //alert(this.text)
            }
 
+           mm.model.active_form = mm.model.default_form
+
            for (var rtw = 0; rtw < mm.model.forms[mm.model.active_form].components.length ; rtw++ )
            {
                 var newItem = mm.model.forms[mm.model.active_form].components[rtw]
@@ -957,6 +959,7 @@ load_once_from_file(true)
                                             active_form: "Form 1",
                                             active_component_index: null,
                                             app_selected: false,
+                                            default_form: "Form 1",
                                             app_properties: [],
 
                                             fields: [

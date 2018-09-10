@@ -10,6 +10,7 @@ formEditor({
   "next_id": 7,
   max_form: 1,
   active_form: "Form 1",
+  default_form: "Form 2",
   app_selected: false,
   id: "homepage_5",
   app_properties:
@@ -27,6 +28,29 @@ formEditor({
                               name:                 "",
                               base_component_id:    "label_control",
                               leftX:                 100,
+                              topY:                  100,
+                              width:                 100,
+                              height:                100,
+                              text:                 "Hello world"
+                          }
+
+                      ],
+          form_activate:
+            `function() {
+                alert("Form activated")
+            }`
+
+
+      },
+      "Form 2": {
+          name:     "Form 2",
+          width:    "300px",
+          height:   "300px",
+          components: [
+                          {
+                              name:                 "",
+                              base_component_id:    "label_control",
+                              leftX:                 200,
                               topY:                  100,
                               width:                 100,
                               height:                100,
@@ -382,6 +406,7 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
                       model: {
   "next_id": 7,
   app_selected: false,
+  default_form: "Form 1",
   id: "homepage_5",
   app_properties:
   [
