@@ -418,9 +418,7 @@ load_once_from_file(true)
              if (mm.model.forms[formId].form_activate) {
                 var app = this.model
                 var crt = mm.model.forms[formId].form_activate
-                crt = crt.replaceAll("\\n","")
-                crt = crt.replaceAll("\n","")
-                alert(crt)
+                //alert(crt)
                 var ffff = eval("(" + crt + ")")
                 ffff()
              }
