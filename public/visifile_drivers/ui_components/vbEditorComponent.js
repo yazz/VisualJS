@@ -912,7 +912,16 @@ load_once_from_file(true)
                       text: texti,
                       uid2: uid2,
                       model: `
-                      + JSON.stringify(mm.model,null,2) +
+                      + JSON.stringify( mm.model,
+
+                                        function(key, value) {
+                                              if (typeof value === 'string') {
+                                                return  value.toString()
+                                              }
+                                              return value;
+                                        },
+
+                                        2) +
 
                   `}
                 }
