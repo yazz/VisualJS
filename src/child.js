@@ -4233,7 +4233,7 @@ async function saveCodeV2( baseComponentId, parentHash, code ) {
 
                                     var tr = babel.transform("(" + code + ")", {plugins: [path.join(__dirname, "../node_modules/babel-plugin-transform-es2015-template-literals")]})
 
-                                    var newcode = "(" + code.toString().replace(/\`/g,"\\\`") + ")"
+                                    var newcode = escape("(" + code.toString() + ")")
 
 
                                     newStaticFileContent = newStaticFileContent.toString().replace("***STATIC_NAME***",displayName)
@@ -4249,7 +4249,7 @@ async function saveCodeV2( baseComponentId, parentHash, code ) {
                                     var newCode =  `cachedCode["${sha1sum}"] = {
                                       "type": "ws_to_browser_callDriverMethod_results",
                                       "value": {
-                                        "code": \`${newcode}\`,
+                                        "code": unescape(\`${newcode}\`),
                                         "is_code_result": true,
                                         "use_db": ${useDb?"\"" + useDb + "\"":null},
                                         "libs": [],

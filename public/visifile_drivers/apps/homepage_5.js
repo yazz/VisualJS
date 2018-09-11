@@ -36,7 +36,7 @@ formEditor({
 
                       ],
           form_activate:
-            "function() {  alert('Form activated v3') }"
+            "function() {  alert('Form activated v3z') \n}"
 
 
 
