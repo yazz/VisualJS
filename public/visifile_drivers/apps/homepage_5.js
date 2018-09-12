@@ -35,7 +35,7 @@ formEditor({
                           }
 
                       ],
-          form_activate:
+          form_activate_old:
             "function() {  alert('Form activated v3z') \n}"
 
 
@@ -367,6 +367,7 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
                       runtime_mode: runtimeMode,
                       current_edited_item: null,
                       text: texti,
+                      refresh: 0,
                       uid2: uid2,
                       model: `
 
@@ -395,6 +396,7 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
                       design_mode: designMode,
                       runtime_mode: runtimeMode,
                       current_edited_item: null,
+                      refresh: 0,
                       text: texti,
                       uid2: uid2,
                       model: {
