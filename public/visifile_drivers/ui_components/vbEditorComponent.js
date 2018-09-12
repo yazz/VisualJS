@@ -5,7 +5,6 @@ load_once_from_file(true)
 */
 
     //alert(JSON.stringify(args,null,2))
-    var uid2 = uuidv4()
     var mm = null
     var texti = null
     if (args) {
@@ -290,9 +289,9 @@ load_once_from_file(true)
         mounted: async function() {
             mm = this
 
-            document.getElementById(uid2).style.width="100%"
+            document.getElementById(mm.uid2).style.width="100%"
 
-            document.getElementById(uid2).style.height="45vh"
+            document.getElementById(mm.uid2).style.height="45vh"
 
             if (texti) {
                 var json2 = this.getJsonModelFromCode(  texti  )
@@ -894,7 +893,6 @@ load_once_from_file(true)
             this.text = this.text.substring(0,startIndex) +
 
                 `//** gen_start **//
-                var uid2 = uuidv4()
                 var mm = null
                 var texti = null
                 var designMode = false
@@ -906,11 +904,13 @@ load_once_from_file(true)
                 `,
                 data: function () {
                   return {
+                      uid2:                        uuidv4(),
+                      vb_grid_element_id:          "vb_grid_"+ uuidv4(),
+                      vb_editor_element_id:        "vb_editor_"+ uuidv4(),
                       design_mode: designMode,
                       runtime_mode: runtimeMode,
                       component_lookup:            new Object(),
                       text: texti,
-                      uid2: uid2,
                       model: `
                       + JSON.stringify( mm.model,
 
@@ -954,6 +954,9 @@ load_once_from_file(true)
      ,
      data: function () {
        return {
+           uid2:                        uuidv4(),
+           vb_grid_element_id:          "vb_grid_"+ uuidv4(),
+           vb_editor_element_id:        "vb_editor_"+ uuidv4(),
            design_mode:                 designMode,
            runtime_mode:                runtimeMode,
            edited_app_component_id:     null,
@@ -962,7 +965,6 @@ load_once_from_file(true)
            add_property:                false,
            new_property_name: "",
            new_property_id: "",
-           uid2:                        uid2,
            refresh:                     0,
            properties:                  [],
            read_only:                   false,
