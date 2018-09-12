@@ -45,7 +45,7 @@ load_once_from_file(true)
                         </div>
 
 
-                        <div            id='vb_grid'
+                        <div            v-bind:id='vb_grid_element_id'
                                         v-on:drop="drop($event)"
                                         v-on:ondragover="allowDrop($event)"
                                         v-bind:class='(design_mode?"dotted":"" )'
@@ -508,7 +508,7 @@ load_once_from_file(true)
 
              if (data.type == "add_component") {
                  var newItem = new Object()
-                 var rrr = document.getElementById("vb_grid").getBoundingClientRect()
+                 var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
 
 
                  newItem.leftX = (ev.clientX  - rrr.left)  - data.offsetX;
@@ -527,7 +527,7 @@ load_once_from_file(true)
 
 
              } else if (data.type == "move_component") {
-                var rrr = document.getElementById("vb_grid").getBoundingClientRect()
+                var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
                 //alert(this.model.forms[this.model.active_form].components[data.index].base_component_id)
                 this.model.forms[this.model.active_form].components[data.index].leftX = (ev.clientX  - rrr.left) - data.offsetX;
                 this.model.forms[this.model.active_form].components[data.index].topY = (ev.clientY  - rrr.top) - data.offsetY;
@@ -537,7 +537,7 @@ load_once_from_file(true)
 
 
              } else if (data.type == "resize_top_left") {
-                 var rrr = document.getElementById("vb_grid").getBoundingClientRect()
+                 var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
                  var oldX = this.model.forms[this.model.active_form].components[data.index].leftX
                  var oldY = this.model.forms[this.model.active_form].components[data.index].topY
 
@@ -556,7 +556,7 @@ load_once_from_file(true)
 
 
              } else if (data.type == "resize_top_right") {
-                 var rrr = document.getElementById("vb_grid").getBoundingClientRect()
+                 var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
                  var newX = (ev.clientX + 20) - rrr.left - data.offsetX;
                  var newY = ev.clientY - rrr.top - data.offsetY;
 
@@ -574,7 +574,7 @@ load_once_from_file(true)
                  this.generateCodeFromModel(  mm.model  )
 
              } else if (data.type == "resize_bottom_left") {
-                 var rrr = document.getElementById("vb_grid").getBoundingClientRect()
+                 var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
                  var newX = ev.clientX  - rrr.left - data.offsetX;
                  var newY = (ev.clientY + 20)  - rrr.top - data.offsetY;
 
@@ -593,7 +593,7 @@ load_once_from_file(true)
 
              } else if (data.type == "resize_bottom_right") {
 
-                 var rrr = document.getElementById("vb_grid").getBoundingClientRect()
+                 var rrr = document.getElementById(this.vb_grid_element_id).getBoundingClientRect()
                  var newX = (ev.clientX + 20)  - rrr.left - data.offsetX;
                  var newY = (ev.clientY + 20) - rrr.top - data.offsetY;
                  console.log(" editor left,editor top: ------------ " +  rrr.left + "," +  rrr.top)
