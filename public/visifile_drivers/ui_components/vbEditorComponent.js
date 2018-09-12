@@ -908,6 +908,7 @@ load_once_from_file(true)
                       vb_grid_element_id:          "vb_grid_"+ uuidv4(),
                       vb_editor_element_id:        "vb_editor_"+ uuidv4(),
                       design_mode: designMode,
+                      refresh: 0,
                       runtime_mode: runtimeMode,
                       component_lookup:            new Object(),
                       text: texti,
