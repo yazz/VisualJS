@@ -14,15 +14,23 @@ load_once_from_file(true)
     var runtimeMode = false
     Vue.component("vb_editor_component",
     {
+
+
+
+
+
     //*** COPY_START ***//
-      template: `<div v-bind:id='uid2'>
+      template: `<div   v-bind:id='uid2'
+                        v-if='uid2 != null'
+                        style='width: 100%; height: 45vh;'
+                        >
                     <div>
                         <h4 style='display: inline-block; margin-right: 10px; ' v-if='design_mode' >VB app designer</h4>
                         <slot style='display: inline-block;' v-if='text' :text2="text"></slot>
                     </div>
 
 
-                    <div    v-bind:id='vb_editor_element_id'
+                    <div    v-bind:id='vb_editor_element_id' v-if='vb_editor_element_id != null'
                             style='position:relative'
                             v-on:drop="dropEditor($event)"
                             v-on:ondragover="allowDropEditor($event)"
@@ -45,7 +53,7 @@ load_once_from_file(true)
                         </div>
 
 
-                        <div            v-bind:id='vb_grid_element_id'
+                        <div            v-bind:id='vb_grid_element_id'  v-if='vb_grid_element_id != null'
                                         v-on:drop="drop($event)"
                                         v-on:ondragover="allowDrop($event)"
                                         v-bind:class='(design_mode?"dotted":"" )'
@@ -289,9 +297,11 @@ load_once_from_file(true)
         mounted: async function() {
             mm = this
 
-            document.getElementById(mm.uid2).style.width="100%"
+            mm.uid2 =                       uuidv4()
+            mm.vb_grid_element_id =          "vb_grid_"+ uuidv4()
+            mm.vb_editor_element_id =         "vb_editor_"+ uuidv4()
 
-            document.getElementById(mm.uid2).style.height="45vh"
+
 
             if (texti) {
                 var json2 = this.getJsonModelFromCode(  texti  )
@@ -694,90 +704,6 @@ load_once_from_file(true)
          ,
 
 
-        //-------------------------------------------------------------------
-        addField: function() {
-        //-------------------------------------------------------------------
-            mm.model.forms[mm.model.active_form].fields.push({   id: mm.model.next_id,   type: "text",   text: "Enter text here",
-                                      style: {}})
-            mm.model.next_id ++
-            this.generateCodeFromModel(  mm.model  )
-            //alert("Added: " + JSON.stringify(mm.model,null,2))
-        },
-
-        //-------------------------------------------------------------------
-        getFieldCssStyle: function(   fieldId   , styleName) {
-        //-------------------------------------------------------------------
-            var mm = this
-            var itemD = null
-            for (var tt=0; tt < mm.model.fields.length ; tt++) {
-                var ciurr = mm.model.fields[tt]
-                if (ciurr.id == fieldId) {
-                    if (!ciurr.style) {
-                        ciurr.style = {}
-                        return null
-                    }
-                    if (ciurr.style[styleName]) {
-                        return ciurr.style[styleName]
-                    }
-                    return null
-                }
-            }
-            return null
-        },
-
-
-        //-------------------------------------------------------------------
-        fieldSize: function(fieldId) {
-        //-------------------------------------------------------------------
-            var mm = this
-            if (mm.getFieldCssStyle(fieldId,"size") == null) {
-                return 16
-            }
-            return this.getFieldCssStyle(fieldId,"size")
-        },
-
-
-        //-------------------------------------------------------------------
-        updateFieldCssStyle: function(   fieldId   , styleName, styleValue) {
-        //-------------------------------------------------------------------
-            var itemD = null
-            var mm = this
-            for (var tt=0; tt < mm.fields.length ; tt++) {
-                var ciurr = mm.model.fields[tt]
-                if (ciurr.id == fieldId) {
-                    if (!ciurr.style) {
-                        ciurr.style = {}
-                    }
-                    ciurr.style[styleName] = styleValue
-                }
-            }
-            this.generateCodeFromModel(  mm.model  )
-        },
-
-
-        //-------------------------------------------------------------------
-        getStyle: function(fieldId) {
-        //-------------------------------------------------------------------
-            var mm = this
-            var styleT = ""
-            for (var tt = 0; tt < mm.model.fields.length ; tt++) {
-                var ciurr = mm.model.fields[tt]
-                if (ciurr ) {
-                    if (ciurr.id == fieldId) {
-                        if (!ciurr.style) {
-                            return ""
-                        }
-                        var fg = ciurr.style
-                        if (fg.bold){
-                            styleT += "font-weight: bold;"
-                        }
-                        styleT += "font-size: " + mm.fieldSize(fieldId) + "px;"
-                        return styleT
-                    }
-                }
-            }
-            return ""
-        },
 
 
         //-------------------------------------------------------------------
@@ -904,9 +830,9 @@ load_once_from_file(true)
                 `,
                 data: function () {
                   return {
-                      uid2:                        uuidv4(),
-                      vb_grid_element_id:          "vb_grid_"+ uuidv4(),
-                      vb_editor_element_id:        "vb_editor_"+ uuidv4(),
+                      uid2:                        null,
+                      vb_grid_element_id:          null,
+                      vb_editor_element_id:        null,
                       design_mode: designMode,
                       refresh: 0,
                       runtime_mode: runtimeMode,
@@ -955,9 +881,9 @@ load_once_from_file(true)
      ,
      data: function () {
        return {
-           uid2:                        uuidv4(),
-           vb_grid_element_id:          "vb_grid_"+ uuidv4(),
-           vb_editor_element_id:        "vb_editor_"+ uuidv4(),
+           uid2:                        null,
+           vb_grid_element_id:          null,
+           vb_editor_element_id:        null,
            design_mode:                 designMode,
            runtime_mode:                runtimeMode,
            edited_app_component_id:     null,
