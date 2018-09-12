@@ -17,8 +17,6 @@ load_once_from_file(true)
 
 
 
-
-
     //*** COPY_START ***//
       template: `<div   v-bind:id='uid2'
                         v-if='uid2 != null'
@@ -295,7 +293,7 @@ load_once_from_file(true)
 
 
         mounted: async function() {
-            mm = this
+            var mm = this
 
             mm.uid2 =                       uuidv4()
             mm.vb_grid_element_id =          "vb_grid_"+ uuidv4()
@@ -373,6 +371,7 @@ load_once_from_file(true)
          //-------------------------------------------------------------------
          addProperty: function() {
          //-------------------------------------------------------------------
+            var mm = this
             mm.add_property = true
             mm.new_property_id = ""
             mm.new_property_name = ""
@@ -382,6 +381,7 @@ load_once_from_file(true)
          //-------------------------------------------------------------------
          addPropertySave: function() {
          //-------------------------------------------------------------------
+            var mm = this
             mm.add_property = false
 
             mm.model.app_properties.push({
@@ -404,6 +404,7 @@ load_once_from_file(true)
           //-------------------------------------------------------------------
           addPropertyCancel: function() {
           //-------------------------------------------------------------------
+             var mm = this
              mm.add_property = false
           }
           ,
@@ -413,6 +414,7 @@ load_once_from_file(true)
          //-------------------------------------------------------------------
          selectForm: function(formId) {
          //-------------------------------------------------------------------
+             var mm = this
              mm.model.active_component_index = null
              mm.model.app_selected = false
              this.properties = []
@@ -444,7 +446,8 @@ load_once_from_file(true)
           //-------------------------------------------------------------------
           dropEditor: async function (ev) {
           //-------------------------------------------------------------------
-            ev.preventDefault();
+              ev.preventDefault();
+              var mm = this
 
               var data2 = ev.dataTransfer.getData("message");
               var data = eval("(" + data2 + ")")
@@ -485,6 +488,7 @@ load_once_from_file(true)
          //-------------------------------------------------------------------
          drag: function(ev,message) {
          //-------------------------------------------------------------------
+             var mm = this
              var doc = document.documentElement;
              var left = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
              var top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
@@ -498,6 +502,7 @@ load_once_from_file(true)
 
 
          deleteComponent: async function(index) {
+            var mm = this
             this.model.forms[this.model.active_form].components.splice(index, 1);
             this.selectForm(this.model.active_form)
          },
@@ -508,6 +513,7 @@ load_once_from_file(true)
          //-------------------------------------------------------------------
          drop: async function (ev) {
          //-------------------------------------------------------------------
+             var mm = this
 
              var data2 = ev.dataTransfer.getData("message");
              var data = eval("(" + data2 + ")")
@@ -633,6 +639,7 @@ load_once_from_file(true)
          //-------------------------------------------------------------------
          select_app: function() {
          //-------------------------------------------------------------------
+            var mm = this
 
             this.model.active_component_index = null
             this.model.app_selected = true
@@ -655,6 +662,7 @@ load_once_from_file(true)
          //-------------------------------------------------------------------
          select_component: function(index) {
          //-------------------------------------------------------------------
+            var mm = this
 
             if (index == null) {
                 return
@@ -682,6 +690,7 @@ load_once_from_file(true)
          //-------------------------------------------------------------------
          addForm: function() {
          //-------------------------------------------------------------------
+            var mm = this
             mm.model.active_component_index = null
             mm.properties = []
             this.properties.push({   id:     "name",   name:   "Name",   type:   "String"    })
@@ -709,6 +718,7 @@ load_once_from_file(true)
         //-------------------------------------------------------------------
         moveUp: function(   fieldId   ) {
         //-------------------------------------------------------------------
+            var mm = this
             var itemD = null
             for (var tt=0; tt < mm.model.forms[mm.model.active_form].fields.length ; tt++) {
                 var ciurr = mm.model.forms[mm.model.active_form].fields[tt]
@@ -731,6 +741,7 @@ load_once_from_file(true)
         //-------------------------------------------------------------------
         moveDown: function(   fieldId   ) {
         //-------------------------------------------------------------------
+            var mm = this
             var itemD = null
             for (var tt=0; tt < mm.model.forms[mm.model.active_form].fields.length ; tt++) {
                 var ciurr = mm.model.forms[mm.model.active_form].fields[tt]
@@ -753,6 +764,7 @@ load_once_from_file(true)
         //-------------------------------------------------------------------
         deleteField: function(   fieldId   ) {
         //-------------------------------------------------------------------
+            var mm = this
             var itemD = null
             for (var tt=0; tt < mm.model.forms[mm.model.active_form].fields.length ; tt++) {
                 var ciurr = mm.model.forms[mm.model.active_form].fields[tt]
@@ -778,6 +790,7 @@ load_once_from_file(true)
         //-------------------------------------------------------------------
         setText: function(textValue) {
         //-------------------------------------------------------------------
+            var mm = this
             this.text =  textValue
             var json2 = this.getJsonModelFromCode(  textValue  )
             mm.model = json2
@@ -787,6 +800,7 @@ load_once_from_file(true)
         //-------------------------------------------------------------------
         getJsonModelFromCode: function(  codeV  ) {
         //-------------------------------------------------------------------
+            var mm = this
             var json2 = saveHelper.getValueOfCodeString(codeV,"formEditor",")//formEditor")
             return json2
         }
@@ -795,9 +809,11 @@ load_once_from_file(true)
         //-------------------------------------------------------------------
         generateCodeFromModel: async function(  jsonModel  ) {
         //-------------------------------------------------------------------
-        if (!this.design_mode) {
-            return
-        }
+            var mm = this
+            if (!this.design_mode) {
+                return
+            }
+
             var startIndex = this.text.indexOf("//** gen_" + "start **//")
             var endIndex = this.text.indexOf("//** gen_" + "end **//")
 
