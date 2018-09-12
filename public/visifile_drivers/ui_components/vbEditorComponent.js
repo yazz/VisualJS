@@ -22,7 +22,7 @@ load_once_from_file(true)
                     </div>
 
 
-                    <div    id='vb_editor'
+                    <div    v-bind:id='vb_editor_element_id'
                             style='position:relative'
                             v-on:drop="dropEditor($event)"
                             v-on:ondragover="allowDropEditor($event)"
@@ -449,7 +449,7 @@ load_once_from_file(true)
 
                 //alert(data.form_name)
 
-                var rrr = document.getElementById("vb_editor").getBoundingClientRect()
+                var rrr = document.getElementById(this.vb_editor_element_id).getBoundingClientRect()
                 console.log(" editor left,editor top: ------------ " +  rrr.left + "," +  rrr.top)
 
                 var newWidth = (ev.clientX + 20)  - rrr.left - data.offsetX - this.leftHandWidth;
