@@ -40,7 +40,6 @@ formEditor({
 })//formEditor
 display_name("Homepage 2")
 is_app(true)
-uses_javascript_librararies(["aframe"])
 description('Homepage 2')
 logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.png")
 */
