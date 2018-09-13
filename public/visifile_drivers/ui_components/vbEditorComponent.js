@@ -261,7 +261,7 @@ load_once_from_file(true)
                                     <div class='col-md-7 small' >
                                         <div v-if='!property.readonly'>
                                             <div v-if="(property.type  == 'String')  || (property.type  == 'Number')">
-                                                <input v-bind:refresh='refresh' v-if='model.active_component_index != null' class='col-md-7 small'  @change='generateCodeFromModel(  model  )' v-model='model.forms[model.active_form].components[model.active_component_index][property.id]'></input>
+                                                <input v-bind:refresh='refresh' v-if='model.active_component_index != null' class='col-md-12 small'  @change='generateCodeFromModel(  model  )' v-model='model.forms[model.active_form].components[model.active_component_index][property.id]'></input>
                                                 <input v-bind:refresh='refresh' v-if='(model.active_component_index == null) && (model.active_form != null) && (!model.app_selected)'  @change='generateCodeFromModel(  model  )' v-model='model.forms[model.active_form][property.id]'></input>
                                                 <input v-bind:refresh='refresh' v-if='model.app_selected'  @change='generateCodeFromModel(  model  )' v-model='model[property.id]'></input>
                                             </div>
@@ -275,9 +275,9 @@ load_once_from_file(true)
                                         </div>
                                     </div>
                                     <div v-if='property.readonly'>
-                                        <div v-bind:refresh='refresh' v-if='model.active_component_index != null' class='col-md-7 small'  @change='generateCodeFromModel(  model  )' v-model='model.forms[model.active_form].components[model.active_component_index][property.id]'></div>
-                                        <div v-bind:refresh='refresh' v-if='(model.active_component_index == null) && (model.active_form != null) && (model.app_selected == false)' class='col-md-7 small'  @change='generateCodeFromModel(  model  )' v-model='model.forms[model.active_form][property.id]'></div>
-                                        <div v-bind:refresh='refresh' v-if='model.app_selected' class='col-md-7 small'  >
+                                        <div v-bind:refresh='refresh' v-if='model.active_component_index != null' class='col-md-12 small'  @change='generateCodeFromModel(  model  )' v-model='model.forms[model.active_form].components[model.active_component_index][property.id]'></div>
+                                        <div v-bind:refresh='refresh' v-if='(model.active_component_index == null) && (model.active_form != null) && (model.app_selected == false)' class='col-md-12 small'  @change='generateCodeFromModel(  model  )' v-model='model.forms[model.active_form][property.id]'></div>
+                                        <div v-bind:refresh='refresh' v-if='model.app_selected' class='col-md-12 small'  >
                                             {{property.get_fn?property.get_fn():model[property.id]}}
                                             </div>
                                     </div>
@@ -536,6 +536,7 @@ load_once_from_file(true)
                  newItem.leftX = (ev.clientX  - rrr.left)  - data.offsetX;
                  newItem.topY = (ev.clientY  - rrr.top)   - data.offsetY;
 
+                 newItem.name = data.text + "_" + this.model.next_component_id++
                  newItem.base_component_id = data.text
                  newItem.width = 100
                  newItem.height = 100
@@ -922,6 +923,7 @@ load_once_from_file(true)
 
            model:                      {
                                             next_id: 1,
+                                            next_component_id: 1,
                                             max_form: 1,
                                             active_form: "Form 1",
                                             active_component_index: null,
