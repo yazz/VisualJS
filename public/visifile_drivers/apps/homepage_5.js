@@ -13,9 +13,15 @@ formEditor({
   default_form: "Form 1",
   app_selected: false,
   id: "homepage_5",
+
   app_properties:
   [
-      ]
+  {
+    "id": "test",
+    "name": "test",
+    "type": "String"
+  }
+        ]
       ,
 
   forms: {
@@ -35,12 +41,14 @@ formEditor({
                           }
 
                       ],
-          form_activate_old:
-            "function() {  alert('Form activated v3z') \n}"
-
-
-
+          form_activate:
+            `function() {
+                if (app && app.forms && app.forms["Form 1"] && app.forms["Form 1"].components[0]) {
+                    app.forms["Form 1"].components[0].text = app.test
+                }
+             }`
       },
+
       "Form 2": {
           name:     "Form 2",
           width:    "300px",
@@ -60,37 +68,9 @@ formEditor({
 
 
       }
-  },
+  }
 
-  "fields": [
-    {
-      "id": 5,
-      "type": "text",
-      "text": "Apps can be built by beginners or IT experts:",
-      "style": {
-        "bold": true,
-        "size": 19
-      }
-    },
-    {
-      "id": 1,
-      "type": "text",
-      "text": "For simple text apps like this, there is a point and click builder",
-      "style": {
-        "bullet": true,
-        "size": 18
-      }
-    },
-    {
-      "id": 6,
-      "type": "text",
-      "text": "And for more advanced apps you can use Javascript to build them",
-      "style": {
-        "bullet": true,
-        "size": 18
-      }
-    }
-  ]
+
 })//formEditor
 display_name("Homepage 5")
 is_app(true)
