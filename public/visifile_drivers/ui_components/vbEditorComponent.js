@@ -426,18 +426,18 @@ load_once_from_file(true)
              mm.refresh ++
              this.generateCodeFromModel(  mm.model  )
 
-             if (mm.model.forms[formId].form_activate) {
-             //alert(JSON.stringify(this.args,null,2))
+             if (mm.model.forms[formId].form_activate && (!mm.design_mode)) {
+                 //alert(JSON.stringify(this.args,null,2))
                  if (!isValidObject(this.args)) {
                       this.args = this.model
                  }
                  //zzz
-                var args = this.args
-                var app = this.model
-                var crt = mm.model.forms[formId].form_activate
-                //alert(crt)
-                var ffff = eval("(" + crt + ")")
-                ffff()
+                 var args = this.args
+                 var app = this.model
+                 var crt = mm.model.forms[formId].form_activate
+                 //alert(crt)
+                 var ffff = eval("(" + crt + ")")
+                 ffff()
              }
          },
 
