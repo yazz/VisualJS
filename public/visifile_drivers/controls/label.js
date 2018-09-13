@@ -25,12 +25,12 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASgAAACqCAMAAAAp1iJMAAAA
 */
 
     Vue.component("label_control",{
-      props: ["properties"]
+      props: ["args"]
       ,
       template: `<div v-bind:style='"height:100%;width:100%; border: 0px;" +
-                                    "background-color: "+    properties["background_color"]  +  ";"'>
+                                    "background-color: "+    args["background_color"]  +  ";"'>
 
-                                                {{properties.text}}
+                                                {{args.text}}
                  </div>`
       ,
       data: function() {
