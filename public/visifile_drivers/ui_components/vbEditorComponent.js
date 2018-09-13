@@ -226,7 +226,7 @@ load_once_from_file(true)
                                                       v-on:click='$event.stopPropagation();select_component(index)'
                                                       v-bind:style='(((index == model.active_component_index) && design_mode)?"border: 3px solid red;background-color: lightgray;":"") + "margin-left:60px; padding:2px;"'
                                                       >
-                                                      <div style='width:100%;display:inline-block;overflow: hidden;'>{{av.base_component_id}}</div>
+                                                      <div style='width:100%;display:inline-block;overflow: hidden;'>{{av.name}}</div>
                                               </div>
                                          </div>
                                      </div>
@@ -273,13 +273,13 @@ load_once_from_file(true)
                                                             v-model='model.forms[model.active_form][property.id]'></textarea>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div v-if='property.readonly'>
-                                        <div v-bind:refresh='refresh' v-if='model.active_component_index != null' class='col-md-12 small'  @change='generateCodeFromModel(  model  )' v-model='model.forms[model.active_form].components[model.active_component_index][property.id]'></div>
-                                        <div v-bind:refresh='refresh' v-if='(model.active_component_index == null) && (model.active_form != null) && (model.app_selected == false)' class='col-md-12 small'  @change='generateCodeFromModel(  model  )' v-model='model.forms[model.active_form][property.id]'></div>
-                                        <div v-bind:refresh='refresh' v-if='model.app_selected' class='col-md-12 small'  >
-                                            {{property.get_fn?property.get_fn():model[property.id]}}
-                                            </div>
+                                        <div v-if='property.readonly'>
+                                            <div v-bind:refresh='refresh' v-if='model.active_component_index != null' class='col-md-12 small'  >{{model.forms[model.active_form].components[model.active_component_index][property.id]}}</div>
+                                            <div v-bind:refresh='refresh' v-if='(model.active_component_index == null) && (model.active_form != null) && (model.app_selected == false)' class='col-md-12 small'   v-model='model.forms[model.active_form][property.id]'></div>
+                                            <div v-bind:refresh='refresh' v-if='model.app_selected' class='col-md-12 small'  >
+                                                {{property.get_fn?property.get_fn():model[property.id]}}
+                                                </div>
+                                        </div>
                                     </div>
                                 </div>
                       </div>
@@ -678,6 +678,7 @@ load_once_from_file(true)
             this.model.active_component_index = index
             this.properties = []
             this.properties.push({   id:     "name",   name:   "Name",   type:   "String"    })
+            this.properties.push({   id:     "base_component_id",   name:   "Type",   type:   "String" , readonly: true   })
             this.properties.push({   id:     "leftX",   name:   "X",   type:   "Number"    })
             this.properties.push({   id:     "topY",   name:   "Y",   type:   "Number"    })
             this.properties.push({   id:     "width",   name:   "Width",   type:   "Number"    })
