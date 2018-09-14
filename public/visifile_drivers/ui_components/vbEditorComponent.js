@@ -271,6 +271,11 @@ load_once_from_file(true)
                                                             @change='generateCodeFromModel(  model  )'
                                                             rows=10
                                                             v-model='model.forms[model.active_form][property.id]'></textarea>
+                                                <textarea   class="form-control" v-bind:refresh='refresh'
+                                                            v-if='(model.active_component_index != null) && (model.active_form != null)'
+                                                            @change='generateCodeFromModel(  model  )'
+                                                            rows=10
+                                                            v-model='model.forms[model.active_form].components[model.active_component_index][property.id]'></textarea>
                                             </div>
                                         </div>
                                         <div v-if='property.readonly'>
