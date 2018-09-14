@@ -58,7 +58,7 @@ formEditor({
                           }
 
                       ],
-          form_activate:
+          form_activate_old:
             `function() {
                 if (app && app.forms && app.forms["Form 1"] && app.forms["Form 1"].components[0]) {
                     app.forms["Form 1"].components[0].text = args.test
