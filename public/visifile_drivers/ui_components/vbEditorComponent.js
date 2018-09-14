@@ -80,7 +80,7 @@ load_once_from_file(true)
                                                         "position: absolute;top: " + item.topY + ";left:" + item.leftX + ";height:" + item.height + "px;width:" + item.width + "px;background: white;;overflow:none;"'>
 
                                     <div ondrop="return false;" v-bind:style='"position: absolute; top: 0px; left: 0px;height:" + item.height + "px;width:" + item.width + "px;overflow:auto;"'>
-                                        <component  v-bind:refresh='refresh' v-bind:is='item.base_component_id' v-bind:args='model.forms[model.active_form].components[index]'></component>
+                                        <component  v-bind:refresh='refresh' v-on:send="sendText" v-bind:is='item.base_component_id' v-bind:args='model.forms[model.active_form].components[index]'></component>
                                     </div>
                                     <div    style='position: absolute; top: 0px; left: 0px;z-index: 10000000;width: 100%;height: 100%;border: 1px solid black;'
                                             v-bind:draggable='design_mode'
@@ -351,16 +351,9 @@ load_once_from_file(true)
 
 
 
-           this.$root.$on('message', (text) => {
-               if (text.type == "subcomponent_event") {
-                if (!mm.design_mode) {
-                    alert("subcomponent_event called in: " + JSON.stringify(mm.model,null,2))
-                    //zzz
 
-                }
-               }
-           })
      },
+
 
      computed: {
         getActiveFormComponents: function() {
@@ -457,6 +450,31 @@ load_once_from_file(true)
                  ffff()
              }
          },
+
+
+
+
+
+              sendText: function(text) {
+              //alert(JSON.stringify(text,null,4))
+                 var mm = this
+                  if (text.type == "subcomponent_event") {
+                   if (!mm.design_mode) {
+                       if (mm.model) {
+                           alert("subcomponent_event called in: " + mm.model.id)
+                           //alert(text.code)
+                           var fcc = "(function(){" + text.code +"})"
+                           vae efcc = eval(fcc)
+                           efcc()
+                       }
+                       //zzz
+
+                   }
+                  }
+
+              },
+
+
 
 
          //-------------------------------------------------------------------
