@@ -35,7 +35,7 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAA
       ,
       template: `<button    type=button class='btn btn-info btn-lg'
                             v-bind:style='"height:100%;width:100%; border: 0px;" + "background-color: "+    args["background_color"]  +  ";"'
-                            v-on:click='eval("(" + args.click_event + ")")()'
+                            v-on:click='event_callback()'
                             >
 
                                                 {{args.text}}
@@ -44,7 +44,18 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAA
       data: function() {
        return {
          msg: "..."
+         }
+     },
+     methods: {
+        event_callback: function() {
+            eval("(" + this.args.click_event + ")")()
+
+            this.$root.$emit('message', {
+                                            type:               "subcomponent_event"
+                                        })
+
+        }
      }
-      },
+
     })
 }

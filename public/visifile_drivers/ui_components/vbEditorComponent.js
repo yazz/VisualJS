@@ -348,6 +348,15 @@ load_once_from_file(true)
            this.selectForm(mm.model.default_form)
 
            mm.$forceUpdate();
+
+
+
+           this.$root.$on('message', (text) => {
+               if (text.type == "subcomponent_event") {
+                   alert("subcomponent_event called in: " + JSON.stringify(mm.model,null,2))
+                   //zzz
+               }
+           })
      },
 
      computed: {
@@ -436,7 +445,7 @@ load_once_from_file(true)
                  if (!isValidObject(this.args)) {
                       this.args = this.model
                  }
-                 //zzz
+
                  var args = this.args
                  var app = this.model
                  var crt = mm.model.forms[formId].form_activate
