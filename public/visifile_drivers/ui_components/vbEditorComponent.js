@@ -353,8 +353,11 @@ load_once_from_file(true)
 
            this.$root.$on('message', (text) => {
                if (text.type == "subcomponent_event") {
-                   alert("subcomponent_event called in: " + JSON.stringify(mm.model,null,2))
-                   //zzz
+                if (!mm.design_mode) {
+                    alert("subcomponent_event called in: " + JSON.stringify(mm.model,null,2))
+                    //zzz
+
+                }
                }
            })
      },

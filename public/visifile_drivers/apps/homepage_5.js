@@ -50,11 +50,22 @@ formEditor({
                           {
                               name:                 "label_control_1",
                               base_component_id:    "label_control",
-                              leftX:                 100,
-                              topY:                  100,
+                              leftX:                 10,
+                              topY:                  10,
                               width:                 100,
                               height:                100,
                               text:                 "Hello world"
+                          }
+                          ,
+                          {
+                              name:                 "button_control_1",
+                              base_component_id:    "button_control",
+                              leftX:                 150,
+                              topY:                  150,
+                              width:                 100,
+                              height:                100,
+                              text:                 "Hello world",
+                              click_event:         "alert(1)"
                           }
 
                       ],

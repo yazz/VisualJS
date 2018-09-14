@@ -48,7 +48,7 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAA
      },
      methods: {
         event_callback: function() {
-            eval("(" + this.args.click_event + ")")()
+            eval("(function(){" + this.args.click_event + "})")()
 
             this.$root.$emit('message', {
                                             type:               "subcomponent_event"
