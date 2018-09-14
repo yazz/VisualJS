@@ -31,7 +31,7 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAA
 */
 
     Vue.component("button_control",{
-      props: ["args"]
+      props: ["args", "name"]
       ,
       template: `<button    type=button class='btn btn-info btn-lg'
                             v-bind:style='"height:100%;width:100%; border: 0px;" + "background-color: "+    args["background_color"]  +  ";"'
@@ -52,6 +52,7 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAA
 
             this.$emit('send', {
                                             type:               "subcomponent_event",
+                                            control_name:        this.name,
                                             code:                this.args.click_event
                                         })
 
