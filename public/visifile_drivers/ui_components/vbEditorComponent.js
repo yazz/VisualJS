@@ -461,10 +461,10 @@ load_once_from_file(true)
                   if (text.type == "subcomponent_event") {
                    if (!mm.design_mode) {
                        if (mm.model) {
-                           alert("subcomponent_event called in: " + mm.model.id)
+                           //alert("subcomponent_event called in: " + mm.model.id)
                            //alert(text.code)
                            var fcc = "(function(){" + text.code +"})"
-                           vae efcc = eval(fcc)
+                           var efcc = eval(fcc)
                            efcc()
                        }
                        //zzz
