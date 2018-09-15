@@ -81,7 +81,7 @@ load_once_from_file(true)
 
                                     <div ondrop="return false;" v-bind:style='"position: absolute; top: 0px; left: 0px;height:" + item.height + "px;width:" + item.width + "px;overflow:auto;"'>
                                         <component  v-bind:refresh='refresh'
-                                                    v-on:send="sendText"
+                                                    v-on:send="processControlEvent"
                                                     v-bind:is='item.base_component_id'
                                                     v-bind:name='item.name'
                                                     v-bind:args='model.forms[model.active_form].components[index]'>
@@ -460,24 +460,28 @@ load_once_from_file(true)
 
 
 
-              sendText: function(text) {
-              //alert(JSON.stringify(text,null,4))
-                 var mm = this
-                  if (text.type == "subcomponent_event") {
+              processControlEvent: function(  eventMessage  ) {
+                //alert(JSON.stringify(text,null,4))
+                var mm = this
+                if (eventMessage.type == "subcomponent_event") {
+
                    if (!mm.design_mode) {
                        if (mm.model) {
                            //alert("subcomponent_event called in: " + mm.model.id)
-                           //alert(text.code)
-                           alert("From: " + text.control_name)
-                           var fcc = "(function(){" + text.code +"})"
+                           //alert(eventMessage.code)
+                           //alert("From: " + eventMessage.control_name)
+                           var fcc = "(function(){" + eventMessage.code +"})"
+
                            var efcc = eval(fcc)
+                           var zoo = "Hello"
                            efcc()
 
+                           zoo = "Hello is changed"
+                           efcc()
                        }
                        //zzz
-
                    }
-                  }
+                }
 
               },
 
@@ -903,6 +907,7 @@ load_once_from_file(true)
                       refresh: 0,
                       runtime_mode: runtimeMode,
                       component_lookup:            new Object(),
+                      component_instance_lookup_by_name:            new Object(),
                       text: texti,
                       model: `
                       + JSON.stringify( mm.model,
@@ -963,7 +968,7 @@ load_once_from_file(true)
            read_only:                   false,
            available_components:        [],
            component_lookup:            new Object(),
-
+           component_instance_lookup_by_name:            new Object(),
            model:                      {
                                             next_id: 1,
                                             next_component_id: 1,

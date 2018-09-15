@@ -65,7 +65,7 @@ formEditor({
                               width:                 100,
                               height:                100,
                               text:                 "Hello world",
-                              click_event:         "alert(1)"
+                              click_event:          "alert(zoo)"
                           }
 
                       ],
