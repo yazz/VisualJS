@@ -482,22 +482,25 @@ load_once_from_file(true)
                            }
 
                            var thisControl = this.component_instance_lookup_by_name[eventMessage.control_name]
-                           var thisControlClass = this.component_lookup[thisControl.base_component_id]
-                           var compEvaled = eval("(" + thisControlClass.properties + ")")
-                           var errr=""
-                           for (var rtt=0; rtt < compEvaled.length; rtt++) {
-                                //alert(JSON.stringify(compEvaled[rtt],null,2))
-                                if (thisControl[compEvaled[rtt].id]) {
-                                    errr += ( compEvaled[rtt].id + " = `" + thisControl[compEvaled[rtt].id] + "`;")
-                                }
-                           }
-                           //alert(errr)
-                           eval( errr  )
+                               if (thisControl) {
+                               var thisControlClass = this.component_lookup[thisControl.base_component_id]
+                               var compEvaled = eval("(" + thisControlClass.properties + ")")
+                               var errr=""
+                               for (var rtt=0; rtt < compEvaled.length; rtt++) {
+                                    //alert(JSON.stringify(compEvaled[rtt],null,2))
+                                    if (thisControl[compEvaled[rtt].id]) {
+                                        errr += ( compEvaled[rtt].id + " = `" + thisControl[compEvaled[rtt].id] + "`;")
+                                    }
+                               }
+                               //alert(errr)
+                               eval( errr  )
 
-                           //eval("var text = ``null``;text") ='fdsd v2'
-                           //eval("var text = `Hello world2`")
-                           var efcc = eval(fcc)
-                           efcc()
+                               //eval("var text = ``null``;text") ='fdsd v2'
+                               //eval("var text = `Hello world2`")
+                               var efcc = eval(fcc)
+                               efcc()
+
+                           }
                        }
                        //zzz
                    }
