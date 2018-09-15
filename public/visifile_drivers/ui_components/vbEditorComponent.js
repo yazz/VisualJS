@@ -500,6 +500,17 @@ load_once_from_file(true)
                                var efcc = eval(fcc)
                                efcc()
 
+                               for (var rtt=0; rtt < compEvaled.length; rtt++) {
+                                    //alert(JSON.stringify(compEvaled[rtt],null,2))
+                                    if (thisControl[compEvaled[rtt].id]) {
+                                        if (eval(compEvaled[rtt].id ) != thisControl[compEvaled[rtt].id]) {
+                                            thisControl[compEvaled[rtt].id] = eval(compEvaled[rtt].id )
+                                        }
+                                    }
+                               }
+
+
+
                            }
                        }
                        //zzz
