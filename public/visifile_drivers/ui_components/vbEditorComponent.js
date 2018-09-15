@@ -329,6 +329,8 @@ load_once_from_file(true)
                 var newItem = mm.model.forms[mm.model.active_form].components[rtw]
                 //alert(newItem.base_component_id)
                 await load(newItem.base_component_id)
+                this.component_instance_lookup_by_name[newItem.name] = newItem
+
            }
 
 
@@ -589,6 +591,7 @@ load_once_from_file(true)
                  this.refresh++
                  await load(newItem.base_component_id)
                  this.model.forms[this.model.active_form].components.push(newItem)
+                 this.component_instance_lookup_by_name[newItem.name] = newItem
                  ev.preventDefault();
                  this.generateCodeFromModel(  mm.model  )
                  this.model.active_component_index = this.model.forms[this.model.active_form].components.length - 1
