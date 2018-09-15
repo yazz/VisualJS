@@ -474,6 +474,21 @@ load_once_from_file(true)
                            //alert("From: " + eventMessage.control_name)
                            var fcc = "(function(){" + eventMessage.code +"})"
 
+                           // add the controls
+                           var allC = this.model.forms[this.model.active_form].components
+                           for (var xi =0; xi< allC.length ; xi ++) {
+                                var comp = allC[xi]
+                                //alert(comp.name)
+                           }
+
+                           var thisControl = this.component_instance_lookup_by_name[eventMessage.control_name]
+                           var thisControlClass = this.component_lookup[thisControl.base_component_id]
+                           var compEvaled = eval("(" + thisControlClass.properties + ")")
+                           for (var rtt=0; rtt < compEvaled.length; rtt++) {
+                                alert(JSON.stringify(compEvaled[rtt],null,2))
+                           }
+
+
                            var efcc = eval(fcc)
                            var zoo = "Hello"
                            efcc()
