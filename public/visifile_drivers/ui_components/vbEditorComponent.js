@@ -491,16 +491,12 @@ load_once_from_file(true)
                                     errr += ( compEvaled[rtt].id + " = `" + thisControl[compEvaled[rtt].id] + "`;")
                                 }
                            }
-                           alert(errr)
+                           //alert(errr)
                            eval( errr  )
 
                            //eval("var text = ``null``;text") ='fdsd v2'
                            //eval("var text = `Hello world2`")
                            var efcc = eval(fcc)
-                           var zoo = "Hello"
-                           efcc()
-
-                           zoo = "Hello is changed"
                            efcc()
                        }
                        //zzz
