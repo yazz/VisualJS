@@ -485,8 +485,8 @@ load_once_from_file(true)
                                 formEval += ("var " + aForm.name + " = " + 1 + ";")
 
                            }
-                           alert(formEval)
-                           //eval(formEval)
+                           //alert(formEval)
+                           eval(formEval)
                            //zzz
 
 
