@@ -474,6 +474,22 @@ load_once_from_file(true)
                            //alert("From: " + eventMessage.control_name)
                            var fcc = "(function(){" + eventMessage.code +"})"
 
+
+                           //
+                           // set up property access for all forms
+                           //
+                           var formEval = ""
+                           var allForms = this.getForms();
+                           for (var fi =0; fi < allForms.length ; fi ++) {
+                                var aForm = allForms[fi]
+                                formEval += ("var " + aForm.name + " = " + 1 + ";")
+
+                           }
+                           alert(formEval)
+                           //eval(formEval)
+                           //zzz
+
+
                            //
                            // set up property access for all controls on this form
                            //
@@ -486,6 +502,8 @@ load_once_from_file(true)
                            }
                            //alert(cacc)
                            eval(cacc)
+
+
 
                            var thisControl = this.component_instance_lookup_by_name[eventMessage.control_name]
                            if (isValidObject(thisControl)) {
@@ -534,7 +552,7 @@ load_once_from_file(true)
                                }
                            }
                        }
-                       //zzz
+
                    }
                 }
 
@@ -1032,10 +1050,10 @@ load_once_from_file(true)
                                             next_id: 1,
                                             next_component_id: 1,
                                             max_form: 1,
-                                            active_form: "Form 1",
+                                            active_form: "Form_1",
                                             active_component_index: null,
                                             app_selected: false,
-                                            default_form: "Form 1",
+                                            default_form: "Form_1",
                                             app_properties: [],
 
                                             fields: [
@@ -1043,8 +1061,8 @@ load_once_from_file(true)
                                                     ],
 
                                             forms: {
-                                                "Form 1": {
-                                                    name: "Form 1",
+                                                "Form_1": {
+                                                    name: "Form_1",
                                                     components: [
 
                                                                 ]

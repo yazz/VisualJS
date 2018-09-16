@@ -25,8 +25,8 @@ properties(
 formEditor({
   "next_id": 7,
   max_form: 1,
-  active_form: "Form 1",
-  default_form: "Form 1",
+  active_form: "Form_1",
+  default_form: "Form_1",
   app_selected: false,
   id: "homepage_5",
   next_component_id: 100,
@@ -42,8 +42,8 @@ formEditor({
       ,
 
   forms: {
-      "Form 1": {
-          name:     "Form 1",
+      "Form_1": {
+          name:     "Form_1",
           width:    "300px",
           height:   "300px",
           components: [
@@ -78,20 +78,20 @@ formEditor({
                               width:                 200,
                               height:                60,
                               text:                 "Go to  form 2",
-                              click_event:         `mm.selectForm("Form 2")`
+                              click_event:         `mm.selectForm("Form_2")`
                           }
 
                       ],
           form_activate_old:
             `function() {
-                if (app && app.forms && app.forms["Form 1"] && app.forms["Form 1"].components[0]) {
-                    app.forms["Form 1"].components[0].text = args.test
+                if (app && app.forms && app.forms["Form_1"] && app.forms["Form_1"].components[0]) {
+                    app.forms["Form_1"].components[0].text = args.test
                 }
              }`
       },
 
-      "Form 2": {
-          name:     "Form 2",
+      "Form_2": {
+          name:     "Form_2",
           width:    "300px",
           height:   "300px",
           components: [
@@ -112,8 +112,8 @@ formEditor({
                               width:                 200,
                               background_color:     "blue",
                               height:                100,
-                              text:                 "Go to form 1",
-                              click_event:         `mm.selectForm("Form 1")`
+                              text:                 "Go to Form 1",
+                              click_event:         `mm.selectForm("Form_1")`
                           }
 
 
@@ -435,7 +435,7 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
                       model: {
   "next_id": 7,
   app_selected: false,
-  default_form: "Form 1",
+  default_form: "Form_1",
   id: "homepage_5",
   next_component_id: 100,
   app_properties:
@@ -443,8 +443,8 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
       ]
       ,
 
-"Form 1": {
-      name: "Form 1",
+"Form_1": {
+      name: "Form_1",
       components: [
 
                   ]
