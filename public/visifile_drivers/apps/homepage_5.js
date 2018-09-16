@@ -80,6 +80,19 @@ formEditor({
                               text:                 "Go to  form 2",
                               click_event:         `mm.selectForm("Form_2")`
                           }
+                          ,
+                          {
+                              name:                 "button_control_3",
+                              base_component_id:    "button_control",
+                              leftX:                 100,
+                              topY:                  5,
+                              width:                 100,
+                              height:                60,
+                              text:                 "Form_1",
+                              click_event:         `alert(Form_1.label_control_1)`
+                          }
+
+
 
                       ],
           form_activate_old:

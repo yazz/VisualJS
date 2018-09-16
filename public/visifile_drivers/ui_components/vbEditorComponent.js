@@ -478,11 +478,22 @@ load_once_from_file(true)
                            //
                            // set up property access for all forms
                            //
+                           var formHandler = {
+                                get: function(target,name){
+                                    //alert("gett: " + target + ", " + name)
+                                    var formName = target.name
+                                    if (mm.model.forms[formName][name]) {
+                                        return mm.model.forms[formName][name]
+                                    }
+                                    return "Not found"
+                                }
+                           }
                            var formEval = ""
                            var allForms = this.getForms();
                            for (var fi =0; fi < allForms.length ; fi ++) {
                                 var aForm = allForms[fi]
-                                formEval += ("var " + aForm.name + " = " + 1 + ";")
+                                formEval += ("var " + aForm.name +
+                                    " = new Proxy({name: '" + aForm.name + "'}, formHandler);")
 
                            }
                            //alert(formEval)
