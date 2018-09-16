@@ -48,6 +48,7 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAA
      },
      methods: {
         event_callback: function() {
+        console.log("----- button_control, event_callback: function() = " + this.name)
             //eval("(function(){" + this.args.click_event + "})")()
 
             this.$emit('send', {

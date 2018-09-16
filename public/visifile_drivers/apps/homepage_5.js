@@ -69,6 +69,17 @@ formEditor({
                                                     label_control_1.text = "another control"
                                                     label_control_1.background_color="yellow"`
                           }
+                          ,
+                          {
+                              name:                 "button_control_2",
+                              base_component_id:    "button_control",
+                              leftX:                 10,
+                              topY:                  70,
+                              width:                 200,
+                              height:                60,
+                              text:                 "Go to  form 2",
+                              click_event:         `mm.selectForm("Form 2")`
+                          }
 
                       ],
           form_activate_old:
@@ -92,7 +103,19 @@ formEditor({
                               width:                 100,
                               height:                100,
                               text:                 "Hello world"
+                          },
+                          {
+                              name:                 "button_control_2",
+                              base_component_id:    "button_control",
+                              leftX:                 10,
+                              topY:                  10,
+                              width:                 200,
+                              background_color:     "blue",
+                              height:                100,
+                              text:                 "Go to form 1",
+                              click_event:         `mm.selectForm("Form 1")`
                           }
+
 
                       ]
 
