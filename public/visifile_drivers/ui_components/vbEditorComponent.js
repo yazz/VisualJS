@@ -478,13 +478,14 @@ load_once_from_file(true)
                            // set up property access for all controls on this form
                            //
                            var allC = this.model.forms[this.model.active_form].components
+                           var cacc =""
                            for (var xi =0; xi< allC.length ; xi ++) {
                                 var comp = allC[xi]
-                                var cacc =  "var " + comp.name + " = mm.model.forms[mm.model.active_form].components['" + comp.name + "']"
-                                //alert(cacc)
-                                eval(cacc)
+                                cacc += ( "var " + comp.name + " = mm.component_instance_lookup_by_name['" + comp.name + "'];")
                                 //eval("alert(mm.model.active_form)")
                            }
+                           //alert(cacc)
+                           eval(cacc)
 
                            var thisControl = this.component_instance_lookup_by_name[eventMessage.control_name]
                            if (isValidObject(thisControl)) {

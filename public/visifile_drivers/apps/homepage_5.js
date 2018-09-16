@@ -65,7 +65,9 @@ formEditor({
                               width:                 100,
                               height:                100,
                               text:                 "Hello world",
-                              click_event:          "alert('text: ' + text)"
+                              click_event:         `text = "Clicked"
+                                                    label_control_1.text = "another control"
+                                                    label_control_1.background_color="yellow"`
                           }
 
                       ],
