@@ -89,7 +89,7 @@ formEditor({
                               width:                 100,
                               height:                60,
                               text:                 "Form_1",
-                              click_event:         `alert(Form_1.label_control_1)`
+                              click_event:         `alert(Form_1.label_control_1.text)`
                           }
 
 

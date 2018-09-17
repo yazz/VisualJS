@@ -517,9 +517,12 @@ load_once_from_file(true)
                                     if (mm.model.forms[formName][name]) {
                                         return mm.model.forms[formName][name]
                                     }
+
+                                    console.log("proxy:" + JSON.stringify(mm.form_runtime_info[formName],null,2))
                                     if (mm.form_runtime_info[formName].component_lookup_by_name[name]) {
-                                        mm.form_runtime_info[formName].component_lookup_by_name[name]
+                                        return mm.form_runtime_info[formName].component_lookup_by_name[name]
                                     }
+
                                     return "Not found"
                                 }
                            }
