@@ -385,13 +385,22 @@ load_once_from_file(true)
             var llf = Object.keys(this.model.forms)
             for (var ii = 0; ii < llf.length ; ii ++) {
                 var formqq = this.model.forms[llf[ii]].name
-                this.form_runtime_info[formqq] = new Object()
                 this.updateFormCache(formqq)
             }
         },
 
         updateFormCache: function(formName) {
-
+            var form = this.model.forms[formName]
+            var components = form.components
+            if (!isValidObject(this.form_runtime_info[formName])) {
+                this.form_runtime_info[formName] = new Object()
+            }
+            this.form_runtime_info[formName].component_lookup_by_name = {}
+            //zzz
+            for (var gjh = 0; gjh < components.length; gjh ++) {
+                var cc = components[gjh]
+                this.form_runtime_info[formName].component_lookup_by_name[cc.name] = cc
+            }
         },
 
          //-------------------------------------------------------------------
@@ -507,6 +516,9 @@ load_once_from_file(true)
                                     var formName = target.name
                                     if (mm.model.forms[formName][name]) {
                                         return mm.model.forms[formName][name]
+                                    }
+                                    if (mm.form_runtime_info[formName].component_lookup_by_name[name]) {
+                                        mm.form_runtime_info[formName].component_lookup_by_name[name]
                                     }
                                     return "Not found"
                                 }
