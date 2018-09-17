@@ -9,8 +9,14 @@ load_once_from_file(true)
 properties(
     [
         {
-            id:     "text",
-            name:   "Text",
+            id:     "label",
+            name:   "Label",
+            type:   "String"
+        }
+        ,
+        {
+            id:     "placeholder",
+            name:   "Placeholder",
             type:   "String"
         }
         ,
@@ -27,10 +33,15 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAACoCAMAAABt9SM9AAAA
     Vue.component("input_control",{
       props: ["args"]
       ,
-      template: `<div v-bind:style='"height:100%;width:100%; border: 0px;" +
-                                    "background-color: "+    args["background_color"]  +  ";"'>
+      template: `<div>
+                    <label>{{args.label}}</label>
+
+                    <input  class="form-control"
+                            v-bind:style=   '"height:100%;width:100%; border: 0px;" +
+                                             "background-color: "+    args["background_color"]  +  ";"'>
 
                                                 {{args.text}}
+                    </input>
                  </div>`
       ,
       data: function() {
