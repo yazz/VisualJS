@@ -42,19 +42,21 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAACoCAMAAABt9SM9AAAA
       template: `<div>
                     <label>{{args.label}}</label>
 
-                    <input  class="form-control"
+                    <input  class="form-control2"
+
                             v-bind:style=   '"width:100%; " +
                                              "background-color: "+    args["background_color"]  +  ";"'
-                            v-bind:value='text'
 
-                                             >
+                            v-model='text'>  </input>
 
 
-                    </input>
+
+                            <button  class='btn btn-info'
+                                     v-on:click='alert(text)'>  click  </button>
                  </div>`
       ,
       mounted: function() {
-            this.text = this.args.text
+            //this.text = this.args.text
       }
       ,
       data: function() {
