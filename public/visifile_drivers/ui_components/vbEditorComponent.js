@@ -311,6 +311,9 @@ load_once_from_file(true)
 
 
 
+            //
+            // get the base component ID of the code to edit/run
+            //
             if (texti) {
                 var json2 = this.getJsonModelFromCode(  texti  )
                 mm.model = json2
@@ -324,6 +327,9 @@ load_once_from_file(true)
 
            mm.model.active_form = mm.model.default_form
 
+           //
+           // load the default form
+           //
            for (var rtw = 0; rtw < mm.model.forms[mm.model.active_form].components.length ; rtw++ )
            {
                 var newItem = mm.model.forms[mm.model.active_form].components[rtw]
@@ -335,11 +341,9 @@ load_once_from_file(true)
 
 
 
-           //editor.getSession().on('change', function() {
-           //mm.text = editor.getSession().getValue();
-           //alert("changed text to : " + mm.text)
-           //   });
-
+           //
+           // get the availabe compoents
+           //
            var sql =    "select  *  from  system_code  where " +
                         "        code_tag = 'LATEST' and logo_url is not null"
 
@@ -352,7 +356,13 @@ load_once_from_file(true)
                 //alert(comp.base_component_id)
                 mm.component_lookup[comp.base_component_id] = comp
            }
+           this.updateAllFormCaches()
+
+
+
+
            this.selectForm(mm.model.default_form)
+
 
            mm.$forceUpdate();
 
@@ -371,6 +381,19 @@ load_once_from_file(true)
 
 
      methods: {
+        updateAllFormCaches: function() {
+            var llf = Object.keys(this.model.forms)
+            for (var ii = 0; ii < llf.length ; ii ++) {
+                var formqq = this.model.forms[llf[ii]].name
+                this.form_runtime_info[formqq] = new Object()
+                this.updateFormCache(formqq)
+            }
+        },
+
+        updateFormCache: function(formName) {
+
+        },
+
          //-------------------------------------------------------------------
          getForms: function() {
          //-------------------------------------------------------------------
@@ -995,6 +1018,7 @@ load_once_from_file(true)
                       refresh: 0,
                       runtime_mode: runtimeMode,
                       component_lookup:            new Object(),
+                      form_runtime_info: {},
                       component_instance_lookup_by_name:            new Object(),
                       text: texti,
                       model: `
@@ -1056,6 +1080,7 @@ load_once_from_file(true)
            read_only:                   false,
            available_components:        [],
            component_lookup:            new Object(),
+           form_runtime_info: {},
            component_instance_lookup_by_name:            new Object(),
            model:                      {
                                             next_id: 1,
