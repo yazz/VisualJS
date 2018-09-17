@@ -397,7 +397,7 @@ load_once_from_file(true)
                 this.form_runtime_info[formName] = new Object()
             }
             this.form_runtime_info[formName].component_lookup_by_name = {}
-            //zzz
+
             for (var gjh = 0; gjh < components.length; gjh ++) {
                 var cc = components[gjh]
                 this.form_runtime_info[formName].component_lookup_by_name[cc.name] = cc
@@ -496,16 +496,21 @@ load_once_from_file(true)
 
 
               processControlEvent: function(  eventMessage  ) {
+                console.log("processControlEvent")
+                this.updateAllFormCaches()
                 //alert(JSON.stringify(text,null,4))
                 var mm = this
                 if (eventMessage.type == "subcomponent_event") {
-
+                    console.log(1)
                    if (!mm.design_mode) {
+                    console.log(2)
                        if (mm.model) {
+                        console.log(3)
                            //alert("subcomponent_event called in: " + mm.model.id)
                            //alert(eventMessage.code)
                            //alert("From: " + eventMessage.control_name)
                            var fcc = "(function(){" + eventMessage.code +"})"
+                           console.log(4)
 
 
                            //
@@ -519,7 +524,7 @@ load_once_from_file(true)
                                         return mm.model.forms[formName][name]
                                     }
 
-                                    console.log("proxy:" + JSON.stringify(mm.form_runtime_info[formName],null,2))
+                                    //console.log("proxy:" + JSON.stringify(mm.form_runtime_info[formName],null,2))
                                     if (mm.form_runtime_info[formName].component_lookup_by_name[name]) {
                                         return mm.form_runtime_info[formName].component_lookup_by_name[name]
                                     }
@@ -527,6 +532,7 @@ load_once_from_file(true)
                                     return "Not found"
                                 }
                            }
+                           console.log(5)
                            var formEval = ""
                            var allForms = this.getForms();
                            for (var fi =0; fi < allForms.length ; fi ++) {
@@ -535,9 +541,11 @@ load_once_from_file(true)
                                     " = new Proxy({name: '" + aForm.name + "'}, formHandler);")
 
                            }
+                           console.log(6)
                            //alert(formEval)
                            eval(formEval)
-                           //zzz
+
+                           console.log(7)
 
 
                            //
@@ -551,14 +559,22 @@ load_once_from_file(true)
                                 //eval("alert(mm.model.active_form)")
                            }
                            //alert(cacc)
+                           console.log(8)
                            eval(cacc)
 
-
-
-                           var thisControl = this.component_instance_lookup_by_name[eventMessage.control_name]
+                           console.log(9)
+                           this.model.active_form
+       console.log(this.model.active_form)
+       console.log(JSON.stringify(this.form_runtime_info,null,2))
+       console.log(JSON.stringify(this.form_runtime_info[this.model.active_form],null,2))
+                           var thisControl = this.form_runtime_info[this.model.active_form].component_lookup_by_name[eventMessage.control_name]
                            if (isValidObject(thisControl)) {
+                               console.log(10)
+                               console.log(thisControl.base_component_id)
                                var thisControlClass = this.component_lookup[thisControl.base_component_id]
+                               console.log(11)
                                if (isValidObject(thisControlClass)) {
+                                   console.log(12)
                                    var compEvaled = eval("(" + thisControlClass.properties + ")")
                                    var errr=""
 
@@ -572,6 +588,7 @@ load_once_from_file(true)
                                         }
                                    }
 
+                                   console.log(13)
 
 
 
@@ -580,11 +597,13 @@ load_once_from_file(true)
 
 
                                    eval( errr  )
+                                   console.log(14)
 
 
 
                                    var efcc = eval(fcc)
                                    efcc()
+                                   console.log(15)
 
                                    //
                                    // save any changed properties for this control
@@ -598,6 +617,8 @@ load_once_from_file(true)
                                         }
                                    }
 
+                                   mm.refresh ++
+                                   mm.$forceUpdate();
 
                                }
                            }
