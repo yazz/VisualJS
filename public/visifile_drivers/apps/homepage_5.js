@@ -60,7 +60,7 @@ formEditor({
                           {
                               name:                 "button_control_1",
                               base_component_id:    "button_control",
-                              leftX:                 150,
+                              leftX:                 100,
                               topY:                  150,
                               width:                 100,
                               height:                100,
@@ -68,6 +68,20 @@ formEditor({
                               click_event:         `text = "Clicked"
                                                     label_control_1.text = "another control"
                                                     label_control_1.background_color="yellow"`
+                          }
+                          
+                          ,
+                          {
+                              name:                 "button_control_5",
+                              base_component_id:    "button_control",
+                              leftX:                 250,
+                              topY:                  150,
+                              width:                 100,
+                              height:                100,
+                              text:                 "back",
+                              click_event:         `text = "Clicked"
+                                                    label_control_1.text = ""
+                                                    label_control_1.background_color="blue"`
                           }
                           ,
                           {

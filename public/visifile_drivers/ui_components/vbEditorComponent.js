@@ -80,7 +80,8 @@ load_once_from_file(true)
                                                         "position: absolute;top: " + item.topY + ";left:" + item.leftX + ";height:" + item.height + "px;width:" + item.width + "px;background: white;;overflow:none;"'>
 
                                     <div ondrop="return false;" v-bind:style='"position: absolute; top: 0px; left: 0px;height:" + item.height + "px;width:" + item.width + "px;overflow:auto;"'>
-                                        <component  v-bind:refresh='refresh'
+                                        <component  v-bind:id='model.active_form + "_" + model.forms[model.active_form].components[index].name'
+                                                    v-bind:refresh='refresh'
                                                     v-on:send="processControlEvent"
                                                     v-bind:is='item.base_component_id'
                                                     v-bind:name='item.name'
