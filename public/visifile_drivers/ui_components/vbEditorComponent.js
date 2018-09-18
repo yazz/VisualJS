@@ -336,7 +336,6 @@ load_once_from_file(true)
                 var newItem = mm.model.forms[mm.model.active_form].components[rtw]
                 //alert(newItem.base_component_id)
                 await load(newItem.base_component_id)
-                this.component_instance_lookup_by_name[newItem.name] = newItem
 
            }
 
@@ -574,10 +573,10 @@ load_once_from_file(true)
                            var cacc =""
                            for (var xi =0; xi< allC.length ; xi ++) {
                                 var comp = allC[xi]
-                                cacc += ( "var " + comp.name + " = mm.component_instance_lookup_by_name['" + comp.name + "'];")
+                                cacc += ( "var " + comp.name + " = mm.form_runtime_info['" + this.model.active_form + "'].component_lookup_by_name['" + comp.name + "'];")
                                 //eval("alert(mm.model.active_form)")
                            }
-                           //alert(cacc)
+                           alert(cacc)
                            console.log(8)
                            eval(cacc)
 
@@ -751,7 +750,6 @@ load_once_from_file(true)
                  this.refresh++
                  await load(newItem.base_component_id)
                  this.model.forms[this.model.active_form].components.push(newItem)
-                 this.component_instance_lookup_by_name[newItem.name] = newItem
                  ev.preventDefault();
                  this.generateCodeFromModel(  mm.model  )
                  this.model.active_component_index = this.model.forms[this.model.active_form].components.length - 1
@@ -1071,7 +1069,6 @@ load_once_from_file(true)
                       refresh: 0,
                       runtime_mode: runtimeMode,
                       form_runtime_info: {},
-                      component_instance_lookup_by_name:            new Object(),
                       text: texti,
                       model: `
                       + JSON.stringify( mm.model,
@@ -1132,7 +1129,6 @@ load_once_from_file(true)
            read_only:                   false,
            available_components:        [],
            form_runtime_info: {},
-           component_instance_lookup_by_name:            new Object(),
            model:                      {
                                             next_id: 1,
                                             next_component_id: 1,
