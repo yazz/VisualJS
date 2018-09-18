@@ -576,7 +576,7 @@ load_once_from_file(true)
                                 cacc += ( "var " + comp.name + " = mm.form_runtime_info['" + this.model.active_form + "'].component_lookup_by_name['" + comp.name + "'];")
                                 //eval("alert(mm.model.active_form)")
                            }
-                           alert(cacc)
+                           //alert(cacc)
                            console.log(8)
                            eval(cacc)
 

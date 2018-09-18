@@ -42,18 +42,23 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAACoCAMAAABt9SM9AAAA
       props: ["args"]
       ,
       template: `<div>
-                    <label>{{args?args.label:label}}</label>
+                    <label>{{label}}</label>
 
                     <input  class="form-control2"
 
                             v-bind:style=   '"width:100%; " +
-                                             "background-color: "+    (args?args["background_color"]:background_color)  +  ";"'
+                                             "background-color: "+  background_color  +  ";"'
 
-                            v-bind:value='args?args.text:text'>  </input>
+                            v-bind:value='text'>  </input>
 
                  </div>`
       ,
       mounted: function() {
+        if (isValidObject(this.args)) {
+            this.label = this.args.label
+            this.text = this.args.text
+            this.background_color = this.args.background_color
+        }
       }
       ,
       data: function() {
