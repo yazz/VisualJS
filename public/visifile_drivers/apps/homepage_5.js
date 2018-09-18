@@ -1,6 +1,6 @@
 async function(args) {
 /*
-created_timestamp(1537269149386)
+created_timestamp(1537274673303)
 base_component_id("homepage_5")
 editors([
   "vb_editor_component"
@@ -93,7 +93,7 @@ formEditor({
       ]
     }
   },
-  "active_component_index": 1
+  "active_component_index": null
 })//formEditor
 read_only(false)
 
@@ -433,7 +433,6 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
                 var newItem = mm.model.forms[mm.model.active_form].components[rtw]
                 //alert(newItem.base_component_id)
                 await load(newItem.base_component_id)
-                this.component_instance_lookup_by_name[newItem.name] = newItem
 
            }
 
@@ -671,7 +670,7 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
                            var cacc =""
                            for (var xi =0; xi< allC.length ; xi ++) {
                                 var comp = allC[xi]
-                                cacc += ( "var " + comp.name + " = mm.component_instance_lookup_by_name['" + comp.name + "'];")
+                                cacc += ( "var " + comp.name + " = mm.form_runtime_info['" + this.model.active_form + "'].component_lookup_by_name['" + comp.name + "'];")
                                 //eval("alert(mm.model.active_form)")
                            }
                            //alert(cacc)
@@ -848,7 +847,6 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
                  this.refresh++
                  await load(newItem.base_component_id)
                  this.model.forms[this.model.active_form].components.push(newItem)
-                 this.component_instance_lookup_by_name[newItem.name] = newItem
                  ev.preventDefault();
                  this.generateCodeFromModel(  mm.model  )
                  this.model.active_component_index = this.model.forms[this.model.active_form].components.length - 1
@@ -1168,7 +1166,6 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
                       refresh: 0,
                       runtime_mode: runtimeMode,
                       form_runtime_info: {},
-                      component_instance_lookup_by_name:            new Object(),
                       text: texti,
                       model: `
                       + JSON.stringify( mm.model,
@@ -1219,7 +1216,6 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
                       refresh: 0,
                       runtime_mode: runtimeMode,
                       form_runtime_info: {},
-                      component_instance_lookup_by_name:            new Object(),
                       text: texti,
                       model: {
   "next_id": 7,
@@ -1302,7 +1298,7 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
       ]
     }
   },
-  "active_component_index": 1
+  "active_component_index": null
 }}
                 }
               })//** gen_end **//

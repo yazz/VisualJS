@@ -45,11 +45,11 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAACoCAMAAABt9SM9AAAA
                     <label>{{label}}</label>
 
                     <input  class="form-control2"
-
+                            v-on:change='changedFn'
                             v-bind:style=   '"width:100%; " +
                                              "background-color: "+  background_color  +  ";"'
 
-                            v-bind:value='text'>  </input>
+                            v-model='text'>  </input>
 
                  </div>`
       ,
@@ -66,6 +66,15 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAACoCAMAAABt9SM9AAAA
                 text: "",
                 label: "",
                 background_color: ""
+            }
+      },
+      methods: {
+            changedFn: function() {
+                if (isValidObject(this.args)) {
+                    this.args.label = this.label
+                    this.args.text = this.text
+                    this.args.background_color = this.background_color
+                }
             }
       }
     })
