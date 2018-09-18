@@ -49,7 +49,7 @@ formEditor({
           components: [
                           {
                               name:                 "label_control_1",
-                              base_component_id:    "label_control",
+                              base_component_id:    "input_control",
                               leftX:                 10,
                               topY:                  10,
                               width:                 100,
@@ -69,7 +69,7 @@ formEditor({
                                                     label_control_1.text = "another control"
                                                     label_control_1.background_color="yellow"`
                           }
-                          
+
                           ,
                           {
                               name:                 "button_control_5",

@@ -47,12 +47,12 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAACoCAMAAABt9SM9AAAA
                             v-bind:style=   '"width:100%; " +
                                              "background-color: "+    args["background_color"]  +  ";"'
 
-                            v-model='text'>  </input>
+                            v-model='args.text'>  </input>
 
 
 
                             <button  class='btn btn-info'
-                                     v-on:click='alert(text)'>  click  </button>
+                                     v-on:click='alert(args.text)'>  click  </button>
                  </div>`
       ,
       mounted: function() {
