@@ -352,11 +352,6 @@ load_once_from_file(true)
                {   sql: sql  })
 
            mm.available_components = results
-           for (var iur = 0; iur < mm.available_components.length; iur++) {
-                var comp = mm.available_components[iur]
-                //alert(comp.base_component_id)
-                mm.component_lookup[comp.base_component_id] = comp
-           }
            this.updateAllFormCaches()
 
 
@@ -461,6 +456,30 @@ load_once_from_file(true)
 
 
 
+          //-------------------------------------------------------------------
+          getComponentProperties: async function(componentName) {
+          //-------------------------------------------------------------------
+              var sql =    "select  properties  from  system_code  where " +
+                           "        base_component_id = '" + componentName + "'   and   code_tag = 'LATEST' "
+
+              var results = await callApp({ driver_name:    "systemFunctions2",method_name:    "sql"},
+                  {   sql: sql  })
+
+              if (results.length == 0) {
+                return {}
+              }
+              var propEm = results[0].properties
+              if (propEm == '') {
+                return {}
+              }
+              var props = eval("(" + results[0].properties + ")")
+              return props
+           }
+          ,
+
+
+
+
          //-------------------------------------------------------------------
          selectForm: function(formId) {
          //-------------------------------------------------------------------
@@ -495,7 +514,7 @@ load_once_from_file(true)
 
 
 
-              processControlEvent: function(  eventMessage  ) {
+              processControlEvent: async function(  eventMessage  ) {
                 console.log("processControlEvent")
                 this.updateAllFormCaches()
                 //alert(JSON.stringify(text,null,4))
@@ -571,11 +590,10 @@ load_once_from_file(true)
                            if (isValidObject(thisControl)) {
                                console.log(10)
                                console.log(thisControl.base_component_id)
-                               var thisControlClass = this.component_lookup[thisControl.base_component_id]
-                               console.log(11)
-                               if (isValidObject(thisControlClass)) {
+                               //zzz
+
                                    console.log(12)
-                                   var compEvaled = eval("(" + thisControlClass.properties + ")")
+                                   var compEvaled = await this.getComponentProperties(thisControl.base_component_id)
                                    var errr=""
 
                                    //
@@ -620,7 +638,7 @@ load_once_from_file(true)
                                    mm.refresh ++
                                    mm.$forceUpdate();
 
-                               }
+
                            }
                        }
 
@@ -858,7 +876,7 @@ load_once_from_file(true)
          },
 
          //-------------------------------------------------------------------
-         select_component: function(index) {
+         select_component: async function(index) {
          //-------------------------------------------------------------------
             if (!this.design_mode) {
                 return
@@ -878,11 +896,9 @@ load_once_from_file(true)
             this.properties.push({   id:     "width",   name:   "Width",   type:   "Number"    })
             this.properties.push({   id:     "height",   name:   "Height",   type:   "Number"    })
 
-            var comp = this.component_lookup[this.model.forms[this.model.active_form].components[index].base_component_id]
-            if (comp.properties) {
-               var compEvaled = eval("(" + comp.properties + ")")
+            //zzz
+               var compEvaled = await this.getComponentProperties(this.model.forms[this.model.active_form].components[index].base_component_id)
                this.properties = this.properties.concat(compEvaled)
-            }
             this.refresh ++
          },
 
@@ -1054,7 +1070,6 @@ load_once_from_file(true)
                       design_mode: designMode,
                       refresh: 0,
                       runtime_mode: runtimeMode,
-                      component_lookup:            new Object(),
                       form_runtime_info: {},
                       component_instance_lookup_by_name:            new Object(),
                       text: texti,
@@ -1116,7 +1131,6 @@ load_once_from_file(true)
            properties:                  [],
            read_only:                   false,
            available_components:        [],
-           component_lookup:            new Object(),
            form_runtime_info: {},
            component_instance_lookup_by_name:            new Object(),
            model:                      {
