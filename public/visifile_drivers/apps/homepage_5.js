@@ -1,6 +1,6 @@
 async function(args) {
 /*
-created_timestamp(1537274673303)
+created_timestamp(1537274856732)
 base_component_id("homepage_5")
 editors([
   "vb_editor_component"
@@ -19,7 +19,7 @@ formEditor({
   "default_form": "Form_1",
   "app_selected": false,
   "id": "homepage_5",
-  "next_component_id": 100,
+  "next_component_id": 101,
   "app_properties": [
     {
       "id": "test",
@@ -50,7 +50,7 @@ formEditor({
           "width": 87,
           "height": 70,
           "text": "Add",
-          "click_event": "alert(label_control_1.text)"
+          "click_event": "label_control_100.text = label_control_1.text"
         },
         {
           "name": "button_control_2",
@@ -61,6 +61,14 @@ formEditor({
           "height": 60,
           "text": "Go to  form 2",
           "click_event": "mm.selectForm(\"Form_2\")"
+        },
+        {
+          "leftX": 8.5625,
+          "topY": 124,
+          "name": "label_control_100",
+          "base_component_id": "label_control",
+          "width": 197,
+          "height": 80
         }
       ],
       "form_activate_old": "function() {\n                if (app && app.forms && app.forms[\"Form_1\"] && app.forms[\"Form_1\"].components[0]) {\n                    app.forms[\"Form_1\"].components[0].text = args.test\n                }\n             }"
@@ -93,7 +101,7 @@ formEditor({
       ]
     }
   },
-  "active_component_index": null
+  "active_component_index": 3
 })//formEditor
 read_only(false)
 
@@ -1224,7 +1232,7 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
   "default_form": "Form_1",
   "app_selected": false,
   "id": "homepage_5",
-  "next_component_id": 100,
+  "next_component_id": 101,
   "app_properties": [
     {
       "id": "test",
@@ -1255,7 +1263,7 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
           "width": 87,
           "height": 70,
           "text": "Add",
-          "click_event": "alert(label_control_1.text)"
+          "click_event": "label_control_100.text = label_control_1.text"
         },
         {
           "name": "button_control_2",
@@ -1266,6 +1274,14 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
           "height": 60,
           "text": "Go to  form 2",
           "click_event": "mm.selectForm(\"Form_2\")"
+        },
+        {
+          "leftX": 8.5625,
+          "topY": 124,
+          "name": "label_control_100",
+          "base_component_id": "label_control",
+          "width": 197,
+          "height": 80
         }
       ],
       "form_activate_old": "function() {\n                if (app && app.forms && app.forms[\"Form_1\"] && app.forms[\"Form_1\"].components[0]) {\n                    app.forms[\"Form_1\"].components[0].text = args.test\n                }\n             }"
@@ -1298,7 +1314,7 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
       ]
     }
   },
-  "active_component_index": null
+  "active_component_index": 3
 }}
                 }
               })//** gen_end **//
