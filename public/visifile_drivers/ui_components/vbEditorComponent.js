@@ -336,6 +336,13 @@ load_once_from_file(true)
                 var newItem = mm.model.forms[mm.model.active_form].components[rtw]
                 //alert(newItem.base_component_id)
                 await load(newItem.base_component_id)
+                var compEvaled = await this.getComponentProperties(this.model.forms[this.model.active_form].components[rtw].base_component_id)
+                for (var cpp = 0 ; cpp< compEvaled.length; cpp ++){
+                    var prop = compEvaled[cpp].id
+                    if (!isValidObject(this.model.forms[mm.model.active_form].components[rtw][prop])){
+                        this.model.forms[mm.model.active_form].components[rtw][prop] = ""
+                    }
+                }
 
            }
 
