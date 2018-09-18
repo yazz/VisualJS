@@ -5,6 +5,8 @@ is_control(true)
 display_name("Input control")
 description("This will return the input control")
 base_component_id("input_control")
+visibility("PUBLIC")
+read_only(true)
 load_once_from_file(true)
 properties(
     [
@@ -40,28 +42,25 @@ logo_url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAACoCAMAAABt9SM9AAAA
       props: ["args"]
       ,
       template: `<div>
-                    <label>{{args.label}}</label>
+                    <label>{{args?args.label:label}}</label>
 
                     <input  class="form-control2"
 
                             v-bind:style=   '"width:100%; " +
-                                             "background-color: "+    args["background_color"]  +  ";"'
+                                             "background-color: "+    (args?args["background_color"]:background_color)  +  ";"'
 
-                            v-model='args.text'>  </input>
+                            v-bind:value='args?args.text:text'>  </input>
 
-
-
-                            <button  class='btn btn-info'
-                                     v-on:click='alert(args.text)'>  click  </button>
                  </div>`
       ,
       mounted: function() {
-            //this.text = this.args.text
       }
       ,
       data: function() {
             return {
-                text: "aaa"
+                text: "",
+                label: "",
+                background_color: ""
             }
       }
     })

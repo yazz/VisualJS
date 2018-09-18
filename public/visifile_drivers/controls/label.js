@@ -6,6 +6,8 @@ display_name("Label control")
 description("This will return the label control")
 base_component_id("label_control")
 load_once_from_file(true)
+visibility("PUBLIC")
+read_only(true)
 properties(
     [
         {
