@@ -268,9 +268,6 @@ load_once_from_file(true)
                                         <div v-if='!property.readonly'>
                                             <div v-if="(property.type  == 'String')  || (property.type  == 'Number')">
                                                 <input v-bind:refresh='refresh' class='col-md-12 small'  @change='setVBEditorProperty($event, property)' v-bind:value='getVBEditorProperty(property)'></input>
-                                                <input v-bind:refresh='refresh' v-if='(model.active_component_index == null) && (model.active_form != null) && (!model.app_selected)'  @change='generateCodeFromModel(  model  )' v-model='model.forms[model.active_form][property.id]'></input>
-                                                <input v-bind:refresh='refresh' v-if='model.app_selected'  @change='generateCodeFromModel(  model  )' v-model='model[property.id]'></input>
-                                                <zzz></zzz>
                                             </div>
                                             <div v-if="(property.type  == 'Event')  ">
                                                 <textarea   class="form-control" v-bind:refresh='refresh'
@@ -424,19 +421,28 @@ load_once_from_file(true)
          setVBEditorProperty: function(event, property) {
          //-------------------------------------------------------------------
          var val = event.target.value
-         var type
+         var type = null
          if (this.model.active_component_index != null) {
             type = "component"
+         } else if ((this.model.active_component_index == null) && (this.model.active_form != null) && (!this.model.app_selected)) {
+            type = "form"
+         } else if (this.model.app_selected) {
+            type = "app"
          }
+
          //zzz
             if (type == 'component') {
                 this.model.forms[this.model.active_form].components[this.model.active_component_index][property.id] = val
-                this.generateCodeFromModel(  this.model  )
 
 
             } else if (type == 'form') {
-                var propid = details.property_id
-                this.model.forms[this.model.active_form].components[this.model.active_component_index][propid] = val
+                this.model.forms[this.model.active_form][property.id] = val
+
+            } else if (type == 'app') {
+                this.model[property.id] = val
+            }
+
+            if (type != null) {
                 this.generateCodeFromModel(  this.model  )
             }
          },
@@ -444,17 +450,27 @@ load_once_from_file(true)
          //-------------------------------------------------------------------
          getVBEditorProperty: function(property) {
          //-------------------------------------------------------------------
-             var val
+             var val = ""
              var type
              if (this.model.active_component_index != null) {
                 type = "component"
+             } else if ((this.model.active_component_index == null) && (this.model.active_form != null) && (!this.model.app_selected)) {
+                type = "form"
+             } else if (this.model.app_selected) {
+                type = "app"
              }
-             //zzz
+
             if (type == 'component') {
                 val = this.model.forms[this.model.active_form].components[this.model.active_component_index][property.id]
 
 
             } else if (type == 'form') {
+                val = this.model.forms[this.model.active_form][property.id]
+
+
+
+            } else if (type == 'app') {
+                val = this.model[property.id]
             }
 
             return val
