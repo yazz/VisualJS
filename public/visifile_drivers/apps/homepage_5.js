@@ -14,7 +14,7 @@ properties([
 ])//properties
 formEditor({
   "next_id": 7,
-  "max_form": 1,
+  "max_form": 3,
   "active_form": "Form_1",
   "default_form": "Form_1",
   "app_selected": false,

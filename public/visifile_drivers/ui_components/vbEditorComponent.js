@@ -430,13 +430,33 @@ load_once_from_file(true)
             type = "app"
          }
 
-         //zzz
+
             if (type == 'component') {
                 this.model.forms[this.model.active_form].components[this.model.active_component_index][property.id] = val
 
 
             } else if (type == 'form') {
-                this.model.forms[this.model.active_form][property.id] = val
+                if (property.id == "name" ) {
+                    //zzz
+                    var oldval = this.model.active_form
+                    alert("Rename form "  + oldval + " to " + val)
+
+                    this.model.forms[val] = this.model.forms[oldval]
+                    this.model.forms[val][property.id] = val
+
+                    this.form_runtime_info[val] = this.form_runtime_info[oldval]
+
+                    if (this.model.default_form == oldval) {
+                        this.model.default_form = val
+                    }
+
+                    this.model.active_form = this.model.forms[val]
+                    //this.form_runtime_info[oldval] = null
+                    //this.model.forms[oldval] = null
+
+                } else {
+                    this.model.forms[this.model.active_form][property.id] = val
+                }
 
             } else if (type == 'app') {
                 this.model[property.id] = val
