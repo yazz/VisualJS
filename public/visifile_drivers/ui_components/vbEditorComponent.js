@@ -267,9 +267,10 @@ load_once_from_file(true)
                                     <div class='col-md-7 small' >
                                         <div v-if='!property.readonly'>
                                             <div v-if="(property.type  == 'String')  || (property.type  == 'Number')">
-                                                <input v-bind:refresh='refresh' v-if='model.active_component_index != null' class='col-md-12 small'  @change='generateCodeFromModel(  model  )' v-model='model.forms[model.active_form].components[model.active_component_index][property.id]'></input>
+                                                <input v-bind:refresh='refresh' v-if='model.active_component_index != null' class='col-md-12 small'  @change='setProperty($event,property.id)' v-bind:value='model.forms[model.active_form].components[model.active_component_index][property.id]'></input>
                                                 <input v-bind:refresh='refresh' v-if='(model.active_component_index == null) && (model.active_form != null) && (!model.app_selected)'  @change='generateCodeFromModel(  model  )' v-model='model.forms[model.active_form][property.id]'></input>
                                                 <input v-bind:refresh='refresh' v-if='model.app_selected'  @change='generateCodeFromModel(  model  )' v-model='model[property.id]'></input>
+                                                <zzz></zzz>
                                             </div>
                                             <div v-if="(property.type  == 'Event')  ">
                                                 <textarea   class="form-control" v-bind:refresh='refresh'
@@ -416,6 +417,17 @@ load_once_from_file(true)
              return forms
          },
 
+
+
+
+         //-------------------------------------------------------------------
+         setProperty: function(event, propid) {
+         //-------------------------------------------------------------------
+         //zzz
+            var val = event.target.value
+             this.model.forms[this.model.active_form].components[this.model.active_component_index][propid] = val
+             this.generateCodeFromModel(  this.model  )
+         },
 
 
 
@@ -596,7 +608,7 @@ load_once_from_file(true)
                            if (isValidObject(thisControl)) {
                                console.log(10)
                                console.log(thisControl.base_component_id)
-                               //zzz
+
 
                                    console.log(12)
                                    var compEvaled = await this.getComponentProperties(thisControl.base_component_id)
@@ -901,7 +913,7 @@ load_once_from_file(true)
             this.properties.push({   id:     "width",   name:   "Width",   type:   "Number"    })
             this.properties.push({   id:     "height",   name:   "Height",   type:   "Number"    })
 
-            //zzz
+
                var compEvaled = await this.getComponentProperties(this.model.forms[this.model.active_form].components[index].base_component_id)
                this.properties = this.properties.concat(compEvaled)
             this.refresh ++
