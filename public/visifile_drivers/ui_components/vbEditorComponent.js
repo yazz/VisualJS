@@ -72,7 +72,7 @@ load_once_from_file(true)
                                              <div    style='position: absolute; bottom: 0px; right: 0px;z-index: 30000000;width: 1px;height: 40px;background-color: black;'></div></div>
 
                              <div       v-bind:refresh='refresh'
-                                        v-for='(item,index) in getActiveFormComponents'
+                                        v-for='(item,index) in getActiveFormComponents()'
                                         ondrop="return false;"
                                         v-on:click='$event.stopPropagation();select_component(index)'
                                         v-bind:style='(design_mode?"border: " +
@@ -228,7 +228,7 @@ load_once_from_file(true)
                                               </div>
 
                                               <div    v-if='form.name == model.active_form'
-                                                      v-for='(av,index) in getActiveFormComponents'
+                                                      v-for='(av,index) in getActiveFormComponents()'
                                                       v-on:click='$event.stopPropagation();select_component(index)'
                                                       v-bind:style='(((index == model.active_component_index) && design_mode)?"border: 3px solid red;background-color: lightgray;":"") + "margin-left:60px; padding:2px;"'
                                                       >
@@ -372,15 +372,13 @@ load_once_from_file(true)
      },
 
 
-     computed: {
-        getActiveFormComponents: function() {
-            return this.model.forms[this.model.active_form].components
-        }
 
-     },
 
 
      methods: {
+         getActiveFormComponents: function() {
+             return this.model.forms[this.model.active_form].components
+         },
         updateAllFormCaches: function() {
             var llf = Object.keys(this.model.forms)
             for (var ii = 0; ii < llf.length ; ii ++) {
@@ -438,6 +436,7 @@ load_once_from_file(true)
 
             } else if (type == 'form') {
                 if (property.id == "name" ) {
+                    this.properties = []
                     //zzz
                     var oldval = this.model.active_form
                     //alert("Rename form "  + oldval + " to " + val)
@@ -459,6 +458,8 @@ load_once_from_file(true)
                     mm.form_runtime_info[oldval] = null
                     mm.model.forms[oldval] = null
                     //alert(this.model.active_form)
+
+                    //alj(this.form_runtime_info[val])
 
                 } else {
                     this.model.forms[this.model.active_form][property.id] = val
