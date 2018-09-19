@@ -382,8 +382,10 @@ load_once_from_file(true)
         updateAllFormCaches: function() {
             var llf = Object.keys(this.model.forms)
             for (var ii = 0; ii < llf.length ; ii ++) {
-                var formqq = this.model.forms[llf[ii]].name
-                this.updateFormCache(formqq)
+                var formqq = this.model.forms[llf[ii]]
+                if (formqq != null) {
+                    this.updateFormCache(formqq.name)
+                }
             }
         },
 
@@ -454,16 +456,16 @@ load_once_from_file(true)
                     if (this.model.default_form == oldval) {
                         this.model.default_form = val
                     }
-                    this.model.active_form = val
+                    //this.model.active_form = val
 
-                    //mm.updateAllFormCaches()
 
                     mm.form_runtime_info[oldval] = null
                     mm.model.forms[oldval] = null
                     //alert(this.model.active_form)
 
                     //alj(this.form_runtime_info[val])
-                    mm.refresh ++
+                    //mm.refresh ++
+                    //mm.updateAllFormCaches()
                     mm.selectForm(val)
 
                 } else {
