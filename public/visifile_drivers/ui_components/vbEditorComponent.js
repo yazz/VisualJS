@@ -267,7 +267,7 @@ load_once_from_file(true)
                                     <div class='col-md-7 small' >
                                         <div v-if='!property.readonly'>
                                             <div v-if="(property.type  == 'String')  || (property.type  == 'Number')">
-                                                <input v-bind:refresh='refresh' v-if='model.active_component_index != null' class='col-md-12 small'  @change='setProperty($event,property.id)' v-bind:value='model.forms[model.active_form].components[model.active_component_index][property.id]'></input>
+                                                <input v-bind:refresh='refresh' v-if='model.active_component_index != null' class='col-md-12 small'  @change='setVBEditorProperty($event,{type: "component", property_id: property.id})' v-bind:value='model.forms[model.active_form].components[model.active_component_index][property.id]'></input>
                                                 <input v-bind:refresh='refresh' v-if='(model.active_component_index == null) && (model.active_form != null) && (!model.app_selected)'  @change='generateCodeFromModel(  model  )' v-model='model.forms[model.active_form][property.id]'></input>
                                                 <input v-bind:refresh='refresh' v-if='model.app_selected'  @change='generateCodeFromModel(  model  )' v-model='model[property.id]'></input>
                                                 <zzz></zzz>
@@ -421,12 +421,15 @@ load_once_from_file(true)
 
 
          //-------------------------------------------------------------------
-         setProperty: function(event, propid) {
+         setVBEditorProperty: function(event, details) {
          //-------------------------------------------------------------------
+         var val = event.target.value
          //zzz
-            var val = event.target.value
-             this.model.forms[this.model.active_form].components[this.model.active_component_index][propid] = val
-             this.generateCodeFromModel(  this.model  )
+            if (details.type == 'component') {
+                var propid = details.property_id
+                this.model.forms[this.model.active_form].components[this.model.active_component_index][propid] = val
+                this.generateCodeFromModel(  this.model  )
+            }
          },
 
 
