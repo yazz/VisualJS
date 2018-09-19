@@ -443,20 +443,22 @@ load_once_from_file(true)
                     //alert("Rename form "  + oldval + " to " + val)
 
                     this.model.forms[val] = this.model.forms[oldval]
-                    this.model.forms[val][property.id] = val
+                    this.model.forms[val]["name"] = val
 
                     this.form_runtime_info[val] = this.form_runtime_info[oldval]
+
 
                     if (this.model.default_form == oldval) {
                         this.model.default_form = val
                     }
-
                     this.model.active_form = val
 
-                    setTimeout(function(){
-                        mm.form_runtime_info[oldval] = null
-                        mm.model.forms[oldval] = null
-                    },200)
+                    //mm.updateAllFormCaches()
+                    //mm.selectForm(val)
+
+                    mm.form_runtime_info[oldval] = null
+                    mm.model.forms[oldval] = null
+                    //alert(this.model.active_form)
 
                 } else {
                     this.model.forms[this.model.active_form][property.id] = val
