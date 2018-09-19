@@ -460,6 +460,7 @@ load_once_from_file(true)
                     //alert(this.model.active_form)
 
                     //alj(this.form_runtime_info[val])
+                    mm.refresh ++
 
                 } else {
                     this.model.forms[this.model.active_form][property.id] = val
