@@ -420,6 +420,7 @@ load_once_from_file(true)
          //-------------------------------------------------------------------
          setVBEditorProperty: function(event, property) {
          //-------------------------------------------------------------------
+            var mm = this
          var val = event.target.value
          var type = null
          if (this.model.active_component_index != null) {
@@ -439,7 +440,7 @@ load_once_from_file(true)
                 if (property.id == "name" ) {
                     //zzz
                     var oldval = this.model.active_form
-                    alert("Rename form "  + oldval + " to " + val)
+                    //alert("Rename form "  + oldval + " to " + val)
 
                     this.model.forms[val] = this.model.forms[oldval]
                     this.model.forms[val][property.id] = val
@@ -450,9 +451,12 @@ load_once_from_file(true)
                         this.model.default_form = val
                     }
 
-                    this.model.active_form = this.model.forms[val]
-                    //this.form_runtime_info[oldval] = null
-                    //this.model.forms[oldval] = null
+                    this.model.active_form = val
+
+                    setTimeout(function(){
+                        mm.form_runtime_info[oldval] = null
+                        mm.model.forms[oldval] = null
+                    },200)
 
                 } else {
                     this.model.forms[this.model.active_form][property.id] = val
