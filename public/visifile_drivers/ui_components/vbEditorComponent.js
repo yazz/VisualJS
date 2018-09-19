@@ -407,7 +407,10 @@ load_once_from_file(true)
              var forms = []
              var llf = Object.keys(this.model.forms)
              for (var ii = 0; ii < llf.length ; ii ++) {
-                 forms.push(this.model.forms[llf[ii]])
+                var form = this.model.forms[llf[ii]]
+                if (form != null) {
+                    forms.push(form)
+                }
              }
              return forms
          },
@@ -432,6 +435,7 @@ load_once_from_file(true)
 
             if (type == 'component') {
                 this.model.forms[this.model.active_form].components[this.model.active_component_index][property.id] = val
+                this.generateCodeFromModel(  this.model  )
 
 
             } else if (type == 'form') {
@@ -453,7 +457,6 @@ load_once_from_file(true)
                     this.model.active_form = val
 
                     //mm.updateAllFormCaches()
-                    //mm.selectForm(val)
 
                     mm.form_runtime_info[oldval] = null
                     mm.model.forms[oldval] = null
@@ -461,18 +464,18 @@ load_once_from_file(true)
 
                     //alj(this.form_runtime_info[val])
                     mm.refresh ++
+                    mm.selectForm(val)
 
                 } else {
                     this.model.forms[this.model.active_form][property.id] = val
+                    this.generateCodeFromModel(  this.model  )
                 }
 
             } else if (type == 'app') {
                 this.model[property.id] = val
-            }
-
-            if (type != null) {
                 this.generateCodeFromModel(  this.model  )
             }
+
          },
 
          //-------------------------------------------------------------------
