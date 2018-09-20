@@ -1,6 +1,6 @@
 async function(args) {
 /*
-created_timestamp(1537433664827)
+created_timestamp(1537469989835)
 base_component_id("homepage_5")
 editors([
   "vb_editor_component"
@@ -53,7 +53,7 @@ formEditor({
           "width": 87,
           "height": 70,
           "text": "Add",
-          "click_event": "label_control_100.text = todoInputBox.text\n\ntodoInputBox.text = \"\"\n",
+          "click_event": "var ins =\ntodoInputBox.text\ntodoInputBox.text = \"\"\nawait sql(\"insert into items (id,name) values (?,?)\",\n[\nnew Date().getTime(),\nins])\ndisplay_out.text = await sqlFirstCol(\"select name from items\")",
           "background_color": ""
         },
         {
@@ -70,7 +70,7 @@ formEditor({
         {
           "leftX": 8.5625,
           "topY": 159,
-          "name": "label_control_100",
+          "name": "display_out",
           "base_component_id": "label_control",
           "width": 198,
           "height": 45,
@@ -746,7 +746,7 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
                            //alert("subcomponent_event called in: " + mm.model.id)
                            //alert(eventMessage.code)
                            //alert("From: " + eventMessage.control_name)
-                           var fcc = "(function(){" + eventMessage.code +"})"
+                           var fcc = "(async function(){" + eventMessage.code +"})"
                            console.log(4)
 
 
@@ -1380,7 +1380,7 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
           "width": 87,
           "height": 70,
           "text": "Add",
-          "click_event": "label_control_100.text = todoInputBox.text\n\ntodoInputBox.text = \"\"\n",
+          "click_event": "var ins =\ntodoInputBox.text\ntodoInputBox.text = \"\"\nawait sql(\"insert into items (id,name) values (?,?)\",\n[\nnew Date().getTime(),\nins])\ndisplay_out.text = await sqlFirstCol(\"select name from items\")",
           "background_color": ""
         },
         {
@@ -1397,7 +1397,7 @@ logo_url("https://moe.it.slotshaven.dk/wp/wp-content/uploads/2017/11/homepage.pn
         {
           "leftX": 8.5625,
           "topY": 159,
-          "name": "label_control_100",
+          "name": "display_out",
           "base_component_id": "label_control",
           "width": 198,
           "height": 45,

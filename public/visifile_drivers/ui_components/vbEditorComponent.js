@@ -624,7 +624,7 @@ load_once_from_file(true)
                            //alert("subcomponent_event called in: " + mm.model.id)
                            //alert(eventMessage.code)
                            //alert("From: " + eventMessage.control_name)
-                           var fcc = "(function(){" + eventMessage.code +"})"
+                           var fcc = "(async function(){" + eventMessage.code +"})"
                            console.log(4)
 
 

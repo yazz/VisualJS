@@ -1020,7 +1020,7 @@ var dataIds = new Object()
             if (data.value.use_db) {
                 useDb = data.value.use_db
             }
-            var addP = "\"" + data.value.code_id + "\", \"" + useDb + "\", "
+            var addP = "'" + data.value.code_id + "', '" + useDb + "', "
             //alert("data: " + addP);
             data.value.code = data.value.code.toString().replaceAll(" sql[(]"," rxsql(" + addP)
             data.value.code = data.value.code.toString().replaceAll(" sql1[(]"," rxsql1(" + addP)
@@ -1108,7 +1108,7 @@ function callCode(data) {
         if (data.value.use_db) {
             useDb = data.value.use_db
         }
-        var addP = "\"" + data.value.code_id + "\", \"" + useDb + "\", "
+        var addP = "'" + data.value.code_id + "', '" + useDb + "', "
         //alert("data: " + addP);
         data.value.code = data.value.code.toString().replaceAll(" sql[(]"," rxsql(" + addP)
         data.value.code = data.value.code.toString().replaceAll(" sql1[(]"," rxsql1(" + addP)
